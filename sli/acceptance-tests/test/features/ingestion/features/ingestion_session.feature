@@ -1,5 +1,6 @@
 @RALLY_US934
 @RALLY_US2285
+@RALLY_DE915
 Feature: Session Ingestion Test
 
 Background: I have a landing zone route configured
@@ -14,7 +15,6 @@ Given I post "Session2.zip" file as the payload of the ingestion job
      | gradingPeriod               |
      | educationOrganization       |
      | session                     |
-     | schoolSessionAssociation    |
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
@@ -22,7 +22,6 @@ Then I should see following map of entry counts in the corresponding collections
      | calendarDate                | 5      |
      | educationOrganization       | 6      |
      | gradingPeriod               | 6      |
-     | schoolSessionAssociation    | 10     |
      | session                     | 10     |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                             | searchValue             | searchType           |
@@ -39,7 +38,6 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "Session2.xml records considered: 26" in the resulting batch job file
   And I should see "Session2.xml records ingested successfully: 26" in the resulting batch job file
   And I should see "Session2.xml records failed: 0" in the resulting batch job file
-  And I should see "InterchangeEducationOrganization.xml records considered: 6" in the resulting batch job file 
+  And I should see "InterchangeEducationOrganization.xml records considered: 6" in the resulting batch job file
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 6" in the resulting batch job file
   And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
-  

@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
@@ -13,6 +30,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.client.constants.ResourceConstants;
 import org.slc.sli.api.representation.EntityBody;
@@ -25,10 +47,6 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  * Resources available to administrative apps during the onboarding and provisioning process.
@@ -36,7 +54,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope("request")
 @Path("/provision")
-@Produces({ Resource.JSON_MEDIA_TYPE+";charset=utf-8" })
+@Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
 public class OnboardingResource {
 
     @Autowired
@@ -44,7 +62,7 @@ public class OnboardingResource {
 
     @Autowired
     private TenantResource tenantResource;
-    
+
     //Use this to check if we're in sandbox mode
     @Value("${sli.simple-idp.sandboxImpersonationEnabled}")
     protected boolean isSandboxImpersonationEnabled;
@@ -93,7 +111,7 @@ public class OnboardingResource {
         if (isSandboxImpersonationEnabled) {
             requiredRight = Right.ADMIN_ACCESS;
         }
-        
+
         if (!SecurityUtil.hasRight(requiredRight)) {
             EntityBody body = new EntityBody();
             body.put("response", "You are not authorized to provision a landing zone.");
@@ -121,46 +139,49 @@ public class OnboardingResource {
         query.addCriteria(new NeutralCriteria("metaData." + ResourceConstants.ENTITY_METADATA_TENANT_ID, "=", tenantId,
                 false));
 
-        if (repo.findOne(EntityNames.EDUCATION_ORGANIZATION, query) != null) {
-            return Response.status(Status.CONFLICT).build();
+        String uuid = null;
+        Entity entity = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, query);
+        if (entity != null) {
+            uuid = entity.getEntityId();
+        } else {
+            EntityBody body = new EntityBody();
+            body.put(STATE_EDORG_ID, orgId);
+            body.put(EDORG_INSTITUTION_NAME, orgId);
+
+            List<String> categories = new ArrayList<String>();
+            categories.add(STATE_EDUCATION_AGENCY);
+            body.put(CATEGORIES, categories);
+
+            List<Map<String, String>> addresses = new ArrayList<Map<String, String>>();
+            Map<String, String> address = new HashMap<String, String>();
+            address.put(ADDRESS_STREET, "unknown");
+            address.put(ADDRESS_CITY, "unknown");
+            address.put(ADDRESS_STATE_ABRV, "NC");
+            address.put(ADDRESS_POSTAL_CODE, "27713");
+            addresses.add(address);
+
+            body.put(ADDRESSES, addresses);
+
+            Map<String, Object> meta = new HashMap<String, Object>();
+            meta.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, tenantId);
+
+            Entity e = repo.create(EntityNames.EDUCATION_ORGANIZATION, body, meta, EntityNames.EDUCATION_ORGANIZATION);
+
+            if (e == null) {
+                return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+            }
+
+            uuid = e.getEntityId();
+
+            // retrieve the application ids for common applications that already exist in mongod
+            List<String> appIds = getAppIds();
+
+            // update common applications to include new edorg uuid in the field "authorized_ed_orgs"
+            updateApps(uuid, appIds);
+
+            // create or update the applicationAuthorization collection in mongod for new edorg entity
+            createAppAuth(uuid, appIds);
         }
-
-        EntityBody body = new EntityBody();
-        body.put(STATE_EDORG_ID, orgId);
-        body.put(EDORG_INSTITUTION_NAME, orgId);
-
-        List<String> categories = new ArrayList<String>();
-        categories.add(STATE_EDUCATION_AGENCY);
-        body.put(CATEGORIES, categories);
-
-        List<Map<String, String>> addresses = new ArrayList<Map<String, String>>();
-        Map<String, String> address = new HashMap<String, String>();
-        address.put(ADDRESS_STREET, "unknown");
-        address.put(ADDRESS_CITY, "unknown");
-        address.put(ADDRESS_STATE_ABRV, "NC");
-        address.put(ADDRESS_POSTAL_CODE, "27713");
-        addresses.add(address);
-
-        body.put(ADDRESSES, addresses);
-
-        Map<String, Object> meta = new HashMap<String, Object>();
-        meta.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, tenantId);
-
-        Entity e = repo.create(EntityNames.EDUCATION_ORGANIZATION, body, meta, EntityNames.EDUCATION_ORGANIZATION);
-        if (e == null) {
-            return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-        }
-
-        String uuid = e.getEntityId();
-
-        // retrieve the application ids for common applications that already exist in mongod
-        List<String> appIds = getAppIds();
-
-        // update common applications to include new edorg uuid in the field "authorized_ed_orgs"
-        updateApps(uuid, appIds);
-
-        // create or update the applicationAuthorization collection in mongod for new edorg entity
-        createAppAuth(uuid, appIds);
 
         try {
             LandingZoneInfo landingZone = tenantResource.createLandingZone(tenantId, orgId);
@@ -168,13 +189,17 @@ public class OnboardingResource {
             Map<String, String> returnObject = new HashMap<String, String>();
             returnObject.put("landingZone", landingZone.getLandingZonePath());
             returnObject.put("serverName", landingZoneServer);
-            returnObject.put("edOrg", e.getEntityId());
-
+            returnObject.put("edOrg", uuid);
+            if (entity != null) {
+                returnObject.put("isDuplicate", "true");
+            } else {
+                returnObject.put("isDuplicate", "false");
+            }
             return Response.status(Status.CREATED).entity(returnObject).build();
         } catch (TenantResourceCreationException trce) {
-            EntityBody entity = new EntityBody();
-            body.put("message", trce.getMessage());
-            return Response.status(trce.getStatus()).entity(entity).build();
+            EntityBody entityBody = new EntityBody();
+            entityBody.put("message", trce.getMessage());
+            return Response.status(trce.getStatus()).entity(entityBody).build();
         }
     }
 

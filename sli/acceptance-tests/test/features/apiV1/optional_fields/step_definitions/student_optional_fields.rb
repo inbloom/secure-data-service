@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'rest-client'
 require 'json'
 require_relative '../../../utils/sli_utils.rb'
@@ -36,10 +55,6 @@ end
 # WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN
 #################################################################################
 
-When /^I look at the first one$/ do
-  @col = @col[0]
-end
-
 When /^I look at the second one$/ do
   @col = @col[1]
 end
@@ -66,10 +81,34 @@ end
 # THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 #################################################################################
 
-Then /^I should find "([^\"]*)" in "([^\"]*)"$/ do |key, collection|
-  assert(@result[0][collection] != nil, "Response contains no #{collection}")
-  assert(@result[0][collection][key] != nil, "Response contains no #{key}")
-  @col = @result[0][collection][key]
+Then /^I should receive a collection of "([^"]*)" entities$/ do |number_of_entities|
+  assert(@result != nil, "Response contains no data")
+  assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
+  assert(@result.length == Integer(number_of_entities), "Expected response of size #{number_of_entities}, received #{@result.length}");
+  @col = @result
+end
+
+Then /^I should see "([^\"]*)" is "([^\"]*)" in one of them$/ do |key, value|
+  found = false
+  keys = key.split(".")
+  @col.each do |doc|
+    if keys.length == 1
+      if doc[key].to_s == value.to_s
+        found = true
+        @col = doc
+        break
+      end
+    elsif keys.length == 2
+      if doc[keys[0]][keys[1]].to_s == value.to_s
+        found = true
+        @col = doc
+        break
+      end
+    else
+      raise("Key is too complex!")
+    end
+  end
+  assert(found, "Cannot find a document with #{key}=#{value}")
 end
 
 Then /^I should see "([^\"]*)" is "([^\"]*)" in it$/ do |key, value|
@@ -77,23 +116,35 @@ Then /^I should see "([^\"]*)" is "([^\"]*)" in it$/ do |key, value|
 end
 
 Then /^I should find "([\d]*)" "([^\"]*)"$/ do |count, collection|
-  if @result.is_a?(Array)
-    @col = @result[0][collection]
-  elsif @result.is_a?(Hash)
+  #if !defined? @col
+  #  @col = @result
+  #end
+  if @result.is_a?(Hash)
     @col = @result[collection]
+  elsif @result.is_a?(Array)
+    @col = @result
+    steps "Then I should find \"#{count}\" \"#{collection}\" in one of them"
   end
   assert(@col != nil, "Response contains no #{collection}")
   assert(@col.length == convert(count), "Expected #{count} #{collection}, received #{@col.length}")
 end
 
 Then /^I should find "([\d]*)" "([^\"]*)" in it$/ do |count, collection|
-  if !defined? @col
-    @col = @result[0][collection]
-  else
-    @col = @col[collection]
-  end
+  @col = @col[collection]
   assert(@col != nil, "Response contains no #{collection}")
   assert(@col.length == convert(count), "Expected #{count} #{collection}, received #{@col.length}")
+end
+
+Then /^I should find "([\d]*)" "([^\"]*)" in one of them$/ do |count, collection|
+  found = false
+  @col.each do |doc|
+    if doc[collection] != nil && doc[collection].is_a?(Array) && doc[collection].length == convert(count)
+      found = true
+      @col = doc[collection]
+      break
+    end
+  end
+  assert(found, "Cannot find #{collection} with a size of #{count}")
 end
 
 Then /^I should find "([^\"]*)" expanded in each of them$/ do |key|
@@ -127,11 +178,7 @@ end
 
 Then /^inside "([^\"]*)"$/ do |key|
   if !defined? @col
-    if @result.is_a?(Array)
-      @col = @result[0]
-    elsif @result.is_a?(Hash)
-      @col = @result
-    end
+    @col = @result
   end
   if !defined? @colStack
     @colStack = []

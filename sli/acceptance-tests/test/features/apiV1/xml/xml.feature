@@ -48,9 +48,9 @@ Scenario: Getting response from POST - Create (school)
   Then I should receive a return code of 200
   And I should see "<nameOfInstitution>" is "Apple Alternative Elementary School"
   And I should see "<organizationCategories><organizationCategories>" is "School"
-  And I should find "<address><address>" under "/"
-  And I should see "<address><address><streetNumberName>" is "123 Main Street"
-#  And I should find 3 "<gradesOffered>" under "<school>"
+  And I should find 1 "<address>" under "<address>"
+  And I should see "<streetNumberName>" is "123 Main Street" for one of them
+#  And I should find 3 "<gradesOffered>" under "<gradesOffered>"
 
 
 Scenario: Getting response from PUT - Update (school)
@@ -72,41 +72,49 @@ Scenario: Applying optional fields
   When I navigate to GET "/v1/sections/<LINDA KIM SECTION ID>/studentSectionAssociations/students"
   Then I should receive an XML document
   And I should receive a return code of 200
+  And I should receive 1 records
+  Then when I look at the student "Marvin" "Miller"
 
   # assessments
-  Then I should find 1 "<studentAssessments>" under "<student><studentAssessments>"
-  And I should see "<entityType>" is "studentAssessmentAssociation" for the one at position 1
-  And I should see "<studentId>" is "<MARVIN MILLER STUDENT ID>" for the one at position 1
-  And I should find "<assessments>" under "<student><studentAssessments><studentAssessments>"
-  And I should see "<student><studentAssessments><studentAssessments><assessments><entityType>" is "assessment"
-  And I should see "<student><studentAssessments><studentAssessments><assessments><gradeLevelAssessed>" is "Twelfth grade"
-  And I should find 3 "<studentObjectiveAssessments>" under "<student><studentAssessments><studentAssessments><studentObjectiveAssessments>"
-  And I should find 2 "<scoreResults>" under "<student><studentAssessments><studentAssessments><studentObjectiveAssessments><studentObjectiveAssessments><scoreResults>"
-  And I should see "<result>" is "80" for the one at position 2
+  Then I should find 1 "<studentAssessments>" under "<studentAssessments>"
+  And I should see "<entityType>" is "studentAssessmentAssociation" for one of them
+  And I should see "<studentId>" is "<MARVIN MILLER STUDENT ID>" for it
+  And I should find "<assessments>" under it
+  And I should see "<entityType>" is "assessment" for it
+  And I should see "<gradeLevelAssessed>" is "Twelfth grade" for it
+  Then I should find 1 "<studentAssessments>" under "<studentAssessments>"
+  And I should see "<studentId>" is "<MARVIN MILLER STUDENT ID>" for one of them
+  And I should find 3 "<studentObjectiveAssessments>" under it
+  And I should see "<objectiveAssessment><identificationCode>" is "SAT-Writing" for one of them
+  And I should find 2 "<scoreResults>" under it
+  And I should see "<result>" is "80" for one of them
 
   # gradebook
-  Then I should find 3 "<studentGradebookEntries>" under "<student><studentGradebookEntries>"
-  And I should see "<entityType>" is "studentSectionGradebookEntry" for the one at position 1
-  And I should see "<letterGradeEarned>" is "A" for the one at position 1
-  And I should see "<dateFulfilled>" is "2012-01-31" for the one at position 1
-  And I should find "<gradebookEntries>" under "<student><studentGradebookEntries><studentGradebookEntries>"
-  And I should see "<student><studentGradebookEntries><studentGradebookEntries><gradebookEntries><entityType>" is "gradebookEntry"
-  And I should see "<student><studentGradebookEntries><studentGradebookEntries><gradebookEntries><dateAssigned>" is "2012-01-31"
+  Then I should find 3 "<studentGradebookEntries>" under "<studentGradebookEntries>"
+  And I should see "<dateFulfilled>" is "2012-01-31" for one of them
+  And I should see "<entityType>" is "studentSectionGradebookEntry" for it
+  And I should see "<letterGradeEarned>" is "A" for it
+  And I should find "<gradebookEntries>" under it
+  And I should see "<entityType>" is "gradebookEntry" for it
+  And I should see "<dateAssigned>" is "2012-01-31" for it
 
   # transcript
-  Then I should find "<transcript>" under "<student>"
-  And I should find "<courseTranscripts>" under "<student><transcript>"
-  And I should see "<student><transcript><courseTranscripts><courseTranscripts><entityType>" is "studentTranscriptAssociation"
-  And I should see "<student><transcript><courseTranscripts><courseTranscripts><finalLetterGradeEarned>" is "B"
-  And I should find 2 "<studentSectionAssociations>" under "<student><transcript><studentSectionAssociations>"
-  And I should see "<entityType>" is "studentSectionAssociation" for the one at position 1
-  And I should find "<sections>" under "<student><transcript><studentSectionAssociations><studentSectionAssociations>"
-  And I should see "<student><transcript><studentSectionAssociations><studentSectionAssociations><sections><entityType>" is "section"
-  And I should find "<sessions>" under "<student><transcript><studentSectionAssociations><studentSectionAssociations><sections>"
-  And I should see "<student><transcript><studentSectionAssociations><studentSectionAssociations><sections><sessions><entityType>" is "session"
-  And I should find "<courses>" under "<student><transcript><studentSectionAssociations><studentSectionAssociations><sections>"
-  And I should see "<student><transcript><studentSectionAssociations><studentSectionAssociations><sections><courses><entityType>" is "course"
-
+  Then I should find 1 "<courseTranscripts>" under "<transcript><courseTranscripts>"
+  And I should see "<studentId>" is "<MARVIN MILLER STUDENT ID>" for one of them
+  And I should see "<entityType>" is "studentTranscriptAssociation" for it
+  And I should see "<finalLetterGradeEarned>" is "B" for it
+  And I should find 2 "<studentSectionAssociations>" under "<transcript><studentSectionAssociations>"
+  And I should see "<sectionId>" is "<LINDA KIM SECTION ID>" for one of them
+  And I should find "<sections>" under it
+  And I should see "<entityType>" is "section" for it
+  And I should find "<sessions>" under it
+  And I should see "<entityType>" is "session" for it
+  Then I should find 2 "<studentSectionAssociations>" under "<transcript><studentSectionAssociations>"
+  And I should see "<sectionId>" is "<LINDA KIM SECTION ID>" for one of them
+  And I should find "<sections>" under it
+  And I should find "<courses>" under it
+  And I should see "<entityType>" is "course" for it
+@test
 Scenario: Applying optional fields - single student view
   Given optional field "attendances"
   And optional field "assessments"
@@ -118,40 +126,46 @@ Scenario: Applying optional fields - single student view
   And I should receive a return code of 200
 
   # attendances
-  Then I should find "<attendances>" under "/"
-  And I should find 181 "<attendances>" under "<attendances><attendances>"
-  And I should see "<date>" is "2011-09-07" for the one at position 2
-  And I should see "<event>" is "In Attendance" for the one at position 2
+  Then I should find 181 "<attendances>" under "<attendances><attendances>"
+  And I should see "<date>" is "2011-09-07" for one of them
+  And I should see "<event>" is "In Attendance" for it
 
   # assessments
-  Then I should find "<studentAssessments>" under "/"
-  And I should see "<studentAssessments><studentAssessments><entityType>" is "studentAssessmentAssociation"
-  And I should see "<studentAssessments><studentAssessments><studentId>" is "<MARVIN MILLER STUDENT ID>"
-  And I should see "<studentAssessments><studentAssessments><assessments><entityType>" is "assessment"
-  And I should see "<studentAssessments><studentAssessments><assessments><gradeLevelAssessed>" is "Twelfth grade"
-  And I should find 3 "<studentObjectiveAssessments><studentObjectiveAssessments>" under "<studentAssessments><studentAssessments>"
-  And I should find 2 "<scoreResults><scoreResults>" under "<studentAssessments><studentAssessments><studentObjectiveAssessments><studentObjectiveAssessments>"
-  And I should see "<result>" is "80" for the one at position 2
+  Then I should find 1 "<studentAssessments>" under "<studentAssessments>"
+  And I should see "<entityType>" is "studentAssessmentAssociation" for one of them
+  And I should see "<studentId>" is "<MARVIN MILLER STUDENT ID>" for it
+  And I should find "<assessments>" under it
+  And I should see "<entityType>" is "assessment" for it
+  And I should see "<gradeLevelAssessed>" is "Twelfth grade" for it
+  Then I should find 1 "<studentAssessments>" under "<studentAssessments>"
+  And I should see "<studentId>" is "<MARVIN MILLER STUDENT ID>" for one of them
+  And I should find 3 "<studentObjectiveAssessments>" under it
+  And I should see "<objectiveAssessment><identificationCode>" is "SAT-Writing" for one of them
+  And I should find 2 "<scoreResults>" under it
+  And I should see "<result>" is "80" for one of them
 
   # gradebook
   Then I should find 3 "<studentGradebookEntries>" under "<studentGradebookEntries>"
-  And I should see "<entityType>" is "studentSectionGradebookEntry" for the one at position 1
-  And I should see "<letterGradeEarned>" is "A" for the one at position 1
-  And I should see "<dateFulfilled>" is "2012-01-31" for the one at position 1
-  And I should find 1 "<gradebookEntries>" under "<studentGradebookEntries><studentGradebookEntries>"
-  And I should see "<entityType>" is "gradebookEntry" for the one at position 1
-  And I should see "<dateAssigned>" is "2012-01-31" for the one at position 1
+  And I should see "<dateFulfilled>" is "2012-01-31" for one of them
+  And I should see "<entityType>" is "studentSectionGradebookEntry" for it
+  And I should see "<letterGradeEarned>" is "A" for it
+  And I should find "<gradebookEntries>" under it
+  And I should see "<entityType>" is "gradebookEntry" for it
+  And I should see "<dateAssigned>" is "2012-01-31" for it
 
   # transcript
-  Then I should find "<transcript>" under "/"
-  And I should find "<courseTranscripts>" under "<transcript>"
-  And I should see "<transcript><courseTranscripts><courseTranscripts><entityType>" is "studentTranscriptAssociation"
-  And I should see "<transcript><courseTranscripts><courseTranscripts><finalLetterGradeEarned>" is "B"
-  And I should find 2 "<studentSectionAssociations><studentSectionAssociations>" under "<transcript>"
-  And I should see "<entityType>" is "studentSectionAssociation" for the one at position 1
-  And I should find "<sections>" under "<transcript><studentSectionAssociations><studentSectionAssociations>"
-  And I should see "<transcript><studentSectionAssociations><studentSectionAssociations><sections><entityType>" is "section"
-  And I should find "<sessions>" under "<transcript><studentSectionAssociations><studentSectionAssociations><sections>"
-  And I should see "<transcript><studentSectionAssociations><studentSectionAssociations><sections><sessions><entityType>" is "session"
-  And I should find "<courses>" under "<transcript><studentSectionAssociations><studentSectionAssociations><sections>"
-  And I should see "<transcript><studentSectionAssociations><studentSectionAssociations><sections><courses><entityType>" is "course"
+  Then I should find 1 "<courseTranscripts>" under "<transcript><courseTranscripts>"
+  And I should see "<studentId>" is "<MARVIN MILLER STUDENT ID>" for one of them
+  And I should see "<entityType>" is "studentTranscriptAssociation" for it
+  And I should see "<finalLetterGradeEarned>" is "B" for it
+  And I should find 2 "<studentSectionAssociations>" under "<transcript><studentSectionAssociations>"
+  And I should see "<sectionId>" is "<LINDA KIM SECTION ID>" for one of them
+  And I should find "<sections>" under it
+  And I should see "<entityType>" is "section" for it
+  And I should find "<sessions>" under it
+  And I should see "<entityType>" is "session" for it
+  Then I should find 2 "<studentSectionAssociations>" under "<transcript><studentSectionAssociations>"
+  And I should see "<sectionId>" is "<LINDA KIM SECTION ID>" for one of them
+  And I should find "<sections>" under it
+  And I should find "<courses>" under it
+  And I should see "<entityType>" is "course" for it

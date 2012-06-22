@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require "selenium-webdriver"
 require "json"
 require 'approval'
@@ -10,26 +29,51 @@ SAMPLE_DATA_SET1_CHOICE = "ed_org_STANDARD-SEA"
 SAMPLE_DATA_SET2_CHOICE = "ed_org_IL-SUNSET"
 CUSTOM_DATA_SET_CHOICE = "custom"
 
-Given /^there is a production account in ldap for vendor "([^"]*)"$/ do |vendor|
-  @sandboxMode=false
+
+Given /^LDAP server has been setup and running$/ do
   ldap_base=PropLoader.getProps['ldap_base']
   @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, ldap_base, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
-  found = @ldap.read_user("sunsetadmin")
-  if !found
-    user_info = {
-      :first      => "Sunset",
-      :last       => "Admin", 
-      :email      => "sunsetadmin",
-      :password   => "secret", 
-      :vendor     => vendor,
-      :emailtoken => "0102030405060708090A0B0C0D0E0F",
-      :status     => "submitted",
-      :homedir    => 'test',
-      :uidnumber  => '456',
-      :gidnumber  => '123'
-    }
-    @ldap.create_user(user_info)
-  end
+   @email_sender_name= "Administrator"
+     @email_sender_address= "noreply@slidev.org"
+      @email_conf = {
+       :host => 'mon.slidev.org',
+       :port => 3000,
+       :sender_name => @email_sender_name,
+       :sender_email_addr => @email_sender_address
+     }
+  
+   @edorgId =  "Test_Ed_Org"
+   @email = "devldapuser_#{Socket.gethostname}@slidev.org"
+end
+
+Given /^there is a production account in ldap for vendor "([^"]*)"$/ do |vendor|
+  @sandboxMode=false
+  ApprovalEngine.init(@ldap,Emailer.new(@email_conf),nil,@sandboxMode)
+  @tenantId = @email
+  remove_user(@email)
+  sleep(1)
+
+  user_info = {
+      :first => "Provision",
+      :last => "test",
+       :email => @email,
+       :emailAddress => @email,
+       :password => "test1234",
+       :emailtoken => "token",
+       :vendor => vendor,
+       :status => "submitted",
+       :homedir => "/dev/null",
+       :uidnumber => "500",
+       :gidnumber => "500",
+       :tenant => @tenantId,
+       :edorg => @edorgId
+   }
+
+  ApprovalEngine.add_disabled_user(user_info)
+  ApprovalEngine.change_user_status(@email, ApprovalEngine::ACTION_ACCEPT_EULA)
+  user_info = ApprovalEngine.get_user(@email)
+  ApprovalEngine.verify_email(user_info[:emailtoken])
+  ApprovalEngine.change_user_status(@email, ApprovalEngine::ACTION_APPROVE)
 end
 
 When /^I go to the provisioning application$/ do
@@ -61,8 +105,32 @@ Then /^I get the success message$/ do
   assertWithWait("No success message") {@driver.find_element(:id, "successMessage") != nil}
 end
 
-Given /^there is a sandbox account in ldap for vendor "([^"]*)"$/ do |arg1|
+Given /^there is a sandbox account in ldap for vendor "([^"]*)"$/ do |vendor|
   @sandboxMode=true
+  ApprovalEngine.init(@ldap,Emailer.new(@email_conf),nil,@sandboxMode)
+  @tenantId = @email
+remove_user(@email)
+sleep(1)
+
+  user_info = {
+      :first => "Provision",
+      :last => "test",
+       :email => @email,
+       :emailAddress => @email,
+       :password => "test1234",
+       :emailtoken => "token",
+       :vendor => vendor,
+       :status => "submitted",
+       :homedir => "changeit",
+       :uidnumber => "500",
+       :gidnumber => "500",
+       :tenant => @tenantId
+   }
+
+  ApprovalEngine.add_disabled_user(user_info)
+  ApprovalEngine.change_user_status(@email, ApprovalEngine::ACTION_ACCEPT_EULA)
+  user_info = ApprovalEngine.get_user(@email)
+  ApprovalEngine.verify_email(user_info[:emailtoken])
 end
 
 Then /^I can select between the the high level ed\-org of the sample data sets or enter a custom high\-level ed\-org$/ do
@@ -71,6 +139,11 @@ Then /^I can select between the the high level ed\-org of the sample data sets o
   assertWithWait("Custom data choice does not exist") {@driver.find_element(:id, CUSTOM_DATA_SET_CHOICE) != nil}
 end
 
-Then /^I get a conflict error message$/ do
-  assertWithWait("No conflict error message") {@driver.find_element(:id, "conflictMessage") != nil}
+Then /^I get a already provisioned message$/ do
+  assertWithWait("No already provisioned message") {@driver.find_element(:id, "alreadyProvisioned") != nil}
+end
+def remove_user(email)
+  if ApprovalEngine.user_exists?(email)
+  ApprovalEngine.remove_user(email)
+  end
 end

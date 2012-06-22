@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.resources.v1.entity;
 
 import com.sun.jersey.core.util.MultivaluedMapImpl;
@@ -8,7 +25,6 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.association.SchoolSessionAssociationResource;
 import org.slc.sli.api.resources.v1.association.CourseOfferingResource;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +59,6 @@ public class SessionResourceTest {
     private final String sessionResourceName = "SessionResource";
     private final String schoolResourceName = "SchoolResource";
     private final String courseResourceName = "CourseResource";
-    private final String schoolSessionAssociationResourceName = "SchoolSessionAssociationResource";
     private final String courseOfferingResourceName = "courseOfferingResource";
 
     @Autowired
@@ -54,8 +69,6 @@ public class SessionResourceTest {
     private SchoolResource schoolResource;
     @Autowired
     private CourseResource courseResource;
-    @Autowired
-    private SchoolSessionAssociationResource schoolSessionAssociationResource;
     @Autowired
     private CourseOfferingResource courseOfferingResource;
 
@@ -75,40 +88,6 @@ public class SessionResourceTest {
         httpHeaders = mock(HttpHeaders.class);
         when(httpHeaders.getRequestHeader("accept")).thenReturn(acceptRequestHeaders);
         when(httpHeaders.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
-    }
-
-    @Test
-    public void testGetSchoolSessionAssociations() {
-        Response createResponse = sessionResource.create(new EntityBody(
-                ResourceTestUtil.createTestEntity(sessionResourceName)), httpHeaders, uriInfo);
-        String sessionId = ResourceTestUtil.parseIdFromLocation(createResponse);
-        createResponse = schoolResource.create(new EntityBody(
-                ResourceTestUtil.createTestEntity(schoolResourceName)), httpHeaders, uriInfo);
-        String schoolId = ResourceTestUtil.parseIdFromLocation(createResponse);
-
-        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
-                schoolSessionAssociationResourceName, sessionResourceName, sessionId, schoolResourceName, schoolId);
-        schoolSessionAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
-
-        Response response = sessionResource.getSchoolSessionAssociations(sessionId, httpHeaders, uriInfo);
-        ResourceTestUtil.assertions(response);
-    }
-
-    @Test
-    public void testGetSchoolSessionAssociationSchools() {
-        Response createResponse = sessionResource.create(new EntityBody(
-                ResourceTestUtil.createTestEntity(sessionResourceName)), httpHeaders, uriInfo);
-        String sessionId = ResourceTestUtil.parseIdFromLocation(createResponse);
-        createResponse = schoolResource.create(new EntityBody(
-                ResourceTestUtil.createTestEntity(schoolResourceName)), httpHeaders, uriInfo);
-        String schoolId = ResourceTestUtil.parseIdFromLocation(createResponse);
-
-        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
-                schoolSessionAssociationResourceName, sessionResourceName, sessionId, schoolResourceName, schoolId);
-        schoolSessionAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
-
-        Response response = sessionResource.getSchoolSessionAssociationSchools(sessionId, httpHeaders, uriInfo);
-        ResourceTestUtil.assertions(response);
     }
 
     @Test

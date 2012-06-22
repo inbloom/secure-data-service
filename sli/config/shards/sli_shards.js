@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 db.runCommand( { enablesharding : "sli" } );
 db.runCommand( { shardcollection : "sli.assessment", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.attendance", key : {"metaData.tenantId" : 1, "_id" : 1} } );
@@ -48,108 +65,3 @@ db.runCommand( { shardcollection : "sli.studentTranscriptAssociation", key : {"m
 db.runCommand( { shardcollection : "sli.teacher", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.teacherSchoolAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.teacherSectionAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );
-db.runCommand( { split : "sli.attendance", middle : {_id : "2012mm-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.assessment", middle : {_id : "2012mm-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentAssessmentAssociation", middle : {_id : "2012mm-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentSectionAssociation", middle : {_id : "2012mm-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.student", middle : {_id : "2012mm-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.parent", middle : {_id : "2012mm-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentParentAssociation", middle : {_id : "2012mm-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.disciplineIncident", middle : {_id : "2012mm-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.disciplineAction", middle : {_id : "2012mm-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentDisciplineIncidentAssociation", middle : {_id : "2012mm-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentSchoolAssociation", middle : {_id : "2012mm-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentSectionAssociation", middle : {_id : "2012mm-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentProgramAssociation", middle : {_id : "2012mm-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentAcademicRecord", middle : {_id : "2012mm-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentTranscriptAssociation", middle : {_id : "2012mm-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.attendance", middle : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.assessment", middle : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentAssessmentAssociation", middle : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentSectionAssociation", middle : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.student", middle : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.parent", middle : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentParentAssociation", middle : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.disciplineIncident", middle : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.disciplineAction", middle : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentDisciplineIncidentAssociation", middle : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentSchoolAssociation", middle : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentSectionAssociation", middle : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentProgramAssociation", middle : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentAcademicRecord", middle : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentTranscriptAssociation", middle : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.attendance", middle : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.assessment", middle : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentAssessmentAssociation", middle : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentSectionAssociation", middle : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.student", middle : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.parent", middle : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentParentAssociation", middle : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.disciplineIncident", middle : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.disciplineAction", middle : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentDisciplineIncidentAssociation", middle : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentSchoolAssociation", middle : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentSectionAssociation", middle : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentProgramAssociation", middle : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentAcademicRecord", middle : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentTranscriptAssociation", middle : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.attendance", middle : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.assessment", middle : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentAssessmentAssociation", middle : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentSectionAssociation", middle : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.student", middle : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.parent", middle : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentParentAssociation", middle : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.disciplineIncident", middle : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.disciplineAction", middle : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentDisciplineIncidentAssociation", middle : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentSchoolAssociation", middle : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentSectionAssociation", middle : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentProgramAssociation", middle : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentAcademicRecord", middle : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { split : "sli.studentTranscriptAssociation", middle : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"} } );
-db.runCommand( { moveChunk : "sli.attendance", find : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"stargazer"} );
-db.runCommand( { moveChunk : "sli.assessment", find : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"stargazer"} );
-db.runCommand( { moveChunk : "sli.studentAssessmentAssociation", find : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"stargazer"} );
-db.runCommand( { moveChunk : "sli.studentSectionAssociation", find : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"stargazer"} );
-db.runCommand( { moveChunk : "sli.student", find : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"stargazer"} );
-db.runCommand( { moveChunk : "sli.parent", find : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"stargazer"} );
-db.runCommand( { moveChunk : "sli.studentParentAssociation", find : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"stargazer"} );
-db.runCommand( { moveChunk : "sli.disciplineIncident", find : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"stargazer"} );
-db.runCommand( { moveChunk : "sli.disciplineAction", find : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"stargazer"} );
-db.runCommand( { moveChunk : "sli.studentDisciplineIncidentAssociation", find : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"stargazer"} );
-db.runCommand( { moveChunk : "sli.studentSchoolAssociation", find : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"stargazer"} );
-db.runCommand( { moveChunk : "sli.studentSectionAssociation", find : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"stargazer"} );
-db.runCommand( { moveChunk : "sli.studentProgramAssociation", find : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"stargazer"} );
-db.runCommand( { moveChunk : "sli.studentAcademicRecord", find : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"stargazer"} );
-db.runCommand( { moveChunk : "sli.studentTranscriptAssociation", find : {_id : "2012ff-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"stargazer"} );
-db.runCommand( { moveChunk : "sli.attendance", find : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"defiant"} );
-db.runCommand( { moveChunk : "sli.assessment", find : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"defiant"} );
-db.runCommand( { moveChunk : "sli.studentAssessmentAssociation", find : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"defiant"} );
-db.runCommand( { moveChunk : "sli.studentSectionAssociation", find : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"defiant"} );
-db.runCommand( { moveChunk : "sli.student", find : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"defiant"} );
-db.runCommand( { moveChunk : "sli.parent", find : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"defiant"} );
-db.runCommand( { moveChunk : "sli.studentParentAssociation", find : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"defiant"} );
-db.runCommand( { moveChunk : "sli.disciplineIncident", find : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"defiant"} );
-db.runCommand( { moveChunk : "sli.disciplineAction", find : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"defiant"} );
-db.runCommand( { moveChunk : "sli.studentDisciplineIncidentAssociation", find : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"defiant"} );
-db.runCommand( { moveChunk : "sli.studentSchoolAssociation", find : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"defiant"} );
-db.runCommand( { moveChunk : "sli.studentSectionAssociation", find : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"defiant"} );
-db.runCommand( { moveChunk : "sli.studentProgramAssociation", find : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"defiant"} );
-db.runCommand( { moveChunk : "sli.studentAcademicRecord", find : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"defiant"} );
-db.runCommand( { moveChunk : "sli.studentTranscriptAssociation", find : {_id : "2012tt-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"defiant"} );
-db.runCommand( { moveChunk : "sli.attendance", find : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"sli4"} );
-db.runCommand( { moveChunk : "sli.assessment", find : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"sli4"} );
-db.runCommand( { moveChunk : "sli.studentAssessmentAssociation", find : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"sli4"} );
-db.runCommand( { moveChunk : "sli.studentSectionAssociation", find : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"sli4"} );
-db.runCommand( { moveChunk : "sli.student", find : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"sli4"} );
-db.runCommand( { moveChunk : "sli.parent", find : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"sli4"} );
-db.runCommand( { moveChunk : "sli.studentParentAssociation", find : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"sli4"} );
-db.runCommand( { moveChunk : "sli.disciplineIncident", find : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"sli4"} );
-db.runCommand( { moveChunk : "sli.disciplineAction", find : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"sli4"} );
-db.runCommand( { moveChunk : "sli.studentDisciplineIncidentAssociation", find : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"sli4"} );
-db.runCommand( { moveChunk : "sli.studentSchoolAssociation", find : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"sli4"} );
-db.runCommand( { moveChunk : "sli.studentSectionAssociation", find : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"sli4"} );
-db.runCommand( { moveChunk : "sli.studentProgramAssociation", find : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"sli4"} );
-db.runCommand( { moveChunk : "sli.studentAcademicRecord", find : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"sli4"} );
-db.runCommand( { moveChunk : "sli.studentTranscriptAssociation", find : {_id : "2012ww-ecf43ebb-b01f-11e1-a06f-024224a39f1b"},to:"sli4"} );
