@@ -8,7 +8,7 @@ Scenario: As a Admin I can define a High Level Ed-Org and Provision my Landing Z
 Given there is a production account in ldap for vendor "Macro Corp"
 And I have an open web browser
 When I go to the provisioning application
-And I submit the credentials "<USER_ID>" "<USER_PASS>" for the "Simple" login page
+And I submit the credentials "mreynolds" "mreynolds1234" for the "Simple" login page
 #Then I can only enter a custom high-level ed-org
 #When I set the custom high-level ed-org to "Test Ed Org"
 When I click the Provision button
@@ -29,7 +29,7 @@ Scenario: As a Admin I cannot provision my landing zone twice
 Given there is a production account in ldap for vendor "Macro Corp"
 And I have an open web browser
 When I go to the provisioning application
-And I submit the credentials "<USER_ID>" "<USER_PASS>" for the "Simple" login page
+And I submit the credentials "mreynolds" "mreynolds1234" for the "Simple" login page
 And I click the Provision button
 Then I get the success message
 When I go to the provisioning application

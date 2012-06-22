@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.routes;
 
 import javax.annotation.PostConstruct;
@@ -291,9 +308,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         log.info("Configuring route for landing zone: {} ", inboundDir);
         // routeId: ctlFilePoller
         from(
-                "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.CONTROL_FILE.getExtension() + "$" + "&move="
-                        + inboundDir + "/.done/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}" + "&moveFailed="
-                        + inboundDir + "/.error/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}" + "&readLock=changed&readLockCheckInterval=1000")
+                "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.CONTROL_FILE.getExtension() + "&delete=true" + "&readLock=changed&readLockCheckInterval=1000")
                 .routeId("ctlFilePoller-" + inboundDir)
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing file.")
                 .process(controlFilePreProcessor).to(workItemQueueUri);
@@ -301,7 +316,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // routeId: zipFilePoller
         from(
                 "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.ZIP_FILE.getExtension() + "$&exclude=\\.in\\.*&preMove="
-                        + inboundDir + "/.done&moveFailed=" + inboundDir + "/.error" + "&readLock=changed&readLockCheckInterval=1000")
+                        + inboundDir + "/.done&moveFailed=" + inboundDir + "/.error" + "&readLock=changed&readLockCheckInterval=1000" + "&delete=true")
                 .routeId("zipFilePoller-" + inboundDir)
                 .log(LoggingLevel.INFO, "Job.PerformanceMonitor", "- ${id} - ${file:name} - Processing zip file.")
                 .process(zipFileProcessor).choice().when(header("hasErrors").isEqualTo(true)).to("direct:stop")
@@ -326,12 +341,12 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private void buildExtractionRoutes(String workItemQueueUri) {
 
         Processor edfiProcessorToUse = edFiProcessor;
-        if ("concurrent".equals(edfiProcessorMode) ) {
+        if ("concurrent".equals(edfiProcessorMode)) {
             edfiProcessorToUse = concurrentEdFiProcessor;
         }
 
         Processor xmlFileProcessorToUse = xmlFileProcessor;
-        if ("concurrent".equals(xmlProcessorMode) ) {
+        if ("concurrent".equals(xmlProcessorMode)) {
             xmlFileProcessorToUse = concurrentXmlFileProcessor;
         }
 
