@@ -85,8 +85,7 @@ public class ObjectiveAssessmentEntityTest {
                 + "<MaxRawScore>8</MaxRawScore>"
                 + "<PercentOfAssessment>50</PercentOfAssessment>"
                 + "<Nomenclature>nomenclature</Nomenclature>"
-                + "</ObjectiveAssessment>"
-                + "</InterchangeAssessmentMetadata>";
+                + "</ObjectiveAssessment>" + "</InterchangeAssessmentMetadata>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 invalidXmlTestData);
@@ -119,8 +118,10 @@ public class ObjectiveAssessmentEntityTest {
         Assert.assertNotNull(learningObjectives);
         Assert.assertEquals(1, learningObjectives.size());
         Assert.assertEquals("objective", learningObjectives.get(0).get("objective"));
-        Assert.assertEquals("Reading3-4", ((Map<?,?>) learningObjectives.get(0).get("learningObjectiveId")).get("identificationCode"));
-        Assert.assertEquals("Reading3-4", ((Map<?,?>) learningObjectives.get(0).get("learningObjectiveId")).get("contentStandardName"));
+        Assert.assertEquals("Reading3-4",
+                ((Map<?, ?>) learningObjectives.get(0).get("learningObjectiveId")).get("identificationCode"));
+        Assert.assertEquals("Reading3-4",
+                ((Map<?, ?>) learningObjectives.get(0).get("learningObjectiveId")).get("contentStandardName"));
     }
 
     private void checkInvalidObjectiveAssessmentNeutralRecord(NeutralRecord neutralRecord) {
