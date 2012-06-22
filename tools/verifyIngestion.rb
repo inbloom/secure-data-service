@@ -108,6 +108,60 @@ expected={
   "teacherSectionAssociation"=>4032
   },
   
+ # actual record count: 3,860,248
+ # entities not persisted:
+ # - assessmentFamily           --> count: 82
+ # - assessmentItem             --> count: 352
+ # - assessmentPeriodDescriptor --> count: 116
+ # - courseOffering             --> count: 2880
+ # - objectiveAssessment        --> count: 88
+ # - performanceLevelDescriptor --> count: 131
+ # - serviceDescriptor          --> count: 4
+ # - studentAssessmentItem      --> count: 99509
+ # - studentObjectiveAssessment --> count: 99937
+ "5M" => {
+  "assessment"=>163,
+  "attendance"=>19920,
+  "calendarDate"=>120,
+  "cohort"=>60,
+  "compentencyLevelDescriptor"=>2,
+  "course"=>1440,
+  "disciplineAction"=>28710,
+  "disciplineIncident"=>28710,
+  "educationOrganization"=>34,
+  "grade"=>278880,
+  "gradebookEntry"=>1,
+  "gradingPeriod"=>480,
+  "graduationPlan"=>30,
+  "learningObjective"=>44,
+  "learningStandard"=>244,
+  "parent"=>29713,
+  "program"=>37,
+  "reportCard"=>19920,
+  "schoolSessionAssociation"=>60,
+  "section"=>20160,
+  "session"=>60,
+  "staff"=>1755,
+  "staffCohortAssociation"=>60,
+  "staffEducationOrganizationAssociation"=>135,
+  "staffProgramAssociation"=>37,
+  "student"=>19920,
+  "studentAcademicRecord"=>19920,
+  "studentAssessmentAssociation"=>199200,
+  "studentCohortAssociation"=>21545,
+  "studentCompetency"=>39840,
+  "studentCompetencyObjective"=>1,
+  "studentDisciplineIncidentAssociation"=>28710,
+  "studentParentAssociation"=>29713,
+  "studentProgramAssociation"=>17165,
+  "studentSchoolAssociation"=>19920,
+  "studentSectionAssociation"=>278880,
+  "studentSectionGradebookEntry"=>19920,
+  "studentTranscriptAssociation"=>298800,
+  "teacherSchoolAssociation"=>1620,
+  "teacherSectionAssociation"=>20160
+ },
+  
  # actual record count: 4,598,548
  # entities not persisted:
  # - assessmentFamily --> count: 74
