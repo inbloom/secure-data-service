@@ -32,7 +32,7 @@ Then the user has to authenticate against ldap using "<USER_EMAIL>" and "<USER_P
 When the user selects the option to use the "<ED-ORG_SAMPLE_DS1>"
 And clicks on "Provision" 
 Then an "<ED-ORG_SAMPLE_DS1>" is saved to mongo
-And an "<ED-ORG_SAMPLE_DS1>" is added in the application table for "<DASHBOARD_APP>"," <ADMIN_APP>", "<DATABROWSER_APP>"
+#And an "<ED-ORG_SAMPLE_DS1>" is added in the application table for "<DASHBOARD_APP>"," <ADMIN_APP>", "<DATABROWSER_APP>"
 And a request for a Landing zone is made with "<Tenant_ID>" and "<ED-ORG_SAMPLE_DS1>"
 And a tenant entry with "<Tenant_ID>" and "<Landing_zone_directory>" is added to mongo
 And the landing zone "<Landing_zone_directory>" is saved in Ldap
