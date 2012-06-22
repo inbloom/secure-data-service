@@ -17,6 +17,7 @@
 
 package org.slc.sli.domain;
 
+import java.util.List;
 import java.util.Map;
 
 import com.mongodb.CommandResult;
@@ -189,7 +190,14 @@ public interface Repository<T> {
      * @return the mongo db collection
      */
     public DBCollection getCollection(String collectionName);
-
+    
+    /**
+     * Get the available collections.
+     * 
+     * @return List<DBCollections> collections.
+     */
+    public List<DBCollection> getCollections(boolean includeSystemCollections);
+    
     /**
      * @param collectionName
      *            the name of the collection to look in

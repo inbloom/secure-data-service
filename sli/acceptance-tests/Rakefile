@@ -77,7 +77,7 @@ end
 # Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
 def runTests(testDirPath)
   addSecurityData()
-  
+
   @tags ||= ["~@wip", "~@sandbox"]
   sh "cucumber #{testDirPath} #{EXPAND} --tags #{@tags.join(' --tags ')} #{OTHER_TAGS} #{COLOR} -f junit --out ./target -f pretty" do |success, exit_code|
     if success
@@ -99,8 +99,8 @@ def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropEx
   else
     dropOption = (dropExistingCollection) ? "--drop":""
   end
-  
-  
+
+
   #sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"printjson(db.#{collectionName}.dropIndexes().msg)\""
 
   sh "#{MONGO_BIN}mongoimport #{dropOption}  -d #{DB_NAME} -c #{collectionName} -h #{DB_HOST} --file #{fixtureFilePath}/#{fixtureFileName}" do |success, exit_code|
@@ -146,13 +146,13 @@ def cleanseRealms()
   @conn = Mongo::Connection.new(DB_HOST)
   @db = @conn.db(DB_NAME)
   @realmColl = @db.collection('realm')
-  
+
   @realmColl.find.each do |row|
     if row['body']['uniqueIdentifier'] != 'Shared Learning Infrastructure' and row['body']['uniqueIdentifier'] != 'SandboxIDP'
       @realmColl.remove(row)
     end
   end
-  
+
 end
 
 def cleanseApps()
@@ -160,7 +160,7 @@ def cleanseApps()
   @conn = Mongo::Connection.new(DB_HOST)
   @db = @conn.db(DB_NAME)
   @appColl = @db.collection('application')
-  
+
   @appColl.find.each do |row|
     if row['body']['bootstrap'] != true
       @appColl.remove(row)
@@ -206,7 +206,7 @@ task :appInit do
   #Preserve the bootstrap apps
   cleanseApps()
   setFixture("application", "application_fixture.json", "test/data", false)
-  
+
   setFixture("applicationAuthorization", "applicationAuthorization_fixture.json")
   setFixture("userSession", "oauth_authentication_tokens.json")
 end
@@ -316,7 +316,7 @@ task :apiV1EntitySecurityTests do
   # Import the data once, none of these tests edit the data
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/context_security")
-  
+
 end
 
 task :apiV1AssociationTests => [:v1SectionAssessmentAssociationTests,
@@ -628,7 +628,7 @@ task :importSecuredData do
     "studentSectionAssociation" => "secured/studentSectionAssociation.json",
     "teacherSchoolAssociation" => "secured/teacherSchoolAssociation.json",
     "teacherSectionAssociation" => "secured/teacherSectionAssociation.json"
-    
+
   ]
   setMultipleFixtureFiles(testHash)
 end
@@ -676,6 +676,23 @@ task :importSandboxData do
     "adminDelegation" => "adminDelegation_fixture.json",
     "gradingPeriod" => "gradingPeriod_fixture.json",
     "reportCard" => "reportCard_fixture.json"
+  ]
+  setMultipleFixtureFiles(testHash)
+end
+
+desc "Import Tenant Metrics Data"
+task :importTenantMetricsData do
+  testHash = Hash[
+	"assessment" => "metrics/assessment_fixture.json",
+	"educationOrganization" => "metrics/educationOrganization_fixture.json",
+	"grade" => "metrics/grade_fixture.json",
+	"parent" => "metrics/parent_fixture.json",
+	"program" => "metrics/program_fixture.json",
+	"section" => "metrics/section_fixture.json",
+	"session" => "metrics/session_fixture.json",
+	"staff" => "metrics/staff_fixture.json",
+	"student" => "metrics/student_fixture.json",
+	"tenant" => "metrics/tenant_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end

@@ -141,7 +141,8 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
         String collection = null;
         if (entity.getType().equals("stateEducationAgency") 
-                || entity.getType().equals("localEducationAgency")) {
+                || entity.getType().equals("localEducationAgency")
+			        || entity.getType().equals("school")) {
             collection = "educationOrganization";
         } else if (entity.getType().equals("teacher")) {
             collection = "staff";

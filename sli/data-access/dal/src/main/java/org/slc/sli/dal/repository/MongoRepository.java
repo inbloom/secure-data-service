@@ -579,4 +579,19 @@ public abstract class MongoRepository<T> implements Repository<T> {
         }
     }
     
+    @Override
+    public List<DBCollection> getCollections(boolean includeSystemCollections) {
+        List<DBCollection> collections = new ArrayList<DBCollection>();
+        
+        for (String name : getTemplate().getCollectionNames()) {
+            
+            if (!includeSystemCollections && name.startsWith("system.")) {
+                continue;
+            }
+            collections.add(getTemplate().getCollection(name));
+        }
+        return collections;
+    }
+    
+    
 }

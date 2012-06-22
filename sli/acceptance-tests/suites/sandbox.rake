@@ -73,5 +73,19 @@ end
 # Provisioning tests end
 ############################################################
 
+###########################################################
+# Tenant Metrics tests start
+############################################################
+
+desc "Tenant Metrics Tests"
+task :tenantMetricsTests do
+  @tags = ["~@wip"]
+  Rake::Task["importTenantMetricsData"].invoke
+  runTests("test/features/admintools/usage_analytics.feature")
+end
+############################################################
+# Tenant Metrics tests end
+############################################################
+
 
 
