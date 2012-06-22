@@ -96,28 +96,4 @@ public class SchoolResource extends DefaultCrudResource {
         return super.read(ResourceNames.SECTIONS, "schoolId", schoolId, headers, uriInfo);
     }
 
-    /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
-     */
-    @GET
-    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_SESSION_ASSOCIATIONS)
-    public Response getSchoolSessionAssociations(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS, "schoolId", schoolId, headers, uriInfo);
-    }
-
-    /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
-     */
-    @GET
-    @Path("{" + ParameterConstants.SCHOOL_ID + "}" + "/" + PathConstants.SCHOOL_SESSION_ASSOCIATIONS + "/"
-            + PathConstants.SESSIONS)
-    public Response getSchoolSessionAssociationSessions(@PathParam(ParameterConstants.SCHOOL_ID) final String schoolId,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS, "schoolId", schoolId, "sessionId",
-                ResourceNames.SESSIONS, headers, uriInfo);
-    }
-
 }

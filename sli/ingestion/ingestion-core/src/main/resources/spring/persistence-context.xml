@@ -19,7 +19,7 @@
     <property name="messageSource" ref="messageSource" />
   </bean>
 
-  <bean id="schoolSessionAssociationEntityPersistHandler" class="org.slc.sli.ingestion.handler.SchoolSessionAssociationEntityPersistHandler"
+  <bean id="schoolSessionAssociationEntityPersistHandler" class="org.slc.sli.ingestion.handler.SessionEntityPersistHandler"
     parent="entityPersistHandler">
   </bean>
 

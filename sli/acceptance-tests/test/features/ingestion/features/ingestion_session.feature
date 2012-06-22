@@ -14,7 +14,6 @@ Given I post "Session2.zip" file as the payload of the ingestion job
      | gradingPeriod               |
      | educationOrganization       |
      | session                     |
-     | schoolSessionAssociation    |
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
@@ -22,7 +21,6 @@ Then I should see following map of entry counts in the corresponding collections
      | calendarDate                | 5      |
      | educationOrganization       | 6      |
      | gradingPeriod               | 6      |
-     | schoolSessionAssociation    | 10     |
      | session                     | 10     |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                             | searchValue             | searchType           |

@@ -29,7 +29,6 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.association.SchoolSessionAssociationResource;
 import org.slc.sli.api.resources.v1.association.StudentSchoolAssociationResource;
 import org.slc.sli.api.resources.v1.association.TeacherSchoolAssociationResource;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -52,7 +51,6 @@ public class SchoolResourceTest {
     private final String studentResourceName = "StudentResource";
     private final String sectionResourceName = "SectionResource";
     private final String teacherSchoolAssociationResourceName = "TeacherSchoolAssociationResource";
-    private final String schoolSessionAssociationResourceName = "SchoolSessionAssociationResource";
     private final String studentSchoolAssociationResourceName = "StudentSchoolAssociationResource";
 
     @Autowired
@@ -69,8 +67,7 @@ public class SchoolResourceTest {
     private SectionResource sectionResource;
     @Autowired
     private TeacherSchoolAssociationResource teacherSchoolAssociationResource;
-    @Autowired
-    private SchoolSessionAssociationResource schoolSessionAssociationResource;
+
     @Autowired
     private StudentSchoolAssociationResource studentSchoolAssociationResource;
 
@@ -126,39 +123,7 @@ public class SchoolResourceTest {
         ResourceTestUtil.assertions(response);
     }
 
-    @Test
-    public void testGetSchoolSessionAssociations() {
-        Response createResponse = schoolResource.create(new EntityBody(
-                ResourceTestUtil.createTestEntity(schoolResourceName)), httpHeaders, uriInfo);
-        String schoolId = ResourceTestUtil.parseIdFromLocation(createResponse);
-        createResponse = sessionResource.create(new EntityBody(
-                ResourceTestUtil.createTestEntity(sessionResourceName)), httpHeaders, uriInfo);
-        String sessionId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
-        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
-                schoolSessionAssociationResourceName, schoolResourceName, schoolId, sessionResourceName, sessionId);
-        schoolSessionAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
-
-        Response response = schoolResource.getSchoolSessionAssociations(schoolId, httpHeaders, uriInfo);
-        ResourceTestUtil.assertions(response);
-    }
-
-    @Test
-    public void testGetSchoolSessionAssociationSessions() {
-        Response createResponse = schoolResource.create(new EntityBody(
-                ResourceTestUtil.createTestEntity(schoolResourceName)), httpHeaders, uriInfo);
-        String schoolId = ResourceTestUtil.parseIdFromLocation(createResponse);
-        createResponse = sessionResource.create(new EntityBody(
-                ResourceTestUtil.createTestEntity(sessionResourceName)), httpHeaders, uriInfo);
-        String sessionId = ResourceTestUtil.parseIdFromLocation(createResponse);
-
-        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
-                schoolSessionAssociationResourceName, schoolResourceName, schoolId, sessionResourceName, sessionId);
-        schoolSessionAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
-
-        Response response = schoolResource.getSchoolSessionAssociationSessions(schoolId, httpHeaders, uriInfo);
-        ResourceTestUtil.assertions(response);
-    }
 
     @Test
     public void testGetStudentSchoolAssociations() {

@@ -183,14 +183,7 @@ public class ResourceTest {
         entity.put("metaData", createMetaData());
         return entity;
     }
-    
-    public Map<String, Object> createTestSchoolSessionAssociation(String schoolId, String sessionId) {
-        Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put("schoolId", schoolId);
-        entity.put("sessionId", sessionId);
-        entity.put("metaData", createMetaData());
-        return entity;
-    }
+
     
     public Map<String, Object> createTestCourseOffering(String sessionId, String courseId) {
         Map<String, Object> entity = new HashMap<String, Object>();
@@ -314,29 +307,7 @@ public class ResourceTest {
         }
         
     }
-    
-    @Test
-    public void testSchoolSessionFunctionality() {
-        HashMap<TypeIdPair, String> ids = new HashMap<TypeIdPair, String>();
-        
-        String schoolId = this.createEntity("schools", ids);
-        String sessionId = this.createEntity("sessions", ids);
-        
-        Response createAssociationResponse = api.createEntity(SCHOOL_SESSION_ASSOCIATION_URI, new EntityBody(
-                createTestSchoolSessionAssociation(schoolId, sessionId)), uriInfo);
-        assertNotNull(createAssociationResponse);
-        String schoolSessionAssocId = parseIdFromLocation(createAssociationResponse);
-        
-        // test school session association
-        Response tsaResponse = api.getEntity(SCHOOL_SESSION_ASSOCIATION_URI, schoolSessionAssocId, null, null, 0, 10,
-                false, uriInfo);
-        EntityBody tssAssocBody = (EntityBody) tsaResponse.getEntity();
-        assertNotNull(tssAssocBody);
-        assertEquals(schoolSessionAssocId, tssAssocBody.get("id"));
-        assertEquals(sessionId, tssAssocBody.get("sessionId"));
-        assertEquals(schoolId, tssAssocBody.get("schoolId"));
-    }
-    
+
     @Test
     public void testSessionCourseFunctionality() {
         HashMap<TypeIdPair, String> ids = new HashMap<TypeIdPair, String>();

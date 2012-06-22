@@ -73,7 +73,7 @@ public class LiveAPIClient {
     private static final String PARENTS = "/parents";
 
     // link names
-    private static final String ED_ORG_LINK = "getEducationOrganization";
+    private static final String ED_ORG_LINK = "getParentEducationOrganization";
     private static final String SCHOOL_LINK = "getSchool";
     private static final String STUDENT_SCHOOL_ASSOCIATIONS_LINK = "getStudentSchoolAssociations";
 
@@ -373,10 +373,10 @@ public class LiveAPIClient {
             // between
             // parent or children edOrgs. DE105 has been logged to resolve it.
             // TODO: Remove the if statement once DE105 is resolved.
-            if (href.contains("?" + Constants.ATTR_PARENT_EDORG + "=")) {
-                // Links to children edOrgs are queries; ignore them.
-                continue;
-            }
+//            if (href.contains("?" + Constants.ATTR_PARENT_EDORG + "=")) {
+//                // Links to children edOrgs are queries; ignore them.
+//                continue;
+//            }
 
             GenericEntity responses = createEntityFromAPI(href, token);
             return responses; // there should only be one parent.
