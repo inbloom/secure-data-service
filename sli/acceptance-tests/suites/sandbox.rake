@@ -79,7 +79,6 @@ end
 
 desc "Tenant Metrics Tests"
 task :tenantMetricsTests do
-  @tags = ["~@wip"]
   Rake::Task["importTenantMetricsData"].invoke
   runTests("test/features/sandbox/TenantUsage/usage_analytics.feature")
 end
