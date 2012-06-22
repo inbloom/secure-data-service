@@ -1,44 +1,18 @@
 require_relative '../../../../../../utils/sli_utils.rb'
 require_relative '../../../../../../dashboard/dash/step_definitions/selenium_common_dash.rb'
+require_relative '../../../../../../dashboard/dash/step_definitions/dashboard_api_integration_steps.rb'
 
 Given /^the Java SDK test app  is deployed on test app server$/ do
   @appPrefix = "sample/"
 end
 
-Given /^I am logged in using "([^"]*)" and "([^"]*)" to realm "([^"]*)"$/ do |user, pass, realm|
+Given /^I navigate to the Sample App$/ do
   url = PropLoader.getProps['sampleApp_server_address']
   url = url + @appPrefix
   puts url
   @driver.get url
-
-  # assert I am redirected to the simpleIDP login screen
-  assert(@driver.current_url.include?("/api/oauth/authorize"))
-
-  # choose the realm that was speicified in the realm chooser
-  sleep(1)
-
-  realm_select = @driver.find_element(:name=> "realmId")
-  options = realm_select.find_elements(:tag_name=>"option")
-  options.each do |e1|
-    if (e1.text == realm)
-      e1.click()
-      break
-    end
-  end
-  clickButton("go", "id")
-
-  # make sure I am iat the login screen 
-  sleep(1)
-  wait = Selenium::WebDriver::Wait.new(:timeout => 5) # explicit wait for at most 5 sec
-  wait.until{@driver.find_element(:id, "user_id")}.send_keys user
-  @driver.find_element(:id, "password").send_keys pass
-  @driver.find_element(:id, "login_button").click  
-
-  # make sure I am logged in 
-  sleep(1)
-  wait = Selenium::WebDriver::Wait.new(:timeout => 5) # explicit wait for at most 5 sec
-  assert(@driver.current_url.include?(url))
   @appPrefix = "sample/testsdk"
+  @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 30)
 end
 
 When /^I put "([^"]*)"  with Name "([^"]*)"$/ do |arg1, arg2|

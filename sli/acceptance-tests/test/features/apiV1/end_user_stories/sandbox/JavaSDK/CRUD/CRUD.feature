@@ -4,7 +4,10 @@ Background:
 
 Given I have an open web browser
 Given the Java SDK test app  is deployed on test app server 
-Given I am logged in using "rrogers" and "rrogers1234" to realm "Illinois Daybreak School District 4529"
+Given I navigate to the Sample App
+When I select "Illinois Daybreak School District 4529" and click go
+ And I was redirected to the "Simple" IDP Login page
+ When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
 
 Scenario: IT Admin Add a students		
 		When I put "STUDENTS"  with Name "Monique L Johnson" 
