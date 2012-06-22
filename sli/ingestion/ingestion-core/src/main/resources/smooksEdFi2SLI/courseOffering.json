@@ -61,7 +61,7 @@
                               [
                                  [
                                     {
-                                       "path":"body.schoolId",
+                                       "path":"body.stateOrganizationId",
                                        "values":
                                        [{
                                            "valueSource":"body.SchoolReference.EducationalOrgIdentity.StateOrganizationId"
