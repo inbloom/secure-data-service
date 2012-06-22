@@ -25,7 +25,7 @@ public class TeacherLearningStandardResolver implements EntityContextResolver {
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
         return false;
-        //return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.LEARNINGSTANDARD.equals(toEntityType);
+        //return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.LEARNING_STANDARD.equals(toEntityType);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class TeacherLearningStandardResolver implements EntityContextResolver {
         // TODO need to figure out business logic to determine which learning standard is allow for
         // given teacher, allow access to all learning Standard temporarily
         List<String> ids = new ArrayList<String>();
-        Iterable<String> it = this.repository.findAllIds(EntityNames.LEARNINGSTANDARD, null);
+        Iterable<String> it = this.repository.findAllIds(EntityNames.LEARNING_STANDARD, null);
         for (String id : it) {
             ids.add(id);
         }
