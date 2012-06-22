@@ -45,7 +45,6 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     And I should see "gradebookEntryType" is "Quiz" in it
     And I should see "entityType" is "gradebookEntry" in it
 
-
   Scenario: Applying optional fields - transcript - studentSectionAssociations
     Given optional field "transcript"
     When I navigate to GET "/v1/sections/<SECTION ID>/studentSectionAssociations/students"
@@ -68,7 +67,7 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     When I go back up one level
     Then inside "courses"
     And I should see "courseDescription" is "Intro to Russian" in it
-    
+
   Scenario: Applying optional fields - transcript - courseTranscripts
     Given optional field "transcript"
     When I navigate to GET "/v1/sections/<SECTION ID>/studentSectionAssociations/students"

@@ -76,13 +76,15 @@ public class PathFindingContextResolver implements EntityContextResolver {
      */
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        this.fromEntity = fromEntityType;
-        this.toEntity = toEntityType;
-        if (pathFinder.isPathExcluded(fromEntityType, toEntityType)) {
-            return false;
-        }
-        Set<String> entities = pathFinder.getNodeMap().keySet();
-        return (entities.contains(fromEntityType) && entities.contains(toEntityType));
+
+//        this.fromEntity = fromEntityType;
+//        this.toEntity = toEntityType;
+//        if (pathFinder.isPathExcluded(fromEntityType, toEntityType)) {
+//            return false;
+//        }
+//        Set<String> entities = pathFinder.getNodeMap().keySet();
+//        return (entities.contains(fromEntityType) && entities.contains(toEntityType));
+        return false;
     }
 
     /*

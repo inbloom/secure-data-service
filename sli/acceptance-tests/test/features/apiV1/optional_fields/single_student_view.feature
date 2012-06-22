@@ -51,7 +51,7 @@ Feature: As an SLI application, I want to be able to view more student data in a
     And I should see "entityType" is "gradebookEntry" in it
 
 
-  Scenario: Applying optional fields - transcript - studentSectionAssociations
+    Scenario: Applying optional fields - transcript - studentSectionAssociations
     Given optional field "transcript"
     When I navigate to GET "/v1/students/<STUDENT_ID>"
     Then I should receive a return code of 200
