@@ -7,8 +7,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.slc.sli.api.client.constants.EntityNames;
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
@@ -53,10 +51,8 @@ public class StudentGracePeriodNodeFilterTest {
     @Test
     public void testsetParameters() {
         nodeFilter.setParameters();
-        assertEquals("Should match", EntityNames.STUDENT_SCHOOL_ASSOCIATION, nodeFilter.getEntityName());
-        assertEquals("Should match", ParameterConstants.STUDENT_ID, nodeFilter.getReferenceId());
         assertEquals("Should match", gracePeriodVal, nodeFilter.getGracePeriod());
-        assertEquals("Should match", "exitWithdrawDate", nodeFilter.getFilterDateParam());
+        assertEquals("Should match", "exitWithdrawDate", nodeFilter.getEndDateParamName());
     }
 
 }

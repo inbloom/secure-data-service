@@ -14,7 +14,7 @@ Transform /^<([^"]*)>$/ do |val|
 
   case val
     #student parent association data
-  when "ASSOCIATION COUNT" then 4
+  when "ASSOCIATION COUNT" then 5
   when "ASSOCIATION COUNT FOR ENDPOINT 1" then 1
   when "ASSOCIATION COUNT FOR ENDPOINT 2" then 2
   when "RESOLUTION COUNT FOR ENDPOINT 1" then 1
@@ -49,11 +49,15 @@ Transform /^<([^"]*)>$/ do |val|
 
     #general
   when "INVALID REFERENCE" then "11111111-1111-1111-1111-111111111111"
+  when "INACCESSIBLE REFERENCE 1" then "6a98d5d3-d508-4b9c-aec2-59fce7e16825"
+  when "INACCESSIBLE REFERENCE 2" then "0e26de79-22aa-5d67-9201-5113ad50a03b"
   when "SELF LINK NAME" then "self"
   when "NEWLY CREATED ASSOCIATION ID" then $createdId = @newId
   when "VALIDATION" then "Validation failed"
   end
 end
+
+
 
 
 ###############################################################################
@@ -62,8 +66,8 @@ end
 
 Given /^a valid association json document for a "([^"]*)"$/ do |arg1|
   @fields = {
-    "studentId" => "e1af7127-743a-4437-ab15-5b0dacd1bde0",
-    "disciplineIncidentId" => "0e26de79-22aa-5d67-9201-5113ad50a03b",    
+    "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+    "disciplineIncidentId" => "0e26de79-22ea-5d67-9201-5113ad50a03b",    
     "studentParticipationCode" => "Reporter"
   }
 end

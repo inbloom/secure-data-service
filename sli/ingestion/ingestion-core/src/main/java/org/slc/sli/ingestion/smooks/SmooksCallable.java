@@ -4,7 +4,7 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
+import java.lang.reflect.Field;
 import java.util.concurrent.Callable;
 
 import javax.xml.transform.stream.StreamSource;
@@ -12,6 +12,9 @@ import javax.xml.transform.stream.StreamSource;
 import org.apache.commons.io.IOUtils;
 import org.milyn.Smooks;
 import org.milyn.SmooksException;
+import org.milyn.delivery.ContentHandlerConfigMapTable;
+import org.milyn.delivery.VisitorConfigMap;
+import org.milyn.delivery.sax.SAXVisitAfter;
 import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
@@ -21,10 +24,8 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
-import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slf4j.Logger;
@@ -73,13 +74,7 @@ public class SmooksCallable implements Callable<Boolean> {
         // actually do the processing
         processFileEntry(fe, errorReport, fileProcessStatus);
         
-        metrics.setRecordCount(fileProcessStatus.getTotalRecordCount());
-        
-        int errorCount = aggregateAndLogProcessingErrors(newBatchJob.getId(), fe);
-        metrics.setErrorCount(errorCount);
-        
-        ResourceEntry resource = BatchJobUtils.createResourceForOutputFile(fe, fileProcessStatus);
-        newBatchJob.addResourceEntry(resource);
+        int errorCount = processMetrics(metrics, fileProcessStatus);
         
         LOG.info("Finished SmooksCallable for: " + fe.getFileName());
         return (errorCount > 0);
@@ -122,20 +117,6 @@ public class SmooksCallable implements Callable<Boolean> {
     void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport,
             FileProcessStatus fileProcessStatus) throws IOException, SAXException {
         
-        // LandingZone landingZone = new LocalFileSystemLandingZone(new File(
-        // ingestionFileEntry.getTopLevelLandingZonePath()));
-        
-        // File neutralRecordOutFile = createTempFile(resolveLzDirecotry(ingestionFileEntry,
-        // landingZone));
-        
-        // fileProcessStatus.setOutputFilePath(neutralRecordOutFile.getAbsolutePath());
-        // fileProcessStatus.setOutputFileName(neutralRecordOutFile.getName());
-        
-        // NeutralRecordFileWriter nrFileWriter = new NeutralRecordFileWriter(neutralRecordOutFile);
-        
-        // set the IngestionFileEntry NeutralRecord file we just wrote
-        // ingestionFileEntry.setNeutralRecordFile(neutralRecordOutFile);
-        
         // create instance of Smooks (with visitors already added)
         Smooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport);
         
@@ -143,34 +124,44 @@ public class SmooksCallable implements Callable<Boolean> {
         try {
             // filter fileEntry inputStream, converting into NeutralRecord entries as we go
             smooks.filterSource(new StreamSource(inputStream));
+            
+            populateRecordCountsFromSmooks(smooks, fileProcessStatus, ingestionFileEntry);
+            
         } catch (SmooksException se) {
-            LOG.error("smooks exception - encountered problem with " + ingestionFileEntry.getFile().getName() + "\n"
-                    + Arrays.toString(se.getStackTrace()));
+            LogUtil.error(LOG, "smooks exception - encountered problem with " + ingestionFileEntry.getFile().getName(),
+                    se);
             errorReport.error("SmooksException encountered while filtering input.", SmooksFileHandler.class);
         } finally {
             IOUtils.closeQuietly(inputStream);
-            
-            // long count = 0L;
-            // Hashtable<String, Long> counts = nrFileWriter.getNRCount();
-            // for (String type : counts.keySet()) {
-            // count += counts.get(type);
-            // }
-            
-            // fileProcessStatus.setTotalRecordCount(count);
-            // nrFileWriter.close();
         }
     }
     
-    // private String resolveLzDirecotry(IngestionFileEntry ingestionFileEntry, LandingZone
-    // landingZone) {
-    // String lzDirectory = null;
-    // if (landingZone != null && landingZone.getLZId() != null) {
-    // lzDirectory = landingZone.getLZId();
-    // } else {
-    // lzDirectory = ingestionFileEntry.getFile().getParent();
-    // }
-    // return lzDirectory;
-    // }
+    private void populateRecordCountsFromSmooks(Smooks smooks, FileProcessStatus fileProcessStatus,
+            IngestionFileEntry ingestionFileEntry) {
+        try {
+            Field f = smooks.getClass().getDeclaredField("visitorConfigMap");
+            f.setAccessible(true);
+            VisitorConfigMap map = (VisitorConfigMap) f.get(smooks);
+            ContentHandlerConfigMapTable<SAXVisitAfter> visitAfters = map.getSaxVisitAfters();
+            SmooksEdFiVisitor visitAfter = (SmooksEdFiVisitor) visitAfters.getAllMappings().get(0).getContentHandler();
+            
+            int recordsPersisted = visitAfter.getRecordsPerisisted();
+            fileProcessStatus.setTotalRecordCount(recordsPersisted);
+            
+            LOG.info("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
+                    ingestionFileEntry.getFileName());
+        } catch (Exception e) {
+            LOG.error("Error accessing visitor list in smooks", e);
+        }
+    }
+    
+    private int processMetrics(Metrics metrics, FileProcessStatus fileProcessStatus) {
+        metrics.setRecordCount(fileProcessStatus.getTotalRecordCount());
+        
+        int errorCount = aggregateAndLogProcessingErrors(newBatchJob.getId(), fe);
+        metrics.setErrorCount(errorCount);
+        return errorCount;
+    }
     
     private int aggregateAndLogProcessingErrors(String batchJobId, IngestionFileEntry fe) {
         int errorCount = 0;
@@ -188,13 +179,4 @@ public class SmooksCallable implements Callable<Boolean> {
         }
         return errorCount;
     }
-    
-    // private static File createTempFile(String lzDirectory) throws IOException {
-    // File landingZone = new File(lzDirectory);
-    // File outputFile = landingZone.exists() ? File.createTempFile("neutralRecord_", ".tmp",
-    // landingZone) : File
-    // .createTempFile("neutralRecord_", ".tmp");
-    // return outputFile;
-    // }
-    
 }

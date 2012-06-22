@@ -63,6 +63,7 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | calendarDate                |
         | reportCard                  |
         | courseOffering              |
+        | studentAcademicRecord       |
   When zip file is scp to ingestion landing zone
   And a batch job log has been created
 
@@ -106,6 +107,7 @@ Then I should see following map of entry counts in the corresponding collections
         | calendarDate                | 556   |
         | reportCard                  | 2     |
         | courseOffering              | 95    |
+        | studentAcademicRecord       | 117   |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 100000000                  | string               |

@@ -15,7 +15,7 @@ module ApplicationHelper
     "first_name" => "UNKNOWN",
     "last_name" => "UNKNOWN",
   }
-  
+
   # Looks up the provided GUID (record) through the API, removes (deletes) that record,
   # and removes the associated user from the LDAP.
   #
@@ -25,16 +25,8 @@ module ApplicationHelper
   # Returns:
   #     Nothing
   #
-  def self.remove_user_account(guid)
-    if (guid.nil?)
-      return
-    end
-    res = RestClient.get(API_BASE + "/" + guid, REST_HEADER){|response, request, result| response }
-    if (res.code==200)
-      jsonDocument = JSON.parse(res.body)
-      remove_user(jsonDocument["userName"])
-      res = RestClient.delete(API_BASE+"/"+guid, REST_HEADER){|response, request, result| response }
-    end
+  def self.remove_user_account(email)
+    ApprovalEngine.remove_user(email) unless email == nil
   end
 
   # Gets the email address for the supplied GUID and sends them a confirmation-request
@@ -46,21 +38,21 @@ module ApplicationHelper
   # Returns:
   #     Nothing
   #
-  def self.send_user_verification_email(validate_base, guid)
+  def self.send_user_verification_email(validate_base, email_address)    
+    ApprovalEngine.change_user_status(email_address, "accept_eula")
+    user = ApprovalEngine.get_user(email_address)
+    first_name = user[:first]
+    email_token = user[:emailtoken]
     
-    user_email_info = get_email_info guid
-    email_address = user_email_info["email_address"]
-    email_token = get_email_token(email_address)
     if (email_token.nil?)
       return false
     end
+    
     userEmailValidationLink = "#{APP_CONFIG['email_replace_uri']}/user_account_validation/#{email_token}"
-    
-    ApplicationMailer.verify_email(email_address,user_email_info['first_name'],userEmailValidationLink).deliver
-    
+    ApplicationMailer.verify_email(email_address,first_name,userEmailValidationLink).deliver
     true
   end
-  
+
   # Checks if the user account exists.
   # Input Parameters:
   #   - email - user id (email)
@@ -69,31 +61,7 @@ module ApplicationHelper
   def self.user_exists?(email)
     ApprovalEngine.user_exists?(email)
   end
-  
-  # Returns a map containing values for email_address, first_name, and last_name.
-  #
-  # Input Parameters:
-  #   - guid : identifier of record containing an email address
-  #
-  # Returns : first, last, and user name on associated record
-  #
-  def self.get_email_info(guid)
-    
-    url = API_BASE + "/" + guid
-    res = RestClient.get(url, REST_HEADER){|response, request, result| response }
 
-    if (res.code==200)
-      jsonDocument = JSON.parse(res.body)
-      return {
-        "email_address" => jsonDocument["userName"],
-        "first_name" => jsonDocument["firstName"],
-        "last_name" => jsonDocument["lastName"],
-      }
-    else 
-      return UNKNOWN_EMAIL
-    end
-  end
-  
   # Add all relevant information for a new user to the backend.
   #
   # Input Parameters:
@@ -117,7 +85,7 @@ module ApplicationHelper
   #     :password => "secret",
   #     :vendor => "Acme Inc."
   # }
-  # 
+  #
   def self.add_user(userAccountRegistration)
     new_user = {
       :first           => userAccountRegistration.firstName,
@@ -139,8 +107,8 @@ module ApplicationHelper
   # and included in a click through link that the user received in an email (as a query parameter).
   #
   def self.verify_email(emailtoken)
-   # APP_LDAP_CLIENT.verify_email(emailtoken)
-   ApprovalEngine.verify_email(emailtoken)
+    # APP_LDAP_CLIENT.verify_email(emailtoken)
+    ApprovalEngine.verify_email(emailtoken)
   end
 
   # Update the user information that was submitted via the add_user method.
@@ -175,20 +143,15 @@ module ApplicationHelper
     return ApprovalEngine.get_user_emailtoken(email_token)
   end
 
-  #remove user with address
-  def self.remove_user(email_address)
-    ApprovalEngine.remove_user(email_address)
-  end
-
   def required?(obj, attr)
     target = (obj.class == Class) ? obj : obj.class
     target.validators_on(attr).map(&:class).include?(
-        ActiveModel::Validations::PresenceValidator)
+    ActiveModel::Validations::PresenceValidator)
   end
 
 end
 class ErbBinding < OpenStruct
-    def get_binding
-      return binding()
-    end
+  def get_binding
+    return binding()
   end
+end

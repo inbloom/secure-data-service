@@ -10,6 +10,7 @@ import org.slc.sli.api.client.constants.ResourceConstants;
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EmbeddedLink;
+import org.slc.sli.api.service.BasicService;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -68,6 +69,7 @@ public class AssociationURLCreator extends URLCreator {
                     debug("entityDef type : {}", entityDef.getType());
                     
                     // get the actual associations
+//                    BasicService.addDefaultQueryParams(neutralQuery, assoc.getStoredCollectionName());
                     Iterable<Entity> entityList = repo.findAll(assoc.getStoredCollectionName(), neutralQuery);
                     debug("assoc type : {}", assoc.getType());
                     

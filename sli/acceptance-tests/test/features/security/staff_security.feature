@@ -10,7 +10,7 @@ Scenario: Teacher accesses another teacher in same school
 
 
 Scenario: Leader accesses teacher in same school and sees restricted fields
-	Given I am logged in using "jdoe" "jdoe1234" to realm "IL"
+	Given I am logged in using "sbantu" "sbantu1234" to realm "IL"
 		And my role is Leader
 	When I make an API call to access teachers
 	Then I get a response

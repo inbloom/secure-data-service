@@ -1,7 +1,7 @@
 require 'mongo'
 require 'json'
 
-connection = Mongo::Connection.new("nxmongo.slidev.org", 27017)
+connection = Mongo::Connection.new("nxmongo8.slidev.org", 27017)
 db = connection.db("sli")
 coll = db.collection("system.profile")
 

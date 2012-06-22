@@ -309,9 +309,7 @@
     </MaximumAvailableCredit>
 	<EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-			<ID>Sunset Central High School</ID> 
-		</EducationOrgIdentificationCode>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
 	</EducationalOrgIdentity>
 	</EducationOrganizationReference>		
   </Course>
@@ -331,9 +329,7 @@
     </MaximumAvailableCredit>
 	<EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-			</EducationOrgIdentificationCode>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
 	</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>
@@ -353,9 +349,7 @@
     </MaximumAvailableCredit>
 	<EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-			</EducationOrgIdentificationCode>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>
@@ -375,9 +369,7 @@
     </MaximumAvailableCredit>
 	<EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-			</EducationOrgIdentificationCode>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>
@@ -397,9 +389,7 @@
     </MaximumAvailableCredit>
 	<EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-			</EducationOrgIdentificationCode>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>
@@ -419,9 +409,7 @@
     </MaximumAvailableCredit>
 	<EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-			</EducationOrgIdentificationCode>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>
@@ -441,9 +429,7 @@
     </MaximumAvailableCredit>
 	<EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-			</EducationOrgIdentificationCode>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>
@@ -463,9 +449,7 @@
     </MaximumAvailableCredit>
 	<EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-			</EducationOrgIdentificationCode>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>
@@ -485,9 +469,7 @@
     </MaximumAvailableCredit>
 	<EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Illinois PS145</ID> 
-			</EducationOrgIdentificationCode>
+			<StateOrganizationId>Illinois PS145</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>
@@ -507,9 +489,7 @@
     </MaximumAvailableCredit>
 	<EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-			</EducationOrgIdentificationCode>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>
@@ -529,9 +509,7 @@
     </MaximumAvailableCredit>
 	<EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-			</EducationOrgIdentificationCode>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>
@@ -551,9 +529,7 @@
     </MaximumAvailableCredit>
 	<EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-			</EducationOrgIdentificationCode>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>
@@ -575,9 +551,7 @@
     </MaximumAvailableCredit>
 	<EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-			</EducationOrgIdentificationCode>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>
@@ -598,9 +572,7 @@
     </MaximumAvailableCredit>
 	<EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-			</EducationOrgIdentificationCode>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>
@@ -621,9 +593,7 @@
     </MaximumAvailableCredit>
 	<EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>Sunset Central High School</ID> 
-			</EducationOrgIdentificationCode>
+			<StateOrganizationId>Sunset Central High School</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>

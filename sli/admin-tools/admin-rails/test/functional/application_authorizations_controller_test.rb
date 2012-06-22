@@ -19,6 +19,11 @@ class ApplicationAuthorizationsControllerTest < ActionController::TestCase
     assert_redirected_to assigns(:application_authorization)
   end
   
+  test "should fail if we are an operator" do
+    session[:roles] = ["SLC Operator"]
+    post :index
+    assert(!session.has_key?("roles"), "Session should be reset after we are given a forbidden")
+  end
 
   test "should update application_authorization" do
     session[:roles] = ["LEA Administrator"]

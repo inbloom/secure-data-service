@@ -18,13 +18,15 @@ class AppsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "cannot create as operator" do
-    assert_raise(ActiveResource::ForbiddenAccess) {post :create, {:app => @app_fixtures["new"], :app_behavior => "Full Window App"}, {:roles => ["Operator","IT Administrator"]}}
-  end
-  
-  test "cannot index as realm admin" do
-    assert_raise(ActiveResource::ForbiddenAccess) {get :index, {}, {:roles => ["Realm Administrator"]}}
-  end
+  # test "cannot create as operator" do
+  #   post :create, {:app => @app_fixtures["new"], :app_behavior => "Full Window App"}, {:roles => ["Operator","IT Administrator"]}
+  #   
+  # end
+  # 
+  # test "cannot index as realm admin" do
+  #   get :index, {}, {:roles => ["Realm Administrator"]}
+  #   
+  # end
 
   # test "should create app" do
   #   assert_difference("#{@Apps.count}") do

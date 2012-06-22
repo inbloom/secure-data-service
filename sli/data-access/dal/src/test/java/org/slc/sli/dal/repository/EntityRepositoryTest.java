@@ -12,13 +12,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.joda.time.DateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.MongoEntity;
@@ -33,7 +35,7 @@ import org.slc.sli.domain.Repository;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class EntityRepositoryTest {
 
-    @Autowired
+    @Resource(name = "mongoEntityRepository")
     private Repository<Entity> repository;
 
     @Test
@@ -189,6 +191,7 @@ public class EntityRepositoryTest {
 
     @Test
     public void testCount() {
+        TenantContext.setTenantId("SLIUnitTest");
         repository.deleteAll("student");
         repository.create("student", buildTestStudentEntity());
         repository.create("student", buildTestStudentEntity());

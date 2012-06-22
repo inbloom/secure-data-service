@@ -1,7 +1,0 @@
-{
-    "collection": "attendance",
-    "indexFields":
-    [
-        {"name" : "locationInSourceFile" , "order" : "1"}
-    ]
-}

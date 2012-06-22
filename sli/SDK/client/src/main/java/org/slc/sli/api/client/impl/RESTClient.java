@@ -14,6 +14,7 @@ import javax.ws.rs.client.ClientFactory;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.ResponseBuilder;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -22,7 +23,6 @@ import org.scribe.model.OAuthConfig;
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
-
 import org.slc.sli.api.client.constants.v1.PathConstants;
 import org.slc.sli.api.client.security.SliApi;
 
@@ -83,13 +83,16 @@ public class RESTClient {
     /**
      * Connect to the IDP and redirect to the callback URL.
      * 
-     * @param authorizationCode
-     *            Authorization code returned by oauth.
-     * @return String authorization token from the OAuth service.
+     * @param requestCode
+     *            Authorization request code returned by oauth to the callbackURL.
+     * @param authorizationToken
+     *            for the authenticated user, or null if the request failed.
+     * @return Response containing the status code, headers, and body values.
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public String connect(final String authorizationCode) throws MalformedURLException, URISyntaxException {
+    public Response connect(final String authorizationCode, String authorizationToken) throws MalformedURLException,
+            URISyntaxException {
         
         logger.log(
                 Level.INFO,
@@ -102,10 +105,28 @@ public class RESTClient {
         logger.log(Level.INFO, String.format("Oauth request token %s", authorizationCode));
         
         Verifier verifier = new Verifier(authorizationCode);
-        accessToken = service.getAccessToken(new Token(config.getApiSecret(), authorizationCode), verifier);
         
-        sessionToken = accessToken.getToken();
-        return accessToken.getRawResponse();
+        Token t = null;
+        
+        SliApi.TokenResponse r = ((SliApi.SLIOauth20ServiceImpl) service).getAccessToken(
+                new Token(config.getApiSecret(), authorizationCode), verifier, t);
+        
+        if (r != null && r.token != null) {
+            accessToken = r.token;
+            sessionToken = accessToken.getToken();
+        }
+        
+        ResponseBuilder builder = Response.status(r.oauthResponse.getCode());
+        for (Map.Entry<String, String> entry : r.oauthResponse.getHeaders().entrySet()) {
+            if (entry.getKey() == null) {
+                builder.header("Status", entry.getValue());
+            } else {
+                builder.header(entry.getKey(), entry.getValue());
+            }
+        }
+        builder.entity(r.oauthResponse.getBody());
+        
+        return builder.build();
     }
     
     /**
@@ -350,13 +371,15 @@ public class RESTClient {
      */
     private Invocation.Builder getCommonRequestBuilder(Invocation.Builder builder, Map<String, Object> headers) {
         
-        if (headers == null)
+        if (headers == null) {
             headers = new HashMap<String, Object>();
+        }
         
         headers.put("Authorization", String.format("Bearer %s", sessionToken));
         
-        for (Map.Entry<String, Object> entry : headers.entrySet())
+        for (Map.Entry<String, Object> entry : headers.entrySet()) {
             builder.header(entry.getKey(), entry.getValue());
+        }
         
         return builder;
     }

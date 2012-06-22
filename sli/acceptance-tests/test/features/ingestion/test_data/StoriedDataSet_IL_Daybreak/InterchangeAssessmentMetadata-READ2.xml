@@ -14,7 +14,6 @@
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
         <CodeValue>Level 1</CodeValue>
-        <Description>At or Above Benchmark</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
       <MinimumScore>113</MinimumScore>
@@ -23,7 +22,6 @@
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
         <CodeValue>Level 2</CodeValue>
-        <Description>Below Benchmark</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
       <MinimumScore>97</MinimumScore>
@@ -32,7 +30,6 @@
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
         <CodeValue>Level 3</CodeValue>
-        <Description>Well Below Benchmark</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
       <MinimumScore>0</MinimumScore>
@@ -63,7 +60,6 @@
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
         <CodeValue>Level 1</CodeValue>
-        <Description>At or Above Benchmark</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
       <MinimumScore>130</MinimumScore>
@@ -72,7 +68,6 @@
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
         <CodeValue>Level 2</CodeValue>
-        <Description>Below Benchmark</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
       <MinimumScore>100</MinimumScore>
@@ -81,7 +76,6 @@
     <AssessmentPerformanceLevel>
       <PerformanceLevel>
         <CodeValue>Level 3</CodeValue>
-        <Description>Well Below Benchmark</Description>
       </PerformanceLevel>
       <AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
       <MinimumScore>0</MinimumScore>

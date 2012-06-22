@@ -116,4 +116,18 @@ public class NeutralRecordEntity implements Entity {
         this.neutralRecord = neutralRecord;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder entity = new StringBuilder();
+        entity.append("[ Neutral Record Entity: ");
+        entity.append("{type: ").append(getType()).append(" }, ");
+        entity.append("{entity id: ").append(getEntityId()).append(" }, ");
+        entity.append("{local id: ").append(getLocalId()).append(" }, ");
+        entity.append("{local parent ids: ").append(getLocalParentIds()).append(" }, ");
+        entity.append("{body: ").append(getBody()).append(" }, ");
+        entity.append("{metadata: ").append(getMetaData()).append(" }, ");
+        entity.append("{record number: ").append(getRecordNumberInFile()).append(" }");
+        entity.append(" ]");
+        return entity.toString();
+    }
 }

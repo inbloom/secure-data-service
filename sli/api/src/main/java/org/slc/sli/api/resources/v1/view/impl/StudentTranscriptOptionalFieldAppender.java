@@ -1,7 +1,6 @@
 package org.slc.sli.api.resources.v1.view.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.slc.sli.api.client.constants.ResourceNames;
@@ -64,6 +63,10 @@ public class StudentTranscriptOptionalFieldAppender implements OptionalFieldAppe
         List<String> courseIds = optionalFieldAppenderHelper.getIdList(courseOfferings, ParameterConstants.COURSE_ID);
         List<EntityBody> courses = optionalFieldAppenderHelper.queryEntities(ResourceNames.COURSES, "_id", courseIds);
         
+        //get the student transcripts for the students
+        List<EntityBody> studentAcademicRecordsForStudents = optionalFieldAppenderHelper.queryEntities(ResourceNames.STUDENT_ACADEMIC_RECORDS,
+                ParameterConstants.STUDENT_ID, studentIds);
+
         for (EntityBody student : entities) {
             String studentId = (String) student.get("id");
             
@@ -94,8 +97,9 @@ public class StudentTranscriptOptionalFieldAppender implements OptionalFieldAppe
                         (String) courseOfferingForSection.get(ParameterConstants.COURSE_ID));
 
                 //get the student transcripts for the student
-                List<EntityBody> studentAcademicRecordsForStudent = optionalFieldAppenderHelper.queryEntities(ResourceNames.STUDENT_ACADEMIC_RECORDS,
-                        ParameterConstants.STUDENT_ID, Arrays.asList(studentId));
+                List<EntityBody> studentAcademicRecordsForStudent = optionalFieldAppenderHelper.getEntitySubList(studentAcademicRecordsForStudents,
+                        ParameterConstants.STUDENT_ID, studentId);
+
                 List<String> studentAcademicRecordIdsForStudent = optionalFieldAppenderHelper.getIdList(studentAcademicRecordsForStudent, "id");
 
                 List<EntityBody> studentTranscriptsForStudent = new ArrayList<EntityBody>();

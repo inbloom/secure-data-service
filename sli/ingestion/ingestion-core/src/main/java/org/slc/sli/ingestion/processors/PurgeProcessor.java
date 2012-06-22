@@ -16,6 +16,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
@@ -78,6 +79,18 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
 
     @Override
     public void process(Exchange exchange) throws Exception {
+
+//        //We need to extract the TenantID for each thread, so the DAL has access to it.
+//        try {
+//            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
+//            ControlFile cf = cfd.getFileItem();
+//            String tenantId = cf.getConfigProperties().getProperty("tenantId");
+//            TenantContext.setTenantId(tenantId);
+//        } catch (NullPointerException ex) {
+//            logger.error("Could Not find Tenant ID.");
+//            TenantContext.setTenantId(null);
+//        }
+
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
         String batchJobId = getBatchJobId(exchange);
@@ -86,6 +99,9 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
             NewBatchJob newJob = null;
             try {
                 newJob = batchJobDAO.findBatchJobById(batchJobId);
+
+                TenantContext.setTenantId(newJob.getTenantId());
+
 
                 String tenantId = newJob.getProperty(TENANT_ID);
                 if (tenantId == null) {
@@ -121,7 +137,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
         String collectionName;
         while (iter.hasNext()) {
             collectionName = iter.next();
-            if (isSystemCollection(collectionName)) {
+            if (isExcludedCollection(collectionName)) {
                 continue;
             }
             mongoTemplate.remove(searchTenantId, collectionName);
@@ -131,7 +147,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
 
     }
 
-    private boolean isSystemCollection(String collectionName) {
+    private boolean isExcludedCollection(String collectionName) {
         for (String excludedCollectionName : excludeCollections) {
             if (collectionName.equals(excludedCollectionName)) {
                 return true;
@@ -152,7 +168,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
     private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        exchange.setProperty("purge.complete", "Purge process complete.");
+        exchange.setProperty("purge.complete", "Errors encountered during purge process");
         LogUtil.error(logger, "Error processing batch job " + batchJobId, exception);
 
         if (batchJobId != null) {

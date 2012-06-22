@@ -1,2 +1,0 @@
-{ "_id" : "2ea3734b-961c-11e1-b285-101f74582c4c", "type" : "userAccount", "body" : { "lastName" : "Roberts", "environment" : "Production", "userName" : "bob1@bob.com", "firstName" : "Bob", "validated" : false }, "metaData" : { "tenantId" : "IL" } }
-{ "_id" : "376f098c-961c-11e1-b285-101f74582c4c", "type" : "userAccount", "body" : { "lastName" : "Roberts", "environment" : "Sandbox", "userName" : "bob2@bob.com", "firstName" : "Bob", "validated" : true }, "metaData" : { "tenantId" : "IL" } }

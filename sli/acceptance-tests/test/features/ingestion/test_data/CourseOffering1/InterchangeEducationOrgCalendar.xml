@@ -9,9 +9,7 @@
 
   <GradingPeriod id="GRDP_20110527">
     <GradingPeriodIdentity>
-		<EducationOrgIdentificationCode IdentificationSystem="School">
-			<ID>IL</ID>
-		</EducationOrgIdentificationCode>
+		<StateOrganizationId>IL</StateOrganizationId>
 		<GradingPeriod>End of Year</GradingPeriod>
 		<SchoolYear>2011-2012</SchoolYear>
 	</GradingPeriodIdentity>

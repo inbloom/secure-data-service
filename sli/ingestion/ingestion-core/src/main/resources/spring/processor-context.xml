@@ -6,16 +6,17 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-
     <util:list id="excluded" value-type="java.lang.String">
-            <value>system.indexes</value>
-            <value>system.js</value>
+        <value>system.indexes</value>
+        <value>system.js</value>
+        <value>system.namespaces</value>
+        <value>system.profile</value>
+        <value>system.users</value>
+        <value>tenant</value>
+        <value>userAccount</value>
     </util:list>
 
-<bean id="purgeProcessor" class="org.slc.sli.ingestion.processors.PurgeProcessor">
-    <property name="excludeCollections" ref="excluded"/>
-</bean>
-
+    <bean id="purgeProcessor" class="org.slc.sli.ingestion.processors.PurgeProcessor">
+        <property name="excludeCollections" ref="excluded"/>
+    </bean>
 </beans>
-
-

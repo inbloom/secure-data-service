@@ -10,6 +10,8 @@ import org.slf4j.Logger;
  */
 public class LogUtil {
 
+    private static boolean includeExceptionMessage;
+
     /**
      * Write the appropriate trace message to the log file
      *
@@ -110,6 +112,11 @@ public class LogUtil {
      *         the new message-safe exception
      */
     private static Exception createLoggingException(Exception exception) {
+
+        if (includeExceptionMessage) {
+            return exception;
+        }
+
         Exception loggingException;
         if (exception.getCause() == null) {
             loggingException = new Exception(exception.getClass().toString());
@@ -118,7 +125,15 @@ public class LogUtil {
                     createLoggingException((Exception) exception.getCause()));
         }
         loggingException.setStackTrace(exception.getStackTrace());
-        return loggingException;
+        return exception;
+    }
+
+    public static boolean isIncludeExceptionMessage() {
+        return includeExceptionMessage;
+    }
+
+    public static void setIncludeExceptionMessage(boolean includeExceptionMessage) {
+        LogUtil.includeExceptionMessage = includeExceptionMessage;
     }
 
 }

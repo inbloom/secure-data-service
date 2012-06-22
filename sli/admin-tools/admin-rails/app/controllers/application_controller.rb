@@ -12,10 +12,15 @@ class ApplicationController < ActionController::Base
     handle_oauth
   end
   
+  rescue_from ActiveResource::ResourceNotFound do |exception|
+    logger.info {"Resource not found."}
+    render_404
+  end
+  
   rescue_from ActiveResource::ForbiddenAccess do |exception|
     logger.info { "Forbidden access."}
     reset_session
-    raise exception
+    render_403
   end
   
   rescue_from ActiveResource::ServerError do |exception|
@@ -51,12 +56,12 @@ class ApplicationController < ActionController::Base
         SessionResource.access_token = oauth.get_token(params[:code])
         check = Check.get("")
         email = SupportEmail.get("")
-        logger.debug { "Email #{email}"}
         session[:support_email] = email
         session[:full_name] ||= check["full_name"]   
         session[:adminRealm] = check["adminRealm"]
         session[:roles] = check["sliRoles"]
         session[:edOrg] = check["edOrg"]
+        session[:external_id] = check["external_id"]
       else
         admin_realm = "#{APP_CONFIG['admin_realm']}"
         redirect_to oauth.authorize_url + "&Realm=" + CGI::escape(admin_realm) + "&state=" + CGI::escape(form_authenticity_token)
@@ -96,6 +101,18 @@ class ApplicationController < ActionController::Base
 
   def is_sea_admin?
     session[:roles].include? "SEA Administrator"
+  end
+
+  def is_realm_admin?
+    session[:roles].include?("Realm Administrator")
+  end
+
+  def is_ingestion_user?
+    session[:roles].include?("Ingestion User")
+  end
+
+  def is_it_admin?
+    session[:roles].include?("IT Administrator")
   end
 
   def get_tenant

@@ -18,7 +18,7 @@ default:
         sli.trust.certificates: ../common/common-encrypt/trust/trustedCertificates
 
         # Support Email (only used in api)
-        sli.support.email: sli@example.com
+        sli.support.email: slcoperator-email@slidev.org
 
         # Session lengths in milliseconds (5 minutes - only in api)
         sli.session.length: 300000
@@ -62,6 +62,9 @@ default:
         sli.mongodb.user:
         sli.mongodb.pass:
 
+        #Connection pool
+        sli.mongodb.connections: 20
+
         # Ingestion Staging MongoDB options (used in ingestion to configure the datalayer)
         sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: localhost
@@ -76,10 +79,19 @@ default:
         sli.ingestion.batchjob.mongodb.port: 27017
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
+        sli.ingestion.errors.tracking: true
+        sli.ingestion.warnings.tracking: true
+        sli.ingestion.staging.index.policy: pre
 
         # Test specific properties (only used in ingestion)
         sli.test.prop: ci DAL Context Test Property
 
+  # Write concerns
+        
+        sli.ingestion.mongotemplate.writeConcern: SAFE
+        sli.ingestion.staging.mongotemplate.writeConcern: SAFE
+        sli.default.mongotemplate.writeConcern: SAFE
+      
     ingestion: &INGESTION-DEFAULT
 
         # ingestion landing zone
@@ -91,6 +103,12 @@ default:
         # ingestion command topic
         sli.ingestion.topic.command: seda:ingestion
 
+        # ingestion exception message logging
+        sli.ingestion.exception.message.log: true
+
+        # concurrent or serial
+        sli.ingestion.processor.edfi: concurrent
+        sli.ingestion.processor.xml: concurrent 
         # ingestion queue definitions (only used in ingestion)
         sli.ingestion.queue.workItem.host:
         sli.ingestion.queue.workItem.port:
@@ -103,7 +121,7 @@ default:
         sli.ingestion.queue.maestro.host:
         sli.ingestion.queue.maestro.port:
         sli.ingestion.queue.maestro.queueURI: seda:IngestionMaestro
-        sli.ingestion.queue.maestro.concurrentConsumers: 5
+        sli.ingestion.queue.maestro.concurrentConsumers: 1
         sli.ingestion.queue.maestro.uriOptions:
         sli.ingestion.queue.maestro.keystore:
         sli.ingestion.queue.maestro.keystorePassword:
@@ -116,12 +134,23 @@ default:
         sli.ingestion.queue.pit.uriOptions:
         sli.ingestion.queue.pit.keystore:
         sli.ingestion.queue.pit.keystorePassword:
-        sli.ingestion.splitChunkSize: 5000
+        
         sli.ingestion.nodeType: standalone
         sli.ingestion.tenant.deriveTenants: true
         sli.ingestion.tenant.loadDefaultTenants: true
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
+        sli.ingestion.cache.type: inmemory
+        sli.ingestion.cache.servers: 
+        sli.ingestion.cache.opTimeout: 10
+        
+        #Work Note Chunking Parameters
+        sli.ingestion.split.chunk.size: 500
+        sli.ingestion.split.threshold.percentage: 0.30
+
+        #Reference Schema reference check
+        sli.ingestion.referenceSchema.referenceCheckEnabled: false
+        
     dashboard: &DASHBOARD-DEFAULT
 
         # Used in dashboard application context
@@ -169,9 +198,9 @@ default:
     app: &APPS-DEFAULT
         bootstrap.app.keys: admin,databrowser,dashboard
         bootstrap.app.admin.template: applications/admin.json
-        bootstrap.app.admin.name: Admin Apps 
+        bootstrap.app.admin.name: Admin Apps
         bootstrap.app.admin.description: The SLC Administration Application allows you to change a variety of system settings.
-        bootstrap.app.admin.version: 0.0 
+        bootstrap.app.admin.version: 0.0
         bootstrap.app.databrowser.template: applications/databrowser.json
         bootstrap.app.databrowser.guid: eab130ba-6e5a-ab75-864c-e03722e523c2
         bootstrap.app.databrowser.name: SLC Data Browser
@@ -252,8 +281,6 @@ acceptance-tests:
         # Security SAML
         sli.security.sp.issuerName: https://nxbuild.slidev.org
 
-        #Support Email
-        sli.support.email: sli@example.com
     data-access:
         <<: *DATA-ACCESS-DEFAULT
         # acceptance-tests/data-access/db.properties
@@ -267,7 +294,8 @@ acceptance-tests:
         sli.mongodb.port: 27017
         #sli.mongodb.user =
         #sli.mongodb.pass =
-
+        
+        
         sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: nxbuild.slidev.org
         sli.ingestion.staging.mongodb.port: 27017
@@ -281,13 +309,14 @@ acceptance-tests:
         sli.ingestion.batchjob.mongodb.port: 27017
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
-
+        sli.ingestion.errors.tracking: true
+        sli.ingestion.warnings.tracking: true
     ingestion:
         <<: *INGESTION-DEFAULT
         # acceptance-tests/ingestion/queue.properties
         sli.ingestion.queue.workItem.host: devmq1.slidev.org
         sli.ingestion.queue.workItem.port: 5445
-        sli.ingestion.queue.workItem.queueURI: jms-hornetq:IngestionWorkItemDemo
+        sli.ingestion.queue.workItem.queueURI: activemq:queue:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
@@ -297,8 +326,8 @@ acceptance-tests:
         # Symphony (maestro + pit) queue config
         sli.ingestion.queue.maestro.host: devmq1.slidev.org
         sli.ingestion.queue.maestro.port: 5445
-        sli.ingestion.queue.maestro.queueURI: jms-hornetq:IngestionMaestro
-        sli.ingestion.queue.maestro.concurrentConsumers: 5
+        sli.ingestion.queue.maestro.queueURI: activemq:queue:IngestionMaestro
+        sli.ingestion.queue.maestro.concurrentConsumers: 1
         sli.ingestion.queue.maestro.uriOptions: '&transferExchange=true'
         sli.ingestion.queue.maestro.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.maestro.keystorePassword: Y0d@kn0ws
@@ -306,11 +335,14 @@ acceptance-tests:
         # Pit (worker) nodes
         sli.ingestion.queue.pit.host: devmq1.slidev.org
         sli.ingestion.queue.pit.port: 5445
-        sli.ingestion.queue.pit.queueURI: jms-hornetq:IngestionPit
+        sli.ingestion.queue.pit.queueURI: activemq:queue:IngestionPit
         sli.ingestion.queue.pit.concurrentConsumers: 5
         sli.ingestion.queue.pit.uriOptions: '&transferExchange=true'
         sli.ingestion.queue.pit.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.pit.keystorePassword: Y0d@kn0ws
+
+        #Reference Schema reference check
+        sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -335,8 +367,6 @@ ci:
         # Trusted Certificate Authority Store
         sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
 
-        #Support Email
-        sli.support.email: sli@example.com
 
         api.perf.log.path:
     data-access:
@@ -368,7 +398,8 @@ ci:
         sli.ingestion.batchjob.mongodb.port: 27017
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
-
+        sli.ingestion.errors.tracking: true
+        sli.ingestion.warnings.tracking: true
     ingestion:
         <<: *INGESTION-DEFAULT
         # ci/ingestion/ingestion_conf.properties
@@ -377,10 +408,13 @@ ci:
         # ci/ingestion/queue.properties
         sli.ingestion.queue.workItem.host: devmq1.slidev.org
         sli.ingestion.queue.workItem.port: 5445
-        sli.ingestion.queue.workItem.queueURI: jms-hornetq:IngestionWorkItemAccept
+        sli.ingestion.queue.workItem.queueURI: activemq:queue:IngestionWorkItemAccept
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.workItem.keystorePassword: Y0d@kn0ws
+
+        #Reference Schema reference check
+        sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -419,9 +453,6 @@ dev:
         # Trusted Certificate Authority Store
         sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
 
-        #Support Email
-        sli.support.email: sli@example.com
-
         api.perf.log.path: /home/api/logs/
     data-access:
         <<: *DATA-ACCESS-DEFAULT
@@ -449,7 +480,8 @@ dev:
         sli.ingestion.batchjob.mongodb.port: 27017
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
-
+        sli.ingestion.errors.tracking: true
+        sli.ingestion.warnings.tracking: true
     ingestion:
         <<: *INGESTION-DEFAULT
         # dev/ingestion/ingestion_conf.properties
@@ -462,6 +494,9 @@ dev:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
         sli.ingestion.queue.workItem.keystorePassword:
+
+        #Reference Schema reference check
+        sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -532,7 +567,8 @@ devjuggernauts:
         sli.ingestion.batchjob.mongodb.port: 27017
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
-
+        sli.ingestion.errors.tracking: true
+        sli.ingestion.warnings.tracking: true
     ingestion:
         <<: *INGESTION-DEFAULT
         # dev/ingestion/ingestion_conf.properties
@@ -546,6 +582,9 @@ devjuggernauts:
         sli.ingestion.queue.workItem.keystore:
         sli.ingestion.queue.workItem.keystorePassword:
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
+
+        #Reference Schema reference check
+        sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
     dashboard:
         <<: *DASHBOARD-DEFAULT
@@ -587,8 +626,6 @@ devapp1:
         # Trusted Certificate Authority Store
         sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
 
-        #Support Email
-        sli.support.email: sli@example.com
     data-access:
         <<: *DATA-ACCESS-DEFAULT
         # devapp1/data-access/db.properties
@@ -614,7 +651,8 @@ devapp1:
         sli.ingestion.batchjob.mongodb.port: 27017
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
-
+        sli.ingestion.errors.tracking: true
+        sli.ingestion.warnings.tracking: true
     ingestion:
         <<: *INGESTION-DEFAULT
         # devapp1/ingestion/ingestion_conf.properties
@@ -627,6 +665,9 @@ devapp1:
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
         sli.ingestion.queue.workItem.keystorePassword:
+
+        #Reference Schema reference check
+        sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
     misc:
         <<: *MISC-DEFAULT
@@ -648,16 +689,13 @@ local:
         # Trusted Certificate Authority Store
         sli.trust.certificates: ../common/common-encrypt/trust/trustedCertificates
 
-        #Support Email
-        sli.support.email: sli@example.com
-
         api.perf.log.path: target/apilogs/logs
 
         sli.tenant.landingZoneMountPoint: target/ingestion/lz/inbound/
         bootstrap.app.conf: ${sli.conf}
         #sli.tenant.ingestionServers: localhost
         #sli.landingZone.server: localhost
-        
+
         bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=Local
         bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=Local
 
@@ -692,7 +730,10 @@ local:
         sli.ingestion.batchjob.mongodb.port: 27017
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
-
+        sli.ingestion.errors.tracking: true
+        sli.ingestion.warnings.tracking: true
+        
+      
     ingestion: &INGESTION-LOCAL
         <<: *INGESTION-DEFAULT
         landingzone.inbounddir: target/ingestion/lz/inbound
@@ -704,6 +745,9 @@ local:
         sli.ingestion.queue.workItem.keystore:
         sli.ingestion.queue.workItem.keystorePassword:
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
+
+        #Reference Schema reference check
+        sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
     dashboard: &DASHBOARD-LOCAL
         <<: *DASHBOARD-DEFAULT
@@ -727,14 +771,14 @@ local:
 
     misc: &MISC-LOCAL
         <<: *MISC-DEFAULT
-        
+
          # Name of the SLIAdmin realm used to authenticate sandbox developers when no realm specified
         sli.simple-idp.sliAdminRealmName: Local
         # LDAP base URLs, comma separated list of ldap servers
         sli.simple-idp.ldap.urls: ldap://ldap.slidev.org:389
         # LDAP base DN
         sli.simple-idp.ldap.base: ou=DevTest,dc=slidev,dc=org
-        
+
         # Log4J options
         sli.log4j.rootLogger: INFO, out
         sli.log4j.logger.org.apache.camel: WARN
@@ -841,9 +885,6 @@ team:
         # Security SAML
         sli.security.sp.issuerName: https://${sli.dev.subdomain}.slidev.org
 
-        #Support Email
-        sli.support.email: sli@example.com
-
         api.perf.log.path: /storage/logs
         bootstrap.sandbox.createSandboxRealm: false
         bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
@@ -879,7 +920,8 @@ team:
         sli.ingestion.batchjob.mongodb.port: 27017
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
-
+        sli.ingestion.errors.tracking: true
+        sli.ingestion.warnings.tracking: true
     ingestion: &INGESTION-TEAM
         <<: *INGESTION-DEFAULT
         # team/ingestion/ingestion_conf.properties
@@ -901,7 +943,7 @@ team:
         sli.ingestion.queue.maestro.host: localhost
         sli.ingestion.queue.maestro.port: 61616
         sli.ingestion.queue.maestro.queueURI: activemq:queue:ingestion.maestro
-        sli.ingestion.queue.maestro.concurrentConsumers: 5
+        sli.ingestion.queue.maestro.concurrentConsumers: 1
         sli.ingestion.queue.maestro.uriOptions: '&transferExchange=true'
         sli.ingestion.queue.maestro.keystore: /opt/tomcat/ssl/tomcat.keystore
         sli.ingestion.queue.maestro.keystorePassword: Y0d@kn0ws
@@ -916,6 +958,9 @@ team:
         sli.ingestion.queue.pit.keystorePassword: Y0d@kn0ws
 
         sli.ingestion.tenant.loadDefaultTenants: true
+
+        #Reference Schema reference check
+        sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
     dashboard: &DASHBOARD-TEAM
         <<: *DASHBOARD-DEFAULT
@@ -990,6 +1035,8 @@ perf:
         sli.ingestion.batchjob.mongodb.port: 27017
         sli.ingestion.batchjob.mongodb.user:
         sli.ingestion.batchjob.mongodb.pass:
+        sli.ingestion.errors.tracking: true
+        sli.ingestion.warnings.tracking: true
     ingestion:
         <<: *INGESTION-DEFAULT
         # perf/ingestion/ingestion_conf.properties
@@ -1006,6 +1053,9 @@ perf:
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
+
+        #Reference Schema reference check
+        sli.ingestion.referenceSchema.referenceCheckEnabled: false
 
 test-local:
     test:
@@ -1076,6 +1126,9 @@ test-perf:
         sli.ingestion.tenant.loadDefaultTenants: false
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
+        #Reference Schema reference check
+        sli.ingestion.referenceSchema.referenceCheckEnabled: false
+
 sandbox:
     api:
         <<: *API-TEAM
@@ -1124,11 +1177,29 @@ nxteam:
         sli.ingestion.queue.maestro.host: nxmaestro.slidev.org
         sli.ingestion.queue.pit.host: nxmaestro.slidev.org
         sli.ingestion.tenant.loadDefaultTenants: true
+        sli.ingestion.processor.edfi: concurrent
+        sli.ingestion.processor.xml:  concurrent
+        sli.ingestion.queue.maestro.concurrentConsumers: 5
+        sli.ingestion.queue.pit.concurrentConsumers: 30
+        sli.ingestion.cache.type: inmemory
+        sli.ingestion.cache.opTimeout: 100
+        sli.ingestion.cache.servers: localhost:11211
+        #sli.ingestion.cache.servers: nxmemcache.slidev.org:11211, nxmemcache2.slidev.org:11211,nxmemcache3.slidev.org:11211, nxmemcache4.slidev.org:11211
+
     data-access: &DATA-ACCESS-NXTEAM
         <<: *DATA-ACCESS-TEAM
-        sli.mongodb.host: nxmongo3.slidev.org
-        sli.ingestion.staging.mongodb.host: nxmongo4.slidev.org
+        sli.mongodb.host: localhost 
+        sli.mongodb.port: 27017
+        sli.ingestion.staging.mongodb.host: localhost
+        sli.ingestion.staging.mongodb.port: 27018
         sli.ingestion.batchjob.mongodb.host: nxmongo5.slidev.org
+        sli.mongodb.connections: 30
+
+        sli.ingestion.mongotemplate.writeConcern: SAFE
+        sli.default.mongotemplate.writeConcern: SAFE
+        sli.ingestion.staging.mongotemplate.writeConcern: SAFE
+        sli.ingestion.errors.tracking: true
+        sli.ingestion.warnings.tracking: true
     misc: &MISC-NXTEAM
         <<: *MISC-TEAM
 
@@ -1141,6 +1212,10 @@ nxteam-maestro:
     ingestion:
         <<: *INGESTION-NXTEAM
         sli.ingestion.nodeType: maestro
+        sli.ingestion.cache.type: inmemory
+        sli.ingestion.cache.opTimeout: 100
+        sli.ingestion.cache.servers: nxmemcache.slidev.org:11211, nxmemcache2.slidev.org:11211,nxmemcache3.slidev.org:11211, nxmemcache4.slidev.org:11211
+
     data-access:
         <<: *DATA-ACCESS-NXTEAM
         sli.ingestion.staging.clearOnCompletion: transformed

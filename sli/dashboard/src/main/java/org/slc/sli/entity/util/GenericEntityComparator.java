@@ -141,6 +141,7 @@ public class GenericEntityComparator implements Comparator<Map<String, Object>> 
             // otherwise, all field values not in the priority list have equal precedence
             return o1Priority == o2Priority ? 0 : (o1Priority < o2Priority ? -1 : 1);
         } else {
+            int result = 0;
             // compare using the underlying object's Comparable interface
 
             // This comparison behaves "as expected", e.g. smaller Integers come before bigger
@@ -156,34 +157,37 @@ public class GenericEntityComparator implements Comparator<Map<String, Object>> 
                 if (String.class.equals(this.castingClass)) {
                     o1TypeComparable = (String) o1Type;
                     o2TypeComparable = (String) o2Type;
+                    result = o1TypeComparable.compareTo(o2TypeComparable);
                 } else {
                     try {
                         // throwing exception is very expensive.
                         // so, check an object is null or not before calling toString method.
                         // if an object is null, then the object has the lowest priority
-                        if (o1Type != null && o2Type == null) {
-                            return -1;
+                        if (o1Type != null && o2Type != null) {
+                            // Let's assume that all Comparable implemented class takes one String
+                            // object parameter in its constructor.
+                            Constructor<?> constructor = this.castingClass.getConstructor(String.class);
+                            o1TypeComparable = (Comparable) constructor.newInstance(o1Type.toString());
+                            o2TypeComparable = (Comparable) constructor.newInstance(o2Type.toString());
+                        }
+                        else if (o1Type != null && o2Type == null) {
+                            result = -1;
                         } else if (o1Type == null && o2Type != null) {
-                            return 1;
+                            result = 1;
                         } else if (o1Type == null && o2Type == null) {
-                            return 0;
+                            result = 0;
                         }
 
-                        // Let's assume that all Comparable implemented class takes one String
-                        // object parameter in its constructor.
-                        Constructor<?> constructor = this.castingClass.getConstructor(String.class);
-                        o1TypeComparable = (Comparable) constructor.newInstance(o1Type.toString());
-                        o2TypeComparable = (Comparable) constructor.newInstance(o2Type.toString());
                     } catch (Exception e) {
-                        return 0;
+                        result = 0;
                     }
 
                 }
-                return o1TypeComparable.compareTo(o2TypeComparable);
             } catch (ClassCastException cce) {
                 // does not implement Comparable, cannot be compared
-                return 0;
+                result = 0;
             }
+            return result;
         }
     }
 }

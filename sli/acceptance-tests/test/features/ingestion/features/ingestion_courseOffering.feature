@@ -21,11 +21,11 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
      | educationOrganization       | 1     |
-     | courseOffering              | 2     |
-     | session                     | 1     |
-     | course                      | 1     |
-     | gradingPeriod               | 1     |
      | calendarDate                | 1     |
+     | gradingPeriod               | 1     |
+     | course                      | 1     |
+     | session                     | 1     |
+     | courseOffering              | 2     |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue             | searchType           |
      | courseOffering              | 1                   | body.localCourseCode        | ACC-TEST-COURSE-CODE-1  | string               |

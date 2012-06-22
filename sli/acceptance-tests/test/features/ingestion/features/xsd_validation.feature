@@ -51,6 +51,7 @@ Scenario: InterchangeStudentGrade.xml Ed-Fi XSD Validation - <CompetencyLevel> u
     And the following collections are empty in datastore:
       | collectionName              |
       | student                     |
+      | calendarDate                |
       | course                      |
 	  | courseOffering              |
       | educationOrganization       |
@@ -65,14 +66,15 @@ Scenario: InterchangeStudentGrade.xml Ed-Fi XSD Validation - <CompetencyLevel> u
 
     Then I should see following map of entry counts in the corresponding collections:
       | collectionName              | count |
+      | educationOrganization       | 3     |
       | student                     | 1     |
       | course                      | 1     |
-	  | courseOffering              | 1     |
-      | educationOrganization       | 3     |
+      | gradingPeriod               | 3     |
       | gradebookEntry              | 1     |
-      | schoolSessionAssociation    | 1     |
-      | section                     | 1     |
       | session                     | 1     |
+      | schoolSessionAssociation    | 1     |
+	  | courseOffering              | 1     |
+      | section                     | 1     |
       | studentSectionGradebookEntry| 1     |
     And I check to find if record is in collection:
       | collectionName              | expectedRecordCount | searchParameter                    | searchValue           | searchType        |

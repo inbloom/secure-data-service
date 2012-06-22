@@ -1,16 +1,22 @@
 package org.slc.sli.api.resources.v1.association;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
+
 import com.sun.jersey.core.util.MultivaluedMapImpl;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.resources.util.ResourceTestUtil;
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.resources.v1.entity.CourseResource;
-import org.slc.sli.api.resources.v1.entity.SessionResource;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -18,16 +24,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.resources.util.ResourceTestUtil;
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.resources.v1.entity.CourseResource;
+import org.slc.sli.api.resources.v1.entity.SessionResource;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 
 /**
  * JUnit tests for CourseOfferingResource
@@ -52,16 +55,17 @@ public class CourseOfferingResourceTest {
     private CourseResource courseResource;
     @Autowired
     private CourseOfferingResource courseOfferingResource;
-
+    
     private UriInfo uriInfo;
     private HttpHeaders httpHeaders;
 
     @Before
     public void setup() throws Exception {
+
         uriInfo = ResourceTestUtil.buildMockUriInfo(null);
 
         // inject administrator security context for unit testing
-        injector.setAdminContextWithElevatedRights();
+        injector.setAccessAllAdminContextWithElevatedRights();
 
         List<String> acceptRequestHeaders = new ArrayList<String>();
         acceptRequestHeaders.add(HypermediaType.VENDOR_SLC_JSON);
@@ -73,6 +77,7 @@ public class CourseOfferingResourceTest {
 
     @Test
     public void testGetCourses() {
+        
         Response createResponse = sessionResource.create(new EntityBody(
                 ResourceTestUtil.createTestEntity(sessionResourceName)), httpHeaders, uriInfo);
         String sessionId = ResourceTestUtil.parseIdFromLocation(createResponse);

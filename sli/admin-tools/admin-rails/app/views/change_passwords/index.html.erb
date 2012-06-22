@@ -1,0 +1,8 @@
+<h1>User Settings</h1>
+<br>
+<% if notice != nil %>
+    <ul style="color:green">
+      <li><%= notice %></li>
+    </ul>
+  <% end %>
+<%= link_to 'Change password', new_change_password_path %>

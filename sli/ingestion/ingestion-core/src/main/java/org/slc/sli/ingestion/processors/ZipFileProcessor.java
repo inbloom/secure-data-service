@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
@@ -50,6 +51,17 @@ public class ZipFileProcessor implements Processor {
     @Override
     public void process(Exchange exchange) throws Exception {
 
+        //We need to extract the TenantID for each thread, so the DAL has access to it.
+//        try {
+//            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
+//            ControlFile cf = cfd.getFileItem();
+//            String tenantId = cf.getConfigProperties().getProperty("tenantId");
+//            TenantContext.setTenantId(tenantId);
+//        } catch (NullPointerException ex) {
+//            LOG.error("Could Not find Tenant ID.");
+//            TenantContext.setTenantId(null);
+//        }
+
         processZipFile(exchange);
     }
 
@@ -65,6 +77,8 @@ public class ZipFileProcessor implements Processor {
             File zipFile = exchange.getIn().getBody(File.class);
 
             newJob = createNewBatchJob(zipFile);
+            TenantContext.setTenantId(newJob.getTenantId());
+
             batchJobId = newJob.getId();
 
             FaultsReport errorReport = new FaultsReport();

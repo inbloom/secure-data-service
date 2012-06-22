@@ -19,13 +19,13 @@
     <property name="messageSource" ref="messageSource" />
   </bean>
 
-  <bean id="schoolSessionAssociationEntityPersistHandler" class="org.slc.sli.ingestion.handler.SchoolSessionAssociationEntityPersistHandler" 
+  <bean id="schoolSessionAssociationEntityPersistHandler" class="org.slc.sli.ingestion.handler.SchoolSessionAssociationEntityPersistHandler"
     parent="entityPersistHandler">
   </bean>
 
   <util:map id="entityPersistHandlers" key-type="java.lang.String" value-type="org.slc.sli.ingestion.handler.AbstractIngestionHandler">
-    <entry key="schoolSessionAssociation">
-      <ref local="schoolSessionAssociationEntityPersistHandler"/>
+    <entry key="session">
+      <ref local="schoolSessionAssociationEntityPersistHandler" />
     </entry>
   </util:map>
 
@@ -34,52 +34,50 @@
     <property name="messageSource" ref="messageSource" />
   </bean>
 
-  <bean id="idNormalizer" class="org.slc.sli.ingestion.transformation.normalization.IdNormalizer">
-    <property name="entityRepository" ref="mongoEntityRepository" />
-  </bean>
+  <!-- collections that should be persisted using the old pipeline -->
+  <util:set id="oldPipelineEntities" set-class="java.util.HashSet" value-type="java.lang.String">
+    <value>competencyLevelDescriptor</value>
+    <value>gradebookEntry</value>
+    <value>graduationPlan</value>
+    <value>learningStandard</value>
+    <value>parent</value>
+    <value>schoolSessionAssociation</value>
+    <value>staff</value>
+    <value>staffEducationOrganizationAssociation</value>
+    <value>student</value>
+    <value>studentCompetencyObjective</value>
+    <value>studentParentAssociation</value>
+    <value>studentSectionAssociation</value>
+    <value>teacher</value>
+  </util:set>
 
-  <!-- collections that will be persisted into SLI database -->
-  <util:set id="persistedEntities" set-class="java.util.HashSet" value-type="java.lang.String">
-    <value>assessment</value>
-    <value>attendance</value>
+  <!-- collections that should be persisted using the new pipeline but no transformation has been performed -->
+  <util:set id="newPipelinePlainEntities" set-class="java.util.HashSet" value-type="java.lang.String">
     <value>calendarDate</value>
     <value>cohort</value>
-    <value>competencyLevelDescriptor</value>
     <value>course</value>
+    <value>courseOffering</value>
     <value>disciplineAction</value>
     <value>disciplineIncident</value>
     <value>educationOrganization</value>
     <value>grade</value>
-    <value>gradebookEntry</value>
     <value>gradingPeriod</value>
-    <value>graduationPlan</value>
-    <value>learningObjective</value>
-    <value>learningStandard</value>
-    <value>parent</value>
+    <value>localEducationAgency</value>
     <value>program</value>
     <value>reportCard</value>
     <value>school</value>
-    <value>schoolSessionAssociation</value>
     <value>section</value>
     <value>session</value>
-    <value>staff</value>
     <value>staffCohortAssociation</value>
-    <value>staffEducationOrganizationAssociation</value>
     <value>staffProgramAssociation</value>
-    <value>student</value>
+    <value>stateEducationAgency</value>
     <value>studentAcademicRecord</value>
-    <value>studentAssessmentAssociation</value>
     <value>studentCohortAssociation</value>
     <value>studentCompetency</value>
-    <value>studentCompetencyObjective</value>
-    <value>studentDisciplineIncident</value>
-    <value>studentParentAssociation</value>
+    <value>studentDisciplineIncidentAssociation</value>
     <value>studentProgramAssociation</value>
     <value>studentSchoolAssociation</value>
-    <value>studentSectionAssociation</value>
     <value>studentSectionGradebookEntry</value>
-    <value>studentTranscriptAssociation</value>
-    <value>teacher</value>
     <value>teacherSchoolAssociation</value>
     <value>teacherSectionAssociation</value>
     <value>graduationPlan</value>
@@ -89,7 +87,6 @@
     <value>cohort</value>
     <value>studentCohortAssociation</value>
     <value>staffCohortAssociation</value>
-    <value>learningObjective</value>
     <value>learningStandard</value>
     <value>disciplineIncident</value>
     <value>disciplineAction</value>
@@ -102,4 +99,42 @@
     <value>studentCompetencyObjective</value>
     <value>studentCompetency</value>
   </util:set>
+
+  <!-- collections that should be persisted using the new pipeline and a transformation has been performed. the collection
+    to use will be <name>_transformed -->
+  <util:set id="newPipelineTransformedEntities" set-class="java.util.HashSet" value-type="java.lang.String">
+    <value>assessment</value>
+    <value>attendance</value>
+    <value>learningObjective</value>
+    <value>studentAssessmentAssociation</value>    
+    <value>studentTranscriptAssociation</value>
+  </util:set>
+
+  <!-- collections that only exist in the staging database because they are combined into a _transformed collection for another
+    entity -->
+  <util:set id="stagedOnlyEntities" set-class="java.util.HashSet" value-type="java.lang.String">
+    <value>assessmentFamily</value>
+    <value>assessmentItem</value>
+    <value>assessmentPeriodDescriptor</value>
+    <value>competencyLevelDescriptor</value>
+    <value>objectiveAssessment</value>
+    <value>studentAssessmentItem</value>
+    <value>studentObjectiveAssessment</value>
+  </util:set>
+
+  <util:map id="entityPersistTypeMap" key-type="java.lang.String" value-type="java.util.Set">
+    <entry key="stagedOnlyEntities">
+      <ref local="stagedOnlyEntities" />
+    </entry>
+    <entry key="oldPipelineEntities">
+      <ref local="oldPipelineEntities" />
+    </entry>
+    <entry key="newPipelinePlainEntities">
+      <ref local="newPipelinePlainEntities" />
+    </entry>
+    <entry key="newPipelineTransformedEntities">
+      <ref local="newPipelineTransformedEntities" />
+    </entry>
+  </util:map>
+
 </beans>
