@@ -55,10 +55,11 @@ public class EntityTestUtils {
         SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance("record", null, null, null);
         smooksEdFiVisitor.setNrMongoStagingWriter(dummyResourceWriter);
         smooks.addVisitor(smooksEdFiVisitor, targetSelector);
-
+        
         JavaResult result = new JavaResult();
         smooks.filterSource(new StreamSource(dataSource), result);
         
+        smooksEdFiVisitor.getRecordsPerisisted();
         List<NeutralRecord> entityList = dummyResourceWriter.getNeutralRecordsList();
 
         return entityList;
@@ -240,6 +241,11 @@ public class EntityTestUtils {
         @Override
         public void insertResource(NeutralRecord neutralRecord, String jobId) {
             neutralRecordList.add(neutralRecord);
+        }
+
+        @Override
+        public void insertResources(List<NeutralRecord> neutralRecords, String collectionName, String jobId) {
+            neutralRecordList.addAll(neutralRecords);            
         }
     }
 }

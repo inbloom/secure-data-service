@@ -169,8 +169,22 @@ public abstract class MongoRepository<T> implements Repository<T> {
      */
     public T insert(T record, String collectionName) {
         template.insert(record, collectionName);
-        LOG.debug(" insert a record in collection {} with id {}", new Object[] { collectionName, getRecordId(record) });
+        LOG.debug("Insert a record in collection {} with id {}", new Object[] { collectionName, getRecordId(record) });
         return record;
+    }
+
+    /**
+     * Makes call to mongo template insert() function, and not save (which performs upsert).
+     * Leverages batch insert functionality.
+     * 
+     * @param records Database records to be inserted.
+     * @param collectionName Name of collection to insert record in.
+     * @return Successfully inserted record.
+     */
+    public List<T> insert(List<T> records, String collectionName) {
+        template.insert(records, collectionName);
+        LOG.info("Insert {} records into collection: {}", new Object[] {records.size(), collectionName});
+        return records;
     }
     
     @Override

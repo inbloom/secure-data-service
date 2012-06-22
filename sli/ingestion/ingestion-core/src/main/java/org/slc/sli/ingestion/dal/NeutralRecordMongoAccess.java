@@ -1,6 +1,7 @@
 package org.slc.sli.ingestion.dal;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
@@ -83,4 +84,8 @@ public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWr
         return nrIterator.next().getCreationTime();
     }
 
+    @Override
+    public void insertResources(List<NeutralRecord> neutralRecords, String collectionName, String jobId) {
+        neutralRecordRepository.insertAllForJob(neutralRecords, collectionName, jobId);
+    }
 }
