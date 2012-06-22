@@ -7,17 +7,22 @@ db = connection['sli']
 fixer = SLCFixer.new(db, log)
 fixer.start
 skip = ['system.indexes', 'application', 'aggregationDefinition', 'realm', 'applicationAuthorization', 'realm', 'roles', 'system.js', 'tenant', 'assessment', 'learningStandard', 'learningObjective', 'sectionSchoolAssociation', 'educationOrganizationAssociation', 'educationOrganizationSchoolAssociation', 'error', 'securityEvent', 'courseSectionAssociation', 'teacher', 'school', 'userSession', 'custom_entities', 'userAccount', 'adminDelegation', 'calendarDate', 'studentCompetencyObjective']
-stamped = []
+stamped = {}
 unstamped = []
 db.collection_names.each do |name|
   if !skip.include? name
     exists = db[name].find({'metaData.teacherContext' => {'$exists' => true}}).count
-    stamped << name if exists > 0
+    stamped[name] = db[name].find({'metaData.teacherContext' => {'$exists' => false}}).count if exists > 0
     unstamped << name if exists == 0
   end
 end
 
-puts "Collections that are stamped:"
-stamped.each {|s| puts "\t #{s}"}
+puts "Collections that are stamped:\t\tRemaining:"
+width = 40
+stamped.each do |s, count|
+  gap = ""
+  (width - s.length).times {|i| gap << " "}
+  puts "\t#{s}#{gap}#{count}"
+end
 puts "Unstamped"
 unstamped.each {|s| puts "\t #{s}"}
