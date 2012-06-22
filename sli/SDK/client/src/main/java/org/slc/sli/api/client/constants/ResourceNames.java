@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.client.constants;
 
 import java.util.HashMap;
@@ -7,13 +24,13 @@ import java.util.Set;
 
 /**
  * Defines for resource names exposed by API.
- * 
- * 
+ *
+ *
  * @author kmyers
- * 
+ *
  */
 public final class ResourceNames {
-    
+
     public static final String AGGREGATIONS = "aggregations";
     public static final String AGGREGATION_DEFINITIONS = "aggregationDefinitions";
     public static final String ASSESSMENTS = "assessments";
@@ -43,10 +60,8 @@ public final class ResourceNames {
     public static final String STUDENT_SECTION_GRADEBOOK_ENTRIES = "studentSectionGradebookEntries";
     public static final String STUDENT_ACADEMIC_RECORDS = "studentAcademicRecords";
     public static final String TEACHERS = "teachers";
-    public static final String USER_ACCOUNTS = "userAccounts";
-    public static final String WAITING_LIST_USER_ACCOUNTS = "waitingListUserAccounts";
     public static final String GRADES = "grades";
-    
+
     public static final String SCHOOL_SESSION_ASSOCIATIONS = "school-session-associations";
     public static final String SECTION_ASSESSMENT_ASSOCIATIONS = "section-assessment-associations";
     public static final String COURSE_OFFERINGS = "courseOfferings";
@@ -62,7 +77,7 @@ public final class ResourceNames {
     public static final String STAFF_PROGRAM_ASSOCIATIONS = "staffProgramAssociations";
     public static final String STAFF_COHORT_ASSOCIATIONS = "staffCohortAssociations";
     public static final String STUDENT_COHORT_ASSOCIATIONS = "studentCohortAssociations";
-    
+
     public static final String COHORT_GETTER = "getCohort";
     public static final String STUDENT_COHORT_ASSOCIATION_GETTER = "getStudentCohortAssociation";
     public static final String STUDENT_COHORT_ASSOCIATIONS_GETTER = "getStudentCohortAssociations";
@@ -70,9 +85,9 @@ public final class ResourceNames {
     public static final String STAFF_COHORT_ASSOCIATIONS_GETTER = "getStaffCohortAssociations";
     public static final String STUDENT_PROGRAM_ASSOCIATIONS = "studentProgramAssociations";
     public static final String ADMIN_DELEGATION = "adminDelegation";
-    
+
     public static final Map<String, Set<String>> ENTITY_RESOURCE_NAME_MAPPING = new HashMap<String, Set<String>>();
-    
+
     /*
      * This map indicates how to display a link to a particular resource. This map assumes
      * that the destination is a single entity and not a collection.
@@ -82,7 +97,6 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS, "getStudentSchoolAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.TEACHER_SCHOOL_ASSOCIATIONS, "getTeacherSchoolAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, "getTeacherSectionAssociation");
-        SINGULAR_LINK_NAMES.put(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS, "getSchoolSessionAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "getSectionAssessmentAssociation");
         SINGULAR_LINK_NAMES.put(ResourceNames.COURSE_OFFERINGS, "getCourseOffering");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_ASSESSMENT_ASSOCIATIONS, "getStudentAssessment");
@@ -98,7 +112,7 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.STAFF_COHORT_ASSOCIATIONS, ResourceNames.STAFF_COHORT_ASSOCIATION_GETTER);
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_COHORT_ASSOCIATIONS,
                 ResourceNames.STUDENT_COHORT_ASSOCIATION_GETTER);
-        
+
         SINGULAR_LINK_NAMES.put(ResourceNames.ASSESSMENTS, "getAssessment");
         SINGULAR_LINK_NAMES.put(ResourceNames.ATTENDANCES, "getAttendance");
         SINGULAR_LINK_NAMES.put(ResourceNames.COHORTS, ResourceNames.COHORT_GETTER);
@@ -121,12 +135,10 @@ public final class ResourceNames {
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES, "getStudentGradebookEntry");
         SINGULAR_LINK_NAMES.put(ResourceNames.TEACHERS, "getTeacher");
         SINGULAR_LINK_NAMES.put(ResourceNames.STAFF, "getStaff");
-        SINGULAR_LINK_NAMES.put(ResourceNames.USER_ACCOUNTS, "getUserAccount");
-        SINGULAR_LINK_NAMES.put(ResourceNames.WAITING_LIST_USER_ACCOUNTS, "getWaitingListUserAccount");
         SINGULAR_LINK_NAMES.put(ResourceNames.GRADES, "getGrade");
         SINGULAR_LINK_NAMES.put(ResourceNames.STUDENT_COMPETENCIES, "getStudentCompetency");
     }
-    
+
     /*
      * This map indicates how to display a link to a particular resource. This map assumes
      * that the destination can be multiple entities.
@@ -143,5 +155,5 @@ public final class ResourceNames {
             }
         }
     }
-    
+
 }

@@ -28,6 +28,7 @@ When I select "Illinois Sunset School District 4526" and click go
  When I submit the credentials "jdoe" "jdoe1234" for the "Simple" login page
 Then I am informed that "No data is available for you to view."
 
+@wip
 Scenario: User has org, no school
 When I select "Illinois Sunset School District 4526" and click go
  And I was redirected to the "Simple" IDP Login page
@@ -60,7 +61,6 @@ And I paste Valid json config into the text box
 And click Save
 Then I should be shown a success message
 
-@wip
 Scenario:  Check empty student values
 When I select "Illinois Sunset School District 4526" and click go
  And I was redirected to the "Simple" IDP Login page
@@ -78,7 +78,6 @@ And "Carmen Ortiz" has no "SAT Reading.percentile"
 And "Carmen Ortiz" has no "SAT Writing.x"
 And "Carmen Ortiz" has no "SAT Writing.percentile"
 
-@wip
 Scenario: Check empty StateTest assessments
 When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
@@ -94,15 +93,14 @@ And "Alton Ausiello" has no "StateTest Reading.Scale score"
 And "Alton Ausiello" has no "StateTest Reading.Other"
 And "Alton Ausiello" has no "StateTest Writing.perfLevel"
 And "Alton Ausiello" has no "StateTest Writing.Scale score"
-And "Alton Ausiello" has no "FallSemester2011-2012-0"
-And "Alton Ausiello" has no "SpringSemester2010-2011"
-And "Alton Ausiello" has no "FallSemester2010-2011"
+And "Alton Ausiello" has no "currentSession-0"
+And "Alton Ausiello" has no "previousSemester"
+And "Alton Ausiello" has no "twoSemestersAgo"
 And "Alton Ausiello" has no "absenceCount"
 And "Alton Ausiello" has no "attendanceRate"
 And "Alton Ausiello" has no "tardyCount"
 And "Alton Ausiello" has no "tardyRate"
 
-@wip
 Scenario: Section without Student grades
 When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page

@@ -1,22 +1,35 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 /**
  *
  */
 package org.slc.sli.api.security.context.resolver;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.traversal.BrutePathFinder;
-import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
+import org.slc.sli.api.security.context.traversal.cache.SecurityCachingStrategy;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNode;
 import org.slc.sli.api.security.context.traversal.graph.SecurityNodeConnection;
+import org.slc.sli.api.service.BasicService;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -52,6 +65,9 @@ public class PathFindingContextResolver implements EntityContextResolver {
 
     private String fromEntity;
     private String toEntity;
+
+    @Autowired
+    private SecurityCachingStrategy securityCachingStrategy;
 
     /*
      * @see
@@ -91,53 +107,71 @@ public class PathFindingContextResolver implements EntityContextResolver {
             SecurityNode next = path.get(i);
             SecurityNodeConnection connection = current.getConnectionForEntity(next.getName());
             List<String> idSet = new ArrayList<String>();
-            String repoName = getResourceName(current, next, connection);
-            debug("Getting Ids From {}", repoName);
-            if (connection.isReferenceInSelf()) {
-                NeutralQuery neutralQuery = new NeutralQuery();
-                neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, previousIdSet));
-                Iterable<Entity> entities = repository.findAll(repoName, neutralQuery);
-                for (Entity entity : entities) {
-                    Object fieldData = entity.getBody().get(connection.getFieldName());
-                    if (fieldData != null) {
-                        if (fieldData instanceof String) {
-                            String id = (String) fieldData;
-                            if (!id.isEmpty()) {
-                                idSet.add(id);
-                            }
-                        } else if (fieldData instanceof ArrayList) {
-                            ids.addAll((ArrayList<String>) fieldData);
-                        }
-                    }
-                }
-            } else if (isAssociative(next, connection)) {
-                AssociationDefinition ad = (AssociationDefinition) store.lookupByResourceName(repoName);
-                List<String> keys = new ArrayList<String>();
-                try {
-                    keys = helper.getAssocKeys(current.getName(), ad);
-                } catch (IllegalArgumentException e) {
-                    keys = helper.getAssocKeys(current.getType(), ad);
-                }
-                idSet = helper.findEntitiesContainingReference(ad.getStoredCollectionName(), keys.get(0),
-                        connection.getFieldName(), new ArrayList<String>(ids));
-            } else if (connection.getAssociationNode().length() != 0) {
-                idSet = helper.findEntitiesContainingReference(repoName, "_id", connection.getFieldName(),
-                        new ArrayList<String>(ids));
 
-            } else {
-                idSet = helper.findEntitiesContainingReference(repoName, connection.getFieldName(),
-                        new ArrayList<String>(ids));
-
+            //look up the cache if it exists
+            if (securityCachingStrategy.contains(current.getName() + next.getName())) {
+                ids.addAll(securityCachingStrategy.retrieve(current.getName() + next.getName()));
+                current = path.get(i);
+                continue;
             }
 
-            if (connection.getFilter() != null) {
-                for (NodeFilter filter : connection.getFilter()) {
-                    idSet = filter.filterIds(idSet);
-                }
+            if (connection.isResolver()) {
+                idSet = connection.getResolver().findAccessible(principal);
+            } else {
+                String repoName = getResourceName(current, next, connection);
+                debug("Getting Ids From {}", repoName);
+                if (connection.isReferenceInSelf()) {
+                    NeutralQuery neutralQuery = new NeutralQuery();
+                    neutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, previousIdSet));
+//                BasicService.addDefaultQueryParams(neutralQuery, repoName);
+                    Iterable<Entity> entityIterableList = repository.findAll(repoName, neutralQuery);
+                    List<Entity> entitiesToResolve = new ArrayList<Entity>();
+                    for (Entity entityInList : entityIterableList) {
+                        entitiesToResolve.add(entityInList);
+                    }
+                    entitiesToResolve = helper.filterEntities(entitiesToResolve, connection.getFilter(), "");
+                    for (Entity entity : entitiesToResolve) {
+                        Object fieldData = entity.getBody().get(connection.getFieldName());
+                        if (fieldData != null) {
+                            if (fieldData instanceof String) {
+                                String id = (String) fieldData;
+                                if (!id.isEmpty()) {
+                                    idSet.add(id);
+                                }
+                            } else if (fieldData instanceof ArrayList) {
+                                ids.addAll((ArrayList<String>) fieldData);
+                            }
+                        }
+                    }
+                } else if (isAssociative(next, connection)) {
+                    AssociationDefinition ad = (AssociationDefinition) store.lookupByResourceName(repoName);
+                    List<String> keys = new ArrayList<String>();
+                    try {
+                        keys = helper.getAssocKeys(current.getName(), ad);
+                    } catch (IllegalArgumentException e) {
+                        keys = helper.getAssocKeys(current.getType(), ad);
+                    }
+                    idSet = helper.findEntitiesContainingReference(ad.getStoredCollectionName(), keys.get(0),
+                            connection.getFieldName(), new ArrayList<String>(ids), connection.getFilter());
+                } else if (connection.getAssociationNode().length() != 0) {
+                    idSet = helper.findEntitiesContainingReference(repoName, "_id", connection.getFieldName(),
+                            new ArrayList<String>(ids), connection.getFilter());
+
+                } else {
+                    idSet = helper.findEntitiesContainingReference(repoName, connection.getFieldName(),
+                            new ArrayList<String>(ids), connection.getFilter());
+                    }
+            }
+
+            if (connection.getAggregator() != null) {
+                idSet = connection.getAggregator().addAssociatedIds(idSet);
             }
 
             previousIdSet = idSet;
             ids.addAll(idSet);
+            //add the new ids to the cache
+            securityCachingStrategy.warm(current.getName() + next.getName(), new HashSet<String>(idSet));
+
             current = path.get(i);
         }
         debug("We found {} ids", ids);

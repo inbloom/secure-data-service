@@ -1,5 +1,25 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require "selenium-webdriver"
 require 'json'
+require 'net/imap'
 
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
@@ -309,3 +329,21 @@ Then /^the Registration Status field is Registered$/ do
   #Nothing to show anymore
 end
 
+Then /^a notification email is sent to "([^"]*)"$/ do |email|
+    sleep 2
+    defaultUser = email.split("@")[0]
+    defaultPassword = "#{defaultUser}1234"
+    imap = Net::IMAP.new('mon.slidev.org', 993, true, nil, false)
+    imap.authenticate('LOGIN', defaultUser, defaultPassword)
+    imap.examine('INBOX')
+    #ids = imap.search(["FROM", "noreply@slidev.org","TO", email])
+    ids = imap.search(["TO", email])
+    content = imap.fetch(ids[-1], "BODY[TEXT]")[0].attr["BODY[TEXT]"]
+    subject = imap.fetch(ids[-1], "BODY[HEADER.FIELDS (SUBJECT)]")[0].attr["BODY[HEADER.FIELDS (SUBJECT)]"]
+    found = true if content != nil
+    @email_content = content
+    @email_subject = subject
+    puts subject,content
+    imap.disconnect
+    assert(found, "Email was not found on SMTP server")
+end

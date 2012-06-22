@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
  
 When /^I make an API call to get my available apps$/ do
   @format = "application/json"
@@ -22,7 +41,7 @@ Then /^I receive a JSON object listing all the admin apps that my SEA\/LEA have 
   assert(@res.code == 200, "Response code not expected: expected 200 but received "+@res.code.to_s)
   @result = JSON.parse(@res.body)
   assert(@result != nil, "Result of JSON parsing is nil")
-  assert(@result.length < 4, "around 2 admin apps") #important thing is this is less than the result of the size of the list of all apps
+  assert(@result.length < 5, "around 2 admin apps") #important thing is this is less than the result of the size of the list of all apps
 end
 
 Then /^I receive a JSON object listing all the admin apps$/ do

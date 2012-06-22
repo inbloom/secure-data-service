@@ -1,6 +1,7 @@
 {
-    "keyFields" : ["body.assessmentId", "body.studentId", "body.administrationDate"],
-    "subEntities" : { "body.studentAssessmentItems?" : "studentAssessmentItem"},
+    "keyFields" : ["metaData.externalId", "body.assessmentId", "body.studentId", "body.administrationDate"],
+    "subEntities" : { "body.studentAssessmentItems?" : "studentAssessmentItem",
+                      "body.studentObjectiveAssessments?" : "studentObjectiveAssessment"},
     "references" :
     [{
         "fieldPath" : "body.assessmentId","ref" :
@@ -15,9 +16,7 @@
                         [{
                             "valueSource" : "body.assessmentId.AssessmentIdentity.AssessmentIdentificationCode"
                         }]
-                    }
-                ],
-                [
+                    },
                     {
                         "path" : "body.assessmentTitle",
                         "values" :

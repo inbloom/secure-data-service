@@ -5,9 +5,12 @@
   <%= stylesheet_link_tag    "application" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
+<script type="text/javascript">
+    var is_sandbox = <%= APP_CONFIG['is_sandbox'] %>
+</script>
 </head>
 <body>
-  <div class="container">
+  <div style="margin-left:30px;margin-right:30px">
     <%= render 'layouts/notifications' %>
     <%= yield %>
   </div>

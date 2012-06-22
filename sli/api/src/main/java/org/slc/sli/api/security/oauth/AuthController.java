@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.security.oauth;
 
 import java.io.IOException;
@@ -103,7 +120,7 @@ public class AuthController {
             public Object execute() {
                 NeutralQuery neutralQuery = new NeutralQuery();
                 neutralQuery.setOffset(0);
-                neutralQuery.setLimit(9999);
+                neutralQuery.setLimit(0);
                 Iterable<String> realmList = getRealmEntityService().listIds(neutralQuery);
                 Map<String, String> map = new HashMap<String, String>();
                 for (String realmId : realmList) {
@@ -134,9 +151,6 @@ public class AuthController {
         model.addAttribute("clientId", clientId);
         model.addAttribute("state", state);
         
-        if (redirectUri == null) {
-            model.addAttribute("errorMsg", "No relay state provided.  User won't be redirected back to the application");
-        }
         
         // Create session
         

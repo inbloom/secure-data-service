@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'rest-client'
 require 'json'
 require 'builder'
@@ -13,11 +32,11 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #staff program association data
-  id = 3                                        if human_readable_id == "ASSOCIATION COUNT"
+  id = 8                                        if human_readable_id == "ASSOCIATION COUNT"
   id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
-  id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
+  id = 3                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
   id = 2                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
-  id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
+  id = 3                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
   id = 1                                        if human_readable_id == "ASSOCIATION - MULTIPLE - ENDPOINT1 COUNT"
   id = 2                                        if human_readable_id == "ASSOCIATION - MULTIPLE - ENDPOINT2 COUNT"
   id = "9d19301f-54c7-48ae-b1c3-0ec1bd11fcec"   if human_readable_id == "ASSOCIATION ID - SINGLE"
@@ -55,6 +74,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #general
   id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"
+  id = "04f708bc-928b-420d-a440-f1592a5d1073"   if human_readable_id == "INACCESSIBLE REFERENCE 1"
+  id = "cb292c7d-3503-414a-92a2-dc76a1585d79"   if human_readable_id == "INACCESSIBLE REFERENCE 2"
   id = "self"                                   if human_readable_id == "SELF LINK NAME" 
   id = @newId                                   if human_readable_id == "NEWLY CREATED ASSOCIATION ID"
   id = "Validation failed"                      if human_readable_id == "VALIDATION"
@@ -70,8 +91,8 @@ end
 
 Given /^a valid association json document for a "([^"]*)"$/ do |arg1|
   @fields = {
-    "staffId" => ["21e57d58-f775-4cc8-b759-d8d9d811b5b4"],
-    "programId" => ["e8d33606-d114-4ee4-878b-90ac7fc3df16"],
+    "staffId" => ["04f708bc-928b-420d-a440-f1592a5d1073"],
+    "programId" => ["9b8c3aab-8fd5-11e1-86ec-0021701f543f"],
     "beginDate" => "2012-01-01"
 }
 end

@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.config;
 
 import java.util.Collection;
@@ -14,7 +31,6 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.client.constants.ResourceNames;
-import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.ReferenceSchema;
 
@@ -116,12 +132,6 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
 
         factory.makeEntity(EntityNames.LEARNINGOBJECTIVE, ResourceNames.LEARNINGOBJECTIVES).buildAndRegister(this);
         factory.makeEntity(EntityNames.LEARNINGSTANDARD, ResourceNames.LEARNINGSTANDARDS).buildAndRegister(this);
-        factory.makeEntity(EntityNames.USER_ACCOUNT, ResourceNames.USER_ACCOUNTS)
-                .setRequiredReadRight(Right.ANONYMOUS_ACCESS).setRequiredWriteRight(Right.ANONYMOUS_ACCESS)
-                .buildAndRegister(this);
-        factory.makeEntity(EntityNames.WAITING_LIST_USER_ACCOUNT, ResourceNames.WAITING_LIST_USER_ACCOUNTS)
-        .setRequiredReadRight(Right.ANONYMOUS_ACCESS).setRequiredWriteRight(Right.ANONYMOUS_ACCESS)
-        .buildAndRegister(this);
         factory.makeEntity(EntityNames.GRADE, ResourceNames.GRADES).buildAndRegister(this);
         factory.makeEntity(EntityNames.STUDENT_COMPETENCY, ResourceNames.STUDENT_COMPETENCIES).buildAndRegister(this);
         factory.makeEntity(EntityNames.GRADING_PERIOD, ResourceNames.GRADING_PERIODS).buildAndRegister(this);
@@ -191,13 +201,6 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                         "educationOrganizationChildId").calledFromSource("getEducationOrganizationAssociations")
                 .calledFromTarget("getEducationOrganizationAssociations").build();
         addDefinition(educationOrganizationAssociation);
-
-        AssociationDefinition schoolSessionAssociation = factory.makeAssoc("schoolSessionAssociation", "schoolSessionAssociations")
-                .exposeAs(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS).storeAs("schoolSessionAssociation")
-                .from(school, "getSchool", "getSchools").to(session, "getSession", "getSessions")
-                .calledFromSource("getSchoolSessionAssociations").calledFromTarget("getSchoolSessionAssociations")
-                .build();
-        addDefinition(schoolSessionAssociation);
 
         AssociationDefinition courseOffering = factory.makeAssoc("courseOffering", "courseOfferings")
                 .exposeAs(ResourceNames.COURSE_OFFERINGS).storeAs("courseOffering")

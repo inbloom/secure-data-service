@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.smooks.mappings;
 
 import java.io.IOException;
@@ -7,12 +24,13 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.transformation.assessment.ObjectiveAssessmentBuilder;
-import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
+
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.assessment.ObjectiveAssessmentBuilder;
+import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
  *
@@ -42,9 +60,9 @@ public class ObjectiveAssessmentEntityTest {
             + "  </AssessmentItemReference>"
             + "  <LearningObjectiveReference id=\"Reading3-4\" ref=\"Reading3-4\">"
             + "    <LearningObjectiveIdentity>"
-            + "      <LearningStandardId ContentStandardName=\"Reading3-4\">"
+            + "      <LearningObjectiveId ContentStandardName=\"Reading3-4\">"
             + "        <IdentificationCode>Reading3-4</IdentificationCode>"
-            + "      </LearningStandardId>"
+            + "      </LearningObjectiveId>"
             + "      <Objective>objective</Objective>"
             + "    </LearningObjectiveIdentity>"
             + "  </LearningObjectiveReference>"
@@ -84,8 +102,7 @@ public class ObjectiveAssessmentEntityTest {
                 + "<MaxRawScore>8</MaxRawScore>"
                 + "<PercentOfAssessment>50</PercentOfAssessment>"
                 + "<Nomenclature>nomenclature</Nomenclature>"
-                + "</ObjectiveAssessment>"
-                + "</InterchangeAssessmentMetadata>";
+                + "</ObjectiveAssessment>" + "</InterchangeAssessmentMetadata>";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 invalidXmlTestData);
@@ -103,25 +120,6 @@ public class ObjectiveAssessmentEntityTest {
         Assert.assertEquals("50", entity.get("percentOfAssessment").toString());
         Assert.assertEquals("nomenclature", entity.get("nomenclature"));
 
-        @SuppressWarnings("unchecked")
-        List<Map<String, Object>> assessmentPerformanceLevelList = (List<Map<String, Object>>) entity.get("assessmentPerformanceLevel");
-        Assert.assertTrue(assessmentPerformanceLevelList != null);
-        Map<String, Object> assessmentPerformanceLevel = assessmentPerformanceLevelList.get(0);
-        Assert.assertTrue(assessmentPerformanceLevel != null);
-        Assert.assertEquals("ACT score", assessmentPerformanceLevel.get("assessmentReportingMethod"));
-        Assert.assertEquals("1", assessmentPerformanceLevel.get("minimumScore").toString());
-        Assert.assertEquals("20", assessmentPerformanceLevel.get("maximumScore").toString());
-
-        @SuppressWarnings("unchecked")
-        List<Map<String, Object>> performanceLevelList = (List<Map<String, Object>>) assessmentPerformanceLevel.get("performanceLevelDescriptor");
-        Assert.assertTrue(performanceLevelList != null);
-        Map<String, Object> performanceLevel = performanceLevelList.get(0);
-        Assert.assertTrue(performanceLevel != null);
-        Assert.assertEquals("description", performanceLevel.get("description"));
-        performanceLevel = performanceLevelList.get(1);
-        Assert.assertTrue(performanceLevel != null);
-        Assert.assertEquals("codevalue", performanceLevel.get("codeValue"));
-        
         List<?> subObjectiveAssessments = (List<?>) entity.get(ObjectiveAssessmentBuilder.SUB_OBJECTIVE_REFS);
         String subObjectiveAssessment = (String) subObjectiveAssessments.get(0);
         Assert.assertEquals("sub", subObjectiveAssessment);
@@ -131,6 +129,16 @@ public class ObjectiveAssessmentEntityTest {
         Assert.assertNotNull(assessmentItems);
         Assert.assertEquals(1, assessmentItems.size());
         Assert.assertEquals("EOA12", assessmentItems.get(0).get("ref"));
+
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> learningObjectives = (List<Map<String, Object>>) entity.get("learningObjectives");
+        Assert.assertNotNull(learningObjectives);
+        Assert.assertEquals(1, learningObjectives.size());
+        Assert.assertEquals("objective", learningObjectives.get(0).get("objective"));
+        Assert.assertEquals("Reading3-4",
+                ((Map<?, ?>) learningObjectives.get(0).get("learningObjectiveId")).get("identificationCode"));
+        Assert.assertEquals("Reading3-4",
+                ((Map<?, ?>) learningObjectives.get(0).get("learningObjectiveId")).get("contentStandardName"));
     }
 
     private void checkInvalidObjectiveAssessmentNeutralRecord(NeutralRecord neutralRecord) {

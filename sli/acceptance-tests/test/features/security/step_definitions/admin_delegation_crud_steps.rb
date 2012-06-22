@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'json'
 require 'mongo'
 
@@ -44,6 +63,24 @@ end
 Then /^I should update app authorizations for (district "[^"]*")$/ do |district|
   @format = "application/json"
   dataObj = {"authId" => "IL-SUNSET", "appIds" => [], "authType" => "EDUCATION_ORGANIZATION"}
+  data = prepareData("application/json", dataObj)
+  puts("The data is #{data}") if ENV['DEBUG']
+  restHttpPut("/applicationAuthorization/" + district, data)
+  assert(@res != nil, "Response from PUT operation was nil")
+end
+
+Then /^I should update one app authorization for (district "[^"]*")$/ do |district|
+  @format = "application/json"
+  dataObj = {"authId" => "IL-SUNSET", "appIds" => ["78f71c9a-8e37-0f86-8560-7783379d96f7"], "authType" => "EDUCATION_ORGANIZATION"}
+  data = prepareData("application/json", dataObj)
+  puts("The data is #{data}") if ENV['DEBUG']
+  restHttpPut("/applicationAuthorization/" + district, data)
+  assert(@res != nil, "Response from PUT operation was nil")
+end
+
+Then /^I should also update app authorizations for (district "[^"]*")$/ do |district|
+  @format = "application/json"
+  dataObj = {"authId" => "IL-SUNSET", "authType" => "EDUCATION_ORGANIZATION"}
   data = prepareData("application/json", dataObj)
   puts("The data is #{data}") if ENV['DEBUG']
   restHttpPut("/applicationAuthorization/" + district, data)

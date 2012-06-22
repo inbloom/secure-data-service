@@ -1,5 +1,23 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require "selenium-webdriver"
-require "mongo"
 require 'approval'
 require 'active_support/inflector'
 require_relative '../../utils/sli_utils.rb'
@@ -7,7 +25,6 @@ require_relative '../../utils/selenium_common.rb'
 
 Before do
   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
-  @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])
   @baseUrl = PropLoader.getProps['admintools_server_url']
   @registrationAppSuffix = PropLoader.getProps['registration_app_suffix']
   @validationBaseSuffix = PropLoader.getProps['validation_base_suffix']
@@ -27,6 +44,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   url = @baseUrl + @validationBaseSuffix + "/invalid123"        if human_readable_id == "INVALID VERIFICATION LINK"
   url = "lalsop_#{Socket.gethostname}@acme.com"                 if human_readable_id == "USER_ACCOUNT"
   url = "lalsop_#{Socket.gethostname}@acme.com"                 if human_readable_id == "USER_ACCOUNT_EMAIL"
+  url = "devldapuser_#{Socket.gethostname}@slidev.org"           if human_readable_id == "USER_ID"
+  url = "test1234"                                               if human_readable_id == "USER_PASS"
   #return the translated value
   url
 end
@@ -38,11 +57,6 @@ end
 Given /^I go to the account registration page$/ do
   userRegAppUrl = @baseUrl + @registrationAppSuffix
   @driver.get userRegAppUrl
-end
-
-Given /^there is no registered account for "([^\"]*)" in the SLI database$/ do |email|
-  removeUser(email)
-  step "the account for \"#{email}\" is removed from SLI database"
 end
 
 Given /^there is no registered account for "([^\"]*)" in LDAP$/ do |email|
@@ -60,13 +74,10 @@ Given /^I go to the sandbox account registration page$/ do
   initializeApprovalAndLDAP(@emailConf, @prod)
 end
 
-Given /^there is an approved account with login name "([^\"]*)"$/ do |email|
-  records = getRecordsFromMongo("body.userName", email)
-  assert(records.size != 0, "No record found for #{email}")
-  assert(records.size == 1, "More than one records found for #{email}")
-  records.each do |record|
-    assert(record["body"]["validated"] == true, "#{email} is not validated")
-  end
+Given /^there is an (\w+) account with login name "([^\"]*)"$/ do |status, email|
+   assert(ApprovalEngine.user_exists?(email), "#{email} does not exists in LDAP")
+   user = ApprovalEngine.get_user(email)
+   assert(user[:status] == status, "#{email} has status #{user[:status]}, expected #{status}.")
 end
 
 ###############################################################################
@@ -80,9 +91,10 @@ When /^I fill out the field "([^\"]*)" as "([^\"]*)"$/ do |field, value|
     ]").send_keys(value)
 end
 
-When /^I query the database for EULA acceptance$/ do
-  coll = @db["userAccount"]
-  @validatedRecords = coll.find("body.validated" => true).to_a
+When /^I query LDAP for EULA acceptance for account with login name "([^\"]*)"$/ do |email|
+   assert(ApprovalEngine.user_exists?(email), "#{email} does not exists in LDAP")
+   user = ApprovalEngine.get_user(email)
+   assert(user[:status] == "eula-accepted" || user[:status] == "pending" || user[:status] == "approved", "#{email} did not accept the EULA.")
 end
 
 When /^I visit "([^\"]*)"$/ do |link|
@@ -137,24 +149,23 @@ Then /^I am directed to an acknowledgement page.$/ do
   assertText("Be on the lookout for a confirmation email.")
 end
 
-Then /^I get (\d+) record for "([^\"]*)"$/ do |count, email|
-  foundRecords = 0
-  @validatedRecords.each do |record|
-    if (record["body"]["userName"] == email)
-      foundRecords = foundRecords + 1
-    end
-  end
-  assert(foundRecords == convert(count), "Expected #{count}, received #{foundRecords}")
+Then /^I get a record for "([^\"]*)"$/ do |email|
+  @record = ApprovalEngine.get_user(email)
+  @record.should_not == nil
 end
 
 Then /^"([^\"]*)" is "([^\"]*)"$/ do |inKey, value|
-  key = toCamelCase(inKey)
-  if (@validatedRecords.size == 1)
-    assert(@validatedRecords[0]["body"][key] == convert(value), "Expected #{value} for #{inKey},
-        received #{@validatedRecords[0]["body"][key]}")
-  else
-    raise("Error: received more than 1 record (unhandled case)")
-  end
+  key_map = { "First Name" => :first, "Last Name" => :last, "Email" => :email, "Vendor" => :vendor }
+  @record.should_not == nil
+  @record[key_map[inKey]].should == value
+  
+  # key = toCamelCase(inKey)
+  # if (@validatedRecords.size == 1)
+  #   assert(@validatedRecords[0]["body"][key] == convert(value), "Expected #{value} for #{inKey},
+  #       received #{@validatedRecords[0]["body"][key]}")
+  # else
+  #   raise("Error: received more than 1 record (unhandled case)")
+  # end
 end
 
 Then /^an email verification link for "([^\"]*)" is generated$/ do |email|
@@ -172,9 +183,8 @@ Then /^I should see the error message "([^\"]*)"$/ do |errorMsg|
          "Cannot find error message \"#{errorMsg}\"")
 end
 
-Then /^the account for "([^\"]*)" is removed from SLI database$/ do |email|
-  records = getRecordsFromMongo("body.userName", email)
-  assert(records.size == 0, "Account for #{email} is not removed")
+Then /^the account for "([^\"]*)" is removed from LDAP$/ do |email|
+  assert(ApprovalEngine.user_exists?(email) == false, "Account for #{email} is not removed.")
 end
 
 ###############################################################################
@@ -206,15 +216,8 @@ def getEmailToken(email)
 end
 
 def removeUser(email)
+puts email
   if ApprovalEngine.user_exists?(email)
     ApprovalEngine.remove_user(email)
   end
-  coll = @db["userAccount"]
-  coll.remove("body.userName" => email)
-end
-
-def getRecordsFromMongo(field, value)
-  @prod ? env = "Production" : env = "Sandbox"
-  coll = @db["userAccount"]
-  return coll.find(field => value, "body.environment" => env).to_a
 end

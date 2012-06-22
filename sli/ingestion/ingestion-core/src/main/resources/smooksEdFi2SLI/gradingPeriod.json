@@ -1,5 +1,5 @@
 {
-    "keyFields" : [ "metaData.externalId", "body.gradingPeriodIdentity", "body.beginDate", "body.endDate" ],
+    "keyFields" : [ "body.gradingPeriodIdentity.schoolYear", "body.gradingPeriodIdentity.gradingPeriod", "body.gradingPeriodIdentity.educationalOrgIdentity" ],
     "references" :
             [
                 {

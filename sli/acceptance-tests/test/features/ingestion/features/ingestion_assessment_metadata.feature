@@ -6,19 +6,27 @@ Given I am using local data store
   And I am using preconfigured Ingestion Landing Zone
 
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Clean Database
-Given I post "assessmentMetaData.zip" file as the payload of the ingestion job
+Given I post "CommonCoreStandards/grade12English.zip" file as the payload of the ingestion job
+  And the following collections are empty in datastore:
+     | collectionName              |
+     | learningStandard            |
+     | learningObjective           |
+When zip file is scp to ingestion landing zone
+  And a batch job log has been created
+And I post "CommonCoreStandards/grade12Math.zip" file as the payload of the ingestion job
+When zip file is scp to ingestion landing zone
+  And a batch job log has been created
+And I post "assessmentMetaData.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
      | collectionName              |
      | assessment                  |
      | studentAssessmentAssociation|
-     | learningStandard            |
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
      | assessment                  | 5     |
      | studentAssessmentAssociation| 4     |
-     | learningStandard            | 22    |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                | searchValue                                      |  searchType |
      | assessment                  | 3                   | body.assessmentFamilyHierarchyName             | READ2.READ 2.0.READ 2.0 Kindergarten      | string |
@@ -38,8 +46,7 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Science          | string |
      | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Writing          | string |
    
-    | assessment                  | 1                   | body.objectiveAssessment.assessmentPerformanceLevel.performanceLevelDescriptor.codeValue      | act1                         | string |
-    | assessment                  | 1                   | body.objectiveAssessment.assessmentPerformanceLevel.performanceLevelDescriptor.description    | American Literature I          | string |
+#    | assessment                  | 1                   | body.objectiveAssessment.assessmentPerformanceLevel.performanceLevelDescriptor.codeValue      | act1                         | string |
    
    
      | studentAssessmentAssociation| 2                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | SAT-Writing          | string |
@@ -48,7 +55,6 @@ Then I should see following map of entry counts in the corresponding collections
      | studentAssessmentAssociation| 2                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | SAT-Math-Arithmetic  | string |
      | studentAssessmentAssociation| 2                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | SAT-Math-Algebra     | string |
      | studentAssessmentAssociation| 2                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | SAT-Math-Geometry    | string |
-     | learningStandard            | 6                   | body.subjectArea                               | ELA                                              | string |
      | assessment                  | 1                   | body.assessmentItem.0.identificationCode       | AssessmentItem-1 | string |
      | assessment                  | 1                   | body.assessmentItem.0.itemCategory             | True-False       | string |
      | assessment                  | 1                   | body.assessmentItem.0.maxRawScore              | 5                | integer |
@@ -77,7 +83,7 @@ Then I should see following map of entry counts in the corresponding collections
      | studentAssessmentAssociation           | 1                   | body.studentAssessmentItems.1.assessmentResponse                | True                | string |
      
 
-  And I should see "Processed 32 records." in the resulting batch job file
+  And I should see "Processed 16 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "dibelsAssessmentMetadata.xml records considered: 3" in the resulting batch job file
   And I should see "dibelsAssessmentMetadata.xml records ingested successfully: 3" in the resulting batch job file

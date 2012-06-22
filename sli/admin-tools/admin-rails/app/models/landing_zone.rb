@@ -1,11 +1,30 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require "erb"
 
 class LandingZone
   def self.possible_edorgs
     if APP_CONFIG["is_sandbox"]
       edOrgs = []
-      edOrgs << EducationOrganization.new(:stateUniqueId => 'IL', :nameOfInstitution => "SLC sample school data set #1")
-      edOrgs << EducationOrganization.new(:stateUniqueId => 'IL-SUNSET', :nameOfInstitution => "SLC sample school data set #2")
+      edOrgs << EducationOrganization.new(:stateUniqueId => 'STANDARD-SEA', :nameOfInstitution => "Use a SLC sample dataset")
+     # edOrgs << EducationOrganization.new(:stateUniqueId => 'IL-SUNSET', :nameOfInstitution => "SLC sample school data set #2")
     return edOrgs
     else
     []
@@ -18,6 +37,13 @@ class LandingZone
     user_info = APP_LDAP_CLIENT.read_user(uid)
     if(!user_info)
       raise ProvisioningError.new "User does not exist in LDAP"
+    end
+
+    isDuplicate = false
+    if(APP_CONFIG['is_sandbox'])
+      isDuplicate = (user_info[:edorg] == edorg_id && user_info[:tenant] == tenant)
+    else
+      isDuplicate = user_info[:homedir] != "/dev/null"
     end
 
     result = OnBoarding.create(:stateOrganizationId => edorg_id, :tenantId => tenant)
@@ -55,7 +81,7 @@ class LandingZone
                              "as reference or contact the SLC Operator for your landing zone details."
     end
 
-    {:landingzone => @landingzone, :server => @server, :emailWarning => @emailWarningMessage}
+    {:landingzone => @landingzone, :server => @server, :emailWarning => @emailWarningMessage, :edOrg => user_info[:edorg], :isDuplicate => isDuplicate}
   end
 
 end

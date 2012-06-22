@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'rest-client'
 require 'json'
 require 'builder'
@@ -13,7 +32,7 @@ require_relative '../../../utils/api_utils.rb'
 Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #school session association data
-  id = 14                                         if human_readable_id == "ASSOCIATION COUNT"
+  id = 19                                         if human_readable_id == "ASSOCIATION COUNT"  
   id = 1                                          if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
   id = 7                                          if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
   id = 1                                          if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
@@ -48,6 +67,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #general
   id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"
+  id = "eb4d7e1b-7bed-890a-d9f4-5d8aa9fbfc2d"   if human_readable_id == "INACCESSIBLE REFERENCE 1"
+  id = "cb292c7d-3503-414a-92a2-dc76a1585d79"   if human_readable_id == "INACCESSIBLE REFERENCE 2"
   id = "self"                                   if human_readable_id == "SELF LINK NAME" 
   id = @newId                                   if human_readable_id == "NEWLY CREATED ASSOCIATION ID"
   id = "Validation failed"                      if human_readable_id == "VALIDATION"
@@ -63,9 +84,9 @@ end
 
 Given /^a valid association json document for a "([^"]*)"$/ do |arg1|
   @fields = {
-    "studentId" => "1023bfc9-5cb8-4126-ae6a-4fefa74682c8",
-    "programId" => "e8d33606-d114-4ee4-878b-90ac7fc3df16",
+    "studentId" => "0636ffd6-ad7d-4401-8de9-40538cf696c8",
+    "programId" => "9b8c3aab-8fd5-11e1-86ec-0021701f543f",
     "beginDate" => "2012-01-12",
-    "educationOrganizationId" =>"2d7583b1-f8ec-45c9-a6da-acc4e6fde458"
+    "educationOrganizationId" =>"6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
 }
 end

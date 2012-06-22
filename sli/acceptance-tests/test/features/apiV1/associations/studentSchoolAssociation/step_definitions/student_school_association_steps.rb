@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'rest-client'
 require 'json'
 require 'builder'
@@ -14,7 +33,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
 
   #student school association data
   id = 180                                      if human_readable_id == "ASSOCIATION COUNT"
-  id = 60                                       if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
+  id = 59                                       if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 1"
   id = 2                                        if human_readable_id == "ASSOCIATION COUNT FOR ENDPOINT 2"
   id = 27                                       if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 1"
   id = 1                                        if human_readable_id == "RESOLUTION COUNT FOR ENDPOINT 2"
@@ -48,6 +67,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #general
   id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"
+  id = "0f464187-30ff-4e61-a0dd-74f45e5c7a9d"   if human_readable_id == "INACCESSIBLE REFERENCE 1"
+  id = "eb4d7e1b-7bed-890a-d9f4-5d8aa9fbfc2d"   if human_readable_id == "INACCESSIBLE REFERENCE 2"
   id = "self"                                   if human_readable_id == "SELF LINK NAME" 
   id = @newId                                   if human_readable_id == "NEWLY CREATED ASSOCIATION ID"
   id = "Validation failed"                      if human_readable_id == "VALIDATION"
@@ -67,8 +88,8 @@ end
 
 Given /^a valid association json document for a "([^"]*)"$/ do |arg1|
   @fields = {
-     "studentId" => "714c1304-8a04-4e23-b043-4ad80eb60992",
-     "schoolId" => "eb3b8c35-f582-df23-e406-6947249a19f2",
+     "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+     "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
      "entryGradeLevel" => "First grade",
      "entryDate" => "2011-09-01"
   }

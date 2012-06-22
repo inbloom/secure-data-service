@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'approval'
 
 class AccountManagementsController < ApplicationController
@@ -80,7 +99,7 @@ class AccountManagementsController < ApplicationController
         account_management.vendor=account[:vendor]
         account_management.email=account[:email]
         
-        account_management.lastUpdate=account[:updated].strftime("%Y-%m-%d %I:%M:%S%p")
+        account_management.lastUpdate=account[:updated].in_time_zone().strftime("%c %Z")
         account_management.status=account[:status]
         account_management.transitions=account[:transitions]
         account_managements.push(account_management)

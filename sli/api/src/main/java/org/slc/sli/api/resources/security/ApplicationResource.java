@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
@@ -23,6 +40,7 @@ import javax.ws.rs.core.UriInfo;
 
 import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.client.constants.v1.ParameterConstants;
+import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
@@ -50,7 +68,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope("request")
 @Path("apps")
-@Produces({ Resource.JSON_MEDIA_TYPE+";charset=utf-8" })
+@Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
 public class ApplicationResource extends DefaultCrudEndpoint {
     
     public static final String AUTHORIZED_ED_ORGS = "authorized_ed_orgs";
@@ -414,7 +432,13 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             Iterable<EntityBody> auths = service.list(query);
             long count = service.count(query);
             if (count == 0) {
-                warn("No application authorization exists. Nothing to do");
+                debug("No application authorization exists. Creating one.");
+                EntityBody body = new EntityBody();
+                body.put("authType", "EDUCATION_ORGANIZATION");
+                body.put("authId", edOrg);
+                body.put("appIds", new ArrayList());
+                service.create(body);
+                auths = service.list(query);
             }
             updateAuthorization(uuid, auths);
         }

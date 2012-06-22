@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.resources;
 
 import static org.junit.Assert.assertEquals;
@@ -42,11 +59,10 @@ import org.slc.sli.api.representation.CollectionResponse;
 import org.slc.sli.api.representation.CollectionResponse.EntityReference;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.api.service.query.SortOrder;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-
-
 
 /**
  * Unit tests for the generic Resource class.
@@ -98,7 +114,19 @@ public class ResourceTest {
         entity.put("field1", 1);
         entity.put("field2", 2);
         entity.put("studentUniqueStateId", 1234);
+        entity.put("metaData", createMetaData());
         return entity;
+    }
+    
+    /**
+     * Creates the metaData HashMap to be added to the entity created in mongo.
+     * 
+     * @return Map containing important metadata for the created entity.
+     */
+    private Map<String, Object> createMetaData() {
+        Map<String, Object> metadata = new HashMap<String, Object>();
+        metadata.put("tenantId", "IL");
+        return metadata;
     }
     
     public Map<String, Object> createTestAssociation(String studentId, String schoolId) {
@@ -106,6 +134,7 @@ public class ResourceTest {
         entity.put("studentId", studentId);
         entity.put("schoolId", schoolId);
         entity.put("entryGradeLevel", "First grade");
+        entity.put("metaData", createMetaData());
         return entity;
     }
     
@@ -114,6 +143,7 @@ public class ResourceTest {
         assoc.put("studentId", studentId);
         assoc.put("sectionId", sectionId);
         assoc.put("repeatIdentifier", "NOT_REPEATED");
+        assoc.put("metaData", createMetaData());
         return assoc;
     }
     
@@ -123,6 +153,8 @@ public class ResourceTest {
         entity.put("assessmentId", assessmentId);
         entity.put("administrationLanguage", "ENGLISH");
         entity.put("administrationDate", "2011-01-01");
+        entity.put("metaData", createMetaData());
+
         return entity;
     }
     
@@ -130,6 +162,7 @@ public class ResourceTest {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("teacherId", teacherId);
         entity.put("schoolId", schoolId);
+        entity.put("metaData", createMetaData());
         return entity;
     }
     
@@ -138,6 +171,7 @@ public class ResourceTest {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("educationOrganizationId", educationOrganizationId);
         entity.put("schoolId", schoolId);
+        entity.put("metaData", createMetaData());
         return entity;
     }
     
@@ -146,6 +180,7 @@ public class ResourceTest {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("staffId", staffId);
         entity.put("educationOrganizationId", educationOrganizationId);
+        entity.put("metaData", createMetaData());
         return entity;
     }
     
@@ -153,6 +188,7 @@ public class ResourceTest {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("sectionId", sectionId);
         entity.put("assessmentId", assessmentId);
+        entity.put("metaData", createMetaData());
         return entity;
     }
     
@@ -161,27 +197,23 @@ public class ResourceTest {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("educationOrganizationParentId", educationOrganizationParentId);
         entity.put("educationOrganizationChildId", educationOrganizationChildId);
+        entity.put("metaData", createMetaData());
         return entity;
     }
-    
-    public Map<String, Object> createTestSchoolSessionAssociation(String schoolId, String sessionId) {
-        Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put("schoolId", schoolId);
-        entity.put("sessionId", sessionId);
-        return entity;
-    }
+
     
     public Map<String, Object> createTestCourseOffering(String sessionId, String courseId) {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("sessionId", sessionId);
         entity.put("courseId", courseId);
+        entity.put("metaData", createMetaData());
         return entity;
     }
     
     @Before
     public void setUp() throws Exception {
         // inject administrator security context for unit testing
-        injector.setAdminContextWithElevatedRights();
+        injector.setAccessAllAdminContextWithElevatedRights();
         uriInfo = buildMockUriInfo(null);
     }
     
@@ -292,29 +324,7 @@ public class ResourceTest {
         }
         
     }
-    
-    @Test
-    public void testSchoolSessionFunctionality() {
-        HashMap<TypeIdPair, String> ids = new HashMap<TypeIdPair, String>();
-        
-        String schoolId = this.createEntity("schools", ids);
-        String sessionId = this.createEntity("sessions", ids);
-        
-        Response createAssociationResponse = api.createEntity(SCHOOL_SESSION_ASSOCIATION_URI, new EntityBody(
-                createTestSchoolSessionAssociation(schoolId, sessionId)), uriInfo);
-        assertNotNull(createAssociationResponse);
-        String schoolSessionAssocId = parseIdFromLocation(createAssociationResponse);
-        
-        // test school session association
-        Response tsaResponse = api.getEntity(SCHOOL_SESSION_ASSOCIATION_URI, schoolSessionAssocId, null, null, 0, 10,
-                false, uriInfo);
-        EntityBody tssAssocBody = (EntityBody) tsaResponse.getEntity();
-        assertNotNull(tssAssocBody);
-        assertEquals(schoolSessionAssocId, tssAssocBody.get("id"));
-        assertEquals(sessionId, tssAssocBody.get("sessionId"));
-        assertEquals(schoolId, tssAssocBody.get("schoolId"));
-    }
-    
+
     @Test
     public void testSessionCourseFunctionality() {
         HashMap<TypeIdPair, String> ids = new HashMap<TypeIdPair, String>();
@@ -328,8 +338,8 @@ public class ResourceTest {
         String sessionCourseAssocId = parseIdFromLocation(createAssociationResponse);
         
         // test school session association
-        Response tscResponse = api.getEntity(COURSE_OFFERING_URI, sessionCourseAssocId, null, null, 0, 10,
-                false, uriInfo);
+        Response tscResponse = api.getEntity(COURSE_OFFERING_URI, sessionCourseAssocId, null, null, 0, 10, false,
+                uriInfo);
         EntityBody tscAssocBody = (EntityBody) tscResponse.getEntity();
         assertNotNull(tscAssocBody);
         assertEquals(sessionCourseAssocId, tscAssocBody.get("id"));

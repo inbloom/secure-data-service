@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.service;
 
 import java.util.ArrayList;
@@ -84,10 +101,10 @@ public class BasicAssocService extends BasicService implements AssociationServic
         List<String> srcId = getIds(content, sourceKey);
         List<String> targetId = getIds(content, targetKey);
         
-        Iterable<Entity> sourceEntities = repo.findAll(sourceCollection, new NeutralQuery(new NeutralCriteria("_id",
-                "=", srcId, false)));
-        Iterable<Entity> targetEntities = repo.findAll(sourceCollection, new NeutralQuery(new NeutralCriteria("_id",
-                "=", targetId, false)));
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, srcId, false));
+        Iterable<Entity> sourceEntities = repo.findAll(sourceCollection, query);
+        query = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, targetId, false));
+        Iterable<Entity> targetEntities = repo.findAll(sourceCollection, query);
         
         for (Entity sourceEntity : sourceEntities) {
             for (Entity targetEntity : targetEntities) {
@@ -216,7 +233,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
         }
         
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
-        localNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
+        localNeutralQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
         
         final Iterable<String> results = getRepo().findAllIds(otherEntityDefn.getStoredCollectionName(),
                 localNeutralQuery);
@@ -259,7 +276,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
         }
         
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
-        localNeutralQuery.addCriteria(new NeutralCriteria(key, "=", id));
+        localNeutralQuery.addCriteria(new NeutralCriteria(key, NeutralCriteria.OPERATOR_EQUAL, id));
         
         return getRepo().findAll(getCollectionName(), localNeutralQuery);
     }
@@ -267,7 +284,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
     private long getAssociationCount(final EntityDefinition type, final String id, final String key,
             final NeutralQuery neutralQuery) {
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
-        localNeutralQuery.addCriteria(new NeutralCriteria(key, "=", id));
+        localNeutralQuery.addCriteria(new NeutralCriteria(key, NeutralCriteria.OPERATOR_EQUAL, id));
         
         return getRepo().count(getCollectionName(), localNeutralQuery);
     }

@@ -7,13 +7,12 @@
     xmlns:mvc="http://www.springframework.org/schema/mvc"
     xmlns:aop="http://www.springframework.org/schema/aop"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-    	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
-		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
+    	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd"
 >
     <context:property-placeholder location="file:${sli.conf},${prop.location}" ignore-resource-not-found="true" />
-    <mvc:annotation-driven validator="validator" />
     <context:component-scan base-package="org.slc.sli.web"/>
     <context:annotation-config />
     
@@ -58,19 +57,17 @@
             <property name="restClient" ref="restClient" />
         </bean>
     </mvc:interceptors>
-
-    <bean class="org.slc.sli.web.util.CustomMessageConverterRegister">
-        <property name="messageConverters">
-            <list>
-                <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+    
+    <mvc:annotation-driven validator="validator" >
+      <mvc:message-converters>
+          <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
                     <property name="objectMapper">
                         <bean id="jacksonObjectMapper" class="org.slc.sli.web.util.JacksonObjectMapperWithOptions"/>          
                     </property>
                 </bean>
-            </list>
-        </property>
-    </bean>
-    
+      </mvc:message-converters>
+    </mvc:annotation-driven>
+
     <bean id="validatorAspect" class="org.slc.sli.web.util.ControllerInputValidatorAspect" factory-method="aspectOf">
         <property name="validator" ref="validator" />
     </bean>

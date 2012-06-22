@@ -90,8 +90,13 @@ SLC.namespace('SLC.grid.formatters', (function () {
 	    function FuelGauge(value, options, rowObject) {
 	        var name = options.colModel.formatoptions.name,
 				valueField = options.colModel.formatoptions.valueField,
-				assessments = (name) ? rowObject.assessments[name]: rowObject.assessments,
-				score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField],
+				assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
+			
+		    if (!assessments || assessments === undefined) {
+		        return "" ;
+		    }
+				
+			var score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField],
 				fieldName = options.colModel.formatoptions.fieldName,
 				cutPoints = (assessments.assessments) ? assessments.assessments.assessmentPerformanceLevel : assessments.assessmentPerformanceLevel,
 				cutPointsArray = options.colModel.formatoptions.cutPointsArray,
@@ -101,11 +106,7 @@ SLC.namespace('SLC.grid.formatters', (function () {
 				returnValue = "<div id='" + divId + "' class='fuelGauge " + perfLevelClass + "' >",
 				width = options.colModel.formatoptions.fuelGaugeWidth,
 				height = Math.sqrt(width);
-				
-	        if (!assessments || assessments === undefined) {
-	            return "" ;
-	        }
-	        
+				       
 	        if (!score || score === undefined || value === undefined || value === null) {
 	            score = 0;
 	        }
@@ -155,8 +156,17 @@ SLC.namespace('SLC.grid.formatters', (function () {
 	        var perfLevelClass = "",
 				name = options.colModel.formatoptions.name,
 				valueField = options.colModel.formatoptions.valueField,
-				assessments = (name) ? rowObject.assessments[name]: rowObject.assessments,
-				score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField],
+				assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
+				
+	        if (!assessments || assessments === undefined) {
+	        	
+	            if (value === undefined || value === null) {
+	                value = "";
+	            }
+	            return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
+	        }
+	        
+			var score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField],
 				cutPoints = (assessments.assessments) ? assessments.assessments.assessmentPerformanceLevel : assessments.assessmentPerformanceLevel,
 				cutPointsArray = grid.cutPoints.toArray(cutPoints),
 				perfLevel = grid.cutPoints.getLevelFromArray(cutPointsArray, score),
@@ -167,14 +177,6 @@ SLC.namespace('SLC.grid.formatters', (function () {
 	        
 	        if (value === undefined || value === null) {
 	            return "<span class='fuelGauge-perfLevel'></span>";
-	        }
-	        
-	        if (!assessments || assessments === undefined) {
-	
-	            if (value === undefined || value === null) {
-	                value = "!";
-	            }
-	            return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
 	        }
 	        
 	        if (!score || score === undefined) {

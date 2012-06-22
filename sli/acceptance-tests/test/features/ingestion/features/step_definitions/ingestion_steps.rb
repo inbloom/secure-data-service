@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'rubygems'
 require 'mongo'
 require 'fileutils'
@@ -897,7 +916,6 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
   end
 
   @db = old_db
-  sleep(10)    # waiting to poll job file removes race condition in AWS (slow writes to file)   
 end
 
 When /^two batch job logs have been created$/ do
@@ -1498,8 +1516,12 @@ When /^I find a record in "([^"]*)" where "([^"]*)" is "([^"]*)"$/ do |collectio
   step "I find a record in \"#{collection}\" with \"#{searchTerm}\" equal to \"#{value}\""
 end
 
-Then /^the field "([^"]*)" is an array of size (\d+)$/ do |field, arrayCount|
-  object = @record
+When /^I find a record in "(.*?)" under "(.*?)" where "(.*?)" is "(.*?)"$/ do |collection, field, searchTerm, value|
+  step "I find a record in \"#{collection}\" with \"#{field + "." + searchTerm}\" equal to \"#{value}\""
+  @record = findField(@record, field).find_all{|r| findField(r, searchTerm) == value}[0]
+end
+
+def findField(object, field)
   field.split('.').each do |f|
     if /(.+)\[(\d+)\]/.match f
       f = $1
@@ -1512,12 +1534,23 @@ Then /^the field "([^"]*)" is an array of size (\d+)$/ do |field, arrayCount|
       object = object[f]
     end
   end
-  assert(object.length==Integer(arrayCount),"the field #{field} is not an array of size #{arrayCount}")
+  object
+end
+  
+Then /^the field "([^"]*)" is an array of size (\d+)$/ do |field, arrayCount|
+  object = findField(@record, field)
+  assert(object.length==Integer(arrayCount),"the field #{field}, #{object} is not an array of size #{arrayCount}")
   @idsArray
 end
 
-Then /^"([^"]*)" contains a reference to a "([^"]*)" where "([^"]*)" is "([^"]*)"$/ do |arg1, collection, identificationCode, guid|
-  step "I find a record in \"#{collection}\" with \"#{identificationCode}\" equal to \"#{guid}\""
+Then /^"([^"]*)" contains a reference to a "([^"]*)" where "([^"]*)" is "([^"]*)"$/ do |referenceField, collection, searchTerm, value|
+  db = @conn[INGESTION_DB_NAME]
+  collection = db.collection(collection)
+  referred = collection.find_one({searchTerm => value})
+  referred.should_not == nil
+  id = referred["_id"]
+  references = findField(@record, referenceField)
+  assert(references.include?(id), "the record #{@record} does not contain a reference to the #{collection} #{value}")
 end
 
 ############################################################

@@ -1,18 +1,24 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 /**
  * 
  */
 package org.slc.sli.api.security.context.resolver;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.when;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -34,6 +40,17 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.when;
 
 /**
  * @author rlatta
@@ -74,7 +91,7 @@ public class PathFindingContextResolverTest {
 
     @Test
     public void testCanResolve() throws Exception {
-        assertTrue(resolver.canResolve(EntityNames.TEACHER, EntityNames.STUDENT));
+        assertFalse(resolver.canResolve(EntityNames.TEACHER, EntityNames.STUDENT));
         assertTrue(resolver.canResolve(EntityNames.STUDENT, EntityNames.TEACHER));
         assertFalse(resolver.canResolve(EntityNames.AGGREGATION, EntityNames.TEACHER));
     }
@@ -96,17 +113,17 @@ public class PathFindingContextResolverTest {
         assertTrue("Can resolve teacher to section", resolver.canResolve(EntityNames.TEACHER, EntityNames.SECTION));
         when(
                 mockHelper.findEntitiesContainingReference(eq(EntityNames.TEACHER_SECTION_ASSOCIATION),
-                        eq("teacherId"), eq("sectionId"), any(List.class))).thenReturn(
+                        eq("teacherId"), eq("sectionId"), any(List.class), any(List.class))).thenReturn(
                 Arrays.asList(new String[] { "5", "6", "7" }));
         when(
                 mockHelper.findEntitiesContainingReference(eq(EntityNames.STUDENT_SECTION_ASSOCIATION),
-                        eq("sectionId"), eq("studentId"), any(List.class))).thenReturn(
+                        eq("sectionId"), eq("studentId"), any(List.class), any(List.class))).thenReturn(
                 Arrays.asList(new String[] { "8", "9", "10" }));
         when(mockHelper.getAssocKeys(eq(EntityNames.STUDENT), any(AssociationDefinition.class))).thenReturn(
                 Arrays.asList(new String[] { "studentId", "sectionId" }));
         when(
                 mockHelper.findEntitiesContainingReference(eq(EntityNames.STUDENT_SECTION_ASSOCIATION),
-                        eq("studentId"), eq("sectionId"), any(List.class))).thenReturn(finalList);
+                        eq("studentId"), eq("sectionId"), any(List.class), any(List.class))).thenReturn(finalList);
         
         List<String> returned = resolver.findAccessible(mockEntity);
         // assertTrue(returned.size() == finalList.size());

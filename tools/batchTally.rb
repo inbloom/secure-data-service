@@ -1,5 +1,34 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'mongo'
 require 'json'
+
+def printStats(stats)
+  stats=Hash[stats.sort {|a,b| b[1]["time"]<=>a[1]["time"]}]
+  stats.each do |name,stat|
+    if stat["time"]>1000 # ignore entries less than 1 seconds
+      printf "\e[32m%-65s\e[0m \e[31m%11d\e[0m \e[35m%11d sec\e[0m \e[34m%5d ms\e[0m\n",name,stat["calls"],stat["time"]/1000, stat["time"]/stat["calls"]
+    end
+  end
+  printf "%55s\n","***"
+end
 
 connection = Mongo::Connection.new("nxmongo5.slidev.org", 27017)
 db = connection.db("ingestion_batch_job")
@@ -7,7 +36,7 @@ coll = db.collection("newBatchJob")
 
 if ARGV.count<1
   puts "\e[31mNeed to specify id of the job!\e[0m"
-  all=coll.find()
+  all=coll.find({},{:fields=>{"_id"=>1}})
   all.to_a.each do |rec|
     puts rec["_id"]
   end
@@ -35,8 +64,8 @@ rcPerResource = {}
 #total job time
 jobStart = job["jobStartTimestamp"]
 jobEnd = job["jobStopTimestamp" ]
-if ! jobEnd.nil? && !jobStart.nil?  
-	totalJobTime = jobEnd-jobStart
+if ! jobEnd.nil? && !jobStart.nil?
+  totalJobTime = jobEnd-jobStart
 end
 # Record Counts for stage
 rcStage={
@@ -60,7 +89,7 @@ job["stages"].each do |stage|
 
         rcStage[stage["stageName"]]+=metric["recordCount"]
       end
-    end 
+    end
   elsif stage["stageName"]=="JobReportingProcessor"
     # Job reporting
     jobProcessingEndTime = stage["chunks"][0]["stopTimestamp"].to_i
@@ -85,29 +114,52 @@ pitElapsedPerResource.each do |key,value|
   pitProcessingTime+=value
 end
 
-executionStats = {}
+dbs={}
+functions={}
+collections={}
 
-if !job["executionStats"].nil? 
-  job["executionStats"].each do |hostName,value| 
+writeCount=0
+readCount=0
+writeTime=0
+readTime=0
+
+if !job["executionStats"].nil?
+  job["executionStats"].each do |hostName,value|
     nodeType = "pit"
     if hostName=="nxmaestro"
       nodeType = "maestro"
     end
 
-    if executionStats[nodeType].nil?
-      executionStats[nodeType] = {}
-    end
-
     value.each do |functionName,innerValue|
-      if executionStats[nodeType][functionName].nil?
-        executionStats[nodeType][functionName] = {}
+      pieces=functionName.split("#")
+
+      if pieces[1] != "getCollection"
+
+        if pieces[0] == "sli"
+          if pieces[1].include? "update" or pieces[1].include? "insert"
+            writeCount+=innerValue["left"]
+            writeTime+=innerValue["right"]
+          else
+            readCount+=innerValue["left"]
+            readTime+=innerValue["right"]
+          end
+        end
+        
+        functionName = pieces[0]+"."+pieces[1]
+
+        dbs[pieces[0]]={"calls"=>0,"time"=>0} unless dbs[pieces[0]]
+        functions[functionName]={"calls"=>0,"time"=>0} unless functions[functionName]
+        collections[pieces[2]]={"calls"=>0,"time"=>0} unless collections[pieces[2]]
+
+        dbs[pieces[0]]["calls"]+=innerValue["left"]
+        dbs[pieces[0]]["time"]+=innerValue["right"]
+
+        functions[functionName]["calls"]+=innerValue["left"]
+        functions[functionName]["time"]+=innerValue["right"]
+
+        collections[pieces[2]]["calls"]+=innerValue["left"]
+        collections[pieces[2]]["time"]+=innerValue["right"]
       end
-
-      executionStats[nodeType][functionName]["calls"] = 0 unless executionStats[nodeType][functionName]["calls"]
-      executionStats[nodeType][functionName]["calls"] += innerValue["left"]
-
-      executionStats[nodeType][functionName]["time"] = 0 unless executionStats[nodeType][functionName]["time"]
-      executionStats[nodeType][functionName]["time"] += innerValue["right"]
     end
   end
 end
@@ -115,7 +167,7 @@ end
 transformedRecordCount = rcStage["TransformationProcessor"]
 persistedRecordCount = rcStage["PersistenceProcessor"]
 edfiRecordCount = rcStage["EdFiProcessor"]
-
+puts "Edfi record #{edfiRecordCount}"
 wallClockForPits = (jobProcessingEndTime-pitProcessingStartTime)
 combinedProcessingTime = (maestroProcessingTime + pitProcessingTime)/1000
 totalPitProcessingTime = pitProcessingTime/1000
@@ -128,37 +180,46 @@ puts "Total pit wall-clock time: #{wallClockForPits}sec"
 puts ""
 puts "Combined processing time on all nodes: #{combinedProcessingTime} sec"
 puts "Total PIT processing time across nodes: #{totalPitProcessingTime} sec"
-puts "PIT RPS (transformed / pit wall-clock)  #{(transformedRecordCount / wallClockForPits )}"
 
 puts ""
-puts "Time spent waiting on Mongo operations:"
+puts "\e[4mTime spent waiting on Mongo operations:\e[0m"
 
-smallPad = "        "
-largePad = "                 "
-executionStats.each do |nodeType,functions|
-  functions.each do |functionName,stats|
-    callStats = stats["calls"]
-    timeStats = stats["time"]/1000
+puts ""
+printf "\e[32m%-65s\e[0m \e[31m%11s\e[0m \e[35m%11s\e[0m \e[34m%11s\e[0m\n","Name","Calls","Time", "AVG"
+puts "------------------------------------------------------------------------------------------------------"
+printStats(dbs)
+printStats(functions)
+printStats(collections)
 
-    nodePad = smallPad[0..(smallPad.length-nodeType.length)]
-    functionPad = largePad[0..(largePad.length-functionName.length)]
-    callPad = smallPad[0..(smallPad.length-callStats.to_s.length)]
-    timePad = smallPad[0..(smallPad.length-timeStats.to_s.length)]
+totalMongoTime=0;
+dbs.each_value{|time| totalMongoTime+=time["time"]}
 
-    puts "(#{nodeType})#{nodePad}#{functionName}#{functionPad}count(\e[31m#{callStats}\e[0m)#{callPad}\e[32m#{timeStats}\e[0m sec#{timePad}(\e[35m#{100*timeStats/combinedProcessingTime}%\e[0m of processing time)"
-  end
-end
-
-#puts "Mongo calls (ALL): #{mongoCalls} took #{mongoTime/1000} secs"
+puts "Combined Mongo Calls: \e[35m#{totalMongoTime} ms (#{(totalMongoTime/60000.0).round(2)} min)    \e[0m"
+puts "Mongo time as % of total time: \e[35m#{((totalMongoTime/1000.0/combinedProcessingTime)*100).round()}%\e[0m"
+printf "Mongo Time per node: \e[35m%d\e[0m mins (nodes: \e[35m%d\e[0m)\n",(totalMongoTime/60000.0).round(2)/(job['executionStats'].size-1),job['executionStats'].size-1
+printf "Average times (read/write): \e[35m%.2f/%.2f\e[0m\n",readTime.to_f/readCount,writeTime.to_f/writeCount
+printf "Total sli counts (read/write): \e[35m%d/%d\e[0m  ratio: \e[35m%.2f\e[0m\n",readCount,writeCount,readCount.to_f/writeCount
+printf "Total sli times(read/write): \e[35m%d/%d\e[0m ratio: \e[35m%.2f\e[0m\n",readTime,writeTime,readTime.to_f/writeTime
 
 puts ""
 puts "Job started: #{jobStart.getlocal}"
-if ! jobEnd.nil? 
-puts "Job ended: #{jobEnd.getlocal}"
-end 
-if  !totalJobTime.nil?  
-	puts "Total Job time #{totalJobTime} sec"
-	puts "Job RPS #{edfiRecordCount / totalJobTime}" 
+if ! jobEnd.nil?
+  puts "Job ended: #{jobEnd.getlocal}"
 end
+pitRPS = (transformedRecordCount / wallClockForPits )
 
+puts "PIT RPS (transformed / pit wall-clock)  \e[35m#{pitRPS}\e[0m"
+puts "PIT RPS (persistence / pit wall-clock)  \e[35m#{(persistedRecordCount / wallClockForPits )}\e[0m"
+
+jobRps = transformedRecordCount / totalJobTime.round()
+
+if  !totalJobTime.nil?
+  puts "Edfi / job time RPS \e[35m#{edfiRecordCount / totalJobTime.round()}\e[0m"
+  puts "Transformed / job time RPS \e[35m#{transformedRecordCount / totalJobTime.round()}\e[0m"
+  puts "Total Job time #{totalJobTime} sec"
+
+end
+dataSet = id.slice(0, id.index("_"))
+puts "PIT #{pitRPS} Job: #{jobRps}  Jobtime: #{(totalJobTime/60).round()} minutes Dataset: #{dataSet}"
 puts "ALL DONE"
+

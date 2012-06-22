@@ -57,7 +57,7 @@
 </div>
 <div class = "field">
 	<%= f.label :behavior, "Display Method" %>
-	<%= select_tag(:app_behavior, options_for_select(['Iframe App', 'Wsrp App', 'Full Window App'], app.behavior))%>
+	<%= select_tag(:app_behavior, options_for_select(['iframe App', 'WSRP App', 'Full Window App'], app.behavior))%>
 	<span class="help-inline">How does this application behave, can it be put into an IFrame, behave as a portlet, or stand alone?</span>
 </div>
 <div class = "field">

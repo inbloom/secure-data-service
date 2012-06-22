@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'test_helper'
 
 class ApplicationMailerTest < ActionMailer::TestCase
@@ -36,7 +55,7 @@ class ApplicationMailerTest < ActionMailer::TestCase
   def test_notify_developer
     app = App.new(@app_fixtures['waffles'])    
     # Send the email, then test that it got queued
-    email = ApplicationMailer.notify_developer(app).deliver
+    email = ApplicationMailer.notify_developer(app, "Test User").deliver
     assert !ActionMailer::Base.deliveries.empty?, "Message should have been delivered"
     # Test the body of the sent email contains what we expect it to
     assert_equal [app.metaData.createdBy], email.to
@@ -44,20 +63,20 @@ class ApplicationMailerTest < ActionMailer::TestCase
   
   def test_notify_developer_bad
     app = App.new(@app_fixtures['admin'])
-    email = ApplicationMailer.notify_developer(app).deliver
+    email = ApplicationMailer.notify_developer(app, "Test User").deliver
     assert !ActionMailer::Base.deliveries.empty?, "Messages should have been delivered"
     assert email.to.nil?, "Bad addresses don't go through"
   end
   
   def test_notify_operator
     app = App.new(@app_fixtures['admin'])
-    email = ApplicationMailer.notify_operator('operator@slidev.org', app).deliver
+    email = ApplicationMailer.notify_operator('operator@slidev.org', app, "UserFn", "DevFn DevLn").deliver
     assert !ActionMailer::Base.deliveries.empty?, "Message should have been delivered"
   end
   
   def test_notify_operator_bad
     app = App.new(@app_fixtures['admin'])
-    email = ApplicationMailer.notify_operator(nil, app).deliver
+    email = ApplicationMailer.notify_operator(nil, app, "UserFN", "DevFn DevLn").deliver
     assert !ActionMailer::Base.deliveries.empty?, "Message should have been delivered"
     assert email.to.nil?, "Bad addresses don't go through"
   end

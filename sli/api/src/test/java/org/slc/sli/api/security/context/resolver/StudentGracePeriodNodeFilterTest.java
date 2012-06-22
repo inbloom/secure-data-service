@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.security.context.resolver;
 
 import org.junit.Before;
@@ -7,8 +24,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.slc.sli.api.client.constants.EntityNames;
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
@@ -53,10 +68,8 @@ public class StudentGracePeriodNodeFilterTest {
     @Test
     public void testsetParameters() {
         nodeFilter.setParameters();
-        assertEquals("Should match", EntityNames.STUDENT_SCHOOL_ASSOCIATION, nodeFilter.getEntityName());
-        assertEquals("Should match", ParameterConstants.STUDENT_ID, nodeFilter.getReferenceId());
         assertEquals("Should match", gracePeriodVal, nodeFilter.getGracePeriod());
-        assertEquals("Should match", "exitWithdrawDate", nodeFilter.getFilterDateParam());
+        assertEquals("Should match", "exitWithdrawDate", nodeFilter.getEndDateParamName());
     }
 
 }

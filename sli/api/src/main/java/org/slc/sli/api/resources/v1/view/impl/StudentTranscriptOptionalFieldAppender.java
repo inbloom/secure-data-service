@@ -1,7 +1,23 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.resources.v1.view.impl;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +74,10 @@ public class StudentTranscriptOptionalFieldAppender implements OptionalFieldAppe
         List<EntityBody> courses = optionalFieldAppenderHelper.queryEntities(ResourceNames.COURSES,
                 "_id", courseIds);
 
+        //get the student transcripts for the students
+        List<EntityBody> studentAcademicRecordsForStudents = optionalFieldAppenderHelper.queryEntities(ResourceNames.STUDENT_ACADEMIC_RECORDS,
+                ParameterConstants.STUDENT_ID, studentIds);
+
         for (EntityBody student : entities) {
             String studentId = (String) student.get("id");
 
@@ -82,8 +102,9 @@ public class StudentTranscriptOptionalFieldAppender implements OptionalFieldAppe
                         (String) sectionForStudent.get(ParameterConstants.COURSE_ID));
 
                 //get the student transcripts for the student
-                List<EntityBody> studentAcademicRecordsForStudent = optionalFieldAppenderHelper.queryEntities(ResourceNames.STUDENT_ACADEMIC_RECORDS,
-                        ParameterConstants.STUDENT_ID, Arrays.asList(studentId));
+                List<EntityBody> studentAcademicRecordsForStudent = optionalFieldAppenderHelper.getEntitySubList(studentAcademicRecordsForStudents,
+                        ParameterConstants.STUDENT_ID, studentId);
+
                 List<String> studentAcademicRecordIdsForStudent = optionalFieldAppenderHelper.getIdList(studentAcademicRecordsForStudent, "id");
 
                 List<EntityBody> studentTranscriptsForStudent = new ArrayList<EntityBody>();

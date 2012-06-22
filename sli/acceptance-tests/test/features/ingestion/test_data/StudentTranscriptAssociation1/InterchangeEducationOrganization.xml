@@ -2,7 +2,6 @@
 <InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
 
-
   <StateEducationAgency>
     <StateOrganizationId>IL</StateOrganizationId>
     <NameOfInstitution>Illinois State Board of Education</NameOfInstitution>
@@ -34,9 +33,7 @@
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="SEA">
-				<ID>IL</ID> 
-			</EducationOrgIdentificationCode>
+      <StateOrganizationId>IL</StateOrganizationId> 
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>
@@ -58,9 +55,7 @@
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="SEA">
-				<ID>IL</ID> 
-			</EducationOrgIdentificationCode>
+      <StateOrganizationId>IL</StateOrganizationId> 
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>

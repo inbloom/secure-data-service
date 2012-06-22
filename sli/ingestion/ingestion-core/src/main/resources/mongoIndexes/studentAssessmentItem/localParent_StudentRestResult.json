@@ -1,0 +1,7 @@
+{
+    "collection": "studentAssessmentItem",
+    "indexFields":
+    [
+        {"name" : "localParentIds.studentTestResultRef", "order" : "1"}
+    ]
+}

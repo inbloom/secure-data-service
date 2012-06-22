@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.validation;
 
 import static org.junit.Assert.assertTrue;
@@ -277,25 +294,6 @@ public class NeutralSchemaValidationTest {
         this.addDummyCollection("school");
 
         readAndValidateFixtureData("src/test/resources/student_school_association_fixture_neutral.json", "studentSchoolAssociation");
-    }
-
-    @Test
-    public void testValidSchoolSessionAssociation() throws Exception {
-        this.addDummyEntity("school", "0f464187-30ff-4e61-a0dd-74f45e5c7a9d", "educationOrganization");
-        this.addDummyEntity("session", "cb1fb2d3-a906-446a-bdfd-06ad23823265");
-        this.addDummyEntity("session", "31e8e04f-5b1a-4631-91b3-a5433a735d3b");
-        this.addDummyEntity("session", "f5f042f8-9617-4a7b-bcee-5ff157240594");
-
-        readAndValidateFixtureData("src/test/resources/school_session_association_fixture_neutral.json", "schoolSessionAssociation");
-    }
-
-    @Test
-    @ExpectedException(value = EntityValidationException.class)
-    public void testInvalidSchoolSessionAssociation() throws Exception {
-        this.addDummyCollection("session");
-        this.addDummyCollection("school");
-
-        readAndValidateFixtureData("src/test/resources/school_session_association_fixture_neutral.json", "schoolSessionAssociation");
     }
 
     @Test

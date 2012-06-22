@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.manager.impl;
 
 import java.text.DateFormat;
@@ -17,6 +34,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
@@ -31,6 +49,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
@@ -42,9 +61,9 @@ import org.slc.sli.util.Constants;
 import org.slc.sli.util.TimedLogic;
 
 /**
- * PopulationManager facilitates creation of logical aggregations of EdFi
- * entities/associations such as a student summary comprised of student profile,
- * fment, program, and assessment information in order to deliver the
+ * Facilitates creation of logical aggregations of EdFi entities/associations
+ * such as a student summary comprised of student profile,
+ * program, and assessment information in order to deliver the
  * Population Summary interaction.
  *
  * @author Robert Bloh
@@ -67,12 +86,12 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     }
 
     /*
-    * (non-Javadoc)
-    *
-    * @see
-    * org.slc.sli.manager.PopulationManagerI#getAssessments(java.lang.String,
-    * java.util.List)
-    */
+     * (non-Javadoc)
+     *
+     * @see
+     * org.slc.sli.manager.PopulationManagerI#getAssessments(java.lang.String,
+     * java.util.List)
+     */
     @Override
     public List<GenericEntity> getAssessments(String token, List<GenericEntity> studentSummaries) {
         Set<GenericEntity> assessments = new TreeSet<GenericEntity>(new Comparator<GenericEntity>() {
@@ -98,35 +117,35 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     }
 
     /*
-    * (non-Javadoc)
-    *
-    * @see
-    * org.slc.sli.manager.PopulationManagerI#getStudentSummaries(java.lang.
-    * String, java.util.List, org.slc.sli.config.ViewConfig, java.lang.String,
-    * java.lang.String)
-    */
+     * (non-Javadoc)
+     *
+     * @see
+     * org.slc.sli.manager.PopulationManagerI#getStudentSummaries(java.lang.
+     * String, java.util.List, org.slc.sli.config.ViewConfig, java.lang.String,
+     * java.lang.String)
+     */
     @Override
-    public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds,
-                                                   String sessionId, String sectionId) {
+    public List<GenericEntity> getStudentSummaries(String token, List<String> studentIds, String sessionId,
+            String sectionId) {
 
         long startTime = System.nanoTime();
         // Initialize student summaries
 
-        List<GenericEntity> studentSummaries = entityManager.getStudents(token, sectionId, studentIds);
+        List<GenericEntity> studentSummaries = entityManager.getStudents(token, sectionId);
         log.warn("@@@@@@@@@@@@@@@@@@ Benchmark for student section view: {}", (System.nanoTime() - startTime) * 1.0e-9);
 
         return studentSummaries;
     }
 
-
     /*
-    * (non-Javadoc)
-    *
-    * @see
-    * org.slc.sli.manager.PopulationManagerI#getListOfStudents(java.lang.String
-    * , java.lang.Object, org.slc.sli.entity.Config.Data)
-    */
+     * (non-Javadoc)
+     *
+     * @see
+     * org.slc.sli.manager.PopulationManagerI#getListOfStudents(java.lang.String
+     * , java.lang.Object, org.slc.sli.entity.Config.Data)
+     */
     @Override
+    @Cacheable(value = Constants.CACHE_USER_PANEL_DATA)
     public GenericEntity getListOfStudents(String token, Object sectionId, Config.Data config) {
 
         String id = (String) sectionId;
@@ -171,7 +190,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                 addFinalGrades(student, sectionId);
 
                 // add the grade book
-                addCurrentSemesterGrades(student, sectionId);
+                addCurrentSessionGrades(student, sectionId);
 
                 // transform assessment score format
                 transformAssessmentFormat(student);
@@ -261,8 +280,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             }
 
             // for each score result, create a new attribute that makes the
-            // score easily accessible
-            // without looping through this list
+            // score easily accessible without looping through this list
             List<Map> scoreResults = (List<Map>) assmtResult.get(Constants.ATTR_SCORE_RESULTS);
             if (scoreResults != null) {
 
@@ -344,6 +362,33 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     }
 
     /**
+     *
+     * Finds the chronologically (strictly) earlier date on the list as compared to the anchorDate.
+     * Note that this method assumes the dates list has been chronologically sorted, the
+     * anchorDate is contained on it, and it has no "null" entries. The input parameters themselves
+     * can be null, in which case null is returned.
+     *
+     * @param dates
+     * @param anchorDate
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    private Date findPrevDate(List<Date> dates, Date anchorDate) {
+        if (anchorDate == null || dates == null) {
+            return null;
+        }
+        Date prevDate = null;
+        ListIterator<Date> li = dates.listIterator(dates.indexOf(anchorDate));
+        while (li.hasPrevious()) {
+            Date d = li.previous();
+            if (d.before(anchorDate)) {
+                prevDate = d;
+                break;
+            }
+        }
+        return prevDate;
+    }
+
+    /**
      * Extracts grades from transcriptAssociationRecord based on sections in the
      * past. For each section where a transcript with final letter grade
      * exist, the grade is added to the list of grades for the semester.
@@ -351,15 +396,52 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
      * @param student
      * @param interSections
      * @param stuTransAssocs
+     * @param curSessionEndDate
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private void addSemesterFinalGrades(GenericEntity student, List<Map<String, Object>> interSections,
-                                        List<Map<String, Object>> stuTransAssocs) {
+            List<Map<String, Object>> stuTransAssocs, Date curSessionEndDate) {
+
+        // populate the end dates for all the relevant sections
+        List<Date> sectionDates = new LinkedList<Date>();
+        sectionDates.add(curSessionEndDate);
+        for (Map<String, Object> section : interSections) {
+            List<Date> dates = getSessionDates(section);
+            Date sectionEndDate = (dates == null) ? null : dates.get(1);
+            if (sectionEndDate != null) {
+                sectionDates.add(sectionEndDate);
+            }
+        }
+        Collections.sort(sectionDates);
+        // find the related sections chronologically preceding the current one on the list
+        Date prevDate = findPrevDate(sectionDates, curSessionEndDate);
+        Date prevPrevDate = findPrevDate(sectionDates, prevDate);
 
         // Iterate through the course Id's and grab transcripts grades, once
         // we have NUMBER_OF_SEMESTERS transcript grades, we're done
         for (Map<String, Object> section : interSections) {
             String courseId = (String) section.get(Constants.ATTR_COURSE_ID);
+
+            // we need to keep track of special cases, e.g. previous semester and two semesters ago
+            // data
+            List<Date> dates = getSessionDates(section);
+            Date sectionEndDate = (dates == null) ? null : dates.get(1);
+            String tag;
+            if (sectionEndDate != null) {
+                if (prevDate != null && prevDate.equals(sectionEndDate)) {
+                    // this is the previous semester's section
+                    tag = "previousSemester";
+                } else if (prevPrevDate != null && prevPrevDate.equals(sectionEndDate)) {
+                    // this is two semesters ago
+                    tag = "twoSemestersAgo";
+                } else {
+                    // this is neither of the cases of interest
+                    continue;
+                }
+            } else {
+                // no section end date means we cannot determine where this data belongs
+                continue;
+            }
 
             // Find the correct course. If that course is found in
             // the transcript, then record that letter grade to the
@@ -370,17 +452,15 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                     String courseTitle = (String) ((Map) section.get(Constants.ATTR_COURSES))
                             .get(Constants.ATTR_COURSE_TITLE);
                     if (finalLetterGrade != null) {
-                        String semesterString = buildSemesterYearString(section);
                         Map<String, Object> grade = new LinkedHashMap<String, Object>();
                         grade.put(Constants.SECTION_LETTER_GRADE, finalLetterGrade);
                         grade.put(Constants.SECTION_COURSE, courseTitle);
-                        List<Map<String, Object>> semesterScores = (List<Map<String, Object>>) student
-                                .get(semesterString);
+                        List<Map<String, Object>> semesterScores = (List<Map<String, Object>>) student.get(tag);
                         if (semesterScores == null) {
                             semesterScores = new ArrayList<Map<String, Object>>();
                         }
                         semesterScores.add(grade);
-                        student.put(semesterString, semesterScores);
+                        student.put(tag, semesterScores);
                         break;
                     }
                 }
@@ -416,6 +496,15 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             }
 
             String subjectArea = getSubjectArea(stuSectAssocs, sectionId);
+
+            List<Date> dates = getSessionDates(stuSectAssocs, sectionId);
+            Date curSessionEndDate = (dates == null) ? null : dates.get(1);
+            if (curSessionEndDate == null) {
+                // if we have no current session end date, we cannot determine what the previous
+                // semesters were
+                return;
+            }
+
             List<Map<String, Object>> interSections = new ArrayList<Map<String, Object>>();
             for (Map<String, Object> assoc : stuSectAssocs) {
                 Map<String, Object> sections = (Map<String, Object>) assoc.get(Constants.ATTR_SECTIONS);
@@ -426,7 +515,8 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             }
 
             addSemesterFinalGrades(student, interSections,
-                    (List<Map<String, Object>>) transcripts.get(Constants.ATTR_STUDENT_TRANSCRIPT_ASSOC));
+                    (List<Map<String, Object>>) transcripts.get(Constants.ATTR_STUDENT_TRANSCRIPT_ASSOC),
+                    curSessionEndDate);
 
         } catch (ClassCastException ex) {
             log.error("Error occured processing Final Grades", ex);
@@ -447,16 +537,16 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
      * @return
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    private String getSemesterYear(List<Map<String, Object>> stuSectAssocs, String sectionId) {
-        String semesterString = null;
+    private String getSessionYear(List<Map<String, Object>> stuSectAssocs, String sectionId) {
+        String sessionString = null;
         for (Map<String, Object> assoc : stuSectAssocs) {
             if (((String) assoc.get(Constants.ATTR_SECTION_ID)).equalsIgnoreCase(sectionId)) {
                 Map<String, Object> sections = (Map) assoc.get(Constants.ATTR_SECTIONS);
-                semesterString = buildSemesterYearString(sections);
+                sessionString = buildSemesterYearString(sections);
                 break;
             }
         }
-        return semesterString;
+        return sessionString;
     }
 
     /**
@@ -487,13 +577,76 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     }
 
     /**
-     * Adds the current semester grades to the student in a easily retrievable manner.
+     * Extracts the session start and end dates from the specified section.
+     *
+     * @param section
+     * @return session start and end dates or null if information is not available
+     * @author iivanisevic
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    private List<Date> getSessionDates(Map<String, Object> section) {
+        List<Date> dates;
+        // get the session for this section
+        Map<String, Object> session = (Map) section.get(Constants.ATTR_SESSIONS);
+        if (session == null) {
+            // no session for this section, bad news
+            return null;
+        }
+        dates = new LinkedList<Date>();
+        dates.add(parseDate((String) session.get(Constants.ATTR_SESSION_BEGIN_DATE)));
+        dates.add(parseDate((String) session.get(Constants.ATTR_SESSION_END_DATE)));
+        return dates;
+    }
+
+    /**
+     * Extracts the session start and end dates from the specified section and
+     * studentSectionAssociation.
+     *
+     * @param stuSectAssocs
+     * @param sectionId
+     * @return session start and end dates or null if information is not available
+     * @author iivanisevic
+     */
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    private List<Date> getSessionDates(List<Map<String, Object>> stuSectAssocs, String sectionId) {
+        List<Date> dates = null;
+        for (Map<String, Object> assoc : stuSectAssocs) {
+            // find the association containing this sectionId
+            String tempSectionId = (String) assoc.get(Constants.ATTR_SECTION_ID);
+            if (tempSectionId != null && tempSectionId.equalsIgnoreCase(sectionId)) {
+                // we found the section we were looking for
+                Map<String, Object> section = (Map) assoc.get(Constants.ATTR_SECTIONS);
+                if (section != null) {
+                    dates = getSessionDates(section);
+                    break;
+                }
+            }
+        }
+        return dates;
+    }
+
+    private Date parseDate(String date) {
+        final DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            if (date != null) {
+                return formatter.parse(date);
+            }
+        } catch (ParseException e) {
+            log.error("Error parsing dates. Date string was: " + date);
+        }
+        return null;
+    }
+
+    /**
+     * Adds the current session grades to the student in a easily retrievable manner.
      *
      * @param student
      * @param sectionId
      */
     @SuppressWarnings("unchecked")
-    private void addCurrentSemesterGrades(GenericEntity student, String sectionId) {
+    private void addCurrentSessionGrades(GenericEntity student, String sectionId) {
+        final DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+
         // Sort the grades
         SortedSet<GenericEntity> sortedList = new TreeSet<GenericEntity>(new Comparator<GenericEntity>() {
             @Override
@@ -520,10 +673,12 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             if (stuSectAssocs == null) {
                 return;
             }
-            String semesterString = getSemesterYear(stuSectAssocs, sectionId);
-            if (semesterString == null) {
-                return;
-            }
+            // figure out what the start and end dates are for the current session
+            List<Date> dates = getSessionDates(stuSectAssocs, sectionId);
+            Date sessionStart = (dates == null) ? null : dates.get(0);
+            Date sessionEnd = (dates == null) ? null : dates.get(1);
+
+            // next we ensure that gradebook entries belong to the current session
 
             // iterate and add to letter grade
             List<Map<String, Object>> gradeEntries = (List<Map<String, Object>>) student
@@ -534,7 +689,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
             for (Map<String, Object> currentGrade : gradeEntries) {
                 GenericEntity gradeDate = new GenericEntity();
-                DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+                // get the grade itself
                 Object grade = currentGrade.get(Constants.ATTR_LETTER_GRADE_EARNED);
                 if (grade == null) {
                     grade = currentGrade.get(Constants.ATTR_NUMERIC_GRADE_EARNED);
@@ -542,12 +697,20 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                         continue;
                     }
                 }
-
+                // when was it earned?
                 try {
                     Object dateString = currentGrade.get(Constants.ATTR_DATE_FULFILLED);
+                    // only keep it if it belongs to this session, or there is no date
+                    // associated with it or the current session
                     if (dateString != null) {
                         Date date = formatter.parse((String) dateString);
-                        gradeDate.put(Constants.ATTR_DATE_FULFILLED, date);
+                        if (((sessionStart == null || sessionStart.compareTo(date) <= 0) && (sessionEnd == null || sessionEnd
+                                .compareTo(date) >= 0))) {
+                            gradeDate.put(Constants.ATTR_DATE_FULFILLED, date);
+                        } else {
+                            // this grade does not belong in the current session
+                            continue;
+                        }
                     }
                 } catch (ParseException e) {
                     log.error("Error parsing dates for a Current Section grade.");
@@ -557,7 +720,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             }
             int count = 0;
             for (GenericEntity entity : sortedList) {
-                student.put(semesterString + "-" + count++, entity);
+                student.put("currentSession-" + count++, entity);
             }
 
         } catch (ClassCastException ex) {
@@ -565,7 +728,6 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         } catch (NullPointerException ex) {
             log.error("Error occured processing Gradebook Entries", ex);
         }
-
     }
 
     /**
@@ -579,8 +741,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         if (studentSummaries != null) {
             for (GenericEntity summary : studentSummaries) {
 
-                // Grab the student's assmt results. Grab assmt filters from
-                // config.
+                // Grab the student's assmt results. Grab assmt filters from config
                 List<Map<String, Object>> assmtResults = (List<Map<String, Object>>) (summary
                         .remove(Constants.ATTR_STUDENT_ASSESSMENTS));
 
@@ -645,7 +806,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
      * @return
      */
     private Map applyAssessmentFilter(List<Map<String, Object>> assmtResults, String assmtFamily,
-                                      TimedLogic.TimeSlot timeSlot) {
+            TimedLogic.TimeSlot timeSlot) {
         // filter by assmt family name
         List<Map<String, Object>> studentAssessmentFiltered = filterAssessmentByFamily(assmtResults, assmtFamily);
 
@@ -655,7 +816,6 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
         Map chosenAssessment = null;
 
-        // TODO: fix objective assessment code and use it
         String objAssmtCode = "";
 
         // call timeslot logic to pick out the assessment we want
@@ -679,23 +839,21 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
                 // TODO: get the assessment meta data
                 /*
-                * Set<String> assessmentIds = new HashSet<String>(); for (Map
-                * studentAssessment : studentAssessmentFiltered) { String
-                * assessmentId = (String)
-                * studentAssessment.get(Constants.ATTR_ASSESSMENT_ID); if
-                * (!assessmentIds.contains(assessmentId)) { GenericEntity
-                * assessment = metaDataResolver.getAssmtById(assessmentId);
-                * assessmentMetaData.add(assessment);
-                * assessmentIds.add(assessmentId); } }
-                */
+                 * Set<String> assessmentIds = new HashSet<String>(); for (Map
+                 * studentAssessment : studentAssessmentFiltered) { String
+                 * assessmentId = (String)
+                 * studentAssessment.get(Constants.ATTR_ASSESSMENT_ID); if
+                 * (!assessmentIds.contains(assessmentId)) { GenericEntity
+                 * assessment = metaDataResolver.getAssmtById(assessmentId);
+                 * assessmentMetaData.add(assessment);
+                 * assessmentIds.add(assessmentId); } }
+                 */
 
-                chosenAssessment = TimedLogic.getMostRecentAssessmentWindow(studentAssessmentFiltered, assessmentMetaData);
+                chosenAssessment = TimedLogic.getMostRecentAssessmentWindow(studentAssessmentFiltered,
+                        assessmentMetaData);
                 break;
 
             default:
-
-                // Decide whether to throw runtime exception here. Should timed
-                // logic default @@@
                 chosenAssessment = TimedLogic.getMostRecentAssessment(studentAssessmentFiltered);
                 break;
         }
@@ -711,54 +869,47 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         return list;
     }
 
-
     /*
-    * (non-Javadoc)
-    *
-    * @see
-    * org.slc.sli.manager.PopulationManagerI#setEntityManager(org.slc.sli.manager
-    * .EntityManager)
-    */
+     * (non-Javadoc)
+     *
+     * @see
+     * org.slc.sli.manager.PopulationManagerI#setEntityManager(org.slc.sli.manager
+     * .EntityManager)
+     */
     @Override
     public void setEntityManager(EntityManager entityManager) {
         this.entityManager = entityManager;
     }
 
     /*
-    * (non-Javadoc)
-    *
-    * @see org.slc.sli.manager.PopulationManagerI#getStudent(java.lang.String,
-    * java.lang.String)
-    */
+     * (non-Javadoc)
+     *
+     * @see org.slc.sli.manager.PopulationManagerI#getStudent(java.lang.String,
+     * java.lang.String)
+     */
     @Override
     public GenericEntity getStudent(String token, String studentId) {
         return entityManager.getStudent(token, studentId);
     }
 
     /*
-    * (non-Javadoc)
-    *
-    * @see org.slc.sli.manager.PopulationManagerI#getStudent(java.lang.String,
-    * java.lang.Object, org.slc.sli.entity.Config.Data)
-    */
+     * (non-Javadoc)
+     *
+     * @see org.slc.sli.manager.PopulationManagerI#getStudent(java.lang.String,
+     * java.lang.Object, org.slc.sli.entity.Config.Data)
+     */
     @Override
     public GenericEntity getStudent(String token, Object studentId, Config.Data config) {
-        String key = (String) studentId;
-        GenericEntity student = getFromCache(STUDENT_CACHE, token, key);
-        if (student == null) {
-            student = entityManager.getStudentForCSIPanel(token, key);
-            putToCache(STUDENT_CACHE, token, key, student);
-        }
-        return student;
+        return entityManager.getStudentForCSIPanel(token, (String)studentId);
     }
 
     /*
-    * (non-Javadoc)
-    *
-    * @see
-    * org.slc.sli.manager.PopulationManagerI#getAttendance(java.lang.String,
-    * java.lang.Object, org.slc.sli.entity.Config.Data)
-    */
+     * (non-Javadoc)
+     *
+     * @see
+     * org.slc.sli.manager.PopulationManagerI#getAttendance(java.lang.String,
+     * java.lang.Object, org.slc.sli.entity.Config.Data)
+     */
     @Override
     public GenericEntity getAttendance(String token, Object studentIdObj, Config.Data config) {
         String studentId = (String) studentIdObj;
@@ -775,8 +926,8 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
             @Override
             public int compare(GenericEntity att1, GenericEntity att2) {
-                return ((String) att2.get(Constants.ATTR_ATTENDANCE_DATE)).compareTo(
-                        (String) att1.get(Constants.ATTR_ATTENDANCE_DATE));
+                return ((String) att2.get(Constants.ATTR_ATTENDANCE_DATE)).compareTo((String) att1
+                        .get(Constants.ATTR_ATTENDANCE_DATE));
             }
 
         });
@@ -825,14 +976,18 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     }
 
     /*
-    * (non-Javadoc)
-    *
-    * @see
-    * org.slc.sli.manager.PopulationManagerI#getSessionDates(java.lang.String,
-    * java.lang.String)
-    */
+     * (non-Javadoc)
+     *
+     * @see
+     * org.slc.sli.manager.PopulationManagerI#getSessionDates(java.lang.String,
+     * java.lang.String)
+     */
     @Override
     public List<String> getSessionDates(String token, String sessionId) {
+        // This method appears to not return the begin/end dates for the input session, as the name
+        // implies, but rather the begin/end dates, respectively, for the first and last session of
+        // the school year associated with the input session id.
+
         // Get the session first.
         GenericEntity currentSession = entityManager.getSession(token, sessionId);
         List<String> dates = new ArrayList<String>();
@@ -890,8 +1045,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                 pageNum = Integer.parseInt(nameList[2]);
                 pageSize = Integer.parseInt(nameList[3]);
             } catch (NumberFormatException nfe) {
-                // pagination information was in an incorrect format, use default values;
-                // this will never happen unless StudentSearch.get is changed incorrectly
+                // pagination information was in an incorrect format, use default values.
                 pageNum = 1;
                 pageSize = 50;
             }
@@ -918,13 +1072,13 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             student = entityManager.getStudent(token, student.getId());
             addFullName(student);
 
-            if (student.get("schoolId") != null) {
-                if (retrievedSchools.containsKey(student.get("schoolId"))) {
-                    school = retrievedSchools.get(student.get("schoolId"));
+            String schoolId = student.getString(Constants.ATTR_SCHOOL_ID);
+            if (schoolId != null && !schoolId.equals("")) {
+                if (retrievedSchools.containsKey(schoolId)) {
+                    school = retrievedSchools.get(schoolId);
                     student.put("currentSchoolName", school.get(Constants.ATTR_NAME_OF_INST));
                 } else {
-                    school = entityManager.getEntity(token, Constants.ATTR_SCHOOLS, student.getString("schoolId"),
-                            new HashMap());
+                    school = entityManager.getEntity(token, Constants.ATTR_SCHOOLS, schoolId, new HashMap());
                     retrievedSchools.put(school.getString(Constants.ATTR_ID), school);
                     student.put("currentSchoolName", school.get(Constants.ATTR_NAME_OF_INST));
                 }
@@ -1004,7 +1158,6 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         List<List<Map<String, Object>>> perfLevelsDescs;
         String reportingMethod;
         // inline assessments, perf attributes and convert grade to gradelevel
-        // TODO: we have similar logic for LOS - should be refactored and reused if possible
         for (Map<String, Object> elem : assessements) {
             scoreResults = (List<Map<String, Object>>) elem.get(Constants.ATTR_SCORE_RESULTS);
             if (scoreResults != null) {

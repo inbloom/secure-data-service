@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.security.context.resolver;
 
 import java.util.ArrayList;
@@ -21,7 +38,7 @@ import org.slc.sli.domain.Repository;
  * @author vmcglaughlin
  *
  */
-@Component
+//@Component
 public class StaffProgramResolver implements EntityContextResolver {
 
     @Autowired
@@ -35,7 +52,7 @@ public class StaffProgramResolver implements EntityContextResolver {
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return EntityNames.STAFF.equals(fromEntityType) && EntityNames.PROGRAM.equals(toEntityType);
+        return (EntityNames.STAFF.equals(fromEntityType) || EntityNames.TEACHER.equals(fromEntityType)) && EntityNames.PROGRAM.equals(toEntityType);
     }
 
     @SuppressWarnings("unchecked")
@@ -48,7 +65,7 @@ public class StaffProgramResolver implements EntityContextResolver {
         referenceIds.add(principal.getEntityId());
 
         List<String> references = helper.findEntitiesContainingReference(EntityNames.STAFF_PROGRAM_ASSOCIATION, "staffId", referenceIds);
-        List<String> createdContext = creatorResolverHelper.getAllowedForCreator(EntityNames.PROGRAM); 
+        List<String> createdContext = creatorResolverHelper.getAllowedForCreator(EntityNames.PROGRAM);
 
         if (references.isEmpty() && createdContext.isEmpty()) {
             return new ArrayList<String>();

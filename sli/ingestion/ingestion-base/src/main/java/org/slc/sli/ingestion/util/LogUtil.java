@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.util;
 
 import org.slf4j.Logger;
@@ -9,6 +26,8 @@ import org.slf4j.Logger;
  *
  */
 public class LogUtil {
+
+    private static boolean includeExceptionMessage;
 
     /**
      * Write the appropriate trace message to the log file
@@ -110,6 +129,10 @@ public class LogUtil {
      *         the new message-safe exception
      */
     private static Exception createLoggingException(Exception exception) {
+        if (includeExceptionMessage) {
+            return exception;
+        }
+
         Exception loggingException;
         if (exception.getCause() == null) {
             loggingException = new Exception(exception.getClass().toString());
@@ -119,6 +142,14 @@ public class LogUtil {
         }
         loggingException.setStackTrace(exception.getStackTrace());
         return loggingException;
+    }
+
+    public static boolean isIncludeExceptionMessage() {
+        return includeExceptionMessage;
+    }
+
+    public static void setIncludeExceptionMessage(boolean includeExceptionMessage) {
+        LogUtil.includeExceptionMessage = includeExceptionMessage;
     }
 
 }

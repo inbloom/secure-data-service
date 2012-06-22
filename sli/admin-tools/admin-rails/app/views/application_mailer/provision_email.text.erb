@@ -1,29 +1,37 @@
 <% if APP_CONFIG["is_sandbox"] %>
-Welcome <%= @firstName %>!
+Welcome <%= @firstName %>,
 
-You have selected the sample data set for your SLC sandbox.
-     
-If you elected to use sample data provided by the SLC, it can be accessed at the server below.You will need to sftp to the server below and upload the data file in order for it to be ingested by the system.
-     
-If you elected to use your own data you will need to sftp to the server below and upload the data file you created in order for it to be ingested by the system.
-          
+You have successfully created a landing zone on your Shared Learning Collaborative sandbox.
+
+If you chose to use one of the SLC sample datasets, you can download it from:
+<%= @sample_data_link %>
+
+Next, SFTP to the server below and upload the data file (SLC sample data or your own Ed-Fi data) for ingestion.
+
 Server: <%= @serverName %>
-Ed-Org: <%= @edorgId %>
+Education organization: <%= @edorgId %>
 
+For more information, please see <%= @redirect_email %>
 
 Thank you,
+
 The Shared Learning Collaborative
 <% else %>
-Welcome <%= @firstName %>!
+Welcome <%= @firstName %>,
 
 You have successfully created a landing zone for your education organization.
+<<<<<<< HEAD
+=======
      
-To load your data you will need to sftp to the server below and upload the data file you created in order for it to be ingested by the system.
+To load your data, sftp to the directory below and upload the data file you created in order for it to be ingested by the system.
+>>>>>>> 5122ba8... DE1012:  Run email text by tech writer.
+
+To ingest the data for your education organization, SFTP to the directory below, and upload the data file.
 
 Server: <%= @serverName %>
-Ed-Org: <%= @edorgId %>
-
+Education organization: <%= @edorgId %>
 
 Thank you,
+
 The Shared Learning Collaborative
 <% end %>

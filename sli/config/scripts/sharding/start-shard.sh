@@ -1,10 +1,12 @@
 #! /bin/bash
 
-rm -rf data logs
-mkdir -p data/db/a
-mkdir -p data/db/b
-mkdir -p data/db/config
-mkdir -p logs
+M=~/mongo/shard
+
+rm -rf $M/data $M/logs $M/pids
+mkdir -p $M/data/db/a
+mkdir -p $M/data/db/b
+mkdir -p $M/data/db/config
+mkdir -p $M/logs
 
 if [ -z $1 ]; then
     mongos_port=27017
@@ -27,10 +29,11 @@ wait_for_mongo() {
 }
 
 echo "Starting up shard servers..."
-mongod --shardsvr --dbpath data/db/a --port 10001 > logs/sharda.log &
-echo $! >> pids
-mongod --shardsvr --dbpath data/db/b --port 10002 > logs/shardb.log &
-echo $! >> pids
+mongod --shardsvr --dbpath $M/data/db/a --port 10001 > $M/logs/sharda.log &
+echo $! >> $M/pids
+mongod --shardsvr --dbpath $M/data/db/b --port 10002 > $M/logs/shardb.log &
+echo $! >> $M/pids
+
 wait_for_mongo 10001
 wait_for_mongo 10002
 
@@ -39,16 +42,18 @@ mongo config --port 10001 --eval 'db.settings.save({"_id":"chunksize", "value":1
 mongo config --port 10002 --eval 'db.settings.save({"_id":"chunksize", "value":1});'
 
 echo "Starting up config server..."
-mongod --configsvr --dbpath data/db/config --port 20000 > logs/configdb.log &
-echo $! >> pids
+mongod --configsvr --dbpath $M/data/db/config --port 20000 > $M/logs/configdb.log &
+echo $! >> $M/pids
+
 wait_for_mongo 20000
 
 echo "Setting chunk size on conig server..."
 mongo config --port 20000 --eval 'db.settings.save({"_id":"chunksize", "value":1});'
 
 echo "Starting up mongos router..."
-mongos --configdb localhost:20000 --port $mongos_port> logs/mongos.log &
-echo $! >> pids
+mongos --configdb localhost:20000 --port $mongos_port> $M/logs/mongos.log &
+echo $! >> $M/pids
+
 wait_for_mongo $mongos_port
 
 echo "Adding shards to cluster..."

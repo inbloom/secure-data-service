@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 class AppsController < ApplicationController
   before_filter :check_rights
 
@@ -6,6 +25,7 @@ class AppsController < ApplicationController
   # It allows developers to create new apps.
   # It also allows slc operators approve an app for use in the SLC.
   def check_rights
+    logger.debug {"Roles: #{session[:roles]}"}
     unless is_developer? or is_operator?
       raise ActiveResource::ForbiddenAccess, caller
     end
@@ -59,8 +79,8 @@ class AppsController < ApplicationController
       reg = @app.attributes["registration"]
       reg.status = "APPROVED"
       if @app.update_attribute("registration", reg)
-        #TODO send an email to the developer...
-        # ApplicationMailer.notify_operator(@app).deliver
+        user_info = APP_LDAP_CLIENT.read_user(@app.metaData.createdBy)
+        ApplicationMailer.notify_developer(@app, user_info[:first]).deliver
         format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
         format.json { head :ok }
       else
@@ -80,7 +100,7 @@ class AppsController < ApplicationController
         reg.status = "UNREGISTERED"
       end
       if @app.update_attribute("registration", reg)
-        # ApplicationMailer.notify_operator(@app).deliver
+        #ApplicationMailer.notify_operator(@app).deliver
         format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
         format.json { head :ok }
       else
@@ -117,8 +137,14 @@ class AppsController < ApplicationController
     respond_to do |format|
       if @app.save
         logger.debug {"Redirecting to #{apps_path}"}
-        #TODO send an email to the operator
-        # ApplicationMailer.notify_operator(session[:support_email], @app).deliver
+        if !APP_CONFIG["is_sandbox"]
+            # Want to read the created_by on the @app, which is stamped during the created.
+            # Tried @app.reload and it didn't work
+            creator_email = App.find(@app.id).created_by
+            user_info = APP_LDAP_CLIENT.read_user(session[:support_email])
+            dev_info = APP_LDAP_CLIENT.read_user(creator_email)
+            ApplicationMailer.notify_operator(session[:support_email], @app, user_info[:first], "#{dev_info[:first]} #{dev_info[:last]}").deliver
+        end
         format.html { redirect_to apps_path, notice: 'App was successfully created.' }
         format.json { render json: @app, status: :created, location: @app }
         # format.js
@@ -134,16 +160,18 @@ class AppsController < ApplicationController
   # PUT /apps/1.json
   def update
     @app = App.find(params[:id])
-    logger.debug {"App found (Update): #{@app.attributes}"}
-
     params[:app][:is_admin] = boolean_fix params[:app][:is_admin]
     params[:app][:installed] = boolean_fix params[:app][:installed]
     params[:app][:authorized_ed_orgs] = params[@app.name.gsub(" ", "_") + "_authorized_ed_orgs"]
     params[:app][:authorized_ed_orgs] = [] if params[:app][:authorized_ed_orgs] == nil
-
+    params[:app].delete_if {|key, value| ["administration_url", "image_url"].include? key and value.length == 0 }
     #ugg...can't figure out why rails nests the app_behavior attribute outside the rest of the app
     params[:app][:behavior] = params[:app_behavior]
-
+    @app.load(params[:app])
+    @app.attributes.delete :image_url unless params[:app].include? :image_url
+    @app.attributes.delete :administration_url unless params[:app].include? :administration_url
+    logger.debug {"App found (Update): #{@app.to_json}"}
+    
     respond_to do |format|
       if @app.update_attributes(params[:app])
           format.html { redirect_to apps_path, notice: 'App was successfully updated.' }
@@ -177,13 +205,12 @@ class AppsController < ApplicationController
       parameter = false
     end
   end
-  
+
   def get_district_hierarchy
     state_ed_orgs = EducationOrganization.all
     result = {}
     user_tenant = get_tenant
     state_ed_orgs.each do |ed_org|
-
       # In sandbox mode, only show edorgs for the current user's tenant
       filter_tenant = APP_CONFIG["is_sandbox"] && (!ed_org.metaData.attributes.has_key?("tenantId") || ed_org.metaData.tenantId != user_tenant)
 
