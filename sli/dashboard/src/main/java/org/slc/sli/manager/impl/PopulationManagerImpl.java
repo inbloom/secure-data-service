@@ -29,6 +29,11 @@ import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
+
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.GenericEntityEnhancer;
@@ -37,14 +42,11 @@ import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.TimedLogic;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * PopulationManager facilitates creation of logical aggregations of EdFi
- * entities/associations such as a student summary comprised of student profile,
- * fment, program, and assessment information in order to deliver the
+ * Facilitates creation of logical aggregations of EdFi entities/associations
+ * such as a student summary comprised of student profile,
+ * program, and assessment information in order to deliver the
  * Population Summary interaction.
  *
  * @author Robert Bloh
@@ -126,6 +128,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
      * , java.lang.Object, org.slc.sli.entity.Config.Data)
      */
     @Override
+    @Cacheable(value = Constants.CACHE_USER_PANEL_DATA)
     public GenericEntity getListOfStudents(String token, Object sectionId, Config.Data config) {
 
         String id = (String) sectionId;
@@ -260,8 +263,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             }
 
             // for each score result, create a new attribute that makes the
-            // score easily accessible
-            // without looping through this list
+            // score easily accessible without looping through this list
             List<Map> scoreResults = (List<Map>) assmtResult.get(Constants.ATTR_SCORE_RESULTS);
             if (scoreResults != null) {
 
@@ -722,8 +724,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         if (studentSummaries != null) {
             for (GenericEntity summary : studentSummaries) {
 
-                // Grab the student's assmt results. Grab assmt filters from
-                // config.
+                // Grab the student's assmt results. Grab assmt filters from config
                 List<Map<String, Object>> assmtResults = (List<Map<String, Object>>) (summary
                         .remove(Constants.ATTR_STUDENT_ASSESSMENTS));
 
@@ -798,7 +799,6 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
         Map chosenAssessment = null;
 
-        // TODO: fix objective assessment code and use it
         String objAssmtCode = "";
 
         // call timeslot logic to pick out the assessment we want
@@ -837,9 +837,6 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                 break;
 
             default:
-
-                // Decide whether to throw runtime exception here. Should timed
-                // logic default @@@
                 chosenAssessment = TimedLogic.getMostRecentAssessment(studentAssessmentFiltered);
                 break;
         }
@@ -886,13 +883,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
      */
     @Override
     public GenericEntity getStudent(String token, Object studentId, Config.Data config) {
-        String key = (String) studentId;
-        GenericEntity student = getFromCache(STUDENT_CACHE, token, key);
-        if (student == null) {
-            student = entityManager.getStudentForCSIPanel(token, key);
-            putToCache(STUDENT_CACHE, token, key, student);
-        }
-        return student;
+        return entityManager.getStudentForCSIPanel(token, (String)studentId);
     }
 
     /*
@@ -1037,8 +1028,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                 pageNum = Integer.parseInt(nameList[2]);
                 pageSize = Integer.parseInt(nameList[3]);
             } catch (NumberFormatException nfe) {
-                // pagination information was in an incorrect format, use default values;
-                // this will never happen unless StudentSearch.get is changed incorrectly
+                // pagination information was in an incorrect format, use default values.
                 pageNum = 1;
                 pageSize = 50;
             }
@@ -1151,7 +1141,6 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         List<List<Map<String, Object>>> perfLevelsDescs;
         String reportingMethod;
         // inline assessments, perf attributes and convert grade to gradelevel
-        // TODO: we have similar logic for LOS - should be refactored and reused if possible
         for (Map<String, Object> elem : assessements) {
             scoreResults = (List<Map<String, Object>>) elem.get(Constants.ATTR_SCORE_RESULTS);
             if (scoreResults != null) {

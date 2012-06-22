@@ -18,21 +18,21 @@
  
     <form class="form">
         <input type="text" placeholder="Benjamin" class="input-small">
-        <input type="password" placeholder="Last Name" class="input-small">
+        <input type="text" placeholder="Last Name" class="input-small">
     </form>
 
     <p>Or</p>
 
     <form class="form">
         <input type="text" placeholder="First Name" class="input-small">
-        <input type="password" placeholder="Smith" class="input-small">
+        <input type="text" placeholder="Smith" class="input-small">
     </form>
 
     <p>Or</p>
 
     <form class="form">
         <input type="text" placeholder="Benjamin" class="input-small">
-        <input type="password" placeholder="Smith" class="input-small">
+        <input type="text" placeholder="Smith" class="input-small">
     </form>
 
 </div>

@@ -86,12 +86,6 @@ public class ConfigControllerTest extends ControllerTestBase {
             }
 
             @Override
-            public List<GenericEntity> getUserInstHierarchy(String token) {
-                // TODO Auto-generated method stub
-                return null;
-            }
-
-            @Override
             public GenericEntity getUserCoursesAndSections(String token, Object key, Data config) {
                 // TODO Auto-generated method stub
                 return null;

@@ -18,7 +18,7 @@ public interface CustomizationAssemblyFactory {
      * Get required data and display metadata for a component
      * @param componentId
      * @param params
-     * @return
+     * @return view config
      */
     ModelAndViewConfig getModelAndViewConfig(String componentId, Object entityKey);
 
@@ -35,13 +35,13 @@ public interface CustomizationAssemblyFactory {
      * @param componentId - component to get data for
      * @param entityKey - entity key for the component
      * @param lazyOverride - override lazy?
-     * @return entity
+     * @return view config
      */
     ModelAndViewConfig getModelAndViewConfig(String componentId, Object entityKey, boolean lazyOverride);
 
     /**
      * Get widget configs
-     * @return
+     * @return collection of configs
      */
     Collection<Config> getWidgetConfigs();
 

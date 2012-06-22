@@ -14,7 +14,7 @@ import org.slc.sli.util.DashboardException;
 import org.slc.sli.web.util.NoBadChars;
 
 /**
- * Main config object for dashboard components
+ * Config unit for all dashboard components including panels and layouts
  * Immutable
  *
  * @author agrebneva

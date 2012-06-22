@@ -11,9 +11,6 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Element;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -44,15 +41,11 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
     public static final Class<?>[] ENTITY_REFERENCE_METHOD_EXPECTED_SIGNATURE =
             new Class[]{String.class, Object.class, Config.Data.class};
     public static final String SUBSTITUTE_TOKEN_PATTERN = "\\$\\{([^}]+)\\}";
-    private static final String DATA_CACHE_REGION = "user.panel.data";
     private Logger logger = LoggerFactory.getLogger(getClass());
     private ApplicationContext applicationContext;
     private ConfigManager configManager;
     private UserEdOrgManager userEdOrgManager;
     private Map<String, InvokableSet> entityReferenceToManagerMethodMap;
-    private CacheManager cacheManager;
-    private boolean useCache;
-
 
     public void setConfigManager(ConfigManager configManager) {
         this.configManager = configManager;
@@ -60,14 +53,6 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
 
     public void setUserEdOrgManager(UserEdOrgManager userEdOrgManager) {
         this.userEdOrgManager = userEdOrgManager;
-    }
-
-    public void setCacheManager(CacheManager cacheManager) {
-        this.cacheManager = cacheManager;
-    }
-
-    public void setUseCache(boolean useCache) {
-        this.useCache = useCache;
     }
 
     protected String getTokenId() {
@@ -96,10 +81,11 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
     @SuppressWarnings("unchecked")
     public final boolean checkCondition(Config parentConfig, Config config, GenericEntity entity) {
         if (config != null && config.getCondition() != null) {
-            //todo: figure out what to do when no entity
+
             if (entity == null) {
                 return true;
             }
+
             Config.Condition condition = config.getCondition();
             Object[] values = condition.getValue();
             // for simplicity always treat as an array
@@ -371,37 +357,14 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
         return getDataComponent(componentId, entityKey, getConfig(componentId).getData());
     }
 
-    protected GenericEntity getCached(CacheKey cacheKey) {
-        if (cacheManager != null && this.useCache) {
-            Element elem = cacheManager.getCache(DATA_CACHE_REGION).get(cacheKey);
-            if (elem != null) {
-                return (GenericEntity) elem.getValue();
-            }
-        }
-        return null;
-    }
-
-    protected void addCached(CacheKey cacheKey, GenericEntity value) {
-        if (cacheManager != null && this.useCache) {
-            cacheManager.getCache(DATA_CACHE_REGION).put(new Element(cacheKey, value));
-        }
-    }
-
     @LogExecutionTime
     protected GenericEntity getDataComponent(String componentId, Object entityKey, Config.Data config) {
-        CacheKey cacheKey = new CacheKey(getTokenId(), componentId, entityKey, config);
-        GenericEntity value = getCached(cacheKey);
-        if (value != null) {
-            return value;
-        }
         InvokableSet set = this.getInvokableSet(config.getEntityRef());
         if (set == null) {
             throw new DashboardException("No entity mapping references found for " + config.getEntityRef() + ". Fix!!!");
         }
         try {
-            value = (GenericEntity) set.getMethod().invoke(set.getManager(), getTokenId(), entityKey, config);
-            addCached(cacheKey, value);
-            return value;
+            return (GenericEntity) set.getMethod().invoke(set.getManager(), getTokenId(), entityKey, config);
         } catch (Exception e) {
             logger.error("Unable to invoke population manager for " + componentId + " and entity id " + entityKey
                     + ", config " + componentId, e);
@@ -413,77 +376,5 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
        this.applicationContext = applicationContext;
        populateEntityReferenceToManagerMethodMap();
-    }
-
-    /**
-     * Internal generic key type for panel.data
-     * @author agrebneva
-     *
-     */
-    private static final class CacheKey {
-        private String componentId;
-        private Object entityKey;
-        private Config.Data config;
-        private String tokenId;
-
-        private CacheKey(String token, String componentId, Object entityKey, Config.Data config) {
-            this.componentId = componentId;
-            this.entityKey = entityKey;
-            this.config = config;
-            this.tokenId = token;
-        }
-
-        @Override
-        public int hashCode() {
-            final int prime = 31;
-            int result = prime + ((componentId == null) ? 0 : componentId.hashCode());
-            result = prime * result + ((config == null) ? 0 : config.hashCode());
-            result = prime * result + ((entityKey == null) ? 0 : entityKey.hashCode());
-            result = prime * result + ((tokenId == null) ? 0 : tokenId.hashCode());
-            return result;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (this == obj) {
-                return true;
-            }
-            if (obj == null) {
-                return false;
-            }
-            if (getClass() != obj.getClass()) {
-                return false;
-            }
-            CacheKey other = (CacheKey) obj;
-            if (componentId == null) {
-                if (other.componentId != null) {
-                    return false;
-                }
-            } else if (!componentId.equals(other.componentId)) {
-                return false;
-            }
-            if (config == null) {
-                if (other.config != null) {
-                    return false;
-                }
-            } else if (!config.equals(other.config)) {
-                return false;
-            }
-            if (entityKey == null) {
-                if (other.entityKey != null) {
-                    return false;
-                }
-            } else if (!entityKey.equals(other.entityKey)) {
-                return false;
-            }
-            if (tokenId == null) {
-                if (other.tokenId != null) {
-                    return false;
-                }
-            } else if (!tokenId.equals(other.tokenId)) {
-                return false;
-            }
-            return true;
-        }
     }
 }

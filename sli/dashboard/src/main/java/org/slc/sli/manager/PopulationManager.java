@@ -8,6 +8,10 @@ import org.slc.sli.manager.Manager.EntityMapping;
 import org.slc.sli.manager.Manager.EntityMappingManager;
 
 /**
+ * Facilitates creation of logical aggregations of EdFi entities/associations
+ * such as a student summary comprised of student profile,
+ * program, and assessment information in order to deliver the
+ * Population Summary interaction.
  *
  * @author dwu
  *
@@ -17,8 +21,8 @@ public interface PopulationManager {
 
     /**
      * Get assessments taken by a group of students
-     * @param token Toekn used to authenticate
-     * @param studentSummaries Student information
+     * @param token token used to authenticate
+     * @param studentSummaries student information
      * @return unique set of assessment entities
      */
     public abstract List<GenericEntity> getAssessments(String token,
@@ -33,9 +37,9 @@ public interface PopulationManager {
      * @param studentIds
      *            - the student id list
      * @param sessionId
-     *            - The id of the current session so you can get historical context.
+     *            - the id of the current session so you can get historical context
      * @return studentList
-     *         - the student summary entity list
+     *            - the student summary entity list
      */
     public abstract List<GenericEntity> getStudentSummaries(String token,
             List<String> studentIds, String sessionId,
