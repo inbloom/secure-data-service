@@ -20,6 +20,9 @@ limitations under the License.
 SLIAdmin::Application.routes.draw do
 
   resources :change_passwords
+  resources :tenant_metrics
+  get "tenant_metrics", :to => "tenant_metrics#all"
+  get "tenant_metrics/:id", :to => "tenant_metrics#find"
 
   resources :waitlist_users do
     get 'success', :on => :collection
