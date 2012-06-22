@@ -50,7 +50,8 @@ public class ApplicationAuthorizationValidator {
      */
     @SuppressWarnings("unchecked")
     public List<String> getAuthorizedApps(SLIPrincipal principal) {
-        List<Entity> districts = findUsersDistricts(principal);
+        List<Entity> districts = findUsersDistricts(principal); 
+        Set<String> bootstrapApps = getBootstrapApps();
         Set<String> results = getDefaultAuthorizedApps();
         
         // essentially allow by default for users with no entity data, ie. administrators
@@ -72,7 +73,7 @@ public class ApplicationAuthorizationValidator {
                 districtQuery.addCriteria(new NeutralCriteria("authorized_ed_orgs", "=", district.getBody().get(
                         "stateOrganizationId")));
                 
-                Set<String> vendorAppsEnabledForEdorg = new HashSet<String>();
+                Set<String> vendorAppsEnabledForEdorg = new HashSet<String>(bootstrapApps); //bootstrap apps automatically added
                 
                 for (String id : repo.findAllIds("application", districtQuery)) {
                     vendorAppsEnabledForEdorg.add(id);
@@ -107,6 +108,19 @@ public class ApplicationAuthorizationValidator {
                     toReturn.add(currentApp.getEntityId()); 
                 }
             }
+        }
+        return toReturn;
+    }
+    
+    
+    private Set<String> getBootstrapApps() {
+        Set<String> toReturn = new HashSet<String>();
+        NeutralQuery bootstrapQuery = new NeutralQuery();
+        bootstrapQuery.addCriteria(new NeutralCriteria("bootstrap", "=", true));
+        Iterable<Entity> bootstrapApps = repo.findAll("application", bootstrapQuery);
+        
+        for (Entity currentApp : bootstrapApps) {
+            toReturn.add(currentApp.getEntityId());
         }
         return toReturn;
     }
