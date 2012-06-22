@@ -159,7 +159,7 @@ Examples:
         And filter by "sortBy" = "administrationDate"
         And filter by "sortOrder" = "descending"
         And filter by "offset" = "0"
-        And filter by "limit" = "1"
+        #And filter by "limit" = "1"
         And I submit the sorting and pagination request
       Then I should have a list of 1 "studentAssessmentAssociation" entities
         And I should have an entity with ID "<'Most Recent SAT Student Assessment Association' ID>"

@@ -19,7 +19,7 @@ class LDAPStorage
   GROUP_OBJECT_CLASSES = ["posixGroup", "top"]
   GROUP_MEMBER_ATTRIBUTE = :memberUid
 
-  CONST_GROUPID_NUM = "500"
+  CONST_GROUPID_NUM = "113"
   CONST_USERID_NUM  = "500"
 
   DEFAULT_GROUP_ATTRIBUTES = {
@@ -76,8 +76,8 @@ class LDAPStorage
   # these values are injected when the user is created
   ENTITY_CONSTANTS = {
         :emailtoken => "-",
-      :uidnumber  => CONST_GROUPID_NUM,
-      :gidnumber  => CONST_USERID_NUM,
+      :uidnumber  => CONST_USERID_NUM,
+      :gidnumber  => CONST_GROUPID_NUM,
       :vendor     => "none",
       :homedir    => "/dev/null"
   }

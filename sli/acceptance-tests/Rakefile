@@ -1,3 +1,4 @@
+require 'mongo'
 
 Dir.glob('suites/*.rake').each { |r| import r }
 
@@ -16,6 +17,8 @@ EXPAND = ENV['CUKE_EXPAND'] ? "--expand" : ""
 COLOR = ENV['FORCE_COLOR'] ? "-c" : ""
 
 OTHER_TAGS = ENV['OTHER_TAGS'] ? "--tags "+ENV['OTHER_TAGS'] : ""
+
+TOREMOVE = ENV['TOREMOVE'] ? true : false
 
 #######################################################
 
@@ -88,12 +91,19 @@ def runTests(testDirPath)
 end
 
 def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropExistingCollection=true)
-  #turn true/false into command line option
-  dropOption = (dropExistingCollection) ? "--drop":""
+  if TOREMOVE
+    if dropExistingCollection
+      dropCollectionsCleanly(collectionName)
+      dropOption = ""
+    end
+  else
+    dropOption = (dropExistingCollection) ? "--drop":""
+  end
+  
+  
+  #sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"printjson(db.#{collectionName}.dropIndexes().msg)\""
 
-  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"printjson(db.#{collectionName}.dropIndexes().msg)\""
-
-  sh "#{MONGO_BIN}mongoimport #{dropOption} -d #{DB_NAME} -c #{collectionName} -h #{DB_HOST} --file #{fixtureFilePath}/#{fixtureFileName}" do |success, exit_code|
+  sh "#{MONGO_BIN}mongoimport #{dropOption}  -d #{DB_NAME} -c #{collectionName} -h #{DB_HOST} --file #{fixtureFilePath}/#{fixtureFileName}" do |success, exit_code|
     #allow for user to pass block to run the test for each running of setFixture
     if(success && block_given?)
       yield
@@ -131,6 +141,44 @@ def displayFailureReport()
   end
 end
 
+def cleanseRealms()
+  puts 'About to clean up all but the boostrapped realms in mongo'
+  @conn = Mongo::Connection.new(DB_HOST)
+  @db = @conn.db(DB_NAME)
+  @realmColl = @db.collection('realm')
+  
+  @realmColl.find.each do |row|
+    if row['body']['uniqueIdentifier'] != 'Shared Learning Infrastructure' and row['body']['uniqueIdentifier'] != 'SandboxIDP'
+      @realmColl.remove(row)
+    end
+  end
+  
+end
+
+def cleanseApps()
+  puts 'About to clean up all but the boostrapped applications in mongo'
+  @conn = Mongo::Connection.new(DB_HOST)
+  @db = @conn.db(DB_NAME)
+  @appColl = @db.collection('application')
+  
+  @appColl.find.each do |row|
+    if row['body']['bootstrap'] != true
+      @appColl.remove(row)
+    end
+  end
+end
+
+def dropCollectionsCleanly(collectionName, specificTenant=nil)
+  if specificTenant != nil
+    #TODO make sure this works for dropping data in a collection for a specific tenant
+    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.#{collectionName}.remove({\"metaData.tenantId\":\"#{specificTenant}\"})\""
+    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig')\""
+  else
+    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.#{collectionName}.remove({})\""
+    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig')\""
+  end
+end
+
 ############################################################################################################
 
 
@@ -142,10 +190,8 @@ task :default => :production
 # Task that initializes the realm fixture.  Should only be done once
 task :realmInit => [:appInit] do
   #Preserve the bootstrap realm
-  sh "#{MONGO_BIN}mongoexport -d #{DB_NAME} -c realm -q \"{ $or : [ {\\\"body.uniqueIdentifier\\\": \\\"Shared Learning Infrastructure\\\"},{\\\"body.name\\\": \\\"Sandbox Environment\\\"} ] }\" -h #{DB_HOST}  -o test/data/temp_realm.json"
-  setFixture("realm", "temp_realm.json", "test/data", true)
+  cleanseRealms()
   setFixture("realm", "realm_fixture.json", "test/data", false)
-  sh "rm -f test/data/temp_realm.json"
 end
 
 task :appDenialInit do
@@ -158,10 +204,9 @@ end
 # Task that initializes the application registration fixture
 task :appInit do
   #Preserve the bootstrap apps
-  sh "#{MONGO_BIN}mongoexport -d #{DB_NAME} -c application -q \"{\\\"body.bootstrap\\\": true}\" -h #{DB_HOST}  -o test/data/temp_apps.json"
-  setFixture("application", "application_fixture.json")
-  setFixture("application", "temp_apps.json", "test/data", false)
-  sh "rm -f test/data/temp_apps.json"
+  cleanseApps()
+  setFixture("application", "application_fixture.json", "test/data", false)
+  
   setFixture("applicationAuthorization", "applicationAuthorization_fixture.json")
   setFixture("userSession", "oauth_authentication_tokens.json")
 end
@@ -436,7 +481,7 @@ task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionSessionTest, :in
                          :ingestionAPAssessmentTests, :ingestionACTAssessmentTests,:ingestionStudentProgramAssociationTest, :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
                          :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest,
                          :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest, :ingestionTenantTest,
-                         :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest, :ingestionEmptyControlFileTest, :ingestionDryRunTest ] do
+                         :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest, :ingestionEmptyControlFileTest, :ingestionDryRunTest, :ingestionSandboxDataTest ] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -569,7 +614,7 @@ desc "Import Secured Data Set"
 task :importSecuredData do
   $collectionSet.each do |collection|
     begin
-      sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME}m --quiet --eval db.#{collection}.drop()"
+      dropCollectionsCleanly(collection)
     rescue
     end
   end

@@ -57,6 +57,9 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
     private static final XMLOutputFactory OUTPUT_FACTORY = XMLOutputFactory.newInstance();
     private static final XMLEventFactory EVENT_FACTORY = XMLEventFactory.newInstance();
 
+
+    private static final String ENCODING = "UTF-8";
+
     private Map<String, ReferenceResolutionStrategy> supportedResolvers;
     private MessageSource messageSource;
 
@@ -213,7 +216,9 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
             out = new BufferedOutputStream(new FileOutputStream(newXml));
 
-            writer = OUTPUT_FACTORY.createXMLEventWriter(out);
+
+            writer = OUTPUT_FACTORY.createXMLEventWriter(out , ENCODING );
+
             final XMLEventWriter wr = writer;
 
             XmlEventVisitor replaceRefContent = new XmlEventVisitor() {
@@ -369,6 +374,45 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         return newXml;
     }
 
+
+    private File resolveRefs(String currentXPath, Map<String, File> refContent, Attribute ref, ErrorReport errorReport) {
+
+        File contentToAdd = refContent.get(ref.getValue());
+
+        if (contentToAdd != null) {
+            ReferenceResolutionStrategy rrs = supportedResolvers.get(currentXPath);
+            if (rrs == null) {
+                LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath));
+                errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath),
+                        IdRefResolutionHandler.class);
+                return null;
+            } else if (!(contentToAdd instanceof IdRefFile)) {
+                // Resolved content is not cached yet, so lets resolve it and cache it.
+                File resolvedContent = rrs.resolve(currentXPath, contentToAdd);
+                if (resolvedContent == null) {
+                    LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG1", ref.getValue()));
+                    errorReport.warning(
+                            MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG1", ref.getValue()),
+                            IdRefResolutionHandler.class);
+                }
+
+                File oldContentToAdd = contentToAdd;
+                contentToAdd = resolvedContent == null ? null : new IdRefFile(resolvedContent);
+
+                if (resolvedContent == null || !resolvedContent.equals(oldContentToAdd)) {
+                    org.apache.commons.io.FileUtils.deleteQuietly(oldContentToAdd);
+                }
+
+                refContent.put(ref.getValue(), contentToAdd);
+            }
+        } else {
+            LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3"));
+            errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3", ref.getValue()),
+                    IdRefResolutionHandler.class);
+        }
+
+        return contentToAdd;
+    }
 
 
     private void browse(final File xml, XmlEventVisitor browser, ErrorReport errorReport) {

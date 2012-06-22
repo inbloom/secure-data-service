@@ -1,7 +1,7 @@
 class App < SessionResource
   self.format = ActiveResource::Formats::JsonFormat
   validates_presence_of [:description, :application_url, :name, :redirect_uri, :vendor], :message => "must not be blank"
-  validates_numericality_of :version, :message => "is not a number (eg 1.0)"
+  validates_format_of :version, :with => /^[A-Za-z0-9\.]{1,25}$/, :message => "must contain only alphanumeric characters and periods and be less than 25 characters long"
   
   def self.all_but_admin
     apps = App.all
