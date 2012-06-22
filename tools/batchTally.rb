@@ -1,8 +1,6 @@
 require 'mongo'
 require 'json'
 
-require 'Win32/Console/ANSI'
-
 def printStats(stats)
   stats=Hash[stats.sort {|a,b| b[1]["time"]<=>a[1]["time"]}]
   stats.each do |name,stat|
