@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * A class used to persist Session and SchoolSessionAssociation in a certain order.
+ * A class used to persist Session .
  *
  * @author ablum
  *
@@ -19,15 +19,8 @@ public class SessionEntityPersistHandler extends EntityPersistHandler {
 
     @Override
     protected Entity doHandling(SimpleEntity entity, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
-        SimpleEntity ssAssociation = (SimpleEntity) entity.getBody().remove("schoolSessionAssociation");
         Entity mongoSession = super.doHandling(entity, errorReport, fileProcessStatus);
         LOG.debug("created session : {}", mongoSession);
-
-        if ( entity.getEntityId() == null ) {
-           ssAssociation.getBody().put("sessionId",mongoSession.getEntityId());
-           Entity createdSsAssociation = super.doHandling(ssAssociation, errorReport, fileProcessStatus);
-           return createdSsAssociation;
-        }
         return mongoSession;
     }
 }

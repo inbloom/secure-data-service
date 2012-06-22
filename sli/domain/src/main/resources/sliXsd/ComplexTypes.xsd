@@ -1559,37 +1559,6 @@
 		</xs:complexContent>
 	</xs:complexType>
 
-	<xs:complexType name="schoolSessionAssociation">
-		<xs:annotation>
-			<xs:documentation>This entity represents the association of a school
-				with all its sessions.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="schoolId" type="reference">
-				<xs:annotation>
-					<xs:documentation>Reference to the school associated with the
-						session.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>school</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="sessionId" type="reference">
-				<xs:annotation>
-					<xs:documentation>Reference to the session offered at the school.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>session</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
-
 	<xs:complexType name="scoreResult">
 		<xs:annotation>
 			<xs:documentation>A meaningful raw score or statistical expression of

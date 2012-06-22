@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.api.client.Entity;
+import org.slc.sli.api.client.Link;
 import org.slc.sli.util.Constants;
 
 /**
@@ -15,7 +17,7 @@ import org.slc.sli.util.Constants;
  * @author Robert Bloh
  *
  */
-public class GenericEntity extends LinkedHashMap<String, Object> {
+public class GenericEntity extends LinkedHashMap<String, Object> implements Entity {
 
     private static final long serialVersionUID = -1398693068211322783L;
 
@@ -27,6 +29,7 @@ public class GenericEntity extends LinkedHashMap<String, Object> {
         super(map);
     }
 
+    @Override
     public String getId() {
         return getString(Constants.ATTR_ID);
     }
@@ -71,5 +74,24 @@ public class GenericEntity extends LinkedHashMap<String, Object> {
         List<GenericEntity> list = (List<GenericEntity>) get(key);
         list.add(obj);
         put(key, list);
+    }
+
+    // Entity Interface for SDK Integration
+    @Override
+    public String getEntityType() {
+        return null;
+    }
+
+    @Override
+    public Map<String, Object> getData() {
+        return this;
+    }
+
+    @Override
+    public List<Link> getLinks() {
+        if (getData().containsKey(Constants.ATTR_LINKS)) {
+            return (List<Link>) getData().get(Constants.ATTR_LINKS);
+        }
+        return null;
     }
 }

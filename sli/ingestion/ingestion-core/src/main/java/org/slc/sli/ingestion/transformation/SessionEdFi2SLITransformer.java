@@ -47,8 +47,6 @@ public class SessionEdFi2SLITransformer extends SmooksEdFi2SLITransformer {
 
         @SuppressWarnings("deprecation")
         Iterable<Entity> match = getEntityRepository().findByQuery(entity.getType(), query, 0, 0);
-        SimpleEntity ssAssociation = (SimpleEntity) entity.getBody().get("schoolSessionAssociation");
-        ssAssociation.getBody().put("matched","false");
         if (match != null && match.iterator().hasNext()) {
             // Entity exists in data store.
             Entity matched = match.iterator().next();

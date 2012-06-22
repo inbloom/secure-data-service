@@ -51,7 +51,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope("request")
 @Path("apps")
-@Produces({ Resource.JSON_MEDIA_TYPE+";charset=utf-8" })
+@Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
 public class ApplicationResource extends DefaultCrudEndpoint {
     
     public static final String AUTHORIZED_ED_ORGS = "authorized_ed_orgs";
@@ -415,7 +415,13 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             Iterable<EntityBody> auths = service.list(query);
             long count = service.count(query);
             if (count == 0) {
-                warn("No application authorization exists. Nothing to do");
+                debug("No application authorization exists. Creating one.");
+                EntityBody body = new EntityBody();
+                body.put("authType", "EDUCATION_ORGANIZATION");
+                body.put("authId", edOrg);
+                body.put("appIds", new ArrayList());
+                service.create(body);
+                auths = service.list(query);
             }
             updateAuthorization(uuid, auths);
         }

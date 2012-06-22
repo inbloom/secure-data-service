@@ -34,7 +34,6 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | teacherSchoolAssociation    |
         | teacherSectionAssociation   |
         | session                     |
-        | schoolSessionAssociation    |
         | assessment                  |
         | studentAssessmentAssociation|
         | gradebookEntry              |
@@ -77,7 +76,6 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSchoolAssociation    | 3     |
         | teacherSectionAssociation   | 11    |
         | session                     | 22    |
-        | schoolSessionAssociation    | 22    |
         | assessment                  | 19    |
         | studentAssessmentAssociation| 203   |
         | studentTranscriptAssociation| 196   |
