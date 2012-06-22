@@ -428,11 +428,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                     .otherwise()
                         .process(persistenceProcessor)
                         .log(LoggingLevel.INFO, "CamelRouting", "PersistenceProcessor complete. Routing back to Maestro.")
-                        .to(maestroQueueUri)
-
-                .otherwise()
-                    .log(LoggingLevel.INFO, "CamelRouting", "Could not determine Pit Routing Request. Routing back to Maestro.")
-                    .to(maestroQueueUri);
+                        .to(maestroQueueUri);
     }
 
     /**
