@@ -1,15 +1,14 @@
 package org.slc.sli.api.security.context.resolver;
 
-import java.util.Arrays;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Resolves which StudentProgramAssociations a given teacher is allowed to see.
@@ -24,7 +23,8 @@ public class TeacherToStudentProgramAssociationResolver implements EntityContext
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.STUDENT_PROGRAM_ASSOCIATION.equals(toEntityType);
+        return false;
+        //return EntityNames.TEACHER.equals(fromEntityType) && EntityNames.STUDENT_PROGRAM_ASSOCIATION.equals(toEntityType);
     }
 
     @Override
