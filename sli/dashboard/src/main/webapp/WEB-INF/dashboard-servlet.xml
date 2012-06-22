@@ -3,7 +3,7 @@
 <beans
     xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:context="http://www.springframework.org/schema/context"
     xmlns:mvc="http://www.springframework.org/schema/mvc"
     xmlns:aop="http://www.springframework.org/schema/aop"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -13,10 +13,10 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd"
 >
     <context:property-placeholder location="file:${sli.conf},${prop.location}" ignore-resource-not-found="true" />
-    <context:component-scan base-package="org.slc.sli.web"/>
+    <context:component-scan base-package="org.slc.sli.dashboard.web"/>
     <context:annotation-config />
-    
-    <bean  id="freemarkerConfig" class="org.slc.sli.web.util.HtmlEscapingFreeMarkerTemplateLoader$HtmlEscapingFreeMarkerConfigurer">
+
+    <bean  id="freemarkerConfig" class="org.slc.sli.dashboard.web.util.HtmlEscapingFreeMarkerTemplateLoader$HtmlEscapingFreeMarkerConfigurer">
         <property name="templateLoaderPath" value="/WEB-INF/views/"/>
         <property name="freemarkerSettings">
     	 	<props>
@@ -24,20 +24,20 @@
 			</props>
 		</property>
     </bean>
- 
+
     <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
         <property name="cache" value="false"/>
         <property name="prefix" value=""/>
         <property name="suffix" value=".ftl"/>
 	<property name="contentType" value="text/html;charset=UTF-8"/>
     </bean>
-    
-    
-    <bean class="org.slc.sli.util.DashboardExceptionResolver">
+
+
+    <bean class="org.slc.sli.dashboard.util.DashboardExceptionResolver">
         <property name="exceptionMappings">
 		    <props>
 			    <prop key="java.lang.RuntimeException">error</prop>
-			    
+
 			    <!-- Example usage of Exception Page -->
 			    <prop key="java.lang.IllegalArgumentException">error</prop>
 			    <prop key="org.springframework.validation.BindException">error</prop>
@@ -53,27 +53,27 @@
             <property name="useCacheControlHeader" value="true"/>
             <property name="useCacheControlNoStore" value="true"/>
         </bean>
-        <bean id="sessionCheckInterceptor" class = "org.slc.sli.web.interceptor.SessionCheckInterceptor">
+        <bean id="sessionCheckInterceptor" class = "org.slc.sli.dashboard.web.interceptor.SessionCheckInterceptor">
             <property name="restClient" ref="restClient" />
         </bean>
     </mvc:interceptors>
-    
+
     <mvc:annotation-driven validator="validator" >
       <mvc:message-converters>
           <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
                     <property name="objectMapper">
-                        <bean id="jacksonObjectMapper" class="org.slc.sli.web.util.JacksonObjectMapperWithOptions"/>          
+                        <bean id="jacksonObjectMapper" class="org.slc.sli.dashboard.web.util.JacksonObjectMapperWithOptions"/>
                     </property>
                 </bean>
       </mvc:message-converters>
     </mvc:annotation-driven>
 
-    <bean id="validatorAspect" class="org.slc.sli.web.util.ControllerInputValidatorAspect" factory-method="aspectOf">
+    <bean id="validatorAspect" class="org.slc.sli.dashboard.web.util.ControllerInputValidatorAspect" factory-method="aspectOf">
         <property name="validator" ref="validator" />
     </bean>
-        
-    <bean id="googleAnalyticsTrackerId" class="java.lang.String"> 
+
+    <bean id="googleAnalyticsTrackerId" class="java.lang.String">
         <qualifier value="googleAnalyticsTrackerId" />
         <constructor-arg value="${dashboard.google_analytics.id}" />
-    </bean>   
+    </bean>
 </beans>

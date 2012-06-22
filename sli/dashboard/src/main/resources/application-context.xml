@@ -28,7 +28,7 @@
     </bean>
     
     <cache:annotation-driven key-generator="userCacheKeyGenerator"/>
-    <bean id="userCacheKeyGenerator" class="org.slc.sli.util.UserCacheKeyGenerator" />
+    <bean id="userCacheKeyGenerator" class="org.slc.sli.dashboard.util.UserCacheKeyGenerator" />
     
     <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:shared="true"/>
     
@@ -36,7 +36,7 @@
        <property name="cacheManager" ref="ehcache"/>
     </bean>
 	
-	<bean id="propertiesDecryptor" class="org.slc.sli.security.PropertiesDecryptor">
+	<bean id="propertiesDecryptor" class="org.slc.sli.dashboard.security.PropertiesDecryptor">
 	    <constructor-arg name="keyStore" value="${sli.encryption.keyStore}" />
 	    <constructor-arg name="clientSecret" value="${oauth.client.secret}" />
 	    <constructor-arg name="clientId" value="${oauth.client.id}" />
@@ -46,25 +46,25 @@
 	</bean>
     
     <!-- managers -->
-    <bean id="configManager" class="org.slc.sli.manager.impl.ConfigManagerImpl">
+    <bean id="configManager" class="org.slc.sli.dashboard.manager.impl.ConfigManagerImpl">
         <property name="driverConfigLocation" value="${panel.config.driver.dir}"/>
         <property name="userConfigLocation" value="${panel.config.custom.dir}"/>
         <property name="apiClient" ref="apiClientRef"/>
     </bean>
 
-    <bean id="entityManager" class="org.slc.sli.manager.EntityManager">
+    <bean id="entityManager" class="org.slc.sli.dashboard.manager.EntityManager">
       <property name="apiClient" ref="apiClientRef"/>
     </bean>
     
-    <bean id="userEdOrgManager"    class="org.slc.sli.manager.impl.UserEdOrgManagerImpl">
+    <bean id="userEdOrgManager"    class="org.slc.sli.dashboard.manager.impl.UserEdOrgManagerImpl">
       <property name="apiClient" ref="apiClientRef"/>
     </bean>  
     
-    <bean id="populationManager" class="org.slc.sli.manager.impl.PopulationManagerImpl">
+    <bean id="populationManager" class="org.slc.sli.dashboard.manager.impl.PopulationManagerImpl">
         <property name="entityManager" ref="entityManager"/>
     </bean>
 
-    <bean id="portalWSManager" class="org.slc.sli.manager.impl.PortalWSManagerImpl">
+    <bean id="portalWSManager" class="org.slc.sli.dashboard.manager.impl.PortalWSManagerImpl">
         <property name="restClient" ref="restClient"/>
         <property name="portalHeaderUrl" value="${portal.header.url}" />
 	    <property name="portalFooterUrl" value="${portal.footer.url}" />
@@ -79,7 +79,7 @@
 	    </constructor-arg>
     </bean>
     
-    <bean id="restClient" class="org.slc.sli.client.RESTClient" >
+    <bean id="restClient" class="org.slc.sli.dashboard.client.RESTClient" >
 	    <property name="securityUrl" value="${security.server.url}" />
 	    <property name="template" ref = "restTemplate" />
 	    <property name="templateWTimeout" ref="restTemplateWTimeout" />
@@ -100,18 +100,18 @@
         </constructor-arg>
    </bean>
     
-    <bean id= "apiClient" class="org.slc.sli.client.SDKAPIClient">
+    <bean id= "apiClient" class="org.slc.sli.dashboard.client.SDKAPIClient">
         <property name="sdkClient" ref="basicClient" />
         <property name="gracePeriod" value="${sli.security.gracePeriod}" />
     </bean>
     
     <alias alias="apiClientRef" name="${api.client}"/>
 
-    <bean id="progressManager" class="org.slc.sli.manager.impl.StudentProgressManagerImpl">
+    <bean id="progressManager" class="org.slc.sli.dashboard.manager.impl.StudentProgressManagerImpl">
         <property name="entityManager" ref="entityManager"/>
     </bean>
         
-    <bean id="dataFactory" class="org.slc.sli.manager.component.impl.CustomizationAssemblyFactoryImpl">
+    <bean id="dataFactory" class="org.slc.sli.dashboard.manager.component.impl.CustomizationAssemblyFactoryImpl">
         <property name="configManager" ref="configManager"/>
         <property name="userEdOrgManager" ref="userEdOrgManager"/>
     </bean> 

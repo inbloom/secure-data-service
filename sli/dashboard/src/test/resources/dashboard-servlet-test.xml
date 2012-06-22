@@ -13,13 +13,13 @@
 		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd"
 >
     <mvc:annotation-driven validator="validator" />
-    <context:component-scan base-package="org.slc.sli.web.controller"/>
+    <context:component-scan base-package="org.slc.sli.dashboard.web.controller"/>
     <context:annotation-config />
     <aop:aspectj-autoproxy/>
 	<!-- Creates the JSR-303 Validator -->
     <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
     
-    <bean id="validatorAspect" class="org.slc.sli.web.util.ControllerInputValidatorAspect" factory-method="aspectOf">
+    <bean id="validatorAspect" class="org.slc.sli.dashboard.web.util.ControllerInputValidatorAspect" factory-method="aspectOf">
         <property name="validator" ref="validator" />
     </bean>
 
