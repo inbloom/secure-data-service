@@ -17,6 +17,7 @@
 
 package org.slc.sli.ingestion.validation;
 
+import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -190,4 +191,9 @@ public class IngestionDummyEntityRepository implements Repository<Entity> {
         // TODO Auto-generated method stub
     }
 
+    @Override
+    public List<DBCollection> getCollections(boolean includeSystemCollections) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

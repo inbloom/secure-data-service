@@ -68,7 +68,7 @@ end
 
 Given /^there is an production Ingestion Admin account in ldap$/ do
 @sandbox = false
-ApprovalEngine.init(@ldap,Emailer.new(@email_conf),nil,@sandbox)
+ApprovalEngine.init(@ldap,Emailer.new(@email_conf),nil,true)
 
 end
 
@@ -97,9 +97,9 @@ sleep(1)
   ApprovalEngine.change_user_status(@email, ApprovalEngine::ACTION_ACCEPT_EULA)
   user_info = ApprovalEngine.get_user(@email)
   ApprovalEngine.verify_email(user_info[:emailtoken])
-  if(@sandbox==false)
- ApprovalEngine.change_user_status(@email,ApprovalEngine::ACTION_APPROVE)
- end
+ # if(@sandbox==false)
+ #ApprovalEngine.change_user_status(@email,ApprovalEngine::ACTION_APPROVE)
+ #end
   #ApprovalEngine.change_user_status(@email,"approve",true)
   #clear_edOrg()
   #clear_tenant()
