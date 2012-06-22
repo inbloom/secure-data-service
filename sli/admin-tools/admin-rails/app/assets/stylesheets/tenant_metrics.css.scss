@@ -7,14 +7,14 @@
   margin-left:10%;
 }
 
-#tenant-metrics-table thead th {
+#tenant-metrics-table thead th tfoot tr {
   padding: 1em;
   text-align:center;
   background-color:darkgray;
   border: 1px solid black;
 }
 
-#tenant-metrics-table tbody tr td {
+#tenant-metrics-table tr td {
   padding: 0.3em;
   padding-right: 0.75em;
 }
@@ -40,17 +40,21 @@
   border-right: 1px solid #d3d3d3;
 }
 
-.summary {
+.tenant_metrics_summary {
   color:#ffffff;
   background-color: #6d789c;
   border-top: 1px solid black;
 }
 
-.collection_name {
+.tenant_metrics_collection_name {
   width: 60%;
 }
 
-.metric_value {
+.tenant_metrics_entity_count {
+  text-align: right;
+}
+
+.tenant_metrics_data_size {
   text-align: right;
 }
 
