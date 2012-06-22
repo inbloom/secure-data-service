@@ -37,7 +37,7 @@
 }
 
 - (void) viewDidLoad {
-    [self.web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://local.slidev.org:8080/api/oauth/authorize?redirect_uri=https://localhost&client_id=EGbI4LaLaL"]]];
+    [self.web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://api.sandbox.slcedu.org/api/oauth/authorize?redirect_uri=https://localhost&client_id=vd7j8fyCuD"]]];
 }
 
 - (void)viewDidUnload
@@ -56,7 +56,7 @@
  * Method that parses the OAuth token out of the response.
  */
 - (void) getOauthToken {
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://local.slidev.org:8080/api/oauth/token?client_id=EGbI4LaLaL&client_secret=iGdeAGCugi4VwZNtMJR062nNKjB7gRKUjSB0AcZqpn8Beeee&code=%@&redirect_uri=NONCE", self.code]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.sandbox.slcedu.org/api/oauth/token?client_id=vd7j8fyCuD&client_secret=ALZz9p6ByBj72E25ixp7ZKkJjljQXMfdtj5NmgXQWihjGWOd&code=%@&redirect_uri=NONCE", self.code]];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
     [request startSynchronous];
     NSLog(@"Got a response of %@", [request responseString]);

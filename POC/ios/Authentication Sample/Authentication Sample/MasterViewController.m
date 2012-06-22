@@ -59,7 +59,7 @@
         [modal release];
     }
     else {
-        ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:@"http://local.slidev.org:8080/api/rest/v1/students"]];
+        ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:@"https://api.sandbox.slcedu.org/api/rest/v1/students"]];
         [request addRequestHeader:@"Authorization" value:[NSString stringWithFormat:@"Bearer %@", [OAuthViewController getToken]]];
         [request setDelegate:self];
         [request startAsynchronous];
