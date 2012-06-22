@@ -52,6 +52,6 @@ public class AllowAllEntityContextResolver implements EntityContextResolver {
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return (toEntityType.equals(EntityNames.LEARNINGOBJECTIVE) || toEntityType.equals(EntityNames.LEARNINGSTANDARD));
+        return (toEntityType.equals(EntityNames.LEARNING_OBJECTIVE) || toEntityType.equals(EntityNames.LEARNINGSTANDARD));
     }
 }

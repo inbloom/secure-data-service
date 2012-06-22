@@ -107,7 +107,7 @@ public class MockRepo implements Repository<Entity> {
         repo.put("oauthSession", new LinkedHashMap<String, Entity>());
         repo.put("oauth_access_token", new LinkedHashMap<String, Entity>());
         repo.put(EntityNames.ATTENDANCE, new LinkedHashMap<String, Entity>());
-        repo.put(EntityNames.LEARNINGOBJECTIVE, new LinkedHashMap<String, Entity>());
+        repo.put(EntityNames.LEARNING_OBJECTIVE, new LinkedHashMap<String, Entity>());
         repo.put(EntityNames.COHORT, new LinkedHashMap<String, Entity>());
         repo.put(EntityNames.STAFF_COHORT_ASSOCIATION, new LinkedHashMap<String, Entity>());
         repo.put(EntityNames.STUDENT_COHORT_ASSOCIATION, new LinkedHashMap<String, Entity>());

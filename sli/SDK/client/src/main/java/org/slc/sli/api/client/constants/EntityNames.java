@@ -23,7 +23,7 @@ public final class EntityNames {
     public static final String GRADE = "grade";
     public static final String GRADEBOOK_ENTRY = "gradebookEntry";
     public static final String GRADING_PERIOD = "gradingPeriod";
-    public static final String LEARNINGOBJECTIVE = "learningObjective";
+    public static final String LEARNING_OBJECTIVE = "learningObjective";
     public static final String LEARNINGSTANDARD = "learningStandard";
     public static final String OBJECTIVE_ASSESSMENT = "objectiveAssessment";
     public static final String PARENT = "parent";

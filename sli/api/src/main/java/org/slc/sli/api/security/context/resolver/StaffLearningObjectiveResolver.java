@@ -23,7 +23,7 @@ public class StaffLearningObjectiveResolver implements EntityContextResolver {
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return EntityNames.STAFF.equals(fromEntityType) && EntityNames.LEARNINGOBJECTIVE.equals(toEntityType);
+        return EntityNames.STAFF.equals(fromEntityType) && EntityNames.LEARNING_OBJECTIVE.equals(toEntityType);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class StaffLearningObjectiveResolver implements EntityContextResolver {
         // TODO need to figure out business logic to determine which learning objective is allow for
         // given staff, allow access to all learning objectives temporarily
         List<String> ids = new ArrayList<String>();
-        Iterable<String> it = this.repository.findAllIds(EntityNames.LEARNINGOBJECTIVE, null);
+        Iterable<String> it = this.repository.findAllIds(EntityNames.LEARNING_OBJECTIVE, null);
         for (String id : it) {
             ids.add(id);
         }

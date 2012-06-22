@@ -38,7 +38,7 @@ public class EdOrgContextResolver implements EntityContextResolver {
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        if (toEntityType.equals(EntityNames.LEARNINGOBJECTIVE) || toEntityType.equals(EntityNames.LEARNINGSTANDARD)) {
+        if (toEntityType.equals(EntityNames.LEARNING_OBJECTIVE) || toEntityType.equals(EntityNames.LEARNINGSTANDARD)) {
             return false;
         }
         return ((fromEntityType != null) && fromEntityType.equals(EntityNames.STAFF));
@@ -46,7 +46,7 @@ public class EdOrgContextResolver implements EntityContextResolver {
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        if ((toEntity != null) && (toEntity.equals(EntityNames.LEARNINGOBJECTIVE) || toEntity.equals(EntityNames.LEARNINGSTANDARD))) {
+        if ((toEntity != null) && (toEntity.equals(EntityNames.LEARNING_OBJECTIVE) || toEntity.equals(EntityNames.LEARNINGSTANDARD))) {
             return AllowAllEntityContextResolver.SUPER_LIST;
         }
 
