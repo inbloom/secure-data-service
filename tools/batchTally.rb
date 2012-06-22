@@ -1,6 +1,8 @@
 require 'mongo'
 require 'json'
 
+require 'Win32/Console/ANSI'
+
 def printStats(stats)
   stats=Hash[stats.sort {|a,b| b[1]["time"]<=>a[1]["time"]}]
   stats.each do |name,stat|
@@ -58,6 +60,10 @@ maestroProcessingTime=0
 job["stages"].each do |stage|
   if stage["stageName"] == "TransformationProcessor" or stage["stageName"] == "PersistenceProcessor"
 
+    stage["chunks"].each do |chunk|
+      pitProcessingStartTime=chunk["startTimestamp"].to_i unless chunk["startTimestamp"].to_i>pitProcessingStartTime
+    end
+    
     # Updated Pit Magic    
     colStage = db.collection("batchJobStage")
     countOfStages = colStage.find({"jobId" => id, "stageName" => stage["stageName"]}).count.to_s
@@ -79,13 +85,16 @@ job["stages"].each do |stage|
           rcPerResource[metric["resourceId"]]=0 unless rcPerResource[metric["resourceId"]]
           rcPerResource[metric["resourceId"]]+=metric["recordCount"] unless metric.nil? or metric["recordCount"].nil?
           
-          rcStage[stage["stageName"]]+=metric["recordCount"]          
+          #puts stage["stageName"] + "   -----   " + metric["recordCount"].to_s
+          
+          rcStage[stage["stageName"]] += metric["recordCount"].to_i
         end
         
       end
     end
     
-    rcStage[stage["stageName"]] = 0
+    #puts stage["stageName"] + "   -----   " + rcStage[stage["stageName"]].to_s
+    #rcStage[stage["stageName"]] = 0
     
   elsif stage["stageName"]=="JobReportingProcessor"
     # Job reporting
@@ -165,6 +174,7 @@ transformedRecordCount = rcStage["TransformationProcessor"]
 persistedRecordCount = rcStage["PersistenceProcessor"]
 edfiRecordCount = rcStage["EdFiProcessor"]
 puts "Edfi record #{edfiRecordCount}"
+
 wallClockForPits = (jobProcessingEndTime-pitProcessingStartTime)
 combinedProcessingTime = (maestroProcessingTime + pitProcessingTime)/1000
 totalPitProcessingTime = pitProcessingTime/1000
@@ -203,6 +213,7 @@ puts "Job started: #{jobStart.getlocal}"
 if ! jobEnd.nil?
   puts "Job ended: #{jobEnd.getlocal}"
 end
+
 pitRPS = (transformedRecordCount / wallClockForPits )
 
 puts "PIT RPS (transformed / pit wall-clock)  \e[35m#{pitRPS}\e[0m"
