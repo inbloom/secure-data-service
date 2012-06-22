@@ -85,7 +85,7 @@ public class PopulationManagerTest {
         List<GenericEntity> students = new ArrayList<GenericEntity>();
         students.add(studentSummary);
 
-        PowerMockito.doReturn(students).when(mockedEntityManager, "getStudents", token, sectionId, studentIds);
+        PowerMockito.doReturn(students).when(mockedEntityManager, "getStudents", token, sectionId);
 
         // setup attendance
         PowerMockito.doReturn(new ArrayList<GenericEntity>()).when(mockedEntityManager, "getAttendance", token,

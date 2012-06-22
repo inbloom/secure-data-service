@@ -1,0 +1,23 @@
+[
+{
+  "session": "Fall 2011",
+  "sessionId": "123456789",
+  "schoolYear": "2011"
+},{
+  "session": "Spring 2011",
+  "sessionId": "123456790",
+  "schoolYear": "2011"
+},{
+  "session": "Spring 2012",
+  "sessionId": "123456791",
+  "schoolYear": "2012"
+},{
+  "session": "Fall 2012",
+  "sessionId": "123456792",
+  "schoolYear": "2012"
+},{
+  "session": "Fall 2010",
+  "sessionId": "123456788",
+  "schoolYear": "2010"
+}
+]

@@ -15,12 +15,12 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | educationOrganization       |
         | section                     |
         | studentSectionAssociation   |
-        |teacher                      |
         | staff                       |
         |staffEducationOrganizationAssociation|
         | teacherSchoolAssociation    |
         | teacherSectionAssociation   |
         | session                     |
+        | schoolSessionAssociation    |
         | assessment                  |
         | studentAssessmentAssociation|
         | gradebookEntry              |
@@ -35,7 +35,10 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | cohort                      |
         | staffCohortAssociation      |
         | studentCohortAssociation    |
+        | studentCompetency           |
+        | studentCompetencyObjective  |
         | learningStandard            |
+        | learningObjective           |
         | disciplineIncident          |
         | disciplineAction            |
 		| studentDisciplineIncidentAssociation|
@@ -43,6 +46,7 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | gradingPeriod               |
         | calendarDate                |
         | reportCard                  |
+        | studentAcademicRecord       |
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
   And I should see "Processed 749 records." in the resulting batch job file
