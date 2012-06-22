@@ -257,6 +257,12 @@
     <jb:value property="parentEducationAgencyReference"
       data="LocalEducationAgency/StateEducationAgencyReference/EducationalOrgIdentity/StateOrganizationId" />
     <jb:expression property="collectionName">'educationOrganization'</jb:expression>
+    <jb:value property="LEACategory" data="LocalEducationAgency/LEACategory" />
+    <jb:value property="charterStatus" data="LocalEducationAgency/CharterStatus" />
+    <jb:value property="localEducationAgencyReference"
+      data="LocalEducationAgency/LocalEducationAgencyReference/EducationalOrgIdentity/StateOrganizationId" />
+    <jb:value property="educationServiceCenterReference"
+      data="LocalEducationAgency/EducationServiceCenterReference/EducationalOrgIdentity/StateOrganizationId" />
   </jb:bean>
 
   <jb:bean beanId="localEducationOrganization_educationOrgIdentificationCodeTypeArray" class="java.util.ArrayList"
