@@ -201,7 +201,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
             throw new OAuthAccessException(OAuthError.UNAUTHORIZED_CLIENT,
                     "User " + principal.getExternalId() + " is not authorized to use " + app.getBody().get("name"),
                     (String) session.getBody().get("state"));
-        
+        }
 
         List<Map<String, Object>> appSessions = (List<Map<String, Object>>) session.getBody().get("appSession");
 
