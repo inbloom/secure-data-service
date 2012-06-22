@@ -407,6 +407,8 @@ class SLCFixer
     @db['attendance'].find({}, {fields: ['body.studentId', 'metaData.tenantId']}.merge(@basic_options)) do |cursor|
       cursor.each do |attendance|
         teachers = @studentId_to_teachers[attendance['body']['studentId']].flatten.uniq
+        teachers = teachers.flatten
+        teachers = teachers.uniq
         @db['attendance'].update(make_ids_obj(attendance), {'$set' => {'metaData.teacherContext' => teachers}})
       end
     end
@@ -480,8 +482,26 @@ class SLCFixer
       }
     }
 
-    @studentId_to_teachers.each { |student,teachers|
-      @db['studentTranscriptAssociation'].update({'body.studentId'=> student}, {'$set' => {'metaData.teacherContext' => teachers}})
+    @db['studentTranscriptAssociation'].find({}, @basic_options) { |cursor|
+      cursor.each { |assoc|
+        student_id = assoc['body']['studentId']
+        record_id = assoc['body']['studentAcademicRecordId']
+        tenant_id = assoc['metaData']['tenantId']
+        teachers = []
+        teachers += @studentId_to_teachers[student_id] unless student_id.nil?
+        unless record_id.nil?
+          @db['studentAcademicRecord'].find({'_id'=>record_id, 'metaData.tenantId'=>tenant_id}, @basic_options) { |cursor|
+            cursor.each { |record|
+              student_id = record['body']['studentId']
+              teachers += @studentId_to_teachers[student_id] unless student_id.nil?
+            }
+          }
+          teachers = teachers.flatten
+          teachers = teachers.uniq
+        end
+
+        @db['studentTranscriptAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
+      }
     }
   end
 
