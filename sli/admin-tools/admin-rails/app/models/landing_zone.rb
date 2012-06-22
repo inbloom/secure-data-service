@@ -12,13 +12,25 @@ class LandingZone
     end
   end
 
-  def self.provision(edorg_id, tenant, uid, use_rsa)
-    Rails.logger.debug "entered provision: edorg_id = #{edorg_id}, tenant = #{tenant}, uid = #{uid}"
-
+  def self.provision(edorg_id, tenant, uid, public_key = nil)
+    hasPublicKey = !public_key.nil? && !public_key.empty?
+    Rails.logger.debug "entered provision: edorg_id = #{edorg_id}, tenant = #{tenant}, uid = #{uid}, hasPublicKey = #{hasPublicKey}"
+    
     user_info = APP_LDAP_CLIENT.read_user(uid)
     if(!user_info)
       raise ProvisioningError.new "User does not exist in LDAP"
     end
+
+    if (hasPublicKey)
+      Rails.logger.debug("Doing something with this public key: #{public_key}")
+      if (LandingZoneHelper.valid_rsa_key?(public_key))
+        Rails.logger.debug("Valid key")
+        LandingZoneHelper.create_key(public_key, uid)
+      else
+        Rails.logger.error("Invalid key")
+        raise KeyValidationError.new "Received invalid public key"
+      end
+     end
 
     isDuplicate = false
     if(APP_CONFIG['is_sandbox'])
@@ -63,6 +75,17 @@ class LandingZone
     end
 
     {:landingzone => @landingzone, :server => @server, :emailWarning => @emailWarningMessage, :edOrg => user_info[:edorg], :isDuplicate => isDuplicate}
+  end
+
+end
+
+class KeyValidationError < StandardError
+  def initialize(message)
+    @message = message
+  end
+
+  def to_s
+    @message
   end
 
 end

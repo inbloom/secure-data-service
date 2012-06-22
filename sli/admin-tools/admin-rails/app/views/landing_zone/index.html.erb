@@ -40,13 +40,24 @@
 		<% end %>
 		<% end %>
 		<div class="rsaKeyBlock">
-	          <label id="addKeyBtn">Add Public Key to SFTP
-		    <i id="key_arrow" class="icon-chevron-left"></i>
-                  </label>
+	      <label id="addKeyBtn">Add Public Key to SFTP
+            <i id="key_arrow" <% if @validation_errors %>class="icon-chevron-down"<% else %>class="icon-chevron-left"<% end %>></i>
+          </label>
 		  <i id="key_tooltip" class="icon-question-sign" rel="tooltip" title="<%= key_tooltip_text %>" style="cursor:pointer;font-size:20px"></i>
 		</div>
-		<div id="rsaKeyField" style="display: none">
-		    <%= text_area_tag(:message, nil, :size => "72x10") %>
+		<div class="controls" id="rsaKeyField" <% if !@validation_errors %>style="display: none"<% end %>>
+		    
+		    <div class="control-group">
+		      <%= text_area_tag(:public_key) %>
+		    </div>
+		    
+		    <% if @validation_errors %>
+		      <div class="control-group error">
+		        <span class="help-inline">
+		          <%= @validation_errors %>
+		        </span>
+		      </div>
+		    <% end %>
 		</div>
 		<div class="form-actions">
           <%#

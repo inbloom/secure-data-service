@@ -51,7 +51,8 @@ development:
     is_sandbox: false
     email_replace_uri: http://local.slidev.org:3001
     portal_url: https://rcportal.slidev.org/portal
-    
+    rsa_key_dir: /var/tmp/.sftp/authorized_keys
+
 local-acceptance-tests:
     <<: *common
     <<: *email_rumbster
@@ -64,6 +65,7 @@ local-acceptance-tests:
     is_sandbox: false
     email_replace_uri: http://local.slidev.org:2000
     portal_url: https://rcportal.slidev.org/portal
+    rsa_key_dir: /var/tmp/.sftp/authorized_keys
     
 development_sb:
     <<: *common
@@ -77,6 +79,7 @@ development_sb:
     ldap_base: ou=Local,ou=DevTest,dc=slidev,dc=org
     email_replace_uri: http://local.slidev.org:3001
     portal_url: https://rc2portal.slidev.org/portal
+    rsa_key_dir: /var/tmp/.sftp/authorized_keys
     
 team:
     <<: *common
@@ -90,6 +93,7 @@ team:
     email_replace_uri: https://ci.slidev.org:2001
     is_sandbox: false
     portal_url: https://rcportal.slidev.org/portal
+    rsa_key_dir: /ingestion/sftp/authorized_keys
     
 team_sb:
     <<: *common
@@ -103,6 +107,7 @@ team_sb:
     ldap_base: ou=SLIAdmin,dc=slidev,dc=org
     email_replace_uri: https://ci.slidev.org:2001
     portal_url: https://rc2portal.slidev.org/portal
+    rsa_key_dir: /ingestion/sftp/authorized_keys
     
 test:
     <<: *common
@@ -113,6 +118,7 @@ test:
     is_sandbox: false
     email_replace_uri: http://local.slidev.org:3001
     portal_url: https://rcportal.slidev.org/portal
+    rsa_key_dir: /var/tmp/.sftp/authorized_keys
     
 production:
     <<: *common
@@ -126,3 +132,5 @@ production:
     email_replace_uri: https://ci.slidev.org:2001
     is_sandbox: false
     portal_url: https://rcportal.slidev.org/portal
+    rsa_key_dir: /ingestion/sftp/authorized_keys
+

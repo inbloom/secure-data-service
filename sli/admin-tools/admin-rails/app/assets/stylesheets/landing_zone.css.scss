@@ -65,9 +65,14 @@ div.rsaKeyBlock input{
 div#rsaKeyField textarea{
   overflow:hidden;
   display:block;
-  clear:both;
+  clear:left;
   height:300px;
   width:500px;
+}
+
+div#validationErrorsBlock {
+  clear:right;
+  margin-left:10px;
 }
 
 div.provisionButtons input{

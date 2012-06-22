@@ -1,6 +1,6 @@
 module LandingZoneHelper
 
-  @@rsaRegex = /^---- BEGIN SSH2 PUBLIC KEY ----\n(.{0,72}\n)+---- END SSH2 PUBLIC KEY ----$/
+  @@rsaRegex = /\A---- BEGIN SSH2 PUBLIC KEY ----[\r|\n|(\r\n)](.{0,72}[\r|\n|(\r\n)])+---- END SSH2 PUBLIC KEY ----\z/
 
   # Lightweight check of RSA key format - will not reject all invalid keys; just makes sure they look pretty much right
   # SEE: RFC4716
@@ -18,10 +18,19 @@ module LandingZoneHelper
   #     true for valid key, false for invalid
   #
   def self.valid_rsa_key?(key)
-    return @@rsaRegex.match(key)? true : false
+    Rails.logger.debug("Using regex #{@@rsaRegex}")
+    return @@rsaRegex.match(key) ? true : false
   end
 
   # key conversion
   #newKey = %x[ssh-keygen -e -f ~/.ssh/id_rsa.pub]
+
+  def self.create_key(key, uid)
+    keyFile = File.join(APP_CONFIG['rsa_key_dir'], uid)
+    Rails.logger.debug("Writing public key to #{keyFile}")
+    file = File.new(keyFile, "w")
+    file.write(key)
+    file.close()
+  end
 
 end

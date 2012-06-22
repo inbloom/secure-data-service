@@ -1,6 +1,7 @@
 class LandingZoneController < ApplicationController
   before_filter :check_roles
   rescue_from ProvisioningError, :with => :handle_error
+  rescue_from KeyValidationError, :with => :handle_validation_error
   rescue_from ActiveResource::ResourceConflict, :with => :already_there
   
   def provision
@@ -22,18 +23,25 @@ class LandingZoneController < ApplicationController
       ed_org_id = ApplicationHelper.get_edorg_from_ldap( uid() )
     end
     
-    use_rsa = params[:use_rsa]
-     
+    public_key = params[:public_key]
+    Rails.logger.debug("Public key: #{public_key}")
+    
     if (ed_org_id == nil || ed_org_id.gsub(/\s/, '').length == 0)
       redirect_to :action => 'index', :controller => 'landing_zone'
     else
       ed_org_id = ed_org_id.gsub(/^ed_org_/, '')
-      @landingzone = LandingZone.provision ed_org_id, tenant, uid, use_rsa
+       @landingzone = LandingZone.provision ed_org_id, tenant, uid, public_key
     end
   end
 
   def index
     @edOrgs = LandingZone.possible_edorgs
+  end
+  
+  def handle_validation_error(exception)
+    @validation_errors = exception.to_s
+    Rails.logger.warn("Caught KeyValidationError: #{@validation_errors}")
+    render :action => 'index', :controller => 'landing_zone'
   end
   
   def handle_error
