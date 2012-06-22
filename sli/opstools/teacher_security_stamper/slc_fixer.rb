@@ -11,9 +11,10 @@ class SLCFixer
   def initialize(db, logger = nil, grace_period = 2000)
     @db = db
     @basic_options = {:timeout => false, :batch_size => 100}
-    #@log = logger || Logger.new(STDOUT)
-    @log = Logger.new(STDOUT)
-    @log.level = Logger::ERROR
+    @count = 0
+    @log = logger || Logger.new(STDOUT)
+    # @log = Logger.new(STDOUT)
+    @log.level ||= Logger::WARN
 
     @teacher_ids = {}
     @db['staff'].find({type: "teacher"}, {fields: ['_id', 'metaData.tenantId']}.merge(@basic_options)) do |cursor|
@@ -31,26 +32,17 @@ class SLCFixer
 
   def start
     time = Time.now
-    @threads = []
-    Benchmark.bm(20) do |x|
-      @threads << Thread.new {x.report('students')    {stamp_students}}
-    end
-
-    @threads.each do |th|
-      th.join
-    end
 
     @threads = []
     Benchmark.bm(20) do |x|
+      x.report('students')    {stamp_students}
       @threads << Thread.new {x.report('section')    {stamp_sections}}
       @threads << Thread.new {x.report('program')    {stamp_programs}}
       @threads << Thread.new {x.report('cohort')     {stamp_cohorts}}
       @threads << Thread.new {x.report('parent')     {stamp_parents}}
       @threads << Thread.new {x.report('assessments')     {stamp_assessments}}
       @threads << Thread.new {x.report('disciplines')     {stamp_disciplines}}
-      @threads << Thread.new {x.report('grades')     {stamp_grades}}
       @threads << Thread.new {x.report('other')     {stamp_other}}
-      @threads << Thread.new {x.report('misc')     {stamp_misc}}
       @threads << Thread.new {x.report('student_associations')     {stamp_student_associations}}
       @threads << Thread.new {x.report('teacher')     {stamp_teacher}}
       @threads << Thread.new {x.report('studentSectionGradebookEntry')     {stamp_gradebook}}
@@ -81,9 +73,7 @@ class SLCFixer
         teacherIds = teacherIds.flatten
         teacherIds = teacherIds.uniq
         @studentId_to_teachers[studentId] = teacherIds
-
-        @db['student'].update({'_id' => studentId, 'metaData.tenantId' => tenantId},
-                              {'$set' => {'metaData.teacherContext' => teacherIds}})
+        stamp_full_context(@db['student'], studentId, tenantId, teacherIds)
       }
     }
   end
@@ -169,141 +159,61 @@ class SLCFixer
 
   def stamp_sections
     @log.info "Stamping sections and associations"
-
     section_to_teachers = {}
-    section_assoc_to_teachers = {}
-    section_to_tenant = {}
-
-    @db['studentSectionAssociation'].find({}, @basic_options) { |cursor|
-      cursor.each { |assoc|
-        teachers = @studentId_to_teachers[assoc['body']['studentId']]
-        #@log.debug "studentSectionAssociation #{assoc['_id']} teacherContext #{teachers.to_s}"
-        @db['studentSectionAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
-        # NOTE verify other solution @db['studentCompetency'].update({'body.studentSectionAssociationId'=>assoc['_id']}, {'$set' => {'metaData.teacherContext' => teachers}})
-        # NOTE studentCompetencyObjective? 
-         
-        section_assoc_to_teachers[assoc['_id']] = teachers
-        section_id = assoc['body']['sectionId']
-        section_to_tenant[section_id] ||= assoc['metaData']['tenantId']
-        section_to_teachers[section_id] ||= []
-        section_to_teachers[section_id] += teachers unless teachers.nil?
-        section_to_teachers[section_id] = section_to_teachers[section_id].flatten
-        section_to_teachers[section_id] = section_to_teachers[section_id].uniq
-      }
-    }
-
-    @db['grade'].find({}, @basic_options) { |cursor|
-      cursor.each { |grade|
-        teachers = section_assoc_to_teachers[grade['body']['studentSectionAssociationId']].flatten.uniq unless section_assoc_to_teachers[grade['body']['studentSectionAssociationId']].nil?
-        @db[:grade].update(make_ids_obj(grade), {'$set' => {'metaData.teacherContext' => teachers}})
-      }
-    }
-
-    @db['studentCompetency'].find({}, @basic_options) { |cursor|
-      cursor.each { |grade|
-        teachers = section_assoc_to_teachers[grade['body']['studentSectionAssociationId']].flatten.uniq unless section_assoc_to_teachers[grade['body']['studentSectionAssociationId']].nil?
-        @db[:studentCompetency].update(make_ids_obj(grade), {'$set' => {'metaData.teacherContext' => teachers}})
-      }
-    }
-
-    @db['teacherSectionAssociation'].find({}, @basic_options) { |cursor|
-      cursor.each { |assoc|
-        section_id = assoc['body']['sectionId']
-        teacher_id = assoc['body']['teacherId']
-        section_to_tenant[section_id] ||= assoc['metaData']['tenantId']
-        section_to_teachers[section_id] ||= []
-        section_to_teachers[section_id].push teacher_id
-        section_to_teachers[section_id] = section_to_teachers[section_id].flatten
-        section_to_teachers[section_id] = section_to_teachers[section_id].uniq
-
-        teachers = section_to_teachers[section_id]
-        @db['teacherSectionAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
-      }
-    }
-  
-    section_to_teachers.each { |section, teachers|
-      @db['section'].update({'_id'=> section, 'metaData.tenantId'=> section_to_tenant[section]}, {'$set' => {'metaData.teacherContext' => teachers}})
-    }
+    @db['teacherSectionAssociation'].find({}, @basic_options) do |cursor|
+      cursor.each do |tsa|
+        stamp_context(@db['teacherSectionAssociation'], tsa, tsa['body']['teacherId'])
+        sections = get_existing_context(@db['section'], tsa['body']['sectionId'])
+        sections << tsa['body']['teacherId']
+        sections.uniq!
+        section_to_teachers[tsa['body']['sectionId']] ||= []
+        section_to_teachers[tsa['body']['sectionId']] += sections
+        
+        stamp_full_context(@db['section'], tsa['body']['sectionId'], tsa['metaData']['tenantId'], sections)
+      end
+    end
+    
+    @db['studentSectionAssociation'].find({}, @basic_options) do |cursor|
+      cursor.each do |ssa|
+        students = @studentId_to_teachers[ssa['body']['studentId']]
+        stamp_context(@db['studentSectionAssociation'], ssa, students)
+        sections = get_existing_context(@db['section'], ssa['body']['sectionId'])
+        sections += students
+        sections.uniq!
+        section_to_teachers[ssa['body']['sectionId']] ||= []
+        section_to_teachers[ssa['body']['sectionId']] += sections
+        
+        stamp_full_context(@db['section'], ssa['body']['sectionId'], ssa['metaData']['tenantId'], sections)
+        @db['grade'].find({"body.studentSectionAssociationId" => ssa['_id']}, @basic_options) { |cursor| cursor.each {|grade| stamp_context(@db['grade'], grade, sections)}}
+        @db['studentCompetency'].find({"body.studentSectionAssociationId" => ssa['_id']}, @basic_options) { |cursor| cursor.each {|competency| stamp_context(@db['studentCompetency'], competency, sections)}}
+      end
+    end
 
     @db[:gradebookEntry].find({}, {fields: ['body.sectionId', 'metaData.tenantId']}.merge(@basic_options)) do |cursor|
       cursor.each do |item|
         teachers = section_to_teachers[item['body']['sectionId']].flatten.uniq unless section_to_teachers[item['body']['sectionId']].nil?
-        @db[:gradebookEntry].update(make_ids_obj(item), {'$set' => {'metaData.teacherContext' => teachers}})
+        stamp_context(@db[:gradebookEntry], item, teachers)
       end
     end
 
-
-    section_to_session = {}
-    session_to_sections = {}
     #Session related stuff
     #Map section to session
-    course_to_sections = {}
     @db[:section].find({}, @basic_options) do |cursor|
       cursor.each do |item|
-        section_id = item['_id']
-        session_id = item['body']['sessionId']
-        section_to_session[section_id] = session_id
-
-        session_to_sections[session_id] ||= []
-        session_to_sections[session_id].push section_id
-
-        course_id = item['body']['courseId']
-        course_to_sections[course_id] ||= []
-        course_to_sections[course_id].push section_id
+        courses = get_existing_context(@db['course'], item['body']['courseId'])
+        courses += item['metaData']['teacherContext'] unless !item.include? 'metaData' or !item['metaData'].include? 'teacherContext'
+        courses.uniq!
+        stamp_full_context(@db['course'], item['body']['courseId'], item['metaData']['tenantId'], courses)
+        stamp_full_context(@db['session'], item['body']['sessionId'], item['metaData']['tenantId'], item['metaData']['teacherContext'])
       end
     end
-
-    session_to_sections.each { |session, sections|
-      teachers = []
-      sections.each { |section| teachers << section_to_teachers[section] }
-      teachers = teachers.flatten
-      teachers = teachers.uniq
-      @db['session'].update({'_id'=> session}, {'$set' => {'metaData.teacherContext' => teachers}})
-    }
-
-    section_to_session.each { |section, session|
-      @db['courseOffering'].update({'body.sessionId'=> session}, {'$set' => {'metaData.teacherContext' => section_to_teachers[section]}})
-      @db['courseOffering'].update({'body.sessionId'=> session}, {'$set' => {'metaData.teacherContext' => section_to_teachers[section]}})
-      @db['sectionAssessmentAssociation'].update({'body.sectionId'=> section}, {'$set' => {'metaData.teacherContext' => section_to_teachers[section]}})
-    }
-
-    course_to_sections.each { |course_id, section_ids|
-      teachers = []
-      section_ids.each { |section| teachers << section_to_teachers[section] }
-      teachers = teachers.flatten
-      teachers = teachers.uniq
-      @db['course'].update({'_id'=>course_id, 'metaData.tenantId'=>section_to_tenant[section_ids.first]}, {'$set' => {'metaData.teacherContext' => teachers}})
-    }
-
-    # tag grading periods
-    grading_period_to_sessions = {}
-    @db['session'].find({}, @basic_options) { |cursor|
-      cursor.each { |item|
-        session_id = item['_id']
-        grading_periods = item['body']['gradingPeriodReference']
-        next if grading_periods.nil?
-        grading_periods.each { |grading_period_id|
-          grading_period_to_sessions[grading_period_id] ||= []
-          grading_period_to_sessions[grading_period_id].push session_id
-        }
-      }
-    }
-
-    grading_period_to_sessions.each { |grading_period, sessions|
-      teachers = []
-      tenant_id = nil
-      sessions.each { |session|
-        sections = session_to_sections[session]
-        next if sections.nil?
-        sections.each { |section| teachers << section_to_teachers[section] }
-        tenant_id = section_to_tenant[sections.first] unless sections.empty?
-      }
-      teachers = teachers.flatten
-      teachers = teachers.uniq
-      #@log.debug "teachers = #{teachers} tenant = #{tenant_id}  grading peiod = #{grading_period}"
-      @db['gradingPeriod'].update({'_id'=>grading_period, 'metaData.tenantId'=>tenant_id}, {'$set' => {'metaData.teacherContext' => teachers}})
-    }
-
+    @db['session'].find({}, @basic_options) do |cursor|
+      cursor.each do |session|
+        stamp_full_context(@db['gradingPeriod'], session['body']['gradingPeriodReference'], session['metaData']['tenantId'], session['metaData']['teacherContext'])
+        @db['schoolSessionAssociation'].find({"body.sessionId" => session['_id']}, @basic_options) {|cursor| cursor.each {|ssa| stamp_context(@db['schoolSessionAssociation'], ssa, session['metaData']['teacherContext'])}}
+        @db['courseOffering'].find({'body.sessionId'=> session['_id']}, @basic_options) {|cursor| cursor.each {|co| stamp_context(@db['courseOffering'], co, session['metaData']['teacherContext'])}}
+      end
+    end
   end
 
   def stamp_cohorts
@@ -316,7 +226,7 @@ class SLCFixer
       cursor.each { |assoc|
         teachers = @studentId_to_teachers[assoc['body']['studentId']]
         #@log.debug "studentCohortAssociation #{assoc['_id']} teacherContext #{teachers.to_s}"
-        @db['studentCohortAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
+        stamp_context(@db['studentCohortAssociation'], assoc, teachers)
 
         cohort_id = assoc['body']['cohortId']
         cohort_to_tenant[cohort_id] ||= assoc['metaData']['tenantId']
@@ -328,7 +238,7 @@ class SLCFixer
     }
 
     cohort_to_teachers.each { |cohort, teachers|
-      @db['cohort'].update({'_id'=> cohort, 'metaData.tenantId'=> cohort_to_tenant[cohort]}, {'$set' => {'metaData.teacherContext' => teachers}})
+      stamp_full_context(@db['cohort'], cohort, cohort_to_tenant[cohort], teachers)
     }
 
     @db['staffCohortAssociation'].find({}, @basic_options) { |cursor|
@@ -337,32 +247,22 @@ class SLCFixer
         assoc['body']['cohortId'].each { |cohort| teachers += cohort_to_teachers[cohort] unless cohort_to_teachers[cohort].nil? }
         teachers = teachers.flatten
         teachers = teachers.uniq
-        @db['staffCohortAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
+        stamp_context(@db['staffCohortAssociation'], assoc, teachers)
       }
     }
   end
 
   def stamp_parents
     @log.info "Stamping parents and associations"
-
-    parent_to_teachers = {}
-    parent_to_tenant = {}
-    @db['studentParentAssociation'].find({}, {fields: ['_id', 'body.studentId', 'body.parentId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
-      cursor.each { |assoc|
-        teachers = @studentId_to_teachers[assoc['body']['studentId']]
-        teachers = [] if teachers == nil
-        @db['studentParentAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
-        
-        parent_id = assoc['body']['parentId']
-        parent_to_tenant[parent_id] ||= assoc['metaData']['tenantId']
-        parent_to_teachers[parent_id] ||= []
-        parent_to_teachers[parent_id] += teachers unless teachers.nil?
-      }
-    }
-
-    parent_to_teachers.each { |parent_id, teachers|
-      @db['parent'].update({'_id' => parent_id, 'metaData.tenantId' => parent_to_tenant[parent_id]}, {'$set' => {'metaData.teacherContext' => teachers}})
-    }
+    @db['studentParentAssociation'].find({}, {fields: ['_id', 'body.studentId', 'body.parentId', 'metaData.tenantId']}.merge(@basic_options)) do |cursor|
+      cursor.each do |assoc|
+        teachers = @studentId_to_teachers[assoc['body']['studentId']] || []
+        teachers += get_existing_context(@db['parent'], assoc['body']['parentId'])
+        teachers.uniq!
+        stamp_context(@db['studentParentAssociation'], assoc, teachers)
+        stamp_full_context(@db['parent'], assoc['body']['parentId'], assoc['metaData']['tenantId'], teachers)
+      end
+    end
   end
 
   def stamp_programs
@@ -375,7 +275,7 @@ class SLCFixer
       cursor.each { |assoc|
         teachers = @studentId_to_teachers[assoc['body']['studentId']]
         #@log.debug "studentProgramAssociation #{assoc['_id']} teacherContext #{teachers.to_s}"
-        @db['studentProgramAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
+        stamp_context(@db['studentProgramAssociation'], assoc, teachers)
 
         program_id = assoc['body']['programId']
         program_to_tenant[program_id] ||= assoc['metaData']['tenantId']
@@ -384,21 +284,21 @@ class SLCFixer
       }
     }
 
-    program_to_teachers.each { |program, teachers|
+    program_to_teachers.each do |program, teachers|
       teachers = teachers.flatten
       teachers = teachers.uniq
-      @db['program'].update({'_id'=> program, 'metaData.tenantId'=> program_to_tenant[program]}, {'$set' => {'metaData.teacherContext' => teachers}})
-    }
+      stamp_full_context(@db['program'], program, program_to_tenant[program], teachers)
+    end
 
-    @db['staffProgramAssociation'].find({}, @basic_options) { |cursor|
-      cursor.each { |assoc|
+    @db['staffProgramAssociation'].find({}, @basic_options) do |cursor|
+      cursor.each do |assoc|
         teachers = []
         assoc['body']['programId'].each { |program| teachers += program_to_teachers[program] unless program_to_teachers[program].nil? }
         teachers = teachers.flatten
         teachers = teachers.uniq
-        @db['staffProgramAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
-      }
-    }
+        stamp_context(@db['staffProgramAssociation'], assoc, teachers)
+      end
+    end
   end
   
   def stamp_attendance
@@ -408,16 +308,9 @@ class SLCFixer
         teachers = @studentId_to_teachers[attendance['body']['studentId']].flatten.uniq
         teachers = teachers.flatten
         teachers = teachers.uniq
-        @db['attendance'].update(make_ids_obj(attendance), {'$set' => {'metaData.teacherContext' => teachers}})
+        stamp_context(@db['attendance'], attendance, teachers)
       end
     end
-  end
-
-  def stamp_grades
-
-  end
-  
-  def stamp_misc
   end
   
   def stamp_disciplines
@@ -428,9 +321,9 @@ class SLCFixer
         action['body']['staffId'].each {|id| teachers << id}
         action['body']['studentId'].each {|id| teachers += @studentId_to_teachers[id] unless @studentId_to_teachers[id].nil?}
         teachers = teachers.flatten.uniq
-        @db['disciplineAction'].update(make_ids_obj(action), {'$set' => {'metaData.teacherContext' => teachers}})
+        stamp_context(@db['disciplineAction'], action, teachers)
         action['body']['disciplineIncidentId'].each do |id|
-          @db['disciplineIncident'].update({'_id' => id, 'metaData.tenantId' => action['metaData']['tenantId']}, {'$set' => {'metaData.teacherContext' => teachers}})
+          stamp_full_context(@db['disciplineIncident'], id, action['metaData']['tenantId'], teachers)
         end
       end
     end
@@ -439,7 +332,8 @@ class SLCFixer
     @log.info "Stamping studentDisciplineIncidentAssociation"
     @db['studentDisciplineIncidentAssociation'].find({}, @basic_options) do |cursor|
       cursor.each do |assoc|
-        @db['studentDisciplineIncidentAssociation'].update(make_ids_obj(assoc), {"$set" => {'metaData.teacherContext' => @studentId_to_teachers[assoc['body']['studentId']].flatten.uniq }}) unless @studentId_to_teachers[assoc['body']['studentId']].nil?
+        stamp_context(@db['studentDisciplineIncidentAssociation'], assoc, @studentId_to_teachers[assoc['body']['studentId']].flatten.uniq) if @studentId_to_teachers.has_key? assoc['body']['studentId']
+        # @db['studentDisciplineIncidentAssociation'].update(make_ids_obj(assoc), {"$set" => {'metaData.teacherContext' => @studentId_to_teachers[assoc['body']['studentId']].flatten.uniq }}) unless @studentId_to_teachers[assoc['body']['studentId']].nil?
       end
     end
   end
@@ -453,7 +347,7 @@ class SLCFixer
       cursor.each { |assoc|
         teachers = @studentId_to_teachers[assoc['body']['studentId']]
         #@log.debug "studentAssessmentAssociation #{assoc['_id']} teacherContext #{teachers.to_s}"
-        @db['studentAssessmentAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
+        stamp_context(@db['studentAssessmentAssociation'], assoc, teachers)
 
         assessment_id = assoc['body']['assessmentId']
         assessment_to_tenant[assessment_id] ||= assoc['metaData']['tenantId']
@@ -477,12 +371,12 @@ class SLCFixer
     @db['studentSchoolAssociation'].find({}, {fields: ['_id', 'body.studentId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
       cursor.each { |assoc|
         teachers = @studentId_to_teachers[assoc['body']['studentId']]
-        @db['studentSchoolAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
+        stamp_context(@db['studentSchoolAssociation'], assoc, teachers)
       }
     }
 
-    @db['studentTranscriptAssociation'].find({}, @basic_options) { |cursor|
-      cursor.each { |assoc|
+    @db['studentTranscriptAssociation'].find({}, @basic_options) do |cursor|
+      cursor.each do |assoc|
         student_id = assoc['body']['studentId']
         record_id = assoc['body']['studentAcademicRecordId']
         tenant_id = assoc['metaData']['tenantId']
@@ -499,8 +393,12 @@ class SLCFixer
           teachers = teachers.uniq
         end
 
-        @db['studentTranscriptAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
-      }
+        stamp_context(@db['studentTranscriptAssociation'], assoc, teachers)
+      end
+    end
+    @studentId_to_teachers.each { |student,teachers|
+      #TODO Add tenantId
+      @db['studentTranscriptAssociation'].update({'body.studentId'=> student}, {'$set' => {'metaData.teacherContext' => teachers}})
     }
   end
 
@@ -516,7 +414,7 @@ class SLCFixer
     @db[type].find({}, {fields: ['body.studentId', 'metaData.tenantId']}.merge(@basic_options)) do |cursor|
       cursor.each do |item|
         teachers = @studentId_to_teachers[item['body']['studentId']].flatten.uniq unless @studentId_to_teachers[item['body']['studentId']].nil?
-        @db[type].update(make_ids_obj(item), {'$set' => {'metaData.teacherContext' => teachers}})
+        stamp_context(@db[type], item, teachers)
       end
     end
   end
@@ -527,7 +425,7 @@ class SLCFixer
     @db['studentSectionGradebookEntry'].find({}, {fields: ['_id', 'body.studentId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
       cursor.each { |assoc|
         teachers = @studentId_to_teachers[assoc['body']['studentId']]
-        @db['studentSectionGradebookEntry'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => teachers}})
+        stamp_context(@db['studentSectionGradebookEntry'], assoc, teachers)
       }
     }
   end
@@ -570,7 +468,7 @@ class SLCFixer
         end
 
         #@db['teacher'].update({'_id'=> teacher_id, 'metaData.tenantId'=> teacher_to_tenant[teacher_id]}, {'$set' => {'metaData.teacherContext' => teachers}})
-        @db['staff'].update(make_ids_obj(teacher), {'$set' => {'metaData.teacherContext' => teachers}})
+        stamp_context(@db['staff'], teacher, teachers)
       }
     }
 
@@ -583,7 +481,7 @@ class SLCFixer
         teachers = teachers.flatten
         teachers = teachers.uniq
       end
-      @db['teacherSchoolAssociation'].update({'_id'=> assoc_id, 'metaData.tenantId'=> teacher_to_tenant[teacher_id]}, {'$set' => {'metaData.teacherContext' => teachers}})
+      stamp_full_context(@db['teacherSchoolAssociation'], assoc_id, teacher_to_tenant[teacher_id], teachers)
     }
 
     # tag staff ed orgs
@@ -596,7 +494,7 @@ class SLCFixer
         staff_id = assoc['body']['staffReference']
         ed_org_id = assoc['body']['educationOrganizationReference']
         tenant_id = assoc['metaData']['tenantId']
-        @db['staffEducationOrganizationAssociation'].update(make_ids_obj(assoc), {'$set' => {'metaData.teacherContext' => staff_id}})
+        stamp_context(@db['staffEducationOrganizationAssociation'], assoc, staff_id)
         if school_to_teachers.has_key? ed_org_id
           staff_to_schools[staff_id] ||= []
           staff_to_schools[staff_id].push ed_org_id
@@ -611,7 +509,7 @@ class SLCFixer
       schools.each { |school| teachers << school_to_teachers[school] }
       teachers = teachers.flatten
       teachers = teachers.uniq
-      @db['staff'].update({'_id'=>staff_id, 'metaData.tenantId'=>staff_to_tenant[staff_id]}, {'$set' => {'metaData.teacherContext' => teachers}})
+      stamp_full_context(@db['staff'], staff_id, staff_to_tenant[staff_id], teachers)
     }
   end
 
@@ -627,7 +525,7 @@ class SLCFixer
             teachers[teacher_id] = true
           }
         }
-        @db['educationOrganization'].update(make_ids_obj(school), {'$set' => {'metaData.teacherContext' => teachers.keys}})
+        stamp_context(@db['educationOrganization'], school, teachers.keys)
         #@log.debug "school #{school['_id']} teachers #{teachers.keys}" 
       }
     }
@@ -637,7 +535,38 @@ class SLCFixer
   def make_ids_obj(record)
     obj = {}
     obj['_id'] = record['_id']
-    obj['metaData.tenantId'] = record['metaData']['tenantId']
+    if record.include? 'metaData' and record['metaData'].include? 'tenantId'
+      obj['metaData.tenantId'] = record['metaData']['tenantId']
+    else
+      obj['metaData.tenantId'] = nil
+    end
     obj
+  end
+  def get_existing_context(collection, id)
+    context = []
+    collection.find({"_id" => id}, {fields: ['metaData.teacherContext']}.merge(@basic_options)) {|cursor| cursor.each {|coll| context += coll['metaData']['teacherContext'] unless coll['metaData']['teacherContext'].nil?}}
+    context
+  end
+  def stamp_context(collection, object, teachers)
+    obj = make_ids_obj(object)
+    stamp_full_context(collection, obj['_id'], obj['metaData.tenantId'], teachers)
+  end
+  def stamp_full_context(collection, id, tenant, teachers)
+    if tenant.nil?
+      @log.warn "No tenant for #{collection.name}##{id}"
+      # return
+    end
+    begin
+      if !id.is_a? Array
+        id = [id]
+      end
+      id.each do |i|
+        collection.update({"_id" => i, "metaData.tenantId" => tenant}, {'$set' => {'metaData.teacherContext' => teachers}})
+        @count += 1
+        @log.info {"Stamping #{collection.name}"} if @count % 200 == 0
+      end
+    rescue Exception => e
+      @log.warn e.message
+    end
   end
 end
