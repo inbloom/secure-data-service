@@ -196,38 +196,24 @@ class SLCFixer
       end
     end
 
-
-    section_to_session = {}
-    session_to_sections = {}
     #Session related stuff
     #Map section to session
-    course_to_sections = {}
     @db[:section].find({}, @basic_options) do |cursor|
       cursor.each do |item|
-        section_id = item['_id']
-        session_id = item['body']['sessionId']
-        section_to_session[section_id] = session_id
-
-        session_to_sections[session_id] ||= []
-        session_to_sections[session_id].push section_id
-
-        course_id = item['body']['courseId']
-        course_to_sections[course_id] ||= []
-        course_to_sections[course_id].push section_id
-        stamp_full_context(@db['course'], item['body']['courseId'], item['metaData']['tenantId'], item['metaData']['teacherContext'])
+        courses = get_existing_context(@db['course'], item['body']['courseId'])
+        courses += item['metaData']['teacherContext']
+        courses.uniq!
+        stamp_full_context(@db['course'], item['body']['courseId'], item['metaData']['tenantId'], courses)
         stamp_full_context(@db['session'], item['body']['sessionId'], item['metaData']['tenantId'], item['metaData']['teacherContext'])
       end
     end
-
-
-    section_to_session.each { |section, session|
-      #TODO Fix this for write concern
-      @db['schoolSessionAssociation'].update({'body.sessionId'=> session}, {'$set' => {'metaData.teacherContext' => section_to_teachers[section]}})
-      @db['courseOffering'].update({'body.sessionId'=> session}, {'$set' => {'metaData.teacherContext' => section_to_teachers[section]}})
-      @db['courseOffering'].update({'body.sessionId'=> session}, {'$set' => {'metaData.teacherContext' => section_to_teachers[section]}})
-      @db['sectionAssessmentAssociation'].update({'body.sectionId'=> section}, {'$set' => {'metaData.teacherContext' => section_to_teachers[section]}})
-    }
-
+    @db['session'].find({}, @basic_options) do |cursor|
+      cursor.each do |session|
+        stamp_full_context(@db['gradingPeriod'], session['body']['gradingPeriodReference'], session['metaData']['tenantId'], session['metaData']['teacherContext'])
+        @db['schoolSessionAssociation'].find({"body.sessionId" => session['_id']}, @basic_options) {|cursor| cursor.each {|ssa| stamp_context(@db['schoolSessionAssociation'], ssa, session['metaData']['teacherContext'])}}
+        @db['courseOffering'].find({'body.sessionId'=> session['_id']}, @basic_options) {|cursor| cursor.each {|co| stamp_context(@db['courseOffering'], co, session['metaData']['teacherContext'])}}
+      end
+    end
   end
 
   def stamp_cohorts
@@ -268,25 +254,15 @@ class SLCFixer
 
   def stamp_parents
     @log.info "Stamping parents and associations"
-
-    parent_to_teachers = {}
-    parent_to_tenant = {}
-    @db['studentParentAssociation'].find({}, {fields: ['_id', 'body.studentId', 'body.parentId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
-      cursor.each { |assoc|
-        teachers = @studentId_to_teachers[assoc['body']['studentId']]
-        teachers = [] if teachers == nil
+    @db['studentParentAssociation'].find({}, {fields: ['_id', 'body.studentId', 'body.parentId', 'metaData.tenantId']}.merge(@basic_options)) do |cursor|
+      cursor.each do |assoc|
+        teachers = @studentId_to_teachers[assoc['body']['studentId']] || []
+        teachers += get_existing_context(@db['parent'], assoc['body']['parentId'])
+        teachers.uniq!
         stamp_context(@db['studentParentAssociation'], assoc, teachers)
-        
-        parent_id = assoc['body']['parentId']
-        parent_to_tenant[parent_id] ||= assoc['metaData']['tenantId']
-        parent_to_teachers[parent_id] ||= []
-        parent_to_teachers[parent_id] += teachers unless teachers.nil?
-      }
-    }
-
-    parent_to_teachers.each { |parent_id, teachers|
-      stamp_full_context(@db['parent'], parent_id, parent_to_tenant[parent_id], teachers)
-    }
+        stamp_full_context(@db['parent'], assoc['body']['parentId'], assoc['metaData']['tenantId'], teachers)
+      end
+    end
   end
 
   def stamp_programs
