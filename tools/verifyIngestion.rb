@@ -3,10 +3,14 @@ require 'mongo'
 require 'json'
 
 #Talk to maestro's mongos
-mongohost = 'nxmaestro.slidev.org'
+mongohost = ARGV[1]
+if (mongohost.nil?) 
+	mongohost = "nxmaestro.slidev.org"
+end
+
 mongoport = 27017
 
-dbName = ARGV[1]
+dbName = ARGV[2]
 if ( dbName.nil? ) 
 	dbName = "sli"
 end
