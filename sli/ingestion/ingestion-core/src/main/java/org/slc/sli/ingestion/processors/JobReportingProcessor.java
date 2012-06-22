@@ -135,10 +135,13 @@ public class JobReportingProcessor implements Processor {
                 tempStage = it.next();
 
                 if (!processedStage.containsKey(tempStage.getStageName())) {
-                    tempStage.setMetrics(null);
-                    tempStage.setProcessingInformation("");
 
-                    processedStage.put(tempStage.getStageName(), tempStage);
+                    Stage st = new Stage(tempStage.getStageName(), tempStage.getStatus(), tempStage.getStartTimestamp(), tempStage.getStopTimestamp(), null);
+                    st.setJobId(tempStage.getJobId());
+                    st.setElapsedTime(tempStage.getElapsedTime());
+                    st.setProcessingInformation("");
+
+                    processedStage.put(st.getStageName(), st);
                 } else {
                     Stage temp = processedStage.get(tempStage.getStageName());
 
@@ -524,5 +527,9 @@ public class JobReportingProcessor implements Processor {
 
     public void setCommandTopicUri(String commandTopicUri) {
         this.commandTopicUri = commandTopicUri;
+    }
+
+    public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
+        this.batchJobDAO = batchJobDAO;
     }
 }

@@ -6,7 +6,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -116,8 +118,15 @@ public class JobReportingProcessorTest {
         // mock the WorkNote
         WorkNote workNote = WorkNote.createSimpleWorkNote(BATCHJOBID);
 
+        List<Stage> mockStages = new ArrayList<Stage>();
+        List<Metrics> mockMetrics = new ArrayList<Metrics>();
+
+        mockMetrics.add(new Metrics(RESOURCEID, RECORDS_CONSIDERED, RECORDS_FAILED));
+        mockStages.add(new Stage("PersistenceProcessor", "finished", new Date(), new Date(), mockMetrics));
+
         // set mocked BatchJobMongoDA in jobReportingProcessor
         Mockito.when(mockedBatchJobDAO.findBatchJobById(Matchers.eq(BATCHJOBID))).thenReturn(mockedJob);
+        Mockito.when(mockedBatchJobDAO.getBatchStagesStoredSeperatelly(Matchers.eq(BATCHJOBID))).thenReturn(mockStages);
         Mockito.when(mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), Matchers.anyInt())).thenReturn(fakeErrorIterable);
 
         NeutralRecordRepository mockedNeutralRecordRepository = Mockito.mock(NeutralRecordRepository.class);
@@ -132,6 +141,8 @@ public class JobReportingProcessorTest {
         // jobReportingProcessor.setLandingZone(tmpLz);
         printOut.println("Writing to " + tmpLz.getDirectory().getAbsolutePath());
 
+
+        jobReportingProcessor.setBatchJobDAO(mockedBatchJobDAO);
         jobReportingProcessor.process(exchange);
 
         // read the generated job output file and check values
