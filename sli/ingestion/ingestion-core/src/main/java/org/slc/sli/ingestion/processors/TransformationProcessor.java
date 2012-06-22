@@ -64,35 +64,40 @@ public class TransformationProcessor implements Processor {
     }
 
     private void processTransformations(WorkNote workNote, Exchange exchange) {
-        String batchJobId = workNote.getBatchJobId();
+
         Stage stage = initializeStage(workNote);
-
-        Metrics metrics = Metrics.newInstance(workNote.getIngestionStagedEntity().getCollectionNameAsStaged());
-
-        // FIXME: transformation needs to actually count processed records and errors
-
-        Criteria limiter = Criteria.where("creationTime").gte(workNote.getRangeMinimum())
-                .lte(workNote.getRangeMaximum());
-        Query query = new Query().addCriteria(limiter);
-
-        long recordsToProcess = neutralRecordMongoAccess.getRecordRepository().countForJob(
-                workNote.getIngestionStagedEntity().getCollectionNameAsStaged(), query, batchJobId);
-
-        metrics.setRecordCount(recordsToProcess);
-        stage.getMetrics().add(metrics);
-
-        NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
-        TenantContext.setTenantId(newJob.getTenantId());
-
+        String batchJobId = workNote.getBatchJobId();
+        NewBatchJob newJob = null;
         try {
+            newJob = batchJobDAO.findBatchJobById(batchJobId);
+
+            TenantContext.setTenantId(newJob.getTenantId());
+
+            addMetricsToStage(workNote, stage, batchJobId);
+
             performDataTransformations(workNote, newJob);
 
         } catch (Exception e) {
             handleProcessingExceptions(exchange, batchJobId, e);
         } finally {
-            BatchJobUtils.stopStageChunkAndAddToJob(stage, newJob);
-            batchJobDAO.saveBatchJobStageSeparatelly(batchJobId, stage);
+            if (newJob != null) {
+                BatchJobUtils.stopStageChunkAndAddToJob(stage, newJob);
+                batchJobDAO.saveBatchJobStageSeparatelly(batchJobId, stage);
+            }
         }
+    }
+
+    private void addMetricsToStage(WorkNote workNote, Stage stage, String batchJobId) {
+        Metrics metrics = Metrics.newInstance(workNote.getIngestionStagedEntity().getCollectionNameAsStaged());
+        // FIXME: transformation needs to actually count processed records and errors
+        Criteria limiter = Criteria.where("creationTime").gte(workNote.getRangeMinimum())
+                .lt(workNote.getRangeMaximum());
+        Query query = new Query().addCriteria(limiter);
+
+        long recordsToProcess = neutralRecordMongoAccess.getRecordRepository().countForJob(
+                workNote.getIngestionStagedEntity().getCollectionNameAsStaged(), query, batchJobId);
+        metrics.setRecordCount(recordsToProcess);
+        stage.getMetrics().add(metrics);
     }
 
     private Stage initializeStage(WorkNote workNote) {
