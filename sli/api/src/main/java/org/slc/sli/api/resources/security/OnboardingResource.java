@@ -164,7 +164,7 @@ public class OnboardingResource {
 
             Map<String, Object> meta = new HashMap<String, Object>();
             meta.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, tenantId);
-
+            meta.put("externalId", orgId);
             Entity e = repo.create(EntityNames.EDUCATION_ORGANIZATION, body, meta, EntityNames.EDUCATION_ORGANIZATION);
 
             if (e == null) {
@@ -174,13 +174,13 @@ public class OnboardingResource {
             uuid = e.getEntityId();
 
             // retrieve the application ids for common applications that already exist in mongod
-            List<String> appIds = getAppIds();
+           // List<String> appIds = getAppIds();
 
             // update common applications to include new edorg uuid in the field "authorized_ed_orgs"
-            updateApps(uuid, appIds);
+            // updateApps(uuid, appIds);
 
             // create or update the applicationAuthorization collection in mongod for new edorg entity
-            createAppAuth(uuid, appIds);
+           // createAppAuth(uuid, appIds);
         }
 
         try {
@@ -208,6 +208,7 @@ public class OnboardingResource {
      *            collection of common application names
      * @return collection of common application id
      */
+    @SuppressWarnings("unused")
     private List<String> getAppIds() {
         List<String> appIds = new ArrayList<String>();
         NeutralQuery query = new NeutralQuery();
@@ -226,7 +227,7 @@ public class OnboardingResource {
      *            collection of application id that the field "authorized_ed_orgs" need to be
      *            updated
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "unused" })
     private void updateApps(String edOrgId, List<String> appIds) {
         for (String appId : appIds) {
             Entity app = repo.findById(APPLICATION_RESOURCE_NAME, appId);
@@ -252,7 +253,7 @@ public class OnboardingResource {
      * @param appIds
      *            collection of application id that edorg need to be authorized
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "unused" })
     private void createAppAuth(String edOrgId, List<String> appIds) {
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria(AUTH_ID, NeutralCriteria.OPERATOR_EQUAL, edOrgId));
