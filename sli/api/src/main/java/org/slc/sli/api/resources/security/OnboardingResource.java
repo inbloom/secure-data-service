@@ -13,6 +13,11 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.client.constants.ResourceConstants;
 import org.slc.sli.api.representation.EntityBody;
@@ -25,10 +30,6 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  * Resources available to administrative apps during the onboarding and provisioning process.
@@ -44,7 +45,7 @@ public class OnboardingResource {
 
     @Autowired
     private TenantResource tenantResource;
-    
+
     //Use this to check if we're in sandbox mode
     @Value("${sli.simple-idp.sandboxImpersonationEnabled}")
     protected boolean isSandboxImpersonationEnabled;
@@ -93,7 +94,7 @@ public class OnboardingResource {
         if (isSandboxImpersonationEnabled) {
             requiredRight = Right.ADMIN_ACCESS;
         }
-        
+
         if (!SecurityUtil.hasRight(requiredRight)) {
             EntityBody body = new EntityBody();
             body.put("response", "You are not authorized to provision a landing zone.");
@@ -145,6 +146,7 @@ public class OnboardingResource {
 
         Map<String, Object> meta = new HashMap<String, Object>();
         meta.put(ResourceConstants.ENTITY_METADATA_TENANT_ID, tenantId);
+        meta.put("externalId", orgId);
 
         Entity e = repo.create(EntityNames.EDUCATION_ORGANIZATION, body, meta, EntityNames.EDUCATION_ORGANIZATION);
         if (e == null) {
@@ -154,13 +156,13 @@ public class OnboardingResource {
         String uuid = e.getEntityId();
 
         // retrieve the application ids for common applications that already exist in mongod
-        List<String> appIds = getAppIds();
+       // List<String> appIds = getAppIds();
 
         // update common applications to include new edorg uuid in the field "authorized_ed_orgs"
-        updateApps(uuid, appIds);
+       // updateApps(uuid, appIds);
 
         // create or update the applicationAuthorization collection in mongod for new edorg entity
-        createAppAuth(uuid, appIds);
+       // createAppAuth(uuid, appIds);
 
         try {
             LandingZoneInfo landingZone = tenantResource.createLandingZone(tenantId, orgId);
