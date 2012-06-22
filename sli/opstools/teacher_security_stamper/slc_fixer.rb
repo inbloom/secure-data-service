@@ -201,7 +201,7 @@ class SLCFixer
     @db[:section].find({}, @basic_options) do |cursor|
       cursor.each do |item|
         courses = get_existing_context(@db['course'], item['body']['courseId'])
-        courses += item['metaData']['teacherContext']
+        courses += item['metaData']['teacherContext'] unless !item.include? 'metaData' or !item['metaData'].include? 'teacherContext'
         courses.uniq!
         stamp_full_context(@db['course'], item['body']['courseId'], item['metaData']['tenantId'], courses)
         stamp_full_context(@db['session'], item['body']['sessionId'], item['metaData']['tenantId'], item['metaData']['teacherContext'])
