@@ -264,8 +264,8 @@ class SLCFixer
         unless gradingPeriodReferences.nil?
           gradingPeriodReferences.each do |gradingPeriodRef|
             old = old_edorgs(@db['gradingPeriod'], gradingPeriodRef)
-            value = (old << edorg).flatten.uniq	      
-            stamp_id(@db['gradingPeriod'], gradingPeriodRef, value, gradingPeriodRef['metaData']['tenantId'])
+            value = (old << edorg).flatten.uniq
+            stamp_id(@db['gradingPeriod'], gradingPeriodRef, value, session['metaData']['tenantId'])
           end
         end
       end
@@ -470,7 +470,7 @@ class SLCFixer
                 @parent_ed_org_hash[edorg['_id']] = edorgs
             end
 
-            stamp_id(@db['educationOrganization'], id, id)
+            stamp_id(@db['educationOrganization'], id, id, edorg['metaData']['tenantId'])
         end
     end
   end
