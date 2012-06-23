@@ -1,5 +1,13 @@
 {
     "keyFields" : [ "body.sessionId", "body.localCourseCode"],
+    "complexReference" :
+    {
+        "fieldPath" : "body.courseId",
+        "collectionName" : "course",
+        "path" : "body.courseCode",
+        "valueSource" : "body.courseCode",
+        "complexFieldNames" : ["ID","identificationSystem","assigningOrganizationCode"]
+    },
 	"references" :
 	[{
         "fieldPath" : "body.schoolId",
@@ -76,24 +84,5 @@
                ]
             ]
          }
-      },
-    {
-        "fieldPath" : "body.courseId",
-        "ref" :
-        {
-	        "collectionName" : "course",
-	        "choiceOfFields" :
-	        [
-	            [
-		            { 
-		           	    "path" : "metaData.externalId",
-		                "values" : 
-		                [{
-			                "valueSource" : "body.courseId"
-		                }]
-		            }
-	            ]
-	        ]
-        }
-    }]
+      }]
 }
