@@ -54,7 +54,7 @@ public class CourseOfferingEntityTest {
         assertEquals("Expecting different record type", "courseOffering", neutralRecord.getRecordType());
 
         Map<String, Object> attributes = neutralRecord.getAttributes();
-        assertEquals("Expected different number of attributes", 6, attributes.size()); //TODO: hack - remove when DE608 is resolved
+        assertEquals("Expected different number of attributes", 7, attributes.size()); //TODO: hack - remove when DE608 is resolved
         //assertEquals("Expected different id", "Course Offering id", attributes.get("id"));
         assertEquals("Expected different LocalCourseCode", "Local Course Code", attributes.get("LocalCourseCode"));
         assertEquals("Expected different LocalCourseTitle", "Local Course Title", attributes.get("LocalCourseTitle"));
