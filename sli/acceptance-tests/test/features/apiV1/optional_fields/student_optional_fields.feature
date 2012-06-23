@@ -1,5 +1,6 @@
 @RALLY_US209
 @RALLY_US210
+@RALLY_DE87
 Feature: As an SLI application, I want to be able to apply optional fields to student entities.
   This means I want to be able to expand endpoints by applying optional fields to the url.
 
@@ -54,10 +55,11 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
     # Transcript
     And inside "transcript"
     And I should find "2" "studentSectionAssociations" in it
-    And I should find "sections" expanded in each of them
-    Then I should see "id" is "<STUDENT SECTION ASSOC ID>" in one of them
+    And I should find one with the property "id" having the value "<STUDENT SECTION ASSOC ID>"
+    When I go into the item with the property "id" having the value "<STUDENT SECTION ASSOC ID>"
+    Then I should find "sections" expanded in it
     And inside "sections"
-    And I should see "courseId" is "<COURSE ID>" in it
+    And I should see "courseOfferingId" is "<COURSE OFFERING ID>" in it
     And I should see "schoolId" is "<SCHOOL ID>" in it
     And I should see "uniqueSectionCode" is "8th Grade English - Sec 5" in it
     And inside "sessions"

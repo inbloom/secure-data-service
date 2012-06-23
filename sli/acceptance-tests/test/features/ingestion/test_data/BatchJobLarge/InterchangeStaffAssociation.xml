@@ -379,10 +379,9 @@
     </TeacherReference>
     <!-- References Mrs. Kim's Homeroom -->
     <SectionReference>
-      <SectionIdentity>
+	  <SectionIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-        <LocalCourseCode>1st Grade Homeroom</LocalCourseCode>
-        <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
+        <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <ClassroomPosition>Teacher of Record</ClassroomPosition>

@@ -287,11 +287,20 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
                 Set<GenericEntity> schools = ((Set<GenericEntity>) org.get(Constants.ATTR_SCHOOLS));
                 for (GenericEntity school : schools) {
                     if (school.getId().equals(schoolId)) {
-                        GenericEntity selectedOrg = new GenericEntity();
-                        selectedOrg.put(Constants.ATTR_NAME, org.get(Constants.ATTR_NAME));
-                        selectedOrg.put(Constants.ATTR_SECTION, section);
-                        entity.put(Constants.ATTR_SELECTED_POPULATION, selectedOrg);
-                        return entity;
+                        String courseOfferingId = section.getString(Constants.ATTR_COURSE_OFFERING_ID);
+                        // if correct section has been located, find courseOffering info
+                        GenericEntity courseOffering = getApiClient().getEntity(token, "courseOfferings",
+                                courseOfferingId, null);
+                        
+                        if (courseOffering != null) {
+                            GenericEntity selectedOrg = new GenericEntity();
+                            selectedOrg.put(Constants.ATTR_NAME, org.get(Constants.ATTR_NAME));
+                            section.put(Constants.ATTR_COURSE_ID, courseOffering.getString(Constants.ATTR_COURSE_ID));
+                            selectedOrg.put(Constants.ATTR_SECTION, section);
+                            entity.put(Constants.ATTR_SELECTED_POPULATION, selectedOrg);
+                            
+                            return entity;
+                        }
                     }
                 }
             }

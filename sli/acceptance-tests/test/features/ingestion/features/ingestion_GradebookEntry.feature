@@ -10,6 +10,12 @@ Given I post "GradebookEntry1.zip" file as the payload of the ingestion job
 	And the following collections are empty in datastore:
 	   | collectionName                |
 	   | gradebookEntry                |
+	   | section                       |
+	   | educationOrganization         |
+	   | course                        |
+	   | courseOffering                |
+	   | session                       |
+	   | schoolSessionAssociation      |
 When zip file is scp to ingestion landing zone
 	And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
@@ -23,7 +29,7 @@ Then I should see following map of entry counts in the corresponding collections
 	   | gradebookEntry                | 1                   | body.dateAssigned            | 2011-10-27              | string               |
 	   | gradebookEntry                | 6                   | body.gradebookEntryType      | Unit test               | string               |
 
-	And I should see "Processed 18 records." in the resulting batch job file
+	And I should see "Processed 20 records." in the resulting batch job file
 	And I should not see an error log file created
 
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Populated Database

@@ -168,7 +168,6 @@ class SLCFixer
         sections.uniq!
         section_to_teachers[tsa['body']['sectionId']] ||= []
         section_to_teachers[tsa['body']['sectionId']] += sections
-        
         stamp_full_context(@db['section'], tsa['body']['sectionId'], tsa['metaData']['tenantId'], sections)
       end
     end
@@ -196,24 +195,62 @@ class SLCFixer
       end
     end
 
+
     #Session related stuff
     #Map section to session
+    session_to_teachers = {}
+    session_to_tenant = {}
     @db[:section].find({}, @basic_options) do |cursor|
       cursor.each do |item|
-        courses = get_existing_context(@db['course'], item['body']['courseId'])
-        courses += item['metaData']['teacherContext'] unless !item.include? 'metaData' or !item['metaData'].include? 'teacherContext'
-        courses.uniq!
-        stamp_full_context(@db['course'], item['body']['courseId'], item['metaData']['tenantId'], courses)
-        stamp_full_context(@db['session'], item['body']['sessionId'], item['metaData']['tenantId'], item['metaData']['teacherContext'])
+        coursesOffering = get_existing_context(@db['courseOffering'], item['body']['courseOfferingId'])
+        coursesOffering += item['metaData']['teacherContext'] unless !item.include? 'metaData' or !item['metaData'].include? 'teacherContext'
+        coursesOffering.uniq!
+        stamp_full_context(@db['courseOffering'], item['body']['courseOfferingId'], item['metaData']['tenantId'], coursesOffering)
+        session_id = item['body']['sessionId']
+        session_to_teachers[session_id] ||= []
+        session_to_teachers[session_id].push item['metaData']['teacherContext']
+        session_to_tenant[session_id] = item['metaData']['tenantId']        
       end
     end
+    
+    session_to_teachers.each { |session,teachers|
+      teachers = teachers.flatten
+      teachers = teachers.uniq
+      teachers.reject!(&:nil?)
+      stamp_full_context(@db['session'], session, session_to_tenant[session], teachers)
+    }
+    
+    
     @db['session'].find({}, @basic_options) do |cursor|
       cursor.each do |session|
+        next unless session.include? 'metaData' and session['metaData'].include? 'teacherContext' and !session['metaData']['teacherContext'].nil?  
+        coursesOffering = get_existing_context(@db['courseOffering'], session['body']['courseOfferingId'])
+        #puts "#{session['metaData']['teacherContext']}"
+        coursesOffering += session['metaData']['teacherContext'] if session.include? 'metaData' and session['metaData'].include? 'teacherContext'
+        coursesOffering.uniq!
         stamp_full_context(@db['gradingPeriod'], session['body']['gradingPeriodReference'], session['metaData']['tenantId'], session['metaData']['teacherContext'])
         @db['schoolSessionAssociation'].find({"body.sessionId" => session['_id']}, @basic_options) {|cursor| cursor.each {|ssa| stamp_context(@db['schoolSessionAssociation'], ssa, session['metaData']['teacherContext'])}}
-        @db['courseOffering'].find({'body.sessionId'=> session['_id']}, @basic_options) {|cursor| cursor.each {|co| stamp_context(@db['courseOffering'], co, session['metaData']['teacherContext'])}}
+        @db['courseOffering'].find({'body.sessionId'=> session['_id']}, @basic_options) {|cursor| cursor.each {|co| stamp_context(@db['courseOffering'], co, coursesOffering)}}
       end
     end
+    
+    course_to_teachers = {}
+    course_to_tenant = {}
+    @db['courseOffering'].find({}, @basic_options) { |cursor|
+      cursor.each { |co|
+        course_id = co['body']['courseId']
+        course_to_teachers[course_id] ||= []
+        course_to_teachers[course_id].push co['metaData']['teacherContext']
+        course_to_tenant[course_id] = co['metaData']['tenantId']        
+      }
+    }
+    
+    course_to_teachers.each { |course,teachers|
+      teachers = teachers.flatten
+      teachers = teachers.uniq
+      stamp_full_context(@db['course'], course, course_to_tenant[course], teachers)  
+    }
+    
   end
 
   def stamp_cohorts
@@ -552,6 +589,7 @@ class SLCFixer
     stamp_full_context(collection, obj['_id'], obj['metaData.tenantId'], teachers)
   end
   def stamp_full_context(collection, id, tenant, teachers)
+    #puts "stamping " + collection.name + ": " + id.to_s + " with tenant " + tenant + " for teachers " + teachers.to_s
     if tenant.nil?
       @log.warn "No tenant for #{collection.name}##{id}"
       # return
