@@ -8,48 +8,41 @@ Given the server is in "live" mode
 When I navigate to the Dashboard home page
 Then I should be redirected to the Realm page
 
-@wip
-Scenario: User has no data
-#BUG
+Scenario: Teacher's school has no data (no courses)
 When I select "New York Realm" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "mario.sanchez" "mario.sanchez1234" for the "Simple" login page
-Then I am informed that "No data is available for you to view."
-
-Scenario:  User has no ed-org
-When I select "Illinois Sunset School District 4526" and click go
- And I was redirected to the "Simple" IDP Login page
- When I submit the credentials "manthony" "manthony1234" for the "Simple" login page
-Then I am informed that "No data is available for you to view."
-
-Scenario: User has no schools
-When I select "Illinois Sunset School District 4526" and click go
- And I was redirected to the "Simple" IDP Login page
- When I submit the credentials "jdoe" "jdoe1234" for the "Simple" login page
-Then I am informed that "No data is available for you to view."
-
-@wip
-Scenario: User has org, no school
-When I select "Illinois Sunset School District 4526" and click go
- And I was redirected to the "Simple" IDP Login page
- When I submit the credentials "ejane" "ejane1234" for the "Simple" login page
-Then I am informed that "No data is available for you to view."
-
-Scenario: No sections
-When I select "Illinois Sunset School District 4526" and click go
- And I was redirected to the "Simple" IDP Login page
- When I submit the credentials "tbear" "tbear1234" for the "Simple" login page
-When I look in the ed org drop-down
-Then I only see "Daybreak School District 4529"
-When I look in the school drop-down
-Then I only see "East Daybreak Junior High"
 Then I am informed that "There is no data available for your request. Please contact your IT administrator."
 
-Scenario: No schools in district
+Scenario: Staff's edorg has no data (no schools)
 When I select "Illinois Sunset School District 4526" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "jwashington" "jwashington1234" for the "Simple" login page
-Then I am informed that "No data is available for you to view."
+Then I get an error message "No data is available for you to view. Please contact your IT administrator."
+
+@DE1112
+Scenario: Teacher without associations to anything (orphaned)
+When I select "Illinois Sunset School District 4526" and click go
+ And I was redirected to the "Simple" IDP Login page
+ When I submit the credentials "manthony" "manthony1234" for the "Simple" login page
+Then I get an error message "We're sorry, the page that you were looking for could not be found."
+#Then I get an error message "We're sorry, your district has disallowed use of the Dashboard." #DE1112 should enable this step 
+
+@DE1112
+Scenario: School User whose district has disallowed the Dashboard for their district
+When I select "New York Realm" and click go
+ And I was redirected to the "Simple" IDP Login page
+ When I submit the credentials "agibbs" "agibbs1234" for the "Simple" login page
+Then I get an error message "We're sorry, the page that you were looking for could not be found."
+#Then I get an error message "We're sorry, your district has disallowed use of the Dashboard." #DE1112 should enable this step 
+
+@DE1112
+Scenario: User accessing Dashboard does not resolve to anyone in database
+When I select "Illinois Sunset School District 4526" and click go
+ And I was redirected to the "Simple" IDP Login page
+ When I submit the credentials "jdoe" "jdoe1234" for the "Simple" login page
+Then I get an error message "We're sorry, the page that you were looking for could not be found."
+#Then I get an error message "We're sorry, your district has disallowed use of the Dashboard." #DE1112 should enable this step 
 
 Scenario: Upload Config
 When I select "Illinois Daybreak School District 4529" and click go

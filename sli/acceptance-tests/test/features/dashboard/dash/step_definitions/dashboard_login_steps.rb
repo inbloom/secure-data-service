@@ -80,6 +80,10 @@ When /^I access "([^"]*)"$/ do |path|
   @driver.get url
 end
 
+Then /^I get an error message "([^"]*)"$/ do |errMsg|
+  @explicitWait.until{@driver.page_source.include?(errMsg)}
+end
+
 Then /^I get an error code "([^"]*)"$/ do |errCode|
   # TODO: 
   # Is there's no way to get the http status code from selenium?? 
@@ -90,7 +94,13 @@ Then /^I can see "([^"]*)"$/ do |arg1|
 end
 
 Then /^I add a cookie for linda.kim$/ do
+  #TODO fix using long lived session in web-based test
   @driver.manage.add_cookie(:name=> "SLI_DASHBOARD_COOKIE",:value=>"4cf7a5d4-37a1-ca19-8b13-b5f95131ac85")
+  if ENV['FORCE_COLOR']
+    puts "\e[31mWHY IS THIS TEST USING A LONG LIVED SESSION? THIS IS WRONG\e[0m"
+  else
+    puts "WHY IS THIS TEST USING A LONG LIVED SESSION? THIS IS WRONG"
+  end
 end
 
 def checkForTextInBody(expectedText)

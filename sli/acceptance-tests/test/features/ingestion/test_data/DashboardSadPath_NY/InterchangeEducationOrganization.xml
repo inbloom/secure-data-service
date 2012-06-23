@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
+	<StateEducationAgency>
+		<StateOrganizationId>NY</StateOrganizationId>
+		<NameOfInstitution>New York State Education System</NameOfInstitution>
+		<ShortNameOfInstitution>NYES</ShortNameOfInstitution>
+		<OrganizationCategories>
+			<OrganizationCategory>State Education Agency</OrganizationCategory>
+		</OrganizationCategories>
+		<Address AddressType="Home">
+			<StreetNumberName>7600 Capitol Drive</StreetNumberName>
+			<ApartmentRoomSuiteNumber>205</ApartmentRoomSuiteNumber>
+			<City>Albany</City>
+			<StateAbbreviation>NY</StateAbbreviation>
+			<PostalCode>10437</PostalCode>
+			<NameOfCounty>Albany</NameOfCounty>
+			<CountyFIPSCode>FIPS</CountyFIPSCode>
+			<CountryCode>US</CountryCode>
+			<Latitude>latitiude</Latitude>
+			<Longitude>longitude</Longitude>
+			<BeginDate>2011-03-04</BeginDate>
+			<EndDate>2011-03-04</EndDate>
+		</Address>
+		<OperationalStatus>Active</OperationalStatus>
+	</StateEducationAgency>
+	<LocalEducationAgency>
+		<StateOrganizationId>NY-Parker</StateOrganizationId>
+		<NameOfInstitution>New York Parker District School System</NameOfInstitution>
+		<ShortNameOfInstitution>NYPDSS</ShortNameOfInstitution>
+		<OrganizationCategories>
+			<OrganizationCategory>Local Education Agency</OrganizationCategory>
+		</OrganizationCategories>
+		<Address AddressType="Home">
+			<StreetNumberName>2301 Third Street</StreetNumberName>
+			<City>Parker</City>
+			<StateAbbreviation>NY</StateAbbreviation>
+			<PostalCode>10648</PostalCode>
+			<NameOfCounty>Parker</NameOfCounty>
+			<CountyFIPSCode>FIPS</CountyFIPSCode>
+			<CountryCode>US</CountryCode>
+			<Latitude>latitiude</Latitude>
+			<Longitude>longitude</Longitude>
+			<BeginDate>2011-03-04</BeginDate>
+			<EndDate>2011-03-04</EndDate>
+		</Address>
+		<OperationalStatus>Active</OperationalStatus>
+		<LEACategory>Charter</LEACategory>
+		<StateEducationAgencyReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>NY</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</StateEducationAgencyReference>
+	</LocalEducationAgency>
+	<LocalEducationAgency>
+		<StateOrganizationId>NY-Dusk</StateOrganizationId>
+		<NameOfInstitution>New York Dusk District School System</NameOfInstitution>
+		<ShortNameOfInstitution>NYDDSS</ShortNameOfInstitution>
+		<OrganizationCategories>
+			<OrganizationCategory>Local Education Agency</OrganizationCategory>
+		</OrganizationCategories>
+		<Address AddressType="Home">
+			<StreetNumberName>3211 Sunset Road</StreetNumberName>
+			<City>Dusk</City>
+			<StateAbbreviation>NY</StateAbbreviation>
+			<PostalCode>10878</PostalCode>
+			<NameOfCounty>Dusk</NameOfCounty>
+			<CountyFIPSCode>FIPS</CountyFIPSCode>
+			<CountryCode>US</CountryCode>
+			<Latitude>latitiude</Latitude>
+			<Longitude>longitude</Longitude>
+			<BeginDate>2011-03-04</BeginDate>
+			<EndDate>2011-03-04</EndDate>
+		</Address>
+		<OperationalStatus>Active</OperationalStatus>
+		<LEACategory>Charter</LEACategory>
+		<StateEducationAgencyReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>NY</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</StateEducationAgencyReference>
+	</LocalEducationAgency>
+	<School>
+		<StateOrganizationId>1000000122</StateOrganizationId>
+		<EducationOrgIdentificationCode IdentificationSystem="School">
+			<ID>1000000122</ID>
+		</EducationOrgIdentificationCode>
+		<NameOfInstitution>Dawn Elementary School</NameOfInstitution>
+		<ShortNameOfInstitution>DES</ShortNameOfInstitution>
+		<OrganizationCategories>
+			<OrganizationCategory>School</OrganizationCategory>
+		</OrganizationCategories>
+		<Address AddressType="Home">
+			<StreetNumberName>Sunny Street 101</StreetNumberName>
+			<City>Dusk</City>
+			<StateAbbreviation>NY</StateAbbreviation>
+			<PostalCode>10878</PostalCode>
+			<NameOfCounty>Dusk</NameOfCounty>
+			<CountyFIPSCode>FIPS</CountyFIPSCode>
+			<CountryCode>US</CountryCode>
+			<Latitude>latitiude</Latitude>
+			<Longitude>longitude</Longitude>
+			<BeginDate>2011-03-04</BeginDate>
+			<EndDate>2011-03-04</EndDate>
+		</Address>
+		<WebSite>http://www.nydawnes.edu</WebSite>
+		<OperationalStatus>Active</OperationalStatus>
+		<GradesOffered>
+			<GradeLevel>Early Education</GradeLevel>
+			<GradeLevel>Fifth grade</GradeLevel>
+			<GradeLevel>First grade</GradeLevel>
+			<GradeLevel>Fourth grade</GradeLevel>
+			<GradeLevel>Infant/toddler</GradeLevel>
+			<GradeLevel>Kindergarten</GradeLevel>
+			<GradeLevel>Preschool/Prekindergarten</GradeLevel>
+			<GradeLevel>Second grade</GradeLevel>
+			<GradeLevel>Seventh grade</GradeLevel>
+			<GradeLevel>Sixth grade</GradeLevel>
+			<GradeLevel>Third grade</GradeLevel>
+			<GradeLevel>Transitional Kindergarten</GradeLevel>
+			<GradeLevel>Ungraded</GradeLevel>
+		</GradesOffered>
+		<SchoolCategories>
+			<SchoolCategory>Elementary/Secondary School</SchoolCategory>
+			<SchoolCategory>Elementary School</SchoolCategory>
+			<SchoolCategory>Middle School</SchoolCategory>
+			<SchoolCategory>Infant/toddler School</SchoolCategory>
+			<SchoolCategory>Preschool/early childhood</SchoolCategory>
+		</SchoolCategories>
+		<SchoolType>Regular</SchoolType>
+		<CharterStatus>Open Enrollment</CharterStatus>
+		<TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
+		<MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
+		<AdministrativeFundingControl>Public School</AdministrativeFundingControl>
+		<LocalEducationAgencyReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>NY-Dusk</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</LocalEducationAgencyReference>
+	</School>
+	<School>
+		<StateOrganizationId>1000000112</StateOrganizationId>
+		<EducationOrgIdentificationCode IdentificationSystem="School">
+			<ID>1000000112</ID>
+		</EducationOrgIdentificationCode>
+		<NameOfInstitution>Parker Elementary School</NameOfInstitution>
+		<ShortNameOfInstitution>PES</ShortNameOfInstitution>
+		<OrganizationCategories>
+			<OrganizationCategory>School</OrganizationCategory>
+		</OrganizationCategories>
+		<Address AddressType="Home">
+			<StreetNumberName>800 Parker Drive</StreetNumberName>
+			<City>Parker</City>
+			<StateAbbreviation>NY</StateAbbreviation>
+			<PostalCode>10878</PostalCode>
+			<NameOfCounty>Parker</NameOfCounty>
+			<CountyFIPSCode>FIPS</CountyFIPSCode>
+			<CountryCode>US</CountryCode>
+			<Latitude>latitiude</Latitude>
+			<Longitude>longitude</Longitude>
+			<BeginDate>2011-03-04</BeginDate>
+			<EndDate>2011-03-04</EndDate>
+		</Address>
+		<WebSite>http://www.nyparkerelem.edu</WebSite>
+		<OperationalStatus>Active</OperationalStatus>
+		<GradesOffered>
+			<GradeLevel>Early Education</GradeLevel>
+			<GradeLevel>Fifth grade</GradeLevel>
+			<GradeLevel>First grade</GradeLevel>
+			<GradeLevel>Fourth grade</GradeLevel>
+			<GradeLevel>Infant/toddler</GradeLevel>
+			<GradeLevel>Kindergarten</GradeLevel>
+			<GradeLevel>Preschool/Prekindergarten</GradeLevel>
+			<GradeLevel>Second grade</GradeLevel>
+			<GradeLevel>Seventh grade</GradeLevel>
+			<GradeLevel>Sixth grade</GradeLevel>
+			<GradeLevel>Third grade</GradeLevel>
+			<GradeLevel>Transitional Kindergarten</GradeLevel>
+			<GradeLevel>Ungraded</GradeLevel>
+		</GradesOffered>
+		<SchoolCategories>
+			<SchoolCategory>Elementary/Secondary School</SchoolCategory>
+			<SchoolCategory>Elementary School</SchoolCategory>
+			<SchoolCategory>Infant/toddler School</SchoolCategory>
+			<SchoolCategory>Preschool/early childhood</SchoolCategory>
+		</SchoolCategories>
+		<SchoolType>Regular</SchoolType>
+		<CharterStatus>Open Enrollment</CharterStatus>
+		<TitleIPartASchoolDesignation>Not designated as a Title I Part A school</TitleIPartASchoolDesignation>
+		<MagnetSpecialProgramEmphasisSchool>All students participate</MagnetSpecialProgramEmphasisSchool>
+		<AdministrativeFundingControl>Public School</AdministrativeFundingControl>
+		<LocalEducationAgencyReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>NY-Parker</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</LocalEducationAgencyReference>
+	</School>
+</InterchangeEducationOrganization>
