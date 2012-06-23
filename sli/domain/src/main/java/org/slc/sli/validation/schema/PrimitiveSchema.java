@@ -66,7 +66,7 @@ public abstract class PrimitiveSchema extends NeutralSchema {
         
         //attempt input conversion. Only type is confirmed
         try {
-            entity = convert(entity);
+            convert(entity);
         } catch (IllegalArgumentException iae) {
             super.addError(fieldName, entity, this.neutralSchemaType.getName(), ErrorType.INVALID_DATATYPE, errors);
             return false;
