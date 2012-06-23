@@ -22,6 +22,7 @@ import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -195,6 +196,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         //Make sure the user's district has authorized the use of this application
         SLIPrincipal principal = jsoner.convertValue(session.getBody().get("principal"), SLIPrincipal.class);
         principal.setEntity(locator.locate((String) principal.getTenantId(), principal.getExternalId()).getEntity());
+        TenantContext.setTenantId(principal.getTenantId());
         List<String> authorizedAppIds = appValidator.getAuthorizedApps(principal);
 
         if (!authorizedAppIds.contains(app.getEntityId())) {

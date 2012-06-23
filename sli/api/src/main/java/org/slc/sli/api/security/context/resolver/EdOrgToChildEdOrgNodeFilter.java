@@ -11,8 +11,6 @@ import java.util.Set;
 
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
-import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
-import org.slc.sli.api.service.BasicService;
 import org.slc.sli.api.security.context.traversal.graph.NodeAggregator;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -89,7 +87,7 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeAggregator {
         return myEdOrgsIds;
     }
     
-    private Set<String> fetchParents(Set<String> ids) {
+    public Set<String> fetchParents(Set<String> ids) {
         Set<String> returned = new HashSet<String>(ids);
         String toResolve = "";
         for (String id : ids) {

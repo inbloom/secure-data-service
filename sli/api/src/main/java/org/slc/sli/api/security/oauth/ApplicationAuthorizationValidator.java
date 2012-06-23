@@ -2,13 +2,13 @@ package org.slc.sli.api.security.oauth;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -34,6 +34,9 @@ public class ApplicationAuthorizationValidator {
     private ContextResolverStore contextResolverStore;
     
     @Autowired
+    private EdOrgToChildEdOrgNodeFilter parentResolver;
+    
+    @Autowired
     @Value("${sli.sandbox.autoRegisterApps}")
     private boolean autoRegister;
     
@@ -50,7 +53,8 @@ public class ApplicationAuthorizationValidator {
      */
     @SuppressWarnings("unchecked")
     public List<String> getAuthorizedApps(SLIPrincipal principal) {
-        List<Entity> districts = findUsersDistricts(principal);
+        List<Entity> districts = findUsersDistricts(principal); 
+        Set<String> bootstrapApps = getBootstrapApps();
         Set<String> results = getDefaultAuthorizedApps();
         
         // essentially allow by default for users with no entity data, ie. administrators
@@ -72,7 +76,7 @@ public class ApplicationAuthorizationValidator {
                 districtQuery.addCriteria(new NeutralCriteria("authorized_ed_orgs", "=", district.getBody().get(
                         "stateOrganizationId")));
                 
-                Set<String> vendorAppsEnabledForEdorg = new HashSet<String>();
+                Set<String> vendorAppsEnabledForEdorg = new HashSet<String>(bootstrapApps); //bootstrap apps automatically added
                 
                 for (String id : repo.findAllIds("application", districtQuery)) {
                     vendorAppsEnabledForEdorg.add(id);
@@ -112,6 +116,19 @@ public class ApplicationAuthorizationValidator {
     }
     
     
+    private Set<String> getBootstrapApps() {
+        Set<String> toReturn = new HashSet<String>();
+        NeutralQuery bootstrapQuery = new NeutralQuery();
+        bootstrapQuery.addCriteria(new NeutralCriteria("bootstrap", "=", true));
+        Iterable<Entity> bootstrapApps = repo.findAll("application", bootstrapQuery);
+        
+        for (Entity currentApp : bootstrapApps) {
+            toReturn.add(currentApp.getEntityId());
+        }
+        return toReturn;
+    }
+    
+    
     private boolean isSandbox() {
         return autoRegister;
     }
@@ -142,6 +159,11 @@ public class ApplicationAuthorizationValidator {
             if (edOrgs == null || edOrgs.size() == 0) {   // maybe user is a staff?
                 edOrgs = contextResolverStore.findResolver(EntityNames.STAFF, EntityNames.EDUCATION_ORGANIZATION)
                         .findAccessible(principal.getEntity());
+                Set<String> setEdOrgs = new HashSet<String>(edOrgs);
+                // We need to get the parent ed orgs so we can get the authorized apps
+                for (String id : parentResolver.fetchParents(setEdOrgs)) {
+                    edOrgs.add(id);
+                }
             }
             
             edOrgs.remove("-133"); //avoid querying bad mongo ID
