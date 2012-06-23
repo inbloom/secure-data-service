@@ -394,7 +394,7 @@
             <AcademicSubject>Mathematics</AcademicSubject>
         </AcademicSubjects>
     </TeacherSchoolAssociation>
-    <TeacherSectionAssociation>
+    <!--TeacherSectionAssociation>
         <TeacherReference>
             <StaffIdentity>
                 <StaffUniqueStateId>tbear</StaffUniqueStateId>
@@ -407,7 +407,7 @@
             </SectionIdentity>
         </SectionReference>
         <ClassroomPosition>Assistant Teacher</ClassroomPosition>
-    </TeacherSectionAssociation>
+    </TeacherSectionAssociation-->
    <!-- ejane -->
     <Teacher>
         <StaffUniqueStateId>ejane</StaffUniqueStateId>

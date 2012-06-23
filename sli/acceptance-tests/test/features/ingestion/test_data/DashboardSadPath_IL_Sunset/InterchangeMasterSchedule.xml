@@ -35,9 +35,8 @@
 				<CourseCode IdentificationSystem="CSSC course code">
 					<ID>A.P. Calculus</ID>
 				</CourseCode>
-				<Term>First Trimester</Term>
-				<SchoolYear>2011-2012</SchoolYear>
-				<StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+        <SessionName>Fall 2011 Sunset Central High School</SessionName>
 			</CourseOfferingIdentity>
 		</CourseOfferingReference>
 		<SchoolReference>
@@ -47,6 +46,7 @@
 		</SchoolReference>
 		<SessionReference>
 			<SessionIdentity>
+        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
 				<SessionName>Fall 2011 Sunset Central High School</SessionName>
 			</SessionIdentity>
 		</SessionReference>
