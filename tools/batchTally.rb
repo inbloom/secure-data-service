@@ -67,7 +67,7 @@ job["stages"].each do |stage|
     countOfStages = colStage.find({"jobId" => id, "stageName" => stage["stageName"]}).count.to_s
     puts "Found " + countOfStages + " " + stage["stageName"] + " stage entries in batchJobStage collection"
     
-    stageEntries = colStage.find({"jobId" => id, "stageName" => stage["stageName"]})
+    stageEntries = colStage.find({"jobId" => id, "stageName" => stage["stageName"]}).batch_size( 100 )
     stageEntries.each do |entry|
       
       #puts entry
