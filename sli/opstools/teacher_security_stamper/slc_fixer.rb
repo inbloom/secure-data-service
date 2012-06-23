@@ -177,7 +177,7 @@ class SLCFixer
         students = @studentId_to_teachers[ssa['body']['studentId']]
         stamp_context(@db['studentSectionAssociation'], ssa, students)
         sections = get_existing_context(@db['section'], ssa['body']['sectionId'])
-        sections += students
+        sections += students unless students.nil?
         sections.uniq!
         section_to_teachers[ssa['body']['sectionId']] ||= []
         section_to_teachers[ssa['body']['sectionId']] += sections
@@ -423,7 +423,7 @@ class SLCFixer
           @db['studentAcademicRecord'].find({'_id'=>record_id, 'metaData.tenantId'=>tenant_id}, @basic_options) { |cursor|
             cursor.each { |record|
               student_id = record['body']['studentId']
-              teachers += @studentId_to_teachers[student_id] unless student_id.nil?
+              teachers += @studentId_to_teachers[student_id] unless student_id.nil? or @studentId_to_teachers[student_id].nil?
             }
           }
           teachers = teachers.flatten
