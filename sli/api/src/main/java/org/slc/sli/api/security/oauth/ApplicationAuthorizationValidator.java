@@ -2,13 +2,13 @@ package org.slc.sli.api.security.oauth;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
+import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -32,6 +32,9 @@ public class ApplicationAuthorizationValidator {
     
     @Autowired
     private ContextResolverStore contextResolverStore;
+    
+    @Autowired
+    private EdOrgToChildEdOrgNodeFilter parentResolver;
     
     @Autowired
     @Value("${sli.sandbox.autoRegisterApps}")
@@ -156,6 +159,11 @@ public class ApplicationAuthorizationValidator {
             if (edOrgs == null || edOrgs.size() == 0) {   // maybe user is a staff?
                 edOrgs = contextResolverStore.findResolver(EntityNames.STAFF, EntityNames.EDUCATION_ORGANIZATION)
                         .findAccessible(principal.getEntity());
+                Set<String> setEdOrgs = new HashSet<String>(edOrgs);
+                // We need to get the parent ed orgs so we can get the authorized apps
+                for (String id : parentResolver.fetchParents(setEdOrgs)) {
+                    edOrgs.add(id);
+                }
             }
             
             edOrgs.remove("-133"); //avoid querying bad mongo ID
