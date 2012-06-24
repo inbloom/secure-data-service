@@ -20,7 +20,6 @@ Background: Nothing yet
          And the response should contain the appropriate fields and values
          And "entityType" should be <Entity Type>
          And I should receive a link named "self" with URI "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-         And the tenant ID of the entity should be "IL"
         # Update
         When I set the <Update Field> to <Updated Value>
          And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
