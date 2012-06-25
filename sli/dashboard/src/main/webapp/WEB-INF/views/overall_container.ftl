@@ -25,7 +25,7 @@
     <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.teardrop.js"></script>
     <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.cutPoints.js"></script>    
 <#else>
-    <script type="text/javascript" src = "${CONTEXT_ROOT_PATH}/static/js/controller.js"></script>
+    <script type="text/javascript" src = "${CONTEXT_ROOT_PATH}/static/js/SLC.js"></script>
     <script type="text/javascript" src = "${CONTEXT_ROOT_PATH}/static/js/widgets.js"></script>
     <script type="text/javascript" src = "${CONTEXT_ROOT_PATH}/static/js/all.js"></script>
 </#if>

@@ -296,7 +296,7 @@
 	                <removeIncluded>true</removeIncluded>
 	                
 	                <insertNewLine>true</insertNewLine>
-	                <output>${basedir}/target/dashboard/static/js/controller.js</output>
+	                <output>${basedir}/target/dashboard/static/js/SLC.js</output>
 	                <includes>
                             <include>**/controller/license.js</include>
 	                    <include>**/controller/SLC.js</include>

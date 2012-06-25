@@ -7,10 +7,6 @@
 <#if minifyJs?? && minifyJs= false>
     <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/ListOfStudent.js"></script>
     <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/populationWidget.js"></script>
-<#else>
-    <script type="text/javascript" src = "${CONTEXT_ROOT_PATH}/static/js/widgets.js"></script>
-	<script type="text/javascript" src = "${CONTEXT_ROOT_PATH}/static/js/controller.js"></script>
-    <script type="text/javascript" src = "${CONTEXT_ROOT_PATH}/static/js/all.js"></script>
 </#if>
 <script type="text/javascript">
     function getTableId() {
