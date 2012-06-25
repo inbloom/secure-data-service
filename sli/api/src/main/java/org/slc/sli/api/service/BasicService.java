@@ -254,13 +254,7 @@ public class BasicService implements EntityService {
 
         checkReferences(content);
 
-        String entityId = "";
-        Entity entity = repo.create (defn.getType(), sanitizeEntityBody(content), createMetadata(), collectionName);
-        if (entity != null) {
-            entityId = entity.getEntityId();
-        }
-
-        return entityId;
+        return repo.create(defn.getType(), sanitizeEntityBody(content), createMetadata(), collectionName).getEntityId();
     }
 
     @Override
@@ -312,9 +306,9 @@ public class BasicService implements EntityService {
         info("new body is {}", sanitized);
         entity.getBody().clear();
         entity.getBody().putAll(sanitized);
+        repo.update(collectionName, entity);
 
-        boolean success = repo.update(collectionName, entity);
-        return success;
+        return true;
     }
 
     @Override
