@@ -48,12 +48,13 @@ public class MetaDataTreatment implements Treatment {
 
     @Override
     public EntityBody toExposed(EntityBody stored, EntityDefinition defn, Entity entity) {
-        if(stored.get("entityType").equals("roles") ||
-                stored.get("entityType").equals("applicationAuthorization") ||
-                stored.get("entityType").equals("application") ||
-                stored.get("entityType").equals("onboarding")) {
-            stored.put(METADATA, entity.getMetaData());
-        }
+//        if(stored.get("entityType").equals("roles") ||
+//                stored.get("entityType").equals("applicationAuthorization") ||
+//                stored.get("entityType").equals("application") ||
+//                stored.get("entityType").equals("onboarding")) {
+//            stored.put(METADATA, entity.getMetaData());
+//        }
+        stored.put(METADATA, entity.getMetaData());
         
         return stored;
     }
