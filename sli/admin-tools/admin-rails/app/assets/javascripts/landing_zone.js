@@ -4,7 +4,7 @@ $(document).ready(function() {
   $("#addKeyBtn").click(function() {
     $("#rsaKeyField").toggle(250);
     $("#rsaKeyField").find(':input').val('');
-    $("#key_arrow").toggleClass("icon-chevron-left, icon-chevron-down");
+    $("#key_arrow").toggleClass("icon-chevron-left icon-chevron-down");
   });
 
   if (is_sandbox) {
