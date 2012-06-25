@@ -278,6 +278,7 @@
 	              <exclude>**/controller/**/*.js</exclude>
 	              </excludes>
 	              <includes>
+                        <include>**/license.js</include>
 	                <include>**/*.js</include>
 	              </includes>
 	            </aggregation>
@@ -287,6 +288,7 @@
 	                <insertNewLine>true</insertNewLine>
 	                <output>${basedir}/target/dashboard/static/js/widgets.js</output>
 	                <includes>
+                            <include>**/widgets/license.js</include>
 	                    <include>**/widgets/**/*.js</include>
 	                </includes>
 	            </aggregation>
@@ -296,6 +298,7 @@
 	                <insertNewLine>true</insertNewLine>
 	                <output>${basedir}/target/dashboard/static/js/controller.js</output>
 	                <includes>
+                            <include>**/controller/license.js</include>
 	                    <include>**/controller/SLC.js</include>
 	                    <include>**/controller/SLC.dataProxy.js</include>
 	                    <include>**/controller/SLC.util.js</include>
