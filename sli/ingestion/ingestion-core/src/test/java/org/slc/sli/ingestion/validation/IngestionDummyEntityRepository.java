@@ -17,8 +17,8 @@
 
 package org.slc.sli.ingestion.validation;
 
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.mongodb.CommandResult;
@@ -178,7 +178,7 @@ public class IngestionDummyEntityRepository implements Repository<Entity> {
     @Override
     public void setWriteConcern(String writeConcern) {
         // TODO Auto-generated method stub
-	}
+    }
 
     @Override
     public long count(String collectionName, Query query) {

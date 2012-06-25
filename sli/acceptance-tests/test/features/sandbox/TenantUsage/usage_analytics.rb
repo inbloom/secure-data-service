@@ -53,22 +53,22 @@ Then /^I am displayed the total number of tenants as "(\d+)" at the bottom of th
 end
 
 Then /^the row for "([^"]*)" displays entity count "(\d+)"$/ do |tenantId, count|
-    assert(@tenant_data != nil, "Metrics for this tenant not found.")
+    assert_not_nil(@tenant_data, "Metrics for this tenant not found.")
     data = @tenant_data.find_element(:class_name, "tenant_metrics_entity_count")
     assert_equal(count, data.text)
 
 end
 
-Then /^the row for "(.*?)" displays size "(.*?)"$/ do |tenantId, count|
-    assert(@tenant_data != nil, "Metrics for this tenant not found.")
+Then /^the row for "(.*?)" displays size is approximately "(.*?)"$/ do |tenantId, size|
+    assert_not_nil(@tenant_data, "Metrics for this tenant not found.")
     data = @tenant_data.find_element(:class_name, "tenant_metrics_data_size")
-    assert_in_delta(count.to_f, data.text.to_f, count.to_f.abs * 0.1 + 5)
+    assert_in_delta(size.to_f, data.text.to_f, delta(size.to_f.abs))
 end
 
-Then /^I am displayed the total data size as "(.*?)"$/ do |data_size|
+Then /^I am displayed the total data size is approximately "(.*?)"$/ do |data_size|
   summary = @driver.find_element(:class_name, "metrics_summary")
   size = summary.find_element(:class_name, "tenant_metrics_data_size").text
-  assert_in_delta(data_size.to_f, size.to_f, data_size.to_f.abs * 0.1 + 5)
+  assert_in_delta(data_size.to_f, size.to_f, delta(data_size.to_f.abs))
 end
 
 Then /^I am displayed the total entity count as "(.*?)"$/ do |entity_count|
@@ -85,7 +85,7 @@ end
 Then /^I am displayed a list of "(\d+)" collections$/ do |count|
   @tranHistTable = @driver.find_element(:id, "tenant-metrics-table")
   @rows = @tranHistTable.find_elements(:tag_name, "tr")
-  assert(@rows.size - 2 == convert(count), "Expected #{count}, received #{@rows.size-2}")
+  assert_equal(convert(count), @rows.size - 2)
 end
 
 Then /^next to "(.*?)" is the entity count "(\d+)"$/ do |name, count|
@@ -100,7 +100,7 @@ Then /^next to "(.*?)" is the entity count "(\d+)"$/ do |name, count|
          if data.text == name
             f = true
             row_count = row.find_element(:class_name, "tenant_metrics_entity_count")
-            assert(row_count.text == count, "Wrong collection record count.")
+            assert_equal(count, row_count.text, "Wrong collection record count.")
             break
          end
      rescue
@@ -108,10 +108,10 @@ Then /^next to "(.*?)" is the entity count "(\d+)"$/ do |name, count|
      end
   end
 
-  assert(f == true, "Did not find the expected collection: " + name)
+  assert(f, "Did not find the expected collection: " + name)
 end
 
-Then /^next to "(.*?)" is size "(.*?)"$/ do |name, size|
+Then /^next to "(.*?)" is size approximately "(.*?)"$/ do |name, size|
   @tranHistTable = @driver.find_element(:id, "tenant-metrics-table")
   rows = @tranHistTable.find_elements(:tag_name, "tr")
 
@@ -123,7 +123,7 @@ Then /^next to "(.*?)" is size "(.*?)"$/ do |name, size|
          if data.text == name
             f = true
             row_size = row.find_element(:class_name, "tenant_metrics_data_size")
-            assert(row_size.text == size, "Wrong collection data size.")
+            assert(row_size.text >= size, "Wrong collection data size.")
             break
          end
      rescue
@@ -131,13 +131,9 @@ Then /^next to "(.*?)" is size "(.*?)"$/ do |name, size|
      end
   end
 
-  assert(f == true, "Did not find the expected collection: " + name)
+  assert(f, "Did not find the expected collection: " + name)
 end
 
-Then /^the total entity data size is "(.*?)"$/ do |count|
-  pending # express the regexp above with the code you wish you had
-end
-
-Then /^the total entity count is "(.*?)"$/ do |count|
-  pending # express the regexp above with the code you wish you had
+def delta(val)
+  val * 0.5 + 50
 end
