@@ -300,6 +300,13 @@ task :v1SecurityEventTests => [:realmInit] do
   runTests("test/features/apiV1/securityEvent/securityEvent.feature")
 end
 
+desc "Run V1 check for duplicate links"
+task :apiV1DuplicateLinkTest => [:realmInit] do
+  # Import the data once, none of these tests edit the data
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/entities/Links/duplicate_link_test.feature")
+end
+
 ############################################################
 # API V1 tests end
 ############################################################
