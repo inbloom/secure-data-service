@@ -1,3 +1,4 @@
+@RALLY_DE87
 @RALLY_US209
 @RALLY_US210
 Feature: As an SLI application, I want to be able to support XML.
@@ -35,7 +36,7 @@ Background: Nothing yet
     | schools                     | school                     | 5               |
     | students                    | student                    | 83              |
     | studentSectionAssociations  | studentSectionAssociation  | 264             |
-    | courseOfferings             | courseOffering             | 2               |
+    | courseOfferings             | courseOffering             | 95              |
 
 
 Scenario: Getting response from POST - Create (school)

@@ -1184,7 +1184,7 @@
 		<BeginDate>2011-10-10</BeginDate>
 		<EndDate>2011-11-27</EndDate>
 		<TotalInstructionalDays>33</TotalInstructionalDays>
-		<CalendarDateReference ref="CLND_20111010Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111010Instructionalday"/>
 		<CalendarDateReference ref="CLND_20111011Instructionalday"/>
 		<CalendarDateReference ref="CLND_20111012Instructionalday"/>
 		<CalendarDateReference ref="CLND_20111013Instructionalday"/>
@@ -1205,7 +1205,7 @@
 		<CalendarDateReference ref="CLND_20111028Instructionalday"/>
 		<CalendarDateReference ref="CLND_20111029Holiday"/>
 		<CalendarDateReference ref="CLND_20111030Holiday"/>
-		<CalendarDateReference ref="CLND_20111031Instructionalday"/>
+        <CalendarDateReference ref="CLND_20111031Instructionalday"/>
 		<CalendarDateReference ref="CLND_20111101Instructionalday"/>
 		<CalendarDateReference ref="CLND_20111102Instructionalday"/>
 		<CalendarDateReference ref="CLND_20111103Instructionalday"/>

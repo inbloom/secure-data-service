@@ -46,11 +46,7 @@ import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
-
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.GenericEntityEnhancer;
@@ -59,6 +55,9 @@ import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.TimedLogic;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Facilitates creation of logical aggregations of EdFi entities/associations
@@ -420,8 +419,13 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         // Iterate through the course Id's and grab transcripts grades, once
         // we have NUMBER_OF_SEMESTERS transcript grades, we're done
         for (Map<String, Object> section : interSections) {
-            String courseId = (String) section.get(Constants.ATTR_COURSE_ID);
-
+            
+            if (section != null) {
+                
+                Map<String, Object> course = ((Map<String, Object>) section.get(Constants.ATTR_COURSES));
+                if (course != null) {
+                    String courseId = (String) course.get(Constants.ATTR_ID);
+                    
             // we need to keep track of special cases, e.g. previous semester and two semesters ago
             // data
             List<Date> dates = getSessionDates(section);
@@ -443,28 +447,30 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                 continue;
             }
 
-            // Find the correct course. If that course is found in
-            // the transcript, then record that letter grade to the
-            // semesterScores.
-            for (Map<String, Object> assoc : stuTransAssocs) {
-                if (courseId.equalsIgnoreCase((String) assoc.get(Constants.ATTR_COURSE_ID))) {
-                    String finalLetterGrade = (String) assoc.get(Constants.ATTR_FINAL_LETTER_GRADE);
-                    String courseTitle = (String) ((Map) section.get(Constants.ATTR_COURSES))
-                            .get(Constants.ATTR_COURSE_TITLE);
-                    if (finalLetterGrade != null) {
-                        Map<String, Object> grade = new LinkedHashMap<String, Object>();
-                        grade.put(Constants.SECTION_LETTER_GRADE, finalLetterGrade);
-                        grade.put(Constants.SECTION_COURSE, courseTitle);
+                    // Find the correct course. If that course is found in
+                    // the transcript, then record that letter grade to the
+                    // semesterScores.
+                    for (Map<String, Object> assoc : stuTransAssocs) {
+                        if (courseId.equalsIgnoreCase((String) assoc.get(Constants.ATTR_COURSE_ID))) {
+                            String finalLetterGrade = (String) assoc.get(Constants.ATTR_FINAL_LETTER_GRADE);
+                            String courseTitle = (String) course.get(Constants.ATTR_COURSE_TITLE);
+                            if (finalLetterGrade != null) {
+                                Map<String, Object> grade = new LinkedHashMap<String, Object>();
+                                grade.put(Constants.SECTION_LETTER_GRADE, finalLetterGrade);
+                                grade.put(Constants.SECTION_COURSE, courseTitle);
                         List<Map<String, Object>> semesterScores = (List<Map<String, Object>>) student.get(tag);
-                        if (semesterScores == null) {
-                            semesterScores = new ArrayList<Map<String, Object>>();
-                        }
-                        semesterScores.add(grade);
+                                if (semesterScores == null) {
+                                    semesterScores = new ArrayList<Map<String, Object>>();
+                                }
+                                semesterScores.add(grade);
                         student.put(tag, semesterScores);
-                        break;
+                                break;
+                            }
+                        }
                     }
                 }
             }
+
         }
     }
 

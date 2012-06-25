@@ -1,0 +1,5 @@
+edfi-xml,EducationOrganization,InterchangeEducationOrganization.xml,6223d1d6e42ac95c03aedb7dc7ec5fe1
+edfi-xml,EducationOrgCalendar,InterchangeEducationOrgCalendar.xml,630b068470325f6ca7d8678cddfc5687
+edfi-xml,MasterSchedule,CourseOffering1.xml,aaf16d48ebd7fa87d26e77ae8865a605
+
+
