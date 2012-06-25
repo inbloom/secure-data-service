@@ -442,6 +442,7 @@ public class IdNormalizer {
 
             // Overall query
             Query query = new Query();
+            ArrayList<Query> queryOrList = new ArrayList<Query>();
 
             // For each element in the referer's array, create a subQuery
             // Then OR them together to make a single mongo query
@@ -468,8 +469,11 @@ public class IdNormalizer {
                 subQuery.addCriteria(criteria);
 
                 // add the subquery to overall query
-                query.or(subQuery);
+                queryOrList.add(subQuery);
             }
+
+            // combine the queries with or (must be done this way because Query.or overrides itself)
+            query.or(queryOrList.toArray(new Query[queryOrList.size()]));
 
             // execute query and record results
             Set<String> foundIds = new HashSet<String>();

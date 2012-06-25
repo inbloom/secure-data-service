@@ -19,6 +19,8 @@ package org.slc.sli.validation;
 
 import org.slc.sli.domain.Entity;
 
+import java.util.List;
+
 /**
  * Interface that can validate an Entity.
  *
@@ -35,6 +37,13 @@ public interface EntityValidator {
      * @param entity
      */
     public boolean validate(Entity entity) throws EntityValidationException;
+
+    /**
+     * Get the natural key fields for entity validation
+     *
+     * @param entity
+     */
+    public List<String> getNaturalKeyFields (Entity entity);
 
     /**
      * Enable / disable reference checking as a part of entity validation

@@ -146,4 +146,32 @@
     </EducationOrganizationReference>
   </Course>
   
+  <Course>
+    <CourseTitle>COURSE 5</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>Algebra-50</ID>
+    </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId> 
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </Course>
+  
+  <Course>
+    <CourseTitle>COURSE 6</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>Algebra-60</ID>
+    </CourseCode>
+    <SubjectArea>Mathematics</SubjectArea>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId> 
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </Course>
+  
 </InterchangeEducationOrganization>
