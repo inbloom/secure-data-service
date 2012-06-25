@@ -1,3 +1,6 @@
+/*
+ * SLC util
+ */
 /*global SLC $ window */
 
 var contextRootPath = contextRootPath || "";
@@ -115,9 +118,10 @@ SLC.namespace('SLC.util', (function () {
 		    }
 		}
 		
-		// --- static helper function --- 
-		// Gets the style object for the element where we're drawing the fuel gauge.
-		// Returns a CSSStyleDeclaration object 
+		/*
+		 * Gets the style object for the element where we're drawing the fuel gauge.
+		 * @return CSSStyleDeclaration object 
+		 */
 		function getStyleDeclaration(element) {
 		    var compStyle;
 		    
