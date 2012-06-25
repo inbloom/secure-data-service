@@ -47,16 +47,16 @@
 		</div>
 		<div class="controls" id="rsaKeyField" <% if !@validation_errors %>style="display: none"<% end %>>
 		    
-		    <div class="control-group">
+		    <span class="control-group">
 		      <%= text_area_tag(:public_key, @public_key) %>
-		    </div>
+		    </span>
 		    
 		    <% if @validation_errors %>
-		      <div class="control-group error">
+		      <span class="control-group error">
 		        <span class="help-inline">
 		          <%= @validation_errors %>
 		        </span>
-		      </div>
+		      </span>
 		    <% end %>
 		</div>
 		<div class="form-actions">
