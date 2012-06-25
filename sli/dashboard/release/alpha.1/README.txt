@@ -64,6 +64,9 @@ For the purposes of this README, we will use /opt/tomcat as $TOMCAT_HOME
     - set dashboard.encryption.keyStore property in dashboard.properties to $YOUR_PATH_TO_KEYSTORE/YOUR_KEY_STORE_NAME.
       For example, we used /opt/tomcat/ecnryption/ciKeyStore.jks but you may want to use
       $JAVA_HOME/ciKeyStore.jks
+    - TODO (Find out what these are. ) point the API server and Security server to the proper url:
+      4 api.server.url = http://local.slidev.org:8080/
+      5 security.server.url = http://local.slidev.org:8080/
     - cp dashboard.properties to $TOMCAT_HOME/conf
 
 ===============================================================================
@@ -91,3 +94,7 @@ For the purposes of this README, we will use /opt/tomcat as $TOMCAT_HOME
     -- sli.trust.certificates should be set to $TOMCAT_HOME/trust/trustedCertificates
     -- sli.encryption.keyStore should be set to $YOUR_PATH_TO_KEYSTORE/YOUR_KEY_STORE_NAME
     -- sli.encryption.properties should be set to $YOUR_PATH_TO_KEYSTORE_PROPS/YOUR_KEY_STORE_PROPS_NAME
+
+===============================================================================
+
+5. Copy the dashboard.war file to the $TOMCAT_HOME/webapps directory
