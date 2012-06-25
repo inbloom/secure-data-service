@@ -135,5 +135,5 @@ Then /^next to "(.*?)" is size approximately "(.*?)"$/ do |name, size|
 end
 
 def delta(val)
-  val * 0.5 + 50
+  val * 0.5 + 200
 end
