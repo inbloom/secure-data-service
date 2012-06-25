@@ -30,7 +30,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
@@ -48,6 +47,7 @@ import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
 import org.slc.sli.api.security.context.resolver.EdOrgContextResolver;
+import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
 import org.slc.sli.api.security.service.SecurityCriteria;
@@ -82,6 +82,44 @@ public class BasicService implements EntityService {
     private static final String METADATA = "metaData";
     private static final String[] collectionsExcluded = {"tenant" ,"userSession","realm","userAccount","roles","application","applicationAuthorization"};
     private static final Set<String> NOT_BY_TENANT = new HashSet<String>(Arrays.asList(collectionsExcluded));
+
+    private static final Set<String> teacherStampedEntities = new HashSet<String>(Arrays.asList(
+            EntityNames.ATTENDANCE,
+            EntityNames.COHORT,
+            EntityNames.COURSE,
+            EntityNames.COURSE_OFFERING,
+            EntityNames.DISCIPLINE_ACTION,
+            EntityNames.DISCIPLINE_INCIDENT,
+            EntityNames.GRADE,
+            EntityNames.GRADEBOOK_ENTRY,
+            EntityNames.GRADING_PERIOD,
+            EntityNames.PARENT,
+            EntityNames.PROGRAM,
+            EntityNames.REPORT_CARD,
+            EntityNames.SCHOOL,
+            EntityNames.SECTION,
+            EntityNames.SECTION_ASSESSMENT_ASSOCIATION,
+            EntityNames.SESSION,
+            EntityNames.STAFF,
+            EntityNames.STAFF_COHORT_ASSOCIATION,
+            EntityNames.STAFF_ED_ORG_ASSOCIATION,
+            EntityNames.STAFF_PROGRAM_ASSOCIATION,
+            EntityNames.STUDENT,
+            EntityNames.STUDENT_ACADEMIC_RECORD,
+            EntityNames.STUDENT_ASSESSMENT_ASSOCIATION,
+            EntityNames.STUDENT_COHORT_ASSOCIATION,
+            EntityNames.STUDENT_COMPETENCY,
+            EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
+            EntityNames.STUDENT_PARENT_ASSOCIATION,
+            EntityNames.STUDENT_PROGRAM_ASSOCIATION,
+            EntityNames.STUDENT_SCHOOL_ASSOCIATION,
+            EntityNames.STUDENT_SECTION_ASSOCIATION,
+            EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY,
+            EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION,
+            EntityNames.TEACHER,
+            EntityNames.TEACHER_SCHOOL_ASSOCIATION,
+            EntityNames.TEACHER_SECTION_ASSOCIATION
+    ));
 
     private String collectionName;
     private List<Treatment> treatments;
@@ -820,6 +858,11 @@ public class BasicService implements EntityService {
             return securityCriteria;
         }
 
+        if( EntityNames.TEACHER.equals(type) && teacherStampedEntities.contains(toType)) {
+            securityCriteria.setSecurityCriteria(new NeutralCriteria("metaData.teacherContext", NeutralCriteria.CRITERIA_IN, Arrays.asList(principal.getEntity().getEntityId()), false));
+            return securityCriteria;
+        }
+
         EntityContextResolver resolver = contextResolverStore.findResolver(type, toType);
         List<String> allowed = resolver.findAccessible(principal.getEntity());
 
@@ -842,8 +885,8 @@ public class BasicService implements EntityService {
         if (getAuths().contains(Right.FULL_ACCESS)) {
             return getAuths().contains(Right.FULL_ACCESS);
         } else {
-            return defn.getType().equals(EntityNames.LEARNINGOBJECTIVE)
-                    || defn.getType().equals(EntityNames.LEARNINGSTANDARD)
+            return defn.getType().equals(EntityNames.LEARNING_OBJECTIVE)
+                    || defn.getType().equals(EntityNames.LEARNING_STANDARD)
                     || defn.getType().equals(EntityNames.ASSESSMENT)
                     || defn.getType().equals(EntityNames.EDUCATION_ORGANIZATION);
         }

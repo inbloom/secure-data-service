@@ -1,5 +1,5 @@
 {
-    "keyFields" : ["body.staffId","body.studentId","body.stateOrganizationId"],
+    "keyFields" : ["body.studentId","body.disciplineIncidentId","body.disciplineDate","body.disciplineActionIdentifier"],
     "references" :
     [
     {

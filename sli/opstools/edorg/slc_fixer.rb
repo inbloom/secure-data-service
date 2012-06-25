@@ -320,17 +320,25 @@ class SLCFixer
     @db['section'].find({}, @basic_options) do |cur|
       cur.each do |section|
         edorg = section['metaData']['edOrgs']
-        stamp_id(@db['course'], section['body']['courseId'], edorg)
+        stamp_id(@db['courseOffering'], section['body']['courseOfferingId'], edorg)
       end
     end
     @log.info "Iterating courseOffering with query: {}"
     @db['courseOffering'].find({}, @basic_options) do |cur|
-      cur.each do |course|
+      cur.each do |courseOffering|
+        edorg = courseOffering['metaData']['edOrgs']
+        stamp_id(@db['course'], courseOffering['body']['courseId'], edorg)
+      end
+    end
+    @log.info "Iterating courseOffering with query: {}"
+    @db['courseOffering'].find({}, @basic_options) do |cur|
+      cur.each do |courseOffering|
         edorgs = []
-        edorgs << old_edorgs(@db['course'], course['body']['courseId'])
-        edorgs << old_edorgs(@db['session'], course['body']['sessionId'])
+        edorgs << old_edorgs(@db['courseOffering'], courseOffering['_id'])	  
+        edorgs << old_edorgs(@db['course'], courseOffering['body']['courseId'])
+        edorgs << old_edorgs(@db['session'], courseOffering['body']['sessionId'])
         edorgs = edorgs.flatten.uniq
-        stamp_id(@db['courseOffering'], course['_id'], edorgs)
+        stamp_id(@db['courseOffering'], courseOffering['_id'], edorgs)
       end
     end
   end
@@ -390,9 +398,12 @@ class SLCFixer
   end
 
   def stamp_id(collection, id, edOrg)
+    #puts("stamp [" + collection.name + "]: " + id.to_s)
     if edOrg.nil? or edOrg.empty?
+      #puts("[]")
       return
     end
+    #puts("[" + edOrg.to_s + "]")
     begin
       tenant = collection.find_one({"_id" => id})
       tenantid = tenant['metaData']['tenantId'] if !tenant.nil? and tenant.include? 'metaData' and tenant['metaData'].include? 'tenantId'
