@@ -1,4 +1,4 @@
-Feature: StudentTranscriptAssociation Ingestion Test
+Feature: StudentTranscriptAssociation and CourseOffering Ingestion Test
 
 Background: I have a landing zone route configured
 Given I am using local data store
@@ -10,6 +10,8 @@ Given I post "complexObjectArrayIdResolutionTest.zip" file as the payload of the
 	   | collectionName                |
 	   | educationOrganization         |
 	   | course                        |
+	   | courseOffering                |
+	   | gradingPeriod                 |
 	   | session                       |
 	   | studentAcademicRecord         |
 	   | studentTranscriptAssociation  |
@@ -19,6 +21,8 @@ Then I should see following map of entry counts in the corresponding collections
 	   | collectionName                | count |
 	   | educationOrganization         | 3     |
 	   | course                        | 4     |
+	   | courseOffering                | 2     |
+	   | gradingPeriod                 | 1     |
 	   | session                       | 1     |
 	   | studentAcademicRecord         | 1     |
 	   | studentTranscriptAssociation  | 2     |
@@ -29,5 +33,5 @@ Then I should see following map of entry counts in the corresponding collections
 	   | studentTranscriptAssociation  | 0                   | body.creditsEarned.credit          | 3                    | integer              |
 	   | studentTranscriptAssociation  | 0                   | body.creditsEarned.credit          | 4                    | integer              |
 	   | studentTranscriptAssociation  | 0                   | body.creditsEarned.credit           | 5                    | integer              |
-	And I should see "Processed 16 records." in the resulting batch job file
+	And I should see "Processed 18 records." in the resulting batch job file
 

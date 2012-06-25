@@ -2,7 +2,53 @@
 <InterchangeMasterSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
   xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-MasterSchedule.xsd">
 
-<Section>
+  <CourseOffering>
+    <LocalCourseCode>Algebra-11</LocalCourseCode>
+    <LocalCourseTitle>Algebra-11</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <SessionName>Fall 2011 Daybreak Central High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Algebra-11</ID>
+        </CourseCode>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+
+  <CourseOffering>
+    <LocalCourseCode>8th Grade English</LocalCourseCode>
+    <LocalCourseTitle>8th Grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>8th Grade English</ID>
+        </CourseCode>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+
+  <Section>
     <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
     <SequenceOfCourse>3</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
@@ -14,9 +60,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>8th Grade English</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -43,9 +89,9 @@
           <CourseCode IdentificationSystem="CSSC course code">
             <ID>Algebra-11</ID>
           </CourseCode>
-          <Term>First Semester</Term>
+          <Term>Fall Semester</Term>
           <SchoolYear>2011-2012</SchoolYear>
-          <StateOrganizationId>1</StateOrganizationId>
+          <StateOrganizationId>Daybreak Central High</StateOrganizationId>
         </CourseOfferingIdentity>
       </CourseOfferingReference>
       <SchoolReference>
