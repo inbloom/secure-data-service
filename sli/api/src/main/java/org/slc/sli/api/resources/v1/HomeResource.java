@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.resources.v1;
 
 //
@@ -47,7 +46,8 @@ import org.slc.sli.domain.Entity;
 
 /**
  *
- * Provides initial information for a user. This includes providing different links to self and associated
+ * Provides initial information for a user. This includes providing different links to self and
+ * associated
  * resources.
  *
  * @author pghosh
@@ -56,7 +56,8 @@ import org.slc.sli.domain.Entity;
 @Path(PathConstants.V1 + "/" + "home")
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON+";charset=utf-8", HypermediaType.VENDOR_SLC_JSON+";charset=utf-8", MediaType.APPLICATION_XML+";charset=utf-8" })
+@Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8",
+        MediaType.APPLICATION_XML + ";charset=utf-8" })
 public class HomeResource {
 
     final EntityDefinitionStore entityDefs;
@@ -95,7 +96,7 @@ public class HomeResource {
             // return as browser response
             home = new Home(defn.getStoredCollectionName(), linksMap);
         } else {
-          throw new InsufficientAuthenticationException("No entity mapping found for user");
+            throw new InsufficientAuthenticationException("No entity mapping found for user");
         }
 
         return Response.ok(home).build();

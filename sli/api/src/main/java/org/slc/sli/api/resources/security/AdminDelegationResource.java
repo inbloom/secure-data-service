@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
@@ -49,14 +48,13 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 
-
 /**
  * Endpoints to access admin delegation data.
  */
 @Component
 @Scope("request")
 @Path("/adminDelegation")
-@Produces({ Resource.JSON_MEDIA_TYPE+";charset=utf-8" })
+@Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
 public class AdminDelegationResource {
 
     @Autowired
@@ -98,8 +96,8 @@ public class AdminDelegationResource {
 
             List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
             NeutralQuery query = new NeutralQuery();
-            query.addCriteria(new NeutralCriteria(LEA_ID, NeutralCriteria.CRITERIA_IN,
-                    edOrgNodeFilter.getChildEducationOrganizations(edOrg)));
+            query.addCriteria(new NeutralCriteria(LEA_ID, NeutralCriteria.CRITERIA_IN, edOrgNodeFilter
+                    .getChildEducationOrganizations(edOrg)));
             for (Entity entity : repo.findAll(RESOURCE_NAME, query)) {
                 entity.getBody().put("id", entity.getEntityId());
                 results.add(entity.getBody());
@@ -120,11 +118,11 @@ public class AdminDelegationResource {
 
     }
 
-
     /**
      * Set the admin delegation record for an LEA admin user's EdOrg.
      *
-     * @param body Admin delegation record to be written.
+     * @param body
+     *            Admin delegation record to be written.
      * @return NO_CONTENT on success. BAD_REQUEST or FORBIDDEN on failure.
      */
     @PUT
@@ -135,7 +133,7 @@ public class AdminDelegationResource {
             return SecurityUtil.forbiddenResponse();
         }
 
-        //verifyBodyEdOrgMatchesPrincipalEdOrg
+        // verifyBodyEdOrgMatchesPrincipalEdOrg
         if (body == null || !body.containsKey(LEA_ID) || !body.get(LEA_ID).equals(SecurityUtil.getEdOrg())) {
             EntityBody response = new EntityBody();
             response.put("message", "Entity EdOrg must match principal's EdOrg when writing delegation record.");
@@ -177,7 +175,6 @@ public class AdminDelegationResource {
         return Response.status(Status.OK).entity(entity).build();
     }
 
-
     private Entity getDelegationRecordForPrincipal() {
         String edOrg = SecurityUtil.getEdOrg();
         if (edOrg == null) {
@@ -188,7 +185,6 @@ public class AdminDelegationResource {
         query.addCriteria(new NeutralCriteria(LEA_ID, "=", edOrg));
         return repo.findOne(RESOURCE_NAME, query);
     }
-
 
     private Entity getEntity() {
         if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {

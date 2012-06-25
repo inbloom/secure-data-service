@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.resources;
 
 import java.util.ArrayList;
@@ -44,7 +43,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
-
 /**
  * Jersey resource for aggregate discovery
  *
@@ -55,7 +53,7 @@ import org.slc.sli.domain.NeutralQuery;
 @Path("aggregation")
 @Component
 @Scope("request")
-@Produces(Resource.JSON_MEDIA_TYPE+";charset=utf-8")
+@Produces(Resource.JSON_MEDIA_TYPE + ";charset=utf-8")
 public class AggregateResource {
     final EntityDefinitionStore entityDefs;
 
@@ -91,10 +89,11 @@ public class AggregateResource {
         if (userEntity != null) {
             if (userEntity.getType().equals("staff")) {
                 List<String> associatedEdOrgs = new ArrayList<String>();
-                for (EntityBody e : this.entityDefs.lookupByEntityType("educationOrganization").getService().list(neutralQuery)) {
+                for (EntityBody e : this.entityDefs.lookupByEntityType("educationOrganization").getService()
+                        .list(neutralQuery)) {
                     associatedEdOrgs.add((String) e.get("id"));
                 }
-                neutralQuery.addCriteria(new NeutralCriteria("groupBy.districtId" , "in", associatedEdOrgs));
+                neutralQuery.addCriteria(new NeutralCriteria("groupBy.districtId", "in", associatedEdOrgs));
             }
 
         }
@@ -158,7 +157,6 @@ public class AggregateResource {
         } else {
             links = creator.getUrls(uriInfo, "", "", neutralQuery);
         }
-
 
         // create a final map of links to relevant links
         Map<String, Object> linksMap = new HashMap<String, Object>();
