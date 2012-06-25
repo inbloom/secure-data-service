@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.resources.config;
 
 import java.io.IOException;
@@ -32,9 +31,9 @@ import javax.ws.rs.ext.Provider;
 import com.fasterxml.jackson.xml.XmlMapper;
 
 import org.codehaus.jackson.map.SerializationConfig;
-import org.slc.sli.api.resources.v1.HypermediaType;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.resources.v1.HypermediaType;
 
 /**
  * Custom Context Resolver that will generate XML for objects
@@ -44,7 +43,7 @@ import org.springframework.stereotype.Component;
 @SuppressWarnings("rawtypes")
 @Provider
 @Component
-@Produces({ MediaType.APPLICATION_XML+";charset=utf-8", HypermediaType.VENDOR_SLC_XML+";charset=utf-8" })
+@Produces({ MediaType.APPLICATION_XML + ";charset=utf-8", HypermediaType.VENDOR_SLC_XML + ";charset=utf-8" })
 public class ObjectXMLWriter implements MessageBodyWriter {
 
     @Override
@@ -64,7 +63,7 @@ public class ObjectXMLWriter implements MessageBodyWriter {
 
     @Override
     public void writeTo(Object o, Class type, Type genericType, Annotation[] annotations, MediaType mediaType,
-                        MultivaluedMap httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
+            MultivaluedMap httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
         XmlMapper xmlMapper = new XmlMapper();
         xmlMapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
         xmlMapper.configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);

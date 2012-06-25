@@ -14,18 +14,7 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.security.context;
-
-import org.slc.sli.api.config.AssociationDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,6 +22,17 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.config.AssociationDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * Resolves Context based permissions.
@@ -50,14 +50,16 @@ public class AssociativeContextHelper {
     /**
      * Provides list of entity ids that given actor has access to
      *
-     * @param principal user currently accessing the system
+     * @param principal
+     *            user currently accessing the system
      * @return List of string ids
      */
     public List<String> findAccessible(final Entity principal, final List<String> associativeResourceNames) {
         return findAccessible(Arrays.asList(principal.getEntityId()), principal.getType(), associativeResourceNames);
     }
 
-    public List<String> findAccessible(final Collection<String> ids, final String idsEntityName, final List<String> associativeNames) {
+    public List<String> findAccessible(final Collection<String> ids, final String idsEntityName,
+            final List<String> associativeNames) {
         List<AssociationDefinition> associativeContextPath = getDefinitions(associativeNames);
 
         List<String> foundIds = new ArrayList<String>(ids);
@@ -98,7 +100,8 @@ public class AssociativeContextHelper {
         } else if (ad.getTargetEntity().getType().equals(searchEntityType)) {
             return ad.getSourceEntity().getType();
         } else {
-            throw new IllegalArgumentException("Entity is not a member of association " + searchEntityType + " " + ad.getType());
+            throw new IllegalArgumentException("Entity is not a member of association " + searchEntityType + " "
+                    + ad.getType());
         }
 
     }
@@ -106,13 +109,14 @@ public class AssociativeContextHelper {
     public List<String> getAssocKeys(String entityType, AssociationDefinition ad) {
 
         if (ad.getSourceEntity().getType().equals(entityType)
-            || ad.getSourceEntity().getStoredCollectionName().equals(entityType)) {
+                || ad.getSourceEntity().getStoredCollectionName().equals(entityType)) {
             return Arrays.asList(ad.getSourceKey(), ad.getTargetKey());
         } else if (ad.getTargetEntity().getType().equals(entityType)
-            || ad.getTargetEntity().getStoredCollectionName().equals(entityType)) {
+                || ad.getTargetEntity().getStoredCollectionName().equals(entityType)) {
             return Arrays.asList(ad.getTargetKey(), ad.getSourceKey());
         } else {
-            throw new IllegalArgumentException("Entity is not a member of association " + entityType + " " + ad.getType());
+            throw new IllegalArgumentException("Entity is not a member of association " + entityType + " "
+                    + ad.getType());
         }
     }
 
@@ -124,26 +128,29 @@ public class AssociativeContextHelper {
      * @return
      */
     public List<String> findEntitiesContainingReference(String collectionName, String referenceLocation,
-                                                        List<String> referenceIds){
-        return  findEntitiesContainingReference(collectionName,referenceLocation,referenceIds,null);
+            List<String> referenceIds) {
+        return findEntitiesContainingReference(collectionName, referenceLocation, referenceIds, null);
     }
 
     /**
      * Searches a collection to find entities that contain a reference form a list
      *
-     * @param collectionName    collection to query
-     * @param referenceLocation location of the reference in the collection (eg "body.referenceId")
-     * @param referenceIds      reference values to query
+     * @param collectionName
+     *            collection to query
+     * @param referenceLocation
+     *            location of the reference in the collection (eg "body.referenceId")
+     * @param referenceIds
+     *            reference values to query
      * @return Ids of entities containing a referenceId at the referenceLocation
      */
     public List<String> findEntitiesContainingReference(String collectionName, String referenceLocation,
-                                                        List<String> referenceIds,List<NodeFilter> filterList) {
-        List<Entity> entitiesToResolve= new ArrayList<Entity>();
+            List<String> referenceIds, List<NodeFilter> filterList) {
+        List<Entity> entitiesToResolve = new ArrayList<Entity>();
         Iterable<Entity> entityIterableList = getReferenceEntities(collectionName, referenceLocation, referenceIds);
-        for (Entity entityInList: entityIterableList){
+        for (Entity entityInList : entityIterableList) {
             entitiesToResolve.add(entityInList);
         }
-        entitiesToResolve = filterEntities(entitiesToResolve,filterList,"");
+        entitiesToResolve = filterEntities(entitiesToResolve, filterList, "");
 
         List<String> foundIds = new ArrayList<String>();
         for (Entity e : entitiesToResolve) {
@@ -155,9 +162,12 @@ public class AssociativeContextHelper {
     /**
      * Searches a collection to find entities that contain a reference form a list
      *
-     * @param collectionName    collection to query
-     * @param referenceLocation location of the reference in the collection (eg "body.referenceId")
-     * @param referenceIds      reference values to query
+     * @param collectionName
+     *            collection to query
+     * @param referenceLocation
+     *            location of the reference in the collection (eg "body.referenceId")
+     * @param referenceIds
+     *            reference values to query
      * @return entities containing a referenceId at the referenceLocation
      */
     public Iterable<Entity> getReferenceEntities(String collectionName, String referenceLocation,
@@ -166,7 +176,7 @@ public class AssociativeContextHelper {
         neutralQuery.addCriteria(new NeutralCriteria(referenceLocation, "in", referenceIds));
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(0);
-//        BasicService.addDefaultQueryParams(neutralQuery, collectionName);
+        // BasicService.addDefaultQueryParams(neutralQuery, collectionName);
         Iterable<Entity> entities = repository.findAll(collectionName, neutralQuery);
         return entities;
     }
@@ -180,9 +190,10 @@ public class AssociativeContextHelper {
      * @return
      */
     public List<String> findEntitiesContainingReference(String collectionName, String referenceLocation,
-                                                        String returnedReference, List<String> referenceIds){
-        return  findEntitiesContainingReference(collectionName,referenceLocation,returnedReference,referenceIds,null);
+            String returnedReference, List<String> referenceIds) {
+        return findEntitiesContainingReference(collectionName, referenceLocation, returnedReference, referenceIds, null);
     }
+
     /**
      * Searches an associative collection to return a list of referenced Ids.
      *
@@ -197,13 +208,13 @@ public class AssociativeContextHelper {
      * @return ids contained in the returnedReference field
      */
     public List<String> findEntitiesContainingReference(String collectionName, String referenceLocation,
-            String returnedReference, List<String> referenceIds,List<NodeFilter> filterList) {
-        List<Entity> entitiesToResolve= new ArrayList<Entity>();
+            String returnedReference, List<String> referenceIds, List<NodeFilter> filterList) {
+        List<Entity> entitiesToResolve = new ArrayList<Entity>();
         Iterable<Entity> entityIterableList = getReferenceEntities(collectionName, referenceLocation, referenceIds);
-        for (Entity entityInList: entityIterableList){
+        for (Entity entityInList : entityIterableList) {
             entitiesToResolve.add(entityInList);
         }
-        entitiesToResolve = filterEntities(entitiesToResolve,filterList,returnedReference);
+        entitiesToResolve = filterEntities(entitiesToResolve, filterList, returnedReference);
         List<String> foundIds = new ArrayList<String>();
         for (Entity e : entitiesToResolve) {
             Map<String, Object> body = e.getBody();
@@ -214,6 +225,7 @@ public class AssociativeContextHelper {
 
     /**
      * Returns a date depending on the grace period
+     *
      * @param gracePeriod
      * @return
      */
@@ -232,10 +244,10 @@ public class AssociativeContextHelper {
      * @param filterList
      * @return
      */
-    public List<Entity> filterEntities(List<Entity> entitiList , List<NodeFilter> filterList,String referenceField){
-        if(filterList != null && entitiList != null && entitiList.size() != 0) {
+    public List<Entity> filterEntities(List<Entity> entitiList, List<NodeFilter> filterList, String referenceField) {
+        if (filterList != null && entitiList != null && entitiList.size() != 0) {
             for (NodeFilter filter : filterList) {
-                entitiList = filter.filterEntities(entitiList,referenceField);
+                entitiList = filter.filterEntities(entitiList, referenceField);
             }
         }
         return entitiList;

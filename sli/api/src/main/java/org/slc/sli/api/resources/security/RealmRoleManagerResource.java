@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
@@ -72,7 +71,7 @@ import org.slc.sli.domain.enums.Right;
 @Component
 @Scope("request")
 @Path("/realm")
-@Produces({ Resource.JSON_MEDIA_TYPE+";charset=utf-8" })
+@Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
 public class RealmRoleManagerResource {
 
     private static final String UNKNOWN_SLI_REALM_NAME = "UnknownSLIRealmName";
@@ -247,9 +246,7 @@ public class RealmRoleManagerResource {
 
             if (curEntity == null) {
                 continue;
-            }
-
-            else if (curEntity.get("mappings") == null) {
+            } else if (curEntity.get("mappings") == null) {
                 curEntity.put("mappings", new HashMap<String, List<String>>());
             }
 

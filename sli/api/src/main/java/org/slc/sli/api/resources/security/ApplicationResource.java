@@ -38,9 +38,16 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.client.constants.v1.ParameterConstants;
-import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
@@ -51,18 +58,11 @@ import org.slc.sli.api.service.EntityService;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
 /**
- * 
+ *
  * Provides CRUD operations on registered application through the /apps path.
- * 
+ *
  * @author shalka
  */
 @Component
@@ -70,18 +70,18 @@ import org.springframework.stereotype.Component;
 @Path("apps")
 @Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
 public class ApplicationResource extends DefaultCrudEndpoint {
-    
+
     public static final String AUTHORIZED_ED_ORGS = "authorized_ed_orgs";
-    
+
     @Autowired
     private EntityDefinitionStore store;
-    
+
     @Autowired
     @Value("${sli.sandbox.autoRegisterApps}")
     private boolean autoRegister;
-    
+
     private EntityService service;
-    
+
     private static final int CLIENT_ID_LENGTH = 10;
     private static final int CLIENT_SECRET_LENGTH = 48;
     public static final String REGISTRATION = "registration";
@@ -93,25 +93,25 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     public static final String RESOURCE_NAME = "application";
     public static final String UUID = "uuid";
     public static final String LOCATION = "Location";
-    
+
     private static final String CREATED_BY = "created_by";
-    
+
     public void setAutoRegister(boolean register) {
         autoRegister = register;
     }
-    
+
     private boolean hasRight(Right required) {
         Collection<GrantedAuthority> rights = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
         return rights.contains(required);
     }
-    
+
     @Autowired
     public ApplicationResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, RESOURCE_NAME);
         store = entityDefs;
         service = store.lookupByResourceName(RESOURCE_NAME).getService();
     }
-    
+
     @POST
     public Response createApplication(EntityBody newApp, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         if (newApp.containsKey(CLIENT_SECRET) || newApp.containsKey(CLIENT_ID) || newApp.containsKey("id")) {
@@ -127,16 +127,16 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         }
         // Destroy the ed-orgs
         newApp.put(AUTHORIZED_ED_ORGS, new ArrayList<String>());
-        
+
         String clientId = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
         while (isDuplicateToken(clientId)) {
             clientId = TokenGenerator.generateToken(CLIENT_ID_LENGTH);
         }
-        
+
         newApp.put(CLIENT_ID, clientId);
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         newApp.put(CREATED_BY, principal.getExternalId());
-        
+
         Map<String, Object> registration = new HashMap<String, Object>();
         registration.put(STATUS, "PENDING");
         if (autoRegister) {
@@ -146,15 +146,15 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         }
         registration.put(REQUEST_DATE, System.currentTimeMillis());
         newApp.put(REGISTRATION, registration);
-        
+
         String clientSecret = TokenGenerator.generateToken(CLIENT_SECRET_LENGTH);
         newApp.put(CLIENT_SECRET, clientSecret);
-        
+
         // we don't allow create apps to have the boostrap flag
         newApp.remove("bootstrap");
         return super.create(newApp, headers, uriInfo);
     }
-    
+
     private boolean isDuplicateToken(String token) {
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setOffset(0);
@@ -166,7 +166,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             return false;
         }
     }
-    
+
     @SuppressWarnings("rawtypes")
     @GET
     public Response getApplications(
@@ -175,7 +175,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         Response resp = null;
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        
+
         // synchronizing since extraCriteria isn't thread safe
         synchronized (this) {
             if (hasRight(Right.DEV_APP_CRUD)) {
@@ -187,7 +187,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
                 extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
                         principal.getEdOrg());
                 resp = super.readAll(offset, limit, headers, uriInfo);
-                
+
                 // also need the bootstrap apps -- so in an ugly fashion, let's query those too and
                 // add it to the response
                 extraCriteria = new NeutralCriteria("bootstrap", NeutralCriteria.OPERATOR_EQUAL, true);
@@ -202,16 +202,16 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             } else {
                 resp = super.readAll(offset, limit, headers, uriInfo);
             }
-            
+
         }
         filterSensitiveData((Map) resp.getEntity());
         return resp;
     }
-    
+
     /**
      * Looks up a specific application based on client ID, ie.
      * /api/rest/apps/<uuid>
-     * 
+     *
      * @param uuid
      *            the client ID, not the "id"
      * @return the JSON data of the application, otherwise 404 if not found
@@ -234,11 +234,11 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         filterSensitiveData((Map) resp.getEntity());
         return resp;
     }
-    
+
     /**
      * If an app hasn't been approved, the client_id and client_secret shouldn't
      * be visible to the developer.
-     * 
+     *
      * @param entity
      */
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -251,7 +251,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             } else if (appObj instanceof List) {
                 appList = (List) appObj;
             }
-            
+
             for (Object app : appList) {
                 Map appMap = (Map) app;
                 Map reg = (Map) appMap.get("registration");
@@ -262,12 +262,12 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             }
         }
     }
-    
+
     @DELETE
     @Path("{" + UUID + "}")
     public Response deleteApplication(@PathParam(UUID) String uuid, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        
+
         if (!hasRight(Right.DEV_APP_CRUD)) {
             EntityBody body = new EntityBody();
             body.put("message", "You cannot delete this application");
@@ -275,16 +275,16 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         }
         return super.delete(uuid, headers, uriInfo);
     }
-    
+
     // TODO app creation and app approval should be broken into separate endpoints.
     @SuppressWarnings("unchecked")
     @PUT
     @Path("{" + UUID + "}")
     public Response updateApplication(@PathParam(UUID) String uuid, EntityBody app, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        
+
         EntityBody oldApp = service.get(uuid);
-        
+
         // The client id and secret could be null if they were filtered from the client
         String clientSecret = (String) app.get(CLIENT_SECRET);
         if (clientSecret == null) {
@@ -294,36 +294,36 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         if (clientId == null) {
             app.put(CLIENT_ID, oldApp.get(CLIENT_ID));
         }
-        
+
         String id = (String) app.get("id");
         Map<String, Object> oldReg = (Map<String, Object>) oldApp.get(REGISTRATION);
         Map<String, Object> newReg = (Map<String, Object>) app.get(REGISTRATION);
         String newRegStatus = (String) newReg.get(STATUS);
         String oldRegStatus = (String) oldReg.get(STATUS);
         List<String> changedKeys = new ArrayList<String>();
-        
+
         for (Map.Entry<String, Object> entry : app.entrySet()) {
             if (oldApp.containsKey(entry.getKey()) && !oldApp.get(entry.getKey()).equals(entry.getValue())) {
                 changedKeys.add(entry.getKey());
             }
         }
-        
+
         if ((clientSecret != null && !clientSecret.equals(oldApp.get(CLIENT_SECRET)))
                 || (clientId != null && !clientId.equals(oldApp.get(CLIENT_ID)))
                 || (id != null && !id.equals(oldApp.get("id")))
                 || (!registrationDatesMatch(oldReg, newReg, APPROVAL_DATE))
                 || (!registrationDatesMatch(oldReg, newReg, REQUEST_DATE))) {
-            
+
             EntityBody body = new EntityBody();
             body.put("message",
                     "Cannot modify attribute (id|client_secret|client_id|request_date|approval_date) specified in PUT.  "
                             + "Remove attribute and try again.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
-        
+
         changedKeys.remove("registration");
         changedKeys.remove("metaData");
-        
+
         // Operator - can only change registration status
         if (hasRight(Right.SLC_APP_APPROVE)) {
             if (changedKeys.size() > 0) {
@@ -331,7 +331,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
                 body.put("message", "You are not authorized to alter applications.");
                 return Response.status(Status.BAD_REQUEST).entity(body).build();
             }
-            
+
             if (newRegStatus.equals("APPROVED") && oldRegStatus.equals("PENDING")) {
                 debug("App approved");
                 newReg.put(STATUS, "APPROVED");
@@ -347,38 +347,38 @@ public class ApplicationResource extends DefaultCrudEndpoint {
                 body.put("message", "Invalid state change: " + oldRegStatus + " to " + newRegStatus);
                 return Response.status(Status.BAD_REQUEST).entity(body).build();
             }
-            
+
         } else if (hasRight(Right.DEV_APP_CRUD)) {  // App Developer
             if (!oldRegStatus.endsWith(newRegStatus)) {
                 EntityBody body = new EntityBody();
                 body.put("message", "You are not authorized to register applications.");
                 return Response.status(Status.BAD_REQUEST).entity(body).build();
             }
-            
+
             if (oldRegStatus.equals("PENDING")) {
                 EntityBody body = new EntityBody();
                 body.put("message", "Application cannot be modified while approval request is in Pending state.");
                 return Response.status(Status.BAD_REQUEST).entity(body).build();
             }
-            
+
             // when a denied or unreg'ed app is altered, it goes back into pending
             if (oldRegStatus.equals("DENIED") || oldRegStatus.equals("UNREGISTERED")) {
-                
+
                 // TODO: If auto approval is on, approve instead
                 newReg.put(STATUS, "PENDING");
                 newReg.put(REQUEST_DATE, System.currentTimeMillis());
             }
-            
-            
+
+
             if (autoRegister && app.containsKey(AUTHORIZED_ED_ORGS)) {
                 // Auto-approve whatever districts are selected.
                 List<String> edOrgs = (List) app.get(AUTHORIZED_ED_ORGS);
                 if (!edOrgsBelongToTenant(edOrgs)) {
                     EntityBody body = new EntityBody();
                     body.put("message", "Attempt to authorized edorg in sandbox outside of tenant.");
-                    return Response.status(Status.BAD_REQUEST).entity(body).build();  
+                    return Response.status(Status.BAD_REQUEST).entity(body).build();
                 }
-                
+
                 service = store.lookupByResourceName(ApplicationAuthorizationResource.RESOURCE_NAME).getService();
                 iterateEdOrgs(uuid, edOrgs);
             }
@@ -389,16 +389,17 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         }
 
         //we don't allow created apps to have the bootstrap flag
-        if (!oldApp.containsKey("bootstrap"))
+        if (!oldApp.containsKey("bootstrap")) {
             app.remove("bootstrap");
+        }
 
         return super.update(uuid, app, headers, uriInfo);
     }
-    
+
     /**
      * In sandbox mode, a user can only authorize edorgs stamped with the user's own tenant ID,
      * which is the external ID (email address) of the user.
-     * 
+     *
      * @param edOrgs
      * @return
      */
@@ -407,9 +408,9 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         SLIPrincipal principal = (SLIPrincipal) context.getAuthentication().getPrincipal();
         String sandboxTenant = principal.getExternalId();
         EntityService edorgService = store.lookupByResourceName(ResourceNames.EDUCATION_ORGANIZATIONS).getService();
-        
+
         for (String edOrgId : edOrgs) {
-            
+
             EntityBody entity = edorgService.list(new NeutralQuery(new NeutralCriteria("stateOrganizationId", "=", edOrgId))).iterator().next();
             if (entity != null && entity.containsKey("metaData")) {
                 @SuppressWarnings("rawtypes")
@@ -443,7 +444,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             updateAuthorization(uuid, auths);
         }
     }
-    
+
     private void updateAuthorization(String uuid, Iterable<EntityBody> auths) {
         for (EntityBody auth : auths) {
             List<String> appsIds = (List) auth.get("appIds");
@@ -452,13 +453,13 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             service.update((String) auth.get("id"), auth);
         }
     }
-    
+
     /**
      * Compares two date fields on the registration object.
-     * 
+     *
      * It's only tricky because we one or both could be null
      * e.g. an app in pending state won't have an approval date field
-     * 
+     *
      * @param oldReg
      * @param newReg
      * @param field
@@ -466,10 +467,10 @@ public class ApplicationResource extends DefaultCrudEndpoint {
      * @return
      */
     private boolean registrationDatesMatch(Map<String, Object> oldReg, Map<String, Object> newReg, String field) {
-        
+
         Long oldDate = (Long) oldReg.get(field);
         Long newDate = (Long) newReg.get(field);
-        
+
         if (oldDate == newDate) {
             return true;
         } else if (oldDate != null && newDate != null) {

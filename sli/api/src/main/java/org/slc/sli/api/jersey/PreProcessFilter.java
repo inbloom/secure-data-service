@@ -14,45 +14,42 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.jersey;
-
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
 
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerRequestFilter;
-import org.slc.sli.api.security.SLIPrincipal;
 
-import org.slc.sli.api.validation.URLValidator;
-import org.slc.sli.validation.EntityValidationException;
-import org.slc.sli.validation.ValidationError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.OauthSessionManager;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.validation.URLValidator;
 import org.slc.sli.dal.TenantContext;
-
-import javax.annotation.Resource;
+import org.slc.sli.validation.EntityValidationException;
+import org.slc.sli.validation.ValidationError;
 
 /**
- * Pre-request processing filter.  
+ * Pre-request processing filter.
  * Adds security information for the user
  * Records start time of the request
- * 
+ *
  * @author dkornishev
- * 
+ *
  */
 @Component
 public class PreProcessFilter implements ContainerRequestFilter {
 
     @Resource(name = "urlValidators")
     private List<URLValidator> urlValidators;
-        
+
     @Autowired
     private OauthSessionManager manager;
 
@@ -68,7 +65,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
     private void populateSecurityContext(ContainerRequest request) {
         OAuth2Authentication auth = manager.getAuthentication(request.getHeaderValue("Authorization"));
         SecurityContextHolder.getContext().setAuthentication(auth);
-        TenantContext.setTenantId(( (SLIPrincipal) auth.getPrincipal()).getTenantId());
+        TenantContext.setTenantId(((SLIPrincipal) auth.getPrincipal()).getTenantId());
     }
 
     private void recordStartTime(ContainerRequest request) {
@@ -77,6 +74,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
 
     /**
      * Validate the request url
+     *
      * @param request
      */
     private void validate(ContainerRequest request) {
@@ -84,11 +82,11 @@ public class PreProcessFilter implements ContainerRequestFilter {
         for (URLValidator validator : urlValidators) {
             if (!validator.validate(request.getRequestUri())) {
                 List<ValidationError> errors = new ArrayList<ValidationError>();
-                errors.add(0, new ValidationError(ValidationError.ErrorType.INVALID_VALUE, "URL", request.getRequestUri().toString(), null));
+                errors.add(0, new ValidationError(ValidationError.ErrorType.INVALID_VALUE, "URL", request
+                        .getRequestUri().toString(), null));
                 throw new EntityValidationException("", "", errors);
             }
         }
     }
-
 
 }
