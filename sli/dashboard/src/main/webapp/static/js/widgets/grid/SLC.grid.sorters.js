@@ -1,7 +1,3 @@
-/*
- * SLC grid sorters
- * This module handles all sorting functionality for grid columns
- */
 /*global SLC $*/
 
 SLC.namespace('SLC.grid.sorters', (function () {

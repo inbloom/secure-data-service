@@ -62,7 +62,7 @@ function setup() {
 	}
 }
 
-function gotoSearchPageURL(id) {
+function gotoURL(id) {
 	var postPageNum = dataModel.searchPageNum;
 	var postPageSize = dataModel.searchPageSize;
 	if (id == "searchPrevBtn") {

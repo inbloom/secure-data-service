@@ -31,7 +31,7 @@
 </div>
     <script type="text/javascript">
       <#-- make grid -->
-      SLC.grid.tablegrid.create('${id}', SLC.dataProxy.getConfig("${gridId}"), SLC.dataProxy.getData("${gridId}"));
+      SLC.grid.create('${id}', SLC.dataProxy.getConfig("${gridId}"), SLC.dataProxy.getData("${gridId}"));
 
     </script>
 
@@ -52,7 +52,7 @@
 	pageTitle = SLC.dataProxy.getLayoutName();
 	document.title = pageTitle;
 	
-	setTimeout(SLC.util.placeholderFix, 500);
+	setTimeout(SLC.util.placeholderFix, 500);;
 </script>
 </#noescape>
 <#include "../panel/studentSearch.ftl">
