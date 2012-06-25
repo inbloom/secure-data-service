@@ -80,8 +80,7 @@ public class Teachers {
                     .get("firstName");
             String lastName = (String) ((Map<String, Object>) collection.get(0).getData().get("name"))
                     .get("lastSurname");
-            String tenantId = (String) ((Map<String, Object>) collection.get(0).getData().get("metaData"))
-                    .get("tenantId");
+            String tenantId = (String) ((Map<String, Object>) collection.get(0).getData()).get("id");
             toReturn.put(firstName + " " + lastName, tenantId);
         }
         return toReturn;

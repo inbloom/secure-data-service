@@ -53,7 +53,7 @@
 				<StateOrganizationId>IL-SUNSET</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</LocalEducationAgencyReference>
-	</School-->
+	</School-->>
 	<!--Course>
 		<CourseTitle>A.P. Calculus</CourseTitle>
 		<NumberOfParts>1</NumberOfParts>
@@ -68,6 +68,10 @@
 		<MaximumAvailableCredit>
 			<Credit>5</Credit>
 		</MaximumAvailableCredit>
-		<EducationOrganizationReference/>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
 	</Course-->
 </InterchangeEducationOrganization>

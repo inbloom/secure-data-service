@@ -36,9 +36,6 @@ import java.util.Set;
 import com.google.gson.Gson;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.entity.ConfigMap;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.GenericEntityEnhancer;
@@ -47,6 +44,8 @@ import org.slc.sli.util.ExecutionTimeLogger;
 import org.slc.sli.util.ExecutionTimeLogger.LogExecutionTime;
 import org.slc.sli.util.JsonConverter;
 import org.slc.sli.util.SecurityUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -66,6 +65,7 @@ public class LiveAPIClient {
     private static final String EDORGS_URL = "/v1/educationOrganizations/";
     private static final String SCHOOLS_URL = "/v1/schools";
     private static final String COURSES_URL = "/v1/courses/";
+    private static final String COURSE_OFFERINGS_URL = "/v1/courseOfferings/";
     private static final String SECTIONS_URL = "/v1/sections/";
     private static final String STUDENTS_URL = "/v1/students/";
     private static final String TEACHERS_URL = "/v1/teachers/";
@@ -249,15 +249,31 @@ public class LiveAPIClient {
 
         // iterate each section
         if (sections != null) {
+            
+            Map<String, String> courseOfferingToCourseIDMap = new HashMap<String, String>();
+            
+            // find the course for each course offering
+            List<GenericEntity> courseOfferings = createEntitiesFromAPI(getApiUrl() + COURSE_OFFERINGS_URL + "?"
+                    + Constants.LIMIT + "=" + Constants.MAX_RESULTS, token);
+            if (courseOfferings != null) {
+                for (GenericEntity courseOffering : courseOfferings) {
+                    // Get course using courseId reference in section
+                    String courseOfferingId = (String) courseOffering.get(Constants.ATTR_ID);
+                    String courseId = (String) courseOffering.get(Constants.ATTR_COURSE_ID);
+                    courseOfferingToCourseIDMap.put(courseOfferingId, courseId);
+                }
+            }
+
             for (GenericEntity section : sections) {
                 // Get course using courseId reference in section
-                String courseId = (String) section.get(Constants.ATTR_COURSE_ID);
+                String courseOfferingId = (String) section.get(Constants.ATTR_COURSE_OFFERING_ID);
+                String courseId = courseOfferingToCourseIDMap.get(courseOfferingId);
                 if (!sectionLookup.containsKey(courseId)) {
                     sectionLookup.put(courseId, new HashSet<GenericEntity>());
                 }
                 sectionLookup.get(courseId).add(section);
-
             }
+        
 
             // get course Entity
             List<GenericEntity> courses = createEntitiesFromAPI(getApiUrl() + COURSES_URL + "?" + Constants.LIMIT + "=" + Constants.MAX_RESULTS, token);
