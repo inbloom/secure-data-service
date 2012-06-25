@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+
 package org.slc.sli.api.resources;
 
 import java.util.HashMap;
@@ -54,7 +55,7 @@ import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 @Path("{a:v1/|}system/session")
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })
+@Produces({ MediaType.APPLICATION_JSON+";charset=utf-8", HypermediaType.VENDOR_SLC_JSON+";charset=utf-8" })
 public class SecuritySessionResource {
 
     @Autowired
@@ -70,12 +71,10 @@ public class SecuritySessionResource {
     private String realmPage;
 
     /**
-     * Method processing HTTP GET requests to the logout resource, and producing "application/json"
-     * MIME media
+     * Method processing HTTP GET requests to the logout resource, and producing "application/json" MIME media
      * type.
      *
-     * @return HashMap indicating success or failure for logout action (matches type
-     *         "application/json" through jersey).
+     * @return HashMap indicating success or failure for logout action (matches type "application/json" through jersey).
      */
     @GET
     @Path("logout")
@@ -96,8 +95,7 @@ public class SecuritySessionResource {
     }
 
     /**
-     * Method processing HTTP GET requests to debug resource, producing "application/json" MIME
-     * media
+     * Method processing HTTP GET requests to debug resource, producing "application/json" MIME media
      * type.
      *
      * @return SecurityContext that will be send back as a response of type "application/json".
@@ -124,8 +122,7 @@ public class SecuritySessionResource {
     }
 
     /**
-     * Method processing HTTP GET requests to check resource, producing "application/json" MIME
-     * media
+     * Method processing HTTP GET requests to check resource, producing "application/json" MIME media
      * type.
      *
      * @return Map containing relevant user details (if authenticated).
@@ -139,8 +136,7 @@ public class SecuritySessionResource {
         if (isAuthenticated(SecurityContextHolder.getContext())) {
             sessionDetails.put("authenticated", true);
 
-            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
-                    .getPrincipal();
+            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             sessionDetails.put("user_id", principal.getId());
             sessionDetails.put("full_name", principal.getName());
             sessionDetails.put("granted_authorities", principal.getRoles());
@@ -170,10 +166,8 @@ public class SecuritySessionResource {
     /**
      * Indicates whether or not the current user is authenticated into SLI.
      *
-     * @param securityContext
-     *            User's Security Context (checked for authentication credentials).
-     * @return true (indicating user is authenticated) or false (indicating user is NOT
-     *         authenticated).
+     * @param securityContext User's Security Context (checked for authentication credentials).
+     * @return true (indicating user is authenticated) or false (indicating user is NOT authenticated).
      */
     private boolean isAuthenticated(SecurityContext securityContext) {
         return securityContext.getAuthentication().isAuthenticated();

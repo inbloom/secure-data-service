@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+
 package org.slc.sli.api.resources.v1.association;
 
 import javax.ws.rs.Consumes;
@@ -66,8 +67,7 @@ public class CourseOfferingResource extends DefaultCrudEndpoint {
      */
     @Override
     @GET
-    public Response readAll(
-            @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
+    public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.readAll(offset, limit, headers, uriInfo);
@@ -78,9 +78,9 @@ public class CourseOfferingResource extends DefaultCrudEndpoint {
      */
     @Override
     @POST
-    @Consumes({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8",
-            MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
-    public Response create(final EntityBody newEntityBody, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+    @Consumes({ MediaType.APPLICATION_JSON+";charset=utf-8", HypermediaType.VENDOR_SLC_JSON+";charset=utf-8",MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    public Response create(final EntityBody newEntityBody,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.create(newEntityBody, headers, uriInfo);
     }
 
@@ -90,8 +90,7 @@ public class CourseOfferingResource extends DefaultCrudEndpoint {
     @Override
     @GET
     @Path("{" + ParameterConstants.COURSE_OFFERING_ID + "}")
-    @Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8",
-            MediaType.APPLICATION_XML + ";charset=utf-8" })
+    @Produces({ MediaType.APPLICATION_JSON+";charset=utf-8", HypermediaType.VENDOR_SLC_JSON+";charset=utf-8", MediaType.APPLICATION_XML+";charset=utf-8" })
     public Response read(@PathParam(ParameterConstants.COURSE_OFFERING_ID) final String courseOfferingId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(courseOfferingId, headers, uriInfo);
@@ -115,13 +114,13 @@ public class CourseOfferingResource extends DefaultCrudEndpoint {
     @PUT
     @Path("{" + ParameterConstants.COURSE_OFFERING_ID + "}")
     public Response update(@PathParam(ParameterConstants.COURSE_OFFERING_ID) final String courseOfferingId,
-            final EntityBody newEntityBody, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+            final EntityBody newEntityBody,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.update(courseOfferingId, newEntityBody, headers, uriInfo);
     }
 
     /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.COURSE_OFFERING_ID + "}" + "/" + PathConstants.SESSIONS)
@@ -129,13 +128,11 @@ public class CourseOfferingResource extends DefaultCrudEndpoint {
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.COURSE_OFFERINGS, "_id", courseOfferingId, "sessionId", ResourceNames.SESSIONS,
-                headers, uriInfo);
+       return super.read(ResourceNames.COURSE_OFFERINGS, "_id", courseOfferingId, "sessionId", ResourceNames.SESSIONS, headers, uriInfo);
     }
 
     /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
+     * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
     @Path("{" + ParameterConstants.COURSE_OFFERING_ID + "}" + "/" + PathConstants.COURSES)
@@ -143,7 +140,6 @@ public class CourseOfferingResource extends DefaultCrudEndpoint {
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.COURSE_OFFERINGS, "_id", courseOfferingId, "courseId", ResourceNames.COURSES,
-                headers, uriInfo);
+       return super.read(ResourceNames.COURSE_OFFERINGS, "_id", courseOfferingId, "courseId", ResourceNames.COURSES, headers, uriInfo);
     }
 }

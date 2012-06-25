@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+
 package org.slc.sli.api.security.context.resolver;
 
 import java.util.ArrayList;
@@ -21,14 +22,13 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.traversal.cache.SecurityCachingStrategy;
-import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.domain.Entity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 
 /**
  * Returns all Education Organization Ids a principal entity has access to
@@ -47,7 +47,7 @@ public class EdOrgContextResolver implements EntityContextResolver {
 
     @Autowired
     private ResolveCreatorsEntitiesHelper creatorResolverHelper;
-
+    
     private String toEntity;
 
     @Autowired
@@ -63,8 +63,7 @@ public class EdOrgContextResolver implements EntityContextResolver {
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        if ((toEntity != null)
-                && (toEntity.equals(EntityNames.LEARNING_OBJECTIVE) || toEntity.equals(EntityNames.LEARNING_STANDARD))) {
+        if ((toEntity != null) && (toEntity.equals(EntityNames.LEARNING_OBJECTIVE) || toEntity.equals(EntityNames.LEARNING_STANDARD))) {
             return AllowAllEntityContextResolver.SUPER_LIST;
         }
 
@@ -75,12 +74,12 @@ public class EdOrgContextResolver implements EntityContextResolver {
             return cachedIds;
         }
 
-        // get the ed org ids
-        List<String> ids = helper.findEntitiesContainingReference(EntityNames.STAFF_ED_ORG_ASSOCIATION,
-                "staffReference", "educationOrganizationReference", Arrays.asList(principal.getEntityId()),
-                Arrays.asList((NodeFilter) staffEdOrgEdOrgIDNodeFilter));
+        //get the ed org ids
+        List<String> ids = helper.findEntitiesContainingReference(EntityNames.STAFF_ED_ORG_ASSOCIATION, "staffReference",
+                "educationOrganizationReference", Arrays.asList(principal.getEntityId()),
+                Arrays.asList((NodeFilter)staffEdOrgEdOrgIDNodeFilter));
 
-        // get the created edorgs
+        //get the created edorgs
         ids.addAll(creatorResolverHelper.getAllowedForCreator(EntityNames.EDUCATION_ORGANIZATION));
 
         securityCachingStrategy.warm(EntityNames.STAFF, new HashSet<String>(ids));

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+
 package org.slc.sli.api.security.context.resolver;
 
 import java.util.ArrayList;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
@@ -36,7 +38,7 @@ import org.slc.sli.domain.Repository;
  * @author vmcglaughlin
  *
  */
-// @Component
+//@Component
 public class StaffProgramResolver implements EntityContextResolver {
 
     @Autowired
@@ -50,8 +52,7 @@ public class StaffProgramResolver implements EntityContextResolver {
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return (EntityNames.STAFF.equals(fromEntityType) || EntityNames.TEACHER.equals(fromEntityType))
-                && EntityNames.PROGRAM.equals(toEntityType);
+        return (EntityNames.STAFF.equals(fromEntityType) || EntityNames.TEACHER.equals(fromEntityType)) && EntityNames.PROGRAM.equals(toEntityType);
     }
 
     @SuppressWarnings("unchecked")
@@ -63,8 +64,7 @@ public class StaffProgramResolver implements EntityContextResolver {
         List<String> referenceIds = new ArrayList<String>();
         referenceIds.add(principal.getEntityId());
 
-        List<String> references = helper.findEntitiesContainingReference(EntityNames.STAFF_PROGRAM_ASSOCIATION,
-                "staffId", referenceIds);
+        List<String> references = helper.findEntitiesContainingReference(EntityNames.STAFF_PROGRAM_ASSOCIATION, "staffId", referenceIds);
         List<String> createdContext = creatorResolverHelper.getAllowedForCreator(EntityNames.PROGRAM);
 
         if (references.isEmpty() && createdContext.isEmpty()) {
@@ -73,8 +73,7 @@ public class StaffProgramResolver implements EntityContextResolver {
 
         neutralQuery.addCriteria(new NeutralCriteria("_id", "in", references));
 
-        Iterable<Entity> staffProgramAssociations = repository.findAll(EntityNames.STAFF_PROGRAM_ASSOCIATION,
-                neutralQuery);
+        Iterable<Entity> staffProgramAssociations = repository.findAll(EntityNames.STAFF_PROGRAM_ASSOCIATION, neutralQuery);
         Set<String> programIds = new HashSet<String>();
 
         for (Entity staffProgramAssociation : staffProgramAssociations) {

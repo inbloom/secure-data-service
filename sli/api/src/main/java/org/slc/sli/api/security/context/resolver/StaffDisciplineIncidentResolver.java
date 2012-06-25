@@ -23,11 +23,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.domain.Entity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 /**
  * Resolves which discipline incident a given staff is allowed to see
  *

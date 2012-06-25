@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+
 package org.slc.sli.api.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ public class MetaDataTreatment implements Treatment {
 
     public static final String METADATA = "metaData";
 
+
     @Override
     public EntityBody toStored(EntityBody exposed, EntityDefinition defn) {
         exposed.remove(METADATA);
@@ -46,12 +48,14 @@ public class MetaDataTreatment implements Treatment {
 
     @Override
     public EntityBody toExposed(EntityBody stored, EntityDefinition defn, Entity entity) {
-        if (stored.get("entityType").equals("roles") || stored.get("entityType").equals("applicationAuthorization")
-                || stored.get("entityType").equals("application") || stored.get("entityType").equals("onboarding")) {
+        if(stored.get("entityType").equals("roles") ||
+                stored.get("entityType").equals("applicationAuthorization") ||
+                stored.get("entityType").equals("application") ||
+                stored.get("entityType").equals("onboarding")) {
             stored.put(METADATA, entity.getMetaData());
         }
-        // stored.put(METADATA, entity.getMetaData());
-
+        //stored.put(METADATA, entity.getMetaData());
+        
         return stored;
     }
 

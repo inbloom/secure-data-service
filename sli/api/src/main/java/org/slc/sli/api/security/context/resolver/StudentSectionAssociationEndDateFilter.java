@@ -17,10 +17,12 @@
 
 package org.slc.sli.api.security.context.resolver;
 
-import javax.annotation.PostConstruct;
-
+import org.slc.sli.api.client.constants.EntityNames;
+import org.slc.sli.api.client.constants.v1.ParameterConstants;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 /**
  * Filters the entity by a given date
  *
