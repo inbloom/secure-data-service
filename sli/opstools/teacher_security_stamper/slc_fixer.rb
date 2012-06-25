@@ -76,6 +76,8 @@ class SLCFixer
         stamp_full_context(@db['student'], studentId, tenantId, teacherIds)
       }
     }
+
+    @studentId_to_teachers.delete_if {|_,v| v.nil?}
   end
 
   def find_teachers_for_student_through_section(studentId)
@@ -418,7 +420,7 @@ class SLCFixer
         record_id = assoc['body']['studentAcademicRecordId']
         tenant_id = assoc['metaData']['tenantId']
         teachers = []
-        teachers += @studentId_to_teachers[student_id] unless student_id.nil?
+        teachers += @studentId_to_teachers[student_id] unless student_id.nil? || @studentId_to_teachers.has_key? student_id
         unless record_id.nil?
           @db['studentAcademicRecord'].find({'_id'=>record_id, 'metaData.tenantId'=>tenant_id}, @basic_options) { |cursor|
             cursor.each { |record|
