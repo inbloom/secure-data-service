@@ -420,7 +420,7 @@ class SLCFixer
         record_id = assoc['body']['studentAcademicRecordId']
         tenant_id = assoc['metaData']['tenantId']
         teachers = []
-        teachers += @studentId_to_teachers[student_id] unless student_id.nil? || @studentId_to_teachers.has_key? student_id
+        teachers += @studentId_to_teachers[student_id] unless student_id.nil? || @studentId_to_teachers[student_id].nil?
         unless record_id.nil?
           @db['studentAcademicRecord'].find({'_id'=>record_id, 'metaData.tenantId'=>tenant_id}, @basic_options) { |cursor|
             cursor.each { |record|
