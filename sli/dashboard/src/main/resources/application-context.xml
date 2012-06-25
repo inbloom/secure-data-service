@@ -37,12 +37,12 @@
     </bean>
 	
 	<bean id="propertiesDecryptor" class="org.slc.sli.dashboard.security.PropertiesDecryptor">
-	    <constructor-arg name="keyStore" value="${sli.encryption.keyStore}" />
+	    <constructor-arg name="keyStore" value="${dashboard.encryption.keyStore}" />
 	    <constructor-arg name="clientSecret" value="${oauth.client.secret}" />
 	    <constructor-arg name="clientId" value="${oauth.client.id}" />
-	    <constructor-arg name="alias" value="${sli.encryption.dalKeyAlias}" />
-	    <constructor-arg name="keyStorePassword" value="${sli.encryption.keyStorePass}" />
-	    <constructor-arg name="aliasPassword" value="${sli.encryption.dalKeyPass}" />    
+	    <constructor-arg name="alias" value="${dashboard.encryption.dalKeyAlias}" />
+	    <constructor-arg name="keyStorePassword" value="${dashboard.encryption.keyStorePass}" />
+	    <constructor-arg name="aliasPassword" value="${dashboard.encryption.dalKeyPass}" />    
 	</bean>
     
     <!-- managers -->
@@ -67,7 +67,7 @@
     <bean id="portalWSManager" class="org.slc.sli.dashboard.manager.impl.PortalWSManagerImpl">
         <property name="restClient" ref="restClient"/>
         <property name="portalHeaderUrl" value="${portal.header.url}" />
-	    <property name="portalFooterUrl" value="${portal.footer.url}" />
+	<property name="portalFooterUrl" value="${portal.footer.url}" />
     </bean>
     
     <bean id="restTemplate" class = "org.springframework.web.client.RestTemplate" />
@@ -102,7 +102,7 @@
     
     <bean id= "apiClient" class="org.slc.sli.dashboard.client.SDKAPIClient">
         <property name="sdkClient" ref="basicClient" />
-        <property name="gracePeriod" value="${sli.security.gracePeriod}" />
+        <!--<property name="gracePeriod" value="${sli.security.gracePeriod}" />-->
     </bean>
     
     <alias alias="apiClientRef" name="${api.client}"/>

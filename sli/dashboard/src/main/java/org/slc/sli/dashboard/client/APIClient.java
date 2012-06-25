@@ -45,7 +45,7 @@ public interface APIClient {
      *
      * @return
      */
-    public String getGracePeriod();
+//    public String getGracePeriod();
 
     /**
      * Get a resource entity of a specified type which is identified by id and enriched using

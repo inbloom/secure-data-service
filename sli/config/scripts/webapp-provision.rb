@@ -18,7 +18,6 @@ limitations under the License.
 
 =end
 
-
 require 'yaml'
 
 def get_config(fname, env)
