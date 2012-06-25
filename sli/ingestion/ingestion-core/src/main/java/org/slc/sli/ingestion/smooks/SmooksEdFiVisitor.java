@@ -32,7 +32,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFiVisitor.class);
     
     /** Constant to write a log message every N records. */
-    private static final int LOG_INTERVAL = 100000;
+    private static final int FLUSH_QUEUE_THRESHOLD = 10000;
     
     private ResourceWriter<NeutralRecord> nrMongoStagingWriter;
     
@@ -52,7 +52,14 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
      * @return Final number of records persisted to data store.
      */
     public int getRecordsPerisisted() {
-        if (queuedWrites.size() > 0) {
+        boolean stillPendingWrites = false;
+        for (Map.Entry<String, List<NeutralRecord>> entry : queuedWrites.entrySet()) {
+            if (entry.getValue().size() > 0) {
+                stillPendingWrites = true;
+                break;
+            }
+        }
+        if (stillPendingWrites) {
             writeAndClearQueuedNeutralRecords();
         }
         return recordsPerisisted;
@@ -77,15 +84,12 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     public void visitAfter(SAXElement element, ExecutionContext executionContext) throws IOException {
         
         Throwable terminationError = executionContext.getTerminationError();
-        if (terminationError == null) {
-            
+        if (terminationError == null) {            
             NeutralRecord neutralRecord = getProcessedNeutralRecord(executionContext);
-            // nrMongoStagingWriter.insertResource(neutralRecord, batchJobId);
             queueNeutralRecordForWriting(neutralRecord);
             
-            if (recordsPerisisted % LOG_INTERVAL == 0) {
+            if (recordsPerisisted % FLUSH_QUEUE_THRESHOLD == 0) {
                 writeAndClearQueuedNeutralRecords();
-                logRecordsPersisted(neutralRecord.getRecordType());
             }
         } else {
             
@@ -113,22 +117,15 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     }
     
     /**
-     * Gets number of records persisted.
-     * 
-     * @param type
-     *            Neutral Record entity type.
-     */
-    private void logRecordsPersisted(String type) {
-        LOG.info("Persisted {} records of type {} ", recordsPerisisted, type);
-    }
-    
-    /**
      * Write all neutral records currently contained in the queue, and clear the queue.
      */
     private void writeAndClearQueuedNeutralRecords() {
-        for (Map.Entry<String, List<NeutralRecord>> entry : queuedWrites.entrySet()) {
-            nrMongoStagingWriter.insertResources(entry.getValue(), entry.getKey(), batchJobId);
-            queuedWrites.get(entry.getKey()).clear();
+        if (recordsPerisisted != 0) {
+            for (Map.Entry<String, List<NeutralRecord>> entry : queuedWrites.entrySet()) {
+                nrMongoStagingWriter.insertResources(entry.getValue(), entry.getKey(), batchJobId);
+                LOG.info("Persisted {} records of type {} ", entry.getValue().size(), entry.getKey());
+                queuedWrites.get(entry.getKey()).clear();
+            }
         }
     }
     
