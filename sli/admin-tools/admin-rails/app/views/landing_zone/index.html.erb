@@ -48,7 +48,7 @@
 		<div class="controls" id="rsaKeyField" <% if !@validation_errors %>style="display: none"<% end %>>
 		    
 		    <div class="control-group">
-		      <%= text_area_tag(:public_key) %>
+		      <%= text_area_tag(:public_key, @public_key) %>
 		    </div>
 		    
 		    <% if @validation_errors %>

@@ -23,14 +23,14 @@ class LandingZoneController < ApplicationController
       ed_org_id = ApplicationHelper.get_edorg_from_ldap( uid() )
     end
     
-    public_key = params[:public_key]
-    Rails.logger.debug("Public key: #{public_key}")
+    @public_key = params[:public_key]
+    Rails.logger.debug("Public key: #{@public_key}")
     
     if (ed_org_id == nil || ed_org_id.gsub(/\s/, '').length == 0)
       redirect_to :action => 'index', :controller => 'landing_zone'
     else
       ed_org_id = ed_org_id.gsub(/^ed_org_/, '')
-       @landingzone = LandingZone.provision ed_org_id, tenant, uid, public_key
+       @landingzone = LandingZone.provision ed_org_id, tenant, uid, @public_key
     end
   end
 
