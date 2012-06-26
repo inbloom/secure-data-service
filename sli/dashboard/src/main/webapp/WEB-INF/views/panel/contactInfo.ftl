@@ -6,7 +6,6 @@
 	<#assign singleContactName = "Student">
 	<#include "singleContactInfo.ftl">
 </div>
-<!-- An example for parent panels - please change to the right singleContact and Single Contact name -->
 <#assign counter = 2>
 
 <#list panelData.parents as parents>
