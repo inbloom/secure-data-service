@@ -51,13 +51,11 @@
 		      <%= text_area_tag(:public_key, @public_key) %>
 		    </span>
 		    
-		    <% if @validation_errors %>
 		      <span class="control-group error">
-		        <span class="help-inline">
+		        <span id="rsa_validation_error_text" class="help-inline">
 		          <%= @validation_errors %>
 		        </span>
 		      </span>
-		    <% end %>
 		</div>
 		<div class="form-actions">
           <%#
