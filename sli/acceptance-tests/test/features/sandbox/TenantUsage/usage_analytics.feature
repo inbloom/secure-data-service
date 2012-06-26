@@ -28,7 +28,7 @@ Scenario Outline: As a SLC Operator I can determine mongo entity count and data 
         Then I am displayed a list of "3" tenants
         And there is a row with tenantId <Tenant_id>
         And the row for <Tenant_id> displays entity count <Count>
-        And the row for <Tenant_id> displays size greater than <Size>
+        And the row for <Tenant_id> displays size is approximately <Size>
 
     Examples:
     | Tenant_id | Count |  Size |
@@ -42,7 +42,7 @@ Scenario: As a SLC Operator I can determine the total mongo entity count and dat
 
     When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
         Then I am displayed a list of "3" tenants
-        And I am displayed the total data size is greater than "600"
+        And I am displayed the total data size is approximately "600"
         And I am displayed the total entity count as "595"
 
 Scenario Outline: As a SLC Operator I can determine mongo entity count and data size (in Kb) for each collection for a single tenant
@@ -56,8 +56,8 @@ Scenario Outline: As a SLC Operator I can determine mongo entity count and data 
     When I click on the <Tenant_id> link
         Then I am displayed a list of <Collection_Count> collections
         And next to <Collection> is the entity count <CRecords>
-        And next to <Collection> is size greater than <CSize>
-        And I am displayed the total data size is greater than <TSize>
+        And next to <Collection> is size approximately <CSize>
+        And I am displayed the total data size is approximately <TSize>
         And I am displayed the total entity count as <TCount>
 
     Examples:

@@ -1350,38 +1350,19 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="assessmentReferences" type="reference"
+                minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>The assessment(s) which the section is associated with
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>assessment</sli:ReferenceType>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="sectionAssessmentAssociation">
-		<xs:annotation>
-			<xs:documentation>This entity represents the association of a section
-				with an administered assessment.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="sectionId" type="reference">
-				<xs:annotation>
-					<xs:documentation>Reference to the section associated with the
-						assessment.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>section</sli:ReferenceType>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="assessmentId" type="reference">
-				<xs:annotation>
-					<xs:documentation>Reference to the assessment taken by the
-						section.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>assessment</sli:ReferenceType>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
 	<!-- <xs:complexType name="sectionBellScheduleAssociation"> <xs:annotation>
 		<xs:documentation> An association between the section and bell schedule.
 		</xs:documentation> </xs:annotation> <xs:complexContent> <xs:extension base="meetingTime">

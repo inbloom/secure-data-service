@@ -110,16 +110,6 @@ task :v1TeacherSectionAssociationTests => [:realmInit] do
   runTests("test/features/apiV1/associations/teacherSectionAssociation")
 end
 
-desc "Run V1 Section Assessment Association Tests"
-task :v1SectionAssessmentAssociationTests => [:realmInit] do
-  #drop data, re add fixture data
-  setFixture("section", "section_fixture.json")
-  setFixture("assessment", "assessment_fixture.json")
-  setFixture("sectionAssessmentAssociation", "sectionAssessmentAssociation_fixture.json")
-  #run test
-  runTests("test/features/apiV1/associations/sectionAssessmentAssociation")
-end
-
 desc "Run V1 Student Assessment Association Tests"
 task :v1StudentAssessmentAssociationTests => [:realmInit] do
   #drop data, re add fixture data
@@ -308,6 +298,13 @@ desc "Run V1 SecurityEvent Tests"
 task :v1SecurityEventTests => [:realmInit] do
   setFixture("securityEvent", "securityEvent_fixture.json")
   runTests("test/features/apiV1/securityEvent/securityEvent.feature")
+end
+
+desc "Run V1 check for duplicate links"
+task :apiV1DuplicateLinkTest => [:realmInit] do
+  # Import the data once, none of these tests edit the data
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/entities/Links/duplicate_link_test.feature")
 end
 
 ############################################################

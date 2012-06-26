@@ -1,9 +1,13 @@
 require "selenium-webdriver"
 require "json"
+require "test/unit"
 
 require_relative "../../utils/sli_utils.rb"
 require_relative "../../utils/selenium_common.rb"
 
+Before do
+  extend Test::Unit::Assertions
+end
 
 Given /^I go to the "Tenant Usage Admin Tool"$/ do
   url = PropLoader.getProps['admintools_server_url']+"/tenant_metrics"
@@ -13,7 +17,7 @@ end
 Then /^I am displayed a list of "(\d+)" tenants$/ do |count|
   @tranHistTable = @driver.find_element(:id, "tenant-metrics-table")
   @rows = @tranHistTable.find_elements(:tag_name, "tr")
-  assert(@rows.size - 2 == convert(count), "Expected #{count}, received #{@rows.size-2}")
+  assert_equal(convert(count), @rows.size - 2, "Expected #{count}, received #{@rows.size-2}")
 end
 
 Then /^there is a row with tenantId "([^"]*)"$/ do |id|
@@ -33,44 +37,44 @@ Then /^there is a row with tenantId "([^"]*)"$/ do |id|
      end
   end
 
-  assert(f == true, "Did not find the expected tenant: " + id)
+  assert(f, "Did not find the expected tenant: " + id)
 end
 
 Then /^I am displayed a column for mongo usage and number of records$/ do
-  assert(@driver.find_element(:class_name, "metrics_summary") != nil, "Did not find the tenant metric summary row.")
+  assert_not_nil(@driver.find_element(:class_name, "metrics_summary"), "Did not find the tenant metric summary row.")
 end
 
 Then /^I am displayed the total number of tenants as "(\d+)" at the bottom of the page$/ do |count|
   summary = @driver.find_element(:class_name, "metrics_summary")
   collection_count = summary.find_element(:class_name, "tenant_metrics_collection_count")
 
-  assert(collection_count != nil, "Did not find a collection count.")
-  assert(collection_count.text == count)
+  assert_not_nil(collection_count, "Did not find a collection count.")
+  assert_equal(count, collection_count.text)
 end
 
 Then /^the row for "([^"]*)" displays entity count "(\d+)"$/ do |tenantId, count|
-    assert(@tenant_data != nil, "Metrics for this tenant not found.")
+    assert_not_nil(@tenant_data, "Metrics for this tenant not found.")
     data = @tenant_data.find_element(:class_name, "tenant_metrics_entity_count")
-    assert(data.text == count)
+    assert_equal(count, data.text)
 
 end
 
-Then /^the row for "(.*?)" displays size greater than "(.*?)"$/ do |tenantId, size|
-    assert(@tenant_data != nil, "Metrics for this tenant not found.")
+Then /^the row for "(.*?)" displays size is approximately "(.*?)"$/ do |tenantId, size|
+    assert_not_nil(@tenant_data, "Metrics for this tenant not found.")
     data = @tenant_data.find_element(:class_name, "tenant_metrics_data_size")
-    assert(data.text >= size)
+    assert_in_delta(size.to_f, data.text.to_f, delta(size.to_f.abs))
 end
 
-Then /^I am displayed the total data size is greater than "(.*?)"$/ do |data_size|
+Then /^I am displayed the total data size is approximately "(.*?)"$/ do |data_size|
   summary = @driver.find_element(:class_name, "metrics_summary")
   size = summary.find_element(:class_name, "tenant_metrics_data_size").text
-  assert(size >= data_size, "Expecting size: " + data_size + ", found size: " + size)
+  assert_in_delta(data_size.to_f, size.to_f, delta(data_size.to_f.abs))
 end
 
 Then /^I am displayed the total entity count as "(.*?)"$/ do |entity_count|
   summary = @driver.find_element(:class_name, "metrics_summary")
   count = summary.find_element(:class_name, "tenant_metrics_entity_count").text
-  assert(count == entity_count)
+  assert_equal(entity_count, count)
 end
 
 When /^I click on the "(.*?)" link$/ do |tenantId|
@@ -81,7 +85,7 @@ end
 Then /^I am displayed a list of "(\d+)" collections$/ do |count|
   @tranHistTable = @driver.find_element(:id, "tenant-metrics-table")
   @rows = @tranHistTable.find_elements(:tag_name, "tr")
-  assert(@rows.size - 2 == convert(count), "Expected #{count}, received #{@rows.size-2}")
+  assert_equal(convert(count), @rows.size - 2)
 end
 
 Then /^next to "(.*?)" is the entity count "(\d+)"$/ do |name, count|
@@ -96,7 +100,7 @@ Then /^next to "(.*?)" is the entity count "(\d+)"$/ do |name, count|
          if data.text == name
             f = true
             row_count = row.find_element(:class_name, "tenant_metrics_entity_count")
-            assert(row_count.text == count, "Wrong collection record count.")
+            assert_equal(count, row_count.text, "Wrong collection record count.")
             break
          end
      rescue
@@ -104,10 +108,10 @@ Then /^next to "(.*?)" is the entity count "(\d+)"$/ do |name, count|
      end
   end
 
-  assert(f == true, "Did not find the expected collection: " + name)
+  assert(f, "Did not find the expected collection: " + name)
 end
 
-Then /^next to "(.*?)" is size greater than "(.*?)"$/ do |name, size|
+Then /^next to "(.*?)" is size approximately "(.*?)"$/ do |name, size|
   @tranHistTable = @driver.find_element(:id, "tenant-metrics-table")
   rows = @tranHistTable.find_elements(:tag_name, "tr")
 
@@ -127,5 +131,9 @@ Then /^next to "(.*?)" is size greater than "(.*?)"$/ do |name, size|
      end
   end
 
-  assert(f == true, "Did not find the expected collection: " + name)
+  assert(f, "Did not find the expected collection: " + name)
+end
+
+def delta(val)
+  val * 0.5 + 200
 end
