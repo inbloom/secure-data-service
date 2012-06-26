@@ -319,8 +319,7 @@ task :apiV1EntitySecurityTests do
 
 end
 
-task :apiV1AssociationTests => [:v1SectionAssessmentAssociationTests,
-                                :v1CourseOfferingTests,
+task :apiV1AssociationTests => [:v1CourseOfferingTests,
                                 :v1StaffEdOrgAssociationTests,
                                 :v1StaffProgramAssociationTests,
                                 :v1StudentProgramAssociationTests,

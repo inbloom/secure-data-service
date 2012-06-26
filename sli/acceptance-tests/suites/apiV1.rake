@@ -110,16 +110,6 @@ task :v1TeacherSectionAssociationTests => [:realmInit] do
   runTests("test/features/apiV1/associations/teacherSectionAssociation")
 end
 
-desc "Run V1 Section Assessment Association Tests"
-task :v1SectionAssessmentAssociationTests => [:realmInit] do
-  #drop data, re add fixture data
-  setFixture("section", "section_fixture.json")
-  setFixture("assessment", "assessment_fixture.json")
-  setFixture("sectionAssessmentAssociation", "sectionAssessmentAssociation_fixture.json")
-  #run test
-  runTests("test/features/apiV1/associations/sectionAssessmentAssociation")
-end
-
 desc "Run V1 Student Assessment Association Tests"
 task :v1StudentAssessmentAssociationTests => [:realmInit] do
   #drop data, re add fixture data
