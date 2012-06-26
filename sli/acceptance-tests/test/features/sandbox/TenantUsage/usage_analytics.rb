@@ -123,7 +123,7 @@ Then /^next to "(.*?)" is size approximately "(.*?)"$/ do |name, size|
          if data.text == name
             f = true
             row_size = row.find_element(:class_name, "tenant_metrics_data_size")
-            assert_in_delta(size, delta(row_size.text.to_f))
+            assert_in_delta(size, row_size.text.to_f, delta(row_size.text.to_f))
             break
          end
      rescue
