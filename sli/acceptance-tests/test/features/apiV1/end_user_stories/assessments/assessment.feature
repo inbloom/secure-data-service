@@ -20,15 +20,12 @@ Background: None
       Then I should have a list of "section" entities
         And I should have an entity with ID "<'8th Grade English - Sec 6' ID>"
 
-     When I navigate to URI "/<SECTION URI>/<'8th Grade English - Sec 6' ID>/<SECTION ASSESSMENT ASSOC URI>/<ASSESSMENT URI>" with filter sorting and pagination
-        And filter by "assessmentTitle" = "Mathematics Achievement Assessment Test"
-#        And filter by "sortBy" = "assessmentPeriodDescriptor.beginDate"
-#        And filter by "sortOrder" = "descending"
-        And filter by "offset" = "0"
-#        And filter by "limit" = "1"
-        And I submit the sorting and pagination request
-      Then I should have a list of "assessment" entities
-        And I should have an entity with ID "<'Math Assessment' ID>"
+#     When I navigate to URI "/<SECTION URI>/<'8th Grade English - Sec 6' ID>/<SECTION ASSESSMENT ASSOC URI>/<ASSESSMENT URI>" with filter sorting and pagination
+#        And filter by "assessmentTitle" = "Mathematics Achievement Assessment Test"
+#        And filter by "offset" = "0"
+#        And I submit the sorting and pagination request
+#      Then I should have a list of "assessment" entities
+#        And I should have an entity with ID "<'Math Assessment' ID>"
 
      When I navigate to GET "/<ASSESSMENT URI>/<'Math Assessment' ID>"
       Then I should have a list of 1 "assessment" entities
