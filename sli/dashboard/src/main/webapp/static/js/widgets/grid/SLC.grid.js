@@ -1,19 +1,11 @@
-/*
- * SLC grid
- * The module contains SLC grid plugin and create grid method
- */
 /*global SLC $ jQuery*/
 
-SLC.namespace('SLC.grid.tablegrid', (function () {
+SLC.namespace('SLC.grid', (function () {
 	
 		var util = SLC.util;
 		
-		/*
-		 *	SLC Grid plugin
-		 *  @param panelConfig - Panel config data
-		 *  @param options
-		 *	Example: $("#table1").slcGrid(columnItems, gridOptions)
-		 */
+		//	Description: SLC Grid plugin
+		//	Example: $("#table1").slcGrid(columnItems, gridOptions)
 		(function ($) {
 			$.fn.slcGrid = function (panelConfig, options) {
 				var grid = SLC.grid,
@@ -68,7 +60,7 @@ SLC.namespace('SLC.grid.tablegrid', (function () {
 						groupHeaders:groupHeaders,
 						fixed: true
 					});
-
+					// not elegant, but couldn't figure out a better way to get to grouped headers
 					var groupRow = $($(this)[0].grid.hDiv).find('.jqg-second-row-header th:last-child');
 					groupRow.addClass('end');
 			    }
@@ -76,23 +68,17 @@ SLC.namespace('SLC.grid.tablegrid', (function () {
 			    $(this).addClass('.jqgrid-header');
 			    var headers = $(this)[0].grid.headers;
 			    $(headers[headers.length - 1].el).addClass("end"); 
-
+			    // extra header added
 			    if (headers.length > colModel.length) {
 					$(headers[0].el).addClass("end"); 
 			    }
 			};
 		})(jQuery);
 		
-		/*
-		 * Creates SLC grid
-		 * @param tableId - The container id for grid
-		 * @param columnItems
-		 * @param panelData
-		 * @param options
-		 */
 		function create(tableId, columnItems, panelData, options) {
 			var gridOptions;
 			
+			// for some reason root config doesn't work with local data, so manually extract
 			if (columnItems.root && panelData !== null && panelData !== undefined) {
 				panelData = panelData[columnItems.root];
 			}

@@ -191,7 +191,6 @@ default:
         # (only used in dashboard)
         dashboard.WSCall.timeout: 3000
         
-        dashboard.minify.js: true
         dashboard.cache.disable: false
 
 
@@ -754,8 +753,6 @@ local:
 
         # (only used in dashboard)
         sli.encryption.keyStore: ../data-access/dal/keyStore/ciKeyStore.jks
-        
-        dashboard.minify.js: false
         
         dashboard.log.level: info
 

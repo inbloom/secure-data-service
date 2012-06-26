@@ -26,8 +26,7 @@ When /^I enter "([^"]*)" into the "([^"]*)" search box$/ do |query, textboxName|
   else
     puts "Invalid textbox name " + textboxName
   end
-   @driver.find_element(:id, textboxName).click
-   @driver.execute_script("document.getElementById('" + textboxName + "').value = \"#{query}\";")
+  putTextToField(query, textboxName, "id")
 end
 
 When /^I click the search button$/ do

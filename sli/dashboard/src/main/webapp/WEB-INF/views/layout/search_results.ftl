@@ -2,12 +2,7 @@
 <#include "layout_includes.ftl">
 <#assign layoutConfig = viewConfigs>
 <link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/css/searchResults.css" media="screen" />
-<#if minifyJs?? && minifyJs= false>
-    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/searchResults.js"></script>    
-<#else>
-    <script type="text/javascript" src = "${CONTEXT_ROOT_PATH}/static/js/all.js"></script>
-</#if>
-
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/searchResults.js"></script>
 <div class="panel-container">
     <div class="panel-left">
 	    <div class="panel">
@@ -37,14 +32,14 @@
 	                <div id="noSearchResultsDiv">
 	                </div>
 					<div id="searchPgnDiv">
-						<button id="searchPrevBtn" onclick="gotoSearchPageURL(this.id)" class="btn" type="button">
+						<button id="searchPrevBtn" onclick="gotoURL(this.id)" class="btn" type="button">
 							<img src="${CONTEXT_ROOT_PATH}/static/images/prevPage_icon.png" height="13px" alt="Prev" />
 						</button>
 						Page ${panelData.searchPageNum} of ${panelData.searchMaxPageNum}
-						<button id="searchNextBtn" onclick="gotoSearchPageURL(this.id)" class="btn" type="button">
+						<button id="searchNextBtn" onclick="gotoURL(this.id)" class="btn" type="button">
 							<img src="${CONTEXT_ROOT_PATH}/static/images/nextPage_icon.png" height="13px" alt="Next" />
 						</button>
-						<select id="pageSizeSelect" onChange="gotoSearchPageURL(this.id)">
+						<select id="pageSizeSelect" onChange="gotoURL(this.id)">
 	  						<option value="50">50</option>
 	  						<option value="100">100</option>
 						</select>
