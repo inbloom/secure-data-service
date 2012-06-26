@@ -20,6 +20,7 @@ package org.slc.sli.domain;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.UUID;
+import java.util.Arrays;
 
 import org.bson.BasicBSONObject;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
@@ -47,6 +48,7 @@ public class MongoEntity implements Entity, Serializable {
     
     /** Called entity id to avoid Spring Data using this as the ID field. */
     private String entityId;
+    private String padding;
     private Map<String, Object> body;
     private final Map<String, Object> metaData;
     
@@ -75,8 +77,19 @@ public class MongoEntity implements Entity, Serializable {
      *            Metadata of Mongo Entity.
      */
     public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData) {
+        this(type, id, body, metaData, 0);
+    }
+
+    public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData, int paddingLength) {
         this.type = type;
         this.entityId = id;
+
+        if (paddingLength > 0) { 
+            char[] charArray = new char[paddingLength];
+            Arrays.fill(charArray,' ');
+            this.padding = new String(charArray);
+        }
+
         if (body == null) {
             this.body = new BasicBSONObject();
         } else {
@@ -137,7 +150,8 @@ public class MongoEntity implements Entity, Serializable {
     public DBObject toDBObject(UUIDGeneratorStrategy uuidGeneratorStrategy) {
         BasicDBObject dbObj = new BasicDBObject();
         dbObj.put("type", type);
-        
+        dbObj.put("padding", padding);
+
         final String uid;
         
         if (entityId == null) {
