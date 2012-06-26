@@ -1,3 +1,6 @@
+/*
+ * SLC CutPoints
+ */
 /*global SLC $ jQuery*/
 
 SLC.namespace('SLC.grid.cutPoints', (function () {
@@ -11,6 +14,11 @@ SLC.namespace('SLC.grid.cutPoints', (function () {
 			5: "#438746"
 		};
 			
+		/*
+		 * Get CutPoints array
+		 * @param cutPoints
+		 * @return cutPointsArray
+		 */
 		function toArray(cutPoints) {
 			
 			var cutPointsArray = [],
@@ -35,6 +43,12 @@ SLC.namespace('SLC.grid.cutPoints', (function () {
 			return cutPointsArray;
 		}
 		
+		/*
+		 * Get level for CutPoints array
+		 * @param cutPointsArray
+		 * @param score
+		 * @return level or -1
+		 */
 		function getLevelFromArray(cutPointsArray, score) {
 			
 			if (cutPointsArray === null || cutPointsArray === undefined || score === null || score === undefined) {
@@ -50,6 +64,12 @@ SLC.namespace('SLC.grid.cutPoints', (function () {
 			return -1;
 		}
 		
+		/*
+		 * Get level for CutPoints
+		 * @param cutPoints
+		 * @param score
+		 * @return level or -1
+		 */
 		function getLevelFromcutPoints(cutPoints, score) {
 			
 			if (cutPoints === null || cutPoints === undefined || score === null || score === undefined) {
@@ -67,6 +87,11 @@ SLC.namespace('SLC.grid.cutPoints', (function () {
 			return -1;
 		}
 	
+		/*
+		 * Convert cutPoints Array to string
+		 * @param cutPointsArray
+		 * @return cutPoints string
+		 */
 		function getArrayToString(cutPointsArray) {
 			var i;
 			

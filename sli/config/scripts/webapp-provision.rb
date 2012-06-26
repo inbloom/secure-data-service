@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 =begin
 
 Copyright 2012 Shared Learning Collaborative, LLC
@@ -16,8 +18,6 @@ limitations under the License.
 
 =end
 
-
-#!/usr/bin/env ruby 
 
 require 'yaml'
 

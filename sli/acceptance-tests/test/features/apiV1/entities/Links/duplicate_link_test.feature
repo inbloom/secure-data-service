@@ -30,7 +30,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     | "programs"                |
     | "schools"                 |
     | "sections"                |
-    | "sessions"                |
     | "staff"                   |
     | "students"                |
     | "studentAcademicRecords"  |

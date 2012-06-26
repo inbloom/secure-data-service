@@ -6,6 +6,13 @@ task :apiV1EntityTests => [:realmInit] do
   runTests("test/features/apiV1/entities/crud")
 end
 
+desc "Run V1 check for duplicate links"
+task :apiV1DuplicateLinkTest => [:realmInit] do
+  # Import the data once, none of these tests edit the data
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/entities/Links/duplicate_link_test.feature")
+end
+
 task :apiV1QueryingTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/querying/querying.feature")
@@ -298,13 +305,6 @@ desc "Run V1 SecurityEvent Tests"
 task :v1SecurityEventTests => [:realmInit] do
   setFixture("securityEvent", "securityEvent_fixture.json")
   runTests("test/features/apiV1/securityEvent/securityEvent.feature")
-end
-
-desc "Run V1 check for duplicate links"
-task :apiV1DuplicateLinkTest => [:realmInit] do
-  # Import the data once, none of these tests edit the data
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/entities/Links/duplicate_link_test.feature")
 end
 
 ############################################################

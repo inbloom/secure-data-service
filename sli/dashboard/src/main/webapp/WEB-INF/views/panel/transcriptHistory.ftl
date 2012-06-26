@@ -10,7 +10,7 @@
         return '${id}';
     }
 
-    SLC.grid.create(getTableId(), SLC.dataProxy.getConfig("transcriptHistory"),
+    SLC.grid.tablegrid.create(getTableId(), SLC.dataProxy.getConfig("transcriptHistory"),
             SLC.dataProxy.getData("transcriptHistory"),
             {
                 subGridRowExpanded: function(subgrid_id, row_id) {
@@ -77,4 +77,3 @@
 </script>
 
 <a href="#" onclick="expandAll()">Expand All</a>
-<!-- <a href="#" onclick="collapseAll()">Collapse All</a> -->
