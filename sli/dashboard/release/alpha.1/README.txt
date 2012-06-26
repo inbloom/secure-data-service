@@ -17,14 +17,17 @@
 For the purposes of this README, we will use /opt/tomcat as $TOMCAT_HOME
 
 ===============================================================================
+TODO - Step by step instructions on Registration
+If you have not registered a user ID, please register@ https://admin.sandbox.slcedu.org/registration.
+ After registering, log in to https://portal.sandbox.slcedu.org/portal/
+ Click the Admin button in the top right
+ Click Application Registration
 
-1. Set up the keystore
-    -- Download the Java Cryptography Extension Unlimited Strength 
-       Jurisdiction Policy Files from 
-       http://www.oracle.com/technetwork/java/javase/downloads/index.html
-    -- Place the two files  in the downloaded  <JRE_HOME>/lib/security. If you 
-       have JDK installed it will be <JDK_HOME>/jre/lib/security/
 
+===============================================================================
+
+1. In order to use the dashboard app the client_ID and client_secret must be
+   encrypted and stored within the dashboard.properties file.
     -- Log in with Admin
     -- Go into the App Admin 
     -- Add the Dashboard. 
