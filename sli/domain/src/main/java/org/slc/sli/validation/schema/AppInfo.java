@@ -45,8 +45,6 @@ public class AppInfo extends Annotation {
     protected static final String COLLECTION_TYPE_ELEMENT_NAME = "CollectionType";
     protected static final String SECURITY_SPHERE = "SecuritySphere";
     protected static final String RESTRICTED_ELEMENT_NAME = "RestrictedForLogging";
-    protected static final String NATURAL_KEY = "naturalKey";
-    protected static final String APPLY_NATURAL_KEYS = "applyNaturalKeys";
 
     private final Map<String, String> values = new LinkedHashMap<String, String>();
 
@@ -264,25 +262,6 @@ public class AppInfo extends Annotation {
             return Boolean.parseBoolean(tmp);
         }
         return false;
-    }
-
-
-    public boolean isNaturalKey() {
-        boolean rval = false;
-        if (values.containsKey(NATURAL_KEY)) {
-            rval = Boolean.parseBoolean(values.get(NATURAL_KEY));
-        }
-
-        return rval;
-    }
-
-    public boolean applyNaturalKeys() {
-        boolean rval = false;
-        if (values.containsKey(APPLY_NATURAL_KEYS)) {
-            rval = Boolean.parseBoolean(values.get(APPLY_NATURAL_KEYS));
-        }
-
-        return rval;
     }
 
 }
