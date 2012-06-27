@@ -17,39 +17,69 @@
 For the purposes of this README, we will use /opt/tomcat as $TOMCAT_HOME
 
 ===============================================================================
-TODO - Step by step instructions on Registration
-If you have not registered a user ID, please register@ https://admin.sandbox.slcedu.org/registration.
- After registering, log in to https://portal.sandbox.slcedu.org/portal/
- Click the Admin button in the top right
- Click Application Registration
+1. Register for SLC
+   A  If you have not registered a user ID, please register@ https://admin.sandbox.slcedu.org/registration.
+      You will recieve an email after registering.  It will contain instructions on how
+      to ingest data. Please make sure you follow those instructions.
 
+   B  After registering, log in to https://portal.sandbox.slcedu.org/portal/
+       - Click the Admin button in the top right
+         Click Application Registration
+       - Point your dashboard application to the correct urls:
+         URL == http://YOUR_IP_ADDRESS:Port/dashboard/service/layout/listOfStudentsPage
+         Redirect URL == http://YOUR_IP_ADDRESS:Port/dashboard/callback
+
+   C  Copy Down Client Secret and Client ID
+      - Click Admin (Top right corner)
+        Click Application Registration
+        Click the "In Progress| Edit" button on the App you just created.
+      - Copy the Client ID and the Shared Secret
+
+   D Enable the App for a District:
+     - If you ingested data (You should have received an email detailing how to 
+       ingest the data), Then you can enable the application for users of a district.
+     - Click Admin
+       Click Application Registration
+       Click the "In Progress| Edit" button on the App you just created.
+     - Scroll to the bottom and check the district you want to enable.
+     - Then click save.
 
 ===============================================================================
 
-1. In order to use the dashboard app the client_ID and client_secret must be
-   encrypted and stored within the dashboard.properties file.
-    -- Log in with Admin
-    -- Go into the App Admin 
-    -- Add the Dashboard. 
-    -- Upon registering the app, you will receive values for client_id and client_secret. These values must be encrypted. To do so:
-    -- Using EncryptionGenerator.jar (included), run the following command:
-         java -jar EncyptionGenerator.jar <location_of_keyStore> < keystore_password> <key_alias> <key_password> <string_to_encrypt>
-         Output will be the encrypted string.
-         Encrypt both client_id, and secret, separately
-    -- Copy the encrypted string to dashboard.properties, the relevant client_id and client_secret to the following properties:
-            oauth.client.id: <copy the client_id here>
-            oauth.client.secret: <copy the client_secret here>
-    -- Make sure that dashboard.properties file points correctly to the keyStore file under property called: dashboard.encryption.keyStore
-       (see step 3)
+2. Edit dashboard.properties and move the file to the conf directory of tomcat.
+   A  Point the API server and Security server to the proper url:
+       - As of now the sandbox api server are:
+          api.server.url =  https://api.sandbox.slcedu.org/
+          security.server.url =  https://api.sandbox.slcedu.org/
+
+   B  In order to use the dashboard app the client_ID and client_secret must be
+      encrypted and stored within the dashboard.properties file.
+      - The following instructions use the clien_id and client_secret from step 1.
+      -------TODO - Generate JCKES Keystore------------
+      - Using EncryptionGenerator.jar (included), run the following command:
+          java -jar EncyptionGenerator.jar <location_of_keyStore> < keystore_password> <key_alias> <key_password> <string_to_encrypt>
+          Output will be the encrypted string.  Make sure you encrypt both client_id, and secret, separately.
+      - Point the redirect URL to the dashboard's callback, then 
+        copy the encrypted strings to dashboard.properties for
+        client_id and client_secret:
+          oauth.client.id = <copy the client_id here>
+          oauth.client.secret = <copy the client_secret here>
+          oauth.redirect = http://$YOUR_IP_ADDRESS:$YOUR_PORT/dashboard/callback
+      - Update the keyStore properties
+          dashboard.encryption.keyStore = $LOCATION_TO_YOUR_keyStore/$Your_Key_Store_NAME.jks
+          dashboard.encryption.keyStorePass = $YOUR_KeyStorePass
+          dashboard.encryption.dalKeyAlias = $YOUR_Alias_Pass
+          dashboard.encryption.dalKeyPass = $YOUR_Key_Pass
+      - cp dashboard.properties to $TOMCAT_HOME/conf
 
 ===============================================================================
 
-2. Set Default Port
-   -- The default port for Tomcat is 8080.  If you are running multiple apps, 
+3. Set Default Port on Tomcat if needed
+   A  The default port for Tomcat is 8080.  If you are running multiple apps, 
       you may need to change this number.
-   -- Open $TOMCAT_HOME/conf/server.xml
-   -- Change the port number on the Connector element:
-      For example: 
+        - Open $TOMCAT_HOME/conf/server.xml
+        -- Change the port number on the Connector element:
+        For example: 
 
         <Connector port="8080" protocol="HTTP/1.1"
                    connectionTimeout="20000"
@@ -63,41 +93,30 @@ If you have not registered a user ID, please register@ https://admin.sandbox.slc
 
 ===============================================================================
 
-3. Edit dashboard.properties and move the file to the conf directory of tomcat.
-    - set dashboard.encryption.keyStore property in dashboard.properties to $YOUR_PATH_TO_KEYSTORE/YOUR_KEY_STORE_NAME.
-      For example, we used /opt/tomcat/ecnryption/ciKeyStore.jks but you may want to use
-      $JAVA_HOME/ciKeyStore.jks
-    - TODO (Find out what these are. ) point the API server and Security server to the proper url:
-      4 api.server.url = http://local.slidev.org:8080/
-      5 security.server.url = http://local.slidev.org:8080/
-    - cp dashboard.properties to $TOMCAT_HOME/conf
-
-===============================================================================
-
 4. Set up tomcat JAVA_OPTS  (System Properties) 
-   -- Open $TOMCAT_HOME/bin/catalina.sh
-   Change JAVA_OPTS in tomcat to the following:
+   TODO - What and how is trustCeritificates
+   A  Open $TOMCAT_HOME/bin/catalina.sh
+          Change JAVA_OPTS in tomcat to the following:
 
-    JAVA_OPTS=" -Xms1024m \
-         -Xmx1024m \
-         -XX:+CMSClassUnloadingEnabled \
-         -XX:+CMSPermGenSweepingEnabled \
-         -XX:PermSize=512m \
-         -XX:MaxPermSize=512m \
-         -Dsli.env=team  \
-         -Dsli.encryption.keyStore=/opt/tomcat/encryption/ciKeyStore.jks \
-         -Dsli.encryption.properties=/opt/tomcat/encryption/ciEncryption.properties \
-         -Dsli.trust.certificates=/opt/tomcat/trust/trustedCertificates \
-         -Dsli.conf=/opt/tomcat/conf/dashboard.properties \
-         -Dnet.sf.ehcache.pool.sizeof.AgentSizeOf.bypass=true"
+        JAVA_OPTS=" -Xms1024m \
+             -Xmx1024m \
+             -XX:+CMSClassUnloadingEnabled \
+             -XX:+CMSPermGenSweepingEnabled \
+             -XX:PermSize=512m \
+             -XX:MaxPermSize=512m \
+             -Dsli.env=team  \
+             -Dsli.conf=/opt/tomcat/conf/dashboard.properties \
+             -Dnet.sf.ehcache.pool.sizeof.AgentSizeOf.bypass=true"
 
-    Notes for JAVA_OPTS:
-    -- The -Dnet.sf.ehcache.pool.sizeof.AgentSizeOf.bypass=true option is only required for MAC OS X users.
-    -- sli.conf should be set to $TOMCAT_HOME/conf/dashboard.properties
-    -- sli.trust.certificates should be set to $TOMCAT_HOME/trust/trustedCertificates
-    -- sli.encryption.keyStore should be set to $YOUR_PATH_TO_KEYSTORE/YOUR_KEY_STORE_NAME
-    -- sli.encryption.properties should be set to $YOUR_PATH_TO_KEYSTORE_PROPS/YOUR_KEY_STORE_PROPS_NAME
+        Notes for JAVA_OPTS:
+        -- The -Dnet.sf.ehcache.pool.sizeof.AgentSizeOf.bypass=true option is only required for MAC OS X users.
+        -- sli.conf should be set to $TOMCAT_HOME/conf/dashboard.properties
 
 ===============================================================================
 
 5. Copy the dashboard.war file to the $TOMCAT_HOME/webapps directory
+
+===============================================================================
+
+6. Run tomcat:  
+   $TOMCAT_HOME/bin/catalina.sh run
