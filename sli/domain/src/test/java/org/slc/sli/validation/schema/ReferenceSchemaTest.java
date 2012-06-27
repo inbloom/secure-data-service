@@ -271,5 +271,10 @@ public class ReferenceSchemaTest {
             // TODO Auto-generated method stub
         }
 
+        public List<DBCollection> getCollections(boolean includeSystemCollections) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+        
     }
 }

@@ -202,7 +202,7 @@
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </Course>
-    <!--Course>
+    <Course>
     <CourseTitle>7th Grade English</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="CSSC course code">
@@ -219,12 +219,10 @@
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <EducationOrgIdentificationCode IdentificationSystem="School">
-          <ID>East Daybreak Junior High</ID>
-        </EducationOrgIdentificationCode>
+         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-  </Course-->
+  </Course>
   <Course>
     <CourseTitle>7th Grade Adv. English</CourseTitle>
     <NumberOfParts>1</NumberOfParts>

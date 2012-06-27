@@ -2,6 +2,351 @@
 <InterchangeMasterSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
   xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-MasterSchedule.xsd">
 
+  <CourseOffering>
+    <LocalCourseCode>Algebra-10</LocalCourseCode>
+    <LocalCourseTitle>Algebra-10</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <SessionName>Fall 2010 Daybreak Central High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Algebra-10</ID>
+        </CourseCode>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+
+  <CourseOffering>
+    <LocalCourseCode>Geometry-10</LocalCourseCode>
+    <LocalCourseTitle>Geometry-10</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <SessionName>Fall 2010 Daybreak Central High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Geometry-10</ID>
+        </CourseCode>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+
+  <CourseOffering>
+    <LocalCourseCode>7th Grade English</LocalCourseCode>
+    <LocalCourseTitle>7th Grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>7th Grade English</ID>
+        </CourseCode>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+
+  <CourseOffering>
+    <LocalCourseCode>Algebra-11</LocalCourseCode>
+    <LocalCourseTitle>Algebra-11</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <SessionName>Fall 2011 Daybreak Central High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Algebra-11</ID>
+        </CourseCode>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+
+  <CourseOffering>
+    <LocalCourseCode>American Literature</LocalCourseCode>
+    <LocalCourseTitle>American Literature</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <SessionName>Fall 2011 Daybreak Central High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>American Literature</ID>
+        </CourseCode>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+
+  <CourseOffering>
+    <LocalCourseCode>Writing about Government</LocalCourseCode>
+    <LocalCourseTitle>Writing about Government</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <SessionName>Fall 2011 Daybreak Central High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Writing about Government</ID>
+        </CourseCode>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+
+  <CourseOffering>
+    <LocalCourseCode>1st Grade Homeroom</LocalCourseCode>
+    <LocalCourseTitle>1st Grade Homeroom</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>1st Grade Homeroom</ID>
+        </CourseCode>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+
+  <CourseOffering>
+    <LocalCourseCode>7th Grade English</LocalCourseCode>
+    <LocalCourseTitle>7th Grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>7th Grade English</ID>
+        </CourseCode>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+
+  <CourseOffering>
+    <LocalCourseCode>8th Grade English</LocalCourseCode>
+    <LocalCourseTitle>8th Grade English</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>8th Grade English</ID>
+        </CourseCode>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+
+  <CourseOffering>
+    <LocalCourseCode>Club/Team</LocalCourseCode>
+    <LocalCourseTitle>Club/Team</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Club/Team</ID>
+        </CourseCode>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+
+  <CourseOffering>
+    <LocalCourseCode>1st Grade Homeroom</LocalCourseCode>
+    <LocalCourseTitle>1st Grade Homeroom</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <SessionName>Fall 2011 South Daybreak Elementary</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>1st Grade Homeroom</ID>
+        </CourseCode>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+
+  <CourseOffering>
+    <LocalCourseCode>Reading Group</LocalCourseCode>
+    <LocalCourseTitle>Reading Group</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <SessionName>Fall 2011 South Daybreak Elementary</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Reading Group</ID>
+        </CourseCode>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+
+  <CourseOffering>
+    <LocalCourseCode>Special Elective:Debate Clinic</LocalCourseCode>
+    <LocalCourseTitle>Special Elective:Debate Clinic</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
+        <SessionName>Fall 2011 Sunset Central High School</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Special Elective:Debate Clinic</ID>
+        </CourseCode>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+
+  <CourseOffering>
+    <LocalCourseCode>Geometry-10</LocalCourseCode>
+    <LocalCourseTitle>Geometry-10</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <SessionName>Spring 2011 Daybreak Central High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>Geometry-10</ID>
+        </CourseCode>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+
+  <CourseOffering>
+    <LocalCourseCode>7th Grade Composition</LocalCourseCode>
+    <LocalCourseTitle>7th Grade Composition</LocalCourseTitle>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <CourseReference>
+      <CourseIdentity>
+        <CourseCode IdentificationSystem="CSSC course code">
+          <ID>7th Grade Composition</ID>
+        </CourseCode>
+      </CourseIdentity>
+    </CourseReference>
+  </CourseOffering>
+
   <Section>
     <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
@@ -14,9 +359,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>1st Grade Homeroom</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -30,6 +375,7 @@
       </SessionIdentity>
     </SessionReference>
   </Section>
+  
   <Section>
     <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
@@ -42,9 +388,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>8th Grade English</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -70,9 +416,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Club/Team</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -98,9 +444,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>8th Grade English</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -126,9 +472,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>8th Grade English</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -154,9 +500,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>7th Grade English</ID>
         </CourseCode>
-        <Term>First Semester</Term>
+        <Term>Fall Semester</Term>
         <SchoolYear>2010-2011</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -182,9 +528,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>7th Grade Composition</ID>
         </CourseCode>
-        <Term>Second Semester</Term>
+        <Term>Spring Semester</Term>
         <SchoolYear>2010-2011</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -210,9 +556,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Reading Group</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -238,9 +584,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Special Elective:Debate Clinic</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>Sunset Central High School</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -266,9 +612,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Writing about Government</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -294,9 +640,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>7th Grade English</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -322,9 +668,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Reading Group</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -350,9 +696,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>7th Grade English</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -378,9 +724,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Reading Group</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -406,9 +752,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>1st Grade Homeroom</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -434,9 +780,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>7th Grade English</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -462,9 +808,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Writing about Government</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -490,9 +836,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>American Literature</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -518,9 +864,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Writing about Government</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -546,9 +892,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Writing about Government</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -574,9 +920,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Reading Group</ID>
         </CourseCode>
-        <Term>First Trimester</Term>
-        <SchoolYear>2000-2001</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <Term>Fall Semester</Term>
+        <SchoolYear>2011-2012</SchoolYear>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -603,9 +949,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Algebra-11</ID>
         </CourseCode>
-        <Term>First Semester</Term>
+        <Term>Fall Semester</Term>
         <SchoolYear>2011-2012</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -631,9 +977,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Algebra-10</ID>
         </CourseCode>
-        <Term>First Semester</Term>
+        <Term>Fall Semester</Term>
         <SchoolYear>2010-2011</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -659,9 +1005,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Geometry-10</ID>
         </CourseCode>
-        <Term>Second Semester</Term>
+        <Term>Spring Semester</Term>
         <SchoolYear>2010-2011</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>
@@ -687,9 +1033,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Geometry-10</ID>
         </CourseCode>
-        <Term>First Semester</Term>
+        <Term>Fall Semester</Term>
         <SchoolYear>2010-2011</SchoolYear>
-        <StateOrganizationId>1</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
     <SchoolReference>

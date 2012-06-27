@@ -49,12 +49,16 @@ public abstract class GenericLayoutController {
     private CustomizationAssemblyFactory customizationAssemblyFactory;
 
     private static final String GOOGLE_ANALYTICS_TRACKER_CONSTANT = "googleAnalyticsTrackerId";
-
+    private static final String MINIFY_JS_CONSTANT = "minifyJs";
+    
     @Autowired
     @Qualifier("googleAnalyticsTrackerId")
     private String googleAnalyticsTrackerId;
 
-
+    
+    @Autowired
+    @Qualifier(MINIFY_JS_CONSTANT)
+    private Boolean minifyJs;
 
     protected PortalWSManager portalWSManager;
 
@@ -102,6 +106,7 @@ public abstract class GenericLayoutController {
         model.addAttribute(GOOGLE_ANALYTICS_TRACKER_CONSTANT, googleAnalyticsTrackerId);
         model.addAttribute(Constants.CONTEXT_ROOT_PATH,  request.getContextPath());
         model.addAttribute(Constants.CONTEXT_PREVIOUS_PATH,  "javascript:history.go(-1)");
+        model.addAttribute(MINIFY_JS_CONSTANT, minifyJs);
     }
 
 

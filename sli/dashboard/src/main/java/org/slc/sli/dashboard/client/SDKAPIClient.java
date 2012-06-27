@@ -1362,14 +1362,28 @@ public class SDKAPIClient implements APIClient {
 
         // iterate each section
         if (sections != null) {
+
+            Map<String, String> courseOfferingToCourseIDMap = new HashMap<String, String>();
+
+            // find the course for each course offering
+            List<GenericEntity> courseOfferings = readEntityList(token, SDKConstants.COURSE_OFFERINGS + "?" + this.buildQueryString(null));
+            if (courseOfferings != null) {
+                for (GenericEntity courseOffering : courseOfferings) {
+                    // Get course using courseId reference in section
+                    String courseOfferingId = (String) courseOffering.get(Constants.ATTR_ID);
+                    String courseId = (String) courseOffering.get(Constants.ATTR_COURSE_ID);
+                    courseOfferingToCourseIDMap.put(courseOfferingId, courseId);
+                }
+            }
+
             for (GenericEntity section : sections) {
                 // Get course using courseId reference in section
-                String courseId = (String) section.get(Constants.ATTR_COURSE_ID);
+                String courseOfferingId = (String) section.get(Constants.ATTR_COURSE_OFFERING_ID);
+                String courseId = courseOfferingToCourseIDMap.get(courseOfferingId);
                 if (!sectionLookup.containsKey(courseId)) {
                     sectionLookup.put(courseId, new HashSet<GenericEntity>());
                 }
                 sectionLookup.get(courseId).add(section);
-
             }
 
             // get course Entity

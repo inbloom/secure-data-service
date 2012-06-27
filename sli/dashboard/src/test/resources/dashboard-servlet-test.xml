@@ -27,5 +27,10 @@
     <qualifier value="googleAnalyticsTrackerId" />
     <constructor-arg value="${dashboard.google_analytics.id}" />
     </bean>
+    
+    <bean id="minifyJs" class="java.lang.Boolean">
+        <qualifier value="minifyJs" />
+        <constructor-arg value="${dashboard.minify.js}" />
+    </bean>
 
 </beans>

@@ -120,7 +120,18 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
 
         // create ed-org key and save to cache
         if (edOrg != null) {
+            @SuppressWarnings("unchecked")
+                    String nameOfinstitution = edOrg.get(Constants.ATTR_NAME_OF_INST).toString() ;
+//            LinkedHashMap<String, Object> metaData = (LinkedHashMap<String, Object>) edOrg.get(Constants.METADATA);
+//            if (metaData != null && !metaData.isEmpty()) {
+//                if (metaData.containsKey(Constants.EXTERNAL_ID)) {
+//                    edOrgKey = new EdOrgKey(metaData.get(Constants.EXTERNAL_ID).toString(), edOrg.getId());
+//                    putToCache(USER_ED_ORG_CACHE, token, edOrgKey);
+//                    return edOrgKey;
+//                }
+//            }
             return new EdOrgKey(edOrg.getId());
+
         }
         return null;
     }
@@ -287,11 +298,20 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
                 Set<GenericEntity> schools = ((Set<GenericEntity>) org.get(Constants.ATTR_SCHOOLS));
                 for (GenericEntity school : schools) {
                     if (school.getId().equals(schoolId)) {
-                        GenericEntity selectedOrg = new GenericEntity();
-                        selectedOrg.put(Constants.ATTR_NAME, org.get(Constants.ATTR_NAME));
-                        selectedOrg.put(Constants.ATTR_SECTION, section);
-                        entity.put(Constants.ATTR_SELECTED_POPULATION, selectedOrg);
-                        return entity;
+                        String courseOfferingId = section.getString(Constants.ATTR_COURSE_OFFERING_ID);
+                        // if correct section has been located, find courseOffering info
+                        GenericEntity courseOffering = getApiClient().getEntity(token, "courseOfferings",
+                                courseOfferingId, null);
+                        
+                        if (courseOffering != null) {
+                            GenericEntity selectedOrg = new GenericEntity();
+                            selectedOrg.put(Constants.ATTR_NAME, org.get(Constants.ATTR_NAME));
+                            section.put(Constants.ATTR_COURSE_ID, courseOffering.getString(Constants.ATTR_COURSE_ID));
+                            selectedOrg.put(Constants.ATTR_SECTION, section);
+                            entity.put(Constants.ATTR_SELECTED_POPULATION, selectedOrg);
+                            
+                            return entity;
+                        }
                     }
                 }
             }

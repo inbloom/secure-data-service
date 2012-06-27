@@ -18,6 +18,7 @@
 package org.slc.sli.validation;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.mongodb.CommandResult;
@@ -203,4 +204,9 @@ public class DummyEntityRepository implements Repository<Entity> {
         // TODO Auto-generated method stub
     }
 
+    public List<DBCollection> getCollections(boolean includeSystemCollections) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
 }

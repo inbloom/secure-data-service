@@ -1,5 +1,6 @@
 @RALLY_US934
 @RALLY_US2285
+@RALLY_DE915
 Feature: Session Ingestion Test
 
 Background: I have a landing zone route configured
@@ -37,7 +38,6 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "Session2.xml records considered: 26" in the resulting batch job file
   And I should see "Session2.xml records ingested successfully: 26" in the resulting batch job file
   And I should see "Session2.xml records failed: 0" in the resulting batch job file
-  And I should see "InterchangeEducationOrganization.xml records considered: 6" in the resulting batch job file 
+  And I should see "InterchangeEducationOrganization.xml records considered: 6" in the resulting batch job file
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 6" in the resulting batch job file
   And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
-  

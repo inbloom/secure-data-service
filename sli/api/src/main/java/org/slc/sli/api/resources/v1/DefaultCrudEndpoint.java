@@ -304,6 +304,12 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
                     finalResults = appendOptionalFields(uriInfo, finalResults, DefaultCrudEndpoint.this.resourceName);
                 }
+                // log if endpointEntity, namely the second entity in the url
+                // "/v1/entity/{id}/associations/entity", is restricted.
+                // direct self reference is captured by method handle()
+                if (!endpointEntity.getResourceName().equals(entityDef.getResourceName())) {
+                    logAccessToRestrictedEntity(uriInfo, endpointEntity);
+                }
 
                 if (finalResults.isEmpty()) {
                     Status errorStatus = Status.NOT_FOUND;
@@ -595,20 +601,34 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         }
 
         // log if entity is restricted.
-        if (entityDef.isRestrictedForLogging()) {
-            if (securityEventBuilder != null) {
-                SecurityEvent event = securityEventBuilder.createSecurityEvent(DefaultCrudEndpoint.class.toString(),
-                        uriInfo, "restricted entity \"" + entityDef.getResourceName() + "\" is accessed.");
-                audit(event);
-            } else {
-                warn("Cannot create security event, when restricted entity \"" + entityDef.getResourceName()
-                        + "\" is accessed.");
-            }
-        }
+//        if (entityDef.isRestrictedForLogging()) {
+//            if (securityEventBuilder != null) {
+//                SecurityEvent event = securityEventBuilder.createSecurityEvent(DefaultCrudEndpoint.class.toString(),
+//                        uriInfo, "restricted entity \"" + entityDef.getResourceName() + "\" is accessed.");
+//                audit(event);
+//            } else {
+//                warn("Cannot create security event, when restricted entity \"" + entityDef.getResourceName()
+//                        + "\" is accessed.");
+//            }
+//        }
+        logAccessToRestrictedEntity(uriInfo, entityDef);
 
         return logic.run(entityDef);
     }
 
+    private void logAccessToRestrictedEntity(final UriInfo uriInfo, EntityDefinition entity) {
+        if (entity.isRestrictedForLogging()) {
+            if (securityEventBuilder != null) {
+                SecurityEvent event = securityEventBuilder.createSecurityEvent(DefaultCrudEndpoint.class.toString(),
+                        uriInfo, "restricted entity \"" + entity.getResourceName() + "\" is accessed.");
+                audit(event);
+            } else {
+                warn("Cannot create security event, when restricted entity \"" + entity.getResourceName()
+                        + "\" is accessed.");
+            }
+        }
+    }
+    
     /**
      * Creates a query that looks up an association where key = value and only returns the specified
      * field.
