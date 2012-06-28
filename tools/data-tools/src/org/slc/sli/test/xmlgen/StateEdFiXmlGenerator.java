@@ -50,13 +50,14 @@ public class StateEdFiXmlGenerator {
      */
     //public static String fidelityOfData = "medium";
     public static String fidelityOfData = "low";
-
-
+    
     /**
      * used to determine the output directory for generated interchange and control files
      */
     public static String rootOutputPath = "./data";
-
+    
+   
+    
     /**
      * Currently generates:
      * - edOrg
@@ -73,7 +74,7 @@ public class StateEdFiXmlGenerator {
 
         processProgramArguments(args);
 
-        MetaRelations.construct();
+        MetaRelations.construct(args);
 
         generateAndMarshalInterchanges();
 
@@ -89,11 +90,13 @@ public class StateEdFiXmlGenerator {
         if (args.length > 1) {
             rootOutputPath = args[1];
         }
+        
         System.out.println("will use " + fidelityOfData + " fidelity data generators.");
 
         if (new File(rootOutputPath).mkdirs()) {
             System.out.println("created directory: " + rootOutputPath);
         }
+        
         System.out.println("root output path: " + rootOutputPath);
     }
 

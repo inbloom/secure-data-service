@@ -48,7 +48,7 @@ public class InterchangeStudentAssessmentGenerator {
         generateStudentObjectiveAssessments(studentAssessments, writer);
         
         // TODO: StudentAssessmentItem (post-alpha)
-        generateStudentAssessmentItems(studentAssessments, writer);
+       //generateStudentAssessmentItems(studentAssessments, writer);
 
     }
 
