@@ -19,13 +19,13 @@
     <property name="messageSource" ref="messageSource" />
   </bean>
 
-  <bean id="schoolSessionAssociationEntityPersistHandler" class="org.slc.sli.ingestion.handler.SessionEntityPersistHandler"
+  <bean id="sessionEntityPersistHandler" class="org.slc.sli.ingestion.handler.SessionEntityPersistHandler"
     parent="entityPersistHandler">
   </bean>
 
   <util:map id="entityPersistHandlers" key-type="java.lang.String" value-type="org.slc.sli.ingestion.handler.AbstractIngestionHandler">
     <entry key="session">
-      <ref local="schoolSessionAssociationEntityPersistHandler" />
+      <ref local="sessionEntityPersistHandler" />
     </entry>
   </util:map>
 
@@ -37,7 +37,6 @@
   <!-- collections that should be persisted using the old pipeline -->
   <util:set id="oldPipelineEntities" set-class="java.util.HashSet" value-type="java.lang.String">
     <value>competencyLevelDescriptor</value>
-    <value>gradebookEntry</value>
     <value>graduationPlan</value>
     <value>learningStandard</value>
     <value>parent</value>
@@ -61,6 +60,7 @@
     <value>disciplineIncident</value>
     <value>educationOrganization</value>
     <value>grade</value>
+    <value>gradebookEntry</value>
     <value>gradingPeriod</value>
     <value>localEducationAgency</value>
     <value>program</value>
