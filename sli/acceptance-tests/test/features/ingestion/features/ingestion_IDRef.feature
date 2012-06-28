@@ -18,13 +18,12 @@ Given I post "ingestion_IDReferences.zip" file as the payload of the ingestion j
      | gradingPeriod                |
      | learningObjective            |
      | learningStandard             |
-     | schoolSessionAssociation     |
      | gradingPeriod                |
      | section                      |
      | session                      |
      | calendarDate                 |
      | student                      |
-     | studentSectionAssociation    |
+     | courseOffering               |
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
@@ -36,16 +35,15 @@ Then I should see following map of entry counts in the corresponding collections
      | gradingPeriod                |   9     |
      | learningObjective            |   5     |
      | learningStandard             |   6     |
-     | schoolSessionAssociation     |  10     |
      | session                      |  10     |
-     | section                      |  10     |
+     | section                      |  12     |
      | student                      |  11     |
-     | studentSectionAssociation    |   3     |
-  And I should see "Processed 112 records." in the resulting batch job file
+     | courseOffering               |   3     |
+  And I should see "Processed 115 records." in the resulting batch job file
   And I should see "InterchangeAssessmentMetadata.xml records ingested successfully: 11" in the resulting batch job file
   And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 28" in the resulting batch job file
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 14" in the resulting batch job file
-  And I should see "InterchangeMasterSchedule.xml records ingested successfully: 10" in the resulting batch job file
+  And I should see "InterchangeMasterSchedule.xml records ingested successfully: 15" in the resulting batch job file
   And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 3" in the resulting batch job file
   And I should see "InterchangeStudentGrade.xml records ingested successfully: 20" in the resulting batch job file
   And I should see "InterchangeStudentParent.xml records ingested successfully: 11" in the resulting batch job file

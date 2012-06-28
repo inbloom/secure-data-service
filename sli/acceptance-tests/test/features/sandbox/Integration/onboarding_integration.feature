@@ -32,7 +32,7 @@ Then the user has to authenticate against ldap using "<USER_EMAIL>" and "<USER_P
 When the user selects the option to use the "<ED-ORG_SAMPLE_DS1>"
 And clicks on "Provision" 
 Then an "<ED-ORG_SAMPLE_DS1>" is saved to mongo
-And an "<ED-ORG_SAMPLE_DS1>" is added in the application table for "<DASHBOARD_APP>"," <ADMIN_APP>", "<DATABROWSER_APP>"
+#And an "<ED-ORG_SAMPLE_DS1>" is added in the application table for "<DASHBOARD_APP>"," <ADMIN_APP>", "<DATABROWSER_APP>"
 And a request for a Landing zone is made with "<Tenant_ID>" and "<ED-ORG_SAMPLE_DS1>"
 And a tenant entry with "<Tenant_ID>" and "<Landing_zone_directory>" is added to mongo
 And the landing zone "<Landing_zone_directory>" is saved in Ldap
@@ -87,9 +87,9 @@ And the email has a "<URL_TO_PORTAL>"
 
 @production
 Scenario: District admin provisions LZ for an Ed-Org
+Given the "<DISTRICT_ADMIN_USER>" has "<STATE_ED_ORG>" defined in LDAP by the operator
 When the state super admin accesses the "<URL_TO_PROVISIONING_APPLICATION>"
 Then the state super admin authenticates as "<DISTRICT_ADMIN_USER>" and "<DISTRICT_ADMIN_PASS>"
-When  the state super admin set the custom high-level ed-org to "<STATE_ED_ORG>"
 And clicks on "Provision" 
 Then an "<STATE_ED_ORG>" is saved to mongo
 And a request for a Landing zone is made with "<Tenant_ID>" and "<STATE_ED_ORG>"

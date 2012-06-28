@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.client;
 
 import java.text.DateFormat;
@@ -19,9 +36,6 @@ import java.util.Set;
 import com.google.gson.Gson;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.entity.ConfigMap;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.GenericEntityEnhancer;
@@ -30,6 +44,8 @@ import org.slc.sli.util.ExecutionTimeLogger;
 import org.slc.sli.util.ExecutionTimeLogger.LogExecutionTime;
 import org.slc.sli.util.JsonConverter;
 import org.slc.sli.util.SecurityUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -40,7 +56,7 @@ import org.slc.sli.util.SecurityUtil;
  * @author svankina
  *
  */
-public class LiveAPIClient implements APIClient {
+public class LiveAPIClient {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LiveAPIClient.class);
 
@@ -49,6 +65,7 @@ public class LiveAPIClient implements APIClient {
     private static final String EDORGS_URL = "/v1/educationOrganizations/";
     private static final String SCHOOLS_URL = "/v1/schools";
     private static final String COURSES_URL = "/v1/courses/";
+    private static final String COURSE_OFFERINGS_URL = "/v1/courseOfferings/";
     private static final String SECTIONS_URL = "/v1/sections/";
     private static final String STUDENTS_URL = "/v1/students/";
     private static final String TEACHERS_URL = "/v1/teachers/";
@@ -73,7 +90,7 @@ public class LiveAPIClient implements APIClient {
     private static final String PARENTS = "/parents";
 
     // link names
-    private static final String ED_ORG_LINK = "getEducationOrganization";
+    private static final String ED_ORG_LINK = "getParentEducationOrganization";
     private static final String SCHOOL_LINK = "getSchool";
     private static final String STUDENT_SCHOOL_ASSOCIATIONS_LINK = "getStudentSchoolAssociations";
 
@@ -116,7 +133,7 @@ public class LiveAPIClient implements APIClient {
     /**
      * Get staff information (credentials, etc.)
      */
-    @Override
+    //@Override
     public GenericEntity getStaffInfo(String token) {
         String id = getId(token);
         GenericEntity staffEntity = createEntityFromAPI(getApiUrl() + STAFF_URL + id, token);
@@ -137,7 +154,7 @@ public class LiveAPIClient implements APIClient {
     /**
      * Get educational organization custom data
      */
-    @Override
+    //@Override
     public ConfigMap getEdOrgCustomData(String token, String id) {
         CustomEntityWrapper jsonConfig = (CustomEntityWrapper) createEntityFromAPI(getApiUrl() + EDORGS_URL + id + CUSTOM_DATA, token, CustomEntityWrapper.class);
         return JsonConverter.fromJson(jsonConfig.value, ConfigMap.class);
@@ -146,7 +163,7 @@ public class LiveAPIClient implements APIClient {
     /**
      * Put or save educational organization custom data
      */
-    @Override
+    //@Override
     public void putEdOrgCustomData(String token, String id, ConfigMap configMap) {
         putEntityToAPI(getApiUrl() + EDORGS_URL + id + CUSTOM_DATA, token, new CustomEntityWrapper(JsonConverter.toJson(configMap)));
     }
@@ -176,7 +193,7 @@ public class LiveAPIClient implements APIClient {
         restClient.putJsonRequestWHeaders(url, token, gson.toJson(entity));
     }
 
-    @Override
+    //@Override
     public List<GenericEntity> getSchools(String token, List<String> schoolIds) {
 
         List<GenericEntity> schools = null;
@@ -187,7 +204,7 @@ public class LiveAPIClient implements APIClient {
         return schools;
     }
 
-    @Override
+    //@Override
     public List<GenericEntity> getCoursesSectionsForSchool(String token, String schoolId) {
 
         // get sections
@@ -232,15 +249,31 @@ public class LiveAPIClient implements APIClient {
 
         // iterate each section
         if (sections != null) {
+            
+            Map<String, String> courseOfferingToCourseIDMap = new HashMap<String, String>();
+            
+            // find the course for each course offering
+            List<GenericEntity> courseOfferings = createEntitiesFromAPI(getApiUrl() + COURSE_OFFERINGS_URL + "?"
+                    + Constants.LIMIT + "=" + Constants.MAX_RESULTS, token);
+            if (courseOfferings != null) {
+                for (GenericEntity courseOffering : courseOfferings) {
+                    // Get course using courseId reference in section
+                    String courseOfferingId = (String) courseOffering.get(Constants.ATTR_ID);
+                    String courseId = (String) courseOffering.get(Constants.ATTR_COURSE_ID);
+                    courseOfferingToCourseIDMap.put(courseOfferingId, courseId);
+                }
+            }
+
             for (GenericEntity section : sections) {
                 // Get course using courseId reference in section
-                String courseId = (String) section.get(Constants.ATTR_COURSE_ID);
+                String courseOfferingId = (String) section.get(Constants.ATTR_COURSE_OFFERING_ID);
+                String courseId = courseOfferingToCourseIDMap.get(courseOfferingId);
                 if (!sectionLookup.containsKey(courseId)) {
                     sectionLookup.put(courseId, new HashSet<GenericEntity>());
                 }
                 sectionLookup.get(courseId).add(section);
-
             }
+        
 
             // get course Entity
             List<GenericEntity> courses = createEntitiesFromAPI(getApiUrl() + COURSES_URL + "?" + Constants.LIMIT + "=" + Constants.MAX_RESULTS, token);
@@ -272,7 +305,7 @@ public class LiveAPIClient implements APIClient {
     /**
      * Get a list of student objects, given the student ids
      */
-    @Override
+    //@Override
     public List<GenericEntity> getStudents(final String token, Collection<String> ids) {
         if (ids == null || ids.size() == 0) {
             return null;
@@ -293,7 +326,7 @@ public class LiveAPIClient implements APIClient {
     /**
      * Get a list of student assessment results, given a student id
      */
-    @Override
+    //@Override
     public List<GenericEntity> getStudentAssessments(final String token, String studentId) {
         // make a call to student-assessments, with the student id
         List<GenericEntity> responses = createEntitiesFromAPI(getApiUrl() + STUDENTS_URL + studentId
@@ -313,7 +346,7 @@ public class LiveAPIClient implements APIClient {
     /**
      * Get assessment info, given a list of assessment ids
      */
-    @Override
+    //@Override
     public List<GenericEntity> getAssessments(final String token, List<String> assessmentIds) {
 
         List<GenericEntity> assmts = new ArrayList<GenericEntity>();
@@ -326,7 +359,7 @@ public class LiveAPIClient implements APIClient {
     /**
      * To retrieve Parent Educational Organizations
      */
-    @Override
+    //@Override
     public List<GenericEntity> getParentEducationalOrganizations(final String token, List<GenericEntity> edOrgs) {
 
         StringBuilder parentEducationAgencyReferences = new StringBuilder();
@@ -362,7 +395,7 @@ public class LiveAPIClient implements APIClient {
         return Collections.emptyList();
     }
 
-    @Override
+    //@Override
     public GenericEntity getParentEducationalOrganization(final String token, GenericEntity edOrg) {
         List<String> hrefs = extractLinksFromEntity(edOrg, ED_ORG_LINK);
         for (String href : hrefs) {
@@ -373,10 +406,10 @@ public class LiveAPIClient implements APIClient {
             // between
             // parent or children edOrgs. DE105 has been logged to resolve it.
             // TODO: Remove the if statement once DE105 is resolved.
-            if (href.contains("?" + Constants.ATTR_PARENT_EDORG + "=")) {
-                // Links to children edOrgs are queries; ignore them.
-                continue;
-            }
+//            if (href.contains("?" + Constants.ATTR_PARENT_EDORG + "=")) {
+//                // Links to children edOrgs are queries; ignore them.
+//                continue;
+//            }
 
             GenericEntity responses = createEntityFromAPI(href, token);
             return responses; // there should only be one parent.
@@ -389,25 +422,25 @@ public class LiveAPIClient implements APIClient {
     /**
      * Get one student
      */
-    @Override
+    //@Override
     public GenericEntity getStudent(String token, String id) {
         return createEntityFromAPI(getApiUrl() + STUDENTS_URL + id, token);
     }
 
-    @Override
+    //@Override
     public List<GenericEntity> getStudents(String token, String sectionId, List<String> studentIds) {
         return createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + sectionId + STUDENT_SECTION_ASSOC + STUDENTS
                 + "?views=assessments,attendances.1," + Constants.ATTR_TRANSCRIPT + ",gradebook"
                 + "&" + Constants.LIMIT + "=" + Constants.MAX_RESULTS, token);
     }
 
-    @Override
+    //@Override
     public List<GenericEntity> getStudentsWithGradebookEntries(final String token, final String sectionId) {
         return createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + sectionId + STUDENT_SECTION_ASSOC + STUDENTS
                 + "?views=gradebook" + "&" + Constants.LIMIT + "=" + Constants.MAX_RESULTS, token);
     }
 
-    @Override
+    //@Override
     public GenericEntity getStudentWithOptionalFields(String token, String studentId, List<String> optionalFields) {
         String optFields = StringUtils.join(optionalFields, ',');
 
@@ -435,7 +468,7 @@ public class LiveAPIClient implements APIClient {
         return section;
     }
 
-    @Override
+    //@Override
     public GenericEntity getSession(String token, String id) {
         GenericEntity session = null;
         try {
@@ -642,7 +675,7 @@ public class LiveAPIClient implements APIClient {
     }
 
 
-    @Override
+    //@Override
     public List<GenericEntity> getSessions(String token) {
         String url = getApiUrl() + SESSION_URL + "?" + Constants.LIMIT + "=" + Constants.MAX_RESULTS;
         try {
@@ -653,7 +686,7 @@ public class LiveAPIClient implements APIClient {
         }
     }
 
-    @Override
+    //@Override
     public List<GenericEntity> getSessionsByYear(String token, String schoolYear) {
         String url = getApiUrl() + SESSION_URL + "?schoolYear=" + schoolYear;
         try {
@@ -664,7 +697,7 @@ public class LiveAPIClient implements APIClient {
         }
     }
 
-    @Override
+    //@Override
     public GenericEntity getAcademicRecord(String token, Map<String, String> params) {
         String url = getApiUrl() + STUDENT_ACADEMIC_RECORD_URL;
         if (params != null && params.size() != 0) {
@@ -687,7 +720,7 @@ public class LiveAPIClient implements APIClient {
      * @param token
      * @return
      */
-    @Override
+    //@Override
     public GenericEntity getHomeRoomForStudent(String studentId, String token) {
         String url = getApiUrl() + STUDENTS_URL + studentId + STUDENT_SECTION_ASSOC + "?" + Constants.LIMIT + "=" + Constants.MAX_RESULTS;
         List<GenericEntity> sectionStudentAssociations = createEntitiesFromAPI(url, token);
@@ -720,7 +753,7 @@ public class LiveAPIClient implements APIClient {
      * @param token
      * @return
      */
-    @Override
+    //@Override
     public GenericEntity getTeacherForSection(String sectionId, String token) {
         String url = getApiUrl() + SECTIONS_URL + sectionId + TEACHER_SECTION_ASSOC;
         List<GenericEntity> teacherSectionAssociations = createEntitiesFromAPI(url, token);
@@ -746,7 +779,7 @@ public class LiveAPIClient implements APIClient {
      *
      * @return A list of attendance events for a student.
      */
-    @Override
+    //@Override
     public List<GenericEntity> getStudentAttendance(final String token, String studentId, String start, String end) {
         String url = STUDENTS_URL + studentId + ATTENDANCES;
         if (start != null && start.length() > 0) {
@@ -845,7 +878,7 @@ public class LiveAPIClient implements APIClient {
      *            Query params
      * @return
      */
-    @Override
+    //@Override
     public List<GenericEntity> getCourses(final String token, final String sectionId, Map<String, String> params) {
         // get the entities
         return createEntitiesFromAPI(getApiUrl() + SECTIONS_URL + sectionId + STUDENT_SECTION_ASSOC + STUDENTS
@@ -867,7 +900,7 @@ public class LiveAPIClient implements APIClient {
      *            Query params
      * @return
      */
-    @Override
+    //@Override
     public List<GenericEntity> getStudentTranscriptAssociations(final String token, final String studentId,
             Map<String, String> params) {
         // get the entities
@@ -890,7 +923,7 @@ public class LiveAPIClient implements APIClient {
      *            param map
      * @return
      */
-    @Override
+    //@Override
     public List<GenericEntity> getEntities(final String token, final String type, final String id,
             Map<String, String> params) {
         StringBuilder url = new StringBuilder();
@@ -925,7 +958,7 @@ public class LiveAPIClient implements APIClient {
      *            param map
      * @return
      */
-    @Override
+    //@Override
     public GenericEntity getEntity(final String token, final String type, final String id, Map<String, String> params) {
         StringBuilder url = new StringBuilder();
 
@@ -954,7 +987,7 @@ public class LiveAPIClient implements APIClient {
      * @param params
      * @return
      */
-    @Override
+    //@Override
     public List<GenericEntity> getSections(final String token, final String studentId, Map<String, String> params) {
         // get the entities
         List<GenericEntity> entities = createEntitiesFromAPI(
@@ -966,7 +999,7 @@ public class LiveAPIClient implements APIClient {
     /*
      * Retrieves and returns student school associations for a given student.
      */
-    @Override
+    //@Override
     public List<GenericEntity> getStudentEnrollment(final String token, GenericEntity student) {
         List<String> urls = extractLinksFromEntity(student, STUDENT_SCHOOL_ASSOCIATIONS_LINK);
 
@@ -1006,7 +1039,7 @@ public class LiveAPIClient implements APIClient {
      *            param map
      * @return
      */
-    @Override
+    //@Override
     public List<GenericEntity> getStudentSectionGradebookEntries(final String token, final String studentId,
             Map<String, String> params) {
         StringBuilder url = new StringBuilder();
@@ -1125,7 +1158,7 @@ public class LiveAPIClient implements APIClient {
         this.apiUrl = apiUrl;
     }
 
-    @Override
+    //@Override
     public List<GenericEntity> getStudentsWithSearch(String token, String firstName, String lastName) {
         // TODO Auto-generated method stub
         String queryString = "?";
@@ -1159,7 +1192,7 @@ public class LiveAPIClient implements APIClient {
      * @param sortBy
      * @return
      */
-    @Override
+    //@Override
     public String sortBy(String url, String sortBy) {
         return url + "?sortBy=" + sortBy;
     };
@@ -1173,12 +1206,12 @@ public class LiveAPIClient implements APIClient {
      *            "descending" or "ascending"
      * @return
      */
-    @Override
+    //@Override
     public String sortBy(String url, String sortBy, String sortOrder) {
         return url + "?sortBy=" + sortBy + "&sortOrder=" + sortOrder;
     }
 
-    @Override
+    //@Override
     public List<GenericEntity> getParentsForStudent(String token, String studentId) {
         return createEntitiesFromAPI(
                 buildStudentURI(studentId, STUDENT_PARENT_ASSOC + PARENTS, Collections.<String, String>emptyMap()),

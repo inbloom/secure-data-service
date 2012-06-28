@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.security.context.resolver;
 
 import java.util.ArrayList;
@@ -11,8 +28,6 @@ import java.util.Set;
 
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
-import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
-import org.slc.sli.api.service.BasicService;
 import org.slc.sli.api.security.context.traversal.graph.NodeAggregator;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -45,7 +60,6 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeAggregator {
         while (!toResolve.isEmpty()) {
             NeutralQuery query = new NeutralQuery();
             query.addCriteria(new NeutralCriteria(REFERENCE, NeutralCriteria.CRITERIA_IN, toResolve));
-//            BasicService.addDefaultQueryParams(query, EntityNames.EDUCATION_ORGANIZATION);
             Iterable<Entity> ents = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query);
             toResolve.clear();
             for (Iterator<Entity> i = ents.iterator(); i.hasNext();) {
@@ -99,10 +113,6 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeAggregator {
             }
         }
         while (toResolve.length() > 0) {
-//            NeutralQuery neutralQuery = new NeutralQuery();
-//            neutralQuery.addCriteria(new NeutralCriteria("_id", "=", toResolve));
-////            BasicService.addDefaultQueryParams(neutralQuery, EntityNames.EDUCATION_ORGANIZATION);
-//            Entity edOrg = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, neutralQuery);
             Entity edOrg = repo.findById(EntityNames.EDUCATION_ORGANIZATION, toResolve);
             Map<String, Object> body = edOrg.getBody();
             if (body.containsKey(REFERENCE)) {
@@ -117,7 +127,7 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeAggregator {
         return returned;
     }
     
-    private Set<String> getBlacklist() {
+    public Set<String> getBlacklist() {
         Set<String> blacklist = new HashSet<String>();
         String clientId = clientInfo.getClientId();
         
@@ -126,7 +136,6 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeAggregator {
         }
         
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria("client_id", NeutralCriteria.OPERATOR_EQUAL, clientId));
-//        BasicService.addDefaultQueryParams(nq, EntityNames.EDUCATION_ORGANIZATION);
         Entity appEntity = repo.findOne("application", nq);
         
         if (null == appEntity) {
@@ -135,7 +144,6 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeAggregator {
         
         String appId = appEntity.getEntityId();
         NeutralQuery nq2 = new NeutralQuery();
-//        BasicService.addDefaultQueryParams(nq, EntityNames.EDUCATION_ORGANIZATION);
         Iterable<Entity> entities = repo.findAll("applicationAuthorization", nq2);
         
         for (Iterator<Entity> i = entities.iterator(); i.hasNext();) {
@@ -144,7 +152,6 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeAggregator {
             if (!appIdArray.contains(appId)) {
                 NeutralQuery query = new NeutralQuery(new NeutralCriteria("stateOrganizationId",
                         NeutralCriteria.OPERATOR_EQUAL, (String) appAuth.getBody().get("authId")));
-//                BasicService.addDefaultQueryParams(nq, EntityNames.EDUCATION_ORGANIZATION);
                 Entity edorgEntity = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, query);
                 if (edorgEntity != null) {
                     blacklist.add(edorgEntity.getEntityId());

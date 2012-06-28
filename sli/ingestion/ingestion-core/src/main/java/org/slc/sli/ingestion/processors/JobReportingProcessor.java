@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
@@ -23,6 +40,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.impl.DefaultProducerTemplate;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,33 +99,12 @@ public class JobReportingProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) {
-
-//        //We need to extract the TenantID for each thread, so the DAL has access to it.
-//        try {
-//            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
-//            ControlFile cf = cfd.getFileItem();
-//            String tenantId = cf.getConfigProperties().getProperty("tenantId");
-//            TenantContext.setTenantId(tenantId);
-//        } catch (NullPointerException ex) {
-//            LOG.error("Could Not find Tenant ID.");
-//            TenantContext.setTenantId(null);
-//        }
-
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
 
         if (workNote == null || workNote.getBatchJobId() == null) {
             missingBatchJobIdError(exchange);
         } else {
             processJobReporting(exchange, workNote);
-        }
-
-        try {
-            ProducerTemplate template = new DefaultProducerTemplate(exchange.getContext());
-            template.start();
-            template.sendBody(this.commandTopicUri, "flushStats|" + workNote.getBatchJobId());
-            template.stop();
-        } catch (Exception e) {
-            LogUtil.error(LOG, "Error sending `that's all folks` message to the orchestra", e);
         }
     }
 
@@ -123,7 +120,6 @@ public class JobReportingProcessor implements Processor {
             job = batchJobDAO.findBatchJobById(batchJobId);
             TenantContext.setTenantId(job.getTenantId());
 
-
             boolean hasErrors = writeErrorAndWarningReports(job);
 
             writeBatchJobReportFile(exchange, job, hasErrors);
@@ -131,36 +127,35 @@ public class JobReportingProcessor implements Processor {
         } catch (Exception e) {
             LogUtil.error(LOG, "Exception encountered in JobReportingProcessor. ", e);
         } finally {
-            if ("true".equals(clearOnCompletion)) {
-                neutralRecordMongoAccess.getRecordRepository().deleteCollectionsForJob(workNote.getBatchJobId());
-                LOG.info("successfully deleted all staged collections for batch job: {}", workNote.getBatchJobId());
-            } else if ("transformed".equals(clearOnCompletion)) {
-                neutralRecordMongoAccess.getRecordRepository().deleteTransformedCollectionsForJob(
-                        workNote.getBatchJobId());
-                LOG.info("successfully deleted all TRANSFORMED staged collections for batch job: {}",
-                        workNote.getBatchJobId());
-            }
+            cleanupStagingDatabase(workNote);
+
             if (job != null) {
                 BatchJobUtils.completeStageAndJob(stage, job);
                 batchJobDAO.saveBatchJob(job);
+                broadcastFlushStats(exchange, workNote);
             }
+            cleanUpLZ(job);
         }
     }
 
     private void populateJobFromStageCollection(String jobId) {
         NewBatchJob job = batchJobDAO.findBatchJobById(jobId);
 
-        List<Stage> stages = batchJobDAO.getBatchStagesStoredSeperatelly(jobId);
-        Iterator<Stage> it = stages.iterator();
-        Stage tempStage;
+        if (job != null) {
+            List<Stage> stages = batchJobDAO.getBatchStagesStoredSeperatelly(jobId);
+            Iterator<Stage> it = stages.iterator();
+            Stage tempStage;
 
-        while (it.hasNext()) {
-            tempStage = it.next();
+            while (it.hasNext()) {
+                tempStage = it.next();
 
-            job.addStage(tempStage);
+                job.addStage(tempStage);
+            }
+
+            batchJobDAO.saveBatchJob(job);
+        } else {
+            LOG.warn("Couldn't find job {}", jobId);
         }
-
-        batchJobDAO.saveBatchJob(job);
     }
 
     private void writeBatchJobReportFile(Exchange exchange, NewBatchJob job, boolean hasErrors) {
@@ -455,6 +450,56 @@ public class JobReportingProcessor implements Processor {
         audit(event);
     }
 
+    private void cleanupStagingDatabase(WorkNote workNote) {
+        if ("true".equals(clearOnCompletion)) {
+            neutralRecordMongoAccess.getRecordRepository().deleteCollectionsForJob(workNote.getBatchJobId());
+            LOG.info("successfully deleted all staged collections for batch job: {}", workNote.getBatchJobId());
+        } else if ("transformed".equals(clearOnCompletion)) {
+            neutralRecordMongoAccess.getRecordRepository().deleteTransformedCollectionsForJob(workNote.getBatchJobId());
+            LOG.info("successfully deleted all TRANSFORMED staged collections for batch job: {}",
+                    workNote.getBatchJobId());
+        }
+    }
+
+    /**
+     * broadcast a message to all orchestra nodes to flush their execution stats
+     *
+     * @param exchange
+     * @param workNote
+     */
+    private void broadcastFlushStats(Exchange exchange, WorkNote workNote) {
+        try {
+            ProducerTemplate template = new DefaultProducerTemplate(exchange.getContext());
+            template.start();
+            template.sendBody(this.commandTopicUri, "jobCompleted|" + workNote.getBatchJobId());
+            template.stop();
+        } catch (Exception e) {
+            LOG.error("Error sending `that's all folks` message to the orchestra", e);
+        }
+    }
+
+    private void cleanUpLZ(NewBatchJob job) {
+        boolean isZipFile = false;
+        for (ResourceEntry resourceEntry : job.getResourceEntries()) {
+            if (FileFormat.ZIP_FILE.getCode().equalsIgnoreCase(resourceEntry.getResourceFormat())) {
+               isZipFile = true;
+            }
+        }
+        if (isZipFile) {
+            String sourceId = job.getSourceId();
+            if (sourceId != null) {
+                File dir = new File(sourceId);
+                FileUtils.deleteQuietly(dir);
+            }
+        } else {
+            for (ResourceEntry resourceEntry : job.getResourceEntries()) {
+                if (resourceEntry.getResourceFormat().equals(FileFormat.EDFI_XML.getCode())) {
+                    File xmlFile = new File(resourceEntry.getResourceName());
+                    FileUtils.deleteQuietly(xmlFile);
+                }
+            }
+        }
+    }
     public void setCommandTopicUri(String commandTopicUri) {
         this.commandTopicUri = commandTopicUri;
     }

@@ -1,8 +1,27 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.validation;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Map;
 
 import javax.xml.XMLConstants;
@@ -12,10 +31,13 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
@@ -27,6 +49,8 @@ import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
  * @author ablum
  *
  */
+@Scope("prototype")
+@Component
 public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
 
     private Map<String, Resource> xsd;
@@ -40,7 +64,7 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
     public boolean isValid(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport) {
 
         errorHandler.setErrorReport(errorReport);
-
+        InputStream is = null;
         try {
             SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
             Resource xsdResource = xsd.get(ingestionFileEntry.getFileType().getName());
@@ -52,7 +76,8 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
             }
             validator.setResourceResolver(new ExternalEntityResolver());
             String sourceXml = ingestionFileEntry.getFile().getAbsolutePath();
-            Source sc = new StreamSource(sourceXml);
+            is = new FileInputStream(sourceXml);
+            Source sc = new StreamSource(is, xmlFile.toURI().toASCIIString());
             validator.setErrorHandler(errorHandler);
             validator.validate(sc);
             return true;
@@ -68,6 +93,8 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
             LOG.error("Problem ingesting file: " + ingestionFileEntry.getFileName());
         } catch (Exception e) {
             LogUtil.error(LOG, "Error processing file " + ingestionFileEntry.getFileName(), e);
+        } finally {
+            IOUtils.closeQuietly(is);
         }
 
         return false;

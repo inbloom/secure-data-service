@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.web.controller;
 
 import java.util.Random;
@@ -22,8 +39,6 @@ import org.slc.sli.util.SecurityUtil;
 /**
  * Controller for all types of requests.
  *
- * TODO: Refactor methods to be private and mock in unit tests with PowerMockito
- *
  * @author dwu
  */
 @Controller
@@ -34,12 +49,16 @@ public abstract class GenericLayoutController {
     private CustomizationAssemblyFactory customizationAssemblyFactory;
 
     private static final String GOOGLE_ANALYTICS_TRACKER_CONSTANT = "googleAnalyticsTrackerId";
-
+    private static final String MINIFY_JS_CONSTANT = "minifyJs";
+    
     @Autowired
     @Qualifier("googleAnalyticsTrackerId")
     private String googleAnalyticsTrackerId;
 
-
+    
+    @Autowired
+    @Qualifier(MINIFY_JS_CONSTANT)
+    private Boolean minifyJs;
 
     protected PortalWSManager portalWSManager;
 
@@ -68,7 +87,6 @@ public abstract class GenericLayoutController {
 
         model.addAttribute(Constants.MM_KEY_LOGGER, logger);
         addCommonData(model, request);
-        // TODO: refactor so the below params can be removed
         populateModelLegacyItems(model);
         return model;
     }
@@ -88,10 +106,10 @@ public abstract class GenericLayoutController {
         model.addAttribute(GOOGLE_ANALYTICS_TRACKER_CONSTANT, googleAnalyticsTrackerId);
         model.addAttribute(Constants.CONTEXT_ROOT_PATH,  request.getContextPath());
         model.addAttribute(Constants.CONTEXT_PREVIOUS_PATH,  "javascript:history.go(-1)");
+        model.addAttribute(MINIFY_JS_CONSTANT, minifyJs);
     }
 
 
-    // TODO: refactor so the below params can be removed
     public void populateModelLegacyItems(ModelMap model) {
         model.addAttribute("random", new Random());
     }

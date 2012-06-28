@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.resources.v1;
 
 import java.util.ArrayList;
@@ -286,6 +303,12 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     }
 
                     finalResults = appendOptionalFields(uriInfo, finalResults, DefaultCrudEndpoint.this.resourceName);
+                }
+                // log if endpointEntity, namely the second entity in the url
+                // "/v1/entity/{id}/associations/entity", is restricted.
+                // direct self reference is captured by method handle()
+                if (!endpointEntity.getResourceName().equals(entityDef.getResourceName())) {
+                    logAccessToRestrictedEntity(uriInfo, endpointEntity);
                 }
 
                 if (finalResults.isEmpty()) {
@@ -578,20 +601,34 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         }
 
         // log if entity is restricted.
-        if (entityDef.isRestrictedForLogging()) {
-            if (securityEventBuilder != null) {
-                SecurityEvent event = securityEventBuilder.createSecurityEvent(DefaultCrudEndpoint.class.toString(),
-                        uriInfo, "restricted entity \"" + entityDef.getResourceName() + "\" is accessed.");
-                audit(event);
-            } else {
-                warn("Cannot create security event, when restricted entity \"" + entityDef.getResourceName()
-                        + "\" is accessed.");
-            }
-        }
+//        if (entityDef.isRestrictedForLogging()) {
+//            if (securityEventBuilder != null) {
+//                SecurityEvent event = securityEventBuilder.createSecurityEvent(DefaultCrudEndpoint.class.toString(),
+//                        uriInfo, "restricted entity \"" + entityDef.getResourceName() + "\" is accessed.");
+//                audit(event);
+//            } else {
+//                warn("Cannot create security event, when restricted entity \"" + entityDef.getResourceName()
+//                        + "\" is accessed.");
+//            }
+//        }
+        logAccessToRestrictedEntity(uriInfo, entityDef);
 
         return logic.run(entityDef);
     }
 
+    private void logAccessToRestrictedEntity(final UriInfo uriInfo, EntityDefinition entity) {
+        if (entity.isRestrictedForLogging()) {
+            if (securityEventBuilder != null) {
+                SecurityEvent event = securityEventBuilder.createSecurityEvent(DefaultCrudEndpoint.class.toString(),
+                        uriInfo, "restricted entity \"" + entity.getResourceName() + "\" is accessed.");
+                audit(event);
+            } else {
+                warn("Cannot create security event, when restricted entity \"" + entity.getResourceName()
+                        + "\" is accessed.");
+            }
+        }
+    }
+    
     /**
      * Creates a query that looks up an association where key = value and only returns the specified
      * field.

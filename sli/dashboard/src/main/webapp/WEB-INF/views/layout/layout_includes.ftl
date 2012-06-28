@@ -31,21 +31,28 @@
 </div>
     <script type="text/javascript">
       <#-- make grid -->
-      DashboardUtil.makeGrid('${id}', DashboardProxy.getConfig("${gridId}"), DashboardProxy.getData("${gridId}"));
+      SLC.grid.tablegrid.create('${id}', SLC.dataProxy.getConfig("${gridId}"), SLC.dataProxy.getData("${gridId}"));
 
     </script>
 
 </#macro>
 
 <#noescape>
+
+
 <script>
 	var contextRootPath = '${CONTEXT_ROOT_PATH}',
 		pageTitle;
 		
-	DashboardProxy.loadAll(${viewDataConfig});
-  
-	pageTitle = DashboardProxy.getLayoutName();
-	$("<title></title>").html(pageTitle).appendTo("head");
+	SLC.dataProxy.loadAll(${viewDataConfig});
+
+	if ($.browser.msie && parseInt($.browser.version, 10) < 9) {
+		document.createElement("footer");
+	}
+	pageTitle = SLC.dataProxy.getLayoutName();
+	document.title = pageTitle;
+	
+	setTimeout(SLC.util.placeholderFix, 500);
 </script>
 </#noescape>
 <#include "../panel/studentSearch.ftl">

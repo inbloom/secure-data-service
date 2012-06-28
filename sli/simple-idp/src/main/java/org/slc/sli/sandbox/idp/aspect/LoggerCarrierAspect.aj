@@ -20,7 +20,7 @@ public aspect LoggerCarrierAspect {
     declare parents : org.slc.sli.sandbox.idp.controller.Login implements LoggerCarrier;
       
     @Autowired
-    private Repository<Entity> repo;
+    private Repository<Entity> mongoEntityRepository;
     
     public void LoggerCarrier.audit(SecurityEvent event) {
         event.setAppId(SIMPLEIDP_APPLICATION_ID);
@@ -57,11 +57,11 @@ public aspect LoggerCarrierAspect {
     }
 
     public Repository<Entity> getRepo() {
-        return repo;
+        return mongoEntityRepository;
     }
 
     public void setRepo(Repository<Entity> repo) {
-        this.repo = repo;
+        this.mongoEntityRepository = repo;
     }
 
 }

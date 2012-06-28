@@ -114,7 +114,8 @@ Scenario: Non-happy path: Attempt to create association with reference for endpo
    Given a valid association json document for a "<ASSOCIATION TYPE>"
     When I set the "<ENDPOINT2 FIELD>" to "<INACCESSIBLE REFERENCE 2>"
     When I navigate to POST "/<ASSOCIATION URI>"
-    Then I should receive a return code of 403
+    #since assessments are public within a tenant, this is not a 403, but a 400 since it says the assesmentId being used for the assoc doesn't exist
+    Then I should receive a return code of 400
 
 Scenario: Non-happy path: Attempt to read a non-existing association
     When I navigate to GET "/<ASSOCIATION URI>/<INVALID REFERENCE>"

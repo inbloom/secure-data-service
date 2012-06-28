@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
@@ -24,6 +41,7 @@ import org.slc.sli.dal.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
+import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.WorkNoteImpl;
@@ -32,6 +50,7 @@ import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.landingzone.validation.IngestionException;
+import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
@@ -41,6 +60,7 @@ import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
+import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 
 /**
  * Transforms body from ControlFile to ControlFileDescriptor type.
@@ -71,17 +91,6 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
      */
     @Override
     public void process(Exchange exchange) throws Exception {
-//        //We need to extract the TenantID for each thread, so the DAL has access to it.
-//        try {
-//            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
-//            ControlFile cf = cfd.getFileItem();
-//            String tenantId = cf.getConfigProperties().getProperty("tenantId");
-//            TenantContext.setTenantId(tenantId);
-//        } catch (NullPointerException ex) {
-//            LOG.error("Could Not find Tenant ID.");
-//            TenantContext.setTenantId(null);
-//        }
-
         processUsingNewBatchJob(exchange);
     }
 
@@ -92,11 +101,14 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
         String controlFileName = "control_file";
 
+        FaultsReport errorReport = new FaultsReport();
+
         // TODO handle invalid control file (user error)
         // TODO handle IOException or other system error
         NewBatchJob newBatchJob = null;
+        File fileForControlFile = null;
         try {
-            File fileForControlFile = exchange.getIn().getBody(File.class);
+            fileForControlFile = exchange.getIn().getBody(File.class);
             controlFileName = fileForControlFile.getName();
 
             newBatchJob = getOrCreateNewBatchJob(batchJobId, fileForControlFile);
@@ -110,8 +122,8 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
             newBatchJob.setTotalFiles(controlFile.getFileEntries().size());
             createResourceEntryAndAddToJob(controlFile, newBatchJob);
-            TenantContext.setTenantId(newBatchJob.getTenantId());
 
+            TenantContext.setTenantId(newBatchJob.getTenantId());
 
             // determine whether to override the tenantId property with a LZ derived value
             if (deriveTenantId) {
@@ -152,6 +164,16 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
             audit(event);
 
+        } catch (SubmissionLevelException exception) {
+            String id = "null";
+            if (newBatchJob != null) {
+                id = newBatchJob.getId();
+                if (newBatchJob.getResourceEntries().size() == 0) {
+                    LOG.info(MessageSourceHelper.getMessage(messageSource, "CTLFILEPROC_WRNG_MSG1"));
+                    errorReport.warning(MessageSourceHelper.getMessage(messageSource, "CTLFILEPROC_WRNG_MSG1"), this);
+                }
+            }
+            handleExceptions(exchange, id, exception, controlFileName);
         } catch (Exception exception) {
             String id = "null";
             if (newBatchJob != null) {
@@ -162,6 +184,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
             if (newBatchJob != null) {
                 BatchJobUtils.stopStageAndAddToJob(stage, newBatchJob);
                 batchJobDAO.saveBatchJob(newBatchJob);
+                BatchJobUtils.writeWarningssWithDAO(newBatchJob.getId(), fileForControlFile.getName(), BATCH_JOB_STAGE, errorReport, batchJobDAO);
             }
         }
     }
@@ -248,7 +271,5 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
     @Override
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
-
     }
-
 }

@@ -148,9 +148,7 @@
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>East Daybreak Junior High</ID> 
-			</EducationOrgIdentificationCode>
+      <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>
@@ -172,9 +170,7 @@
     </MaximumAvailableCredit>
     <EducationOrganizationReference>
 		<EducationalOrgIdentity>
-			<EducationOrgIdentificationCode IdentificationSystem="School">
-				<ID>East Daybreak Junior High</ID> 
-			</EducationOrgIdentificationCode>
+      <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
 		</EducationalOrgIdentity>
 	</EducationOrganizationReference>
   </Course>

@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require "active_resource/base"
 require "oauth_helper"
 
@@ -52,16 +71,10 @@ class ApplicationController < ActionController::Base
       if oauth.token != nil
         SessionResource.access_token = oauth.token
         logger.debug "TOKEN = #{oauth.token}"
+        set_session
       elsif params[:code] && !oauth.has_code
         SessionResource.access_token = oauth.get_token(params[:code])
-        check = Check.get("")
-        email = SupportEmail.get("")
-        session[:support_email] = email
-        session[:full_name] ||= check["full_name"]   
-        session[:adminRealm] = check["adminRealm"]
-        session[:roles] = check["sliRoles"]
-        session[:edOrg] = check["edOrg"]
-        session[:external_id] = check["external_id"]
+        set_session
       else
         admin_realm = "#{APP_CONFIG['admin_realm']}"
         redirect_to oauth.authorize_url + "&Realm=" + CGI::escape(admin_realm) + "&state=" + CGI::escape(form_authenticity_token)
@@ -128,6 +141,21 @@ class ApplicationController < ActionController::Base
 
   def not_found
   	  raise ActionController::RoutingError.new('Not Found')
+  end
+  
+  def set_session
+    check = Check.get("")
+    if check['authenticated'] == false 
+      raise ActiveResource::UnauthorizedAccess, caller
+    end
+    email = SupportEmail.get("")
+    logger.debug { "Email #{email}"}
+    session[:support_email] = email
+    session[:full_name] ||= check["full_name"]   
+    session[:adminRealm] = check["adminRealm"]
+    session[:roles] = check["sliRoles"]
+    session[:edOrg] = check["edOrg"]
+    session[:external_id] = check["external_id"]
   end
 
 end

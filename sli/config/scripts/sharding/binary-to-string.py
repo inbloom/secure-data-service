@@ -37,4 +37,6 @@ for line in fixture_lines:
     #print "%s - %s" % (match.group(1), toJUUID(match.group(1)))
     if match != None:
         outfile.write(line.replace(match.group(0), '"' + toJUUID(match.group(1)) + '"') + '\n')
+    if match == None:
+        outfile.write(line + '\n')
 outfile.close()

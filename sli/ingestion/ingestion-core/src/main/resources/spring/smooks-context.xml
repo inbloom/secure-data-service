@@ -46,6 +46,7 @@
             <constructor-arg>
               <list>
                 <value>${smooks.targetselector.xml.section}</value>
+                <value>${smooks.targetselector.xml.courseOffering}</value>
               </list>
             </constructor-arg>
           </bean>
@@ -127,7 +128,6 @@
                 <value>${smooks.targetselector.xml.student.courseTranscript}</value>
                 <value>${smooks.targetselector.xml.student.studentGradebookEntry}</value>
                 <value>${smooks.targetselector.xml.student.studentAcademicRecord}</value>
-                <value>${smooks.targetselector.xml.student.studentAcademicRecordTemp}</value>
                 <value>${smooks.targetselector.xml.grade}</value>
                 <value>${smooks.targetselector.xml.reportCard}</value>
                 <value>${smooks.targetselector.xml.studentCompetency}</value>
@@ -180,138 +180,6 @@
                 </list>
               </constructor-arg>
             </bean>
-        </entry>
-        <entry key="#{T(org.slc.sli.ingestion.FileType).CSV_STUDENT}">
-          <bean class="org.slc.sli.ingestion.smooks.SliSmooksConfig">
-            <constructor-arg value="${smooks.config.student.csv}" />
-            <constructor-arg>
-              <list>
-                <value>${smooks.targetselector.csv}</value>
-              </list>
-            </constructor-arg>
-          </bean>
-        </entry>
-        <entry key="#{T(org.slc.sli.ingestion.FileType).CSV_SCHOOL}">
-          <bean class="org.slc.sli.ingestion.smooks.SliSmooksConfig">
-            <constructor-arg value="${smooks.config.school.csv}" />
-            <constructor-arg>
-              <list>
-                <value>${smooks.targetselector.csv}</value>
-              </list>
-            </constructor-arg>
-          </bean>
-        </entry>
-        <entry key="#{T(org.slc.sli.ingestion.FileType).CSV_STATE_EDUCATION_AGENCY}">
-          <bean class="org.slc.sli.ingestion.smooks.SliSmooksConfig">
-            <constructor-arg value="${smooks.config.stateEducationAgency.csv}" />
-            <constructor-arg>
-              <list>
-                <value>${smooks.targetselector.csv}</value>
-              </list>
-            </constructor-arg>
-          </bean>
-        </entry>
-        <entry key="#{T(org.slc.sli.ingestion.FileType).CSV_LOCAL_EDUCATION_AGENCY}">
-          <bean class="org.slc.sli.ingestion.smooks.SliSmooksConfig">
-            <constructor-arg value="${smooks.config.localEducationAgency.csv}" />
-            <constructor-arg>
-              <list>
-                <value>${smooks.targetselector.csv}</value>
-              </list>
-            </constructor-arg>
-          </bean>
-        </entry>
-        <entry key="#{T(org.slc.sli.ingestion.FileType).CSV_STUDENT_SCHOOL_ASSOCIATION}">
-          <bean class="org.slc.sli.ingestion.smooks.SliSmooksConfig">
-            <constructor-arg value="${smooks.config.student.school.csv}" />
-            <constructor-arg>
-              <list>
-                <value>${smooks.targetselector.csv}</value>
-              </list>
-            </constructor-arg>
-          </bean>
-        </entry>
-        <entry key="#{T(org.slc.sli.ingestion.FileType).CSV_STUDENT_SECTION_ASSOCIATION}">
-          <bean class="org.slc.sli.ingestion.smooks.SliSmooksConfig">
-            <constructor-arg value="${smooks.config.student.section.csv}" />
-            <constructor-arg>
-              <list>
-                <value>${smooks.targetselector.csv}</value>
-              </list>
-            </constructor-arg>
-          </bean>
-        </entry>
-
-        <entry key="#{T(org.slc.sli.ingestion.FileType).CSV_SECTION}">
-          <bean class="org.slc.sli.ingestion.smooks.SliSmooksConfig">
-            <constructor-arg value="${smooks.config.section.csv}" />
-            <constructor-arg>
-              <list>
-                <value>${smooks.targetselector.csv}</value>
-              </list>
-            </constructor-arg>
-          </bean>
-        </entry>
-        <entry key="#{T(org.slc.sli.ingestion.FileType).CSV_TEACHER_SCHOOL_ASSOCIATION}">
-          <bean class="org.slc.sli.ingestion.smooks.SliSmooksConfig">
-            <constructor-arg value="${smooks.config.teacher.school.csv}" />
-            <constructor-arg>
-              <list>
-                <value>${smooks.targetselector.csv}</value>
-              </list>
-            </constructor-arg>
-          </bean>
-        </entry>
-        <entry key="#{T(org.slc.sli.ingestion.FileType).CSV_TEACHER_SECTION_ASSOCIATION}">
-          <bean class="org.slc.sli.ingestion.smooks.SliSmooksConfig">
-            <constructor-arg value="${smooks.config.teacher.section.csv}" />
-            <constructor-arg>
-              <list>
-                <value>${smooks.targetselector.csv}</value>
-              </list>
-            </constructor-arg>
-          </bean>
-        </entry>
-        <entry key="#{T(org.slc.sli.ingestion.FileType).CSV_TEACHER}">
-          <bean class="org.slc.sli.ingestion.smooks.SliSmooksConfig">
-            <constructor-arg value="${smooks.config.teacher.csv}" />
-            <constructor-arg>
-              <list>
-                <value>${smooks.targetselector.csv}</value>
-              </list>
-            </constructor-arg>
-          </bean>
-        </entry>
-        <entry key="#{T(org.slc.sli.ingestion.FileType).CSV_COURSE}">
-          <bean class="org.slc.sli.ingestion.smooks.SliSmooksConfig">
-            <constructor-arg value="${smooks.config.course.csv}" />
-            <constructor-arg>
-              <list>
-                <value>${smooks.targetselector.csv}</value>
-              </list>
-            </constructor-arg>
-          </bean>
-        </entry>
-        <entry key="#{T(org.slc.sli.ingestion.FileType).CSV_OBJECTIVE_ASSESSMENT}">
-          <bean class="org.slc.sli.ingestion.smooks.SliSmooksConfig">
-            <constructor-arg value="${smooks.config.objective.assessment.csv}" />
-            <constructor-arg>
-              <list>
-                <value>${smooks.targetselector.csv}</value>
-              </list>
-            </constructor-arg>
-          </bean>
-        </entry>
-
-        <entry key="#{T(org.slc.sli.ingestion.FileType).CSV_SESSION}">
-          <bean class="org.slc.sli.ingestion.smooks.SliSmooksConfig">
-            <constructor-arg value="${smooks.config.session.csv}" />
-            <constructor-arg>
-              <list>
-                <value>${smooks.targetselector.csv}</value>
-              </list>
-            </constructor-arg>
-          </bean>
         </entry>
       </map>
     </property>

@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.service;
 
 import java.util.ArrayList;
@@ -12,6 +29,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
@@ -29,8 +47,10 @@ import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
 import org.slc.sli.api.security.context.resolver.EdOrgContextResolver;
+import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
+import org.slc.sli.api.security.service.SecurityCriteria;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
@@ -63,6 +83,44 @@ public class BasicService implements EntityService {
     private static final String[] collectionsExcluded = {"tenant" ,"userSession","realm","userAccount","roles","application","applicationAuthorization"};
     private static final Set<String> NOT_BY_TENANT = new HashSet<String>(Arrays.asList(collectionsExcluded));
 
+    private static final Set<String> teacherStampedEntities = new HashSet<String>(Arrays.asList(
+            EntityNames.ATTENDANCE,
+            EntityNames.COHORT,
+            EntityNames.COURSE,
+            EntityNames.COURSE_OFFERING,
+            EntityNames.DISCIPLINE_ACTION,
+            EntityNames.DISCIPLINE_INCIDENT,
+            EntityNames.GRADE,
+            EntityNames.GRADEBOOK_ENTRY,
+            EntityNames.GRADING_PERIOD,
+            EntityNames.PARENT,
+            EntityNames.PROGRAM,
+            EntityNames.REPORT_CARD,
+            EntityNames.SCHOOL,
+            EntityNames.SECTION,
+            EntityNames.SECTION_ASSESSMENT_ASSOCIATION,
+            EntityNames.SESSION,
+            EntityNames.STAFF,
+            EntityNames.STAFF_COHORT_ASSOCIATION,
+            EntityNames.STAFF_ED_ORG_ASSOCIATION,
+            EntityNames.STAFF_PROGRAM_ASSOCIATION,
+            EntityNames.STUDENT,
+            EntityNames.STUDENT_ACADEMIC_RECORD,
+            EntityNames.STUDENT_ASSESSMENT_ASSOCIATION,
+            EntityNames.STUDENT_COHORT_ASSOCIATION,
+            EntityNames.STUDENT_COMPETENCY,
+            EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
+            EntityNames.STUDENT_PARENT_ASSOCIATION,
+            EntityNames.STUDENT_PROGRAM_ASSOCIATION,
+            EntityNames.STUDENT_SCHOOL_ASSOCIATION,
+            EntityNames.STUDENT_SECTION_ASSOCIATION,
+            EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY,
+            EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION,
+            EntityNames.TEACHER,
+            EntityNames.TEACHER_SCHOOL_ASSOCIATION,
+            EntityNames.TEACHER_SECTION_ASSOCIATION
+    ));
+
     private String collectionName;
     private List<Treatment> treatments;
     private EntityDefinition defn;
@@ -89,6 +147,9 @@ public class BasicService implements EntityService {
     private EdOrgContextResolver edOrgContextResolver;
 
     @Autowired
+    private EdOrgToChildEdOrgNodeFilter edOrgNodeFilter;
+
+    @Autowired
     private BasicDefinitionStore definitionStore;
 
     public BasicService(String collectionName, List<Treatment> treatments, Right readRight, Right writeRight) {
@@ -108,8 +169,8 @@ public class BasicService implements EntityService {
         checkFieldAccess(neutralQuery);
 
 
-        NeutralCriteria securityCriteria = findAccessible(defn.getType());
-        List<String> allowed = (List<String>) securityCriteria.getValue();
+        SecurityCriteria securityCriteria = findAccessible(defn.getType());
+        List<String> allowed = (List<String>) securityCriteria.getSecurityCriteria().getValue();
 
         if (allowed.isEmpty() && readRight != Right.ANONYMOUS_ACCESS) {
             return 0;
@@ -126,20 +187,20 @@ public class BasicService implements EntityService {
         }
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
 
-        if (securityCriteria.getKey().equals("_id")) {
+        if (securityCriteria.getSecurityCriteria().getKey().equals("_id")) {
             if (allowed.size() >= 0 && readRight != Right.ANONYMOUS_ACCESS) {
                 if (!ids.isEmpty()) {
                     ids.retainAll(new HashSet<String>(allowed)); // retain only those IDs that area
                                                                  // allowed
                     //update the security criteria
-                    securityCriteria = new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, new ArrayList<String>(ids));
+                    securityCriteria.setSecurityCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, new ArrayList<String>(ids)));
                 }
             }
         }
 
         if (allowed.size() > 0) {
             //add the security criteria
-            localNeutralQuery.addCriteria(securityCriteria);
+            localNeutralQuery = securityCriteria.applySecurityCriteria(localNeutralQuery);
         }
         return repo.count(collectionName, localNeutralQuery);
     }
@@ -155,8 +216,8 @@ public class BasicService implements EntityService {
         checkRights(readRight);
         checkFieldAccess(neutralQuery);
 
-        NeutralCriteria securityCriteria = findAccessible(defn.getType());
-        List<String> allowed = (List<String>) securityCriteria.getValue();
+        SecurityCriteria securityCriteria = findAccessible(defn.getType());
+        List<String> allowed = (List<String>) securityCriteria.getSecurityCriteria().getValue();
 
         if (allowed.isEmpty()) {
             return Collections.emptyList();
@@ -169,7 +230,7 @@ public class BasicService implements EntityService {
         //not sure if this ever happen
         if (allowed.size() > 0) {
             //add the security criteria
-            neutralQuery.addCriteria(securityCriteria);
+            neutralQuery = securityCriteria.applySecurityCriteria(neutralQuery);
         }
         Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
 
@@ -327,8 +388,8 @@ public class BasicService implements EntityService {
         checkFieldAccess(neutralQuery);
 
 
-        NeutralCriteria securityCriteria = findAccessible(defn.getType());
-        List<String> allowed = (List<String>) securityCriteria.getValue();
+        SecurityCriteria securityCriteria = findAccessible(defn.getType());
+        List<String> allowed = (List<String>) securityCriteria.getSecurityCriteria().getValue();
 
         List<String> idList = new ArrayList<String>();
 
@@ -345,7 +406,7 @@ public class BasicService implements EntityService {
 
             if (allowed.size() > 0) {
                 //add the security criteria
-                neutralQuery.addCriteria(securityCriteria);
+                neutralQuery = securityCriteria.applySecurityCriteria(neutralQuery);
             }
 
             //add the ids requested
@@ -370,8 +431,8 @@ public class BasicService implements EntityService {
         checkRights(readRight);
         checkFieldAccess(neutralQuery);
 
-        NeutralCriteria securityCriteria = findAccessible(defn.getType());
-        List<String> allowed = (List<String>) securityCriteria.getValue();
+        SecurityCriteria securityCriteria = findAccessible(defn.getType());
+        List<String> allowed = (List<String>) securityCriteria.getSecurityCriteria().getValue();
 
         NeutralQuery localNeutralQuery = new NeutralQuery(neutralQuery);
 
@@ -382,7 +443,7 @@ public class BasicService implements EntityService {
         } else if (allowed.size() < 0) {
             debug("super list logic --> only true when using DefaultEntityContextResolver");
         } else {
-            if (securityCriteria.getKey().equals("_id")) {
+            if (securityCriteria.getSecurityCriteria().getKey().equals("_id")) {
                 Set<String> ids = new HashSet<String>();
                 List<NeutralCriteria> criterias = neutralQuery.getCriteria();
                 for (NeutralCriteria criteria : criterias) {
@@ -398,14 +459,14 @@ public class BasicService implements EntityService {
                     ids.retainAll(allowedSet);
 
                     //update the security criteria to only include the needed ids
-                    securityCriteria = new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, new ArrayList<String>(ids));
+                    securityCriteria.setSecurityCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, new ArrayList<String>(ids)));
                 }
             }
         }
 
         if (allowed.size() > 0) {
             //add the security criteria
-            localNeutralQuery.addCriteria(securityCriteria);
+            localNeutralQuery = securityCriteria.applySecurityCriteria(localNeutralQuery);
         }
 
         List<EntityBody> results = new ArrayList<EntityBody>();
@@ -720,15 +781,15 @@ public class BasicService implements EntityService {
      * @return
      */
     private boolean isEntityAllowed(String entityId, String collectionName, String toType) {
-        NeutralCriteria securityCriteria = findAccessible(toType);
-        List<String> allowed = (List<String>) securityCriteria.getValue();
+        SecurityCriteria securityCriteria = findAccessible(toType);
+        List<String> allowed = (List<String>) securityCriteria.getSecurityCriteria().getValue();
 
-        if (securityCriteria.getKey().equals("_id")) {
+        if (securityCriteria.getSecurityCriteria().getKey().equals("_id")) {
             return allowed.contains(entityId);
         } else {
             NeutralQuery query = new NeutralQuery();
             if (allowed.size() >= 0) {
-                query.addCriteria(securityCriteria);
+                query = securityCriteria.applySecurityCriteria(query);
             }
             query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, entityId));
             Entity found = repo.findOne(collectionName, query);
@@ -777,9 +838,10 @@ public class BasicService implements EntityService {
         return auth.getAuthorities();
     }
 
-    private NeutralCriteria findAccessible(String toType) {
-
+    private SecurityCriteria findAccessible(String toType) {
+        SecurityCriteria securityCriteria = new SecurityCriteria();
         String securityField = "_id";
+        String blackListedEdOrgs = null;
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         if (principal == null) {
@@ -792,18 +854,29 @@ public class BasicService implements EntityService {
         // entries
 
         if (isPublic()) {
-            return new NeutralCriteria(securityField, NeutralCriteria.CRITERIA_IN, AllowAllEntityContextResolver.SUPER_LIST);
+            securityCriteria.setSecurityCriteria(new NeutralCriteria(securityField, NeutralCriteria.CRITERIA_IN, AllowAllEntityContextResolver.SUPER_LIST));
+            return securityCriteria;
+        }
+
+        if( EntityNames.TEACHER.equals(type) && teacherStampedEntities.contains(toType)) {
+            securityCriteria.setSecurityCriteria(new NeutralCriteria("metaData.teacherContext", NeutralCriteria.CRITERIA_IN, Arrays.asList(principal.getEntity().getEntityId()), false));
+            return securityCriteria;
         }
 
         EntityContextResolver resolver = contextResolverStore.findResolver(type, toType);
         List<String> allowed = resolver.findAccessible(principal.getEntity());
 
-        if (type != null && type.equals(EntityNames.STAFF) &&
-            !((toType.equals(EntityNames.SCHOOL)) || (toType.equals(EntityNames.EDUCATION_ORGANIZATION)))) {
+        if (type != null && type.equals(EntityNames.STAFF)) {
             securityField = "metaData.edOrgs";
+
+            Set<String> blacklist = edOrgNodeFilter.getBlacklist();
+            blackListedEdOrgs = StringUtils.join(blacklist, ',');
         }
 
-        NeutralCriteria securityCriteria = new NeutralCriteria(securityField, NeutralCriteria.CRITERIA_IN, allowed, false);
+        securityCriteria.setSecurityCriteria(new NeutralCriteria(securityField, NeutralCriteria.CRITERIA_IN, allowed, false));
+        if (blackListedEdOrgs != null && !blackListedEdOrgs.isEmpty()) {
+            securityCriteria.setBlacklistCriteria(new NeutralCriteria(securityField, "nin", blackListedEdOrgs, false));
+        }
 
         return securityCriteria;
     }
@@ -812,8 +885,8 @@ public class BasicService implements EntityService {
         if (getAuths().contains(Right.FULL_ACCESS)) {
             return getAuths().contains(Right.FULL_ACCESS);
         } else {
-            return defn.getType().equals(EntityNames.LEARNINGOBJECTIVE)
-                    || defn.getType().equals(EntityNames.LEARNINGSTANDARD)
+            return defn.getType().equals(EntityNames.LEARNING_OBJECTIVE)
+                    || defn.getType().equals(EntityNames.LEARNING_STANDARD)
                     || defn.getType().equals(EntityNames.ASSESSMENT)
                     || defn.getType().equals(EntityNames.EDUCATION_ORGANIZATION);
         }

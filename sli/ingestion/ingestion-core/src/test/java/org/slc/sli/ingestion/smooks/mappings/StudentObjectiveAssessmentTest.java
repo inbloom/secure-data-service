@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.smooks.mappings;
 
 import java.util.List;
@@ -6,26 +23,25 @@ import java.util.Map;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.util.EntityTestUtils;
+import org.slc.sli.validation.EntityValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.util.EntityTestUtils;
-import org.slc.sli.validation.EntityValidator;
-
 /**
- *
+ * 
  * @author mpatel
- *
+ * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class StudentObjectiveAssessmentTest {
-
+    
     @Autowired
     private EntityValidator validator;
-
+    
     String xmlTestData = "<InterchangeStudentAssessment xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-StudentAssessment.xsd\" xmlns=\"http://ed-fi.org/0100RFC062811\">"
             + "<StudentObjectiveAssessment>"
             + "<ScoreResults AssessmentReportingMethod=\"Raw score\">"
@@ -39,60 +55,37 @@ public class StudentObjectiveAssessmentTest {
             + "</ObjectiveAssessmentReference>"
             + "</StudentObjectiveAssessment>"
             + "</InterchangeStudentAssessment>";
-
-    /*
-     * TODO: write CSV unit test
-     * public void testValidSectionCSV() throws Exception {
-     *
-     * String smooksConfig = "smooks_conf/smooks-studentObjectiveAssessment-csv.xml";
-     * String targetSelector = "csv-record";
-     *
-     * String testData = "";
-     *
-     * ByteArrayInputStream testInput = new ByteArrayInputStream(testData.getBytes());
-     * NeutralRecordFileReader nrfr = null;
-     * try {
-     * nrfr = EntityTestUtils.getNeutralRecords(testInput, smooksConfig, targetSelector);
-     *
-     * // Tests that the NeutralRecord was created
-     * Assert.assertTrue(nrfr.hasNext());
-     *
-     * NeutralRecord record = nrfr.next();
-     * checkValidSectionNeutralRecord(record);
-     * } finally {
-     * nrfr.close();
-     * }
-     * }
-     */
-
+    
     @Test
     public void testValidatorSection() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeStudentAssessment/StudentObjectiveAssessment";
-
+        
         NeutralRecord record = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, xmlTestData);
         EntityTestUtils.mapValidation(record.getAttributes(), "student.objective.assessment", validator);
     }
-
+    
     @Test
     public void testValidSectionXML() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
         String targetSelector = "InterchangeStudentAssessment/StudentObjectiveAssessment";
-
+        
         NeutralRecord record = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, xmlTestData);
         checkValidSectionNeutralRecord(record);
     }
-
+    
     private void checkValidSectionNeutralRecord(NeutralRecord record) {
         Map<String, Object> entity = record.getAttributes();
-
-        List scoreResultList = (List) entity.get("scoreResults");
+        
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> scoreResultList = (List<Map<String, Object>>) entity.get("scoreResults");
+        
         Assert.assertTrue(scoreResultList != null);
-        Map scoreResult = (Map) scoreResultList.get(0);
+        Map<String, Object> scoreResult = (Map<String, Object>) scoreResultList.get(0);
         Assert.assertTrue(scoreResult != null);
         Assert.assertEquals("12", scoreResult.get("result").toString());
         Assert.assertEquals("Raw score", scoreResult.get("assessmentReportingMethod"));
-        Assert.assertEquals("STA-TAKS-Reading-8-2011-604844", entity.get("studentTestAssessmentRef"));
+        Assert.assertEquals("STA-TAKS-Reading-8-2011-604844", entity.get("studentAssessmentRef"));
         Assert.assertEquals("TAKSReading8-1", entity.get("objectiveAssessmentRef"));
     }
 }
