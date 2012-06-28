@@ -9,6 +9,10 @@ Scenario: Post a zip file containing all configured interchanges as a payload of
 Given I post "GradebookEntry1.zip" file as the payload of the ingestion job
 	And the following collections are empty in datastore:
 	   | collectionName                |
+	   | educationOrganization         |
+	   | course                        |
+	   | session                       |
+	   | section                       |
 	   | gradebookEntry                |
 When zip file is scp to ingestion landing zone
 	And a batch job log has been created
