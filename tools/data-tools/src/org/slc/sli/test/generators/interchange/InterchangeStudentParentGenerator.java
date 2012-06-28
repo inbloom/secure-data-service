@@ -3,6 +3,9 @@
  */
 package org.slc.sli.test.generators.interchange;
 
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeEntityStatistic;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticEnd;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticStart;
 import java.util.Collection;
 import java.util.List;
 
@@ -14,7 +17,6 @@ import org.slc.sli.test.edfi.entities.meta.ParentMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentParentAssociationMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
-import org.slc.sli.test.generators.FastStudentGenerator;
 import org.slc.sli.test.generators.MediumStudentGenerator;
 import org.slc.sli.test.generators.ParentGenerator;
 import org.slc.sli.test.generators.StudentParentAssociationGenerator;
@@ -41,12 +43,16 @@ public class InterchangeStudentParentGenerator {
      * @return
      */
     public static InterchangeStudentParent generate()  throws Exception  {
+        long startTime = System.currentTimeMillis();
 
         InterchangeStudentParent interchange = new InterchangeStudentParent();
         List<Object> interchangeObjects = interchange.getStudentOrParentOrStudentParentAssociation();
 
+        writeInterchangeStatisticStart(interchange.getClass().getSimpleName());
+
         addEntitiesToInterchange(interchangeObjects);
         
+        writeInterchangeStatisticEnd(interchangeObjects.size(), System.currentTimeMillis() - startTime);
         return interchange;
     }
 
@@ -103,8 +109,8 @@ public class InterchangeStudentParentGenerator {
 
         }
 
-        System.out.println("generated " + studentMetas.size() + " Student objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("Student", studentMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
 
@@ -134,8 +140,8 @@ public class InterchangeStudentParentGenerator {
             interchangeObjects.add(parent);
         }
 
-        System.out.println("generated " + parentMetas.size() + " Parent objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("Parent", parentMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     /**
@@ -167,8 +173,8 @@ public class InterchangeStudentParentGenerator {
 
          }
 
-        System.out.println("generated " + objGenCounter + " StudentParentAssociation objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("StudentParentAssociation", objGenCounter, 
+                System.currentTimeMillis() - startTime);
     }
 
 }

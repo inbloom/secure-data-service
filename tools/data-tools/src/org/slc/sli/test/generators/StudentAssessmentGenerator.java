@@ -21,6 +21,11 @@ public class StudentAssessmentGenerator {
     private static final boolean INCLUDE_OPTIONAL_DATA = true;
     private static final Random RANDOM = new Random();
 
+    public static StudentAssessment generateMidFi(StudentAssessmentMeta studentAssessmentMeta) {
+        // LowFi generator fulfills midFi requirements in this case
+        return generateLowFi(studentAssessmentMeta);
+    }
+
     public static StudentAssessment generateLowFi(StudentAssessmentMeta studentAssessmentMeta) {
         StudentAssessment sa = new StudentAssessment();
         sa.setId(studentAssessmentMeta.xmlId);

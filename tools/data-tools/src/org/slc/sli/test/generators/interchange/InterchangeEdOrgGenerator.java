@@ -1,5 +1,10 @@
 package org.slc.sli.test.generators.interchange;
 
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeEntityStatistic;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticEnd;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticStart;
+import static org.slc.sli.test.utils.InterchangeWriter.REPORT_INDENTATION;
+
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -61,14 +66,19 @@ public class InterchangeEdOrgGenerator {
      * @throws Exception
      */
     public static InterchangeEducationOrganization generate() throws Exception {
-
+        long startTime = System.currentTimeMillis();
         
         InterchangeEducationOrganization interchange = new InterchangeEducationOrganization();
+
+        writeInterchangeStatisticStart(interchange.getClass().getSimpleName());
+
         List<Object> interchangeObjects = interchange
                 .getStateEducationAgencyOrEducationServiceCenterOrFeederSchoolAssociation();
 
         addEntitiesToInterchange(interchangeObjects);
 
+        writeInterchangeStatisticEnd(interchangeObjects.size(), System.currentTimeMillis() - startTime);
+        
         return interchange;
     }
 
@@ -118,8 +128,8 @@ public class InterchangeEdOrgGenerator {
             interchangeObjects.add(sea);
         }
 
-        System.out.println("generated " + seaMetas.size() + " StateEducationAgency objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("StateEducationAgency", seaMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     /**
@@ -144,8 +154,8 @@ public class InterchangeEdOrgGenerator {
             interchangeObjects.add(esc);
         }
 
-        System.out.println("generated " + escMetas.size() + " EducationServiceCenter objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("EducationServiceCenter", escMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
     
     /**
@@ -156,7 +166,8 @@ public class InterchangeEdOrgGenerator {
      */
     private static void generateFeederSchoolAssociation(List<Object> interchangeObjects, Collection<SchoolMeta> schools) {
         long startTime = System.currentTimeMillis();
-
+        long count = 0;
+        
         List<SchoolMeta> schoolMetas = new LinkedList<SchoolMeta>(schools);
         int schoolCount = schoolMetas.size();
         if(schoolCount > 1) {
@@ -167,10 +178,13 @@ public class InterchangeEdOrgGenerator {
                 fsa.setFeederRelationshipDescription("Feeder Relationship " +  i);
                 interchangeObjects.add(fsa);
             }
+            count = MetaRelations.FEEDER_RELATIONSHIPS;
+        } else {
+            count = 1;
         }
 
-        System.out.println("generated " + MetaRelations.FEEDER_RELATIONSHIPS + " FeederSchoolAssociation objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("FeederSchoolAssociation", count, 
+                System.currentTimeMillis() - startTime);
     }
     
     /**
@@ -195,8 +209,8 @@ public class InterchangeEdOrgGenerator {
             interchangeObjects.add(lea);
         }
 
-        System.out.println("generated " + leaMetas.size() + " LocalEducationAgency objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("LocalEducationAgency", leaMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     /**
@@ -213,7 +227,8 @@ public class InterchangeEdOrgGenerator {
             School school;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                school = null;
+                // if medFi requirements expand beyond the lowFi generator, implement and change this call
+                school = SchoolGenerator.generateLowFi(schoolMeta.id, schoolMeta.leaId, schoolMeta.programId);
             } else {
                 school = SchoolGenerator.generateLowFi(schoolMeta.id, schoolMeta.leaId, schoolMeta.programId);
             }
@@ -221,8 +236,8 @@ public class InterchangeEdOrgGenerator {
             interchangeObjects.add(school);
         }
 
-        System.out.println("generated " + schoolMetas.size() + " School objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("School", schoolMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     /**
@@ -240,7 +255,7 @@ public class InterchangeEdOrgGenerator {
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
             	//course = CourseGenerator.generateMidumFi(courseMeta.id, courseMeta.schoolId);
-            	course = null;
+            	course = gen.getCourse(courseMeta.id, courseMeta.schoolId);
             } else {
                 //course = CourseGenerator.generateLowFi(courseMeta.id, courseMeta.schoolId);
                 course = gen.getCourse(courseMeta.id, courseMeta.schoolId);
@@ -251,8 +266,10 @@ public class InterchangeEdOrgGenerator {
             interchangeObjects.add(course);
         }
 
-        System.out.println("generated " + courseMetas.size() + " Course objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + courseMetas.size() + " Course objects in: "
                 + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("Course", courseMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     /**
@@ -262,17 +279,24 @@ public class InterchangeEdOrgGenerator {
      * @param programMetas
      */
     private static void generatePrograms(List<Object> interchangeObjects, Collection<ProgramMeta> programMetas) {
+        long startTime = System.currentTimeMillis();
         for (ProgramMeta programMeta : programMetas) {
 
             Program program;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                program = null;
+                // lowFi generator fulfills mediumFi requirements for now
+                program = ProgramGenerator.generateLowFi(programMeta.id);
             } else {
                 program = ProgramGenerator.generateLowFi(programMeta.id);
             }
 
             interchangeObjects.add(program);
         }
+
+        System.out.println(REPORT_INDENTATION + "generated " + programMetas.size() + " Program objects in: "
+                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("Program", programMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 }

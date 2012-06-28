@@ -34,6 +34,10 @@ public class StudentCohortAssociationGenerator {
      * 
      * @return <code>List<StudentCohortAssociation></code>
      */
+    public static List<StudentCohortAssociation> generateMedFi(CohortMeta cohortMeta) {
+        return generateLowFi(cohortMeta);
+    }
+    
     public static List<StudentCohortAssociation> generateLowFi(CohortMeta cohortMeta) {
         String cohortId = cohortMeta.id;
         String schoolId = cohortMeta.programMeta==null ? cohortMeta.schoolMeta.id : cohortMeta.programMeta.orgId;

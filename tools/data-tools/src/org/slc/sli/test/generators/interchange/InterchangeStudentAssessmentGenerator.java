@@ -1,5 +1,7 @@
 package org.slc.sli.test.generators.interchange;
 
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeEntityStatistic;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import javax.xml.stream.XMLStreamException;
@@ -54,18 +56,24 @@ public class InterchangeStudentAssessmentGenerator {
 
     private static void generateStudentReference(Collection<StudentMeta> studentMetas, 
             InterchangeWriter<InterchangeStudentAssessment> writer) {
+        long startTime = System.currentTimeMillis();
+
         for (StudentMeta studentMeta : studentMetas) {
             StudentReferenceType studentReference = StudentGenerator.getStudentReferenceType(studentMeta.id);
             writer.marshal(studentReference);
         }
+        writeInterchangeEntityStatistic("StudentAssessment", studentMetas.size(), System.currentTimeMillis() - startTime);
     }
 
     private static void generateAssessmentReference(Collection<AssessmentMeta> assessmentMetas, 
             InterchangeWriter<InterchangeStudentAssessment> writer) {
+        long startTime = System.currentTimeMillis();
+
         for (AssessmentMeta assessmentMeta : assessmentMetas) {
             AssessmentReferenceType assessmentRef = AssessmentGenerator.getAssessmentReference(assessmentMeta.id);
             writer.marshal(assessmentRef);
         }
+        writeInterchangeEntityStatistic("StudentAssessment", assessmentMetas.size(), System.currentTimeMillis() - startTime);
     }
 
     private static Collection<StudentAssessment> generateStudentAssessments(
@@ -78,7 +86,7 @@ public class InterchangeStudentAssessmentGenerator {
             StudentAssessment studentAssessment;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                studentAssessment = null;
+                studentAssessment = StudentAssessmentGenerator.generateMidFi(studentAssessmentMeta);
             } else {
                 studentAssessment = StudentAssessmentGenerator.generateLowFi(studentAssessmentMeta);
             }
@@ -88,8 +96,7 @@ public class InterchangeStudentAssessmentGenerator {
             writer.marshal(studentAssessment);
         }
 
-        System.out.println("generated " + studentAssessmentMetas.size() + " StudentAssessment objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("StudentAssessment", studentAssessmentMetas.size(), System.currentTimeMillis() - startTime);
         return studentAssessments;
     }
 
@@ -104,7 +111,7 @@ public class InterchangeStudentAssessmentGenerator {
                 StudentObjectiveAssessment studentObjectiveAssessment;
                 
                 if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                    studentObjectiveAssessment = null;
+                    studentObjectiveAssessment = StudentObjectiveAssessmentGenerator.generateMidFi(studentAssessment);
                 } else {
                     studentObjectiveAssessment = StudentObjectiveAssessmentGenerator.generateLowFi(studentAssessment);
                 }
@@ -114,8 +121,7 @@ public class InterchangeStudentAssessmentGenerator {
             }
         }
 
-        System.out.println("generated " + count + " StudentObjectiveAssessment objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("StudentObjectiveAssessment", count, System.currentTimeMillis() - startTime);
     }
     
     private static void generateStudentAssessmentItems(
@@ -128,14 +134,14 @@ public class InterchangeStudentAssessmentGenerator {
         for (StudentAssessment studentAssessmentMeta : studentAssessmentMetas) {
             if ((int) (Math.random() * AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM) == 0) {
                 StudentAssessmentItem studentAssessmentItem;
+                AssessmentItemReferenceType airt = new AssessmentItemReferenceType();
+                AssessmentItemIdentityType aiit = new AssessmentItemIdentityType();
+                aiit.setAssessmentItemIdentificationCode("AssessmentItemReference");
+                airt.setAssessmentItemIdentity(aiit);
 
                 if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                    studentAssessmentItem = null;
+                    studentAssessmentItem = StudentAssessmentItemGenerator.generateMidFi(studentAssessmentMeta.getId()+"."+count, airt);
                 } else {
-                    AssessmentItemReferenceType airt = new AssessmentItemReferenceType();
-                    AssessmentItemIdentityType aiit = new AssessmentItemIdentityType();
-                    aiit.setAssessmentItemIdentificationCode("AssessmentItemReference");
-                    airt.setAssessmentItemIdentity(aiit);
                     studentAssessmentItem = StudentAssessmentItemGenerator.generateLowFi(studentAssessmentMeta.getId()+"."+count, airt);
                 }
 
@@ -144,8 +150,7 @@ public class InterchangeStudentAssessmentGenerator {
             }
         }
 
-        System.out.println("generated " + count + " StudentAssessmentItem objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("StudentAssessmentItem", count, System.currentTimeMillis() - startTime);
     }
 
 }

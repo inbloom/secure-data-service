@@ -1,5 +1,8 @@
 package org.slc.sli.test.generators.interchange;
 
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeEntityStatistic;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticEnd;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticStart;
 import java.util.Collection;
 import java.util.List;
 
@@ -30,12 +33,16 @@ public class InterchangeMasterScheduleGenerator {
      * @return
      */
     public static InterchangeMasterSchedule generate() {
+        long startTime = System.currentTimeMillis();
 
         InterchangeMasterSchedule interchange = new InterchangeMasterSchedule();
         List<ComplexObjectType> interchangeObjects = interchange.getCourseOfferingOrSectionOrBellSchedule();
 
+        writeInterchangeStatisticStart(interchange.getClass().getSimpleName());
+        
         addEntitiesToInterchange(interchangeObjects);
 
+        writeInterchangeStatisticEnd(interchangeObjects.size(), System.currentTimeMillis() - startTime);
         return interchange;
     }
 
@@ -64,8 +71,9 @@ public class InterchangeMasterScheduleGenerator {
             }
             interchangeObjects.add(courseOffering);
         }
-        System.out.println("Generated " + courseOfferingMetas.size() + " CourseOfferings in: "
-                + (System.currentTimeMillis() - startTime));
+
+        writeInterchangeEntityStatistic("CourseOffering", courseOfferingMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     /**
@@ -83,17 +91,18 @@ public class InterchangeMasterScheduleGenerator {
             Section section;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                section = null;
+                section = SectionGenerator.generateMediumFi(sectionMeta.id, sectionMeta.schoolId, sectionMeta.courseId,
+                        sectionMeta.sessionId);
             } else {
-            	section = SectionGenerator.generateMediumFi(sectionMeta.id, sectionMeta.schoolId, sectionMeta.courseId,
+            	section = SectionGenerator.generateLowFi(sectionMeta.id, sectionMeta.schoolId, sectionMeta.courseId,
                         sectionMeta.sessionId);
             }
 
             interchangeObjects.add(section);
         }
 
-        System.out.println("generated " + sectionMetas.size() + " Section objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("Section", sectionMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
 }

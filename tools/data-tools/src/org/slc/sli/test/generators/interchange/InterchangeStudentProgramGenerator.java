@@ -1,9 +1,10 @@
 package org.slc.sli.test.generators.interchange;
 
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeEntityStatistic;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticEnd;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticStart;
 import java.util.Collection;
 import java.util.List;
-import java.util.ArrayList;
-
 import org.slc.sli.test.edfi.entities.InterchangeStudentProgram;
 import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
@@ -34,10 +35,11 @@ public class InterchangeStudentProgramGenerator {
         InterchangeStudentProgram interchange = new InterchangeStudentProgram();
         List<Object> interchangeObjects = interchange.getStudentProgramAssociationOrStudentSpecialEdProgramAssociationOrRestraintEvent();
 
+        writeInterchangeStatisticStart(interchange.getClass().getSimpleName());
+
         addEntitiesToInterchange(interchangeObjects);
 
-        System.out.println("generated " + interchangeObjects.size() + " InterchangeStudentProgram entries in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeStatisticEnd(interchangeObjects.size(), System.currentTimeMillis() - startTime);
         return interchange;
     }
 
@@ -61,28 +63,34 @@ public class InterchangeStudentProgramGenerator {
      * @param programMetas
      */
     private static void generateProgramAssocs(List<Object> interchangeObjects, Collection<ProgramMeta> programMetas) {
+        long startTime = System.currentTimeMillis();
+        long count = 0;
 
         for (ProgramMeta programMeta : programMetas) {
 
-            generateStudentProgramAssoc(interchangeObjects, programMeta);
+            count += generateStudentProgramAssoc(interchangeObjects, programMeta);
 
             // StaffProgramAssociation is not included in any EdFi interchanges; it is a bug in edfi. 
             // It probably should belong to the student-program interchange. 
             // generateStaffProgramAssoc(interchangeObjects, programMeta);
         }
-
+        
+        writeInterchangeEntityStatistic("StudentProgramAssociation", count, 
+                System.currentTimeMillis() - startTime);
     }
 
-    private static void generateStudentProgramAssoc(List<Object> interchangeObjects, ProgramMeta programMeta) {
-
+    private static long generateStudentProgramAssoc(List<Object> interchangeObjects, ProgramMeta programMeta) {
         List<StudentProgramAssociation> retVal;
 
         if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-            retVal = new ArrayList<StudentProgramAssociation> ();
+            // if mediumFi requirements extend beyond the lowFi generator, implement and call it here
+            retVal = StudentProgramAssociationGenerator.generateLowFi(programMeta);
         } else {
             retVal = StudentProgramAssociationGenerator.generateLowFi(programMeta);
         }
         interchangeObjects.addAll(retVal);
+
+        return retVal.size();
     }
 
     /**
@@ -91,6 +99,9 @@ public class InterchangeStudentProgramGenerator {
      * @param interchangeObjects
      */
     private static void generateServiceDescriptor(List<Object> interchangeObjects) {
+        long startTime = System.currentTimeMillis();
+        long count = 0;
+
         ObjectFactory factory = new ObjectFactory();
         for (ProgramGenerator.ServiceDescriptor serviceDescriptor : ProgramGenerator.ServiceDescriptor.values()) {
             ServiceDescriptor sc = factory.createServiceDescriptor();
@@ -100,6 +111,9 @@ public class InterchangeStudentProgramGenerator {
             sc.setServiceCategory(serviceDescriptor.getServiceCategory());
             interchangeObjects.add(sc);
         }
+        
+        writeInterchangeEntityStatistic("ServiceDescriptor", count, 
+                System.currentTimeMillis() - startTime);
     }
     
 //    private static void generateStaffProgramAssoc(List<Object> interchangeObjects, ProgramMeta programMeta) {

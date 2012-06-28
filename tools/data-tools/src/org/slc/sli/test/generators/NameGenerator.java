@@ -16,7 +16,6 @@ import org.slc.sli.test.edfi.entities.PersonalInformationVerificationType;
 import org.slc.sli.test.edfi.entities.PersonalTitlePrefixType;
 
 public class NameGenerator {
-    private static final Logger log = Logger.getLogger(NameGenerator.class);
     private Random rand = new Random();
     private String familyName_US       = "database/name/familyName_US.csv";
     private String givenName_female_US = "database/name/givenName_female_US.csv";
@@ -62,7 +61,7 @@ public class NameGenerator {
             }
             else
             {
-                log.warn("Ignoring line [" + line + "] from [" + fileName + "].");
+                System.out.println("Warning: Ignoring line [" + line + "] from [" + fileName + "].");
             }
         }
         return colValues;
@@ -205,7 +204,6 @@ public class NameGenerator {
                     "GenerationCodeSuffix : " + name.getGenerationCodeSuffix() + ",\n" +
                     "MaidenName : " + name.getMaidenName() + ",\n" +
                     "Verification : " + name.getVerification();
-            log.info(nameString);
             System.out.println(nameString);
         }
     }

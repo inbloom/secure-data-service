@@ -31,6 +31,7 @@ import org.slc.sli.test.generators.interchange.InterchangeStudentGradeGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentParentGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentProgramGenerator;
 import org.slc.sli.test.utils.DataUtils;
+import org.slc.sli.test.utils.InterchangeStatisticsWriterUtils;
 import org.slc.sli.test.utils.InterchangeWriter;
 import org.slc.sli.test.utils.JaxbUtils;
 import org.slc.sli.test.utils.ValidateSchema;
@@ -72,6 +73,8 @@ public class StateEdFiXmlGenerator {
      */
     public static void main(String[] args) throws Exception {
 
+        InterchangeStatisticsWriterUtils.initStatisticsWriter(rootOutputPath);
+        
         processProgramArguments(args);
 
         MetaRelations.construct(args);
@@ -249,7 +252,6 @@ public class StateEdFiXmlGenerator {
      * @throws Exception
      */
     private static void studentProgram() throws Exception {
-
         InterchangeStudentProgram studentProgram = InterchangeStudentProgramGenerator.generate();
 
         String xmlFilePath = rootOutputPath + "/InterchangeStudentProgram.xml";
@@ -271,7 +273,7 @@ public class StateEdFiXmlGenerator {
 
         String xmlFilePath = rootOutputPath + "/InterchangeStudentCohort.xml";
 
-        JaxbUtils.marshal(studentCohort, new PrintStream(xmlFilePath));
+        JaxbUtils.marshal(studentCohort, new PrintStream(xmlFilePath, "UTF-8"));
 
         DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentCohort",
         xmlFilePath);
@@ -288,7 +290,7 @@ public class StateEdFiXmlGenerator {
 
         String xmlFilePath = rootOutputPath + "/InterchangeStudentDiscipline.xml";
 
-        JaxbUtils.marshal(studentDiscipline, new PrintStream(xmlFilePath));
+        JaxbUtils.marshal(studentDiscipline, new PrintStream(xmlFilePath, "UTF-8"));
 
         // TODO: uncomment when ingestion supports this
         DataUtils.writeControlFile(rootOutputPath + "/MainControlFile.ctl", "StudentDiscipline",

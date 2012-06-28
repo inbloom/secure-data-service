@@ -1,6 +1,10 @@
 package org.slc.sli.test.generators.interchange;
 
-import java.util.ArrayList;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeEntityStatistic;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticEnd;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticStart;
+import static org.slc.sli.test.utils.InterchangeWriter.REPORT_INDENTATION;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -35,10 +39,11 @@ public class InterchangeStudentCohortGenerator {
         InterchangeStudentCohort interchange = new InterchangeStudentCohort();
         List<Object> interchangeObjects = interchange.getCohortOrStudentCohortAssociationOrStaffCohortAssociation();
 
+        writeInterchangeStatisticStart(interchange.getClass().getSimpleName());
+
         addEntitiesToInterchange(interchangeObjects);
 
-        System.out.println("generated " + interchangeObjects.size() + " InterchangeStudentCohort entries in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeStatisticEnd(interchangeObjects.size(), System.currentTimeMillis() - startTime);
         return interchange;
     }
 
@@ -62,18 +67,22 @@ public class InterchangeStudentCohortGenerator {
      * @param cohortMetas
      */
     private static void generateCohortData(List<Object> interchangeObjects, Collection<CohortMeta> cohortMetas) {
+        long startTime = System.currentTimeMillis();
+        long count = 0;
 
         for (CohortMeta cohortMeta : cohortMetas) {
             Cohort retVal;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                retVal = null;
+                retVal = CohortGenerator.generateMidFi(cohortMeta);
             } else {
                 retVal = CohortGenerator.generateLowFi(cohortMeta);
             }
             interchangeObjects.add(retVal);
+            count++;
         }
         
+        writeInterchangeEntityStatistic("Cohort", count, System.currentTimeMillis() - startTime);
     }
 
     /**
@@ -84,18 +93,23 @@ public class InterchangeStudentCohortGenerator {
      * @param cohortMetas
      */
     private static void generateStaffCohortAssociationData(List<Object> interchangeObjects, Collection<CohortMeta> cohortMetas) {
+        long startTime = System.currentTimeMillis();
+        long count = 0;
 
         for (CohortMeta cohortMeta : cohortMetas) {
             StaffCohortAssociation retVal;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                retVal = null;
+                retVal = StaffCohortAssociationGenerator.generateMedFi(cohortMeta);
             } else {
                 retVal = StaffCohortAssociationGenerator.generateLowFi(cohortMeta);
             }
             interchangeObjects.add(retVal);
+            count++;
         }
         
+        writeInterchangeEntityStatistic("StaffCohortAssociation", count, 
+                System.currentTimeMillis() - startTime);
     }
 
     /**
@@ -106,18 +120,24 @@ public class InterchangeStudentCohortGenerator {
      * @param cohortMetas
      */
     private static void generateStudentCohortAssociation(List<Object> interchangeObjects, Collection<CohortMeta> cohortMetas) {
+        long startTime = System.currentTimeMillis();
+        long count = 0;
 
         for (CohortMeta cohortMeta : cohortMetas) {
             
             List<StudentCohortAssociation> retVal;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                retVal = new ArrayList<StudentCohortAssociation>(0);
+                retVal = StudentCohortAssociationGenerator.generateMedFi(cohortMeta);
             } else {
                 retVal = StudentCohortAssociationGenerator.generateLowFi(cohortMeta);
             }
             interchangeObjects.addAll(retVal);
+            count += retVal.size();
         }
+        
+        writeInterchangeEntityStatistic("StudentCohortAssociation", count, 
+                System.currentTimeMillis() - startTime);
     }
     
 }

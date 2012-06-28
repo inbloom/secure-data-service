@@ -1,6 +1,8 @@
 package org.slc.sli.test.generators.interchange;
 
-import java.util.Calendar;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeEntityStatistic;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticEnd;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticStart;
 import java.util.Collection;
 import java.util.List;
 
@@ -29,7 +31,6 @@ import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
  *
  */
 public class InterchangeEdOrgCalGenerator {
-    public static final int MAX_GRADING_PERIODS=20;
 
     private static GradingPeriodGenerator gpg = new GradingPeriodGenerator();
 
@@ -39,12 +40,16 @@ public class InterchangeEdOrgCalGenerator {
      * @return
      */
     public static InterchangeEducationOrgCalendar generate() {
+        long startTime = System.currentTimeMillis();
 
         InterchangeEducationOrgCalendar interchange = new InterchangeEducationOrgCalendar();
         List<ComplexObjectType> interchangeObjects = interchange.getSessionOrGradingPeriodOrCalendarDate();
 
+        writeInterchangeStatisticStart(interchange.getClass().getSimpleName());
+
         addEntitiesToInterchange(interchangeObjects);
 
+        writeInterchangeStatisticEnd(interchangeObjects.size(), System.currentTimeMillis() - startTime);
         return interchange;
     }
 
@@ -56,74 +61,74 @@ public class InterchangeEdOrgCalGenerator {
     private static void addEntitiesToInterchange(List<ComplexObjectType> interchangeObjects) {
 
         generateSessions(interchangeObjects, MetaRelations.SESSION_MAP.values());
-        
+
         generateGradingPeriod(interchangeObjects, MetaRelations.GRADINGPERIOD_MAP.values());
-        
+
         generateCalendar(interchangeObjects, MetaRelations.CALENDAR_MAP.values());
 
     }
-    
-    
-	private static void generateGradingPeriod(
-			List<ComplexObjectType> interchangeObjects,
-			Collection<GradingPeriodMeta> gradingPeriodMetas) {
-		long startTime = System.currentTimeMillis();
-		
-        int count=1;
+
+    private static void generateGradingPeriod(List<ComplexObjectType> interchangeObjects,
+            Collection<GradingPeriodMeta> gradingPeriodMetas) {
+        long startTime = System.currentTimeMillis();
+
+        int count = 1;
         String prevOrgId = "";
-		for (GradingPeriodMeta gradingPeriodMeta : gradingPeriodMetas) {
+        for (GradingPeriodMeta gradingPeriodMeta : gradingPeriodMetas) {
 
-			GradingPeriod gradingPeriod = null;
+            GradingPeriod gradingPeriod = null;
 
-			if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-				gradingPeriod = null;
-			} else {
-				// calendar = CalendarGenerator.generateLowFi(calendarMeta.id);
-				//gradingPeriod = gpg.getGradingPeriod();
-				for (String calendarId : gradingPeriodMeta.calendars) {
-				    if (count>MAX_GRADING_PERIODS) break;
-                    String orgId = calendarId.substring(0, calendarId.lastIndexOf("-"));
-                    orgId = orgId.substring(0, orgId.lastIndexOf("-"));
-                    if (!prevOrgId.equalsIgnoreCase(orgId)) count=1;
-                    prevOrgId = orgId;
-				    gradingPeriod = gpg.getGradingPeriod(orgId, count);
-				    gradingPeriod.setId(gradingPeriodMeta.id);
-					ReferenceType calRef = new ReferenceType();
-					calRef.setRef(new Ref(calendarId));
-					gradingPeriod.getCalendarDateReference().add(calRef);
-					count++;
-				}
-			}
+            // calendar = CalendarGenerator.generateLowFi(calendarMeta.id);
+            // gradingPeriod = gpg.getGradingPeriod();
+            for (String calendarId : gradingPeriodMeta.calendars) {
+                String orgId = calendarId.substring(0, calendarId.lastIndexOf("-"));
+                orgId = orgId.substring(0, orgId.lastIndexOf("-"));
+                if (!prevOrgId.equalsIgnoreCase(orgId))
+                    count = 1;
+                prevOrgId = orgId;
 
-			interchangeObjects.add(gradingPeriod);
-		}
+                if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                    // TODO update this to use its own generator if medFi requirements change
+                    gradingPeriod = gpg.getGradingPeriod(orgId, count);
+                } else {
+                    gradingPeriod = gpg.getGradingPeriod(orgId, count);
+                }
 
-		System.out.println("generated " + gradingPeriodMetas.size()
-				+ " GradingPeriod objects in: "
-				+ (System.currentTimeMillis() - startTime));
+                gradingPeriod.setId(gradingPeriodMeta.id);
+                ReferenceType calRef = new ReferenceType();
+                calRef.setRef(new Ref(calendarId));
+                gradingPeriod.getCalendarDateReference().add(calRef);
+                count++;
+            }
+
+            interchangeObjects.add(gradingPeriod);
+        }
+
+        writeInterchangeEntityStatistic("GradingPeriod", gradingPeriodMetas.size(), 
+                System.currentTimeMillis() - startTime);
 	}
 
-	private static void generateCalendar(List<ComplexObjectType> interchangeObjects, Collection<CalendarMeta> calendarMetas) {
-    	
-    	 long startTime = System.currentTimeMillis();
-         for (CalendarMeta calendarMeta : calendarMetas) {
+    private static void generateCalendar(List<ComplexObjectType> interchangeObjects,
+            Collection<CalendarMeta> calendarMetas) {
 
-        	 CalendarDate calendar;
+        long startTime = System.currentTimeMillis();
+        for (CalendarMeta calendarMeta : calendarMetas) {
 
-             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-            	 calendar = null;
-             } else {
-            	 calendar = CalendarDateGenerator.getCalendarDate(calendarMeta.id);
-             }
+            CalendarDate calendar;
 
-             interchangeObjects.add(calendar);
-         }
+            if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                calendar = CalendarDateGenerator.generateMidFi(calendarMeta.id);
+            } else {
+                calendar = CalendarDateGenerator.generateLowFi(calendarMeta.id);
+            }
 
-         System.out.println("generated " + calendarMetas.size() + " Calendar objects in: "
-                 + (System.currentTimeMillis() - startTime));
+            interchangeObjects.add(calendar);
+        }
+
+         writeInterchangeEntityStatistic("CalendarDate", calendarMetas.size(), 
+                 System.currentTimeMillis() - startTime);
      }
 
-    
     /**
      * Loops all sessions and, using an Session Generator, populates interchange data.
      *
@@ -139,16 +144,17 @@ public class InterchangeEdOrgCalGenerator {
             Session session;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                session = null;
+                session = SessionGenerator.generateMidFi(sessionMeta.id, sessionMeta.schoolId,
+                        sessionMeta.calendarList, sessionMeta.gradingPeriodList);
             } else {
-                session = SessionGenerator.generateLowFi(sessionMeta.id, sessionMeta.schoolId, sessionMeta.calendarList);
-            	//session = SessionGenerator.generateLowFi(sessionMeta.id, sessionMeta.schoolId, sessionMeta.calendarList, sessionMeta.gradingPeriodList);
+                session = SessionGenerator.generateLowFi(sessionMeta.id, sessionMeta.schoolId,
+                        sessionMeta.calendarList, sessionMeta.gradingPeriodList);
             }
 
             interchangeObjects.add(session);
         }
 
-        System.out.println("generated " + sessionMetas.size() + " Session objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("Session", sessionMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 }

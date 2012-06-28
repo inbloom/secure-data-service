@@ -48,6 +48,11 @@ public class StudentObjectiveAssessmentGenerator {
         return soa;
     }
 
+    public static StudentObjectiveAssessment generateMidFi(StudentAssessment studentAssessment) {
+        // LowFi generator fulfills midFi requirements in this case
+        return generateLowFi(studentAssessment);
+    }
+    
     public static StudentObjectiveAssessment generateLowFi(StudentAssessment studentAssessment) {
         StudentObjectiveAssessment soa = new StudentObjectiveAssessment();
 
@@ -64,7 +69,8 @@ public class StudentObjectiveAssessmentGenerator {
 //                PerformanceLevelDescriptorGenerator.getPerformanceLevelDescriptorType(randomPerfLevelDescId));
         PerformanceLevelDescriptorType pldt = new PerformanceLevelDescriptorType();
         pldt.setPerformanceLevelMet(true);
-        pldt.setCodeValue(randomPerfLevelDescId);
+        // TODO uncomment when DE864 is fixed
+//        pldt.setCodeValue(randomPerfLevelDescId);
 //        pldt.setDescription(randomPerfLevelDescId);
         soa.getPerformanceLevels().add(pldt);
         

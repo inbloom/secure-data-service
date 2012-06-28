@@ -263,19 +263,22 @@ public class SchoolGenerator {
         school.setAdministrativeFundingControl(AdministrativeFundingControlType.PUBLIC_SCHOOL);
 
         // construct and add the SEA reference
-//        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
-//        edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(leaId);
-//
-//        EducationalOrgReferenceType leaRef = new EducationalOrgReferenceType();
-//        leaRef.setEducationalOrgIdentity(edOrgIdentityType);
-//
-//        school.setLocalEducationAgencyReference(leaRef);
+        EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
+        edOrgIdentityType.setStateOrganizationId(leaId);
 
-        Ref leaRef = new Ref(leaId);
-        EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
-        eort.setRef(leaRef);
-        school.setLocalEducationAgencyReference(eort);
+        EducationalOrgReferenceType leaRef = new EducationalOrgReferenceType();
+        leaRef.setEducationalOrgIdentity(edOrgIdentityType);
 
+        school.setLocalEducationAgencyReference(leaRef);
+
+//        Ref leaRef = new Ref(leaId);
+//        EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
+//        eort.setRef(leaRef);
+//        school.setLocalEducationAgencyReference(eort);
+
+        
+        
+        
         Ref programRef = new Ref(programId);
         ProgramReferenceType prt = new ProgramReferenceType();
         prt.setRef(programRef);

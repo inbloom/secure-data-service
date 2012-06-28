@@ -1,5 +1,10 @@
 package org.slc.sli.test.generators.interchange;
 
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeEntityStatistic;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticEnd;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticStart;
+import static org.slc.sli.test.utils.InterchangeWriter.REPORT_INDENTATION;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -40,13 +45,17 @@ public class InterchangeStaffAssociationGenerator {
      * @throws Exception 
      */
     public static InterchangeStaffAssociation generate() throws Exception {
+        long startTime = System.currentTimeMillis();
 
         InterchangeStaffAssociation interchange = new InterchangeStaffAssociation();
         List<Object> interchangeObjects = interchange
                 .getStaffOrStaffEducationOrgEmploymentAssociationOrStaffEducationOrgAssignmentAssociation();
 
+        writeInterchangeStatisticStart(interchange.getClass().getSimpleName());
+
         addEntitiesToInterchange(interchangeObjects);
 
+        writeInterchangeStatisticEnd(interchangeObjects.size(), System.currentTimeMillis() - startTime);
         return interchange;
     }
 
@@ -89,17 +98,16 @@ public class InterchangeStaffAssociationGenerator {
             Teacher teacher;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                teacher = null;
+                teacher = TeacherGenerator.generateMediumFi(teacherMeta.id);
             } else {
-                //teacher = TeacherGenerator.generateLowFi(teacherMeta.id);
-            	teacher = TeacherGenerator.generateMediumFi(teacherMeta.id);
+                teacher = TeacherGenerator.generateLowFi(teacherMeta.id);
             }
 
             interchangeObjects.add(teacher);
         }
 
-        System.out.println("generated " + teacherMetas.size() + " Teacher objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("Teacher", teacherMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     private static void generateTeacherSchoolAssoc(List<Object> interchangeObjects, Collection<TeacherMeta> teacherMetas) {
@@ -112,7 +120,7 @@ public class InterchangeStaffAssociationGenerator {
                 TeacherSchoolAssociation teacherSchool;
 
                 if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                    teacherSchool = null;
+                    teacherSchool = TeacherSchoolAssociationGenerator.generateMediumFi(teacherMeta, schoolId);
                 } else {
                     teacherSchool = TeacherSchoolAssociationGenerator.generateLowFi(teacherMeta, schoolId);
                 }
@@ -123,8 +131,8 @@ public class InterchangeStaffAssociationGenerator {
             }
         }
 
-        System.out.println("generated " + objGenCounter + " TeacherSchoolAssociation objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("TeacherSchoolAssociation", objGenCounter, 
+                System.currentTimeMillis() - startTime);
     }
 
     private static void generateTeacherSectionAssoc(List<Object> interchangeObjects,
@@ -138,7 +146,7 @@ public class InterchangeStaffAssociationGenerator {
                 TeacherSectionAssociation teacherSection;
 
                 if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                    teacherSection = null;
+                    teacherSection = TeacherSectionAssociationGenerator.generateMediumFi(teacherMeta, sectionId);
                 } else {
                     teacherSection = TeacherSectionAssociationGenerator.generateLowFi(teacherMeta, sectionId);
                 }
@@ -149,8 +157,10 @@ public class InterchangeStaffAssociationGenerator {
             }
         }
 
-        System.out.println("generated " + objGenCounter + " TeacherSectionAssociation objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + objGenCounter + " TeacherSectionAssociation objects in: "
                 + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("TeacherSectionAssociation", objGenCounter, 
+                System.currentTimeMillis() - startTime);
     }
 
     /**
@@ -168,18 +178,18 @@ public class InterchangeStaffAssociationGenerator {
             Staff staff;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                staff = null;
-            } else {
-                //staff = StaffGenerator.generateLowFi(staffMeta.id);
                 staff = StaffGenerator.generateMediumFi(staffMeta.id);
-                
+            } else {
+                staff = StaffGenerator.generateLowFi(staffMeta.id);
             }
 
             interchangeObjects.add(staff);
         }
 
-        System.out.println("generated " + staffMetas.size() + " Staff objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + staffMetas.size() + " Staff objects in: "
                 + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("Staff", staffMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     private static void generateStaffEdOrgEmploymentAssoc(List<Object> interchangeObjects,
@@ -191,7 +201,7 @@ public class InterchangeStaffAssociationGenerator {
             StaffEducationOrgEmploymentAssociation staffEdOrgEmploymentAssoc;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                staffEdOrgEmploymentAssoc = null;
+                staffEdOrgEmploymentAssoc = StaffEdOrgEmploymentAssociationGenerator.generateMediumFi(staffMeta);
             } else {
                 staffEdOrgEmploymentAssoc = StaffEdOrgEmploymentAssociationGenerator.generateLowFi(staffMeta);
             }
@@ -199,8 +209,8 @@ public class InterchangeStaffAssociationGenerator {
             interchangeObjects.add(staffEdOrgEmploymentAssoc);
         }
 
-        System.out.println("generated " + staffMetas.size() + " StaffEducationOrgEmploymentAssociation objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("StaffEducationOrgEmploymentAssociation", staffMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     private static void generateStaffEdOrgAssignmentAssoc(List<Object> interchangeObjects,
@@ -212,7 +222,7 @@ public class InterchangeStaffAssociationGenerator {
             StaffEducationOrgAssignmentAssociation staffEdOrgAssignmentAssoc;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                staffEdOrgAssignmentAssoc = null;
+                staffEdOrgAssignmentAssoc = StaffEdOrgAssignmentAssociationGenerator.generateMediumFi(staffMeta);
             } else {
                 staffEdOrgAssignmentAssoc = StaffEdOrgAssignmentAssociationGenerator.generateLowFi(staffMeta);
             }
@@ -220,8 +230,8 @@ public class InterchangeStaffAssociationGenerator {
             interchangeObjects.add(staffEdOrgAssignmentAssoc);
         }
 
-        System.out.println("generated " + staffMetas.size() + " StaffEducationOrgAssignmentAssociation objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("StaffEducationOrgAssignmentAssociation", staffMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
     
     /**
@@ -239,7 +249,7 @@ public class InterchangeStaffAssociationGenerator {
             StaffProgramAssociation staffProgramAssociation;
             
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                staffProgramAssociation = null;
+                staffProgramAssociation = StaffProgramAssociationGenerator.generateMediumFi(programMeta);
             } else {
                 staffProgramAssociation = StaffProgramAssociationGenerator.generateLowFi(programMeta);
             }
@@ -248,8 +258,7 @@ public class InterchangeStaffAssociationGenerator {
             count++;
         }
         
-        System.out.println("generated " + count + " StaffProgramAssociation objects in: "
-                + (System.currentTimeMillis() - startTime));
-        
+        writeInterchangeEntityStatistic("StaffProgramAssociation", count, 
+                System.currentTimeMillis() - startTime);        
     }
 }

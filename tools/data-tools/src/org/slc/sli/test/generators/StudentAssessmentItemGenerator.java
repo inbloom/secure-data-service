@@ -14,7 +14,8 @@ public class StudentAssessmentItemGenerator {
         this.optional = optional;
     }
 
-    public StudentAssessmentItem generate(String id, AssessmentItemReferenceType assessmentItemReference, ReferenceType studentTestAssessmentReference, ReferenceType studentObjectiveAssessmentReference) {
+    public StudentAssessmentItem generate(String id, AssessmentItemReferenceType assessmentItemReference, 
+            ReferenceType studentTestAssessmentReference, ReferenceType studentObjectiveAssessmentReference) {
         StudentAssessmentItem sai = new StudentAssessmentItem();
 
         sai.setId(id);
@@ -41,12 +42,13 @@ public class StudentAssessmentItemGenerator {
         return sai;
     }
 
-    public StudentAssessmentItem generate(String id, AssessmentItemReferenceType assessmentItemReference) {
-        return generate(id, assessmentItemReference, null, null);
+    public static StudentAssessmentItem generateMidFi(String id, AssessmentItemReferenceType assessmentItemReference) {
+        StudentAssessmentItemGenerator saig = new StudentAssessmentItemGenerator(true);
+        return saig.generate(id, assessmentItemReference, null, null);
     }
 
     public static StudentAssessmentItem generateLowFi(String id, AssessmentItemReferenceType assessmentItemReference) {
         StudentAssessmentItemGenerator saig = new StudentAssessmentItemGenerator(false);
-        return saig.generate(id, assessmentItemReference);
+        return saig.generate(id, assessmentItemReference, null, null);
     }
 }

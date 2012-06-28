@@ -28,12 +28,12 @@ public class StaffGenerator {
 	  try {
 		  ag =  new AddressGenerator(StateAbbreviationType.NY);
 		  ng = new NameGenerator();
-		  tg =new TelephoneGenerator(); 
+		  tg =new TelephoneGenerator();
 	  } catch (Exception e) {
 		  e.printStackTrace();
 	  }
   }
-    
+
     public StaffGenerator(StateAbbreviationType state, boolean optional) {
         try {
             ng = new NameGenerator();
@@ -63,7 +63,7 @@ public class StaffGenerator {
     }
 
     protected static void populateFields(Staff staff, String staffId) throws Exception {
-    	 
+
         try {
             staff.setId(staffId);
             staff.setStaffUniqueStateId(staffId);
@@ -131,6 +131,7 @@ public class StaffGenerator {
     }
 
     protected static void populateFieldsLowFi(Staff staff, String staffId) {
+        staff.setId(staffId);
         staff.setStaffUniqueStateId(staffId);
         Name name = new Name();
         name.setFirstName("Gaius");

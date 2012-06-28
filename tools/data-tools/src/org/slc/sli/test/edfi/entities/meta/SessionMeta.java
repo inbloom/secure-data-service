@@ -8,9 +8,9 @@ public class SessionMeta {
     public final String schoolId;
 
     public final String simpleId;
-    
+
     public List<String> calendarList = new ArrayList<String>();
-    //public List<String> gradingPeriodList = new ArrayList<String>();
+    public List<String> gradingPeriodList = new ArrayList<String>();
 
     public SessionMeta(String id, SchoolMeta schoolMeta) {
         this.id = schoolMeta.id + "-" + id;

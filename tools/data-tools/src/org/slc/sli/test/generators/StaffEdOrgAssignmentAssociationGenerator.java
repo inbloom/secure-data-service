@@ -11,6 +11,11 @@ import org.slc.sli.test.edfi.entities.meta.StaffMeta;
 
 public class StaffEdOrgAssignmentAssociationGenerator {
 
+    public static StaffEducationOrgAssignmentAssociation generateMediumFi(StaffMeta staffMeta) {
+        // TODO update if medFi requirements go beyond lowFi for this entity
+        return generateLowFi(staffMeta);
+    }
+    
     public static StaffEducationOrgAssignmentAssociation generateLowFi(StaffMeta staffMeta) {
         StaffEducationOrgAssignmentAssociation staffEdOrgAssignmentAssoc = new StaffEducationOrgAssignmentAssociation();
 

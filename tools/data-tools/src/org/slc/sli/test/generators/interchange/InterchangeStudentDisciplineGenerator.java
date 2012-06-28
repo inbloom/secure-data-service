@@ -1,6 +1,8 @@
 package org.slc.sli.test.generators.interchange;
 
-import java.util.ArrayList;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeEntityStatistic;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticEnd;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticStart;
 import java.util.Collection;
 import java.util.List;
 
@@ -36,10 +38,11 @@ public class InterchangeStudentDisciplineGenerator {
         InterchangeStudentDiscipline interchange = new InterchangeStudentDiscipline();
         List<Object> interchangeObjects = interchange.getDisciplineIncidentOrStudentDisciplineIncidentAssociationOrDisciplineAction();
 
+        writeInterchangeStatisticStart(interchange.getClass().getSimpleName());
+
         addEntitiesToInterchange(interchangeObjects);
 
-        System.out.println("generated " + interchangeObjects.size() + " InterchangeStudentDiscipline entries in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeStatisticEnd(interchangeObjects.size(), System.currentTimeMillis() - startTime);
         return interchange;
     }
 
@@ -63,18 +66,22 @@ public class InterchangeStudentDisciplineGenerator {
      * @param disciplineIncidentMetas
      */
     private static void generateDisciplineIncidentData(List<Object> interchangeObjects, Collection<DisciplineIncidentMeta> disciplineIncidentMetas) {
+        long startTime = System.currentTimeMillis();
 
         for (DisciplineIncidentMeta disciplineIncidentMeta : disciplineIncidentMetas) {
             DisciplineIncident retVal;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                retVal = null;
+                // lowFi generator fulfills mediumFi requirements for now
+                retVal = DisciplineIncidentGenerator.generateLowFi(disciplineIncidentMeta);
             } else {
                 retVal = DisciplineIncidentGenerator.generateLowFi(disciplineIncidentMeta);
             }
             interchangeObjects.add(retVal);
         }
         
+        writeInterchangeEntityStatistic("DisciplineIncident", disciplineIncidentMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     /**
@@ -85,18 +92,22 @@ public class InterchangeStudentDisciplineGenerator {
      * @param disciplineActionMetas
      */
     private static void generateDisciplineActionData(List<Object> interchangeObjects, Collection<DisciplineActionMeta> disciplineActionMetas) {
+        long startTime = System.currentTimeMillis();
 
         for (DisciplineActionMeta disciplineActionMeta : disciplineActionMetas) {
             DisciplineAction retVal;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                retVal = null;
+                // lowFi generator fulfills mediumFi requirements for now
+                retVal = DisciplineActionGenerator.generateLowFi(disciplineActionMeta);
             } else {
                 retVal = DisciplineActionGenerator.generateLowFi(disciplineActionMeta);
             }
             interchangeObjects.add(retVal);
         }
         
+        writeInterchangeEntityStatistic("DisciplineAction", disciplineActionMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     /**
@@ -107,18 +118,25 @@ public class InterchangeStudentDisciplineGenerator {
      * @param disciplineIncidentMetas
      */
     private static void generateStudentDisciplineIncidentAssociation(List<Object> interchangeObjects, Collection<DisciplineIncidentMeta> disciplineIncidentMetas) {
-
+        long startTime = System.currentTimeMillis();
+        long count = 0;
+        
         for (DisciplineIncidentMeta disciplineIncidentMeta : disciplineIncidentMetas) {
             
             List<StudentDisciplineIncidentAssociation> retVal;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                retVal = new ArrayList<StudentDisciplineIncidentAssociation>(0);
+                // lowFi generator fulfills mediumFi requirements for now
+                retVal = StudentDisciplineAssociationGenerator.generateLowFi(disciplineIncidentMeta);
             } else {
                 retVal = StudentDisciplineAssociationGenerator.generateLowFi(disciplineIncidentMeta);
             }
             interchangeObjects.addAll(retVal);
+            count += retVal.size();
         }
+
+        writeInterchangeEntityStatistic("StudentDisciplineIncidentAssociation", count, 
+                System.currentTimeMillis() - startTime);
     }
     
 }

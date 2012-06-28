@@ -31,7 +31,11 @@ public class CohortGenerator {
      *
      * @return <code>Cohort</code>
      */
-    public static Cohort generateLowFi(CohortMeta cohortMeta) {
+    public static Cohort generateMidFi(CohortMeta cohortMeta) {
+        return generateLowFi(cohortMeta);
+    }
+    
+	public static Cohort generateLowFi(CohortMeta cohortMeta) {
         String cohortId = cohortMeta.id;
         String programId = cohortMeta.programMeta==null ? null : cohortMeta.programMeta.id;
         String schoolId = cohortMeta.programMeta==null ? cohortMeta.schoolMeta.id : cohortMeta.programMeta.orgId;

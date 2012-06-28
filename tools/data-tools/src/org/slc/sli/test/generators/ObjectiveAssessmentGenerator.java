@@ -17,22 +17,23 @@ public class ObjectiveAssessmentGenerator {
         objectiveAssessment.setIdentificationCode(objAssessMeta.id);
         objectiveAssessment.setMaxRawScore(100);
 
-        for (String plDescString : objAssessMeta.performanceLevelDescriptorIds) {
-            AssessmentPerformanceLevel apLevel = new AssessmentPerformanceLevel();
-
-//            apLevel.setPerformanceLevel(PerformanceLevelDescriptorGenerator
-//                    .getPerformanceLevelDescriptorType(plDescString));
-            PerformanceLevelDescriptorType pldt = new PerformanceLevelDescriptorType();
-            pldt.setPerformanceLevelMet(true);
-            pldt.setCodeValue(plDescString);
-            apLevel.setPerformanceLevel(pldt);
-
-            apLevel.setAssessmentReportingMethod(AssessmentReportingMethodType.ADAPTIVE_SCALE_SCORE);
-            apLevel.setMinimumScore(0);
-            apLevel.setMaximumScore(100);
-
-            objectiveAssessment.getAssessmentPerformanceLevel().add(apLevel);
-        }
+        // TODO uncomment when DE864 is fixed
+//        for (String plDescString : objAssessMeta.performanceLevelDescriptorIds) {
+//            AssessmentPerformanceLevel apLevel = new AssessmentPerformanceLevel();
+//
+////            apLevel.setPerformanceLevel(PerformanceLevelDescriptorGenerator
+////                    .getPerformanceLevelDescriptorType(plDescString));
+//            PerformanceLevelDescriptorType pldt = new PerformanceLevelDescriptorType();
+//            pldt.setPerformanceLevelMet(true);
+//            pldt.setCodeValue(plDescString);
+//            apLevel.setPerformanceLevel(pldt);
+//
+//            apLevel.setAssessmentReportingMethod(AssessmentReportingMethodType.ADAPTIVE_SCALE_SCORE);
+//            apLevel.setMinimumScore(0);
+//            apLevel.setMaximumScore(100);
+//
+//            objectiveAssessment.getAssessmentPerformanceLevel().add(apLevel);
+//        }
         objectiveAssessment.setPercentOfAssessment(50);
         objectiveAssessment.setNomenclature("Nomenclature");
 

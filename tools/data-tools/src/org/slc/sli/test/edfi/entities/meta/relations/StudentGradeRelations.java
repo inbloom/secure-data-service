@@ -29,7 +29,7 @@ public class StudentGradeRelations {
     //    A ReportCard has Grades for every Section
     //    A ReportCard has StudentCompetencies
     //        A StudentCompetency has LearningObjective|StudentCompetencyObjective and CompetencyLevelDescriptor 
-            
+
     public static final int REPORT_CARDS                              = 1;  
     
     public static final int LEARNING_OBJECTIVES_PER_REPORT            = 1;       

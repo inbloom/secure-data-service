@@ -20,11 +20,18 @@ import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.SectionReferenceType;
 import org.slc.sli.test.edfi.entities.meta.AssessmentMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
+import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 public class AssessmentGenerator {
 
     public static Assessment generate(AssessmentMeta assessmentMeta, Map<String, ObjectiveAssessment> objAssessMap) {
-        return generate(MetaRelations.DEFAULT_DATA_FIDELITY_TYPE, assessmentMeta, objAssessMap);
+        DataFidelityType fidelity = DataFidelityType.MID_FI;
+        
+        if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+            fidelity = DataFidelityType.MID_FI;
+        }
+
+        return generate(fidelity, assessmentMeta, objAssessMap);
     }
     
     public static Assessment generate(DataFidelityType fidelity, AssessmentMeta assessmentMeta, Map<String, ObjectiveAssessment> objAssessMap) {

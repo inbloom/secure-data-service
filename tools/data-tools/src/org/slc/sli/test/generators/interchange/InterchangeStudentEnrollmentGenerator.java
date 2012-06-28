@@ -1,5 +1,10 @@
 package org.slc.sli.test.generators.interchange;
 
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeEntityStatistic;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticEnd;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.writeInterchangeStatisticStart;
+import static org.slc.sli.test.utils.InterchangeWriter.REPORT_INDENTATION;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -30,13 +35,17 @@ public class InterchangeStudentEnrollmentGenerator {
      * @return
      */
     public static InterchangeStudentEnrollment generate() {
+        long startTime = System.currentTimeMillis();
 
         InterchangeStudentEnrollment interchange = new InterchangeStudentEnrollment();
         List<Object> interchangeObjects = interchange
                 .getStudentSchoolAssociationOrStudentSectionAssociationOrGraduationPlan();
 
+        writeInterchangeStatisticStart(interchange.getClass().getSimpleName());
+
         addEntitiesToInterchange(interchangeObjects);
 
+        writeInterchangeStatisticEnd(interchangeObjects.size(), System.currentTimeMillis() - startTime);
         return interchange;
     }
 
@@ -67,7 +76,9 @@ public class InterchangeStudentEnrollmentGenerator {
 			GraduationPlan graduationPlan;
 
 			if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-				graduationPlan = null;
+                // lowFi generator fulfills mediumFi requirements for now
+				graduationPlan = GraduationPlanGenerator
+                        .generateLowFi(graduationPlanMeta.id);
 			} else {
 				graduationPlan = GraduationPlanGenerator
 						.generateLowFi(graduationPlanMeta.id);
@@ -78,9 +89,8 @@ public class InterchangeStudentEnrollmentGenerator {
 			objGenCounter++;
 		}
 
-		System.out.println("generated " + objGenCounter
-				+ " GraduationPlan objects in: "
-				+ (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("GraduationPlan", objGenCounter, 
+                System.currentTimeMillis() - startTime);
    }
     
     /**
@@ -100,7 +110,8 @@ public class InterchangeStudentEnrollmentGenerator {
                 StudentSchoolAssociation studentSchool;
 
                 if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                    studentSchool = null;
+                    // lowFi generator fulfills mediumFi requirements for now
+                    studentSchool = StudentSchoolAssociationGenerator.generateLowFi(studentMeta.id, schoolId);
                 } else {
                     studentSchool = StudentSchoolAssociationGenerator.generateLowFi(studentMeta.id, schoolId);
                 }
@@ -111,8 +122,10 @@ public class InterchangeStudentEnrollmentGenerator {
             }
         }
 
-        System.out.println("generated " + objGenCounter + " StudentSchoolAssociation objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + objGenCounter + " StudentSchoolAssociation objects in: "
                 + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("StudentSchoolAssociation", objGenCounter, 
+                System.currentTimeMillis() - startTime);
     }
 
     /**
@@ -132,7 +145,9 @@ public class InterchangeStudentEnrollmentGenerator {
                 StudentSectionAssociation studentSection;
 
                 if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                    studentSection = null;
+                    // lowFi generator fulfills mediumFi requirements for now
+                    studentSection = StudentSectionAssociationGenerator.generateLowFi(studentMeta.id,
+                            studentMeta.schoolIds.get(0), sectionId);
                 } else {
                     studentSection = StudentSectionAssociationGenerator.generateLowFi(studentMeta.id,
                             studentMeta.schoolIds.get(0), sectionId);
@@ -144,8 +159,10 @@ public class InterchangeStudentEnrollmentGenerator {
             }
         }
 
-        System.out.println("generated " + objGenCounter + " StudentSectionAssociation objects in: "
+        System.out.println(REPORT_INDENTATION + "generated " + objGenCounter + " StudentSectionAssociation objects in: "
                 + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("StudentSectionAssociation", objGenCounter, 
+                System.currentTimeMillis() - startTime);
     }
 
 }

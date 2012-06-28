@@ -33,16 +33,23 @@ import org.slc.sli.test.generators.LearningStandardGenerator;
 import org.slc.sli.test.generators.ObjectiveAssessmentGenerator;
 import org.slc.sli.test.generators.PerformanceLevelDescriptorGenerator;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
+import static org.slc.sli.test.utils.InterchangeStatisticsWriterUtils.*;
 
 public class InterchangeAssessmentMetadataGenerator {
 
     public static InterchangeAssessmentMetadata generate() {
+        long startTime = System.currentTimeMillis();
+
         InterchangeAssessmentMetadata interchange = new InterchangeAssessmentMetadata();
         List<ComplexObjectType> interchangeObjects = interchange
                 .getAssessmentFamilyOrAssessmentOrAssessmentPeriodDescriptor();
 
+        writeInterchangeStatisticStart(interchange.getClass().getSimpleName());
+
         addEntitiesToInterchange(interchangeObjects);
 
+        writeInterchangeStatisticEnd(interchangeObjects.size(), System.currentTimeMillis() - startTime);
+        
         return interchange;
     }
 
@@ -74,7 +81,8 @@ public class InterchangeAssessmentMetadataGenerator {
             LearningStandard learningStandard;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                learningStandard = null;
+                // if mediumFi requirements extend beyond the lowFi generator, implement and call it here
+                learningStandard = LearningStandardGenerator.generateLowFi(learningStandardMeta.id);
             } else {
                 learningStandard = LearningStandardGenerator.generateLowFi(learningStandardMeta.id);
             }
@@ -82,8 +90,8 @@ public class InterchangeAssessmentMetadataGenerator {
             interchangeObjects.add(learningStandard);
         }
 
-        System.out.println("generated " + learningStandardMetas.size() + " LearningStandard objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("LearningStandard", learningStandardMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     private static void generateLearningObjectives(List<ComplexObjectType> interchangeObjects,
@@ -94,7 +102,8 @@ public class InterchangeAssessmentMetadataGenerator {
             LearningObjective learningObjective;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                learningObjective = null;
+                // if mediumFi requirements extend beyond the lowFi generator, implement and call it here
+                learningObjective = LearningObjectiveGenerator.generateLowFi(learningObjectiveMeta);
             } else {
                 learningObjective = LearningObjectiveGenerator.generateLowFi(learningObjectiveMeta);
             }
@@ -102,8 +111,8 @@ public class InterchangeAssessmentMetadataGenerator {
             interchangeObjects.add(learningObjective);
         }
 
-        System.out.println("generated " + learningObjectiveMetas.size() + " LearningObjective objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("LearningObjective", learningObjectiveMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     private static void generateAssessmentItems(List<ComplexObjectType> interchangeObjects,
@@ -114,7 +123,8 @@ public class InterchangeAssessmentMetadataGenerator {
             AssessmentItem assessmentItem;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                assessmentItem = null;
+                // if mediumFi requirements extend beyond the lowFi generator, implement and call it here
+                assessmentItem = AssessmentItemGenerator.generateLowFi(assessmentItemMeta);
             } else {
                 assessmentItem = AssessmentItemGenerator.generateLowFi(assessmentItemMeta);
             }
@@ -122,8 +132,8 @@ public class InterchangeAssessmentMetadataGenerator {
             interchangeObjects.add(assessmentItem);
         }
 
-        System.out.println("generated " + assessmentItemMetas.size() + " AssessmentItem objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("AssessmentItem", assessmentItemMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     private static void generatePerformanceLevelDescriptors(List<ComplexObjectType> interchangeObjects,
@@ -134,7 +144,8 @@ public class InterchangeAssessmentMetadataGenerator {
             PerformanceLevelDescriptor perfLevelDesc;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                perfLevelDesc = null;
+                // if mediumFi requirements extend beyond the lowFi generator, implement and call it here
+                perfLevelDesc = PerformanceLevelDescriptorGenerator.generateLowFi(perfLevelDescMeta);
             } else {
                 perfLevelDesc = PerformanceLevelDescriptorGenerator.generateLowFi(perfLevelDescMeta);
             }
@@ -142,8 +153,8 @@ public class InterchangeAssessmentMetadataGenerator {
             interchangeObjects.add(perfLevelDesc);
         }
 
-        System.out.println("generated " + perfLevelDescMetas.size() + " PerformanceLevelDescriptor objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("PerformanceLevelDescriptor", perfLevelDescMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     private static Map<String, ObjectiveAssessment> generateObjectiveAssessments(
@@ -155,7 +166,8 @@ public class InterchangeAssessmentMetadataGenerator {
             ObjectiveAssessment objectiveAssessment;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                objectiveAssessment = ObjectiveAssessmentGenerator.generateLowFi(objAssessMeta);//update by lina
+                // if mediumFi requirements extend beyond the lowFi generator, implement and call it here
+                objectiveAssessment = ObjectiveAssessmentGenerator.generateLowFi(objAssessMeta);
             } else {
                 objectiveAssessment = ObjectiveAssessmentGenerator.generateLowFi(objAssessMeta);
             }
@@ -164,8 +176,8 @@ public class InterchangeAssessmentMetadataGenerator {
             interchangeObjects.add(objectiveAssessment);
         }
 
-        System.out.println("generated " + objAssessMetas.size() + " ObjectiveAssessment objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("ObjectiveAssessment", objAssessMetas.size(), 
+                System.currentTimeMillis() - startTime);
         return objAssessMap;
     }
 
@@ -177,7 +189,8 @@ public class InterchangeAssessmentMetadataGenerator {
             AssessmentPeriodDescriptor assessPeriodDesc;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                assessPeriodDesc = null;
+                // if mediumFi requirements extend beyond the lowFi generator, implement and call it here
+                assessPeriodDesc = AssessmentPeriodDescriptorGenerator.generateLowFi(assessPeriodDescMeta);
             } else {
                 assessPeriodDesc = AssessmentPeriodDescriptorGenerator.generateLowFi(assessPeriodDescMeta);
             }
@@ -185,8 +198,8 @@ public class InterchangeAssessmentMetadataGenerator {
             interchangeObjects.add(assessPeriodDesc);
         }
 
-        System.out.println("generated " + assessPeriodDescMetas.size() + " AssessmentPeriodDescriptor objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("AssessmentPeriodDescriptor", assessPeriodDescMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     private static void generateAssessmentFamilies(List<ComplexObjectType> interchangeObjects,
@@ -197,7 +210,8 @@ public class InterchangeAssessmentMetadataGenerator {
             AssessmentFamily assessmentFamily;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                assessmentFamily = null;
+                // if mediumFi requirements extend beyond the lowFi generator, implement and call it here
+                assessmentFamily = AssessmentFamilyGenerator.generateLowFi(assessmentFamilyMeta);
             } else {
                 assessmentFamily = AssessmentFamilyGenerator.generateLowFi(assessmentFamilyMeta);
             }
@@ -205,8 +219,8 @@ public class InterchangeAssessmentMetadataGenerator {
             interchangeObjects.add(assessmentFamily);
         }
 
-        System.out.println("generated " + assessmentFamilyMetas.size() + " AssessmentFamily objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("AssessmentFamily", assessmentFamilyMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 
     private static void generateAssessments(List<ComplexObjectType> interchangeObjects,
@@ -217,7 +231,8 @@ public class InterchangeAssessmentMetadataGenerator {
             Assessment assessment;
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-                assessment = null;
+                // if mediumFi requirements extend beyond the lowFi generator, implement and call it here
+                assessment = AssessmentGenerator.generate(assessmentMeta, objAssessMap);
             } else {
                 assessment = AssessmentGenerator.generate(assessmentMeta, objAssessMap);
             }
@@ -225,7 +240,7 @@ public class InterchangeAssessmentMetadataGenerator {
             interchangeObjects.add(assessment);
         }
 
-        System.out.println("generated " + assessmentMetas.size() + " Assessment objects in: "
-                + (System.currentTimeMillis() - startTime));
+        writeInterchangeEntityStatistic("Assessment", assessmentMetas.size(), 
+                System.currentTimeMillis() - startTime);
     }
 }
