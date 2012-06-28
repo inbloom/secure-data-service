@@ -144,12 +144,12 @@ Then I should see following map of entry counts in the corresponding collections
        | assessment                  | 1                   | body.assessmentItem.3.itemCategory             | True-False       | string  |
        | assessment                  | 1                   | body.assessmentItem.3.maxRawScore              | 5                | integer |
        | assessment                  | 1                   | body.assessmentItem.3.correctResponse          | False            | string  |
-       | studentAssessmentAssociation | 25                 | body.studentAssessmentItems.0.assessmentItem.identificationCode | AssessmentItem-3    | string |
-       | studentAssessmentAssociation | 17                 | body.studentAssessmentItems.0.assessmentResponse                | True                | string |
-       | studentAssessmentAssociation | 17                 | body.studentAssessmentItems.0.assessmentItemResult              | Correct             | string |
-       | studentAssessmentAssociation | 25                 | body.studentAssessmentItems.1.assessmentItem.identificationCode | AssessmentItem-4    | string |
-       | studentAssessmentAssociation | 22                 | body.studentAssessmentItems.1.assessmentResponse                | True                | string |
-       | studentAssessmentAssociation | 22                 | body.studentAssessmentItems.1.assessmentItemResult              | Correct             | string |
+       | studentAssessmentAssociation | 25                 | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-3    | string |
+       | studentAssessmentAssociation | 25                 | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-4    | string |
+       | studentAssessmentAssociation | 24                 | body.studentAssessmentItems.assessmentResponse                | True                | string |
+       | studentAssessmentAssociation | 24                 | body.studentAssessmentItems.assessmentItemResult              | Correct             | string |
+       | studentAssessmentAssociation | 10                 | body.studentAssessmentItems.assessmentResponse                | False               | string |
+       | studentAssessmentAssociation | 10                 | body.studentAssessmentItems.assessmentItemResult              | Incorrect           | string |
     And I should see "Processed 3029 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
@@ -225,6 +225,7 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 8" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records failed: 0" in the resulting batch job file
 
+@wip
 @smoke @integration @IL-Sunset
 Scenario: Post a zip file containing all data for Illinois Sunset as a payload of the ingestion job: Append Database
 Given I am using preconfigured Ingestion Landing Zone for "IL-Sunset"
@@ -292,6 +293,7 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 210" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
 
+@wip
 @smoke @integration @NY-NYC
 Scenario: Post a zip file containing all data for New York as a payload of the ingestion job: Append Database
 Given I am using preconfigured Ingestion Landing Zone for "NY-NYC"
