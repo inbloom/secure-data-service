@@ -128,7 +128,7 @@ public class MongoTrackingAspect {
                 }
             }
             sb.append("\n-----------------------------------------------\n");
-            LOG.warn(sb.toString());
+            LOG.debug(sb.toString());
         }
     }
 }
