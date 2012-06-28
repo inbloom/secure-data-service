@@ -50,6 +50,8 @@ import org.springframework.util.Assert;
 public class MongoEntityRepository extends MongoRepository<Entity> implements InitializingBean {
     protected static final Logger LOG = LoggerFactory.getLogger(MongoEntityRepository.class);
 
+    private static final int PADDING = 300;
+
     @Autowired
     private EntityValidator validator;
 
@@ -96,7 +98,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
         }
         
-        Entity entity = new MongoEntity(type, null, body, metaData);
+        Entity entity = new MongoEntity(type, null, body, metaData, PADDING);
         validator.validate(entity);
         this.addTimestamps(entity);
         

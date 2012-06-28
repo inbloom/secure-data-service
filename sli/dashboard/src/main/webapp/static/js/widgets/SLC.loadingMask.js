@@ -1,8 +1,10 @@
+/* 
+ *	Creates 'loading graphic' jquery widget for SLC
+ *	Example: w_studentListLoader = $("<div></div>").loader();
+ *			 w_studentListLoader.show();
+ */
 /*global $ SLC*/
 
-//	Description: This function creates 'loading graphic' jquery widget for SLC
-//	Example: w_studentListLoader = $("<div></div>").loader();
-//			 w_studentListLoader.show();
 SLC.namespace("SLC.loadingMask", (function () {
 	
 		$.widget( "SLC.loader", {

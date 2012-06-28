@@ -191,6 +191,7 @@ default:
         # (only used in dashboard)
         dashboard.WSCall.timeout: 3000
         
+        dashboard.minify.js: true
         dashboard.cache.disable: false
 
         # This is the same as the sli.encyrption.* .  But we need Dashboard to be 
@@ -769,6 +770,8 @@ local:
         # the internal version as well as the external version.
         # (only used in dashboard)
         dashboard.encryption.keyStore: ../data-access/dal/keyStore/ciKeyStore.jks
+        
+        dashboard.minify.js: false
         
         dashboard.log.level: info
 

@@ -48,7 +48,7 @@ end
 
 Given /^there is a production account in ldap for vendor "([^"]*)"$/ do |vendor|
   @sandboxMode=false
-  ApprovalEngine.init(@ldap,Emailer.new(@email_conf),nil,@sandboxMode)
+  ApprovalEngine.init(@ldap,Emailer.new(@email_conf),nil,true)
   @tenantId = @email
   remove_user(@email)
   sleep(1)
@@ -73,7 +73,7 @@ Given /^there is a production account in ldap for vendor "([^"]*)"$/ do |vendor|
   ApprovalEngine.change_user_status(@email, ApprovalEngine::ACTION_ACCEPT_EULA)
   user_info = ApprovalEngine.get_user(@email)
   ApprovalEngine.verify_email(user_info[:emailtoken])
-  ApprovalEngine.change_user_status(@email, ApprovalEngine::ACTION_APPROVE)
+  #ApprovalEngine.change_user_status(@email, ApprovalEngine::ACTION_APPROVE)
 end
 
 When /^I go to the provisioning application$/ do

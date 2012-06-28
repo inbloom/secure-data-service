@@ -55,6 +55,7 @@ public class SDKConstants {
     public static final String STUDENT_GRADEBOOK_ASSOC = "/studentSectionGradebookEntries";
     public static final String STUDENT_TRANSCRIPT_ASSOC = "/studentTranscriptAssociations";
     public static final String STUDENT_ACADEMIC_RECORD_ASSOC = "/studentAcademicRecords";
+    public static final String COURSE_OFFERINGS = "/courseOfferings/";
 
     // SDK query parameters
     public static final String PARAM_PAGE_SIZE = "limit";
