@@ -14,8 +14,8 @@
 <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/raphael-min.js"></script>
 
 <#if minifyJs?? && minifyJs= false>
-    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/SLC.js"></script>
-    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/SLC.util.js"></script>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/controller/SLC.js"></script>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/controller/SLC.util.js"></script>
     <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/controller/SLC.dataProxy.js"></script>
     <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/SLC.loadingMask.js"></script>
     <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.tablegrid.js"></script>
