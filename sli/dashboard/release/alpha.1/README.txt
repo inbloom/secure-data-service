@@ -54,16 +54,18 @@ For the purposes of this README, we will use /opt/tomcat as $TOMCAT_HOME
 
    B  In order to use the dashboard app the client_ID and client_secret must be
       encrypted and stored within the dashboard.properties file.
-      - The following instructions use the clien_id and client_secret from step 1.
-      -------TODO - Generate JCKES Keystore------------
+      *** The following instructions use the clien_id and client_secret from step 1.
+      - Run the following command to generate a key store:
+          keytool -genseckey -alias $YOUR_ALIAS_NAME -keypass $YOUR_ALIAS_PASSWORD -keystore $YOUR_KEYSTORE_NAME-keystore.jks -storepass $YOUR_Keytore_PASSWORD -storetype JCEKS -keysize 256 -keyalg AES
+          * Note: Do not change storetype, keysize or keyalg arguments.
       - Using EncryptionGenerator.jar (included), run the following command:
           java -jar EncyptionGenerator.jar <location_of_keyStore> < keystore_password> <key_alias> <key_password> <string_to_encrypt>
           Output will be the encrypted string.  Make sure you encrypt both client_id, and secret, separately.
       - Point the redirect URL to the dashboard's callback, then 
         copy the encrypted strings to dashboard.properties for
         client_id and client_secret:
-          oauth.client.id = <copy the client_id here>
-          oauth.client.secret = <copy the client_secret here>
+          oauth.client.id = <copy the encrypeted client_id here>
+          oauth.client.secret = <copy the encrypted client_secret here>
           oauth.redirect = http://$YOUR_IP_ADDRESS:$YOUR_PORT/dashboard/callback
       - Update the keyStore properties
           dashboard.encryption.keyStore = $LOCATION_TO_YOUR_keyStore/$Your_Key_Store_NAME.jks
@@ -94,9 +96,8 @@ For the purposes of this README, we will use /opt/tomcat as $TOMCAT_HOME
 ===============================================================================
 
 4. Set up tomcat JAVA_OPTS  (System Properties) 
-   TODO - What and how is trustCeritificates
-   A  Open $TOMCAT_HOME/bin/catalina.sh
-          Change JAVA_OPTS in tomcat to the following:
+   A  Open $TOMCAT_HOME/bin/catalina.sh for editing
+        Change JAVA_OPTS in tomcat to the following:
 
         JAVA_OPTS=" -Xms1024m \
              -Xmx1024m \
@@ -119,4 +120,6 @@ For the purposes of this README, we will use /opt/tomcat as $TOMCAT_HOME
 ===============================================================================
 
 6. Run tomcat:  
+   chmod 700 catalina.sh 
+   *chmod arguments may need to change based on your relation to the catalina.sh file (owner, group, everyone else)
    $TOMCAT_HOME/bin/catalina.sh run
