@@ -1,11 +1,10 @@
 
 <#include "layout_includes.ftl">
 <#assign layoutConfig = viewConfigs>
+
 <link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/css/searchResults.css" media="screen" />
 <#if minifyJs?? && minifyJs= false>
-    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/searchResults.js"></script>    
-<#else>
-    <script type="text/javascript" src = "${CONTEXT_ROOT_PATH}/static/js/all.js"></script>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/panels/SLC.searchResults.js"></script>
 </#if>
 
 <div class="panel-container">
@@ -37,6 +36,7 @@
 	                <div id="noSearchResultsDiv">
 	                </div>
 					<div id="searchPgnDiv">
+<<<<<<< Updated upstream
 						<button id="searchPrevBtn" onclick="gotoSearchPageURL(this.id)" class="btn" type="button">
 							<img src="${CONTEXT_ROOT_PATH}/static/images/prevPage_icon.png" height="13px" alt="Prev" />
 						</button>
@@ -45,6 +45,16 @@
 							<img src="${CONTEXT_ROOT_PATH}/static/images/nextPage_icon.png" height="13px" alt="Next" />
 						</button>
 						<select id="pageSizeSelect" onChange="gotoSearchPageURL(this.id)">
+=======
+						<button id="searchPrevBtn" class="btn" type="button">
+							<img src="${CONTEXT_ROOT_PATH}/static/images/prevPage_icon.png" height="13px" alt="Prev" />
+						</button>
+						Page ${panelData.searchPageNum} of ${panelData.searchMaxPageNum}
+						<button id="searchNextBtn" class="btn" type="button">
+							<img src="${CONTEXT_ROOT_PATH}/static/images/nextPage_icon.png" height="13px" alt="Next" />
+						</button>
+						<select id="pageSizeSelect">
+>>>>>>> Stashed changes
 	  						<option value="50">50</option>
 	  						<option value="100">100</option>
 						</select>
@@ -53,7 +63,7 @@
 						<#if (panelData.searchPageNum * panelData.searchPageSize) gt panelData.numResults>${panelData.numResults}</#if>
 						of ${panelData.numResults}
 						<script type="text/javascript">
-						setup();
+							SLC.searchResults.setup();
 						</script>
 					</div>
                 </div>
