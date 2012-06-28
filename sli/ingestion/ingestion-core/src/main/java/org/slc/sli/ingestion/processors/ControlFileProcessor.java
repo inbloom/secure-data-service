@@ -29,7 +29,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.dal.aspect.MongoTrackingAspect;
 import org.slc.sli.ingestion.BatchJobStageType;
@@ -37,7 +36,6 @@ import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.WorkNoteImpl;
 import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.landingzone.BatchJobAssembler;
 import org.slc.sli.ingestion.landingzone.ControlFile;
@@ -78,7 +76,6 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
     private MessageSource messageSource;
 
     @Override
-    @Profiled
     public void process(Exchange exchange) throws Exception {
         //We need to extract the TenantID for each thread, so the DAL has access to it.
 //        try {
@@ -205,7 +202,7 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
     }
 
     private void setExchangeBody(Exchange exchange, String batchJobId) {
-        WorkNote workNote = WorkNoteImpl.createSimpleWorkNote(batchJobId);
+        WorkNote workNote = WorkNote.createSimpleWorkNote(batchJobId);
         exchange.getIn().setBody(workNote, WorkNote.class);
     }
 
