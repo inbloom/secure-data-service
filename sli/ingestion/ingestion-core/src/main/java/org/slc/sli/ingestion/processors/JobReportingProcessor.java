@@ -378,10 +378,10 @@ public class JobReportingProcessor implements Processor {
             logResourceMetric(resourceEntry, metric.getRecordCount(), metric.getErrorCount(), jobReportWriter);
             
             totalProcessed += metric.getRecordCount();
-            
-            // update resource entries for zero-count reporting later
-            resourceEntry.setRecordCount(metric.getRecordCount());
-            resourceEntry.setErrorCount(metric.getErrorCount());
+        }
+        
+        for (ResourceEntry resourceEntry : job.getResourceEntries()) {
+            LOG.info("resource entry: {}", resourceEntry);
         }
         
         writeZeroCountPersistenceMetrics(job, jobReportWriter);
@@ -395,8 +395,7 @@ public class JobReportingProcessor implements Processor {
         for (ResourceEntry resourceEntry : job.getResourceEntries()) {
             if (resourceEntry.getResourceFormat() != null
                     && resourceEntry.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())
-                    && resourceEntry.getRecordCount() == 0
-                    && resourceEntry.getErrorCount() == 0) {
+                    && resourceEntry.getRecordCount() == 0) {
                 logResourceMetric(resourceEntry, 0, 0, jobReportWriter);
             }
         }
