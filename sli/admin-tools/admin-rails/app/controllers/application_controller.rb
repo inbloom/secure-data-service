@@ -22,9 +22,10 @@ require "oauth_helper"
 
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  before_filter :handle_oauth
+  before_filter :handle_oauth, :record_response_start
+  after_filter :record_response_end
   ActionController::Base.request_forgery_protection_token = 'state'
-  
+
   rescue_from ActiveResource::UnauthorizedAccess do |exception|
     logger.info { "Unauthorized Access: Redirecting..." }
     reset_session
@@ -46,6 +47,15 @@ class ApplicationController < ActionController::Base
     logger.error {"Exception on server"}
     reset_session
     SessionResource.access_token = nil
+  end
+
+  def record_response_start
+    @start_time = Time.now
+  end
+
+  def record_response_end
+    time = (Time.now - @start_time) * 1000
+    STATSD.timing("#{Socket.gethostname}.rails_response", time)
   end
 
   def callback

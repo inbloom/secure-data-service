@@ -18,6 +18,7 @@ limitations under the License.
 
 
 require 'approval'
+require 'statsd'
 
 APP_CONFIG = YAML::load_file("#{Rails.root}/config/config.yml")[Rails.env]
 APP_LDAP_CLIENT = LDAPStorage.new(APP_CONFIG["ldap_host"], APP_CONFIG["ldap_port"],
@@ -43,3 +44,5 @@ ApprovalEngine.init(APP_LDAP_CLIENT, APP_EMAILER, MyTransitionActionConfig.new, 
 # ruby-recaptcha vars
 RCC_PUB = APP_CONFIG['recaptcha_pub']
 RCC_PRIV = APP_CONFIG['recaptcha_priv']
+
+STATSD = Statsd.new('10.71.1.80')

@@ -23,6 +23,8 @@ gem 'twitter-bootstrap-rails'
 
 gem 'ruby-recaptcha'
 
+gem "statsd-ruby", :require => "statsd"
+
 group :deployment, :integration do
   # Deploy with Capistrano
   gem 'capistrano'
@@ -47,8 +49,3 @@ group :test do
 	gem 'simplecov-rcov'
 	gem "mocha" ,:require => false
 end
-
-
-
-
-
