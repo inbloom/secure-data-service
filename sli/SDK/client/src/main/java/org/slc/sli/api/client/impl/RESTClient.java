@@ -111,17 +111,9 @@ public class RESTClient {
      */
     public Response connect(final String authorizationCode, String authorizationToken) throws MalformedURLException,
             URISyntaxException {
-        // DE647 - Logging of sensitive data - don't do this.
-//        logger.log(
-//                Level.INFO,
-//                String.format("Client ID is %s clientSecret is %s callbackURL is %s", config.getApiKey(),
-//                        config.getApiSecret(), config.getCallback()));
 
         OAuthService service = new ServiceBuilder().provider(SliApi.class).apiKey(config.getApiKey())
                 .apiSecret(config.getApiSecret()).callback(config.getCallback()).build();
-
-        // DE647 - Logging of sensitive data
-//        logger.log(Level.INFO, String.format("Oauth request token %s", authorizationCode));
 
         Verifier verifier = new Verifier(authorizationCode);
 
@@ -176,8 +168,6 @@ public class RESTClient {
 
         String jsonText = response.readEntity(String.class);
 
-        // DE647 - logging of sensitive data
-//        logger.info("jsonText = " + jsonText);
         ObjectMapper mapper = new ObjectMapper();
         JsonNode obj = mapper.readTree(jsonText);
 
@@ -547,16 +537,6 @@ public class RESTClient {
     public void setSessionToken(String sessionToken) {
         this.sessionToken = sessionToken;
     }
-
-//    /**
-//     * Get a ClientRequest.Builder with common properties already set.
-//     *
-//     * @param headers
-//     * @return
-//     */
-//    private Invocation.Builder getCommonRequestBuilder(Invocation.Builder builder, Map<String, Object> headers) {
-//        return getCommonRequestBuilder(this.sessionToken, builder, headers);
-//    }
 
     /**
      * Get a ClientRequest.Builder with common properties already set.
