@@ -36,7 +36,16 @@ public privileged aspect StatsDAspect {
         //log the method information
        // Logger.getLogger("StatsDAspect").log(Level.SEVERE, String.format("StatsD Info: %s: %d - %d", thisJoinPoint, begin, end));
         //System.out.println(String.format("*****************StatsD Info: %s: %d", thisJoinPoint.getSignature().getDeclaringTypeName(), end-begin));
-        asc.timing(thisJoinPoint.getSignature().getDeclaringTypeName(), (int)(end-begin));
+        String typeName = "";
+        String[] packageName= thisJoinPoint.getSignature().getDeclaringTypeName().split("\\.");
+        if(packageName.length>1){
+        typeName=packageName[packageName.length-1];}
+        else {typeName=thisJoinPoint.getSignature().getDeclaringTypeName();}
+        if (typeName==null||typeName.equals("")){
+            asc.timing("sli.api.allEntity", (int)(end-begin));   
+        }else{
+        asc.timing("sli.api."+typeName, (int)(end-begin));
+        asc.timing("sli.api.allEntity", (int)(end-begin));}
         return result;        
     }
    
