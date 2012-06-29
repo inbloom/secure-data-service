@@ -1,28 +1,15 @@
 package org.slc.sli.aspect;
 
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.UnknownHostException;
-import java.nio.ByteBuffer;
-import java.nio.channels.DatagramChannel;
-import java.util.Random;
-import java.util.logging.Logger;
-import java.util.logging.Level;
-
 import org.slc.sli.api.statsd.ApiStatsdClient;
 
 
 public privileged aspect StatsDAspect {
-    private static Random RNG = new Random();
     private static ApiStatsdClient asc;
     static{
         try{
          asc =new ApiStatsdClient("10.71.1.80",8125); 
         }catch(Exception e){}
     }
-    
-    
     
     pointcut entityMethods(): within(org.slc.sli.api.resources.v1.entity.*) && execution(public * *(..));
     pointcut assocMethods(): within(org.slc.sli.api.resources.v1.association.*) && execution(public * *(..));
@@ -36,7 +23,7 @@ public privileged aspect StatsDAspect {
     pointcut resourceMethods() : 
         cflow((entityMethods() || assocMethods() || encryptMethods()) && (serviceMethods() && dalMethods() && domainMethods() && securityMethods()));
         
-   Object around() : entityMethods() && !staticinitialization(*) && !initialization(*.new(..)) && !preinitialization(*.new(..))  && !handler(*) {
+   Object around( ) : entityMethods(){
         //get the current time
         long begin = System.currentTimeMillis();
         
@@ -48,8 +35,17 @@ public privileged aspect StatsDAspect {
         
         //log the method information
        // Logger.getLogger("StatsDAspect").log(Level.SEVERE, String.format("StatsD Info: %s: %d - %d", thisJoinPoint, begin, end));
-       // System.out.println(String.format("*****************StatsD Info: %s: %d - %d", thisJoinPoint.getSignature().getDeclaringTypeName(), begin, end));
-        asc.timing(thisJoinPoint.getSignature().getDeclaringTypeName(), (int)(end-begin));
+        //System.out.println(String.format("*****************StatsD Info: %s: %d", thisJoinPoint.getSignature().getDeclaringTypeName(), end-begin));
+        String typeName = "";
+        String[] packageName= thisJoinPoint.getSignature().getDeclaringTypeName().split("\\.");
+        if(packageName.length>1){
+        typeName=packageName[packageName.length-1];}
+        else {typeName=thisJoinPoint.getSignature().getDeclaringTypeName();}
+        if (typeName==null||typeName.equals("")){
+            asc.timing("sli.api.allEntity", (int)(end-begin));   
+        }else{
+        asc.timing("sli.api."+typeName, (int)(end-begin));
+        asc.timing("sli.api.allEntity", (int)(end-begin));}
         return result;        
     }
    

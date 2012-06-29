@@ -43,6 +43,14 @@ import org.apache.log4j.Logger;
 public class ApiStatsdClient {
     
     private static Random RNG = new Random();
+    private static String hostName;
+    static {
+        try {
+            hostName = InetAddress.getLocalHost().getHostName();
+        } catch (Exception e) {
+        }
+    }
+    
     private static Logger log = Logger.getLogger(ApiStatsdClient.class.getName());
     
     private InetSocketAddress _address;
@@ -67,7 +75,8 @@ public class ApiStatsdClient {
     public boolean timing(String key, int value) {
         // System.out.println(String.format("*****************StatsD Info: %s: %d", key, value));
         // return true;
-        return timing("api.allResources", value, 1.0);
+        // timing(hostName + "." + "sli.api.allResouces", value, 1.0);
+        return timing(hostName + "." + key, value, 1.0);
     }
     
     public boolean timing(String key, int value, double sampleRate) {
