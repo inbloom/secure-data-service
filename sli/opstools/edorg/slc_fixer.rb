@@ -120,7 +120,6 @@ class SLCFixer
   end
 
   def fix_assessments
-=begin
     @log.info "Iterating over assessments with query: {}"
     @db['assessment'].find({}, @basic_options) do |cur|
       cur.each do |assessment|
@@ -128,7 +127,6 @@ class SLCFixer
         stamp_id(@db['assessment'],assessment['_id'], @tenant_to_ed_orgs[tenant_id]) unless tenant_id.nil? || @tenant_to_ed_orgs[tenant_id].nil?
       end
     end
-=end
     @log.info "Iterating studentAssessmentAssociation with query: {}"
     @db['studentAssessmentAssociation'].find({}, @basic_options) do |cur|
       cur.each do |studentAssessment|

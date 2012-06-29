@@ -207,8 +207,7 @@ $entityData = {
     "populationServed" => "Regular Students",
     "schoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
     "sessionId" => "fb0ac9e8-9e4e-48a0-95d2-ae07ee15ee92",
-    "courseOfferingId" => "71e04e2f-c9c0-4f94-b0b6-4a107630ab6a",
-    "assessmentReferences" => ["29f044bd-1449-4fb7-8e9a-5e2cf9ad252a"]
+    "courseOfferingId" => "71e04e2f-c9c0-4f94-b0b6-4a107630ab6a"
   },
   "session" => {
     "sessionName" => "Spring 2012",
