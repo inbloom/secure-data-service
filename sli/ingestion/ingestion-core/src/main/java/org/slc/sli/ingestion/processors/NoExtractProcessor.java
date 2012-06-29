@@ -29,7 +29,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.WorkNoteImpl;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 
@@ -74,7 +73,7 @@ public class NoExtractProcessor implements Processor {
         job.setSourceId(file.getParentFile().getAbsolutePath() + File.separator);
         batchJobDAO.saveBatchJob(job);
 
-        WorkNote workNote = WorkNoteImpl.createSimpleWorkNote(batchJobId);
+        WorkNote workNote = WorkNote.createSimpleWorkNote(batchJobId);
         exchange.getIn().setBody(workNote, WorkNote.class);
 
     }
