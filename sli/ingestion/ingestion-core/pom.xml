@@ -32,26 +32,20 @@
   <dependencies>
 
     <dependency>
-      <groupId>org.apache.activemq</groupId>
-      <artifactId>activemq-core</artifactId>
-      <version>5.6.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.activemq</groupId>
-      <artifactId>activemq-camel</artifactId>
-      <version>5.6.0</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.activemq</groupId>
-      <artifactId>activemq-pool</artifactId>
-      <version>5.6.0</version>
-    </dependency>
-
-    <dependency>
-      <groupId>commons-collections</groupId>
-      <artifactId>commons-collections</artifactId>
-      <version>3.2.1</version>
-    </dependency>
+         <groupId>org.apache.activemq</groupId>
+         <artifactId>activemq-core</artifactId>
+         <version>5.5.1</version>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.activemq</groupId>
+         <artifactId>activemq-camel</artifactId>
+         <version>5.5.1</version>
+      </dependency>
+      <dependency>
+         <groupId>commons-collections</groupId>
+         <artifactId>commons-collections</artifactId>
+         <version>3.2.1</version>
+      </dependency>
 
     <!-- Ingestion Base -->
     <dependency>
