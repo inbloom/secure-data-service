@@ -310,6 +310,43 @@ public class BasicService implements EntityService {
 
         return true;
     }
+    
+    @Override
+    public boolean patch(String id, EntityBody content) {
+        debug("Patching {} in {}", id, collectionName);
+
+        if (writeRight != Right.ANONYMOUS_ACCESS) {
+            checkAccess(determineWriteAccess(content, ""), id);
+        }
+
+
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria("_id", "=", id));
+        Entity entity = repo.findOne(collectionName, query);
+        
+        if (entity == null) {
+            info("Could not find {}", id);
+            throw new EntityNotFoundException(id);
+        }
+        
+        EntityBody sanitized = sanitizeEntityBody(content);
+        if (entity.getBody().equals(sanitized)) {
+            info("No change detected to {}", id);
+            return false;
+        }
+        
+        //combine/merge new entity body with existing
+        entity.getBody().putAll(sanitized);
+        info("new body is {}", entity.getBody());
+        
+        //don't check references until things are combined
+        checkReferences(new EntityBody(entity.getBody()));
+
+        
+        repo.update(collectionName, entity);
+        
+        return true;
+    }
 
     @Override
     public EntityBody get(String id) {
