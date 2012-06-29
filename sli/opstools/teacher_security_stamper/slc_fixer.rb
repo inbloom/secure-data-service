@@ -82,11 +82,11 @@ class SLCFixer
 
   def find_teachers_for_student_through_section(studentId)
     teachers = []
-    @db['studentSectionAssociation'].find({'body.studentId'=> studentId, 
+    @db['studentSectionAssociation'].find({'body.studentId'=> studentId,
                                             '$or'=> [ {'body.endDate'=> {'$exists'=> false}}, {'body.endDate'=> {'$gte'=> @grace_date}} ]
                                           }, @basic_options) { |ssa_cursor|
       ssa_cursor.each { |ssa|
-        @db['teacherSectionAssociation'].find({'body.sectionId'=> ssa['body']['sectionId'], 
+        @db['teacherSectionAssociation'].find({'body.sectionId'=> ssa['body']['sectionId'],
                                                 '$or'=> [ {'body.endDate'=> {'$exists'=> false}}, {'body.endDate'=> {'$gte'=> @grace_date}} ]
                                               }, @basic_options) { |tsa_cursor|
           tsa_cursor.each { |tsa|
@@ -173,7 +173,7 @@ class SLCFixer
         stamp_full_context(@db['section'], tsa['body']['sectionId'], tsa['metaData']['tenantId'], sections)
       end
     end
-    
+
     @db['studentSectionAssociation'].find({}, @basic_options) do |cursor|
       cursor.each do |ssa|
         students = @studentId_to_teachers[ssa['body']['studentId']]
@@ -183,7 +183,7 @@ class SLCFixer
         sections.uniq!
         section_to_teachers[ssa['body']['sectionId']] ||= []
         section_to_teachers[ssa['body']['sectionId']] += sections
-        
+
         stamp_full_context(@db['section'], ssa['body']['sectionId'], ssa['metaData']['tenantId'], sections)
         @db['grade'].find({"body.studentSectionAssociationId" => ssa['_id']}, @basic_options) { |cursor| cursor.each {|grade| stamp_context(@db['grade'], grade, sections)}}
         @db['studentCompetency'].find({"body.studentSectionAssociationId" => ssa['_id']}, @basic_options) { |cursor| cursor.each {|competency| stamp_context(@db['studentCompetency'], competency, sections)}}
@@ -211,21 +211,21 @@ class SLCFixer
         session_id = item['body']['sessionId']
         session_to_teachers[session_id] ||= []
         session_to_teachers[session_id].push item['metaData']['teacherContext']
-        session_to_tenant[session_id] = item['metaData']['tenantId']        
+        session_to_tenant[session_id] = item['metaData']['tenantId']
       end
     end
-    
+
     session_to_teachers.each { |session,teachers|
       teachers = teachers.flatten
       teachers = teachers.uniq
       teachers.reject!(&:nil?)
       stamp_full_context(@db['session'], session, session_to_tenant[session], teachers)
     }
-    
-    
+
+
     @db['session'].find({}, @basic_options) do |cursor|
       cursor.each do |session|
-        next unless session.include? 'metaData' and session['metaData'].include? 'teacherContext' and !session['metaData']['teacherContext'].nil?  
+        next unless session.include? 'metaData' and session['metaData'].include? 'teacherContext' and !session['metaData']['teacherContext'].nil?
         coursesOffering = get_existing_context(@db['courseOffering'], session['body']['courseOfferingId'])
         #puts "#{session['metaData']['teacherContext']}"
         coursesOffering += session['metaData']['teacherContext'] if session.include? 'metaData' and session['metaData'].include? 'teacherContext'
@@ -235,7 +235,7 @@ class SLCFixer
         @db['courseOffering'].find({'body.sessionId'=> session['_id']}, @basic_options) {|cursor| cursor.each {|co| stamp_context(@db['courseOffering'], co, coursesOffering)}}
       end
     end
-    
+
     course_to_teachers = {}
     course_to_tenant = {}
     @db['courseOffering'].find({}, @basic_options) { |cursor|
@@ -243,16 +243,16 @@ class SLCFixer
         course_id = co['body']['courseId']
         course_to_teachers[course_id] ||= []
         course_to_teachers[course_id].push co['metaData']['teacherContext']
-        course_to_tenant[course_id] = co['metaData']['tenantId']        
+        course_to_tenant[course_id] = co['metaData']['tenantId']
       }
     }
-    
+
     course_to_teachers.each { |course,teachers|
       teachers = teachers.flatten
       teachers = teachers.uniq
-      stamp_full_context(@db['course'], course, course_to_tenant[course], teachers)  
+      stamp_full_context(@db['course'], course, course_to_tenant[course], teachers)
     }
-    
+
   end
 
   def stamp_cohorts
@@ -339,7 +339,7 @@ class SLCFixer
       end
     end
   end
-  
+
   def stamp_attendance
     @log.info "Stamping attendance"
     @db['attendance'].find({}, {fields: ['body.studentId', 'metaData.tenantId']}.merge(@basic_options)) do |cursor|
@@ -351,7 +351,7 @@ class SLCFixer
       end
     end
   end
-  
+
   def stamp_disciplines
     @log.info "Stamping disciplineAction and disciplineIncident"
     @db['disciplineAction'].find({}, {fields: ['body.studentId', 'body.staffId', 'body.disciplineIncidentId', 'metaData.tenantId']}.merge(@basic_options)) do |cursor|
@@ -372,7 +372,7 @@ class SLCFixer
     @db['studentDisciplineIncidentAssociation'].find({}, @basic_options) do |cursor|
       cursor.each do |assoc|
         stamp_context(@db['studentDisciplineIncidentAssociation'], assoc, @studentId_to_teachers[assoc['body']['studentId']].flatten.uniq) if @studentId_to_teachers.has_key? assoc['body']['studentId']
-        # @db['studentDisciplineIncidentAssociation'].update(make_ids_obj(assoc), {"$set" => {'metaData.teacherContext' => @studentId_to_teachers[assoc['body']['studentId']].flatten.uniq }}) unless @studentId_to_teachers[assoc['body']['studentId']].nil?
+        # @db['studentDisciplineIncidentAssociation'].update(make_ids_obj(assoc), {"$unset" => {"padding" => 1}, "$set" => {'metaData.teacherContext' => @studentId_to_teachers[assoc['body']['studentId']].flatten.uniq }}) unless @studentId_to_teachers[assoc['body']['studentId']].nil?
       end
     end
   end
@@ -399,7 +399,7 @@ class SLCFixer
     #assessment_to_teachers.each { |assessment, teachers|
     #  teachers = teachers.flatten
     #  teachers = teachers.uniq
-    #  @db['assessment'].update({'_id'=> assessment, 'metaData.tenantId'=> assessment_to_tenant[assessment]}, {'$set' => {'metaData.teacherContext' => teachers}})
+    #  @db['assessment'].update({'_id'=> assessment, 'metaData.tenantId'=> assessment_to_tenant[assessment]}, {"$unset" => {"padding" => 1}, '$set' => {'metaData.teacherContext' => teachers}})
     #}
     # TODO sectionAssesmentAssociation?
   end
@@ -437,7 +437,7 @@ class SLCFixer
     end
     @studentId_to_teachers.each { |student,teachers|
       #TODO Add tenantId
-      @db['studentTranscriptAssociation'].update({'body.studentId'=> student}, {'$set' => {'metaData.teacherContext' => teachers}})
+      @db['studentTranscriptAssociation'].update({'body.studentId'=> student}, {"$unset" => {"padding" => 1}, '$set' => {'metaData.teacherContext' => teachers}})
     }
   end
 
@@ -506,7 +506,7 @@ class SLCFixer
           teachers = teachers.uniq
         end
 
-        #@db['teacher'].update({'_id'=> teacher_id, 'metaData.tenantId'=> teacher_to_tenant[teacher_id]}, {'$set' => {'metaData.teacherContext' => teachers}})
+        #@db['teacher'].update({'_id'=> teacher_id, 'metaData.tenantId'=> teacher_to_tenant[teacher_id]}, {"$unset" => {"padding" => 1}, '$set' => {'metaData.teacherContext' => teachers}})
         stamp_context(@db['staff'], teacher, teachers)
       }
     }
@@ -565,7 +565,7 @@ class SLCFixer
           }
         }
         stamp_context(@db['educationOrganization'], school, teachers.keys)
-        #@log.debug "school #{school['_id']} teachers #{teachers.keys}" 
+        #@log.debug "school #{school['_id']} teachers #{teachers.keys}"
       }
     }
   end
@@ -601,7 +601,7 @@ class SLCFixer
         id = [id]
       end
       id.each do |i|
-        collection.update({"_id" => i, "metaData.tenantId" => tenant}, {'$set' => {'metaData.teacherContext' => teachers}})
+        collection.update({"_id" => i, "metaData.tenantId" => tenant}, {"$unset" => {"padding" => 1}, '$set' => {'metaData.teacherContext' => teachers}})
         @count += 1
         @log.info {"Stamping #{collection.name}"} if @count % 200 == 0
       end
