@@ -34,6 +34,7 @@ import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.WorkNoteImpl;
 import org.slc.sli.ingestion.handler.ZipFileHandler;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -154,7 +155,7 @@ public class ZipFileProcessor implements Processor {
         if (!errorReport.hasErrors() && ctlFile != null) {
             exchange.getIn().setBody(ctlFile, File.class);
         } else {
-            WorkNote workNote = WorkNote.createSimpleWorkNote(batchJobId);
+            WorkNote workNote = WorkNoteImpl.createSimpleWorkNote(batchJobId);
             exchange.getIn().setBody(workNote, WorkNote.class);
         }
     }

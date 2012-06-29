@@ -15,17 +15,21 @@
  */
 
 
-package org.slc.sli.ingestion;
+package org.slc.sli.ingestion.measurement;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * Generic interface for writing resources.
+ * Annotation for monitoring batch job id setting
  *
- * @author dduran
+ * @author ifaybyshev
  *
  */
-public interface ResourceWriter<T> {
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface ExtractBatchJobIdToContext {
 
-    void writeResource(T t, String jobId);
-
-    void insertResource(T t, String jobId);
 }

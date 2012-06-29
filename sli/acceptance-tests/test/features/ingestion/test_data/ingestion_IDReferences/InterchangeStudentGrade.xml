@@ -79,540 +79,180 @@
 		<GradebookEntryType>funeral homework 1</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
-            <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard1</IdentificationCode>
-                </LearningStandardId>
-            </LearningStandardIdentity>
-        </LearningStandardReference>
-        <LearningObjectiveReference>
-            <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>Objective1</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
-                </LearningObjectiveId>
-            </LearningObjectiveIdentity>
-        </LearningObjectiveReference>
-        <SectionReference>
-            <SectionIdentity>
-                <StateOrganizationId>Able School</StateOrganizationId>
-                <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
-            </SectionIdentity>
-        </SectionReference>
+		<LearningStandardReference ref="LS_1" />
+		<LearningObjectiveReference ref="LO_1" />
+		<SectionReference ref="S_1" />
 		<GradingPeriodReference ref="GP_1" />
 	</GradebookEntry>
 	<GradebookEntry id="GE_2">
 		<GradebookEntryType>funeral homework 2</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
-            <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>LS_101</IdentificationCode>
-                </LearningStandardId>
-            </LearningStandardIdentity>
-        </LearningStandardReference>
-		<LearningObjectiveReference>
-            <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>Objective2</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
-                </LearningObjectiveId>
-            </LearningObjectiveIdentity>
-        </LearningObjectiveReference>
-        <SectionReference>
-            <SectionIdentity>
-                <StateOrganizationId>Baker School</StateOrganizationId>
-                <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
-            </SectionIdentity>
-        </SectionReference>
-        <GradingPeriodReference ref="GP_2" />
+		<LearningStandardReference ref="LS_101" />
+		<LearningObjectiveReference ref="LO_2" />
+		<SectionReference ref="S_2" />
+		<GradingPeriodReference ref="GP_2" />
 	</GradebookEntry>
 	<GradebookEntry id="GE_3">
 		<GradebookEntryType>funeral homework 3</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
-            <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard2</IdentificationCode>
-                </LearningStandardId>
-            </LearningStandardIdentity>
-        </LearningStandardReference>
-		<LearningObjectiveReference>
-            <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>LO_101</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
-                </LearningObjectiveId>
-            </LearningObjectiveIdentity>
-        </LearningObjectiveReference>
-        <SectionReference>
-            <SectionIdentity>
-                <StateOrganizationId>Charlie School</StateOrganizationId>
-                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
-            </SectionIdentity>
-        </SectionReference>
-        <GradingPeriodReference ref="GP_3" />
+		<LearningStandardReference ref="LS_2" />
+		<LearningObjectiveReference ref="LO_101" />
+		<SectionReference ref="S_3" />
+		<GradingPeriodReference ref="GP_3" />
 	</GradebookEntry>
 	<GradebookEntry id="GE_4">
 		<GradebookEntryType>funeral homework 4</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
-            <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard3</IdentificationCode>
-                </LearningStandardId>
-            </LearningStandardIdentity>
-        </LearningStandardReference>
-		<LearningObjectiveReference>
-            <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>Objective3</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
-                </LearningObjectiveId>
-            </LearningObjectiveIdentity>
-        </LearningObjectiveReference>
-        <SectionReference>
-            <SectionIdentity>
-                <StateOrganizationId>Charlie School</StateOrganizationId>
-                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
-            </SectionIdentity>
-        </SectionReference>
-        <GradingPeriodReference ref="GP_4" />
+		<LearningStandardReference ref="LS_3" />
+		<LearningObjectiveReference ref="LO_3" />
+		<SectionReference ref="S_101" />
+		<GradingPeriodReference ref="GP_4" />
 	</GradebookEntry>
 	<GradebookEntry id="GE_5">
 		<GradebookEntryType>funeral homework 5</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
-            <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard4</IdentificationCode>
-                </LearningStandardId>
-            </LearningStandardIdentity>
-        </LearningStandardReference>
-		<LearningObjectiveReference>
-            <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>Objective4</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
-                </LearningObjectiveId>
-            </LearningObjectiveIdentity>
-        </LearningObjectiveReference>
-        <SectionReference>
-            <SectionIdentity>
-                <StateOrganizationId>Dog School</StateOrganizationId>
-                <UniqueSectionCode>8th Grade English - Sec 5</UniqueSectionCode>
-            </SectionIdentity>
-        </SectionReference>
-        <GradingPeriodReference ref="GP_101" />
+		<LearningStandardReference ref="LS_4" />
+		<LearningObjectiveReference ref="LO_4" />
+		<SectionReference ref="S_4" />
+		<GradingPeriodReference ref="GP_101" />
 	</GradebookEntry>
 	<GradebookEntry id="GE_6">
 		<GradebookEntryType>funeral homework 6</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
-            <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>LS_102</IdentificationCode>
-                </LearningStandardId>
-            </LearningStandardIdentity>
-        </LearningStandardReference>
-		<LearningObjectiveReference>
-            <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>LO_102</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
-                </LearningObjectiveId>
-            </LearningObjectiveIdentity>
-        </LearningObjectiveReference>
-        <SectionReference>
-            <SectionIdentity>
-                <StateOrganizationId>Echo School</StateOrganizationId>
-                <UniqueSectionCode>8th Grade English - Sec 6</UniqueSectionCode>
-            </SectionIdentity>
-        </SectionReference>
-        <GradingPeriodReference ref="GP_5" />
+		<LearningStandardReference ref="LS_102" />
+		<LearningObjectiveReference ref="LO_102" />
+		<SectionReference ref="S_5" />
+		<GradingPeriodReference ref="GP_5" />
 	</GradebookEntry>
 	<GradebookEntry id="GE_7">
 		<GradebookEntryType>funeral homework 7</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
-            <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>LS_103</IdentificationCode>
-                </LearningStandardId>
-            </LearningStandardIdentity>
-        </LearningStandardReference>
-		<LearningObjectiveReference>
-            <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>Objective5</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
-                </LearningObjectiveId>
-            </LearningObjectiveIdentity>
-        </LearningObjectiveReference>
-        <SectionReference>
-            <SectionIdentity>
-                <StateOrganizationId>Charlie School</StateOrganizationId>
-                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
-            </SectionIdentity>
-        </SectionReference>
-        <GradingPeriodReference ref="GP_6" />
+		<LearningStandardReference ref="LS_103" />
+		<LearningObjectiveReference ref="LO_5" />
+		<SectionReference ref="S_102" />
+		<GradingPeriodReference ref="GP_6" />
 	</GradebookEntry>
 	<GradebookEntry id="GE_8">
 		<GradebookEntryType>funeral homework 8</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
-            <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>LS_104</IdentificationCode>
-                </LearningStandardId>
-            </LearningStandardIdentity>
-        </LearningStandardReference>
-		<LearningObjectiveReference>
-            <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>Objective6</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
-                </LearningObjectiveId>
-            </LearningObjectiveIdentity>
-        </LearningObjectiveReference>
-        <SectionReference>
-            <SectionIdentity>
-                <StateOrganizationId>Foxtrot School</StateOrganizationId>
-                <UniqueSectionCode>7th Grade English - Sec 6</UniqueSectionCode>
-            </SectionIdentity>
-        </SectionReference>
+		<LearningStandardReference ref="LS_104" />
+		<LearningObjectiveReference ref="LO_6" />
+		<SectionReference ref="S_6" />
 		<GradingPeriodReference ref="GP_102" />
 	</GradebookEntry>
 	<GradebookEntry id="GE_9">
 		<GradebookEntryType>funeral homework 9</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
-            <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard5</IdentificationCode>
-                </LearningStandardId>
-            </LearningStandardIdentity>
-        </LearningStandardReference>
-		<LearningObjectiveReference>
-            <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>LO_103</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
-                </LearningObjectiveId>
-            </LearningObjectiveIdentity>
-        </LearningObjectiveReference>
-        <SectionReference>
-            <SectionIdentity>
-                <StateOrganizationId>Charlie School</StateOrganizationId>
-                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
-            </SectionIdentity>
-        </SectionReference>
-        <GradingPeriodReference ref="GP_7" />
+		<LearningStandardReference ref="LS_5" />
+		<LearningObjectiveReference ref="LO_103" />
+		<SectionReference ref="S_103" />
+		<GradingPeriodReference ref="GP_7" />
 	</GradebookEntry>
 	<GradebookEntry id="GE_10">
 		<GradebookEntryType>funeral homework 10</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
-            <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard6</IdentificationCode>
-                </LearningStandardId>
-            </LearningStandardIdentity>
-        </LearningStandardReference>
-		<LearningObjectiveReference>
-            <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>LO_104</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
-                </LearningObjectiveId>
-            </LearningObjectiveIdentity>
-        </LearningObjectiveReference>
-        <SectionReference>
-            <SectionIdentity>
-                <StateOrganizationId>Able School</StateOrganizationId>
-                <UniqueSectionCode>7th Grade Composition - Sec 6</UniqueSectionCode>
-            </SectionIdentity>
-        </SectionReference>
-        <GradingPeriodReference ref="GP_103" />
+		<LearningStandardReference ref="LS_6" />
+		<LearningObjectiveReference ref="LO_104" />
+		<SectionReference ref="S_7" />
+		<GradingPeriodReference ref="GP_103" />
 	</GradebookEntry>
 	<GradebookEntry id="GE_11">
 		<GradebookEntryType>funeral homework 11</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
-            <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard7</IdentificationCode>
-                </LearningStandardId>
-            </LearningStandardIdentity>
-        </LearningStandardReference>
-		<LearningObjectiveReference>
-            <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>Objective7</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
-                </LearningObjectiveId>
-            </LearningObjectiveIdentity>
-        </LearningObjectiveReference>
-        <SectionReference>
-            <SectionIdentity>
-                <StateOrganizationId>Charlie School</StateOrganizationId>
-                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
-            </SectionIdentity>
-        </SectionReference>
-        <GradingPeriodReference ref="GP_104" />
+		<LearningStandardReference ref="LS_7" />
+		<LearningObjectiveReference ref="LO_7" />
+		<SectionReference ref="S_104" />
+		<GradingPeriodReference ref="GP_104" />
 	</GradebookEntry>
 	<GradebookEntry id="GE_12">
 		<GradebookEntryType>funeral homework 12</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
-            <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>LS_105</IdentificationCode>
-                </LearningStandardId>
-            </LearningStandardIdentity>
-        </LearningStandardReference>
-		<LearningObjectiveReference>
-            <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>LO_105</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
-                </LearningObjectiveId>
-            </LearningObjectiveIdentity>
-        </LearningObjectiveReference>
-        <SectionReference>
-            <SectionIdentity>
-                <StateOrganizationId>Charlie School</StateOrganizationId>
-                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
-            </SectionIdentity>
-        </SectionReference>
-        <GradingPeriodReference ref="GP_8" />
+		<LearningStandardReference ref="LS_105" />
+		<LearningObjectiveReference ref="LO_105" />
+		<SectionReference ref="S_105" />
+		<GradingPeriodReference ref="GP_8" />
 	</GradebookEntry>
 	<GradebookEntry id="GE_13">
 		<GradebookEntryType>funeral homework 13</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
-            <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>LS_106</IdentificationCode>
-                </LearningStandardId>
-            </LearningStandardIdentity>
-        </LearningStandardReference>
-		<LearningObjectiveReference>
-            <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>LO_106</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
-                </LearningObjectiveId>
-            </LearningObjectiveIdentity>
-        </LearningObjectiveReference>
-        <SectionReference>
-            <SectionIdentity>
-                <StateOrganizationId>Baker School</StateOrganizationId>
-                <UniqueSectionCode>Reading Group - Grey</UniqueSectionCode>
-            </SectionIdentity>
-        </SectionReference>
-        <GradingPeriodReference ref="GP_105" />
+		<LearningStandardReference ref="LS_106" />
+		<LearningObjectiveReference ref="LO_106" />
+		<SectionReference ref="S_8" />
+		<GradingPeriodReference ref="GP_105" />
 	</GradebookEntry>
 	<GradebookEntry id="GE_14">
 		<GradebookEntryType>funeral homework 14</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
-            <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>LS_107</IdentificationCode>
-                </LearningStandardId>
-            </LearningStandardIdentity>
-        </LearningStandardReference>
-		<LearningObjectiveReference>
-            <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>Objective8</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
-                </LearningObjectiveId>
-            </LearningObjectiveIdentity>
-        </LearningObjectiveReference>
-        <SectionReference>
-            <SectionIdentity>
-                <StateOrganizationId>Charlie School</StateOrganizationId>
-                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
-            </SectionIdentity>
-        </SectionReference>
-        <GradingPeriodReference ref="GP_106" />
+		<LearningStandardReference ref="LS_107" />
+		<LearningObjectiveReference ref="LO_8" />
+		<SectionReference ref="S_106" />
+		<GradingPeriodReference ref="GP_106" />
 	</GradebookEntry>
 	<GradebookEntry id="GE_15">
 		<GradebookEntryType>funeral homework 15</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
-            <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard8</IdentificationCode>
-                </LearningStandardId>
-            </LearningStandardIdentity>
-        </LearningStandardReference>
-		<LearningObjectiveReference>
-            <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>LO_107</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
-                </LearningObjectiveId>
-            </LearningObjectiveIdentity>
-        </LearningObjectiveReference>
-        <SectionReference>
-            <SectionIdentity>
-                <StateOrganizationId>Charlie School</StateOrganizationId>
-                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
-            </SectionIdentity>
-        </SectionReference>
+		<LearningStandardReference ref="LS_8" />
+		<LearningObjectiveReference ref="LO_107" />
+		<SectionReference ref="S_107" />
 		<GradingPeriodReference ref="GP_107" />
 	</GradebookEntry>
 	<GradebookEntry id="GE_16">
 		<GradebookEntryType>funeral homework 16</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
-            <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>LS_108</IdentificationCode>
-                </LearningStandardId>
-            </LearningStandardIdentity>
-        </LearningStandardReference>
-		<LearningObjectiveReference>
-            <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>LO_108</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
-                </LearningObjectiveId>
-            </LearningObjectiveIdentity>
-        </LearningObjectiveReference>
-        <SectionReference>
-            <SectionIdentity>
-                <StateOrganizationId>Charlie School</StateOrganizationId>
-                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
-            </SectionIdentity>
-        </SectionReference>
+		<LearningStandardReference ref="LS_108" />
+		<LearningObjectiveReference ref="LO_108" />
+		<SectionReference ref="S_108" />
 		<GradingPeriodReference ref="GP_108" />
 	</GradebookEntry>
 	<GradebookEntry id="GE_1">
 		<GradebookEntryType>funeral homework 17</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
-            <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard1</IdentificationCode>
-                </LearningStandardId>
-            </LearningStandardIdentity>
-        </LearningStandardReference>
-		<LearningObjectiveReference>
-            <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>Objective1</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
-                </LearningObjectiveId>
-            </LearningObjectiveIdentity>
-        </LearningObjectiveReference>
-        <SectionReference>
-            <SectionIdentity>
-                <StateOrganizationId>Able School</StateOrganizationId>
-                <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
-            </SectionIdentity>
-        </SectionReference>
+		<LearningStandardReference ref="LS_1" />
+		<LearningObjectiveReference ref="LO_1" />
+		<SectionReference ref="S_1" />
 		<GradingPeriodReference ref="GP_1" />
 	</GradebookEntry>
 	<GradebookEntry id="GE_2">
 		<GradebookEntryType>funeral homework 18</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
-            <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>LS_101</IdentificationCode>
-                </LearningStandardId>
-            </LearningStandardIdentity>
-        </LearningStandardReference>
-		<LearningObjectiveReference>
-            <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>Objective2</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
-                </LearningObjectiveId>
-            </LearningObjectiveIdentity>
-        </LearningObjectiveReference>
-        <SectionReference>
-            <SectionIdentity>
-                <StateOrganizationId>Baker School</StateOrganizationId>
-                <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
-            </SectionIdentity>
-        </SectionReference>
-        <GradingPeriodReference ref="GP_2" />
+		<LearningStandardReference ref="LS_101" />
+		<LearningObjectiveReference ref="LO_2" />
+		<SectionReference ref="S_2" />
+		<GradingPeriodReference ref="GP_2" />
 	</GradebookEntry>
 	<GradebookEntry id="GE_3">
 		<GradebookEntryType>funeral homework 19</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
-            <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard2</IdentificationCode>
-                </LearningStandardId>
-            </LearningStandardIdentity>
-        </LearningStandardReference>
-		<LearningObjectiveReference>
-            <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>LO_101</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
-                </LearningObjectiveId>
-            </LearningObjectiveIdentity>
-        </LearningObjectiveReference>
-        <SectionReference>
-            <SectionIdentity>
-                <StateOrganizationId>Charlie School</StateOrganizationId>
-                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
-            </SectionIdentity>
-        </SectionReference>
-        <GradingPeriodReference ref="GP_3" />
+		<LearningStandardReference ref="LS_2" />
+		<LearningObjectiveReference ref="LO_101" />
+		<SectionReference ref="S_3" />
+		<GradingPeriodReference ref="GP_3" />
 	</GradebookEntry>
 	<GradebookEntry id="GE_4">
 		<GradebookEntryType>funeral homework 20</GradebookEntryType>
 		<DateAssigned>2012-05-08</DateAssigned>
 		<Description>Herman must write a story about his pet Spot</Description>
-		<LearningStandardReference>
-            <LearningStandardIdentity>
-                <LearningStandardId>
-                    <IdentificationCode>Standard3</IdentificationCode>
-                </LearningStandardId>
-            </LearningStandardIdentity>
-        </LearningStandardReference>
-		<LearningObjectiveReference>
-            <LearningObjectiveIdentity>
-                <LearningObjectiveId>
-                    <IdentificationCode>Objective3</IdentificationCode>
-                    <ContentStandardName>Common Core</ContentStandardName>
-                </LearningObjectiveId>
-            </LearningObjectiveIdentity>
-        </LearningObjectiveReference>
-        <SectionReference>
-            <SectionIdentity>
-                <StateOrganizationId>Charlie School</StateOrganizationId>
-                <UniqueSectionCode>Spartans Softball Team</UniqueSectionCode>
-            </SectionIdentity>
-        </SectionReference>
+		<LearningStandardReference ref="LS_3" />
+		<LearningObjectiveReference ref="LO_3" />
+		<SectionReference ref="S_101" />
 		<GradingPeriodReference ref="GP_4" />
 	</GradebookEntry>
 

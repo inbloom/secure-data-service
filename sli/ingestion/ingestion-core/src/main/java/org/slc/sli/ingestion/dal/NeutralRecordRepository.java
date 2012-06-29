@@ -20,7 +20,6 @@ package org.slc.sli.ingestion.dal;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -100,14 +99,6 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     
     public NeutralRecord insertForJob(NeutralRecord neutralRecord, String jobId) {
         return insert(neutralRecord, toStagingCollectionName(neutralRecord.getRecordType(), jobId));
-    }
-    
-    public List<NeutralRecord> insertAll(List<NeutralRecord> entities, String collectionName, String jobId) {
-        return insert(entities, toStagingCollectionName(collectionName, jobId));
-    }
-    
-    public List<NeutralRecord> insertAllForJob(List<NeutralRecord> entities, String collectionName, String jobId) {
-        return insertAll(entities, collectionName, jobId);
     }
     
     public Iterable<NeutralRecord> findAllForJob(String collectionName, String jobId, NeutralQuery neutralQuery) {

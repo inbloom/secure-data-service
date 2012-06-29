@@ -27,12 +27,13 @@
   </bean>
 
 
-  <!-- ActiveMQ -->
-  <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
-    <property name="brokerURL"
-      value="tcp://${sli.ingestion.queue.workItem.host}:${sli.ingestion.queue.workItem.port}?keepAlive=true&amp;jms.prefetchPolicy.queuePrefetch=0" />
-  </bean>
+  
 
+   <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+      <property name="brokerURL" value="tcp://${sli.ingestion.queue.workItem.host}:${sli.ingestion.queue.workItem.port}?keepAlive=true" />
+   
+      
+   </bean>
 
   <!-- Main application context, contains all other contexts in /spring -->
   <import resource="smooks-context.xml" />
@@ -47,16 +48,31 @@
   <import resource="classpath:/spring/validation.xml" />
   <import resource="dal-context.xml" />
 
+  <!-- debugging only <bean id="camelTracer" class="org.apache.camel.processor.interceptor.Tracer"> <property name="traceOutExchanges"
+    value="true" /> </bean> <bean id="traceFormatter" class="org.apache.camel.processor.interceptor.DefaultTraceFormatter"> <property
+    name="showOutBody" value="true" /> <property name="showOutBodyType" value="true" /> </bean> -->
+
+  <!-- not working yet. <bean id="executionMonitor" class="org.slc.sli.ingestion.util.ExecutionMonitor" /> -->
+
+  <!-- not working yet. <aop:config> <aop:aspect ref="executionMonitor"> <aop:pointcut id="pc" expression="execution(* org.slc.sli.ingestion.landingzone.ControlFile.parse(..))"
+    /> <aop:around pointcut-ref="pc" method="aroundExecution" /> </aop:aspect> </aop:config> -->
+
+
+  <!-- performance tracking -->
   <aop:aspectj-autoproxy />
+  <bean id="ingestionPerformaceTrackingAspect" class="org.slc.sli.ingestion.measurement.IngestionPerformanceTrackingAspect" />
+
   <bean id="ingestionSecurityLoggingAspect" class="org.slc.sli.aspect.LoggerCarrierAspect" />
+
+  <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler" />
 
   <bean id="landingZoneManager" class="org.slc.sli.ingestion.landingzone.LandingZoneManager">
     <property name="singleLandingZoneDir" value="${landingzone.inbounddir}" />
     <property name="multipleLandingZonesEnabled" value="${sli.ingestion.tenant.deriveTenants}" />
   </bean>
 
-  <bean id="tenantDA" class="org.slc.sli.ingestion.tenant.TenantMongoDA">
-    <property name="entityRepository" ref="mongoEntityRepository" />
+  <bean id="tenantDA" class="org.slc.sli.ingestion.tenant.TenantMongoDA" >
+    <property name="entityRepository" ref="mongoEntityRepository"/>
   </bean>
 
   <bean id="tenantPopulator" class="org.slc.sli.ingestion.tenant.TenantPopulator">
@@ -72,10 +88,9 @@
   <bean id="xmlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
 
   <bean id="edFiProcessor" class="org.slc.sli.ingestion.processors.EdFiProcessor" />
-  <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler" />
 
   <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.PersistenceProcessor">
-    <property name="transformers" ref="transformers" />
+    <property name="transformers" ref="transformers"/>
     <property name="defaultEdFi2SLITransformer" ref="smooksEdFi2SLITransformer" />
     <property name="entityPersistHandlers" ref="entityPersistHandlers" />
     <property name="defaultEntityPersistHandler" ref="entityPersistHandler" />

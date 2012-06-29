@@ -15,17 +15,27 @@
  */
 
 
-package org.slc.sli.ingestion;
+package org.slc.sli.common.util.performance;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * Generic interface for writing resources.
+ * Annotation for storing the value that the method returns in the performance context.
  *
- * @author dduran
+ * @author ifaybyshev
  *
  */
-public interface ResourceWriter<T> {
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface PutResultInContext {
 
-    void writeResource(T t, String jobId);
+  /**
+   * Get the name.
+   * @return name
+   */
+  String returnName() default "";
 
-    void insertResource(T t, String jobId);
 }

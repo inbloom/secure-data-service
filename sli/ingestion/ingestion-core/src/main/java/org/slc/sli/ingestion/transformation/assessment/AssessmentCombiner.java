@@ -43,12 +43,10 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(AssessmentCombiner.class);
     
     private Map<Object, NeutralRecord> assessments;
-    private List<NeutralRecord> transformedAssessments;
     
     private static final String ASSESSMENT = "assessment";
     private static final String ASSESSMENT_FAMILY = "assessmentFamily";
     private static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
-    private static final String ASSESSMENT_TRANSFORMED = "assessment_transformed";
     
     @Autowired
     private ObjectiveAssessmentBuilder builder;
@@ -58,7 +56,6 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
      */
     public AssessmentCombiner() {
         assessments = new HashMap<Object, NeutralRecord>();
-        transformedAssessments = new ArrayList<NeutralRecord>();
     }
     
     /**
@@ -69,7 +66,6 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     public void performTransformation() {
         loadData();
         transform();
-        insertRecords(transformedAssessments, ASSESSMENT_TRANSFORMED);
     }
     
     /**
@@ -135,7 +131,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
             neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());
-            transformedAssessments.add(neutralRecord);
+            insertRecord(neutralRecord);
         }
     }
     

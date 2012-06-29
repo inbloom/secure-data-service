@@ -44,7 +44,6 @@ import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 public class LearningObjectiveTransform extends AbstractTransformationStrategy {
 
     public static final String LEARNING_OBJECTIVE = "learningObjective";
-    public static final String LEARNING_OBJECTIVE_TRANSFORMED = "learningObjective_transformed";
     public static final String ID_CODE = "identificationCode";
     public static final String CONTENT_STANDARD_NAME = "contentStandardName";
     public static final String LO_ID_CODE_PATH = "learningObjectiveId." + ID_CODE;
@@ -155,13 +154,11 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
             parentLO.getAttributes().put("learningStandards", uuidRefs);
         }
 
-        List<NeutralRecord> transformedLearningObjectives = new ArrayList<NeutralRecord>();
         for (NeutralRecord nr : allLearningObjectives) {
             nr.setRecordType(nr.getRecordType() + "_transformed");
             nr.setCreationTime(getWorkNote().getRangeMinimum());
-            transformedLearningObjectives.add(nr);
+            insertRecord(nr);
         }
-        insertRecords(transformedLearningObjectives, LEARNING_OBJECTIVE_TRANSFORMED);
     }
 
     @SuppressWarnings("unchecked")

@@ -46,14 +46,12 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(StudentAssessmentCombiner.class);
     
     private static final String STUDENT_ASSESSMENT_ASSOCIATION = "studentAssessmentAssociation";
-    private static final String STUDENT_ASSESSMENT_ASSOCIATION_TRANSFORMED = "studentAssessmentAssociation_transformed";
     private static final String STUDENT_OBJECTIVE_ASSESSMENT = "studentObjectiveAssessment";
     private static final String STUDENT_ASSESSMENT_REFERENCE = "studentAssessmentRef";
     private static final String OBJECTIVE_ASSESSMENT_REFERENCE = "objectiveAssessmentRef";
     private static final String STUDENT_ASSESSMENT_ITEMS_FIELD = "studentAssessmentItems";
     
     private Map<Object, NeutralRecord> studentAssessments;
-    List<NeutralRecord> transformedStudentAssessments;
     
     @Autowired
     private ObjectiveAssessmentBuilder builder;
@@ -63,7 +61,6 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
      */
     public StudentAssessmentCombiner() {
         studentAssessments = new HashMap<Object, NeutralRecord>();
-        transformedStudentAssessments = new ArrayList<NeutralRecord>();
     }
     
     /**
@@ -74,7 +71,6 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     public void performTransformation() {
         loadData();
         transform();
-        insertRecords(transformedStudentAssessments, STUDENT_ASSESSMENT_ASSOCIATION_TRANSFORMED);
     }
     
     /**
@@ -92,7 +88,8 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
      * Transforms student assessments from Ed-Fi model into SLI model.
      */
     public void transform() {
-        LOG.info("Transforming student assessment data");        
+        LOG.info("Transforming student assessment data");
+        
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : studentAssessments.entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
             Map<String, Object> attributes = neutralRecord.getAttributes();
@@ -119,7 +116,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
             }
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
             neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());
-            transformedStudentAssessments.add(neutralRecord);
+            insertRecord(neutralRecord);
         }
         LOG.info("Finished transforming student assessment data for {} student assessment associations.",
                 studentAssessments.size());

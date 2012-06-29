@@ -15,17 +15,27 @@
  */
 
 
-package org.slc.sli.ingestion;
+package org.slc.sli.common.util.performance;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * Generic interface for writing resources.
+ * Annotation for Profiling Methods
  *
- * @author dduran
+ * @author ifaybyshev
  *
  */
-public interface ResourceWriter<T> {
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface Profiled {
 
-    void writeResource(T t, String jobId);
+  /**
+   * Profiling level
+   * @return level
+   */
+  String level() default "INFO";
 
-    void insertResource(T t, String jobId);
 }
