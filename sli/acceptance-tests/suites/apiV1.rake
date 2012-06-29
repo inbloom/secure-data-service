@@ -2,8 +2,11 @@
 # API V1 tests start
 ############################################################
 task :apiV1EntityTests => [:realmInit] do
+  a = (1..1000)
   Rake::Task["importSandboxData"].execute
+  a.each do
   runTests("test/features/apiV1/entities/crud")
+  end
 end
 
 desc "Run V1 check for duplicate links"

@@ -67,7 +67,7 @@ public class ApiStatsdClient {
     public boolean timing(String key, int value) {
         // System.out.println(String.format("*****************StatsD Info: %s: %d", key, value));
         // return true;
-        return timing("api.allResources", value, 1.0);
+        return timing(key, value, 1.0);
     }
     
     public boolean timing(String key, int value, double sampleRate) {
