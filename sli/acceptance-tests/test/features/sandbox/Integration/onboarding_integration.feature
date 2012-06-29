@@ -69,16 +69,6 @@ Then the developer is directed to an acknowledgement page.
 And a verification email is sent to "<USER_EMAIL>"
 When the developer click link in verification email
 Then an account entry is made in ldap with "pending" status
-# And there is no registered account for "devldapuser@slidev.org" in the SLI database 
-# And there is no registered account for "devldapuser@slidev.org" in LDAP
-# Given the vendor "Macro Corp"  submits an account registration request
-# Then I am redirected to a page with terms and conditions
-# And when I click "Accept" 
-# Then I am directed to an acknowledgement page. 
-#  And an email verification link for "devldapuser@slidev.org" is generated
-# When the vendor verifies the email
-# Then an account entry is made in ldap with "pending" status
-
 When the SLC operator accesses the "<ACCOUNT_MANAGEMENT_APP>"
 And the SLC operator authenticates as "<SLC_OPERATOR_USER>" and "<SLC_OPERATOR_PASS>"
 And the SLC operator approves the vendor account for "<USER_EMAIL>"
