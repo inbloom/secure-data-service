@@ -39,9 +39,9 @@ public final class ResourceEntry {
 
     private String topLevelLandingZonePath;
 
-    private long recordCount;
+    private int recordCount;
 
-    private long errorCount;
+    private int errorCount;
 
     // mongoTemplate requires this constructor.
     public ResourceEntry() {
@@ -109,19 +109,19 @@ public final class ResourceEntry {
         this.topLevelLandingZonePath = topLevelLandingZone;
     }
 
-    public long getRecordCount() {
+    public int getRecordCount() {
         return recordCount;
     }
 
-    public void setRecordCount(long recordCount) {
+    public void setRecordCount(int recordCount) {
         this.recordCount = recordCount;
     }
 
-    public long getErrorCount() {
+    public int getErrorCount() {
         return errorCount;
     }
 
-    public void setErrorCount(long errorCount) {
+    public void setErrorCount(int errorCount) {
         this.errorCount = errorCount;
     }
 
