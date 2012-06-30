@@ -71,7 +71,8 @@ public final class WadlViewerHandler implements WadlHandler {
         final String id = WadlHelper.computeId(method, resource, resources, application, ancestors);
 
         final Request request = method.getRequest();
-        for (final Param param : request.getParams()) {
+        for (@SuppressWarnings("unused")
+        final Param param : request.getParams()) {
 
         }
 

@@ -23,44 +23,47 @@ public final class JavaType {
     public static final JavaType JT_EXCEPTION = simpleType(Exception.class.getSimpleName(), JT_THROWABLE);
 
     public static JavaType complexType(final String simpleName, final JavaType base) {
-        return new JavaType(simpleName, false, false, false, true, base);
+        return new JavaType(simpleName, JavaCollectionKind.NONE, JavaTypeKind.COMPLEX, base);
     }
+
     public static JavaType enumType(final String simpleName, final JavaType base) {
-        return new JavaType(simpleName, false, false, true, false, base);
+        return new JavaType(simpleName, JavaCollectionKind.NONE, JavaTypeKind.ENUM, base);
     }
-    public static JavaType listType(final JavaType primeType) {
-        return new JavaType(primeType.getSimpleName(), true, false, primeType.isEnum, primeType.isComplex, null);
+
+    public static JavaType collectionType(final JavaCollectionKind collectionKind, final JavaType primeType) {
+        if (collectionKind == null) {
+            throw new NullPointerException("collectionKind");
+        }
+        if (primeType == null) {
+            throw new NullPointerException("primeType");
+        }
+        return new JavaType(primeType.getSimpleName(), collectionKind, primeType.getTypeKind(), null);
     }
+
     public static JavaType mapType(final JavaType keyType, final JavaType valueType) {
-        return new JavaType(keyType.getSimpleName(), false, true, keyType.isEnum, keyType.isComplex, null);
+        return new JavaType(keyType.getSimpleName(), JavaCollectionKind.MAP, keyType.getTypeKind(), null);
     }
+
     private static JavaType simpleType(final String simpleName) {
-        return new JavaType(simpleName, false, false, false, false, null);
+        return new JavaType(simpleName, JavaCollectionKind.NONE, JavaTypeKind.SIMPLE, null);
     }
+
     public static JavaType simpleType(final String simpleName, final JavaType base) {
-        return new JavaType(simpleName, false, false, false, false, base);
+        return new JavaType(simpleName, JavaCollectionKind.NONE, JavaTypeKind.SIMPLE, base);
     }
 
     private final QName name;
-
-    private final boolean isList;
-
-    private final boolean isMap;
-
-    private final boolean isEnum;
-
-    private final boolean isComplex;
-
+    private final JavaCollectionKind collectionKind;
+    private final JavaTypeKind typeKind;
     private final JavaType base;
 
-    public JavaType(final String simpleName, final boolean isList, final boolean isMap, final boolean isEnum,
-            final boolean isComplex, final JavaType base) {
+    public JavaType(final String simpleName, final JavaCollectionKind collectionKind, final JavaTypeKind typeKind,
+            final JavaType base) {
         name = new QName(simpleName);
-        this.isList = isList;
-        this.isMap = isMap;
-        this.isEnum = isEnum;
-        this.isComplex = isComplex;
         this.base = base;
+        this.collectionKind = collectionKind;
+        this.typeKind = typeKind;
+
     }
 
     @Override
@@ -68,9 +71,9 @@ public final class JavaType {
         if (obj instanceof JavaType) {
             final JavaType other = (JavaType) obj;
             // FIXME: Compare base types without going recursive (check for null).
-            return this.getSimpleName().equals(other.getSimpleName()) && (this.isList() == other.isList())
-                    && (this.isMap() == other.isMap()) && (this.isEnum() == other.isEnum())
-                    && (this.isComplex() == other.isComplex());
+            return this.getSimpleName().equals(other.getSimpleName())
+                    && (this.getCollectionKind() == other.getCollectionKind())
+                    && (this.getTypeKind() == other.getTypeKind());
         } else {
             return false;
         }
@@ -85,15 +88,23 @@ public final class JavaType {
     }
 
     public JavaType getBaseType() {
-        if (!getBase().equals(JavaType.JT_OBJECT) && !isEnum()) {
+        if (!getBase().equals(JavaType.JT_OBJECT) && !(typeKind == JavaTypeKind.ENUM)) {
             return getBase().getBaseType();
         } else {
             return this;
         }
     }
 
+    public JavaCollectionKind getCollectionKind() {
+        return collectionKind;
+    }
+
     public String getSimpleName() {
         return name.getLocalPart();
+    }
+
+    public JavaTypeKind getTypeKind() {
+        return typeKind;
     }
 
     @Override
@@ -101,20 +112,18 @@ public final class JavaType {
         return name.hashCode();
     }
 
-    public boolean isComplex() {
-        return isComplex;
-    }
-
-    public boolean isEnum() {
-        return isEnum;
-    }
-
-    public boolean isList() {
-        return isList;
-    }
-
-    public boolean isMap() {
-        return isMap;
+    public JavaType primeType() {
+        switch (collectionKind) {
+        case NONE: {
+            return this;
+        }
+        case LIST: {
+            return new JavaType(name.getLocalPart(), JavaCollectionKind.NONE, typeKind, base);
+        }
+        default: {
+            throw new AssertionError(collectionKind);
+        }
+        }
     }
 
     @Override
@@ -122,10 +131,8 @@ public final class JavaType {
         final StringBuilder sb = new StringBuilder();
         sb.append("{");
         sb.append("name : " + name);
-        sb.append(", isList : " + isList);
-        sb.append(", isMap : " + isMap);
-        sb.append(", isEnum : " + isEnum);
-        sb.append(", isComplex : " + isComplex);
+        sb.append(", collectionKind : " + collectionKind);
+        sb.append(", typeKind : " + typeKind);
         sb.append("}");
         return sb.toString();
     }

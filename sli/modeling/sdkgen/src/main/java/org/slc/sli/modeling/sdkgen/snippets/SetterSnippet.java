@@ -8,7 +8,7 @@ import org.slc.sli.modeling.jgen.JavaStreamWriter;
 import org.slc.sli.modeling.jgen.JavaType;
 import org.slc.sli.modeling.jgen.snippets.Block;
 import org.slc.sli.modeling.jgen.snippets.IfThenElse;
-import org.slc.sli.modeling.jgen.snippets.JavaIdentifier;
+import org.slc.sli.modeling.jgen.snippets.VarNameExpr;
 import org.slc.sli.modeling.jgen.snippets.NotEqual;
 import org.slc.sli.modeling.jgen.snippets.Word;
 
@@ -32,7 +32,7 @@ public final class SetterSnippet implements JavaSnippet {
     public void write(final JavaStreamWriter jsw) throws IOException {
 
         final JavaParam param = new JavaParam(name, type, true);
-        final JavaIdentifier value = new JavaIdentifier(name);
+        final VarNameExpr value = new VarNameExpr(name);
 
         jsw.write("public");
         jsw.space();

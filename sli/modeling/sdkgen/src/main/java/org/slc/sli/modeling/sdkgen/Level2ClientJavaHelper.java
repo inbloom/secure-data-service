@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.slc.sli.modeling.jgen.JavaCollectionKind;
 import org.slc.sli.modeling.jgen.JavaParam;
 import org.slc.sli.modeling.jgen.JavaType;
 import org.slc.sli.modeling.rest.Param;
@@ -27,7 +28,7 @@ public final class Level2ClientJavaHelper {
                 // We could make this driven from the WADL if we had a foreign name-space element
                 // "maxOccurs", like XML Schema.
                 final JavaType javaPrimeType = GenericJavaHelper.getJavaType(type);
-                final JavaType javaType = JavaType.listType(javaPrimeType);
+                final JavaType javaType = JavaType.collectionType(JavaCollectionKind.LIST, javaPrimeType);
                 javaParams.add(new JavaParam(param.getName(), javaType, true));
             }
         }

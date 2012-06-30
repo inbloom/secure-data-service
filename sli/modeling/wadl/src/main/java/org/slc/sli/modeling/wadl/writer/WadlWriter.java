@@ -5,6 +5,7 @@ import static org.slc.sli.modeling.wadl.WadlSyntax.encodeStringList;
 
 import java.io.BufferedOutputStream;
 import java.io.Closeable;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -154,6 +155,23 @@ public final class WadlWriter {
             final String fileName) {
         try {
             final OutputStream outstream = new BufferedOutputStream(new FileOutputStream(fileName));
+            try {
+                writeDocument(app, prefixMappings, outstream);
+            } finally {
+                closeQuiet(outstream);
+            }
+        } catch (final FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static final void writeDocument(final Application app, final Map<String, String> prefixMappings,
+            final File file) {
+        if (file == null) {
+            throw new NullPointerException("file");
+        }
+        try {
+            final OutputStream outstream = new BufferedOutputStream(new FileOutputStream(file));
             try {
                 writeDocument(app, prefixMappings, outstream);
             } finally {

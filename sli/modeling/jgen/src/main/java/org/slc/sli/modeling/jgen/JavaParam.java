@@ -29,4 +29,14 @@ public final class JavaParam {
     public boolean isFinal() {
         return isFinal;
     }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        sb.append("name : " + name);
+        sb.append(", type : " + type);
+        sb.append("}");
+        return sb.toString();
+    }
 }

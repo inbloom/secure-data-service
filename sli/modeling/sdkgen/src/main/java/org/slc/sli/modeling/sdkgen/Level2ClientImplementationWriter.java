@@ -1,5 +1,6 @@
 package org.slc.sli.modeling.sdkgen;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
@@ -17,12 +18,14 @@ import org.slc.sli.modeling.rest.Param;
 import org.slc.sli.modeling.rest.Resource;
 import org.slc.sli.modeling.rest.Resources;
 import org.slc.sli.modeling.rest.helpers.RestHelper;
+import org.slc.sli.modeling.sdkgen.grammars.SdkGenGrammars;
+import org.slc.sli.modeling.sdkgen.grammars.xsd.SdkGenGrammarsWrapper;
 import org.slc.sli.modeling.wadl.helpers.WadlHelper;
 
 /**
  * Writes the implementation for the Level 2 Client SDK.
  */
-public final class Level2ClientImplementationWriter extends Level2ClientWriter {
+public final class Level2ClientImplementationWriter extends Level3ClientWriter {
 
     private static final JavaType URI_SYNTAX_EXCEPTION = JavaType.simpleType(URISyntaxException.class.getSimpleName(),
             JavaType.JT_EXCEPTION);
@@ -35,8 +38,8 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
     private final List<String> interfaces;
 
     public Level2ClientImplementationWriter(final String packageName, final String className,
-            final List<String> interfaces, final JavaStreamWriter jsw) {
-        super(jsw);
+            final List<String> interfaces, final File wadlFile, final JavaStreamWriter jsw) {
+        super(jsw, wadlFile);
         if (packageName == null) {
             throw new NullPointerException("packageName");
         }
@@ -110,9 +113,15 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
     @Override
     protected void writeGET(final Method method, final Resource resource, final Resources resources,
             final Application application, final Stack<Resource> ancestors) throws IOException {
+
+        final boolean quietMode = true;
+        final SdkGenGrammars grammars = new SdkGenGrammarsWrapper(schemas);
+
         jsw.writeComment(method.getId());
         jsw.writeOverride();
-        jsw.write("public ").space().writeType(JT_LIST_OF_ENTITY).space().write(method.getId());
+        final JavaType responseType = LevelNClientJavaHelper.getResponseJavaType(method, grammars, quietMode);
+        jsw.write("public").space().writeType(LevelNClientJavaHelper.computeGenericType(responseType, quietMode))
+                .space().write(method.getId());
         jsw.parenL();
         final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
         final List<JavaParam> params = Level2ClientJavaHelper.computeJavaGETParams(templateParams);
@@ -130,7 +139,12 @@ public final class Level2ClientImplementationWriter extends Level2ClientWriter {
                     .write("final URIBuilder builder = URIBuilder.baseUri(" + FIELD_BASE_URI.getName()
                             + ").addPath(path).query(queryArgs)").endStmt();
             jsw.beginStmt().write("final URI uri = builder.build()").endStmt();
-            jsw.beginStmt().write("return ").write(FIELD_CLIENT.getName()).write(".get(token, uri)").endStmt();
+            jsw.beginStmt();
+            jsw.write("return").space().write(FIELD_CLIENT.getName()).write(".get(token, uri)");
+            if (LevelNClientJavaHelper.isMapStringToObject(responseType)) {
+                jsw.write(".get(0).getData()");
+            }
+            jsw.endStmt();
             jsw.endBlock();
             jsw.beginCatch(URI_SYNTAX_EXCEPTION, "e");
             jsw.beginStmt().write("throw new AssertionError(e)").endStmt();

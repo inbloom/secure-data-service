@@ -171,17 +171,16 @@ public class StandardLevel3ClientManualTest {
         String studentId = doPostStudentUsingJson(client);
         doPostCustomForStudentById(studentId, client);
 
-        List<Map<String, Object>> customs = client.getCustomForStudentsById(TestingConstants.ROGERS_TOKEN, Arrays.asList(studentId),
-                new HashMap<String, Object>());
-
-        Map<String, Object> custom = customs.get(0);
+        Map<String, Object> custom = client.getCustomForStudentsById(TestingConstants.ROGERS_TOKEN,
+                Arrays.asList(studentId), new HashMap<String, Object>());
 
         assertEquals("testCustom1V", custom.get("testCustom1K"));
         assertEquals("testCustom2V", custom.get("testCustom2K"));
         assertTrue(custom.get("testCustom3K") instanceof Map);
     }
 
-    private void doPostCustomForStudentById(String studentId, Level3ClientManual client) throws IOException, StatusCodeException {
+    private void doPostCustomForStudentById(String studentId, Level3ClientManual client) throws IOException,
+            StatusCodeException {
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("testCustom1K", "testCustom1V");
         data.put("testCustom2K", "testCustom2V");
@@ -195,8 +194,7 @@ public class StandardLevel3ClientManualTest {
         client.postCustomForStudentsById(TestingConstants.ROGERS_TOKEN, studentId, customEntity);
     }
 
-    private void doDeleteStudent(Level3ClientManual client, Student student) throws IOException,
-            StatusCodeException {
+    private void doDeleteStudent(Level3ClientManual client, Student student) throws IOException, StatusCodeException {
         client.deleteStudent(TestingConstants.ROGERS_TOKEN, student);
     }
 

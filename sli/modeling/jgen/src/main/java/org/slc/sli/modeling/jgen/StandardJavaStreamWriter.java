@@ -339,6 +339,30 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     }
 
     @Override
+    public void writeAssignment(final JavaParam lhs, final JavaSnippetExpr rhs) throws IOException {
+        if (lhs == null) {
+            throw new NullPointerException("lhs");
+        }
+        if (rhs == null) {
+            throw new NullPointerException("rhs");
+        }
+        beginStmt();
+        try {
+            writer.write("final");
+            writer.write(SPACE);
+            writeType(lhs.getType());
+            writer.write(SPACE);
+            writer.write(lhs.getName());
+            writer.write(SPACE);
+            writer.write("=");
+            writer.write(SPACE);
+            write(rhs);
+        } finally {
+            endStmt();
+        }
+    }
+
+    @Override
     public void writeAttribute(final JavaParam param) throws IOException {
         if (param == null) {
             throw new NullPointerException("param");
@@ -524,13 +548,27 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
 
     @Override
     public JavaStreamWriter writeType(final JavaType type) throws IOException {
-        if (type.isList()) {
+        final JavaCollectionKind collectionKind = type.getCollectionKind();
+        switch (collectionKind) {
+        case LIST: {
             write("List<").write(type.getSimpleName()).write(">");
-        } else if (type.isMap()) {
-            write("Map<").write(type.getSimpleName()).write(",Object>");
-        } else {
-            write(type.getSimpleName());
+            return this;
         }
-        return this;
+        case ARRAY_LIST: {
+            write("ArrayList<").write(type.getSimpleName()).write(">");
+            return this;
+        }
+        case MAP: {
+            write("Map<").write(type.getSimpleName()).write(",Object>");
+            return this;
+        }
+        case NONE: {
+            write(type.getSimpleName());
+            return this;
+        }
+        default: {
+            throw new AssertionError(collectionKind);
+        }
+        }
     }
 }

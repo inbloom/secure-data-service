@@ -6,8 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
-import org.apache.ws.commons.schema.XmlSchema;
-
 import org.slc.sli.modeling.jgen.JavaParam;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 import org.slc.sli.modeling.jgen.JavaType;
@@ -27,27 +25,18 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
 
     private final String packageName;
     private final String className;
-    private final File wadlFile;
-    /**
-     * As we encounter schemas in the grammars, we add them here.
-     */
-    final List<XmlSchema> schemas = new LinkedList<XmlSchema>();
 
     public Level3ClientInterfaceWriter(final String packageName, final String className, final File wadlFile,
             final JavaStreamWriter jsw) {
-        super(jsw);
+        super(jsw, wadlFile);
         if (packageName == null) {
             throw new NullPointerException("packageName");
         }
         if (className == null) {
             throw new NullPointerException("className");
         }
-        if (wadlFile == null) {
-            throw new NullPointerException("wadlFile");
-        }
         this.packageName = packageName;
         this.className = className;
-        this.wadlFile = wadlFile;
     }
 
     @Override
@@ -72,13 +61,16 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
     protected void writeGET(final Method method, final Resource resource, final Resources resources,
             final Application application, final Stack<Resource> ancestors) throws IOException {
 
+        final boolean quietMode = true;
         final SdkGenGrammars grammars = new SdkGenGrammarsWrapper(schemas);
 
-        jsw.writeComment(method.getId());
+        final String methodName = method.getId();
+
+        jsw.writeComment(methodName);
         jsw.beginStmt();
         try {
-            final JavaType responseType = getResponseJavaType(method, grammars);
-            jsw.writeType(responseType).space().write(method.getId());
+            final JavaType responseType = LevelNClientJavaHelper.getResponseJavaType(method, grammars, quietMode);
+            jsw.writeType(responseType).space().write(methodName);
             jsw.parenL();
             final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
             final List<JavaParam> params = Level2ClientJavaHelper.computeJavaGETParams(templateParams);
@@ -92,9 +84,10 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
     }
 
     @Override
-    protected void writePOST(Method method, Resource resource, Resources resources, Application application,
-            Stack<Resource> ancestors) throws IOException {
+    protected void writePOST(final Method method, final Resource resource, final Resources resources,
+            final Application application, final Stack<Resource> ancestors) throws IOException {
 
+        final boolean quietMode = true;
         final SdkGenGrammars grammars = new SdkGenGrammarsWrapper(schemas);
 
         final String methodId = method.getId();
@@ -106,8 +99,7 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
             jsw.writeType(JavaType.JT_STRING).space().write(methodName);
             jsw.parenL();
             final List<Param> wparams = RestHelper.computeRequestTemplateParams(resource, ancestors);
-            final JavaType requestType = getRequestJavaType(method, grammars);
-            final JavaParam requestParam = new JavaParam("entity", requestType, true);
+            final JavaParam requestParam = getRequestJavaParam(method, grammars, quietMode);
             final List<JavaParam> jparams = LevelNClientJavaHelper.computeParams(PARAM_TOKEN, wparams, requestParam);
             jsw.writeParams(jparams);
             jsw.parenR();
@@ -121,17 +113,25 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
     protected void writePUT(Method method, Resource resource, Resources resources, Application application,
             Stack<Resource> ancestors) throws IOException {
 
+        final boolean quietMode = true;
         final SdkGenGrammars grammars = new SdkGenGrammarsWrapper(schemas);
 
-        jsw.writeComment(method.getId());
+        final String methodName = method.getId();
+        jsw.writeComment(methodName);
         jsw.beginStmt();
         try {
-            jsw.writeType(JavaType.JT_VOID).space().write(method.getId());
+            jsw.writeType(JavaType.JT_VOID).space().write(methodName);
             jsw.parenL();
             final List<Param> wparams = RestHelper.computeRequestTemplateParams(resource, ancestors);
-            final JavaType requestType = getRequestJavaType(method, grammars);
-            final JavaParam requestParam = new JavaParam("entity", requestType, true);
+            final JavaParam requestParam = getRequestJavaParam(method, grammars, quietMode);
             final List<JavaParam> jparams = LevelNClientJavaHelper.computeParams(PARAM_TOKEN, wparams, requestParam);
+            //
+            // final List<Param> wparams = RestHelper.computeRequestTemplateParams(resource,
+            // ancestors);
+            // final JavaType requestType = getRequestJavaType(method, grammars);
+            // final JavaParam requestParam = new JavaParam("entity", requestType, true);
+            // final List<JavaParam> jparams = LevelNClientJavaHelper.computeParams(PARAM_TOKEN,
+            // wparams, requestParam);
             jsw.writeParams(jparams);
             jsw.parenR();
             jsw.writeThrows(IO_EXCEPTION, STATUS_CODE_EXCEPTION);

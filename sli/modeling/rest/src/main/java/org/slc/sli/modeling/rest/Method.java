@@ -25,6 +25,11 @@ public final class Method extends WadlElement {
      * DELETE
      */
     public static final String NAME_HTTP_DELETE = "DELETE";
+    /**
+     * PATCH
+     */
+    public static final String NAME_HTTP_PATCH = "PATCH";
+
     private final String id;
     private final String name;
     private final Request request;

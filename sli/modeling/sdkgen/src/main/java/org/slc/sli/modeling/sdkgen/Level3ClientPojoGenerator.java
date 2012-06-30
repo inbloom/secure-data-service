@@ -14,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.modeling.jgen.JavaCollectionKind;
 import org.slc.sli.modeling.jgen.JavaFeature;
 import org.slc.sli.modeling.jgen.JavaGenConfig;
 import org.slc.sli.modeling.jgen.JavaOutputFactory;
@@ -22,13 +23,14 @@ import org.slc.sli.modeling.jgen.JavaSnippet;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 import org.slc.sli.modeling.jgen.JavaType;
 import org.slc.sli.modeling.jgen.JavaTypeHelper;
+import org.slc.sli.modeling.jgen.JavaTypeKind;
 import org.slc.sli.modeling.jgen.JavadocHelper;
 import org.slc.sli.modeling.jgen.snippets.Block;
 import org.slc.sli.modeling.jgen.snippets.IfThenElse;
-import org.slc.sli.modeling.jgen.snippets.JavaIdentifier;
 import org.slc.sli.modeling.jgen.snippets.NotEqual;
 import org.slc.sli.modeling.jgen.snippets.ParenExpr;
 import org.slc.sli.modeling.jgen.snippets.ReturnStmt;
+import org.slc.sli.modeling.jgen.snippets.VarNameExpr;
 import org.slc.sli.modeling.jgen.snippets.Word;
 import org.slc.sli.modeling.sdkgen.snippets.CoerceToPojoTypeSnippet;
 import org.slc.sli.modeling.sdkgen.snippets.ReturnNewClassTypeSnippet;
@@ -286,7 +288,7 @@ public final class Level3ClientPojoGenerator {
         jsw.parenR();
         jsw.beginBlock();
         try {
-            final JavaSnippet testSnippet = new NotEqual(new JavaIdentifier(FIELD_UNDERLYING.getName()), Word.NULL);
+            final JavaSnippet testSnippet = new NotEqual(new VarNameExpr(FIELD_UNDERLYING.getName()), Word.NULL);
             final JavaSnippet thenSnippet = new ReturnNewClassTypeSnippet(classType, FIELD_UNDERLYING);
             final JavaSnippet elseSnippet = new ReturnStmt(Word.NULL);
             final JavaSnippet ite = new IfThenElse(testSnippet, thenSnippet, elseSnippet);
@@ -305,7 +307,7 @@ public final class Level3ClientPojoGenerator {
         jsw.write("@Override");
         jsw.space();
         jsw.write("public").space().writeType(TYPE_UNDERLYING).space().write("toMap").parenL().parenR();
-        new Block(new ReturnStmt(new JavaIdentifier(FIELD_UNDERLYING.getName()))).write(jsw);
+        new Block(new ReturnStmt(new VarNameExpr(FIELD_UNDERLYING.getName()))).write(jsw);
     }
 
     private static final void writeClassType(final String packageName, final List<String> importNames,
@@ -377,14 +379,14 @@ public final class Level3ClientPojoGenerator {
         }
     }
 
-    private static void writeDefaultConstructor(final ClassType classType, final JavaStreamWriter jsw) throws IOException {
+    private static void writeDefaultConstructor(final ClassType classType, final JavaStreamWriter jsw)
+            throws IOException {
         // Default initializer
         jsw.write("public");
         jsw.space();
         jsw.write(classType.getName()).parenL().parenR().beginBlock();
-        jsw.write("this").parenL().write(Word.NEW).space()
-           .write("HashMap<String,Object>").parenL().parenR()
-           .parenR().endStmt();
+        jsw.write("this").parenL().write(Word.NEW).space().write("HashMap<String,Object>").parenL().parenR().parenR()
+                .endStmt();
         jsw.endBlock();
     }
 
@@ -416,8 +418,8 @@ public final class Level3ClientPojoGenerator {
             new ReturnStmt(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, baseType)).write(jsw);
         } else if (JavaType.JT_BIG_INTEGER.equals(baseType)) {
             new ReturnStmt(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, baseType)).write(jsw);
-        } else if (baseType.isEnum()) {
-            if (baseType.isList()) {
+        } else if (baseType.getTypeKind() == JavaTypeKind.ENUM) {
+            if (type.getCollectionKind() == JavaCollectionKind.LIST) {
                 jsw.beginStmt().write("final ").writeType(baseType).write(" list = new ArrayList<")
                         .write(baseType.getSimpleName()).write(">()").endStmt();
                 jsw.beginStmt().write("return list").endStmt();
@@ -432,8 +434,8 @@ public final class Level3ClientPojoGenerator {
                 }
                 jsw.endStmt();
             }
-        } else if (baseType.isComplex()) {
-            if (baseType.isList()) {
+        } else if (baseType.getTypeKind() == JavaTypeKind.COMPLEX) {
+            if (type.getCollectionKind() == JavaCollectionKind.LIST) {
                 new ReturnStmt(Word.NULL).write(jsw);
             } else {
                 jsw.beginStmt();
@@ -448,7 +450,7 @@ public final class Level3ClientPojoGenerator {
                 }
             }
         } else {
-            if (baseType.isList()) {
+            if (type.getCollectionKind() == JavaCollectionKind.LIST) {
                 new ReturnStmt(Word.NULL).write(jsw);
             } else {
                 jsw.beginStmt();

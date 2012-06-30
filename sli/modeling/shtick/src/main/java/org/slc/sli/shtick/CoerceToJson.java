@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class CoerceToJson {
 
-    public static List<String> toStingList(final List<? extends StringEnum> elements) {
+    public static List<String> toStringList(final List<? extends StringEnum> elements) {
         final List<String> strings = new ArrayList<String>();
         for (final StringEnum element : elements) {
             element.toString();

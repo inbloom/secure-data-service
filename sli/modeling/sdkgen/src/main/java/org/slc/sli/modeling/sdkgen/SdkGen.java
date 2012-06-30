@@ -200,7 +200,7 @@ public final class SdkGen {
             final JavaStreamWriter jsw = jof.createJavaStreamWriter(outstream, "UTF-8", config);
             try {
                 new WadlWalker(new Level2ClientImplementationWriter(name.getNamespaceURI(), name.getLocalPart(),
-                        interfaces, jsw)).walk(wadl.getApplication());
+                        interfaces, wadl.getSource(), jsw)).walk(wadl.getApplication());
             } finally {
                 jsw.flush();
             }
@@ -249,8 +249,8 @@ public final class SdkGen {
         try {
             final JavaStreamWriter jsw = jof.createJavaStreamWriter(outstream, "UTF-8", config);
             try {
-                new WadlWalker(new Level2ClientInterfaceWriter(name.getNamespaceURI(), name.getLocalPart(), jsw))
-                        .walk(wadl.getApplication());
+                new WadlWalker(new Level2ClientInterfaceWriter(name.getNamespaceURI(), name.getLocalPart(),
+                        wadl.getSource(), jsw)).walk(wadl.getApplication());
             } finally {
                 jsw.flush();
             }

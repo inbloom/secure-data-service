@@ -59,6 +59,8 @@ public interface JavaStreamWriter extends Flushable, Closeable {
 
     void writeArgs(String... args) throws IOException;
 
+    void writeAssignment(JavaParam lhs, JavaSnippetExpr rhs) throws IOException;
+
     void writeAttribute(JavaParam param) throws IOException;
 
     void writeAttribute(String name, String typeName) throws IOException;

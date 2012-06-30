@@ -22,6 +22,7 @@ public final class WhereUsedCmdLine {
             final ModelIndex index = new DefaultModelIndex(model);
 
             final String name = "percent";
+            @SuppressWarnings("deprecation")
             final Set<ModelElement> matches = index.lookupByName(new QName(name));
             for (final ModelElement match : matches) {
                 System.out.println("name : " + name + " => " + match);

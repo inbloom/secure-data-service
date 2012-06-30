@@ -10,9 +10,15 @@ import java.util.Stack;
 
 import org.apache.ws.commons.schema.XmlSchema;
 
+import org.slc.sli.modeling.jgen.JavaCollectionKind;
 import org.slc.sli.modeling.jgen.JavaParam;
+import org.slc.sli.modeling.jgen.JavaSnippetExpr;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 import org.slc.sli.modeling.jgen.JavaType;
+import org.slc.sli.modeling.jgen.snippets.MethodCallExpr;
+import org.slc.sli.modeling.jgen.snippets.NewInstanceExpr;
+import org.slc.sli.modeling.jgen.snippets.ReturnStmt;
+import org.slc.sli.modeling.jgen.snippets.VarNameExpr;
 import org.slc.sli.modeling.rest.Application;
 import org.slc.sli.modeling.rest.Include;
 import org.slc.sli.modeling.rest.Method;
@@ -23,6 +29,9 @@ import org.slc.sli.modeling.rest.helpers.RestHelper;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenGrammars;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenResolver;
 import org.slc.sli.modeling.sdkgen.grammars.xsd.SdkGenGrammarsWrapper;
+import org.slc.sli.modeling.sdkgen.snippets.NewEntityFromListExpr;
+import org.slc.sli.modeling.sdkgen.snippets.NewEntityFromMapExpr;
+import org.slc.sli.modeling.sdkgen.snippets.NewEntityFromMappableExpr;
 import org.slc.sli.modeling.xsd.XsdReader;
 
 public final class Level3ClientImplementationWriter extends Level3ClientWriter {
@@ -42,7 +51,6 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
     private final String packageName;
     private final String className;
     private final List<String> interfaces;
-    private final File wadlFile;
 
     /**
      * As we encounter schemas in the grammars, we add them here.
@@ -51,20 +59,16 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
 
     public Level3ClientImplementationWriter(final String packageName, final String className,
             final List<String> interfaces, final File wadlFile, final JavaStreamWriter jsw) {
-        super(jsw);
+        super(jsw, wadlFile);
         if (packageName == null) {
             throw new NullPointerException("packageName");
         }
         if (className == null) {
             throw new NullPointerException("className");
         }
-        if (wadlFile == null) {
-            throw new NullPointerException("wadlFile");
-        }
         this.packageName = packageName;
         this.className = className;
         this.interfaces = Collections.unmodifiableList(new ArrayList<String>(interfaces));
-        this.wadlFile = wadlFile;
     }
 
     @Override
@@ -74,8 +78,10 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
             jsw.writeImport("java.io.IOException");
             jsw.writeImport("java.net.URISyntaxException");
             jsw.writeImport("java.net.URI");
+            jsw.writeImport("java.util.ArrayList");
             jsw.writeImport("java.util.List");
             jsw.writeImport("java.util.Map");
+            jsw.writeImport("org.slc.sli.shtick.pojo.*");
             jsw.writeImport("org.apache.commons.lang3.StringUtils");
             jsw.beginClass(className, interfaces);
             // Attributes
@@ -183,12 +189,15 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
     protected void writeGET(final Method method, final Resource resource, final Resources resources,
             final Application application, final Stack<Resource> ancestors) throws IOException {
 
+        final boolean quietMode = true;
         final SdkGenGrammars grammars = new SdkGenGrammarsWrapper(schemas);
 
-        jsw.writeComment(method.getId());
+        final String methodName = method.getId();
+
+        jsw.writeComment(methodName);
         jsw.writeOverride();
-        final JavaType responseType = getResponseJavaType(method, grammars);
-        jsw.write("public").space().writeType(responseType).space().write(method.getId());
+        final JavaType responseType = LevelNClientJavaHelper.getResponseJavaType(method, grammars, quietMode);
+        jsw.write("public").space().writeType(responseType).space().write(methodName);
         jsw.parenL();
         final List<Param> templateParams = RestHelper.computeRequestTemplateParams(resource, ancestors);
         final List<JavaParam> jparams = Level2ClientJavaHelper.computeJavaGETParams(templateParams);
@@ -197,21 +206,42 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
         jsw.writeThrows(IO_EXCEPTION, STATUS_CODE_EXCEPTION);
         jsw.beginBlock();
         try {
-            jsw.beginStmt();
-            jsw.write("return").space().write(FIELD_CLIENT.getName()).write(".").write(method.getId());
-            jsw.parenL();
-            jsw.writeArgs(getArgs(jparams));
-            jsw.parenR();
-            jsw.endStmt();
+            final JavaParam entityList = new JavaParam("entityList", JT_LIST_OF_ENTITY, true);
+            final List<JavaSnippetExpr> args = computeArgs(jparams);
+            final MethodCallExpr rhs = new MethodCallExpr(new VarNameExpr(FIELD_CLIENT.getName()), methodName, args);
+            jsw.writeAssignment(entityList, rhs);
+            //
+            // jsw.beginStmt();
+            // jsw.write("return").space().write(FIELD_CLIENT.getName()).write(".").write(method.getId());
+            // jsw.parenL();
+            // jsw.writeArgs(getArgs(jparams));
+            // jsw.parenR();
+            // jsw.endStmt();
+
+            final JavaParam responseList = new JavaParam("responseList", responseType, true);
+            final JavaType responseArrayListType = JavaType.collectionType(JavaCollectionKind.ARRAY_LIST,
+                    responseList.getType());
+            jsw.writeAssignment(responseList, new NewInstanceExpr(responseArrayListType));
+
+            jsw.write(new ReturnStmt(new VarNameExpr(responseList.getName())));
         } finally {
             jsw.endBlock();
         }
+    }
+
+    private static List<JavaSnippetExpr> computeArgs(final List<JavaParam> jparams) {
+        final List<JavaSnippetExpr> args = new ArrayList<JavaSnippetExpr>(jparams.size());
+        for (final JavaParam jparam : jparams) {
+            args.add(new VarNameExpr(jparam.getName()));
+        }
+        return args;
     }
 
     @Override
     protected void writePOST(Method method, Resource resource, Resources resources, Application application,
             Stack<Resource> ancestors) throws IOException {
 
+        final boolean quietMode = true;
         final SdkGenGrammars grammars = new SdkGenGrammarsWrapper(schemas);
 
         jsw.writeComment(method.getId());
@@ -219,18 +249,23 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
         jsw.write("public").space().writeType(JavaType.JT_STRING).space().write(method.getId());
         jsw.parenL();
         final List<Param> wparams = RestHelper.computeRequestTemplateParams(resource, ancestors);
-        final JavaType requestType = getRequestJavaType(method, grammars);
-        final JavaParam requestParam = new JavaParam("entity", requestType, true);
+        final JavaParam requestParam = getRequestJavaParam(method, grammars, quietMode);
         final List<JavaParam> jparams = LevelNClientJavaHelper.computeParams(PARAM_TOKEN, wparams, requestParam);
         jsw.writeParams(jparams);
         jsw.parenR();
         jsw.writeThrows(IO_EXCEPTION, STATUS_CODE_EXCEPTION);
         jsw.beginBlock();
         try {
+            final JavaParam entityParam = new JavaParam("entity", JT_ENTITY, true);
+            final JavaSnippetExpr rhs = computeRequestParamMapping(entityParam.getType(), requestParam);
+            jsw.writeAssignment(entityParam, rhs);
+
             jsw.beginStmt();
             jsw.write("return").space().write(FIELD_CLIENT.getName()).write(".").write(method.getId());
             jsw.parenL();
-            jsw.writeArgs(getArgs(jparams));
+            final List<JavaParam> callParameters = getRequestCallParameters(method, resource, ancestors, grammars,
+                    quietMode);
+            jsw.writeArgs(getArgs(callParameters));
             jsw.parenR();
             jsw.endStmt();
         } finally {
@@ -238,29 +273,65 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
         }
     }
 
+    private static final JavaSnippetExpr computeRequestParamMapping(final JavaType targetType,
+            final JavaParam sourceParam) {
+        final JavaType sourceType = sourceParam.getType();
+        switch (sourceType.getCollectionKind()) {
+        case NONE: {
+            return new NewEntityFromMappableExpr(targetType, sourceParam.getName());
+        }
+        case MAP: {
+            return new NewEntityFromMapExpr(targetType, sourceParam.getName());
+        }
+        case LIST: {
+            return new NewEntityFromListExpr(targetType, sourceParam.getName());
+        }
+        default: {
+            throw new AssertionError(sourceType.getCollectionKind());
+        }
+        }
+    }
+
+    private static List<JavaParam> getRequestCallParameters(final Method method, final Resource resource,
+            final Stack<Resource> ancestors, final SdkGenGrammars grammars, final boolean quietMode) {
+        final List<Param> wparams = RestHelper.computeRequestTemplateParams(resource, ancestors);
+        final JavaType requestType = getRequestJavaType(method, grammars, quietMode);
+        final JavaParam requestParam = new JavaParam("entity", requestType, true);
+        final List<JavaParam> jparams = LevelNClientJavaHelper.computeParams(PARAM_TOKEN, wparams, requestParam);
+        return jparams;
+    }
+
     @Override
-    protected void writePUT(Method method, Resource resource, Resources resources, Application application,
+    protected void writePUT(final Method method, Resource resource, Resources resources, Application application,
             Stack<Resource> ancestors) throws IOException {
 
+        final boolean quietMode = true;
         final SdkGenGrammars grammars = new SdkGenGrammarsWrapper(schemas);
 
-        jsw.writeComment(method.getId());
+        final String methodName = method.getId();
+
+        jsw.writeComment(methodName);
         jsw.writeOverride();
-        jsw.write("public").space().writeType(JavaType.JT_VOID).space().write(method.getId());
+        jsw.write("public").space().writeType(JavaType.JT_VOID).space().write(methodName);
         jsw.parenL();
         final List<Param> wparams = RestHelper.computeRequestTemplateParams(resource, ancestors);
-        final JavaType requestType = getRequestJavaType(method, grammars);
-        final JavaParam requestParam = new JavaParam("entity", requestType, true);
+        final JavaParam requestParam = getRequestJavaParam(method, grammars, quietMode);
         final List<JavaParam> jparams = LevelNClientJavaHelper.computeParams(PARAM_TOKEN, wparams, requestParam);
         jsw.writeParams(jparams);
         jsw.parenR();
         jsw.writeThrows(IO_EXCEPTION, STATUS_CODE_EXCEPTION);
         jsw.beginBlock();
         try {
+            final JavaParam entityParam = new JavaParam("entity", JT_ENTITY, true);
+            final JavaSnippetExpr rhs = computeRequestParamMapping(entityParam.getType(), requestParam);
+            jsw.writeAssignment(entityParam, rhs);
+
             jsw.beginStmt();
-            jsw.write(FIELD_CLIENT.getName()).write(".").write(method.getId());
+            jsw.write(FIELD_CLIENT.getName()).write(".").write(methodName);
             jsw.parenL();
-            jsw.writeArgs(getArgs(jparams));
+            final List<JavaParam> callParameters = getRequestCallParameters(method, resource, ancestors, grammars,
+                    quietMode);
+            jsw.writeArgs(getArgs(callParameters));
             jsw.parenR();
             jsw.endStmt();
         } finally {
