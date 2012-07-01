@@ -80,20 +80,28 @@ public abstract class Level3ClientWriter implements WadlHandler {
                 final List<Representation> representations = request.getRepresentations();
                 for (final Representation representation : representations) {
                     representation.getMediaType();
-                    final QName elementName = representation.getElement();
-                    final XmlSchemaElement element = grammars.getElement(elementName);
-                    if (element != null) {
-                        final Stack<QName> elementNames = new Stack<QName>();
-                        return Level3ClientJavaHelper.toJavaTypeFromSchemaElement(element, elementNames, grammars);
+                    final QName elementName = representation.getElementName();
+                    if (elementName != null) {
+                        final XmlSchemaElement element = grammars.getElement(elementName);
+                        if (element != null) {
+                            final Stack<QName> elementNames = new Stack<QName>();
+                            return Level3ClientJavaHelper.toJavaTypeFromSchemaElement(element, elementNames, grammars);
+                        } else {
+                            if (CUSTOM_ELEMENT_NAME.equals(elementName)) {
+                                return JT_MAP_STRING_TO_OBJECT;
+                            } else {
+                                if (quietMode) {
+                                    return JavaType.JT_OBJECT;
+                                } else {
+                                    throw new RuntimeException("Unknown element: " + elementName);
+                                }
+                            }
+                        }
                     } else {
-                        if (CUSTOM_ELEMENT_NAME.equals(elementName)) {
+                        if (quietMode) {
                             return JT_MAP_STRING_TO_OBJECT;
                         } else {
-                            if (quietMode) {
-                                return JavaType.JT_OBJECT;
-                            } else {
-                                throw new RuntimeException("Unknown element: " + elementName);
-                            }
+                            throw new RuntimeException("Unknown element: " + elementName);
                         }
                     }
                 }
@@ -110,22 +118,30 @@ public abstract class Level3ClientWriter implements WadlHandler {
                 final List<Representation> representations = request.getRepresentations();
                 for (final Representation representation : representations) {
                     representation.getMediaType();
-                    final QName elementName = representation.getElement();
-                    final XmlSchemaElement element = grammars.getElement(elementName);
-                    if (element != null) {
-                        final Stack<QName> elementNames = new Stack<QName>();
-                        final JavaType requestJavaType = Level3ClientJavaHelper.toJavaTypeFromSchemaElement(element,
-                                elementNames, grammars);
-                        return new JavaParam(elementName.getLocalPart(), requestJavaType, true);
-                    } else {
-                        if (CUSTOM_ELEMENT_NAME.equals(elementName)) {
-                            return new JavaParam(elementName.getLocalPart(), JT_MAP_STRING_TO_OBJECT, true);
+                    final QName elementName = representation.getElementName();
+                    if (elementName != null) {
+                        final XmlSchemaElement element = grammars.getElement(elementName);
+                        if (element != null) {
+                            final Stack<QName> elementNames = new Stack<QName>();
+                            final JavaType requestJavaType = Level3ClientJavaHelper.toJavaTypeFromSchemaElement(
+                                    element, elementNames, grammars);
+                            return new JavaParam(elementName.getLocalPart(), requestJavaType, true);
                         } else {
-                            if (quietMode) {
-                                return new JavaParam(elementName.getLocalPart(), JavaType.JT_OBJECT, true);
+                            if (CUSTOM_ELEMENT_NAME.equals(elementName)) {
+                                return new JavaParam(elementName.getLocalPart(), JT_MAP_STRING_TO_OBJECT, true);
                             } else {
-                                throw new RuntimeException("Unknown element: " + elementName);
+                                if (quietMode) {
+                                    return new JavaParam(elementName.getLocalPart(), JavaType.JT_OBJECT, true);
+                                } else {
+                                    throw new RuntimeException("Unknown element: " + elementName);
+                                }
                             }
+                        }
+                    } else {
+                        if (quietMode) {
+                            return new JavaParam("unknown", JT_MAP_STRING_TO_OBJECT, true);
+                        } else {
+                            throw new RuntimeException("Unknown element: " + elementName);
                         }
                     }
                 }
@@ -142,7 +158,7 @@ public abstract class Level3ClientWriter implements WadlHandler {
                 final List<Representation> representations = response.getRepresentations();
                 for (final Representation representation : representations) {
                     representation.getMediaType();
-                    final QName elementName = representation.getElement();
+                    final QName elementName = representation.getElementName();
                     final XmlSchemaElement element = grammars.getElement(elementName);
                     if (element != null) {
                         final Stack<QName> elementNames = new Stack<QName>();
@@ -167,13 +183,14 @@ public abstract class Level3ClientWriter implements WadlHandler {
     public final void method(final Method method, final Resource resource, final Resources resources,
             final Application application, final Stack<Resource> ancestors) {
         try {
-            if (Method.NAME_HTTP_GET.equals(method.getName())) {
+            final String verb = method.getVerb();
+            if (Method.NAME_HTTP_GET.equals(verb)) {
                 writeGET(method, resource, resources, application, ancestors);
-            } else if (Method.NAME_HTTP_POST.equals(method.getName())) {
+            } else if (Method.NAME_HTTP_POST.equals(verb)) {
                 writePOST(method, resource, resources, application, ancestors);
-            } else if (Method.NAME_HTTP_PUT.equals(method.getName())) {
+            } else if (Method.NAME_HTTP_PUT.equals(verb)) {
                 writePUT(method, resource, resources, application, ancestors);
-            } else if (Method.NAME_HTTP_DELETE.equals(method.getName())) {
+            } else if (Method.NAME_HTTP_DELETE.equals(verb)) {
                 writeDELETE(method, resource, resources, application, ancestors);
             } else {
                 throw new AssertionError(method);

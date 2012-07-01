@@ -31,39 +31,39 @@ public final class Method extends WadlElement {
     public static final String NAME_HTTP_PATCH = "PATCH";
 
     private final String id;
-    private final String name;
+    private final String verb;
     private final Request request;
     private final List<Response> responses;
 
-    public Method(final String id, final String name, final List<Documentation> doc, final Request request,
+    public Method(final String id, final String verb, final List<Documentation> doc, final Request request,
             final List<Response> responses) {
         super(doc);
-        if (null == name) {
-            throw new NullPointerException("name");
+        if (null == verb) {
+            throw new NullPointerException("verb");
         }
         if (null == responses) {
             throw new NullPointerException("responses");
         }
         this.id = id;
-        this.name = checkName(name);
+        this.verb = checkVerb(verb);
         this.request = request;
         this.responses = Collections.unmodifiableList(new ArrayList<Response>(responses));
     }
 
-    private static final String checkName(final String name) {
-        if (name == null) {
-            throw new NullPointerException("name");
+    private static final String checkVerb(final String verb) {
+        if (verb == null) {
+            throw new NullPointerException("verb");
         }
-        if (NAME_HTTP_POST.equals(name)) {
-            return name;
-        } else if (NAME_HTTP_GET.equals(name)) {
-            return name;
-        } else if (NAME_HTTP_PUT.equals(name)) {
-            return name;
-        } else if (NAME_HTTP_DELETE.equals(name)) {
-            return name;
+        if (NAME_HTTP_POST.equals(verb)) {
+            return verb;
+        } else if (NAME_HTTP_GET.equals(verb)) {
+            return verb;
+        } else if (NAME_HTTP_PUT.equals(verb)) {
+            return verb;
+        } else if (NAME_HTTP_DELETE.equals(verb)) {
+            return verb;
         } else {
-            throw new IllegalArgumentException("name: " + name);
+            throw new IllegalArgumentException("verb : " + verb);
         }
     }
 
@@ -71,8 +71,8 @@ public final class Method extends WadlElement {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getVerb() {
+        return verb;
     }
 
     public Request getRequest() {
@@ -89,7 +89,7 @@ public final class Method extends WadlElement {
         sb.append("{");
         sb.append("id").append(" : ").append(id);
         sb.append(", ");
-        sb.append("name").append(" : ").append(name);
+        sb.append("name").append(" : ").append(verb);
         sb.append(", ");
         sb.append("request").append(" : ").append(request);
         sb.append(", ");

@@ -187,7 +187,7 @@ public final class PsmConfigWriter {
 
     private static final void writePluralResourceName(final PsmResource resource, final XMLStreamWriter xsw)
             throws XMLStreamException {
-        xsw.writeStartElement(PsmConfigElements.PLURAL_RESOURCE_NAME.getLocalPart());
+        xsw.writeStartElement(PsmConfigElements.GRAPH_RESOURCE_NAME.getLocalPart());
         try {
             xsw.writeCharacters(resource.getName());
         } finally {
@@ -254,7 +254,7 @@ public final class PsmConfigWriter {
             } finally {
                 xsw.writeEndElement();
             }
-            writePluralResourceName(document.getPluralResourceName(), xsw);
+            writePluralResourceName(document.getGraphAssociationEndName(), xsw);
             writeSingularResourceName(document.getSingularResourceName(), xsw);
         } finally {
             xsw.writeEndElement();

@@ -23,12 +23,12 @@ public final class SdkGenGrammarsWrapper implements SdkGenGrammars {
     }
 
     @Override
-    public XmlSchemaElement getElement(final QName name) {
-        if (name == null) {
-            throw new NullPointerException("name");
+    public XmlSchemaElement getElement(final QName elementName) {
+        if (elementName == null) {
+            throw new NullPointerException("elementName");
         }
         for (final XmlSchema xmlSchema : xmlSchemas) {
-            final XmlSchemaElement element = xmlSchema.getElementByName(name);
+            final XmlSchemaElement element = xmlSchema.getElementByName(elementName);
             if (element != null) {
                 return element;
             }

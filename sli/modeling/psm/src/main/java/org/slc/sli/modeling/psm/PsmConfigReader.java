@@ -89,20 +89,20 @@ public final class PsmConfigReader {
         while (reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
-                case XMLStreamConstants.START_ELEMENT: {
-                    if (match(PsmConfigElements.DOCUMENTS, reader)) {
-                        dm = assertNotNull(readConfig(mapper, reader));
-                    } else {
-                        skipElement(reader);
-                    }
-                    break;
+            case XMLStreamConstants.START_ELEMENT: {
+                if (match(PsmConfigElements.DOCUMENTS, reader)) {
+                    dm = assertNotNull(readConfig(mapper, reader));
+                } else {
+                    skipElement(reader);
                 }
-                case XMLStreamConstants.END_DOCUMENT: {
-                    return validateNotNull(dm, "Missing root element: " + PsmConfigElements.DOCUMENTS);
-                }
-                default: {
-                    throw new AssertionError(reader.getEventType());
-                }
+                break;
+            }
+            case XMLStreamConstants.END_DOCUMENT: {
+                return validateNotNull(dm, "Missing root element: " + PsmConfigElements.DOCUMENTS);
+            }
+            default: {
+                throw new AssertionError(reader.getEventType());
+            }
             }
         }
         throw new AssertionError();
@@ -117,28 +117,28 @@ public final class PsmConfigReader {
         while (!done && reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
-                case XMLStreamConstants.START_ELEMENT: {
-                    if (match(PsmConfigElements.DOCUMENT, reader)) {
-                        domains.add(assertNotNull(readClassType(mapper, reader)));
-                    } else {
-                        throw new AssertionError(reader.getLocalName());
-                    }
-                    break;
+            case XMLStreamConstants.START_ELEMENT: {
+                if (match(PsmConfigElements.DOCUMENT, reader)) {
+                    domains.add(assertNotNull(readClassType(mapper, reader)));
+                } else {
+                    throw new AssertionError(reader.getLocalName());
                 }
-                case XMLStreamConstants.END_ELEMENT: {
-                    assertName(PsmConfigElements.DOCUMENTS, reader);
-                    done = true;
-                    break;
-                }
-                case XMLStreamConstants.CHARACTERS:
-                case XMLStreamConstants.COMMENT:
-                case XMLStreamConstants.PROCESSING_INSTRUCTION: {
-                    // Ignore.
-                    break;
-                }
-                default: {
-                    throw new AssertionError(reader.getEventType());
-                }
+                break;
+            }
+            case XMLStreamConstants.END_ELEMENT: {
+                assertName(PsmConfigElements.DOCUMENTS, reader);
+                done = true;
+                break;
+            }
+            case XMLStreamConstants.CHARACTERS:
+            case XMLStreamConstants.COMMENT:
+            case XMLStreamConstants.PROCESSING_INSTRUCTION: {
+                // Ignore.
+                break;
+            }
+            default: {
+                throw new AssertionError(reader.getEventType());
+            }
             }
         }
         return new PsmConfig<Type>(domains);
@@ -152,21 +152,21 @@ public final class PsmConfigReader {
         while (!done && reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
-                case XMLStreamConstants.START_ELEMENT: {
-                    throw new AssertionError(reader.getLocalName());
-                }
-                case XMLStreamConstants.END_ELEMENT: {
-                    assertName(name, reader);
-                    done = true;
-                    break;
-                }
-                case XMLStreamConstants.CHARACTERS: {
-                    // Ignore.
-                    break;
-                }
-                default: {
-                    throw new AssertionError(reader.getEventType());
-                }
+            case XMLStreamConstants.START_ELEMENT: {
+                throw new AssertionError(reader.getLocalName());
+            }
+            case XMLStreamConstants.END_ELEMENT: {
+                assertName(name, reader);
+                done = true;
+                break;
+            }
+            case XMLStreamConstants.CHARACTERS: {
+                // Ignore.
+                break;
+            }
+            default: {
+                throw new AssertionError(reader.getEventType());
+            }
             }
         }
         return className;
@@ -180,52 +180,52 @@ public final class PsmConfigReader {
         while (!done && reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
-                case XMLStreamConstants.START_ELEMENT: {
-                    throw new AssertionError(reader.getLocalName());
-                }
-                case XMLStreamConstants.END_ELEMENT: {
-                    assertName(PsmConfigElements.SINGULAR_RESOURCE_NAME, reader);
-                    done = true;
-                    break;
-                }
-                case XMLStreamConstants.CHARACTERS: {
-                    sb.append(reader.getText());
-                    break;
-                }
-                default: {
-                    throw new AssertionError(reader.getEventType());
-                }
+            case XMLStreamConstants.START_ELEMENT: {
+                throw new AssertionError(reader.getLocalName());
+            }
+            case XMLStreamConstants.END_ELEMENT: {
+                assertName(PsmConfigElements.SINGULAR_RESOURCE_NAME, reader);
+                done = true;
+                break;
+            }
+            case XMLStreamConstants.CHARACTERS: {
+                sb.append(reader.getText());
+                break;
+            }
+            default: {
+                throw new AssertionError(reader.getEventType());
+            }
             }
         }
-        return new PsmCollection(sb.toString());
+        return new PsmCollection(sb.toString().trim());
     }
 
     private static final PsmResource readResource(final XMLStreamReader reader) throws XMLStreamException {
         assertStartElement(reader);
-        assertName(PsmConfigElements.PLURAL_RESOURCE_NAME, reader);
+        assertName(PsmConfigElements.GRAPH_RESOURCE_NAME, reader);
         final StringBuilder sb = new StringBuilder();
         boolean done = false;
         while (!done && reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
-                case XMLStreamConstants.START_ELEMENT: {
-                    throw new AssertionError(reader.getLocalName());
-                }
-                case XMLStreamConstants.END_ELEMENT: {
-                    assertName(PsmConfigElements.PLURAL_RESOURCE_NAME, reader);
-                    done = true;
-                    break;
-                }
-                case XMLStreamConstants.CHARACTERS: {
-                    sb.append(reader.getText());
-                    break;
-                }
-                default: {
-                    throw new AssertionError(reader.getEventType());
-                }
+            case XMLStreamConstants.START_ELEMENT: {
+                throw new AssertionError(reader.getLocalName());
+            }
+            case XMLStreamConstants.END_ELEMENT: {
+                assertName(PsmConfigElements.GRAPH_RESOURCE_NAME, reader);
+                done = true;
+                break;
+            }
+            case XMLStreamConstants.CHARACTERS: {
+                sb.append(reader.getText());
+                break;
+            }
+            default: {
+                throw new AssertionError(reader.getEventType());
+            }
             }
         }
-        return new PsmResource(sb.toString());
+        return new PsmResource(sb.toString().trim());
     }
 
     private static final String getName(final XMLStreamReader reader) {
@@ -242,44 +242,44 @@ public final class PsmConfigReader {
         assertStartElement(reader);
         assertName(PsmConfigElements.DOCUMENT, reader);
         ClassType type = null;
-        PsmResource resource = null;
+        PsmResource graphResource = null;
         PsmCollection collection = null;
         boolean done = false;
         while (!done && reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
-                case XMLStreamConstants.START_ELEMENT: {
-                    if (match(PsmConfigElements.CLASS_TYPE, reader)) {
-                        final String className = readClassName(PsmConfigElements.CLASS_TYPE, reader);
-                        @SuppressWarnings("deprecation")
-                        final Set<ModelElement> elements = modelIndex.lookupByName(new QName(className));
-                        type = assertNotNull(resolveClass(elements, className));
-                    } else if (match(PsmConfigElements.PLURAL_RESOURCE_NAME, reader)) {
-                        resource = readResource(reader);
-                    } else if (match(PsmConfigElements.SINGULAR_RESOURCE_NAME, reader)) {
-                        collection = readCollection(reader);
-                    } else {
-                        throw new AssertionError(reader.getLocalName());
-                    }
-                    break;
+            case XMLStreamConstants.START_ELEMENT: {
+                if (match(PsmConfigElements.CLASS_TYPE, reader)) {
+                    final String className = readClassName(PsmConfigElements.CLASS_TYPE, reader);
+                    @SuppressWarnings("deprecation")
+                    final Set<ModelElement> elements = modelIndex.lookupByName(new QName(className));
+                    type = assertNotNull(resolveClass(elements, className));
+                } else if (match(PsmConfigElements.GRAPH_RESOURCE_NAME, reader)) {
+                    graphResource = readResource(reader);
+                } else if (match(PsmConfigElements.SINGULAR_RESOURCE_NAME, reader)) {
+                    collection = readCollection(reader);
+                } else {
+                    throw new AssertionError(reader.getLocalName());
                 }
-                case XMLStreamConstants.END_ELEMENT: {
-                    assertName(PsmConfigElements.DOCUMENT, reader);
-                    done = true;
-                    break;
-                }
-                case XMLStreamConstants.CHARACTERS:
-                case XMLStreamConstants.COMMENT: {
-                    // Ignore.
-                    break;
-                }
-                default: {
-                    throw new AssertionError(reader.getEventType());
-                }
+                break;
+            }
+            case XMLStreamConstants.END_ELEMENT: {
+                assertName(PsmConfigElements.DOCUMENT, reader);
+                done = true;
+                break;
+            }
+            case XMLStreamConstants.CHARACTERS:
+            case XMLStreamConstants.COMMENT: {
+                // Ignore.
+                break;
+            }
+            default: {
+                throw new AssertionError(reader.getEventType());
+            }
             }
         }
         // TODO:
-        return new PsmDocument<Type>(type, resource, collection);
+        return new PsmDocument<Type>(type, graphResource, collection);
     }
 
     private static final ClassType resolveClass(final Set<ModelElement> elements, final String className) {

@@ -87,12 +87,12 @@ public final class PluginForMongo implements Uml2XsdPlugin {
     }
 
     @Override
-    public QName getPluralTopLevelElementName(final PsmDocument<Type> classType) {
-        return new QName(classType.getPluralResourceName().getName());
+    public QName getGraphAssociationEndName(final PsmDocument<Type> classType) {
+        return new QName(classType.getGraphAssociationEndName().getName());
     }
 
     @Override
-    public QName getSingularTopLevelElementName(final PsmDocument<Type> classType) {
+    public QName getElementName(final PsmDocument<Type> classType) {
         return new QName(classType.getSingularResourceName().getName());
     }
 
@@ -203,7 +203,7 @@ public final class PluginForMongo implements Uml2XsdPlugin {
     public void writeTopLevelElement(PsmDocument<Type> classType, ModelIndex model, Uml2XsdPluginWriter xsw) {
         xsw.element();
         try {
-            final QName name = getSingularTopLevelElementName(classType);
+            final QName name = getElementName(classType);
             xsw.elementName(name);
             final Type elementType = classType.getType();
             {

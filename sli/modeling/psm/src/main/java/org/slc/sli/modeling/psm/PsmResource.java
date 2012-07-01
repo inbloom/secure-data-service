@@ -7,7 +7,7 @@ public final class PsmResource {
         if (name == null) {
             throw new NullPointerException("name");
         }
-        this.name = name;
+        this.name = name.trim();
     }
 
     public String getName() {

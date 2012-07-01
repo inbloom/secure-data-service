@@ -65,20 +65,28 @@ public final class LevelNClientJavaHelper {
                 final List<Representation> representations = response.getRepresentations();
                 for (final Representation representation : representations) {
                     representation.getMediaType();
-                    final QName elementName = representation.getElement();
-                    final XmlSchemaElement element = grammars.getElement(elementName);
-                    if (element != null) {
-                        final Stack<QName> elementNames = new Stack<QName>();
-                        return Level3ClientJavaHelper.toJavaTypeFromSchemaElement(element, elementNames, grammars);
-                    } else {
-                        if (CUSTOM_ELEMENT_NAME.equals(elementName)) {
-                            return JT_MAP_STRING_TO_OBJECT;
+                    final QName elementName = representation.getElementName();
+                    if (elementName != null) {
+                        final XmlSchemaElement element = grammars.getElement(elementName);
+                        if (element != null) {
+                            final Stack<QName> elementNames = new Stack<QName>();
+                            return Level3ClientJavaHelper.toJavaTypeFromSchemaElement(element, elementNames, grammars);
                         } else {
-                            if (quietMode) {
-                                return JavaType.JT_OBJECT;
+                            if (CUSTOM_ELEMENT_NAME.equals(elementName)) {
+                                return JT_MAP_STRING_TO_OBJECT;
                             } else {
-                                throw new RuntimeException("Unknown element: " + elementName);
+                                if (quietMode) {
+                                    return JavaType.JT_OBJECT;
+                                } else {
+                                    throw new RuntimeException("Unknown element: " + elementName);
+                                }
                             }
+                        }
+                    } else {
+                        if (quietMode) {
+                            return JavaType.JT_OBJECT;
+                        } else {
+                            throw new RuntimeException("Representation is missing element name specification.");
                         }
                     }
                 }

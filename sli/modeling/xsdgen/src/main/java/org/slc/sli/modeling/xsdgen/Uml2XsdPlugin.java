@@ -41,14 +41,14 @@ public interface Uml2XsdPlugin {
     QName getElementType(final String name, final boolean isAssociation);
 
     /**
-     * Returns the W3C XML Schema name for the UML class, in the plural form.
+     * Returns the Graph arc name for the UML class (a plural form).
      */
-    QName getPluralTopLevelElementName(final PsmDocument<Type> classType);
+    QName getGraphAssociationEndName(final PsmDocument<Type> classType);
 
     /**
-     * Returns the W3C XML Schema name for the UML class, in the singular form.
+     * Returns the W3C XML Schema element name for the UML class (a singular form).
      */
-    QName getSingularTopLevelElementName(final PsmDocument<Type> classType);
+    QName getElementName(final PsmDocument<Type> classType);
 
     String getTargetNamespace();
 

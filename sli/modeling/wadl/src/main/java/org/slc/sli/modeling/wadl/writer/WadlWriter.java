@@ -232,7 +232,7 @@ public final class WadlWriter {
             if (representation.getId() != null) {
                 xsw.writeAttribute(WadlAttributeName.ID.getLocalName(), representation.getId());
             }
-            final QName element = representation.getElement();
+            final QName element = representation.getElementName();
             xsw.writeAttribute(WadlAttributeName.ELEMENT.getLocalName(), toLexicalForm(element, xsw));
             writeDocumentation(representation, xsw);
         } finally {
@@ -266,7 +266,7 @@ public final class WadlWriter {
     private static final void writeMethod(final Method method, final XMLStreamWriter xsw) throws XMLStreamException {
         xsw.writeStartElement(WADL_PREFIX, WadlElementName.METHOD.getLocalName(), WadlSyntax.NAMESPACE);
         try {
-            xsw.writeAttribute(WadlAttributeName.NAME.getLocalName(), method.getName());
+            xsw.writeAttribute(WadlAttributeName.NAME.getLocalName(), method.getVerb());
             xsw.writeAttribute(WadlAttributeName.ID.getLocalName(), method.getId());
             writeDocumentation(method, xsw);
             if (method.getRequest() != null) {
@@ -343,7 +343,7 @@ public final class WadlWriter {
             if (representation.getId() != null) {
                 xsw.writeAttribute(WadlAttributeName.ID.getLocalName(), representation.getId());
             }
-            final QName element = representation.getElement();
+            final QName element = representation.getElementName();
             if (element != null) {
                 xsw.writeAttribute(WadlAttributeName.ELEMENT.getLocalName(), toLexicalForm(element, xsw));
             }

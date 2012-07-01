@@ -20,9 +20,9 @@ public interface PsmConfigElements {
     public static final QName LOWER = new QName("lower");
     public static final QName NAME = new QName("name");
     /**
-     * The plural resource name will typically be used for collections.
+     * The graph resource name will typically be used for association end names and REST URIs.
      */
-    public static final QName PLURAL_RESOURCE_NAME = new QName("plural");
+    public static final QName GRAPH_RESOURCE_NAME = new QName("graph");
     public static final QName SOURCE = new QName("source");
     public static final QName TITLE = new QName("title");
     public static final QName TYPE = new QName("type");

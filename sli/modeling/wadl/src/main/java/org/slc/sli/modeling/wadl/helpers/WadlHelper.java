@@ -42,7 +42,7 @@ public final class WadlHelper {
         final List<String> steps = reverse(toSteps(resource, ancestors));
 
         final StringBuilder sb = new StringBuilder();
-        sb.append(method.getName().toLowerCase());
+        sb.append(method.getVerb().toLowerCase());
         boolean first = true;
         boolean seenParam = false;
         String paramName = null;

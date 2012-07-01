@@ -15,9 +15,11 @@ import org.slc.sli.modeling.jgen.JavaParam;
 import org.slc.sli.modeling.jgen.JavaSnippetExpr;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 import org.slc.sli.modeling.jgen.JavaType;
+import org.slc.sli.modeling.jgen.snippets.EnhancedForLoop;
 import org.slc.sli.modeling.jgen.snippets.MethodCallExpr;
 import org.slc.sli.modeling.jgen.snippets.NewInstanceExpr;
 import org.slc.sli.modeling.jgen.snippets.ReturnStmt;
+import org.slc.sli.modeling.jgen.snippets.Stmt;
 import org.slc.sli.modeling.jgen.snippets.VarNameExpr;
 import org.slc.sli.modeling.rest.Application;
 import org.slc.sli.modeling.rest.Include;
@@ -36,9 +38,9 @@ import org.slc.sli.modeling.xsd.XsdReader;
 
 public final class Level3ClientImplementationWriter extends Level3ClientWriter {
 
-    private static final JavaParam FIELD_BASE_URI = new JavaParam("baseUri", JavaType.JT_STRING, true);
     private static final JavaType JT_LEVEL_TWO_CLIENT = JavaType.simpleType("Level2Client", JavaType.JT_OBJECT);
     private static final JavaParam FIELD_CLIENT = new JavaParam("innerClient", JT_LEVEL_TWO_CLIENT, true);
+    private static final VarNameExpr VARNAME_INNER_CLIENT = new VarNameExpr(FIELD_CLIENT.getName());
 
     private static final List<String> getArgs(final List<JavaParam> params) {
         final List<String> args = new ArrayList<String>(params.size());
@@ -85,7 +87,6 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
             jsw.writeImport("org.apache.commons.lang3.StringUtils");
             jsw.beginClass(className, interfaces);
             // Attributes
-            jsw.writeAttribute(FIELD_BASE_URI);
             jsw.writeAttribute(FIELD_CLIENT);
             // Write Initializer
             writeCanonicalInitializer(application);
@@ -119,19 +120,15 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
     }
 
     private void writeCanonicalInitializer(final Application application) {
-        final JavaParam PARAM_BASE_URI = new JavaParam("baseUri", JavaType.JT_STRING, true);
         final JavaParam PARAM_CLIENT = new JavaParam("client", JT_LEVEL_TWO_CLIENT, true);
         try {
             jsw.write("public " + className);
             jsw.parenL();
-            jsw.writeParams(PARAM_BASE_URI, PARAM_CLIENT);
+            jsw.writeParams(PARAM_CLIENT);
             jsw.parenR();
             jsw.beginBlock();
             jsw.beginStmt();
-            jsw.write("this.").write(FIELD_BASE_URI.getName()).write("=").write(PARAM_BASE_URI.getName());
-            jsw.endStmt();
-            jsw.beginStmt();
-            jsw.write("this.").write(FIELD_CLIENT.getName()).write("=").write(PARAM_CLIENT.getName());
+            jsw.write("this.").write(VARNAME_INNER_CLIENT).write("=").write(PARAM_CLIENT.getName());
             jsw.endStmt();
             jsw.endBlock();
         } catch (final IOException e) {
@@ -142,7 +139,7 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
     private void writeConvenienceInitializer(final Application application) {
         final JavaParam PARAM_BASE_URI = new JavaParam("baseUri", JavaType.JT_STRING, true);
         try {
-            jsw.write("public " + className);
+            jsw.write("public").space().write(className);
             jsw.parenL();
             jsw.writeParams(PARAM_BASE_URI);
             jsw.parenR();
@@ -150,7 +147,7 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
             jsw.beginStmt();
             jsw.write("this");
             jsw.parenL();
-            jsw.write(PARAM_BASE_URI.getName() + ", new StandardLevel2Client(baseUri)");
+            jsw.write("new StandardLevel2Client(baseUri)");
             jsw.parenR();
             jsw.endStmt();
             jsw.endBlock();
@@ -175,7 +172,7 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
         jsw.beginBlock();
         try {
             jsw.beginStmt();
-            jsw.write(FIELD_CLIENT.getName()).write(".").write(method.getId());
+            jsw.write(VARNAME_INNER_CLIENT).write(".").write(method.getId());
             jsw.parenL();
             jsw.writeArgs(getArgs(jparams));
             jsw.parenR();
@@ -206,24 +203,26 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
         jsw.writeThrows(IO_EXCEPTION, STATUS_CODE_EXCEPTION);
         jsw.beginBlock();
         try {
-            final JavaParam entityList = new JavaParam("entityList", JT_LIST_OF_ENTITY, true);
             final List<JavaSnippetExpr> args = computeArgs(jparams);
-            final MethodCallExpr rhs = new MethodCallExpr(new VarNameExpr(FIELD_CLIENT.getName()), methodName, args);
-            jsw.writeAssignment(entityList, rhs);
-            //
-            // jsw.beginStmt();
-            // jsw.write("return").space().write(FIELD_CLIENT.getName()).write(".").write(method.getId());
-            // jsw.parenL();
-            // jsw.writeArgs(getArgs(jparams));
-            // jsw.parenR();
-            // jsw.endStmt();
+            final MethodCallExpr callInner = new MethodCallExpr(VARNAME_INNER_CLIENT, methodName, args);
+            if (!LevelNClientJavaHelper.isMapStringToObject(responseType)) {
+                final JavaParam entityList = new JavaParam("entityList", JT_LIST_OF_ENTITY, true);
+                jsw.writeAssignment(entityList, callInner);
 
-            final JavaParam responseList = new JavaParam("responseList", responseType, true);
-            final JavaType responseArrayListType = JavaType.collectionType(JavaCollectionKind.ARRAY_LIST,
-                    responseList.getType());
-            jsw.writeAssignment(responseList, new NewInstanceExpr(responseArrayListType));
+                final JavaParam responseList = new JavaParam("responseList", responseType, true);
+                final JavaType responseArrayListType = JavaType.collectionType(JavaCollectionKind.ARRAY_LIST,
+                        responseList.getType());
+                jsw.writeAssignment(responseList, new NewInstanceExpr(responseArrayListType));
 
-            jsw.write(new ReturnStmt(new VarNameExpr(responseList.getName())));
+                final JavaParam entity = new JavaParam("entity", JT_ENTITY, true);
+                jsw.write(new EnhancedForLoop(entity, new VarNameExpr(entityList.getName()), new Stmt(
+                        new MethodCallExpr(new VarNameExpr(responseList.getName()), "add", new NewInstanceExpr(
+                                responseType.primeType(), new MethodCallExpr(new VarNameExpr(entity.getName()),
+                                        "getData"))))));
+                jsw.write(new ReturnStmt(new VarNameExpr(responseList.getName())));
+            } else {
+                jsw.write(new ReturnStmt(callInner));
+            }
         } finally {
             jsw.endBlock();
         }
@@ -261,7 +260,7 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
             jsw.writeAssignment(entityParam, rhs);
 
             jsw.beginStmt();
-            jsw.write("return").space().write(FIELD_CLIENT.getName()).write(".").write(method.getId());
+            jsw.write("return").space().write(VARNAME_INNER_CLIENT).write(".").write(method.getId());
             jsw.parenL();
             final List<JavaParam> callParameters = getRequestCallParameters(method, resource, ancestors, grammars,
                     quietMode);
@@ -327,7 +326,7 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
             jsw.writeAssignment(entityParam, rhs);
 
             jsw.beginStmt();
-            jsw.write(FIELD_CLIENT.getName()).write(".").write(methodName);
+            jsw.write(VARNAME_INNER_CLIENT).write(".").write(methodName);
             jsw.parenL();
             final List<JavaParam> callParameters = getRequestCallParameters(method, resource, ancestors, grammars,
                     quietMode);

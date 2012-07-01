@@ -74,12 +74,12 @@ public final class PluginForREST implements Uml2XsdPlugin {
     }
 
     @Override
-    public QName getPluralTopLevelElementName(final PsmDocument<Type> classType) {
-        return new QName(TARGET_NAMESPACE, classType.getPluralResourceName().getName(), TARGET_NAMESPACE_PREFIX);
+    public QName getGraphAssociationEndName(final PsmDocument<Type> classType) {
+        return new QName(TARGET_NAMESPACE, classType.getGraphAssociationEndName().getName(), TARGET_NAMESPACE_PREFIX);
     }
 
     @Override
-    public QName getSingularTopLevelElementName(final PsmDocument<Type> classType) {
+    public QName getElementName(final PsmDocument<Type> classType) {
         return new QName(TARGET_NAMESPACE, classType.getSingularResourceName().getName(), TARGET_NAMESPACE_PREFIX);
     }
 
@@ -119,13 +119,14 @@ public final class PluginForREST implements Uml2XsdPlugin {
         // The existence of this feature depends on whether the association is logically navigable.
         if (end.isNavigable()) {
             if (PluginHelpers.hasMongoName(end, model)) {
-                xsw.choice();
-                try {
-                    writeReference(complexType, end, model, xsw);
-                    writeEmbedded(complexType, end, model, xsw);
-                } finally {
-                    xsw.end();
-                }
+                writeEmbedded(complexType, end, model, xsw);
+                // xsw.choice();
+                // try {
+                // writeReference(complexType, end, model, xsw);
+                // writeEmbedded(complexType, end, model, xsw);
+                // } finally {
+                // xsw.end();
+                // }
             } else {
                 writeEmbedded(complexType, end, model, xsw);
             }
@@ -180,18 +181,20 @@ public final class PluginForREST implements Uml2XsdPlugin {
     public void writeTopLevelElement(final PsmDocument<Type> classType, final ModelIndex model,
             final Uml2XsdPluginWriter xsw) {
         final Type elementType = classType.getType();
-        final QName singularTopLevelElementName = getSingularTopLevelElementName(classType);
+        final QName elementName = getElementName(classType);
+        final String ns = elementName.getNamespaceURI();
+        final QName elementList = new QName(ns, elementName.getLocalPart().concat("List"));
 
         xsw.element();
         try {
-            xsw.elementName(getPluralTopLevelElementName(classType));
+            xsw.elementName(elementList);
             xsw.complexType();
             try {
                 xsw.sequence();
                 try {
                     xsw.element();
                     try {
-                        xsw.ref(singularTopLevelElementName);
+                        xsw.ref(elementName);
                         xsw.minOccurs(Occurs.ZERO);
                         xsw.maxOccurs(Occurs.UNBOUNDED);
                         xsw.annotation();
@@ -214,7 +217,7 @@ public final class PluginForREST implements Uml2XsdPlugin {
         }
         xsw.element();
         try {
-            xsw.elementName(singularTopLevelElementName);
+            xsw.elementName(elementName);
             xsw.type(getQName(elementType, model));
             xsw.annotation();
             try {

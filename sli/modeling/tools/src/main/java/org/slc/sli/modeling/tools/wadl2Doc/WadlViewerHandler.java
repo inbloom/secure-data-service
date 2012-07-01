@@ -82,7 +82,7 @@ public final class WadlViewerHandler implements WadlHandler {
                 final List<Representation> representations = response.getRepresentations();
                 for (final Representation representation : representations) {
                     @SuppressWarnings("unused")
-                    final QName elementName = representation.getElement();
+                    final QName elementName = representation.getElementName();
                 }
             } finally {
             }
