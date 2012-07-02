@@ -55,7 +55,7 @@ public class EdOrgContextResolver implements EntityContextResolver {
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        if (toEntityType.equals(EntityNames.LEARNING_OBJECTIVE) || toEntityType.equals(EntityNames.LEARNING_STANDARD)) {
+        if (toEntityType.equals(EntityNames.LEARNING_OBJECTIVE) || toEntityType.equals(EntityNames.LEARNING_STANDARD) || toEntityType.equals(EntityNames.ASSESSMENT)) {
             return false;
         }
         return ((fromEntityType != null) && fromEntityType.equals(EntityNames.STAFF));
@@ -63,10 +63,7 @@ public class EdOrgContextResolver implements EntityContextResolver {
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        if ((toEntity != null) && (toEntity.equals(EntityNames.LEARNING_OBJECTIVE) || toEntity.equals(EntityNames.LEARNING_STANDARD))) {
-            return AllowAllEntityContextResolver.SUPER_LIST;
-        }
-
+        
         if (securityCachingStrategy.contains(EntityNames.STAFF)) {
             List<String> cachedIds = new ArrayList<String>();
             cachedIds.addAll(securityCachingStrategy.retrieve(EntityNames.STAFF));
