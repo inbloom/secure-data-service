@@ -45,4 +45,4 @@ ApprovalEngine.init(APP_LDAP_CLIENT, APP_EMAILER, MyTransitionActionConfig.new, 
 RCC_PUB = APP_CONFIG['recaptcha_pub']
 RCC_PRIV = APP_CONFIG['recaptcha_priv']
 
-STATSD = Statsd.new('10.71.1.80')
+STATSD = Statsd.new('10.71.1.36')
