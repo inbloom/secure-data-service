@@ -54,8 +54,9 @@ class ApplicationController < ActionController::Base
   end
 
   def record_response_end
-    time = (Time.now - @start_time) * 1000
+    time = ((Time.now - @start_time) * 1000).to_i
     STATSD.timing("#{Socket.gethostname}.rails_response", time)
+    Rails.logger.debug "Host name = #{Socket.gethostname} \n Time = #{time}\n\n\n"
   end
 
   def callback
