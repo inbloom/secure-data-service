@@ -1042,7 +1042,7 @@ public class SDKAPIClient implements APIClient {
         List<GenericEntity> entityList = new ArrayList<GenericEntity>();
 
         try {
-            sdkClient.read(token, entityList, url, GenericEntity.class);
+          sdkClient.read(token, entityList, url, GenericEntity.class);
         } catch (Exception e) {
             LOGGER.error("Exception occurred during API read", e);
         }
@@ -1096,7 +1096,7 @@ public class SDKAPIClient implements APIClient {
     @ExecutionTimeLogger.LogExecutionTime
     protected void createEntity(String token, String url, GenericEntity entity) {
         try {
-            sdkClient.create(token, url, entity);
+         sdkClient.create(token, url, entity);
         } catch (Exception e) {
             LOGGER.error("Exception occurred during API create", e);
         }
@@ -1113,7 +1113,7 @@ public class SDKAPIClient implements APIClient {
     @ExecutionTimeLogger.LogExecutionTime
     protected void updateEntity(String token, String url, GenericEntity entity) {
         try {
-            sdkClient.update(token, url, entity);
+          sdkClient.update(token, url, entity);
         } catch (Exception e) {
             LOGGER.error("Exception occurred during API update", e);
         }
@@ -1130,7 +1130,7 @@ public class SDKAPIClient implements APIClient {
     @ExecutionTimeLogger.LogExecutionTime
     protected void deleteEntity(String token, String url) {
         try {
-            sdkClient.delete(token, url);
+            sdkClient.deleteByToken(token, url);
         } catch (Exception e) {
             LOGGER.error("Exception occurred during API delete", e);
         }

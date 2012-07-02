@@ -47,13 +47,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.slc.sli.api.client.Entity;
-import org.slc.sli.api.client.SLIClient;
-import org.slc.sli.api.client.impl.BasicClient;
-import org.slc.sli.client.SDKAPIClient;
-import org.slc.sli.entity.Config;
-import org.slc.sli.entity.ConfigMap;
-import org.slc.sli.entity.GenericEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -62,6 +55,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import org.slc.sli.api.client.Entity;
+import org.slc.sli.api.client.SLIClient;
+import org.slc.sli.api.client.impl.BasicClient;
+import org.slc.sli.client.SDKAPIClient;
+import org.slc.sli.entity.Config;
+import org.slc.sli.entity.ConfigMap;
+import org.slc.sli.entity.GenericEntity;
 
 /**
  * Unit test for the Live API client.
@@ -210,7 +211,7 @@ public class SDKAPIClientTest {
         String filename = getFilename(MOCK_DATA_DIRECTORY + "common/" + MOCK_SECTIONS_FILE);
         SdkClientReadAnswerFromFile sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, value, key);
         Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+               .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
 
         List<GenericEntity> students = client.getStudentsForSection(token, value);
 
@@ -260,7 +261,7 @@ public class SDKAPIClientTest {
         searchStr[1] = lastName;
 
         sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, searchStr);
-        Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
+       Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
                 .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
 
         students = client.getStudentsWithSearch(token, firstName, lastName);
@@ -276,8 +277,8 @@ public class SDKAPIClientTest {
         searchStr[1] = lastName;
 
         sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, searchStr);
-        Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
+                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
 
         students = client.getStudentsWithSearch(token, firstName, lastName);
 
@@ -296,8 +297,8 @@ public class SDKAPIClientTest {
         String filename = getFilename(MOCK_DATA_DIRECTORY + "common/" + MOCK_ASSESSMENTS_FILE);
         SdkClientReadAnswerFromFile sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, studentId,
                 key);
-        Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
+                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
 
         List<GenericEntity> assessments = client.getAssessmentsForStudent(token, studentId);
 
@@ -335,7 +336,7 @@ public class SDKAPIClientTest {
         SdkClientReadAnswerFromFile sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, schoolId,
                 key);
         Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+               .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
 
         GenericEntity schoolEntity = client.getSchool(token, schoolId);
 
@@ -413,8 +414,8 @@ public class SDKAPIClientTest {
         String filename = getFilename(MOCK_DATA_DIRECTORY + "common/" + MOCK_SCHOOL_FILE);
         SdkClientReadAnswerFromFile sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, schoolIds,
                 key);
-        Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
+                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
 
         List<GenericEntity> schoolList = client.getSchools(token, schoolIds);
 
@@ -435,8 +436,8 @@ public class SDKAPIClientTest {
         String value = "123456789";
         String filename = getFilename(MOCK_DATA_DIRECTORY + "common/" + MOCK_SESSIONS_FILE);
         SdkClientReadAnswerFromFile sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, value, key);
-        Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
+                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
 
         GenericEntity entity = client.getSession(token, value);
 
@@ -447,8 +448,8 @@ public class SDKAPIClientTest {
         // lookup of invalid session
         value = "3124";
         sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, value, key);
-        Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
+                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
         entity = client.getSession(token, value);
 
         assertNull(entity);
@@ -463,8 +464,8 @@ public class SDKAPIClientTest {
         // never used by any call at this time
 
         SdkClientReadAnswerFromFile sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename);
-        Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
+                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
         List<GenericEntity> sessions = client.getSessions(token, null);
 
         assertNotNull(sessions);
@@ -485,8 +486,8 @@ public class SDKAPIClientTest {
 
         // 2 sessions expected
         SdkClientReadAnswerFromFile sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, value, key);
-        Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
+                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
 
         List<GenericEntity> sessions = client.getSessionsForYear(token, value);
 
@@ -499,8 +500,8 @@ public class SDKAPIClientTest {
         // no sessions expected
         value = "2005";
         sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, value, key);
-        Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
+                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
         sessions = client.getSessionsForYear(token, value);
 
         assertNotNull(sessions);
@@ -516,8 +517,8 @@ public class SDKAPIClientTest {
         // never used by any call at this time
 
         SdkClientReadAnswerFromFile sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename);
-        Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
+                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
         List<GenericEntity> sections = client.getSections(token, null);
 
         assertNotNull(sections);
@@ -536,8 +537,8 @@ public class SDKAPIClientTest {
         // testing with a student id present in two sections
         String value = "288598192";
         SdkClientReadAnswerFromFile sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, value, key);
-        Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
+                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
         List<GenericEntity> sections = client.getSectionsForStudent(token, value, null);
 
         assertNotNull(sections);
@@ -546,8 +547,8 @@ public class SDKAPIClientTest {
         // testing with a student id not present in any sections
         value = "288598193";
         sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, value, key);
-        Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
+                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
         sections = client.getSectionsForStudent(token, value, null);
 
         assertNotNull(sections);
@@ -566,8 +567,8 @@ public class SDKAPIClientTest {
         // testing with a teacher id present in a single section
         String value = "12399";
         SdkClientReadAnswerFromFile sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, value, key);
-        Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
+                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
         List<GenericEntity> sections = client.getSectionsForTeacher(token, value, null);
 
         assertNotNull(sections);
@@ -576,8 +577,8 @@ public class SDKAPIClientTest {
         // testing with a teacher id not present in any sections
         value = "28859";
         sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, value, key);
-        Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
+                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
         sections = client.getSectionsForTeacher(token, value, null);
 
         assertNotNull(sections);
@@ -626,8 +627,8 @@ public class SDKAPIClientTest {
         String value = "1";
         String filename = getFilename(MOCK_DATA_DIRECTORY + "common/" + MOCK_SECTIONS_FILE);
         SdkClientReadAnswerFromFile sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, value, key);
-        Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
+                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
 
         GenericEntity entity = client.getSection(token, value);
 
@@ -638,8 +639,8 @@ public class SDKAPIClientTest {
         // lookup of invalid section
         value = "3124";
         sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, value, key);
-        Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
+                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
         entity = client.getSection(token, value);
 
         assertNull(entity);

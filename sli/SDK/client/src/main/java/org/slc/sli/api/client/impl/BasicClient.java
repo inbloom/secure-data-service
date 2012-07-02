@@ -126,7 +126,7 @@ public class BasicClient implements SLIClient {
     }
 
     @Override
-    public Response read(final String sessionToken, List<Entity> entities, final String resourceUrl, Class<Entity> entityClass)
+    public Response read(final String sessionToken, List entities, final String resourceUrl, Class entityClass)
             throws URISyntaxException, MessageProcessingException, IOException {
         entities.clear();
         return getResource(sessionToken, entities, new URL(restClient.getBaseURL() + resourceUrl), entityClass);
@@ -151,11 +151,11 @@ public class BasicClient implements SLIClient {
                 mapper.writeValueAsString(e));
     }
 
-//    @SuppressWarnings("unchecked")
-//    @Override
-//    public Response delete(final String sessionToken, final String resourceUrl) throws URISyntaxException, MalformedURLException {
-//        return restClient.deleteRequest(sessionToken, new URL(restClient.getBaseURL() + resourceUrl));
-//    }
+    @SuppressWarnings("unchecked")
+    @Override
+    public Response deleteByToken(final String sessionToken, final String resourceUrl) throws URISyntaxException, MalformedURLException {
+        return restClient.deleteRequest(sessionToken, new URL(restClient.getBaseURL() + resourceUrl));
+    }
 
     @Override
     public Response getResource(List<Entity> entities, URL resourceURL, Query query) throws URISyntaxException,
@@ -192,8 +192,9 @@ public class BasicClient implements SLIClient {
         return response;
     }
 
-    @Override
-    public Response getResource(final String sessionToken, List<Entity> entities, URL restURL, Class<Entity> entityClass)
+    @SuppressWarnings("unchecked")
+	@Override
+    public Response getResource(final String sessionToken, List entities, URL restURL, Class entityClass)
             throws URISyntaxException, MessageProcessingException, IOException {
         entities.clear();
 
@@ -207,11 +208,11 @@ public class BasicClient implements SLIClient {
                     ArrayNode arrayNode = (ArrayNode) element;
                     for (int i = 0; i < arrayNode.size(); ++i) {
                         JsonNode jsonObject = arrayNode.get(i);
-                        Entity entity = mapper.readValue(jsonObject, entityClass);
+                        Object entity =  mapper.readValue(jsonObject, entityClass);
                         entities.add(entity);
                     }
                 } else  if (element instanceof ObjectNode) {
-                    Entity entity = mapper.readValue(element, entityClass);
+                    Object entity = mapper.readValue(element, entityClass);
                     entities.add(entity);
                 } else {
                     // not what was expected....

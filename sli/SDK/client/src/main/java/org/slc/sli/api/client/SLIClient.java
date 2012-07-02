@@ -107,8 +107,8 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public abstract Response create(final String sessionToken, final String resourceUrl, final Entity e)
-            throws IOException, URISyntaxException;
+     public abstract Response create(final String sessionToken, final String resourceUrl, final Entity e)
+             throws IOException, URISyntaxException;
 
     /**
      * Read operation by ID.
@@ -164,7 +164,7 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public abstract Response read(final String sessionToken, List<Entity> entities, final String resourceUrl, Class<Entity> entityClass)
+    public abstract Response read(final String sessionToken, List entities, final String resourceUrl, Class entityClass)
             throws URISyntaxException, MessageProcessingException, IOException;
 
 
@@ -194,8 +194,8 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public abstract Response update(final String sessionToken, final String resourceUrl, final Entity e)
-            throws IOException, URISyntaxException;
+     public abstract Response update(final String sessionToken, final String resourceUrl, final Entity e)
+             throws IOException, URISyntaxException;
 
 
     /**
@@ -221,8 +221,8 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-//    public abstract Response delete(final String sessionToken, final String resourceUrl) throws MalformedURLException,
-//            URISyntaxException;
+    public abstract Response deleteByToken(final String sessionToken, final String resourceUrl) throws MalformedURLException,
+            URISyntaxException;
 
     /**
      * Perform a get operation against a generic resource. This is useful when following links
@@ -259,8 +259,8 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public abstract Response getResource(final String sessionToken, List<Entity> entities, final URL restURL, Class<Entity> entityClass)
-            throws URISyntaxException, MessageProcessingException, IOException;
+     public abstract Response getResource(final String sessionToken, List entities, final URL restURL, Class entityClass)
+             throws URISyntaxException, MessageProcessingException, IOException;
 
 
     /**
