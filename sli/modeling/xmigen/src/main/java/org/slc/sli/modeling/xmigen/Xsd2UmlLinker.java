@@ -49,12 +49,11 @@ final class Xsd2UmlLinker {
     }
 
     private static final Attribute cleanUpAttribute(final ClassType classType, final Attribute attribute,
-            final Xsd2UmlPlugin plugin, final ModelIndex mapper, final Map<String, Identifier> nameToClassTypeId,
+            final Xsd2UmlPlugin plugin, final ModelIndex mapper, final Map<String, Identifier> classTypeMap,
             final Map<String, AssociationEnd> associationEnds) {
         final Xsd2UmlPluginHost host = new Xsd2UmlPluginHostAdapter(mapper);
         if (plugin.isAssociationEnd(classType, attribute, host)) {
-            final AssociationEnd associationEnd = convertAttributeToAssociationEnd(classType, attribute, plugin, host,
-                    nameToClassTypeId);
+            final AssociationEnd associationEnd = toAssociationEnd(classType, attribute, plugin, host, classTypeMap);
             associationEnds.put(associationEnd.getName(), associationEnd);
             return null;
         } else {
@@ -78,17 +77,14 @@ final class Xsd2UmlLinker {
         return new ClassType(id, name, isAbstract, attributes, taggedValues);
     }
 
-    private static final AssociationEnd convertAttributeToAssociationEnd(final ClassType classType,
-            final Attribute attribute, final Xsd2UmlPlugin plugin, final Xsd2UmlPluginHost lookup,
-            final Map<String, Identifier> nameToClassTypeId) {
+    private static final AssociationEnd toAssociationEnd(final ClassType classType, final Attribute attribute,
+            final Xsd2UmlPlugin plugin, final Xsd2UmlPluginHost lookup, final Map<String, Identifier> nameToClassTypeId) {
         final String referenceType = plugin.getAssociationEndTypeName(classType, attribute, lookup);
         if (nameToClassTypeId.containsKey(referenceType)) {
             final Identifier reference = nameToClassTypeId.get(referenceType);
-            // We can reuse the attribute parts because the attribute is no
-            // longer needed.
+            // Reuse the attribute parts because attribute is no longer needed.
             final Identifier id = attribute.getId();
             final Multiplicity multiplicity = attribute.getMultiplicity();
-            // TODO: What happens if we don't try to fix up the attribute name?
             final String oldName = attribute.getName();
             final String newName = suggestAssociationEndName(attribute.getName(),
                     multiplicity.getRange().getUpper() == Occurs.UNBOUNDED);
@@ -195,10 +191,10 @@ final class Xsd2UmlLinker {
             final AssociationEnd rhsEnd, final Xsd2UmlPlugin plugin, final Xsd2UmlPluginHost host) {
         final Range sourceRange = new Range(Occurs.ZERO, Occurs.UNBOUNDED);
         final Multiplicity sourceMultiplicity = new Multiplicity(sourceRange);
-        // Make reverse direction navigable default be false; this applies to the logical model.
-        // We will have to explicitly enable reverse navigable at the model level.
-        // This corresponds better for functionality not yet implemented.
-        return new AssociationEnd(sourceMultiplicity, lhsName, false, lhsType.getId());
+        // All relationships are logically navigable in both directions.
+        // But a relationship may only be physically navigable based on the database.
+        final boolean navigable = true;
+        return new AssociationEnd(sourceMultiplicity, lhsName, navigable, lhsType.getId());
     }
 
     private static final List<Association> makeAssociations(final Map<Type, Map<String, AssociationEnd>> navigations,
@@ -212,14 +208,13 @@ final class Xsd2UmlLinker {
             for (final String rhsEndName : sourceAttributes.keySet()) {
                 final AssociationEnd rhsEnd = sourceAttributes.get(rhsEndName);
                 final Type rhsType = lookup.getType(rhsEnd.getType());
-                // Notice how the roles of source and target are switched to
-                // find a reverse
-                // navigation.
+                // Notice roles of source and target are switched to find a reverse navigation.
                 if (!hasNavigation(rhsType, lhsType, navigations, rhsEnd)) {
-                    final String sourceName = rhsEnd.getName();
-                    String targetName = lhsType.getName();
-                    final String lhsName = makeEndName(sourceName, degeneracies.get(rhsEndName), targetName);
-                    final AssociationEnd lhsEnd = makeAssociationEnd(lhsName, lhsType, rhsEnd, plugin, host);
+                    final String rhsTypeName = rhsType.getName();
+                    final String lhsTypeName = lhsType.getName();
+                    final Integer degs = degeneracies.get(rhsEndName);
+                    final String lhsEndName = makeEndName(rhsTypeName, rhsEndName, degs, lhsTypeName);
+                    final AssociationEnd lhsEnd = makeAssociationEnd(lhsEndName, lhsType, rhsEnd, plugin, host);
                     final String name = plugin.nameAssociation(lhsEnd, rhsEnd, host);
                     associations.add(new Association(name, lhsEnd, rhsEnd));
 
@@ -233,12 +228,34 @@ final class Xsd2UmlLinker {
         return associations;
     }
 
-    private static final String makeEndName(final String sourceName, final int degeneracy, final String targetName) {
+    /**
+     * Compute a sensible name for the reverse (physical) navigation direction.
+     */
+    private static final String makeEndName(final String sourceTypeName, final String sourceName, final int degeneracy,
+            final String targetTypeName) {
         if (degeneracy > 1) {
-            return sourceName.concat(titleCase(targetName)).concat("s");
+            return pluralize(sourceName.concat(titleCase(targetTypeName)));
         } else {
-            return camelCase(targetName).concat("s");
+            if (targetTypeName.equals(sourceTypeName)) {
+                // Reference to self. Avoid absurdity. See AssessmentFamily.
+                return pluralize(camelCase(targetTypeName));
+            } else if (targetTypeName.contains(sourceTypeName)) {
+                // Simplify by removing the redundant type from the association.
+                return pluralize(camelCase(targetTypeName.replace(sourceTypeName, "")));
+            } else {
+                return pluralize(camelCase(targetTypeName));
+            }
         }
+    }
+
+    /**
+     * TODO: This should be driven from some sort of external configuration.
+     */
+    private static final String pluralize(final String typeName) {
+        if (typeName == null) {
+            throw new NullPointerException("typeName");
+        }
+        return typeName.concat("s");
     }
 
     private static final Map<String, Identifier> makeNameToClassTypeId(final Iterable<ClassType> classTypes) {

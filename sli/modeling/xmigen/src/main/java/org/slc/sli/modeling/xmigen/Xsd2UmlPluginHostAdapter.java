@@ -78,7 +78,12 @@ final class Xsd2UmlPluginHostAdapter implements Xsd2UmlPluginHost {
     }
 
     @Override
-    public String nameFromElementName(final QName name) {
+    public String nameFromSchemaElementName(final QName name) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String nameFromSchemaAttributeName(final QName name) {
         throw new UnsupportedOperationException();
     }
 

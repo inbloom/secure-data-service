@@ -109,7 +109,12 @@ public final class Xsd2UmlPluginForSLI implements Xsd2UmlPlugin {
     }
 
     @Override
-    public String nameFromElementName(final QName name) {
+    public String nameFromSchemaElementName(final QName name) {
+        return name.getLocalPart();
+    }
+
+    @Override
+    public String nameFromSchemaAttributeName(final QName name) {
         return name.getLocalPart();
     }
 
