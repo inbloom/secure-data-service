@@ -27,6 +27,7 @@ import javax.ws.rs.core.MessageProcessingException;
 import javax.ws.rs.core.Response;
 
 import org.scribe.exceptions.OAuthException;
+
 import org.slc.sli.api.client.util.Query;
 
 /**
@@ -108,7 +109,7 @@ public interface SLIClient {
      */
     public abstract Response create(final String sessionToken, final String resourceUrl, final Entity e)
             throws IOException, URISyntaxException;
-    
+
     /**
      * Read operation by ID.
      *
@@ -163,10 +164,10 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public abstract Response read(final String sessionToken, List entities, final String resourceUrl, Class entityClass)
+    public abstract Response read(final String sessionToken, List<Entity> entities, final String resourceUrl, Class<Entity> entityClass)
             throws URISyntaxException, MessageProcessingException, IOException;
 
-    
+
     /**
      * Update operation
      *
@@ -220,9 +221,9 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public abstract Response delete(final String sessionToken, final String resourceUrl) throws MalformedURLException,
-            URISyntaxException;
-    
+//    public abstract Response delete(final String sessionToken, final String resourceUrl) throws MalformedURLException,
+//            URISyntaxException;
+
     /**
      * Perform a get operation against a generic resource. This is useful when following links
      * returned by other resources, for example.
@@ -242,7 +243,7 @@ public interface SLIClient {
     public abstract Response getResource(List<Entity> entities, URL resourceURL, Query query)
             throws URISyntaxException, MessageProcessingException, IOException;
 
-    /** 
+    /**
      * Perform a get operation against a generic resource. This is useful when following links
      * returned by other resources, for example.
      *
@@ -258,10 +259,10 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public abstract Response getResource(final String sessionToken, List entities, final URL restURL, Class entityClass)
+    public abstract Response getResource(final String sessionToken, List<Entity> entities, final URL restURL, Class<Entity> entityClass)
             throws URISyntaxException, MessageProcessingException, IOException;
 
-    
+
     /**
      * Get the home resource for the authenticated user.
      *
@@ -273,7 +274,7 @@ public interface SLIClient {
      */
     public abstract Response getHomeResource(Entity home) throws URISyntaxException, MessageProcessingException,
             IOException;
-    
+
     /**
      * Set access token
      *
