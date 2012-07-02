@@ -40,15 +40,44 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>${slf4j.version}</version>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.0.1</version>
     </dependency>
   </dependencies>
 
   <properties>
-    <sli.conf>${project.parent.basedir}/../config/properties/sli.properties</sli.conf>
   </properties>
+  
+  <profiles>
+    <profile>
+    <!-- Use the sli.properties file if we're part of the main sli git repo -->
+      <id>sample-sli-development</id>
+      <activation>
+        <file>
+          <exists>../../config/properties/sli.properties</exists>
+        </file>
+      </activation>
+      <properties>
+        <sli.conf>${project.parent.basedir}/../config/properties/sli.properties</sli.conf>
+      </properties>
+    </profile>
+  
+    <profile>
+    <!-- Use the sample.properties file if the source we're part of the sdk release repo -->
+      <id>sample-stand-alone</id>
+      <activation>
+        <file>
+          <missing>../../config/properties/sli.properties</missing>
+        </file>
+      </activation>
+      <properties>
+        <sli.conf>${project.basedir}/sample.properties</sli.conf>
+      </properties>
+    </profile>
+  </profiles>
+  
+  
 
   <build>
     <finalName>sample</finalName>
