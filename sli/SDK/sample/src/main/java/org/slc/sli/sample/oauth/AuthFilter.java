@@ -61,10 +61,6 @@ public class AuthFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
             ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
-/*        if (req.getParameter("byPassToken") != null && !req.getParameter("byPassToken").equals("")) {
-            byPassAuthenticate(request, response);
-            chain.doFilter(request, response);
-        } else */
         LOG.info("URI:" + req.getRequestURI());
         if (req.getRequestURI().equals("/sample/callback")) {
             if (handleCallback(request, response)) {
@@ -82,8 +78,7 @@ public class AuthFilter implements Filter {
             } catch (Exception e) {
                 // Redirect to login on any errors
                 // TODO - we should handle responses correctly here. If the session is invalidated,
-                // we need
-                // to handle this properly. Same with the other HTTP response codes.a
+                // we need to handle this properly. Same with the other HTTP response codes.
                 authenticate(request, response);
             }
         }
@@ -118,19 +113,6 @@ public class AuthFilter implements Filter {
 
         return true;
     }
-
-/*    private void byPassAuthenticate(ServletRequest req, ServletResponse res) {
-        BasicClient client = null;
-        if (((HttpServletRequest) req).getSession().getAttribute("client") == null) {
-            client = new BasicClient(apiUrl, clientId, clientSecret, callbackUrl);
-        } else {
-            client = (BasicClient) ((HttpServletRequest) req).getSession().getAttribute("client");
-        }
-        String sessionToken = req.getParameter("byPassToken");
-        client.setToken(sessionToken);
-        ((HttpServletRequest) req).getSession().removeAttribute("client");
-        ((HttpServletRequest) req).getSession().setAttribute("client", client);
-    } */
 
     private void authenticate(ServletRequest req, ServletResponse res) {
 
