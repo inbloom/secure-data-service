@@ -43,7 +43,7 @@ import org.slc.sli.api.resources.v1.HypermediaType;
 @Path(PathConstants.V1 + "/" + "system/support")
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON+";charset=utf-8", HypermediaType.VENDOR_SLC_JSON+";charset=utf-8" })
+@Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })
 public class SupportResource {
 
     @Value("${sli.support.email}")

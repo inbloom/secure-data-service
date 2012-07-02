@@ -29,6 +29,10 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 
+/**
+ * TODO: add javadoc
+ *
+ */
 @Component
 @Scope("request")
 @Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8" })

@@ -480,7 +480,7 @@ public class IdNormalizer {
             @SuppressWarnings("deprecation")
             Iterable<Entity> foundRecords = entityRepository.findByQuery(collectionName, query, 0, 0);
 
-            for(Entity record : foundRecords) {
+            for (Entity record : foundRecords) {
                 foundIds.add(record.getEntityId());
             }
 
@@ -499,7 +499,7 @@ public class IdNormalizer {
         }
 
     }
-    
+
     private void cache(List<String> ids, String collection, String tenantId, Query filter) {
         String key = composeKey(collection, tenantId, filter);
 

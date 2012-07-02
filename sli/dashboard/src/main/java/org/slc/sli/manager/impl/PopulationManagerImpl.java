@@ -46,7 +46,11 @@ import org.joda.time.DateTime;
 import org.joda.time.MutableDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+
 import org.slc.sli.entity.Config;
 import org.slc.sli.entity.GenericEntity;
 import org.slc.sli.entity.util.GenericEntityEnhancer;
@@ -55,9 +59,6 @@ import org.slc.sli.manager.EntityManager;
 import org.slc.sli.manager.PopulationManager;
 import org.slc.sli.util.Constants;
 import org.slc.sli.util.TimedLogic;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Facilitates creation of logical aggregations of EdFi entities/associations
@@ -419,13 +420,13 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         // Iterate through the course Id's and grab transcripts grades, once
         // we have NUMBER_OF_SEMESTERS transcript grades, we're done
         for (Map<String, Object> section : interSections) {
-            
+
             if (section != null) {
-                
+
                 Map<String, Object> course = ((Map<String, Object>) section.get(Constants.ATTR_COURSES));
                 if (course != null) {
                     String courseId = (String) course.get(Constants.ATTR_ID);
-                    
+
             // we need to keep track of special cases, e.g. previous semester and two semesters ago
             // data
             List<Date> dates = getSessionDates(section);
@@ -906,7 +907,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
      */
     @Override
     public GenericEntity getStudent(String token, Object studentId, Config.Data config) {
-        return entityManager.getStudentForCSIPanel(token, (String)studentId);
+        return entityManager.getStudentForCSIPanel(token, (String) studentId);
     }
 
     /*

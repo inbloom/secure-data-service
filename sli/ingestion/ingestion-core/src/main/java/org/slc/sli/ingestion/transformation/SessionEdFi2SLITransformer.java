@@ -17,13 +17,13 @@
 
 package org.slc.sli.ingestion.transformation;
 
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityMetadataKey;
-import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
-import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Query;
+
+import org.slc.sli.domain.Entity;
+import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
+import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * The purpose behind overriding matchEntity is to set a flag that will be used to determine if a new schoolSessionAssociation record
@@ -45,6 +45,7 @@ public class SessionEdFi2SLITransformer extends SmooksEdFi2SLITransformer {
      *            The errorReport used to report errors
      */
 
+    @Override
     public void matchEntity(SimpleEntity entity, ErrorReport errorReport) {
 
     /* This code is identical to EdFiSLITransformer. We will remove this as the schoolSessionAssociat is removed */

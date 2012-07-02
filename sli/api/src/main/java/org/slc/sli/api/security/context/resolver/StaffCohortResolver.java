@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
@@ -51,7 +50,7 @@ public class StaffCohortResolver implements EntityContextResolver {
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        return (EntityNames.STAFF.equals(fromEntityType) || EntityNames.TEACHER.equals(fromEntityType))&& EntityNames.COHORT.equals(toEntityType);
+        return (EntityNames.STAFF.equals(fromEntityType) || EntityNames.TEACHER.equals(fromEntityType)) && EntityNames.COHORT.equals(toEntityType);
     }
 
     @SuppressWarnings("unchecked")

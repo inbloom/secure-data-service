@@ -55,7 +55,7 @@ import org.slc.sli.domain.NeutralQuery;
 @Path("aggregation")
 @Component
 @Scope("request")
-@Produces(Resource.JSON_MEDIA_TYPE+";charset=utf-8")
+@Produces(Resource.JSON_MEDIA_TYPE + ";charset=utf-8")
 public class AggregateResource {
     final EntityDefinitionStore entityDefs;
 

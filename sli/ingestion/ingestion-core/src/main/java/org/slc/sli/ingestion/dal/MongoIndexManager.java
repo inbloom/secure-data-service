@@ -201,7 +201,7 @@ public final class MongoIndexManager {
         }
 
         if (!collectionIndexes.containsKey(collection)) {
-            LOG.info( "Collection indexes doesn't contain key {} ", collection );
+            LOG.info("Collection indexes doesn't contain key {} ", collection);
             return;
         }
 
@@ -211,7 +211,7 @@ public final class MongoIndexManager {
 
                 repository.ensureIndex(index, collection);
             } catch (Exception e) {
-                LOG.error("Failed to create mongo indexes" , e );
+                LOG.error("Failed to create mongo indexes" , e);
             }
         }
     }

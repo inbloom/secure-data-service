@@ -78,7 +78,7 @@ public class CourseOfferingResource extends DefaultCrudEndpoint {
      */
     @Override
     @POST
-    @Consumes({ MediaType.APPLICATION_JSON+";charset=utf-8", HypermediaType.VENDOR_SLC_JSON+";charset=utf-8",MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
+    @Consumes({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8", MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON })
     public Response create(final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.create(newEntityBody, headers, uriInfo);
@@ -90,7 +90,7 @@ public class CourseOfferingResource extends DefaultCrudEndpoint {
     @Override
     @GET
     @Path("{" + ParameterConstants.COURSE_OFFERING_ID + "}")
-    @Produces({ MediaType.APPLICATION_JSON+";charset=utf-8", HypermediaType.VENDOR_SLC_JSON+";charset=utf-8", MediaType.APPLICATION_XML+";charset=utf-8" })
+    @Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8", MediaType.APPLICATION_XML + ";charset=utf-8" })
     public Response read(@PathParam(ParameterConstants.COURSE_OFFERING_ID) final String courseOfferingId,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return super.read(courseOfferingId, headers, uriInfo);

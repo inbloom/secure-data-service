@@ -186,8 +186,7 @@ public class GenericEntityComparator implements Comparator<Map<String, Object>> 
                             Constructor<?> constructor = this.castingClass.getConstructor(String.class);
                             o1TypeComparable = (Comparable) constructor.newInstance(o1Type.toString());
                             o2TypeComparable = (Comparable) constructor.newInstance(o2Type.toString());
-                        }
-                        else if (o1Type != null && o2Type == null) {
+                        } else if (o1Type != null && o2Type == null) {
                             result = -1;
                         } else if (o1Type == null && o2Type != null) {
                             result = 1;
