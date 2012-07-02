@@ -1,0 +1,296 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s) -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.4 catering objects             -->
+<!-- ======================================== -->
+<adk package="learning" version="2.4" name="Learning" namespace="http://www.sifinfo.org/uk/infrastructure/2.x">
+
+  <!--Junction-->
+  <object name="Junction" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>A unique local identifier for this junction</desc>
+    </attribute>
+    <element name="Label" type="String" flags="M" />
+    <element name="ShortLabel" type="String" flags="M" />
+    <element name="LocalType" type="String" flags="O" />
+    <element name="InputList" type="InputList" flags="M" />
+    <element name="OutputList" type="OutputList" flags="M" />
+  </object>
+
+  <!--InputList-->
+  <object name="InputList">
+    <element name="Input" type="Input" flags="MR" />
+  </object>
+
+  <!--Input-->
+  <object name="Input">
+    <element name="Type" enum="InputType" flags="O">
+      <desc>Conditional and has only one value: "SC".   "SC" has special meaning – it means this is the top of the "tree" and the input is the whole school.</desc>
+    </element>
+    <element name="GroupLocalId" type="String" flags="O" />
+  </object>
+  
+  <!--InputType-->
+  <enum name="InputType">
+    <value name="SC_SCHOOL" value="SC" desc="School" />
+  </enum>
+
+  <!--OutputList-->
+  <object name="OutputList">
+    <element name="Output" type="Output" flags="MR" />
+  </object>
+
+  <!--Output-->
+  <object name="Output">
+    <element name="Type" enum="OutputType" flags="M">
+      <desc>"TG" has special meaning – it means this is the bottom of the "tree" and the output is a TeachingGroup. "YR" means a year (or "principal division") within the school (7,8,9,etc).</desc>
+    </element>
+    <element name="LocalType" type="String" flags="O" />
+    <element name="GroupLocalId" type="String" flags="O" />
+    <element name="TeachingGroupRefId" type="String" flags="O">
+      <desc>If Type = "TG" then include here the TeachingGroupID (see TeachingGroup)</desc>
+    </element>
+    <element name="Desc" type="String" flags="O" />
+    <element name="ShortDesc" type="String" flags="O" />
+    <element name="NCYearList" type="NCYearList" flags="O" />
+  </object>
+
+  <!--OutputType-->
+  <enum name="OutputType">
+    <value name="TG_TEACHINGGROUP" value="TG" desc="TeachingGroup" />
+    <value name="YR_YEAR" value="YR" desc="Year" />
+    <value name="GR_OT_GROUPS" value="GR" desc="Other Groups" />
+  </enum>
+
+  <!--NonTeachingActivity-->
+  <object name="NonTeachingActivity" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>A unique local identifier for this junction</desc>
+    </attribute>
+    <element name="NTCode" type="String" flags="M" />
+    <element name="Description" type="String" flags="M" />
+    <element name="Type" enum="NonTeachingActivityType" flags="M">
+      <desc>Lesson/meeting type Note this Type over-rides the period type in the cycle definition (in case, for eg, Period 1 is Registration for some classes but not others)</desc>
+    </element>
+  </object>
+
+  <!--NonTeachingActivityType-->
+  <enum name="NonTeachingActivityType">
+    <value name="R_REGISTRATION" value="R" desc="registration" />
+    <value name="B_BREAK" value="B" desc="break" />
+    <value name="L_LUNCH" value="L" desc="lunch" />
+    <value name="O_OUTSIDE_SCHOOL_HOURS_EG_CLUBS" value="O" desc="outside school hours (eg: clubs)" />
+    <value name="U_TEACHER_UNAVAILABLE_BUT_IN_SCHOOL" value="U" desc="teacher unavailable (but in school)" />
+    <value name="X_TEACHER_UNAVAILABLE_OUT_OF_SCHOOL" value="X" desc="teacher unavailable (out of school)" />
+    <value name="N_OT_OR_UNSPECIFIED_NONTEACHING" value="N" desc="other (or unspecified) non-teaching" />
+  </enum>
+
+  <!--TeachingGroup-->
+  <object name="TeachingGroup" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>Unique local ID</desc>
+    </attribute>
+    <element name="GroupDefinition" type="GroupDefinition" flags="O" />
+    <element name="MainTeacherRefId" type="String" flags="O">
+      <desc>The main teacher / supervisor / etc for this group (for reporting / recognition purposes) (see TTTeacher)</desc>
+    </element>
+    <element name="GroupTeacherList" type="GroupTeacherList" flags="O" />
+  </object>
+
+  <!--GroupTeacherList-->
+  <object name="GroupTeacherList">
+    <element name="GroupTeacher" type="GroupTeacher" flags="MR" />
+  </object>
+  
+  <!--GroupTeacher-->
+  <object name="GroupTeacher">
+    <element name="TTTeacherRefId" type="String" flags="M">
+      <desc>The teacher (see TTTeacher)</desc>
+    </element>
+    <element name="Type" enum="GroupTeacherType" flags="M">
+      <desc>The teacher’s relationship with the TG</desc>
+    </element>
+  </object>
+  
+  <!--GroupTeacherType-->
+  <enum name="GroupTeacherType">
+    <value name="A_ASSISTANT" value="A" desc="Assistant" />
+    <value name="H_HEADOFDEPT_SUBJECTLEADER" value="H" desc="Head-of-Dept/Subject-Leader" />
+    <value name="Z_OTHER_UNSPECIFIED" value="Z" desc="other/unspecified" />
+  </enum>
+ 
+  <!--GroupDefinition-->
+  <object name="GroupDefinition">
+    <element name="ShortName" type="String" flags="M" />
+    <element name="LongName" type="String" flags="M" />
+    <element name="TTSubjectRefId" type="String" flags="M">
+      <desc>Subject being taught - see TTSubject NB: We do not allow a TG to have no subject</desc>
+    </element>
+    <element name="Set" type="String" flags="O" />
+    <element name="Block" type="String" flags="O" />
+    <element name="Level" enum="GroupDefinitionUKAssessmentStageType" flags="O">
+      <desc>Level / Assessment Stage, eg "KS3" (if known / relevant)</desc>
+    </element>
+  </object>
+
+  <!--GroupDefinitionUKAssessmentStageType-->
+  <enum name="GroupDefinitionUKAssessmentStageType">
+    <value name="FSP_FOUNDATION_STAGE_PROFILE_LOCALE_E" value="FSP" desc="Foundation Stage Profile (locale: E)" />
+    <value name="KS0_BASELINE_ASSESSMENT_LOCALE_E" value="KS0" desc="Baseline Assessment (locale: E)" />
+    <value name="KS1_KEY_STAGE_1_END_OF_LOCALE_E" value="KS1" desc="Key Stage 1 (End of) (locale: E)" />
+    <value name="K1T_KEY_STAGE_1_TRIAL_HISTORICAL_LOCALE_E" value="K1T" desc="Key Stage 1 Trial (Historical) (locale: E)" />
+    <value name="K2P_KEY_STAGE_2_PROGRESSION_TESTS_PILOT_LOCALE_E" value="K2P" desc="Key Stage 2 Progression Tests (Pilot) (locale: E)" />
+    <value name="K3P_KEY_STAGE_3_PROGRESSION_TESTS_PILOT_LOCALE_E" value="K3P" desc="Key Stage 3 Progression Tests (Pilot) (locale: E)" />
+    <value name="KS2_KEY_STAGE_2_END_OF_LOCALE_E" value="KS2" desc="Key Stage 2 (End of) (locale: E)" />
+    <value name="KS3_KEY_STAGE_3_END_OF_LOCALE_E" value="KS3" desc="Key Stage 3 (End of) (locale: E)" />
+    <value name="KS4_GCSE__GNVQ__OT_APPROVED_AWARDS_LOCALE_E" value="KS4" desc="GCSE / GNVQ / Other Approved Awards (locale: E)" />
+    <value name="KS5_A_LEVEL_AS_LEVEL_ADVANCED_GNVQ_OT_ADVANCED" value="KS5" desc="A Level/AS Level/Advanced GNVQ/Other Advanced Studies (locale: E)" />
+    <value name="Y03_YEAR_3_OPTIONAL_TESTS__TEACHER_ASSESSMENTS" value="Y03" desc="Year 3 Optional Tests / Teacher Assessments (locale: E)" />
+    <value name="Y04_YEAR_4_OPTIONAL_TESTS__TEACHER_ASSESSMENTS" value="Y04" desc="Year 4 Optional Tests / Teacher Assessments (locale: E)" />
+    <value name="Y4X_YEAR_4_OPTIONAL_TESTS_1997_BASED_LOCALE_E" value="Y4X" desc="Year 4 Optional Tests (1997 Based) (locale: E)" />
+    <value name="Y05_YEAR_5_OPTIONAL_TESTS__TEACHER_ASSESSMENTS" value="Y05" desc="Year 5 Optional Tests / Teacher Assessments (locale: E)" />
+    <value name="Y07_YEAR_7_OPTIONAL_TESTS__TEACHER_ASSESSMENTS" value="Y07" desc="Year 7 Optional Tests / Teacher Assessments (locale: E)" />
+    <value name="Y7P_YEAR_7_PROGRESS_TESTS_LOCALE_E" value="Y7P" desc="Year 7 Progress Tests (locale: E)" />
+    <value name="Y08_YEAR_8_OPTIONAL_TESTS__TEACHER_ASSESSMENTS" value="Y08" desc="Year 8 Optional Tests / Teacher Assessments (locale: E)" />
+    <value name="EAL_ENGLISH_ASADDITIONAL_LANGUAGE_LEVEL_OF" value="EAL" desc="English as an Additional Language Level of Acquisition (locale: E)" />
+    <value name="SEN_PSCALE_ASSESSMENTSEN_CHILDREN_LOCALE_E" value="SEN" desc="P-Scale Assessment for SEN children (locale: E)" />
+    <value name="W09_WORLD_CLASS_TESTS_AGED_9_LOCALE_E" value="W09" desc="World Class Tests – Aged 9 (locale: E)" />
+    <value name="W13_WORLD_CLASS_TESTS_AGED_13_LOCALE_E" value="W13" desc="World Class Tests – Aged 13 (locale: E)" />
+    <value name="P2_PRIMARY_2_LOCALE_S" value="P2" desc="Primary 2 (locale: S)" />
+    <value name="P3_PRIMARY_3_LOCALE_S" value="P3" desc="Primary 3 (locale: S)" />
+    <value name="P4_PRIMARY_4_LOCALE_S" value="P4" desc="Primary 4 (locale: S)" />
+    <value name="P5_PRIMARY_5_LOCALE_S" value="P5" desc="Primary 5 (locale: S)" />
+    <value name="P6_PRIMARY_6_LOCALE_S" value="P6" desc="Primary 6 (locale: S)" />
+    <value name="P7_PRIMARY_7_LOCALE_S" value="P7" desc="Primary 7 (locale: S)" />
+    <value name="S1_SECONDARY_1_LOCALE_S" value="S1" desc="Secondary 1 (locale: S)" />
+    <value name="S2_SECONDARY_2_LOCALE_S" value="S2" desc="Secondary 2 (locale: S)" />
+  </enum>
+
+
+  <!--NCYearList-->
+  <object name="NCYearList">
+    <element name="NCYear" type="NCYearGroup" flags="MR">
+      <desc>NC Year Group</desc>
+    </element>
+  </object>
+
+
+  <!--Scope-->
+  <object name="Scope" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>Unique GUID for this Timetable transfer</desc>
+    </attribute>
+    <element name="TTScopeName" type="String" flags="M" />
+    <element name="SupplierName" type="String" flags="M" />
+    <element name="SupplierURL" type="String" flags="O">
+      <desc>A URL to a page on the supplier’s website that gives information about the transfer and/or contact details for the supplier.</desc>
+    </element>
+    <element name="Product" type="String" flags="M" />
+    <element name="Version" type="String" flags="M" />
+    <element name="SchoolInfoRefId" type="String" flags="M">
+      <desc>The unique school ID, taken from the existing SchoolInfo object (requested from ZIS)</desc>
+    </element>
+    <element name="SchoolName" type="String" flags="M" />
+    <element name="ScheduleCreationDate" type="Date" flags="O">
+      <desc>Date schedule was created or last edited (omitted for "Basic data only" message)</desc>
+    </element>
+    <element name="ScheduleName" type="String" flags="O" />
+    <element name="SchoolYear" type="int" flags="M" />
+    <element name="StartDate" type="Date" flags="O">
+      <desc>First day of the timetable</desc>
+    </element>
+    <element name="EndDate" type="Date" flags="O">
+      <desc>Last day of the timetable</desc>
+    </element>
+    <element name="Status" enum="ScopeStatus" flags="M">
+      <desc>The "Status" of the timetable transfer 'BT' and 'ET' are sent by TTSoftware when sending a timetable. The others are sent by the MIS after receiving a timetable. (See also "Reasons for Status" below).</desc>
+    </element>
+    <element name="PhoneNumberList" type="PhoneNumberList" flags="O">
+      <desc>The supplier's phone number(s).</desc>
+    </element>
+  </object>
+
+  <!--ScopeStatus-->
+  <enum name="ScopeStatus">
+    <value name="BT_BEGINNING_OF_TRANSFER" value="BT" desc="Beginning of transfer." />
+    <value name="ET_END_OF_TRANSFER" value="ET" desc="End of transfer." />
+    <value name="RP_RECEIVED_BUT_IMPORT" value="RP" desc="Received but import pending." />
+    <value name="SI_SUCCESSFUL_IMPORT" value="SI" desc="Successful import." />
+    <value name="UI_UNSUCCESSFUL_IMPORT" value="UI" desc="Unsuccessful import." />
+  </enum>
+
+
+  <!--Cycle-->
+  <object name="Cycle" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>Unique GUID for this cycle</desc>
+    </attribute>
+    <element name="CycleName" type="String" flags="O" />
+    <element name="CycleDays" type="int" flags="M">
+      <desc>Number of days in cycle</desc>
+    </element>
+    <element name="PeriodsPerDay" type="int" flags="M">
+      <desc>(Max) Number of periods per day (see Rectangular Grid Representation above)</desc>
+    </element>
+    <element name="StandardPeriodList" type="StandardPeriodList" flags="M" />
+    <element name="TTDayList" type="TTDayList" flags="M" />
+  </object>
+  
+  <!--TTDayList-->
+  <object name="TTDayList">
+    <element name="TTDay" type="TTDay" flags="MR" />
+  </object>
+  
+  <!--TTDay-->
+  <object name="TTDay">
+    <element name="TTDayId" type="String" flags="M" />
+    <element name="ShortName" type="String" flags="M" />
+    <element name="LongName" type="String" flags="M" />
+    <element name="DayIndex" type="int" flags="M">
+      <desc>The day’s position in the cycle (1,2,3,etc).</desc>
+    </element>
+    <element name="PeriodList" type="PeriodList" flags="O" />
+  </object>
+  
+  <!--PeriodList-->
+  <object name="PeriodList">
+    <element name="Period" type="Period" flags="MR" />
+  </object>
+
+  <!--StandardPeriodList-->
+  <object name="StandardPeriodList">
+    <element name="Period" type="Period" flags="MR" />
+  </object>
+
+  <!--Period-->
+  <object name="Period">
+    <element name="PeriodIndex" type="int" flags="M">
+      <desc>Ordinal position of period within the day (1,2,3,etc)</desc>
+    </element>
+    <element name="ShortName" type="String" flags="M" />
+    <element name="LongName" type="String" flags="M" />
+    <element name="StartTime" type="Time" flags="O">
+      <desc>Time the period starts</desc>
+    </element>
+    <element name="EndTime" type="Time" flags="O">
+      <desc>Time the period ends</desc>
+    </element>
+    <element name="Type" enum="PeriodType" flags="M">
+      <desc>What this period represents. Note that currently some programs represent registration, breaks and lunches as a "period" and some don't. This Type could differ from the lesson Type (see section C4) if this teacher is doing something in this period which differs from the majority of the school.</desc>
+    </element>
+  </object>
+
+  <!--PeriodType-->
+  <enum name="PeriodType">
+    <value name="T_TEACHING_PERIOD" value="T" desc="teaching period" />
+    <value name="R_REGISTRATION" value="R" desc="registration" />
+    <value name="B_BREAK" value="B" desc="break" />
+    <value name="L_LUNCH" value="L" desc="lunch" />
+    <value name="O_OUTSIDE_SCHOOL_HOURS_EG_CLUBS" value="O" desc="outside school hours (eg: clubs)" />
+    <value name="N_OT_NONTEACHING" value="N" desc="other non-teaching" />
+    <value name="X_UNUSED_PERIOD_ONNONRECTANGULAR_CYCLE" value="X" desc="'unused' period (on a non-rectangular cycle)" />
+  </enum>
+ 
+</adk> 

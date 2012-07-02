@@ -1,0 +1,22 @@
+	/**
+	 * The XML DOM Document that is a child of this element
+	 */
+	private org.w3c.dom.Document fXmlData;
+	
+	/**
+	 * Returns the XML DOM Document that is a chld of this element
+	 * @return The DOM Document contained as a child of the <code>&lt;XMLData&gt;</code> or null
+	 */
+	public org.w3c.dom.Document getXML()
+	{
+		return fXmlData;
+	}
+	
+	/**
+	 * Sets an XML DOM Document as the child of this element
+	 * @param doc
+	 */
+	public void setXML( org.w3c.dom.Document doc )
+	{
+		fXmlData = doc;
+	}

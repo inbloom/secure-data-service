@@ -1,0 +1,1352 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.5 common objects                -->
+<!-- ======================================== -->
+<adk package="common" version="2.5" namespace="http://www.sifinfo.org/uk/infrastructure/2.x">
+  <!--Address object-->
+  <object name="Address">
+    <desc>This element contains address data, some of which is defined by the BS7666 International Address and Geographic Location Specification.  Other elements are present for historical reasons.</desc>
+    <attribute name="Type" enum="AddressType" flags="M">
+      <desc>Code that defines the address type. CBDS: 100102, 100173</desc>
+    </attribute>
+    <element name="LocalId" type="String" flags="O">
+      <desc>The locally assigned identifier for this address in the publishing system.</desc>
+    </element>
+    <element name="StartDate" type="date" flags="O">
+      <desc>Date person began using this address. CBDS: 100146</desc>
+    </element>
+    <element name="EndDate" type="date" flags="O">
+      <desc>Date person stopped using this address. CBDS: 100147</desc>
+    </element>
+    <element name="PAON" type="AddressableObjectName" flags="M">
+      <desc>An element defining the Primary Addressable Object Name (PAON), typically a building number or house name.</desc>
+    </element>
+    <element name="SAON" type="AddressableObjectName" flags="O">
+      <desc>The Secondary Addressable Object Name (SAON), identifying a sub-division of the PAON, typically a flat number, room number or unit in a commerical property.</desc>
+    </element>
+    <element name="Street" type="normalizedString" flags="O">
+      <desc>The name of the street. CBDS: 100115, 100186, S65</desc>
+    </element>
+    <element name="Locality" type="normalizedString" flags="C">
+      <desc>The locality name refers to a neighbourhood, suburb, district, village, estate, settlement, or parish that may form part of a town, or stand in its own right within the context of an administrative area.  Where an industrial estate contains streets it is defined as a locality in its own right.  At least one of Locality, Town, or AdministrativeArea must be specified. CBDS: 100116, 100187, S66</desc>
+    </element>
+    <element name="Town" type="normalizedString" flags="C">
+      <desc>The city name refers to a city or town that is not an adminstrative area, a suburb of an administrative area that does not form part of another town or a London district. At least one of Locality, Town, or AdministrativeArea must be specified. CBDS: 100117, 100188, S67</desc>
+    </element>
+    <element name="AdministrativeArea" type="normalizedString" flags="C">
+      <desc>The administrative area is a geographic area that may be the highest level local administrative area, and may be a county or a unitary authority, an island or island group, or London. At least one of Locality, Town, or AdministrativeArea must be specified CBDS: 100118, 100189, S68</desc>
+    </element>
+    <element name="County" type="normalizedString" flags="O">
+      <desc>Where applicable, the name of the county.</desc>
+    </element>
+    <element name="PostTown" type="normalizedString" flags="O">
+      <desc>Post Office usually assigns these based on Sorting Office. CBDS: 100119, 100190, S68a</desc>
+    </element>
+    <element name="PostCode" type="normalizedString" flags="O">
+      <desc>The code allocated by the Post Office to identify a group of postal delivery points.  Valid Postcode formats are:  A9 9AA, A99 9AA, AA9 9AA, AA99 9AA, A9A 9AA, AA9A 9AA, Plus BFPO 999 CBDS: 100120, 100121, 100192, S69a</desc>
+    </element>
+    <element name="Country" enum="CountryCode" flags="O">
+      <desc>Country where physical address is located, if known.  Usually this is going to be 'GBR' but could be elsewhere if associated with the military, etc.</desc>
+    </element>
+    <element name="UniquePropertyReferenceNumber" type="long" flags="O">
+      <desc>The unique Property and Land Reference Number (UPRN) for this address. Numeric: 1 to 12 digits. CBDS: 100123, 100193, 100194, S70a</desc>
+    </element>
+    <element name="UniqueStreetReferenceNumber" type="long" flags="O">
+      <desc>The unique Property Street Reference Number (USRN) for this address.  Numeric: 1 to 8 digits. CBDS: 100125, 100195, 100196, S71a</desc>
+    </element>
+    <element name="LocationContext" type="LocationContext" flags="O">
+      <desc>The physical location of an address in terms of Census District, LA Electoral Ward, Parliamentary Constituency, and other defining location-centric characteristics.</desc>
+    </element>
+    <element name="GridLocation" type="GridLocation" flags="O">
+      <desc>The physical property location coordinates</desc>
+    </element>
+  </object>
+  <!--AddressableObjectName object-->
+  <object name="AddressableObjectName">
+    <desc>Encapsulates the Addressable Object elements from BS766</desc>
+    <element name="Description" type="normalizedString" flags="C">
+      <desc>Dwelling name, or at least a general description of the location in lieu of having any other information. This is required when no other PAON or SAON information is provided. CBDS: 100114, 100185, S548</desc>
+    </element>
+    <element name="StartNumber" type="normalizedString" flags="O">
+      <desc>Start (single) dwelling number. CBDS: 100110, 100181, S544</desc>
+    </element>
+    <element name="StartNumberSuffix" type="normalizedString" flags="O">
+      <desc>Start (single) dwelling number suffix. CBDS: 100111, 100182, S545</desc>
+    </element>
+    <element name="EndNumber" type="normalizedString" flags="O">
+      <desc>End dwelling number. CBDS: 100112, 100183, S546</desc>
+    </element>
+    <element name="EndNumberSuffix" type="normalizedString" flags="O">
+      <desc>End dwelling number suffix. CBDS: 100113, 100184, S547</desc>
+    </element>
+  </object>
+  <!--AddressList object-->
+  <object name="AddressList">
+    <element name="Address" type="Address" flags="MR">
+      <desc />
+    </element>
+  </object>
+  <!--AddressType enum-->
+  <enum name="AddressType">
+    <value name="CURRENT" value="Current" desc="Current address" />
+    <value name="MAILING" value="Mailing" desc="Mailing address" />
+    <value name="PREVIOUS" value="Previous" desc="Previous address" />
+    <value name="OTHER" value="Other" desc="Other address" />
+    <value name="TRANSPORTATION" value="Transportation" desc="Transportation address" />
+  </enum>
+  <!--AlertMsg object-->
+  <object name="AlertMsg" dataType="String">
+    <attribute name="Type" enum="AlertMsgType" flags="R">
+      <desc>This attribute specifies what type of alert message this is.</desc>
+    </attribute>
+  </object>
+  <!--AlertMsgList object-->
+  <object name="AlertMsgList">
+    <element name="AlertMsg" type="AlertMsg" flags="OR">
+      <desc>This is an alert message that is associated with the student.</desc>
+    </element>
+  </object>
+  <!--AlertMsgType enum-->
+  <enum name="AlertMsgType">
+    <value name="LEGAL" value="Legal" desc="Legal" />
+    <value name="DISCIPLINE" value="Discipline" desc="Discipline" />
+    <value name="EDUCATIONAL" value="Educational" desc="Educational" />
+    <value name="OTHER" value="Other" desc="Other" />
+  </enum>
+  <!--BirthDateVerificationLevel enum-->
+  <enum name="BirthDateVerificationLevel">
+    <value name="NOT_VERIFIED" value="0" desc="Not Verified" />
+    <value name="SECONDARY_CERTIFICATE" value="1" desc="One or more of the following Secondary certificates: Certificate of Baptism; Marriage Certificate; National Health Service Medical Card; Child's Certificate of Vaccination; Child's Health Record Card; A certificate of Service in HM Forces or other employment under the Crown or in the Mercantile Marine; A certificate of membership of a Trade Union Friendly Society or any cards or papers relating to membership of an Approved Society or Unemployment Insurance Apprenticeship indentures; Early certificate or testimonial from employer; Aliens registration card, certificate of naturalisation, Home Office travel document or a passport; Life insurance policy; Certificate of confirmation; School certificate or report; A birthday book or old family record; Family Bible containing a record of birth." />
+    <value name="FULL_CERTIFICATE" value="2" desc="One of the following:  Full certificate; Birth certificate short form; Certificate of registry showing given names and family name; GRO copy; Adoption Order issued by the High Court, County Court or Juvenile Court; Certificate of adoption issued by the GRO; Foreign birth certificate issued by registration authority of the foreign country." />
+  </enum>
+  <!--Contact object-->
+  <object name="Contact">
+    <desc>Information on contact persons for a school or LA.</desc>
+    <attribute name="SIF_RefId" type="Token" flags="M">
+      <desc>The ID (GUID) of the person listed as a contact. Note that this is any person listed as a contact through either a ContactPersonal, WorkforcePersonal, or even a LearnerPersonal record.</desc>
+    </attribute>
+    <attribute name="SIF_RefObject" key="false" type="Token" flags="M">
+      <desc>The name of the object being referred to</desc>
+    </attribute>
+    <element name="PositionTitle" type="normalizedString" flags="O">
+      <desc>The contact person's position title within the LA.</desc>
+    </element>
+    <element name="Role" type="normalizedString" flags="O">
+      <desc>Role played by this contact in the LA.  Any descriptive text is allowed here.</desc>
+    </element>
+    <element name="PublishInDirectory" enum="YesNo" flags="O">
+      <desc>Indicates whether or not this contact's information should be published in a directory of School or LA information.</desc>
+    </element>
+  </object>
+  <!--ContactInfo object-->
+  <object name="ContactInfo">
+    <desc>Common element used to supply information for a contact person at a school, LA, or other institution. This element is used in Vertical Reporting</desc>
+    <element name="Name" type="Name" flags="M">
+      <desc>The name of the contact person.</desc>
+    </element>
+    <element name="PositionTitle" type="NormalizedString" flags="O">
+      <desc>The contact person's position title.</desc>
+    </element>
+    <element name="Role" type="NormalizedString" flags="O">
+      <desc>Role played by this contact in this instance.</desc>
+    </element>
+    <element name="Address" type="Address" flags="O">
+      <desc>Address of the contact.</desc>
+    </element>
+    <element name="EmailList" type="EmailList" flags="O">
+      <desc>List of Email elements.</desc>
+    </element>
+    <element name="PhoneNumberList" type="PhoneNumberList" flags="O">
+      <desc>List of PhoneNumber elements.</desc>
+    </element>
+  </object>
+  <!--ContactList object-->
+  <object name="ContactList">
+    <desc>A list of contact persons associated with a school or LA.</desc>
+    <element name="Contact" type="Contact" flags="MR">
+      <desc>Information on contact persons for this school or LA.</desc>
+    </element>
+  </object>
+  <!--CountriesOfCitizenship object-->
+  <object name="CountriesOfCitizenship">
+    <desc>A list of the countries in which this person has legal nationality.</desc>
+    <element name="CountryOfCitizenship" type="Country" flags="MR">
+      <desc>The country of legal nationality (i.e. the country which issued the individual's passport). CBDS: 100026</desc>
+    </element>
+  </object>
+  <!--CountriesOfResidency object-->
+  <object name="CountriesOfResidency">
+    <desc>A list of the countries in which this person has residency</desc>
+    <element name="CountryOfResidency" type="Country" flags="MR">
+      <desc>A person's country of residence. </desc>
+    </element>
+  </object>
+  <!--Country object-->
+  <object name="Country" enum="CountryCode" />
+  <!--CountryCode enum-->
+  <enum name="CountryCode">
+    <desc>The 3-character alphabetic country code defined by ISO 3166-1 (subset)</desc>
+    <value name="IRL" value="IRL" desc="Ireland" />
+    <value name="IMN" value="IMN" desc="Isle of Man" />
+    <value name="GBR" value="GBR" desc="United Kingdom of Great Britain and Northern Ireland" />
+  </enum>
+  <!--Demographics object-->
+  <object name="Demographics">
+    <desc>Demographic information about a learner, contact, workforce member, etc. This element occurs within objects such as LearnerPersonal, LearnerContact, etc.</desc>
+    <element name="EthnicityList" type="EthnicityList" flags="O">
+      <desc>A list of the person's ethnicities by proportion.</desc>
+    </element>
+    <element name="Gender" enum="Gender" flags="O">
+      <desc>Person's gender. CBDS: 100008, 100165, 100289, 100287, 100288, 900008, s303</desc>
+    </element>
+    <element name="BirthDate" type="date" flags="M">
+      <desc>The person's date of birth. CBDS: 100007</desc>
+    </element>
+    <element name="BirthDateVerification" enum="BirthDateVerificationLevel" flags="O">
+      <desc>Means by which the person's birth date was validated.  CBDS: 100021</desc>
+    </element>
+    <element name="PlaceOfBirth" type="normalizedString" flags="O">
+      <desc>The person's place of birth--like village, town, city etc.</desc>
+    </element>
+    <element name="CountyOfBirth" type="normalizedString" flags="O">
+      <desc>The county in which the person was born.</desc>
+    </element>
+    <element name="CountryOfBirth" enum="CountryCode" flags="O">
+      <desc>The individual's country of birth. CBDS: 100028</desc>
+    </element>
+    <element name="CountriesOfCitizenship" type="CountriesOfCitizenship" flags="O">
+      <desc>A list of the countries in which this person has legal nationality.</desc>
+    </element>
+    <element name="CountriesOfResidency" type="CountriesOfResidency" flags="O">
+      <desc>A list of the countries in which this person has legal nationality.</desc>
+    </element>
+    <element name="CountryArrivalDate" type="date" flags="O">
+      <desc>Date the person first arrived in the UK.</desc>
+    </element>
+    <element name="EnglishProficiency" type="EnglishProficiency" flags="O">
+      <desc>Assessment of a learner's progress in English as an Additional Language.</desc>
+    </element>
+    <element name="LanguageList" type="LanguageList" flags="O">
+      <desc>A list of languages spoken by the person  The person must be at least somewhat familiar with the language to have it listed here.</desc>
+    </element>
+    <element name="MaritalStatus" enum="MaritalStatus" flags="O">
+      <desc>The person's marital status.</desc>
+    </element>
+    <element name="NonUKSystemImmigrant" enum="YesNo" flags="O">
+      <desc>Indicates the learner has recently arrived from a non-English or other common UK language system. CBDS: 190080, P170</desc>
+    </element>
+    <element name="Refugee" enum="YesNo" flags="O">
+      <desc>Indates the person's refugee/asylum seeker status as defined by the United Nations (Aritcle 1 of the 1951 Refugee Convention). CBDS: 100027</desc>
+    </element>
+    <element name="Religion" type="Religion" flags="O">
+      <desc>Definition of a person's religious faith.</desc>
+    </element>
+    <element name="Traveller" type="Traveller" flags="O">
+      <desc>Identifying information for traveller/gypsy status.</desc>
+    </element>
+  </object>
+  <!--EALAcquisition enum-->
+  <enum name="EALAcquisition">
+    <value name="A_NEW_TO_ENGLISH" value="A" desc="New to English" />
+    <value name="B_EARLY_ACQUISITION" value="B" desc="Early Acquisition" />
+    <value name="C_DEVELOPING_COMPETENCE" value="C" desc="Developing Competence" />
+    <value name="D_COMPETENT" value="D" desc="Competent" />
+    <value name="E_FLUENT" value="E" desc="Fluent" />
+    <value name="0_NA" value="0" desc="Not Applicable" />
+  </enum>
+  <!--EALSteps enum-->
+  <enum name="EALSteps">
+    <value name="STEP_1" value="S1" desc="Step 1" />
+    <value name="STEP_2" value="S2" desc="Step 2" />
+    <value name="LEVEL_1_THRESHOLD" value="1T" desc="Level 1 Threshold" />
+    <value name="LEVEL_1_SECURE" value="1S" desc="Level 1 Secure" />
+  </enum>
+  <!--EducationStatus enum-->
+  <enum name="EducationStatus">
+    <value name="ATTENDS" value="A" desc="Attends" />
+    <value name="WITHDRAWN" value="W" desc="Withdrawn" />
+  </enum>
+  <!--ElectronicId object-->
+  <object name="ElectronicId">
+    <desc>Identifies an electronic ID (barcode, magstripe, PIN, etc.)</desc>
+    <attribute name="Type" enum="ElectronicIdType" flags="R">
+      <desc>Electronic ID type.</desc>
+    </attribute>
+  </object>
+  <!--ElectronicIdList object-->
+  <object name="ElectronicIdList">
+    <element name="ElectronicId" type="ElectronicId" flags="OR" />
+  </object>
+  <!--ElectronicIdType enum-->
+  <enum name="ElectronicIdType">
+    <value name="BARCODE" value="Barcode" desc="Barcode" />
+    <value name="MAGSTRIPE" value="Magstripe" desc="Magstripe" />
+    <value name="PIN" value="PIN" desc="PIN" />
+    <value name="RFID" value="RFID" desc="RFID" />
+  </enum>
+  <!--Email object-->
+  <object name="Email">
+    <desc>This element represents an e-mail address of one of a number of types.</desc>
+    <attribute name="Type" enum="EmailType" flags="M">
+      <desc>This attribute specifies the type of e-mail address.</desc>
+    </attribute>
+    <attribute key="false" name="SIF_Action" flags="O" enum="SIFActionType">
+      <desc>In a Change event, this flag can be used to indicate an element has been deleted from the parent list container. At a minimum the key for the list must also be present.</desc>
+    </attribute>
+  </object>
+  <!--EmailList object-->
+  <object name="EmailList" superclass="SIFActionList">
+    <desc>A list of e-mail addresses associated with an individual.</desc>
+    <element name="Email" type="Email" flags="MR">
+      <desc />
+    </element>
+  </object>
+  <!--EmailType enum-->
+  <enum name="EmailType">
+    <value name="BUSINESS" value="Business" desc="Business" />
+    <value name="PERSONAL" value="Personal" desc="Personal" />
+    <value name="SCHOOL" value="School" desc="School" />
+    <value name="ALT1" value="Alternate1" desc="Alternate1" />
+    <value name="ALT2" value="Alternate2" desc="Alternate2" />
+    <value name="ALT3" value="Alternate3" desc="Alternate3" />
+    <value name="ALT4" value="Alternate4" desc="Alternate4" />
+  </enum>
+  <!--EnglishProficiency object-->
+  <object name="EnglishProficiency">
+    <desc>Assessment of a learner's progress in English as an Additional Language.</desc>
+    <element name="EALSteps" enum="EALSteps" flags="O">
+      <desc>Based on QCA Steps. (England) CBDS: 100052</desc>
+    </element>
+    <element name="EALAcquisition" enum="EALAcquisition" flags="O">
+      <desc>Based on a differing scale from QCA Steps. (Wales) CBDS: 190100</desc>
+    </element>
+  </object>
+  <!--Ethnicity object-->
+  <object name="Ethnicity">
+    <desc />
+    <element name="Code" enum="EthnicityCodes" flags="M">
+      <desc>The general ethnic category which reflects the individual's recognition of his or her community or with which the individual most identifies. England Values: Learner Ethnic Codes, Employee Ethniciy. Wales Values: EthnicCodes (Wales)</desc>
+    </element>
+    <element name="Source" enum="SourceOfCode">
+      <desc>Source of inidividual's recorded ethnic code.</desc>
+    </element>
+  </object>
+  <!--EthnicityCodes enum-->
+  <enum name="EthnicityCodes">
+    <value name="WHITE_BRITISH" value="WBRI" desc="White - British" />
+    <value name="WHITE_CORNISH" value="WCOR" desc="White - Cornish" />
+    <value name="WHITE_ENGLISH" value="WENG" desc="White - English " />
+    <value name="WHITE_SCOTTISH" value="WSCO" desc="White - Scottish" />
+    <value name="WHITE_WELSH" value="WWEL" desc="White - Welsh" />
+    <value name="OTHER_WHITE_BRITISH" value="WOWB" desc="Other White British" />
+    <value name="WHITE_IRISH" value="WIRI" desc="White - Irish" />
+    <value name="TRAVELLER_OF_IRISH_HERITAGE" value="WIRT" desc="Traveller of Irish Heritage" />
+    <value name="ANY_OTHER_WHITE_BACKGROUND" value="WOTH" desc="Any Other White Background" />
+    <value name="ALBANIAN" value="WALB" desc="Albanian " />
+    <value name="BOSNIAN__HERZEGOVINIAN" value="WBOS" desc="Bosnian- Herzegovinian" />
+    <value name="CROATIAN" value="WCRO" desc="Croatian" />
+    <value name="GREEK_GREEK_CYPRIOT" value="WGRE" desc="Greek/ Greek Cypriot" />
+    <value name="GREEK" value="WGRK" desc="Greek" />
+    <value name="GREEK_CYPRIOT" value="WGRC" desc="Greek Cypriot" />
+    <value name="ITALIAN" value="WITA" desc="Italian" />
+    <value name="KOSOVAN" value="WKOS" desc="Kosovan" />
+    <value name="PORTUGUESE" value="WPOR" desc="Portuguese" />
+    <value name="SERBIAN" value="WSER" desc="Serbian" />
+    <value name="TURKISH__TURKISH_CYPRIOT" value="WTUR" desc="Turkish/ Turkish Cypriot" />
+    <value name="TURKISH" value="WTUK" desc="Turkish" />
+    <value name="TURKISH_CYPRIOT" value="WTUC" desc="Turkish Cypriot" />
+    <value name="WHITE_EUROPEAN" value="WEUR" desc="White European" />
+    <value name="WHITE_EASTERN_EUROPEAN" value="WEEU" desc="White Eastern European " />
+    <value name="WHITE_WESTERN_EUROPEAN" value="WWEU" desc="White Western European " />
+    <value name="WHITE_OTHER" value="WOTW" desc="White Other " />
+    <value name="GYPSY_ROMA" value="WROM" desc="Gypsy / Roma" />
+    <value name="WHITE_AND_BLACK_CARIBBEAN" value="MWBC" desc="White and Black Caribbean" />
+    <value name="WHITE_AND_BLACK_AFRICAN" value="MWBA" desc="White and Black African" />
+    <value name="WHITE_AND_ASIAN" value="MWAS" desc="White and Asian" />
+    <value name="WHITE_AND_PAKISTANI" value="MWAP" desc="White and Pakistani" />
+    <value name="WHITE_AND_INDIAN" value="MWAI" desc="White and Indian" />
+    <value name="WHITE_AND_ANY_OTHER_ASIAN" value="MWAO" desc="White and Any Other Asian Background" />
+    <value name="ANY_OTHER_MIXED_BACKGROUND" value="MOTH" desc="Any Other Mixed Background" />
+    <value name="ASIAN_AND_ANY_OTHER_ETHNIC" value="MAOE" desc="Asian and Any Other Ethnic Group" />
+    <value name="ASIAN_AND_BLACK" value="MABL" desc="Asian and Black" />
+    <value name="ASIAN_AND_CHINESE" value="MACH" desc="Asian and Chinese" />
+    <value name="BLACK_AND_ANY_OTHER_ETHNIC" value="MBOE" desc="Black and Any Other Ethnic Group" />
+    <value name="BLACK_AND_CHINESE" value="MBCH" desc="Black and Chinese " />
+    <value name="CHINESE_AND_ANY_OTHER_ETHNIC" value="MCOE" desc="Chinese and Any Other Ethnic Group" />
+    <value name="WHITE_AND_ANY_OTHER_ETHNIC" value="MWOE" desc="White and Any Other Ethnic Group" />
+    <value name="WHITE_AND_CHINESE" value="MWCH" desc="White and Chinese" />
+    <value name="OTHER_MIXED_BACKGROUND" value="MOTM" desc="Other Mixed Background" />
+    <value name="INDIAN" value="AIND" desc="Indian" />
+    <value name="PAKISTANI" value="APKN" desc="Pakistani" />
+    <value name="MIRPURI_PAKISTANI" value="AMPK" desc="Mirpuri Pakistani" />
+    <value name="KASHMIRI_PAKISTANI" value="AKPA" desc="Kashmiri Pakistani" />
+    <value name="OTHER_PAKISTANI" value="AOPK" desc="Other Pakistani" />
+    <value name="BANGLADESHI" value="ABAN" desc="Bangladeshi" />
+    <value name="ANY_OTHER_ASIAN_BACKGROUND" value="AOTH" desc="Any Other Asian Background" />
+    <value name="AFRICAN_ASIAN" value="AAFR" desc="African Asian " />
+    <value name="KASHMIRI_OTHER" value="AKAO" desc="Kashmiri Other" />
+    <value name="NEPALI" value="ANEP" desc="Nepali" />
+    <value name="SINHALESE" value="ASNL" desc="Sinhalese" />
+    <value name="SRI_LANKAN_TAMIL" value="ASLT" desc="Sri Lankan Tamil " />
+    <value name="OTHER_ASIAN" value="AOTA" desc="Other Asian" />
+    <value name="BLACK_CARIBBEAN" value="BCRB" desc="Black Caribbean" />
+    <value name="BLACK_AFRICAN" value="BAFR" desc="Black - African" />
+    <value name="BLACK_ANGOLAN" value="BANN" desc="Black - Angolan" />
+    <value name="BLACK_CONGOLESE" value="BCON" desc="Black - Congolese" />
+    <value name="BLACK_GHANAIAN" value="BGHA" desc="Black - Ghanaian" />
+    <value name="BLACK_NIGERIAN" value="BNGN" desc="Black - Nigerian" />
+    <value name="BLACK_SIERRA_LEONIAN" value="BSLN" desc="Black - Sierra Leonian" />
+    <value name="BLACK_SOMALI" value="BSOM" desc="Black - Somali" />
+    <value name="BLACK_SUDANESE" value="BSUD" desc="Black - Sudanese" />
+    <value name="OTHER_BLACK_AFRICAN" value="BAOF" desc="Other Black African " />
+    <value name="ANY_OTHER_BLACK_BACKGROUND" value="BOTH" desc="Any Other Black Background" />
+    <value name="BLACK_EUROPEAN" value="BEUR" desc="Black European" />
+    <value name="BLACK_NORTH_AMERICAN" value="BNAM" desc="Black North American " />
+    <value name="OTHER_BLACK" value="BOTB" desc="Other Black" />
+    <value name="CHINESE" value="CHNE" desc="Chinese" />
+    <value name="HONG_KONG_CHINESE" value="CHKC" desc="Hong Kong Chinese" />
+    <value name="MALAYSIAN_CHINESE" value="CMAL" desc="Malaysian Chinese" />
+    <value name="SINGAPOREAN_CHINESE" value="CSNG" desc="Singaporean Chinese" />
+    <value name="TAIWANESE" value="CTWN" desc="Taiwanese" />
+    <value name="OTHER_CHINESE" value="COCH" desc="Other Chinese" />
+    <value name="ANY_OTHER_ETHNIC_GROUP" value="OOTH" desc="Any Other Ethnic Group" />
+    <value name="AFGHAN" value="OAFG" desc="Afghan" />
+    <value name="ARAB_OTHER" value="OARA" desc="Arab Other" />
+    <value name="EGYPTIAN" value="OEGY" desc="Egyptian" />
+    <value name="FILIPINO" value="OFIL" desc="Filipino" />
+    <value name="IRANIAN" value="OIRN" desc="Iranian" />
+    <value name="IRAQI" value="OIRQ" desc="Iraqi" />
+    <value name="JAPANESE" value="OJPN" desc="Japanese" />
+    <value name="KOREAN" value="OKOR" desc="Korean" />
+    <value name="KURDISH" value="OKRD" desc="Kurdish " />
+    <value name="LATIN__SOUTH__CENTRAL" value="OLAM" desc="Latin/ South/ Central American " />
+    <value name="LEBANESE" value="OLEB" desc="Lebanese" />
+    <value name="LIBYAN" value="OLIB" desc="Libyan" />
+    <value name="MALAY" value="OMAL" desc="Malay" />
+    <value name="MOROCCAN" value="OMRC" desc="Moroccan" />
+    <value name="POLYNESIAN" value="OPOL" desc="Polynesian " />
+    <value name="THAI" value="OTHA" desc="Thai" />
+    <value name="VIETNAMESE" value="OVIE" desc="Vietnamese" />
+    <value name="YEMENI" value="OYEM" desc="Yemeni" />
+    <value name="OTHER_ETHNIC_GROUP" value="OOEG" desc="Other Ethnic Group" />
+    <value name="REFUSED" value="REFU" desc="Refused " />
+    <value name="INFORMATION_NOT_YET_OBTAINED" value="NOBT" desc="Information Not Yet Obtained" />
+  </enum>
+  <!--EthnicityList object-->
+  <object name="EthnicityList">
+    <desc />
+    <element name="Ethnicity" type="Ethnicity" flags="MR">
+      <desc />
+    </element>
+  </object>
+  <!--Gender enum-->
+  <enum name="Gender">
+    <value name="M" value="M" desc="Male" />
+    <value name="F" value="F" desc="Female" />
+    <value name="U" value="U" desc="Unknown" />
+    <value name="W" value="W" desc="Withheld" />
+  </enum>
+  <!--GenderOfEntry enum-->
+  <enum name="GenderOfEntry">
+    <value name="COEDUCATIONAL" value="C" desc="Coeducational" />
+    <value name="FEMALE_ONLY" value="F" desc="Female only" />
+    <value name="MALE_ONLY" value="M" desc="Male only" />
+  </enum>
+  <!--GeneralSubjects enum-->
+  <enum name="GeneralSubjects">
+    <value name="APPLIED_ART_DESIGN" value="AAD" desc="Applied Art &amp; Design" />
+    <value name="APPLIED_BUSINESS_STUDIES" value="ABS" desc="Applied Business Studies" />
+    <value name="ACCOUNTANCY" value="ACC" desc="Accountancy" />
+    <value name="COMBINED_ARTS_HUMANITIES" value="AHS" desc="Combined Arts / Humanities / Social studies" />
+    <value name="APPLIED_ICT" value="AIT" desc="Applied ICT" />
+    <value name="ARABIC" value="ARA" desc="Arabic" />
+    <value name="ART_DESIGN" value="ART" desc="Art &amp; Design / Art" />
+    <value name="APPLIED_SCIENCE" value="ASC" desc="Applied Science" />
+    <value name="BENGALI" value="BEN" desc="Bengali" />
+    <value name="BIOLOGY_BOTANY_ZOOLOGY" value="BIO" desc="Biology / Botany / Zoology / Ecology" />
+    <value name="COMMERCIAL_BUSINESS_STUDIES" value="CAB" desc="Commercial &amp; Business Studies/Education/Management" />
+    <value name="CAREERS_EDUCATION" value="CAR" desc="Careers Education" />
+    <value name="CONSTRUCTION_AND_BUILT" value="CBE" desc="Construction and Built Environment / Building" />
+    <value name="CRAFT_DESIGN_TECHNOLOGY" value="CDT" desc="Craft, Design &amp; Technology" />
+    <value name="CHILD_DEVELOPMENT" value="CHD" desc="Child Development" />
+    <value name="CHINESE" value="CHI" desc="Chinese" />
+    <value name="CHEMISTRY" value="CHM" desc="Chemistry" />
+    <value name="CITIZENSHIP" value="CIT" desc="Citizenship" />
+    <value name="CLASSICS" value="CLS" desc="Classics" />
+    <value name="COMMUNICATION_STUDIES" value="COM" desc="Communication Studies" />
+    <value name="COMMUNITY_STUDIES" value="COS" desc="Community Studies" />
+    <value name="SCIENCE_BIOLOGY" value="CSB" desc="Combined/General Science - Biology" />
+    <value name="SCIENCE_CHEMISTRY" value="CSC" desc="Combined/General Science - Chemistry" />
+    <value name="SCIENCE_PHYSICS" value="CSP" desc="Combined/General Science - Physics" />
+    <value name="CYMRAEG_WELSH_AS_FIRST" value="CYM" desc="Cymraeg/Welsh (as First Language)" />
+    <value name="DANISH" value="DAN" desc="Danish" />
+    <value name="DESIGN_AND_TECHNOLOGY" value="DAT" desc="Design and Technology" />
+    <value name="DANCE" value="DNC" desc="Dance" />
+    <value name="DRAMA" value="DRA" desc="Drama" />
+    <value name="DESIGN_TECH_ELECTRONICS" value="DTE" desc="Design and Technology - Electronics" />
+    <value name="DESIGN_TECH_FOOD" value="DTF" desc="Design and Technology - Food Technology" />
+    <value name="DESIGN_TECH_GRAPHICS" value="DTG" desc="Design and Technology - Graphics" />
+    <value name="DESIGN_TECH_RESISTANT_MAT" value="DTR" desc="Design and Technology - Resistant Materials" />
+    <value name="DESIGN_TECH_SYSTEMS" value="DTS" desc="Design and Technology - Systems &amp; Control" />
+    <value name="DESIGN_TECH_TEXTILES" value="DTT" desc="Design and Technology - Textiles" />
+    <value name="DUTCH" value="DUT" desc="Dutch" />
+    <value name="ECONOMICS" value="ECO" desc="Economics" />
+    <value name="EDUCATION" value="EDU" desc="Education" />
+    <value name="ENGLISH" value="ENG" desc="English" />
+    <value name="ENGINEERING" value="ENR" desc="Engineering" />
+    <value name="ENVIRONMENTAL_SCIENCE" value="ENV" desc="Environmental Science/Studies" />
+    <value name="EUROPEAN_STUDIES" value="EUR" desc="European Studies" />
+    <value name="FINNISH" value="FIN" desc="Finnish" />
+    <value name="FRENCH" value="FRE" desc="French" />
+    <value name="GENERAL_STUDIES" value="GEN" desc="General Studies" />
+    <value name="GEOGRAPHY" value="GEO" desc="Geography" />
+    <value name="GERMAN" value="GER" desc="German" />
+    <value name="GEOLOGY" value="GLG" desc="Geology" />
+    <value name="GOVERNMENT_POLITICS" value="GPL" desc="Government &amp; Politics" />
+    <value name="GREEK_CLASSICAL" value="GRC" desc="Greek (Classical)" />
+    <value name="GREEK_MODERN" value="GRE" desc="Greek (Modern)" />
+    <value name="GUJERATI" value="GUJ" desc="Gujerati" />
+    <value name="HOSPITALITY_AND_CATERING" value="HAC" desc="Hospitality and Catering" />
+    <value name="HEBREW_BIBLICAL" value="HBB" desc="Hebrew (Biblical)" />
+    <value name="HEBREW_MODERN" value="HEB" desc="Hebrew (Modern)" />
+    <value name="HINDI" value="HIN" desc="Hindi" />
+    <value name="HISTORY" value="HIS" desc="History" />
+    <value name="HEALTH_AND_SOCIAL_CARE" value="HSC" desc="Health and Social Care" />
+    <value name="HUMANITIES" value="HUM" desc="Humanities" />
+    <value name="INFORMATION_COMMUNICATION" value="ICT" desc="Information &amp; Communication Technology" />
+    <value name="INDUSTRIAL_STUDIES" value="IND" desc="Industrial Studies" />
+    <value name="ITALIAN" value="ITA" desc="Italian" />
+    <value name="JAPANESE" value="JAP" desc="Japanese" />
+    <value name="KEY_SKILLS" value="KSK" desc="Key Skills (Only if &lt;KeyStage&gt;= 4)" />
+    <value name="LAND_ENVIRONMENT_AG" value="LAE" desc="Land &amp; Environment / Agriculture" />
+    <value name="LATIN" value="LAT" desc="Latin" />
+    <value name="LAW" value="LAW" desc="Law" />
+    <value name="LIFE_SKILLS" value="LIF" desc="Life Skills" />
+    <value name="LEISURE_TRAVEL_AND_TOURISM" value="LTT" desc="Leisure, Travel and Tourism" />
+    <value name="MATHEMATICS" value="MAT" desc="Mathematics" />
+    <value name="MEDIA_STUDIES" value="MED" desc="Media Studies" />
+    <value name="MODERN_FOREIGN_LANGUAGE" value="MFL" desc="Modern Foreign Language" />
+    <value name="MANUFACTURING" value="MNF" desc="Manufacturing" />
+    <value name="MUSIC" value="MUS" desc="Music" />
+    <value name="OTHER_BUSINESS_COMMERCIAL" value="OBC" desc="Other Business / Commercial Subject" />
+    <value name="OTHER_CLASSICAL_STUDIES" value="OCL" desc="Other Classical Studies/Language" />
+    <value name="OTHER_HUMANITIES" value="OHU" desc="Other Humanities" />
+    <value name="OTHER_LANGUAGE_SUBJECT" value="OLA" desc="Other Language Subject" />
+    <value name="OTHER_MATHEMATICAL_SUBJECT" value="OMA" desc="Other Mathematical Subject" />
+    <value name="OTHER_PHYSICAL_SUBJECT" value="OPH" desc="Other Physical Subject" />
+    <value name="OTHER_AESTHETIC_PRACTICAL" value="OPR" desc="Other Aesthetic / Practical Subject" />
+    <value name="OTHER_SCIENCES" value="OSC" desc="Other Sciences" />
+    <value name="OTHER_SOCIAL_STUDIES" value="OSS" desc="Other Social Studies" />
+    <value name="OTHER_TECHNOLOGICAL_SUBJECT" value="OTE" desc="Other Technological Subject" />
+    <value name="OTHER_NOT_OTHERWISE_SPECIFIED" value="OTH" desc="Other (not otherwise specified)" />
+    <value name="OTHER_VOCATIONAL_SUBJECT" value="OVO" desc="Other Vocational Subject" />
+    <value name="PANJABI" value="PAN" desc="Panjabi" />
+    <value name="PHYSICAL_EDUCATION" value="PED" desc="Physical Education / Sports" />
+    <value name="PERFORMING_ARTS" value="PER" desc="Performing Arts" />
+    <value name="PHILOSOPHY" value="PHL" desc="Philosophy" />
+    <value name="PHYSICS" value="PHY" desc="Physics" />
+    <value name="PORTUGUESE" value="POR" desc="Portuguese" />
+    <value name="PRIMARY_CURRICULUM" value="PRI" desc="Primary Curriculum" />
+    <value name="PERSONAL_SOCIAL_HEALTH" value="PSH" desc="Personal Social &amp; Health Education (PSHE)" />
+    <value name="PSYCHOLOGY" value="PSY" desc="Psychology" />
+    <value name="RELIGIOUS_EDUCATION" value="REL" desc="Religious Education" />
+    <value name="RUSSIAN" value="RUS" desc="Russian" />
+    <value name="RETAIL_WAREHOUSING_DIST" value="RWD" desc="Retail, Warehousing &amp; Distribution" />
+    <value name="SCIENCE" value="SCI" desc="Science" />
+    <value name="SPECIAL_EDUCATIONAL_NEEDS" value="SEN" desc="Special Educational Needs" />
+    <value name="SOCIOLOGY" value="SOC" desc="Sociology" />
+    <value name="SPANISH" value="SPA" desc="Spanish" />
+    <value name="SOCIAL_STUDIES_SCIENCE" value="SSS" desc="Social Studies/Science" />
+    <value name="STATISTICS" value="STA" desc="Statistics" />
+    <value name="SWEDISH" value="SWE" desc="Swedish" />
+    <value name="TECHNICAL_DRAWING_GRAPHICS" value="TDG" desc="Technical Drawing/Graphics" />
+    <value name="TURKISH" value="TUR" desc="Turkish" />
+    <value name="UNDER_5_ACTIVITIES" value="UFA" desc="Under-5 Activities" />
+    <value name="URDU" value="URD" desc="Urdu" />
+    <value name="ANY_NEW_GCSE_VOCATIONAL" value="VNW" desc="Any new GCSE in a vocational subject" />
+    <value name="WELSH" value="WEL" desc="Welsh" />
+  </enum>
+  <!--GridLocation object-->
+  <object name="GridLocation">
+    <desc>This element contains a map location. The GridLocation element is utilised within other objects and elements.</desc>
+    <element name="PropertyEasting" type="decimal" flags="M">
+      <desc>Easting coordinate for mapping an address. CBDS: 100126, 100197, S72</desc>
+    </element>
+    <element name="PropertyNorthing" type="decimal" flags="M">
+      <desc>Northing coordinate for mapping an address. Required when PropertyEasting is also specified. CBDS: 100127, 100198, S73</desc>
+    </element>
+    <element name="Latitude" type="decimal" flags="O">
+      <desc>Geographical coordinate.</desc>
+    </element>
+    <element name="Longitude" type="decimal" flags="C">
+      <desc>Geographical coordinate. Required when Latitude is also specified.</desc>
+    </element>
+  </object>
+  <!--Language object-->
+  <object name="Language">
+    <element name="Code" enum="Languages" flags="M">
+      <desc>This is the code that specifies the person's language. CBDS: 100046, 100047, 100171, P158</desc>
+    </element>
+    <element name="Fluent" enum="YesNo" flags="O">
+      <desc>Indicates that the person is fluent in this language. SOURCE: 190050</desc>
+    </element>
+    <element name="TypeList" type="LanguageUsageList" flags="O">
+      <desc>A list of the person's language types.</desc>
+    </element>
+    <element name="Source" enum="SourceOfCode" flags="O">
+      <desc>Source of data on use of the specified language.SOURCE: 190052, P161a</desc>
+    </element>
+    <element name="Study" enum="LanguageStudy" flags="O">
+      <desc>The level in which the learner is taught this language at school. 100045, 100327, 190051, P159</desc>
+    </element>
+    <element name="StudyOther" enum="YesNo" flags="O">
+      <desc>Indicates whether the learner studies subjects in this language at school separate from studying the language itself. SOURCE: 190054, P163</desc>
+    </element>
+  </object>
+  <!--LanguageList object-->
+  <object name="LanguageList">
+    <element name="Language" type="Language" flags="OR" />
+  </object>
+  <!--Languages enum-->
+  <enum name="Languages">
+    <value name="ACHOLI" value="ACL" desc="Acholi" />
+    <value name="ADANGME" value="ADA" desc="Adangme" />
+    <value name="AFAR_SAHO" value="AFA" desc="Afar-Saho" />
+    <value name="AFRIKAANS" value="AFK" desc="Afrikaans" />
+    <value name="AKAN_TWI_FANTE" value="AKA" desc="Akan/Twi-Fante" />
+    <value name="AKAN_FANTE" value="AKAF" desc="Akan (Fante)" />
+    <value name="AKAN_TWI_ASANTE" value="AKAT" desc="Akan (Twi/Asante)" />
+    <value name="ALBANIAN_SHQIP" value="ALB" desc="Albanian/Shqip" />
+    <value name="ALUR" value="ALU" desc="Alur" />
+    <value name="AMHARIC" value="AMR" desc="Amharic" />
+    <value name="ARABIC" value="ARA" desc="Arabic" />
+    <value name="ARABIC_ANY_OTHER" value="ARAA" desc="Arabic (Any Other)" />
+    <value name="ARABIC_ALGERIA" value="ARAG" desc="Arabic (Algeria)" />
+    <value name="ARABIC_IRAQ" value="ARAI" desc="Arabic (Iraq)" />
+    <value name="ARABIC_MOROCCO" value="ARAM" desc="Arabic (Morocco)" />
+    <value name="ARABIC_SUDAN" value="ARAS" desc="Arabic (Sudan)" />
+    <value name="ARABIC_YEMEN" value="ARAY" desc="Arabic (Yemen)" />
+    <value name="ARMENIAN" value="ARM" desc="Armenian" />
+    <value name="ASSAMESE" value="ASM" desc="Assamese" />
+    <value name="ASSYRIAN_ARAMAIC" value="ASR" desc="Assyrian/Aramaic" />
+    <value name="ANYI_BAULE" value="AYB" desc="Anyi-Baule" />
+    <value name="AYMARA" value="AYM" desc="Aymara" />
+    <value name="AZERI" value="AZE" desc="Azeri" />
+    <value name="BAMILEKE_ANY" value="BAI" desc="Bamileke (Any)" />
+    <value name="BALOCHI" value="BAL" desc="Balochi" />
+    <value name="BEJA_BEDAWI" value="BEJ" desc="Beja/Bedawi" />
+    <value name="BELARUSIAN" value="BEL" desc="Belarusian" />
+    <value name="BEMBA" value="BEM" desc="Bemba" />
+    <value name="BHOJPURI" value="BHO" desc="Bhojpuri" />
+    <value name="BIKOL" value="BIK" desc="Bikol" />
+    <value name="BALTI_TIBETAN" value="BLT" desc="Balti Tibetan" />
+    <value name="BURMESE_MYANMA" value="BMA" desc="Burmese/Myanma" />
+    <value name="BENGALI" value="BNG" desc="Bengali" />
+    <value name="BENGALI_ANY_OTHER" value="BNGA" desc="Bengali (Any Other)" />
+    <value name="BENGALI_CHITTAGONG_NOAKHALI" value="BNGC" desc="Bengali (Chittagong/Noakhali)" />
+    <value name="BENGALI_SYLHETI" value="BNGS" desc="Bengali (Sylheti)" />
+    <value name="BRITISH_SIGN_LANGUAGE" value="BSL" desc="British Sign Language" />
+    <value name="BASQUE_EUSKARA" value="BSQ" desc="Basque/Euskara" />
+    <value name="BULGARIAN" value="BUL" desc="Bulgarian" />
+    <value name="CAMBODIAN_KHMER" value="CAM" desc="Cambodian/Khmer" />
+    <value name="CATALAN" value="CAT" desc="Catalan" />
+    <value name="CARIBBEAN_CREOLE_ENGLISH" value="CCE" desc="Caribbean Creole English" />
+    <value name="CARIBBEAN_CREOLE_FRENCH" value="CCF" desc="Caribbean Creole French" />
+    <value name="CHAGA" value="CGA" desc="Chaga" />
+    <value name="CHATTISGARHI_KHATAHI" value="CGR" desc="Chattisgarhi/Khatahi" />
+    <value name="CHECHEN" value="CHE" desc="Chechen" />
+    <value name="CHINESE" value="CHI" desc="Chinese" />
+    <value name="CHINESE_ANY_OTHER" value="CHIA" desc="Chinese (Any Other)" />
+    <value name="CHINESE_CANTONESE" value="CHIC" desc="Chinese (Cantonese)" />
+    <value name="CHINESE_HOKKIEN_FUJIANESE" value="CHIH" desc="Chinese (Hokkien/Fujianese)" />
+    <value name="CHINESE_HAKKA" value="CHIK" desc="Chinese (Hakka)" />
+    <value name="CHINESE_MANDARIN_PUTONGHUA" value="CHIM" desc="Chinese (Mandarin/Putonghua)" />
+    <value name="CHOKWE" value="CKW" desc="Chokwe" />
+    <value name="CORNISH" value="CRN" desc="Cornish" />
+    <value name="CHITRALI_KHOWAR" value="CTR" desc="Chitrali/Khowar" />
+    <value name="CHICHEWA_NYANJA" value="CWA" desc="Chichewa/Nyanja" />
+    <value name="WELSH_CYMRAEG" value="CYM" desc="Welsh/Cymraeg" />
+    <value name="CZECH" value="CZE" desc="Czech" />
+    <value name="DANISH" value="DAN" desc="Danish" />
+    <value name="DAGAARE" value="DGA" desc="Dagaare" />
+    <value name="DAGBANE" value="DGB" desc="Dagbane" />
+    <value name="DINKA_JIENG" value="DIN" desc="Dinka/Jieng" />
+    <value name="DUTCH_FLEMISH" value="DUT" desc="Dutch/Flemish" />
+    <value name="DZONGKHA_BHUTANESE" value="DZO" desc="Dzongkha/Bhutanese" />
+    <value name="EBIRA" value="EBI" desc="Ebira" />
+    <value name="EDO_BINI" value="EDO" desc="Edo/Bini" />
+    <value name="EFIK_IBIBIO" value="EFI" desc="Efik-Ibibio" />
+    <value name="BELIEVED_TO_BE_ENGLISH" value="ENB" desc="Believed to be English" />
+    <value name="ENGLISH" value="ENG" desc="English" />
+    <value name="ESAN_ISHAN" value="ESA" desc="Esan/Ishan" />
+    <value name="ESTONIAN" value="EST" desc="Estonian" />
+    <value name="EWE" value="EWE" desc="Ewe" />
+    <value name="EWONDO" value="EWO" desc="Ewondo" />
+    <value name="FANG" value="FAN" desc="Fang" />
+    <value name="FIJIAN" value="FIJ" desc="Fijian" />
+    <value name="FINNISH" value="FIN" desc="Finnish" />
+    <value name="FON" value="FON" desc="Fon" />
+    <value name="FRENCH" value="FRN" desc="French" />
+    <value name="FULA_FULFULDE_PULAAR" value="FUL" desc="Fula/Fulfulde-Pulaar" />
+    <value name="GA" value="GAA" desc="Ga" />
+    <value name="GAELIC_IRISH" value="GAE" desc="Gaelic/Irish" />
+    <value name="GAELIC_SCOTLAND" value="GAL" desc="Gaelic (Scotland)" />
+    <value name="GEORGIAN" value="GEO" desc="Georgian" />
+    <value name="GERMAN" value="GER" desc="German" />
+    <value name="GOGO_CHIGOGO" value="GGO" desc="Gogo/Chigogo" />
+    <value name="KIKUYU_GIKUYU" value="GKY" desc="Kikuyu/Gikuyu" />
+    <value name="GALICIAN_GALEGO" value="GLG" desc="Galician/Galego" />
+    <value name="GREEK" value="GRE" desc="Greek" />
+    <value name="GREEK_ANY_OTHER" value="GREA" desc="Greek (Any Other)" />
+    <value name="GREEK_CYPRUS" value="GREC" desc="Greek (Cyprus)" />
+    <value name="GUARANI" value="GRN" desc="Guarani" />
+    <value name="GUJARATI" value="GUJ" desc="Gujarati" />
+    <value name="GURENNE_FRAFRA" value="GUN" desc="Gurenne/Frafra" />
+    <value name="GURMA" value="GUR" desc="Gurma" />
+    <value name="HAUSA" value="HAU" desc="Hausa" />
+    <value name="HINDKO" value="HDK" desc="Hindko" />
+    <value name="HEBREW" value="HEB" desc="Hebrew" />
+    <value name="HERERO" value="HER" desc="Herero" />
+    <value name="HUNGARIAN" value="HGR" desc="Hungarian" />
+    <value name="HINDI" value="HIN" desc="Hindi" />
+    <value name="IBAN" value="IBA" desc="Iban" />
+    <value name="IDOMA" value="IDM" desc="Idoma" />
+    <value name="IGALA" value="IGA" desc="Igala" />
+    <value name="IGBO" value="IGB" desc="Igbo" />
+    <value name="IJO_ANY" value="IJO" desc="Ijo (Any)" />
+    <value name="ILOKANO" value="ILO" desc="Ilokano" />
+    <value name="ITSEKIRI" value="ISK" desc="Itsekiri" />
+    <value name="ICELANDIC" value="ISL" desc="Icelandic" />
+    <value name="ITALIAN" value="ITA" desc="Italian" />
+    <value name="ITALIAN_ANY_OTHER" value="ITAA" desc="Italian (Any Other)" />
+    <value name="ITALIAN_NAPOLETAN" value="ITAN" desc="Italian (Napoletan)" />
+    <value name="ITALIAN_SICILIAN" value="ITAS" desc="Italian (Sicilian)" />
+    <value name="JAVANESE" value="JAV" desc="Javanese" />
+    <value name="JINGHPAW_KACHIN" value="JIN" desc="Jinghpaw/Kachin" />
+    <value name="JAPANESE" value="JPN" desc="Japanese" />
+    <value name="KIKAMBA" value="KAM" desc="Kikamba" />
+    <value name="KANNADA" value="KAN" desc="Kannada" />
+    <value name="KAREN_ANY" value="KAR" desc="Karen (Any)" />
+    <value name="KASHMIRI" value="KAS" desc="Kashmiri" />
+    <value name="KANURI" value="KAU" desc="Kanuri" />
+    <value name="KAZAKH" value="KAZ" desc="Kazakh" />
+    <value name="KATCHI" value="KCH" desc="Katchi" />
+    <value name="KIRGHIZ_KYRGYZ" value="KGZ" desc="Kirghiz/Kyrgyz" />
+    <value name="KHASI" value="KHA" desc="Khasi" />
+    <value name="KIHAYA_LUZIBA" value="KHY" desc="Kihaya/Luziba" />
+    <value name="KINYARWANDA" value="KIN" desc="Kinyarwanda" />
+    <value name="KIRUNDI" value="KIR" desc="Kirundi" />
+    <value name="KISI_WEST_AFRICA" value="KIS" desc="Kisi (West Africa)" />
+    <value name="KALENJIN" value="KLN" desc="Kalenjin" />
+    <value name="KIMBUNDU" value="KMB" desc="Kimbundu" />
+    <value name="KIMERU" value="KME" desc="Kimeru" />
+    <value name="KONKANI" value="KNK" desc="Konkani" />
+    <value name="KINYAKYUSA_NGONDE" value="KNY" desc="Kinyakyusa-Ngonde" />
+    <value name="KIKONGO" value="KON" desc="Kikongo" />
+    <value name="KOREAN" value="KOR" desc="Korean" />
+    <value name="KPELLE" value="KPE" desc="Kpelle" />
+    <value name="KRIO" value="KRI" desc="Krio" />
+    <value name="KRU_ANY" value="KRU" desc="Kru (Any)" />
+    <value name="KISII_EKEGUSII_KENYA" value="KSI" desc="Kisii/Ekegusii (Kenya)" />
+    <value name="KISUKUMA" value="KSU" desc="Kisukuma" />
+    <value name="KURDISH" value="KUR" desc="Kurdish" />
+    <value name="KURDISH_ANY_OTHER" value="KURA" desc="Kurdish (Any Other)" />
+    <value name="KURDISH_KURMANJI" value="KURM" desc="Kurdish (Kurmanji)" />
+    <value name="KURDISH_SORANI" value="KURS" desc="Kurdish (Sorani)" />
+    <value name="LAO" value="LAO" desc="Lao" />
+    <value name="LUBA" value="LBA" desc="Luba" />
+    <value name="LUBA_CHILUBA_TSHILUBA" value="LBAC" desc="Luba (Chiluba/Tshiluba)" />
+    <value name="LUBA_KILUBA" value="LBAK" desc="Luba (Kiluba)" />
+    <value name="LUGANDA" value="LGA" desc="Luganda" />
+    <value name="LUGBARA" value="LGB" desc="Lugbara" />
+    <value name="LUGISU_LUMASABA" value="LGS" desc="Lugisu/Lumasaba" />
+    <value name="LINGALA" value="LIN" desc="Lingala" />
+    <value name="LITHUANIAN" value="LIT" desc="Lithuanian" />
+    <value name="LANGO_UGANDA" value="LNG" desc="Lango (Uganda)" />
+    <value name="LOZI_SILOZI" value="LOZ" desc="Lozi/Silozi" />
+    <value name="LUSOGA" value="LSO" desc="Lusoga" />
+    <value name="LATVIAN" value="LTV" desc="Latvian" />
+    <value name="LUXEMBURGISH" value="LTZ" desc="Luxemburgish" />
+    <value name="LUVALE_LUENA" value="LUE" desc="Luvale/Luena" />
+    <value name="LUNDA" value="LUN" desc="Lunda" />
+    <value name="LUO_KENYA_TANZANIA" value="LUO" desc="Luo (Kenya/Tanzania)" />
+    <value name="LUHYA_ANY" value="LUY" desc="Luhya (Any)" />
+    <value name="MAGAHI" value="MAG" desc="Magahi" />
+    <value name="MAITHILI" value="MAI" desc="Maithili" />
+    <value name="MAKUA" value="MAK" desc="Makua" />
+    <value name="MANDING_MALINKE" value="MAN" desc="Manding/Malinke" />
+    <value name="MANDING_MALINKE_ANY_OTHER" value="MANA" desc="Manding/Malinke (Any Other)" />
+    <value name="BAMBARA" value="MANB" desc="Bambara" />
+    <value name="DYULA_JULA" value="MANJ" desc="Dyula/Jula" />
+    <value name="MAORI" value="MAO" desc="Maori" />
+    <value name="MARATHI" value="MAR" desc="Marathi" />
+    <value name="MAASAI" value="MAS" desc="Maasai" />
+    <value name="MALDIVIAN_DHIVEHI" value="MDV" desc="Maldivian/Dhivehi" />
+    <value name="MENDE" value="MEN" desc="Mende" />
+    <value name="MACEDONIAN" value="MKD" desc="Macedonian" />
+    <value name="MALAGASY" value="MLG" desc="Malagasy" />
+    <value name="MALAYALAM" value="MLM" desc="Malayalam" />
+    <value name="MALTESE" value="MLT" desc="Maltese" />
+    <value name="MALAY_INDONESIAN" value="MLY" desc="Malay/Indonesian" />
+    <value name="MALAY_ANY_OTHER" value="MLYA" desc="Malay (Any Other)" />
+    <value name="INDONESIAN_BAHASA_INDONESIA" value="MLYI" desc="Indonesian/Bahasa Indonesia" />
+    <value name="MAGINDANAO_MARANAO" value="MNA" desc="Magindanao-Maranao" />
+    <value name="MONGOLIAN_KHALKHA" value="MNG" desc="Mongolian (Khalkha)" />
+    <value name="MANX_GAELIC" value="MNX" desc="Manx Gaelic" />
+    <value name="MOORE_MOSSI" value="MOR" desc="Moore/Mossi" />
+    <value name="MAURITIAN_SEYCHELLES" value="MSC" desc="Mauritian/Seychelles Creole" />
+    <value name="MUNDA_ANY" value="MUN" desc="Munda (Any)" />
+    <value name="MAYA_ANY" value="MYA" desc="Maya (Any)" />
+    <value name="NAHUATL_MEXICANO" value="NAH" desc="Nahuatl/Mexicano" />
+    <value name="NAMA_DAMARA" value="NAM" desc="Nama/Damara" />
+    <value name="NUBIAN_ANY" value="NBN" desc="Nubian (Any)" />
+    <value name="NDEBELE" value="NDB" desc="Ndebele" />
+    <value name="NDEBELE_SOUTH_AFRICA" value="NDBS" desc="Ndebele (South Africa)" />
+    <value name="NDEBELE_ZIMBABWE" value="NDBZ" desc="Ndebele (Zimbabwe)" />
+    <value name="NEPALI" value="NEP" desc="Nepali" />
+    <value name="NORWEGIAN" value="NOR" desc="Norwegian" />
+    <value name="INFORMATION_NOT_OBTAINED" value="NOT" desc="Information not obtained" />
+    <value name="NUER_NAADH" value="NUE" desc="Nuer/Naadh" />
+    <value name="NUPE" value="NUP" desc="Nupe" />
+    <value name="NEWARI" value="NWA" desc="Newari" />
+    <value name="NZEMA" value="NZM" desc="Nzema" />
+    <value name="AMBO_OSHIWAMBO" value="OAM" desc="Ambo/Oshiwambo" />
+    <value name="AMBO_KWANYAMA" value="OAMK" desc="Ambo (Kwanyama)" />
+    <value name="AMBO_NDONGA" value="OAMN" desc="Ambo (Ndonga)" />
+    <value name="OGONI_ANY" value="OGN" desc="Ogoni (Any)" />
+    <value name="ORIYA" value="ORI" desc="Oriya" />
+    <value name="OROMO" value="ORM" desc="Oromo" />
+    <value name="BELIEVED_TO_BE_OTHER_THAN" value="OTB" desc="Believed to be Other than English" />
+    <value name="OTHER_THAN_ENGLISH" value="OTH" desc="Other than English" />
+    <value name="OTHER_LANGUAGE" value="OTL" desc="Other Language" />
+    <value name="PANGASINAN" value="PAG" desc="Pangasinan" />
+    <value name="PAMPANGAN" value="PAM" desc="Pampangan" />
+    <value name="PASHTO_PAKHTO" value="PAT" desc="Pashto/Pakhto" />
+    <value name="PAHARI_HIMACHALI_INDIA" value="PHA" desc="Pahari/Himachali (India)" />
+    <value name="PAHARI_PAKISTAN" value="PHR" desc="Pahari (Pakistan)" />
+    <value name="PANJABI" value="PNJ" desc="Panjabi" />
+    <value name="PANJABI_ANY_OTHER" value="PNJA" desc="Panjabi (Any Other)" />
+    <value name="PANJABI_GURMUKHI" value="PNJG" desc="Panjabi (Gurmukhi)" />
+    <value name="PANJABI_MIRPURI" value="PNJM" desc="Panjabi (Mirpuri)" />
+    <value name="PANJABI_POTHWARI" value="PNJP" desc="Panjabi (Pothwari)" />
+    <value name="POLISH" value="POL" desc="Polish" />
+    <value name="PORTUGUESE" value="POR" desc="Portuguese" />
+    <value name="PORTUGUESE_ANY_OTHER" value="PORA" desc="Portuguese (Any Other)" />
+    <value name="PORTUGUESE_BRAZIL" value="PORB" desc="Portuguese (Brazil)" />
+    <value name="PERSIAN_FARSI" value="PRS" desc="Persian/Farsi" />
+    <value name="FARSI_PERSIAN_ANY_OTHER" value="PRSA" desc="Farsi/Persian (Any Other)" />
+    <value name="DARI_PERSIAN" value="PRSD" desc="Dari Persian" />
+    <value name="TAJIKI_PERSIAN" value="PRST" desc="Tajiki Persian" />
+    <value name="QUECHUA" value="QUE" desc="Quechua" />
+    <value name="RAJASTHANI_MARWARI" value="RAJ" desc="Rajasthani/Marwari" />
+    <value name="REFUSED" value="REF" desc="Refused" />
+    <value name="ROMANY_ENGLISH_ROMANES" value="RME" desc="Romany/English Romanes" />
+    <value name="ROMANI_INTERNATIONAL" value="RMI" desc="Romani (International)" />
+    <value name="ROMANIAN" value="RMN" desc="Romanian" />
+    <value name="ROMANIAN_MOLDOVA" value="RMNM" desc="Romanian (Moldova)" />
+    <value name="ROMANIAN_ROMANIA" value="RMNR" desc="Romanian (Romania)" />
+    <value name="ROMANSCH" value="RMS" desc="Romansch" />
+    <value name="RUNYAKITARA" value="RNY" desc="Runyakitara" />
+    <value name="RUNYANKORE_RUCHIGA" value="RNYN" desc="Runyankore-Ruchiga" />
+    <value name="RUNYORO_RUTOORO" value="RNYO" desc="Runyoro-Rutooro" />
+    <value name="RUSSIAN" value="RUS" desc="Russian" />
+    <value name="SAMOAN" value="SAM" desc="Samoan" />
+    <value name="SERBIAN_CROATIAN_BOSNIAN" value="SCB" desc="Serbian/Croatian/Bosnian" />
+    <value name="BOSNIAN" value="SCBB" desc="Bosnian" />
+    <value name="CROATIAN" value="SCBC" desc="Croatian" />
+    <value name="SERBIAN" value="SCBS" desc="Serbian" />
+    <value name="SCOTS" value="SCO" desc="Scots" />
+    <value name="SHILLUK_CHOLO" value="SHL" desc="Shilluk/Cholo" />
+    <value name="SHONA" value="SHO" desc="Shona" />
+    <value name="SIDAMO" value="SID" desc="Sidamo" />
+    <value name="SIGN_LANGUAGE_OTHER" value="SIO" desc="Sign Language (Other)" />
+    <value name="SLOVAK" value="SLO" desc="Slovak" />
+    <value name="SLOVENIAN" value="SLV" desc="Slovenian" />
+    <value name="SINDHI" value="SND" desc="Sindhi" />
+    <value name="SANGO" value="SNG" desc="Sango" />
+    <value name="SINHALA" value="SNH" desc="Sinhala" />
+    <value name="SOMALI" value="SOM" desc="Somali" />
+    <value name="SPANISH" value="SPA" desc="Spanish" />
+    <value name="SARDINIAN" value="SRD" desc="Sardinian" />
+    <value name="SIRAIKI" value="SRK" desc="Siraiki" />
+    <value name="SOTHO_SESOTHO" value="SSO" desc="Sotho/Sesotho" />
+    <value name="SOTHO_SESOTHO_SOUTHERN" value="SSOO" desc="Sotho/Sesotho (Southern)" />
+    <value name="SOTHO_SESOTHO_NORTHERN" value="SSOT" desc="Sotho/Sesotho (Northern)" />
+    <value name="SWAZI_SISWATI" value="SSW" desc="Swazi/Siswati" />
+    <value name="TSWANA_SETSWANA" value="STS" desc="Tswana/Setswana" />
+    <value name="SUNDANESE" value="SUN" desc="Sundanese" />
+    <value name="SWAHILI_KISWAHILI" value="SWA" desc="Swahili/Kiswahili" />
+    <value name="SWAHILI_ANY_OTHER" value="SWAA" desc="Swahili (Any Other)" />
+    <value name="COMORIAN_SWAHILI" value="SWAC" desc="Comorian Swahili" />
+    <value name="SWAHILI_KINGWANA" value="SWAK" desc="Swahili (Kingwana)" />
+    <value name="SWAHILI_BRAVA_MWIINI" value="SWAM" desc="Swahili (Brava/Mwiini)" />
+    <value name="SWAHILI_BAJUNI_TIKUU" value="SWAT" desc="Swahili (Bajuni/Tikuu)" />
+    <value name="SWEDISH" value="SWE" desc="Swedish" />
+    <value name="TAMIL" value="TAM" desc="Tamil" />
+    <value name="TELUGU" value="TEL" desc="Telugu" />
+    <value name="TEMNE" value="TEM" desc="Temne" />
+    <value name="TESO_ATESO" value="TES" desc="Teso/Ateso" />
+    <value name="TIGRE" value="TGE" desc="Tigre" />
+    <value name="TAGALOG_FILIPINO" value="TGL" desc="Tagalog/Filipino" />
+    <value name="FILIPINO" value="TGLF" desc="Filipino" />
+    <value name="TAGALOG" value="TGLG" desc="Tagalog" />
+    <value name="TIGRINYA" value="TGR" desc="Tigrinya" />
+    <value name="THAI" value="THA" desc="Thai" />
+    <value name="TIBETAN" value="TIB" desc="Tibetan" />
+    <value name="TIV" value="TIV" desc="Tiv" />
+    <value name="BERBER_TAMAZIGHT" value="TMZ" desc="Berber/Tamazight" />
+    <value name="BERBER_TAMAZIGHT_ANY_OTHER" value="TMZA" desc="Berber/Tamazight (Any Other)" />
+    <value name="BERBER_TAMAZIGHT_KABYLE" value="TMZK" desc="Berber/Tamazight (Kabyle)" />
+    <value name="BERBER_TAMASHEK" value="TMZT" desc="Berber (Tamashek)" />
+    <value name="TONGA_CHITONGA_ZAMBIA" value="TNG" desc="Tonga/Chitonga (Zambia)" />
+    <value name="TONGAN_OCEANIA" value="TON" desc="Tongan (Oceania)" />
+    <value name="TOK_PISIN" value="TPI" desc="Tok Pisin" />
+    <value name="TRAVELLER_IRISH_SHELTA" value="TRI" desc="Traveller Irish/Shelta" />
+    <value name="TSONGA" value="TSO" desc="Tsonga" />
+    <value name="TURKMEN" value="TUK" desc="Turkmen" />
+    <value name="TULU" value="TUL" desc="Tulu" />
+    <value name="TUMBUKA" value="TUM" desc="Tumbuka" />
+    <value name="TURKISH" value="TUR" desc="Turkish" />
+    <value name="UKRAINIAN" value="UKR" desc="Ukrainian" />
+    <value name="UMBUNDU" value="UMB" desc="Umbundu" />
+    <value name="URDU" value="URD" desc="Urdu" />
+    <value name="URHOBO_ISOKO" value="URH" desc="Urhobo-Isoko" />
+    <value name="UYGHUR" value="UYG" desc="Uyghur" />
+    <value name="UZBEK" value="UZB" desc="Uzbek" />
+    <value name="VENDA" value="VEN" desc="Venda" />
+    <value name="VIETNAMESE" value="VIE" desc="Vietnamese" />
+    <value name="VISAYAN_BISAYA" value="VSY" desc="Visayan/Bisaya" />
+    <value name="VISAYAN_BISAYA_ANY_OTHER" value="VSYA" desc="Visayan/Bisaya (Any Other)" />
+    <value name="HILIGAYNON" value="VSYH" desc="Hiligaynon" />
+    <value name="CEBUANO_SUGBUANON" value="VSYS" desc="Cebuano/Sugbuanon" />
+    <value name="WARAY_BINISAYA" value="VSYW" desc="Waray/Binisaya" />
+    <value name="WA_PARAOK_SOUTH_EAST_ASIA" value="WAP" desc="Wa-Paraok (South-East Asia)" />
+    <value name="WEST_AFRICAN_CREOLE_PORTUGUESE" value="WCP" desc="West-African Creole Portuguese" />
+    <value name="WOLOF" value="WOL" desc="Wolof" />
+    <value name="WEST_AFRICAN_PIDGIN_ENGLISH" value="WPE" desc="West-African Pidgin English" />
+    <value name="XHOSA" value="XHO" desc="Xhosa" />
+    <value name="YAO_CHIYAO_EAST_AFRICA" value="YAO" desc="Yao/Chiyao (East Africa)" />
+    <value name="YIDDISH" value="YDI" desc="Yiddish" />
+    <value name="YORUBA" value="YOR" desc="Yoruba" />
+    <value name="ZANDE" value="ZND" desc="Zande" />
+    <value name="ZULU" value="ZUL" desc="Zulu" />
+    <value name="CLASSIFICATION_PENDING" value="ZZZ" desc="Classification Pending" />
+  </enum>
+  <!--LanguageStudy enum-->
+  <enum name="LanguageStudy">
+    <value name="TAUGHT_WELSH_AS_A_FIRST" value="1" desc="Taught Welsh as a first language" />
+    <value name="TAUGHT_WELSH_AS_A_SECOND" value="2" desc="Taught Welsh as a second language" />
+    <value name="TAUGHT_OTHER_WELSH" value="3" desc="Taught other Welsh" />
+    <value name="NOT_TAUGHT_WELSH_AT_ALL" value="4" desc="Not taught Welsh at all" />
+    <value name="DISAPPLIED_FROM_CURRICULUM_BY" value="5" desc="Disapplied from curriculum by SEN statement" />
+  </enum>
+  <!--LanguageUsage enum-->
+  <enum name="LanguageUsage">
+    <value name="CORRESPONDENCE" value="C" desc="Correspondence Language" />
+    <value name="FIRST" value="F" desc="First Language" />
+    <value name="MULTIPLE_FIRST" value="M" desc="Multiple First Language" />
+    <value name="HOME" value="H" desc="Home" />
+    <value name="TUITION" value="T" desc="Tuition" />
+    <value name="SECOND" value="S" desc="Second Language" />
+  </enum>
+  <!--LanguageUsageList object-->
+  <object name="LanguageUsageList">
+    <desc>A list of the person's language types.</desc>
+    <element name="Type" type="LanguageUsageType" flags="MR">
+      <desc>A typification of the language. i.e. how is this language used?</desc>
+    </element>
+  </object>
+  <!--LanguageUsageType object-->
+  <object name="LanguageUsageType" renderAs="Type" enum="LanguageUsage">
+    <desc>A typification of the language. i.e. how is this language used?</desc>
+  </object>
+  <!--LearnerPersonalRefId object-->
+  <object name="LearnerPersonalRefId" datatype="IdRefType">
+  </object>
+  <!--ListedStatus enum-->
+  <enum name="ListedStatus">
+    <value name="LISTED" value="Listed" desc="Listed" />
+    <value name="UNLISTED" value="Unlisted" desc="Unlisted" />
+    <value name="UNKNOWN" value="Unknown" desc="Unknown" />
+  </enum>
+  <!--LocationContext object-->
+  <object name="LocationContext">
+    <desc>The physical location of an address in terms of Census District, LA Electoral Ward, Parliamentary Constituency, and other defining location-centric characteristics.</desc>
+    <element name="CensusDistrict" type="normalizedString" flags="O">
+      <desc>National Population Census Enumeration District. CBDS: 100148</desc>
+    </element>
+    <element name="WardCode" type="String" flags="M">
+      <desc>ONS Ward Code CBDS: 100149</desc>
+    </element>
+    <element name="WardName" type="String" flags="M">
+      <desc>ONS Ward Name CBDS: 100150</desc>
+    </element>
+    <element name="ConstituencyCode" type="String" flags="O">
+      <desc>ONS Parliamentary Constituency Code CBDS: 100151</desc>
+    </element>
+    <element name="ConstituencyName" type="String" flags="O">
+      <desc>ONS Parliamentary Constituency Name CBDS: 100152</desc>
+    </element>
+    <element name="Parish" type="" flags="O">
+      <desc>ONS Parish Council Name CBDS: 100153</desc>
+    </element>
+    <element name="ChurchOfEnglandDiocese" type="String" flags="O">
+      <desc>Church of England Diocese CBDS: 100154</desc>
+    </element>
+    <element name="ChurchOfEnglandParish" type="normalizedString" flags="O">
+      <desc>Church of England Parish CBDS: 100155</desc>
+    </element>
+    <element name="RomanCatholicDiocese" type="String" flags="O">
+      <desc>Roman Catholic Diocese CBDS: 100156</desc>
+    </element>
+    <element name="RomanCatholicParish" type="normalizedString" flags="O">
+      <desc>Roman Catholic Parish CBDS: 100157</desc>
+    </element>
+    <element name="LSCouncilCode" type="String" flags="O">
+      <desc>Learning and Skills Council area code CBDS: 100158</desc>
+    </element>
+    <element name="CatchmentArea" type="normalizedString" flags="O">
+      <desc>School catchment area description CBDS: 100159</desc>
+    </element>
+  </object>
+  <!--MaritalStatus enum-->
+  <enum name="MaritalStatus">
+    <value name="LEGALLY_SEPARATED" value="SEP" desc="Legally separated" />
+    <value name="MARRIED" value="MAR" desc="Married" />
+    <value name="NOT_MARRIED" value="NOT" desc="Not married (never married, legally divorced, widowed, or marriage annulled)" />
+  </enum>
+  <!--MedicalAlertMsg object-->
+  <object name="MedicalAlertMsg">
+    <attribute name="Severity" enum="MedicalAlertMsgSeverity" flags="R">
+      <desc>The level of severity of this medical alert.</desc>
+    </attribute>
+  </object>
+  <!--MedicalAlertMsgList object-->
+  <object name="MedicalAlertMsgList">
+    <element name="MedicalAlertMsg" type="MedicalAlertMsg" flags="OR">
+      <desc>Medical alert associated with the student.</desc>
+    </element>
+  </object>
+  <!--MedicalAlertMsgSeverity enum-->
+  <enum name="MedicalAlertMsgSeverity">
+    <value name="LOW" value="Low" desc="Low" />
+    <value name="MODERATE" value="Moderate" desc="Moderate" />
+    <value name="HIGH" value="High" desc="High" />
+    <value name="SEVERE" value="Severe" desc="Severe" />
+    <value name="UNKNOWN" value="Unknown" desc="Unknown" />
+  </enum>
+  <!--Name object-->
+  <object name="Name">
+    <desc>The Name element defines name information for a person and occurs within objects such as WorforcePersonal, LearnerPersonal, ContactPersonal, etc.</desc>
+    <attribute name="Type" enum="NameType" flags="M">
+      <desc>Code that specifies what type of name this is</desc>
+    </attribute>
+    <element name="Title" type="normalizedString" flags="O">
+      <desc>A title or prefix associated with the name.  If any of: Mr, Mrs, Ms, Miss, Rev, Fr, Dr, Prof, Hon, Sir, Lord, Lady - these must be as shown, otherwise free text.  Note that title is not applicable to learners. CBDS: 100161</desc>
+    </element>
+    <element name="FamilyName" key="false" type="normalizedString" flags="M">
+      <desc>Full legal family name. That part of the person's name which is used to describe family, clan, tribal group, or marital association. Note that this element is always required.  However, when associated with a contact it may not be possible to know the family name in which case you should add the available information to the FullName element. CBDS: 100003, 100162, 100288, 100280, 900001</desc>
+    </element>
+    <element name="GivenName" key="false" type="normalizedString" flags="M">
+      <desc>Full given name (forename) of the person. Note that this element is always required.  However, when associated with a contact it may not be possible to know the given name in which case you should add the available information to the FullName element. CBDS: 100004, 100163, 100164, 100289, 100006, 100281, 900002</desc>
+    </element>
+    <element name="MiddleNames" type="normalizedString" flags="O">
+      <desc>All other given or middle names, each separated with a single space character. CBDS: 100006, 100164</desc>
+    </element>
+    <element name="FamilyNameFirst" type="normalizedString" flags="O">
+      <desc>An indicator used to identify the naming conventions used by some predominantly non-European, ethnic or language groups and related to the display nature of a name.. CBDS: 100282, 900003</desc>
+    </element>
+    <element name="PreferredFamilyName" type="normalizedString" flags="O">
+      <desc>The family name preferred most by the person (as written). CBDS: 100011, 100285, 900006</desc>
+    </element>
+    <element name="PreferredFamilyNameFirst" type="normalizedString" flags="O">
+      <desc>An indicator used to identify the naming conventions used by some predominantly non-European, ethnic or language groups and related to the display nature of a name.. CBDS: 100012, 100286, 900007</desc>
+    </element>
+    <element name="PreferredGivenName" type="normalizedString" flags="O">
+      <desc>The given name preferred most by the person (as written). CBDS: 100010, 100284, 900005</desc>
+    </element>
+    <element name="Suffix" type="normalizedString" flags="O">
+      <desc>Textual suffix like PHD, JP, BSc.</desc>
+    </element>
+    <element name="FullName" type="normalizedString" flags="O">
+      <desc>A free text field for the complete name for display purposes.</desc>
+    </element>
+  </object>
+  <!--NameType enum-->
+  <enum name="NameType">
+    <value name="BIRTH" value="B" desc="Birth name" />
+    <value name="CURRENT_LEGAL" value="C" desc="Current legal name" />
+    <value name="ALIAS" value="A" desc="Alias" />
+    <value name="NAME_OF_RECORD" value="R" desc="Name of record" />
+    <value name="FORMER" value="F" desc="Former Name" />
+    <value name="MARRIED" value="M" desc="Married name" />
+    <value name="PROFESSIONAL" value="P" desc="Professional name" />
+  </enum>
+  <!--NCYear enum-->
+  <enum name="NCYear">
+    <value name="NURSERY_FIRST_YEAR" value="N1" desc="Nursery first year" />
+    <value name="NURSERY_SECOND_YEAR" value="N2" desc="Nursery second year" />
+    <value name="RECEPTION" value="R" desc="Reception" />
+    <value name="YEAR_1" value="1" desc="Year 1" />
+    <value name="YEAR_2" value="2" desc="Year 2" />
+    <value name="YEAR_3" value="3" desc="Year 3" />
+    <value name="YEAR_4" value="4" desc="Year 4" />
+    <value name="YEAR_5" value="5" desc="Year 5" />
+    <value name="YEAR_6" value="6" desc="Year 6" />
+    <value name="YEAR_7" value="7" desc="Year 7" />
+    <value name="YEAR_8" value="8" desc="Year 8" />
+    <value name="YEAR_9" value="9" desc="Year 9" />
+    <value name="YEAR_10" value="10" desc="Year 10" />
+    <value name="YEAR_11" value="11" desc="Year 11" />
+    <value name="YEAR_12" value="12" desc="Year 12" />
+    <value name="YEAR_13" value="13" desc="Year 13" />
+    <value name="YEAR_14" value="14" desc="Year 14" />
+    <value name="NOT_FOLLOWED" value="X" desc="National Curriculum not followed – available only for Special Schools where pupils are not following a particular NC Year" />
+  </enum>
+  <!--NCYearGroup object-->
+  <object name="NCYearGroup" enum="NCYear">
+    <desc>Code representing a National Curriculum Year Group.</desc>
+  </object>
+  <!--NCYearGroupList object-->
+  <object name="NCYearGroupList">
+    <desc>This is a common element used to specify a collection of supported National Curriculum Year Groups. It is used in SchoolInfo and assessment-related objects.</desc>
+    <element name="NCYearGroup" type="NCYearGroup" flags="MR">
+      <desc>Code representing a National Curriculum year group.</desc>
+    </element>
+  </object>
+  <!--OtherId object-->
+  <object name="OtherId">
+    <desc>Describes an alternate ID for a person</desc>
+    <attribute name="Type" enum="OtherIdType" flags="R">
+      <desc>Code that defines the type of this other ID.  Note: A subset of valid values may be specified in data objects.</desc>
+    </attribute>
+  </object>
+  <!--OtherIdList object-->
+  <object name="OtherIdList">
+    <element name="OtherId" type="OtherId" flags="OR" />
+  </object>
+  <!--OtherIdType enum-->
+  <enum name="OtherIdType">
+    <desc>Codes that define valid types for OtherId elements</desc>
+  </enum>
+  <!--OtherNames object-->
+  <object name="OtherNames">
+    <element name="Name" type="Name" flags="OR" />
+  </object>
+  <!--PersonalInformation object-->
+  <object name="PersonalInformation">
+    <desc>This element contains basic personal and demographic information related to a person.  This element is part of all "personal" objects, including LearnerPersonal, WorkforcePersonal, and ContactPersonal.</desc>
+    <element name="Name" type="Name" flags="M">
+      <desc>Name information for this person. CBDS: Multiple</desc>
+    </element>
+    <element name="OtherNames" type="OtherNames" flags="O">
+      <desc>A list of other names associated with this person.</desc>
+    </element>
+    <element name="Demographics" type="Demographics" flags="O" />
+    <element name="Email" type="Email" flags="O">
+      <desc>The person's preferred e-mail address. CBDS: 100071, LP</desc>
+    </element>
+    <element name="OtherEmailList" type="EmailList" flags="O">
+      <desc>The person's other e-mail address(es).</desc>
+    </element>
+    <element name="Address" type="Address" flags="O">
+      <desc>The person's current physical address. CBDS: 100102</desc>
+    </element>
+    <element name="OtherAddressList" type="AddressList" flags="O">
+      <desc>The person's other address(es). CBDS: 100102</desc>
+    </element>
+    <element name="PhoneNumber" type="PhoneNumber" flags="O">
+      <desc>The person's preferred phone number.</desc>
+    </element>
+    <element name="OtherPhoneNumberList" type="PhoneNumberList" flags="O">
+      <desc>The person's other phone number(s).</desc>
+    </element>
+    <element name="ElectronicIdList" type="ElectronicIdList" flags="O">
+      <desc>Electronic identifier(s) associated with this person.</desc>
+    </element>
+    <element name="OtherIdList" type="OtherIdList" flags="O">
+      <desc>A list of all "other" IDs associated with this person.</desc>
+    </element>
+  </object>
+  <!--PhoneNumber object-->
+  <object name="PhoneNumber">
+    <desc>This element represents a phone number and occurs within objects such as LearnerPersonal, WorkforcePersonal, etc.</desc>
+    <attribute name="Type" enum="PhoneType" flags="M">
+      <desc>Code that specifies the phone number type. CBDS: 100144, 100217, S86</desc>
+    </attribute>
+    <attribute key="false" name="SIF_Action" flags="O" enum="SIFActionType">
+      <desc>In a Change event, this flag can be used to indicate an element has been deleted from the parent list container. At a minimum the key for the list must also be present.</desc>
+    </attribute>
+    <element name="Number" type="normalizedString" flags="M">
+      <desc>Phone number. Validation:  0-9 and a leading '+' (for international calls). CBDS: 100145, 100218, S87</desc>
+    </element>
+    <element name="Extension" type="normalizedString" flags="O">
+      <desc>Phone number extension.</desc>
+    </element>
+    <element name="ListedStatus" enum="ListedStatus" flags="O">
+      <desc>Indicates whether or not the phone number is available to the public.</desc>
+    </element>
+  </object>
+  <!--PhoneNumberList object-->
+  <object name="PhoneNumberList" superclass="SIFActionList">
+    <desc>Lists phone numbers associated with an entity.</desc>
+    <element name="PhoneNumber" type="PhoneNumber" flags="MR">
+      <desc />
+    </element>
+  </object>
+  <!--PhoneType enum-->
+  <enum name="PhoneType">
+    <value name="FAX" value="F" desc="Fax" />
+    <value name="HOME" value="H" desc="Home" />
+    <value name="ALTERNATE_HOME" value="A" desc="Alternate Home" />
+    <value name="MOBILE" value="M" desc="Mobile" />
+    <value name="WORK" value="W" desc="Work" />
+    <value name="MINICOM_HEARING_IMPAIRED" value="D" desc="Minicom (hearing impaired/disabled)" />
+  </enum>
+  <!--PictureSourceType enum-->
+  <enum name="PictureSourceType">
+    <value name="URL" value="URL" desc="URL" />
+    <value name="JPEG" value="JPEG" desc="JPEG" />
+  </enum>
+  <!--RelationshipCode enum-->
+  <enum name="RelationshipCode">
+    <value name="CARER" value="CAR" desc="Carer" />
+    <value name="CHILDMINDER" value="CHM" desc="Childminder" />
+    <value name="DOCTOR" value="DOC" desc="Doctor" />
+    <value name="OTHER_FAMILY_MEMBER" value="FAM" desc="Other family member" />
+    <value name="OTHER_CONTACT" value="OTH" desc="Other Contact" />
+    <value name="MOTHER" value="PAM" desc="Mother" />
+    <value name="FATHER" value="PAF" desc="Father" />
+    <value name="STEP_PARENT" value="STP" desc="Step Parent" />
+    <value name="FOSTER_PARENT" value="FOS" desc="Foster Parent" />
+    <value name="OTHER_RELATIVE" value="REL" desc="Other Relative" />
+    <value name="SOCIAL_WORKER" value="SWR" desc="Social Worker" />
+    <value name="RELIGIOUS_SPIRITUAL_CONTACT" value="RLG" desc="Religious/Spiritual Contact" />
+    <value name="TEACHER" value="TCH" desc="Teacher" />
+    <value name="HEAD_TEACHER" value="HTC" desc="Head Teacher" />
+  </enum>
+  <!--RelationshipCode_1 enum-->
+  <enum name="RelationshipCode">
+    <value name="CARER" value="CAR" desc="Carer" />
+    <value name="CHILDMINDER" value="CHM" desc="Childminder" />
+    <value name="DOCTOR" value="DOC" desc="Doctor" />
+    <value name="OTHER_FAMILY_MEMBER" value="FAM" desc="Other family member" />
+    <value name="OTHER_CONTACT" value="OTH" desc="Other Contact" />
+    <value name="MOTHER" value="PAM" desc="Mother" />
+    <value name="FATHER" value="PAF" desc="Father" />
+    <value name="STEP_PARENT" value="STP" desc="Step Parent" />
+    <value name="FOSTER_PARENT" value="FOS" desc="Foster Parent" />
+    <value name="OTHER_RELATIVE" value="REL" desc="Other Relative" />
+    <value name="SOCIAL_WORKER" value="SWR" desc="Social Worker" />
+    <value name="RELIGIOUS_SPIRITUAL_CONTACT" value="RLG" desc="Religious/Spiritual Contact" />
+    <value name="TEACHER" value="TCH" desc="Teacher" />
+    <value name="HEAD_TEACHER" value="HTC" desc="Head Teacher" />
+  </enum>
+  <!--Religion object-->
+  <object name="Religion">
+    <desc>Definition of a person's religious faith.</desc>
+    <element name="AffiliationCode" enum="ReligiousAffiliation" flags="M">
+      <desc>Person's religious faith. CBDS: 100029</desc>
+    </element>
+    <element name="EducationStatus" enum="EducationStatus" flags="O">
+      <desc>Indicates whether the person is actively attending religious education classes. CBDS: 100030</desc>
+    </element>
+    <element name="CollectiveWorshipStatus" enum="EducationStatus" flags="O">
+      <desc>Indicates whether the person is participating in religious collective worship. CBDS: 100031</desc>
+    </element>
+    <element name="Source" enum="SourceOfCode" flags="O">
+      <desc>Source of person's religious affiliation code. CBDS: 100058</desc>
+    </element>
+  </object>
+  <!--ReligiousAffiliation enum-->
+  <enum name="ReligiousAffiliation">
+    <value name="BUDDHIST" value="BU" desc="Buddhist" />
+    <value name="CHRISTIAN" value="CH" desc="Christian" />
+    <value name="HINDU" value="HI" desc="Hindu" />
+    <value name="JEWISH" value="JE" desc="Jewish" />
+    <value name="MUSLIM" value="MU" desc="Muslim" />
+    <value name="NO_RELIGION" value="NO" desc="No religion" />
+    <value name="OTHER_RELIGION" value="OT" desc="Other religion" />
+    <value name="SIKH" value="SI" desc="Sikh" />
+  </enum>
+  <!--SIF_RefObject object-->
+  <object name="SIF_RefObject" datatype="String" />
+  <!--SIF_RefObjectList object-->
+  <object name="SIF_RefObjectList">
+    <element name="SIF_RefObject" type="SIF_RefObject" flags="MR">
+      <desc>The name of the "personal" object that this picture represents. Values: LearnerPersonal, WorkforcePersonal, ContactPersonal</desc>
+    </element>
+  </object>
+  <!--SourceOfCode enum-->
+  <enum name="SourceOfCode">
+    <value name="CHILD" value="C" desc="Provided by the child (ie pupil)" />
+    <value name="PARENT" value="P" desc="Provided by the parent" />
+    <value name="CURRENT_SCHOOL" value="S" desc="Ascribed by the current school" />
+    <value name="PREVIOUS_SCHOOL" value="T" desc="Ascribed by a previous school" />
+    <value name="OTHER" value="O" desc="Other" />
+  </enum>
+  <!--SubjectArea object-->
+  <object name="SubjectArea" enum="GeneralSubjects" />
+  <!--SubjectAreaList object-->
+  <object name="SubjectAreaList">
+    <desc>A list of subject areas.</desc>
+    <element name="SubjectArea" type="SubjectArea" flags="MR">
+      <desc>Subject matter.</desc>
+    </element>
+  </object>
+  <!--Topics enum-->
+  <enum name="Topics">
+    <value name="ASSESSMENTLEARNERSET" value="AssessmentLearnerSet" desc="AssessmentLearnerSet" />
+    <value name="ASSESSMENTRESPONSECOMPONENT" value="AssessmentResponseComponent" desc="AssessmentResponseComponent" />
+    <value name="ASSESSMENTRESPONSECOMPONENTGROUP" value="AssessmentResponseComponentGroup" desc="AssessmentResponseComponentGroup" />
+    <value name="ASSESSMENTRESULTCOMPONENT" value="AssessmentResultComponent" desc="AssessmentResultComponent" />
+    <value name="ASSESSMENTRESULTCOMPONENTGROUP" value="AssessmentResultComponentGroup" desc="AssessmentResultComponentGroup" />
+    <value name="ASSESSMENTRESULTGRADESET" value="AssessmentResultGradeSet" desc="AssessmentResultGradeSet" />
+    <value name="ASSESSMENTSESSION" value="AssessmentSession" desc="AssessmentSession" />
+    <value name="CONTACTPERSONAL" value="ContactPersonal" desc="ContactPersonal" />
+    <value name="IDENTITY" value="Identity" desc="Identity" />
+    <value name="LAINFO" value="LAInfo" desc="LAInfo" />
+    <value name="LEARNERASSESSMENTRESPONSESET" value="LearnerAssessmentResponseSet" desc="LearnerAssessmentResponseSet" />
+    <value name="LEARNERASSESSMENTRESULT" value="LearnerAssessmentResult" desc="LearnerAssessmentResult" />
+    <value name="LEARNERATTENDANCE" value="LearnerAttendance" desc="LearnerAttendance" />
+    <value name="LEARNERATTENDANCESUMMARY" value="LearnerAttendanceSummary" desc="LearnerAttendanceSummary" />
+    <value name="LEARNERCONTACT" value="LearnerContact" desc="LearnerContact" />
+    <value name="LEARNEREXCLUSION" value="LearnerExclusion" desc="LearnerExclusion" />
+    <value name="LEARNERGROUPENROLMENT" value="LearnerGroupEnrolment" desc="LearnerGroupEnrolment" />
+    <value name="LEARNERPERSONAL" value="LearnerPersonal" desc="LearnerPersonal" />
+    <value name="LEARNERSCHOOLENROLMENT" value="LearnerSchoolEnrolment" desc="LearnerSchoolEnrolment" />
+    <value name="LEARNERSPECIALNEEDS" value="LearnerSpecialNeeds" desc="LearnerSpecialNeeds" />
+    <value name="PERSONPICTURE" value="PersonPicture" desc="PersonPicture" />
+    <value name="SCHOOLGROUP" value="SchoolGroup" desc="SchoolGroup" />
+    <value name="SCHOOLGROUPTYPE" value="SchoolGroupType" desc="SchoolGroupType" />
+    <value name="SCHOOLINFO" value="SchoolInfo" desc="SchoolInfo" />
+    <value name="SIF_AGENTACL" value="SIF_AgentACL" desc="SIF_AgentACL" />
+    <value name="SIF_LOGENTRY" value="SIF_LogEntry" desc="SIF_LogEntry" />
+    <value name="SIF_ZONESTATUS" value="SIF_ZoneStatus" desc="SIF_ZoneStatus" />
+    <value name="TERMINFO" value="TermInfo" desc="TermInfo" />
+    <value name="WORKFORCEPERSONAL" value="WorkforcePersonal" desc="WorkforcePersonal" />
+  </enum>
+  <!--Traveller object-->
+  <object name="Traveller">
+    <element name="Code" enum="TravellerCode" flags="M">
+      <desc>Code to identify type of traveller/gypsy.</desc>
+    </element>
+    <element name="Source" enum="SourceOfCode">
+      <desc>Source of individual's recorded traveller/gypsy code.</desc>
+    </element>
+  </object>
+  <!--TravellerCode enum-->
+  <enum name="TravellerCode">
+    <value name="GYPSY_ROMA_HOUSED" value="GH" desc="Gypsy/Roma (Housed)" />
+    <value name="GYPSY_ROMA_TRAVELLING" value="GT" desc="Gypsy/Roma (Travelling)" />
+    <value name="OCCUPATIONAL_TRAVELLER" value="OT" desc="Occupational Traveller" />
+    <value name="TRAVELLER_OTHER" value="TR" desc="Traveller (Other)" />
+    <value name="NOT_A_TRAVELLER" value="NT" desc="Not a Traveller" />
+  </enum>
+  <!--WorkforcePersonalRefId object-->
+  <object name="WorkforcePersonalRefId" datatype="IdRefType">
+  </object>
+</adk>

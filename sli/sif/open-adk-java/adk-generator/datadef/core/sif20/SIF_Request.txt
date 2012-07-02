@@ -1,0 +1,39 @@
+	/**
+	 * Parses the list of SIF_Version elements and returns an array of SIFVersions
+	 * @param failureLog The log to write failures to, if any of the SIFVersions fail
+	 * to be parsed.
+	 * @return An array of SIFVersion elements. This will never be null
+	 */
+	public SIFVersion[] parseRequestVersions( org.apache.log4j.Logger failureLog )
+	{
+		if( failureLog == null ){
+			failureLog = ADK.getLog();
+		}
+		java.util.List<SIFVersion> versionList = new java.util.ArrayList<SIFVersion>();
+		for( SIFElement element : getChildren( InfraDTD.SIF_REQUEST_SIF_VERSION ) ){
+			SIF_Version candidate = (SIF_Version)element;
+			SIFVersion version = null;
+			try {
+				// Check for "1.*" and "2.*"
+				String ver = candidate.getValue();
+				if( ver != null ){
+					if( ver.indexOf( ".*" ) > 0 ){
+						version = SIFVersion.getLatest( Integer.parseInt( ver.substring( 0, 1 ) ) );
+					} else {
+						version = SIFVersion.parse( ver );
+					}
+				}
+			} catch( IllegalArgumentException exc ){
+				String warning = String.format( "Unable to parse '%s' from SIF_Request/SIF_Version as SIFVersion.", candidate.getValue() );
+				failureLog.warn( warning , exc );
+			} 
+			if( version != null && !versionList.contains( version ) ){
+				versionList.add( version );
+			}
+		}
+		SIFVersion[] versions = new SIFVersion[versionList.size()];
+		versionList.toArray( versions );
+		return versions;
+	
+	}
+	

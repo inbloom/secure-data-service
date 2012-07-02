@@ -1,0 +1,77 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.4 datamodel objects             -->
+<!-- ======================================== -->
+<adk package="datamodel" version="2.4" namespace="http://www.sifinfo.org/infrastructure/2.x">
+  <!--Created object-->
+  <object name="Created">
+    <element name="DateTime" type="DateTime" flags="M" />
+    <element name="Creators" type="Creators" flags="O" />
+  </object>
+  <!--Creator object-->
+  <object name="Creator">
+    <element key="false" name="Name" type="normalizedString" flags="M">
+      <desc>Human-readable name of the data's creator. If the object contains system-generated data, the name should identify the creating service or application.</desc>
+    </element>
+    <element name="ID" type="normalizedString" flags="M">
+      <desc>Unique identifier of the creator. An email address or URI could be used here.</desc>
+    </element>
+  </object>
+  <!--Creators object-->
+  <object name="Creators">
+    <element name="Creator" type="Creator" flags="MR" />
+  </object>
+  <!--FeeForUse object-->
+  <object name="FeeForUse">
+    <element name="UseType" type="String" flags="O">
+      <desc>A description of the fee structure for this resource. Some resources may be licensed differently depending upon their context. For example, a content provider might charge one fee structure for resources used in the classroom and a separate fee for those resources available to parents from home.</desc>
+    </element>
+    <element name="MeteringType" type="Token" flags="M" />
+    <element name="MeteringURL" type="AnyUri" flags="O" />
+    <element name="PerUseCharge" type="MonetaryAmount" flags="O" />
+  </object>
+  <!--FeesForUse object-->
+  <object name="FeesForUse">
+    <desc>A container for fees for use of the content in the object.</desc>
+    <element name="FeeForUse" type="FeeForUse" flags="OR" />
+  </object>
+  <!--LifeCycle object-->
+  <object name="LifeCycle">
+    <desc>This common metadata element describes the life cycle of the object it represents, based on the IEEE LOM LifeCycle element</desc>
+    <element name="Created" type="Created" flags="O" />
+    <element name="ModificationHistory" type="ModificationHistory" flags="O" />
+    <element name="TimeElements" type="TimeElements" flags="O" />
+  </object>
+  <!--ModificationHistory object-->
+  <object name="ModificationHistory">
+    <desc>An ordered set of Modified elements describing which system modified the data, when the modification took place, and a brief description of the modification.</desc>
+    <element name="Modified" type="Modified" flags="OR" />
+  </object>
+  <!--Modified object-->
+  <object name="Modified">
+    <desc>A single modification event.</desc>
+    <element key="false" name="By" type="normalizedString" flags="M">
+      <desc>Identifier of the system or person that modified the data.</desc>
+    </element>
+    <element name="DateTime" type="DateTime" flags="M">
+      <desc>The date/time the modification occurred.</desc>
+    </element>
+    <element key="false" name="Description" type="string" flags="O">
+      <desc>Human readable description of the data modifications.</desc>
+    </element>
+  </object>
+  <!--RightsElement object-->
+  <object name="RightsElement">
+    <element name="Cost" type="Boolean" flags="O" />
+    <element name="FeesForUse" type="FeesForUse" flags="OR" />
+    <element name="CopyrightStatement" type="String" flags="O" />
+    <element name="TermsOfUse" type="String" flags="O" />
+  </object>
+  <!--RightsElements object-->
+  <object name="RightsElements">
+    <element name="RightsElement" type="RightsElement" flags="OR" />
+  </object>
+</adk>

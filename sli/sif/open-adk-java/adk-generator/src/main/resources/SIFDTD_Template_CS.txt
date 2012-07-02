@@ -1,0 +1,79 @@
+	/**
+	 *  Returns the package name for all classes in this data model
+	 */
+	public override String BasePackageName {
+        get
+        {
+		    return "OpenADK.Library." + Variant;
+        }
+	}
+
+
+
+	/**
+	 *  Returns the base version-independent namespace for this data model variant
+	 */
+	public override String BaseNamespace {
+        get
+        {
+        	if ( "us".Equals( Variant ))
+	            return "http://www.sifinfo.org/infrastructure";
+	        else
+	        	return "http://www.sifinfo.org/" + Variant + "/infrastructure";
+        }
+	}
+
+    protected override String GetLibraryName(int type)
+    {
+        return ((SdoLibraryType)type).ToString("G");
+    }
+	
+
+
+    /// <summary>  Gets the names of all Sdo libraries offered with this version of the Adk (Excluding Common, DataModel, and Infra)</summary>
+    public int[] AvailableLibraries
+    {
+        //TODO: Look at this signature to see if it can be changed back to SDOLibraryType
+        get { return GetSdoTypes( (int)SdoLibraryType.All ^ (IntrinsicLibraries)).ToArray(); }
+    }
+
+    /// <summary>
+    /// Determines if the specified SDO library is loaded
+    /// <param name="library">The library identifier (e.g. SdoLibraryType.Reporting)</param>
+    /// <returns></returns>
+    public bool IsLibraryLoaded(SdoLibraryType library)
+    {
+        return (fLoaded & (int)library) != 0;
+    }
+
+
+    /// <summary>
+    /// Gets an integer identifying all loaded libraries
+    /// </summary>
+    public SdoLibraryType LoadedLibraries
+    {
+        get { return (SdoLibraryType)fLoaded; }
+    }
+
+    protected override List<int> GetSdoTypes(int libraryTypes)
+    {
+        List<int> libTypes = new List<int>();
+
+        int[] availableValues = (int[])Enum.GetValues(typeof(SdoLibraryType));
+        foreach (int a in availableValues)
+        {
+            if ((((int)libraryTypes & a) > 0) && a != (int)SdoLibraryType.All)
+            {
+                libTypes.Add(a);
+            }
+        }
+        return libTypes;
+
+    }
+
+
+    public override string SDOAssembly
+    {
+        // TODO: This will use reflection in the future
+        get { return "OpenADK.SDO-" + Variant.ToUpper(); }
+    }

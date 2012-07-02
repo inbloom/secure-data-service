@@ -1,0 +1,377 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.5 datamodel objects             -->
+<!-- ======================================== -->
+<adk package="learning" version="2.5" namespace="http://www.sifinfo.org/au/infrastructure/2.x">
+
+    <!--TeachingGroup -->
+    <object name="TeachingGroup" topic="true">
+        <attribute name="RefId" type="String" flags="R">
+            <desc>The GUID of the TeachingGroup</desc>
+        </attribute>
+        <element name="SchoolYear" type="int" flags="M" />
+        <element name="LocalId" type="String" flags="M" />
+        <element name="ShortName" type="String" flags="M">
+            <desc>Short free format label that describes the group.</desc>
+        </element>
+        <element name="LongName" type="String" flags="O">
+            <desc>Longer description of required</desc>
+        </element>
+        <element name="Set" type="String" flags="O">
+            <desc>Set Number (UK)</desc>
+        </element>
+        <element name="Block" type="String" flags="O">
+            <desc>Block (UK)</desc>
+        </element>
+        <element name="CurriculumLevel" type="String" flags="O">
+            <desc>Assessment Stage eg VELS Level</desc>
+        </element>
+        <element name="SchoolInfoRefId" type="String" flags="O">
+            <desc>GUID of SchoolInfo object this teaching group belongs to.
+            </desc>
+        </element>
+        <element name="SchoolLocalId" type="String" flags="O">
+            <desc>Local School Id.</desc>
+        </element>
+        <element name="SchoolCourseInfoRefId" type="String" flags="O">
+            <desc>GUID of SchoolCourseInfo object this teaching group is part of.</desc>
+        </element>
+        <element name="SchoolCourseLocalId" type="String" flags="O">
+            <desc>Local Course Id.</desc>
+        </element>
+        <element name="TimeTableSubjectRefId" type="String" flags="O">
+            <desc>GUID of TimeTableSubject object this teaching group belongs to.</desc>
+        </element>
+        <element name="TimeTableSubjectLocalId" type="String" flags="O">
+            <desc>Local subject Id.</desc>
+        </element>
+        <element name="StudentList" type="StudentList" flags="O" />
+        <element name="TeacherList" type="TeacherList" flags="O" />
+        <element name="MinClassSize" type="int" flags="O">
+            <desc>Minimum class size.</desc>
+        </element>
+        <element name="MaxClassSize" type="int" flags="O">
+            <desc>Maximum class size</desc>
+        </element>
+        <element name="TeachingGroupPeriodList" type="TeachingGroupPeriodList" flags="O"/>
+    </object>
+
+    <!--TeachingGroupPeriodList -->
+    <object name="TeachingGroupPeriodList">
+        <element name="TeachingGroupPeriod" type="TeachingGroupPeriod" flags="MR" />
+    </object>
+
+    <!--TeachingGroupPeriod -->
+    <object name="TeachingGroupPeriod">
+        <element name="TimeTableCellRefId" type="String" flags="O" />
+        <element name="RoomNumber" type="String" flags="O" />
+        <element name="StaffLocalId" type="String" flags="O" />
+        <element name="DayId" type="String" flags="M" />
+        <element name="PeriodId" type="String" flags="O" />
+        <element name="StartTime" type="Time" flags="O" />
+        <element name="CellType" type="String" flags="O" />
+    </object>
+
+    <!--StudentList -->
+    <object name="StudentList">
+        <element name="TeachingGroupStudent" type="TeachingGroupStudent" flags="MR" />
+    </object>
+
+    <!--TeachingGroupStudent -->
+    <object name="TeachingGroupStudent">
+        <element name="StudentPersonalRefId" type="String" flags="O" />
+        <element name="StudentLocalId" type="String" flags="M" />
+        <element name="Name" type="Name" flags="M" />
+    </object>
+
+    <!--TeacherList -->
+    <object name="TeacherList">
+        <element name="TeachingGroupTeacher" type="TeachingGroupTeacher" flags="MR" />
+    </object>
+
+    <!--TeachingGroupTeacher -->
+    <object name="TeachingGroupTeacher">
+        <element name="StaffPersonalRefId" type="String" flags="O" />
+        <element name="StaffLocalId" type="String" flags="M" />
+        <element name="Name" type="Name" flags="M" />
+        <element name="Association" type="String" flags="M" />
+    </object>
+
+    <!--LearningStandardItem -->
+    <object name="LearningStandardItem" topic="true">
+        <attribute name="RefId" type="String" flags="R"/>
+        <attribute name="Language" renderAs="xml:lang" type="String" flags="R" />
+        <element name="Resources" type="ResourcesList" flags="O" />
+        <element name="StandardSettingBody" type="StandardSettingBody" flags="O" />
+        <element name="StandardHierarchyLevel" type="StandardHierarchyLevel" flags="M" />
+        <element name="PredecessorItems" type="PredecessorItems" flags="O" />
+        <element name="StatementCodes" type="StatementCodes" flags="O" />
+        <element name="Statements" type="Statements" flags="O" />
+        <element name="YearLevels" type="YearLevels" flags="M" />
+        <element name="ACStrandSubjectArea" type="ACStrandSubjectArea" flags="O" />
+        <element name="StandardIdentifier" type="StandardIdentifier" flags="O" />
+        <element name="LearningStandardDocumentRefId" type="IdRefType" flags="M" />
+        <element name="RelatedLearningStandardItems" type="RelatedLearningStandardItems" flags="O" />
+        <element name="Level4" type="String" flags="O" />
+        <element name="Level5" type="String" flags="O" />
+    </object>
+
+    <object name="ResourcesList" topic="false">
+        <attribute name="ResourceType" enum="ResourceType" flags="R"/>
+        <element name="LearningResourceRefId" type="LearningResourceRefIds" flags="OR" />
+    </object>
+
+    <object name="LearningResourceRefIds" datatype="IdRefType"/>
+
+    <object name="StandardSettingBody" topic="false">
+        <element name="Country" type="Country" flags="M" />
+        <element name="StateProvince" type="String" flags="O" />
+        <element name="SettingBodyName" type="String" flags="M" />
+    </object>
+
+    <object name="StandardHierarchyLevel" topic="false">
+        <element name="Number" type="int" flags="M" />
+        <element name="Description" type="String" flags="M" />
+    </object>
+    
+    <object name="PredecessorItems" topic="false">
+        <element name="LearningResourceRefId" type="LearningResourceRefIds" flags="OR" />
+    </object>
+
+    <object name="StatementCodes" topic="false">
+        <element name="StatementCode" type="StatementCode" flags="OR" />
+    </object>
+
+    <object name="StatementCode" datatype="Token"/>
+
+    <object name="Statements" topic="false">
+        <element name="Statement" type="Statement" flags="MR" />
+    </object>
+
+    <object name="Statement" datatype="String"/>
+
+    <object name="StandardIdentifier" topic="false">
+        <element name="YearCreated" type="Year" flags="M" />
+        <element name="ACStrandSubjectArea" type="ACStrandSubjectArea" flags="M" />
+        <element name="StandardNumber" type="String" flags="M" />
+        <element name="YearLevels" type="YearLevels" flags="M" />
+        <element name="Benchmark" type="String" flags="O" />
+        <element name="YearLevel" type="YearLevel" flags="O" />
+        <element name="IndicatorNumber" type="String" flags="O" />
+        <element name="AlternateIdentificationCodes" type="AlternateIdentificationCodes" flags="O" />
+        <element name="Organization" type="String" flags="M" />
+    </object>
+
+    <object name="AlternateIdentificationCodes" topic="false">
+        <element name="AlternateIdentificationCode" type="AlternateIdentificationCode" flags="MR" />
+    </object>
+
+    <object name="AlternateIdentificationCode" datatype="String"/>
+
+    <object name="RelatedLearningStandardItems" topic="false">
+        <element name="RelatedLearningStandardItem" type="RelatedLearningStandardItem" flags="OR" />
+    </object>
+
+    <object name="RelatedLearningStandardItem" datatype="IdRefType">
+        <attribute name="RelationshipType" type="Token" flags="R"/>
+    </object>
+
+    <!--LearningStandardDocument -->
+    <object name="LearningStandardDocument" topic="true">
+        <attribute name="RefId" type="String" flags="R"/>
+        <attribute name="Language" renderAs="xml:lang" type="String" flags="R" />
+        <element name="Title" type="String" flags="M" />
+        <element name="Description" type="String" flags="O" />
+        <element name="RichDescription" type="AbstractContentElementType" flags="O" />
+        <element name="Source" enum="LearningStandardSource" flags="M" />
+        <element name="Organizations" type="Organizations" flags="M" />
+        <element name="Authors" type="Authors" flags="O" />
+        <element name="OrganizationContactPoint" type="String" flags="O" />
+        <element name="SubjectAreas" type="SubjectAreaList" flags="M" />
+        <element name="DocumentStatus" enum="DocumentStatusType" flags="M" />
+        <element name="DocumentDate" type="Date" flags="O" />
+        <element name="LocalAdoptionDate" type="Date" flags="O" />
+        <element name="LocalArchiveDate" type="Date" flags="O" />
+        <element name="EndOfLifeDate" type="Date" flags="O" />
+        <element name="Copyright" type="Copyright" flags="O" />
+        <element name="YearLevels" type="YearLevels" flags="O" />
+        <element name="RepositoryDate" type="Date" flags="O" />
+        <element name="LearningStandardItemRefId" type="IdRefType" flags="M" />
+        <element name="RelatedLearningStandards" type="RelatedLearningStandards" flags="O" />
+    </object>
+
+    <object name="Organizations">
+        <element name="Organization" type="Organization" flags="MR" />
+    </object>
+
+    <object name="Organization" datatype="String"/>
+    
+    <object name="Authors">
+        <element name="Author" type="Author" flags="OR" />
+    </object>
+
+    <object name="Author" datatype="String"/>
+    
+    <object name="Copyright">
+        <element name="Date" type="Date" flags="O" />
+        <element name="Holder" type="String" flags="O" />
+    </object>
+    
+    <object name="RelatedLearningStandards">
+        <element name="LearningStandardDocumentRefId" type="LearningStandardDocumentRefId" flags="OR" />
+    </object>
+
+    <object name="LearningStandardDocumentRefId" datatype="IdRefType"/>
+
+    <!--LearningResourcePackage -->
+    <object name="LearningResourcePackage" topic="true">
+        <attribute name="RefId" type="String" flags="R"/>
+        <element name="XMLData" type="XMLData" flags="O" />
+        <element name="TextData" type="TextData" flags="O">
+          <desc>Contains arbitrary text, encoded in UTF-8.</desc>
+        </element>
+        <element name="BinaryData" type="BinaryData" flags="O">
+          <desc>Contains the base64Binary encoding of binary or text data not encoded in UTF-8.</desc>
+        </element>
+        <element name="Reference" type="Reference" flags="O" />
+    </object>
+
+    <!--LearningResource -->
+    <object name="LearningResource" topic="true">
+        <attribute name="RefId" type="String" flags="R"/>
+        <attribute name="Language" renderAs="xml:lang" type="String" flags="R" />
+        <element name="Name" type="String" flags="M" />
+        <element name="Author" type="String" flags="O" />
+        <element name="Contacts" type="Contacts" flags="O" />
+        <element name="Location" type="LearningResourceLocation" flags="O" />
+        <element name="Status" type="String" flags="O" />
+        <element name="Description" type="String" flags="O" />
+        <element name="YearLevels" type="YearLevels" flags="O" />
+        <element name="SubjectAreas" type="SubjectAreaList" flags="O" />
+        <element name="MediaTypes" type="MediaTypes" flags="O" />
+        <element name="UseAgreement" type="String" flags="O" />
+        <element name="AgreementDate" type="Date" flags="O" />
+        <element name="Approvals" type="Approvals" flags="O" />
+        <element name="Evaluations" type="Evaluations" flags="O" />
+        <element name="Components" type="Components" flags="M" />
+        <element name="LearningStandards" type="LearningStandards" flags="O" />
+        <element name="LearningResourcePackageRefId" type="IdRefType" flags="O" />       
+    </object>
+    
+    <!--Contacts -->
+    <object name="Contacts">
+        <element name="Contact" type="Contact" flags="OR" />
+    </object>
+
+    <!--Contact -->
+    <object name="Contact">
+        <element name="Name" type="Name" flags="O" />
+        <element name="Address" type="Address" flags="O" />
+        <element name="PhoneNumber" type="PhoneNumber" flags="O" />
+        <element name="Email" type="Email" flags="O" />
+    </object>
+    
+    <!--Location -->
+    <object name="LearningResourceLocation" datatype="String">
+        <attribute name="ReferenceType" type="String" flags="R"/>
+    </object>
+
+    <!--Approvals -->
+    <object name="Approvals">
+        <element name="Approval" type="Approval" flags="OR" />
+    </object>
+
+    <!--Approval -->
+    <object name="Approval">
+        <element name="Organization" type="String" flags="M" />
+        <element name="Date" type="Date" flags="M" />
+    </object>
+
+    <!--Evaluations -->
+    <object name="Evaluations">
+        <element name="Evaluation" type="Evaluation" flags="OR" />
+     </object>
+
+    <!--Evaluation -->
+    <object name="Evaluation">
+        <attribute name="RefId" type="String" flags="R"/>
+        <element name="Description" type="String" flags="O" />
+        <element name="Date" type="Date" flags="O" />
+        <element name="Name" type="Name" flags="O" />
+     </object>
+
+    <!--Components -->
+    <object name="Components">
+        <element name="Component" type="Component" flags="MR" />
+    </object>
+
+    <!--Components -->
+    <object name="Component">
+        <element name="Name" type="String" flags="M" />
+        <element name="Reference" type="String" flags="M" />
+        <element name="Description" type="String" flags="O" />
+        <element name="Strategies" type="Strategies" flags="O" />
+        <element name="AssociatedObjects" type="AssociatedObjects" flags="O" />
+    </object>
+
+    <!--Strategies -->
+    <object name="Strategies">
+        <element name="Strategy" type="Strategy" flags="OR" />
+    </object>
+
+    <!--Strategy -->
+    <object name="Strategy" datatype="String"/>
+
+    <!--AssociatedObjects -->
+    <object name="AssociatedObjects">
+        <element name="AssociatedObject" type="AssociatedObject" flags="OR" />
+    </object>
+
+    <!--AssociatedObject -->
+    <object name="AssociatedObject" datatype="IdRefType">
+        <attribute name="SIF_RefObject" enum="Topics" flags="R"/>
+    </object>
+
+    <!--LearningStandards -->
+    <object name="LearningStandards">
+        <element name="LearningStandardItemRefId" type="LearningStandardItemRefId" flags="OR" />
+    </object>
+
+
+    <!-- ****** -->
+    <!-- ENUM -->
+    <!-- ****** -->
+    <enum name="ResourceType">
+        <value name="LEARNING_RESOURCE" value="LearningResource" desc="Learning Resource" />
+        <value name="WORK_SAMPLE" value="WorkSample" desc="Work Sample" />
+        <value name="ANN_WORK_SAMPLE" value="AnnotatedWorkSample" desc="Annotated Work Sample" />
+        <value name="OTHER" value="Other" desc="Other" />
+    </enum>
+    
+    <enum name="AUCodeSetsLearningStandardItemRelationshipTypesType">
+        <value name="CONTENT" value="Content" desc="A link to another state or school content standard." />
+        <value name="PD" value="PD" desc="Work Sample" />
+        <value name="STATE" value="State" desc="A link to a standard from another state. The purpose of this is to express relationships between state standards." />
+    </enum>
+  
+    <enum name="LearningStandardSource">
+        <value name="NATIONAL" value="National" desc="National" />
+        <value name="STATE" value="State" desc="State" />
+        <value name="REGIONAL" value="Regional" desc="Regional" />
+        <value name="DISTRICT" value="District" desc="District" />
+        <value name="SITE" value="Site" desc="Site" />
+        <value name="CLASSROOM" value="Classroom" desc="Classroom" />
+        <value name="PUBLISHER" value="Publisher" desc="Publisher" />
+    </enum> 
+    
+    <enum name="DocumentStatusType">
+        <value name="DRAFT" value="Draft" desc="Draft" />
+        <value name="ADOPTED" value="Adopted" desc="Adopted" />
+        <value name="ARCHIVED" value="Archived" desc="Archived" />
+        <value name="UNKNOWN" value="Unknown" desc="Unknown" />
+    </enum>
+
+</adk>

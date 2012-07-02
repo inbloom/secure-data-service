@@ -1,0 +1,64 @@
+	/**
+	 * Create an instance of SIF_Error
+	 * @param sifCategory The SIF category to set
+	 * @param sifCode The SIF error code to set
+	 * @param sifDesc A description of the error
+	 * @param sifExtDesc An extended description
+	 */
+	public SIF_Error( Integer sifCategory, Integer sifCode, String sifDesc, String sifExtDesc ) {
+		this( sifCategory, sifCode, sifDesc );
+		if( sifExtDesc != null ){
+			this.setSIF_ExtendedDesc( sifExtDesc );
+		}
+	}
+
+	/**
+	 * Create an instance of SIF_Error
+	 * @param sifCategory The SIF category to set
+	 * @param sifCode The SIF error code to set
+	 * @param sifDesc A description of the error
+	 * @param sifExtDesc An extended description
+	 */
+	public SIF_Error( SIFErrorCategory sifCategory, Integer sifCode, String sifDesc, String sifExtDesc ) {
+		this( sifCategory.getValue(), sifCode, sifDesc );
+		if( sifExtDesc != null ){
+			this.setSIF_ExtendedDesc( sifExtDesc );
+		}
+	}
+	
+	/**
+	 * Sets the Category associated with this error
+	 * @param errorCategory The category to use
+	 */
+	public void setSIF_Category(SIFErrorCategory errorCategory) {
+		setSIF_Category( errorCategory.getValue() );
+	}
+
+	public String toString()
+	{
+		StringBuffer buf = new StringBuffer();
+
+		try
+		{
+			buf.append("[Category=");
+			buf.append(getSIF_Category());
+			buf.append("; Code=");
+			buf.append(getSIF_Code());
+			buf.append("] ");
+
+			String desc = getSIF_Desc();
+			if( desc != null )
+				buf.append( desc );
+			desc = getSIF_ExtendedDesc();
+			if( desc != null ) {
+				buf.append(": ");
+				buf.append( desc );
+			}
+		}
+		catch( Throwable thr ) {
+			System.out.println(thr);
+			Thread.dumpStack();
+		}
+
+		return buf.toString();
+	}

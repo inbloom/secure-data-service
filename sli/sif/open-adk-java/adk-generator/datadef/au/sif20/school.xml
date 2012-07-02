@@ -1,0 +1,17 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.2 school objects             -->
+<!-- ======================================== -->
+<adk package="school" version="2.3" namespace="http://www.sifinfo.org/au/infrastructure/2.x">
+
+   <!--SchoolInfo-->
+  <object name="SchoolInfo" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The GUID that identifies this school.</desc>
+    </attribute>
+    </object>
+
+</adk>

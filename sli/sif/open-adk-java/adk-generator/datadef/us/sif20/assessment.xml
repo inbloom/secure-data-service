@@ -1,0 +1,341 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s) -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.0 assessment objects            -->
+<!-- ======================================== -->
+<adk package="assessment" version="2.0" name="Assessment" namespace="http://www.sifinfo.org/infrastructure/2.x">
+  <!--Assessment object-->
+  <object name="Assessment" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The GUID that uniquely identifies this object.</desc>
+    </attribute>
+    <element name="Name" type="NormalizedString" flags="M">
+      <desc>Name of the test.</desc>
+    </element>
+    <element name="AssessmentPackageRefId" type="IdRefType" flags="O" />
+  </object>
+  <!--AssessmentAdministration object-->
+  <object name="AssessmentAdministration" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The GUID that uniquely identifies an instance of the object.</desc>
+    </attribute>
+    <attribute name="AssessmentFormRefId" type="IdRefType" flags="R">
+      <desc>The RefId of the assessment form used in the assessment administration.</desc>
+    </attribute>
+    <element name="AdministrationName" type="NormalizedString" flags="O" />
+    <element name="SpecialConditions" type="SpecialConditions" flags="O" />
+    <element name="AdministrationDateTime" type="DateTime" flags="O">
+      <desc>Date and time the test is scheduled to be given.</desc>
+    </element>
+    <element name="StartDateTime" type="DateTime" flags="O">
+      <desc>Date and time testing begins.</desc>
+    </element>
+    <element name="FinishDateTime" type="DateTime" flags="O">
+      <desc>Date and time testing ends.</desc>
+    </element>
+    <element name="DueDateTime" type="DateTime" flags="O">
+      <desc>Date and time test is due.</desc>
+    </element>
+    <element name="Address" type="Address" flags="O">
+      <desc>Address of the location where the administration takes place.</desc>
+    </element>
+    <element name="StaffPersonalRefId" type="IdRefType" flags="O">
+      <desc>Optional reference to a staff person associated with the administration.</desc>
+    </element>
+    <element name="LEAInfoRefId" type="IdRefType" flags="O">
+      <desc>Optional reference to a school district associated with the administration.</desc>
+    </element>
+    <element name="SchoolInfoRefId" type="IdRefType" flags="O">
+      <desc>Optional reference to a school associated with the administration.</desc>
+    </element>
+  </object>
+  <!--AssessmentForm object-->
+  <object name="AssessmentForm" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The GUID that uniquely identifies an instance of the object.</desc>
+    </attribute>
+    <attribute name="AssessmentRefId" type="IdRefType" flags="R">
+      <desc>The RefId of the assessment related to this form.</desc>
+    </attribute>
+    <element name="AssessmentType" enum="AssessmentType" flags="O">
+      <desc>Indicates whether this assessment (form) is a standard administration or alternate.</desc>
+    </element>
+    <element name="FormName" type="NormalizedString" flags="O">
+      <desc>Text description for this particular arrangement of questions, etc.</desc>
+    </element>
+    <element name="FormNumbers" type="FormNumbers" flags="O" />
+    <element name="Level" type="Token" flags="O">
+      <desc>Indicates the level of the form.</desc>
+    </element>
+    <element name="Period" type="Token" flags="O">
+      <desc>The time period in which the form is intended to be administered.</desc>
+    </element>
+    <element name="GradeLevels" type="GradeLevels" flags="O">
+      <desc>Grade levels this assessment is designed to evaluate.</desc>
+    </element>
+    <element name="AssessmentSubTestRefIds" type="AssessmentSubTestRefIds" flags="O" />
+  </object>
+  <!--AssessmentGradeLevel object-->
+  <object name="AssessmentGradeLevel">
+    <element name="Code" enum="GradeLevelCode" flags="O">
+      <desc>Code representing the grade level.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+  <!--AssessmentPackage object-->
+  <object name="AssessmentPackage" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>
+        The GUID that uniquely identifies an object instance in a zone.
+      </desc>
+    </attribute>
+    <element name="XMLData" type="XMLData" flags="O" />
+  </object>
+  <!--AssessmentRegistration object-->
+  <object name="AssessmentRegistration" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The GUID that uniquely identifies an instance of the object.</desc>
+    </attribute>
+    <attribute name="StudentPersonalRefId" type="IdRefType" flags="R">
+      <desc>The student associated with the registration.</desc>
+    </attribute>
+    <attribute name="AssessmentAdministrationRefId" type="IdRefType" flags="R">
+      <desc>The assessment administration associated with the registration.</desc>
+    </attribute>
+    <element name="CreationDateTime" type="DateTime" flags="O">
+      <desc>Date/time assignment is made.</desc>
+    </element>
+    <element name="StudentSpecialConditions" type="StudentSpecialConditions" flags="O" />
+    <element name="StudentGradeLevel" type="GradeLevel" flags="O">
+      <desc>Grade level of the student at the time of testing.</desc>
+    </element>
+    <element name="AssessmentGradeLevel" type="GradeLevel" flags="O">
+      <desc>The grade or level at which the student is to be tested. This element should be omitted unless the student is being tested out-of-level.</desc>
+    </element>
+    <element name="LEAInfoRefId" type="IdRefType" flags="O">
+      <desc>Optional reference to a district associated with the registration.</desc>
+    </element>
+    <element name="SchoolInfoRefId" type="IdRefType" flags="O">
+      <desc>Optional reference to a school associated with the registration.</desc>
+    </element>
+    <element name="StaffPersonalRefId" type="IdRefType" flags="O">
+      <desc>Optional reference to a staff person associated with the registration.</desc>
+    </element>
+    <element name="SectionInfoRefId" type="IdRefType" flags="O">
+      <desc>Optional reference to a section (or class) associated with the registration.</desc>
+    </element>
+  </object>
+  <!--AssessmentSubTest object-->
+  <object name="AssessmentSubTest" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The GUID that uniquely identifies an instance of the object.</desc>
+    </attribute>
+    <element name="Name" type="NormalizedString" flags="O">
+      <desc>Text name of the subtest. </desc>
+    </element>
+    <element name="ScoreRange" type="ScoreRange" flags="O">
+      <desc>	The possible range of scores. </desc>
+    </element>
+    <element name="PerformanceLevels" type="PerformanceLevels" flags="O" />
+    <element name="SubjectArea" type="Token" flags="O">
+      <desc>Content area covered by the score.</desc>
+    </element>
+    <element name="GradeLevels" type="GradeLevels" flags="O">
+      <desc>Grade levels for which the score is valid.</desc>
+    </element>
+    <element name="AssessmentSubTestRefIds" type="AssessmentSubTestRefIds" flags="O" />
+    <element name="SubTestTier" type="UnsignedInt" flags="O">
+      <desc>An integer that defines the level or tier of the score in a multi-level arrangement of composite scores. Zero indicates the highest or root level.</desc>
+    </element>
+    <element name="LearningStandardItemRefIds" type="LearningStandardItemRefIds" flags="O" />
+  </object>
+  <!--AssessmentSubTestRefId object-->
+  <object name="AssessmentSubTestRefId" datatype="IdRefType" />
+  <!--AssessmentSubTestRefIds object-->
+  <object name="AssessmentSubTestRefIds">
+    <element name="AssessmentSubTestRefId" type="AssessmentSubTestRefId" flags="OR">
+      <desc>A reference to an AssessmentSubTest by RefId.</desc>
+    </element>
+  </object>
+  <!--AssessmentType enum-->
+  <enum name="AssessmentType">
+    <value name="STANDARD" value="standard" desc="standard" />
+    <value name="ALTERNATE" value="alternate" desc="alternate" />
+  </enum>
+  <!--CutScores object-->
+  <object name="CutScores">
+    <attribute name="ScoreMetric" enum="AssessmentReportingMethod" flags="R">
+      <desc>The metric or scale used to report the scores.</desc>
+    </attribute>
+    <element name="LowerCut" type="String" flags="O">
+      <desc>Lower bound for the performance level.</desc>
+    </element>
+    <element name="UpperCut" type="String" flags="O">
+      <desc>Upper bound for the performance level.</desc>
+    </element>
+  </object>
+  <!--FormNumber object-->
+  <object name="FormNumber" datatype="string" />
+  <!--FormNumbers object-->
+  <object name="FormNumbers">
+    <element name="FormNumber" type="FormNumber" flags="OR">
+      <desc>Reference number for the form.</desc>
+    </element>
+  </object>
+  <!--Item object-->
+  <object name="Item">
+    <element name="Response" type="String" flags="O">
+      <desc>Answer selected or student work in raw format.</desc>
+    </element>
+    <element name="ResponseLocation" type="AnyUri" flags="O">
+      <desc>An optional element that contains a URL pointing to the location of the response or additional response.</desc>
+    </element>
+    <element name="ResponseStatus" enum="ResponseStatus" flags="O">
+      <desc>Status of the response.</desc>
+    </element>
+    <element name="ResponseTime" type="duration" flags="O">
+      <desc>The length of time the student took to respond.</desc>
+    </element>
+    <element name="ItemNumber" type="Token" flags="O">
+      <desc>Identifies the item on the assessment by number.</desc>
+    </element>
+    <element name="ItemName" type="Token" flags="O">
+      <desc>Identifies the item on the assessment by name.</desc>
+    </element>
+    <element name="DiagnosticStatement" type="String" flags="O">
+      <desc>Psychometric purpose or design-related comment about the question.</desc>
+    </element>
+    <element name="NumberOfAttempts" type="UnsignedInt" flags="O">
+      <desc>The number of times a student changes their answer or attempts a response.</desc>
+    </element>
+  </object>
+  <!--Items object-->
+  <object name="Items">
+    <element name="Item" type="Item" flags="OR" />
+  </object>
+  <!--PerformanceLevel object-->
+  <object name="PerformanceLevel">
+    <attribute name="LevelName" type="token" flags="M">
+      <desc>The name of the performance level.</desc>
+    </attribute>
+    <element name="CutScores" type="CutScores" flags="O">
+      <desc>Score bounds for the performance level.</desc>
+    </element>
+  </object>
+  <!--PerformanceLevels object-->
+  <object name="PerformanceLevels">
+    <element name="PerformanceLevel" type="PerformanceLevel" flags="OR" />
+  </object>
+  <!--ResponseStatus enum-->
+  <enum name="ResponseStatus">
+    <value name="CORRECT" value="Correct" desc="Correct" />
+    <value name="INCORRECT" value="Incorrect" desc="Incorrect" />
+    <value name="COMPLETE" value="Complete" desc="Complete" />
+    <value name="PARTIALLYCOMPLETE" value="PartiallyComplete" desc="PartiallyComplete" />
+    <value name="VIEWED" value="Viewed" desc="Viewed" />
+    <value name="NOTVIEWED" value="NotViewed" desc="NotViewed" />
+    <value name="NOTANSWERED" value="NotAnswered" desc="NotAnswered" />
+    <value name="ATTEMPTED" value="Attempted" desc="Attempted" />
+    <value name="INCOMPLETE" value="Incomplete" desc="Incomplete" />
+  </enum>
+  <!--Score object-->
+  <object name="Score">
+    <attribute name="AssessmentSubTestRefId" type="IdRefType" flags="R">
+      <desc>References the AssessmentSubTest that defines the score.</desc>
+    </attribute>
+    <element name="ScoreValue" type="NormalizedString" flags="O">
+      <desc>The value of the score.</desc>
+    </element>
+    <element name="DiagnosticStatement" type="String" flags="O">
+      <desc>Comment created by any logical analysis of this score.</desc>
+    </element>
+  </object>
+  <!--ScoreRange object-->
+  <object name="ScoreRange">
+    <attribute name="ScoreMetric" enum="AssessmentReportingMethod" flags="R">
+      <desc>The metric or scale used to report the scores.</desc>
+    </attribute>
+    <element name="Minimum" type="String" flags="O">
+      <desc>Lowest possible score value.</desc>
+    </element>
+    <element name="Maximum" type="String" flags="O">
+      <desc>Highest possible score value.</desc>
+    </element>
+  </object>
+  <!--Scores object-->
+  <object name="Scores">
+    <element name="Score" type="Score" flags="OR" />
+  </object>
+  <!--SpecialCondition object-->
+  <object name="SpecialCondition">
+    <attribute name="Code" type="Token" flags="R">
+      <desc>This is the primary key for the list of special conditions.</desc>
+    </attribute>
+    <attribute name="SIF_Action" key="false" flags="O" enum="SIFActionType">
+      <desc>In a Change event, this flag can be used to indicate an element has been deleted from the parent list container. At a minimum the key for the list must also be present.</desc>
+    </attribute>
+  </object>
+  <!--SpecialConditions object-->
+  <object name="SpecialConditions" superclass="SIFActionList&lt;SpecialCondition&gt;">
+    <element name="SpecialCondition" type="SpecialCondition" flags="OR">
+      <desc>A text description of the special condition.</desc>
+    </element>
+  </object>
+  <!--StudentGradeLevel object-->
+  <object name="StudentGradeLevel">
+    <element name="Code" enum="GradeLevelCode" flags="O">
+      <desc>Code representing the grade level.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+  <!--StudentResponseSet object-->
+  <object name="StudentResponseSet" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The GUID that uniquely identifies an instance of the object.</desc>
+    </attribute>
+    <attribute name="AssessmentAdministrationRefId" type="IdRefType" flags="R">
+      <desc>The administration associated with this score set.</desc>
+    </attribute>
+    <attribute name="StudentPersonalRefId" type="IdRefType" flags="R">
+      <desc>The student associated with the response set.</desc>
+    </attribute>
+    <attribute name="AssessmentRegistrationRefId" type="IdRefType" flags="O">
+      <desc>The registration associated with the response set.</desc>
+    </attribute>
+    <element name="Items" type="Items" flags="O" />
+  </object>
+  <!--StudentScoreSet object-->
+  <object name="StudentScoreSet" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The GUID that uniquely identifies an instance of the object.</desc>
+    </attribute>
+    <attribute name="ScoreMetric" enum="AssessmentReportingMethod" flags="R">
+      <desc>The metric or scale used to report the score.</desc>
+    </attribute>
+    <attribute name="AssessmentAdministrationRefId" type="IdRefType" flags="R">
+      <desc>The administration associated with this score set.</desc>
+    </attribute>
+    <attribute name="StudentPersonalRefId" type="IdRefType" flags="R">
+      <desc>The student associated with the response set.</desc>
+    </attribute>
+    <attribute name="AssessmentRegistrationRefId" type="IdRefType" flags="O">
+      <desc>The registration associated with this score set.</desc>
+    </attribute>
+    <element name="Scores" type="Scores" flags="O" />
+  </object>
+  <!--StudentSpecialCondition object-->
+  <object name="StudentSpecialCondition">
+    <attribute name="Code" type="Token" flags="R">
+      <desc>A code indicating the type of special condition.</desc>
+    </attribute>
+  </object>
+  <!--StudentSpecialConditions object-->
+  <object name="StudentSpecialConditions">
+    <element name="StudentSpecialCondition" type="StudentSpecialCondition" flags="OR">
+      <desc>A description of the special condition.  Student special conditions are different
+				from special conditions of the test.</desc>
+    </element>
+  </object>
+</adk>

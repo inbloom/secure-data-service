@@ -1,0 +1,64 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.5 infra objects                 -->
+<!-- ======================================== -->
+<adk package="infrastructure" version="2.5" name="Infrastructure" namespace="http://www.sifinfo.org/infrastructure/2.x">
+  <!--Authentication object-->
+  <object name="Authentication" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The SIF RefId that uniquely identifies this authentication object.</desc>
+    </attribute>
+    <attribute name="SIF_RefId" type="IdRefType" flags="R">
+      <desc>The SIF RefId of a student or staff member</desc>
+    </attribute>
+    <attribute name="SIF_RefObject" enum="AuthSifRefIdType" flags="R">
+      <desc>The type of SIF object that the SIF_RefId attribute identifies.</desc>
+    </attribute>
+    <element name="AuthenticationInfo" type="AuthenticationInfo" flags="O" />
+  </object>
+  <!--AuthenticationInfo object-->
+  <object name="AuthenticationInfo">
+    <element name="System" type="AuthSystem" flags="M">
+      <desc>An identifying string for the system that supports this authentication information.</desc>
+    </element>
+    <element name="Username" type="NormalizedString" flags="O">
+      <desc>The identification string for this user.</desc>
+    </element>
+    <element name="DistinguishedName" type="NormalizedString" flags="O">
+      <desc>This is the distinguished name of the user in a network directory system.</desc>
+    </element>
+    <element name="PasswordList" type="PasswordList" flags="O" />
+  </object>
+  <!--AuthenticationInfoType enum-->
+  <enum name="AuthenticationInfoType">
+    <value name="NETWORK" value="Network" desc="Network" />
+    <value name="APPLICATION" value="Application" desc="Application" />
+  </enum>
+  <!--AuthSifRefIdType enum-->
+  <enum name="AuthSifRefIdType">
+    <value name="STUDENTPERSONAL" value="StudentPersonal" desc="StudentPersonal" />
+    <value name="STAFFPERSONAL" value="StaffPersonal" desc="StaffPersonal" />
+    <value name="STUDENTCONTACT" value="StudentContact" desc="StudentContact" />
+    <value name="EMPLOYEEPERSONAL" value="EmployeePersonal" desc="EmployeePersonal" />
+  </enum>
+  <!--AuthSystem object-->
+  <object name="AuthSystem" renderAs="System">
+    <attribute name="Type" enum="AuthSystemType" flags="R">
+      <desc>Specific type of user identification.</desc>
+    </attribute>
+  </object>
+  <!--AuthSystemType enum-->
+  <enum name="AuthSystemType">
+    <value name="NETWORK" value="Network" desc="Network" />
+    <value name="APPLICATION" value="Application" desc="Application" />
+  </enum>
+  <!--PasswordList object-->
+  <object name="PasswordList">
+    <element name="Password" type="Password" flags="OR">
+      <desc>A representation of the user's password using the given algorithm.</desc>
+    </element>
+  </object>
+</adk>

@@ -1,0 +1,26 @@
+<adk package="common" version="2.0"
+	namespace="http://www.sifinfo.org/au/infrastructure/2.x">
+	<!--Codeset -->
+	<enum name="Codeset">
+		<value name="STATEPROVINCE" value="StateProvince" desc="StateProvince" />
+		<value name="LOCAL" value="Local" desc="Local" />
+		<value name="OTHER" value="Other" desc="Other" />
+		<value name="TEXT" value="Text" desc="Text" />
+	</enum>
+	<!--OtherCode object -->
+	<object name="OtherCode" datatype="Token">
+		<attribute name="Codeset" enum="Codeset" flags="R">
+			<desc>Describes the OtherCode element content as either a
+				state/province code, a local code, other code, or text string.
+			</desc>
+		</attribute>
+	</object>
+	<!--OtherCodeList object -->
+	<object name="OtherCodeList">
+		<element name="OtherCode" type="OtherCode" flags="OR">
+			<desc>A state/province code, local code, other code or a text string
+				that crosswalks to or serves as a translation of an associated Code
+				element.</desc>
+		</element>
+	</object>
+</adk>

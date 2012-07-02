@@ -1,0 +1,306 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s) -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 1.5r1 profdev objects             -->
+<!-- ======================================== -->
+<adk package="profdev" version="1.5r1" name="Professional Development" namespace="http://www.sifinfo.org/infrastructure/1.x">
+  <!--ActivityProvider object-->
+  <object name="ActivityProvider" topic="true">
+    <desc>This object contains information about educational providers of professional education courses and activities.  SIF_Events are reported.</desc>
+    <attribute name="RefId" flags="R">
+      <desc>GUID for this object. The application that owns this object is responsible for generating this unique ID.</desc>
+    </attribute>
+    <element name="LocalId" flags="M">
+      <desc>Local code used to represent this provider</desc>
+    </element>
+    <element name="StateProvinceId" renderAs="StatePrId" type="String" flags="O">
+      <desc>State assigned provider number</desc>
+    </element>
+    <element name="Name" renderAs="ProviderName" flags="M">
+      <desc>Name of the provider</desc>
+    </element>
+    <element name="Address" type="Address" flags="O">
+      <desc>This element contains information related to provider's address information.For a description of this element, see 5.1.1 Address.</desc>
+    </element>
+  </object>
+  <!--ActivityType enum-->
+  <enum name="ActivityType">
+    <value name="COURSE" value="Course" desc="Course" />
+    <value name="ACTIVITY" value="Activity" desc="Activity" />
+    <value name="OTHER" value="Other" desc="Other" />
+  </enum>
+  <!--BackgroundCheck object-->
+  <object name="BackgroundCheck" renderAs="Background">
+    <element name="Type" renderAs="CheckType" enum="BackgroundCheckType" flags="O">
+      <desc>Background check type</desc>
+    </element>
+    <element name="Description" type="String" flags="O">
+      <desc>Description of background check performed</desc>
+    </element>
+    <element name="Date" renderAs="DateChecked" type="Date" flags="O">
+      <desc>Date on which background type was checked</desc>
+    </element>
+  </object>
+  <!--BackgroundChecks object-->
+  <object name="BackgroundChecks" collapsed="true">
+    <element name="BackgroundCheck" renderAs="Background" type="BackgroundCheck" flags="OR" />
+  </object>
+  <!--BackgroundCheckType enum-->
+  <enum name="BackgroundCheckType">
+    <value name="CRIMINAL_RECORDS" value="1420" desc="Criminal records" />
+    <value name="EMPLOYMENT_RECORDS" value="1421" desc="Previous employment records" />
+    <value name="PERSONAL_REFERENCES" value="1422" desc="Personal references" />
+    <value name="CREDENTIALS" value="1423" desc="Credentials" />
+    <value name="OTHER" value="9999" desc="Other" />
+  </enum>
+  <!--Certification object-->
+  <object name="Certification">
+    <desc>Employee certification area information</desc>
+    <element name="Description" flags="M">
+      <desc>Certification description as defined by state</desc>
+    </element>
+    <element name="AreaAuthorized" enum="TeachingArea" flags="O">
+      <desc>Area in which employee has certification Source: 0421 Teaching Field or Area Authorized [NCES Handbooks]</desc>
+    </element>
+  </object>
+  <!--Certifications object-->
+  <object name="Certifications">
+    <element name="Certification" type="Certification" flags="OR" />
+  </object>
+  <!--Earned object-->
+  <object name="Earned">
+    <desc>The number of units earned</desc>
+    <attribute name="Type" enum="EarnedType" flags="R">
+      <desc>The unit descriptionValuesHours, Credits</desc>
+    </attribute>
+  </object>
+  <!--EarnedType enum-->
+  <enum name="EarnedType">
+    <value name="HOURS" value="Hours" desc="Hours" />
+    <value name="CREDITS" value="Credits" desc="Credits" />
+  </enum>
+  <!--EmplAssignment object-->
+  <object name="EmplAssignment">
+    <desc>Information about the school and assignment of employee</desc>
+    <attribute name="SchoolInfoRefId" type="IdRefType" flags="M">
+      <desc>References SchoolInfo object to determine school in which this assignment pertains.</desc>
+    </attribute>
+    <element name="GradeLevels" type="GradeLevels" flags="M" />
+    <element name="JobFunction" type="JobFunction" flags="M" />
+    <element name="FTE" type="decimal" flags="0">
+      <desc>Full-time equivalent for this school</desc>
+    </element>
+  </object>
+  <!--EmployeeAssignments object-->
+  <object name="EmployeeAssignments">
+    <element name="Assignment" renderAs="EmplAssignment" type="EmplAssignment" flags="OR" />
+  </object>
+  <!--EmployeeCredential object-->
+  <object name="EmployeeCredential" topic="true">
+    <desc>This object contains HR, certification and teaching assignment information for elementary and secondary professional personnel for state reporting.   It is a snapshot object used for vertical reporting of data related to K-12 elementary and secondary professional employees.  SIF_Events are not reported.</desc>
+    <element name="ReportDate" type="SIFDate" key="true" flags="M">
+      <desc>Date that report snapshot was generated</desc>
+    </element>
+    <element name="SchoolYear" type="GYear" key="false" flags="M">
+      <desc>School year for which the information is applicable, expressed as the four-digit year in which the school year ends (e.g., "2004" for the 2003-04 school year).</desc>
+    </element>
+    <element name="StateProvinceId" renderAs="StatePrId" key="true" flags="M">
+      <desc>State assigned reporting unit number</desc>
+    </element>
+    <element name="SSN" renderAs="Ssn" key="false" flags="M">
+      <desc>Employee social security number</desc>
+    </element>
+    <element name="Name" type="Name" key="false" flags="M">
+      <desc>Name of employee.For a description of this element, see 5.1.18 Name.</desc>
+    </element>
+    <element name="Demographics" type="Demographics" flags="O">
+      <desc>This element contains information related to employee demographics.For a description of this element, see 5.1.4 Demographics.</desc>
+    </element>
+    <element name="Race" enum="RaceType" key="false" flags="M">
+      <desc>Primary employee's race Source: 0849 Race [NCES Handbooks]</desc>
+    </element>
+    <element name="Hispanic" enum="YesNo" flags="O">
+      <desc>Is this employee Hispanic or Latino?</desc>
+    </element>
+    <element name="Certifications" key="false" type="Certifications" flags="M" collapsed="true">
+      <desc>Employee certification area information</desc>
+    </element>
+    <element name="Salary" type="MonetaryAmount" key="false" flags="M">
+      <desc>Employee's salary</desc>
+    </element>
+    <element name="Status" enum="EmploymentStatus" key="false" flags="M" surrogate="XPathSurrogate{Status/@Code=.}" />
+    <element name="Leave" key="false" enum="YesNo" flags="M">
+      <desc>Is this employee on leave this year?</desc>
+    </element>
+    <element name="TotalYears" type="Decimal" key="false" flags="M">
+      <desc>Total number of years employee has been in a professional position</desc>
+    </element>
+    <element name="UnitYears" type="Decimal" key="false" flags="M">
+      <desc>Total number of years at current LEA</desc>
+    </element>
+    <element name="Education" key="false" enum="TeachingCredentialBasis" flags="M">
+      <desc>Highest level of education attained by employee. Source:  0395 Teaching Credential Basis [STAFFHB 2004]</desc>
+    </element>
+    <element name="TeachingCredentialType" type="TeachingCredential" flags="OR">
+      <desc>Category in which teacher is authorized to teachValuesSource: 0394 Teaching Credential Type [STAFFHB 2004]</desc>
+    </element>
+    <element name="TerminationCode" enum="EmploymentSeperationReason" flags="O">
+      <desc>If appropriate, employment separation reasonValuesSource: 0434 Employment Separation Reason [NCES Handbooks]</desc>
+    </element>
+    <element name="BackgroundChecks" type="BackgroundChecks" flags="O" collapsed="true">
+      <desc>Information about background checks done on employee</desc>
+    </element>
+    <element name="Assignments" type="EmployeeAssignments" flags="O" collapsed="true">
+      <desc>Information about the school and assignment of employee</desc>
+    </element>
+  </object>
+  <!--EmployeeCredit object-->
+  <object name="EmployeeCredit" topic="true">
+    <desc>This object contains information about courses and activities taken by employees.  SIF_Events are reported.</desc>
+    <attribute name="RefId" flags="R">
+      <desc>This is the GUID for this object.</desc>
+    </attribute>
+    <attribute name="EmployeePersonalRefId" flags="R">
+      <desc>References EmployeePersonal object.</desc>
+    </attribute>
+    <attribute name="ProfessionalDevelopmentActivitiesRefId" renderAs="ProfDevActivitiesRefId" flags="R">
+      <desc>References the ProfDevActivities object</desc>
+    </attribute>
+    <element name="EndDate" type="SIFDate" flags="M">
+      <desc>Date in which the course or activity was completed and awarded credit.</desc>
+    </element>
+    <element name="Earned" type="Earned" flags="M">
+      <desc>The number of units earned</desc>
+    </element>
+  </object>
+  <!--EmployeeRecertification object-->
+  <object name="EmployeeRecertification" topic="true">
+    <desc>This object contains information about employee continuing professional course and activity credits and hours taken by employees for recertification purposes.  It is used as a vertical reporting snapshot-type object to transmit information regarding professional continuing education courses and activities completed by employees to maintain their current educational certification(s) within a given state.  SIF_Events are not reported.</desc>
+    <element name="SSN" renderAs="Ssn" flags="M">
+      <desc>Employee Social Security Number</desc>
+    </element>
+    <element key="false" name="Name" type="Name" flags="M">
+      <desc>Name of employee.For a description of this element, see 5.1.18 Name.</desc>
+    </element>
+    <element name="Demographics" type="Demographics" flags="O">
+      <desc>This element contains information related to employee demographics.For a description of this element, see 5.1.4 Demographics.</desc>
+    </element>
+    <element key="false" name="ActivityName" flags="M">
+      <desc>Name of the course or activity</desc>
+    </element>
+    <element key="false" name="ActivityType" enum="ActivityType" flags="M">
+      <desc>Type of course or activityValuesCourse, Activity, Other</desc>
+    </element>
+    <element key="false" name="ActivityHours" type="Decimal" flags="M">
+      <desc>Total activity hours/total clock hours</desc>
+    </element>
+    <element key="false" name="Earned" type="Earned" flags="M">
+      <desc>Hours attended or credits Earned by the employee</desc>
+    </element>
+    <element name="DateFrom" type="SIFDate" flags="M">
+      <desc>Start date of the course or activity</desc>
+    </element>
+    <element name="DateTo" type="SIFDate" flags="M">
+      <desc>Ending date of the course or activity</desc>
+    </element>
+  </object>
+  <!--EmploymentSeperationReason enum-->
+  <enum name="EmploymentSeperationReason">
+    <value name="OTHER_IN_EMPL" value="1387" desc="Other employment in education" />
+    <value name="OTHER_OUTSIDE_EMPL" value="1388" desc="Other employment outside of education" />
+    <value name="RETIREMENT" value="1389" desc="Retirement" />
+    <value name="FAMILY_PERSONAL" value="1390" desc="Family/personal relocation" />
+    <value name="CHANGE_OF_ASSIGNMENT" value="1391" desc="Change of assignment" />
+    <value name="FORMAL_STUDY_OR_RESEARCH" value="1392" desc="Formal study or research" />
+    <value name="ILLNESS_DISABILITY" value="1393" desc="Illness/disability" />
+    <value name="HOMEMAKING" value="1394" desc="Homemaking/caring for a family member" />
+    <value name="BUDGETARY_REDUCTION" value="1395" desc="Layoff due to budgetary reduction" />
+    <value name="ORGANIZATIONAL_RESTRUCTURING" value="1396" desc="Layoff due to organizational restructuring" />
+    <value name="DECREASED_WORKLOAD" value="1397" desc="Layoff due to decreased workload" />
+    <value name="UNSUITABILITY" value="1398" desc="Discharge due to unsuitability" />
+    <value name="MISCONDUCT" value="1399" desc="Discharge due to misconduct" />
+    <value name="TARDINESS" value="1400" desc="Discharge due to continued absence or tardiness" />
+    <value name="FALSIFIED_APPLICATION" value="1401" desc="Discharge due to a falsified application form" />
+    <value name="CREDENTIAL_REVOKED" value="1402" desc="Discharge due to credential revoked or suspended" />
+    <value name="UNSATISFACTORY_PERFORMANCE" value="1403" desc="Discharge due to unsatisfactory work performance" />
+    <value name="DEATH" value="1404" desc="Death" />
+    <value name="PERSONAL_REASON" value="1405" desc="Personal reason" />
+    <value name="LACK_OF_FUNDING" value="1406" desc="Lay off due to lack of funding" />
+    <value name="LOST_CREDENTIAL" value="1407" desc="Lost credential" />
+    <value name="REASON_UNKNOWN" value="1408" desc="Reason unknown" />
+    <value name="OTHER" value="9999" desc="Other" />
+  </enum>
+  <!--EmploymentStatus enum-->
+  <enum name="EmploymentStatus">
+    <desc>Source: 0613 Employment Status</desc>
+    <value name="PROBATIONARY" value="1378" desc="Probationary" />
+    <value name="CONTRACTUAL" value="1379" desc="Contractual" />
+    <value name="SUBSTITUTE_TEMPORARY" value="1380" desc="Substitute/temporary" />
+    <value name="TENURED_OR_PERMANENT" value="1381" desc="Tenured or permanent" />
+    <value name="VOLUNTEER_NO_CONTRACT" value="1382" desc="Volunteer/no contract" />
+    <value name="OUTSIDE" value="1383" desc="Employed or affiliated with outside organization" />
+    <value name="CONTIGENT_UPON_FUNDING" value="1384" desc="Contigent upon funding" />
+    <value name="NON-CONTRACTUAL" value="1385" desc="Non-contractual" />
+    <value name="OTHER_STATUS" value="1386" desc="Other employment status" />
+  </enum>
+  <!--ProfessionalDevelopmentActivities object-->
+  <object name="ProfessionalDevelopmentActivities" renderAs="ProfDevActivities" topic="true">
+    <desc>This object contains information about courses and activities for which employees can earn credits or hours to maintain their certification.  SIF_Events are reported.</desc>
+    <attribute name="RefId" flags="R">
+      <desc>GUID for this object.</desc>
+    </attribute>
+    <attribute name="ActivityProviderRefId" flags="R">
+      <desc>References the ActivityProvider object</desc>
+    </attribute>
+    <element name="LocalId" flags="M">
+      <desc>Locally assigned number or provider referenced course number used to represent the course or activity</desc>
+    </element>
+    <element name="StartDate" type="SIFDate" flags="M">
+      <desc>The starting date of the course or activity</desc>
+    </element>
+    <element name="EndDate" type="SIFDate" flags="M">
+      <desc>The ending date of the course or activity</desc>
+    </element>
+    <element name="Description" flags="M">
+      <desc>The description of the course or activity</desc>
+    </element>
+    <element name="ClockHours" renderAs="ClockHrs" type="Decimal" flags="M">
+      <desc>The actual number of hours required for the course or activity</desc>
+    </element>
+    <element name="Credits" type="Decimal" flags="O">
+      <desc>Number of credits that can be earned by completing the course or activity.</desc>
+    </element>
+  </object>
+  <!--TeachingCredential object-->
+  <object name="TeachingCredential" enum="TeachingCredentialType" />
+  <!--TeachingCredentialBasis enum-->
+  <enum name="TeachingCredentialBasis">
+    <value name="FOUR_YEAR_BACHELOR" value="1235" desc="4-year bachelor's degree" />
+    <value name="FIVE_YEAR_BACHELOR" value="1236" desc="5-year bachelor's degree" />
+    <value name="MASTERS" value="1237" desc="Master's degree" />
+    <value name="DOCTORAL" value="1238" desc="Doctoral degree" />
+    <value name="MET_STATE_REQ" value="1239" desc="Met state testing requirement" />
+    <value name="ALTERNATIVE" value="1240" desc="Special/alternative program completion" />
+    <value name="EXPERIENCE" value="1241" desc="Relevant experience" />
+    <value name="RECIPROCATION" value="1242" desc="Credentials based on reciprocation with another state" />
+  </enum>
+  <!--TeachingCredentialType enum-->
+  <enum name="TeachingCredentialType">
+    <value name="REGULAR_STANDARD" value="1222" desc="Regular/standard" />
+    <value name="PROBATIONARY_INITIAL" value="1223" desc="Probationary/initial" />
+    <value name="PROVISIONAL" value="1224" desc="Provisional" />
+    <value name="PROFESSIONAL" value="1225" desc="Professional" />
+    <value name="MASTER" value="1226" desc="Master" />
+    <value name="SPECIALIST" value="1227" desc="Specialist" />
+    <value name="TEMPORARY" value="1228" desc="Temporary" />
+    <value name="EMERGENCY" value="1229" desc="Emergency" />
+    <value name="NONRENEWABLE" value="1230" desc="Nonrenewable" />
+    <value name="RETIRED" value="1231" desc="Retired" />
+    <value name="SUBSTITUTE" value="1232" desc="Substitute" />
+    <value name="TEACHER_ASSISTANT" value="1233" desc="Teacher assistant" />
+    <value name="INTERN" value="1234" desc="Intern" />
+    <value name="OTHER" value="9999" desc="Other" />
+  </enum>
+</adk>

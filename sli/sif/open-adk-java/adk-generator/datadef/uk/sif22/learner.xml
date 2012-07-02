@@ -1,0 +1,1001 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.1 learner objects               -->
+<!-- ======================================== -->
+<adk package="learner" version="2.2" namespace="http://www.sifinfo.org/uk/infrastructure/2.x">
+  <!--AlternativeProvisionType enum-->
+  <enum name="AlternativeProvisionType">
+    <value name="HOSPITAL" value="HSP" desc="Hospital" />
+    <value name="INDEPENDENT_SCHOOL" value="IND" desc="Independent School" />
+    <value name="NON_MAINTAINED_SPECIAL" value="NMS" desc="Non-maintained Special School" />
+    <value name="NOT_A_SCHOOL" value="NOT" desc="Not a School" />
+  </enum>
+  <!--AlternativeTuition object-->
+  <object name="AlternativeTuition">
+    <desc>Describes any alternative tuition received by the learner. CBDS: 100234</desc>
+    <element name="Category" enum="TuitionCategory" flags="M">
+      <desc>Reason for alternative tuition. CBDS: 100235</desc>
+    </element>
+    <element name="StartDate" type="date" flags="M">
+      <desc>Beginning date for alternative tuition. CBDS: 100236</desc>
+    </element>
+    <element name="EndDate" type="date" flags="O">
+      <desc>End date for alternative tuition. CBDS: 100237</desc>
+    </element>
+    <element name="TotalHours" type="unsignedInt" flags="O">
+      <desc>The total number of hours provided for with the tuition.</desc>
+    </element>
+    <element name="ProvisionType" enum="AlternativeProvisionType" flags="M">
+      <desc>Alternative tuition provision type. CBDS: 100279</desc>
+    </element>
+  </object>
+  <!--AppealResult enum-->
+  <enum name="AppealResult">
+    <value name="REINSTATEMENT" value="R" desc="Reinstatement" />
+    <value name="EXCLUSION_STANDS" value="E" desc="Exclusion stands" />
+    <value name="NOT_BEST_INTEREST" value="O" desc="Reinstatement would be appropriate but not in best interest of learner given other circumstances" />
+  </enum>
+  <!--AttendanceCodeType enum-->
+  <enum name="AttendanceCodeType">
+    <value name="PRESENT_AM" value="/" desc="Present (AM)" />
+    <value name="PRESENT_PM" value="\\" desc="Present (PM)" />
+    <value name="LATE_BEFORE_REGISTERS_CLOSED" value="L" desc="Late (before registers closed) marked as present" />
+    <value name="AUTHORISED_ILLNESS" value="I" desc="Authorised absence due to Illness (NOT medical or dental etc. appointments)" />
+    <value name="AUTHORISED_MEDICAL" value="M" desc="Authorised absence due to medical/ dental appointments" />
+    <value name="AUTHORISED_RELIGIOUS" value="R" desc="Authorised absence due to religious observance" />
+    <value name="AUTHORISED_STUDY_LEAVE" value="S" desc="Authorised absence due to study leave" />
+    <value name="AUTHORISED_TRAVELLER" value="T" desc="Authorised absence due to traveller absence" />
+    <value name="AUTHORISED_FAMILY_HOLIDAY" value="H" desc="Authorised absence due to agreed family holiday" />
+    <value name="AUTHORISED_EXT_FAMILY_HOLIDAY" value="F" desc="Authorised absence due to agreed extended family holiday" />
+    <value name="AUTHORISED_EXCLUDED" value="E" desc="Authorised absence as pupil is excluded, with no alternative provision made" />
+    <value name="AUTHORISED_OTHER" value="C" desc="Authorised absence as pupil is absent due to other authorised circumstances" />
+    <value name="APPROVED_OFFSITE" value="B" desc="Approved education activity as pupil being educated off site (not dual registration)" />
+    <value name="APPROVED_DUAL_REGISTERED" value="D" desc="Approved education activity as pupil is dual registered (i.e. attending another establishment)" />
+    <value name="APPROVED_INTERVIEW" value="J" desc="Approved education activity as pupil is attending interview" />
+    <value name="APPROVED_SPORTING" value="P" desc="Approved education activity as pupil is attending an approved sporting activity" />
+    <value name="APPROVED_EDUCATIONAL_TRIP" value="V" desc="Approved education activity as pupil is away on an educational visit or trip " />
+    <value name="APPROVED_WORK_EXP" value="W" desc="Approved education activity as pupil is attending work experience" />
+    <value name="UNAUTHORISED_FAMILY_HOLIDAY" value="G" desc="Unauthorised absence as pupil is on a family holiday, not agreed, or is taking days in excess of an agreed family holiday" />
+    <value name="UNAUTHORISED_AFTER_REGISTERS_CLOSED" value="U" desc="Unauthorised absence as pupil arrived after registers closed" />
+    <value name="UNAUTHORISED_ABSENCE" value="O" desc="Unauthorised absence as pupil missed sessions for an unauthorised absence not covered by any other code/description" />
+    <value name="UNAUTHORISED_NOT_PROVIDED" value="N" desc="Unauthorised absence as pupil missed sessions for a reason that has not yet been provided" />
+    <value name="NON_COMPULSORY_ABSENCE" value="X" desc="Non-compulsory school age absence - not counted in possible attendances" />
+    <value name="ENFORCED_CLOSURE" value="Y" desc="Enforced closure - not counted in possible attendances" />
+    <value name="PUPIL_NOT_ON_ROLL" value="Z" desc="Pupil not yet on roll - not counted in possible attendances" />
+    <value name="SCHOOL_CLOSED" value="#" desc="School closed to pupils - not counted in possible attendances" />
+  </enum>
+  <!--AttendanceDomain enum-->
+  <enum name="AttendanceDomain">
+    <value name="SESSION" value="Session" desc="Session" />
+    <value name="LESSON" value="Lesson" desc="Lesson" />
+    <value name="BOTH" value="Both" desc="Both" />
+  </enum>
+  <!--AttendanceSession-->
+  <enum name="AttendanceSession">
+    <value name="AM" value="AM" desc="AM Session" />
+    <value name="PM" value="PM" desc="PM Session" />
+    <value name="NA" value="NA" desc="Not Applicable" />
+  </enum>
+  <!--AttendanceSourceType-->
+  <enum name="AttendanceSourceType">
+    <value name="BIO_BIOMETRIC_DEVICE" value="BIO" desc="Biometric device" />
+    <value name="HU_HUMAN_OT_THAN_WORKFORCE" value="HU" desc="Human other than workforce member" />
+    <value name="WF_WORKFORCE_MEMBER" value="WF" desc="Workforce Member" />
+    <value name="OT_OT_NONHUMAN_INPUT" value="OT" desc="Other non-human input source" />
+  </enum>
+  <!--BasicSkillsSupport enum-->
+  <enum name="BasicSkillsSupport">
+    <value name="DOES_NOT_REQUIRE" value="00" desc="Does not require support" />
+    <value name="SPECIALIST_LITERACY" value="01" desc="Specialist literacy support only" />
+    <value name="SPECIALIST_NUMERACY" value="02" desc="Specialist numeracy support only" />
+    <value name="SPECIALIST_BOTH" value="03" desc="specialist literacy and numeracy support" />
+    <value name="OTHER_LITERACY" value="04" desc="other literacy support" />
+    <value name="OTHER_NUMERACY" value="05" desc="other numeracy support" />
+    <value name="OTHER_Both" value="06" desc="other literacy and numeracy support" />
+    <value name="NEEDS_SUPPORT_HAS_NOT" value="07" desc="Needs support but has not/will not receive support" />
+    <value name="NOT_ASSESSED" value="90" desc="Basic Skills needs not assessed" />
+  </enum>
+  <!--BoarderType enum-->
+  <enum name="BoarderType">
+    <value name="BOARDER" value="B" desc="Boarder, nights per week not specified" />
+    <value name="BOARDER_SIX_NIGHTS_OR_LESS" value="6" desc="Boarder, six nights or less a week" />
+    <value name="BOARDER_SEVEN_NIGHTS" value="7" desc="Boarder, seven nights a week" />
+    <value name="NOT_A_BOARDER" value="N" desc="Not a boarder" />
+  </enum>
+  <!--ChildProtectionRegister object-->
+  <object name="ChildProtectionRegister">
+    <desc>Information relating to the Child Protection Register as it pertains to this learner.</desc>
+    <element name="IsRegistered" enum="YesNoUnknown" flags="M">
+      <desc>Indicates if the learner has been registered on the Child Protection Register. CBDS: 100042</desc>
+    </element>
+    <element name="LAId" type="Token" flags="O">
+      <desc>The LA in which the learner was registered for protection. CBDS: 100043</desc>
+    </element>
+    <element name="SiblingRegistered" enum="YesNo" flags="O">
+      <desc>Indicates if the learner has a sibling that is also on the Child Protection Register. CBDS: 100054</desc>
+    </element>
+  </object>
+  <!--ClassType enum-->
+  <enum name="ClassType">
+    <value name="NURSERY" value="N" desc="Nursery Class (England)" />
+    <value name="NON_NURSERY" value="O" desc="Not a Nursery Class (England)" />
+    <value name="NURSERY_SPECIAL_WALES" value="S" desc="Nursery Special Class/Unit (Wales)" />
+  </enum>
+  <!--ConnexionsAgreement enum-->
+  <enum name="ConnexionsAgreement">
+    <value name="NO" value="No" desc="Parent or guardian has refused permission" />
+    <value name="SOUGHT_NO_REPLY" value="SNR" desc="Sought, No Reply - School has sent out Fair Processing Notices, but has received no reply from parent or guardian (Data can be shared with Connexions)" />
+    <value name="UNSOUGHT" value="UNS" desc="Unsought - School has not yet sent out Fair Processing Notices (Data cannot be shared with Connexions)" />
+    <value name="YES" value="Yes" desc="Permission has been given by the parent or guardian" />
+  </enum>
+  <!--ContactFlags object-->
+  <object name="ContactFlags">
+    <desc>Contains Yes/No characteristics of the contact person's role. Provide a Yes value for all that apply. Otherwise No is assumed.  At least one of the child elements of ContactFlags must have a Yes value.</desc>
+    <element name="ParentLegalGuardian" enum="YesNo" flags="C">
+      <desc>Does the individual have parental or legal guardianship responsibility for the learner? CBDS: 100167</desc>
+    </element>
+    <element name="PickupRights" enum="YesNo" flags="C">
+      <desc>Does the contact have pickup rights?</desc>
+    </element>
+    <element name="LivesWith" enum="YesNo" flags="C">
+      <desc>Does the learner live with this contact? CBDS: 100222</desc>
+    </element>
+    <element name="AddressDisclosure" enum="YesNo" flags="C">
+      <desc>Can address information be disclosed? CBDS: 100223</desc>
+    </element>
+    <element name="EmailCommunication" enum="YesNo" flags="C">
+      <desc>Does the contact prefer written communcation via email?  Otherwise, postal mail will be used. CBDS: 100220</desc>
+    </element>
+    <element name="EmergencyContact" enum="YesNo" flags="C">
+      <desc>Should this contact be notified in case of emergency?</desc>
+    </element>
+    <element name="DisciplinaryContact" enum="YesNo" flags="C">
+      <desc>Is this person to be contacted in case of disciplinary action?</desc>
+    </element>
+    <element name="HomeDuringDay" enum="YesNo" flags="C">
+      <desc>Is the contact at home during normal daytime hours? CBDS: 100219</desc>
+    </element>
+    <element name="MemberOfArmedForces" enum="YesNo" flags="C">
+      <desc>Is this person a member of the armed forces? CBDS: 100168</desc>
+    </element>
+    <element name="PrimaryCareProvider" enum="YesNo" flags="C">
+      <desc>Does this person provide daily living or personal assistance to the learner?</desc>
+    </element>
+    <element name="RequiresInterpreter" enum="YesNo" flags="C">
+      <desc>Does the contact need a translator or interpreter? CBDS: 100169</desc>
+    </element>
+    <element name="TransferAddress" enum="YesNo" flags="C">
+      <desc>Should this contact be transferred with the Learner if and when the Learner moves? CBDS: 100224</desc>
+    </element>
+  </object>
+  <!--CurrentSchoolEnrolment object-->
+  <object name="CurrentSchoolEnrolment">
+    <desc>This container reflects key enrolment data for the current or current main (home) school or establishment linked to a learner.  An agent may operate more efficiently if the data represented here is sufficient.  If the agent requires more data or needs to retrieve enrolment data from all enroled schools then it may still need to request some or all LearnerSchoolEnrolment objects for the learner.  This information should always be specified when there is an active enrolment.  It must also accurately reflect the data in the represented LearnerSchoolEnrolment object and generate change events for this object when change events are detected for LearnerSchoolEnrolment.</desc>
+    <attribute name="LearnerSchoolEnrolmentRefId" type="Token" flags="M">
+      <desc>The ID (GUID) of the LearnerSchoolEnrolment record associated with this learner that is also designated as the current or current main enrolment.</desc>
+    </attribute>
+    <element name="LAId" type="Token" flags="M">
+      <desc>The DfES assigned number for the LA in which the learner is currently enroled with respect to their current or current main (home) school. CBDS: 100013, 100032, 100162, 900009</desc>
+    </element>
+    <element name="EstablishmentId" type="Token" flags="M">
+      <desc>The DfES assigned number for the school or establishment in which the learner is currently enroled with respect to their current or current main (home) school. CBDS: 100004, 100163, 900010</desc>
+    </element>
+    <element name="NCYearGroup" type="NCYearGroup" flags="M">
+      <desc>The current or most recent National Curriculum Year Group of the learner in the LA. </desc>
+    </element>
+  </object>
+  <!--CurriculumTeachingMethods enum-->
+  <enum name="CurriculumTeachingMethods">
+    <value name="SOME_TARGETED_DIFFERENTIATION" value="CT1" desc="Some targeted differentiation" />
+    <value name="SIGNIFICANT_AND_TARGETED" value="CT2" desc="Significant and targeted differentiation" />
+    <value name="SOME_CURRICULUM" value="CT3" desc="Some curriculum modifications" />
+    <value name="SIGNIFICANT_CURRICULUM" value="CT4" desc="Significant curriculum modifications" />
+  </enum>
+  <!--Destination object-->
+  <object name="Destination">
+    <element name="Code" enum="LeavingDestination" flags="M">
+      <desc>Code indicating the destination type. CBDS: 100072</desc>
+    </element>
+    <element name="LAId" type="Token" flags="O">
+      <desc>The LA number for destination school or college. CBDS: 100261</desc>
+    </element>
+    <element name="EstablishmentId" type="token" flags="O">
+      <desc>The DfES number for destination school or college. CBDS: 100260</desc>
+    </element>
+    <element name="Name" type="normalizedString" flags="O">
+      <desc>Name of institution/employer of learner's destination. CBDS: 100073</desc>
+    </element>
+  </object>
+  <!--ExclusionCategory enum-->
+  <enum name="ExclusionCategory">
+    <value name="FIXED" value="FIXD" desc="Fixed" />
+    <value name="PERMANENT" value="PERM" desc="Permanent" />
+    <value name="LUNCHTIME" value="LNCH" desc="Lunchtime" />
+  </enum>
+  <!--ExclusionReason enum-->
+  <enum name="ExclusionReason">
+    <value name="PHYSICAL_ASSAULT_PUPIL" value="PP" desc="Physical assault against a pupil" />
+    <value name="PHYSICAL_ASSAULT_ADULT" value="PA" desc="Physical assault against an adult" />
+    <value name="VERBAL_ABUSE_PUPIL" value="VP" desc="Verbal abuse/threatening behaviour against a pupil" />
+    <value name="VERBAL_ABUSE_ADULT" value="VA" desc="Verbal abuse/threatening behaviour against an adult" />
+    <value name="BULLYING" value="BU" desc="Bullying" />
+    <value name="PW_POSSESSION_WEAPON" value="PW" desc="Possession / use of weapon" />
+    <value name="RACIST_ABUSE" value="RA" desc="Racist abuse" />
+    <value name="SEXUAL_MISCONDUCT" value="SM" desc="Sexual misconduct" />
+    <value name="DRUG_AND_ALCOHOL_RELATED" value="DA" desc="Drug and alcohol related" />
+    <value name="DAMAGE" value="DM" desc="Damage" />
+    <value name="THREATENING_OR_DANGEROUS" value="TB" desc="Threatening or dangerous behaviour" />
+    <value name="DEFIANCE_OF_RULES_DISCIPLINE" value="DR" desc="Defiance of rules/ discipline policy" />
+    <value name="THEFT" value="TH" desc="Theft" />
+    <value name="PERSISTENT_DISRUPTIVE" value="DB" desc="Persistent disruptive behaviour" />
+    <value name="OTHER" value="OT" desc="Other" />
+  </enum>
+  <!--ExitType object-->
+  <object name="ExitType">
+    <desc />
+    <element name="Code" enum="LeavingReason" flags="M">
+      <desc>Code indicating the type of exit for this enrolment. CBDS: 100244, 100318, 190090</desc>
+    </element>
+    <element name="Destination" type="Destination" flags="O">
+      <desc>Describes the destination of this learner upon exit.</desc>
+    </element>
+  </object>
+  <!--FamilyStructure enum-->
+  <enum name="FamilyStructure">
+    <value name="SINGLE_PARENT" value="S" desc="Single Parent" />
+    <value name="TWO_ADULTS" value="A" desc="2 Adults" />
+    <value name="FOSTER_PARENTS" value="F" desc="Foster Parents" />
+    <value name="IN_RES_CARE" value="C" desc="In Residental Care" />
+    <value name="UNKNOWN" value="U" desc="Unknown" />
+  </enum>
+  <!--FormerUPNList object-->
+  <object name="FormerUPNList">
+    <desc>A list of former UPN's assigned to the learner, since it is possible that a learner could have more than one assigned.</desc>
+    <element name="UPN" type="UPN" flags="MR">
+      <desc>A former UPN assigned to the pupil whilst at a school (eg temporary UPN was allocated when the pupil was first admitted to the school but subsequently replaced by the permanent UPN being retrieved from a previous school). CBDS: 100002</desc>
+    </element>
+  </object>
+  <!--GroupingAndSupport enum-->
+  <enum name="GroupingAndSupport">
+    <value name="OCCASSIONAL_ADDITIONAL" value="GS1" desc="Occassional additional support in class" />
+    <value name="TARGETED_AND_SUSTAINED" value="GS2" desc="Targeted and sustained additional support" />
+    <value name="SMALL_GROUP_CLASS_PROVISION" value="GS3" desc="Small group class provision" />
+    <value name="MOSTLY_SMALL_GROUP_PROVISION" value="GS4" desc="Mostly small group provision" />
+  </enum>
+  <!--InCare object-->
+  <object name="InCare">
+    <desc>Information relating to whether the learner is "looked after" as defined by the Children Act 1989, which refers to children who are subject to care orders and those who are accommodated.</desc>
+    <element name="Current" enum="YesNoUnknown" flags="M">
+      <desc>Indicates if the learner is "looked after" currently. CBDS: 100038</desc>
+    </element>
+    <element name="Type" enum="InCareType" flags="O">
+      <desc>Type of care the learner is in (eg fostering, children's home). CBDS: 100051</desc>
+    </element>
+    <element name="LAId" type="Token" flags="M">
+      <desc>The 'originating' authority where the learner was originally placed in public care and which looks after the child for the purposes of the Children Act 1989. CBDS: 100039</desc>
+    </element>
+    <element name="AtCurrentSchool" enum="YesNo" flags="O">
+      <desc>Indicates if the learner has ever been in care while at this school. CBDS: 100040</desc>
+    </element>
+    <element name="PersonalEducationPlan" enum="YesNo" flags="O">
+      <desc>Indicates if the learner in care has a personal education plan. CBDS: 100041</desc>
+    </element>
+  </object>
+  <!--InCareType enum-->
+  <enum name="InCareType">
+    <value name="FOSTERED" value="FT" desc="Fostered" />
+    <value name="CHILDRENS_HOME" value="CH" desc="Children's Home" />
+    <value name="WITH_PARENTS" value="WP" desc="With parents" />
+    <value name="PLACED_FOR_ADOPTION" value="PA" desc="Placed for adoption" />
+    <value name="OTHER" value="OT" desc="Other" />
+  </enum>
+  <!--LearnerAttendance object-->
+  <object name="LearnerAttendance" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) assigned to uniquely identify this attendance record.</desc>
+    </attribute>
+    <attribute name="LearnerPersonalRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) of the learner for which this attendance mark is recorded.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="IdRefType" flags="R">
+      <desc>The school where the attendance mark was taken.</desc>
+    </attribute>
+    <element name="AttendanceDate" type="Date" flags="M">
+      <desc>The date of the attendance period.</desc>
+    </element>
+    <element name="TimeIn" type="Time" flags="O">
+      <desc>The time when the learner began the attendance period.</desc>
+    </element>
+    <element name="StartTime" type="Time" flags="O">
+      <desc>The time the attendance period started. StartTime is required when this object represents a lesson</desc>
+    </element>
+    <element name="FinishTime" type="Time" flags="O">
+      <desc>The time the attendance period finished.</desc>
+    </element>
+    <element name="Session" enum="AttendanceSession" flags="O">
+      <desc>The session within which this attendance mark applies (e.g. AM/PM).  Session is required when StartTime is not specified and the object refers to a session attendance mark (i.e. AttendanceDomain is session).</desc>
+    </element>
+    <element name="SessionLabel" type="String" flags="O">
+      <desc>A label associated with the session to further describe the session, when applicable.</desc>
+    </element>
+    <element name="AttendanceDomain" enum="AttendanceDomain" flags="M">
+      <desc>The attendance type.</desc>
+    </element>
+    <element name="AttendanceCode" enum="AttendanceCodeType" flags="M">
+      <desc>The attendance mark/code.</desc>
+    </element>
+    <element name="AttendanceNote" type="String" flags="O">
+      <desc>Additional comments. Required when record is specified as a correction.</desc>
+    </element>
+    <element name="RecordTimestamp" type="DateTime" flags="O">
+      <desc>The date/time when recorded. When more than one record exists using the same RefId, the record with the latest timestamp is assumed to be the most current. This is possible when a record is republished due to corrections.</desc>
+    </element>
+    <element name="InputSource" enum="AttendanceSourceType" flags="M">
+      <desc>The source of the attendance record data.  Could be Workforce member, biometric device, or other.</desc>
+    </element>
+    <element name="WorkforcePersonalRefId" type="IdRefType" flags="O">
+      <desc>The ID (GUID) of the staff member responsible for recording this attendance information.</desc>
+    </element>
+    <element name="SchoolGroupRefId" type="IdRefType" flags="O">
+      <desc>The ID (GUID) of the group that this attendance applies to. Useful when the attendance period corresponds to a lesson time.</desc>
+    </element>
+  </object>
+  <!--LearnerAttendanceSummary object-->
+  <object name="LearnerAttendanceSummary" topic="true">
+    <desc>This object provides a summary of a learner's daily attendance and membership information for a given school during the time period between the StartDate and EndDate, inclusive. As such, there may be multiple instances of this object for a learner in a school over the course of an academic school year.  Note that sessions are defined by each school and in most cases is two but can be any number in the range 1-10. Compare with US/Canada object: StudentAttendanceSummary</desc>
+    <attribute name="LearnerPersonalRefId" type="Token" flags="M">
+      <desc>The ID (GUID) of the learner for whom this attendance information is being reported.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="Token" flags="M">
+      <desc>The ID (GUID) of the school for which this attendance information is being reported.</desc>
+    </attribute>
+    <element name="SchoolYear" type="GYear" flags="M">
+      <desc>School year for which this information is applicable, expressed as the four-digit year in which the school year ends (e.g. 2007 for the 2006/07 school year). CBDS: 100225</desc>
+    </element>
+    <element name="StartDate" type="date" flags="M">
+      <desc>Starting date of this attendance reporting period. CBDS: 100226</desc>
+    </element>
+    <element name="EndDate" type="date" flags="M">
+      <desc>Ending date of this attendance reporting period. CBDS: 100227</desc>
+    </element>
+    <element name="ReasonsList" type="ReasonsList" flags="M">
+      <desc>An enumeration of sessions by reason code within the reporting period.</desc>
+    </element>
+    <element name="SessionsAttendedTotal" type="unsignedInt" flags="M">
+      <desc>The number of sessions the learner attended school when school was in session between the StartDate and EndDate, inclusive. CBDS: 100229</desc>
+    </element>
+    <element name="SessionsPossible" type="unsignedInt" flags="M">
+      <desc>The number of sessions the learner was present plus the number of sessions the learner was absent (authorised and unauthorised) when school was in session during the period between the StartDate and EndDate, inclusive. CBDS: 100228</desc>
+    </element>
+    <element name="AuthorisedAbsences" type="unsignedInt" flags="O">
+      <desc>The number of sessions the learner was absent from school with a valid excuse when school was in session between the StartDate and EndDate, inclusive. Note that ts column can be derived from Reason Status. CBDS: 100230</desc>
+    </element>
+    <element name="UnauthorisedAbsences" type="unsignedInt" flags="O">
+      <desc>The number of sessions the learner was absent from school without a valid excuse when school was in session between the StartDate and EndDate, inclusive.  Note that this column can be derived from Reason Status. CBDS: 100231</desc>
+    </element>
+    <element name="AlternativeTuitionHours" enum="TuitionHours" flags="O">
+      <desc>Number of Alternative Tuition (whole) hours attended between the StartDate and EndDate, inclusive. CBDS: 100238</desc>
+    </element>
+  </object>
+  <!--LearnerContact object-->
+  <object name="LearnerContact" topic="true">
+    <desc>This object contains information related to a contact person for a learner. Compare with US/Canada object: StudentContact</desc>
+    <attribute name="LearnerPersonalRefId" type="Token" flags="M">
+      <desc>The ID (GUID) of the learner whose contact this is.</desc>
+    </attribute>
+    <attribute name="ContactPersonalRefId" type="Token" flags="M">
+      <desc>The ID (GUID) of this contact.</desc>
+    </attribute>
+    <element name="Relationship" enum="Relationship" flags="M">
+      <desc>Defines the relationship of the contact to the learner. CBDS: 100166</desc>
+    </element>
+    <element name="LocalId" type="Token" flags="O">
+      <desc>The locally-assigned identifier for this contact.</desc>
+    </element>
+    <element name="ContactFlags" type="ContactFlags" flags="M">
+      <desc>Contains Yes/No characteristics of the contact person's role. Provide a Yes value for all that apply. Otherwise No is assumed.  At least one of the child elements of ContactFlags must have a Yes value.</desc>
+    </element>
+    <element name="ContactSequence" type="int" flags="O">
+      <desc>Indicates the person who provided the contact sequence order. CBDS: 100221</desc>
+    </element>
+    <element name="ContactSequenceSource" enum="SourceOfCode" flags="O">
+      <desc>Indicates the person who provided the contact sequence order. CBDS: 100221</desc>
+    </element>
+  </object>
+  <!--LearnerEnrolmentStatus enum-->
+  <enum name="LearnerEnrolmentStatus">
+    <value name="CURRENT_SINGLE" value="C" desc="Current (single registration at this school)" />
+    <value name="GUEST_PUPIL" value="G" desc="Guest (pupil not registered at this school but attending some lessons or sessions)" />
+    <value name="CURRENT_MAIN" value="M" desc="Current Main (dual registration)" />
+    <value name="CURRENT_SUBSIDIARY" value="S" desc="Current Subsidiary (dual registration)" />
+    <value name="PREVIOUS" value="P" desc="Previous" />
+  </enum>
+  <!--LearnerExclusion object-->
+  <object name="LearnerExclusion" topic="true">
+    <desc>This object contains information related to a learner being excluded from one or more sessions of school.</desc>
+    <attribute name="RefId" type="Token" flags="M">
+      <desc>The ID (GUID) of this exclusion.</desc>
+    </attribute>
+    <attribute name="LearnerPersonalRefId" type="Token" flags="M">
+      <desc>The ID (GUID) of the excluded learner.</desc>
+    </attribute>
+    <element name="Category" enum="ExclusionCategory" flags="M">
+      <desc>Exclusion category. CBDS: 100087</desc>
+    </element>
+    <element name="Reason" enum="ExclusionReason" flags="M">
+      <desc>Reason for exclusion. CBDS: 100088</desc>
+    </element>
+    <element name="StartDate" type="date" flags="M">
+      <desc>Date exclusion takes effect irrespective of any review or appeal. Normally this will not be the same as Date of Leaving (exitDate) and it should be noted that the learner will remain on the schools's roll for a period after this start date. CBDS: 100089, 100090</desc>
+    </element>
+    <element name="StartSession" type="unsignedInt" flags="M">
+      <desc>Session to begin exclusion, starting with 1 for the first session of the day. In most cases there are two sessions per day but this is not always the case.  Validation: Number between 1 and 10. CBDS: 100091</desc>
+    </element>
+    <element name="EndDate" type="date" flags="O">
+      <desc>Date exclusion concludes. CBDS: 100092</desc>
+    </element>
+    <element name="ActualSessions" type="unsignedInt" flags="O">
+      <desc>Total number of sessions for which the exclusion is in effect. For lunchtime exclusions, each lunchtime for which the exclusion applies is one session. For fixed term and permanent exclusions, this is one session during the school day. For exclusions that are followed by reinstatement the actual, not the planned number of sessions should be recorded. (Exclusion sessions are used only to calculate the total allowable in a term or academic year and are not the same as an attendance session.) CBDS: 100093</desc>
+    </element>
+    <element name="Appeal" enum="YesNo" flags="O">
+      <desc>Is there an appeal against permanent exclusion? CBDS: 100094</desc>
+    </element>
+    <element name="AppealDate" type="date" flags="O">
+      <desc>Date for appeal against permanent exclusion. CBDS: 100095</desc>
+    </element>
+    <element name="AppealResult" enum="AppealResult" flags="O">
+      <desc>The result of the appeal against permanent exclusion. CBDS: 100096</desc>
+    </element>
+    <element name="ReinstatementDate" type="date" flags="O">
+      <desc>Date learner was reinstated, if appropriate. CBDS: 100097</desc>
+    </element>
+    <element name="HeadTeacherNotificationDate" type="date" flags="O">
+      <desc>Date head teacher notified parents, school LA, and home LA (if different) of exclusion. CBDS: 100098</desc>
+    </element>
+    <element name="GovernorMeetingDate" type="date" flags="O">
+      <desc>Date of Governors' meeting with respect to exclusion. CBDS: 100099</desc>
+    </element>
+    <element name="HearingNoticeOfAppealDate" type="date" flags="O">
+      <desc>Date of exclusion hearing/expiration of notice of appeal. CBDS: 100100</desc>
+    </element>
+  </object>
+  <!--LearnerGroupEnrolment object-->
+  <object name="LearnerGroupEnrolment" topic="true">
+    <desc>This object contains information about a learner's enrolment in a course (teaching group) or other (class, homeroom or registration) group. Compare with US/Canada object: StudentSectionEnrollment</desc>
+    <attribute name="RefId" type="Token" flags="M">
+      <desc>The ID (GUID) that uniquely identifies this LearnerGroupEnrolment entity. </desc>
+    </attribute>
+    <attribute name="LearnerPersonalRefId" type="Token" flags="M">
+      <desc>The ID (GUID) of the learner to whom the enrolment information applies. </desc>
+    </attribute>
+    <attribute name="SchoolGroupRefId" type="Token" flags="M">
+      <desc>The ID (GUID) of the group in which this learner is enroled. </desc>
+    </attribute>
+    <element name="SchoolYear" type="GYear" flags="M">
+      <desc>School year for which the information is applicable, expressed as the four-digit year in which the school year ends (e.g. 2007 for the 2006/07 school year). Where a group membership is valid across multiple years, the current year at the time of publication will be used. </desc>
+    </element>
+    <element name="EntryDate" type="date" flags="O">
+      <desc>Date from when this enrolment is valid.</desc>
+    </element>
+    <element name="ExitDate" type="date" flags="O">
+      <desc>Date on which the learner's enrolment ends or has ended.</desc>
+    </element>
+  </object>
+  <!--LearnerIdentity enum-->
+  <enum name="LearnerIdentity">
+    <value name="WELSH" value="WAL" desc="Welsh" />
+    <value name="ENGLISH" value="ENG" desc="English" />
+    <value name="SCOTTISH" value="SCO" desc="Scottish" />
+    <value name="IRISH" value="IRE" desc="Irish" />
+    <value name="BRITISH" value="BRI" desc="British" />
+    <value name="OTHER" value="OTH" desc="Other" />
+    <value name="REFUSED" value="REF" desc="Refused" />
+    <value name="NOT_SUPPLIED" value="NOS" desc="Not Supplied" />
+  </enum>
+  <!--LearnerPersonal object-->
+  <object name="LearnerPersonal" topic="true">
+    <desc>This object contains personal information related to a learner. Compare with US/Canada object: StudentPersonal</desc>
+    <attribute name="RefId" type="Token" flags="M">
+      <desc>The ID (GUID) of the learner.</desc>
+    </attribute>
+    <element name="LocalId" type="Token" flags="O">
+      <desc>The locally-assigned identifier for this learner. This can be the internal pupil number or any other number as determined by the publishing agent.</desc>
+    </element>
+    <element name="AlertMsgList" type="AlertMsgList" flags="O">
+      <desc />
+    </element>
+    <element name="MedicalAlertMsgList" type="MedicalAlertMsgList" flags="O">
+      <desc />
+    </element>
+    <element name="PersonalInformation" type="PersonalInformation" flags="M">
+      <desc>Personal name, demographic, address, email, and phone information for this learner. CBDS: Mulitple</desc>
+    </element>
+    <element name="UIPI" type="normalizedString" flags="O">
+      <desc>Unique Internal Pupil Number. CBDS: 100015</desc>
+    </element>
+    <element name="UPN" type="normalizedString" flags="O">
+      <desc>Unique Pupil Number (UPN) allocated to each learner in maintained schools in England and Wales. It is an identifier for use in the educational context during a child's school career only and subject to Data Protection restrictions. CBDS: 100001</desc>
+    </element>
+    <element name="UPNAllocationDate" type="date" flags="O">
+      <desc>Date UPN was allocated by the LA. CBDS: 100017</desc>
+    </element>
+    <element name="FormerUPNList" type="FormerUPNList" flags="O">
+      <desc>A list of former UPN's assigned to the learner, since it is possible that a learner could have more than one assigned.</desc>
+    </element>
+    <element name="ULN" type="normalizedString" flags="O">
+      <desc>Unique Learner Number (ULN), a 10-digit number where zero is not allowed as the leading digit.</desc>
+    </element>
+    <element name="FamilyStructure" enum="FamilyStructure" flags="O">
+      <desc>Indicates type of family structure learner is living in. CBDS: 100053</desc>
+    </element>
+    <element name="InCare" type="InCare" flags="M">
+      <desc>Information relating to whether the learner is "looked after" as defined by the Children Act 1989, which refers to children who are subject to care orders and those who are accommodated.</desc>
+    </element>
+    <element name="ConnexionsAgreement" enum="ConnexionsAgreement">
+      <desc>	Indicates if parents have consented to allow learner data to be shared with Connexions (Middle, Secondary and Special Schools only). </desc>
+    </element>
+    <element name="ChildProtectionRegister" type="ChildProtectionRegister" flags="O">
+      <desc>Information relating to the Child Protection Register as it pertains to this learner.</desc>
+    </element>
+    <element name="GiftedTalented" enum="YesNo" flags="O">
+      <desc>Learner qualifies for Gifted/Talented status.</desc>
+    </element>
+    <element name="HomeLA" type="Token" flags="O">
+      <desc>The LA in which the learner lives but not necessarily the one in which they attend school. CBDS: 100032</desc>
+    </element>
+    <element name="LearnerIdentity" enum="LearnerIdentity" flags="O">
+      <desc>Classification of national identity. (Wales) CBDS: 190001</desc>
+    </element>
+    <element name="ModeOfTravel" enum="UsualModeOfTravel" flags="O">
+      <desc>The usual mode of travel normally used by the learner for the greater part (in distance) of the journey to and from school.</desc>
+    </element>
+    <element name="Pregnant" enum="YesNo" flags="O">
+      <desc>Learner is pregnant. CBDS: 100056</desc>
+    </element>
+    <element name="SiblingList" type="SiblingList" flags="O">
+      <desc>List of siblings also in same school.</desc>
+    </element>
+    <element name="UniformAllowance" enum="YesNo" flags="O">
+      <desc>Learner is paid a uniform allowance.</desc>
+    </element>
+    <element name="CurrentSchoolEnrolment" type="CurrentSchoolEnrolment" flags="O">
+      <desc>This container reflects key enrolment data for the current or current main (home) school or establishment linked to a learner.  An agent may operate more efficiently if the data represented here is sufficient.  If the agent requires more data or needs to retrieve enrolment data from all enroled schools then it may still need to request some or all LearnerSchoolEnrolment objects for the learner.  This information should always be specified when there is an active enrolment.  It must also accurately reflect the data in the represented LearnerSchoolEnrolment object and generate change events for this object when change events are detected for LearnerSchoolEnrolment.</desc>
+    </element>
+    <element name="PreviousEstablishmentList" type="PreviousEstablishmentList" flags="O">
+      <desc>A list of known previous schools or establishments.</desc>
+    </element>
+  </object>
+  <!--LearnerSchoolEnrolment object-->
+  <object name="LearnerSchoolEnrolment" topic="true">
+    <desc>This object defines information related to a learner's enrolment. Compare with US/Canada object: StudentSchoolEnrollment</desc>
+    <attribute name="RefId" type="Token" flags="M">
+      <desc>The ID (GUID) that uniquely identifies a particular enrolment.</desc>
+    </attribute>
+    <attribute name="LearnerPersonalRefId" type="Token" flags="M">
+      <desc>The ID (GUID) of the learner to whom this information is linked.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="Token" flags="M">
+      <desc>The ID (GUID) of the school to which this enrolment applies.</desc>
+    </attribute>
+    <attribute name="MembershipType" enum="LearnerEnrolmentStatus" flags="M">
+      <desc>The type of this enrolment as it relates to the school identified by SchoolInfoRefId. CBDS: 100060</desc>
+    </attribute>
+    <element name="EntryDate" type="date" flags="M">
+      <desc>The date from when this enrolment is valid. CBDS: 100063</desc>
+    </element>
+    <element name="NCYearGroupActual" type="NCYearGroup" flags="M">
+      <desc>The year group in which the learner is taught for the majority of their time, regardless of their chronological age. CBDS: 100068</desc>
+    </element>
+    <element name="ClassType" enum="ClassType" flags="O">
+      <desc>Indicates if the learner is in a nursery class. Must be set to 'O'  if age on August 31 is &gt;= 6. CBDS: 100069, 100325</desc>
+    </element>
+    <element name="ExitDate" type="date" flags="C">
+      <desc>The ending date of this enrolment. If the learner has exited before the end of the school year, ExitDate must have a value. CBDS: 100064</desc>
+    </element>
+    <element name="ExitType" type="ExitType" flags="O" />
+    <element name="Sessions" type="int" flags="O">
+      <desc>Number of learner sessions (half days) per week. A maximum of 10 is possible per week.</desc>
+    </element>
+    <element name="FTPTStatus" enum="YesNo" flags="O">
+      <desc>An indication of whether the learner is enroled only part time. CBDS: 100065</desc>
+    </element>
+    <element name="Boarder" enum="BoarderType" flags="O">
+      <desc>Indicates whether the learner is a boarder at the school or not. CBDS: 100067</desc>
+    </element>
+    <element name="AlternativeTuition" type="AlternativeTuition" flags="O">
+      <desc>Describes any alternative tuition received by the learner. CBDS: 100234</desc>
+    </element>
+  </object>
+  <!--LearnerSpecialNeeds object-->
+  <object name="LearnerSpecialNeeds" topic="true">
+    <desc>This object contains information about a learner's special education needs (SEN) where provisioned within a school.  Learner's with no special educational needs will not have this object defined.</desc>
+    <attribute name="RefId" type="IdRefType" flags="M">
+      <desc>The ID (GUID) that uniquely identifies a learner special need (provision).</desc>
+    </attribute>
+    <attribute name="LearnerPersonalRefId" type="IdRefType" flags="M">
+      <desc>The ID (GUID) of the learner with special educational needs.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="IdRefType" flags="M">
+      <desc>The ID (GUID) that uniquely identifies the school provisioned to work with the learner's special needs.</desc>
+    </attribute>
+    <element name="UnitMember" enum="YesNo" flags="O">
+      <desc>Is this learner with special education needs (SEN) in a mainstream school a member of an SEN Unit (sometimes called special class)? CBDS: 100075</desc>
+    </element>
+    <element name="ResourcedProvisionMember" enum="YesNo" flags="O">
+      <desc>Is this learner with special education needs (SEN) in a mainstream school a member of a resourced provision? CBDS: 100076</desc>
+    </element>
+    <element name="NextReviewDate" type="date" flags="O">
+      <desc>Date of learner's next SEN review. CBDS: 100079</desc>
+    </element>
+    <element name="Provision" enum="SENProvision" flags="M">
+      <desc>A provision (stage) accommodated for this learner within this school.</desc>
+    </element>
+    <element name="StartDate" type="Date" flags="M">
+      <desc>Date when learner was placed on the current SEN stage. Date may be in the future.</desc>
+    </element>
+    <element name="EndDate" type="Date" flags="O">
+      <desc>	Date when learner finished this SEN stage. Assumed to be current unless a date in the past is specified here.</desc>
+    </element>
+    <element name="SENTypeList" type="SENTypeList" flags="O">
+      <desc>	A list of Special Educational Needs types for this learner. Note that each SEN type must have its own unique ranking, and all rankings must be consecutive starting with 1.</desc>
+    </element>
+    <element name="AdviceAndAssessmentLevel" enum="AdviceAndAssessment" flags="O">
+      <desc>Level of provision for Advice and Assessment. (Wales) </desc>
+    </element>
+    <element name="GroupingAndSupportLevel" enum="GroupingAndSupport" flags="O">
+      <desc>Level of provision for Grouping and Support. (Wales) CBDS: 190011</desc>
+    </element>
+    <element name="SpecialisedResourcesLevel" enum="SpecialisedResources" flags="O">
+      <desc>Level of provision for Specialised Resources. (Wales) CBDS: 190012</desc>
+    </element>
+    <element name="TeachingMethodsLevel" enum="CurriculumTeachingMethods" flags="O">
+      <desc>Level of provision for Curriculum and Teaching Methods. (Wales) CBDS: 190010</desc>
+    </element>
+    <element name="EmbeddedBasicSkillsSupport" enum="BasicSkillsSupport" flags="O">
+      <desc>Provision of Embedded Basic Skills support beyond the attainment of formal qualification. CBDS: 190120</desc>
+    </element>
+    <element name="LiteracyLevelStart" type="normalizedString" flags="O">
+      <desc>Level of literacy at start of this SEN stage. (Wales) CBDS: 190070</desc>
+    </element>
+    <element name="LiteracyLevelEnd" type="normalizedString" flags="O">
+      <desc>Level of literacy achieved by the end of this SEN stage. (Wales) CBDS: 190072</desc>
+    </element>
+    <element name="NumeracyLevelStart" type="normalizedString" flags="O">
+      <desc>Level of numeracy at start of this SEN stage. (Wales) CBDS: 190071</desc>
+    </element>
+    <element name="NumeracyLevelEnd" type="normalizedString" flags="O">
+      <desc>Level of numeracy achieved by the end of this SEN stage. (Wales) CBDS: 190073</desc>
+    </element>
+    <element name="NationalCurriculumList" type="NationalCurriculumList" flags="O">
+      <desc>A list of National Curriculum subjects that have been modified or disapplied for this Learner.</desc>
+    </element>
+    <element name="MedicalFlag" enum="YesNo" flags="O">
+      <desc>Is there medical information on this Learner? CBDS: 100084</desc>
+    </element>
+    <element name="ParamedicalSupport" enum="ParamedicalSupport" flags="O">
+      <desc>Type of therapy needed by Learner. CBDS: 100086</desc>
+    </element>
+    <element name="MedicalNotes" type="normalizedString" flags="O">
+      <desc>Summary of learner's medical condition. CBDS: 100085</desc>
+    </element>
+  </object>
+  <!--LeavingDestination enum-->
+  <enum name="LeavingDestination">
+    <value name="PRIMARY_SCHOOL" value="PS" desc="Primary school" />
+    <value name="SECONDARY_SCHOOL" value="SS" desc="Secondary school" />
+    <value name="SIXTH_FORM_COLLEGE" value="SC" desc="6th Form College" />
+    <value name="FURTHER_EDUCATION_TRAINING" value="FE" desc="Further Education/Training" />
+    <value name="UNIVERSITY" value="HE" desc="University" />
+    <value name="EMPLOYMENT_TRAINING" value="EM" desc="Employment/Training" />
+    <value name="OTHER_NOT_KNOWN" value="NK" desc="Other/Not Known" />
+  </enum>
+  <!--LeavingReason enum-->
+  <enum name="LeavingReason">
+    <value name="DECEASED" value="DD" desc="Deceased" />
+    <value name="EDUCATION_OTHER" value="EO" desc="Education other than at school/college" />
+    <value name="EMIGRATION" value="EM" desc="Emigration" />
+    <value name="FURTHER_EDUCATION" value="FE" desc="Further Education (Leaver)" />
+    <value name="FIRST_TO_MIDDLE_PHASE" value="FM" desc="First to Middle Phase Transfer" />
+    <value name="HIGHER_EDUCATION" value="HE" desc="Higher Education (Leaver)" />
+    <value name="NURSERY_TO_INFANT" value="NI" desc="Nursery to Infant" />
+    <value name="INFANT_TO_JUNIOR_PRIMARY" value="IJ" desc="Infant to Junior/Primary Phase Transfer" />
+    <value name="JUNIOR_PRIMARY_TO_SECONDARY" value="JS" desc="Junior/Primary to Secondary Phase Transfer" />
+    <value name="MIDDLE_TO_SECONDARY_PHASE" value="MS" desc="Middle to Secondary Phase Transfer" />
+    <value name="OTHER_SCHOOL_SIXTH_FORM" value="OS" desc="Other School Sixth Form (Leaver)" />
+    <value name="OTHER_UNKNOWN" value="OT" desc="Other/Unknown" />
+    <value name="PERMANENT_EXCLUSION" value="PE" desc="Permanent Exclusion" />
+    <value name="SCHOOL_TRANSFER_MID_YEAR" value="ST" desc="School Transfer (Mid-Year)" />
+    <value name="TRAINING" value="TR" desc="Training (Leaver)" />
+    <value name="UNEMPLOYMENT" value="UN" desc="Unemployment (Leaver)" />
+    <value name="EMPLOYMENT" value="WK" desc="Employment (Leaver)" />
+    <value name="MILITARY_DEPLOYMENT_PARENT" value="MD" desc="Military deployment of parent(s)" />
+  </enum>
+  <!--MembershipType enum-->
+  <enum name="MembershipType">
+    <value name="CURRENT" value="C" desc="Current (single registration at this school)" />
+    <value name="GUEST" value="G" desc="Guest (pupil not registered at this school but attending some lessons or sessions)" />
+    <value name="DUAL_MAIN" value="M" desc="Current Main (dual registration)" />
+    <value name="DUAL_SUBSIDIARY" value="S" desc="Current Subsidiary (dual registration)" />
+    <value name="PREVIOUS" value="P" desc="Previous" />
+  </enum>
+  <!--ModeOfTravel enum-->
+  <enum name="ModeOfTravel">
+    <value name="WALK" value="WLK" desc="Walk" />
+    <value name="CYCLE" value="CYC" desc="Cycle" />
+    <value name="CAR_VAN" value="CAR" desc="Car/Van" />
+    <value name="CAR_SHARE" value="CRS" desc="Car Share (with a child/children from a different household)" />
+    <value name="PUBLIC_SERVICE_BUS" value="PSB" desc="Public service bus" />
+    <value name="DEDICATED_SCHOOL_BUS" value="DSB" desc="Dedicated school bus" />
+    <value name="BUS_TYPE_NOT_KNOWN" value="BNK" desc="Bus (type not known)" />
+    <value name="TAXI" value="TXI" desc="Taxi" />
+    <value name="TRAIN" value="TRN" desc="Train" />
+    <value name="LONDON_UNDERGROUND" value="LUL" desc="London Underground" />
+    <value name="METRO_TRAM_LIGHT_RAIL" value="MTL" desc="Metro/Tram/Light Rail" />
+    <value name="OTHER" value="OTH" desc="Other" />
+  </enum>
+  <!--Modification enum-->
+  <enum name="Modification">
+    <value name="MODIFIED" value="M" desc="Modified" />
+    <value name="DISAPPLIED" value="N" desc="Disapplied" />
+  </enum>
+  <!--NationalCurriculum object-->
+  <object name="NationalCurriculum">
+    <desc>A National Curriculum subject that has been modified or disapplied for this Learner.</desc>
+    <element name="Modification" key="false" enum="Modification" flags="M">
+      <desc>How is the National Curriculum used for this learner?</desc>
+    </element>
+    <element name="Subject" enum="GeneralSubjects" flags="M">
+      <desc>National Curriculum subject(s) for which modification or disapplication applies.</desc>
+    </element>
+  </object>
+  <!--NationalCurriculumList object-->
+  <object name="NationalCurriculumList">
+    <desc>A list of National Curriculum subjects that have been modified or disapplied for this Learner.</desc>
+    <element name="NationalCurriculum" type="NationalCurriculum" flags="OR">
+      <desc>A National Curriculum subject that has been modified or disapplied for this Learner.</desc>
+    </element>
+  </object>
+  <!--ParamedicalSupport enum-->
+  <enum name="ParamedicalSupport">
+    <value name="PHYSIOTHERAPY" value="P" desc="Physiotherapy" />
+    <value name="SPEECH_THERAPY" value="S" desc="Speech Therapy" />
+    <value name="OCCUPATIONAL_THERAPY" value="O" desc="Occupational Therapy" />
+  </enum>
+  <!--PreviousEstablishment object-->
+  <object name="PreviousEstablishment">
+    <desc>A previous school or establishment.</desc>
+    <element name="EstablishmentId" type="normalizedString" flags="O">
+      <desc>DfES Establishment Number for this school.</desc>
+    </element>
+    <element name="EstablishmentName" type="normalizedString" flags="O">
+      <desc>School's name as indicated on the Annual Schools Census.</desc>
+    </element>
+    <element name="LAId" type="Token" flags="O">
+      <desc>The 3-digit LA number assigned by DfES.</desc>
+    </element>
+    <element name="EntryDate" type="date" flags="O">
+      <desc>The date the learner entered this school or establishment.</desc>
+    </element>
+    <element name="ExitDate" type="date" flags="O">
+      <desc>The date the learner exited this school or establishment.</desc>
+    </element>
+    <element name="ExitType" enum="LeavingReason" flags="O">
+      <desc>Code indicating the type of exit from this school or establishment.</desc>
+    </element>
+    <element name="LastSchool" enum="YesNo" flags="O">
+      <desc>An indication of whether the described school or establishment was the last establishment the learner attended. Note that it is possible that more than one establishment can be marked as LastSchool when a learner is enroled in more than one school simultaneously.</desc>
+    </element>
+  </object>
+  <!--PreviousEstablishmentList object-->
+  <object name="PreviousEstablishmentList">
+    <desc>A list of known previous schools or establishments.</desc>
+    <element name="PreviousEstablishment" type="PreviousEstablishment" flags="OR">
+      <desc>A previous school or establishment.</desc>
+    </element>
+  </object>
+  <!--Reason object-->
+  <object name="Reason">
+    <desc>Learner attendance marks by code and number.</desc>
+    <element name="Code" enum="AttendanceCodes" flags="M">
+      <desc>The attendance code. CBDS: 100232, 190110</desc>
+    </element>
+    <element name="Type" key="false" enum="ReasonType" flags="M">
+      <desc>The attendance code type.</desc>
+    </element>
+    <element name="Status" key="false" enum="ReasonStatus" flags="M">
+      <desc>The authorised status of the attendance code.</desc>
+    </element>
+    <element name="Total" key="false" type="unsignedInt" flags="M">
+      <desc>The total number of sessions attributed to this reason between StartDate and EndDate for the specified reason. CBDS: 100233</desc>
+    </element>
+  </object>
+  <!--ReasonsList object-->
+  <object name="ReasonsList">
+    <desc>An enumeration of sessions by reason code within the reporting period.</desc>
+    <element name="Reason" type="Reason" flags="MR">
+      <desc>Learner attendance marks by code and number.</desc>
+    </element>
+  </object>
+  <!--ReasonStatus enum-->
+  <enum name="ReasonStatus">
+    <value name="AUTHORISED" value="Authorised" desc="Authorised" />
+    <value name="UNAUTHORISED" value="Unauthorised" desc="Unauthorised" />
+    <value name="UNKNOWN" value="Unknown" desc="Unknown" />
+    <value name="NA" value="NA" desc="Not Applicable" />
+  </enum>
+  <!--ReasonType enum-->
+  <enum name="ReasonType">
+    <value name="ABSENT" value="Absent" desc="Absent" />
+    <value name="EARLYDEPARTURE" value="EarlyDeparture" desc="Early Departure" />
+    <value name="LATE" value="Late" desc="Late" />
+    <value name="PARTIAL" value="Partial" desc="Partial" />
+    <value name="PRESENT" value="Present" desc="Present" />
+    <value name="OTHER" value="Other" desc="Other" />
+    <value name="NA" value="NA" desc="Not Applicable" />
+  </enum>
+  <!--Relationship enum-->
+  <enum name="Relationship">
+    <value name="AGENCY_REPRESENTATIVE" value="ASWR" desc="Agency representative" />
+    <value name="CARER" value="CARE" desc="Carer" />
+    <value name="CHILDMINDER" value="CHMR" desc="Childminder" />
+    <value name="DEPENDENT" value="DEPD" desc="Dependent" />
+    <value name="DOCTOR" value="DOCT" desc="Doctor" />
+    <value name="EMPLOYER" value="EMPY" desc="Employer" />
+    <value name="ADOPTIVE_PARENTS" value="FAAP" desc="Adoptive parents" />
+    <value name="ADOPTED_SON" value="FAAS" desc="Adopted son" />
+    <value name="BROTHER_HALF" value="FABH" desc="Brother, half" />
+    <value name="BROTHER_IN_LAW" value="FABI" desc="Brother-in-law" />
+    <value name="BROTHER_NATURAL_ADOPTIVE" value="FABN" desc="Brother, natural/adoptive" />
+    <value name="BROTHER_STEP" value="FABS" desc="Brother, step" />
+    <value name="FOSTER_DAUGHTER" value="FADF" desc="Foster daughter" />
+    <value name="DAUGHTER_IN_LAW" value="FADI" desc="Daughter-in-law" />
+    <value name="DAUGHTER" value="FADR" desc="Daughter" />
+    <value name="FATHER_FOSTER" value="FAFF" desc="Father, foster" />
+    <value name="FATHER_IN_LAW" value="FAFI" desc="Father-in-law" />
+    <value name="FATHER_NATURAL_ADOPTIVE" value="FAFN" desc="Father, natural/adoptive" />
+    <value name="FATHERS_SIGNIFICANT_OTHER" value="FAFO" desc="Father's significant other" />
+    <value name="FATHER_STEP" value="FAFS" desc="Father, step" />
+    <value name="GREAT_AUNT" value="FAGA" desc="Great aunt" />
+    <value name="GRANDDAUGHTER" value="FAGD" desc="Granddaughter" />
+    <value name="GRANDFATHER" value="FAGF" desc="Grandfather" />
+    <value name="GRANDMOTHER" value="FAGM" desc="Grandmother" />
+    <value name="GRANDSON" value="FAGS" desc="Grandson" />
+    <value name="GREAT_UNCLE" value="FAGU" desc="Great uncle" />
+    <value name="LIFE_PARTNER" value="FALP" desc="Life partner" />
+    <value name="MOTHER_FOSTER" value="FAMF" desc="Mother, foster" />
+    <value name="HUSBAND" value="FAMH" desc="Husband" />
+    <value name="MOTHER_IN_LAW" value="FAMI" desc="Mother-in-law" />
+    <value name="MOTHER_NATURAL_ADOPTIVE" value="FAMN" desc="Mother, natural/adoptive" />
+    <value name="MOTHERS_SIGNIFICANT_OTHER" value="FAMO" desc="Mother's significant other" />
+    <value name="MOTHER_STEP" value="FAMS" desc="Mother, step" />
+    <value name="NIECE" value="FANC" desc="Niece" />
+    <value name="NEPHEW" value="FANW" desc="Nephew" />
+    <value name="FAMILY_MEMBER" value="FAOT" desc="Family member" />
+    <value name="FOSTER_PARENT" value="FAPF" desc="Foster parent" />
+    <value name="LIFE_PARTNER_OF_PARENT" value="FAPP" desc="Life partner of parent" />
+    <value name="FOSTER_SON" value="FASF" desc="Foster son" />
+    <value name="SISTER_HALF" value="FASH" desc="Sister, half" />
+    <value name="SISTER_IN_LAW" value="FASI" desc="Sister-in-law" />
+    <value name="SISTER_NATURAL_ADOPTIVE" value="FASN" desc="Sister, natural/adoptive" />
+    <value name="SON" value="FASO" desc="Son" />
+    <value name="STEPSON" value="FASP" desc="Stepson" />
+    <value name="SISTER_STEP" value="FASS" desc="Sister, step" />
+    <value name="SON_IN_LAW" value="FASW" desc="Son-in-law" />
+    <value name="FIANCE_1" value="FNCF" desc="Fiance" />
+    <value name="FIANCE_2" value="FNCM" desc="Fianc�" />
+    <value name="FRIEND" value="FRND" desc="Friend" />
+    <value name="COURT_APPOINTED_GUARDIAN" value="GUAR" desc="Court appointed guardian" />
+    <value name="HEAD_TEACHER" value="HTCR" desc="Head Teacher" />
+    <value name="NONE" value="NONE" desc="None" />
+    <value name="OTHER" value="OTHR" desc="Other" />
+    <value name="FORMER_HUSBAND" value="PREH" desc="Former husband" />
+    <value name="FORMER_WIFE" value="PREW" desc="Former wife" />
+    <value name="PROBATION_OFFICER" value="PROB" desc="Probation officer" />
+    <value name="PARTNER_OF_PARENT" value="PTNP" desc="Partner of parent" />
+    <value name="PARTNER" value="PTNR" desc="Partner" />
+    <value name="AUNT" value="RELA" desc="Aunt" />
+    <value name="COUSIN" value="RELC" desc="Cousin" />
+    <value name="MINISTER_PRIEST" value="RELG" desc="Minister or priest" />
+    <value name="UNCLE" value="RELU" desc="Uncle" />
+    <value name="SIGNIFICANT_OTHER" value="SIGO" desc="Significant other" />
+    <value name="SOCIAL_WORKER" value="SWKR" desc="Social Worker" />
+    <value name="ADVISOR" value="TADV" desc="Advisor" />
+    <value name="WARD" value="WARD" desc="Ward" />
+    <value name="WIFE" value="WIFE" desc="Wife" />
+  </enum>
+  <!--SENProvision enum-->
+  <enum name="SENProvision">
+    <value name="NO_SPECIAL_EDUCATIONAL" value="N" desc="No Special Educational Need" />
+    <value name="SCHOOL_ACTION" value="A" desc="School Action or Early Years Action" />
+    <value name="SCHOOL_ACTION_PLUS" value="P" desc="School Action Plus or Early Years Action Plus" />
+    <value name="STATEMENT" value="S" desc="Statement" />
+    <value name="SCHOOL_ACTIONPLUS_STATUTORY" value="Q" desc="School ActionPlus and Statutory Assessment (for historical and/or local purposes only - not valid for PLASC/School Census)" />
+  </enum>
+  <!--SENType object-->
+  <object name="SENType" enum="SENTypeCode">
+    <desc>A list of Special Educational Needs types for this learner. Note that each SEN type must have its own unique ranking, and all rankings must be consecutive starting with 1.</desc>
+    <attribute name="Ranking" key="false" type="unsignedInt" flags="M">
+      <desc>A value (starting at 1) indicating the order of significance of special educational need in relation to other SEN types listed here. CBDS: 100080</desc>
+    </attribute>
+  </object>
+  <!--SENTypeCode enum-->
+  <enum name="SENTypeCode">
+    <value name="SPECIFIC_LEARNING_DIFFICULTY" value="SPLD" desc="Specific Learning Difficulty" />
+    <value name="MODERATE_LEARNING_DIFFICULTY" value="MLD" desc="Moderate Learning Difficulty" />
+    <value name="SEVERE_LEARNING_DIFFICULTY" value="SLD" desc="Severe Learning Difficulty" />
+    <value name="PROFOUND_MULTIPLE_LEARNING" value="PMLD" desc="Profound &amp; Multiple Learning Difficulty" />
+    <value name="BEHAVIOUR_EMOTIONAL_SOCIAL" value="BESD" desc="Behaviour, Emotional &amp; Social Difficulties" />
+    <value name="SPEECH_LANG_COMM_DIFF" value="SLCD" desc="Speech, Language and Communication Difficulties (Wales)" />
+    <value name="SPEECH_LANG_COMM_NEEDS" value="SLCN" desc="Speech, Language and Communication Needs (England)" />
+    <value name="HEARING_IMPAIRMENT" value="HI" desc="Hearing Impairment" />
+    <value name="VISUAL_IMPAIRMENT" value="VI" desc="Visual Impairment" />
+    <value name="MULTI_SENSORY_IMPAIRMENT" value="MSI" desc="Multi-Sensory Impairment" />
+    <value name="PHYSICAL_DISABILITY_ENGLAND" value="PD" desc="Physical Disability (England)" />
+    <value name="PHYSICAL_AND_MEDICAL" value="PMED" desc="Physical and Medical Difficulties (Wales)" />
+    <value name="AUTISTIC_SPECTRUM_DISORDER" value="ASD" desc="Autistic Spectrum Disorder" />
+    <value name="OTHER_DIFFICULTY_DISABILITY" value="OTH" desc="Other Difficulty/Disability (England)" />
+    <value name="DOES_NOT_APPLY_WALES" value="DNA" desc="Does not apply (Wales)" />
+  </enum>
+  <!--SENTypeList object-->
+  <object name="SENTypeList">
+    <desc>A list of Special Educational Needs types for this learner. Note that each SEN type must have its own unique ranking, and all rankings must be consecutive starting with 1.</desc>
+    <element name="SENType" type="SENType" flags="OR" />
+  </object>
+  <!--Sibling object-->
+  <object name="Sibling">
+    <element name="LearnerPersonalRefId" type="Token" flags="M">
+      <desc>The ID (GUID) of the LearnerPersonal record for this sibling.</desc>
+    </element>
+    <element name="UIPI" key="false" type="normalizedString" flags="M">
+      <desc>The Unique Internal Pupil Number for a sibling of this learner. CBDS: 100018</desc>
+    </element>
+  </object>
+  <!--SiblingList object-->
+  <object name="SiblingList">
+    <desc>List of siblings also in same school.</desc>
+    <element name="Sibling" type="Sibling" flags="MR">
+      <desc>A sibling of this learner in the same school.</desc>
+    </element>
+  </object>
+  <!--SpecialisedResources enum-->
+  <enum name="SpecialisedResources">
+    <value name="PERIODIC_ACCESS_STANDARD" value="SR1" desc="Periodic access to standard equipment" />
+    <value name="IND_ACCESS_NORMAL" value="SR2" desc="Individual access to normally available equipment" />
+    <value name="IND_ACCESS_SPECIALISED" value="SR3" desc="Individual access to specialised equipment" />
+    <value name="ACCESS_HIGHLY_SPECIALISED" value="SR4" desc="Dedicated access to highly specialised equipment" />
+  </enum>
+  <!--TuitionCategory enum-->
+  <enum name="TuitionCategory">
+    <value name="LA_ILLNESS" value="IL" desc="Alternative Tuition by LA because of Illness" />
+    <value name="LA_EXCLUSION" value="PE" desc="Alternative Tuition by LA because of Permanent Exclusion" />
+    <value name="LA_OTHER" value="OR" desc="Alternative Tuition by LA for Other Reason" />
+    <value name="HOME" value="HP" desc="Alternative Tuition at Home by Parents/Carers" />
+  </enum>
+  <!--TuitionHours enum-->
+  <enum name="TuitionHours">
+    <value name="TH_5_OR_LESS" value="A" desc="5 hours or less" />
+    <value name="TH_6_12" value="B" desc="6-12 hours" />
+    <value name="TH_13_19" value="C" desc="13-19 hours" />
+    <value name="TH_20_OR_MORE" value="D" desc="20 hours or more" />
+  </enum>
+  <!--UPN object-->
+  <object name="UPN" datatype="String" />
+  <!--UsualModeOfTravel-->
+  <enum name="UsualModeOfTravel">
+    <value name="WLK_WALK" value="WLK" desc="Walk" />
+    <value name="CYC_CYCLE" value="CYC" desc="Cycle" />
+    <value name="CAR_CAR_VAN" value="CAR" desc="Car/Van" />
+    <value name="CRS_CAR_SHARE" value="CRS" desc="Car Share (with a child/children from a different household)" />
+    <value name="PSB_PUBLIC_SERVICE_BUS" value="PSB" desc="Public service bus" />
+    <value name="DSB_DEDICATED_SCHOOL" value="DSB" desc="Dedicated school bus" />
+    <value name="BNK_BUS_TYPE_NOT_KNOWN" value="BNK" desc="Bus (type not known)" />
+    <value name="TXI_TAXI" value="TXI" desc="Taxi" />
+    <value name="TRN_TRAIN" value="TRN" desc="Train" />
+    <value name="LUL_LONDON_UNDERGROUND" value="LUL" desc="London Underground" />
+    <value name="MTL_METRO_TRAM_LIGHT" value="MTL" desc="Metro/Tram/Light Rail" />
+    <value name="OTH_OTHER" value="OTH" desc="Other" />
+  </enum>
+</adk>

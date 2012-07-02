@@ -1,0 +1,194 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.5 datamodel objects             -->
+<!-- ======================================== -->
+<adk package="programs" version="2.5" namespace="http://www.sifinfo.org/au/infrastructure/2.x">
+
+  <!--StudentParticipation-->
+  <object name="StudentParticipation" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>This is the unique identification code</desc>
+    </attribute>
+    <element name="StudentPersonalRefId" type="String" flags="M">
+      <desc>The GUID of the student that this object is linked to.</desc>
+    </element>
+    <element name="StudentParticipationAsOfDate" type="Date" flags="M">
+      <desc>Effective date (NOT the entry date) of this StudentParticipation instance for the identified student and program.        Each time there is a change to the student's program participation profile, a new instance of this object is to be generated with        the appropriate StudentParticipationAsOfDate and a new RefId.</desc>
+    </element>
+    <element name="ProgramType" enum="StudentFamilyProgramType" flags="O">
+      <desc>Identifies the individualised program for which the student's participation is described in this instance</desc>
+    </element>
+    <element name="ProgramFundingSources" type="ProgramFundingSources" flags="O" />
+    <element name="ManagingSchool" type="ManagingSchool" flags="M" />
+    
+    <element name="ReferralDate" type="Date" flags="O">
+      <desc>Date student was referred for evaluation/program participation.</desc>
+    </element>
+    <element name="ReferralSource" type="ReferralSource" flags="O"/>
+    <element name="ProgramStatus" type="ProgramStatus" flags="O"/>
+    <element name="GiftedEligibilityCriteria" enum="AUCodeSetsYesOrNoCategoryType" flags="O"/>
+    <element name="EvaluationParentalConsentDate" type="Date" flags="O"/>
+    <element name="EvaluationDate" type="Date" flags="O"/>
+    <element name="EvaluationExtensionDate" type="Date" flags="O"/>
+    <element name="ExtensionComments" type="String" flags="O"/>
+    <element name="ReevaluationDate" type="Date" flags="O"/>
+    <element name="ProgramEligibilityDate" type="Date" flags="O"/>
+    <element name="ProgramPlanDate" type="Date" flags="O"/>
+    <element name="ProgramPlanEffectiveDate" type="Date" flags="O"/>
+    <element name="NOREPDate" type="Date" flags="O"/>
+    <element name="PlacementParentalConsentDate" type="Date" flags="O"/>
+    <element name="ProgramPlacementDate" type="Date" flags="O"/>
+    <element name="ExtendedSchoolYear" type="Boolean" flags="O"/>
+    <element name="ExtendedDay" type="Boolean" flags="O"/>
+    <element name="ProgramAvailability" type="ProgramAvailability" flags="O"/>
+    <element name="EntryPerson" type="String" flags="O"/>
+    <element name="StudentSpecialEducationFTE" type="Decimal" flags="O" />
+    <element name="ParticipationContact" type="String" flags="O">
+      <desc>Primary contact for this record.</desc>
+    </element>
+  </object>
+
+  <!--ProgramAvailability-->
+  <object name="ProgramAvailability">
+    <element name="Code" enum="AUCodeSets0211ProgramAvailabilityType" flags="M" />
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+
+  <!--ReferralSource-->
+  <object name="ReferralSource">
+    <element name="Code" enum="ProgramStatusType" flags="M" />
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+
+  <!--ProgramStatus-->
+  <object name="ProgramStatus">
+    <element name="Code" enum="AUCodeSets0792IdentificationProcedureType" flags="M" />
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+
+  <!--ProgramFundingSources-->
+  <object name="ProgramFundingSources">
+    <element name="ProgramFundingSource" type="ProgramFundingSource" flags="MR" />
+  </object>
+
+  <!--ProgramFundingSource-->
+  <object name="ProgramFundingSource">
+    <element name="Code" enum="ProgramFundingSourceCodeType" flags="M">
+      <desc>Funding source for the program, may be more than one.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+
+
+  <!--AUCodeSets0211ProgramAvailabilityType-->
+  <enum name="AUCodeSets0211ProgramAvailabilityType">
+    <value name="0231_DURING_SCHOOL" value="0231" desc="During school" />
+    <value name="0234_WEEKEND" value="0234" desc="Weekend" />
+    <value name="0235_BEFORE_SCHOOL" value="0235" desc="Before school" />
+    <value name="0236_AFTER_SCHOOL" value="0236" desc="After school" />
+    <value name="0237_SUMMER_HOLIDAYS" value="0237" desc="Summer Holidays" />
+    <value name="0238_IN_SCHOOL" value="0238" desc="In-school service day" />
+    <value name="0239_EVENINGS" value="0239" desc="Evenings" />
+    <value name="9998_OTHER_SCHOOL_HOLIDAYS" value="9998" desc="Other School Holidays" />
+    <value name="9999_OTHER" value="9999" desc="Other" />
+  </enum>
+
+  <!--ProgramStatusType-->
+  <enum name="ProgramStatusType">
+    <value name="REFERRED" value="S001" desc="Referred" />
+    <value name="ELIGIBLE" value="S002" desc="Eligible" />
+    <value name="NOT_ELIGIBLE" value="S003" desc="Not Eligible" />
+    <value name="ACTIVE" value="S004" desc="Active" />
+    <value name="EXITED" value="S005" desc="Exited" />
+    <value name="WITHDRAWN_REFUSED" value="S006" desc="Withdrew/refused" />
+    <value name="OTHER" value="9999" desc="Other" />
+  </enum>
+
+  <!--ProgramFundingSourceCodeType-->
+  <enum name="ProgramFundingSourceCodeType">
+    <value name="1_STATE_JURISDICTION" value="1" desc="State/Jurisdiction" />
+    <value name="2_COMMONWEALTH_INITIATIVE" value="2" desc="Commonwealth Initiative" />
+    <value name="3_SCHOOL_SOURCE" value="3" desc="School Source" />
+    <value name="4_DIRECTORS_DISCRETION" value="4" desc="Director's Discretion" />
+    <value name="5_COMMUNITY_SPONSORED" value="5" desc="Community Sponsored" />
+    <value name="9_OTHER" value="9" desc="Other" />
+  </enum>
+  
+  <!--ManagingSchool-->
+  <object name="ManagingSchool">
+    <attribute name="SIF_RefObject" enum="ManagingSchoolSIF_RefObject" flags="R" />
+  </object>
+
+  <!--ManagingSchoolSIF_RefObject-->
+  <enum name="ManagingSchoolSIF_RefObject">
+    <value name="SCHOOLINFO" value="SchoolInfo" desc="SchoolInfo" />
+  </enum>
+
+  <!--StudentFamilyProgramType-->
+  <enum name="StudentFamilyProgramType">
+    <value name="0100_AGRICULTURAL" value="0100" desc="Agricultural" />
+    <value name="0240_REGULAR_PREKINDERGARTEN" value="0240" desc="Regular prekindergarten program" />
+    <value name="0241_INFANTTODDLERS_PROGRAM" value="0241" desc="Infant and toddlers program" />
+    <value name="0242_SPECIAL_EDUCATION_SERVICESBIRTHAGE" value="0242" desc="Special education services for Birth-Age 2" />
+    <value name="0244_SPECIAL_EDUCATION" value="0244" desc="Special education services for preschoolers" />
+    <value name="0245_MIGRANT_EARLY_CHILDHOOD" value="0245" desc="Migrant early childhood program" />
+    <value name="0246_HEAD_START" value="0246" desc="Head Start" />
+    <value name="0247_DAY_CARE" value="0247" desc="Day care" />
+    <value name="0248_AFTER_SCHOOL_CHILD" value="0248" desc="After school child care" />
+    <value name="0249_ALTERNATIVE_EDUCATION" value="0249" desc="Alternative education program" />
+    <value name="0250_BEFORE_SCHOOL_CHILD" value="0250" desc="Before school child care" />
+    <value name="0251_BILINGUAL_EDUCATION" value="0251" desc="Bilingual education" />
+    <value name="0252_COMMUNITY_SERVICE" value="0252" desc="Community service projects" />
+    <value name="0253_COMPENSATORY_EDUCATION" value="0253" desc="Compensatory education" />
+    <value name="0255_COUNSELING" value="0255" desc="Counseling" />
+    <value name="0256_ENGLISH_ASSECOND" value="0256" desc="English as a second language" />
+    <value name="0257_FREEREDUCED_PRICE_SCHOOL_MEALS" value="0257" desc="Free and reduced price school meals programs" />
+    <value name="0260_HEARING_OR_VISION" value="0260" desc="Hearing or vision screening" />
+    <value name="0261_HIGHER_ORDER_THINKING" value="0261" desc="Higher order thinking skills" />
+    <value name="0262_MEDICAL_SERVICES" value="0262" desc="Medical services" />
+    <value name="0263_PROGRAMSMIGRANTS_DURINGSCHOOL" value="0263" desc="Programs for migrants during the school year" />
+    <value name="0265_PROGRAMSMIGRANTS" value="0265" desc="Programs for migrants during the summer" />
+    <value name="0267_READING_LITERACY" value="0267" desc="Reading/literacy" />
+    <value name="0268_SCHOOL_SUPPLIES" value="0268" desc="School supplies" />
+    <value name="0269_SERVICESOUTOFSCHOOL" value="0269" desc="Services for out-of-school youth" />
+    <value name="0270_SPECIAL_EDUCATION" value="0270" desc="Special education program" />
+    <value name="0271_SPECIAL_ONETIME" value="0271" desc="Special (one-time) events" />
+    <value name="0272_STUDENT_ASSISTANCE_PROGRAMS_SUCH_AS_COUNSELING" value="0272" desc="Student assistance programs such as counseling, mentoring, identification and referral" />
+    <value name="0273_SUMMER_CHILD_CARE" value="0273" desc="Summer child care" />
+    <value name="0277_TRANSPORTATION" value="0277" desc="Transportation" />
+    <value name="0278_TUTORING_REMEDIAL" value="0278" desc="Tutoring/remedial instruction" />
+    <value name="0279_ACADEMIC_INSTRUCTIONAL_PROGRAM_IN_REGULAR" value="0279" desc="Academic/instructional program in regular education" />
+    <value name="0280_ADULT_BASIC_EDUCATION_REMEDIAL" value="0280" desc="Adult basic education/remedial instruction" />
+    <value name="0281_CHILD_CARE_SO_THAT_PARENTS_CAN_ATTEND_SCHOOL" value="0281" desc="Child care so that parents can attend school meetings" />
+    <value name="0282_CONTINUING_PROFESSIONAL" value="0282" desc="Continuing professional education" />
+    <value name="0283_HEALTH_OR_SOCIAL" value="0283" desc="Health or social services" />
+    <value name="0284_LITERACY" value="0284" desc="Literacy" />
+    <value name="0285_OCCUPATIONAL_EDUCATION" value="0285" desc="Occupational education" />
+    <value name="0286_ORIENTATION_TO_SCHOOL_SETTINGNEW" value="0286" desc="Orientation to school setting for new families" />
+    <value name="0287_PARENT_TRAINING" value="0287" desc="Parent training/involvement" />
+    <value name="0288_PARENTING_EDUCATION" value="0288" desc="Parenting education" />
+    <value name="0289_RECREATIONAL_ADVOCATIONAL" value="0289" desc="Recreational/advocational program" />
+    <value name="0342_TECHNOLOGY" value="0342" desc="Technology" />
+    <value name="0875_AFTER_SCHOOL_ENRICHMENT" value="0875" desc="After school enrichment" />
+    <value name="0876_BEFORE_SCHOOL_ENRICHMENT" value="0876" desc="Before school enrichment" />
+    <value name="2381_GIFTEDTALENTED_ACCELERATED" value="2381" desc="Gifted and talented (Accelerated)" />
+    <value name="2389_EVEN_START" value="2389" desc="Even Start" />
+    <value name="2393_MAGNET_PROGRAM" value="2393" desc="Magnet program" />
+    <value name="9999_OTHER" value="9999" desc="Other" />
+  </enum>
+  
+  <!--AUCodeSets0792IdentificationProcedureType-->
+  <enum name="AUCodeSets0792IdentificationProcedureType">
+    <value name="EDU_ASSESSMENT" value="2147" desc="Education assessment" />
+    <value name="HEALTH_ASSESSMENT" value="2148" desc="Health assessment/screening" />
+    <value name="PARENT_GUARDIAN_REFERRAL" value="2149" desc="Parent/guardian referral" />
+    <value name="SELF_REPORT" value="2151" desc="Self-report/survey" />
+    <value name="SPECIAL_ASSESSMENT" value="2152" desc="Special education assessment/evaluation" />
+    <value name="TEACHER_REFERRAL" value="2153" desc="Teacher referral" />
+    <value name="9999_OTHER" value="9999" desc="Other" />
+  </enum>
+  
+</adk>

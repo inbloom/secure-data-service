@@ -1,0 +1,713 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.4 school objects             -->
+<!-- ======================================== -->
+<adk package="school" version="2.4" namespace="http://www.sifinfo.org/au/infrastructure/2.x">
+
+  <!--PersonPicture-->
+  <object name="PersonPicture" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The ID (GUID) that uniquely identifies the picture.</desc>
+    </attribute>
+    <element name="ParentObjectRefId" type="ParentObjectRefId" flags="M" />
+    <element name="SchoolYear" type="int" flags="M" />
+    <element name="PictureSource" type="PictureSource" flags="M" />
+    <element name="OKToPublish" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Can the picture be published?</desc>
+    </element>
+  </object>
+
+<!--SchoolInfo-->
+  <object name="SchoolInfo" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The GUID that identifies this school.</desc>
+    </attribute>
+    <element name="LocalId" type="String" flags="O">
+      <desc>The locally-assigned identifier for this school.</desc>
+    </element>
+    <element name="StateProvinceId" type="String" flags="O">
+      <desc>The state-assigned identifier for this school.</desc>
+    </element>
+    <element name="CommonwealthId" type="String" flags="O">
+      <desc>Commonwealth identifier for this school/campus.</desc>
+    </element>
+    <element name="SchoolName" type="String" flags="M">
+      <desc>Name of school/campus.</desc>
+    </element>
+    <element name="LEAInfoRefId" type="String" flags="O">
+      <desc>The ID (GUID) that references the school district of which this school is a member.</desc>
+    </element>
+    <element name="OtherLEA" type="OtherLEA" flags="O" />
+    <element name="SchoolDistrict" type="String" flags="O">
+      <desc>The school district of which this school/campus is a member. Equivalent to DEECD Region.</desc>
+    </element>
+    <element name="SchoolDistrictLocalId" type="String" flags="O">
+      <desc>The school district Local ID. This should be the same as the LocalId in the LEAInfo if LEAInfo details are supplied.</desc>
+    </element>
+    <element name="SchoolType" enum="SchoolLevelType" flags="O">
+      <desc>An indication of the level of the educational institution.</desc>
+    </element>
+    <element name="SchoolFocusList" type="SchoolFocusList" flags="O" />
+    <element name="SchoolURL" type="String" flags="O">
+      <desc>URL for the school.</desc>
+    </element>
+    <element name="PrincipalInfo" type="PrincipalInfo" flags="O">
+      <desc>Information about the campus or school principal.</desc>
+    </element>
+    <element name="SchoolContactList" type="SchoolContactList" flags="O">
+      <desc>A list of contact persons associated with a school.</desc>
+    </element>
+    <element name="AddressList" type="AddressList" flags="O">
+      <desc>The school's addresses.</desc>
+    </element>
+    <element name="PhoneNumberList" type="PhoneNumberList" flags="O">
+      <desc>The school's phone numbers.</desc>
+    </element>
+    <element name="SessionType" enum="SessionType" flags="O">
+      <desc>Code that specifies the session type.</desc>
+    </element>
+    <element name="YearLevels" type="YearLevels" flags="O">
+      <desc>List of year levels offered by the school.</desc>
+    </element>
+    <element name="ARIA" type="Decimal" flags="O">
+      <desc>Accessibility/Remoteness Indicator of Australia.</desc>
+    </element>
+    <element name="OperationalStatus" type="String" flags="O">
+      <desc>Operational condition of a school.</desc>
+    </element>
+    <element name="FederalElectorate" enum="FederalElectorateType" flags="O">
+      <desc>Australian Federal Electorate.</desc>
+    </element>
+    <element name="Campus" type="Campus" flags="O" />
+    <element name="SchoolSector" enum="SchoolSectorCodeType" flags="M">
+      <desc>(Government, or Non-Government).</desc>
+    </element>
+    <element name="IndependentSchool" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Indicator as to whether school is an independent school (as opposed to government or catholic school).</desc>
+    </element>
+    <element name="NonGovSystemicStatus" enum="SystemicStatusType" flags="O">
+      <desc>Used to clarify a non-government school's systemic status. Either Systemic or Non-Systemic.</desc>
+    </element>
+    <element name="System" enum="SchoolSystemType" flags="O">
+      <desc>System if a systemic school.</desc>
+    </element>
+    <element name="ReligiousAffiliation" enum="AustralianStandardClassificationOfReligiousGroupsASCRGType" flags="O">
+      <desc>Religious affiliation (if any).</desc>
+    </element>
+    <element name="SchoolGeographicLocation" enum="SchoolLocationType" flags="O">
+      <desc>School Location from MCEETCYA.</desc>
+    </element>
+    <element name="LocalGovernmentArea" type="String" flags="O">
+      <desc>LocalGovernmentArea that that school/campus is located in.</desc>
+    </element>
+    <element name="JurisdictionLowerHouse" type="String" flags="O">
+      <desc>Lower House area  that the school/campus  belongs to.</desc>
+    </element>
+    <element name="SLA" type="String" flags="O">
+      <desc>Statistical Local Area that the school/campus belongs to.</desc>
+    </element>
+    <element name="SchoolCoEdStatus" enum="SchoolCoEdStatusType" flags="O">
+      <desc>Gender of student population.</desc>
+    </element>
+    <element name="BoardingSchoolStatus" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Is this school a Boarding School?</desc>
+    </element>
+    <element name="Entity_Open" type="Date" flags="O">
+      <desc>Opening date of entity.</desc>
+    </element>
+    <element name="Entity_Close" type="Date" flags="O">
+      <desc>Closing date of entity.  This element is allowed to be omitted and/or null.</desc>
+    </element>
+    <element name="SchoolGroupList" type="SchoolGroupList" flags="O" />
+   </object>
+
+  <!--SchoolLevelType-->
+  <enum name="SchoolLevelType">
+    <value name="CAMP" value="Camp" desc="Camp" />
+    <value name="Commty_COMMUNITY_COLLEGE" value="Commty" desc="Community College" />
+    <value name="EarlyCh_EARLY_CHILDHOOD" value="EarlyCh" desc="Early Childhood" />
+    <value name="JunPri_JUNIOR_PRIMARY" value="JunPri" desc="Junior Primary" />
+    <value name="Kgarten_KINDERGARTEN" value="Kgarten" desc="Kindergarten only" />
+    <value name="Kind_PRESCHOOL_KINDERGARTEN" value="Kind" desc="Preschool/Kindergarten" />
+    <value name="Lang_LANGUAGE" value="Lang" desc="Language" />
+    <value name="MCH_MATERNAL_CHILD_HEALTH" value="MCH" desc="Maternal Child Health Centre" />
+    <value name="Middle_MIDDLE_SCHOOL" value="Middle" desc="Middle School" />
+    <value name="OTHER" value="Other" desc="Other" />
+    <value name="PreSch_PRESCHOOL_ONLY" value="PreSch" desc="PreSchool only" />
+    <value name="Pri_Sec_PRIMARY_SECONDAY" value="Pri/Sec" desc="Primary/Seconday Combined" />
+    <value name="Prim_PRIMARY" value="Prim" desc="Primary" />
+    <value name="Sec_SECONDARY" value="Sec" desc="Secondary" />
+    <value name="Senior_SENIOR_SECONDARY" value="Senior" desc="Senior Secondary School" />
+    <value name="SPECIAL" value="Special" desc="Special" />
+    <value name="Specif_SPECIFIC_PURPOSE" value="Specif" desc="Specific Purpose" />
+    <value name="Supp_SUPPORTCENTRE" value="Supp" desc="SupportCentre" />
+    <value name="UNKNOWN" value="Unknown" desc="Unknown" />
+  </enum>
+   
+  <!--SchoolLocationType-->
+  <enum name="SchoolLocationType">
+    <value name="1_METROPOLITAN_ZONE" value="1" desc="Metropolitan Zone" />
+    <value name="1_1_STATE_CAPITAL_REGIONS_STATE_CAPITALS_EXCEPT" value="1.1" desc="State Capital regions - State Capitals (except Hobart, Darwin)" />
+    <value name="1_2_MAJOR_URBAN_STATISTICAL_DISTRICTS_POP_GT_100" value="1.2" desc="Major urban Statistical Districts (Pop &amp;gt;=100 000)" />
+    <value name="2_PROVINCIAL_ZONE" value="2" desc="Provincial Zone" />
+    <value name="2_1_1_PROVINCIAL_CITY_STATISTICAL_DISTRICTS_POP_50_000" value="2.1.1" desc="Provincial City Statistical Districts (Pop 50 000 - 99 999)" />
+    <value name="2_1_2_PROVINCIAL_CITY_STATISTICAL_DISTRICTS_POP_25_000" value="2.1.2" desc="Provincial City Statistical Districts (Pop 25 000 - 49 999)" />
+    <value name="2_2_1_INNER_PROVINCIAL_AREAS_CD_ARIA_PLUS_SCORE_LT" value="2.2.1" desc="Inner Provincial areas (CD ARIA Plus score &amp;lt;= 2.4)" />
+    <value name="2_2_2_OUTER_PROVINCIAL_AREAS_CD_ARIA_PLUS_SCORE_GT" value="2.2.2" desc="Outer Provincial areas (CD ARIA Plus score &amp;gt; 2.4 and &amp;lt;= 5.92)" />
+    <value name="3_REMOTE_ZONE" value="3" desc="Remote Zone" />
+    <value name="3_1_REMOTE_AREAS_CD_ARIA_PLUS_SCORE_GT" value="3.1" desc="Remote areas (CD ARIA Plus score &amp;gt; 5.92 and &amp;lt;= 10.53)" />
+    <value name="3_2_VERY_REMOTE_AREAS_CD_ARIA_PLUS_SCORE_GT_10_53" value="3.2" desc="Very Remote areas (CD ARIA Plus score &amp;gt; 10.53)" />
+  </enum>
+
+
+  <!--SchoolCoEdStatusType-->
+  <enum name="SchoolCoEdStatusType">
+    <value name="C_COEDUCATIONAL" value="C" desc="Co-Educational" />
+    <value name="F_FEMALE" value="F" desc="Female" />
+    <value name="M_MALE" value="M" desc="Male" />
+  </enum>
+
+  <!--SchoolSystemType-->
+  <enum name="SchoolSystemType">
+    <value name="0001_CATHOLIC" value="0001" desc="Catholic" />
+    <value name="0002_ANGLICAN" value="0002" desc="Anglican" />
+    <value name="0003_LUTHERAN" value="0003" desc="Lutheran" />
+    <value name="0004_SEVENTH_DAY_ADVENTIST" value="0004" desc="Seventh Day Adventist" />
+    <value name="9999_OTHER" value="9999" desc="Other" />
+  </enum>
+
+
+    <!--SchoolSectorCodeType-->
+  <enum name="SchoolSectorCodeType">
+    <value name="Gov_GOVERNMENT_SCHOOL" value="Gov" desc="Government School" />
+    <value name="NG_NONGOVERNMENT_SCHOOL" value="NG" desc="Non-Government School" />
+  </enum>
+ <!--CampusSchoolLevelType-->
+  <enum name="CampusSchoolLevelType">
+    <value name="CAMP" value="Camp" desc="Camp" />
+    <value name="Commty_COMMUNITY_COLLEGE" value="Commty" desc="Community College" />
+    <value name="EarlyCh_EARLY_CHILDHOOD" value="EarlyCh" desc="Early Childhood" />
+    <value name="JunPri_JUNIOR_PRIMARY" value="JunPri" desc="Junior Primary" />
+    <value name="Kgarten_KINDERGARTEN" value="Kgarten" desc="Kindergarten only" />
+    <value name="Kind_PRESCHOOL_KINDERGARTEN" value="Kind" desc="Preschool/Kindergarten" />
+    <value name="Lang_LANGUAGE" value="Lang" desc="Language" />
+    <value name="MCH_MATERNAL_CHILD_HEALTH" value="MCH" desc="Maternal Child Health Centre" />
+    <value name="Middle_MIDDLE_SCHOOL" value="Middle" desc="Middle School" />
+    <value name="OTHER" value="Other" desc="Other" />
+    <value name="PreSch_PRESCHOOL_ONLY" value="PreSch" desc="PreSchool only" />
+    <value name="Pri_Sec_PRIMARY_SECONDAY" value="Pri/Sec" desc="Primary/Seconday Combined" />
+    <value name="Prim_PRIMARY" value="Prim" desc="Primary" />
+    <value name="Sec_SECONDARY" value="Sec" desc="Secondary" />
+    <value name="Senior_SENIOR_SECONDARY" value="Senior" desc="Senior Secondary School" />
+    <value name="SPECIAL" value="Special" desc="Special" />
+    <value name="Specif_SPECIFIC_PURPOSE" value="Specif" desc="Specific Purpose" />
+    <value name="Supp_SUPPORTCENTRE" value="Supp" desc="SupportCentre" />
+    <value name="UNKNOWN" value="Unknown" desc="Unknown" />
+  </enum>
+   
+
+  <!--SchoolFocusList-->
+  <object name="SchoolFocusList">
+    <element name="SchoolFocus" type="SchoolFocus" flags="MR">
+      <desc>TThe type of educational institution as classified by its focus.</desc>
+    </element>
+  </object>
+
+  <object name="SchoolFocus" enum="AUSchoolFocusCodeType" />
+  
+    <!--AUSchoolFocusCodeType-->
+  <enum name="AUSchoolFocusCodeType">
+    <value name="01_REGULAR" value="01" desc="Regular" />
+    <value name="02_SPECIAL_ED" value="02" desc="Special Ed" />
+    <value name="03_ALTERNATE" value="03" desc="Alternate" />
+    <value name="04_VOCATIONAL" value="04" desc="Vocational" />
+    <value name="98_OTHER" value="98" desc="Other" />
+    <value name="99_NOT_PROVIDED" value="99" desc="Not Provided" />
+  </enum> 
+
+  
+   <!--SchoolGroupList-->
+  <object name="SchoolGroupList">
+    <element name="SchoolGroup" type="SchoolGroup" flags="MR">
+      <desc>Repeatable element containing a local identifier to identify a loosely connected group of schools. eg. YarraValley Cluster</desc>
+    </element>
+  </object>
+  
+     <!--SchoolGroup-->
+  <object name="SchoolGroup" dataType="String">
+      <desc>Repeatable element containing a local identifier to identify a loosely connected group of schools. eg. YarraValley Cluster</desc>
+  </object>
+ 
+  
+
+
+  <!--SchoolPrograms-->
+  <object name="SchoolPrograms" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>GUID that uniquely identifies this instance of the object.</desc>
+    </attribute>
+    <element name="SchoolInfoRefId" type="String" flags="M">
+      <desc>GUID that identifies the school offering this program.</desc>
+    </element>
+    <element name="SchoolYear" type="int" flags="O">
+      <desc>School year for which the information is applicable, expressed as the four-digit year in which the school year ends (e.g., "2009").</desc>
+    </element>
+    <element name="SchoolProgramList" type="SchoolProgramList" flags="O" />
+  </object>
+
+  <!--SchoolProgramList-->
+  <object name="SchoolProgramList">
+    <element name="Program" type="Program" flags="OR" />
+  </object>
+
+  <!--Program-->
+  <object name="Program">
+    <element name="Category" type="String" flags="O">
+      <desc>Program Category</desc>
+    </element>
+    <element name="Type" type="String" flags="M">
+      <desc>Program Type</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+
+  <!--SchoolSystemType-->
+  <enum name="SchoolSystemType">
+    <value name="0001_CATHOLIC" value="0001" desc="Catholic" />
+    <value name="0002_ANGLICAN" value="0002" desc="Anglican" />
+    <value name="0003_LUTHERAN" value="0003" desc="Lutheran" />
+    <value name="0004_SEVENTH_DAY_ADVENTIST" value="0004" desc="Seventh Day Adventist" />
+    <value name="9999_OTHER" value="9999" desc="Other" />
+  </enum>
+
+  <!--SchoolCoEdStatusType-->
+  <enum name="SchoolCoEdStatusType">
+    <value name="C_COEDUCATIONAL" value="C" desc="Co-Educational" />
+    <value name="F_FEMALE" value="F" desc="Female" />
+    <value name="M_MALE" value="M" desc="Male" />
+  </enum>
+
+
+  <!--SchoolLocationType-->
+  <enum name="SchoolLocationType">
+    <value name="1_METROPOLITAN_ZONE" value="1" desc="Metropolitan Zone" />
+    <value name="1_1_STATE_CAPITAL_REGIONS_STATE_CAPITALS_EXCEPT" value="1.1" desc="State Capital regions - State Capitals (except Hobart, Darwin)" />
+    <value name="1_2_MAJOR_URBAN_STATISTICAL_DISTRICTS_POP_GT" value="1.2" desc="Major urban Statistical Districts (Pop &amp;gt;=100 000)" />
+    <value name="2_PROVINCIAL_ZONE" value="2" desc="Provincial Zone" />
+    <value name="2_1_1_PROVINCIAL_CITY_STATISTICAL_DISTRICTS_POP_50_000" value="2.1.1" desc="Provincial City Statistical Districts (Pop 50 000 - 99 999)" />
+    <value name="2_1_2_PROVINCIAL_CITY_STATISTICAL_DISTRICTS_POP_25_000" value="2.1.2" desc="Provincial City Statistical Districts (Pop 25 000 - 49 999)" />
+    <value name="2_2_1_INNER_PROVINCIAL_AREAS_CD_ARIA_PLUS_SCORE_LT" value="2.2.1" desc="Inner Provincial areas (CD ARIA Plus score &amp;lt;= 2.4)" />
+    <value name="2_2_2_OUTER_PROVINCIAL_AREAS_CD_ARIA_PLUS_SCORE_GT" value="2.2.2" desc="Outer Provincial areas (CD ARIA Plus score &amp;gt; 2.4 and &amp;lt;= 5.92)" />
+    <value name="3_REMOTE_ZONE" value="3" desc="Remote Zone" />
+    <value name="3_1_REMOTE_AREAS_CD_ARIA_PLUS_SCORE_GT" value="3.1" desc="Remote areas (CD ARIA Plus score &amp;gt; 5.92 and &amp;lt;= 10.53)" />
+    <value name="3_2_VERY_REMOTE_AREAS_CD_ARIA_PLUS_SCORE_GT" value="3.2" desc="Very Remote areas (CD ARIA Plus score &amp;gt; 10.53)" />
+  </enum>
+  <!--SchoolSectorCodeType-->
+  <enum name="SchoolSectorCodeType">
+    <value name="Gov_GOVERNMENT_SCHOOL" value="Gov" desc="Government School" />
+    <value name="NG_NONGOVERNMENT_SCHOOL" value="NG" desc="Non-Government School" />
+  </enum>
+  <!--SystemicStatusType-->
+  <enum name="SystemicStatusType">
+    <value name="N_NONSYSTEMIC" value="N" desc="Non-Systemic" />
+    <value name="S_SYSTEMIC" value="S" desc="Systemic" />
+  </enum>
+
+
+  <!--SessionInfo-->
+  <object name="SessionInfo" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The GUID of the Object</desc>
+    </attribute>
+    <element name="SchoolInfoRefId" type="String" flags="M">
+      <desc>The ID (GUID) of the school for which this attendance information is being reported.</desc>
+    </element>
+    <element name="TimeTableCellRefId" type="String" flags="M">
+      <desc>The (GUID) of the piece of Curriculum (TT Grid) scheduled</desc>
+    </element>
+    <element name="SchoolYear" type="int" flags="M" />
+    <element name="LocalId" type="String" flags="M" />
+    <element name="TimeTableSubjectLocalId" type="String" flags="M">
+      <desc>TimeTableSubject Local Identifier</desc>
+    </element>
+    <element name="TeachingGroupLocalId" type="String" flags="M">
+      <desc>Teaching Group Local Identifier</desc>
+    </element>
+    <element name="SchoolLocalId" type="String" flags="O">
+      <desc>School Local Identifier</desc>
+    </element>
+    <element name="StaffPersonalLocalId" type="String" flags="O">
+      <desc>Staff Local Identifier</desc>
+    </element>
+    <element name="RoomNumber" type="String" flags="O">
+      <desc>Room number as presented to the user or application.  Needs to be provided if changed from  TimeTableCell.</desc>
+    </element>
+    <element name="DayId" type="String" flags="M">
+      <desc>Day Id</desc>
+    </element>
+    <element name="PeriodId" type="String" flags="M">
+      <desc>Period Id within the Day Id</desc>
+    </element>
+    <element name="SessionDate" type="Date" flags="M">
+      <desc>Date of Session</desc>
+    </element>
+    <element name="StartTime" type="Time" flags="O">
+      <desc>Optional Start Time</desc>
+    </element>
+    <element name="FinishTime" type="Time" flags="O">
+      <desc>Optional End Time</desc>
+    </element>
+    <element name="RollMarked" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Was the Roll Marked for this Period?</desc>
+    </element>
+  </object>
+  <!--FederalElectorateType-->
+  <enum name="FederalElectorateType">
+    <value name="101_BANKS" value="101" desc="Banks" />
+    <value name="102_BARTON" value="102" desc="Barton" />
+    <value name="103_BENNELONG" value="103" desc="Bennelong" />
+    <value name="104_BEROWRA" value="104" desc="Berowra" />
+    <value name="105_BLAXLAND" value="105" desc="Blaxland" />
+    <value name="106_BRADFIELD" value="106" desc="Bradfield" />
+    <value name="107_CALARE" value="107" desc="Calare" />
+    <value name="108_CHARLTON" value="108" desc="Charlton" />
+    <value name="109_CHIFLEY" value="109" desc="Chifley" />
+    <value name="110_COOK" value="110" desc="Cook" />
+    <value name="111_COWPER" value="111" desc="Cowper" />
+    <value name="112_CUNNINGHAM" value="112" desc="Cunningham" />
+    <value name="113_DOBELL" value="113" desc="Dobell" />
+    <value name="114_EDENMONARO" value="114" desc="Eden-Monaro" />
+    <value name="115_FARRER" value="115" desc="Farrer" />
+    <value name="116_FOWLER" value="116" desc="Fowler" />
+    <value name="117_GILMORE" value="117" desc="Gilmore" />
+    <value name="118_GRAYNDLER" value="118" desc="Grayndler" />
+    <value name="119_GREENWAY" value="119" desc="Greenway" />
+    <value name="120_GWYDIR" value="120" desc="Gwydir" />
+    <value name="121_HUGHES" value="121" desc="Hughes" />
+    <value name="122_HUME" value="122" desc="Hume" />
+    <value name="123_HUNTER" value="123" desc="Hunter" />
+    <value name="124_KINGSFORD_SMITH" value="124" desc="Kingsford Smith" />
+    <value name="125_LINDSAY" value="125" desc="Lindsay" />
+    <value name="126_LOWE" value="126" desc="Lowe" />
+    <value name="127_LYNE" value="127" desc="Lyne" />
+    <value name="128_MACARTHUR" value="128" desc="Macarthur" />
+    <value name="129_MACKELLAR" value="129" desc="Mackellar" />
+    <value name="130_MACQUARIE" value="130" desc="Macquarie" />
+    <value name="131_ITCHELL" value="131" desc="itchell" />
+    <value name="132_NEW_ENGLAND" value="132" desc="New England" />
+    <value name="133_NEWCASTLE" value="133" desc="Newcastle" />
+    <value name="134_NORTH_SYDNEY" value="134" desc="North Sydney" />
+    <value name="135_PAGE" value="135" desc="Page" />
+    <value name="136_PARKES" value="136" desc="Parkes" />
+    <value name="137_PARRAMATTA" value="137" desc="Parramatta" />
+    <value name="138_PATERSON" value="138" desc="Paterson" />
+    <value name="139_PROSPECT" value="139" desc="Prospect" />
+    <value name="140_REID" value="140" desc="Reid" />
+    <value name="141_RICHMOND" value="141" desc="Richmond" />
+    <value name="142_RIVERINA" value="142" desc="Riverina" />
+    <value name="143_ROBERTSON" value="143" desc="Robertson" />
+    <value name="144_SHORTLAND" value="144" desc="Shortland" />
+    <value name="145_SYDNEY" value="145" desc="Sydney" />
+    <value name="146_THROSBY" value="146" desc="Throsby" />
+    <value name="147_WARRINGAH" value="147" desc="Warringah" />
+    <value name="148_WATSON" value="148" desc="Watson" />
+    <value name="149_WENTWORTH" value="149" desc="Wentworth" />
+    <value name="150_WERRIWA" value="150" desc="Werriwa" />
+    <value name="199_NOT_APPLICABLE" value="199" desc="Not Applicable" />
+    <value name="201_ASTON" value="201" desc="Aston" />
+    <value name="202_BALLARAT" value="202" desc="Ballarat" />
+    <value name="203_BATMAN" value="203" desc="Batman" />
+    <value name="204_BENDIGO" value="204" desc="Bendigo" />
+    <value name="205_BRUCE" value="205" desc="Bruce" />
+    <value name="206_CALWELL" value="206" desc="Calwell" />
+    <value name="207_CASEY" value="207" desc="Casey" />
+    <value name="208_CHISHOLM" value="208" desc="Chisholm" />
+    <value name="209_CORANGAMITE" value="209" desc="Corangamite" />
+    <value name="210_CORIO" value="210" desc="Corio" />
+    <value name="211_DEAKIN" value="211" desc="Deakin" />
+    <value name="212_DUNKLEY" value="212" desc="Dunkley" />
+    <value name="213_FLINDERS" value="213" desc="Flinders" />
+    <value name="214_GELLIBRAND" value="214" desc="Gellibrand" />
+    <value name="215_GIPPSLAND" value="215" desc="Gippsland" />
+    <value name="216_GOLDSTEIN" value="216" desc="Goldstein" />
+    <value name="217_GORTON" value="217" desc="Gorton" />
+    <value name="218_HIGGINS" value="218" desc="Higgins" />
+    <value name="219_HOLT" value="219" desc="Holt" />
+    <value name="220_HOTHAM" value="220" desc="Hotham" />
+    <value name="221_INDI" value="221" desc="Indi" />
+    <value name="222_ISAACS" value="222" desc="Isaacs" />
+    <value name="223_JAGAJAGA" value="223" desc="Jagajaga" />
+    <value name="224_KOOYONG" value="224" desc="Kooyong" />
+    <value name="225_LA_TROBE" value="225" desc="La Trobe" />
+    <value name="226_LALOR" value="226" desc="Lalor" />
+    <value name="227_MALLEE" value="227" desc="Mallee" />
+    <value name="228_MARIBYRNONG" value="228" desc="Maribyrnong" />
+    <value name="229_MCEWEN" value="229" desc="McEwen" />
+    <value name="230_MCMILLAN" value="230" desc="McMillan" />
+    <value name="231_MELBOURNE" value="231" desc="Melbourne" />
+    <value name="232_MELBOURNE_PORTS" value="232" desc="Melbourne Ports" />
+    <value name="233_MENZIES" value="233" desc="Menzies" />
+    <value name="234_MURRAY" value="234" desc="Murray" />
+    <value name="235_SCULLIN" value="235" desc="Scullin" />
+    <value name="236_WANNON" value="236" desc="Wannon" />
+    <value name="237_WILLS" value="237" desc="Wills" />
+    <value name="299_NOT_APPLICABLE" value="299" desc="Not Applicable" />
+    <value name="301_BLAIR" value="301" desc="Blair" />
+    <value name="302_BONNER" value="302" desc="Bonner" />
+    <value name="303_BOWMAN" value="303" desc="Bowman" />
+    <value name="304_BRISBANE" value="304" desc="Brisbane" />
+    <value name="305_CAPRICORNIA" value="305" desc="Capricornia" />
+    <value name="306_DAWSON" value="306" desc="Dawson" />
+    <value name="307_DICKSON" value="307" desc="Dickson" />
+    <value name="308_FADDEN" value="308" desc="Fadden" />
+    <value name="309_FAIRFAX" value="309" desc="Fairfax" />
+    <value name="310_FISHER" value="310" desc="Fisher" />
+    <value name="311_FORDE" value="311" desc="Forde" />
+    <value name="312_GRIFFITH" value="312" desc="Griffith" />
+    <value name="313_GROOM" value="313" desc="Groom" />
+    <value name="314_HERBERT" value="314" desc="Herbert" />
+    <value name="315_HINKLER" value="315" desc="Hinkler" />
+    <value name="316_KENNEDY" value="316" desc="Kennedy" />
+    <value name="317_LEICHHARDT" value="317" desc="Leichhardt" />
+    <value name="318_LILLEY" value="318" desc="Lilley" />
+    <value name="319_LONGMAN" value="319" desc="Longman" />
+    <value name="320_MARANOA" value="320" desc="Maranoa" />
+    <value name="321_MCPHERSON" value="321" desc="McPherson" />
+    <value name="322_MONCRIEFF" value="322" desc="Moncrieff" />
+    <value name="323_MORETON" value="323" desc="Moreton" />
+    <value name="324_OXLEY" value="324" desc="Oxley" />
+    <value name="325_PETRIE" value="325" desc="Petrie" />
+    <value name="326_RANKIN" value="326" desc="Rankin" />
+    <value name="327_RYAN" value="327" desc="Ryan" />
+    <value name="328_WIDE_BAY" value="328" desc="Wide Bay" />
+    <value name="399_NOT_APPLICABLE" value="399" desc="Not Applicable" />
+    <value name="401_ADELAIDE" value="401" desc="Adelaide" />
+    <value name="402_BARKER" value="402" desc="Barker" />
+    <value name="403_BOOTHBY" value="403" desc="Boothby" />
+    <value name="404_GREY" value="404" desc="Grey" />
+    <value name="405_HINDMARSH" value="405" desc="Hindmarsh" />
+    <value name="406_KINGSTON" value="406" desc="Kingston" />
+    <value name="407_MAKIN" value="407" desc="Makin" />
+    <value name="408_MAYO" value="408" desc="Mayo" />
+    <value name="409_PORT_ADELAIDE" value="409" desc="Port Adelaide" />
+    <value name="410_STURT" value="410" desc="Sturt" />
+    <value name="411_WAKEFIELD" value="411" desc="Wakefield" />
+    <value name="499_NOT_APPLICABLE" value="499" desc="Not Applicable" />
+    <value name="501_BRAND" value="501" desc="Brand" />
+    <value name="502_CANNING" value="502" desc="Canning" />
+    <value name="503_COWAN" value="503" desc="Cowan" />
+    <value name="504_CURTIN" value="504" desc="Curtin" />
+    <value name="505_FORREST" value="505" desc="Forrest" />
+    <value name="506_FREMANTLE" value="506" desc="Fremantle" />
+    <value name="507_HASLUCK" value="507" desc="Hasluck" />
+    <value name="508_KALGOORLIE" value="508" desc="Kalgoorlie" />
+    <value name="509_MOORE" value="509" desc="Moore" />
+    <value name="510_OCONNOR" value="510" desc="O'Connor" />
+    <value name="511_PEARCE" value="511" desc="Pearce" />
+    <value name="512_PERTH" value="512" desc="Perth" />
+    <value name="513_STIRLING" value="513" desc="Stirling" />
+    <value name="514_SWAN" value="514" desc="Swan" />
+    <value name="515_ANGNEY" value="515" desc="angney" />
+    <value name="599_NOT_APPLICABLE" value="599" desc="Not Applicable" />
+    <value name="601_BASS" value="601" desc="Bass" />
+    <value name="602_BRADDON" value="602" desc="Braddon" />
+    <value name="603_DENISON" value="603" desc="Denison" />
+    <value name="604_FRANKLIN" value="604" desc="Franklin" />
+    <value name="605_LYONS" value="605" desc="Lyons" />
+    <value name="699_NOT_APPLICABLE" value="699" desc="Not Applicable" />
+    <value name="701_LINGIARI" value="701" desc="Lingiari" />
+    <value name="702_SOLOMON" value="702" desc="Solomon" />
+    <value name="799_NOT_APPLICABLE" value="799" desc="Not Applicable" />
+    <value name="801_CANBERRA" value="801" desc="Canberra" />
+    <value name="802_FRASER" value="802" desc="Fraser" />
+    <value name="899_NOT_APPLICABLE" value="899" desc="Not Applicable" />
+    <value name="999_NOT_APPLICABLE" value="999" desc="Not Applicable" />
+  </enum>
+
+
+  <!--TimeTable-->
+  <object name="TimeTable" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>GUID that identifies this  TimeTable object.</desc>
+    </attribute>
+    <element name="SchoolInfoRefId" type="String" flags="O">
+      <desc>Optional the GUID of the SchoolInfo Object if this object is known in the zone.</desc>
+    </element>
+    <element name="SchoolYear" type="int" flags="M" />
+    <element name="LocalId" type="String" flags="O">
+      <desc>Local TimeTable ID</desc>
+    </element>
+    <element name="Title" type="String" flags="M">
+      <desc>Unique Name of the proposed Time Table</desc>
+    </element>
+    <element name="DaysPerCycle" type="Uint" flags="M">
+      <desc>Max Number of days per Time Table cycle</desc>
+    </element>
+    <element name="PeriodsPerDay" type="Uint" flags="M">
+      <desc>Max Number of periods per Time Table Day</desc>
+    </element>
+    <element name="TeachingPeriodsPerDay" type="Uint" flags="O">
+      <desc>Teaching periods per day if different to PeriodsPerDay</desc>
+    </element>
+    <element name="SchoolLocalId" type="String" flags="O">
+      <desc>Optional Local School Id</desc>
+    </element>
+    <element name="SchoolName" type="String" flags="O">
+      <desc>The school name in plain text.</desc>
+    </element>
+    <element name="TimeTableCreationDate" type="Date" flags="O">
+      <desc>Date Schedule was created or last edited.</desc>
+    </element>
+    <element name="StartDate" type="Date" flags="O">
+      <desc>First day of TimeTable.</desc>
+    </element>
+    <element name="EndDate" type="Date" flags="O">
+      <desc>Last day of the TimeTable.</desc>
+    </element>
+    <element name="TimeTableDayList" type="TimeTableDayList" flags="M" />
+  </object>
+  
+  <!--TimeTablePeriodList-->
+  <object name="TimeTablePeriodList">
+    <element name="TimeTablePeriod" type="TimeTablePeriod" flags="MR" />
+  </object>
+  
+    <!--TimeTablePeriod-->
+  <object name="TimeTablePeriod">
+    <element name="PeriodId" type="String" flags="M" />
+    <element name="PeriodTitle" type="String" flags="M" />
+  </object>
+  
+    <!--TimeTableDay-->
+  <object name="TimeTableDay">
+    <element name="DayId" type="String" flags="M" />
+    <element name="DayTitle" type="String" flags="M" />
+    <element name="TimeTablePeriodList" type="TimeTablePeriodList" flags="M" />
+  </object>
+  
+  <!--TimeTableCell-->
+  <object name="TimeTableCell" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The GUID of the TimeTableCell</desc>
+    </attribute>
+    <element name="TimeTableRefId" type="String" flags="M">
+      <desc>The GUID of the TimeTable to which this Cell belongs</desc>
+    </element>
+    <element name="TimeTableSubjectRefId" type="String" flags="M">
+      <desc>The GUID of the Subject that this Cell is scheduling</desc>
+    </element>
+    <element name="TeachingGroupRefId" type="String" flags="M">
+      <desc>The GUID of the TeachingGroup being scheduled</desc>
+    </element>
+    <element name="RoomInfoRefId" type="String" flags="M">
+      <desc>The GUID of the Resource being Scheduled</desc>
+    </element>
+    <element name="StaffPersonalRefId" type="String" flags="M">
+      <desc>The GUID of the Staff Member being Scheduled</desc>
+    </element>
+    <element name="TimeTableLocalId" type="String" flags="O">
+      <desc>Time Table Local Identifier</desc>
+    </element>
+    <element name="SubjectLocalId" type="String" flags="O">
+      <desc>Subject Local Id</desc>
+    </element>
+    <element name="TeachingGroupLocalId" type="String" flags="O">
+      <desc>Teaching Group</desc>
+    </element>
+    <element name="RoomNumber" type="String" flags="M">
+      <desc>Room number as presented to the user/application.</desc>
+    </element>
+    <element name="StaffLocalId" type="String" flags="O">
+      <desc>Staff LocalId</desc>
+    </element>
+    <element name="DayId" type="String" flags="M">
+      <desc>Day Id</desc>
+    </element>
+    <element name="PeriodId" type="String" flags="M">
+      <desc>Period Id within the Day Id</desc>
+    </element>
+    <element name="CellType" type="String" flags="M">
+      <desc>Type of Lesson/Session  eg Teaching, Lunch etc</desc>
+    </element>
+    <element name="SchoolInfoRefId" type="String" flags="O">
+      <desc>Optional the GUID of the SchoolInfo Object  if this object is known in the zone</desc>
+    </element>
+    <element name="SchoolLocalId" type="String" flags="O">
+      <desc>Optional Local School Id</desc>
+    </element>
+  </object>
+  
+  <!--TimeTableDayList-->
+  <object name="TimeTableDayList">
+    <element name="TimeTableDay" type="TimeTableDay" flags="MR" />
+  </object>
+ 
+   <!--TimeTableSubject-->
+  <object name="TimeTableSubject" topic="true">
+    <attribute name="RefId" type="String" flags="R" />
+    <element name="SubjectLocalId" type="String" flags="M">
+      <desc>SubjectLocalID - Distinct piece of curriculum that is to be scheduled.</desc>
+    </element>
+    <element name="AcademicYear" type="AcademicYear" flags="O">
+      <desc>Subject Year Level.  Either AcademicYear or AcademicYearRange must be provided.</desc>
+    </element>
+    <element name="AcademicYearRange" type="AcademicYearRange" flags="O" />
+<element name="CourseLocalId" type="String" flags="O" />
+<element name="SchoolCourseInfoRefId" type="String" flags="O" />
+    <element name="Faculty" type="String" flags="O" />
+    <element name="SubjectShortName" type="String" flags="O" />
+    <element name="SubjectLongName" type="String" flags="M" />
+    <element name="SubjectType" type="String" flags="O">
+      <desc>Core or Elective or ?</desc>
+    </element>
+<element name="ProposedMaxClassSize" type="Decimal" flags="O" />
+<element name="ProposedMinClassSize" type="Decimal" flags="O" />
+    <element name="SchoolInfoRefId" type="String" flags="O">
+      <desc>Optional the GUID of the SchoolInfo Object  if this object is known in the zone</desc>
+    </element>
+    <element name="SchoolLocalId" type="String" flags="O">
+      <desc>Optional Local School Id</desc>
+    </element>
+    <element name="Semester" type="Uint" flags="O" />
+    <element name="SchoolYear" type="int" flags="O" />
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object> 
+  
+  <!--AcademicYear-->
+  <object name="AcademicYear">
+    <element name="Code" enum="AcademicYearCode" flags="M">
+      <desc>Code representing the year level.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+
+  <!--AcademicYearRange-->
+  <object name="AcademicYearRange">
+    <element name="Start" type="Start" flags="M">
+      <desc>Lowest year in range.</desc>
+    </element>
+    <element name="End" type="End" flags="M">
+      <desc>Highest year in range</desc>
+    </element>
+  </object>
+  
+  <!--End-->
+  <object name="End">
+    <element name="Code" enum="EndCode" flags="M">
+      <desc>Code representing the year level.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+
+  <!--Start-->
+  <object name="Start">
+    <element name="Code" enum="StartCode" flags="M">
+      <desc>Code representing the year level.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+
+</adk>

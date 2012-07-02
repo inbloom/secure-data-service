@@ -1,0 +1,661 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.2 food objects                  -->
+<!-- ======================================== -->
+<adk package="food" version="2.2" namespace="http://www.sifinfo.org/infrastructure/2.x">
+  <!--AccountType enum-->
+  <enum name="AccountType">
+    <value name="PREPAIDCASH" value="PrepaidCash" desc="PrepaidCash" />
+    <value name="BREAKFASTCREDIT" value="BreakfastCredit" desc="BreakfastCredit" />
+    <value name="LUNCHCREDIT" value="LunchCredit" desc="LunchCredit" />
+    <value name="NA" value="NA" desc="NA" />
+  </enum>
+  <!--Agencies object-->
+  <object name="Agencies">
+    <element name="Agency" type="Agency" flags="OR" />
+  </object>
+  <!--Agency object-->
+  <object name="Agency">
+    <desc>Reimbursing agency</desc>
+    <attribute name="Type" enum="AgencyTypeCode" flags="R">
+      <desc>Type of the reimbursing agency. Values: Federal, State, Local, Other</desc>
+    </attribute>
+    <element name="Name" type="NormalizedString" flags="O">
+      <desc>The name of the reimbursing agency. This element is to be used when the Type is set as Other.</desc>
+    </element>
+    <element name="Rates" type="Rates" flags="M" />
+  </object>
+  <!--AgencyTypeCode enum-->
+  <enum name="AgencyTypeCode">
+    <value name="FEDERAL" value="Federal" desc="Federal" />
+    <value name="STATE" value="State" desc="State" />
+    <value name="LOCAL" value="Local" desc="Local" />
+    <value name="OTHER" value="Other" desc="Other" />
+  </enum>
+  <!--Count object-->
+  <object name="Count">
+    <element name="MealStatus" type="MealStatus" flags="O">
+      <desc>Student meal status. If a meal status applies, either MealStatus (for students), or EarnedStatus (for staff) is specified.</desc>
+    </element>
+    <element name="EarnedStatus" type="EarnedStatus" flags="C">
+      <desc>Staff meal status.</desc>
+    </element>
+    <element name="MealType" enum="MealTypes" flags="C" />
+    <element name="Amount" type="FSAmount" flags="O" />
+    <element name="Tax" type="MonetaryAmount" flags="O">
+      <desc>Dollar value of tax collected.</desc>
+    </element>
+    <element name="Value" type="Decimal" flags="M">
+      <desc>The value of the count.</desc>
+    </element>
+  </object>
+  <!--Counts object-->
+  <object name="Counts">
+    <element name="Count" type="Count" flags="OR" />
+  </object>
+  <!--Customer object-->
+  <object name="Customer">
+    <attribute name="SIF_RefId" type="IdRefType" flags="R">
+      <desc>GUID of the SIF customer type.</desc>
+    </attribute>
+    <attribute name="SIF_RefObject" enum="CustomerObjectName" flags="R">
+      <desc>SIF customer type. If the type is StaffPersonalRefId then EarnedStatus is included. If the type is StudentPersonalRefId, then MealStatus in included.</desc>
+    </attribute>
+    <element name="MealStatus" type="MealStatus" flags="C" />
+    <element name="EarnedStatus" type="EarnedStatus" flags="C" />
+  </object>
+  <!--CustomerObjectName enum-->
+  <enum name="CustomerObjectName">
+    <value name="STUDENTPERSONAL" value="StudentPersonal" desc="StudentPersonal" />
+    <value name="STAFFPERSONAL" value="StaffPersonal" desc="StaffPersonal" />
+    <value name="OTHER" value="Other" desc="Other" />
+  </enum>
+  <!--EarnedStatus object-->
+  <object name="EarnedStatus">
+    <attribute name="Type" enum="YesNoNA" flags="R">
+      <desc>Earned status type.</desc>
+    </attribute>
+    <element name="StartDate" type="Date" flags="O">
+      <desc>Date on which earned status became effective (inclusive).</desc>
+    </element>
+    <element name="EndDate" type="Date" flags="O">
+      <desc>Date on which earned status was last in effect. This attribute is conditional upon the StartDate element. It exists only if the StartDate element exists.</desc>
+    </element>
+  </object>
+  <!--FoodCategoryName enum-->
+  <enum name="FoodCategoryName">
+    <value name="DAIRY" value="1" desc="Dairy: butter, cheese, eggs, milk, yogurt" />
+    <value name="SPICES" value="2" desc="Spices, seasonings, flavorings, leavening agents" />
+    <value name="BABYFOOD" value="3" desc="Babyfood" />
+    <value name="FATS" value="4" desc="Fats and oils: margarine, shortening, mayonnaise, salad dressings" />
+    <value name="POULTRY" value="5" desc="Poultry Products" />
+    <value name="SOUPS" value="6" desc="Soups, sauces and gravies" />
+    <value name="LUNCHEON_MEAT" value="7" desc="Luncheon meat and sausage" />
+    <value name="BREAKFAST_CEREALS" value="8" desc="Breakfast Cereals" />
+    <value name="FRUITS" value="9" desc="Fruits and fruit juices" />
+    <value name="PORK" value="10" desc="Pork Products" />
+    <value name="VEGETABLES" value="11" desc="Vegetables (includes beans and legumes)" />
+    <value name="NUTS_AND_SEEDS" value="12" desc="Nuts and seeds" />
+    <value name="BEEF" value="13" desc="Beef" />
+    <value name="BEVERAGES" value="14" desc="Beverages" />
+    <value name="FISH" value="15" desc="Fish" />
+    <value name="CONDIMENTS" value="16" desc="Condiments: catsup, mustard, relish" />
+    <value name="LAMB_VEAL_GAME" value="17" desc="Lamb, Veal and Game Products" />
+    <value name="BAKED" value="18" desc="Baked goods: breads, cakes, cookies, crackers, pies, rolls" />
+    <value name="SNACKS" value="19" desc="Snacks and sweets" />
+    <value name="GRAINS" value="20" desc="Grains" />
+    <value name="FAST_FOODS" value="21" desc="Fast Foods" />
+    <value name="MEALS_ENTREES" value="22" desc="Meals, Entrees, and Sidedishes" />
+    <value name="MISCELLANEOUS" value="29" desc="Miscellaneous" />
+    <value name="GENERAL_RECIPES" value="30" desc="General recipes" />
+    <value name="BREAD_AND_CEREAL" value="31" desc="Bread and cereal recipes" />
+    <value name="DESSERT_RECIPES" value="32" desc="Dessert recipes" />
+    <value name="MAIN_DISH_RECIPES" value="33" desc="Main dish recipes" />
+    <value name="SALAD_AND_DRESSING_RECIPES" value="34" desc="Salad and dressing recipes" />
+    <value name="SANDWICH_RECIPES" value="35" desc="Sandwich recipes" />
+    <value name="SAUCE_AND_GRAVY_RECIPES" value="36" desc="Sauce and gravy recipes" />
+    <value name="SOUP_RECIPES" value="37" desc="Soup recipes" />
+    <value name="VEGETABLE_RECIPES" value="38" desc="Vegetable recipes" />
+    <value name="BREAKFAST_RECIPES" value="39" desc="Breakfast recipes" />
+    <value name="PURCHASED_LUNCH" value="43" desc="Purchased mixed dishes – lunch entrees/main dishes (pizza, etc)" />
+    <value name="PURCHASED_BREAKFAST" value="44" desc="Purchased mixed dishes – breakfast entrees/main dishes" />
+    <value name="MEAT_SUBSTITUTES" value="45" desc="Meat substitutes/Vegetable proteins" />
+  </enum>
+  <!--FoodserviceItem object-->
+  <object name="FoodserviceItem" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies this item</desc>
+    </attribute>
+    <element name="LocalId" type="NormalizedString" flags="M">
+      <desc>Item number as presented to user.</desc>
+    </element>
+    <element name="Description" type="NormalizedString" flags="O">
+      <desc>Description of Item</desc>
+    </element>
+    <element name="ElectronicIdList" type="ElectronicIdList" flags="O">
+      <desc>Electronic identifier(s) associated with this item.</desc>
+    </element>
+    <element name="ItemCategory" enum="FoodCategoryName" flags="O">
+      <desc>
+        The category is derived from the Child Nutrition Database's food category codes/names (Source: Food Category Name File [CNDB]).
+        Agents may use the actual codes or a district's local definition of the names associated with the codes.
+        The Child Nutrition Database [CNDB] is updated on a yearly basis by the USDA.
+      </desc>
+    </element>
+  </object>
+  <!--FoodserviceItemPortion object-->
+  <object name="FoodserviceItemPortion" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies this item's portion</desc>
+    </attribute>
+    <element name="FoodserviceItemUnitRefId" type="IdRefType" flags="M">
+      <desc>GUID that identifies related item portion</desc>
+    </element>
+    <element name="ItemPortionQuantity" type="Decimal" flags="M">
+      <desc>Quantity of item portion (number of units)</desc>
+    </element>
+    <element name="ItemPortionType" enum="ItemPortionTypeValue" flags="M">
+      <desc>Type of item unit</desc>
+    </element>
+    <element name="Description" type="NormalizedString" flags="O">
+      <desc>Optional description of amount</desc>
+    </element>
+  </object>
+  <!--FoodserviceItemSales object-->
+  <object name="FoodserviceItemSales" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies this object</desc>
+    </attribute>
+    <element name="SchoolInfoRefId" type="IdRefType" flags="M">
+      <desc>GUID that identifies the school for this object</desc>
+    </element>
+    <element name="Date" type="Date" flags="M">
+      <desc>Date of sales</desc>
+    </element>
+    <element name="Program" type="Program" flags="M" />
+    <element name="ItemQuantities" type="ItemQuantities" flags="O" />
+  </object>
+  <!--FoodserviceItemUnit object-->
+  <object name="FoodserviceItemUnit" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies this unit</desc>
+    </attribute>
+    <element name="FoodserviceItemRefId" type="IdRefType" flags="M">
+      <desc>GUID that identifies related item</desc>
+    </element>
+    <element name="Description" type="String" flags="O">
+      <desc>Description of unit ("cup", "teaspoon", etc.)</desc>
+    </element>
+    <element name="MeasureDescriptionCode" type="NormalizedString" flags="M">
+      <desc>Child Nutrition Database [CNDB] standard code describing unit.  The database is updated on a yearly basis by the USDA.</desc>
+    </element>
+    <element name="GramWeight" type="Decimal" flags="M">
+      <desc>Gram weight of this item in terms of MeasureDescriptionCode</desc>
+    </element>
+  </object>
+  <!--FoodserviceMealPrices object-->
+  <object name="FoodserviceMealPrices" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies this meal price.</desc>
+    </attribute>
+    <element name="SchoolInfoRefId" type="IdRefType" flags="M">
+      <desc>GUID that identifies the school this meal price belongs to</desc>
+    </element>
+    <element name="Program" type="Program" flags="M" />
+    <element name="Prices" type="Prices" flags="M" />
+  </object>
+  <!--FoodserviceMenuPlan object-->
+  <object name="FoodserviceMenuPlan" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies this menu plan</desc>
+    </attribute>
+    <element name="SchoolInfoRefId" type="IdRefType" flags="M">
+      <desc>GUID that identifies the school for this menu plan</desc>
+    </element>
+    <element name="GradeLevels" type="GradeLevels" flags="M" />
+    <element name="MenuPlanDate" type="Date" flags="M">
+      <desc>Date of menu plan</desc>
+    </element>
+    <element name="Program" type="Program" flags="M" />
+    <element name="Description" type="String" flags="O">
+      <desc>Description of menu plan</desc>
+    </element>
+    <element name="ProjectedParticipation" type="String" flags="M">
+      <desc>Feeding figure projected</desc>
+    </element>
+    <element name="MenuPlanQuantities" type="MenuPlanQuantities" flags="O" />
+  </object>
+  <!--FoodserviceMilkSales object-->
+  <object name="FoodserviceMilkSales" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies the daily milk sales object</desc>
+    </attribute>
+    <element name="SchoolInfoRefId" type="IdRefType" flags="M">
+      <desc>School for which the sales object applies</desc>
+    </element>
+    <element name="Date" type="Date" flags="M">
+      <desc>Date on which the sales occurred.</desc>
+    </element>
+    <element name="Program" type="Program" flags="M" />
+    <element name="SaleQuantities" type="SaleQuantities" flags="M" />
+  </object>
+  <!--FoodservicePurchaseTransaction object-->
+  <object name="FoodservicePurchaseTransaction" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies purchase transaction</desc>
+    </attribute>
+    <element name="FoodserviceTransactionRefId" type="IdRefType" flags="M">
+      <desc>GUID that identifies food service transaction in which this purchase was made</desc>
+    </element>
+    <element name="PurchaseQuantities" type="PurchaseQuantities" flags="M" />
+  </object>
+  <!--FoodserviceReimbursementRates object-->
+  <object name="FoodserviceReimbursementRates" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies this object.</desc>
+    </attribute>
+    <element name="SchoolInfoRefId" type="IdRefType" flags="M">
+      <desc>GUID that identifies the school.</desc>
+    </element>
+    <element name="StartDate" type="Date" flags="M">
+      <desc>Effective start date for the reimbursement rates</desc>
+    </element>
+    <element name="EndDate" type="Date" flags="M">
+      <desc>Effective end date for the reimbursement rates</desc>
+    </element>
+    <element name="Program" type="Program" flags="M" />
+    <element name="Agencies" type="Agencies" flags="M" collapsed="True" />
+  </object>
+  <!--FoodserviceSales object-->
+  <object name="FoodserviceSales" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies the daily meal sales object</desc>
+    </attribute>
+    <element name="SchoolInfoRefId" type="IdRefType" flags="M">
+      <desc>School for which the sales object applies</desc>
+    </element>
+    <element name="Date" type="Date" flags="M">
+      <desc>Date on which the sales occurred.</desc>
+    </element>
+    <element name="Program" type="Program" flags="M" />
+    <element name="SalesAmounts" type="SalesAmounts" flags="O" />
+  </object>
+  <!--FoodserviceStaffEnrollmentCount object-->
+  <object name="FoodserviceStaffEnrollmentCount" topic="true">
+    <attribute name="SchoolInfoRefId" type="IdRefType" flags="R">
+      <desc>Reference to SchoolInfo</desc>
+    </attribute>
+    <attribute name="Date" type="Date" flags="M">
+      <desc>Date the count is taken.</desc>
+    </attribute>
+    <element name="Program" type="Program" flags="M" />
+    <element name="Counts" type="Counts" flags="M" />
+  </object>
+  <!--FoodserviceStaffMealCounts object-->
+  <object name="FoodserviceStaffMealCounts" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies the daily meal sales object</desc>
+    </attribute>
+    <element name="SchoolInfoRefId" type="IdRefType" flags="M">
+      <desc>School for which the sales object applies</desc>
+    </element>
+    <element name="Date" type="Date" flags="M">
+      <desc>Date on which the sales occurred.</desc>
+    </element>
+    <element name="Program" type="Program" flags="M" />
+    <element name="Counts" type="Counts" flags="M" />
+  </object>
+  <!--FoodserviceStudentEnrollmentCount object-->
+  <object name="FoodserviceStudentEnrollmentCount" topic="true">
+    <attribute name="SchoolInfoRefId" type="IdRefType" flags="R">
+      <desc>Reference to SchoolInfo</desc>
+    </attribute>
+    <attribute name="Date" type="Date" flags="M">
+      <desc>Date the count is taken.</desc>
+    </attribute>
+    <element name="Program" type="Program" flags="M" />
+    <element name="Counts" type="Counts" flags="M" />
+  </object>
+  <!--FoodserviceStudentMealCounts object-->
+  <object name="FoodserviceStudentMealCounts" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies the daily meal sales object</desc>
+    </attribute>
+    <element name="SchoolInfoRefId" type="IdRefType" flags="M">
+      <desc>School for which the sales object applies</desc>
+    </element>
+    <element name="Date" type="Date" flags="M">
+      <desc>Date on which the sales occurred.</desc>
+    </element>
+    <element name="Program" type="Program" flags="M" />
+    <element name="Counts" type="Counts" flags="M" />
+  </object>
+  <!--FoodserviceTransaction object-->
+  <object name="FoodserviceTransaction" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies food service transaction</desc>
+    </attribute>
+    <element name="SchoolInfoRefId" type="IdRefType" flags="M">
+      <desc>GUID that identifies the school/site of account transaction</desc>
+    </element>
+    <element name="Program" type="Program" flags="M" />
+    <element name="TransactionDate" type="Date" flags="M">
+      <desc>Date of transaction</desc>
+    </element>
+    <element name="TransactionTime" type="Time" flags="M">
+      <desc>Time of transaction.</desc>
+    </element>
+    <element name="TransactionTypes" type="TransactionTypes" flags="O" />
+    <element name="Customer" type="Customer" flags="M" />
+    <element name="Amount" type="FSAmount" flags="O" />
+    <element name="Tax" type="MonetaryAmount" flags="O">
+      <desc>Amount of tax.</desc>
+    </element>
+    <element name="Description" type="String" flags="O">
+      <desc>Description of the Transaction</desc>
+    </element>
+    <element name="Voided" enum="YesNo" flags="M">
+      <desc>This flag tells us if the transaction is voided.</desc>
+    </element>
+  </object>
+  <!--FoodserviceTransactionDetails object-->
+  <object name="FoodserviceTransactionDetails" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies transaction details</desc>
+    </attribute>
+    <element name="FoodserviceTransactionRefId" type="IdRefType" flags="M">
+      <desc>GUID that identifies food service transaction</desc>
+    </element>
+    <element name="Amounts" type="FSAmounts" flags="M">
+      <desc>Amount. This amount refers to the funds being directed inwards/ outwards from the customer's account. That is: these amounts reflect the changes to the account balances.</desc>
+    </element>
+    <element name="Description" type="String" flags="O">
+      <desc>Description</desc>
+    </element>
+  </object>
+  <!--FoodserviceTransactionPayMethod object-->
+  <object name="FoodserviceTransactionPayMethod" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies the payment</desc>
+    </attribute>
+    <element name="FoodserviceTransactionRefId" type="IdRefType" flags="M">
+      <desc>GUID that identifies food service transaction</desc>
+    </element>
+    <element name="TransactionPayMethods" type="TransactionPayMethods" flags="O" />
+  </object>
+  <!--FSAmount object-->
+  <object name="FSAmount" renderAs="Amount" dataType="decimal">
+    <attribute name="Type" enum="FSAmountType" flags="R" key="false">
+      <desc>
+        Type of amount. The currency unit is implied; namely USD. Note that when this common element is used not all of the following values apply. There are notes to indicate values that are applicable.
+      </desc>
+    </attribute>
+    <attribute name="Credits" type="Decimal" flags="R" key="false">
+      <desc>
+        Number of credits. This attribute does not apply to Cash or Value
+        and hence has a value 0. It only applies to types BreakfastCredit and LunchCredit.
+      </desc>
+    </attribute>
+    <attribute name="Currency" enum="CurrencyNames" flags="O">
+      <desc>	Currency code. Where omitted, defaults to implementation-defined local currency, typically USD in the United States. </desc>
+    </attribute>
+  </object>
+  <!--FSAmounts object-->
+  <object name="FSAmounts" renderAs="Amounts">
+    <element name="Amount" type="FSAmount" flags="OR" />
+  </object>
+  <!--FSAmountType enum-->
+  <enum name="FSAmountType">
+    <value name="CASH" value="Cash" desc="Cash" />
+    <value name="BREAKFASTCREDIT" value="BreakfastCredit" desc="Breakfast Credit" />
+    <value name="LUNCHCREDIT" value="LunchCredit" desc="Lunch Credit" />
+    <value name="CHECK" value="Check" desc="Check" />
+    <value name="CREDITCARD" value="CreditCard" desc="Credit Card" />
+    <value name="ACH" value="ACH" desc="ACH" />
+    <value name="ACTUAL_VALUE" value="Value" desc="Value" />
+  </enum>
+  <!--HistoricalMealStatus object-->
+  <object name="HistoricalMealStatus">
+    <element name="MealStatus" type="MealStatus" flags="OR">
+      <desc>
+        The student's meal status.  Note that as this status is historical, StartDate and EndDate together,
+        and/or SchoolYear MUST be included.  If SchoolYear is included,
+        StartDate and EndDate should not cross school year boundaries, i.e. in addition to multiple
+        statuses being a possibility in a given school year, the same status may be repeated so StartDate and EndDate don't
+        disagree with SchoolYear, if included.
+      </desc>
+    </element>
+  </object>
+  <!--ItemPortionTypeValue enum-->
+  <enum name="ItemPortionTypeValue">
+    <value name="COMPONENT" value="Component" desc="Component" />
+    <value name="ENTREE" value="Entree" desc="Entree" />
+    <value name="ALACARTE" value="AlaCarte" desc="AlaCarte" />
+    <value name="BONUS" value="Bonus" desc="Bonus" />
+    <value name="COMBO" value="Combo" desc="Combo" />
+    <value name="NONFOOD" value="NonFood" desc="NonFood" />
+  </enum>
+  <!--ItemQuantities object-->
+  <object name="ItemQuantities">
+    <element name="ItemQuantity" type="ItemQuantity" flags="OR" />
+  </object>
+  <!--ItemQuantity object-->
+  <object name="ItemQuantity">
+    <attribute name="FoodserviceItemPortionRefId" type="IdRefType" flags="R" key="false">
+      <desc>GUID of FoodserviceItemPortion object</desc>
+    </attribute>
+    <element name="Value" type="Decimal" flags="R" key="false">
+      <desc>The value of item quantity</desc>
+    </element>
+    <element name="MealType" enum="MealTypes" flags="O" />
+    <element name="GradeLevels" type="GradeLevels" flags="O" />
+    <element name="Cost" type="MonetaryAmount" flags="O">
+      <desc>The cost (dollar value) of the item sold.</desc>
+    </element>
+  </object>
+  <!--MealStatus object-->
+  <object name="MealStatus" empty="true">
+    <attribute name="Type" enum="FreeReducedStatus" flags="R">
+      <desc>Meal status type.</desc>
+    </attribute>
+    <element name="StartDate" type="Date" flags="O">
+      <desc>Date on which meal status became effective (inclusive).</desc>
+    </element>
+    <element name="EndDate" type="Date" flags="O">
+      <desc>Date on which meal status was last in effect. This attribute is conditional upon the StartDate element. It exists only if the StartDate element exists.</desc>
+    </element>
+    <element name="SchoolYear" type="Gyear" flags="O">
+      <desc>School year for which the information is applicable, expressed as the four-digit year in which the school year ends (e.g., 2004 for the 2003-04 school year).</desc>
+    </element>
+  </object>
+  <!--MealTypes enum-->
+  <enum name="MealTypes">
+    <value name="FIRSTMEAL" value="FirstMeal" desc="FirstMeal" />
+    <value name="SECONDMEAL" value="SecondMeal" desc="SecondMeal" />
+    <value name="STAFFMEAL" value="StaffMeal" desc="StaffMeal" />
+    <value name="ADULTMEAL" value="AdultMeal" desc="AdultMeal" />
+    <value name="ALACARTE" value="AlaCarte" desc="AlaCarte" />
+  </enum>
+  <!--MenuCategories enum-->
+  <enum name="MenuCategories">
+    <value name="ACTUALMEAL" value="ActualMeal" desc="ActualMeal" />
+    <value name="PROJECTEDMEAL" value="ProjectedMeal" desc="ProjectedMeal" />
+    <value name="ACTUALALACARTE" value="ActualAlaCarte" desc="ActualAlaCarte" />
+    <value name="PROJECTEDALACARTE" value="ProjectedAlaCarte" desc="ProjectedAlaCarte" />
+    <value name="PRODUCED" value="Produced" desc="Produced" />
+    <value name="LEFTOVER" value="LeftOver" desc="LeftOver" />
+    <value name="WASTED" value="Wasted" desc="Wasted" />
+  </enum>
+  <!--MenuPlanQuantities object-->
+  <object name="MenuPlanQuantities">
+    <element name="MenuPlanQuantity" type="MenuPlanQuantity" flags="OR" />
+  </object>
+  <!--MenuPlanQuantity object-->
+  <object name="MenuPlanQuantity">
+    <attribute name="FoodserviceItemPortionRefId" type="IdRefType" flags="R" key="false">
+      <desc>Item portion amount</desc>
+    </attribute>
+    <attribute name="MenuCategory" enum="MenuCategories" flags="R" key="false" />
+  </object>
+  <!--Price object-->
+  <object name="Price">
+    <element name="Value" type="decimal" flags="M">
+      <desc>The price value</desc>
+    </element>
+    <element name="MealStatus" type="MealStatus" key="false" flags="M" />
+    <element name="MealType" enum="MealTypes" key="false" flags="M" />
+    <element name="GradeLevels" type="GradeLevels" key="false" flags="M" />
+  </object>
+  <!--Prices object-->
+  <object name="Prices">
+    <element name="Price" type="Price" flags="OR" />
+  </object>
+  <!--PurchaseQuantities object-->
+  <object name="PurchaseQuantities">
+    <element name="PurchaseQuantity" type="PurchaseQuantity" flags="OR" />
+  </object>
+  <!--PurchaseQuantity object-->
+  <object name="PurchaseQuantity">
+    <attribute name="FoodserviceItemPortionRefId" type="IdRefType" flags="R" key="false">
+      <desc>Item portion amount</desc>
+    </attribute>
+    <attribute name="Earned" enum="YesNo" flags="R" key="false">
+      <desc>Identifies whether the item being purchased is earned i.e., at no cost to the buyer. It is used when FoodserviceTransaction object's TransactionType element has the value "Purchase".</desc>
+    </attribute>
+    <element name="MealType" enum="MealTypes" flags="M" />
+    <element name="Value" type="Decimal" flags="M" />
+  </object>
+  <!--Rate object-->
+  <object name="Rate">
+    <attribute name="SevereNeed" enum="YesNoNA" key="false" flags="R">
+      <desc>
+        Severe need identifier for the rate. When SevereNeed is Yes then the rate shown is the combined rate.
+        For certain programs the severe need identifier does not apply.  In such cases the value NA should
+        be used.
+      </desc>
+    </attribute>
+    <element name="Value" type="NormalizedString" flags="M">
+      <desc>The rate value</desc>
+    </element>
+    <element name="MealStatus" type="MealStatus" key="false" flags="M" />
+  </object>
+  <!--Rates object-->
+  <object name="Rates">
+    <element name="Rate" type="Rate" flags="OR">
+      <desc>Reimbursement rate of the meal</desc>
+    </element>
+  </object>
+  <!--SaleQuantities object-->
+  <object name="SaleQuantities">
+    <element name="SaleQuantity" type="SaleQuantity" flags="OR" />
+  </object>
+  <!--SaleQuantity object-->
+  <object name="SaleQuantity">
+    <element name="Value" type="Decimal" flags="M" key="false">
+      <desc>The value of sale quantity</desc>
+    </element>
+    <element name="MealStatus" type="MealStatus" flags="M" key="false" />
+    <element name="SaleUnit" type="NormalizedString" flags="M" key="false">
+      <desc>Unit of Sale</desc>
+    </element>
+    <element name="ChargeToChild" type="MonetaryAmount" flags="M" key="false">
+      <desc>Charge to child per unit</desc>
+    </element>
+  </object>
+  <!--SalesAmount object-->
+  <object name="SalesAmount" dataType="decimal">
+    <attribute name="Type" enum="SalesAmountType" flags="R" key="false">
+      <desc>Type of SalesAmount. This denotes the form of incoming funds for the sales done.</desc>
+    </attribute>
+    <attribute name="AccountType" enum="AccountType" flags="R" key="false">
+      <desc>Type of account to which sales amounts apply.  This is set to NA when Type is set as Earned.</desc>
+    </attribute>
+    <attribute name="Currency" enum="CurrencyNames" flags="O" />
+  </object>
+  <!--SalesAmounts object-->
+  <object name="SalesAmounts">
+    <element name="SalesAmount" type="SalesAmount" flags="OR">
+      <desc>Dollar value</desc>
+    </element>
+  </object>
+  <!--SalesAmountType enum-->
+  <enum name="SalesAmountType">
+    <value name="CASH" value="Cash" desc="Cash" />
+    <value name="ACCOUNT" value="Account" desc="Account" />
+    <value name="CHARGED" value="Charged" desc="Charged" />
+    <value name="EARNED" value="Earned" desc="Earned" />
+  </enum>
+  <!--StaffMeal object-->
+  <object name="StaffMeal" topic="true">
+    <attribute name="StaffPersonalRefId" type="IdRefType" flags="R">
+      <desc>The GUID of the staff to whom this object is linked.</desc>
+    </attribute>
+    <element name="EarnedStatus" type="EarnedStatus" flags="M" />
+    <element name="LastBreakfastDate" type="Date" flags="M">
+      <desc>Last breakfast served date</desc>
+    </element>
+    <element name="LastLunchDate" type="Date" flags="M">
+      <desc>Last lunch served date</desc>
+    </element>
+    <element name="Amounts" type="FSAmounts" flags="O" />
+  </object>
+  <!--StudentMeal object-->
+  <object name="StudentMeal" topic="true">
+    <desc>This object contains information about the meal status of a student.</desc>
+    <attribute name="StudentPersonalRefId" type="IdRefType" flags="R">
+      <desc>The GUID of the student to whom this object is linked.</desc>
+    </attribute>
+    <element name="MealStatus" type="MealStatus" flags="O" />
+    <element name="HistoricalMealStatus" type="HistoricalMealStatus" flags="O">
+      <desc>Optionally provides the meal status of the student historically.</desc>
+    </element>
+    <element name="LastBreakfastDate" type="Date" flags="O">
+      <desc>Date of the last reimbursable breakfast served.</desc>
+    </element>
+    <element name="LastLunchDate" type="Date" flags="O">
+      <desc>Date of the last reimbursable lunch served.</desc>
+    </element>
+    <element name="Amounts" type="FSAmounts" flags="O" />
+  </object>
+  <!--TransactionPayMethod object-->
+  <object name="TransactionPayMethod">
+    <attribute name="Type" enum="TransactionPayMethodType" flags="R">
+      <desc>This refers to the way the payment was made.</desc>
+    </attribute>
+    <element name="Amounts" type="FSAmounts" flags="MR">
+      <desc>AmountThis amount is the form of the incoming funds for this transaction. For example; the payment can be made by a credit card.</desc>
+    </element>
+  </object>
+  <!--TransactionPayMethods object-->
+  <object name="TransactionPayMethods">
+    <element name="TransactionPayMethod" type="TransactionPayMethod" flags="OR" />
+  </object>
+  <!--TransactionPayMethodType enum-->
+  <enum name="TransactionPayMethodType">
+    <value name="PAYMENT" value="Payment" desc="Payment" />
+    <value name="REFUND" value="Refund" desc="Refund" />
+    <value name="CHARGE" value="Charge" desc="Charge" />
+    <value name="USAGE" value="Usage" desc="Usage" />
+  </enum>
+  <!--TransactionType object-->
+  <object name="TransactionType" enum="TransactionTypeValue">
+    <desc>Type of transaction</desc>
+  </object>
+  <!--TransactionTypes object-->
+  <object name="TransactionTypes">
+    <element name="TransactionType" type="TransactionType" flags="OR">
+      <desc>Type of transaction</desc>
+    </element>
+  </object>
+  <!--TransactionTypeValue enum-->
+  <enum name="TransactionTypeValue">
+    <value name="PURCHASE" value="Purchase" desc="Purchase" />
+    <value name="PREPAYMENT" value="Prepayment" desc="Prepayment" />
+    <value name="REFUND" value="Refund" desc="Refund" />
+    <value name="REPAYMENT" value="Repayment" desc="Repayment" />
+    <value name="ADJUSTMENT" value="Adjustment" desc="Adjustment" />
+  </enum>
+</adk>

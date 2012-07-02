@@ -1,0 +1,90 @@
+public openadk.library.SIFMessagePayload message;
+
+	/**
+	 *  Determines if this SIF_Ack has a specific status code.
+	 *  @param code The status code to test for
+	 *  @return true if the SIF_Ack has one or more SIF_Status children and one
+	 *      of those contains the status code
+	 */
+	public boolean hasStatusCode( int code )
+	{
+		SIF_Status stat = getSIF_Status();
+		if( stat != null && stat.getSIF_Code() == code ){
+				return true;
+		}
+		return false;
+	}
+
+	/**
+	 *  Determines if this SIF_Ack communicates an error
+	 *  @return true if there is at least one SIF_Error child of SIF_Ack
+	 */
+	public boolean hasError()
+	{
+		return ( getSIF_Error() != null );
+	}
+	
+	/**
+	 *  Determines if this SIF_Ack contains the specified error code
+	 *  @param category The error category
+	 *  @param code The error code
+	 *  @return true if the SIF_Ack contains this error
+	 */
+	public boolean hasError( int category, int code )
+    {
+		SIF_Error error = getSIF_Error();
+		if( error != null && error.getSIF_Category() == category && error.getSIF_Code() == code ){
+				return true;
+		}
+		return false;
+	}    	 
+
+	public void LogSend( org.apache.log4j.Category log )
+	{
+		if( ( ADK.debug & ADK.DBG_MESSAGING ) != 0 )
+		{
+			LogCommon("Send ",log);
+		}
+	}
+
+	public void LogRecv( org.apache.log4j.Category log )
+	{
+		if( ( ADK.debug & ADK.DBG_MESSAGING ) != 0 )
+		{
+			LogCommon("Receive ",log);
+		}
+	}
+
+	private void LogCommon( String direction, org.apache.log4j.Category log )
+	{
+		StringBuffer b = new StringBuffer(direction);
+		b.append(fElementDef.tag( getSIFVersion() ));
+		b.append(" (Status = ");
+
+		SIF_Status stat = getSIF_Status();
+		if( stat != null ) {
+			b.append( stat.getSIF_Code() );
+		}
+		else
+			b.append( "none" );
+
+		SIF_Error error = getSIF_Error();
+		if( error != null ) {
+			b.append("; Errors = ");
+			b.append( 1 );
+		}
+
+		b.append(")");
+		log.debug(b.toString());
+
+		if( error != null && ( ADK.debug & ADK.DBG_MESSAGING ) != 0 ) {
+				log.debug( error.toString() );
+		}
+
+		if( ( ADK.debug & ADK.DBG_MESSAGING_DETAILED ) != 0 ) {
+			String id = getMsgId();
+	    	log.debug("  MsgId: " + ( id == null ? "<none>" : id ) );
+		    id = getSIF_OriginalMsgId();
+			log.debug("  OrgId: " + ( id == null ? "<none>" : id ) );
+		}
+	}	 

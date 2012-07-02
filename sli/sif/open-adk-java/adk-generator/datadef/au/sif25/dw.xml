@@ -1,0 +1,144 @@
+<!-- ======================================== -->
+<!-- Open ADK Object Definition File -->
+<!-- Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s) -->
+<!-- All Rights Reserved -->
+<!-- ======================================== -->
+<!-- SIF 2.5 dw objects -->
+<!-- ======================================== -->
+
+<adk package="dw" version="2.5" namespace="http://www.sifinfo.org/au/infrastructure/2.x">
+
+    <!--AggregateCharacteristicInfo object -->
+    <object name="AggregateCharacteristicInfo" topic="true">
+        <attribute name="RefId" type="IdRefType" flags="R">
+            <desc>Key for aggregate characteristic information.</desc>
+        </attribute>
+        <element name="Description" type="String" flags="O">
+            <desc>Describes the supercategory of the characteristic described in the Definition element below.</desc>
+        </element>
+        <element name="Definition" type="Token" flags="M">
+            <desc>Defines the aggregate characteristic information.</desc>
+        </element>
+        <element name="ElementName" type="Token" flags="O">
+            <desc>Reference to SIF elements or external authority (e.g., StudentPersonal/PersonInfo/Demographics/Sex).</desc>
+        </element>
+    </object>
+
+    <!--AggregateStatisticFact object -->
+    <object name="AggregateStatisticFact" topic="true">
+        <desc>This object is the actual value of the measurement. It is always associated with one statistic and one or more characteristics.</desc>
+        <attribute name="RefId" type="IdRefType" flags="R" />
+        <element name="AggregateStatisticInfoRefId" type="IdRefType" flags="M">
+            <desc>Reference to statistic defined by AggregateStatisticInfo.</desc>
+        </element>
+        <element name="Characteristics" type="Characteristics" flags="M">
+            <desc>Reference to one or more AggregateCharacteristicInfo objects.</desc>
+        </element>
+        <element name="Excluded" enum="YesNo" flags="O" />
+        <element name="Value" type="Decimal" flags="M">
+            <desc>Value of the fact.</desc>
+        </element>
+    </object>
+
+    <!--AggregateStatisticInfo object -->
+    <object name="AggregateStatisticInfo" topic="true">
+        <desc>This object defines the data that is being aggregated as well as the type of measurement that is being performed.</desc>
+        <attribute name="RefId" type="IdRefType" flags="R">
+            <desc>Key</desc>
+        </attribute>
+        <element name="StatisticName" type="Token" flags="M">
+            <desc>Name of Aggregate Statistic</desc>
+        </element>
+        <element name="CalculationRule" type="CalculationRule" flags="O">
+            <desc>Rule for calculating the aggregate statistic</desc>
+        </element>
+        <element name="ApprovalDate" type="Date" flags="O">
+            <desc>Date for which the statistic is initially valid</desc>
+        </element>
+        <element name="ExpirationDate" type="Date" flags="O">
+            <desc>Date after which the statistic is no longer valid</desc>
+        </element>
+        <element name="ExclusionRules" type="ExclusionRules" flags="O">
+            <desc>Rule for which statistic may not be reported</desc>
+        </element>
+        <element name="Source" type="Token" flags="O">
+            <desc>System providing the data: i.e., SIS, Transportation,</desc>
+        </element>
+        <element name="EffectiveDate" type="Date" flags="O">
+            <desc>Effective date of the statistic</desc>
+        </element>
+        <element name="DiscontinueDate" type="Date" flags="O">
+            <desc>Discontinue date of the statistic</desc>
+        </element>
+        <element name="Location" type="Location" flags="O">
+            <desc>Location where the activity takes place.</desc>
+        </element>
+        <element name="Measure" enum="MeasureType" flags="O">
+            <desc>Type of the statistic.</desc>
+        </element>
+    </object>
+
+    <!--Characteristics object -->
+    <object name="Characteristics">
+        <element name="AggregateCharacteristicInfoRefId" type="AggregateCharacteristicInfoRefId" flags="MR">
+            <desc>Reference to an AggregateCharacteristicInfo object.</desc>
+        </element>
+    </object>
+
+    <!--AggregateCharacteristicInfoRefId object -->
+    <object name="AggregateCharacteristicInfoRefId" datatype="IdRefType" />
+
+    <!--CalculationRule object -->
+    <object name="CalculationRule" datatype="String">
+        <desc>Rule for calculating the aggregate statistic</desc>
+        <attribute name="Type" enum="CalculationRuleType" flags="R">
+            <desc>Values: Description, Formula, URL, Other</desc>
+        </attribute>
+    </object>
+
+    <!--CalculationRuleType enum -->
+    <enum name="CalculationRuleType">
+        <value name="DESCRIPTION" value="Description" desc="Description" />
+        <value name="FORMULA" value="Formula" desc="Formula" />
+        <value name="URL" value="URL" desc="URL" />
+        <value name="OTHER" value="OTHER" desc="Other" />
+    </enum>
+
+    <!--ExclusionRules object -->
+    <object name="ExclusionRules">
+        <element name="ExclusionRule" type="ExclusionRule" flags="OR">
+            <desc>Rule for which statistic may not be reported</desc>
+        </element>
+    </object>
+
+    <!--ExclusionRule object -->
+    <object name="ExclusionRule" datatype="String">
+        <desc>Rule for which statistic may not be reported</desc>
+        <attribute name="Type" enum="ExclusionRuleType" flags="R">
+            <desc>Values: SampleSize, Description</desc>
+        </attribute>
+    </object>
+
+    <!--ExclusionRuleType enum -->
+    <enum name="ExclusionRuleType">
+        <value name="SAMPLESIZE" value="SampleSize" desc="SampleSize" />
+        <value name="DESCRIPTION" value="Description" desc="Description" />
+    </enum>
+
+    <!--MeasureType enum -->
+    <enum name="MeasureType">
+        <value name="COUNT" value="Count" desc="Count" />
+        <value name="MINIMUM" value="Minimum" desc="Minimum" />
+        <value name="MAXIMUM" value="Maximum" desc="Maximum" />
+        <value name="PERCENT" value="Percent" desc="Percent" />
+        <value name="MEAN" value="Mean" desc="Mean" />
+        <value name="MEDIAN" value="Median" desc="Median" />
+        <value name="MODE" value="Mode" desc="Mode" />
+        <value name="SUM" value="Sum" desc="Sum" />
+        <value name="STANDARDDEVIATION" value="StandardDeviation" desc="StandardDeviation" />
+        <value name="UNDUPLICATEDCOUNT" value="UnduplicatedCount" desc="UnduplicatedCount" />
+        <value name="FTE" value="FTE" desc="FTE" />
+        <value name="OTHER" value="Other" desc="Other" />
+    </enum>
+
+</adk>

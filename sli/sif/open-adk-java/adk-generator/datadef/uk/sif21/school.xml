@@ -1,0 +1,402 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.1 school objects                -->
+<!-- ======================================== -->
+<adk package="school" version="2.1" namespace="http://www.sifinfo.org/uk/infrastructure/2.x">
+  <!--ContactPersonal object-->
+  <object name="ContactPersonal" topic="true">
+    <desc>This object describes any person created as a contact at a school, LEA, or other institution, or associated with a Learner or other Workforce person.</desc>
+    <attribute name="RefId" type="Token" flags="M">
+      <desc>The ID (GUID) of a person referenced as a contact. Note that this GUID may be the same GUID assigned to a LearnerPersonal and/or WorkforcePersonal object record.</desc>
+    </attribute>
+    <element name="PersonalInformation" type="PersonalInformation" flags="M">
+      <desc>Name, demographic, address, email, and phone information for a person acting as a contact.</desc>
+    </element>
+  </object>
+  <!--GovernanceType enum-->
+  <enum name="GovernanceType">
+    <value name="COMMUNITY" value="CO" desc="Community" />
+    <value name="VOLUNTARY_AIDED" value="VA" desc="Voluntary Aided" />
+    <value name="VOLUNTARY_CONTROLLED" value="VC" desc="Voluntary Controlled" />
+    <value name="FOUNDATION" value="FO" desc="Foundation" />
+    <value name="INDEPENDENT" value="IN" desc="Independent" />
+    <value name="NON_MAINTAINED" value="NM" desc="Non-maintained (England only)" />
+    <value name="CITY_TECHNOLOGY_COLLEGE" value="CT" desc="City Technology College (England only)" />
+    <value name="ACADEMIES" value="CA" desc="Academies (England only)" />
+  </enum>
+  <!--GroupRole enum-->
+  <enum name="GroupRole">
+    <value name="HEAD_TEACHER" value="HDT" desc="Head teacher" />
+    <value name="DEPUTY_HEAD" value="DHT" desc="Deputy head" />
+    <value name="ASSISTANT_HEAD" value="AHT" desc="Assistant head" />
+    <value name="CLASSROOM_TEACHER" value="TCH" desc="Classroom teacher" />
+    <value name="ADVANCED_SKILLS_TEACHER" value="AST" desc="Advanced Skills Teacher" />
+    <value name="EXCELLENT_TEACHER" value="EXL" desc="Excellent Teacher" />
+    <value name="SUPPORT_STAFF" value="SUP" desc="Support staff" />
+    <value name="ADVISORY_TEACHER" value="AVT" desc="Advisory Teacher" />
+    <value name="EDUCATIONAL_PSYCHOLOGIST" value="EPS" desc="Educational Psychologist" />
+    <value name="ADMINISTRATOR" value="ADM" desc="Administrator" />
+    <value name="GOVERNOR" value="GOV" desc="Governor" />
+    <value name="ACADEMIC" value="ACD" desc="Academic" />
+    <value name="OTHER" value="OTH" desc="Other" />
+    <value name="VOLUNTEER" value="VOL" desc="Volunteer" />
+  </enum>
+  <!--GroupTypeCode enum-->
+  <enum name="GroupTypeCode">
+    <value name="GENERIC" value="G" desc="Generic Group" />
+    <value name="REGISTRATION" value="R" desc="Registration/Class Group" />
+    <value name="TEACHING" value="T" desc="Teaching (course) Group" />
+  </enum>
+  <!--HeadTeacherInfo object-->
+  <object name="HeadTeacherInfo">
+    <desc>Name and title fo the school's Head Teacher.</desc>
+    <element name="ContactName" type="normalizedString" flags="M">
+      <desc>The name of the head Teacher.</desc>
+    </element>
+    <element name="ContactTitle" type="normalizedString" flags="O">
+      <desc>The official title of the Head Teacher.</desc>
+    </element>
+  </object>
+  <!--IntakeType enum-->
+  <enum name="IntakeType">
+    <value name="COMPREHENSIVE" value="COMP" desc="Comprehensive" />
+    <value name="SELECTIVE_GRAMMER" value="SEL1" desc="Selective (Grammer)" />
+    <value name="SECONDARY_MODERN" value="SEL2" desc="Secondary Modern" />
+    <value name="SELECTIVE_TECH" value="SEL3" desc="Selective (Technical)" />
+    <value name="RELIGIOUS_SCHOOL" value="SEL4" desc="Religious School" />
+  </enum>
+  <!--LAInfo object-->
+  <object name="LAInfo" topic="true">
+    <desc>This object contains information about a Local Authority (LA). Compare with US/Canada object: LEAInfo</desc>
+    <attribute name="RefId" type="Token" flags="M">
+      <desc>The GUID of the LA whose information this is.</desc>
+    </attribute>
+    <element name="LAId" type="Token" flags="M">
+      <desc>The 3-digit LA number assigned by DfES. CBDS: L1, S1</desc>
+    </element>
+    <element name="LAName" type="normalizedString" flags="M">
+      <desc>The LA's short name to be used for reporting purposes. Normally, the word "Council" should not be included. CBDS: L3</desc>
+    </element>
+    <element name="LAFullName" type="normalizedString" flags="M">
+      <desc>The LA's full name. CBDS: L2</desc>
+    </element>
+    <element name="LAURL" type="anyURI" flags="O">
+      <desc>URL for the main LA website. CBDS: L4</desc>
+    </element>
+    <element name="LAAddress" type="Address" flags="O">
+      <desc>The LA's main address information.</desc>
+    </element>
+    <element name="AddressList" type="AddressList" flags="O">
+      <desc>A list of the LA's other addresses, if any.</desc>
+    </element>
+    <element name="LAPhoneNumber" type="PhoneNumber" flags="O">
+      <desc>The LA's primary phone number.</desc>
+    </element>
+    <element name="PhoneNumberList" type="PhoneNumberList" flags="O">
+      <desc>A list of the LA's other phone number(s).</desc>
+    </element>
+    <element name="LAContactList" type="ContactList" flags="O">
+      <desc>A list of contacts within the LA.</desc>
+    </element>
+  </object>
+  <!--OperationalStatus enum-->
+  <enum name="OperationalStatus">
+    <value name="OPEN" value="1" desc="Open" />
+    <value name="CLOSED" value="2" desc="Closed" />
+    <value name="PROPOSED_TO_CLOSE" value="3" desc="Open, but proposed to close" />
+    <value name="PROPOSED_TO_OPEN" value="4" desc="Proposed to open" />
+    <value name="DEREGISTERED_AS_EY_SETTING" value="5" desc="De-registered as EY Setting" />
+  </enum>
+  <!--PersonPicture object-->
+  <object name="PersonPicture" topic="true">
+    <desc>This object contains information about the learner's picture. Compare with US/Canada object: StudentPicture</desc>
+    <attribute name="PersonRefId" type="Token" flags="M">
+      <desc>It is important to note that using the same GUID a person may have a LearnerPersonal record, a WorkforcePersonal record, and a ContactPersonal record all at the same time.  This same picture is applicable regardless of the associated object type(s).</desc>
+    </attribute>
+    <element name="SIF_RefObjectList" type="SIF_RefObjectList" flags="M">
+      <desc>A list of one or more "personal" object type codes representing objects that can be requested for this person using the specified PersonRefId.</desc>
+    </element>
+    <element name="SchoolYear" type="GYear" flags="M">
+      <desc>School year for which this enrolment is applicable, expressed as the four-digit year in which the school year ends (e.g. 2007 for the 2006/07 school year).</desc>
+    </element>
+    <element name="PictureSource" type="PictureSource" flags="M">
+      <desc>This element defines the picture. If the Type attribute is URL, this is the location of the picture in [JPEG] format; if Type is JPEG, this is the [JPEG] image data encoded using the Base64 Content-Transfer-Encoding defined in Section 6.8 of [RFC 2045]. CBDS: 100019</desc>
+    </element>
+    <element name="OKToPublish" enum="YesNo" flags="O">
+      <desc>Can the picture be published?</desc>
+    </element>
+  </object>
+  <!--PhaseType enum-->
+  <enum name="PhaseType">
+    <value name="EARLY_YEARS" value="EY" desc="Early Years Setting" />
+    <value name="MIDDLE_DEEMED_PRIMARY" value="MP" desc="Middle (Deemed Primary)" />
+    <value name="MIDDLE_DEEMED_SECONDARY" value="MS" desc="Middle (Deemed Secondary)" />
+    <value name="NO_ESTABLISHMENT" value="NO" desc="No Establishment (for children not on any establishment roll)" />
+    <value name="NURSERY" value="NY " desc="Nursery" />
+    <value name="PRU" value="PR" desc="Pupil Referral Unit (PRU)" />
+    <value name="PRIMARY" value="PY " desc="Primary" />
+    <value name="SPECIAL" value="SP " desc="Special" />
+    <value name="SECONDARY" value="SY " desc="Secondary" />
+    <value name="MULTIPLE_PHASES" value="XX" desc="Multiple phases (not Middle, Special, or PRU)" />
+  </enum>
+  <!--PictureSource object-->
+  <object name="PictureSource">
+    <attribute name="Type" enum="PictureType" flags="R">
+      <desc>The way the picture is specified.</desc>
+    </attribute>
+  </object>
+  <!--PictureType enum-->
+  <enum name="PictureType">
+    <value name="URL" value="URL" desc="URL" />
+    <value name="JPEG" value="JPEG" desc="JPEG" />
+  </enum>
+  <!--ScheduleInfo object-->
+  <object name="ScheduleInfo">
+    <element name="TeacherList" type="TeacherList" flags="O" />
+  </object>
+  <!--ScheduleInfoList object-->
+  <object name="ScheduleInfoList">
+    <element name="ScheduleInfo" type="ScheduleInfo" flags="OR" />
+  </object>
+  <!--SchoolGroup object-->
+  <object name="SchoolGroup" topic="true">
+    <desc>This object describes a class or teaching group, including resource and time tabling information.  All groups are based upon a SchoolCourseInfo record. However, there are courses which are not based upon any subject area and likewise may not have any teachers or other staff assigned. Compare with US/Canada object:  SectionInfo</desc>
+    <attribute name="RefId" type="Token" flags="M">
+      <desc>The ID (GUID) that uniquely identifies this group entity. </desc>
+    </attribute>
+    <attribute name="SchoolGroupTypeRefId" type="Token" flags="M">
+      <desc>The ID (GUID) that identifies a course upon which this group is centered. Note that this element is mandatory when GroupType is associated with a course (teaching group). </desc>
+    </attribute>
+    <attribute name="SchoolYear" type="GYear" flags="M">
+      <desc>School year for which the group is applicable, expressed as the four-digit year in which the school year ends (e.g. 2007 for the 2006/07 school year). Where a group membership is valid across multiple years, the current year at the time of publication will be used. </desc>
+    </attribute>
+    <element name="LocalId" type="Token" flags="M">
+      <desc>The locally-assigned (unique) identifier for this group. </desc>
+    </element>
+    <element name="GroupName" type="normalizedString" flags="M">
+      <desc>The name associated with this group for display purposes.</desc>
+    </element>
+    <element name="Description" type="normalizedString" flags="O">
+      <desc>A textual description.</desc>
+    </element>
+    <element name="ParentSchoolGroupRefId" type="Token" flags="O">
+      <desc>The parent group associated with this group, if any. </desc>
+    </element>
+    <element name="ScheduleInfoList" type="ScheduleInfoList" flags="O">
+      <desc>A list of teachers, staff, or other non-learners associated with this group.</desc>
+    </element>
+  </object>
+  <!--SchoolGroupType object-->
+  <object name="SchoolGroupType" topic="true">
+    <desc>This object describes a high-level course or class grouping organised and/or taught within a school or establishment.  Note that not all courses are based upon a subject area.  One such course is "Class Group" which is the same as a homeroom or registration group. Compare with US/Canada object: SchoolCourseInfo</desc>
+    <attribute name="RefId" type="Token" flags="M">
+      <desc>The GUID that uniquely identifies a school group type, such as a course. </desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="Token" flags="M">
+      <desc>The ID (GUID) that references the school or establishment where the course is offered or the registration group exists. </desc>
+    </attribute>
+    <attribute name="SchoolYear" type="GYear" flags="M">
+      <desc>School year for which the information is applicable, expressed as the four-digit year in which the school year ends (e.g. 2007 for the 2006/07 school year). Where a group membership is valid across multiple years, the current year at the time of publication will be used. </desc>
+    </attribute>
+    <attribute name="GroupType" enum="GroupTypeCode" flags="M">
+      <desc>The group type.  Teaching groups are used to teach subjects while other groups are organised for various other reasons.</desc>
+    </attribute>
+    <element name="Code" type="normalizedString" flags="O">
+      <desc>School defined local code for the group, such as the course code, if applicable.</desc>
+    </element>
+    <element name="Title" type="normalizedString" flags="O">
+      <desc>Title of the group.</desc>
+    </element>
+    <element name="Description" type="normalizedString" flags="O">
+      <desc>Textual description for the group.</desc>
+    </element>
+    <element name="SubjectAreaList" type="SubjectAreaList" flags="O">
+      <desc>Subject matter areas taught as part of the group, if any.</desc>
+    </element>
+  </object>
+  <!--SchoolInfo object-->
+  <object name="SchoolInfo" topic="true">
+    <desc>This object contains basic information about a school or other educational establishment. Compare with US/Canada object with the same name.</desc>
+    <attribute name="RefId" type="Token" flags="M">
+      <desc>The GUID that identifies this school.</desc>
+    </attribute>
+    <attribute name="LAInfoRefId" type="Token" flags="M">
+      <desc>The ID (GUID) that references the school district of which this school is a member.</desc>
+    </attribute>
+    <element name="LocalId" type="normalizedString" flags="O">
+      <desc>An ID assigned by the publishing agent for this school or establishment. This may be set to any value.</desc>
+    </element>
+    <element name="EstablishmentId" type="Token" flags="M">
+      <desc>DfES Establishment Number for this school. CBDS: S2</desc>
+    </element>
+    <element name="LAId" type="Token" flags="M">
+      <desc>The 3-digit LA number assigned by DfES. CBDS: S1</desc>
+    </element>
+    <element name="SchoolName" type="normalizedString" flags="M">
+      <desc>School's name as indicated on the Annual Schools Census. CBDS: S5</desc>
+    </element>
+    <element name="SchoolFullName" type="normalizedString" flags="O">
+      <desc>School's full name as stated in the Instrument of Government. CBDS: S4</desc>
+    </element>
+    <element name="URN" type="Token" flags="O">
+      <desc>School Unique Reference Number.  This number is an alternate to the Establishment Number. CBDS: S3</desc>
+    </element>
+    <element name="SchoolURL" type="Token" flags="O">
+      <desc>URL for the school.</desc>
+    </element>
+    <element name="SchoolAddress" type="Address" flags="O">
+      <desc>The school's published address.</desc>
+    </element>
+    <element name="AddressList" type="AddressList" flags="O">
+      <desc>Other addresses associated with the school.</desc>
+    </element>
+    <element name="SchoolPhoneNumber" type="PhoneNumber" flags="O">
+      <desc>The main phone number for this school/establishment.</desc>
+    </element>
+    <element name="OtherPhoneNumberList" type="PhoneNumberList" flags="O">
+      <desc>A list of the school's phone numbers.</desc>
+    </element>
+    <element name="SchoolEmail" type="Email" flags="O">
+      <desc>School's email address for general correspondence. CBDS: S24</desc>
+    </element>
+    <element name="SchoolContactList" type="ContactList" flags="O">
+      <desc>A list of contacts at the school.</desc>
+    </element>
+    <element name="HeadTeacherInfo" type="HeadTeacherInfo" flags="O">
+      <desc>Name and title fo the school's Head Teacher.</desc>
+    </element>
+    <element name="Phase" enum="PhaseType" flags="O">
+      <desc>The high level code indicating the level of the educational institution. </desc>
+    </element>
+    <element name="SchoolType" enum="SchoolType" flags="O">
+      <desc>An indication of the level of the educational institution. CBDS: S521a</desc>
+    </element>
+    <element name="Governance" enum="GovernanceType" flags="O">
+      <desc>Governance afforded to this school. CBDS: S12</desc>
+    </element>
+    <element name="Intake" enum="IntakeType" flags="O">
+      <desc>Intake type. CBDS: S11</desc>
+    </element>
+    <element name="NCYearGroupList" type="NCYearGroupList" flags="O">
+      <desc>Collection of National Curriculum Year Groups offered in this school or establishment. CBDS: S9, S10</desc>
+    </element>
+    <element name="GenderOfEntry" enum="GenderOfEntry" flags="O">
+      <desc>Gender of learners allowed for entry to school. CBDS: S8a</desc>
+    </element>
+    <element name="GenderSixthForm" enum="GenderOfEntry" flags="O">
+      <desc>Gender of learners allowed for entry to Sixth Form. CBDS: S522</desc>
+    </element>
+    <element name="Boarders" enum="YesNo" flags="O">
+      <desc>Indicates whether the school supports boarders or not. CBDS: S21</desc>
+    </element>
+    <element name="SessionsPerDay" type="unsignedInt" flags="M">
+      <desc>The number of sessions in the usual school day (usually two).</desc>
+    </element>
+    <element name="Nursery" enum="YesNo" flags="O">
+      <desc>Indicates whether the school maintains a nursery class or not. Must be NO if Phase is set to MP, MS or SY. Must be YES if Phase is set to NY or EY. CBDS: S14</desc>
+    </element>
+    <element name="Special" enum="YesNo" flags="O">
+      <desc>Indicates whether the school has a special class/unit or not.  Must be Yes if Phase = SP.  Any details will be stored in the associated SchoolInfoDetail object. CBDS: S15</desc>
+    </element>
+    <element name="OperationalStatus" enum="OperationalStatus" flags="O">
+      <desc>Operational condition of a school.</desc>
+    </element>
+  </object>
+  <!--SchoolType enum-->
+  <enum name="SchoolType">
+    <value name="FIRST_SCHOOL_5_8" value="01" desc="First school, 5-8" />
+    <value name="FIRST_SCHOOL_5_9" value="02" desc="First school, 5-9" />
+    <value name="FIRST_SCHOOL_5_10" value="03" desc="First school, 5-10" />
+    <value name="FIRST_AND_MIDDLE" value="04" desc="First and Middle school, 5-12" />
+    <value name="MIDDLE_SCHOOL_8_12_PRI" value="05" desc="Middle school, 8-12, deemed Primary" />
+    <value name="MIDDLE_SCHOOL_9_13_PRI" value="06" desc="Middle school, 9-13, deemed Primary" />
+    <value name="MIDDLE_SCHOOL_9_13_SEC" value="07" desc="Middle school, 9-13, deemed Secondary" />
+    <value name="MIDDLE_SCHOOL_10_13_SEC" value="08" desc="Middle school, 10-13, deemed Secondary" />
+    <value name="COMP_UPPER_12_16" value="09" desc="Comprehensive Upper school, 12-15/16" />
+    <value name="COMP_UPPER_12_18" value="10" desc="Comprehensive Upper school, 12-18" />
+    <value name="COMP_UPPER_13_16" value="11" desc="Comprehensive Upper school, 13-16" />
+    <value name="COMP_UPPER_13_18" value="12" desc="Comprehensive Upper school, 13-18" />
+    <value name="INFANT_SCHOOL_5_8" value="16" desc="Infant school, 5-7/8" />
+    <value name="JUNIOR_SCHOOL_7_11" value="17" desc="Junior school, 7/8-11" />
+    <value name="INFANT_AND_JUNIOR" value="18" desc="Infant and Junior school, 5-11" />
+    <value name="COMP_ALL_11_16" value="21" desc="Comprehensive all-through, 11-16" />
+    <value name="COMP_ALL_11_18" value="22" desc="Comprehensive all-through, 11-18" />
+    <value name="JUNIOR_COMP_11_13" value="25" desc="Junior Comprehensive, 11-13, automatic transfer" />
+    <value name="JUNIOR_COMP_11_14" value="26" desc="Junior Comprehensive, 11-14, automatic transfer" />
+    <value name="JUNIOR_COMP_11_16" value="27" desc="Junior Comprehensive, 11-16, optional transfer at 13" />
+    <value name="JUNIOR_COMP_11_16_TRANS_13" value="28" desc="Junior Comprehensive, 11-16, optional transfer at 14" />
+    <value name="SENIOR_COMP_13_16_TRANS_14" value="29" desc="Senior Comprehensive, 13-16, automatic transfer" />
+    <value name="SENIOR_COMP_13_18_OPT" value="30" desc="Senior Comprehensive, 13-18, optional transfer" />
+    <value name="SENIOR_COMP_13_18_AUTO" value="31" desc="Senior Comprehensive, 13-18, automatic transfer" />
+    <value name="SENIOR_COMP_14_18_OPT" value="32" desc="Senior Comprehensive, 14-18, optional transfer" />
+    <value name="SENIOR_COMP_14_18_AUTO" value="33" desc="Senior Comprehensive, 14-18, automatic transfer" />
+    <value name="NON_COMP_SECOND_MODERN" value="36" desc="Non-Comprehensive Secondary - Modern" />
+    <value name="NON_COMP_SECOND_GRAMMER" value="37" desc="Non-Comprehensive Secondary - Grammar" />
+    <value name="NON_COMP_SECOND_TECH" value="38" desc="Non-Comprehensive Secondary - Technical" />
+    <value name="NON_COMP_SECOND_OTHER" value="39" desc="Non-Comprehensive Secondary - Other" />
+    <value name="MIDDLE_SCHOOL_10_14" value="41" desc="Middle school, 10-14, deemed Secondary" />
+    <value name="FIRST_SCHOOL_5_7" value="42" desc="First school, 5-7;" />
+    <value name="FIRST_SCHOOL_7_10" value="43" desc="First school, 7-10;" />
+    <value name="COMP_UPPER_14_18" value="44" desc="Comprehensive Upper school, 14/15-18" />
+    <value name="MIDDLE_SCHOOL_9_12" value="45" desc="Middle school, 9-12, deemed Primary" />
+    <value name="COMP_MIDDLE_UPPER" value="46" desc="Comprehensive, Middle and Upper, 10-16" />
+    <value name="CITY_TECHNOLOGY_COLLEGE" value="47" desc="City Technology College" />
+    <value name="COMP_UPPER_11_16" value="48" desc="Comprehensive Upper school, 11-16" />
+    <value name="ACADEMIES" value="49" desc="Academies" />
+    <value name="MAINTAINED_NURSERY" value="50" desc="Maintained Nursery" />
+    <value name="DIRECT_GRANT_NURSERY" value="51" desc="Direct Grant Nursery" />
+  </enum>
+  <!--Teacher object-->
+  <object name="Teacher">
+    <attribute name="WorkforcePersonalRefId" type="Token" flags="M">
+      <desc>The ID (GUID) of a teacher, staff member, or other employee participating in a non-learner capacity within this group.</desc>
+    </attribute>
+    <element name="Role" enum="GroupRole" flags="M">
+      <desc>The role associated with this person in the context of this group.</desc>
+    </element>
+  </object>
+  <!--TeacherList object-->
+  <object name="TeacherList">
+    <element name="Teacher" type="Teacher" flags="MR" />
+  </object>
+  <!--TermInfo object-->
+  <object name="TermInfo" topic="true">
+    <desc>This object provides information about a term; i.e., a reportable period of time. Compare with US/Canada object: TermInfo</desc>
+    <attribute name="RefId" type="Token" flags="M">
+      <desc>The ID (GUID) that uniquely identifies this TermInfo entity. </desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="Token" flags="M">
+      <desc>The ID (GUID) that identifies the school where the term is used. </desc>
+    </attribute>
+    <element name="SchoolYear" type="GYear" flags="M">
+      <desc>School year for which the information is applicable, expressed as the four-digit year in which the school year ends (e.g. 2007 for the 2006/07 school year). Where a group membership is valid across multiple years, the current year at the time of publication will be used. </desc>
+    </element>
+    <element name="StartDate" type="date" flags="M">
+      <desc>Starting date of the term. </desc>
+    </element>
+    <element name="EndDate" type="date" flags="M">
+      <desc>Ending date of the term (CCYYMMDD). </desc>
+    </element>
+    <element name="Description" type="normalizedString" flags="O">
+      <desc>Text-based description of the term.</desc>
+    </element>
+    <element name="TermCode" type="normalizedString" flags="O">
+      <desc>Locally-defined code. Use 'AUT', 'SPR', or 'SUM' for a 3 term year. Otherwise specify the term number within the year. CBDS: S115</desc>
+    </element>
+    <element name="TermsPerYear" type="unsignedInt" flags="O">
+      <desc>The number of terms in a given year (3-6). CBDS: S43</desc>
+    </element>
+    <element name="MarkingTerm" enum="YesNo" flags="O">
+      <desc>Does this TermInfo represent a marking period?</desc>
+    </element>
+    <element name="SchedulingTerm" enum="YesNo" flags="O">
+      <desc>Does this TermInfo represent a scheduling term?</desc>
+    </element>
+    <element name="AttendanceTerm" enum="YesNo" flags="O">
+      <desc>Does this TermInfo represent an attendance term?</desc>
+    </element>
+  </object>
+</adk>

@@ -1,0 +1,522 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.3 assessment objects            -->
+<!-- ======================================== -->
+<adk package="assessment" version="2.3" namespace="http://www.sifinfo.org/uk/infrastructure/2.x">
+  <!--AssessmentLearnerSet object-->
+  <object name="AssessmentLearnerSet" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that uniquely identifies an instance of this object.</desc>
+    </attribute>
+    <attribute name="AssessmentResultComponentGroupRefId" type="IdRefType" flags="R">
+      <desc>The assessment result component group (test or assessment) associated with the set of listed learners.</desc>
+    </attribute>
+    <element name="CreationDateTime" type="DateTime" flags="M">
+      <desc>Date/time assignment is created.</desc>
+    </element>
+    <element name="LocalId" type="String" flags="O">
+      <desc>Value supplied by publishing vendor/supplier.</desc>
+    </element>
+    <element name="LearnerList" type="LearnerList" flags="O" />
+    <element name="SchoolGroupRefId" type="IdRefType" flags="O">
+      <desc>Optional reference to the class group(s) to which this will be/are drawn.</desc>
+    </element>
+    <element name="WorkforcePersonalRefId" type="IdRefType" flags="O">
+      <desc>The ID (GUID) that uniquely identifies the teacher or staff member who created the learner set.</desc>
+    </element>
+  </object>
+  <!--AssessmentMethodType-->
+  <enum name="AssessmentMethodType">
+    <value name="DD_DISAPPLIED" value="DD" desc="Disapplied" />
+    <value name="NA_NOT_ASSESSED" value="NA" desc="Not assessed" />
+    <value name="TA_TEACHER_ASSESSMENT" value="TA" desc="Teacher Assessment" />
+    <value name="TT_TASK__TEST" value="TT" desc="Task / Test" />
+  </enum>
+  <!--AssessmentResponseComponent object-->
+  <object name="AssessmentResponseComponent" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The GUID that uniquely identifies an instance of this object.</desc>
+    </attribute>
+    <element name="Name" type="String" flags="M">
+      <desc>The identifier used within the publishing application.</desc>
+    </element>
+    <element name="LocalId" type="String" flags="O">
+      <desc>Optional reference to the school associated with the administration.</desc>
+    </element>
+    <element name="SupplierName" type="String" flags="O">
+      <desc>The supplier/originator/designer/owner of the described component.</desc>
+    </element>
+    <element name="Description" type="String" flags="M">
+      <desc>Longer text describing features of the component.</desc>
+    </element>
+    <element name="YearList" type="YearList" flags="O" />
+  </object>
+  <!--AssessmentResponseComponentGroup object-->
+  <object name="AssessmentResponseComponentGroup" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that uniquely identifies an instance of this object.</desc>
+    </attribute>
+    <attribute name="AssessmentSessionRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) of the assessment session in which the responses were collected.</desc>
+    </attribute>
+    <element name="Name" type="String" flags="M">
+      <desc>Name of the assessment/test/taken.</desc>
+    </element>
+    <element name="LocalId" type="String" flags="O">
+      <desc>The identifier used for this entity within the publishing application.</desc>
+    </element>
+    <element name="SupplierName" type="String" flags="O">
+      <desc>The supplier/originator/designer/owner of the described component grouping.</desc>
+    </element>
+    <element name="ComponentList" type="AssessmentResponseComponentList" flags="M" />
+  </object>
+  <!--AssessmentResultComponent object-->
+  <object name="AssessmentResultComponent" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) of this aspect or subtest.</desc>
+    </attribute>
+    <element name="Name" type="String" flags="M">
+      <desc>The name used to identify this component or aspect.</desc>
+    </element>
+    <element name="LocalId" type="String" flags="O">
+      <desc>The identifier used within the publishing application.</desc>
+    </element>
+    <element name="ShortDescription" type="String" flags="M">
+      <desc>Shorter description used for column headers in marksheets, etc.</desc>
+    </element>
+    <element name="Description" type="String" flags="M">
+      <desc>Longer text describing features of the component.</desc>
+    </element>
+    <element name="YearList" type="YearList" flags="O" />
+    <element name="AssessmentSubjectList" type="AssessmentSubjectList" flags="O" />
+    <element name="StageList" type="StageList" flags="O" />
+    <element name="AssessmentResultGradeSetRefId" type="IdRefType" flags="O">
+      <desc>The gradeset associated with the component or aspect.</desc>
+    </element>
+    <element name="MarkSetList" type="MarkSetList" flags="O" />
+    <element name="ComponentType" enum="ComponentType" flags="M">
+      <desc>Defines the associated result format.</desc>
+    </element>
+    <element name="ResultQualifier" enum="AssessmentResultQualifierType" flags="M">
+      <desc>Defines the format or type of result(s) awarded.</desc>
+    </element>
+    <element name="AssessmentMethod" enum="AssessmentMethodType" flags="M">
+      <desc>The method or format of the Assessment.</desc>
+    </element>
+    <element name="SupplierName" type="String" flags="O">
+      <desc>The supplier/originator/designer/owner of the aspect.</desc>
+    </element>
+  </object>
+  <!--AssessmentResultComponentGroup object-->
+  <object name="AssessmentResultComponentGroup" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that uniquely identifies a component group.</desc>
+    </attribute>
+    <element name="Name" type="String" flags="M">
+      <desc>Name of the assessment/test/goal.</desc>
+    </element>
+    <element name="LocalId" type="String" flags="O">
+      <desc>The identifier used for this entity within the publishing application.</desc>
+    </element>
+    <element name="SupplierName" type="String" flags="O">
+      <desc>The supplier/originator/designer/owner of the described component grouping.</desc>
+    </element>
+    <element name="ComponentList" type="AssessmentResultComponentList" flags="M" />
+  </object>
+  <!--AssessmentResponseComponentList object-->
+  <object name="AssessmentResponseComponentList">
+    <element name="AssessmentResponseComponentRefId" type="AssessmentResponseComponentRefId" flags="MR">
+      <desc>A SIF identifier for an assessment result component.</desc>
+    </element>
+  </object>
+  <!--AssessmentResponseComponentRefId object-->
+  <object name="AssessmentResponseComponentRefId" datatype="IdRefType">
+  </object>
+  <!--AssessmentResultComponentList object-->
+  <object name="AssessmentResultComponentList">
+    <element name="AssessmentResultComponentRefId" type="AssessmentResultComponentRefId" flags="MR">
+      <desc>A SIF identifier for an assessment result component.</desc>
+    </element>
+  </object>
+  <!--AssessmentResultComponentRefId object-->
+  <object name="AssessmentResultComponentRefId" datatype="IdRefType">
+  </object>
+  <!--AssessmentResultGradeSet object-->
+  <object name="AssessmentResultGradeSet" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) of this grade set.</desc>
+    </attribute>
+    <element name="LocalId" type="String" flags="O">
+      <desc>The locally assigned identifier for this grade set.</desc>
+    </element>
+    <element name="Name" type="String" flags="M">
+      <desc>The descriptive identifier for the grade set.</desc>
+    </element>
+    <element name="Notes" type="String" flags="O">
+      <desc>Explanatory/usage notes for grade set.</desc>
+    </element>
+    <element name="SupplierName" type="String" flags="O">
+      <desc>The supplier/originator/designer/owner of the gradeset.</desc>
+    </element>
+    <element name="GradeSets" type="GradeSets" flags="M" />
+  </object>
+  <!--AssessmentSession object-->
+  <object name="AssessmentSession" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) of this session.</desc>
+    </attribute>
+    <attribute name="AssessmentLearnerSetRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) of the set of people the session refers to.</desc>
+    </attribute>
+    <element name="SessionDate" type="Date" flags="O">
+      <desc>The date at which the activity takes place.</desc>
+    </element>
+    <element name="SchoolInfoRefId" type="IdRefType" flags="O" />
+    <element name="Activity" enum="SessionActivity" flags="O">
+      <desc>The activity which takes place.</desc>
+    </element>
+    <element name="Status" enum="SessionStatus" flags="O">
+      <desc>The current status of the session.</desc>
+    </element>
+    <element name="StaffList" type="StaffList" flags="O" />
+  </object>
+  <!--AssessmentSessionList object-->
+  <object name="AssessmentSessionList">
+    <element name="AssessmentSessionRefId" type="AssessmentSessionRefId" flags="MR">
+      <desc>The ID (GUID) that uniquely identifies the session associated with the result.</desc>
+    </element>
+  </object>
+  <!--AssessmentSessionRefId object-->
+  <object name="AssessmentSessionRefId" datatype="IdRefType">
+  </object>
+  <!--AssessmentStage object-->
+  <object name="AssessmentStage" enum="AssessmentStageType" >
+  </object>
+  <!--AssessmentStageRefId object-->
+  <object name="AssessmentStageRefId" datatype="IdRefType">
+  </object>
+  <!--AssessmentSubject object-->
+  <object name="AssessmentSubject" enum="AssessmentSubjectType">
+  </object>
+  <!--AssessmentSubjectList object-->
+  <object name="AssessmentSubjectList">
+    <element name="Subject" type="AssessmentSubject" flags="MR">
+      <desc>A subject area associated with this assessment component or aspect.</desc>
+    </element>
+  </object>
+  <!--ComponentType enum-->
+  <enum name="ComponentType">
+    <value name="COMMENT" value="Comment" desc="Comment" />
+    <value name="GRADE" value="Grade" desc="Grade" />
+    <value name="MARK" value="Mark" desc="Mark" />
+  </enum>
+  <!--Grade object-->
+  <object name="Grade">
+    <element name="Title" type="String" flags="M">
+      <desc>The visual representation of the grade.</desc>
+    </element>
+    <element name="Description" type="String" flags="M">
+      <desc>The meaning of the grade.</desc>
+    </element>
+    <element name="RankOrder" type="Uint" flags="M">
+      <desc>The rank position of the grade within the set where the highest value is assumed to be the best. While duplicate ranks are allowed they are discouraged.</desc>
+    </element>
+    <element name="NumericValue" type="Decimal" flags="M">
+      <desc>The numeric equivalent value of the grade.</desc>
+    </element>
+  </object>
+  <!--Grades object-->
+  <object name="Grades">
+    <element name="Grade" type="Grade" flags="MR" />
+  </object>
+  <!--GradeSet object-->
+  <object name="GradeSet">
+    <element name="StartDate" type="Date" flags="M">
+      <desc>The start date from which this version is valid.</desc>
+    </element>
+    <element name="EndDate" type="Date" flags="O">
+      <desc>The end date until which this version is valid.</desc>
+    </element>
+    <element name="Grades" type="Grades" flags="M" />
+  </object>
+  <!--GradeSets object-->
+  <object name="GradeSets">
+    <element name="GradeSet" type="GradeSet" flags="MR" />
+  </object>
+  <!--GroupType enum-->
+  <enum name="GroupType">
+    <value name="G_GENERIC_GROUP" value="G" desc="Generic Group" />
+    <value name="R_REGISTRATION_CLASS" value="R" desc="Registration/Class Group" />
+    <value name="T_TEACHING_COURSE_GROUP" value="T" desc="Teaching (course) Group" />
+  </enum>
+  <!--Item object-->
+  <object name="Item">
+    <element name="Response" type="String" flags="M">
+      <desc>Learner selection or response in raw format.</desc>
+    </element>
+    <element name="ResponseStatus" enum="ResponseStatus" flags="O">
+      <desc>Status of the response.</desc>
+    </element>
+    <element name="ResponseTime" type="" flags="O">
+      <desc>The length of time the learner took to respond.</desc>
+    </element>
+    <element name="Mark" type="String" flags="O">
+      <desc>The mark achieved for this item as evaluated by the assessment tool at the time of assessment.</desc>
+    </element>
+    <element name="Group" type="String" flags="O">
+      <desc>The item group within the assessment.</desc>
+    </element>
+    <element name="ItemName" type="String" flags="O">
+      <desc>Identifies the item on the assessment by name.</desc>
+    </element>
+    <element name="ItemNumber" type="String" flags="O">
+      <desc>Identifies the item by number on the assessment.</desc>
+    </element>
+    <element name="OrderAsked" type="Decimal" flags="O">
+      <desc>The order in which the item was asked.</desc>
+    </element>
+    <element name="NumberOfAttempts" type="Uint" flags="O">
+      <desc>The number of times a learner changes their answer or attempts a response.</desc>
+    </element>
+  </object>
+  <!--Items object-->
+  <object name="Items">
+    <element name="Item" type="Item" flags="OR" />
+  </object>
+  <!--LearnerAssessmentResponseSet object-->
+  <object name="LearnerAssessmentResponseSet" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that uniquely identifies this response set.</desc>
+    </attribute>
+    <attribute name="AssessmentResponseComponentRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) of the assessment response component that the responses are associated with</desc>
+    </attribute>
+    <attribute name="LearnerPersonalRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) of the Learner for whom these responses are.</desc>
+    </attribute>
+    <element name="Items" type="Items" flags="M" />
+  </object>
+  
+  <!--LearnerAssessmentResult-->
+  <object name="LearnerAssessmentResult" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The ID (GUID) of this result.</desc>
+    </attribute>
+    <attribute name="AssessmentComponentRefId" type="String" flags="R">
+      <desc>The assessment component that the result is for.</desc>
+    </attribute>
+    <attribute name="LearnerPersonalRefId" type="String" flags="R">
+      <desc>The ID (GUID) of the learner achieving the results.</desc>
+    </attribute>
+    <element name="SchoolInfoRefId" type="String" flags="M">
+      <desc>The school at which the assessment was taken.</desc>
+    </element>
+    <element name="AchievementDate" type="Date" flags="M">
+      <desc>The date the results were achieved.</desc>
+    </element>
+    <element name="Result" type="String" flags="M">
+      <desc>A grade title, a comment, or a mark (dependent on ComponentType of associated aspect). Marks and grades should be valid in the grade set or mark set on the date the assessment was achieved.</desc>
+    </element>
+    <element name="ResultStatus" enum="AssessmentResultStatusType" flags="M">
+      <desc>Indicates whether the result is estimated, an interim result, provisional, actual result or a target.</desc>
+    </element>
+    <element name="AssessmentSessionList" type="AssessmentSessionList" flags="O" />
+    <element name="WorkforcePersonalRefId" type="String" flags="O">
+      <desc>The ID (GUID) that uniquely identifies the teacher or staff member who created the result.</desc>
+    </element>
+    <element name="Note" type="String" flags="O">
+      <desc>Explanatory/usage notes for result.</desc>
+    </element>
+  </object>
+
+  <!--LearnerList object-->
+  <object name="LearnerList">
+    <element name="LearnerPersonalRefId" type="LearnerPersonalRefId" flags="MR">
+      <desc>The ID (GUID) of a learner assigned to take an assessment.</desc>
+    </element>
+  </object>
+  <!--MarkSet object-->
+  <object name="MarkSet">
+    <element name="StartDate" type="Date" flags="O">
+      <desc>Start date of the range validity - ranges should not overlap. If not supplied then assumed to have always been valid in the past.</desc>
+    </element>
+    <element name="EndDate" type="Date" flags="O">
+      <desc>End date of the range validity - ranges should not overlap.  If not supplied then assumed to always will be valid in the future.</desc>
+    </element>
+    <element name="MinValue" type="Decimal" flags="M">
+      <desc>The minimum value in the range of marks.</desc>
+    </element>
+    <element name="MaxValue" type="Decimal" flags="M">
+      <desc>The maximum value in the range of marks.</desc>
+    </element>
+  </object>
+  <!--MarkSetList object-->
+  <object name="MarkSetList">
+    <element name="MarkSet" type="MarkSet" flags="MR" />
+  </object>
+  <!--ResponseStatus enum-->
+  <enum name="ResponseStatus">
+    <value name="CORRECT" value="Correct" desc="Correct" />
+    <value name="INCORRECT" value="Incorrect" desc="Incorrect" />
+    <value name="COMPLETE" value="Complete" desc="Complete" />
+    <value name="PARTIALLYCOMPLETE" value="PartiallyComplete" desc="PartiallyComplete" />
+    <value name="VIEWED" value="Viewed" desc="Viewed" />
+    <value name="NOTVIEWED" value="NotViewed" desc="NotViewed" />
+    <value name="NOTANSWERED" value="NotAnswered" desc="NotAnswered" />
+    <value name="ATTEMPTED_VIEWED_BUT_NO_RESPONSE_GIVEN" value="Attempted (viewed but no response given)" desc="Attempted (viewed but no response given)" />
+    <value name="INCOMPLETE" value="Incomplete" desc="Incomplete" />
+  </enum>
+  <!--SessionActivity enum-->
+  <enum name="SessionActivity">
+    <value name="TEST" value="Test" desc="Test" />
+    <value name="HOMEWORK" value="Homework" desc="Homework" />
+    <value name="EXAM" value="Exam" desc="Exam" />
+  </enum>
+  <!--SessionStatus enum-->
+  <enum name="SessionStatus">
+    <value name="PLANNED" value="Planned" desc="Planned" />
+    <value name="COMPLETE" value="Complete" desc="Complete" />
+    <value name="PUBLISHED" value="Published" desc="Published" />
+  </enum>
+  <!--StaffList object-->
+  <object name="StaffList">
+    <element name="WorkforcePersonalRefId" type="WorkforcePersonalRefId" flags="MR">
+      <desc>The GUID that uniquely identifies a teacher or other staff member responsible for administering or assisting the learner with this assessment.</desc>
+    </element>
+  </object>
+  <!--StageList object-->
+  <object name="StageList">
+    <element name="Stage" type="AssessmentStageRefId" flags="MR">
+      <desc>The assessed stage (this may well be a Keystage List, but there is no reason why it couldn’t be used for other concepts such as NcYear applicability, Level  Exam Level GCSE, A-Level etc.).</desc>
+    </element>
+  </object>
+  <!--UKAssessmentResultQualifierType enum-->
+  <enum name="AssessmentResultQualifierType">
+    <value name="EG_EXAMINATION_POST14_QUALIFICATION" value="EG" desc="Examination/Post-14 Qualification Grade" />
+    <value name="EL_EAL_ASSESSMENT_LEVEL_PRE_NC_LEVEL_2" value="EL" desc="EAL Assessment Level (Pre NC Level 2)" />
+    <value name="FC_FOUNDATION_STAGE_PROFILE" value="FC" desc="Foundation Stage Profile Count" />
+    <value name="FD_FOUNDATION_STAGE_PROFILE" value="FD" desc="Foundation Stage Profile Detail" />
+    <value name="FS_FOUNDATION_STAGE_PROFILE" value="FS" desc="Foundation Stage Profile Score" />
+    <value name="IA_INTERNATIONAL_BACCALAUREATE" value="IA" desc="International Baccalaureate Assessment" />
+    <value name="IG_INTERNATIONAL_BACCALAUREATE_GRADE" value="IG" desc="International Baccalaureate Grade Point" />
+    <value name="IR_INTERNATIONAL_BACCALAUREATE_FINAL" value="IR" desc="International Baccalaureate Final Result" />
+    <value name="IS_INTERNATIONAL_BACCALAUREATE_AGGREGATE_GRADE" value="IS" desc="International Baccalaureate Aggregate Grade Points" />
+    <value name="NA_NATIONAL_CURRICULUM_AGE_STANDARDISED" value="NA" desc="National Curriculum Age Standardised Score" />
+    <value name="ND_NATIONAL_CURRICULUM_LEVEL_DECIMALISED" value="ND" desc="National Curriculum Level (Decimalised)" />
+    <value name="NF_NATIONAL_CURRICULUM_LEVEL_WITH_FINE" value="NF" desc="National Curriculum Level with Fine Grading" />
+    <value name="NL_NATIONAL_CURRICULUM" value="NL" desc="National Curriculum Level" />
+    <value name="NM_NUMBER_SCORE" value="NM" desc="Number score" />
+    <value name="NP_SEN_ASSESSMENT_LEVEL_P_SCALE" value="NP" desc="SEN Assessment Level (P Scale)" />
+    <value name="NR_NATIONAL_CURRICULUM_TEST_RAW" value="NR" desc="National Curriculum Test Raw Score" />
+    <value name="NS_NORMALISED_STANDARD" value="NS" desc="Normalised standard score" />
+    <value name="AG_AGE_SCORE" value="AG" desc="Age score" />
+    <value name="SA_STANDARD_AGE_SCORE" value="SA" desc="Standard age score" />
+    <value name="LG_LETTER_GRADE__MARK" value="LG" desc="Letter grade / mark" />
+    <value name="ML_MASTERY_LEVEL" value="ML" desc="Mastery level" />
+    <value name="NC_NORMAL_CURVE_EQUIVALENT" value="NC" desc="Normal curve equivalent score" />
+    <value name="PF_PASS_FAIL" value="PF" desc="Pass/fail" />
+    <value name="PC_PERCENTILE" value="PC" desc="Percentile" />
+    <value name="PR_PERCENTILE_RANK" value="PR" desc="Percentile rank" />
+    <value name="RA_RANKING" value="RA" desc="Ranking" />
+    <value name="RS_RAW_SCORE" value="RS" desc="Raw score" />
+    <value name="SC_SCALE_SCORE" value="SC" desc="Scale score" />
+    <value name="OT_OTHER" value="OT" desc="Other" />
+    <value name="CM_COMMENT" value="CM" desc="Comment" />
+  </enum>
+  <!--UKAssessmentResultStatusType enum-->
+  <enum name="AssessmentResultStatusType">
+    <value name="E_ESTIMATE" value="E" desc="Estimate" />
+    <value name="I_INTERIM" value="I" desc="Interim" />
+    <value name="P_PROVISIONAL_SUBJECT_TO_REGARDING" value="P" desc="Provisional (subject to regarding/appeal" />
+    <value name="R_RESULT" value="R" desc="Result" />
+    <value name="T_TARGET" value="T" desc="Target" />
+  </enum>
+  <!--UKAssessmentStageType enum-->
+  <enum name="AssessmentStageType">
+    <value name="FSP_FOUNDATION_STAGE_PROFILE_LOCALE_E" value="FSP" desc="Foundation Stage Profile (locale: E)" />
+    <value name="KS0_BASELINE_ASSESSMENT_LOCALE_E" value="KS0" desc="Baseline Assessment (locale: E)" />
+    <value name="KS1_KEY_STAGE_1_END_OF_LOCALE_E" value="KS1" desc="Key Stage 1 (End of) (locale: E)" />
+    <value name="K1T_KEY_STAGE_1_TRIAL_HISTORICAL_LOCALE_E" value="K1T" desc="Key Stage 1 Trial (Historical) (locale: E)" />
+    <value name="K2P_KEY_STAGE_2_PROGRESSION_TESTS_PILOT_LOCALE_E" value="K2P" desc="Key Stage 2 Progression Tests (Pilot) (locale: E)" />
+    <value name="K3P_KEY_STAGE_3_PROGRESSION_TESTS_PILOT_LOCALE_E" value="K3P" desc="Key Stage 3 Progression Tests (Pilot) (locale: E)" />
+    <value name="KS2_KEY_STAGE_2_END_OF_LOCALE_E" value="KS2" desc="Key Stage 2 (End of) (locale: E)" />
+    <value name="KS3_KEY_STAGE_3_END_OF_LOCALE_E" value="KS3" desc="Key Stage 3 (End of) (locale: E)" />
+    <value name="KS4_GCSE__GNVQ__OT_APPROVED_AWARDS_LOCALE_E" value="KS4" desc="GCSE / GNVQ / Other Approved Awards (locale: E)" />
+    <value name="KS5_A_LEVEL_AS_LEVEL_ADVANCED_GNVQ_OT_ADVANCED" value="KS5" desc="A Level/AS Level/Advanced GNVQ/Other Advanced Studies (locale: E)" />
+    <value name="Y03_YEAR_3_OPTIONAL_TESTS__TEACHER_ASSESSMENTS" value="Y03" desc="Year 3 Optional Tests / Teacher Assessments (locale: E)" />
+    <value name="Y04_YEAR_4_OPTIONAL_TESTS__TEACHER_ASSESSMENTS" value="Y04" desc="Year 4 Optional Tests / Teacher Assessments (locale: E)" />
+    <value name="Y4X_YEAR_4_OPTIONAL_TESTS_1997_BASED_LOCALE_E" value="Y4X" desc="Year 4 Optional Tests (1997 Based) (locale: E)" />
+    <value name="Y05_YEAR_5_OPTIONAL_TESTS__TEACHER_ASSESSMENTS" value="Y05" desc="Year 5 Optional Tests / Teacher Assessments (locale: E)" />
+    <value name="Y07_YEAR_7_OPTIONAL_TESTS__TEACHER_ASSESSMENTS" value="Y07" desc="Year 7 Optional Tests / Teacher Assessments (locale: E)" />
+    <value name="Y7P_YEAR_7_PROGRESS_TESTS_LOCALE_E" value="Y7P" desc="Year 7 Progress Tests (locale: E)" />
+    <value name="Y08_YEAR_8_OPTIONAL_TESTS__TEACHER_ASSESSMENTS" value="Y08" desc="Year 8 Optional Tests / Teacher Assessments (locale: E)" />
+    <value name="EAL_ENGLISH_ASADDITIONAL_LANGUAGE_LEVEL_OF" value="EAL" desc="English as an Additional Language Level of Acquisition (locale: E)" />
+    <value name="SEN_PSCALE_ASSESSMENTSEN_CHILDREN_LOCALE_E" value="SEN" desc="P-Scale Assessment for SEN children (locale: E)" />
+    <value name="W09_WORLD_CLASS_TESTS_AGED_9_LOCALE_E" value="W09" desc="World Class Tests – Aged 9 (locale: E)" />
+    <value name="W13_WORLD_CLASS_TESTS_AGED_13_LOCALE_E" value="W13" desc="World Class Tests – Aged 13 (locale: E)" />
+    <value name="P2_PRIMARY_2_LOCALE_S" value="P2" desc="Primary 2 (locale: S)" />
+    <value name="P3_PRIMARY_3_LOCALE_S" value="P3" desc="Primary 3 (locale: S)" />
+    <value name="P4_PRIMARY_4_LOCALE_S" value="P4" desc="Primary 4 (locale: S)" />
+    <value name="P5_PRIMARY_5_LOCALE_S" value="P5" desc="Primary 5 (locale: S)" />
+    <value name="P6_PRIMARY_6_LOCALE_S" value="P6" desc="Primary 6 (locale: S)" />
+    <value name="P7_PRIMARY_7_LOCALE_S" value="P7" desc="Primary 7 (locale: S)" />
+    <value name="S1_SECONDARY_1_LOCALE_S" value="S1" desc="Secondary 1 (locale: S)" />
+    <value name="S2_SECONDARY_2_LOCALE_S" value="S2" desc="Secondary 2 (locale: S)" />
+  </enum>
+  <!--UKAssessmentSubjectType enum-->
+  <enum name="AssessmentSubjectType">
+    <value name="ARA_ARABIC_LOCALE_E" value="ARA" desc="Arabic (locale: E)" />
+    <value name="ART_ARTDESIGN_LOCALE_E_W" value="ART" desc="Art and Design (locale: E W)" />
+    <value name="BEN_BENGALI_LOCALE_E" value="BEN" desc="Bengali (locale: E)" />
+    <value name="CHI_CHINESE_LOCALE_E" value="CHI" desc="Chinese (locale: E)" />
+    <value name="CLL_COMMUNICATION_LANGUAGE_LITERACY_LOCALE_E" value="CLL" desc="Communication Language &amp; Literacy (locale: E)" />
+    <value name="CRE_CREATIVE_DEVELOPMENT_LOCALE_E" value="CRE" desc="Creative Development (locale: E)" />
+    <value name="CYM_WELSH_LOCALE_W" value="CYM" desc="Welsh (locale: W)" />
+    <value name="DAN_DANISH_LOCALE_E" value="DAN" desc="Danish (locale: E)" />
+    <value name="DAT_DESIGNTECHNOLOGY_LOCALE_E_W" value="DAT" desc="Design and Technology (locale: E W)" />
+    <value name="DUT_DUTCH_LOCALE_E" value="DUT" desc="Dutch (locale: E)" />
+    <value name="ENG_ENGLISH_LOCALE_E_S_W" value="ENG" desc="English (locale: E S W)" />
+    <value name="FIN_FINNISH_LOCALE_E" value="FIN" desc="Finnish (locale: E)" />
+    <value name="FRE_FRENCH_LOCALE_E" value="FRE" desc="French (locale: E)" />
+    <value name="FSP_FOUNDATION_STAGE_PROFILE_TOTAL_LOCALE_E" value="FSP" desc="Foundation Stage Profile (Total) (locale: E)" />
+    <value name="GAE_GAELIC__GAIDHLG_LOCALE_S" value="GAE" desc="Gaelic / Gaidhlg (locale: S)" />
+    <value name="GEO_GEOGRAPHY_LOCALE_E_W" value="GEO" desc="Geography (locale: E W)" />
+    <value name="GER_GERMAN_LOCALE_E" value="GER" desc="German (locale: E)" />
+    <value name="GRE_MODERN_GREEK_LOCALE_E" value="GRE" desc="Modern Greek (locale: E)" />
+    <value name="GUJ_GUJARATI_LOCALE_E" value="GUJ" desc="Gujarati (locale: E)" />
+    <value name="HEB_MODERN_HEBREW_LOCALE_E" value="HEB" desc="Modern Hebrew (locale: E)" />
+    <value name="HIS_HISTORY_LOCALE_E_W" value="HIS" desc="History (locale: E W)" />
+    <value name="ICT_INFORMATION_COMMUNICATION_TECHNOLOGY" value="ICT" desc="Information &amp; Communication Technology (locale: E W)" />
+    <value name="ITA_ITALIAN_LOCALE_E" value="ITA" desc="Italian (locale: E)" />
+    <value name="JAP_JAPANESE_LOCALE_E" value="JAP" desc="Japanese (locale: E)" />
+    <value name="KUW_KNOWLEDGE_UNDERSTANDING_OF_WORLD_LOCALE_E" value="KUW" desc="Knowledge &amp; Understanding of World (locale: E)" />
+    <value name="MAT_MATHEMATICS__MATHEMATICAL_DEVELOPMENT_LOCALE_E" value="MAT" desc="Mathematics / Mathematical Development (locale: E S W)" />
+    <value name="MFL_MODERN_FOREIGN_LANGUAGE_LOCALE_E_W" value="MFL" desc="Modern Foreign Language (locale: E W)" />
+    <value name="MUS_MUSIC_LOCALE_E_W" value="MUS" desc="Music (locale: E W)" />
+    <value name="PAN_PANJABI_LOCALE_E" value="PAN" desc="Panjabi (locale: E)" />
+    <value name="PED_PHYSICAL_EDUCATION_LOCALE_E_W" value="PED" desc="Physical Education (locale: E W)" />
+    <value name="PHY_PHYSICAL_DEVELOPMENT_LOCALE_E" value="PHY" desc="Physical Development (locale: E)" />
+    <value name="POR_PORTUGUESE_LOCALE_E" value="POR" desc="Portuguese (locale: E)" />
+    <value name="PSE_PERSONAL_SOCIAL_EMOTIONAL_DEVELOPMENT" value="PSE" desc="Personal Social &amp; Emotional Development (locale: E)" />
+    <value name="PSH_PERSONAL_SOCIAL_HEALTH_EDUCATION_PSHE" value="PSH" desc="Personal Social &amp; Health Education (PSHE) (locale: E)" />
+    <value name="RUS_RUSSIAN_LOCALE_E" value="RUS" desc="Russian (locale: E)" />
+    <value name="SCI_SCIENCE_LOCALE_E_W" value="SCI" desc="Science (locale: E W)" />
+    <value name="SPA_SPANISH_LOCALE_E" value="SPA" desc="Spanish (locale: E)" />
+    <value name="SWE_SWEDISH_LOCALE_E" value="SWE" desc="Swedish (locale: E)" />
+    <value name="TUR_TURKISH_LOCALE_E" value="TUR" desc="Turkish (locale: E)" />
+    <value name="URD_URDU_LOCALE_E" value="URD" desc="Urdu (locale: E)" />
+    <value name="WEL_WELSH_LOCALE_E_W" value="WEL" desc="Welsh (locale: E W)" />
+  </enum>
+  <!--Year object-->
+  <object name="Year" datatype="String">
+  </object>
+  <!--YearList object-->
+  <object name="YearList">
+    <element name="Year" type="Year" flags="MR">
+      <desc>A year with which the component grouping is applicable (by convention this is the end year of an academic year eg: 2007/8  resolves to 2008).</desc>
+    </element>
+  </object>
+</adk>

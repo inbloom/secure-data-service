@@ -1,0 +1,10 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s) -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 1.1 infra objects                 -->
+<!-- ======================================== -->
+<adk package="infrastructure" version="1.1" name="Infrastructure" namespace="http://www.sifinfo.org/infrastructure/1.x">
+
+</adk>

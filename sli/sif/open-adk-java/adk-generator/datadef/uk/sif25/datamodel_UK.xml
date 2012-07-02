@@ -1,0 +1,16 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s) -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.5 datamodel objects             -->
+<!-- ======================================== -->
+<adk package="datamodel" version="2.5" name="Data Model" namespace="http://www.sifinfo.org/infrastructure/2.x">
+    <!--SIF_Metadata object-->
+  <object name="SIF_Metadata">
+    <element name="TimeElements" type="TimeElements" flags="O" />
+    <element name="LifeCycle" type="LifeCycle" flags="O" />
+    <element name="RightsElements" type="RightsElements" flags="O" />
+  </object>
+  
+</adk>

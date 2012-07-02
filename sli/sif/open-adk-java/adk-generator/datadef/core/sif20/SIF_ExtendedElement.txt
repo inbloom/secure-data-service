@@ -1,0 +1,172 @@
+
+	/**
+	 *  Gets the key of this object
+	 *  @return The value of the object's Mandatory or Required attribute. If
+	 *      an object has more than one such attribute, the key is a period-
+	 *      delimited concatenation of the attribute values in sequential order
+	 */
+	public String getKey() {
+		return fXmlData.getAttribute("Name");
+	}
+	
+
+	/**
+	 *  Gets the metadata fields that make up the key of this object
+	 *  @return an array of metadata fields that make up the object's key
+	 */
+	public ElementDef[] getKeyFields() {
+		return new ElementDef[] { new ElementDefImpl(fElementDef, "Name", "Name", 0, "common", SIFVersion.SIF15r1, SIFVersion.LATEST) };
+	}
+
+
+	/**
+	 *  Gets the value of the <code>&lt;Value&gt;</code> element.
+	* <p> The SIF specification defines the meaning of this element as: 
+	* <i>"Gets or sets the content value of the &lt;SIF_ExtendedElement&gt; element"</i><p>
+	 *
+	 *  @return The <code>Value</code> element of this object.
+	 *  @since 1.5r1
+	 */
+	public String getValue() { 
+		return fXmlData.getTextContent();
+	}
+
+	/**
+	 *  Sets the value of the <code>&lt;Value&gt;</code> element.
+	* <p> The SIF specification defines the meaning of this element as: 
+	* <i>"Gets or sets the content value of the &lt;SIF_ExtendedElement&gt; element"</i><p>
+	 *
+	 *  @param value A <code>String</code> object
+	 *  @since 1.5r1
+	 */
+	public void setValue( String value ) { 
+		fXmlData.setTextContent(value);
+	}
+
+	/**
+	 *  Gets the value of the <code>Name</code> attribute.
+	* <p> The SIF specification defines the meaning of this attribute as: 
+	* <i>"The name of the extended element. As it is possible that names for extended elements may collide from agent to agent, it is recommended that the names of extended elements be configurable in an agent, or that agents use URIs for the names of extended elements."</i><p>
+	 *
+	 *  @return The <code>Name</code> attribute of this object.
+	 *  @since 1.5r1
+	 */
+	public String getName() { 
+		return fXmlData.getAttribute("Name");
+	}
+
+	/**
+	 *  Sets the value of the <code>Name</code> attribute.
+	* <p> The SIF specification defines the meaning of this attribute as: 
+	* <i>"The name of the extended element. As it is possible that names for extended elements may collide from agent to agent, it is recommended that the names of extended elements be configurable in an agent, or that agents use URIs for the names of extended elements."</i><p>
+	 *
+	 *  @param value A <code>String</code> object
+	 *  @since 1.5r1
+	 */
+	public void setName( String value ) { 
+		fXmlData.setAttribute("SIF_Action", value);
+	}
+
+	/**
+	 *  Gets the value of the <code>XsiType</code> attribute.
+	* <p> The SIF specification defines the meaning of this attribute as: 
+	* <i>"Allows type of element to be explicitly communicated."</i><p>
+	 *
+	 *  @return The <code>XsiType</code> attribute of this object.
+	 *  @since 1.5r1
+	 */
+	public String getXsiType() { 
+		return fXmlData.getAttribute("xsi:type");
+	}
+
+	/**
+	 *  Sets the value of the <code>XsiType</code> attribute.
+	* <p> The SIF specification defines the meaning of this attribute as: 
+	* <i>"Allows type of element to be explicitly communicated."</i><p>
+	 *
+	 *  @param value A <code>String</code> object
+	 *  @since 1.5r1
+	 */
+	public void setXsiType( String value ) { 
+		fXmlData.setAttribute("SIF_Action", value);
+	}
+
+	/**
+	 *  Gets the value of the <code>SIF_Action</code> attribute.
+	* <p> The SIF specification defines the meaning of this attribute as: 
+	* <i>"In a Change event, this flag can be used to indicate an element has been deleted from the parent list container. At a minimum the key for the list must also be present."</i><p>
+	 *
+	 *  @return The <code>SIF_Action</code> attribute of this object.
+	 *  @since 1.5r1
+	 */
+	public String getSIF_Action() { 
+		return fXmlData.getAttribute("SIF_Action");
+	}
+
+	/**
+	 *  Sets the value of the <code>SIF_Action</code> attribute.
+	* <p> The SIF specification defines the meaning of this attribute as: 
+	* <i>"In a Change event, this flag can be used to indicate an element has been deleted from the parent list container. At a minimum the key for the list must also be present."</i><p>
+	 *
+	 *  @param value A constant defined by the <code>SIFActionType</code> class
+	 *  @since 1.5r1
+	 */
+	public void setSIF_Action( SIFActionType value ) { 
+		fXmlData.setAttribute("SIF_Action", value.getValue());
+	}
+
+	/**
+	 *  Sets the value of the <code>SIF_Action</code> attribute as a String.
+	* <p> The SIF specification defines the meaning of this attribute as: 
+	* <i>"In a Change event, this flag can be used to indicate an element has been deleted from the parent list container. At a minimum the key for the list must also be present."</i><p>
+	 *
+	 *  @param value The value as a String
+	 *  @since 1.5r1
+	 */
+	public void setSIF_Action( String value ) {
+		fXmlData.setAttribute("SIFAction", value);
+	}
+
+	/**
+	 * The XML DOM Document that is a child of this element
+	 */
+	private org.w3c.dom.Element fXmlData;
+	
+	/**
+	 * Returns the XML DOM Document that is a chld of this element
+	 * @return The DOM Document contained as a child of the <code>&lt;XMLData&gt;</code> or null
+	 */
+	public org.w3c.dom.Element getXML()
+	{	
+		if ( fXmlData == null )
+		{
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder;
+			try {
+				builder = factory.newDocumentBuilder();
+				Document document = builder.newDocument();
+				fXmlData = document.createElement("SIF_ExtendedElement");
+				document.appendChild(fXmlData);
+			} catch (ParserConfigurationException e) {
+				ADK.getLog().debug("Document builder failed to return a document builder in SIF_ExtendedElement.getXML(): " + e.getMessage());
+				fXmlData = null;
+			}
+			
+		}
+
+		return fXmlData;
+	}
+	
+	/**
+	 * Sets an XML DOM Document as the child of this element
+	 * @param doc
+	 */
+	public void setXML( org.w3c.dom.Element doc )
+	{
+		fXmlData = doc;
+	}
+
+	@Override
+	protected Object getSIFSimpleFieldValue(ElementDef id) {
+		return fXmlData.getAttribute(id.name());
+	}

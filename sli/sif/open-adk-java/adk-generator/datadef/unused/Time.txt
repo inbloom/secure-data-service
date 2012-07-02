@@ -1,0 +1,6 @@
+	/**
+	 *  Constructor
+	 */
+	public Time( ElementDef def ) {
+		super( def );
+	}

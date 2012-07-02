@@ -1,0 +1,226 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s) -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 1.1 trans objects                 -->
+<!-- ======================================== -->
+<adk package="trans" version="1.1" name="Transportation and Geographic Information" namespace="http://www.sifinfo.org/infrastructure/1.x">
+  <!--Bus object-->
+  <object name="Bus" empty="true">
+    <desc>Identifies a bus</desc>
+    <attribute name="BusInfoRefId" flags="R">
+      <desc>GUID that identifies the bus associated with this route.</desc>
+    </attribute>
+  </object>
+  <!--BusEquipment object-->
+  <object name="BusEquipment" topic="true">
+    <desc>This object contains information about a type of equipment that may be on a bus. Examples include wheelchair, carseat, etc.</desc>
+    <attribute name="RefId" flags="R">
+      <desc>GUID that identifies this type of equipment</desc>
+    </attribute>
+    <element name="Description" flags="M">
+      <desc>Explanation about the type of equipment</desc>
+    </element>
+  </object>
+  <!--BusInfo object-->
+  <object name="BusInfo" topic="true">
+    <desc>This object contains all of the information about a bus.</desc>
+    <attribute name="RefId" flags="R">
+      <desc>GUID that identifies this bus.</desc>
+    </attribute>
+    <element name="VehicleNumber" flags="M">
+      <desc>Vehicle number of ths bus</desc>
+    </element>
+    <element name="SeatingCapacity" type="UnsignedInt" flags="O">
+      <desc>The number of people who can ride on the bus at the same time</desc>
+    </element>
+    <element name="Contractor" flags="O">
+      <desc>The name of the contractor for this bus</desc>
+    </element>
+    <element name="EquipmentList" type="EquipmentList" flags="O" collapsed="true">
+      <desc>Describes any special equipment that is on this bus</desc>
+    </element>
+  </object>
+  <!--BusRouteDetail object-->
+  <object name="BusRouteDetail" topic="true">
+    <desc>The schedule for a bus route</desc>
+    <attribute name="RefId" flags="M">
+      <desc>GUID that identifies this object</desc>
+    </attribute>
+    <attribute name="BusRouteInfoRefId" flags="M">
+      <desc>GUID that identifies the bus route</desc>
+    </attribute>
+    <element name="BusStopInfoRefId" type="IdRefType" flags="M" renderAs="BusStop" surrogate="XPathSurrogate{BusStop/@BusStopInfoRefId=.}">
+      <desc>Describes a bus stop</desc>
+    </element>
+    <element name="ArrivalTime" flags="M" type="SIFTime" surrogate="SIFTimeSurrogate{}">
+      <desc>The time that the bus associated with this route will stop at this Bus Stop</desc>
+    </element>
+  </object>
+  <!--BusRouteInfo object-->
+  <object name="BusRouteInfo" topic="true">
+    <desc>This object contains all of the information about a bus route</desc>
+    <attribute name="RefId" flags="M">
+      <desc>GUID that identifies this bus route</desc>
+    </attribute>
+    <element name="BusInfoRefId" renderAs="Bus" surrogate="XPathSurrogate{Bus/@BusInfoRefId=.}" type="IdRefType" flags="M">
+      <desc>The bus associated with this route</desc>
+    </element>
+    <element name="RouteNumber" flags="M">
+      <desc>A unique identifier for the route. It may contain any printable ASCII character. For instance, you may have route 16AM in the morning and 16PM in the afternoon.</desc>
+    </element>
+    <element name="RouteType" flags="M" enum="RouteType">
+      <desc>The type of route</desc>
+    </element>
+    <element name="MaximumLoad" type="UnsignedInt" flags="O">
+      <desc>The maximum number of students who are on the bus at any point along this route</desc>
+    </element>
+    <element name="Description" flags="O">
+      <desc>Short explanation of the route. It may be used to designate an area, or used to color-code bus routes (e.g. "orange" route).</desc>
+    </element>
+    <element name="Name" type="Name" flags="O">
+      <desc>Name of the driver who drives this route.</desc>
+    </element>
+    <element name="RouteDurationLoaded" renderAs="RouteDuration" type="duration" flags="O" surrogate="RouteElementSurrogate{}" />
+    <element name="RouteDurationTotal" renderAs="RouteDuration" type="duration" flags="O" surrogate="RouteElementSurrogate{}" />
+    <element name="RouteDistanceLoaded" renderAs="RouteDistance" type="Distance" surrogate="RouteElementSurrogate{}" flags="O">
+      <desc>Refers to the distance the bus drives when at least one student is riding the bus.</desc>
+    </element>
+    <element name="RouteDistanceTotal" renderAs="RouteDistance" type="Distance" surrogate="RouteElementSurrogate{}" flags="O">
+      <desc>Includes the total distance driven for this route including to and from garage.</desc>
+    </element>
+  </object>
+  <!--BusStop object-->
+  <object name="BusStop" empty="true">
+    <desc>Describes a bus stop</desc>
+    <attribute name="BusStopInfoRefId" flags="R">
+      <desc>GUID that identifies a bus stop on the route</desc>
+    </attribute>
+  </object>
+  <!--BusStopInfo object-->
+  <object name="BusStopInfo" topic="true">
+    <desc>This object contains information about a bus stop.</desc>
+    <attribute name="RefId" flags="R">
+      <desc>GUID that identifies this location</desc>
+    </attribute>
+    <element name="Description" flags="M">
+      <desc>An explanation of this location</desc>
+    </element>
+    <element name="GridLocation" flags="O" type="GridLocation">
+      <desc>The location of the bus stop</desc>
+    </element>
+  </object>
+  <!--DisembarkBusRouteDetail object-->
+  <object name="DisembarkBusRouteDetail" datatype="IdRefType">
+    <attribute name="SIF_RefObject" type="string" flags="M" />
+  </object>
+  <!--Eligibility enum-->
+  <enum name="Eligibility">
+    <value name="BUS" value="Bus" desc="Bus" />
+    <value name="WALK" value="Walk" desc="Walk" />
+    <value name="BUS_HAZARD" value="BusHazard" desc="Bus Hazard" />
+    <value name="BUS_OUT_OF_ATTENDANCE" value="BusOutOfAttendance" desc="Bus Out of Attendance" />
+    <value name="PARENT_PAY" value="ParentPay" desc="Parent Pay" />
+    <value name="UNKNOWN" value="Unknown" desc="Unknown" />
+  </enum>
+  <!--EmbarkBusRouteDetail object-->
+  <object name="EmbarkBusRouteDetail" datatype="IdRefType">
+    <attribute name="SIF_RefObject" type="string" flags="M" />
+  </object>
+  <!--Equipment object-->
+  <object name="Equipment" empty="true">
+    <desc>Describes equipment on a bus</desc>
+    <attribute name="BusEquipmentRefId" flags="R">
+      <desc>GUID that identifies the type of equipment</desc>
+    </attribute>
+    <attribute name="Count" flags="R" key="false">
+      <desc>The number of pieces of this type of equipment</desc>
+    </attribute>
+  </object>
+  <!--EquipmentList object-->
+  <object name="EquipmentList" collapsed="true">
+    <element name="Equipment" type="Equipment" flags="OR" />
+  </object>
+  <!--HomeBusRouteDetail object-->
+  <object name="HomeBusRouteDetail" datatype="IdRefType" surrogate="XPathSurrogate{HomeBusRouteDetail=HomeBusRouteDetail/@BusRouteDetailRefId">
+    <desc>GUID referring to a BusRouteDetail object that identifies the origin bus stop for an inbound route or the destination bus stop for an outbound route. If the HomeBusRouteDetail element does not exist, then the student does not ride a bus to/from school.</desc>
+    <attribute name="SIF_RefObject" flags="R">
+      <desc>Must be set to BusRouteDetail</desc>
+    </attribute>
+  </object>
+  <!--RouteDistance object-->
+  <object name="Distance" datatype="decimal">
+    <attribute name="Unit" enum="DistanceUnit" flags="R">
+      <desc>Units used in the odometer reading.</desc>
+    </attribute>
+  </object>
+  <!--RouteType enum-->
+  <enum name="RouteType">
+    <value name="INBOUND" value="Inbound" desc="Inbound" />
+    <value name="OUTBOUND" value="Outbound" desc="Outbound" />
+  </enum>
+  <!--SchoolBusRouteDetail object-->
+  <object name="SchoolBusRouteDetail" datatype="IdRefType">
+    <desc>
+      GUID referring to a BusRouteDetail object that identifies the origin bus stop for an outbound route or the destination bus stop for an inbound route.
+      If the SchoolBusRouteDetail does not exist, then the student does not ride a bus to/from school.
+    </desc>
+  </object>
+  <!--StudentTransportInfo object-->
+  <object name="StudentTransportInfo" topic="true">
+    <desc>This object contains transportation information about a student. Students should
+          have at least two StudentTransportInfo objects associated with them: one for 
+          inbound information (getting to school) and one for outbound information (leaving
+          school). If their transportation changes based on the day of the week, then a
+          student will have more than two StudentTransportInfo objects.</desc>
+    <attribute name="RefId" flags="R">
+      <desc>GUID that identifies this object</desc>
+    </attribute>
+    <attribute name="StudentPersonalRefId" flags="R">
+      <desc>GUID that identifies the student that this object refers to</desc>
+    </attribute>
+    <attribute name="Type" flags="R" enum="StudentTransportInfoType">
+      <desc>The direction of transportation that this object refers to.</desc>
+    </attribute>
+    <attribute name="DayOfWeek" flags="R">
+      <desc>This attribute indicates the day(s) of the week to which this object refers. Value values are: the string "MoTuWeThFrSaSu" representing Monday through Sunday, or a subset of the string.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" flags="R">
+      <desc>GUID referring to the school that the student attends on these days of the week.</desc>
+    </attribute>
+    <element name="Eligibility" enum="Eligibility" flags="O">
+      <desc>Eligibility status of the student for district transportation for this trip.</desc>
+    </element>
+    <element name="HomeBusRouteDetail" type="HomeBusRouteDetail" flags="O" surrogate="XPathSurrogate{HomeBusRouteDetail/@BusRouteDetailRefId=.}">
+      <desc>If the HomeBusRouteDetail element does not exist then the student does not ride a bus to/from school.</desc>
+    </element>
+    <element name="TransferPoints" type="TransferPoints" flags="O" collapsed="true">
+      <desc>There should be one TransferPoint for each intermediate point on a trip. The "embark" and "disembark" bus stops for a single transfer point must be at the same location. To order multiple TransferPoint elements, use the Time element of the BusStopInfo objects referenced by the attributes.</desc>
+    </element>
+    <element name="SchoolBusRouteDetail" type="SchoolBusRouteDetail" surrogate="XPathSurrogate{SchoolBusRouteDetail/@BusRouteDetailRefId=.}" flag="O">
+      <desc>If the SchoolBusRouteDetail element does not exist then the student does not ride a bus to/from school.</desc>
+    </element>
+  </object>
+  <!--StudentTransportInfoType enum-->
+  <enum name="StudentTransportInfoType">
+    <value name="INBOUND" value="Inbound" desc="Inbound" />
+    <value name="OUTBOUND" value="Outbound" desc="Outboud" />
+  </enum>
+  <!--TransferPoint object-->
+  <object name="TransferPoint" empty="true">
+    <desc>Describes a transfer point for each intermediate point on a trip</desc>
+    <element name="EmbarkBusRouteDetail" type="EmbarkBusRouteDetail" surrogate="XPathSurrogate{@EmbarkBusRouteDetailRefId=.}" flags="R">
+      <desc>The GUID that identifies the bus stop/route when the student gets on the bus.</desc>
+    </element>
+    <element name="DisembarkBusRouteDetail" type="DisembarkBusRouteDetail" surrogate="XPathSurrogate{@DisembarkBusRouteDetailRefId=.}" flags="R">
+      <desc>The GUID that identifies the bus stop/route when the student gets off the bus.</desc>
+    </element>
+  </object>
+  <!--TransferPoints object-->
+  <object name="TransferPoints" collapsed="true">
+    <element name="TransferPoint" type="TransferPoint" flags="OR">
+      <desc>There should be one TransferPoint for each intermediate point on a trip. The "embark" and "disembark" bus stops for a single transfer point must be at the same location. To order multiple TransferPoint elements, use the Time element of the BusStopInfo objects referenced by the attributes.</desc>
+    </element>
+  </object>
+</adk>

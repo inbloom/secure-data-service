@@ -1,0 +1,138 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s) -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.0 datamodel objects             -->
+<!-- ======================================== -->
+<adk package="datamodel" version="2.1" name="Data Model" namespace="http://www.sifinfo.org/infrastructure/2.x">
+  <!--Created object-->
+  <object name="Created">
+    <element name="DateTime" type="DateTime" flags="M" />
+    <element name="Creators" type="Creators" flags="O" />
+  </object>
+  <!--Creator object-->
+  <object name="Creator">
+    <element key="false" name="Name" type="normalizedString" flags="M">
+      <desc>Human-readable name of the data's creator. If the object contains system-generated data, the name should identify the creating service or application.</desc>
+    </element>
+    <element name="ID" type="normalizedString" flags="M">
+      <desc>Unique identifier of the creator. An email address or URI could be used here.</desc>
+    </element>
+  </object>
+  <!--Creators object-->
+  <object name="Creators">
+    <element name="Creator" type="Creator" flags="MR" />
+  </object>
+  <!--FeeForUse object-->
+  <object name="FeeForUse">
+    <element name="UseType" type="String" flags="O">
+      <desc>A description of the fee structure for this resource. Some resources may be licensed differently depending upon their context. For example, a content provider might charge one fee structure for resources used in the classroom and a separate fee for those resources available to parents from home.</desc>
+    </element>
+    <element name="MeteringType" type="Token" flags="M" />
+    <element name="MeteringURL" type="AnyUri" flags="O" />
+    <element name="PerUseCharge" type="MonetaryAmount" flags="O" />
+  </object>
+  <!--FeesForUse object-->
+  <object name="FeesForUse">
+    <desc>A container for fees for use of the content in the object.</desc>
+    <element name="FeeForUse" type="FeeForUse" flags="OR" />
+  </object>
+  <!--LifeCycle object-->
+  <object name="LifeCycle">
+    <desc>This common metadata element describes the life cycle of the object it represents, based on the IEEE LOM LifeCycle element</desc>
+    <element name="Created" type="Created" flags="O" />
+    <element name="ModificationHistory" type="ModificationHistory" flags="O" />
+    <element name="TimeElements" type="TimeElements" flags="O" />
+  </object>
+  <!--ModificationHistory object-->
+  <object name="ModificationHistory">
+    <desc>An ordered set of Modified elements describing which system modified the data, when the modification took place, and a brief description of the modification.</desc>
+    <element name="Modified" type="Modified" flags="OR" />
+  </object>
+  <!--Modified object-->
+  <object name="Modified">
+    <desc>A single modification event.</desc>
+    <element key="false" name="By" type="normalizedString" flags="M">
+      <desc>Identifier of the system or person that modified the data.</desc>
+    </element>
+    <element name="DateTime" type="DateTime" flags="M">
+      <desc>The date/time the modification occurred.</desc>
+    </element>
+    <element key="false" name="Description" type="string" flags="O">
+      <desc>Human readable description of the data modifications.</desc>
+    </element>
+  </object>
+  <!--RightsElement object-->
+  <object name="RightsElement">
+    <element name="Cost" type="Boolean" flags="O" />
+    <element name="FeesForUse" type="FeesForUse" flags="OR" />
+    <element name="CopyrightStatement" type="String" flags="O" />
+    <element name="TermsOfUse" type="String" flags="O" />
+  </object>
+  <!--RightsElements object-->
+  <object name="RightsElements">
+    <element name="RightsElement" type="RightsElement" flags="OR" />
+  </object>
+  <!--SIF_Metadata object-->
+  <object name="SIF_Metadata">
+    <element name="TimeElements" type="TimeElements" flags="O" />
+    <element name="LifeCycle" type="LifeCycle" flags="O" />
+    <element name="RightsElements" type="RightsElements" flags="O" />
+  </object>
+  <!--SpanGap object-->
+  <object name="SpanGap">
+    <desc>This element is designed to contain the time period attached to an object. Very long periods (school year, quarter, etc.) and very small periods (second, millisecond, etc.) can be defined. This element provides a scoping description of the time metadata enclosed.</desc>
+    <element key="false" name="Type" enum="TimeElementType" flags="M" />
+    <element key="false" name="Code" type="NormalizedString" flags="M">
+      <desc>This element provides a place for the application to send structured data (code values, unique identifier, timestamps). This code value can, depending upon the use case agreement between agents, be used to qualify the data in the Value element.</desc>
+    </element>
+    <element key="false" name="Name" type="NormalizedString" flags="M">
+      <desc>Contains a human-readable description of the value in Value.</desc>
+    </element>
+    <element key="false" name="Value" type="String" flags="M">
+      <desc>Contains the human-readable value.</desc>
+    </element>
+    <element name="StartDateTime" type="DateTime" flags="O" />
+    <element key="false" name="EndDateTime" type="DateTime" flags="O" />
+  </object>
+  <!--SpanGaps object-->
+  <object name="SpanGaps">
+    <element name="SpanGap" type="SpanGap" flags="OR" />
+  </object>
+  <!--TimeElement object-->
+  <object name="TimeElement">
+    <desc>This element is designed to contain the time period attached to an object. Very long periods (school year, quarter, etc.) and very small periods (second, millisecond, etc.) can be defined. This element provides a scoping description of the time metadata enclosed.</desc>
+    <element key="false" name="Type" enum="TimeElementType" flags="M" />
+    <element name="Code" type="NormalizedString" flags="M">
+      <desc>This element provides a place for the application to send structured data (code values, unique identifier, timestamps). This code value can, depending upon the use case agreement between agents, be used to qualify the data in the Value element.</desc>
+    </element>
+    <element key="false" name="Name" type="NormalizedString" flags="M">
+      <desc>Contains a human-readable description of the value in Value.</desc>
+    </element>
+    <element key="false" name="Value" type="String" flags="M">
+      <desc>Contains the human-readable value.</desc>
+    </element>
+    <element name="StartDateTime" type="DateTime" flags="O" />
+    <element name="EndDateTime" type="DateTime" flags="O" />
+    <element name="SpanGaps" type="SpanGaps" flags="O" />
+    <element name="IsCurrent" type="Boolean" flags="O" />
+  </object>
+  <!--TimeElements object-->
+  <object name="TimeElements">
+    <element name="TimeElement" type="TimeElement" flags="OR" />
+  </object>
+  <!--TimeElementType enum-->
+  <enum name="TimeElementType">
+    <value name="FULL_SCHOOL_YEAR" value="Full school year" desc="Full school year" />
+    <value name="MINI-TERM" value="Mini-term" desc="Mini-term" />
+    <value name="LONG_SESSION" value="Long session" desc="Long session" />
+    <value name="OTHER" value="Other" desc="Other" />
+    <value name="SEMESTER" value="Semester" desc="Semester" />
+    <value name="TRIMESTER" value="Trimester" desc="Trimester" />
+    <value name="QUARTER" value="Quarter" desc="Quarter" />
+    <value name="SPRING_VACATIONJ" value="Spring Vacationj" desc="Spring Vacationj" />
+    <value name="SUMMER_TERM" value="Summer Term" desc="Summer Term" />
+    <value name="INTERCESSION" value="Intercession" desc="Intercession" />
+  </enum>
+</adk>

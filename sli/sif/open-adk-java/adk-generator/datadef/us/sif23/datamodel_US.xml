@@ -1,0 +1,157 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.3 datamodel objects             -->
+<!-- ======================================== -->
+<adk package="datamodel" version="2.3" namespace="http://www.sifinfo.org/infrastructure/2.x">
+  <!--BloomsTaxonomyLevel object-->
+  <object name="BloomsTaxonomyLevel" enum="BloomsTaxonomyLevelType" />
+  <!--BloomsTaxonomyLevel_1 object-->
+  <object name="BloomsTaxonomyLevel" enum="BloomsTaxonomyLevelType" />
+  <!--BloomsTaxonomyLevels object-->
+  <object name="BloomsTaxonomyLevels">
+    <element name="BloomsTaxonomyLevel" type="BloomsTaxonomyLevel" flags="OR" />
+  </object>
+  <!--BloomsTaxonomyLevelType enum-->
+  <enum name="BloomsTaxonomyLevelType">
+    <value name="KNOWLEDGE" value="Knowledge" desc="Knowledge" />
+    <value name="COMPREHENSION" value="Comprehension" desc="Comprehension" />
+    <value name="APPLICATION" value="Application" desc="Application" />
+    <value name="ANALYSIS" value="Analysis" desc="Analysis" />
+    <value name="SYNTHESIS" value="Synthesis" desc="Synthesis" />
+    <value name="EVALUATION" value="Evaluation" desc="Evaluation" />
+  </enum>
+  <!--EducationFilter object-->
+  <object name="EducationFilter">
+    <element name="MediaTypes" type="MediaTypes" flags="O" />
+    <element name="GradeLevels" type="GradeLevels" flags="O">
+      <desc>Applicable grade levels as defined by SIF.</desc>
+    </element>
+    <element name="SubjectAreas" type="SubjectAreas" flags="O" />
+    <element name="InterestLevels" type="InterestLevels" flags="O" />
+    <element name="BloomsTaxonomyLevels" type="BloomsTaxonomyLevels" flags="O">
+      <desc>This is a taxonomy of educational objectives based on three "domains:" Affective, Psychomotor, and Cognitive. For the purposes of assigning attributes to learning resources, the SIF specification is limited to the cognitive domain, including knowledge, comprehension, application, analysis, synthesis and evaluation. </desc>
+    </element>
+    <element name="MultipleIntelligences" type="MultipleIntelligences" flags="O">
+      <desc>An educational theory that describes at least eight different kinds of "intelligences.” These include linguistic, logical-mathematical, spatial, bodily-kinesthetic, musical intelligence, interpersonal, intrapersonal and naturalist.</desc>
+    </element>
+    <element name="InstructionalStrategies" type="InstructionalStrategies" flags="O">
+      <desc>The various ways that instruction is delivered to achieve learning objectives and concepts.</desc>
+    </element>
+  </object>
+  <!--InstructionalStrategies object-->
+  <object name="InstructionalStrategies">
+    <element name="InstructionalStrategy" type="InstructionalStrategy" flags="OR" />
+  </object>
+  <!--InstructionalStrategy object-->
+  <object name="InstructionalStrategy" enum="InstructionalStrategyType" />
+  <!--InstructionalStrategyType enum-->
+  <enum name="InstructionalStrategyType">
+    <value name="LECTURE" value="Lecture" desc="Lecture" />
+    <value name="ONLINE" value="Online" desc="Online" />
+    <value name="DISCUSSION" value="Discussion" desc="Discussion" />
+    <value name="COOPERATIVE_GROUP" value="Cooperative Group" desc="Cooperative Group" />
+    <value name="SCENARIO" value="Scenario" desc="Scenario" />
+    <value name="DEMONSTRATION_LAB" value="Demonstration/Lab" desc="Demonstration/Lab" />
+    <value name="SELFSTUDY" value="Self-study" desc="Self-study" />
+    <value name="PROBLEMBASED_LEARNING" value="Problem-Based Learning" desc="Problem-Based Learning" />
+    <value name="PROJECT" value="Project" desc="Project" />
+    <value name="OTHER" value="Other" desc="Other" />
+  </enum>
+  <!--InterestLevel object-->
+  <object name="InterestLevel" empty="true">
+    <element name="Code" enum="GradeLevelCode" flags="M">
+      <desc>Code representing the grade level.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+  <!--InterestLevels object-->
+  <object name="InterestLevels">
+    <element name="InterestLevel" type="InterestLevel" flags="OR" />
+  </object>
+  <!--MultipleIntelligence object-->
+  <object name="MultipleIntelligence" enum="MultipleIntelligenceType" />
+  <!--MultipleIntelligences object-->
+  <object name="MultipleIntelligences">
+    <element name="MultipleIntelligence" type="MultipleIntelligence" flags="OR" />
+  </object>
+  <!--MultipleIntelligenceType enum-->
+  <enum name="MultipleIntelligenceType">
+    <value name="LINGUISTIC" value="Linguistic" desc="Linguistic" />
+    <value name="LOGICALMATHEMATICAL" value="Logical-Mathematical" desc="Logical-Mathematical" />
+    <value name="SPATIAL" value="Spatial" desc="Spatial" />
+    <value name="MUSICAL" value="Musical" desc="Musical" />
+    <value name="BODILYKINESTHETIC" value="Bodily-Kinesthetic" desc="Bodily-Kinesthetic" />
+    <value name="INTERPERSONAL" value="Interpersonal" desc="Interpersonal" />
+    <value name="INTRAPERSONAL" value="Intrapersonal" desc="Intrapersonal" />
+    <value name="NATURALIST" value="Naturalist" desc="Naturalist" />
+  </enum>
+  <!--SIF_Metadata object-->
+  <object name="SIF_Metadata">
+    <element name="TimeElements" type="TimeElements" flags="O" />
+    <element name="LifeCycle" type="LifeCycle" flags="O" />
+    <element name="RightsElements" type="RightsElements" flags="O" />
+    <element name="EducationFilter" type="EducationFilter" flags="O" />
+  </object>
+  <!-- SEAInfo object -->
+  <object name="SEAInfo">
+     <desc>This object is designed to facilitate the transfer of State Education Agency (SEA) directory information to the Department of Education (USED) through the Education Data Exchange Network (EDEN).</desc>
+  	<attribute name="RefId" use="required" type="IdRefType">
+  	</attribute>
+  	<element name="LocalId" type = "NormalizedString">  	
+    	<desc>The locally-assigned identifier for this SEA.</desc>
+    </element>
+   	<element name="NCESId" type = "NormalizedString">  	
+    	<desc>The NCES-assigned identifier for this SEA.</desc>
+    </element>
+   	<element name="SEAName" type = "NormalizedString">  	
+   		<desc>The full legally accepted name of the SEA.</desc>
+    </element>
+   	<element name="SEAURL" type = "AnyURI">  	
+   		<desc>URL for the SEA.</desc>
+    </element>
+   	<element name="CSSOContact" type = "ContactInfo">  	
+   		<desc>Chief State School Officer contact information.</desc>
+    </element>
+   	<element name="SEAContactList" type = "SEAContactList">  	
+   		<desc></desc>
+    </element>
+   	<element name="PhoneNumberList" type = "PhoneNumberList">  	
+   		<desc>The SEA's phone number(s).</desc>
+    </element>
+   	<element name="AddressList" type = "AddressList">  	
+   		<desc>The SEA's address(es).</desc>
+    </element>
+   	<element name="OperationalStatus" type = "Token">  	
+   		<desc>Operational condition of an SEA.</desc>
+    </element>
+  	<element name="EDENInfo" type = "EDENInfoType">  	
+    </element>
+  </object>
+  <!--SEAContactList object-->
+  <object name="SEAContactList">
+  	  	<element name="SEAContact" type="SEAContact" flags="O">
+      		<desc>The two-digit Federal Information Processing Standard (FIPS) Code for the State, District of Columbia, and the possessions and freely associated areas of the United States (e.g. Puerto Rico).</desc>
+    	</element>
+  </object>
+  
+  <object name="SEAContact">
+  	  	<element name="PublishInDirectory" enum="YesNo" flags="O">
+      		<desc>Indicates whether or not this SEA contact's information should be published in a directory of SEA information.</desc>
+    	</element>
+ 	  	<element name="ContactInfo" type="ContactInfo" flags="O">
+    	</element>
+  </object>
+  
+  <object name="EDENInfoType">
+  	  	<element name="FIPSStateCode" type="Token" flags="O">
+      		<desc>The two-digit Federal Information Processing Standard (FIPS) Code for the State, District of Columbia, and the possessions and freely associated areas of the United States (e.g. Puerto Rico).</desc>
+    	</element>
+  	  	<element name="AgencyIdNumber" type="NormalizedString" flags="O">
+      		<desc>A number used in EDEN to uniquely uniquely identify state agencies.</desc>
+    	</element>
+  </object>
+  
+</adk>

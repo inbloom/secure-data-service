@@ -1,0 +1,1528 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s) -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 1.5r1 common objects              -->
+<!-- ======================================== -->
+<adk package="common" version="1.5r1" name="Common" namespace="http://www.sifinfo.org/infrastructure/1.x">
+  <!--Address object-->
+  <object name="Address">
+    <desc>This element represents an address. This object occurs within objects and elements such as StaffPersonal and StudentPersonal/StudentAddress, etc.</desc>
+    <attribute name="Type" flags="R" surrogate="XPathSurrogate{@Type=.}" enum="AddressType">
+      <desc>SPEEDE-ExPRESS code that defines the location of the address.</desc>
+    </attribute>
+    <element name="Street" type="Street" flags="M">
+      <desc>The street part of the address</desc>
+    </element>
+    <element name="City" flags="M">
+      <desc>The city part of the address</desc>
+    </element>
+    <element name="County" flags="O">
+      <desc>The county part of the address</desc>
+    </element>
+    <element name="StateProvince" renderAs="StatePr" enum="StatePrCode" surrogate="XPathSurrogate{StatePr/@Code=.}" flags="M">
+      <desc>The state or province</desc>
+    </element>
+    <element name="Country" enum="CountryCode" surrogate="XPathSurrogate{Country/@Code=.}" flags="M">
+      <desc>The country</desc>
+    </element>
+    <element name="PostalCode" flags="M">
+      <desc>The ZIP or postal code</desc>
+    </element>
+    <element name="GridLocation" type="GridLocation" flags="O">
+      <desc>The geographic location of the address</desc>
+    </element>
+  </object>
+  <!--AddressList object-->
+  <object name="AddressList" superclass="SIFActionList&lt;Address&gt;">
+    <element name="Address" type="Address" flags="OR">
+      <desc>This element contains information related to employee's address information.For a description of this element, see 5.1.1 Address.</desc>
+    </element>
+  </object>
+  <!--AddressType enum-->
+  <enum name="AddressType">
+    <value name="0369_PERMANENT" value="01" desc="Permanent Address" />
+    <value name="0369_OTHER" value="02" desc="Other Home Address" />
+    <value name="0369_MAILING" value="03" desc="Mailing Address" />
+    <value name="0369_CAMPUS" value="04" desc="Campus Address" />
+    <value name="0369_EMPLOYER" value="05" desc="Employer's Address" />
+    <value name="0369_EMPLOYMENT" value="06" desc="Employment Address" />
+    <value name="0369_ORGANIZATION" value="07" desc="Organization Address" />
+  </enum>
+  <!--AttendanceCode object-->
+  <object name="AttendanceCode">
+    <attribute name="AttendanceCodeInfoRefId" flags="R">
+      <desc>The ID (GUID) of the attendance code</desc>
+    </attribute>
+  </object>
+  <!--BirthDateVerification enum-->
+  <enum name="BirthDateVerification">
+    <value name="SIF1X_CHURCH" value="01" desc="Baptismal or Church certification - A form, issued by a church, listing the birthdate and certifying the baptism of a child" />
+    <value name="SIF1X_BIRTH_CERT" value="02" desc="Birth Certificate - A written statement of form issued by an office of vital statistics verifying the name and birthdate of a child as reported by the physician attending at the birth" />
+    <value name="SIF1X_FAMILY_BIBLE" value="03" desc="Entry in a family Bible - An entry in a family Bible on a special page for recording births, marriages, and other vital information about a family" />
+    <value name="SIF1X_HOSPITAL_CERT" value="04" desc="Hospital Certificate - A certificate issued by a hospital verifying the name and birthdate of a child" />
+    <value name="SIF1X_PARENT_AFFIDAVIT" value="05" desc="Parent Affidavit - A sworn, written statement made by an individual's parent to verify his or her age, birthdate, and place of birth" />
+    <value name="SIF1X_PASSPORT" value="06" desc="Passport - Any travel document issued by a recognized authority showing the bearer's origin, identity, birthdate, and nationality that is valid for the entry of the bearer into a foreign country" />
+    <value name="SIF1X_PHYSICIAN_CERT" value="07" desc="Physician's Certificate - A certificate issued by the physician attending at birth, verifying the name and birthdate of a child. A physician's certificate is considered to be a birth certificate when acceptable as such by the political subdivision where issued." />
+    <value name="SIF1X_SCHOOL_RECORDS" value="08" desc="Previously Verified School Records - A school record with the birthdate previously verified that is issued in lieu of more direct evidence to verify the birthdate" />
+    <value name="SIF1X_STATE_ID" value="09" desc="An official document issued by a state government agency, usually the department of public safety or the department of motor vehicles, that formally identifies the holder of the document. It usually is not accompanied by an approval for the holder to operate a vehicle of any type." />
+    <value name="SIF1X_DRIVER_LICENSE" value="10" desc="An official document issued by a state government agency, usually the department of public safety or the department of motor vehicles, that formally allows the holder to operate a motor vehicle, with specifications as to the type of vehicle that he or she can operate" />
+    <value name="SIF1X_IMMIGRATION_DOCUMENT" value="11" desc="An official document issued by a national government that would formally identify the holder of the document" />
+    <value name="SIF1X_NONE" value="98" desc="None" />
+    <value name="SIF1X_OTHER" value="99" desc="Other" />
+  </enum>
+  <!--CitizenshipStatus enum-->
+  <enum name="CitizenshipStatus">
+    <value name="SIF1X_DUALNATIONAL" value="01" desc="Dual National - An individual who is a citizen of more than one country" />
+    <value name="SIF1X_NON_RESIDENT_ALIEN" value="02" desc="Non-Resident Alien - An individual who has been admitted temporarily to the United States as a non-immigrant, but is not a citizen" />
+    <value name="SIF1X_RESIDENT_ALIEN" value="03" desc="An individual who has been admitted to the United States for permanent residency but is not a citizen of the United States" />
+    <value name="SIF1X_USCITIZEN" value="04" desc="United States Citizen - An individual who is a citizen of only the United States regardless of how this status was acquired" />
+    <value name="SIF1X_OTHER" value="99" desc="Other" />
+  </enum>
+  <!--ContactInfo object-->
+  <object name="ContactInfo">
+    <desc>Common element used to supply information for a contact person at a school, LEA, or other institution.</desc>
+    <element name="Name" type="Name" flags="M">
+      <desc>The name of the contact person.  For a description of this element, see 5.1.18 Name 5.1.6 Name.NOTE:  If the LastName and FirstName child elements cannot be provided, the child element FullName must have a value.</desc>
+    </element>
+    <element name="PositionTitle" flags="O">
+      <desc>The contact person's position title (e.g., Superintendent).</desc>
+    </element>
+    <element name="EmailList" type="EmailList" flags="O" collapsed="true">
+      <desc>List of Email elements.</desc>
+    </element>
+    <element name="PhoneNumberList" type="PhoneNumberList" flags="O" collapsed="true">
+      <desc>List of PhoneNumber elements.</desc>
+    </element>
+  </object>
+  <!--Contacts object-->
+  <object name="Contacts" collapsed="true">
+    <element name="Contact" renderAs="ResourceContact" type="LRContact" flags="OR" />
+  </object>
+  <!--CountriesOfCitizenship object-->
+  <object name="CountriesOfCitizenship">
+    <element name="CountryOfCitizenship" type="Country" surrogate="XPathSurrogate{CountryOfCitizenship/@Code=.}" flags="OR">
+      <desc>A person's country of citizenship.</desc>
+    </element>
+  </object>
+  <!--CountriesOfResidency object-->
+  <object name="CountriesOfResidency">
+    <element name="CountryOfResidency" type="Country" surrogate="XPathSurrogate{CountryOfResidency/@Code=.}" flags="OR">
+      <desc>A person's country of residence.</desc>
+    </element>
+  </object>
+  <!--Country object-->
+  <object name="Country" enum="CountryCode" />
+  <!--CountryCode enum-->
+  <enum name="CountryCode">
+    <value name="US" value="US" desc="United States of America" />
+  </enum>
+  <!--Demographics object-->
+  <object name="Demographics">
+    <desc>Demographics about a student, contact, staff member, etc.</desc>
+    <element name="RaceList" type="RaceList" flags="O" collapsed="true">
+      <desc>The person's race or ethnicity</desc>
+    </element>
+    <element name="Gender" enum="Gender" flags="O">
+      <desc>The person's gender</desc>
+    </element>
+    <element name="BirthDate" flags="O" type="SIFDate">
+      <desc>The person's date of birth</desc>
+    </element>
+    <element name="BirthDateVerification" enum="BirthDateVerification" flags="O">
+      <desc>Means by which the person's birth date was validated.</desc>
+    </element>
+    <element name="PlaceOfBirth" flags="O">
+      <desc>The person's place of birth (villiage, town, etc.)</desc>
+    </element>
+    <element name="CountyOfBirth" flags="O">
+      <desc>The county in which the person was born.</desc>
+    </element>
+    <element name="StateOfBirth" flags="O" enum="StatePrCode" surrogate="XPathSurrogate{StateOfBirth/@Code=.}">
+      <desc>The person's state of birth</desc>
+    </element>
+    <element name="CountryOfBirth" flags="O" enum="CountryCode" surrogate="XPathSurrogate{CountryOfBirth/@Code=.}">
+      <desc>The person's country of birth</desc>
+    </element>
+    <element name="CountriesOfCitizenship" flags="O" type="CountriesOfCitizenship" collapsed="true">
+      <desc>The person's country of citizenship</desc>
+    </element>
+    <element name="CountriesOfResidency" flags="O" type="CountriesOfResidency" collapsed="true">
+      <desc>The person's country of residence</desc>
+    </element>
+    <element name="CountryArrivalDate" flags="O" type="SIFDate">
+      <desc>Date the person first arrived in the country.</desc>
+    </element>
+    <element name="CitizenshipStatus" enum="CitizenshipStatus" flags="O">
+      <desc>The person's citizenship status</desc>
+    </element>
+    <element name="EnglishProficiency" flags="O" type="EnglishProficiency">
+      <desc>The person's proficiency in English</desc>
+    </element>
+    <element name="LanguageList" type="LanguageList" flags="O" collapsed="true">
+      <desc>The code that specifies the person's language</desc>
+    </element>
+    <element name="DwellingArrangement" surrogate="XPathSurrogate{DwellingArrangement=Code}" type="DwellingArrangement" flags="O">
+      <desc>Setting/environment in which the persion resides</desc>
+    </element>
+    <element name="MaritalStatus" enum="MaritalStatus" flags="O">
+      <desc>The person's marital status</desc>
+    </element>
+  </object>
+  <!--Duration object-->
+  <object name="Duration">
+    <desc>Desired duration of the lesson</desc>
+    <attribute name="Units" enum="DurationUnits" flags="R">
+      <desc>Unit of time of the Duration value.  Values: week,  day, hour, minute, second</desc>
+    </attribute>
+  </object>
+  <!--DurationUnits enum-->
+  <enum name="DurationUnits">
+    <value name="WEEK" value="week" desc="week" />
+    <value name="DAY" value="day" desc="day" />
+    <value name="HOUR" value="hour" desc="hour" />
+    <value name="MINUTE" value="minute" desc="minute" />
+    <value name="SECOND" value="second" desc="second" />
+  </enum>
+  <!--DwellingArrangement object-->
+  <object name="DwellingArrangement">
+    <element name="Code" enum="DwellingArrangementCode" flags="O">
+      <desc>Code representing the setting/environment in which the person resides</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+  <!--DwellingArrangementCode enum-->
+  <enum name="DwellingArrangementCode">
+    <value name="SIF1X_BORADING_HOUSE" value="01" />
+    <value name="SIF1X_COOPERATIVE_HOUSE" value="02" />
+    <value name="SIF1X_CRISIS_SHELTER" value="03" />
+    <value name="SIF1X_DISASTER_SHELTER" value="04" />
+    <value name="SIF1X_DORMITORY" value="05" />
+    <value name="SIF1X_FAMILY_RESIDENCE" value="06" />
+    <value name="SIF1X_FOSTER_HOME" value="07" />
+    <value name="SIF1X_INSTITUTION" value="08" />
+    <value name="SIF1X_DETENTION_CENTER" value="09" />
+    <value name="SIF1X_ROOMING_HOUSE" value="10" />
+    <value name="SIF1X_TRANSIENT_SHELTER" value="11" />
+    <value name="SIF1X_NO_HOME" value="12" />
+    <value name="SIF1X_OTHER_DORMITORY" value="13" />
+    <value name="SIF1X_OTHER" value="99" />
+  </enum>
+  <!--EducationalLevelCode enum-->
+  <enum name="EducationalLevelCode">
+    <value name="NO_SCHOOL" value="1043" desc="No school completed" />
+    <value name="PRE_KINDERGARTEN" value="0789" desc="Pre-kindergarten " />
+    <value name="KINDERGARTEN" value="0805" desc="Kindergarten " />
+    <value name="FIRST_GRADE" value="0790" desc="First Grade" />
+    <value name="SECOND_GRADE" value="0791" desc="Second Grade" />
+    <value name="THIRD_GRADE" value="0792" desc="Third Grade" />
+    <value name="FOURTH_GRADE" value="0793" desc="Fourth Grade" />
+    <value name="FIFTH_GRADE" value="0794" desc="Fifth Grade" />
+    <value name="SIXTH_GRADE" value="0795" desc="Sixth Grade" />
+    <value name="SEVENTH_GRADE" value="0796" desc="Seventh Grade" />
+    <value name="EIGHTH_GRADE" value="0798" desc="Eighth Grade" />
+    <value name="NINTH_GRADE" value="0799" desc="Ninth grade" />
+    <value name="TENTH_GRADE" value="0800" desc="Tenth grade" />
+    <value name="ELEVENTH_GRADE" value="0801" desc="Eleventh grade" />
+    <value name="12TH_GR_NO_DIPLOMA" value="1809" desc="12th grade, no diploma" />
+    <value name="HS_DIPLOMA" value="1044" desc="High school diploma" />
+    <value name="HS_COMPLETER" value="2408" desc="High school completer (e.g. certificate of attendance)" />
+    <value name="HS_EQUIV" value="2409" desc="High School Equivalency (e.g. GED)" />
+    <value name="ADULT_BASIC" value="1046" desc="Adult Basic Education Diploma" />
+    <value name="VOCATIONAL" value="0819" desc="Vocational certificate" />
+    <value name="AWARD_LESS_THAN_YEAR" value="1047" desc="Formal award, certificate or diploma (less than one year)" />
+    <value name="AWARD_MORE_THAN_YEAR" value="1048" desc="Formal award, certificate or diploma (more than or equal to one year)" />
+    <value name="SOME_COLLEGE" value="1049" desc="Some college but no degree" />
+    <value name="ASSOCIATES" value="1050" desc="Associate's degree (two years or more)" />
+    <value name="BACHELORS" value="1051" desc="Bachelor's (Baccalaureate) degree (e.g., B.A., A.B., B.S.)" />
+    <value name="GRADUATE_CERTIFICATE" value="1052" desc="Graduate certificate" />
+    <value name="FIRST_PROF" value="1053" desc="First professional degree (e.g., D.C. or D.C.M., D.D.S. or D.M.D., M.D., O.D., D.O., D.Phar., Pod.D., D.P.M, D.V.M., L.L.B. or J.D., M.Div., M.H.L., B.D., or Ordination)" />
+    <value name="MASTERS" value="1054" desc="Master's degree (e.g., M.A., M.S., M.Eng, M.Ed, M.S.W., M.B.A., M.L.S.)" />
+    <value name="SPECIALISTS" value="1055" desc="Specialist's degree (e.g., Ed.S)" />
+    <value name="POST-PROFESSIONAL" value="1056" desc="Post-Professional degree" />
+    <value name="DOCTORAL" value="1057" desc="Doctoral (Doctor’s) degree (e.g., Ph.D, Ed.D)" />
+    <value name="OTHER" value="9999" desc="Other" />
+  </enum>
+  <!--ElectronicId object-->
+  <object name="ElectronicId" renderAs="ItemElectronicId">
+    <desc>Identifies an electronic ID (barcode, magstripe, PIN, etc.)</desc>
+    <attribute name="Type" flags="R" enum="ElectronicIdType">
+      <desc>The type of electronic ID</desc>
+    </attribute>
+  </object>
+  <!--ElectronicIdList object-->
+  <object name="ElectronicIdList">
+    <element name="ElectronicId" type="ElectronicId" flags="OR">
+      <desc>Barcode, Magstripe or PIN associated with this item.  Refer to 5.1.7 ElectronicId.</desc>
+    </element>
+  </object>
+  <!--ElectronicIdType enum-->
+  <enum name="ElectronicIdType">
+    <value name="BARCODE" value="Barcode" />
+    <value name="MAGSTRIPE" value="Magstripe" />
+    <value name="PIN" value="PIN" />
+  </enum>
+  <!--Email object-->
+  <object name="Email">
+    <desc>This element represents an e-mail address of one of a number of types and occurs in objects such as StudentPersonal, StaffPersonal, StudentContact, etc.</desc>
+    <attribute name="Type" flags="R" enum="EmailType">
+      <desc>The type of email address (e.g. Primary, Alternate1, Alternate2, etc.)</desc>
+    </attribute>
+  </object>
+  <!--EmailList object-->
+  <object name="EmailList" superclass="SIFActionList&lt;Email&gt;">
+    <element name="Email" type="Email" flags="OR">
+      <desc>The employee's email.For a description of this element, see 5.1.8 Email.</desc>
+    </element>
+  </object>
+  <!--EmailType enum-->
+  <enum name="EmailType">
+    <value name="PRIMARY" value="Primary" />
+    <value name="ALT1" value="Alternate1" />
+    <value name="ALT2" value="Alternate2" />
+    <value name="ALT3" value="Alternate3" />
+    <value name="ALT4" value="Alternate4" />
+  </enum>
+  <!--EnglishProficiency object-->
+  <object name="EnglishProficiency" empty="true">
+    <desc>The student's English proficiency level</desc>
+    <attribute name="Code" flags="R" enum="EnglishProficiencyCode">
+      <desc>A SPEEDE/ExPRESS code describing a person's English language proficiency</desc>
+    </attribute>
+  </object>
+  <!--EnglishProficiencyCode enum-->
+  <enum name="EnglishProficiencyCode">
+    <value name="SIF15_NATIVE_ENGLISH_SPEAKER" value="01 " desc="Native English speaker " />
+    <value name="SIF15_FLUENT_ENGLISH" value="02 " desc="Fluent English proficient " />
+    <value name="SIF15_LIMITED_ENGLISH" value="03 " desc="Limited English proficient/English language learner " />
+    <value name="SIF15_NON-ENGLISH_SPEAKING" value="04 " desc="Non-English speaking " />
+    <value name="SIF15_REDESIGNATED_AS_FLUENT" value="05 " desc="Redesignated as fluent English proficient " />
+    <value name="SIF15_STATUS_UNKNOWN" value="99 " desc="Status unknown" />
+  </enum>
+  <!--EntryType object-->
+  <object name="EntryType" empty="true">
+    <attribute name="Code" flags="R" enum="EntryTypeCode" />
+  </object>
+  <!--EntryTypeCode enum-->
+  <enum name="EntryTypeCode">
+    <value name="ENTRY_D03" value="D03" desc="Student has attended a non-Public School or Home Education Program in or out of state this year, but is entering a Public School in this state for the first time this school year" />
+    <value name="ENTRY_D04" value="D04" desc="Student was received from another Attendance Reporting Unit in the same School" />
+    <value name="ENTRY_D05" value="D05" desc="Student was received from a School in the same District" />
+    <value name="ENTRY_D06" value="D06" desc="Student was received from another Public School outside the District either in or out of state" />
+    <value name="ENTRY_D07" value="D07" desc="Student was received from a non-Public School either in or out of the District or has returned after having been enrolled in a Home Education Program; the student must have been enrolled previously in a Public School this year" />
+    <value name="ENTRY_D08" value="D08" desc="Student unexpectedly re-entered the same school after withdrawing or being discharged" />
+    <value name="ENTRY_D22" value="D22" desc="Student has not entered any school in this or any other state this school year" />
+    <value name="ENTRY_D23" value="D23" desc="Previously attended out-of-state public school this year, but is entering a public school in this state for the first time this school year" />
+  </enum>
+  <!--ExitStatus object-->
+  <object name="ExitStatus" empty="true">
+    <attribute name="Code" flags="R" enum="ExitStatusCode" />
+  </object>
+  <!--ExitStatusCode enum-->
+  <enum name="ExitStatusCode">
+    <value name="PERMANENT" value="01" desc="Permanent Exit/Withdrawal; The student does not expect to return to membership in an educational institution" />
+    <value name="TEMPORARY" value="02" desc="Temporary Exit/Withdrawal; The student expects to return to membership in an educational institution" />
+  </enum>
+  <!--ExitType object-->
+  <object name="ExitType" empty="true">
+    <attribute name="Code" flags="R" enum="ExitTypeCode" />
+  </object>
+  <!--ExitTypeCode enum-->
+  <enum name="ExitTypeCode">
+    <value name="EXIT_B28" value="B28" desc="Student is on Suspension or Dismissal (Removed in SIF 2.0)" deprecated="true" />
+    <value name="EXIT_B29" value="B29" desc="Student is Expelled (Pre-K through Grade 12) (Removed in SIF 2.0)" deprecated="true" />
+    <value name="EXIT_B52" value="B52" desc="According to established regulations or statutes, the student is considered to be a 'dropout' (Removed in SIF 2.0)" deprecated="true" />
+    <value name="EXIT_D09" value="D09" desc="Student was expected to attend a school but did not enter as expected for unknown reasons (Removed in SIF 2.0)" deprecated="true" />
+    <value name="EXIT_D10" value="D10" desc="Student was promoted, retained, or transferred to another Attendance Reporting unit in the same School (Removed in SIF 2.0)" deprecated="true" />
+    <value name="EXIT_D11" value="D11" desc="Student was promoted, retained, or transferred to another School in the same District (Removed in SIF 2.0)" deprecated="true" />
+    <value name="EXIT_D12" value="D12" desc="Student withdrew to attend another Public School in the same District (Removed in SIF 2.0)" deprecated="true" />
+    <value name="EXIT_D13" value="D13" desc="Student withdrew to attend another Public School in or out of state (Removed in SIF 2.0)" deprecated="true" />
+    <value name="EXIT_D14" value="D14" desc="Student over compulsory attendance age who leaves school voluntarily with no intention of returning (Removed in SIF 2.0)" deprecated="true" />
+    <value name="EXIT_D15" value="D15" desc="Student who graduated from school with a standard diploma (Removed in SIF 2.0)" deprecated="true" />
+    <value name="EXIT_D16" value="D16" desc="Student who graduated from school with a special diploma (Removed in SIF 2.0)" deprecated="true" />
+    <value name="EXIT_D17" value="D17" desc="Student who left school with a certificate of completion (Removed in SIF 2.0)" deprecated="true" />
+    <value name="EXIT_D18" value="D18" desc="Student who left school with a special certificate of completion (Removed in SIF 2.0)" deprecated="true" />
+    <value name="EXIT_D19" value="D19" desc="Student who left school with a State General Education Development (GED) High School Diploma (Removed in SIF 2.0)" deprecated="true" />
+    <value name="EXIT_D20" value="D20" desc="Student withdrew to attend a non-Public School or Home Education Program in or out of state (Removed in SIF 2.0)" deprecated="true" />
+    <value name="EXIT_D21" value="D21" desc="Student withdrew from school due to hardship (Removed in SIF 2.0)" deprecated="true" />
+    <value name="EXIT_D26" value="D26" desc="Retained in current grade (Removed in SIF 2.0)" deprecated="true" />
+    <value name="EXIT_D28" value="D28" desc="Placed in a transitional program (K-12) (Removed in SIF 2.0)" deprecated="true" />
+    <value name="EXIT_D29" value="D29" desc="Status pending completion of summer school (K-12) (Removed in SIF 2.0)" deprecated="true" />
+    <value name="EXIT_D34" value="D34" desc="Promoted (Removed in SIF 2.0)" deprecated="true" />
+    <value name="EXIT_EB1" value="EB1" desc="Deceased (Removed in SIF 2.0)" deprecated="true" />
+    <value name="EXIT_EB3" value="EB3" desc="Withdrawn (use when reason for withdrawal is not among the other codes, or when reason cannot be determined) (Removed in SIF 2.0)" deprecated="true" />
+    <value name="EXIT_EB4" value="EB4" desc="Graduated (Removed in SIF 2.0)" deprecated="true" />
+  </enum>
+  <!--ExceptionalityCategory object-->
+  <object name="ExceptionalityCategory">
+    <desc>Exceptionality description/code which will identify the exceptionality of the student.  Not all programs require identification of an exceptionality.  If required for this program type, must have at least one element with Type attribute = "Primary".</desc>
+    <attribute name="CodeType" deprecated="true" key="false" default="NCES" flags="R">
+      <desc>If CodeType = "NCES" then use code set 0768 Primary Disability Type [NCES Handbooks]</desc>
+    </attribute>
+    <attribute name="ExceptionalityPriority" renderAs="Type" enum="ExceptionalityPriority" flags="R">
+      <desc>Identifies priority of the exceptionality.  "Primary" is the first and is required even if only one exceptionality is specified. "Secondary", etc. are of lower priority. Primary, Secondary, and Tertiary must be specified before "Additional" is used.</desc>
+    </attribute>
+    <element name="Code" enum="ExceptionalityCategoryCode" flags="M">
+      <desc>Exceptionality description/code which identifies the exceptionality or areas of need of the student.  Not all programs require identification of an exceptionality.  If required for this program type, must have at least one element with ExceptionalityPriority attribute = "Primary".</desc>
+    </element>
+  </object>
+  <!--ExceptionalityCategoryCode enum-->
+  <enum name="ExceptionalityCategoryCode">
+    <value name="AUTISM" value="2121" desc="Autistic / autism" />
+    <value name="DEAF_BLIND" value="2122" desc="Deaf-blindness" />
+    <value name="DEAFNESS" value="2133" desc="Deafness" />
+    <value name="DEVELOPMENTAL_DELAY" value="2134" desc="Developmental delay" />
+    <value name="ORTHOPEDIC_IMPAIRMENT" value="2127" desc="Orthopedic impairment" />
+    <value name="HEARING_IMPAIRMENT" value="2123" desc="Hearing impairment" />
+    <value name="INFANT_TODDLER_DISABILITY" value="2135" desc="Infants and toddlers with disabilities" />
+    <value name="MENTAL_RETARDATION" value="2124" desc="Mental retardatioN" />
+    <value name="MULTIPLE_DISABILITIES" value="2125" desc="Multiple disabilities" />
+    <value name="OTHER_HEALTH_IMPAIRMENT" value="2132" desc="Other health impairment" />
+    <value name="SPECIFIC_LEARNING_DISABILITY" value="2128" desc="Specific learning disability" />
+    <value name="SPEECH_IMPAIRMENT" value="2129" desc="Speech or language impairment" />
+    <value name="BRAIN_INJURY" value="2130" desc="Traumatic brain injury" />
+    <value name="VIUSAL_IMPAIRMENT" value="2131" desc="Visual impairment" />
+    <value name="OTHER" value="9999" desc="Other (not valid for special education)" />
+  </enum>
+  <!--ExceptionalityCodeType enum-->
+  <enum name="ExceptionalityCodeType">
+    <value name="NCES" value="NCES" desc="code from the NCES handbook" />
+    <value name="STATEDOE" value="StateDOE" desc="code defined by the State Department of Education" />
+    <value name="LOCAL" value="Local" desc="locally-defined code" />
+    <value name="TEXT" value="Text" desc="textual description" />
+  </enum>
+  <!--ExceptionalityPriority enum-->
+  <enum name="ExceptionalityPriority">
+    <value name="PRIMARY" value="Primary" desc="only one element of this Type is permitted" />
+    <value name="SECONDARY" value="Secondary" desc="only one element of this Type is permitted" />
+    <value name="TERTIARY" value="Tertiary" desc="Tertiary" />
+    <value name="ADDITIONAL" value="Additional" desc="Additional" />
+  </enum>
+  <!--FinancialProgram enum-->
+  <enum name="FinancialProgram">
+    <value name="FOODSERVICE" value="Foodservice" desc="Foodservice" />
+    <value name="CFDA" value="CFDA" desc="CFDA" />
+    <value name="NCES" value="NCES" desc="NCES" />
+    <value name="STATEDOE" value="StateDOE" desc="StateDOE" />
+    <value name="LOCAL" value="Local" desc="Local" />
+    <value name="TEXT" value="Text" desc="Text" />
+  </enum>
+  <!--FreeReducedStatus enum-->
+  <enum name="FreeReducedStatus">
+    <value value="Free" name="FREE" desc="Free" />
+    <value value="Reduced" name="REDUCED" desc="Reduced" />
+    <value value="None" name="NONE" desc="'None' refers to paid students." />
+    <value value="NA" name="NA" desc="Not Applicable. In SIF objects where the MealStatus is required and does not apply NA should be used." />
+  </enum>
+  <!--FrequencyTime object-->
+  <object name="FrequencyTime">
+    <element name="Code" enum="FrequencyTimeCode" flags="O">
+      <desc>Code for the frequency that the service is provided.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+  <!--FrequencyTimeCode enum-->
+  <enum name="FrequencyTimeCode">
+    <value name="WEEKLY" value="S001" desc="Weekly" />
+    <value name="BI_WEEKLY" value="S002" desc="Bi-weekly" />
+    <value name="SEMI_MONTHLY" value="S003" desc="Semi-monthly" />
+    <value name="MONTHLY" value="S004" desc="Monthly" />
+    <value name="QUARTERLY" value="S005" desc="quarterly" />
+    <value name="SEMI_ANNUALLY" value="S006" desc="Semi-annually" />
+    <value name="ANNUALLY" value="S007" desc="Annually" />
+    <value name="OTHER" value="S999" desc="Other" />
+  </enum>
+  <!--Gender enum-->
+  <enum name="Gender">
+    <value value="F" name="FEMALE" desc="Female" />
+    <value value="M" name="MALE" desc="Male" />
+    <value value="U" name="UNKNOWN" desc="Unknown" />
+  </enum>
+  <!--GradeLevel object-->
+  <object name="GradeLevel" empty="true">
+    <attribute name="Code" flags="R" enum="GradeLevelCode" />
+  </object>
+  <!--GradeLevelCode enum-->
+  <enum name="GradeLevelCode">
+    <value name="PK" value="PK" desc="Pre-Kindergarten/Preschool" />
+    <value name="KG" value="KG" desc="Kindergarten" />
+    <value name="01" value="01" desc="01" />
+    <value name="02" value="02" desc="02" />
+    <value name="03" value="03" desc="03" />
+    <value name="04" value="04" desc="04" />
+    <value name="05" value="05" desc="05" />
+    <value name="06" value="06" desc="06" />
+    <value name="07" value="07" desc="07" />
+    <value name="08" value="08" desc="08" />
+    <value name="09" value="09" desc="09" />
+    <value name="10" value="10" desc="10" />
+    <value name="11" value="11" desc="11" />
+    <value name="12" value="12" desc="12" />
+    <value name="PG" value="PG" desc="Postgraduate/Adult" />
+    <value name="UN" value="UN" desc="Ungraded" />
+    <value name="OTHER" value="Other" desc="Other" />
+    <value name="UNKNOWN" value="Unknown" desc="Unknown" />
+    <!--Deprecated in 1.5r1
+    <value name="0K" value="0K" desc="Kindergarten (deprecated)" deprecated="true" />-->
+  </enum>
+  <!--GradeLevels object-->
+  <object name="GradeLevels">
+    <desc>This is a common element used to specify a collection of grade levels supported.  It is used in SchoolInfo and assessment-related objects.</desc>
+    <element name="GradeLevel" type="GradeLevel" flags="OR">
+      <desc>For a description of this element, see the common element GradeLevel.</desc>
+    </element>
+  </object>
+  <!--GridLocation object-->
+  <object name="GridLocation">
+    <desc>This element contains information about a map location. The GridLocation element is utilized within another object or element, such as Address or BusStopInfo</desc>
+    <element name="Latitude" type="Decimal" flags="M">
+      <desc>The latitude coordinate of this location expressed in decimal format (e.g. "41.7699657")</desc>
+    </element>
+    <element name="Longitude" type="Decimal" flags="M">
+      <desc>The longitude coordinate of this location expressed in decimal format (e.g. "79.548445")</desc>
+    </element>
+  </object>
+  <!--IdentificationInfo object-->
+  <object name="IdentificationInfo" datatype="String">
+    <attribute name="Code" enum="IdentificationSystem" flags="R">
+      <desc>Code indicating which identification system is used.</desc>
+    </attribute>
+  </object>
+  <!--IdentificationInfoList object-->
+  <object name="IdentificationInfoList">
+    <element name="IdentificationInfo" type="IdentificationInfo" flags="OR">
+      <desc>Other identification information associated with a location, such as the locally-defined code/identifier, etc.</desc>
+    </element>
+  </object>
+  <!--IdentificationSystem enum-->
+  <enum name="IdentificationSystem">
+    <desc>From 0147 Identification System (subset)</desc>
+    <value name="ACT_INST_CODE" value="0175" desc="College Board/ACT code set of PK-grade 12 institutions" />
+    <value name="FEDERAL_ID" value="0264" desc="FederalID Number" />
+    <value name="DUNS_NUMBER" value="0276" desc="Dunn and Bradstreet number (e.g., DUNS number)" />
+    <value name="OTHER_FEDERAL" value="0764" desc="Other federally assigned number" />
+    <value name="OTHER" value="9999" desc="Other" />
+    <value name="SIF1X_ACT_INST_CODE" value="14 " desc="College Board/ACT code set of PK-grade 12 institutions (deprecated)" deprecated="true" />
+    <value name="SIF1X_LEA_NUMBER_FOR_SCHOOL" value="15" desc="LEA number for school (deprecated)" deprecated="true" />
+    <value name="SIF1X_SEA_NUMBER_FOR_SCHOOL" value="16" desc="SEA number for school (deprecated)" deprecated="true" />
+    <value name="SIF1X_SEA_NUMBER_FOR_LEA" value="17 " desc="SEA number for LEA (deprecated)" deprecated="true" />
+    <value name="SIF1X_NCES_NUMBER_FOR_SCHOOL" value="18" desc="NCES number for school (deprecated)" deprecated="true" />
+    <value name="SIF1X_NCES_NUMBER_FOR_A_LEA" value="19" desc="NCES number for a LEA (deprecated)" deprecated="true" />
+    <value name="SIF1X_OTHER_AGENCY_NUMBER" value="20" desc="Other agency number (e.g., Roman Catholic diocese or association member) (deprecated)" deprecated="true" />
+    <value name="SIF1X_DUNS_NUMBER" value="25" desc="Dunn and Broadstreet number (deprecated)" deprecated="true" />
+    <value name="SIF1X_OTHER" value="99 " desc="Other" />
+  </enum>
+  <!--InstructionalLevel object-->
+  <object name="InstructionalLevel">
+    <element name="Code" enum="InstructionalLevelCode" flags="O" surrogate="XPathSurrogate{.=.}">
+      <desc>Code representing the general nature and difficulty of instruction provided.</desc>
+    </element>
+  </object>
+  <!--InstructionalLevelCode enum-->
+  <enum name="InstructionalLevelCode">
+    <value name="REMEDIAL" value="0568" desc="Remedial" />
+    <value name="SPECIAL_EDUCATION_COURSE" value="0569" desc="Special education course" />
+    <value name="BASIC" value="0570" desc="Basic" />
+    <value name="GENERAL" value="0571" desc="General" />
+    <value name="HONORS_LEVEL" value="0572" desc="Honors level" />
+    <value name="GIFTED_AND_TALENTED_LEVEL" value="0573" desc="Gifted and talented level" />
+    <value name="INTERNATIONAL_BACCALAUREATE" value="0574" desc="International Baccalaureate program" />
+    <value name="ADVANCED_PLACEMENT" value="0575" desc="Advanced Placement" />
+    <value name="COLLEGE_LEVEL" value="0576" desc="College level" />
+    <value name="UNTRACKED" value="0577" desc="Untracked" />
+    <value name="ENGLISH_LANGUAGE_LEARNER" value="0578" desc="English Language Learner (ELL)" />
+    <value name="ACCEPTED_AS_HIGH_SCHOOL" value="0579" desc="Accepted as a high school equivalent" />
+  </enum>
+  <!--JobFunction object-->
+  <object name="JobFunction" empty="true">
+    <attribute name="Code" enum="JobFunctionCode" flags="M">
+      <desc>Code representing the type of job function.</desc>
+    </attribute>
+  </object>
+  <!--JobFunctionCode enum-->
+  <enum name="JobFunctionCode">
+    <value name="INSTRUCTION" value="1000" desc="Instruction Activities which involve direct interaction between teachers and students. Instruction may be provided for students in a school classroom, in another location such as a home or hospital, and in other learning situations such as those involving cocurricular activities. It may also be provided through some other approved medium such as television, radio, telephone, computer and correspondence. This includes aides and classroom assistants of any type (e.g., clerks or graders) who assist in the instructional process." />
+    <value name="SUPPORT_SERVICES" value="2000" desc="Support services Services to provide administrative, technical, personal (e.g., guidance and health), and logistical support to facilitate and enhance instruction. These services exist as adjuncts for fulfilling the objectives of instruction, community services and enterprise programs, rather than as entities within themselves." />
+    <value name="STUDENT_SUPPORT_SERVICES" value="2100" desc="Student support services Activities to assess and improve the well-being of students and to supplement the instructional process." />
+    <value name="ATTENDANCE_AND_SOCIAL_WORK" value="2110" desc="Attendance and social work Activities to improve student attendance at school and which attempt to prevent or solve student problems involving the home, school, and community. They also include registration activities for adult education programs." />
+    <value name="SUPERVISION_OF_ATTENDANCE_AND_SOCIAL_WORK" value="2111" desc="Supervision of attendance and social work Activities to direct, manage, and supervise attendance and social work services." />
+    <value name="ATTENDANCE_SERVICES" value="2112" desc="Attendance services Activities to promptly identify non-attendance patterns, promote improved attitudes toward attendance, analyze causes of non-attendance, act on non-attendance problems, and enforce compulsory attendance laws." />
+    <value name="SOCIAL_WORK_SERVICES" value="2113" desc="Social work services Activities to investigate and diagnose student problems arising out of the home, school, or community; provide casework and group work services for the child, parent, or both; interpret the problems of students for other staff members; and promote modification of the circumstances surrounding the individual student which are related to his or her problem." />
+    <value name="STUDENT_ACCOUNTING_SERVICES" value="2114" desc="Student accounting services Activities to acquire and maintain records of school attendance, location of home, family characteristics, and other census data. Portions of these records become a part of the cumulative record which is sorted and stored for teacher and guidance information. These include the preparation of pertinent statistical reports." />
+    <value name="OTHER_ATTENDANCE_AND_SOCIAL_WORK" value="2119" desc="Other attendance and social work services Other attendance and social work services which cannot be classified above." />
+    <value name="GUIDANCE_SERVICES" value="2120" desc="Guidance services Activities to counsel with students and parents; consult with other staff members on learning problems; evaluate the abilities of students; assist students as they make their own educational and career plans and choices; assist students in personal and social development; provide referral assistance; and work with other staff members in planning and conducting guidance programs for students." />
+    <value name="SUPERVISION_OF_GUIDANCE_SERVICES" value="2121" desc="Supervision of guidance services Activities to direct, manage, and supervise guidance services." />
+    <value name="COUNSELING_SERVICES" value="2122" desc="Counseling services Activities to help a student to better identify his or her perceived educational, personal, or occupational potential; relate his or her abilities, emotions, and aptitudes to educational and career opportunities; utilize his or her abilities in formulating realistic plans; and achieve satisfying personal and social development. These activities take place between one or more counselors and one or more students as counselees, between students and students, and between counselors and other staff members." />
+    <value name="APPRAISAL_SERVICES" value="2123" desc="Appraisal services Activities to assess student characteristics which are used in administration, instruction, and guidance; and assist the student in assessing his or her purposes and progress in personality and career development." />
+    <value name="IS_INFO" value="2124" desc="Information services Activities to disseminate educational, occupational, and personal/social information to help acquaint students with the curriculum and also with educational and vocational opportunities and requirements. Such information might be provided directly to students through group activities or it might be provided indirectly to students through other staff members or parents." />
+    <value name="RECORD_MAINTENANCE_SERVICES" value="2125" desc="Record maintenance services Activities to compile, maintain, and interpret cumulative records for individual students, including systematic consideration of such factors as home and family background, physical and medical status, standardized test results, personal and social development and school performance." />
+    <value name="PLACEMENT_SERVICES" value="2126" desc="Placement services Activities to help place students in appropriate situations. These could be educational situations, part-time employment while in school, and appropriate educational and occupational situations after they leave school. These activities also help ease the students' transition from one educational experience to another. The transition may include, for example, admissions counseling, referral services, assistance with records, and follow-up communications with employers." />
+    <value name="OTHER_GUIDANCE_SERVICES" value="2129" desc="Other guidance services Other guidance services which cannot be classified above." />
+    <value name="HEALTH_SERVICES" value="2130" desc="Health services Activities to provide physical and mental health services which are not direct instruction. They include activities that provide students with appropriate medical, dental, and nursing services." />
+    <value name="SUPERVISION_OF_HEALTH_SERVICES" value="2131" desc="Supervision of health services Activities to direct, engage, and supervise health services." />
+    <value name="MEDICAL_SERVICES" value="2132" desc="Medical services Activities to improve the physical and mental health of students such as health appraisal, including screening for vision, hearing deficiencies and communicable diseases; screening for psychiatric services; periodic health examinations; emergency injury and illness care; and communications with parents and medical officials." />
+    <value name="DENTAL_SERVICES" value="2133" desc="Dental services Activities to perform dental screening, dental care, and orthodontic activities." />
+    <value name="NURSING_SERVICES" value="2134" desc="Nursing services Activities to perform nursing such as health inspection, treatment of minor injuries, and referrals for other health services." />
+    <value name="OTHER_HEALTH_SERVICES" value="2139" desc="Other health services Other health services which cannot be classified above." />
+    <value name="PSYCHOLOGICAL_SERVICES" value="2140" desc="Psychological services Activities concerned with administering psychological tests and interpreting the results; gathering and interpreting information about student behavior; and working with other staff members in planning school programs to meet the special needs of students as indicated by psychological tests and behavioral evaluation. They also include planning and managing a program of psychological services encompassing psychological counseling for students, staff, and parents." />
+    <value name="SUPERVISION_OF_PSYCHOLOGICAL_S" value="2141" desc="Supervision of psychological services Activities to direct, manage, and supervise psychological services." />
+    <value name="PSYCHOLOGICAL_TESTING" value="2142" desc="Psychological testing services Activities to administer psychological tests, standardized tests, and inventory assessments. These tests measure ability, aptitude, achievement, interests, and personality. These activities also include interpretation of these measurements for students, other staff members, and parents." />
+    <value name="PSYCHOLOGICAL_COUNSELING" value="2143" desc="Psychological counseling services Activities to help students perceive, clarify, and solve problems of adjustment and interpersonal relationships. These activities take place between a school psychologist or other qualified individual as counselor, and one or more students as counselees." />
+    <value name="PSYCHOTHERAPY_SERVICES" value="2144" desc="Psychotherapy services Activities to help students to perceive, clarify, and work through emotional problems or disorders. These activities involve a therapeutic relationship between a qualified mental health professional and one or more students." />
+    <value name="OTHER_PSYCHOLOGICAL_SERVICES" value="2149" desc="Other psychological services Other psychological services which cannot be classified above." />
+    <value name="SPEECH_PATHOLOGY_AND_AUDIOLOGY" value="2150" desc="Speech pathology and audiology services Activities to identify, assess, and treat students with speech, hearing, and language impairments." />
+    <value name="SUPERVISION_OF_SPEECH_PATHOLOGICAL" value="2151" desc="Supervision of speech pathology and audiology services  Activities to direct, manage, and supervise speech pathology and audiology services." />
+    <value name="SPEECH_PATHOLOGY_SERVICES" value="2152" desc="Speech pathology services Activities to identify students with speech and language disorders; diagnose and appraise specific speech and language disorders; refer problems for medical or other professional attention necessary to treat speech and language disorders; provide required speech treatment services; and counsel and guide students, parents, and teachers." />
+    <value name="AUDIOLOGICAL_SERVICES" value="2153" desc="Audiological services Activities to: 1) identify individuals with hearing loss; 2) determine the range, nature, and degree of hearing loss, including referral for medical or other professional attention; 3) provide habilitating activities such as language habilitation, auditory training, speech reading (lipreading), hearing evaluation, and speech conservation; 4) create and administer programs for prevention of hearing loss; 5) counsel and guide students, parent/guardians, and teachers regarding hearing loss; and 6) determine an individual's need for group and individual amplification, select and fit an appropriate aid, and evaluate the effectiveness of amplification." />
+    <value name="OTHER_SPEECH_PATHOLOGY_AND_AUDIO" value="2159" desc="Other speech pathology and audiology services Other speech pathology and audiology services which cannot be classified above." />
+    <value name="OTHER_STUDENT_SUPPORT_SERVICES" value="2190" desc="Other student support services Other student support services which cannot be classified above." />
+    <value name="INSTRUCTIONAL_STAFF_SUPPORT" value="2200" desc="Instructional staff support services Activities to assist the instructional staff with content and process of providing learning experiences for students." />
+    <value name="IMPROVEMENT_OF_INSTRUCTIONAL_INSTR" value="2210" desc="Improvement of instructional services Activities to primarily assist the instructional staff in planning, developing, and evaluating the process of providing learning experiences for students. These include curriculum development, techniques of instruction, child development, and staff training." />
+    <value name="SUPERVISION_OF_IMPROVEMENT_OF_ISNTR" value="2211" desc="Supervision of improvement of instruction services Activities to direct, manage, and supervise the improvement of instructional services." />
+    <value name="INSTRUCTION_AND_CURRICULUM_DEV" value="2212" desc="Instruction and curriculum development services Activities to assist teachers in developing the curriculum, preparing and utilizing special curriculum materials, and becoming acquainted with the various techniques which stimulate and motivate students ." />
+    <value name="INSTRUCTIONAL_STAFF_TRAINING" value="2213" desc="Instructional staff training services Activities to promote the professional or occupational growth and competence of members of the instructional staff during the time of their service to the school or school system. These include workshops, demonstrations, school visits, courses for college credit, sabbatical leaves, and travel leaves." />
+    <value name="OTHER_IMPROVEMENT_OF_INSTR" value="2219" desc="Other improvement of instruction services Other improvement of instruction services which cannot be classified above." />
+    <value name="EDUCATIONAL_MEDIA_SERVICES" value="2220" desc="Educational media services Activities to coordinate the use of hardware, devices, content materials (including printed and non-printed sensory materials), methods, or experiences for teaching and learning purposes." />
+    <value name="SUPERVISION_OF_EDUCATIONAL_MED" value="2221" desc="Supervision of educational media services Activities to direct, manage, and supervise educational media services." />
+    <value name="SCHOOL_LIBRARY_SERVICES" value="2222" desc="School library services Activities to select, acquire, prepare, catalog, and circulate books and other printed materials; plan the use of the library by students, teachers and other members of the instructional staff; and guide individuals in their use of library books and materials whether maintained separately or as a part of an instructional materials center and/or related work study area." />
+    <value name="AUDIOVISUAL_SERVICES" value="2223" desc="Audiovisual services Activities to select, prepare, care for, and make available to the instructional staff: equipment, films, filmstrips, transparencies, tapes, television programs, and other similar materials, whether maintained separately or as a part of an instructional materials center. These activities include an audiovisual center, television studio, related work-study areas, and the services provided by audiovisual personnel." />
+    <value name="EDUCATIONAL_TELEVISION_SERVICE" value="2224" desc="Educational television services Activities to plan, program, write, and present educational programs or segments of programs by closed circuit or broadcast television." />
+    <value name="COMPUTER-ASSISTED_INSTRUCTION_" value="2225" desc="Computer-assisted instruction services Activities to plan, program, write, and present educational lessons which have been especially programmed for a computer to be used as the principal medium of instruction." />
+    <value name="OTHER_EDUCATIONAL_MEDIA_SERV" value="2229" desc="Other educational media services Other educational media services which cannot be classified above." />
+    <value name="OTHER_INSTRUCTIONAL_STAFF_SUP" value="2290" desc="Other instructional staff support services Other instructional staff support services which cannot be classified above." />
+    <value name="GENERAL_ADMINISTRATION_SUPPORT" value="2300" desc="General administration support services Activities to establish and administer policy for operating a school system." />
+    <value name="BOARD_OF_EDUCATION_SERVICES" value="2310" desc="Board of education services Activities to perform the duties of an elected body which has been created according to state law and vested with responsibilities for educational activities in a given administrative unit." />
+    <value name="SUPERVISION_OF_BOARD_OF_ED" value="2311" desc="Supervision of board of education services Activities to direct, manage, and supervise the general operation of the board of education. These include the activities of the members of the board of education, but do not include any special activities defined in other areas of responsibility described below. They also include any activities of the district performed in support of the school district meeting. These may include legal activities such as interpreting the laws and statutes and general liability situations, and the activities of external auditors." />
+    <value name="BOARD_SECRETARY_CLERK_SERVICES" value="2312" desc="Board secretary/clerk services Activities to perform the duties of the secretary or clerk of the board of education." />
+    <value name="BOARD_TREASURER_SERVICES" value="2313" desc="Board treasurer services Activities to perform the duties of the treasurer of the board of education" />
+    <value name="ELECTION_SERVICES" value="2314" desc="Election services Activities to perform duties involved with any school system election, including the election of officers and bond elections." />
+    <value name="TAX_ASSESSMENT_AND_COLLECTION_" value="2315" desc="Tax assessment and collection services Activities to perform duties involved with tax assessment and collection." />
+    <value name="STAFF_RELATIONS_AND_NEGOTIATION" value="2316" desc="Staff relations and negotiations services Activities to perform duties involved with staff relations systemwide and contractual negotiations with both instructional and non-instructional personnel." />
+    <value name="OTHER_BOARD_OF_EDUCATION_SERV" value="2319" desc="Other board of education services Other board of education services which cannot be classified above." />
+    <value name="EXECUTIVE_ADMINISTRATION_SERV" value="2320" desc="Executive administration services Activities to perform the overall general administration or executive duties of the entire school system." />
+    <value name="OFFICE_OF_THE_SUPERINTENDENT" value="2321" desc="Office of the superintendent services Activities to direct and manage all affairs of the school system. These are performed by the superintendent and such assistants as deputy, associate, and assistant superintendents. These include activities of all personnel and materials in the office of the chief executive officer." />
+    <value name="COMMUNITY_RELATIONS_SERVICES" value="2322" desc="Community relations services Activities to develop and operate systemwide programs for the bettering of school/community relations." />
+    <value name="STATE_AND_FEDERAL_RELATIONS" value="2323" desc="State and federal relations services Activities to develop and maintain good relations with state and federal officials. These include grant procurement activities." />
+    <value name="OTHER_EXECUTIVE_ADMINISTRATION" value="2329" desc="Other executive administration services Other executive administration services which cannot be classified above." />
+    <value name="SCHOOL_ADMINISTRATION_SUPPORT_" value="2400" desc="School administration support services Activities to perform the overall administrative duties for a school." />
+    <value name="OFFICE_OF_THE_PRINCIPAL_SERV" value="2410" desc="Office of the principal services Activities to direct and manage the operation of a particular school. These include activities performed by the principal, assistant principals, and other assistants when they supervise all operations of the school, evaluate individuals of the school, assign duties to individuals, supervise and maintain the school records, and coordinate school instructional activities with those of the school or school system. These activities also include the work of clerical staff in support of teaching and administrative duties." />
+    <value name="OTHER_SCHOOL_ADMINISTRATION" value="2419" desc="Other school administration support services Other school administration services which cannot be classified above." />
+    <value name="BUSINESS_SUPPORT_SERVICES" value="2500" desc="Business support services Activities to pay, transport, exchange, and maintain goods and services for a school or school system. They include fiscal and internal services necessary for operating the school or school system. These include the activity of the chief business official." />
+    <value name="FISCAL_SERVICES" value="2510" desc="Fiscal services Activities to perform the fiscal operations of a school or school system. These include budgeting, receiving and disbursing, financial and property accounting, payroll, inventory control, internal auditing and managing funds." />
+    <value name="SUPERVISION_OF_FISCAL_SERVICES" value="2511" desc="Supervision of fiscal services Activities to direct, manage, and supervise the fiscal service area. These include the activities of the assistant superintendent, director, or school business official who directs and manages fiscal activities." />
+    <value name="BUDGETING_SERVICES" value="2512" desc="Budgeting services Activities to supervise budget planning, formulation, control, and analysis of finances." />
+    <value name="RECEIVING_AND_DISBURSING_FUNDS" value="2513" desc="Receiving and disbursing funds services Activities to take in and pay out money. These include the current audit of receipts; the pre-audit of requisitions and purchase orders to determine whether the amounts are within the budgetary allowances, and determining that disbursements are lawful expenditures of a school or school system; and the management of school funds." />
+    <value name="PAYROLL_SERVICES" value="2514" desc="Payroll services Activities to periodically pay individuals entitled to remuneration for services rendered. Payments are also made for such payroll associated costs as federal income tax withholding, retirement, and social security." />
+    <value name="FINANCIAL_ACCOUNTING_SERVICES" value="2515" desc="Financial accounting services Activities to maintain the financial records and transactions of a school or school system. These include accounting and interpreting financial transactions and account records." />
+    <value name="INTERNAL_AUDITING_SERVICES" value="2516" desc="Internal auditing services Activities to verify account records including evaluating the adequacy of the internal control system, verifying and safeguarding assets, reviewing the reliability of the accounting and reporting systems, and ascertaining compliance with established policies and procedures." />
+    <value name="PROPERTY_ACCOUNTING_SERVICES" value="2517" desc="Property accounting services Activities to prepare and maintain current inventory records of land, buildings, and equipment. These records are to be used in equipment control and facilities planning." />
+    <value name="OTHER_FISCAL_SERVICES" value="2519" desc="Other fiscal services Other fiscal services which cannot be classified above." />
+    <value name="PURCHASING_SERVICES" value="2520" desc="Purchasing services Activities to purchase supplies, furniture, equipment, and materials used in a school or school system." />
+    <value name="WAREHOUSING_AND_DISTRIBUTING" value="2530" desc="Warehousing and distributing services Activities to receive, store, and distribute supplies, furniture, equipment, materials, and mail. These include cash collection and transportation from school facilities to the central administration office or bank for control and/or deposit." />
+    <value name="PRINTING_PUBLISHING_DUPL" value="2540" desc="Printing, publishing, and duplicating services Activities to print and publish administrative publications such as annual reports, school directories, and manuals. These include centralized services for duplicating school materials and instruments such as school bulletins, newsletters, and notices." />
+    <value name="OTHER_BUSINESS_SUPPORT_SERVICE" value="2590" desc="Other business support services Other business support services which cannot be classified above." />
+    <value name="OPERATION_AND_MAINTENANCE" value="2600" desc="Operation and maintenance of plant services Activities to keep the physical plant open, comfortable, and safe for use, and keep the grounds, buildings, and equipment in effective working condition and state of repair. These include maintaining safety in school buildings, grounds, and in the vicinity of schools." />
+    <value name="SUPERVISION_OF_OPERATION" value="2610" desc="Supervision of operation and maintenance of plant services Activities to direct, manage, and supervise the operation and maintenance of the school plant facilities." />
+    <value name="OPERATING_BUILDINGS_SERVICES" value="2620" desc="Operating buildings services Activities to keep the physical plant clean and ready for daily use. These include operating the heat, light, and ventilation systems and repairing and replacing facilities and equipment." />
+    <value name="CARE_AND_UPKEEP_OF_GROUNDS" value="2630" desc="Care and upkeep of grounds services Activities to maintain and improve the land. These include snow removal, landscaping, ground maintenance, and similar activities." />
+    <value name="CARE_AND_UPKEEP_OF_EQUIP" value="2640" desc="Care and upkeep of equipment services Activities to maintain equipment owned or used by the school or school system. These include servicing and repairing furniture, machines, and movable equipment." />
+    <value name="VEHICLE_GENERAL" value="2650" desc="Vehicle servicing and maintenance services Activities to maintain general purpose vehicles other than student transportation vehicles such as trucks, tractors, graders, and staff vehicles. These include repairing vehicles, replacing vehicle parts, preventative maintenance servicing, cleaning, painting, greasing, fueling, and inspecting vehicles for safety." />
+    <value name="SECURITY_SERVICES" value="2660" desc="Security services Activities to maintain order and safety in school buildings, grounds, and in the vicinity at all times. These include police activities for school functions, traffic control on the grounds and in the vicinity, building alarm systems, and hall monitoring services." />
+    <value name="OTHER_OPERATION_AND_MAINTENANC" value="2690" desc="Other operation and maintenance of plant services Other operation and maintenance of plant services which cannot be classified above." />
+    <value name="STUDENT_TRANSPORTATION_SERVICE" value="2700" desc="Student transportation services Activities to convey students to and from school, as provided by state and federal law. These include trips between home and school, and trips to school activities. They also include specialized equipment (such as special or adapted buses, lifts, and ramps), if required to provide special transportation for a child with a disability." />
+    <value name="SUPERVISION_OF_STUDENT_TRANS" value="2710" desc="Supervision of student transportation Activities to direct, manage, and supervise student transportation services." />
+    <value name="VEHICLE_OPERATION_SERVICES" value="2720" desc="Vehicle operation services Activities to operate vehicles for student transportation from the time the vehicles leave the point of storage until they return to storage. These include driving buses or other student transportation vehicles." />
+    <value name="MONITORING_SERVICES" value="2730" desc="Monitoring services Activities to supervise students in the process of being transported between home and school or between school and school activities. Such supervision can occur while students are in transit, while they are being loaded and unloaded, and in directing traffic at the loading and unloading stations." />
+    <value name="VEHICLE_STUDENT" value="2740" desc="Vehicle servicing and maintenance services Activities to maintain student transportation vehicles. These include repairing vehicles, replacing vehicle parts, cleaning, painting, fueling, and inspecting vehicles for safety." />
+    <value name="DRIVER_TRAINING_SERVICES" value="2750" desc="Driver training services Activities to ensure and maintain safety standards of driver's skills to operate student transportation vehicles. These include training and testing of school bus drivers." />
+    <value name="OTHER_STUDENT_TRANSPORTATION" value="2790" desc="Other student transportation services Other student transportation services which cannot be classified above." />
+    <value name="CENTRAL_SUPPORT_SERVICES" value="2800" desc="Central support services Activities, other than general administration, to support each of the other instructional and support services programs. These include planning, research and development, evaluation, information, staff, statistical, and data processing services." />
+    <value name="PLANNING_RESEARCH_DEV" value="2810" desc="Planning, research, development, and evaluation services Activities to conduct and manage programs of planning, research, development, and evaluation for a school system on a systemwide basis." />
+    <value name="SUPERVISION_OF_MANAGING" value="2811" desc="Supervision of managing, planning, research, development, and evaluation services Activities associated with the direction, management, and supervision of planning, research, development, and evaluation services." />
+    <value name="PLANNING_SERVICES" value="2812" desc="Planning services Activities to select or identify overall, long-range goals, priorities and objectives of an organization or program; and formulate various courses of action needed to achieve those goals. This is done by identifying needs and relative costs and benefits of each course of action." />
+    <value name="RESEARCH_SERVICES" value="2813" desc="Research services Activities to perform systematic study and investigation of various aspects of education undertaken to establish facts and principles." />
+    <value name="DEVELOPMENT_SERVICES" value="2814" desc="Development services Activities to deliberate evolving process of improving educational programs." />
+    <value name="EVALUATION_SERVICES" value="2815" desc="Evaluation services Activities to ascertain or judge the value or amount of an action or an outcome. This is done through careful appraisal of previously specified data in light of a particular situation and the goals and objectives previously established." />
+    <value name="OTHER_PLANNING_RESEARCH_DEV" value="2819" desc="Other planning, research, development, and evaluation services Other planning, research, development, and evaluation services which can not be classified above." />
+    <value name="IS_MAIL" value="2820" desc="Information services Activities to write, edit, and prepare materials for disseminating educational and administrative information to students, staff members, managers, or the general public through direct mailing, the various news media, or personal contact." />
+    <value name="SUPERVISION_OF_INFORMATION" value="2821" desc="Supervision of information services Activities to direct, manage, and supervise information services." />
+    <value name="INTERNAL_INFORMATION_SERVICES" value="2822" desc="Internal information services Activities to write, edit, and provide administrative information to students and staff members." />
+    <value name="PUBLIC_INFORMATION_SERVICES" value="2823" desc="Public information services Activities to write, edit, and prepare materials for disseminating educational and administrative information to the public through various news media or personal contact." />
+    <value name="MANAGEMENT_INFORMATION_SERVICE" value="2824" desc="Management information services Activities to write, edit, and prepare materials for disseminating to management the needed information about the operation of the school or school system, and the community, state, and nation, in order to make logical decisions." />
+    <value name="OTHER_INFORMATION_SERVICES" value="2829" desc="Other information services Other information services which cannot be classified above." />
+    <value name="STAFF_SERVICES" value="2830" desc="Staff services Activities to maintain an efficient staff for a school or school system. These include recruiting and placement, staff transfers, inservice training, health services, and staff accounting." />
+    <value name="SUPERVISION_OF_STAFF_SERVICES" value="2831" desc="Supervision of staff services Activities to direct, manage, and supervise staff services." />
+    <value name="RECRUITMENT_AND_PLACEMENT_SERV" value="2832" desc="Recruitment and placement services Activities to employ and assign personnel for a school or school system." />
+    <value name="STAFF_ACCOUNTING_SERVICES" value="2833" desc="Staff accounting services Activities to maintain the systematic recording and summarization of information relating to individuals employed by a school or school system." />
+    <value name="INSERVICE_TRAINING_SERVICES" value="2834" desc="Inservice training services (for non-instructional staff)  Activities to train non-instructional personnel in all classifications. These activities are developed by the school or school system." />
+    <value name="HEALTH_SERVICES_ED" value="2835" desc="Health services Activities to provide medical, dental, and nurse services for the school or school system employees. These include physical examinations, referrals, and emergency care." />
+    <value name="OTHER_STAFF_SERVICES" value="2839" desc="Other staff services Other staff services which cannot be classified above." />
+    <value name="DATA_PROCESSING_SERVICES" value="2840" desc="Data processing services Activities to prepare data for storage, storage of data, and retrieval of them for reproduction as information for management and reporting." />
+    <value name="SUPERVISION_OF_DATA_PROCESSING" value="2841" desc="Supervision of data processing services Activities to direct, manage, and supervise data processing services." />
+    <value name="SYSTEMS_ANALYSIS_SERVICES" value="2842" desc="Systems analysis services Activities to identify and evaluate alternatives for achieving defined objectives, based on judgment and, wherever possible, on quantitative methods. These activities pertain to the development of data processing procedures or application to electronic data processing equipment." />
+    <value name="PROGRAMMING_SERVICES" value="2843" desc="Programming services Activities to prepare a logical sequence of operations to be performed, either manually or electronically, in solving problems or processing data. These also involve preparing coded instructions and data for such sequences." />
+    <value name="OPERATIONS_SERVICES" value="2844" desc="Operations services Activities to schedule, maintain, and produce data. These include operating business machines, data preparation services, and data processing machines." />
+    <value name="OTHER_DATA_PROCESSING_SERVICES" value="2849" desc="Other data processing services Other data processing services which cannot be classified above." />
+    <value name="OTHER_CENTRAL_SUPPORT_SERVICES" value="2890" desc="Other central support services Other central support services which cannot be classified above." />
+    <value name="OTHER_SUPPORT_SERVICES" value="2900" desc="Other support services Other support services which cannot be classified above." />
+    <value name="OPERATION_OF_NON-INSTRUCTIONAL" value="3000" desc="Operation of Non-Instructional Services Activities to provide non-instructional services to students, staff members, or the community." />
+    <value name="FOOD_SERVICES_OPERATIONS" value="3100" desc="Food services operations Activities to provide food to students and staff members in a school or school system. These include preparing and serving regular and incidental meals, lunches, or snacks in connection with school activities, and food delivery." />
+    <value name="SUPERVISION_OF_FOOD_SERVICES" value="3110" desc="Supervision of food services Activities to direct, manage, and supervise food services operations." />
+    <value name="FOOD_PREPARATION_AND_DISPENSING" value="3120" desc="Food preparation and dispensing services Activities to prepare and serve regular and incidental meals, lunches, or snacks to students and staff members in a school or school system. These include cooking, operating kitchen equipment, preparing food, serving food, cleaning dishes, and storing dishes and kitchen equipment." />
+    <value name="FOOD_DELIVERY_SERVICES" value="3130" desc="Food delivery services Activities to deliver food to the school or school system." />
+    <value name="OTHER_FOOD_SERVICES" value="3190" desc="Other food services Other food services which cannot be classified above." />
+    <value name="ENTERPRISE_OPERATIONS" value="3200" desc="Enterprise operations Activities that are financed and operated in a manner similar to private business enterprises with the stated intent that costs are financed or recovered primarily through use charges (e.g., a bookstore in a school or system)." />
+    <value name="COMMUNITY_SERVICES_OPERATION" value="3300" desc="Community services operation Activities to provide community services to students, staff or other community participants. These include community recreation programs, civic activities, public libraries, programs of custody and care of children, and community welfare activities. These are provided by the school or school system for the community as a whole or for some segment of the community." />
+    <value name="SUPERVISION_OF_COMMUNITY_SERVICES" value="3310" desc="Supervision of community services activities Activities to direct, manage, and supervise community services activities." />
+    <value name="COMMUNITY_RECREATION_SERVICES" value="3320" desc="Community recreation services Activities to provide recreation for the community as a whole, or for some segment of the community. These include organizing and supervising playgrounds and swimming pools, as well as other recreation programs for the community." />
+    <value name="CIVIC_ACTIVITIES" value="3330" desc="Civic activities Activities to provide services to civic affairs or organizations. These include services to parent-teacher association meetings, public forums, lectures, and civil defense planning." />
+    <value name="PUBLIC_LIBRARY_SERVICES" value="3340" desc="Public library services Activities to operate public libraries by a school or school system, or provide library services to the general public through the school library. These include planning the library's collection in light of community needs and informing the community of public library resources and services." />
+    <value name="CUSTODY_AND_CARE_OF_CHILDREN" value="3350" desc="Custody and care of children Activities to provide programs for the custodial care of children in residential day schools or in child care centers which are not part of, nor directly related to, the instructional program, and where the attendance of the children is not included in the attendance figures for the school or system." />
+    <value name="EXTENDED_DAY_CHILD_CARE" value="3360" desc="Extended day/child care services Activities to provide programs for the custodial care of students enrolled in a school or system before the school day starts and/or after the school day ends." />
+    <value name="WELFARE_ACTIVITIES" value="3370" desc="Welfare activities Activities to provide for the personal needs of individuals who have been designated as needy by an appropriate governmental entity. These include payment of stipends for school attendance; payment of salaries to students for work performed (whether for the school system or for an outside concern); or the provision of clothing, food, or other personal needs." />
+    <value name="OTHER_COMMUNITY_SERVICES" value="3390" desc="Other community services Other community services which cannot be classified above." />
+    <value name="RESIDENTIAL_HOUSING_SERVICES" value="3400" desc="Residential housing services Activities to provide living accommodations for students and individuals in facilities either owned or leased by the school or school system." />
+    <value name="SUPERVISION_OF_RESIDENTIAL" value="3410" desc="Supervision of residential housing services  Activities to direct, manage, and supervise residential housing services." />
+    <value name="STUDENT_RESIDENCE_SERVICES" value="3420" desc="Student residence services Activities to provide living accommodations for students in facilities either owned or leased by the school or school system. This category may be subdivided into residences for single students and residences for married students." />
+    <value name="STAFF_RESIDENCE_SERVICES" value="3430" desc="Staff residence services (other than administrative staff) Activities to provide living accommodations for individuals other than administrative staff in facilities either owned or leased by the school or system." />
+    <value name="ADMINISTRATIVE_STAFF_RESIDENCE" value="3440" desc="Administrative staff residence services Activities to provide living accommodations for administrative staff in facilities either owned or leased by the school or system." />
+    <value name="OTHER_RESIDENTIAL_HOUSING" value="3490" desc="Other residential housing services Other residential housing services which cannot be classified above." />
+    <value name="FACILITIES_ACQUISITION" value="4000" desc="Facilities acquisition and construction services Activities to acquire land and buildings; remodel buildings and construct additions to buildings; install and extend service systems and other built-in equipment; and improve sites." />
+    <value name="SITE_ACQUISITION_SERVICES" value="4100" desc="Site acquisition services Activities to initially acquire and improve new sites." />
+    <value name="SITE_IMPROVEMENT_SERVICES" value="4200" desc="Site improvement services Activities to improve sites, and maintain existing site improvements." />
+    <value name="ARCHITECTURE_AND_ENGINEERING_SERVICES" value="4300" desc="Architecture and engineering services Act" />
+    <value name="EDUCATIONAL_SPEC_DEVELOPMENT" value="4400" desc="Educational specifications development services" />
+    <value name="BUILDING_ACQUISITION_SERVICES" value="4500" desc="Building acquisition and construction services" />
+    <value name="BUILDING_IMPROVEMENT" value="4600" desc="Building improvement services" />
+    <value name="OTHER_FACILITIES" value="4900" desc="Other facilities acquisition and construction services" />
+    <value name="OTHER" value="9999" desc="Other" />
+  </enum>
+  <!--Language object-->
+  <object name="Language" empty="true">
+    <desc>The student's language</desc>
+    <attribute name="Code" renderAs="Type" flags="R" enum="LanguageCode" />
+  </object>
+  <!--LanguageCode enum-->
+  <enum name="LanguageCode">
+    <desc>All Language Types from the SIF Specification are not represented here. Please
+    use the wrap method to wrap any string in a LanguageType object.</desc>
+    <value value="chi" name="CHINESE" desc="Chinese" />
+    <value value="che" name="CHECHEN" desc="Chechen" />
+    <value value="chr" name="CHEROKEE" desc="Cherokee" />
+    <value value="eng" name="ENGLISH" desc="English" />
+    <value value="fre" name="FRENCH" desc="French" />
+    <value value="ger" name="GERMAN" desc="German" />
+    <value value="haw" name="HAWAIIAN" desc="Hawaiian" />
+    <value value="heb" name="HEBREW" desc="Hebrew" />
+    <value value="ita" name="ITALIAN" desc="Italian" />
+    <value value="jpn" name="JAPANESE" desc="Japanese" />
+    <value value="kor" name="KOREAN" desc="Korean" />
+    <value value="moh" name="MOHAWK" desc="Mohawk" />
+    <value value="mul" name="MULTIPLE" desc="Multiple Languages" />
+    <value value="spn" name="SPANISH" desc="Spanish" />
+  </enum>
+  <!--LanguageList object-->
+  <object name="LanguageList">
+    <element name="Language" type="Language" flags="OR" />
+  </object>
+  <!--LeaInfoLink object-->
+  <object name="LeaInfoLink" empty="true">
+    <attribute name="LEAInfoRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that identifies the district.</desc>
+    </attribute>
+  </object>
+  <!--LearningStandardItemRefId object-->
+  <object name="LearningStandardItemRefId" datatype="IdRefType" />
+  <!--LRContact object-->
+  <object name="LRContact">
+    <element name="Name" type="Name" flags="OR">
+      <desc>Name of contact person. Use the generic element Name.</desc>
+    </element>
+    <element name="Address" type="Address" flags="O">
+      <desc>Address of organization or company.</desc>
+    </element>
+    <element name="PhoneNumber" type="PhoneNumber" flags="O" surrogate="PhoneNumberSurrogate{}">
+      <desc>Phone number of organization or company.</desc>
+    </element>
+    <element name="Email" type="Email" flags="O">
+      <desc>The email of the organization or company.</desc>
+    </element>
+  </object>
+  <!--MaritalStatus enum-->
+  <enum name="MaritalStatus">
+    <value name="SIF1X_LEGALLY_SEPARATED" value="01" desc="Legally separated" />
+    <value name="SIF1X_MARRIED" value="02" desc="Married" />
+    <value name="SIF1X_NOT_MARRIED" value="03" desc="Not Married (never married, legally divorced, widowed, or marriage annulled)" />
+  </enum>
+  <!--MeetingTime object-->
+  <object name="MeetingTime">
+    <desc>This element represents the meeting times and periods for a course, and occurs within objects such as SectionInfo and StudentSectionEnrollment</desc>
+    <element name="TimetableDay" flags="O">
+      <desc>Locally defined rotation cycle day code when the section meets (e.g. in a two-day schedule, valid values would be A and B or 1 and 2</desc>
+    </element>
+    <element name="TimetablePeriod" flags="O">
+      <desc>The period within the day when this section takes place (e.g. 0 through 7)</desc>
+    </element>
+  </object>
+  <!--MeetingTimeList object-->
+  <object name="MeetingTimeList">
+    <element name="MeetingTime" type="MeetingTime" flags="OR">
+      <desc>The time(s) this section meets</desc>
+    </element>
+  </object>
+  <!--MembershipType enum-->
+  <enum name="MembershipType">
+    <value name="HOME" value="Home" desc="The school is responsible for reporting the student's membership/child accounting information" />
+    <value name="CONCURRENT" value="Concurrent" desc="The school is not the primary reporting unit for the student's membership/child accounting information" />
+  </enum>
+  <!--Name object-->
+  <object name="Name">
+    <desc>The name of a person</desc>
+    <attribute name="Type" flags="R" enum="NameType">
+      <desc>A SPEEDE/ExPRESS code that specifies what type of name this is</desc>
+    </attribute>
+    <element name="Prefix" flags="O">
+      <desc>The prefix associated with the name ("Mr", "Ms", etc.)</desc>
+    </element>
+    <element name="LastName" flags="M">
+      <desc>The last name</desc>
+    </element>
+    <element name="FirstName" flags="M">
+      <desc>The first name</desc>
+    </element>
+    <element name="MiddleName" flags="O">
+      <desc>The middle name or initial</desc>
+    </element>
+    <element name="Suffix" flags="O">
+      <desc>Generation or suffix like Jr., II, etc.</desc>
+    </element>
+    <element name="PreferredName" flags="O">
+      <desc>This is the name that the person prefers to be called by</desc>
+    </element>
+    <element name="SortName" flags="O">
+      <desc>This is the name to be used for sorting purposes</desc>
+    </element>
+    <element name="FullName" flags="O">
+      <desc>A free text field for the complete name</desc>
+    </element>
+  </object>
+  <!--NameList object-->
+  <object name="NameList">
+    <element name="Name" flags="O">
+      <desc>The name(s) of the student.For a description of this element, see the common element 5.1.18 Name.</desc>
+    </element>
+  </object>
+  <!--NameType enum-->
+  <enum name="NameType">
+    <value name="BIRTH" value="01" desc="Given name (name at birth)" />
+    <value name="LEGAL" value="02" desc="Current legal" />
+    <value name="ALIAS" value="03" desc="Alias" />
+    <value name="NAME_OF_RECORD" value="04" desc="Name of record" />
+    <value name="PREVIOUS" value="05" desc="Previous name" />
+    <value name="MARRIED" value="07" desc="Married name" />
+    <value name="PROFESSIONAL" value="08" desc="Professional name" />
+  </enum>
+  <!--NonResidentAttendRationale enum-->
+  <enum name="NonResidentAttendRationale">
+    <value name="ALTERNATIVE" value="1657" desc="Attending an area alternative school--The student is attending a public elementary or secondary school that: 1) addresses the needs of students which typically cannot be met in a regular school; 2) provides nontraditional education; 3) serves as an adjunct to a regular school; or 4) falls outside of the categories of regular, special program emphasis or vocational/technical education." />
+    <value name="MAGNET" value="1658" desc="Attending an area magnet program (including gifted and talented or honors programs)--The student is attending an elementary or secondary school program within the public education system that has been designed: 1) to attract students of different racial/ethnic backgrounds for the purpose of reducing, preventing, or eliminating racial isolation; and/or 2) to provide an academic or social focus on a particular theme (e.g., science/math, performing arts, gifted/talented, or foreign language). " />
+    <value name="SPECIAL_ED" value="1659" desc="Attending an area special education school--The student is attending an early childhood, elementary or secondary school that focuses primarily on special education and adapts the curriculum, materials, or instruction for students accordingly. This may include instruction for any of the following: autism, deaf-blindness, hearing impairment, mental retardation, multiple disabilities, orthopedic impairment, serious emotional disturbance, specific learning disability, speech or language impairment, traumatic brain injury, visual impairment, and other health impairments." />
+    <value name="VOCATIONAL" value="1660" desc="Attending an area vocational/technical school--The student is attending a school that offers a secondary education program available in regular or trade high schools or separate vocational centers or programs that provide formal preparation for semi-skilled, skilled, technical or professional occupations for high school-aged students who have opted to develop or expand their employment opportunities, often in lieu of preparing for college entry. This type of instruction is often referred to as career and technology preparation." />
+    <value name="PRIVATE_SCHOOL" value="1661" desc="Attending a private school--The student is attending an educational institution administered by a non-governmental agency at the early childhood, elementary, or secondary level." />
+    <value name="COURT_MANDATED" value="1662" desc="Court-mandated juvenile system assignment--The student is completing an assignment in a juvenile system to fulfill a court mandate." />
+    <value name="HOME_SCHOOLING" value="1663" desc="Home schooling--The student is receiving educational instruction offered in a home environment, as regulated by state law, for reasons other than health." />
+    <value name="LEA" value="1664" desc="Local education agency (LEA) assignment--The student is enrolled in a school outside of his or her attendance area as assigned by an LEA (e.g., for cost-saving measures or for desegregation purposes)." />
+    <value name="MIGRANT_PROGRAM" value="1665" desc="Migrant education program participation--The student is enrolled in a school outside of his or her attendance area because he or she, or his or her parent/guardian, is a migrant worker." />
+    <value name="OPEN_ENROLLMENT" value="1666" desc="Open enrollment--The student is enrolled in a school outside of his or her own attendance area by choice, as permitted by state or local policy." />
+    <value name="VOUCHER" value="1667" desc="Voucher--The student is enrolled in a private school through the use of vouchers, as permitted by state or local policy." />
+    <value name="CHARTER_SCHOOL" value="1668" desc="Charter school--The student is enrolled in a charter school as permitted by state or local policy." />
+  </enum>
+  <!--OtherId object-->
+  <object name="OtherId">
+    <desc>Describes an alternate ID for a student</desc>
+    <attribute name="Type" flags="R" enum="OtherIdType">
+      <desc>The ID type</desc>
+    </attribute>
+  </object>
+  <!--OtherIdList object-->
+  <object name="OtherIdList">
+    <element name="OtherId" type="OtherId" flags="OR">
+      <desc>The ID(s) of the contact.For a description of this element, see the common element 5.1.21 OtherId.</desc>
+    </element>
+  </object>
+  <!--OtherIdType enum-->
+  <enum name="OtherIdType">
+    <desc>Code that defines the type of this other ID.</desc>
+    <!-- Removed deprecated SPEEDE codes in ADK 2.0 -->
+    <!--
+    <value value="06" name="SYSTEM" desc="System Number (deprecated)" />
+    <value value="23" name="CLIENT" desc="Client Number (deprecated)" />
+    <value value="28" name="EIN" desc="Employee Identification Number (deprecated)" />
+    <value value="30" name="VISA_NUM" desc="United States Government Visa Number (deprecated)" />
+    <value value="3H" name="CASE_NUM" desc="Case Number (deprecated)" />
+    <value value="48" name="AGENCY_STUDENT_NUM" desc="Agency's Student Number - This is the number assigned by an agency other than the institution sending the record (deprecated)" />
+    <value value="49" name="FAMILY_UNIT_NUM" desc="Family Unit Number - This is an identification number assigned to siblings within the same family (deprecated)" />
+    <value value="4A" name="PIN" desc="Personal Identification Number (PIN) - A number that uniquely identifies an individual (deprecated)" />
+    <value value="50" name="STATE_STUDENT_ID" desc="State Student Identification Number (deprecated)" />
+    <value value="56" name="CORRECTED_SSN" desc="Corrected Social Security Number (deprecated)" />
+    <value value="57" name="PRIOR_SSN" desc="Prior Incorrect Social Security Number (deprecated)" />
+    <value value="C0" name="CANADIAN_SIN" desc="Canadian Social Insurance Number (deprecated)" />
+    <value value="F8" name="ORIGINAL_REF_NUM" desc="Original Reference Number (deprecated)" />
+    <value value="LR" name="LOCAL_STUDENT_ID" desc="Local Student Identification Number (deprecated)" />
+    <value value="MV" name="MIGRANT" desc="Migrant Number - This number is assigned by the national Migrant Records Transfer System (deprecated)" />
+    <value value="N1" name="SCHOOL_COURSE_NUM" desc="Local School Course Number (deprecated)" />
+    <value value="N2" name="DISTRICT_COURSE_NUM" desc="Local School District Course Number (deprecated)" />
+    <value value="N3" name="STATE_COURSE_NUM" desc="Statewide Course Number - A course number assigned by the state education agency to courses taught in public schools (deprecated)" />
+    <value value="N4" name="NCES_COURSE_NUM" desc="United States Department of Education, National Center for Education Statistics (NCES) Course Number - A proposed course number to be assigned by NCES to identify a common grouping of subject area content and sequence (deprecated)" />
+    <value value="SY" name="SSN" desc="Social Security Number (deprecated)" />
+    <value value="V2" name="VISA_TYPE" desc="Visa Type (deprecated)" />
+    <value value="V4" name="STATE_DEPT_I20" desc="State Department I-20 Form Number (deprecated)" />
+    <value value="V5" name="STATE_DEPT_IAP66" desc="State Department IAP-66 Form Number (deprecated)" />
+    <value value="ZZ" name="ZZ" desc="Mutually Defined (deprecated)" />
+    <value value="ZB" name="ZBARCODE" desc="Barcode (deprecated)" />
+    <value value="ZS" name="ZSCHOOLID" desc="School/Site/Sub-Zone Identifier (to be deprecated) (deprecated)" />
+    -->
+    <value name="SIF1x_DRIVERS_LICENSE" value="01" desc="Driver's License Number" />
+    <value name="SIF1x_HEATH_RECORD" value="02" desc="Health Record Number" />
+    <value name="SIF1x_MEDICAID" value="03" desc="Medicaid Number" />
+    <value name="SIF1x_PROFESSIONAL_LICENSE" value="04" desc="Professional Certificate or License Number" />
+    <value name="SIF1x_SCHOOL_ASSIGNED_NUM" value="05" desc="School-assigned number" />
+    <value name="SIF1x_DISTRICT_ASSIGNED_NUM" value="06" desc="District-assigned number" />
+    <value name="SIF1x_STATE_ASSIGNED_NUM" value="07" desc="State-assigned number" />
+    <value name="SIF1x_SELECTIVE_SERVICE" value="08" desc="Selective Service number" />
+    <value name="SIF1x_MIGRANT" value="09" desc="Migrant number" />
+    <value name="SIF1x_SSN" value="10" desc="Social Security Administration number" />
+    <value name="SIF1x_VISA" value="11" desc="US Government VISA Number" />
+    <value name="SIF1x_PIN" value="12" desc="Personal Identification Number" />
+    <value name="SIF1x_FAMILY_UNIT" value="13" desc="Family Unit Number" />
+    <value name="SIF1x_OTHER" value="99" desc="Other" />
+  </enum>
+  <!--PhoneNumber object-->
+  <object name="PhoneNumber">
+    <desc>A telephone number</desc>
+    <attribute name="Format" flags="O" enum="PhoneNumberFormat" key="false" deprecated="true">
+      <desc>A code that specifies the format of this phone number</desc>
+    </attribute>
+    <attribute name="Type" flags="R" enum="PhoneNumberType">
+      <desc>A SPEEDE/ExPRESS code that specifies what type of phone number this is</desc>
+    </attribute>
+  </object>
+  <!--PhoneNumberFormat enum-->
+  <enum name="PhoneNumberFormat">
+    <value name="NORTH_AMERICA" value="NA" desc="North America" />
+    <value name="EUROPE" value="EU" desc="Europe" />
+    <value name="FREE_FORM" value="FF" desc="Free Form" />
+  </enum>
+  <!--PhoneNumberList object-->
+  <object name="PhoneNumberList" collapsed="true" superclass="SIFActionList&lt;PhoneNumber&gt;">
+    <element name="PhoneNumber" type="PhoneNumber" flags="OR" surrogate="PhoneNumberSurrogate{}">
+      <desc>This element contains the employee's phone number.For a description of this element, see 5.1.22 PhoneNumber.</desc>
+    </element>
+  </object>
+  <!--PhoneNumberType enum-->
+  <enum name="PhoneNumberType">
+    <!-- Removed Deprecated SPEEDE Codes in ADK 2.0 -->
+    <!--
+    <value value="AP" name="ALTERNATE" desc="Alternate Telephone" />
+    <value value="AS" name="ANSWERING" desc="Answering Service" />
+    <value value="BN" name="BEEPER" desc="Beeper Number" />
+    <value value="CP" name="CELL" desc="Cellular Phone" />
+    <value value="EM" name="EMAIL" desc="Electronic Mail" />
+    <value value="EX" name="EXT" desc="Telephone Extension" />
+    <value value="FX" name="FAX" desc="Facsimile" />
+    <value value="HF" name="HOME_FAX" desc="Home Facsimile Number" />
+    <value value="HP" name="HOME" desc="Home Phone Number" />
+    <value value="NP" name="NIGHT" desc="Night Telephone" />
+    <value value="OF" name="OTHER_RES_FAX" desc="Other Residential Facsimile Number" />
+    <value value="OT" name="OTHER_RES_PHONE" desc="Other Residential Telephone Number" />
+    <value value="PA" name="APPOINTMENT" desc="Appointment Phone" />
+    <value value="PC" name="PERSONAL_CELL" desc="Personal Cellular" />
+    <value value="PP" name="PERSONAL_PHONE" desc="Personal Phone" />
+    <value value="TE" name="PHONE" desc="Telephone" />
+    <value value="TX" name="TELEX" desc="Telex" />
+    <value value="TM" name="TELEMAIL" desc="Telemail" />
+    <value value="TN" name="TELEX_NO" desc="Teletex Number" />
+    <value value="VM" name="VOICEMAIL" desc="Voice Mail" />
+    <value value="WC" name="WORK_CELL" desc="Work Cellular" />
+    <value value="WF" name="WORK_FAX" desc="Work Facsimile Number" />
+    <value value="WP" name="WORK_PHONE" desc="Work Phone Number" />
+    -->
+    <value name="SIF1x_ALT" value="01" desc="Alternate telephone number" />
+    <value name="SIF1x_ANSWERING_SERVICE" value="02" desc="Answering service" />
+    <value name="SIF1x_BEEPER" value="03" desc="Beeper number" />
+    <value name="SIF1x_EXT" value="04" desc="Telephone extension" />
+    <value name="SIF1x_HOME_FAX" value="05" desc="Home facsimile number" />
+    <value name="SIF1x_HOME_PHONE" value="06" desc="Home telephone number" />
+    <value name="SIF1x_NIGHT_PHONE" value="07" desc="Night telephone number" />
+    <value name="SIF1x_OTHER_RES_FAX" value="08" desc="Other residential facsimile number" />
+    <value name="SIF1x_OTHER_RES_PHONE" value="09" desc="Other residential telephone number" />
+    <value name="SIF1x_APPT_NUMBER" value="10" desc="Appointment telephone number" />
+    <value name="SIF1x_PERSONAL_CELL" value="11" desc="Personal cellular number" />
+    <value name="SIF1x_PERSONAL_PHONE" value="12" desc="Personal telephone number" />
+    <value name="SIF1x_TELEX" value="13" desc="Telex number" />
+    <value name="SIF1x_TELEMAIL" value="14" desc="Telemail number" />
+    <value name="SIF1x_VOICEMAIL" value="15" desc="Voicemail" />
+    <value name="SIF1x_WORK_CELL" value="16" desc="Work cellular number" />
+    <value name="SIF1x_WORK_FAX" value="17" desc="Work facsimile number" />
+    <value name="SIF1x_WORK_PHONE" value="18" desc="Work telephone number" />
+  </enum>
+  <!--PictureSource object-->
+  <object name="PictureSource">
+    <desc>Defines a student picture, which can either be a URL or picture data</desc>
+    <attribute name="Type" enum="PictureType" flags="R">
+      <desc>The way the picture is specified</desc>
+    </attribute>
+  </object>
+  <!--PictureType enum-->
+  <enum name="PictureType">
+    <value name="URL" value="URL" desc="Location of the picture in JPEG format" />
+    <value name="JPEG" value="JPEG" desc="JPEG image data encoded using Base64 Content-Transfer-Encoding defined in Section 6.8 of RFC 2045" />
+  </enum>
+  <!--Program object-->
+  <object name="Program">
+    <desc>This common element is used to describe program information. It uses a type attribute that provides a list of values that identify programs.  Each use of this common element should specify the standard list of values to be utilized within that object.</desc>
+    <attribute name="Type" enum="FinancialProgram" flags="R">
+      <desc>The type of the program. Type identifies the list of values.Values: Foodservice, CFDA, NCES - code from the NCES Handbook, StateDOE - code defined by the State Department of Education, Local - locally-defined code, Text - textual description</desc>
+    </attribute>
+  </object>
+  <!--ProgramFundingSource object-->
+  <object name="ProgramFundingSource">
+    <desc>The specific group of duties or responsibilities of position.</desc>
+    <element name="Code" type="String" flags="O" />
+  </object>
+  <!--ProgramType object-->
+  <object name="ProgramType">
+    <desc>The specific group of duties or responsibilities of position.</desc>
+    <element name="Code" enum="StudentFamilyProgramType" flags="R" />
+  </object>
+  <!--ProgramTypeCode enum-->
+  <enum name="ProgramTypeCode">
+    <desc>NCES 0229 Program Type Codeset</desc>
+    <value name="REGULAR_EDUCATION" value="0100" desc="Regular education—A program that provides students from the prekindergarten level to grade 12 with learning experiences that focus primarily on knowledge and skills for the appropriate age or grade level of students. This contrasts with that designed to improve or overcome physical, mental, social, and/or emotional disabilities." />
+    <value name="SPECIAL_EDUCATION_SERVICES" value="0200" desc="Special Education Services—A service, specially designed and at no cost to the parent/guardian, that adapts the curriculum, materials, or instruction for students identified as needing special education. This may include specially designed instruction for students with any of the following: autism, deaf-blindness, developmental delay (to age 9), hearing impairment, mental retardation, multiple disabilities, orthopedic impairment, serious emotional disturbance, specific learning disability, speech or language impairment, traumatic brain injury, visual impairment, and other health information." />
+    <value name="EARLY_IDENTIFICATION" value="0201" desc="Early identification—A service that develops and implements a formal plan for identifying a disability as early as possible in a child's life." />
+    <value name="EARLY_INTERVENTION" value="0202" desc="Early intervention—A service that: 1) is designed to meet the developmental needs of each child eligible under Part C of the Individuals with Disabilities Education Act (IDEA) of 1997 and the needs of the family related to enhancing the child’s development; 2) is selected in collaboration with the parents; 3) is provided under public supervision by qualified personnel; 4) is in conformity with an individualized family service plan; and 5) is offered at no cost, unless federal or state law provides for a system of payments by families, including a schedule of sliding fees; and 6) meets the standards of the state. " />
+    <value name="AUTISM" value="0203" desc="Service for individuals with autism—A service of instruction or services for students with a developmental disability significantly affecting verbal and non-verbal communication and social interaction, generally evident before age three, which adversely affects educational performance. Characteristics of autism include irregularities and impairments in communication, engagement in repetitive activities and stereotyped movements, resistance to environmental change or change in daily routines, and unusual responses to sensory experiences. This does not include services for children with characteristics of the disability" />
+    <value name="DEAF_BLIND" value="0204" desc="Service for individuals with deaf-blindness—A service of instruction or services for students with concomitant hearing and visual impairments which cause such severe communication and other developmental and educational problems that an individual with deaf-blindness cannot be accommodated in special education services solely for deaf or blind individuals. " />
+    <value name="MENTAL_RETARDATION" value="0205" desc="Service for individuals with mental retardation—A service of instruction or services for students with significantly subaverage general intellectual functioning existing concurrently with deficits in adaptive behavior that is manifested during the developmental period, which adversely affects an individual's educational performance." />
+    <value name="HEARING_IMPAIRMENT" value="0206" desc="Service for individuals with hearing impairment—A service of instruction or services for students with either: 1) a hearing impairment which is so severe that an individual is impaired in processing linguistic information through hearing with or without amplification (which would be considered to be a state of deafness), and which adversely affects his or her educational performance; or 2) a hearing impairment whether permanent or fluctuating (which would not be considered to be a state of deafness) that adversely affects an individual's educational performance." />
+    <value name="VISUAL_IMPAIRMENT" value="0207" desc="Service for individuals with visual impairment—A service of instruction or services for students with a visual impairment which, even with correction, adversely affects an individual's educational performance. This includes service for both partially seeing and blind individuals." />
+    <value name="ORTH_IMPAIRMENT" value="0208" desc="Service for individuals with orthopedic impairment—A service of instruction or services for students who have a severe orthopedic impairment which adversely affects an individual's educational performance. The term includes impairments caused by congenital anomaly (e.g., clubfoot or absence of some member), impairments caused by some disease (e.g., poliomyelitis or bone tuberculosis), and impairments from other causes (e.g., cerebral palsy, amputations, and fractures or burns which cause contractures)." />
+    <value name="SPEECH_IMPAIREMENT" value="0209" desc="Service for individuals with speech or language impairment—A service of instruction or services for those students who have a communication disorder such as stuttering, impaired articulation, and language or voice impairments which adversely affect an individual's educational performance." />
+    <value name="EMOTIONAL_DISTURBANCE" value="0210" desc="Service for individuals with serious emotional disturbance—A service of instruction or services for: 1) those individuals exhibiting one or more of the following characteristics over a long period of time and to a marked degree, which adversely affects an individual's performance: " />
+    <value name="LEARNING_DISABILITIES" value="0211" desc="Service for individuals with specific learning disabilities—A service of instruction or services for those students who have a disorder in one or more of the basic psychological processes involved in understanding or in using language whether spoken or written, which may manifest itself as an imperfect ability to listen, think, read, write, spell, or perform mathematical calculations. This includes services for individuals with such conditions as perceptual impairments, brain injury, minimal brain dysfunction, dyslexia, and developmental aphasia; but does not include individuals who have learning problems which are primarily the result of visual, hearing, or motor impairments, mental retardation, emotional disturbance or environmental, cultural, or economic disadvantage." />
+    <value name="MULTIPLE_DISABILITIES" value="0212" desc="Service for individuals with multiple disabilities—A service of instruction or services for those students who have concomitant impairments (e.g., mental retardation-blind or mental retardation-orthopedic impairments) which cause such severe educational problems that an individual with multiple disabilities cannot be accommodated in special education services s olely for one of the impairments. This does not include deaf-blindness." />
+    <value name="BRAIN_INJURY" value="0213" desc="Service for individuals with traumatic brain injury—A service of instruction or services for those individuals that acquired injury to the brain caused by an external physical force, resulting in total or partial functional disability or psychosocial impairment, or both, that adversely affects a child's educational performance. The term applies to open or closed head injuries resulting in impairments in one or more areas, such as cognition; language; memory; attention; reasoning; abstract thinking; judgment; problem-solving; sensory, perceptual, and motor abilities; psychosocial behavior; physical functions; information processing; and speech. The term does not apply to brain injuries that are congenital or degenerative, or to brain injuries induced by birth trauma." />
+    <value name="PSYCHOLOGICAL_SERVICE" value="0214" desc="Psychological service—A service that includes 1) administering psychological and educational tests, and other assessment procedures; 2) interpreting assessment results; 3) obtaining, integrating, and interpreting information about child behavior and conditions relating to learning; 4) consulting with other staff members in planning school programs to meet the special needs of children as indicated by psychological tests, interviews, and behavioral evaluations; 5) planning and managing a program of psychological services, including psychological counseling for children and parents; and 6) assisting in developing positive behavioral intervention strategies." />
+    <value name="CROSS_CATEGORICAL" value="0215" desc="Cross categorical—A service of instruction or services that focuses on more than one specific type of disability and in which individuals with different types of disabilities are served." />
+    <value name="DEVELOPMENTAL_DELAY" value="0216" desc="Service for individuals with developmental delay—A service of instruction or services for students who are experiencing developmental delays in one or more of the following areas: physical development, cognitive development, communication development, social or emotional development, or adaptive development." />
+    <value name="OTHER_SP_ED" value="0299" desc="Other—Other special education service which cannot be classified above." />
+    <value name="VOCATIONAL_EDUCATION" value="0300" desc="Vocational education—Organized educational programs offering a sequence of courses that are directly related to the preparation of individuals for paid or unpaid employment in current or emerging occupations requiring other than a baccalaureate or advanced degree." />
+    <value name="AGRICULTURE" value="0301" desc="Agriculture—A vocational program that prepares students with the knowledge, skills, and understanding necessary to enter a wide range of agriculturally related occupations." />
+    <value name="CONSUMER_AND_HOME-MAKING" value="0302" desc="Consumer and home-making—A vocational program that prepares students with the knowledge, skills, and understanding relevant to personal, home and family life." />
+    <value name="MARKETING" value="0303" desc="Marketing—A vocational program that teaches about the promotion and distribution of goods and services from the producer to the consumer including appropriate utilization." />
+    <value name="HEALTH" value="0304" desc="Health—A vocational program that prepares students with the knowledge, skills, and understanding necessary to enter a wide range of occupations that support health professionals." />
+    <value name="TECHNOLOGY_INDUSTRIAL" value="0305" desc="Technology/industrial arts—A vocational program that prepares students with the understanding about all aspects of industry and technology. These activities include experimenting, designing, constructing, and evaluating; using tools, machines, materials; and using processes which may help individuals make informed and meaningful occupational choices, or may prepare them to enter advanced trade, industrial or technical education programs." />
+    <value name="OCCUPATIONAL_HOME_ECONOMICS" value="0306" desc="Occupational home economics—A vocational program that prepares students with the knowledge, skills, and understanding relevant to occupational home economics." />
+    <value name="BUSINESS" value="0307" desc="Business—A vocational program that prepares, upgrades, or retrains students for selected business occupations." />
+    <value name="TECHNICAL" value="0308" desc="Technical—A vocational program that prepares students for job opportunities in a specialized field of technology." />
+    <value name="TRADE_AND_INDUSTRIAL" value="0309" desc="Trade and industrial—A vocational program that prepares students for initial employment in a wide range of trade and industrial occupations." />
+    <value name="OTHER_VOCATIONAL_EDUCATION" value="0399" desc="Other vocational education—Other vocational education activities that cannot be classified by the categories above." />
+    <value name="TECHNICAL_PREPARATORY" value="0400" desc="Technical preparatory—A program that offers four-year planned sequence of vocational-technical instruction beginning in the eleventh year of high school. The sequence extends through two years of postsecondary occupational education or an apprenticeship program of at least two years following secondary instruction, and culminates in a certificate or associate degree." />
+    <value name="HEAD_START" value="0500" desc="Head Start—A federally funded child development program that provides health, educational, nutritional, social, and other services primarily to economically disadvantaged preschool children, including Indian children on federally recognized reservations, and children of migratory workers and their families; and involves parents in activities with their children so that the children will attain overall social competence. Examples of Head Start demonstration projects include Comprehensive Child Development Program, Family Service Centers, and Head Start/Public School Early Childhood Transition Projects." />
+    <value name="EVEN_START" value="0600" desc="Even Start—A program that provides family-centered education projects which help parents become full partners in the education of their children, assists children in reaching their full potential as learners, and provides literacy training for their parents. The purpose of this program is to integrate early childhood education and adult education for parents into a program that builds on existing community resources." />
+    <value name="MIGRANT_EDUCATION" value="0700" desc="Migrant education—A program of instruction and services for those children who move periodically with their families from one school to another in a different geographical area in order that a parent or other member of the immediate family may secure seasonal employment." />
+    <value name="INDIAN_EDUCATION" value="0800" desc="Indian education—A program of instruction and services for those children who are American Indian or Alaskan natives." />
+    <value name="COMPENSATORY_DISADVANTAGED" value="0900" desc="Compensatory services for disadvantaged students—A program of instruction and/or services which is designed for economically disadvantaged and/or academically challenged children. Services primarily consist of educational support services, counseling, and other supplemental non-instructional support." />
+    <value name="BILINGUAL_EDUCATION_PROGRAM" value="1000" desc="Bilingual education program—A program of instruction and services that uses more than one language to teach a content area. Students served by this program may or may not be proficient in English." />
+    <value name="CURRICULUM_CONTENT_IN_NATIVE" value="1001" desc="Curriculum content in native language—A program in which instruction and academic content are taught in a student's native, non-English language." />
+    <value name="DEVELOPMENTAL_BILINGUAL" value="1002" desc="Developmental bilingual education—A program in which students with the same non-English language background receive language arts and content area instruction in both the student's native language and English." />
+    <value name="NATIVE_LANGUAGE_SUPPORT" value="1003" desc="Native language support—A program in which reading is initially taught in both the students' non-English home language and their second language (English) until their English is proficient enough for them to participate successfully in a regular classroom. Use of the non-English home language is phased out as regular English instruction is gradually phased in. This is also known as transitional bilingual education." />
+    <value name="TWO-WAY_BILINGUAL_EDUCATION" value="1004" desc="Two-way bilingual education—A program in which native English-speaking and non-native-English speaking students are placed together to receive language arts and content area instruction in English and another non-English language." />
+    <value name="ENGLISH_AS_A_SECOND_LANGUAGE" value="1100" desc="English as a second language (ESL) program—A program of instruction and services in which students identified as limited English proficient are placed in regular immersion instruction for most of the school day but receive extra instruction in English for part of the day. This extra help is based on a special curriculum designed to teach English as a second language and to develop the student's ability to use the English language in an academic setting. The non-English home language may or may not be used in conjunction with ESL instruction." />
+    <value name="CONTENT_ESL" value="1101" desc="Content ESL—A program of language development that goes beyond the teaching of basic vocabulary and grammar skills, and is designed to parallel English language instruction for native speakers in content and approach; English vocabulary and mechanics are often embedded in engaging content and/or literature." />
+    <value name="GIFTED_AND_TALENTED" value="1200" desc="Gifted and talented—Programs that provide special educational opportunities including accelerated promotion through grades and classes and an enriched curriculum for students who are endowed with a high degree of mental ability or who demonstrate unusual physical coordination, creativity, interest, or talent (often in the visual or performing arts)." />
+    <value name="COCURRICULAR_PROGRAMS" value="1300" desc="Cocurricular programs—A program of activities that are related to the current curriculum in which a student is enrolled. This may be any type of school-sponsored activity designed to provide opportunities to participate in experiences on an individual or group basis (at school or public events) for the improvement of skills. The following characteristics apply to cocurricular activities: 1) participation is necessary for meeting class requirements, for credit, or for graduation; 2) sessions are conducted at regular and uniform times during school hours, or may be conducted during authorized non-school hours; 3) programs are directed or supervised by instructional staff in a learning environment similar to that found in classes offered for credit; and 4) services are primarily or totally funded by school-operating funds for general instructional purposes under the direction and control of local education authorities." />
+    <value name="ATHLETICS" value="1400" desc="Athletics—School-sponsored activities, under the guidance and supervision of school staff, that provide opportunities for students to pursue various aspects of physical education." />
+    <value name="ADULT_CONTINUING_EDUCATION" value="1500" desc="Adult/continuing education—A program of instruction provided by an adult/continuing education instructional organization for adults and youth beyond the age of compulsory school attendance." />
+    <value name="ADULT_BASIC_EDUCATION" value="1501" desc="Adult basic education—A program which provides learning experiences concerned with providing the fundamentals to adults who have never attended school or who have not completed formal schooling. These individuals need knowledge and skills to raise their level of education to increase self confidence and/or self determination, to prepare for an occupation, and to function more responsibly as citizens in a democracy." />
+    <value name="ADULT_ENGLISH_AS_A_SECOND" value="1502" desc="Adult English as a second language—A program which provides learning experiences for adults with a non-English background to develop the English language skills necessary to successfully participate in an English-speaking environment." />
+    <value name="ADVANCED_ADULT_BASIC_EDUCATION" value="1503" desc="Advanced adult basic education—A program which provides learning experiences designed to develop the knowledge, skills, understanding, attitudes, and behavioral characteristics considered to be needed by adults who may or may not have completed formal schooling. These individuals have accepted adult roles and responsibilities and are preparing for postsecondary careers and/or postsecondary education programs." />
+    <value name="LIFE_ENRICHMENT" value="1504" desc="Life enrichment—A program which provides learning experiences offering skills, knowledge, and understanding designed primarily for enjoyment without regard to a vocation." />
+    <value name="OCCUPATIONAL" value="1505" desc="Occupational—A program which provides learning experiences offering the knowledge, skills, and understanding required to prepare learners for immediate employment in an occupation or cluster of occupations." />
+    <value name="RETRAINING_FOR_NEW_OCCUPATION" value="1506" desc="Retraining for new occupation—A program which provides learning experiences offering skills, knowledge, and understanding required for preparation for employment in a new and different occupation." />
+    <value name="SPECIAL_INTEREST" value="1507" desc="Special interest—A program which provides learning experiences offering the skills, knowledge, and understanding required to prepare adults for a subordinate occupation in addition to their vocation. Such programs also are referred to as avocational programs." />
+    <value name="UPGRADING_IN_CURRENT_OCCUPATIO" value="1508" desc="Upgrading in current occupation—A program which provides learning experiences offering the skills, knowledge, and understanding designed primarily to extend or update workers' competencies for occupations in which they are employed." />
+    <value name="GENERAL_EDUCATIONAL_DEVELOPMEN" value="1509" desc="General Educational Development (GED) preparation—A program which provides learning experiences designed to develop the knowledge, skills, and understanding required for the successful completion of the Test of General Educational Development (GED)." />
+    <value name="OTHER_ADULT_CONTINUING" value="1599" desc="Other adult/continuing education—Other adult/continuing education program which cannot be classified in any of the categories above" />
+    <value name="COMMUNITY_JUNIOR_COLLEGE" value="1600" desc="Community/junior college education program—Postsecondary education institutions, commonly organized into two-year programs, which offer instruction that has usually been adapted in content, level and schedule to meet the needs of the community in which they are located. Community or junior colleges generally offer a comprehensive curriculum which includes basic liberal arts, science, occupational, general education and adult education components. The program awards an Associate of Arts (A.A.) certificate to those who successfully complete the requirements." />
+    <value name="COMMUNITY_SERVICES_PROGRAM" value="1700" desc="Community services program—A program of activities which are not directly related to the provision of educational services in a school system. These include services provided to the community as a whole or some segment of the community." />
+    <value name="CIVIC_SERVICES" value="1701" desc="Civic services—A program of activities concerned with providing services to civic affairs or organizations. This includes services to parent-teacher association meetings, public forums, lectures, and civil defense planning." />
+    <value name="COMMUNITY_RECREATION" value="1702" desc="Community recreation—A program of activities concerned with providing recreation for the community as a whole, or for some segment of the community. This includes such staff activities as organizing and supervising playgrounds, swimming pools, and similar programs." />
+    <value name="COORDINATION_OF_CASEWORK" value="1703" desc="Coordination of casework—A program of activities designed to manage the counsel and aid given to individuals and families requiring assistance of social service agencies." />
+    <value name="CUSTODY_AND_CHILD_CARE" value="1704" desc="Custody and child care services—A program of activities pertaining to the provision of programs for the custodial care of children in residential day schools, or child care centers which are not part of, or directly related to, the instructional program, and where the attendance of the children is not included in the attendance figures for the school or school system." />
+    <value name="PUBLIC_LIBRARY_SERVICES" value="1705" desc="Public library services—A program of activities pertaining to the operation of public libraries by a school or school system, or the provision of library services to the general public through the school library. This includes such activities as budgeting, planning and augmenting the library's collection in relation to the community, and informing the community of public library resources and services." />
+    <value name="WELFARE_ACTIVITIES" value="1706" desc="Welfare activities—A program of activities pertaining to the provision of personal needs of individuals who have been designated as needy by an appropriate governmental entity. These needs include stipends for school attendance, salaries paid to students for work performed (whether for the school, school system, or for an outside source), and for clothing, food, or other personal needs." />
+    <value name="OTHER_COMMUNITY_SERVICES" value="1799" desc="Other community services—Other community services program provided to the community which cannot be classified above." />
+    <value name="SUBSTANCE_ABUSE_EDUCATION" value="1800" desc="Substance abuse education/prevention—A program that provides a variety of services including: 1) individual, group, and/or family counseling; 2) knowledge and skill-enhancing activities; and 3) structured groups that focus on family dynamics, problem solving, self-esteem, and/or similar issues . These programs care for students who are at risk of drug abuse, for example, those who are currently in an experimental stage (light use), who have family members or peer groups who use alcohol or drugs, or who have behavioral, emotional, or other problems at home, in school, in the community, or with the criminal justice system. Substance abuse education programs also offer presentations about the risks of substance use to students at their schools as well as in various other community settings." />
+    <value name="STUDENT_RETENTION" value="1900" desc="Student retention—A program that develops and implements educational strategies and practices including special instructional methods and materials to encourage students to remain in school and complete their elementary and secondary education." />
+    <value name="EXTENDED_DAY_CHILD_CARE" value="2000" desc="Extended day/child care services—A program that provides custodial care of students enrolled in a school or system before school day starts and/or after a school day ends." />
+    <value name="COUNSELING_SERVICES" value="2100" desc="Counseling services—A program that helps a student to better identify his or her perceived educational, personal, or occupational potential; relate his or her abilities, emotions, and aptitudes to educational and career opportunities; use his or her abilities in formulating realistic plans; and achieve satisfying personal and social development." />
+    <value name="IMMIGRANT_EDUCATION" value="2200" desc="Immigrant education—A program of instruction and services designed and implemented especially for those children who have immigrated to the United States." />
+    <value name="COLLEGE_PREPARATORY" value="2300" desc="College preparatory—A program that provides learning experiences that focus primarily on knowledge and skills considered to be needed by students desiring further education in postsecondary education. These experiences are usually achieved in secondary education." />
+    <value name="INTERNATIONAL_BACCALAUREATE" value="2400" desc="International Baccalaureate—A program established to provides an internationally recognized, interdisciplinary, pre-collegiate course of study. Its curriculum is designed to qualify students, especially those who are internationally mobile, for college admission. Upon completion of this program, a student may receive an International Baccalaureate diploma." />
+    <value name="MAGNET_SPECIAL_PROGRAM" value="2500" desc="Magnet/Special Program Emphasis—A school within the public education system that has been designed: 1)to attract students of different racial/ethnic backgrounds for the purpose of reducing, preventing, or eliminating racial isolation; and /or 2)to provide an academic or social focus on a particular theme (e.g., science/math, performing arts, gifted/talented, or foreign language)." />
+    <value name="ALTERNATIVE_EDUCATION" value="2600" desc="Alternative education—An instructional program that: 1) addresses needs of students which cannot typically be met in a regular school/program; 2) provides nontraditional education; 3) serves as an adjunct to a regular school; and 4) falls outside of the categories of regular, magnet/special program emphasis, special, or vocational/technical education." />
+    <value name="LIBRARY_MEDIA_SERVICES" value="2700" desc="Library/media services—A program that provides library and media services to students and school staffs. Services include selecting, acquiring, cataloging, classifying, circulating, and maintaining library materials; furnishing reference and bibliographical services; selecting music, films, or other audio-visual materials for programs." />
+    <value name="HEALTH_SERVICES" value="2800" desc="Health services—A program that provides physical and mental health services which are not direct instruction, including medical, dental, and nursing services provided for students." />
+    <value name="REMEDIAL_EDUCATION" value="2900" desc="Remedial education—A program that is designed to develop specific cognitive skills, usually in language arts or mathematics, from a deficient level to one that is appropriate to the educational abilities and aspirations of the student." />
+    <value name="SCHOOL-TO-WORK_OPPORTUNITIES" value="3000" desc="School-To-Work Opportunities—A program that meets the system components which: 1) integrates work-based and school-based learning; 2) integrates occupational and academic learning; 3) provides linkages between secondary education and postsecondary education/job opportunity; and 4) is a partnership involving participation of educators, employers, governments, local communities, and other public or private organizations. The purpose of this program is to assist youths in making effective transitions from school to career-oriented work. Program examples include tech-prep education, career academies, youth apprenticeships, cooperative education, school-to-apprenticeship, business-education compacts, and school-sponsored enterprises." />
+    <value name="SERVICE_LEARNING" value="3100" desc="Service learning—A program that is designed to help students develop a deeper understanding of academic subjects through participation in meaningful service to their school or community." />
+    <value name="OTHER" value="9999" desc="Other—Other programs which cannot be classified above." />
+  </enum>
+  <!--Race object-->
+  <object name="Race">
+    <attribute name="Type" default="NA" flags="R" key="false" deprecated="true">
+      <desc>A code that specifies the coding structure used. The default is "NA".</desc>
+    </attribute>
+    <attribute name="Code" enum="RaceType" flags="M">
+      <desc>The general racial category which reflects the individual's recognition of his or her community or with which the individual most identifies.</desc>
+    </attribute>
+    <element name="Proportion" type="Decimal" flags="O" surrogate="ProportionSurrogate{}">
+      <desc>A percentage associated with the race.</desc>
+    </element>
+  </object>
+  <!--RaceList object-->
+  <object name="RaceList" collapsed="true">
+    <element name="Race" renderAs="Ethnicity" type="Race" flags="OR" />
+  </object>
+  <!--RaceType enum-->
+  <enum name="RaceType">
+    <value value="7" name="SIF1X_NOT_PROVIDED" desc="Not provided" />
+    <value value="A" name="SIF1X_ASIAN_OR_PACISLANDER" desc="Asian or Pacific Islander" />
+    <value value="B" name="SIF1X_BLACK" desc="Black" />
+    <value value="C" name="SIF1X_CAUCASIAN" desc="Caucasian" />
+    <value value="D" name="SIF1X_SUBCONT_ASIAN_AMER" desc="Subcontinent Asian American" />
+    <value value="E" name="SIF1X_OTHER" desc="Other Race or Ethnicity" />
+    <value value="F" name="SIF1X_ASIAN_PACISLANDER" desc="Asian Pacific American" />
+    <value value="G" name="SIF1X_NATIVE_AMER" desc="Native American" />
+    <value value="H" name="SIF1X_HISPANIC" desc="Hispanic" />
+    <value value="I" name="SIF1X_AMER_INDIAN_OR_ALASKAN_NATIVE" desc="American Indian or Alaskan Native" />
+    <value value="J" name="SIF1X_HAWAIIAN" desc="Native Hawaiian" />
+    <value value="N" name="SIF1X_BLACK_NON_HISP" desc="Black (Non-Hispanic)" />
+    <value value="O" name="SIF1X_WHITE_NON_HISP" desc="White (Non-Hispanic)" />
+    <value value="P" name="SIF1X_PACISLANDER" desc="Pacific Islander" />
+    <value value="Z" name="SIF1X_ZZ" desc="Mutually Defined" />
+  </enum>
+  <!--Relationship object-->
+  <object name="Relationship">
+    <attribute name="Code" enum="RelationshipCode" flags="R">
+      <desc>Code representing the relationship.</desc>
+    </attribute>
+  </object>
+  <!--RelationshipCode enum-->
+  <enum name="RelationshipCode">
+    <desc>From NCES 0609 Relationship to Student</desc>
+    <value name="ADOPTED_SON" value="1747" desc="Adopted son" />
+    <value name="ADOPTIVE_PARENTS" value="1749" desc="Adoptive parents " />
+    <value name="ADVISOR" value="1750" desc="Advisor " />
+    <value name="AGENCY_REPRESENTATIVE" value="1751" desc="Agency representative " />
+    <value name="AUNT" value="1720" desc="Aunt " />
+    <value name="BROTHER_HALF" value="1721" desc="Brother, half " />
+    <value name="BROTHER_NATURAL_ADOPTIVE" value="1722" desc="Brother, natural/adoptive " />
+    <value name="BROTHER_STEP" value="1723" desc="Brother, step " />
+    <value name="BROTHER_IN_LAW" value="1752" desc="Brother-in-law " />
+    <value name="COURT_APPOINTED_GUARDIAN" value="1753" desc="Court appointed guardian " />
+    <value name="COUSIN" value="1724" desc="Cousin " />
+    <value name="DAUGHTER" value="1725" desc="Daughter " />
+    <value name="DAUGHTER_IN_LAW" value="1754" desc="Daughter-in-law " />
+    <value name="DEPENDENT" value="1755" desc="Dependent " />
+    <value name="EMPLOYER" value="1552" desc="Employer " />
+    <value name="FAMILY_MEMBER" value="1759" desc="Family member " />
+    <value name="FATHER_FOSTER" value="1726" desc="Father, foster " />
+    <value name="FATHER_NATURAL_ADOPTIVE" value="1727" desc="Father, natural/adoptive " />
+    <value name="FATHER_STEP" value="1728" desc="Father, step " />
+    <value name="FATHER_IN_LAW" value="1761" desc="Father-in-law " />
+    <value name="FATHERS_SIGNIFICANT_OTHER" value="1760" desc="Father's significant other " />
+    <value name="FIANCE" value="1762" desc="Fiancé " />
+    <value name="FIANCEE" value="1763" desc="Fiancée " />
+    <value name="FORMER_HUSBAND" value="1757" desc="Former husband " />
+    <value name="FORMER_WIFE" value="1758" desc="Former wife " />
+    <value name="FOSTER_DAUGHTER" value="1764" desc="Foster daughter " />
+    <value name="FOSTER_PARENT" value="1765" desc="Foster parent " />
+    <value name="FOSTER_SON" value="1766" desc="Foster son " />
+    <value name="FRIEND" value="1729" desc="Friend " />
+    <value name="GRANDDAUGHTER" value="1767" desc="Granddaughter " />
+    <value name="GRANDFATHER" value="1730" desc="Grandfather " />
+    <value name="GRANDMOTHER" value="1731" desc="Grandmother " />
+    <value name="GRANDSON" value="1769" desc="Grandson " />
+    <value name="GREAT_AUNT" value="1770" desc="Great aunt " />
+    <value name="GREAT_UNCLE" value="1771" desc="Great uncle " />
+    <value name="HUSBAND" value="1732" desc="Husband" />
+    <value name="LIFE_PARTNER" value="1772" desc="Life partner " />
+    <value name="LIFE_PARTNER_OF_PARENT" value="1773" desc="Life partner of parent " />
+    <value name="MINISTER_OR_PRIEST" value="1774" desc="Minister or priest " />
+    <value name="MOTHER_FOSTER" value="1734" desc="Mother, foster " />
+    <value name="MOTHER_NATURAL_ADOPTIVE" value="1735" desc="Mother, natural/adoptive " />
+    <value name="MOTHER_STEP" value="1736" desc="Mother, step " />
+    <value name="MOTHER_IN_LAW" value="1776" desc="Mother-in-law " />
+    <value name="MOTHERS_SIGNIFICANT_OTHER" value="1775" desc="Mother's significant other " />
+    <value name="NEPHEW" value="1737" desc="Nephew " />
+    <value name="NIECE" value="1738" desc="Niece " />
+    <value name="NONE" value="9998" desc="None " />
+    <value name="OTHER" value="9999" desc="Other " />
+    <value name="PARTNER" value="1777" desc="Partner " />
+    <value name="PARTNER_OF_PARENT" value="1778" desc="Partner of parent " />
+    <value name="PROBATION_OFFICER" value="1779" desc="Probation officer " />
+    <value name="SIGNIFICANT_OTHER" value="1739" desc="Significant other " />
+    <value name="SISTER_HALF" value="1740" desc="Sister, half " />
+    <value name="SISTER_NATURAL_ADOPTIVE" value="1741" desc="Sister, natural/adoptive " />
+    <value name="SISTER_STEP" value="1742" desc="Sister, step " />
+    <value name="SISTER_IN_LAW" value="1780" desc="Sister-in-law " />
+    <value name="SON" value="1743" desc="Son " />
+    <value name="SON_IN_LAW" value="1781" desc="Son-in-law " />
+    <value name="STEPSON" value="1782" desc="Stepson " />
+    <value name="UNCLE" value="1744" desc="Uncle " />
+    <value name="WARD" value="1745" desc="Ward " />
+    <value name="WIFE" value="1746" desc="Wife " />
+  </enum>
+  <!--PublicSchoolResidenceStatus enum-->
+  <enum name="PublicSchoolResidenceStatus">
+    <value name="RESIDENT" value="1652" desc="Resident of administrative unit and usual school attendance area--The individual's legal residence is within the administrative unit and the attendance area of the school he or she attends." />
+    <value name="OTHER_SCHOOL" value="1653" desc="Resident of administrative unit, but of other school attendance area--The individual's legal residence is within the administrative unit, but not within the attendance area of the school he or she attends." />
+    <value name="OTHER_UNIT" value="1654" desc="Resident of this state, but not of this administrative unit--The individual's legal residence is outside the administrative unit of the school he or she attends." />
+    <value name="MULTI_STATE" value="1655" desc="Resident of an administrative unit that crosses state boundaries--The individual's legal residence is in an administrative unit that crosses state boundaries." />
+    <value name="OTHER_STATE" value="1656" desc="Resident of another state--The individual's legal residence is in a state other than the state in which his or her school's administrative unit resides." />
+  </enum>
+  <!--ResidencyStatus object-->
+  <object name="ResidencyStatus">
+    <element name="Code" enum="PublicSchoolResidenceStatus" flags="O">
+      <desc>Code indicating the residency status for this enrollment.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+  <!--SchoolContact object-->
+  <object name="SchoolContact">
+    <desc>Information on contact persons for this school.</desc>
+    <element name="PublishInDirectory" enum="YesNo" flags="O">
+      <desc>Indicates whether or not this school contact's information should be published in a directory of school information.  For a description of this element, see 5.1.24 PublishInDirectory.</desc>
+    </element>
+    <element name="ContactInfo" type="ContactInfo" flags="M">
+      <desc>For a description of this element, see 5.1.3 ContactInfo.</desc>
+    </element>
+  </object>
+  <!--SchoolContactList object-->
+  <object name="SchoolContactList">
+    <element name="SchoolContact" type="SchoolContact" flags="OR">
+      <desc>Information on contact persons for this school.</desc>
+    </element>
+  </object>
+  <!--Service object-->
+  <object name="Service" empty="true">
+    <attribute name="CodeType" flags="R" deprecated="true" key="false">
+      <desc>(SIF 1.5r1 Only) Values: "NCES","StateDOE","Local","Text"</desc>
+    </attribute>
+    <attribute name="Type" flags="R" deprecated="true" key="false">
+      <desc>InstructionalService, RelatedService, Other</desc>
+    </attribute>
+  </object>
+  <!--SessionTypeCode enum-->
+  <enum name="SessionTypeCode">
+    <value name="SIF1X_FULL_YEAR" value="01" desc="Full school year--A regular school term consisting of no major subdivision of time segments. It usually begins in the late summer or early fall and ends in late spring or early summer (e.g., elementary school). " />
+    <value name="SIF1X_SEMESTER" value="02" desc="Semester--One of two equal segments into which a school year is divided. " />
+    <value name="SIF1X_TRIMESTER" value="03" desc="Trimester--One of three equal segments into which a school year is divided. " />
+    <value name="SIF1X_QUARTER" value="04" desc="Quarter--One of four equal segments into which a school year is divided. " />
+    <value name="SIF1X_QUINMESTER" value="05" desc="Quinmester--One of five equal segments into which a school year is divided." />
+    <value name="SIF1X_MINI_TERM" value="06" desc="Mini-term--A school term which is shorter than a regular session." />
+    <value name="SIF1X_SUMMER_TERM" value="07" desc="Summer term--A school term which takes place in the summer between two regular school terms." />
+    <value name="SIF1X_INTERSESSION" value="08" desc="Intersession--A short session which occurs between longer sessions." />
+    <value name="SIF1X_LONG_SESSION" value="09" desc="Long session--A session that is longer than a semester but shorter than a full year." />
+    <value name="SIF1X_TWELVE_MONTH" value="10" desc="Twelve month--An educational program that operates throughout the year." />
+    <value name="SIF1X_OTHER" value="99" desc="Other" />
+  </enum>
+  <!--StatePrCode enum-->
+  <enum name="StatePrCode">
+    <value value="AL" desc="Alabama" />
+    <value value="AK" desc="Alaska" />
+    <value value="AZ" desc="Arizona" />
+    <value value="AR" desc="Arkansas" />
+    <value value="CA" desc="California" />
+    <value value="CZ" desc="Canal Zone" />
+    <value value="CO" desc="Colorado" />
+    <value value="CT" desc="Connecticut" />
+    <value value="DE" desc="Delaware" />
+    <value value="DC" desc="District of Columbia" />
+    <value value="FL" desc="Florida" />
+    <value value="GA" desc="Georgia" />
+    <value value="GU" desc="Guam" />
+    <value value="HI" desc="Hawaii" />
+    <value value="ID" desc="Idaho" />
+    <value value="IL" desc="Illinois" />
+    <value value="IN" desc="Indiana" />
+    <value value="IA" desc="Iowa" />
+    <value value="KS" desc="Kansas" />
+    <value value="KY" desc="Kentucky" />
+    <value value="LA" desc="Louisiana" />
+    <value value="ME" desc="Maine" />
+    <value value="MD" desc="Maryland" />
+    <value value="MA" desc="Massachusetts" />
+    <value value="MI" desc="Michigan" />
+    <value value="MN" desc="Minnesota" />
+    <value value="MS" desc="Mississippi" />
+    <value value="MO" desc="Missouri" />
+    <value value="MT" desc="Montana" />
+    <value value="NE" desc="Nebraska" />
+    <value value="NV" desc="Nevada" />
+    <value value="NH" desc="New Hampshire" />
+    <value value="NJ" desc="New Jersey" />
+    <value value="NM" desc="New Mexico" />
+    <value value="NY" desc="New York" />
+    <value value="NC" desc="North Carolina" />
+    <value value="ND" desc="North Dakota" />
+    <value value="OH" desc="Ohio" />
+    <value value="OK" desc="Oklahoma" />
+    <value value="OR" desc="Oregon" />
+    <value value="PA" desc="Pennsylvania" />
+    <value value="PR" desc="Puerto Rico" />
+    <value value="RI" desc="Rhode Island" />
+    <value value="SC" desc="South Carolina" />
+    <value value="SD" desc="South Dakota" />
+    <value value="TN" desc="Tennessee" />
+    <value value="TX" desc="Texas" />
+    <value value="UT" desc="Utah" />
+    <value value="VT" desc="Vermont" />
+    <value value="VA" desc="Virginia" />
+    <value value="VI" desc="Virgin Islands" />
+    <value value="WA" desc="Washington" />
+    <value value="WV" desc="West Virginia" />
+    <value value="WI" desc="Wisconsin" />
+    <value value="WY" desc="Wyoming" />
+    <value value="AB" desc="Alberta" />
+    <value value="BC" desc="British Columbia" />
+    <value value="MB" desc="Manitoba" />
+    <value value="NB" desc="New Brunswick" />
+    <value value="NF" desc="Newfoundland" />
+    <value value="NS" desc="Nova Scotia" />
+    <value value="NT" desc="North West Territories" />
+    <value value="ON" desc="Ontario" />
+    <value value="PE" desc="Prince Edward Island" />
+    <value value="PQ" desc="Quebec" />
+    <value value="SK" desc="Saskatchewan" />
+    <value value="YT" desc="Yukon" />
+  </enum>
+  <!--Street object-->
+  <object name="Street">
+    <desc>The Street element is a complex element that breaks a street address down into several parts</desc>
+    <element name="Line1" flags="M">
+      <desc>Address line 1</desc>
+    </element>
+    <element name="Line2" flags="O">
+      <desc>Address line 2</desc>
+    </element>
+    <element name="Line3" flags="O">
+      <desc>Address line 3</desc>
+    </element>
+    <element name="Complex" flags="O">
+      <desc>Name of the complex</desc>
+    </element>
+    <element name="StreetNumber" flags="O">
+      <desc>The address number assigned to the building</desc>
+    </element>
+    <element name="StreetPrefix" flags="O">
+      <desc>Street prefix (e.g. "NE")</desc>
+    </element>
+    <element name="StreetName" flags="O">
+      <desc>The name of the street</desc>
+    </element>
+    <element name="StreetType" flags="O">
+      <desc>The type of street (e.g. "Blvd", "Ave", etc.)</desc>
+    </element>
+    <element name="StreetSuffix" flags="O">
+      <desc>Street suffix (e.g. "SW")</desc>
+    </element>
+    <element name="ApartmentType" renderAs="AptType" flags="O">
+      <desc>Type of apartment (e.g. "Suite")</desc>
+    </element>
+    <element name="ApartmentNumberPrefix" renderAs="AptNumPrefix" flags="O">
+      <desc>Apartment number prefix</desc>
+    </element>
+    <element name="ApartmentNumber" renderAs="AptNumber" flags="O">
+      <desc>The number of the apartment</desc>
+    </element>
+    <element name="ApartmentNumberSuffix" renderAs="AptNumSuffix" flags="O">
+      <desc>Apartment number suffix</desc>
+    </element>
+  </object>
+  <!--StudentFamilyProgramType enum-->
+  <enum name="StudentFamilyProgramType">
+    <value name="INFANT_AND_TODDLERS_PROGRAM" value="0241" desc="Infant and toddlers program - Early intervention (IDEA Part C)" />
+    <value name="SPECIAL_ED_BIRTH" value="0242" desc="Special education services for Birth - Age 2 (IDEA Part B)" />
+    <value name="SPECIAL_ED_PRESCHOOL" value="0244" desc="Special education services for preschoolers (IDEA Part B)" />
+    <value name="MIGRANT_EARLY_CHILDHOOD" value="0245" desc="Migrant early childhood program (ESEA Title I)" />
+    <value name="AFTER_SCHOOL_CHILD_CARE" value="0248" desc="After school child care" />
+    <value name="AFTER_SCHOOL_ENRICHMENT" value="0875" desc="After school enrichment" />
+    <value name="ALTERNATIVE_EDUCATION_PROGRAM" value="0249" desc="Alternative education program (ESEA Title V)" />
+    <value name="BEFORE_SCHOOL_CHILD_CARE" value="0250" desc="Before school child care" />
+    <value name="BEFORE_SCHOOL_ENRICHMENT" value="0876" desc="Before school enrichment" />
+    <value name="BILINGUAL_EDUCATION" value="0251" desc="Bilingual education (ESEA Title III)" />
+    <value name="COMPENSATORY_EDUCATION_FOR" value="0253" desc="Compensatory education for disadvantaged students (ESEA Title I)" />
+    <value name="COUNSELING_SERVICES" value="0255" desc="Counseling services (ESEA Title V-D)" />
+    <value name="ENGLISH_AS_A_SECOND_LANGUAGE" value="0256" desc="English as a Second Language (ESEA Title III)" />
+    <value name="EVEN_START" value="2389" desc="Even Start (ESEA Title I-B-3)" />
+    <value name="GIFTED_AND_TALENTED" value="2381" desc="Gifted and talented (ESEA Title V-D, Javits)" />
+    <value name="HEAD_START" value="0246" desc="Head Start" />
+    <value name="HEALTH_OR_SOCIAL_SERVICES" value="0283" desc="Health or social services (ESEA Title V)" />
+    <value name="LITERACY" value="0284" desc="Literacy" />
+    <value name="MAGNET_PROGRAM" value="2393" desc="Magnet program (ESEA Title V)" />
+    <value name="MIGRANTS_SCHOOL_YEAR" value="0263" desc="Programs for migrants during the school year (ESEA Title I-C)" />
+    <value name="MIGRANTS_SUMMER" value="0265" desc="Programs for migrants during the summer (ESEA Title I-C)" />
+    <value name="READING_LITERACY" value="0267" desc="Reading / Literacy" />
+    <value name="RECREATIONAL_AVOCATIONAL" value="0289" desc="Recreational / Avocational Program" />
+    <value name="SPECIAL_EDUCATION_PROGRAM" value="0270" desc="Special education program (IDEA Part B)" />
+    <value name="STUDENT_ASSISTANCE_PROGRAMS" value="0272" desc="Student assistance programs (counseling, mentoring, identification and referral, etc.)" />
+    <value name="TUTORING_REMEDIAL_INSTRUCTIO" value="0278" desc="Tutoring / remedial instruction" />
+    <value name="OTHER" value="9999" desc="Other" />
+    <value name="VOCATIONAL_EDUCATION" value="0300" desc="Vocational education (VTEA Title I and WIA section 503)" />
+    <value name="TECHNICAL_PREPARATORY" value="0400" desc="Technical preparatory (VTEA Title II)" />
+    <value name="INDIAN_EDUCATION" value="0800" desc="Indian education (ESEA Title VII)" />
+    <value name="CO_CURRICULAR" value="1300" desc="Co-curricular" />
+    <value name="ATHLETICS" value="1400" desc="Athletics (ESEA Title V-D)" />
+    <value name="SUBSTANCE_ABUSE_EDUCATION" value="1800" desc="Substance abuse education / prevention (ESEA Title IV-A)" />
+    <value name="STUDENT_RETENTION" value="1900" desc="Student retention (ESEA Title I-H)" />
+    <value name="IMMIGRANT_EDUCATION" value="2200" desc="Immigrant education" />
+    <value name="COLLEGE_PREPARATORY" value="2300" desc="College preparatory / Advanced placement (ESEA Title I-G)" />
+    <value name="INTERNATIONAL_BACCALAUREATE" value="2400" desc="International Baccalaureate" />
+    <value name="REMEDIAL_EDUCATON" value="2900" desc="Remedial educaton" />
+    <value name="SCHOOL_TO_WORK_OPPORTUNITIES" value="3000" desc="School-to-Work Opportunities" />
+    <value name="SERVICE_LEARNING" value="3100" desc="Service learning" />
+    <value name="SECTION_504" value="3200" desc="Section 504" />
+    <value name="SUPPLEMENTAL_EDUCATION" value="S001" desc="Supplemental education services" />
+    <value name="EARLY_INTERVENING_SERVICES" value="S002" desc="Early intervening services" />
+    <value name="INDIVIDUAL_LEARNING" value="S003" desc="Individual learning / graduation plan" />
+    <value name="EXCHANGE_PROGRAM__FOREIGN" value="S004" desc="Exchange program - foreign student attending district school" />
+    <value name="EXCHANGE_PROGRAM__DISTRICT" value="S005" desc="Exchange program - district student attending foreign school" />
+    <value name="HOME_SCHOOLING" value="S006" desc="Home schooling" />
+    <value name="EARLY_CHILDHOOD_FULL_DAY_3" value="S007" desc="Early childhood full-day program for 3-year-old students" />
+    <value name="EARLY_CHILDHOOD_FULL_DAY_4" value="S008" desc="Early childhood full-day program for 4-year-old students" />
+    <value name="EARLY_CHILDHOOD_HALF_DAY_3" value="S009" desc="Early childhood half-day program for 3-year-old students" />
+    <value name="EARLY_CHILDHOOD_HALF_DAY_4" value="S010" desc="Early childhood half-day program for 4-year-old students" />
+    <value name="KINDERGARTEN_FULL_DAY" value="S011" desc="Kindergarten full-day program" />
+    <value name="KINDERGARTEN_HALF_DAY" value="S012" desc="Kindergarten half-day program" />
+    <value name="NEGLECTED_AND_DELINQUENT" value="S013" desc="Neglected and Delinquent (ESEA I-D)" />
+    <value name="READING_FIRST" value="S014" desc="Reading First (Title I-B-1 and I-B-2)" />
+    <value name="EDUCATION_FOR_HOMELESS" value="S015" desc="Education for homeless children and youths (MVHAA Title VII-B)" />
+    <value name="RURAL_EDUCATION" value="S016" desc="Rural education (ESEA VI-B)" />
+  </enum>
+  <!--StudentPersonalRefId object-->
+  <object name="StudentPersonalRefId" datatype="IdRefType" />
+  <!--Students object-->
+  <object name="Students" collased="true">
+    <desc>List of students</desc>
+    <element name="StudentPersonalRefId" type="StudentPersonalRefId" flags="R">
+      <desc>GUID that identifies the student that this element refers to.</desc>
+    </element>
+  </object>
+  <!--SubjectArea object-->
+  <object name="SubjectArea" empty="false">
+    <attribute name="Code" flags="R">
+      <desc>The subject area code (i.e. the first two digits of the course classification code)</desc>
+    </attribute>
+  </object>
+  <!--SubjectAreaList object-->
+  <object name="SubjectAreaList">
+    <element name="SubjectArea" type="SubjectArea" flags="OR">
+      <desc>Subject matter area or department</desc>
+    </element>
+  </object>
+  <!--TeachingArea enum-->
+  <enum name="TeachingArea">
+    <value name="EARLY_CHILDHOOD" value="1296" desc="Early childhood" />
+    <value name="KINDERGARTEN" value="0805" desc="Kindergarten" />
+    <value name="ELEMENTARY" value="1304" desc="Elementary" />
+    <value name="ACCOUNTING" value="1305" desc="Accounting" />
+    <value name="BUSINESS_AND_MANAGEMENT" value="1306" desc="Business and management" />
+    <value name="OTHER_BUSINESS" value="1307" desc="Other business" />
+    <value name="ENGLISH_OR_LANG_ARTS" value="1308" desc="English or language arts" />
+    <value name="JOURNALISM_COMMUNICATIONS" value="1309" desc="Journalism/communications" />
+    <value name="READING" value="0560" desc="Reading" />
+    <value name="SPEECH" value="1310" desc="Speech" />
+    <value name="DESIGN" value="1311" desc="Architecture or environmental design" />
+    <value name="DANCE" value="0684" desc="Dance" />
+    <value name="DRAMA_TEACHER" value="1312" desc="Drama/Teacher" />
+    <value name="MUSIC" value="1313" desc="Music" />
+    <value name="VISUAL_ARTS" value="1314" desc="Visual Arts" />
+    <value name="CHINESE" value="1315" desc="Chinese" />
+    <value name="FRENCH" value="1316" desc="French" />
+    <value name="GERMAN" value="1317" desc="German" />
+    <value name="ITALIAN" value="1318" desc="Italian" />
+    <value name="JAPANESE" value="1319" desc="Japanese" />
+    <value name="LATIN" value="1320" desc="Latin" />
+    <value name="RUSSIAN" value="1321" desc="Russian" />
+    <value name="SPANISH" value="1322" desc="Spanish" />
+    <value name="OTHER_LANGUAGES" value="1323" desc="Other languages" />
+    <value name="COMPUTER_SCIENCE" value="1324" desc="Computer Science" />
+    <value name="MATHEMATICS" value="1166" desc="Mathematics" />
+    <value name="BIOLOGY_OR_LIFE_SCIENCE" value="1325" desc="Biology or life science" />
+    <value name="CHEMISTRY" value="1326" desc="Chemistry" />
+    <value name="EARTH_SPACE_SCIENCE_GEOLOGY" value="1327" desc="Earth/space science/geology" />
+    <value name="GENERAL_SCIENCE" value="1328" desc="General science" />
+    <value name="HEALTH_EDUCATION" value="1329" desc="Health education" />
+    <value name="PHYSICAL_SCIENCE" value="1330" desc="Physical science" />
+    <value name="PHYSICS" value="1331" desc="Physics" />
+    <value name="OTHER_NATURAL_SCIENCES" value="1332" desc="Other natural sciences" />
+    <value name="AMERICAN_INDIAN_NATIVE" value="1333" desc="American Indian/Native American studies" />
+    <value name="ANTHROPOLOGY" value="1334" desc="Anthropology" />
+    <value name="CIVICS" value="1335" desc="Civics" />
+    <value name="ECONOMICS" value="1336" desc="Economics" />
+    <value name="GEOGRAPHY" value="0547" desc="Geography" />
+    <value name="HISTORY" value="0550" desc="History" />
+    <value name="HUMANITIES" value="1337" desc="Humanities" />
+    <value name="LAW" value="1338" desc="Law" />
+    <value name="PHILOSOPHY" value="1339" desc="Philosophy" />
+    <value name="POLITICAL_SCIENCE_AND" value="1340" desc="Political science and government" />
+    <value name="PSYCHOLOGY" value="1181" desc="Psychology" />
+    <value name="RELIGION" value="1342" desc="Religion" />
+    <value name="SOCIAL_STUDIES" value="0563" desc="Social studies" />
+    <value name="SOCIOLOGY" value="1343" desc="Sociology" />
+    <value name="OTHER_AREA_OR_ETHNIC" value="1344" desc="Other area or ethnic studies" />
+    <value name="OTHER_SOCIAL_STUDIES" value="1345" desc="Other social studies/social sciences" />
+    <value name="BASIC_SKILLS_OR_REMEDIAL" value="1346" desc="Basic skills or remedial education" />
+    <value name="BILINGUAL_EDUCATION" value="0251" desc="Bilingual education" />
+    <value name="ESL" value="0256" desc="English as a Second Language" />
+    <value name="GIFTED_AND_TALENTED" value="2381" desc="Gifted and talented" />
+    <value name="MILITARY_SCIENCE" value="0557" desc="Military science" />
+    <value name="PHYSICAL_EDUCATION" value="0556" desc="Physical education" />
+    <value name="SPECIAL_EDUCATION" value="2043" desc="Special education" />
+    <value name="AUTISM" value="1348" desc="Autism" />
+    <value name="DEAF_AND_HARD_OF_HEARING" value="1349" desc="Deaf and hard-of-hearing" />
+    <value name="DEVELOPMENTALLY_DELAYED" value="1350" desc="Developmentally delayed" />
+    <value name="EARLY_CHILDHOOD_SPECIAL" value="1351" desc="Early childhood special education" />
+    <value name="EMOTIONALLY_DISTURBED" value="1352" desc="Emotionally disturbed or behavior disorders" />
+    <value name="LEARNING_DISABILITIES" value="1353" desc="Learning disabilities" />
+    <value name="MENTALLY_DISABLED" value="1354" desc="Mentally disabled" />
+    <value name="MILDLY_MODERATELY_DISABLED" value="1355" desc="Mildly/moderately disabled" />
+    <value name="ORTHOPEDICALLY_IMPAIRED" value="1356" desc="Orthopedically impaired" />
+    <value name="SPEECH_LANGUAGE_IMPAIRED" value="1358" desc="Speech/language impaired" />
+    <value name="TRAUMATICALLY_BRAIN_INJURED" value="1359" desc="Traumatically brain-injured" />
+    <value name="VISUALLY_IMPAIRED" value="1360" desc="Visually impaired" />
+    <value name="OTHER_SPECIAL_ED" value="1361" desc="Other special education" />
+    <value name="AGRICULTURE_OR_NATURAL" value="1362" desc="Agriculture or natural resources" />
+    <value name="BUSINESS_OFFICE" value="1363" desc="Business/office" />
+    <value name="CAREER_EDUCATION" value="1364" desc="Career education" />
+    <value name="COMMUNICATIONS_TECH" value="1153" desc="Communications technologies" />
+    <value name="COSMETOLOGY" value="1366" desc="Cosmetology" />
+    <value name="FAMILY_AND_CONSUMER_SCIENCE" value="1367" desc="Family and consumer science (home economics)" />
+    <value name="FOOD_SERVICES" value="1368" desc="Food services" />
+    <value name="HEALTH_PROFESSIONS" value="1369" desc="Health professions and occupations" />
+    <value name="TRADES_AND_INDUSTR" value="1370" desc="Trades and industry (e.g., CADD, electronics repair, mechanics, precision production)" />
+    <value name="OTHER_VOCATIONAL_TECH" value="1371" desc="Other vocational/technical education" />
+    <value name="OTHER" value="9999" desc="Other" />
+  </enum>
+  <!--TermSpan object-->
+  <object name="TermSpan" empty="false">
+    <attribute name="Code" enum="SessionTypeCode" flags="R">
+      <desc>An NCES code for Session type</desc>
+    </attribute>
+  </object>
+</adk>

@@ -1,0 +1,686 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s) -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.0 etranscripts objects          -->
+<!-- ======================================== -->
+<adk package="etranscripts" version="2.0r1" name="" namespace="http://www.sifinfo.org/infrastructure2.x">
+  <!--AcademicPerformanceHistory object-->
+  <object name="AcademicPerformanceHistory">
+    <element name="TermPerformance" type="TermPerformance" flags="OR" />
+  </object>
+  <!--AcademicPerformanceSummary object-->
+  <object name="AcademicPerformanceSummary">
+    <element name="TotalCreditsAttempted" type="Decimal" flags="O">
+      <desc>Total credits attempted during academic career.</desc>
+    </element>
+    <element name="TotalCreditsEarned" type="Decimal" flags="O">
+      <desc>Total credits earned during academic career.</desc>
+    </element>
+    <element name="CumulativeGPACreditsEarned" type="Decimal" flags="O">
+      <desc>Cumulative number of GPA credits earned during academic career.</desc>
+    </element>
+    <element name="CumulativeGradePoints" type="Decimal" flags="O">
+      <desc>Cumulative number of grade points earned during academic career.</desc>
+    </element>
+    <element name="CumulativeGPA" type="Decimal" flags="O">
+      <desc>Cumulative grade point average for academic career.</desc>
+    </element>
+    <element name="GPAType" type="String" flags="O">
+      <desc>Brief name/description of type of GPA.</desc>
+    </element>
+    <element name="ClassRank" type="Uint" flags="O">
+      <desc>Student's rank in graduating class.</desc>
+    </element>
+    <element name="ClassTotalNumber" type="Uint" flags="O">
+      <desc>Total number of students in student's graduating class.</desc>
+    </element>
+    <element name="ClassRankingDate" type="PartialDateType" flags="O">
+      <desc>Date class ranking was determined.</desc>
+    </element>
+    <element name="ProjectedGraduationDate" type="PartialDateType" flags="O">
+      <desc>Projected graduation date.</desc>
+    </element>
+    <element name="GraduationDate" type="PartialDateType" flags="O">
+      <desc>Note: Mandatory if graduated.  Graduation date.</desc>
+    </element>
+    <element name="GraduationDiplomaType" type="String" flags="O">
+      <desc>Note: Mandatory if graduated.  Type of diploma earned.</desc>
+    </element>
+    <element name="AcademicTrack" enum="InstructionalLevelCode" flags="O">
+      <desc>An indication of the general nature and difficulty of instruction provided throughout a course.</desc>
+    </element>
+  </object>
+  <!--ActivityAward object-->
+  <object name="ActivityAward">
+    <element name="Name" type="String" flags="O">
+      <desc>The title that identifies a particular co-curricular or extra-curricular activity.</desc>
+    </element>
+    <element name="InvolvementCode" enum="ActivityInvolvementCode" flags="O">
+      <desc>The code used to identify the co-curricular or extra-curricular activity in which the individual is involved.</desc>
+    </element>
+    <element name="InvolvementBeginningDate" type="PartialDateType" flags="O">
+      <desc>The month, day, and year on which the individual began to participate in the activity.</desc>
+    </element>
+    <element name="InvolvementEndingDate" type="PartialDateType" flags="O">
+      <desc>The month, day, and year on which the individual ceased to participate in the activity.</desc>
+    </element>
+    <element name="InvolvementAmount" type="String" flags="O">
+      <desc>An indication of the degree to which the individual is involved in the activity (e.g., number of hours per week).</desc>
+    </element>
+    <element name="HonorsInformationCode" enum="HonorsInformationCode" flags="O">
+      <desc>A designation of the type of academic distinctions or other honors earned by or awarded to the student.</desc>
+    </element>
+    <element name="HonorsDescription" type="String" flags="O">
+      <desc>A textual description of the distinction or honor.</desc>
+    </element>
+    <element name="DiplomaCredentialHonorsCode" enum="DiplomaCredentialAndHonorsType" flags="O">
+      <desc>The nature of recognition given the student for the successful completion of work in high school.</desc>
+    </element>
+    <element name="DiplomaCredentialHonorsDescription" type="String" flags="O">
+      <desc>A textual description of the recognition.</desc>
+    </element>
+  </object>
+  <!--ActivityAwardHistory object-->
+  <object name="ActivityAwardHistory">
+    <element name="ActivityAward" type="ActivityAward" flags="OR" />
+  </object>
+  <!--ActivityInvolvementCode enum-->
+  <enum name="ActivityInvolvementCode">
+    <value name="4_H" value="0721" desc="4 H" />
+    <value name="ACADEMIC_TEAM_KNOWLEDGE" value="0729" desc="Academic team/knowledge bowl" />
+    <value name="ARCHERY" value="0628" desc="Archery" />
+    <value name="ART_AND_GRAPHIC_DESIGN" value="0683" desc="Art and graphic design" />
+    <value name="ART_CLUB" value="0700" desc="Art club" />
+    <value name="BADMINTON" value="0629" desc="Badminton" />
+    <value name="BAND" value="0677" desc="Band" />
+    <value name="BASEBALL" value="0630" desc="Baseball" />
+    <value name="BASKETBALL" value="0631" desc="Basketball" />
+    <value name="BOWLING" value="0633" desc="Bowling" />
+    <value name="BOXING" value="0634" desc="Boxing" />
+    <value name="BOY_SCOUTS" value="0718" desc="Boy Scouts" />
+    <value name="BROADCASTING" value="0691" desc="Broadcasting" />
+    <value name="BUSINESS_PROFESSIONALS_OF" value="0713" desc="Business Professionals of America" />
+    <value name="CHEERLEADING" value="0667" desc="Cheerleading" />
+    <value name="CHESS_CLUB" value="0722" desc="Chess club" />
+    <value name="CHORUS" value="0680" desc="Chorus" />
+    <value name="CLASS_OFFICER" value="0671" desc="Class officer" />
+    <value name="CLASS_PRESIDENT" value="0670" desc="Class president" />
+    <value name="COMPUTER_CLUB" value="0701" desc="Computer club" />
+    <value name="CREW" value="0635" desc="Crew" />
+    <value name="CROSS_COUNTRY" value="0636" desc="Cross country" />
+    <value name="DANCE" value="0684" desc="Dance" />
+    <value name="DANCE_TEAM" value="0685" desc="Dance team" />
+    <value name="DISTRIBUTIVE_EDUCATION_CLUBS" value="0707" desc="Distributive Education Clubs of America (DECA)" />
+    <value name="DIVING" value="0637" desc="Diving" />
+    <value name="DRAMA_CLUB" value="0696" desc="Drama club" />
+    <value name="DRILL_TEAM" value="0688" desc="Drill team" />
+    <value name="FAMILY_CONSUMER_SCIENCE" value="0694" desc="Family consumer science" />
+    <value name="FAMILY_CAREER_AND_COMMUNITY" value="0705" desc="Family, Career and Community Leaders of America" />
+    <value name="FENCING" value="0639" desc="Fencing" />
+    <value name="FIELD_HOCKEY" value="0638" desc="Field hockey" />
+    <value name="FOOTBALL" value="0640" desc="Football" />
+    <value name="FRATERNITY" value="0724" desc="Fraternity" />
+    <value name="FBLA" value="0702" desc="Future Business Leaders of America - Phi Beta Lambda (FBLA - PBL)" />
+    <value name="FTA" value="0703" desc="Future Teachers of America" />
+    <value name="GIRL_SCOUTS" value="0719" desc="Girl Scouts" />
+    <value name="GOLF" value="0641" desc="Golf" />
+    <value name="GYMNASTICS" value="0642" desc="Gymnastics" />
+    <value name="HEALTH_OCCUPATIONS_STUDENTS" value="0706" desc="Health Occupations Students of America" />
+    <value name="ICE_HOCKEY" value="0644" desc="Ice hockey" />
+    <value name="JAZZ_ENSEMBLE" value="0679" desc="Jazz ensemble" />
+    <value name="JOURNALISM" value="0690" desc="Journalism" />
+    <value name="KEY_CLUB" value="0717" desc="Key Club" />
+    <value name="LACROSSE" value="0645" desc="Lacrosse" />
+    <value name="LANGUAGE_CLUB" value="0697" desc="Language club" />
+    <value name="LITERARY_MAGAZINE" value="0693" desc="Literary magazine" />
+    <value name="MARTIAL_ARTS" value="0646" desc="Martial arts" />
+    <value name="MU_ALPHA_THETA" value="0732" desc="Mu alpha theta" />
+    <value name="MUSIC_INSTRUMENTAL" value="0674" desc="Music - instrumental" />
+    <value name="MUSIC_THEORY_AND_COMPOSITION" value="0676" desc="Music - theory and composition" />
+    <value name="MUSIC_VOCAL" value="0673" desc="Music - vocal" />
+    <value name="NATIONAL_BETA_CLUB" value="0730" desc="National Beta Club" />
+    <value name="NATIONAL_FORENSIC_LEAGUE" value="0726" desc="National Forensic League" />
+    <value name="NATIONAL_FFA" value="0704" desc="National Future Farmers of America (FFA)" />
+    <value name="NHS" value="0727" desc="National Honor Society" />
+    <value name="ORCHESTRA" value="0678" desc="Orchestra" />
+    <value name="OTHER" value="9999" desc="Other" />
+    <value name="OTHER_CLUB_OR_ORGANIZATION" value="0725" desc="Other club or organization" />
+    <value name="OTHER_HONOR_SOCIETY" value="0735" desc="Other honor society" />
+    <value name="OTHER_MUSIC" value="0681" desc="Other music" />
+    <value name="OTHER_PERFORMING_ARTS" value="0689" desc="Other performing arts" />
+    <value name="OTHER_SPORT" value="0668" desc="Other sport" />
+    <value name="OTHER_STUDENT_LEADERSHIP_AND" value="0672" desc="Other student leadership and government" />
+    <value name="PEER_COUNSELING" value="0714" desc="Peer counseling" />
+    <value name="POLO" value="0647" desc="Polo" />
+    <value name="PSI_ETA" value="0733" desc="Psi Eta (Science Honorary)" />
+    <value name="RACQUETBALL" value="0648" desc="Racquetball" />
+    <value name="RODEO" value="0664" desc="Rodeo" />
+    <value name="RUGBY" value="0649" desc="Rugby" />
+    <value name="SAILING" value="0650" desc="Sailing" />
+    <value name="SCIENCE_CLUB" value="0699" desc="Science club" />
+    <value name="SCUBA_DIVING" value="0665" desc="Scuba diving" />
+    <value name="SKIING" value="0651" desc="Skiing" />
+    <value name="SOCCER" value="0652" desc="Soccer" />
+    <value name="SOFTBALL" value="0653" desc="Softball" />
+    <value name="SORORITY" value="0723" desc="Sorority" />
+    <value name="SPEECH_DEBATE" value="0695" desc="Speech/debate" />
+    <value name="SQUASH" value="0655" desc="Squash" />
+    <value name="STATE_HONOR_SOCIETY" value="0728" desc="State Honor Society" />
+    <value name="STUDENT_BODY_OFFICER" value="0932" desc="Student body officer" />
+    <value name="STUDENT_BODY_PRESIDENT" value="0669" desc="Student body president" />
+    <value name="SADD" value="0716" desc="Students Against Drunk Driving (SADD)" />
+    <value name="SWIMMING" value="0656" desc="Swimming" />
+    <value name="SYNCHRONIZED_SWIMMING" value="0657" desc="Synchronized swimming" />
+    <value name="TEAM_HANDBALL" value="0658" desc="Team handball" />
+    <value name="TEAM_MANAGER" value="0666" desc="Team manager" />
+    <value name="TECHNOLOGY_STUDENT_ASSOCIATION" value="0708" desc="Technology Student Association (TSA)" />
+    <value name="TENNIS" value="0659" desc="Tennis" />
+    <value name="THEATER_DRAMA" value="0682" desc="Theater/drama" />
+    <value name="THESPIAN_SOCIETY" value="0734" desc="Thespian Society" />
+    <value name="TRACK_AND_FIELD" value="0660" desc="Track and field" />
+    <value name="TUTORING" value="0715" desc="Tutoring" />
+    <value name="VOCATIONAL_INDUSTRIAL_CLUBS" value="0712" desc="Vocational Industrial Clubs of America" />
+    <value name="VOLLEYBALL" value="0661" desc="Volleyball" />
+    <value name="WATER_POLO" value="0662" desc="Water polo" />
+    <value name="WRESTLING" value="0663" desc="Wrestling" />
+    <value name="YEAR_BOOK" value="0692" desc="Year book" />
+  </enum>
+  <!--AdditionalGraduationRequirementPerformanceHistory object-->
+  <object name="AdditionalGraduationRequirementPerformanceHistory">
+    <element name="Requirement" type="Requirement" flags="OR" />
+  </object>
+  <!--Advisor object-->
+  <object name="Advisor">
+    <element name="StaffPersonalData" type="StaffPersonalData" flags="O" />
+  </object>
+  <!--AssessmentHistory object-->
+  <object name="AssessmentHistory">
+    <desc>A record of performance on an individual assessment.</desc>
+    <element name="Name" type="String" flags="M">
+      <desc>Textual description of assessment.</desc>
+    </element>
+    <element name="AdministrationDate" type="PartialDateType" flags="M">
+      <desc>Date the assessment was administered.</desc>
+    </element>
+    <element name="Form" type="String" flags="O">
+      <desc>Form, version or edition of the test.</desc>
+    </element>
+    <element name="Level" type="String" flags="O">
+      <desc>Free-form text description of the level of the test.</desc>
+    </element>
+    <element name="StudentGradeLevelWhenAssessed" type="GradeLevel" flags="M">
+      <desc>Student's grade level when assessed.</desc>
+    </element>
+    <element name="SubtestCategory" type="String" flags="O">
+      <desc>The subtest or subject category of the assessment.</desc>
+    </element>
+    <element name="TestScoreType" enum="AssessmentReportingMethod" flags="M">
+      <desc>Type of test score</desc>
+    </element>
+    <element name="TestScore" type="String" flags="M">
+      <desc>Test score.</desc>
+    </element>
+  </object>
+  <!--AssessmentPerformanceHistory object-->
+  <object name="AssessmentPerformanceHistory">
+    <element name="Assessment" type="AssessmentHistory" flags="MR" />
+  </object>
+  <!--Counselor object-->
+  <object name="Counselor">
+    <element name="StaffPersonalData" type="StaffPersonalData" flags="O" />
+  </object>
+  <!--Course object-->
+  <object name="Course">
+    <element name="SchoolAttendedRefId" type="IdRefType" flags="O">
+      <desc>Reference to the school where the course is being taken (see SchoolAttended); may be omitted if the school is the same as the school of record.</desc>
+    </element>
+    <element name="SchoolCourseInfoData" type="SchoolCourseInfoData" flags="O" />
+    <element name="StartDate" type="PartialDateType" flags="O">
+      <desc>Date course section started.</desc>
+    </element>
+    <element name="EndDate" type="PartialDateType" flags="O">
+      <desc>Date course section ended, or will end.</desc>
+    </element>
+    <element name="MarkingPeriod" type="MarkingPeriod" flags="M" />
+    <element name="MarkingPeriods" type="MarkingPeriods" flags="M" />
+  </object>
+  <!--CourseHistory object-->
+  <object name="CourseHistory">
+    <element name="Term" type="Term" flags="OR" />
+  </object>
+  <!--Courses object-->
+  <object name="Courses">
+    <element name="Course" type="Course" flags="OR" />
+  </object>
+  <!--CurrentCourseActivity object-->
+  <object name="CurrentCourseActivity">
+    <element name="TermInfoData" type="TermInfoData" flags="O" />
+    <element name="Courses" type="Courses" flags="O" />
+  </object>
+  <!--DemographicsData object-->
+  <object name="DemographicsData">
+    <element name="RaceList" type="RaceList" flags="O" />
+    <element name="Gender" enum="Gender" flags="O" />
+    <element name="BirthDate" type="Date" flags="O" />
+  </object>
+  <!--DiplomaCredentialAndHonorsType enum-->
+  <enum name="DiplomaCredentialAndHonorsType">
+    <value name="SALUTATORIAN" value="2004" desc="Class salutatorian" />
+    <value name="VALEDICTORIAN" value="2003" desc="Class valedictorian" />
+    <value name="CUM_LAUDE" value="1995" desc="Cum laude" />
+    <value name="LOCAL_SCHOLAR_AWARD" value="2000" desc="Local scholar award" />
+    <value name="LOCALLY_SPONS_SCHOLARSHIP" value="2006" desc="Locally-sponsored scholarships" />
+    <value name="MAGNA_CUM_LAUDE" value="1996" desc="Magna cum laude" />
+    <value name="NATIONAL_SCHOLAR_AWARD" value="2002" desc="National scholar award" />
+    <value name="NATIONALLY_SPONS_SCHOLARSHIP" value="2008" desc="Nationally-sponsored scholarships" />
+    <value name="OTHER" value="9999" desc="Other" />
+    <value name="OTHER_MONETARY" value="2009" desc="Other monetary award" />
+    <value name="PRIZE_AWARDS" value="2005" desc="Prize awards (not limited to subject matter awards)" />
+    <value name="RANK" value="2357" desc="Rank" />
+    <value name="SCHOLAR_AWARD_DIST" value="1999" desc="Scholar award with distinction" />
+    <value name="SCHOLAR_AWARD_HONOR" value="1998" desc="Scholar award with honor" />
+    <value name="STATE_SCHOLAR_AWARD" value="2001" desc="State scholar award" />
+    <value name="STATE_SPONS_SCHOLARSHIP" value="2007" desc="State-sponsored scholarships" />
+    <value name="SUMMA_CUM_LAUDE" value="1997" desc="Summa cum laude" />
+  </enum>
+  <!--EnrollmentHistory object-->
+  <object name="EnrollmentHistory">
+    <element name="StudentSchoolEnrollmentData" type="StudentSchoolEnrollmentHistory" flags="OR" />
+  </object>
+  <!--HonorsInformationCode enum-->
+  <enum name="HonorsInformationCode">
+    <value name="ATHLETIC" value="0737" desc="Athletic awards" />
+    <value name="AWARDING_UNITS_VALUE" value="0738" desc="Awarding of units of value" />
+    <value name="CERTIFICATE" value="0742" desc="Certificate" />
+    <value name="CITIZENSHIP_AWARD" value="0740" desc="Citizenship award/recognition" />
+    <value name="COMPLETION_NO_UNITS" value="0741" desc="Completion of requirement, but no units of value awarded" />
+    <value name="HONOR_AWARD" value="2047" desc="Honor award" />
+    <value name="HONOR_ROLL" value="1985" desc="Honor roll" />
+    <value name="HONOR_SOCIETY" value="1986" desc="Honor society" />
+    <value name="HONORABLE_MENTION" value="1987" desc="Honorable mention" />
+    <value name="HONORS_PROGRAM" value="1988" desc="Honors program" />
+    <value name="LETTER_COMMENDATION" value="0744" desc="Letter of student commendation" />
+    <value name="MEDALS" value="0745" desc="Medals" />
+    <value name="MONOGRAM_LETTER" value="0746" desc="Monogram/letter" />
+    <value name="OTHER" value="9999" desc="Other" />
+    <value name="POINTS" value="0747" desc="Points" />
+    <value name="PRIZE_AWARDS" value="1989" desc="Prize awards" />
+    <value name="PROMOTION" value="0748" desc="Promotion or advancement" />
+    <value name="RANKS" value="1990" desc="Ranks" />
+    <value name="SCHOLARSHIPS" value="1991" desc="Scholarships" />
+  </enum>
+  <!--LEAInfoData object-->
+  <object name="LEAInfoData">
+    <element name="LocalId" type="String" flags="O" />
+    <element name="StateProvinceId" type="String" flags="O" />
+    <element name="NCESId" type="String" flags="O" />
+    <element name="LEAName" type="String" flags="O" />
+  </object>
+  <!--MarkData object-->
+  <object name="MarkData">
+    <attribute name="MarkValueInfoDataRefId" type="IdRefType" flags="R">
+      <desc>Reference to marking system at school of record.</desc>
+    </attribute>
+    <element name="Percentage" type="Decimal" flags="O">
+      <desc>The percent score for this mark (0.00 - 100.00).</desc>
+    </element>
+    <element name="Numeric" type="Uint" flags="O">
+      <desc>The raw numeric score for this mark.</desc>
+    </element>
+    <element name="Letter" type="String" flags="O">
+      <desc>The letter grade for this mark.</desc>
+    </element>
+    <element name="Narrative" type="String" flags="O">
+      <desc>The free form text narrative for this mark.</desc>
+    </element>
+  </object>
+  <!--MarkingPeriod object-->
+  <object name="MarkingPeriods">
+    <element name="MarkingPeriod" type="MarkingPeriod" flags="MR" />
+  </object>
+  <!--MarkingPeriod object-->
+  <object name="MarkingPeriod">
+    <element name="TermInfoData" type="TermInfoData" flags="O" />
+    <element name="GradeLevelWhenTaken" type="GradeLevel" flags="M">
+      <desc>Student's grade level at time of course.</desc>
+    </element>
+    <element name="MarkData" type="MarkData" flags="C" />
+    <element name="CourseCreditsAttempted" type="Decimal" flags="M">
+      <desc>Number of course credits attempted.</desc>
+    </element>
+    <element name="CourseCreditsEarned" type="Decimal" flags="M">
+      <desc>Number of course credits earned.</desc>
+    </element>
+    <element name="DaysAbsent" type="Decimal" flags="O" />
+    <element name="DaysPresent" type="Decimal" flags="O" />
+  </object>
+  <!--MarkingSystems object-->
+  <object name="MarkingSystems">
+    <element name="MarkValueInfoData" type="MarkValueInfoData" flags="OR" />
+  </object>
+  <!--MarkValueInfoData object-->
+  <object name="MarkValueInfoData">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>ID used internally to StudentAcademicRecord to link marks to their marking systems.</desc>
+    </attribute>
+    <element name="Name" type="String" flags="O">
+      <desc>The text name of the value list ("Letter Grades", "Letter Grades (+/-)", "ESU", "Pass/Fail", "Override Grades", "Citizenship Comment Codes", etc.).</desc>
+    </element>
+    <element name="Percentage" type="Decimal" flags="O" />
+    <element name="Numeric" type="Uint" flags="O" />
+    <element name="Letter" type="Letter" flags="O" />
+    <element name="Narrative" type="String" flags="O" /> 
+  </object>
+  <!--OtherRecords object-->
+  <object name="OtherRecords">
+    <element name="StudentRecordPackageRefId" type="StudentRecordPackageRefId" flags="OR" />
+  </object>
+  <!--ParentGuardian object-->
+  <object name="ParentGuardian">
+    <element name="Name" type="Name" flags="O" />
+    <element name="PhoneNumberList" type="PhoneNumberList" flags="O" />
+    <element name="AddressList" type="AddressList" flags="O" />
+  </object>
+  <!--Records object-->
+  <object name="Records">
+    <element name="StudentDemographicRecordRefId" type="IdRefType" flags="O" />
+    <element name="StudentAcademicRecordRefId" type="IdRefType" flags="O" />
+    <element name="StudentSpecialEducationRecordRefId" type="IdRefType" flags="O" />
+    <element name="OtherRecords" type="OtherRecords" flags="O" />
+  </object>
+  <!--Requirement object-->
+  <object name="Requirement">
+    <element name="Name" type="String" flags="O">
+      <desc>Textual description of the requirement.</desc>
+    </element>
+    <element name="Method" type="String" flags="M">
+      <desc>The method by which the requirement was met.</desc>
+    </element>
+    <element name="Status" enum="Status" flags="O">
+      <desc>Student's status with regard to the requirement.</desc>
+    </element>
+    <element name="StatusDeterminationDate" type="PartialDateType" flags="M">
+      <desc>Date the student's status was determined.</desc>
+    </element>
+  </object>
+  <!--SchoolAttendanceHistory object-->
+  <object name="SchoolAttendanceHistory">
+    <element name="SchoolAttended" type="SchoolAttended" flags="OR" />
+  </object>
+  <!--SchoolAttended object-->
+  <object name="SchoolAttended">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>ID used internally to StudentAcademicRecord to avoid duplication of school-related data.</desc>
+    </attribute>
+    <element name="LEAInfoData" type="LEAInfoData" flags="O" />
+    <element name="SchoolInfoData" type="SchoolInfoData" flags="O" />
+    <element name="AccreditingBody" type="String" flags="O">
+      <desc>Accrediting body for the school.</desc>
+    </element>
+    <element name="MarkingSystems" type="MarkingSystems" flags="O" />
+  </object>
+  <!--SchoolCourseInfoData object-->
+  <object name="SchoolCourseInfoData">
+    <element name="CourseCode" type="String" flags="O" />
+    <element name="StateCourseCode" type="String" flags="O" />
+    <element name="DistrictCourseCode" type="String" flags="O" />
+    <element name="NationalCourseCode" type="String" flags="O" />
+    <element name="SubjectAreaList" type="SubjectAreaList" flags="O" />
+    <element name="CourseTitle" type="String" flags="O" />
+    <element name="Description" type="String" flags="O" />
+    <element name="InstructionalLevel" type="InstructionalLevel" flags="O" />
+    <element name="CoreAcademicCourse" type="Boolean" flags="O" />
+    <element name="GraduationRequirement" enum="YesNo" flags="O" />
+    <element name="Department" type="String" flags="O" />
+  </object>
+  <!--SchoolInfoData object-->
+  <object name="SchoolInfoData">
+    <element name="LocalId" type="String" flags="O" />
+    <element name="StateProvinceId" type="String" flags="O" />
+    <element name="NCESId" type="String" flags="O" />
+    <element name="SchoolName" type="String" flags="O" />
+    <element name="SchoolURL" type="String" flags="O" />
+    <element name="SchoolContactList" type="SchoolContactList" flags="O" />
+    <element name="AddressList" type="AddressList" flags="O" />
+    <element name="PhoneNumberList" type="PhoneNumberList" flags="O" />
+    <element name="GradeLevels" type="GradeLevels" flags="O" />
+  </object>
+  <!--StaffPersonalData object-->
+  <object name="StaffPersonalData">
+    <element name="Name" type="Name" flags="O" />
+    <element name="Title" type="String" flags="O" />
+    <element name="AddressList" type="AddressList" flags="O" />
+    <element name="PhoneNumberList" type="PhoneNumberList" flags="O" />
+  </object>
+  <!--Status enum-->
+  <enum name="Status">
+    <value name="MET" value="Met" desc="Met" />
+    <value name="NOT_MET" value="Not Met" desc="Not Met" />
+  </enum>
+  <!--StudentAcademicRecord object-->
+  <object name="StudentAcademicRecord" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) of this record.</desc>
+    </attribute>
+    <attribute name="SIF_RefId" type="IdRefType" flags="R">
+      <desc>The GUID of an associated object, either StudentRecordExchange or StudentPersonal.</desc>
+    </attribute>
+    <attribute name="SIF_RefObject" enum="TranscriptRecordRefObject" flags="R">
+      <desc>The associated object type.</desc>
+    </attribute>
+    <element name="ReportingDate" type="Date" flags="O">
+      <desc>The date this record was prepared.</desc>
+    </element>
+    <element name="StudentSchoolEnrollmentData" type="StudentSchoolEnrollmentData" flags="O" />
+    <element name="DistrictEntryDate" type="PartialDateType" flags="O">
+      <desc>The date the student originally enrolled in the district of the school of record.</desc>
+    </element>
+    <element name="SchoolAttendanceHistory" type="SchoolAttendanceHistory" flags="O" />
+    <element name="EnrollmentHistory" type="EnrollmentHistory" flags="O" />
+    <element name="CurrentCourseActivity" type="CurrentCourseActivity" flags="O" />
+    <element name="CourseHistory" type="CourseHistory" flags="O" />
+    <element name="AcademicPerformanceHistory" type="AcademicPerformanceHistory" flags="O" />
+    <element name="AcademicPerformanceSummary" type="AcademicPerformanceSummary" flags="O" />
+    <element name="AssessmentPerformanceHistory" type="AssessmentPerformanceHistory" flags="O" />
+    <element name="AdditionalGraduationRequirementPerformanceHistory" type="AdditionalGraduationRequirementPerformanceHistory" flags="O" />
+    <element name="ActivityAwardHistory" type="ActivityAwardHistory" flags="O" />
+  </object>
+  <!--StudentContactsSummary object-->
+  <object name="StudentContactsSummary">
+    <element name="ParentGuardian1" type="ParentGuardian" flags="O" />
+    <element name="ParentGuardian2" type="ParentGuardian" flags="O" />
+  </object>
+  <!--StudentDemographicRecord object-->
+  <object name="StudentDemographicRecord" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) of this record.</desc>
+    </attribute>
+    <attribute name="SIF_RefId" type="IdRefType" flags="R">
+      <desc>The GUID of an associated object, either StudentRecordExchange or StudentPersonal.</desc>
+    </attribute>
+    <attribute name="SIF_RefObject" enum="TranscriptRecordRefObject" flags="R">
+      <desc>The associated object type.</desc>
+    </attribute>
+    <element name="ReportingDate" type="Date" flags="O">
+      <desc>The date this record was prepared.</desc>
+    </element>
+    <element name="StudentPersonalData" type="StudentPersonalData" flags="O" />
+    <element name="StudentContactsSummary" type="StudentContactsSummary" flags="O" />
+  </object>
+  <!--StudentParticipationData object-->
+  <object name="StudentParticipationData">
+    <element name="ProgramType" type="ProgramType" flags="O" />
+    <element name="LEAInfoData" type="LEAInfoData" flags="O" />
+    <element name="SchoolInfoData" type="SchoolInfoData" flags="O" />
+    <element name="ReferralDate" type="PartialDateType" flags="O" />
+    <element name="ProgramStatus" type="ProgramStatus" flags="O" />
+    <element name="EvaluationDate" type="PartialDateType" flags="O" />
+    <element name="ReevaluationDate" type="PartialDateType" flags="O" />
+    <element name="ExceptionalityCategories" type="ExceptionalityCategories" flags="O" />
+    <element name="ProgramPlanDate" type="PartialDateType" flags="O" />
+    <element name="ProgramPlanEffectiveDate" type="PartialDateType" flags="O" />
+    <element name="PlannedAssessmentParticipation" type="PlannedAssessmentParticipation" flags="O" />
+  </object>
+  <!--StudentPersonalData object-->
+  <object name="StudentPersonalData">
+    <element name="LocalId" type="String" flags="O" />
+    <element name="StateProvinceId" type="String" flags="O" />
+    <element name="SSN" type="String" flags="O" />
+    <element name="Name" type="Name" flags="O">
+      <desc>Name of the student.  Note: Type value of 04 must be used here.</desc>
+    </element>
+    <element name="OtherNames" type="OtherNames" flags="O">
+      <desc>Previous, alternate or other names or aliases associated with the student.</desc>
+    </element>
+    <element name="DemographicsData" type="DemographicsData" flags="O" />
+    <element name="AddressList" type="AddressList" flags="O">
+      <desc>The address of the student.</desc>
+    </element>
+    <element name="PhoneNumberList" type="PhoneNumberList" flags="O" />
+    <element name="IDEA" enum="YesNoUnknown" flags="O" />
+    <element name="Migrant" enum="YesNoUnknown" flags="O" />
+    <element name="Title1" enum="YesNoUnknown" flags="O" />
+    <element name="GiftedTalented" enum="YesNoUnknown" flags="O" />
+    <element name="EconomicDisadvantage" enum="YesNoUnknown" flags="O" />
+    <element name="ELL" enum="YesNoUnknown" flags="O" />
+    <element name="Homeless" enum="YesNoUnknown" flags="O" />
+    <element name="Section504" enum="YesNoUnknown" flags="O" />
+    <element name="VocationalConcentrator" enum="YesNoUnknown" flags="O" />
+    <element name="Immigrant" enum="YesNoUnknown" flags="O" />
+    <element name="NeglectedDelinquent" enum="YesNoUnknown" flags="O" />
+  </object>
+  <!--StudentRecordExchange object-->
+  <object name="StudentRecordExchange" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The GUID that uniquely identifies an instance of this object.</desc>
+    </attribute>
+    <element name="StateProvinceId" type="String" flags="O">
+      <desc>A unique student identifier outside of SIF.</desc>
+    </element>
+    <element name="LocalId" type="String" flags="O">
+      <desc>A locally-defined student identifier.</desc>
+    </element>
+    <element name="StudentPersonalRefId" type="IdRefType" flags="O">
+      <desc>An associated StudentPersonal object.</desc>
+    </element>
+    <element name="Records" type="Records" flags="O" />
+  </object>
+  <!--StudentRecordPackage object-->
+  <object name="StudentRecordPackage" topic="true">
+    <attribute name="RefId">
+      <desc>The GUID that uniquely identifies an instance of the package.</desc>
+    </attribute>
+    <attribute name="SIF_RefId" type="IdRefType" flags="R">
+      <desc>The GUID of the customer doing the transaction. </desc>
+    </attribute>
+    <attribute name="SIF_RefObject" type="String" flags="R">
+      <desc>SIF customer type.</desc>
+    </attribute>
+    <element name="XMLData" type="XMLData" flags="O" />
+    <element name="TextData" type="TextData" flags="O">
+      <desc>Contains arbitrary text, encoded in UTF-8.</desc>
+    </element>
+    <element name="BinaryData" type="BinaryData" flags="O">
+      <desc>Contains the base64Binary encoding of binary or text data not encoded in UTF-8.</desc>
+    </element>
+    <element name="Reference" type="Reference" flags="O" />
+  </object>
+  <!--StudentRecordPackageRefId object-->
+  <object name="StudentRecordPackageRefId" datatype="IdRefType" />
+  <!--StudentSchoolEnrollmentData object-->
+  <object name="StudentSchoolEnrollmentData">
+    <attribute name="SchoolAttendedRefId" type="IdRefType" flags="R">
+      <desc>References the school of record for the student (see SchoolAttended).</desc>
+    </attribute>
+    <element name="GradeLevel" type="GradeLevel" flags="O" />
+    <element name="Advisor" type="Advisor" flags="O" />
+    <element name="Counselor" type="Counselor" flags="O" />
+  </object>
+  <!--StudentSchoolEnrollmentHistory object-->
+  <object name="StudentSchoolEnrollmentHistory">
+    <desc>A list of each enrollment in the list of schools attended</desc>
+    <attribute name="SchoolAttendedRefId" type="IdRefType" flags="R">
+      <desc>Reference to School Attended.</desc>
+    </attribute>
+    <element name="SchoolYear" type="int" flags="M" />
+    <element name="EntryDate" type="PartialDateType" flags="M" />
+    <element name="ExitDate" type="PartialDateType" flags="C" />
+  </object>
+  <!--StudentSpecialEducationRecord object-->
+  <object name="StudentSpecialEducationRecord" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) of this record.</desc>
+    </attribute>
+    <attribute name="SIF_RefId" type="IdRefType" flags="R">
+      <desc>The GUID of an associated object, either StudentRecordExchange or StudentPersonal.</desc>
+    </attribute>
+    <attribute name="SIF_RefObject" enum="TranscriptRecordRefObject" flags="R">
+      <desc>The associated object type.</desc>
+    </attribute>
+    <element name="ReportingDate" type="Date" flags="O">
+      <desc>The date this record was prepared.</desc>
+    </element>
+    <element name="LEAInfoData" type="LEAInfoData" flags="O" />
+    <element name="SchoolInfoData" type="SchoolInfoData" flags="O" />
+    <element name="StudentParticipationData" type="StudentParticipationData" flags="O" />
+  </object>
+  <!--Term object-->
+  <object name="Term">
+    <element name="TermInfoData" type="TermInfoData" flags="O" />
+    <element name="Courses" type="Courses" flags="O" />
+  </object>
+  <!--TermInfoData object-->
+  <object name="TermInfoData">
+    <attribute name="SchoolAttendedRefId" type="IdRefType" flags="R">
+      <desc>Reference to the school of record for the courses being taken (see SchoolAttended).</desc>
+    </attribute>
+    <element name="SchoolYear" type="int" flags="O" />
+    <element name="StartDate" type="PartialDateType" flags="O" />
+    <element name="EndDate" type="PartialDateType" flags="O" />
+    <element name="Description" type="String" flags="O" />
+    <element name="TermCode" type="String" flags="O" />
+    <element name="Track" type="String" flags="O" />
+    <element name="TermSpan" type="TermSpan" flags="O" />
+  </object>
+  <!--TermPerformance object-->
+  <object name="TermPerformance">
+    <element name="TermInfoData" type="TermInfoData" flags="O" />
+    <element name="GradeLevelWhenTaken" type="GradeLevel" flags="O">
+      <desc>Student's grade level at time.</desc>
+    </element>
+    <element name="CreditsAttempted" type="Decimal" flags="O">
+      <desc>Number of credits attempted.</desc>
+    </element>
+    <element name="CreditsEarned" type="Decimal" flags="O">
+      <desc>Number of credits earned.</desc>
+    </element>
+    <element name="GPACreditsAttempted" type="Decimal" flags="O">
+      <desc>Number of GPA credits attempted.</desc>
+    </element>
+    <element name="GPACreditsEarned" type="Decimal" flags="O">
+      <desc>Number of GPA credits earned.</desc>
+    </element>
+    <element name="GPAGradePoints" type="Decimal" flags="O">
+      <desc>Number of GPA points received.</desc>
+    </element>
+    <element name="GPA" type="Decimal" flags="O">
+      <desc>Grade point average for term.</desc>
+    </element>
+    <element name="WeightedGPA" type="Decimal" flags="O">
+      <desc>Weighted grade point average for term.</desc>
+    </element>
+    <element name="DaysAbsent" type="Decimal" flags="O">
+      <desc>Number of days absent.</desc>
+    </element>
+    <element name="DaysPresent" type="Decimal" flags="O">
+      <desc>Number of days present.</desc>
+    </element>
+  </object>
+  <!--TranscriptRecordRefObject enum-->
+  <enum name="TranscriptRecordRefObject">
+    <value name="STUDENTRECORDEXCHANGE" value="StudentRecordExchange" desc="StudentRecordExchange" />
+    <value name="STUDENTPERSONAL" value="StudentPersonal" desc="StudentPersonal" />
+  </enum>
+</adk>
