@@ -9,6 +9,10 @@ Scenario: Post a zip file containing all configured interchanges as a payload of
 Given I post "GradebookEntry1.zip" file as the payload of the ingestion job
 	And the following collections are empty in datastore:
 	   | collectionName                |
+	   | educationOrganization         |
+	   | course                        |
+	   | session                       |
+	   | section                       |
 	   | gradebookEntry                |
 	   | section                       |
 	   | educationOrganization         |

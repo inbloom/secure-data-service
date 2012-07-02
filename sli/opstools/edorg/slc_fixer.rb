@@ -90,11 +90,11 @@ class SLCFixer
         edorgs = section['body']['schoolId']
         stamp_id(@db['section'], section['_id'], edorgs)
         @log.info "Iterating teacherSectionAssociation with query: {'body.sectionId: #{section['_id']}}"
-        @db['teacherSectionAssociation'].find({"body.sectionId"    => section['_id']}, @basic_options) do |scur| 
+        @db['teacherSectionAssociation'].find({"body.sectionId"    => section['_id']}, @basic_options) do |scur|
           scur.each {|assoc| stamp_id(@db['teacherSectionAssociation'], assoc['_id'], edorgs)}
         end
-        @log.info "Iterating sectionAssessmentAssociation with query: {'body.sectionId: #{section['_id']}}"    
-        @db['sectionAssessmentAssociation'].find({"body.sectionId" => section['_id']}, @basic_options) do |scur| 
+        @log.info "Iterating sectionAssessmentAssociation with query: {'body.sectionId: #{section['_id']}}"
+        @db['sectionAssessmentAssociation'].find({"body.sectionId" => section['_id']}, @basic_options) do |scur|
           scur.each {|assoc| stamp_id(@db['sectionAssessmentAssociation'], assoc['_id'], edorgs) }
         end
         @log.info "Iterating studentSectionAssociation with query: {'body.sectionId: #{section['_id']}}"
@@ -120,6 +120,7 @@ class SLCFixer
   end
 
   def fix_assessments
+=begin
     @log.info "Iterating over assessments with query: {}"
     @db['assessment'].find({}, @basic_options) do |cur|
       cur.each do |assessment|
@@ -127,6 +128,7 @@ class SLCFixer
         stamp_id(@db['assessment'],assessment['_id'], @tenant_to_ed_orgs[tenant_id]) unless tenant_id.nil? || @tenant_to_ed_orgs[tenant_id].nil?
       end
     end
+=end
     @log.info "Iterating studentAssessmentAssociation with query: {}"
     @db['studentAssessmentAssociation'].find({}, @basic_options) do |cur|
       cur.each do |studentAssessment|
@@ -206,7 +208,7 @@ class SLCFixer
         program_edorg = old_edorgs(@db['program'], program['body']['programId'])
         staff_edorg = old_edorgs(@db['staff'], program['body']['staffId'])
         edorg << program_edorg << staff_edorg
-        edorg = edorg.flatten.uniq 
+        edorg = edorg.flatten.uniq
         stamp_id(@db['program'], program['body']['porgramId'], edorg)
         stamp_id(@db['staffProgramAssociation'], program['_id'], staff_edorg)
       end
@@ -246,15 +248,15 @@ class SLCFixer
       cur.each do |session|
         edorg = []
         @log.info "Iterating section with query: {'body.sessionId': #{session['_id']}}"
-        @db['section'].find({"body.sessionId" => session["_id"]}, @basic_options) do |scur| 
+        @db['section'].find({"body.sessionId" => session["_id"]}, @basic_options) do |scur|
           scur.each do |sec|
-            edorg << sec['metaData']['edOrgs'] unless sec['metaData'].nil? 
+            edorg << sec['metaData']['edOrgs'] unless sec['metaData'].nil?
           end
         end
         edorg = edorg.flatten.uniq
         stamp_id(@db['session'], session['_id'], edorg)
         @log.info "Iterating schoolSessionAssociation with query: {'body.sessionId':#{session['_id']}}"
-        @db['schoolSessionAssociation'].find({"body.sessionId" => session['_id']}, @basic_options) do |scur| 
+        @db['schoolSessionAssociation'].find({"body.sessionId" => session['_id']}, @basic_options) do |scur|
           scur.each do |assoc|
             stamp_id(@db['schoolSessionAssociation'], assoc['_id'], edorg)
           end
@@ -263,7 +265,7 @@ class SLCFixer
         unless gradingPeriodReferences.nil?
           gradingPeriodReferences.each do |gradingPeriodRef|
             old = old_edorgs(@db['gradingPeriod'], gradingPeriodRef)
-            value = (old << edorg).flatten.uniq	      
+            value = (old << edorg).flatten.uniq
             stamp_id(@db['gradingPeriod'], gradingPeriodRef, value)
           end
         end
@@ -330,7 +332,7 @@ class SLCFixer
     @db['courseOffering'].find({}, @basic_options) do |cur|
       cur.each do |courseOffering|
         edorgs = []
-        edorgs << old_edorgs(@db['courseOffering'], courseOffering['_id'])	  
+        edorgs << old_edorgs(@db['courseOffering'], courseOffering['_id'])
         edorgs << old_edorgs(@db['course'], courseOffering['body']['courseId'])
         edorgs << old_edorgs(@db['session'], courseOffering['body']['sessionId'])
         edorgs = edorgs.flatten.uniq
@@ -345,13 +347,13 @@ class SLCFixer
     @db['studentTranscriptAssociation'].find({}, @basic_options) do |cur|
       cur.each do |trans|
         edorg = []
-        edorg << old_edorgs(@db['studentTranscriptAssociation'], trans['_id'])	  
+        edorg << old_edorgs(@db['studentTranscriptAssociation'], trans['_id'])
         edorg << student_edorgs(trans['body']['studentId'])
         @log.info "Iterating studentAcademicRecord with query: {'_id': #{trans['body']['studentAcademicRecordId']}}"
         @db['studentAcademicRecord'].find({"_id" => trans['body']['studentAcademicRecordId']}, @basic_options) do |scur|
           scur.each do |sar|
             studentId = sar['body']['studentId']
-            edorg << student_edorgs(studentId)        
+            edorg << student_edorgs(studentId)
           end
         end
         edorg = edorg.flatten.uniq
@@ -420,7 +422,7 @@ class SLCFixer
       edOrgs.concat(parent_edOrgs) unless parent_edOrgs.nil?
       edOrgs = edOrgs.flatten.uniq
 
-      collection.update({"_id" => id, 'metaData.tenantId' => tenantid}, {"$set" => {"metaData.edOrgs" => edOrgs}}) unless tenantid.nil?
+      collection.update({"_id" => id, 'metaData.tenantId' => tenantid}, {"$unset" => {"padding" => 1}, "$set" => {"metaData.edOrgs" => edOrgs}}) unless tenantid.nil?
     rescue Exception => e
       @log.error "Writing to #{collection.name}##{id} - #{e.message}"
       @log.error "Writing to #{collection.name}##{id} - #{e.backtrace}"
@@ -454,7 +456,7 @@ class SLCFixer
     begin
       old = doc['metaData']['edOrgs']
     rescue
-      old = []      
+      old = []
     end
     return [] if old.nil?
     old
@@ -464,7 +466,7 @@ class SLCFixer
     @db['educationOrganization'].find({}, @basic_options) do |cur|
         cur.each do |edorg|
             id = edorg['_id']
-            
+
             tenant_id = edorg['metaData']['tenantId']
             @tenant_to_ed_orgs[tenant_id] ||= []
             @tenant_to_ed_orgs[tenant_id].push id
