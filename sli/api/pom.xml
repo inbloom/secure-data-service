@@ -112,11 +112,12 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
+            <scope>provided</scope>
         </dependency>
         
         <dependency>
-	    <groupId>javax.servlet</groupId>
-	    <artifactId>jsp-api</artifactId>
+	        <groupId>javax.servlet</groupId>
+	        <artifactId>jsp-api</artifactId>
             <scope>provided</scope>
             <version>2.0</version>
         </dependency>

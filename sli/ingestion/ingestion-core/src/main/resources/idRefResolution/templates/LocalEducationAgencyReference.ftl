@@ -1,5 +1,5 @@
 
-<EducationOrgIdentity>
+<EducationalOrgIdentity>
     <#if (LocalEducationAgency.StateOrganizationId[0])?? >
     <StateOrganizationId>${LocalEducationAgency.StateOrganizationId}</StateOrganizationId>
     </#if>
@@ -15,4 +15,4 @@
         </#if>
     </EducationOrgIdentificationCode>
     </#list>
-</EducationOrgIdentity>
+</EducationalOrgIdentity>

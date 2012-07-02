@@ -1,14 +1,38 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.dal.aspect;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicLong;
+
+import com.mongodb.DBCollection;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 
 /**
  *
@@ -18,7 +42,10 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 @Aspect
 public class MongoTrackingAspect {
 
-    private Map<String, Pair<AtomicLong, AtomicLong>> stats = new HashMap<String, Pair<AtomicLong, AtomicLong>>();
+    private static final Logger LOG = LoggerFactory.getLogger(MongoTrackingAspect.class);
+
+    private ConcurrentMap<String, Pair<AtomicLong, AtomicLong>> stats = new ConcurrentHashMap<String, Pair<AtomicLong, AtomicLong>>();
+    private static final long SLOW_QUERY_THRESHOLD = 20;  // ms
 
     @Around("call(* org.springframework.data.mongodb.core.MongoTemplate.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test)")
     public Object track(ProceedingJoinPoint pjp) throws Throwable {
@@ -39,21 +66,33 @@ public class MongoTrackingAspect {
             collection = collection.substring(0, collection.lastIndexOf("_"));
         }
 
-        String key = String.format("%s#%s#%s", mt.getDb().getName(), pjp.getSignature().getName(), collection);
-
-        if (stats.get(key) == null) {
-            stats.put(key, Pair.of(new AtomicLong(0), new AtomicLong(0)));
+        if (pjp.getSignature().getName().equals("executeCommand")) {
+            LOG.info("~~{} {}", pjp.getSourceLocation().getFileName(), pjp.getSourceLocation().getLine());
+            LOG.info("{}", pjp.getArgs()[0]);
+            collection = "EXEC-UNKNOWN";
         }
 
         long start = System.currentTimeMillis();
         Object result = pjp.proceed();
         long elapsed = System.currentTimeMillis() - start;
 
-        Pair<AtomicLong, AtomicLong> pair = stats.get(key);
-        if (pair != null) {
-            pair.getLeft().incrementAndGet();
-            pair.getRight().addAndGet(elapsed);
-        }
+        this.upCounts(mt.getDb().getName(), pjp.getSignature().getName(), collection, elapsed);
+        logSlowQuery(elapsed, mt.getDb().getName(), pjp.getSignature().getName(), collection, pjp);
+
+        return result;
+    }
+
+    @Around("call(* com.mongodb.DBCollection.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test)")
+    public Object trackDBCollection(ProceedingJoinPoint pjp) throws Throwable {
+        long start = System.currentTimeMillis();
+        Object result = pjp.proceed();
+        long elapsed = System.currentTimeMillis() - start;
+
+        DBCollection col = (DBCollection) pjp.getTarget();
+
+        this.upCounts(col.getDB().getName(), pjp.getSignature().getName(), col.getName(), elapsed);
+        logSlowQuery(elapsed, col.getDB().getName(), pjp.getSignature().getName(), col.getName(), pjp);
+
         return result;
     }
 
@@ -62,7 +101,34 @@ public class MongoTrackingAspect {
     }
 
     public void reset() {
-        this.stats = new HashMap<String, Pair<AtomicLong, AtomicLong>>();
+        this.stats = new ConcurrentHashMap<String, Pair<AtomicLong, AtomicLong>>();
     }
 
+    private void upCounts(String db, String function, String collection, long elapsed) {
+        stats.putIfAbsent(String.format("%s#%s#%s", db, function, collection), Pair.of(new AtomicLong(0), new AtomicLong(0)));
+
+        Pair<AtomicLong, AtomicLong> pair = stats.get(String.format("%s#%s#%s", db, function, collection));
+
+        pair.getLeft().incrementAndGet();
+        pair.getRight().addAndGet(elapsed);
+    }
+
+    private void logSlowQuery(long elapsed, String db, String function, String collection, ProceedingJoinPoint pjp) {
+        if (elapsed > SLOW_QUERY_THRESHOLD) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(String.format("Slow query: %s#%s#%s (%d ms)", db, function, collection, elapsed));
+
+            for (Object obj : pjp.getArgs()) {
+                if (obj instanceof Query) {
+                    sb.append("\nQUERY:" + ((Query) obj).getQueryObject().toString());
+                } else if (obj instanceof Update) {
+                    sb.append("\nUPDATE:" + ((Update) obj).getUpdateObject().toString());
+                } else {
+                    sb.append("\nMISC:" + obj.toString());
+                }
+            }
+            sb.append("\n-----------------------------------------------\n");
+            LOG.debug(sb.toString());
+        }
+    }
 }

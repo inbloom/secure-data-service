@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.junit.Assert.assertEquals;
@@ -60,12 +77,10 @@ public class StudentDisciplineIncidentAssociationEntityTest {
 
         assertEquals("Expected different StudentParticipationCode", "Perpetrator", attributes.get("StudentParticipationCode"));
 
-        @SuppressWarnings("unchecked")
-        Map<String, String> disciplineIncidentReference = (Map<String, String>) attributes.get("DisciplineIncidentReference");
+        String disciplineIncidentReference = (String) attributes.get("disciplineIncidentIdentifier");
         assertNotNull("Expected non-null DisciplineIncidentReference", disciplineIncidentReference);
-        assertEquals("Expected different ref", "waterboard", disciplineIncidentReference.get("ref"));
-        //assertEquals("Expected different id", "", disciplineIncidentReference("id"));
-
+        assertEquals("Expected different ref", "waterboard", disciplineIncidentReference);
+        
         //behaviors
         @SuppressWarnings("unchecked")
         List<List<Map<String, Object>>> behaviors = (List<List<Map<String, Object>>>) attributes.get("Behaviors");
@@ -121,79 +136,8 @@ public class StudentDisciplineIncidentAssociationEntityTest {
         assertEquals("Expected different secondaryBehavior", "Hair Pulling", secondaryBehavior.get("SecondaryBehavior"));
 
         //student
-        @SuppressWarnings("unchecked")
-        Map<String, Object> studentReference = (Map<String, Object>) attributes.get("StudentReference");
-        assertNotNull("Expected non-null student reference", studentReference);
-
-        @SuppressWarnings("unchecked")
-        Map<String, Object> studentIdentity = (Map<String, Object>) studentReference.get("StudentIdentity");
-        assertNotNull("Expected non-null student identity", studentIdentity);
-
-        assertEquals("Expected different student unique state id", "Student Unique State Id", studentIdentity.get("StudentUniqueStateId"));
-
-        @SuppressWarnings("unchecked")
-        List<Map<String, String>> studentIdentificationCodes = (List<Map<String, String>>) studentIdentity.get("StudentIdentificationCode");
-        assertNotNull("Expected non-null student identification codes", studentIdentificationCodes);
-        assertEquals("Expected two StudentIdentificationCodes", 2, studentIdentificationCodes.size());
-
-        Map<String, String> studentIdentificationCode = studentIdentificationCodes.get(0);
-        assertNotNull("Expected non-null student identification code", studentIdentificationCode);
-        assertEquals("Expected different identification system", "Canadian SIN", studentIdentificationCode.get("IdentificationSystem"));
-        assertEquals("Expected different AssigningOrganizationCode", "Assigning Organization Code 1", studentIdentificationCode.get("AssigningOrganizationCode"));
-        assertEquals("Expected different ID", "Student Identification Code 1", studentIdentificationCode.get("ID"));
-
-        studentIdentificationCode = studentIdentificationCodes.get(1);
-        assertNotNull("Expected non-null student identification code", studentIdentificationCode);
-        assertEquals("Expected different identification system", "Medicaid", studentIdentificationCode.get("IdentificationSystem"));
-        assertEquals("Expected different AssigningOrganizationCode", "Assigning Organization Code 2", studentIdentificationCode.get("AssigningOrganizationCode"));
-        assertEquals("Expected different ID", "Student Identification Code 2", studentIdentificationCode.get("ID"));
-
-        @SuppressWarnings("unchecked")
-        Map<String, String> name = (Map<String, String>) studentIdentity.get("Name");
-        assertNotNull("Expected non-null name", name);
-        assertEquals("Expected different Verification", "Baptismal or church certificate", name.get("Verification"));
-        assertEquals("Expected different PersonalTitlePrefix", "Colonel", name.get("PersonalTitlePrefix"));
-        assertEquals("Expected different FirstName", "FN1", name.get("FirstName"));
-        assertEquals("Expected different MiddleName", "MN1", name.get("MiddleName"));
-        assertEquals("Expected different LastSurname", "LN1", name.get("LastSurname"));
-        assertEquals("Expected different GenerationCodeSuffix", "Jr", name.get("GenerationCodeSuffix"));
-        assertEquals("Expected different MaidenName", "Nee", name.get("MaidenName"));
-
-        @SuppressWarnings("unchecked")
-        List<Map<String, String>> otherNames = (List<Map<String, String>>) studentIdentity.get("OtherName");
-        assertNotNull("Expected non-null other names", otherNames);
-        assertEquals("Expected two OtherNames", 2, otherNames.size());
-
-        Map<String, String> otherName = otherNames.get(0);
-        assertNotNull("Expected non-null OtherName", otherName);
-        assertEquals("Expected different OtherNameType", "Previous Legal Name", otherName.get("OtherNameType"));
-        assertEquals("Expected different PersonalTitlePrefix", "Sister", otherName.get("PersonalTitlePrefix"));
-        assertEquals("Expected different FirstName", "FN2", otherName.get("FirstName"));
-        assertEquals("Expected different MiddleName", "MN2", otherName.get("MiddleName"));
-        assertEquals("Expected different LastSurname", "LN2", otherName.get("LastSurname"));
-        assertEquals("Expected different GenerationCodeSuffix", "Sr", otherName.get("GenerationCodeSuffix"));
-
-        otherName = otherNames.get(1);
-        assertNotNull("Expected non-null OtherName", otherName);
-        assertEquals("Expected different OtherNameType", "Alias", otherName.get("OtherNameType"));
-        assertEquals("Expected different PersonalTitlePrefix", "Sr", otherName.get("PersonalTitlePrefix"));
-        assertEquals("Expected different FirstName", "FN3", otherName.get("FirstName"));
-        assertEquals("Expected different MiddleName", "MN3", otherName.get("MiddleName"));
-        assertEquals("Expected different LastSurname", "LN3", otherName.get("LastSurname"));
-        assertEquals("Expected different GenerationCodeSuffix", "VIII", otherName.get("GenerationCodeSuffix"));
-
-        assertEquals("Expected different sex", "Female", studentIdentity.get("Sex"));
-        assertEquals("Expected different birth date", "05-27-1980", studentIdentity.get("BirthDate"));
-        assertEquals("Expected different hispanic latino ethnicity", false, studentIdentity.get("HispanicLatinoEthnicity"));
-
-        @SuppressWarnings("unchecked")
-        Map<String, List<String>> race = (Map<String, List<String>>) studentIdentity.get("Race");
-        assertNotNull("Expected non-null race", race);
-
-        List<String> racialCategories = race.get("RacialCategory");
-        assertNotNull("Expected non-null RacialCategories", racialCategories);
-        assertEquals("Expected two RacialCategories", 2, racialCategories.size());
-        assertEquals("Expected different RacialCategory", "American Indian - Alaskan Native", racialCategories.get(0));
-        assertEquals("Expected different RacialCategory", "Native Hawaiian - Pacific Islander", racialCategories.get(1));
+        String studentIdentity = (String) attributes.get("studentUniqueStateId");
+        assertNotNull("Expected non-null student reference", studentIdentity);
+        assertEquals("Expected different student unique state id", "Student Unique State Id", studentIdentity);
     }
 }

@@ -1,0 +1,7 @@
+{
+    "collection": "all_collections",
+    "indexFields":
+    [
+        {"name" : "creationTime" , "order" : "1"}
+    ]
+}

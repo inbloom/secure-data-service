@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.sample.oauth;
 
 import java.io.IOException;
@@ -74,9 +90,7 @@ public class TestSDKServlet extends HttpServlet {
         try {
             id = client.create(student);
             client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
-            LOG.error("1c:--------------------------------------------------" + collection);
             if (collection != null && collection.size() == 1) {
-                LOG.error("2:--------------------------------------------------" + testResult);
 
                 String firstName = ((Map<String, String>) collection.get(0).getData().get("name")).get("firstName");
                 String lastSurname = ((Map<String, String>) collection.get(0).getData().get("name")).get("lastSurname");
@@ -87,7 +101,6 @@ public class TestSDKServlet extends HttpServlet {
                     testResult = "failed";
                 }
             }
-            LOG.error("3:--------------------------------------------------" + testResult);
 
         } catch (SLIClientException e) {
         	LOG.error("Exception:" + e.getMessage());
@@ -95,7 +108,6 @@ public class TestSDKServlet extends HttpServlet {
             LOG.error("Exception:" + e.getMessage());
             testResult = "failed";
         }
-        LOG.error("4:--------------------------------------------------" + testResult);
 
         return testResult;
     }
@@ -110,6 +122,7 @@ public class TestSDKServlet extends HttpServlet {
         List<Entity> collection = new ArrayList<Entity>();
         try {
             id = client.create(student);
+
             client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
             if (collection != null && collection.size() == 1) {
                 student = collection.get(0);
@@ -150,6 +163,7 @@ public class TestSDKServlet extends HttpServlet {
         List<Entity> collection = new ArrayList<Entity>();
         try {
             id = client.create(student);
+
             client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
             if (collection != null && collection.size() == 1) {
                 student = collection.get(0);

@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.processors;
 
 import org.apache.camel.Exchange;
@@ -5,21 +22,21 @@ import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
+import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.transformation.TransformationFactory;
 import org.slc.sli.ingestion.transformation.Transmogrifier;
 import org.slc.sli.ingestion.util.BatchJobUtils;
@@ -44,26 +61,16 @@ public class TransformationProcessor implements Processor {
     @Autowired
     private BatchJobDAO batchJobDAO;
 
+    @Autowired
+    private NeutralRecordMongoAccess neutralRecordMongoAccess;
+
     /**
      * Camel Exchange process callback method
      *
      * @param exchange
      */
     @Override
-    @ExtractBatchJobIdToContext
-    @Profiled
     public void process(Exchange exchange) {
-        //We need to extract the TenantID for each thread, so the DAL has access to it.
-//        try {
-//            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
-//            ControlFile cf = cfd.getFileItem();
-//            String tenantId = cf.getConfigProperties().getProperty("tenantId");
-//            TenantContext.setTenantId(tenantId);
-//        } catch (NullPointerException ex) {
-//            LOG.error("Could Not find Tenant ID.");
-//            TenantContext.setTenantId(null);
-//        }
-
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
 
         if (workNote == null || workNote.getBatchJobId() == null) {
@@ -74,27 +81,40 @@ public class TransformationProcessor implements Processor {
     }
 
     private void processTransformations(WorkNote workNote, Exchange exchange) {
+
         Stage stage = initializeStage(workNote);
-
-        Metrics metrics = Metrics.newInstance(workNote.getIngestionStagedEntity().getCollectionNameAsStaged());
-
-        // FIXME: transformation needs to actually count processed records and errors
-        metrics.setRecordCount(workNote.getRangeMaximum() - workNote.getRangeMinimum() + 1);
-        stage.getMetrics().add(metrics);
-
         String batchJobId = workNote.getBatchJobId();
-        NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
-        TenantContext.setTenantId(newJob.getTenantId());
-
+        NewBatchJob newJob = null;
         try {
+            newJob = batchJobDAO.findBatchJobById(batchJobId);
+
+            TenantContext.setTenantId(newJob.getTenantId());
+
+            addMetricsToStage(workNote, stage, batchJobId);
+
             performDataTransformations(workNote, newJob);
 
         } catch (Exception e) {
             handleProcessingExceptions(exchange, batchJobId, e);
         } finally {
-            BatchJobUtils.stopStageChunkAndAddToJob(stage, newJob);
-            batchJobDAO.saveBatchJobStageSeparatelly(batchJobId, stage);
+            if (newJob != null) {
+                BatchJobUtils.stopStageChunkAndAddToJob(stage, newJob);
+                batchJobDAO.saveBatchJobStageSeparatelly(batchJobId, stage);
+            }
         }
+    }
+
+    private void addMetricsToStage(WorkNote workNote, Stage stage, String batchJobId) {
+        Metrics metrics = Metrics.newInstance(workNote.getIngestionStagedEntity().getCollectionNameAsStaged());
+        // FIXME: transformation needs to actually count processed records and errors
+        Criteria limiter = Criteria.where("creationTime").gte(workNote.getRangeMinimum())
+                .lt(workNote.getRangeMaximum());
+        Query query = new Query().addCriteria(limiter);
+
+        long recordsToProcess = neutralRecordMongoAccess.getRecordRepository().countForJob(
+                workNote.getIngestionStagedEntity().getCollectionNameAsStaged(), query, batchJobId);
+        metrics.setRecordCount(recordsToProcess);
+        stage.getMetrics().add(metrics);
     }
 
     private Stage initializeStage(WorkNote workNote) {
@@ -124,13 +144,11 @@ public class TransformationProcessor implements Processor {
 
     private void handleNoBatchJobId(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
-        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
     private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
-        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
             Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,

@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.util;
 
 import static org.junit.Assert.assertEquals;
@@ -17,7 +34,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
-import java.util.Map.Entry;
 
 import javax.xml.transform.stream.StreamSource;
 
@@ -56,10 +72,11 @@ public class EntityTestUtils {
         SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance("record", null, null, null);
         smooksEdFiVisitor.setNrMongoStagingWriter(dummyResourceWriter);
         smooks.addVisitor(smooksEdFiVisitor, targetSelector);
-
+        
         JavaResult result = new JavaResult();
         smooks.filterSource(new StreamSource(dataSource), result);
         
+        smooksEdFiVisitor.getRecordsPerisisted();
         List<NeutralRecord> entityList = dummyResourceWriter.getNeutralRecordsList();
 
         return entityList;
@@ -238,5 +255,14 @@ public class EntityTestUtils {
             return neutralRecordList;
         }
 
+        @Override
+        public void insertResource(NeutralRecord neutralRecord, String jobId) {
+            neutralRecordList.add(neutralRecord);
+        }
+
+        @Override
+        public void insertResources(List<NeutralRecord> neutralRecords, String collectionName, String jobId) {
+            neutralRecordList.addAll(neutralRecords);            
+        }
     }
 }

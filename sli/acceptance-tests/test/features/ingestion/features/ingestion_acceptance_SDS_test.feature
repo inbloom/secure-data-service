@@ -11,6 +11,8 @@
 @RALLY_US1964
 @RALLY_US2033
 @RALLY_US2081
+@RALLY_DE85
+@RALLY_DE87
 @RALLY_DE621
 Feature: Acceptance Storied Data Ingestion Test
 
@@ -34,7 +36,6 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | teacherSchoolAssociation    |
         | teacherSectionAssociation   |
         | session                     |
-        | schoolSessionAssociation    |
         | assessment                  |
         | studentAssessmentAssociation|
         | gradebookEntry              |
@@ -60,6 +61,8 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | gradingPeriod               |
         | calendarDate                |
         | reportCard                  |
+        | courseOffering              |
+        | studentAcademicRecord       |
   When zip file is scp to ingestion landing zone
   And a batch job log has been created
 
@@ -76,7 +79,6 @@ Then I should see following map of entry counts in the corresponding collections
         | teacherSchoolAssociation    | 3     |
         | teacherSectionAssociation   | 11    |
         | session                     | 22    |
-        | schoolSessionAssociation    | 22    |
         | assessment                  | 19    |
         | studentAssessmentAssociation| 203   |
         | studentTranscriptAssociation| 196   |
@@ -93,8 +95,8 @@ Then I should see following map of entry counts in the corresponding collections
         | studentCohortAssociation    | 6     |
         | studentCompetency           | 59    |
         | studentCompetencyObjective  | 4     |
-        | learningStandard            | 509   |
-        | learningObjective           | 65    |
+        | learningStandard            | 1463  |
+        | learningObjective           | 135   |
         | disciplineIncident          | 2     |
         | disciplineAction            | 2     |
 		| studentDisciplineIncidentAssociation| 4|
@@ -102,6 +104,8 @@ Then I should see following map of entry counts in the corresponding collections
         | gradingPeriod               | 17    |
         | calendarDate                | 556   |
         | reportCard                  | 2     |
+        | courseOffering              | 95    |
+        | studentAcademicRecord       | 117   |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 100000000                  | string               |
@@ -142,13 +146,13 @@ Then I should see following map of entry counts in the corresponding collections
        | assessment                  | 1                   | body.assessmentItem.3.itemCategory             | True-False       | string  |
        | assessment                  | 1                   | body.assessmentItem.3.maxRawScore              | 5                | integer |
        | assessment                  | 1                   | body.assessmentItem.3.correctResponse          | False            | string  |
-       | studentAssessmentAssociation | 25                 | body.studentAssessmentItems.0.assessmentItem.identificationCode | AssessmentItem-3    | string |
-       | studentAssessmentAssociation | 17                 | body.studentAssessmentItems.0.assessmentResponse                | True                | string |
-       | studentAssessmentAssociation | 17                 | body.studentAssessmentItems.0.assessmentItemResult              | Correct             | string |
-       | studentAssessmentAssociation | 25                 | body.studentAssessmentItems.1.assessmentItem.identificationCode | AssessmentItem-4    | string |
-       | studentAssessmentAssociation | 22                 | body.studentAssessmentItems.1.assessmentResponse                | True                | string |
-       | studentAssessmentAssociation | 22                 | body.studentAssessmentItems.1.assessmentItemResult              | Correct             | string |
-    And I should see "Processed 3029 records." in the resulting batch job file
+       | studentAssessmentAssociation | 25                 | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-3    | string |
+       | studentAssessmentAssociation | 25                 | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-4    | string |
+       | studentAssessmentAssociation | 24                 | body.studentAssessmentItems.assessmentResponse                | True                | string |
+       | studentAssessmentAssociation | 24                 | body.studentAssessmentItems.assessmentItemResult              | Correct             | string |
+       | studentAssessmentAssociation | 10                 | body.studentAssessmentItems.assessmentResponse                | False               | string |
+       | studentAssessmentAssociation | 10                 | body.studentAssessmentItems.assessmentItemResult              | Incorrect           | string |
+    And I should see "Processed 4148 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -159,8 +163,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeEducationOrgCalendar.xml records considered: 595" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 595" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeMasterSchedule.xml records considered: 97" in the resulting batch job file
-    And I should see "InterchangeMasterSchedule.xml records ingested successfully: 97" in the resulting batch job file
+    And I should see "InterchangeMasterSchedule.xml records considered: 192" in the resulting batch job file
+    And I should see "InterchangeMasterSchedule.xml records ingested successfully: 192" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records considered: 41" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records ingested successfully: 41" in the resulting batch job file
@@ -183,6 +187,9 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeAssessmentMetadata-StateAssessments.xml records considered: 12" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateAssessments.xml records ingested successfully: 12" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateAssessments.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-CCS-English.xml records considered: 1024" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-CCS-English.xml records ingested successfully: 1024" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-CCS-English.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-CCS-Math.xml records considered: 574" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-CCS-Math.xml records ingested successfully: 574" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-CCS-Math.xml records failed: 0" in the resulting batch job file
@@ -261,6 +268,7 @@ Then I should see following map of entry counts in the corresponding collections
 		| studentDisciplineIncidentAssociation| 4|
         | grade                       | 4     |
         | reportCard                  | 2     |
+        | courseOffering              | 96    |
    And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 1                   | metaData.externalId      | 1000000000                 | string               |
@@ -269,7 +277,7 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | metaData.externalId      | Sunset Central High School | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL-SUNSET                  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | IL                         | string               |
-    And I should see "Processed 340 records." in the resulting batch job file
+    And I should see "Processed 341 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 105" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 105" in the resulting batch job file
@@ -280,8 +288,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeEducationOrgCalendar.xml records considered: 2" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 2" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeMasterSchedule.xml records considered: 3" in the resulting batch job file
-    And I should see "InterchangeMasterSchedule.xml records ingested successfully: 3" in the resulting batch job file
+    And I should see "InterchangeMasterSchedule.xml records considered: 4" in the resulting batch job file
+    And I should see "InterchangeMasterSchedule.xml records ingested successfully: 4" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records considered: 17" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records ingested successfully: 17" in the resulting batch job file
@@ -328,6 +336,7 @@ Then I should see following map of entry counts in the corresponding collections
 		| studentDisciplineIncidentAssociation| 8|
         | grade                       | 4     |
         | reportCard                  | 2     |
+        | courseOffering              | 104   |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | student                     | 2                   | metaData.externalId      | 100000006                  | string               |
@@ -336,7 +345,7 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | metaData.externalId      | 1000000111                 | string               |
        | educationOrganization       | 1                   | metaData.externalId      | NY-Parker                  | string               |
        | educationOrganization       | 1                   | metaData.externalId      | NY                         | string               |
-    And I should see "Processed 718 records." in the resulting batch job file
+    And I should see "Processed 726 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 8" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 8" in the resulting batch job file
@@ -347,8 +356,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeEducationOrgCalendar.xml records considered: 566" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 566" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeMasterSchedule.xml records considered: 16" in the resulting batch job file
-    And I should see "InterchangeMasterSchedule.xml records ingested successfully: 16" in the resulting batch job file
+    And I should see "InterchangeMasterSchedule.xml records considered: 24" in the resulting batch job file
+    And I should see "InterchangeMasterSchedule.xml records ingested successfully: 24" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records considered: 90" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records ingested successfully: 90" in the resulting batch job file

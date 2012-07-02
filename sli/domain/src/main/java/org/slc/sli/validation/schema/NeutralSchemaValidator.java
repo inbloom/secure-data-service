@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.validation.schema;
 
 import java.util.LinkedList;
@@ -32,10 +49,13 @@ public class NeutralSchemaValidator implements EntityValidator {
     // Attributes
     @Autowired
     private SchemaRepository entitySchemaRegistry;
-    
+
     @Autowired
     private Repository<Entity> validationRepo;
-    
+
+    @Autowired
+    private Repository<Entity> simpleValidationRepo;
+
     // Constructors
     public NeutralSchemaValidator() {
 
@@ -72,9 +92,19 @@ public class NeutralSchemaValidator implements EntityValidator {
     public void setSchemaRegistry(SchemaRepository schemaRegistry) {
         entitySchemaRegistry = schemaRegistry;
     }
-    
+
     public void setEntityRepository(Repository<Entity> entityRepo) {
         this.validationRepo = entityRepo;
+    }
+
+    @Override
+    public void setReferenceCheck(String referenceCheck) {
+        if ("false".equals(referenceCheck)) {
+            LOG.info("Turning off reference checking");
+
+            setEntityRepository(simpleValidationRepo);
+        }
+
     }
 
 }

@@ -1,5 +1,5 @@
 {
-    "keyFields" : ["body.staffId","body.studentId","body.stateOrganizationId"],
+    "keyFields" : ["body.studentId","body.disciplineIncidentId","body.disciplineDate","body.disciplineActionIdentifier"],
     "references" :
     [
     {
@@ -12,9 +12,9 @@
             "choiceOfFields" :
             [
                 [
-                    { 
+                    {
                         "path" : "body.staffUniqueStateId",
-                        "values" : 
+                        "values" :
                         [{
                             "valueSource" : "body.staffReference.staffIdentity.staffUniqueStateId"
                         }]
@@ -33,9 +33,9 @@
             "choiceOfFields" :
             [
                 [
-                    { 
+                    {
                         "path" : "body.studentUniqueStateId",
-                        "values" : 
+                        "values" :
                         [
                             {"valueSource" : "body.studentReference.studentIdentity.studentUniqueStateId"}
                         ]
@@ -44,7 +44,7 @@
             ]
         }
     },
-    { 
+    {
         "fieldPath" : "body.disciplineIncidentId",
         "ref" :
         {
@@ -54,16 +54,16 @@
             "choiceOfFields" :
             [
                 [
-                    { 
+                    {
                         "path" : "body.incidentIdentifier",
-                        "values" : 
+                        "values" :
                         [
                             {"valueSource" : "body.disciplineIncidentReference.disciplineIncidentIdentity.incidentIdentifier"}
                         ]
                     },
                     {
-                        "path" : "body.schoolId", 
-                        "values" : 
+                        "path" : "body.schoolId",
+                        "values" :
                         [
                 {"ref" :
                     {
@@ -75,7 +75,7 @@
                         [
                             {
                                 "path" : "body.stateOrganizationId",
-                                "values": 
+                                "values":
                                 [
                                 {"valueSource": "body.disciplineIncidentReference.disciplineIncidentIdentity.stateOrganizationId"}
                                 ]
@@ -90,7 +90,7 @@
             ]
         }
     },
-    { 
+    {
         "fieldPath" : "body.responsibilitySchoolId",
         "ref" :
         {
@@ -98,9 +98,9 @@
             "choiceOfFields" :
             [
                 [
-                    { 
+                    {
                         "path" : "body.stateOrganizationId",
-                        "values" : 
+                        "values" :
                         [
                             {"valueSource" : "body.responsibilitySchoolId.educationalOrgIdentity.stateOrganizationId"}
                         ]
@@ -109,7 +109,7 @@
             ]
         }
     },
-    { 
+    {
         "fieldPath" : "body.assignmentSchoolId",
         "ref" :
         {
@@ -118,9 +118,9 @@
             "choiceOfFields" :
             [
                 [
-                    { 
+                    {
                         "path" : "body.stateOrganizationId",
-                        "values" : 
+                        "values" :
                         [
                             {"valueSource" : "body.assignmentSchoolId.educationalOrgIdentity.stateOrganizationId"}
                         ]

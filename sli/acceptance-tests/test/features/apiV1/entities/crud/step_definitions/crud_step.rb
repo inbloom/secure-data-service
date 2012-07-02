@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'rest-client'
 require 'json'
 require 'builder'
@@ -110,6 +129,13 @@ $entityData = {
     "careerPathway" => "Hospitality and Tourism",
     "schoolId" => "bd086bae-ee82-4cf2-baf9-221a9407ea07"
   },
+  "courseOffering" => { 
+    "schoolId" => "67ce204b-9999-4a11-aaab-000000000008", 
+    "localCourseCode" => "LCCMA1",  
+    "sessionId" => "67ce204b-9999-4a11-aacb-000000000002", 
+    "localCourseTitle" => "Math 1 - Intro to Mathematics", 
+    "courseId" => "67ce204b-9999-4a11-aacc-000000000004"  
+  },
   "disciplineAction" => {
     "disciplineActionIdentifier" => "Discipline act XXX",
     "disciplines" => [[
@@ -181,7 +207,8 @@ $entityData = {
     "populationServed" => "Regular Students",
     "schoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
     "sessionId" => "fb0ac9e8-9e4e-48a0-95d2-ae07ee15ee92",
-    "courseId" => "82ad1eb0-c6d4-4b00-909a-edd1c8d04e41"
+    "courseOfferingId" => "71e04e2f-c9c0-4f94-b0b6-4a107630ab6a",
+    "assessmentReferences" => ["29f044bd-1449-4fb7-8e9a-5e2cf9ad252a"]
   },
   "session" => {
     "sessionName" => "Spring 2012",
@@ -204,9 +231,9 @@ $entityData = {
     }
   },
   "studentSectionGradebookEntry" => { 
-    "gradebookEntryId" => "008fd89d-88a2-43aa-8af1-74ac16a29380", 
+    "gradebookEntryId" => "20120613-56b6-4d17-847b-2997b7227686", 
     "letterGradeEarned" => "A", 
-    "sectionId" => "706ee3be-0dae-4e98-9525-f564e05aa388", 
+    "sectionId" => "7b052b82-66f8-424b-8882-5313d11a8a5d", 
     "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085", 
     "numericGradeEarned" => 98, 
     "dateFulfilled" => "2012-01-31", 

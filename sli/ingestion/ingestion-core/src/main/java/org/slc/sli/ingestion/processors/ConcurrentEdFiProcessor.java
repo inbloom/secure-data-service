@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
@@ -12,16 +29,16 @@ import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
@@ -55,27 +72,18 @@ public class ConcurrentEdFiProcessor implements Processor {
     @Autowired
     private SliSmooksFactory sliSmooksFactory;
 
+    @Autowired
+    private NeutralRecordMongoAccess neutralRecordMongoAccess;
+
+    @Value("${sli.ingestion.staging.index.policy}")
+    private String stagingIndexPolicy;
+
     @Override
-    @ExtractBatchJobIdToContext
-    @Profiled
     public void process(Exchange exchange) throws Exception {
-        //We need to extract the TenantID for each thread, so the DAL has access to it.
-//        try {
-//            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
-//            ControlFile cf = cfd.getFileItem();
-//            String tenantId = cf.getConfigProperties().getProperty("tenantId");
-//            TenantContext.setTenantId(tenantId);
-//        } catch (NullPointerException ex) {
-//            LOG.error("Could Not find Tenant ID.");
-//            TenantContext.setTenantId(null);
-//        }
-//
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
         if (batchJobId == null) {
-
             handleNoBatchJobIdInExchange(exchange);
         } else {
-
             processEdFi(exchange, batchJobId);
         }
     }
@@ -88,13 +96,25 @@ public class ConcurrentEdFiProcessor implements Processor {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
             TenantContext.setTenantId(newJob.getTenantId());
 
-
             List<IngestionFileEntry> fileEntryList = extractFileEntryList(batchJobId, newJob);
+
+            if ("pre".equals(stagingIndexPolicy)) {
+                if (fileEntryList.size() > 0) {
+                    // prepare staging database
+                    setupStagingDatabase(batchJobId);
+                }
+            }
 
             List<FutureTask<Boolean>> smooksFutureTaskList = processFilesInFuture(fileEntryList, newJob, stage);
 
             boolean anyErrorsProcessingFiles = aggregateFutureResults(smooksFutureTaskList);
 
+            if ("post".equals(stagingIndexPolicy)) {
+                if (fileEntryList.size() > 0) {
+                    // prepare staging database
+                    setupStagingDatabase(batchJobId);
+                }
+            }
             setExchangeHeaders(exchange, anyErrorsProcessingFiles);
 
         } catch (Exception exception) {
@@ -116,9 +136,7 @@ public class ConcurrentEdFiProcessor implements Processor {
 
             if (fe.getFile().length() > 0) {
                 Callable<Boolean> smooksCallable = new SmooksCallable(newJob, fe, stage, batchJobDAO, sliSmooksFactory);
-
                 FutureTask<Boolean> smooksFutureTask = IngestionExecutor.execute(smooksCallable);
-
                 smooksFutureTaskList.add(smooksFutureTask);
             }
         }
@@ -188,4 +206,7 @@ public class ConcurrentEdFiProcessor implements Processor {
         LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
+    private void setupStagingDatabase(String batchJobId) {
+        neutralRecordMongoAccess.getRecordRepository().ensureIndexesForJob(batchJobId);
+    }
 }

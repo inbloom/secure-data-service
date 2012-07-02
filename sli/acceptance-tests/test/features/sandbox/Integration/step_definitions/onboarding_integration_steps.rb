@@ -1,22 +1,41 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require "selenium-webdriver"
 require "mongo"
 require 'approval'
 require 'rumbster'
 require 'message_observers'
 require 'net/imap'
+require 'test/unit'
 require 'active_support/inflector'
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
-
 
 SAMPLE_DATA_SET1_CHOICE = "ed_org_STANDARD-SEA"
 SAMPLE_DATA_SET2_CHOICE = "ed_org_IL-SUNSET"
 CUSTOM_DATA_SET_CHOICE = "custom"
 
 Before do
+   extend Test::Unit::Assertions
    @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 60)
    @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])
-
 end
 
 After do |scenario|
@@ -25,8 +44,8 @@ After do |scenario|
 end
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
-  id = "devldapuser@slidev.org"                                       if human_readable_id == "USER_EMAIL"
-  id = "test1234"                                                     if human_readable_id == "USER_PASS"
+  id = PropLoader.getProps['user_registration_email']                 if human_readable_id == "USER_EMAIL"
+  id = PropLoader.getProps['user_registration_pass']                  if human_readable_id == "USER_PASS"
   id = "StateEdorg"                                                   if human_readable_id =="STATE_ED_ORG"
   id = "Loraine2"                                                     if human_readable_id == "USER_FIRSTNAME"
   id = "Plyler2"                                                      if human_readable_id == "USER_LASTNAME"
@@ -38,10 +57,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "ed_org_IL"                                                    if human_readable_id == "ED-ORG_SAMPLE_DS1"
   id = "mreynolds"                                                    if human_readable_id == "DISTRICT_ADMIN_USER"
   id = "mreynolds1234"                                                if human_readable_id == "DISTRICT_ADMIN_PASS"
-  #need to figure out what tenantId is for real user provision instead of sunsetadmin
-  id = "devldapuser@slidev.org"                                   if human_readable_id == "Tenant_ID"
-  #need to figure out what landing zone path is for real user provision instead of sunsetadmin
-  id = "devldapuser@slidev.org"                                if human_readable_id == "Landing_zone_directory"
+  id = PropLoader.getProps['user_registration_email']                 if human_readable_id == "Tenant_ID"
+  id = PropLoader.getProps['user_registration_email']                 if human_readable_id == "Landing_zone_directory"
 
   id = "mreynolds"                                                       if human_readable_id == "Prod_Tenant_ID"
   id = "mreynolds/StateEdorg"                                            if human_readable_id == "Prod_Landing_zone_directory"
@@ -61,16 +78,16 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
 end
 
 Given /^I have a SMTP\/Email server configured$/ do
-     @mode="live"
-     @email_sender_name= "Administrator"
-     @email_sender_address= "noreply@slidev.org"
-      @email_conf = {
-       :host => 'mon.slidev.org',
-       :port => 3000,
-       :sender_name => @email_sender_name,
-       :sender_email_addr => @email_sender_address
-     }
- end
+  @live_email_mode="live"
+  @email_sender_name= "Administrator"
+  @email_sender_address= "noreply@slidev.org"
+  @email_conf = {
+    :host =>  PropLoader.getProps['email_smtp_host'],
+    :port => PropLoader.getProps['email_smtp_port'],
+    :sender_name => @email_sender_name,
+    :sender_email_addr => @email_sender_address
+  }
+end
 
 Given /^I go to the sandbox account registration page$/ do
   #the user registration path need to be fixed after talk with wolverine
@@ -138,7 +155,7 @@ end
 Then /^an account entry is made in ldap with "([^"]*)" status$/ do |status|
   user=ApprovalEngine.get_user(@email)
   puts user
-  assert(user[:status]==status.downcase,"didnt create account with status is #{status}")
+  assert_equal(status.downcase, user[:status], "bad status")
 end
 
 Then /^a "([^"]*)" approval email is sent to the "([^"]*)"$/ do |environment, email|
@@ -146,18 +163,18 @@ Then /^a "([^"]*)" approval email is sent to the "([^"]*)"$/ do |environment, em
   @email = email
   verifyEmail()
   if environment == "sandbox"
-    approval_email_subject="Welcome to the SLC Developer Sandbox"
+    approval_email_subject = "Welcome to the SLC Developer Sandbox"
   elsif environment == "production"
-    approval_email_subject="Welcome to the Shared Learning Collaborative"
+    approval_email_subject = "Welcome to the Shared Learning Collaborative"
   end
-  found=@email_subject.downcase.include?(approval_email_subject.downcase)
-  assert(found,"didnt receive approval email!")
+  assert(@email_subject.downcase.include?(approval_email_subject.downcase), "<#{@email_subject}> does not include <#{approval_email_subject.downcase}>")
 end
 
 Then /^the email has a "([^"]*)"$/ do |link|
  #link need to be fixed before uncomment out code
   found = @email_content.include?(link)
-  assert(found,"the email doesnt have the link for #{link}")
+  puts @email_content
+  assert(found, "the email doesnt have the link for #{link}")
 end
 
 Then /^a "([^"]*)" roles is a added for the user in ldap$/ do |role|
@@ -293,10 +310,6 @@ When /^the SLC operator approves the vendor account for "([^"]*)"$/ do |email|
   @driver.switch_to().alert().accept()
 end
 
-Then /^an approval email is sent to "([^"]*)"$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
-end
-
 When /^the SLC operator authenticates as "([^"]*)" and "([^"]*)"$/ do |user, pass|
   step "I submit the credentials \"#{user}\" \"#{pass}\" for the \"Simple\" login page"
 end
@@ -318,21 +331,32 @@ When /^the state super admin set the custom high\-level ed\-org to "([^"]*)"$/ d
   @driver.find_element(:id, "custom_ed_org").send_keys arg1
 end
 
+Given /^the "(.*?)" has "(.*?)" defined in LDAP by the operator$/ do |email, edorg|
+  ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
+                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
+                          PropLoader.getProps['ldap_admin_pass'])
+  user = ldap.read_user(email)
+  if user[:edorg] != edorg
+    user[:edorg] = edorg
+    ldap.update_user_info(user)
+  end
+end
+
 def initializeApprovalAndLDAP(emailConf, prod)
   # ldapBase need to be configured in admin-tools and acceptance test to match simple idp branch
-   ldapBase=PropLoader.getProps['ldap_base']
-  # ldapBase = "ou=DevTest,dc=slidev,dc=org"
-   @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, ldapBase, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+   @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
+                           PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
+                           PropLoader.getProps['ldap_admin_pass'])
    email = Emailer.new @email_conf
    ApprovalEngine.init(@ldap, email, nil, !prod)
  end
 
 
 def verifyEmail
-  if @mode
-    defaultUser = 'devldapuser'
-    defaultPassword = 'Y;Gtf@w{'
-    imap = Net::IMAP.new('mon.slidev.org', 993, true, nil, false)
+  if @live_email_mode
+    defaultUser = PropLoader.getProps['email_imap_registration_user']
+    defaultPassword = PropLoader.getProps['email_imap_registration_pass']
+    imap = Net::IMAP.new(PropLoader.getProps['email_imap_host'], PropLoader.getProps['email_imap_port'], true, nil, false)
     imap.authenticate('LOGIN', defaultUser, defaultPassword)
     imap.examine('INBOX')
 
@@ -403,5 +427,5 @@ def clear_tenant
 end
 
 def clear_users
-  @ldap.delete_user('devldapuser@slidev.org')
+  @ldap.delete_user(PropLoader.getProps['user_registration_email'])
 end

@@ -56,11 +56,11 @@
         </entry>
     </util:map>
 
-    <bean id="xsdValidator" class="org.slc.sli.ingestion.validation.XsdValidator">
+    <bean id="xsdValidator" class="org.slc.sli.ingestion.validation.XsdValidator" scope="prototype">
         <property name="xsd" ref="xsd" />
     </bean>
 
-    <bean id="xsdErrorHandler" class="org.slc.sli.ingestion.validation.XsdErrorHandler">
+    <bean id="xsdErrorHandler" class="org.slc.sli.ingestion.validation.XsdErrorHandler" scope="prototype">
         <property name="messageSource" ref="messageSource" />
     </bean>
 

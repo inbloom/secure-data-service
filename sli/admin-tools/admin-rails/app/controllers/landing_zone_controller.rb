@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 class LandingZoneController < ApplicationController
   before_filter :check_roles
   rescue_from ProvisioningError, :with => :handle_error
@@ -14,9 +33,14 @@ class LandingZoneController < ApplicationController
       render_403
       return
     end
-
-    ed_org_id = params[:ed_org]
-    ed_org_id = params[:custom_ed_org] if ed_org_id == 'custom'
+    
+    if APP_CONFIG["is_sandbox"]
+      ed_org_id = params[:ed_org]
+      ed_org_id = params[:custom_ed_org] if ed_org_id == 'custom'
+    else
+      ed_org_id = ApplicationHelper.get_edorg_from_ldap( uid() )
+    end
+        
     if (ed_org_id == nil || ed_org_id.gsub(/\s/, '').length == 0)
       redirect_to :action => 'index', :controller => 'landing_zone'
     else
@@ -30,7 +54,7 @@ class LandingZoneController < ApplicationController
   end
   
   def handle_error
-    render :status => 500, :text => "An error occured when provisioning the landing zone"
+    render :status => 500, :text => "An error occurred when provisioning the landing zone"
   end
   
   def check_roles
@@ -40,7 +64,7 @@ class LandingZoneController < ApplicationController
     end
     overlapping_roles = allowed_roles & session[:roles]
     unless overlapping_roles.length > 0
-      logger.warn "Rejecting user #{session[:full_name]} due to insufficient privilages: roles: #{session[:roles]}"
+      logger.warn "Rejecting user #{session[:full_name]} due to insufficient privileges: roles: #{session[:roles]}"
       render_403
     end
   end

@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.transformation.assessment;
 
 import java.util.ArrayList;
@@ -16,7 +33,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
@@ -44,7 +60,7 @@ public class LearningObjectiveTransformTest {
     @Mock
     NeutralRecordRepository repo;
 
-    String transformCollection = EntityNames.LEARNINGOBJECTIVE + "_transformed";
+    String transformCollection = LearningObjectiveTransform.LEARNING_OBJECTIVE + "_transformed";
 
     @Before
     public void init() {
@@ -96,7 +112,7 @@ public class LearningObjectiveTransformTest {
 
     private static NeutralRecord createNeutralRecord(String objectiveId, String contentStandardName) {
         NeutralRecord nr = new NeutralRecord();
-        nr.setRecordType(EntityNames.LEARNINGOBJECTIVE);
+        nr.setRecordType(LearningObjectiveTransform.LEARNING_OBJECTIVE);
         nr.setAttributes(new HashMap<String, Object>());
         nr.setLocalParentIds(new HashMap<String, Object>());
         setAtPath(nr.getAttributes(), LearningObjectiveTransform.LO_ID_CODE_PATH, objectiveId);

@@ -1,6 +1,7 @@
 {
-    "keyFields" : ["body.assessmentId", "body.studentId", "body.administrationDate"],
-    "subEntities" : { "body.studentAssessmentItems?" : "studentAssessmentItem"},
+    "keyFields" : ["metaData.externalId", "body.assessmentId", "body.studentId", "body.administrationDate"],
+    "subEntities" : { "body.studentAssessmentItems?" : "studentAssessmentItem",
+                      "body.studentObjectiveAssessments?" : "studentObjectiveAssessment"},
     "references" :
     [{
         "fieldPath" : "body.assessmentId","ref" :
@@ -15,9 +16,7 @@
                         [{
                             "valueSource" : "body.assessmentId.AssessmentIdentity.AssessmentIdentificationCode"
                         }]
-                    }
-                ],
-                [
+                    },
                     {
                         "path" : "body.assessmentTitle",
                         "values" :
@@ -74,34 +73,5 @@
                 ]
             ]
         }
-    }],
-    "piiFields" : {
-        "StudentReference" : {
-            "StudentIdentity" : {
-                "studentIdentificationCode" : {
-                    "identificationCode" : true
-                  },
-                "Name" : {
-                    "Verification" : true,
-                    "PersonalInformationVerificationType" : true,
-                    "FirstName" : true,
-                    "MiddleName" : true,
-                    "LastSurname" : true,
-                    "PersonalTitlePrefix" : true,
-                    "GenerationCodeSuffix" : true,
-                    "MaidenName" : true
-                  },
-                "OtherName" : {
-                    "OtherNameType" : true,
-                    "PersonalTitlePrefix" : true,
-                    "FirstName" : true,
-                    "MiddleName" : true,
-                    "LastSurname" : true,
-                    "GenerationCodeSuffix" : true
-                  },
-                "BirthDate" : true,
-                "Sex" : true
-            }
-        }
-    }
+    }]
 }

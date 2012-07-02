@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.resources.v1;
 
 import javax.ws.rs.DELETE;
@@ -16,6 +33,7 @@ import javax.ws.rs.core.UriInfo;
 import org.slc.sli.api.client.constants.v1.ParameterConstants;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.util.PATCH;
 
 /**
  * Basic resource implementing crud steps on an entity
@@ -131,6 +149,28 @@ public abstract class DefaultCrudResource extends DefaultCrudEndpoint {
     public final Response update(@PathParam("id") final String id, final EntityBody newEntityBody,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return this.update(resourceName, id, newEntityBody, headers, uriInfo);
+    }
+    
+    /**
+     * Patches the specified resource using the given resource data.
+     *
+     * @param id
+     *            The id of the entity
+     * @param newEntityBody
+     *            entity data
+     * @param headers
+     *            HTTP Request Headers
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return Response with a NOT_CONTENT status code
+     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
+     */
+    @Override
+    @PATCH
+    @Path("{id}")
+    public final Response patch(@PathParam("id") final String id, final EntityBody newEntityBody,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return this.patch(resourceName, id, newEntityBody, headers, uriInfo);
     }
 
 }

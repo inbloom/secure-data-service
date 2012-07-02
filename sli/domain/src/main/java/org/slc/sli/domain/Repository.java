@@ -1,5 +1,23 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.domain;
 
+import java.util.List;
 import java.util.Map;
 
 import com.mongodb.CommandResult;
@@ -172,7 +190,14 @@ public interface Repository<T> {
      * @return the mongo db collection
      */
     public DBCollection getCollection(String collectionName);
-
+    
+    /**
+     * Get the available collections.
+     * 
+     * @return List<DBCollections> collections.
+     */
+    public List<DBCollection> getCollections(boolean includeSystemCollections);
+    
     /**
      * @param collectionName
      *            the name of the collection to look in
@@ -220,5 +245,20 @@ public interface Repository<T> {
      * @param collection : name of collection
      */
     public void ensureIndex(IndexDefinition index, String collection);
+
+    /**
+     * Supports configuring a write concern on a repository.
+     *
+     * @param writeConcern
+     */
+    public void setWriteConcern(String writeConcern);
+
+    /**
+     * Support configurability of performing refrence checking as a part of schema validation
+     * @param referenceCheck
+     */
+    public void setReferenceCheck(String referenceCheck);
+
+    public long count(String collectionName, Query query);
 
 }

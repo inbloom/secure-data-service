@@ -136,26 +136,11 @@ Scenario: Post a zip file where the the edfi input is malformed XML
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job log has been created
-#	And I should see "Input file was malformed" in the resulting error log file
-  And I should see "Processed 1 records." in the resulting batch job file
-  And I should see "Not all records were processed completely due to errors." in the resulting batch job file
-  And I should see "student.xml records considered: 1" in the resulting batch job file
-  And I should see "student.xml records ingested successfully: 1" in the resulting batch job file
-  And I should see "student.xml records failed: 0" in the resulting batch job file
-
-#not sure if this is a valid failure or not
-@wip
-Scenario: Post a zip file where the the edfi input is missing a declaration line
-  Given I post "noDeclarationLine.zip" file as the payload of the ingestion job
-  And the following collections are empty in datastore:
-        | collectionName              |
-        | student                     |
-  When zip file is scp to ingestion landing zone
-  And I am willing to wait upto 30 seconds for ingestion to complete
-  And a batch job log has been created
-#	And I should see "Input file is missing declaration line" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
+  And I should see "student.xml records considered: 0" in the resulting batch job file
+  And I should see "student.xml records ingested successfully: 0" in the resulting batch job file
+  And I should see "student.xml records failed: 0" in the resulting batch job file
 
 Scenario: Post a zip file where the the edfi input has no records
   Given I post "noRecord.zip" file as the payload of the ingestion job

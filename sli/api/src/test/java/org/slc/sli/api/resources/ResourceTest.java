@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.resources;
 
 import static org.junit.Assert.assertEquals;
@@ -183,14 +200,7 @@ public class ResourceTest {
         entity.put("metaData", createMetaData());
         return entity;
     }
-    
-    public Map<String, Object> createTestSchoolSessionAssociation(String schoolId, String sessionId) {
-        Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put("schoolId", schoolId);
-        entity.put("sessionId", sessionId);
-        entity.put("metaData", createMetaData());
-        return entity;
-    }
+
     
     public Map<String, Object> createTestCourseOffering(String sessionId, String courseId) {
         Map<String, Object> entity = new HashMap<String, Object>();
@@ -314,29 +324,7 @@ public class ResourceTest {
         }
         
     }
-    
-    @Test
-    public void testSchoolSessionFunctionality() {
-        HashMap<TypeIdPair, String> ids = new HashMap<TypeIdPair, String>();
-        
-        String schoolId = this.createEntity("schools", ids);
-        String sessionId = this.createEntity("sessions", ids);
-        
-        Response createAssociationResponse = api.createEntity(SCHOOL_SESSION_ASSOCIATION_URI, new EntityBody(
-                createTestSchoolSessionAssociation(schoolId, sessionId)), uriInfo);
-        assertNotNull(createAssociationResponse);
-        String schoolSessionAssocId = parseIdFromLocation(createAssociationResponse);
-        
-        // test school session association
-        Response tsaResponse = api.getEntity(SCHOOL_SESSION_ASSOCIATION_URI, schoolSessionAssocId, null, null, 0, 10,
-                false, uriInfo);
-        EntityBody tssAssocBody = (EntityBody) tsaResponse.getEntity();
-        assertNotNull(tssAssocBody);
-        assertEquals(schoolSessionAssocId, tssAssocBody.get("id"));
-        assertEquals(sessionId, tssAssocBody.get("sessionId"));
-        assertEquals(schoolId, tssAssocBody.get("schoolId"));
-    }
-    
+
     @Test
     public void testSessionCourseFunctionality() {
         HashMap<TypeIdPair, String> ids = new HashMap<TypeIdPair, String>();

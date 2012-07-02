@@ -11,11 +11,10 @@
             "choiceOfFields" :
                 [
                     [{
-                        "path" : "body.learningStandardId",
+                        "path" : "body.learningStandardId.identificationCode",
                         "values" :
                             [{
-                                "valueSource" : 
-                                        "body.learningStandards"
+                                "valueSource" : "body.learningStandards.identificationCode"
                             }]
                     }]
                 ]

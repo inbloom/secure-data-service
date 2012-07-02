@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.mockito.Mockito.mock;
@@ -185,12 +202,12 @@ public class SectionEntityTest {
         String targetSelector = "InterchangeMasterSchedule/Section";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, validXmlTestData);
-        neutralRecord.setAttributeField("courseId", "1bce2323211dfds");
+        neutralRecord.setAttributeField("courseOfferingId", "1bce2323211dfds");
         neutralRecord.setAttributeField("schoolId", "StateOrganizationId1");
         SimpleEntity entity = EntityTestUtils.smooksGetSingleSimpleEntity(edFiToSliConfig, neutralRecord);
 
 
-        Assert.assertNotNull(neutralRecord.getAttributes().get("courseId"));
+        Assert.assertNotNull(neutralRecord.getAttributes().get("courseOfferingId"));
         Assert.assertNotNull(neutralRecord.getAttributes().get("schoolId"));
         Assert.assertNotNull(neutralRecord.getAttributes().get("sessionReference"));
         Assert.assertNotNull(neutralRecord.getAttributes().get("programReference"));
@@ -201,7 +218,7 @@ public class SectionEntityTest {
 
         repo.addEntity("educationOrganization", "StateOrganizationId1", makeDummyEntity("educationOrganization", "StateOrganizationId1"));
         repo.addEntity("session", "SessionName0", makeDummyEntity("session", "SessionName0"));
-        repo.addEntity("course", "LocalCourseCode0", makeDummyEntity("course", "LocalCourseCode0"));
+        repo.addEntity("courseOffering", "LocalCourseCode0", makeDummyEntity("courseOffering", "LocalCourseCode0"));
         repo.addEntity("program", "ProgramId0", makeDummyEntity("program", "ProgramId0"));
 
         PrivateAccessor.setField(validator, "validationRepo", repo);

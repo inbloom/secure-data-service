@@ -39,5 +39,22 @@
             ]
         }
     ]
+},
+{
+    "id": "Illinois PS200",
+    "schoolId": "Illinois PS200",
+    "courses": [
+        {
+            "courseTitle": "Reading",
+            "sections": [
+                {
+                    "section": "Section1",
+                    "studentUIDs": [
+                                   ]
+                }
+            ]
+        }
+    ]
 }
+
 ]

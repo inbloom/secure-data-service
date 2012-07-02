@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'mongo'
 
 Transform /^IDs for "([^"]*)"$/ do |idCategory|
@@ -8,7 +27,6 @@ Transform /^IDs for "([^"]*)"$/ do |idCategory|
         "e9ca4497-e1e5-4fc4-ac7b-24badbad998b"] if idCategory == "Daybreak and Sunset"
     expectedIds = ["67ed9078-431a-465e-adf7-c720d08ef512",
         "bcfcc33f-f4a6-488f-baee-b92fbd062e8d",
-        "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b",
         "e9ca4497-e1e5-4fc4-ac7b-24badbad998b"] if idCategory == "Daybreak only"
     expectedIds
 end

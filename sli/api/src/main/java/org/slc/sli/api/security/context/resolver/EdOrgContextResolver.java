@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.security.context.resolver;
 
 import java.util.ArrayList;
@@ -26,9 +43,6 @@ public class EdOrgContextResolver implements EntityContextResolver {
     private AssociativeContextHelper helper;
 
     @Autowired
-    private EdOrgToChildEdOrgNodeFilter edOrgToChildEdOrgNodeFilter;
-
-    @Autowired
     private StaffEdOrgEdOrgIDNodeFilter staffEdOrgEdOrgIDNodeFilter;
 
     @Autowired
@@ -41,7 +55,7 @@ public class EdOrgContextResolver implements EntityContextResolver {
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        if (toEntityType.equals(EntityNames.LEARNINGOBJECTIVE) || toEntityType.equals(EntityNames.LEARNINGSTANDARD)) {
+        if (toEntityType.equals(EntityNames.LEARNING_OBJECTIVE) || toEntityType.equals(EntityNames.LEARNING_STANDARD)) {
             return false;
         }
         return ((fromEntityType != null) && fromEntityType.equals(EntityNames.STAFF));
@@ -49,7 +63,7 @@ public class EdOrgContextResolver implements EntityContextResolver {
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        if ((toEntity != null) && (toEntity.equals(EntityNames.LEARNINGOBJECTIVE) || toEntity.equals(EntityNames.LEARNINGSTANDARD))) {
+        if ((toEntity != null) && (toEntity.equals(EntityNames.LEARNING_OBJECTIVE) || toEntity.equals(EntityNames.LEARNING_STANDARD))) {
             return AllowAllEntityContextResolver.SUPER_LIST;
         }
 
@@ -65,9 +79,6 @@ public class EdOrgContextResolver implements EntityContextResolver {
                 "educationOrganizationReference", Arrays.asList(principal.getEntityId()),
                 Arrays.asList((NodeFilter)staffEdOrgEdOrgIDNodeFilter));
 
-        //apply the filters
-        //ids.addAll(staffEdOrgEdOrgIDNodeFilter.filterIds(ids));
-        ids.addAll(edOrgToChildEdOrgNodeFilter.addAssociatedIds(ids));
         //get the created edorgs
         ids.addAll(creatorResolverHelper.getAllowedForCreator(EntityNames.EDUCATION_ORGANIZATION));
 

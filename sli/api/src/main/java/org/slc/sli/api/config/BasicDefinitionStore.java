@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.config;
 
 import java.util.Collection;
@@ -113,8 +130,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         factory.makeEntity(EntityNames.AGGREGATION_DEFINITION, ResourceNames.AGGREGATION_DEFINITIONS).buildAndRegister(
                 this);
 
-        factory.makeEntity(EntityNames.LEARNINGOBJECTIVE, ResourceNames.LEARNINGOBJECTIVES).buildAndRegister(this);
-        factory.makeEntity(EntityNames.LEARNINGSTANDARD, ResourceNames.LEARNINGSTANDARDS).buildAndRegister(this);
+        factory.makeEntity(EntityNames.LEARNING_OBJECTIVE, ResourceNames.LEARNINGOBJECTIVES).buildAndRegister(this);
+        factory.makeEntity(EntityNames.LEARNING_STANDARD, ResourceNames.LEARNINGSTANDARDS).buildAndRegister(this);
         factory.makeEntity(EntityNames.GRADE, ResourceNames.GRADES).buildAndRegister(this);
         factory.makeEntity(EntityNames.STUDENT_COMPETENCY, ResourceNames.STUDENT_COMPETENCIES).buildAndRegister(this);
         factory.makeEntity(EntityNames.GRADING_PERIOD, ResourceNames.GRADING_PERIODS).buildAndRegister(this);
@@ -167,13 +184,6 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .calledFromTarget("getStaffEducationOrgAssignmentAssociations").build();
         addDefinition(staffEducationOrgAssignmentAssociation);
 
-        AssociationDefinition sectionAssessmentAssociation = factory.makeAssoc("sectionAssessmentAssociation", "sectionAssessmentAssociations")
-                .exposeAs(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS).storeAs("sectionAssessmentAssociation")
-                .from(section, "getSection", "getSections").to(assessment, "getAssessment", "getAssessments")
-                .calledFromSource("getSectionAssessmentAssociations")
-                .calledFromTarget("getSectionAssessmentAssociations").build();
-        addDefinition(sectionAssessmentAssociation);
-
         AssociationDefinition educationOrganizationAssociation = factory
                 .makeAssoc("educationOrganizationAssociation", "educationOrganizationAssociations")
                 .exposeAs("educationOrganization-associations")
@@ -184,13 +194,6 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                         "educationOrganizationChildId").calledFromSource("getEducationOrganizationAssociations")
                 .calledFromTarget("getEducationOrganizationAssociations").build();
         addDefinition(educationOrganizationAssociation);
-
-        AssociationDefinition schoolSessionAssociation = factory.makeAssoc("schoolSessionAssociation", "schoolSessionAssociations")
-                .exposeAs(ResourceNames.SCHOOL_SESSION_ASSOCIATIONS).storeAs("schoolSessionAssociation")
-                .from(school, "getSchool", "getSchools").to(session, "getSession", "getSessions")
-                .calledFromSource("getSchoolSessionAssociations").calledFromTarget("getSchoolSessionAssociations")
-                .build();
-        addDefinition(schoolSessionAssociation);
 
         AssociationDefinition courseOffering = factory.makeAssoc("courseOffering", "courseOfferings")
                 .exposeAs(ResourceNames.COURSE_OFFERINGS).storeAs("courseOffering")

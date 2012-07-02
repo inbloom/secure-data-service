@@ -142,7 +142,7 @@ And the search results include:
   |Rudolph Sennett  |1        |South Daybreak Elementary  |
   |Rudolph Krinsky  |12       |Daybreak Central High      |
 
- @integration @RALLY_US197 @RALLY_US200 @RALLY_US198 @RALLY_US147
+@integration @RALLY_US197 @RALLY_US200 @RALLY_US198 @RALLY_US147
  Scenario: Login with State Level IT Admin
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go

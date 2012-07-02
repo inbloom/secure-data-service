@@ -3,39 +3,53 @@
 <beans
     xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:cache="http://www.springframework.org/schema/cache"
 	xmlns:context="http://www.springframework.org/schema/context" 
-	xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
     xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:p="http://www.springframework.org/schema/p"
     xmlns:util="http://www.springframework.org/schema/util"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
-    	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
-		http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.1.xsd
-		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
-        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
+    	http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+    	http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd"
 >
-    <context:property-placeholder location="file:${sli.conf},${prop.location}" ignore-resource-not-found="true" />
+    <context:property-placeholder location="file:${sli.conf},${prop.location}" ignore-resource-not-found="true" system-properties-mode="FALLBACK" />
    
-    <ehcache:annotation-driven cache-manager="cacheManager" />
+    <bean id="systemProps" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+        <property name="targetObject" value="#{@systemProperties}"/>
+        <property name="targetMethod" value="putAll"/>
+        <property name="arguments">
+            <util:properties>
+                <prop key="net.sf.ehcache.disabled">${dashboard.cache.disable}</prop>
+            </util:properties>
+        </property>
+    </bean>
     
-    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean"/>
-
-
-<bean id="propertiesDecryptor" class="org.slc.sli.security.PropertiesDecryptor">
-    <constructor-arg name="keyStore" value="${sli.encryption.keyStore}" />
-    <constructor-arg name="clientSecret" value="${oauth.client.secret}" />
-    <constructor-arg name="clientId" value="${oauth.client.id}" />
-    <constructor-arg name="alias" value="${sli.encryption.dalKeyAlias}" />
-    <constructor-arg name="keyStorePassword" value="${sli.encryption.keyStorePass}" />
-    <constructor-arg name="aliasPassword" value="${sli.encryption.dalKeyPass}" />    
-</bean>
+    <cache:annotation-driven key-generator="userCacheKeyGenerator"/>
+    <bean id="userCacheKeyGenerator" class="org.slc.sli.util.UserCacheKeyGenerator" />
+    
+    <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:shared="true"/>
+    
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager">
+       <property name="cacheManager" ref="ehcache"/>
+    </bean>
+	
+	<bean id="propertiesDecryptor" class="org.slc.sli.security.PropertiesDecryptor">
+	    <constructor-arg name="keyStore" value="${sli.encryption.keyStore}" />
+	    <constructor-arg name="clientSecret" value="${oauth.client.secret}" />
+	    <constructor-arg name="clientId" value="${oauth.client.id}" />
+	    <constructor-arg name="alias" value="${sli.encryption.dalKeyAlias}" />
+	    <constructor-arg name="keyStorePassword" value="${sli.encryption.keyStorePass}" />
+	    <constructor-arg name="aliasPassword" value="${sli.encryption.dalKeyPass}" />    
+	</bean>
     
     <!-- managers -->
     <bean id="configManager" class="org.slc.sli.manager.impl.ConfigManagerImpl">
         <property name="driverConfigLocation" value="${panel.config.driver.dir}"/>
         <property name="userConfigLocation" value="${panel.config.custom.dir}"/>
         <property name="apiClient" ref="apiClientRef"/>
-        <property name="cacheManager" ref="cacheManager"/>
     </bean>
 
     <bean id="entityManager" class="org.slc.sli.manager.EntityManager">
@@ -44,12 +58,10 @@
     
     <bean id="userEdOrgManager"    class="org.slc.sli.manager.impl.UserEdOrgManagerImpl">
       <property name="apiClient" ref="apiClientRef"/>
-      <property name="cacheManager" ref="cacheManager"/>
     </bean>  
     
     <bean id="populationManager" class="org.slc.sli.manager.impl.PopulationManagerImpl">
         <property name="entityManager" ref="entityManager"/>
-        <property name="cacheManager" ref="cacheManager"/>
     </bean>
 
     <bean id="portalWSManager" class="org.slc.sli.manager.impl.PortalWSManagerImpl">
@@ -71,18 +83,29 @@
 	    <property name="securityUrl" value="${security.server.url}" />
 	    <property name="template" ref = "restTemplate" />
 	    <property name="templateWTimeout" ref="restTemplateWTimeout" />
-	    	
+    </bean>
+
+   <bean id= "basicClient" class="org.slc.sli.api.client.impl.BasicClient">
+        <constructor-arg index="0"> 
+            <bean class="java.net.URL">
+                <constructor-arg index="0" type="java.lang.String" value="${api.server.url}"/>
+            </bean>
+        </constructor-arg>
+        <constructor-arg index="1" type="java.lang.String" value="#{propertiesDecryptor.getDecryptedClientId()}"/>
+        <constructor-arg index="2" type="java.lang.String" value="#{propertiesDecryptor.getDecryptedClientSecret()}"/>
+        <constructor-arg index="3">
+            <bean class="java.net.URL">
+                <constructor-arg index="0" type="java.lang.String" value="${oauth.redirect}"/>
+            </bean>
+        </constructor-arg>
+   </bean>
+    
+    <bean id= "apiClient" class="org.slc.sli.client.SDKAPIClient">
+        <property name="sdkClient" ref="basicClient" />
+        <property name="gracePeriod" value="${sli.security.gracePeriod}" />
     </bean>
     
-    
-    
-	<bean id= "apiClient" class="org.slc.sli.client.LiveAPIClient">
-	    <property name="restClient" ref="restClient" />
-	    <property name="apiUrl" value="${api.server.url}" />
-	    <property name="gracePeriod" value="${sli.security.gracePeriod}" />
-	</bean>
-	
-	<alias alias="apiClientRef" name="${api.client}"/>
+    <alias alias="apiClientRef" name="${api.client}"/>
 
     <bean id="progressManager" class="org.slc.sli.manager.impl.StudentProgressManagerImpl">
         <property name="entityManager" ref="entityManager"/>
@@ -91,7 +114,5 @@
     <bean id="dataFactory" class="org.slc.sli.manager.component.impl.CustomizationAssemblyFactoryImpl">
         <property name="configManager" ref="configManager"/>
         <property name="userEdOrgManager" ref="userEdOrgManager"/>
-        <property name="cacheManager" ref="cacheManager"/>
-        <property name="useCache" value="${panel.data.use.cache:true}"/>
     </bean> 
 </beans>
