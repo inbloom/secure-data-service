@@ -468,6 +468,54 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             }
         });
     }
+    
+    /**
+     * Patches a given entity in a specific location or collection, which means that
+     * less than the full entity body is passed in the request and only passed keys are
+     * updated and the rest of the entity remains the same.
+     * 
+     * @param resourceName
+     *            where the entity should be located
+     * @param id
+     *            ID of object being patched
+     * @param newEntityBody
+     *            new map of keys/values for entity (partial set of key/values)
+     * @param headers
+     *            HTTP header information (which includes request headers)
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return resulting status from request
+     */
+    @Override
+    public Response patch(final String resourceName, final String id, final EntityBody newEntityBody, final HttpHeaders headers,
+            final UriInfo uriInfo) {
+        return handle(resourceName, entityDefs, uriInfo, new ResourceLogic() {
+            @Override
+            public Response run(EntityDefinition entityDef) {
+                
+                EntityBody copy = new EntityBody(newEntityBody);
+                copy.remove(ResourceConstants.LINKS);
+
+                entityDef.getService().patch(id, copy);
+
+                return Response.status(Status.NO_CONTENT).build();
+                
+                
+                
+//                List<EntityBody> finalResults = new ArrayList<EntityBody>();
+//                EntityBody blah = new EntityBody();
+//                blah.put("test", "Hello World");
+//                blah.put("id", id);
+//                
+//                finalResults.add(blah);
+//                
+//                long pagingHeaderTotalCount = 1;
+//                return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), finalResults.get(0))),
+//                        pagingHeaderTotalCount, uriInfo).build();
+            }
+        });
+        
+    }
 
     protected long count(final String collectionName) {
         return getTotalCount(entityDefs.lookupByResourceName(collectionName).getService(), null);
@@ -858,5 +906,28 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      */
     public Response update(final String id, final EntityBody newEntityBody, HttpHeaders headers, final UriInfo uriInfo) {
         return this.update(resourceName, id, newEntityBody, headers, uriInfo);
+    }
+    
+
+    /**
+     * Patches a given entity in a specific location or collection, which means that
+     * less than the full entity body is passed in the request and only passed keys are
+     * updated and the rest of the entity remains the same.
+     * 
+     * @param resourceName
+     *            where the entity should be located
+     * @param id
+     *            ID of object being patched
+     * @param newEntityBody
+     *            new map of keys/values for entity (partial set of key/values)
+     * @param headers
+     *            HTTP header information (which includes request headers)
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return Response with a NOT_CONTENT status code
+     * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
+     */
+    public Response patch(String id, EntityBody newEntityBody, HttpHeaders headers, UriInfo uriInfo) {
+        return this.patch(resourceName, id, newEntityBody, headers, uriInfo);
     }
 }
