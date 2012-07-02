@@ -22,7 +22,7 @@ import java.util.List;
 
 import javax.ws.rs.core.UriInfo;
 
-import org.slc.sli.api.client.constants.ResourceConstants;
+import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.domain.Entity;
