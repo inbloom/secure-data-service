@@ -14,7 +14,6 @@
 // limitations under the License.
 //
 
-
 db["assessment"].ensureIndex({"metaData.tenantId" : 1, "_id" : 1});
 db["attendance"].ensureIndex({"metaData.tenantId" : 1, "_id" : 1});
 db["calendarDate"].ensureIndex({"metaData.tenantId" : 1, "_id" : 1});
@@ -37,8 +36,6 @@ db["learningStandard"].ensureIndex({"metaData.tenantId" : 1, "_id" : 1});
 db["parent"].ensureIndex({"metaData.tenantId" : 1, "_id" : 1});
 db["program"].ensureIndex({"metaData.tenantId" : 1, "_id" : 1});
 db["reportCard"].ensureIndex({"metaData.tenantId" : 1, "_id" : 1});
-db["school"].ensureIndex({"metaData.tenantId" : 1, "_id" : 1});
-db["schoolSessionAssociation"].ensureIndex({"metaData.tenantId" : 1, "_id" : 1});
 db["section"].ensureIndex({"metaData.tenantId" : 1, "_id" : 1});
 db["sectionAssessmentAssociation"].ensureIndex({"metaData.tenantId" : 1, "_id" : 1});
 db["sectionSchoolAssociation"].ensureIndex({"metaData.tenantId" : 1, "_id" : 1});
@@ -61,6 +58,5 @@ db["studentSectionAssociation"].ensureIndex({"metaData.tenantId" : 1, "_id" : 1}
 db["studentSectionGradebookEntry"].ensureIndex({"metaData.tenantId" : 1, "_id" : 1});
 db["studentSchoolAssociation"].ensureIndex({"metaData.tenantId" : 1, "_id" : 1});
 db["studentTranscriptAssociation"].ensureIndex({"metaData.tenantId" : 1, "_id" : 1});
-db["teacher"].ensureIndex({"metaData.tenantId" : 1, "_id" : 1});
 db["teacherSchoolAssociation"].ensureIndex({"metaData.tenantId" : 1, "_id" : 1});
 db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId" : 1, "_id" : 1});
