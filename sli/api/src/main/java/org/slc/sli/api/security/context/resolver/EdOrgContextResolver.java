@@ -22,13 +22,14 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
-import org.slc.sli.api.client.constants.EntityNames;
-import org.slc.sli.api.security.context.AssociativeContextHelper;
-import org.slc.sli.api.security.context.traversal.cache.SecurityCachingStrategy;
-import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.api.security.context.traversal.cache.SecurityCachingStrategy;
 import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
+import org.slc.sli.domain.Entity;
 
 /**
  * Returns all Education Organization Ids a principal entity has access to
@@ -50,7 +51,7 @@ public class EdOrgContextResolver implements EntityContextResolver {
 
     @Autowired
     private ResolveCreatorsEntitiesHelper creatorResolverHelper;
-    
+
     private String toEntity;
 
     @Autowired
@@ -77,7 +78,7 @@ public class EdOrgContextResolver implements EntityContextResolver {
         //get the ed org ids
         List<String> ids = helper.findEntitiesContainingReference(EntityNames.STAFF_ED_ORG_ASSOCIATION, "staffReference",
                 "educationOrganizationReference", Arrays.asList(principal.getEntityId()),
-                Arrays.asList((NodeFilter)staffEdOrgEdOrgIDNodeFilter));
+                Arrays.asList((NodeFilter) staffEdOrgEdOrgIDNodeFilter));
 
         ids.addAll(edOrgToChildEdOrgNodeFilter.addAssociatedIds(ids));
         //get the created edorgs

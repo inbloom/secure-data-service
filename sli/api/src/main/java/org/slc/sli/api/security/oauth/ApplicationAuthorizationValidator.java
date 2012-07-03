@@ -22,7 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.slc.sli.api.client.constants.EntityNames;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
@@ -37,16 +37,16 @@ import org.springframework.stereotype.Component;
 /**
  * Determines which applications a given user is authorized to use based on
  * that user's ed-org.
- * 
+ *
  * @author pwolf
- * 
+ *
  */
 @Component
 public class ApplicationAuthorizationValidator {
-    
+
     @Autowired
     private Repository<Entity> repo;
-    
+
     @Autowired
     private ContextResolverStore contextResolverStore;
     
@@ -59,13 +59,13 @@ public class ApplicationAuthorizationValidator {
     
     /**
      * Get the list of authorized apps for the user based on the user's LEA.
-     * 
+     *
      * No additional filtering is done on the results. E.g. if a user is a non-admin,
      * the admin apps will still show up in the list, or if an app is disabled it will
      * still show up.
-     * 
+     *
      * @param principal
-     * 
+     *
      * @return list of app IDs, or null if it couldn't be determined
      */
     @SuppressWarnings("unchecked")
@@ -81,12 +81,12 @@ public class ApplicationAuthorizationValidator {
         
         for (Entity district : districts) {
             debug("User is in district " + district.getEntityId());
-            
+
             NeutralQuery query = new NeutralQuery();
             query.addCriteria(new NeutralCriteria("authId", "=", district.getBody().get("stateOrganizationId")));
             query.addCriteria(new NeutralCriteria("authType", "=", "EDUCATION_ORGANIZATION"));
             Entity authorizedApps = repo.findOne("applicationAuthorization", query);
-            
+
             if (authorizedApps != null) {
                 
                 NeutralQuery districtQuery = new NeutralQuery();
@@ -149,13 +149,13 @@ public class ApplicationAuthorizationValidator {
     private boolean isSandbox() {
         return autoRegister;
     }
-    
+
     /**
      * Looks up the user's LEA entity.
-     * 
+     *
      * Currently it returns a list of all LEAs the user might be associated with.
      * In the case there's a hierarchy of LEAs, all are returned in no particular order.
-     * 
+     *
      * @param principal
      * @return a list of accessible LEAs, or null if no entity data was found
      */
@@ -182,7 +182,7 @@ public class ApplicationAuthorizationValidator {
                     edOrgs.add(id);
                 }
             }
-            
+
             edOrgs.remove("-133"); //avoid querying bad mongo ID
 
             for (String id : edOrgs) {
@@ -196,10 +196,10 @@ public class ApplicationAuthorizationValidator {
                             toReturn.add(entity);
                         }
                     }
-                    
+
                 }
             }
-            
+
         } else {
             // DE260 - Logging of possibly sensitive data
             // LOGGER.warn("Skipping LEA lookup for {} because no entity data was found.",
@@ -214,5 +214,4 @@ public class ApplicationAuthorizationValidator {
         return toReturn;
     }
 
-    
 }

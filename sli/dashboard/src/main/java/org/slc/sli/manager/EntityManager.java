@@ -60,7 +60,7 @@ public class EntityManager extends ApiClientManager {
      * @param schoolIds
      *            - the school id list
      * @return schoolList
-     *         	  - the school entity list
+     *           - the school entity list
      */
     public List<GenericEntity> getSchools(final String token, List<String> schoolIds) {
         return getApiClient().getSchools(token, schoolIds);

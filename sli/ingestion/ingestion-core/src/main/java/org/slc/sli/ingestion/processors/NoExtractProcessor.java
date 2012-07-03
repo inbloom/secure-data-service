@@ -66,7 +66,7 @@ public class NoExtractProcessor implements Processor {
         exchange.getIn().setHeader("BatchJobId", batchJobId);
 
         NewBatchJob job = new NewBatchJob(batchJobId);
-        TenantContext.setTenantId( job.getTenantId());
+        TenantContext.setTenantId(job.getTenantId());
 
 
         job.setStatus(BatchJobStatusType.RUNNING.getName());

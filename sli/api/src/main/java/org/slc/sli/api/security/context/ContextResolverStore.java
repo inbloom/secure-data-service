@@ -17,20 +17,15 @@
 
 package org.slc.sli.api.security.context;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
+import org.slc.sli.api.security.context.resolver.DenyAllContextResolver;
+import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.api.security.context.resolver.DenyAllContextResolver;
-import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 
 /**
  * Stores context based permission resolvers.
@@ -50,7 +45,7 @@ public class ContextResolverStore implements ApplicationContextAware {
     }
     
     /**
-     * Locates a resolver that can naviage the security context path from source entity type to
+     * Locates a resolver that can navigate the security context path from source entity type to
      * target entity type
      * 
      * @param fromEntityType
@@ -73,7 +68,7 @@ public class ContextResolverStore implements ApplicationContextAware {
             warn("No path resolver defined for {} -> {}. Returning deny-all resolver.", fromEntityType, toEntityType);
         }
 
-        debug("From entity '{}' to endity '{}' using context resolver '{}'", fromEntityType, toEntityType, found.getClass().getName());
+        debug("From entity '{}' to entity '{}' using context resolver '{}'", fromEntityType, toEntityType, found.getClass().getName());
         return found;
     }
 }
