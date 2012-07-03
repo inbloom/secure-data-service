@@ -242,6 +242,14 @@ task :v1ValidationTests => [:realmInit] do
   runTests("test/features/apiV1/validation")
 end
 
+desc "Run V1 White List Validation Tests"
+task :v1WhiteListValidationTests => [:realmInit] do
+  runTests("test/features/apiV1/validation/whitelist_validation.feature")
+  setFixture("educationOrganization", "educationOrganization_fixture.json")
+  setFixture("staff", "staff_fixture.json")
+  setFixture("student", "student_fixture.json")
+end
+
 desc "Run Sorting and Paging Tests"
 task :v1SortingAndPagingTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
