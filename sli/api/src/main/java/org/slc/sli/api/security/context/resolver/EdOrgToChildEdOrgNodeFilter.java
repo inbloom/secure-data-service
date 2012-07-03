@@ -103,7 +103,7 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeAggregator {
         return myEdOrgsIds;
     }
     
-    private Set<String> fetchParents(Set<String> ids) {
+    public Set<String> fetchParents(Set<String> ids) {
         Set<String> returned = new HashSet<String>(ids);
         String toResolve = "";
         for (String id : ids) {

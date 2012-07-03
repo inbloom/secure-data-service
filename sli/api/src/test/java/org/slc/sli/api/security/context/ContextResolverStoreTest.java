@@ -17,14 +17,23 @@
 
 package org.slc.sli.api.security.context;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
 import org.slc.sli.api.security.context.resolver.DenyAllContextResolver;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
@@ -38,6 +47,39 @@ public class ContextResolverStoreTest {
 
     @Autowired
     private ContextResolverStore contextResolverStore;
+    
+    @Autowired
+    private ApplicationContext applicationContext;
+    
+    /**
+     * Ensures that there's only one resolver to resolve certain entities.
+     */
+    @Test
+    public void findAmbiguousResolvers() throws Exception {
+        List<String> entityNames = new ArrayList<String>();
+        Field[] fields = EntityNames.class.getDeclaredFields();
+        
+        for (Field f: fields) {
+            if (f.getType() == String.class && Modifier.isStatic(f.getModifiers())) {
+                entityNames.add((String) f.get(null));
+            }
+        }
+        
+        Collection<EntityContextResolver> resolvers =  applicationContext.getBeansOfType(EntityContextResolver.class).values();
+        for (String entityName1 : Arrays.asList(EntityNames.STAFF, EntityNames.TEACHER)) {
+            
+            for (String entityName2 : entityNames) {
+                List<EntityContextResolver> resolving = new ArrayList<EntityContextResolver>();
+                for (EntityContextResolver resolver : resolvers) {
+                    if (resolver.canResolve(entityName1, entityName2)) {
+                        resolving.add(resolver);
+                    }
+                }
+                Assert.assertTrue("Multiple resolvers resolve " + entityName1 + " to " + entityName2 + ": " + resolving, resolving.size() <= 1);
+            }
+            
+        }
+    }
 
     @Test
     public void testTeacherTeacherResolver() {

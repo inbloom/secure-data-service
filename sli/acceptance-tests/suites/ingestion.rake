@@ -224,6 +224,11 @@ task :ingestionComplexObjectArrayIdRefTest do
   runTests("test/features/ingestion/features/ingestion_complexObjectArrayIdResolution.feature")
 end
 
+desc "Run Sandbox Data Test"
+task :ingestionSandboxDataTest do
+  runTests("test/features/ingestion/features/ingestion_sandbox_data_test.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################

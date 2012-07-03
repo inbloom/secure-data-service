@@ -43,6 +43,9 @@ public class EdOrgContextResolver implements EntityContextResolver {
     private AssociativeContextHelper helper;
 
     @Autowired
+    private EdOrgToChildEdOrgNodeFilter edOrgToChildEdOrgNodeFilter;
+
+    @Autowired
     private StaffEdOrgEdOrgIDNodeFilter staffEdOrgEdOrgIDNodeFilter;
 
     @Autowired
@@ -76,6 +79,7 @@ public class EdOrgContextResolver implements EntityContextResolver {
                 "educationOrganizationReference", Arrays.asList(principal.getEntityId()),
                 Arrays.asList((NodeFilter)staffEdOrgEdOrgIDNodeFilter));
 
+        ids.addAll(edOrgToChildEdOrgNodeFilter.addAssociatedIds(ids));
         //get the created edorgs
         ids.addAll(creatorResolverHelper.getAllowedForCreator(EntityNames.EDUCATION_ORGANIZATION));
 

@@ -46,18 +46,7 @@ public class ContextResolverStore implements ApplicationContextAware {
     
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        resolvers = new ArrayList<EntityContextResolver>(applicationContext.getBeansOfType(EntityContextResolver.class).values());
-        
-        //If we don't sort, then it will become ambiguous which resolver will be used when two resolvers are valid 
-        Collections.sort((List<EntityContextResolver>) resolvers, new Comparator<EntityContextResolver>() {
-
-            @Override
-            public int compare(EntityContextResolver o1,
-                    EntityContextResolver o2) {
-                return o1.getClass().getName().compareTo(o2.getClass().getName());
-            }
-            
-        });
+        resolvers = applicationContext.getBeansOfType(EntityContextResolver.class).values();  
     }
     
     /**
