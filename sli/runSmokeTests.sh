@@ -4,6 +4,7 @@ wait_until_found() {
   filepath=$1
   pattern=$2
   timeout=30
+
   printf "  wait_until_found: pattern '$pattern' in file '$filepath' ...";
   count=0
   while [ $count -le $timeout ]
@@ -19,8 +20,14 @@ wait_until_found() {
     sleep 1s
     let count=count+1
   done
-  echo not found, aborting
-  exit 1
+
+  if [ $FAILHARD ]
+  then
+    echo not found, aborting
+    exit 1
+  else
+    echo not found, continuing without error
+  fi
 }
 
 DIR=`pwd`
