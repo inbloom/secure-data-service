@@ -40,15 +40,20 @@ end
 
 Then /^I only see "([^"]*)"$/ do |listContent|
   select = @driver.find_element(:id, @dropDownId)
+  #click the droplist first else there are issues seeing hidden elements
+  dropList = select.find_element(:tag_name, "a")
+  dropList.click
   all_options = select.find_elements(:class, "dropdown-menu").first.find_elements(:tag_name, "li")
   matchCondition = true
   # If any list item has a value that is not in the list - set flag to false
   all_options.each do |option|
-    if option.find_element(:tag_name, "a").attribute("text")  != listContent and 
-      option.find_element(:tag_name, "a").attribute("text") != "" then
+    if option.find_element(:tag_name, "a").text  != listContent and 
+      option.find_element(:tag_name, "a").text != "" then
       matchCondition = false
     end
   end
+  #unclick it
+  dropList.click
   assert(matchCondition, "list has more then required string(s) " + listContent)
 end
 
@@ -66,16 +71,21 @@ Then /^I see these values in the drop\-down: "([^"]*)"$/ do |listContent|
   puts "@dropDownId = " + @dropDownId
   desiredContentArray = listContent.split(";")
   select = @driver.find_element(:id, @dropDownId)
+  #click the droplist first else there are issues seeing hidden elements
+  dropList = select.find_element(:tag_name, "a")
+  dropList.click
   all_options = select.find_element(:class_name, "dropdown-menu").find_elements(:tag_name, "li")
   matchCondition = true
   selectContent = ""
   # If any list item has a value that is not in the list - set flag to false
   all_options.each do |option|
-    selectContent += option.find_element(:tag_name, "a").attribute("text") + ";"
+    selectContent += option.find_element(:tag_name, "a").text + ";"
     puts "selectContent = " + selectContent
   end
   selectContentArray = selectContent.split(";")
   result = (desiredContentArray | selectContentArray) - (desiredContentArray & selectContentArray)
+  #unclick it
+  dropList.click
   assert(result == [], "list content does not match required content: " + listContent)  
 end
 

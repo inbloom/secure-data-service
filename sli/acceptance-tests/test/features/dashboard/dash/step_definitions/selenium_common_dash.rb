@@ -140,7 +140,7 @@ end
 # TODO: add this paramteres (tableRef, by), also may want to add TR class
 def countTableRows()
   @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
-  tableRows = @driver.find_elements(:xpath, ".//tr[contains(@class,'ui-widget-content')]")
+  tableRows = @driver.find_elements(:css, "tr[class*='ui-widget-content']")
   puts "# of TR = " +  @driver.find_elements(:css, "tr").length.to_s + ", table rows = " + tableRows.length.to_s
   return tableRows.length
 end
@@ -152,8 +152,7 @@ def listContains(desiredContent)
   # Find all student names based on their class attribute
   
   los = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
-  studentNames = los.find_elements(:xpath,".//td[contains(@aria-describedby,'name.fullName')]")
-  
+  studentNames = los.find_elements(:css,"td[aria-describedby*='name.fullName']")
   puts "num of studs = "+ studentNames.length.to_s
   
   nonFoundItems = desiredContentArray.length

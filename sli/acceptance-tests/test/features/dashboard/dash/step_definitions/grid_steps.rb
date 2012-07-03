@@ -35,44 +35,44 @@ end
 # excludes the header of the grid
 def getGrid(panel)
   grid = @explicitWait.until{panel.find_element(:class,"ui-jqgrid-bdiv")}
-  all_trs = panel.find_elements(:xpath,".//tr[contains(@class,'ui-widget-content')]")
+  all_trs = panel.find_elements(:css, "tr[class*='ui-widget-content']")
   return all_trs
 end
 
 def getTdBasedOnAttribute(tr,attribute)
   assert(!tr.nil?, "Row is empty")
-  searchText = "td[contains(@aria-describedby,'" + attribute + "')]"
-  td = tr.find_element(:xpath, searchText)
+  searchText = "td[aria-describedby*='" + attribute + "']"
+  td = tr.find_element(:css, searchText)
   return td
 end
 
 def getTdsBasedOnAttribute(tr,attribute)
   assert(!tr.nil?, "Row is empty")
-  searchText = "td[contains(@aria-describedby,'" + attribute + "')]"
-  tds = tr.find_elements(:xpath, searchText)
+  searchText = "td[aria-describedby*='" + attribute + "']"
+  tds = tr.find_elements(:css, searchText)
   return tds
 end
 
 def getAttributeByName(tr, attribute, name)
   assert(!tr.nil?, "Row is empty")
-  searchText = "td[contains(@aria-describedby,'" + attribute + "')]"
-  td = tr.find_element(:xpath, searchText)
+  searchText = "td[aria-describedby*='" + attribute + "']"
+  td = tr.find_element(:css, searchText)
   return td.attribute(name)
 end
 
 def getAttribute(tr, attribute)
   assert(!tr.nil?, "Row is empty")
-  searchText = "td[contains(@aria-describedby,'" + attribute + "')]"
-  value = tr.find_element(:xpath, searchText)
+  searchText = "td[aria-describedby*='" + attribute + "']"
+  value = tr.find_element(:css, searchText)
   return value.text
 end
 
 def getAttributes(tr, attribute)
   assert(!tr.nil?, "Row is empty")
-  searchText = "td[contains(@aria-describedby,'" + attribute + "')]"
+  searchText = "td[aria-describedby*='" + attribute + "']"
   values = []
   i = 0
-  elements = tr.find_elements(:xpath, searchText)
+  elements = tr.find_elements(:css, searchText)
   elements.each do |element|
     if (element.text.length > 0)
       values[i] = element.text
@@ -148,8 +148,8 @@ end
 def sortColumn(columnName, columnType, isAscending, attributeToCompare = nil)
   hTable = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-htable")}
   returnedName = getColumnLookupName(columnName)
-  searchText = ".//div[contains(@id,'" + returnedName + "')]"
-  column = hTable.find_element(:xpath, searchText)
+  searchText = "div[id*='" + returnedName + "']"
+  column = hTable.find_element(:css, searchText)
 
   sorted = getColumnValues(columnName, columnType, attributeToCompare).sort
 

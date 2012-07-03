@@ -24,7 +24,7 @@ Given /^I look at the panel "([^"]*)"$/ do |panelName|
   overviewTab = @driver.find_element(:id, tabIndex)
   # contact info is in the first panel
   panel = getPanel("Overview", panelName)
-  contactSections = panel.find_elements(:xpath, ".//div[@class='tabular']/table/tbody")
+  contactSections = panel.find_elements(:css, "div.tabular>table>tbody")
   
   #right now we only have 3 sections  
   # 0 is phone, 1 is email, 2 is address, 3 parent name

@@ -82,12 +82,12 @@ end
 
 def getStudentsWithELLLozenge()
   studentTable = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
-  all_trs = studentTable.find_elements(:xpath,".//tr[contains(@class,'ui-widget')]")
+  all_trs = studentTable.find_elements(:css,"tr[class*='ui-widget']")
   students_with_lozenges = []
   i = 0
   all_trs.each do |tr|
-   fullName = tr.find_element(:xpath, "td[contains(@aria-describedby,'name.fullName')]")
-   programParticipation = tr.find_element(:xpath, "td[contains(@aria-describedby,'programParticipation') and title='ELL']")
+   fullName = tr.find_element(:css, "td[aria-describedby*='name.fullName']")
+   programParticipation = tr.find_element(:css, "td[aria-describedby*='programParticipation'][title='ELL']")
    if (programParticipation.length > 0)
     students_with_lozenges[i] = fullName
     i+=1

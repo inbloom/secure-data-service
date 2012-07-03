@@ -59,14 +59,18 @@ Then /^I should have a dropdown selector named "([^"]*)"$/ do |elem|
 end
 
 Then /^I should have a selectable view named "([^"]*)"$/ do |view_name|
-  options = @selector.find_element(:class, "dropdown-menu").find_elements(:tag_name, "li")
-  puts options.length
-  arr = []
-  options.each do |option|
-    link = option.find_element(:tag_name, "a").attribute("text")
-    arr << link
+  @selector = @explicitWait.until{@driver.find_element(:id, "viewSelectMenu")}
+  spans = get_all_elements
+  assert(spans.length > 0, "No views found")
+  found = false
+  spans.each do |span|
+    puts span
+    if (span.should include view_name)
+      found = true
+      break
+    end
   end
-  arr.should include view_name
+  assert(found, "View was not found")
 end
 
 Then /^I should only see one view named "([^"]*)"$/ do |view_name|

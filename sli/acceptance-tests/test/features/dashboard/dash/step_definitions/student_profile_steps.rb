@@ -29,7 +29,7 @@ When /^I view its student profile$/ do
   studentInfo = csiContent.find_element(:class, "studentInfo")
   table_cells = studentInfo.find_elements(:tag_name,"tr")
   @info = Hash.new
-  sName = csiContent.find_element(:xpath, ".//div[@class='colMain']/h1") 
+  sName = csiContent.find_element(:css, "div.colMain>h1") 
   
   @info["Name"] = sName.text
   puts sName.text
@@ -71,7 +71,7 @@ Then /^the lozenges include "([^"]*)"$/ do |lozenge|
   csiContent = @driver.find_element(:class, "csi")
   labelFound = false
   
-  all_lozenge = csiContent.find_elements(:xpath, ".//span[contains(@class,'lozenge-widget')]")
+  all_lozenge = csiContent.find_elements(:css, "span[class*='lozenge-widget']")
   all_lozenge.each do |lozengeElement|
     if lozengeElement.attribute("innerHTML").to_s.include?(lozenge)
       labelFound = true
@@ -92,7 +92,7 @@ end
 When /^the lozenges count is "([^"]*)"$/ do |lozengesCount|
   csiContent = @driver.find_element(:class, "csi")
 
-  all_lozenges = csiContent.find_elements(:xpath, ".//span[contains(@class,'lozenge-widget')]")
+  all_lozenges = csiContent.find_elements(:css, "span[class*='lozenge-widget']")
 
   assert(lozengesCount.to_i == all_lozenges.length, "Actual lozenges count is:" + all_lozenges.length.to_s)
 end
