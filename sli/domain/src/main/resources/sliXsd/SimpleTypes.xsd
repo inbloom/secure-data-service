@@ -3856,4 +3856,15 @@
 		</xs:restriction>
 	</xs:simpleType>
 
+    <xs:simpleType name="agencyHierarchyType">
+        <xs:annotation>
+            <xs:documentation>An optional hierarchical name for the Ed Org
+                using '.' separators.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:pattern value= ".*[^\.]" />
+        </xs:restriction>
+    </xs:simpleType>
+
 </xs:schema>
