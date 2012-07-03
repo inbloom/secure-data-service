@@ -41,7 +41,7 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import org.slc.sli.api.client.constants.ResourceConstants;
+import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 
