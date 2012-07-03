@@ -6,11 +6,15 @@ import openadk.library.ADK;
 import openadk.library.ADKException;
 import openadk.library.ADKFlags;
 import openadk.library.Agent;
+import openadk.library.AgentMessagingMode;
+import openadk.library.AgentProperties;
 import openadk.library.SIFVersion;
 import openadk.library.Zone;
 import openadk.library.student.StudentDTD;
 import openadk.library.tools.cfg.AgentConfig;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -18,21 +22,32 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.sif.subscriber.SifSubscriber;
 
 @Component
-public class SifAgent extends Agent {
+public class SIFAgent extends Agent {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SIFAgent.class);
+
 
     AgentConfig fCfg;
 
     @Value("classpath:/sif/agent-config.xml")
     Resource configFile;
 
-    public SifAgent() {
-        super("SifAgent");
-        setName("SIF Agent");
+    public SIFAgent() {
+        this("SIFAgent");
+    }
+
+    public SIFAgent(String id){
+        super(id);
+        setName(id);
     }
 
     public void startAgent() throws Exception {
 
         File file = configFile.getFile();
+        String configPath = file.getAbsolutePath();
+
+        LOG.info("Using config file: " + configPath);
+
         // Read the configuration file
         fCfg = new AgentConfig();
         fCfg.read(file.getAbsolutePath(), false);
@@ -44,6 +59,7 @@ public class SifAgent extends Agent {
         // Inform the ADK of the version of SIF specified in the sifVersion=
         // attribute of the <agent> element
         SIFVersion version = fCfg.getVersion();
+        LOG.info("Using SIF version: " + version);
         ADK.setVersion(version);
 
         // initialize once the configuration file has been read
@@ -59,15 +75,76 @@ public class SifAgent extends Agent {
             try {
                 // Connect to this zone
 
-                System.out.println("- Connecting to zone \"" + zone.getZoneId() + "\" at " + zone.getZoneUrl());
+                LOG.info("- Connecting to zone \"" + zone.getZoneId() + "\" at " + zone.getZoneUrl());
 
                 zone.setSubscriber(new SifSubscriber(), StudentDTD.SCHOOLINFO);
                 zone.connect(ADKFlags.PROV_REGISTER);
 
             } catch (ADKException ex) {
-                System.out.println("  " + ex.getMessage());
+                LOG.error("  " + ex.getMessage(), ex);
             }
         }
     }
 
+    public Zone addZone(String id, String url) throws ADKException {
+        Zone zone = getZoneFactory().getInstance(id, url);
+
+        AgentProperties zoneProps = zone.getProperties();
+        zoneProps.setMessagingMode(AgentMessagingMode.PUSH);
+        zoneProps.setEncryptionLevel(3);
+        zoneProps.setAuthenticationLevel(3);
+
+        zone.connect(ADKFlags.PROV_REGISTER);
+
+        return zone;
+    }
+
 }
+
+//
+// public class SIFAgent extends Agent {
+//
+// // TODO move this configuration to spring
+// private static Map<String, String> zoneIdentifierMap = new HashMap<String, String>();
+// static {
+// zoneIdentifierMap.put("DistrictZone", "http://localhost:1337/DistrictZone");
+// zoneIdentifierMap.put("SchoolZone", "http://localhost:1337/SchoolZone");
+// }
+//
+// public SIFAgent() {
+// this("default");
+// }
+//
+// public SIFAgent(String agentId) {
+// super(agentId);
+// }
+//
+// public void initialize() throws Exception {
+// super.initialize();
+// // Set default properties
+// AgentProperties props = getProperties();
+// props.setMessagingMode( AgentMessagingMode.PUSH );
+//
+// // Set transport protocol properties
+// // TODO
+//
+// for (Entry<String, String> entry : zoneIdentifierMap.entrySet()) {
+// String id = entry.getKey();
+// String url = entry.getValue();
+// addZone(id, url);
+// }
+// }
+//
+// public Zone addZone(String id, String url) throws ADKException {
+// Zone zone = getZoneFactory().getInstance(id, url);
+//
+// AgentProperties zoneProps = zone.getProperties();
+// zoneProps.setMessagingMode(AgentMessagingMode.PUSH);
+// zoneProps.setEncryptionLevel(3);
+// zoneProps.setAuthenticationLevel(3);
+//
+// zone.connect(ADKFlags.PROV_REGISTER);
+//
+// return zone;
+// }
+// }
