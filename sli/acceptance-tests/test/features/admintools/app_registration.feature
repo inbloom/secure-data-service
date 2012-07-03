@@ -82,6 +82,19 @@ And I have edited the field named "Description" to say ""
 When I clicked Save
 Then I should get 1 error
 
+Scenario: Vendor edits denied application incorrectly for optional url fields
+
+Given I am a valid SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
+When I hit the Application Registration Tool URL
+And I was redirected to the "Simple" IDP Login page
+And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
+Then I am redirected to the Application Registration Tool page
+And I clicked on the button Edit for the application "NewApp"
+And I have edited the field named "Image URL" to say "burp.com"
+And I have edited the field named "Administration URL" to say "burp.com"
+When I clicked Save
+Then I should get 2 errors
+
 Scenario: Vendor edits denied application
 
 Given I am a valid SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
