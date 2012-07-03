@@ -30,6 +30,7 @@ import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.MediumOfInstructionType;
 import org.slc.sli.test.edfi.entities.PopulationServedType;
+import org.slc.sli.test.edfi.entities.Ref;
 import org.slc.sli.test.edfi.entities.Section;
 import org.slc.sli.test.edfi.entities.SectionIdentityType;
 import org.slc.sli.test.edfi.entities.SectionReferenceType;
@@ -90,17 +91,20 @@ public class SectionGenerator {
          section.setSchoolReference(schoolRef);
 
          // construct and add the course reference
-         CourseOfferingIdentityType courseOfferingIdentity = new CourseOfferingIdentityType();
-         courseOfferingIdentity.setLocalCourseCode(courseId);
-         CourseCode courseCode = new CourseCode();
-         courseCode.setID(courseId);
-         courseCode.setIdentificationSystem(CourseCodeSystemType.CSSC_COURSE_CODE);
-         courseOfferingIdentity.getCourseCode().add(courseCode);
-         courseOfferingIdentity.setTerm(TermType.SPRING_SEMESTER);
-         courseOfferingIdentity.setSchoolYear("2011-2012");
+//         CourseOfferingIdentityType courseOfferingIdentity = new CourseOfferingIdentityType();
+//         courseOfferingIdentity.setLocalCourseCode(courseId);
+//         CourseCode courseCode = new CourseCode();
+//         courseCode.setID(courseId);
+//         courseCode.setIdentificationSystem(CourseCodeSystemType.CSSC_COURSE_CODE);
+//         courseOfferingIdentity.getCourseCode().add(courseCode);
+//         courseOfferingIdentity.setTerm(TermType.SPRING_SEMESTER);
+//         courseOfferingIdentity.setSchoolYear("2011-2012");
 
          CourseOfferingReferenceType courseRef = new CourseOfferingReferenceType();
-         courseRef.setCourseOfferingIdentity(courseOfferingIdentity);
+//         courseRef.setCourseOfferingIdentity(courseOfferingIdentity);
+
+         Ref ref = new Ref(courseId);
+         courseRef.setRef(ref);
 
          section.setCourseOfferingReference(courseRef);
 

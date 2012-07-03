@@ -26,16 +26,16 @@ public class SectionMeta {
 
     public final String simpleId;
 
-    public SectionMeta(String id, SchoolMeta schoolMeta, CourseMeta courseMeta, SessionMeta sessionMeta,
+    public SectionMeta(String id, SchoolMeta schoolMeta, CourseOfferingMeta courseOfferingMeta, SessionMeta sessionMeta,
                        ProgramMeta programMeta) {
 
         String schoolIdNoAlpha = schoolMeta.id.replaceAll("[a-z]", "");
-        String sessionIdNoAlpha = courseMeta.simpleId.replaceAll("[a-z]", "");
-        String courseIdNoAlpha = sessionMeta.simpleId.replaceAll("[a-z]", "");
+        String sessionIdNoAlpha = sessionMeta.simpleId.replaceAll("[a-z]", "");
+        String courseIdNoAlpha = courseOfferingMeta.simpleId.replaceAll("[a-z]", "");
 
         this.id = schoolIdNoAlpha + "-" + sessionIdNoAlpha + "-" + courseIdNoAlpha + "-" + id;
         this.schoolId = schoolMeta.id;
-        this.courseId = courseMeta.id;
+        this.courseId = courseOfferingMeta.id;
         this.sessionId = sessionMeta.id;
         this.programId = programMeta == null ? null : programMeta.id;
 

@@ -29,6 +29,7 @@ import org.slc.sli.test.edfi.entities.meta.CourseOfferingMeta;
 public class CourseOfferingGenerator {
     public static CourseOffering generate(CourseOfferingMeta courseOfferingMeta) {
         CourseOffering courseOffering = new CourseOffering();
+        courseOffering.setId(courseOfferingMeta.id);
         courseOffering.setLocalCourseCode(courseOfferingMeta.id);
 
         courseOffering.setLocalCourseTitle(courseOfferingMeta.id + "-title");
