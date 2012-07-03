@@ -3,6 +3,10 @@ package org.slc.sli.sif.agent;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
+import openadk.library.ADK;
+import openadk.library.ADKException;
+import openadk.library.ADKFlags;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,10 +17,16 @@ public class AgentManager {
     SifAgent agent;
 
     @PostConstruct
-    public void setup(){
+    public void setup() throws Exception {
+
+        ADK.initialize();
+        ADK.debug = ADK.DBG_ALL;
+
+        agent.startAgent();
     }
 
     @PreDestroy
-    public void cleanup(){
+    public void cleanup() throws ADKException {
+        agent.shutdown( ADKFlags.PROV_NONE );
     }
 }
