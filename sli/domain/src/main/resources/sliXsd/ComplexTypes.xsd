@@ -4543,6 +4543,9 @@
 						using '.' separators.
 					</xs:documentation>
 				</xs:annotation>
+                <xs:restriction base="xs:string">
+                    <xs:pattern value= "(.*[^\.]+)?" />
+                </xs:restriction>
 			</xs:element>
 			<xs:element name="parentEducationAgencyReference" type="reference"
 				minOccurs="0">
