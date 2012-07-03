@@ -36,9 +36,9 @@ Given /^I have an open web browser$/ do
   @profile['network.http.prompt-temp-redirect'] = false
 
   # if osx, use firefox background script
-  if Selenium::WebDriver::Firefox::Binary.path['/Applications/Firefox.app'] != nil
-    Selenium::WebDriver::Firefox::Binary.path = 'test/features/utils/firefox_in_background.sh'
-  end
+  #if Selenium::WebDriver::Firefox::Binary.path['/Applications/Firefox.app'] != nil
+  #  Selenium::WebDriver::Firefox::Binary.path = 'test/features/utils/firefox_in_background.sh'
+  #end
 
   @driver ||= Selenium::WebDriver.for :firefox, :profile => @profile
   reset_timeouts_to_default
@@ -87,7 +87,7 @@ When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page
 
 end
 
-After do |scenario|
+After do |scenario| 
   #puts "Running the After hook for Scenario: #{scenario}"s
   @driver.quit if @driver
 end
@@ -95,9 +95,9 @@ end
 AfterStep('@pause') do
   # Debug function only:
   # To enable, tag your feature/scenario/step with @pause and hit enter to step through the selenium test
-  print "Press Return to continue..."
-  STDIN.getc
-end
+  print "Press Return to continue..." 
+  STDIN.getc  
+end 
 
 AfterStep do |scenario|
 	@count ||= 0
