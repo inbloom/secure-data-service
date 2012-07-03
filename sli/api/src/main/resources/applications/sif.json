@@ -1,0 +1,23 @@
+{
+   "name": "${bootstrap.app.sif.name}",
+   "description":"${bootstrap.app.sif.description}",
+   "version":"${bootstrap.app.sif.version}",
+   "bootstrap": true,
+   "image_url":"${bootstrap.app.sif.url}/static/images/sif_icon.jpg",
+   "administration_url":"${bootstrap.app.sif.url}/service/config",
+   "application_url":"${bootstrap.app.sif.url}",
+   "client_secret":"${bootstrap.app.sif.client_secret}",
+   "client_id":"${bootstrap.app.sif.client_id}",
+   "created_by":"slcdeveloper",
+   "registration":{
+      "status":"APPROVED",
+      "request_date": 1330521193111,
+      "approval_date": 1330521193111
+   },
+   "redirect_uri":"${bootstrap.app.sif.url}/",
+   "is_admin":false,
+   "installed":false,
+   "behavior":"Full Window App",
+   "vendor":"${bootstrap.app.vendor}"
+}
+
