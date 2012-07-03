@@ -1845,12 +1845,6 @@
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentAttendance/AttendanceEvent">
     <jb:expression property="recordType">'attendance'</jb:expression>
     <jb:wiring property="attributes" beanIdRef="attendanceEventAttributes" />
-    <jb:wiring property="localParentIds" beanIdRef="studentAttendanceIntegrityCheck" />
-  </jb:bean>
-
-  <jb:bean beanId="studentAttendanceIntegrityCheck" class="java.util.HashMap" createOnElement="InterchangeStudentAttendance/AttendanceEvent">
-    <jb:value property="Student" data="AttendanceEvent/StudentReference/StudentIdentity/StudentUniqueStateId" />
-    <jb:value property="School" data="AttendanceEvent/SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
   </jb:bean>
 
   <jb:bean beanId="attendanceEventAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentAttendance/AttendanceEvent">
