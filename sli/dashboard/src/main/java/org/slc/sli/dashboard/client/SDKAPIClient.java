@@ -57,7 +57,7 @@ public class SDKAPIClient implements APIClient {
     private static final Logger LOGGER = LoggerFactory.getLogger(SDKAPIClient.class);
 
     private SLIClient sdkClient;
-    //private String gracePeriod;
+    private String gracePeriod;
 
 
     /**
@@ -102,9 +102,9 @@ public class SDKAPIClient implements APIClient {
      *
      * @param gracePeriod
      */
-//    public void setGracePeriod(String gracePeriod) {
-//        this.gracePeriod = gracePeriod;
-//    }
+    public void setGracePeriod(String gracePeriod) {
+        this.gracePeriod = gracePeriod;
+    }
 
     /**
      * Get the SLI configured grace period for historical access
@@ -112,9 +112,9 @@ public class SDKAPIClient implements APIClient {
      * @return
      */
 //    @Override
-//    public String getGracePeriod() {
-//        return this.gracePeriod;
-//    }
+    public String getGracePeriod() {
+        return this.gracePeriod;
+    }
 
     /**
      * Get a resource entity of a specified type which is identified by id and enriched using
@@ -588,8 +588,7 @@ public class SDKAPIClient implements APIClient {
 
             enrichSectionsWithSessionDetails(token, sections);
 
-            //sections = filterCurrentSections(sections, true);
-            sections = filterCurrentSections(sections, false);
+            sections = filterCurrentSections(sections, true);
 
         } else {
             String teacherId = getId(token);
@@ -1245,17 +1244,17 @@ public class SDKAPIClient implements APIClient {
         if (sections != null && sections.size() > 0) {
 
             // Setup grace period date
-//            Calendar gracePeriodCalendar = Calendar.getInstance();
-//            gracePeriodCalendar.setTimeInMillis(System.currentTimeMillis());
+            Calendar gracePeriodCalendar = Calendar.getInstance();
+            gracePeriodCalendar.setTimeInMillis(System.currentTimeMillis());
 
-//            try {
-//                if (gracePeriod != null && !gracePeriod.equals("")) {
-//                    int daysToSubtract = Integer.parseInt(gracePeriod) * -1;
-//                    gracePeriodCalendar.add(Calendar.DATE, daysToSubtract);
-//                }
-//            } catch (NumberFormatException exception) {
-//                LOGGER.warn("Invalid grace period: {}", exception.getMessage());
-//            }
+            try {
+                if (gracePeriod != null && !gracePeriod.equals("")) {
+                    int daysToSubtract = Integer.parseInt(gracePeriod) * -1;
+                    gracePeriodCalendar.add(Calendar.DATE, daysToSubtract);
+                }
+            } catch (NumberFormatException exception) {
+                LOGGER.warn("Invalid grace period: {}", exception.getMessage());
+            }
 
             for (GenericEntity section : sections) {
 
@@ -1278,9 +1277,9 @@ public class SDKAPIClient implements APIClient {
 
                             // Add filtered section if grace period adjusted date is before
                             // or equal to session end date
-//                            if (gracePeriodCalendar.compareTo(sessionEndCalendar) <= 0) {
-//                                filteredSections.add(section);
-//                            }
+                            if (gracePeriodCalendar.compareTo(sessionEndCalendar) <= 0) {
+                                filteredSections.add(section);
+                            }
 
                         } catch (IllegalArgumentException exception) {
                             LOGGER.warn("Invalid session date formatter configuration: {}", exception.getMessage());
