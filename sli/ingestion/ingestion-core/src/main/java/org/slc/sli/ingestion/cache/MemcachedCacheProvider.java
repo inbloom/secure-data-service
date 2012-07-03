@@ -33,7 +33,7 @@ import org.slf4j.LoggerFactory;
 
 public class MemcachedCacheProvider implements CacheProvider {
 
-    private final static Logger LOG = LoggerFactory.getLogger(MemcachedCacheProvider.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MemcachedCacheProvider.class);
 
     private MemcachedClient client;
 

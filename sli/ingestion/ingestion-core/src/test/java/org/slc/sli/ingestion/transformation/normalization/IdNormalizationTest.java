@@ -68,7 +68,7 @@ public class IdNormalizationTest {
         complexFieldNames.add("ID");
         complexFieldNames.add("identificationSystem");
         complexFieldNames.add("assigningOrganizationCode");
-        
+
         ComplexRefDef ref = new ComplexRefDef();
         ref.setFieldPath(fieldPath);
         ref.setCollectionName(collectionName);
@@ -78,51 +78,51 @@ public class IdNormalizationTest {
         DummyErrorReport errorReport = new DummyErrorReport();
         IdNormalizer idNorm = new IdNormalizer();
         Repository<Entity> repo = Mockito.mock(Repository.class);
-        
+
         //set input entity
-        Entity entity = getTestComplexRefEntity(1, false);        
+        Entity entity = getTestComplexRefEntity(1, false);
         //set expected entity
         Entity expectedRecord = Mockito.mock(Entity.class);
         Mockito.when(expectedRecord.getEntityId()).thenReturn("123");
-        Mockito.when(expectedRecord.getType()).thenReturn(collectionName);        
+        Mockito.when(expectedRecord.getType()).thenReturn(collectionName);
         //set repository
         Mockito.when(
                 repo.findByQuery(Mockito.eq(collectionName), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0)))
                 .thenReturn(Arrays.asList(expectedRecord));
-        
+
         idNorm.setEntityRepository(repo);
-        idNorm.resolveReferenceWithComplexArray(entity, "someNamespace", 
+        idNorm.resolveReferenceWithComplexArray(entity, "someNamespace",
                 ref.getValueSource(), ref.getFieldPath(), ref.getCollectionName(),
                 ref.getPath(), ref.getComplexFieldNames(), errorReport);
-        
-        String foundValue = (String)PropertyUtils.getProperty(entity, fieldPath);
+
+        String foundValue = (String) PropertyUtils.getProperty(entity, fieldPath);
         Assert.assertEquals("123", foundValue);
-        
+
         //set input entity
-        entity = getTestComplexRefEntity(3, true);        
+        entity = getTestComplexRefEntity(3, true);
         //set expected entity
         expectedRecord = Mockito.mock(Entity.class);
         Mockito.when(expectedRecord.getEntityId()).thenReturn("125");
-        Mockito.when(expectedRecord.getType()).thenReturn(collectionName);        
+        Mockito.when(expectedRecord.getType()).thenReturn(collectionName);
         //set repository
         Mockito.when(
                 repo.findByQuery(Mockito.eq(collectionName), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0)))
                 .thenReturn(Arrays.asList(expectedRecord));
-        
+
         idNorm.setEntityRepository(repo);
-        idNorm.resolveReferenceWithComplexArray(entity, "someNamespace", 
+        idNorm.resolveReferenceWithComplexArray(entity, "someNamespace",
                 ref.getValueSource(), ref.getFieldPath(), ref.getCollectionName(),
                 ref.getPath(), ref.getComplexFieldNames(), errorReport);
-        
-        foundValue = (String)PropertyUtils.getProperty(entity, fieldPath);
+
+        foundValue = (String) PropertyUtils.getProperty(entity, fieldPath);
         Assert.assertEquals("125", foundValue);
-        
+
         //set input entity
-        entity = getTestComplexRefEntity(2, false);        
+        entity = getTestComplexRefEntity(2, false);
         //set expected entity
         Entity expectedRecord1 = Mockito.mock(Entity.class);
         Mockito.when(expectedRecord1.getEntityId()).thenReturn("123");
-        Mockito.when(expectedRecord1.getType()).thenReturn(collectionName);        
+        Mockito.when(expectedRecord1.getType()).thenReturn(collectionName);
         Entity expectedRecord2 = Mockito.mock(Entity.class);
         Mockito.when(expectedRecord2.getEntityId()).thenReturn("124");
         Mockito.when(expectedRecord2.getType()).thenReturn(collectionName);
@@ -133,16 +133,16 @@ public class IdNormalizationTest {
         Mockito.when(
                 repo.findByQuery(Mockito.eq(collectionName), Mockito.any(Query.class), Mockito.eq(0), Mockito.eq(0)))
                 .thenReturn(Arrays.asList(expectedRecords));
-        
+
         idNorm.setEntityRepository(repo);
-        idNorm.resolveReferenceWithComplexArray(entity, "someNamespace", 
+        idNorm.resolveReferenceWithComplexArray(entity, "someNamespace",
                 ref.getValueSource(), ref.getFieldPath(), ref.getCollectionName(),
                 ref.getPath(), ref.getComplexFieldNames(), errorReport);
-        
-        foundValue = (String)PropertyUtils.getProperty(entity, fieldPath);
+
+        foundValue = (String) PropertyUtils.getProperty(entity, fieldPath);
         Assert.assertNull(foundValue);
     }
-    
+
     @SuppressWarnings({ "unchecked", "deprecation" })
     @Test
     public void testRefResolution() {
@@ -643,32 +643,37 @@ public class IdNormalizationTest {
 
         return entity;
     }
-    
+
     private Entity getTestComplexRefEntity(int recordNum, boolean assigningOrganizationCodeUsed) {
         Map<String, Object> firstRef = new HashMap<String, Object>();
         firstRef.put("ID", "id_123");
         firstRef.put("identificationSystem", "identificationSystem_123");
-        if (assigningOrganizationCodeUsed)
+        if (assigningOrganizationCodeUsed) {
             firstRef.put("assigningOrganizationCode", "assigningOrganizationCode_123");
+        }
         Map<String, Object> secondRef = new HashMap<String, Object>();
         secondRef.put("ID", "id_124");
         secondRef.put("identificationSystem", "identificationSystem_124");
-        if (assigningOrganizationCodeUsed)
+        if (assigningOrganizationCodeUsed) {
             secondRef.put("assigningOrganizationCode", "assigningOrganizationCode_124");
+        }
         //Added one more duplicate reference to test fix to DE564
         Map<String, Object> thirdRef = new HashMap<String, Object>();
         thirdRef.put("ID", "id_125");
         thirdRef.put("identificationSystem", "identificationSystem_125");
-        if (assigningOrganizationCodeUsed)
+        if (assigningOrganizationCodeUsed) {
             thirdRef.put("assigningOrganizationCode", "assigningOrganizationCode_125");
+        }
 
         List<Object> courseCodes = new ArrayList<Object>();
         courseCodes.add(firstRef);
-        if (recordNum>=2) 
+        if (recordNum >= 2) {
             courseCodes.add(secondRef);
-        if (recordNum>=3) 
+        }
+        if (recordNum >= 3) {
             courseCodes.add(thirdRef);
-        
+        }
+
         Map<String, Object> attributes = new HashMap<String, Object>();
         attributes.put("courseCode", courseCodes);
 

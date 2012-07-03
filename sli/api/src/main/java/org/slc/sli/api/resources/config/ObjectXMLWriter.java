@@ -32,8 +32,9 @@ import javax.ws.rs.ext.Provider;
 import com.fasterxml.jackson.xml.XmlMapper;
 
 import org.codehaus.jackson.map.SerializationConfig;
-import org.slc.sli.api.resources.v1.HypermediaType;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.resources.v1.HypermediaType;
 
 
 /**
@@ -44,7 +45,7 @@ import org.springframework.stereotype.Component;
 @SuppressWarnings("rawtypes")
 @Provider
 @Component
-@Produces({ MediaType.APPLICATION_XML+";charset=utf-8", HypermediaType.VENDOR_SLC_XML+";charset=utf-8" })
+@Produces({ MediaType.APPLICATION_XML + ";charset=utf-8", HypermediaType.VENDOR_SLC_XML + ";charset=utf-8" })
 public class ObjectXMLWriter implements MessageBodyWriter {
 
     @Override

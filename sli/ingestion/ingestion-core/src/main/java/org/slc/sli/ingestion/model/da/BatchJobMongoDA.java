@@ -93,13 +93,13 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
     @Override
     public void saveError(Error error) {
-        if (error != null && "true".equals(trackIngestionErrors) && 
-                ERROR.equalsIgnoreCase(error.getSeverity())) {
+        if (error != null && "true".equals(trackIngestionErrors)
+                && ERROR.equalsIgnoreCase(error.getSeverity())) {
             batchJobMongoTemplate.save(error);
         }
 
-        if (error != null && "true".equals(trackIngestionWarnings) && 
-                WARNING.equalsIgnoreCase(error.getSeverity())) {
+        if (error != null && "true".equals(trackIngestionWarnings)
+                && WARNING.equalsIgnoreCase(error.getSeverity())) {
             batchJobMongoTemplate.save(error);
         }
     }
