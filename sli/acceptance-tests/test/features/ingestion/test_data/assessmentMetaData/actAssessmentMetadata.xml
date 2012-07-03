@@ -207,7 +207,7 @@
             <LearningObjectiveReference>
                 <LearningObjectiveIdentity>
                     <LearningObjectiveId>
-                        <IdentificationCode>RI-11-12</IdentificationCode>
+                        <IdentificationCode>D69C12DADF1743e3AB4E645BB71679EA</IdentificationCode>
                     </LearningObjectiveId>
                 </LearningObjectiveIdentity>
             </LearningObjectiveReference>
@@ -218,18 +218,18 @@
         <ObjectiveAssessment id="ACTReadingSocialStudies">
                 <IdentificationCode>ACT-Reading-SocialStudies</IdentificationCode>
                 <LearningObjectiveReference>
-                        <LearningObjectiveIdentity>
-                                <Objective>Reading: Informational Text</Objective>
-                        </LearningObjectiveIdentity>
+                  <LearningObjectiveId>
+                    <IdentificationCode>D69C12DADF1743e3AB4E645BB71679EA</IdentificationCode>
+                  </LearningObjectiveId>
                 </LearningObjectiveReference>
         </ObjectiveAssessment>
 
         <ObjectiveAssessment id="ACTReadingArts">
                 <IdentificationCode>ACT-Reading-Arts</IdentificationCode>
                 <LearningObjectiveReference>
-                        <LearningObjectiveIdentity>
-                                <Objective>Reading: Informational Text</Objective>
-                        </LearningObjectiveIdentity>
+                  <LearningObjectiveId>
+                    <IdentificationCode>D69C12DADF1743e3AB4E645BB71679EA</IdentificationCode>
+                  </LearningObjectiveId>
                 </LearningObjectiveReference>
         </ObjectiveAssessment>
 

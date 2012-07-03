@@ -46,6 +46,7 @@
             <constructor-arg>
               <list>
                 <value>${smooks.targetselector.xml.section}</value>
+                <value>${smooks.targetselector.xml.courseOffering}</value>
               </list>
             </constructor-arg>
           </bean>

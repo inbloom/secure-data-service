@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.transformation.assessment;
 
 import java.util.ArrayList;
@@ -26,10 +43,12 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(AssessmentCombiner.class);
     
     private Map<Object, NeutralRecord> assessments;
+    private List<NeutralRecord> transformedAssessments;
     
     private static final String ASSESSMENT = "assessment";
     private static final String ASSESSMENT_FAMILY = "assessmentFamily";
     private static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
+    private static final String ASSESSMENT_TRANSFORMED = "assessment_transformed";
     
     @Autowired
     private ObjectiveAssessmentBuilder builder;
@@ -39,6 +58,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
      */
     public AssessmentCombiner() {
         assessments = new HashMap<Object, NeutralRecord>();
+        transformedAssessments = new ArrayList<NeutralRecord>();
     }
     
     /**
@@ -49,6 +69,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     public void performTransformation() {
         loadData();
         transform();
+        insertRecords(transformedAssessments, ASSESSMENT_TRANSFORMED);
     }
     
     /**
@@ -114,7 +135,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
             neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());
-            insertRecord(neutralRecord);
+            transformedAssessments.add(neutralRecord);
         }
     }
     

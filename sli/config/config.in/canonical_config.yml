@@ -169,7 +169,7 @@ default:
         portal.header.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
 
         # Only used in dashboard
-        log.level: warn
+        dashboard.log.level: warn
 
         # oauth security parameter (only used in dashboard)
         oauth.client.id: 54,-8,-115,-125,46,124,-103,-75,74,-81,62,11,30,-55,109,50
@@ -186,13 +186,22 @@ default:
         # Custom configuration directory (only used in dashboard)
         panel.config.custom.dir: custom
 
-        # (only used in dashboard)
-        panel.data.use.cache: true
-
         dashboard.google_analytics.id: UA-31838086-1
 
         # (only used in dashboard)
         dashboard.WSCall.timeout: 3000
+        
+        dashboard.minify.js: true
+        dashboard.cache.disable: false
+
+        # This is the same as the sli.encyrption.* .  But we need Dashboard to be 
+        # independant of sli specific configuration for open sources. Having the props 
+        # independent here will allow us to use the same application-context for
+        # the internal version as well as the external version.
+        dashboard.encryption.keyStorePass: changeit
+        dashboard.encryption.dalKeyAlias: dalKey
+        dashboard.encryption.dalKeyPass: changeit
+
 
 
     app: &APPS-DEFAULT
@@ -752,8 +761,19 @@ local:
     dashboard: &DASHBOARD-LOCAL
         <<: *DASHBOARD-DEFAULT
 
-        # (only used in dashboard)
+        # (used by many scripts and apps)
         sli.encryption.keyStore: ../data-access/dal/keyStore/ciKeyStore.jks
+
+        # This is the same as the sli.encyrption.* .  But we need Dashboard to be 
+        # independant of sli specific configuration for open sources. Having the props 
+        # independent here will allow us to use the same application-context for
+        # the internal version as well as the external version.
+        # (only used in dashboard)
+        dashboard.encryption.keyStore: ../data-access/dal/keyStore/ciKeyStore.jks
+        
+        dashboard.minify.js: false
+        
+        dashboard.log.level: info
 
     apps: &APPS-LOCAL
         <<: *APPS-DEFAULT
@@ -1179,7 +1199,7 @@ nxteam:
         sli.ingestion.tenant.loadDefaultTenants: true
         sli.ingestion.processor.edfi: concurrent
         sli.ingestion.processor.xml:  concurrent
-        sli.ingestion.queue.maestro.concurrentConsumers: 5
+        sli.ingestion.queue.maestro.concurrentConsumers: 1
         sli.ingestion.queue.pit.concurrentConsumers: 30
         sli.ingestion.cache.type: inmemory
         sli.ingestion.cache.opTimeout: 100

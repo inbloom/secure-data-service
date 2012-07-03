@@ -14,30 +14,25 @@
   <import resource="classpath:/spring/db.xml" />
   <import resource="dal-context.xml" />
 
+  <!-- Used for new (plain and transformed) entities -->
   <bean id="entityPersistHandler" class="org.slc.sli.ingestion.handler.EntityPersistHandler">
     <property name="entityRepository" ref="mongoEntityRepository" />
     <property name="messageSource" ref="messageSource" />
   </bean>
 
-  <bean id="schoolSessionAssociationEntityPersistHandler" class="org.slc.sli.ingestion.handler.SchoolSessionAssociationEntityPersistHandler"
-    parent="entityPersistHandler">
-  </bean>
-
-  <util:map id="entityPersistHandlers" key-type="java.lang.String" value-type="org.slc.sli.ingestion.handler.AbstractIngestionHandler">
-    <entry key="session">
-      <ref local="schoolSessionAssociationEntityPersistHandler" />
-    </entry>
-  </util:map>
-
+  <!-- Used for old pipeline entities -->
   <bean id="obsoleteEntityPersistHandler" class="org.slc.sli.ingestion.handler.NeutralRecordEntityPersistHandler">
     <property name="entityRepository" ref="mongoEntityRepository" />
     <property name="messageSource" ref="messageSource" />
   </bean>
 
+  <!-- Used for 'special' entities -->
+  <util:map id="entityPersistHandlers" key-type="java.lang.String" value-type="org.slc.sli.ingestion.handler.AbstractIngestionHandler">
+  </util:map>
+  
   <!-- collections that should be persisted using the old pipeline -->
   <util:set id="oldPipelineEntities" set-class="java.util.HashSet" value-type="java.lang.String">
     <value>competencyLevelDescriptor</value>
-    <value>gradebookEntry</value>
     <value>graduationPlan</value>
     <value>learningStandard</value>
     <value>parent</value>
@@ -56,10 +51,12 @@
     <value>calendarDate</value>
     <value>cohort</value>
     <value>course</value>
+    <value>courseOffering</value>
     <value>disciplineAction</value>
     <value>disciplineIncident</value>
     <value>educationOrganization</value>
     <value>grade</value>
+    <value>gradebookEntry</value>
     <value>gradingPeriod</value>
     <value>localEducationAgency</value>
     <value>program</value>
@@ -79,6 +76,24 @@
     <value>studentSectionGradebookEntry</value>
     <value>teacherSchoolAssociation</value>
     <value>teacherSectionAssociation</value>
+    <value>graduationPlan</value>
+    <value>program</value>
+    <value>studentProgramAssociation</value>
+    <value>staffProgramAssociation</value>
+    <value>cohort</value>
+    <value>studentCohortAssociation</value>
+    <value>staffCohortAssociation</value>
+    <value>learningStandard</value>
+    <value>disciplineIncident</value>
+    <value>disciplineAction</value>
+    <value>studentDisciplineIncident</value>
+    <value>competencyLevelDescriptor</value>
+    <value>gradingPeriod</value>
+    <value>calendarDate</value>
+    <value>reportCard</value>
+    <value>courseOffering</value>
+    <value>studentCompetencyObjective</value>
+    <value>studentCompetency</value>
   </util:set>
 
   <!-- collections that should be persisted using the new pipeline and a transformation has been performed. the collection

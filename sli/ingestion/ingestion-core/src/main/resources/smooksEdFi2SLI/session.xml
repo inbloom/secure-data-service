@@ -20,7 +20,6 @@
     </jb:bean>
 
     <jb:bean beanId="ssBody" class="java.util.HashMap" createOnElement="attributes">
-        <jb:wiring property="schoolSessionAssociation" beanIdRef="SchoolSessionAssociationType" />
         <jb:value property="sessionName" data="attributes sessionName" />
         <jb:value property="schoolYear" data="attributes schoolYear" />
         <jb:value property="term" data="attributes term" />
@@ -34,17 +33,6 @@
   <jb:bean beanId="sessionMeta" class="java.util.HashMap" createOnElement="attributes">
     <jb:value property="externalId" data="attributes sessionName" />
   </jb:bean>
-
-    <jb:bean beanId="SchoolSessionAssociationType" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
-        <jb:expression property="type">'schoolSessionAssociation'</jb:expression>
-        <jb:wiring property="body" beanIdRef="SchoolSessionAssociationBody" />
-        <jb:wiring property="metaData" beanIdRef="sessionMetaData" />
-    </jb:bean>
-
-    <jb:bean beanId="SchoolSessionAssociationBody" class="java.util.HashMap" createOnElement="attributes">
-        <jb:value property="schoolId" data="attributes schoolId" />
-        <jb:value property="sessionId" data="attributes sessionId" />
-    </jb:bean>
 
     <jb:bean beanId="session_gradingPeriodReferenceArray" class="java.util.ArrayList" createOnElement="attributes">
         <jb:value data="attributes gradingPeriodReference element" />

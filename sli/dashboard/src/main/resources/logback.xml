@@ -3,12 +3,15 @@
 <configuration debug="false">
   <property file="${sli.conf}"/>	
 	
-  <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <File>${log.path}/dashboard/dashboard.log</File>
     <Append>true</Append>
     <encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
 		<layout class="org.slc.sli.common.util.logging.CommonPatternLayout" />
 	</encoder>
+	<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        <fileNamePattern>${log.path}/dashboard/dashboard-%d{yyyy-MM-dd}.log</fileNamePattern>
+    </rollingPolicy>
   </appender>
 
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -17,7 +20,7 @@
 	</encoder>
   </appender>
 
-  <root level="${log.level}">
+  <root level="${dashboard.log.level}">
       <appender-ref ref="FILE"/>
       <appender-ref ref="STDOUT"/>
   </root>

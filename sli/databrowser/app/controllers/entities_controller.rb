@@ -1,10 +1,35 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
 require "active_resource/base"
 
 class EntitiesController < ApplicationController
   before_filter :set_url
 
+  rescue_from ActiveResource::ForbiddenAccess do |exception|
+    flash[:notice] = "No accessible entries found."
+    if !request.headers['referer'].nil? and !request.headers['referer'].include?(request.host)  
+      redirect_to :back
+    else
+      raise exception
+    end
+  end
+
   def set_url
-    flash.clear
     @search_field = nil
     case params[:search_type]
     when /teachers/
@@ -31,7 +56,7 @@ class EntitiesController < ApplicationController
     @page = Page.new
     if params[:search_id] && @search_field
       @entities = Entity.get("", @search_field => params[:search_id]) if params[:search_id]
-      flash[:notice] = "There were no entries matching your search" if @entities.size == 0 || @entities.nil?  
+      flash.now[:notice] = "There were no entries matching your search" if @entities.size == 0 || @entities.nil?  
       return
     else
       if params[:offset]

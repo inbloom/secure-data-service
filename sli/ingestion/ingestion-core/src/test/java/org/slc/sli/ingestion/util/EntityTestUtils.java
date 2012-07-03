@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.util;
 
 import static org.junit.Assert.assertEquals;
@@ -26,6 +43,8 @@ import org.milyn.Smooks;
 import org.milyn.SmooksException;
 import org.milyn.payload.JavaResult;
 import org.milyn.payload.StringSource;
+import org.xml.sax.SAXException;
+
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
@@ -34,7 +53,6 @@ import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.ValidationError;
-import org.xml.sax.SAXException;
 
 /**
  *
@@ -45,7 +63,7 @@ public class EntityTestUtils {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
     public static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
-    
+
     public static List<NeutralRecord> getNeutralRecords(InputStream dataSource, String smooksConfig,
             String targetSelector) throws IOException, SAXException, SmooksException {
 
@@ -58,7 +76,8 @@ public class EntityTestUtils {
 
         JavaResult result = new JavaResult();
         smooks.filterSource(new StreamSource(dataSource), result);
-        
+
+        smooksEdFiVisitor.getRecordsPerisisted();
         List<NeutralRecord> entityList = dummyResourceWriter.getNeutralRecordsList();
 
         return entityList;
@@ -114,18 +133,18 @@ public class EntityTestUtils {
         ByteArrayInputStream testDataStream = new ByteArrayInputStream(testData.getBytes());
 
         NeutralRecord neutralRecord = null;
-        
+
         List<NeutralRecord> records = EntityTestUtils.getNeutralRecords(testDataStream, smooksXmlConfigFilePath,
                 targetSelector);
         if (records != null && records.size() > 0) {
             neutralRecord = records.get(0);
         }
-        return neutralRecord;        
+        return neutralRecord;
     }
 
     @SuppressWarnings("unchecked")
-	public static SimpleEntity smooksGetSingleSimpleEntity(String smooksConfigPath, NeutralRecord item)
-			throws IOException, SAXException {
+    public static SimpleEntity smooksGetSingleSimpleEntity(String smooksConfigPath, NeutralRecord item)
+            throws IOException, SAXException {
         JavaResult result = new JavaResult();
         Smooks smooks = new Smooks(smooksConfigPath);
         List<SimpleEntity> entityList = new ArrayList<SimpleEntity>();
@@ -240,6 +259,11 @@ public class EntityTestUtils {
         @Override
         public void insertResource(NeutralRecord neutralRecord, String jobId) {
             neutralRecordList.add(neutralRecord);
+        }
+
+        @Override
+        public void insertResources(List<NeutralRecord> neutralRecords, String collectionName, String jobId) {
+            neutralRecordList.addAll(neutralRecords);
         }
     }
 }

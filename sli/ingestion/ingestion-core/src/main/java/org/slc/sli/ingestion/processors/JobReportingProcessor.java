@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
@@ -23,6 +39,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.impl.DefaultProducerTemplate;
+import org.apache.commons.io.FileUtils;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.dal.TenantContext;
@@ -95,8 +112,7 @@ public class JobReportingProcessor implements Processor {
         String batchJobId = workNote.getBatchJobId();
         NewBatchJob job = null;
         try {
-            
-            populateJobFromStageCollection(batchJobId);
+            populateJobBriefFromStageCollection(batchJobId);
             
             job = batchJobDAO.findBatchJobById(batchJobId);
             TenantContext.setTenantId(job.getTenantId());
@@ -115,11 +131,14 @@ public class JobReportingProcessor implements Processor {
                 batchJobDAO.saveBatchJob(job);
                 broadcastFlushStats(exchange, workNote);
             }
+            cleanUpLZ(job);
         }
     }
     
-    private void populateJobFromStageCollection(String jobId) {
+    private void populateJobBriefFromStageCollection(String jobId) {
         NewBatchJob job = batchJobDAO.findBatchJobById(jobId);
+        
+        Map<String, Stage> processedStage = new HashMap<String, Stage>();
         
         if (job != null) {
             List<Stage> stages = batchJobDAO.getBatchStagesStoredSeperatelly(jobId);
@@ -129,7 +148,32 @@ public class JobReportingProcessor implements Processor {
             while (it.hasNext()) {
                 tempStage = it.next();
                 
-                job.addStage(tempStage);
+                if (!processedStage.containsKey(tempStage.getStageName())) {
+                    
+                    Stage st = new Stage(tempStage.getStageName(), tempStage.getStatus(),
+                            tempStage.getStartTimestamp(), tempStage.getStopTimestamp(), null);
+                    st.setJobId(tempStage.getJobId());
+                    st.setElapsedTime(tempStage.getElapsedTime());
+                    st.setProcessingInformation("");
+                    
+                    processedStage.put(st.getStageName(), st);
+                } else {
+                    Stage temp = processedStage.get(tempStage.getStageName());
+                    
+                    if (temp.getStartTimestamp().getTime() > tempStage.getStartTimestamp().getTime()) {
+                        temp.setStartTimestamp(tempStage.getStartTimestamp());
+                    }
+                    if (temp.getStopTimestamp().getTime() < tempStage.getStopTimestamp().getTime()) {
+                        temp.setStopTimestamp(tempStage.getStopTimestamp());
+                    }
+                    temp.setElapsedTime(temp.getElapsedTime() + tempStage.getElapsedTime());
+                }
+            }
+            
+            Iterator<Entry<String, Stage>> iter = processedStage.entrySet().iterator();
+            while (iter.hasNext()) {
+                Entry<String, Stage> temp = iter.next();
+                job.addStage(temp.getValue());
             }
             
             batchJobDAO.saveBatchJob(job);
@@ -284,30 +328,41 @@ public class JobReportingProcessor implements Processor {
         long totalProcessed = 0;
         
         // TODO group counts by externallyUploadedResourceId
-        List<Metrics> metrics = job.getStageMetrics(BatchJobStageType.PERSISTENCE_PROCESSOR);
+        
+        List<Stage> stages = batchJobDAO.getBatchStagesStoredSeperatelly(job.getId());
+        Iterator<Stage> it = stages.iterator();
+        
+        Stage stage;
+        List<Metrics> metrics;
+        
         Map<String, Metrics> combinedMetricsMap = new HashMap<String, Metrics>();
         
-        for (Metrics m : metrics) {
+        while (it.hasNext()) {
+            stage = it.next();
+            metrics = stage.getMetrics();
             
-            if (combinedMetricsMap.containsKey(m.getResourceId())) {
-                // metrics exists, we should aggregate
-                Metrics temp = new Metrics(m.getResourceId());
+            for (Metrics m : metrics) {
                 
-                temp.setResourceId(combinedMetricsMap.get(m.getResourceId()).getResourceId());
-                temp.setRecordCount(combinedMetricsMap.get(m.getResourceId()).getRecordCount());
-                temp.setErrorCount(combinedMetricsMap.get(m.getResourceId()).getErrorCount());
+                if (combinedMetricsMap.containsKey(m.getResourceId())) {
+                    // metrics exists, we should aggregate
+                    Metrics temp = new Metrics(m.getResourceId());
+                    
+                    temp.setResourceId(combinedMetricsMap.get(m.getResourceId()).getResourceId());
+                    temp.setRecordCount(combinedMetricsMap.get(m.getResourceId()).getRecordCount());
+                    temp.setErrorCount(combinedMetricsMap.get(m.getResourceId()).getErrorCount());
+                    
+                    temp.setErrorCount(temp.getErrorCount() + m.getErrorCount());
+                    temp.setRecordCount(temp.getRecordCount() + m.getRecordCount());
+                    
+                    combinedMetricsMap.put(m.getResourceId(), temp);
+                    
+                } else {
+                    // adding metrics to the map
+                    combinedMetricsMap.put(m.getResourceId(),
+                            new Metrics(m.getResourceId(), m.getRecordCount(), m.getErrorCount()));
+                }
                 
-                temp.setErrorCount(temp.getErrorCount() + m.getErrorCount());
-                temp.setRecordCount(temp.getRecordCount() + m.getRecordCount());
-                
-                combinedMetricsMap.put(m.getResourceId(), temp);
-                
-            } else {
-                // adding metrics to the map
-                combinedMetricsMap.put(m.getResourceId(),
-                        new Metrics(m.getResourceId(), m.getRecordCount(), m.getErrorCount()));
             }
-            
         }
         
         Collection<Metrics> combinedMetrics = combinedMetricsMap.values();
@@ -323,21 +378,25 @@ public class JobReportingProcessor implements Processor {
             logResourceMetric(resourceEntry, metric.getRecordCount(), metric.getErrorCount(), jobReportWriter);
             
             totalProcessed += metric.getRecordCount();
+            
+            // update resource entries for zero-count reporting later
+            resourceEntry.setRecordCount(metric.getRecordCount());
+            resourceEntry.setErrorCount(metric.getErrorCount());
         }
         
-        if (metrics.size() == 0) {
-            doesntHavePersistenceMetrics(job, jobReportWriter);
-        }
+        writeZeroCountPersistenceMetrics(job, jobReportWriter);
         
         return totalProcessed;
     }
     
-    private void doesntHavePersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
+    private void writeZeroCountPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
         // write out 0 count metrics for the input files
         
         for (ResourceEntry resourceEntry : job.getResourceEntries()) {
             if (resourceEntry.getResourceFormat() != null
-                    && resourceEntry.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())) {
+                    && resourceEntry.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())
+                    && resourceEntry.getRecordCount() == 0
+                    && resourceEntry.getErrorCount() == 0) {
                 logResourceMetric(resourceEntry, 0, 0, jobReportWriter);
             }
         }
@@ -458,7 +517,34 @@ public class JobReportingProcessor implements Processor {
         }
     }
     
+    private void cleanUpLZ(NewBatchJob job) {
+        boolean isZipFile = false;
+        for (ResourceEntry resourceEntry : job.getResourceEntries()) {
+            if (FileFormat.ZIP_FILE.getCode().equalsIgnoreCase(resourceEntry.getResourceFormat())) {
+                isZipFile = true;
+            }
+        }
+        if (isZipFile) {
+            String sourceId = job.getSourceId();
+            if (sourceId != null) {
+                File dir = new File(sourceId);
+                FileUtils.deleteQuietly(dir);
+            }
+        } else {
+            for (ResourceEntry resourceEntry : job.getResourceEntries()) {
+                if (resourceEntry.getResourceFormat().equals(FileFormat.EDFI_XML.getCode())) {
+                    File xmlFile = new File(resourceEntry.getResourceName());
+                    FileUtils.deleteQuietly(xmlFile);
+                }
+            }
+        }
+    }
+    
     public void setCommandTopicUri(String commandTopicUri) {
         this.commandTopicUri = commandTopicUri;
+    }
+    
+    public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
+        this.batchJobDAO = batchJobDAO;
     }
 }

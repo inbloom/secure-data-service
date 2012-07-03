@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.util;
 
 import java.util.ArrayList;
@@ -33,7 +50,7 @@ public class InternalIdNormalizer {
 
     private static final String METADATA_BLOCK = "metaData";
 
-    private static final Logger LOG = LoggerFactory.getLogger( InternalIdNormalizer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(InternalIdNormalizer.class);
 
     private static final String CACHE_NAMESPACE = "oldId";
 
@@ -80,7 +97,7 @@ public class InternalIdNormalizer {
 
         Entity entity = found.iterator().next();
 
-        cache(collection,tenantId,String.valueOf(externalSearchCriteria.hashCode()),entity.getEntityId());
+        cache(collection, tenantId, String.valueOf(externalSearchCriteria.hashCode()), entity.getEntityId());
 
         return entity.getEntityId();
     }
@@ -119,7 +136,7 @@ public class InternalIdNormalizer {
             return null;
         }
 
-        cache(collection,tenantId,externalId,e.getEntityId());
+        cache(collection, tenantId, externalId, e.getEntityId());
         return e.getEntityId();
     }
 
@@ -259,7 +276,7 @@ public class InternalIdNormalizer {
     private String getFromCache(String collection, String tenantId, String criteria) {
 
         String key = composeKey(collection, tenantId, criteria);
-        String found = (String) cacheProvider.get( key );
+        String found = (String) cacheProvider.get(key);
 
 
         return found;
@@ -268,7 +285,7 @@ public class InternalIdNormalizer {
     private void cache(String collection, String tenantId, String criteria, String value) {
         String key = composeKey(collection, tenantId, criteria);
 
-        cacheProvider.add( key, value );
+        cacheProvider.add(key, value);
     }
 
     private String composeKey(String collection, String tenantId, String criteria) {

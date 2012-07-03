@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 Then /^the grades teardrop color widgets for "([^"]*)" are mapped correctly:$/ do |gradeColumns, table|
   gradeColumnsArray = gradeColumns.split(';')
   gradeMapping = Hash.new 
@@ -26,11 +45,11 @@ end
 Then /^the "([^"]*)" grade for "([^"]*)" is "([^"]*)"$/ do |gradePeriod, studentName, grade|
   attribute = ""
   if (gradePeriod == "current")
-    attribute = "FallSemester2011-2012"
+    attribute = "currentSession-0"
   elsif (gradePeriod == "last semester")
-    attribute = "SpringSemester2010-2011"
+    attribute = "previousSemester"
   elsif (gradePeriod == "2 semesters ago")
-    attribute = "FallSemester2010-2011"
+    attribute = "twoSemestersAgo"
   else
     puts "invalid grade period: " + gradePeriod
   end

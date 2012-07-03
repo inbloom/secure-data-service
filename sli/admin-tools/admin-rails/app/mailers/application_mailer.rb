@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 class ApplicationMailer < ActionMailer::Base
   default from: "#{APP_CONFIG['email_sender_name']} <#{APP_CONFIG['email_sender_address']}>"
 
@@ -11,9 +30,10 @@ class ApplicationMailer < ActionMailer::Base
 
   def welcome_email(user)
     @firstName = user[:first]
-    @landing_zone_link = "#{APP_CONFIG['email_replace_uri']}/landing_zone"
+    #@landing_zone_link = "#{APP_CONFIG['email_replace_uri']}/landing_zone"
     @portal_link = APP_CONFIG["portal_url"]
-    @apps_link = "#{APP_CONFIG['email_replace_uri']}/apps"
+    @documentation_link = APP_CONFIG['sample_data_url']
+    #@apps_link = "#{APP_CONFIG['email_replace_uri']}/apps"
     mail(:to => user[:emailAddress], :subject => (APP_CONFIG["is_sandbox"]?WELCOME_EMAIL_SUBJECT_SANDBOX : WELCOME_EMAIL_SUBJECT_PROD))
   end
 
@@ -30,10 +50,12 @@ class ApplicationMailer < ActionMailer::Base
   end
   
   def provision_email(email_address, firstName, serverName, edorgId)
-  @firstName = firstName
-  @serverName = serverName
-  @edorgId = edorgId
-  mail(:to => email_address, :subject => (APP_CONFIG["is_sandbox"]?PROVISION_EMAIL_SUBJECT_SANDBOX : PROVISION_EMAIL_SUBJECT_PROD))
+    @firstName = firstName
+    @serverName = serverName
+    @edorgId = edorgId
+    @sample_data_link = APP_CONFIG['sample_data_url']
+    @redirect_email = APP_CONFIG['redirect_slc_url']
+    mail(:to => email_address, :subject => (APP_CONFIG["is_sandbox"]?PROVISION_EMAIL_SUBJECT_SANDBOX : PROVISION_EMAIL_SUBJECT_PROD))
   end
   
   def notify_operator(support_email, app, first_name, dev_name)

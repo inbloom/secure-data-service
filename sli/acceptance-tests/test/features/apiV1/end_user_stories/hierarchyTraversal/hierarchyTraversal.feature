@@ -1,3 +1,5 @@
+
+@RALLY_DE87
 @RALLY_US209
 @RALLY_US1244
 Feature: As an SLI application, I want to be able to traverse from education organizations down to low levels
@@ -12,25 +14,16 @@ Background:
 Scenario: Traverse from parent education organization through child education organization, school, session, course, section to a teacher
     When I navigate to GET "/v1/educationOrganizations/<'STATE EDUCATION ORGANIZATION' ID>"
     Then I should receive a return code of 200
-        And I should receive a link named "getEducationOrganizations" with URI "/v1/educationOrganizations?parentEducationAgencyReference=<'STATE EDUCATION ORGANIZATION' ID>"
+        And I should receive a link named "getFeederEducationOrganizations" with URI "/v1/educationOrganizations?parentEducationAgencyReference=<'STATE EDUCATION ORGANIZATION' ID>"
     When I navigate to GET "/v1/educationOrganizations?parentEducationAgencyReference=<'STATE EDUCATION ORGANIZATION' ID>"
     Then I should receive a return code of 200
-        And in an entity, I should receive a link named "getEducationOrganizations" with URI "/v1/educationOrganizations?parentEducationAgencyReference=<'LOCAL EDUCATION ORGANIZATION' ID>"
+        And in an entity, I should receive a link named "getFeederEducationOrganizations" with URI "/v1/educationOrganizations?parentEducationAgencyReference=<'LOCAL EDUCATION ORGANIZATION' ID>"
     When I navigate to GET "/v1/educationOrganizations/<'LOCAL EDUCATION ORGANIZATION' ID>"
     Then I should receive a return code of 200
-        And I should receive a link named "getSchools" with URI "/v1/schools?parentEducationAgencyReference=<'LOCAL EDUCATION ORGANIZATION' ID>"
+        And I should receive a link named "getFeederSchools" with URI "/v1/schools?parentEducationAgencyReference=<'LOCAL EDUCATION ORGANIZATION' ID>"
     When I navigate to GET "/v1/schools?parentEducationAgencyReference=<'LOCAL EDUCATION ORGANIZATION' ID>"
     Then I should receive a return code of 200
         And in an entity, I should receive a link named "self" with URI "/v1/schools/<'SCHOOL' ID>"
-    When I navigate to GET "/v1/schools/<'SCHOOL' ID>"
-    Then I should receive a return code of 200
-        And I should receive a link named "getSchoolSessionAssociations" with URI "/v1/schools/<'SCHOOL' ID>/schoolSessionAssociations"
-    When I navigate to GET "/v1/schools/<'SCHOOL' ID>/schoolSessionAssociations"
-    Then I should receive a return code of 200
-        And in an entity, I should receive a link named "self" with URI "/v1/schoolSessionAssociations/<'SCHOOL-SESSION-ASSOCIATION' ID>"
-    When I navigate to GET "/v1/schoolSessionAssociations/<'SCHOOL-SESSION-ASSOCIATION' ID>"
-    Then I should receive a return code of 200
-        And I should receive a link named "getSession" with URI "/v1/sessions/<'SESSION' ID>"
     When I navigate to GET "/v1/sessions/<'SESSION' ID>"
     Then I should receive a return code of 200
         And I should receive a link named "getCourseOfferings" with URI "/v1/sessions/<'SESSION' ID>/courseOfferings"
@@ -42,8 +35,11 @@ Scenario: Traverse from parent education organization through child education or
         And I should receive a link named "getCourse" with URI "/v1/courses/<'COURSE' ID>"
     When I navigate to GET "/v1/courses/<'COURSE' ID>"
     Then I should receive a return code of 200
-        And I should receive a link named "getSections" with URI "/v1/sections?courseId=<'COURSE' ID>"
-    When I navigate to GET "/v1/sections?courseId=<'COURSE' ID>"
+        And I should receive a link named "getCourseOfferings" with URI "/v1/courses/<'COURSE' ID>/courseOfferings"
+    When I navigate to GET "/v1/courses/<'COURSE' ID>/courseOfferings"
+    Then I should receive a return code of 200
+        And I should receive a collection link named "getSections" with URI "/v1/sections?courseOfferingId=<'SESSION-COURSE-ASSOCIATION' ID>"
+    When I navigate to GET "/v1/sections?courseOfferingId=<'SESSION-COURSE-ASSOCIATION' ID>"
     Then I should receive a return code of 200
         And in an entity, I should receive a link named "self" with URI "/v1/sections/<'SECTION' ID>"
     When I navigate to GET "/v1/sections/<'SECTION' ID>"
@@ -64,25 +60,18 @@ Scenario: Traverse from parent education organization through child education or
 Scenario: Traverse from parent education organization through child education organization, school, session, course, section to a student
     When I navigate to GET "/v1/educationOrganizations/<'STATE EDUCATION ORGANIZATION' ID>"
     Then I should receive a return code of 200
-        And I should receive a link named "getEducationOrganizations" with URI "/v1/educationOrganizations?parentEducationAgencyReference=<'STATE EDUCATION ORGANIZATION' ID>"
+        And I should receive a link named "getFeederEducationOrganizations" with URI "/v1/educationOrganizations?parentEducationAgencyReference=<'STATE EDUCATION ORGANIZATION' ID>"
     When I navigate to GET "/v1/educationOrganizations?parentEducationAgencyReference=<'STATE EDUCATION ORGANIZATION' ID>"
     Then I should receive a return code of 200
-        And in an entity, I should receive a link named "getEducationOrganizations" with URI "/v1/educationOrganizations?parentEducationAgencyReference=<'LOCAL EDUCATION ORGANIZATION' ID>"
+        And in an entity, I should receive a link named "getFeederEducationOrganizations" with URI "/v1/educationOrganizations?parentEducationAgencyReference=<'LOCAL EDUCATION ORGANIZATION' ID>"
     When I navigate to GET "/v1/educationOrganizations/<'LOCAL EDUCATION ORGANIZATION' ID>"
     Then I should receive a return code of 200
-        And I should receive a link named "getSchools" with URI "/v1/schools?parentEducationAgencyReference=<'LOCAL EDUCATION ORGANIZATION' ID>"
+        And I should receive a link named "getFeederSchools" with URI "/v1/schools?parentEducationAgencyReference=<'LOCAL EDUCATION ORGANIZATION' ID>"
     When I navigate to GET "/v1/schools?parentEducationAgencyReference=<'LOCAL EDUCATION ORGANIZATION' ID>"
     Then I should receive a return code of 200
         And in an entity, I should receive a link named "self" with URI "/v1/schools/<'SCHOOL' ID>"
     When I navigate to GET "/v1/schools/<'SCHOOL' ID>"
     Then I should receive a return code of 200
-        And I should receive a link named "getSchoolSessionAssociations" with URI "/v1/schools/<'SCHOOL' ID>/schoolSessionAssociations"
-    When I navigate to GET "/v1/schools/<'SCHOOL' ID>/schoolSessionAssociations"
-    Then I should receive a return code of 200
-        And in an entity, I should receive a link named "self" with URI "/v1/schoolSessionAssociations/<'SCHOOL-SESSION-ASSOCIATION' ID>"
-    When I navigate to GET "/v1/schoolSessionAssociations/<'SCHOOL-SESSION-ASSOCIATION' ID>"
-    Then I should receive a return code of 200
-        And I should receive a link named "getSession" with URI "/v1/sessions/<'SESSION' ID>"
     When I navigate to GET "/v1/sessions/<'SESSION' ID>"
     Then I should receive a return code of 200
         And I should receive a link named "getCourseOfferings" with URI "/v1/sessions/<'SESSION' ID>/courseOfferings"
@@ -94,8 +83,12 @@ Scenario: Traverse from parent education organization through child education or
         And I should receive a link named "getCourse" with URI "/v1/courses/<'COURSE' ID>"
     When I navigate to GET "/v1/courses/<'COURSE' ID>"
     Then I should receive a return code of 200
-        And I should receive a link named "getSections" with URI "/v1/sections?courseId=<'COURSE' ID>"
-    When I navigate to GET "/v1/sections?courseId=<'COURSE' ID>"
+
+        And I should receive a link named "getCourseOfferings" with URI "/v1/courses/<'COURSE' ID>/courseOfferings"
+    When I navigate to GET "/v1/courses/<'COURSE' ID>/courseOfferings"
+    Then I should receive a return code of 200
+        And I should receive a collection link named "getSections" with URI "/v1/sections?courseOfferingId=<'SESSION-COURSE-ASSOCIATION' ID>"
+    When I navigate to GET "/v1/sections?courseOfferingId=<'SESSION-COURSE-ASSOCIATION' ID>"
     Then I should receive a return code of 200
         And in an entity, I should receive a link named "self" with URI "/v1/sections/<'SECTION' ID>"
     When I navigate to GET "/v1/sections/<'SECTION' ID>"

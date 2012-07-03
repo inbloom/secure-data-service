@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.routes.orchestra;
 
 import java.util.ArrayList;
@@ -10,7 +27,6 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.WorkNoteImpl;
 import org.slc.sli.ingestion.dal.NeutralRecordAccess;
 
 /**
@@ -23,7 +39,7 @@ import org.slc.sli.ingestion.dal.NeutralRecordAccess;
 @Component
 public class BalancedTimestampSplitStrategy implements SplitStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(BalancedTimestampSplitStrategy.class);
-    
+
     private static final int SINGLE_BATCH_SIZE = 1;
 
     @Value("${sli.ingestion.split.chunk.size}")
@@ -56,7 +72,7 @@ public class BalancedTimestampSplitStrategy implements SplitStrategy {
                     stagedEntity.getCollectionNameAsStaged());
         } else {
             LOG.info("Creating one WorkNote for collection: {}.", stagedEntity.getCollectionNameAsStaged());
-            workNotesForEntity = singleWorkNoteList(minTime, maxTime, stagedEntity, jobId);
+            workNotesForEntity = singleWorkNoteList(minTime, maxTime, numRecords, stagedEntity, jobId);
         }
         return workNotesForEntity;
     }
@@ -80,7 +96,7 @@ public class BalancedTimestampSplitStrategy implements SplitStrategy {
             // we are within our target chunksize + margin.
             // OR we have a chunk size that cannot be partitioned further.
             LOG.debug("Creating WorkNote for {} with time range that contains {} records", stagedEntity, recordsInRange);
-            return singleWorkNoteList(min, max, stagedEntity, jobId);
+            return singleWorkNoteList(min, max, recordsInRange, stagedEntity, jobId);
         }
 
         long pivot = findGoodPivot(min, max, recordsInRange, collectionName, jobId);
@@ -135,9 +151,10 @@ public class BalancedTimestampSplitStrategy implements SplitStrategy {
         return pivot;
     }
 
-    private List<WorkNote> singleWorkNoteList(long min, long max, IngestionStagedEntity entity, String jobId) {
+    private List<WorkNote> singleWorkNoteList(long min, long max, long recordsInRange, IngestionStagedEntity entity,
+            String jobId) {
         List<WorkNote> workNoteList = new ArrayList<WorkNote>();
-        workNoteList.add(WorkNoteImpl.createBatchedWorkNote(jobId, entity, min, max, SINGLE_BATCH_SIZE));
+        workNoteList.add(WorkNote.createBatchedWorkNote(jobId, entity, min, max, recordsInRange, SINGLE_BATCH_SIZE));
         return workNoteList;
     }
 
@@ -148,11 +165,11 @@ public class BalancedTimestampSplitStrategy implements SplitStrategy {
     public void setNeutralRecordAccess(NeutralRecordAccess neutralRecordAccess) {
         this.neutralRecordAccess = neutralRecordAccess;
     }
-    
+
     public void setSplitChunkSize(int splitChunkSize) {
         this.splitChunkSize = splitChunkSize;
     }
-    
+
     public void setSplitThresholdPercentage(double splitThresholdPercentage) {
         this.splitThresholdPercentage = splitThresholdPercentage;
     }
