@@ -17,4 +17,18 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	
+	<filter>
+		<filter-name>AuthFilter</filter-name>
+		<filter-class>org.slc.sli.sample.oauth.AuthFilter</filter-class>
+        <init-param>
+          <param-name>afterCallbackRedirect</param-name>
+          <param-value>namegame</param-value>
+        </init-param>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>AuthFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
 </web-app> 
