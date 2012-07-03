@@ -25,17 +25,18 @@ import java.util.Map;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
-import org.slc.sli.common.util.datetime.DateTimeUtil;
-import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.ingestion.NeutralRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.common.util.datetime.DateTimeUtil;
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.NeutralRecord;
 
 /**
  * Transforms disjoint set of attendance events into cleaner set of {school year : list of
@@ -180,7 +181,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         }
 
         long numAttendance = attendances.size();
-        if ( numAttendance != numAttendanceIngested ) {
+        if (numAttendance != numAttendanceIngested) {
             long remainingAttendances = numAttendance - numAttendanceIngested;
             super.getErrorReport(attendances.values().iterator().next().getSourceFile())
                 .warning(Long.toString(remainingAttendances) + " attendance events are not processed, because they are not within any school year", this);

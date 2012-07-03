@@ -41,7 +41,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
