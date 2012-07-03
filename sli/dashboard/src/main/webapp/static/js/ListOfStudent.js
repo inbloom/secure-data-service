@@ -15,28 +15,33 @@
  */
 
 
-/*global $ contextRootPath*/
 var listOfStudents = 'listOfStudents';
 
-function getStudentListData() {
-	var edorgIndex = $("#edOrgSelect").val();
-	var schoolIndex = $("#schoolSelect").val();
-	var courseIndex = $("#courseSelect").val();
-	var selectionIndex = $("#sectionSelect").val();
-      
-	location.href = contextRootPath + "/service/list/" + 
-					courseSectionData[courseIndex].sections[selectionIndex].id;
-}
+$(document).ready( function() {
+	var config = SLC.dataProxy.getConfig("listOfStudents");
+    populateView(config.items);
+    if (config.items.length > 0) {
+        SLC.util.selectDropDownOption("view", 0, false);
+    } else {
+        $("#viewSelect").val(-1);
+    }
+    populateFilter();
+    SLC.util.selectDropDownOption("filter", -1, false);
+    printStudentList();
+});
   
 function printStudentList() {
 	var tableId = getTableId();
 	var panelConfig = SLC.dataProxy.getConfig(listOfStudents);
 	var viewIndex=$("#viewSelect").val();
 	var options={};
+	var studentListData = SLC.dataProxy.getData(listOfStudents);
 	if(viewIndex != -1) {
 		jQuery.extend(options, panelConfig, {items:panelConfig.items[viewIndex].items});
-		SLC.grid.tablegrid.create(tableId, options, SLC.dataProxy.getData(listOfStudents), {});
+		SLC.grid.tablegrid.create(tableId, options, studentListData, {});
 	}
+	if (studentListData == undefined)
+	    SLC.util.hideErrorMessage();
 }
     
 function clearStudentList() {
@@ -77,4 +82,21 @@ function filterStudents() {
     	
     filterStudentList(widgetConfig.items[filterSelect]); 
 }
+
+
+function populateFilter() {
+    var defaultOptions = {"-1": "No Filter"};
+	SLC.util.setDropDownOptions("filter", defaultOptions, SLC.dataProxy.getWidgetConfig("lozenge").items, "description", "", true, function() {
+		clearStudentList();
+		filterStudents();
+	});
+}
+
+function populateView(panelConfigItems) {
+	  $("#viewSelection").show();
+	  SLC.util.setDropDownOptions("view", null, panelConfigItems, "name", "", false, function() {
+		  clearStudentList();
+		  printStudentList();
+	  });
+} 
 

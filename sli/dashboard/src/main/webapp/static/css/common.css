@@ -367,19 +367,18 @@ th.ui-th-column div {
     padding: 5px 20px 60px 20px;
 }
 
-#viewSelection {
-   border-top: 2px solid #ccc;
-   margin-top:20px;
-}
-
 #populationSelect .menuBox {
     width: 18.5%;
     padding: 5px;
     display: inline-block;
 }
 
-#populationSelect, #viewSelection{
+#populationSelect {
     min-width: 920px;
+}
+
+#listOfStudents .menuBox {
+    width: 18.5%;
 }
 
 /* Population Selection Dropdown*/

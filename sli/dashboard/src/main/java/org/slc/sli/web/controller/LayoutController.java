@@ -92,6 +92,7 @@ public class LayoutController extends GenericLayoutController {
     }
 
     private ModelAndView getModelAndView(String componentId, SafeUUID id, HttpServletRequest request) {
-        return getModelView(TABBED_ONE_COL, getPopulatedModel(componentId, id == null ? null : id.getId(), request));
+        // if id is not null, override lazy for data
+        return getModelView(TABBED_ONE_COL, getPopulatedModel(componentId, id == null ? null : id.getId(), request, (id != null)));
     }
 }
