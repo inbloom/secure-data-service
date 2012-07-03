@@ -26,6 +26,12 @@ public class EventReporter {
         zone = agent.getZoneFactory().getZone("DistrictZone");
     }
 
+    public EventReporter(String zoneId, String zoneUrl) throws Exception {
+        agent = new SIFAgent("TestEventGenerator");
+        agent.initialize();
+        zone = agent.addZone("TestZone", "http://localhost:1337/TestZone");
+    }
+
     public void reportEvent() throws ADKException {
         EventGenerator generator = new HCStudentPersonalGenerator();
         Event event = generator.generateEvent();
