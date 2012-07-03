@@ -1446,7 +1446,7 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
-            <xs:pattern value= ".*@.*\..*" />
+            <xs:pattern value= ".*@.*\..*[^\.]" />
 			<xs:maxLength value="128" />
 		</xs:restriction>
 	</xs:simpleType>
