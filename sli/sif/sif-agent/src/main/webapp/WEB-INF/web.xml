@@ -13,7 +13,7 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
     </context-param>
 
 
-	<listener>
+<!--	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	
@@ -29,6 +29,6 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
 	<filter-mapping>
 		<filter-name>AuthFilter</filter-name>
 		<url-pattern>/*</url-pattern>
-	</filter-mapping>
+	</filter-mapping> -->
 
 </web-app> 
