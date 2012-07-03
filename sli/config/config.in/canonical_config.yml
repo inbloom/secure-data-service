@@ -1221,7 +1221,7 @@ nxteam-maestro:
 
     data-access:
         <<: *DATA-ACCESS-NXTEAM
-        sli.ingestion.staging.clearOnCompletion: transformed
+        sli.ingestion.staging.clearOnCompletion: true
     misc:
         <<: *MISC-NXTEAM
 
