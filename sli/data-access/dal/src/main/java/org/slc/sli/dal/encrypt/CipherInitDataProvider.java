@@ -34,19 +34,22 @@ import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+/**
+ * TODO: add javadoc
+ */
 @Component
 public class CipherInitDataProvider {
-    
+
     @Value("${sli.encryption.keyStore}")
     String keyStore;
     @Value("${sli.conf}")
     String propertiesFile;
-    
+
     public CipherInitData getInitData() {
-        
+
         try {
             String keyStorePass, keyAlias, keyPass, initializationVector;
-            
+
             FileInputStream propStream = null;
             try {
                 propStream = new FileInputStream(new File(propertiesFile));
@@ -61,7 +64,7 @@ public class CipherInitDataProvider {
                     propStream.close();
                 }
             }
-            
+
             if (keyStorePass == null) {
                 throw new RuntimeException("No key store password found in properties file.");
             }
@@ -74,9 +77,9 @@ public class CipherInitDataProvider {
             if (initializationVector == null) {
                 throw new RuntimeException("No initialization vector provided");
             }
-            
+
             KeyStore ks = KeyStore.getInstance("JCEKS");
-            
+
             FileInputStream fis = null;
             try {
                 fis = new FileInputStream(new File(keyStore));
@@ -91,7 +94,7 @@ public class CipherInitDataProvider {
                 throw new RuntimeException("Expected key of type SecretKey, got " + key.getClass());
             }
             return new CipherInitData((SecretKey) key, initializationVector);
-            
+
         } catch (UnrecoverableKeyException e) {
             throw new RuntimeException(e);
         } catch (FileNotFoundException e) {
@@ -106,5 +109,5 @@ public class CipherInitDataProvider {
             throw new RuntimeException(e);
         }
     }
-    
+
 }

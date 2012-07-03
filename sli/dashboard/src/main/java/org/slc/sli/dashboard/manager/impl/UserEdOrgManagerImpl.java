@@ -121,7 +121,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         // create ed-org key and save to cache
         if (edOrg != null) {
             @SuppressWarnings("unchecked")
-                    String nameOfinstitution = edOrg.get(Constants.ATTR_NAME_OF_INST).toString() ;
+                    String nameOfinstitution = edOrg.get(Constants.ATTR_NAME_OF_INST).toString();
 //            LinkedHashMap<String, Object> metaData = (LinkedHashMap<String, Object>) edOrg.get(Constants.METADATA);
 //            if (metaData != null && !metaData.isEmpty()) {
 //                if (metaData.containsKey(Constants.EXTERNAL_ID)) {
@@ -302,14 +302,14 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
                         // if correct section has been located, find courseOffering info
                         GenericEntity courseOffering = getApiClient().getEntity(token, "courseOfferings",
                                 courseOfferingId, null);
-                        
+
                         if (courseOffering != null) {
                             GenericEntity selectedOrg = new GenericEntity();
                             selectedOrg.put(Constants.ATTR_NAME, org.get(Constants.ATTR_NAME));
                             section.put(Constants.ATTR_COURSE_ID, courseOffering.getString(Constants.ATTR_COURSE_ID));
                             selectedOrg.put(Constants.ATTR_SECTION, section);
                             entity.put(Constants.ATTR_SELECTED_POPULATION, selectedOrg);
-                            
+
                             return entity;
                         }
                     }

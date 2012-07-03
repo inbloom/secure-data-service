@@ -34,19 +34,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.client.constants.ResourceNames;
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
-import org.slc.sli.api.client.constants.v1.PathConstants;
 import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.constants.PathConstants;
+import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 
 /**
- * Represents the definition of a cohort.  
- * 
+ * Represents the definition of a cohort.
+ *
  * A cohort is defined as a list of
  * designated students for tracking, analysis, or intervention.
- * 
+ *
  * For detailed information, see the schema for $$Cohort$$ resources.
  *
  * @author jstokes

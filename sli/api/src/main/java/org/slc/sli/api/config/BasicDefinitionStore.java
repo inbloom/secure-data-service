@@ -29,8 +29,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.client.constants.EntityNames;
-import org.slc.sli.api.client.constants.ResourceNames;
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.ReferenceSchema;
 

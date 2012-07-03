@@ -50,7 +50,7 @@ public class InternalIdNormalizer {
 
     private static final String METADATA_BLOCK = "metaData";
 
-    private static final Logger LOG = LoggerFactory.getLogger( InternalIdNormalizer.class);
+    private static final Logger LOG = LoggerFactory.getLogger(InternalIdNormalizer.class);
 
     private static final String CACHE_NAMESPACE = "oldId";
 
@@ -97,7 +97,7 @@ public class InternalIdNormalizer {
 
         Entity entity = found.iterator().next();
 
-        cache(collection,tenantId,String.valueOf(externalSearchCriteria.hashCode()),entity.getEntityId());
+        cache(collection, tenantId, String.valueOf(externalSearchCriteria.hashCode()), entity.getEntityId());
 
         return entity.getEntityId();
     }
@@ -136,7 +136,7 @@ public class InternalIdNormalizer {
             return null;
         }
 
-        cache(collection,tenantId,externalId,e.getEntityId());
+        cache(collection, tenantId, externalId, e.getEntityId());
         return e.getEntityId();
     }
 
@@ -276,7 +276,7 @@ public class InternalIdNormalizer {
     private String getFromCache(String collection, String tenantId, String criteria) {
 
         String key = composeKey(collection, tenantId, criteria);
-        String found = (String) cacheProvider.get( key );
+        String found = (String) cacheProvider.get(key);
 
 
         return found;
@@ -285,7 +285,7 @@ public class InternalIdNormalizer {
     private void cache(String collection, String tenantId, String criteria, String value) {
         String key = composeKey(collection, tenantId, criteria);
 
-        cacheProvider.add( key, value );
+        cacheProvider.add(key, value);
     }
 
     private String composeKey(String collection, String tenantId, String criteria) {

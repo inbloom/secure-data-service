@@ -34,33 +34,33 @@ import org.scribe.utils.Preconditions;
 
 /**
  * @author jnanney
- * 
+ *
  */
 public class SliApi extends DefaultApi20 {
-    
+
     // TODO - this assumes we're sharing this across all sessions. Is this assumption valid?
     private static URL apiUrl;
     private static final String REQUEST_TOKEN_FRAGMENT = "%sapi/oauth/authorize?response_type=code&client_id=%s&redirect_uri=%s";
     private static final String AUTH_TOKEN_FRAGMENT = "%sapi/oauth/token?grant_type=authorization_code";
-    
+
     @Override
     public String getAccessTokenEndpoint() {
         return String.format(AUTH_TOKEN_FRAGMENT, apiUrl.toString());
     }
-    
+
     @Override
     public String getAuthorizationUrl(OAuthConfig config) {
         Preconditions.checkValidUrl(config.getCallback(), "Must provide a valid url as callback.");
-        
+
         return String.format(REQUEST_TOKEN_FRAGMENT, apiUrl.toString(), config.getApiKey(),
                 OAuthEncoder.encode(config.getCallback()));
     }
-    
+
     @Override
     public AccessTokenExtractor getAccessTokenExtractor() {
         return new SliTokenExtractor();
     }
-    
+
     /**
      * @param baseUrl
      *            the base URL for the API ReST server.
@@ -68,7 +68,7 @@ public class SliApi extends DefaultApi20 {
     public static void setBaseUrl(final URL baseUrl) {
         SliApi.apiUrl = baseUrl;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -76,26 +76,45 @@ public class SliApi extends DefaultApi20 {
     public OAuthService createService(OAuthConfig config) {
         return new SLIOauth20ServiceImpl(this, config);
     }
-    
+
+    /**
+     * TODO: add javadoc
+     */
     public class TokenResponse {
-        public Token token;
-        public Response oauthResponse;
+        private Token token;
+        private Response oauthResponse;
+        public Token getToken() {
+            return token;
+        }
+        public void setToken(Token token) {
+            this.token = token;
+        }
+        public Response getOauthResponse() {
+            return oauthResponse;
+        }
+        public void setOauthResponse(Response oauthResponse) {
+            this.oauthResponse = oauthResponse;
+        }
+
     }
-    
+
+    /**
+     * TODO: add javadoc
+     */
     public class SLIOauth20ServiceImpl extends OAuth20ServiceImpl {
-        
+
         private final DefaultApi20 myApi;
         private final OAuthConfig myConfig;
-        
+
         public SLIOauth20ServiceImpl(DefaultApi20 api, OAuthConfig config) {
             super(api, config);
             myApi = api;
             myConfig = config;
         }
-        
+
         public TokenResponse getAccessToken(Token requestToken, Verifier verifier, Token t) {
             TokenResponse tokenResponse = new TokenResponse();
-            
+
             OAuthRequest request = new OAuthRequest(myApi.getAccessTokenVerb(), myApi.getAccessTokenEndpoint());
             request.addQuerystringParameter(OAuthConstants.CLIENT_ID, myConfig.getApiKey());
             request.addQuerystringParameter(OAuthConstants.CLIENT_SECRET, myConfig.getApiSecret());
@@ -104,9 +123,9 @@ public class SliApi extends DefaultApi20 {
             if (myConfig.hasScope()) {
                 request.addQuerystringParameter(OAuthConstants.SCOPE, myConfig.getScope());
             }
-            
+
             Response response = request.send();
-            
+
             tokenResponse.oauthResponse = response;
             tokenResponse.token = myApi.getAccessTokenExtractor().extract(response.getBody());
             return tokenResponse;

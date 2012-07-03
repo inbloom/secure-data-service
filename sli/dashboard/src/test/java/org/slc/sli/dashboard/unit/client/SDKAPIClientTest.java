@@ -63,6 +63,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.api.client.Entity;
+import org.slc.sli.api.client.SLIClient;
+import org.slc.sli.api.client.impl.BasicClient;
+import org.slc.sli.dashboard.client.SDKAPIClient;
+import org.slc.sli.dashboard.entity.Config;
+import org.slc.sli.dashboard.entity.ConfigMap;
+import org.slc.sli.dashboard.entity.GenericEntity;
+
 /**
  * Unit test for the Live API client.
  *
@@ -172,7 +180,7 @@ public class SDKAPIClientTest {
     }*/
 
     @Test
-    public void testGetStudent() throws MalformedURLException, URISyntaxException, IOException {
+    public void testGetStudent() throws URISyntaxException, IOException {
         String token = "token";
         String key = "uid";
         String studentId = "541397175";
@@ -234,7 +242,7 @@ public class SDKAPIClientTest {
     }
 
     @Test
-    public void testGetStudentsWithSearch() throws MalformedURLException, URISyntaxException, IOException  {
+    public void testGetStudentsWithSearch() throws URISyntaxException, IOException  {
         String token = "token";
         String filename = getFilename(MOCK_DATA_DIRECTORY + "common/" + MOCK_STUDENTS_FILE);
 

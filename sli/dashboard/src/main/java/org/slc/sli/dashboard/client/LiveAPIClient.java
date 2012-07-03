@@ -44,9 +44,10 @@ import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.entity.util.GenericEntityEnhancer;
 import org.slc.sli.dashboard.util.Constants;
 import org.slc.sli.dashboard.util.ExecutionTimeLogger;
+import org.slc.sli.dashboard.util.ExecutionTimeLogger.LogExecutionTime;
 import org.slc.sli.dashboard.util.JsonConverter;
 import org.slc.sli.dashboard.util.SecurityUtil;
-import org.slc.sli.dashboard.util.ExecutionTimeLogger.LogExecutionTime;
+
 
 /**
  *
@@ -212,8 +213,8 @@ public class LiveAPIClient {
         List<GenericEntity> sections = null;
         if (SecurityUtil.isNotEducator()) {
 
-            sections = createEntitiesFromAPI(getApiUrl() + SCHOOLS_URL + "/" + schoolId +
-                    SECTIONS + "?" + Constants.LIMIT + "=" + Constants.MAX_RESULTS, token);
+            sections = createEntitiesFromAPI(getApiUrl() + SCHOOLS_URL + "/" + schoolId
+                    + SECTIONS + "?" + Constants.LIMIT + "=" + Constants.MAX_RESULTS, token);
 
             enrichSectionsWithSessionDetails(token, sections);
 
@@ -250,9 +251,9 @@ public class LiveAPIClient {
 
         // iterate each section
         if (sections != null) {
-            
+
             Map<String, String> courseOfferingToCourseIDMap = new HashMap<String, String>();
-            
+
             // find the course for each course offering
             List<GenericEntity> courseOfferings = createEntitiesFromAPI(getApiUrl() + COURSE_OFFERINGS_URL + "?"
                     + Constants.LIMIT + "=" + Constants.MAX_RESULTS, token);
@@ -274,7 +275,7 @@ public class LiveAPIClient {
                 }
                 sectionLookup.get(courseId).add(section);
             }
-        
+
 
             // get course Entity
             List<GenericEntity> courses = createEntitiesFromAPI(getApiUrl() + COURSES_URL + "?" + Constants.LIMIT + "=" + Constants.MAX_RESULTS, token);
@@ -565,8 +566,8 @@ public class LiveAPIClient {
         if (schoolId != null) {
             List<GenericEntity> filteredSections = new ArrayList<GenericEntity>();
             for (GenericEntity section : sections) {
-                if (section.getString(Constants.ATTR_SCHOOL_ID) != null &&
-                    section.getString(Constants.ATTR_SCHOOL_ID).equals(schoolId)) {
+                if (section.getString(Constants.ATTR_SCHOOL_ID) != null
+                        && section.getString(Constants.ATTR_SCHOOL_ID).equals(schoolId)) {
                     filteredSections.add(section);
                 }
             }
@@ -1056,8 +1057,6 @@ public class LiveAPIClient {
             url.append("?");
             url.append(buildQueryString(params));
 //            url.append("&limit=" + Constants.MAX_RESULTS);
-        } else {
-//            url.append("?limit=" + Constants.MAX_RESULTS);
         }
 
         // get the entities
@@ -1091,8 +1090,6 @@ public class LiveAPIClient {
             url.append("?");
             url.append(buildQueryString(params));
 //            url.append("&limit=" + Constants.MAX_RESULTS);
-        } else {
-//            url.append("?limit=" + Constants.MAX_RESULTS);
         }
 
         return url.toString();
