@@ -296,15 +296,25 @@ SLC.namespace('SLC.util', (function () {
 		}
 		
 		function setTableId(id) {
-	        tableId = id;
-	    }
+			if (typeof id === "string") { 
+				tableId = id;
+				return true;
+			}
+			
+			return false;
+		}
 	    
 		function getTableId() {
 	        return tableId;
 	    }
 	    
 	    function setContextRootPath(path) {
-	        contextRootPath = path;
+			if (typeof path === "string") {
+				contextRootPath = path;
+				return true;
+			}
+			
+			return false;
 	    }
 	    
 		function getContextRootPath() {

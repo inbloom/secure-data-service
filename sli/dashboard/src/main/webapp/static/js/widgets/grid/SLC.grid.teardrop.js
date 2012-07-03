@@ -86,8 +86,8 @@ SLC.namespace('SLC.grid.teardrop', (function () {
 	    
 	        if ((value !== null) && (previousValue !== null)) {
 	
-	           var currentTrendCode = this.GRADE_TREND_CODES[value];
-	           var previousTrendCode = this.GRADE_TREND_CODES[previousValue];
+	           var currentTrendCode = GRADE_TREND_CODES[value];
+	           var previousTrendCode = GRADE_TREND_CODES[previousValue];
 	           if ((currentTrendCode !== null) && (previousTrendCode !== null)) {
 	              var trendCode = currentTrendCode - previousTrendCode;
 	              if (trendCode > 0) {
@@ -106,10 +106,18 @@ SLC.namespace('SLC.grid.teardrop', (function () {
 	    }
 	    
 	    function getGradeColorCode(val) {
+			if (typeof val !== "string") {
+				return false;
+			}
+			
 			return GRADE_COLOR_CODES[val];
 		}
 		
 		function getGradeTrendCodes(val) {
+			if (typeof val !== "string") {
+				return false;
+			}
+			
 			return GRADE_TREND_CODES[val];
 		}
 	
