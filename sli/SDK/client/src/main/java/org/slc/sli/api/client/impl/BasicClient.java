@@ -40,6 +40,7 @@ import org.codehaus.jackson.type.TypeReference;
 import org.scribe.exceptions.OAuthException;
 
 import org.slc.sli.api.client.Entity;
+import org.slc.sli.api.client.RESTClient;
 import org.slc.sli.api.client.Link;
 import org.slc.sli.api.client.SLIClient;
 import org.slc.sli.api.client.SLIClientException;
@@ -266,7 +267,7 @@ public class BasicClient implements SLIClient {
      *            URL used to redirect after authentication.
      */
     public BasicClient(final URL apiServerURL, final String clientId, final String clientSecret, final URL callbackURL) {
-        restClient = new RESTClient(apiServerURL, clientId, clientSecret, callbackURL);
+        restClient = new BasicRESTClient(apiServerURL, clientId, clientSecret, callbackURL);
     }
 
     /**
