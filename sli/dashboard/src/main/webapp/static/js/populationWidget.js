@@ -24,9 +24,18 @@ $(document).ready( function() {
 	var selectedPopulation=SLC.dataProxy.getData('populationWidget')['selectedPopulation'];
 	populateInstHierarchy();
 	$("#dbrd_btn_pw_go").click(function() {
+		var edOrgIndex = $("#edOrgSelect").val();
+		var schoolIndex = $("#schoolSelect").val();
 		var courseIndex = $("#courseSelect").val();
-		var selectionIndex = $("#sectionSelect").val();
-		location.href = contextRootPath + "/service/list/" + courseSectionData[courseIndex].sections[selectionIndex].id;
+		var sectionSelect = $("#sectionSelect").val();
+		if (sectionSelect != -1) 
+		    location.href = contextRootPath + "/service/list/" + courseSectionData[courseIndex].sections[sectionSelect].id;
+	    else if (courseIndex != -1) {}
+		else if (schoolIndex != -1)
+			location.href = contextRootPath + "/service/layout/school/" + instHierarchy[edOrgIndex].schools[schoolIndex].id;
+		else if (edOrgIndex != -1)
+			location.href = contextRootPath + "/service/layout/district/" + instHierarchy[edOrgIndex].id;	
+		
     });
 });
 
