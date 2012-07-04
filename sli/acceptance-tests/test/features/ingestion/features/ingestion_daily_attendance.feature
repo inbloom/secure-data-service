@@ -1,4 +1,5 @@
 @RALLY_US0615
+@RALLY_US927
 Feature: Daily Attendance Ingestion Test
 
 Background: I have a landing zone route configured
@@ -40,6 +41,8 @@ Then I should see following map of entry counts in the corresponding collections
      | attendance                  | 38                  | body.schoolYearAttendance.attendanceEvent.event | In Attendance |
      | attendance                  | 0                   | body.schoolYearAttendance.attendanceEvent.date  | 2011-09-01    |
      | attendance                  | 38                  | body.schoolYearAttendance.attendanceEvent.date  | 2011-11-10    |
+   
+   | studentSchoolAssociation     | 7                   | body.classOf                                     | 2011-2012    |
 
   And I should see "Processed 549 records." in the resulting batch job file
   And I should not see an error log file created
