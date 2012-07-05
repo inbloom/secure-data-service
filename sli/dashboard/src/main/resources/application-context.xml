@@ -37,7 +37,8 @@
     </bean>
 	
 	<bean id="propertiesDecryptor" class="org.slc.sli.dashboard.security.PropertiesDecryptor">
-	    <constructor-arg name="keyStore" value="${dashboard.encryption.keyStore}" />
+	    <constructor-arg name="keyStore" value="${sli.encryption.keyStore}" />
+	    <!--<constructor-arg name="keyStore" value="${dashboard.encryption.keyStore}" /> -->
 	    <constructor-arg name="clientSecret" value="${oauth.client.secret}" />
 	    <constructor-arg name="clientId" value="${oauth.client.id}" />
 	    <constructor-arg name="alias" value="${dashboard.encryption.dalKeyAlias}" />
