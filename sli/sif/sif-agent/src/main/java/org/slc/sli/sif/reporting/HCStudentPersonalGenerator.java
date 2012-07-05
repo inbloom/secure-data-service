@@ -17,6 +17,7 @@
 package org.slc.sli.sif.reporting;
 
 import java.util.Calendar;
+import java.util.Properties;
 
 import openadk.library.Event;
 import openadk.library.EventAction;
@@ -40,9 +41,10 @@ import openadk.library.student.StudentPersonal;
 public class HCStudentPersonalGenerator implements EventGenerator {
 
     @Override
-    public Event generateEvent() {
+    public Event generateEvent(Properties props) {
         StudentPersonal student = generateTestStudent();
-        Event event = new Event(student, EventAction.ADD );
+        Event event = new Event(student, EventAction.ADD);
+        System.out.println(student.toXML());
         return event;
     }
 

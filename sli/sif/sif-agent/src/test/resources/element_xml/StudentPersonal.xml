@@ -1,0 +1,42 @@
+<StudentPersonal xmlns="http://www.sifinfo.org/infrastructure/2.x" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <OtherIdList>
+    <OtherId Type="07">P00001</OtherId>
+    <OtherId Type="10">123-45-6789</OtherId>
+  </OtherIdList>
+  <Name Type="01">
+    <LastName>Student</LastName>
+    <FirstName>Joe</FirstName>
+    <MiddleName></MiddleName>
+    <PreferredName>Joe</PreferredName>
+  </Name>
+  <Demographics>
+    <BirthDate>1982-01-20</BirthDate>
+    <StateOfBirth>AK</StateOfBirth>
+    <CountryOfBirth>US</CountryOfBirth>
+    <CitizenshipStatus>1017</CitizenshipStatus>
+  </Demographics>
+  <AddressList>
+    <Address>
+      <Street>
+        <Line1>1 IBM Plaza</Line1>
+        <Line2>Suite 2000</Line2>
+        <Line3>Salt Lake City, UT 84102</Line3>
+        <StreetNumber>1</StreetNumber>
+        <StreetName>IBM</StreetName>
+        <StreetType>Plaza</StreetType>
+        <ApartmentType>Suite</ApartmentType>
+        <ApartmentNumber>2000</ApartmentNumber>
+      </Street>
+      <City>Salt Lake City</City>
+      <StateProvince>UT</StateProvince>
+      <Country>US</Country>
+      <PostalCode>84102</PostalCode>
+    </Address>
+  </AddressList>
+  <PhoneNumberList>
+    <PhoneNumber Type="0096">
+      <Number>(312) 555-1234</Number>
+    </PhoneNumber>
+  </PhoneNumberList>
+  <GraduationDate>1982</GraduationDate>
+</StudentPersonal>
