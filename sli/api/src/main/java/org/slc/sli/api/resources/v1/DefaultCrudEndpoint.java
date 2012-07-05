@@ -354,8 +354,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             public Response run(EntityDefinition entityDef) {
                 final int idLength = idList.split(",").length;
                 
-                System.out.println("Hitting API for " + idLength + " targets");
-
                 if (idLength > DefaultCrudEndpoint.MAX_MULTIPLE_UUIDS) {
                     Status errorStatus = Status.PRECONDITION_FAILED;
                     String errorMessage = "Too many GUIDs: " + idLength + " (input) vs "
@@ -370,9 +368,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
                 for (String id : idList.split(",")) {
                     ids.add(id);
-
-                    System.out.println("Hitting API for " + id);
-
                 }
                 
                 NeutralQuery neutralQuery = new ApiQuery(uriInfo);
@@ -381,25 +376,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 
                 neutralQuery.setLimit(0);
                 neutralQuery.setOffset(0);
-                
-                if (neutralQuery.getLimit() != 0) {
-                    Status errorStatus = Status.BAD_REQUEST;
-                    String errorMessage = "Limit parameter invalid with finite ID lookup";
-                    return Response
-                            .status(errorStatus)
-                            .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
-                                    errorMessage)).build();
-                }
-                
-                if (neutralQuery.getOffset() != 0) {
-                    Status errorStatus = Status.BAD_REQUEST;
-                    String errorMessage = "Offset parameter invalid with finite ID lookup";
-                    return Response
-                            .status(errorStatus)
-                            .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
-                                    errorMessage)).build();
-                }
-                
                 
                 // final/resulting information
                 List<EntityBody> finalResults = new ArrayList<EntityBody>();
@@ -428,10 +404,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 finalResults = appendOptionalFields(uriInfo, finalResults, DefaultCrudEndpoint.this.resourceName);
                 
                 if (idLength == 1 && finalResults.isEmpty()) {
-                    return Response
-                            .status(Status.NOT_FOUND)
-                            .entity(new ErrorResponse(Status.NOT_FOUND.getStatusCode(), Status.NOT_FOUND
-                                    .getReasonPhrase(), "Entity not found: " + resourceName + "=" + idList)).build();
+                    throw new EntityNotFoundException(ids.get(0));
                 }
                 
                 if (idLength > 1) {
