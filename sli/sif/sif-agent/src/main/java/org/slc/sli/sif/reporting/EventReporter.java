@@ -18,10 +18,7 @@ package org.slc.sli.sif.reporting;
 
 import java.util.Properties;
 
-import org.slc.sli.sif.agent.SIFAgent;
-
 import openadk.library.ADK;
-
 import openadk.library.ADKException;
 import openadk.library.DataObjectOutputStream;
 import openadk.library.Event;
@@ -32,6 +29,8 @@ import openadk.library.Zone;
 
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
+import org.slc.sli.sif.agent.SifAgent;
+
 public class EventReporter implements Publisher {
 
     public static void main(String[] args) {
@@ -40,7 +39,7 @@ public class EventReporter implements Publisher {
                     "classpath:spring/applicationContext.xml");
             context.registerShutdownHook();
 
-            SIFAgent agent = context.getBean(SIFAgent.class);
+            SifAgent agent = context.getBean(SifAgent.class);
 
             ADK.initialize();
             if (args.length >= 3) {

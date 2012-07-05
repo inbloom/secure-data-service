@@ -38,9 +38,9 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.sif.subscriber.SifSubscriber;
 
 @Component
-public class SIFAgent extends Agent {
+public class SifAgent extends Agent {
 
-    private static final Logger LOG = LoggerFactory.getLogger(SIFAgent.class);
+    private static final Logger LOG = LoggerFactory.getLogger(SifAgent.class);
 
 
     AgentConfig fCfg;
@@ -48,11 +48,11 @@ public class SIFAgent extends Agent {
     @Value("classpath:/sif/agent-config.xml")
     Resource configFile;
 
-    public SIFAgent() {
-        this("SIFAgent");
+    public SifAgent() {
+        this("SifAgent");
     }
 
-    public SIFAgent(String id){
+    public SifAgent(String id){
         super(id);
         setName(id);
     }

@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
 public class AgentManager {
 
     @Autowired
-    SIFAgent agent;
+    SifAgent agent;
 
     @PostConstruct
     public void setup() throws Exception {
