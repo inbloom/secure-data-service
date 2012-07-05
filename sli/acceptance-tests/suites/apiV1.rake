@@ -307,6 +307,12 @@ task :v1SecurityEventTests => [:realmInit] do
   runTests("test/features/apiV1/securityEvent/securityEvent.feature")
 end
 
+desc "Run V1 Comma-Separated List Order Tests"
+task :v1CommaSeparatedListOrderTests => [:realmInit] do
+  setFixture("student", "student_fixture.json")
+  runTests("test/features/apiV1/comma_separated_list/comma_separated_list_ordering.feature")
+end
+
 ############################################################
 # API V1 tests end
 ############################################################
