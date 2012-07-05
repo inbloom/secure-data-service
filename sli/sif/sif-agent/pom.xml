@@ -14,7 +14,19 @@
 
     <name>SIF Agent</name>
 
+    <properties>
+        <sli.home>${project..parent.parent.basedir}</sli.home>
+        <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
+        <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>
+    </properties>
+
+
     <dependencies>
+
+        <dependency>
+            <groupId>org.slc.sli.common</groupId>
+            <artifactId>sli-common</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>openadk</groupId>
@@ -55,12 +67,17 @@
 
     </dependencies>
 
-    <properties>
-        <sli.home>${project..parent.parent.basedir}</sli.home>
-    </properties>
+
 
     <build>
         <finalName>sif-agent</finalName>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
 
         <plugins>
 

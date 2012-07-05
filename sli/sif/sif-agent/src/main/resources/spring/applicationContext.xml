@@ -7,5 +7,16 @@
     <context:annotation-config />
     <context:component-scan base-package="org.slc" />
 
+    <!-- Environment config -->
+    <bean id="commonProperties"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreResourceNotFound" value="true" />
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+        <property name="locations">
+            <list>
+                <value>file:${sli.conf}</value>
+            </list>
+        </property>
+    </bean>
 
 </beans>

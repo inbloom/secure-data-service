@@ -12,10 +12,11 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
         <param-value>classpath:spring/applicationContext.xml</param-value>
     </context-param>
 
-
-<!--	<listener>
+    <listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+
+<!--	
 	
 	<filter>
 		<filter-name>AuthFilter</filter-name>
