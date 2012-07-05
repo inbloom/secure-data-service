@@ -571,4 +571,7 @@ public interface APIClient {
      */
     List<GenericEntity> getCoursesSectionsForSchool(String token, String schoolId);
 
+    public List<GenericEntity> getCourseSectionMappings(List<GenericEntity> sections, String token);
+   
+    
 }

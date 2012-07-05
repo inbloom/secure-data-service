@@ -1352,7 +1352,7 @@ public class SDKAPIClient implements APIClient {
     /**
      * Get the associations between courses and sections
      */
-    private List<GenericEntity> getCourseSectionMappings(List<GenericEntity> sections, String token) {
+    public List<GenericEntity> getCourseSectionMappings(List<GenericEntity> sections, String token) {
         Map<String, GenericEntity> courseMap = new HashMap<String, GenericEntity>();
         Map<String, String> sectionIDToCourseIDMap = new HashMap<String, String>();
 

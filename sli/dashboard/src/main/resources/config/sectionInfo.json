@@ -1,0 +1,9 @@
+{
+	id: "sectionInfo",
+	type: "PANEL",
+	name: "Section Info",
+	data :{
+		entity: "sectionInfo",
+		cacheKey: "sectionInfo"
+	} 
+}

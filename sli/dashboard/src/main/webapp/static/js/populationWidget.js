@@ -29,7 +29,7 @@ $(document).ready( function() {
 		var courseIndex = $("#courseSelect").val();
 		var sectionSelect = $("#sectionSelect").val();
 		if (sectionSelect != -1) 
-		    location.href = contextRootPath + "/service/list/" + courseSectionData[courseIndex].sections[sectionSelect].id;
+		    location.href = contextRootPath + "/service/layout/section/" + courseSectionData[courseIndex].sections[sectionSelect].id;
 	    else if (courseIndex != -1) {}
 		else if (schoolIndex != -1)
 			location.href = contextRootPath + "/service/layout/school/" + instHierarchy[edOrgIndex].schools[schoolIndex].id;
