@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<agent id="SifAgent" sifVersion="2.3">
+<agent id="test.agent" sifVersion="2.5">
 
     <!-- ====================================================================== 
         *** GLOBAL AGENT PROPERTIES *** ====================================================================== 
@@ -42,9 +42,9 @@
         <property> elements, they override properties of the same name that are defined 
         in the zone template. ====================================================================== -->
 
-    <zone id="Zone1" template="Default" url="http://localhost:7080/Zone1" />
+    <zone id="TestZone" template="Default" url="http://10.163.6.73:50002/TestZone" />
 
-    /
+    
     <!-- ====================================================================== 
         *** TRANSPORT PROPERTIES *** ====================================================================== 
         The AgentConfig.apply method automatically applies <transport> properties 
