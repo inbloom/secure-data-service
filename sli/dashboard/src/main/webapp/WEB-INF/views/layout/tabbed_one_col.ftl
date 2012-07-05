@@ -39,9 +39,11 @@
 		        <#list item.items as panel>
 		         
 		          <div class="panel">
+		              <#if viewConfigs[panel.id].name??>
 			          <div class="panel-header">
 			            <h7>${viewConfigs[panel.id].name}</h7>
 			          </div>
+			          </#if>
 			          <div class="panel-content">
 			          <@includePanelContent panel=panel/>  
 			          </div>   

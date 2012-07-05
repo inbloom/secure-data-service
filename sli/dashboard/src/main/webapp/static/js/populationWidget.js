@@ -29,12 +29,12 @@ $(document).ready( function() {
 		var courseIndex = $("#courseSelect").val();
 		var sectionSelect = $("#sectionSelect").val();
 		if (sectionSelect != -1) 
-		    location.href = contextRootPath + "/service/layout/section/" + courseSectionData[courseIndex].sections[sectionSelect].id;
+		    SLC.util.goToLayout("section", courseSectionData[courseIndex].sections[sectionSelect].id);
 	    else if (courseIndex != -1) {}
 		else if (schoolIndex != -1)
-			location.href = contextRootPath + "/service/layout/school/" + instHierarchy[edOrgIndex].schools[schoolIndex].id;
+		    SLC.util.goToLayout("school", instHierarchy[edOrgIndex].schools[schoolIndex].id);
 		else if (edOrgIndex != -1)
-			location.href = contextRootPath + "/service/layout/district/" + instHierarchy[edOrgIndex].id;	
+		    SLC.util.goToLayout("district", instHierarchy[edOrgIndex].id);	
 		
     });
 });
@@ -65,15 +65,16 @@ function clearSelections(currentSelect) {
 function getCourseSectionData() {
 	var edOrgIndex = $("#edOrgSelect").val();
 	var schoolIndex = $("#schoolSelect").val();
-	SLC.dataProxy.load('populationCourseSection', instHierarchy[edOrgIndex].schools[schoolIndex].id, function(panel) {	
-	    courseSectionData = SLC.dataProxy.getData('populationCourseSection')['root'];
-	});
+	if (edOrgIndex != -1 && schoolIndex != -1)
+	  SLC.dataProxy.load('populationCourseSection', instHierarchy[edOrgIndex].schools[schoolIndex].id, function(panel) {	
+	      courseSectionData = SLC.dataProxy.getData('populationCourseSection')['root'];
+	  });
 }
 
 function populateInstHierarchy() {
 	
 	clearSelections("edOrg");
-	SLC.util.setDropDownOptions("edOrg", null,  instHierarchy, "name", "", true, function() {
+	SLC.util.setDropDownOptions("edOrg", {"-1": "Choose One"},  instHierarchy, "name", "", true, function() {
 		clearSelections("school");
 		populateSchoolMenu();
 	});
@@ -82,21 +83,23 @@ function populateInstHierarchy() {
 function populateSchoolMenu() {
 	var edOrgIndex = $("#edOrgSelect").val();
 	clearSelections("school");
-	SLC.util.setDropDownOptions("school", null, instHierarchy[edOrgIndex].schools, "nameOfInstitution", "", true, function() {
-		clearSelections("course");
-		getCourseSectionData();
-		populateCourseMenu();
-	});
+	if (edOrgIndex != -1)
+	  SLC.util.setDropDownOptions("school",  {"-1": "Choose One"}, instHierarchy[edOrgIndex].schools, "nameOfInstitution", "", true, function() {
+	  	clearSelections("course");
+	  	getCourseSectionData();
+	  	populateCourseMenu();
+	  });
 }
 
 function populateCourseMenu(){
 	var edOrgIndex = $("#edOrgSelect").val();
 	var schoolIndex = $("#schoolSelect").val();
 	clearSelections("course");
-	SLC.util.setDropDownOptions("course", null, courseSectionData, "courseTitle", "", true, function() {
-		clearSelections("section");
-		populateSectionMenu();
-	});
+	if (edOrgIndex != -1 && schoolIndex != -1)
+	  SLC.util.setDropDownOptions("course", {"-1": "Choose One"}, courseSectionData, "courseTitle", "", true, function() {
+	  	  clearSelections("section");
+		  populateSectionMenu();
+	  });
 }
 
 function populateSectionMenu(){
@@ -105,6 +108,6 @@ function populateSectionMenu(){
 	var schoolIndex = $("#schoolSelect").val();
 	var courseIndex = $("#courseSelect").val();
 	clearSelections("section");
-	SLC.util.setDropDownOptions("section", null, courseSectionData[courseIndex].sections, "sectionName", "", false, function() {
-	});
+	if (edOrgIndex != -1 && schoolIndex != -1 && courseIndex != -1)
+	    SLC.util.setDropDownOptions("section", {"-1": "Choose One"}, courseSectionData[courseIndex].sections, "sectionName", "", false, function() {});
 }

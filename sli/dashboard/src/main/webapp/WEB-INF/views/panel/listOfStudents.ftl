@@ -1,6 +1,8 @@
  <@includePanelModel panelId="listOfStudents"/>
  <#assign id = getDivId(panelConfig.id)>
-    <div id="viewDiv" class="menuBox">
+ <div id="listOfStudents">
+   <div id="viewDiv" class="menuBox">
+        <h4> View </h4>
         <input type='hidden' value='' id ='viewSelect' /> 
         <div class="btn-toolbar">
             <div class="btn-group" id="viewSelectMenu">
@@ -12,9 +14,8 @@
                 </ul>
             </div>
         </div>
-  </div>
-   <div id="listOfStudents">
-  <div id="filterDiv" class="menuBox">
+    </div>
+    <div id="filterDiv" class="menuBox">
         <h4> Filter </h4>
         <input type='hidden' value='' id ='filterSelect' /> 
         <div class="btn-toolbar">

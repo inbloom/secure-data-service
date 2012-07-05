@@ -379,6 +379,8 @@ th.ui-th-column div {
 
 #listOfStudents .menuBox {
     width: 18.5%;
+    padding: 5px;
+    display: inline-block;
 }
 
 /* Population Selection Dropdown*/
@@ -958,51 +960,6 @@ button.btn.small, input[type="submit"].btn.small {
 .menuBox a {
 color: black;
 text-decoration: none;
-}
-
-/*View Selection */
-
-#viewDiv .optionText {
-    font-size: 24px;
-    font-weight: bold;
-}
-
-#viewDiv .btn .caret {
-    margin:5px;
-}
-
-#viewDiv .btn {
-    border:none;
-}
-
-#viewDiv .btn-group {
-    width:auto;
-    margin:5px;
-}
-
-#viewDiv .btn-group .dropdown-toggle {
-  width:auto;
-  padding: 15px;
-  background:none;
-  padding-left: 8px;
-  padding-right: 8px;
-  -webkit-box-shadow: inset 1px 0 0 rgba(255, 255, 255, 255), inset 0 1px 0 rgba(255, 255, 255, 255), 0 1px 2px rgba(0, 0, 0, 0);
-  -moz-box-shadow: inset 1px 0 0 rgba(255, 255, 255, 255), inset 0 1px 0 rgba(255, 255, 255, 255), 0 1px 2px rgba(0, 0, 0, 0);
-  box-shadow: inset 1px 0 0 rgba(255, 255, 255, 255), inset 0 1px 0 rgba(255, 255, 255, 255), 0 1px 2px rgba(0, 0, 0, 0);
-  *padding-top: 5px;
-  *padding-bottom: 5px;
-}
-
-
-#viewDiv .btn-group .dropdown-toggle:hover {
-  background-color:#eee; 
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  border-radius: 8px;
-}
-
-#viewDiv .btn-toolbar {
-    margin:0px;
 }
 
 #listView

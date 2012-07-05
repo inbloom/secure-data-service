@@ -30,9 +30,9 @@ import java.util.Vector;
 
 import org.springframework.cache.annotation.Cacheable;
 
+import org.slc.sli.dashboard.entity.Config.Data;
 import org.slc.sli.dashboard.entity.EdOrgKey;
 import org.slc.sli.dashboard.entity.GenericEntity;
-import org.slc.sli.dashboard.entity.Config.Data;
 import org.slc.sli.dashboard.entity.util.GenericEntityComparator;
 import org.slc.sli.dashboard.manager.ApiClientManager;
 import org.slc.sli.dashboard.manager.UserEdOrgManager;
@@ -120,16 +120,6 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
 
         // create ed-org key and save to cache
         if (edOrg != null) {
-            @SuppressWarnings("unchecked")
-                    String nameOfinstitution = edOrg.get(Constants.ATTR_NAME_OF_INST).toString();
-//            LinkedHashMap<String, Object> metaData = (LinkedHashMap<String, Object>) edOrg.get(Constants.METADATA);
-//            if (metaData != null && !metaData.isEmpty()) {
-//                if (metaData.containsKey(Constants.EXTERNAL_ID)) {
-//                    edOrgKey = new EdOrgKey(metaData.get(Constants.EXTERNAL_ID).toString(), edOrg.getId());
-//                    putToCache(USER_ED_ORG_CACHE, token, edOrgKey);
-//                    return edOrgKey;
-//                }
-//            }
             return new EdOrgKey(edOrg.getId());
 
         }

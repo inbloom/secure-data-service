@@ -208,19 +208,19 @@ SLC.namespace('SLC.util', (function () {
 		
 		function setDropDownOptions(name, defaultOptions, options, titleKey, valueKey, autoSelect, callback) {
 			var select =  "",
-				autoSelectOption = -1;
+			autoSelectOption = -1;
 			
 			$("#"+name).find("dropdown-menu").html(select);
 			
 			
 			if(options === null || options === undefined || options.length === 0) {
-		                this.displayErrorMessage("There is no data available for your request.  Please contact your IT administrator.");
+		        this.displayErrorMessage("There is no data available for your request.  Please contact your IT administrator.");
 			} else {
 				if (options.length === 1 && autoSelect) {
 					autoSelectOption = 0;
 				}
-				
 				if (defaultOptions !== undefined && defaultOptions !== null) {
+
 					$.each(defaultOptions, function(val, displayText) {
 						select += "    <li class=\"\"><a href=\"#\" onclick=\"SLC.util.hideErrorMessage()\">" + displayText + "</a>" +
 						"<input type='hidden' value='"+ val + "' id ='selectionValue' /></li>";
@@ -282,6 +282,10 @@ SLC.namespace('SLC.util', (function () {
 			return true;
 		}
 		
+		function goToLayout(name, id) {
+			location.href = contextRootPath + "/service/layout/" + name + "/" + id;
+		}
+		
 		return {
 			counter: counter,
 			compareInt: compareInt,
@@ -305,7 +309,8 @@ SLC.namespace('SLC.util', (function () {
 			hideErrorMessage: hideErrorMessage,
 			setDropDownOptions: setDropDownOptions,
 			selectDropDownOption: selectDropDownOption,
-			placeholderFix: placeholderFix
+			placeholderFix: placeholderFix,
+			goToLayout: goToLayout
 		};
 	}())
 );
