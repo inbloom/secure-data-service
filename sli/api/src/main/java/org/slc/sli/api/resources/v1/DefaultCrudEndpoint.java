@@ -472,7 +472,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                                 errorResult.put("code", Status.NOT_FOUND.getStatusCode());
                             } catch (AccessDeniedException ade) {
                                 errorResult.put("type", "Forbidden");
-                                errorResult.put("message", "Acess DENIED: " + ade.getMessage());
+                                errorResult.put("message", "Access DENIED: " + ade.getMessage());
                                 errorResult.put("code", Status.FORBIDDEN.getStatusCode());
                             } catch (Exception e) {
                                 errorResult.put("type", "Internal Server Error");
