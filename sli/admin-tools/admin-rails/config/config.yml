@@ -93,7 +93,7 @@ team:
     email_replace_uri: https://ci.slidev.org:2001
     is_sandbox: false
     portal_url: https://rcportal.slidev.org/portal
-    rsa_key_dir: /ingestion/sftp/authorized_keys
+    rsa_key_dir: /ingestion/.sftp/authorized_keys
     
 team_sb:
     <<: *common
@@ -107,7 +107,7 @@ team_sb:
     ldap_base: ou=SLIAdmin,dc=slidev,dc=org
     email_replace_uri: https://ci.slidev.org:2001
     portal_url: https://rc2portal.slidev.org/portal
-    rsa_key_dir: /ingestion/sftp/authorized_keys
+    rsa_key_dir: /ingestion/.sftp/authorized_keys
     
 test:
     <<: *common
@@ -132,5 +132,5 @@ production:
     email_replace_uri: https://ci.slidev.org:2001
     is_sandbox: false
     portal_url: https://rcportal.slidev.org/portal
-    rsa_key_dir: /ingestion/sftp/authorized_keys
+    rsa_key_dir: /ingestion/.sftp/authorized_keys
 
