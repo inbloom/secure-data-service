@@ -18,6 +18,8 @@ package org.slc.sli.sif.reporting;
 
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
+
 import openadk.library.ADK;
 import openadk.library.ADKException;
 import openadk.library.DataObjectOutputStream;
@@ -48,6 +50,7 @@ public class EventReporter implements Publisher {
                 String messageFile = args[EventReporter.MESSAGE_FILE];
                 Zone zone = agent.addZone(zoneId, zoneUrl);
                 EventReporter reporter = new EventReporter(zone);
+                reporter.setEventGenerator(new HCStudentPersonalGenerator());
                 reporter.reportEvent(messageFile);
             } else {
                 Zone zone = agent.getZoneFactory().getZone("Zone1");
@@ -63,15 +66,13 @@ public class EventReporter implements Publisher {
     public static final int ZONE_URL = 1;
     public static final int MESSAGE_FILE = 2;
 
+    private static final Logger LOG = ADK.getLog();
+
     // TODO autowire these in?
     private Zone zone;
     private EventGenerator generator;
 
     public EventReporter(Zone zone) throws Exception {
-        this(zone, null);
-    }
-
-    public EventReporter(Zone zone, String messageFile) throws Exception {
         this.zone = zone;
         this.zone.setPublisher(this);
         generator = new HCStudentPersonalGenerator();
@@ -84,22 +85,30 @@ public class EventReporter implements Publisher {
     public void reportEvent() throws ADKException {
         Event event = generator.generateEvent(null);
         System.out.println(event.getObjectType().toString());
-        zone.reportEvent(event);
+        if (zone.isConnected()) {
+            zone.reportEvent(event);
+        } else {
+            LOG.error("Zone is not connected");
+        }
     }
 
     public void reportEvent(String messageFile) throws ADKException {
         Properties props = new Properties();
         props.setProperty(CustomEventGenerator.MESSAGE_FILE, messageFile);
         Event event = generator.generateEvent(props);
-        zone.reportEvent(event);
+        if (zone.isConnected()) {
+            zone.reportEvent(event);
+        } else {
+            LOG.error("Zone is not connected");
+        }
     }
 
     @Override
     public void onRequest(DataObjectOutputStream out, Query query, Zone zone,
             MessageInfo info) throws ADKException {
-        System.out.println("Received request to publish data:\n"
-                + "\tZone: " + zone.getZoneId() + "\n"
+        LOG.info("Received request to publish data:\n"
                 + "\tQuery:\n" + query.toXML() + "\n"
+                + "\tZone: " + zone.getZoneId() + "\n"
                 + "\tInfo: " + info.getMessage());
     }
 
