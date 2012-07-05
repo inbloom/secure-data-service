@@ -17,11 +17,12 @@
 
 package org.slc.sli.api.validation.impl;
 
+import java.net.URI;
+
 import org.apache.commons.validator.routines.UrlValidator;
-import org.slc.sli.api.validation.URLValidator;
 import org.springframework.stereotype.Component;
 
-import java.net.URI;
+import org.slc.sli.api.validation.URLValidator;
 
 /**
  * A simple url validator using apache-common url validator
@@ -33,7 +34,7 @@ public class SimpleURLValidator implements URLValidator {
 
     @Override
     public boolean validate(URI url) {
-        String[] schemes = {"http","https"};
+        String[] schemes = {"http", "https"};
         UrlValidator validator = new UrlValidator(schemes);
 
         return validator.isValid(url.toString());

@@ -23,17 +23,16 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 
-import org.slc.sli.api.client.constants.EntityNames;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.service.BasicService;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * @author pwolf
