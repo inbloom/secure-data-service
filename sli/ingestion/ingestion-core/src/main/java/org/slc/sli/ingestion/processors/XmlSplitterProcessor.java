@@ -19,14 +19,11 @@ package org.slc.sli.ingestion.processors;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.springframework.stereotype.Component;
-
-import org.slc.sli.dal.TenantContext;
-import org.slc.sli.ingestion.landingzone.ControlFile;
-import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
-import org.slc.sli.ingestion.queues.MessageType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.ingestion.queues.MessageType;
 
 /**
  * Splits an XML file into multiple, smaller interchange files that can be packaged and dispatched to internal landing zones.
@@ -38,7 +35,7 @@ public class XmlSplitterProcessor  implements Processor {
 
 
     private static final String INGESTION_MESSAGE_TYPE = "IngestionMessageType";
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(NoExtractProcessor.class);
 
     private void setExchangeHeaders(Exchange exchange, boolean hasErrors) {

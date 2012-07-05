@@ -25,15 +25,15 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
-import org.slc.sli.api.resources.v1.DefaultCrudResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.client.constants.ResourceNames;
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
-import org.slc.sli.api.client.constants.v1.PathConstants;
 import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.constants.PathConstants;
+import org.slc.sli.api.constants.ResourceNames;
+import org.slc.sli.api.resources.v1.DefaultCrudResource;
 
 /**
  * Represents the definition of a section resource. A section is an educational entity that
@@ -79,7 +79,7 @@ public class SectionResource extends DefaultCrudResource {
     public Response getStudentSectionAssociationStudents(
             @PathParam(ParameterConstants.SECTION_ID) final String sectionId, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        
+
         // add optional field to the query params. always include the student's grade level.
         uriInfo.getQueryParameters(true).add(ParameterConstants.OPTIONAL_FIELDS, "gradeLevel");
 

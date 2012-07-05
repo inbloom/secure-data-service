@@ -36,8 +36,6 @@ import org.jdom.JDOMException;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.slc.sli.common.encrypt.security.saml2.DefaultSAML2Validator;
-import org.slc.sli.common.encrypt.security.saml2.XmlSignatureHelper;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 

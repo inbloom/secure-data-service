@@ -23,19 +23,26 @@
 // - Parallel indexes: creating an index key with more than one field that is an array
 // - Redundant indexes: {a,b,c} makes {a,b}, {a} redundant
 //
-// Known problem fields for parallel indexes: (no index key with more than one of these)
-// - *.metaData.edOrgs
-// - cohort.programId
-// - disciplineAction.disciplineIncidentId
-// - disciplineAction.staffId
-// - disciplineAction.studentId
-// - reportCard.grades
-// - reportCard.studentCompetencyId
-// - session.gradingPeriodreference
-// - staffCohortAssociation.cohortId
-// - staffCohortAssociation.staffId
-// - staffProgramId.programId
-// - staffProgramId.staffId
+// Known problem fields for parallel indexes: (no index key with more
+// than one of these)
+// These can be found in ComplexTypex.xsd
+// xpath=//xs:element[@type="reference"][@maxOccurs="unbounded"]
+// - *:metaData.edOrgs
+// - *:metaData.teacherContext
+// - cohort:body.programId
+// - disciplineAction:body.disciplineIncidentId
+// - disciplineAction:body.staffId
+// - disciplineAction:body.studentId
+// - learningObjective:body.learningStandards
+// - reportCard:body.grades
+// - reportCard:body.studentCompetencyId
+// - section:body.programReference
+// - section:body.assessmentReference
+// - session:body.gradingPeriodreference
+// - staffCohortAssociation:body.cohortId
+// - staffCohortAssociation:body.staffId
+// - staffProgramAssociation:body.programId
+// - staffProgramAssociation:body.staffId
 //
 
 //auth, realm, application
@@ -111,7 +118,6 @@ db["gradebookEntry"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.sectionId"
 db["gradebookEntry"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.sectionId":1});
 db["learningObjective"].ensureIndex({"metaData.tenantId":1,"body.learningStandards":1});
 db["learningObjective"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.learningStandards":1});
-db["learningObjective"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.learningStandards":1});
 db["learningObjective"].ensureIndex({"metaData.tenantId":1,"body.parentLearningObjective":1});
 db["learningObjective"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.parentLearningObjective":1});
 db["learningObjective"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.parentLearningObjective":1});
@@ -136,7 +142,6 @@ db["section"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.courseId":1});
 db["section"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.courseId":1});
 db["section"].ensureIndex({"metaData.tenantId":1,"body.programReference":1});
 db["section"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.programReference":1});
-db["section"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.programReference":1});
 db["section"].ensureIndex({"metaData.tenantId":1,"body.schoolId":1});
 db["section"].ensureIndex({"metaData.tenantId":1,"_id":1,"body.schoolId":1});
 db["section"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1,"body.schoolId":1});

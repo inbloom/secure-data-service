@@ -22,22 +22,22 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.slc.sli.api.client.constants.EntityNames;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 
 /**
  * Resolves which learningStandard a given staff is allowed to see
- * 
+ *
  * @author dliu
- * 
+ *
  */
 //@Component
 public class StaffLearningStandardResolver implements EntityContextResolver {
 
     @Autowired
     private Repository<Entity> repository;
-    
+
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
         return EntityNames.STAFF.equals(fromEntityType) && EntityNames.LEARNING_STANDARD.equals(toEntityType);
