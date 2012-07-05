@@ -83,9 +83,13 @@
   <bean id="mongoEntityRepository" name="validationRepo"
     class="org.slc.sli.dal.repository.MongoEntityRepository">
     <property name="template" ref="mongoTemplate" />
-    <property name="perfDbtemplate" ref="mongoPerfDbTemplate" />
     <property name="idConverter" ref="mongoIdConverter" />
   </bean>
+    <bean id="mongoPerfEntityRepository" name="performanceRepo"
+          class="org.slc.sli.dal.repository.MongoPerfRepository">
+        <property name="perfDbtemplate" ref="mongoPerfDbTemplate" />
+        <property name="idConverter" ref="mongoIdConverter" />
+    </bean>
   
   <import resource="classpath:/spring/validation.xml" />
   <context:component-scan base-package="org.slc.sli.dal" />

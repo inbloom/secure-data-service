@@ -18,10 +18,31 @@
 
 package org.slc.sli.dal.repository;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.WriteConcern;
+import com.mongodb.WriteResult;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.index.IndexDefinition;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.util.Assert;
+
+import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,19 +54,45 @@ import java.util.Map;
  *
  */
 public class MongoPerfRepository<Entity> implements Repository<Entity> {
+
+    protected MongoTemplate perfDbtemplate;
+
+    protected IdConverter idConverter;
+
+    public IdConverter getIdConverter() {
+        return idConverter;
+    }
+
+    public void setIdConverter(IdConverter idConverter) {
+        this.idConverter = idConverter;
+    }
+
+    public MongoTemplate getPerfDbtemplate() {
+        return perfDbtemplate;
+    }
+
+    public void setPerfDbtemplate(MongoTemplate perfDbtemplate) {
+        this.perfDbtemplate = perfDbtemplate;
+    }
+
+    private static final int PADDING = 300;
+
     @Override
     public Entity create(String type, Map<String, Object> body) {
-        throw new UnsupportedOperationException("MongoPerfRepository.findById not implemented");
+        return create(type, body, type);
     }
 
     @Override
     public Entity create(String type, Map<String, Object> body, String collectionName) {
-        throw new UnsupportedOperationException("MongoPerfRepository.findById not implemented");
+        return create(type, body, new HashMap<String, Object>(), collectionName);
     }
 
     @Override
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
-        throw new UnsupportedOperationException("MongoPerfRepository.findById not implemented");
+        metaData = new HashMap<String, Object>();
+        Entity entity = (Entity)new MongoEntity(type, null, body, metaData, PADDING);
+        perfDbtemplate.insert(entity, collectionName);
+        return entity;
     }
 
     @Override
