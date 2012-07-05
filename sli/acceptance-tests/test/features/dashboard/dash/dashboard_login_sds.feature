@@ -148,6 +148,7 @@ When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
+Then I should be redirected to the Dashboard landing page
 When I look in the ed org drop-down
 Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526"
 When I select ed org "Daybreak School District 4529"
@@ -189,6 +190,7 @@ When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "sbantu" "sbantu1234" for the "Simple" login page
+Then I should be redirected to the Dashboard landing page
 When I look in the ed org drop-down
 Then I only see "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"
@@ -232,6 +234,7 @@ When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jjackson" "jjackson1234" for the "Simple" login page
+Then I should be redirected to the Dashboard landing page
 When I look in the ed org drop-down
 Then I only see "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"
@@ -246,6 +249,7 @@ When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "mjohnson" "mjohnson1234" for the "Simple" login page
+Then I should be redirected to the Dashboard landing page
 When I look in the ed org drop-down
 Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526"
 When I select ed org "Daybreak School District 4529"
@@ -264,6 +268,7 @@ When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "ckoch" "ckoch1234" for the "Simple" login page
+Then I should be redirected to the Dashboard landing page
 When I look in the ed org drop-down
 Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526"
 When I select ed org "Daybreak School District 4529"
@@ -307,6 +312,7 @@ When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "mgonzales" "mgonzales1234" for the "Simple" login page
+Then I should be redirected to the Dashboard landing page
 When I look in the ed org drop-down
 Then I only see "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"
@@ -328,6 +334,7 @@ When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "akopel" "akopel1234" for the "Simple" login page
+Then I should be redirected to the Dashboard landing page
 When I look in the ed org drop-down
 Then I only see "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"
@@ -352,6 +359,7 @@ When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "msmith" "msmith1234" for the "Simple" login page
+Then I should be redirected to the Dashboard landing page
 When I look in the ed org drop-down
 Then I only see "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"

@@ -100,5 +100,5 @@ end
 def clickOnStudent(name)
   los = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
   
-  @driver.find_element(:link, name).click
+  @driver.find_element(:link_text, name).click
 end

@@ -124,6 +124,5 @@ end
 
 def checkForTextInBody(expectedText)
   #make sure something is loaded, caveat, it might be still the old page
-  @explicitWait.until{@driver.find_element(:tag_name,"body")}
-  assertText(expectedText)
+  assertWithWait(expectedText) {@driver.find_element(:tag_name,"body")}
 end

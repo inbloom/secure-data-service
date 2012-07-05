@@ -12,6 +12,7 @@ Scenario: Invalid User Login
 When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
+ Then I should be redirected to the Dashboard landing page
 When I enter the Configuration Area
 Then I see an error
 
@@ -20,6 +21,7 @@ Scenario: Upload invalid config file
 When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
+ Then I should be redirected to the Dashboard landing page
 When I enter the Configuration Area
 Then I am authorized to the Configuration Area
 And I paste Invalid json config into the text box
@@ -46,6 +48,7 @@ Scenario: Upload valid config file
 When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
+ Then I should be redirected to the Dashboard landing page
 When I enter the Configuration Area
 Then I am authorized to the Configuration Area
 And the title of the page is "SLC"
@@ -79,6 +82,7 @@ When I select ed org "Sunset School District 4526"
 When I select school "Sunset Central High School"
 When I select course "A.P. Calculus"
 When I select section "A.P. Calculus Sec 201"
+Then I see a list of 3 students
 Then I should only see one view named "Default View"
 
 @integration @RALLY_US2276
@@ -86,6 +90,7 @@ Scenario:  Non-District IT admin upload
 When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
+ Then I should be redirected to the Dashboard landing page
 When I enter the Configuration Area
 Then I am unauthorized to the Configuration Area
 And I logout
@@ -100,6 +105,7 @@ Then I am unauthorized to the Configuration Area
 Scenario: Upload for hide panel based on condition
 When I select "Illinois Sunset School District 4526" and click go
 When I submit the credentials "jwashington" "jwashington1234" for the "Simple" login page
+Then I should be redirected to the Dashboard landing page
 When I enter the Configuration Area
 Then I am authorized to the Configuration Area
 And I paste configuration to hide csi panel
