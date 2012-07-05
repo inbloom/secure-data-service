@@ -1,4 +1,4 @@
-
+@smoke
 Feature: As a staff I want to demonstrate that all other staff I am associated with has secured data
 
 Scenario: Teacher accesses another teacher in same school

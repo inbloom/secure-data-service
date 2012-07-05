@@ -11,9 +11,9 @@
             "choiceOfFields" :
             [
                 [
-                    { 
+                    {
                         "path" : "body.staffUniqueStateId",
-                        "values" : 
+                        "values" :
                         [{
                             "valueSource" : "body.staffReference.staffIdentity.staffUniqueStateId"
                         }]
@@ -22,7 +22,7 @@
             ]
         }
     },
-    { 
+    {
         "fieldPath" : "body.cohortId",
         "ref" :
         {
@@ -32,27 +32,25 @@
             "choiceOfFields" :
             [
                 [
-                    { 
+                    {
                         "path" : "body.cohortIdentifier",
-                        "values" : 
+                        "values" :
                         [
                             {"valueSource" : "body.cohortReference.cohortIdentity.cohortIdentifier"}
                         ]
                     },
                     {
                         "path" : "body.educationOrgId",
-                        "values" : 
+                        "values" :
                         [
                             {"ref" :
                                 {
                                     "collectionName" : "educationOrganization",
-                                    "isRefList" : true,
-                                    "refObjectPath" : "body.cohortReference",
                                     "choiceOfFields" :
                                     [[
                                         {
                                             "path" : "body.stateOrganizationId",
-                                            "values": 
+                                            "values":
                                             [
                                                 {"valueSource": "body.cohortReference.cohortIdentity.stateOrganizationId"}
                                             ]

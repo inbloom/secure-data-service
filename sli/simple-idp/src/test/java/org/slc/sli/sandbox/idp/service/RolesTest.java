@@ -51,7 +51,7 @@ public class RolesTest {
         }
         assertTrue(values.contains("IT Administrator"));
         assertTrue(values.contains("Educator"));
-        assertTrue(values.contains("Aggregator"));
+        assertTrue(values.contains("Aggregate Viewer"));
         assertTrue(values.contains("Leader"));
     }
 }
