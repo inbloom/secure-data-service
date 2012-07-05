@@ -306,7 +306,7 @@ public class ResourceUtil {
                     for (String resourceName : resourceNames) {
                         String linkName = getLinkName(defn.getResourceName(), resourceName, BLANK, true);
                         if ( count>0){
-                            linkName = linkName + "[" + count + "]"
+                            linkName = linkName + "[" + count + "]" ;
                         }
                         if (!linkName.isEmpty()) {
                             links.add(new EmbeddedLink(linkName, "type", getURI(uriInfo, PathConstants.V1,
