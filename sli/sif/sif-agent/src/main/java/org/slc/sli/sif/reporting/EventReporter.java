@@ -18,8 +18,6 @@ package org.slc.sli.sif.reporting;
 
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
-
 import openadk.library.ADK;
 import openadk.library.ADKException;
 import openadk.library.DataObjectOutputStream;
@@ -29,6 +27,7 @@ import openadk.library.Publisher;
 import openadk.library.Query;
 import openadk.library.Zone;
 
+import org.apache.log4j.Logger;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import org.slc.sli.sif.agent.SifAgent;
@@ -53,7 +52,8 @@ public class EventReporter implements Publisher {
                 reporter.setEventGenerator(new CustomEventGenerator());
                 reporter.reportEvent(messageFile);
             } else {
-                Zone zone = agent.addZone("BallerZone", "http://10.163.6.73:50002/BallerZone");
+                Zone zone = agent.getZoneFactory().getZone("TestZone");
+                        //agent.addZone("TestZone", "http://10.163.6.73:50002/TestZone");
                 EventReporter reporter = new EventReporter(zone);
                 reporter.reportEvent();
             }

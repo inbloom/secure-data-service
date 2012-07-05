@@ -24,6 +24,11 @@ import openadk.library.ADKFlags;
 import openadk.library.Agent;
 import openadk.library.AgentMessagingMode;
 import openadk.library.AgentProperties;
+import openadk.library.DataObjectOutputStream;
+import openadk.library.MessageInfo;
+import openadk.library.Publisher;
+import openadk.library.PublishingOptions;
+import openadk.library.Query;
 import openadk.library.SIFVersion;
 import openadk.library.Zone;
 import openadk.library.student.StudentDTD;
@@ -94,7 +99,18 @@ public class SifAgent extends Agent {
                 LOG.info("- Connecting to zone \"" + zone.getZoneId() + "\" at " + zone.getZoneUrl());
 
                 zone.setSubscriber(new SifSubscriber(), StudentDTD.SCHOOLINFO);
-                zone.connect(ADKFlags.PROV_REGISTER);
+                zone.setSubscriber(new SifSubscriber(), StudentDTD.STUDENTPERSONAL);
+                Publisher p = new Publisher() {
+
+                    @Override
+                    public void onRequest(DataObjectOutputStream out, Query query, Zone zone, MessageInfo info) throws ADKException {
+                        // TODO Auto-generated method stub
+                        LOG.info("HERE");
+                    }
+                };
+                zone.setPublisher( p, StudentDTD.SCHOOLINFO, new PublishingOptions( true ) );
+                zone.setPublisher( p, StudentDTD.STUDENTPERSONAL, new PublishingOptions( true ) );
+                zone.connect(ADKFlags.PROV_REGISTER | ADKFlags.PROV_PROVIDE | ADKFlags.PROV_SUBSCRIBE);
 
             } catch (ADKException ex) {
                 LOG.error("  " + ex.getMessage(), ex);
