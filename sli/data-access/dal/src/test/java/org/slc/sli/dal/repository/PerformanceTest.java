@@ -80,8 +80,8 @@ public class PerformanceTest {
         }
         double timeTaken = (System.currentTimeMillis() - startTime) / 1000.0;
 
-        System.out.println("time taken to insert " + numToProcess + " records with " + writeConcern
-                + " write concern: " + timeTaken + "s RPS: " + (numToProcess / timeTaken));
+//        System.out.println("time taken to insert " + numToProcess + " records with " + writeConcern
+//                + " write concern: " + timeTaken + "s RPS: " + (numToProcess / timeTaken));
     }
 
     private Map<String, Object> createObjectToInsert() {

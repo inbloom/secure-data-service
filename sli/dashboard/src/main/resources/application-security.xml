@@ -10,7 +10,7 @@
 
 
                    
-<beans:bean id="entryPoint" class="org.slc.sli.security.SLIAuthenticationEntryPoint">
+<beans:bean id="entryPoint" class="org.slc.sli.dashboard.security.SLIAuthenticationEntryPoint">
     <beans:property name="propDecryptor" ref="propertiesDecryptor" />
     <beans:property name="restClient" ref="restClient" />
     <beans:property name="callbackUrl" value="${oauth.redirect}" />

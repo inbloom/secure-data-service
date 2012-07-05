@@ -40,10 +40,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.client.constants.ResourceConstants;
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
@@ -68,7 +68,7 @@ import org.slc.sli.domain.NeutralQuery.SortOrder;
 @Component
 @Scope("request")
 @Path("securityEvent")
-@Produces({ Resource.JSON_MEDIA_TYPE+";charset=utf-8", Resource.SLC_JSON_MEDIA_TYPE+";charset=utf-8" })
+@Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8", Resource.SLC_JSON_MEDIA_TYPE + ";charset=utf-8" })
 public class SecurityEventResource extends DefaultCrudEndpoint {
 
     public static final String UUID = "uuid";
