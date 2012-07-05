@@ -68,8 +68,6 @@
                 {"ref" :
                     {
                                     "collectionName" : "educationOrganization",
-                                    "isRefList" : true,
-                                    "refObjectPath" : "body.disciplineIncidentReference",
                                     "choiceOfFields" :
                         [
                         [
