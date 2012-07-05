@@ -1,0 +1,56 @@
+<LEAInfo RefId="D3E34B359D75101A8C3D00AA001A1652">
+  <LocalId>946379881</LocalId>
+  <StateProvinceId>C2345681</StateProvinceId>
+  <NCESId>4215750</NCESId>
+  <LEAName>Happy Meadow School District</LEAName>
+  <LEAURL>http://www.happymeadowsd.edu</LEAURL>
+  <EducationAgencyType>
+    <Code>3486</Code>
+  </EducationAgencyType>
+  <LEAContactList>
+    <LEAContact>
+      <PublishInDirectory>Yes</PublishInDirectory>
+      <ContactInfo>
+        <Name Type="04">
+          <LastName>Geisel</LastName>
+          <FirstName>Theodore</FirstName>
+          <FullName>Theodore Geisel</FullName>
+        </Name>
+        <PositionTitle>Superintendent</PositionTitle>
+        <EmailList>
+          <Email Type="Primary">drseuss@happymeadowsd.edu</Email>
+        </EmailList>
+        <PhoneNumberList>
+          <PhoneNumber Type="0096">
+            <Number>(555) 555-0103</Number>
+          </PhoneNumber>
+        </PhoneNumberList>
+      </ContactInfo>
+    </LEAContact>
+  </LEAContactList>
+  <PhoneNumberList>
+    <PhoneNumber Type="0096">
+      <Number>(312) 555-1234</Number>
+    </PhoneNumber>
+  </PhoneNumberList>
+  <IdentificationInfoList>
+    <IdentificationInfo Code="9999">2134A</IdentificationInfo>
+  </IdentificationInfoList>
+  <GradeLevels>
+    <GradeLevel>
+      <Code>09</Code>
+    </GradeLevel>
+    <GradeLevel>
+      <Code>10</Code>
+    </GradeLevel>
+    <GradeLevel>
+      <Code>11</Code>
+    </GradeLevel>
+    <GradeLevel>
+      <Code>12</Code>
+    </GradeLevel>
+  </GradeLevels>
+  <OperationalStatus>0820</OperationalStatus>
+  <CongressionalDistrict>3</CongressionalDistrict>
+</LEAInfo>
+
