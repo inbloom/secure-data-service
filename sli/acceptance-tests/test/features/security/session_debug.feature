@@ -1,3 +1,4 @@
+@smoke
 Feature: In order to retreive session details from the API
 
 Scenario: Authenticate with valid session ID and get the session debug context successfully

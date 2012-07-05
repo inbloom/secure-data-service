@@ -1,4 +1,4 @@
-
+@smoke
 Feature: Get available apps API 
  
  As a SE/LEA end user, I would like to be able to get a list of all the applications that are available to me. 
