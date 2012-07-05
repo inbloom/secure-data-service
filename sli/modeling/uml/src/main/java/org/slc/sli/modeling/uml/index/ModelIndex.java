@@ -50,7 +50,7 @@ public interface ModelIndex {
      */
     List<AssociationEnd> getAssociationEnds(Identifier type);
 
-    Iterable<ClassType> getClassTypes();
+    Map<QName, ClassType> getClassTypes();
 
     Map<QName, DataType> getDataTypes();
 

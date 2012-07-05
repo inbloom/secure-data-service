@@ -45,7 +45,19 @@ public interface Xsd2UmlPlugin {
 
     String nameFromComplexTypeExtension(QName complexType, QName base);
 
-    String nameFromElementName(QName name);
+    /**
+     * Converts a WXS schema element name into a name in the logical model.
+     *
+     * This provides an opportunity to camelCase the names from schemas that like TitleCase.
+     */
+    String nameFromSchemaElementName(QName name);
+
+    /**
+     * Converts a WXS schema attribute name into a name in the logical model.
+     *
+     * This provides an opportunity to camelCase the names from schemas that like TitleCase.
+     */
+    String nameFromSchemaAttributeName(QName name);
 
     String nameFromSimpleTypeRestriction(QName simpleType, QName base);
 

@@ -58,9 +58,11 @@ public final class DefaultModelIndex implements ModelIndex {
     }
 
     private final List<Association> associations;
+    @SuppressWarnings("unused")
     private final Map<Identifier, ClassType> classTypeIndex;
 
     // private final Map<Identifier, DataType> dataTypeIndex;
+    private final Map<QName, ClassType> classTypesByName;
     private final Map<QName, DataType> dataTypesByName;
 
     private final Map<Identifier, ModelElement> elementMap;
@@ -80,6 +82,7 @@ public final class DefaultModelIndex implements ModelIndex {
         namespaceMap = Collections.unmodifiableMap(new HashMap<Identifier, String>(visitor.getNamespaceMap()));
         whereUsed = Collections.unmodifiableMap(new HashMap<Identifier, Set<ModelElement>>(visitor.getWhereUsed()));
         nameMap = Collections.unmodifiableMap(new HashMap<QName, Set<ModelElement>>(visitor.getNameMap()));
+        classTypesByName = Collections.unmodifiableMap(new HashMap<QName, ClassType>(visitor.getClassTypesByName()));
         dataTypesByName = Collections.unmodifiableMap(new HashMap<QName, DataType>(visitor.getDataTypesByName()));
         tagDefinitionsByName = Collections.unmodifiableMap(new HashMap<QName, TagDefinition>(visitor
                 .getTagDefinitionsByName()));
@@ -152,8 +155,8 @@ public final class DefaultModelIndex implements ModelIndex {
     }
 
     @Override
-    public Iterable<ClassType> getClassTypes() {
-        return classTypeIndex.values();
+    public Map<QName, ClassType> getClassTypes() {
+        return classTypesByName;
     }
 
     @Override

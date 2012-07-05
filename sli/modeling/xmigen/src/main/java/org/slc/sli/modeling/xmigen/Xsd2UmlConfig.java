@@ -112,11 +112,19 @@ final class Xsd2UmlConfig implements Xsd2UmlPlugin, Xsd2UmlPluginHost {
     }
 
     @Override
-    public String nameFromElementName(final QName name) {
+    public String nameFromSchemaElementName(final QName name) {
         if (name == null) {
             throw new NullPointerException("name");
         }
-        return plugin.nameFromElementName(name);
+        return plugin.nameFromSchemaElementName(name);
+    }
+
+    @Override
+    public String nameFromSchemaAttributeName(final QName name) {
+        if (name == null) {
+            throw new NullPointerException("name");
+        }
+        return plugin.nameFromSchemaAttributeName(name);
     }
 
     @Override

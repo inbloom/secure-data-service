@@ -14,7 +14,7 @@
 	<xs:element name="competencyLevelDescriptorType" type="competencyLevelDescriptorType" />
 	<xs:element name="course" type="course" />
 	<xs:element name="disciplineIncident" type="disciplineIncident" />
-  <xs:element name="grade" type="grade" />
+    <xs:element name="grade" type="grade" />
 	<xs:element name="gradebookEntry" type="gradebookEntry" />
     <xs:element name="gradingPeriod" type="gradingPeriod" />
 	<xs:element name="learningObjective" type="learningObjective" />
@@ -24,7 +24,6 @@
 	<xs:element name="reportCard" type="reportCard" />
 	<xs:element name="school" type="school" />
 	<xs:element name="section" type="section" />
-	<xs:element name="sectionAssessmentAssociation" type="sectionAssessmentAssociation" />
 	<xs:element name="session" type="session" />
 	<xs:element name="courseOffering" type="courseOffering" />
 	<xs:element name="staff" type="staff" />

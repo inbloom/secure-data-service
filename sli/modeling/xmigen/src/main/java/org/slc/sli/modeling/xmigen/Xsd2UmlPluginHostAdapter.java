@@ -86,7 +86,7 @@ final class Xsd2UmlPluginHostAdapter implements Xsd2UmlPluginHost {
     @Override
     public String nameAssociation(final AssociationEnd lhs, final AssociationEnd rhs, final Xsd2UmlPluginHost host) {
         // Associations don't have to be named.
-        return "";
+        return lhs.getName() + "<=>" + rhs.getName();
     }
 
     @Override
@@ -95,7 +95,12 @@ final class Xsd2UmlPluginHostAdapter implements Xsd2UmlPluginHost {
     }
 
     @Override
-    public String nameFromElementName(final QName name) {
+    public String nameFromSchemaElementName(final QName name) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public String nameFromSchemaAttributeName(final QName name) {
         throw new UnsupportedOperationException();
     }
 

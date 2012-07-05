@@ -79,6 +79,7 @@ final class IndexingVisitor implements Visitor {
     @Deprecated
     private final Map<QName, Set<ModelElement>> nameMap = new HashMap<QName, Set<ModelElement>>();
     private final Map<QName, TagDefinition> tagDefinitionsByName = new HashMap<QName, TagDefinition>();
+    private final Map<QName, ClassType> classTypesByName = new HashMap<QName, ClassType>();
     private final Map<QName, DataType> dataTypesByName = new HashMap<QName, DataType>();
     /**
      * An identifier uniquely identifies a model element.
@@ -113,6 +114,10 @@ final class IndexingVisitor implements Visitor {
 
     public final Map<QName, DataType> getDataTypesByName() {
         return Collections.unmodifiableMap(new HashMap<QName, DataType>(dataTypesByName));
+    }
+
+    public final Map<QName, ClassType> getClassTypesByName() {
+        return Collections.unmodifiableMap(new HashMap<QName, ClassType>(classTypesByName));
     }
 
     public final Map<Identifier, ModelElement> getModelElementMap() {
@@ -174,6 +179,7 @@ final class IndexingVisitor implements Visitor {
     public void visit(final ClassType classType) {
         record(new QName(getNamespaceURI(), classType.getName()), classType, nameMap);
         namespaceMap.put(classType.getId(), getNamespaceURI());
+        classTypesByName.put(new QName(getNamespaceURI(), classType.getName()), classType);
         elementMap.put(classType.getId(), classType);
         for (final Attribute attribute : classType.getAttributes()) {
             attribute.accept(this);

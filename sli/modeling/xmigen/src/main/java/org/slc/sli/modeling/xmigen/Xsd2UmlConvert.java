@@ -477,7 +477,7 @@ final class Xsd2UmlConvert {
     private static final Attribute parseAttribute(final XmlSchemaAttribute attribute, final XmlSchema schema,
             final Xsd2UmlConfig config) {
 
-        final String name = config.nameFromElementName(attribute.getQName());
+        final String name = config.nameFromSchemaAttributeName(attribute.getQName());
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
         taggedValues.addAll(annotations(attribute, config));
 
@@ -495,7 +495,7 @@ final class Xsd2UmlConvert {
     private static final Attribute parseElement(final XmlSchemaElement element, final XmlSchema schema,
             final Xsd2UmlConfig config) {
 
-        final String name = config.nameFromElementName(element.getQName());
+        final String name = config.nameFromSchemaElementName(element.getQName());
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
         taggedValues.addAll(annotations(element, config));
 
@@ -518,8 +518,7 @@ final class Xsd2UmlConvert {
             final Identifier type = config.ensureId(getSimpleTypeName(simpleType));
             return new Attribute(Identifier.random(), name, type, multiplicity, taggedValues);
         } else {
-            System.err.println(Xsd2UmlConvert.class.getSimpleName() + ".parseElement(element " + name
-                    + "). Element does not have a type.");
+            System.err.println("element " + element.getQName() + " does not have a type.");
             return null;
         }
     }
