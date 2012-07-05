@@ -44,6 +44,9 @@ public class EdOrgContextResolver implements EntityContextResolver {
     private AssociativeContextHelper helper;
 
     @Autowired
+    private EdOrgToChildEdOrgNodeFilter edOrgToChildEdOrgNodeFilter;
+
+    @Autowired
     private StaffEdOrgEdOrgIDNodeFilter staffEdOrgEdOrgIDNodeFilter;
 
     @Autowired
@@ -56,7 +59,7 @@ public class EdOrgContextResolver implements EntityContextResolver {
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        if (toEntityType.equals(EntityNames.LEARNING_OBJECTIVE) || toEntityType.equals(EntityNames.LEARNING_STANDARD)) {
+        if (toEntityType.equals(EntityNames.LEARNING_OBJECTIVE) || toEntityType.equals(EntityNames.LEARNING_STANDARD) || toEntityType.equals(EntityNames.ASSESSMENT)) {
             return false;
         }
         return ((fromEntityType != null) && fromEntityType.equals(EntityNames.STAFF));
@@ -64,10 +67,7 @@ public class EdOrgContextResolver implements EntityContextResolver {
 
     @Override
     public List<String> findAccessible(Entity principal) {
-        if ((toEntity != null) && (toEntity.equals(EntityNames.LEARNING_OBJECTIVE) || toEntity.equals(EntityNames.LEARNING_STANDARD))) {
-            return AllowAllEntityContextResolver.SUPER_LIST;
-        }
-
+        
         if (securityCachingStrategy.contains(EntityNames.STAFF)) {
             List<String> cachedIds = new ArrayList<String>();
             cachedIds.addAll(securityCachingStrategy.retrieve(EntityNames.STAFF));
@@ -80,6 +80,7 @@ public class EdOrgContextResolver implements EntityContextResolver {
                 "educationOrganizationReference", Arrays.asList(principal.getEntityId()),
                 Arrays.asList((NodeFilter) staffEdOrgEdOrgIDNodeFilter));
 
+        ids.addAll(edOrgToChildEdOrgNodeFilter.addAssociatedIds(ids));
         //get the created edorgs
         ids.addAll(creatorResolverHelper.getAllowedForCreator(EntityNames.EDUCATION_ORGANIZATION));
 

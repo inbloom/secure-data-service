@@ -346,7 +346,7 @@
     <jb:value property="entryGradeLevel" data="StudentSchoolAssociation/EntryGradeLevel" />
     <jb:value property="entryType" data="StudentSchoolAssociation/EntryType" />
     <jb:value property="repeatGradeIndicator" data="StudentSchoolAssociation/RepeatGradeIndicator" decoder="Boolean" />
-    <jb:value property="classOf" data="StudentSchoolAssociation/ClassOf" decoder="Integer" />
+    <jb:value property="classOf" data="StudentSchoolAssociation/ClassOf" />
     <jb:value property="schoolChoiceTransfer" data="StudentSchoolAssociation/SchoolChoiceTransfer" decoder="Boolean" />
     <jb:value property="exitWithdrawDate" data="StudentSchoolAssociation/ExitWithdrawDate" />
     <jb:value property="exitWithdrawType" data="StudentSchoolAssociation/ExitWithdrawType" />
