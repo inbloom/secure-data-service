@@ -1706,11 +1706,8 @@
 			<type>BellSchedule</type>
 			<name>BellScheduleName</name>
 		</lhs>
-		<rhs>
-			<type>BellSchedule</type>
-			<name>bellScheduleName</name>
-		</rhs>
-		<status>match</status>
+		<rhsMissing></rhsMissing>
+		<status>unknown</status>
 		<comment></comment>
 	</mapping>
 	<mapping>
@@ -1727,11 +1724,8 @@
 			<type>BellSchedule</type>
 			<name>GradeLevels</name>
 		</lhs>
-		<rhs>
-			<type>BellSchedule</type>
-			<name>gradeLevels</name>
-		</rhs>
-		<status>match</status>
+		<rhsMissing></rhsMissing>
+		<status>unknown</status>
 		<comment></comment>
 	</mapping>
 	<mapping>
@@ -1753,24 +1747,12 @@
 		<comment></comment>
 	</mapping>
 	<mapping>
-		<lhsMissing></lhsMissing>
-		<rhs>
-			<type>BellSchedule</type>
-			<name>sessionsOffered</name>
-		</rhs>
-		<status>unknown</status>
-		<comment></comment>
-	</mapping>
-	<mapping>
 		<lhs>
 			<type>BellSchedule</type>
 			<name>WeeksInCycle</name>
 		</lhs>
-		<rhs>
-			<type>BellSchedule</type>
-			<name>weeksInCycle</name>
-		</rhs>
-		<status>match</status>
+		<rhsMissing></rhsMissing>
+		<status>unknown</status>
 		<comment></comment>
 	</mapping>
 	<mapping>
@@ -3682,33 +3664,6 @@
 		<comment></comment>
 	</mapping>
 	<mapping>
-		<lhsMissing></lhsMissing>
-		<rhs>
-			<type>EducationOrgAssociation</type>
-			<name>childAgencyId</name>
-		</rhs>
-		<status>unknown</status>
-		<comment></comment>
-	</mapping>
-	<mapping>
-		<lhsMissing></lhsMissing>
-		<rhs>
-			<type>EducationOrgAssociation</type>
-			<name>feederSchool</name>
-		</rhs>
-		<status>unknown</status>
-		<comment></comment>
-	</mapping>
-	<mapping>
-		<lhsMissing></lhsMissing>
-		<rhs>
-			<type>EducationOrgAssociation</type>
-			<name>parentAgencyId</name>
-		</rhs>
-		<status>unknown</status>
-		<comment></comment>
-	</mapping>
-	<mapping>
 		<lhs>
 			<type>EducationOrgIdentificationCode</type>
 			<name>ID</name>
@@ -3805,24 +3760,6 @@
 			<name>separationReason</name>
 		</rhs>
 		<status>match</status>
-		<comment></comment>
-	</mapping>
-	<mapping>
-		<lhsMissing></lhsMissing>
-		<rhs>
-			<type>EventBellScheduleAssociation</type>
-			<name>bellScheduleId</name>
-		</rhs>
-		<status>unknown</status>
-		<comment></comment>
-	</mapping>
-	<mapping>
-		<lhsMissing></lhsMissing>
-		<rhs>
-			<type>EventBellScheduleAssociation</type>
-			<name>miscellaneousEventId</name>
-		</rhs>
-		<status>unknown</status>
 		<comment></comment>
 	</mapping>
 	<mapping>
@@ -4670,11 +4607,8 @@
 			<type>Location</type>
 			<name>ClassroomIdentificationCode</name>
 		</lhs>
-		<rhs>
-			<type>Location</type>
-			<name>classroomIdentificationCode</name>
-		</rhs>
-		<status>match</status>
+		<rhsMissing></rhsMissing>
+		<status>unknown</status>
 		<comment></comment>
 	</mapping>
 	<mapping>
@@ -4682,11 +4616,8 @@
 			<type>Location</type>
 			<name>MaximumNumberOfSeats</name>
 		</lhs>
-		<rhs>
-			<type>Location</type>
-			<name>maximumNumberOfSeats</name>
-		</rhs>
-		<status>match</status>
+		<rhsMissing></rhsMissing>
+		<status>unknown</status>
 		<comment></comment>
 	</mapping>
 	<mapping>
@@ -4694,11 +4625,8 @@
 			<type>Location</type>
 			<name>OptimalNumberOfSeats</name>
 		</lhs>
-		<rhs>
-			<type>Location</type>
-			<name>optimalNumberOfSeats</name>
-		</rhs>
-		<status>match</status>
+		<rhsMissing></rhsMissing>
+		<status>unknown</status>
 		<comment></comment>
 	</mapping>
 	<mapping>
@@ -4756,41 +4684,11 @@
 		<comment></comment>
 	</mapping>
 	<mapping>
-		<lhsMissing></lhsMissing>
-		<rhs>
-			<type>MeetingTime</type>
-			<name>classPeriodName</name>
-		</rhs>
-		<status>unknown</status>
-		<comment></comment>
-	</mapping>
-	<mapping>
 		<lhs>
 			<type>MeetingTime</type>
 			<name>ClassPeriodReference</name>
 		</lhs>
 		<rhsMissing></rhsMissing>
-		<status>unknown</status>
-		<comment></comment>
-	</mapping>
-	<mapping>
-		<lhs>
-			<type>MeetingTime</type>
-			<name>EndTime</name>
-		</lhs>
-		<rhs>
-			<type>MeetingTime</type>
-			<name>endTime</name>
-		</rhs>
-		<status>match</status>
-		<comment></comment>
-	</mapping>
-	<mapping>
-		<lhsMissing></lhsMissing>
-		<rhs>
-			<type>MeetingTime</type>
-			<name>meetingDates</name>
-		</rhs>
 		<status>unknown</status>
 		<comment></comment>
 	</mapping>
@@ -4808,11 +4706,8 @@
 			<type>MeetingTime</type>
 			<name>OfficialAttendancePeriod</name>
 		</lhs>
-		<rhs>
-			<type>MeetingTime</type>
-			<name>officialAttendancePeriod</name>
-		</rhs>
-		<status>match</status>
+		<rhsMissing></rhsMissing>
+		<status>unknown</status>
 		<comment></comment>
 	</mapping>
 	<mapping>
@@ -4820,11 +4715,8 @@
 			<type>MeetingTime</type>
 			<name>StartTime</name>
 		</lhs>
-		<rhs>
-			<type>MeetingTime</type>
-			<name>startTime</name>
-		</rhs>
-		<status>match</status>
+		<rhsMissing></rhsMissing>
+		<status>unknown</status>
 		<comment></comment>
 	</mapping>
 	<mapping>
@@ -4832,11 +4724,8 @@
 			<type>MeetingTime</type>
 			<name>WeekNumber</name>
 		</lhs>
-		<rhs>
-			<type>MeetingTime</type>
-			<name>weekNumber</name>
-		</rhs>
-		<status>match</status>
+		<rhsMissing></rhsMissing>
+		<status>unknown</status>
 		<comment></comment>
 	</mapping>
 	<mapping>
@@ -6343,24 +6232,6 @@
 		<lhsMissing></lhsMissing>
 		<rhs>
 			<type>SectionAssessmentAssociation</type>
-			<name>sectionId</name>
-		</rhs>
-		<status>unknown</status>
-		<comment></comment>
-	</mapping>
-	<mapping>
-		<lhsMissing></lhsMissing>
-		<rhs>
-			<type>SectionBellScheduleAssociation</type>
-			<name>bellScheduleId</name>
-		</rhs>
-		<status>unknown</status>
-		<comment></comment>
-	</mapping>
-	<mapping>
-		<lhsMissing></lhsMissing>
-		<rhs>
-			<type>SectionBellScheduleAssociation</type>
 			<name>sectionId</name>
 		</rhs>
 		<status>unknown</status>

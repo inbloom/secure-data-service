@@ -52,7 +52,11 @@
 		</xs:annotation>
 		<xs:restriction base="xs:token">
 			<xs:enumeration value="ignorable" />
-			<xs:enumeration value="match" />
+			<xs:enumeration value="match">
+				<xs:annotation>
+					<xs:documentation>The feature exists in both models.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
 			<xs:enumeration value="transient" />
 			<xs:enumeration value="unknown" />
 		</xs:restriction>
