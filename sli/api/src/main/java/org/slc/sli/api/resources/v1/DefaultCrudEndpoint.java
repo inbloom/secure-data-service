@@ -19,6 +19,8 @@ package org.slc.sli.api.resources.v1;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +40,7 @@ import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.EntityDefinition;
@@ -52,6 +55,7 @@ import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderFactory;
 import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.util.SecurityUtil;
@@ -345,9 +349,12 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             final UriInfo uriInfo) {
         // /v1/entity/{id}
         return handle(resourceName, entityDefs, uriInfo, new ResourceLogic() {
+            @SuppressWarnings("unchecked")
             @Override
             public Response run(EntityDefinition entityDef) {
-                int idLength = idList.split(",").length;
+                final int idLength = idList.split(",").length;
+                
+                System.out.println("Hitting API for " + idLength + " targets");
 
                 if (idLength > DefaultCrudEndpoint.MAX_MULTIPLE_UUIDS) {
                     Status errorStatus = Status.PRECONDITION_FAILED;
@@ -359,16 +366,41 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                                     errorMessage)).build();
                 }
 
-                List<String> ids = new ArrayList<String>();
+                final List<String> ids = new ArrayList<String>();
 
                 for (String id : idList.split(",")) {
                     ids.add(id);
-                }
 
+                    System.out.println("Hitting API for " + id);
+
+                }
+                
                 NeutralQuery neutralQuery = new ApiQuery(uriInfo);
                 neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
                 neutralQuery = addTypeCriteria(entityDef, neutralQuery);
-
+                
+                neutralQuery.setLimit(0);
+                neutralQuery.setOffset(0);
+                
+                if (neutralQuery.getLimit() != 0) {
+                    Status errorStatus = Status.BAD_REQUEST;
+                    String errorMessage = "Limit parameter invalid with finite ID lookup";
+                    return Response
+                            .status(errorStatus)
+                            .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
+                                    errorMessage)).build();
+                }
+                
+                if (neutralQuery.getOffset() != 0) {
+                    Status errorStatus = Status.BAD_REQUEST;
+                    String errorMessage = "Offset parameter invalid with finite ID lookup";
+                    return Response
+                            .status(errorStatus)
+                            .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
+                                    errorMessage)).build();
+                }
+                
+                
                 // final/resulting information
                 List<EntityBody> finalResults = new ArrayList<EntityBody>();
 
@@ -376,6 +408,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 if (idLength == 1) {
                     entities = Arrays.asList(new EntityBody[] { entityDef.getService().get(idList, neutralQuery) });
                 } else {
+
+                    System.out.println("Running list operation");
+
                     entities = entityDef.getService().list(neutralQuery);
                 }
 
@@ -391,21 +426,83 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 }
 
                 finalResults = appendOptionalFields(uriInfo, finalResults, DefaultCrudEndpoint.this.resourceName);
-
-                // Return results as an array if multiple IDs were requested (comma separated list),
-                // single entity otherwise
-                if (finalResults.isEmpty()) {
+                
+                if (idLength == 1 && finalResults.isEmpty()) {
                     return Response
                             .status(Status.NOT_FOUND)
                             .entity(new ErrorResponse(Status.NOT_FOUND.getStatusCode(), Status.NOT_FOUND
                                     .getReasonPhrase(), "Entity not found: " + resourceName + "=" + idList)).build();
-                } else if (finalResults.size() == 1) {
-                    return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), finalResults.get(0))),
-                            1, uriInfo).build();
-                } else {
-                    long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), neutralQuery);
-                    return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), finalResults)),
-                            pagingHeaderTotalCount, uriInfo).build();
+                }
+                
+                if (idLength > 1) {
+                    Collections.sort(finalResults, new Comparator<EntityBody>() {
+                        @Override
+                        public int compare(EntityBody o1, EntityBody o2) {
+                            return ids.indexOf(o1.get("id")) - ids.indexOf(o2.get("id"));
+                        }
+                        
+                    });
+                    
+                    int finalResultsSize = finalResults.size();
+                    
+                    //loop if results quantity does not matched requested quantity
+                    for (int i = 0; finalResultsSize != idLength && i < idLength; i++) {
+                        
+                        String checkedId = ids.get(i);
+                        
+                        boolean checkedIdMissing = false;
+                        
+                        try {
+                            checkedIdMissing = (finalResults.get(i).get("id").equals(checkedId) == false);
+                        } catch (IndexOutOfBoundsException ioobe) {
+                            checkedIdMissing = true;
+                        }
+                        
+                        //if a particular input ID is not present in the results at the appropriate spot
+                        if (checkedIdMissing) {
+
+                            Map<String, Object> errorResult = new HashMap<String, Object>();
+                            
+                            //try individual lookup to capture specific error message (type)
+                            try {
+                                DefaultCrudEndpoint.this.read(resourceName, ids.get(i), headers, uriInfo);
+                            } catch (EntityNotFoundException enfe) {
+                                errorResult.put("type", "Not Found");
+                                errorResult.put("message", "Entity not found: " + checkedId);
+                                errorResult.put("code", Status.NOT_FOUND.getStatusCode());
+                            } catch (AccessDeniedException ade) {
+                                errorResult.put("type", "Forbidden");
+                                errorResult.put("message", "Acess DENIED: " + ade.getMessage());
+                                errorResult.put("code", Status.FORBIDDEN.getStatusCode());
+                            } catch (Exception e) {
+                                errorResult.put("type", "Internal Server Error");
+                                errorResult.put("message", "Internal Server Error: " + e.getMessage());
+                                errorResult.put("code", Status.INTERNAL_SERVER_ERROR.getStatusCode());
+                            }
+                            
+                            finalResults.add(i, new EntityBody(errorResult));
+                        }
+                    }
+                }
+                
+                //return is based on number of requested IDs
+                switch (idLength) {
+                
+                    //specific id requested
+                    case 1:
+                        return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), finalResults.get(0))),
+                                1, uriInfo).build();
+
+                    //general listing requested
+                    case 0:
+                        long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), neutralQuery);
+                        return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), finalResults)),
+                                pagingHeaderTotalCount, uriInfo).build();
+                    
+                    //multiple id's requested
+                    default:
+                        return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), finalResults)),
+                                idLength, uriInfo).build();
                 }
             }
         });
