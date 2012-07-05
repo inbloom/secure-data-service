@@ -1,8 +1,10 @@
-package org.slc.sli.modeling.tools.xmicomp.cmdline;
+package org.slc.sli.modeling.xmicomp.attic;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import org.slc.sli.modeling.xmicomp.XmiMapping;
 
 public final class XmiComparison {
     private final XmiDefinition lhsDefinition;

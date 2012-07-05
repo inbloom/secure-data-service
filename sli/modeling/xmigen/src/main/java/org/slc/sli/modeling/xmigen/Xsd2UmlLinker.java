@@ -169,7 +169,7 @@ final class Xsd2UmlLinker {
     public static Model link(final Model model, final Xsd2UmlPlugin plugin) {
 
         final ModelIndex lookup = new DefaultModelIndex(model);
-        final Map<String, Identifier> nameToClassTypeId = makeNameToClassTypeId(lookup.getClassTypes());
+        final Map<String, Identifier> nameToClassTypeId = makeNameToClassTypeId(lookup.getClassTypes().values());
         final Map<Type, Map<String, AssociationEnd>> navigations = new HashMap<Type, Map<String, AssociationEnd>>();
         final List<NamespaceOwnedElement> ownedElements = new LinkedList<NamespaceOwnedElement>();
 

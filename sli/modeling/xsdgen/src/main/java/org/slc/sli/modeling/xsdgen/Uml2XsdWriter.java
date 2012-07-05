@@ -163,18 +163,18 @@ final class Uml2XsdWriter {
             throw new NullPointerException("value");
         }
         switch (value) {
-            case ZERO: {
-                return "0";
-            }
-            case ONE: {
-                return "1";
-            }
-            case UNBOUNDED: {
-                return "unbounded";
-            }
-            default: {
-                throw new AssertionError(value);
-            }
+        case ZERO: {
+            return "0";
+        }
+        case ONE: {
+            return "1";
+        }
+        case UNBOUNDED: {
+            return "unbounded";
+        }
+        default: {
+            throw new AssertionError(value);
+        }
         }
     }
 
@@ -447,7 +447,7 @@ final class Uml2XsdWriter {
                     TypeComparator.SINGLETON)) {
                 writeSimpleType(simpleType, lookup, plugin, xsw);
             }
-            for (final ClassType enumType : sort(lookup.getClassTypes(), TypeComparator.SINGLETON)) {
+            for (final ClassType enumType : sort(lookup.getClassTypes().values(), TypeComparator.SINGLETON)) {
                 writeComplexType(enumType, lookup, plugin, xsw);
             }
         } finally {

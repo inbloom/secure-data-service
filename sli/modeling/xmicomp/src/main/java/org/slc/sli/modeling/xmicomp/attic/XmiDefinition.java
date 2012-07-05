@@ -1,4 +1,4 @@
-package org.slc.sli.modeling.tools.xmicomp.cmdline;
+package org.slc.sli.modeling.xmicomp.attic;
 
 public final class XmiDefinition {
     private final String name;

@@ -16,6 +16,7 @@
 		<xs:sequence>
 			<xs:element name="name" type="xs:string"></xs:element>
 			<xs:element name="version" type="xs:string"></xs:element>
+			<xs:element name="xmi" type="xs:string"></xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="XmiFeature">
@@ -46,7 +47,8 @@
 		<xs:annotation>
 			<xs:documentation>Indicator of the eligibility of the student to
 				receive special education services according to the Individuals with
-				Disabilities Education Act (IDEA).</xs:documentation>
+				Disabilities Education Act (IDEA).
+			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
 			<xs:enumeration value="ignorable" />

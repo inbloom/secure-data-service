@@ -1,4 +1,4 @@
-package org.slc.sli.modeling.tools.xmicomp.cmdline;
+package org.slc.sli.modeling.xmicomp;
 
 public final class CaseInsensitiveString {
     

@@ -47,7 +47,7 @@ public final class JavaGenerator {
             final String targetPkgName, final JavaGenConfig config) throws FileNotFoundException {
         final ModelIndex model = new DefaultModelIndex(XmiReader.readModel(modelFileName));
         final File dir = new File(targetDirName);
-        for (final ClassType classType : model.getClassTypes()) {
+        for (final ClassType classType : model.getClassTypes().values()) {
             final String fileName = classType.getName().concat(".java");
             final File file = new File(dir, fileName);
             final List<String> importNames = new ArrayList<String>();

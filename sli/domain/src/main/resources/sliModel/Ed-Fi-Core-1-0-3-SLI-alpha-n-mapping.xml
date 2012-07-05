@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type='text/xsl' href='xmi-mapping.xsl'?>
-<mappings xmlns:xmi="http://www.w3.org/2001/XMLSchema-instance"
-	xmi:noNamespaceSchemaLocation="xmi-mapping.xsd">
+<mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="xmi-mapping.xsd">
 	<lhsModel>
 		<name>Ed-Fi-Core</name>
-		<version>1.x</version>
+		<version>1.0.3</version>
+		<xmi>Ed-Fi-Core-1-0-3.xmi</xmi>
 	</lhsModel>
 	<rhsModel>
 		<name>SLI</name>
 		<version>0.9</version>
+		<xmi>SLI.xmi</xmi>
 	</rhsModel>
 	<mapping>
 		<lhs>

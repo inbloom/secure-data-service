@@ -126,7 +126,7 @@ public class StAXGenerator {
                 final File file = new File(dir, fileName);
                 writeElementsClass("EdFiCoreElementName", edfi, file, config);
             }
-            for (final ClassType classType : edfi.getClassTypes()) {
+            for (final ClassType classType : edfi.getClassTypes().values()) {
                 if (isTemporalClass(classType.getName())) {
                     final String fileName = classType.getName().concat(".java");
                     final File file = new File(dir, fileName);
@@ -168,7 +168,7 @@ public class StAXGenerator {
                 jsw.beginClass(name);
                 try {
                     final Set<String> featureNames = new HashSet<String>();
-                    for (final ClassType classType : edfi.getClassTypes()) {
+                    for (final ClassType classType : edfi.getClassTypes().values()) {
                         final List<JavaFeature> features = ClassTypeHelper.getFeatures(classType, edfi);
                         for (final JavaFeature feature : features) {
                             featureNames.add(feature.getName(config));
@@ -243,7 +243,7 @@ public class StAXGenerator {
                 jsw.writeImport("javax.xml.stream.XMLStreamReader");
                 jsw.beginClass(name, "StAXReader");
                 try {
-                    for (final ClassType classType : edfi.getClassTypes()) {
+                    for (final ClassType classType : edfi.getClassTypes().values()) {
                         final List<JavaFeature> features = ClassTypeHelper.getFeatures(classType, edfi);
                         jsw.write("public static final ").write(classType.getName()).write(" read")
                                 .write(classType.getName())

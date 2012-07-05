@@ -437,7 +437,7 @@ public final class DocumentationWriter {
             for (final Domain<Type> domain : documentation.getDomains()) {
                 writeDomain(domain, modelIndex, xsw);
             }
-            for (final ClassType classType : modelIndex.getClassTypes()) {
+            for (final ClassType classType : modelIndex.getClassTypes().values()) {
                 writeClassType(classType, modelIndex, xsw);
             }
             for (final EnumType enumType : modelIndex.getEnumTypes()) {

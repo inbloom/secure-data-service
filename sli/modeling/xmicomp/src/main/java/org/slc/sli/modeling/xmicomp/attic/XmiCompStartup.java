@@ -1,9 +1,10 @@
-package org.slc.sli.modeling.tools.xmicomp.cmdline;
+package org.slc.sli.modeling.xmicomp.attic;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,25 +20,29 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
-import org.slc.sli.modeling.tools.xmi2Java.cmdline.CloseableHelper;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.index.DefaultModelIndex;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.reader.XmiReader;
+import org.slc.sli.modeling.xmicomp.CaseInsensitiveQName;
+import org.slc.sli.modeling.xmicomp.CaseInsensitiveString;
+import org.slc.sli.modeling.xmicomp.XmiFeature;
+import org.slc.sli.modeling.xmicomp.XmiMapping;
+import org.slc.sli.modeling.xmicomp.XmiMappingStatus;
 import org.slc.sli.modeling.xml.IndentingXMLStreamWriter;
 
 /**
  * A hack/program to create a file that contains the majority of the mappings.
  */
 public final class XmiCompStartup {
-    
+
     private static final Map<QName, CaseInsensitiveQName> applyAttributeMappings(
             final Map<QName, CaseInsensitiveQName> map, final Map<CaseInsensitiveQName, CaseInsensitiveQName> renames) {
-        
+
         final Map<QName, CaseInsensitiveQName> changed = new HashMap<QName, CaseInsensitiveQName>();
-        
+
         for (final QName name : map.keySet()) {
             final CaseInsensitiveQName value = map.get(name);
             if (renames.containsKey(value)) {
@@ -48,7 +53,7 @@ public final class XmiCompStartup {
         }
         return changed;
     }
-    
+
     private static final Map<QName, CaseInsensitiveQName> applyClassMappings(
             final Map<QName, CaseInsensitiveQName> map, final Map<CaseInsensitiveString, CaseInsensitiveString> renames) {
         final Map<QName, CaseInsensitiveQName> changed = new HashMap<QName, CaseInsensitiveQName>();
@@ -62,7 +67,7 @@ public final class XmiCompStartup {
         }
         return changed;
     }
-    
+
     private static final Map<CaseInsensitiveQName, CaseInsensitiveQName> attributeMapping() {
         final Map<QName, QName> renames = new HashMap<QName, QName>();
         // renames.put(new QName("AccountabilityRating", "schoolYear"), NOTHING);
@@ -73,10 +78,8 @@ public final class XmiCompStartup {
         renames.put(new QName("AttendanceEvent", "EventDate"), new QName("AttendanceEvent", "date"));
         renames.put(new QName("BehaviorDescriptor", "EducationOrganizationReference"), new QName("BehaviorDescriptor",
                 "educationOrganizations"));
-        renames.put(new QName("CourseOffering", "localCourseCode"), new QName("CourseOffering",
-                "localCourseCode"));
-        renames.put(new QName("CourseOffering", "localCourseTitle"), new QName("CourseOffering",
-                "localCourseTitle"));
+        renames.put(new QName("CourseOffering", "localCourseCode"), new QName("CourseOffering", "localCourseCode"));
+        renames.put(new QName("CourseOffering", "localCourseTitle"), new QName("CourseOffering", "localCourseTitle"));
         renames.put(new QName("CourseOffering", "courseReference"), new QName("CourseOffering", "course"));
         renames.put(new QName("CourseOffering", "sessionReference"), new QName("CourseOffering", "session"));
         renames.put(new QName("Staff", "staffUniqueStateId"), new QName("AbstractStaff", "staffUniqueStateId"));
@@ -111,7 +114,7 @@ public final class XmiCompStartup {
                 "staffs"));
         return Collections.unmodifiableMap(toLowerCase(renames));
     }
-    
+
     private static final XmiComparison build(final XmiDefinition lhsDef,
             final Map<QName, CaseInsensitiveQName> lhsFwdMap, final XmiDefinition rhsDef,
             final Map<CaseInsensitiveQName, QName> rhsRevMap) {
@@ -128,19 +131,23 @@ public final class XmiCompStartup {
                 final QName lhsName = lhsRevMap.get(ciName);
                 if (rhsRevMap.containsKey(ciName)) {
                     final QName rhsName = rhsRevMap.get(ciName);
-                    final XmiFeature lhsFeature = new XmiFeature(lhsName.getLocalPart(), lhsName.getNamespaceURI());
-                    final XmiFeature rhsFeature = new XmiFeature(rhsName.getLocalPart(), rhsName.getNamespaceURI());
+                    final XmiFeature lhsFeature = new XmiFeature(new QName(lhsName.getLocalPart()), new QName(
+                            lhsName.getNamespaceURI()));
+                    final XmiFeature rhsFeature = new XmiFeature(new QName(rhsName.getLocalPart()), new QName(
+                            rhsName.getNamespaceURI()));
                     mappings.add(new XmiMapping(lhsFeature, rhsFeature, computeMappingStatus(lhsFeature, rhsFeature),
                             ""));
                     mapped += 1;
                 } else {
-                    final XmiFeature lhsFeature = new XmiFeature(lhsName.getLocalPart(), lhsName.getNamespaceURI());
+                    final XmiFeature lhsFeature = new XmiFeature(new QName(lhsName.getLocalPart()), new QName(
+                            lhsName.getNamespaceURI()));
                     mappings.add(new XmiMapping(lhsFeature, null, computeMappingStatus(lhsFeature, null), ""));
                 }
             } else {
                 if (rhsRevMap.containsKey(ciName)) {
                     final QName rhsName = rhsRevMap.get(ciName);
-                    final XmiFeature rhsFeature = new XmiFeature(rhsName.getLocalPart(), rhsName.getNamespaceURI());
+                    final XmiFeature rhsFeature = new XmiFeature(new QName(rhsName.getLocalPart()), new QName(
+                            rhsName.getNamespaceURI()));
                     mappings.add(new XmiMapping(null, rhsFeature, computeMappingStatus(null, rhsFeature), ""));
                 } else {
                     throw new AssertionError();
@@ -150,25 +157,27 @@ public final class XmiCompStartup {
         System.out.println("count(mapped) : " + mapped);
         return new XmiComparison(lhsDef, rhsDef, Collections.unmodifiableList(mappings));
     }
-    
+
     private static final XmiMappingStatus computeMappingStatus(final XmiFeature lhs, final XmiFeature rhs) {
         if (lhs != null) {
             if (rhs != null) {
                 return XmiMappingStatus.MATCH;
             } else {
-                if (lhs.getType().endsWith("IdentityType")) {
+                final QName lhsTypeName = lhs.getType();
+                final String type = lhsTypeName.getLocalPart();
+                if (type.endsWith("IdentityType")) {
                     return XmiMappingStatus.TRANSIENT;
-                } else if (lhs.getType().equals("Account")) {
+                } else if (type.equals("Account")) {
                     return XmiMappingStatus.IGNORABLE;
-                } else if (lhs.getType().equals("Actual")) {
+                } else if (type.equals("Actual")) {
                     return XmiMappingStatus.IGNORABLE;
-                } else if (lhs.getType().equals("Budget")) {
+                } else if (type.equals("Budget")) {
                     return XmiMappingStatus.IGNORABLE;
-                } else if (lhs.getType().equals("AccountCodeDescriptor")) {
+                } else if (type.equals("AccountCodeDescriptor")) {
                     return XmiMappingStatus.IGNORABLE;
-                } else if (lhs.getType().equals("AccountCodeDescriptorType")) {
+                } else if (type.equals("AccountCodeDescriptorType")) {
                     return XmiMappingStatus.IGNORABLE;
-                } else if (lhs.getType().equals("Payroll")) {
+                } else if (type.equals("Payroll")) {
                     return XmiMappingStatus.IGNORABLE;
                 } else {
                     return XmiMappingStatus.UNKNOWN;
@@ -182,10 +191,10 @@ public final class XmiCompStartup {
             }
         }
     }
-    
+
     /**
      * The mapping from EdFi class name to SLI class name.
-     * 
+     *
      * This excludes names that already map 1:1.
      */
     private static final Map<CaseInsensitiveString, CaseInsensitiveString> classMapping() {
@@ -197,7 +206,7 @@ public final class XmiCompStartup {
         renames.put("StaffEducationOrgAssignmentAssociation", "StaffEducationOrganizationAssociation");
         return Collections.unmodifiableMap(toLower(renames));
     }
-    
+
     @SuppressWarnings("unused")
     private static final Set<String> classNames(final Iterable<ClassType> classTypes) {
         final Set<String> names = new HashSet<String>();
@@ -206,17 +215,17 @@ public final class XmiCompStartup {
         }
         return Collections.unmodifiableSet(names);
     }
-    
+
     /**
      * This looks symmetrical, but in fact we expect Ed-Fi on the LHS and SLI on the RHS.
      */
     private static final XmiComparison compareFeatures(final XmiDefinition lhsDef, final ModelIndex lhsModel,
             final XmiDefinition rhsDef, final ModelIndex rhsModel) {
-        
+
         // This is the entire list of EdFi feature names.
-        final Set<QName> lhsNames = featureNames(lhsModel.getClassTypes(), lhsModel);
+        final Set<QName> lhsNames = featureNames(lhsModel.getClassTypes().values(), lhsModel);
         // This is the entire list of SLI feature names.
-        final Set<QName> rhsNames = featureNames(rhsModel.getClassTypes(), rhsModel);
+        final Set<QName> rhsNames = featureNames(rhsModel.getClassTypes().values(), rhsModel);
         // Remove those attributes corresponding to classes that we don't care about.
         // final Set<QName> keepNames = filter(filter(filter(lhsNames, outsideScope()), groups()),
         // identityTypes());
@@ -228,12 +237,12 @@ public final class XmiCompStartup {
         final Map<QName, CaseInsensitiveQName> lhsFwdMap = applyAttributeMappings(
                 normalize(applyClassMappings(createFwdMap(lhsNames), classMapping()), rhsRevMap.keySet()),
                 attributeMapping());
-        
+
         System.out.println("edfiNames.size=" + lhsNames.size());
         System.out.println("slimNames.size=" + rhsNames.size());
         return build(lhsDef, lhsFwdMap, rhsDef, rhsRevMap);
     }
-    
+
     private static final Map<QName, CaseInsensitiveQName> createFwdMap(final Set<QName> names) {
         final Map<QName, CaseInsensitiveQName> fwdMap = new HashMap<QName, CaseInsensitiveQName>();
         for (final QName name : names) {
@@ -241,7 +250,7 @@ public final class XmiCompStartup {
         }
         return Collections.unmodifiableMap(fwdMap);
     }
-    
+
     private static final Map<CaseInsensitiveQName, QName> createRevMap(final Set<QName> names) {
         final Map<CaseInsensitiveQName, QName> revMap = new HashMap<CaseInsensitiveQName, QName>();
         for (final QName name : names) {
@@ -249,7 +258,7 @@ public final class XmiCompStartup {
         }
         return Collections.unmodifiableMap(revMap);
     }
-    
+
     /**
      * Computes a set of class-qualified attribute names and adds to it the association end names.
      */
@@ -265,7 +274,7 @@ public final class XmiCompStartup {
         }
         return names;
     }
-    
+
     @SuppressWarnings("unused")
     private static final Set<QName> filter(final Set<QName> names, final Set<String> classNames) {
         final Set<QName> filtrate = new HashSet<QName>();
@@ -276,7 +285,7 @@ public final class XmiCompStartup {
         }
         return Collections.unmodifiableSet(filtrate);
     }
-    
+
     @SuppressWarnings("unused")
     private static final Set<String> groups() {
         final Set<String> groups = new HashSet<String>();
@@ -293,7 +302,7 @@ public final class XmiCompStartup {
         groups.add("SpecialAccommodationsType");
         return Collections.unmodifiableSet(groups);
     }
-    
+
     @SuppressWarnings("unused")
     private static final Set<String> identityTypes() {
         final Set<String> identityTypes = new HashSet<String>();
@@ -349,7 +358,7 @@ public final class XmiCompStartup {
         identityTypes.add("StudentSectionAssociationReferenceType");
         return Collections.unmodifiableSet(identityTypes);
     }
-    
+
     /**
      * @param args
      */
@@ -365,7 +374,7 @@ public final class XmiCompStartup {
             throw new RuntimeException(e);
         }
     }
-    
+
     /**
      * Change the values of the map so that we get semantic alignment.
      */
@@ -403,7 +412,7 @@ public final class XmiCompStartup {
         }
         return changed;
     }
-    
+
     @SuppressWarnings("unused")
     private static final Set<String> outsideScope() {
         final Set<String> outsideScope = new HashSet<String>();
@@ -420,7 +429,7 @@ public final class XmiCompStartup {
         outsideScope.add("StudentTitleIPartAProgramAssociation");
         return Collections.unmodifiableSet(outsideScope);
     }
-    
+
     @SuppressWarnings("unused")
     private static final <T> Set<T> rename(final Set<T> originals, final Map<T, T> renames) {
         final Set<T> result = new HashSet<T>();
@@ -431,14 +440,14 @@ public final class XmiCompStartup {
             } else {
                 result.add(original);
             }
-            
+
         }
         return Collections.unmodifiableSet(result);
     }
-    
+
     /**
      * This function
-     * 
+     *
      * @param mapping
      * @return
      */
@@ -450,20 +459,20 @@ public final class XmiCompStartup {
         }
         return Collections.unmodifiableMap(inversion);
     }
-    
+
     private static final <T extends Comparable<? super T>> List<T> sort(final Set<T> set) {
         final List<T> sortNames = new ArrayList<T>(set);
         Collections.sort(sortNames);
         return sortNames;
     }
-    
+
     @SuppressWarnings("unused")
     private static final <T> Set<T> subtract(final Set<T> lhs, final Set<T> rhs) {
         final Set<T> copy = new HashSet<T>(lhs);
         copy.removeAll(rhs);
         return Collections.unmodifiableSet(copy);
     }
-    
+
     @SuppressWarnings("unused")
     private static final Set<String> subtractEndsWith(final Set<String> strings, final String s) {
         final Set<String> result = new HashSet<String>();
@@ -474,7 +483,7 @@ public final class XmiCompStartup {
         }
         return Collections.unmodifiableSet(result);
     }
-    
+
     private static final Map<CaseInsensitiveString, CaseInsensitiveString> toLower(final Map<String, String> map) {
         final Map<CaseInsensitiveString, CaseInsensitiveString> result = new HashMap<CaseInsensitiveString, CaseInsensitiveString>();
         for (final String key : map.keySet()) {
@@ -482,7 +491,7 @@ public final class XmiCompStartup {
         }
         return Collections.unmodifiableMap(result);
     }
-    
+
     @SuppressWarnings("unused")
     private static final Set<String> toLower(final Set<String> strings) {
         final Set<String> lower = new HashSet<String>();
@@ -491,7 +500,7 @@ public final class XmiCompStartup {
         }
         return Collections.unmodifiableSet(lower);
     }
-    
+
     private static final Map<CaseInsensitiveQName, CaseInsensitiveQName> toLowerCase(final Map<QName, QName> map) {
         final Map<CaseInsensitiveQName, CaseInsensitiveQName> result = new HashMap<CaseInsensitiveQName, CaseInsensitiveQName>();
         for (final QName key : map.keySet()) {
@@ -499,12 +508,12 @@ public final class XmiCompStartup {
         }
         return Collections.unmodifiableMap(result);
     }
-    
+
     private static final CaseInsensitiveQName toCaseInsensitive(final QName name) {
         return new CaseInsensitiveQName(new CaseInsensitiveString(name.getNamespaceURI()), new CaseInsensitiveString(
                 name.getLocalPart()));
     }
-    
+
     @SuppressWarnings("unused")
     private static final Set<QName> valueSet(final Map<QName, QName> map) {
         final Set<QName> values = new HashSet<QName>();
@@ -513,20 +522,24 @@ public final class XmiCompStartup {
         }
         return Collections.unmodifiableSet(values);
     }
-    
+
     private static final void writeBootstrapFile(final XmiComparison mappings, final File file) {
         try {
             final OutputStream outstream = new BufferedOutputStream(new FileOutputStream(file));
             try {
                 writeBootstrapFile(mappings, outstream);
             } finally {
-                CloseableHelper.closeQuiet(outstream);
+                try {
+                    outstream.close();
+                } catch (final IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         } catch (final FileNotFoundException e) {
             e.printStackTrace();
         }
     }
-    
+
     public static final void writeBootstrapFile(final XmiComparison comparison, final OutputStream outstream) {
         final XMLOutputFactory xof = XMLOutputFactory.newInstance();
         try {
@@ -578,13 +591,13 @@ public final class XmiCompStartup {
                     for (final XmiMapping mapping : comparison.getMappings()) {
                         xsw.writeStartElement("mapping");
                         try {
-                            final XmiFeature lhs = mapping.getLhs();
+                            final XmiFeature lhs = mapping.getLhsFeature();
                             if (lhs != null) {
                                 writeFeature("lhs", lhs, xsw);
                             } else {
                                 writeMissingFeature("lhs", xsw);
                             }
-                            final XmiFeature rhs = mapping.getRhs();
+                            final XmiFeature rhs = mapping.getRhsFeature();
                             if (rhs != null) {
                                 writeFeature("rhs", rhs, xsw);
                             } else {
@@ -599,7 +612,7 @@ public final class XmiCompStartup {
                         } finally {
                             xsw.writeEndElement();
                         }
-                        
+
                     }
                 } finally {
                     xsw.writeEndElement();
@@ -612,20 +625,20 @@ public final class XmiCompStartup {
             throw new RuntimeException(e);
         }
     }
-    
+
     private static void writeFeature(final String side, final XmiFeature feature, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeStartElement(side);
         try {
             xsw.writeStartElement("type");
             try {
-                xsw.writeCharacters(feature.getType());
+                xsw.writeCharacters(feature.getType().getLocalPart());
             } finally {
                 xsw.writeEndElement();
             }
             xsw.writeStartElement("name");
             try {
-                xsw.writeCharacters(feature.getName());
+                xsw.writeCharacters(feature.getName().getLocalPart());
             } finally {
                 xsw.writeEndElement();
             }
@@ -633,12 +646,12 @@ public final class XmiCompStartup {
             xsw.writeEndElement();
         }
     }
-    
+
     private static void writeMissingFeature(final String side, final XMLStreamWriter xsw) throws XMLStreamException {
         xsw.writeStartElement(side.concat("Missing"));
         xsw.writeEndElement();
     }
-    
+
     private XmiCompStartup() {
         // Prevent instantiation, even through reflection.
         throw new RuntimeException();
