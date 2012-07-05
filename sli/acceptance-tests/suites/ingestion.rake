@@ -233,7 +233,7 @@ desc "Run Ingestion Smoke Tests"
 task :ingestionSmokeTests do
   @tags = ["~@wip", "@smoke", "~@sandbox"]
   Rake::Task["ingestionAcceptanceSdsTest"].invoke
-end 
+end
 
 ############################################################
 # Ingestion tests end
