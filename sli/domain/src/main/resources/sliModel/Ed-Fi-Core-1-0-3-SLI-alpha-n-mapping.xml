@@ -18,7 +18,7 @@
 			<name>Address</name>
 		</lhs>
 		<rhs>
-			<type>AbstractStaff</type>
+			<type>Staff</type>
 			<name>address</name>
 		</rhs>
 		<status>match</status>
@@ -30,7 +30,7 @@
 			<name>BirthDate</name>
 		</lhs>
 		<rhs>
-			<type>AbstractStaff</type>
+			<type>Staff</type>
 			<name>birthDate</name>
 		</rhs>
 		<status>match</status>
@@ -42,7 +42,7 @@
 			<name>Credentials</name>
 		</lhs>
 		<rhs>
-			<type>AbstractStaff</type>
+			<type>Staff</type>
 			<name>credentials</name>
 		</rhs>
 		<status>match</status>
@@ -54,7 +54,7 @@
 			<name>ElectronicMail</name>
 		</lhs>
 		<rhs>
-			<type>AbstractStaff</type>
+			<type>Staff</type>
 			<name>electronicMail</name>
 		</rhs>
 		<status>match</status>
@@ -66,7 +66,7 @@
 			<name>HighestLevelOfEducationCompleted</name>
 		</lhs>
 		<rhs>
-			<type>AbstractStaff</type>
+			<type>Staff</type>
 			<name>highestLevelOfEducationCompleted</name>
 		</rhs>
 		<status>match</status>
@@ -78,7 +78,7 @@
 			<name>HispanicLatinoEthnicity</name>
 		</lhs>
 		<rhs>
-			<type>AbstractStaff</type>
+			<type>Staff</type>
 			<name>hispanicLatinoEthnicity</name>
 		</rhs>
 		<status>match</status>
@@ -90,7 +90,7 @@
 			<name>LoginId</name>
 		</lhs>
 		<rhs>
-			<type>AbstractStaff</type>
+			<type>Staff</type>
 			<name>loginId</name>
 		</rhs>
 		<status>match</status>
@@ -102,7 +102,7 @@
 			<name>Name</name>
 		</lhs>
 		<rhs>
-			<type>AbstractStaff</type>
+			<type>Staff</type>
 			<name>name</name>
 		</rhs>
 		<status>match</status>
@@ -114,7 +114,7 @@
 			<name>OldEthnicity</name>
 		</lhs>
 		<rhs>
-			<type>AbstractStaff</type>
+			<type>Staff</type>
 			<name>oldEthnicity</name>
 		</rhs>
 		<status>match</status>
@@ -126,7 +126,7 @@
 			<name>OtherName</name>
 		</lhs>
 		<rhs>
-			<type>AbstractStaff</type>
+			<type>Staff</type>
 			<name>otherName</name>
 		</rhs>
 		<status>match</status>
@@ -138,7 +138,7 @@
 			<name>Race</name>
 		</lhs>
 		<rhs>
-			<type>AbstractStaff</type>
+			<type>Staff</type>
 			<name>race</name>
 		</rhs>
 		<status>match</status>
@@ -150,7 +150,7 @@
 			<name>Sex</name>
 		</lhs>
 		<rhs>
-			<type>AbstractStaff</type>
+			<type>Staff</type>
 			<name>sex</name>
 		</rhs>
 		<status>match</status>
@@ -162,7 +162,7 @@
 			<name>StaffIdentificationCode</name>
 		</lhs>
 		<rhs>
-			<type>AbstractStaff</type>
+			<type>Staff</type>
 			<name>staffIdentificationCode</name>
 		</rhs>
 		<status>match</status>
@@ -174,7 +174,7 @@
 			<name>StaffUniqueStateId</name>
 		</lhs>
 		<rhs>
-			<type>AbstractStaff</type>
+			<type>Staff</type>
 			<name>staffUniqueStateId</name>
 		</rhs>
 		<status>match</status>
@@ -186,7 +186,7 @@
 			<name>Telephone</name>
 		</lhs>
 		<rhs>
-			<type>AbstractStaff</type>
+			<type>Staff</type>
 			<name>telephone</name>
 		</rhs>
 		<status>match</status>
@@ -198,7 +198,7 @@
 			<name>YearsOfPriorProfessionalExperience</name>
 		</lhs>
 		<rhs>
-			<type>AbstractStaff</type>
+			<type>Staff</type>
 			<name>yearsOfPriorProfessionalExperience</name>
 		</rhs>
 		<status>match</status>
@@ -210,7 +210,7 @@
 			<name>YearsOfPriorTeachingExperience</name>
 		</lhs>
 		<rhs>
-			<type>AbstractStaff</type>
+			<type>Staff</type>
 			<name>yearsOfPriorTeachingExperience</name>
 		</rhs>
 		<status>match</status>
