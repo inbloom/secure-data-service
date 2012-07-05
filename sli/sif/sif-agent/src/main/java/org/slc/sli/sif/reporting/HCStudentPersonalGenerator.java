@@ -49,7 +49,7 @@ public class HCStudentPersonalGenerator implements EventGenerator {
     public Event generateEvent(Properties props) {
         StudentPersonal student = generateTestStudent();
         Event event = new Event(student, EventAction.ADD);
-        LOG.info(student.toXML());
+        LOG.info("\n" + student.toXML());
         return event;
     }
 

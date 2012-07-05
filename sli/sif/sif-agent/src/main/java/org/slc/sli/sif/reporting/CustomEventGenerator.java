@@ -40,6 +40,8 @@ public class CustomEventGenerator implements EventGenerator {
         String messageFile = eventProps.getProperty(CustomEventGenerator.MESSAGE_FILE);
         FileReader in = null;
         SIFDataObject dataObject = null;
+        Event event = null;
+
         try {
             // Construct a SIFParser instance that can be used for parsing
             SIFParser p = SIFParser.newInstance();
@@ -55,12 +57,12 @@ public class CustomEventGenerator implements EventGenerator {
             }
             // Parse it
             SIFElement element = p.parse(xml.toString(), null /* zone */ );
-            System.out.println(element.toString());
+            LOG.info("Custom data object generated: " + element.toString());
 
             // Convert it
             ElementDef elementDef = element.getElementDef();
             dataObject = new SIFDataObjectXML(elementDef, xml.toString());
-
+            event = new Event(dataObject, EventAction.ADD);
         } catch (Exception e) {
             LOG.error("Caught exception trying to load entity from file", e);
         } finally {
@@ -73,7 +75,6 @@ public class CustomEventGenerator implements EventGenerator {
             }
         }
 
-        Event event = new Event(dataObject, EventAction.ADD);
         return event;
     }
 

@@ -50,10 +50,10 @@ public class EventReporter implements Publisher {
                 String messageFile = args[EventReporter.MESSAGE_FILE];
                 Zone zone = agent.addZone(zoneId, zoneUrl);
                 EventReporter reporter = new EventReporter(zone);
-                reporter.setEventGenerator(new HCStudentPersonalGenerator());
+                reporter.setEventGenerator(new CustomEventGenerator());
                 reporter.reportEvent(messageFile);
             } else {
-                Zone zone = agent.getZoneFactory().getZone("Zone1");
+                Zone zone = agent.addZone("BallerZone", "http://10.163.6.73:50002/BallerZone");
                 EventReporter reporter = new EventReporter(zone);
                 reporter.reportEvent();
             }
@@ -84,7 +84,6 @@ public class EventReporter implements Publisher {
 
     public void reportEvent() throws ADKException {
         Event event = generator.generateEvent(null);
-        System.out.println(event.getObjectType().toString());
         if (zone.isConnected()) {
             zone.reportEvent(event);
         } else {
