@@ -145,11 +145,12 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         return xml;
     }
     
-    protected Set<String> findIDRefsToResolve(final File xml, ErrorReport errorReport) {
+    protected Set<String> findIDRefsToResolve(final File xml, final ErrorReport errorReport) {
         final Set<String> idRefs = new HashSet<String>();
         
         XmlEventVisitor collectIdRefsToResolve = new XmlEventVisitor() {
-            
+            Stack<StartElement> parents = new Stack<StartElement>();
+            String currentXPath;
             @Override
             public boolean isSupported(XMLEvent xmlEvent) {
                 
@@ -157,8 +158,22 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                 if (xmlEvent.isStartElement()) {
                     StartElement start = xmlEvent.asStartElement();
                     
+                    parents.push(start);
+                    currentXPath = getCurrentXPath(parents);
+                    ReferenceResolutionStrategy rrs = supportedResolvers.get(currentXPath);
+                    if (rrs == null && start.getAttributeByName(REF_ATTR) != null) {
+                        if (!isInnerRef(parents)) {
+                            LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath));
+                            errorReport.warning(
+                                    MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath),
+                                    IdRefResolutionHandler.class);
+                        }
+                        return false;
+                    }
                     return start.getAttributeByName(REF_RESOLVED_ATTR) == null
                             && start.getAttributeByName(REF_ATTR) != null;
+                } else if (xmlEvent.isEndElement()) {
+                    parents.pop();
                 }
                 
                 return false;
@@ -397,7 +412,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                                                         ref.getValue()), IdRefResolutionHandler.class);
                                     } else {
                                         
-                                        contentToAdd = resolveRefs(getCurrentXPath(),
+                                        contentToAdd = resolveRefs(getCurrentXPath(parents),
                                                 (TransformableXmlString) cacheLookupObject, ref.getValue(), errorReport);
                                     }
                                 } else {
@@ -436,45 +451,20 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                     return true;
                 }
                 
-                private String getCurrentXPath() {
-                    StringBuffer sb = new StringBuffer();
                     
-                    for (StartElement start : parents) {
-                        sb.append('/').append(start.getName().getLocalPart());
-                    }
+
                     
-                    return sb.toString();
-                }
                 
-                private boolean isInnerRef() {
-                    for (StartElement start : parents) {
-                        Attribute attValue = start.getAttributeByName(REF_RESOLVED_ATTR);
-                        if (attValue != null) {
-                            boolean refResolved = Boolean.parseBoolean(attValue.getValue());
-                            if (refResolved) {
-                                return true;
-                            }
-                        }
                         
-                    }
-                    return false;
-                }
                 
                 private String resolveRefs(String currentXPath, TransformableXmlString cachedContent, String id,
                         ErrorReport errorReport) {
                     
                     String transformedContent = cachedContent.string;
                     ReferenceResolutionStrategy rrs = supportedResolvers.get(currentXPath);
-                    if (rrs == null) {
-                        if (!isInnerRef()) {
-                            LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath));
-                            errorReport.warning(
-                                    MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath),
-                                    IdRefResolutionHandler.class);
-                        }
-                        return null;
+                    //At this point, only supported references are ready to be resolved
                         
-                    } else if (!cachedContent.isTransformed) {
+                    if (!cachedContent.isTransformed) {
                         
                         // Resolved content is not cached yet, so lets transform it and cache
                         // it.
@@ -612,6 +602,25 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         
     }
     
+    String getCurrentXPath(Stack<StartElement> parents) {
+        StringBuffer sb = new StringBuffer();
+        for (StartElement start : parents) {
+            sb.append('/').append(start.getName().getLocalPart());
+        }
+        return sb.toString();
+    }
+    boolean isInnerRef(Stack<StartElement> parents) {
+        for (StartElement start : parents) {
+            Attribute attValue = start.getAttributeByName(REF_RESOLVED_ATTR);
+            if (attValue != null) {
+                boolean refResolved = Boolean.parseBoolean(attValue.getValue());
+                if (refResolved) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     @Override
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;

@@ -1,3 +1,4 @@
+@smoke
 Feature: User Session Tests
 Checking that sessions work as they should
 
