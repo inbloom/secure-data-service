@@ -1,0 +1,24 @@
+batchId: "placeholder"
+
+api.login.user: "rrogers"
+api.login.realm: "IL"
+api.format: "application/vnd.slc+json"
+api.server: "localhost"
+api.server.ssh.user: ""
+api.server.ssh.password: ""
+api.log.original: "/storage/logs/apicall.log"
+api.log.reduced: "/storage/logs/apicall_${batchId}.log"
+api.log.search.pattern: "finished in"
+api.log.search.marker: "START API RECORDING ${batchId}"
+
+mongo.server: "localhost"
+mongo.database: "sli"
+
+benchmark.dir.log: "../logs"
+benchmark.dir.bin: "../bin"
+benchmark.dir.prop: "../prop"
+benchmark.dir.results: "../results"
+
+benchmark.log.batch: "batch_${batchId}.log"
+benchmark.log.api: "apicall_${batchId}.log"
+benchmark.log.results: "${inputFileId}_report_${batchId}.csv"
