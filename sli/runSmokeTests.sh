@@ -126,7 +126,9 @@ if (( $apiPid )); then
   wait_until_found "$LOGDIR/apiConsole.log" "$jetty_pattern"
 fi
 
-#wait_until_found "$LOGDIR/ingestionConsole.log" "$jetty_pattern"
+if (( $ingestionPid )); then
+  wait_until_found "$LOGDIR/ingestionConsole.log" "$jetty_pattern"
+fi
 
 if (( $dashboardPid )); then
   wait_until_found "$LOGDIR/dashboardConsole.log" "$jetty_pattern"
