@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'rest-client'
 require 'json'
 require 'builder'
@@ -60,4 +79,24 @@ end
 
 Then /^I should see a link in the responce header telling me where to authenicate$/ do
   assert(@res.headers[:www_authenticate] != nil, "There was no authentication header")
+end
+
+When /^I GET the url "(.*?)" using a staff ID$/ do |arg1|
+  step 'I am logged in using "rrogers" "rrogers1234" to realm "IL"'
+  step "I GET the url \"#{arg1}\" using that session ID"
+end
+
+Then /^I should see the email address in the response$/ do
+  data = JSON.parse(@res.body)
+  assert data['email'] != nil, "We should have a valid email address, not #{data['email']}"
+end
+
+Then /^I should see the work email address in the response$/ do
+  data = JSON.parse(@res.body)
+  assert data['email'] == "Work@Work.com", "We should have a valid work email address, not #{data['email']}"
+end
+
+When /^I GET the url "(.*?)" using an admin ID$/ do |arg1|
+  step 'I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"'
+  step "I GET the url \"#{arg1}\" using that session ID"
 end

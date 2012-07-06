@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.resources;
 
 import java.util.HashMap;
@@ -10,6 +27,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.slc.sli.api.resources.v1.HypermediaType;
+import org.slc.sli.api.security.OauthSessionManager;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.resolve.ClientRoleResolver;
+import org.slc.sli.api.security.roles.Role;
+import org.slc.sli.api.security.roles.RoleRightAccess;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -22,15 +47,6 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.resources.v1.HypermediaType;
-import org.slc.sli.api.security.OauthSessionManager;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.resolve.ClientRoleResolver;
-import org.slc.sli.api.security.roles.Role;
-import org.slc.sli.api.security.roles.RoleRightAccess;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.api.util.SecurityUtil.SecurityTask;
-
 /**
  * System resource class for security session context.
  * Hosted at the URI path "/system/session"
@@ -38,7 +54,7 @@ import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 @Path("{a:v1/|}system/session")
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON+";charset=utf-8", HypermediaType.VENDOR_SLC_JSON+";charset=utf-8" })
+@Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })
 public class SecuritySessionResource {
 
     @Autowired
@@ -128,6 +144,7 @@ public class SecuritySessionResource {
             sessionDetails.put("sliRoles", roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
             sessionDetails.put("tenantId", principal.getTenantId());
             sessionDetails.put("external_id", principal.getExternalId());
+            sessionDetails.put("email", getUserEmail(principal));
 
             List<Role> allRoles = SecurityUtil.sudoRun(new SecurityTask<List<Role>>() {
                 @Override
@@ -144,6 +161,49 @@ public class SecuritySessionResource {
         }
 
         return sessionDetails;
+    }
+    
+    private String getUserEmail(SLIPrincipal principal) {
+        debug("Prnicipal's entity body {}", principal.getEntity().getBody().toString());
+        // Admin users are special cases.
+        if (principal.getEntity().getBody().isEmpty()) {
+            return principal.getExternalId();
+        }
+        Map<String, Object> body = (Map) principal.getEntity().getBody();
+        List emails = (List) body.get("electronicMail");
+        if (emails.size() == 1) {
+            Map<String, String> email = (Map) emails.get(0);
+            return email.get("emailAddress");
+        }
+        
+        String address = getEmailAddressByType(emails, "Work");
+        if (address.length() != 0)
+            return address;
+        
+        address = getEmailAddressByType(emails, "Organization");
+        if (address.length() != 0)
+            return address;
+        
+        address = getEmailAddressByType(emails, "Other");
+        if (address.length() != 0)
+            return address;
+        
+        address = getEmailAddressByType(emails, "Home/Personal");
+        if (address.length() != 0)
+            return address;
+        return "";
+    }
+    
+    private String getEmailAddressByType(List emails, String checkedType) {
+        for (Object baseEmail : emails) {
+            Map<String, String> email = (Map) baseEmail;
+            String type = email.get("emailAddressType");
+            String address = email.get("emailAddress");
+            if (type.equals(checkedType)) {
+                return address;
+            }
+        }
+        return "";
     }
 
     /**

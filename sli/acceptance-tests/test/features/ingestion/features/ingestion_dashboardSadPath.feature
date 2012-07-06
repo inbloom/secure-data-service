@@ -15,7 +15,6 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | educationOrganization       |
         | section                     |
         | studentSectionAssociation   |
-        |teacher                      |
         | staff                       |
         |staffEducationOrganizationAssociation|
         | teacherSchoolAssociation    |
@@ -35,21 +34,32 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | cohort                      |
         | staffCohortAssociation      |
         | studentCohortAssociation    |
+        | studentCompetency           |
+        | studentCompetencyObjective  |
         | learningStandard            |
+        | learningObjective           |
         | disciplineIncident          |
         | disciplineAction            |
-		| studentDisciplineIncidentAssociation|
-	    | grade                       |
+        | studentDisciplineIncidentAssociation|
+        | grade                       |
         | gradingPeriod               |
         | calendarDate                |
         | reportCard                  |
+        | studentAcademicRecord       |
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
-  And I should see "Processed 749 records." in the resulting batch job file
+  And I should see "Processed 755 records." in the resulting batch job file
 
 @IL-Sunset
-Scenario: Post a zip file containing all data for Illinois Sunset as a payload of the ingestion job: Append Database
+Scenario: Post a zip file containing bad data for Illinois Sunset as a payload of the ingestion job: Append Database
 Given I am using preconfigured Ingestion Landing Zone for "IL-Sunset"
   And I post "DashboardSadPath_IL_Sunset.zip" file as the payload of the ingestion job
+When zip file is scp to ingestion landing zone
+  And a batch job log has been created
+
+@NY-NYC  
+Scenario: Post a zip file containing bad data for New York as a payload of the ingestion job: Append Database
+Given I am using preconfigured Ingestion Landing Zone for "NY-NYC"
+  And I post "DashboardSadPath_NY.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job log has been created

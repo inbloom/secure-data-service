@@ -1,16 +1,26 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.dal.repository;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slc.sli.common.util.datetime.DateTimeUtil;
-import org.slc.sli.dal.TenantContext;
-import org.slc.sli.dal.encrypt.EntityEncryption;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.EntityMetadataKey;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.validation.EntityValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -22,6 +32,14 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
+import org.slc.sli.common.util.datetime.DateTimeUtil;
+import org.slc.sli.dal.TenantContext;
+import org.slc.sli.dal.encrypt.EntityEncryption;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.EntityMetadataKey;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.validation.EntityValidator;
+
 /**
  * mongodb implementation of the entity repository interface that provides basic
  * CRUD and field query methods for entities including core entities and
@@ -32,6 +50,8 @@ import org.springframework.util.Assert;
 
 public class MongoEntityRepository extends MongoRepository<Entity> implements InitializingBean {
     protected static final Logger LOG = LoggerFactory.getLogger(MongoEntityRepository.class);
+
+    private static final int PADDING = 300;
 
     @Autowired
     private EntityValidator validator;
@@ -71,18 +91,18 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         if (metaData == null) {
             metaData = new HashMap<String, Object>();
         }
-        
+
         String tenantId = TenantContext.getTenantId();
-        if(tenantId != null && !NOT_BY_TENANT.contains(collectionName)) {
-            if(metaData.get("tenantId") == null) {
+        if (tenantId != null && !NOT_BY_TENANT.contains(collectionName)) {
+            if (metaData.get("tenantId") == null) {
                 metaData.put("tenantId", tenantId);
             }
         }
-        
-        Entity entity = new MongoEntity(type, null, body, metaData);
+
+        Entity entity = new MongoEntity(type, null, body, metaData, PADDING);
         validator.validate(entity);
         this.addTimestamps(entity);
-        
+
         return super.create(entity, collectionName);
     }
 

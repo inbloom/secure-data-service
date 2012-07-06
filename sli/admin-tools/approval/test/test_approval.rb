@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 testdir = File.dirname(__FILE__)
 $LOAD_PATH << testdir + "/../lib"
 require 'approval'
@@ -106,6 +125,9 @@ class TestApprovalEngine < Test::Unit::TestCase
         assert(@ldap.read_user(@jd_email)[:status] == ApprovalEngine::STATE_APPROVED)
 
         if is_sandbox
+            # make sure the tenant is set email address if this is sandbox             
+            sb_user = @ldap.read_user(@jd_email)
+            assert(sb_user[:tenant] == sb_user[:email])
             assert(@ldap.get_user_groups(@jd_email).sort == ApprovalEngine::SANDBOX_ROLES.sort)
         else 
             assert(@ldap.get_user_groups(@jd_email).sort == ApprovalEngine::PRODUCTION_ROLES.sort)
@@ -118,6 +140,9 @@ class TestApprovalEngine < Test::Unit::TestCase
         assert(@ldap.read_user(@jd_email)[:status] == ApprovalEngine::STATE_APPROVED)
 
         if is_sandbox
+            # make sure the tenant is set email address if this is sandbox             
+            sb_user = @ldap.read_user(@jd_email)
+            assert(sb_user[:tenant] == sb_user[:email])
             assert(ApprovalEngine.get_roles(@jd_email).sort == ApprovalEngine::SANDBOX_ROLES.sort)
         else
             assert(ApprovalEngine.get_roles(@jd_email).sort == ApprovalEngine::PRODUCTION_ROLES.sort)
@@ -159,10 +184,10 @@ class TestApprovalEngine < Test::Unit::TestCase
     
 
     def test_production
-        regular_workflow(true)
+        regular_workflow(false)
     end
 
     def test_sandbox
-        regular_workflow(false)
+        regular_workflow(true)
     end
 end

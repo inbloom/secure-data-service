@@ -1,2 +1,2 @@
 #!/bin/bash
-open -g /Applications/Firefox.app
+open -F -g /Applications/Firefox.app

@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.processors;
 
 import java.util.Enumeration;
@@ -8,16 +25,17 @@ import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.dal.aspect.MongoTrackingAspect;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
+import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.WorkNoteImpl;
 import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.landingzone.BatchJobAssembler;
 import org.slc.sli.ingestion.landingzone.ControlFile;
@@ -32,6 +50,7 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
+import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 
 /**
  * Control file processor.
@@ -40,12 +59,12 @@ import org.slc.sli.ingestion.util.LogUtil;
  *
  */
 @Component
-public class ControlFileProcessor implements Processor {
+public class ControlFileProcessor implements Processor, MessageSourceAware {
 
     private static final Logger LOG = LoggerFactory.getLogger(ControlFileProcessor.class);
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PROCESSOR;
-    
+
     @Autowired
     private ControlFileValidator validator;
 
@@ -54,9 +73,9 @@ public class ControlFileProcessor implements Processor {
 
     @Autowired
     private BatchJobDAO batchJobDAO;
+    private MessageSource messageSource;
 
     @Override
-    @Profiled
     public void process(Exchange exchange) throws Exception {
         //We need to extract the TenantID for each thread, so the DAL has access to it.
 //        try {
@@ -114,6 +133,17 @@ public class ControlFileProcessor implements Processor {
             // TODO Deal with validator being autowired in BatchJobAssembler
                 if (validator.isValid(cfd, errorReport)) {
                     createAndAddResourceEntries(newJob, cf);
+                } else {
+                    boolean isZipFile = false;
+                    for (ResourceEntry resourceEntry : newJob.getResourceEntries()) {
+                        if (FileFormat.ZIP_FILE.getCode().equalsIgnoreCase(resourceEntry.getResourceFormat())) {
+                           isZipFile = true;
+                        }
+                    }
+                    if (!isZipFile) {
+                        LOG.info(MessageSourceHelper.getMessage(messageSource, "CTLFILEPROC_WRNG_MSG1"));
+                        errorReport.warning(MessageSourceHelper.getMessage(messageSource, "CTLFILEPROC_WRNG_MSG1"), this);
+                    }
                 }
             }
 
@@ -155,14 +185,14 @@ public class ControlFileProcessor implements Processor {
         } else {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.CONTROL_FILE_PROCESSED.name());
         }
-        
+
         if (newJob.getProperty(AttributeType.DRYRUN.getName()) != null) {
             LOG.debug("Matched @dry-run tag from control file parsing.");
             exchange.getIn().setHeader(AttributeType.DRYRUN.getName(), true);
         } else {
             LOG.debug("Did not match @dry-run tag in control file.");
         }
-        
+
         if (newJob.getProperty(AttributeType.NO_ID_REF.getName()) != null) {
             LOG.debug("Matched @no-id-ref tag from control file parsing.");
             exchange.getIn().setHeader(AttributeType.NO_ID_REF.name(), true);
@@ -172,7 +202,7 @@ public class ControlFileProcessor implements Processor {
     }
 
     private void setExchangeBody(Exchange exchange, String batchJobId) {
-        WorkNote workNote = WorkNoteImpl.createSimpleWorkNote(batchJobId);
+        WorkNote workNote = WorkNote.createSimpleWorkNote(batchJobId);
         exchange.getIn().setBody(workNote, WorkNote.class);
     }
 
@@ -211,4 +241,8 @@ public class ControlFileProcessor implements Processor {
         this.jobAssembler = jobAssembler;
     }
 
+    @Override
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
 }

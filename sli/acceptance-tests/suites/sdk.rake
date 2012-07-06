@@ -7,7 +7,7 @@ task :JavaSDKSampleAppTest => [:importUnifiedData, :realmInitNoPeople] do
 end
 
 desc "Run JavaSDK CRUD acceptance tests"
-task :JavaSDKCRUDTest => [:realmInitNoPeople,:importStoriedData] do
+task :JavaSDKCRUDTest => [:realmInitNoPeople,:importSandboxData] do
     runTests("test/features/apiV1/end_user_stories/sandbox/JavaSDK/CRUD/CRUD.feature")
 end
 ############################################################

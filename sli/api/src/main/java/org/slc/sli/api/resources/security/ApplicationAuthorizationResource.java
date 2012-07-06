@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
@@ -19,9 +36,15 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.slc.sli.api.client.constants.ResourceNames;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.security.SecurityEventBuilder;
@@ -33,11 +56,6 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.stereotype.Component;
 
 /**
  *
@@ -47,25 +65,25 @@ import org.springframework.stereotype.Component;
 @Path("/applicationAuthorization")
 @Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
 public class ApplicationAuthorizationResource {
-    
+
     @Autowired
     private EntityDefinitionStore store;
-    
+
     @Autowired
     Repository<Entity> repo;
-    
+
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
-    
+
     @Autowired
     private DelegationUtil delegationUtil;
-    
+
     private EntityService service;
     private EntityService applicationService;
     private EntityService edOrgService;
-    
+
     public static final String RESOURCE_NAME = "applicationAuthorization";
-    
+
     public static final String UUID = "uuid";
     public static final String AUTH_ID = "authId";
     public static final String AUTH_TYPE = "authType";
@@ -76,26 +94,26 @@ public class ApplicationAuthorizationResource {
     public static final String CLIENT_ID = "clientId";
     public static final String NAME = "name";
     public static final String DESCRIPTION = "description";
-    
+
     public static final String RESOURCE_APPLICATION = "application";
     public static final String RESOURCE_EDORG = "educationOrganization";
-    
+
     @PostConstruct
     public void init() {
         EntityDefinition def = store.lookupByResourceName(RESOURCE_NAME);
         service = def.getService();
-        
+
         EntityDefinition appDef = store.lookupByResourceName(RESOURCE_APPLICATION);
         applicationService = appDef.getService();
-        
+
         EntityDefinition edOrgDef = store.lookupByResourceName(ResourceNames.EDUCATION_ORGANIZATIONS);
         edOrgService = edOrgDef.getService();
     }
-    
+
     @GET
     @Path("{" + UUID + "}")
     public Response getAuthorization(@PathParam(UUID) String uuid) {
-        
+
         if (uuid != null) {
             EntityBody entityBody = service.get(uuid);
             if (entityBody != null) {
@@ -105,22 +123,22 @@ public class ApplicationAuthorizationResource {
         }
         return Response.status(Status.NOT_FOUND).build();
     }
-    
+
     @POST
     public Response createAuthorization(EntityBody newAppAuth, @Context final UriInfo uriInfo) {
         SecurityUtil.ensureAuthenticated();
         if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ) && !SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
             return SecurityUtil.forbiddenResponse();
         }
-        
+
         verifyAccess((String) newAppAuth.get(AUTH_ID), null);
-        
+
         String uuid = service.create(newAppAuth);
         logChanges(uriInfo, null, newAppAuth);
         String uri = uriToString(uriInfo) + "/" + uuid;
         return Response.status(Status.CREATED).header("Location", uri).build();
     }
-    
+
     @PUT
     @Path("{" + UUID + "}")
     public Response updateAuthorization(@PathParam(UUID) String uuid, EntityBody auth, @Context final UriInfo uriInfo) {
@@ -128,23 +146,23 @@ public class ApplicationAuthorizationResource {
         if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ) && !SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
             return SecurityUtil.forbiddenResponse();
         }
-        
+
         EntityBody oldAuth = service.get(uuid);
         String oldTenant = (String) ((Map<String, Object>) oldAuth.get("metaData")).get("tenantId");
         verifyAccess((String) oldAuth.get(AUTH_ID), oldTenant);
-        
+
         if (!oldAuth.get(AUTH_ID).equals(auth.get(AUTH_ID))) {
             EntityBody body = new EntityBody();
             body.put("message", "authId is read only");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
-        
+
         if (!oldAuth.get(AUTH_TYPE).equals(auth.get(AUTH_TYPE))) {
             EntityBody body = new EntityBody();
             body.put("message", "authType is read only");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
-        
+
         boolean status = service.update(uuid, auth);
         if (status) { // if the entity was changed
             logChanges(uriInfo, oldAuth, auth);
@@ -154,17 +172,17 @@ public class ApplicationAuthorizationResource {
         }
         return Response.status(Status.BAD_REQUEST).build();
     }
-    
+
     @GET
     public Response getAuthorizations(@Context UriInfo info) {
         SecurityUtil.ensureAuthenticated();
         List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
         String edOrg = delegationUtil.getUsersStateUniqueId();
-        
+
         if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ) && !SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
             return SecurityUtil.forbiddenResponse();
         }
-        
+
         if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
             if (edOrg != null) {
                 NeutralQuery query = new NeutralQuery();
@@ -192,32 +210,32 @@ public class ApplicationAuthorizationResource {
                     results.add(ent.getBody());
                 }
             }
-            
+
         }
         return Response.status(Status.OK).entity(results).build();
     }
-    
+
     private static String uriToString(UriInfo uri) {
         return uri.getBaseUri() + uri.getPath().replaceAll("/$", "");
     }
-    
+
     private void verifyAccess(String authId, String tenantId) throws AccessDeniedException {
         String edOrg = delegationUtil.getUsersStateUniqueId();
         if (edOrg == null) {
             throw new InsufficientAuthenticationException("No edorg exists on principal.");
         }
-        
+
         String usersTenant = SecurityUtil.getTenantId();
         if (tenantId != null && !tenantId.equals(usersTenant)) {
             throw new AccessDeniedException("User cannot modify application authorizations outside of their tenant");
         }
-        
+
         List<String> delegateEdOrgs = delegationUtil.getDelegateEdOrgs();
         if (!edOrg.equals(authId) && !delegateEdOrgs.contains(authId)) {
             throw new AccessDeniedException("User can only access " + edOrg);
         }
     }
-    
+
     private void logChanges(UriInfo uriInfo, EntityBody oldAppAuth, EntityBody newAppAuth) {
         String oldEdOrgId = "";
         String newEdOrgId = "";
@@ -227,7 +245,7 @@ public class ApplicationAuthorizationResource {
         if (newAppAuth != null && newAppAuth.get(AUTH_ID) != null) {
             newEdOrgId = (String) newAppAuth.get(AUTH_ID);
         }
-        
+
         List<Object> oldApprovedAppIds = new ArrayList<Object>();
         List<Object> newApprovedAppIds = new ArrayList<Object>();
         if (oldAppAuth != null && oldAppAuth.get(APP_IDS) != null) {
@@ -236,32 +254,32 @@ public class ApplicationAuthorizationResource {
         if (newAppAuth != null && newAppAuth.get(APP_IDS) != null) {
             newApprovedAppIds = (List<Object>) newAppAuth.get(APP_IDS);
         }
-        
+
         Set<Pair<String, String>> older = new HashSet<Pair<String, String>>();
         for (Object appId : oldApprovedAppIds) {
             older.add(Pair.of(oldEdOrgId, (String) appId));
         }
-        
+
         Set<Pair<String, String>> newer = new HashSet<Pair<String, String>>();
         for (Object appId : newApprovedAppIds) {
             newer.add(Pair.of(newEdOrgId, (String) appId));
         }
-        
+
         Set<Pair<String, String>> added = new HashSet<Pair<String, String>>(newer);
         added.removeAll(older);
         Set<Pair<String, String>> deleted = new HashSet<Pair<String, String>>(older);
         deleted.removeAll(newer);
-        
+
         logSecurityEvent(uriInfo, added, true);
         logSecurityEvent(uriInfo, deleted, false);
     }
-    
+
     private void logSecurityEvent(UriInfo uriInfo, Set<Pair<String, String>> edOrgApps, boolean added) {
         for (Pair<String, String> edOrgApp : edOrgApps) {
             String stateId = edOrgApp.getLeft();
             String appId = edOrgApp.getRight();
             String edOrgId = null;
-            
+
             EntityBody edOrg = null;
             EntityBody app = null;
             try {
@@ -291,7 +309,7 @@ public class ApplicationAuthorizationResource {
                     nameOfInstitution = (String) edOrg.get(NAME_OF_INSTITUTION);
                 }
             }
-            
+
             String clientId = null;
             String name = null;
             String description = null;
@@ -306,7 +324,7 @@ public class ApplicationAuthorizationResource {
                     description = (String) app.get(DESCRIPTION);
                 }
             }
-            
+
             if (added) {
                 audit(securityEventBuilder.createSecurityEvent(ApplicationAuthorizationResource.class.getName(),
                         uriInfo, "ALLOWED [" + appId + ", " + name + ", " + description + "] by Client [" + clientId
@@ -320,5 +338,5 @@ public class ApplicationAuthorizationResource {
             }
         }
     }
-    
+
 }

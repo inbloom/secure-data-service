@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.routes.orchestra;
 
 import java.util.ArrayList;
@@ -11,7 +28,6 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.WorkNoteImpl;
 import org.slc.sli.ingestion.dal.NeutralRecordAccess;
 
 /**
@@ -62,7 +78,7 @@ public class TimestampSplitStrategy implements SplitStrategy {
         } else {
             LOG.info("Creating one WorkNote for collection: {}.", stagedEntity.getCollectionNameAsStaged());
 
-            WorkNote workNote = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, maxTime, 1);
+            WorkNote workNote = WorkNote.createBatchedWorkNote(jobId, stagedEntity, minTime, maxTime, 1L, 1);
             workNotesForEntity.add(workNote);
         }
         return workNotesForEntity;
@@ -70,12 +86,17 @@ public class TimestampSplitStrategy implements SplitStrategy {
 
     /**
      * Recursively constructs a list of work notes for the specified job and entity.
-     * 
-     * @param workNotes current set of work notes for the staged entity.
-     * @param jobId current job id.
-     * @param stagedEntity entity current in staging database.
-     * @param minTime used for performing queries into data store.
-     * @param maxTime used for performing queries into data store.
+     *
+     * @param workNotes
+     *            current set of work notes for the staged entity.
+     * @param jobId
+     *            current job id.
+     * @param stagedEntity
+     *            entity current in staging database.
+     * @param minTime
+     *            used for performing queries into data store.
+     * @param maxTime
+     *            used for performing queries into data store.
      * @return list of work notes for staged entity.
      */
     private List<WorkNote> constructCollectionWorkNotes(List<WorkNote> workNotes, String jobId,
@@ -88,7 +109,8 @@ public class TimestampSplitStrategy implements SplitStrategy {
         if (chunkMatch(recordsCountInSegment, MatchEnumeration.good)) {
             // Current chunk is within acceptable threshold, add it to workNotes
             LOG.info("Adding unsplit chunk - it's within acceptable limits");
-            WorkNote workNoteUnsplit = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, maxTime, 0);
+            WorkNote workNoteUnsplit = WorkNote.createBatchedWorkNote(jobId, stagedEntity, minTime, maxTime,
+                    recordsCountInSegment, 0);
             workNotes.add(workNoteUnsplit);
 
         } else {
@@ -116,38 +138,44 @@ public class TimestampSplitStrategy implements SplitStrategy {
                 if (chunkMatch(recordsInRightChunk, MatchEnumeration.good)) {
                     // RIGHT SIDE IS GOOD
 
-                    WorkNote right = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, pivot, maxTime, 0);
+                    WorkNote right = WorkNote.createBatchedWorkNote(jobId, stagedEntity, pivot, maxTime,
+                            recordsInRightChunk, 0);
                     workNotes.add(right);
 
                     if (chunkMatch(recordsInLeftChunk, MatchEnumeration.good)
                             || chunkMatch(recordsInLeftChunk, MatchEnumeration.small)) {
 
-                        LOG.debug("Adding left + right work notes");
+//                        LOG.debug("Adding left + right work notes");
 
-                        WorkNote left = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot, 0);
+                        WorkNote left = WorkNote.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot,
+                                recordsInLeftChunk, 0);
                         workNotes.add(left);
 
                     } else if (chunkMatch(recordsInLeftChunk, MatchEnumeration.large)) {
 
-                        LOG.debug("Recursing on left + adding right work note");
+//                        LOG.debug("Recursing on left + adding right work note");
                         constructCollectionWorkNotes(workNotes, jobId, stagedEntity, minTime, pivot);
                     }
                 } else if (chunkMatch(recordsInRightChunk, MatchEnumeration.small)) {
                     // RIGHT SIDE IS TOO SMALL
                     if (chunkMatch(recordsInLeftChunk, MatchEnumeration.good)) {
-                        LOG.debug("Adding left + right work notes");
-                        WorkNote left = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot, 0);
+//                        LOG.debug("Adding left + right work notes");
+                        WorkNote left = WorkNote.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot,
+                                recordsInLeftChunk, 0);
                         workNotes.add(left);
 
-                        WorkNote right = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, pivot, maxTime, 0);
+                        WorkNote right = WorkNote.createBatchedWorkNote(jobId, stagedEntity, pivot, maxTime,
+                                recordsInRightChunk, 0);
                         workNotes.add(right);
 
                     } else if (chunkMatch(recordsInLeftChunk, MatchEnumeration.small)) {
-                        LOG.debug("Adding left + right work notes");
-                        WorkNote left = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot, 0);
+//                        LOG.debug("Adding left + right work notes");
+                        WorkNote left = WorkNote.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot,
+                                recordsInLeftChunk, 0);
                         workNotes.add(left);
 
-                        WorkNote right = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, pivot, maxTime, 0);
+                        WorkNote right = WorkNote.createBatchedWorkNote(jobId, stagedEntity, pivot, maxTime,
+                                recordsInRightChunk, 0);
                         workNotes.add(right);
 
                     } else if (chunkMatch(recordsInLeftChunk, MatchEnumeration.large)) {
@@ -158,8 +186,9 @@ public class TimestampSplitStrategy implements SplitStrategy {
                 } else {
                     // RIGHT SIDE IS TOO LARGE
                     if (chunkMatch(recordsInLeftChunk, MatchEnumeration.good)) {
-                        LOG.debug("Adding left work note + recursing on the right");
-                        WorkNote left = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot, 0);
+//                        LOG.debug("Adding left work note + recursing on the right");
+                        WorkNote left = WorkNote.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot,
+                                recordsInLeftChunk, 0);
                         workNotes.add(left);
 
                         constructCollectionWorkNotes(workNotes, jobId, stagedEntity, pivot, maxTime);
@@ -186,7 +215,8 @@ public class TimestampSplitStrategy implements SplitStrategy {
                         constructCollectionWorkNotes(workNotes, jobId, stagedEntity, minTime, pivot);
                     } else {
                         LOG.debug("Adding left work note");
-                        WorkNote left = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot, 0);
+                        WorkNote left = WorkNote.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot,
+                                recordsInLeftChunk, 0);
                         workNotes.add(left);
                     }
 
@@ -195,7 +225,8 @@ public class TimestampSplitStrategy implements SplitStrategy {
                         constructCollectionWorkNotes(workNotes, jobId, stagedEntity, pivot, maxTime);
                     } else {
                         LOG.debug("Adding right work note");
-                        WorkNote right = WorkNoteImpl.createBatchedWorkNote(jobId, stagedEntity, pivot, maxTime, 0);
+                        WorkNote right = WorkNote.createBatchedWorkNote(jobId, stagedEntity, pivot, maxTime,
+                                recordsInRightChunk, 0);
                         workNotes.add(right);
                     }
 
@@ -208,9 +239,11 @@ public class TimestampSplitStrategy implements SplitStrategy {
 
     /**
      * Matches whether the current record count will return the specified enumerated value.
-     * 
-     * @param count Current record count.
-     * @param matchEnum Evaluation of record count translated into enumeration.
+     *
+     * @param count
+     *            Current record count.
+     * @param matchEnum
+     *            Evaluation of record count translated into enumeration.
      * @return true (if record count returns specified enumeration), false otherwise.
      */
     private boolean chunkMatch(long count, MatchEnumeration matchEnum) {
@@ -219,8 +252,9 @@ public class TimestampSplitStrategy implements SplitStrategy {
 
     /**
      * Evaluates the size of the chunk (given the number of records).
-     * 
-     * @param count Number of records in chunk.
+     *
+     * @param count
+     *            Number of records in chunk.
      * @return Enumeration that signals whether more work is required in splitting the chunk.
      */
     private MatchEnumeration checkRecordsInChunk(long count) {
@@ -242,14 +276,15 @@ public class TimestampSplitStrategy implements SplitStrategy {
 
     /**
      * Get the count of the number of records in the staging database for the specified entity.
-     * 
-     * @param stagedEntity entity to perform count() on in staging database.
-     * @param jobId current job id.
+     *
+     * @param stagedEntity
+     *            entity to perform count() on in staging database.
+     * @param jobId
+     *            current job id.
      * @return long representing the number of records in the staging database.
      */
     private long countRecordsForEntity(IngestionStagedEntity stagedEntity, String jobId) {
-        long numRecords = neutralRecordAccess.collectionCountForJob(stagedEntity.getCollectionNameAsStaged(),
-                jobId);
+        long numRecords = neutralRecordAccess.collectionCountForJob(stagedEntity.getCollectionNameAsStaged(), jobId);
         LOG.info("Records for collection {}: {}", stagedEntity.getCollectionNameAsStaged(), numRecords);
         return numRecords;
     }
@@ -263,8 +298,9 @@ public class TimestampSplitStrategy implements SplitStrategy {
 
     /**
      * Sets neutral record access for entities to be chunked.
-     * 
-     * @param neutralRecordAccess access into data store for retrieving records.
+     *
+     * @param neutralRecordAccess
+     *            access into data store for retrieving records.
      */
     public void setNeutralRecordAccess(NeutralRecordAccess neutralRecordAccess) {
         this.neutralRecordAccess = neutralRecordAccess;
@@ -272,8 +308,9 @@ public class TimestampSplitStrategy implements SplitStrategy {
 
     /**
      * Sets the split chunk size for entities when creating work notes.
-     * 
-     * @param splitChunkSize how many entities each work note should specify.
+     *
+     * @param splitChunkSize
+     *            how many entities each work note should specify.
      */
     public void setSplitChunkSize(int splitChunkSize) {
         this.splitChunkSize = splitChunkSize;

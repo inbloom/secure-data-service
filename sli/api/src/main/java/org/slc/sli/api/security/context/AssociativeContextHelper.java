@@ -1,14 +1,21 @@
-package org.slc.sli.api.security.context;
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-import org.slc.sli.api.config.AssociationDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+
+package org.slc.sli.api.security.context;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,6 +23,17 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.config.AssociationDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * Resolves Context based permissions.
@@ -107,8 +125,8 @@ public class AssociativeContextHelper {
      * @return
      */
     public List<String> findEntitiesContainingReference(String collectionName, String referenceLocation,
-                                                        List<String> referenceIds){
-        return  findEntitiesContainingReference(collectionName,referenceLocation,referenceIds,null);
+                                                        List<String> referenceIds) {
+        return  findEntitiesContainingReference(collectionName, referenceLocation, referenceIds, null);
     }
 
     /**
@@ -120,13 +138,13 @@ public class AssociativeContextHelper {
      * @return Ids of entities containing a referenceId at the referenceLocation
      */
     public List<String> findEntitiesContainingReference(String collectionName, String referenceLocation,
-                                                        List<String> referenceIds,List<NodeFilter> filterList) {
-        List<Entity> entitiesToResolve= new ArrayList<Entity>();
+                                                        List<String> referenceIds, List<NodeFilter> filterList) {
+        List<Entity> entitiesToResolve = new ArrayList<Entity>();
         Iterable<Entity> entityIterableList = getReferenceEntities(collectionName, referenceLocation, referenceIds);
-        for (Entity entityInList: entityIterableList){
+        for (Entity entityInList: entityIterableList) {
             entitiesToResolve.add(entityInList);
         }
-        entitiesToResolve = filterEntities(entitiesToResolve,filterList,"");
+        entitiesToResolve = filterEntities(entitiesToResolve, filterList, "");
 
         List<String> foundIds = new ArrayList<String>();
         for (Entity e : entitiesToResolve) {
@@ -163,8 +181,8 @@ public class AssociativeContextHelper {
      * @return
      */
     public List<String> findEntitiesContainingReference(String collectionName, String referenceLocation,
-                                                        String returnedReference, List<String> referenceIds){
-        return  findEntitiesContainingReference(collectionName,referenceLocation,returnedReference,referenceIds,null);
+                                                        String returnedReference, List<String> referenceIds) {
+        return  findEntitiesContainingReference(collectionName, referenceLocation, returnedReference, referenceIds, null);
     }
     /**
      * Searches an associative collection to return a list of referenced Ids.
@@ -180,13 +198,13 @@ public class AssociativeContextHelper {
      * @return ids contained in the returnedReference field
      */
     public List<String> findEntitiesContainingReference(String collectionName, String referenceLocation,
-            String returnedReference, List<String> referenceIds,List<NodeFilter> filterList) {
-        List<Entity> entitiesToResolve= new ArrayList<Entity>();
+            String returnedReference, List<String> referenceIds, List<NodeFilter> filterList) {
+        List<Entity> entitiesToResolve = new ArrayList<Entity>();
         Iterable<Entity> entityIterableList = getReferenceEntities(collectionName, referenceLocation, referenceIds);
-        for (Entity entityInList: entityIterableList){
+        for (Entity entityInList: entityIterableList) {
             entitiesToResolve.add(entityInList);
         }
-        entitiesToResolve = filterEntities(entitiesToResolve,filterList,returnedReference);
+        entitiesToResolve = filterEntities(entitiesToResolve, filterList, returnedReference);
         List<String> foundIds = new ArrayList<String>();
         for (Entity e : entitiesToResolve) {
             Map<String, Object> body = e.getBody();
@@ -215,10 +233,10 @@ public class AssociativeContextHelper {
      * @param filterList
      * @return
      */
-    public List<Entity> filterEntities(List<Entity> entitiList , List<NodeFilter> filterList,String referenceField){
-        if(filterList != null && entitiList != null && entitiList.size() != 0) {
+    public List<Entity> filterEntities(List<Entity> entitiList , List<NodeFilter> filterList, String referenceField) {
+        if (filterList != null && entitiList != null && entitiList.size() != 0) {
             for (NodeFilter filter : filterList) {
-                entitiList = filter.filterEntities(entitiList,referenceField);
+                entitiList = filter.filterEntities(entitiList, referenceField);
             }
         }
         return entitiList;

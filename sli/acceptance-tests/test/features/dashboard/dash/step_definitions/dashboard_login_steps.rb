@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'selenium-webdriver'
 require_relative '../../../utils/sli_utils.rb'
 
@@ -80,6 +99,10 @@ When /^I access "([^"]*)"$/ do |path|
   @driver.get url
 end
 
+Then /^I get an error message "([^"]*)"$/ do |errMsg|
+  @explicitWait.until{@driver.page_source.include?(errMsg)}
+end
+
 Then /^I get an error code "([^"]*)"$/ do |errCode|
   # TODO: 
   # Is there's no way to get the http status code from selenium?? 
@@ -90,7 +113,13 @@ Then /^I can see "([^"]*)"$/ do |arg1|
 end
 
 Then /^I add a cookie for linda.kim$/ do
+  #TODO fix using long lived session in web-based test
   @driver.manage.add_cookie(:name=> "SLI_DASHBOARD_COOKIE",:value=>"4cf7a5d4-37a1-ca19-8b13-b5f95131ac85")
+  if ENV['FORCE_COLOR']
+    puts "\e[31mWHY IS THIS TEST USING A LONG LIVED SESSION? THIS IS WRONG\e[0m"
+  else
+    puts "WHY IS THIS TEST USING A LONG LIVED SESSION? THIS IS WRONG"
+  end
 end
 
 def checkForTextInBody(expectedText)

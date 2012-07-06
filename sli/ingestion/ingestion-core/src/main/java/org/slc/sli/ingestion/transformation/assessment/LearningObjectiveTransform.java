@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.transformation.assessment;
 
 import java.util.ArrayList;
@@ -27,6 +44,7 @@ import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 public class LearningObjectiveTransform extends AbstractTransformationStrategy {
 
     public static final String LEARNING_OBJECTIVE = "learningObjective";
+    public static final String LEARNING_OBJECTIVE_TRANSFORMED = "learningObjective_transformed";
     public static final String ID_CODE = "identificationCode";
     public static final String CONTENT_STANDARD_NAME = "contentStandardName";
     public static final String LO_ID_CODE_PATH = "learningObjectiveId." + ID_CODE;
@@ -137,11 +155,13 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
             parentLO.getAttributes().put("learningStandards", uuidRefs);
         }
 
+        List<NeutralRecord> transformedLearningObjectives = new ArrayList<NeutralRecord>();
         for (NeutralRecord nr : allLearningObjectives) {
             nr.setRecordType(nr.getRecordType() + "_transformed");
             nr.setCreationTime(getWorkNote().getRangeMinimum());
-            insertRecord(nr);
+            transformedLearningObjectives.add(nr);
         }
+        insertRecords(transformedLearningObjectives, LEARNING_OBJECTIVE_TRANSFORMED);
     }
 
     @SuppressWarnings("unchecked")

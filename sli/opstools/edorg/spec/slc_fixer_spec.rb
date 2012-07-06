@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require_relative "../slc_fixer"
 
 describe SLCFixer do
@@ -60,7 +79,7 @@ describe SLCFixer do
     end
     it "should update all staff who are associated to an edorg" do
       failed = []
-      @db['staff'].find({'metaData.edOrgs'=> {'$exists' => false }, 'metaData.tenantId' => {'$exists' => true}}).each {|s| failed << s['_id']}
+      @db['staff'].find({'metaData.edOrgs'=> { '$exists' => false }, 'metaData.tenantId' => {'$exists' => true}}).each {|s| failed << s['_id']}
       assoc = []
       @db['staffEducationOrganizationAssociation'].find.each {|s| assoc << s['body']['staffReference'] if s['metaData'].include? 'tenantId'}
       @db['teacherSchoolAssociation'].find.each {|s| assoc << s['body']['teacherId'] if s['metaData'].include? 'tenantId'}

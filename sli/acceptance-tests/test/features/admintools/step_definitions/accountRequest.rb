@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require "selenium-webdriver"
 require 'approval'
 require 'active_support/inflector'
@@ -10,8 +29,8 @@ Before do
   @registrationAppSuffix = PropLoader.getProps['registration_app_suffix']
   @validationBaseSuffix = PropLoader.getProps['validation_base_suffix']
   @emailConf = {
-      :host => 'mon.slidev.org',
-      :port => 3000,
+      :host => PropLoader.getProps['email_smtp_host'],
+      :port => PropLoader.getProps['email_smtp_port'],
   }
 end
 
@@ -173,8 +192,9 @@ end
 ###############################################################################
 
 def initializeApprovalAndLDAP(emailConf, prod)
-  ldapBase = PropLoader.getProps['ldap_base']
-  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, ldapBase, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
+                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
+                          PropLoader.getProps['ldap_admin_pass'])
   email = Emailer.new emailConf
   ApprovalEngine.init(@ldap, email, nil, !prod)
 end

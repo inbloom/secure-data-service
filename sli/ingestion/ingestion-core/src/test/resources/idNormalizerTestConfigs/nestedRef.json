@@ -1,0 +1,40 @@
+{
+    "references" : 
+    [{
+        "fieldPath" : "body.parentId",
+        "ref" :
+        { 
+            "collectionName" : "parentCollection",
+            "choiceOfFields" :
+            [
+                [
+                    { 
+                        "path" : "body.otherField",
+                        "values" : 
+                        [{ 
+                            "valueSource" : "body.parentRef.srcOtherField"
+                        }]
+                    },
+                    {
+                        "path" : "body.childId",
+                        "values" :
+                        [{
+                            "ref" :
+                            {
+                                "collectionName" : "childCollection",
+                                "choiceOfFields":
+                                [[{
+                                      "path" : "body.childField",
+                                      "values" :
+                                      [{
+                                          "valueSource" : "body.parentRef.srcChildRefField"
+                                      }]
+                                }]]
+                            }
+                        }]
+                    }
+                ]
+            ]
+        }
+    }]
+} 

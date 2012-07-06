@@ -1,10 +1,30 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 def webdriverDebugMessage(driver, message="Webdriver could not achieve expected results")
   return "Debug Informaton\nCurrent Page: "+driver.title+"\nCurrent URL : "+driver.current_url+"\nCurrent Time: "+Time.now.getutc.to_s+"\n\n"+message
 end
 
 def lower_timeout_for_same_page_validation
   #used for same page validation
-  @driver.manage.timeouts.implicit_wait = 2 # seconds
+  @driver.manage.timeouts.implicit_wait = 10 # seconds
+  #@driver.manage.timeouts.implicit_wait = 2 # seconds
 end
 
 def reset_timeouts_to_default
@@ -16,9 +36,9 @@ Given /^I have an open web browser$/ do
   @profile['network.http.prompt-temp-redirect'] = false
 
   # if osx, use firefox background script
-  if Selenium::WebDriver::Firefox::Binary.path['/Applications/Firefox.app'] != nil
-    Selenium::WebDriver::Firefox::Binary.path = 'test/features/utils/firefox_in_background.sh'
-  end
+  #if Selenium::WebDriver::Firefox::Binary.path['/Applications/Firefox.app'] != nil
+  #  Selenium::WebDriver::Firefox::Binary.path = 'test/features/utils/firefox_in_background.sh'
+  #end
 
   @driver ||= Selenium::WebDriver.for :firefox, :profile => @profile
   reset_timeouts_to_default
@@ -99,3 +119,8 @@ def assertWithWait(msg, &blk)
   end
   assert(yield, webdriverDebugMessage(@driver,msg))
 end
+
+When /^I click on Ok$/ do
+  @driver.switch_to.alert.accept
+end
+

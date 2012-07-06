@@ -1,0 +1,145 @@
+<InterchangeAssessmentMetadata
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+
+	<Assessment id="ACT-1">
+		<AssessmentTitle>ACT</AssessmentTitle>
+		<AssessmentIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>ACT</ID>
+		</AssessmentIdentificationCode>
+		<AssessmentCategory>College entrance exam</AssessmentCategory>
+		<GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+		<Version>1</Version>
+		<RevisionDate>2005-03-12</RevisionDate>
+		<MaxRawScore>36</MaxRawScore>
+		<AssessmentItemReference ref="AssessmentItem-1"></AssessmentItemReference>
+		<AssessmentItemReference ref="AssessmentItem-2"></AssessmentItemReference>
+		<AssessmentItemReference ref="AssessmentItem-3"></AssessmentItemReference>
+		<AssessmentItemReference ref="AssessmentItem-4"></AssessmentItemReference>
+		<ObjectiveAssessmentReference ref="ActEng"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="ActMath"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="ActReading"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="ActScience"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="ActWriting"></ObjectiveAssessmentReference>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyIdentificationCode
+					IdentificationSystem="Test Contractor">
+					<ID>ACT</ID>
+				</AssessmentFamilyIdentificationCode>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</Assessment>
+
+	<!-- first level of objective assessment -->
+	<ObjectiveAssessment id="ActEng">
+		<IdentificationCode>ACT-English</IdentificationCode>
+		<MaxRawScore>36</MaxRawScore>
+		<ObjectiveAssessmentReference ref="ActEngUsage"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="ActEngRhetorical"></ObjectiveAssessmentReference>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="ActMath">
+		<IdentificationCode>ACT-Mathematics</IdentificationCode>
+		<MaxRawScore>36</MaxRawScore>
+		<ObjectiveAssessmentReference ref="ActMathPreAlgebra"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="ActMathAlgebra"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="ActMathGeometry"></ObjectiveAssessmentReference>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="ActReading">
+		<IdentificationCode>ACT-Reading</IdentificationCode>
+		<MaxRawScore>36</MaxRawScore>
+		<ObjectiveAssessmentReference ref="ActReadingSocial"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="ActReadingArts"></ObjectiveAssessmentReference>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="ActScience">
+		<IdentificationCode>ACT-Science</IdentificationCode>
+		<MaxRawScore>36</MaxRawScore>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="ActWriting">
+		<IdentificationCode>ACT-Writing</IdentificationCode>
+		<MaxRawScore>12</MaxRawScore>
+	</ObjectiveAssessment>
+
+	<!-- second level of objective assessment -->
+	<ObjectiveAssessment id="ActEngUsage">
+		<IdentificationCode>ACT-English-Usage</IdentificationCode>
+		<MaxRawScore>18</MaxRawScore>
+	</ObjectiveAssessment>
+
+   <ObjectiveAssessment id="ActEngRhetorical">
+		<IdentificationCode>ACT-English-Rhetorical</IdentificationCode>
+		<MaxRawScore>18</MaxRawScore>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="ActMathPreAlgebra">
+		<IdentificationCode>ACT-Math-Pre-Algebra</IdentificationCode>
+		<MaxRawScore>18</MaxRawScore>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="ActMathAlgebra">
+		<IdentificationCode>ACT-Math-Algebra</IdentificationCode>
+		<MaxRawScore>18</MaxRawScore>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="ActMathGeometry">
+		<IdentificationCode>ACT-Math-Plane-Geometry</IdentificationCode>
+		<MaxRawScore>18</MaxRawScore>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="ActReadingSocial">
+		<IdentificationCode>ACT-Reading-SocialStudies</IdentificationCode>
+		<MaxRawScore>18</MaxRawScore>
+        <!-- Commenting out circular reference -->
+		<!-- ObjectiveAssessmentReference ref="ActReadingSocial"></ObjectiveAssessmentReference -->
+		<ObjectiveAssessmentReference ref="ActReadingArts"></ObjectiveAssessmentReference>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="ActReadingArts">
+		<IdentificationCode>ACT-Reading-Arts</IdentificationCode>
+		<MaxRawScore>18</MaxRawScore>
+	</ObjectiveAssessment>
+
+	<!-- Assessment Item Section -->
+	<AssessmentItem id="AssessmentItem-1">
+		<IdentificationCode>AssessmentItem-1</IdentificationCode>
+		<ItemCategory>True-False</ItemCategory>
+		<MaxRawScore>5</MaxRawScore>
+		<CorrectResponse>False</CorrectResponse>
+	</AssessmentItem>
+
+	<AssessmentItem id="AssessmentItem-2">
+		<IdentificationCode>AssessmentItem-2</IdentificationCode>
+		<ItemCategory>True-False</ItemCategory>
+		<MaxRawScore>5</MaxRawScore>
+		<CorrectResponse>True</CorrectResponse>
+	</AssessmentItem>
+
+	<AssessmentItem id="AssessmentItem-3">
+		<IdentificationCode>AssessmentItem-3</IdentificationCode>
+		<ItemCategory>True-False</ItemCategory>
+		<MaxRawScore>5</MaxRawScore>
+		<CorrectResponse>True</CorrectResponse>
+	</AssessmentItem>
+
+	<AssessmentItem id="AssessmentItem-4">
+		<IdentificationCode>AssessmentItem-4</IdentificationCode>
+		<ItemCategory>True-False</ItemCategory>
+		<MaxRawScore>5</MaxRawScore>
+		<CorrectResponse>False</CorrectResponse>
+	</AssessmentItem>
+
+	<!-- Assessment Family Section -->
+	<AssessmentFamily id="ACT-Family">
+		<AssessmentFamilyTitle>ACT</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>ACT</ID>
+		</AssessmentFamilyIdentificationCode>
+	</AssessmentFamily>
+
+</InterchangeAssessmentMetadata>

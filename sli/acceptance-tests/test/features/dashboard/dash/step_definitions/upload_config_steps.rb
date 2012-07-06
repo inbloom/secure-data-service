@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 When /^I enter the Configuration Area$/ do
   url = getBaseUrl() + "/service/config"
   @driver.get url
@@ -82,12 +101,12 @@ Then /^I paste Valid json config into the text box$/ do
         {name: \"Performance Level\", field: \"assessments.StateTest Writing.perfLevel\", width:150, sorter: 'ProxyInt', formatter: 'FuelGaugeWithScore', params:{sortField: 'assessments.StateTest Writing.Scale score', name:'StateTest Writing', valueField:'Scale score', fieldName: \"StateTestWriting\", cutPoints:{ 5:{style:'color-widget-darkgreen'}, 4:{style:'color-widget-green'}, 3:{style:'color-widget-yellow'}, 2:{style:'color-widget-orange'}, 1:{style:'color-widget-red'}}}},
         {name: \"SS\", field: \"assessments.StateTest Writing.Scale score\", width:45, sorter: 'int'}]},
       {name: \"Current Grades\", items:[
-               {name: \"Unit Test 1\", field: \"FallSemester2011-2012-0\", width:100, sorter: 'LettersAndNumbers', formatter: 'Grade'}
+               {name: \"Unit Test 1\", field: \"currentSession-0\", width:100, sorter: 'LettersAndNumbers', formatter: 'Grade'}
             ]
       },
       {name: \"Final Grades\", items:[
-               {name: \"Last Semester\", field: \"SpringSemester2010-2011\", width:100, sorter: 'LetterGrade', formatter: 'TearDrop'},
-               {name: \"2 Semesters ago\", field: \"FallSemester2010-2011\", width:90, sorter: 'LetterGrade', formatter: 'TearDrop'}
+               {name: \"Last Semester\", field: \"previousSemester\", width:100, sorter: 'LetterGrade', formatter: 'TearDrop'},
+               {name: \"2 Semesters ago\", field: \"twoSemestersAgo\", width:90, sorter: 'LetterGrade', formatter: 'TearDrop'}
             ]
       },
       {name: \"Attendance (current school year)\", items:[   
@@ -125,8 +144,8 @@ Then /^I paste Valid json config into the text box$/ do
         {name: \"Lang.\", field: \"assessments.AP Language.x\", width:100},
         {name: \"Lit.\", field: \"assessments.AP Literature.x\", width:100}]},                 
       {name: \"Final Grades\", items:[
-        {name: \"Last Semester\", field: \"SpringSemester2010-2011\", width:100, sorter: 'LetterGrade', formatter: 'TearDrop'},
-        {name: \"2 Semesters ago\", field: \"FallSemester2010-2011\", width:90, sorter: 'LetterGrade', formatter: 'TearDrop'}]},
+        {name: \"Last Semester\", field: \"previousSemester\", width:100, sorter: 'LetterGrade', formatter: 'TearDrop'},
+        {name: \"2 Semesters ago\", field: \"twoSemestersAgo\", width:90, sorter: 'LetterGrade', formatter: 'TearDrop'}]},
       {name: \"Attendance\", items:[   
         {name: \"Absence Count\", field: \"attendances.absenceCount\", width: 60, sorter: 'int', formatter: 'CutPointReverse', params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 1:{style:'color-widget-green'}, 6:{style: 'color-widget-yellow'}, 11:{style: 'color-widget-red'}}}},
         {name: \"Attendance Rate %\", field: \"attendances.attendanceRate\", width: 75, sorter: 'int', formatter: 'CutPoint', params:{cutPoints:{89:{style: 'color-widget-red'}, 94:{style:'color-widget-yellow'}, 98:{style:'color-widget-green'}, 100:{style: 'color-widget-darkgreen'}}}},

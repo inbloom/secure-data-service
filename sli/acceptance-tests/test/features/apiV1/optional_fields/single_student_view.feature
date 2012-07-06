@@ -1,3 +1,4 @@
+@RALLY_DE87
 @RALLY_US209
 @RALLY_US210
 Feature: As an SLI application, I want to be able to view more student data in a single API call.
@@ -50,7 +51,7 @@ Feature: As an SLI application, I want to be able to view more student data in a
     And I should see "entityType" is "gradebookEntry" in it
 
 
-  Scenario: Applying optional fields - transcript - studentSectionAssociations
+    Scenario: Applying optional fields - transcript - studentSectionAssociations
     Given optional field "transcript"
     When I navigate to GET "/v1/students/<STUDENT_ID>"
     Then I should receive a return code of 200
@@ -58,10 +59,12 @@ Feature: As an SLI application, I want to be able to view more student data in a
   # Transcript
     And inside "transcript"
     And I should find "2" "studentSectionAssociations" in it
-    And I should find "sections" expanded in each of them
-    Then I should see "id" is "<STUDENT SECTION ASSOC ID>" in one of them
+    And I should find one with the property "id" having the value "<STUDENT SECTION ASSOC ID>"
+    When I go into the item with the property "id" having the value "<STUDENT SECTION ASSOC ID>"
+    Then I should see "id" is "<STUDENT SECTION ASSOC ID>" in it
+    Then I should find "sections" expanded in it
     And inside "sections"
-    And I should see "courseId" is "<COURSE ID>" in it
+    And I should see "courseOfferingId" is "<COURSE OFFERING ID>" in it
     And I should see "schoolId" is "<SCHOOL ID>" in it
     And I should see "uniqueSectionCode" is "8th Grade English - Sec 5" in it
     And inside "sessions"

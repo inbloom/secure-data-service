@@ -594,6 +594,56 @@
 
 	</xs:complexType>
 
+	<xs:complexType name="localEducationAgency">
+		<xs:annotation>
+			<xs:documentation>This entity represents an administrative unit at the
+			local level which exists primarily to operate schools or to contract
+			for educational services.  It includes school districts, charter schools,
+			charter management organizations, or other local administrative organizations.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="educationOrganization">
+				<xs:sequence>
+					<xs:element name="LEACategory" type="LEACategoryType">
+						<xs:annotation>
+							<xs:documentation>The category of LEA/district. For example:
+							Independent or Charter 
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="charterStatus" type="charterStatusType" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A school or agency providing free public
+							elementary or secondary education to eligible students under
+							a specific charter granted by the state legislature or other
+							appropriate authority and designated by such authority to be
+							a charter school.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="localEducationAgencyReference" type="reference" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>For subdistricts, the LEA the subdistrict
+							is a component of.</xs:documentation>
+							<xs:appinfo>
+								<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="educationServiceCenterReference" type="reference" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>The ESC of which the LEA is an organizational
+							component.</xs:documentation>
+							<xs:appinfo>
+								<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+							</xs:appinfo>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
 	<xs:complexType name="objectiveAssessment">
 		<xs:annotation>
 			<xs:documentation>This entity represents subtests that assess
@@ -1288,50 +1338,31 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs="1" minOccurs="1" name="courseId"
+			<xs:element maxOccurs="1" minOccurs="1" name="courseOfferingId"
 				type="reference">
 				<xs:annotation>
-					<xs:documentation>The course associated with the section. This
+					<xs:documentation>The course offering associated with the section. This
 						reference is required.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>course</sli:ReferenceType>
+						<sli:ReferenceType>courseOffering</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name="assessmentReferences" type="reference"
+                minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>The assessment(s) which the section is associated with
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>assessment</sli:ReferenceType>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="sectionAssessmentAssociation">
-		<xs:annotation>
-			<xs:documentation>This entity represents the association of a section
-				with an administered assessment.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="sectionId" type="reference">
-				<xs:annotation>
-					<xs:documentation>Reference to the section associated with the
-						assessment.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>section</sli:ReferenceType>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="assessmentId" type="reference">
-				<xs:annotation>
-					<xs:documentation>Reference to the assessment taken by the
-						section.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>assessment</sli:ReferenceType>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
-	</xs:complexType>
 	<!-- <xs:complexType name="sectionBellScheduleAssociation"> <xs:annotation>
 		<xs:documentation> An association between the section and bell schedule.
 		</xs:documentation> </xs:annotation> <xs:complexContent> <xs:extension base="meetingTime">
@@ -1443,6 +1474,15 @@
 					<xs:documentation>The descriptive name given to a course of study
 						offered in the school, if different from the CourseTitle.
 					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="schoolId" type="reference">
+				<xs:annotation>
+					<xs:documentation>The school that offers the course.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="courseId" type="reference">
@@ -1557,37 +1597,6 @@
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
-	</xs:complexType>
-
-	<xs:complexType name="schoolSessionAssociation">
-		<xs:annotation>
-			<xs:documentation>This entity represents the association of a school
-				with all its sessions.
-			</xs:documentation>
-		</xs:annotation>
-		<xs:sequence>
-			<xs:element name="schoolId" type="reference">
-				<xs:annotation>
-					<xs:documentation>Reference to the school associated with the
-						session.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>school</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="sessionId" type="reference">
-				<xs:annotation>
-					<xs:documentation>Reference to the session offered at the school.
-					</xs:documentation>
-					<xs:appinfo>
-						<sli:ReferenceType>session</sli:ReferenceType>
-						<sli:naturalKey>true</sli:naturalKey>
-					</xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="scoreResult">
@@ -2221,6 +2230,19 @@
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="stateEducationAgency">
+		<xs:annotation>
+			<xs:documentation>This entity represents the agency of the state charged
+			with primary responsibility for coordinating and supervising public
+			instruction, including the setting of standards for elementary and secondary
+			instruction programs.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="educationOrganization"/>
+		</xs:complexContent>
 	</xs:complexType>
 
 	<xs:complexType name="student">
@@ -5777,17 +5799,15 @@
           <xs:documentation>The identifier for the school year.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="stateOrganizationId" type="identificationCode">
+      <xs:element name="schoolId" type="reference">
         <xs:annotation>
           <xs:documentation>The identifier assigned to an education agency by
                             the State
                             Education Agency (SEA). Also known as the State LEA ID.
           </xs:documentation>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="educationalOrgIdentity" type="educationalOrgIdentityType">
-        <xs:annotation>
-          <xs:documentation>The identifier for the educational organization.</xs:documentation>
+          <xs:appinfo>
+          <sli:ReferenceType>educationOrganization</sli:ReferenceType>
+          </xs:appinfo>
         </xs:annotation>
       </xs:element>
     </xs:sequence>

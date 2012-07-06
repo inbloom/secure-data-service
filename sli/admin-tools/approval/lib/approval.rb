@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'set'
 require 'digest'
 require 'ldapstorage'
@@ -105,6 +124,10 @@ module ApprovalEngine
                 # update the status, set the roles and send an email
                 @@storage.update_status(user)
                 set_roles(user[:email])
+
+                # if this is sandbox write the userid as the tennant
+                set_sandbox_tenant(user)
+
             when [STATE_PENDING, STATE_REJECTED]
                 # update the status and clear the roles
                 @@storage.update_status(user)
@@ -113,12 +136,18 @@ module ApprovalEngine
                 # update the status and set the roles
                 @@storage.update_status(user)
                 set_roles(user[:email])
+
+                # if this is sandbox write the userid as the tennant
+                set_sandbox_tenant(user)
             when [STATE_APPROVED, STATE_DISABLED]
                 @@storage.update_status(user)
                 clear_roles(user[:email])
             when [STATE_DISABLED, STATE_APPROVED]
                 @@storage.update_status(user)
                 set_roles(user[:email])
+
+                # if this is sandbox write the userid as the tennant
+                set_sandbox_tenant(user)
             else
                 raise "Unknown state transition #{status} => #{target[transition]}."
         end
@@ -282,4 +311,14 @@ module ApprovalEngine
         }
         update_user_info(user_info)
     end
+
+    def ApprovalEngine.set_sandbox_tenant(user)
+        if @@is_sandbox
+            new_user_info = {
+                :email => user[:email],
+                :tenant => user[:email]
+            }
+            @@storage.update_user_info(new_user_info)
+        end 
+    end 
 end
