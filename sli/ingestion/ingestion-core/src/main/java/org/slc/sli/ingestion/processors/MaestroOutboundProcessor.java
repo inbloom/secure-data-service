@@ -95,7 +95,7 @@ public class MaestroOutboundProcessor implements Processor {
     private void handleNoBatchJobIdInExchange(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+        error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
     private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {

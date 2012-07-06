@@ -27,9 +27,6 @@ import java.util.List;
 import java.util.regex.Matcher;
 
 import org.apache.commons.io.IOUtils;
-import org.slc.sli.ingestion.util.LogUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
@@ -38,29 +35,27 @@ import org.springframework.stereotype.Component;
 
 /**
  * Populates the tenant database collection with default tenant collections.
- * 
+ *
  * @author jtully
  */
 @Component
 public class TenantPopulator implements ResourceLoaderAware {
-    
-    Logger log = LoggerFactory.getLogger(TenantPopulator.class);
-    
+
     @Autowired
     private TenantDA tenantDA;
-    
+
     private ResourceLoader resourceLoader;
-    
+
     private String parentLandingZoneDir;
-    
+
     private List<String> tenantRecordResourcePaths;
-    
+
     private static final String HOSTNAME_PLACEHOLDER = "<hostname>";
     private static final String PARENT_LZ_PATH_PLACEHOLDER = "<lzpath>";
-    
+
     /**
      * Add a specified tenantRecord to the tenant collection.
-     * 
+     *
      * @param tenantRecord
      *            , the record to add to the collection.
      * @param deriveIngestionFields
@@ -69,22 +64,22 @@ public class TenantPopulator implements ResourceLoaderAware {
     public boolean addTenant(TenantRecord tenantRecord, boolean deriveIngestionFields) {
         try {
             String hostname = getHostname();
-            
+
             if (deriveIngestionFields) {
                 deriveTenantFields(tenantRecord, hostname);
             }
             tenantDA.insertTenant(tenantRecord);
-            
+
         } catch (Exception e) {
-            LogUtil.error(log, "Exception adding tenant " + tenantRecord + " :", e);
+            error("Exception adding tenant " + tenantRecord + " :", e);
             return false;
         }
         return true;
     }
-    
+
     /**
      * Populate the tenant data store with a default set of tenants.
-     * 
+     *
      */
     public void populateDefaultTenants() {
         try {
@@ -95,13 +90,13 @@ public class TenantPopulator implements ResourceLoaderAware {
                 tenantDA.insertTenant(tenant);
             }
         } catch (Exception e) {
-            LogUtil.error(log, "Exception encountered populating default tenants:", e);
+            error("Exception encountered populating default tenants:", e);
         }
     }
-    
+
     /**
      * Construct the default tenant collection based on the configured TenantRecord resources.
-     * 
+     *
      * @param hostName
      * @return a list of constructed TenantRecord objects
      */
@@ -115,11 +110,11 @@ public class TenantPopulator implements ResourceLoaderAware {
         }
         return tenants;
     }
-    
+
     /**
-     * 
+     *
      * Create the landing zone directory for the parent landing zone
-     * 
+     *
      */
     private void createParentLzDirectory() {
         String lzPath = Matcher.quoteReplacement(parentLandingZoneDir);
@@ -128,14 +123,14 @@ public class TenantPopulator implements ResourceLoaderAware {
         lzDirectory.setReadable(true, false);
         lzDirectory.setWritable(true, false);
     }
-    
+
     /**
-     * 
+     *
      * Create the landing zone directory for a tenant.
-     * 
+     *
      * @param tenant
      *            , the tenant for which to create landing zone directories
-     * 
+     *
      */
     private void createTenantLzDirectory(TenantRecord tenant) {
         List<LandingZoneRecord> landingZones = tenant.getLandingZone();
@@ -147,12 +142,12 @@ public class TenantPopulator implements ResourceLoaderAware {
             lzDirectory.setWritable(true, false);
         }
     }
-    
+
     /**
-     * 
+     *
      * Process TenantRecord, Replacing hostname and lzPath placeholder fields with
      * the actual values.
-     * 
+     *
      * @param tenant
      *            record to be processed
      * @param hostname
@@ -165,18 +160,18 @@ public class TenantPopulator implements ResourceLoaderAware {
             String serverVal = lz.getIngestionServer();
             serverVal = serverVal.replaceFirst(HOSTNAME_PLACEHOLDER, hostname);
             lz.setIngestionServer(serverVal);
-            
+
             String pathVal = lz.getPath();
             pathVal = pathVal.replaceFirst(PARENT_LZ_PATH_PLACEHOLDER, Matcher.quoteReplacement(parentLandingZoneDir));
             lz.setPath(new File(pathVal).getAbsolutePath());
         }
     }
-    
+
     /**
-     * 
+     *
      * Derive and set ingestion specific fields:
      * landingZone.ingestionServer and landingZone.path.
-     * 
+     *
      * @param tenant
      *            record to be processed
      * @param hostname
@@ -187,16 +182,16 @@ public class TenantPopulator implements ResourceLoaderAware {
         for (LandingZoneRecord lz : landingZones) {
             // override hostname field
             lz.setIngestionServer(hostname);
-            
+
             // override path field
             String pathVal = parentLandingZoneDir + "/" + tenant.getTenantId() + "-" + lz.getEducationOrganization();
             lz.setPath(new File(pathVal).getAbsolutePath());
         }
     }
-    
+
     /**
      * Loads a TenantRecord from a tenant resource
-     * 
+     *
      * @param resourcePath
      *            to load into a tenant record
      * @return the loaded tenant
@@ -206,40 +201,40 @@ public class TenantPopulator implements ResourceLoaderAware {
         InputStream tenantIs = null;
         try {
             Resource config = resourceLoader.getResource(resourcePath);
-            
+
             if (config.exists()) {
                 tenantIs = config.getInputStream();
                 tenant = TenantRecord.parse(tenantIs);
             }
         } catch (IOException e) {
-            LogUtil.error(log, "Exception encountered loading tenant resource: ", e);
+            error( "Exception encountered loading tenant resource: ", e);
         } finally {
             IOUtils.closeQuietly(tenantIs);
         }
         return tenant;
     }
-    
+
     /**
      * Obtain the hostname for the ingestion server running
-     * 
+     *
      * @throws UnknownHostException
      */
     private String getHostname() throws UnknownHostException {
         return InetAddress.getLocalHost().getHostName();
     }
-    
+
     @Override
     public void setResourceLoader(ResourceLoader resourceLoader) {
         this.resourceLoader = resourceLoader;
     }
-    
+
     /**
      * @return the parentLandingZoneDir
      */
     public String getParentLandingZoneDir() {
         return parentLandingZoneDir;
     }
-    
+
     /**
      * @param parentLandingZoneDir
      *            the parentLandingZoneDir to set
@@ -248,13 +243,13 @@ public class TenantPopulator implements ResourceLoaderAware {
         File lzFile = new File(singleLandingZoneDir);
         this.parentLandingZoneDir = lzFile.getAbsolutePath();
     }
-    
+
     public List<String> getTenantRecordResourcePaths() {
         return tenantRecordResourcePaths;
     }
-    
+
     public void setTenantRecordResourcePaths(List<String> tenantRecordResourcePaths) {
         this.tenantRecordResourcePaths = tenantRecordResourcePaths;
     }
-    
+
 }

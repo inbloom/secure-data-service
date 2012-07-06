@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Order;
@@ -39,7 +37,6 @@ import org.slc.sli.domain.Repository;
  */
 
 public final class MongoIndexManager {
-    private static final Logger LOG = LoggerFactory.getLogger(MongoIndexManager.class);
 
     private Map<String, List<IndexDefinition>> collectionIndexes = new HashMap<String, List<IndexDefinition>>();
 
@@ -201,7 +198,7 @@ public final class MongoIndexManager {
         }
 
         if (!collectionIndexes.containsKey(collection)) {
-            LOG.info("Collection indexes doesn't contain key {} ", collection);
+            info("Collection indexes doesn't contain key {} ", collection);
             return;
         }
 
@@ -211,7 +208,7 @@ public final class MongoIndexManager {
 
                 repository.ensureIndex(index, collection);
             } catch (Exception e) {
-                LOG.error("Failed to create mongo indexes" , e);
+                error("Failed to create mongo indexes" , e);
             }
         }
     }

@@ -137,7 +137,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
             TenantContext.setTenantId(newJob.getTenantId());
 
-            LOG.debug("processing persistence: {}", newJob);
+            debug("processing persistence: {}", newJob);
 
             processWorkNote(workNote, newJob, stage);
 
@@ -187,7 +187,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         EntityPipelineType entityPipelineType = getEntityPipelineType(collectionNameAsStaged);
         String collectionToPersistFrom = getCollectionToPersistFrom(collectionNameAsStaged, entityPipelineType);
 
-        LOG.info("PERSISTING DATA IN COLLECTION: {} (staged as: {})", collectionToPersistFrom, collectionNameAsStaged);
+        info("PERSISTING DATA IN COLLECTION: {} (staged as: {})", collectionToPersistFrom, collectionNameAsStaged);
 
         Map<String, Metrics> perFileMetrics = new HashMap<String, Metrics>();
         ErrorReport errorReportForCollection = createDbErrorReport(job.getId(), collectionNameAsStaged);
@@ -261,7 +261,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             ErrorReport errorReportForCollection) {
         long numFailed = 0;
 
-        LOG.debug("processing transformable neutral record of type: {}", neutralRecord.getRecordType());
+        debug("processing transformable neutral record of type: {}", neutralRecord.getRecordType());
 
         // remove _transformed metadata from type. upcoming transformation is based on type.
         neutralRecord.setRecordType(neutralRecord.getRecordType().replaceFirst("_transformed", ""));
@@ -284,13 +284,13 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             AbstractIngestionHandler<SimpleEntity, Entity> entityPersistentHandler = findHandler(xformedEntity
                     .getType());
 
-            LOG.info("persisting simple entity: {}", xformedEntity);
+            info("persisting simple entity: {}", xformedEntity);
 
             entityPersistentHandler.handle(xformedEntity, errorReportForNrEntity);
 
             if (errorReportForNrEntity.hasErrors()) {
                 numFailed++;
-                LOG.warn("persistence of simple entity FAILED.");
+                warn("persistence of simple entity FAILED.");
             }
         }
 
@@ -314,14 +314,14 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             ErrorReport errorReportForCollection) {
         long numFailed = 0;
 
-        LOG.debug("persisting neutral record of type: {}", neutralRecord.getRecordType());
+        debug("persisting neutral record of type: {}", neutralRecord.getRecordType());
 
         NeutralRecordEntity nrEntity = Translator.mapToEntity(neutralRecord, recordNumber);
         nrEntity.setMetaDataField(EntityMetadataKey.TENANT_ID.getKey(), tenantId);
 
         ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
 
-        LOG.info("persisting neutral record entity: {}", nrEntity);
+        info("persisting neutral record entity: {}", nrEntity);
 
         obsoletePersistHandler.handle(nrEntity, errorReportForNrEntity);
 
@@ -369,10 +369,10 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
      */
     private AbstractIngestionHandler<SimpleEntity, Entity> findHandler(String type) {
         if (entityPersistHandlers.containsKey(type)) {
-            LOG.debug("Found special transformer for entity of type: {}", type);
+            debug("Found special transformer for entity of type: {}", type);
             return entityPersistHandlers.get(type);
         } else {
-            LOG.debug("Using default transformer for entity of type: {}", type);
+            debug("Using default transformer for entity of type: {}", type);
             return defaultEntityPersistHandler;
         }
     }
@@ -453,7 +453,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
      */
     private void handleNoBatchJobIdInExchange(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
-        LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+        error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
     /**

@@ -58,7 +58,7 @@ public class EntityConfigFactory implements ResourceLoaderAware {
                     configIs = config.getInputStream();
                     entityConfigurations.put(entityType, EntityConfig.parse(configIs));
                 } else {
-                    LOG.warn("no config found for entity type {}", entityType);
+                    warn("no config found for entity type {}", entityType);
                     entityConfigurations.put(entityType, NOT_FOUND);
                 }
             } catch (IOException e) {

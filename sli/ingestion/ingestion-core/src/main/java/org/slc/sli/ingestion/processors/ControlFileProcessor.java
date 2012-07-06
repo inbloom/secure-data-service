@@ -22,8 +22,6 @@ import java.util.HashMap;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
@@ -49,7 +47,6 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
-import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 
 /**
@@ -60,8 +57,6 @@ import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
  */
 @Component
 public class ControlFileProcessor implements Processor, MessageSourceAware {
-
-    private static final Logger LOG = LoggerFactory.getLogger(ControlFileProcessor.class);
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PROCESSOR;
 
@@ -108,7 +103,7 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
     private void handleNoBatchJobIdInExchange(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+        error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
     private void processControlFile(Exchange exchange, String batchJobId) {
@@ -141,7 +136,7 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
                         }
                     }
                     if (!isZipFile) {
-                        LOG.info(MessageSourceHelper.getMessage(messageSource, "CTLFILEPROC_WRNG_MSG1"));
+                        info(MessageSourceHelper.getMessage(messageSource, "CTLFILEPROC_WRNG_MSG1"));
                         errorReport.warning(MessageSourceHelper.getMessage(messageSource, "CTLFILEPROC_WRNG_MSG1"), this);
                     }
                 }
@@ -168,7 +163,7 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
     private void handleExceptions(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
+        error("Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
             Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
                     FaultType.TYPE_ERROR.getName(), null, exception.toString());
@@ -187,17 +182,17 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
         }
 
         if (newJob.getProperty(AttributeType.DRYRUN.getName()) != null) {
-            LOG.debug("Matched @dry-run tag from control file parsing.");
+            debug("Matched @dry-run tag from control file parsing.");
             exchange.getIn().setHeader(AttributeType.DRYRUN.getName(), true);
         } else {
-            LOG.debug("Did not match @dry-run tag in control file.");
+            debug("Did not match @dry-run tag in control file.");
         }
 
         if (newJob.getProperty(AttributeType.NO_ID_REF.getName()) != null) {
-            LOG.debug("Matched @no-id-ref tag from control file parsing.");
+            debug("Matched @no-id-ref tag from control file parsing.");
             exchange.getIn().setHeader(AttributeType.NO_ID_REF.name(), true);
         } else {
-            LOG.debug("Did not match @no-id-ref tag in control file.");
+            debug("Did not match @no-id-ref tag in control file.");
         }
     }
 

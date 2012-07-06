@@ -39,14 +39,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
-import org.slc.sli.ingestion.util.LogUtil;
 
 /**
  *
  */
 public class NeutralRecordFileWriter {
-
-    private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordFileWriter.class);
 
     private Schema avroSchema;
     private GenericDatumWriter<GenericRecord> avroDatumWriter;
@@ -96,7 +93,7 @@ public class NeutralRecordFileWriter {
             this.jsonObjectMapper = new ObjectMapper();
 
         } catch (FileNotFoundException fileNotFoundException) {
-            LogUtil.error(LOG, "Error writing to Neutral Record file", fileNotFoundException);
+            error("Error writing to Neutral Record file", fileNotFoundException);
         } finally {
             IOUtils.closeQuietly(is);
         }

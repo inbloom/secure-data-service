@@ -41,19 +41,19 @@ public final class TestErrorReport implements ErrorReport {
     @Override
     public void fatal(String message, Object sender) {
         messages.add(message);
-        LOG.error("FATAL - " + message);
+        error("FATAL - " + message);
     }
 
     @Override
     public void error(String message, Object sender) {
         messages.add(message);
-        LOG.error("ERROR - " + message);
+        error("ERROR - " + message);
     }
 
     @Override
     public void warning(String message, Object sender) {
         messages.add(message);
-        LOG.error("WARNING - " + message);
+        error("WARNING - " + message);
     }
 
     @Override

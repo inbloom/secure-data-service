@@ -86,7 +86,7 @@ public class EdFiProcessor implements Processor {
     }
 
     private void processEdFi(WorkNote workNote, Exchange exchange) {
-        LOG.info("Starting stage: {}", BATCH_JOB_STAGE);
+        info("Starting stage: {}", BATCH_JOB_STAGE);
 
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
@@ -146,11 +146,11 @@ public class EdFiProcessor implements Processor {
         if (fe.getFileType() != null) {
             FileFormat fileFormat = fe.getFileType().getFileFormat();
             if (fileFormat == FileFormat.EDFI_XML) {
-                LOG.info("Processing file: {}", fe.getFile().getPath());
+                info("Processing file: {}", fe.getFile().getPath());
 
                 smooksFileHandler.handle(fe, errorReport, fileProcessStatus);
 
-                LOG.info("Done processing file: {}", fe.getFile().getPath());
+                info("Done processing file: {}", fe.getFile().getPath());
             } else {
                 throw new IllegalArgumentException("Unsupported file format: " + fe.getFileType().getFileFormat());
             }
@@ -221,7 +221,7 @@ public class EdFiProcessor implements Processor {
     private void handleNoBatchJobIdInExchange(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+        error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
     private void setupStagingDatabase(String batchJobId) {

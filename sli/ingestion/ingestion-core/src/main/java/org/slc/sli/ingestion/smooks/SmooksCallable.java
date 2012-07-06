@@ -82,7 +82,7 @@ public class SmooksCallable implements Callable<Boolean> {
     }
 
     public boolean runSmooksFuture() {
-        LOG.info("Starting SmooksCallable for: " + fe.getFileName());
+        info("Starting SmooksCallable for: " + fe.getFileName());
         Metrics metrics = Metrics.newInstance(fe.getFileName());
         stage.addMetrics(metrics);
 
@@ -94,7 +94,7 @@ public class SmooksCallable implements Callable<Boolean> {
 
         int errorCount = processMetrics(metrics, fileProcessStatus);
 
-        LOG.info("Finished SmooksCallable for: " + fe.getFileName());
+        info("Finished SmooksCallable for: " + fe.getFileName());
         return (errorCount > 0);
     }
 

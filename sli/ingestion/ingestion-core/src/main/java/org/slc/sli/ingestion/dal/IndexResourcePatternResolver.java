@@ -22,8 +22,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
@@ -34,8 +32,6 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
  */
 
 public class IndexResourcePatternResolver extends PathMatchingResourcePatternResolver {
-
-    private static final Logger LOG = LoggerFactory.getLogger(IndexResourcePatternResolver.class);
 
     public List<MongoIndexConfig> findAllIndexes(String directoryPattern) {
 
@@ -51,7 +47,7 @@ public class IndexResourcePatternResolver extends PathMatchingResourcePatternRes
             }
 
         } catch (IOException e) {
-            LOG.error("Path to index directory does not exist: " + directoryPattern);
+            error("Path to index directory does not exist: " + directoryPattern);
         }
 
         return indexConfigs;

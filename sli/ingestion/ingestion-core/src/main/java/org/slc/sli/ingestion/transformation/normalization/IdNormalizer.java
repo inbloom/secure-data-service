@@ -81,12 +81,12 @@ public class IdNormalizer {
     public void resolveInternalIds(Entity entity, String tenantId, EntityConfig entityConfig, ErrorReport errorReport) {
 
         if (entityConfig == null) {
-            LOG.warn("Entity configuration is null --> returning...");
+            warn("Entity configuration is null --> returning...");
             return;
         }
 
         if (entityConfig.getReferences() == null) {
-            LOG.warn("Entity configuration contains no references --> checking for sub-entities and then returning...");
+            warn("Entity configuration contains no references --> checking for sub-entities and then returning...");
             resolveSubEntities(entity, tenantId, entityConfig, errorReport);
             return;
         }
@@ -118,7 +118,7 @@ public class IdNormalizer {
                                         }
                                     } catch (Exception e) {
                                         if (!reference.getRef().isOptional()) {
-                                            LOG.error("Error accessing indexed bean property " + valueSourcePath
+                                            error("Error accessing indexed bean property " + valueSourcePath
                                                     + " for bean " + entity.getType());
                                             String errorMessage = "ERROR: Failed to resolve a reference"
                                                     + "\n"
@@ -145,7 +145,7 @@ public class IdNormalizer {
 
                 if (ids == null || ids.size() == 0) {
                     if (!reference.getRef().isOptional() && (numRefInstances > 0)) {
-                        LOG.error("Error with entity " + entity.getType() + " missing required reference "
+                        error("Error with entity " + entity.getType() + " missing required reference "
                                 + collectionName);
                         String errorMessage = "ERROR: Missing required reference" + "\n" + "       Entity "
                                 + entity.getType() + ": Missing reference to " + collectionName;
@@ -156,7 +156,7 @@ public class IdNormalizer {
                 }
 
                 if (ids.size() != numRefInstances) {
-                    LOG.error("Error in number of resolved internal ids for entity " + entity.getType() + ": Expected "
+                    error("Error in number of resolved internal ids for entity " + entity.getType() + ": Expected "
                             + numRefInstances + ", got " + ids.size() + " references to " + collectionName);
                     String errorMessage = "ERROR: Failed to resolve expected number of references" + "\n"
                             + "       Entity " + entity.getType() + ": Expected " + numRefInstances + ", got "
@@ -198,13 +198,13 @@ public class IdNormalizer {
     private void resolveSubEntities(Entity entity, String tenantId, EntityConfig entityConfig, ErrorReport errorReport) {
         Map<String, String> subEntityConfigs = entityConfig.getSubEntities();
         if (subEntityConfigs != null) {
-            LOG.info("Checking entity: {} for sub-entities: {}", entity.getType(), subEntityConfigs);
+            info("Checking entity: {} for sub-entities: {}", entity.getType(), subEntityConfigs);
             for (Map.Entry<String, String> entry : subEntityConfigs.entrySet()) {
                 String pathString = entry.getKey();
                 boolean optional = pathString.endsWith("?");
                 String path = optional ? pathString.substring(0, pathString.length() - 1) : pathString;
                 EntityConfig subEntityConfig = entityConfigurations.getEntityConfiguration(entry.getValue());
-                LOG.info("Checking sub-entity: {} [optional: {}]", pathString, optional);
+                info("Checking sub-entity: {} [optional: {}]", pathString, optional);
                 try {
                     Object subEntityObject = PropertyUtils.getProperty(entity, path);
                     if (subEntityObject == null) {
@@ -215,12 +215,12 @@ public class IdNormalizer {
                         }
                     }
                     if (subEntityObject instanceof List) {
-                        LOG.info("Resolving list of sub-entities.");
+                        info("Resolving list of sub-entities.");
                         for (Object subEntityInstance : (List<?>) subEntityObject) {
                             resolveSubEntity(tenantId, errorReport, subEntityConfig, subEntityInstance);
                         }
                     } else {
-                        LOG.info("Resolving single sub-entity.");
+                        info("Resolving single sub-entity.");
                         resolveSubEntity(tenantId, errorReport, subEntityConfig, subEntityObject);
                     }
                 } catch (Exception e) {
@@ -228,7 +228,7 @@ public class IdNormalizer {
                 }
             }
         } else {
-            LOG.info("Entity: {} does not have any sub-entities.", entity.getType());
+            info("Entity: {} does not have any sub-entities.", entity.getType());
         }
     }
 
@@ -247,7 +247,7 @@ public class IdNormalizer {
 
     public String resolveInternalId(Entity entity, String tenantId, Ref refConfig, String fieldPath,
             ErrorReport errorReport, String resolvedReferences) {
-        LOG.debug("resolving id for {}", entity.getType());
+        debug("resolving id for {}", entity.getType());
         List<String> ids = resolveReferenceInternalIds(entity, tenantId, refConfig, fieldPath, errorReport);
 
         if (ids.size() == 0) {
@@ -369,7 +369,7 @@ public class IdNormalizer {
                                                             if (keyObj == null) {
                                                                 continue;
                                                             }
-                                                            LOG.debug(keyObj.toString());
+                                                            debug(keyObj.toString());
                                                             if (field.getQueryList().containsKey(keyObj.toString())) {
                                                                 choice.addCriteria(Criteria.where(field.getQueryList().get(keyObj.toString())).is(queryDbObject.toMap().get(keyObj)));
                                                                 criteriaCount++;
@@ -406,7 +406,7 @@ public class IdNormalizer {
                             }
                         }
                         if (filterValues.size() > 0) {
-                            LOG.debug("adding criteria for {}", field.getPath());
+                            debug("adding criteria for {}", field.getPath());
                             choice.addCriteria(Criteria.where(field.getPath()).in(filterValues));
                             criteriaCount++;
                         }

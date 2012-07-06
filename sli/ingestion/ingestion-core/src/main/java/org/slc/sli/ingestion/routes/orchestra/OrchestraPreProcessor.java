@@ -24,8 +24,6 @@ import java.util.Set;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -42,8 +40,6 @@ import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
  */
 @Component
 public class OrchestraPreProcessor implements Processor {
-
-    private static final Logger LOG = LoggerFactory.getLogger(OrchestraPreProcessor.class);
 
     @Autowired
     private StagedEntityTypeDAO stagedEntityTypeDAO;
@@ -90,10 +86,10 @@ public class OrchestraPreProcessor implements Processor {
                 stagedEntities.add(ingestionStagedEntity);
 
             } else {
-                LOG.warn("Uncrecognized entity: {} dropping it on the floor", stagedCollection);
+                warn("Uncrecognized entity: {} dropping it on the floor", stagedCollection);
             }
         }
-        LOG.info("staged entities for job: {}", stagedEntities);
+        info("staged entities for job: {}", stagedEntities);
         return stagedEntities;
     }
 

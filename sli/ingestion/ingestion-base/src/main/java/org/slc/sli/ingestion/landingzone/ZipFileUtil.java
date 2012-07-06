@@ -129,9 +129,6 @@ public class ZipFileUtil {
 
         if (fileList.length > 0) {
             ctlFile = fileList[0];
-            log.info("Found control file: " + ctlFile.getName());
-        } else {
-            log.info("No control file found in " + dir.getAbsolutePath());
         }
 
         return ctlFile;

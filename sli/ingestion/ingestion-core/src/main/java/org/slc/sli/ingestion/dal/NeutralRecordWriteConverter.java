@@ -107,7 +107,7 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
     }
 
     @SuppressWarnings("unchecked")
-    private static void cleanMap(Map<String, Object> map) {
+    private void cleanMap(Map<String, Object> map) {
         List<String> toRemove = new LinkedList<String>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
 
