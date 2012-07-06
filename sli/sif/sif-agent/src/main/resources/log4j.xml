@@ -7,16 +7,16 @@ debug="false">
 
     <appender name="fileAppender"
     class="org.apache.log4j.RollingFileAppender">
-        <param name="Threshold" value="INFO" />
+        <param name="Threshold" value="DEBUG" />
         <param name="File" value="${catalina.home}/logs/sif-agent-openadk.log"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d
             %-5p  [%c{1}] %m %n" />
         </layout>
     </appender>
-    <logger name="ADK" additivity="false" >
-        <level value="INFO" />
+    <root >
+        <priority value="debug"/>
         <appender-ref ref="fileAppender"/>
-    </logger>
+    </root>
 
 </log4j:configuration>
