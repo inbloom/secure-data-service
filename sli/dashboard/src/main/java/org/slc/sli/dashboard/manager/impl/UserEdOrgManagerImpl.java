@@ -30,9 +30,9 @@ import java.util.Vector;
 
 import org.springframework.cache.annotation.Cacheable;
 
+import org.slc.sli.dashboard.entity.Config.Data;
 import org.slc.sli.dashboard.entity.EdOrgKey;
 import org.slc.sli.dashboard.entity.GenericEntity;
-import org.slc.sli.dashboard.entity.Config.Data;
 import org.slc.sli.dashboard.entity.util.GenericEntityComparator;
 import org.slc.sli.dashboard.manager.ApiClientManager;
 import org.slc.sli.dashboard.manager.UserEdOrgManager;
@@ -334,6 +334,83 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         return entity;
     }
 
+    /**
+     * Get list of subjects, courses, and sections for a school.
+     * Pass out a flattened structure with parent/child relationships defined.
+     *
+     * @param token
+     * @return
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public GenericEntity getUserSectionList(String token, Object schoolIdObj, Data config) {
+
+        String schoolId = (String) schoolIdObj;
+        List<GenericEntity> courses = getApiClient().getCoursesSectionsForSchool(token, schoolId);
+
+        List<GenericEntity> entities = new ArrayList<GenericEntity>();
+        List<String> subjectAreas = new ArrayList<String>();
+
+        for (GenericEntity course : courses) {
+
+            // handle courses with no subject, like home room
+            String subjectArea = course.getString(Constants.ATTR_SUBJECTAREA);
+            if (subjectArea == null) {
+                subjectArea = "Misc";
+            }
+
+            // add subject entity
+            if (!subjectAreas.contains(subjectArea)) {
+                subjectAreas.add(subjectArea);
+                GenericEntity subject = new GenericEntity();
+                subject.put("name", subjectArea);
+                subject.put("id", subjectArea);
+                subject.put("level", "0");
+                subject.put("parent", "");
+                subject.put("isLeaf", false);
+                subject.put("expanded", false);
+                subject.put("loaded", true);
+                entities.add(subject);
+            }
+
+            // add course entities
+            course.put("name", course.getString("courseTitle"));
+            course.put("level", "1");
+            course.put("parent", subjectArea);
+            course.put("expanded", false);
+            course.put("loaded", true);
+            entities.add(course);
+
+            // add section entities
+            List<GenericEntity> sections = (List<GenericEntity>) course.get("sections");
+            if (sections == null || sections.size() == 0) {
+                course.put("isLeaf", true);
+            } else {
+                course.put("isLeaf", false);
+                for (GenericEntity section : sections) {
+
+                    section.put("name", section.getString("sectionName"));
+                    section.put("level", "2");
+                    section.put("parent", course.getId());
+                    section.put("isLeaf", true);
+                    section.put("expanded", false);
+                    section.put("loaded", true);
+                    section.remove("links");
+                    entities.add(section);
+                }
+            }
+
+            course.remove("links");
+            course.remove("sections");
+
+
+        }
+
+        GenericEntity entity = new GenericEntity();
+        entity.put(Constants.ATTR_ROOT, entities);
+        return entity;
+    }
+
     @Override
     @SuppressWarnings("unchecked")
     public GenericEntity getStaffInfo(String token) {
@@ -358,5 +435,10 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
             }
         }
         return staffEntity;
+    }
+
+    @Override
+    public GenericEntity getSchoolInfo(String token, Object schoolIdObj, Data config) {
+        return new GenericEntity();
     }
 }

@@ -1,0 +1,11 @@
+{
+	id: "school",
+	type: "LAYOUT",
+	data :{
+		entity: "schoolInfo",
+		cacheKey: "schoolInfo"
+	}, 
+	items: [
+		{id: "tab1", name: "Sections",  type : "TAB", items: [{id : "sectionList", type: "GRID"}]}
+	]
+}
