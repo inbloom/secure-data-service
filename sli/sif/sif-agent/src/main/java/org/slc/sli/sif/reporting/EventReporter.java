@@ -50,6 +50,9 @@ public class EventReporter implements Publisher {
                 String messageFile = args[EventReporter.MESSAGE_FILE];
                 Zone zone = agent.getZoneFactory().getZone(zoneId);
                 EventReporter reporter = new EventReporter(zone);
+
+                agent.connectToAllZones();
+
                 reporter.setEventGenerator(new CustomEventGenerator());
                 reporter.reportEvent(messageFile);
             } else {
