@@ -24,8 +24,10 @@ import openadk.library.DataObjectOutputStream;
 import openadk.library.Event;
 import openadk.library.MessageInfo;
 import openadk.library.Publisher;
+import openadk.library.PublishingOptions;
 import openadk.library.Query;
 import openadk.library.Zone;
+import openadk.library.student.StudentDTD;
 
 import org.apache.log4j.Logger;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
@@ -43,28 +45,29 @@ public class EventReporter implements Publisher {
             SifAgent agent = context.getBean(SifAgent.class);
 
             ADK.initialize();
-            if (args.length >= 3) {
+            if (args.length >= 2) {
                 String zoneId = args[EventReporter.ZONE_ID];
-                String zoneUrl = args[EventReporter.ZONE_URL];
                 String messageFile = args[EventReporter.MESSAGE_FILE];
-                Zone zone = agent.addZone(zoneId, zoneUrl);
+                Zone zone = agent.getZoneFactory().getZone(zoneId);
                 EventReporter reporter = new EventReporter(zone);
                 reporter.setEventGenerator(new CustomEventGenerator());
                 reporter.reportEvent(messageFile);
             } else {
                 Zone zone = agent.getZoneFactory().getZone("TestZone");
-                        //agent.addZone("TestZone", "http://10.163.6.73:50002/TestZone");
                 EventReporter reporter = new EventReporter(zone);
+
+                agent.connectToAllZones();
+
                 reporter.reportEvent();
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        System.exit(0);
     }
 
     public static final int ZONE_ID = 0;
-    public static final int ZONE_URL = 1;
-    public static final int MESSAGE_FILE = 2;
+    public static final int MESSAGE_FILE = 1;
 
     private static final Logger LOG = ADK.getLog();
 
@@ -75,6 +78,8 @@ public class EventReporter implements Publisher {
     public EventReporter(Zone zone) throws Exception {
         this.zone = zone;
         this.zone.setPublisher(this);
+        this.zone.setPublisher(this, StudentDTD.SCHOOLINFO, new PublishingOptions( true ) );
+        this.zone.setPublisher(this, StudentDTD.STUDENTPERSONAL, new PublishingOptions( true ) );
         generator = new HCStudentPersonalGenerator();
     }
 

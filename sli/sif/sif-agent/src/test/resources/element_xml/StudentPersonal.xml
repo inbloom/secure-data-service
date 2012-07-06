@@ -4,10 +4,10 @@
     <OtherId Type="10">123-45-6789</OtherId>
   </OtherIdList>
   <Name Type="01">
-    <LastName>Student</LastName>
-    <FirstName>Joe</FirstName>
+    <LastName>McGlaughlin</LastName>
+    <FirstName>Victor</FirstName>
     <MiddleName></MiddleName>
-    <PreferredName>Joe</PreferredName>
+    <PreferredName>Vic</PreferredName>
   </Name>
   <Demographics>
     <BirthDate>1982-01-20</BirthDate>

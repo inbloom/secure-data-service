@@ -87,7 +87,9 @@ public class SifAgent extends Agent {
         super.initialize();
 
         fCfg.apply(this, true);
+    }
 
+    public void connectToAllZones() {
         // Connect to each zone specified in the configuration file, registering
         // this agent as the Provider of the SIS objects.
 
@@ -100,18 +102,8 @@ public class SifAgent extends Agent {
 
                 zone.setSubscriber(new SifSubscriber(), StudentDTD.SCHOOLINFO);
                 zone.setSubscriber(new SifSubscriber(), StudentDTD.STUDENTPERSONAL);
-                Publisher p = new Publisher() {
 
-                    @Override
-                    public void onRequest(DataObjectOutputStream out, Query query, Zone zone, MessageInfo info) throws ADKException {
-                        // TODO Auto-generated method stub
-                        LOG.info("HERE");
-                    }
-                };
-                zone.setPublisher( p, StudentDTD.SCHOOLINFO, new PublishingOptions( true ) );
-                zone.setPublisher( p, StudentDTD.STUDENTPERSONAL, new PublishingOptions( true ) );
                 zone.connect(ADKFlags.PROV_REGISTER | ADKFlags.PROV_PROVIDE | ADKFlags.PROV_SUBSCRIBE);
-
             } catch (ADKException ex) {
                 LOG.error("  " + ex.getMessage(), ex);
             }
