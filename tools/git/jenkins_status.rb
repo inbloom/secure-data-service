@@ -59,7 +59,7 @@ module Jenkins
         elsif lastBuild["result"]=="SUCCESS"
           color="\e[32m"
         elsif lastBuild["result"]=="FAILURE"
-          color="\e[5m\e[31m"
+          color="\e[31m\e[5m"
           broken=true
         else
           color="ERROR"
@@ -72,7 +72,7 @@ module Jenkins
     end
 
     if broken
-      puts "\e[32mPUSHING WHEN BUILD IS BROKEN\e[0m"
+      puts "\e[31mPUSHING WHEN BUILD IS BROKEN\e[0m"
     end
     
   end
