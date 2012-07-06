@@ -20,18 +20,18 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
-
-import openadk.library.ADK;
 import openadk.library.Event;
 import openadk.library.EventAction;
 import openadk.library.SIFDataObject;
 import openadk.library.SIFParser;
 import openadk.library.SIFVersion;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class CustomEventGenerator implements EventGenerator {
 
-    private static final Logger LOG = ADK.getLog();
+    private static final Logger LOG = LoggerFactory.getLogger(CustomEventGenerator.class);
 
     @Override
     public Event generateEvent(Properties eventProps) {

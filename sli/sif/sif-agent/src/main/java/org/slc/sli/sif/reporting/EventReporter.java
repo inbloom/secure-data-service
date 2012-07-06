@@ -18,7 +18,6 @@ package org.slc.sli.sif.reporting;
 
 import java.util.Properties;
 
-import openadk.library.ADK;
 import openadk.library.ADKException;
 import openadk.library.DataObjectOutputStream;
 import openadk.library.Event;
@@ -30,14 +29,28 @@ import openadk.library.SIFDataObject;
 import openadk.library.Zone;
 import openadk.library.student.StudentDTD;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import org.slc.sli.sif.agent.SifAgent;
 
 public class EventReporter implements Publisher {
 
+    static {
+        // Simple workaround to get logging paths set up correctly when run from the command line
+        String catalinaHome = System.getProperty("catalina.home");
+        if( catalinaHome == null ){
+            System.setProperty("catalina.home", "target");
+        }
+        String sliConf = System.getProperty("sli.conf");
+        if( sliConf == null ){
+            System.setProperty("sli.conf", "../../config/properties/sli.properties");
+        }
+    }
+
     public static void main(String[] args) {
+
         try {
             FileSystemXmlApplicationContext context = new FileSystemXmlApplicationContext(
                     "classpath:spring/applicationContext.xml");
@@ -68,7 +81,8 @@ public class EventReporter implements Publisher {
     public static final int ZONE_ID = 0;
     public static final int MESSAGE_FILE = 1;
 
-    private static final Logger LOG = ADK.getLog();
+    private static final Logger LOG = LoggerFactory.getLogger(EventReporter.class);
+
 
     private Zone zone;
     private EventGenerator generator;
@@ -120,7 +134,7 @@ public class EventReporter implements Publisher {
         LOG.info("###########################################################################");
         try {
             SIFDataObject dataObj = e.getData().readDataObject();
-            LOG.info(dataObj);
+            LOG.info(dataObj.toString());
         } catch (ADKException e1) {
             e1.printStackTrace();
         }

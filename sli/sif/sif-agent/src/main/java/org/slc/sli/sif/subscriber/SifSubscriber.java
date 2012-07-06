@@ -16,21 +16,23 @@
 
 package org.slc.sli.sif.subscriber;
 
-import openadk.library.ADK;
 import openadk.library.ADKException;
 import openadk.library.Event;
 import openadk.library.MessageInfo;
 import openadk.library.Subscriber;
 import openadk.library.Zone;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class SifSubscriber implements Subscriber {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SifSubscriber.class);
 
     @Override
     public void onEvent(Event event, Zone zone, MessageInfo info) throws ADKException {
-        ADK.getLog().info("Received event:\n"
-                + "\tEvent: " + event.getActionString() + "\n"
-                + "\tZone: " + zone.getZoneId() + "\n"
-                + "\tInfo: " + info.getMessage());
+        LOG.info("Received event:\n" + "\tEvent: " + event.getActionString() + "\n" + "\tZone: " + zone.getZoneId()
+                + "\n" + "\tInfo: " + info.getMessage());
     }
 
 }
