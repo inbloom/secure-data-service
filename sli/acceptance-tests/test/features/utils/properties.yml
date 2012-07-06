@@ -7,6 +7,7 @@ dashboard_landing_page: "/"
 dashboard_app_selector_page: "/appselector"
 dashboard_api_server_uri: "http://local.slidev.org:8080"
 realm_page_url: "http://local.slidev.org:8080/api/oauth/authorize"
+browser: "firefox"
 
 admintools_server_url: "http://local.slidev.org:3001"
 api_server_url: "http://local.slidev.org:8080"
