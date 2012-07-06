@@ -42,7 +42,7 @@ Then I should see following map of entry counts in the corresponding collections
      | student                     | 1     |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue      | searchType           |
-     | student                     | 1                   | metaData.tenantId           | IL               | string               |
+     | student                     | 1                   | metaData.tenantId           | Midgar           | string               |
   And I should see "Processed 1 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "tenant.xml records considered: 1" in the resulting batch job file

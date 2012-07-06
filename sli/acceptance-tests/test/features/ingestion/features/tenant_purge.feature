@@ -32,7 +32,7 @@ When zip file is scp to ingestion landing zone
      | student                     | 74    |
    And I check to find if record is in collection:
      | collectionName   | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | student          | 2                   | metaData.tenantId           | NY                      | string               |
+     | student          | 2                   | metaData.tenantId           | Hyrule                  | string               |
 And I should not see an error log file created
  And I should see "InterchangeStudent.xml records considered: 2" in the resulting batch job file
  And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
@@ -47,5 +47,5 @@ And I should not see an error log file created
       | student                     | 72    |
    And I check to find if record is in collection:
      | collectionName   | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | student          | 0                   | metaData.tenantId           | NY                      | string               |
+     | student          | 0                   | metaData.tenantId           | Hyrule                  | string               |
  And I should not see an error log file created
