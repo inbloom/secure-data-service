@@ -24,7 +24,6 @@ db.runCommand( { shardcollection : "is.cohort", key : {"batchJobId" : 1, "_id" :
 db.runCommand( { shardcollection : "is.competencyLevelDescriptor", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.course", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.courseOffering", key : {"batchJobId" : 1, "_id" : 1} } );
-db.runCommand( { shardcollection : "is.courseSectionAssociation", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.disciplineAction", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.disciplineIncident", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.educationOrganization", key : {"batchJobId" : 1, "_id" : 1} } );
@@ -41,12 +40,10 @@ db.runCommand( { shardcollection : "is.localEducationAgency", key : {"batchJobId
 db.runCommand( { shardcollection : "is.parent", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.program", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.reportCard", key : {"batchJobId" : 1, "_id" : 1} } );
-db.runCommand( { shardcollection : "is.school", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.section", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.sectionAssessmentAssociation", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.sectionSchoolAssociation", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.session", key : {"batchJobId" : 1, "_id" : 1} } );
-db.runCommand( { shardcollection : "is.sessionCourseAssociation", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.staff", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.staffCohortAssociation", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.staffEducationOrganizationAssociation", key : {"batchJobId" : 1, "_id" : 1} } );
@@ -67,6 +64,5 @@ db.runCommand( { shardcollection : "is.studentSectionGradebookEntry", key : {"ba
 db.runCommand( { shardcollection : "is.studentSchoolAssociation", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.studentTranscriptAssociation", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.studentTranscriptAssociation_transformed", key : {"batchJobId" : 1, "_id" : 1} } );
-db.runCommand( { shardcollection : "is.teacher", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.teacherSchoolAssociation", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.teacherSectionAssociation", key : {"batchJobId" : 1, "_id" : 1} } );
