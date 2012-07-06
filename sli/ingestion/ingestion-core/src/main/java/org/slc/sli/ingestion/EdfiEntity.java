@@ -68,8 +68,6 @@ public enum EdfiEntity {
 
     ACADEMIC_WEEK("academicWeek", Arrays.asList(EdfiEntity.CALENDAR_DATE)),
 
-    GRADING_PERIOD("gradingPeriod", Arrays.asList(CALENDAR_DATE)),
-
     LEARNING_OBJECTIVE("learningObjective", Arrays.asList(LEARNING_STANDARD, SELF)),
 
     STATE_EDUCATION_AGENCY("stateEducationAgency", Arrays.asList(PROGRAM, SELF)),
@@ -82,6 +80,9 @@ public enum EdfiEntity {
 
     SCHOOL("school", Arrays.asList(STATE_EDUCATION_AGENCY, LOCAL_EDUCATION_AGENCY, EDUCATION_ORGANIZATION,
             CLASS_PERIOD, SELF)),
+
+    GRADING_PERIOD("gradingPeriod", Arrays.asList(CALENDAR_DATE, STATE_EDUCATION_AGENCY,
+            LOCAL_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER, SCHOOL, EDUCATION_ORGANIZATION)),
 
     DIPLOMA("diploma", Arrays.asList(SCHOOL, EDUCATION_ORGANIZATION)),
 

@@ -1192,7 +1192,7 @@ public class SDKAPIClient implements APIClient {
 
         if (entity != null && entity.containsKey(Constants.ATTR_LINKS)) {
             for (Map link : (List<Map>) (entity.get(Constants.ATTR_LINKS))) {
-                if (link.get(Constants.ATTR_REL).equals(rel)) {
+                if (link.get(Constants.ATTR_REL).toString().contains(rel)) {
                     String href = (String) link.get(Constants.ATTR_HREF);
                     linkList.add(href);
                 }

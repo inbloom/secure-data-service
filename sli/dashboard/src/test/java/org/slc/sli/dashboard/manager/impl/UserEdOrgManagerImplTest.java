@@ -33,7 +33,6 @@ import org.slc.sli.dashboard.client.APIClient;
 import org.slc.sli.dashboard.client.SDKAPIClient;
 import org.slc.sli.dashboard.entity.ConfigMap;
 import org.slc.sli.dashboard.entity.GenericEntity;
-import org.slc.sli.dashboard.manager.impl.UserEdOrgManagerImpl;
 
 /**
  * @author tosako

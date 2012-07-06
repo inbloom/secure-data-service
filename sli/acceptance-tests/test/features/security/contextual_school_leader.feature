@@ -1,4 +1,4 @@
-
+@smoke
 Feature: Contextual Permissions for School level Staff (non-educators)
 
 Scenario Outline: Staff accessing data from own school

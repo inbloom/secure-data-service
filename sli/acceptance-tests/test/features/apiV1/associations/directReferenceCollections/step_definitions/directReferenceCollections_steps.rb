@@ -190,7 +190,7 @@ Then /^I should receive a link named "([^"]*)" for each value in list "([^"]*)" 
     new_link=prefix + "/" + id
     found = false
     @result["links"].each do |link|
-      if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(new_link)}$/
+      if (link["rel"].include? rel) && link["href"] =~ /#{Regexp.escape(new_link)}$/
         found = true
       end
     end

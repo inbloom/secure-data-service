@@ -17,13 +17,15 @@ limitations under the License.
 =end
 
 
-class OnBoarding < SessionResource
-  validates_format_of [:stateOrganizationId], :with => /^[^.\/]+$/, :message => "edorg cannot contain . or /"
+require 'test_helper'
 
-  self.collection_name = "provision"
-  schema do
-    string  "tenantId"
-    string  "stateOrganizationId"
+class OnBoardingTest < ActiveSupport::TestCase
+  def testEdOrg
+    result = OnBoarding.new(:tenantId => 'test', :stateOrganizationId => 'test')
+    assert result.valid?
+    result = OnBoarding.new(:tenantId => 'blah', :stateOrganizationId => 'blah.blah')
+    assert !result.valid?
+    result = OnBoarding.new(:tenantId => 'moo', :stateOrganizationId => 'moo/moo')
+    assert !result.valid?
   end
-
 end
