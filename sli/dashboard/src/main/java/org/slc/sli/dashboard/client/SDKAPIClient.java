@@ -32,9 +32,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.api.client.SLIClient;
 import org.slc.sli.dashboard.entity.ConfigMap;
 import org.slc.sli.dashboard.entity.GenericEntity;
@@ -43,6 +40,8 @@ import org.slc.sli.dashboard.util.Constants;
 import org.slc.sli.dashboard.util.ExecutionTimeLogger;
 import org.slc.sli.dashboard.util.JsonConverter;
 import org.slc.sli.dashboard.util.SecurityUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This client will use the SDK client to communicate with the SLI API.
@@ -325,6 +324,24 @@ public class SDKAPIClient implements APIClient {
         // get schools
         List<GenericEntity> schools = this.readEntityList(token, SDKConstants.SCHOOLS_ENTITY + "?" + this.buildQueryString(null));
 
+        return schools;
+    }
+    
+    public List<GenericEntity> getMySchools(String token, List<String> ids, boolean isEducator) {
+        
+        List<GenericEntity> schools;
+        if (isEducator) {
+            // get schools
+            schools = this.readEntityList(token,
+                    SDKConstants.TEACHERS_ENTITY + getId(token) + SDKConstants.TEACHER_SCHOOL_ASSOC
+                            + SDKConstants.SCHOOLS_ENTITY + "?" + this.buildQueryString(null));
+        } else {
+            schools = this.readEntityList(token,
+                    SDKConstants.STAFF_ENTITY + getId(token) + SDKConstants.STAFF_EDORG_ASSIGNMENT_ASSOC
+                            + SDKConstants.SCHOOLS_ENTITY + "?" + this.buildQueryString(null));
+        }
+        
+        
         return schools;
     }
 
