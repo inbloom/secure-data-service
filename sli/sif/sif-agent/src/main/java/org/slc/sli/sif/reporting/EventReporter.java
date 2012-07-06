@@ -114,6 +114,4 @@ public class EventReporter implements Publisher {
                 + "\tZone: " + zone.getZoneId() + "\n"
                 + "\tInfo: " + info.getMessage());
     }
-
-
 }
