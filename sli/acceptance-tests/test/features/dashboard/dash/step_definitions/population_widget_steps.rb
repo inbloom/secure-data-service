@@ -40,15 +40,20 @@ end
 
 Then /^I only see "([^"]*)"$/ do |listContent|
   select = @driver.find_element(:id, @dropDownId)
+  #click the droplist first else there are issues seeing hidden elements
+  dropList = select.find_element(:tag_name, "a")
+  dropList.click
   all_options = select.find_elements(:class, "dropdown-menu").first.find_elements(:tag_name, "li")
   matchCondition = true
   # If any list item has a value that is not in the list - set flag to false
   all_options.each do |option|
-    if option.find_element(:tag_name, "a").attribute("text")  != listContent and 
-      option.find_element(:tag_name, "a").attribute("text") != "" then
+    link =  option.find_element(:tag_name,"a").text
+    if link != "Choose One" and link != listContent then
       matchCondition = false
     end
   end
+  #unclick it 
+  dropList.click
   assert(matchCondition, "list has more then required string(s) " + listContent)
 end
 
@@ -76,7 +81,7 @@ Then /^I see these values in the drop\-down: "([^"]*)"$/ do |listContent|
   end
   selectContentArray = selectContent.split(";")
   result = (desiredContentArray | selectContentArray) - (desiredContentArray & selectContentArray)
-  assert(result == [], "list content does not match required content: " + listContent)  
+  assert(result == ["Choose One"], "list content does not match required content: " + listContent)  
 end
 
 Then /^I don't see these values in the drop\-down: "([^"]*)"$/ do |listContent|
