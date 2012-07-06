@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.transformation.assessment;
 
 import java.util.ArrayList;
@@ -49,6 +48,7 @@ import org.springframework.stereotype.Component;
 public class ObjectiveAssessmentBuilder {
     private static final Logger LOG = LoggerFactory.getLogger(ObjectiveAssessmentBuilder.class);
     
+    private static final String CREATION_TIME = "creationTime";
     public static final String SUB_OBJECTIVE_REFS = "subObjectiveRefs";
     public static final String BY_IDENTIFICATION_CDOE = "identificationCode";
     public static final String BY_ID = "id";
@@ -98,7 +98,7 @@ public class ObjectiveAssessmentBuilder {
         } else {
             LOG.debug("Found objective assessment: {} using its id.", objectiveAssessmentId);
         }
-
+        
         if (assessment != null) {
             LOG.debug("Caching objective assessment: {}", objectiveAssessmentId);
             cache(OBJECTIVE_ASSESSMENT, tenantId, objectiveAssessmentId, assessment);
@@ -198,10 +198,10 @@ public class ObjectiveAssessmentBuilder {
         Map<Object, NeutralRecord> all = new HashMap<Object, NeutralRecord>();
         
         Query query = new Query().limit(0);
-        query.addCriteria(Criteria.where("creationTime").gt(0));
+        query.addCriteria(Criteria.where("batchJobId").is(batchJobId));
+        query.addCriteria(Criteria.where(CREATION_TIME).gt(0));
         
-        Iterable<NeutralRecord> data = access.getRecordRepository().findByQueryForJob(OBJECTIVE_ASSESSMENT, query,
-                batchJobId);
+        Iterable<NeutralRecord> data = access.getRecordRepository().findAllByQuery(OBJECTIVE_ASSESSMENT, query);
         
         Iterator<NeutralRecord> itr = data.iterator();
         NeutralRecord record = null;

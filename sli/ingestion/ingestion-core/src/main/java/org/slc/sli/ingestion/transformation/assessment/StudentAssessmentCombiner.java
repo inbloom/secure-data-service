@@ -23,14 +23,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 /**
@@ -135,11 +135,12 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
      */
     private List<Map<String, Object>> getStudentObjectiveAssessments(String studentAssessmentAssociationId) {
         List<Map<String, Object>> assessments = new ArrayList<Map<String, Object>>();
-        NeutralQuery query = new NeutralQuery(0);
-        query.addCriteria(new NeutralCriteria(STUDENT_ASSESSMENT_REFERENCE, "=", studentAssessmentAssociationId));
+        Query query = new Query().limit(0);
+        query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
+        query.addCriteria(Criteria.where(STUDENT_ASSESSMENT_REFERENCE).is(studentAssessmentAssociationId));
         
         Iterable<NeutralRecord> studentObjectiveAssessments = getNeutralRecordMongoAccess().getRecordRepository()
-                .findAllForJob(STUDENT_OBJECTIVE_ASSESSMENT, getJob().getId(), query);
+                .findAllByQuery(STUDENT_OBJECTIVE_ASSESSMENT, query);
         
         if (studentObjectiveAssessments != null) {
             Iterator<NeutralRecord> itr = studentObjectiveAssessments.iterator();

@@ -36,11 +36,9 @@
     <value>graduationPlan</value>
     <value>learningStandard</value>
     <value>parent</value>
-    <value>schoolSessionAssociation</value>
     <value>staff</value>
     <value>staffEducationOrganizationAssociation</value>
     <value>student</value>
-    <value>studentCompetencyObjective</value>
     <value>studentParentAssociation</value>
     <value>studentSectionAssociation</value>
     <value>teacher</value>
@@ -70,30 +68,13 @@
     <value>studentAcademicRecord</value>
     <value>studentCohortAssociation</value>
     <value>studentCompetency</value>
+    <value>studentCompetencyObjective</value>
     <value>studentDisciplineIncidentAssociation</value>
     <value>studentProgramAssociation</value>
     <value>studentSchoolAssociation</value>
     <value>studentSectionGradebookEntry</value>
     <value>teacherSchoolAssociation</value>
     <value>teacherSectionAssociation</value>
-    <value>graduationPlan</value>
-    <value>program</value>
-    <value>studentProgramAssociation</value>
-    <value>staffProgramAssociation</value>
-    <value>cohort</value>
-    <value>studentCohortAssociation</value>
-    <value>staffCohortAssociation</value>
-    <value>learningStandard</value>
-    <value>disciplineIncident</value>
-    <value>disciplineAction</value>
-    <value>studentDisciplineIncident</value>
-    <value>competencyLevelDescriptor</value>
-    <value>gradingPeriod</value>
-    <value>calendarDate</value>
-    <value>reportCard</value>
-    <value>courseOffering</value>
-    <value>studentCompetencyObjective</value>
-    <value>studentCompetency</value>
   </util:set>
 
   <!-- collections that should be persisted using the new pipeline and a transformation has been performed. the collection
@@ -112,7 +93,6 @@
     <value>assessmentFamily</value>
     <value>assessmentItem</value>
     <value>assessmentPeriodDescriptor</value>
-    <value>competencyLevelDescriptor</value>
     <value>objectiveAssessment</value>
     <value>studentAssessmentItem</value>
     <value>studentObjectiveAssessment</value>

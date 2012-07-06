@@ -209,11 +209,14 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         LOG.debug("  Found {} associated sessions.", sessions.size());
         LOG.debug("  Found {} attendance events.", attendance.size());
 
+        String placeholderId = null;
         try {
             // create a placeholder for the student-school pair and write to staging mongo db
             NeutralRecord placeholder = createAttendanceRecordPlaceholder(studentId, schoolId, sessions);
             placeholder.setCreationTime(getWorkNote().getRangeMinimum());
             createRecord(placeholder);
+            
+            placeholderId = placeholder.getRecordId();
         } catch (DuplicateKeyException dke) {
             LOG.warn("Duplicate key exception when creating attendance placeholder. This is expected for the majority of such calls as there can only be one placeholder.");
         }
@@ -228,6 +231,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
 
                 numAttendances += events.size();
                 NeutralQuery query = new NeutralQuery(1);
+                query.addCriteria(new NeutralCriteria("batchJobId", NeutralCriteria.OPERATOR_EQUAL, getBatchJobId(), false));
+                query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, placeholderId, false));
                 query.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentId));
                 query.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.OPERATOR_EQUAL, schoolId));
                 query.addCriteria(new NeutralCriteria("schoolYearAttendance.schoolYear",

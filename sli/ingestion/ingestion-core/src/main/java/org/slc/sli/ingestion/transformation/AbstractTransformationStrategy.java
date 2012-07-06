@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.transformation;
 
 import java.util.HashMap;
@@ -22,7 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
@@ -48,6 +46,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
     private static final Logger LOG = LoggerFactory.getLogger(AbstractTransformationStrategy.class);
     
     protected static final String BATCH_JOB_ID_KEY = "batchJobId";
+    protected static final String CREATION_TIME = "creationTime";
     protected static final String TYPE_KEY = "type";
     
     private String batchJobId;
@@ -145,13 +144,11 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
         
         Query query = buildCreationTimeQuery(workNote);
         
-        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByQueryForJob(
-                collectionName, query, getJob().getId());
+        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
+                collectionName, query);
         
         if (!data.iterator().hasNext()) {
-            LOG.warn("Pulled nothing from {}", collectionName);
-            LOG.warn("Total for {}: {}", collectionName, getNeutralRecordMongoAccess().getRecordRepository()
-                    .countForJob(collectionName, new NeutralQuery(0), getJob().getId()));
+            LOG.warn("Found no records in collection: {} for batch job id: {}", collectionName, getJob().getId());
         }
         
         Map<Object, NeutralRecord> collection = iterableResultsToMap(data);
@@ -201,18 +198,37 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
         neutralRecordMongoAccess.getRecordRepository().createForJob(record, job.getId());
     }
     
+    /**
+     * Creates a neutral query that will query the data store based on 'creationTime' field.
+     * 
+     * @param note
+     *            WorkNote used to determine creation time ranges.
+     * @return Neutral Query used to find all records in the data store that were created within the
+     *         specified range.
+     */
     private Query buildCreationTimeQuery(WorkNote note) {
-        Query query = new Query().limit(0);
+        Query query = new Query().limit(0);        
+        query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(note.getBatchJobId()));
+        
         if (note.getBatchSize() == 1) {
-            Criteria limiter = Criteria.where("creationTime").gt(0);
+            Criteria limiter = Criteria.where(CREATION_TIME).gt(0);
             query.addCriteria(limiter);
         } else {
-            Criteria limiter = Criteria.where("creationTime").gte(note.getRangeMinimum()).lt(note.getRangeMaximum());
+            Criteria limiter = Criteria.where(CREATION_TIME).gte(note.getRangeMinimum()).lt(note.getRangeMaximum());
             query.addCriteria(limiter);
         }
+        
         return query;
     }
     
+    /**
+     * Converts the result of a Query to MongoDB from Iterable<NeutralRecord> to Map<Object,
+     * NeutralRecord>, where the 'Object' key is the neutral record's UUID in the data store.
+     * 
+     * @param data
+     *            Set of iterable Neutral Records.
+     * @return Map of { Neutral Record UUID --> Neutral Record }
+     */
     private Map<Object, NeutralRecord> iterableResultsToMap(Iterable<NeutralRecord> data) {
         Map<Object, NeutralRecord> collection = new HashMap<Object, NeutralRecord>();
         NeutralRecord tempNr = null;

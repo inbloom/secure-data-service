@@ -69,16 +69,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
      * @return Final number of records persisted to data store.
      */
     public int getRecordsPerisisted() {
-        boolean stillPendingWrites = false;
-        for (Map.Entry<String, List<NeutralRecord>> entry : queuedWrites.entrySet()) {
-            if (entry.getValue().size() > 0) {
-                stillPendingWrites = true;
-                break;
-            }
-        }
-        if (stillPendingWrites) {
-            writeAndClearQueuedNeutralRecords();
-        }
+        writeAndClearQueuedNeutralRecords();
         return recordsPerisisted;
     }
     
@@ -139,9 +130,11 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     private void writeAndClearQueuedNeutralRecords() {
         if (recordsPerisisted != 0) {
             for (Map.Entry<String, List<NeutralRecord>> entry : queuedWrites.entrySet()) {
-                nrMongoStagingWriter.insertResources(entry.getValue(), entry.getKey(), batchJobId);
-                LOG.info("Persisted {} records of type {} ", entry.getValue().size(), entry.getKey());
-                queuedWrites.get(entry.getKey()).clear();
+                if (entry.getValue().size() > 0) {
+                    nrMongoStagingWriter.insertResources(entry.getValue(), entry.getKey(), batchJobId);
+                    LOG.info("Persisted {} records of type {} ", entry.getValue().size(), entry.getKey());
+                    queuedWrites.get(entry.getKey()).clear();
+                }
             }
         }
     }
