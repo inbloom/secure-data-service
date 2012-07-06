@@ -34,12 +34,14 @@ end
 desc "Run Dataprowler Smoke Tests"
 task :databrowserSmokeTests do 
   @tags = ["~@wip", "@smoke", "~@sandbox"]
-  Rake::Task["databrowserTests"].invoke
+  runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
 end
 
 desc "Run Admin Tool Smoke Tests"
 task :adminSmokeTests do 
   @tags = ["~@wip", "@smoke", "~@sandbox"]
+  Rake::Task["realmInit"].execute
+  Rake::Task["importSandboxData"].execute
   runTests("test/features/admintools/admin_smoke.feature")
 end
 

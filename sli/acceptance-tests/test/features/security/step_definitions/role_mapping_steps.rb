@@ -103,7 +103,6 @@ When /^I add a mapping between non-existent role "([^"]*)" and custom role "([^"
   restHttpGet("/realm/" + arg3) 
   assert(@res != nil, "Response from rest-client GET is nil")
   data = JSON.parse(@res.body)
-  print(data.inspect)
   
   data["mappings"]["role"].push({"sliRoleName"=>arg1,"clientRoleName"=>[arg2]})  
         
