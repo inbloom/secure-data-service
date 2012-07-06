@@ -28,7 +28,8 @@ When I click on the Logout link
 Then I am redirected to a page that informs me that I have signed out
 And I am forced to reauthenticate to access the databrowser
 
-Scenario Outline: Navigate to home page from any page
+@smoke
+Scenario: Navigate to home page from any page
 
 Given I have an open web browser
 And I navigated to the Data Browser Home URL
@@ -37,14 +38,12 @@ And I choose realm "Illinois Sunset School District 4526" in the drop-down list
 And I click on the realm page Go button
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
-And I have navigated to the <Page> page of the Data Browser
-When I click on the "Home" link
-Then I should be redirected to the Data Browser home page
- Examples:
- | Page                      |
- | "My Schools"              |
- | "Teacher to Section List" |
- | "Me"                      |
+And I have navigated to the <Page> of the Data Browser
+	|Page|
+	|My Schools|
+	|Teacher to Section List|
+	|Me|
+Then I should click on the Home link and be redirected back 
 	
 Scenario: Associations List - Simple View
 

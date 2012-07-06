@@ -106,6 +106,8 @@ default:
         # ingestion exception message logging
         sli.ingestion.exception.message.log: true
 
+        # ingestion log level 
+        sli.ingestion.log.level: info
         # concurrent or serial
         sli.ingestion.processor.edfi: concurrent
         sli.ingestion.processor.xml: concurrent 
