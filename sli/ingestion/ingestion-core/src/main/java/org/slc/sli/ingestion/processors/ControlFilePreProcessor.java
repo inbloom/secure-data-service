@@ -17,6 +17,7 @@
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -26,6 +27,14 @@ import java.util.List;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.dal.TenantContext;
@@ -51,38 +60,31 @@ import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
-import org.springframework.stereotype.Component;
 
 /**
  * Transforms body from ControlFile to ControlFileDescriptor type.
- * 
+ *
  * @author okrook
- * 
+ *
  */
 @Component
 public class ControlFilePreProcessor implements Processor, MessageSourceAware {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(ControlFilePreProcessor.class);
-    
+
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PREPROCESSOR;
-    
+
     @Autowired
     private BatchJobDAO batchJobDAO;
-    
+
     @Autowired
     private TenantDA tenantDA;
-    
+
     @Value("${sli.ingestion.tenant.deriveTenants}")
     private boolean deriveTenantId;
-    
+
     private MessageSource messageSource;
-    
+
     /**
      * @see org.apache.camel.Processor#process(org.apache.camel.Exchange)
      */
@@ -90,16 +92,16 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
     public void process(Exchange exchange) throws Exception {
         processUsingNewBatchJob(exchange);
     }
-    
+
     private void processUsingNewBatchJob(Exchange exchange) throws Exception {
-        
+
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
-        
+
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
         String controlFileName = "control_file";
-        
+
         FaultsReport errorReport = new FaultsReport();
-        
+
         // TODO handle invalid control file (user error)
         // TODO handle IOException or other system error
         NewBatchJob newBatchJob = null;
@@ -107,60 +109,17 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         try {
             fileForControlFile = exchange.getIn().getBody(File.class);
             controlFileName = fileForControlFile.getName();
-            
+
             newBatchJob = getOrCreateNewBatchJob(batchJobId, fileForControlFile);
-            
-            File lzFile = new File(newBatchJob.getTopLevelSourceId());
-            File sourceFile = new File(newBatchJob.getSourceId());
-            LandingZone topLevelLandingZone = new LocalFileSystemLandingZone(lzFile);
-            LandingZone resolvedLandingZone = new LocalFileSystemLandingZone(sourceFile);
-            
-            ControlFile controlFile = ControlFile.parse(fileForControlFile, topLevelLandingZone, messageSource);
-            
-            newBatchJob.setTotalFiles(controlFile.getFileEntries().size());
-            createResourceEntryAndAddToJob(controlFile, newBatchJob);
-            
-            TenantContext.setTenantId(newBatchJob.getTenantId());
-            
-            // determine whether to override the tenantId property with a LZ derived value
-            if (deriveTenantId) {
-                // derive the tenantId property from the landing zone directory with a mongo lookup
-                setTenantId(controlFile, lzFile.getAbsolutePath());
-            }
-            
-            ControlFileDescriptor controlFileDescriptor = new ControlFileDescriptor(controlFile, resolvedLandingZone);
-            
+
+            ControlFile controlFile = parseControlFile(newBatchJob, fileForControlFile);
+
+            ControlFileDescriptor controlFileDescriptor = createControlFileDescriptor(newBatchJob, controlFile);
+
             setExchangeHeaders(exchange, controlFileDescriptor, newBatchJob);
-            
-            byte[] ipAddr = null;
-            try {
-                InetAddress addr = InetAddress.getLocalHost();
-                
-                // Get IP Address
-                ipAddr = addr.getAddress();
-                
-            } catch (UnknownHostException e) {
-                LogUtil.error(LOG, "Error getting local host", e);
-            }
-            List<String> userRoles = Collections.emptyList();
-            SecurityEvent event = new SecurityEvent(controlFile.getConfigProperties().getProperty("tenantId"), // Alpha
-                                                                                                               // MH
-                    "", // user
-                    "", // targetEdOrg
-                    "processUsingNewBatchJob", // Alpha MH (actionUri)
-                    "Ingestion", // Alpha MH (appId)
-                    "", // origin
-                    ipAddr[0] + "." + ipAddr[1] + "." + ipAddr[2] + "." + ipAddr[3], // executedOn
-                    "", // Alpha MH (Credential - N/A for ingestion)
-                    "", // userOrigin
-                    new Date(), // Alpha MH (timeStamp)
-                    ManagementFactory.getRuntimeMXBean().getName(), // processNameOrId
-                    this.getClass().getName(), // className
-                    LogLevelType.TYPE_INFO, // Alpha MH (logLevel)
-                    userRoles, "Ingestion process started."); // Alpha MH (logMessage)
-            
-            audit(event);
-            
+
+            auditSecurityEvent(controlFile);
+
         } catch (SubmissionLevelException exception) {
             String id = "null";
             if (newBatchJob != null) {
@@ -186,10 +145,46 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
             }
         }
     }
-    
+
+    private NewBatchJob getOrCreateNewBatchJob(String batchJobId, File cf) {
+        NewBatchJob job = null;
+        if (batchJobId != null) {
+            job = batchJobDAO.findBatchJobById(batchJobId);
+        } else {
+            job = createNewBatchJob(cf);
+        }
+        return job;
+    }
+
+    private ControlFile parseControlFile(NewBatchJob newBatchJob, File fileForControlFile) throws IOException,
+            IngestionException {
+        File lzFile = new File(newBatchJob.getTopLevelSourceId());
+        LandingZone topLevelLandingZone = new LocalFileSystemLandingZone(lzFile);
+
+        ControlFile controlFile = ControlFile.parse(fileForControlFile, topLevelLandingZone, messageSource);
+
+        newBatchJob.setTotalFiles(controlFile.getFileEntries().size());
+        createResourceEntryAndAddToJob(controlFile, newBatchJob);
+
+        TenantContext.setTenantId(newBatchJob.getTenantId());
+        // determine whether to override the tenantId property with a LZ derived value
+        if (deriveTenantId) {
+            // derive the tenantId property from the landing zone directory with a mongo lookup
+            setTenantIdFromDb(controlFile, lzFile.getAbsolutePath());
+        }
+        return controlFile;
+    }
+
+    private ControlFileDescriptor createControlFileDescriptor(NewBatchJob newBatchJob, ControlFile controlFile) {
+        File sourceFile = new File(newBatchJob.getSourceId());
+        LandingZone resolvedLandingZone = new LocalFileSystemLandingZone(sourceFile);
+        ControlFileDescriptor controlFileDescriptor = new ControlFileDescriptor(controlFile, resolvedLandingZone);
+        return controlFileDescriptor;
+    }
+
     /**
      * Handles errors associated with the control file.
-     * 
+     *
      * @param exchange
      *            Camel exchange.
      * @param batchJobId
@@ -207,30 +202,20 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
             Error error = Error.createIngestionError(batchJobId, controlFileName, BATCH_JOB_STAGE.getName(), null,
                     null, null, FaultType.TYPE_ERROR.getName(), null, exception.getMessage());
             batchJobDAO.saveError(error);
-            
+
             // TODO: we should be creating WorkNote at the very first point of processing.
             // this will require some routing changes
             WorkNote workNote = WorkNote.createSimpleWorkNote(batchJobId);
             exchange.getIn().setBody(workNote, WorkNote.class);
         }
     }
-    
+
     private void setExchangeHeaders(Exchange exchange, ControlFileDescriptor controlFileDescriptor, NewBatchJob newJob) {
         exchange.getIn().setHeader("BatchJobId", newJob.getId());
         exchange.getIn().setBody(controlFileDescriptor, ControlFileDescriptor.class);
         exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
     }
-    
-    private NewBatchJob getOrCreateNewBatchJob(String batchJobId, File cf) {
-        NewBatchJob job = null;
-        if (batchJobId != null) {
-            job = batchJobDAO.findBatchJobById(batchJobId);
-        } else {
-            job = createNewBatchJob(cf);
-        }
-        return job;
-    }
-    
+
     private NewBatchJob createNewBatchJob(File controlFile) {
         NewBatchJob newJob = NewBatchJob.createJobForFile(controlFile.getName());
         newJob.setSourceId(controlFile.getParentFile().getAbsolutePath() + File.separator);
@@ -238,7 +223,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         LOG.info("Created job [{}]", newJob.getId());
         return newJob;
     }
-    
+
     private void createResourceEntryAndAddToJob(ControlFile cf, NewBatchJob newJob) {
         ResourceEntry resourceEntry = new ResourceEntry();
         resourceEntry.setResourceId(cf.getFileName());
@@ -248,14 +233,14 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         resourceEntry.setTopLevelLandingZonePath(newJob.getTopLevelSourceId());
         newJob.getResourceEntries().add(resourceEntry);
     }
-    
+
     /**
      * Derive the tenantId using a database look up based on the LZ path
      * and override the property on the ControlFile with he derived value.
-     * 
+     *
      * Throws an IngestionException if a tenantId could not be resolved.
      */
-    private void setTenantId(ControlFile cf, String lzPath) throws IngestionException {
+    private void setTenantIdFromDb(ControlFile cf, String lzPath) throws IngestionException {
         lzPath = new File(lzPath).getAbsolutePath();
         // TODO add user facing error report for no tenantId found
         String tenantId = tenantDA.getTenantId(lzPath);
@@ -265,7 +250,38 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
             throw new IngestionException("Could not find tenantId for landing zone: " + lzPath);
         }
     }
-    
+
+    private void auditSecurityEvent(ControlFile controlFile) {
+        byte[] ipAddr = null;
+        try {
+            InetAddress addr = InetAddress.getLocalHost();
+
+            // Get IP Address
+            ipAddr = addr.getAddress();
+
+        } catch (UnknownHostException e) {
+            LogUtil.error(LOG, "Error getting local host", e);
+        }
+        List<String> userRoles = Collections.emptyList();
+        SecurityEvent event = new SecurityEvent(controlFile.getConfigProperties().getProperty("tenantId"), // Alpha
+                                                                                                           // MH
+                "", // user
+                "", // targetEdOrg
+                "processUsingNewBatchJob", // Alpha MH (actionUri)
+                "Ingestion", // Alpha MH (appId)
+                "", // origin
+                ipAddr[0] + "." + ipAddr[1] + "." + ipAddr[2] + "." + ipAddr[3], // executedOn
+                "", // Alpha MH (Credential - N/A for ingestion)
+                "", // userOrigin
+                new Date(), // Alpha MH (timeStamp)
+                ManagementFactory.getRuntimeMXBean().getName(), // processNameOrId
+                this.getClass().getName(), // className
+                LogLevelType.TYPE_INFO, // Alpha MH (logLevel)
+                userRoles, "Ingestion process started."); // Alpha MH (logMessage)
+
+        audit(event);
+    }
+
     @Override
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
