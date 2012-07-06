@@ -68,7 +68,7 @@ For the purposes of this README, we will use /opt/tomcat as $TOMCAT_HOME
           oauth.client.secret = <copy the encrypted client_secret here>
           oauth.redirect = http://$YOUR_IP_ADDRESS:$YOUR_PORT/dashboard/callback
       - Update the keyStore properties
-          dashboard.encryption.keyStore = $LOCATION_TO_YOUR_keyStore/$Your_Key_Store_NAME.jks
+          sli.encryption.keyStore = $LOCATION_TO_YOUR_keyStore/$Your_Key_Store_NAME.jks
           dashboard.encryption.keyStorePass = $YOUR_KeyStorePass
           dashboard.encryption.dalKeyAlias = $YOUR_Alias_Pass
           dashboard.encryption.dalKeyPass = $YOUR_Key_Pass
