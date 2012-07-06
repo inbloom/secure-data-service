@@ -336,9 +336,16 @@ public class SDKAPIClient implements APIClient {
                     SDKConstants.TEACHERS_ENTITY + getId(token) + SDKConstants.TEACHER_SCHOOL_ASSOC
                             + SDKConstants.SCHOOLS_ENTITY + "?" + this.buildQueryString(null));
         } else {
-            schools = this.readEntityList(token,
+            List<GenericEntity> edOrgs = this.readEntityList(token,
                     SDKConstants.STAFF_ENTITY + getId(token) + SDKConstants.STAFF_EDORG_ASSIGNMENT_ASSOC
-                            + SDKConstants.SCHOOLS_ENTITY + "?" + this.buildQueryString(null));
+                            + SDKConstants.EDORGS_ENTITY + "?" + this.buildQueryString(null));
+            schools = new ArrayList<GenericEntity>();
+            for (GenericEntity edOrg : edOrgs) {
+                Map<String, String> query = new HashMap<String, String>();
+                query.put("parentEducationAgencyReference", (String) edOrg.get("id"));
+                schools.addAll(this.readEntityList(token,
+                        SDKConstants.EDORGS_ENTITY + "?" + this.buildQueryString(query)));
+            }
         }
         
         
