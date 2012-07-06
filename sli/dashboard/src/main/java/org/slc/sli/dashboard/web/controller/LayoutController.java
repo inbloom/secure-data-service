@@ -48,7 +48,7 @@ public class LayoutController extends GenericLayoutController {
      * @return
      */
     // The path variable validation for id is simplified since spring doesn't seem to support exact length regex
-    @RequestMapping(value = { "/s/l/{componentId:[a-zA-Z0-9]+}/{id:[A-Za-z0-9-]+}" , "/service/layout/{componentId:[a-zA-Z0-9]+}/{id:[A-Za-z0-9-]+}" }, method = RequestMethod.GET)
+    @RequestMapping(value = { "/s/l/{componentId:[a-zA-Z0-9]+}/{id:[A-Za-z0-9-]+}" }, method = RequestMethod.GET)
     public ModelAndView handleWithId(
             @PathVariable String componentId, @PathVariable SafeUUID id, HttpServletRequest request
     ) {
@@ -62,7 +62,7 @@ public class LayoutController extends GenericLayoutController {
      * @param request
      * @return
      */
-    @RequestMapping(value = {"/s/l/{componentId:[a-zA-Z0-9]+}", "/service/layout/{componentId:[a-zA-Z0-9]+}" }, method = RequestMethod.GET)
+    @RequestMapping(value = {"/s/l/{componentId:[a-zA-Z0-9]+}" }, method = RequestMethod.GET)
     public ModelAndView handle(
             @PathVariable String componentId, @Valid SafeUUID id, HttpServletRequest request
     ) {

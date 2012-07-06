@@ -1,3 +1,18 @@
+<#--
+  Copyright 2012 Shared Learning Collaborative, LLC
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
 <@includePanelModel panelId="populationWidget"/>
 <#assign id = getDivId(panelConfig.id)>
 <#if minifyJs?? && minifyJs= false>
@@ -12,10 +27,10 @@
 <div id="populationSelect">
     <div id="edorgDiv" class="menuBox">
         <h4> District </h4>
-        <input type='hidden' value='' id ='edOrgSelect' /> 
+        <input type='hidden' value='' id ='edOrgSelect' />
         <div class="btn-toolbar">
             <div class="btn-group" id="edOrgSelectMenu" name="edOrgSelectMenu">
-                <a class="btn dropdown-toggle" id="edOrgSelectButton" data-toggle="dropdown" href="#"> 
+                <a class="btn dropdown-toggle" id="edOrgSelectButton" data-toggle="dropdown" href="#">
                     <span class='optionText'> </span>
                     <span class="caret"></span>
                 </a>
@@ -26,7 +41,7 @@
     </div>
     <div id="schoolDiv" class="menuBox">
         <h4> School </h4>
-        <input type='hidden' value='' id ='schoolSelect' /> 
+        <input type='hidden' value='' id ='schoolSelect' />
         <div class="btn-toolbar">
             <div class="btn-group" id="schoolSelectMenu">
                 <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" >
@@ -40,7 +55,7 @@
     </div>
     <div id="courseDiv" class="menuBox">
         <h4> Course </h4>
-        <input type='hidden' value='' id ='courseSelect' /> 
+        <input type='hidden' value='' id ='courseSelect' />
         <div class="btn-toolbar">
             <div class="btn-group" id="courseSelectMenu">
                 <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" >
@@ -54,7 +69,7 @@
     </div>
     <div id="sectionDiv" class="menuBox">
         <h4> Section </h4>
-        <input type='hidden' value='' id ='sectionSelect' /> 
+        <input type='hidden' value='' id ='sectionSelect' />
         <div class="btn-toolbar">
             <div class="btn-group" id="sectionSelectMenu">
                 <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" >
@@ -74,4 +89,3 @@
         </div>
     </div>
 </div>
-

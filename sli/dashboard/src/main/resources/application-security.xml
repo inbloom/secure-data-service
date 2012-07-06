@@ -1,22 +1,37 @@
+<!--
+  Copyright 2012 Shared Learning Collaborative, LLC
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
 <beans:beans xmlns="http://www.springframework.org/schema/security"
-    xmlns:context="http://www.springframework.org/schema/context" 
+    xmlns:context="http://www.springframework.org/schema/context"
     xmlns:beans="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
                     http://www.springframework.org/schema/security
                     http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 
 
-                   
+
 <beans:bean id="entryPoint" class="org.slc.sli.dashboard.security.SLIAuthenticationEntryPoint">
     <beans:property name="propDecryptor" ref="propertiesDecryptor" />
     <beans:property name="restClient" ref="restClient" />
     <beans:property name="callbackUrl" value="${oauth.redirect}" />
     <beans:property name="apiUrl" value="${api.server.url}" />
-    
-</beans:bean>         
+
+</beans:bean>
 
 <http create-session="never" auto-config="false" use-expressions="true" entry-point-ref="entryPoint">
     <intercept-url pattern="/static/**" filters="none"/>
