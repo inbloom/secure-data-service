@@ -6,6 +6,6 @@
 		cacheKey: "schoolInfo"
 	}, 
 	items: [
-		{id: "tab1", name: "Sections",  type : "TAB", items: [{id : "sectionList", type: "GRID"}]}
+		{id: "tab1", name: "Subjects and Courses",  type : "TAB", items: [{id : "sectionList", type: "TREE"}]}
 	]
 }

@@ -11,6 +11,9 @@
   </#if> 
   <#if panel.type == "GRID">
     <@includeGrid gridId=panel.id/>
+  </#if>  
+  <#if panel.type == "TREE">
+    <@includeTree treeId=panel.id/>
   </#if>   
 </#macro>
 
@@ -32,6 +35,21 @@
     <script type="text/javascript">
       <#-- make grid -->
       SLC.grid.tablegrid.create('${id}', SLC.dataProxy.getConfig("${gridId}"), SLC.dataProxy.getData("${gridId}"));
+
+    </script>
+
+</#macro>
+
+<#macro includeTree treeId>
+  
+  <#assign id = getDivId(treeId)>
+  </br>
+<div class="ui-widget-no-border">
+    <table id="${id}"></table>
+</div>
+    <script type="text/javascript">
+      <#-- make tree -->
+      SLC.grid.tree.create('${id}', SLC.dataProxy.getConfig("${treeId}"), SLC.dataProxy.getData("${treeId}"));
 
     </script>
 

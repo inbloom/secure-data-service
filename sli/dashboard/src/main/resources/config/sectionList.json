@@ -1,13 +1,13 @@
 {
   id : "sectionList",
-  type : "GRID",
-  name : "Section List",
+  type : "TREE",
+  name : "",
   data :{
     entity: "userSectionList",
     cacheKey: "userSectionList"
   }, 
   root: "root",
   items : [
-    {name: "name", width: 300, type: "FIELD", field: "name"}
+    {name: "Subject", width: 300, type: "FIELD", field: "name"}
   ] 
 }
