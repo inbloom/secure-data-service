@@ -23,13 +23,11 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 
 import openadk.library.ADK;
-import openadk.library.ElementDef;
 import openadk.library.Event;
 import openadk.library.EventAction;
 import openadk.library.SIFDataObject;
-import openadk.library.SIFDataObjectXML;
-import openadk.library.SIFElement;
 import openadk.library.SIFParser;
+import openadk.library.SIFVersion;
 
 public class CustomEventGenerator implements EventGenerator {
 
@@ -39,9 +37,7 @@ public class CustomEventGenerator implements EventGenerator {
     public Event generateEvent(Properties eventProps) {
         String messageFile = eventProps.getProperty(CustomEventGenerator.MESSAGE_FILE);
         FileReader in = null;
-        SIFDataObject dataObject = null;
         Event event = null;
-
         try {
             // Construct a SIFParser instance that can be used for parsing
             SIFParser p = SIFParser.newInstance();
@@ -56,13 +52,8 @@ public class CustomEventGenerator implements EventGenerator {
                 xml.append(buf, 0, bufSize);
             }
             // Parse it
-            SIFElement element = p.parse(xml.toString(), null /* zone */ );
-            LOG.info("Custom data object generated: " + element.toString());
-
-            // Convert it
-            ElementDef elementDef = element.getElementDef();
-            dataObject = new SIFDataObjectXML(elementDef, xml.toString());
-            event = new Event(dataObject, EventAction.ADD);
+            SIFDataObject generic = (SIFDataObject) p.parse(xml.toString(), null, 0, SIFVersion.SIF23);
+            event = new Event(generic, EventAction.ADD);
         } catch (Exception e) {
             LOG.error("Caught exception trying to load entity from file", e);
         } finally {
