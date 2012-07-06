@@ -1,6 +1,23 @@
 #!/bin/bash
 
-wait_until_found() {
+
+function is_port_availible {
+  port=$1
+
+  printf " checking if server running on port $port";
+
+  curl -s local.slidev.org:$port
+  result=$?
+  echo result equals $result
+  if [ $result -eq 0 ]; then 
+    echo found!
+  else
+    echo not found!
+  fi
+  return $result
+}
+
+function wait_until_found {
   filepath=$1
   pattern=$2
   timeout=30
@@ -11,8 +28,7 @@ wait_until_found() {
   do
     grep -q -e "$pattern" -- $filepath
     result=$?
-    if [ $result -eq 0 ]
-    then 
+    if [ $result -eq 0 ]; then 
       echo found!
       return 0
     fi
@@ -21,8 +37,7 @@ wait_until_found() {
     let count=count+1
   done
 
-  if [ $FAILHARD ]
-  then
+  if [ $FAILHARD ]; then
     echo not found, aborting
     exit 1
   else
@@ -34,6 +49,14 @@ DIR=`pwd`
 mkdir -p everyLog
 cd everyLog; rm *.log
 LOGDIR=$DIR/everyLog
+
+is_port_availible "8080"
+ret=$?
+if [ 0 -eq $ret ]; then
+  printf "no server on port 8080"
+else
+  printf "server is up on port 8080"
+fi
 
 echo PWD: $DIR
 echo Starting API
