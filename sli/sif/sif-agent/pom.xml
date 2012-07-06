@@ -95,6 +95,7 @@
                     <url>${tomcat.url}</url>
                     <username>${tomcat.username}</username>
                     <password>${tomcat.password}</password>
+                    <port>1337</port>
                     <systemProperties>
 	                    <sli.conf>${sli.conf}</sli.conf>
 	                    <sli.env>local</sli.env>
