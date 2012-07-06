@@ -3,7 +3,8 @@
 	type: "LAYOUT",
 	data :{
 		entity: "sectionInfo",
-		cacheKey: "sectionInfo"
+		cacheKey: "sectionInfo",
+		lazy: true
 	}, 
 	items: [
 		{id : "populationWidget", name: "Organizational hierarchy drop down menu", type: "PANEL"},

@@ -4,6 +4,10 @@
 	name: "Section Info",
 	data :{
 		entity: "sectionInfo",
-		cacheKey: "sectionInfo"
-	} 
+		cacheKey: "sectionInfo",
+		lazy: true
+	},
+    params: {
+        layout: ["section"]
+    }
 }

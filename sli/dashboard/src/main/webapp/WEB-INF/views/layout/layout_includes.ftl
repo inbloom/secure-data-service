@@ -1,13 +1,15 @@
+<#assign NUL = {"NUL":true}>
 <#macro includePanelModel panelId>
   <#assign panelConfig = viewConfigs[panelId]>
-  <#if !panelConfig.data.lazy>
-    <#assign panelData = data[panelConfig.data.cacheKey]>
-  </#if>
+  <#assign panelData = data[panelConfig.data.cacheKey]!NUL>
 </#macro>
 
 <#macro includePanelContent panel>
   <#if panel.type == "PANEL">
-    <#include "../panel/" + panel.id + ".ftl">
+    <@includePanelModel panelId=panel.id/>
+    <#if !panelData.NUL?? >
+      <#include "../panel/" + panel.id + ".ftl">
+    </#if>
   </#if> 
   <#if panel.type == "GRID">
     <@includeGrid gridId=panel.id/>

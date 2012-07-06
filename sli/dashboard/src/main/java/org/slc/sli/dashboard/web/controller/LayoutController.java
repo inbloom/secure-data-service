@@ -37,7 +37,7 @@ import org.slc.sli.dashboard.web.entity.SafeUUID;
 @Controller
 public class LayoutController extends GenericLayoutController {
     private static final String TABBED_ONE_COL = "tabbed_one_col";
-    private static final String LOS_ID = "listOfStudentsPage";
+    private static final String LOS_ID = "section";
 
 
     /**
@@ -48,7 +48,7 @@ public class LayoutController extends GenericLayoutController {
      * @return
      */
     // The path variable validation for id is simplified since spring doesn't seem to support exact length regex
-    @RequestMapping(value = "/service/layout/{componentId:[a-zA-Z0-9]+}/{id:[A-Za-z0-9-]+}", method = RequestMethod.GET)
+    @RequestMapping(value = { "/s/l/{componentId:[a-zA-Z0-9]+}/{id:[A-Za-z0-9-]+}" , "/service/layout/{componentId:[a-zA-Z0-9]+}/{id:[A-Za-z0-9-]+}" }, method = RequestMethod.GET)
     public ModelAndView handleWithId(
             @PathVariable String componentId, @PathVariable SafeUUID id, HttpServletRequest request
     ) {
@@ -62,7 +62,7 @@ public class LayoutController extends GenericLayoutController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "/service/layout/{componentId:[a-zA-Z0-9]+}", method = RequestMethod.GET)
+    @RequestMapping(value = {"/s/l/{componentId:[a-zA-Z0-9]+}", "/service/layout/{componentId:[a-zA-Z0-9]+}" }, method = RequestMethod.GET)
     public ModelAndView handle(
             @PathVariable String componentId, @Valid SafeUUID id, HttpServletRequest request
     ) {
@@ -80,19 +80,8 @@ public class LayoutController extends GenericLayoutController {
         return getModelAndView(LOS_ID, null, request);
     }
 
-    /**
-     * Handles the short los url by redirecting to list of students
-     *
-     * @param request
-     * @return
-     */
-    @RequestMapping(value = "/service/list/{id:[A-Za-z0-9-]+}", method = RequestMethod.GET)
-    public ModelAndView handleLos(@PathVariable SafeUUID id, HttpServletRequest request) {
-        return getModelAndView(LOS_ID, id, request);
-    }
-
     private ModelAndView getModelAndView(String componentId, SafeUUID id, HttpServletRequest request) {
         // if id is not null, override lazy for data
-        return getModelView(TABBED_ONE_COL, getPopulatedModel(componentId, id == null ? null : id.getId(), request, (id != null)));
+        return getModelView(TABBED_ONE_COL, getPopulatedModel(componentId, id == null ? null : id.getId(), request, (id != null && id.getId() != null)));
     }
 }

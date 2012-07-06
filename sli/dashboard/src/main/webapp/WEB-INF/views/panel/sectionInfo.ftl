@@ -1,4 +1,4 @@
-<@includePanelModel panelId="section"/>
+<@includePanelModel panelId="sectionInfo"/>
 <div class="sectionProfile">
 	<#if panelData.uniqueSectionCode??>
 		<h1>${panelData.uniqueSectionCode}</h1>

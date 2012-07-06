@@ -282,8 +282,12 @@ SLC.namespace('SLC.util', (function () {
 			return true;
 		}
 		
+		function getLayoutLink(name, id) {
+			return contextRootPath + "/s/l/" + name + "/" + id;
+		}
+		
 		function goToLayout(name, id) {
-			location.href = contextRootPath + "/service/layout/" + name + "/" + id;
+			location.href = getLayoutLink(name, id);
 		}
 		
 		return {
@@ -310,7 +314,8 @@ SLC.namespace('SLC.util', (function () {
 			setDropDownOptions: setDropDownOptions,
 			selectDropDownOption: selectDropDownOption,
 			placeholderFix: placeholderFix,
-			goToLayout: goToLayout
+			goToLayout: goToLayout,
+			getLayoutLink: getLayoutLink
 		};
 	}())
 );
