@@ -54,8 +54,8 @@ public class ApplicationAuthorizationValidator {
     private EdOrgToChildEdOrgNodeFilter parentResolver;
     
     @Autowired
-    @Value("${sli.sandbox.autoRegisterApps}")
-    private boolean autoRegister;
+    @Value("${sli.sandbox.enabled}")
+    private boolean sandboxEnabled;
     
     /**
      * Get the list of authorized apps for the user based on the user's LEA.
@@ -147,7 +147,7 @@ public class ApplicationAuthorizationValidator {
     
     
     private boolean isSandbox() {
-        return autoRegister;
+        return sandboxEnabled;
     }
 
     /**
