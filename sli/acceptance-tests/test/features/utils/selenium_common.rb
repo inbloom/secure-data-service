@@ -119,3 +119,8 @@ def assertWithWait(msg, &blk)
   end
   assert(yield, webdriverDebugMessage(@driver,msg))
 end
+
+When /^I click on Ok$/ do
+  @driver.switch_to.alert.accept
+end
+

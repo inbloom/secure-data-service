@@ -29,6 +29,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
     | "parents"                 |
     | "programs"                |
     | "schools"                 |
+    | "sessions"                |
     | "sections"                |
     | "staff"                   |
     | "students"                |
