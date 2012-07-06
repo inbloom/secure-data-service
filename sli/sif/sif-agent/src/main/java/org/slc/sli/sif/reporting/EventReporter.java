@@ -44,22 +44,17 @@ public class EventReporter implements Publisher {
 
             SifAgent agent = context.getBean(SifAgent.class);
 
-            ADK.initialize();
             if (args.length >= 2) {
                 String zoneId = args[EventReporter.ZONE_ID];
                 String messageFile = args[EventReporter.MESSAGE_FILE];
                 Zone zone = agent.getZoneFactory().getZone(zoneId);
                 EventReporter reporter = new EventReporter(zone);
 
-                agent.connectToAllZones();
-
                 reporter.setEventGenerator(new CustomEventGenerator());
                 reporter.reportEvent(messageFile);
             } else {
                 Zone zone = agent.getZoneFactory().getZone("TestZone");
                 EventReporter reporter = new EventReporter(zone);
-
-                agent.connectToAllZones();
 
                 reporter.reportEvent();
             }
@@ -81,8 +76,9 @@ public class EventReporter implements Publisher {
     public EventReporter(Zone zone) throws Exception {
         this.zone = zone;
         this.zone.setPublisher(this);
-        this.zone.setPublisher(this, StudentDTD.SCHOOLINFO, new PublishingOptions( true ) );
-        this.zone.setPublisher(this, StudentDTD.STUDENTPERSONAL, new PublishingOptions( true ) );
+        this.zone.setPublisher(this, StudentDTD.SCHOOLINFO, new PublishingOptions(true));
+        this.zone.setPublisher(this, StudentDTD.LEAINFO, new PublishingOptions(true));
+        this.zone.setPublisher(this, StudentDTD.STUDENTPERSONAL, new PublishingOptions(true));
         generator = new HCStudentPersonalGenerator();
     }
 

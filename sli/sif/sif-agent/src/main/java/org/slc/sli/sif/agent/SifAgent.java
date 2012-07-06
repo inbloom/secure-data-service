@@ -87,9 +87,7 @@ public class SifAgent extends Agent {
         super.initialize();
 
         fCfg.apply(this, true);
-    }
 
-    public void connectToAllZones() {
         // Connect to each zone specified in the configuration file, registering
         // this agent as the Provider of the SIS objects.
 
