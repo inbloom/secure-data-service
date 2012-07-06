@@ -74,11 +74,12 @@ public class LearningObjectiveGenerator {
         LearningStandardId learningStandardId = new LearningStandardId();
         if(learningStandardIdString != null){
             learningStandardId.setIdentificationCode(learningStandardIdString);
-            learningStandardId.setContentStandardName(learningStandardIdString + "Content Standard");
+            learningStandardId.setContentStandardName("Content Standard Name");
         }
 
         LearningObjectiveIdentityType loId = new LearningObjectiveIdentityType();
         loId.getLearningObjectiveIdOrObjective().add(learningStandardId);
+
 
         LearningObjectiveReferenceType lor = new LearningObjectiveReferenceType();
         lor.setLearningObjectiveIdentity(loId);
