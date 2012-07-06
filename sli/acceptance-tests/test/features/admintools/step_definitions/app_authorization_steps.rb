@@ -157,10 +157,6 @@ Given /^I am asked 'Do you really want this application to access the district's
       end
 end
 
-When /^I click on Ok$/ do
-  @driver.switch_to.alert.accept
-end
-
 Then /^the application is authorized to use data of "([^"]*)"$/ do |arg1|
   row = @driver.find_element(:xpath, ".//tbody/tr/td[text()='#{@appName}']/..")
   assert(row != nil)

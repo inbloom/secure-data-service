@@ -1,4 +1,4 @@
-@RALLY_US209@RALLY_DE87
+@smoke @RALLY_US209 @RALLY_DE87
 Feature: As an SLI application, I want to be able to perform CRUD operations on various resources
 This means I want to be able to perform CRUD on all entities.
 and verify that the correct links are made available.
@@ -111,7 +111,7 @@ Examples:
 | Entity Type                    | Entity Resource URI       | Entity Count |
 | "assessment"                   | "assessments"             | 17 |
 | "attendance"                   | "attendances"             | 2 |
-| "cohort"                       | "cohorts"                 | 7 |
+| "cohort"                       | "cohorts"                 | 8 |
 | "course"                       | "courses"                 | 91 |
 | "disciplineAction"             | "disciplineActions"       | 3 |
 | "disciplineIncident"           | "disciplineIncidents"     | 3 |

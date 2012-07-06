@@ -13,7 +13,7 @@ Given I was redirected to the Realm page
 And I choose realm "Illinois Sunset School District 4526" in the drop-down list
 And I click on the realm page Go button
 And I was redirected to the "OpenAM" IDP Login page
-When I submit the credentials "jdoe" "jdoe1234" for the "OpenAM" login page
+When I submit the credentials "cgray" "cgray1234" for the "OpenAM" login page
 Then I should be redirected to the Data Browser home page
 	
 Scenario: User authenticating using ADFS

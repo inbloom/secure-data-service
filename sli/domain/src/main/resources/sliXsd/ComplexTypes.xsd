@@ -2009,6 +2009,9 @@
 				contractor
 				or businessperson working at a school site.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="staffUniqueStateId" type="uniqueStateIdentifier">
@@ -2037,7 +2040,6 @@
 					<xs:appinfo>
 						<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
 						<sli:WriteEnforcement>WRITE_RESTRICTED</sli:WriteEnforcement>
-						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5799,17 +5801,15 @@
           <xs:documentation>The identifier for the school year.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="stateOrganizationId" type="identificationCode">
+      <xs:element name="schoolId" type="reference">
         <xs:annotation>
           <xs:documentation>The identifier assigned to an education agency by
                             the State
                             Education Agency (SEA). Also known as the State LEA ID.
           </xs:documentation>
-        </xs:annotation>
-      </xs:element>
-      <xs:element name="educationalOrgIdentity" type="educationalOrgIdentityType">
-        <xs:annotation>
-          <xs:documentation>The identifier for the educational organization.</xs:documentation>
+          <xs:appinfo>
+          <sli:ReferenceType>educationOrganization</sli:ReferenceType>
+          </xs:appinfo>
         </xs:annotation>
       </xs:element>
     </xs:sequence>

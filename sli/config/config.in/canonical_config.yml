@@ -105,6 +105,8 @@ default:
         # ingestion exception message logging
         sli.ingestion.exception.message.log: true
 
+        # ingestion log level 
+        sli.ingestion.log.level: info
         # concurrent or serial
         sli.ingestion.processor.edfi: concurrent
         sli.ingestion.processor.xml: concurrent 
@@ -192,6 +194,17 @@ default:
         
         dashboard.minify.js: true
         dashboard.cache.disable: false
+
+        # This is the same as the sli.encyrption.* .  But we need Dashboard to be 
+        # independant of sli specific configuration for open sources. Having the props 
+        # independent here will allow us to use the same application-context for
+        # the internal version as well as the external version.
+        # (only used in dashboard)
+        dashboard.encryption.keyStorePass: changeit
+        dashboard.encryption.dalKeyAlias: dalKey
+        dashboard.encryption.dalKeyPass: changeit
+        dashboard.encryption.keyStore: ../data-access/dal/keyStore/ciKeyStore.jks
+
 
 
     app: &APPS-DEFAULT
@@ -751,9 +764,9 @@ local:
     dashboard: &DASHBOARD-LOCAL
         <<: *DASHBOARD-DEFAULT
 
-        # (only used in dashboard)
+        # (used by many scripts and apps)
         sli.encryption.keyStore: ../data-access/dal/keyStore/ciKeyStore.jks
-        
+
         dashboard.minify.js: false
         
         dashboard.log.level: info

@@ -90,11 +90,11 @@ class SLCFixer
         edorgs = section['body']['schoolId']
         stamp_id(@db['section'], section['_id'], edorgs, section['metaData']['tenantId'])
         @log.info "Iterating teacherSectionAssociation with query: {'body.sectionId: #{section['_id']}}"
-        @db['teacherSectionAssociation'].find({"body.sectionId"    => section['_id']}, @basic_options) do |scur| 
+        @db['teacherSectionAssociation'].find({"body.sectionId"    => section['_id']}, @basic_options) do |scur|
           scur.each {|assoc| stamp_id(@db['teacherSectionAssociation'], assoc['_id'], edorgs, assoc['metaData']['tenantId'])}
         end
-        @log.info "Iterating sectionAssessmentAssociation with query: {'body.sectionId: #{section['_id']}}"    
-        @db['sectionAssessmentAssociation'].find({"body.sectionId" => section['_id']}, @basic_options) do |scur| 
+        @log.info "Iterating sectionAssessmentAssociation with query: {'body.sectionId: #{section['_id']}}"
+        @db['sectionAssessmentAssociation'].find({"body.sectionId" => section['_id']}, @basic_options) do |scur|
           scur.each {|assoc| stamp_id(@db['sectionAssessmentAssociation'], assoc['_id'], edorgs, assoc['metaData']['tenantId']) }
         end
         @log.info "Iterating studentSectionAssociation with query: {'body.sectionId: #{section['_id']}}"
@@ -207,8 +207,8 @@ class SLCFixer
         program_edorg = old_edorgs(@db['program'], program['body']['programId'])
         staff_edorg = old_edorgs(@db['staff'], program['body']['staffId'])
         edorg << program_edorg << staff_edorg
-        edorg = edorg.flatten.uniq 
-        stamp_id(@db['program'], program['body']['porgramId'], edorg, program['metaData']['tenantId'])
+        edorg = edorg.flatten.uniq
+        stamp_id(@db['program'], program['body']['programId'], edorg, program['metaData']['tenantId'])
         stamp_id(@db['staffProgramAssociation'], program['_id'], staff_edorg, program['metaData']['tenantId'])
       end
     end
@@ -414,7 +414,13 @@ class SLCFixer
       edOrgs.concat(parent_edOrgs) unless parent_edOrgs.nil?
       edOrgs = edOrgs.flatten.uniq
 
-      collection.update({"_id" => id, 'metaData.tenantId' => tenantid}, {"$unset" => {"padding" => 1}, "$set" => {"metaData.edOrgs" => edOrgs}}) unless tenantid.nil?
+      if id.is_a? Array
+        id.each do |array_id|
+          collection.update({"_id" => array_id, 'metaData.tenantId' => tenantid}, {"$unset" => {"padding" => 1}, "$set" => {"metaData.edOrgs" => edOrgs}}) unless tenantid.nil?
+        end
+      else
+        collection.update({"_id" => id, 'metaData.tenantId' => tenantid}, {"$unset" => {"padding" => 1}, "$set" => {"metaData.edOrgs" => edOrgs}}) unless tenantid.nil?
+      end
     rescue Exception => e
       @log.error "Writing to #{collection.name}##{id} - #{e.message}"
       @log.error "Writing to #{collection.name}##{id} - #{e.backtrace}"
@@ -437,11 +443,15 @@ class SLCFixer
 
   def old_edorgs(collection, id)
     if id.is_a? Array
-      doc = collection.find_one({"_id" => {'$in' => id}})
+      doc = collection.find({"_id" => {'$in' => id}})
     else
-      doc = collection.find_one({"_id" => id})
+      doc = [collection.find_one({"_id" => id})]
     end
-    dig_edorg_out doc
+    final = [ ]
+    doc.each do |d|
+      final << dig_edorg_out(d)
+    end
+    final.flatten.uniq
   end
 
   def dig_edorg_out(doc)

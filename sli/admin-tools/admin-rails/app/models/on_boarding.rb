@@ -18,6 +18,7 @@ limitations under the License.
 
 
 class OnBoarding < SessionResource
+  validates_format_of [:stateOrganizationId], :with => /^[^.\/]+$/, :message => "edorg cannot contain . or /"
 
   self.collection_name = "provision"
   schema do

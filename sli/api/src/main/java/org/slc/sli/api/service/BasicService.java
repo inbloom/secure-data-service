@@ -38,9 +38,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -80,10 +80,10 @@ public class BasicService implements EntityService {
     private static final String CUSTOM_ENTITY_CLIENT_ID = "clientId";
     private static final String CUSTOM_ENTITY_ENTITY_ID = "entityId";
     private static final String METADATA = "metaData";
-    private static final String[] collectionsExcluded = {"tenant" ,"userSession","realm","userAccount","roles","application","applicationAuthorization"};
-    private static final Set<String> NOT_BY_TENANT = new HashSet<String>(Arrays.asList(collectionsExcluded));
+    private static final String[] COLLECTIONED_EXCLUDED = {"tenant", "userSession", "realm", "userAccount", "roles", "application", "applicationAuthorization"};
+    private static final Set<String> NOT_BY_TENANT = new HashSet<String>(Arrays.asList(COLLECTIONED_EXCLUDED));
 
-    private static final Set<String> teacherStampedEntities = new HashSet<String>(Arrays.asList(
+    private static final Set<String> TEACHER_STAMPED_ENTITIES = new HashSet<String>(Arrays.asList(
             EntityNames.ATTENDANCE,
             EntityNames.COHORT,
             EntityNames.COURSE,
@@ -254,7 +254,13 @@ public class BasicService implements EntityService {
 
         checkReferences(content);
 
-        return repo.create(defn.getType(), sanitizeEntityBody(content), createMetadata(), collectionName).getEntityId();
+        String entityId = "";
+        Entity entity = repo.create (defn.getType(), sanitizeEntityBody(content), createMetadata(), collectionName);
+        if (entity != null) {
+            entityId = entity.getEntityId();
+        }
+
+        return entityId;
     }
 
     @Override
@@ -306,11 +312,11 @@ public class BasicService implements EntityService {
         info("new body is {}", sanitized);
         entity.getBody().clear();
         entity.getBody().putAll(sanitized);
-        repo.update(collectionName, entity);
 
-        return true;
+        boolean success = repo.update(collectionName, entity);
+        return success;
     }
-    
+
     @Override
     public boolean patch(String id, EntityBody content) {
         debug("Patching {} in {}", id, collectionName);
@@ -323,28 +329,28 @@ public class BasicService implements EntityService {
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("_id", "=", id));
         Entity entity = repo.findOne(collectionName, query);
-        
+
         if (entity == null) {
             info("Could not find {}", id);
             throw new EntityNotFoundException(id);
         }
-        
+
         EntityBody sanitized = sanitizeEntityBody(content);
         if (entity.getBody().equals(sanitized)) {
             info("No change detected to {}", id);
             return false;
         }
-        
+
         //combine/merge new entity body with existing
         entity.getBody().putAll(sanitized);
         info("new body is {}", entity.getBody());
-        
+
         //don't check references until things are combined
         checkReferences(new EntityBody(entity.getBody()));
 
-        
+
         repo.update(collectionName, entity);
-        
+
         return true;
     }
 
@@ -715,7 +721,7 @@ public class BasicService implements EntityService {
      */
     private EntityBody makeEntityBody(Entity entity) {
         EntityBody toReturn = new EntityBody(entity.getBody());
-        
+
         for (Treatment treatment : treatments) {
             toReturn = treatment.toExposed(toReturn, defn, entity);
         }
@@ -895,7 +901,7 @@ public class BasicService implements EntityService {
             return securityCriteria;
         }
 
-        if( EntityNames.TEACHER.equals(type) && teacherStampedEntities.contains(toType)) {
+        if (EntityNames.TEACHER.equals(type) && TEACHER_STAMPED_ENTITIES.contains(toType)) {
             securityCriteria.setSecurityCriteria(new NeutralCriteria("metaData.teacherContext", NeutralCriteria.CRITERIA_IN, Arrays.asList(principal.getEntity().getEntityId()), false));
             return securityCriteria;
         }
@@ -954,7 +960,7 @@ public class BasicService implements EntityService {
             List<Map<String, Object>> telephones = (List<Map<String, Object>>) eb.get(telephone);
             if (telephones != null) {
 
-                for (Iterator<Map<String, Object>> it = telephones.iterator(); it.hasNext(); ) {
+                for (Iterator<Map<String, Object>> it = telephones.iterator(); it.hasNext();) {
                     if (!work.equals(it.next().get(telephoneNumberType))) {
                         it.remove();
                     }
@@ -965,7 +971,7 @@ public class BasicService implements EntityService {
             List<Map<String, Object>> emails = (List<Map<String, Object>>) eb.get(electronicMail);
             if (emails != null) {
 
-                for (Iterator<Map<String, Object>> it = emails.iterator(); it.hasNext(); ) {
+                for (Iterator<Map<String, Object>> it = emails.iterator(); it.hasNext();) {
                     if (!work.equals(it.next().get(emailAddressType))) {
                         it.remove();
                     }

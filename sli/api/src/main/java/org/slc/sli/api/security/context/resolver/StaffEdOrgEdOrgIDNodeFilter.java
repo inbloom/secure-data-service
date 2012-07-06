@@ -17,12 +17,9 @@
 
 package org.slc.sli.api.security.context.resolver;
 
-import org.slc.sli.api.client.constants.EntityNames;
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
-import org.springframework.stereotype.Component;
-
 import javax.annotation.PostConstruct;
-import java.util.List;
+
+import org.springframework.stereotype.Component;
 
 /**
  * Filters edorg/school id based on  end date present in

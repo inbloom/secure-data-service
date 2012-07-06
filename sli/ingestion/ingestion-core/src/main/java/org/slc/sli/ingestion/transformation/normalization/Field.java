@@ -18,6 +18,7 @@
 package org.slc.sli.ingestion.transformation.normalization;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Holds definition for a field that is part of reference resolution.
@@ -28,6 +29,9 @@ import java.util.List;
 public class Field {
     private String path;
     private List<FieldValue> values;
+    private boolean isList;
+    private Map<String, String> queryList;
+    private String entityKey;
 
     public String getPath() {
         return path;
@@ -50,4 +54,27 @@ public class Field {
         return "Field [path=" + path + ", values=" + values + "]";
     }
 
+    public boolean getIsList() {
+        return isList;
+    }
+
+    public void setIsList(boolean value) {
+        this.isList = value;
+    }
+
+    public Map<String, String> getQueryList() {
+        return queryList;
+    }
+
+    public void setQueryList(Map<String, String> queryList) {
+        this.queryList = queryList;
+    }
+
+    public String getEntityKey() {
+        return entityKey;
+    }
+
+    public void setEntityKey(String entityKey) {
+        this.entityKey = entityKey;
+    }
 }
