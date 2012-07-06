@@ -26,6 +26,7 @@ import openadk.library.MessageInfo;
 import openadk.library.Publisher;
 import openadk.library.PublishingOptions;
 import openadk.library.Query;
+import openadk.library.SIFDataObject;
 import openadk.library.Zone;
 import openadk.library.student.StudentDTD;
 
@@ -69,7 +70,6 @@ public class EventReporter implements Publisher {
 
     private static final Logger LOG = ADK.getLog();
 
-    // TODO autowire these in?
     private Zone zone;
     private EventGenerator generator;
 
@@ -113,5 +113,17 @@ public class EventReporter implements Publisher {
                 + "\tQuery:\n" + query.toXML() + "\n"
                 + "\tZone: " + zone.getZoneId() + "\n"
                 + "\tInfo: " + info.getMessage());
+    }
+
+    @SuppressWarnings("unused")
+    private void inspectAndDestroyEvent(Event e) {
+        LOG.info("###########################################################################");
+        try {
+            SIFDataObject dataObj = e.getData().readDataObject();
+            LOG.info(dataObj);
+        } catch (ADKException e1) {
+            e1.printStackTrace();
+        }
+        LOG.info("###########################################################################");
     }
 }

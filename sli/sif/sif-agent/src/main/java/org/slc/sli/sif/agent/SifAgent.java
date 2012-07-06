@@ -22,9 +22,8 @@ import openadk.library.ADK;
 import openadk.library.ADKException;
 import openadk.library.ADKFlags;
 import openadk.library.Agent;
-import openadk.library.AgentMessagingMode;
-import openadk.library.AgentProperties;
 import openadk.library.SIFVersion;
+import openadk.library.SubscriptionOptions;
 import openadk.library.Zone;
 import openadk.library.student.StudentDTD;
 import openadk.library.tools.cfg.AgentConfig;
@@ -93,8 +92,8 @@ public class SifAgent extends Agent {
 
                 LOG.info("- Connecting to zone \"" + zone.getZoneId() + "\" at " + zone.getZoneUrl());
 
-                zone.setSubscriber(new SifSubscriber(), StudentDTD.SCHOOLINFO);
-                zone.setSubscriber(new SifSubscriber(), StudentDTD.STUDENTPERSONAL);
+                zone.setSubscriber(new SifSubscriber(), StudentDTD.SCHOOLINFO, new SubscriptionOptions());
+                zone.setSubscriber(new SifSubscriber(), StudentDTD.STUDENTPERSONAL, new SubscriptionOptions());
 
                 zone.connect(ADKFlags.PROV_REGISTER | ADKFlags.PROV_PROVIDE | ADKFlags.PROV_SUBSCRIBE);
             } catch (ADKException ex) {
@@ -102,18 +101,4 @@ public class SifAgent extends Agent {
             }
         }
     }
-
-    public Zone addZone(String id, String url) throws ADKException {
-        Zone zone = getZoneFactory().getInstance(id, url);
-
-        AgentProperties zoneProps = zone.getProperties();
-        zoneProps.setMessagingMode(AgentMessagingMode.PUSH);
-        zoneProps.setEncryptionLevel(3);
-        zoneProps.setAuthenticationLevel(3);
-
-        zone.connect(ADKFlags.PROV_REGISTER);
-
-        return zone;
-    }
-
 }

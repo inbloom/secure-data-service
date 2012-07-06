@@ -19,9 +19,6 @@ package org.slc.sli.sif.reporting;
 import java.util.Calendar;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
-
-import openadk.library.ADK;
 import openadk.library.Event;
 import openadk.library.EventAction;
 import openadk.library.common.Address;
@@ -43,13 +40,10 @@ import openadk.library.student.StudentPersonal;
 
 public class HCStudentPersonalGenerator implements EventGenerator {
 
-    private static final Logger LOG = ADK.getLog();
-
     @Override
     public Event generateEvent(Properties props) {
         StudentPersonal student = generateTestStudent();
         Event event = new Event(student, EventAction.ADD);
-        LOG.info("\n" + student.toXML());
         return event;
     }
 
