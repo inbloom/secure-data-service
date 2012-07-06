@@ -37,6 +37,11 @@ When /^I check the "([^"]*)"$/ do |feature|
   checkbox.click
 end
 
+# Same thing as checking
+When /^I uncheck the "([^"]*)"$/ do |feature|
+  checkbox = getCheckbox(feature)
+  checkbox.click
+end
 
 Then /^"([^"]*)" is checked$/ do |feature|
   checkbox = getCheckbox(feature)
