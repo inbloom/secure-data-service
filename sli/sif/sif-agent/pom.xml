@@ -15,7 +15,7 @@
     <name>SIF Agent</name>
 
     <properties>
-        <sli.home>${project..parent.parent.basedir}</sli.home>
+        <sli.home>${project.parent.parent.basedir}</sli.home>
         <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
         <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>
     </properties>
@@ -99,6 +99,11 @@
                     <url>${tomcat.url}</url>
                     <username>${tomcat.username}</username>
                     <password>${tomcat.password}</password>
+                    <systemProperties>
+	                    <sli.conf>${sli.conf}</sli.conf>
+	                    <sli.env>local</sli.env>
+	                    <sli.encryption.keyStore>${project.parent.basedir}/../data-access/dal/keyStore/localKeyStore.jks</sli.encryption.keyStore>
+                    </systemProperties>
                 </configuration>
             </plugin>
 
