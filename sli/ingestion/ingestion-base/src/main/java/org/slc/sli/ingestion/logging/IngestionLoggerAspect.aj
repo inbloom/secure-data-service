@@ -1,3 +1,4 @@
+
 package org.slc.sli.ingestion.logging;
 
 import org.slf4j.LoggerFactory;
@@ -9,6 +10,7 @@ public aspect IngestionLoggerAspect {
             && !org.slc.sli.ingestion.handler.Handl*
             && !org.slc.sli.ingestion.transformation.AbstractTrans*
             && !org.slc.sli.ingestion.validation.ErrorRep*
+            && !org.slc.sli.ingestion.validation.spring.SimpleV*
             && !java.lang.Enum+ ) implements IngestionLogger;
 
     public void IngestionLogger.debug(String msg) {
@@ -44,4 +46,3 @@ public aspect IngestionLoggerAspect {
     }
 
 }
-

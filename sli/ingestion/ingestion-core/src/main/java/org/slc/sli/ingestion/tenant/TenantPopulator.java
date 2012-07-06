@@ -207,7 +207,7 @@ public class TenantPopulator implements ResourceLoaderAware {
                 tenant = TenantRecord.parse(tenantIs);
             }
         } catch (IOException e) {
-            error( "Exception encountered loading tenant resource: ", e);
+            error("Exception encountered loading tenant resource: ", e);
         } finally {
             IOUtils.closeQuietly(tenantIs);
         }

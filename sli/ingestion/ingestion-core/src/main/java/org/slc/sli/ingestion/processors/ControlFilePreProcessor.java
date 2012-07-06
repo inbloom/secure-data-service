@@ -26,6 +26,12 @@ import java.util.List;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.dal.TenantContext;
@@ -51,11 +57,6 @@ import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
-import org.springframework.stereotype.Component;
 
 /**
  * Transforms body from ControlFile to ControlFileDescriptor type.
@@ -201,7 +202,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         exchange.getIn().setHeader("BatchJobId", batchJobId);
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        error( "Error processing batch job " + batchJobId, exception);
+        error("Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
             Error error = Error.createIngestionError(batchJobId, controlFileName, BATCH_JOB_STAGE.getName(), null,
                     null, null, FaultType.TYPE_ERROR.getName(), null, exception.getMessage());
@@ -268,5 +269,9 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
     @Override
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
+    }
+
+    public void setEntityPersistTypeMap(ControlFileFactory cfFactory) {
+        this.controlFileFactory = cfFactory;
     }
 }

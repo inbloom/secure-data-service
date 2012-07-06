@@ -27,15 +27,20 @@ import java.util.Enumeration;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  * Test for ControlFile
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class ControlFileTest {
 
     @Autowired
@@ -71,6 +76,10 @@ public class ControlFileTest {
         }
         String[] expectedNames = { "hello", };
         assertArrayEquals(expectedNames, configPropNames);
+    }
+
+    public void setEntityPersistTypeMap(ControlFileFactory cfFactory) {
+        this.controlFileFactory = cfFactory;
     }
 
 }

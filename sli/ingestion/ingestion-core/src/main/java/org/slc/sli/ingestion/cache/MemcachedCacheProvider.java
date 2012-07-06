@@ -21,9 +21,6 @@ import net.spy.memcached.MemcachedClient;
 import net.spy.memcached.OperationTimeoutException;
 import net.spy.memcached.spring.MemcachedClientFactoryBean;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Memcached backed provider of cache services.
  *
