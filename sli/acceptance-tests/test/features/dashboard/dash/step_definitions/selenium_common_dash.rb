@@ -31,7 +31,7 @@ end
 Given /^the server is in "([^"]*)" mode$/ do |serverMode|
   @appPrefix = "dashboard_app_prefix_" + serverMode + "_mode"
   # Setting an explicit timeout for elements that may take a long time to load
-  @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 30) 
+  @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 10) 
 end
 
 Then /^I click on the browser back button$/ do
