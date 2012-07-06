@@ -112,6 +112,8 @@ end
 When /^I select section "([^"]*)"$/ do |optionToSelect|
   @dropDownId = "sectionSelectMenu"
   selectDropdownOption(@dropDownId, optionToSelect)
+  # impliclty click on go when a section is selected
+  clickOnGo()
 end
 
 When /^I select user view "([^"]*)"$/ do |optionToSelect|
@@ -158,6 +160,10 @@ Then /^I don't see a course selection$/ do
   end
 end
 
+When /^I click on the go button$/ do
+  clickOnGo()
+end
+
 def isValuesInList(listContent, isInList)
   puts "@dropDownId = " + @dropDownId
   desiredContentArray = listContent.split(";")
@@ -178,4 +184,8 @@ def isValuesInList(listContent, isInList)
     result = selectContentArray - desiredContentArray
     assert(result == selectContentArray, "The content is found: " + listContent)
   end
+end
+
+def clickOnGo()
+  clickButton("dbrd_btn_pw_go", "id")
 end
