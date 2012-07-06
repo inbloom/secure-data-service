@@ -19,20 +19,6 @@ limitations under the License.
 
 require_relative '../../../utils/sli_utils.rb'
 
-Given /^I am authenticated to SLI as "([^"]*)" "([^"]*)"$/ do |user, pass|
-  url = PropLoader.getProps['dashboard_server_address']
-  url = url + PropLoader.getProps[@appPrefix]
-  
-  #url = "http://localhost:8080/dashboard"
-  @driver.get(url)
-  @driver.manage.timeouts.implicit_wait = 30
-  @driver.find_element(:name, "j_username").clear
-  @driver.find_element(:name, "j_username").send_keys user
-  @driver.find_element(:name, "j_password").clear
-  @driver.find_element(:name, "j_password").send_keys pass
-  @driver.find_element(:name, "submit").click
-end
-
 When /^I go to "([^"]*)"$/ do |student_list|
   @driver.find_element(:link, "Dashboard").click
 end

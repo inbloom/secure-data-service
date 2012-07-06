@@ -5,7 +5,6 @@ on SLI, so I could use the Dashboard application.
 
 Background:
 Given I have an open web browser
-Given the server is in "live" mode
 
 @integration
 Scenario: Valid user login

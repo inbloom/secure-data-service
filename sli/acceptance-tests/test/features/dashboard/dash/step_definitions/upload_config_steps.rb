@@ -262,7 +262,7 @@ When /^I logout$/ do
   # cannot delete httponly cookie in IE
   if (browser == "ie")
     @driver.quit
-    @driver ||= Selenium::WebDriver.for :ie
+    @driver = Selenium::WebDriver.for :ie
   end
 end
 

@@ -4,7 +4,6 @@ As a admin, I'm able to upload view configuration
 
 Background:
 Given I have an open web browser
-Given the server is in "live" mode
 When I navigate to the Dashboard home page
 
 @integration @RALLY_US2276

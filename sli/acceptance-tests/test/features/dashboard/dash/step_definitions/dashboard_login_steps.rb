@@ -22,18 +22,6 @@ require_relative '../../../utils/sli_utils.rb'
 
 $SLI_DEBUG=ENV['DEBUG'] if ENV['DEBUG'] 
 
-Given /^I am not authenticated to SLI$/ do
-  url = getBaseUrl() + PropLoader.getProps['dashboard_logout_page']
-  @driver.get url
-end
-
-When /^I navigate to the Dashboard home page$/ do
-  url = getBaseUrl()
-  @driver.get url
-  # There's a redirect to the realm page, so this assert should fail
-  # assert(@driver.current_url == url, "Failed to navigate to "+url)
-end
-
 Then /^I should be redirected to the Realm page$/ do
   assertWithWait("Failed to navigate to Realm page")  { @driver.title.index("Choose your realm") }
 end
@@ -70,13 +58,6 @@ Given /^I clicked the Go button$/ do
   # Fill in when there is integration with Realm page
 end
 
-# TODO this should support both live and test mode
-Given /^I enter "([^"]*)" in the username text field and "([^"]*)" in the password text field$/ do |username, password|
-  assertMissingField("j_username", "name")
-  assertMissingField("j_password", "name")
-  putTextToField(username, "j_username", "name")
-  putTextToField(password, "j_password", "name")
-end
 
 Given /^I clicked the Submit button$/ do
   assertMissingField("submit", "name")
@@ -85,13 +66,6 @@ end
 
 Then /^I am informed that "([^"]*)"$/ do |arg1|
  checkForTextInBody(arg1)
-end
-
-Then /^I am redirected to the SLI\-IDP Login page$/ do
-  # We don't have true integration yet
-  # TODO: 
-  @realmPageUrl = getBaseUrl() + PropLoader.getProps['dashboard_login_page']
-  assert(@driver.current_url.start_with?(@realmPageUrl), "Failed to navigate to "+@realmPageUrl)
 end
 
 When /^I access "([^"]*)"$/ do |path|

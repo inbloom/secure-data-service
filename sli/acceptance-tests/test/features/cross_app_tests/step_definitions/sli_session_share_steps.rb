@@ -41,7 +41,7 @@ Then /^I am redirected to the databrowser home page$/ do
 end
 
 When /^I navigate to the dashboard page$/ do
-  @driver.get PropLoader.getProps['dashboard_server_address'] + PropLoader.getProps['dashboard_app_prefix_live_mode']
+  @driver.get PropLoader.getProps['dashboard_server_address'] + PropLoader.getProps['dashboard_app_prefix']
   begin
     @driver.switch_to.alert.accept
   rescue

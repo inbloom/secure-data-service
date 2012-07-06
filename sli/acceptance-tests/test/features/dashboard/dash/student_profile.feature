@@ -4,11 +4,10 @@ As a teacher in a school district, I want to click on a student and be directed 
 
 Background:
 Given I have an open web browser
+When I navigate to the Dashboard home page
 
 @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: View student's profile
-Given the server is in "live" mode
-When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
@@ -44,8 +43,6 @@ And Student Enrollment History has the following entries:
 
 @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: Student with no grade level
-Given the server is in "live" mode
-When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
