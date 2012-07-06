@@ -50,6 +50,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+
 import org.slc.sli.dashboard.entity.Config;
 import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.entity.util.GenericEntityEnhancer;
@@ -58,9 +59,6 @@ import org.slc.sli.dashboard.manager.EntityManager;
 import org.slc.sli.dashboard.manager.PopulationManager;
 import org.slc.sli.dashboard.util.Constants;
 import org.slc.sli.dashboard.util.TimedLogic;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Facilitates creation of logical aggregations of EdFi entities/associations

@@ -17,7 +17,6 @@
 
 package org.slc.sli.api.security.oauth;
 
-import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -112,7 +111,7 @@ public class ApplicationAuthorizationValidatorTest {
 //        assertNull(validator.getAuthorizedApps(principal));
     }
 
-   
+
     public void testAppIsAuthorized() {
 
         //Create an auth token to use

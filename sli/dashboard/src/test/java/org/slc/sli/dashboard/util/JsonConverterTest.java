@@ -20,19 +20,18 @@
  */
 package org.slc.sli.dashboard.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
 import org.slc.sli.dashboard.entity.GenericEntity;
-import org.slc.sli.dashboard.util.JsonConverter;
 
 /**
  * @author Takashi Osako
  * JUnit Test
  */
 public class JsonConverterTest {
-    
+
     @Test
     public void test() {
         GenericEntity entity = new GenericEntity();

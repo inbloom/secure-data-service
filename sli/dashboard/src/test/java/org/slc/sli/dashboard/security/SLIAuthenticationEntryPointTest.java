@@ -11,11 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import org.slc.sli.dashboard.security.SLIAuthenticationEntryPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,20 +61,20 @@ public class SLIAuthenticationEntryPointTest {
         assertFalse(SLIAuthenticationEntryPoint.isSecureRequest(request));
 
 //<<<<<<< HEAD:sli/dashboard/src/test/java/org/slc/sli/dashboard/security/SLIAuthenticationEntryPointTest.java
-    	LOG.debug("[SLCAuthenticationEntryPointTest]Non-Secure Protocol with local environment, return FALSE");
-    	when(request.getServerName()).thenReturn("local.slidev.org");
-    	when(request.isSecure()).thenReturn(false);
-    	assertFalse(SLIAuthenticationEntryPoint.isSecureRequest(request));
+        LOG.debug("[SLCAuthenticationEntryPointTest]Non-Secure Protocol with local environment, return FALSE");
+        when(request.getServerName()).thenReturn("local.slidev.org");
+        when(request.isSecure()).thenReturn(false);
+        assertFalse(SLIAuthenticationEntryPoint.isSecureRequest(request));
 
-    	LOG.debug("[SLCAuthenticationEntryPointTest]Non-Secure Protocol with non-local environment, return FALSE");
-    	when(request.getServerName()).thenReturn("rcdashboard.slidev.org");
-    	when(request.isSecure()).thenReturn(false);
-    	assertFalse(SLIAuthenticationEntryPoint.isSecureRequest(request));
+        LOG.debug("[SLCAuthenticationEntryPointTest]Non-Secure Protocol with non-local environment, return FALSE");
+        when(request.getServerName()).thenReturn("rcdashboard.slidev.org");
+        when(request.isSecure()).thenReturn(false);
+        assertFalse(SLIAuthenticationEntryPoint.isSecureRequest(request));
 
-    	LOG.debug("[SLCAuthenticationEntryPointTest]Secure Protocol with non-local environment, return TRUE");
-    	when(request.getServerName()).thenReturn("rcdashboard.slidev.org");
-    	when(request.isSecure()).thenReturn(true);
-    	assertTrue(SLIAuthenticationEntryPoint.isSecureRequest(request));
+        LOG.debug("[SLCAuthenticationEntryPointTest]Secure Protocol with non-local environment, return TRUE");
+        when(request.getServerName()).thenReturn("rcdashboard.slidev.org");
+        when(request.isSecure()).thenReturn(true);
+        assertTrue(SLIAuthenticationEntryPoint.isSecureRequest(request));
 //=======
      /*   LOG.debug("[SLCAuthenticationEntryPointTest]Secure Protocol with non-local environment, return TRUE");
         when(request.getServerName()).thenReturn("rcdashboard.slidev.org");
