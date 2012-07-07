@@ -48,10 +48,10 @@ public class NeutralSchemaValidator implements EntityValidator {
 
     // Attributes
     @Autowired
-    private SchemaRepository entitySchemaRegistry;
+    protected SchemaRepository entitySchemaRegistry;
 
     @Autowired
-    private Repository<Entity> validationRepo;
+    protected Repository<Entity> validationRepo;
 
     @Autowired
     private Repository<Entity> simpleValidationRepo;
@@ -87,6 +87,11 @@ public class NeutralSchemaValidator implements EntityValidator {
         }
 
         return true;
+    }
+
+    @Override
+    public List<String> getNaturalKeyFields (Entity entity) {
+        return null;
     }
 
     public void setSchemaRegistry(SchemaRepository schemaRegistry) {
