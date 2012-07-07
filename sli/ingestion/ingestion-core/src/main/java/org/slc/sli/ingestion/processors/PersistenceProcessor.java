@@ -179,8 +179,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
      *            persistence stage.
      */
     private void processWorkNote(WorkNote workNote, Job job, Stage stage) {
-        long recordNumber = 0;
-        long numFailed = 0;
         boolean persistedFlag = false;
         
         String collectionNameAsStaged = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
@@ -198,9 +196,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             Iterable<NeutralRecord> records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
             
             for (NeutralRecord neutralRecord : records) {
-                numFailed = 0;
-                
-                recordNumber++;
+                long numFailed = 0;
                 persistedFlag = false;
                 
                 errorReportForCollection = createDbErrorReport(job.getId(), neutralRecord.getSourceFile());
@@ -210,8 +206,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                 // process NeutralRecord with old or new pipeline
                 if (entityPipelineType == EntityPipelineType.OLD) {
                     
-                    numFailed += processOldStyleNeutralRecord(neutralRecord, recordNumber, getTenantId(job),
-                            errorReportForCollection);
+                    numFailed += processOldStyleNeutralRecord(neutralRecord, neutralRecord.getLocationInSourceFile(),
+                            getTenantId(job), errorReportForCollection);
                     persistedFlag = true;
                     
                 } else if (entityPipelineType == EntityPipelineType.NEW_PLAIN
@@ -243,7 +239,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                 Metrics m = it.next();
                 stage.getMetrics().add(m);
             }
-            
         }
     }
     
@@ -520,8 +515,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     
     public Iterable<NeutralRecord> queryBatchFromDb(String collectionName, String jobId, WorkNote workNote) {
         Criteria batchJob = Criteria.where(BATCH_JOB_ID).is(jobId);
-        Criteria limiter = Criteria.where(CREATION_TIME).gte(workNote.getRangeMinimum())
-                .lt(workNote.getRangeMaximum());
+        Criteria limiter = Criteria.where(CREATION_TIME).gte(workNote.getRangeMinimum()).lt(workNote.getRangeMaximum());
         
         Query query = new Query().limit(0);
         query.addCriteria(batchJob);
