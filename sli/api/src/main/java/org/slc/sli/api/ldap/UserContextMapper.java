@@ -1,26 +1,26 @@
 package org.slc.sli.api.ldap;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DirContextAdapter;
 
 /**
- * LDAPTemplate mapper for getting attributes from the person context. Retrieves cn and
- * description,
- * parsing the value of description by line and then by key=value.
+ * LDAPTemplate mapper for getting attributes from the user context.
  * 
- * @author scole
+ * @author dliu
  * 
  */
-public class PersonContextMapper implements ContextMapper {
+public class UserContextMapper implements ContextMapper {
     @Override
     public Object mapFromContext(Object ctx) {
         DirContextAdapter context = (DirContextAdapter) ctx;
         User user = new User();
-        Map<String, String> attributes = new HashMap<String, String>();
-        attributes.put("userName", context.getStringAttribute("cn"));
+        user.setFirstName(context.getStringAttribute("givenName"));
+        user.setLastName(context.getStringAttribute("sn"));
+        user.setUid(context.getStringAttribute("uid"));
+        user.setEmail(context.getStringAttribute("mail"));
+        user.setHomeDir(context.getStringAttribute("homeDirectory"));
+        // user.setPassword(context.getStringAttribute("userPassword"));
+
         String description = context.getStringAttribute("description");
         if (description != null && description.length() > 0) {
             String[] pairs;
@@ -35,14 +35,16 @@ public class PersonContextMapper implements ContextMapper {
                 pair = pair.trim();
                 String[] pairArray = pair.split("=", 2);
                 if (pairArray.length == 2) {
+                    String key = pairArray[0].trim();
                     String value = pairArray[1].trim();
-                    if (value.length() > 0) {
-                        attributes.put(pairArray[0].trim(), value);
+                    if (key.equals("tenant")) {
+                        user.setTenant(value);
+                    } else if (key.equals("edOrg")) {
+                        user.setEdorg(value);
                     }
                 }
             }
         }
-        user.setAttributes(attributes);
         return user;
     }
     

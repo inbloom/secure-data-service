@@ -43,7 +43,7 @@ public class LdapServiceImpl implements LdapService {
         AndFilter filter = new AndFilter();
         filter.and(new EqualsFilter("objectclass", userObjectClass)).and(new EqualsFilter(userSearchAttribute, uid));
         DistinguishedName dn = new DistinguishedName("ou=" + realm);
-        User user = (User) ldapTemplate.searchForObject(dn, filter.toString(), new PersonContextMapper());
+        User user = (User) ldapTemplate.searchForObject(dn, filter.toString(), new UserContextMapper());
         user.setUid(uid);
         return user;
     }

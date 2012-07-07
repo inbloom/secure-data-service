@@ -26,7 +26,9 @@ public class LdapServiceImplTest {
         User slcoperator = ldapService.getUser("SLIAdmin", "slcoperator");
         assertNotNull(slcoperator);
         // assertNotNull(slcoperator.getRoles());
-        assertNotNull(slcoperator.getAttributes());
+        assertNotNull(slcoperator.getEmail());
+        assertNotNull(slcoperator.getHomeDir());
+        assertNotNull(slcoperator.getUid());
     }
     
     @Test
