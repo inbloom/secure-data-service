@@ -230,7 +230,6 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 8" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records failed: 0" in the resulting batch job file
 
-@wip
 @integration @IL-Sunset
 Scenario: Post a zip file containing all data for Illinois Sunset as a payload of the ingestion job: Append Database
 Given I am using preconfigured Ingestion Landing Zone for "IL-Sunset"
@@ -299,7 +298,6 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 210" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records failed: 0" in the resulting batch job file
 
-@wip
 @integration @NY-NYC
 Scenario: Post a zip file containing all data for New York as a payload of the ingestion job: Append Database
 Given I am using preconfigured Ingestion Landing Zone for "NY-NYC"
