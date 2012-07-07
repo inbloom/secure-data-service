@@ -51,6 +51,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     /** Constant to write a log message every N records. */
     private static final int FLUSH_QUEUE_THRESHOLD = 10000;
     
+    private static final int FIRST_INSTANCE = 1;
+    
     private ResourceWriter<NeutralRecord> nrMongoStagingWriter;
     
     private final String beanId;
@@ -149,8 +151,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
             this.occurences.put(neutralRecord.getRecordType(), temp);
             neutralRecord.setLocationInSourceFile(temp);
         } else {
-            this.occurences.put(neutralRecord.getRecordType(), 0);
-            neutralRecord.setLocationInSourceFile(0);
+            this.occurences.put(neutralRecord.getRecordType(), FIRST_INSTANCE);
+            neutralRecord.setLocationInSourceFile(FIRST_INSTANCE);
         }
         
         // scrub empty strings in NeutralRecord (this is needed for the current way we parse CSV
