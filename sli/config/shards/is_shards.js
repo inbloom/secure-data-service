@@ -18,7 +18,7 @@ db.runCommand( { enablesharding : "is" } );
 db.runCommand( { shardcollection : "is.assessment", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.assessment_transformed", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.attendance", key : {"batchJobId" : 1, "_id" : 1} } );
-db.runCommand( { shardcollection : "is.attendance_transformed", key : {"batchJobId" : 1, "_id" : 1, "studentId" : 1, "schoolId" : 1} } );
+db.runCommand( { shardcollection : "is.attendance_transformed", key : {"batchJobId" : 1, "studentId" : 1, "schoolId" : 1} } );
 db.runCommand( { shardcollection : "is.calendarDate", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.cohort", key : {"batchJobId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "is.competencyLevelDescriptor", key : {"batchJobId" : 1, "_id" : 1} } );
