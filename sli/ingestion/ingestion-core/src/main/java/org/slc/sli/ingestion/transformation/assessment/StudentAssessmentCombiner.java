@@ -51,6 +51,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     private static final String STUDENT_ASSESSMENT_REFERENCE = "studentAssessmentRef";
     private static final String OBJECTIVE_ASSESSMENT_REFERENCE = "objectiveAssessmentRef";
     private static final String STUDENT_ASSESSMENT_ITEMS_FIELD = "studentAssessmentItems";
+    private static final String BODY = "body.";
     
     private Map<Object, NeutralRecord> studentAssessments;
     List<NeutralRecord> transformedStudentAssessments;
@@ -137,7 +138,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         List<Map<String, Object>> assessments = new ArrayList<Map<String, Object>>();
         Query query = new Query().limit(0);
         query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
-        query.addCriteria(Criteria.where(STUDENT_ASSESSMENT_REFERENCE).is(studentAssessmentAssociationId));
+        query.addCriteria(Criteria.where(BODY + STUDENT_ASSESSMENT_REFERENCE).is(studentAssessmentAssociationId));
         
         Iterable<NeutralRecord> studentObjectiveAssessments = getNeutralRecordMongoAccess().getRecordRepository()
                 .findAllByQuery(STUDENT_OBJECTIVE_ASSESSMENT, query);
@@ -149,6 +150,8 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                 studentObjectiveAssessment = itr.next();
                 Map<String, Object> assessmentAttributes = studentObjectiveAssessment.getAttributes();
                 String objectiveAssessmentRef = (String) assessmentAttributes.remove(OBJECTIVE_ASSESSMENT_REFERENCE);
+                
+                LOG.info("Student Objective Assessment: {} --> finding objective assessment: {}", studentObjectiveAssessment.getLocalId(), objectiveAssessmentRef);
                 
                 Map<String, Object> objectiveAssessment = builder.getObjectiveAssessment(getNeutralRecordMongoAccess(),
                         getJob(), objectiveAssessmentRef);
@@ -168,13 +171,16 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                         attributes.put(entry.getKey(), entry.getValue());
                     }
                 }
-                LOG.debug("added student objective assessment: {}", attributes);
+                
+                LOG.info("added student objective assessment: {}", attributes);
                 assessments.add(attributes);
             }
         } else {
             LOG.warn("Couldn't find any student objective assessments for student assessment: {}",
                     studentAssessmentAssociationId);
         }
+        
+        LOG.info("Found {} student objective assessments for student assessment: {}", assessments.size(), studentAssessmentAssociationId);
         return assessments;
     }
     
