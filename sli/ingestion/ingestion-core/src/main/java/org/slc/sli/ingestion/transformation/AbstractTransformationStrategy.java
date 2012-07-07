@@ -211,11 +211,9 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
         query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(note.getBatchJobId()));
         
         if (note.getBatchSize() == 1) {
-            Criteria limiter = Criteria.where(CREATION_TIME).gt(0);
-            query.addCriteria(limiter);
+            query.addCriteria(Criteria.where(CREATION_TIME).gt(0));
         } else {
-            Criteria limiter = Criteria.where(CREATION_TIME).gte(note.getRangeMinimum()).lt(note.getRangeMaximum());
-            query.addCriteria(limiter);
+            query.addCriteria(Criteria.where(CREATION_TIME).gte(note.getRangeMinimum()).lt(note.getRangeMaximum()));
         }
         
         return query;

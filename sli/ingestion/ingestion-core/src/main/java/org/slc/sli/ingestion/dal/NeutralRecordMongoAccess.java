@@ -14,39 +14,39 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.dal;
 
 import java.util.List;
 
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.NeutralQuery.SortOrder;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Order;
+import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * write NeutralRecord objects to mongo
- *
+ * 
  * @author dduran
- *
+ * 
  */
 public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWriter<NeutralRecord>, InitializingBean {
-
+    
     private NeutralRecordRepository neutralRecordRepository;
-
+    
     @Value("${sli.ingestion.staging.mongotemplate.writeConcern}")
     private String writeConcern;
-
+    
     @Override
     public void afterPropertiesSet() throws Exception {
         neutralRecordRepository.setWriteConcern(writeConcern);
     }
-
+    
     @Override
     public void writeResource(NeutralRecord neutralRecord, String jobId) {
         neutralRecordRepository.createForJob(neutralRecord, jobId);
@@ -56,7 +56,7 @@ public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWr
     public void insertResource(NeutralRecord neutralRecord, String jobId) {
         neutralRecordRepository.insertForJob(neutralRecord, jobId);
     }
-
+    
     @Override
     public void insertResources(List<NeutralRecord> neutralRecords, String collectionName, String jobId) {
         neutralRecordRepository.insertAllForJob(neutralRecords, collectionName, jobId);
@@ -65,16 +65,16 @@ public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWr
     public NeutralRecordRepository getRecordRepository() {
         return this.neutralRecordRepository;
     }
-
+    
     public void setNeutralRecordRepository(NeutralRecordRepository neutralRecordRepository) {
         this.neutralRecordRepository = neutralRecordRepository;
     }
-
+    
     @Override
     public long collectionCountForJob(String collectionNameAsStaged, String jobId) {
         return neutralRecordRepository.countForJob(collectionNameAsStaged, new NeutralQuery(), jobId);
     }
-
+    
     @Override
     public long countCreationTimeWithinRange(String collectionName, long min, long max, String jobId) {
         NeutralQuery query = new NeutralQuery(0);
@@ -83,30 +83,32 @@ public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWr
         
         return neutralRecordRepository.countForJob(collectionName, query, jobId);
     }
-
+    
     @Override
     public long getMaxCreationTimeForEntity(IngestionStagedEntity stagedEntity, String jobId) {
-        return getCreationTimeForEntity(stagedEntity, jobId, Order.DESCENDING) + 1;
+        return getCreationTimeForEntity(stagedEntity.getCollectionNameAsStaged(), jobId, Order.DESCENDING) + 1;
     }
-
+    
     @Override
     public long getMinCreationTimeForEntity(IngestionStagedEntity stagedEntity, String jobId) {
-        return getCreationTimeForEntity(stagedEntity, jobId, Order.ASCENDING);
+        return getCreationTimeForEntity(stagedEntity.getCollectionNameAsStaged(), jobId, Order.ASCENDING);
     }
-
-    private long getCreationTimeForEntity(IngestionStagedEntity stagedEntity, String jobId, Order order) {
-        NeutralQuery query = new NeutralQuery(1);
-        query.setSortBy("creationTime");
+    
+    /**
+     * Gets the creation time for the first entity that matches the criteria of collection name,
+     * batch job id, and sort order.
+     * 
+     * @param collectionName Collection in which to find entity.
+     * @param jobId Current batch job id.
+     * @param order Sort order (ascending, descending).
+     * @return Long representing creation time of entity.
+     */
+    private long getCreationTimeForEntity(String collectionName, String jobId, Order order) {
+        Query query = new Query().limit(1);
+        query.addCriteria(Criteria.where("batchJobId").is(jobId));
+        query.sort().on("creationTime", order);
         
-        if (order.equals(Order.ASCENDING)) {
-            query.setSortOrder(SortOrder.ascending);
-        } else if (order.equals(Order.DESCENDING)) {
-            query.setSortOrder(SortOrder.descending);
-        }
-
-        NeutralRecord record = neutralRecordRepository.findOneForJob(
-                stagedEntity.getCollectionNameAsStaged(), query, jobId);
-        
-        return record.getCreationTime();
+        Iterable<NeutralRecord> nr = neutralRecordRepository.findAllByQuery(collectionName, query);
+        return nr.iterator().next().getCreationTime();
     }
 }
