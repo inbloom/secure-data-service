@@ -97,16 +97,16 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         return insert(neutralRecord, collectionName);
     }
     
-    public NeutralRecord insertForJob(NeutralRecord neutralRecord, String jobId) {
+    public NeutralRecord insert(NeutralRecord neutralRecord) {
         return insert(neutralRecord, neutralRecord.getRecordType());
     }
     
-    public List<NeutralRecord> insertAll(List<NeutralRecord> entities, String collectionName, String jobId) {
+    public List<NeutralRecord> insertAll(List<NeutralRecord> entities, String collectionName) {
         return insert(entities, collectionName);
     }
     
-    public List<NeutralRecord> insertAllForJob(List<NeutralRecord> entities, String collectionName, String jobId) {
-        return insertAll(entities, collectionName, jobId);
+    public List<NeutralRecord> insertAllForJob(List<NeutralRecord> entities, String collectionName) {
+        return insertAll(entities, collectionName);
     }
     
     @SuppressWarnings("deprecation")

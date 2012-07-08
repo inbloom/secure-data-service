@@ -169,7 +169,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
      *            Neutral Record to be written to data store.
      */
     public void insertRecord(NeutralRecord record) {
-        neutralRecordMongoAccess.getRecordRepository().insertForJob(record, job.getId());
+        neutralRecordMongoAccess.getRecordRepository().insert(record);
     }
     
     /**
@@ -183,7 +183,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
      *            Collection to write Neutral Records to in data store.
      */
     public void insertRecords(List<NeutralRecord> records, String collectionName) {
-        neutralRecordMongoAccess.getRecordRepository().insertAllForJob(records, collectionName, job.getId());
+        neutralRecordMongoAccess.getRecordRepository().insertAll(records, collectionName);
         LOG.info("Successfully persisted {} records for collection: {}", records.size(), collectionName);
     }
     

@@ -54,12 +54,12 @@ public class NeutralRecordMongoAccess implements NeutralRecordAccess, ResourceWr
     
     @Override
     public void insertResource(NeutralRecord neutralRecord, String jobId) {
-        neutralRecordRepository.insertForJob(neutralRecord, jobId);
+        neutralRecordRepository.insert(neutralRecord);
     }
     
     @Override
     public void insertResources(List<NeutralRecord> neutralRecords, String collectionName, String jobId) {
-        neutralRecordRepository.insertAllForJob(neutralRecords, collectionName, jobId);
+        neutralRecordRepository.insertAll(neutralRecords, collectionName);
     }
     
     public NeutralRecordRepository getRecordRepository() {
