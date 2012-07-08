@@ -1,5 +1,6 @@
 package org.slc.sli.api.ldap;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,17 +46,22 @@ public class LdapServiceImpl implements LdapService {
         DistinguishedName dn = new DistinguishedName("ou=" + realm);
         User user = (User) ldapTemplate.searchForObject(dn, filter.toString(), new UserContextMapper());
         user.setUid(uid);
-        user.setRoles(getUserGroups(realm, uid));
+        List<Group> groups = getUserGroups(realm, uid);
+        if (groups != null && groups.size() > 0) {
+            for (Group group : groups) {
+                user.addGroup(group.getGroupName());
+            }
+        }
         return user;
     }
     
     @Override
-    public List<String> getUserGroups(String realm, String uid) {
+    public List<Group> getUserGroups(String realm, String uid) {
         DistinguishedName dn = new DistinguishedName("ou=" + realm);
         AndFilter filter = new AndFilter();
         filter.and(new EqualsFilter("objectclass", groupObjectClass)).and(new EqualsFilter(groupSearchAttribute, uid));
         @SuppressWarnings("unchecked")
-        List<String> groups = ldapTemplate.search(dn, filter.toString(), new GroupContextMapper());
+        List<Group> groups = ldapTemplate.search(dn, filter.toString(), new GroupContextMapper());
         return groups;
     }
     
@@ -78,15 +84,33 @@ public class LdapServiceImpl implements LdapService {
     }
     
     @Override
-    public List<User> findUserByRoles(List<String> roles) {
+    public List<User> findUserByGroups(String realm, List<String> groupNames) {
+        List<User> users = new ArrayList<User>();
+        for (String groupName : groupNames) {
+            Group group = getGroup(realm, groupName);
+            List<String> memberUids = group.getMemberUids();
+            if (memberUids != null && memberUids.size() > 0) {
+                for (String memberUid : memberUids) {
+                    users.add(getUser(realm, memberUid));
+                }
+            }
+        }
+        return users;
+    }
+
+    @Override
+    public List<User> findUserByAttributes(String realm, List<String> attributes) {
         // TODO Auto-generated method stub
         return null;
     }
     
     @Override
-    public List<User> findUserByAttributes(List<String> attributes) {
-        // TODO Auto-generated method stub
-        return null;
+    public Group getGroup(String realm, String groupName) {
+        DistinguishedName dn = new DistinguishedName("ou=" + realm);
+        AndFilter filter = new AndFilter();
+        filter.and(new EqualsFilter("objectclass", groupObjectClass)).and(new EqualsFilter("cn", groupName));
+        Group group = (Group) ldapTemplate.searchForObject(dn, filter.toString(), new GroupContextMapper());
+        return group;
     }
     
 }

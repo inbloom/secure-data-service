@@ -1,5 +1,6 @@
 package org.slc.sli.api.ldap;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
 public class User {
 
     private String uid;
-    private List<String> roles;
+    private List<String> groups;
     private String firstName;
     private String lastName;
     private String password;
@@ -28,14 +29,21 @@ public class User {
         this.uid = uid;
     }
     
-    public List<String> getRoles() {
-        return roles;
+    public List<String> getGroups() {
+        return groups;
     }
     
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
+    public void setGroups(List<String> groups) {
+        this.groups = groups;
     }
     
+    public void addGroup(String group) {
+        if (groups == null) {
+            groups = new ArrayList<String>();
+        }
+        groups.add(group);
+    }
+
     public String getFirstName() {
         return firstName;
     }

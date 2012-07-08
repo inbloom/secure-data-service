@@ -1,9 +1,11 @@
 package org.slc.sli.api.ldap;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
@@ -26,7 +28,7 @@ public class LdapServiceImplTest {
     public void testGetUser() {
         User slcoperator = ldapService.getUser("SLIAdmin", "slcoperator");
         assertNotNull(slcoperator);
-        assertTrue(slcoperator.getRoles().contains("SLC Operator"));
+        assertTrue(slcoperator.getGroups().contains("SLC Operator"));
         assertTrue(slcoperator.getEmail().equals("slcoperator@slidev.org"));
         assertTrue(slcoperator.getUid().equals("slcoperator"));
         assertNotNull(slcoperator.getHomeDir());
@@ -39,11 +41,23 @@ public class LdapServiceImplTest {
     }
     
     @Test
+    public void testGetGroup() {
+        Group slcoperatorGroup = ldapService.getGroup("SLIAdmin", "SLC Operator");
+        assertNotNull(slcoperatorGroup);
+        assertEquals("SLC Operator", slcoperatorGroup.getGroupName());
+        assertTrue(slcoperatorGroup.getMemberUids().contains("slcoperator"));
+    }
+    
+    @Test
     public void testGetUserGroups() {
         
-        List<String> groups = ldapService.getUserGroups("SLIAdmin", "slcoperator");
+        List<Group> groups = ldapService.getUserGroups("SLIAdmin", "slcoperator");
         assertNotNull(groups);
-        assertTrue(groups.contains("SLC Operator"));
+        List<String> groupNames = new ArrayList<String>();
+        for (Group group : groups) {
+            groupNames.add(group.getGroupName());
+        }
+        assertTrue(groupNames.contains("SLC Operator"));
 
     }
 

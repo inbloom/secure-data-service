@@ -4,7 +4,7 @@ import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DirContextAdapter;
 
 /**
- * LDAPTemplate mapper for getting attributes from the user context.
+ * LDAPTemplate mapper for converting User object from the LDAP user context.
  * 
  * @author dliu
  * 
