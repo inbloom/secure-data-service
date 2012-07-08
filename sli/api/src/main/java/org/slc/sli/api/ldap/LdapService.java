@@ -12,8 +12,18 @@ import java.util.List;
 
 public interface LdapService {
 
-    User getUser(String realm, String uid);
+    public User getUser(String realm, String uid);
     
-    List<String> getUserGroups(String realm, String uid);
+    public List<String> getUserGroups(String realm, String uid);
+    
+    public void removeUser(String realm, String uid);
+    
+    public String createUser(String realm, User user);
+    
+    public String updateUser(String realm, User user);
+    
+    public List<User> findUserByRoles(List<String> roles);
+    
+    public List<User> findUserByAttributes(List<String> attributes);
 
 }

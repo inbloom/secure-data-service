@@ -1,6 +1,7 @@
 package org.slc.sli.api.ldap;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.List;
@@ -25,10 +26,16 @@ public class LdapServiceImplTest {
     public void testGetUser() {
         User slcoperator = ldapService.getUser("SLIAdmin", "slcoperator");
         assertNotNull(slcoperator);
-        // assertNotNull(slcoperator.getRoles());
-        assertNotNull(slcoperator.getEmail());
+        assertTrue(slcoperator.getRoles().contains("SLC Operator"));
+        assertTrue(slcoperator.getEmail().equals("slcoperator@slidev.org"));
+        assertTrue(slcoperator.getUid().equals("slcoperator"));
         assertNotNull(slcoperator.getHomeDir());
-        assertNotNull(slcoperator.getUid());
+        assertNotNull(slcoperator.getFirstName());
+        assertNotNull(slcoperator.getLastName());
+        assertNotNull(slcoperator.getFullName());
+        assertNull(slcoperator.getTenant());
+        assertNull(slcoperator.getEdorg());
+
     }
     
     @Test

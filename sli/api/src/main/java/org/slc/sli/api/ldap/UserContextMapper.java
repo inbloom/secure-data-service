@@ -19,6 +19,8 @@ public class UserContextMapper implements ContextMapper {
         user.setUid(context.getStringAttribute("uid"));
         user.setEmail(context.getStringAttribute("mail"));
         user.setHomeDir(context.getStringAttribute("homeDirectory"));
+        
+        // TODO figure out consistent ways to set user password with either plain text or MD5 hash
         // user.setPassword(context.getStringAttribute("userPassword"));
 
         String description = context.getStringAttribute("description");

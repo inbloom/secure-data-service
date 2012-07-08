@@ -45,6 +45,7 @@ public class LdapServiceImpl implements LdapService {
         DistinguishedName dn = new DistinguishedName("ou=" + realm);
         User user = (User) ldapTemplate.searchForObject(dn, filter.toString(), new UserContextMapper());
         user.setUid(uid);
+        user.setRoles(getUserGroups(realm, uid));
         return user;
     }
     
@@ -56,6 +57,36 @@ public class LdapServiceImpl implements LdapService {
         @SuppressWarnings("unchecked")
         List<String> groups = ldapTemplate.search(dn, filter.toString(), new GroupContextMapper());
         return groups;
+    }
+    
+    @Override
+    public void removeUser(String realm, String uid) {
+        // TODO Auto-generated method stub
+        
+    }
+    
+    @Override
+    public String createUser(String realm, User user) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    @Override
+    public String updateUser(String realm, User user) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    @Override
+    public List<User> findUserByRoles(List<String> roles) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+    
+    @Override
+    public List<User> findUserByAttributes(List<String> attributes) {
+        // TODO Auto-generated method stub
+        return null;
     }
     
 }
