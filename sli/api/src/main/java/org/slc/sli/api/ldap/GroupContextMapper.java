@@ -18,7 +18,9 @@ public class GroupContextMapper implements ContextMapper {
         DirContextAdapter context = (DirContextAdapter) ctx;
         Group group = new Group();
         group.setGroupName(context.getStringAttribute("cn"));
-        group.setMemberUids(Arrays.asList(context.getStringAttributes("memberUid")));
+        String[] memberUids = context.getStringAttributes("memberUid");
+        if (memberUids != null && memberUids.length > 0)
+            group.setMemberUids(Arrays.asList(memberUids));
         return group;
     }
     

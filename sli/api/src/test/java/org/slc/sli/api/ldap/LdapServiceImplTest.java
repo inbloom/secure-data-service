@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
@@ -59,6 +60,13 @@ public class LdapServiceImplTest {
         }
         assertTrue(groupNames.contains("SLC Operator"));
 
+    }
+    
+    @Test
+    public void testFindUserByGroups() {
+        String[] groups = new String[] { "SEA Administrator" };
+        List<User> users = ldapService.findUserByGroups("SLIAdmin", Arrays.asList(groups));
+        assertNotNull(users);
     }
 
 }

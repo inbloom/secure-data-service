@@ -35,8 +35,8 @@
 		<constructor-arg ref="contextSource" />
 	</bean>
 	<bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
-		<property name="urls" value="${sli.simple-idp.ldap.urls}" />
-		<property name="base" value="${sli.simple-idp.ldap.base}" />
+		<property name="url" value="ldap://ldap.slidev.org:389" />
+		<property name="base" value="dc=slidev,dc=org" />
 	</bean>
 	<bean
 		class="org.springframework.ldap.core.support.BaseLdapPathBeanPostProcessor" />
