@@ -90,7 +90,6 @@
         <property name="perfDbtemplate" ref="mongoPerfDbTemplate" />
         <property name="idConverter" ref="mongoIdConverter" />
     </bean>
-  
   <import resource="classpath:/spring/validation.xml" />
   <context:component-scan base-package="org.slc.sli.dal" />
 </beans>

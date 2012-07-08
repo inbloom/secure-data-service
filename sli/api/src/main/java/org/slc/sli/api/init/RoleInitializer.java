@@ -30,6 +30,9 @@ import org.slc.sli.api.security.roles.RoleBuilder;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 /**
  * A simple initializing bean to initialize our Mongo instance with default roles.
@@ -60,7 +63,12 @@ public class RoleInitializer {
     };
 
     @Autowired
+<<<<<<< HEAD
     private Repository<Entity> repository;
+=======
+    @Qualifier("validationRepo")
+    private Repository<Entity>    repository;
+>>>>>>> adding spring qualifier to specify mongo entity repo
 
     @PostConstruct
     public void init() {
