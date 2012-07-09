@@ -68,26 +68,6 @@ public class SecurityEvent {
     public SecurityEvent() {
     }
 
-    public SecurityEvent(String tenantId, String user, String targetEdOrg, String actionUri,
-            String appId, String origin, String executedOn, String credential, String userOrigin,
-            Date timeStamp, String processNameOrId, String className, LogLevelType logLevel, List<String> roles, String logMessage) {
-        this.tenantId = tenantId;
-        this.user = user;
-        this.targetEdOrg = targetEdOrg;
-        this.actionUri = actionUri;
-        this.appId = appId;
-        this.origin = origin;
-        this.executedOn = executedOn;
-        this.credential = credential;
-        this.userOrigin = userOrigin;
-        this.timeStamp = timeStamp;
-        this.processNameOrId = processNameOrId;
-        this.className = className;
-        this.logLevel = logLevel;
-        this.logMessage = logMessage;
-        this.roles = roles;
-    }
-
     public String getTenantId() {
         return tenantId;
     }

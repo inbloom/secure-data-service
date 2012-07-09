@@ -29,8 +29,7 @@
 
   <!-- ActiveMQ -->
   <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
-    <property name="brokerURL"
-      value="tcp://${sli.ingestion.queue.workItem.host}:${sli.ingestion.queue.workItem.port}?keepAlive=true&amp;jms.prefetchPolicy.queuePrefetch=0" />
+    <property name="brokerURL" value="${sli.ingestion.queue.brokerUrl}" />
   </bean>
 
 
