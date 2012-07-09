@@ -14,6 +14,10 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.ldap.LdapService;
 import org.slc.sli.api.ldap.User;
@@ -21,30 +25,27 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  * @author dliu
- * 
+ *
  */
 
 @Component
 @Scope("request")
-@Path("/adminAccounts")
+@Path("/users")
 @Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
-public class AdminAccountResource {
+public class UserResource {
 
     @Autowired
     LdapService ldapService;
-    
+
     @GET
-    public Response getUsers(
+    public Response readAll(
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        
+
         // TODO add business logic to determine accessible admin accounts based on user rights
         Right requiredRight = Right.ADMIN_ACCESS;
 
