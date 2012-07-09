@@ -1,0 +1,20 @@
+#!/bin/bash
+
+API_LOGIN_USER=$1
+API_LOGIN_REALM=$2
+INPUT_FILE=$3
+NUM_ITERATIONS=$4
+PROPS_FILE=$5
+
+API_LOGIN_USER=rrogers
+API_LOGIN_REALM=IL
+INPUT_FILE=../input/test.txt
+NUM_ITERATIONS=5
+PROPS_FILE=../prop/bash_properties.props
+
+BENCHMARK_BATCH_ID=${API_LOGIN_USER}_$(date "+%Y%m%d_%H%M%S")
+source $PROPS_FILE
+
+echo "nohup bundle exec ruby apiBenchmarker.rb -i $INPUT_FILE -u $API_LOGIN_USER -r $API_LOGIN_REALM -n $NUM_ITERATIONS -b $BENCHMARK_BATCH_ID >> ../logs/cron_${BENCHMARK_BATCH_ID}.log 2>&1 &"
+nohup bundle exec ruby apiBenchmarker.rb -i $INPUT_FILE -u $API_LOGIN_USER -r $API_LOGIN_REALM -n $NUM_ITERATIONS -b $BENCHMARK_BATCH_ID >> ../logs/cron_${BENCHMARK_BATCH_ID}.log 2>&1 &
+
