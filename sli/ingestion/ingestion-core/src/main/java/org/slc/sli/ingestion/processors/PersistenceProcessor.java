@@ -56,7 +56,6 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.transformation.EdFi2SLITransformer;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.util.BatchJobUtils;
-import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
@@ -234,7 +233,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             String fatalErrorMessage = "ERROR: Fatal problem saving records to database: \n" + "\tEntity\t"
                     + collectionNameAsStaged + " with message: " + e.getMessage() + "\n";
             errorReportForCollection.fatal(fatalErrorMessage, PersistenceProcessor.class);
-            LogUtil.error(LOG, "Exception when attempting to ingest NeutralRecords in: " + collectionNameAsStaged, e);
+            piiClearedError("Exception when attempting to ingest NeutralRecords in: " + collectionNameAsStaged, e);
         } finally {
 
             Iterator<Metrics> it = perFileMetrics.values().iterator();
@@ -468,7 +467,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
      */
     private void handleProcessingExceptions(Exception exception, Exchange exchange, String batchJobId) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
-        LogUtil.error(LOG, "Error persisting batch job " + batchJobId, exception);
+        piiClearedError("Error persisting batch job " + batchJobId, exception);
 
         Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
                 FaultType.TYPE_ERROR.getName(), "Exception", exception.getMessage());

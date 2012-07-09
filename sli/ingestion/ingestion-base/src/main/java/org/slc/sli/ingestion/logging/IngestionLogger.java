@@ -18,4 +18,6 @@ public interface IngestionLogger {
 
     public void error(String msg, Throwable x);
 
+    public void piiClearedError(String msg, Throwable x);
+
 }

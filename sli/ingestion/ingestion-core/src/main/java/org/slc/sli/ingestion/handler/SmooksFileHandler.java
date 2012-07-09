@@ -31,8 +31,6 @@ import org.milyn.SmooksException;
 import org.milyn.delivery.ContentHandlerConfigMapTable;
 import org.milyn.delivery.VisitorConfigMap;
 import org.milyn.delivery.sax.SAXVisitAfter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
@@ -41,7 +39,6 @@ import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
-import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
@@ -52,8 +49,6 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  */
 @Component
 public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> {
-
-    private static final Logger LOG = LoggerFactory.getLogger(SmooksFileHandler.class);
 
     @Autowired
     private SliSmooksFactory sliSmooksFactory;
@@ -103,7 +98,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
                 info("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
                         ingestionFileEntry.getFileName());
             } catch (Exception e) {
-                LogUtil.error(LOG, "Error accessing visitor list in smooks", e);
+                piiClearedError("Error accessing visitor list in smooks", e);
             }
         } catch (SmooksException se) {
             error("smooks exception: encountered problem with " + ingestionFileEntry.getFile().getName() + "\n", se);

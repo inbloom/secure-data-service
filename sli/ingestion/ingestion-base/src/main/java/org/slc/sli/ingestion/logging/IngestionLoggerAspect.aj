@@ -3,6 +3,8 @@ package org.slc.sli.ingestion.logging;
 
 import org.slf4j.LoggerFactory;
 
+import org.slc.sli.ingestion.util.LogUtil;
+
 public aspect IngestionLoggerAspect {
 
     declare parents : (org.slc.sli.ingestion..*
@@ -43,6 +45,10 @@ public aspect IngestionLoggerAspect {
 
     public void IngestionLogger.error(String msg, Throwable x) {
         LoggerFactory.getLogger(this.getClass()).error(msg, x);
+    }
+
+    public void IngestionLogger.piiClearedError(String msg, Throwable x) {
+        LogUtil.error(LoggerFactory.getLogger(this.getClass()), "Error accessing visitor list in smooks", (Exception)x);
     }
 
 }

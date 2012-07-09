@@ -33,8 +33,6 @@ import com.mongodb.BasicDBObject;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections.CollectionUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -47,7 +45,6 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.cache.CacheProvider;
-import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
 
@@ -62,8 +59,6 @@ import org.slc.sli.ingestion.validation.ProxyErrorReport;
 
 @Component
 public class IdNormalizer {
-    private static final Logger LOG = LoggerFactory.getLogger(IdNormalizer.class);
-
     private static final String METADATA_BLOCK = "metaData";
 
     private static final String CACHE_NAMESPACE = "newId";
@@ -182,7 +177,7 @@ public class IdNormalizer {
 
             }
         } catch (Exception e) {
-            LogUtil.error(LOG, "Error resolving reference to " + collectionName + " in " + entity.getType(), e);
+            piiClearedError("Error resolving reference to " + collectionName + " in " + entity.getType(), e);
             String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity " + entity.getType()
                     + ": Reference to " + collectionName + " cannot be resolved" + "\n";
             if (resolvedReferences != null && !resolvedReferences.equals("")) {
@@ -224,7 +219,7 @@ public class IdNormalizer {
                         resolveSubEntity(tenantId, errorReport, subEntityConfig, subEntityObject);
                     }
                 } catch (Exception e) {
-                    LogUtil.error(LOG, "Error parsing " + entity, e);
+                    piiClearedError("Error parsing " + entity, e);
                 }
             }
         } else {
@@ -241,7 +236,7 @@ public class IdNormalizer {
             Entity subEntity = new NeutralRecordEntity(nr);
             resolveInternalIds(subEntity, tenantId, subEntityConfig, errorReport);
         } catch (ClassCastException e) {
-            LogUtil.error(LOG, "error resolving " + subEntityInstance, e);
+            piiClearedError("error resolving " + subEntityInstance, e);
         }
     }
 
@@ -389,7 +384,7 @@ public class IdNormalizer {
                                     }
                                 } catch (Exception e) {
                                     if (!refConfig.isOptional()) {
-                                        LogUtil.error(LOG, "Error accessing indexed bean property " + valueSourcePath
+                                        piiClearedError("Error accessing indexed bean property " + valueSourcePath
                                                 + " for bean " + entity.getType(), e);
                                         String errorMessage = "ERROR: Failed to resolve a reference"
                                                 + "\n"
@@ -420,7 +415,7 @@ public class IdNormalizer {
             if (refConfig.isOptional()) {
                 return new ArrayList<String>();
             }
-            LogUtil.error(LOG, "Error resolving reference to " + fieldPath + " in " + entity.getType(), e);
+            piiClearedError("Error resolving reference to " + fieldPath + " in " + entity.getType(), e);
             String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity " + entity.getType()
                     + ": Reference to " + collection + " unresolved";
 
@@ -532,7 +527,7 @@ public class IdNormalizer {
             }
 
         } catch (Exception e) {
-            LogUtil.error(LOG, "Error resolving reference to " + collectionName + " in " + entity.getType(), e);
+            piiClearedError("Error resolving reference to " + collectionName + " in " + entity.getType(), e);
             String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity " + entity.getType()
                     + ": Reference to " + collectionName + " cannot be resolved" + "\n";
             errorReport.error(errorMessage, this);
