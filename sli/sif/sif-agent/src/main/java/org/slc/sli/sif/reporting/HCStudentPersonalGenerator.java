@@ -31,8 +31,6 @@ import openadk.library.common.EmailList;
 import openadk.library.common.EmailType;
 import openadk.library.common.Name;
 import openadk.library.common.NameType;
-import openadk.library.common.OtherIdList;
-import openadk.library.common.OtherIdType;
 import openadk.library.common.PhoneNumberList;
 import openadk.library.common.PhoneNumberType;
 import openadk.library.common.StatePrCode;
@@ -49,13 +47,9 @@ public class HCStudentPersonalGenerator implements EventGenerator {
         return event;
     }
 
-    public StudentPersonal generateTestStudent() {
+    private StudentPersonal generateTestStudent() {
         StudentPersonal studentPersonal = new StudentPersonal();
         studentPersonal.setRefId(ADK.makeGUID());
-//        OtherIdList otherIdList = new OtherIdList();
-//        otherIdList.addOtherId(OtherIdType.SIF1x_STATE_ASSIGNED_NUM, "P00001");
-//        otherIdList.addOtherId(OtherIdType.SIF1x_SSN, "123-45-6789");
-//        studentPersonal.setOtherIdList(otherIdList);
         Name name = new Name(NameType.NAME_OF_RECORD, "Student", "Joe");
         name.setMiddleName("");
         name.setPreferredName("Joe");
