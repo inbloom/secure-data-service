@@ -38,7 +38,7 @@ public class AgentManager {
         ADK.initialize();
         ADK.debug = ADK.DBG_ALL;
 
-        agent.startAgent();
+//        agent.startAgent();
     }
 
     @PreDestroy
