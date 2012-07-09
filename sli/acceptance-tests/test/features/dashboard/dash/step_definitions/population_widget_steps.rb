@@ -68,7 +68,6 @@ When /^I look at the section drop\-down$/ do
 end
 
 Then /^I see these values in the drop\-down: "([^"]*)"$/ do |listContent|
-  puts "@dropDownId = " + @dropDownId
   desiredContentArray = listContent.split(";")
   select = @driver.find_element(:id, @dropDownId)
   #click the droplist first else there are issues seeing hidden elements
