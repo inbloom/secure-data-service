@@ -161,8 +161,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                     parents.push(start);
                     currentXPath = getCurrentXPath(parents);
-                    ReferenceResolutionStrategy rrs = supportedResolvers.get(currentXPath);
-                    if (rrs == null && start.getAttributeByName(REF_ATTR) != null) {
+                    if (!isSupportedRef(currentXPath) && start.getAttributeByName(REF_ATTR) != null && start.getAttributeByName(REF_RESOLVED_ATTR) == null) {
                         if (!isInnerRef(parents)) {
                             debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath));
                             errorReport.warning(
@@ -418,11 +417,13 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                                     }
                                 } else {
                                     // unable to resolve reference, no matching id for ref
-                                    debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3"));
+                                    if (isSupportedRef(getCurrentXPath(parents))) {
+                                        debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3"));
 
-                                    errorReport.warning(
-                                            MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3",
-                                                    ref.getValue()), IdRefResolutionHandler.class);
+                                        errorReport.warning(
+                                                MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3",
+                                                        ref.getValue()), IdRefResolutionHandler.class);
+                                    }
                                 }
                                 newAttrs.add(EVENT_FACTORY.createAttribute(REF_RESOLVED_ATTR,
                                         contentToAdd == null ? "false" : "true"));
@@ -619,6 +620,14 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                     return true;
                 }
             }
+        }
+        return false;
+    }
+
+    boolean isSupportedRef(String xPath) {
+        ReferenceResolutionStrategy rrs = supportedResolvers.get(xPath);
+        if (rrs != null) {
+            return true;
         }
         return false;
     }
