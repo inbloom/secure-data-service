@@ -55,6 +55,10 @@ module("SLC.dataProxy get methods", {
 				},
 				populationWidget: {
 					type: "PANEL"
+				},
+				studentProfile: {
+					type: "LAYOUT",
+					items: [{type: "TAB"}]
 				}
 			},
 			widgetConfig: [
@@ -117,4 +121,11 @@ module("SLC.dataProxy get methods", {
 		$("#testTitle").html(pageTitle);
 		
 		equal($("#testTitle").html(), "List of Students Layout", "Title should be same as defined in the configs");
+	});
+	
+	test('Test checkTabPanel method', function () {
+		ok(SLC.dataProxy.checkTabPanel !== undefined, 'SLC.dataProxy checkTabPanel method should be defined');
+		ok(typeof SLC.dataProxy.checkTabPanel === 'function', 'SLC.dataProxy checkTabPanel method should be function');
+		
+		deepEqual(SLC.dataProxy.checkTabPanel(), true);
 	});
