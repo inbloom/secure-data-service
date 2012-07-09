@@ -20,12 +20,17 @@ import java.io.File;
 
 import openadk.library.ADK;
 import openadk.library.ADKException;
+import openadk.library.DataObjectInputStream;
 import openadk.library.Event;
 import openadk.library.MessageInfo;
+import openadk.library.Query;
+import openadk.library.QueryResults;
 import openadk.library.SIFDataObject;
+import openadk.library.SIFVersion;
 import openadk.library.Subscriber;
 import openadk.library.SubscriptionOptions;
 import openadk.library.Zone;
+import openadk.library.infra.SIF_Error;
 import openadk.library.student.StudentDTD;
 
 import org.slf4j.Logger;
@@ -34,7 +39,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import org.slc.sli.sif.agent.SifAgent;
 
-public class EventSubscriber implements Subscriber {
+public class EventSubscriber implements Subscriber, QueryResults {
 
     static {
         // Simple workaround to get logging paths set up correctly when run from the command line
@@ -70,7 +75,8 @@ public class EventSubscriber implements Subscriber {
                 new EventSubscriber(zone);
             } else {
                 Zone zone = agent.getZoneFactory().getZone("TestZone");
-                new EventSubscriber(zone);
+                EventSubscriber subscriber = new EventSubscriber(zone);
+                subscriber.sendQuery();
             }
         } catch (Exception e) {
             logger.error("Exception trying to subscriber to event", e);
@@ -87,6 +93,12 @@ public class EventSubscriber implements Subscriber {
         this.zone = zone;
         this.zone.setSubscriber(this, StudentDTD.SCHOOLINFO, new SubscriptionOptions());
         this.zone.setSubscriber(this, StudentDTD.STUDENTPERSONAL, new SubscriptionOptions());
+    }
+
+    public void sendQuery() throws ADKException {
+        Query query = new Query(StudentDTD.STUDENTPERSONAL);
+        query.setSIFVersions(SIFVersion.SIF23);
+        zone.query(query);
     }
 
     private void inspectAndDestroyEvent(Event e) {
@@ -108,5 +120,16 @@ public class EventSubscriber implements Subscriber {
                 + "\tZone: " + zone.getZoneId() + "\n"
                 + "\tInfo: " + info.getMessage());
         inspectAndDestroyEvent(event);
+    }
+
+    @Override
+    public void onQueryPending(MessageInfo info, Zone zone) throws ADKException {
+        LOG.info("Query pending");
+    }
+
+    @Override
+    public void onQueryResults(DataObjectInputStream data, SIF_Error error,
+            Zone zone, MessageInfo info) throws ADKException {
+        LOG.info("Received query results");
     }
 }

@@ -78,13 +78,12 @@ public class EventReporter implements Publisher {
             } else {
                 Zone zone = agent.getZoneFactory().getZone("TestZone");
                 EventReporter reporter = new EventReporter(zone);
-
                 reporter.reportEvent();
             }
         } catch (Exception e) {
             logger.error("Exception trying to report event", e);
         }
-        System.exit(0);
+ //       System.exit(0);
     }
 
     public static final int ZONE_ID = 0;
@@ -94,6 +93,8 @@ public class EventReporter implements Publisher {
 
     private Zone zone;
     private EventGenerator generator;
+
+    public static final String testXml = "<SIF_Message  xmlns=\"http://www.sifinfo.org/infrastructure/2.x\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" Version=\"2.3\">  <SIF_Provision>    <SIF_Header>      <SIF_MsgId>6C60EB9C3E594E4BBFA991C077C9B9BC</SIF_MsgId>      <SIF_Timestamp>2012-07-09T12:33:06-04:00</SIF_Timestamp>      <SIF_Security>        <SIF_SecureChannel>          <SIF_AuthenticationLevel>0</SIF_AuthenticationLevel>          <SIF_EncryptionLevel>0</SIF_EncryptionLevel>        </SIF_SecureChannel>      </SIF_Security>      <SIF_SourceId>steve.a.laptop</SIF_SourceId>    <SIF_DestinationId>test.subscriber.agent</SIF_DestinationId>    </SIF_Header>    <SIF_ProvideObjects>      <SIF_Object ObjectName=\"StudentPersonal\">        <SIF_ExtendedQuerySupport>false</SIF_ExtendedQuerySupport>        <SIF_Contexts>          <SIF_Context>SIF_Default</SIF_Context>      </SIF_Contexts>    </SIF_Object>    <SIF_Object ObjectName=\"SchoolInfo\">      <SIF_ExtendedQuerySupport>false</SIF_ExtendedQuerySupport>      <SIF_Contexts>        <SIF_Context>SIF_Default</SIF_Context>    </SIF_Contexts>  </SIF_Object>  <SIF_Object ObjectName=\"LEAInfo\">    <SIF_ExtendedQuerySupport>false</SIF_ExtendedQuerySupport>    <SIF_Contexts>      <SIF_Context>SIF_Default</SIF_Context>  </SIF_Contexts></SIF_Object></SIF_ProvideObjects><SIF_SubscribeObjects/><SIF_PublishAddObjects/><SIF_PublishChangeObjects/><SIF_PublishDeleteObjects/><SIF_RequestObjects/><SIF_RespondObjects>  <SIF_Object ObjectName=\"StudentPersonal\">    <SIF_ExtendedQuerySupport>false</SIF_ExtendedQuerySupport>    <SIF_Contexts>      <SIF_Context>SIF_Default</SIF_Context>  </SIF_Contexts></SIF_Object><SIF_Object ObjectName=\"SchoolInfo\">  <SIF_ExtendedQuerySupport>false</SIF_ExtendedQuerySupport>  <SIF_Contexts>    <SIF_Context>SIF_Default</SIF_Context></SIF_Contexts></SIF_Object><SIF_Object ObjectName=\"LEAInfo\">  <SIF_ExtendedQuerySupport>false</SIF_ExtendedQuerySupport>  <SIF_Contexts></SIF_Contexts></SIF_Object></SIF_RespondObjects></SIF_Provision></SIF_Message>";
 
     public EventReporter(Zone zone) throws Exception {
         this.zone = zone;
