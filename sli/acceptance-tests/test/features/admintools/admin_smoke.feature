@@ -1,4 +1,4 @@
-@security
+@smoke
 Feature: SLI admin smoke tests
 
 Background:
