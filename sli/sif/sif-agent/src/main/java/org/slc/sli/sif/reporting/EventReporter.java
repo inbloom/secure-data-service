@@ -18,6 +18,7 @@ package org.slc.sli.sif.reporting;
 
 import java.util.Properties;
 
+import openadk.library.ADK;
 import openadk.library.ADKException;
 import openadk.library.DataObjectOutputStream;
 import openadk.library.Event;
@@ -50,6 +51,7 @@ public class EventReporter implements Publisher {
     }
 
     public static void main(String[] args) {
+        Logger logger = LoggerFactory.getLogger(EventReporter.class);
 
         try {
             FileSystemXmlApplicationContext context = new FileSystemXmlApplicationContext(
@@ -73,7 +75,7 @@ public class EventReporter implements Publisher {
                 reporter.reportEvent();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception trying to report event", e);
         }
         System.exit(0);
     }
@@ -83,13 +85,12 @@ public class EventReporter implements Publisher {
 
     private static final Logger LOG = LoggerFactory.getLogger(EventReporter.class);
 
-
     private Zone zone;
     private EventGenerator generator;
 
     public EventReporter(Zone zone) throws Exception {
         this.zone = zone;
-        this.zone.setPublisher(this);
+        //this.zone.setPublisher(this);
         this.zone.setPublisher(this, StudentDTD.SCHOOLINFO, new PublishingOptions(true));
         this.zone.setPublisher(this, StudentDTD.LEAINFO, new PublishingOptions(true));
         this.zone.setPublisher(this, StudentDTD.STUDENTPERSONAL, new PublishingOptions(true));
@@ -136,7 +137,7 @@ public class EventReporter implements Publisher {
             SIFDataObject dataObj = e.getData().readDataObject();
             LOG.info(dataObj.toString());
         } catch (ADKException e1) {
-            e1.printStackTrace();
+            LOG.error("Error trying to inspect event", e1);
         }
         LOG.info("###########################################################################");
     }
