@@ -395,8 +395,7 @@ public class JobReportingProcessor implements Processor {
         for (ResourceEntry resourceEntry : job.getResourceEntries()) {
             if (resourceEntry.getResourceFormat() != null
                     && resourceEntry.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())
-                    && resourceEntry.getRecordCount() == 0
-                    && resourceEntry.getErrorCount() == 0) {
+                    && resourceEntry.getRecordCount() == 0 && resourceEntry.getErrorCount() == 0) {
                 logResourceMetric(resourceEntry, 0, 0, jobReportWriter);
             }
         }
@@ -491,11 +490,10 @@ public class JobReportingProcessor implements Processor {
     
     private void cleanupStagingDatabase(WorkNote workNote) {
         if ("true".equals(clearOnCompletion)) {
-            neutralRecordMongoAccess.getRecordRepository().deleteCollectionsForJob(workNote.getBatchJobId());
-            LOG.info("successfully deleted all staged collections for batch job: {}", workNote.getBatchJobId());
-        } else if ("transformed".equals(clearOnCompletion)) {
-            neutralRecordMongoAccess.getRecordRepository().deleteTransformedCollectionsForJob(workNote.getBatchJobId());
-            LOG.info("successfully deleted all TRANSFORMED staged collections for batch job: {}",
+            neutralRecordMongoAccess.getRecordRepository().deleteStagedRecordsForJob(workNote.getBatchJobId());
+            LOG.info("Successfully deleted all staged records for batch job: {}", workNote.getBatchJobId());
+        } else {
+            LOG.info("Not deleting staged records for batch job: {} --> clear on completion flag is set to FALSE",
                     workNote.getBatchJobId());
         }
     }

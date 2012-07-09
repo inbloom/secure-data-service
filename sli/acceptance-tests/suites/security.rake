@@ -1,17 +1,4 @@
 ############################################################
-# Security tests start
-############################################################
-desc "Run Security Tests"
-task :securityTests => [:realmInit] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/security")
-end
-############################################################
-# Security tests end
-############################################################
-
-
-############################################################
 # Onboarding tests start
 ############################################################
 desc "Run Onboarding Tests"

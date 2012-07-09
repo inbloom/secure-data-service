@@ -122,20 +122,20 @@ public class RESTClient {
         SliApi.TokenResponse r = ((SliApi.SLIOauth20ServiceImpl) service).getAccessToken(
                 new Token(config.getApiSecret(), authorizationCode), verifier, t);
 
-        if (r != null && r.token != null) {
-            accessToken = r.token;
+        if (r != null && r.getToken() != null) {
+            accessToken = r.getToken();
             sessionToken = accessToken.getToken();
         }
 
-        ResponseBuilder builder = Response.status(r.oauthResponse.getCode());
-        for (Map.Entry<String, String> entry : r.oauthResponse.getHeaders().entrySet()) {
+        ResponseBuilder builder = Response.status(r.getOauthResponse().getCode());
+        for (Map.Entry<String, String> entry : r.getOauthResponse().getHeaders().entrySet()) {
             if (entry.getKey() == null) {
                 builder.header("Status", entry.getValue());
             } else {
                 builder.header(entry.getKey(), entry.getValue());
             }
         }
-        builder.entity(r.oauthResponse.getBody());
+        builder.entity(r.getOauthResponse().getBody());
 
         return builder.build();
     }

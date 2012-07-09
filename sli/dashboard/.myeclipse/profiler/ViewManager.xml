@@ -10,34 +10,34 @@
 <entry key="profiler.settings.instr.scheme">1</entry>
 <entry key="ProfilerMemorySettings_track_every">10</entry>
 <entry key="ProfilerMemorySettings_mode">4</entry>
-<entry key="ProfilerCPUSettings_root_classes">org.slc.sli.client.**
+<entry key="ProfilerCPUSettings_root_classes">org.slc.sli.dashboard.client.**
 org.slc.sli.config.**
 org.slc.sli.controller.**
 org.slc.sli.cuketests.**
-org.slc.sli.entity.**
-org.slc.sli.manager.**
-org.slc.sli.security.**
+org.slc.sli.dashboard.entity.**
+org.slc.sli.dashboard.manager.**
+org.slc.sli.dashboard.security.**
 org.slc.sli.unit.config.**
-org.slc.sli.unit.controller.**
-org.slc.sli.unit.entity.**
-org.slc.sli.unit.manager.**
+org.slc.sli.dashboard.unit.controller.**
+org.slc.sli.dashboard.unit.entity.**
+org.slc.sli.dashboard.unit.manager.**
 org.slc.sli.unit.view.**
-org.slc.sli.util.**
+org.slc.sli.dashboard.util.**
 org.slc.sli.view.**
 </entry>
-<entry key="ProfilerCPUSettings_filter_value">org.slc.sli.client.*,&#13;
+<entry key="ProfilerCPUSettings_filter_value">org.slc.sli.dashboard.client.*,&#13;
 org.slc.sli.config.*,&#13;
 org.slc.sli.controller.*,&#13;
 org.slc.sli.cuketests.*,&#13;
-org.slc.sli.entity.*,&#13;
-org.slc.sli.manager.*,&#13;
-org.slc.sli.security.*,&#13;
+org.slc.sli.dashboard.entity.*,&#13;
+org.slc.sli.dashboard.manager.*,&#13;
+org.slc.sli.dashboard.security.*,&#13;
 org.slc.sli.unit.config.*,&#13;
-org.slc.sli.unit.controller.*,&#13;
-org.slc.sli.unit.entity.*,&#13;
-org.slc.sli.unit.manager.*,&#13;
+org.slc.sli.dashboard.unit.controller.*,&#13;
+org.slc.sli.dashboard.unit.entity.*,&#13;
+org.slc.sli.dashboard.unit.manager.*,&#13;
 org.slc.sli.unit.view.*,&#13;
-org.slc.sli.util.*,&#13;
+org.slc.sli.dashboard.util.*,&#13;
 org.slc.sli.view.*</entry>
 <entry key="profiler.settings.istrument.getter.setter.methods">true</entry>
 <entry key="myeclipse.profiling.mode">0</entry>

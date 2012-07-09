@@ -29,16 +29,14 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.Route;
 import org.apache.camel.builder.RouteBuilder;
-import org.slc.sli.dal.TenantContext;
-import org.slc.sli.ingestion.landingzone.ControlFile;
-import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
-import org.slc.sli.ingestion.routes.LandingZoneRouteBuilder;
-import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slc.sli.ingestion.util.LogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.ingestion.routes.LandingZoneRouteBuilder;
+import org.slc.sli.ingestion.tenant.TenantDA;
+import org.slc.sli.ingestion.util.LogUtil;
 
 /**
  * Processor for tenant collection polling
@@ -65,13 +63,15 @@ public class TenantProcessor implements Processor {
     @Autowired
     private ControlFilePreProcessor controlFilePreProcessor;
 
+    @Autowired
+    private NoExtractProcessor noExtractProcessor;
     public static final String TENANT_POLL_HEADER = "TENANT_POLL_STATUS";
     public static final String TENANT_POLL_SUCCESS = "SUCCESS";
     public static final String TENANT_POLL_FAILURE = "FAILURE";
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        
+
         //We need to extract the TenantID for each thread, so the DAL has access to it.
 //        try {
 //            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
@@ -82,7 +82,7 @@ public class TenantProcessor implements Processor {
 //            LOG.error("Could Not find Tenant ID.");
 //            TenantContext.setTenantId(null);
 //        }
-        
+
         try {
             updateLzRoutes();
 
@@ -164,7 +164,7 @@ public class TenantProcessor implements Processor {
      */
     private void addRoutes(List<String> routesToAdd) throws Exception {
         RouteBuilder landingZoneRouteBuilder = new LandingZoneRouteBuilder(routesToAdd,
-                workItemQueueUri, zipFileProcessor, controlFilePreProcessor);
+                workItemQueueUri, zipFileProcessor, controlFilePreProcessor, noExtractProcessor);
         camelContext.addRoutes(landingZoneRouteBuilder);
     }
 
