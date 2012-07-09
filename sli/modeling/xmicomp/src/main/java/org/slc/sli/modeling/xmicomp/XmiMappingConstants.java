@@ -10,7 +10,7 @@ public final class XmiMappingConstants {
     /**
      * The top-level a.k.a document element name.
      */
-    public static final QName MAPPING_LIST = new QName(NAMESPACE_MAPPING, "mappings");
+    public static final QName DOCUMENT_ELEMENT = new QName(NAMESPACE_MAPPING, "mappings");
     /**
      * A mapping from a feature in one data dictionary to another data dictionary.
      */
@@ -18,11 +18,11 @@ public final class XmiMappingConstants {
     /**
      * The left-hand feature.
      */
-    public static final QName LHS = new QName(NAMESPACE_MAPPING, "lhs");
+    public static final QName LHS_FEATURE = new QName(NAMESPACE_MAPPING, "lhs");
     /**
      * The right-hand feature.
      */
-    public static final QName RHS = new QName(NAMESPACE_MAPPING, "rhs");
+    public static final QName RHS_FEATURE = new QName(NAMESPACE_MAPPING, "rhs");
     /**
      * The status of the mapping.
      */
@@ -46,7 +46,7 @@ public final class XmiMappingConstants {
     /**
      * The version.
      */
-    public static final QName XMI = new QName(NAMESPACE_MAPPING, "xmi");
+    public static final QName FILE = new QName(NAMESPACE_MAPPING, "xmi");
     /**
      * The left-hand model.
      */

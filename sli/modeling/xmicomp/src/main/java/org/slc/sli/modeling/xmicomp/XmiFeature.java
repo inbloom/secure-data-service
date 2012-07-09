@@ -1,12 +1,10 @@
 package org.slc.sli.modeling.xmicomp;
 
-import javax.xml.namespace.QName;
-
 public final class XmiFeature {
-    private final QName name;
-    private final QName type;
-
-    public XmiFeature(final QName name, final QName type) {
+    private final String name;
+    private final String type;
+    
+    public XmiFeature(final String name, final String type) {
         if (null == name) {
             throw new NullPointerException("name");
         }
@@ -16,15 +14,21 @@ public final class XmiFeature {
         this.name = name;
         this.type = type;
     }
-
-    public QName getName() {
+    
+    /**
+     * The name of the feature.
+     */
+    public String getName() {
         return name;
     }
-
-    public QName getType() {
+    
+    /**
+     * The type that is the owner of the feature.
+     */
+    public String getType() {
         return type;
     }
-
+    
     @Override
     public String toString() {
         return String.format("{name : %s, type : %s}", name, type);

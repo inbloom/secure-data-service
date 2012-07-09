@@ -1,34 +1,34 @@
 package org.slc.sli.modeling.xmicomp;
 
-public class XmiMappingModel {
+public final class XmiDefinition {
     private final String name;
     private final String version;
-    private final String xmi;
-
-    public XmiMappingModel(final String name, final String version, final String xmi) {
+    private final String file;
+    
+    public XmiDefinition(final String name, final String version, final String file) {
         if (null == name) {
             throw new NullPointerException("name");
         }
         if (null == version) {
             throw new NullPointerException("version");
         }
-        if (null == xmi) {
-            throw new NullPointerException("xmi");
+        if (null == file) {
+            throw new NullPointerException("file");
         }
         this.name = name;
         this.version = version;
-        this.xmi = xmi;
+        this.file = file;
     }
-
+    
     public String getName() {
         return name;
     }
-
-    public String getType() {
+    
+    public String getVersion() {
         return version;
     }
-
-    public String getXmi() {
-        return xmi;
+    
+    public String getFile() {
+        return file;
     }
 }

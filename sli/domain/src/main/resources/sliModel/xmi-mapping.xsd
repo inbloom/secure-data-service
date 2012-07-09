@@ -45,16 +45,27 @@
 	</xs:complexType>
 	<xs:simpleType name="XmiMappingStatus">
 		<xs:annotation>
-			<xs:documentation>Indicator of the eligibility of the student to
-				receive special education services according to the Individuals with
-				Disabilities Education Act (IDEA).
+			<xs:documentation>
 			</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:token">
 			<xs:enumeration value="ignorable" />
 			<xs:enumeration value="match">
 				<xs:annotation>
-					<xs:documentation>The feature exists in both models.</xs:documentation>
+					<xs:documentation>The feature exists in both models.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="align">
+				<xs:annotation>
+					<xs:documentation>The feature should exist in both models.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
+			<xs:enumeration value="bug">
+				<xs:annotation>
+					<xs:documentation>The feature contains a bug.
+					</xs:documentation>
 				</xs:annotation>
 			</xs:enumeration>
 			<xs:enumeration value="transient" />
