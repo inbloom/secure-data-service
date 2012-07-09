@@ -465,7 +465,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
 //                DE260 - Logging of possibly sensitive data
 //                LOGGER.debug("updating entity {}", copy);
-                entityDef.getService().update(id, copy);
+                if(!entityDef.getService().update(id, copy)) {
+                    return Response.status(Status.BAD_REQUEST).build();
+                }
 
 //                DE260 - Logging of possibly sensitive data
 //                LOGGER.debug("updating entity {}", copy);
