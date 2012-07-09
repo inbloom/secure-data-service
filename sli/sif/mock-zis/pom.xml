@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>org.slc.sli.sif</groupId>
+  
+  <artifactId>mock-zis</artifactId>
+  
+  <packaging>war</packaging>
+  
+  <version>0.0.1-SNAPSHOT</version>
+  
+  <name>mock-zis Maven Webapp</name>
+  
+  <dependencies>
+    
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  
+    <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>servlet-api</artifactId>
+        <version>2.5</version>
+    </dependency>
+  
+    <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>1.3.2</version>
+    </dependency>
+
+  </dependencies>
+  
+  <build>
+    <finalName>mock-zis</finalName>
+    
+    <plugins>
+      <plugin>
+        <groupId>org.mortbay.jetty</groupId>
+        <artifactId>maven-jetty-plugin</artifactId>
+        <version>6.1.10</version>
+        <configuration>
+          <scanIntervalSeconds>5</scanIntervalSeconds>
+
+          <connectors>
+            <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+              <port>8087</port>
+            </connector>
+          </connectors>
+        </configuration>
+        
+      </plugin>
+    </plugins>
+    
+  </build>
+
+</project>
