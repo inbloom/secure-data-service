@@ -164,7 +164,8 @@ public class RoleInitializer {
         info("Building SLC Operator role.");
         return RoleBuilder.makeRole(SLC_OPERATOR)
                 .addRights(
-                        new Right[] { Right.ADMIN_ACCESS, Right.SLC_APP_APPROVE, Right.READ_GENERAL, Right.READ_PUBLIC })
+                        new Right[] { Right.ADMIN_ACCESS, Right.SLC_APP_APPROVE, Right.READ_GENERAL, Right.READ_PUBLIC,
+                                Right.CRUD_SLC_OPERATOR })
                         .setAdmin(true).build();
     }
 
@@ -194,12 +195,20 @@ public class RoleInitializer {
 
     private Role buildLEAAdmin() {
         info("Building LEA Administrator default role.");
-        return RoleBuilder.makeRole(LEA_ADMINISTRATOR).addRights(new Right[] { Right.ADMIN_ACCESS, Right.EDORG_APP_AUTHZ, Right.READ_PUBLIC }).setAdmin(true).build();
+        return RoleBuilder
+                .makeRole(LEA_ADMINISTRATOR)
+                .addRights(
+                        new Right[] { Right.ADMIN_ACCESS, Right.EDORG_APP_AUTHZ, Right.READ_PUBLIC,
+                                Right.CRUD_LEA_ADMIN }).setAdmin(true).build();
     }
 
     private Role buildSEAAdmin() {
         info("Building SEA Administrator default role.");
-        return RoleBuilder.makeRole(SEA_ADMINISTRATOR).addRights(new Right[] { Right.ADMIN_ACCESS, Right.EDORG_DELEGATE, Right.READ_PUBLIC }).setAdmin(true).build();
+        return RoleBuilder
+                .makeRole(SEA_ADMINISTRATOR)
+                .addRights(
+                        new Right[] { Right.ADMIN_ACCESS, Right.EDORG_DELEGATE, Right.READ_PUBLIC, Right.CRUD_SEA_ADMIN })
+                .setAdmin(true).build();
     }
 
     public void setRepository(Repository repo) {
