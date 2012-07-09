@@ -373,7 +373,7 @@ public class BasicService implements EntityService {
                     if (item instanceof Map) {
                         patchEntity((Map<String, Object>) patchEntry.getValue(), (Map<String, Object>) fieldValue);
                     } else if (item instanceof List) {
-                        LOG.error("Unexpected situation, List inside a List: {}", fieldValue);
+                        error("Unexpected situation, List inside a List: {}", fieldValue);
                         continue;
                     } else {
                         //patch the entry in the list...how to know which item is which if there are multiple?
