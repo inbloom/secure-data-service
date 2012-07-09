@@ -14,29 +14,29 @@ import org.springframework.stereotype.Component;
 
 /**
  * implementation of LdapService interface for basic CRUD and search operations on LDAP directory
- * 
+ *
  * @author dliu
- * 
+ *
  */
 
 @Component
 public class LdapServiceImpl implements LdapService {
-    
+
     @Autowired
     LdapTemplate ldapTemplate;
-    
+
     @Value("${sli.simple-idp.userSearchAttribute}")
     private String userSearchAttribute;
-    
+
     @Value("${sli.simple-idp.userObjectClass}")
     private String userObjectClass;
-    
+
     @Value("${sli.simple-idp.groupSearchAttribute}")
     private String groupSearchAttribute;
-    
+
     @Value("${sli.simple-idp.groupObjectClass}")
     private String groupObjectClass;
-    
+
     public LdapServiceImpl() {
     }
 
@@ -60,7 +60,7 @@ public class LdapServiceImpl implements LdapService {
         }
         return user;
     }
-    
+
     @Override
     public List<Group> getUserGroups(String realm, String uid) {
         DistinguishedName dn = new DistinguishedName("ou=" + realm);
@@ -70,25 +70,25 @@ public class LdapServiceImpl implements LdapService {
         List<Group> groups = ldapTemplate.search(dn, filter.toString(), new GroupContextMapper());
         return groups;
     }
-    
+
     @Override
     public void removeUser(String realm, String uid) {
         // TODO Auto-generated method stub
-        
+
     }
-    
+
     @Override
     public String createUser(String realm, User user) {
         // TODO Auto-generated method stub
         return null;
     }
-    
+
     @Override
     public String updateUser(String realm, User user) {
         // TODO Auto-generated method stub
         return null;
     }
-    
+
     @Override
     public List<User> findUserByGroups(String realm, List<String> groupNames) {
         List<User> users = new ArrayList<User>();
@@ -101,8 +101,9 @@ public class LdapServiceImpl implements LdapService {
                     if (!uids.contains(memberUid)) {
                         uids.add(memberUid);
                         User user = getUser(realm, memberUid);
-                        if (user != null)
+                        if (user != null) {
                             users.add(user);
+                        }
                     }
                 }
             }
@@ -111,11 +112,16 @@ public class LdapServiceImpl implements LdapService {
     }
 
     @Override
+    public List<User> findUserByGroups(String realm, List<String> groupNames, String tenant) {
+        return filterByTenant(findUserByGroups(realm, groupNames), tenant);
+    }
+
+    @Override
     public List<User> findUserByAttributes(String realm, List<String> attributes) {
         // TODO Auto-generated method stub
         return null;
     }
-    
+
     @Override
     public Group getGroup(String realm, String groupName) {
         DistinguishedName dn = new DistinguishedName("ou=" + realm);
@@ -124,5 +130,18 @@ public class LdapServiceImpl implements LdapService {
         Group group = (Group) ldapTemplate.searchForObject(dn, filter.toString(), new GroupContextMapper());
         return group;
     }
-    
+
+    private List<User> filterByTenant(List<User> users, String tenant) {
+        if (tenant == null) {
+            return users;
+        }
+
+        List<User> filteredUsers = new ArrayList<User>();
+        for (User user : users) {
+            if (tenant.equals(user.getTenant())) {
+                filteredUsers.add(user);
+            }
+        }
+        return filteredUsers;
+    }
 }

@@ -62,5 +62,4 @@ public class UserResource {
         List<User> users = ldapService.findUserByGroups(realm, Arrays.asList(groups));
         return Response.status(Status.OK).entity(users).build();
     }
-
 }
