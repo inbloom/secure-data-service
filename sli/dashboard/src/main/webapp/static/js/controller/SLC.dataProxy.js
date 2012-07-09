@@ -61,7 +61,7 @@ SLC.namespace('SLC.dataProxy', (function () {
 						
 			$.ajax({
 				async: false,
-				url: contextRootPath + '/service/component/' + componentId + '/' + (id ? id : ""),
+				url: contextRootPath + '/s/c/' + componentId + '/' + (id ? id : ""),
 				scope: this,
 				success: function(panel){
 					$.extend(data, panel.data);

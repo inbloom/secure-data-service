@@ -78,6 +78,6 @@ function gotoSearchPageURL(id) {
 	}
 	var params = 'firstName=' + dataModel.firstName + '&lastName=' + dataModel.lastSurname + '&pageNumber=' + postPageNum +
 	'&pageSize=' + postPageSize;
-  	SLC.util.goToUrl('studentSearchPage', params);
+  	SLC.util.goToLayout('studentSearch', null, params);
 }
 

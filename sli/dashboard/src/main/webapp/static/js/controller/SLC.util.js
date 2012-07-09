@@ -156,23 +156,6 @@ SLC.namespace('SLC.util', (function () {
 			return lozenges;
 		}
 		
-		function getData(componentId, queryString, callback) {
-			$.ajax({
-				url: contextRootPath + '/service/data/' + componentId + '?' + queryString,
-				success: function (panelData) {
-					SLC.dataProxy[componentId] = panelData; callback(panelData);
-				}
-			});
-		}
-		
-		function getPageUrl(componentId, queryString) {
-			return contextRootPath + '/service/layout/' + componentId + ((queryString) ? ('?' + queryString) : '');
-		}
-		
-		function goToUrl(componentId, queryString) {
-			window.location = this.getPageUrl(componentId, queryString);
-		}
-		
 		function checkCondition(data, condition) {
 			var validValues = condition.value,
 				values = data[condition.field];
@@ -282,12 +265,12 @@ SLC.namespace('SLC.util', (function () {
 			return true;
 		}
 		
-		function getLayoutLink(name, id) {
-			return contextRootPath + "/s/l/" + name + "/" + id;
+		function getLayoutLink(name, id, queryString) {
+			return contextRootPath + "/s/l/" + name + ((id) ? ("/" + id) : "") + ((queryString) ? ('?' + queryString) : '');
 		}
 		
-		function goToLayout(name, id) {
-			location.href = getLayoutLink(name, id);
+		function goToLayout(name, id, queryString) {
+			location.href = getLayoutLink(name, id, queryString);
 		}
 		
 		return {
@@ -305,9 +288,6 @@ SLC.namespace('SLC.util', (function () {
 			checkAjaxError: checkAjaxError,
 			getStyleDeclaration: getStyleDeclaration,
 			renderLozenges: renderLozenges,
-			getData: getData,
-			goToUrl: goToUrl,
-			getPageUrl: getPageUrl,
 			checkCondition: checkCondition,
 			displayErrorMessage: displayErrorMessage,
 			hideErrorMessage: hideErrorMessage,

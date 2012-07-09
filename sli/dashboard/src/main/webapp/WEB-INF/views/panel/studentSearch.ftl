@@ -34,7 +34,7 @@
 	  if (!lastName || lastName === "Last Name") {
 	    lastName = '';
 	  }
-	  SLC.util.goToUrl('studentSearchPage', 'firstName=' + firstName + '&lastName=' + lastName);
+	  SLC.util.goToLayout('studentSearch', null, 'firstName=' + firstName + '&lastName=' + lastName);
 	});
 	</script>
 </form>
