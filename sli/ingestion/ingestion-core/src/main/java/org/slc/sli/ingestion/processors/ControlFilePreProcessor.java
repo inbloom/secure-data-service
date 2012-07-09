@@ -296,21 +296,22 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
             LogUtil.error(LOG, "Error getting local host", e);
         }
         List<String> userRoles = Collections.emptyList();
-        SecurityEvent event = new SecurityEvent(controlFile.getConfigProperties().getProperty("tenantId"), // Alpha
-                                                                                                           // MH
-                "", // user
-                "", // targetEdOrg
-                "processUsingNewBatchJob", // Alpha MH (actionUri)
-                "Ingestion", // Alpha MH (appId)
-                "", // origin
-                ipAddr[0] + "." + ipAddr[1] + "." + ipAddr[2] + "." + ipAddr[3], // executedOn
-                "", // Alpha MH (Credential - N/A for ingestion)
-                "", // userOrigin
-                new Date(), // Alpha MH (timeStamp)
-                ManagementFactory.getRuntimeMXBean().getName(), // processNameOrId
-                this.getClass().getName(), // className
-                LogLevelType.TYPE_INFO, // Alpha MH (logLevel)
-                userRoles, "Ingestion process started."); // Alpha MH (logMessage)
+        SecurityEvent event = new SecurityEvent();
+        event.setTenantId(controlFile.getConfigProperties().getProperty("tenantId"));
+        event.setUser("");
+        event.setTargetEdOrg("");
+        event.setActionUri("processUsingNewBatchJob");
+        event.setAppId("Ingestion");
+        event.setOrigin("");
+        event.setExecutedOn(ipAddr[0] + "." + ipAddr[1] + "." + ipAddr[2] + "." + ipAddr[3]);
+        event.setCredential("");
+        event.setUserOrigin("");
+        event.setTimeStamp(new Date());
+        event.setProcessNameOrId(ManagementFactory.getRuntimeMXBean().getName());
+        event.setClassName(this.getClass().getName());
+        event.setLogLevel(LogLevelType.TYPE_INFO);
+        event.setRoles(userRoles);
+        event.setLogMessage("Ingestion process started.");
 
         audit(event);
     }

@@ -49,6 +49,7 @@ public class CommandProcessor {
     private static final Logger LOG = LoggerFactory.getLogger(CommandProcessor.class);
     
     private static final Object JOB_COMPLETED = "jobCompleted";
+    private static final String BATCH_JOB_ID = "batchJobId";
     
     @Resource(name = "batchJobMongoTemplate")
     private MongoTemplate mongo;
@@ -80,7 +81,7 @@ public class CommandProcessor {
             LOG.info("Dumping runtime stats to db for job {}", batchId);
             LOG.info(stats.toString());
             
-            mongo.updateFirst(new Query(Criteria.where("_id").is(batchId)), update, "newBatchJob");
+            mongo.updateFirst(new Query(Criteria.where(BATCH_JOB_ID).is(batchId)), update, "newBatchJob");
             MongoTrackingAspect.aspectOf().reset();
             LOG.info("Runtime stats are now cleared.");
             

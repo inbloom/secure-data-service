@@ -255,7 +255,7 @@ public class BasicService implements EntityService {
         checkReferences(content);
 
         String entityId = "";
-        Entity entity = repo.create (defn.getType(), sanitizeEntityBody(content), createMetadata(), collectionName);
+        Entity entity = repo.create(defn.getType(), sanitizeEntityBody(content), createMetadata(), collectionName);
         if (entity != null) {
             entityId = entity.getEntityId();
         }
@@ -343,6 +343,9 @@ public class BasicService implements EntityService {
 
         //combine/merge new entity body with existing
         entity.getBody().putAll(sanitized);
+        //patchEntity(entity.getBody(), sanitized);
+        
+        
         info("new body is {}", entity.getBody());
 
         //don't check references until things are combined
@@ -352,6 +355,44 @@ public class BasicService implements EntityService {
         repo.update(collectionName, entity);
 
         return true;
+    }
+    /**
+     * @WIP This was the beginning of an attempt at doing full JSON patch
+     * @param entity
+     * @param patchData
+     */
+    @SuppressWarnings({ "unchecked" })
+    private void patchEntity(Map<String, Object> patchData, Map<String, Object> entity) {
+        if (patchData == null) {
+            return;
+        }
+        for (Map.Entry<String, Object> patchEntry : patchData.entrySet()) {
+            Object fieldValue = entity.get(patchEntry.getKey());
+            
+            if (fieldValue instanceof Map) {
+                //recurse
+                patchEntity((Map<String, Object>) patchEntry.getValue(), (Map<String, Object>) fieldValue);
+            } else if (fieldValue instanceof List) {
+                List<Object> list = (List<Object>) fieldValue;
+                for (int i = 0; i < list.size(); i++) {
+                    Object item = list.get(i);
+                    if (item instanceof Map) {
+                        patchEntity((Map<String, Object>) patchEntry.getValue(), (Map<String, Object>) fieldValue);
+                    } else if (item instanceof List) {
+                        error("Unexpected situation, List inside a List: {}", fieldValue);
+                        continue;
+                    } else {
+                        //patch the entry in the list...how to know which item is which if there are multiple?
+                        //list.set(i, newValue);
+                    }
+                }
+            } else if (fieldValue == null) {
+                //current entity doesn't have it set, so set it
+            }
+            else {
+                //actually patch the exisiting field
+            }
+        }
     }
 
     @Override

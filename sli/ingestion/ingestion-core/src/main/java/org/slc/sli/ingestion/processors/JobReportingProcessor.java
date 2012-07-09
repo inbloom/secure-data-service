@@ -475,31 +475,31 @@ public class JobReportingProcessor implements Processor {
             LogUtil.error(LOG, "Error getting local host", e);
         }
         List<String> userRoles = Collections.emptyList();
-        SecurityEvent event = new SecurityEvent("",  // Alpha MH (tenantId - written in 'message')
-                "", // user
-                "", // targetEdOrg
-                "writeLine", // Alpha MH
-                "Ingestion", // Alpha MH (appId)
-                "", // origin
-                ipAddr[0] + "." + ipAddr[1] + "." + ipAddr[2] + "." + ipAddr[3], // executedOn
-                "", // Alpha MH (credential- N/A for ingestion)
-                "", // userOrigin
-                new Date(), // Alpha MH (timeStamp)
-                ManagementFactory.getRuntimeMXBean().getName(), // processNameOrId
-                this.getClass().getName(), // className
-                messageType, // Alpha MH (logLevel)
-                userRoles, message); // Alpha MH (logMessage)
-
+        SecurityEvent event = new SecurityEvent();
+        event.setTenantId(""); // Alpha MH (tenantId - written in 'message')
+        event.setUser("");
+        event.setTargetEdOrg("");
+        event.setActionUri("writeLine");
+        event.setAppId("Ingestion");
+        event.setOrigin("");
+        event.setExecutedOn(ipAddr[0] + "." + ipAddr[1] + "." + ipAddr[2] + "." + ipAddr[3]);
+        event.setCredential("");
+        event.setUserOrigin("");
+        event.setTimeStamp(new Date());
+        event.setProcessNameOrId(ManagementFactory.getRuntimeMXBean().getName());
+        event.setClassName(this.getClass().getName());
+        event.setLogLevel(messageType);
+        event.setRoles(userRoles);
+        event.setLogMessage(message);
         audit(event);
     }
 
     private void cleanupStagingDatabase(WorkNote workNote) {
         if ("true".equals(clearOnCompletion)) {
-            neutralRecordMongoAccess.getRecordRepository().deleteCollectionsForJob(workNote.getBatchJobId());
-            LOG.info("successfully deleted all staged collections for batch job: {}", workNote.getBatchJobId());
-        } else if ("transformed".equals(clearOnCompletion)) {
-            neutralRecordMongoAccess.getRecordRepository().deleteTransformedCollectionsForJob(workNote.getBatchJobId());
-            LOG.info("successfully deleted all TRANSFORMED staged collections for batch job: {}",
+            neutralRecordMongoAccess.getRecordRepository().deleteStagedRecordsForJob(workNote.getBatchJobId());
+            LOG.info("Successfully deleted all staged records for batch job: {}", workNote.getBatchJobId());
+        } else {
+            LOG.info("Not deleting staged records for batch job: {} --> clear on completion flag is set to FALSE",
                     workNote.getBatchJobId());
         }
     }

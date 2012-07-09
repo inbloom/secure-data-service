@@ -20,6 +20,9 @@
 				groups and changes in performance from one occasion
 				to the next.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="assessmentTitle" type="assessmentTitle">
@@ -907,6 +910,9 @@
 				This entity represents a parent or guardian of a
 				student, such as mother, father, or caretaker.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="parentUniqueStateId" type="uniqueStateIdentifier">
@@ -1201,6 +1207,9 @@
 				StudentSectionAssociation,
 				SectionAssessmentAssociation
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="uniqueSectionCode" type="uniqueSectionCode">
@@ -1380,6 +1389,9 @@
 				education institution administration. A session may be interrupted
 				by one or more vacations.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="sessionName" type="identificationCode">
@@ -1662,6 +1674,9 @@
 				This association indicates the staff associated
 				with a cohort of students.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element maxOccurs="unbounded" name="staffId" type="reference">
@@ -1720,6 +1735,9 @@
 				member provides services. Also known as
 				school of service.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="staffReference" type="reference">
@@ -1837,6 +1855,9 @@
 			<xs:documentation>This association indicates the staff associated
 				with a program.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="staffId" type="reference" maxOccurs="unbounded">
@@ -2265,6 +2286,7 @@
 			</xs:documentation>
 			<xs:appinfo>
 				<sli:RestrictedForLogging>true</sli:RestrictedForLogging>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -2604,6 +2626,9 @@
 				student at the
 				end of a semester or school year.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentId" type="reference">
@@ -2775,6 +2800,9 @@
 				student's response on an assessment. The analysis results in a value
 				that represents a student's performance on a set of items on a test.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="administrationDate" type="xs:date">
@@ -3050,6 +3078,9 @@
 				This association represents the cohort(s) that a
 				student is designated for.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentId" type="reference">
@@ -3131,6 +3162,9 @@
 				perpetrators, witnesses, and/or reporters for a discipline
 				incident.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentId" type="reference">
@@ -3329,6 +3363,9 @@
 				This association relates students to their parents,
 				guardians, or caretakers.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentId" type="reference">
@@ -3414,6 +3451,9 @@
 				This association represents the program(s) that a
 				student participates in or is served by.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentId" type="reference">
@@ -3495,6 +3535,9 @@
 			<xs:documentation>This association indicates the course sections a
 				student is assigned to.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentId" type="reference">
@@ -3560,6 +3603,9 @@
 			<xs:documentation>This association represents the school to which a
 				student is enrolled.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentId" type="reference">
@@ -3709,6 +3755,9 @@
 				GradeBookEntry.
 				Associations: Student, Section, GradebookEntry
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="gradebookEntryId" type="reference">
@@ -3902,6 +3951,9 @@
 			<xs:documentation>This entity is the final record of a student's
 				performance in their courses at the end of semester or school year.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="courseAttemptResult" type="courseAttemptResultType">
@@ -4047,6 +4099,7 @@
 			</xs:documentation>
             <xs:appinfo>
                 <sli:CollectionType>staff</sli:CollectionType>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
             </xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -4091,6 +4144,9 @@
 				teacher provides
 				instructional services to.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="teacherId" type="reference">
@@ -4153,6 +4209,9 @@
 				which a teacher is
 				assigned to.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="teacherId" type="reference">
@@ -4300,6 +4359,9 @@
 				organization after a disruptive event that is recorded as a
 				discipline incident.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="disciplineActionIdentifier" type="disciplineActionIdentifier">
@@ -4424,9 +4486,6 @@
 
 	<xs:complexType name="educationOrganization">
 		<xs:annotation>
-			<xs:appinfo>
-				<sli:SecuritySphere>Public</sli:SecuritySphere>
-			</xs:appinfo>
 			<xs:documentation>This entity represents any public or private
 				institution,
 				organization, or agency that provides instructional or
@@ -4434,6 +4493,10 @@
 				students
 				or staff at any level.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:SecuritySphere>Public</sli:SecuritySphere>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="stateOrganizationId" type="identificationCode">
@@ -5279,6 +5342,9 @@
 			<xs:documentation>This entity represents identified learning
 				objectives for courses in specific grades.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="learningObjectiveId" type="learningStandardId"
@@ -5385,6 +5451,9 @@
 				student's
 				proficiency.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="learningStandardId" type="learningStandardId">
@@ -5577,6 +5646,9 @@
 				grading period). Student grades are usually a compilation of marks
 				and other scores.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="letterGradeEarned" minOccurs="0">
@@ -5671,6 +5743,9 @@
 				received.
 				Limitations: None
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="gradebookEntryType" type="gradebookEntryType">
@@ -5724,6 +5799,9 @@
 				This entity represents the time span for which
 				grades are reported.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="gradingPeriodIdentity" type="gradingPeriodIdentityType">
@@ -5828,6 +5906,9 @@
 				individual plans for
 				some or all students.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="graduationPlanType">
@@ -5956,6 +6037,9 @@
 				This entity represents any type of list of
 				designated students for tracking, analysis, or intervention.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="cohortIdentifier" type="cohortIdentifier">
@@ -6068,6 +6152,9 @@
 				If you are looking for a specific course instance, use section
 				instead.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="courseTitle" type="courseTitle">
@@ -6354,6 +6441,9 @@
 				Attendance is partitioned by school year. School years must be
 				unique per school year attendance.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentId" type="reference">
@@ -6540,6 +6630,9 @@
 				incidents are events classified as warranting
 				discipline action.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="incidentIdentifier" type="incidentIdentifier">
@@ -6742,6 +6835,9 @@
 			<xs:documentation>This entity represents a day in the school
 				calendar.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="date" type="xs:date">
@@ -6832,6 +6928,9 @@
 				state, or local agencies. Programs may also include
 				organized extracurricular activities for students.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element minOccurs="0" name="programId" type="programId">
@@ -6998,6 +7097,9 @@
 			<xs:documentation>This educational entity represents the collection
 				of student grades for courses taken during a grading period.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="grades" type="reference" minOccurs="0"
@@ -7230,6 +7332,9 @@
 			<xs:documentation>This entity represents the competency assessed or
 				evaluated for the student against a specific Learning Objective.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<!-- learningObjective and studentCompetencyObjective were wrapped in
@@ -7294,6 +7399,9 @@
 				student achievement that are not associated with specific learning
 				objectives (e.g., paying attention in class).
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="studentCompetencyObjectiveId" type="identificationCode"
