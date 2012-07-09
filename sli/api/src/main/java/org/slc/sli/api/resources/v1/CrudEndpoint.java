@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.resources.v1;
 
 import javax.ws.rs.core.HttpHeaders;
@@ -138,4 +155,24 @@ public interface CrudEndpoint {
      * @return a sub resource responsible for handling custom entity requests
      */
     public CustomEntityResource getCustomEntityResource(String id);
+    
+    /**
+     * Patches a given entity in a specific location or collection, which means that
+     * less than the full entity body is passed in the request and only passed keys are
+     * updated and the rest of the entity remains the same.
+     * 
+     * @param resourceName
+     *            where the entity should be located
+     * @param id
+     *            ID of object being patched
+     * @param newEntityBody
+     *            new map of keys/values for entity (partial set of key/values)
+     * @param headers
+     *            HTTP header information (which includes request headers)
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return resulting status from request
+     */
+    public Response patch(String resourceName, String id, EntityBody newEntityBody, HttpHeaders headers,
+            UriInfo uriInfo);
 }

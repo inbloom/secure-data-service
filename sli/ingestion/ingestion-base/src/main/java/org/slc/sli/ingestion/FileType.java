@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion;
 
 /**
@@ -8,35 +25,19 @@ package org.slc.sli.ingestion;
  */
 public enum FileType {
 
+    XML_ASSESSMENT_METADATA("AssessmentMetadata", FileFormat.EDFI_XML),
+    XML_STUDENT_ATTENDANCE("Attendance", FileFormat.EDFI_XML),
     XML_EDUCATION_ORGANIZATION("EducationOrganization", FileFormat.EDFI_XML),
     XML_EDUCATION_ORG_CALENDAR("EducationOrgCalendar", FileFormat.EDFI_XML),
-    XML_STAFF_ASSOCIATION("StaffAssociation", FileFormat.EDFI_XML),
-    XML_STUDENT_ATTENDANCE("Attendance", FileFormat.EDFI_XML),
-    XML_STUDENT_ENROLLMENT("StudentEnrollment", FileFormat.EDFI_XML),
     XML_MASTER_SCHEDULE("MasterSchedule", FileFormat.EDFI_XML),
-    XML_ASSESSMENT_METADATA("AssessmentMetadata", FileFormat.EDFI_XML),
+    XML_STAFF_ASSOCIATION("StaffAssociation", FileFormat.EDFI_XML),
     XML_STUDENT_ASSESSMENT("StudentAssessment", FileFormat.EDFI_XML),
-    XML_STUDENT_GRADES("StudentGrades", FileFormat.EDFI_XML),
-    XML_STUDENT_PARENT_ASSOCIATION("StudentParent", FileFormat.EDFI_XML),
-    XML_STUDENT_PROGRAM("StudentProgram", FileFormat.EDFI_XML),
     XML_STUDENT_COHORT("StudentCohort", FileFormat.EDFI_XML),
     XML_STUDENT_DISCIPLINE("StudentDiscipline", FileFormat.EDFI_XML),
-
-    CSV_STUDENT("Student", FileFormat.CSV),
-    CSV_SCHOOL("School", FileFormat.CSV),
-    CSV_STATE_EDUCATION_AGENCY("StateEducationAgency", FileFormat.CSV),
-    CSV_LOCAL_EDUCATION_AGENCY("LocalEducationAgency", FileFormat.CSV),
-    CSV_COURSE("Course", FileFormat.CSV),
-    CSV_STAFF("Staff", FileFormat.CSV),
-    CSV_SECTION("Section", FileFormat.CSV),
-    CSV_SESSION("Session", FileFormat.CSV),
-    CSV_TEACHER("Teacher", FileFormat.CSV),
-    CSV_STUDENT_SCHOOL_ASSOCIATION("StudentSchoolAssociation", FileFormat.CSV),
-    CSV_STUDENT_SECTION_ASSOCIATION("StudentSectionAssociation", FileFormat.CSV),
-    CSV_TEACHER_SCHOOL_ASSOCIATION("TeacherSchoolAssociation", FileFormat.CSV),
-    CSV_TEACHER_SECTION_ASSOCIATION("TeacherSectionAssociation", FileFormat.CSV),
-    CSV_LOCATION("Location", FileFormat.CSV),
-    CSV_OBJECTIVE_ASSESSMENT("ObjectiveAssessment", FileFormat.CSV);
+    XML_STUDENT_ENROLLMENT("StudentEnrollment", FileFormat.EDFI_XML),
+    XML_STUDENT_GRADES("StudentGrades", FileFormat.EDFI_XML),
+    XML_STUDENT_PARENT_ASSOCIATION("StudentParent", FileFormat.EDFI_XML),
+    XML_STUDENT_PROGRAM("StudentProgram", FileFormat.EDFI_XML);
 
     private final String name;
     private final FileFormat fileFormat;

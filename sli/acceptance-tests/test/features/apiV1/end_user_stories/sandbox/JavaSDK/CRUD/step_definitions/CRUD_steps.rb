@@ -1,13 +1,37 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require_relative '../../../../../../utils/sli_utils.rb'
 require_relative '../../../../../../dashboard/dash/step_definitions/selenium_common_dash.rb'
-
-Given /^I am logged in using "([^"]*)" and "([^"]*)" to realm Daybreak Central High$/ do |user, pass|
-  @byPassToken = $SESSION_MAP[user+"_IL"]
-  assert(@byPassToken!=nil,"cant login user #{user}")
-end
+require_relative '../../../../../../dashboard/dash/step_definitions/dashboard_api_integration_steps.rb'
 
 Given /^the Java SDK test app  is deployed on test app server$/ do
+  @appPrefix = "sample/"
+end
+
+Given /^I navigate to the Sample App$/ do
+  url = PropLoader.getProps['sampleApp_server_address']
+  url = url + @appPrefix
+  puts url
+  @driver.get url
   @appPrefix = "sample/testsdk"
+  @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 30)
 end
 
 When /^I put "([^"]*)"  with Name "([^"]*)"$/ do |arg1, arg2|
@@ -40,11 +64,9 @@ end
 
 When /^I send test request "([^"]*)" to SDK CRUD test url$/ do |testType|
   url = PropLoader.getProps['sampleApp_server_address']
-  url = url + @appPrefix+"?byPassToken="+URI.escape(@byPassToken)+"&test="+testType
+  url = url + @appPrefix + "?test="+testType
   puts url
-  @driver.get url
-  
-  
+  @driver.get url 
 end
 
 Then /^I should receive response "([^"]*)"$/ do |arg1|

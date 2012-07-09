@@ -69,7 +69,7 @@ And the class for id "attendances.attendanceRate" for student "Merry Mccanse" is
 And the count for id "attendances.attendanceRate" for student "Dominic Brisendine" is "100"
 And the class for id "attendances.attendanceRate" for student "Dominic Brisendine" is "color-widget-darkgreen"
 # TODO:  all TardyCount and rates are 0"
-And the grades teardrop color widgets for "SpringSemester2010-2011;FallSemester2010-2011" are mapped correctly:
+And the grades teardrop color widgets for "previousSemester;twoSemestersAgo" are mapped correctly:
  |grade|teardrop           |
  |A+   |teardrop-darkgreen |
  |A-   |teardrop-darkgreen |
@@ -94,7 +94,7 @@ And I view its student profile
 And their name shown in profile is "Matt Joseph Sollars Jr"
 And their id shown in proflie is "800000025"
 And their grade is "8"
-And the teacher is "Mrs Linda Kim"
+#And the teacher is "Mrs Linda Kim"
 And the class is "8th Grade English - Sec 6"
 And the lozenges count is "1"
 And the lozenges include "ELL"
@@ -221,7 +221,7 @@ And I view its student profile
 And their name shown in profile is "Mi-Ha Tran"
 And their id shown in proflie is "100000017"
 And their grade is "1"
-And the teacher is "Ms Rebecca Braverman"
+#And the teacher is "Ms Rebecca Braverman"
 And the class is "Mrs. Braverman's Homeroom #38"
 And the lozenges count is "0"
 And there are "4" Tabs
@@ -331,7 +331,7 @@ And the class for id "attendances.attendanceRate" for student "Garry Mcconnaughy
 # Attendance rate < 90
 And the count for id "attendances.attendanceRate" for student "Oma Bevington" is "85"
 And the class for id "attendances.attendanceRate" for student "Oma Bevington" is "color-widget-red"
-And the grades teardrop color widgets for "SpringSemester2010-2011;FallSemester2010-2011" are mapped correctly:
+And the grades teardrop color widgets for "previousSemester;twoSemestersAgo" are mapped correctly:
  |grade|teardrop           |
  |A+   |teardrop-darkgreen |
  |A-   |teardrop-darkgreen |
@@ -353,7 +353,7 @@ And I view its student profile
 And their name shown in profile is "Carmen Daniella Ortiz"
 And their id shown in proflie is "900000016"
 And their grade is "11"
-And the teacher is "!"
+#And the teacher is "!"
 #And the class is "American Literature"
 And the lozenges count is "0"
 And there are "4" Tabs
@@ -391,16 +391,16 @@ And parent "Felizia Ortiz" is his "Mother"
 And there are "1" phone numbers
 And the list of phone number includes "3095550000"
 And Student Enrollment History has the following entries:
-|Year   |School                 |Gr|Entry Date |Entry Type                                                                            |Transfer     |Withdraw Date  |Withdraw Type      |
-|<empty>|Daybreak Central High  |11|2011-09-08 |Next year school                                                                      |<empty>      |<empty>        |<empty>            |
-|<empty>|Daybreak Central High  |10|2010-09-08 |Next year school                                                                      |<empty>      |2011-05-11     |End of school year |
-|<empty>|Daybreak Central High  |9 |2009-09-08 |Transfer from a public school in the same local education agency                      |<empty>      |2010-05-11     |End of school year |
-|<empty>|<empty>                |8 |2008-09-11 |Transfer from a public school in the same local education agency                      |<empty>      |2009-05-08     |Exited             |
-|<empty>|<empty>                |7 |2007-09-14 |Next year school                                                                      |<empty>      |2008-02-12     |Student is in a different public school in the same local education agency|
-|<empty>|<empty>                |7 |2007-09-14 |Next year school                                                                      |<empty>      |2008-02-12     |Student is in a different public school in the same local education agency|
-|<empty>|<empty>                |6 |2006-09-11 |Next year school                                                                      |<empty>      |2007-05-14     |End of school year |
-|<empty>|<empty>                |5 |2005-09-09 |Transfer from a private, religiously-affiliated school in the same local education agency|<empty>   |2006-05-15     |Exited             |
-|<empty>|<empty>                |2 |2002-09-12 |Transfer from a school outside of the country                                         |<empty>      |2003-04-12     |Expelled or involuntarily withdrawn|
+|Year   |School                 |Gr|Entry Date |Entry Type                                                                               |Transfer     |Withdraw Date  |Withdraw Type      |
+|<empty>|Daybreak Central High  |11|2011-09-08 |Next year school                                                                         |<empty>      |<empty>        |<empty>            |
+|<empty>|Daybreak Central High  |10|2010-09-08 |Next year school                                                                         |<empty>      |2011-05-11     |End of school year |
+|<empty>|Daybreak Central High  |9 |2009-09-08 |Transfer from a public school in the same local education agency                         |<empty>      |2010-05-11     |End of school year |
+|<empty>|<empty>                |8 |2008-09-11 |Transfer from a public school in the same local education agency                         |<empty>      |2009-05-08     |Exited             |
+|<empty>|<empty>                |7 |2007-09-14 |Next year school                                                                         |<empty>      |2008-02-12     |Student is in a different public school in the same local education agency|
+|<empty>|<empty>                |7 |2007-09-14 |Next year school                                                                         |<empty>      |2008-02-12     |Student is in a different public school in the same local education agency|
+|<empty>|<empty>                |6 |2006-09-11 |Next year school                                                                         |<empty>      |2007-05-14     |End of school year |
+|<empty>|<empty>                |5 |2005-09-09 |Transfer from a private, religiously-affiliated school in the same local education agency|<empty>      |2006-05-15     |Exited|
+|<empty>|<empty>                |2 |2002-09-12 |Transfer from a school outside of the country                                            |<empty>      |2003-04-12     |Expelled or involuntarily withdrawn|
 And I see a header on the page that has the text "Logout"
 #And I see a footer on the page that has the text "Proprietary Information"
 When I click on "Assessment" Tab

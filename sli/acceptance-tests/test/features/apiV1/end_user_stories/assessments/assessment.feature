@@ -17,18 +17,15 @@ Background: None
         And I should receive a link named "self" with URI "/<TEACHER URI>/<'Linda Kim' ID>"
 
      When I navigate to GET "/<TEACHER URI>/<'Linda Kim' ID>/<TEACHER SECTION ASSOC URI>/<SECTION URI>"
-      Then I should have a list of 2 "section" entities
+      Then I should have a list of "section" entities
         And I should have an entity with ID "<'8th Grade English - Sec 6' ID>"
 
-     When I navigate to URI "/<SECTION URI>/<'8th Grade English - Sec 6' ID>/<SECTION ASSESSMENT ASSOC URI>/<ASSESSMENT URI>" with filter sorting and pagination
-        And filter by "assessmentTitle" = "Mathematics Achievement Assessment Test"
-#        And filter by "sortBy" = "assessmentPeriodDescriptor.beginDate"
-#        And filter by "sortOrder" = "descending"
-        And filter by "offset" = "0"
-        And filter by "limit" = "1"
-        And I submit the sorting and pagination request
-      Then I should have a list of 1 "assessment" entities
-        And I should have an entity with ID "<'Math Assessment' ID>"
+#     When I navigate to URI "/<SECTION URI>/<'8th Grade English - Sec 6' ID>/<SECTION ASSESSMENT ASSOC URI>/<ASSESSMENT URI>" with filter sorting and pagination
+#        And filter by "assessmentTitle" = "Mathematics Achievement Assessment Test"
+#        And filter by "offset" = "0"
+#        And I submit the sorting and pagination request
+#      Then I should have a list of "assessment" entities
+#        And I should have an entity with ID "<'Math Assessment' ID>"
 
      When I navigate to GET "/<ASSESSMENT URI>/<'Math Assessment' ID>"
       Then I should have a list of 1 "assessment" entities
@@ -72,9 +69,9 @@ Background: None
         And filter by "sortBy" = "administrationDate"
         And filter by "sortOrder" = "descending"
         And filter by "offset" = "0"
-        And filter by "limit" = "1"
+#        And filter by "limit" = "1"
         And I submit the sorting and pagination request
-      Then I should have a list of 1 "studentAssessmentAssociation" entities
+      Then I should have a list of "studentAssessmentAssociation" entities
         And I should have an entity with ID "<'Most Recent Math Student Assessment Association' ID>"
 
      When I navigate to GET "/<STUDENT ASSESSMENT ASSOC URI>/<'Most Recent Math Student Assessment Association' ID>"
@@ -101,7 +98,7 @@ Examples:
         And I should receive a link named "self" with URI "/<TEACHER URI>/<'Linda Kim' ID>"
 
     When I navigate to GET "/<TEACHER URI>/<'Linda Kim' ID>/<TEACHER SECTION ASSOC URI>/<SECTION URI>"
-    Then I should have a list of 2 "section" entities
+    Then I should have a list of "section" entities
         And I should have an entity with ID "<'8th Grade English - Sec 6' ID>"
 
     When I navigate to GET "/<SECTION URI>/<'8th Grade English - Sec 6' ID>/<STUDENT SECTION ASSOC URI>/<STUDENT URI>"
@@ -138,7 +135,7 @@ Examples:
      When I navigate to URI "/<STUDENT URI>/<'Matt Sollars' ID>/<STUDENT ASSESSMENT ASSOC URI>/<ASSESSMENT URI>" with filter sorting and pagination
         And filter by "assessmentTitle" = "SAT"
         And I submit the sorting and pagination request
-      Then I should have a list of 1 "assessment" entities
+      Then I should have a list of "assessment" entities
         And I should have an entity with ID "<'SAT' ID>"
 
      When I navigate to GET "/<ASSESSMENT URI>/<'SAT' ID>"
@@ -159,9 +156,9 @@ Examples:
         And filter by "sortBy" = "administrationDate"
         And filter by "sortOrder" = "descending"
         And filter by "offset" = "0"
-        And filter by "limit" = "1"
+        #And filter by "limit" = "1"
         And I submit the sorting and pagination request
-      Then I should have a list of 1 "studentAssessmentAssociation" entities
+      Then I should have a list of "studentAssessmentAssociation" entities
         And I should have an entity with ID "<'Most Recent SAT Student Assessment Association' ID>"
 
      When I navigate to GET "/<STUDENT ASSESSMENT ASSOC URI>/<'Most Recent SAT Student Assessment Association' ID>"

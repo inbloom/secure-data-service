@@ -1,33 +1,61 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.dal.repository;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
 import org.slc.sli.common.util.datetime.DateTimeUtil;
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.EntityValidator;
 
 /**
  * mongodb implementation of the entity repository interface that provides basic
  * CRUD and field query methods for entities including core entities and
  * association entities
+ *
  * @author Dong Liu dliu@wgen.net
  */
 
-public class MongoEntityRepository extends MongoRepository<Entity> {
+public class MongoEntityRepository extends MongoRepository<Entity> implements InitializingBean {
     protected static final Logger LOG = LoggerFactory.getLogger(MongoEntityRepository.class);
+    private static final String TENANT_ID = "tenantId";
+
+    private static final int PADDING = 300;
 
     @Autowired
     private EntityValidator validator;
@@ -36,6 +64,20 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
     @Qualifier("entityEncryption")
     EntityEncryption encrypt;
 
+    @Value("${sli.default.mongotemplate.writeConcern}")
+    private String writeConcern;
+
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        setWriteConcern(writeConcern);
+    }
+
+    @Override
+    public void setReferenceCheck(String referenceCheck) {
+        validator.setReferenceCheck(referenceCheck);
+
+    }
 
     @Override
     protected String getRecordId(Entity entity) {
@@ -47,14 +89,29 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
         return Entity.class;
     }
 
-
     @Override
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
         Assert.notNull(body, "The given entity must not be null!");
-        Entity entity = new MongoEntity(type, null, body, metaData);
-        validator.validate(entity);
-        this.addTimestamps(entity);
+        if (metaData == null) {
+            metaData = new HashMap<String, Object>();
+        }
 
+        String tenantId = TenantContext.getTenantId();
+        if (tenantId != null && !NOT_BY_TENANT.contains(collectionName)) {
+            if (metaData.get("tenantId") == null) {
+                metaData.put("tenantId", tenantId);
+            }
+        }
+
+        Entity entity = new MongoEntity(type, null, body, metaData, PADDING);
+        validator.validate(entity);
+
+        // natural fields are only applicable for API crud operations
+        if (isKeyFieldsRecordExists(entity, collectionName)) {
+            return null;
+        }
+
+        this.addTimestamps(entity);
         return super.create(entity, collectionName);
     }
 
@@ -66,15 +123,15 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
 
     @Override
     protected Entity getEncryptedRecord(Entity entity) {
-        MongoEntity encryptedEntity = new MongoEntity(entity.getType(), entity.getEntityId(),
-                entity.getBody(), entity.getMetaData());
+        MongoEntity encryptedEntity = new MongoEntity(entity.getType(), entity.getEntityId(), entity.getBody(),
+                entity.getMetaData());
         encryptedEntity.encrypt(encrypt);
         return encryptedEntity;
     }
 
     @Override
     protected Update getUpdateCommand(Entity entity) {
-        //set up update query
+        // set up update query
         Map<String, Object> entityBody = entity.getBody();
         Map<String, Object> entityMetaData = entity.getMetaData();
         Update update = new Update().set("body", entityBody).set("metaData", entityMetaData);
@@ -84,12 +141,18 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
     @Override
     public boolean update(String collection, Entity entity) {
         validator.validate(entity);
+
+        // natural fields can only be applicable for API crud operations
+        if (isKeyFieldsRecordExists(entity, collection)) {
+            return false;
+        }
         this.updateTimestamp(entity);
-//        Map<String, Object> body = entity.getBody();
-//        if (encrypt != null) {
-//            body = encrypt.encrypt(entity.getType(), entity.getBody());
-//        }
-        return update(collection, entity, null); //body);
+
+        // Map<String, Object> body = entity.getBody();
+        // if (encrypt != null) {
+        // body = encrypt.encrypt(entity.getType(), entity.getBody());
+        // }
+        return update(collection, entity, null); // body);
     }
 
     /** Add the created and updated timestamp to the document metadata. */
@@ -106,6 +169,71 @@ public class MongoEntityRepository extends MongoRepository<Entity> {
     public void updateTimestamp(Entity entity) {
         Date now = DateTimeUtil.getNowInUTC();
         entity.getMetaData().put(EntityMetadataKey.UPDATED.getKey(), now);
+    }
+
+    /**
+     *
+     * @param entity
+     * @param collectionName
+     * @return
+     */
+    private boolean isKeyFieldsRecordExists(final Entity entity, String collectionName) {
+
+        boolean recordMatchingKeyFields = false;
+        List<String> naturalKeyList = validator.getNaturalKeyFields(entity);
+
+        if (naturalKeyList != null && naturalKeyList.size() != 0) {
+
+            Map<String, Object> newEntityBody = entity.getBody();
+            boolean possibleMatch = true;
+            String entityId = entity.getEntityId();
+
+            // if we have an existing entityId, then we're doing an update. Check to
+            // make sure that there is no existing entity with the new key fields of the entity
+            if (entityId != null && !entityId.isEmpty()) {
+                possibleMatch = false;
+                NeutralQuery neutralQuery = new NeutralQuery();
+                neutralQuery.addCriteria(new NeutralCriteria("_id", "=", entity.getEntityId()));
+                neutralQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, entity.getMetaData().get(TENANT_ID), false));
+
+                Entity existingEntity = super.findOne(collectionName, neutralQuery);
+                if (existingEntity != null) {
+                    for (String key : naturalKeyList) {
+
+                        Map<String, Object> existingBody = existingEntity.getBody();
+                        Object value = existingBody.get(key);
+                        if (!newEntityBody.containsKey(key)) {
+                            newEntityBody.put(key, value);
+                        } else {
+                            String existingValueString = value.toString();
+                            String newValueString = newEntityBody.get(key).toString();
+
+                            // if all values are equal, then we're ok - as we're just trying to catch
+                            // the case where a key field has been changed, and check the new target
+                            if (!existingValueString.equals(newValueString)) {
+                                possibleMatch = true;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // At this point we either have a possible match on the entity to create or the new key fields of the entity we're updating
+            if (possibleMatch) {
+                NeutralQuery neutralQuery = new NeutralQuery();
+                for (String key : naturalKeyList) {
+                    neutralQuery.addCriteria(new NeutralCriteria(key, NeutralCriteria.OPERATOR_EQUAL, newEntityBody.get(key)));
+                }
+                neutralQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, entity.getMetaData().get(TENANT_ID), false));
+
+                Entity existingEntity = super.findOne(collectionName, neutralQuery);
+                if (existingEntity != null) {
+                    recordMatchingKeyFields = true;
+                }
+            }
+        }
+
+        return recordMatchingKeyFields;
     }
 
 }

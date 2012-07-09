@@ -20,3 +20,12 @@ Scenario: Zombie Bug 2: Infinate redirect loop when accessing Databrowser while 
 	And I was redirected to the "Simple" IDP Login page
 	When I submit the credentials "badadmin" "badadmin1234" for the "Simple" login page
 	Then I should see a message that I am forbidden
+
+Scenario: Zombie Bug 3: Infinite redirect loop when accessing Databrowser while having expired session
+	
+	Given I have an open web browser
+	And I have a _tla cookie set to an expired session
+	And I navigated to the Data Browser Home URL
+	And I was redirected to the "Simple" IDP Login page
+	And I submit the credentials "cgray" "cgray1234" for the "Simple" login page
+        Then I should be redirected to the Data Browser home page

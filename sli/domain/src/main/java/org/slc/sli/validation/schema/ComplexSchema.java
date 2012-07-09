@@ -1,5 +1,23 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.validation.schema;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -70,11 +88,25 @@ public class ComplexSchema extends NeutralSchema {
             for (Map.Entry<String, NeutralSchema> entry : getFields().entrySet()) {
                 NeutralSchema schema = entry.getValue();
                 AppInfo appInfo = schema.getAppInfo();
-                if (appInfo != null && appInfo.isRequired() && !entityMap.containsKey(entry.getKey())) {
-                    addError(false, entry.getKey(), "", schema.getSchemaType().toString(),
-                            ErrorType.REQUIRED_FIELD_MISSING,
-                            errors);
-                    isValid = false;
+                if (appInfo != null && appInfo.isRequired()) {
+                    Object element = entityMap.get(entry.getKey());
+                    if (element == null) {
+                        isValid = false;
+                    } else if (element instanceof Collection) {
+                        if (((Collection<?>) element).isEmpty()) {
+                            isValid = false;
+                        }
+                    } else if (element instanceof Map) {
+                        if (((Map<?, ?>) element).isEmpty()) {
+                            isValid = false;
+                        }
+                    }
+
+                    if (!isValid) {
+                        addError(false, entry.getKey(), "", schema.getSchemaType().toString(),
+                                ErrorType.REQUIRED_FIELD_MISSING,
+                                errors);
+                    }
                 }
             }
 
@@ -101,7 +133,7 @@ public class ComplexSchema extends NeutralSchema {
                         myEntityMap.put(fieldName, convertedFieldValue);
                     } else {
                         isValid = false;
-                        
+
                         // Return immediately since errors list was not indicated
                         if (errors == null) {
                             return false;

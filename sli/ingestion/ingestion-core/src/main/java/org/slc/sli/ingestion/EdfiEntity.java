@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion;
 
 import java.util.Arrays;
@@ -47,35 +64,39 @@ public enum EdfiEntity {
 
     ASSESSMENT_PERIOD_DESCRIPTOR("assessmentPeriodDescriptor", Collections.<EdfiEntity>emptyList()),
 
-    EDUCATION_ORGANIZATION("educationOrganization", Arrays.asList(PROGRAM)),
+    EDUCATION_ORGANIZATION("educationOrganization", Arrays.asList(PROGRAM, CLASS_PERIOD, SELF)),
 
     ACADEMIC_WEEK("academicWeek", Arrays.asList(EdfiEntity.CALENDAR_DATE)),
-
-    GRADING_PERIOD("gradingPeriod", Arrays.asList(CALENDAR_DATE)),
 
     LEARNING_OBJECTIVE("learningObjective", Arrays.asList(LEARNING_STANDARD, SELF)),
 
     STATE_EDUCATION_AGENCY("stateEducationAgency", Arrays.asList(PROGRAM, SELF)),
 
-    EDUCATION_SERVICE_CENTER("educationServiceCenter", Arrays.asList(STATE_EDUCATION_AGENCY, PROGRAM, SELF)),
+    EDUCATION_SERVICE_CENTER("educationServiceCenter", Arrays.asList(STATE_EDUCATION_AGENCY, PROGRAM, SELF,
+            EDUCATION_ORGANIZATION)),
 
     LOCAL_EDUCATION_AGENCY("localEducationAgency", Arrays.asList(STATE_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER,
-            PROGRAM, SELF)),
+            PROGRAM, SELF, EDUCATION_ORGANIZATION)),
 
-    SCHOOL("school", Arrays.asList(LOCAL_EDUCATION_AGENCY, EDUCATION_ORGANIZATION, CLASS_PERIOD, SELF)),
+    SCHOOL("school", Arrays.asList(STATE_EDUCATION_AGENCY, LOCAL_EDUCATION_AGENCY, EDUCATION_ORGANIZATION,
+            CLASS_PERIOD, SELF)),
 
-    DIPLOMA("diploma", Arrays.asList(SCHOOL)),
+    GRADING_PERIOD("gradingPeriod", Arrays.asList(CALENDAR_DATE, STATE_EDUCATION_AGENCY,
+            LOCAL_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER, SCHOOL, EDUCATION_ORGANIZATION)),
+
+    DIPLOMA("diploma", Arrays.asList(SCHOOL, EDUCATION_ORGANIZATION)),
 
     STUDENT_PARENT_ASSOCIATION("studentParentAssociation", Arrays.asList(STUDENT, PARENT)),
 
-    STUDENT_PROGRAM_ASSOCIATION("studentProgramAssociation", Arrays.asList(STUDENT, PROGRAM, EDUCATION_ORGANIZATION)),
+    STUDENT_PROGRAM_ASSOCIATION("studentProgramAssociation", Arrays.asList(STUDENT, PROGRAM, STATE_EDUCATION_AGENCY,
+            LOCAL_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER, SCHOOL, EDUCATION_ORGANIZATION)),
 
     STAFF_PROGRAM_ASSOCIATION("staffProgramAssociation", Arrays.asList(STAFF, PROGRAM)),
 
     ASSESSMENT_ITEM("assessmentItem", Arrays.asList(LEARNING_STANDARD)),
 
     BEHAVIOR_DESCRIPTOR("behaviorDescriptor", Arrays.asList(STATE_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER,
-            LOCAL_EDUCATION_AGENCY, SCHOOL)),
+            LOCAL_EDUCATION_AGENCY, SCHOOL, EDUCATION_ORGANIZATION)),
 
     COHORT("cohort", Arrays.asList(PROGRAM, STATE_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER, LOCAL_EDUCATION_AGENCY,
             SCHOOL, EDUCATION_ORGANIZATION)),
@@ -83,37 +104,40 @@ public enum EdfiEntity {
     COURSE("course", Arrays.asList(LEARNING_OBJECTIVE, LEARNING_STANDARD, STATE_EDUCATION_AGENCY,
             EDUCATION_SERVICE_CENTER, LOCAL_EDUCATION_AGENCY, SCHOOL, EDUCATION_ORGANIZATION)),
 
-    DISCIPLINE_INCIDENT("disciplineIncident", Arrays.asList(SCHOOL, STAFF)),
+    DISCIPLINE_INCIDENT("disciplineIncident", Arrays.asList(SCHOOL, STAFF, EDUCATION_ORGANIZATION)),
 
     OBJECTIVE_ASSESSMENT("objectiveAssessment", Arrays.asList(LEARNING_OBJECTIVE, LEARNING_STANDARD, SELF)),
 
     SESSION("session", Arrays.asList(GRADING_PERIOD, CALENDAR_DATE, ACADEMIC_WEEK, STATE_EDUCATION_AGENCY,
-            EDUCATION_SERVICE_CENTER, LOCAL_EDUCATION_AGENCY, SCHOOL)),
+            EDUCATION_SERVICE_CENTER, LOCAL_EDUCATION_AGENCY, SCHOOL, EDUCATION_ORGANIZATION)),
 
     STAFF_EDUCATION_ORG_ASSIGNMENT_ASSOCIATION("staffEducationOrgAssignmentAssociation", Arrays.asList(STAFF,
-            STATE_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER, LOCAL_EDUCATION_AGENCY, SCHOOL)),
+            STATE_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER, LOCAL_EDUCATION_AGENCY, SCHOOL, EDUCATION_ORGANIZATION)),
 
     STUDENT_COMPETENCY_OBJECTIVE("studentCompetencyObjective", Arrays.asList(STATE_EDUCATION_AGENCY,
-            EDUCATION_SERVICE_CENTER, LOCAL_EDUCATION_AGENCY, SCHOOL)),
+            EDUCATION_SERVICE_CENTER, LOCAL_EDUCATION_AGENCY, SCHOOL, EDUCATION_ORGANIZATION)),
 
-    STUDENT_SCHOOL_ASSOCIATION("studentSchoolAssociation", Arrays.asList(STUDENT, SCHOOL, GRADUATION_PLAN)),
+    STUDENT_SCHOOL_ASSOCIATION("studentSchoolAssociation", Arrays.asList(STUDENT, SCHOOL, GRADUATION_PLAN,
+            EDUCATION_ORGANIZATION)),
 
-    TEACHER_SCHOOL_ASSOCIATION("teacherSchoolAssociation", Arrays.asList(TEACHER, SCHOOL)),
+    TEACHER_SCHOOL_ASSOCIATION("teacherSchoolAssociation", Arrays.asList(TEACHER, SCHOOL, EDUCATION_ORGANIZATION)),
 
-    COURSE_OFFERING("courseOffering", Arrays.asList(SCHOOL, SESSION, COURSE)),
+    COURSE_OFFERING("courseOffering", Arrays.asList(SCHOOL, SESSION, COURSE, EDUCATION_ORGANIZATION)),
 
-    DISCIPLINE_ACTION("disciplineAction", Arrays.asList(STUDENT, DISCIPLINE_INCIDENT, STAFF, SCHOOL)),
+    DISCIPLINE_ACTION("disciplineAction", Arrays.asList(STUDENT, DISCIPLINE_INCIDENT, STAFF, SCHOOL,
+            EDUCATION_ORGANIZATION)),
 
     STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION("studentDisciplineIncidentAssociation", Arrays.asList(STUDENT,
             DISCIPLINE_INCIDENT)),
 
-    SECTION("section", Arrays.asList(COURSE_OFFERING, SCHOOL, SESSION, LOCATION, CLASS_PERIOD, PROGRAM)),
+    SECTION("section", Arrays.asList(COURSE_OFFERING, SCHOOL, SESSION, LOCATION, CLASS_PERIOD, PROGRAM,
+            EDUCATION_ORGANIZATION)),
 
     STUDENT_SECTION_ASSOCIATION("studentSectionAssociation", Arrays.asList(STUDENT, SECTION)),
 
     ASSESSMENT("assessment", Arrays.asList(ASSESSMENT_ITEM, OBJECTIVE_ASSESSMENT, ASSESSMENT_FAMILY, SECTION)),
 
-    ATTENDANCE_EVENT("attendanceEvent", Arrays.asList(STUDENT, SECTION, SCHOOL)),
+    ATTENDANCE_EVENT("attendanceEvent", Arrays.asList(STUDENT, SECTION, SCHOOL, EDUCATION_ORGANIZATION)),
 
     TEACHER_SECTION_ASSOCIATION("teacherSectionAssociation", Arrays.asList(TEACHER, SECTION)),
 
@@ -131,16 +155,16 @@ public enum EdfiEntity {
     STUDENT_OBJECTIVE_ASSESSMENT("studentObjectiveAssessment", Arrays.asList(OBJECTIVE_ASSESSMENT, STUDENT_ASSESSMENT)),
 
     COURSE_TRANSCRIPT("courseTranscript", Arrays.asList(STUDENT_ACADEMIC_RECORD, STATE_EDUCATION_AGENCY,
-            EDUCATION_SERVICE_CENTER, LOCAL_EDUCATION_AGENCY, SCHOOL, COURSE)),
+            EDUCATION_SERVICE_CENTER, LOCAL_EDUCATION_AGENCY, SCHOOL, COURSE, EDUCATION_ORGANIZATION)),
 
     DISCIPLINE_DESCRIPTOR("disciplineDescriptor", Arrays.asList(STATE_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER,
-            LOCAL_EDUCATION_AGENCY, SCHOOL)),
+            LOCAL_EDUCATION_AGENCY, SCHOOL, EDUCATION_ORGANIZATION)),
 
     FEEDER_SCHOOL_ASSOCIATION("feederSchoolAssociation", Arrays.asList(STATE_EDUCATION_AGENCY,
-            EDUCATION_SERVICE_CENTER, LOCAL_EDUCATION_AGENCY, SCHOOL)),
+            EDUCATION_SERVICE_CENTER, LOCAL_EDUCATION_AGENCY, SCHOOL, EDUCATION_ORGANIZATION)),
 
     OPEN_STAFF_POSITION("openStaffPosition", Arrays.asList(STATE_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER,
-            LOCAL_EDUCATION_AGENCY, SCHOOL)),
+            LOCAL_EDUCATION_AGENCY, SCHOOL, EDUCATION_ORGANIZATION)),
 
     BELL_SCHEDULE("bellSchedule", Collections.<EdfiEntity>emptyList()),
 
@@ -158,27 +182,28 @@ public enum EdfiEntity {
 
     MEETING_TIME("meetingTime", Arrays.asList(CLASS_PERIOD)),
 
-    RESTRAINT_EVENT("restraintEvent", Arrays.asList(STUDENT, SCHOOL, PROGRAM)),
+    RESTRAINT_EVENT("restraintEvent", Arrays.asList(STUDENT, SCHOOL, PROGRAM, EDUCATION_ORGANIZATION)),
 
-    STAFF_COHORT_ASSOCIATION("staffCohortAssociation", Arrays.asList(STAFF, COHORT)),
+    STAFF_COHORT_ASSOCIATION("staffCohortAssociation", Arrays.asList(STAFF, TEACHER, COHORT)),
 
     STUDENT_COHORT_ASSOCIATION("studentCohortAssociation", Arrays.asList(STUDENT, COHORT)),
 
     STAFF_EDUCATION_ORG_EMPLOYMENT_ASSOCIATION("staffEducationOrgEmploymentAssociation", Arrays.asList(STAFF,
-            STATE_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER, LOCAL_EDUCATION_AGENCY, SCHOOL)),
+            STATE_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER, LOCAL_EDUCATION_AGENCY, SCHOOL, EDUCATION_ORGANIZATION)),
 
-    STUDENT_GRADEBOOK_ENTRY("studentGradebookEntry", Arrays.asList(GRADEBOOK_ENTRY, STUDENT_SECTION_ASSOCIATION, STUDENT, SECTION)),
+    STUDENT_GRADEBOOK_ENTRY("studentGradebookEntry", Arrays.asList(GRADEBOOK_ENTRY, STUDENT_SECTION_ASSOCIATION,
+            STUDENT, SECTION)),
 
     STUDENT_ASSESSMENT_ITEM("studentAssessmentItem", Arrays.asList(STUDENT_OBJECTIVE_ASSESSMENT, SELF)),
 
     STUDENT_CTE_PROGRAM_ASSOCIATION("studentCTEProgramAssociation", Arrays.asList(STUDENT, PROGRAM,
-            STATE_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER, LOCAL_EDUCATION_AGENCY, SCHOOL)),
+            STATE_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER, LOCAL_EDUCATION_AGENCY, SCHOOL, EDUCATION_ORGANIZATION)),
 
     STUDENT_SPECIAL_ED_PROGRAM_ASSOCIATION("studentSpecialEdProgramAssociation", Arrays.asList(STUDENT, PROGRAM,
-            STATE_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER, LOCAL_EDUCATION_AGENCY, SCHOOL)),
+            STATE_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER, LOCAL_EDUCATION_AGENCY, SCHOOL, EDUCATION_ORGANIZATION)),
 
     STUDENT_TITLE_PART_A_PROGRAM_ASSOCIATION("studentTitlePartAProgramAssociation", Arrays.asList(STUDENT, PROGRAM,
-            STATE_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER, LOCAL_EDUCATION_AGENCY, SCHOOL));
+            STATE_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER, LOCAL_EDUCATION_AGENCY, SCHOOL, EDUCATION_ORGANIZATION));
 
     // *******************************************************************************************************
     private static final Map<String, EdfiEntity> ALIAS = new HashMap<String, EdfiEntity>();
@@ -258,6 +283,10 @@ public enum EdfiEntity {
             }
         }
         return found;
+    }
+
+    public boolean isSelfReferencing() {
+        return neededEntities.contains(SELF);
     }
 
 }

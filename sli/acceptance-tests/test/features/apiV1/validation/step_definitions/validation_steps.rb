@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'rest-client'
 require 'json'
 require_relative '../../../utils/sli_utils.rb'
@@ -10,6 +29,7 @@ Transform /^<(.+)>$/ do |template|
   id = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb" if template == "'South Daybreak Elementary' ID"
   id = "706ee3be-0dae-4e98-9525-f564e05aa388" if template == "'Valid Section' ID"
   id = "thisisaninvalididsoitshouldreturn404" if template == "'Invalid Section' ID"
+  id = @newId                                 if template == "NEWLY CREATED ENTITY ID"
   id
 end
 

@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'rumbster'
 require 'message_observers'
 
@@ -70,12 +89,16 @@ end
 Then /^I should receive a link named "([^"]*)" with URI "([^"]*)"$/ do |rel, href|
   assert(@result.has_key?("links"), "Response contains no links")
   found = false
-  @result["links"].each do |link|
-    if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
-      found = true
+  if !rel.nil? && !rel.empty?
+    @result["links"].each do |link|
+      if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
+        found = true
+      end
     end
+  else
+    found = true
   end
-  assert(found, "Link not found rel=#{rel}, href ends with=#{href}")
+   assert(found, "Link not found rel=#{rel}, href ends with=#{href}")  
 end
 
 When /^I PUT the entity to "([^"]*)"$/ do |url|
@@ -95,12 +118,12 @@ Given /^I have a "([^"]*)" SMTP\/Email server configured$/ do |live_or_mock|
   sender_email_address = "hlufhdsaffhuawiwhfkj@slidev.org"
   @email_name = "SLC Admin"
   test_port = 2525
-  @mode = (live_or_mock == "live")
+  @live_email_mode = (live_or_mock == "live")
   
-  if @mode
+  if @live_email_mode
     @email_conf = {
-      :host => 'mon.slidev.org',
-      :port => 3000
+      :host => PropLoader.getProps['email_smtp_host'],
+      :port => PropLoader.getProps['email_smtp_port']
     }
   else
     @rumbster = Rumbster.new(test_port)
@@ -116,3 +139,4 @@ Given /^I have a "([^"]*)" SMTP\/Email server configured$/ do |live_or_mock|
   @email_conf[:replacer] = { "__URI__" => "http://localhost:3000"}
   @email_conf[:sender_email_addr] = sender_email_address
 end
+

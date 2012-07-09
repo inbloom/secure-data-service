@@ -1,5 +1,5 @@
 {
-    "keyFields" : [ "metaData.externalId", "body.gradingPeriodIdentity", "body.beginDate", "body.endDate" ],
+    "keyFields" : [ "body.gradingPeriodIdentity.schoolYear", "body.gradingPeriodIdentity.gradingPeriod", "body.gradingPeriodIdentity.schoolId" ],
     "references" :
             [
                 {
@@ -30,18 +30,33 @@
                     }
                 },
                 {
-                    "fieldPath" : "body.gradingPeriodIdentity",
+                    "fieldPath" : "body.gradingPeriodIdentity.schoolId",
                     "ref" : {
                         "collectionName" : "educationOrganization",
-                        "optional" : true,
                         "choiceOfFields" :
                                 [
                                     [
                                         {
+                                            "isList" : true,
                                             "path" : "body.educationOrgIdentificationCode",
+
+                                            "entityKey" : "educationOrgIdentificationCode",
+                                            "queryList" :
+                                            {
+                                                "ID" : "body.educationOrgIdentificationCode.ID",
+                                                "identificationSystem" : "body.educationOrgIdentificationCode.identificationSystem"
+                                            },
+
                                             "values" :
                                                     [
-                                                        { "valueSource" : "body.gradingPeriodIdentity.educationOrgIdentificationCode" }
+                                                        { "valueSource" : "body.gradingPeriodIdentity.educationalOrgIdentity" }
+                                                    ]
+                                        },
+                                        {
+                                            "path" : "body.stateOrganizationId",
+                                            "values" :
+                                                    [
+                                                        { "valueSource" : "body.gradingPeriodIdentity.stateOrganizationId" }
                                                     ]
                                         }
                                     ]

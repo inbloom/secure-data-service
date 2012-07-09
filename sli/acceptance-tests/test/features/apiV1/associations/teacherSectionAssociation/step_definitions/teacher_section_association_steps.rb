@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'rest-client'
 require 'json'
 require 'builder'
@@ -48,6 +67,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #general
   id = "11111111-1111-1111-1111-111111111111"   if human_readable_id == "INVALID REFERENCE"
+  id = "04f708bc-928b-420d-a440-f1592a5d1073"   if human_readable_id == "INACCESSIBLE REFERENCE 1"
+  id = "a47eb9aa-1c97-4c8e-9d0a-45689a66d4f8"   if human_readable_id == "INACCESSIBLE REFERENCE 2"
   id = "self"                                   if human_readable_id == "SELF LINK NAME" 
   id = @newId                                   if human_readable_id == "NEWLY CREATED ASSOCIATION ID"
   id = "Validation failed"                      if human_readable_id == "VALIDATION"
@@ -63,8 +84,8 @@ end
 
 Given /^a valid association json document for a "([^"]*)"$/ do |arg1|
   @fields = {
-    "teacherId" => "a936f73f-7751-412d-922f-87ad78fd6bd1",
-    "sectionId" => "4efb4262-bc49-f388-0000-0000c9355700",
+    "teacherId" => "edce823c-ee28-4840-ae3d-74d9e9976dc5",
+    "sectionId" => "7295e51e-cd51-4901-ae67-fa33966478c7",
     "classroomPosition" => "Teacher of Record"
 }
 end

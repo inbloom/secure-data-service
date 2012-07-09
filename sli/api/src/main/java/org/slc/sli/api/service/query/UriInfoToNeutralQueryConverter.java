@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.service.query;
 
 import java.util.HashMap;
@@ -5,7 +22,7 @@ import java.util.Map;
 
 import javax.ws.rs.core.UriInfo;
 
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
@@ -14,28 +31,28 @@ import org.slc.sli.domain.QueryParseException;
  * Converts a String into a database independent NeutralQuery object.
  * It is up to the specific database implementation to turn the NeutralQuery
  * into the appropriate type of parameter for the associated DB engine.
- * 
+ *
  * @author kmyers
- * 
+ *
  */
 public class UriInfoToNeutralQueryConverter {
-    
+
     /**
      * Keywords that the API handles through specific bindings in a NeutralQuery.
-     * 
+     *
      * @author kmyers
-     * 
+     *
      */
     protected interface NeutralCriteriaImplementation {
         public void convert(NeutralQuery neutralQuery, Object value);
     }
-    
+
     /* Criteria keywords and what to do with them when encountered */
     private Map<String, NeutralCriteriaImplementation> reservedQueryKeywordImplementations;
-    
+
     public UriInfoToNeutralQueryConverter() {
         reservedQueryKeywordImplementations = new HashMap<String, NeutralCriteriaImplementation>();
-        
+
         // limit
         reservedQueryKeywordImplementations.put(ParameterConstants.LIMIT, new NeutralCriteriaImplementation() {
             @Override
@@ -43,7 +60,7 @@ public class UriInfoToNeutralQueryConverter {
                 neutralQuery.setLimit(Integer.parseInt((String) value));
             }
         });
-        
+
         // skip
         reservedQueryKeywordImplementations.put(ParameterConstants.OFFSET, new NeutralCriteriaImplementation() {
             @Override
@@ -51,7 +68,7 @@ public class UriInfoToNeutralQueryConverter {
                 neutralQuery.setOffset(Integer.parseInt((String) value));
             }
         });
-        
+
         // includeFields
         reservedQueryKeywordImplementations.put(ParameterConstants.INCLUDE_FIELDS, new NeutralCriteriaImplementation() {
             @Override
@@ -59,7 +76,7 @@ public class UriInfoToNeutralQueryConverter {
                 neutralQuery.setIncludeFields((String) value);
             }
         });
-        
+
         // excludeFields
         reservedQueryKeywordImplementations.put(ParameterConstants.EXCLUDE_FIELDS, new NeutralCriteriaImplementation() {
             @Override
@@ -67,7 +84,7 @@ public class UriInfoToNeutralQueryConverter {
                 neutralQuery.setExcludeFields((String) value);
             }
         });
-        
+
         // sortBy
         reservedQueryKeywordImplementations.put(ParameterConstants.SORT_BY, new NeutralCriteriaImplementation() {
             @Override
@@ -75,7 +92,7 @@ public class UriInfoToNeutralQueryConverter {
                 neutralQuery.setSortBy((String) value);
             }
         });
-        
+
         // sortOrder
         reservedQueryKeywordImplementations.put(ParameterConstants.SORT_ORDER, new NeutralCriteriaImplementation() {
             @Override
@@ -88,11 +105,11 @@ public class UriInfoToNeutralQueryConverter {
             }
         });
     }
-    
+
     /**
      * Converts a & separated list of criteria into a neutral criteria object. Adds all
      * criteria to the provided neutralQuery.
-     * 
+     *
      * @param neutralQuery
      *            object to add criteria to
      * @return a non-null neutral query containing any specified criteria
@@ -121,14 +138,14 @@ public class UriInfoToNeutralQueryConverter {
                 }
             }
         }
-        
+
         return neutralQuery;
     }
-    
+
     /**
      * Converts a & separated list of criteria into a neutral criteria object. Creates a new
      * NeutralQuery with all associated criteria.
-     * 
+     *
      * @return a neutral implementation of the query string
      */
     public NeutralQuery convert(UriInfo uriInfo) {

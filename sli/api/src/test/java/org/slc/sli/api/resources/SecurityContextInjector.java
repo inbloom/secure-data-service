@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.resources;
 
 import java.util.Arrays;
@@ -31,6 +48,13 @@ public class SecurityContextInjector {
     @Autowired
     private RolesToRightsResolver resolver;
     
+    public void setCustomContext(String user, String fullName, String realm, List<String> roles, Entity entity,
+            String edOrgId) {
+        SLIPrincipal principal = buildPrincipal(user, fullName, realm, roles, entity);
+        principal.setEdOrg(edOrgId);
+        setSecurityContext(principal);
+    }
+
     public void setAdminContext() {
         String user = "administrator";
         String fullName = "IT Administrator";
@@ -42,6 +66,19 @@ public class SecurityContextInjector {
         principal.setEdOrg(ED_ORG_ID);
         setSecurityContext(principal);
     }
+    
+    public void setAccessAllAdminContext() {
+        String user = "administrator";
+        String fullName = "IT Administrator";
+        List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.IT_ADMINISTRATOR);
+        
+        Entity entity = Mockito.mock(Entity.class);
+        Mockito.when(entity.getType()).thenReturn("access-all-staff");
+        SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
+        principal.setEdOrg(ED_ORG_ID);
+        setSecurityContext(principal);
+    }
+
     
     public void setDeveloperContext() {
         String user = "developer";
@@ -157,6 +194,18 @@ public class SecurityContextInjector {
         
     }
     
+    public void setAccessAllAdminContextWithElevatedRights() {
+        setAccessAllAdminContext();
+        
+        PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder
+                .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
+                .getAuthentication().getCredentials(), Arrays.asList(Right.FULL_ACCESS));
+        
+        debug("elevating rights to {}", Right.FULL_ACCESS);
+        SecurityContextHolder.getContext().setAuthentication(token);
+        
+    }
+
     public void setResolver(RolesToRightsResolver resolver) {
         this.resolver = resolver;
     }

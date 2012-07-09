@@ -17,6 +17,7 @@
           <Result>28</Result> 
       </ScoreResults>  
       <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels><CodeValue>Math110</CodeValue></PerformanceLevels>
       <StudentReference> 
            <StudentIdentity> 
                 <StudentUniqueStateId>42</StudentUniqueStateId> 
@@ -34,20 +35,22 @@
    <StudentObjectiveAssessment id="SOA_ACT-Math-Pre-Algebral_1"> 
        <ScoreResults AssessmentReportingMethod="Scale score"> 
          <Result>9</Result> 
-       </ScoreResults> 
-       <StudentTestAssessmentReference ref="saa_act_1"/> 
+       </ScoreResults>
+       <PerformanceLevels><CodeValue>Math110</CodeValue></PerformanceLevels>
+       <StudentAssessmentReference ref="saa_act_1"/> 
        <ObjectiveAssessmentReference> 
            <ObjectiveAssessmentIdentity> 
                <ObjectiveAssessmentIdentificationCode>ACT-Math-Pre-Algebra</ObjectiveAssessmentIdentificationCode> 
            </ObjectiveAssessmentIdentity> 
        </ObjectiveAssessmentReference> 
+       
    </StudentObjectiveAssessment> 
 
    <StudentObjectiveAssessment id="SOA_ACT-Math-Plane-Geometry_1"> 
        <ScoreResults AssessmentReportingMethod="Scale score"> 
          <Result>14</Result> 
        </ScoreResults> 
-       <StudentTestAssessmentReference ref="saa_act_1"/> 
+       <StudentAssessmentReference ref="saa_act_1"/> 
        <ObjectiveAssessmentReference> 
            <ObjectiveAssessmentIdentity> 
                <ObjectiveAssessmentIdentificationCode>ACT-Math-Plane-Geometry</ObjectiveAssessmentIdentificationCode> 
@@ -95,7 +98,7 @@
 		<AssessmentResponse>True</AssessmentResponse>
    		<AssessmentItemResult>Correct</AssessmentItemResult>
    		<RawScoreResult>5</RawScoreResult>
-		<StudentTestAssessmentReference ref="saa_act_1" />
+		<StudentAssessmentReference ref="saa_act_1" />
    		<AssessmentItemReference>
    			<AssessmentItemIdentity>
    				<AssessmentItemIdentificationCode>AssessmentItem-4</AssessmentItemIdentificationCode>
@@ -107,7 +110,7 @@
 		<AssessmentResponse>True</AssessmentResponse>
    		<AssessmentItemResult>Correct</AssessmentItemResult>
    		<RawScoreResult>5</RawScoreResult>
-		<StudentTestAssessmentReference ref="saa_act_1" />
+		<StudentAssessmentReference ref="saa_act_1" />
    		<AssessmentItemReference>
    			<AssessmentItemIdentity>
    				<AssessmentItemIdentificationCode>AssessmentItem-3</AssessmentItemIdentificationCode>

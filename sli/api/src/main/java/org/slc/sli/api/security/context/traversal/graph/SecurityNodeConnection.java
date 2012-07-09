@@ -1,5 +1,24 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.security.context.traversal.graph;
 
+
+import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 
 import java.util.List;
 import java.util.ArrayList;
@@ -14,7 +33,15 @@ public class SecurityNodeConnection {
     private String connectionTo = "";
     private String associationNode = "";
     private boolean isReferenceInSelf = false;
+    private boolean isResolver = false;
+    private EntityContextResolver resolver = null;
     private List<NodeFilter> filter;
+
+    public NodeAggregator getAggregator() {
+        return aggregator;
+    }
+
+    private NodeAggregator aggregator = null;
 
     /**
      * @return the fieldName
@@ -60,6 +87,22 @@ public class SecurityNodeConnection {
         return isReferenceInSelf;
     }
 
+    public boolean isResolver() {
+        return isResolver;
+    }
+
+    public void setResolver(boolean resolver) {
+        isResolver = resolver;
+    }
+
+    public EntityContextResolver getResolver() {
+        return resolver;
+    }
+
+    public void setResolver(EntityContextResolver resolver) {
+        this.resolver = resolver;
+    }
+
     /**
      * @param associationNode the associationNode to set
      */
@@ -73,6 +116,14 @@ public class SecurityNodeConnection {
         this.associationNode = associationNode;
         this.filter = new ArrayList<NodeFilter>();
         this.filter.add(filter);
+    }
+    public SecurityNodeConnection(String toEntity, String withField, String associationNode, NodeFilter filter, NodeAggregator nodeAggregator) {
+        this.connectionTo = toEntity;
+        this.fieldName = withField;
+        this.associationNode = associationNode;
+        this.filter = new ArrayList<NodeFilter>();
+        this.filter.add(filter);
+        this.aggregator = nodeAggregator;
     }
     public SecurityNodeConnection(String toEntity, String withField, String associationNode, List<NodeFilter> filter) {
         this.connectionTo = toEntity;
@@ -97,6 +148,12 @@ public class SecurityNodeConnection {
         this.connectionTo = connectionTo;
         this.fieldName = fieldName;
         this.isReferenceInSelf = isReferenceInSelf;
+    }
+
+    public SecurityNodeConnection(String toEntity, EntityContextResolver resolver) {
+        isResolver = true;
+        this.resolver = resolver;
+        connectionTo = toEntity;
     }
 
 }

@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.client.constants.v1;
 
 import java.util.HashMap;
@@ -61,7 +78,6 @@ public class PathConstants {
     public static final String STUDENT_SECTION_GRADEBOOK_ENTRIES = "studentGradebookEntries";
     public static final String STAFF_PROGRAM_ASSOCIATIONS = "staffProgramAssociations";
     public static final String STUDENT_PROGRAM_ASSOCIATIONS = "studentProgramAssociations";
-    public static final String USER_ACCOUNTS = "userAccounts";
     public static final String GRADES = "grades";
 
     public static final String CUSTOM_ENTITIES = "custom";
@@ -135,7 +151,6 @@ public class PathConstants {
         TEMP_MAP.put(ResourceNames.STUDENT_ACADEMIC_RECORDS, STUDENT_ACADEMIC_RECORDS);
         TEMP_MAP.put(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES, STUDENT_SECTION_GRADEBOOK_ENTRIES);
         TEMP_MAP.put(ResourceNames.TEACHERS, TEACHERS);
-        TEMP_MAP.put(ResourceNames.USER_ACCOUNTS, USER_ACCOUNTS);
         TEMP_MAP.put(ResourceNames.GRADES, GRADES);
     }
 

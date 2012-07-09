@@ -1,3 +1,19 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
@@ -23,6 +39,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.impl.DefaultProducerTemplate;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +48,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
@@ -80,76 +98,92 @@ public class JobReportingProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) {
-
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
 
         if (workNote == null || workNote.getBatchJobId() == null) {
             missingBatchJobIdError(exchange);
         } else {
-            processJobReporting(workNote);
-        }
-
-        try {
-            ProducerTemplate template = new DefaultProducerTemplate(exchange.getContext());
-            template.start();
-            template.sendBody(this.commandTopicUri, "flushStats|" + workNote.getBatchJobId());
-            template.stop();
-        } catch (Exception e) {
-            LogUtil.error(LOG, "Error sending `that's all folks` message to the orchestra", e);
+            processJobReporting(exchange, workNote);
         }
     }
 
-    private void processJobReporting(WorkNote workNote) {
+    private void processJobReporting(Exchange exchange, WorkNote workNote) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
         String batchJobId = workNote.getBatchJobId();
         NewBatchJob job = null;
         try {
-
-            populateJobFromStageCollection(batchJobId);
+            populateJobBriefFromStageCollection(batchJobId);
 
             job = batchJobDAO.findBatchJobById(batchJobId);
+            TenantContext.setTenantId(job.getTenantId());
 
             boolean hasErrors = writeErrorAndWarningReports(job);
 
-            writeBatchJobReportFile(job, hasErrors);
+            writeBatchJobReportFile(exchange, job, hasErrors);
 
         } catch (Exception e) {
             LogUtil.error(LOG, "Exception encountered in JobReportingProcessor. ", e);
         } finally {
-            if ("true".equals(clearOnCompletion)) {
-                neutralRecordMongoAccess.getRecordRepository().deleteCollectionsForJob(workNote.getBatchJobId());
-                LOG.info("successfully deleted all staged collections for batch job: {}", workNote.getBatchJobId());
-            } else if ("transformed".equals(clearOnCompletion)) {
-                neutralRecordMongoAccess.getRecordRepository().deleteTransformedCollectionsForJob(
-                        workNote.getBatchJobId());
-                LOG.info("successfully deleted all TRANSFORMED staged collections for batch job: {}",
-                        workNote.getBatchJobId());
-            }
+            cleanupStagingDatabase(workNote);
+
             if (job != null) {
                 BatchJobUtils.completeStageAndJob(stage, job);
                 batchJobDAO.saveBatchJob(job);
+                broadcastFlushStats(exchange, workNote);
             }
+            cleanUpLZ(job);
         }
     }
 
-    private void populateJobFromStageCollection(String jobId) {
+    private void populateJobBriefFromStageCollection(String jobId) {
         NewBatchJob job = batchJobDAO.findBatchJobById(jobId);
 
-        List<Stage> stages = batchJobDAO.getBatchStagesStoredSeperatelly(jobId);
-        Iterator<Stage> it = stages.iterator();
-        Stage tempStage;
+        Map<String, Stage> processedStage = new HashMap<String, Stage>();
 
-        while (it.hasNext()) {
-            tempStage = it.next();
+        if (job != null) {
+            List<Stage> stages = batchJobDAO.getBatchStagesStoredSeperatelly(jobId);
+            Iterator<Stage> it = stages.iterator();
+            Stage tempStage;
 
-            job.addStage(tempStage);
+            while (it.hasNext()) {
+                tempStage = it.next();
+
+                if (!processedStage.containsKey(tempStage.getStageName())) {
+
+                    Stage st = new Stage(tempStage.getStageName(), tempStage.getStatus(),
+                            tempStage.getStartTimestamp(), tempStage.getStopTimestamp(), null);
+                    st.setJobId(tempStage.getJobId());
+                    st.setElapsedTime(tempStage.getElapsedTime());
+                    st.setProcessingInformation("");
+
+                    processedStage.put(st.getStageName(), st);
+                } else {
+                    Stage temp = processedStage.get(tempStage.getStageName());
+
+                    if (temp.getStartTimestamp().getTime() > tempStage.getStartTimestamp().getTime()) {
+                        temp.setStartTimestamp(tempStage.getStartTimestamp());
+                    }
+                    if (temp.getStopTimestamp().getTime() < tempStage.getStopTimestamp().getTime()) {
+                        temp.setStopTimestamp(tempStage.getStopTimestamp());
+                    }
+                    temp.setElapsedTime(temp.getElapsedTime() + tempStage.getElapsedTime());
+                }
+            }
+
+            Iterator<Entry<String, Stage>> iter = processedStage.entrySet().iterator();
+            while (iter.hasNext()) {
+                Entry<String, Stage> temp = iter.next();
+                job.addStage(temp.getValue());
+            }
+
+            batchJobDAO.saveBatchJob(job);
+        } else {
+            LOG.warn("Couldn't find job {}", jobId);
         }
-
-        batchJobDAO.saveBatchJob(job);
     }
 
-    private void writeBatchJobReportFile(NewBatchJob job, boolean hasErrors) {
+    private void writeBatchJobReportFile(Exchange exchange, NewBatchJob job, boolean hasErrors) {
 
         PrintWriter jobReportWriter = null;
         FileLock lock = null;
@@ -177,6 +211,14 @@ public class JobReportingProcessor implements Processor {
             }
 
             writeInfoLine(jobReportWriter, "Processed " + recordsProcessed + " records.");
+
+            String purgeMessage = (String) exchange.getProperty("purge.complete");
+
+            if (purgeMessage != null) {
+
+                writeInfoLine(jobReportWriter, purgeMessage);
+
+            }
 
         } catch (IOException e) {
             LOG.error("Unable to write report file for: {}", job.getId());
@@ -287,30 +329,41 @@ public class JobReportingProcessor implements Processor {
         long totalProcessed = 0;
 
         // TODO group counts by externallyUploadedResourceId
-        List<Metrics> metrics = job.getStageMetrics(BatchJobStageType.PERSISTENCE_PROCESSOR);
+
+        List<Stage> stages = batchJobDAO.getBatchStagesStoredSeperatelly(job.getId());
+        Iterator<Stage> it = stages.iterator();
+
+        Stage stage;
+        List<Metrics> metrics;
+
         Map<String, Metrics> combinedMetricsMap = new HashMap<String, Metrics>();
 
-        for (Metrics m : metrics) {
+        while (it.hasNext()) {
+            stage = it.next();
+            metrics = stage.getMetrics();
 
-            if (combinedMetricsMap.containsKey(m.getResourceId())) {
-                // metrics exists, we should aggregate
-                Metrics temp = new Metrics(m.getResourceId());
+            for (Metrics m : metrics) {
 
-                temp.setResourceId(combinedMetricsMap.get(m.getResourceId()).getResourceId());
-                temp.setRecordCount(combinedMetricsMap.get(m.getResourceId()).getRecordCount());
-                temp.setErrorCount(combinedMetricsMap.get(m.getResourceId()).getErrorCount());
+                if (combinedMetricsMap.containsKey(m.getResourceId())) {
+                    // metrics exists, we should aggregate
+                    Metrics temp = new Metrics(m.getResourceId());
 
-                temp.setErrorCount(temp.getErrorCount() + m.getErrorCount());
-                temp.setRecordCount(temp.getRecordCount() + m.getRecordCount());
+                    temp.setResourceId(combinedMetricsMap.get(m.getResourceId()).getResourceId());
+                    temp.setRecordCount(combinedMetricsMap.get(m.getResourceId()).getRecordCount());
+                    temp.setErrorCount(combinedMetricsMap.get(m.getResourceId()).getErrorCount());
 
-                combinedMetricsMap.put(m.getResourceId(), temp);
+                    temp.setErrorCount(temp.getErrorCount() + m.getErrorCount());
+                    temp.setRecordCount(temp.getRecordCount() + m.getRecordCount());
 
-            } else {
-                // adding metrics to the map
-                combinedMetricsMap.put(m.getResourceId(),
-                        new Metrics(m.getResourceId(), m.getRecordCount(), m.getErrorCount()));
+                    combinedMetricsMap.put(m.getResourceId(), temp);
+
+                } else {
+                    // adding metrics to the map
+                    combinedMetricsMap.put(m.getResourceId(),
+                            new Metrics(m.getResourceId(), m.getRecordCount(), m.getErrorCount()));
+                }
+
             }
-
         }
 
         Collection<Metrics> combinedMetrics = combinedMetricsMap.values();
@@ -326,21 +379,24 @@ public class JobReportingProcessor implements Processor {
             logResourceMetric(resourceEntry, metric.getRecordCount(), metric.getErrorCount(), jobReportWriter);
 
             totalProcessed += metric.getRecordCount();
+
+            // update resource entries for zero-count reporting later
+            resourceEntry.setRecordCount(metric.getRecordCount());
+            resourceEntry.setErrorCount(metric.getErrorCount());
         }
 
-        if (metrics.size() == 0) {
-            doesntHavePersistenceMetrics(job, jobReportWriter);
-        }
+        writeZeroCountPersistenceMetrics(job, jobReportWriter);
 
         return totalProcessed;
     }
 
-    private void doesntHavePersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
+    private void writeZeroCountPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
         // write out 0 count metrics for the input files
 
         for (ResourceEntry resourceEntry : job.getResourceEntries()) {
             if (resourceEntry.getResourceFormat() != null
-                    && resourceEntry.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())) {
+                    && resourceEntry.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())
+                    && resourceEntry.getRecordCount() == 0 && resourceEntry.getErrorCount() == 0) {
                 logResourceMetric(resourceEntry, 0, 0, jobReportWriter);
             }
         }
@@ -415,25 +471,80 @@ public class JobReportingProcessor implements Processor {
             LogUtil.error(LOG, "Error getting local host", e);
         }
         List<String> userRoles = Collections.emptyList();
-        SecurityEvent event = new SecurityEvent("",  // Alpha MH (tenantId - written in 'message')
-                "", // user
-                "", // targetEdOrg
-                "writeLine", // Alpha MH
-                "Ingestion", // Alpha MH (appId)
-                "", // origin
-                ipAddr[0] + "." + ipAddr[1] + "." + ipAddr[2] + "." + ipAddr[3], // executedOn
-                "", // Alpha MH (credential- N/A for ingestion)
-                "", // userOrigin
-                new Date(), // Alpha MH (timeStamp)
-                ManagementFactory.getRuntimeMXBean().getName(), // processNameOrId
-                this.getClass().getName(), // className
-                messageType, // Alpha MH (logLevel)
-                userRoles, message); // Alpha MH (logMessage)
-
+        SecurityEvent event = new SecurityEvent();
+        event.setTenantId(""); // Alpha MH (tenantId - written in 'message')
+        event.setUser("");
+        event.setTargetEdOrg("");
+        event.setActionUri("writeLine");
+        event.setAppId("Ingestion");
+        event.setOrigin("");
+        event.setExecutedOn(ipAddr[0] + "." + ipAddr[1] + "." + ipAddr[2] + "." + ipAddr[3]);
+        event.setCredential("");
+        event.setUserOrigin("");
+        event.setTimeStamp(new Date());
+        event.setProcessNameOrId(ManagementFactory.getRuntimeMXBean().getName());
+        event.setClassName(this.getClass().getName());
+        event.setLogLevel(messageType);
+        event.setRoles(userRoles);
+        event.setLogMessage(message);
         audit(event);
+    }
+
+    private void cleanupStagingDatabase(WorkNote workNote) {
+        if ("true".equals(clearOnCompletion)) {
+            neutralRecordMongoAccess.getRecordRepository().deleteStagedRecordsForJob(workNote.getBatchJobId());
+            LOG.info("Successfully deleted all staged records for batch job: {}", workNote.getBatchJobId());
+        } else {
+            LOG.info("Not deleting staged records for batch job: {} --> clear on completion flag is set to FALSE",
+                    workNote.getBatchJobId());
+        }
+    }
+
+    /**
+     * broadcast a message to all orchestra nodes to flush their execution stats
+     *
+     * @param exchange
+     * @param workNote
+     */
+    private void broadcastFlushStats(Exchange exchange, WorkNote workNote) {
+        try {
+            ProducerTemplate template = new DefaultProducerTemplate(exchange.getContext());
+            template.start();
+            template.sendBody(this.commandTopicUri, "jobCompleted|" + workNote.getBatchJobId());
+            template.stop();
+        } catch (Exception e) {
+            LOG.error("Error sending `that's all folks` message to the orchestra", e);
+        }
+    }
+
+    private void cleanUpLZ(NewBatchJob job) {
+        boolean isZipFile = false;
+        for (ResourceEntry resourceEntry : job.getResourceEntries()) {
+            if (FileFormat.ZIP_FILE.getCode().equalsIgnoreCase(resourceEntry.getResourceFormat())) {
+                isZipFile = true;
+            }
+        }
+        if (isZipFile) {
+            String sourceId = job.getSourceId();
+            if (sourceId != null) {
+                File dir = new File(sourceId);
+                FileUtils.deleteQuietly(dir);
+            }
+        } else {
+            for (ResourceEntry resourceEntry : job.getResourceEntries()) {
+                if (resourceEntry.getResourceFormat().equals(FileFormat.EDFI_XML.getCode())) {
+                    File xmlFile = new File(resourceEntry.getResourceName());
+                    FileUtils.deleteQuietly(xmlFile);
+                }
+            }
+        }
     }
 
     public void setCommandTopicUri(String commandTopicUri) {
         this.commandTopicUri = commandTopicUri;
+    }
+
+    public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
+        this.batchJobDAO = batchJobDAO;
     }
 }

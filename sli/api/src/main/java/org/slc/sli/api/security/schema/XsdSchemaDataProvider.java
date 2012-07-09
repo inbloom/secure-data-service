@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.security.schema;
 
 import java.util.List;
@@ -100,6 +117,18 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
             }
         }
         return auth;
+    }
+    
+    @Override
+    public String getReferencingEntity(String entityType, String fieldPath) {
+        NeutralSchema schema = traverse(entityType, fieldPath);
+        if (schema != null) {
+            AppInfo info = schema.getAppInfo();
+            if (info != null) {
+                return info.getReferenceType();
+            }
+        }
+        return null;
     }
     
     private NeutralSchema traverse(String entityType, String fieldPath) {

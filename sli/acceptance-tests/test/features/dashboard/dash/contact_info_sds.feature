@@ -96,7 +96,7 @@ And I view its student profile
 And I look at the panel "Contact Information"
 And there are "0" phone numbers
 
-@integration @RALLY_US198  @RALLY_US147
+@wip @integration @RALLY_US198  @RALLY_US147
 Scenario: Address has buildingSiteNumber and not in US
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "rbraverman" "rbraverman1234" for the "Simple" login page

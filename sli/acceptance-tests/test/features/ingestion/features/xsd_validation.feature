@@ -51,11 +51,13 @@ Scenario: InterchangeStudentGrade.xml Ed-Fi XSD Validation - <CompetencyLevel> u
     And the following collections are empty in datastore:
       | collectionName              |
       | student                     |
+      | calendarDate                |
       | course                      |
+	  | courseOffering              |
       | educationOrganization       |
       | gradebookEntry              |
-      | schoolSessionAssociation    |
       | section                     |
+	  | gradingPeriod               |
       | session                     |
       | studentSectionGradebookEntry|
     When zip file is scp to ingestion landing zone
@@ -63,13 +65,14 @@ Scenario: InterchangeStudentGrade.xml Ed-Fi XSD Validation - <CompetencyLevel> u
 
     Then I should see following map of entry counts in the corresponding collections:
       | collectionName              | count |
+      | educationOrganization       | 3     |
       | student                     | 1     |
       | course                      | 1     |
-      | educationOrganization       | 3     |
+      | gradingPeriod               | 3     |
       | gradebookEntry              | 1     |
-      | schoolSessionAssociation    | 1     |
-      | section                     | 1     |
       | session                     | 1     |
+	  | courseOffering              | 1     |
+      | section                     | 1     |
       | studentSectionGradebookEntry| 1     |
     And I check to find if record is in collection:
       | collectionName              | expectedRecordCount | searchParameter                    | searchValue           | searchType        |
@@ -77,7 +80,7 @@ Scenario: InterchangeStudentGrade.xml Ed-Fi XSD Validation - <CompetencyLevel> u
       | student                     | 1                   | body.schoolFoodServicesEligibility | Reduced price         | string            |
       | studentSectionGradebookEntry| 1                   | body.dateFulfilled                 | 2011-09-16            | string            |
 
-    Then I should see "Processed 290 records." in the resulting batch job file
+    Then I should see "Processed 291 records." in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records considered: 2" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records ingested successfully: 2" in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records failed: 0" in the resulting batch job file

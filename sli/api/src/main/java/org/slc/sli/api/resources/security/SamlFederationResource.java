@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.resources.security;
 
 import java.io.IOException;
@@ -9,6 +26,7 @@ import java.net.URI;
 import java.net.UnknownHostException;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,12 +39,19 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.NewCookie;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 import javax.xml.bind.DatatypeConverter;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.tuple.Pair;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.jdom.Document;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.ClientRoleResolver;
@@ -39,11 +64,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
 
 /**
  * Process SAML assertions
@@ -166,7 +186,9 @@ public class SamlFederationResource {
         }
 
         try {
-            org.jdom.Element subjConfirmationData = assertion.getChild("Subject", SamlHelper.SAML_NS).getChild("SubjectConfirmation", SamlHelper.SAML_NS).getChild("SubjectConfirmationData", SamlHelper.SAML_NS);
+            org.jdom.Element subjConfirmationData = assertion.getChild("Subject", SamlHelper.SAML_NS)
+                    .getChild("SubjectConfirmation", SamlHelper.SAML_NS)
+                    .getChild("SubjectConfirmationData", SamlHelper.SAML_NS);
             String recipient = subjConfirmationData.getAttributeValue("Recipient");
 
             if (!uriInfo.getRequestUri().toString().equals(recipient)) {
@@ -208,10 +230,14 @@ public class SamlFederationResource {
         } else {
             Object temp = realm.getBody().get("admin");
             Boolean isAdminRealm = temp == null ? false : (Boolean) temp;
-            if (isAdminRealm && samlTenant != null) {
-                tenant = samlTenant;
+            if (isAdminRealm) {
+                if (samlTenant != null) {
+                    tenant = samlTenant;
+                } else {
+                    tenant = null;
+                }
             } else {
-              tenant = realmTenant;
+                tenant = realmTenant;
             }
         }
 
@@ -227,7 +253,6 @@ public class SamlFederationResource {
         principal.setRealm(realm.getEntityId());
         principal.setEdOrg(attributes.getFirst("edOrg"));
         principal.setAdminRealm(attributes.getFirst("edOrg"));
-        principal.setSliRoles(roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
 
         if ("-133".equals(principal.getEntity().getEntityId()) && !(Boolean) realm.getBody().get("admin")) {
             // if we couldn't find an Entity for the user and this isn't an admin realm, then we
@@ -235,16 +260,58 @@ public class SamlFederationResource {
             throw new RuntimeException("Invalid user");
         }
 
+        if (principal.getRoles() == null || principal.getRoles().isEmpty()) {
+            debug("Attempted login by a user that did not include any roles in the SAML Assertion.");
+            throw new RuntimeException("Invalid user. No roles specified for user.");
+        }
+
+        principal.setSliRoles(roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
+
+        if (principal.getSliRoles().isEmpty()) {
+            debug("Attempted login by a user that included no roles in the SAML Assertion that mapped to any of the SLI roles.");
+            throw new RuntimeException("Invalid user. No valid role mappings exist for the roles specified in the SAML Assertion.");
+        }
+
         if (samlTenant != null) {
             principal.setTenantId(samlTenant);
         }
 
-        // {sessionId,redirectURI}
-        Pair<String, URI> tuple = sessionManager.composeRedirect(inResponseTo, principal);
+        Entity session = sessionManager.getSessionForSamlId(inResponseTo);
+        Map<String, Object> appSession = sessionManager.getAppSession(inResponseTo, session);
+        Boolean isInstalled = (Boolean) appSession.get("installed");
+        Map<String, Object> code = (Map<String, Object>) appSession.get("code");
 
-        return Response.status(Response.Status.FOUND)
-                .cookie(new NewCookie("_tla", tuple.getLeft(), "/", apiCookieDomain, "", 300, false))
-                .location(tuple.getRight()).build();
+        ObjectMapper jsoner = new ObjectMapper();
+        Map<String, Object> mapForm = jsoner.convertValue(principal, Map.class);
+        mapForm.remove("entity");
+        session.getBody().put("principal", mapForm);
+        sessionManager.updateSession(session);
+
+        String authorizationCode = (String) code.get("value");
+        Object state = appSession.get("state");
+
+        if (isInstalled) {
+            Map<String, Object> resultMap = new HashMap<String, Object>();
+            resultMap.put("authorization_code", authorizationCode);
+            if (state != null) {
+                resultMap.put("state", state);
+            }
+            info("Sending back authorization token for installed app: {}", authorizationCode);
+            return Response.ok(resultMap).build();
+
+        } else {
+            String redirectUri = (String) appSession.get("redirectUri");
+            UriBuilder builder = UriBuilder.fromUri(redirectUri);
+            builder.queryParam("code", authorizationCode);
+            if (state != null) {
+                builder.queryParam("state", state);
+            }
+
+            URI redirect = builder.build();
+            return Response.status(Response.Status.FOUND)
+                    .cookie(new NewCookie("_tla", session.getEntityId(), "/", apiCookieDomain, "", 300, false))
+                    .location(redirect).build();
+        }
     }
 
     private String getUserNameFromEntity(Entity entity) {

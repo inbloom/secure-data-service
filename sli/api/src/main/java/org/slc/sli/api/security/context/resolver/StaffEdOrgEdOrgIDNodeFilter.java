@@ -1,10 +1,25 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.security.context.resolver;
 
-import org.slc.sli.api.client.constants.EntityNames;
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
-import org.springframework.stereotype.Component;
+import javax.annotation.PostConstruct;
 
-import java.util.List;
+import org.springframework.stereotype.Component;
 
 /**
  * Filters edorg/school id based on  end date present in
@@ -17,19 +32,12 @@ import java.util.List;
 public class StaffEdOrgEdOrgIDNodeFilter extends NodeDateFilter {
 
     private static final String END_DATE = "endDate";
-    private static final String ED_ORG_REF = "educationOrganizationReference";
     private static final String ZERO = "0";
 
 
-    @Override
-    public List<String> filterIds(List<String> toResolve) {
-
-        setParameters(EntityNames.STAFF_ED_ORG_ASSOCIATION, ED_ORG_REF, ZERO, END_DATE);
-        List<String> edOrgIdSet = super.filterIds(toResolve);
-
-        setParameters(EntityNames.TEACHER_SCHOOL_ASSOCIATION, ParameterConstants.SCHOOL_ID, ZERO, END_DATE);
-        edOrgIdSet.addAll(super.filterIds(toResolve));
-        return edOrgIdSet;
+    @PostConstruct
+    public void setParameters() {
+        setParameters(ZERO, END_DATE);
     }
 }
 

@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.dal.repository;
 
 import java.util.ArrayList;
@@ -82,7 +99,7 @@ public class MongoQueryConverter {
         }
 
         if (idList == null) {
-            throw new QueryParseException("Invalid paramater for IDs", rawValues.toString());
+            throw new QueryParseException("Invalid paramater for IDs", (rawValues == null) ? "NULL" : rawValues.toString());
         }
 
         //conversion
@@ -124,6 +141,9 @@ public class MongoQueryConverter {
             public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
                 if (neutralCriteria.getKey().equals(MONGO_ID)) {
                     return Criteria.where(MONGO_ID).in(convertIds(neutralCriteria.getValue()));
+                } else if (criteria != null) {
+                    criteria.in((List<Object>) neutralCriteria.getValue());
+                    return criteria;
                 } else {
                      try {
                         return Criteria.where(prefixKey(neutralCriteria)).in((List<Object>) neutralCriteria.getValue());
@@ -132,6 +152,24 @@ public class MongoQueryConverter {
                      }
                  }
              }
+        });
+
+        this.operatorImplementations.put("nin", new MongoCriteriaGenerator() {
+            @SuppressWarnings("unchecked")
+            public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
+                if (neutralCriteria.getKey().equals(MONGO_ID)) {
+                    return Criteria.where(MONGO_ID).in(convertIds(neutralCriteria.getValue()));
+                } else if (criteria != null) {
+                    criteria.nin(neutralCriteria.getValue());
+                    return criteria;
+                } else {
+                    try {
+                        return Criteria.where(prefixKey(neutralCriteria)).nin(neutralCriteria.getValue());
+                    } catch (ClassCastException cce) {
+                        throw new QueryParseException("Invalid list of in values " + neutralCriteria.getValue(), neutralCriteria.toString());
+                    }
+                }
+            }
         });
 
         // >=

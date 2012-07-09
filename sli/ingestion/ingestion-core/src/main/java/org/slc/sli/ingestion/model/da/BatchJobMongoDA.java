@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.model.da;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
@@ -9,6 +26,7 @@ import java.util.List;
 import com.mongodb.Bytes;
 import com.mongodb.DBCursor;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.CursorPreparer;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
@@ -27,9 +45,17 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private static final String BATCHJOB_ERROR_COLLECTION = "error";
     private static final String BATCHJOB_STAGE_SEPARATE_COLLECTION = "batchJobStage";
 
+    private static final String ERROR = "error";
+    private static final String WARNING = "warning";
     private static final String BATCHJOBID_FIELDNAME = "batchJobId";
 
     private MongoTemplate batchJobMongoTemplate;
+
+    @Value("${sli.ingestion.errors.tracking}")
+    private String trackIngestionErrors;
+
+    @Value("${sli.ingestion.warnings.tracking}")
+    private String trackIngestionWarnings;
 
     @Override
     public void saveBatchJob(NewBatchJob job) {
@@ -67,7 +93,13 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
     @Override
     public void saveError(Error error) {
-        if (error != null) {
+        if (error != null && "true".equals(trackIngestionErrors)
+                && ERROR.equalsIgnoreCase(error.getSeverity())) {
+            batchJobMongoTemplate.save(error);
+        }
+
+        if (error != null && "true".equals(trackIngestionWarnings)
+                && WARNING.equalsIgnoreCase(error.getSeverity())) {
             batchJobMongoTemplate.save(error);
         }
     }

@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.smooks.mappings;
 
 import static org.junit.Assert.assertEquals;
@@ -13,15 +30,16 @@ import junitx.util.PrivateAccessor;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.xml.sax.SAXException;
+
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.ingestion.validation.IngestionDummyEntityRepository;
 import org.slc.sli.validation.EntityValidator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.xml.sax.SAXException;
 
 /**
  * Test the smooks mappings for Course entity
@@ -77,9 +95,7 @@ public class CourseEntityTest {
                 + "    <CareerPathway>Science, Technology, Engineering and Mathematics</CareerPathway>"
                 + "    <EducationOrganizationReference>"
                 + "        <EducationalOrgIdentity>"
-                + "            <EducationOrgIdentificationCode IdentificationSystem=\"School\">"
-                + "                <ID>ID1</ID>"
-                + "            </EducationOrgIdentificationCode>"
+                + "            <StateOrganizationId>ID1</StateOrganizationId>"
                 + "        </EducationalOrgIdentity>"
                 + "    </EducationOrganizationReference>"
                 + "</Course>"
@@ -142,9 +158,7 @@ public class CourseEntityTest {
                 + "    <CareerPathway>Science Technology Engineering and Mathematics</CareerPathway>"
                 + "    <EducationOrganizationReference>"
                 + "        <EducationalOrgIdentity>"
-                + "            <EducationOrgIdentificationCode IdentificationSystem=\"School\">"
-                + "                <ID>ID1</ID>"
-                + "            </EducationOrgIdentificationCode>"
+                + "            <StateOrganizationId>ID1</StateOrganizationId>"
                 + "        </EducationalOrgIdentity>"
                 + "    </EducationOrganizationReference>"
                 + "</Course>"
@@ -183,13 +197,13 @@ public class CourseEntityTest {
         List courseLevelCharacteristicList = (List) neutralRecord.getAttributes().get("courseLevelCharacteristics");
         assertEquals(1, courseLevelCharacteristicList.size());
         assertEquals("Advanced", courseLevelCharacteristicList.get(0));
-        
+
         //check that all grades offered are reflected in entity
         List gradesOfferedList = (List) neutralRecord.getAttributes().get("gradesOffered");
         assertEquals(gradesOfferedList.size(), 2);
         assertEquals("Seventh grade", gradesOfferedList.get(0));
         assertEquals("Eighth grade", gradesOfferedList.get(1));
-        
+
 
         assertEquals("Science", neutralRecord.getAttributes().get("subjectArea"));
 

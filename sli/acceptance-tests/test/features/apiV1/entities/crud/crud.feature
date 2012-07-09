@@ -1,8 +1,8 @@
-@RALLY_US209
+@smoke @RALLY_US209 @RALLY_DE87
 Feature: As an SLI application, I want to be able to perform CRUD operations on various resources
 This means I want to be able to perform CRUD on all entities.
 and verify that the correct links are made available.
-  
+
 Background: Nothing yet
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
       And format "application/vnd.slc+json"
@@ -20,8 +20,7 @@ Background: Nothing yet
          And the response should contain the appropriate fields and values
          And "entityType" should be <Entity Type>
          And I should receive a link named "self" with URI "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
-         And the tenant ID of the entity should be "IL"
-        # Update 
+        # Update
         When I set the <Update Field> to <Updated Value>
          And I navigate to PUT "/<ENTITY URI>/<NEWLY CREATED ENTITY ID>"
         Then I should receive a return code of 204
@@ -52,10 +51,9 @@ Examples:
 | "session"                      | "sessions"                | "totalInstructionalDays" | "43"                                         |
 | "staff"                        | "staff"                   | "sex"                    | "Female"                                     |
 | "student"                      | "students"                | "sex"                    | "Female"                                     |
-| "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "c549e272-9a7b-4c02-aff7-b105ed76c904"       |
+| "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "abcff7ae-1f01-46bc-8cc7-cf409819bbce"       |
 | "studentSectionGradebookEntry" | "studentGradebookEntries" | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
 | "teacher"                      | "teachers"                | "highlyQualifiedTeacher" | "false"                                      |
-| "userAccount"                  | "userAccounts"            | "firstName"              | "Bobby"                                      |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
@@ -73,7 +71,7 @@ Examples:
     #Delete Invalid
      When I navigate to DELETE "/<ENTITY URI>/<INVALID REFERENCE>"
      Then I should receive a return code of 404
-    
+
 Examples:
 | Entity Type                    | Entity Resource URI       | Update Field             | Updated Value                                |
 | "assessment"                   | "assessments"             | "assessmentTitle"        | "Advanced Placement Test - Subject: Writing" |
@@ -96,9 +94,9 @@ Examples:
 | "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "67ce204b-9999-4a11-aacb-000000000003"       |
 | "studentSectionGradebookEntry" | "studentGradebookEntries" | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
 | "teacher"                      | "teachers"                | "highlyQualifiedTeacher" | "false"                                      |
-| "userAccount"                  | "userAccounts"            | "firstName"              | "Bobby"                                      |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
+#| "gradingPeriod"                | "gradingPeriods"          | "endDate"                | "2015-10-15"                                 |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
 
     Scenario Outline: Get All Entities
@@ -111,28 +109,27 @@ Examples:
 
 Examples:
 | Entity Type                    | Entity Resource URI       | Entity Count |
-| "assessment"                   | "assessments"             | 3 |
-| "attendance"                   | "attendances"             | 1 |
-| "cohort"                       | "cohorts"                 | 3 |
+| "assessment"                   | "assessments"             | 17 |
+| "attendance"                   | "attendances"             | 2 |
+| "cohort"                       | "cohorts"                 | 8 |
 | "course"                       | "courses"                 | 91 |
-| "disciplineAction"             | "disciplineActions"       | 2 |
-| "disciplineIncident"           | "disciplineIncidents"     | 2 |
-| "educationOrganization"        | "educationOrganizations"  | 46 |
-| "gradebookEntry"               | "gradebookEntries"        | 3 |
+| "disciplineAction"             | "disciplineActions"       | 3 |
+| "disciplineIncident"           | "disciplineIncidents"     | 3 |
+| "educationOrganization"        | "educationOrganizations"  | 38 |
+| "gradebookEntry"               | "gradebookEntries"        | 4 |
 | "learningObjective"            | "learningObjectives"      | 5 |
 | "learningStandard"             | "learningStandards"       | 14 |
-| "parent"                       | "parents"                 | 2 |
-| "program"                      | "programs"                | 2 |
+| "parent"                       | "parents"                 | 3 |
+| "program"                      | "programs"                | 5 |
 | "school"                       | "schools"                 | 5 |
-| "section"                      | "sections"                | 93 |
+| "section"                      | "sections"                | 94 |
 | "session"                      | "sessions"                | 22 |
-| "staff"                        | "staff"                   | 17 |
-| "student"                      | "students"                | 82 |
+| "staff"                        | "staff"                   | 22 |
+| "student"                      | "students"                | 83 |
 | "studentAcademicRecord"        | "studentAcademicRecords"  | 2 |
-| "studentSectionGradebookEntry" | "studentGradebookEntries" | 4 |
-| "teacher"                      | "teachers"                | 4 |
-| "userAccount"                  | "userAccounts"            | 2 |
-| "grade"                        | "grades"                  | 2 |
-| "studentCompetency"            | "studentCompetencies"     | 2 |
+| "studentSectionGradebookEntry" | "studentGradebookEntries" | 5 |
+| "teacher"                      | "teachers"                | 5 |
+| "grade"                        | "grades"                  | 3 |
+| "studentCompetency"            | "studentCompetencies"     | 3 |
 | "gradingPeriod"                | "gradingPeriods"          | 2 |
-| "reportCard"                   | "reportCards"             | 2 |
+| "reportCard"                   | "reportCards"             | 3 |

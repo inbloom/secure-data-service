@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.resources.v1;
 
 //
@@ -15,13 +32,13 @@ import javax.ws.rs.core.UriInfo;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.client.constants.ResourceConstants;
-import org.slc.sli.api.client.constants.v1.PathConstants;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.constants.PathConstants;
+import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.Home;
@@ -39,7 +56,7 @@ import org.slc.sli.domain.Entity;
 @Path(PathConstants.V1 + "/" + "home")
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON+";charset=utf-8", HypermediaType.VENDOR_SLC_JSON+";charset=utf-8", MediaType.APPLICATION_XML+";charset=utf-8" })
+@Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8", MediaType.APPLICATION_XML + ";charset=utf-8" })
 public class HomeResource {
 
     final EntityDefinitionStore entityDefs;
@@ -78,7 +95,7 @@ public class HomeResource {
             // return as browser response
             home = new Home(defn.getStoredCollectionName(), linksMap);
         } else {
-            throw new AccessDeniedException("No entity mapping found for user");
+          throw new InsufficientAuthenticationException("No entity mapping found for user");
         }
 
         return Response.ok(home).build();

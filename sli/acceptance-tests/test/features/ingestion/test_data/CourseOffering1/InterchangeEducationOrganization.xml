@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
+  
+  <StateEducationAgency>
+    <StateOrganizationId>IL</StateOrganizationId>
+    <NameOfInstitution>Illinois State Board of Education</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>State Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+  </StateEducationAgency>
+  
+  <Course>
+    <CourseTitle>Geometry-12</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>Geometry-12</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+          <ID>IL</ID>
+        </EducationOrgIdentificationCode>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </Course>
+
+</InterchangeEducationOrganization>

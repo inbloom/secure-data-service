@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.transformation;
 
 import java.util.Collections;
@@ -16,6 +33,7 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.handler.Handler;
+import org.slc.sli.ingestion.transformation.normalization.ComplexRefDef;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.IdNormalizer;
@@ -86,8 +104,18 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
     public void resolveReferences(NeutralRecord item, ErrorReport errorReport) {
         Entity entity = new NeutralRecordEntity(item);
-
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
+
+        ComplexRefDef ref = entityConfig.getComplexReference();
+        if (ref != null) {
+            idNormalizer.resolveReferenceWithComplexArray(entity, item.getSourceId(),
+                                                          ref.getValueSource(),
+                                                          ref.getFieldPath(),
+                                                          ref.getCollectionName(),
+                                                          ref.getPath(),
+                                                          ref.getComplexFieldNames(),
+                                                          errorReport);
+        }
 
         idNormalizer.resolveInternalIds(entity, item.getSourceId(), entityConfig, errorReport);
     }
@@ -112,8 +140,19 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             return;
         }
 
+        String collection = null;
+        if (entity.getType().equals("stateEducationAgency")
+                || entity.getType().equals("localEducationAgency")
+                || entity.getType().equals("school")) {
+            collection = "educationOrganization";
+        } else if (entity.getType().equals("teacher")) {
+            collection = "staff";
+        } else {
+            collection = entity.getType();
+        }
+
         @SuppressWarnings("deprecation")
-        Iterable<Entity> match = entityRepository.findByQuery(entity.getType(), query, 0, 0);
+        Iterable<Entity> match = entityRepository.findByQuery(collection, query, 0, 0);
 
         if (match != null && match.iterator().hasNext()) {
             // Entity exists in data store.
@@ -190,5 +229,4 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     public void setEntityRepository(Repository<Entity> entityRepository) {
         this.entityRepository = entityRepository;
     }
-
 }

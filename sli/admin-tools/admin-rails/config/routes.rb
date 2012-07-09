@@ -1,4 +1,28 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 SLIAdmin::Application.routes.draw do
+
+  resources :change_passwords
+  resources :tenant_metrics
+  get "tenant_metrics", :to => "tenant_metrics#all"
+  get "tenant_metrics/:id", :to => "tenant_metrics#find"
 
   resources :waitlist_users do
     get 'success', :on => :collection
@@ -9,7 +33,7 @@ SLIAdmin::Application.routes.draw do
 
   resources :realm_management
   post "landing_zone/provision", :to => 'landing_zone#provision'
-  get "landing_zone/provision", :to => 'landing_zone#success'
+  get "landing_zone/provision", :to => 'landing_zone#provision'
   get "landing_zone", :to => 'landing_zone#index'
 
 
@@ -32,6 +56,7 @@ SLIAdmin::Application.routes.draw do
   end
 
   get 'developer_approval/does_user_exist/:id', :to => 'developer_approval#does_user_exist'
+  get 'change_passwords', :to => 'change_passwords#new'
   post 'developer_approval/submit_user', :to => 'developer_approval#submit_user'
   post 'developer_approval/update_user', :to => 'developer_approval#update_user'
   post 'developer_approval/update_eula_status', :to => 'developer_approval#update_eula_status'
@@ -48,6 +73,7 @@ SLIAdmin::Application.routes.draw do
   match "/eula" => "eulas#show", :via => :get
   match "/eula" => "eulas#create", :via => :post 
   match "/registration" => "user_account_registrations#new", :via => :get
+  match "/changePassword" => "change_passwords#new", :via => :get
 
   root :to => 'roles#index'
 

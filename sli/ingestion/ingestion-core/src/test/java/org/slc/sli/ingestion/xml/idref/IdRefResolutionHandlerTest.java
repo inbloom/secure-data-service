@@ -1,7 +1,23 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.ingestion.xml.idref;
 
 import java.io.File;
-import java.util.Map;
 import java.util.Set;
 
 import junit.framework.Assert;
@@ -11,6 +27,10 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.FileType;
@@ -18,9 +38,6 @@ import org.slc.sli.ingestion.IngestionTest;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.util.MD5;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  *
@@ -66,37 +83,7 @@ public class IdRefResolutionHandlerTest {
         performTestOnFile(inputFile, findIdRefsToResolve);
     }
 
-    @Test
-    public void testFindMatchingEntities() throws Throwable {
-        File inputFile = IngestionTest.getFile("ReferenceResolution/InterchangeStudentGrade.xml");
 
-        TestExecutor findMatchingEntities = new TestExecutor() {
-
-            @SuppressWarnings("unchecked")
-            @Override
-            public void execute(File file) throws Throwable {
-                Map<String, File> result = null;
-                ErrorReport errorReport = Mockito.mock(ErrorReport.class);
-                try {
-                    Set<String> refs = (Set<String>) PrivateAccessor.invoke(idRefResolutionHandler, "findIDRefsToResolve", new Class[]{File.class, ErrorReport.class}, new Object[]{file, errorReport});
-
-                    result = (Map<String, File>) PrivateAccessor.invoke(idRefResolutionHandler, "findMatchingEntities", new Class[]{File.class, Set.class, ErrorReport.class}, new Object[]{file, refs, errorReport});
-
-                    Assert.assertNotNull(result);
-                    Assert.assertEquals(1, result.size());
-                    Assert.assertTrue(result.containsKey("GBE-8th Grade English-3"));
-                } finally {
-                    if (result != null) {
-                        for (File f : result.values()) {
-                            FileUtils.deleteQuietly(f);
-                        }
-                    }
-                }
-            }
-        };
-
-        performTestOnFile(inputFile, findMatchingEntities);
-    }
 
     @Test
     public void testProcess() throws Throwable {

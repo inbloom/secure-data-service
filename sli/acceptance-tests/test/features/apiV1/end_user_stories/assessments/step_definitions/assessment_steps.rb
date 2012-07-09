@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'json'
 require 'mongo'
 require 'rest-client'
@@ -105,7 +124,7 @@ When /^I submit the sorting and pagination request$/ do
   assert(@result != nil, "Response contains no data")
 end
 
-Then /^I should have a list of (\d+) "([^"]*)" entities$/ do |size, entityType|
+Then /^I should have a list of "([^"]*)" entities$/ do |entityType|
   assert(@result != nil, "Response contains no data")
   if @result.is_a?(Hash)
     assert(@result["entityType"] == entityType)
@@ -117,6 +136,22 @@ Then /^I should have a list of (\d+) "([^"]*)" entities$/ do |size, entityType|
       assert(entity["entityType"] == entityType)
       @ids.push(entity["id"])
     end
+  end
+end
+
+Then /^I should have a list of (\d+) "([^"]*)" entities$/ do |size, entityType|
+  @result = JSON.parse(@res.body)
+  assert(@result != nil, "Response contains no data")
+  if @result.is_a?(Hash)
+    assert(@result["entityType"] == entityType)
+  else
+    assert(@result.is_a?(Array), "Response contains #{@result.class}, expected Array")
+    @ids = Array.new
+    @result.each do |entity|
+      assert(entity["entityType"] == entityType)
+      @ids.push(entity["id"])
+    end
+    assert(@ids.size.to_s == size, "Got " + @ids.size.to_s + " entities, expected " + size.to_s + " in response.")
   end
 end
 

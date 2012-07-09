@@ -1,3 +1,20 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.client.constants.v1;
 
 /**
@@ -40,6 +57,11 @@ public class ParameterConstants {
      * Query parameter for fields to include.
      */
     public static final String INCLUDE_FIELDS = "includeFields";
+    
+    /**
+     * Query parameter for full entities to be included in response.
+     */
+    public static final String FULL_ENTITIES = "full-entities";
 
     /**
      * Query parameter for fields to exclude.
@@ -140,4 +162,7 @@ public class ParameterConstants {
     public static final String STAFF_COHORT_ASSOCIATION_ID = "staffCohortAssociationId";
     public static final String USER_ACCOUNT_ID = "userAccountId";
     public static final String GRADE_ID = "gradeId";
+    public static final String _ID = "_id";
+    public static final String END_DATE = "endDate";
+    public static final String STUDENT_RECORD_ACCESS = "studentRecordAccess";
 }

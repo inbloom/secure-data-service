@@ -1,31 +1,21 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.api.security.context.resolver;
-
-import org.apache.commons.lang3.StringUtils;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Spy;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.slc.sli.api.client.constants.EntityNames;
-import org.slc.sli.api.security.context.AssociativeContextHelper;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Calendar;
-import java.util.Set;
-import java.util.HashSet;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -35,6 +25,34 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.apache.commons.lang3.StringUtils;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Spy;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.security.context.AssociativeContextHelper;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * Unit tests
@@ -99,6 +117,7 @@ public class SectionGracePeriodNodeFilterTest {
     public void testFilterIds() {
         List<Entity> sections = getSectionsList();
         List<Entity> sessions = getSessionList();
+        List<Entity> studentSecAssoc = getStudentSectionAssociation();
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(2012, 4, 3);
@@ -108,12 +127,9 @@ public class SectionGracePeriodNodeFilterTest {
                 eq("_id"), any(List.class))).thenReturn(sections);
         when(mockRepo.findAll(eq("session"), any(NeutralQuery.class))).thenReturn(sessions);
 
-        List<String> ids = new ArrayList<String>();
-        ids.add("1");
-        ids.add("2");
-        ids.add("3");
+        List<Entity> returnedEntities = nodeFilter.filterEntities(studentSecAssoc, "sectionId");
+        List<String> returnedIds = getReturnedIds(returnedEntities);
 
-        List<String> returnedIds = nodeFilter.filterIds(ids);
         assertNotNull("Should not be null", returnedIds);
         assertEquals("Should match", 2, returnedIds.size());
         assertTrue("Should be true", returnedIds.contains("1"));
@@ -122,14 +138,11 @@ public class SectionGracePeriodNodeFilterTest {
 
     @Test
     public void testEmptyFilterDate()  {
+        List<Entity> studentSecAssoc = getStudentSectionAssociation();
         when(mockHelper.getFilterDate(anyString(), any(Calendar.class))).thenReturn(StringUtils.EMPTY);
 
-        List<String> ids = new ArrayList<String>();
-        ids.add("1");
-        ids.add("2");
-        ids.add("3");
-
-        List<String> returnedIds = nodeFilter.filterIds(ids);
+        List<Entity> returnedEntities = nodeFilter.filterEntities(studentSecAssoc, "sectionId");
+        List<String> returnedIds = getReturnedIds(returnedEntities);
         assertNotNull("Should not be null", returnedIds);
         assertEquals("Should match", 3, returnedIds.size());
     }
@@ -165,6 +178,14 @@ public class SectionGracePeriodNodeFilterTest {
         return list;
     }
 
+    private List<Entity> getStudentSectionAssociation() {
+        List<Entity> list = new ArrayList<Entity>();
+
+        list.add(createEntity("1", "sectionId", "1"));
+        list.add(createEntity("2", "sectionId", "2"));
+        list.add(createEntity("3", "sectionId", "3"));
+        return list;
+    }
     private Entity createEntity(String id, String key, String value) {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put(key, value);
@@ -174,6 +195,13 @@ public class SectionGracePeriodNodeFilterTest {
         when(mockEntity.getBody()).thenReturn(body);
 
         return mockEntity;
+    }
+    private List<String> getReturnedIds(List<Entity> entityList) {
+        List<String> ids = new ArrayList<String>();
+        for (Entity e : entityList) {
+            ids.add(e.getEntityId());
+        }
+        return ids;
     }
 
 }

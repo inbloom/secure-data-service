@@ -22,7 +22,7 @@
 		<Objective>To not get left behind!</Objective>
 		<Description>I wanna know as much as Grandpa!</Description>
 		<AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
-		<ObjectiveGradeLevel>Infant/toddler</ObjectiveGradeLevel>
+		<ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
 		<LearningStandardReference ref="LS_2" />
 		<LearningObjectiveReference ref="LO_101" />
 	</LearningObjective>
@@ -34,7 +34,7 @@
 		<Objective>To not get left behind!</Objective>
 		<Description>I wanna know as much as Grandpa!</Description>
 		<AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
-		<ObjectiveGradeLevel>Infant/toddler</ObjectiveGradeLevel>
+		<ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
 		<LearningStandardReference id="LS_1" ref="LS_1" />
 		<LearningObjectiveReference ref="LO_3" />
 	</LearningObjective>
@@ -46,7 +46,7 @@
 		<Objective>To not get left behind!</Objective>
 		<Description>I wanna know as much as Grandpa!</Description>
 		<AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
-		<ObjectiveGradeLevel>Infant/toddler</ObjectiveGradeLevel>
+		<ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
 		<LearningStandardReference ref="LS_2" />
 		<LearningObjectiveReference ref="LO_2" />
 	</LearningObjective>
@@ -58,7 +58,7 @@
 		<Objective>To not get left behind!</Objective>
 		<Description>I wanna know as much as Grandpa!</Description>
 		<AcademicSubject>Public, Protective, and Government Service</AcademicSubject>
-		<ObjectiveGradeLevel>Infant/toddler</ObjectiveGradeLevel>
+		<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
 		<LearningStandardReference ref="LS_2" />
 		<LearningObjectiveReference ref="LO_3" />
 	</LearningObjective>

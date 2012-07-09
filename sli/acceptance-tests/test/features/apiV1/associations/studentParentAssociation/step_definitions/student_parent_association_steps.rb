@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'rest-client'
 require 'json'
 require 'builder'
@@ -14,7 +33,7 @@ Transform /^<([^"]*)>$/ do |val|
 
   case val
     #student parent association data
-  when "ASSOCIATION COUNT" then 3
+  when "ASSOCIATION COUNT" then 4
   when "ASSOCIATION COUNT FOR ENDPOINT 1" then 1
   when "ASSOCIATION COUNT FOR ENDPOINT 2" then 1
   when "RESOLUTION COUNT FOR ENDPOINT 1" then 1
@@ -49,6 +68,8 @@ Transform /^<([^"]*)>$/ do |val|
 
     #general
   when "INVALID REFERENCE" then "11111111-1111-1111-1111-111111111111"
+  when "INACCESSIBLE REFERENCE 1" then "2899a720-4186-4598-9874-edde0e2541db"
+  when "INACCESSIBLE REFERENCE 2" then "cb7a932f-2d44-800c-cd5a-cdb25a29fc75"
   when "SELF LINK NAME" then "self"
   when "NEWLY CREATED ASSOCIATION ID" then $createdId = @newId
   when "VALIDATION" then "Validation failed"
@@ -62,7 +83,7 @@ end
 
 Given /^a valid association json document for a "([^"]*)"$/ do |arg1|
   @fields = {
-    "studentId" => "e0e99028-6360-4247-ae48-d3bb3ecb606a",
-    "parentId" => "96adf0d1-c482-447c-8386-b0702e084134"
+    "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378",
+    "parentId" => "38ba6ea7-7e73-47db-99e7-d0956f83d7e9"
   }
 end
