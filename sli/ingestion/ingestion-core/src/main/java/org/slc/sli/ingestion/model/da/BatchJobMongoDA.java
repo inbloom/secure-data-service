@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.model.da;
 
 import static org.springframework.data.mongodb.core.query.Criteria.where;
@@ -23,9 +22,15 @@ import static org.springframework.data.mongodb.core.query.Query.query;
 import java.util.Iterator;
 import java.util.List;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.Bytes;
 import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import com.mongodb.MongoException;
+import com.mongodb.WriteConcern;
 
+import org.mortbay.log.Log;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.CursorPreparer;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -72,7 +77,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
     @Override
     public List<Stage> getBatchStagesStoredSeperatelly(String batchJobId) {
-        return batchJobMongoTemplate.find(query(where("jobId").is(batchJobId)), Stage.class, BATCHJOB_STAGE_SEPARATE_COLLECTION);
+        return batchJobMongoTemplate.find(query(where("jobId").is(batchJobId)), Stage.class,
+                BATCHJOB_STAGE_SEPARATE_COLLECTION);
     }
 
     @Override
@@ -82,24 +88,24 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
     @Override
     public List<Error> findBatchJobErrors(String jobId) {
-        List<Error> errors = batchJobMongoTemplate.find(query(where(BATCHJOBID_FIELDNAME).is(jobId)), Error.class, BATCHJOB_ERROR_COLLECTION);
+        List<Error> errors = batchJobMongoTemplate.find(query(where(BATCHJOBID_FIELDNAME).is(jobId)), Error.class,
+                BATCHJOB_ERROR_COLLECTION);
         return errors;
     }
 
     public List<Error> findBatchJobErrors(String jobId, CursorPreparer cursorPreparer) {
-        List<Error> errors = batchJobMongoTemplate.find(query(where(BATCHJOBID_FIELDNAME).is(jobId)), Error.class, cursorPreparer, BATCHJOB_ERROR_COLLECTION);
+        List<Error> errors = batchJobMongoTemplate.find(query(where(BATCHJOBID_FIELDNAME).is(jobId)), Error.class,
+                cursorPreparer, BATCHJOB_ERROR_COLLECTION);
         return errors;
     }
 
     @Override
     public void saveError(Error error) {
-        if (error != null && "true".equals(trackIngestionErrors)
-                && ERROR.equalsIgnoreCase(error.getSeverity())) {
+        if (error != null && "true".equals(trackIngestionErrors) && ERROR.equalsIgnoreCase(error.getSeverity())) {
             batchJobMongoTemplate.save(error);
         }
 
-        if (error != null && "true".equals(trackIngestionWarnings)
-                && WARNING.equalsIgnoreCase(error.getSeverity())) {
+        if (error != null && "true".equals(trackIngestionWarnings) && WARNING.equalsIgnoreCase(error.getSeverity())) {
             batchJobMongoTemplate.save(error);
         }
     }
@@ -107,6 +113,45 @@ public class BatchJobMongoDA implements BatchJobDAO {
     @Override
     public Iterable<Error> getBatchJobErrors(String jobId, int limit) {
         return new ErrorIterable(jobId, limit);
+    }
+
+    @Override
+    public boolean attemptTentantLockForJob(String tenantId, String batchJobId) {
+        if (tenantId != null && batchJobId != null) {
+
+            try {
+                BasicDBObject tenantLock = new BasicDBObject();
+                tenantLock.put("_id", tenantId);
+                tenantLock.put("batchJobId", batchJobId);
+
+                batchJobMongoTemplate.getCollection("tenantJobLock").insert(tenantLock, WriteConcern.SAFE);
+                return true;
+            } catch (MongoException me) {
+                if (me.getCode() == 11000 /* dup key */) {
+                    Log.debug("Cannot obtain lock for tenant: {}", tenantId);
+                } else {
+                    throw me;
+                }
+            }
+
+        } else {
+            throw new IllegalArgumentException(
+                    "Must specify a valid tenant id and batch job id for which to attempt lock.");
+        }
+        return false;
+    }
+
+    @Override
+    public void releaseTenantLock(String tenantId) {
+        if (tenantId != null) {
+
+            DBObject query = new BasicDBObjectBuilder().add("_id", tenantId).get();
+
+            batchJobMongoTemplate.getCollection("tenantJobLock").findAndRemove(query);
+
+        } else {
+            throw new IllegalArgumentException("Must specify a valid tenant id for which to attempt lock release.");
+        }
     }
 
     /**
@@ -148,9 +193,13 @@ public class BatchJobMongoDA implements BatchJobDAO {
             private ErrorIterator(String jobId, int queryResultLimit) {
                 this.jobId = jobId;
                 this.cursorPreparer = new LimitedCursorPreparer(queryResultLimit);
-                this.remainingResults = batchJobMongoTemplate.getCollection(BATCHJOB_ERROR_COLLECTION).count(query(where(BATCHJOBID_FIELDNAME).is(jobId)).getQueryObject());
-                // TODO use the following rather than the previous line when we upgrade to mongotemplate 1.0.0.M5 or above
-                // this.remainingResults = batchJobMongoTemplate.count(query(where(BATCHJOBID_FIELDNAME).is(jobId)), BATCHJOB_ERROR_COLLECTION);
+                this.remainingResults = batchJobMongoTemplate.getCollection(BATCHJOB_ERROR_COLLECTION).count(
+                        query(where(BATCHJOBID_FIELDNAME).is(jobId)).getQueryObject());
+                // TODO use the following rather than the previous line when we upgrade to
+                // mongotemplate 1.0.0.M5 or above
+                // this.remainingResults =
+                // batchJobMongoTemplate.count(query(where(BATCHJOBID_FIELDNAME).is(jobId)),
+                // BATCHJOB_ERROR_COLLECTION);
                 this.currentIterator = getNextList();
             }
 
@@ -173,7 +222,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
             }
 
             private Iterator<Error> getNextList() {
-                List<Error> errors = batchJobMongoTemplate.find(query(where(BATCHJOBID_FIELDNAME).is(jobId)), Error.class, cursorPreparer, BATCHJOB_ERROR_COLLECTION);
+                List<Error> errors = batchJobMongoTemplate.find(query(where(BATCHJOBID_FIELDNAME).is(jobId)),
+                        Error.class, cursorPreparer, BATCHJOB_ERROR_COLLECTION);
                 remainingResults -= errors.size();
                 return errors.iterator();
             }

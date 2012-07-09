@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.model.da;
 
 import java.util.List;
@@ -36,6 +35,7 @@ public interface BatchJobDAO {
 
     /**
      * Why is this deprecated?
+     *
      * @param batchJobId
      * @return
      */
@@ -49,4 +49,23 @@ public interface BatchJobDAO {
     void saveBatchJobStageSeparatelly(String batchJobId, Stage stage);
 
     List<Stage> getBatchStagesStoredSeperatelly(String batchJobId);
+
+    /**
+     * Checks if a job can be run for the provided tenant.
+     * If it can, the tenant will be locked by this job until released.
+     *
+     * @param tenantId
+     * @param batchJobId
+     *
+     * @return true if lock was acquired. false otherwise.
+     */
+    boolean attemptTentantLockForJob(String tenantId, String batchJobId);
+
+    /**
+     * Release lock (if present) for the given tenant.
+     *
+     * @param tenantId
+     * @return true if tenant is unlocked. false otherwise.
+     */
+    void releaseTenantLock(String tenantId);
 }
