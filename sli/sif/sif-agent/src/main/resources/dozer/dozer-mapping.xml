@@ -12,8 +12,36 @@
         <class-a>org.slc.sli.sif.domain.sifentity.SchoolInfoEntity</class-a>
         <class-b>org.slc.sli.sif.domain.slientity.SchoolEntity</class-b>
         <field>
-            <a>firstName</a>
-            <b>name</b>
+            <a>StateProvinceId</a>
+            <b>stateOrganizationId</b>
+        </field>
+        <field>
+            <a>SchoolName</a>
+            <b>nameOfInstitution</b>
+        </field>
+        <field>
+            <a>SchoolFocusType</a>
+            <b>schoolType</b>
+        </field>
+        <field>
+            <a>SchoolURL</a>
+            <b>webSite</b>
+        </field>
+        <field>
+            <a>OperationalStatus</a>
+            <b>operationalStatus</b>
+        </field>
+        <field>
+            <a>GradeLevels</a>
+            <b>gradesOffered</b>
+        </field>
+        <field>
+            <a>SchoolType</a>
+            <b>schoolCategories</b>
+        </field>
+        <field>
+            <a>PhoneNumberList</a>
+            <b>telephone</b>
         </field>
     </mapping>
  
