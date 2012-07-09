@@ -168,9 +168,15 @@ Then /^I should find "([^"]*)" under it$/ do |key|
 end
 
 Then /^I should find (\d+) "([^"]*)" under it$/ do |count, key|
-  assert(@node.elements["#{key}"] != nil, "Cannot find the element #{key}")
-  assert(@node.elements["#{key}"].size == convert(count), "Expected #{count}, received #{@node.elements["#{key}"].size}")
-  @node = @node.elements["#{key}"]
+  assert(@node.get_elements("#{key}") != nil, "Cannot find the element #{key}")
+  assert(@node.get_elements("#{key}").size == convert(count), "Expected #{count}, received #{@node.get_elements("#{key}").size}")
+  @node = @node.get_elements("#{key}")
+end
+
+Then /^I should find ([\d]*) "([^"]*)"$/ do |count, key|
+  assert(@result.get_elements("#{key}") != nil, "Cannot find #{key}")
+  assert(@result.get_elements("#{key}").size == convert(count), "Expected #{count}, received #{@result.get_elements("#{key}").size}")
+  @node = @result.get_elements("#{key}")
 end
 
 Then /^I should find ([\d]*) "([^"]*)" under "([^"]*)"$/ do |count, key, arg|
