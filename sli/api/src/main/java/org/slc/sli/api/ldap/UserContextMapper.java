@@ -17,6 +17,7 @@ public class UserContextMapper implements ContextMapper {
 
     private Date ldapStringToDate(String dateString) {
         if (dateString != null) {
+            // TODO: add time zone
             SimpleDateFormat test = new SimpleDateFormat("yyyyMMddHHmmss");
             try {
                 return test.parse(dateString);
