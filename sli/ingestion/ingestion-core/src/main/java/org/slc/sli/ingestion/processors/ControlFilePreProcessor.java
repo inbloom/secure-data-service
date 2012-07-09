@@ -43,6 +43,7 @@ import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
@@ -60,6 +61,8 @@ import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
+import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.ingestion.validation.Validator;
 
 /**
  * Transforms body from ControlFile to ControlFileDescriptor type.
@@ -76,6 +79,9 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
     @Autowired
     private BatchJobDAO batchJobDAO;
+
+    @Autowired
+    private Validator<Job> jobValidator;
 
     @Autowired
     private TenantDA tenantDA;
@@ -106,6 +112,8 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         // TODO handle IOException or other system error
         NewBatchJob newBatchJob = null;
         File fileForControlFile = null;
+        ControlFileDescriptor controlFileDescriptor = null;
+
         try {
             fileForControlFile = exchange.getIn().getBody(File.class);
             controlFileName = fileForControlFile.getName();
@@ -114,11 +122,20 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
             ControlFile controlFile = parseControlFile(newBatchJob, fileForControlFile);
 
-            ControlFileDescriptor controlFileDescriptor = createControlFileDescriptor(newBatchJob, controlFile);
+            if (jobValidator.isValid(newBatchJob, errorReport)) {
 
-            setExchangeHeaders(exchange, controlFileDescriptor, newBatchJob);
+                controlFileDescriptor = createControlFileDescriptor(newBatchJob, controlFile);
 
-            auditSecurityEvent(controlFile);
+                auditSecurityEvent(controlFile);
+
+            } else {
+                LOG.info(MessageSourceHelper.getMessage(messageSource, "MULTIJOB_ERR_MSG1"));
+                errorReport.error(MessageSourceHelper.getMessage(messageSource, "MULTIJOB_ERR_MSG1"), this);
+            }
+
+            setExchangeHeaders(exchange, newBatchJob, errorReport);
+
+            setExchangeBody(exchange, controlFileDescriptor, errorReport, batchJobId);
 
         } catch (SubmissionLevelException exception) {
             String id = "null";
@@ -140,9 +157,19 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
             if (newBatchJob != null) {
                 BatchJobUtils.stopStageAndAddToJob(stage, newBatchJob);
                 batchJobDAO.saveBatchJob(newBatchJob);
-                BatchJobUtils.writeWarningssWithDAO(newBatchJob.getId(), fileForControlFile.getName(), BATCH_JOB_STAGE,
+                BatchJobUtils.writeErrorsWithDAO(newBatchJob.getId(), fileForControlFile.getName(), BATCH_JOB_STAGE,
                         errorReport, batchJobDAO);
             }
+        }
+    }
+
+    private void setExchangeBody(Exchange exchange, ControlFileDescriptor controlFileDescriptor,
+            ErrorReport errorReport, String batchJobId) {
+        if (!errorReport.hasErrors() && controlFileDescriptor != null) {
+            exchange.getIn().setBody(controlFileDescriptor, ControlFileDescriptor.class);
+        } else {
+            WorkNote workNote = WorkNote.createSimpleWorkNote(batchJobId);
+            exchange.getIn().setBody(workNote, WorkNote.class);
         }
     }
 
@@ -170,7 +197,8 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         // determine whether to override the tenantId property with a LZ derived value
         if (deriveTenantId) {
             // derive the tenantId property from the landing zone directory with a mongo lookup
-            setTenantIdFromDb(controlFile, lzFile.getAbsolutePath());
+            String tenantId = setTenantIdFromDb(controlFile, lzFile.getAbsolutePath());
+            newBatchJob.setTenantId(tenantId);
         }
         return controlFile;
     }
@@ -210,10 +238,14 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         }
     }
 
-    private void setExchangeHeaders(Exchange exchange, ControlFileDescriptor controlFileDescriptor, NewBatchJob newJob) {
+    private void setExchangeHeaders(Exchange exchange, NewBatchJob newJob, ErrorReport errorReport) {
         exchange.getIn().setHeader("BatchJobId", newJob.getId());
-        exchange.getIn().setBody(controlFileDescriptor, ControlFileDescriptor.class);
-        exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
+        if (errorReport.hasErrors()) {
+            exchange.getIn().setHeader("hasErrors", errorReport.hasErrors());
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        } else {
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
+        }
     }
 
     private NewBatchJob createNewBatchJob(File controlFile) {
@@ -240,7 +272,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
      *
      * Throws an IngestionException if a tenantId could not be resolved.
      */
-    private void setTenantIdFromDb(ControlFile cf, String lzPath) throws IngestionException {
+    private String setTenantIdFromDb(ControlFile cf, String lzPath) throws IngestionException {
         lzPath = new File(lzPath).getAbsolutePath();
         // TODO add user facing error report for no tenantId found
         String tenantId = tenantDA.getTenantId(lzPath);
@@ -249,6 +281,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         } else {
             throw new IngestionException("Could not find tenantId for landing zone: " + lzPath);
         }
+        return tenantId;
     }
 
     private void auditSecurityEvent(ControlFile controlFile) {
