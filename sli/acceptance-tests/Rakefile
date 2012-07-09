@@ -245,7 +245,7 @@ end
 # This task is used as an entry point to run the smoke tests,
 # a suite of tests that will run quickly but only catch 80% or less of real failures
 desc "Run Smoke Tests"
-task :smokeTests => [:apiSmokeTests, :ingestionSmokeTests, :dashboardSmokeTests, :adminSmokeTests, :databrowserSmokeTests] do
+task :smokeTests => [:apiSmokeTests, :ingestionSmokeTests, :dashboardSmokeTests, :databrowserSmokeTests, :adminSmokeTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"

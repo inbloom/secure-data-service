@@ -30,6 +30,7 @@ default:
         sli.api.cookieDomain: .slidev.org
 
         # Sandbox settings
+        sli.sandbox.enabled: false
         sli.sandbox.autoRegisterApps: false
         bootstrap.sandbox.createSandboxRealm: false
 
@@ -81,7 +82,6 @@ default:
         sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
         sli.ingestion.warnings.tracking: true
-        sli.ingestion.staging.index.policy: pre
 
         # Test specific properties (only used in ingestion)
         sli.test.prop: ci DAL Context Test Property
@@ -810,6 +810,7 @@ local:
 local-sandbox:
     api:
         <<: *API-LOCAL
+        sli.sandbox.enabled: true
         sli.sandbox.autoRegisterApps: true
         bootstrap.sandbox.createSandboxRealm: true
 
@@ -1149,6 +1150,7 @@ test-perf:
 sandbox:
     api:
         <<: *API-TEAM
+        sli.sandbox.enabled: true
         sli.sandbox.autoRegisterApps: true
         bootstrap.sandbox.createSandboxRealm: true
         bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
@@ -1235,7 +1237,7 @@ nxteam-maestro:
 
     data-access:
         <<: *DATA-ACCESS-NXTEAM
-        sli.ingestion.staging.clearOnCompletion: transformed
+        sli.ingestion.staging.clearOnCompletion: true
     misc:
         <<: *MISC-NXTEAM
 

@@ -146,9 +146,13 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             @Override
             public Response run(EntityDefinition entityDef) {
                 String id = entityDef.getService().create(newEntityBody);
-                String uri = ResourceUtil.getURI(uriInfo, PathConstants.V1,
-                        PathConstants.TEMP_MAP.get(entityDef.getResourceName()), id).toString();
-                return Response.status(Status.CREATED).header("Location", uri).build();
+
+                if (!id.isEmpty()) {
+                    String uri = ResourceUtil.getURI(uriInfo, PathConstants.V1,
+                            PathConstants.TEMP_MAP.get(entityDef.getResourceName()), id).toString();
+                    return Response.status(Status.CREATED).header("Location", uri).build();
+                }
+                return Response.status(Status.CONFLICT).build();
             }
         });
     }
