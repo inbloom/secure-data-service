@@ -1,48 +1,26 @@
-=begin
-
-Copyright 2012 Shared Learning Collaborative, LLC
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-
-=end
-
-
 #!/usr/bin/ruby
 
 require 'optparse'
 require 'mongo'
+require 'SecureRandom'
 
 mongo = "localhost"
 db = "sli"
 table = "tenant"
 tenant = nil
-country = nil
-state = nil
 remove = false
 
 opts = OptionParser.new do |opts|
-    opts.banner = "Usage: addTenant [-m mongo=#{mongo}] -t tenantId -c country -s state [-R]"
+    opts.banner = "Usage: addTenant [-m mongo=#{mongo}] -t tenantId [-R]"
     opts.on('-m mongo', '--mongo mongo', 'Mono Host server')     { |m| mongo = m }
     opts.on('-t tenantId', '--tenant tenantId', 'Tenant Id')     { |t| tenant = t }
-    opts.on('-c country', '--country country', 'Country Code')   { |c| country = c }
-    opts.on('-s state', '--state state', 'State Code')           { |s| state = s }
     opts.on('-R', '--remove', 'Remove the collection at start') { |r| remove = true }
     opts.on('-h', '--help', 'Display command line options') do
         puts opts
         exit
     end
     opts.parse!
-    if tenant == nil || country == nil || state == nil then
+    if tenant == nil then
         puts opts
         exit 
     end
@@ -73,17 +51,19 @@ if remove then
     end
 end
 
-puts "Inserting tenant #{tenant} with country #{country} and state #{state}"
+puts "Inserting tenant #{tenant}"
 
-coll.update({ "tenantId" => tenant}, { "$set" =>
-    { "tenantId" => tenant,
-      "geographicLocation" => {
-          "country" => country,
-          "region" => state
-       },
-      "landingZone" => []
-    }}, {:upsert => true})
+doc = { "_id" => "2012aT-" + SecureRandom.uuid,
+        "type" => "teanant",
+	"body" => { "tenantId" => tenant, "landingZone" => [] },
+        "metadata" => {
+          "tenantId" => tenant,
+	  "createdBy" => tenant,
+	  "isOrphaned" => "true"
+	  }
+      }
+coll.insert(doc)
 
-doc = coll.find({ "tenantId" => tenant })
+doc = coll.find({ "body.tenantId" => tenant })
 
 puts "Found doc: #{doc.to_a}"
