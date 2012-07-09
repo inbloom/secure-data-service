@@ -89,4 +89,15 @@ Nb28W0C5u7TvZrWgWTPbR6sZ2lK1dsmaXa+dsPWwHnvBPEGImThe/nyqIvpyIGXvlMd+4I
   	assert_equal "the_key", contents
   end
 
+  test "OpenSSH style RSA key should be convertable to a valid RSA key" do
+    newkey = LandingZoneHelper.convert_key("ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6JVegtFBWdLKDE1gQplnHA8PZ+ceAnoduBTnJj+XjBLi4To5DSEFLzF1D6fLorIK3F2GIe+3yGT+wmdhXRFXEtpU+p8MD1ys/w6qR+s57kkV9/tpa3Ako7DwAL2YOIM50dEcWkvNGZbIOSBgjxM/dI6x5YEQZXsRc4wFydcJxQ8K6sN5t0fke8Nb28W0C5u7TvZrWgWTPbR6sZ2lK1dsmaXa+dsPWwHnvBPEGImThe/nyqIvpyIGXvlMd+4I3wx3PoRceyJD/PtsJBYI7NBYiflVnqiLhM1/rRKMOBNqmQat/vwsY6VVxbNkC4a12GM2ipOxzd/1/ZKeKmQ5j5R63Q== srichards@wgen.net", "test_key")
+    assert_not_nil newkey
+    assert_equal true, LandingZoneHelper.valid_rsa_key?(newkey)
+  end
+
+  test "Invalid OpenSSH style RSA key should not be convertable" do
+    newkey = LandingZoneHelper.convert_key("ssh-rsa wsY6VVxbNkC4a12GM2ipOxzd/1/ZKeKmQ5j5R63Q== srichards@wgen.net", "test_key")
+    assert_nil newkey
+  end
+
 end
