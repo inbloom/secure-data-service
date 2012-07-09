@@ -30,9 +30,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
 
 /**
  * On startup loads all javascript function definitions into Mongo's memory.
@@ -41,7 +38,7 @@ import javax.annotation.PostConstruct;
  * @author Kevin Myers kmyers@wgen.net
  *
  */
-@Component
+
 public class AggregationLoader {
 
     // ability to write to DEBUG output
@@ -59,7 +56,7 @@ public class AggregationLoader {
     public AggregationLoader() {
     }
 
-    @PostConstruct
+
     public void init() {
         if (template != null) {
             if (loadJavascriptFiles(getFiles(), PATH_PREFIX)) {
@@ -132,7 +129,9 @@ public class AggregationLoader {
         // file IO can throw IOException(s)
         try {
 
-            if (in == null) return "";
+            if (in == null) {
+                return "";
+            }
 
             StringBuffer fileData = new StringBuffer();
             BufferedReader br = new BufferedReader(new InputStreamReader(in));

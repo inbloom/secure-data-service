@@ -50,9 +50,9 @@ end
 
 Given /^login name "([^"]*)" ([^"]*) in the account request queue$/ do |email, status|
   intializaApprovalEngineAndLDAP(@email_conf, @prod)
-  if @mode
-    @userinfo[:email] = "devldapuser@slidev.org"
-    @userinfo[:emailAddress] = "devldapuser@slidev.org"
+  if @live_email_mode
+    @userinfo[:email] = PropLoader.getProps['email_imap_registration_user_email']
+    @userinfo[:emailAddress] = PropLoader.getProps['email_imap_registration_user_email']
   else
     @userinfo[:email] = email
     @userinfo[:emailAddress] = email
@@ -96,7 +96,7 @@ When /^I approve the account request$/ do
 end
 
 Then /^a new account is created in ([^"]*) LDAP with login name "([^"]*)" and the roles are "([^"]*)"$/ do |environment, login_name, roles|
-  login_name = "devldapuser@slidev.org" if @mode
+  login_name = PropLoader.getProps['email_imap_registration_user_email'] if @live_email_mode
   roles_arr = roles.strip.split(",").map {|x| x.strip }
   assert(@ldap.read_user(@userinfo[:email])[:email] == login_name, "User #{@userinfo[:email]} is not created in LDAP")
   assert(@ldap.get_user_groups(@userinfo[:email]).sort == roles_arr.sort, "User #{@userinfo[:email]} is does not have roles #{roles_arr}")
@@ -175,7 +175,9 @@ end
 
 #### Common methods ##############
 def intializaApprovalEngineAndLDAP(email_conf = @email_conf, prod=true)
-  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, PropLoader.getProps['ldap_base'], "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
+                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
+                          PropLoader.getProps['ldap_admin_pass'])
 
   email = Emailer.new email_conf
   transition_action_config = MockTransitionActionConfig.new(email, !prod)
@@ -183,10 +185,10 @@ def intializaApprovalEngineAndLDAP(email_conf = @email_conf, prod=true)
 end
 
 def verifyEmail
-  if @mode
-    defaultUser = 'devldapuser'
-    defaultPassword = 'Y;Gtf@w{'
-    imap = Net::IMAP.new('mon.slidev.org', 993, true, nil, false)
+  if @live_email_mode
+    defaultUser = PropLoader.getProps['email_imap_registration_user']
+    defaultPassword = PropLoader.getProps['email_imap_registration_pass']
+    imap = Net::IMAP.new(PropLoader.getProps['email_imap_host'], PropLoader.getProps['email_imap_port'], true, nil, false)
     imap.authenticate('LOGIN', defaultUser, defaultPassword)
     imap.examine('INBOX')
 

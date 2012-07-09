@@ -14,22 +14,21 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.dal;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import org.slc.sli.dal.repository.MongoRepository;
+import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.util.LogUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.index.IndexDefinition;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
@@ -47,7 +46,8 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     
     protected static final Logger LOG = LoggerFactory.getLogger(NeutralRecordRepository.class);
     
-    private MongoIndexManager mongoIndexManager;
+    private static final String BATCH_JOB_ID = "batchJobId";
+    private static final String CREATION_TIME = "creationTime";
     
     @Override
     public boolean update(String collection, NeutralRecord neutralRecord) {
@@ -85,7 +85,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
             body = new HashMap<String, Object>();
         }
         neutralRecord.setAttributes(body);
-        return create(neutralRecord, toStagingCollectionName(neutralRecord.getRecordType(), jobId));
+        return create(neutralRecord, neutralRecord.getRecordType());
     }
     
     public NeutralRecord insert(String type, Map<String, Object> body, Map<String, Object> metaData,
@@ -97,153 +97,84 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         return insert(neutralRecord, collectionName);
     }
     
-    public NeutralRecord insertForJob(NeutralRecord neutralRecord, String jobId) {
-        return insert(neutralRecord, toStagingCollectionName(neutralRecord.getRecordType(), jobId));
+    public NeutralRecord insert(NeutralRecord neutralRecord) {
+        return insert(neutralRecord, neutralRecord.getRecordType());
+    }
+    
+    public List<NeutralRecord> insertAll(List<NeutralRecord> entities, String collectionName) {
+        return insert(entities, collectionName);
+    }
+    
+    public List<NeutralRecord> insertAllForJob(List<NeutralRecord> entities, String collectionName) {
+        return insertAll(entities, collectionName);
+    }
+    
+    @SuppressWarnings("deprecation")
+    public Iterable<NeutralRecord> findAllByQuery(String collectionName, Query query) {
+        return findByQuery(collectionName, query);
     }
     
     public Iterable<NeutralRecord> findAllForJob(String collectionName, String jobId, NeutralQuery neutralQuery) {
-        return findAll(toStagingCollectionName(collectionName, jobId), neutralQuery);
-    }
-    
-    @SuppressWarnings("deprecation")
-    public Iterable<NeutralRecord> findByQueryForJob(String collectionName, Query query, String jobId, int skip, int max) {
-        return findByQuery(toStagingCollectionName(collectionName, jobId), query, skip, max);
-    }
-    
-    @SuppressWarnings("deprecation")
-    public Iterable<NeutralRecord> findByQueryForJob(String collectionName, Query query, String jobId) {
-        return findByQuery(toStagingCollectionName(collectionName, jobId), query);
+        return findAll(collectionName, prependBatchJobIdOntoQuery(neutralQuery, jobId));
     }
     
     @SuppressWarnings("deprecation")
     public Iterable<NeutralRecord> findByPathsForJob(String collectionName, Map<String, String> paths, String jobId) {
-        return findByPaths(toStagingCollectionName(collectionName, jobId), paths);
+        paths.put(BATCH_JOB_ID, jobId);
+        return findByPaths(collectionName, paths);
     }
     
     public NeutralRecord findOneForJob(String collectionName, NeutralQuery neutralQuery, String jobId) {
-        return findOne(toStagingCollectionName(collectionName, jobId), neutralQuery);
+        return findOne(collectionName, prependBatchJobIdOntoQuery(neutralQuery, jobId));
     }
     
-    public NeutralRecord findOneForJob(String collectionName, Query query, String jobId) {
-        return findOne(toStagingCollectionName(collectionName, jobId), query);
-    }
-    
-    public DBCollection getCollectionForJob(String collectionName, String jobId) {
-        return getCollection(toStagingCollectionName(collectionName, jobId));
-    }
-    
-    public boolean collectionExistsForJob(String collectionName, String jobId) {
-        return collectionExists(toStagingCollectionName(collectionName, jobId));
-    }
-    
-    public void createCollectionForJob(String collectionName, String jobId) {
-        createCollection(toStagingCollectionName(collectionName, jobId));
+    public DBCollection getCollectionForJob(String collectionName) {
+        return getCollection(collectionName);
     }
     
     public long countForJob(String collectionName, NeutralQuery neutralQuery, String jobId) {
-        return count(toStagingCollectionName(collectionName, jobId), neutralQuery);
+        return count(collectionName, prependBatchJobIdOntoQuery(neutralQuery, jobId));
     }
     
-    public long countForJob(String collectionName, Query query, String jobId) {
-        return count(toStagingCollectionName(collectionName, jobId), query);
+    public long countByQuery(String collectionName, Query query) {
+        return count(collectionName, query);
     }
     
-    public Set<String> getCollectionNamesForJob(String batchJobId) {
+    public Set<String> getStagedCollectionsForJob(String batchJobId) {
         Set<String> collectionNamesForJob = new HashSet<String>();
-        
         if (batchJobId != null) {
-            String jobIdPattern = "_" + toMongoCleanId(batchJobId);
+            LOG.info("Checking staged collection counts for batch job id: {}", batchJobId);
+            Query query = new Query().limit(0);
+            query.addCriteria(Criteria.where(BATCH_JOB_ID).is(batchJobId));
+            query.addCriteria(Criteria.where(CREATION_TIME).gt(0));
             
-            Set<String> allCollectionNames = getTemplate().getCollectionNames();
-            for (String currentCollection : allCollectionNames) {
-                
-                int jobPatternIndex = currentCollection.indexOf(jobIdPattern);
-                if (jobPatternIndex != -1) {
-                    // creating indexes seems to create the collections.
-                    // only add collections with count > 0
-                    if (this.count(currentCollection, new NeutralQuery()) > 0) {
-                        collectionNamesForJob.add(currentCollection.substring(0, jobPatternIndex));
-                    }
-                }
-            }
-        }
-        return collectionNamesForJob;
-    }
-    
-    public Set<String> getCollectionFullNamesForJob(String batchJobId) {
-        Set<String> collectionNamesForJob = new HashSet<String>();
-        
-        if (batchJobId != null) {
-            String jobIdPattern = "_" + toMongoCleanId(batchJobId);
-            
-            Set<String> allCollectionNames = getTemplate().getCollectionNames();
-            for (String currentCollection : allCollectionNames) {
-                
-                int jobPatternIndex = currentCollection.indexOf(jobIdPattern);
-                if (jobPatternIndex != -1) {
+            for (String currentCollection : getTemplate().getCollectionNames()) {
+                long count = countByQuery(currentCollection, query);
+                if (count > 0) {
                     collectionNamesForJob.add(currentCollection);
                 }
+                LOG.info("Count for collection: {} ==> {} [query: {}]",
+                        new Object[] { currentCollection, count, query });
             }
         }
         return collectionNamesForJob;
     }
     
-    public void deleteCollectionsForJob(String batchJobId) {
+    public void deleteStagedRecordsForJob(String batchJobId) {
         if (batchJobId != null) {
-            String jobIdPattern = "_" + toMongoCleanId(batchJobId);
-            deleteTypedCollectionForJob(batchJobId, jobIdPattern);
-        }
-    }
-    
-    public void deleteTransformedCollectionsForJob(String batchJobId) {
-        if (batchJobId != null) {
-            String jobIdPattern = "_transformed_" + toMongoCleanId(batchJobId);
-            deleteTypedCollectionForJob(batchJobId, jobIdPattern);
-        }
-    }
-    
-    private void deleteTypedCollectionForJob(String batchJobId, String jobIdPattern) {
-        Set<String> allCollectionNames = getTemplate().getCollectionNames();
-        for (String currentCollection : allCollectionNames) {
-            
-            int jobPatternIndex = currentCollection.indexOf(jobIdPattern);
-            if (jobPatternIndex != -1) {
-                getTemplate().dropCollection(currentCollection);
-            }
-        }
-    }
-    
-    public void ensureIndexesForJob(String batchJobId) {
-        LOG.info("ENSURING ALL INDEXES FOR A DB {} ", batchJobId);
-        
-        Set<String> collectionNames = mongoIndexManager.getCollectionIndexes().keySet();
-        Iterator<String> it = collectionNames.iterator();
-        String collectionName;
-        
-        while (it.hasNext()) {
-            collectionName = it.next();
-            LOG.info("INDEXING COLLECTION: {} ==> staged as {} ", collectionName,
-                    toStagingCollectionName(collectionName, batchJobId));
-            
-            if (!collectionExistsForJob(collectionName, batchJobId)) {
-                createCollectionForJob(collectionName, batchJobId);
-            }
-            
-            try {
-                for (IndexDefinition definition : mongoIndexManager.getCollectionIndexes().get(collectionName)) {
-                    LOG.debug("Adding Index: {}", definition);
-                    ensureIndex(definition, toStagingCollectionName(collectionName, batchJobId));
+            Query query = new Query(Criteria.where(BATCH_JOB_ID).is(batchJobId));
+            for (String currentCollection : getTemplate().getCollectionNames()) {
+                if (!currentCollection.startsWith("system.")) {
+                    LOG.info("Removing staged entities in collection: {} for batch job: {}", currentCollection,
+                            batchJobId);
+                    getTemplate().remove(query, currentCollection);
                 }
-            } catch (Exception e) {
-                LogUtil.error(LOG, "Failed to create mongo indexes for collection " + collectionName, e);
             }
         }
-        
-        LOG.info("DONE ENSURING INDEXES FOR JOB {} ", batchJobId);
     }
     
     public void updateFirstForJob(NeutralQuery query, Map<String, Object> update, String collectionName, String jobId) {
-        update(query, update, toStagingCollectionName(collectionName, jobId));
+        update(prependBatchJobIdOntoQuery(query, jobId), update, collectionName);
     }
     
     @Override
@@ -256,21 +187,17 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         return NeutralRecord.class;
     }
     
-    private static String toStagingCollectionName(String collectionName, String jobId) {
-        return collectionName + "_" + toMongoCleanId(jobId);
-    }
-    
-    private static String toMongoCleanId(String id) {
-        return id.substring(id.length() - 37, id.length()).replace("-", "");
-    }
-    
-    public void setMongoIndexManager(MongoIndexManager mongoIndexManager) {
-        this.mongoIndexManager = mongoIndexManager;
-    }
-    
     @Override
     public void setReferenceCheck(String referenceCheck) {
         
+    }
+    
+    public NeutralQuery prependBatchJobIdOntoQuery(NeutralQuery query, String jobId) {
+        NeutralCriteria criteria = new NeutralCriteria(BATCH_JOB_ID, NeutralCriteria.OPERATOR_EQUAL, jobId, false);
+        if (!query.getCriteria().contains(criteria)) {
+            query.prependCriteria(criteria);
+        }
+        return query;
     }
     
     // TODO FIXME hack for alpha release 6/18/12 - need to properly implement unsupported methods

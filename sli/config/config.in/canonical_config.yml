@@ -30,6 +30,7 @@ default:
         sli.api.cookieDomain: .slidev.org
 
         # Sandbox settings
+        sli.sandbox.enabled: false
         sli.sandbox.autoRegisterApps: false
         bootstrap.sandbox.createSandboxRealm: false
 
@@ -81,7 +82,6 @@ default:
         sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
         sli.ingestion.warnings.tracking: true
-        sli.ingestion.staging.index.policy: pre
 
         # Test specific properties (only used in ingestion)
         sli.test.prop: ci DAL Context Test Property
@@ -106,6 +106,8 @@ default:
         # ingestion exception message logging
         sli.ingestion.exception.message.log: true
 
+        # ingestion log level 
+        sli.ingestion.log.level: info
         # concurrent or serial
         sli.ingestion.processor.edfi: concurrent
         sli.ingestion.processor.xml: concurrent 
@@ -191,7 +193,19 @@ default:
         # (only used in dashboard)
         dashboard.WSCall.timeout: 3000
         
+        dashboard.minify.js: true
         dashboard.cache.disable: false
+
+        # This is the same as the sli.encyrption.* .  But we need Dashboard to be 
+        # independant of sli specific configuration for open sources. Having the props 
+        # independent here will allow us to use the same application-context for
+        # the internal version as well as the external version.
+        # (only used in dashboard)
+        dashboard.encryption.keyStorePass: changeit
+        dashboard.encryption.dalKeyAlias: dalKey
+        dashboard.encryption.dalKeyPass: changeit
+        dashboard.encryption.keyStore: ../data-access/dal/keyStore/ciKeyStore.jks
+
 
 
     app: &APPS-DEFAULT
@@ -763,8 +777,10 @@ local:
     dashboard: &DASHBOARD-LOCAL
         <<: *DASHBOARD-DEFAULT
 
-        # (only used in dashboard)
+        # (used by many scripts and apps)
         sli.encryption.keyStore: ../data-access/dal/keyStore/ciKeyStore.jks
+
+        dashboard.minify.js: false
         
         dashboard.log.level: info
 
@@ -811,6 +827,7 @@ local:
 local-sandbox:
     api:
         <<: *API-LOCAL
+        sli.sandbox.enabled: true
         sli.sandbox.autoRegisterApps: true
         bootstrap.sandbox.createSandboxRealm: true
 
@@ -1167,6 +1184,7 @@ test-perf:
 sandbox:
     api:
         <<: *API-TEAM
+        sli.sandbox.enabled: true
         sli.sandbox.autoRegisterApps: true
         bootstrap.sandbox.createSandboxRealm: true
         bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
@@ -1219,7 +1237,7 @@ nxteam:
         sli.ingestion.tenant.loadDefaultTenants: true
         sli.ingestion.processor.edfi: concurrent
         sli.ingestion.processor.xml:  concurrent
-        sli.ingestion.queue.maestro.concurrentConsumers: 5
+        sli.ingestion.queue.maestro.concurrentConsumers: 1
         sli.ingestion.queue.pit.concurrentConsumers: 30
         sli.ingestion.cache.type: inmemory
         sli.ingestion.cache.opTimeout: 100
@@ -1258,7 +1276,7 @@ nxteam-maestro:
 
     data-access:
         <<: *DATA-ACCESS-NXTEAM
-        sli.ingestion.staging.clearOnCompletion: transformed
+        sli.ingestion.staging.clearOnCompletion: true
     misc:
         <<: *MISC-NXTEAM
 

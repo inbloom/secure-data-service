@@ -155,7 +155,7 @@ public class BasicQuery implements Query {
          * @return Updated Builder instance.
          */
         public Builder fullEntities() {
-            params.put(ParameterConstants.INCLUDE_FIELDS, true);
+            params.put(ParameterConstants.FULL_ENTITIES, true);
             return this;
         }
         

@@ -19,20 +19,21 @@ package org.slc.sli.api.resources.v1.entity;
 
 import javax.ws.rs.Path;
 
-import org.slc.sli.api.client.constants.ResourceNames;
-import org.slc.sli.api.client.constants.v1.PathConstants;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.resources.v1.DefaultCrudResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.constants.PathConstants;
+import org.slc.sli.api.constants.ResourceNames;
+import org.slc.sli.api.resources.v1.DefaultCrudResource;
 
 /**
  * Represents a teacher’s assignment, homework, or classroom assessment to be recorded in a
  * gradebook.
  *
  * For more information, see the schema for $$GradebookEntry$$ resources.
- * 
+ *
  * @author kmyers
  *
  */

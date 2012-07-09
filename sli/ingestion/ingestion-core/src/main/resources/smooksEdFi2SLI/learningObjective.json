@@ -1,5 +1,5 @@
 {
-    "keyFields" : [ "body.objective","body.academicSubject","body.objectiveGradeLevel"],
+    "keyFields" : [ "body.objective","body.academicSubject","body.objectiveGradeLevel","body.learningObjectiveId.identificationCode"],
 	"references" :
 	[{
         "fieldPath" : "body.parentLearningObjective",
@@ -10,16 +10,16 @@
 	        "choiceOfFields" :
 	        [
 	            [
-		            { 
+		            {
 		           	    "path" : "body.learningObjectiveId.identificationCode",
-		                "values" : 
+		                "values" :
 		                [{
 			                "valueSource" : "localParentIds.parentObjectiveId"
 		                }]
 		            },
-		            { 
+		            {
 		           	    "path" : "body.learningObjectiveId.contentStandardName",
-		                "values" : 
+		                "values" :
 		                [{
 			                "valueSource" : "localParentIds.parentContentStandardName"
 		                }]
@@ -38,9 +38,9 @@
                 "choiceOfFields" :
                 [
                   [
-                    { 
+                    {
                         "path" : "body.learningStandardId.identificationCode",
-                        "values" : 
+                        "values" :
                         [{
                             "valueSource" : "localParentIds.childLearningStandards.identificationCode"
                         }]

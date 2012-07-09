@@ -1,9 +1,5 @@
-<StudentPersonal xmlns="http://www.sifinfo.org/infrastructure/2.x" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <OtherIdList>
-    <OtherId Type="07">P00001</OtherId>
-    <OtherId Type="10">123-45-6789</OtherId>
-  </OtherIdList>
-  <Name Type="01">
+<StudentPersonal xmlns="http://www.sifinfo.org/infrastructure/2.x" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" RefId="2044A2B5639A45EF8273A6593B67EFEA">
+  <Name Type="04">
     <LastName>Quest</LastName>
     <FirstName>Jonathan</FirstName>
     <MiddleName></MiddleName>
@@ -16,7 +12,7 @@
     <CitizenshipStatus>1017</CitizenshipStatus>
   </Demographics>
   <AddressList>
-    <Address>
+    <Address Type="0123">
       <Street>
         <Line1>1 IBM Plaza</Line1>
         <Line2>Suite 2000</Line2>

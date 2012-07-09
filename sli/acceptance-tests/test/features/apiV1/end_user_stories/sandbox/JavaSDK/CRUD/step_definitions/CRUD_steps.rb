@@ -19,14 +19,19 @@ limitations under the License.
 
 require_relative '../../../../../../utils/sli_utils.rb'
 require_relative '../../../../../../dashboard/dash/step_definitions/selenium_common_dash.rb'
-
-Given /^I am logged in using "([^"]*)" and "([^"]*)" to realm Daybreak Central High$/ do |user, pass|
-  @byPassToken = $SESSION_MAP[user+"_IL"]
-  assert(@byPassToken!=nil,"cant login user #{user}")
-end
+require_relative '../../../../../../dashboard/dash/step_definitions/dashboard_api_integration_steps.rb'
 
 Given /^the Java SDK test app  is deployed on test app server$/ do
+  @appPrefix = "sample/"
+end
+
+Given /^I navigate to the Sample App$/ do
+  url = PropLoader.getProps['sampleApp_server_address']
+  url = url + @appPrefix
+  puts url
+  @driver.get url
   @appPrefix = "sample/testsdk"
+  @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 30)
 end
 
 When /^I put "([^"]*)"  with Name "([^"]*)"$/ do |arg1, arg2|
@@ -59,11 +64,9 @@ end
 
 When /^I send test request "([^"]*)" to SDK CRUD test url$/ do |testType|
   url = PropLoader.getProps['sampleApp_server_address']
-  url = url + @appPrefix+"?byPassToken="+URI.escape(@byPassToken)+"&test="+testType
+  url = url + @appPrefix + "?test="+testType
   puts url
-  @driver.get url
-  
-  
+  @driver.get url 
 end
 
 Then /^I should receive response "([^"]*)"$/ do |arg1|

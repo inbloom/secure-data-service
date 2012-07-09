@@ -19,9 +19,11 @@ package org.slc.sli.sif.reporting;
 import java.util.Calendar;
 import java.util.Properties;
 
+import openadk.library.ADK;
 import openadk.library.Event;
 import openadk.library.EventAction;
 import openadk.library.common.Address;
+import openadk.library.common.AddressType;
 import openadk.library.common.CitizenshipStatus;
 import openadk.library.common.CountryCode;
 import openadk.library.common.Demographics;
@@ -29,8 +31,6 @@ import openadk.library.common.EmailList;
 import openadk.library.common.EmailType;
 import openadk.library.common.Name;
 import openadk.library.common.NameType;
-import openadk.library.common.OtherIdList;
-import openadk.library.common.OtherIdType;
 import openadk.library.common.PhoneNumberList;
 import openadk.library.common.PhoneNumberType;
 import openadk.library.common.StatePrCode;
@@ -49,11 +49,8 @@ public class HCStudentPersonalGenerator implements EventGenerator {
 
     private StudentPersonal generateTestStudent() {
         StudentPersonal studentPersonal = new StudentPersonal();
-        OtherIdList otherIdList = new OtherIdList();
-        otherIdList.addOtherId(OtherIdType.SIF1x_STATE_ASSIGNED_NUM, "P00001");
-        otherIdList.addOtherId(OtherIdType.SIF1x_SSN, "123-45-6789");
-        studentPersonal.setOtherIdList(otherIdList);
-        Name name = new Name(NameType.BIRTH, "Student", "Joe");
+        studentPersonal.setRefId(ADK.makeGUID());
+        Name name = new Name(NameType.NAME_OF_RECORD, "Student", "Joe");
         name.setMiddleName("");
         name.setPreferredName("Joe");
         studentPersonal.setName(name);
@@ -83,6 +80,7 @@ public class HCStudentPersonalGenerator implements EventGenerator {
         street.setStreetType("Plaza");
         street.setApartmentType("Suite");
         address.setStreet(street);
+        address.setType(AddressType.MAILING);
         StudentAddressList addressList = new StudentAddressList();
         addressList.add(address);
         studentPersonal.setAddressList(addressList);

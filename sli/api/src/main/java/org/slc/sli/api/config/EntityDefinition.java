@@ -117,7 +117,7 @@ public class EntityDefinition {
     }
 
     public final void addReferencingEntity(EntityDefinition entityDefinition) {
-        if(!this.referencingEntities.contains(entityDefinition)) {
+        if (!this.referencingEntities.contains(entityDefinition)) {
             this.referencingEntities.add(entityDefinition);
         }
     }
