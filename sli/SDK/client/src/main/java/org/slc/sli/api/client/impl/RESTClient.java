@@ -184,9 +184,10 @@ public class RESTClient {
         if (obj.has("authenticated")) {
             JsonNode e = obj.get("authenticated");
             if (e.getBooleanValue()) {
-                e = obj.get("sessionId");
-                sessionToken = e.asText();
-            }
+                //e = obj.get("sessionId");
+                //sessionToken = e.asText();
+            } else
+                return "";
         }
 
         return sessionToken;

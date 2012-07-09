@@ -242,7 +242,11 @@ public class BasicClient implements SLIClient {
         }
         return response;
     }
-    
+
+    public String sessionCheck(final String token) throws URISyntaxException, IOException {
+        return restClient.sessionCheck(token);
+    }
+
     /**
      * Construct a new BasicClient instance, using the JSON message converter.
      * 
