@@ -95,7 +95,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
             // We decided that if tenantId is null then we will query on blank string.
             // This may need to be revisited.
             if (tenantId == null) {
-                return query;
+                tenantId = "INVALID_TENANT";
             }
 
             // make sure a criterion for tenantId has not already been added to this query
