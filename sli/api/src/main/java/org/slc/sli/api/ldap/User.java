@@ -1,5 +1,6 @@
 package org.slc.sli.api.ldap;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -116,20 +117,24 @@ public class User {
         }
     }
 
-    public Date getCreateTime() {
-        return createTime;
+    public String getCreateTime() {
+        return toDateString(createTime);
     }
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    public Date getModifyTime() {
-        return modifyTime;
+    public String getModifyTime() {
+        return toDateString(modifyTime);
     }
 
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
     }
 
+    private String toDateString(Date date) {
+        SimpleDateFormat simpleDataFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssZ");
+        return simpleDataFormat.format(date);
+    }
 }
