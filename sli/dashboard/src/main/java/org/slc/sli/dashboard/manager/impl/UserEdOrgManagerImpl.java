@@ -23,6 +23,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -40,6 +41,7 @@ import org.slc.sli.dashboard.manager.UserEdOrgManager;
 import org.slc.sli.dashboard.util.Constants;
 import org.slc.sli.dashboard.util.DashboardException;
 import org.slc.sli.dashboard.util.SecurityUtil;
+import org.slc.sli.dashboard.web.util.TreeGridDataBuilder;
 
 /**
  * Retrieves and applies necessary business logic to obtain institution data
@@ -349,71 +351,55 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         String schoolId = (String) schoolIdObj;
         List<GenericEntity> courses = getApiClient().getCoursesSectionsForSchool(token, schoolId);
 
-        List<GenericEntity> entities = new ArrayList<GenericEntity>();
-        List<String> subjectAreas = new ArrayList<String>();
-
-        // set any null subjects to Misc
+        // set any null subjects to Miscellaneous
         for (GenericEntity course : courses) {
             if (course.getString(Constants.ATTR_SUBJECTAREA) == null) {
-                course.put(Constants.ATTR_SUBJECTAREA, "Misc");
+                course.put(Constants.ATTR_SUBJECTAREA, "Miscellaneous");
             }
         }
 
         // sort courses by subject area
         Collections.sort(courses, new CourseSubjectComparator());
 
+        Map<String, GenericEntity> subjects = new LinkedHashMap<String, GenericEntity>();
         int subjectIndex = 0;
 
+        // do some restructuring
         for (GenericEntity course : courses) {
 
-            // handle courses with no subject, like home room
             String subjectArea = course.getString(Constants.ATTR_SUBJECTAREA);
+            GenericEntity subject = null;
 
-            // add subject entity
-            if (!subjectAreas.contains(subjectArea)) {
-                subjectAreas.add(subjectArea);
-                GenericEntity subject = new GenericEntity();
+            // add/get subject entity
+            if (!subjects.containsKey(subjectArea)) {
+                subject = new GenericEntity();
                 subject.put("name", subjectArea);
-                subject.put("id", ++subjectIndex);
-                subject.put("level", "0");
-                subject.put("parent", "");
-                subject.put("isLeaf", false);
-                subject.put("expanded", false);
-                subject.put("loaded", true);
-                entities.add(subject);
+                subject.put("id", String.valueOf(++subjectIndex));
+                List<GenericEntity> c = new ArrayList<GenericEntity>();
+                subject.put("courses", c);
+                subjects.put(subjectArea, subject);
+            } else {
+                subject = subjects.get(subjectArea);
             }
 
-            // add course entities
             course.put("name", course.getString("courseTitle"));
-            course.put("level", "1");
-            course.put("parent", subjectIndex);
-            course.put("expanded", false);
-            course.put("loaded", true);
-            entities.add(course);
+            course.remove("links");
+            ((List<GenericEntity>) subject.get("courses")).add(course);
 
-            // add section entities
             List<GenericEntity> sections = (List<GenericEntity>) course.get("sections");
-            if (sections == null || sections.size() == 0) {
-                course.put("isLeaf", true);
-            } else {
-                course.put("isLeaf", false);
+            if (sections != null && sections.size() > 0) {
                 for (GenericEntity section : sections) {
-
                     section.put("name", section.getString("sectionName"));
-                    section.put("level", "2");
-                    section.put("parent", course.getId());
-                    section.put("isLeaf", true);
-                    section.put("expanded", false);
-                    section.put("loaded", true);
                     section.remove("links");
-                    entities.add(section);
                 }
             }
-
-            course.remove("links");
-            course.remove("sections");
-
         }
+
+        // call the tree grid builder to format/structure the data
+        List<String> subLevels = new ArrayList<String>();
+        subLevels.add("courses");
+        subLevels.add("sections");
+        List<GenericEntity> entities = TreeGridDataBuilder.build(new ArrayList<GenericEntity>(subjects.values()), subLevels);
 
         GenericEntity entity = new GenericEntity();
         entity.put(Constants.ATTR_ROOT, entities);
