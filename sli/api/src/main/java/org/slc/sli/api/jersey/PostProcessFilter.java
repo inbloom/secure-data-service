@@ -20,6 +20,7 @@ package org.slc.sli.api.jersey;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerResponse;
 import com.sun.jersey.spi.container.ContainerResponseFilter;
+import com.sun.jersey.api.uri.UriTemplate;
 
 import org.slc.sli.api.security.context.traversal.cache.SecurityCachingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +49,8 @@ import java.util.HashMap;
 public class PostProcessFilter implements ContainerResponseFilter {
     
     private static final int LONG_REQUEST = 1000;
-    private DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+    private DateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss.SSSZ");
+    private DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
 
     @Autowired
     private SecurityCachingStrategy securityCachingStrategy;
@@ -88,10 +90,33 @@ public class PostProcessFilter implements ContainerResponseFilter {
         long elapsed = System.currentTimeMillis() - startTime;
 
         HashMap<String,Object> body = new HashMap<String, Object>();
-        body.put("url",request.getRequestUri().toString()) ;
-        body.put("startTime",formatter.format(new Date(startTime))) ;
-        body.put("endTime",formatter.format(new Date(System.currentTimeMillis())));
-        body.put("responseTime", elapsed);
+
+        //extract parameters from the request URI
+        String requestURL=  request.getRequestUri().toString();
+        String path = request.getPath().toString();
+        UriTemplate fourPartUri = new UriTemplate("http://local.slidev.org:8080/api/rest/v1/{resource}/{id}/{association}/{associateEntity}");
+        UriTemplate threePartUri = new UriTemplate("http://local.slidev.org:8080/api/rest/v1/{resource}/{id}/{associateEntity}");
+        UriTemplate twoPartUri = new UriTemplate("http://local.slidev.org:8080/api/rest/v1/{resource}/{id}");
+        UriTemplate readAllUri = new UriTemplate("http://local.slidev.org:8080/api/rest/v1/{resource}");
+        HashMap<String, String> uri = new HashMap<String, String>();
+
+        ut.match(requestURL,m);
+
+
+        //if its a "?" uri extract parameter list
+
+//        for (String partUri : path.split("/")) {
+//            System.out.println(partUri);
+//        }
+        body.put("url",requestURL) ;
+        body.put("resource",m.get("resource"));
+        body.put("id",m.get("id"));
+        body.put("association",m.get("association"));
+        body.put("associateEntity",m.get("associateEntity"));
+        body.put("Date", dateFormatter.format(System.currentTimeMillis()));
+        body.put("startTime",timeFormatter.format(new Date(startTime))) ;
+        body.put("endTime",timeFormatter.format(new Date(System.currentTimeMillis())));
+        body.put("responseTime(ms)", String.valueOf(elapsed));
         perfRepo.create("apiResponse",body,"apiResponse");
 
     }

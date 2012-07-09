@@ -71,5 +71,6 @@
 	</bean>
 	<bean
 		class="org.springframework.ldap.core.support.BaseLdapPathBeanPostProcessor" />
+    <import resource="classpath:/spring/db.xml" />
 </beans>
 

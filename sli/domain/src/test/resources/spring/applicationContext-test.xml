@@ -12,7 +12,6 @@
 
         <context:component-scan base-package="org.slc">
         </context:component-scan>
-
   <bean id="validationStrategyList" class="java.util.ArrayList">
     <constructor-arg>
       <list>
