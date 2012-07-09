@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.routes.orchestra;
 
 import java.util.ArrayList;
@@ -41,6 +40,8 @@ import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 @Component
 public class OrchestraPreProcessor implements Processor {
 
+    //private static final Logger LOG = LoggerFactory.getLogger(OrchestraPreProcessor.class);
+
     @Autowired
     private StagedEntityTypeDAO stagedEntityTypeDAO;
 
@@ -55,7 +56,9 @@ public class OrchestraPreProcessor implements Processor {
         String jobId = workNote.getBatchJobId();
         exchange.getIn().setHeader("jobId", jobId);
 
-        Set<String> stagedCollectionNames = neutralRecordMongoAccess.getRecordRepository().getCollectionNamesForJob(
+        info("Looking up staged entities for batch job: {}", jobId);
+
+        Set<String> stagedCollectionNames = neutralRecordMongoAccess.getRecordRepository().getStagedCollectionsForJob(
                 jobId);
 
         // ******
@@ -86,7 +89,7 @@ public class OrchestraPreProcessor implements Processor {
                 stagedEntities.add(ingestionStagedEntity);
 
             } else {
-                warn("Uncrecognized entity: {} dropping it on the floor", stagedCollection);
+                warn("Unrecognized collection: {} dropping it on the floor", stagedCollection);
             }
         }
         info("staged entities for job: {}", stagedEntities);

@@ -22,11 +22,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
 /**
  * Transformer for Assessment Entities
@@ -136,32 +139,27 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     }
 
     private Map<String, Object> getAssessmentPeriodDescriptor(String assessmentPeriodDescriptorRef) {
-        Map<String, String> paths = new HashMap<String, String>();
-        paths.put("body.codeValue", assessmentPeriodDescriptorRef);
+        Query query = new Query().limit(0);
+        query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
+        query.addCriteria(Criteria.where("body.codeValue").is(assessmentPeriodDescriptorRef));
 
-        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByPathsForJob(
-                ASSESSMENT_PERIOD_DESCRIPTOR, paths, getJob().getId());
+        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(ASSESSMENT_PERIOD_DESCRIPTOR, query);
 
         if (data.iterator().hasNext()) {
             return data.iterator().next().getAttributes();
         }
-
         return null;
-
     }
 
     @SuppressWarnings("unchecked")
     private String getAssocationFamilyMap(String key, HashMap<String, Map<String, Object>> deepFamilyMap,
             String familyHierarchyName) {
-
-        Map<String, String> paths = new HashMap<String, String>();
-        paths.put("body.AssessmentFamilyIdentificationCode.ID", key);
-
-        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByPathsForJob(
-                ASSESSMENT_FAMILY, paths, getJob().getId());
+        Query query = new Query().limit(0);
+        query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
+        query.addCriteria(Criteria.where("body.AssessmentFamilyIdentificationCode.ID").is(key));
+        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(ASSESSMENT_FAMILY, query);
 
         Map<String, Object> associationAttrs;
-
         ArrayList<Map<String, Object>> tempIdentificationCodes;
         Map<String, Object> tempMap;
 
@@ -174,13 +172,9 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
 
                 tempMap = tempIdentificationCodes.get(0);
                 if (familyHierarchyName.equals("")) {
-
                     familyHierarchyName = (String) associationAttrs.get("AssessmentFamilyTitle");
-
                 } else {
-
                     familyHierarchyName = associationAttrs.get("AssessmentFamilyTitle") + "." + familyHierarchyName;
-
                 }
                 deepFamilyMap.put((String) tempMap.get("ID"), associationAttrs);
             }

@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.processors;
 
 import java.util.HashMap;
@@ -78,6 +77,9 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.PERSISTENCE_PROCESSOR;
 
     private static final Logger LOG = LoggerFactory.getLogger(PersistenceProcessor.class);
+
+    private static final String BATCH_JOB_ID = "batchJobId";
+    private static final String CREATION_TIME = "creationTime";
 
     private Map<String, EdFi2SLITransformer> transformers;
 
@@ -177,8 +179,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
      *            persistence stage.
      */
     private void processWorkNote(WorkNote workNote, Job job, Stage stage) {
-        long recordNumber = 0;
-        long numFailed = 0;
         boolean persistedFlag = false;
 
         String collectionNameAsStaged = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
@@ -196,9 +196,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             Iterable<NeutralRecord> records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
 
             for (NeutralRecord neutralRecord : records) {
-                numFailed = 0;
-
-                recordNumber++;
+                long numFailed = 0;
                 persistedFlag = false;
 
                 errorReportForCollection = createDbErrorReport(job.getId(), neutralRecord.getSourceFile());
@@ -208,8 +206,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                 // process NeutralRecord with old or new pipeline
                 if (entityPipelineType == EntityPipelineType.OLD) {
 
-                    numFailed += processOldStyleNeutralRecord(neutralRecord, recordNumber, getTenantId(job),
-                            errorReportForCollection);
+                    numFailed += processOldStyleNeutralRecord(neutralRecord, neutralRecord.getLocationInSourceFile(),
+                            getTenantId(job), errorReportForCollection);
                     persistedFlag = true;
 
                 } else if (entityPipelineType == EntityPipelineType.NEW_PLAIN
@@ -241,7 +239,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                 Metrics m = it.next();
                 stage.getMetrics().add(m);
             }
-
         }
     }
 
@@ -289,7 +286,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
             if (errorReportForNrEntity.hasErrors()) {
                 numFailed++;
-                warn("persistence of simple entity FAILED.");
+                LOG.warn("persistence of simple entity FAILED.");
             }
         }
 
@@ -517,14 +514,14 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     }
 
     public Iterable<NeutralRecord> queryBatchFromDb(String collectionName, String jobId, WorkNote workNote) {
-        Criteria limiter = Criteria.where("creationTime").gte(workNote.getRangeMinimum())
-                .lt(workNote.getRangeMaximum());
-        Query query = new Query();
+        Criteria batchJob = Criteria.where(BATCH_JOB_ID).is(jobId);
+        Criteria limiter = Criteria.where(CREATION_TIME).gte(workNote.getRangeMinimum()).lt(workNote.getRangeMaximum());
+
+        Query query = new Query().limit(0);
+        query.addCriteria(batchJob);
         query.addCriteria(limiter);
 
-        Iterable<NeutralRecord> data = neutralRecordMongoAccess.getRecordRepository().findByQueryForJob(collectionName,
-                query, jobId);
-        return data;
+        return neutralRecordMongoAccess.getRecordRepository().findAllByQuery(collectionName, query);
     }
 
     @Override
@@ -535,5 +532,4 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     private static enum EntityPipelineType {
         OLD, NEW_PLAIN, NEW_TRANSFORMED, NONE;
     }
-
 }

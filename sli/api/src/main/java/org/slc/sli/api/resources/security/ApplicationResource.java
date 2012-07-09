@@ -79,6 +79,10 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     @Autowired
     @Value("${sli.sandbox.autoRegisterApps}")
     private boolean autoRegister;
+    
+    @Autowired
+    @Value("${sli.sandbox.enabled}")
+    private boolean sandboxEnabled;
 
     private EntityService service;
 
@@ -364,7 +368,6 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             // when a denied or unreg'ed app is altered, it goes back into pending
             if (oldRegStatus.equals("DENIED") || oldRegStatus.equals("UNREGISTERED")) {
 
-                // TODO: If auto approval is on, approve instead
                 newReg.put(STATUS, "PENDING");
                 newReg.put(REQUEST_DATE, System.currentTimeMillis());
             }
@@ -373,7 +376,9 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             if (autoRegister && app.containsKey(AUTHORIZED_ED_ORGS)) {
                 // Auto-approve whatever districts are selected.
                 List<String> edOrgs = (List) app.get(AUTHORIZED_ED_ORGS);
-                if (!edOrgsBelongToTenant(edOrgs)) {
+                
+                //validate sandbox user isn't trying to authorize an edorg outside of their tenant
+                if (sandboxEnabled && !edOrgsBelongToTenant(edOrgs)) {
                     EntityBody body = new EntityBody();
                     body.put("message", "Attempt to authorized edorg in sandbox outside of tenant.");
                     return Response.status(Status.BAD_REQUEST).entity(body).build();
@@ -457,7 +462,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     /**
      * Compares two date fields on the registration object.
      *
-     * It's only tricky because we one or both could be null
+     * It's only tricky because one or both could be null
      * e.g. an app in pending state won't have an approval date field
      *
      * @param oldReg

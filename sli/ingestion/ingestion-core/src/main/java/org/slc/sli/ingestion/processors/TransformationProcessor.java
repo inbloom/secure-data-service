@@ -19,12 +19,14 @@ package org.slc.sli.ingestion.processors;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.dal.TenantContext;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.Job;
@@ -49,6 +51,8 @@ import org.slc.sli.ingestion.util.BatchJobUtils;
 public class TransformationProcessor implements Processor {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.TRANSFORMATION_PROCESSOR;
+
+    private static final Logger LOG = LoggerFactory.getLogger(TransformationProcessor.class);
 
     @Autowired
     private TransformationFactory transformationFactory;
@@ -102,9 +106,12 @@ public class TransformationProcessor implements Processor {
     private void addMetricsToStage(WorkNote workNote, Stage stage, String batchJobId) {
         Metrics metrics = Metrics.newInstance(workNote.getIngestionStagedEntity().getCollectionNameAsStaged());
         // FIXME: transformation needs to actually count processed records and errors
-        Criteria limiter = Criteria.where("creationTime").gte(workNote.getRangeMinimum())
-                .lt(workNote.getRangeMaximum());
-        Query query = new Query().addCriteria(limiter);
+        //Criteria limiter = Criteria.where("creationTime").gte(workNote.getRangeMinimum())
+        //        .lt(workNote.getRangeMaximum());
+        //Query query = new Query().addCriteria(limiter);
+        NeutralQuery query = new NeutralQuery(0);
+        query.addCriteria(new NeutralCriteria("creationTime", NeutralCriteria.CRITERIA_GTE, workNote.getRangeMinimum()));
+        query.addCriteria(new NeutralCriteria("creationTime", NeutralCriteria.CRITERIA_LT, workNote.getRangeMaximum()));
 
         long recordsToProcess = neutralRecordMongoAccess.getRecordRepository().countForJob(
                 workNote.getIngestionStagedEntity().getCollectionNameAsStaged(), query, batchJobId);
@@ -144,7 +151,7 @@ public class TransformationProcessor implements Processor {
 
     private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
-        error("Error processing batch job " + batchJobId, exception);
+        piiClearedError("Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
             Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
                     FaultType.TYPE_ERROR.getName(), null, exception.toString());

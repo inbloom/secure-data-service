@@ -26,8 +26,6 @@ import java.util.concurrent.FutureTask;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -63,8 +61,6 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.XML_FILE_PROCESSOR;
 
-    private static final Logger LOG = LoggerFactory.getLogger(ConcurrentXmlFileProcessor.class);
-
     private ApplicationContext context;
 
     @Autowired
@@ -83,10 +79,10 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
         }
 
         if (exchange.getIn().getHeader(AttributeType.NO_ID_REF.name()) != null) {
-            LOG.info("Skipping id ref resolution (specified by @no-id-ref in control file).");
+            info("Skipping id ref resolution (specified by @no-id-ref in control file).");
             skipXmlFile(workNote, exchange);
         } else {
-            LOG.info("Entering concurrent id ref resolution.");
+            info("Entering concurrent id ref resolution.");
             processXmlFile(workNote, exchange);
         }
     }
@@ -150,7 +146,7 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
                 resolutionTaskList.add(resolutionTask);
 
             } else {
-                LOG.warn("Warning: The resource {} is not an EDFI format.", resource.getResourceName());
+                warn("Warning: The resource {} is not an EDFI format.", resource.getResourceName());
             }
         }
 
@@ -186,7 +182,7 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
     private void missingBatchJobIdError(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+        error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
     @Override

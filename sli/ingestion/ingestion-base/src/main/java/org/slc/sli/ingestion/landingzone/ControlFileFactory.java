@@ -9,11 +9,12 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.springframework.context.MessageSource;
+
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
-import org.springframework.context.MessageSource;
 
 public class ControlFileFactory {
 

@@ -40,6 +40,10 @@ import org.apache.camel.Processor;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.impl.DefaultProducerTemplate;
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.dal.TenantContext;
@@ -59,9 +63,6 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 /**
  * Writes out a job report and any errors/warnings associated with the job.
@@ -117,7 +118,7 @@ public class JobReportingProcessor implements Processor {
             writeBatchJobReportFile(exchange, job, hasErrors);
 
         } catch (Exception e) {
-            error("Exception encountered in JobReportingProcessor. ", e);
+            piiClearedError("Exception encountered in JobReportingProcessor. ", e);
         } finally {
             cleanupStagingDatabase(workNote);
 
@@ -390,8 +391,7 @@ public class JobReportingProcessor implements Processor {
         for (ResourceEntry resourceEntry : job.getResourceEntries()) {
             if (resourceEntry.getResourceFormat() != null
                     && resourceEntry.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())
-                    && resourceEntry.getRecordCount() == 0
-                    && resourceEntry.getErrorCount() == 0) {
+                    && resourceEntry.getRecordCount() == 0 && resourceEntry.getErrorCount() == 0) {
                 logResourceMetric(resourceEntry, 0, 0, jobReportWriter);
             }
         }
@@ -442,14 +442,14 @@ public class JobReportingProcessor implements Processor {
             try {
                 lock.release();
             } catch (IOException e) {
-                error("unable to release FileLock.", e);
+                piiClearedError("unable to release FileLock.", e);
             }
         }
         if (channel != null) {
             try {
                 channel.close();
             } catch (IOException e) {
-                error("unable to close FileChannel.", e);
+                piiClearedError("unable to close FileChannel.", e);
             }
         }
     }
@@ -463,34 +463,34 @@ public class JobReportingProcessor implements Processor {
             ipAddr = addr.getAddress();
 
         } catch (UnknownHostException e) {
-            error("Error getting local host", e);
+            piiClearedError("Error getting local host", e);
         }
         List<String> userRoles = Collections.emptyList();
-        SecurityEvent event = new SecurityEvent("",  // Alpha MH (tenantId - written in 'message')
-                "", // user
-                "", // targetEdOrg
-                "writeLine", // Alpha MH
-                "Ingestion", // Alpha MH (appId)
-                "", // origin
-                ipAddr[0] + "." + ipAddr[1] + "." + ipAddr[2] + "." + ipAddr[3], // executedOn
-                "", // Alpha MH (credential- N/A for ingestion)
-                "", // userOrigin
-                new Date(), // Alpha MH (timeStamp)
-                ManagementFactory.getRuntimeMXBean().getName(), // processNameOrId
-                this.getClass().getName(), // className
-                messageType, // Alpha MH (logLevel)
-                userRoles, message); // Alpha MH (logMessage)
-
+        SecurityEvent event = new SecurityEvent();
+        event.setTenantId(""); // Alpha MH (tenantId - written in 'message')
+        event.setUser("");
+        event.setTargetEdOrg("");
+        event.setActionUri("writeLine");
+        event.setAppId("Ingestion");
+        event.setOrigin("");
+        event.setExecutedOn(ipAddr[0] + "." + ipAddr[1] + "." + ipAddr[2] + "." + ipAddr[3]);
+        event.setCredential("");
+        event.setUserOrigin("");
+        event.setTimeStamp(new Date());
+        event.setProcessNameOrId(ManagementFactory.getRuntimeMXBean().getName());
+        event.setClassName(this.getClass().getName());
+        event.setLogLevel(messageType);
+        event.setRoles(userRoles);
+        event.setLogMessage(message);
         audit(event);
     }
 
     private void cleanupStagingDatabase(WorkNote workNote) {
         if ("true".equals(clearOnCompletion)) {
-            neutralRecordMongoAccess.getRecordRepository().deleteCollectionsForJob(workNote.getBatchJobId());
-            info("successfully deleted all staged collections for batch job: {}", workNote.getBatchJobId());
-        } else if ("transformed".equals(clearOnCompletion)) {
-            neutralRecordMongoAccess.getRecordRepository().deleteTransformedCollectionsForJob(workNote.getBatchJobId());
-            info("successfully deleted all TRANSFORMED staged collections for batch job: {}",
+            neutralRecordMongoAccess.getRecordRepository().deleteStagedRecordsForJob(workNote.getBatchJobId());
+            info("Successfully deleted all staged records for batch job: {}", workNote.getBatchJobId());
+        } else {
+            info("Not deleting staged records for batch job: {} --> clear on completion flag is set to FALSE",
                     workNote.getBatchJobId());
         }
     }

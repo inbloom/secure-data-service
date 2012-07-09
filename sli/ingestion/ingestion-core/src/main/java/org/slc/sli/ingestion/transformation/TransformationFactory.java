@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.transformation;
 
 import java.util.ArrayList;
@@ -89,7 +88,7 @@ public class TransformationFactory implements ApplicationContextAware {
     }
 
     private Set<String> defineCollectionsInJob(Job job) {
-        return neutralRecordMongoAccess.getRecordRepository().getCollectionNamesForJob(job.getId());
+        return neutralRecordMongoAccess.getRecordRepository().getStagedCollectionsForJob(job.getId());
     }
 
     @Override

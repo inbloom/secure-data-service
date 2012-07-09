@@ -14,7 +14,6 @@
 // limitations under the License.
 //
 
-
 db.runCommand( { enablesharding : "sli" } );
 db.runCommand( { shardcollection : "sli.assessment", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.attendance", key : {"metaData.tenantId" : 1, "_id" : 1} } );
@@ -38,8 +37,6 @@ db.runCommand( { shardcollection : "sli.learningStandard", key : {"metaData.tena
 db.runCommand( { shardcollection : "sli.parent", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.program", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.reportCard", key : {"metaData.tenantId" : 1, "_id" : 1} } );
-db.runCommand( { shardcollection : "sli.school", key : {"metaData.tenantId" : 1, "_id" : 1} } );
-db.runCommand( { shardcollection : "sli.schoolSessionAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.section", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.sectionAssessmentAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.sectionSchoolAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );
@@ -62,6 +59,5 @@ db.runCommand( { shardcollection : "sli.studentSectionAssociation", key : {"meta
 db.runCommand( { shardcollection : "sli.studentSectionGradebookEntry", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.studentSchoolAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.studentTranscriptAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );
-db.runCommand( { shardcollection : "sli.teacher", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.teacherSchoolAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.teacherSectionAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );

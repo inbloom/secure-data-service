@@ -26,14 +26,15 @@ import javax.annotation.Resource;
 import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
 import org.apache.commons.lang3.tuple.Pair;
-import org.slc.sli.dal.aspect.MongoTrackingAspect;
-import org.slc.sli.ingestion.cache.CacheProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.dal.aspect.MongoTrackingAspect;
+import org.slc.sli.ingestion.cache.CacheProvider;
 
 /**
  * Process commands issued via a command topic
@@ -45,6 +46,7 @@ import org.springframework.stereotype.Component;
 public class CommandProcessor {
 
     private static final Object JOB_COMPLETED = "jobCompleted";
+    private static final String BATCH_JOB_ID = "batchJobId";
 
     @Resource(name = "batchJobMongoTemplate")
     private MongoTemplate mongo;
@@ -76,7 +78,7 @@ public class CommandProcessor {
             info("Dumping runtime stats to db for job {}", batchId);
             info(stats.toString());
 
-            mongo.updateFirst(new Query(Criteria.where("_id").is(batchId)), update, "newBatchJob");
+            mongo.updateFirst(new Query(Criteria.where(BATCH_JOB_ID).is(batchId)), update, "newBatchJob");
             MongoTrackingAspect.aspectOf().reset();
             info("Runtime stats are now cleared.");
 

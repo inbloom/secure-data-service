@@ -70,10 +70,10 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.CONTROL_FILE_PREPROCESSOR;
 
     @Autowired
-    private ControlFileFactory controlFileFactory;
+    private BatchJobDAO batchJobDAO;
 
     @Autowired
-    private BatchJobDAO batchJobDAO;
+    private ControlFileFactory controlFileFactory;
 
     @Autowired
     private TenantDA tenantDA;
@@ -140,25 +140,26 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
                 ipAddr = addr.getAddress();
 
             } catch (UnknownHostException e) {
-                error("Error getting local host", e);
+                piiClearedError("Error getting local host", e);
             }
             List<String> userRoles = Collections.emptyList();
-            SecurityEvent event = new SecurityEvent(controlFile.getConfigProperties().getProperty("tenantId"), // Alpha
-                                                                                                               // MH
-                    "", // user
-                    "", // targetEdOrg
-                    "processUsingNewBatchJob", // Alpha MH (actionUri)
-                    "Ingestion", // Alpha MH (appId)
-                    "", // origin
-                    ipAddr[0] + "." + ipAddr[1] + "." + ipAddr[2] + "." + ipAddr[3], // executedOn
-                    "", // Alpha MH (Credential - N/A for ingestion)
-                    "", // userOrigin
-                    new Date(), // Alpha MH (timeStamp)
-                    ManagementFactory.getRuntimeMXBean().getName(), // processNameOrId
-                    this.getClass().getName(), // className
-                    LogLevelType.TYPE_INFO, // Alpha MH (logLevel)
-                    userRoles, "Ingestion process started."); // Alpha MH (logMessage)
-
+            SecurityEvent event =
+                    new SecurityEvent();
+            event.setTenantId(controlFile.getConfigProperties().getProperty("tenantId"));
+            event.setUser("");
+            event.setTargetEdOrg("");
+            event.setActionUri("processUsingNewBatchJob");
+            event.setAppId("Ingestion");
+            event.setOrigin("");
+            event.setExecutedOn(ipAddr[0] + "." + ipAddr[1] + "." + ipAddr[2] + "." + ipAddr[3]);
+            event.setCredential("");
+            event.setUserOrigin("");
+            event.setTimeStamp(new Date());
+            event.setProcessNameOrId(ManagementFactory.getRuntimeMXBean().getName());
+            event.setClassName(this.getClass().getName());
+            event.setLogLevel(LogLevelType.TYPE_INFO);
+            event.setRoles(userRoles);
+            event.setLogMessage("Ingestion process started.");
             audit(event);
 
         } catch (SubmissionLevelException exception) {
@@ -202,7 +203,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         exchange.getIn().setHeader("BatchJobId", batchJobId);
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        error("Error processing batch job " + batchJobId, exception);
+        piiClearedError("Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
             Error error = Error.createIngestionError(batchJobId, controlFileName, BATCH_JOB_STAGE.getName(), null,
                     null, null, FaultType.TYPE_ERROR.getName(), null, exception.getMessage());

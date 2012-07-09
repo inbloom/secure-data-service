@@ -34,8 +34,6 @@ import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.util.Utf8;
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
@@ -170,8 +168,6 @@ public class NeutralRecordFileWriter {
 
     private String maptoJson(Map<String, Object> attributes) throws IOException {
         String jsonVal = jsonObjectMapper.writeValueAsString(attributes);
-//        DE260 - commenting out possibly sensitive data
-//        LOG.debug("encoded attributes map to json: {}", jsonVal);
         return jsonVal;
     }
 

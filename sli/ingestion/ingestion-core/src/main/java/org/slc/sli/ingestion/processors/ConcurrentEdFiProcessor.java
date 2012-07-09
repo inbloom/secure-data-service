@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
@@ -27,7 +26,6 @@ import java.util.concurrent.FutureTask;
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.dal.TenantContext;
@@ -35,7 +33,6 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
-import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -61,19 +58,11 @@ public class ConcurrentEdFiProcessor implements Processor {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.EDFI_PROCESSOR;
 
-    //private static final Logger LOG = LoggerFactory.getLogger(ConcurrentEdFiProcessor.class);
-
     @Autowired
     private BatchJobDAO batchJobDAO;
 
     @Autowired
     private SliSmooksFactory sliSmooksFactory;
-
-    @Autowired
-    private NeutralRecordMongoAccess neutralRecordMongoAccess;
-
-    @Value("${sli.ingestion.staging.index.policy}")
-    private String stagingIndexPolicy;
 
     @Override
     public void process(Exchange exchange) throws Exception {
@@ -94,24 +83,9 @@ public class ConcurrentEdFiProcessor implements Processor {
             TenantContext.setTenantId(newJob.getTenantId());
 
             List<IngestionFileEntry> fileEntryList = extractFileEntryList(batchJobId, newJob);
-
-            if ("pre".equals(stagingIndexPolicy)) {
-                if (fileEntryList.size() > 0) {
-                    // prepare staging database
-                    setupStagingDatabase(batchJobId);
-                }
-            }
-
             List<FutureTask<Boolean>> smooksFutureTaskList = processFilesInFuture(fileEntryList, newJob, stage);
-
             boolean anyErrorsProcessingFiles = aggregateFutureResults(smooksFutureTaskList);
 
-            if ("post".equals(stagingIndexPolicy)) {
-                if (fileEntryList.size() > 0) {
-                    // prepare staging database
-                    setupStagingDatabase(batchJobId);
-                }
-            }
             setExchangeHeaders(exchange, anyErrorsProcessingFiles);
 
         } catch (Exception exception) {
@@ -180,7 +154,7 @@ public class ConcurrentEdFiProcessor implements Processor {
     private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        error("Error processing batch job " + batchJobId, exception);
+        piiClearedError("Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
             Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
                     FaultType.TYPE_ERROR.getName(), null, exception.toString());
@@ -201,9 +175,5 @@ public class ConcurrentEdFiProcessor implements Processor {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
-    }
-
-    private void setupStagingDatabase(String batchJobId) {
-        neutralRecordMongoAccess.getRecordRepository().ensureIndexesForJob(batchJobId);
     }
 }

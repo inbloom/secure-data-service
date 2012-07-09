@@ -28,13 +28,12 @@ import org.milyn.delivery.sax.SAXElement;
 import org.milyn.delivery.sax.SAXElementVisitor;
 import org.milyn.delivery.sax.SAXText;
 import org.milyn.delivery.sax.annotation.StreamResultWriter;
+
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.util.NeutralRecordUtils;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Visitor that writes a neutral record or reports errors encountered.
@@ -45,11 +44,10 @@ import org.slf4j.LoggerFactory;
 @StreamResultWriter
 public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
-    // Logging
-    private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFiVisitor.class);
-
     /** Constant to write a log message every N records. */
     private static final int FLUSH_QUEUE_THRESHOLD = 10000;
+
+    private static final int FIRST_INSTANCE = 1;
 
     private ResourceWriter<NeutralRecord> nrMongoStagingWriter;
 
@@ -69,16 +67,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
      * @return Final number of records persisted to data store.
      */
     public int getRecordsPerisisted() {
-        boolean stillPendingWrites = false;
-        for (Map.Entry<String, List<NeutralRecord>> entry : queuedWrites.entrySet()) {
-            if (entry.getValue().size() > 0) {
-                stillPendingWrites = true;
-                break;
-            }
-        }
-        if (stillPendingWrites) {
-            writeAndClearQueuedNeutralRecords();
-        }
+        writeAndClearQueuedNeutralRecords();
         return recordsPerisisted;
     }
 
@@ -139,9 +128,11 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     private void writeAndClearQueuedNeutralRecords() {
         if (recordsPerisisted != 0) {
             for (Map.Entry<String, List<NeutralRecord>> entry : queuedWrites.entrySet()) {
-                nrMongoStagingWriter.insertResources(entry.getValue(), entry.getKey(), batchJobId);
-                LOG.info("Persisted {} records of type {} ", entry.getValue().size(), entry.getKey());
-                queuedWrites.get(entry.getKey()).clear();
+                if (entry.getValue().size() > 0) {
+                    nrMongoStagingWriter.insertResources(entry.getValue(), entry.getKey(), batchJobId);
+                    info("Persisted {} records of type {} ", entry.getValue().size(), entry.getKey());
+                    queuedWrites.get(entry.getKey()).clear();
+                }
             }
         }
     }
@@ -156,8 +147,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
             this.occurences.put(neutralRecord.getRecordType(), temp);
             neutralRecord.setLocationInSourceFile(temp);
         } else {
-            this.occurences.put(neutralRecord.getRecordType(), 0);
-            neutralRecord.setLocationInSourceFile(0);
+            this.occurences.put(neutralRecord.getRecordType(), FIRST_INSTANCE);
+            neutralRecord.setLocationInSourceFile(FIRST_INSTANCE);
         }
 
         // scrub empty strings in NeutralRecord (this is needed for the current way we parse CSV

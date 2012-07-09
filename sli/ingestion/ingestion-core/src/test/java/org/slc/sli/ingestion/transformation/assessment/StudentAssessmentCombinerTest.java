@@ -48,7 +48,6 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 import org.slc.sli.ingestion.transformation.TransformationStrategy;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -90,15 +89,14 @@ public class StudentAssessmentCombinerTest {
         when(neutralRecordMongoAccess.getRecordRepository()).thenReturn(repository);
         
         when(
-                repository.findByQueryForJob(eq(STUDENT_OBJECTIVE_ASSESSMENT), any(Query.class), eq(batchJobId), eq(0),
-                        eq(0))).thenReturn(buildSOANeutralRecords());
+                repository.findAllForJob(eq(STUDENT_OBJECTIVE_ASSESSMENT), eq(batchJobId), any(NeutralQuery.class))).thenReturn(buildSOANeutralRecords());
         
-        when(repository.findByQueryForJob(eq(OBJECTIVE_ASSESSMENT), any(Query.class), eq(batchJobId), eq(0), eq(0)))
+        when(repository.findAllForJob(eq(OBJECTIVE_ASSESSMENT), eq(batchJobId), any(NeutralQuery.class)))
                 .thenReturn(
                         Arrays.asList(AssessmentCombinerTest.buildTestObjAssmt(AssessmentCombinerTest.OBJ1_ID),
                                 AssessmentCombinerTest.buildTestObjAssmt(AssessmentCombinerTest.OBJ2_ID)));
         DBCollection oaCollection = mock(DBCollection.class);
-        when(repository.getCollectionForJob(STUDENT_OBJECTIVE_ASSESSMENT, batchJobId)).thenReturn(oaCollection);
+        when(repository.getCollectionForJob(STUDENT_OBJECTIVE_ASSESSMENT)).thenReturn(oaCollection);
         
         when(oaCollection.distinct(eq("body." + OBJECTIVE_ASSESSMENT_REFERENCE), any(BasicDBObject.class))).thenReturn(
                 Arrays.asList(AssessmentCombinerTest.OBJ1_ID, AssessmentCombinerTest.OBJ2_ID));

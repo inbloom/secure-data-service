@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.transformation.assessment;
 
 import java.util.ArrayList;
@@ -26,15 +25,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.ingestion.Job;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.cache.CacheProvider;
-import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.ingestion.Job;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.cache.CacheProvider;
+import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 
 /**
  * Class for building objective assessments
@@ -46,6 +46,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ObjectiveAssessmentBuilder {
 
+    private static final String CREATION_TIME = "creationTime";
     public static final String SUB_OBJECTIVE_REFS = "subObjectiveRefs";
     public static final String BY_IDENTIFICATION_CDOE = "identificationCode";
     public static final String BY_ID = "id";
@@ -195,10 +196,10 @@ public class ObjectiveAssessmentBuilder {
         Map<Object, NeutralRecord> all = new HashMap<Object, NeutralRecord>();
 
         Query query = new Query().limit(0);
-        query.addCriteria(Criteria.where("creationTime").gt(0));
+        query.addCriteria(Criteria.where("batchJobId").is(batchJobId));
+        query.addCriteria(Criteria.where(CREATION_TIME).gt(0));
 
-        Iterable<NeutralRecord> data = access.getRecordRepository().findByQueryForJob(OBJECTIVE_ASSESSMENT, query,
-                batchJobId);
+        Iterable<NeutralRecord> data = access.getRecordRepository().findAllByQuery(OBJECTIVE_ASSESSMENT, query);
 
         Iterator<NeutralRecord> itr = data.iterator();
         NeutralRecord record = null;
