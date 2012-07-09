@@ -17,8 +17,8 @@
 
 package org.slc.sli.validation;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
@@ -39,7 +39,7 @@ public class MockValidator implements EntityValidator {
     }
 
     @Override
-    public List<String> getNaturalKeyFields (Entity entity) {
+    public List<String> getNaturalKeyFields(Entity entity) {
         return null;
     }
 
