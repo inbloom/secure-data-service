@@ -352,6 +352,13 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         List<GenericEntity> entities = new ArrayList<GenericEntity>();
         List<String> subjectAreas = new ArrayList<String>();
 
+        // set any null subjects to Misc
+        for (GenericEntity course : courses) {
+            if (course.getString(Constants.ATTR_SUBJECTAREA) == null) {
+                course.put(Constants.ATTR_SUBJECTAREA, "Misc");
+            }
+        }
+
         // sort courses by subject area
         Collections.sort(courses, new CourseSubjectComparator());
 
@@ -361,9 +368,6 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
 
             // handle courses with no subject, like home room
             String subjectArea = course.getString(Constants.ATTR_SUBJECTAREA);
-            if (subjectArea == null) {
-                subjectArea = "Misc";
-            }
 
             // add subject entity
             if (!subjectAreas.contains(subjectArea)) {
@@ -409,7 +413,6 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
             course.remove("links");
             course.remove("sections");
 
-
         }
 
         GenericEntity entity = new GenericEntity();
@@ -443,14 +446,12 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         return staffEntity;
     }
 
-    private class CourseSubjectComparator implements Comparator {
+    private class CourseSubjectComparator implements Comparator<GenericEntity> {
 
         @Override
-        public int compare(Object o1, Object o2) {
+        public int compare(GenericEntity course1, GenericEntity course2) {
 
             // compare subject area
-            GenericEntity course1 = (GenericEntity) o1;
-            GenericEntity course2 = (GenericEntity) o2;
             String subject1 = course1.getString("subjectArea");
             String subject2 = course2.getString("subjectArea");
             if (subject1 == null) {
