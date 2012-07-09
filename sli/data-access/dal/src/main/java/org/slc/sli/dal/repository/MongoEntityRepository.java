@@ -18,8 +18,8 @@
 package org.slc.sli.dal.repository;
 
 import java.util.Date;
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -32,8 +32,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.dal.TenantContext;
@@ -41,6 +39,8 @@ import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.EntityValidator;
 
 /**
@@ -188,7 +188,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             boolean possibleMatch = true;
             String entityId = entity.getEntityId();
 
-            // if we have an existing entityId, then we're doing an update. Check to 
+            // if we have an existing entityId, then we're doing an update. Check to
             // make sure that there is no existing entity with the new key fields of the entity
             if (entityId != null && !entityId.isEmpty()) {
                 possibleMatch = false;
@@ -204,14 +204,13 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                         Object value = existingBody.get(key);
                         if (!newEntityBody.containsKey(key)) {
                             newEntityBody.put(key, value);
-                        }
-                        else {
+                        } else {
                             String existingValueString = value.toString();
                             String newValueString = newEntityBody.get(key).toString();
 
                             // if all values are equal, then we're ok - as we're just trying to catch
                             // the case where a key field has been changed, and check the new target
-                            if (!existingValueString.equals (newValueString)) {
+                            if (!existingValueString.equals(newValueString)) {
                                 possibleMatch = true;
                             }
                         }
