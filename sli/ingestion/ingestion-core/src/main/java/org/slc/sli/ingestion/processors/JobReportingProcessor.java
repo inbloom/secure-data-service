@@ -132,7 +132,7 @@ public class JobReportingProcessor implements Processor {
                 BatchJobUtils.completeStageAndJob(stage, job);
                 batchJobDAO.saveBatchJob(job);
 
-                batchJobDAO.releaseTenantLock(job.getTenantId());
+                batchJobDAO.releaseTenantLockForJob(job.getTenantId(), job.getId());
 
                 broadcastFlushStats(exchange, workNote);
             }

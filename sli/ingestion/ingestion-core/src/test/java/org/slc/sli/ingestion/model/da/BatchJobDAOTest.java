@@ -27,9 +27,6 @@ public class BatchJobDAOTest {
         String tenantOne = "tenant1";
         String tenantTwo = "tenant2";
 
-        batchJobDAO.releaseTenantLock(tenantOne);
-        batchJobDAO.releaseTenantLock(tenantTwo);
-
         boolean locked = batchJobDAO.attemptTentantLockForJob(tenantOne, "job123");
         assertTrue(locked);
 
@@ -39,7 +36,7 @@ public class BatchJobDAOTest {
         boolean lockTwo = batchJobDAO.attemptTentantLockForJob(tenantTwo, "job123");
         assertTrue(lockTwo);
 
-        batchJobDAO.releaseTenantLock(tenantOne);
+        batchJobDAO.releaseTenantLockForJob(tenantOne, "job123");
 
         boolean lockTwoShouldFail = batchJobDAO.attemptTentantLockForJob(tenantTwo, "job456");
         assertFalse(lockTwoShouldFail);
@@ -47,10 +44,13 @@ public class BatchJobDAOTest {
         boolean lockedAgain = batchJobDAO.attemptTentantLockForJob(tenantOne, "job456");
         assertTrue(lockedAgain);
 
-        batchJobDAO.releaseTenantLock(tenantTwo);
+        batchJobDAO.releaseTenantLockForJob(tenantTwo, "job123");
 
         boolean lockedTwoAgain = batchJobDAO.attemptTentantLockForJob(tenantTwo, "job456");
         assertTrue(lockedTwoAgain);
+
+        batchJobDAO.releaseTenantLockForJob(tenantOne, "job456");
+        batchJobDAO.releaseTenantLockForJob(tenantTwo, "job456");
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -60,6 +60,6 @@ public class BatchJobDAOTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testBadReleaseTenantLock() {
-        batchJobDAO.releaseTenantLock(null);
+        batchJobDAO.releaseTenantLockForJob(null, "job123");
     }
 }

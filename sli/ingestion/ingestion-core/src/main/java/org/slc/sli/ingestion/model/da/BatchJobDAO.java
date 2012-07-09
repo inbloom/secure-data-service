@@ -23,6 +23,7 @@ import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 
 /**
+ * Data access object for batch job data.
  *
  * @author dduran
  *
@@ -51,8 +52,7 @@ public interface BatchJobDAO {
     List<Stage> getBatchStagesStoredSeperatelly(String batchJobId);
 
     /**
-     * Checks if a job can be run for the provided tenant.
-     * If it can, the tenant will be locked by this job until released.
+     * Try to acquire a lock on the provided tenant, on behalf of the provided job id.
      *
      * @param tenantId
      * @param batchJobId
@@ -62,10 +62,10 @@ public interface BatchJobDAO {
     boolean attemptTentantLockForJob(String tenantId, String batchJobId);
 
     /**
-     * Release lock (if present) for the given tenant.
+     * Release lock (if present) for the given tenant if it is held by a job with the provided id.
      *
      * @param tenantId
-     * @return true if tenant is unlocked. false otherwise.
+     * @param batchJobId
      */
-    void releaseTenantLock(String tenantId);
+    void releaseTenantLockForJob(String tenantId, String batchJobId);
 }
