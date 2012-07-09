@@ -17,8 +17,6 @@
 
 package org.slc.sli.dashboard.entity.util;
 
-import static org.junit.Assert.*;
-
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,18 +24,18 @@ import java.util.List;
 import junit.framework.Assert;
 
 import org.junit.Test;
+
 import org.slc.sli.dashboard.entity.GenericEntity;
-import org.slc.sli.dashboard.entity.util.ParentsSorter;
 import org.slc.sli.dashboard.util.Constants;
 
 /**
  * test for ParentsSorter class
- * 
+ *
  * @author tosako
- * 
+ *
  */
 public class ParentsSorterTest {
-    
+
     @Test
     public void testSort() {
         List<GenericEntity> entities = new LinkedList<GenericEntity>();
@@ -48,7 +46,7 @@ public class ParentsSorterTest {
         GenericEntity entity = new GenericEntity();
         entity.put(Constants.ATTR_STUDENT_PARENT_ASSOCIATION, studentParentsAssocistion);
         entities.add(entity);
-        
+
         obj = new LinkedHashMap<String, Object>();
         obj.put(Constants.ATTR_RELATION, "Mother");
         studentParentsAssocistion = new LinkedList<LinkedHashMap<String, Object>>();
@@ -56,7 +54,7 @@ public class ParentsSorterTest {
         entity = new GenericEntity();
         entity.put(Constants.ATTR_STUDENT_PARENT_ASSOCIATION, studentParentsAssocistion);
         entities.add(entity);
-        
+
         ParentsSorter.sort(entities);
         List<LinkedHashMap<String, Object>> objTest = (List<LinkedHashMap<String, Object>>) entities.get(0).get(
                 Constants.ATTR_STUDENT_PARENT_ASSOCIATION);

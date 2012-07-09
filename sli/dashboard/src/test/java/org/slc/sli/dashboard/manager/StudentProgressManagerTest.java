@@ -34,7 +34,6 @@ import org.junit.Test;
 
 import org.slc.sli.dashboard.entity.Config;
 import org.slc.sli.dashboard.entity.GenericEntity;
-import org.slc.sli.dashboard.manager.EntityManager;
 import org.slc.sli.dashboard.manager.impl.StudentProgressManagerImpl;
 import org.slc.sli.dashboard.util.Constants;
 
@@ -46,7 +45,7 @@ import org.slc.sli.dashboard.util.Constants;
 public class StudentProgressManagerTest {
     private StudentProgressManagerImpl manager;
     private EntityManager mockEntity;
-    
+
     private static final String STUDENTID = "123456";
     private static final String YEAR_1998_1999 = "1998-1999";
     private static final String YEAR_2006_2007 = "2006-2007";
@@ -68,7 +67,7 @@ public class StudentProgressManagerTest {
         manager = null;
         mockEntity = null;
     }
-    
+
     @Test
     public void testGetStudentHistoricalAssessments() throws Exception {
         final String token = "token";
@@ -204,22 +203,22 @@ public class StudentProgressManagerTest {
         studentInfos.add(studentInfo);
 
         when(mockEntity.getStudentsWithGradebookEntries(token, selectedSection)).thenReturn(studentInfos);
-        
+
         //call the method
         Map<String, Map<String, GenericEntity>> results = manager.getCurrentProgressForStudents(token, new ArrayList<String>(), selectedSection);
         assertEquals("Size should be 1", 1, results.size());
-        
+
         Map<String, GenericEntity> tests = results.get(STUDENTID);
         assertNotNull("Should have an entry", tests.get("5555"));
         assertEquals("numeric grade should match", 84.0, tests.get("5555").get("numericGradeEarned"));
         assertEquals("numeric grade should match", "2011-05-15", tests.get("5555").getString("dateFulfilled"));
         assertEquals("numeric grade should match", "Unit Test", tests.get("5555").getString("gradebookEntryType"));
     }
-    
+
     @Test
     public void testRetrieveSortedGradebookEntryList() {
         SortedSet<GenericEntity> tests = manager.retrieveSortedGradebookEntryList(buildUnitTestDataMap());
-        
+
         assertEquals("Should have 3 entries", 3, tests.size());
         assertEquals("First element should match", "2010-05-02", tests.first().getString("dateFulfilled"));
         assertEquals("First element should match", "2011-06-30", tests.last().getString("dateFulfilled"));
@@ -228,7 +227,7 @@ public class StudentProgressManagerTest {
 
     private Map<String, Map<String, GenericEntity>> buildUnitTestDataMap() {
         Map<String, Map<String, GenericEntity>> data = new HashMap<String, Map<String, GenericEntity>>();
-        
+
         GenericEntity gradebook1 = new GenericEntity();
         gradebook1.put("id", "9999");
         gradebook1.put("numericGradeEarned", "84.0");
@@ -241,14 +240,14 @@ public class StudentProgressManagerTest {
         gradebook3.put("id", "9997");
         gradebook3.put("numericGradeEarned", "81.0");
         gradebook3.put("dateFulfilled", "2010-05-02");
-        
+
         Map<String, GenericEntity> map = new HashMap<String, GenericEntity>();
         map.put("9999", gradebook1);
         map.put("9998", gradebook2);
         map.put("9997", gradebook3);
-        
+
         data.put(STUDENTID, map);
-        
+
         return data;
     }
 

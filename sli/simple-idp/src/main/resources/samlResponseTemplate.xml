@@ -10,9 +10,14 @@
   
   <saml:Assertion ID="__ASSERTION_ID__" Version="2.0" IssueInstant="__ISSUE_INSTANT__">
     <saml:Issuer>__ISSUER__</saml:Issuer>
+    <saml:Subject>
+      <saml:NameID Format="urn:oasis:names:tc:SAML:2.0:nameid-format:persistent">__TRANSIENT_ID__</saml:NameID>
+      <saml:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+        <saml:SubjectConfirmationData InResponseTo="__REQUEST_ID__" NotOnOrAfter="__NOT_ON_OR_AFTER__" Recipient="__DESTINATION__"/>
+      </saml:SubjectConfirmation>
+    </saml:Subject>
     <saml:AttributeStatement>
 		__ATTRIBUTES__
     </saml:AttributeStatement>
   </saml:Assertion>
-  
 </samlp:Response>
