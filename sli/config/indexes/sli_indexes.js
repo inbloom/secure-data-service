@@ -284,7 +284,6 @@ db["learningStandard"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["parent"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["program"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["reportCard"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
-db["school"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 //db["schoolSessionAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 //db["section"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 //db["sectionAssessmentAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
@@ -335,7 +334,6 @@ db["learningStandard"].ensureIndex({"metaData.tenantId":1,"metaData.isOrphaned":
 db["parent"].ensureIndex({"metaData.tenantId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["program"].ensureIndex({"metaData.tenantId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["reportCard"].ensureIndex({"metaData.tenantId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
-db["school"].ensureIndex({"metaData.tenantId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["schoolSessionAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["section"].ensureIndex({"metaData.tenantId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["sectionAssessmentAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
@@ -435,7 +433,6 @@ db["learningStandard"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":
 db["parent"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["program"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["reportCard"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
-db["school"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["schoolSessionAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["section"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["sectionAssessmentAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
