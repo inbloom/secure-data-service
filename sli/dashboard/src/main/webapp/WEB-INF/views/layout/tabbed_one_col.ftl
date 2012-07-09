@@ -30,7 +30,7 @@
     <#list layout as item>
       <@includePanelContent panel=item/>
     </#list>
-
+	<#if entityId?? >
     <#-- create tab div -->
     <div id="tabs">
 	    <ul>
@@ -47,7 +47,6 @@
 	    <#-- create pages -->
 	   <#list layout as item>
 	      <#if item.type == "TAB">
-
 	        <div id="page-${item.id}">
 		        <#-- create panels -->
 		        <#list item.items as panel>
@@ -67,6 +66,7 @@
 	       </#if>
 
 	    </#list>
+	 </#if>
      </div>
   </div>
 </div>
