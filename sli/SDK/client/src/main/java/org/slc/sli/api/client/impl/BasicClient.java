@@ -29,6 +29,7 @@ import java.util.logging.Logger;
 import javax.ws.rs.core.MessageProcessingException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.ws.rs.core.Response.Status;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
@@ -41,6 +42,7 @@ import org.scribe.exceptions.OAuthException;
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.Link;
 import org.slc.sli.api.client.SLIClient;
+import org.slc.sli.api.client.SLIClientException;
 import org.slc.sli.api.client.constants.v1.PathConstants;
 import org.slc.sli.api.client.util.Query;
 import org.slc.sli.api.client.util.URLBuilder;
@@ -84,9 +86,15 @@ public class BasicClient implements SLIClient {
     }
 
     @Override
-    public Response create(final Entity e) throws URISyntaxException, IOException {
+    public String create(final Entity e) throws URISyntaxException, IOException, SLIClientException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).build();
-        return restClient.postRequest(this.getToken(), url, mapper.writeValueAsString(e));
+        Response response = restClient.postRequest(url, mapper.writeValueAsString(e));
+        checkResponse(response, Status.CREATED, "Could not created entity.");
+
+        // extract the id of the newly created entity from the header.
+        String location = response.getHeaders().getHeaderValues("Location").get(0);
+        return location.substring(location.lastIndexOf("/") + 1);
+        //  return restClient.postRequest(this.getToken(), url, mapper.writeValueAsString(e)); NOTE: added
     }
 
     @Override
@@ -106,11 +114,14 @@ public class BasicClient implements SLIClient {
     @Override
     public Response read(List<Entity> entities, final String type, final String id, final Query query)
             throws URISyntaxException, MessageProcessingException, IOException {
+
         entities.clear();
+
         URLBuilder builder = URLBuilder.create(restClient.getBaseURL()).entityType(type);
         if (id != null) {
             builder.id(id);
         }
+
         return getResource(entities, builder.build(), query);
     }
 
@@ -128,21 +139,22 @@ public class BasicClient implements SLIClient {
     }
 
     @Override
+    public void delete(final String entityType, final String entityId) throws MalformedURLException, URISyntaxException, SLIClientException {
+        URL url = URLBuilder.create(restClient.getBaseURL()).entityType(entityType).id(entityId).build();
+        checkResponse(restClient.deleteRequest(url), Status.NO_CONTENT, "Could not delete entity.");
+    }
+
+    @Override
     public Response update(final String sessionToken, final String resourceUrl, final Entity e)
             throws IOException, URISyntaxException {
         return restClient.putRequest(sessionToken, new URL(restClient.getBaseURL() + resourceUrl),
                 mapper.writeValueAsString(e));
     }
 
-    @Override
-    public Response delete(final Entity e) throws MalformedURLException, URISyntaxException {
-        URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
-        return restClient.deleteRequest(url);
-    }
 
     @SuppressWarnings("unchecked")
     @Override
-    public Response delete(final String sessionToken, final String resourceUrl) throws URISyntaxException, MalformedURLException {
+    public Response deleteByToken(final String sessionToken, final String resourceUrl) throws URISyntaxException, MalformedURLException {
         return restClient.deleteRequest(sessionToken, new URL(restClient.getBaseURL() + resourceUrl));
     }
 
@@ -182,7 +194,8 @@ public class BasicClient implements SLIClient {
         return response;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public Response getResource(final String sessionToken, List entities, URL restURL, Class entityClass)
             throws URISyntaxException, MessageProcessingException, IOException {
         entities.clear();
@@ -197,7 +210,7 @@ public class BasicClient implements SLIClient {
                     ArrayNode arrayNode = (ArrayNode) element;
                     for (int i = 0; i < arrayNode.size(); ++i) {
                         JsonNode jsonObject = arrayNode.get(i);
-                        Object entity = mapper.readValue(jsonObject, entityClass);
+                        Object entity =  mapper.readValue(jsonObject, entityClass);
                         entities.add(entity);
                     }
                 } else  if (element instanceof ObjectNode) {
@@ -271,5 +284,11 @@ public class BasicClient implements SLIClient {
     @Override
     public String getToken() {
         return restClient.getSessionToken();
+    }
+
+    private void checkResponse(Response response, Status status, String msg) throws SLIClientException {
+        if (response.getStatus() != status.getStatusCode()) {
+           throw new SLIClientException(msg + "Receveived status code " + response.getStatus() + ". Expected " + status.getStatusCode() + ".");
+        }
     }
 }
