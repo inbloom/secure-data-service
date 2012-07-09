@@ -28,8 +28,6 @@ import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
-import org.slc.sli.ingestion.processors.ZipFileProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -37,6 +35,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
+import org.slc.sli.ingestion.processors.NoExtractProcessor;
+import org.slc.sli.ingestion.processors.ZipFileProcessor;
 /**
  * Tests for LandingZoneRouteBuilder
  * 
@@ -53,6 +54,8 @@ public class LandingZoneRouteBuilderTest {
     @Autowired 
     private ZipFileProcessor zipFileProcessor;
     
+    @Autowired
+    private NoExtractProcessor noExtractProcessor;
     @Test
     public void shouldCreateCtrlAndZipRoutes() throws Exception {
         CamelContext camelContext = new DefaultCamelContext();
@@ -62,7 +65,7 @@ public class LandingZoneRouteBuilderTest {
         testPaths.add(testPath);
         
         RouteBuilder landingZoneRouteBuilder = new LandingZoneRouteBuilder(testPaths, 
-                "seda:workItemQueue", zipFileProcessor, ctrlFilePreProcessor);
+                "seda:workItemQueue", zipFileProcessor, ctrlFilePreProcessor, noExtractProcessor);
         
         camelContext.start();
         
@@ -70,7 +73,7 @@ public class LandingZoneRouteBuilderTest {
         
         List<Route> routeList = camelContext.getRoutes();
         
-        assertEquals("Number of routes found was not 2", 2, routeList.size());
+        assertEquals("Number of routes found was not 3", 3, routeList.size());
         assertEquals("Ctrl route Id was not as expected", 
                 LandingZoneRouteBuilder.CTRL_POLLER_PREFIX + testPath, routeList.get(0).getId());
         assertEquals("Zip route Id was not as expected", 

@@ -40,73 +40,72 @@
     <allow pkg="org.slc.sli.ingestion"/>
   </subpackage>
 
-  <!-- the following subpackages belong to dashboard.  These
-    should be moved into packages under the 'dashboard' subpackage. -->
+  <!-- the following subpackages belong to dashboard.  -->
   <subpackage name="client">
-    <allow pkg="org.slc.sli.client"/>
-    <allow pkg="org.slc.sli.entity"/>
-    <allow pkg="org.slc.sli.util"/>
+    <allow pkg="org.slc.sli.dashboard.client"/>
+    <allow pkg="org.slc.sli.dashboard.entity"/>
+    <allow pkg="org.slc.sli.dashboard.util"/>
   </subpackage>
 
   <subpackage name="entity">
-    <allow pkg="org.slc.sli.entity"/>
-    <allow pkg="org.slc.sli.util"/>
-    <allow pkg="org.slc.sli.web"/>
+    <allow pkg="org.slc.sli.dashboard.entity"/>
+    <allow pkg="org.slc.sli.dashboard.util"/>
+    <allow pkg="org.slc.sli.dashboard.web"/>
   </subpackage>
 
   <subpackage name="manager">
-    <allow pkg="org.slc.sli.manager"/>
-    <allow pkg="org.slc.sli.util"/>
+    <allow pkg="org.slc.sli.dashboard.manager"/>
+    <allow pkg="org.slc.sli.dashboard.util"/>
     <allow pkg="net.sf.ehcache"/>
-    <allow pkg="org.slc.sli.client"/>
-    <allow pkg="org.slc.sli.entity"/>
+    <allow pkg="org.slc.sli.dashboard.client"/>
+    <allow pkg="org.slc.sli.dashboard.entity"/>
   </subpackage>
 
   <subpackage name="security">
-    <allow pkg="org.slc.sli.security"/>
-    <allow pkg="org.slc.sli.client"/>
-    <allow pkg="org.slc.sli.util"/>
+    <allow pkg="org.slc.sli.dashboard.security"/>
+    <allow pkg="org.slc.sli.dashboard.client"/>
+    <allow pkg="org.slc.sli.dashboard.util"/>
   </subpackage>
 
   <subpackage name="util">
-    <allow pkg="org.slc.sli.util"/>
-    <allow pkg="org.slc.sli.security"/>
-    <allow pkg="org.slc.sli.manager"/>
-    <allow pkg="org.slc.sli.web"/>
-    <allow pkg="org.slc.sli.entity"/>
+    <allow pkg="org.slc.sli.dashboard.util"/>
+    <allow pkg="org.slc.sli.dashboard.security"/>
+    <allow pkg="org.slc.sli.dashboard.manager"/>
+    <allow pkg="org.slc.sli.dashboard.web"/>
+    <allow pkg="org.slc.sli.dashboard.entity"/>
   </subpackage>
 
   <subpackage name="web">
-    <allow pkg="org.slc.sli.web"/>
-    <allow pkg="org.slc.sli.entity"/>
-    <allow pkg="org.slc.sli.manager"/>
-    <allow pkg="org.slc.sli.util"/>
-    <allow pkg="org.slc.sli.client"/>
-    <allow pkg="org.slc.sli.security"/>
+    <allow pkg="org.slc.sli.dashboard.web"/>
+    <allow pkg="org.slc.sli.dashboard.entity"/>
+    <allow pkg="org.slc.sli.dashboard.manager"/>
+    <allow pkg="org.slc.sli.dashboard.util"/>
+    <allow pkg="org.slc.sli.dashboard.client"/>
+    <allow pkg="org.slc.sli.dashboard.security"/>
     <subpackage name="util">
         <allow pkg="freemarker"/>
     </subpackage>
   </subpackage>
 
   <subpackage name="unit">
-    <allow pkg="org.slc.sli.unit"/>
-    <allow pkg="org.slc.sli.client"/>
-    <allow pkg="org.slc.sli.entity"/>
-    <allow pkg="org.slc.sli.manager"/>
-    <allow pkg="org.slc.sli.security"/>
-    <allow pkg="org.slc.sli.util"/>
-    <allow pkg="org.slc.sli.web"/>
+    <allow pkg="org.slc.sli.dashboard.unit"/>
+    <allow pkg="org.slc.sli.dashboard.client"/>
+    <allow pkg="org.slc.sli.dashboard.entity"/>
+    <allow pkg="org.slc.sli.dashboard.manager"/>
+    <allow pkg="org.slc.sli.dashboard.security"/>
+    <allow pkg="org.slc.sli.dashboard.util"/>
+    <allow pkg="org.slc.sli.dashboard.web"/>
     <allow pkg="net.sf.ehcache"/>
   </subpackage>
   <!-- end of dashboard subpackages -->
 
   <subpackage name="dashboard">
     <allow pkg="org.slc.sli.dashboard"/>
-    <allow pkg="org.slc.sli.entity"/>
-    <allow pkg="org.slc.sli.manager"/>
-    <allow pkg="org.slc.sli.security"/>
-    <allow pkg="org.slc.sli.util"/>
-    <allow pkg="org.slc.sli.web"/>
+    <allow pkg="org.slc.sli.dashboard.entity"/>
+    <allow pkg="org.slc.sli.dashboard.manager"/>
+    <allow pkg="org.slc.sli.dashboard.security"/>
+    <allow pkg="org.slc.sli.dashboard.util"/>
+    <allow pkg="org.slc.sli.dashboard.web"/>
   </subpackage>
 
   <subpackage name="sandbox">

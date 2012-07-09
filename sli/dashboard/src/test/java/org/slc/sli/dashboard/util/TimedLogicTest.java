@@ -24,8 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
+
 import org.slc.sli.dashboard.entity.GenericEntity;
-import org.slc.sli.dashboard.util.Constants;
 
 /**
  * Unit tests for the StudentManager class.

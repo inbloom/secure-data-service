@@ -48,6 +48,13 @@ public class SecurityContextInjector {
     @Autowired
     private RolesToRightsResolver resolver;
     
+    public void setCustomContext(String user, String fullName, String realm, List<String> roles, Entity entity,
+            String edOrgId) {
+        SLIPrincipal principal = buildPrincipal(user, fullName, realm, roles, entity);
+        principal.setEdOrg(edOrgId);
+        setSecurityContext(principal);
+    }
+
     public void setAdminContext() {
         String user = "administrator";
         String fullName = "IT Administrator";
