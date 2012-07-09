@@ -355,6 +355,8 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         // sort courses by subject area
         Collections.sort(courses, new CourseSubjectComparator());
 
+        int subjectIndex = 0;
+
         for (GenericEntity course : courses) {
 
             // handle courses with no subject, like home room
@@ -368,7 +370,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
                 subjectAreas.add(subjectArea);
                 GenericEntity subject = new GenericEntity();
                 subject.put("name", subjectArea);
-                subject.put("id", subjectArea);
+                subject.put("id", ++subjectIndex);
                 subject.put("level", "0");
                 subject.put("parent", "");
                 subject.put("isLeaf", false);
@@ -380,7 +382,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
             // add course entities
             course.put("name", course.getString("courseTitle"));
             course.put("level", "1");
-            course.put("parent", subjectArea);
+            course.put("parent", subjectIndex);
             course.put("expanded", false);
             course.put("loaded", true);
             entities.add(course);
