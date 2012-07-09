@@ -1,15 +1,31 @@
 package org.slc.sli.api.ldap;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.springframework.ldap.core.ContextMapper;
 import org.springframework.ldap.core.DirContextAdapter;
 
 /**
  * LDAPTemplate mapper for converting User object from the LDAP user context.
- * 
+ *
  * @author dliu
- * 
+ *
  */
 public class UserContextMapper implements ContextMapper {
+
+    private Date ldapStringToDate(String dateString) {
+        if (dateString != null) {
+            SimpleDateFormat test = new SimpleDateFormat("yyyyMMddHHmmss");
+            try {
+                return test.parse(dateString);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
     @Override
     public Object mapFromContext(Object ctx) {
         DirContextAdapter context = (DirContextAdapter) ctx;
@@ -19,7 +35,8 @@ public class UserContextMapper implements ContextMapper {
         user.setUid(context.getStringAttribute("uid"));
         user.setEmail(context.getStringAttribute("mail"));
         user.setHomeDir(context.getStringAttribute("homeDirectory"));
-        
+        user.setCreateTime(ldapStringToDate(context.getStringAttribute(LdapService.CREATE_TIMESTAMP)));
+        user.setModifyTime(ldapStringToDate(context.getStringAttribute(LdapService.MODIFY_TIMESTAMP)));
         // TODO figure out consistent ways to set user password with either plain text or MD5 hash
         // user.setPassword(context.getStringAttribute("userPassword"));
 
@@ -49,5 +66,5 @@ public class UserContextMapper implements ContextMapper {
         }
         return user;
     }
-    
+
 }

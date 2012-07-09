@@ -24,7 +24,7 @@ public class LdapServiceImplTest {
 
     @Autowired
     LdapService ldapService;
-    
+
     @Test
     public void testGetUser() {
         User slcoperator = ldapService.getUser("SLIAdmin", "slcoperator");
@@ -38,9 +38,10 @@ public class LdapServiceImplTest {
         assertNotNull(slcoperator.getFullName());
         assertNull(slcoperator.getTenant());
         assertNull(slcoperator.getEdorg());
-
+        assertNotNull(slcoperator.getCreateTime());
+        assertNotNull(slcoperator.getModifyTime());
     }
-    
+
     @Test
     public void testGetGroup() {
         Group slcoperatorGroup = ldapService.getGroup("SLIAdmin", "SLC Operator");
@@ -48,10 +49,10 @@ public class LdapServiceImplTest {
         assertEquals("SLC Operator", slcoperatorGroup.getGroupName());
         assertTrue(slcoperatorGroup.getMemberUids().contains("slcoperator"));
     }
-    
+
     @Test
     public void testGetUserGroups() {
-        
+
         List<Group> groups = ldapService.getUserGroups("SLIAdmin", "slcoperator");
         assertNotNull(groups);
         List<String> groupNames = new ArrayList<String>();
@@ -61,7 +62,7 @@ public class LdapServiceImplTest {
         assertTrue(groupNames.contains("SLC Operator"));
 
     }
-    
+
     @Test
     public void testFindUserByGroups() {
         String[] groups = new String[] { "SEA Administrator" };

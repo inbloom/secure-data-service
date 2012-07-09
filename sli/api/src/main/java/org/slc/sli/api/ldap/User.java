@@ -1,13 +1,14 @@
 package org.slc.sli.api.ldap;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Define the class that represents the user entry in ldap directory
- * 
+ *
  * @author dliu
- * 
+ *
  */
 public class User {
 
@@ -20,23 +21,25 @@ public class User {
     private String tenant;
     private String edorg;
     private String homeDir;
-    
+    private Date createTime;
+    private Date modifyTime;
+
     public String getUid() {
         return uid;
     }
-    
+
     public void setUid(String uid) {
         this.uid = uid;
     }
-    
+
     public List<String> getGroups() {
         return groups;
     }
-    
+
     public void setGroups(List<String> groups) {
         this.groups = groups;
     }
-    
+
     public void addGroup(String group) {
         if (groups == null) {
             groups = new ArrayList<String>();
@@ -47,15 +50,15 @@ public class User {
     public String getFirstName() {
         return firstName;
     }
-    
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-    
+
     public String getLastName() {
         return lastName;
     }
-    
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -99,17 +102,34 @@ public class User {
     public void setHomeDir(String homeDir) {
         this.homeDir = homeDir;
     }
-    
+
     public void setFullName(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }
-    
+
     public String getFullName() {
-        if (firstName != null && lastName != null && !firstName.equals("") && !lastName.equals(""))
+        if (firstName != null && lastName != null && !firstName.equals("") && !lastName.equals("")) {
             return this.firstName + " " + this.lastName;
-        else
+        } else {
             return "";
+        }
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(Date modifyTime) {
+        this.modifyTime = modifyTime;
     }
 
 }

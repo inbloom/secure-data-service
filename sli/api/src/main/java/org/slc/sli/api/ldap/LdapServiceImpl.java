@@ -3,9 +3,12 @@ package org.slc.sli.api.ldap;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.directory.SearchControls;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.ldap.core.DistinguishedName;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.filter.AndFilter;
@@ -47,7 +50,13 @@ public class LdapServiceImpl implements LdapService {
         DistinguishedName dn = new DistinguishedName("ou=" + realm);
         User user;
         try {
-            user = (User) ldapTemplate.searchForObject(dn, filter.toString(), new UserContextMapper());
+            List userList = ldapTemplate.search(dn, filter.toString(), SearchControls.SUBTREE_SCOPE, new String[] { "*", CREATE_TIMESTAMP, MODIFY_TIMESTAMP }, new UserContextMapper());
+            if (userList == null || userList.size() == 0) {
+                throw new EmptyResultDataAccessException(1);
+            } else if (userList.size() > 1) {
+                throw new IncorrectResultSizeDataAccessException("User must be unique", 1);
+            }
+            user = (User) userList.get(0);
             user.setUid(uid);
             List<Group> groups = getUserGroups(realm, uid);
             if (groups != null && groups.size() > 0) {

@@ -12,6 +12,9 @@ import java.util.List;
 
 public interface LdapService {
 
+    public static final String CREATE_TIMESTAMP = "createTimestamp";
+    public static final String MODIFY_TIMESTAMP = "modifyTimestamp";
+
     public User getUser(String realm, String uid);
 
     public List<Group> getUserGroups(String realm, String uid);
