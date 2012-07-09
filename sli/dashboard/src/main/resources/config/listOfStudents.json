@@ -1,8 +1,6 @@
 {
   id : "listOfStudents",
   type : "PANEL",
-  name: "List of Students", 
-  
   data :{
     lazy: true,
     entity: "listOfStudents",
