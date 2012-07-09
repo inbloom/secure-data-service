@@ -63,7 +63,7 @@ public class AvroEntityValidator implements EntityValidator {
     }
 
     @Override
-    public List<String> getNaturalKeyFields (Entity entity) {
+    public List<String> getNaturalKeyFields(Entity entity) {
         return null;
     }
 

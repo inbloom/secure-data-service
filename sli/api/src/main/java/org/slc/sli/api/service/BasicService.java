@@ -255,7 +255,7 @@ public class BasicService implements EntityService {
         checkReferences(content);
 
         String entityId = "";
-        Entity entity = repo.create (defn.getType(), sanitizeEntityBody(content), createMetadata(), collectionName);
+        Entity entity = repo.create(defn.getType(), sanitizeEntityBody(content), createMetadata(), collectionName);
         if (entity != null) {
             entityId = entity.getEntityId();
         }
