@@ -32,6 +32,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.api.client.Entity;
+import org.slc.sli.api.client.SLIClientException;
 import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.client.impl.BasicClient;
 import org.slc.sli.api.client.impl.BasicQuery;
@@ -87,16 +88,7 @@ public class TestSDKServlet extends HttpServlet {
         Entity student = new GenericEntity(ResourceNames.STUDENTS, createStudentBody());
         List<Entity> collection = new ArrayList<Entity>();
         try {
-            Response response = client.create(student);
-
-            if (response.getStatus() != 201) {
-                LOG.error("Failed to create: " + response.getStatus());
-                testResult = "failed";
-                return testResult;
-            }
-
-            String location = response.getHeaders().getHeaderValues("Location").get(0);
-            id = location.substring(location.lastIndexOf("/") + 1);
+            id = client.create(student);
             client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
             if (collection != null && collection.size() == 1) {
 
@@ -110,6 +102,8 @@ public class TestSDKServlet extends HttpServlet {
                 }
             }
 
+        } catch (SLIClientException e) {
+        	LOG.error("Exception:" + e.getMessage());
         } catch (Exception e) {
             LOG.error("Exception:" + e.getMessage());
             testResult = "failed";
@@ -127,16 +121,14 @@ public class TestSDKServlet extends HttpServlet {
 
         List<Entity> collection = new ArrayList<Entity>();
         try {
-            Response response = client.create(student);
+            id = client.create(student);
 
-            String location = response.getHeaders().getHeaderValues("Location").get(0);
-            id = location.substring(location.lastIndexOf("/") + 1);
             client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
             if (collection != null && collection.size() == 1) {
                 student = collection.get(0);
                 ((List<Map<String, String>>) student.getData().get("address")).get(0).put("streetNumberName",
                         "2817 Oakridge Farm Lane");
-                response = client.update(student);
+                Response response = client.update(student);
                 if (response.getStatus() != 204) {
                     testResult = "failed";
                     return testResult;
@@ -153,6 +145,8 @@ public class TestSDKServlet extends HttpServlet {
                     testResult = "failed";
                 }
             }
+        } catch (SLIClientException e) {
+        	LOG.error("SLIClientException:" + e.getMessage());
         } catch (Exception e) {
             LOG.error("RESPONSE:" + e.getMessage());
             testResult = "failed";
@@ -168,20 +162,14 @@ public class TestSDKServlet extends HttpServlet {
 
         List<Entity> collection = new ArrayList<Entity>();
         try {
-            Response response = client.create(student);
+            id = client.create(student);
 
-            String location = response.getHeaders().getHeaderValues("Location").get(0);
-            id = location.substring(location.lastIndexOf("/") + 1);
             client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
             if (collection != null && collection.size() == 1) {
                 student = collection.get(0);
-                response = client.delete(student);
-                if (response.getStatus() != 204) {
-                    testResult = "failed";
-                    return testResult;
-                }
+                client.delete(ResourceNames.STUDENTS, id);
             }
-            response = client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
+            Response response = client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
             if (response.getStatus() == 404) {
                 testResult = "succeed";
             } else {
