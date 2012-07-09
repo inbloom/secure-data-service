@@ -41,11 +41,10 @@ public class SifAgent extends Agent {
 
     private static final Logger LOG = LoggerFactory.getLogger(SifAgent.class);
 
-
-    AgentConfig fCfg;
+    private AgentConfig fCfg;
 
     @Value("classpath:/sif/agent-config.xml")
-    Resource configFile;
+    private Resource configFile;
 
     public SifAgent() {
         this("SifAgent");
@@ -92,8 +91,53 @@ public class SifAgent extends Agent {
 
                 LOG.info("- Connecting to zone \"" + zone.getZoneId() + "\" at " + zone.getZoneUrl());
 
-                zone.setSubscriber(new SifSubscriber(), StudentDTD.SCHOOLINFO, new SubscriptionOptions());
-                zone.setSubscriber(new SifSubscriber(), StudentDTD.STUDENTPERSONAL, new SubscriptionOptions());
+//                zone.setSubscriber(new SifSubscriber(), StudentDTD.SCHOOLINFO, new SubscriptionOptions());
+//                zone.setSubscriber(new SifSubscriber(), StudentDTD.STUDENTPERSONAL, new SubscriptionOptions());
+
+                zone.connect(ADKFlags.PROV_REGISTER | ADKFlags.PROV_PROVIDE | ADKFlags.PROV_SUBSCRIBE);
+            } catch (ADKException ex) {
+                LOG.error("  " + ex.getMessage(), ex);
+            }
+        }
+    }
+
+    // FOR TESTING ONLY
+    public void startAgentWithConfig(File file) throws Exception {
+        String configPath = file.getAbsolutePath();
+
+        LOG.info("Using config file: " + configPath);
+
+        // Read the configuration file
+        fCfg = new AgentConfig();
+        fCfg.read(file.getAbsolutePath(), false);
+
+        // Override the SourceId passed to the constructor with the SourceId
+        // specified in the configuration file
+        setId(fCfg.getSourceId());
+
+        // Inform the ADK of the version of SIF specified in the sifVersion=
+        // attribute of the <agent> element
+        SIFVersion version = fCfg.getVersion();
+        LOG.info("Using SIF version: " + version);
+        ADK.setVersion(version);
+
+        // initialize once the configuration file has been read
+        super.initialize();
+
+        fCfg.apply(this, true);
+
+        // Connect to each zone specified in the configuration file, registering
+        // this agent as the Provider of the SIS objects.
+
+        Zone[] allZones = getZoneFactory().getAllZones();
+        for (Zone zone : allZones) {
+            try {
+                // Connect to this zone
+
+                LOG.info("- Connecting to zone \"" + zone.getZoneId() + "\" at " + zone.getZoneUrl());
+
+//                zone.setSubscriber(new SifSubscriber(), StudentDTD.SCHOOLINFO, new SubscriptionOptions());
+//                zone.setSubscriber(new SifSubscriber(), StudentDTD.STUDENTPERSONAL, new SubscriptionOptions());
 
                 zone.connect(ADKFlags.PROV_REGISTER | ADKFlags.PROV_PROVIDE | ADKFlags.PROV_SUBSCRIBE);
             } catch (ADKException ex) {

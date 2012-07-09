@@ -17,17 +17,14 @@
 package org.slc.sli.sif.reporting;
 
 import java.io.File;
-import java.util.Properties;
 
 import openadk.library.ADK;
 import openadk.library.ADKException;
-import openadk.library.DataObjectOutputStream;
 import openadk.library.Event;
 import openadk.library.MessageInfo;
-import openadk.library.Publisher;
-import openadk.library.PublishingOptions;
-import openadk.library.Query;
 import openadk.library.SIFDataObject;
+import openadk.library.Subscriber;
+import openadk.library.SubscriptionOptions;
 import openadk.library.Zone;
 import openadk.library.student.StudentDTD;
 
@@ -37,7 +34,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import org.slc.sli.sif.agent.SifAgent;
 
-public class EventReporter implements Publisher {
+public class EventSubscriber implements Subscriber {
 
     static {
         // Simple workaround to get logging paths set up correctly when run from the command line
@@ -52,7 +49,7 @@ public class EventReporter implements Publisher {
     }
 
     public static void main(String[] args) {
-        Logger logger = LoggerFactory.getLogger(EventReporter.class);
+        Logger logger = LoggerFactory.getLogger(EventSubscriber.class);
 
         try {
             FileSystemXmlApplicationContext context = new FileSystemXmlApplicationContext(
@@ -61,83 +58,37 @@ public class EventReporter implements Publisher {
 
             //SifAgent agent = context.getBean(SifAgent.class);
 
-            SifAgent agent = new SifAgent("PublisherAgent");
+            SifAgent agent = new SifAgent("SubscriberAgent");
             ADK.initialize();
             ADK.debug = ADK.DBG_ALL;
 
-            agent.startAgentWithConfig(new File("src/main/resources/sif/agent-config.xml"));
+            agent.startAgentWithConfig(new File("src/main/resources/sif/subscriber-agent-config.xml"));
 
-            if (args.length >= 2) {
-                String zoneId = args[EventReporter.ZONE_ID];
-                String messageFile = args[EventReporter.MESSAGE_FILE];
+            if (args.length >= 1) {
+                String zoneId = args[EventSubscriber.ZONE_ID];
                 Zone zone = agent.getZoneFactory().getZone(zoneId);
-                EventReporter reporter = new EventReporter(zone);
-
-                reporter.setEventGenerator(new CustomEventGenerator());
-                reporter.reportEvent(messageFile);
+                new EventSubscriber(zone);
             } else {
                 Zone zone = agent.getZoneFactory().getZone("TestZone");
-                EventReporter reporter = new EventReporter(zone);
-
-                reporter.reportEvent();
+                new EventSubscriber(zone);
             }
         } catch (Exception e) {
-            logger.error("Exception trying to report event", e);
+            logger.error("Exception trying to subscriber to event", e);
         }
-        System.exit(0);
     }
 
     public static final int ZONE_ID = 0;
-    public static final int MESSAGE_FILE = 1;
 
-    private static final Logger LOG = LoggerFactory.getLogger(EventReporter.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EventSubscriber.class);
 
     private Zone zone;
-    private EventGenerator generator;
 
-    public EventReporter(Zone zone) throws Exception {
+    public EventSubscriber(Zone zone) throws Exception {
         this.zone = zone;
-        //this.zone.setPublisher(this);
-        this.zone.setPublisher(this, StudentDTD.SCHOOLINFO, new PublishingOptions(true));
-        this.zone.setPublisher(this, StudentDTD.LEAINFO, new PublishingOptions(true));
-        this.zone.setPublisher(this, StudentDTD.STUDENTPERSONAL, new PublishingOptions(true));
-        generator = new HCStudentPersonalGenerator();
+        this.zone.setSubscriber(this, StudentDTD.SCHOOLINFO, new SubscriptionOptions());
+        this.zone.setSubscriber(this, StudentDTD.STUDENTPERSONAL, new SubscriptionOptions());
     }
 
-    public void setEventGenerator(EventGenerator generator) {
-        this.generator = generator;
-    }
-
-    public void reportEvent() throws ADKException {
-        Event event = generator.generateEvent(null);
-        if (zone.isConnected()) {
-            zone.reportEvent(event);
-        } else {
-            LOG.error("Zone is not connected");
-        }
-    }
-
-    public void reportEvent(String messageFile) throws ADKException {
-        Properties props = new Properties();
-        props.setProperty(CustomEventGenerator.MESSAGE_FILE, messageFile);
-        Event event = generator.generateEvent(props);
-        if (zone.isConnected()) {
-            zone.reportEvent(event);
-        } else {
-            LOG.error("Zone is not connected");
-        }
-    }
-
-    @Override
-    public void onRequest(DataObjectOutputStream out, Query query, Zone zone,
-            MessageInfo info) throws ADKException {
-        LOG.info("Received request to publish data:\n"
-                + "\tQuery:\n" + query.toXML() + "\n"
-                + "\tZone: " + zone.getZoneId() + "\n"
-                + "\tInfo: " + info.getMessage());
-    }
-
-    @SuppressWarnings("unused")
     private void inspectAndDestroyEvent(Event e) {
         LOG.info("###########################################################################");
         try {
@@ -147,5 +98,15 @@ public class EventReporter implements Publisher {
             LOG.error("Error trying to inspect event", e1);
         }
         LOG.info("###########################################################################");
+    }
+
+    @Override
+    public void onEvent(Event event, Zone zone, MessageInfo info)
+            throws ADKException {
+        LOG.info("Received event:\n"
+                + "\tEvent: " + event.getActionString() + "\n"
+                + "\tZone: " + zone.getZoneId() + "\n"
+                + "\tInfo: " + info.getMessage());
+        inspectAndDestroyEvent(event);
     }
 }
