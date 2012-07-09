@@ -129,8 +129,8 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
                 auditSecurityEvent(controlFile);
 
             } else {
-                LOG.info(MessageSourceHelper.getMessage(messageSource, "MULTIJOB_ERR_MSG1"));
-                errorReport.error(MessageSourceHelper.getMessage(messageSource, "MULTIJOB_ERR_MSG1"), this);
+                LOG.info(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"));
+                errorReport.error(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"), this);
             }
 
             setExchangeHeaders(exchange, newBatchJob, errorReport);
