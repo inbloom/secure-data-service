@@ -20,6 +20,7 @@ package org.slc.sli.dashboard.manager.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -351,6 +352,9 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         List<GenericEntity> entities = new ArrayList<GenericEntity>();
         List<String> subjectAreas = new ArrayList<String>();
 
+        // sort courses by subject area
+        Collections.sort(courses, new CourseSubjectComparator());
+
         for (GenericEntity course : courses) {
 
             // handle courses with no subject, like home room
@@ -435,6 +439,40 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
             }
         }
         return staffEntity;
+    }
+
+    private class CourseSubjectComparator implements Comparator {
+
+        @Override
+        public int compare(Object o1, Object o2) {
+
+            // compare subject area
+            GenericEntity course1 = (GenericEntity) o1;
+            GenericEntity course2 = (GenericEntity) o2;
+            String subject1 = course1.getString("subjectArea");
+            String subject2 = course2.getString("subjectArea");
+            if (subject1 == null) {
+                return -1;
+            }
+            if (subject2 == null) {
+                return 1;
+            }
+            int i = subject1.compareToIgnoreCase(subject2);
+            if (i != 0) {
+                return i;
+            }
+
+            // compare course title
+            String courseTitle1 = course1.getString("courseTitle");
+            String courseTitle2 = course2.getString("courseTitle");
+            if (courseTitle1 == null) {
+                return -1;
+            }
+            if (courseTitle2 == null) {
+                return 1;
+            }
+            return courseTitle1.compareToIgnoreCase(courseTitle2);
+        }
     }
 
     @Override
