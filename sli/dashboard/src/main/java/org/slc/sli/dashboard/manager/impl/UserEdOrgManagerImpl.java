@@ -167,7 +167,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
      */
     private List<GenericEntity> getUserInstHierarchy(String token) {
         // Find all the schools first.
-        List<GenericEntity> schools = getSchools(token);
+        List<GenericEntity> schools = getMySchools(token, isEducator());
         if (schools == null) {
             return Collections.emptyList();
         }
