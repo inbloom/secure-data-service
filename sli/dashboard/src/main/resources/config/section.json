@@ -1,5 +1,6 @@
 {
 	id: "section",
+	name: "SLC - Section Profile",
 	type: "LAYOUT",
 	data :{
 		entity: "sectionInfo",
