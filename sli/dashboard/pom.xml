@@ -277,6 +277,7 @@
 	              <exclude>**/libs/**/*.js</exclude>
 	              <exclude>**/widgets/**/*.js</exclude>
 	              <exclude>**/controller/**/*.js</exclude>
+	              <exclude>**/panels/**/*.js</exclude>
 	              </excludes>
 	              <includes>
                         <include>**/license.js</include>
