@@ -49,6 +49,7 @@ import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -211,12 +212,12 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
         //Make sure the user's district has authorized the use of this application
         SLIPrincipal principal = jsoner.convertValue(session.getBody().get("principal"), SLIPrincipal.class);
-        principal.setEntity(locator.locate(principal.getTenantId(), principal.getExternalId()).getEntity());
+        principal.setEntity(locator.locate((String) principal.getTenantId(), principal.getExternalId()).getEntity());
+        TenantContext.setTenantId(principal.getTenantId());
+
         List<String> authorizedAppIds = appValidator.getAuthorizedApps(principal);
 
-        //If the list of authorized apps is null, we weren't able to figure out the user's LEA.
-        //TODO: deny access if no context information is available--to fix in oauth hardening
-        if (authorizedAppIds != null && !authorizedAppIds.contains(app.getEntityId())) {
+        if (!authorizedAppIds.contains(app.getEntityId())) {
             throw new OAuthAccessException(OAuthError.UNAUTHORIZED_CLIENT,
                     "User " + principal.getExternalId() + " is not authorized to use " + app.getBody().get("name"),
                     (String) session.getBody().get("state"));

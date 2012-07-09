@@ -26,7 +26,6 @@ import static org.mockito.Mockito.mock;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -47,13 +46,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.slc.sli.api.client.Entity;
-import org.slc.sli.api.client.SLIClient;
-import org.slc.sli.api.client.impl.BasicClient;
-import org.slc.sli.dashboard.client.SDKAPIClient;
-import org.slc.sli.dashboard.entity.Config;
-import org.slc.sli.dashboard.entity.ConfigMap;
-import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -209,7 +201,7 @@ public class SDKAPIClientTest {
     }
 
     @Test
-    public void testGetStudentsForSection() throws MalformedURLException, URISyntaxException, IOException  {
+    public void testGetStudentsForSection() throws URISyntaxException, IOException  {
         String token = "token";
         String key = "sectionId";
 
@@ -296,7 +288,7 @@ public class SDKAPIClientTest {
     }
 
     @Test
-    public void testGetAssessmentsForStudent() throws MalformedURLException, URISyntaxException, IOException  {
+    public void testGetAssessmentsForStudent() throws URISyntaxException, IOException  {
         String token = "token";
         String key = "studentId";
         String studentId = "288598192";
@@ -323,18 +315,18 @@ public class SDKAPIClientTest {
         assertEquals(count, 6);
     }
 
-    public void testGetAssessment() throws MalformedURLException, URISyntaxException, IOException  {
+    public void testGetAssessment() throws URISyntaxException, IOException  {
         // this test is not implemented because the underlying method is not called by anything at
         // this time
     }
 
-    public void testGetAssessments() throws MalformedURLException, URISyntaxException, IOException {
+    public void testGetAssessments() throws URISyntaxException, IOException {
         // this test is not implemented because the underlying method is not called by anything at
         // this time
     }
 
     @Test
-    public void testGetSchool() throws MalformedURLException, URISyntaxException, IOException  {
+    public void testGetSchool() throws URISyntaxException, IOException  {
         String token = "token";
         String key = "schoolId";
         String schoolId = "Illinois PS145";
@@ -352,13 +344,13 @@ public class SDKAPIClientTest {
         assertEquals(schoolEntity.getString(key), schoolId);
     }
 
-    public void testGetSchoolsWithParams() throws MalformedURLException, URISyntaxException, IOException  {
+    public void testGetSchoolsWithParams() throws URISyntaxException, IOException  {
         // this test is not implemented because the underlying method is not called by anything at
         // this time
     }
 
     @Test
-    public void testGetSchools() throws MalformedURLException, URISyntaxException, IOException    {
+    public void testGetSchools() throws URISyntaxException, IOException    {
         SDKAPIClient client = new SDKAPIClient() {
             @Override
             public String getId(String token) {
@@ -435,7 +427,7 @@ public class SDKAPIClientTest {
     }
 
     @Test
-    public void testGetSession() throws MalformedURLException, URISyntaxException, IOException   {
+    public void testGetSession() throws URISyntaxException, IOException   {
         String token = "token";
         String key = "sessionId";
 
@@ -463,7 +455,7 @@ public class SDKAPIClientTest {
     }
 
     @Test
-    public void testGetSessions() throws MalformedURLException, URISyntaxException, IOException   {
+    public void testGetSessions() throws URISyntaxException, IOException   {
         String token = "token";
         String filename = getFilename(MOCK_DATA_DIRECTORY + "common/" + MOCK_SESSIONS_FILE);
 
@@ -485,7 +477,7 @@ public class SDKAPIClientTest {
     }
 
     @Test
-    public void testGetSessionsForYear() throws MalformedURLException, URISyntaxException, IOException   {
+    public void testGetSessionsForYear() throws URISyntaxException, IOException   {
         String token = "token";
         String key = "schoolYear";
         String value = "2011";
@@ -516,7 +508,7 @@ public class SDKAPIClientTest {
     }
 
     @Test
-    public void testGetSections() throws MalformedURLException, URISyntaxException, IOException   {
+    public void testGetSections() throws URISyntaxException, IOException   {
         String token = "token";
         String filename = getFilename(MOCK_DATA_DIRECTORY + "common/" + MOCK_SECTIONS_FILE);
 
@@ -533,7 +525,7 @@ public class SDKAPIClientTest {
     }
 
     @Test
-    public void testGetSectionsForStudent() throws MalformedURLException, URISyntaxException, IOException   {
+    public void testGetSectionsForStudent() throws URISyntaxException, IOException   {
         String token = "token";
         String key = "studentUIDs";
         String filename = getFilename(MOCK_DATA_DIRECTORY + "common/" + MOCK_SECTIONS_FILE);
@@ -563,7 +555,7 @@ public class SDKAPIClientTest {
     }
 
     @Test
-    public void testGetSectionsForTeacher() throws MalformedURLException, URISyntaxException, IOException   {
+    public void testGetSectionsForTeacher() throws URISyntaxException, IOException   {
         String token = "token";
         String key = "teacherId";
         String filename = getFilename(MOCK_DATA_DIRECTORY + "common/" + MOCK_SECTIONS_FILE);
@@ -592,7 +584,7 @@ public class SDKAPIClientTest {
         assertEquals(0, sections.size());
     }
 
-    public void testGetSectionsNonEducator() throws MalformedURLException, URISyntaxException, IOException  {
+    public void testGetSectionsNonEducator() throws URISyntaxException, IOException  {
         // this test is not implemented because the underlying method does not appear to be used
         // even though it is potentially called in getSchools
     }
@@ -602,7 +594,7 @@ public class SDKAPIClientTest {
         // this time
     }
 
-    public void testGetSectionHomeForStudent() throws MalformedURLException, URISyntaxException, IOException   {
+    public void testGetSectionHomeForStudent() throws URISyntaxException, IOException   {
         // this test is not implemented because the mock json data does not conform to the proper
         // format
         // once it is updated, this test can be implemented
@@ -626,7 +618,7 @@ public class SDKAPIClientTest {
     }
 
     @Test
-    public void testGetSection() throws MalformedURLException, URISyntaxException, IOException   {
+    public void testGetSection() throws URISyntaxException, IOException   {
         String token = "token";
         String key = "sectionId";
 

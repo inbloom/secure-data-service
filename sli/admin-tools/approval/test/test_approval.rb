@@ -125,6 +125,9 @@ class TestApprovalEngine < Test::Unit::TestCase
         assert(@ldap.read_user(@jd_email)[:status] == ApprovalEngine::STATE_APPROVED)
 
         if is_sandbox
+            # make sure the tenant is set email address if this is sandbox             
+            sb_user = @ldap.read_user(@jd_email)
+            assert(sb_user[:tenant] == sb_user[:email])
             assert(@ldap.get_user_groups(@jd_email).sort == ApprovalEngine::SANDBOX_ROLES.sort)
         else 
             assert(@ldap.get_user_groups(@jd_email).sort == ApprovalEngine::PRODUCTION_ROLES.sort)
@@ -137,6 +140,9 @@ class TestApprovalEngine < Test::Unit::TestCase
         assert(@ldap.read_user(@jd_email)[:status] == ApprovalEngine::STATE_APPROVED)
 
         if is_sandbox
+            # make sure the tenant is set email address if this is sandbox             
+            sb_user = @ldap.read_user(@jd_email)
+            assert(sb_user[:tenant] == sb_user[:email])
             assert(ApprovalEngine.get_roles(@jd_email).sort == ApprovalEngine::SANDBOX_ROLES.sort)
         else
             assert(ApprovalEngine.get_roles(@jd_email).sort == ApprovalEngine::PRODUCTION_ROLES.sort)
@@ -178,10 +184,10 @@ class TestApprovalEngine < Test::Unit::TestCase
     
 
     def test_production
-        regular_workflow(true)
+        regular_workflow(false)
     end
 
     def test_sandbox
-        regular_workflow(false)
+        regular_workflow(true)
     end
 end
