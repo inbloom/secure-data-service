@@ -6,6 +6,7 @@ Feature: White list input validation for API - core entities
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     And format "application/json"
 
+    @wip
   Scenario Outline: Giant list of white list validations
     Given a valid document for <entity>
     When I navigate to POST "/v1/<entity uri>"
