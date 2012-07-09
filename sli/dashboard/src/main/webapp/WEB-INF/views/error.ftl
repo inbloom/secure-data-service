@@ -1,4 +1,18 @@
-              
+<#--
+  Copyright 2012 Shared Learning Collaborative, LLC
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
 	<#if CONTEXT_ROOT_PATH??>
         <link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/js/libs/jquery-ui/css/custom/jquery-ui-1.8.18.custom.css" media="screen" />
         <link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/js/libs/jqGrid/css/ui.jqgrid.css" media="screen" />
@@ -7,9 +21,9 @@
         <link rel="stylesheet" type="text/css" href="/dashboard/static/css/common.css" media="screen" />
 	</#if>
 
-    
-	<div class="error-container"> 
-	
+
+	<div class="error-container">
+
 	<div class="error-header">
 		<#if errorHeading??>
 			<h10>${errorHeading}</h10>
@@ -17,19 +31,19 @@
 			<h10>ERROR</h10>
 		</#if>
     </div>
-    <div>      
+    <div>
       <p>&nbsp;</p>
       <p>&nbsp;</p>
     </div>
-    
+
 	<div class="error-content">
 		<#if errorContent??>
-			<h3>${errorContent}</h3> 
+			<h3>${errorContent}</h3>
 		<#else>
 			<h3>We're sorry, the page that you were looking for could not be found.</h3>
 		</#if>
 	</div>
-	
+
 	<div class="error-advice">
 		<p>&nbsp;</p>
 		<#if debugEnabled?? && debugEnabled && errorDetails??>
@@ -46,5 +60,5 @@
 			</#if>
 		</#if>
 	</div>
-    
+
 	</div>

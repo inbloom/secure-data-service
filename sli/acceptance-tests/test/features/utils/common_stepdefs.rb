@@ -139,3 +139,4 @@ Given /^I have a "([^"]*)" SMTP\/Email server configured$/ do |live_or_mock|
   @email_conf[:replacer] = { "__URI__" => "http://localhost:3000"}
   @email_conf[:sender_email_addr] = sender_email_address
 end
+
