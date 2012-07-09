@@ -15,10 +15,10 @@
 	<mapping>
 		<lhs>
 			<type>Disability</type>
-			<name>disability</name>
+			<name>Disability</name>
 		</lhs>
 		<rhs>
-			<type>Disability</type>
+			<type>disability</type>
 			<name>disability</name>
 		</rhs>
 		<status>match</status>

@@ -13,10 +13,10 @@
   <mapping>
     <lhs>
       <type>Disability</type>
-      <name>disability</name>
+      <name>Disability</name>
     </lhs>
     <rhs>
-      <type>Disability</type>
+      <type>disability</type>
       <name>disability</name>
     </rhs>
     <status>match</status>
@@ -6138,8 +6138,11 @@
       <type>LocalEducationAgency</type>
       <name>localEducationAgency</name>
     </lhs>
-    <rhsMissing/>
-    <status>unknown</status>
+    <rhs>
+      <type>localEducationAgency</type>
+      <name>localEducationAgency</name>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -6157,7 +6160,7 @@
       <name>studentIdentificationCode</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -6202,8 +6205,8 @@
       <name>studentGradebookEntrys</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
-    <comment></comment>
+    <status>bug</status>
+    <comment>Ed-Fi logical model pluralization.</comment>
   </mapping>
   <mapping>
     <lhs>
@@ -6229,7 +6232,7 @@
       <name>locationIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -6238,7 +6241,7 @@
       <name>textMessageCapabilityIndicator</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>align</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -6576,8 +6579,11 @@
       <type>Section</type>
       <name>courseOffering</name>
     </lhs>
-    <rhsMissing/>
-    <status>unknown</status>
+    <rhs>
+      <type>section</type>
+      <name>courseOffering</name>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -6733,7 +6739,7 @@
       <name>cohortIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -6895,7 +6901,7 @@
       <name>assessmentFamilyIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -6904,8 +6910,8 @@
       <name>weaponMap</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
-    <comment></comment>
+    <status>align</status>
+    <comment>EdFi replaced WeaponType with WeaponDescriptor.</comment>
   </mapping>
   <mapping>
     <lhs>
@@ -7021,7 +7027,7 @@
       <name>educationContentIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -7066,7 +7072,7 @@
       <name>extendedYearSchoolServices</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>align</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -7159,7 +7165,7 @@
       <name>learningObjectiveIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -7177,7 +7183,7 @@
       <name>calendarDateIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -7186,7 +7192,7 @@
       <name>serviceProviders</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>align</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -7195,7 +7201,7 @@
       <name>classPeriodIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -7249,7 +7255,7 @@
       <name>titleIPartAParticipant</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>align</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -7279,7 +7285,7 @@
       <name>interventionIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -7333,7 +7339,7 @@
       <name>reportCardIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -7387,7 +7393,7 @@
       <name>gradingPeriodIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -7414,7 +7420,7 @@
       <name>learningStandardIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -7423,7 +7429,7 @@
       <name>assessmentIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -7612,7 +7618,7 @@
       <name>gradebookEntryIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -7620,8 +7626,11 @@
       <type>LocalEducationAgency</type>
       <name>lEACategory</name>
     </lhs>
-    <rhsMissing/>
-    <status>unknown</status>
+    <rhs>
+      <type>localEducationAgency</type>
+      <name>LEACategory</name>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -7732,7 +7741,7 @@
       <name>sectionIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -7804,7 +7813,7 @@
       <name>studentCompetencyObjectiveIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -7894,7 +7903,7 @@
       <name>otherName</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8122,7 +8131,7 @@
       <name>hispanicLatinoEthnicity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8167,7 +8176,7 @@
       <name>studentSectionAssociationIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8275,7 +8284,7 @@
       <name>parentIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8293,7 +8302,7 @@
       <name>studentIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8356,7 +8365,7 @@
       <name>name</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8446,7 +8455,7 @@
       <name>sex</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8455,7 +8464,7 @@
       <name>performanceLevelMet</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8482,7 +8491,7 @@
       <name>educationOrganizationIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8491,7 +8500,7 @@
       <name>studentAcademicRecordIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8500,7 +8509,7 @@
       <name>disciplineIncidentIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8602,7 +8611,7 @@
       <name>reasonExitedSpecialEducation</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>align</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8665,7 +8674,7 @@
       <name>gradeIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8746,7 +8755,7 @@
       <name>schoolHoursPerWeek</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>align</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8863,7 +8872,7 @@
       <name>programIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9136,7 +9145,7 @@
       <name>sectionIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9154,7 +9163,7 @@
       <name>studentUniqueStateId</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9340,7 +9349,7 @@
       <name>race</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9385,7 +9394,7 @@
       <name>studentCompetencyIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9520,7 +9529,7 @@
       <name>assessmentItemIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9546,8 +9555,11 @@
       <type>LocalEducationAgency</type>
       <name>educationServiceCenter</name>
     </lhs>
-    <rhsMissing/>
-    <status>unknown</status>
+    <rhs>
+      <type>localEducationAgency</type>
+      <name>educationServiceCenter</name>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9574,7 +9586,7 @@
       <name>birthDate</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9730,8 +9742,8 @@
       <name>schools</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
-    <comment></comment>
+    <status>bug</status>
+    <comment>Ed-Fi wrong cardinality</comment>
   </mapping>
   <mapping>
     <lhs>
@@ -9766,7 +9778,7 @@
       <name>bellScheduleIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9774,8 +9786,11 @@
       <type>CourseOffering</type>
       <name>sections</name>
     </lhs>
-    <rhsMissing/>
-    <status>unknown</status>
+    <rhs>
+      <type>courseOffering</type>
+      <name>sections</name>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9793,7 +9808,7 @@
       <name>objectiveAssessmentIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9802,7 +9817,7 @@
       <name>accountIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9811,7 +9826,7 @@
       <name>courseIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9883,7 +9898,7 @@
       <name>codeValue</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9901,7 +9916,7 @@
       <name>studentObjectiveAssessmentIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9991,7 +10006,7 @@
       <name>id</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10164,8 +10179,11 @@
       <type>CourseOffering</type>
       <name>school</name>
     </lhs>
-    <rhsMissing/>
-    <status>unknown</status>
+    <rhs>
+      <type>courseOffering</type>
+      <name>school</name>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10183,7 +10201,7 @@
       <name>graduationPlanIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10210,7 +10228,7 @@
       <name>staffIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10264,7 +10282,7 @@
       <name>studentIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10282,7 +10300,7 @@
       <name>diplomaIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10573,7 +10591,7 @@
       <name>academicWeekIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10617,8 +10635,11 @@
       <type>Assessment</type>
       <name>sections</name>
     </lhs>
-    <rhsMissing/>
-    <status>unknown</status>
+    <rhs>
+      <type>assessment</type>
+      <name>sections</name>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10702,7 +10723,7 @@
       <name>interventionPrescriptionIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10738,7 +10759,7 @@
       <name>studentAssessmentIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10747,7 +10768,7 @@
       <name>accountCodeType</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10756,7 +10777,7 @@
       <name>description</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10822,7 +10843,7 @@
       <name>sessionIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10830,8 +10851,11 @@
       <type>LocalEducationAgency</type>
       <name>charterStatus</name>
     </lhs>
-    <rhsMissing/>
-    <status>unknown</status>
+    <rhs>
+      <type>localEducationAgency</type>
+      <name>charterStatus</name>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -11029,7 +11053,7 @@
       <name>objectiveAssessmentIdentity</name>
     </lhs>
     <rhsMissing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -11974,7 +11998,7 @@
       <type>StudentSpecialEdProgramAssociation</type>
       <name>educationalEnvironment</name>
     </rhs>
-    <status>unknown</status>
+    <status>align</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -12648,6 +12672,177 @@
     <rhs>
       <type>Student</type>
       <name>loginId</name>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhsMissing/>
+    <rhs>
+      <type>educationOrganization</type>
+      <name>courseOfferings</name>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhsMissing/>
+    <rhs>
+      <type>school</type>
+      <name>studentSchoolAssociations</name>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhsMissing/>
+    <rhs>
+      <type>program</type>
+      <name>studentProgramAssociations</name>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhsMissing/>
+    <rhs>
+      <type>gradingPeriodIdentityType</type>
+      <name>stateOrganizationId</name>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhsMissing/>
+    <rhs>
+      <type>school</type>
+      <name>teacherSchoolAssociations</name>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhsMissing/>
+    <rhs>
+      <type>cohort</type>
+      <name>studentCohortAssociations</name>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhsMissing/>
+    <rhs>
+      <type>educationOrganization</type>
+      <name>staffEducationOrganizationAssociations</name>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhsMissing/>
+    <rhs>
+      <type>parent</type>
+      <name>studentParentAssociations</name>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhsMissing/>
+    <rhs>
+      <type>educationOrganization</type>
+      <name>educationServiceCenterLocalEducationAgencys</name>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhsMissing/>
+    <rhs>
+      <type>assessment</type>
+      <name>studentAssessmentAssociations</name>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhsMissing/>
+    <rhs>
+      <type>section</type>
+      <name>studentSectionAssociations</name>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhsMissing/>
+    <rhs>
+      <type>gradebookEntry</type>
+      <name>studentSectionGradebookEntrys</name>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhsMissing/>
+    <rhs>
+      <type>cohort</type>
+      <name>staffCohortAssociations</name>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhsMissing/>
+    <rhs>
+      <type>educationOrganization</type>
+      <name>localEducationAgencyLocalEducationAgencys</name>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhsMissing/>
+    <rhs>
+      <type>program</type>
+      <name>staffProgramAssociations</name>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhsMissing/>
+    <rhs>
+      <type>disciplineIncident</type>
+      <name>studentDisciplineIncidentAssociations</name>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhsMissing/>
+    <rhs>
+      <type>section</type>
+      <name>studentSectionGradebookEntrys</name>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhsMissing/>
+    <rhs>
+      <type>section</type>
+      <name>assessmentReferencess</name>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhsMissing/>
+    <rhs>
+      <type>section</type>
+      <name>teacherSectionAssociations</name>
     </rhs>
     <status>unknown</status>
     <comment></comment>

@@ -20,23 +20,23 @@ import javax.xml.namespace.QName;
 /**
  * A case-insensitive feature name expressly for matching and sorting purposes.
  */
-public final class FName implements Comparable<FName> {
+public final class CaseInsensitiveQName implements Comparable<CaseInsensitiveQName> {
     
     private final QName name;
     
-    public FName(final String type, final String feature) {
+    public CaseInsensitiveQName(final String type, final String feature) {
         name = new QName(type.toString().toLowerCase(), feature.toString().toLowerCase());
     }
     
     @Override
-    public int compareTo(final FName other) {
+    public int compareTo(final CaseInsensitiveQName other) {
         return QNameComparator.SINGLETON.compare(name, other.name);
     }
     
     @Override
     public boolean equals(final Object obj) {
-        if (obj instanceof FName) {
-            final FName other = (FName) obj;
+        if (obj instanceof CaseInsensitiveQName) {
+            final CaseInsensitiveQName other = (CaseInsensitiveQName) obj;
             return name.equals(other.name);
         }
         return false;

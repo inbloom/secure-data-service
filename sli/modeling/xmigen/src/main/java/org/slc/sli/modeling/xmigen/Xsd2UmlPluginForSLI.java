@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.modeling.xmigen;
 
 import java.util.Collections;
@@ -24,10 +23,6 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.apache.ws.commons.schema.XmlSchemaAppInfo;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import org.slc.sli.modeling.psm.helpers.SliMongoConstants;
 import org.slc.sli.modeling.psm.helpers.SliUmlConstants;
 import org.slc.sli.modeling.uml.AssociationEnd;
@@ -40,9 +35,17 @@ import org.slc.sli.modeling.uml.Range;
 import org.slc.sli.modeling.uml.TagDefinition;
 import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.xml.XmlTools;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
-public final class Xsd2UmlPluginForSLI implements Xsd2UmlPlugin {
-
+public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
+    
+    /**
+     * Control the massaging of the W3C XML Schema. The less we do the better.
+     */
+    private final boolean titleCaseSchemaTypeNames = false;
+    
     private static final TagDefinition makeTagDefinition(final String name, final Occurs lower, final Occurs upper,
             final Xsd2UmlPluginHost host) {
         final Range range = new Range(lower, upper);
@@ -50,7 +53,7 @@ public final class Xsd2UmlPluginForSLI implements Xsd2UmlPlugin {
         final Identifier id = host.ensureTagDefinitionId(name);
         return new TagDefinition(id, name, multiplicity);
     }
-
+    
     private static final String stringValue(final NodeList markup) {
         final StringBuilder sb = new StringBuilder();
         final int length = markup.getLength();
@@ -60,14 +63,14 @@ public final class Xsd2UmlPluginForSLI implements Xsd2UmlPlugin {
         }
         return sb.toString();
     }
-
+    
     private static final String titleCase(final String text) {
         return text.substring(0, 1).toUpperCase().concat(text.substring(1));
     }
-
+    
     public Xsd2UmlPluginForSLI() {
     }
-
+    
     @Override
     public List<TagDefinition> declareTagDefinitions(final Xsd2UmlPluginHost host) {
         final List<TagDefinition> tagDefs = new LinkedList<TagDefinition>();
@@ -83,7 +86,7 @@ public final class Xsd2UmlPluginForSLI implements Xsd2UmlPlugin {
         tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_SECURITY_SPHERE, Occurs.ZERO, Occurs.ONE, host));
         return Collections.unmodifiableList(tagDefs);
     }
-
+    
     @Override
     public String getAssociationEndTypeName(final ClassType classType, final Attribute attribute,
             final Xsd2UmlPluginHost host) {
@@ -92,12 +95,12 @@ public final class Xsd2UmlPluginForSLI implements Xsd2UmlPlugin {
         for (final TaggedValue taggedValue : taggedValues) {
             final TagDefinition tagDefinition = host.getTagDefinition(taggedValue.getTagDefinition());
             if (tagDefinition.getName().equals(SliUmlConstants.TAGDEF_REFERENCE)) {
-                return nameFromTypeName(new QName(taggedValue.getValue()));
+                return nameFromSchemaTypeName(new QName(taggedValue.getValue()));
             }
         }
         return null;
     }
-
+    
     @Override
     /**
      * The most reliable way to determine whether the attribute should be an association is to look for the tag that indicates
@@ -114,37 +117,21 @@ public final class Xsd2UmlPluginForSLI implements Xsd2UmlPlugin {
         }
         return false;
     }
-
+    
     @Override
     public String nameAssociation(final AssociationEnd lhs, final AssociationEnd rhs, final Xsd2UmlPluginHost host) {
         return host.nameAssociation(lhs, rhs, host);
     }
-
+    
     @Override
-    public String nameFromComplexTypeExtension(final QName complexType, final QName base) {
-        return nameFromTypeName(complexType).concat(" extends ").concat(nameFromTypeName(base));
+    public String nameFromSchemaTypeName(final QName name) {
+        if (titleCaseSchemaTypeNames) {
+            return titleCase(name.getLocalPart());
+        } else {
+            return name.getLocalPart();
+        }
     }
-
-    @Override
-    public String nameFromSchemaElementName(final QName name) {
-        return name.getLocalPart();
-    }
-
-    @Override
-    public String nameFromSchemaAttributeName(final QName name) {
-        return name.getLocalPart();
-    }
-
-    @Override
-    public String nameFromSimpleTypeRestriction(final QName simpleType, final QName base) {
-        return nameFromTypeName(simpleType).concat(" restricts ").concat(nameFromTypeName(base));
-    }
-
-    @Override
-    public String nameFromTypeName(final QName name) {
-        return titleCase(name.getLocalPart());
-    }
-
+    
     @Override
     public List<TaggedValue> tagsFromAppInfo(final XmlSchemaAppInfo appInfo, final Xsd2UmlPluginHost host) {
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
@@ -153,13 +140,13 @@ public final class Xsd2UmlPluginForSLI implements Xsd2UmlPlugin {
             final Node node = markup.item(i);
             if (Node.ELEMENT_NODE == node.getNodeType()) {
                 final Element element = (Element) node;
-
+                
                 final String namespace = element.getNamespaceURI();
                 final String localName = element.getLocalName();
                 final QName name = new QName(namespace, localName);
                 if (SliMongoConstants.SLI_COLLECTION_NAME.equals(name)) {
                     final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_COLLECTION_NAME);
-                    final String collectionName = nameFromTypeName(new QName(
+                    final String collectionName = nameFromSchemaTypeName(new QName(
                             XmlTools.collapseWhitespace(stringValue(element.getChildNodes()))));
                     taggedValues.add(new TaggedValue(collectionName, tagDefinition));
                 } else if (SliMongoConstants.SLI_NATURAL_KEY.equals(name)) {
@@ -167,7 +154,7 @@ public final class Xsd2UmlPluginForSLI implements Xsd2UmlPlugin {
                     taggedValues.add(new TaggedValue("true", tagDefinition));
                 } else if (SliMongoConstants.SLI_REFERENCE_TYPE.equals(name)) {
                     final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_REFERENCE);
-                    final String refereceType = nameFromTypeName(new QName(
+                    final String refereceType = nameFromSchemaTypeName(new QName(
                             XmlTools.collapseWhitespace(stringValue(element.getChildNodes()))));
                     taggedValues.add(new TaggedValue(refereceType, tagDefinition));
                 } else if (SliMongoConstants.SLI_PII.equals(name)) {

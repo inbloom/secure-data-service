@@ -357,22 +357,19 @@ public final class XmiMappingReader {
         // Intentionally make the coupling loose between the serialization and
         // the enumeration.
         final String value = sb.toString().trim();
-        if ("match".equals(value)) {
+        if (XmiMappingValues.STATUS_MATCH.equals(value)) {
             return XmiMappingStatus.MATCH;
-        }
-        else if ("ignorable".equals(value)) {
+        } else if (XmiMappingValues.STATUS_IGNORABLE.equals(value)) {
             return XmiMappingStatus.IGNORABLE;
-        }
-        else if ("align".equals(value)) {
+        } else if (XmiMappingValues.STATUS_ALIGN.equals(value)) {
             return XmiMappingStatus.ALIGN;
-        }
-        else if ("unknown".equals(value)) {
+        } else if (XmiMappingValues.STATUS_UNKNOWN.equals(value)) {
             return XmiMappingStatus.UNKNOWN;
-        }
-        else if ("transient".equals(value)) {
+        } else if (XmiMappingValues.STATUS_TRANSIENT.equals(value)) {
             return XmiMappingStatus.TRANSIENT;
-        }
-        else {
+        } else if (XmiMappingValues.STATUS_BUG.equals(value)) {
+            return XmiMappingStatus.BUG;
+        } else {
             throw new AssertionError(XmiMappingConstants.STATUS + " : " + value);
         }
     }

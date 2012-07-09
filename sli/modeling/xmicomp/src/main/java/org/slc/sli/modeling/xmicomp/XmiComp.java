@@ -16,6 +16,7 @@ import joptsimple.OptionParser;
 import joptsimple.OptionSet;
 import joptsimple.OptionSpec;
 
+import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.index.DefaultModelIndex;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.reader.XmiReader;
@@ -66,10 +67,11 @@ public final class XmiComp {
                     final ModelIndex rhsModel = new DefaultModelIndex(XmiReader.readModel(rhsFile));
                     
                     final String mergeComment = "";
-                    final List<XmiMapping> mappings = checkMappingDocument(original, lhsModel, rhsModel, mergeComment);
+                    final List<XmiMapping> mappings = mergeMappingDocument(original, lhsModel, rhsModel, mergeComment);
                     final XmiDefinition lhsDef = original.getLhsDef();
                     final XmiDefinition rhsDef = original.getRhsDef();
                     final XmiComparison revised = new XmiComparison(lhsDef, rhsDef, mappings);
+                    // Write out the revised mapping document.
                     XmiMappingWriter.writeMappingDocument(revised, outFile);
                 } catch (final FileNotFoundException e) {
                     throw new RuntimeException(e);
@@ -86,25 +88,26 @@ public final class XmiComp {
         return parser.accepts(option, description).withRequiredArg().ofType(argumentType).required();
     }
     
-    private static final List<XmiMapping> checkMappingDocument(final XmiComparison doc, final ModelIndex lhsModel,
+    private static final List<XmiMapping> mergeMappingDocument(final XmiComparison doc, final ModelIndex lhsModel,
             final ModelIndex rhsModel, final String mergeComment) {
         
         checkDeclaredMappingConsistency(doc, lhsModel, rhsModel);
         
         final List<XmiMapping> existing = doc.getMappings();
-        final Map<FName, XmiFeature> lhsMissed = XmiMappingHelper.missingFeatures(existing, doc.getLhsDef(), lhsModel,
-                true);
-        final Map<FName, XmiFeature> rhsMissed = XmiMappingHelper.missingFeatures(existing, doc.getRhsDef(), rhsModel,
-                false);
+        final Map<CaseInsensitiveQName, XmiFeature> lhsMissed = XmiMappingHelper.missingFeatures(existing,
+                doc.getLhsDef(), lhsModel, true);
+        final Map<CaseInsensitiveQName, XmiFeature> rhsMissed = XmiMappingHelper.missingFeatures(existing,
+                doc.getRhsDef(), rhsModel, false);
         
         return merge(lhsMissed, rhsMissed, existing, mergeComment);
     }
     
-    private static final List<XmiMapping> merge(final Map<FName, XmiFeature> lhsMissing,
-            final Map<FName, XmiFeature> rhsMissing, final List<XmiMapping> existing, final String mergeComment) {
+    private static final List<XmiMapping> merge(final Map<CaseInsensitiveQName, XmiFeature> lhsMissing,
+            final Map<CaseInsensitiveQName, XmiFeature> rhsMissing, final List<XmiMapping> existing,
+            final String mergeComment) {
         
-        final Map<FName, XmiFeature> lhsCopy = new HashMap<FName, XmiFeature>(lhsMissing);
-        final Map<FName, XmiFeature> rhsCopy = new HashMap<FName, XmiFeature>(rhsMissing);
+        final Map<CaseInsensitiveQName, XmiFeature> lhsCopy = new HashMap<CaseInsensitiveQName, XmiFeature>(lhsMissing);
+        final Map<CaseInsensitiveQName, XmiFeature> rhsCopy = new HashMap<CaseInsensitiveQName, XmiFeature>(rhsMissing);
         
         // Make a copy of the original mappings so that it can be mutated.
         final List<XmiMapping> existingCopy = new LinkedList<XmiMapping>(existing);
@@ -135,25 +138,30 @@ public final class XmiComp {
      */
     private static final void checkDeclaredMappingConsistency(final XmiComparison mappingDocument,
             final ModelIndex lhsModel, final ModelIndex rhsModel) {
+        // Prepare case-insensitive lookup tables so that we don't have to be concerned about
+        // case sensitivity for existence checking.
+        final Map<String, ClassType> lhsClassTypes = XmiMappingHelper.makeLowerCaseKey(lhsModel.getClassTypes());
+        final Map<String, ClassType> rhsClassTypes = XmiMappingHelper.makeLowerCaseKey(rhsModel.getClassTypes());
         final List<XmiMapping> mappings = mappingDocument.getMappings();
         for (final XmiMapping mapping : mappings) {
-            checkMapping(mappingDocument, mapping, lhsModel, rhsModel);
+            checkMapping(mappingDocument, mapping, lhsModel, rhsModel, lhsClassTypes, rhsClassTypes);
         }
     }
     
     private static final void checkMapping(final XmiComparison mappingDocument, final XmiMapping mapping,
-            final ModelIndex lhsModel, final ModelIndex rhsModel) {
+            final ModelIndex lhsModel, final ModelIndex rhsModel, final Map<String, ClassType> lhsClassTypes,
+            final Map<String, ClassType> rhsClassTypes) {
         if (mapping == null) {
             throw new NullPointerException("mapping");
         }
         final XmiMappingStatus status = mapping.getStatus();
         final XmiFeature lhsFeature = mapping.getLhsFeature();
         if (lhsFeature != null) {
-            checkFeature(mappingDocument.getLhsDef(), lhsFeature, lhsModel, status);
+            checkFeature(mappingDocument.getLhsDef(), lhsFeature, lhsModel, status, lhsClassTypes);
         }
         final XmiFeature rhsFeature = mapping.getRhsFeature();
         if (rhsFeature != null) {
-            checkFeature(mappingDocument.getRhsDef(), rhsFeature, rhsModel, status);
+            checkFeature(mappingDocument.getRhsDef(), rhsFeature, rhsModel, status, rhsClassTypes);
         }
         
         checkStatus(mapping);
@@ -164,10 +172,10 @@ public final class XmiComp {
      * in the XMI model.
      */
     private static final void checkFeature(final XmiDefinition context, final XmiFeature feature,
-            final ModelIndex model, final XmiMappingStatus status) {
+            final ModelIndex model, final XmiMappingStatus status, final Map<String, ClassType> lowerCaseClassTypes) {
         final String name = feature.getName();
         final String type = feature.getType();
-        if (model.getClassTypes().containsKey(type)) {
+        if (lowerCaseClassTypes.containsKey(type.toLowerCase())) {
             
         } else {
             System.err.println(type + "." + name + " in " + context.getName() + " is not a recognized type. status : "

@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.modeling.xmigen;
 
 import java.util.Collections;
@@ -59,9 +58,6 @@ import org.apache.ws.commons.schema.XmlSchemaSimpleTypeList;
 import org.apache.ws.commons.schema.XmlSchemaSimpleTypeRestriction;
 import org.apache.ws.commons.schema.XmlSchemaSimpleTypeUnion;
 import org.apache.ws.commons.schema.XmlSchemaType;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-
 import org.slc.sli.modeling.psm.helpers.TagName;
 import org.slc.sli.modeling.uml.Association;
 import org.slc.sli.modeling.uml.AssociationEnd;
@@ -83,16 +79,18 @@ import org.slc.sli.modeling.uml.UmlPackage;
 import org.slc.sli.modeling.uml.Visitor;
 import org.slc.sli.modeling.xml.XmlTools;
 import org.slc.sli.modeling.xsd.WxsNamespace;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * Converts schemas to UML model without attempting to infer associations.
- *
+ * 
  * Intentionally package protected.
  */
 final class Xsd2UmlConvert {
-
+    
     private static final List<TaggedValue> EMPTY_TAGGED_VALUES = Collections.emptyList();
-
+    
     /**
      * The xs:annotation is parsed into {@link TaggedValue} with one entry per
      * xs:documentation or xs:appinfo.
@@ -104,9 +102,9 @@ final class Xsd2UmlConvert {
         } else {
             final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
             final XmlSchemaObjectCollection children = annotation.getItems();
-
+            
             for (int childIdx = 0; childIdx < children.getCount(); ++childIdx) {
-
+                
                 final XmlSchemaObject child = children.getItem(childIdx);
                 if (child instanceof XmlSchemaDocumentation) {
                     final XmlSchemaDocumentation documentation = (XmlSchemaDocumentation) child;
@@ -118,19 +116,19 @@ final class Xsd2UmlConvert {
                     throw new AssertionError(child);
                 }
             }
-
+            
             return taggedValues;
         }
     }
-
+    
     private static final void convertComplexType(final XmlSchemaComplexType complexType, final XmlSchema schema,
             final Xsd2UmlConfig config, final Visitor handler, final QName complexTypeName,
             final List<TaggedValue> taggedValues) {
-
+        
         final Identifier complexTypeId = config.ensureId(complexTypeName);
-
+        
         final List<Attribute> attributes = new LinkedList<Attribute>();
-
+        
         if (complexType.getContentModel() != null && complexType.getContentModel().getContent() != null) {
             final XmlSchemaContent content = complexType.getContentModel().getContent();
             if (content instanceof XmlSchemaComplexContentExtension) {
@@ -156,13 +154,13 @@ final class Xsd2UmlConvert {
                 throw new AssertionError(content);
             }
         }
-
+        
         attributes.addAll(parseFields(complexType, schema, config));
-
-        handler.visit(new ClassType(complexTypeId, config.nameFromTypeName(complexTypeName), false, attributes,
+        
+        handler.visit(new ClassType(complexTypeId, config.nameFromSchemaTypeName(complexTypeName), false, attributes,
                 taggedValues));
     }
-
+    
     /**
      * The strategy here is that we discover the facets and then decide whether
      * we are going to create the UML EnumType or DataType.
@@ -170,29 +168,29 @@ final class Xsd2UmlConvert {
     private static final void convertSimpleType(final XmlSchemaSimpleType simpleType, final XmlSchema schema,
             final Xsd2UmlConfig config, final Visitor handler) {
         final Identifier simpleTypeId = config.ensureId(simpleType.getQName());
-
+        
         final XmlSchemaSimpleTypeContent content = simpleType.getContent();
         if (content instanceof XmlSchemaSimpleTypeList) {
             // FIXME: What's the best way to handle? complexType?
             // final XmlSchemaSimpleTypeList simpleTypeList = (XmlSchemaSimpleTypeList)content;
             // final XmlSchemaSimpleType itemType = simpleTypeList.getItemType();
-            final DataType dataType = new DataType(simpleTypeId, config.nameFromTypeName(simpleType.getQName()), false,
+            final DataType dataType = new DataType(simpleTypeId, config.nameFromSchemaTypeName(simpleType.getQName()), false,
                     annotations(simpleType, config));
             handler.visit(dataType);
         } else if (content instanceof XmlSchemaSimpleTypeRestriction) {
             final XmlSchemaSimpleTypeRestriction restriction = (XmlSchemaSimpleTypeRestriction) content;
-
+            
             // The base of the restriction is interpreted as a UML
             // generalization.
             final Identifier baseId = config.ensureId(restriction.getBaseTypeName());
-
+            
             // Facets are collected as either tagged values or enumeration
             // literals.
             final XmlSchemaObjectCollection facets = restriction.getFacets();
-
+            
             final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
             final List<EnumLiteral> enumLiterals = new LinkedList<EnumLiteral>();
-
+            
             for (int i = 0, length = facets.getCount(); i < length; i++) {
                 final XmlSchemaObject item = facets.getItem(i);
                 if (item instanceof XmlSchemaFacet) {
@@ -233,12 +231,12 @@ final class Xsd2UmlConvert {
                     throw new AssertionError(item);
                 }
             }
-
+            
             // We also add the annotations to the list of tagged values.
             taggedValues.addAll(annotations(simpleType, config));
             final Identifier typeIdentifier;
             if (enumLiterals.isEmpty()) {
-                final DataType dataType = new DataType(simpleTypeId, config.nameFromTypeName(simpleType.getQName()),
+                final DataType dataType = new DataType(simpleTypeId, config.nameFromSchemaTypeName(simpleType.getQName()),
                         false, taggedValues);
                 handler.visit(dataType);
                 typeIdentifier = dataType.getId();
@@ -247,7 +245,7 @@ final class Xsd2UmlConvert {
                             restriction.getBaseTypeName()), typeIdentifier, baseId));
                 }
             } else {
-                final EnumType enumType = new EnumType(simpleTypeId, config.nameFromTypeName(simpleType.getQName()),
+                final EnumType enumType = new EnumType(simpleTypeId, config.nameFromSchemaTypeName(simpleType.getQName()),
                         enumLiterals, taggedValues);
                 handler.visit(enumType);
                 typeIdentifier = enumType.getId();
@@ -257,17 +255,17 @@ final class Xsd2UmlConvert {
                 }
             }
         } else if (content instanceof XmlSchemaSimpleTypeUnion) {
-            final DataType dataType = new DataType(simpleTypeId, config.nameFromTypeName(simpleType.getQName()), false,
+            final DataType dataType = new DataType(simpleTypeId, config.nameFromSchemaTypeName(simpleType.getQName()), false,
                     annotations(simpleType, config));
             handler.visit(dataType);
         } else {
             throw new AssertionError(content);
         }
     }
-
+    
     private static final void convertType(final XmlSchemaType type, final XmlSchema schema,
             final Xsd2UmlConfig context, final Visitor handler, final QName name, final List<TaggedValue> taggedValues) {
-
+        
         if (type instanceof XmlSchemaComplexType) {
             final XmlSchemaComplexType complexType = (XmlSchemaComplexType) type;
             convertComplexType(complexType, schema, context, handler, name, taggedValues);
@@ -278,12 +276,12 @@ final class Xsd2UmlConvert {
             throw new AssertionError(type);
         }
     }
-
+    
     private static final DataType declareBuiltInDataType(final String localName, final Xsd2UmlConfig context) {
         final Identifier id = context.ensureId(new QName(WxsNamespace.URI, localName));
         return new DataType(id, localName);
     }
-
+    
     private static final List<DataType> declareBuiltInDataTypes(final Xsd2UmlConfig context) {
         final List<DataType> dataTypes = new LinkedList<DataType>();
         dataTypes.add(declareBuiltInDataType("anyURI", context));
@@ -332,7 +330,7 @@ final class Xsd2UmlConvert {
         dataTypes.add(declareBuiltInDataType("unsignedShort", context));
         return dataTypes;
     }
-
+    
     private static final List<TagDefinition> declareTagDefinitions(final Xsd2UmlConfig config) {
         final List<TagDefinition> tagDefinitions = new LinkedList<TagDefinition>();
         tagDefinitions.add(makeTagDefinition("author", Occurs.ZERO, Occurs.ONE, config));
@@ -357,7 +355,7 @@ final class Xsd2UmlConvert {
         tagDefinitions.addAll(config.declareTagDefinitions(config));
         return tagDefinitions;
     }
-
+    
     private static final TaggedValue documentation(final XmlSchemaDocumentation documentation,
             final Xsd2UmlConfig context) {
         final NodeList markup = documentation.getMarkup();
@@ -365,7 +363,7 @@ final class Xsd2UmlConvert {
         final Identifier tagDefinition = context.ensureTagDefinitionId("documentation");
         return new TaggedValue(text, tagDefinition);
     }
-
+    
     private static final EnumLiteral enumLiteralFromFacet(final XmlSchemaEnumerationFacet enumFacet,
             final Xsd2UmlConfig context) {
         final List<TaggedValue> annotation = annotations(enumFacet, context);
@@ -375,10 +373,10 @@ final class Xsd2UmlConvert {
         final String name = XmlTools.collapseWhitespace(enumFacet.getValue().toString());
         return new EnumLiteral(name, annotation);
     }
-
+    
     /**
      * Extracts the {@link Model} from the {@link XmlSchema}.
-     *
+     * 
      * This function does not do anything to create associations because these
      * may require some heuristics to extract. This functionality will be
      * deferred to a post-processor.
@@ -386,13 +384,13 @@ final class Xsd2UmlConvert {
     public static final Model extract(final String name, final XmlSchema schema, final Xsd2UmlPlugin plugin) {
         return extractModel(name, 0, schema, plugin);
     }
-
+    
     private static final Model extractModel(final String name, final int level, final XmlSchema schema,
             final Xsd2UmlPlugin plugin) {
         final Xsd2UmlConfig context = new Xsd2UmlConfig(plugin);
         return parseXmlSchema(name, level, schema, context, plugin);
     }
-
+    
     private static final TaggedValue fractionDigits(final XmlSchemaFractionDigitsFacet fractionDigits,
             final Xsd2UmlConfig ctxt) {
         final String value = fractionDigits.getValue().toString();
@@ -400,7 +398,7 @@ final class Xsd2UmlConvert {
         final Identifier tagDefinition = ctxt.ensureTagDefinitionId("fractionDigits");
         return new TaggedValue(Identifier.random(), annotations, value, tagDefinition);
     }
-
+    
     private static final QName getSimpleTypeName(final XmlSchemaSimpleType simpleType) {
         final QName typeName = simpleType.getQName();
         if (null == typeName) {
@@ -419,7 +417,7 @@ final class Xsd2UmlConvert {
             return typeName;
         }
     }
-
+    
     private static final TagDefinition makeTagDefinition(final String name, final Occurs lower, final Occurs upper,
             final Xsd2UmlConfig config) {
         final Range range = new Range(Identifier.random(), lower, upper, EMPTY_TAGGED_VALUES);
@@ -427,7 +425,7 @@ final class Xsd2UmlConvert {
         final Identifier id = config.ensureTagDefinitionId(name);
         return new TagDefinition(id, name, multiplicity);
     }
-
+    
     private static final TaggedValue maxInclusive(final XmlSchemaMaxInclusiveFacet maxInclusive,
             final Xsd2UmlConfig ctxt) {
         final String value = maxInclusive.getValue().toString();
@@ -435,14 +433,14 @@ final class Xsd2UmlConvert {
         final Identifier tagDefinition = ctxt.ensureTagDefinitionId("maxInclusive");
         return new TaggedValue(Identifier.random(), annotations, value, tagDefinition);
     }
-
+    
     private static final TaggedValue maxLength(final XmlSchemaMaxLengthFacet maxLength, final Xsd2UmlConfig ctxt) {
         final String value = maxLength.getValue().toString();
         final List<TaggedValue> annotations = annotations(maxLength, ctxt);
         final Identifier tagDefinition = ctxt.ensureTagDefinitionId("maxLength");
         return new TaggedValue(Identifier.random(), annotations, value, tagDefinition);
     }
-
+    
     private static final TaggedValue minInclusive(final XmlSchemaMinInclusiveFacet minInclusive,
             final Xsd2UmlConfig ctxt) {
         final String value = minInclusive.getValue().toString();
@@ -450,18 +448,18 @@ final class Xsd2UmlConvert {
         final Identifier tagDefinition = ctxt.ensureTagDefinitionId("minInclusive");
         return new TaggedValue(Identifier.random(), annotations, value, tagDefinition);
     }
-
+    
     private static final TaggedValue minLength(final XmlSchemaMinLengthFacet minLength, final Xsd2UmlConfig ctxt) {
         final String value = minLength.getValue().toString();
         final List<TaggedValue> annotations = annotations(minLength, ctxt);
         final Identifier tagDefinition = ctxt.ensureTagDefinitionId("minLength");
         return new TaggedValue(Identifier.random(), annotations, value, tagDefinition);
     }
-
+    
     private static final Multiplicity multiplicity(final Range range) {
         return new Multiplicity(Identifier.random(), EMPTY_TAGGED_VALUES, range);
     }
-
+    
     private static final Occurs occurs(final long occurs) {
         if (occurs == 0L) {
             return Occurs.ZERO;
@@ -473,14 +471,14 @@ final class Xsd2UmlConvert {
             throw new AssertionError(Long.valueOf(occurs));
         }
     }
-
+    
     private static final Attribute parseAttribute(final XmlSchemaAttribute attribute, final XmlSchema schema,
             final Xsd2UmlConfig config) {
-
+        
         final String name = config.nameFromSchemaAttributeName(attribute.getQName());
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
         taggedValues.addAll(annotations(attribute, config));
-
+        
         final XmlSchemaSimpleType simpleType = attribute.getSchemaType();
         final Identifier type;
         if (simpleType != null) {
@@ -491,14 +489,14 @@ final class Xsd2UmlConvert {
         final Multiplicity multiplicity = multiplicity(range(Occurs.ONE, Occurs.ONE));
         return new Attribute(Identifier.random(), name, type, multiplicity, taggedValues);
     }
-
+    
     private static final Attribute parseElement(final XmlSchemaElement element, final XmlSchema schema,
             final Xsd2UmlConfig config) {
-
+        
         final String name = config.nameFromSchemaElementName(element.getQName());
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
         taggedValues.addAll(annotations(element, config));
-
+        
         final XmlSchemaType elementSchemaType = element.getSchemaType();
         final Occurs minOccurs = occurs(element.getMinOccurs());
         final Occurs maxOccurs = occurs(element.getMaxOccurs());
@@ -522,7 +520,7 @@ final class Xsd2UmlConvert {
             return null;
         }
     }
-
+    
     private static final List<Attribute> parseFields(
             final XmlSchemaComplexContentExtension schemaComplexContentExtension, final XmlSchema schema,
             final Xsd2UmlConfig context) {
@@ -530,33 +528,33 @@ final class Xsd2UmlConvert {
         // schema);
         return parseParticle(schemaComplexContentExtension.getParticle(), schema, context);
     }
-
+    
     private static final List<Attribute> parseFields(final XmlSchemaComplexType schemaComplexType,
             final XmlSchema schema, final Xsd2UmlConfig context) {
         final List<Attribute> attributes = new LinkedList<Attribute>();
-
+        
         final XmlSchemaObjectCollection schemaItems = schemaComplexType.getAttributes();
         for (int i = 0, count = schemaItems.getCount(); i < count; i++) {
             final XmlSchemaObject schemaObject = schemaItems.getItem(i);
             if (schemaObject instanceof XmlSchemaAttribute) {
                 final XmlSchemaAttribute schemaAttribute = (XmlSchemaAttribute) schemaObject;
                 attributes.add(parseAttribute(schemaAttribute, schema, context));
-
+                
             } else {
                 throw new AssertionError(schemaObject);
             }
         }
         // parseAttributes(schemaComplexType.getAttributes(), schema);
         attributes.addAll(parseParticle(schemaComplexType.getParticle(), schema, context));
-
+        
         return Collections.unmodifiableList(attributes);
     }
-
+    
     private static final List<Attribute> parseParticle(final XmlSchemaParticle particle, final XmlSchema schema,
             final Xsd2UmlConfig context) {
-
+        
         final List<Attribute> attributes = new LinkedList<Attribute>();
-
+        
         if (particle != null) {
             if (particle instanceof XmlSchemaElement) {
                 final XmlSchemaElement element = (XmlSchemaElement) particle;
@@ -578,9 +576,9 @@ final class Xsd2UmlConvert {
                     }
                 }
             } else if (particle instanceof XmlSchemaChoice) {
-
+                
                 final XmlSchemaChoice xmlSchemaChoice = (XmlSchemaChoice) particle;
-
+                
                 final XmlSchemaObjectCollection choices = xmlSchemaChoice.getItems();
                 for (int i = 0; i < choices.getCount(); ++i) {
                     XmlSchemaObject item = xmlSchemaChoice.getItems().getItem(i);
@@ -588,7 +586,7 @@ final class Xsd2UmlConvert {
                         attributes.addAll(parseParticle((XmlSchemaParticle) item, schema, context));
                     }
                 }
-
+                
             } else if (particle instanceof XmlSchemaAny) {
                 @SuppressWarnings("unused")
                 final XmlSchemaAny xmlSchemaChoice = (XmlSchemaAny) particle;
@@ -599,14 +597,14 @@ final class Xsd2UmlConvert {
         }
         return Collections.unmodifiableList(attributes);
     }
-
+    
     private static final Model parseXmlSchema(final String name, final int level, final XmlSchema schema,
             final Xsd2UmlConfig config, final Xsd2UmlPlugin plugin) {
-
+        
         final List<NamespaceOwnedElement> ownedElements = new LinkedList<NamespaceOwnedElement>();
-
+        
         final XmlSchemaObjectCollection schemaItems = schema.getItems();
-
+        
         if (level == 0) {
             for (final TagDefinition tagDefinition : declareTagDefinitions(config)) {
                 ownedElements.add(tagDefinition);
@@ -615,106 +613,106 @@ final class Xsd2UmlConvert {
             final UmlPackage wxsPackage = new UmlPackage(WxsNamespace.URI, dataTypes);
             ownedElements.add(wxsPackage);
         }
-
+        
         // Iterate XML Schema items
         for (int i = 0, count = schemaItems.getCount(); i < count; i++) {
             final XmlSchemaObject schemaObject = schemaItems.getItem(i);
-
+            
             if (schemaObject instanceof XmlSchemaType) {
                 // Capture the anonymous inner type as a type with the name of
                 // the element.
                 // The SLI.xsd should be fixed to only have named types.
                 final XmlSchemaType schemaType = (XmlSchemaType) schemaObject;
-
+                
                 convertType(schemaType, schema, config, new Visitor() {
-
+                    
                     @Override
                     public void beginPackage(final UmlPackage pkg) {
                         throw new AssertionError();
                     }
-
+                    
                     @Override
                     public void endPackage(final UmlPackage pkg) {
                         throw new AssertionError();
                     }
-
+                    
                     @Override
                     public void visit(final Association association) {
                         throw new AssertionError();
                     }
-
+                    
                     @Override
                     public void visit(final AssociationEnd associationEnd) {
                         throw new AssertionError();
                     }
-
+                    
                     @Override
                     public void visit(final Attribute attribute) {
                         throw new AssertionError();
                     }
-
+                    
                     @Override
                     public void visit(final ClassType classType) {
                         ownedElements.add(classType);
                     }
-
+                    
                     @Override
                     public void visit(final DataType dataType) {
                         ownedElements.add(dataType);
                     }
-
+                    
                     @Override
                     public void visit(final EnumLiteral enumLiteral) {
                         throw new AssertionError();
                     }
-
+                    
                     @Override
                     public void visit(final EnumType enumType) {
                         ownedElements.add(enumType);
                     }
-
+                    
                     @Override
                     public void visit(final Generalization generalization) {
                         ownedElements.add(generalization);
                     }
-
+                    
                     @Override
                     public void visit(final Model model) {
                         throw new AssertionError();
                     }
-
+                    
                     @Override
                     public void visit(final Multiplicity multiplicity) {
                         throw new AssertionError();
                     }
-
+                    
                     @Override
                     public void visit(final Range range) {
                         throw new AssertionError();
                     }
-
+                    
                     @Override
                     public void visit(final TagDefinition tagDefinition) {
                         throw new AssertionError();
                     }
-
+                    
                     @Override
                     public void visit(final TaggedValue taggedValue) {
                         throw new AssertionError();
                     }
-
+                    
                 }, schemaType.getQName(), annotations(schemaType, config));
             } else if (schemaObject instanceof XmlSchemaElement) {
                 // These are the top-level elements.
                 final XmlSchemaElement element = (XmlSchemaElement) schemaObject;
                 if (element.getSchemaTypeName() == null) {
                 } else {
-
+                    
                 }
             } else if (schemaObject instanceof XmlSchemaInclude) {
                 final XmlSchemaInclude includedSchema = (XmlSchemaInclude) schemaObject;
                 final XmlSchema embeddedSchema = includedSchema.getSchema();
-
+                
                 // While we load the embedded schema the context for looking up identifiers is
                 // shared so that names resolve to the same objects.
                 final Model embeddedModel = parseXmlSchema("", level + 1, embeddedSchema, config, plugin);
@@ -722,7 +720,7 @@ final class Xsd2UmlConvert {
             } else if (schemaObject instanceof XmlSchemaImport) {
                 final XmlSchemaImport importedSchema = (XmlSchemaImport) schemaObject;
                 final XmlSchema embeddedSchema = importedSchema.getSchema();
-
+                
                 // While we load the embedded schema the context for looking up identifiers is
                 // shared so that names resolve to the same objects.
                 final Model embeddedModel = parseXmlSchema("", level + 1, embeddedSchema, config, plugin);
@@ -739,18 +737,18 @@ final class Xsd2UmlConvert {
         }
         return new Model(Identifier.random(), name, EMPTY_TAGGED_VALUES, ownedElements);
     }
-
+    
     private static final TaggedValue pattern(final XmlSchemaPatternFacet patternFacet, final Xsd2UmlConfig ctxt) {
         final String value = patternFacet.getValue().toString();
         final List<TaggedValue> annotations = annotations(patternFacet, ctxt);
         final Identifier tagDefinition = ctxt.ensureTagDefinitionId("pattern");
         return new TaggedValue(Identifier.random(), annotations, value, tagDefinition);
     }
-
+    
     private static final Range range(final Occurs lowerBound, final Occurs upperBound) {
         return new Range(Identifier.random(), lowerBound, upperBound, EMPTY_TAGGED_VALUES);
     }
-
+    
     private static final String stringValue(final NodeList markup) {
         final StringBuilder sb = new StringBuilder();
         final int length = markup.getLength();

@@ -66,9 +66,9 @@ final class Xsd2UmlLinker {
     }
 
     private static final Attribute cleanUpAttribute(final ClassType classType, final Attribute attribute,
-            final Xsd2UmlPlugin plugin, final ModelIndex mapper, final Map<String, Identifier> classTypeMap,
+            final Xsd2UmlPlugin plugin, final ModelIndex indexedModel, final Map<String, Identifier> classTypeMap,
             final Map<String, AssociationEnd> associationEnds) {
-        final Xsd2UmlPluginHost host = new Xsd2UmlPluginHostAdapter(mapper);
+        final Xsd2UmlPluginHost host = new Xsd2UmlPluginHostAdapter(indexedModel);
         if (plugin.isAssociationEnd(classType, attribute, host)) {
             final AssociationEnd associationEnd = toAssociationEnd(classType, attribute, plugin, host, classTypeMap);
             associationEnds.put(associationEnd.getName(), associationEnd);
@@ -185,22 +185,22 @@ final class Xsd2UmlLinker {
 
     public static Model link(final Model model, final Xsd2UmlPlugin plugin) {
 
-        final ModelIndex lookup = new DefaultModelIndex(model);
-        final Map<String, Identifier> nameToClassTypeId = makeNameToClassTypeId(lookup.getClassTypes().values());
+        final ModelIndex indexedModel = new DefaultModelIndex(model);
+        final Map<String, Identifier> nameToClassTypeId = makeNameToClassTypeId(indexedModel.getClassTypes().values());
         final Map<Type, Map<String, AssociationEnd>> navigations = new HashMap<Type, Map<String, AssociationEnd>>();
         final List<NamespaceOwnedElement> ownedElements = new LinkedList<NamespaceOwnedElement>();
 
         for (final NamespaceOwnedElement ownedElement : model.getOwnedElements()) {
             if (ownedElement instanceof ClassType) {
                 final ClassType classType = (ClassType) ownedElement;
-                ownedElements.add(cleanUpClassType(classType, plugin, lookup, nameToClassTypeId, navigations));
+                ownedElements.add(cleanUpClassType(classType, plugin, indexedModel, nameToClassTypeId, navigations));
             } else {
                 ownedElements.add(ownedElement);
             }
         }
-        final Xsd2UmlPluginHost host = new Xsd2UmlPluginHostAdapter(lookup);
+        final Xsd2UmlPluginHost host = new Xsd2UmlPluginHostAdapter(indexedModel);
 
-        ownedElements.addAll(makeAssociations(navigations, lookup, plugin, host));
+        ownedElements.addAll(makeAssociations(navigations, indexedModel, plugin, host));
         return new Model(Identifier.random(), model.getName(), model.getTaggedValues(), ownedElements);
     }
 

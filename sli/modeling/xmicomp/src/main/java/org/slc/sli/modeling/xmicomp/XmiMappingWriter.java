@@ -31,23 +31,27 @@ public class XmiMappingWriter {
         try {
             switch (status) {
                 case MATCH: {
-                    xsw.writeCharacters("match");
+                    xsw.writeCharacters(XmiMappingValues.STATUS_MATCH);
                     break;
                 }
                 case IGNORABLE: {
-                    xsw.writeCharacters("ignorable");
+                    xsw.writeCharacters(XmiMappingValues.STATUS_IGNORABLE);
                     break;
                 }
                 case UNKNOWN: {
-                    xsw.writeCharacters("unknown");
+                    xsw.writeCharacters(XmiMappingValues.STATUS_UNKNOWN);
                     break;
                 }
                 case TRANSIENT: {
-                    xsw.writeCharacters("transient");
+                    xsw.writeCharacters(XmiMappingValues.STATUS_TRANSIENT);
                     break;
                 }
                 case ALIGN: {
-                    xsw.writeCharacters("align");
+                    xsw.writeCharacters(XmiMappingValues.STATUS_ALIGN);
+                    break;
+                }
+                case BUG: {
+                    xsw.writeCharacters(XmiMappingValues.STATUS_BUG);
                     break;
                 }
                 default: {
