@@ -247,15 +247,6 @@ public class NeutralSchemaValidationTest {
     }
     
     @Test
-    public void testValidSectionAssessmentAssociation() throws Exception {
-        addDummyEntity("section", "cb7a932f-2d44-800c-d574-cdb25a29fc76");
-        addDummyEntity("assessment", "dd916592-7dfe-4e27-a8ac-bec5f4b757b7");
-        
-        readAndValidateFixtureData("src/test/resources/section_assessment_association_fixture_neutral.json",
-                "sectionAssessmentAssociation");
-    }
-    
-    @Test
     @ExpectedException(value = EntityValidationException.class)
     public void testInvalidSectionAssessmentAssociation() throws Exception {
         addDummyCollection("section");

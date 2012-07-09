@@ -63,6 +63,29 @@
     </CourseTranscript>
 
 
+<!-- Happy path C: resolving to 1 course, using multiple fields, one of which doesn't match: -->
+    <CourseTranscript>
+      <CourseAttemptResult>Pass</CourseAttemptResult>
+      <CreditsEarned><Credit>9</Credit></CreditsEarned>
+      <CourseReference>
+        <CourseIdentity>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>Algebra-60</ID>
+          </CourseCode>
+          <CourseCode IdentificationSystem="CSSC course code">
+            <ID>ZaphodBeeblebrox</ID>
+          </CourseCode>
+        </CourseIdentity>
+      </CourseReference>
+      <EducationOrganizationReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationReference>
+      <StudentAcademicRecordReference ref="SAR"/>
+    </CourseTranscript>
+
+
 <!-- Sad path A: resolving to 0 course -->
     <CourseTranscript>
       <CourseAttemptResult>Pass</CourseAttemptResult>
@@ -112,14 +135,14 @@
       <CreditsEarned><Credit>5</Credit></CreditsEarned>
       <CourseReference>
         <CourseIdentity>
-          <CourseCode IdentificationSystem="LEA course code" AssigningOrganizationCode="Daybreak Central High">
-            <ID>Math 102</ID>
+          <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="Daybreak Central High">
+            <ID>Algebra-50</ID>
           </CourseCode>
-          <CourseCode IdentificationSystem="LEA course code" AssigningOrganizationCode="Daybreak Central High">
-            <ID>Math 103</ID>
-          </CourseCode>
-          <CourseCode IdentificationSystem="LEA course code" AssigningOrganizationCode="Daybreak Central High">
+          <CourseCode IdentificationSystem="School course code" AssigningOrganizationCode="Daybreak Central High">
             <ID>Math 201</ID>
+          </CourseCode>
+          <CourseCode IdentificationSystem="School course code" AssigningOrganizationCode="Daybreak Central High">
+            <ID>Math 103</ID>
           </CourseCode>
         </CourseIdentity>
       </CourseReference>

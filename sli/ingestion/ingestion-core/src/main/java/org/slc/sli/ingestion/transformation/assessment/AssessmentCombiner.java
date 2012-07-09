@@ -28,6 +28,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 /**
@@ -43,10 +45,12 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(AssessmentCombiner.class);
     
     private Map<Object, NeutralRecord> assessments;
+    private List<NeutralRecord> transformedAssessments;
     
     private static final String ASSESSMENT = "assessment";
     private static final String ASSESSMENT_FAMILY = "assessmentFamily";
     private static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
+    private static final String ASSESSMENT_TRANSFORMED = "assessment_transformed";
     
     @Autowired
     private ObjectiveAssessmentBuilder builder;
@@ -56,6 +60,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
      */
     public AssessmentCombiner() {
         assessments = new HashMap<Object, NeutralRecord>();
+        transformedAssessments = new ArrayList<NeutralRecord>();
     }
     
     /**
@@ -66,6 +71,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     public void performTransformation() {
         loadData();
         transform();
+        insertRecords(transformedAssessments, ASSESSMENT_TRANSFORMED);
     }
     
     /**
@@ -131,37 +137,32 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
             neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());
-            insertRecord(neutralRecord);
+            transformedAssessments.add(neutralRecord);
         }
     }
     
     private Map<String, Object> getAssessmentPeriodDescriptor(String assessmentPeriodDescriptorRef) {
-        Map<String, String> paths = new HashMap<String, String>();
-        paths.put("body.codeValue", assessmentPeriodDescriptorRef);
+        Query query = new Query().limit(0);
+        query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
+        query.addCriteria(Criteria.where("body.codeValue").is(assessmentPeriodDescriptorRef));
         
-        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByPathsForJob(
-                ASSESSMENT_PERIOD_DESCRIPTOR, paths, getJob().getId());
+        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(ASSESSMENT_PERIOD_DESCRIPTOR, query);
         
         if (data.iterator().hasNext()) {
             return data.iterator().next().getAttributes();
         }
-        
         return null;
-        
     }
     
     @SuppressWarnings("unchecked")
     private String getAssocationFamilyMap(String key, HashMap<String, Map<String, Object>> deepFamilyMap,
             String familyHierarchyName) {
-        
-        Map<String, String> paths = new HashMap<String, String>();
-        paths.put("body.AssessmentFamilyIdentificationCode.ID", key);
-        
-        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findByPathsForJob(
-                ASSESSMENT_FAMILY, paths, getJob().getId());
+        Query query = new Query().limit(0);
+        query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
+        query.addCriteria(Criteria.where("body.AssessmentFamilyIdentificationCode.ID").is(key));
+        Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(ASSESSMENT_FAMILY, query);
         
         Map<String, Object> associationAttrs;
-        
         ArrayList<Map<String, Object>> tempIdentificationCodes;
         Map<String, Object> tempMap;
         
@@ -173,14 +174,10 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                         .get("AssessmentFamilyIdentificationCode");
                 
                 tempMap = tempIdentificationCodes.get(0);
-                if (familyHierarchyName.equals("")) {
-                    
+                if (familyHierarchyName.equals("")) {                    
                     familyHierarchyName = (String) associationAttrs.get("AssessmentFamilyTitle");
-                    
-                } else {
-                    
+                } else {                    
                     familyHierarchyName = associationAttrs.get("AssessmentFamilyTitle") + "." + familyHierarchyName;
-                    
                 }
                 deepFamilyMap.put((String) tempMap.get("ID"), associationAttrs);
             }

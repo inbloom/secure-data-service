@@ -155,4 +155,24 @@ public interface CrudEndpoint {
      * @return a sub resource responsible for handling custom entity requests
      */
     public CustomEntityResource getCustomEntityResource(String id);
+    
+    /**
+     * Patches a given entity in a specific location or collection, which means that
+     * less than the full entity body is passed in the request and only passed keys are
+     * updated and the rest of the entity remains the same.
+     * 
+     * @param resourceName
+     *            where the entity should be located
+     * @param id
+     *            ID of object being patched
+     * @param newEntityBody
+     *            new map of keys/values for entity (partial set of key/values)
+     * @param headers
+     *            HTTP header information (which includes request headers)
+     * @param uriInfo
+     *            URI information including path and query parameters
+     * @return resulting status from request
+     */
+    public Response patch(String resourceName, String id, EntityBody newEntityBody, HttpHeaders headers,
+            UriInfo uriInfo);
 }

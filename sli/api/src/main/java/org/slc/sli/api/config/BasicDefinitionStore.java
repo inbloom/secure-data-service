@@ -29,8 +29,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.client.constants.EntityNames;
-import org.slc.sli.api.client.constants.ResourceNames;
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.ReferenceSchema;
 
@@ -183,13 +183,6 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                         "educationOrganizationReference").calledFromSource("getStaffEducationOrgAssignmentAssociations")
                 .calledFromTarget("getStaffEducationOrgAssignmentAssociations").build();
         addDefinition(staffEducationOrgAssignmentAssociation);
-
-        AssociationDefinition sectionAssessmentAssociation = factory.makeAssoc("sectionAssessmentAssociation", "sectionAssessmentAssociations")
-                .exposeAs(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS).storeAs("sectionAssessmentAssociation")
-                .from(section, "getSection", "getSections").to(assessment, "getAssessment", "getAssessments")
-                .calledFromSource("getSectionAssessmentAssociations")
-                .calledFromTarget("getSectionAssessmentAssociations").build();
-        addDefinition(sectionAssessmentAssociation);
 
         AssociationDefinition educationOrganizationAssociation = factory
                 .makeAssoc("educationOrganizationAssociation", "educationOrganizationAssociations")

@@ -118,12 +118,12 @@ Given /^I have a "([^"]*)" SMTP\/Email server configured$/ do |live_or_mock|
   sender_email_address = "hlufhdsaffhuawiwhfkj@slidev.org"
   @email_name = "SLC Admin"
   test_port = 2525
-  @mode = (live_or_mock == "live")
+  @live_email_mode = (live_or_mock == "live")
   
-  if @mode
+  if @live_email_mode
     @email_conf = {
-      :host => 'mon.slidev.org',
-      :port => 3000
+      :host => PropLoader.getProps['email_smtp_host'],
+      :port => PropLoader.getProps['email_smtp_port']
     }
   else
     @rumbster = Rumbster.new(test_port)
@@ -139,3 +139,4 @@ Given /^I have a "([^"]*)" SMTP\/Email server configured$/ do |live_or_mock|
   @email_conf[:replacer] = { "__URI__" => "http://localhost:3000"}
   @email_conf[:sender_email_addr] = sender_email_address
 end
+

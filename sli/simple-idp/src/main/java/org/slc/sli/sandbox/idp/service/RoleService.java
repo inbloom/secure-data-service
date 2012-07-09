@@ -53,6 +53,6 @@ public class RoleService {
      */
     public List<Role> getAvailableRoles() {
         return Arrays.asList(new Role("IT Administrator"), new Role("Leader"), new Role("Educator"), new Role(
-                "Aggregator"));
+                "Aggregate Viewer"));
     }
 }

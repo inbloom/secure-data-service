@@ -146,7 +146,7 @@ public class UserService {
      *            The id of the user
      * @return
      */
-    public User getUser(String realm, String userId){
+    public User getUser(String realm, String userId) {
         AndFilter filter = new AndFilter();
         filter.and(new EqualsFilter("objectclass", userObjectClass)).and(new EqualsFilter(userSearchAttribute, userId));
         DistinguishedName dn = new DistinguishedName("ou=" + realm);
@@ -203,7 +203,7 @@ public class UserService {
                     String[] pairArray = pair.split("=", 2);
                     if (pairArray.length == 2) {
                         String value = pairArray[1].trim();
-                        if(value.length()>0){
+                        if (value.length() > 0) {
                             attributes.put(pairArray[0].trim(), value);
                         }
                     }

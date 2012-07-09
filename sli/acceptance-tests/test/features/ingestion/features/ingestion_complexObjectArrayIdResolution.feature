@@ -20,18 +20,19 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
 	   | collectionName                | count |
 	   | educationOrganization         | 3     |
-	   | course                        | 4     |
+	   | course                        | 6     |
 	   | courseOffering                | 2     |
 	   | gradingPeriod                 | 1     |
 	   | session                       | 1     |
 	   | studentAcademicRecord         | 1     |
-	   | studentTranscriptAssociation  | 2     |
+	   | studentTranscriptAssociation  | 3     |
 	 And I check to find if record is in collection:
 	   | collectionName                | expectedRecordCount | searchParameter                       | searchValue          | searchType           |
 	   | studentTranscriptAssociation  | 1                   | body.creditsEarned.credit             | 1                    | integer              |
 	   | studentTranscriptAssociation  | 1                   | body.creditsEarned.credit          | 2                    | integer              |
+	   | studentTranscriptAssociation  | 1                   | body.creditsEarned.credit          | 9                    | integer              |
 	   | studentTranscriptAssociation  | 0                   | body.creditsEarned.credit          | 3                    | integer              |
 	   | studentTranscriptAssociation  | 0                   | body.creditsEarned.credit          | 4                    | integer              |
 	   | studentTranscriptAssociation  | 0                   | body.creditsEarned.credit           | 5                    | integer              |
-	And I should see "Processed 18 records." in the resulting batch job file
+	And I should see "Processed 21 records." in the resulting batch job file
 

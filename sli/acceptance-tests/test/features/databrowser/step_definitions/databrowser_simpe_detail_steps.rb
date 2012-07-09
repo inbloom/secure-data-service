@@ -151,9 +151,30 @@ Then /^I am redirected to the particular entity Detail View$/ do
   assertWithWait("Failed to find table of associations")  {@driver.find_elements(:id, "simple-table").size == 0}
   
   # Then make sure you can see specific details of the entity
-  assertWithWait("Failed to find entity details")  {@driver.find_element(:xpath, "//dd[text()='Fry High School']")}
+  assertWithWait("Failed to find entity details")  {@driver.find_element(:xpath, "//dd[text()='Detention']")}
 end
 
 When /^I click on any of the entity IDs$/ do
   pending # express the regexp above with the code you wish you had
 end
+
+When /^I have navigated to the <Page> of the Data Browser$/ do |table|
+  table.hashes.each do |hash|
+    @driver.get PropLoader.getProps['databrowser_server_url']
+    # Wait for home page to load
+    assertWithWait("Failed to find '"+hash["Page"]+"' Link on page")  {@driver.find_element(:link_text, hash["Page"])}
+    @driver.find_element(:link_text, hash["Page"]).click
+    
+    assertWithWait("Failed to find 'Home' Link on page")  {@driver.find_element(:link_text, "Home")}
+    @driver.find_element(:link_text, "Home").click
+
+    assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Listing Home")}
+
+  end
+end
+
+Then /^I should click on the Home link and be redirected back$/ do
+  #Ignored, should be verified in previous steps
+end
+
+

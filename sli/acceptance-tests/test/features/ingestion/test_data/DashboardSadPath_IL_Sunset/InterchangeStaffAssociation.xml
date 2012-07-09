@@ -41,40 +41,6 @@
 		<HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
 	</Teacher>
 	<!--manthony-->
-	<!--TeacherSchoolAssociation>
-		<TeacherReference>
-			<StaffIdentity>
-				<StaffUniqueStateId>manthony</StaffUniqueStateId>
-			</StaffIdentity>
-		</TeacherReference>
-		<SchoolReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>Sunset Central High School</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</SchoolReference>
-		<ProgramAssignment>Regular Education</ProgramAssignment>
-		<InstructionalGradeLevels>
-			<GradeLevel>First grade</GradeLevel>
-		</InstructionalGradeLevels>
-		<AcademicSubjects>
-			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
-			<AcademicSubject>English Language and Literature</AcademicSubject>
-		</AcademicSubjects>
-	</TeacherSchoolAssociation>
-	<TeacherSectionAssociation>
-		<TeacherReference>
-			<StaffIdentity>
-				<StaffUniqueStateId>manthony</StaffUniqueStateId>
-			</StaffIdentity>
-		</TeacherReference>
-		<SectionReference>
-			<SectionIdentity>
-				<StateOrganizationId>Sunset Central High School</StateOrganizationId>
-				<UniqueSectionCode>A.P. Calculus Sec 201</UniqueSectionCode>
-			</SectionIdentity>
-		</SectionReference>
-		<ClassroomPosition>Teacher of Record</ClassroomPosition>
-	</TeacherSectionAssociation-->
 	<!--Renee Acosta principal (Leader) Sunset Central High School-->
 	<Staff>
 		<StaffUniqueStateId>racosta</StaffUniqueStateId>
@@ -123,23 +89,6 @@
 		</Credentials>
 		<LoginId>racosta</LoginId>
 	</Staff>
-	<!--Association commented out until EdOrg/School reference defect fixed-->
-	<!--StaffEducationOrgAssignmentAssociation>
-		<StaffReference>
-			<StaffIdentity>
-				<StaffUniqueStateId>racosta</StaffUniqueStateId>
-			</StaffIdentity>
-		</StaffReference>
-		<EducationOrganizationReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>Sunset Central High School</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</EducationOrganizationReference>
-		<StaffClassification>Principal</StaffClassification>
-		<PositionTitle>Principal</PositionTitle>
-		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>2015-08-13</EndDate>
-	</StaffEducationOrgAssignmentAssociation-->
 	<!--Adriana Gillespie IT Support (IT Administrator) Sunset Central High School-->
 	<Staff>
 		<StaffUniqueStateId>agillespie</StaffUniqueStateId>
@@ -187,23 +136,6 @@
 		</Credentials>
 		<LoginId>agillespie</LoginId>
 	</Staff>
-	<!--Association commented out until EdOrg/School reference defect fixed-->
-	<!--StaffEducationOrgAssignmentAssociation>
-		<StaffReference>
-			<StaffIdentity>
-				<StaffUniqueStateId>agillespie</StaffUniqueStateId>
-			</StaffIdentity>
-		</StaffReference>
-		<EducationOrganizationReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>Sunset Central High School</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</EducationOrganizationReference>
-		<StaffClassification>School Administrative Support Staff</StaffClassification>
-		<PositionTitle>IT Support</PositionTitle>
-		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>2015-08-13</EndDate>
-	</StaffEducationOrgAssignmentAssociation-->
 	<!--Winnie Goodman Researcher (Aggregate Viewer) Sunset Central High School-->
 	<Staff>
 		<StaffUniqueStateId>wgoodman</StaffUniqueStateId>
@@ -251,23 +183,6 @@
 		</Credentials>
 		<LoginId>wgoodman</LoginId>
 	</Staff>
-	<!--Association commented out until EdOrg/School reference defect fixed-->
-	<!--StaffEducationOrgAssignmentAssociation>
-		<StaffReference>
-			<StaffIdentity>
-				<StaffUniqueStateId>wgoodman</StaffUniqueStateId>
-			</StaffIdentity>
-		</StaffReference>
-		<EducationOrganizationReference>
-			<EducationalOrgIdentity>
-				<StateOrganizationId>Sunset Central High School</StateOrganizationId>
-			</EducationalOrgIdentity>
-		</EducationOrganizationReference>
-		<StaffClassification>Specialist/Consultant</StaffClassification>
-		<PositionTitle>Researcher</PositionTitle>
-		<BeginDate>1967-08-13</BeginDate>
-		<EndDate>2015-08-13</EndDate>
-	</StaffEducationOrgAssignmentAssociation-->
 	<!--Dr. Liza Logan, District Superintendent (Leader) Sunset School District 4526-->
 	<Staff>
 		<StaffUniqueStateId>llogan</StaffUniqueStateId>

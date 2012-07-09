@@ -24,10 +24,6 @@ require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
 
 
-#Given /^LDAP server has been setup and running$/ do
-#  @ldap = LDAPStorage.new(PropLoader.getProps['ldap.hostname'], 389, "ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
-#end
-
 Given /^I navigate to the account management page$/ do
   url =PropLoader.getProps['admintools_server_url']+"/account_managements"
   @driver.get url
@@ -35,8 +31,9 @@ end
 
 Given /^LDAP server has been setup and running$/ do
   @email = "devldapuser"+Socket.gethostname+"@slidev.org"
-  ldap_base=PropLoader.getProps['ldap_base']
-  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, ldap_base, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
+                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
+                          PropLoader.getProps['ldap_admin_pass'])
 end
 
 Given /^there are accounts in requests pending in the system$/ do
@@ -135,10 +132,6 @@ end
 
 When /^I am asked "([^"]*)"$/ do |arg1|
      # do nothing
-end
-
-When /^I click on Ok$/ do
-  @driver.switch_to.alert.accept
 end
 
 Then /^his account status changed to "([^"]*)"$/ do |arg1|

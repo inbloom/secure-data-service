@@ -65,6 +65,17 @@ public interface EntityService {
     public boolean update(String id, EntityBody content);
     
     /**
+     * Change an entity in the data store with only the provided content, the rest remains as is
+     * 
+     * @param id
+     *            the id of the entity to update
+     * @param content
+     *            the new portion of the body of the entity
+     * @return if the entity was changed
+     */
+    public boolean patch(String id, EntityBody content);
+    
+    /**
      * Retrieves an entity from the data store
      * 
      * @param id
