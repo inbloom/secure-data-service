@@ -57,5 +57,4 @@ Feature: White list input validation for API - core entities
     | educationOrganization  | educationOrganizations  | address.longitude            | 30.01.                  | ends with '.'                       |
     | educationOrganization  | educationOrganizations  | webSite                      | http://www.test.        | ends with '.'                       |
     | educationOrganization  | educationOrganizations  | webSite                      | http://wwwtestcom       | no '.'                              |
-    | educationOrganization  | educationOrganizations  | agencyHierarchyName          | abunchofchar            | no '.'                              |
     | educationOrganization  | educationOrganizations  | agencyHierarchyName          | a.bunch.of.char.        | ends with '.'                       |
