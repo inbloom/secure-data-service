@@ -50,9 +50,9 @@ public class CacheConfig {
 
         MemcachedClientFactoryBean bean = new MemcachedClientFactoryBean();
         bean.setServers(cacheServers);
-        bean.setLocatorType( Locator.CONSISTENT );
+        bean.setLocatorType(Locator.CONSISTENT);
         bean.setProtocol(Protocol.BINARY);
-        bean.setOpTimeout( opTimeout );
+        bean.setOpTimeout(opTimeout);
 
         return bean;
     }
@@ -68,10 +68,9 @@ public class CacheConfig {
 
 
             return provider;
-        } else if ( "inmemory".equals( cacheType ) ) {
+        } else if ("inmemory".equals(cacheType)) {
             return new InmemoryCacheProvider();
-        }
-        else {
+        } else {
             return new NullCacheProvider();
         }
     }

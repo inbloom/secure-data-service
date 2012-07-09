@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.processors;
 
 import java.util.HashMap;
@@ -25,7 +24,6 @@ import java.util.Set;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
@@ -40,13 +38,11 @@ import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordReadConverter;
 import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.handler.NeutralRecordEntityPersistHandler;
-import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.transformation.EdFi2SLITransformer;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.util.BatchJobUtils;
@@ -82,6 +78,9 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     
     private static final Logger LOG = LoggerFactory.getLogger(PersistenceProcessor.class);
     
+    private static final String BATCH_JOB_ID = "batchJobId";
+    private static final String CREATION_TIME = "creationTime";
+    
     private Map<String, EdFi2SLITransformer> transformers;
     
     private EdFi2SLITransformer defaultEdFi2SLITransformer;
@@ -112,8 +111,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
      *            camel exchange.
      */
     @Override
-    @ExtractBatchJobIdToContext
-    @Profiled
     public void process(Exchange exchange) {
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
         
@@ -182,8 +179,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
      *            persistence stage.
      */
     private void processWorkNote(WorkNote workNote, Job job, Stage stage) {
-        long recordNumber = 0;
-        long numFailed = 0;
         boolean persistedFlag = false;
         
         String collectionNameAsStaged = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
@@ -201,9 +196,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             Iterable<NeutralRecord> records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
             
             for (NeutralRecord neutralRecord : records) {
-                numFailed = 0;
-                
-                recordNumber++;
+                long numFailed = 0;
                 persistedFlag = false;
                 
                 errorReportForCollection = createDbErrorReport(job.getId(), neutralRecord.getSourceFile());
@@ -213,8 +206,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                 // process NeutralRecord with old or new pipeline
                 if (entityPipelineType == EntityPipelineType.OLD) {
                     
-                    numFailed += processOldStyleNeutralRecord(neutralRecord, recordNumber, getTenantId(job),
-                            errorReportForCollection);
+                    numFailed += processOldStyleNeutralRecord(neutralRecord, neutralRecord.getLocationInSourceFile(),
+                            getTenantId(job), errorReportForCollection);
                     persistedFlag = true;
                     
                 } else if (entityPipelineType == EntityPipelineType.NEW_PLAIN
@@ -246,7 +239,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                 Metrics m = it.next();
                 stage.getMetrics().add(m);
             }
-            
         }
     }
     
@@ -457,7 +449,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
      */
     private void handleNoBatchJobIdInExchange(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
-        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
     
@@ -473,7 +464,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
      */
     private void handleProcessingExceptions(Exception exception, Exchange exchange, String batchJobId) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
-        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LogUtil.error(LOG, "Error persisting batch job " + batchJobId, exception);
         
         Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
@@ -524,14 +514,14 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     }
     
     public Iterable<NeutralRecord> queryBatchFromDb(String collectionName, String jobId, WorkNote workNote) {
-        Criteria limiter = Criteria.where("creationTime").gte(workNote.getRangeMinimum())
-                .lt(workNote.getRangeMaximum());
-        Query query = new Query();
+        Criteria batchJob = Criteria.where(BATCH_JOB_ID).is(jobId);
+        Criteria limiter = Criteria.where(CREATION_TIME).gte(workNote.getRangeMinimum()).lt(workNote.getRangeMaximum());
+        
+        Query query = new Query().limit(0);
+        query.addCriteria(batchJob);
         query.addCriteria(limiter);
         
-        Iterable<NeutralRecord> data = neutralRecordMongoAccess.getRecordRepository().findByQueryForJob(collectionName,
-                query, jobId);
-        return data;
+        return neutralRecordMongoAccess.getRecordRepository().findAllByQuery(collectionName, query);
     }
     
     @Override
@@ -542,5 +532,4 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     private static enum EntityPipelineType {
         OLD, NEW_PLAIN, NEW_TRANSFORMED, NONE;
     }
-    
 }

@@ -24,6 +24,12 @@ Scenario: Traverse from parent education organization through child education or
     When I navigate to GET "/v1/schools?parentEducationAgencyReference=<'LOCAL EDUCATION ORGANIZATION' ID>"
     Then I should receive a return code of 200
         And in an entity, I should receive a link named "self" with URI "/v1/schools/<'SCHOOL' ID>"
+    When I navigate to GET "/v1/schools/<'SCHOOL' ID>"
+    Then I should receive a return code of 200
+       And I should receive a link named "getSessions" with URI "/v1/sessions?schoolId=<'SCHOOL' ID>"
+    When I navigate to GET "/v1/sessions?schoolId=<'SCHOOL' ID>"
+    Then I should receive a return code of 200
+         And in an entity, I should receive a link named "self" with URI "/v1/sessions/<'SESSION' ID>"
     When I navigate to GET "/v1/sessions/<'SESSION' ID>"
     Then I should receive a return code of 200
         And I should receive a link named "getCourseOfferings" with URI "/v1/sessions/<'SESSION' ID>/courseOfferings"
@@ -72,6 +78,10 @@ Scenario: Traverse from parent education organization through child education or
         And in an entity, I should receive a link named "self" with URI "/v1/schools/<'SCHOOL' ID>"
     When I navigate to GET "/v1/schools/<'SCHOOL' ID>"
     Then I should receive a return code of 200
+         And I should receive a link named "getSessions" with URI "/v1/sessions?schoolId=<'SCHOOL' ID>"
+    When I navigate to GET "/v1/sessions?schoolId=<'SCHOOL' ID>"
+    Then I should receive a return code of 200
+         And in an entity, I should receive a link named "self" with URI "/v1/sessions/<'SESSION' ID>"
     When I navigate to GET "/v1/sessions/<'SESSION' ID>"
     Then I should receive a return code of 200
         And I should receive a link named "getCourseOfferings" with URI "/v1/sessions/<'SESSION' ID>/courseOfferings"

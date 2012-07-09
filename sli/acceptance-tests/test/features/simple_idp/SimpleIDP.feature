@@ -17,6 +17,18 @@ And I wait for 5 second
 Then I should be redirected to the databrowser web page
 Then I should see the name "Charles Gray" on the page
 
+Scenario: Use Mock IDP to log in as IL Aggregate Viewer
+Given I navigate to databrowser home page
+Then I will be redirected to realm selector web page
+When I select the "Sandbox Environment" realm
+Then I was redirected to the "Simple" IDP Login page
+When I enter the credentials "testdeveloper" "testdeveloper1234" for the Simple IDP
+And I want to imitate the user "cgray" who is a "Aggregate Viewer"
+And I click Login
+And I wait for 5 second
+Then I should be redirected to the databrowser web page
+Then I should see the name "Charles Gray" on the page
+
 Scenario: Deny logging in to non-sandbox NY Realm
 Given I navigate to databrowser home page
 Then I will be redirected to realm selector web page

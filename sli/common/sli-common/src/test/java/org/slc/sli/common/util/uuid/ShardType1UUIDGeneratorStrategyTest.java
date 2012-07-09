@@ -17,17 +17,17 @@
 
 package org.slc.sli.common.util.uuid;
 
-import org.junit.Test;
-
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
+
+import org.junit.Test;
 
 /**
  * @author wscott
  */
 public class ShardType1UUIDGeneratorStrategyTest {
     @Test
-    public void TestShardType1UUIDGenerator() {
+    public void testShardType1UUIDGenerator() {
         ShardType1UUIDGeneratorStrategy uuidGen = new ShardType1UUIDGeneratorStrategy();
         String uuid = uuidGen.randomUUID();
         assertNotNull(uuid);

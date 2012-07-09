@@ -36,10 +36,26 @@ simpleIDP_realm_SLI: "SimpleIDP Test Realm - SLI"
 simpleIDP_realm_suffix: "Local"
 
 ldap_hostname: ldap.slidev.org
+ldap_port: 389
 ldap_base: "ou=Local,ou=DevTest,dc=slidev,dc=org"
+ldap_admin_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
+ldap_admin_pass: Y;Gtf@w{
 
 user_registration_app_production_url: "http://local.slidev.org:3001"
 user_registration_app_sandbox_url: "http://local.slidev.org:3001"
 user_registration_app_host_url: "slcedu.org"
 registration_app_suffix: "/registration"
 validation_base_suffix: "/user_account_validation"
+user_registration_email: devldapuser@slidev.org
+user_registration_pass: test1234
+
+emaiL_smtp_host: mon.slidev.org
+email_smtp_port: 3000
+email_imap_host: mon.slidev.org
+email_imap_port: 993
+email_imap_registration_user: devldapuser
+email_imap_registration_user_email: devldapuser@slidev.org
+email_imap_registration_pass: Y;Gtf@w{
+
+
+    

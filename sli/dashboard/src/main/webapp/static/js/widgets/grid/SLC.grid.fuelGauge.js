@@ -1,3 +1,6 @@
+/*
+ * SLC grid fuelGauge
+ */
 /*global SLC Raphael*/
 
 SLC.namespace('SLC.grid.FuelGauge', (function (element, score, cutpoints) {
@@ -65,7 +68,7 @@ SLC.namespace('SLC.grid.FuelGauge', (function (element, score, cutpoints) {
 							} else if (i+1 === CUTPOINTS.length - 1) {
 								cutPointsRange += 1;
 							}
-							// in the ith level
+							
 							rects[i] = scoreRange / cutPointsRange * fullLevelRectWidth;
 							scoreWidth += rects[i];
 							colorCode++;

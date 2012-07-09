@@ -24,19 +24,19 @@
   background-color: transparent;
 }
 
-.odd {
+#tenant-metrics-table.odd {
   background-color:#d3d3d3;
 }
 
-.odd td {
+#tenant-metrics-table.odd td {
   border-right: 1px solid #f3f3f3;
 }
 
-.even {
+#tenant-metrics-table.even {
   background-color:#f3f3f3;
 }
 
-.even td {
+#tenant-metrics-table.even td {
   border-right: 1px solid #d3d3d3;
 }
 

@@ -56,7 +56,7 @@ import org.slc.sli.domain.enums.Right;
 @Component
 @Scope("request")
 @Path("/adminDelegation")
-@Produces({ Resource.JSON_MEDIA_TYPE+";charset=utf-8" })
+@Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
 public class AdminDelegationResource {
 
     @Autowired

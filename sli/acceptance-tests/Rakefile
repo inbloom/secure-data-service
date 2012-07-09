@@ -85,7 +85,7 @@ def runTests(testDirPath)
     else
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Failed"
       $SUCCESS=false
-      raise "Tests Failed" if (ENV['FAILFAST'])
+      raise "Tests Failed" unless (ENV['FAILSLOW'])
     end
   end
 end
@@ -99,7 +99,6 @@ def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropEx
   else
     dropOption = (dropExistingCollection) ? "--drop":""
   end
-
 
   #sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"printjson(db.#{collectionName}.dropIndexes().msg)\""
 
@@ -243,6 +242,18 @@ task :production => [:apiAndSecurityTests, :ingestionTests, :ingestionOfflineToo
   end
 end
 
+# This task is used as an entry point to run the smoke tests,
+# a suite of tests that will run quickly but only catch 80% or less of real failures
+desc "Run Smoke Tests"
+task :smokeTests => [:apiSmokeTests, :ingestionSmokeTests, :dashboardSmokeTests, :databrowserSmokeTests, :adminSmokeTests] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+
 
 # This task is used as an entry point in Jenkins to run API and Security Tests
 # It is needed so that it fails the build if there are any failures based on the
@@ -256,12 +267,6 @@ task :apiAndSecurityTests => [:apiV1Tests, :securityTests, :onboardingTests, :ap
   else
     raise "Tests have failed"
   end
-end
-
-
-desc "Run Security MegaTest"
-task :apiMegaTests => [:realmInit, :importSecuredData] do
-    runTests("test/features/apiV1/entities/student_security")
 end
 
 #desc "Run Liferay Tests"
@@ -476,6 +481,7 @@ task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionSessionTest, :in
                          :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest, :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest,
                          :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest, 
                          :ingestionEmptyControlFileTest, :ingestionDryRunTest, :ingestionCourseOfferingTest, :ingestionComplexObjectArrayIdRefTest ] do
+
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -768,6 +774,7 @@ lea_idp_server_url     This property selects which running IDP should be used as
 DEBUG                  This property tells the test code to display debug output in the console
 CUKE_EXPAND            This property tells cucumber to expand Scenario Outlines (for use in jenkins, default: not expand)
 OTHER_TAGS             This property allows you to run tests with debug tags, so pass a tag for this env var ie: @test
+FAILSLOW               This property will tell cucumber to continue even if tests fail. Normally it will fail on the first error.
 eos
 
 end

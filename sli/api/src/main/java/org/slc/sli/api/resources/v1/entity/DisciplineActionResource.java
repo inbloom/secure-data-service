@@ -34,20 +34,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.client.constants.ResourceNames;
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
-import org.slc.sli.api.client.constants.v1.PathConstants;
 import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.constants.PathConstants;
+import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 
 /**
  * Represents the definition of a discipline action.
- * 
+ *
  * A discipline action is defined as an action taken by an
  * education organization after a disruptive event that
  * is recorded as a discipline incident.
- * 
+ *
  * For detailed information, see the schema for the $$DisciplineAction$$ entity.
  *
  * @author slee
