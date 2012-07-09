@@ -1,19 +1,18 @@
-/*
- * Copyright 2012 Shared Learning Collaborative, LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
+//
+// Copyright 2012 Shared Learning Collaborative, LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
 
 db.runCommand( { enablesharding : "sli" } );
 db.runCommand( { shardcollection : "sli.assessment", key : {"metaData.tenantId" : 1, "_id" : 1} } );
@@ -38,8 +37,6 @@ db.runCommand( { shardcollection : "sli.learningStandard", key : {"metaData.tena
 db.runCommand( { shardcollection : "sli.parent", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.program", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.reportCard", key : {"metaData.tenantId" : 1, "_id" : 1} } );
-db.runCommand( { shardcollection : "sli.school", key : {"metaData.tenantId" : 1, "_id" : 1} } );
-db.runCommand( { shardcollection : "sli.schoolSessionAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.section", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.sectionAssessmentAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.sectionSchoolAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );
@@ -62,6 +59,5 @@ db.runCommand( { shardcollection : "sli.studentSectionAssociation", key : {"meta
 db.runCommand( { shardcollection : "sli.studentSectionGradebookEntry", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.studentSchoolAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.studentTranscriptAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );
-db.runCommand( { shardcollection : "sli.teacher", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.teacherSchoolAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.teacherSectionAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );

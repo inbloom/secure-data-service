@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<InterchangeStudentProgram xmlns="http://ed-fi.org/0100">
+    <ServiceDescriptor>
+        <CodeValue>Service 1</CodeValue>
+        <ShortDescription>Remedial Service</ShortDescription>
+        <Description>Remedial service for students with learning disabilities.</Description>
+        <ServiceCategory>Remedial</ServiceCategory>
+    </ServiceDescriptor>
+    <ServiceDescriptor>
+        <CodeValue>Service 2</CodeValue>
+        <ShortDescription>Art and Music</ShortDescription>
+        <Description>Service for arts and music education.</Description>
+        <ServiceCategory>Art</ServiceCategory>
+    </ServiceDescriptor>
+    <ServiceDescriptor>
+        <CodeValue>Service 3</CodeValue>
+        <ShortDescription>Sports</ShortDescription>
+        <Description>Sport programs</Description>
+        <ServiceCategory>Sports</ServiceCategory>
+    </ServiceDescriptor>
+    <ServiceDescriptor>
+        <CodeValue>Service 4</CodeValue>
+        <ShortDescription>Extra-Curricular Activites</ShortDescription>
+        <Description>Extra-curricular activity service.</Description>
+        <ServiceCategory>Extra</ServiceCategory>
+    </ServiceDescriptor>
+</InterchangeStudentProgram>

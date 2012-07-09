@@ -290,11 +290,6 @@ task :v1SingleStudentViewTests => [:realmInit] do
   runTests("test/features/apiV1/optional_fields/single_student_view.feature")
 end
 
-desc "Run V1 Simple CRUD Test"
-task :v1SimpleCrudTests do
-  runTests("test/features/apiV1/entities/crud")
-end
-
 desc "Run V1 Blacklist/Whitelist input Tests"
 task :v1BlacklistValidationTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
@@ -307,6 +302,33 @@ task :v1SecurityEventTests => [:realmInit] do
   runTests("test/features/apiV1/securityEvent/securityEvent.feature")
 end
 
+
+
+desc "Run API Smoke Tests"
+task :apiSmokeTests do
+  @tags = ["~@wip", "@smoke", "~@sandbox"]
+  Rake::Task["apiV1EntityTests"].invoke
+  Rake::Task["securityTests"].invoke
+  Rake::Task["apiMegaTests"].invoke
+end
+
 ############################################################
 # API V1 tests end
+############################################################
+
+############################################################
+# Security tests start
+############################################################
+desc "Run Security Tests"
+task :securityTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/security")
+end
+
+desc "Run Security MegaTest"
+task :apiMegaTests => [:realmInit, :importSecuredData] do
+    runTests("test/features/apiV1/entities/student_security")
+end
+############################################################
+# Security tests end
 ############################################################

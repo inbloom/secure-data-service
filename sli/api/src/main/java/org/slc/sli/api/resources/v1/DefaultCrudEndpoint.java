@@ -36,11 +36,15 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.slc.sli.api.client.constants.ResourceConstants;
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
-import org.slc.sli.api.client.constants.v1.PathConstants;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.constants.PathConstants;
+import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.representation.ErrorResponse;
@@ -57,9 +61,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  * Prototype new api end points and versioning base class
@@ -70,10 +71,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Scope("request")
-@Consumes({ MediaType.APPLICATION_JSON+";charset=utf-8", HypermediaType.VENDOR_SLC_JSON+";charset=utf-8", MediaType.APPLICATION_XML+";charset=utf-8",
+@Consumes({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8", MediaType.APPLICATION_XML + ";charset=utf-8",
  MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
-@Produces({ MediaType.APPLICATION_JSON+";charset=utf-8", HypermediaType.VENDOR_SLC_JSON+";charset=utf-8", MediaType.APPLICATION_XML+";charset=utf-8",
-        HypermediaType.VENDOR_SLC_XML+";charset=utf-8" })
+@Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8", MediaType.APPLICATION_XML + ";charset=utf-8",
+        HypermediaType.VENDOR_SLC_XML + ";charset=utf-8" })
 public class DefaultCrudEndpoint implements CrudEndpoint {
     /* Shared query parameters that are used by all endpoints */
     @QueryParam(ParameterConstants.INCLUDE_CUSTOM)
@@ -145,9 +146,13 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             @Override
             public Response run(EntityDefinition entityDef) {
                 String id = entityDef.getService().create(newEntityBody);
-                String uri = ResourceUtil.getURI(uriInfo, PathConstants.V1,
-                        PathConstants.TEMP_MAP.get(entityDef.getResourceName()), id).toString();
-                return Response.status(Status.CREATED).header("Location", uri).build();
+
+                if (!id.isEmpty()) {
+                    String uri = ResourceUtil.getURI(uriInfo, PathConstants.V1,
+                            PathConstants.TEMP_MAP.get(entityDef.getResourceName()), id).toString();
+                    return Response.status(Status.CREATED).header("Location", uri).build();
+                }
+                return Response.status(Status.CONFLICT).build();
             }
         });
     }
@@ -468,12 +473,12 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             }
         });
     }
-    
+
     /**
      * Patches a given entity in a specific location or collection, which means that
      * less than the full entity body is passed in the request and only passed keys are
      * updated and the rest of the entity remains the same.
-     * 
+     *
      * @param resourceName
      *            where the entity should be located
      * @param id
@@ -492,29 +497,29 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         return handle(resourceName, entityDefs, uriInfo, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
-                
+
                 EntityBody copy = new EntityBody(newEntityBody);
                 copy.remove(ResourceConstants.LINKS);
 
                 entityDef.getService().patch(id, copy);
 
                 return Response.status(Status.NO_CONTENT).build();
-                
-                
-                
+
+
+
 //                List<EntityBody> finalResults = new ArrayList<EntityBody>();
 //                EntityBody blah = new EntityBody();
 //                blah.put("test", "Hello World");
 //                blah.put("id", id);
-//                
+//
 //                finalResults.add(blah);
-//                
+//
 //                long pagingHeaderTotalCount = 1;
 //                return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), finalResults.get(0))),
 //                        pagingHeaderTotalCount, uriInfo).build();
             }
         });
-        
+
     }
 
     protected long count(final String collectionName) {
@@ -591,7 +596,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      *            the id of the entity the custom resource is applied to
      */
     @Path("{id}/" + PathConstants.CUSTOM_ENTITIES)
-    @Produces({ MediaType.APPLICATION_JSON+";charset=utf-8", HypermediaType.VENDOR_SLC_JSON+";charset=utf-8" })
+    @Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })
     @Override
     public CustomEntityResource getCustomEntityResource(@PathParam("id") String id) {
         EntityDefinition entityDef = entityDefs.lookupByResourceName(resourceName);
@@ -676,7 +681,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             }
         }
     }
-    
+
     /**
      * Creates a query that looks up an association where key = value and only returns the specified
      * field.
@@ -739,7 +744,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
     /**
      * Extract the parameters from the optional field value
-     * 
+     *
      * @param optionalFieldValue
      *            The optional field value
      * @return
@@ -778,7 +783,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     /**
      * Add the type criteria to a given query if the stored collection of the
      * resource is different from its type
-     * 
+     *
      * @param entityDefinition
      *            The entity definition for the resource
      * @param query
@@ -907,13 +912,13 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     public Response update(final String id, final EntityBody newEntityBody, HttpHeaders headers, final UriInfo uriInfo) {
         return this.update(resourceName, id, newEntityBody, headers, uriInfo);
     }
-    
+
 
     /**
      * Patches a given entity in a specific location or collection, which means that
      * less than the full entity body is passed in the request and only passed keys are
      * updated and the rest of the entity remains the same.
-     * 
+     *
      * @param resourceName
      *            where the entity should be located
      * @param id

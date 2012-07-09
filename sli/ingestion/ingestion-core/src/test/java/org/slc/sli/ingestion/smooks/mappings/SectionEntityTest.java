@@ -30,6 +30,10 @@ import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
@@ -37,9 +41,6 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.slc.sli.ingestion.validation.IngestionDummyEntityRepository;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 /**
  *
@@ -198,7 +199,7 @@ public class SectionEntityTest {
     @Test
     public void testValidSection() throws Exception {
         String smooksConfig = "smooks_conf/smooks-all-xml.xml";
-        String edFiToSliConfig="smooksEdFi2SLI/section.xml";
+        String edFiToSliConfig = "smooksEdFi2SLI/section.xml";
         String targetSelector = "InterchangeMasterSchedule/Section";
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector, validXmlTestData);
@@ -447,7 +448,7 @@ public class SectionEntityTest {
 
         Assert.assertEquals("LocalCourseCode0", ((Map<String, Object>) ((Map<String, Object>) entity.get("courseOfferingReference")).get("courseOfferingIdentity")).get("localCourseCode"));
 
-        Assert.assertEquals("StateOrganizationId1",((Map<String, Object>) ((Map<String, Object>) entity.get("schoolReference")).get("educationalOrgIdentity")).get("stateOrganizationId"));
+        Assert.assertEquals("StateOrganizationId1", ((Map<String, Object>) ((Map<String, Object>) entity.get("schoolReference")).get("educationalOrgIdentity")).get("stateOrganizationId"));
 
         Assert.assertEquals("SessionName0", ((Map<String, Object>) ((Map<String, Object>) entity.get("sessionReference")).get("sessionIdentity")).get("sessionName"));
 
