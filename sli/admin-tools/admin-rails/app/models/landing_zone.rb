@@ -42,14 +42,16 @@ class LandingZone
 
     if (hasPublicKey)
       Rails.logger.debug("Doing something with this public key: #{public_key}")
-      if (LandingZoneHelper.valid_rsa_key?(public_key))
-        Rails.logger.debug("Valid key")
-        LandingZoneHelper.create_key(public_key, uid)
-      else
-        Rails.logger.error("Invalid key")
-        raise KeyValidationError.new "Received invalid public key"
+      if (!LandingZoneHelper.valid_rsa_key?(public_key))
+        public_key = LandingZoneHelper.convert_key(public_key, uid)
+        if (public_key.nil? || !LandingZoneHelper.valid_rsa_key?(public_key))
+          Rails.logger.debug("Invalid key")
+          raise KeyValidationError.new "Received invalid public key"
+        end
       end
-     end
+      Rails.logger.debug("Valid key")
+      LandingZoneHelper.create_key(public_key, uid)
+    end
 
     isDuplicate = false
     if(APP_CONFIG['is_sandbox'])

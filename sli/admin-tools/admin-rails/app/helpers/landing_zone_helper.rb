@@ -20,6 +20,8 @@ limitations under the License.
 module LandingZoneHelper
 
   @@rsaRegex = /\A---- BEGIN SSH2 PUBLIC KEY ----[\r|\n|(\r\n)](.{0,72}[\r|\n|(\r\n)])+---- END SSH2 PUBLIC KEY ----\z/
+  @@keyConversionCmdPrefix = "ssh-keygen -e -f "
+  @@keyConversionTimeout = 3
 
   # Lightweight check of RSA key format - will not reject all invalid keys; just makes sure they look pretty much right
   # SEE: RFC4716
@@ -41,15 +43,28 @@ module LandingZoneHelper
     return @@rsaRegex.match(key) ? true : false
   end
 
-  # key conversion
-  #newKey = %x[ssh-keygen -e -f ~/.ssh/id_rsa.pub]
-
   def self.create_key(key, uid)
     keyFile = File.join(APP_CONFIG['rsa_key_dir'], uid)
     Rails.logger.debug("Writing public key to #{keyFile}")
     file = File.new(keyFile, "w")
     file.write(key)
     file.close()
+  end
+
+  def self.convert_key(key, uid)
+    tempKeyFile = File.join(APP_CONFIG['tmp_dir'], uid + "_tmpKey")
+    Rails.logger.debug("Converting public key in #{tempKeyFile}") 
+    file = File.new(tempKeyFile, "w")
+    file.write(key)
+    file.close()
+    cmd = @@keyConversionCmdPrefix + tempKeyFile
+    newkey = ExternalProcessRunner.run(cmd,@@keyConversionTimeout)
+    File.delete(tempKeyFile)
+    unless newkey.nil?
+      return newkey.chop
+    else
+      return nil
+    end
   end
 
 end
