@@ -23,9 +23,7 @@ import openadk.library.ADKException;
 import openadk.library.ADKFlags;
 import openadk.library.Agent;
 import openadk.library.SIFVersion;
-import openadk.library.SubscriptionOptions;
 import openadk.library.Zone;
-import openadk.library.student.StudentDTD;
 import openadk.library.tools.cfg.AgentConfig;
 
 import org.slf4j.Logger;
@@ -33,8 +31,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.sif.subscriber.SifSubscriber;
 
 @Component
 public class SifAgent extends Agent {
@@ -91,9 +87,6 @@ public class SifAgent extends Agent {
 
                 LOG.info("- Connecting to zone \"" + zone.getZoneId() + "\" at " + zone.getZoneUrl());
 
-//                zone.setSubscriber(new SifSubscriber(), StudentDTD.SCHOOLINFO, new SubscriptionOptions());
-//                zone.setSubscriber(new SifSubscriber(), StudentDTD.STUDENTPERSONAL, new SubscriptionOptions());
-
                 zone.connect(ADKFlags.PROV_REGISTER | ADKFlags.PROV_PROVIDE | ADKFlags.PROV_SUBSCRIBE);
             } catch (ADKException ex) {
                 LOG.error("  " + ex.getMessage(), ex);
@@ -133,11 +126,7 @@ public class SifAgent extends Agent {
         for (Zone zone : allZones) {
             try {
                 // Connect to this zone
-
                 LOG.info("- Connecting to zone \"" + zone.getZoneId() + "\" at " + zone.getZoneUrl());
-
-//                zone.setSubscriber(new SifSubscriber(), StudentDTD.SCHOOLINFO, new SubscriptionOptions());
-//                zone.setSubscriber(new SifSubscriber(), StudentDTD.STUDENTPERSONAL, new SubscriptionOptions());
 
                 zone.connect(ADKFlags.PROV_REGISTER | ADKFlags.PROV_PROVIDE | ADKFlags.PROV_SUBSCRIBE);
             } catch (ADKException ex) {
