@@ -26,6 +26,7 @@ import java.net.URL;
 import java.util.Properties;
 
 import org.slc.sli.api.client.impl.BasicClient;
+import org.slc.sli.sif.agent.SifAgent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +34,8 @@ import org.slf4j.LoggerFactory;
  * Basic authentication example using the SLI SDK.
  */
 public class SlcInterface {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SlcInterface.class);
 
     private String clientId;
     private String clientSecret;
@@ -98,12 +101,12 @@ public class SlcInterface {
         }
     }
 
-/*    public String sessionCheck() {
+    public String sessionCheck() {
         try {
             return client.sessionCheck(token);
         } catch (Exception e) {
             LOG.error("  " + e.getMessage(), e);
         }
         return "";
-    }*/
+    }
 }

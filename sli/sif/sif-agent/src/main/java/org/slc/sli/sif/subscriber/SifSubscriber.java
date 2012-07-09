@@ -22,6 +22,7 @@ import openadk.library.MessageInfo;
 import openadk.library.Subscriber;
 import openadk.library.Zone;
 
+import org.slc.sli.sif.slcinterface.SlcInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +34,14 @@ public class SifSubscriber implements Subscriber {
     public void onEvent(Event event, Zone zone, MessageInfo info) throws ADKException {
         LOG.info("Received event:\n" + "\tEvent: " + event.getActionString() + "\n" + "\tZone: " + zone.getZoneId()
                 + "\n" + "\tInfo: " + info.getMessage());
+
+        //execute a call to the SDK
+        SlcInterface sdk = new SlcInterface();
+        String token = sdk.sessionCheck();
+        if (null != token && 0 < token.length())
+            LOG.info("Successfully executed session check with token " + token);
+        else
+            LOG.info("Session check failed");
     }
 
 }
