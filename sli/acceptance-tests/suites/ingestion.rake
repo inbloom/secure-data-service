@@ -76,7 +76,7 @@ task :ingestionStudentDisciplineIncidentAssociationTest do
   runTests("test/features/ingestion/features/ingestion_StudentDisciplineIncidentAssociation.feature")
 end
 
-"Run Ingestion Negative Tests"
+desc "Run Ingestion Negative Tests"
 task :ingestionNegativeTests do
   runTests("test/features/ingestion/features/negative_testing.feature")
 end
@@ -227,6 +227,12 @@ end
 desc "Run Sandbox Data Test"
 task :ingestionSandboxDataTest do
   runTests("test/features/ingestion/features/ingestion_sandbox_data_test.feature")
+end
+
+desc "Run Ingestion Smoke Tests"
+task :ingestionSmokeTests do
+  @tags = ["~@wip", "@smoke", "~@sandbox"]
+  Rake::Task["ingestionAcceptanceSdsTest"].invoke
 end
 
 ############################################################

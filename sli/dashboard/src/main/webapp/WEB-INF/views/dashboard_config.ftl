@@ -1,3 +1,18 @@
+<#--
+  Copyright 2012 Shared Learning Collaborative, LLC
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
         <style>
             .selector {
                 width:100px;
@@ -5,14 +20,14 @@
                 margin-left: 20px;
                 align: left;
             }
-            
+
             .display {
                 width:650px;
                 height: 400px;
                 padding:10px;
                 margin-left:20px;
             }
-            
+
             .display textarea {
                 width:100%;
                 height: 100%;
@@ -43,15 +58,15 @@
                         },
                     });
                 });
-                
+
             	pageTitle = SLC.dataProxy.getLayoutName();
 				document.title = pageTitle;
-				
+
 				setTimeout(SLC.util.placeholderFix, 500);
             });
         </script>
 
-            
+
             <#if configJSON == "nonLocalEducationAgency" >
                 <div id="fileDisplay" class="display">
                     <h4> This page is only available for district level IT Administrator.</h4>
@@ -62,7 +77,7 @@
                 </div>
                 <div id="fileDisplay" class="display">
                     <h4> In order to modify the current config for your Ed. Org., please replace the current config in the text area below with the updated config and click the "Save Config" button</h4>
-        
+
                     <textarea id="jsonText" >${configJSON}</textarea>
                 </div>
             </#if>

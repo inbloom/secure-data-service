@@ -54,7 +54,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "Dashboard"                                                    if human_readable_id == "DASHBOARD_APP"
   id = "Admin Tool"                                                   if human_readable_id == "ADMIN_APP"
   id = "Databrowser"                                                  if human_readable_id == "DATABROWSER_APP"
-  id = "ed_org_IL"                                                    if human_readable_id == "ED-ORG_SAMPLE_DS1"
+  id = "STANDARD-SEA"                                                 if human_readable_id == "ED-ORG_SAMPLE_DS1"
   id = "mreynolds"                                                    if human_readable_id == "DISTRICT_ADMIN_USER"
   id = "mreynolds1234"                                                if human_readable_id == "DISTRICT_ADMIN_PASS"
   id = PropLoader.getProps['user_registration_email']                 if human_readable_id == "Tenant_ID"
@@ -215,13 +215,9 @@ When /^clicks on "([^"]*)"$/ do |arg1|
 end
 
 Then /^an "([^"]*)" is saved to mongo$/ do |arg1|
- step "I am logged in using \"operator\" \"operator1234\" to realm \"SLI\""
-  uri="/v1/educationOrganizations"
-  #uri=uri+"?"+URI.escape("body.stateOrganizationId")+"="+URI.escape("IL")
-  restHttpGet(uri)
-  dataH=JSON.parse(@res.body)
-  assert(dataH.length==1,"#{arg1} is not saved to mongo}")
-  @edorgId=dataH[0]["id"]
+ edOrg_coll=@db["educationOrganization"]
+ edOrg=edOrg_coll.find({"body.stateOrganizationId"=> arg1})
+ assert(edOrg.count()>0,"didnt save #{arg1} to mongo")
 end
 
 Then /^an "([^"]*)" is added in the application table for "([^"]*)","([^"]*)", "([^"]*)"$/ do |arg1, arg2, arg3, arg4|

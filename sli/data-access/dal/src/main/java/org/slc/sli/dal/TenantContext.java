@@ -17,20 +17,25 @@
 
 package org.slc.sli.dal;
 
+/**
+ * TODO: add javadoc
+ *
+ */
 public class TenantContext {
-   
+
    private static ThreadLocal<String> tenantId = new ThreadLocal<String>() {
-       protected synchronized String initialValue() {
+       @Override
+    protected synchronized String initialValue() {
            return null;
        }
    };
-   
+
    public static String getTenantId() {
-       return (String) tenantId.get();
+       return tenantId.get();
    }
-   
+
    public static void setTenantId(String value) {
        tenantId.set(value);
    }
-   
+
 }
