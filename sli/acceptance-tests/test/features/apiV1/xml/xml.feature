@@ -39,6 +39,7 @@ Background: Nothing yet
     | courseOfferings             | courseOffering             | 95              |
 
 
+@wip
 Scenario: Getting response from POST - Create (school)
   Given a valid XML document for a new school entity
   When I POST the entity to "/v1/schools"
@@ -53,6 +54,7 @@ Scenario: Getting response from POST - Create (school)
 #  And I should find 3 "<gradesOffered>" under "<gradesOffered>"
 
 
+@wip
 Scenario: Getting response from PUT - Update (school)
   When I navigate to GET "/v1/schools/<SCHOOL ENTITY TO BE UPDATED>"
   Then I should see "<nameOfInstitution>" is "Sunset Central High School"
@@ -63,6 +65,7 @@ Scenario: Getting response from PUT - Update (school)
   Then I should receive an XML document
   Then I should see "<nameOfInstitution>" is "Updated School Name"
 
+@wip
 Scenario: Applying optional fields
   Given optional field "attendances"
   And optional field "assessments"
@@ -114,6 +117,8 @@ Scenario: Applying optional fields
   And I should find "<sections>" under it
   And I should find "<courses>" under it
   And I should see "<entityType>" is "course" for it
+
+@wip
 @test
 Scenario: Applying optional fields - single student view
   Given optional field "attendances"
