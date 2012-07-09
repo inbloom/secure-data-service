@@ -35,8 +35,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.client.constants.EntityNames;
-import org.slc.sli.api.client.constants.ResourceConstants;
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.resources.security.TenantResource.LandingZoneInfo;
@@ -106,6 +106,14 @@ public class OnboardingResource {
         String orgId = reqBody.get(STATE_EDORG_ID);
         String tenantId = reqBody.get(ResourceConstants.ENTITY_METADATA_TENANT_ID);
 
+        // TODO: Use an actual validator instead of coding validation logic here
+        if (orgId != null && (orgId.indexOf('.') >= 0 || orgId.indexOf('/') >= 0)) {
+            EntityBody body = new EntityBody();
+            body.put("response", "Ed Org cannot have '.' or '/' character");
+            return Response.status(Status.BAD_REQUEST).entity(body).build();
+        }
+
+        // TODO: this doesn't look right. Sandbox should check Right.INGEST_DATA and production should check Right.ADMIN_ACCESS, not the other way.
         // Ensure the user is an admin.
         Right requiredRight = Right.INGEST_DATA;
         if (isSandboxImpersonationEnabled) {
@@ -173,14 +181,6 @@ public class OnboardingResource {
 
             uuid = e.getEntityId();
 
-            // retrieve the application ids for common applications that already exist in mongod
-           // List<String> appIds = getAppIds();
-
-            // update common applications to include new edorg uuid in the field "authorized_ed_orgs"
-            // updateApps(uuid, appIds);
-
-            // create or update the applicationAuthorization collection in mongod for new edorg entity
-           // createAppAuth(uuid, appIds);
         }
 
         try {
@@ -203,78 +203,5 @@ public class OnboardingResource {
         }
     }
 
-    /**
-     * @param commonAppNames
-     *            collection of common application names
-     * @return collection of common application id
-     */
-    @SuppressWarnings("unused")
-    private List<String> getAppIds() {
-        List<String> appIds = new ArrayList<String>();
-        NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria(APP_BOOTSTRAP, NeutralCriteria.OPERATOR_EQUAL, true));
-        Iterable<String> ids = repo.findAllIds(APPLICATION_RESOURCE_NAME, query);
-        for (String id : ids) {
-            appIds.add(id);
-        }
-        return appIds;
-    }
 
-    /**
-     * @param edOrgId
-     *            the uuid of top level education organization
-     * @param appIds
-     *            collection of application id that the field "authorized_ed_orgs" need to be
-     *            updated
-     */
-    @SuppressWarnings({ "unchecked", "unused" })
-    private void updateApps(String edOrgId, List<String> appIds) {
-        for (String appId : appIds) {
-            Entity app = repo.findById(APPLICATION_RESOURCE_NAME, appId);
-            if (app != null) {
-                List<String> authorizedEdOrgIds = (List<String>) app.getBody().get(APPLICATION_AUTH_EDORGS);
-                if (authorizedEdOrgIds == null) {
-                    authorizedEdOrgIds = new ArrayList<String>();
-                    authorizedEdOrgIds.add(edOrgId);
-                } else if (authorizedEdOrgIds.contains(edOrgId)) {
-                    continue;
-                } else {
-                    authorizedEdOrgIds.add(edOrgId);
-                }
-                app.getBody().put(APPLICATION_AUTH_EDORGS, authorizedEdOrgIds);
-                repo.update(APPLICATION_RESOURCE_NAME, app);
-            }
-        }
-    }
-
-    /**
-     * @param edOrgId
-     *            the uuid of top level education organization
-     * @param appIds
-     *            collection of application id that edorg need to be authorized
-     */
-    @SuppressWarnings({ "unchecked", "unused" })
-    private void createAppAuth(String edOrgId, List<String> appIds) {
-        NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria(AUTH_ID, NeutralCriteria.OPERATOR_EQUAL, edOrgId));
-        query.addCriteria(new NeutralCriteria(AUTH_TYPE, NeutralCriteria.OPERATOR_EQUAL,
-                AUTH_TYPE_EDUCATION_ORGANIZATION));
-        Entity appAuth = repo.findOne(APPLICATION_AUTH_RESOURCE_NAME, query);
-        if (appAuth != null) {
-            List<String> ids = (List<String>) appAuth.getBody().get(APP_IDS);
-            for (String id : appIds) {
-                if (!ids.contains(id)) {
-                    ids.add(id);
-                }
-            }
-            appAuth.getBody().put(APP_IDS, ids);
-            repo.update(APPLICATION_AUTH_RESOURCE_NAME, appAuth);
-        } else {
-            EntityBody body = new EntityBody();
-            body.put(AUTH_ID, edOrgId);
-            body.put(AUTH_TYPE, AUTH_TYPE_EDUCATION_ORGANIZATION);
-            body.put(APP_IDS, appIds);
-            repo.create(APPLICATION_AUTH_RESOURCE_NAME, body);
-        }
-    }
 }

@@ -248,9 +248,7 @@ end
 ###### After hook(s) #########################################################
 
 After do |scenario| 
-  if(ENV['FAILFAST'])
-    Cucumber.wants_to_quit = true if scenario.failed?
-  end
+  Cucumber.wants_to_quit = true if scenario.failed? and !ENV['FAILSLOW']
 end
 
 

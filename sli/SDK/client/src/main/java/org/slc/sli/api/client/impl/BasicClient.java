@@ -152,12 +152,14 @@ public class BasicClient implements SLIClient {
                 mapper.writeValueAsString(e));
     }
 
+
     @SuppressWarnings("unchecked")
     @Override
     public Response deleteByToken(final String sessionToken, final String resourceUrl) throws URISyntaxException, MalformedURLException {
         return restClient.deleteRequest(sessionToken, new URL(restClient.getBaseURL() + resourceUrl));
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Response getResource(List<Entity> entities, URL resourceURL, Query query) throws URISyntaxException,
             MessageProcessingException, IOException {

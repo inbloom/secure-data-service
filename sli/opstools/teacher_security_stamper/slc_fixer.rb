@@ -436,8 +436,8 @@ class SLCFixer
       end
     end
     @studentId_to_teachers.each { |student,teachers|
-      #TODO Add tenantId
-      @db['studentTranscriptAssociation'].update({'body.studentId'=> student}, {"$unset" => {"padding" => 1}, '$set' => {'metaData.teacherContext' => teachers}})
+      #TODO Add tenantId, remove multi
+      @db['studentTranscriptAssociation'].update({'body.studentId'=> student}, {"$unset" => {"padding" => 1}, '$set' => {'metaData.teacherContext' => teachers}}, {:multi => true})
     }
   end
 

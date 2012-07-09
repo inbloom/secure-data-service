@@ -21,14 +21,15 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.slc.sli.api.client.constants.ResourceNames;
-import org.slc.sli.api.client.constants.v1.PathConstants;
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.resources.v1.DefaultCrudResource;
-import org.slc.sli.api.resources.v1.HypermediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.constants.PathConstants;
+import org.slc.sli.api.constants.ResourceNames;
+import org.slc.sli.api.resources.v1.DefaultCrudResource;
+import org.slc.sli.api.resources.v1.HypermediaType;
 
 /**
  * Represents the cumulative record of academic achievements and the collection of student grades
@@ -44,7 +45,7 @@ import org.springframework.stereotype.Component;
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_ACADEMIC_RECORDS)
 @Component
 @Scope("request")
-@Produces({ MediaType.APPLICATION_JSON+";charset=utf-8", HypermediaType.VENDOR_SLC_JSON+";charset=utf-8" })
+@Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })
 public class StudentAcademicRecordResource extends DefaultCrudResource {
 
     @Autowired

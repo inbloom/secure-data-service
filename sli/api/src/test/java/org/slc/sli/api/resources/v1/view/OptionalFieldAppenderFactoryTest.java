@@ -29,8 +29,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.client.constants.ResourceNames;
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
+import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.resources.v1.view.impl.StudentAssessmentOptionalFieldAppender;
 import org.slc.sli.api.resources.v1.view.impl.StudentGradebookOptionalFieldAppender;
 import org.slc.sli.api.resources.v1.view.impl.StudentTranscriptOptionalFieldAppender;

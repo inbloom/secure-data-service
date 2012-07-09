@@ -124,6 +124,10 @@ module ApprovalEngine
                 # update the status, set the roles and send an email
                 @@storage.update_status(user)
                 set_roles(user[:email])
+
+                # if this is sandbox write the userid as the tennant
+                set_sandbox_tenant(user)
+
             when [STATE_PENDING, STATE_REJECTED]
                 # update the status and clear the roles
                 @@storage.update_status(user)
@@ -132,12 +136,18 @@ module ApprovalEngine
                 # update the status and set the roles
                 @@storage.update_status(user)
                 set_roles(user[:email])
+
+                # if this is sandbox write the userid as the tennant
+                set_sandbox_tenant(user)
             when [STATE_APPROVED, STATE_DISABLED]
                 @@storage.update_status(user)
                 clear_roles(user[:email])
             when [STATE_DISABLED, STATE_APPROVED]
                 @@storage.update_status(user)
                 set_roles(user[:email])
+
+                # if this is sandbox write the userid as the tennant
+                set_sandbox_tenant(user)
             else
                 raise "Unknown state transition #{status} => #{target[transition]}."
         end
@@ -301,4 +311,14 @@ module ApprovalEngine
         }
         update_user_info(user_info)
     end
+
+    def ApprovalEngine.set_sandbox_tenant(user)
+        if @@is_sandbox
+            new_user_info = {
+                :email => user[:email],
+                :tenant => user[:email]
+            }
+            @@storage.update_user_info(new_user_info)
+        end 
+    end 
 end
