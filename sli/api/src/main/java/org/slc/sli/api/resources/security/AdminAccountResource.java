@@ -22,6 +22,7 @@ import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -39,6 +40,9 @@ public class AdminAccountResource {
     @Autowired
     LdapService ldapService;
     
+    @Value("${sli.simple-idp.sliAdminRealmName}")
+    private String realm;
+
     @GET
     public Response getUsers(
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
@@ -54,7 +58,7 @@ public class AdminAccountResource {
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
         String[] groups = new String[] { "SLC Operator", "SEA Administrator", "LEA Administrator" };
-        List<User> users = ldapService.findUserByGroups("SLIAdmin", Arrays.asList(groups));
+        List<User> users = ldapService.findUserByGroups(realm, Arrays.asList(groups));
         return Response.status(Status.OK).entity(users).build();
     }
 
