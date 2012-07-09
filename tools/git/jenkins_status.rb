@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+
 require 'json'
 require 'net/http'
 
@@ -45,36 +47,46 @@ module Jenkins
 
   # Print status of all jenkins jobs
   def self.printJobStatuses()
-    broken=false
+    threads = []
+
     BUILDS.each do |section|
-      jobs = self.getJson("#{BASE_URI}/#{section}/api/json")
+      threads << Thread.new {
+        Thread.current[:output] = {}
+        jobs = self.getJson("#{BASE_URI}/#{section}/api/json")
 
-      printf "\e[35m%-15s\e[0m",section
-      jobs["jobs"].each do |job|
-        name = job["name"]
-        lastBuild = self.getJson(job["url"]+"lastBuild/api/json")
+        out_str = "\e[35m%-15s\e[0m" % section
+        jobs["jobs"].each do |job|
+          name = job["name"]
+          lastBuild = self.getJson(job["url"]+"lastBuild/api/json")
 
-        if lastBuild["building"]==true
-          color="\e[36m"
-        elsif lastBuild["result"]=="SUCCESS"
-          color="\e[32m"
-        elsif lastBuild["result"]=="FAILURE"
-          color="\e[5m\e[31m"
-          broken=true
-        else
-          color="ERROR"
-          puts lastBuild.inspect
-        end    
-          
-        printf "#{color}%-30s\e[0m",name
-      end
-      puts ""
+          if lastBuild["building"]==true
+            color="\e[36m"
+          elsif lastBuild["result"]=="SUCCESS"
+            color="\e[32m"
+          elsif lastBuild["result"]=="FAILURE"
+            color="\e[31m\e[5m"
+            Thread.current[:output][:broken] = true
+          else
+            color="ERROR"
+            out_str += lastBuild.inspect
+          end
+
+          out_str += "#{color}%-30s\e[0m" % name
+        end
+        Thread.current[:output][:text] = out_str
+      }
     end
 
-    if broken
-      puts "\e[32mPUSHING WHEN BUILD IS BROKEN\e[0m"
-    end
-    
+    broken=false
+    text = []
+    threads.each {
+      |t| t.join
+      text << t[:output][:text]
+      broken = true if t[:output][:broken]
+    }
+
+    puts text.sort
+    puts "\e[31mPUSHING WHEN BUILD IS BROKEN\e[0m" if broken
   end
 
   # Calls the url and returns processed json
