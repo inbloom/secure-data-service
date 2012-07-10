@@ -29,6 +29,12 @@ import org.slc.sli.dashboard.entity.GenericEntity;
  */
 public class TreeGridDataBuilder {
 
+    private static final String LOADED = "loaded";
+    private static final String EXPANDED = "expanded";
+    private static final String IS_LEAF = "isLeaf";
+    private static final String PARENT = "parent";
+    private static final String LEVEL = "level";
+
     static public List<GenericEntity> build(List<GenericEntity> entities, List<String> subLevels) {
 
         List<GenericEntity> treeGrid = new ArrayList<GenericEntity>();
@@ -43,15 +49,15 @@ public class TreeGridDataBuilder {
     static private void buildLevel(List<GenericEntity> treeGrid, GenericEntity entity, String parentId, List<String> subLevels, int level) {
 
         // add entity to tree grid
-        entity.put("level", level);
+        entity.put(LEVEL, level);
         if (parentId == null) {
-            entity.put("parent", "");
+            entity.put(PARENT, "");
         } else {
-            entity.put("parent", parentId);
+            entity.put(PARENT, parentId);
         }
-        entity.put("isLeaf", true);
-        entity.put("expanded", false);
-        entity.put("loaded", true);
+        entity.put(IS_LEAF, true);
+        entity.put(EXPANDED, false);
+        entity.put(LOADED, true);
         treeGrid.add(entity);
 
         // recurse on sublevel
@@ -59,7 +65,7 @@ public class TreeGridDataBuilder {
 
             List<GenericEntity> subEntities = (List<GenericEntity>) entity.get(subLevels.get(level));
             if (subEntities != null && subEntities.size() > 0) {
-                entity.put("isLeaf", false);
+                entity.put(IS_LEAF, false);
                 for (GenericEntity subEntity : subEntities) {
                     buildLevel(treeGrid, subEntity, entity.getId(), subLevels, level + 1);
                 }

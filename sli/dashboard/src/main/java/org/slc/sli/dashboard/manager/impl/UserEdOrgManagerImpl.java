@@ -373,32 +373,32 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
             // add/get subject entity
             if (!subjects.containsKey(subjectArea)) {
                 subject = new GenericEntity();
-                subject.put("name", subjectArea);
-                subject.put("id", String.valueOf(++subjectIndex));
+                subject.put(Constants.ATTR_NAME, subjectArea);
+                subject.put(Constants.ATTR_ID, String.valueOf(++subjectIndex));
                 List<GenericEntity> c = new ArrayList<GenericEntity>();
-                subject.put("courses", c);
+                subject.put(Constants.ATTR_COURSES, c);
                 subjects.put(subjectArea, subject);
             } else {
                 subject = subjects.get(subjectArea);
             }
 
-            course.put("name", course.getString("courseTitle"));
-            course.remove("links");
-            ((List<GenericEntity>) subject.get("courses")).add(course);
+            course.put(Constants.ATTR_NAME, course.getString(Constants.ATTR_COURSE_TITLE));
+            course.remove(Constants.ATTR_LINKS);
+            ((List<GenericEntity>) subject.get(Constants.ATTR_COURSES)).add(course);
 
-            List<GenericEntity> sections = (List<GenericEntity>) course.get("sections");
+            List<GenericEntity> sections = (List<GenericEntity>) course.get(Constants.ATTR_SECTIONS);
             if (sections != null && sections.size() > 0) {
                 for (GenericEntity section : sections) {
-                    section.put("name", section.getString("sectionName"));
-                    section.remove("links");
+                    section.put(Constants.ATTR_NAME, section.getString(Constants.ATTR_SECTION_NAME));
+                    section.remove(Constants.ATTR_LINKS);
                 }
             }
         }
 
         // call the tree grid builder to format/structure the data
         List<String> subLevels = new ArrayList<String>();
-        subLevels.add("courses");
-        subLevels.add("sections");
+        subLevels.add(Constants.ATTR_COURSES);
+        subLevels.add(Constants.ATTR_SECTIONS);
         List<GenericEntity> entities = TreeGridDataBuilder.build(new ArrayList<GenericEntity>(subjects.values()), subLevels);
 
         GenericEntity entity = new GenericEntity();
