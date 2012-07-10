@@ -291,16 +291,16 @@ public final class Constants {
     
     // Attendance Histroy
     public static final String ATTENDANCE_HISTORY_TERM = "term";
-    public static final String ATTENDANCE_HISTORY_SCHOOL = "school";
-    public static final String ATTENDANCE_HISTORY_GRADE_LEVEL = "GradeLevel";
-    public static final String ATTENDANCE_HISTORY_PRESENT = "Present";
-    public static final String ATTENDANCE_HISTROY_IN_ATTENDANCE="InAttendance";
-    public static final String ATTENDANCE_HISTORY_TOTAL_ABSENCES = "TotalAbsences";
-    public static final String ATTENDANCE_HISTROY_ABSENCE = "Absence";
-    public static final String ATTENDANCE_HISTORY_EXCUSED = "Excused";
-    public static final String ATTENDANCE_HISTORY_UNEXCUSED = "Unexcused";
-    public static final String ATTENDANCE_HISTROY_TARDY = "Tardy";
-    public static final String ATTENDANCE_EARLY_DEPARTURE = "EarlyDeparture";
+    public static final String ATTENDANCE_HISTORY_SCHOOL = "schoolName";
+    public static final String ATTENDANCE_HISTORY_GRADE_LEVEL = "gradeLevel";
+    public static final String ATTENDANCE_HISTORY_PRESENT = "present";
+    public static final String ATTENDANCE_HISTROY_IN_ATTENDANCE="inAttendanceCount";
+    public static final String ATTENDANCE_HISTORY_TOTAL_ABSENCES = "totalAbsencesCount";
+    public static final String ATTENDANCE_HISTROY_ABSENCE = "absenceCount";
+    public static final String ATTENDANCE_HISTORY_EXCUSED = "excusedAbsenceCount";
+    public static final String ATTENDANCE_HISTORY_UNEXCUSED = "unexcusedAbsenceCount";
+    public static final String ATTENDANCE_HISTROY_TARDY = "tardyCount";
+    public static final String ATTENDANCE_EARLY_DEPARTURE = "earlyDepartureCount";
     
     /**
      * Contains the possible values for FRE participation

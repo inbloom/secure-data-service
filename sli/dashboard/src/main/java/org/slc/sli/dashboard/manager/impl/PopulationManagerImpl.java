@@ -938,8 +938,8 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         
         // creating lookup index for enrollment, key is term (yyyy-yyyy)
         int currentSchoolYear = 0;
-        Map<String, GenericEntity> enrollmentsIndex = new HashMap<String, GenericEntity>();
-        for (GenericEntity enrollment : enrollments) {
+        Map<String, LinkedHashMap<String, Object>> enrollmentsIndex = new HashMap<String, LinkedHashMap<String, Object>>();
+        for (LinkedHashMap<String, Object> enrollment : enrollments) {
             String entryDateYear = "";
             String exitWithdrawDateYear = "";
             String entryDate = (String) enrollment.get(Constants.ATTR_ENROLLMENT_ENTRY_DATE);
@@ -972,7 +972,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         
         // get attendance for the student
         List<GenericEntity> attendanceList = this.getStudentAttendance(token, studentId, null, null);
-        for (GenericEntity targetAttendance : attendanceList) {
+        for (LinkedHashMap<String, Object> targetAttendance : attendanceList) {
             
             // get schoolYearAttendance
             List<LinkedHashMap<String, Object>> schoolYearAttendances = (List<LinkedHashMap<String, Object>>) targetAttendance
@@ -996,7 +996,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                     // get schoolYear
                     String schoolYear = (String) schoolYearAttendance.get(Constants.ATTR_SCHOOL_YEAR);
                     
-                    //if some reasons we cannot find currentSchoolYear, then display all histories
+                    // if some reasons we cannot find currentSchoolYear, then display all histories
                     if (yearsBack != -1 && currentSchoolYear != 0) {
                         int targetYear = Integer.parseInt(schoolYear.substring(0, 4));
                         // if yearsBack is 1, it means current schoolYear.
@@ -1033,7 +1033,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                         }
                     }
                     // get target school year enrollment
-                    GenericEntity enrollment = enrollmentsIndex.get(schoolYear);
+                    LinkedHashMap<String,Object> enrollment = enrollmentsIndex.get(schoolYear);
                     GenericEntity currentTermAttendance = new GenericEntity();
                     
                     // set school term
