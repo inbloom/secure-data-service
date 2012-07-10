@@ -173,15 +173,12 @@ public interface APIClient {
     public List<GenericEntity> getSchools(String token, List<String> ids);
     
     /**
-     * Get a list of all associated schools depending upon user role
+     * Get a list of all associated schools
      * 
      * @param token
-     * @param ids
-     * @param isEducator
-     *            determines how to get your schools, by staff or teachers
      * @return
      */
-    public List<GenericEntity> getMySchools(String token, List<String> ids, boolean isEducator);
+    public List<GenericEntity> getMySchools(String token);
 
     /**
      * Get a list of schools using a list of ids

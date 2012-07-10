@@ -327,32 +327,43 @@ public class SDKAPIClient implements APIClient {
         return schools;
     }
     
-    public List<GenericEntity> getMySchools(String token, List<String> ids, boolean isEducator) {
+    /**
+     * Attempt to get a list of the users's schools
+     * 
+     * Note: This is a naieve method, it assumes you're a teacher, and if that fails
+     * it takes the route of going through pretending you're generic staff.
+     * 
+     * This adds 1 extra API call.
+     * 
+     * @param token
+     * @param ids
+     * @return a list of school entities that the user is associated with
+     */
+    @Override
+    public List<GenericEntity> getMySchools(String token) {
         
-        List<GenericEntity> schools;
-        if (isEducator) {
-            // get schools
-            schools = this.readEntityList(token,
-                    SDKConstants.TEACHERS_ENTITY + getId(token) + SDKConstants.TEACHER_SCHOOL_ASSOC
-                            + SDKConstants.SCHOOLS_ENTITY + "?" + this.buildQueryString(null));
-        } else {
+        List<GenericEntity> schools = new ArrayList<GenericEntity>();
+        // get schools
+        schools = this.readEntityList(token, SDKConstants.TEACHERS_ENTITY + getId(token)
+                + SDKConstants.TEACHER_SCHOOL_ASSOC + SDKConstants.SCHOOLS_ENTITY + "?" + this.buildQueryString(null));
+        if (schools == null || schools.size() == 0) {
             // Ok there are 5 potential edOrg levels so we need to get the edOrg for this staff then
             // dig down to the individual schools.
             Set<GenericEntity> schoolSet = new HashSet<GenericEntity>();
-            Set<GenericEntity> edOrgs = new HashSet<GenericEntity>();
+            List<GenericEntity> edOrgs = new ArrayList<GenericEntity>();
             edOrgs.addAll(this.readEntityList(token,
                     SDKConstants.STAFF_ENTITY + getId(token) + SDKConstants.STAFF_EDORG_ASSIGNMENT_ASSOC
                             + SDKConstants.EDORGS_ENTITY + "?" + this.buildQueryString(null)));
             schools = new ArrayList<GenericEntity>();
-            for (GenericEntity edOrg : edOrgs) {
+            for (int i = 0; i < edOrgs.size(); ++i) {
+                GenericEntity edOrg = edOrgs.get(i);
                 List<GenericEntity> potentialSchools = new ArrayList<GenericEntity>();
                 Map<String, String> query = new HashMap<String, String>();
                 query.put("parentEducationAgencyReference", (String) edOrg.get("id"));
                 potentialSchools = this.readEntityList(token,
                         SDKConstants.EDORGS_ENTITY + "?" + this.buildQueryString(query));
                 if (potentialSchools != null && potentialSchools.size() > 0) {
-                    List<String> categories = (List<String>) potentialSchools.get(0)
-.getList("organizationCategories");
+                    List<String> categories = (List<String>) potentialSchools.get(0).getList("organizationCategories");
                     if (categories.contains("School")) {
                         schoolSet.addAll(potentialSchools);
                     } else {
@@ -360,7 +371,6 @@ public class SDKAPIClient implements APIClient {
                     }
                 }
             }
-
             schools.addAll(schoolSet);
         }
         

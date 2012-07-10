@@ -101,7 +101,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         if (edOrg == null) {
 
             // get list of school
-            List<GenericEntity> schools = getMySchools(token, isEducator());
+            List<GenericEntity> schools = getMySchools(token);
 
             if (schools != null && !schools.isEmpty()) {
 
@@ -152,9 +152,9 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
      * 
      * @return
      */
-    private List<GenericEntity> getMySchools(String token, boolean isEducator) {
+    private List<GenericEntity> getMySchools(String token) {
         
-        return getApiClient().getMySchools(token, null, isEducator);
+        return getApiClient().getMySchools(token);
     }
 
     /**
@@ -167,7 +167,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
      */
     private List<GenericEntity> getUserInstHierarchy(String token) {
         // Find all the schools first.
-        List<GenericEntity> schools = getMySchools(token, isEducator());
+        List<GenericEntity> schools = getMySchools(token);
         if (schools == null) {
             return Collections.emptyList();
         }
