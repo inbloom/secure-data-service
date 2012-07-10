@@ -1,10 +1,24 @@
 /*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
  * SLC dataProxy
- * Handles all the data and config 
+ * Handles all methods related to data and config objects
  */
 /*global SLC $*/
-
-var contextRootPath = contextRootPath || "";
 
 SLC.namespace('SLC.dataProxy', (function () {
 		var data = {},
@@ -55,7 +69,8 @@ SLC.namespace('SLC.dataProxy', (function () {
 		 * @param callback - callback function
 		 */
 		function load(componentId, id, callback) {
-			var w_studentListLoader = SLC.loadingMask.create({context:"<div></div>"});
+			var contextRootPath = SLC.util.getContextRootPath(),
+				w_studentListLoader = SLC.loadingMask.create({context:"<div></div>"});
 			
 			w_studentListLoader.show();
 						

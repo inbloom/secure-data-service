@@ -13,7 +13,6 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
- <@includePanelModel panelId="listOfStudents"/>
  <#assign id = getDivId(panelConfig.id)>
  <div id="listOfStudents">
    <div id="viewDiv" class="menuBox">
@@ -49,12 +48,12 @@
     <table id="${id}"></table>
     <div id="losError" class="hidden"></div>
   </div>
+
 <#if minifyJs?? && minifyJs= false>
-    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/ListOfStudent.js"></script>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/panels/SLC.studentList.js"></script>
 </#if>
 
 <script type="text/javascript">
-    function getTableId() {
-        return '${id}';
-    }
+    SLC.util.setTableId('${id}');
+    SLC.studentList.create();
 </script>

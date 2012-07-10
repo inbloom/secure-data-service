@@ -58,16 +58,16 @@
 
 
 <script>
-	var contextRootPath = '${CONTEXT_ROOT_PATH}',
-		pageTitle;
-
+	
+	SLC.util.setContextRootPath('${CONTEXT_ROOT_PATH}');
+		
 	SLC.dataProxy.loadAll(${viewDataConfig});
 
 	if ($.browser.msie && parseInt($.browser.version, 10) < 9) {
 		document.createElement("footer");
 	}
-	pageTitle = SLC.dataProxy.getLayoutName();
-	document.title = pageTitle;
+	
+	document.title = SLC.dataProxy.getLayoutName();
 
 	setTimeout(SLC.util.placeholderFix, 500);
 </script>
