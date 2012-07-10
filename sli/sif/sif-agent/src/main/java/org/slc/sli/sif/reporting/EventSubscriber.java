@@ -62,7 +62,7 @@ public class EventSubscriber implements Subscriber, QueryResults {
         ADK.debug = ADK.DBG_ALL;
 
         try {
-            Resource configFile = new FileSystemResource(new File("src/main/resources/sif/subscriber-agent-config.xml"));
+            Resource configFile = new FileSystemResource(new File("src/main/resources/sif/agent-subscribe-config.xml"));
             SifAgent agent = new SifAgent("PublisherAgent", configFile, new SubscribeZoneConfigurator());
 
             agent.startAgent();
