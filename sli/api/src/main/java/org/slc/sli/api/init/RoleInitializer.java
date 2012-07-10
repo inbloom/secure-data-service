@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.init;
 
 import java.util.HashSet;
@@ -51,10 +50,10 @@ public class RoleInitializer {
     public static final String SLC_OPERATOR = "SLC Operator";
     public static final String REALM_ADMINISTRATOR = "Realm Administrator";
     public static final String INGESTION_USER = "Ingestion User";
-    public static final String  ROLES             = "roles";
+    public static final String ROLES = "roles";
 
     @Autowired
-    private Repository<Entity>    repository;
+    private Repository<Entity> repository;
 
     @PostConstruct
     public void init() {
@@ -143,7 +142,8 @@ public class RoleInitializer {
 
     private Role buildIngestionUser() {
         info("Building Ingestion User default role.");
-        return RoleBuilder.makeRole(INGESTION_USER).addRights(new Right[] { Right.INGEST_DATA, Right.ADMIN_ACCESS }).setAdmin(true).build();
+        return RoleBuilder.makeRole(INGESTION_USER).addRights(new Right[] { Right.INGEST_DATA, Right.ADMIN_ACCESS })
+                .setAdmin(true).build();
     }
 
     private Role buildRealmAdmin() {
@@ -152,45 +152,57 @@ public class RoleInitializer {
                 .makeRole(REALM_ADMINISTRATOR)
                 .addRights(
                         new Right[] { Right.ADMIN_ACCESS, Right.READ_GENERAL, Right.CRUD_REALM_ROLES, Right.READ_PUBLIC })
-                        .setAdmin(true).build();
+                .setAdmin(true).build();
     }
 
     private Role buildAggregate() {
         info("Building Aggregate Viewer default role.");
-        return RoleBuilder.makeRole(AGGREGATE_VIEWER).addRights(new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ }).build();
+        return RoleBuilder.makeRole(AGGREGATE_VIEWER)
+                .addRights(new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ }).build();
     }
 
     private Role buildSLCOperator() {
         info("Building SLC Operator role.");
-        return RoleBuilder.makeRole(SLC_OPERATOR)
+        return RoleBuilder
+                .makeRole(SLC_OPERATOR)
                 .addRights(
                         new Right[] { Right.ADMIN_ACCESS, Right.SLC_APP_APPROVE, Right.READ_GENERAL, Right.READ_PUBLIC,
-                                Right.CRUD_SLC_OPERATOR })
-                        .setAdmin(true).build();
+                                Right.CRUD_SLC_OPERATOR, Right.CRUD_SEA_ADMIN, Right.CRUD_LEA_ADMIN,
+                                Right.CRUD_APP_DEVELOPER }).setAdmin(true).build();
     }
-
-    //TODO why do developers have ADMIN_ACCESS? and READ_GENERAL?
+    
+    // TODO why do developers have ADMIN_ACCESS? and READ_GENERAL?
     private Role buildAppDeveloper() {
         info("Building Application Developer default role.");
-        return RoleBuilder.makeRole(APP_DEVELOPER)
+        return RoleBuilder
+                .makeRole(APP_DEVELOPER)
                 .addRights(
                         new Right[] { Right.ADMIN_ACCESS, Right.DEV_APP_CRUD, Right.READ_GENERAL, Right.READ_PUBLIC })
-                        .setAdmin(true).build();
+                .setAdmin(true).build();
     }
 
     private Role buildEducator() {
         info("Building Educator default role.");
-        return RoleBuilder.makeRole(EDUCATOR).addRights(new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL }).build();
+        return RoleBuilder.makeRole(EDUCATOR)
+                .addRights(new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL }).build();
     }
 
     private Role buildLeader() {
         info("Building Leader default role.");
-        return RoleBuilder.makeRole(LEADER).addRights(new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL, Right.READ_RESTRICTED }).build();
+        return RoleBuilder
+                .makeRole(LEADER)
+                .addRights(
+                        new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL,
+                                Right.READ_RESTRICTED }).build();
     }
 
     private Role buildIT() {
         info("Building IT Administrator default role.");
-        return RoleBuilder.makeRole(IT_ADMINISTRATOR).addRights(new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL, Right.READ_RESTRICTED, Right.WRITE_GENERAL, Right.WRITE_RESTRICTED }).build();
+        return RoleBuilder
+                .makeRole(IT_ADMINISTRATOR)
+                .addRights(
+                        new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL,
+                                Right.READ_RESTRICTED, Right.WRITE_GENERAL, Right.WRITE_RESTRICTED }).build();
     }
 
     private Role buildLEAAdmin() {
@@ -207,7 +219,8 @@ public class RoleInitializer {
         return RoleBuilder
                 .makeRole(SEA_ADMINISTRATOR)
                 .addRights(
-                        new Right[] { Right.ADMIN_ACCESS, Right.EDORG_DELEGATE, Right.READ_PUBLIC, Right.CRUD_SEA_ADMIN })
+                        new Right[] { Right.ADMIN_ACCESS, Right.EDORG_DELEGATE, Right.READ_PUBLIC,
+                                Right.CRUD_SEA_ADMIN, Right.CRUD_LEA_ADMIN })
                 .setAdmin(true).build();
     }
 

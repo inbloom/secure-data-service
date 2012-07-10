@@ -16,11 +16,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.ldap.LdapService;
@@ -29,6 +24,10 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * @author dliu
@@ -53,7 +52,6 @@ public class UserResource {
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
 
-        // TODO add business logic to determine accessible admin accounts based on user rights
 
         if (!hasRight()) {
             EntityBody body = new EntityBody();
@@ -61,7 +59,7 @@ public class UserResource {
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
         String tenant = SecurityUtil.getTenantId();
-        List<User> users = ldapService.findUserByGroups(realm, RightToGroupMapper.getGroups(getRight()), tenant);
+        List<User> users = ldapService.findUserByGroups(realm, RightToGroupMapper.getGroups(getRights()), tenant);
         return Response.status(Status.OK).entity(users).build();
     }
 
@@ -72,22 +70,26 @@ public class UserResource {
         }
         return true;
     }
+    
+    // TODO need configured to be environment specific
+    private List<Right> getRights() {
+        List<Right> rights = new ArrayList<Right>();
+        if (SecurityUtil.hasRight(Right.CRUD_SLC_OPERATOR))
+            rights.add(Right.CRUD_SLC_OPERATOR);
+        if (SecurityUtil.hasRight(Right.CRUD_SEA_ADMIN))
+            rights.add(Right.CRUD_SEA_ADMIN);
+        if (SecurityUtil.hasRight(Right.CRUD_LEA_ADMIN))
+            rights.add(Right.CRUD_LEA_ADMIN);
 
-    private Right getRight() {
-        if (SecurityUtil.hasRight(Right.CRUD_SLC_OPERATOR)) {
-            return Right.CRUD_SLC_OPERATOR;
-        } else if (SecurityUtil.hasRight(Right.CRUD_SEA_ADMIN)) {
-            return Right.CRUD_SEA_ADMIN;
-        } else if (SecurityUtil.hasRight(Right.CRUD_LEA_ADMIN)) {
-            return Right.CRUD_LEA_ADMIN;
-        }
-        return null;
+        return rights;
     }
 
     /**
      * Map Right to Groups (LDAP's equivalence of Role)
      *
      */
+    
+    // TODO need configured to be environment specific
     public static class RightToGroupMapper {
 
         private static Map<Right, List<String>> rightToGroupMap;
@@ -98,14 +100,28 @@ public class UserResource {
             }
             return rightToGroupMap.get(right);
         }
+        
+        public static List<String> getGroups(List<Right> rights) {
+            if (rights != null && rights.size() > 0) {
+                List<String> combinedGroupNames = new ArrayList<String>();
+                for (Right right : rights) {
+                    List<String> groupNames = getGroups(right);
+                    for (String groupName : groupNames) {
+                        if (!combinedGroupNames.contains(groupName)) {
+                            combinedGroupNames.add(groupName);
+                        }
+                    }
+                }
+                return combinedGroupNames;
+            }
+            return null;
+        }
 
         private static void init() {
             rightToGroupMap = new HashMap<Right, List<String>>();
             // define groups that CRUD_SLC_OPERATOR right can access
             List<String> slcoperatorGroups = new ArrayList<String>();
             slcoperatorGroups.add(RoleInitializer.SLC_OPERATOR);
-            slcoperatorGroups.add(RoleInitializer.SEA_ADMINISTRATOR);
-            slcoperatorGroups.add(RoleInitializer.LEA_ADMINISTRATOR);
             slcoperatorGroups.add(RoleInitializer.REALM_ADMINISTRATOR);
             slcoperatorGroups.add(RoleInitializer.INGESTION_USER);
             rightToGroupMap.put(Right.CRUD_SLC_OPERATOR, slcoperatorGroups);
@@ -113,7 +129,6 @@ public class UserResource {
             // define groups that CRUD_SEA_ADMIN right can access
             List<String> seaadmiGroups = new ArrayList<String>();
             seaadmiGroups.add(RoleInitializer.SEA_ADMINISTRATOR);
-            seaadmiGroups.add(RoleInitializer.LEA_ADMINISTRATOR);
             seaadmiGroups.add(RoleInitializer.REALM_ADMINISTRATOR);
             seaadmiGroups.add(RoleInitializer.INGESTION_USER);
             rightToGroupMap.put(Right.CRUD_SEA_ADMIN, seaadmiGroups);

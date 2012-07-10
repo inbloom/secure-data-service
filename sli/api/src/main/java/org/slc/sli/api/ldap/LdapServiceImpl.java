@@ -20,9 +20,9 @@ import org.springframework.stereotype.Component;
 
 /**
  * implementation of LdapService interface for basic CRUD and search operations on LDAP directory
- *
+ * 
  * @author dliu
- *
+ * 
  */
 
 @Component
@@ -53,7 +53,8 @@ public class LdapServiceImpl implements LdapService {
         DistinguishedName dn = new DistinguishedName("ou=" + realm);
         User user;
         try {
-            List userList = ldapTemplate.search(dn, filter.toString(), SearchControls.SUBTREE_SCOPE, new String[] { "*", CREATE_TIMESTAMP, MODIFY_TIMESTAMP }, new UserContextMapper());
+            List userList = ldapTemplate.search(dn, filter.toString(), SearchControls.SUBTREE_SCOPE, new String[] {
+                    "*", CREATE_TIMESTAMP, MODIFY_TIMESTAMP }, new UserContextMapper());
             if (userList == null || userList.size() == 0) {
                 throw new EmptyResultDataAccessException(1);
             } else if (userList.size() > 1) {
@@ -107,38 +108,41 @@ public class LdapServiceImpl implements LdapService {
         List<User> users = new ArrayList<User>();
         List<String> uids = new ArrayList<String>();
         Map<String, List<String>> uidToGroupsMap = new HashMap<String, List<String>>();
-        for (String groupName : groupNames) {
-            Group group = getGroup(realm, groupName);
-            List<String> memberUids = group.getMemberUids();
-            if (memberUids != null && memberUids.size() > 0) {
-                for (String memberUid : memberUids) {
-                    if (uidToGroupsMap.containsKey(memberUid)) {
-                        uidToGroupsMap.get(memberUid).add(groupName);
-                    } else {
-                        List<String> uidGroupNames = new ArrayList<String>();
-                        uidGroupNames.add(groupName);
-                        uidToGroupsMap.put(memberUid, uidGroupNames);
-                    }
-                    if (!uids.contains(memberUid)) {
-                        uids.add(memberUid);
+        if (groupNames != null && groupNames.size() > 0) {
+            for (String groupName : groupNames) {
+                Group group = getGroup(realm, groupName);
+                List<String> memberUids = group.getMemberUids();
+                if (memberUids != null && memberUids.size() > 0) {
+                    for (String memberUid : memberUids) {
+                        if (uidToGroupsMap.containsKey(memberUid)) {
+                            uidToGroupsMap.get(memberUid).add(groupName);
+                        } else {
+                            List<String> uidGroupNames = new ArrayList<String>();
+                            uidGroupNames.add(groupName);
+                            uidToGroupsMap.put(memberUid, uidGroupNames);
+                        }
+                        if (!uids.contains(memberUid)) {
+                            uids.add(memberUid);
+                        }
                     }
                 }
             }
+            AndFilter filter = new AndFilter();
+            filter.and(new EqualsFilter("objectclass", userObjectClass));
+            OrFilter orFilter = new OrFilter();
+            for (String uid : uids) {
+                orFilter.or(new EqualsFilter(userSearchAttribute, uid));
+            }
+            filter.and(orFilter);
+            DistinguishedName dn = new DistinguishedName("ou=" + realm);
+            users = (List<User>) (ldapTemplate.search(dn, filter.toString(), SearchControls.SUBTREE_SCOPE,
+                    new String[] { "*", CREATE_TIMESTAMP, MODIFY_TIMESTAMP }, new UserContextMapper()));
+            for (User user : users) {
+                user.setGroups(uidToGroupsMap.get(user.getUid()));
+            }
+            return users;
         }
-        AndFilter filter = new AndFilter();
-        filter.and(new EqualsFilter("objectclass", userObjectClass));
-        OrFilter orFilter = new OrFilter();
-        for(String uid:uids){
-            orFilter.or(new EqualsFilter(userSearchAttribute, uid));
-        }
-        filter.and(orFilter);
-        DistinguishedName dn = new DistinguishedName("ou=" + realm);
-        users = (List<User>) (ldapTemplate.search(dn, filter.toString(), SearchControls.SUBTREE_SCOPE, new String[] {
-                "*", CREATE_TIMESTAMP, MODIFY_TIMESTAMP }, new UserContextMapper()));
-        for (User user : users) {
-            user.setGroups(uidToGroupsMap.get(user.getUid()));
-        }
-        return users;
+        return null;
     }
 
     @Override
