@@ -77,6 +77,7 @@
     </bean>
 
     <bean id="populationManager" class="org.slc.sli.dashboard.manager.impl.PopulationManagerImpl">
+        <property name="apiClient" ref="apiClientRef"/>
         <property name="entityManager" ref="entityManager"/>
     </bean>
 
