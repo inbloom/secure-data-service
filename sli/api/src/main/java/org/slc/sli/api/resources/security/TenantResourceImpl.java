@@ -45,6 +45,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -162,7 +163,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
 
         String ingestionServer = randomIngestionServer();
         File inboundDirFile = new File(landingZoneMountPoint);
-        File fullPath = new File(inboundDirFile, tenantId + "/" + edOrgId);
+        File fullPath = new File(inboundDirFile, tenantId + "/" + DigestUtils.sha256Hex(edOrgId));
         String path = fullPath.getAbsolutePath();
 
         //resolve localhost ingestion server to the current server name
