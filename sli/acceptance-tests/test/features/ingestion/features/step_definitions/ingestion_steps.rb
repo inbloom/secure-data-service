@@ -1553,6 +1553,19 @@ Then /^"([^"]*)" contains a reference to a "([^"]*)" where "([^"]*)" is "([^"]*)
   assert(references.include?(id), "the record #{@record} does not contain a reference to the #{collection} #{value}")
 end
 
+When /^zip file "(.*?)" is scp to ingestion landing zone$/ do |fileName|
+  @source_file_name = fileName
+  step "zip file is scp to ingestion landing zone"
+end
+
+When /^a batch job log for "(.*?)" file "(.*?)" has been created$/ do |landingZone, sourceFile|
+  @landing_zone_path=@ingestion_lz_identifer_map[landingZone]
+  @source_file_name=sourceFile
+  step "a batch job log has been created"
+end
+
+
+
 ############################################################
 # STEPS: BEFORE
 ############################################################
