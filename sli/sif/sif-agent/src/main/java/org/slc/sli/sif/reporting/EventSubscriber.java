@@ -35,39 +35,37 @@ import openadk.library.student.StudentDTD;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 
 import org.slc.sli.sif.agent.SifAgent;
+import org.slc.sli.sif.zone.SubscribeZoneConfigurator;
 
 public class EventSubscriber implements Subscriber, QueryResults {
 
     static {
         // Simple workaround to get logging paths set up correctly when run from the command line
         String catalinaHome = System.getProperty("catalina.home");
-        if( catalinaHome == null ){
+        if (catalinaHome == null) {
             System.setProperty("catalina.home", "target");
         }
         String sliConf = System.getProperty("sli.conf");
-        if( sliConf == null ){
+        if (sliConf == null) {
             System.setProperty("sli.conf", "../../config/properties/sli.properties");
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ADKException {
         Logger logger = LoggerFactory.getLogger(EventSubscriber.class);
 
+        ADK.initialize();
+        ADK.debug = ADK.DBG_ALL;
+
         try {
-            FileSystemXmlApplicationContext context = new FileSystemXmlApplicationContext(
-                    "classpath:spring/applicationContext.xml");
-            context.registerShutdownHook();
+            Resource configFile = new FileSystemResource(new File("src/main/resources/sif/agent-subscribe-config.xml"));
+            SifAgent agent = new SifAgent("PublisherAgent", configFile, new SubscribeZoneConfigurator());
 
-            //SifAgent agent = context.getBean(SifAgent.class);
-
-            SifAgent agent = new SifAgent("SubscriberAgent");
-            ADK.initialize();
-            ADK.debug = ADK.DBG_ALL;
-
-            agent.startAgentWithConfig(new File("src/main/resources/sif/subscriber-agent-config.xml"));
+            agent.startAgent();
 
             if (args.length >= 1) {
                 String zoneId = args[EventSubscriber.ZONE_ID];
@@ -80,6 +78,17 @@ public class EventSubscriber implements Subscriber, QueryResults {
             }
         } catch (Exception e) {
             logger.error("Exception trying to subscriber to event", e);
+        }
+
+        // Wait for Ctrl-C to be pressed
+        Object semaphore = new Object();
+        System.out.println("Agent is running (Press Ctrl-C to stop)");
+        synchronized (semaphore) {
+            try {
+                semaphore.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -113,12 +122,9 @@ public class EventSubscriber implements Subscriber, QueryResults {
     }
 
     @Override
-    public void onEvent(Event event, Zone zone, MessageInfo info)
-            throws ADKException {
-        LOG.info("Received event:\n"
-                + "\tEvent: " + event.getActionString() + "\n"
-                + "\tZone: " + zone.getZoneId() + "\n"
-                + "\tInfo: " + info.getMessage());
+    public void onEvent(Event event, Zone zone, MessageInfo info) throws ADKException {
+        LOG.info("Received event:\n" + "\tEvent: " + event.getActionString() + "\n" + "\tZone: " + zone.getZoneId()
+                + "\n" + "\tInfo: " + info.getMessage());
         inspectAndDestroyEvent(event);
     }
 
@@ -128,8 +134,8 @@ public class EventSubscriber implements Subscriber, QueryResults {
     }
 
     @Override
-    public void onQueryResults(DataObjectInputStream data, SIF_Error error,
-            Zone zone, MessageInfo info) throws ADKException {
+    public void onQueryResults(DataObjectInputStream data, SIF_Error error, Zone zone, MessageInfo info)
+            throws ADKException {
         LOG.info("Received query results");
     }
 }

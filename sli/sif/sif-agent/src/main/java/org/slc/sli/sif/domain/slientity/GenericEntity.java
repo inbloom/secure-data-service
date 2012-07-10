@@ -24,5 +24,10 @@ package org.slc.sli.sif.domain.slientity;
  */
 public class GenericEntity
 {
+    /**
+     *  Constructor
+     */
+    public GenericEntity() {
 
+    }
 }

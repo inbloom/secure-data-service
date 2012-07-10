@@ -33,9 +33,11 @@ import openadk.library.student.StudentDTD;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 
 import org.slc.sli.sif.agent.SifAgent;
+import org.slc.sli.sif.zone.PublishZoneConfigurator;
 
 public class EventReporter implements Publisher {
 
@@ -51,21 +53,18 @@ public class EventReporter implements Publisher {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ADKException {
         Logger logger = LoggerFactory.getLogger(EventReporter.class);
 
+        ADK.initialize();
+        ADK.debug = ADK.DBG_ALL;
+
         try {
-            FileSystemXmlApplicationContext context = new FileSystemXmlApplicationContext(
-                    "classpath:spring/applicationContext.xml");
-            context.registerShutdownHook();
 
-            //SifAgent agent = context.getBean(SifAgent.class);
+            Resource configFile = new FileSystemResource(new File("src/main/resources/sif/agent-publish-config.xml"));
+            SifAgent agent = new SifAgent("PublisherAgent",configFile, new PublishZoneConfigurator());
 
-            SifAgent agent = new SifAgent("PublisherAgent");
-            ADK.initialize();
-            ADK.debug = ADK.DBG_ALL;
-
-            agent.startAgentWithConfig(new File("src/main/resources/sif/agent-config.xml"));
+            agent.startAgent();
 
             if (args.length >= 2) {
                 String zoneId = args[EventReporter.ZONE_ID];

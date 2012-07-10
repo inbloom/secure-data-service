@@ -26,10 +26,11 @@ import openadk.library.SIFDataObject;
  */
 public class GenericEntity
 {
+    private SIFDataObject dataObject;
     /**
      *  Constructor
      */
     public GenericEntity(SIFDataObject dataObject) {
-
+        this.dataObject = dataObject;
     }
 }
