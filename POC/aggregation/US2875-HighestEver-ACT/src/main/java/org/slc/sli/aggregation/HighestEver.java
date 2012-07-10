@@ -2,7 +2,7 @@ package org.slc.sli.aggregation;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
-import org.apache.hadoop.io.DoubleWritable;
+import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.util.GenericOptionsParser;
@@ -17,6 +17,7 @@ import com.mongodb.Mongo;
 import com.mongodb.MongoURI;
 import com.mongodb.hadoop.MongoInputFormat;
 import com.mongodb.hadoop.MongoOutputFormat;
+import com.mongodb.hadoop.io.BSONWritable;
 import com.mongodb.hadoop.util.MongoConfigUtil;
 
 
@@ -62,7 +63,7 @@ public class HighestEver extends Configured implements Tool {
         
         job.setInputFormatClass(MongoInputFormat.class);
         job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(DoubleWritable.class);
+        job.setOutputValueClass(BSONWritable.class);
         job.setOutputFormatClass(MongoOutputFormat.class);
         
         boolean success = job.waitForCompletion(true);
