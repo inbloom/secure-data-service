@@ -42,12 +42,13 @@ public class Config implements Cloneable, Serializable {
 
     /**
      * Type of components
-     *
+     * set true: it will look up outside config file.
+     * set false: it does not have outside config.
      * @author agrebneva
      *
      */
     public enum Type {
-        LAYOUT(true), PANEL(true), GRID(true), TAB(false), WIDGET(true), FIELD(false), EXPAND(false), REPEAT_HEADER_GRID(false);
+        LAYOUT(true), PANEL(true), GRID(true), TAB(false), WIDGET(true), FIELD(false), EXPAND(false), REPEAT_HEADER_GRID(true);
 
         private boolean hasOwnConfig;
 
