@@ -13,6 +13,7 @@ public aspect IngestionLoggerAspect {
             && !org.slc.sli.ingestion.transformation.AbstractTrans*
             && !org.slc.sli.ingestion.validation.ErrorRep*
             && !org.slc.sli.ingestion.validation.spring.SimpleV*
+            && !org.slc.sli.ingestion.landingzone.validation.IngestionFileVal*
             && !java.lang.Enum+ ) implements IngestionLogger;
 
     public void IngestionLogger.debug(String msg) {
