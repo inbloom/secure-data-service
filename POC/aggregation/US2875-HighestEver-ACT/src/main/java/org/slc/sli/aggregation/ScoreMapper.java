@@ -12,7 +12,7 @@ import com.mongodb.hadoop.io.BSONWritable;
 
 
 /**
- * Maps a SAA to an Integer score
+ * Maps a SAA to a double score
  */
 public class ScoreMapper extends Mapper<String, BSONObject, BSONWritable, DoubleWritable> {
 
