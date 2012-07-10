@@ -1,7 +1,9 @@
 package org.slc.sli.api.ldap;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.naming.directory.SearchControls;
 
@@ -104,11 +106,19 @@ public class LdapServiceImpl implements LdapService {
     public List<User> findUserByGroups(String realm, List<String> groupNames) {
         List<User> users = new ArrayList<User>();
         List<String> uids = new ArrayList<String>();
+        Map<String, List<String>> uidToGroupsMap = new HashMap<String, List<String>>();
         for (String groupName : groupNames) {
             Group group = getGroup(realm, groupName);
             List<String> memberUids = group.getMemberUids();
             if (memberUids != null && memberUids.size() > 0) {
                 for (String memberUid : memberUids) {
+                    if (uidToGroupsMap.containsKey(memberUid)) {
+                        uidToGroupsMap.get(memberUid).add(groupName);
+                    } else {
+                        List<String> uidGroupNames = new ArrayList<String>();
+                        uidGroupNames.add(groupName);
+                        uidToGroupsMap.put(memberUid, uidGroupNames);
+                    }
                     if (!uids.contains(memberUid)) {
                         uids.add(memberUid);
                     }
@@ -126,10 +136,7 @@ public class LdapServiceImpl implements LdapService {
         users = (List<User>) (ldapTemplate.search(dn, filter.toString(), SearchControls.SUBTREE_SCOPE, new String[] {
                 "*", CREATE_TIMESTAMP, MODIFY_TIMESTAMP }, new UserContextMapper()));
         for (User user : users) {
-            List<Group> groups = getUserGroups(realm, user.getUid());
-            for (Group group : groups) {
-                user.addGroup(group.getGroupName());
-            }
+            user.setGroups(uidToGroupsMap.get(user.getUid()));
         }
         return users;
     }
