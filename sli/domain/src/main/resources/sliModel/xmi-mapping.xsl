@@ -42,16 +42,35 @@
 							<xsl:sort select="rhs/type"></xsl:sort>
 							<xsl:sort select="lhs/name"></xsl:sort>
 							<xsl:sort select="rhs/name"></xsl:sort>
-							<xsl:if
-								test="not(contains(status,'ignorable'))">
+							<xsl:if test="not(contains(status,'ignorable'))">
 								<tr>
 									<xsl:for-each select="lhs">
-										<td>
-											<xsl:value-of select="type"></xsl:value-of>
-										</td>
-										<td>
-											<xsl:value-of select="name"></xsl:value-of>
-										</td>
+										<xsl:choose>
+											<xsl:when
+												test="(string(../rhs/type) = string(type)) or contains(../status,'unknown')">
+												<td>
+													<xsl:value-of select="type"></xsl:value-of>
+												</td>
+											</xsl:when>
+											<xsl:otherwise>
+												<td>
+													<xsl:value-of select="type"></xsl:value-of>
+												</td>
+											</xsl:otherwise>
+										</xsl:choose>
+										<xsl:choose>
+											<xsl:when
+												test="(string(../rhs/name) = string(name)) or contains(../status,'unknown')">
+												<td>
+													<xsl:value-of select="name"></xsl:value-of>
+												</td>
+											</xsl:when>
+											<xsl:otherwise>
+												<td class="warning">
+													<xsl:value-of select="name"></xsl:value-of>
+												</td>
+											</xsl:otherwise>
+										</xsl:choose>
 									</xsl:for-each>
 									<xsl:for-each select="lhsMissing">
 										<td>
@@ -77,7 +96,7 @@
 										</xsl:choose>
 										<xsl:choose>
 											<xsl:when
-												test="(string(../lhs/name) = string(name)) or contains(../status,'unknown')">
+												test="(translate(string(../lhs/name),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz') = translate(string(name),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')) or contains(../status,'unknown')">
 												<td>
 													<xsl:value-of select="name"></xsl:value-of>
 												</td>

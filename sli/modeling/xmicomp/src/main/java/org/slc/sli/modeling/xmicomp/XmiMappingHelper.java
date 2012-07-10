@@ -142,10 +142,10 @@ public final class XmiMappingHelper {
         return Collections.unmodifiableMap(missingFeatures);
     }
     
-    public static final <T> Map<String, T> makeLowerCaseKey(final Map<String, T> map) {
-        final Map<String, T> copy = new HashMap<String, T>(map.size());
+    public static final <T> Map<CaseInsensitiveName, T> makeLowerCaseKey(final Map<String, T> map) {
+        final Map<CaseInsensitiveName, T> copy = new HashMap<CaseInsensitiveName, T>(map.size());
         for (final String key : map.keySet()) {
-            copy.put(key.toLowerCase(), map.get(key));
+            copy.put(new CaseInsensitiveName(key), map.get(key));
         }
         return copy;
     }

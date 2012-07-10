@@ -16,7 +16,7 @@ public final class XmiFeature {
     
     public XmiFeature(final String featureName, final String type, final boolean defined) {
         if (null == featureName) {
-            throw new NullPointerException("name");
+            throw new NullPointerException("featureName");
         }
         if (null == type) {
             throw new NullPointerException("type");
