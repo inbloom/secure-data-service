@@ -60,9 +60,6 @@ puts "PWD: #{dir}"
 log_dir = "#{dir}/everyLog"
 Dir.mkdir(log_dir) unless File.exists?(log_dir)
 
-Dir.chdir log_dir 
-FileUtils.rm Dir.glob('*.log')
-
 jetty_pattern=/Starting scanner at interval of 5 seconds/
 
 procs = [
