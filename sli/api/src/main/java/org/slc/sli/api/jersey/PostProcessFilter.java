@@ -62,7 +62,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
     @Override
     public ContainerResponse filter(ContainerRequest request, ContainerResponse response) {
         SecurityContextHolder.clearContext();
-        logApiDataToDb(request);
+        logApiDataToDb(request,response);
         printElapsed(request);
         expireCache();
 
@@ -85,7 +85,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
             securityCachingStrategy.expire();
         }
     }
-    private void logApiDataToDb(ContainerRequest request){
+    private void logApiDataToDb(ContainerRequest request, ContainerResponse response){
         long startTime = (Long) request.getProperties().get("startTime");
         long elapsed = System.currentTimeMillis() - startTime;
 
@@ -100,23 +100,25 @@ public class PostProcessFilter implements ContainerResponseFilter {
         UriTemplate readAllUri = new UriTemplate("http://local.slidev.org:8080/api/rest/v1/{resource}");
         HashMap<String, String> uri = new HashMap<String, String>();
 
-        ut.match(requestURL,m);
+        if(!fourPartUri.match(requestURL , uri)) {
+            if (!threePartUri.match(requestURL , uri)){
+                if(!twoPartUri.match(requestURL , uri)) {
+                    readAllUri.match(requestURL , uri);
+                }
+            }
+        }
 
-
-        //if its a "?" uri extract parameter list
-
-//        for (String partUri : path.split("/")) {
-//            System.out.println(partUri);
-//        }
         body.put("url",requestURL) ;
-        body.put("resource",m.get("resource"));
-        body.put("id",m.get("id"));
-        body.put("association",m.get("association"));
-        body.put("associateEntity",m.get("associateEntity"));
+        body.put("method",request.getMethod());
+        body.put("entityCount",response.getHttpHeaders().get("TotalCount"));
+        body.put("resource",uri.get("resource"));
+        body.put("id",uri.get("id"));
+        body.put("association",uri.get("association"));
+        body.put("associateEntity",uri.get("associateEntity"));
         body.put("Date", dateFormatter.format(System.currentTimeMillis()));
         body.put("startTime",timeFormatter.format(new Date(startTime))) ;
         body.put("endTime",timeFormatter.format(new Date(System.currentTimeMillis())));
-        body.put("responseTime(ms)", String.valueOf(elapsed));
+        body.put("responseTime", String.valueOf(elapsed));
         perfRepo.create("apiResponse",body,"apiResponse");
 
     }

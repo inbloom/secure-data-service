@@ -49,7 +49,7 @@ public aspect ResourceLoggingAspect {
         logMessage(thisJoinPoint, enter, System.currentTimeMillis());
 
         //log the method information in database
-        logApiDataToDb(thisJoinPoint, enter, System.currentTimeMillis());
+        //logApiDataToDb(thisJoinPoint, enter, System.currentTimeMillis());
         
         return result;
     }
