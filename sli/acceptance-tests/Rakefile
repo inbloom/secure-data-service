@@ -306,6 +306,7 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :apiV1AssociationTests,
                      :v1homeUriTests,
                      :v1ValidationTests,
+                     :v1WhiteListValidationTests,
                      :v1HierarchyTraversalTests,
                      :v1DirectReferencesTests,
                      :v1DirectReferenceCollectionsTests,
@@ -319,7 +320,8 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1StudentOptionalFieldsTests,
                      :v1SingleStudentViewTests,
                      :v1BlacklistValidationTests,
-                     :v1XMLTests] do
+                     :v1XMLTests,
+                     :v1CommaSeparatedListOrderTests] do
   displayFailureReport()
 end
 
