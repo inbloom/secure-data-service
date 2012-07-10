@@ -239,15 +239,15 @@ task :v1ValidationTests => [:realmInit] do
   setFixture("section", "section_fixture.json")
   setFixture("studentSectionAssociation", "studentSectionAssociation_fixture.json")
   setFixture("teacherSectionAssociation", "teacherSectionAssociation_fixture.json")
-  runTests("test/features/apiV1/validation")
+  runTests("test/features/apiV1/validation/validation.feature")
 end
 
 desc "Run V1 White List Validation Tests"
 task :v1WhiteListValidationTests => [:realmInit] do
-  runTests("test/features/apiV1/validation/whitelist_validation.feature")
   setFixture("educationOrganization", "educationOrganization_fixture.json")
   setFixture("staff", "staff_fixture.json")
   setFixture("student", "student_fixture.json")
+  runTests("test/features/apiV1/validation/whitelist_validation.feature")
 end
 
 desc "Run Sorting and Paging Tests"
