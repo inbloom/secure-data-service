@@ -351,24 +351,24 @@ public class SDKAPIClient implements APIClient {
             // dig down to the individual schools.
             Set<GenericEntity> schoolSet = new HashSet<GenericEntity>();
             List<GenericEntity> edOrgs = new ArrayList<GenericEntity>();
+            schools = new ArrayList<GenericEntity>();
             edOrgs.addAll(this.readEntityList(token,
                     SDKConstants.STAFF_ENTITY + getId(token) + SDKConstants.STAFF_EDORG_ASSIGNMENT_ASSOC
                             + SDKConstants.EDORGS_ENTITY + "?" + this.buildQueryString(null)));
-            schools = new ArrayList<GenericEntity>();
+
             for (int i = 0; i < edOrgs.size(); ++i) {
                 GenericEntity edOrg = edOrgs.get(i);
-                List<GenericEntity> potentialSchools = new ArrayList<GenericEntity>();
                 Map<String, String> query = new HashMap<String, String>();
                 query.put("parentEducationAgencyReference", (String) edOrg.get("id"));
-                potentialSchools = this.readEntityList(token,
-                        SDKConstants.EDORGS_ENTITY + "?" + this.buildQueryString(query));
-                if (potentialSchools != null && potentialSchools.size() > 0) {
-                    List<String> categories = (List<String>) potentialSchools.get(0).getList("organizationCategories");
-                    if (categories.contains("School")) {
-                        schoolSet.addAll(potentialSchools);
-                    } else {
-                        edOrgs.addAll(potentialSchools);
-                    }
+                
+                List<String> categories = (List<String>) edOrg.getList("organizationCategories");
+                if (categories.contains("School")) {
+                    schoolSet.add(edOrg);
+                } else {
+                    List<GenericEntity> newEdorgs = this.readEntityList(token,
+                            SDKConstants.EDORGS_ENTITY + "?" + this.buildQueryString(query));
+                    if (newEdorgs != null)
+                        edOrgs.addAll(newEdorgs);
                 }
             }
             schools.addAll(schoolSet);
