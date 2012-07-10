@@ -65,6 +65,8 @@ end
 
 # Lets use SimpleCov for Ruby > 1.9
 group :development, :test do
+  gem 'ci_reporter'
+  gem 'test-unit'
 	gem 'simplecov', :require=>false, :group=>:test
 	gem 'simplecov-rcov', :require=>false, :group=>:test
 	# gem 'turn', "~> 0.9.4"
