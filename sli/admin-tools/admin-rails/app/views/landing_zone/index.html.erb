@@ -1,6 +1,7 @@
 <% @title="Provision Landing Zone" %>
 <% custom_ed_org_text = "Provide my own dataset" %>
 <% tooltip_text =  "Enter the name of the State Organization Id of your sample State Education Agency (SEA)" %>
+<% rsaKey_error_text = "Your key was not recognized. The SLC uses RFC4716 format for RSA keys. If you used another format, please covert your key to this format." %>
 <div class="provision">
   <div class="page-header">
 	<% if APP_CONFIG['is_sandbox']%><h1>Configure Your Test Data - Select a Source</h1><%else%><h1>Create a Landing Zone for your Data</h1><%end%>
@@ -52,7 +53,8 @@
 		    
 		      <span class="control-group error">
 		        <span id="rsa_validation_error_text" class="help-inline">
-		          <%= @validation_errors %>
+			  <i class="icon-warning-sign"></i>
+		          <%= rsaKey_error_text %>
 		        </span>
 		      </span>
 		</div>
