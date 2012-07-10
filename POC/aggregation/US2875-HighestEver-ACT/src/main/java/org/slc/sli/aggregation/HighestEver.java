@@ -50,7 +50,7 @@ public class HighestEver extends Configured implements Tool {
         MongoConfigUtil.setInputKey(conf, "body.studentId");
         MongoConfigUtil.setQuery(conf, new BasicDBObject("body.assessmentId", assmtId));
         MongoConfigUtil.setOutputURI(conf, "mongodb://localhost/sli.aggregatesAssessments");
-        conf.set(ScoreMapper.SCORE_TYPE, "Scale Score");
+        conf.set(ScoreMapper.SCORE_TYPE, "Scale score");
         
         Job job = new Job(conf, "HighestEver");
         job.setJarByClass(getClass());
