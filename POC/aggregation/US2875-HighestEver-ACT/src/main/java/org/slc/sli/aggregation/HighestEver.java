@@ -57,8 +57,8 @@ public class HighestEver extends Configured implements Tool {
         job.setJarByClass(getClass());
         
         job.setMapperClass(ScoreMapper.class);
-        job.setCombinerClass(HighestEverReducer.class);
-        job.setReducerClass(HighestEverReducer.class);
+        job.setCombinerClass(Highest.class);
+        job.setReducerClass(Highest.class);
         
         job.setInputFormatClass(MongoInputFormat.class);
         job.setOutputKeyClass(BSONWritable.class);

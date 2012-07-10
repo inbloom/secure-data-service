@@ -7,7 +7,13 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 import com.mongodb.hadoop.io.BSONWritable;
 
-public class HighestEverReducer extends Reducer<BSONWritable, DoubleWritable, BSONWritable, DoubleWritable>{
+/**
+ * Reducer to get the highest value
+ * 
+ * @author nbrown
+ *
+ */
+public class Highest extends Reducer<BSONWritable, DoubleWritable, BSONWritable, DoubleWritable>{
 
     @Override
     protected void reduce(BSONWritable id, Iterable<DoubleWritable> scoresResults, Context context)
