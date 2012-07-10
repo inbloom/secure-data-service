@@ -32,6 +32,8 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.Resource;
@@ -39,6 +41,7 @@ import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
 /**
@@ -54,6 +57,8 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
 
     @Autowired
     private XsdErrorHandlerInterface errorHandler;
+
+    private static final Logger LOG = LoggerFactory.getLogger(XsdValidator.class);
 
     @Override
     public boolean isValid(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport) {
@@ -77,17 +82,17 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
             validator.validate(sc);
             return true;
         } catch (FileNotFoundException e) {
-            error("File not found: " + ingestionFileEntry.getFileName());
+            LOG.error("File not found: " + ingestionFileEntry.getFileName());
             errorReport.error(getFailureMessage("SL_ERR_MSG11", ingestionFileEntry.getFileName()), XsdValidator.class);
         } catch (IOException e) {
-            error("Problem reading file: " + ingestionFileEntry.getFileName());
+            LOG.error("Problem reading file: " + ingestionFileEntry.getFileName());
             errorReport.error(getFailureMessage("SL_ERR_MSG12", ingestionFileEntry.getFileName()), XsdValidator.class);
         } catch (SAXException e) {
-            error("SAXException");
+            LOG.error("SAXException");
         } catch (RuntimeException e) {
-            error("Problem ingesting file: " + ingestionFileEntry.getFileName());
+            LOG.error("Problem ingesting file: " + ingestionFileEntry.getFileName());
         } catch (Exception e) {
-            error("Error processing file " + ingestionFileEntry.getFileName(), e);
+            LogUtil.error(LOG, "Error processing file " + ingestionFileEntry.getFileName(), e);
         } finally {
             IOUtils.closeQuietly(is);
         }

@@ -21,6 +21,8 @@ import java.io.File;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -42,6 +44,7 @@ public class NoExtractProcessor implements Processor {
     @Autowired
     private BatchJobDAO batchJobDAO;
 
+    private static final Logger LOG = LoggerFactory.getLogger(NoExtractProcessor.class);
 
     @Override
     public void process(Exchange exchange) throws Exception {

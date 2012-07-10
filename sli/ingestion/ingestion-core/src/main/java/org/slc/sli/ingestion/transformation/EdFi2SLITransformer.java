@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -46,6 +48,8 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  *
  */
 public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List<SimpleEntity>> {
+
+    private static final Logger LOG = LoggerFactory.getLogger(EdFi2SLITransformer.class);
 
     protected static final String METADATA_BLOCK = "metaData";
 
@@ -92,7 +96,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                 }
             }
         } else {
-            error("EdFi2SLI Transform has resulted in either a null or empty list of transformed SimpleEntities.");
+            LOG.error("EdFi2SLI Transform has resulted in either a null or empty list of transformed SimpleEntities.");
         }
 
         return transformed;

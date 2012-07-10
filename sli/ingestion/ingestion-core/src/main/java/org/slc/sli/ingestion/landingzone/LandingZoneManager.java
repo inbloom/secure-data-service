@@ -21,9 +21,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.tenant.TenantDA;
+import org.slc.sli.ingestion.util.LogUtil;
 
 /**
  * Mananges the landing zones to be monitored.
@@ -38,6 +42,8 @@ public class LandingZoneManager {
 
     private boolean multipleLandingZonesEnabled;
     private String singleLandingZoneDir;
+
+    private Logger log = LoggerFactory.getLogger(ControlFileProcessor.class);
 
     public List<LocalFileSystemLandingZone> getLandingZones() {
         List<LocalFileSystemLandingZone> landingZoneList;
@@ -68,7 +74,7 @@ public class LandingZoneManager {
             }
 
         } catch (Exception e) {
-            error("Exception encountered extracting landing zones from tenant collection:", e);
+            LogUtil.error(log, "Exception encountered extracting landing zones from tenant collection:", e);
         }
         return landingZoneList;
     }

@@ -32,6 +32,8 @@ import org.milyn.SmooksException;
 import org.milyn.delivery.ContentHandlerConfigMapTable;
 import org.milyn.delivery.VisitorConfigMap;
 import org.milyn.delivery.sax.SAXVisitAfter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.Fault;
@@ -45,6 +47,7 @@ import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
@@ -54,6 +57,8 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  *
  */
 public class SmooksCallable implements Callable<Boolean> {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SmooksCallable.class);
 
     private SliSmooksFactory sliSmooksFactory;
 
@@ -77,7 +82,7 @@ public class SmooksCallable implements Callable<Boolean> {
     }
 
     public boolean runSmooksFuture() {
-        info("Starting SmooksCallable for: " + fe.getFileName());
+        LOG.info("Starting SmooksCallable for: " + fe.getFileName());
         Metrics metrics = Metrics.newInstance(fe.getFileName());
         stage.addMetrics(metrics);
 
@@ -89,7 +94,7 @@ public class SmooksCallable implements Callable<Boolean> {
 
         int errorCount = processMetrics(metrics, fileProcessStatus);
 
-        info("Finished SmooksCallable for: " + fe.getFileName());
+        LOG.info("Finished SmooksCallable for: " + fe.getFileName());
         return (errorCount > 0);
     }
 
@@ -115,12 +120,13 @@ public class SmooksCallable implements Callable<Boolean> {
             generateNeutralRecord(fileEntry, errorReport, fileProcessStatus);
 
         } catch (IOException e) {
-            piiClearedError("Error generating neutral record: Could not instantiate smooks, unable to read configuration file",
+            LogUtil.error(LOG,
+                    "Error generating neutral record: Could not instantiate smooks, unable to read configuration file",
                     e);
             errorReport.fatal("Could not instantiate smooks, unable to read configuration file.",
                     SmooksFileHandler.class);
         } catch (SAXException e) {
-            error("Could not instantiate smooks, problem parsing configuration file");
+            LOG.error("Could not instantiate smooks, problem parsing configuration file");
             errorReport.fatal("Could not instantiate smooks, problem parsing configuration file.",
                     SmooksFileHandler.class);
         }
@@ -140,7 +146,7 @@ public class SmooksCallable implements Callable<Boolean> {
             populateRecordCountsFromSmooks(smooks, fileProcessStatus, ingestionFileEntry);
 
         } catch (SmooksException se) {
-            piiClearedError("smooks exception - encountered problem with " + ingestionFileEntry.getFile().getName(),
+            LogUtil.error(LOG, "smooks exception - encountered problem with " + ingestionFileEntry.getFile().getName(),
                     se);
             errorReport.error("SmooksException encountered while filtering input.", SmooksFileHandler.class);
         } finally {
@@ -160,10 +166,10 @@ public class SmooksCallable implements Callable<Boolean> {
             int recordsPersisted = visitAfter.getRecordsPerisisted();
             fileProcessStatus.setTotalRecordCount(recordsPersisted);
 
-            info("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
+            LOG.info("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
                     ingestionFileEntry.getFileName());
         } catch (Exception e) {
-            piiClearedError("Error accessing visitor list in smooks", e);
+            LogUtil.error(LOG, "Error accessing visitor list in smooks", e);
         }
     }
 

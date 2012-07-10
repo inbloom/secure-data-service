@@ -97,7 +97,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             FileProcessStatus fileProcessStatus) {
 
         if (!idReferenceInterchanges.contains(fileEntry.getFileType().getName())) {
-            info("Not resolving id-references for file: {} (type: {})", fileEntry.getFileName(), fileEntry
+            LOG.info("Not resolving id-references for file: {} (type: {})", fileEntry.getFileName(), fileEntry
                     .getFileType().getName());
             return fileEntry;
         }
@@ -133,9 +133,9 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             sw.stop();
 
             if (LOG.isDebugEnabled()) {
-                debug("ID Ref time {}", sw.prettyPrint());
+                LOG.debug("ID Ref time {}", sw.prettyPrint());
             } else {
-                info("ID Ref time {}", sw.shortSummary());
+                LOG.info("ID Ref time {}", sw.shortSummary());
             }
 
             if (semiResolvedXml != null) {
@@ -163,7 +163,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                     currentXPath = getCurrentXPath(parents);
                     if (!isSupportedRef(currentXPath) && start.getAttributeByName(REF_ATTR) != null && start.getAttributeByName(REF_RESOLVED_ATTR) == null) {
                         if (!isInnerRef(parents)) {
-                            debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath));
+                            LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath));
                             errorReport.warning(
                                     MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath),
                                     IdRefResolutionHandler.class);
@@ -340,7 +340,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             xmlSnippetString = stringWriter.toString();
 
         } catch (XMLStreamException xse) {
-            error("Exception getting xml snippet content in idref", xse);
+            LOG.error("Exception getting xml snippet content in idref", xse);
         } finally {
             if (writer != null) {
                 try {
@@ -418,7 +418,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                                 } else {
                                     // unable to resolve reference, no matching id for ref
                                     if (isSupportedRef(getCurrentXPath(parents))) {
-                                        debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3"));
+                                        LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3"));
 
                                         errorReport.warning(
                                                 MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG3",
@@ -472,7 +472,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                         // it.
                         transformedContent = rrs.resolve(currentXPath, cachedContent.string);
                         if (transformedContent == null) {
-                            debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG1", id));
+                            LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG1", id));
                             errorReport.warning(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG1", id),
                                     IdRefResolutionHandler.class);
                         } else {
@@ -495,7 +495,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             org.apache.commons.io.FileUtils.deleteQuietly(newXml);
             newXml = null;
 
-            debug(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()));
+            LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()));
             errorReport.error(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()),
                     IdRefResolutionHandler.class);
         } finally {
@@ -516,7 +516,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             browse(eventReader, browser);
 
         } catch (Exception e) {
-            debug(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()));
+            LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()));
             errorReport.error(MessageSourceHelper.getMessage(messageSource, "IDREF_ERR_MSG1", xml.getName()),
                     IdRefResolutionHandler.class);
         } finally {
@@ -587,7 +587,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             browse(eventReader, addToXml);
 
         } catch (XMLStreamException e) {
-            error("Exception reading xml stream for idref", e);
+            LOG.error("Exception reading xml stream for idref", e);
         }
     }
 
