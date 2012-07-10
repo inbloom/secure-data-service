@@ -1,22 +1,22 @@
 {
   id : "attendanceHist",
-  type : "GRID",
+  type : "REPEATHEADERGRID",
   name : "Attendance History",
   data :{
     entity: "studentAttendance",
     cacheKey: "studentAttendance",
-    params: {
+    params: { yearsBack: "3"
     }
   },
   root: 'attendance',
   items : [
-    {id: "col0", name: "Month", type:"FIELD", datatype: "string", field: "eventDate", width: 90},
-    {id: "col1", name: "Attendance Rate %", type:"FIELD", datatype: "string", field: "attendanceRate", width: 100, sorter: 'float', formatter: CutPoint, params:{cutPoints:{90:{style:'color-widget-red'}, 95:{style:'color-widget-green'}, 99:{style:'color-widget-darkgreen'}}}},
-    {id: "col1", name: "Attendance Rate", type:"FIELD", datatype: "string", field: "attendanceRate", width: 100, sorter: 'float', formatter: PercentBar, params:{low:85, medium:92}},
-    {id: "col2", name: "Exc Absebse", type:"FIELD", datatype: "string", field: "excusedAbsenceCount", sorter: 'int', width: 70},
-    {id: "col3", name: "Unex Absense", type:"FIELD", datatype: "string", field: "unexcusedAbsenceCount", sorter: 'int', width: 70},
-    {id: "col4", name: "Tardies", type:"FIELD", datatype: "string", field: "tardyCount", width: 50, sorter: 'int'},
-    {id: "col5", name: "Tardy Rate %", type:"FIELD", datatype: "string", field: "tardyRate", width: 70, sorter: 'float', formatter: CutPointReverse, params:{cutPoints:{0:{style:'color-widget-darkgreen'}, 5:{style:	'color-widget-green'}, 10:{style:'color-widget-yellow'}, 11:{style:'color-widget-red'}}}},
-    {id: "col6", name: "Out Of", type:"FIELD", datatype: "string", field: "totalCount", width: 50, sorter: 'int'}
+    {id: "col0", name: "Term", type:"FIELD", datatype: "string", field: "term"},
+    {id: "col1", name: "School", type:"FIELD", datatype: "string", field: "schoolName"},
+    {id: "col1", name: "Grade Level", type:"FIELD", datatype: "string", field: "gradeLevel"},
+    {id: "col2", name: "% Present", type:"FIELD", datatype: "string", field: "present"},
+    {id: "col3", name: "Total Absences", type:"FIELD", datatype: "string", field: "totalAbsencesCount"},
+    {id: "col4", name: "Excused", type:"FIELD", datatype: "string", field: "excusedAbsencesCount"},
+    {id: "col5", name: "Unexcused", type:"FIELD", datatype: "string", field: "unexcusedAbsencesCount"},
+    {id: "col6", name: "Tardy", type:"FIELD", datatype: "string", field: "tardyCount"}
   ] 
 }
