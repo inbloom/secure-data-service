@@ -51,6 +51,7 @@ public class SDKConstants {
     public static final String STUDENT_PARENT_ASSOC = "/studentParentAssociations";
     public static final String STUDENT_SECTION_ASSOC = "/studentSectionAssociations";
     public static final String TEACHER_SECTION_ASSOC = "/teacherSectionAssociations";
+    public static final String TEACHER_SCHOOL_ASSOC = "/teacherSchoolAssociations";
     public static final String STUDENT_ASSMT_ASSOC = "/studentAssessmentAssociations";
     public static final String STUDENT_GRADEBOOK_ASSOC = "/studentSectionGradebookEntries";
     public static final String STUDENT_TRANSCRIPT_ASSOC = "/studentTranscriptAssociations";
