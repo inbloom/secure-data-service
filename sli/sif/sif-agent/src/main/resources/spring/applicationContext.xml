@@ -19,6 +19,8 @@
         </property>
     </bean>
 
+  	<bean id="sif2SliMapper" class="org.slc.sli.sif.domain.Sif2SliMapper"/>
+
 	<!-- custom converter -->
   	<bean id="GradeLevelsConverter" class="org.slc.sli.sif.domain.converter.GradeLevelsConverter"/>
   	<bean id="PhoneNumberListConverter" class="org.slc.sli.sif.domain.converter.PhoneNumberListConverter"/>
