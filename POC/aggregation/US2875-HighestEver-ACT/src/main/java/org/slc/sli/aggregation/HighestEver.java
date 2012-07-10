@@ -2,6 +2,7 @@ package org.slc.sli.aggregation;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.util.GenericOptionsParser;
@@ -61,8 +62,8 @@ public class HighestEver extends Configured implements Tool {
         job.setReducerClass(HighestEverReducer.class);
         
         job.setInputFormatClass(MongoInputFormat.class);
-        job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(BSONWritable.class);
+        job.setOutputKeyClass(BSONWritable.class);
+        job.setOutputValueClass(DoubleWritable.class);
         job.setOutputFormatClass(MongoOutputFormat.class);
         
         boolean success = job.waitForCompletion(true);

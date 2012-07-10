@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.bson.BSONObject;
 import org.junit.Before;
@@ -27,7 +27,7 @@ import com.mongodb.hadoop.io.BSONWritable;
 public class ScoreMapperTest {
     private ScoreMapper mapper = new ScoreMapper();
     @Mock
-    private Mapper<String, BSONObject, Text, BSONWritable>.Context context;
+    private Mapper<String, BSONObject, BSONWritable, DoubleWritable>.Context context;
     private Configuration config = new Configuration();
     
     @Before
@@ -45,12 +45,13 @@ public class ScoreMapperTest {
                 .add("scoreResults", Arrays.asList(percentile, scaleScore)).get();
         when(context.getConfiguration()).thenReturn(config);
         mapper.map("student123", new BasicDBObject("body", saa), context);
-        verify(context).write(eq(new Text("student123")), argThat(new ArgumentMatcher<BSONWritable>() {
+        verify(context).write(argThat(new ArgumentMatcher<BSONWritable>() {
 
             @Override
             public boolean matches(Object argument) {
-                return ((BSONWritable) argument).get("score").equals(42.0);
+                BSONWritable bson = (BSONWritable) argument;
+                return bson.get("studentId").equals("student123") && bson.get("assessmentId").equals("ACT") && bson.get("assessmentReportingMethod").equals("Scale Score");
             }
-        }));
+        }), eq(new DoubleWritable(42.0)));
     }
 }

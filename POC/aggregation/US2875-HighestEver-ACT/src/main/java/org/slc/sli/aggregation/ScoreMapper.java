@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.bson.BSONObject;
 
@@ -14,7 +14,7 @@ import com.mongodb.hadoop.io.BSONWritable;
 /**
  * Maps a SAA to an Integer score
  */
-public class ScoreMapper extends Mapper<String, BSONObject, Text, BSONWritable> {
+public class ScoreMapper extends Mapper<String, BSONObject, BSONWritable, DoubleWritable> {
 
     public static final String SCORE_TYPE = "ScoreType";
 
@@ -33,11 +33,11 @@ public class ScoreMapper extends Mapper<String, BSONObject, Text, BSONWritable> 
             if(type.equals(scoreType)){
                 String scoreString = result.get("result");
                 double score = Double.parseDouble(scoreString);
-                BSONWritable output = new BSONWritable();
-                output.put("assessmentId", assessmentId);
-                output.put("assessmentReportingMethod", type);
-                output.put("score", score);
-                context.write(new Text(studentId), output);
+                BSONWritable key = new BSONWritable();
+                key.put("studentId", studentId);
+                key.put("assessmentId", assessmentId);
+                key.put("assessmentReportingMethod", type);
+                context.write(key, new DoubleWritable(score));
                 return;
             }
         }
