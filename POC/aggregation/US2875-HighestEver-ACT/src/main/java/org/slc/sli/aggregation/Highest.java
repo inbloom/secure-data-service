@@ -16,10 +16,10 @@ import com.mongodb.hadoop.io.BSONWritable;
 public class Highest extends Reducer<BSONWritable, DoubleWritable, BSONWritable, DoubleWritable>{
 
     @Override
-    protected void reduce(BSONWritable id, Iterable<DoubleWritable> scoresResults, Context context)
+    protected void reduce(BSONWritable id, Iterable<DoubleWritable> scoreResults, Context context)
             throws IOException, InterruptedException {
         DoubleWritable highest = null;
-        for(DoubleWritable scoreResult: scoresResults){
+        for(DoubleWritable scoreResult: scoreResults){
             double score = scoreResult.get();
             if(highest == null || score > highest.get()){
                 highest = scoreResult;
