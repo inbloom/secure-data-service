@@ -46,6 +46,7 @@ public class TreeGridDataBuilder {
         return treeGrid;
     }
 
+    @SuppressWarnings("unchecked")
     static private void buildLevel(List<GenericEntity> treeGrid, GenericEntity entity, String parentId, List<String> subLevels, int level) {
 
         // add entity to tree grid
