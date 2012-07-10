@@ -30,7 +30,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
-import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
@@ -39,15 +38,16 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.client.constants.EntityNames;
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
 import org.slc.sli.api.security.context.resolver.EdOrgContextResolver;
+import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
 import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
 import org.slc.sli.api.security.service.SecurityCriteria;
@@ -80,8 +80,46 @@ public class BasicService implements EntityService {
     private static final String CUSTOM_ENTITY_CLIENT_ID = "clientId";
     private static final String CUSTOM_ENTITY_ENTITY_ID = "entityId";
     private static final String METADATA = "metaData";
-    private static final String[] collectionsExcluded = {"tenant" ,"userSession","realm","userAccount","roles","application","applicationAuthorization"};
-    private static final Set<String> NOT_BY_TENANT = new HashSet<String>(Arrays.asList(collectionsExcluded));
+    private static final String[] COLLECTIONED_EXCLUDED = {"tenant", "userSession", "realm", "userAccount", "roles", "application", "applicationAuthorization"};
+    private static final Set<String> NOT_BY_TENANT = new HashSet<String>(Arrays.asList(COLLECTIONED_EXCLUDED));
+
+    private static final Set<String> TEACHER_STAMPED_ENTITIES = new HashSet<String>(Arrays.asList(
+            EntityNames.ATTENDANCE,
+            EntityNames.COHORT,
+            EntityNames.COURSE,
+            EntityNames.COURSE_OFFERING,
+            EntityNames.DISCIPLINE_ACTION,
+            EntityNames.DISCIPLINE_INCIDENT,
+            EntityNames.GRADE,
+            EntityNames.GRADEBOOK_ENTRY,
+            EntityNames.GRADING_PERIOD,
+            EntityNames.PARENT,
+            EntityNames.PROGRAM,
+            EntityNames.REPORT_CARD,
+            EntityNames.SCHOOL,
+            EntityNames.SECTION,
+            EntityNames.SECTION_ASSESSMENT_ASSOCIATION,
+            EntityNames.SESSION,
+            EntityNames.STAFF,
+            EntityNames.STAFF_COHORT_ASSOCIATION,
+            EntityNames.STAFF_ED_ORG_ASSOCIATION,
+            EntityNames.STAFF_PROGRAM_ASSOCIATION,
+            EntityNames.STUDENT,
+            EntityNames.STUDENT_ACADEMIC_RECORD,
+            EntityNames.STUDENT_ASSESSMENT_ASSOCIATION,
+            EntityNames.STUDENT_COHORT_ASSOCIATION,
+            EntityNames.STUDENT_COMPETENCY,
+            EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
+            EntityNames.STUDENT_PARENT_ASSOCIATION,
+            EntityNames.STUDENT_PROGRAM_ASSOCIATION,
+            EntityNames.STUDENT_SCHOOL_ASSOCIATION,
+            EntityNames.STUDENT_SECTION_ASSOCIATION,
+            EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY,
+            EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION,
+            EntityNames.TEACHER,
+            EntityNames.TEACHER_SCHOOL_ASSOCIATION,
+            EntityNames.TEACHER_SECTION_ASSOCIATION
+    ));
 
     private String collectionName;
     private List<Treatment> treatments;
@@ -216,7 +254,13 @@ public class BasicService implements EntityService {
 
         checkReferences(content);
 
-        return repo.create(defn.getType(), sanitizeEntityBody(content), createMetadata(), collectionName).getEntityId();
+        String entityId = "";
+        Entity entity = repo.create(defn.getType(), sanitizeEntityBody(content), createMetadata(), collectionName);
+        if (entity != null) {
+            entityId = entity.getEntityId();
+        }
+
+        return entityId;
     }
 
     @Override
@@ -268,9 +312,87 @@ public class BasicService implements EntityService {
         info("new body is {}", sanitized);
         entity.getBody().clear();
         entity.getBody().putAll(sanitized);
+
+        boolean success = repo.update(collectionName, entity);
+        return success;
+    }
+
+    @Override
+    public boolean patch(String id, EntityBody content) {
+        debug("Patching {} in {}", id, collectionName);
+
+        if (writeRight != Right.ANONYMOUS_ACCESS) {
+            checkAccess(determineWriteAccess(content, ""), id);
+        }
+
+
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria("_id", "=", id));
+        Entity entity = repo.findOne(collectionName, query);
+
+        if (entity == null) {
+            info("Could not find {}", id);
+            throw new EntityNotFoundException(id);
+        }
+
+        EntityBody sanitized = sanitizeEntityBody(content);
+        if (entity.getBody().equals(sanitized)) {
+            info("No change detected to {}", id);
+            return false;
+        }
+
+        //combine/merge new entity body with existing
+        entity.getBody().putAll(sanitized);
+        //patchEntity(entity.getBody(), sanitized);
+        
+        
+        info("new body is {}", entity.getBody());
+
+        //don't check references until things are combined
+        checkReferences(new EntityBody(entity.getBody()));
+
+
         repo.update(collectionName, entity);
 
         return true;
+    }
+    /**
+     * @WIP This was the beginning of an attempt at doing full JSON patch
+     * @param entity
+     * @param patchData
+     */
+    @SuppressWarnings({ "unchecked" })
+    private void patchEntity(Map<String, Object> patchData, Map<String, Object> entity) {
+        if (patchData == null) {
+            return;
+        }
+        for (Map.Entry<String, Object> patchEntry : patchData.entrySet()) {
+            Object fieldValue = entity.get(patchEntry.getKey());
+            
+            if (fieldValue instanceof Map) {
+                //recurse
+                patchEntity((Map<String, Object>) patchEntry.getValue(), (Map<String, Object>) fieldValue);
+            } else if (fieldValue instanceof List) {
+                List<Object> list = (List<Object>) fieldValue;
+                for (int i = 0; i < list.size(); i++) {
+                    Object item = list.get(i);
+                    if (item instanceof Map) {
+                        patchEntity((Map<String, Object>) patchEntry.getValue(), (Map<String, Object>) fieldValue);
+                    } else if (item instanceof List) {
+                        error("Unexpected situation, List inside a List: {}", fieldValue);
+                        continue;
+                    } else {
+                        //patch the entry in the list...how to know which item is which if there are multiple?
+                        //list.set(i, newValue);
+                    }
+                }
+            } else if (fieldValue == null) {
+                //current entity doesn't have it set, so set it
+            }
+            else {
+                //actually patch the exisiting field
+            }
+        }
     }
 
     @Override
@@ -599,8 +721,6 @@ public class BasicService implements EntityService {
                         }
                     }
                 } else {
-                    //need to refactor this again when we have time
-                    //working on a P1 on the due date is not the time to do it
                     if (value instanceof List) {
                         List<String> valuesList = (List<String>) value;
                         for (String cur : valuesList) {
@@ -640,7 +760,7 @@ public class BasicService implements EntityService {
      */
     private EntityBody makeEntityBody(Entity entity) {
         EntityBody toReturn = new EntityBody(entity.getBody());
-        
+
         for (Treatment treatment : treatments) {
             toReturn = treatment.toExposed(toReturn, defn, entity);
         }
@@ -820,6 +940,11 @@ public class BasicService implements EntityService {
             return securityCriteria;
         }
 
+        if (EntityNames.TEACHER.equals(type) && TEACHER_STAMPED_ENTITIES.contains(toType)) {
+            securityCriteria.setSecurityCriteria(new NeutralCriteria("metaData.teacherContext", NeutralCriteria.CRITERIA_IN, Arrays.asList(principal.getEntity().getEntityId()), false));
+            return securityCriteria;
+        }
+
         EntityContextResolver resolver = contextResolverStore.findResolver(type, toType);
         List<String> allowed = resolver.findAccessible(principal.getEntity());
 
@@ -842,8 +967,8 @@ public class BasicService implements EntityService {
         if (getAuths().contains(Right.FULL_ACCESS)) {
             return getAuths().contains(Right.FULL_ACCESS);
         } else {
-            return defn.getType().equals(EntityNames.LEARNINGOBJECTIVE)
-                    || defn.getType().equals(EntityNames.LEARNINGSTANDARD)
+            return defn.getType().equals(EntityNames.LEARNING_OBJECTIVE)
+                    || defn.getType().equals(EntityNames.LEARNING_STANDARD)
                     || defn.getType().equals(EntityNames.ASSESSMENT)
                     || defn.getType().equals(EntityNames.EDUCATION_ORGANIZATION);
         }
@@ -874,7 +999,7 @@ public class BasicService implements EntityService {
             List<Map<String, Object>> telephones = (List<Map<String, Object>>) eb.get(telephone);
             if (telephones != null) {
 
-                for (Iterator<Map<String, Object>> it = telephones.iterator(); it.hasNext(); ) {
+                for (Iterator<Map<String, Object>> it = telephones.iterator(); it.hasNext();) {
                     if (!work.equals(it.next().get(telephoneNumberType))) {
                         it.remove();
                     }
@@ -885,7 +1010,7 @@ public class BasicService implements EntityService {
             List<Map<String, Object>> emails = (List<Map<String, Object>>) eb.get(electronicMail);
             if (emails != null) {
 
-                for (Iterator<Map<String, Object>> it = emails.iterator(); it.hasNext(); ) {
+                for (Iterator<Map<String, Object>> it = emails.iterator(); it.hasNext();) {
                     if (!work.equals(it.next().get(emailAddressType))) {
                         it.remove();
                     }

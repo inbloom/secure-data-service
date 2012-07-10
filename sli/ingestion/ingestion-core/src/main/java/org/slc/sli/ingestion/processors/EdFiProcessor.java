@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
@@ -23,7 +22,6 @@ import java.util.List;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slc.sli.common.util.performance.Profiled;
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Fault;
@@ -32,10 +30,8 @@ import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.handler.SmooksFileHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.measurement.ExtractBatchJobIdToContext;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -72,12 +68,7 @@ public class EdFiProcessor implements Processor {
     @Autowired
     private BatchJobDAO batchJobDAO;
     
-    @Autowired
-    private NeutralRecordMongoAccess neutralRecordMongoAccess;
-    
     @Override
-    @ExtractBatchJobIdToContext
-    @Profiled
     public void process(Exchange exchange) throws Exception {
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
         
@@ -101,11 +92,6 @@ public class EdFiProcessor implements Processor {
             List<IngestionFileEntry> fileEntryList = extractFileEntryList(batchJobId, newJob);
             
             boolean anyErrorsProcessingFiles = false;
-            
-            if (fileEntryList.size() > 0) {
-                // prepare staging database
-                setupStagingDatabase(batchJobId);
-            }
             
             for (IngestionFileEntry fe : fileEntryList) {
                 
@@ -226,9 +212,4 @@ public class EdFiProcessor implements Processor {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
-    
-    private void setupStagingDatabase(String batchJobId) {
-        neutralRecordMongoAccess.getRecordRepository().ensureIndexesForJob(batchJobId);
-    }
-    
 }

@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.model;
 
 import java.util.ArrayList;
@@ -30,7 +29,6 @@ import java.util.UUID;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import org.slc.sli.common.util.performance.PutResultInContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
@@ -68,16 +66,6 @@ public class NewBatchJob implements Job {
     private List<ResourceEntry> resourceEntries;
 
     private Date jobStopTimestamp;
-
-
-
-    public String getTenantId(){
-        String tenantId = getProperty("tenantId");
-        if (tenantId == null) {
-            tenantId = "SLI";
-        }
-        return tenantId;
-    }
 
     // mongoTemplate requires this constructor.
     public NewBatchJob() {
@@ -130,7 +118,7 @@ public class NewBatchJob implements Job {
 
     public void stop() {
         jobStopTimestamp = BatchJobUtils.getCurrentTimeStamp();
-      }
+    }
 
     public static NewBatchJob createJobForFile(String fileName) {
 
@@ -142,13 +130,25 @@ public class NewBatchJob implements Job {
     /**
      * generates a new unique ID
      */
-    @PutResultInContext(returnName = "ingestionBatchJobId")
     public static String createId(String filename) {
         if (filename == null) {
             return UUID.randomUUID().toString();
         } else {
             return filename + "-" + UUID.randomUUID().toString();
         }
+    }
+
+    @Override
+    public String getTenantId() {
+        String tenantId = getProperty("tenantId");
+        if (tenantId == null) {
+            tenantId = "SLI";
+        }
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        setProperty("tenantId", tenantId);
     }
 
     @Override
@@ -240,12 +240,6 @@ public class NewBatchJob implements Job {
         return jobStopTimestamp;
     }
 
-    /*
-    public List<Stage> getStages() {
-        return stages;
-    }
-    */
-
     public List<ResourceEntry> getResourceEntries() {
         return resourceEntries;
     }
@@ -301,7 +295,7 @@ public class NewBatchJob implements Job {
         List<Metrics> m = new LinkedList<Metrics>();
 
         for (StageSet sts : this.stages) {
-            for (Stage s: sts.getChunks()) {
+            for (Stage s : sts.getChunks()) {
                 if (stageType.getName().equals(s.getStageName())) {
                     m.addAll(s.getMetrics());
                 }
@@ -338,32 +332,6 @@ public class NewBatchJob implements Job {
         this.addStage(stage);
     }
 
-    /*
-    public void addStageChunk(Stage stage) {
-        boolean stageFound = false;
-
-        Stage stageToUpdate;
-        for (int i = 0; i < this.stages.size(); i++) {
-            if (this.stages.get(i).getStageName().equals(stage.getStageName())) {
-                stageFound = true;
-                stageToUpdate = this.stages.remove(i);
-
-                //insert stage with chunks
-                for (Metrics m : stage.getMetrics()) {
-                    stageToUpdate.addMetrics(m);
-                }
-
-                this.stages.add(stageToUpdate);
-            }
-        }
-
-        if (!stageFound) {
-            this.stages.add(stage);
-        }
-
-    }
-    */
-
     @Override
     public List<IngestionFileEntry> getFiles() {
         List<IngestionFileEntry> ingestionFileEntries = new ArrayList<IngestionFileEntry>();
@@ -383,19 +351,6 @@ public class NewBatchJob implements Job {
             }
         }
 
-        // assign neutral record files to IngestionFileEntry
-        // for (ResourceEntry resourceEntry : resourceEntries) {
-        // if
-        // (FileFormat.NEUTRALRECORD.getCode().equalsIgnoreCase(resourceEntry.getResourceFormat())
-        // && resourceEntry.getResourceName() != null) {
-        // for (IngestionFileEntry ife : ingestionFileEntries) {
-        // if (ife.getFileName().equals(resourceEntry.getExternallyUploadedResourceId())) {
-        // ife.setNeutralRecordFile(new File(resourceEntry.getResourceName()));
-        // break;
-        // }
-        // }
-        // }
-        // }
         return ingestionFileEntries;
     }
 
@@ -419,6 +374,5 @@ public class NewBatchJob implements Job {
         // TODO Auto-generated method stub
         return null;
     }
-
 
 }

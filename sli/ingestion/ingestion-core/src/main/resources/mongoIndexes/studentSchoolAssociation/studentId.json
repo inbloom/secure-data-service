@@ -1,7 +1,0 @@
-{
-    "collection": "studentSchoolAssociation",
-    "indexFields":
-    [
-        {"name" : "body.studentId", "order" : "1"}
-    ]
-}

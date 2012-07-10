@@ -17,6 +17,7 @@
 
 package org.slc.sli.dal.repository;
 
+import java.util.List;
 import java.util.Map;
 
 import com.mongodb.CommandResult;
@@ -178,6 +179,11 @@ public class SimpleEntityRepository implements Repository<Entity> {
     public long count(String collectionName, Query query) {
         // TODO Auto-generated method stub
         return 0;
+    }
+
+    @Override
+    public List<DBCollection> getCollections(boolean includeSystem) {
+        return null;
     }
 
 }

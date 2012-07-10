@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion;
 
 import java.io.Serializable;
@@ -27,7 +26,6 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.UUID;
 
-import org.slc.sli.common.util.performance.PutResultInContext;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReportSupport;
@@ -104,7 +102,6 @@ public final class BatchJob implements Serializable, ErrorReportSupport, Job {
     /**
      * generates a new unique ID
      */
-    @PutResultInContext(returnName = "ingestionBatchJobId")
     protected static String createId(String filename) {
         if (filename == null) {
             return UUID.randomUUID().toString();
@@ -220,6 +217,12 @@ public final class BatchJob implements Serializable, ErrorReportSupport, Job {
     @Override
     public String toString() {
         return "BatchJob [id=" + id + ", creationDate=" + creationDate + ", configProperties=" + configProperties + "]";
+    }
+
+    @Override
+    public String getTenantId() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

@@ -24,7 +24,7 @@
    <mongo:mongo id="sliMongo" host="${sli.mongodb.host}" port="${sli.mongodb.port}">
       <mongo:options connections-per-host="${sli.mongodb.connections}" auto-connect-retry="true" socket-timeout="5000" socket-keep-alive="true"/>
    </mongo:mongo>
-  
+
   <mongo:db-factory id="mongoDbFactory" dbname="${sli.mongodb.database}" mongo-ref="sliMongo" />
   <!-- username="${sli.mongodb.user}" password="${sli.mongodb.pass}" /> -->
 
@@ -46,7 +46,7 @@
   <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
     <constructor-arg ref="mongoDbFactory" />
     <constructor-arg ref="mappingConverter" />
-    <property name="slaveOk" value="true" />
+    <property name="slaveOk" value="false" />
     <!--  <property name="writeConcern">
       <util:constant static-field="com.mongodb.WriteConcern.SAFE"></util:constant>
     </property>

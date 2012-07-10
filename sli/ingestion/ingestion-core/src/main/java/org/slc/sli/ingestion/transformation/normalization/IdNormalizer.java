@@ -27,6 +27,9 @@ import java.util.SortedMap;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
 
+import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
+
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections.CollectionUtils;
@@ -105,7 +108,7 @@ public class IdNormalizer {
                             for (FieldValue fv : field.getValues()) {
                                 if (fv.getRef() == null) {
                                     String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(),
-                                            reference.getRef(), refIndex);
+                                            reference.getRef(), refIndex, refIndex, fv.getRef());
                                     try {
                                         Object entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
                                         if (entityValue != null) {
@@ -288,11 +291,11 @@ public class IdNormalizer {
         } catch (Exception e) {
             errorReport.error("Failed to get number of reference instances", this);
         }
-        return resolveReferenceInternalIds(entity, tenantId, numRefInstances, refConfig, fieldPath, errorReport);
+        return resolveReferenceInternalIds(entity, tenantId, numRefInstances, refConfig, fieldPath, errorReport, 0, null);
     }
 
     public List<String> resolveReferenceInternalIds(Entity entity, String tenantId, int numRefInstances, Ref refConfig,
-            String fieldPath, ErrorReport errorReport) {
+            String fieldPath, ErrorReport errorReport, int parentIndex, Ref parentRefConfig) {
 
         ProxyErrorReport proxyErrorReport = new ProxyErrorReport(errorReport);
 
@@ -317,11 +320,12 @@ public class IdNormalizer {
 
                         for (FieldValue fv : field.getValues()) {
                             if (fv.getRef() != null) {
-                                boolean isEmptyRef = isEmptyRef(entity, fv.getRef());
+                                boolean isEmptyRef = isEmptyRef(entity, fv.getRef(), refIndex, refConfig);
                                 List<String> resolvedIds = null;
                                 if (!isEmptyRef) {
                                     resolvedIds = resolveReferenceInternalIds(entity, tenantId,
-                                            numRefInstances, fv.getRef(), fieldPath, proxyErrorReport);
+                                        numRefInstances, fv.getRef(), fieldPath, proxyErrorReport, refIndex,
+                                        refConfig);
                                 }
 
                                 //it is acceptable for a child reference to not be resolved iff it is
@@ -334,19 +338,55 @@ public class IdNormalizer {
                                 }
                             } else {
                                 String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(), refConfig,
-                                        refIndex);
+                                        refIndex, parentIndex, parentRefConfig);
                                 try {
                                     Object entityValue = PropertyUtils.getProperty(entity, valueSourcePath);
 
                                     if (entityValue != null) {
-                                        if (entityValue instanceof Collection) {
-                                            Collection<?> entityValues = (Collection<?>) entityValue;
-                                            filterValues.addAll(entityValues);
-                                        } else if (entityValue != null) {
-                                            filterValues.add(entityValue);
+                                        if (field.getIsList()) {
+                                            BasicDBList entitySourceValueDBList = (BasicDBList) entityValue;
+                                            if (entitySourceValueDBList != null) {
+
+                                                for (Object object : entitySourceValueDBList) {
+                                                    BasicDBObject dbObject = (BasicDBObject) object;
+                                                    if (dbObject == null) {
+                                                        continue;
+                                                    }
+
+                                                    Object keyObject = dbObject.get(field.getEntityKey());
+                                                    if (keyObject == null) {
+                                                        continue;
+                                                    }
+                                                    BasicDBList keyList = (BasicDBList) keyObject;
+                                                    for (Object queryObject : keyList) {
+                                                        BasicDBObject queryDbObject = (BasicDBObject) queryObject;
+                                                        if (queryDbObject == null) {
+                                                            continue;
+                                                        }
+
+                                                        for (Object keyObj : queryDbObject.toMap().keySet())
+                                                        {
+                                                            if (keyObj == null) {
+                                                                continue;
+                                                            }
+                                                            LOG.debug(keyObj.toString());
+                                                            if (field.getQueryList().containsKey(keyObj.toString())) {
+                                                                choice.addCriteria(Criteria.where(field.getQueryList().get(keyObj.toString())).is(queryDbObject.toMap().get(keyObj)));
+                                                                criteriaCount++;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            if (entityValue instanceof Collection) {
+                                                Collection<?> entityValues = (Collection<?>) entityValue;
+                                                filterValues.addAll(entityValues);
+                                            } else {
+                                                filterValues.add(entityValue);
+                                            }
                                         }
                                     }
-
                                 } catch (Exception e) {
                                     if (!refConfig.isOptional()) {
                                         LogUtil.error(LOG, "Error accessing indexed bean property " + valueSourcePath
@@ -442,6 +482,7 @@ public class IdNormalizer {
 
             // Overall query
             Query query = new Query();
+            ArrayList<Query> queryOrList = new ArrayList<Query>();
 
             // For each element in the referer's array, create a subQuery
             // Then OR them together to make a single mongo query
@@ -468,15 +509,18 @@ public class IdNormalizer {
                 subQuery.addCriteria(criteria);
 
                 // add the subquery to overall query
-                query.or(subQuery);
+                queryOrList.add(subQuery);
             }
+
+            // combine the queries with or (must be done this way because Query.or overrides itself)
+            query.or(queryOrList.toArray(new Query[queryOrList.size()]));
 
             // execute query and record results
             Set<String> foundIds = new HashSet<String>();
             @SuppressWarnings("deprecation")
             Iterable<Entity> foundRecords = entityRepository.findByQuery(collectionName, query, 0, 0);
 
-            for(Entity record : foundRecords) {
+            for (Entity record : foundRecords) {
                 foundIds.add(record.getEntityId());
             }
 
@@ -495,7 +539,7 @@ public class IdNormalizer {
         }
 
     }
-    
+
     private void cache(List<String> ids, String collection, String tenantId, Query filter) {
         String key = composeKey(collection, tenantId, filter);
 
@@ -575,7 +619,7 @@ public class IdNormalizer {
     /**
      * Constructs the property name used by PropertyUtils.getProperty for indexed references
      */
-    private String constructIndexedPropertyName(String valueSource, Ref refConfig, int refIndex) {
+    private String constructIndexedPropertyName(String valueSource, Ref refConfig, int refIndex, int parentIndex, Ref parentRefConfig) {
         String result = valueSource;
 
         if (refConfig.isRefList()) {
@@ -595,6 +639,12 @@ public class IdNormalizer {
             }
         }
 
+        //UN: Parent is also a refList, add current Parent Index to the Parent RefObject Path
+        if (parentRefConfig != null && parentRefConfig.isRefList()) {
+            String parentRefObjectPath = parentRefConfig.getRefObjectPath();
+            result = result.replaceFirst(parentRefObjectPath, parentRefObjectPath + ".[" + Integer.toString(parentIndex) + "]");
+        }
+
         return result;
     }
 
@@ -603,16 +653,16 @@ public class IdNormalizer {
     }
 
 
-    private boolean isEmptyRef(Entity entity, Ref refConfig) {
+    private boolean isEmptyRef(Entity entity, Ref refConfig, int parentIndex, Ref parentRef) {
         for (List<Field> fields : refConfig.getChoiceOfFields()) {
             for (Field field : fields) {
                 for (FieldValue fv : field.getValues()) {
                     if (fv.getRef() != null) {
-                        if (!isEmptyRef(entity, fv.getRef())) {
+                        if (!isEmptyRef(entity, fv.getRef(), parentIndex, parentRef)) {
                             return false;
                         }
                     } else {
-                        String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(), refConfig, 0);
+                        String valueSourcePath = constructIndexedPropertyName(fv.getValueSource(), refConfig, 0, parentIndex, parentRef);
                         Object entityValue = null;
                         try {
                             entityValue = PropertyUtils.getProperty(entity, valueSourcePath);

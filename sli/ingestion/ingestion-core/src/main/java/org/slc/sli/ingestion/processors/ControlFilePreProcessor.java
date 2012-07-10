@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -43,8 +43,8 @@ import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.WorkNoteImpl;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.LandingZone;
@@ -61,6 +61,8 @@ import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
+import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.ingestion.validation.Validator;
 
 /**
  * Transforms body from ControlFile to ControlFileDescriptor type.
@@ -77,6 +79,9 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
     @Autowired
     private BatchJobDAO batchJobDAO;
+
+    @Autowired
+    private Validator<Job> jobValidator;
 
     @Autowired
     private TenantDA tenantDA;
@@ -107,62 +112,30 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         // TODO handle IOException or other system error
         NewBatchJob newBatchJob = null;
         File fileForControlFile = null;
+        ControlFileDescriptor controlFileDescriptor = null;
+
         try {
             fileForControlFile = exchange.getIn().getBody(File.class);
             controlFileName = fileForControlFile.getName();
 
             newBatchJob = getOrCreateNewBatchJob(batchJobId, fileForControlFile);
 
-            File lzFile = new File(newBatchJob.getTopLevelSourceId());
-            File sourceFile = new File(newBatchJob.getSourceId());
-            LandingZone topLevelLandingZone = new LocalFileSystemLandingZone(lzFile);
-            LandingZone resolvedLandingZone = new LocalFileSystemLandingZone(sourceFile);
+            ControlFile controlFile = parseControlFile(newBatchJob, fileForControlFile);
 
-            ControlFile controlFile = ControlFile.parse(fileForControlFile, topLevelLandingZone, messageSource);
+            if (jobValidator.isValid(newBatchJob, errorReport)) {
 
-            newBatchJob.setTotalFiles(controlFile.getFileEntries().size());
-            createResourceEntryAndAddToJob(controlFile, newBatchJob);
+                controlFileDescriptor = createControlFileDescriptor(newBatchJob, controlFile);
 
-            TenantContext.setTenantId(newBatchJob.getTenantId());
+                auditSecurityEvent(controlFile);
 
-            // determine whether to override the tenantId property with a LZ derived value
-            if (deriveTenantId) {
-                // derive the tenantId property from the landing zone directory with a mongo lookup
-                setTenantId(controlFile, lzFile.getAbsolutePath());
+            } else {
+                LOG.info(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"));
+                errorReport.error(MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG17"), this);
             }
 
-            ControlFileDescriptor controlFileDescriptor = new ControlFileDescriptor(controlFile, resolvedLandingZone);
+            setExchangeHeaders(exchange, newBatchJob, errorReport);
 
-            setExchangeHeaders(exchange, controlFileDescriptor, newBatchJob);
-
-            byte[] ipAddr = null;
-            try {
-                InetAddress addr = InetAddress.getLocalHost();
-
-                // Get IP Address
-                ipAddr = addr.getAddress();
-
-            } catch (UnknownHostException e) {
-                LogUtil.error(LOG, "Error getting local host", e);
-            }
-            List<String> userRoles = Collections.emptyList();
-            SecurityEvent event = new SecurityEvent(controlFile.getConfigProperties().getProperty("tenantId"), // Alpha
-                                                                                                               // MH
-                    "", // user
-                    "", // targetEdOrg
-                    "processUsingNewBatchJob", // Alpha MH (actionUri)
-                    "Ingestion", // Alpha MH (appId)
-                    "", // origin
-                    ipAddr[0] + "." + ipAddr[1] + "." + ipAddr[2] + "." + ipAddr[3], // executedOn
-                    "", // Alpha MH (Credential - N/A for ingestion)
-                    "", // userOrigin
-                    new Date(), // Alpha MH (timeStamp)
-                    ManagementFactory.getRuntimeMXBean().getName(), // processNameOrId
-                    this.getClass().getName(), // className
-                    LogLevelType.TYPE_INFO, // Alpha MH (logLevel)
-                    userRoles, "Ingestion process started."); // Alpha MH (logMessage)
-
-            audit(event);
+            setExchangeBody(exchange, controlFileDescriptor, errorReport, batchJobId);
 
         } catch (SubmissionLevelException exception) {
             String id = "null";
@@ -184,9 +157,57 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
             if (newBatchJob != null) {
                 BatchJobUtils.stopStageAndAddToJob(stage, newBatchJob);
                 batchJobDAO.saveBatchJob(newBatchJob);
-                BatchJobUtils.writeWarningssWithDAO(newBatchJob.getId(), fileForControlFile.getName(), BATCH_JOB_STAGE, errorReport, batchJobDAO);
+                BatchJobUtils.writeErrorsWithDAO(newBatchJob.getId(), fileForControlFile.getName(), BATCH_JOB_STAGE,
+                        errorReport, batchJobDAO);
             }
         }
+    }
+
+    private void setExchangeBody(Exchange exchange, ControlFileDescriptor controlFileDescriptor,
+            ErrorReport errorReport, String batchJobId) {
+        if (!errorReport.hasErrors() && controlFileDescriptor != null) {
+            exchange.getIn().setBody(controlFileDescriptor, ControlFileDescriptor.class);
+        } else {
+            WorkNote workNote = WorkNote.createSimpleWorkNote(batchJobId);
+            exchange.getIn().setBody(workNote, WorkNote.class);
+        }
+    }
+
+    private NewBatchJob getOrCreateNewBatchJob(String batchJobId, File cf) {
+        NewBatchJob job = null;
+        if (batchJobId != null) {
+            job = batchJobDAO.findBatchJobById(batchJobId);
+        } else {
+            job = createNewBatchJob(cf);
+        }
+        return job;
+    }
+
+    private ControlFile parseControlFile(NewBatchJob newBatchJob, File fileForControlFile) throws IOException,
+            IngestionException {
+        File lzFile = new File(newBatchJob.getTopLevelSourceId());
+        LandingZone topLevelLandingZone = new LocalFileSystemLandingZone(lzFile);
+
+        ControlFile controlFile = ControlFile.parse(fileForControlFile, topLevelLandingZone, messageSource);
+
+        newBatchJob.setTotalFiles(controlFile.getFileEntries().size());
+        createResourceEntryAndAddToJob(controlFile, newBatchJob);
+
+        TenantContext.setTenantId(newBatchJob.getTenantId());
+        // determine whether to override the tenantId property with a LZ derived value
+        if (deriveTenantId) {
+            // derive the tenantId property from the landing zone directory with a mongo lookup
+            String tenantId = setTenantIdFromDb(controlFile, lzFile.getAbsolutePath());
+            newBatchJob.setTenantId(tenantId);
+        }
+        return controlFile;
+    }
+
+    private ControlFileDescriptor createControlFileDescriptor(NewBatchJob newBatchJob, ControlFile controlFile) {
+        File sourceFile = new File(newBatchJob.getSourceId());
+        LandingZone resolvedLandingZone = new LocalFileSystemLandingZone(sourceFile);
+        ControlFileDescriptor controlFileDescriptor = new ControlFileDescriptor(controlFile, resolvedLandingZone);
+        return controlFileDescriptor;
     }
 
     /**
@@ -212,25 +233,19 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
             // TODO: we should be creating WorkNote at the very first point of processing.
             // this will require some routing changes
-            WorkNote workNote = WorkNoteImpl.createSimpleWorkNote(batchJobId);
+            WorkNote workNote = WorkNote.createSimpleWorkNote(batchJobId);
             exchange.getIn().setBody(workNote, WorkNote.class);
         }
     }
 
-    private void setExchangeHeaders(Exchange exchange, ControlFileDescriptor controlFileDescriptor, NewBatchJob newJob) {
+    private void setExchangeHeaders(Exchange exchange, NewBatchJob newJob, ErrorReport errorReport) {
         exchange.getIn().setHeader("BatchJobId", newJob.getId());
-        exchange.getIn().setBody(controlFileDescriptor, ControlFileDescriptor.class);
-        exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
-    }
-
-    private NewBatchJob getOrCreateNewBatchJob(String batchJobId, File cf) {
-        NewBatchJob job = null;
-        if (batchJobId != null) {
-            job = batchJobDAO.findBatchJobById(batchJobId);
+        if (errorReport.hasErrors()) {
+            exchange.getIn().setHeader("hasErrors", errorReport.hasErrors());
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         } else {
-            job = createNewBatchJob(cf);
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
         }
-        return job;
     }
 
     private NewBatchJob createNewBatchJob(File controlFile) {
@@ -257,7 +272,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
      *
      * Throws an IngestionException if a tenantId could not be resolved.
      */
-    private void setTenantId(ControlFile cf, String lzPath) throws IngestionException {
+    private String setTenantIdFromDb(ControlFile cf, String lzPath) throws IngestionException {
         lzPath = new File(lzPath).getAbsolutePath();
         // TODO add user facing error report for no tenantId found
         String tenantId = tenantDA.getTenantId(lzPath);
@@ -266,6 +281,39 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         } else {
             throw new IngestionException("Could not find tenantId for landing zone: " + lzPath);
         }
+        return tenantId;
+    }
+
+    private void auditSecurityEvent(ControlFile controlFile) {
+        byte[] ipAddr = null;
+        try {
+            InetAddress addr = InetAddress.getLocalHost();
+
+            // Get IP Address
+            ipAddr = addr.getAddress();
+
+        } catch (UnknownHostException e) {
+            LogUtil.error(LOG, "Error getting local host", e);
+        }
+        List<String> userRoles = Collections.emptyList();
+        SecurityEvent event = new SecurityEvent();
+        event.setTenantId(controlFile.getConfigProperties().getProperty("tenantId"));
+        event.setUser("");
+        event.setTargetEdOrg("");
+        event.setActionUri("processUsingNewBatchJob");
+        event.setAppId("Ingestion");
+        event.setOrigin("");
+        event.setExecutedOn(ipAddr[0] + "." + ipAddr[1] + "." + ipAddr[2] + "." + ipAddr[3]);
+        event.setCredential("");
+        event.setUserOrigin("");
+        event.setTimeStamp(new Date());
+        event.setProcessNameOrId(ManagementFactory.getRuntimeMXBean().getName());
+        event.setClassName(this.getClass().getName());
+        event.setLogLevel(LogLevelType.TYPE_INFO);
+        event.setRoles(userRoles);
+        event.setLogMessage("Ingestion process started.");
+
+        audit(event);
     }
 
     @Override

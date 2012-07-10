@@ -24,6 +24,9 @@ SLIAdmin::Application.routes.draw do
   end
 
   resources :change_passwords
+  resources :tenant_metrics
+  get "tenant_metrics", :to => "tenant_metrics#all"
+  get "tenant_metrics/:id", :to => "tenant_metrics#find"
 
   resources :waitlist_users do
     get 'success', :on => :collection
@@ -34,7 +37,7 @@ SLIAdmin::Application.routes.draw do
 
   resources :realm_management
   post "landing_zone/provision", :to => 'landing_zone#provision'
-  get "landing_zone/provision", :to => 'landing_zone#success'
+  get "landing_zone/provision", :to => 'landing_zone#provision'
   get "landing_zone", :to => 'landing_zone#index'
 
 

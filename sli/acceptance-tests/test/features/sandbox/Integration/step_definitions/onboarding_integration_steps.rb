@@ -44,8 +44,8 @@ After do |scenario|
 end
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
-  id = "devldapuser@slidev.org"                                       if human_readable_id == "USER_EMAIL"
-  id = "test1234"                                                     if human_readable_id == "USER_PASS"
+  id = PropLoader.getProps['user_registration_email']                 if human_readable_id == "USER_EMAIL"
+  id = PropLoader.getProps['user_registration_pass']                  if human_readable_id == "USER_PASS"
   id = "StateEdorg"                                                   if human_readable_id =="STATE_ED_ORG"
   id = "Loraine2"                                                     if human_readable_id == "USER_FIRSTNAME"
   id = "Plyler2"                                                      if human_readable_id == "USER_LASTNAME"
@@ -54,16 +54,14 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "Dashboard"                                                    if human_readable_id == "DASHBOARD_APP"
   id = "Admin Tool"                                                   if human_readable_id == "ADMIN_APP"
   id = "Databrowser"                                                  if human_readable_id == "DATABROWSER_APP"
-  id = "ed_org_IL"                                                    if human_readable_id == "ED-ORG_SAMPLE_DS1"
+  id = "STANDARD-SEA"                                                 if human_readable_id == "ED-ORG_SAMPLE_DS1"
   id = "mreynolds"                                                    if human_readable_id == "DISTRICT_ADMIN_USER"
   id = "mreynolds1234"                                                if human_readable_id == "DISTRICT_ADMIN_PASS"
-  #need to figure out what tenantId is for real user provision instead of sunsetadmin
-  id = "devldapuser@slidev.org"                                   if human_readable_id == "Tenant_ID"
-  #need to figure out what landing zone path is for real user provision instead of sunsetadmin
-  id = "devldapuser@slidev.org"                                if human_readable_id == "Landing_zone_directory"
+  id = PropLoader.getProps['user_registration_email']                 if human_readable_id == "Tenant_ID"
+  id = PropLoader.getProps['user_registration_email']                 if human_readable_id == "Landing_zone_directory"
 
   id = "mreynolds"                                                       if human_readable_id == "Prod_Tenant_ID"
-  id = "mreynolds/StateEdorg"                                            if human_readable_id == "Prod_Landing_zone_directory"
+  id = "mreynolds/#{sha256('StateEdorg')}"                            if human_readable_id == "Prod_Landing_zone_directory"
 
   #placeholder for provision and app registration link, need to be updated to check real link
   id = "landing_zone"                                     if human_readable_id == "URL_TO_PROVISIONING_APPLICATION"
@@ -80,16 +78,16 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
 end
 
 Given /^I have a SMTP\/Email server configured$/ do
-     @mode="live"
-     @email_sender_name= "Administrator"
-     @email_sender_address= "noreply@slidev.org"
-      @email_conf = {
-       :host => 'mon.slidev.org',
-       :port => 3000,
-       :sender_name => @email_sender_name,
-       :sender_email_addr => @email_sender_address
-     }
- end
+  @live_email_mode="live"
+  @email_sender_name= "Administrator"
+  @email_sender_address= "noreply@slidev.org"
+  @email_conf = {
+    :host =>  PropLoader.getProps['email_smtp_host'],
+    :port => PropLoader.getProps['email_smtp_port'],
+    :sender_name => @email_sender_name,
+    :sender_email_addr => @email_sender_address
+  }
+end
 
 Given /^I go to the sandbox account registration page$/ do
   #the user registration path need to be fixed after talk with wolverine
@@ -217,13 +215,9 @@ When /^clicks on "([^"]*)"$/ do |arg1|
 end
 
 Then /^an "([^"]*)" is saved to mongo$/ do |arg1|
- step "I am logged in using \"operator\" \"operator1234\" to realm \"SLI\""
-  uri="/v1/educationOrganizations"
-  #uri=uri+"?"+URI.escape("body.stateOrganizationId")+"="+URI.escape("IL")
-  restHttpGet(uri)
-  dataH=JSON.parse(@res.body)
-  assert(dataH.length==1,"#{arg1} is not saved to mongo}")
-  @edorgId=dataH[0]["id"]
+ edOrg_coll=@db["educationOrganization"]
+ edOrg=edOrg_coll.find({"body.stateOrganizationId"=> arg1})
+ assert(edOrg.count()>0,"didnt save #{arg1} to mongo")
 end
 
 Then /^an "([^"]*)" is added in the application table for "([^"]*)","([^"]*)", "([^"]*)"$/ do |arg1, arg2, arg3, arg4|
@@ -334,7 +328,9 @@ When /^the state super admin set the custom high\-level ed\-org to "([^"]*)"$/ d
 end
 
 Given /^the "(.*?)" has "(.*?)" defined in LDAP by the operator$/ do |email, edorg|
-  ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, PropLoader.getProps['ldap_base'], "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+  ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
+                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
+                          PropLoader.getProps['ldap_admin_pass'])
   user = ldap.read_user(email)
   if user[:edorg] != edorg
     user[:edorg] = edorg
@@ -344,19 +340,19 @@ end
 
 def initializeApprovalAndLDAP(emailConf, prod)
   # ldapBase need to be configured in admin-tools and acceptance test to match simple idp branch
-   ldapBase=PropLoader.getProps['ldap_base']
-  # ldapBase = "ou=DevTest,dc=slidev,dc=org"
-   @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, ldapBase, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+   @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
+                           PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
+                           PropLoader.getProps['ldap_admin_pass'])
    email = Emailer.new @email_conf
    ApprovalEngine.init(@ldap, email, nil, !prod)
  end
 
 
 def verifyEmail
-  if @mode
-    defaultUser = 'devldapuser'
-    defaultPassword = 'Y;Gtf@w{'
-    imap = Net::IMAP.new('mon.slidev.org', 993, true, nil, false)
+  if @live_email_mode
+    defaultUser = PropLoader.getProps['email_imap_registration_user']
+    defaultPassword = PropLoader.getProps['email_imap_registration_pass']
+    imap = Net::IMAP.new(PropLoader.getProps['email_imap_host'], PropLoader.getProps['email_imap_port'], true, nil, false)
     imap.authenticate('LOGIN', defaultUser, defaultPassword)
     imap.examine('INBOX')
 
@@ -427,5 +423,9 @@ def clear_tenant
 end
 
 def clear_users
-  @ldap.delete_user('devldapuser@slidev.org')
+  @ldap.delete_user(PropLoader.getProps['user_registration_email'])
+end
+
+def sha256(to_hash)
+  Digest::SHA256.hexdigest(to_hash)
 end

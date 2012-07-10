@@ -1,3 +1,4 @@
+@RALLY_DE87
 @RALLY_US209
 Feature: As an SLI application, I want to be able to manage student section associations.
 This means I want to be able to perform CRUD on all associations.
@@ -149,3 +150,10 @@ Scenario: Delete association
     Then I should receive a return code of 204
      And I navigate to GET "/<ASSOCIATION URI>/<ASSOCIATION ID FOR DELETE>"
      And I should receive a return code of 404
+     
+Scenario: Test /id/grades
+	Given parameter "limit" is "0"
+	When I navigate to GET "/<ASSOCIATION URI>/<ASSOCIATION ID FOR GRADE>/<GRADE URI>"
+	 Then I should receive a return code of 200
+     And I should receive a collection of "<GRADE COUNT>" entities
+     And each entity's "entityType" should be "<GRADE TYPE>"

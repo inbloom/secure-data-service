@@ -1,0 +1,23 @@
+{
+    "keyFields" : ["metaData.externalId", "body.gradebookEntryType", "body.sectionId"],
+    "references" : 
+    [{ 
+         "fieldPath":"body.sectionId",
+         "ref":
+         {
+            "collectionName": "section",
+            "choiceOfFields":
+            [
+               [
+                  {
+                     "path":"metaData.externalId",
+                     "values":
+                     [{
+                         "valueSource":"body.sectionId"
+                     }]
+                  }
+               ]
+            ]
+         }
+    }]
+}

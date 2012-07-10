@@ -37,7 +37,7 @@ import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import org.slc.sli.api.client.constants.ResourceConstants;
+import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.domain.NeutralCriteria;

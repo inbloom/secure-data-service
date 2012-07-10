@@ -1,26 +1,58 @@
+<#--
+  Copyright 2012 Shared Learning Collaborative, LLC
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <#attempt>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/jquery-1.7.1.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/jquery-ui/js/jquery-ui-1.8.18.custom.min.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/jquery-ui/js/bootstrap-dropdown.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/jqGrid/js/jquery.jqGrid.min.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/raphael-min.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/SLC.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/SLC.util.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/controller/SLC.dataProxy.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/SLC.loadingMask.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.fuelGauge.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.formatters.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.sorters.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.teardrop.js"></script>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.cutPoints.js"></script>
 <link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/js/libs/jquery-ui/css/custom/jquery-ui-1.8.18.custom.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/js/libs/jqGrid/css/ui.jqgrid.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="${CONTEXT_ROOT_PATH}/static/css/common.css" media="screen" />
+
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/jquery-ui/js/jquery-ui-1.8.18.custom.min.js"></script>
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/bootstrap-dropdown.js"></script>
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/jqGrid/js/jquery.jqGrid.min.js"></script>
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/libs/raphael-min.js"></script>
+
+<#if minifyJs?? && minifyJs= false>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/controller/SLC.js"></script>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/controller/SLC.util.js"></script>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/controller/SLC.dataProxy.js"></script>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/SLC.loadingMask.js"></script>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.tablegrid.js"></script>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.fuelGauge.js"></script>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.formatters.js"></script>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.sorters.js"></script>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.teardrop.js"></script>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.cutPoints.js"></script>
+<#else>
+    <script type="text/javascript" src = "${CONTEXT_ROOT_PATH}/static/js/SLC.js"></script>
+    <script type="text/javascript" src = "${CONTEXT_ROOT_PATH}/static/js/widgets.js"></script>
+    <script type="text/javascript" src = "${CONTEXT_ROOT_PATH}/static/js/all.js"></script>
+</#if>
+
+</head>
+<body>
+<div class="wrapper">
+	<#include "layout/layout_header.ftl">
+	<#include "${page_to_include}">
+	<div class="clear"></div>
+</div>
+<#include "layout/layout_footer.ftl">
 
 <script type="text/javascript">
 
@@ -35,14 +67,6 @@
   })();
 
 </script>
-</head>
-<body>
-<div class="wrapper">
-	<#include "layout/layout_header.ftl">
-	<#include "${page_to_include}">
-	<div class="clear"></div>
-</div>
-<#include "layout/layout_footer.ftl">
 </body>
 </html>
 <#recover>

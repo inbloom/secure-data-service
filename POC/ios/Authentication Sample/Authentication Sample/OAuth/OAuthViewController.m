@@ -37,7 +37,7 @@
 }
 
 - (void) viewDidLoad {
-    [self.web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://local.slidev.org:8080/api/oauth/authorize?redirect_uri=https://localhost&client_id=EGbI4LaLaL"]]];
+    [self.web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"https://api.sandbox.slcedu.org/api/oauth/authorize?redirect_uri=https://localhost&client_id=vd7j8fyCuD"]]];
 }
 
 - (void)viewDidUnload
@@ -52,8 +52,11 @@
     [super dealloc];
 }
 
+/**
+ * Method that parses the OAuth token out of the response.
+ */
 - (void) getOauthToken {
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://local.slidev.org:8080/api/oauth/token?client_id=EGbI4LaLaL&client_secret=iGdeAGCugi4VwZNtMJR062nNKjB7gRKUjSB0AcZqpn8Beeee&code=%@&redirect_uri=NONCE", self.code]];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://api.sandbox.slcedu.org/api/oauth/token?client_id=vd7j8fyCuD&client_secret=ALZz9p6ByBj72E25ixp7ZKkJjljQXMfdtj5NmgXQWihjGWOd&code=%@&redirect_uri=NONCE", self.code]];
     ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:url];
     [request startSynchronous];
     NSLog(@"Got a response of %@", [request responseString]);
@@ -65,27 +68,24 @@
 /**
  * UIWebView Delegate
  */
-
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     return YES;
     
 }
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    NSLog(@"didFailWithError %@", [error localizedFailureReason]);
-    [self extractCode:[[[error userInfo] valueForKey:@"NSErrorFailingURLKey"] query]];
-    [webView stopLoading];
-    [self getOauthToken];
-}
 
--(void) extractCode: (NSString *) fromUrl {
-    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] init];
-    NSArray *kv = [fromUrl componentsSeparatedByString:@"="];
-    if([kv count] > 0) {
-        [parameters setObject:[kv objectAtIndex:1] forKey:[kv objectAtIndex:0]];
+/**
+ * Once the authorization code page loads this method will use the code to get the oauth token
+ */
+- (void) webViewDidFinishLoad:(UIWebView *)webView {
+    NSString *requestURL = [[webView.request URL] relativeString];
+    NSString *response = [webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.textContent"];
+    if([requestURL hasSuffix:@"saml/sso/post"])
+    {
+        NSLog(@"The auth code request is %@", response);
+        self.code = [[response JSONValue] objectForKey:@"authorization_code"];
+        [self getOauthToken];
+        
     }
-             
-    self.code = [parameters objectForKey:@"code"];
-    [parameters release];
-    NSLog(@"We have a code: %@", code);
 }
+   
 @end

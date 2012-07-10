@@ -29,8 +29,8 @@ Before do
   @registrationAppSuffix = PropLoader.getProps['registration_app_suffix']
   @validationBaseSuffix = PropLoader.getProps['validation_base_suffix']
   @emailConf = {
-      :host => 'mon.slidev.org',
-      :port => 3000,
+      :host => PropLoader.getProps['email_smtp_host'],
+      :port => PropLoader.getProps['email_smtp_port'],
   }
 end
 
@@ -192,8 +192,9 @@ end
 ###############################################################################
 
 def initializeApprovalAndLDAP(emailConf, prod)
-  ldapBase = PropLoader.getProps['ldap_base']
-  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, ldapBase, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
+                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
+                          PropLoader.getProps['ldap_admin_pass'])
   email = Emailer.new emailConf
   ApprovalEngine.init(@ldap, email, nil, !prod)
 end

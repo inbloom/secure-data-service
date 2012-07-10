@@ -36,9 +36,9 @@ Given /^I have an open web browser$/ do
   @profile['network.http.prompt-temp-redirect'] = false
 
   # if osx, use firefox background script
-  if Selenium::WebDriver::Firefox::Binary.path['/Applications/Firefox.app'] != nil
-    Selenium::WebDriver::Firefox::Binary.path = 'test/features/utils/firefox_in_background.sh'
-  end
+  #if Selenium::WebDriver::Firefox::Binary.path['/Applications/Firefox.app'] != nil
+  #  Selenium::WebDriver::Firefox::Binary.path = 'test/features/utils/firefox_in_background.sh'
+  #end
 
   @driver ||= Selenium::WebDriver.for :firefox, :profile => @profile
   reset_timeouts_to_default
@@ -119,3 +119,8 @@ def assertWithWait(msg, &blk)
   end
   assert(yield, webdriverDebugMessage(@driver,msg))
 end
+
+When /^I click on Ok$/ do
+  @driver.switch_to.alert.accept
+end
+

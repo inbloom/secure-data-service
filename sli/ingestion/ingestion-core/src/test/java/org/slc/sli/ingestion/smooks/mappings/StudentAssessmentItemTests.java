@@ -24,12 +24,11 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
-
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.util.EntityTestUtils;
 
 /**
  * Smooks test for StudentAssessmentItem
@@ -45,7 +44,7 @@ public class StudentAssessmentItemTests {
             + "  <ResponseIndicator>Effective response</ResponseIndicator>"
             + "  <AssessmentItemResult>Correct</AssessmentItemResult>"
             + "  <RawScoreResult>100</RawScoreResult>"
-            + "  <StudentTestAssessmentReference ref='sass-ref' />"
+            + "  <StudentAssessmentReference ref='sass-ref' />"
             + "  <StudentObjectiveAssessmentReference ref='soa-ref' />"
             + "  <AssessmentItemReference>"
             + "    <AssessmentItemIdentity>"
@@ -69,7 +68,7 @@ public class StudentAssessmentItemTests {
         Assert.assertEquals(100, m.get("rawScoreResult"));
 
         Map<String, Object> pIds = nr.getLocalParentIds();
-        Assert.assertEquals("sass-ref", pIds.get("studentTestResultRef"));
+        Assert.assertEquals("sass-ref", pIds.get("studentResultRef"));
         Assert.assertEquals("soa-ref", pIds.get("studentObjectiveAssessmentRef"));
         Assert.assertEquals("aii-code", pIds.get("assessmentItemIdentificatonCode"));
     }

@@ -30,14 +30,15 @@ SAMPLE_DATA_SET2_CHOICE = "ed_org_IL-SUNSET"
 CUSTOM_DATA_SET_CHOICE = "custom"
 
 
-Given /^LDAP server has been setup and running$/ do
-  ldap_base=PropLoader.getProps['ldap_base']
-  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, ldap_base, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+Given /^LDAP and email server has been setup and running$/ do
+  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
+                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
+                          PropLoader.getProps['ldap_admin_pass'])
    @email_sender_name= "Administrator"
      @email_sender_address= "noreply@slidev.org"
       @email_conf = {
-       :host => 'mon.slidev.org',
-       :port => 3000,
+       :host => PropLoader.getProps['email_smtp_host'],
+       :port => PropLoader.getProps['email_smtp_port'],
        :sender_name => @email_sender_name,
        :sender_email_addr => @email_sender_address
      }
@@ -48,7 +49,7 @@ end
 
 Given /^there is a production account in ldap for vendor "([^"]*)"$/ do |vendor|
   @sandboxMode=false
-  ApprovalEngine.init(@ldap,Emailer.new(@email_conf),nil,@sandboxMode)
+  ApprovalEngine.init(@ldap,Emailer.new(@email_conf),nil,true)
   @tenantId = @email
   remove_user(@email)
   sleep(1)
@@ -73,7 +74,7 @@ Given /^there is a production account in ldap for vendor "([^"]*)"$/ do |vendor|
   ApprovalEngine.change_user_status(@email, ApprovalEngine::ACTION_ACCEPT_EULA)
   user_info = ApprovalEngine.get_user(@email)
   ApprovalEngine.verify_email(user_info[:emailtoken])
-  ApprovalEngine.change_user_status(@email, ApprovalEngine::ACTION_APPROVE)
+  #ApprovalEngine.change_user_status(@email, ApprovalEngine::ACTION_APPROVE)
 end
 
 When /^I go to the provisioning application$/ do

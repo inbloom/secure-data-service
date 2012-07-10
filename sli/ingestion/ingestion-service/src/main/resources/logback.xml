@@ -24,35 +24,11 @@
 
   </appender>
 
-  <appender name="PERF_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <File>${logging.path}/performance.log</File>
-    <Append>true</Append>
-    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-        <fileNamePattern>${logging.path}/performance-%d{yyyy-MM-dd}.log</fileNamePattern>
-    </rollingPolicy>
-    <encoder>
-      <Pattern>%d - %msg%n
-      </Pattern>
-    </encoder>
-  </appender>
-
   <appender name="SECURITY_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
     <File>${logging.path}/Security.log</File>
     <Append>true</Append>
     <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
         <fileNamePattern>${logging.path}/Security-%d{yyyy-MM-dd}.log</fileNamePattern>
-    </rollingPolicy>
-    <encoder>
-      <Pattern>%d - %msg%n
-      </Pattern>
-    </encoder>
-  </appender>
-
-  <appender name="PERFORMANCE_LOGGER" class="ch.qos.logback.core.rolling.RollingFileAppender">
-    <File>${logging.path}/performanceStatistics.log</File>
-    <Append>true</Append>
-    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-        <fileNamePattern>${logging.path}/performanceStatistics-%d{yyyy-MM-dd}.log</fileNamePattern>
     </rollingPolicy>
     <encoder>
       <Pattern>%d - %msg%n
@@ -77,19 +53,12 @@
     <appender-ref ref="FILE" />
   </logger>
 
-  <logger name="Job.PerformanceMonitor" level="INFO">
-    <appender-ref ref="PERF_FILE" />
-  </logger>
-
   <logger name="SecurityMonitor" level="INFO">
     <appender-ref ref="SECURITY_FILE" />
-  </logger>
-
-  <logger name="PerformanceLogger" level="INFO">
-    <appender-ref ref="PERFORMANCE_LOGGER" />
   </logger>
 
   <!-- Do not pollute our logs with awful Smooks / groovy warnings -->
   <logger name="org.milyn.delivery" level="ERROR" />
 
+  <logger name="org.slc.sli.ingestion" level="${sli.ingestion.log.level}" />
 </configuration>

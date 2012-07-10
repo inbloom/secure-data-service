@@ -20,6 +20,8 @@ OTHER_TAGS = ENV['OTHER_TAGS'] ? "--tags "+ENV['OTHER_TAGS'] : ""
 
 TOREMOVE = ENV['TOREMOVE'] ? true : false
 
+RUN_STAMPER = true
+
 #######################################################
 
 $SUCCESS=true
@@ -76,8 +78,10 @@ end
 # This method is to run a given test of set of test where a fixture is not needed
 # Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
 def runTests(testDirPath)
-  addSecurityData()
-  
+  if RUN_STAMPER 
+  	addSecurityData()
+  end	
+
   @tags ||= ["~@wip", "~@sandbox"]
   sh "cucumber #{testDirPath} #{EXPAND} --tags #{@tags.join(' --tags ')} #{OTHER_TAGS} #{COLOR} -f junit --out ./target -f pretty" do |success, exit_code|
     if success
@@ -85,7 +89,7 @@ def runTests(testDirPath)
     else
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Failed"
       $SUCCESS=false
-      raise "Tests Failed" if (ENV['FAILFAST'])
+      raise "Tests Failed" unless (ENV['FAILSLOW'])
     end
   end
 end
@@ -99,8 +103,7 @@ def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropEx
   else
     dropOption = (dropExistingCollection) ? "--drop":""
   end
-  
-  
+
   #sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"printjson(db.#{collectionName}.dropIndexes().msg)\""
 
   sh "#{MONGO_BIN}mongoimport #{dropOption}  -d #{DB_NAME} -c #{collectionName} -h #{DB_HOST} --file #{fixtureFilePath}/#{fixtureFileName}" do |success, exit_code|
@@ -146,13 +149,13 @@ def cleanseRealms()
   @conn = Mongo::Connection.new(DB_HOST)
   @db = @conn.db(DB_NAME)
   @realmColl = @db.collection('realm')
-  
+
   @realmColl.find.each do |row|
     if row['body']['uniqueIdentifier'] != 'Shared Learning Infrastructure' and row['body']['uniqueIdentifier'] != 'SandboxIDP'
       @realmColl.remove(row)
     end
   end
-  
+
 end
 
 def cleanseApps()
@@ -160,7 +163,7 @@ def cleanseApps()
   @conn = Mongo::Connection.new(DB_HOST)
   @db = @conn.db(DB_NAME)
   @appColl = @db.collection('application')
-  
+
   @appColl.find.each do |row|
     if row['body']['bootstrap'] != true
       @appColl.remove(row)
@@ -206,7 +209,7 @@ task :appInit do
   #Preserve the bootstrap apps
   cleanseApps()
   setFixture("application", "application_fixture.json", "test/data", false)
-  
+
   setFixture("applicationAuthorization", "applicationAuthorization_fixture.json")
   setFixture("userSession", "oauth_authentication_tokens.json")
 end
@@ -243,13 +246,10 @@ task :production => [:apiAndSecurityTests, :ingestionTests, :ingestionOfflineToo
   end
 end
 
-
-# This task is used as an entry point in Jenkins to run API and Security Tests
-# It is needed so that it fails the build if there are any failures based on the
-# 'raise' exception logic below.  Rake will exit immediately if you raise an exception
-# before all the tests complete and will show incomplete results
-desc "Run API/Security Acceptances Tests"
-task :apiAndSecurityTests => [:apiV1Tests, :securityTests, :onboardingTests, :apiMegaTests] do
+# This task is used as an entry point to run the smoke tests,
+# a suite of tests that will run quickly but only catch 80% or less of real failures
+desc "Run Smoke Tests"
+task :smokeTests => [:apiSmokeTests, :ingestionSmokeTests, :dashboardSmokeTests, :databrowserSmokeTests, :adminSmokeTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -259,9 +259,19 @@ task :apiAndSecurityTests => [:apiV1Tests, :securityTests, :onboardingTests, :ap
 end
 
 
-desc "Run Security MegaTest"
-task :apiMegaTests => [:realmInit, :importSecuredData] do
-    runTests("test/features/apiV1/entities/student_security")
+# This task is used as an entry point in Jenkins to run API and Security Tests
+# It is needed so that it fails the build if there are any failures based on the
+# 'raise' exception logic below.  Rake will exit immediately if you raise an exception
+# before all the tests complete and will show incomplete results
+desc "Run API/Security Acceptances Tests"
+task :apiAndSecurityTests => [:turnOffStamper, :apiV1Tests, :securityTests, :onboardingTests, :apiMegaTests] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+  RUN_STAMPER = true
 end
 
 #desc "Run Liferay Tests"
@@ -291,10 +301,12 @@ end
 desc "Run API V1 acceptance tests"
 task :apiV1Tests => [:apiV1EntityTests,
                      :apiV1EntitySecurityTests,
+                     :apiV1DuplicateLinkTest,
                      :apiV1QueryingTests,
                      :apiV1AssociationTests,
                      :v1homeUriTests,
                      :v1ValidationTests,
+                     :v1WhiteListValidationTests,
                      :v1HierarchyTraversalTests,
                      :v1DirectReferencesTests,
                      :v1DirectReferenceCollectionsTests,
@@ -308,7 +320,8 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1StudentOptionalFieldsTests,
                      :v1SingleStudentViewTests,
                      :v1BlacklistValidationTests,
-                     :v1XMLTests] do
+                     :v1XMLTests,
+                     :v1CommaSeparatedListOrderTests] do
   displayFailureReport()
 end
 
@@ -316,11 +329,10 @@ task :apiV1EntitySecurityTests do
   # Import the data once, none of these tests edit the data
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/context_security")
-  
+
 end
 
-task :apiV1AssociationTests => [:v1SectionAssessmentAssociationTests,
-                                :v1CourseOfferingTests,
+task :apiV1AssociationTests => [:v1CourseOfferingTests,
                                 :v1StaffEdOrgAssociationTests,
                                 :v1StaffProgramAssociationTests,
                                 :v1StudentProgramAssociationTests,
@@ -370,7 +382,7 @@ task :changePasswordTests => [:realmInit] do
 end
 
 desc "Run Admin-Tools Selenium Tests"
-task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests,:onboardingIntegrationTests,:provisionIntegrationTests] do
+task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests,:onboardingIntegrationTests,:provisionIntegrationTests,:tenantMetricsTests] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/admintools")
   Rake::Task["importSandboxData"].execute
@@ -471,10 +483,12 @@ desc "Run Ingestion Acceptances Tests"
 task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,:ingestionCommonCoreTest,
                          :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest,
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
-                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests, :ingestionStudentProgramAssociationTest, 
-                         :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest, 
-                         :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest, :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest, 
-                         :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest, :ingestionEmptyControlFileTest, :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest ] do
+                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests, :ingestionStudentProgramAssociationTest,
+                         :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest,
+                         :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest, :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest,
+                         :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest, 
+                         :ingestionEmptyControlFileTest, :ingestionDryRunTest, :ingestionCourseOfferingTest, :ingestionComplexObjectArrayIdRefTest ] do
+
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -627,7 +641,7 @@ task :importSecuredData do
     "studentSectionAssociation" => "secured/studentSectionAssociation.json",
     "teacherSchoolAssociation" => "secured/teacherSchoolAssociation.json",
     "teacherSectionAssociation" => "secured/teacherSectionAssociation.json"
-    
+
   ]
   setMultipleFixtureFiles(testHash)
 end
@@ -679,12 +693,30 @@ task :importSandboxData do
   setMultipleFixtureFiles(testHash)
 end
 
+desc "Import Tenant Metrics Data"
+task :importTenantMetricsData do
+  testHash = Hash[
+	"assessment" => "metrics/assessment_fixture.json",
+	"educationOrganization" => "metrics/educationOrganization_fixture.json",
+	"grade" => "metrics/grade_fixture.json",
+	"parent" => "metrics/parent_fixture.json",
+	"program" => "metrics/program_fixture.json",
+	"section" => "metrics/section_fixture.json",
+	"session" => "metrics/session_fixture.json",
+	"staff" => "metrics/staff_fixture.json",
+	"student" => "metrics/student_fixture.json",
+	"tenant" => "metrics/tenant_fixture.json"
+  ]
+  setMultipleFixtureFiles(testHash)
+end
+
 desc "Import Unified Data Set"
 task :importUnifiedData => [:realmInit] do
   testHash = Hash[
     "assessment" => "unified_data/uds_assessment.json",
     "attendance" => "unified_data/uds_attendance.json",
     "course" => "unified_data/uds_course.json",
+    "courseOffering" => "unified_data/uds_courseOffering.json",
     "educationOrganization" => "unified_data/uds_educationOrganization.json",
     "gradebookEntry" => "unified_data/uds_gradebookEntry.json",
     "parent" => "unified_data/uds_parent.json",
@@ -707,10 +739,17 @@ end
 desc "Apply security denormalization"
 task :addSecurityData do
 	sh "ruby ../opstools/edorg/edorg_stamper.rb 127.0.0.1:27017"
+	sh "ruby ../opstools/teacher_security_stamper/teacher_stamper.rb 127.0.0.1:27017"
 end
 
 def addSecurityData()
 	sh "ruby ../opstools/edorg/edorg_stamper.rb 127.0.0.1:27017"
+	sh "ruby ../opstools/teacher_security_stamper/teacher_stamper.rb 127.0.0.1:27017"
+end
+
+desc "Turn off stamper"
+task :turnOffStamper do
+	RUN_STAMPER = false
 end
 
 desc "Help information for this Rakefile"
@@ -747,6 +786,7 @@ lea_idp_server_url     This property selects which running IDP should be used as
 DEBUG                  This property tells the test code to display debug output in the console
 CUKE_EXPAND            This property tells cucumber to expand Scenario Outlines (for use in jenkins, default: not expand)
 OTHER_TAGS             This property allows you to run tests with debug tags, so pass a tag for this env var ie: @test
+FAILSLOW               This property will tell cucumber to continue even if tests fail. Normally it will fail on the first error.
 eos
 
 end

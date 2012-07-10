@@ -1,3 +1,23 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+ * SLC CutPoints
+ * Handles all the methods related to grid cutpoints
+ */
 /*global SLC $ jQuery*/
 
 SLC.namespace('SLC.grid.cutPoints', (function () {
@@ -11,6 +31,11 @@ SLC.namespace('SLC.grid.cutPoints', (function () {
 			5: "#438746"
 		};
 			
+		/*
+		 * Get CutPoints array
+		 * @param cutPoints
+		 * @return cutPointsArray
+		 */
 		function toArray(cutPoints) {
 			
 			var cutPointsArray = [],
@@ -35,6 +60,12 @@ SLC.namespace('SLC.grid.cutPoints', (function () {
 			return cutPointsArray;
 		}
 		
+		/*
+		 * Get level for CutPoints array
+		 * @param cutPointsArray
+		 * @param score
+		 * @return level or -1
+		 */
 		function getLevelFromArray(cutPointsArray, score) {
 			
 			if (cutPointsArray === null || cutPointsArray === undefined || score === null || score === undefined) {
@@ -50,6 +81,12 @@ SLC.namespace('SLC.grid.cutPoints', (function () {
 			return -1;
 		}
 		
+		/*
+		 * Get level for CutPoints
+		 * @param cutPoints
+		 * @param score
+		 * @return level or -1
+		 */
 		function getLevelFromcutPoints(cutPoints, score) {
 			
 			if (cutPoints === null || cutPoints === undefined || score === null || score === undefined) {
@@ -67,6 +104,11 @@ SLC.namespace('SLC.grid.cutPoints', (function () {
 			return -1;
 		}
 	
+		/*
+		 * Convert cutPoints Array to string
+		 * @param cutPointsArray
+		 * @return cutPoints string
+		 */
 		function getArrayToString(cutPointsArray) {
 			var i;
 			

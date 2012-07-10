@@ -17,17 +17,18 @@
 
 package org.slc.sli.api.resources.v1.view.impl;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
-import org.slc.sli.api.service.MockRepo;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
@@ -36,16 +37,16 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
+import org.slc.sli.api.service.MockRepo;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
 
 /**
  * Unit tests
+ *
  * @author srupasinghe
  *
  */
@@ -80,8 +81,11 @@ public class StudentTranscriptOptionalFieldAppenderTest {
         String courseId1 = repo.create("course", createCourse()).getEntityId();
         String courseId2 = repo.create("course", createCourse()).getEntityId();
 
-        String sectionId1 = repo.create("section", createSection(sessionId1, courseId1)).getEntityId();
-        String sectionId2 = repo.create("section", createSection(sessionId2, courseId2)).getEntityId();
+        String courseOfferingId1 = repo.create("courseOffering", createCourseOffering(courseId1)).getEntityId();
+        String courseOfferingId12 = repo.create("courseOffering", createCourseOffering(courseId2)).getEntityId();
+
+        String sectionId1 = repo.create("section", createSection(sessionId1, courseOfferingId1)).getEntityId();
+        String sectionId2 = repo.create("section", createSection(sessionId2, courseOfferingId12)).getEntityId();
 
         repo.create("studentSectionAssociation", createStudentSectionAssociation(studentId, sectionId1));
         repo.create("studentSectionAssociation", createStudentSectionAssociation(studentId, sectionId2));
@@ -123,7 +127,6 @@ public class StudentTranscriptOptionalFieldAppenderTest {
         assertEquals("Should match", section.get("sessionId"), ((EntityBody) section.get("sessions")).get("id"));
         assertNotNull("Should not be null", section.get("courses"));
         assertEquals("Should match", "Math", ((EntityBody) section.get("courses")).get("courseTitle"));
-        assertEquals("Should match", section.get("courseId"), ((EntityBody) section.get("courses")).get("id"));
         assertEquals("Should match", "Math A", section.get("sectionname"));
 
         List<EntityBody> studentTranscriptAssociations = (List<EntityBody>) transcripts.get("courseTranscripts");
@@ -147,10 +150,10 @@ public class StudentTranscriptOptionalFieldAppenderTest {
         return entity;
     }
 
-    private Map<String, Object> createSection(String sessionId, String courseId) {
+    private Map<String, Object> createSection(String sessionId, String courseOfferingId) {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("sessionId", sessionId);
-        entity.put("courseId", courseId);
+        entity.put("courseOfferingId", courseOfferingId);
         entity.put("sectionname", "Math A");
 
         return entity;
@@ -176,6 +179,13 @@ public class StudentTranscriptOptionalFieldAppenderTest {
     private Map<String, Object> createCourse() {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("courseTitle", "Math");
+
+        return entity;
+    }
+
+    private Map<String, Object> createCourseOffering(String courseId) {
+        Map<String, Object> entity = new HashMap<String, Object>();
+        entity.put("courseId", courseId);
 
         return entity;
     }

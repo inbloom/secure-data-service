@@ -38,7 +38,7 @@ import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.client.constants.EntityNames;
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -123,7 +123,7 @@ public class MockRepo implements Repository<Entity> {
         repo.put("oauthSession", new LinkedHashMap<String, Entity>());
         repo.put("oauth_access_token", new LinkedHashMap<String, Entity>());
         repo.put(EntityNames.ATTENDANCE, new LinkedHashMap<String, Entity>());
-        repo.put(EntityNames.LEARNINGOBJECTIVE, new LinkedHashMap<String, Entity>());
+        repo.put(EntityNames.LEARNING_OBJECTIVE, new LinkedHashMap<String, Entity>());
         repo.put(EntityNames.COHORT, new LinkedHashMap<String, Entity>());
         repo.put(EntityNames.STAFF_COHORT_ASSOCIATION, new LinkedHashMap<String, Entity>());
         repo.put(EntityNames.STUDENT_COHORT_ASSOCIATION, new LinkedHashMap<String, Entity>());
@@ -579,6 +579,12 @@ public class MockRepo implements Repository<Entity> {
     @Override
     public void setReferenceCheck(String referenceCheck) {
         // TODO Auto-generated method stub
+    }
+
+    @Override
+    public List<DBCollection> getCollections(boolean includeSystemCollections) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

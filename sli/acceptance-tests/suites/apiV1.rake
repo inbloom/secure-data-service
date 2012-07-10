@@ -6,6 +6,13 @@ task :apiV1EntityTests => [:realmInit] do
   runTests("test/features/apiV1/entities/crud")
 end
 
+desc "Run V1 check for duplicate links"
+task :apiV1DuplicateLinkTest => [:realmInit] do
+  # Import the data once, none of these tests edit the data
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/entities/Links/duplicate_link_test.feature")
+end
+
 task :apiV1QueryingTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/querying/querying.feature")
@@ -110,16 +117,6 @@ task :v1TeacherSectionAssociationTests => [:realmInit] do
   runTests("test/features/apiV1/associations/teacherSectionAssociation")
 end
 
-desc "Run V1 Section Assessment Association Tests"
-task :v1SectionAssessmentAssociationTests => [:realmInit] do
-  #drop data, re add fixture data
-  setFixture("section", "section_fixture.json")
-  setFixture("assessment", "assessment_fixture.json")
-  setFixture("sectionAssessmentAssociation", "sectionAssessmentAssociation_fixture.json")
-  #run test
-  runTests("test/features/apiV1/associations/sectionAssessmentAssociation")
-end
-
 desc "Run V1 Student Assessment Association Tests"
 task :v1StudentAssessmentAssociationTests => [:realmInit] do
   #drop data, re add fixture data
@@ -192,6 +189,8 @@ task :v1CourseOfferingTests => [:realmInit] do
   setFixture("session", "session_fixture.json")
   setFixture("course", "course_fixture.json")
   setFixture("courseOffering", "sessionCourseAssociation_fixture.json")
+  setFixture("section", "section_fixture.json")
+  setFixture("studentSectionAssociation", "studentSectionAssociation_fixture.json")
   #run test
   runTests("test/features/apiV1/associations/courseOffering")
 end
@@ -240,7 +239,15 @@ task :v1ValidationTests => [:realmInit] do
   setFixture("section", "section_fixture.json")
   setFixture("studentSectionAssociation", "studentSectionAssociation_fixture.json")
   setFixture("teacherSectionAssociation", "teacherSectionAssociation_fixture.json")
-  runTests("test/features/apiV1/validation")
+  runTests("test/features/apiV1/validation/validation.feature")
+end
+
+desc "Run V1 White List Validation Tests"
+task :v1WhiteListValidationTests => [:realmInit] do
+  setFixture("educationOrganization", "educationOrganization_fixture.json")
+  setFixture("staff", "staff_fixture.json")
+  setFixture("student", "student_fixture.json")
+  runTests("test/features/apiV1/validation/whitelist_validation.feature")
 end
 
 desc "Run Sorting and Paging Tests"
@@ -291,11 +298,6 @@ task :v1SingleStudentViewTests => [:realmInit] do
   runTests("test/features/apiV1/optional_fields/single_student_view.feature")
 end
 
-desc "Run V1 Simple CRUD Test"
-task :v1SimpleCrudTests do
-  runTests("test/features/apiV1/entities/crud")
-end
-
 desc "Run V1 Blacklist/Whitelist input Tests"
 task :v1BlacklistValidationTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
@@ -308,6 +310,37 @@ task :v1SecurityEventTests => [:realmInit] do
   runTests("test/features/apiV1/securityEvent/securityEvent.feature")
 end
 
+desc "Run V1 Comma-Separated List Order Tests"
+task :v1CommaSeparatedListOrderTests => [:realmInit] do
+  setFixture("student", "student_fixture.json")
+  runTests("test/features/apiV1/comma_separated_list/comma_separated_list_ordering.feature")
+end
+  
+desc "Run API Smoke Tests"
+task :apiSmokeTests do
+  @tags = ["~@wip", "@smoke", "~@sandbox"]
+  Rake::Task["apiV1EntityTests"].invoke
+  Rake::Task["securityTests"].invoke
+  Rake::Task["apiMegaTests"].invoke
+end
+
 ############################################################
 # API V1 tests end
+############################################################
+
+############################################################
+# Security tests start
+############################################################
+desc "Run Security Tests"
+task :securityTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/security")
+end
+
+desc "Run Security MegaTest"
+task :apiMegaTests => [:realmInit, :importSecuredData] do
+    runTests("test/features/apiV1/entities/student_security")
+end
+############################################################
+# Security tests end
 ############################################################

@@ -21,6 +21,7 @@ require "selenium-webdriver"
 require 'approval'
 require "mongo" 
 require 'rumbster'
+require 'digest'
 
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
@@ -48,17 +49,17 @@ end
 
 
 Given /^LDAP server has been setup and running$/ do
-  ldap_base=PropLoader.getProps['ldap_base']
-  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], 389, ldap_base, "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
-   @email_sender_name= "Administrator"
-     @email_sender_address= "noreply@slidev.org"
-      @email_conf = {
-       :host => 'mon.slidev.org',
-       :port => 3000,
-       :sender_name => @email_sender_name,
-       :sender_email_addr => @email_sender_address
-     }
-  
+  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
+                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
+                          PropLoader.getProps['ldap_admin_pass'])
+  @email_sender_name= "Administrator"
+  @email_sender_address= "noreply@slidev.org"
+  @email_conf = {
+    :host =>  PropLoader.getProps['email_smtp_host'],
+    :port => PropLoader.getProps['email_smtp_port'],
+    :sender_name => @email_sender_name,
+    :sender_email_addr => @email_sender_address
+  }
 end
 
 Given /^there is an sandbox account in ldap$/ do
@@ -68,7 +69,7 @@ end
 
 Given /^there is an production Ingestion Admin account in ldap$/ do
 @sandbox = false
-ApprovalEngine.init(@ldap,Emailer.new(@email_conf),nil,@sandbox)
+ApprovalEngine.init(@ldap,Emailer.new(@email_conf),nil,true)
 
 end
 
@@ -97,9 +98,9 @@ sleep(1)
   ApprovalEngine.change_user_status(@email, ApprovalEngine::ACTION_ACCEPT_EULA)
   user_info = ApprovalEngine.get_user(@email)
   ApprovalEngine.verify_email(user_info[:emailtoken])
-  if(@sandbox==false)
- ApprovalEngine.change_user_status(@email,ApprovalEngine::ACTION_APPROVE)
- end
+ # if(@sandbox==false)
+ #ApprovalEngine.change_user_status(@email,ApprovalEngine::ACTION_APPROVE)
+ #end
   #ApprovalEngine.change_user_status(@email,"approve",true)
   #clear_edOrg()
   #clear_tenant()
@@ -176,18 +177,18 @@ Then /^a tenant with tenantId "([^"]*)" created in Mongo$/ do |tenantId|
 end
 
 Then /^the directory structure for the landing zone is stored for tenant in mongo$/ do
- found =false
- tenant_coll=@db["tenant"]
- tenant_entity = tenant_coll.find("body.tenantId" => @tenantId)
- tenant_entity.each do |tenant|
- tenant['body']['landingZone'].each do |landing_zone|
- if landing_zone['path'].include?(@tenantId+"/"+@edorgName)
- found=true
- puts landing_zone['path']
- end
- end
- end
- assert(found,"the directory structure for the landing zone is not stored in mongo")
+  found =false
+  tenant_coll=@db["tenant"]
+  tenant_entity = tenant_coll.find("body.tenantId" => @tenantId)
+  tenant_entity.each do |tenant|
+    tenant['body']['landingZone'].each do |landing_zone|
+      if check_lz_path(landing_zone['path'], @tenantId, @edorgName)
+        found=true
+        puts landing_zone['path']
+      end
+    end
+  end
+  assert(found,"the directory structure for the landing zone is not stored in mongo")
 end
 
 Then /^the user gets a success message$/ do
@@ -260,8 +261,16 @@ end
 
 Then /^the directory structure for the landing zone is stored in ldap$/ do
   user=@ldap.read_user(@email)
-  puts user
-  assert(user[:homedir].include?(@edorgName) && user[:homedir].include?(@tenantId),"the landing zone path is not stored in ldap")
+  puts "XYXYX:  #{user[:homedir]}      JKJKJKJ   #{sha256(@edorgName)}"
+  assert(check_lz_path(user[:homedir], @tenantId, @edorgName),"the landing zone path is not stored in ldap")
+end
+
+def check_lz_path(path, tenant, edOrg)
+  path.include?(tenant + "/" + sha256(edOrg)) || path.include?(tenant + "/" + edOrg)
+end
+
+def sha256(to_hash)
+  Digest::SHA256.hexdigest(to_hash)
 end
 
 def removeUser(email)

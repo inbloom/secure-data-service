@@ -1,3 +1,4 @@
+@RALLY_DE87
 @RALLY_US209
 @RALLY_US210
 Feature: As an SLI application, I want to be able to support XML.
@@ -35,8 +36,7 @@ Background: Nothing yet
     | schools                     | school                     | 5               |
     | students                    | student                    | 83              |
     | studentSectionAssociations  | studentSectionAssociation  | 264             |
-    | courseOfferings             | courseOffering             | 2               |
-
+    | courseOfferings             | courseOffering             | 95              |
 
 Scenario: Getting response from POST - Create (school)
   Given a valid XML document for a new school entity
@@ -46,11 +46,10 @@ Scenario: Getting response from POST - Create (school)
   When I navigate to GET "/v1/schools/<NEWLY CREATED ENTITY ID>"
   Then I should receive a return code of 200
   And I should see "<nameOfInstitution>" is "Apple Alternative Elementary School"
-  And I should see "<organizationCategories><organizationCategories>" is "School"
-  And I should find 1 "<address>" under "<address>"
+  And I should see "<organizationCategories>" is "School"
+  And I should find 1 "<address>"
   And I should see "<streetNumberName>" is "123 Main Street" for one of them
-#  And I should find 3 "<gradesOffered>" under "<gradesOffered>"
-
+  And I should find 4 "<gradesOffered>"
 
 Scenario: Getting response from PUT - Update (school)
   When I navigate to GET "/v1/schools/<SCHOOL ENTITY TO BE UPDATED>"
@@ -74,14 +73,20 @@ Scenario: Applying optional fields
   And I should receive 1 records
   Then when I look at the student "Marvin" "Miller"
 
+  # attendances
+  Then I should find 181 "<attendances>" under "<attendances>"
+  And I should see "<date>" is "2011-09-07" for one of them
+  And I should see "<event>" is "In Attendance" for it
+
   # assessments
-  Then I should find 1 "<studentAssessments>" under "<studentAssessments>"
+  Then I should find 1 "<studentAssessments>"
   And I should see "<entityType>" is "studentAssessmentAssociation" for one of them
   And I should see "<studentId>" is "<MARVIN MILLER STUDENT ID>" for it
   And I should find "<assessments>" under it
   And I should see "<entityType>" is "assessment" for it
   And I should see "<gradeLevelAssessed>" is "Twelfth grade" for it
-  Then I should find 1 "<studentAssessments>" under "<studentAssessments>"
+  And I should find 3 "<objectiveAssessment>" under it
+  Then I should find 1 "<studentAssessments>"
   And I should see "<studentId>" is "<MARVIN MILLER STUDENT ID>" for one of them
   And I should find 3 "<studentObjectiveAssessments>" under it
   And I should see "<objectiveAssessment><identificationCode>" is "SAT-Writing" for one of them
@@ -89,7 +94,7 @@ Scenario: Applying optional fields
   And I should see "<result>" is "80" for one of them
 
   # gradebook
-  Then I should find 3 "<studentGradebookEntries>" under "<studentGradebookEntries>"
+  Then I should find 3 "<studentGradebookEntries>"
   And I should see "<dateFulfilled>" is "2012-01-31" for one of them
   And I should see "<entityType>" is "studentSectionGradebookEntry" for it
   And I should see "<letterGradeEarned>" is "A" for it
@@ -98,22 +103,22 @@ Scenario: Applying optional fields
   And I should see "<dateAssigned>" is "2012-01-31" for it
 
   # transcript
-  Then I should find 1 "<courseTranscripts>" under "<transcript><courseTranscripts>"
+  Then I should find 1 "<courseTranscripts>" under "<transcript>"
   And I should see "<studentId>" is "<MARVIN MILLER STUDENT ID>" for one of them
   And I should see "<entityType>" is "studentTranscriptAssociation" for it
   And I should see "<finalLetterGradeEarned>" is "B" for it
-  And I should find 2 "<studentSectionAssociations>" under "<transcript><studentSectionAssociations>"
+  And I should find 2 "<studentSectionAssociations>" under "<transcript>"
   And I should see "<sectionId>" is "<LINDA KIM SECTION ID>" for one of them
   And I should find "<sections>" under it
   And I should see "<entityType>" is "section" for it
   And I should find "<sessions>" under it
   And I should see "<entityType>" is "session" for it
-  Then I should find 2 "<studentSectionAssociations>" under "<transcript><studentSectionAssociations>"
+  Then I should find 2 "<studentSectionAssociations>" under "<transcript>"
   And I should see "<sectionId>" is "<LINDA KIM SECTION ID>" for one of them
   And I should find "<sections>" under it
   And I should find "<courses>" under it
   And I should see "<entityType>" is "course" for it
-@test
+
 Scenario: Applying optional fields - single student view
   Given optional field "attendances"
   And optional field "assessments"
@@ -125,18 +130,19 @@ Scenario: Applying optional fields - single student view
   And I should receive a return code of 200
 
   # attendances
-  Then I should find 181 "<attendances>" under "<attendances><attendances>"
+  Then I should find 181 "<attendances>" under "<attendances>"
   And I should see "<date>" is "2011-09-07" for one of them
   And I should see "<event>" is "In Attendance" for it
 
   # assessments
-  Then I should find 1 "<studentAssessments>" under "<studentAssessments>"
+  Then I should find 1 "<studentAssessments>"
   And I should see "<entityType>" is "studentAssessmentAssociation" for one of them
   And I should see "<studentId>" is "<MARVIN MILLER STUDENT ID>" for it
   And I should find "<assessments>" under it
   And I should see "<entityType>" is "assessment" for it
   And I should see "<gradeLevelAssessed>" is "Twelfth grade" for it
-  Then I should find 1 "<studentAssessments>" under "<studentAssessments>"
+  And I should find 3 "<objectiveAssessment>" under it
+  Then I should find 1 "<studentAssessments>"
   And I should see "<studentId>" is "<MARVIN MILLER STUDENT ID>" for one of them
   And I should find 3 "<studentObjectiveAssessments>" under it
   And I should see "<objectiveAssessment><identificationCode>" is "SAT-Writing" for one of them
@@ -144,7 +150,7 @@ Scenario: Applying optional fields - single student view
   And I should see "<result>" is "80" for one of them
 
   # gradebook
-  Then I should find 3 "<studentGradebookEntries>" under "<studentGradebookEntries>"
+  Then I should find 3 "<studentGradebookEntries>"
   And I should see "<dateFulfilled>" is "2012-01-31" for one of them
   And I should see "<entityType>" is "studentSectionGradebookEntry" for it
   And I should see "<letterGradeEarned>" is "A" for it
@@ -153,17 +159,17 @@ Scenario: Applying optional fields - single student view
   And I should see "<dateAssigned>" is "2012-01-31" for it
 
   # transcript
-  Then I should find 1 "<courseTranscripts>" under "<transcript><courseTranscripts>"
+  Then I should find 1 "<courseTranscripts>" under "<transcript>"
   And I should see "<studentId>" is "<MARVIN MILLER STUDENT ID>" for one of them
   And I should see "<entityType>" is "studentTranscriptAssociation" for it
   And I should see "<finalLetterGradeEarned>" is "B" for it
-  And I should find 2 "<studentSectionAssociations>" under "<transcript><studentSectionAssociations>"
+  And I should find 2 "<studentSectionAssociations>" under "<transcript>"
   And I should see "<sectionId>" is "<LINDA KIM SECTION ID>" for one of them
   And I should find "<sections>" under it
   And I should see "<entityType>" is "section" for it
   And I should find "<sessions>" under it
   And I should see "<entityType>" is "session" for it
-  Then I should find 2 "<studentSectionAssociations>" under "<transcript><studentSectionAssociations>"
+  Then I should find 2 "<studentSectionAssociations>" under "<transcript>"
   And I should see "<sectionId>" is "<LINDA KIM SECTION ID>" for one of them
   And I should find "<sections>" under it
   And I should find "<courses>" under it

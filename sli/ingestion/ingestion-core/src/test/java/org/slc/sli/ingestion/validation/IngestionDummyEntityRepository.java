@@ -18,6 +18,7 @@
 package org.slc.sli.ingestion.validation;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.mongodb.CommandResult;
@@ -177,7 +178,7 @@ public class IngestionDummyEntityRepository implements Repository<Entity> {
     @Override
     public void setWriteConcern(String writeConcern) {
         // TODO Auto-generated method stub
-	}
+    }
 
     @Override
     public long count(String collectionName, Query query) {
@@ -190,4 +191,9 @@ public class IngestionDummyEntityRepository implements Repository<Entity> {
         // TODO Auto-generated method stub
     }
 
+    @Override
+    public List<DBCollection> getCollections(boolean includeSystemCollections) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }
