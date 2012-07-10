@@ -1513,7 +1513,7 @@
 
   <jb:bean beanId="session_gradingPeriod_educationalOrgIdentity" class="java.util.HashMap"
            createOnElement="InterchangeEducationOrgCalendar/Session/GradingPeriodReference">
-        <jb:value property="stateOrganizationId" data="GradingPeriodIdentity/StateOrganizationId" />
+        <jb:value property="stateOrganizationId" data="InterchangeEducationOrgCalendar/Session/GradingPeriodReference/GradingPeriodIdentity/StateOrganizationId" />
         <jb:wiring property="educationOrgIdentificationCode" beanIdRef="session_gradingPeriod_educationalOrgIdentificationCode_Array" />
   </jb:bean>
 
@@ -1524,8 +1524,8 @@
 
   <jb:bean beanId="session_gradingPeriod_educationalOrgIdentificationCode" class="java.util.HashMap"
            createOnElement="InterchangeEducationOrgCalendar/Session/GradingPeriodReference/GradingPeriodIdentity/EducationOrgIdentificationCode">
-    <jb:value property="ID" data="EducationOrgIdentificationCode/ID" />
-    <jb:value property="IdentificationSystem" data="EducationOrgIdentificationCode/IdentificationSystem" />
+    <jb:value property="ID" data="InterchangeEducationOrgCalendar/Session/GradingPeriodReference/GradingPeriodIdentity/EducationOrgIdentificationCode/ID" />
+    <jb:value property="IdentificationSystem" data="InterchangeEducationOrgCalendar/Session/GradingPeriodReference/GradingPeriodIdentity/EducationOrgIdentificationCode/IdentificationSystem" />
   </jb:bean>
 
   <!-- Assessment family mapping -->
@@ -1845,12 +1845,6 @@
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentAttendance/AttendanceEvent">
     <jb:expression property="recordType">'attendance'</jb:expression>
     <jb:wiring property="attributes" beanIdRef="attendanceEventAttributes" />
-    <jb:wiring property="localParentIds" beanIdRef="studentAttendanceIntegrityCheck" />
-  </jb:bean>
-
-  <jb:bean beanId="studentAttendanceIntegrityCheck" class="java.util.HashMap" createOnElement="InterchangeStudentAttendance/AttendanceEvent">
-    <jb:value property="Student" data="AttendanceEvent/StudentReference/StudentIdentity/StudentUniqueStateId" />
-    <jb:value property="School" data="AttendanceEvent/SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
   </jb:bean>
 
   <jb:bean beanId="attendanceEventAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentAttendance/AttendanceEvent">

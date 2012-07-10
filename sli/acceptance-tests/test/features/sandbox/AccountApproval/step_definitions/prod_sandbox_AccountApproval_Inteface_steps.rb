@@ -134,10 +134,6 @@ When /^I am asked "([^"]*)"$/ do |arg1|
      # do nothing
 end
 
-When /^I click on Ok$/ do
-  @driver.switch_to.alert.accept
-end
-
 Then /^his account status changed to "([^"]*)"$/ do |arg1|
   statuses=@driver.find_elements(:id,"status."+@user_name)
   found =false

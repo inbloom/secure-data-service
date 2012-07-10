@@ -1,12 +1,29 @@
 /*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
  * SLC util
+ * Handles reusable or common methods required by other SLC javascript files
  */
 /*global SLC $ window */
 
-var contextRootPath = contextRootPath || "";
-
 SLC.namespace('SLC.util', (function () {
-		var counterInt = 1;
+		var counterInt = 1,
+			tableId,
+			contextRootPath = "";
 		
 		function counter() {
 			counterInt ++;
@@ -23,10 +40,6 @@ SLC.namespace('SLC.util', (function () {
 			if(!isNaN(a) && !isNaN(b)) {
 				return b-a; 
 			}
-		}
-		
-		function getContextRootPath() {
-			return contextRootPath;
 		}
 		
 		function getElementFontSize(element) {
@@ -282,11 +295,49 @@ SLC.namespace('SLC.util', (function () {
 			return true;
 		}
 		
+		function setTableId(id) {
+			if (typeof id === "string") { 
+				tableId = id;
+				return true;
+			}
+			
+			return false;
+		}
+	    
+		function getTableId() {
+	        return tableId;
+	    }
+	    
+	    function setContextRootPath(path) {
+			if (typeof path === "string") {
+				contextRootPath = path;
+				return true;
+			}
+			
+			return false;
+	    }
+	    
+		function getContextRootPath() {
+	        return contextRootPath;
+	    }
+	    
+	    $('#banner #dbrd_frm_search').live("submit", function(e) {
+		  e.preventDefault();
+		  var firstName = $('#dbrd_inp_search_firstName').val();
+		  if (!firstName || firstName === "First Name") {
+		    firstName = '';
+		  }
+		  var lastName = $('#dbrd_inp_search_lastName').val();
+		  if (!lastName || lastName === "Last Name") {
+		    lastName = '';
+		  }
+		  SLC.util.goToUrl('studentSearchPage', 'firstName=' + firstName + '&lastName=' + lastName);
+		});
+		
 		return {
 			counter: counter,
 			compareInt: compareInt,
 			compareIntReverse: compareIntReverse,
-			getContextRootPath: getContextRootPath,
 			getElementFontSize: getElementFontSize,
 			getElementColor: getElementColor,
 			getElementWidth: getElementWidth,
@@ -305,7 +356,11 @@ SLC.namespace('SLC.util', (function () {
 			hideErrorMessage: hideErrorMessage,
 			setDropDownOptions: setDropDownOptions,
 			selectDropDownOption: selectDropDownOption,
-			placeholderFix: placeholderFix
+			placeholderFix: placeholderFix,
+			setTableId: setTableId,
+			getTableId: getTableId,
+			setContextRootPath: setContextRootPath,
+			getContextRootPath: getContextRootPath
 		};
 	}())
 );

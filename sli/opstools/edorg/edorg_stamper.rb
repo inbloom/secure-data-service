@@ -31,7 +31,7 @@ else
   terminates = (ARGV[2].nil? ? false : true)
   database = (ARGV[1].nil? ? 'sli' : ARGV[1])
   hp = ARGV[0].split(":")
-  connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 5, :pool_timeout => 5, :safe => {:wtimeout => 500})
+  connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 10, :pool_timeout => 25, :safe => {:wtimeout => 500})
   log = Logger.new(STDOUT)
   log.level = Logger::ERROR
   db = connection[database]
