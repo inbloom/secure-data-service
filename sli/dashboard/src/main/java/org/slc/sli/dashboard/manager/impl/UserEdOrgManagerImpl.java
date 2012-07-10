@@ -36,6 +36,7 @@ import org.slc.sli.dashboard.entity.Config.Data;
 import org.slc.sli.dashboard.entity.EdOrgKey;
 import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.entity.util.GenericEntityComparator;
+import org.slc.sli.dashboard.entity.util.GenericEntityEnhancer;
 import org.slc.sli.dashboard.manager.ApiClientManager;
 import org.slc.sli.dashboard.manager.UserEdOrgManager;
 import org.slc.sli.dashboard.util.Constants;
@@ -438,8 +439,8 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         public int compare(GenericEntity course1, GenericEntity course2) {
 
             // compare subject area
-            String subject1 = course1.getString("subjectArea");
-            String subject2 = course2.getString("subjectArea");
+            String subject1 = course1.getString(Constants.ATTR_SUBJECTAREA);
+            String subject2 = course2.getString(Constants.ATTR_SUBJECTAREA);
             if (subject1 == null) {
                 return -1;
             }
@@ -452,8 +453,8 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
             }
 
             // compare course title
-            String courseTitle1 = course1.getString("courseTitle");
-            String courseTitle2 = course2.getString("courseTitle");
+            String courseTitle1 = course1.getString(Constants.ATTR_COURSE_TITLE);
+            String courseTitle2 = course2.getString(Constants.ATTR_COURSE_TITLE);
             if (courseTitle1 == null) {
                 return -1;
             }
@@ -465,7 +466,20 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public GenericEntity getSchoolInfo(String token, Object schoolIdObj, Data config) {
-        return new GenericEntity();
+
+        // get school entity
+        GenericEntity school = getApiClient().getSchool(token, (String) schoolIdObj);
+
+        // convert grade strings
+        List<String> gradesOffered = school.getList("gradesOffered");
+        List<String> gradesOfferedCode = new ArrayList<String>();
+        for (String gradeOffered : gradesOffered) {
+            gradesOfferedCode.add(GenericEntityEnhancer.convertGradeLevel(gradeOffered));
+        }
+        school.put("gradesOfferedCode", gradesOfferedCode);
+
+        return school;
     }
 }
