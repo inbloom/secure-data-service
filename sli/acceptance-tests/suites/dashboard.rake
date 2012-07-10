@@ -93,7 +93,6 @@ task :localDashboardTests do
   Rake::Task["dashboardSadPathTestSuite"].invoke
   Rake::Task["realmInitNoPeople"].invoke
   Rake::Task["importUnifiedData"].invoke
-  addSecurityData()
   Rake::Task["dashboardTests"].invoke
 end
 
