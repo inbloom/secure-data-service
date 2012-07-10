@@ -26,6 +26,8 @@ import java.util.concurrent.FutureTask;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -48,6 +50,7 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.service.IngestionExecutor;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.xml.idref.IdRefResolutionCallable;
 import org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler;
 
@@ -60,6 +63,8 @@ import org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler;
 public class ConcurrentXmlFileProcessor implements Processor, ApplicationContextAware {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.XML_FILE_PROCESSOR;
+
+    private static final Logger LOG = LoggerFactory.getLogger(ConcurrentXmlFileProcessor.class);
 
     private ApplicationContext context;
 
@@ -79,10 +84,10 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
         }
 
         if (exchange.getIn().getHeader(AttributeType.NO_ID_REF.name()) != null) {
-            info("Skipping id ref resolution (specified by @no-id-ref in control file).");
+            LOG.info("Skipping id ref resolution (specified by @no-id-ref in control file).");
             skipXmlFile(workNote, exchange);
         } else {
-            info("Entering concurrent id ref resolution.");
+            LOG.info("Entering concurrent id ref resolution.");
             processXmlFile(workNote, exchange);
         }
     }
@@ -146,7 +151,7 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
                 resolutionTaskList.add(resolutionTask);
 
             } else {
-                warn("Warning: The resource {} is not an EDFI format.", resource.getResourceName());
+                LOG.warn("Warning: The resource {} is not an EDFI format.", resource.getResourceName());
             }
         }
 
@@ -173,7 +178,7 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
     private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        piiClearedError("Error processing batch job " + batchJobId, exception);
+        LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
         Error error = Error.createIngestionError(batchJobId, null, BatchJobStageType.XML_FILE_PROCESSOR.getName(),
                 null, null, null, FaultType.TYPE_ERROR.getName(), null, exception.toString());
         batchJobDAO.saveError(error);
@@ -182,7 +187,7 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
     private void missingBatchJobIdError(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+        LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
     @Override

@@ -29,11 +29,14 @@ import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.Route;
 import org.apache.camel.builder.RouteBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.routes.LandingZoneRouteBuilder;
 import org.slc.sli.ingestion.tenant.TenantDA;
+import org.slc.sli.ingestion.util.LogUtil;
 
 /**
  * Processor for tenant collection polling
@@ -43,6 +46,8 @@ import org.slc.sli.ingestion.tenant.TenantDA;
  */
 @Component
 public class TenantProcessor implements Processor {
+
+    private static final Logger LOG = LoggerFactory.getLogger(TenantProcessor.class);
 
     @Autowired
     private CamelContext camelContext;
@@ -85,7 +90,7 @@ public class TenantProcessor implements Processor {
 
         } catch (Exception e) {
             exchange.getIn().setHeader(TENANT_POLL_HEADER, TENANT_POLL_FAILURE);
-            error("Exception encountered adding tenant", e);
+            LogUtil.error(LOG, "Exception encountered adding tenant", e);
         }
     }
 
@@ -98,7 +103,7 @@ public class TenantProcessor implements Processor {
      */
     private void updateLzRoutes() throws Exception {
         //get the new list of lz paths from the tenant DB collection
-        debug("Localhost is {}", getHostname());
+        LOG.debug("Localhost is {}", getHostname());
         List<String> newLzPaths = tenantDA.getLzPaths(getHostname());
         Set<String> oldLzPaths = getLzRoutePaths();
 

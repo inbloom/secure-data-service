@@ -27,6 +27,10 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.milyn.Smooks;
 import org.milyn.SmooksException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler;
 
 /**
  *
@@ -35,6 +39,7 @@ import org.milyn.SmooksException;
  */
 
 public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrategy {
+    public static final Logger LOG = LoggerFactory.getLogger(IdRefResolutionHandler.class);
 
     private static ThreadLocal<Map<String, Smooks>> threadLocalIdRefConfigs = new ThreadLocal<Map<String, Smooks>>() {
         @Override
@@ -79,7 +84,7 @@ public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrat
             convertedContent = stringWriter.toString();
 
         } catch (SmooksException se) {
-            error("Exception filtering idref xml through smooks", se);
+            LOG.error("Exception filtering idref xml through smooks", se);
         }
         return convertedContent;
     }
