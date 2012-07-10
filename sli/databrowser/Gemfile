@@ -15,9 +15,6 @@ gem 'therubyracer'
 
 gem 'oauth2'
 
-gem 'rest-client'
-gem 'mocha'
-
 gem 'activeresource-response'
 gem 'kaminari'
 
