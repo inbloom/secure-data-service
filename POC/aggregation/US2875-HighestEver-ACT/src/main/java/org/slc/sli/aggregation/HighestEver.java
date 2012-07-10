@@ -14,6 +14,7 @@ import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
+import com.mongodb.MongoURI;
 import com.mongodb.hadoop.MongoInputFormat;
 import com.mongodb.hadoop.MongoOutputFormat;
 import com.mongodb.hadoop.util.MongoConfigUtil;
@@ -46,8 +47,8 @@ public class HighestEver extends Configured implements Tool {
         DBCollection assessments = db.getCollection("assessment");
         DBObject assmt = assessments.findOne(new BasicDBObject("body.assessmentIdentificationCode.ID", assmtIDCode));
         String assmtId = (String) assmt.get("_id");
-        MongoConfigUtil.setInputURI(conf, "mongodb://localhost/sli.studentAssessmentAssociation");
-        MongoConfigUtil.setInputKey(conf, "body.studentId");
+        MongoURI input = new MongoURI("mongodb://localhost/sli.studentAssessmentAssociation");
+        MongoConfigUtil.setInputURI(conf, input);
         MongoConfigUtil.setQuery(conf, new BasicDBObject("body.assessmentId", assmtId));
         MongoConfigUtil.setOutputURI(conf, "mongodb://localhost/sli.aggregatesAssessments");
         conf.set(ScoreMapper.SCORE_TYPE, "Scale score");

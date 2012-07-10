@@ -18,13 +18,17 @@ public class ScoreMapper extends Mapper<String, BSONObject, Text, DoubleWritable
     public static final String SCORE_TYPE = "ScoreType";
 
     @Override
-    protected void map(String studentId, BSONObject studentAssessment, Context context)
+    protected void map(String id, BSONObject studentAssessment, Context context)
             throws IOException, InterruptedException {
         String type = context.getConfiguration().get(SCORE_TYPE);
         @SuppressWarnings("unchecked")
-        List<Map<String, String>> results = (List<Map<String, String>>) ((Map<String, Object>) studentAssessment.get("body")).get("scoreResults");
+        Map<String, Object> body = (Map<String, Object>) studentAssessment.get("body");
+        @SuppressWarnings("unchecked")
+        List<Map<String, String>> results = (List<Map<String, String>>) body.get("scoreResults");
+        String studentId = (String) body.get("studentId");
         for(Map<String, String> result: results){
-            if(type.equals(result.get("assessmentReportingMethod"))){
+            String scoreType = result.get("assessmentReportingMethod");
+            if(type.equals(scoreType)){
                 String scoreString = result.get("result");
                 double score = Double.parseDouble(scoreString);
                 System.out.println("Score is "+score);
