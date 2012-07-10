@@ -43,7 +43,6 @@ public class SifAgent extends Agent {
 
     ZoneConfigurator zoneConfigurator;
 
-
     public SifAgent() {
         this("SifAgent");
     }
@@ -59,8 +58,6 @@ public class SifAgent extends Agent {
         this.configFile = configFile;
         this.zoneConfigurator = zoneConfig;
     }
-
-
 
     public void startAgent() throws Exception {
 
@@ -94,6 +91,5 @@ public class SifAgent extends Agent {
         Zone[] allZones = getZoneFactory().getAllZones();
 
         zoneConfigurator.configure(allZones);
-
     }
 }
