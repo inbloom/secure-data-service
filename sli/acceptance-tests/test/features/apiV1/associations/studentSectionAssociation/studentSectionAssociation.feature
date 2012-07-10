@@ -150,3 +150,10 @@ Scenario: Delete association
     Then I should receive a return code of 204
      And I navigate to GET "/<ASSOCIATION URI>/<ASSOCIATION ID FOR DELETE>"
      And I should receive a return code of 404
+     
+Scenario: Test /id/grades
+	Given parameter "limit" is "0"
+	When I navigate to GET "/<ASSOCIATION URI>/<ASSOCIATION ID FOR GRADE>/<GRADE URI>"
+	 Then I should receive a return code of 200
+     And I should receive a collection of "<GRADE COUNT>" entities
+     And each entity's "entityType" should be "<GRADE TYPE>"

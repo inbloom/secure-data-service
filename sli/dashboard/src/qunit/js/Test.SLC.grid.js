@@ -1,11 +1,11 @@
-module("SLC.grid");
+module("SLC.grid.tablegrid");
 
 	test('Test SLC.grid Namespace', function () {
 		ok(SLC.grid !== undefined, 'SLC.grid namespace should be defined');
 		ok(typeof SLC.grid === 'object', 'SLC.grid should be an object');
 	});
 	
-module("SLC.grid.create", {
+module("SLC.grid.tablegrid.create", {
 	setup: function () {
 		$("body").append("<table id='gridTable'></table>");
 	},
@@ -15,8 +15,8 @@ module("SLC.grid.create", {
 });
 	
 	test('Test create method', function () {
-		ok(SLC.grid.create !== undefined, 'SLC.util create method should be defined');
-		ok(typeof SLC.grid.create === 'function', 'SLC.util create method should be function');
+		ok(SLC.grid.tablegrid.create !== undefined, 'SLC.util create method should be defined');
+		ok(typeof SLC.grid.tablegrid.create === 'function', 'SLC.util create method should be function');
 		
 		panelData = {
 			students: [
@@ -49,6 +49,6 @@ module("SLC.grid.create", {
 		   }
 		  ] 
 		};
-		SLC.grid.create("gridTable", columnItems, panelData);
+		SLC.grid.tablegrid.create("gridTable", columnItems, panelData);
 		deepEqual($(".ui-jqgrid-htable").length, 1, 'Create method should create grid view');
 	});

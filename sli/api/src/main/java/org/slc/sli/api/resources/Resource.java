@@ -619,7 +619,9 @@ public class Resource {
                 copy.remove(ResourceConstants.LINKS);
                 // DE260: The log below is possibly a security hole!
                 // debug("updating entity {}", copy);
-                entityDef.getService().update(id, copy);
+                if(!entityDef.getService().update(id, copy)) {
+                    return Response.status(Status.BAD_REQUEST).build();
+                }
                 // DE260: The log below is possibly a security hole!
                 // debug("updating entity {}", copy);
                 return Response.status(Status.NO_CONTENT).build();
