@@ -111,18 +111,21 @@ public class LdapServiceImpl implements LdapService {
         if (groupNames != null && groupNames.size() > 0) {
             for (String groupName : groupNames) {
                 Group group = getGroup(realm, groupName);
-                List<String> memberUids = group.getMemberUids();
-                if (memberUids != null && memberUids.size() > 0) {
-                    for (String memberUid : memberUids) {
-                        if (uidToGroupsMap.containsKey(memberUid)) {
-                            uidToGroupsMap.get(memberUid).add(groupName);
-                        } else {
-                            List<String> uidGroupNames = new ArrayList<String>();
-                            uidGroupNames.add(groupName);
-                            uidToGroupsMap.put(memberUid, uidGroupNames);
-                        }
-                        if (!uids.contains(memberUid)) {
-                            uids.add(memberUid);
+                if (group != null) {
+                    List<String> memberUids = group.getMemberUids();
+                    
+                    if (memberUids != null && memberUids.size() > 0) {
+                        for (String memberUid : memberUids) {
+                            if (uidToGroupsMap.containsKey(memberUid)) {
+                                uidToGroupsMap.get(memberUid).add(groupName);
+                            } else {
+                                List<String> uidGroupNames = new ArrayList<String>();
+                                uidGroupNames.add(groupName);
+                                uidToGroupsMap.put(memberUid, uidGroupNames);
+                            }
+                            if (!uids.contains(memberUid)) {
+                                uids.add(memberUid);
+                            }
                         }
                     }
                 }
@@ -161,8 +164,12 @@ public class LdapServiceImpl implements LdapService {
         DistinguishedName dn = new DistinguishedName("ou=" + realm);
         AndFilter filter = new AndFilter();
         filter.and(new EqualsFilter("objectclass", groupObjectClass)).and(new EqualsFilter("cn", groupName));
-        Group group = (Group) ldapTemplate.searchForObject(dn, filter.toString(), new GroupContextMapper());
-        return group;
+        try {
+            Group group = (Group) ldapTemplate.searchForObject(dn, filter.toString(), new GroupContextMapper());
+            return group;
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     private List<User> filterByTenant(List<User> users, String tenant) {

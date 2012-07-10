@@ -50,6 +50,7 @@ public class RoleInitializer {
     public static final String SLC_OPERATOR = "SLC Operator";
     public static final String REALM_ADMINISTRATOR = "Realm Administrator";
     public static final String INGESTION_USER = "Ingestion User";
+    public static final String SANDBOX_ADMINISTRATOR = "Sandbox Administrator";
     public static final String ROLES = "roles";
 
     @Autowired
@@ -79,6 +80,7 @@ public class RoleInitializer {
         boolean hasRealmAdmin = false;
         boolean hasSEAAdmin = false;
         boolean hasIngestionUser = false;
+        boolean hasSandboxAdministrator = false;
 
         for (Entity entity : subset) {
             Map<String, Object> body = entity.getBody();
@@ -100,6 +102,8 @@ public class RoleInitializer {
                 hasRealmAdmin = true;
             } else if (body.get("name").equals(SEA_ADMINISTRATOR)) {
                 hasSEAAdmin = true;
+            } else if (body.get("name").equals(SANDBOX_ADMINISTRATOR)) {
+                hasSandboxAdministrator = true;
             }
         }
         if (!hasAggregate) {
@@ -131,6 +135,9 @@ public class RoleInitializer {
         }
         if (!hasIngestionUser) {
             createdRoles.add(buildIngestionUser());
+        }
+        if (!hasSandboxAdministrator) {
+            createdRoles.add(buildSandboxAdmin());
         }
 
         for (Role body : createdRoles) {
@@ -220,7 +227,13 @@ public class RoleInitializer {
                 .makeRole(SEA_ADMINISTRATOR)
                 .addRights(
                         new Right[] { Right.ADMIN_ACCESS, Right.EDORG_DELEGATE, Right.READ_PUBLIC,
-                                Right.CRUD_SEA_ADMIN, Right.CRUD_LEA_ADMIN })
+                                Right.CRUD_SEA_ADMIN, Right.CRUD_LEA_ADMIN }).setAdmin(true).build();
+    }
+    
+    private Role buildSandboxAdmin() {
+        info("Building Sandbox Administrator default role.");
+        return RoleBuilder.makeRole(SANDBOX_ADMINISTRATOR)
+                .addRights(new Right[] { Right.ADMIN_ACCESS, Right.CRUD_SEA_ADMIN, Right.CRUD_APP_DEVELOPER })
                 .setAdmin(true).build();
     }
 
