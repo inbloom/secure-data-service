@@ -292,15 +292,15 @@ public final class Constants {
     // Attendance Histroy
     public static final String ATTENDANCE_HISTORY_TERM = "term";
     public static final String ATTENDANCE_HISTORY_SCHOOL = "school";
-    public static final String ATTENDANCE_HISTORY_GRADE_LEVEL = "Grade Level";
+    public static final String ATTENDANCE_HISTORY_GRADE_LEVEL = "GradeLevel";
     public static final String ATTENDANCE_HISTORY_PRESENT = "Present";
-    public static final String ATTENDANCE_HISTROY_IN_ATTENDANCE="In Attendance";
-    public static final String ATTENDANCE_HISTORY_TOTAL_ABSENCES = "Total Absences";
+    public static final String ATTENDANCE_HISTROY_IN_ATTENDANCE="InAttendance";
+    public static final String ATTENDANCE_HISTORY_TOTAL_ABSENCES = "TotalAbsences";
     public static final String ATTENDANCE_HISTROY_ABSENCE = "Absence";
     public static final String ATTENDANCE_HISTORY_EXCUSED = "Excused";
     public static final String ATTENDANCE_HISTORY_UNEXCUSED = "Unexcused";
     public static final String ATTENDANCE_HISTROY_TARDY = "Tardy";
-    public static final String ATTENDANCE_EARLY_DEPARTURE = "Early departure";
+    public static final String ATTENDANCE_EARLY_DEPARTURE = "EarlyDeparture";
     
     /**
      * Contains the possible values for FRE participation

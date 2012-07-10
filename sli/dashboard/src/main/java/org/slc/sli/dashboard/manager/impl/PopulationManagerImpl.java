@@ -922,12 +922,12 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     public GenericEntity getAttendance(String token, Object studentIdObj, Config.Data config) {
         // get yearsBack from param
         String period = config.getParams() == null ? null : (String) config.getParams().get("yearsBack");
-        int yearsBack = -1;
+        int yearsBack = 3;
         if (period != null) {
             try {
                 yearsBack = Integer.parseInt(period);
             } catch (Exception e) {
-                yearsBack = -1;
+                yearsBack = 3;
             }
         }
         
