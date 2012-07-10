@@ -60,7 +60,7 @@ public class ChecksumValidator extends IngestionFileValidator {
 
             if (log.isDebugEnabled()) {
                 String[] args = { fe.getFileName(), actualMd5Hex, fe.getChecksum() };
-                debug("File [{}] checksum ({}) does not match control file checksum ({}).", (Object[]) args);
+                log.debug("File [{}] checksum ({}) does not match control file checksum ({}).", args);
             }
 
             fail(callback, getFailureMessage("SL_ERR_MSG2", fe.getFileName()));
