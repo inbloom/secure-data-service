@@ -11,6 +11,8 @@ module Jenkins
   STATII={:last=>"lastBuild",:failed=>"lastFailedBuild",:successful=>"lastSuccessfulBuild",:completed=>"lastCompletedBuild"}
   BUILDS=["API","Dashboard","Ingestion","Integration","Portal","Sandbox","Tools"]
 
+  puts "key: \e[36mbuilding \e[32mpassing \e[31mfailure"
+
   #  Gets the job for given name and id
   def self.getJob(jobName, jobId)
     jobId = STATII[jobId] unless jobId.is_a? Integer
@@ -59,9 +61,18 @@ module Jenkins
           name = job["name"]
           lastBuild = self.getJson(job["url"]+"lastBuild/api/json")
 
-          if lastBuild["building"]==true
-            color="\e[36m"
-          elsif lastBuild["result"]=="SUCCESS"
+          building = lastBuild["building"]==true
+
+          if building
+            build_num = lastBuild['number']
+            (1..20).each {
+              build_num = build_num - 1
+              lastBuild = self.getJson("#{job['url']}#{build_num}/api/json")
+              break if lastBuild['result'] == "SUCCESS" || lastBuild['result'] == "FAILURE"
+            }
+          end
+
+          if lastBuild["result"]=="SUCCESS"
             color="\e[32m"
           elsif lastBuild["result"]=="FAILURE"
             color="\e[31m\e[5m"
@@ -71,6 +82,8 @@ module Jenkins
             out_str += lastBuild.inspect
           end
 
+
+          out_str += building ? "\e[36m*" : " "
           out_str += "#{color}%-30s\e[0m" % name
         end
         Thread.current[:output][:text] = out_str
