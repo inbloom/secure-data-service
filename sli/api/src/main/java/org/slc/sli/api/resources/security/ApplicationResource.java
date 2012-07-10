@@ -129,6 +129,12 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             body.put("message", "You are not authorized to create new applications.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
+        if (!missingRequiredUrls(newApp)) {
+            EntityBody body = new EntityBody();
+            body.put("message", "Applications that are not marked as installed must have a application url and redirect url");
+            return Response.status(Status.BAD_REQUEST).entity(body).build();
+        }
+        
         // Destroy the ed-orgs
         newApp.put(AUTHORIZED_ED_ORGS, new ArrayList<String>());
 
@@ -484,9 +490,16 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         return false;
     }
     
-    private boolean checkRedirectUri(EntityBody body) {
-        if(body.get(""))
+    private boolean missingRequiredUrls(EntityBody body) {
+        if (!(Boolean) body.get("installed")) {
+            String redirectUrl = (String) body.get("redirect_uri");
+            String applicationUrl = (String) body.get("application_url");
+            
+            if (redirectUrl == null || redirectUrl.isEmpty() || applicationUrl == null || applicationUrl.isEmpty()) {
+                return false;
+            }
+        }
         
-        return false;
+        return true;
     }
 }
