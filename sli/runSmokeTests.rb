@@ -35,6 +35,7 @@ end
 
 def wait_until_found(filepath,pattern)
   print "\n  wait_until_found: pattern '#{pattern}' in file '#{filepath}' ."
+  $stdout.flush
 
   begin
     Timeout::timeout(30) {
@@ -42,6 +43,7 @@ def wait_until_found(filepath,pattern)
         text = File.read filepath
         return true if text =~ pattern
         print '.'
+        $stdout.flush
         sleep 1
       end
     }
@@ -75,6 +77,7 @@ procs = [
 procs.each { |p|
   if is_port_open?('localhost', p[:port])
     print "Starting #{p[:name]} on port #{p[:port]}"
+    $stdout.flush
     Dir.chdir p[:dir]
     `#{p[:exec]} > #{log_dir}/#{p[:name]}Console.log 2>&1 &`
     p[:pid] = $?.pid

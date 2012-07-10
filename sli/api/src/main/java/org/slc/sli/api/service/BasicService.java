@@ -721,8 +721,6 @@ public class BasicService implements EntityService {
                         }
                     }
                 } else {
-                    //need to refactor this again when we have time
-                    //working on a P1 on the due date is not the time to do it
                     if (value instanceof List) {
                         List<String> valuesList = (List<String>) value;
                         for (String cur : valuesList) {
