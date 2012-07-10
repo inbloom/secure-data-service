@@ -56,7 +56,8 @@ class LDAPStorage
       :homeDirectory        => :homedir,
       :uidNumber            => :uidnumber,
       :gidNumber            => :gidnumber,
-      :mail                 => :emailAddress
+      :mail                 => :emailAddress,
+      :gecos                => :resetKey
   }
   ENTITY_ATTR_MAPPING = LDAP_ATTR_MAPPING.invert
 
@@ -113,7 +114,8 @@ class LDAPStorage
       :homedir,
       :tenant,
       :edorg,
-      :emailAddress
+      :emailAddress,
+      :resetKey
   ]
 
   LDAP_DATETIME_FIELDS = Set.new [
@@ -361,7 +363,19 @@ class LDAPStorage
               desc_attributes[attribute] = user_info[attribute]
             else
               if !(ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[attribute], user_info[attribute]))
-                raise ldap_ex(ldap, "Unable to update attribute '#{ENTITY_ATTR_MAPPING[attribute]}' with value '#{user_info[attribute]}'.")
+                if !curr_user_info[attribute]
+                  if !(ldap.add_attribute(dn, ENTITY_ATTR_MAPPING[attribute], user_info[attribute]))
+                    puts curr_user_info
+                    puts user_info
+                    
+                    ops = [[:add, ENTITY_ATTR_MAPPING[attribute], user_info[attribute]]]
+                    ldap.modify :dn => dn, :operations => ops
+                    
+                    raise ldap_ex(ldap, "Unable to add new attribute '#{ENTITY_ATTR_MAPPING[attribute]}' with value '#{user_info[attribute]}'.")
+                  end
+                else
+                  raise ldap_ex(ldap, "Unable to update attribute '#{ENTITY_ATTR_MAPPING[attribute]}' with value '#{user_info[attribute]}'.")
+                end
               end
             end
           end

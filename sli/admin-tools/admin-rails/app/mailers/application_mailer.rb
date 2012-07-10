@@ -27,6 +27,7 @@ class ApplicationMailer < ActionMailer::Base
   PROVISION_EMAIL_SUBJECT_SANDBOX = "SLC Sandbox Developer - Data Setup"
   PROVISION_EMAIL_SUBJECT_PROD = "Shared Learning Collaborative Landing Zone Setup"
   PASSWORD_CHANGE_SUBJECT = "SLC Notification - Password Changed"
+  FORGOT_PASSWORD_SUBJECT = "SLC Notification - Forgot Password"
 
   def welcome_email(user)
     @firstName = user[:first]
@@ -40,6 +41,13 @@ class ApplicationMailer < ActionMailer::Base
   def notify_password_change(email_address, fullName)
     @fullName = fullName
     mail(:to => email_address, :subject => PASSWORD_CHANGE_SUBJECT )
+  end
+  
+  def notify_reset_password(email, key)
+    user = APP_LDAP_CLIENT.read_user(email)
+    @fullName = user[:first]
+    @url = APP_CONFIG['email_replace_uri'] + "/resetPassword?key=" + key
+    mail(:to => 'vummalaneni@wgen.net', :subject => FORGOT_PASSWORD_SUBJECT )
   end
   
   def verify_email(email_address, firstName, userEmailValidationLink)
