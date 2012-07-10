@@ -1,6 +1,6 @@
 {
   id : "attendanceHist",
-  type : "REPEATHEADERGRID",
+  type : "REPEAT_HEADER_GRID",
   name : "Attendance History",
   data :{
     entity: "studentAttendance",
