@@ -174,8 +174,6 @@ end
 
 def areItemsInOrder(listOfItems, content)
   array = listOfItems.split(";")
-  puts array.length.to_s
-  puts content.length.to_s
   assert(array.length == content.length, "Counts do not match")
    
   for i in (0..array.length-1)
