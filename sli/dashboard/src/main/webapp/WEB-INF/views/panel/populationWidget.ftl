@@ -13,9 +13,7 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<#if minifyJs?? && minifyJs= false>
-    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/panels/SLC.population.js"></script>
-</#if>
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/panels/SLC.population.js"></script>
 <#assign id = getDivId(panelConfig.id)>
 <script type="text/javascript">
     SLC.population.create();
