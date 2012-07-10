@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.model.da;
 
 import java.util.List;
@@ -24,6 +23,7 @@ import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 
 /**
+ * Data access object for batch job data.
  *
  * @author dduran
  *
@@ -36,6 +36,7 @@ public interface BatchJobDAO {
 
     /**
      * Why is this deprecated?
+     *
      * @param batchJobId
      * @return
      */
@@ -49,4 +50,22 @@ public interface BatchJobDAO {
     void saveBatchJobStageSeparatelly(String batchJobId, Stage stage);
 
     List<Stage> getBatchStagesStoredSeperatelly(String batchJobId);
+
+    /**
+     * Try to acquire a lock on the provided tenant, on behalf of the provided job id.
+     *
+     * @param tenantId
+     * @param batchJobId
+     *
+     * @return true if lock was acquired. false otherwise.
+     */
+    boolean attemptTentantLockForJob(String tenantId, String batchJobId);
+
+    /**
+     * Release lock (if present) for the given tenant if it is held by a job with the provided id.
+     *
+     * @param tenantId
+     * @param batchJobId
+     */
+    void releaseTenantLockForJob(String tenantId, String batchJobId);
 }

@@ -28,10 +28,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.Provider;
+import javax.xml.stream.XMLStreamException;
 
-import com.fasterxml.jackson.xml.XmlMapper;
 
-import org.codehaus.jackson.map.SerializationConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.representation.EntityBody;
@@ -46,8 +46,10 @@ import org.slc.sli.api.resources.Resource;
 @Provider
 @Component
 @Consumes({ MediaType.APPLICATION_XML + ";charset=utf-8", Resource.SLC_XML_MEDIA_TYPE + ";charset=utf-8" })
-public class JacksonXMLMsgBodyReader implements MessageBodyReader<EntityBody> {
+public class XMLMsgBodyReader implements MessageBodyReader<EntityBody> {
 
+    @Autowired
+    private StAXMsgBodyReader reader;
 
     @Override
     public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
@@ -61,10 +63,11 @@ public class JacksonXMLMsgBodyReader implements MessageBodyReader<EntityBody> {
         EntityBody body = null;
 
         if (entityStream != null) {
-            XmlMapper xmlMapper = new XmlMapper();
-            xmlMapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
-            xmlMapper.configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
-            body = xmlMapper.readValue(entityStream, type);
+            try {
+                body = reader.deserialize(entityStream);
+            } catch (XMLStreamException e) {
+                throw new WebApplicationException(e);
+            }
         } else {
             body = new EntityBody();
         }

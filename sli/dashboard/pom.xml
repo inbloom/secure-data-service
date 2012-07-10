@@ -277,6 +277,7 @@
 	              <exclude>**/libs/**/*.js</exclude>
 	              <exclude>**/widgets/**/*.js</exclude>
 	              <exclude>**/controller/**/*.js</exclude>
+	              <exclude>**/panels/**/*.js</exclude>
 	              </excludes>
 	              <includes>
                         <include>**/license.js</include>
@@ -289,8 +290,14 @@
 	                <insertNewLine>true</insertNewLine>
 	                <output>${basedir}/target/dashboard/static/js/widgets.js</output>
 	                <includes>
-                            <include>**/widgets/license.js</include>
-	                    <include>**/widgets/**/*.js</include>
+                        <include>**/widgets/license.js</include>
+	                    <include>**/widgets/SLC.loadingMask.js</include>
+	                    <include>**/widgets/grid/SLC.grid.tablegrid.js</include>
+	                    <include>**/widgets/grid/SLC.grid.fuelGauge.js</include>
+	                    <include>**/widgets/grid/SLC.grid.formatters.js</include>
+	                    <include>**/widgets/grid/SLC.grid.sorters.js</include>
+	                    <include>**/widgets/grid/SLC.grid.teardrop.js</include>
+	                    <include>**/widgets/grid/SLC.grid.cutPoints.js</include>
 	                </includes>
 	            </aggregation>
 	            <aggregation>
