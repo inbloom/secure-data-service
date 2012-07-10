@@ -24,8 +24,6 @@ import java.util.Set;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
@@ -75,8 +73,6 @@ import org.slc.sli.ingestion.validation.ProxyErrorReport;
 public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.PERSISTENCE_PROCESSOR;
-
-    private static final Logger LOG = LoggerFactory.getLogger(PersistenceProcessor.class);
 
     private static final String BATCH_JOB_ID = "batchJobId";
     private static final String CREATION_TIME = "creationTime";
@@ -286,7 +282,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
             if (errorReportForNrEntity.hasErrors()) {
                 numFailed++;
-                LOG.warn("persistence of simple entity FAILED.");
+                warn("persistence of simple entity FAILED.");
             }
         }
 

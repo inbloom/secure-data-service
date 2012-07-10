@@ -78,8 +78,4 @@ public class ControlFileTest {
         assertArrayEquals(expectedNames, configPropNames);
     }
 
-    public void setEntityPersistTypeMap(ControlFileFactory cfFactory) {
-        this.controlFileFactory = cfFactory;
-    }
-
 }

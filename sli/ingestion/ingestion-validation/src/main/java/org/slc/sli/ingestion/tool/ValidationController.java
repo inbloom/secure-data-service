@@ -20,6 +20,9 @@ package org.slc.sli.ingestion.tool;
 import java.io.File;
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.handler.ZipFileHandler;
@@ -33,8 +36,6 @@ import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
 import org.slc.sli.ingestion.validation.ComplexValidator;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.LoggingErrorReport;
-import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Validation Controller reads zip file or ctl file in a give directory and applies set of
@@ -154,10 +155,6 @@ public class ValidationController {
 
     public void setComplexValidator(ComplexValidator<IngestionFileEntry> complexValidator) {
         this.complexValidator = complexValidator;
-    }
-
-    public void setControlFileFactory(ControlFileFactory f) {
-        this.controlFileFactory = f;
     }
 
 }
