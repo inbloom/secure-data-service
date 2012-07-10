@@ -1,5 +1,7 @@
 package org.slc.sli.aggregation;
 
+import java.net.UnknownHostException;
+
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.io.DoubleWritable;
@@ -42,11 +44,7 @@ public class HighestEver extends Configured implements Tool {
         }
         
         String assmtIDCode = remainingArgs[0];
-        Mongo m = new Mongo("localhost");
-        DB db = m.getDB("sli");
-        DBCollection assessments = db.getCollection("assessment");
-        DBObject assmt = assessments.findOne(new BasicDBObject("body.assessmentIdentificationCode.ID", assmtIDCode));
-        String assmtId = (String) assmt.get("_id");
+        String assmtId = getAssessmentId(assmtIDCode);
         MongoURI input = new MongoURI("mongodb://localhost/sli.studentAssessmentAssociation");
         MongoConfigUtil.setInputURI(conf, input);
         MongoConfigUtil.setQuery(conf, new BasicDBObject("body.assessmentId", assmtId));
@@ -68,5 +66,14 @@ public class HighestEver extends Configured implements Tool {
         boolean success = job.waitForCompletion(true);
         
         return success ? 0 : 1;
+    }
+
+    protected String getAssessmentId(String assmtIDCode) throws UnknownHostException {
+        Mongo m = new Mongo("localhost");
+        DB db = m.getDB("sli");
+        DBCollection assessments = db.getCollection("assessment");
+        DBObject assmt = assessments.findOne(new BasicDBObject("body.assessmentIdentificationCode.ID", assmtIDCode));
+        String assmtId = (String) assmt.get("_id");
+        return assmtId;
     }
 }
