@@ -483,4 +483,10 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         }
         return false;
     }
+    
+    private boolean checkRedirectUri(EntityBody body) {
+        if(body.get(""))
+        
+        return false;
+    }
 }
