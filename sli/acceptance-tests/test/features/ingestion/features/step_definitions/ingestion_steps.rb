@@ -1061,6 +1061,9 @@ When /^local zip file is moved to ingestion landing zone$/ do
   assert(true, "File Not Uploaded")
 end
 
+When /^an activemq instance "([^"]*)" running in "([^"]*)" and on jmx port "([^"]*)" stops$/ do |instance_name, instance_source, port|
+  runShellCommand("#{instance_source}/activemq-admin stop  --jmxurl service:jmx:rmi:///jndi/rmi://localhost:#{port}/jmxrmi #{instance_name}" )
+end
 ############################################################
 # STEPS: THEN
 ############################################################
@@ -1564,7 +1567,9 @@ When /^a batch job log for "(.*?)" file "(.*?)" has been created$/ do |landingZo
   step "a batch job log has been created"
 end
 
-
+Then /^I restart the activemq instance "([^"]*)" running on "([^"]*)"$/ do |instance_name, instance_source|
+  Open3.popen2e("#{instance_source}/#{instance_name}/bin/#{instance_name}" )
+end
 
 ############################################################
 # STEPS: BEFORE
