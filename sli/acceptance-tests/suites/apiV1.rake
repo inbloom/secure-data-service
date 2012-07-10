@@ -225,6 +225,12 @@ task :v1homeUriTests => [:realmInit] do
   runTests("test/features/apiV1/home_uri")
 end
 
+desc "Run User Admin CRUD Tests"
+task :userAdminCrudTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/user_admin")
+end
+
 desc "Run V1 Hierachy Traversal Tests"
 task :v1HierarchyTraversalTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
