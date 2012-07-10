@@ -30,8 +30,6 @@ import net.spy.memcached.spring.MemcachedClientFactoryBean;
 
 public class MemcachedCacheProvider implements CacheProvider {
 
-    //private static final Logger LOG = LoggerFactory.getLogger(MemcachedCacheProvider.class);
-
     private MemcachedClient client;
 
     private MemcachedClientFactoryBean memcachedClientFactory;

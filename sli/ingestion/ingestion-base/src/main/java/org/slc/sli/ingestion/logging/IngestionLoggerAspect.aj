@@ -48,7 +48,7 @@ public aspect IngestionLoggerAspect {
     }
 
     public void IngestionLogger.piiClearedError(String msg, Throwable x) {
-        LogUtil.error(LoggerFactory.getLogger(this.getClass()), "Error accessing visitor list in smooks", (Exception)x);
+        LogUtil.error(LoggerFactory.getLogger(this.getClass()), msg, (Exception)x);
     }
 
 }

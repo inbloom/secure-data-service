@@ -34,8 +34,6 @@ import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
  */
 public class XmlFileValidator extends SimpleValidatorSpring<IngestionFileEntry> {
 
-    //private static final Logger LOG = LoggerFactory.getLogger(XmlFileValidator.class);
-
     @Override
     public boolean isValid(IngestionFileEntry fileEntry, ErrorReport errorReport) {
         debug("validating xml...");

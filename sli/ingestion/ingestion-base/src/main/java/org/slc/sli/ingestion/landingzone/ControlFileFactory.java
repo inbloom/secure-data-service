@@ -10,19 +10,26 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
 
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 
-public class ControlFileFactory {
+/**
+ * @author mpatel
+ *
+ */
+public class ControlFileFactory implements MessageSourceAware {
+
+    private MessageSource messageSource;
 
     public ControlFile parse(File file) throws IOException, SubmissionLevelException {
-        return parse(file, null, null);
+        return parse(file, null);
     }
 
-    public ControlFile parse(File file, LandingZone landingZone, MessageSource messageSource) throws IOException, SubmissionLevelException {
+    public ControlFile parse(File file, LandingZone landingZone) throws IOException, SubmissionLevelException {
 
         Scanner scanner = new Scanner(file);
         Pattern fileItemPattern = Pattern.compile("^([^\\s^,]+)\\,([^\\s^,]+)\\,([^,]+)\\,(\\w+)\\s*$");
@@ -73,6 +80,7 @@ public class ControlFileFactory {
                     // line was not parseable
                     lineNumber += 1;
                     String errorMessage;
+
                     if (messageSource != null) {
                          errorMessage = MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG16", lineNumber, line);
                     } else {
@@ -89,4 +97,8 @@ public class ControlFileFactory {
         }
     }
 
+    @Override
+    public void setMessageSource(MessageSource messageSource) {
+        this.messageSource = messageSource;
+    }
 }

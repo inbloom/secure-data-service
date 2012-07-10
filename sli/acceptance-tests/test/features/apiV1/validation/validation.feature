@@ -168,6 +168,7 @@ Scenario: Given a known school object, perform a PUT with a base school object t
     When I navigate to GET "/v1/sections/<'Invalid Section' ID>/studentSectionAssociations/students"
     Then I should receive a return code of 404
 
+    @wip
   Scenario Outline: Given a valid JSON document for an entity, when I POST it multiple times I should only find one record
     Given format "application/json"
     And a valid json document for <entity>

@@ -115,7 +115,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
             LandingZone topLevelLandingZone = new LocalFileSystemLandingZone(lzFile);
             LandingZone resolvedLandingZone = new LocalFileSystemLandingZone(sourceFile);
 
-            ControlFile controlFile = controlFileFactory.parse(fileForControlFile, topLevelLandingZone, messageSource);
+            ControlFile controlFile = controlFileFactory.parse(fileForControlFile, topLevelLandingZone);
 
             newBatchJob.setTotalFiles(controlFile.getFileEntries().size());
             createResourceEntryAndAddToJob(controlFile, newBatchJob);

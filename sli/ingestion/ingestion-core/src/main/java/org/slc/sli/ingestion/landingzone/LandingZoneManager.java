@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.slc.sli.ingestion.tenant.TenantDA;
 
 /**
@@ -37,8 +38,6 @@ public class LandingZoneManager {
 
     private boolean multipleLandingZonesEnabled;
     private String singleLandingZoneDir;
-
-    //private Logger log = LoggerFactory.getLogger(ControlFileProcessor.class);
 
     public List<LocalFileSystemLandingZone> getLandingZones() {
         List<LocalFileSystemLandingZone> landingZoneList;

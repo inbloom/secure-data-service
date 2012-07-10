@@ -55,8 +55,6 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
     @Autowired
     private XsdErrorHandlerInterface errorHandler;
 
-    //private static final Logger LOG = LoggerFactory.getLogger(XsdValidator.class);
-
     @Override
     public boolean isValid(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport) {
 
