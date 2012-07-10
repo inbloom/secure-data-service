@@ -1,0 +1,2 @@
+module ForgotPasswordsHelper
+end

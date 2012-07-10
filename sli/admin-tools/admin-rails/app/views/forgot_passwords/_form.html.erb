@@ -1,0 +1,57 @@
+<%= form_for(@forgot_password) do |f| %>
+  <% if @forgot_password.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@forgot_password.errors.count, "error") %> prohibited this forgot_password from being saved:</h2>
+
+      <ul>
+      <% @forgot_password.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <table>
+        <tr class="field">
+            <td class="form-inline"><%= f.label :new_pass ,"New Password"%><span style="color:red"> *</span><br />
+                <%= f.hidden_field :token, :value => @forgot_password.token %>
+                <%= f.password_field :new_pass %>
+            </td>
+            <% if @forgot_password.errors[:new_pass].any? %>
+                <td id="error_explanation">
+                  <ul>
+                  <% @forgot_password.errors[:new_pass].each do |msg| %>
+                    <li><%= msg %></li>
+                  <% end %>
+                  </ul>
+                </td>
+            <%end%>
+        </tr>
+        <tr class="field">
+            <td class="form-inline"><%= f.label :confirmation, "Confirm New Password" %><span style="color:red"> *</span><br/>
+                <%= f.password_field :confirmation %>
+             </td>
+             <% if @forgot_password.errors[:confirmation].any? %>
+                <td id="error_explanation">
+                  <ul>
+                  <% @forgot_password.errors[:confirmation].each do |msg| %>
+                    <li><%= msg %></li>
+                  <% end %>
+                  </ul>
+                </td>
+            <%end%>
+        </tr>
+    </table>
+  </div>
+  <div class="actions">
+    <br/>
+    <table>
+        <tr>
+          <td id="SubmitButton"><%= f.submit "Submit", 
+            :id => "submitChangePasswordButton"%></td>
+          <td id="CancelLink"></td>
+        </tr>
+    </table>
+  </div>
+<% end %>

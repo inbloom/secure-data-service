@@ -1,0 +1,7 @@
+<h1>Forgot Password</h1>
+<br>
+<%= form_tag(:action => "reset") do %>
+  <%= label_tag(:user_id, "Please enter your user id (this is probably your email address).") %>
+  <%= text_field_tag(:user_id) %><br><br>
+  <%= submit_tag("Submit") %>
+<% end %>

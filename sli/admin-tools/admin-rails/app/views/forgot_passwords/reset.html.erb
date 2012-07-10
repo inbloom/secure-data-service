@@ -1,0 +1,29 @@
+<h1>Forgot Password</h1>
+<br>
+<% if notice != nil %>
+    <ul style="color:green">
+      <li id="successNotice"><%= notice %></li>
+    </ul>
+    
+    <%= link_to 'Back', forgot_passwords_path %>
+
+<% end %>
+<% if @forgot_password.errors.any? %>
+    <div id="error_explanation">
+      <h2 id="errorCountNotifier"><%= pluralize(@forgot_password.errors.count, "error") %> prevented your password change attempt.</h2>
+      <br>
+      <br>
+      <ul>
+        <% @forgot_password.errors[:base].each do |msg| %>
+            <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+    <%= form_tag(:action => "reset") do %>
+        <%= label_tag(:user_id, "Please enter your user id (this is probably your email address).") %>
+        <%= text_field_tag(:user_id) %><br><br>
+        <%= submit_tag("Submit") %>
+    <% end %>
+<% end %>
+
+
