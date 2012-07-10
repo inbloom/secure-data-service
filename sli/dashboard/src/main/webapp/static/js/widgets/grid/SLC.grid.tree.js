@@ -15,7 +15,7 @@
  */
 
 /* 
- *	Creates 'SLC tree grid' jquery widget for SLC
+ *	Creates 'SLC tree grid' 
  */
 /*global $ SLC*/
 

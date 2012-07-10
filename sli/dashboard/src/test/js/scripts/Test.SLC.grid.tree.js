@@ -10,7 +10,7 @@ module("SLC.grid.tree.create", {
 		$("body").append("<table id='gridTable'></table>");
 	},
 	teardown: function () {
-		//$(".ui-jqgrid").remove();
+		$(".ui-jqgrid").remove();
 	}
 });
 	
