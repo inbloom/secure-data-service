@@ -19,13 +19,20 @@
         </property>
     </bean>
 
+	<!-- custom converter -->
+  	<bean id="GradeLevelsConverter" class="org.slc.sli.sif.domain.converter.GradeLevelsConverter"/>
+  	<bean id="PhoneNumberListConverter" class="org.slc.sli.sif.domain.converter.PhoneNumberListConverter"/>
+  	<bean id="AddressListConverter" class="org.slc.sli.sif.domain.converter.AddressListConverter"/>
+  	
 	<bean id="dozerBeanMapperFactory" class="org.dozer.spring.DozerBeanMapperFactoryBean">
-            <property name="mappingFiles" value="classpath*:/dozer/*dozer-mapping.xml" />
-<!--        <property name="customConverters">-->
-<!--            <list>-->
-<!--                <bean class="org.dozer.converters.CustomConverter"/>      -->
-<!--            </list>-->
-<!--        </property>-->
+    	<property name="mappingFiles" value="classpath*:/dozer/*dozer-mapping.xml" />
+		<property name="customConvertersWithId"> 
+	    	<map> 
+	        	<entry key="gradeLevelsConverter" value-ref="GradeLevelsConverter"/> 
+	        	<entry key="phoneNumberListConverter" value-ref="PhoneNumberListConverter"/> 
+	        	<entry key="addressListConverter" value-ref="AddressListConverter"/> 
+	      	</map> 
+    	</property>   
 <!--        <property name="eventListeners">-->
 <!--            <list>-->
 <!--                <bean class="org.dozer.listeners.EventListener"/>-->

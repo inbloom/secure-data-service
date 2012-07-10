@@ -19,6 +19,10 @@
             <a>SchoolName</a>
             <b>nameOfInstitution</b>
         </field>
+        <field custom-converter-id="addressListConverter">
+            <a>AddressList</a>
+            <b>address</b>
+        </field>
         <field>
             <a>SchoolFocusType</a>
             <b>schoolType</b>
@@ -31,15 +35,15 @@
             <a>OperationalStatus</a>
             <b>operationalStatus</b>
         </field>
-        <field>
+        <field custom-converter-id="gradeLevelsConverter">
             <a>GradeLevels</a>
             <b>gradesOffered</b>
         </field>
         <field>
             <a>SchoolType</a>
-            <b>schoolCategories</b>
+            <b>schoolCategory</b>
         </field>
-        <field>
+        <field custom-converter-id="phoneNumberListConverter">
             <a>PhoneNumberList</a>
             <b>telephone</b>
         </field>

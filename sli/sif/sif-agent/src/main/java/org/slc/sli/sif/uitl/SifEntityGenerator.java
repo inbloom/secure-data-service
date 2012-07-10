@@ -31,7 +31,7 @@ public class SifEntityGenerator
         schoolInfo.setSchoolFocusList(schoolFocusList);
         schoolInfo.setSchoolURL("http://IL-DAYBREAK.edu");
         schoolInfo.setOperationalStatus(OperationalStatus.SCHOOL_CLOSED);
-        schoolInfo.setSchoolType(SchoolLevelType.HIGH);
+        schoolInfo.setSchoolType(SchoolLevelType._0031_2402_HIGH_SCHOOL);
 
         GradeLevels gradeLevels = new GradeLevels();
         gradeLevels.addGradeLevel(GradeLevelCode._09);
@@ -50,7 +50,7 @@ public class SifEntityGenerator
         street.setApartmentNumber("2000");
         street.setLine2("Suite 2000");
         street.setLine3("Salt Lake City, UT 84102");
-        street.setStreetName("IBM");
+        street.setStreetName("IBM way");
         street.setStreetNumber("1");
         street.setStreetType("Plaza");
         street.setApartmentType("Suite");

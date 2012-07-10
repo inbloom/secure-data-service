@@ -16,25 +16,24 @@
 
 package org.slc.sli.sif.domain.slientity;
 
-import org.codehaus.jackson.map.ObjectMapper;
-
-/**
- * An GenericEntity in the SLI domain.
- *
- * @author slee
- *
- */
-public abstract class GenericEntity
+public class InstitutionTelephone
 {
-    protected static ObjectMapper mapper = new ObjectMapper();
+    private String telephoneNumber;
+    private String institutionTelephoneNumberType;
 
-    /**
-     *  Constructor
-     */
-    public GenericEntity() {
-
+    public String getTelephoneNumber() {
+        return this.telephoneNumber;
     }
 
-    abstract public String jsonString();
+    public void setTelephoneNumber(String telephoneNumber) {
+        this.telephoneNumber = telephoneNumber;
+    }
 
+    public String getInstitutionTelephoneNumberType() {
+        return this.institutionTelephoneNumberType;
+    }
+
+    public void setInstitutionTelephoneNumberType(String institutionTelephoneNumberType) {
+        this.institutionTelephoneNumberType = institutionTelephoneNumberType;
+    }
 }

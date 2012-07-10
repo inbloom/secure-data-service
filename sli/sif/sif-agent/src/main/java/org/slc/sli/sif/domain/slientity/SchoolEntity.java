@@ -16,6 +16,7 @@
 
 package org.slc.sli.sif.domain.slientity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,7 +29,7 @@ public class SchoolEntity extends GenericEntity
 {
     /*
      * SLI domain                               SIF domain
-     * ------------------------------mappingg----------------------
+     * ____________mappingg_between_SIF_and_SLI__________________
      * stateOrganizationId                      StateProvinceId
      * nameOfInstitution                        SchoolName
      * organizationCategories [1..*]
@@ -54,20 +55,24 @@ public class SchoolEntity extends GenericEntity
     private String stateOrganizationId;
     private String nameOfInstitution;
     private List<String> organizationCategories;
-    private String address;
+    private List<Address> address;
     private String schoolType;
+    private String webSite;
+    private String operationalStatus;
+    private List<String> gradesOffered;
+    private String schoolCategory;
+    private List<String> schoolCategories;
+    private List<InstitutionTelephone> telephone;
+    /*
+     * The following fields have no corresponding SIF counterparts
+     */
     private String charterStatus;
     private String titleIPartASchoolDesignation;
     private String magnetSpecialProgramEmphasisSchool;
     private String shortNameOfInstitution;
-    private String webSite;
-    private String operationalStatus;
     private String agencyHierarchyName;
     private String parentEducationAgencyReference;
-    private List<String> gradesOffered;
-    private List<String> schoolCategories;
     private List<String> educationOrgIdentificationCode;
-    private List<String> telephone;
     private List<String> accountabilityRatings;
     private List<String> programReference;
 
@@ -76,7 +81,102 @@ public class SchoolEntity extends GenericEntity
      */
     public SchoolEntity() {
         super();
+        /*
+         * organizationCategories is mandatory but not counterpart in SIF SchoolInfo
+         * So set it to School
+         */
+        this.organizationCategories = new ArrayList<String>(1);
+        organizationCategories.add("School");
     }
 
+    public List<String> getOrganizationCategories() {
+        return this.organizationCategories;
+    }
+
+    public void setStateOrganizationId(String stateOrganizationId) {
+        this.stateOrganizationId = stateOrganizationId;
+    }
+
+    public String getStateOrganizationId() {
+        return this.stateOrganizationId;
+    }
+
+    public void setNameOfInstitution(String nameOfInstitution) {
+        this.nameOfInstitution = nameOfInstitution;
+    }
+
+    public String getNameOfInstitution() {
+        return this.nameOfInstitution;
+    }
+
+    public void setSchoolType(String schoolType) {
+        this.schoolType = schoolType;
+    }
+
+    public String getSchoolType() {
+        return this.schoolType;
+    }
+
+    public void setWebSite(String webSite) {
+        this.webSite = webSite;
+    }
+
+    public String getWebSite() {
+        return this.webSite;
+    }
+
+    public void setOperationalStatus(String operationalStatus) {
+        this.operationalStatus = operationalStatus;
+    }
+
+    public String getOperationalStatus() {
+        return this.operationalStatus;
+    }
+
+    public void setGradesOffered(List<String> gradesOffered) {
+        this.gradesOffered = gradesOffered;
+    }
+
+    public List<String> getGradesOffered() {
+        return this.gradesOffered;
+    }
+
+    public void setSchoolCategory(String schoolCategory) {
+        this.schoolCategory = schoolCategory;
+        this.schoolCategories = new ArrayList<String>(1);
+        schoolCategories.add(schoolCategory);
+    }
+
+    public List<String> getSchoolCategories() {
+        return this.schoolCategories;
+    }
+
+    public void setTelephone(List<InstitutionTelephone> telephone) {
+        this.telephone = telephone;
+    }
+
+    public List<InstitutionTelephone> getTelephone() {
+        return this.telephone;
+    }
+
+    public void setAddress(List<Address> address) {
+        this.address = address;
+    }
+
+    public List<Address> getAddress() {
+        return this.address;
+    }
+
+    /**
+     * Output the object as a JSON String
+     */
+    @Override
+    public String jsonString() {
+        try {
+            return mapper.writeValueAsString(this);
+        } catch (Exception e) {
+            return super.toString();
+        }
+    }
 
 }

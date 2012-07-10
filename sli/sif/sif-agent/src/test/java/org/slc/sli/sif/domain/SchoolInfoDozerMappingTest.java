@@ -16,7 +16,7 @@
 
 package org.slc.sli.sif.domain;
 
-import openadk.library.student.SchoolInfo;
+import junit.framework.Assert;
 
 import org.dozer.Mapper;
 import org.junit.Before;
@@ -26,6 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.sif.domain.sifentity.SchoolInfoEntity;
+import org.slc.sli.sif.domain.slientity.SchoolEntity;
 import org.slc.sli.sif.uitl.SifEntityGenerator;
 
 /**
@@ -41,15 +43,21 @@ public class SchoolInfoDozerMappingTest
     @Autowired
     private Mapper dozerMapper;
 
-    private SchoolInfo schoolInfo;
+    private SchoolInfoEntity schoolInfoEntity;
 
     @Before
     public void preMethodSetup() {
-        schoolInfo = SifEntityGenerator.generateTestSchoolInfo();
+        schoolInfoEntity = new SchoolInfoEntity(SifEntityGenerator.generateTestSchoolInfo());
     }
 
     @Test
     public void testSchoolInfoMapping() {
-
+        SchoolEntity schoolEntity = this.dozerMapper.map(schoolInfoEntity, SchoolEntity.class);
+        Assert.assertEquals("Expecting 2 telephone numbers", 2, schoolEntity.getTelephone().size());
+        Assert.assertEquals("Expecting 'Main' as the first phone type", "Main", schoolEntity.getTelephone().get(0).getInstitutionTelephoneNumberType());
+        Assert.assertEquals("Expecting '(312) 555-1234' as the first phone number", "(312) 555-1234", schoolEntity.getTelephone().get(0).getTelephoneNumber());
+        Assert.assertEquals("Expecting 'Main' as the first phone type", "Fax", schoolEntity.getTelephone().get(1).getInstitutionTelephoneNumberType());
+        Assert.assertEquals("Expecting '(312) 555-2364' as the first phone number", "(312) 555-2364", schoolEntity.getTelephone().get(1).getTelephoneNumber());
     }
+
 }
