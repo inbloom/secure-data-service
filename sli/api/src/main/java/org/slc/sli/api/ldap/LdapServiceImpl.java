@@ -13,6 +13,7 @@ import org.springframework.ldap.core.DistinguishedName;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.filter.AndFilter;
 import org.springframework.ldap.filter.EqualsFilter;
+import org.springframework.ldap.filter.OrFilter;
 import org.springframework.stereotype.Component;
 
 /**
@@ -98,6 +99,7 @@ public class LdapServiceImpl implements LdapService {
         return null;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public List<User> findUserByGroups(String realm, List<String> groupNames) {
         List<User> users = new ArrayList<User>();
@@ -109,12 +111,24 @@ public class LdapServiceImpl implements LdapService {
                 for (String memberUid : memberUids) {
                     if (!uids.contains(memberUid)) {
                         uids.add(memberUid);
-                        User user = getUser(realm, memberUid);
-                        if (user != null) {
-                            users.add(user);
-                        }
                     }
                 }
+            }
+        }
+        AndFilter filter = new AndFilter();
+        filter.and(new EqualsFilter("objectclass", userObjectClass));
+        OrFilter orFilter = new OrFilter();
+        for(String uid:uids){
+            orFilter.or(new EqualsFilter(userSearchAttribute, uid));
+        }
+        filter.and(orFilter);
+        DistinguishedName dn = new DistinguishedName("ou=" + realm);
+        users = (List<User>) (ldapTemplate.search(dn, filter.toString(), SearchControls.SUBTREE_SCOPE, new String[] {
+                "*", CREATE_TIMESTAMP, MODIFY_TIMESTAMP }, new UserContextMapper()));
+        for (User user : users) {
+            List<Group> groups = getUserGroups(realm, user.getUid());
+            for (Group group : groups) {
+                user.addGroup(group.getGroupName());
             }
         }
         return users;
