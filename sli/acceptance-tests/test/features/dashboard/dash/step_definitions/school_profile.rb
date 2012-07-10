@@ -42,8 +42,15 @@ end
 Then /^I see the following courses:$/ do |table|
   courses = transformToHash(table, "Course")
   readTreeGrid()
-  nonSubjects = @currentVisibleTreeNodes - @subjectsOnly
-  verifyElementsInGrid(courses, nonSubjects)
+  @coursesOnly = @currentVisibleTreeNodes - @subjectsOnly
+  verifyElementsInGrid(courses, @coursesOnly)
+end
+
+Then /^I see the following sections:$/ do |table|
+  sections = transformToHash(table, "Section")
+  readTreeGrid()
+  sectionsOnly = @currentVisibleTreeNodes - @subjectsOnly - @coursesOnly
+  verifyElementsInGrid(sections, sectionsOnly)
 end
 
 def transformToHash(table, columnName)
@@ -77,7 +84,7 @@ def readTreeGrid()
   trs = getGrid(@driver)
   @currentVisibleTreeNodes = []
   trs.each do |tr|
-    # Look for elements that dont have style set
+    # Look for elements that dont have style set, without style, it means it's visible
     if (tr.attribute("style") == "")
       @currentVisibleTreeNodes << tr
     end
