@@ -87,7 +87,6 @@ public class HCStudentPersonalGenerator implements EventGenerator {
         PhoneNumberList phoneNumberList = new PhoneNumberList();
         phoneNumberList.addPhoneNumber(PhoneNumberType.PRIMARY, "(312) 555-1234");
         studentPersonal.setPhoneNumberList(phoneNumberList);
-        System.out.println(studentPersonal.toXML());
 
         return studentPersonal;
     }
