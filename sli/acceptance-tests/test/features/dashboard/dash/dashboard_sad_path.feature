@@ -8,6 +8,7 @@ Given the server is in "live" mode
 When I navigate to the Dashboard home page
 Then I should be redirected to the Realm page
 
+@wip
 Scenario: Teacher's school has no data (no courses)
 When I select "New York Realm" and click go
  And I was redirected to the "Simple" IDP Login page
