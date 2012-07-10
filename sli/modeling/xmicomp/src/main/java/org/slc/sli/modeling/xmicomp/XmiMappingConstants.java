@@ -40,6 +40,10 @@ public final class XmiMappingConstants {
      */
     public static final QName TYPE = new QName(NAMESPACE_MAPPING, "type");
     /**
+     * Whether the feature is defined (in the UML model).
+     */
+    public static final QName DEFN = new QName(NAMESPACE_MAPPING, "defined");
+    /**
      * The version.
      */
     public static final QName VERSION = new QName(NAMESPACE_MAPPING, "version");

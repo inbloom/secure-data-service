@@ -31,7 +31,7 @@ public final class XmiMappingHelper {
         if (!declaredFeatures.containsKey(name)) {
             final String className = classType.getName();
             final String featureName = feature.getName();
-            return new XmiFeature(featureName, className);
+            return new XmiFeature(featureName, className, true);
         } else {
             return null;
         }

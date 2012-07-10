@@ -116,6 +116,13 @@ public class XmiMappingWriter {
             } finally {
                 xsw.writeEndElement();
             }
+            xsw.writeStartElement(XmiMappingConstants.DEFN.getNamespaceURI(), XmiMappingConstants.DEFN.getLocalPart());
+            try {
+                final Boolean defined = feature.isDefined();
+                xsw.writeCharacters((defined != null) ? Boolean.toString(defined) : "");
+            } finally {
+                xsw.writeEndElement();
+            }
         } finally {
             xsw.writeEndElement();
         }

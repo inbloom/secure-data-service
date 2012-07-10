@@ -23,6 +23,7 @@
 		<xs:sequence>
 			<xs:element name="type" type="xs:string"></xs:element>
 			<xs:element name="name" type="xs:string"></xs:element>
+			<xs:element name="defined" type="xs:boolean"></xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="XmiMapping">

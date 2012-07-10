@@ -1,18 +1,29 @@
 package org.slc.sli.modeling.xmicomp;
 
 public final class XmiFeature {
-    private final String name;
+    /**
+     * The class that the feature belongs to.
+     */
     private final String type;
+    /**
+     * The name of the feature.
+     */
+    private final String name;
+    /**
+     * Whether the feature exists.
+     */
+    private final boolean defined;
     
-    public XmiFeature(final String name, final String type) {
-        if (null == name) {
+    public XmiFeature(final String featureName, final String type, final boolean defined) {
+        if (null == featureName) {
             throw new NullPointerException("name");
         }
         if (null == type) {
             throw new NullPointerException("type");
         }
-        this.name = name;
+        this.name = featureName;
         this.type = type;
+        this.defined = defined;
     }
     
     /**
@@ -29,8 +40,15 @@ public final class XmiFeature {
         return type;
     }
     
+    /**
+     * Whether the feature exists.
+     */
+    public boolean isDefined() {
+        return defined;
+    }
+    
     @Override
     public String toString() {
-        return String.format("{name : %s, type : %s}", name, type);
+        return String.format("{name : %s, type : %s, defined : %s}", name, type, defined);
     }
 }

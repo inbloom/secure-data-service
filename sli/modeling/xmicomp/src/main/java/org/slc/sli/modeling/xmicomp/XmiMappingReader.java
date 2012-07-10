@@ -126,7 +126,7 @@ public final class XmiMappingReader {
         throw new AssertionError();
     }
     
-    private static final String readElementContent(final QName elementName, final XMLStreamReader reader)
+    private static final String readStringContent(final QName elementName, final XMLStreamReader reader)
             throws XMLStreamException {
         assertStartElement(reader);
         assertName(elementName, reader);
@@ -155,21 +155,30 @@ public final class XmiMappingReader {
         return sb.toString().trim();
     }
     
+    private static final boolean readBooleanContent(final QName elementName, final XMLStreamReader reader,
+            final boolean defaultValue) throws XMLStreamException {
+        final String s = readStringContent(elementName, reader);
+        return (s != null && s.length() > 0) ? Boolean.valueOf(s) : defaultValue;
+    }
+    
     private static final XmiFeature readFeature(final QName elementName, final XMLStreamReader reader)
             throws XMLStreamException {
         assertStartElement(reader);
         assertName(elementName, reader);
-        String name = null;
         String type = null;
+        String name = null;
+        boolean defined = true;
         boolean done = false;
         while (!done && reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(XmiMappingConstants.NAME, reader)) {
-                        name = readElementContent(reader.getName(), reader);
+                        name = readStringContent(reader.getName(), reader);
                     } else if (match(XmiMappingConstants.TYPE, reader)) {
-                        type = readElementContent(reader.getName(), reader);
+                        type = readStringContent(reader.getName(), reader);
+                    } else if (match(XmiMappingConstants.DEFN, reader)) {
+                        defined = readBooleanContent(reader.getName(), reader, true);
                     } else {
                         throw new AssertionError(reader.getLocalName());
                     }
@@ -190,7 +199,7 @@ public final class XmiMappingReader {
                 }
             }
         }
-        return new XmiFeature(name, type);
+        return new XmiFeature(name, type, defined);
     }
     
     private static final XmiMapping readMapping(final XMLStreamReader reader) throws XMLStreamException {
@@ -212,7 +221,7 @@ public final class XmiMappingReader {
                     } else if (match(XmiMappingConstants.STATUS, reader)) {
                         status = readStatus(reader);
                     } else if (match(XmiMappingConstants.COMMENT, reader)) {
-                        comment = readElementContent(reader.getName(), reader);
+                        comment = readStringContent(reader.getName(), reader);
                     } else if (match(XmiMappingConstants.LHS_MISSING, reader)) {
                         XMLStreamReaderTools.skipElement(reader);
                     } else if (match(XmiMappingConstants.RHS_MISSING, reader)) {
@@ -301,11 +310,11 @@ public final class XmiMappingReader {
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(XmiMappingConstants.NAME, reader)) {
-                        name = readElementContent(reader.getName(), reader);
+                        name = readStringContent(reader.getName(), reader);
                     } else if (match(XmiMappingConstants.VERSION, reader)) {
-                        version = readElementContent(reader.getName(), reader);
+                        version = readStringContent(reader.getName(), reader);
                     } else if (match(XmiMappingConstants.FILE, reader)) {
-                        xmi = readElementContent(reader.getName(), reader);
+                        xmi = readStringContent(reader.getName(), reader);
                     } else {
                         throw new AssertionError(reader.getLocalName());
                     }
