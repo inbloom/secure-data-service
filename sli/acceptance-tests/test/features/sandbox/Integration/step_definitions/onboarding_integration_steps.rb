@@ -61,7 +61,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = PropLoader.getProps['user_registration_email']                 if human_readable_id == "Landing_zone_directory"
 
   id = "mreynolds"                                                       if human_readable_id == "Prod_Tenant_ID"
-  id = "mreynolds/StateEdorg"                                            if human_readable_id == "Prod_Landing_zone_directory"
+  id = "mreynolds/#{sha256('StateEdorg')}"                            if human_readable_id == "Prod_Landing_zone_directory"
 
   #placeholder for provision and app registration link, need to be updated to check real link
   id = "landing_zone"                                     if human_readable_id == "URL_TO_PROVISIONING_APPLICATION"
@@ -424,4 +424,8 @@ end
 
 def clear_users
   @ldap.delete_user(PropLoader.getProps['user_registration_email'])
+end
+
+def sha256(to_hash)
+  Digest::SHA256.hexdigest(to_hash)
 end

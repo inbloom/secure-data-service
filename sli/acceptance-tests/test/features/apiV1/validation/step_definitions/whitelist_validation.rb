@@ -122,7 +122,7 @@ $entityData = {
         "agencyHierarchyName" => "agency.h.name"
     },
     "staff" => {
-        "staffUniqueStateId" => "EMPLOYEE123456789",
+        "staffUniqueStateId" => "WLVDSUSID00001",
         "staffIdentificationCode" => [
             "ID" => "STAFF123456",
             "identificationSystem" => "State",
