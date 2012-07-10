@@ -15,8 +15,8 @@
     {id: "col1", name: "Grade Level", type:"FIELD", datatype: "string", field: "gradeLevel"},
     {id: "col2", name: "% Present", type:"FIELD", datatype: "string", field: "present"},
     {id: "col3", name: "Total Absences", type:"FIELD", datatype: "string", field: "totalAbsencesCount"},
-    {id: "col4", name: "Excused", type:"FIELD", datatype: "string", field: "excusedAbsencesCount"},
-    {id: "col5", name: "Unexcused", type:"FIELD", datatype: "string", field: "unexcusedAbsencesCount"},
+    {id: "col4", name: "Excused", type:"FIELD", datatype: "string", field: "excusedAbsenceCount"},
+    {id: "col5", name: "Unexcused", type:"FIELD", datatype: "string", field: "unexcusedAbsenceCount"},
     {id: "col6", name: "Tardy", type:"FIELD", datatype: "string", field: "tardyCount"}
   ] 
 }
