@@ -1,7 +1,6 @@
 <% @title="Provision Landing Zone" %>
 <% custom_ed_org_text = "Provide my own dataset" %>
 <% tooltip_text =  "Enter the name of the State Organization Id of your sample State Education Agency (SEA)" %>
-<% key_tooltip_text =  "You can provide a public key that will be used to securely SFTP to your landing zone. Public keys must be encrypted using RFC 4716 format. " %>
 <div class="provision">
   <div class="page-header">
 	<% if APP_CONFIG['is_sandbox']%><h1>Configure Your Test Data - Select a Source</h1><%else%><h1>Create a Landing Zone for your Data</h1><%end%>
@@ -43,7 +42,7 @@
 	      <label id="addKeyBtn">Add Public Key to SFTP
             <i id="key_arrow" <% if @validation_errors %>class="icon-chevron-down"<% else %>class="icon-chevron-left"<% end %>></i>
           </label>
-		  <i id="key_tooltip" class="icon-question-sign" rel="tooltip" title="<%= key_tooltip_text %>" style="cursor:pointer;font-size:20px"></i>
+		  <i id="key_tooltip" class="icon-question-sign" style="cursor:pointer;font-size:20px"></i>
 		</div>
 		<div class="controls" id="rsaKeyField" <% if !@validation_errors %>style="display: none"<% end %>>
 		    
