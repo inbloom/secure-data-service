@@ -26,6 +26,7 @@
 	margin: 10px;
 	margin-top: 30px;
 }
+
 </style>
 <link href="resources/bootstrap.css" rel="stylesheet"/>
 </head>
@@ -81,6 +82,9 @@
 					<div class="control-group">
 						<label for="password" class="control-label">Password:</label>
 						<input type="password" id="password" name="password" />
+					</div>
+					<div class="control-group">
+						<a style="margin-left:140px;color:navy" href="${fn:escapeXml(adminUrl)}">Forgot password?</a>
 					</div>
 					<c:if test="${is_sandbox}">
 					<div class="control-group">
