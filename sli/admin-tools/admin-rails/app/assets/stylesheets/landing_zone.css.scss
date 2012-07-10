@@ -96,3 +96,10 @@ span#rsa_validation_error_text {
   width: 500px;	    
   background: #FFEEEE; 
 }
+
+span.spinner {
+  // offset the spinner so it'll overlap with the rsa_validation_error_text
+  left: -240px;
+  top: 120px;
+  position: relative;
+}
