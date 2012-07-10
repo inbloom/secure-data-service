@@ -74,7 +74,7 @@ public class EventSubscriber implements Subscriber, QueryResults {
             } else {
                 Zone zone = agent.getZoneFactory().getZone("TestZone");
                 EventSubscriber subscriber = new EventSubscriber(zone);
-                subscriber.sendQuery();
+            //    subscriber.sendQuery();
             }
         } catch (Exception e) {
             logger.error("Exception trying to subscriber to event", e);
