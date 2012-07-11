@@ -106,14 +106,6 @@ public class OnboardingResource {
         String orgId = reqBody.get(STATE_EDORG_ID);
         String tenantId = reqBody.get(ResourceConstants.ENTITY_METADATA_TENANT_ID);
 
-        // TODO: Use an actual validator instead of coding validation logic here
-        if (orgId != null && (orgId.indexOf('.') >= 0 || orgId.indexOf('/') >= 0)) {
-            EntityBody body = new EntityBody();
-            body.put("response", "Ed Org cannot have '.' or '/' character");
-            return Response.status(Status.BAD_REQUEST).entity(body).build();
-        }
-
-        // TODO: this doesn't look right. Sandbox should check Right.INGEST_DATA and production should check Right.ADMIN_ACCESS, not the other way.
         // Ensure the user is an admin.
         Right requiredRight = Right.INGEST_DATA;
         if (isSandboxImpersonationEnabled) {

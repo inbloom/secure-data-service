@@ -17,8 +17,7 @@
 <#assign layoutConfig = viewConfigs>
 <script>
     $(document).ready( function() {
-    	var checkTab = SLC.dataProxy.checkTabPanel();
-    	if (checkTab) {
+    	if (SLC.dataProxy.checkTabPanel()) {
         	SLC.util.makeTabs("#tabs");
         }
     });

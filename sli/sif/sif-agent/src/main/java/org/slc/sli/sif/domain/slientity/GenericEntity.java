@@ -21,6 +21,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  * An GenericEntity in the SLI domain.
+ * Each SLI Entity can be converted to a JSON Node ready for SLI operations.
  *
  * @author slee
  *
@@ -36,10 +37,6 @@ public abstract class GenericEntity
 
     }
 
-    /**
-     * Output this Entity as a JSON String
-     */
-    abstract public String jsonString();
     /**
      * Output this Entity as a JSON Node
      */

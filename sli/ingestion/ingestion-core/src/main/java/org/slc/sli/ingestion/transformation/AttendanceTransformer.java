@@ -228,14 +228,14 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                 List<Map<String, Object>> events = attendanceEntry.getValue();
 
                 numAttendances += events.size();
-                
+
                 NeutralQuery query = new NeutralQuery(1);
                 query.addCriteria(new NeutralCriteria(BATCH_JOB_ID_KEY, NeutralCriteria.OPERATOR_EQUAL, getBatchJobId(), false));
                 query.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentId));
                 query.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.OPERATOR_EQUAL, schoolId));
                 query.addCriteria(new NeutralCriteria("schoolYearAttendance.schoolYear",
                         NeutralCriteria.OPERATOR_EQUAL, schoolYear));
-                
+
                 Map<String, Object> attendanceEventsToPush = new HashMap<String, Object>();
                 attendanceEventsToPush.put("body.schoolYearAttendance.$.attendanceEvent", events.toArray());
                 Map<String, Object> update = new HashMap<String, Object>();
@@ -304,7 +304,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
 
         Iterable<NeutralRecord> associations = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
                 STUDENT_SCHOOL_ASSOCIATION, query);
-        
+
         if (associations != null) {
             List<String> schoolIds = new ArrayList<String>();
             for (NeutralRecord association : associations) {
@@ -359,7 +359,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                 sessions.put(record.getRecordId(), record);
             }
         }
-        
+
         String parentEducationAgency = getParentEdOrg(schoolId);
         if (parentEducationAgency != null) {
             sessions.putAll(getSessions(parentEducationAgency));
@@ -378,7 +378,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     private String getParentEdOrg(String schoolId) {
         Query schoolQuery = new Query().limit(1);
         schoolQuery.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
-        schoolQuery.addCriteria(Criteria.where("stateOrganizationId").is(schoolId));
+        schoolQuery.addCriteria(Criteria.where("body.stateOrganizationId").is(schoolId));
 
         Iterable<NeutralRecord> queriedSchool = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
                 SCHOOL, schoolQuery);

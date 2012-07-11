@@ -25,10 +25,31 @@ import openadk.library.student.SchoolInfo;
 import org.slc.sli.sif.domain.converter.SchoolConverter;
 
 /**
- * An SIF Entity corresponding to an SIF SchoolInfo.
+ * An SIF Entity corresponding to an SIF SchoolInfo. Used by dozer to map SchoolInfo into an SLI SchoolEntity.
  *
- * SIF SchoolInfo has more getters than listed here. However, those fields without SLI counterparts are not
- * listed in dozer mapping file, and hence not included as getters of SchoolInfoEntity.
+ * Note: Not all fields of SIF SchoolInfo have SLI counterparts. Only those fields which have a valid
+ * SLI counterpart have a getter defined here.
+ *
+ * Three mapping strategies are used when mapping those fields:
+ * <ol>
+ * <li>Direct value mapping where each SIF field value is mapped to the same SLI value. These include
+ * <ol><li><code>StateProvinceId</code></li>
+ *     <li><code>SchoolName</code></li>
+ *     <li><code>SchoolURL</code></li></ol>
+ * </li>
+ *
+ * <li>Simple value mapping where each SIF field value is mapped to a correnponding SLI value. These include
+ * <ol><li><code>SchoolFocusType</code></li>
+ *     <li><code>OperationalStatus</code></li>
+ *     <li><code>SchoolType</code></li></ol>
+ * </li>
+ *
+ * <li>Complex value mapping where each SIF field value is mapped via a customized Dozer converter. These include
+ * <ol><li><code>GradeLevels</code></li>
+ *     <li><code>PhoneNumberList</code></li>
+ *     <li><code>AddressList</code></li></ol>
+ * </li>
+ * </ol>
  *
  * @author slee
  *
@@ -60,8 +81,8 @@ public class SchoolInfoEntity extends GenericEntity
     }
 
     /**
-     *  Get SchoolFocusType in an SIF SchoolInfoEntity.
-     *  Values of this field need to be mapped to SLI values.
+     *  Get SchoolFocusType in an SIF SchoolInfoEntity
+     *  Using a value mapping method.
      *
      */
     public String getSchoolFocusType() {
@@ -78,7 +99,7 @@ public class SchoolInfoEntity extends GenericEntity
 
     /**
      *  Get OperationalStatus in an SIF SchoolInfoEntity.
-     *  Values of this field need to be mapped to SLI values.
+     *  Using a value mapping method.
      *
      */
     public String getOperationalStatus() {
@@ -87,7 +108,7 @@ public class SchoolInfoEntity extends GenericEntity
 
     /**
      *  Get SchoolType in an SIF SchoolInfoEntity.
-     *  Values of this field need to be mapped to SLI values.
+     *  Using a value mapping method.
      *
      */
     public String getSchoolType() {
@@ -96,8 +117,8 @@ public class SchoolInfoEntity extends GenericEntity
 
     /**
      *  Get GradeLevels in an SIF SchoolInfoEntity.
+     *  Using a customized Dozer converter.
      *
-     *  Customized Dozer converter is used by dozer to map this field.
      */
     public GradeLevels getGradeLevels() {
         return this.schoolInfo.getGradeLevels();
@@ -105,8 +126,8 @@ public class SchoolInfoEntity extends GenericEntity
 
     /**
      *  Get PhoneNumberList in an SIF SchoolInfoEntity.
+     *  Using a customized Dozer converter.
      *
-     *  Customized Dozer converter is used by dozer to map this field.
      */
     public PhoneNumberList getPhoneNumberList() {
         return this.schoolInfo.getPhoneNumberList();
@@ -114,8 +135,8 @@ public class SchoolInfoEntity extends GenericEntity
 
     /**
      *  Get AddressList in an SIF SchoolInfoEntity.
+     *  Using a customized Dozer converter.
      *
-     *  Customized Dozer converter is used by dozer to map this field.
      */
     public AddressList getAddressList() {
         return this.schoolInfo.getAddressList();
