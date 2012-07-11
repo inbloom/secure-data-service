@@ -1,4 +1,5 @@
 @RALLY_US2033
+@RALLY_US2956
 Feature: Batchjob Datamodel Data Ingestion Test
 
 Background: I have a landing zone route configured
