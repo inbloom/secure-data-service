@@ -192,7 +192,7 @@ public class LdapServiceImpl implements LdapService {
     }
     
     private List<User> filterByEdorgs(List<User> users, List<String> edorgs) {
-        if (edorgs == null || users == null) {
+        if (edorgs == null || edorgs.size() == 0 || users == null) {
             return users;
         }
         List<User> filteredUsers = new ArrayList<User>();

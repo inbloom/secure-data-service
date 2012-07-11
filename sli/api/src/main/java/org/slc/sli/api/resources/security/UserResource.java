@@ -62,11 +62,14 @@ public class UserResource {
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
         String tenant = SecurityUtil.getTenantId();
+        
+        // add edorg filter for LEA Admin
         List<String> edorgs = null;
-        if (!this.isSandboxImpersonationEnabled && SecurityUtil.hasRight(Right.CRUD_LEA_ADMIN)) {
+        if (!this.isSandboxImpersonationEnabled && SecurityUtil.hasRole(RoleInitializer.LEA_ADMINISTRATOR)) {
             edorgs = new ArrayList<String>();
             edorgs.add(SecurityUtil.getEdOrg());
         }
+
         List<User> users = ldapService.findUserByGroups(realm,
                 RightToGroupMapper.getGroups(getRights(), this.isSandboxImpersonationEnabled), tenant, edorgs);
         return Response.status(Status.OK).entity(users).build();
