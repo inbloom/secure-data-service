@@ -24,3 +24,15 @@ When I make an API call to get my available apps filtered by admin
 Then I receive a JSON object listing all the admin apps
 And the list contains the admin app
 And the admin app endpoints only contains SLI operator endpoints
+
+Scenario: Authenticated State-level users see all apps within child districts
+
+Given I am logged in using "jjackson" "jjackson1234" to realm "IL"
+When I make an API call to get my available apps 
+Then I receive a JSON object listing all the apps approved for "IL-DAYBREAK"
+Given I am logged in using "llogan" "llogan1234" to realm "IL"
+When I make an API call to get my available apps 
+Then I receive a JSON object listing all the apps approved for "IL-SUNSET"
+Given I am logged in using "mjohnson" "mjohnson1234" to realm "IL"
+When I make an API call to get my available apps 
+Then I receive a JSON object listing all the apps approved for both "IL-DAYBREAK" and "IL-SUNSET"

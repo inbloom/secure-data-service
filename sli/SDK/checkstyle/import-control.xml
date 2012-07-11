@@ -1,0 +1,121 @@
+<?xml version="1.0"?>
+<!DOCTYPE import-control PUBLIC
+    "-//Puppy Crawl//DTD Import Control 1.1//EN"
+    "http://www.puppycrawl.com/dtds/import_control_1_1.dtd">
+
+<import-control pkg="org.slc.sli">
+
+  <allow pkg="java"/>
+  <allow pkg="javax"/>
+  <allow pkg="junit"/>
+  <allow pkg="junitx"/>
+  <allow pkg="org"/>
+  <allow pkg="com"/>
+  <allow pkg="ch.qos.logback"/>
+  <disallow pkg="org.slc.sli"/>
+  <allow pkg="org.slc.sli.api.client"/>
+  <allow pkg="org.slc.sli.common"/>
+  <allow pkg="org.slc.sli.aspect"/>
+  <allow pkg="org.slc.sli.validation"/>
+  <allow pkg="org.slc.sli.domain"/>
+
+  <subpackage name="dal">
+    <allow pkg="org.slc.sli.dal"/>
+  </subpackage>
+
+  <subpackage name="domain">
+    <allow pkg="org.slc.sli.dal"/>
+  </subpackage>
+
+  <subpackage name="api">
+    <disallow pkg="org.slf4j"/>
+    <disallow pkg="org.log4j"/>
+    <allow pkg="org.slc.sli.api"/>
+    <allow pkg="org.slc.sli.dal"/>
+    <allow pkg="org.slc.sli.domain"/>
+  </subpackage>
+
+  <subpackage name="ingestion">
+    <allow pkg="org.slc.sli.dal"/>
+    <allow pkg="org.slc.sli.ingestion"/>
+  </subpackage>
+
+  <!-- the following subpackages belong to dashboard.  These
+    should be moved into packages under the 'dashboard' subpackage. -->
+  <subpackage name="client">
+    <allow pkg="org.slc.sli.client"/>
+    <allow pkg="org.slc.sli.entity"/>
+    <allow pkg="org.slc.sli.util"/>
+  </subpackage>
+
+  <subpackage name="entity">
+    <allow pkg="org.slc.sli.entity"/>
+    <allow pkg="org.slc.sli.util"/>
+    <allow pkg="org.slc.sli.web"/>
+  </subpackage>
+
+  <subpackage name="manager">
+    <allow pkg="org.slc.sli.manager"/>
+    <allow pkg="org.slc.sli.util"/>
+    <allow pkg="net.sf.ehcache"/>
+    <allow pkg="org.slc.sli.client"/>
+    <allow pkg="org.slc.sli.entity"/>
+  </subpackage>
+
+  <subpackage name="security">
+    <allow pkg="org.slc.sli.security"/>
+    <allow pkg="org.slc.sli.client"/>
+    <allow pkg="org.slc.sli.util"/>
+  </subpackage>
+
+  <subpackage name="util">
+    <allow pkg="org.slc.sli.util"/>
+    <allow pkg="org.slc.sli.security"/>
+    <allow pkg="org.slc.sli.manager"/>
+    <allow pkg="org.slc.sli.web"/>
+    <allow pkg="org.slc.sli.entity"/>
+  </subpackage>
+
+  <subpackage name="web">
+    <allow pkg="org.slc.sli.web"/>
+    <allow pkg="org.slc.sli.entity"/>
+    <allow pkg="org.slc.sli.manager"/>
+    <allow pkg="org.slc.sli.util"/>
+    <allow pkg="org.slc.sli.client"/>
+    <allow pkg="org.slc.sli.security"/>
+    <subpackage name="util">
+        <allow pkg="freemarker"/>
+    </subpackage>
+  </subpackage>
+
+  <subpackage name="unit">
+    <allow pkg="org.slc.sli.unit"/>
+    <allow pkg="org.slc.sli.client"/>
+    <allow pkg="org.slc.sli.entity"/>
+    <allow pkg="org.slc.sli.manager"/>
+    <allow pkg="org.slc.sli.security"/>
+    <allow pkg="org.slc.sli.util"/>
+    <allow pkg="org.slc.sli.web"/>
+    <allow pkg="net.sf.ehcache"/>
+  </subpackage>
+  <!-- end of dashboard subpackages -->
+
+  <subpackage name="dashboard">
+    <allow pkg="org.slc.sli.dashboard"/>
+    <allow pkg="org.slc.sli.entity"/>
+    <allow pkg="org.slc.sli.manager"/>
+    <allow pkg="org.slc.sli.security"/>
+    <allow pkg="org.slc.sli.util"/>
+    <allow pkg="org.slc.sli.web"/>
+  </subpackage>
+
+  <subpackage name="sandbox">
+    <allow pkg="org.slc.sli.sandbox"/>
+    <allow pkg="org.slc.sli.api.security"/>
+  </subpackage>
+
+  <subpackage name="sample">
+    <allow pkg="org.slc.sli.sample"/>
+  </subpackage>
+
+</import-control>
