@@ -52,14 +52,13 @@ public class SecurityCriteriaTest {
     @Test
     public void testApplySecurityCriteria() {
         injector.setAccessAllAdminContext();
-        
+
         SecurityCriteria securityCriteria = new SecurityCriteria();
         securityCriteria.setSecurityCriteria(new NeutralCriteria("key", "in", "value"));
 
         NeutralQuery query = new NeutralQuery();
         query = securityCriteria.applySecurityCriteria(query);
 
-        
         assertEquals("Should match", 2, query.getOrQueries().size());
     }
 

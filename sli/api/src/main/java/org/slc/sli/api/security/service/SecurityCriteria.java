@@ -67,13 +67,9 @@ public class SecurityCriteria {
         if (blacklistCriteria != null) {
             query.addCriteria(blacklistCriteria);
         }
-
         query.addOrQuery(new NeutralQuery(securityCriteria));
         query.addOrQuery(createdByQuery);
-        
 
-        
-        
         return query;
     }
 }
