@@ -3,9 +3,8 @@ package org.slc.sli.aggregation;
 import java.io.IOException;
 
 import org.apache.hadoop.io.DoubleWritable;
+import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
-
-import com.mongodb.hadoop.io.BSONWritable;
 
 /**
  * Reducer to get the highest value
@@ -13,10 +12,10 @@ import com.mongodb.hadoop.io.BSONWritable;
  * @author nbrown
  *
  */
-public class Highest extends Reducer<BSONWritable, DoubleWritable, BSONWritable, DoubleWritable>{
+public class Highest extends Reducer<Text, DoubleWritable, Text, DoubleWritable>{
 
     @Override
-    protected void reduce(BSONWritable id, Iterable<DoubleWritable> scoreResults, Context context)
+    protected void reduce(Text id, Iterable<DoubleWritable> scoreResults, Context context)
             throws IOException, InterruptedException {
         DoubleWritable highest = null;
         for(DoubleWritable scoreResult: scoreResults){
