@@ -15,7 +15,7 @@
             <StateAbbreviation>AK</StateAbbreviation>
             <PostalCode>12345</PostalCode>
             <NameOfCounty>County</NameOfCounty>
-            <CountyFIPSCode>FIPS</CountyFIPSCode>
+            <CountyFIPSCode>00000</CountyFIPSCode>
             <Latitude>1111</Latitude>
             <Longitude>22222</Longitude>
             <BeginDate>2011-03-04</BeginDate>
@@ -42,7 +42,7 @@
             <StateAbbreviation>AK</StateAbbreviation>
             <PostalCode>12345</PostalCode>
             <NameOfCounty>County</NameOfCounty>
-            <CountyFIPSCode>FIPS</CountyFIPSCode>
+            <CountyFIPSCode>00000</CountyFIPSCode>
             <Latitude>1111</Latitude>
             <Longitude>22222</Longitude>
             <BeginDate>2011-03-04</BeginDate>
@@ -85,7 +85,7 @@
             <StateAbbreviation>AK</StateAbbreviation>
             <PostalCode>12345</PostalCode>
             <NameOfCounty>County</NameOfCounty>
-            <CountyFIPSCode>FIPS</CountyFIPSCode>
+            <CountyFIPSCode>00000</CountyFIPSCode>
             <Latitude>1111</Latitude>
             <Longitude>22222</Longitude>
             <BeginDate>2011-03-04</BeginDate>
@@ -155,7 +155,7 @@
             <StateAbbreviation>AK</StateAbbreviation>
             <PostalCode>12345</PostalCode>
             <NameOfCounty>County</NameOfCounty>
-            <CountyFIPSCode>FIPS</CountyFIPSCode>
+            <CountyFIPSCode>00000</CountyFIPSCode>
             <Latitude>1111</Latitude>
             <Longitude>22222</Longitude>
             <BeginDate>2011-03-04</BeginDate>
@@ -189,7 +189,7 @@
             <StateAbbreviation>AK</StateAbbreviation>
             <PostalCode>12345</PostalCode>
             <NameOfCounty>County</NameOfCounty>
-            <CountyFIPSCode>FIPS</CountyFIPSCode>
+            <CountyFIPSCode>00000</CountyFIPSCode>
             <Latitude>1111</Latitude>
             <Longitude>22222</Longitude>
             <BeginDate>2011-03-04</BeginDate>
@@ -265,7 +265,7 @@
             <StateAbbreviation>AK</StateAbbreviation>
             <PostalCode>12345</PostalCode>
             <NameOfCounty>County</NameOfCounty>
-            <CountyFIPSCode>FIPS</CountyFIPSCode>
+            <CountyFIPSCode>00000</CountyFIPSCode>
             <Latitude>1111</Latitude>
             <Longitude>22222</Longitude>
             <BeginDate>2011-03-04</BeginDate>
@@ -341,7 +341,7 @@
             <StateAbbreviation>AK</StateAbbreviation>
             <PostalCode>12345</PostalCode>
             <NameOfCounty>County</NameOfCounty>
-            <CountyFIPSCode>FIPS</CountyFIPSCode>
+            <CountyFIPSCode>00000</CountyFIPSCode>
             <Latitude>1111</Latitude>
             <Longitude>22222</Longitude>
             <BeginDate>2011-03-04</BeginDate>
@@ -417,7 +417,7 @@
             <StateAbbreviation>AK</StateAbbreviation>
             <PostalCode>12345</PostalCode>
             <NameOfCounty>County</NameOfCounty>
-            <CountyFIPSCode>FIPS</CountyFIPSCode>
+            <CountyFIPSCode>00000</CountyFIPSCode>
             <Latitude>1111</Latitude>
             <Longitude>22222</Longitude>
             <BeginDate>2011-03-04</BeginDate>
@@ -493,7 +493,7 @@
             <StateAbbreviation>AK</StateAbbreviation>
             <PostalCode>12345</PostalCode>
             <NameOfCounty>County</NameOfCounty>
-            <CountyFIPSCode>FIPS</CountyFIPSCode>
+            <CountyFIPSCode>00000</CountyFIPSCode>
             <Latitude>1111</Latitude>
             <Longitude>22222</Longitude>
             <BeginDate>2011-03-04</BeginDate>
