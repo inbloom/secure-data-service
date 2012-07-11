@@ -63,7 +63,9 @@
 	</bean>
 	<bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
 		<property name="url" value="ldap://ldap.slidev.org:389" />
-		<property name="base" value="dc=slidev,dc=org" />
+		<property name="base" value="ou=DevTest,dc=slidev,dc=org" />
+		<property name="userDn" value="cn=DevLDAP User, ou=People,dc=slidev,dc=org" />
+        <property name="password" value="Y;Gtf@w{" />
 	</bean>
 	<bean
 		class="org.springframework.ldap.core.support.BaseLdapPathBeanPostProcessor" />

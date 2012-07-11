@@ -25,7 +25,9 @@ public interface LdapService {
 
     public String createUser(String realm, User user);
 
-    public String updateUser(String realm, User user);
+    public boolean updateUser(String realm, User user);
+    
+    public boolean updateGroup(String realm, Group group);
 
     public List<User> findUserByGroups(String realm, List<String> groupNames);
 

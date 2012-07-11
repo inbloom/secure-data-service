@@ -67,5 +67,5 @@ public class UserContextMapper implements ContextMapper {
         }
         return user;
     }
-
+    
 }
