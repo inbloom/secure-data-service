@@ -165,9 +165,10 @@ public final class XmiMappingReader {
             throws XMLStreamException {
         assertStartElement(reader);
         assertName(elementName, reader);
-        String type = null;
+        String className = null;
         String name = null;
-        boolean defined = true;
+        boolean exists = true;
+        boolean classExists = true;
         boolean done = false;
         while (!done && reader.hasNext()) {
             reader.next();
@@ -175,10 +176,12 @@ public final class XmiMappingReader {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(XmiMappingConstants.NAME, reader)) {
                         name = readStringContent(reader.getName(), reader);
-                    } else if (match(XmiMappingConstants.TYPE, reader)) {
-                        type = readStringContent(reader.getName(), reader);
-                    } else if (match(XmiMappingConstants.DEFN, reader)) {
-                        defined = readBooleanContent(reader.getName(), reader, true);
+                    } else if (match(XmiMappingConstants.OWNER_NAME, reader)) {
+                        className = readStringContent(reader.getName(), reader);
+                    } else if (match(XmiMappingConstants.EXISTS, reader)) {
+                        exists = readBooleanContent(reader.getName(), reader, true);
+                    } else if (match(XmiMappingConstants.OWNER_EXISTS, reader)) {
+                        classExists = readBooleanContent(reader.getName(), reader, true);
                     } else {
                         throw new AssertionError(reader.getLocalName());
                     }
@@ -199,7 +202,7 @@ public final class XmiMappingReader {
                 }
             }
         }
-        return new XmiFeature(name, type, defined);
+        return new XmiFeature(name, exists, className, classExists);
     }
     
     private static final XmiMapping readMapping(final XMLStreamReader reader) throws XMLStreamException {
@@ -215,7 +218,11 @@ public final class XmiMappingReader {
             switch (reader.getEventType()) {
                 case XMLStreamConstants.START_ELEMENT: {
                     if (match(XmiMappingConstants.LHS_FEATURE, reader)) {
-                        lhs = readFeature(reader.getName(), reader);
+                        if (lhs == null) {
+                            lhs = readFeature(reader.getName(), reader);
+                        } else {
+                            throw new XMLStreamException("duplicate " + XmiMappingConstants.LHS_FEATURE + " tag.");
+                        }
                     } else if (match(XmiMappingConstants.RHS_FEATURE, reader)) {
                         rhs = readFeature(reader.getName(), reader);
                     } else if (match(XmiMappingConstants.STATUS, reader)) {

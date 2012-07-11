@@ -1,29 +1,22 @@
 package org.slc.sli.modeling.xmicomp;
 
 public final class XmiFeature {
-    /**
-     * The class that the feature belongs to.
-     */
-    private final String type;
-    /**
-     * The name of the feature.
-     */
     private final String name;
-    /**
-     * Whether the feature exists.
-     */
-    private final boolean defined;
+    private final boolean exists;
+    private final String className;
+    private final boolean classExists;
     
-    public XmiFeature(final String featureName, final String type, final boolean defined) {
-        if (null == featureName) {
-            throw new NullPointerException("featureName");
+    public XmiFeature(final String name, final boolean exists, final String className, final boolean classExists) {
+        if (null == name) {
+            throw new NullPointerException("name");
         }
-        if (null == type) {
-            throw new NullPointerException("type");
+        if (null == className) {
+            throw new NullPointerException("className");
         }
-        this.name = featureName;
-        this.type = type;
-        this.defined = defined;
+        this.name = name;
+        this.exists = exists;
+        this.className = className;
+        this.classExists = classExists;
     }
     
     /**
@@ -36,19 +29,21 @@ public final class XmiFeature {
     /**
      * The type that is the owner of the feature.
      */
-    public String getType() {
-        return type;
+    public String getOwnerName() {
+        return className;
     }
     
-    /**
-     * Whether the feature exists.
-     */
-    public boolean isDefined() {
-        return defined;
+    public boolean ownerExists() {
+        return classExists;
+    }
+    
+    public boolean exists() {
+        return exists;
     }
     
     @Override
     public String toString() {
-        return String.format("{name : %s, type : %s, defined : %s}", name, type, defined);
+        return String.format("{name : %s, exists : %s, className : %s, classExists : %s}", name, exists, className,
+                classExists);
     }
 }

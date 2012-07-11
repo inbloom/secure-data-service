@@ -71,12 +71,17 @@ public final class XmiComp {
                     final ModelIndex rhsModel = new DefaultModelIndex(XmiReader.readModel(rhsFile));
                     
                     final String mergeComment = "";
-                    final List<XmiMapping> mappings = mergeMappingDocument(original, lhsModel, rhsModel, mergeComment);
-                    final XmiDefinition lhsDef = original.getLhsDef();
-                    final XmiDefinition rhsDef = original.getRhsDef();
-                    final XmiComparison revised = new XmiComparison(lhsDef, rhsDef, mappings);
-                    // Write out the revised mapping document.
-                    XmiMappingWriter.writeMappingDocument(revised, outFile);
+                    try {
+                        final List<XmiMapping> mappings = mergeMappingDocument(original, lhsModel, rhsModel,
+                                mergeComment);
+                        final XmiDefinition lhsDef = original.getLhsDef();
+                        final XmiDefinition rhsDef = original.getRhsDef();
+                        final XmiComparison revised = new XmiComparison(lhsDef, rhsDef, mappings);
+                        // Write out the revised mapping document.
+                        XmiMappingWriter.writeMappingDocument(revised, outFile);
+                    } catch (final XmiMappingException e) {
+                        System.err.println(e.getMessage());
+                    }
                 } catch (final FileNotFoundException e) {
                     throw new RuntimeException(e);
                 }
@@ -93,7 +98,7 @@ public final class XmiComp {
     }
     
     private static final List<XmiMapping> mergeMappingDocument(final XmiComparison doc, final ModelIndex lhsModel,
-            final ModelIndex rhsModel, final String mergeComment) {
+            final ModelIndex rhsModel, final String mergeComment) throws XmiMappingException {
         
         final List<XmiMapping> existing = checkDeclaredMappingConsistency(doc, lhsModel, rhsModel);
         
@@ -106,24 +111,25 @@ public final class XmiComp {
     }
     
     private static final List<XmiMapping> merge(final Map<CaseInsensitiveQName, XmiFeature> lhsMissing,
-            final Map<CaseInsensitiveQName, XmiFeature> rhsMissing, final List<XmiMapping> existing,
-            final String mergeComment) {
+            final Map<CaseInsensitiveQName, XmiFeature> rhsMissing, final List<XmiMapping> mappings,
+            final String mergeComment) throws XmiMappingException {
+        
+        final List<XmiMapping> existingCopy = new LinkedList<XmiMapping>(mappings);
         
         final Map<CaseInsensitiveQName, XmiFeature> lhsCopy = new HashMap<CaseInsensitiveQName, XmiFeature>(lhsMissing);
         final Map<CaseInsensitiveQName, XmiFeature> rhsCopy = new HashMap<CaseInsensitiveQName, XmiFeature>(rhsMissing);
         
         // Make a copy of the original mappings so that it can be mutated.
-        final List<XmiMapping> existingCopy = new LinkedList<XmiMapping>(existing);
         // Merge missing features from each model into the new mappings.
         XmiMappingHelper.mergeMissingFeatures(lhsCopy, existingCopy, true, mergeComment);
         XmiMappingHelper.mergeMissingFeatures(rhsCopy, existingCopy, false, mergeComment);
         // What is left are the features that are not already in the existing mappings.
         // Some of these may be common and can therefore be matched.
         
-        XmiMappingHelper.mergeCommonFeatures(lhsCopy, rhsCopy, existingCopy, mergeComment);
+        XmiMappingHelper.commonMappings(existingCopy, lhsCopy, rhsCopy, mergeComment);
         
-        XmiMappingHelper.mergeRemaining(lhsCopy, existingCopy, true, mergeComment);
-        XmiMappingHelper.mergeRemaining(rhsCopy, existingCopy, false, mergeComment);
+        XmiMappingHelper.appendRemaining(lhsCopy, existingCopy, true, mergeComment);
+        XmiMappingHelper.appendRemaining(rhsCopy, existingCopy, false, mergeComment);
         
         // Verify that we accounted for everything.
         if (lhsCopy.size() > 0) {
@@ -143,22 +149,28 @@ public final class XmiComp {
             final ModelIndex lhsModel, final ModelIndex rhsModel) {
         // Prepare case-insensitive lookup tables so that we don't have to be concerned about
         // case sensitivity for existence checking.
-        final Map<CaseInsensitiveName, ClassType> lhsClassTypes = XmiMappingHelper.makeLowerCaseKey(lhsModel
+        final Map<CaseInsensitiveString, ClassType> lhsClassTypes = XmiMappingHelper.toCaseInsensitiveKey(lhsModel
                 .getClassTypes());
-        final Map<CaseInsensitiveName, ClassType> rhsClassTypes = XmiMappingHelper.makeLowerCaseKey(rhsModel
+        final Map<CaseInsensitiveString, ClassType> rhsClassTypes = XmiMappingHelper.toCaseInsensitiveKey(rhsModel
                 .getClassTypes());
         final List<XmiMapping> mappings = mappingDocument.getMappings();
         final List<XmiMapping> revised = new ArrayList<XmiMapping>(mappings.size());
         for (final XmiMapping mapping : mappings) {
-            checkMapping(mappingDocument, mapping, lhsModel, rhsModel, lhsClassTypes, rhsClassTypes);
+            final XmiMapping revisedMapping = checkMapping(mappingDocument, mapping, lhsModel, rhsModel, lhsClassTypes,
+                    rhsClassTypes);
+            if (revisedMapping != null) {
+                revised.add(revisedMapping);
+            } else {
+                throw new AssertionError();
+            }
         }
         return Collections.unmodifiableList(revised);
     }
     
     private static final XmiMapping checkMapping(final XmiComparison mappingDocument, final XmiMapping mapping,
             final ModelIndex lhsModel, final ModelIndex rhsModel,
-            final Map<CaseInsensitiveName, ClassType> lhsClassTypes,
-            final Map<CaseInsensitiveName, ClassType> rhsClassTypes) {
+            final Map<CaseInsensitiveString, ClassType> lhsClassTypes,
+            final Map<CaseInsensitiveString, ClassType> rhsClassTypes) {
         if (mapping == null) {
             throw new NullPointerException("mapping");
         }
@@ -177,17 +189,17 @@ public final class XmiComp {
         return new XmiMapping(lhsFeature, rhsFeature, mapping.getStatus(), mapping.getComment());
     }
     
-    private static final Map<CaseInsensitiveName, Feature> computeFeatures(final ClassType classType,
+    private static final Map<CaseInsensitiveString, Feature> computeFeatures(final ClassType classType,
             final ModelIndex model) {
         if (classType == null) {
             throw new NullPointerException("classType");
         }
-        final Map<CaseInsensitiveName, Feature> features = new HashMap<CaseInsensitiveName, Feature>();
+        final Map<CaseInsensitiveString, Feature> features = new HashMap<CaseInsensitiveString, Feature>();
         for (final Attribute attribute : classType.getAttributes()) {
-            features.put(new CaseInsensitiveName(attribute.getName()), attribute);
+            features.put(new CaseInsensitiveString(attribute.getName()), attribute);
         }
         for (final AssociationEnd associationEnd : model.getAssociationEnds(classType.getId())) {
-            features.put(new CaseInsensitiveName(associationEnd.getName()), associationEnd);
+            features.put(new CaseInsensitiveString(associationEnd.getName()), associationEnd);
         }
         return features;
     }
@@ -196,25 +208,29 @@ public final class XmiComp {
      * Verify that every feature referenced in the mapping file actually exists
      * in the XMI model.
      */
-    private static final XmiFeature checkFeature(final XmiDefinition context, final XmiFeature feature,
-            final ModelIndex model, final XmiMappingStatus status, final Map<CaseInsensitiveName, ClassType> classTypes) {
-        final CaseInsensitiveName type = new CaseInsensitiveName(feature.getType());
+    private static final XmiFeature checkFeature(final XmiDefinition context, final XmiFeature mapFeature,
+            final ModelIndex model, final XmiMappingStatus status,
+            final Map<CaseInsensitiveString, ClassType> classTypes) {
+        
+        final String mapClassName = mapFeature.getOwnerName();
+        final String mapFeatureName = mapFeature.getName();
+        
+        final CaseInsensitiveString type = new CaseInsensitiveString(mapClassName);
         if (classTypes.containsKey(type)) {
             final ClassType classType = classTypes.get(type);
-            
+            final String umlClassName = classType.getName();
             // FIXME: Horribly inefficient to recalculate this.
-            final Map<CaseInsensitiveName, Feature> features = computeFeatures(classType, model);
-            final CaseInsensitiveName name = new CaseInsensitiveName(feature.getName());
+            final Map<CaseInsensitiveString, Feature> features = computeFeatures(classType, model);
+            final CaseInsensitiveString name = new CaseInsensitiveString(mapFeatureName);
             if (features.containsKey(name)) {
-                return new XmiFeature(features.get(name).getName(), classType.getName(), true);
+                final Feature umlFeature = features.get(name);
+                final String umlFeatureName = umlFeature.getName();
+                return new XmiFeature(umlFeatureName, true, umlClassName, true);
             } else {
-                System.err.println(feature.getType() + "." + feature.getName() + " in " + context.getName()
-                        + " is not a recognized feature.");
-                return new XmiFeature(feature.getName(), classType.getName(), true);
+                return new XmiFeature(mapFeatureName, false, umlClassName, true);
             }
         } else {
-            System.err.println(feature.getType() + " in " + context.getName() + " is not a recognized class type.");
-            return new XmiFeature(feature.getName(), feature.getType(), false);
+            return new XmiFeature(mapFeatureName, false, mapClassName, false);
         }
     }
     

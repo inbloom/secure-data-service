@@ -29,9 +29,7 @@ public final class XmiMappingHelper {
             final ClassType classType, final Feature feature, final XmiDefinition which) {
         final CaseInsensitiveQName name = makeKey(classType, feature);
         if (!declaredFeatures.containsKey(name)) {
-            final String className = classType.getName();
-            final String featureName = feature.getName();
-            return new XmiFeature(featureName, className, true);
+            return new XmiFeature(feature.getName(), true, classType.getName(), true);
         } else {
             return null;
         }
@@ -51,26 +49,44 @@ public final class XmiMappingHelper {
         if (feature == null) {
             throw new NullPointerException("feature");
         }
-        return new CaseInsensitiveQName(feature.getType(), feature.getName());
+        return new CaseInsensitiveQName(feature.getOwnerName(), feature.getName());
     }
     
-    private static final Map<CaseInsensitiveQName, Integer> makeView(final List<XmiMapping> mappings,
-            final boolean isLHS) {
+    private static final Map<CaseInsensitiveQName, Integer> makeCaseInsensitiveNameToIndexMapping(
+            final List<XmiMapping> mappings, final boolean isLHS) throws XmiMappingException {
         final Map<CaseInsensitiveQName, Integer> view = new HashMap<CaseInsensitiveQName, Integer>();
         for (int index = 0; index < mappings.size(); index++) {
             final XmiMapping mapping = mappings.get(index);
             final XmiFeature feature = isLHS ? mapping.getLhsFeature() : mapping.getRhsFeature();
             if (feature != null) {
-                view.put(new CaseInsensitiveQName(feature.getType(), feature.getName()), index);
+                final CaseInsensitiveQName key = new CaseInsensitiveQName(feature.getOwnerName(), feature.getName());
+                if (view.containsKey(key)) {
+                    throw new XmiMappingException("feature : " + feature.getOwnerName() + "." + feature.getName()
+                            + " already exists.");
+                } else {
+                    view.put(key, index);
+                }
             }
         }
         return view;
     }
     
-    public static final void mergeCommonFeatures(final Map<CaseInsensitiveQName, XmiFeature> lhsMissing,
-            final Map<CaseInsensitiveQName, XmiFeature> rhsMissing, final List<XmiMapping> mappings,
-            final String mergeComment) {
+    /**
+     * Determines the features that are common in the two input lists.
+     * 
+     * @param lhsMissing
+     *            The features that are missing in the LHS.
+     * @param rhsMissing
+     *            The features that are missing in the RHS.
+     * @param mergeComment
+     *            A comment to use with the new mapping.
+     */
+    public static final void commonMappings(final List<XmiMapping> mappings,
+            final Map<CaseInsensitiveQName, XmiFeature> lhsMissing,
+            final Map<CaseInsensitiveQName, XmiFeature> rhsMissing, final String mergeComment) {
+        
         final Set<CaseInsensitiveQName> common = commonFeatures(lhsMissing.keySet(), rhsMissing.keySet());
+        
         for (final CaseInsensitiveQName name : common) {
             mappings.add(new XmiMapping(lhsMissing.get(name), rhsMissing.get(name), XmiMappingStatus.MATCH,
                     mergeComment));
@@ -79,24 +95,43 @@ public final class XmiMappingHelper {
         }
     }
     
-    public static final void mergeMissingFeatures(final Map<CaseInsensitiveQName, XmiFeature> missing,
-            final List<XmiMapping> mappings, final boolean isLHS, final String mergeComment) {
-        final Map<CaseInsensitiveQName, Integer> view = XmiMappingHelper.makeView(mappings, !isLHS);
-        final Set<CaseInsensitiveQName> missingNames = new HashSet<CaseInsensitiveQName>(missing.keySet());
+    /**
+     * We have identified some features that are missing on either the LHS or the RHS. Merge these
+     * features, where possible, with existing mappings. This function uses side effects.
+     * 
+     * @param features
+     *            The missing features.
+     * @param mappings
+     *            The current mappings (assumed to be mutable).
+     * @param isLHS
+     *            The side of the missing features.
+     * @param mergeComment
+     *            The comment to put on merged records.
+     */
+    public static final void mergeMissingFeatures(final Map<CaseInsensitiveQName, XmiFeature> features,
+            final List<XmiMapping> mappings, final boolean isLHS, final String mergeComment) throws XmiMappingException {
+        
+        // Just to be explicit, and to show the symmetry, we'll create the complementary variable.
+        final boolean isRHS = !isLHS;
+        
+        final Map<CaseInsensitiveQName, Integer> view = XmiMappingHelper.makeCaseInsensitiveNameToIndexMapping(
+                mappings, isRHS);
+        
+        final Set<CaseInsensitiveQName> missingNames = new HashSet<CaseInsensitiveQName>(features.keySet());
         for (final CaseInsensitiveQName missingName : missingNames) {
             if (view.containsKey(missingName)) {
                 final int index = view.get(missingName);
                 final XmiMapping oldMapping = mappings.get(index);
-                final XmiFeature lhs = isLHS ? missing.get(missingName) : oldMapping.getLhsFeature();
-                final XmiFeature rhs = isLHS ? oldMapping.getRhsFeature() : missing.get(missingName);
+                final XmiFeature lhs = isLHS ? features.get(missingName) : oldMapping.getLhsFeature();
+                final XmiFeature rhs = isRHS ? features.get(missingName) : oldMapping.getRhsFeature();
                 final XmiMapping newMapping = new XmiMapping(lhs, rhs, XmiMappingStatus.MATCH, mergeComment);
                 mappings.set(index, newMapping);
-                missing.remove(missingName);
+                features.remove(missingName);
             }
         }
     }
     
-    public static void mergeRemaining(final Map<CaseInsensitiveQName, XmiFeature> features,
+    public static void appendRemaining(final Map<CaseInsensitiveQName, XmiFeature> features,
             final List<XmiMapping> mappings, final boolean isLHS, final String comment) {
         if (comment == null) {
             throw new NullPointerException("comment");
@@ -142,12 +177,12 @@ public final class XmiMappingHelper {
         return Collections.unmodifiableMap(missingFeatures);
     }
     
-    public static final <T> Map<CaseInsensitiveName, T> makeLowerCaseKey(final Map<String, T> map) {
-        final Map<CaseInsensitiveName, T> copy = new HashMap<CaseInsensitiveName, T>(map.size());
+    public static final <T> Map<CaseInsensitiveString, T> toCaseInsensitiveKey(final Map<String, T> map) {
+        final Map<CaseInsensitiveString, T> caseInsensitiveMap = new HashMap<CaseInsensitiveString, T>(map.size());
         for (final String key : map.keySet()) {
-            copy.put(new CaseInsensitiveName(key), map.get(key));
+            caseInsensitiveMap.put(new CaseInsensitiveString(key), map.get(key));
         }
-        return copy;
+        return Collections.unmodifiableMap(caseInsensitiveMap);
     }
     
     private XmiMappingHelper() {
