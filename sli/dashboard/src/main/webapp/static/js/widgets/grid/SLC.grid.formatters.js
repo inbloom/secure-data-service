@@ -285,6 +285,16 @@ SLC.namespace('SLC.grid.formatters', (function () {
 	      }
 		}
 		
+		function dataColorBox(value, options, rowObject) {
+			var cssClass = options.colModel.formatoptions.style;
+	      
+			if (typeof cssClass === 'string') {
+				return '<span class=' + cssClass + '>' + value + '</span>';
+			} else {
+				return value;
+			}
+		}
+		
 		return {
 			CutPoint: CutPoint,
 			CutPointReverse: CutPointReverse,
@@ -294,7 +304,8 @@ SLC.namespace('SLC.grid.formatters', (function () {
 			FuelGauge: FuelGauge,
 			Grade: Grade,
 			TearDrop: TearDrop,
-			restLink: restLink
+			restLink: restLink,
+			dataColorBox: dataColorBox
 		};
 	}())
 );

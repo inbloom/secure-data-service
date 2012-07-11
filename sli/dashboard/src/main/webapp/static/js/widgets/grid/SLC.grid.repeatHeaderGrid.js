@@ -44,7 +44,8 @@ SLC.namespace('SLC.grid.repeatHeaderGrid', (function () {
 		        height: 'auto',
 		        viewrecords: true,
 		        autoencode: true,
-		        rowNum: 10000
+		        rowNum: 10000,
+		        rownumbers:true
 			};
 		
 	        if (panelData === null || panelData === undefined || panelData.length < 1) {
@@ -54,11 +55,12 @@ SLC.namespace('SLC.grid.repeatHeaderGrid', (function () {
 					gridOptions = $.extend(gridOptions, options);
 			    }
 			    for (i = 0; i < panelData.length; i++) {
-					gridOptions.data = [panelData[i]];
 					var tableID = tableId + "_" + i;
 					document.write("<div class='ui-widget-no-border p10'><table id=" + tableID + "></table></div>");
-					//$("#repeatHeaderGridWrapper").append(tableID);
+					
+					gridOptions.data = [panelData[i]];
 					$("#" + tableID).slcGrid(columnItems, gridOptions); 
+					
 				}
 				return true;
 			}

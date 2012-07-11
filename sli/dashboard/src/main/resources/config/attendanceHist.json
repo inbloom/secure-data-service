@@ -15,8 +15,8 @@
     {id: "col1", name: "Grade Level", type:"FIELD", datatype: "string", field: "gradeLevel", align: "right", width: 75},
     {id: "col2", name: "% Present", type:"FIELD", datatype: "string", field: "present", align: "right", width: 75},
     {id: "col3", name: "Total Absences", type:"FIELD", datatype: "string", field: "totalAbsencesCount", align: "right", width: 75},
-    {id: "col4", name: "Excused", type:"FIELD", datatype: "string", field: "excusedAbsenceCount", style:"color-column-blue", align: "right", width: 75},
-    {id: "col5", name: "Unexcused", type:"FIELD", datatype: "string", field: "unexcusedAbsenceCount", style:"color-column-red", align: "right", width: 75},
-    {id: "col6", name: "Tardy", type:"FIELD", datatype: "string", field: "tardyCount", style:"color-column-orange", align: "right", width: 75}
+    {id: "col4", name: "Excused", type:"FIELD", datatype: "string", field: "excusedAbsenceCount", style:"color-column-blue", align: "right", width: 70},
+    {id: "col5", name: "Unexcused", type:"FIELD", datatype: "string", field: "unexcusedAbsenceCount", style:"color-column-red", align: "right", width: 80},
+    {id: "col6", name: "Tardy", type:"FIELD", datatype: "string", field: "tardyCount", style:"color-column-orange", align: "right", width: 60, formatter: 'dataColorBox', params: {style:'color-box-orange'}}
   ] 
 }
