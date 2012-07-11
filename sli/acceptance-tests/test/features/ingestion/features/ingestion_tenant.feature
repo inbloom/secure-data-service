@@ -28,8 +28,8 @@ Then I should see following map of entry counts in the corresponding collections
   
   
 Scenario: Add a landing zone to an existing tenant
-Given I add a new landing zone for "IL-Newtowne"
-  And I am using preconfigured Ingestion Landing Zone for "IL-Newtowne"
+Given I add a new landing zone for "Midgar-Newtowne"
+  And I am using preconfigured Ingestion Landing Zone for "Midgar-Newtowne"
   And I post "tenant.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
      | collectionName              |
@@ -42,7 +42,7 @@ Then I should see following map of entry counts in the corresponding collections
      | student                     | 1     |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue      | searchType           |
-     | student                     | 1                   | metaData.tenantId           | IL               | string               |
+     | student                     | 1                   | metaData.tenantId           | Midgar           | string               |
   And I should see "Processed 1 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "tenant.xml records considered: 1" in the resulting batch job file
