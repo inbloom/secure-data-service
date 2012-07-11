@@ -16,9 +16,24 @@ limitations under the License.
 
 =end
 
-
+# This module contains a lot of the recursive view logic needed to display
+# items correctly in the databrowser views.
+#
+# The basic process is that the data gets split into the simple view and
+# a complex view which represent the full entity and the tabular list of
+# entities.
+#
+# To build and display them we go through a number of different methods to
+# pull out the configured table columns based on the entity type and move
+# the data into those columns
+#
+# Some of the columns are are also based on what we have configured in
+# config/views.yml
+#
 module EntitiesHelper
 
+  # Here we go through the entities the API has returned and figure out what
+  # type it is and then get the table columns out of set up.
   def get_table_fields(entities)
     tableFields = Array.new
     return tableFields if entities.nil? || (entities.is_a?(Array) && entities.empty?)
@@ -39,6 +54,13 @@ module EntitiesHelper
     return tableFields
   end
 
+  # Because entities are complex json objects this method will look at the
+  # "path" we have described to extract the data to show in the table, and then
+  # dig into that data to pull out the individual items
+  #
+  # At this point it doesn't support Arrays in complex types, it will just take
+  # the first item in that array. Some example of where this will happen are in
+  # addresses and names.
   def value_for_table_view (type, entity)
     return nil if entity.nil? or type.nil?
     return entity[type] unless type.include? '/'
@@ -56,10 +78,16 @@ module EntitiesHelper
     temp_hash
   end
 
+  # This method takes an API URL and then does a simple substitution to change
+  # it to point to the databrowser instead, this is how we make the HATEOS
+  # links work.
   def localize_url(url)
     url.gsub(APP_CONFIG['api_base'], "#{request.protocol}#{request.host_with_port}/entities") unless url.nil?
   end
 
+  # Here we detect links and turn it into an unordered list of links that
+  # reference the databrowser instead of the API. We also use the i18n
+  # translation file to make some of the links more readable.
   def build_links(hash)
     html = ""
     if hash.is_a?(Array)
@@ -74,6 +102,13 @@ module EntitiesHelper
     html
   end
 
+  # This method is pretty complex, it's recursive, so what it does is it digs
+  # through the hashmap of data we have available and builds a definition list
+  # of the data to all be displayed. It makes use of the other methods in this
+  # module to accomplish this
+  #
+  # We would like to support nested lists, but at this point everything winds
+  # up flattened in one single definition list.
   def display_entity (entity)
     html ||= ""
     if entity.is_a?(Hash)

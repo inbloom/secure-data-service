@@ -17,7 +17,20 @@ needed to actually access the SLC Api. Second, is the callback. You will want to
 "/callback" with the url to where you have the SLC Databrowser running. Finally the client_id and
 client_secret are the two pieces of information you need to complete OAuth with this app. You can get these
 values by going through the application registration process with the SLC. Once you have completed these
-steps you can fill in the appropriate values.
+steps you can fill in the appropriate values. You'll also find we use an OAuth library to help with some
+of the internals. You can find it in the lib directory.
+
+There are also some other configurations that you can use to make the application a little more friendly.
+First up is the standard i18n translations available in config/locals that we use to help make the
+not-so-friendly API names a bit more understandable. You can customize this by adding and changing
+the entries in there (And actually localize!).
+
+Also, in the config directory there is a views.yml file which will indicate on a per-entity basis what
+rows to display in the table of entities. If you don't specify anything it will default to taking the
+first 4 or 5 items it finds in the entities themselves. This particular configuration file also has
+some interesting things. Once you find the type of data like +student+ you'll notice there are entries
+like +name/firstName+. These indicate where in the data to look for the actual values to put into the
+table cell. So in that case it would do something like this student[:name][:firstName].
 
 *Running the App*
 There are two ways you can run the application. First, is the common "rails server". Second, is to use thin.
@@ -28,9 +41,8 @@ of it you can do something like: "bundle exec thin -C config/thin.yml start"
 There are unit tests packaged in the test directory which can be started with the standard, "bundle exec rake".
 We also use cucumber to do behavior tests.
 
-TODO: Cucumber notes.
-
 *Localization*
 We make use of the localization in the config/locales directory to translate some of the fields that the Api
 Would return. Simple things like 'firstName' would be translated to 'First Name', and so on.
+
 

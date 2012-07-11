@@ -19,7 +19,15 @@ limitations under the License.
 
 require "active_resource/base"
 require "oauth_helper"
-
+# This is the standard base controller class that all others in the databrowser
+# (and Rails) inherits from. We take advantage and put some common
+# functionality here
+#
+# Namely we have a before_filter that will handle the basic oauth functionality
+# to ensure you have a valid API token
+#
+# We also catch most of the common ActiveResource exceptions and force them to 
+# display flash messages, clear your rails session, etc.
 class ApplicationController < ActionController::Base
   protect_from_forgery
   ActionController::Base.request_forgery_protection_token = 'state'
