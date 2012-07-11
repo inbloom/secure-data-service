@@ -16,6 +16,7 @@ limitations under the License.
 
 =end
 
+require 'fileutils'
 
 module LandingZoneHelper
 
@@ -44,7 +45,10 @@ module LandingZoneHelper
   end
 
   def self.create_key(key, uid)
-    keyFile = File.join(APP_CONFIG['rsa_key_dir'], uid)
+    rsaKeyDir = APP_CONFIG['rsa_key_dir']
+    # ensure the rsa key directory exists
+    FileUtils.makedirs(rsaKeyDir)
+    keyFile = File.join(rsaKeyDir, uid)
     Rails.logger.debug("Writing public key to #{keyFile}")
     file = File.new(keyFile, "w")
     file.write(key)
