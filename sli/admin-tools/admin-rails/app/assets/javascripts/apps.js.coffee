@@ -25,4 +25,14 @@ jQuery ->
         $(@).prop('checked', true)
       else
         $(@).prop('checked', false)
-    
+
+jQuery ->
+  $('#installed > :checkbox').click ->
+    state = $(@).prop('checked')
+    if state
+      $('#redirect_uri > :input').prop('disabled', true)
+      $('#application_url > :input').prop('disabled', true)
+    else
+      $('#redirect_uri > :input').prop('disabled', false)
+      $('#application_url > :input').prop('disabled', false)
+

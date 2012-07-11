@@ -37,7 +37,7 @@
 	<span class="help-inline"> Your company Name</span>
 </div>
 
-<div class = "field well">
+<div class = "field well" id='application_url'>
 	<%= f.label :application_url, "Url", :class => "required" %>
 	<%= f.text_field :application_url, :placeholder => 'https://' %>
 	<span class="help-inline">The URL used to access your application</span>
@@ -57,12 +57,12 @@
 	<%= select_tag(:app_behavior, options_for_select(['iframe App', 'WSRP App', 'Full Window App'], app.behavior))%>
 	<span class="help-inline">How does this application behave, can it be put into an IFrame, behave as a portlet, or stand alone?</span>
 </div>
-<div class = "field well">
+<div class = "field well" id='redirect_uri'>
 	<%= f.label :redirect_uri, "Redirect Url", :class => "required" %>
 	<%= f.text_field :redirect_uri, :placeholder => 'https://' %>
 	<span class="help-inline">Where OAuth will redirect to after authentication.</span>
 </div>
-<div class = "field well">
+<div class = "field well" id='installed'>
 	<%= f.label :installed, "Installed" %>
 	<%= f.check_box :installed %>
 	<span class="help-inline">This is used for applications that aren't web-based (Mobile).</span>
