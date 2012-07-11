@@ -35,7 +35,7 @@
       <version>${jstl}</version>
     </dependency>
     <dependency>
-      <groupId>org.slc.sli.client</groupId>
+      <groupId>org.slc.sli</groupId>
       <artifactId>client-api</artifactId>
       <version>${project.version}</version>
     </dependency>
