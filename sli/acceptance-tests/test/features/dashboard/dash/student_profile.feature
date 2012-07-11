@@ -43,8 +43,8 @@ And Tab has a title named "Grades and Credits"
 And Student Enrollment History has the following entries:
 |Year   |School                     |Gr|Entry Date |Entry Type     |Transfer |Withdraw Date|Withdraw Type    |
 |<empty>|East Daybreak Junior High  |8 |2012-01-01 |<empty>        |<empty>  |<empty>      |<empty>          |
-|<empty>|<empty>                    |8 |2011-01-01 |<empty>        |<empty>  |2011-12-31   |<empty>          |
-|<empty>|<empty>                    |8 |2011-01-01 |<empty>        |<empty>  |2011-12-31   |<empty>          |
+|<empty>|South Daybreak Elementary  |8 |2011-01-01 |<empty>        |<empty>  |2011-12-31   |<empty>          |
+|<empty>|Daybreak Central High      |8 |2011-01-01 |<empty>        |<empty>  |2011-12-31   |<empty>          |
 
 @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: Student with no grade level
@@ -74,5 +74,5 @@ And Tab has a title named "High School Overview"
 And Student Enrollment History has the following entries:
 |Year   |School                     |Gr|Entry Date |Entry Type     |Transfer |Withdraw Date|Withdraw Type    |
 |<empty>|East Daybreak Junior High  |O |2012-01-01 |<empty>        |<empty>  |2012-06-02   |<empty>          |
-|<empty>|<empty>                    |O |2011-01-01 |<empty>        |<empty>  |2011-12-31   |<empty>          |
+|<empty>|Daybreak Central High      |O |2011-01-01 |<empty>        |<empty>  |2011-12-31   |<empty>          |
 

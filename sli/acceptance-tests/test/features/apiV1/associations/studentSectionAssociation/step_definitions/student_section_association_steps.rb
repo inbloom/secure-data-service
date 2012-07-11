@@ -43,6 +43,10 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "getStudentSectionAssociations"          if human_readable_id == "ASSOCIATION LINK NAME"
   id = "studentSectionAssociation"              if human_readable_id == "ASSOCIATION TYPE"
   id = "studentSectionAssociations"             if human_readable_id == "ASSOCIATION URI"
+  id = "7ba1a2e9-989c-4b00-b5e0-9bf3b72c909d"	if human_readable_id == "ASSOCIATION ID FOR GRADE"
+  id = 2										if human_readable_id == "GRADE COUNT"
+  id = "grade"									if human_readable_id == "GRADE TYPE"
+  id = "grades"									if human_readable_id == "GRADE URI"
   
   #student related data
   id = "studentId"                              if human_readable_id == "ENDPOINT1 FIELD"

@@ -26,6 +26,7 @@ import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -70,15 +71,13 @@ public class ApplicationAuthorizationValidator {
      */
     @SuppressWarnings("unchecked")
     public List<String> getAuthorizedApps(SLIPrincipal principal) {
-        List<Entity> districts = findUsersDistricts(principal); 
+        
+        //For hosted users (Developer, SLC Operator, SEA/LEA Administrator) they're not associated with a district
+        List<Entity> districts = SecurityUtil.isHostedUser(repo, principal) ? new ArrayList<Entity>() : findUsersDistricts(principal);
+        
         Set<String> bootstrapApps = getBootstrapApps();
         Set<String> results = getDefaultAuthorizedApps();
-        
-        // essentially allow by default for users with no entity data, ie. administrators
-        if (districts == null) {
-            return new ArrayList<String>(results);
-        }
-        
+                
         for (Entity district : districts) {
             debug("User is in district " + district.getEntityId());
 
@@ -156,62 +155,35 @@ public class ApplicationAuthorizationValidator {
      * Currently it returns a list of all LEAs the user might be associated with.
      * In the case there's a hierarchy of LEAs, all are returned in no particular order.
      *
+     * Don't expect this to work for hosted users (they'll end up resolving to everything).
+     * 
      * @param principal
-     * @return a list of accessible LEAs, or null if no entity data was found
+     * @return a list of accessible LEAs
      */
     private List<Entity> findUsersDistricts(SLIPrincipal principal) {
         List<Entity> toReturn = new ArrayList<Entity>();
-        if (principal.getEntity() != null) {
-            List<String> edOrgs = null;
-            try {
-                edOrgs = contextResolverStore.findResolver(EntityNames.TEACHER, EntityNames.EDUCATION_ORGANIZATION)
-                        .findAccessible(principal.getEntity());
-            } catch (IllegalArgumentException ex) {
-                // DE260 - Logging of possibly sensitive data
-                // this is what the resolver throws if it doesn't find any edorg data
-                // LOGGER.warn("Could not find an associated ed-org for {}.",
-                // principal.getExternalId());
-                warn("Could not find an associated ed-org for the given principal.");
+    
+        List<String> edOrgs = contextResolverStore.findResolver(principal.getEntity().getType(), EntityNames.EDUCATION_ORGANIZATION).findAccessible(principal.getEntity());
+        Set<String> setEdOrgs = new HashSet<String>(edOrgs);
+        for (String id : parentResolver.fetchParents(setEdOrgs)) {
+            if (!edOrgs.contains(id)) {
+                edOrgs.add(id);
             }
-            if (edOrgs == null || edOrgs.size() == 0) {   // maybe user is a staff?
-                edOrgs = contextResolverStore.findResolver(EntityNames.STAFF, EntityNames.EDUCATION_ORGANIZATION)
-                        .findAccessible(principal.getEntity());
-                Set<String> setEdOrgs = new HashSet<String>(edOrgs);
-                // We need to get the parent ed orgs so we can get the authorized apps
-                for (String id : parentResolver.fetchParents(setEdOrgs)) {
-                    edOrgs.add(id);
-                }
-            }
-
-            edOrgs.remove("-133"); //avoid querying bad mongo ID
-
-            for (String id : edOrgs) {
-                Entity entity = repo.findById(EntityNames.EDUCATION_ORGANIZATION, id);
-                if (entity == null) {
-                    warn("Could not find ed-org with ID {}", id);
-                } else {
-                    List<String> category = (List<String>) entity.getBody().get("organizationCategories");
-                    if (category != null) {
-                        if (category.contains("Local Education Agency")) {
-                            toReturn.add(entity);
-                        }
-                    }
-
-                }
-            }
-
-        } else {
-            // DE260 - Logging of possibly sensitive data
-            // LOGGER.warn("Skipping LEA lookup for {} because no entity data was found.",
-            // principal.getExternalId());
-            return null;
         }
-        if (toReturn.size() == 0) {
-            // DE260 - Logging of possibly sensitive data
-            // LOGGER.warn("Could not find an associated LEA for {}.", principal.getExternalId());
-            warn("Could not find an associated LEA for the given principal");
+        
+        edOrgs.remove("-133"); //avoid querying bad mongo ID
+        
+        for (String id : edOrgs) {
+            Entity entity = repo.findById(EntityNames.EDUCATION_ORGANIZATION, id);
+            List<String> category = (List<String>) entity.getBody().get("organizationCategories");
+
+            if (category.contains("Local Education Agency")) {
+                toReturn.add(entity);
+            }
         }
+       
         return toReturn;
     }
+
 
 }

@@ -12,6 +12,8 @@ Scenario: Teacher's school has no data (no courses)
 When I select "New York Realm" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "mario.sanchez" "mario.sanchez1234" for the "Simple" login page
+ When I select ed org "New York Parker District School System"
+ When I select school "Parker Elementary School"
 Then I am informed that "There is no data available for your request. Please contact your IT administrator."
 
 Scenario: Staff's edorg has no data (no schools)
