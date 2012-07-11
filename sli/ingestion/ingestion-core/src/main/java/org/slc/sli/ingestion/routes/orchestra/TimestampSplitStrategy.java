@@ -59,7 +59,7 @@ public class TimestampSplitStrategy implements SplitStrategy {
         long maxTime = neutralRecordAccess.getMaxCreationTimeForEntity(stagedEntity, jobId);
 
         if (!stagedEntity.getEdfiEntity().isSelfReferencing() && numRecords > splitChunkSize) {
-            LOG.info("Entity split threshold reached. Splitting work for {} collection.",
+            info("Entity split threshold reached. Splitting work for {} collection.",
                     stagedEntity.getCollectionNameAsStaged());
 
             List<WorkNote> collectionWorkNotes = constructCollectionWorkNotes(new ArrayList<WorkNote>(), jobId,
@@ -72,11 +72,11 @@ public class TimestampSplitStrategy implements SplitStrategy {
                 workNotesForEntity.add(wn);
             }
 
-            LOG.info("Created {} WorkNotes for collection: {}.", collectionWorkNotes.size(),
+            info("Created {} WorkNotes for collection: {}.", collectionWorkNotes.size(),
                     stagedEntity.getCollectionNameAsStaged());
 
         } else {
-            LOG.info("Creating one WorkNote for collection: {}.", stagedEntity.getCollectionNameAsStaged());
+            info("Creating one WorkNote for collection: {}.", stagedEntity.getCollectionNameAsStaged());
 
             WorkNote workNote = WorkNote.createBatchedWorkNote(jobId, stagedEntity, minTime, maxTime, 1L, 1);
             workNotesForEntity.add(workNote);
@@ -108,7 +108,7 @@ public class TimestampSplitStrategy implements SplitStrategy {
 
         if (chunkMatch(recordsCountInSegment, MatchEnumeration.good)) {
             // Current chunk is within acceptable threshold, add it to workNotes
-            LOG.info("Adding unsplit chunk - it's within acceptable limits");
+            info("Adding unsplit chunk - it's within acceptable limits");
             WorkNote workNoteUnsplit = WorkNote.createBatchedWorkNote(jobId, stagedEntity, minTime, maxTime,
                     recordsCountInSegment, 0);
             workNotes.add(workNoteUnsplit);
@@ -127,10 +127,10 @@ public class TimestampSplitStrategy implements SplitStrategy {
                 long recordsInRightChunk = getCountOfRecords(collectionName, pivot, maxTime, jobId);
                 long recordsInLeftChunk = recordsCountInSegment - recordsInRightChunk;
 
-                LOG.debug("Interval = {} / {} ", minTime, maxTime);
-                LOG.debug("Total ms in interval = {}", intervalElapsedTime);
-                LOG.debug("Right Interval (Start / End) {} / {} ", pivot, maxTime);
-                LOG.debug("Splitting with records in left chunk = {}  and records in right chunk = {}, split factor = "
+                debug("Interval = {} / {} ", minTime, maxTime);
+                debug("Total ms in interval = {}", intervalElapsedTime);
+                debug("Right Interval (Start / End) {} / {} ", pivot, maxTime);
+                debug("Splitting with records in left chunk = {}  and records in right chunk = {}, split factor = "
                         + splitFactor, recordsInLeftChunk, recordsInRightChunk);
 
                 done = true;
@@ -145,21 +145,17 @@ public class TimestampSplitStrategy implements SplitStrategy {
                     if (chunkMatch(recordsInLeftChunk, MatchEnumeration.good)
                             || chunkMatch(recordsInLeftChunk, MatchEnumeration.small)) {
 
-//                        LOG.debug("Adding left + right work notes");
-
                         WorkNote left = WorkNote.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot,
                                 recordsInLeftChunk, 0);
                         workNotes.add(left);
 
                     } else if (chunkMatch(recordsInLeftChunk, MatchEnumeration.large)) {
 
-//                        LOG.debug("Recursing on left + adding right work note");
                         constructCollectionWorkNotes(workNotes, jobId, stagedEntity, minTime, pivot);
                     }
                 } else if (chunkMatch(recordsInRightChunk, MatchEnumeration.small)) {
                     // RIGHT SIDE IS TOO SMALL
                     if (chunkMatch(recordsInLeftChunk, MatchEnumeration.good)) {
-//                        LOG.debug("Adding left + right work notes");
                         WorkNote left = WorkNote.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot,
                                 recordsInLeftChunk, 0);
                         workNotes.add(left);
@@ -169,7 +165,6 @@ public class TimestampSplitStrategy implements SplitStrategy {
                         workNotes.add(right);
 
                     } else if (chunkMatch(recordsInLeftChunk, MatchEnumeration.small)) {
-//                        LOG.debug("Adding left + right work notes");
                         WorkNote left = WorkNote.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot,
                                 recordsInLeftChunk, 0);
                         workNotes.add(left);
@@ -179,7 +174,7 @@ public class TimestampSplitStrategy implements SplitStrategy {
                         workNotes.add(right);
 
                     } else if (chunkMatch(recordsInLeftChunk, MatchEnumeration.large)) {
-                        LOG.debug("Reintervaling - moving interval to the left (left side is too heavy)");
+                        debug("Reintervaling - moving interval to the left (left side is too heavy)");
                         splitFactor = splitFactor / 2;
                         done = false;
                     }
@@ -194,12 +189,12 @@ public class TimestampSplitStrategy implements SplitStrategy {
                         constructCollectionWorkNotes(workNotes, jobId, stagedEntity, pivot, maxTime);
 
                     } else if (chunkMatch(recordsInLeftChunk, MatchEnumeration.small)) {
-                        LOG.debug("Reintervaling - moving interval to the right (right side is too heavy)");
+                        debug("Reintervaling - moving interval to the right (right side is too heavy)");
                         splitFactor = splitFactor + (splitFactor / 2);
                         done = false;
 
                     } else if (chunkMatch(recordsInLeftChunk, MatchEnumeration.large)) {
-                        LOG.debug("Recursing on both left and right");
+                        debug("Recursing on both left and right");
                         constructCollectionWorkNotes(workNotes, jobId, stagedEntity, minTime, pivot);
                         constructCollectionWorkNotes(workNotes, jobId, stagedEntity, pivot, maxTime);
                     }
@@ -208,23 +203,23 @@ public class TimestampSplitStrategy implements SplitStrategy {
                 splitAttempts++;
 
                 if (splitAttempts > 20 && !done) {
-                    LOG.debug("Split Max reached.");
+                    debug("Split Max reached.");
 
                     if (chunkMatch(recordsInLeftChunk, MatchEnumeration.large)) {
-                        LOG.debug("Recursing on left");
+                        debug("Recursing on left");
                         constructCollectionWorkNotes(workNotes, jobId, stagedEntity, minTime, pivot);
                     } else {
-                        LOG.debug("Adding left work note");
+                        debug("Adding left work note");
                         WorkNote left = WorkNote.createBatchedWorkNote(jobId, stagedEntity, minTime, pivot,
                                 recordsInLeftChunk, 0);
                         workNotes.add(left);
                     }
 
                     if (chunkMatch(recordsInRightChunk, MatchEnumeration.large)) {
-                        LOG.debug("Recursing on right");
+                        debug("Recursing on right");
                         constructCollectionWorkNotes(workNotes, jobId, stagedEntity, pivot, maxTime);
                     } else {
-                        LOG.debug("Adding right work note");
+                        debug("Adding right work note");
                         WorkNote right = WorkNote.createBatchedWorkNote(jobId, stagedEntity, pivot, maxTime,
                                 recordsInRightChunk, 0);
                         workNotes.add(right);
@@ -285,7 +280,7 @@ public class TimestampSplitStrategy implements SplitStrategy {
      */
     private long countRecordsForEntity(IngestionStagedEntity stagedEntity, String jobId) {
         long numRecords = neutralRecordAccess.collectionCountForJob(stagedEntity.getCollectionNameAsStaged(), jobId);
-        LOG.info("Records for collection {}: {}", stagedEntity.getCollectionNameAsStaged(), numRecords);
+        info("Records for collection {}: {}", stagedEntity.getCollectionNameAsStaged(), numRecords);
         return numRecords;
     }
 

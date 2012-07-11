@@ -23,8 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -37,8 +35,6 @@ import org.springframework.stereotype.Component;
 @Scope("prototype")
 @Component("studentTranscriptAssociationTransformationStrategy")
 public class StudentTranscriptAssociationCombiner extends AbstractTransformationStrategy {
-
-    private static final Logger LOG = LoggerFactory.getLogger(StudentTranscriptAssociationCombiner.class);
 
     private static final String STUDENT_TRANSCRIPT_ASSOCIATION = "studentTranscriptAssociation";
     private static final String STUDENT_TRANSCRIPT_ASSOCIATION_TRANSFORMED = "studentTranscriptAssociation_transformed";
@@ -70,9 +66,9 @@ public class StudentTranscriptAssociationCombiner extends AbstractTransformation
      * student
      */
     public void loadData() {
-        LOG.info("Loading data for studentTranscriptAssociation transformation.");
+        info("Loading data for studentTranscriptAssociation transformation.");
         this.studentTranscripts = getCollectionFromDb(STUDENT_TRANSCRIPT_ASSOCIATION);
-        LOG.info("{} is loaded into local storage.  Total Count = {}", STUDENT_TRANSCRIPT_ASSOCIATION,
+        info("{} is loaded into local storage.  Total Count = {}", STUDENT_TRANSCRIPT_ASSOCIATION,
                 studentTranscripts.size());
     }
 
@@ -81,7 +77,7 @@ public class StudentTranscriptAssociationCombiner extends AbstractTransformation
      * staging mongo db.
      */
     public void transform() {
-        LOG.info("Transforming student transcript association data");
+        info("Transforming student transcript association data");
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : studentTranscripts.entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
             Map<String, Object> attributes = neutralRecord.getAttributes();
@@ -96,6 +92,6 @@ public class StudentTranscriptAssociationCombiner extends AbstractTransformation
             neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());
             transformedTranscripts.add(neutralRecord);
         }
-        LOG.info("Finished transforming student transcript association data");
+        info("Finished transforming student transcript association data");
     }
 }
