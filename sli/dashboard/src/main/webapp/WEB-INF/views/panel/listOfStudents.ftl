@@ -14,6 +14,7 @@
   limitations under the License.
 -->
  <#assign id = getDivId(panelConfig.id)>
+
  <div id="listOfStudents">
    <div id="viewDiv" class="menuBox">
         <h4> View </h4>
@@ -44,10 +45,10 @@
         </div>
     </div>
 </div>
-
+ <div class="ui-widget-no-border">
+    <table id="${id}"></table>
+</div>
 <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/panels/SLC.studentList.js"></script>
-
 <script type="text/javascript">
     SLC.util.setTableId('${id}');
-    SLC.studentList.create();
 </script>

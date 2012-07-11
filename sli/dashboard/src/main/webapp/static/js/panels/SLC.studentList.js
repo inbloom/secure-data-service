@@ -26,20 +26,18 @@ SLC.namespace('SLC.studentList', (function () {
 		util = SLC.util,
 		contextRootPath = util.getContextRootPath();
 	
-	function create() {
-		$(document).ready( function() {
-		    var config = SLC.dataProxy.getConfig("listOfStudents");
-	        populateView(config.items);
-	        if (config.items.length > 0) {
-	            SLC.util.selectDropDownOption("view", 0, false);
-	        } else {
-	            $("#viewSelect").val(-1);
-	        }
-	        populateFilter();
-	        SLC.util.selectDropDownOption("filter", -1, false);
-	        printStudentList();
-		});
-	}
+	$(document).ready( function() {
+	    var config = SLC.dataProxy.getConfig("listOfStudents");
+	    populateView(config.items);
+	    if (config.items.length > 0) {
+            SLC.util.selectDropDownOption("view", 0, false);
+        } else {
+            $("#viewSelect").val(-1);
+        }
+        populateFilter();
+        SLC.util.selectDropDownOption("filter", -1, false);
+        printStudentList();
+	});
 	  
 	function printStudentList() {
 		var tableId = util.getTableId(),
@@ -117,7 +115,6 @@ SLC.namespace('SLC.studentList', (function () {
 	} 
 	
 	return {
-		create: create
 	};
 	
 	}())

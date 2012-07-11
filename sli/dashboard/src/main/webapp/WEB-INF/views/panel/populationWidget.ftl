@@ -15,9 +15,6 @@
 -->
 <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/panels/SLC.population.js"></script>
 <#assign id = getDivId(panelConfig.id)>
-<script type="text/javascript">
-    SLC.population.create();
-</script>
 
 <div id="populationSelect">
     <div id="edorgDiv" class="menuBox">

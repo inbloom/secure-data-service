@@ -102,28 +102,25 @@ SLC.namespace('SLC.population', (function () {
 			});
 		}
 
-		function create() {
-			$(document).ready( function() {
-			    var selectedPopulation = SLC.dataProxy.getData('populationWidget').selectedPopulation;
-			    populateInstHierarchy();
-			    $("#dbrd_btn_pw_go").click(function() {
-			    	var edOrgIndex = $("#edOrgSelect").val();
-			    	var schoolIndex = $("#schoolSelect").val();
-			    	var courseIndex = $("#courseSelect").val();
-			    	var sectionSelect = $("#sectionSelect").val();
-			    	if (sectionSelect != -1) 
-			    	    SLC.util.goToLayout("section", courseSectionData[courseIndex].sections[sectionSelect].id);
-			        else if (courseIndex != -1) {}
-			    	else if (schoolIndex != -1)
-				       SLC.util.goToLayout("school", instHierarchy[edOrgIndex].schools[schoolIndex].id);
-				    else if (edOrgIndex != -1) {}	
-				
-		       });
-			});
-		}
+		$(document).ready( function() {
+		    var selectedPopulation = SLC.dataProxy.getData('populationWidget').selectedPopulation;
+		    populateInstHierarchy();
+		    $("#dbrd_btn_pw_go").click(function() {
+		    	var edOrgIndex = $("#edOrgSelect").val();
+		    	var schoolIndex = $("#schoolSelect").val();
+		    	var courseIndex = $("#courseSelect").val();
+		    	var sectionSelect = $("#sectionSelect").val();
+		    	if (sectionSelect != -1) 
+		    	    SLC.util.goToLayout("section", courseSectionData[courseIndex].sections[sectionSelect].id);
+		        else if (courseIndex != -1) {}
+		    	else if (schoolIndex != -1)
+			       SLC.util.goToLayout("school", instHierarchy[edOrgIndex].schools[schoolIndex].id);
+			    else if (edOrgIndex != -1) {}	
+			
+	       });
+		});
 		
 		return {
-			create: create
 		};
 
 	}())
