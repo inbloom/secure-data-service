@@ -17,14 +17,14 @@ public class Highest extends Reducer<Text, DoubleWritable, Text, DoubleWritable>
     @Override
     protected void reduce(Text id, Iterable<DoubleWritable> scoreResults, Context context)
             throws IOException, InterruptedException {
-        DoubleWritable highest = null;
+        Double highest = null;
         for(DoubleWritable scoreResult: scoreResults){
             double score = scoreResult.get();
-            if(highest == null || score > highest.get()){
-                highest = scoreResult;
+            if(highest == null || score > highest){
+                highest = score;
             }
         }
-        context.write(id, highest);
+        context.write(id, new DoubleWritable(highest));
     }
     
 }

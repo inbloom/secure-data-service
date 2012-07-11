@@ -35,15 +35,8 @@ public class HighestEver extends Configured implements Tool {
     @Override
     public int run(String[] args) throws Exception {
         Configuration conf = getConf();
-        String[] remainingArgs = new GenericOptionsParser(conf, args).getRemainingArgs();
         
-        if (remainingArgs.length < 1) {
-            System.err.println("Usage: HighestEver <assmtIDCode>");
-            ToolRunner.printGenericCommandUsage(System.err);
-            return 1;
-        }
-        
-        String assmtIDCode = remainingArgs[0];
+        String assmtIDCode = "Grade 7 2011 State Math";
         String assmtId = getAssessmentId(assmtIDCode);
         MongoURI input = new MongoURI("mongodb://localhost/sli.studentAssessmentAssociation");
         MongoConfigUtil.setInputURI(conf, input);
