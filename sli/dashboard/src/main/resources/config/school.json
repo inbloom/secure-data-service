@@ -1,6 +1,7 @@
 {
 	id: "school",
-	type: "LAYOUT",
+	name: "SLC - School Profile",
+    type: "LAYOUT",
 	data :{
 		entity: "schoolInfo",
 		cacheKey: "schoolInfo"
