@@ -32,3 +32,21 @@ Then /^the class for id "([^"]*)" for student "([^"]*)" is "([^"]*)"$/ do |arg1,
   subElement = element.find_element(:class, arg3)
   assert(subElement != nil, "Expected color" + arg3)
 end
+
+# Attendance history panel
+When /^the Attendance History in grid "(.*?)" has the following entries:$/ do |gridNumber, table|
+  panel = getPanel("Attendance and Discipline", "Attendance History")
+  
+  #headers
+  mapping = {
+    "Term" => "term",
+    "School" => "schoolName",
+    "Grade Level" => "gradeLevel",
+    "% Present" => "present",
+    "Total Absences" => "totalAbsencesCount",
+    "Excused" => "excusedAbsenceCount",
+    "Unexcused" => "unexcusedAbsenceCount",
+    "Tardy" => "tardyCount" 
+  }   
+  checkGridEntries(panel, table, mapping, true, gridNumber)
+end

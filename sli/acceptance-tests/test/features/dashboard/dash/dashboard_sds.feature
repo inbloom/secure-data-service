@@ -177,6 +177,13 @@ And the Assessment History for "StateTest Writing" has the following entries:
 |Date         |Grade  |Assessment Name            |Perf Level|Scale score|
 |2011-10-01   |8      |Grade 8 2011 StateTest Writing  |1         |1          |
 |2011-09-01   |8      |Grade 8 2011 StateTest Writing  |25        |25         |
+When I click on "Attendance and Discipline" Tab
+And the Attendance History in grid "1" has the following entries:
+|Term         |School                     |Grade Level  |% Present  |Total Absences |Excused  |Unexcused  |Tardy  |
+|2011-2012    |East Daybreak Junior High  |8            |95         |4              |4        |0          |0      |
+And the Attendance History in grid "2" has the following entries:
+|Term         |School                     |Grade Level  |% Present  |Total Absences |Excused  |Unexcused  |Tardy  |
+|2010-2011    |East Daybreak Junior High  |7            |0          |0              |0        |0          |0      |
 And I click on the browser back button
 Then I see a list of 28 students
 

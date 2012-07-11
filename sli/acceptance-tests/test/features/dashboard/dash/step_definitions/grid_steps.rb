@@ -34,8 +34,14 @@ end
 # returns all trs of a grid in a particular panel
 # excludes the header of the grid
 def getGrid(panel)
-  grid = @explicitWait.until{panel.find_element(:class,"ui-jqgrid-bdiv")}
-  all_trs = panel.find_elements(:css, "tr[class*='ui-widget-content']")
+  getNthGrid(panel, 1)
+end
+
+def getNthGrid(panel, n)
+  n = n.to_i-1
+  grids = @explicitWait.until{panel.find_elements(:class,"ui-jqgrid-bdiv")}
+  assert(n < grids.length && n >=0 , "n must be less than #{grids.length}")
+  all_trs = grids[n].find_elements(:css, "tr[class*='ui-widget-content']")
   return all_trs
 end
 
@@ -84,7 +90,7 @@ end
 
 #Checks against entries in a grid
 #use <empty> for empty cells
-def checkGridEntries(panel, table, mapping, isExactRowsMatch = true)
+def checkGridEntries(panel, table, mapping, isExactRowsMatch = true, gridNumber = 1)
   table.headers.each do |current|
     if (mapping[current] == nil)
       puts "Warning: No mapping found for header: " + current
@@ -92,7 +98,7 @@ def checkGridEntries(panel, table, mapping, isExactRowsMatch = true)
     end
   end
   
-  grid = getGrid(panel)
+  grid = getNthGrid(panel, gridNumber)
   if (isExactRowsMatch)
     assert(table.rows.length == grid.length, "Expected entries: " + table.rows.length.to_s + " Actual: " + grid.length.to_s)
   end
