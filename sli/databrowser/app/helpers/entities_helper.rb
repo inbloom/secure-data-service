@@ -1,4 +1,5 @@
 =begin
+#--
 
 Copyright 2012 Shared Learning Collaborative, LLC
 
@@ -16,6 +17,7 @@ limitations under the License.
 
 =end
 
+#++
 # This module contains a lot of the recursive view logic needed to display
 # items correctly in the databrowser views.
 #

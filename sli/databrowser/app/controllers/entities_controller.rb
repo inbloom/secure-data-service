@@ -1,4 +1,5 @@
 =begin
+#--
 
 Copyright 2012 Shared Learning Collaborative, LLC
 
@@ -16,14 +17,14 @@ limitations under the License.
 
 =end
 require "active_resource/base"
-#This is the main controller of the Databrowser.
-#We try to "Wrap" all api requests in this one single point
-#and do some clever work with filters and routing to make this work.
-#The basic flow goes like this:
-#  -The Api request is routed as parameters to this controller
-#  -The set_url field deals with that parameter as well as search parameters
-#  -The show action creates the new model with the url, searches, and pages.
-# We make heavy use of params[:other] which is everything that comes into
+# This is the main controller of the Databrowser.
+# We try to "Wrap" all api requests in this one single point
+# and do some clever work with filters and routing to make this work.
+# The basic flow goes like this:
+# * The Api request is routed as parameters to this controller
+# * The set_url field deals with that parameter as well as search parameters
+# * The show action creates the new model with the url, searches, and pages.
+# We make heavy use of params which is everything that comes into
 # this controller after /entities/
 class EntitiesController < ApplicationController
   before_filter :set_url
@@ -43,7 +44,7 @@ class EntitiesController < ApplicationController
   # through later.
   #
   # Here we tell the Entity model that it's url is the thing that was passed
-  # through in params[:other]. Which is how we are able to wrap the entire
+  # through in params. Which is how we are able to wrap the entire
   # api through one place.
   def set_url
     @search_field = nil
@@ -69,7 +70,7 @@ class EntitiesController < ApplicationController
   # model from set_url to make the Api call to get the data from the Api.
   #
   # Because we are trying to be generic with the data we get back, we handle
-  # two special cases. The first is if params[:other] is 'home' which is a 
+  # two special cases. The first is if params is 'home' which is a 
   # special home page in the Api. So if we call that we, render the index
   # page instead of the normal 'show'.
   # 
@@ -81,7 +82,7 @@ class EntitiesController < ApplicationController
   # were passed any search parameters, and augment the Api call to deal with that
   # instead.
   #
-  # Second, if we see any offset in params[:offset], then we make the call to
+  # Second, if we see any offset in params then we make the call to
   # grab the next page of data from the Api.
   def show
     @@LIMIT = 50

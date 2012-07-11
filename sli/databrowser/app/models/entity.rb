@@ -1,4 +1,5 @@
 =begin
+#--
 
 Copyright 2012 Shared Learning Collaborative, LLC
 
@@ -15,7 +16,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-
 
 # This model represents talking to any Api endpoint and making adjustments
 # to the data we get back so that we can do more clever rendering of that
@@ -60,6 +60,9 @@ class Entity < SessionResource
   end
   
   
+  # This method looks through what we have configured as the path to get the
+  # value out of our configuration and then digs through our hashmap to get
+  # there.
   def self.value_for_simple_view (type, hash)
     return nil if hash.nil? or type.nil?
     return hash[type] unless type.include? '/'
@@ -77,6 +80,8 @@ class Entity < SessionResource
     temp_hash
   end
   
+  # If we don't have any preconfigured table rows we take the first 5 keys out
+  # of our complex entity and use those instead
   def self.get_basic_types(hash)
     types = []
     hash.keys.each do |key|

@@ -1,4 +1,5 @@
 =begin
+#--
 
 Copyright 2012 Shared Learning Collaborative, LLC
 
@@ -19,6 +20,7 @@ limitations under the License.
 
 require "active_resource/base"
 require "oauth_helper"
+#
 # This is the standard base controller class that all others in the databrowser
 # (and Rails) inherits from. We take advantage and put some common
 # functionality here
