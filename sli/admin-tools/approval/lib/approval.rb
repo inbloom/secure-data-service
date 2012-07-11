@@ -55,15 +55,19 @@ module ApprovalEngine
         STATE_DISABLED      => { ACTION_ENABLE  => STATE_APPROVED }
     }
 
+    # Roles 
+    ROLE_APPLICATION_DEVELOPER = "application_developer"
+    ROLE_INGESTION_USER        = "ingestion_user"
+
     # Roles to set in sandbox mode
     SANDBOX_ROLES = [
-        "Application Developer",
-        "Ingestion User"
+        ROLE_APPLICATION_DEVELOPER,
+        ROLE_INGESTION_USER
     ]
 
     # Roles to set in production mode
     PRODUCTION_ROLES = [
-        "Application Developer"
+        ROLE_APPLICATION_DEVELOPER
     ]
 
     # all the user states that should be included in the user count 

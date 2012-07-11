@@ -17,6 +17,7 @@
 
 package org.slc.sli.sandbox.idp.service;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +58,23 @@ public class UserService {
 
     @Value("${sli.simple-idp.groupObjectClass}")
     private String groupObjectClass;
+
+    private static final Map<String, String> LDAP_ROLE_MAPPING = Collections.emptyMap();
+    static {
+        // Mapping from roles in LDAP which comply with requirements of POSIX systems
+        // to roles understood by the API
+        LDAP_ROLE_MAPPING.put("educator",              "Educator");
+        LDAP_ROLE_MAPPING.put("aggregate_viewer",      "Aggregate Viewer");
+        LDAP_ROLE_MAPPING.put("it_administrator",      "IT Administrator");
+        LDAP_ROLE_MAPPING.put("leader",                "Leader");
+        LDAP_ROLE_MAPPING.put("lea_administrator",     "LEA Administrator");
+        LDAP_ROLE_MAPPING.put("sea_administrator",     "SEA Administrator");
+        LDAP_ROLE_MAPPING.put("application_developer", "Application Developer");
+        LDAP_ROLE_MAPPING.put("slc_operator",          "SLC Operator");
+        LDAP_ROLE_MAPPING.put("realm_administrator",   "Realm Administrator");
+        LDAP_ROLE_MAPPING.put("ingestion_user",        "Ingestion User");
+        LDAP_ROLE_MAPPING.put("acceptance_test_user",  "Acceptance Test User");
+    }
 
     public UserService() {
     }
@@ -170,7 +188,14 @@ public class UserService {
                 new EqualsFilter(groupSearchAttribute, userId));
         @SuppressWarnings("unchecked")
         List<String> groups = ldapTemplate.search(dn, filter.toString(), new GroupContextMapper());
-        return groups;
+
+        // map the roles in LDAP which are better suited for Posix systems to
+        // the roles used by the API
+        List<String> result = Collections.emptyList();
+        for (String group : groups) {
+            result.add(LDAP_ROLE_MAPPING.containsKey(group) ? LDAP_ROLE_MAPPING.get(group) : group);
+        }
+        return result;
     }
 
     /**
