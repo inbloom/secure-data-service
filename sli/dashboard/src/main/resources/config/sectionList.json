@@ -8,6 +8,6 @@
   }, 
   root: "root",
   items : [
-    {name: "Subject", width: 300, type: "FIELD", field: "name"}
+    {name: "Subject", width: 300, type: "FIELD", field: "name", formatter:restLink, style:'ui-ellipsis', params: {link:'section', target:"_self", level:2}}
   ] 
 }
