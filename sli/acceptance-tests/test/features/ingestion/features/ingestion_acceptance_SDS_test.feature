@@ -368,3 +368,88 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentDiscipline.xml records considered: 7" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 7" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records failed: 0" in the resulting batch job file
+    
+ @wip
+Scenario: Concurrent job processing
+Given the following collections are empty in datastore:
+        | collectionName              |
+        | student                     |
+        | studentSchoolAssociation    |
+        | course                      |
+        | educationOrganization       |
+        | section                     |
+        | studentSectionAssociation   |
+        | staff                       |
+        |staffEducationOrganizationAssociation|
+        | teacherSchoolAssociation    |
+        | teacherSectionAssociation   |
+        | session                     |
+        | assessment                  |
+        | studentAssessmentAssociation|
+        | gradebookEntry              |
+        | studentTranscriptAssociation|
+        | studentSectionGradebookEntry|
+        | parent                      |
+        | studentParentAssociation    |
+        | attendance                  |
+        | program                     |
+        | staffProgramAssociation     |
+        | studentProgramAssociation   |
+        | cohort                      |
+        | staffCohortAssociation      |
+        | studentCohortAssociation    |
+        | studentCompetency           |
+        | studentCompetencyObjective  |
+        | learningStandard            |
+        | learningObjective           |
+        | disciplineIncident          |
+        | disciplineAction            |
+	   | studentDisciplineIncidentAssociation|
+        | grade                       |
+        | gradingPeriod               |
+        | calendarDate                |
+        | reportCard                  |
+        | courseOffering              |
+        | studentAcademicRecord       |
+Given I am using preconfigured Ingestion Landing Zone for "NY-NYC"
+	When zip file "StoriedDataSet_NY.zip" is scp to ingestion landing zone
+Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
+	When zip file "StoriedDataSet_IL_Daybreak.zip" is scp to ingestion landing zone
+Given I am using preconfigured Ingestion Landing Zone for "IL-Sunset"
+	When zip file "StoriedDataSet_IL_Sunset.zip" is scp to ingestion landing zone
+And a batch job log for "NY-NYC" file "StoriedDataSet_NY.zip" has been created
+And a batch job log for "IL-Sunset" file "StoriedDataSet_IL_Sunset.zip" has been created
+And a batch job log for "IL-Daybreak" file "StoriedDataSet_IL_Daybreak.zip" has been created
+Then I should see following map of entry counts in the corresponding collections:
+        | collectionName              | count |
+        | student                     | 191   |
+        | studentSchoolAssociation    | 280   |
+        | course                      | 104   |
+        | educationOrganization       | 14    |
+        | section                     | 116   |
+        | studentSectionAssociation   | 410   |
+        | staff                       | 58    |
+        | staffEducationOrganizationAssociation| 37 |
+        | teacherSchoolAssociation    | 20    |
+        | teacherSectionAssociation   | 30    |
+        | session                     | 27    |
+        | assessment                  | 19    |
+        | studentAssessmentAssociation| 203   |
+        | studentTranscriptAssociation| 196   |
+        | parent                      | 9     |
+        | studentParentAssociation    | 9     |
+        | gradebookEntry              | 12    |
+        | studentSectionGradebookEntry| 315   |
+        | attendance                  | 75    |
+        | program                     | 2     |
+        | staffProgramAssociation     | 3     |
+        | studentProgramAssociation   | 6     |
+        | cohort                      | 3     |
+        | staffCohortAssociation      | 3     |
+        | studentCohortAssociation    | 6     |
+        | disciplineIncident          | 4     |
+        | disciplineAction            | 3     |
+	   | studentDisciplineIncidentAssociation| 8|
+        | grade                       | 4     |
+        | reportCard                  | 2     |
+        | courseOffering              | 104   |

@@ -28,17 +28,16 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
 
-import org.springframework.cache.annotation.Cacheable;
-
+import org.slc.sli.dashboard.entity.Config.Data;
 import org.slc.sli.dashboard.entity.EdOrgKey;
 import org.slc.sli.dashboard.entity.GenericEntity;
-import org.slc.sli.dashboard.entity.Config.Data;
 import org.slc.sli.dashboard.entity.util.GenericEntityComparator;
 import org.slc.sli.dashboard.manager.ApiClientManager;
 import org.slc.sli.dashboard.manager.UserEdOrgManager;
 import org.slc.sli.dashboard.util.Constants;
 import org.slc.sli.dashboard.util.DashboardException;
 import org.slc.sli.dashboard.util.SecurityUtil;
+import org.springframework.cache.annotation.Cacheable;
 
 /**
  * Retrieves and applies necessary business logic to obtain institution data
@@ -102,7 +101,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         if (edOrg == null) {
 
             // get list of school
-            List<GenericEntity> schools = getSchools(token);
+            List<GenericEntity> schools = getMySchools(token);
 
             if (schools != null && !schools.isEmpty()) {
 
@@ -146,6 +145,17 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
 
         return getApiClient().getSchools(token, null);
     }
+    
+    /**
+     * Get user's associated schools. Cache the results so we don't have to make the call
+     * twice.
+     * 
+     * @return
+     */
+    private List<GenericEntity> getMySchools(String token) {
+        
+        return getApiClient().getMySchools(token);
+    }
 
     /**
      * Returns the institutional hierarchy visible to the user with the given
@@ -157,7 +167,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
      */
     private List<GenericEntity> getUserInstHierarchy(String token) {
         // Find all the schools first.
-        List<GenericEntity> schools = getSchools(token);
+        List<GenericEntity> schools = getMySchools(token);
         if (schools == null) {
             return Collections.emptyList();
         }
