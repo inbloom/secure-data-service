@@ -20,8 +20,6 @@ package org.slc.sli.ingestion.landingzone.validation;
 import java.io.IOException;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
@@ -34,8 +32,6 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  *
  */
 public class ChecksumValidator extends IngestionFileValidator {
-
-    private Logger log = LoggerFactory.getLogger(ChecksumValidator.class);
 
     @Override
     public boolean isValid(FileEntryDescriptor item, ErrorReport callback) {
@@ -58,10 +54,8 @@ public class ChecksumValidator extends IngestionFileValidator {
 
         if (!checksumsMatch(actualMd5Hex, fe.getChecksum())) {
 
-            if (log.isDebugEnabled()) {
-                String[] args = { fe.getFileName(), actualMd5Hex, fe.getChecksum() };
-                log.debug("File [{}] checksum ({}) does not match control file checksum ({}).", args);
-            }
+            String[] args = { fe.getFileName(), actualMd5Hex, fe.getChecksum() };
+            ifDebug("File [{}] checksum ({}) does not match control file checksum ({}).", (Object[])args);
 
             fail(callback, getFailureMessage("SL_ERR_MSG2", fe.getFileName()));
 

@@ -34,15 +34,11 @@ import org.apache.avro.generic.GenericDatumReader;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.util.Utf8;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  *
  */
 public class NeutralRecordFileReader implements Iterator<NeutralRecord> {
-
-    private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordFileReader.class);
 
     protected File file;
 

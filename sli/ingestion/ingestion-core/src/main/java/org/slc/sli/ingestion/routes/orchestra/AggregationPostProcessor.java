@@ -21,8 +21,6 @@ import java.util.List;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -36,8 +34,6 @@ import org.slc.sli.ingestion.WorkNote;
  */
 @Component
 public class AggregationPostProcessor implements Processor {
-
-    private static final Logger LOG = LoggerFactory.getLogger(AggregationPostProcessor.class);
 
     @Autowired
     private StagedEntityTypeDAO stagedEntityTypeDAO;

@@ -40,8 +40,6 @@ import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 @Component
 public class OrchestraPreProcessor implements Processor {
 
-    //private static final Logger LOG = LoggerFactory.getLogger(OrchestraPreProcessor.class);
-
     @Autowired
     private StagedEntityTypeDAO stagedEntityTypeDAO;
 

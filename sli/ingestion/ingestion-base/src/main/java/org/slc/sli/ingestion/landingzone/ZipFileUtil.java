@@ -30,16 +30,12 @@ import java.util.Date;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Zip File utility class.
  *
  */
 public class ZipFileUtil {
-
-    static Logger log = LoggerFactory.getLogger(ZipFileUtil.class);
 
     static final int BUFFER = 2048;
 

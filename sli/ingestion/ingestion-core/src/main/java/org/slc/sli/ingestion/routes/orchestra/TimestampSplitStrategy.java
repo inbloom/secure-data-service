@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -39,7 +37,6 @@ import org.slc.sli.ingestion.dal.NeutralRecordAccess;
  */
 @Component
 public class TimestampSplitStrategy implements SplitStrategy {
-    private static final Logger LOG = LoggerFactory.getLogger(TimestampSplitStrategy.class);
 
     @Value("${sli.ingestion.split.chunk.size}")
     private int splitChunkSize;

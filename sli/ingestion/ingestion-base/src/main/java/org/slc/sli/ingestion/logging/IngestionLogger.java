@@ -25,4 +25,8 @@ public interface IngestionLogger {
 
     public void piiClearedError(String msg, Throwable x);
 
+    public void piiClearedWarn(String msg, Throwable x);
+
+    public void piiClearedDebug(String msg, Throwable x);
+
 }
