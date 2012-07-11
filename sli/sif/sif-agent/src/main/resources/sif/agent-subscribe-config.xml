@@ -11,7 +11,7 @@
         /> -->
 
     <!-- The messaging mode to use ("Push" or "Pull") -->
-    <property name="adk.messaging.mode" value="Pull" />
+    <property name="adk.messaging.mode" value="Push" />
 
     <!-- The transport mode to use ("http" or "https") -->
     <property name="adk.messaging.transport" value="http" />
