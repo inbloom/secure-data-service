@@ -7451,5 +7451,7 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
-
+  <xs:complexType name="home">
+    <xs:any maxOccurs="unbounded" />
+  </xs:complexType>
 </xs:schema>

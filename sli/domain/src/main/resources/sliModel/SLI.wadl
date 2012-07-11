@@ -789,9 +789,9 @@
 					is associated.
 				</wadl:doc>
         <wadl:response>
-          <wadl:representation mediaType="application/json"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+json"></wadl:representation>
-          <wadl:representation mediaType="application/xml"></wadl:representation>
+          <wadl:representation mediaType="application/json" element="home"></wadl:representation>
+          <wadl:representation mediaType="application/vnd.slc+json" element="home"></wadl:representation>
+          <wadl:representation mediaType="application/xml" element="home"></wadl:representation>
         </wadl:response>
       </wadl:method>
     </wadl:resource>
@@ -1794,149 +1794,6 @@
           </wadl:response>
         </wadl:method>
         <wadl:method name="POST" id="postCustomForCoursesById">
-          <wadl:doc>Set the contents of the custom resource for the given
-						entity.</wadl:doc>
-          <wadl:request>
-            <wadl:representation mediaType="*/*" element="custom"></wadl:representation>
-          </wadl:request>
-          <wadl:response>
-            <wadl:doc>the response to the POST request</wadl:doc>
-            <wadl:representation mediaType="*/*"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-      </wadl:resource>
-    </wadl:resource>
-    <wadl:resource path="v1/userAccounts">
-      <wadl:doc>Represents list of $$UserAccount$$ (developer/vendor) and
-				status of the
-				account requested by them.
-			</wadl:doc>
-      <wadl:param name="includeCustom" style="query" type="xs:string" default="false"></wadl:param>
-      <wadl:method name="POST" id="postUserAccounts">
-        <wadl:doc>Create a new $$UserAccount$$ entity.</wadl:doc>
-        <wadl:request>
-          <wadl:representation mediaType="application/json" element="userAccount"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+json" element="userAccount"></wadl:representation>
-          <wadl:representation mediaType="application/xml" element="userAccount"></wadl:representation>
-        </wadl:request>
-        <wadl:response>
-          <wadl:representation mediaType="application/json"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+json"></wadl:representation>
-          <wadl:representation mediaType="application/xml"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+xml"></wadl:representation>
-        </wadl:response>
-      </wadl:method>
-      <wadl:method name="GET" id="getUserAccounts">
-        <wadl:doc>Returns all $$UserAccount$$ entities for which the logged
-					in User has permission and context.</wadl:doc>
-        <wadl:request>
-          <wadl:param name="offset" style="query" type="xs:int" default="0"></wadl:param>
-          <wadl:param name="limit" style="query" type="xs:int" default="50"></wadl:param>
-        </wadl:request>
-        <wadl:response>
-          <wadl:representation mediaType="application/json" element="userAccountList"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+json" element="userAccountList"></wadl:representation>
-          <wadl:representation mediaType="application/xml" element="userAccountList"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+xml" element="userAccountList"></wadl:representation>
-        </wadl:response>
-      </wadl:method>
-      <wadl:resource path="{userAccountId}">
-        <wadl:param name="userAccountId" style="template" type="xs:string"></wadl:param>
-        <wadl:method name="DELETE" id="deleteUserAccountsByUserAccountId">
-          <wadl:doc>Delete a $$UserAccount$$ entity</wadl:doc>
-          <wadl:response>
-            <wadl:representation mediaType="application/json"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json"></wadl:representation>
-            <wadl:representation mediaType="application/xml"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-        <wadl:method name="GET" id="getUserAccountsByUserAccountId">
-          <wadl:doc>Get a single $$UserAccount$$ entity</wadl:doc>
-          <wadl:response>
-            <wadl:representation mediaType="application/json" element="userAccountList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="userAccountList"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="userAccountList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml" element="userAccountList"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-        <wadl:method name="PUT" id="putUserAccountsByUserAccountId">
-          <wadl:doc>Update an existing $$UserAccount$$ entity.</wadl:doc>
-          <wadl:request>
-            <wadl:representation mediaType="application/json" element="userAccount"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="userAccount"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="userAccount"></wadl:representation>
-          </wadl:request>
-          <wadl:response>
-            <wadl:representation mediaType="application/json"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json"></wadl:representation>
-            <wadl:representation mediaType="application/xml"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-      </wadl:resource>
-      <wadl:resource path="createCheck">
-        <wadl:method name="GET" id="getCreateCheckForUserAccounts">
-          <wadl:doc>Check whether or not we can create more user accounts.
-					</wadl:doc>
-          <wadl:response>
-            <wadl:doc>result</wadl:doc>
-            <wadl:representation mediaType="application/json"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json"></wadl:representation>
-            <wadl:representation mediaType="application/xml"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-      </wadl:resource>
-      <wadl:resource path="createWaitingListUser">
-        <wadl:method name="POST" id="postCreateWaitingListUserForUserAccounts">
-          <wadl:doc>Put data into the waitingListUserAccount collection.
-					</wadl:doc>
-          <wadl:request>
-            <wadl:representation mediaType="application/json"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json"></wadl:representation>
-            <wadl:representation mediaType="application/xml"></wadl:representation>
-          </wadl:request>
-          <wadl:response>
-            <wadl:doc>result</wadl:doc>
-            <wadl:representation mediaType="application/json"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json"></wadl:representation>
-            <wadl:representation mediaType="application/xml"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-      </wadl:resource>
-      <wadl:resource path="{id}/custom">
-        <wadl:doc>Subresource for custom entities</wadl:doc>
-        <wadl:param name="id" style="template" type="xs:string"></wadl:param>
-        <wadl:method name="DELETE" id="deleteCustomForUserAccountsById">
-          <wadl:doc>Remove the custom resource for the given entity.
-					</wadl:doc>
-          <wadl:response>
-            <wadl:doc>the response tot he DELETE request</wadl:doc>
-            <wadl:representation mediaType="*/*"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-        <wadl:method name="GET" id="getCustomForUserAccountsById">
-          <wadl:doc>Read the contents of the custom resource for the given
-						entity.</wadl:doc>
-          <wadl:response>
-            <wadl:doc>the response to the GET request</wadl:doc>
-            <wadl:representation mediaType="*/*" element="custom"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-        <wadl:method name="PUT" id="putCustomForUserAccountsById">
-          <wadl:doc>Set the contents of the custom resource for the given
-						entity.</wadl:doc>
-          <wadl:request>
-            <wadl:representation mediaType="*/*" element="custom"></wadl:representation>
-          </wadl:request>
-          <wadl:response>
-            <wadl:doc>the response to the PUT request</wadl:doc>
-            <wadl:representation mediaType="*/*"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-        <wadl:method name="POST" id="postCustomForUserAccountsById">
           <wadl:doc>Set the contents of the custom resource for the given
 						entity.</wadl:doc>
           <wadl:request>
