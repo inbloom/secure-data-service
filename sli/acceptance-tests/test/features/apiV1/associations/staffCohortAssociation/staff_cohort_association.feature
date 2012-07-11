@@ -117,13 +117,13 @@ Scenario: Non-happy path: Attempt to create association with invalid reference f
    Given a valid association json document for a "<ASSOCIATION TYPE>"
     When I set the "<ENDPOINT1 FIELD>" to "<INVALID REFERENCE>"
     When I navigate to POST "/<ASSOCIATION URI>"
-    Then I should receive a return code of 400
+    Then I should receive a return code of 403
 
 Scenario: Non-happy path: Attempt to create association with invalid reference for endpoint2
    Given a valid association json document for a "<ASSOCIATION TYPE>"
     When I set the "<ENDPOINT2 FIELD>" to "<INVALID REFERENCE>"
     When I navigate to POST "/<ASSOCIATION URI>"
-    Then I should receive a return code of 400
+    Then I should receive a return code of 403
     
 Scenario: Non-happy path: Attempt to create association with reference for endpoint 1 user does not have access to
     Given I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
@@ -153,15 +153,15 @@ Scenario: Non-happy path: Attempt to update endpoint1 to an invalid reference
     When I navigate to GET "/<ASSOCIATION URI>/<ASSOCIATION ID FOR UPDATE>"
      And I set the "<ENDPOINT1 FIELD>" to "<INVALID REFERENCE>"
      And I navigate to PUT "/<ASSOCIATION URI>/<ASSOCIATION ID FOR UPDATE>"
-    Then I should receive a return code of 400
-     And the error message should indicate "<VALIDATION>"
+    Then I should receive a return code of 403
+     And the error message should indicate "<BAD REFERENCE>"
 
 Scenario: Non-happy path: Attempt to update endpoint2 to an invalid reference
     When I navigate to GET "/<ASSOCIATION URI>/<ASSOCIATION ID FOR UPDATE>"
      And I set the "<ENDPOINT2 FIELD>" to "<INVALID REFERENCE>"
      And I navigate to PUT "/<ASSOCIATION URI>/<ASSOCIATION ID FOR UPDATE>"
-    Then I should receive a return code of 400
-     And the error message should indicate "<VALIDATION>"
+    Then I should receive a return code of 403
+     And the error message should indicate "<BAD REFERENCE>"
 
 Scenario: Non-happy path: Attempt to delete a non-existing association
     When I navigate to DELETE "/<ASSOCIATION URI>/<INVALID REFERENCE>"
