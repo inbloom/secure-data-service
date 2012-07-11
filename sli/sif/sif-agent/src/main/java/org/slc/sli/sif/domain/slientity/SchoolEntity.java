@@ -16,15 +16,17 @@
 
 package org.slc.sli.sif.domain.slientity;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonProcessingException;
 
 /**
- * An SLI Entity corresponding to an SLI School.
+ * An SLI Entity corresponding to a school defined in SLI schema.
+ * Each SLI Entity can be converted to a JSON Node ready for SLI operations.
+ *
+ * Note that school fields defined in SLI schema have no counterparts in SIF SchoolInfo.
+ * Those fields have no get/setters defined here.
  *
  * @author slee
  *
@@ -191,29 +193,15 @@ public class SchoolEntity extends GenericEntity
      */
     @Override
     public JsonNode json() {
-        try
-        {
-            return mapper.readTree(jsonString());
-        } catch (JsonProcessingException e)
-        {
-            e.printStackTrace();
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        return null;
+        return mapper.valueToTree(this);
     }
 
     /**
      * Output this object as a JSON String
      */
     @Override
-    public String jsonString() {
-        try {
-            return mapper.writeValueAsString(this);
-        } catch (Exception e) {
-            return super.toString();
-        }
+    public String toString() {
+        return json().toString();
     }
 
 }
