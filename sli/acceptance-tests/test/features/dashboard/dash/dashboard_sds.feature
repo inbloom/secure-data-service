@@ -37,8 +37,8 @@ Then I see a list of 28 students
 #|7th Grade English  |
 #|6th Grade Math     |
 #|7th Grade Math     |
-And I click on course "8th Grade English"
-And I click on section "8th Grade English - Sec 6"
+#And I click on course "8th Grade English"
+#And I click on section "8th Grade English - Sec 6"
 And I check "Student" column is sorted as "string" column
 And I click on "Absence Count" header to sort a "integer" column in "ascending" order
 And I click on "Student" header to sort a "string" column in "descending" order
