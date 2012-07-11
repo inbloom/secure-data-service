@@ -245,7 +245,15 @@ task :v1ValidationTests => [:realmInit] do
   setFixture("section", "section_fixture.json")
   setFixture("studentSectionAssociation", "studentSectionAssociation_fixture.json")
   setFixture("teacherSectionAssociation", "teacherSectionAssociation_fixture.json")
-  runTests("test/features/apiV1/validation")
+  runTests("test/features/apiV1/validation/validation.feature")
+end
+
+desc "Run V1 White List Validation Tests"
+task :v1WhiteListValidationTests => [:realmInit] do
+  setFixture("educationOrganization", "educationOrganization_fixture.json")
+  setFixture("staff", "staff_fixture.json")
+  setFixture("student", "student_fixture.json")
+  runTests("test/features/apiV1/validation/whitelist_validation.feature")
 end
 
 desc "Run Sorting and Paging Tests"
@@ -308,8 +316,12 @@ task :v1SecurityEventTests => [:realmInit] do
   runTests("test/features/apiV1/securityEvent/securityEvent.feature")
 end
 
-
-
+desc "Run V1 Comma-Separated List Order Tests"
+task :v1CommaSeparatedListOrderTests => [:realmInit] do
+  setFixture("student", "student_fixture.json")
+  runTests("test/features/apiV1/comma_separated_list/comma_separated_list_ordering.feature")
+end
+  
 desc "Run API Smoke Tests"
 task :apiSmokeTests do
   @tags = ["~@wip", "@smoke", "~@sandbox"]

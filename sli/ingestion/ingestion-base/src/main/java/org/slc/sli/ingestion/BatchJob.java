@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion;
 
 import java.io.Serializable;
@@ -218,6 +217,12 @@ public final class BatchJob implements Serializable, ErrorReportSupport, Job {
     @Override
     public String toString() {
         return "BatchJob [id=" + id + ", creationDate=" + creationDate + ", configProperties=" + configProperties + "]";
+    }
+
+    @Override
+    public String getTenantId() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }
