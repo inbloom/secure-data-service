@@ -61,12 +61,12 @@ public class SecurityCriteriaTest {
 
         
         assertEquals("Should match", 2, query.getOrQueries().size());
-//        assertEquals("Should match", securityCriteria, query.getOrQueries().get(0));
-//        assertEquals("Should match", "value", query.getCriteria().get(0).getValue());
     }
 
     @Test
     public void testApplyBothCriteria() {
+        injector.setAccessAllAdminContext();
+
         SecurityCriteria securityCriteria = new SecurityCriteria();
         securityCriteria.setSecurityCriteria(new NeutralCriteria("key1", "in", "value1"));
         securityCriteria.setBlacklistCriteria(new NeutralCriteria("key2", "nin", "value2"));
@@ -74,10 +74,6 @@ public class SecurityCriteriaTest {
         NeutralQuery query = new NeutralQuery();
         query = securityCriteria.applySecurityCriteria(query);
 
-        assertEquals("Should match", 2, query.getCriteria().size());
-        assertEquals("Should match", "key1", query.getCriteria().get(0).getKey());
-        assertEquals("Should match", "value1", query.getCriteria().get(0).getValue());
-        assertEquals("Should match", "key2", query.getCriteria().get(1).getKey());
-        assertEquals("Should match", "value2", query.getCriteria().get(1).getValue());
+        assertEquals("Should match", 2, query.getOrQueries().size());
     }
 }
