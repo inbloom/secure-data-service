@@ -328,11 +328,6 @@
 		<graph>schools</graph>
 		<singular>school</singular>
 	</document>
-	<document name="SchoolSessionAssociation">
-		<class name="SchoolSessionAssociation"></class>
-		<graph>schoolSessionAssociations</graph>
-		<singular>schoolSessionAssociation</singular>
-	</document>
 	<document name="SchoolYearAttendanceType">
 		<class name="SchoolYearAttendanceType"></class>
 		<graph>schoolYearAttendanceTypes</graph>
@@ -352,12 +347,6 @@
 		<class name="Section"></class>
 		<graph>sections</graph>
 		<singular>section</singular>
-	</document>
-	<document name="SectionAssessmentAssociation">
-		<class name="SectionAssessmentAssociation"></class>
-		<graph>sectionAssessmentAssociations</graph>
-		<singular>sectionAssessmentAssociation
-		</singular>
 	</document>
 	<document name="ServiceDescriptor">
 		<class name="ServiceDescriptor"></class>
@@ -526,11 +515,6 @@
 		<class name="Telephone"></class>
 		<graph>telephones</graph>
 		<singular>telephone</singular>
-	</document>
-	<document name="User Account">
-		<class name="UserAccount"></class>
-		<graph>userAccounts</graph>
-		<singular>userAccount</singular>
 	</document>
 	<document name="WeaponsType">
 		<class name="WeaponsType"></class>

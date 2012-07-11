@@ -1,0 +1,1051 @@
+<?xml version = '1.0' encoding = 'UTF-8' ?>
+<pim-cfg>
+	<domain>
+		<title xml:lang="en">Alternative/Supplemental Services</title>
+		<description xml:lang="en">The Alternative/Supplemental
+			Services domain defines the model for a wide range of programs,
+			including education programs, alternative programs,
+			extracurricular
+			programs, or supplemental programs. Programs are offered by an
+			EducationOrganization and may offer services, as specified in the
+			ServiceDescriptor. Students are
+			associated with
+			Programs via a
+			StudentProgramAssociation. Staff are associated with Programs via a
+			StaffProgramAssociation.
+		</description>
+		<diagram>
+			<prolog xml:lang="en"></prolog>
+			<title xml:lang="en">Alternative/Supplemental Services</title>
+			<source>alternative_supplemental_services.png</source>
+			<epilog xml:lang="en"></epilog>
+		</diagram>
+		<entity>
+			<title xml:lang="en">Education Organization</title>
+			<class name="EducationOrganization" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Program</title>
+			<class name="Program" />
+		</entity>
+		<entity>
+			<title xml:lang="en">School</title>
+			<class name="School" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Section</title>
+			<class name="Section" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Service Descriptor</title>
+			<class name="ServiceDescriptor" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Staff</title>
+			<class name="Staff" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Staff Program Association</title>
+			<class name="StaffProgramAssociation" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Student</title>
+			<class name="Student" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Student Program Association</title>
+			<class name="StudentProgramAssociation" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Student Section Association</title>
+			<class name="StudentSectionAssociation" />
+		</entity>
+	</domain>
+	<domain>
+		<title>Assessment</title>
+		<description xml:lang="en">
+			The Assessment domain defines a model that can be used for a wide
+			variety of assessments, including state standardized assessments,
+			college entrance exams, benchmark assessments
+			and/or course
+			assessments.
+			The assessment domain is composed of the following
+			subdomains:
+			<ul>
+				<li>Learning Standards</li>
+				<li>Assessment Metadata</li>
+				<li>Student Assessment Results</li>
+			</ul>
+		</description>
+		<diagram>
+			<prolog xml:lang="en"></prolog>
+			<title xml:lang="en">Assessments</title>
+			<source>assessments.png</source>
+			<epilog xml:lang="en"></epilog>
+		</diagram>
+		<diagram>
+			<prolog xml:lang="en"></prolog>
+			<title xml:lang="en">Assessment Core Standards</title>
+			<source></source>
+			<epilog xml:lang="en">Many states have standard learning
+				standards that drive the curriculum and the assessments. The Common
+				Core State Standards Initiative
+				(www.corestandards.org) is a national
+				initiative for standards in this area. For states that use the
+				Common Core, or have their own standards, the assessment model has
+				entities
+				for LearningStandard, which represents
+				the lowest level of
+				skills, and LearningObjective, which represents higher level
+				aggregation of skills, as shown below. The model supports
+				a
+				hierarchical taxonomy of learning
+				skills using multiple levels of
+				LearningObjectives.
+			</epilog>
+		</diagram>
+		<diagram>
+			<prolog xml:lang="en"></prolog>
+			<title xml:lang="en">Assessment Metadata</title>
+			<source></source>
+			<epilog xml:lang="en">
+				Assessment metadata is defined as all data that describes the
+				assessment, as shown below. The model reflects four levels of
+				definition,
+				designed to accommodate a wide variety of
+				assessment
+				reporting, as follows:
+				<ul>
+					<li>AssessmentFamily – optional identification for a family of
+						tests. For example, a family of statewide tests might be
+						identified relating different subject assessments at
+						different
+						grade level. If required, AssessmentFamilies may be hierarchically
+						organized. By convention, characteristics of an AssessmentFamily
+						should be “inherited” by the
+						individual Assessments.
+					</li>
+					<li>Assessment – represents a specific assessment. The Assessment
+						entity contains the minimum amount of metadata required for an
+						assessment.
+					</li>
+					<li>ObjectiveAssessment – optional identification of portions of
+						the assessment that test specific learning objectives. If
+						required, there can be multiple levels of
+						hierarchical
+						ObjectiveAssessments.
+					</li>
+					<li>AssessmentItem – optional identification of the individual
+						questions or items on a test to be scored.
+					</li>
+				</ul>
+				Note that if the assessment references state standards for
+				LearningStandards and LearningObjectives, then the assessment
+				metadata would reference the preloaded standards. If
+				the
+				assessment
+				references its own set of LearningObjectives and/or
+				LearningStandards, then that data would be loaded as assessment
+				metadata. An ObjectiveAssessment may test one
+				or
+				more
+				LearningObjectives, and/or may test one or more LearningStandards.
+			</epilog>
+		</diagram>
+		<diagram>
+			<prolog xml:lang="en"></prolog>
+			<title xml:lang="en">Student Assessment</title>
+			<source></source>
+			<epilog xml:lang="en">
+				The student’s assessment results follows a similar structure:
+				<ul>
+					<li>StudentAssessment – holds the overall assessment score and
+						other information about the student’s results for a specific
+						assessment.
+					</li>
+					<li>StudentObjectiveAssessment – optionally holds the score for
+						individually scored results on a LearningObjective.
+					</li>
+					<li>StudentAssessmentItem – optionally holds the score for
+						individual AssessmentItems.
+					</li>
+				</ul>
+				The Assessment domain model is meant to adapt to support whatever
+				level of results is reported for an Assessment.
+			</epilog>
+		</diagram>
+		<entity>
+			<title xml:lang="en">Assessment</title>
+			<class name="Assessment"></class>
+		</entity>
+		<!-- AssessmentFamily is not supported in SLI -->
+		<entity>
+			<title xml:lang="en">Assessment Item</title>
+			<class name="AssessmentItem"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Assessment Period Descriptor</title>
+			<class name="AssessmentPeriodDescriptor"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Learning Objective</title>
+			<class name="LearningObjective"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Learning Standard</title>
+			<class name="LearningStandard"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Objective Assessment</title>
+			<class name="ObjectiveAssessment"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Performance Level Descriptor</title>
+			<class name="PerformanceLevelDescriptor"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Section</title>
+			<class name="Section"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Student</title>
+			<class name="Student"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Student Assessment</title>
+			<!-- StudentAssessment was renamed. It should be reverted. -->
+			<class name="StudentAssessmentAssociation"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Student Assessment Item</title>
+			<class name="StudentAssessmentItem"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Student Objective Assessment</title>
+			<class name="StudentObjectiveAssessment"></class>
+		</entity>
+	</domain>
+	<!-- domain>
+		<title>Bell Schedule</title>
+		<description xml:lang="en">
+			The BellSchedule represents the pattern of class period scheduling in
+			a day or over a course of days. The model is meant to accommodate a
+			wide variety of bell schedules
+			including block schedules, as follows:
+			<ul>
+				<li>Sections are assigned a “logical” ClassPeriod which forms the
+					basis for scheduling that section.
+				</li>
+				<li>A BellSchedule defines the MeetingTimes (time of day on which
+					days of the week) for each logical ClassPeriod. ClassPeriod do not
+					have to meet every day. The pattern of the
+					BellSchedule may span any
+					number of weeks, as indicated by the WeeksInCycle attribute.
+				</li>
+				<li>The association between BellSchedule and CalendarDate indicates
+					which days of the Session, the BellSchedule was in effect. This
+					allows the school to have BellSchedule that
+					are special for a
+					specific day, such as for a testing day, or a late-start day.
+				</li>
+				<li>A School may have multiple BellSchedules defined, and may have
+					different BellSchedules on the same (e.g., for different grades).
+				</li>
+			</ul>
+		</description>
+		<diagram>
+			<title xml:lang="en">Bell Schedule</title>
+			<source>bell_schedule.png</source>
+		</diagram>
+		<entity>
+			<title xml:lang="en">Bell Schedule</title>
+			<class name="BellSchedule"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Calendar Date</title>
+			<class name="CalendarDate"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Education Organization</title>
+			<class name="EducationOrganization"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">School</title>
+			<class name="School"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Section</title>
+			<class name="Section"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Session</title>
+			<class name="Session"></class>
+		</entity>
+	</domain-->
+	<domain>
+		<title>Discipline</title>
+		<description xml:lang="en">
+			The discipline domain model is fundamentally based the following
+			major entities:
+			<ul>
+				<li>DisciplineIncident – represent the actions or behaviors that
+					constitute an “offense” in violation of laws, rules, policies, or
+					norms of behavior.
+				</li>
+				<li>StudentDisciplineIncidentAssociation – links students to
+					DisciplineIncidents and indicates their role in that incident.
+				</li>
+				<li>DisciplineAction – represents the punitive or other actions
+					taken against the students.
+				</li>
+			</ul>
+			The model supports several flexibilities, as follows:
+			<ul>
+				<li>The BehaviorDescriptor holds the custom classification of
+					discipline incidents for a School.
+				</li>
+				<li>The DisciplineDescriptor holds the custom classification of
+					discipline actions for a School.
+				</li>
+				<li>When multiple students are involved in a DisciplineIncident, the
+					optional association from the StudentDisciplineIncidentAssociation
+					to the BehaviorDescriptor may be used
+					when students have different
+					levels of involvement, and therefore different offenses, for the
+					same discipline incident (e.g., one might be the perpetrator and
+					one might be an
+					accomplice).
+				</li>
+				<li>One DisciplineAction may be applied to one or more
+					DisciplineIncidents (e.g., one suspension for multiple occurrences
+					of fighting).
+				</li>
+				<li>One or more DisciplineActions may be applied to one
+					DisciplineIncident (e.g., suspension plus after school study hall).
+					Alternatively, one DisciplineAction could have
+					multiple
+					DisciplineDescriptors associated with it to accomplish the same
+					thing.
+				</li>
+			</ul>
+		</description>
+		<diagram>
+			<title xml:lang="en">Discipline</title>
+			<source>discipline.png</source>
+		</diagram>
+		<entity>
+			<title xml:lang="en">Behavior Descriptor</title>
+			<class name="BehaviorDescriptor"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Discipline Action</title>
+			<class name="DisciplineAction"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Discipline Descriptor</title>
+			<class name="DisciplineDescriptor"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Discipline Incident</title>
+			<class name="DisciplineIncident"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">School</title>
+			<class name="School"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Staff</title>
+			<class name="Staff"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Student</title>
+			<class name="Student"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Student Discipline Incident Association</title>
+			<class name="StudentDisciplineIncidentAssociation"></class>
+		</entity>
+	</domain>
+	<domain>
+		<title>Education Organization</title>
+		<description xml:lang="en">
+			The Education Organization domain defines the organizational
+			structure of the education organizations within the scope of the
+			Ed-Fi application. The entity EducationOrganization
+			is an abstract
+			entity, serving as an abstraction for common attributes and
+			associations. The model supports the following structure:
+			<ul>
+				<li>StateEducationAgency – optional entity for the state department
+					of education or equivalent.
+				</li>
+				<li>EducationServiceCenter – optional entity for a regional
+					organization between the district and state level.
+				</li>
+				<li>LocalEducationAgency – representing a school district or charter
+					management organization.
+				</li>
+				<li>School – representing the point of education instruction.</li>
+			</ul>
+		</description>
+		<diagram>
+			<title xml:lang="en">Education Organization</title>
+			<source>EdOrg.png</source>
+		</diagram>
+		<entity>
+			<title xml:lang="en">Education Organization</title>
+			<class name="EducationOrganization"></class>
+		</entity>
+		<!-- EducationServiceCenter is not defined for SLI -->
+		<!-- FeederSchoolAssociation is not defined for SLI -->
+		<entity>
+			<title xml:lang="en">School</title>
+			<class name="School"></class>
+		</entity>
+		<!-- StateEducationAgency is not defined for SLI -->
+	</domain>
+	<domain>
+		<title>Enrollment</title>
+		<description xml:lang="en">The Enrollment domain represents
+			students' enrollments in Schools, as specifically designated by the
+			StudentSchoolAssociation.
+		</description>
+		<diagram>
+			<title xml:lang="en">Enrollment</title>
+			<source>Enrollment.png</source>
+		</diagram>
+		<entity>
+			<title xml:lang="en">Education Organization</title>
+			<class name="EducationOrganization"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Graduation Plan</title>
+			<class name="GraduationPlan"></class>
+		</entity>
+		<!-- LocalEducationAgency is not defined for SLI -->
+		<entity>
+			<title xml:lang="en">School</title>
+			<class name="School"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Student</title>
+			<class name="Student"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Student School Association</title>
+			<class name="StudentSchoolAssociation"></class>
+		</entity>
+	</domain>
+	<domain>
+		<title>Graduation</title>
+		<description xml:lang="en">
+			The Graduation domain model is used to represent the following:
+			<ul>
+				<li>The student’s GraduationPlan, representing either a generic
+					graduation plan for all or many students, or an individualized
+					graduation plan. The GraduationPlan supports
+					several levels of
+					detail, including overall credit requirements, credits by subject
+					area, or down to specific courses to be taken.
+				</li>
+				<li>Significant PostSecondaryEvents, such as college applications
+					and acceptances.
+				</li>
+				<li>Awarding of the high school Diploma with associated honors and
+					other recognitions.
+				</li>
+			</ul>
+		</description>
+		<diagram>
+			<title xml:lang="en">Graduation</title>
+			<source>graduation.png</source>
+		</diagram>
+		<entity>
+			<title xml:lang="en">Diploma</title>
+			<class name="Diploma"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Education Organization</title>
+			<class name="EducationOrganization"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Graduation Plan</title>
+			<class name="GraduationPlan"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Post Secondary Event</title>
+			<class name="PostSecondaryEvent"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">School</title>
+			<class name="School"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Student</title>
+			<class name="Student"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Student Academic Record</title>
+			<class name="StudentAcademicRecord"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Student School Association</title>
+			<class name="StudentSchoolAssociation"></class>
+		</entity>
+	</domain>
+	<domain>
+		<title>School Calendar</title>
+		<description xml:lang="en">The School Calendar domain
+			represents the instructional days, sessions, and grading periods
+			defined for a school year.
+		</description>
+		<diagram>
+			<title xml:lang="en">School Calendar</title>
+			<source>school_calendar.png</source>
+		</diagram>
+		<entity>
+			<title xml:lang="en">Academic Week</title>
+			<class name="AcademicWeek"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Calendar Date</title>
+			<class name="CalendarDate"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Education Organization</title>
+			<class name="EducationOrganization"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Grading Period</title>
+			<class name="GradingPeriod"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Session</title>
+			<class name="Session"></class>
+		</entity>
+	</domain>
+	<domain>
+		<title>Staff</title>
+		<description xml:lang="en">
+			The Teacher entity is a specialization of the Staff entity, having
+			additional attributes and associations relating to their
+			instructional duties. Non-teachers would be
+			represented as Staff. The
+			Staff domain represents a wide variety of staff information,
+			including:
+			<ul>
+				<li>Employment information, represented by the
+					StaffEducationOrgEmploymentAssociation.
+				</li>
+				<li>Position assignments and roles, as represented by the
+					StaffEducationOrgAssignmentAssociation
+				</li>
+				<li>Staff attendance history, by representing LeaveEvents</li>
+				<li>Staff experience and credentials</li>
+				<li>OpenStaffPositions and whether they were filled</li>
+			</ul>
+		</description>
+		<diagram>
+			<title xml:lang="en">Staff</title>
+			<source>staff.png</source>
+		</diagram>
+		<entity>
+			<title xml:lang="en">Credential Field Descriptor</title>
+			<class name="CredentialFieldDescriptor"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Education Organization</title>
+			<class name="EducationOrganization"></class>
+		</entity>
+		<!-- EducationServiceCenter is not defined for SLI -->
+		<entity>
+			<title xml:lang="en">Leave Event</title>
+			<class name="LeaveEvent"></class>
+		</entity>
+		<!-- LocalEducationAgency is not defined for SLI -->
+		<entity>
+			<title xml:lang="en">Open Staff Position</title>
+			<class name="OpenStaffPosition"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">School</title>
+			<class name="School"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Staff</title>
+			<class name="Staff"></class>
+		</entity>
+		<!-- StaffEducationOrganizationAssignmentAssociation is not defined for 
+			SLI -->
+		<!-- StaffEducationOrganizationEmploymentAssociation is not defined for 
+			SLI -->
+		<!-- StateEducationAgency is not defined for SLI -->
+		<entity>
+			<title xml:lang="en">Teacher</title>
+			<class name="Teacher"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Teacher School Association</title>
+			<class name="TeacherSchoolAssociation"></class>
+		</entity>
+	</domain>
+	<domain>
+		<title>Student Academic Record</title>
+		<description xml:lang="en">
+			The Student Academic Record domain represents the various kinds of
+			student performance reporting, as follows:
+			<ul>
+				<li>Student transcript reporting course-level grades and credits
+				</li>
+				<li>Report cards with grading period grades and competencies</li>
+				<li>Gradebook grades and competencies for classroom quizzes, test,
+					home work, and projects
+				</li>
+			</ul>
+			A student transcript consists of a StudentAcademicRecord associated
+			with each Session which has a CourseTranscript for each course taken.
+		</description>
+		<diagram>
+			<title xml:lang="en">Student Academic Record</title>
+			<source>student_academic_record.png</source>
+		</diagram>
+		<!-- CompetencyLevelDescriptor is not defined for SLI -->
+		<entity>
+			<title xml:lang="en">Course</title>
+			<class name="Course"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Course Offering</title>
+			<class name="CourseOffering"></class>
+		</entity>
+		<!-- CourseTranscript is renamed for SLI -->
+		<entity>
+			<title xml:lang="en">Course Transcript</title>
+			<class name="StudentTranscriptAssociation"></class>
+		</entity>
+		<!-- EducationalPlansType is not defined for SLI -->
+		<entity>
+			<title xml:lang="en">Grade</title>
+			<class name="Grade"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Gradebook Entry</title>
+			<class name="GradebookEntry"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Grading Period</title>
+			<class name="GradingPeriod"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Learning Objective</title>
+			<class name="LearningObjective"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Learning Standard</title>
+			<class name="LearningStandard"></class>
+		</entity>
+		<!-- ReportCard is not defined for SLI -->
+		<entity>
+			<title xml:lang="en">Section</title>
+			<class name="Section" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Session</title>
+			<class name="Session"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Student</title>
+			<class name="Student" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Student Academic Record</title>
+			<class name="StudentAcademicRecord"></class>
+		</entity>
+		<!-- StudentCompetency is not defined for SLI -->
+		<!-- StudentCompetencyObjective is not defined for SLI -->
+		<entity>
+			<title xml:lang="en">Student Gradebook Entry</title>
+			<class name="StudentSectionGradebookEntry"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Student Section Association</title>
+			<class name="StudentSectionAssociation"></class>
+		</entity>
+	</domain>
+	<domain>
+		<title>Student Attendance</title>
+		<description xml:lang="en">
+			The Student Attendance domain represents both daily and class period
+			(section) attendance. This model supports two approaches for
+			collecting attendance data:
+			<ul>
+				<li>One attendance event for each student-section (or each
+					student-day), reporting both attendance and absences.
+				</li>
+				<li>“Exception only” reporting, providing attendance events only for
+					absences and tardies.
+				</li>
+			</ul>
+		</description>
+		<diagram>
+			<title xml:lang="en">Student Attendance</title>
+			<source>student_attendance.png</source>
+		</diagram>
+		<entity>
+			<title xml:lang="en">Attendance Event</title>
+			<class name="AttendanceEvent"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">School</title>
+			<class name="School" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Section</title>
+			<class name="Section" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Student</title>
+			<class name="Student" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Student Section Association</title>
+			<class name="StudentSectionAssociation"></class>
+		</entity>
+	</domain>
+	<domain>
+		<title>Student Cohort</title>
+		<description xml:lang="en">The Student Cohort domain represents
+			a wide variety of collections of students that are different from
+			class rosters or program participants.
+			This could include students
+			that are tagged for interventions or students tagged for the purposes
+			of tracking or analysis, such as a principal watch list. Cohorts may
+			be
+			associated with Programs and may have Staff associated with the
+			Cohort who is providing services, oversight or sponsorship.
+		</description>
+		<diagram>
+			<title xml:lang="en">Student Cohort</title>
+			<source>student_cohort.png</source>
+		</diagram>
+		<entity>
+			<title xml:lang="en">Cohort</title>
+			<class name="Cohort"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Education Organization</title>
+			<class name="EducationOrganization"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Program</title>
+			<class name="Program"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Staff</title>
+			<class name="Staff" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Staff Cohort Association</title>
+			<class name="StaffCohortAssociation"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Student</title>
+			<class name="Student" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Student Cohort Association</title>
+			<class name="StudentCohortAssociation"></class>
+		</entity>
+	</domain>
+	<domain>
+		<title>Student Identification and Demographics</title>
+		<description xml:lang="en">The Student Identification and
+			Demographics domain represents the core information about Students
+			and Parents.
+		</description>
+		<diagram>
+			<title xml:lang="en">Student Identification and Demographics</title>
+			<source>student_identification.png</source>
+		</diagram>
+		<entity>
+			<title xml:lang="en">Parent</title>
+			<class name="Parent"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Student</title>
+			<class name="Student" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Student Parent Association</title>
+			<class name="StudentParentAssociation"></class>
+		</entity>
+	</domain>
+	<domain>
+		<title>Teaching and Learning</title>
+		<description xml:lang="en">
+			The Teaching and Learning domain represent the following concepts:
+			<ul>
+				<li>The course catalog, representing the course definitions and
+					course offerings available at a school each session
+				</li>
+				<li>The student’s class enrollments in Sections and the Teacher(s)
+					assigned to that Section.
+				</li>
+			</ul>
+			Course represents the definition of the course, its characteristics
+			and its mapping to LearningStandards or LearningObjectives. Course
+			may be defined a State, LEA or School
+			level.
+			The CourseOffering is a
+			Course that is offered by a School during a session. The
+			CourseOffering will have a LocalCourseCode and may have a
+			LocalCourseTitle.
+		</description>
+		<diagram>
+			<title xml:lang="en">Teaching and Learning</title>
+			<source>teaching_and_learning.png</source>
+		</diagram>
+		<!-- ClassPeriod is not defined for SLI -->
+		<entity>
+			<title xml:lang="en">Course</title>
+			<class name="Course"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Course Offering</title>
+			<class name="CourseOffering"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Education Organization</title>
+			<class name="EducationOrganization" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Learning Objective</title>
+			<class name="LearningObjective"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Learning Standard</title>
+			<class name="LearningStandard"></class>
+		</entity>
+		<!--  entity>
+			<title xml:lang="en">Location</title>
+			<class name="Location"></class>
+		</entity-->
+		<entity>
+			<title xml:lang="en">School</title>
+			<class name="School" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Section</title>
+			<class name="Section" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Session</title>
+			<class name="Session"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Student</title>
+			<class name="Student" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Student School Association</title>
+			<class name="StudentSchoolAssociation"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Student Section Association</title>
+			<class name="StudentSectionAssociation"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Teacher</title>
+			<class name="Teacher"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Teacher School Association</title>
+			<class name="TeacherSchoolAssociation"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Teacher Section Association</title>
+			<class name="TeacherSectionAssociation"></class>
+		</entity>
+	</domain>
+	<domain>
+		<title>Career and Technical Education</title>
+		<description xml:lang="en">The Career and Technical Education
+			domain extends the Alternative/Supplemental Services domain by
+			extending the StudentProgramAssociation to
+			specify the CTE program or
+			cluster.
+		</description>
+		<diagram>
+			<title xml:lang="en">Career and Technical Education</title>
+			<source>career_and_tech_ed.png</source>
+		</diagram>
+		<entity>
+			<title xml:lang="en">Attendance Event</title>
+			<class name="AttendanceEvent"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Education Organization</title>
+			<class name="EducationOrganization" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Program</title>
+			<class name="Program"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">School</title>
+			<class name="School" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Section</title>
+			<class name="Section" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Service Descriptor</title>
+			<class name="ServiceDescriptor"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Staff</title>
+			<class name="Staff" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Staff Program Association</title>
+			<class name="StaffProgramAssociation" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Student</title>
+			<class name="Student" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Student CTE Program Association</title>
+			<class name="StudentCTEProgramAssociation"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Student Program Association</title>
+			<class name="StudentProgramAssociation" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Student Section Association</title>
+			<class name="StudentSectionAssociation" />
+		</entity>
+	</domain>
+	<domain>
+		<title>Special Education</title>
+		<description xml:lang="en">The Special Education domain extends
+			the Alternative/Supplemental Services domain by extending the
+			StudentProgramAssociation to specify
+			important data about the
+			student’s participation in the Special Education Program. In
+			addition, RestraintEvents are included.
+		</description>
+		<diagram>
+			<title xml:lang="en">Special Education</title>
+			<source>special_ed.png</source>
+		</diagram>
+		<entity>
+			<title xml:lang="en">Attendance Event</title>
+			<class name="AttendanceEvent"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Education Organization</title>
+			<class name="EducationOrganization" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Program</title>
+			<class name="Program"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Restraint Event</title>
+			<class name="RestraintEvent"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">School</title>
+			<class name="School" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Section</title>
+			<class name="Section" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Service Descriptor</title>
+			<class name="ServiceDescriptor"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Staff</title>
+			<class name="Staff" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Staff Program Association</title>
+			<class name="StaffProgramAssociation" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Student</title>
+			<class name="Student" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Student Program Association</title>
+			<class name="StudentProgramAssociation" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Student Section Association</title>
+			<class name="StudentSectionAssociation" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Student Special Education Program Association
+			</title>
+			<class name="StudentSpecialEdProgramAssociation"></class>
+		</entity>
+	</domain>
+	<!--  domain>
+		<title>Title I Part A Services</title>
+		<description xml:lang="en">The Special Education domain extends the Alternative/Supplemental Services domain by extending the
+		StudentProgramAssociation to specify the kind of Title I Part A participation the student is receiving.</description>
+		<diagram>
+			<title xml:lang="en">Title I Part A Services</title>
+			<source>title_i_part_A.png</source>
+		</diagram>
+		<entity>
+			<title xml:lang="en">Attendance Event</title>
+			<class name="AttendanceEvent"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Education Organization</title>
+			<class name="EducationOrganization" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Program</title>
+			<class name="Program"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">School</title>
+			<class name="School" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Section</title>
+			<class name="Section" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Service Descriptor</title>
+			<class name="ServiceDescriptor"></class>
+		</entity>
+		<entity>
+			<title xml:lang="en">Staff</title>
+			<class name="Staff" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Staff Program Association</title>
+			<class name="StaffProgramAssociation" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Student</title>
+			<class name="Student" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Student Program Association</title>
+			<class name="StudentProgramAssociation" />
+		</entity>
+		<entity>
+			<title xml:lang="en">Student Section Association</title>
+			<class name="StudentSectionAssociation" />
+		</entity>
+	</domain-->
+</pim-cfg>
