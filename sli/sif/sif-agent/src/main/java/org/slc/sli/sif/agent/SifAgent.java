@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.sif.zone.SubscribeZoneConfigurator;
 import org.slc.sli.sif.zone.ZoneConfigurator;
 @Component
 public class SifAgent extends Agent {
@@ -38,7 +39,7 @@ public class SifAgent extends Agent {
 
     private AgentConfig fCfg;
 
-    @Value("classpath:/sif/agent-config.xml")
+    @Value("classpath:/sif/agent-subscribe-config.xml")
     private Resource configFile;
 
     ZoneConfigurator zoneConfigurator;
@@ -50,6 +51,7 @@ public class SifAgent extends Agent {
     public SifAgent(String id){
         super(id);
         setName(id);
+        this.zoneConfigurator = new SubscribeZoneConfigurator();
     }
 
     public SifAgent(String id, Resource configFile, ZoneConfigurator zoneConfig ){

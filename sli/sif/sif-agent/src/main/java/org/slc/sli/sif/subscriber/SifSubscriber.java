@@ -19,29 +19,48 @@ package org.slc.sli.sif.subscriber;
 import openadk.library.ADKException;
 import openadk.library.Event;
 import openadk.library.MessageInfo;
+import openadk.library.SIFDataObject;
 import openadk.library.Subscriber;
 import openadk.library.Zone;
 
-import org.slc.sli.sif.slcinterface.SlcInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.slc.sli.sif.slcinterface.SlcInterface;
 
 public class SifSubscriber implements Subscriber {
 
     private static final Logger LOG = LoggerFactory.getLogger(SifSubscriber.class);
+
+    private void inspectAndDestroyEvent(Event e) {
+        LOG.info("###########################################################################");
+        try {
+            SIFDataObject dataObj = e.getData().readDataObject();
+            LOG.info(dataObj.toString());
+        } catch (ADKException e1) {
+            LOG.error("Error trying to inspect event", e1);
+        }
+        LOG.info("###########################################################################");
+    }
 
     @Override
     public void onEvent(Event event, Zone zone, MessageInfo info) throws ADKException {
         LOG.info("Received event:\n" + "\tEvent: " + event.getActionString() + "\n" + "\tZone: " + zone.getZoneId()
                 + "\n" + "\tInfo: " + info.getMessage());
 
+        System.out.println("GOT EVENT!!");
+
+        inspectAndDestroyEvent(event);
+
         //execute a call to the SDK
         SlcInterface sdk = new SlcInterface();
         String token = sdk.sessionCheck();
-        if (null != token && 0 < token.length())
-            LOG.info("Successfully executed session check with token " + token);
-        else
-            LOG.info("Session check failed");
+        if (null != token && 0 < token.length()) {
+			LOG.info("Successfully executed session check with token " + token);
+		} else {
+			LOG.info("Session check failed");
+		}
     }
+
 
 }

@@ -22,9 +22,14 @@ import javax.annotation.PreDestroy;
 import openadk.library.ADK;
 import openadk.library.ADKException;
 import openadk.library.ADKFlags;
+import openadk.library.SubscriptionOptions;
+import openadk.library.Zone;
+import openadk.library.student.StudentDTD;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.sif.subscriber.SifSubscriber;
 
 @Component
 public class AgentManager {
@@ -38,7 +43,15 @@ public class AgentManager {
         ADK.initialize();
         ADK.debug = ADK.DBG_ALL;
 
-//        agent.startAgent();
+        agent.startAgent();
+
+        //create a subscriber and add it to the agents TestZone
+        Zone zone = agent.getZoneFactory().getZone("TestZone");
+        SifSubscriber subscriber = new SifSubscriber();
+
+        //create a subscriber and add it to the agents TestZone
+        zone.setSubscriber(subscriber, StudentDTD.SCHOOLINFO, new SubscriptionOptions());
+        zone.setSubscriber(subscriber, StudentDTD.STUDENTPERSONAL, new SubscriptionOptions());
     }
 
     @PreDestroy

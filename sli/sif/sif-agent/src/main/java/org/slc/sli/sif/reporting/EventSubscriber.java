@@ -39,6 +39,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
 import org.slc.sli.sif.agent.SifAgent;
+import org.slc.sli.sif.slcinterface.SlcInterface;
 import org.slc.sli.sif.zone.SubscribeZoneConfigurator;
 
 public class EventSubscriber implements Subscriber, QueryResults {
@@ -74,7 +75,8 @@ public class EventSubscriber implements Subscriber, QueryResults {
             } else {
                 Zone zone = agent.getZoneFactory().getZone("TestZone");
                 EventSubscriber subscriber = new EventSubscriber(zone);
-            //    subscriber.sendQuery();
+                //agent.setSubscriber(subscriber);
+                //subscriber.sendQuery();
             }
         } catch (Exception e) {
             logger.error("Exception trying to subscriber to event", e);
@@ -125,7 +127,17 @@ public class EventSubscriber implements Subscriber, QueryResults {
     public void onEvent(Event event, Zone zone, MessageInfo info) throws ADKException {
         LOG.info("Received event:\n" + "\tEvent: " + event.getActionString() + "\n" + "\tZone: " + zone.getZoneId()
                 + "\n" + "\tInfo: " + info.getMessage());
+        System.out.println("GOT MESSAGE!!");
         inspectAndDestroyEvent(event);
+
+        //execute a call to the SDK
+        SlcInterface sdk = new SlcInterface();
+        String token = sdk.sessionCheck();
+        if (null != token && 0 < token.length()) {
+			LOG.info("Successfully executed session check with token " + token);
+		} else {
+			LOG.info("Session check failed");
+		}
     }
 
     @Override
