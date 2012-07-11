@@ -11,13 +11,14 @@
 
 function mapf()
 {
-    emit(this.body.resource,
-         {resource:this.body.resource, total_time:this.body.responseTime, count:1, avg_time:0});
+    var key = {end_point:this.body.resource,Date:this.body.Date};
+    var value = {total_time:parseInt(this.body.responseTime), count:1, avg_time:0};
+    emit( key, value);
 }
 
 function reducef(key, values)
 {
-    var r =  {resource:key, total_time:0, count:1, avg_time:0};
+    var r =  {total_time:0, count:1, avg_time:0};
     values.forEach(function(v)
 		   {
 		       r.total_time += v.total_time;

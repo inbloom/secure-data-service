@@ -93,33 +93,48 @@ public class PostProcessFilter implements ContainerResponseFilter {
 
         //extract parameters from the request URI
         String requestURL=  request.getRequestUri().toString();
-        String path = request.getPath().toString();
+        if(requestURL.contains("?")){
+            requestURL = requestURL.substring(0,requestURL.indexOf("?"));
+        }
         UriTemplate fourPartUri = new UriTemplate("http://local.slidev.org:8080/api/rest/v1/{resource}/{id}/{association}/{associateEntity}");
-        UriTemplate threePartUri = new UriTemplate("http://local.slidev.org:8080/api/rest/v1/{resource}/{id}/{associateEntity}");
+        UriTemplate threePartUri = new UriTemplate("http://local.slidev.org:8080/api/rest/v1/{resource}/{id}/{association}");
         UriTemplate twoPartUri = new UriTemplate("http://local.slidev.org:8080/api/rest/v1/{resource}/{id}");
         UriTemplate readAllUri = new UriTemplate("http://local.slidev.org:8080/api/rest/v1/{resource}");
         HashMap<String, String> uri = new HashMap<String, String>();
-
+       // MultiMap<String,String> quaryParams;
+        boolean logIntoDb = true ;
         if(!fourPartUri.match(requestURL , uri)) {
             if (!threePartUri.match(requestURL , uri)){
                 if(!twoPartUri.match(requestURL , uri)) {
-                    readAllUri.match(requestURL , uri);
+                    logIntoDb = readAllUri.match(requestURL , uri);
                 }
             }
         }
 
-        body.put("url",requestURL) ;
-        body.put("method",request.getMethod());
-        body.put("entityCount",response.getHttpHeaders().get("TotalCount"));
-        body.put("resource",uri.get("resource"));
-        body.put("id",uri.get("id"));
-        body.put("association",uri.get("association"));
-        body.put("associateEntity",uri.get("associateEntity"));
-        body.put("Date", dateFormatter.format(System.currentTimeMillis()));
-        body.put("startTime",timeFormatter.format(new Date(startTime))) ;
-        body.put("endTime",timeFormatter.format(new Date(System.currentTimeMillis())));
-        body.put("responseTime", String.valueOf(elapsed));
-        perfRepo.create("apiResponse",body,"apiResponse");
+        if(logIntoDb) {
+            String endPoint = "/" + uri.get("resource");
+            if(uri.get("id") != null) {
+                endPoint += "/{id}";
+                if(uri.get("association") != null) {
+                    endPoint += "/"+ uri.get("association");
+                }
+                if(uri.get("associateEntity") != null) {
+                    endPoint += "/"+ uri.get("associateEntity");
+                }
+            }
+
+            body.put("url",requestURL) ;
+            body.put("method",request.getMethod());
+            body.put("entityCount",response.getHttpHeaders().get("TotalCount"));
+            body.put("resource",endPoint);
+            body.put("id",uri.get("id"));
+            body.put("parameters", request.getQueryParameters());
+            body.put("Date", dateFormatter.format(System.currentTimeMillis()));
+            body.put("startTime",timeFormatter.format(new Date(startTime))) ;
+            body.put("endTime",timeFormatter.format(new Date(System.currentTimeMillis())));
+            body.put("responseTime", String.valueOf(elapsed));
+            perfRepo.create("apiResponse",body,"apiResponse");
+        }
 
     }
     
