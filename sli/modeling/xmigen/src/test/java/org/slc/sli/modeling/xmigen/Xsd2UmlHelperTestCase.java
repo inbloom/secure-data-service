@@ -59,6 +59,8 @@ public class Xsd2UmlHelperTestCase extends TestCase {
         assertEquals("ID", Xsd2UmlHelper.camelCase("ID"));
         assertEquals("IEP", Xsd2UmlHelper.camelCase("IEP"));
         assertEquals("LEA", Xsd2UmlHelper.camelCase("LEA"));
+        assertEquals("URI", Xsd2UmlHelper.camelCase("URI"));
         assertEquals("URL", Xsd2UmlHelper.camelCase("URL"));
+        assertEquals("URN", Xsd2UmlHelper.camelCase("URN"));
     }
 }

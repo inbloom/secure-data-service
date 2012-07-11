@@ -11354,7 +11354,7 @@
   </mapping>
   <mapping>
     <lhs>
-      <name>uRI</name>
+      <name>URI</name>
       <exists>true</exists>
       <owner-name>DescriptorType</owner-name>
       <owner-exists>true</owner-exists>

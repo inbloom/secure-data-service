@@ -24,7 +24,7 @@ public final class Xsd2UmlHelper {
         return strval.replaceAll("(?i)".concat(target), replacement);
     }
     
-    private static final String[] ACRONYMS = { "CIP", "CTE", "GPA", "ID", "IEP", "LEA", "URL" };
+    private static final String[] ACRONYMS = { "CIP", "CTE", "GPA", "ID", "IEP", "LEA", "URI", "URL", "URN" };
     
     public static final String camelCase(final String text) {
         if (text == null) {
