@@ -67,8 +67,8 @@ procs = [
   {name: 'Ingestion', port: 8000, dir: "#{dir}/ingestion/ingestion-service", exec: "mvn -o jetty:run", pattern: jetty_pattern},
   {name: 'Dashboard', port: 8888, dir: "#{dir}/dashboard", exec: "mvn -o jetty:run", pattern: jetty_pattern},
   {name: 'SimpleIDP', port: 8082, dir: "#{dir}/simple-idp", exec: "mvn -o jetty:run", pattern: jetty_pattern},
-  {name: 'Databrowser', port: 3000, dir: "#{dir}/databrowser", exec: "bundle exec rails server", pattern: />> Listening on/},
-  {name: 'AdminTools', port: 3001, dir: "#{dir}/admin-tools/admin-rails", exec: "bundle exec rails server", pattern: /WEBrick::HTTPServer#start:/}
+  {name: 'Databrowser', port: 3000, dir: "#{dir}/databrowser", exec: "bundle install; bundle exec rails server", pattern: />> Listening on/},
+  {name: 'AdminTools', port: 3001, dir: "#{dir}/admin-tools/admin-rails", exec: "bundle install; bundle exec rails server", pattern: /WEBrick::HTTPServer#start:/}
 ]
 
 procs.each { |p|
