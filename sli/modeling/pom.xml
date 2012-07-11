@@ -28,11 +28,11 @@
 		<module>xdm</module>
 		<module>jgen</module>
 		<module>docgen</module>
-		<module>shtick</module>
 		<module>sdkgen</module>
 		<module>xmigen</module>
 		<module>xmicomp</module>
 		<module>xsdgen</module>
 		<module>waudit</module>
+        <module>shtick</module>
 	</modules>
 </project>

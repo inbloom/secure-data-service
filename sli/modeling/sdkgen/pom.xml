@@ -47,5 +47,38 @@
 			<artifactId>xsd</artifactId>
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
-	</dependencies>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.1</version>
+                <executions>
+                    <execution>
+                        <id>sdkgen</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>org.slc.sli.modeling.sdkgen.SdkGen</mainClass>
+                            <arguments>
+                                <argument>--outFolder</argument>
+                                <argument>${sli.home}/modeling/shtick/src/main/java/org/slc/sli/shtick</argument>
+                                <argument>--wadlFile</argument>
+                                <argument>${sli.home}/domain/src/main/resources/sliModel/SLI.wadl</argument>
+                                <argument>--package</argument>
+                                <argument>org.slc.sli.shtick</argument>
+                                <argument>--xmiFile</argument>
+                                <argument>${sli.home}/domain/src/main/resources/sliModel/SLI.xmi</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
