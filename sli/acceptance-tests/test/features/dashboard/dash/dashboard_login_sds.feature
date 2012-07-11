@@ -227,7 +227,7 @@ And the search results include:
   |Student          |Grade    |School                     |
   |Matt Sollars     |8        |East Daybreak Junior High  |
 
- @integration @RALLY_US200
+ @integration @RALLY_US200 @wip
  Scenario: Login with District level Agg. Viewer
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
@@ -242,7 +242,7 @@ Then I see these values in the drop-down: "South Daybreak Elementary;East Daybre
 When I select school "East Daybreak Junior High"
 Then I don't see a course selection
 
-@integration @RALLY_US200
+@integration @RALLY_US200 @wip
 Scenario: Login with State Agg. Viewer
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
@@ -352,7 +352,7 @@ And their grade is "1"
 And the class is "Mrs. Braverman's Homeroom #38"
 And the lozenges count is "0"
 
-@integration @RALLY_US200
+@integration @RALLY_US200 @wip
 Scenario: Login with School Level aggr viewer
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go

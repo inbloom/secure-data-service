@@ -31,9 +31,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.api.client.SLIClient;
 import org.slc.sli.dashboard.entity.ConfigMap;
 import org.slc.sli.dashboard.entity.GenericEntity;
@@ -42,6 +39,8 @@ import org.slc.sli.dashboard.util.Constants;
 import org.slc.sli.dashboard.util.ExecutionTimeLogger;
 import org.slc.sli.dashboard.util.JsonConverter;
 import org.slc.sli.dashboard.util.SecurityUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This client will use the SDK client to communicate with the SLI API.
@@ -57,7 +56,7 @@ public class SDKAPIClient implements APIClient {
     
     private SLIClient sdkClient;
     private String gracePeriod;
-    
+
     /**
      * Wrapper for value for the custom store - value is expected json object vs primitive
      * 
@@ -324,10 +323,60 @@ public class SDKAPIClient implements APIClient {
         // get schools
         List<GenericEntity> schools = this.readEntityList(token,
                 SDKConstants.SCHOOLS_ENTITY + "?" + this.buildQueryString(null));
-        
+
         return schools;
     }
     
+    /**
+     * Attempt to get a list of the users's schools
+     * 
+     * Note: This is a naieve method, it assumes you're a teacher, and if that fails
+     * it takes the route of going through pretending you're generic staff.
+     * 
+     * This adds 1 extra API call.
+     * 
+     * @param token
+     * @param ids
+     * @return a list of school entities that the user is associated with
+     */
+    @Override
+    public List<GenericEntity> getMySchools(String token) {
+        
+        List<GenericEntity> schools = new ArrayList<GenericEntity>();
+        // get schools
+        schools = this.readEntityList(token, SDKConstants.TEACHERS_ENTITY + getId(token)
+                + SDKConstants.TEACHER_SCHOOL_ASSOC + SDKConstants.SCHOOLS_ENTITY + "?" + this.buildQueryString(null));
+        if (schools == null || schools.size() == 0) {
+            // Ok there are 5 potential edOrg levels so we need to get the edOrg for this staff then
+            // dig down to the individual schools.
+            Set<GenericEntity> schoolSet = new HashSet<GenericEntity>();
+            List<GenericEntity> edOrgs = new ArrayList<GenericEntity>();
+            schools = new ArrayList<GenericEntity>();
+            edOrgs.addAll(this.readEntityList(token,
+                    SDKConstants.STAFF_ENTITY + getId(token) + SDKConstants.STAFF_EDORG_ASSIGNMENT_ASSOC
+                            + SDKConstants.EDORGS_ENTITY + "?" + this.buildQueryString(null)));
+
+            for (int i = 0; i < edOrgs.size(); ++i) {
+                GenericEntity edOrg = edOrgs.get(i);
+                Map<String, String> query = new HashMap<String, String>();
+                query.put("parentEducationAgencyReference", (String) edOrg.get("id"));
+                
+                List<String> categories = (List<String>) edOrg.getList("organizationCategories");
+                if (categories.contains("School")) {
+                    schoolSet.add(edOrg);
+                } else {
+                    List<GenericEntity> newEdorgs = this.readEntityList(token,
+                            SDKConstants.EDORGS_ENTITY + "?" + this.buildQueryString(query));
+                    if (newEdorgs != null)
+                        edOrgs.addAll(newEdorgs);
+                }
+            }
+            schools.addAll(schoolSet);
+        }
+        
+        return schools;
+    }
+
     /**
      * Get a list of schools using a list of ids
      * 
@@ -1394,7 +1443,7 @@ public class SDKAPIClient implements APIClient {
             // get course Entity
             List<GenericEntity> courses = readEntityList(token,
                     SDKConstants.COURSES_ENTITY + "?" + this.buildQueryString(null));
-            
+
             // update courseMap with courseId. "id" for this entity
             for (GenericEntity course : courses) {
                 // Add course to courseMap
@@ -1417,7 +1466,7 @@ public class SDKAPIClient implements APIClient {
         
         return new ArrayList<GenericEntity>(courseMap.values());
     }
-    
+
     /**
      * Get the associations between courses and sections
      */

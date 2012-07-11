@@ -129,17 +129,17 @@ db["teacher"].ensureIndex({"batchJobId" : 1, "_id" : 1});
 db["teacherSchoolAssociation"].ensureIndex({"batchJobId" : 1, "_id" : 1});
 db["teacherSectionAssociation"].ensureIndex({"batchJobId" : 1, "_id" : 1});
 
-// 
+//
 // other indexes required for responsiveness of staging database during transformations
 //
-db["assessmentFamily"].ensureIndex({"body.AssessmentFamilyIdentificationCode.ID":1});
-db["assessmentItem"].ensureIndex({"body.identificationCode":1});
-db["assessmentItem"].ensureIndex({"localId":1});
-db["assessmentPeriodDescriptor"].ensureIndex({"body.codeValue":1});
-db["assessmentPeriodDescriptor"].ensureIndex({"body.codeValue":1});
-db["disciplineIncident"].ensureIndex({"body.id":1});
-db["school"].ensureIndex({"body.stateOrganizationId":1});
-db["session"].ensureIndex({"body.schoolId":1});
-db["studentAssessmentItem"].ensureIndex({"localParentIds.studentResultRef":1});
-db["studentObjectiveAssessment"].ensureIndex({"body.studentAssessmentRef":1});
-db["studentSchoolAssociation"].ensureIndex({"body.studentId":1});
+db["assessmentFamily"].ensureIndex({"batchJobId" : 1, "body.AssessmentFamilyIdentificationCode.ID":1});
+db["assessmentItem"].ensureIndex({"batchJobId" : 1, "body.identificationCode":1});
+db["assessmentItem"].ensureIndex({"batchJobId" : 1, "localId":1});
+db["assessmentPeriodDescriptor"].ensureIndex({"batchJobId" : 1, "body.codeValue":1});
+db["assessmentPeriodDescriptor"].ensureIndex({"batchJobId" : 1, "body.codeValue":1});
+db["disciplineIncident"].ensureIndex({"batchJobId" : 1, "body.id":1});
+db["school"].ensureIndex({"batchJobId" : 1, "body.stateOrganizationId":1});
+db["session"].ensureIndex({"batchJobId" : 1, "body.schoolId":1});
+db["studentAssessmentItem"].ensureIndex({"batchJobId" : 1, "localParentIds.studentResultRef":1});
+db["studentObjectiveAssessment"].ensureIndex({"batchJobId" : 1, "body.studentAssessmentRef":1});
+db["studentSchoolAssociation"].ensureIndex({"batchJobId" : 1, "body.studentId":1});

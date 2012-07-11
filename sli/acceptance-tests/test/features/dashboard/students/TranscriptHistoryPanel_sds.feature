@@ -36,17 +36,19 @@ Feature: Student Transcript History Panel
     When I look at the "Transcript History" panel under "Grades and Credits"
     Then I should find 8 rows of transcript history
     And I should see the table headers "Year;Term;School;Grade Level;Cumulative GPA;"
-    And I should see the row "2008-2009;Fall Semester; ;5;3.3;"
-    And I should see the row "2010-2011;Fall Semester;East Daybreak Junior High;7;3.4;"
     And I should see the row "2010-2011;Spring Semester;East Daybreak Junior High;7;3.2;"
-    And I should see the row "2009-2010;Fall Semester;East Daybreak Junior High;6;3.1;"
-    And I should see the row "2007-2008;Fall Semester; ;4;3.0;"
-    And I should see the row "2007-2008;Spring Semester; ;4;3.3;"
+    And I should see the row "2010-2011;Fall Semester;East Daybreak Junior High;7;3.4;"
     And I should see the row "2009-2010;Spring Semester;East Daybreak Junior High;6;2.9;"
-    And I should see the row "2008-2009;Spring Semester; ;5;3.2;"
+    And I should see the row "2009-2010;Fall Semester;East Daybreak Junior High;6;3.1;"
+    And I should see the row "2008-2009;Spring Semester;South Daybreak Elementary;5;3.2;"
+    And I should see the row "2008-2009;Fall Semester;South Daybreak Elementary;5;3.3;"
+    And I should see the row "2007-2008;Spring Semester;South Daybreak Elementary;4;3.3;"
+    And I should see the row "2007-2008;Fall Semester;South Daybreak Elementary;4;3.0;"
+
+
     And I should find 0 expanded rows
 
-    When I click the expand button of the row "2008-2009;Fall Semester; ;5;3.3;"
+    When I click the expand button of the row "2008-2009;Fall Semester;South Daybreak Elementary;5;3.3;"
     And I should see the sub table headers "Subject;Course;Grade;"
     Then I should find 6 sub rows
     And I should see the sub row "Reading;Reading 5A;A;"
@@ -86,7 +88,7 @@ Feature: Student Transcript History Panel
     And I should see the sub row "Fine and Performing Arts;Drama I;B;"
     And I should see the sub row "Physical, Health, and Safety Education;Team Sports;A;"
 
-    When I click the expand button of the row "2007-2008;Fall Semester; ;4;3.0;"
+    When I click the expand button of the row "2007-2008;Fall Semester;South Daybreak Elementary;4;3.0;"
     Then I should see the sub table headers "Subject;Course;Grade;"
     And I should find 6 sub rows
     And I should see the sub row "Physical, Health, and Safety Education;Phys-Ed 4A;A-;"
@@ -96,7 +98,7 @@ Feature: Student Transcript History Panel
     And I should see the sub row "Social Studies;Government-4;B+;"
     And I should see the sub row "Science;Science 4A;B+;"
 
-    When I click the expand button of the row "2007-2008;Spring Semester; ;4;3.3;"
+    When I click the expand button of the row "2007-2008;Spring Semester;South Daybreak Elementary;4;3.3;"
     Then I should see the sub table headers "Subject;Course;Grade;"
     And I should find 6 sub rows
     And I should see the sub row "Mathematics;Math 4B;B+;"
@@ -116,7 +118,7 @@ Feature: Student Transcript History Panel
     And I should see the sub row "Fine and Performing Arts;Drama II;B-;"
     And I should see the sub row "Physical, Health, and Safety Education;Nutrition;C+;"
 
-    When I click the expand button of the row "2008-2009;Spring Semester; ;5;3.2;"
+    When I click the expand button of the row "2008-2009;Spring Semester;South Daybreak Elementary;5;3.2;"
     Then I should see the sub table headers "Subject;Course;Grade;"
     And I should find 6 sub rows
     And I should see the sub row "Reading;Reading 5B;A-;"
@@ -145,7 +147,7 @@ Feature: Student Transcript History Panel
     And I should see "Mathematics;Math 5B;B+;" for sub row 1
 
     # Collapse the sub sub grids and check for counts
-    When I click the expand button of the row "2008-2009;Fall Semester; ;5;3.3;"
+    When I click the expand button of the row "2008-2009;Fall Semester;South Daybreak Elementary;5;3.3;"
     Then I should find 7 expanded rows
     When I click the expand button of the row "2010-2011;Fall Semester;East Daybreak Junior High;7;3.4;"
     Then I should find 6 expanded rows
@@ -153,13 +155,13 @@ Feature: Student Transcript History Panel
     Then I should find 5 expanded rows
     When I click the expand button of the row "2009-2010;Fall Semester;East Daybreak Junior High;6;3.1;"
     Then I should find 4 expanded rows
-    When I click the expand button of the row "2007-2008;Fall Semester; ;4;3.0;"
+    When I click the expand button of the row "2007-2008;Fall Semester;South Daybreak Elementary;4;3.0;"
     Then I should find 3 expanded rows
-    When I click the expand button of the row "2007-2008;Spring Semester; ;4;3.3;"
+    When I click the expand button of the row "2007-2008;Spring Semester;South Daybreak Elementary;4;3.3;"
     Then I should find 2 expanded rows
     When I click the expand button of the row "2009-2010;Spring Semester;East Daybreak Junior High;6;2.9;"
     Then I should find 1 expanded rows
-    When I click the expand button of the row "2008-2009;Spring Semester; ;5;3.2;"
+    When I click the expand button of the row "2008-2009;Spring Semester;South Daybreak Elementary;5;3.2;"
     Then I should find 0 expanded rows
     # Expand all
     When I click the Expand All link
@@ -198,15 +200,15 @@ Feature: Student Transcript History Panel
     When I look at the "Transcript History" panel under "Grades and Credits"
     Then I should find 6 rows of transcript history
     And I should see the table headers "Year;Term;School;Grade Level;Cumulative GPA;"
-    And I should see the row "2008-2009;Spring Semester; ;8;3.2;"
+    And I should see the row "2008-2009;Spring Semester;East Daybreak Junior High;8;3.2;"
     And I should see the row "2009-2010;Fall Semester;Daybreak Central High;9;3.6;"
     And I should see the row "2010-2011;Fall Semester;Daybreak Central High;10;3.2;"
-    And I should see the row "2008-2009;Fall Semester; ;8;2.8;"
+    And I should see the row "2008-2009;Fall Semester;East Daybreak Junior High;8;2.8;"
     And I should see the row "2010-2011;Spring Semester;Daybreak Central High;10;3.4;"
     And I should see the row "2009-2010;Spring Semester;Daybreak Central High;9;2.5;"
     And I should find 0 expanded rows
 
-    When I click the expand button of the row "2008-2009;Spring Semester; ;8;3.2;"
+    When I click the expand button of the row "2008-2009;Spring Semester;East Daybreak Junior High;8;3.2;"
     Then I should see the sub table headers "Subject;Course;Grade;"
     And I should find 6 sub rows
     And I should see the sub row "Fine and Performing Arts;Choir B;A-;"
@@ -236,7 +238,7 @@ Feature: Student Transcript History Panel
     And I should see the sub row "Mathematics;Algebra I;C+;"
     And I should see the sub row "Social Studies;State History I;C+;"
 
-    When I click the expand button of the row "2008-2009;Fall Semester; ;8;2.8;"
+    When I click the expand button of the row "2008-2009;Fall Semester;East Daybreak Junior High;8;2.8;"
     Then I should see the sub table headers "Subject;Course;Grade;"
     And I should find 6 sub rows
     And I should see the sub row "Fine and Performing Arts;Choir A;B;"
