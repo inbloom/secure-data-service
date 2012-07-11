@@ -1,6 +1,7 @@
 @RALLY_US1801
 @RALLY_US2189
 @RALLY_US2286
+@RALLY_DE563
 Feature: Ingestion IDRef Test
 
 Background: I have a landing zone route configured
@@ -51,6 +52,7 @@ Then I should see following map of entry counts in the corresponding collections
 #  And I should see "Unable to resolve a reference with ref=[LO_101]: No matching element with id=[LO_101]" in the resulting warning log file for "InterchangeStudentGrade.xml"
 #  And I should see "Unable to resolve a reference with ref=[SSA_101]: No matching element with id=[SSA_101]" in the resulting warning log file for "InterchangeStudentGrade.xml"
 #  And I should see "Unable to resolve a reference with ref=[S_101]: No matching element with id=[S_101]" in the resulting warning log file for "InterchangeStudentGrade.xml"
+  And I should see "Requested configuration for [/InterchangeMasterSchedule/Section/LocationReference] is not supported" in the resulting warning log file for "InterchangeMasterSchedule.xml"
   And I should see "Circular reference detected with ref=[LO_3]" in the resulting warning log file for "InterchangeAssessmentMetadata.xml"
   And I should see "Unable to resolve a reference with ref=[LS_1]: The reference refers to itself" in the resulting warning log file for "InterchangeAssessmentMetadata.xml"
   And I should see "Not all records were processed completely due to errors" in the resulting batch job file

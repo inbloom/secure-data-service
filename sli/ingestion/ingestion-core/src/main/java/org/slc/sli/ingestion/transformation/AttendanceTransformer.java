@@ -25,18 +25,19 @@ import java.util.Map;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
 /**
  * Transforms disjoint set of attendance events into cleaner set of {school year : list of
@@ -213,7 +214,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             // create a placeholder for the student-school pair and write to staging mongo db
             NeutralRecord placeholder = createAttendanceRecordPlaceholder(studentId, schoolId, sessions);
             placeholder.setCreationTime(getWorkNote().getRangeMinimum());
-            createRecord(placeholder);
+            insertRecord(placeholder);
         } catch (DuplicateKeyException dke) {
             LOG.warn("Duplicate key exception when creating attendance placeholder. This is expected for the majority of such calls as there can only be one placeholder.");
         }
@@ -227,7 +228,9 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                 List<Map<String, Object>> events = attendanceEntry.getValue();
 
                 numAttendances += events.size();
+
                 NeutralQuery query = new NeutralQuery(1);
+                query.addCriteria(new NeutralCriteria(BATCH_JOB_ID_KEY, NeutralCriteria.OPERATOR_EQUAL, getBatchJobId(), false));
                 query.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, studentId));
                 query.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.OPERATOR_EQUAL, schoolId));
                 query.addCriteria(new NeutralCriteria("schoolYearAttendance.schoolYear",
@@ -258,6 +261,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         NeutralRecord record = new NeutralRecord();
         record.setRecordId(type1UUIDGeneratorStrategy.randomUUID().toString());
         record.setRecordType(ATTENDANCE_TRANSFORMED);
+        record.setBatchJobId(getBatchJobId());
 
         Map<String, List<Map<String, Object>>> placeholders = createAttendancePlaceholdersFromSessions(sessions);
 
@@ -294,11 +298,12 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     private List<NeutralRecord> getSchoolsForStudent(String studentId) {
         List<NeutralRecord> schools = new ArrayList<NeutralRecord>();
 
-        NeutralQuery query = new NeutralQuery(0);
-        query.addCriteria(new NeutralCriteria("studentId", "=", studentId));
+        Query query = new Query().limit(0);
+        query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
+        query.addCriteria(Criteria.where("body.studentId").is(studentId));
 
-        Iterable<NeutralRecord> associations = getNeutralRecordMongoAccess().getRecordRepository().findAllForJob(
-                STUDENT_SCHOOL_ASSOCIATION, getJob().getId(), query);
+        Iterable<NeutralRecord> associations = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
+                STUDENT_SCHOOL_ASSOCIATION, query);
 
         if (associations != null) {
             List<String> schoolIds = new ArrayList<String>();
@@ -308,11 +313,12 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                 schoolIds.add(schoolId);
             }
 
-            NeutralQuery schoolQuery = new NeutralQuery(0);
-            schoolQuery.addCriteria(new NeutralCriteria("stateOrganizationId", "=", schoolIds));
+            Query schoolQuery = new Query().limit(0);
+            schoolQuery.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
+            schoolQuery.addCriteria(Criteria.where("body.stateOrganizationId").in(schoolIds));
 
-            Iterable<NeutralRecord> queriedSchools = getNeutralRecordMongoAccess().getRecordRepository().findAllForJob(
-                    SCHOOL, getJob().getId(), schoolQuery);
+            Iterable<NeutralRecord> queriedSchools = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
+                    SCHOOL, schoolQuery);
 
             if (queriedSchools != null) {
                 Iterator<NeutralRecord> itr = queriedSchools.iterator();
@@ -338,11 +344,12 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     private Map<Object, NeutralRecord> getSessions(String schoolId) {
         Map<Object, NeutralRecord> sessions = new HashMap<Object, NeutralRecord>();
 
-        NeutralQuery query = new NeutralQuery(0);
-        query.addCriteria(new NeutralCriteria("schoolId", "=", schoolId));
+        Query query = new Query().limit(0);
+        query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
+        query.addCriteria(Criteria.where("body.schoolId").is(schoolId));
 
-        Iterable<NeutralRecord> queriedSessions = getNeutralRecordMongoAccess().getRecordRepository().findAllForJob(
-                SESSION, getJob().getId(), query);
+        Iterable<NeutralRecord> queriedSessions = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
+                SESSION, query);
 
         if (queriedSessions != null) {
             Iterator<NeutralRecord> itr = queriedSessions.iterator();
@@ -353,9 +360,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             }
         }
 
-
         String parentEducationAgency = getParentEdOrg(schoolId);
-
         if (parentEducationAgency != null) {
             sessions.putAll(getSessions(parentEducationAgency));
         }
@@ -371,18 +376,17 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      * @return The Id of the Parent Education Organization
      */
     private String getParentEdOrg(String schoolId) {
+        Query schoolQuery = new Query().limit(1);
+        schoolQuery.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
+        schoolQuery.addCriteria(Criteria.where("body.stateOrganizationId").is(schoolId));
 
-        NeutralQuery schoolQuery = new NeutralQuery(0);
-        schoolQuery.addCriteria(new NeutralCriteria("stateOrganizationId", "=", schoolId));
-
-        NeutralRecord queriedSchool = getNeutralRecordMongoAccess().getRecordRepository().findOneForJob(
-                SCHOOL, schoolQuery, getJob().getId());
+        Iterable<NeutralRecord> queriedSchool = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
+                SCHOOL, schoolQuery);
 
         String parentEducationAgency = null;
-        if (queriedSchool != null) {
-            parentEducationAgency = (String) queriedSchool.getAttributes().get("parentEducationAgencyReference");
-
-
+        if (queriedSchool.iterator().hasNext()) {
+            NeutralRecord record = queriedSchool.iterator().next();
+            parentEducationAgency = (String) record.getAttributes().get("parentEducationAgencyReference");
         }
 
         return parentEducationAgency;
