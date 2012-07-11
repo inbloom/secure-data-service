@@ -434,8 +434,7 @@ task :dashboardTests => [:dashboardPopWidgetTests,
                          :dashboardStudentHistoricalDataTests,
                          :dashboardStudentContactInfoLiveTests,
                          :dashboardStudentGradebookEntryTests,
-                         :dashboardHTMLEscapeTests,
-                         :dashboardSectionProfileTests] do
+                         :dashboardHTMLEscapeTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -464,7 +463,8 @@ task :dashboardSdsTests => [:dashboardSdsUploadConfigTests,
                          :dashboardSdsAttendanceTests,
                          :dashboardStudentSearchTests,
                          :dashboardSdsTranscriptPanelTests,
-                         :dashboardAssessmentTests] do
+                         :dashboardAssessmentTests,
+                         :dashboardSectionProfileTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
