@@ -17,8 +17,30 @@ limitations under the License.
 =end
 Then /^I go to School Profile Page$/ do
   #this is temporary
-  url = getBaseUrl() + "/service/layout/school/2012tu-5144888f-c7b1-11e1-a7c2-3c07545d4e73"
+  #I view the School Profile
+  url = getBaseUrl() + "/service/layout/school/2012xu-1c40c3d6-caa0-11e1-b988-3c07545d4e73"
   @driver.get url
+  @schoolInfo = viewInfoPanel("schoolProfile", "schoolInfo")
+end
+
+Then /^the school name is "(.*?)"$/ do |expectedSchoolName|
+  assert(@schoolInfo["Name"] == expectedSchoolName, "Actual name is :" + @schoolInfo["Name"]) 
+end
+
+Then /^the school address is$/ do |expectedAddress|
+  assert(@schoolInfo["Address"] == expectedAddress, "Actual Address is: " + @schoolInfo["Address"])
+end
+
+Then /^the school phone number is "(.*?)"$/ do |expectedPhone|
+  assert(@schoolInfo["Main"] == expectedPhone, "Actual Phone is: " + @schoolInfo["Main"])
+end
+
+Then /^the school principal name is "(.*?)"$/ do |expectedPrincipalName|
+  assert(@schoolInfo["Principal"] == expectedPrincipalName, "Actual Principal is: " + @schoolInfo["Principal"])
+end
+
+Then /^the grades served is "(.*?)"$/ do |expectedGradesServed|
+  assert(@schoolInfo["Grades offered"] == expectedGradesServed, "Actual Grades Served is: " + @schoolInfo["Grades offered"])
 end
 
 Then /^I click on subject "(.*?)"$/ do |subjectName|
