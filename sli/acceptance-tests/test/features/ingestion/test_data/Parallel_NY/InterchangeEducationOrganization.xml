@@ -15,10 +15,10 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10437</PostalCode>
 			<NameOfCounty>Albany</NameOfCounty>
-			<CountyFIPSCode>FIPS</CountyFIPSCode>
+			<CountyFIPSCode>00000</CountyFIPSCode>
 			<CountryCode>US</CountryCode>
-			<Latitude>latitiude</Latitude>
-			<Longitude>longitude</Longitude>
+			<Latitude>10</Latitude>
+			<Longitude>20</Longitude>
 			<BeginDate>2011-03-04</BeginDate>
 			<EndDate>2011-03-04</EndDate>
 		</Address>
@@ -37,10 +37,10 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10648</PostalCode>
 			<NameOfCounty>Parker</NameOfCounty>
-			<CountyFIPSCode>FIPS</CountyFIPSCode>
+			<CountyFIPSCode>00000</CountyFIPSCode>
 			<CountryCode>US</CountryCode>
-			<Latitude>latitiude</Latitude>
-			<Longitude>longitude</Longitude>
+			<Latitude>10</Latitude>
+			<Longitude>20</Longitude>
 			<BeginDate>2011-03-04</BeginDate>
 			<EndDate>2011-03-04</EndDate>
 		</Address>
@@ -65,10 +65,10 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10878</PostalCode>
 			<NameOfCounty>Dusk</NameOfCounty>
-			<CountyFIPSCode>FIPS</CountyFIPSCode>
+			<CountyFIPSCode>00000</CountyFIPSCode>
 			<CountryCode>US</CountryCode>
-			<Latitude>latitiude</Latitude>
-			<Longitude>longitude</Longitude>
+			<Latitude>10</Latitude>
+			<Longitude>20</Longitude>
 			<BeginDate>2011-03-04</BeginDate>
 			<EndDate>2011-03-04</EndDate>
 		</Address>
@@ -96,10 +96,10 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10878</PostalCode>
 			<NameOfCounty>Dusk</NameOfCounty>
-			<CountyFIPSCode>FIPS</CountyFIPSCode>
+			<CountyFIPSCode>00000</CountyFIPSCode>
 			<CountryCode>US</CountryCode>
-			<Latitude>latitiude</Latitude>
-			<Longitude>longitude</Longitude>
+			<Latitude>10</Latitude>
+			<Longitude>20</Longitude>
 			<BeginDate>2011-03-04</BeginDate>
 			<EndDate>2011-03-04</EndDate>
 		</Address>
@@ -147,10 +147,10 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10878</PostalCode>
 			<NameOfCounty>Dusk</NameOfCounty>
-			<CountyFIPSCode>FIPS</CountyFIPSCode>
+			<CountyFIPSCode>00000</CountyFIPSCode>
 			<CountryCode>US</CountryCode>
-			<Latitude>latitiude</Latitude>
-			<Longitude>longitude</Longitude>
+			<Latitude>10</Latitude>
+			<Longitude>20</Longitude>
 			<BeginDate>2011-03-04</BeginDate>
 			<EndDate>2011-03-04</EndDate>
 		</Address>
@@ -205,10 +205,10 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10878</PostalCode>
 			<NameOfCounty>Parker</NameOfCounty>
-			<CountyFIPSCode>FIPS</CountyFIPSCode>
+			<CountyFIPSCode>00000</CountyFIPSCode>
 			<CountryCode>US</CountryCode>
-			<Latitude>latitiude</Latitude>
-			<Longitude>longitude</Longitude>
+			<Latitude>10</Latitude>
+			<Longitude>20</Longitude>
 			<BeginDate>2011-03-04</BeginDate>
 			<EndDate>2011-03-04</EndDate>
 		</Address>
@@ -258,10 +258,10 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10878</PostalCode>
 			<NameOfCounty>Parker</NameOfCounty>
-			<CountyFIPSCode>FIPS</CountyFIPSCode>
+			<CountyFIPSCode>00000</CountyFIPSCode>
 			<CountryCode>US</CountryCode>
-			<Latitude>latitiude</Latitude>
-			<Longitude>longitude</Longitude>
+			<Latitude>10</Latitude>
+			<Longitude>20</Longitude>
 			<BeginDate>2011-03-04</BeginDate>
 			<EndDate>2011-03-04</EndDate>
 		</Address>

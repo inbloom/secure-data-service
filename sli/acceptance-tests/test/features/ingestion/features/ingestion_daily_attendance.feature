@@ -94,3 +94,31 @@ When zip file is scp to ingestion landing zone
   And I should see "StudentAttendanceNoStudent.xml records considered: 0" in the resulting batch job file
   And I should see "StudentAttendanceNoStudent.xml records ingested successfully: 0" in the resulting batch job file
   And I should see "StudentAttendanceNoStudent.xml records failed: 0" in the resulting batch job file
+
+Scenario: Post a zip file where an attendanceEvent occurs in a school's parent LEA session: Clean Database
+Given I post "DailyAttendanceInheritedSession.zip" file as the payload of the ingestion job
+  And the following collections are empty in datastore:
+     | collectionName              |
+     | student                     |
+     | educationOrganization       |
+     | session                     |
+     | attendance                  |
+When zip file is scp to ingestion landing zone
+  And a batch job log has been created
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName              | count |
+     | student                     | 1     |
+     | educationOrganization       | 3     |
+     | session                     | 1     |
+     | attendance                  | 1     |
+ And I check to find if record is in collection:
+     | collectionName              | expectedRecordCount | searchParameter                                | searchValue     |
+     | attendance                  | 1                   | body.schoolYearAttendance.attendanceEvent.date | 2011-09-06      |
+  And I should see "Processed 8 records." in the resulting batch job file
+  And I should not see an error log file created
+  And I should see "InterchangeStudent.xml records considered: 1" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records ingested successfully: 1" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
+  And I should see "InterchangeAttendance.xml records considered: 1" in the resulting batch job file
+  And I should see "InterchangeAttendance.xml records ingested successfully: 1" in the resulting batch job file
+  And I should see "InterchangeAttendance.xml records failed: 0" in the resulting batch job file

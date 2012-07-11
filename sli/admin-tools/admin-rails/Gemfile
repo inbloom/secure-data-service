@@ -43,6 +43,8 @@ gem 'jquery-rails'
 
 # Lets use SimpleCov for Ruby > 1.9
 group :test do
+  gem 'ci_reporter'
+  gem 'test-unit'
 	gem 'simplecov'
 	gem 'simplecov-rcov'
 	gem "mocha" ,:require => false
