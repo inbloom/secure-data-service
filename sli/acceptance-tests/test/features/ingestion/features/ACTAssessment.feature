@@ -36,8 +36,6 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeAssessmentMetadata-ACT.xml records considered: 1" in the resulting batch job file
   And I should see "InterchangeAssessmentMetadata-ACT.xml records ingested successfully: 1" in the resulting batch job file
   And I should see "InterchangeAssessmentMetadata-ACT.xml records failed: 0" in the resulting batch job file
-  
-  
 
 Scenario: Post a zip file containing all student assessment interchanges as a payload of the ingestion job: Clean Database
 Given I post "actStudentAssessment.zip" file as the payload of the ingestion job
@@ -55,31 +53,21 @@ Then I should see following map of entry counts in the corresponding collections
      | studentAssessmentAssociation   | 1     |
    And I check to find if record is in collection:
      | collectionName                         | expectedRecordCount | searchParameter                                                                                  | searchValue                  |
-     | studentAssessmentAssociation           | 1                   | body.studentObjectiveAssessments.0.objectiveAssessment.identificationCode                        | ACT-English                  |
-     | studentAssessmentAssociation           | 1                   | body.studentObjectiveAssessments.0.objectiveAssessment.objectiveAssessments.0.identificationCode | ACT-English-Usage            |
-     | studentAssessmentAssociation           | 1                   | body.studentObjectiveAssessments.0.objectiveAssessment.objectiveAssessments.1.identificationCode | ACT-English-Rhetorical       |
-     | studentAssessmentAssociation           | 1                   | body.studentObjectiveAssessments.0.scoreResults.0.result                                         | 18                           |
-     | studentAssessmentAssociation           | 1                   | body.studentObjectiveAssessments.0.scoreResults.0.assessmentReportingMethod                      | Scale score                  |
-     | studentAssessmentAssociation           | 1                   | body.studentObjectiveAssessments.1.objectiveAssessment.identificationCode                        | ACT-English-Usage            |
-     | studentAssessmentAssociation           | 1                   | body.studentObjectiveAssessments.1.scoreResults.0.result                                         | 10                           |
-     | studentAssessmentAssociation           | 1                   | body.studentObjectiveAssessments.1.scoreResults.0.assessmentReportingMethod                      | Scale score                  |
-     | studentAssessmentAssociation           | 1                   | body.studentObjectiveAssessments.2.objectiveAssessment.identificationCode                        | ACT-English-Rhetorical       |
-     | studentAssessmentAssociation           | 1                   | body.studentObjectiveAssessments.2.scoreResults.0.result                                         | 8                            |
-     | studentAssessmentAssociation           | 1                   | body.studentObjectiveAssessments.2.scoreResults.0.assessmentReportingMethod                      | Scale score                  |
+     | studentAssessmentAssociation           | 1                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode                        | ACT-English                  |
+     | studentAssessmentAssociation           | 1                   | body.studentObjectiveAssessments.objectiveAssessment.objectiveAssessments.0.identificationCode | ACT-English-Usage            |
+     | studentAssessmentAssociation           | 1                   | body.studentObjectiveAssessments.objectiveAssessment.objectiveAssessments.1.identificationCode | ACT-English-Rhetorical       |
+     | studentAssessmentAssociation           | 1                   | body.studentObjectiveAssessments.scoreResults.0.result                                         | 18                           |
+     | studentAssessmentAssociation           | 1                   | body.studentObjectiveAssessments.scoreResults.0.assessmentReportingMethod                      | Scale score                  |
+     | studentAssessmentAssociation           | 1                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode                        | ACT-English-Usage            |
+     | studentAssessmentAssociation           | 1                   | body.studentObjectiveAssessments.scoreResults.0.result                                         | 10                           |
+     | studentAssessmentAssociation           | 1                   | body.studentObjectiveAssessments.scoreResults.0.assessmentReportingMethod                      | Scale score                  |
+     | studentAssessmentAssociation           | 1                   | body.studentObjectiveAssessments.objectiveAssessment.identificationCode                        | ACT-English-Rhetorical       |
+     | studentAssessmentAssociation           | 1                   | body.studentObjectiveAssessments.scoreResults.0.result                                         | 8                            |
+     | studentAssessmentAssociation           | 1                   | body.studentObjectiveAssessments.scoreResults.0.assessmentReportingMethod                      | Scale score                  |
      
-     
-    
   And I should see "Processed 80 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "InterchangeStudentAssessment-Cgray-ACT.xml records considered: 1" in the resulting batch job file
   And I should see "InterchangeStudentAssessment-Cgray-ACT.xml records ingested successfully: 1" in the resulting batch job file
-  And I should see "InterchangeStudentAssessment-Cgray-ACT.xml records failed: 0" in the resulting batch job file
-  
-  
-  
-  
-  
-  
-  
-  
+  And I should see "InterchangeStudentAssessment-Cgray-ACT.xml records failed: 0" in the resulting batch job file 
   

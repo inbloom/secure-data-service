@@ -30,14 +30,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
@@ -59,6 +51,13 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -254,7 +253,13 @@ public class BasicService implements EntityService {
 
         checkReferences(content);
 
-        return repo.create(defn.getType(), sanitizeEntityBody(content), createMetadata(), collectionName).getEntityId();
+        String entityId = "";
+        Entity entity = repo.create(defn.getType(), sanitizeEntityBody(content), createMetadata(), collectionName);
+        if (entity != null) {
+            entityId = entity.getEntityId();
+        }
+
+        return entityId;
     }
 
     @Override
@@ -306,9 +311,9 @@ public class BasicService implements EntityService {
         info("new body is {}", sanitized);
         entity.getBody().clear();
         entity.getBody().putAll(sanitized);
-        repo.update(collectionName, entity);
 
-        return true;
+        boolean success = repo.update(collectionName, entity);
+        return success;
     }
 
     @Override
@@ -337,6 +342,9 @@ public class BasicService implements EntityService {
 
         //combine/merge new entity body with existing
         entity.getBody().putAll(sanitized);
+        //patchEntity(entity.getBody(), sanitized);
+        
+        
         info("new body is {}", entity.getBody());
 
         //don't check references until things are combined
@@ -346,6 +354,44 @@ public class BasicService implements EntityService {
         repo.update(collectionName, entity);
 
         return true;
+    }
+    /**
+     * @WIP This was the beginning of an attempt at doing full JSON patch
+     * @param entity
+     * @param patchData
+     */
+    @SuppressWarnings({ "unchecked" })
+    private void patchEntity(Map<String, Object> patchData, Map<String, Object> entity) {
+        if (patchData == null) {
+            return;
+        }
+        for (Map.Entry<String, Object> patchEntry : patchData.entrySet()) {
+            Object fieldValue = entity.get(patchEntry.getKey());
+            
+            if (fieldValue instanceof Map) {
+                //recurse
+                patchEntity((Map<String, Object>) patchEntry.getValue(), (Map<String, Object>) fieldValue);
+            } else if (fieldValue instanceof List) {
+                List<Object> list = (List<Object>) fieldValue;
+                for (int i = 0; i < list.size(); i++) {
+                    Object item = list.get(i);
+                    if (item instanceof Map) {
+                        patchEntity((Map<String, Object>) patchEntry.getValue(), (Map<String, Object>) fieldValue);
+                    } else if (item instanceof List) {
+                        error("Unexpected situation, List inside a List: {}", fieldValue);
+                        continue;
+                    } else {
+                        //patch the entry in the list...how to know which item is which if there are multiple?
+                        //list.set(i, newValue);
+                    }
+                }
+            } else if (fieldValue == null) {
+                //current entity doesn't have it set, so set it
+            }
+            else {
+                //actually patch the exisiting field
+            }
+        }
     }
 
     @Override
@@ -925,6 +971,7 @@ public class BasicService implements EntityService {
             return defn.getType().equals(EntityNames.LEARNING_OBJECTIVE)
                     || defn.getType().equals(EntityNames.LEARNING_STANDARD)
                     || defn.getType().equals(EntityNames.ASSESSMENT)
+ || defn.getType().equals(EntityNames.SCHOOL)
                     || defn.getType().equals(EntityNames.EDUCATION_ORGANIZATION);
         }
     }

@@ -60,7 +60,5 @@
   <!-- Do not pollute our logs with awful Smooks / groovy warnings -->
   <logger name="org.milyn.delivery" level="ERROR" />
 
-  <logger name="org.slc.sli.ingestion" level="${sli.ingestion.log.level}" >
-    <appender-ref ref="FILE" />
-  </logger>
+  <logger name="org.slc.sli.ingestion" level="${sli.ingestion.log.level}" />
 </configuration>

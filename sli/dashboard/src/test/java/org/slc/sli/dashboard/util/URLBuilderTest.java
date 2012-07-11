@@ -16,21 +16,20 @@
 
 
 /**
- * 
+ *
  */
 package org.slc.sli.dashboard.util;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-import org.slc.sli.dashboard.util.URLBuilder;
 
 /**
  * @author tosako
- * 
+ *
  */
 public class URLBuilderTest {
-    
+
     @Test
     public void test() {
         String actualUrl = "http://www.wirelessgeneration.com/test_path/test_path2?key1=fake_value1&key2=fake%20value2";
@@ -41,5 +40,5 @@ public class URLBuilderTest {
         url.addQueryParam("key2", "fake value2");
         assertEquals("URL should be \"" + actualUrl + "\"", actualUrl, url.toString());
     }
-    
+
 }

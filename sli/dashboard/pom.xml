@@ -28,25 +28,17 @@
 
 	<dependencies>
 		<!-- Servlet dependencies -->
-
-    <!-- Due to multiple transitive dependencies on guava, we have opted to exclude 
-        the older ones. Because we need the newest Version 11.0.1 will be pulled from jersey-client -->
-    <dependency>
-        <groupId>com.googlecode.ehcache-spring-annotations</groupId>
-        <artifactId>ehcache-spring-annotations</artifactId>
-        <version>1.2.0</version>
-        <exclusions>
-            <exclusion>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-            </exclusion>
-        </exclusions>
-    </dependency>
         
         <dependency>
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
             <version>3.1</version>
+        </dependency>
+        
+        <dependency>
+	        <groupId>commons-lang</groupId>
+	        <artifactId>commons-lang</artifactId>
+	        <version>2.6</version>
         </dependency>
 
 		<dependency>
@@ -141,6 +133,7 @@
 				<artifactId>guava</artifactId>
 			</exclusion>
 		    </exclusions>
+		    <scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -260,6 +253,7 @@
 	          </execution>
 	        </executions>        
 	        <configuration>
+	          <jswarn>false</jswarn>
 	          <nosuffix>true</nosuffix>
 	          <nomunge>true</nomunge>
 	          <aggregations>
@@ -276,6 +270,7 @@
 	              <exclude>**/libs/**/*.js</exclude>
 	              <exclude>**/widgets/**/*.js</exclude>
 	              <exclude>**/controller/**/*.js</exclude>
+	              <exclude>**/panels/**/*.js</exclude>
 	              </excludes>
 	              <includes>
                         <include>**/license.js</include>
@@ -288,8 +283,14 @@
 	                <insertNewLine>true</insertNewLine>
 	                <output>${basedir}/target/dashboard/static/js/widgets.js</output>
 	                <includes>
-                            <include>**/widgets/license.js</include>
-	                    <include>**/widgets/**/*.js</include>
+                        <include>**/widgets/license.js</include>
+	                    <include>**/widgets/SLC.loadingMask.js</include>
+	                    <include>**/widgets/grid/SLC.grid.tablegrid.js</include>
+	                    <include>**/widgets/grid/SLC.grid.fuelGauge.js</include>
+	                    <include>**/widgets/grid/SLC.grid.formatters.js</include>
+	                    <include>**/widgets/grid/SLC.grid.sorters.js</include>
+	                    <include>**/widgets/grid/SLC.grid.teardrop.js</include>
+	                    <include>**/widgets/grid/SLC.grid.cutPoints.js</include>
 	                </includes>
 	            </aggregation>
 	            <aggregation>
@@ -307,6 +308,18 @@
 	          </aggregations>
 	        </configuration>
 	      </plugin>
+	        <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.1.1</version>

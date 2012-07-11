@@ -57,6 +57,11 @@ public class ParameterConstants {
      * Query parameter for fields to include.
      */
     public static final String INCLUDE_FIELDS = "includeFields";
+    
+    /**
+     * Query parameter for full entities to be included in response.
+     */
+    public static final String FULL_ENTITIES = "full-entities";
 
     /**
      * Query parameter for fields to exclude.

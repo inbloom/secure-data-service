@@ -66,6 +66,7 @@ public class StudentSectionAssociationResourceTest {
     private final String sectionResourceName = "SectionResource";
     private final String studentSectionAssociationResourceName = "StudentSectionAssociationResource";
     private final String studentCompetencyResourceName = "StudentCompetencyResource";
+    private final String studentGradeResourceName = "StudentGradeResource";
 
     @Autowired
     private SecurityContextInjector injector;
@@ -77,6 +78,8 @@ public class StudentSectionAssociationResourceTest {
     private StudentSectionAssociationResource studentSectionAssociationResource;
     @Autowired
     private StudentCompetencyResource studentCompetencyResource;
+    @Autowired
+    private StudentCompetencyResource gradeResource;
 
     private UriInfo uriInfo;
     private HttpHeaders httpHeaders;
@@ -145,6 +148,21 @@ public class StudentSectionAssociationResourceTest {
         map.put(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID, studentSecId);
 
         studentCompetencyResource.create(new EntityBody(map), httpHeaders, uriInfo);
+
+        Response response = studentSectionAssociationResource.getStudentCompetencies(studentSecId, httpHeaders, uriInfo);
+        EntityBody body = ResourceTestUtil.assertions(response);
+        assertEquals(studentSecId, body.get(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID));
+    }
+
+    @Test
+    public void testGetStudentGrades() {
+        Response createResponse = studentSectionAssociationResource.create(new EntityBody(
+                ResourceTestUtil.createTestEntity(studentSectionAssociationResourceName)), httpHeaders, uriInfo);
+        String studentSecId = ResourceTestUtil.parseIdFromLocation(createResponse);
+        Map<String, Object> map = ResourceTestUtil.createTestEntity(studentGradeResourceName);
+        map.put(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID, studentSecId);
+
+        gradeResource.create(new EntityBody(map), httpHeaders, uriInfo);
 
         Response response = studentSectionAssociationResource.getStudentCompetencies(studentSecId, httpHeaders, uriInfo);
         EntityBody body = ResourceTestUtil.assertions(response);

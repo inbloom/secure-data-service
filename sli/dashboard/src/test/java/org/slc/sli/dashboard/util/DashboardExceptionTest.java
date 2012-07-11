@@ -18,16 +18,15 @@
 package org.slc.sli.dashboard.util;
 
 import org.junit.Test;
-import org.slc.sli.dashboard.util.DashboardException;
 
 /**
  * JUnit test class for DashboardException
- * 
+ *
  * @author Takashi Osako
- * 
+ *
  */
 public class DashboardExceptionTest {
-    
+
     /**
      * intentionally throw exception
      */
@@ -35,5 +34,5 @@ public class DashboardExceptionTest {
     public void test() {
         throw new DashboardException("JUnit test");
     }
-    
+
 }

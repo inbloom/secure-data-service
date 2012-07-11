@@ -106,7 +106,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
         if (edOrg == null) {
 
             // get list of school
-            List<GenericEntity> schools = getSchools(token);
+            List<GenericEntity> schools = getMySchools(token);
 
             if (schools != null && !schools.isEmpty()) {
 
@@ -124,16 +124,6 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
 
         // create ed-org key and save to cache
         if (edOrg != null) {
-            @SuppressWarnings("unchecked")
-                    String nameOfinstitution = edOrg.get(Constants.ATTR_NAME_OF_INST).toString();
-//            LinkedHashMap<String, Object> metaData = (LinkedHashMap<String, Object>) edOrg.get(Constants.METADATA);
-//            if (metaData != null && !metaData.isEmpty()) {
-//                if (metaData.containsKey(Constants.EXTERNAL_ID)) {
-//                    edOrgKey = new EdOrgKey(metaData.get(Constants.EXTERNAL_ID).toString(), edOrg.getId());
-//                    putToCache(USER_ED_ORG_CACHE, token, edOrgKey);
-//                    return edOrgKey;
-//                }
-//            }
             return new EdOrgKey(edOrg.getId());
 
         }
@@ -152,6 +142,17 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
     }
 
     /**
+     * Get user's associated schools. Cache the results so we don't have to make the call
+     * twice.
+     *
+     * @return
+     */
+    private List<GenericEntity> getMySchools(String token) {
+
+        return getApiClient().getMySchools(token);
+    }
+
+    /**
      * Returns the institutional hierarchy visible to the user with the given
      * auth token as a list of generic entities, with the ed-org level flattened
      * This assumes there are no cycles in the education organization hierarchy
@@ -161,7 +162,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
      */
     private List<GenericEntity> getUserInstHierarchy(String token) {
         // Find all the schools first.
-        List<GenericEntity> schools = getSchools(token);
+        List<GenericEntity> schools = getMySchools(token);
         if (schools == null) {
             return Collections.emptyList();
         }

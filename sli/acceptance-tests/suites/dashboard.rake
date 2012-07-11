@@ -6,6 +6,11 @@ task :dashboardPopWidgetTests do
   runTests("test/features/dashboard/dash/population_widget.feature")
 end
 
+desc "Run Dashboard section profile tests Tests"
+task :dashboardSectionProfileTests do
+  runTests("test/features/dashboard/dash/section_profile.feature")
+end
+
 desc "Run Dashboard K-3 view Tests"
 task :dashboardK3ViewTests do
   runTests("test/features/dashboard/dash/k3view.feature")
@@ -165,6 +170,13 @@ desc "Run dashboard student gradebook entry tests"
 task :dashboardStudentGradebookEntryTests do
   runTests("test/features/dashboard/students/StudentGradebookEntry.feature")
 end
+
+desc "Run Dashboard Smoke Tests - Assumes Daybreak SDS previously ingested"
+task :dashboardSmokeTests do
+  @tags = ["~@wip", "@smoke", "~@sandbox"]
+  runTests("test/features/dashboard/dash/smoked_dashboard.feature")
+end
+
 ############################################################
 # Dashboard tests end
 ############################################################

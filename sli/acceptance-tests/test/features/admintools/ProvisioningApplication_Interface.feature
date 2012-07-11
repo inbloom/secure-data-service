@@ -2,7 +2,7 @@
 Feature: Developer/Admin has an interface to create a High Level Ed-Org and link it to the Landing Zone
 
 Background:
-Given LDAP server has been setup and running
+Given LDAP and email server has been setup and running
 
 Scenario: As a Admin I can define a High Level Ed-Org and Provision my Landing Zone
 Given there is a production account in ldap for vendor "Macro Corp"
