@@ -36,10 +36,6 @@ import org.slc.sli.modeling.uml.TaggedValue;
  */
 public final class Xsd2UmlPluginForEdFi extends Xsd2UmlPluginDefault {
     
-    private static final String camelCase(final String text) {
-        return text.substring(0, 1).toLowerCase().concat(text.substring(1));
-    }
-    
     /**
      * A name ending with the string "Reference" is a Ed-Fi convention for a reference.
      */
@@ -53,7 +49,7 @@ public final class Xsd2UmlPluginForEdFi extends Xsd2UmlPluginDefault {
     /**
      * Control the massaging of the W3C XML Schema. The less we do the better.
      */
-    private final boolean camelCaseSchemaNames = false;
+    private final boolean camelCaseSchemaNames = true;
     
     // Default constructor is required for reflection creation.
     public Xsd2UmlPluginForEdFi() {
@@ -201,7 +197,7 @@ public final class Xsd2UmlPluginForEdFi extends Xsd2UmlPluginDefault {
     @Override
     public String nameFromSchemaAttributeName(final QName name) {
         if (camelCaseSchemaNames) {
-            return camelCase(name.getLocalPart());
+            return Xsd2UmlHelper.camelCase(name.getLocalPart());
         } else {
             return super.nameFromSchemaAttributeName(name);
         }
@@ -210,7 +206,7 @@ public final class Xsd2UmlPluginForEdFi extends Xsd2UmlPluginDefault {
     @Override
     public String nameFromSchemaElementName(final QName name) {
         if (camelCaseSchemaNames) {
-            return camelCase(name.getLocalPart());
+            return Xsd2UmlHelper.camelCase(name.getLocalPart());
         } else {
             return super.nameFromSchemaElementName(name);
         }

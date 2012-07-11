@@ -250,7 +250,7 @@ final class Xsd2UmlLinker {
     private static final String makeEndName(final String sourceTypeName, final String sourceName, final int degeneracy,
             final String targetTypeName) {
         // Our first guess is the pluralization of the target type name.
-        final String targetName = pluralize(targetTypeName);
+        final String targetName = Xsd2UmlHelper.pluralize(targetTypeName);
         if (degeneracy > 1) {
             return sourceName.concat(titleCase(targetName));
         } else {
@@ -263,16 +263,6 @@ final class Xsd2UmlLinker {
                 return camelCase(targetName);
             }
         }
-    }
-    
-    /**
-     * TODO: This should be driven from some sort of external configuration.
-     */
-    private static final String pluralize(final String typeName) {
-        if (typeName == null) {
-            throw new NullPointerException("typeName");
-        }
-        return typeName.concat("s");
     }
     
     private static final Map<String, Identifier> makeNameToClassTypeId(final Iterable<ClassType> classTypes) {

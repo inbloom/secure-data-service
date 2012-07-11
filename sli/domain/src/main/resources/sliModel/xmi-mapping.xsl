@@ -46,6 +46,11 @@
 								<tr>
 									<xsl:for-each select="lhs">
 										<xsl:choose>
+											<xsl:when test="not(string(owner-exists)='true')">
+												<td class="error">
+													<xsl:value-of select="owner-name"></xsl:value-of>
+												</td>
+											</xsl:when>
 											<xsl:when
 												test="(string(../rhs/owner-name) = string(owner-name)) or contains(../status,'unknown')">
 												<td>
@@ -59,6 +64,11 @@
 											</xsl:otherwise>
 										</xsl:choose>
 										<xsl:choose>
+											<xsl:when test="not(string(exists)='true')">
+												<td class="error">
+													<xsl:value-of select="name"></xsl:value-of>
+												</td>
+											</xsl:when>
 											<xsl:when
 												test="(string(../rhs/name) = string(name)) or contains(../status,'unknown')">
 												<td>
@@ -82,6 +92,11 @@
 									</xsl:for-each>
 									<xsl:for-each select="rhs">
 										<xsl:choose>
+											<xsl:when test="not(string(owner-exists)='true')">
+												<td class="error">
+													<xsl:value-of select="owner-name"></xsl:value-of>
+												</td>
+											</xsl:when>
 											<xsl:when
 												test="(string(../lhs/owner-name) = string(owner-name)) or contains(../status,'unknown')">
 												<td>
@@ -95,6 +110,11 @@
 											</xsl:otherwise>
 										</xsl:choose>
 										<xsl:choose>
+											<xsl:when test="not(string(exists)='true')">
+												<td class="error">
+													<xsl:value-of select="name"></xsl:value-of>
+												</td>
+											</xsl:when>
 											<xsl:when
 												test="(translate(string(../lhs/name),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz') = translate(string(name),'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz')) or contains(../status,'unknown')">
 												<td>
