@@ -86,7 +86,7 @@
             ]
       },
       {
-      "name":"Usage Analytics Tool",
+      "name":"Usage Analytics",
          "description":"Show Tenant Usage Metrics",
          "url":"${bootstrap.app.admin.url}/tenant_metrics",
          "roles":[
