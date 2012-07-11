@@ -15,11 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-Then /^I go to School Profile Page$/ do
-  #this is temporary
-  #I view the School Profile
-  url = getBaseUrl() + "/service/layout/school/2012xu-1c40c3d6-caa0-11e1-b988-3c07545d4e73"
-  @driver.get url
+Then /^I view the School Profile/ do
   @schoolInfo = viewInfoPanel("schoolProfile", "schoolInfo")
 end
 
@@ -33,10 +29,6 @@ end
 
 Then /^the school phone number is "(.*?)"$/ do |expectedPhone|
   assert(@schoolInfo["Main"] == expectedPhone, "Actual Phone is: " + @schoolInfo["Main"])
-end
-
-Then /^the school principal name is "(.*?)"$/ do |expectedPrincipalName|
-  assert(@schoolInfo["Principal"] == expectedPrincipalName, "Actual Principal is: " + @schoolInfo["Principal"])
 end
 
 Then /^the grades served is "(.*?)"$/ do |expectedGradesServed|

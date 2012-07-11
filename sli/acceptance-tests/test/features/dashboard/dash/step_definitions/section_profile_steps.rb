@@ -18,39 +18,22 @@ limitations under the License.
 
 
 When /^I view its section profile$/ do
-
-  sectionContent = @explicitWait.until{@driver.find_element(:class, "sectionProfile")}
-  sectionInfo = sectionContent.find_element(:class, "sectionInfo")
-  table_cells = sectionInfo.find_elements(:tag_name,"tr")
-  @info = Hash.new
-  sName = sectionContent.find_element(:xpath, "h1") 
-  
-  @info["Name"] = sName.text
-  puts sName.text
-  
-  for i in 0..table_cells.length-1
-   th = table_cells[i].find_element(:tag_name,"th") 
-   td = table_cells[i].find_element(:tag_name,"td") 
-   puts th.text[0..th.text.length-2]
-   puts td.text
-   key = th.text[0..th.text.length-2]
-   @info[key]= td.text
-  end
+  @sectionInfo = viewInfoPanel("sectionProfile", "sectionInfo")
 end
 
 Then /^the section name shown in section profile is "([^"]*)"$/ do |expectedSectionName|
-  containsName = @info["Name"] == expectedSectionName
-  assert(containsName, "Actual name is :" + @info["Name"]) 
+  containsName = @sectionInfo["Name"] == expectedSectionName
+  assert(containsName, "Actual name is :" + @sectionInfo["Name"]) 
 end
 
 And /^the teacher name shown in section profile is "([^"]*)"$/ do |expectedTeacherName|
-  assert(@info["Teacher"] == expectedTeacherName, "Actual teacher is :" + @info["Teacher"])   
+  assert(@sectionInfo["Teacher"] == expectedTeacherName, "Actual teacher is :" + @sectionInfo["Teacher"])   
 end
 
 And /^the course name shown in section profile is "([^"]*)"$/ do |expectedCourseName|
-  assert(@info["Course"] == expectedCourseName, "Actual course is :" + @info["Course"])
+  assert(@sectionInfo["Course"] == expectedCourseName, "Actual course is :" + @sectionInfo["Course"])
 end
 
 And /^the subject name shown in section profile is "([^"]*)"$/ do |expectedSubjectName|
-  assert(@info["Subject"] == expectedSubjectName, "Actual subject is :" + @info["Subject"])
+  assert(@sectionInfo["Subject"] == expectedSubjectName, "Actual subject is :" + @sectionInfo["Subject"])
 end
