@@ -17,6 +17,7 @@ limitations under the License.
 =end
 Then /^I view the School Profile/ do
   @schoolInfo = viewInfoPanel("schoolProfile", "schoolInfo")
+  verifyPageTitle("SLC - School Profile")
 end
 
 Then /^the school name is "(.*?)"$/ do |expectedSchoolName|

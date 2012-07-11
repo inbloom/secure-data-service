@@ -19,6 +19,7 @@ limitations under the License.
 
 When /^I view its section profile$/ do
   @sectionInfo = viewInfoPanel("sectionProfile", "sectionInfo")
+  verifyPageTitle("SLC - Section Profile")
 end
 
 Then /^the section name shown in section profile is "([^"]*)"$/ do |expectedSectionName|
