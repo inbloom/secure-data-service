@@ -24,7 +24,6 @@ import org.slc.sli.domain.NeutralQuery;
  * Encapsulates security criteria used by queries
  *
  * @author srupasinghe
- *
  */
 public class SecurityCriteria {
     //main security criteria
@@ -50,11 +49,14 @@ public class SecurityCriteria {
 
     /**
      * Apply the security criteria to the given query
+     *
      * @param query The query to manipulate
      * @return
      */
     public NeutralQuery applySecurityCriteria(NeutralQuery query) {
-        query.addCriteria(securityCriteria);
+        if (securityCriteria != null) {
+            query.addCriteria(securityCriteria);
+        }
 
         if (blacklistCriteria != null) {
             query.addCriteria(blacklistCriteria);
