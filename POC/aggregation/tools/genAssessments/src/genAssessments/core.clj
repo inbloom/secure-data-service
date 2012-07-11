@@ -6,12 +6,12 @@
   (element :Student {}
            (element :StudentUniqueStateId {} (str id))
            (element :Name {}
-                    (element :FirstName {} (str "Kid" id))
-                    (element :LastSurname {} (str "Smith" id)))
-           (element :Sex {} "Male")
+                    (element :FirstName {} (rand-nth ["Nathan" "Gina" "Alan" "Morena" "Adam" "Jewel" "Sean" "Summer" "Ron"]))
+                    (element :LastSurname {} (rand-nth ["Fillion" "Torres" "Tudyk" "Baccarin" "Baldwin" "Staite" "Maher" "Glau" "Glass"])))
+           (element :Sex {} (rand-nth ["Male" "Female"]))
            (element :BirthData {}
-                    (element :BirthDate {} "2001-06-18"))
-           (element :HispanicLatinoEthnicity {} "false")
+                    (element :BirthDate {} (str "2001-" (format "%02d" (inc (rand-int 12))) "-" (format "%02d" (inc (rand-int 28))))))
+           (element :HispanicLatinoEthnicity {} (rand-nth ["true" "false"]))
            (element :Race {})))
 
 (defn get-perf-level
