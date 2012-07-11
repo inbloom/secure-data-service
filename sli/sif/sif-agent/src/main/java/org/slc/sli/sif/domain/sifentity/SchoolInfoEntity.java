@@ -27,6 +27,9 @@ import org.slc.sli.sif.domain.converter.SchoolConverter;
 /**
  * An SIF Entity corresponding to an SIF SchoolInfo.
  *
+ * SIF SchoolInfo has more getters than listed here. However, those fields without SLI counterparts are not
+ * listed in dozer mapping file, and hence not included as getters of SchoolInfoEntity.
+ *
  * @author slee
  *
  */
@@ -42,39 +45,78 @@ public class SchoolInfoEntity extends GenericEntity
         this.schoolInfo = schoolInfo;
     }
 
+    /**
+     *  Get StateProvinceId in an SIF SchoolInfoEntity.
+     */
     public String getStateProvinceId() {
         return this.schoolInfo.getStateProvinceId();
     }
 
+    /**
+     *  Get SchoolName in an SIF SchoolInfoEntity.
+     */
     public String getSchoolName() {
         return this.schoolInfo.getSchoolName();
     }
 
+    /**
+     *  Get SchoolFocusType in an SIF SchoolInfoEntity.
+     *  Values of this field need to be mapped to SLI values.
+     *
+     */
     public String getSchoolFocusType() {
         SchoolFocus[] schoolFocus = this.schoolInfo.getSchoolFocusList().getSchoolFocuses();
         return SchoolConverter.toSliSchoolType(schoolFocus[0].getValue());
     }
 
+    /**
+     *  Get SchoolURL in an SIF SchoolInfoEntity.
+     */
     public String getSchoolURL() {
         return this.schoolInfo.getSchoolURL();
     }
 
+    /**
+     *  Get OperationalStatus in an SIF SchoolInfoEntity.
+     *  Values of this field need to be mapped to SLI values.
+     *
+     */
     public String getOperationalStatus() {
         return SchoolConverter.toSliOperationalStatus(this.schoolInfo.getOperationalStatus());
     }
 
+    /**
+     *  Get SchoolType in an SIF SchoolInfoEntity.
+     *  Values of this field need to be mapped to SLI values.
+     *
+     */
     public String getSchoolType() {
         return SchoolConverter.toSliSchoolCategory(this.schoolInfo.getSchoolType());
     }
 
+    /**
+     *  Get GradeLevels in an SIF SchoolInfoEntity.
+     *
+     *  Customized Dozer converter is used by dozer to map this field.
+     */
     public GradeLevels getGradeLevels() {
         return this.schoolInfo.getGradeLevels();
     }
 
+    /**
+     *  Get PhoneNumberList in an SIF SchoolInfoEntity.
+     *
+     *  Customized Dozer converter is used by dozer to map this field.
+     */
     public PhoneNumberList getPhoneNumberList() {
         return this.schoolInfo.getPhoneNumberList();
     }
 
+    /**
+     *  Get AddressList in an SIF SchoolInfoEntity.
+     *
+     *  Customized Dozer converter is used by dozer to map this field.
+     */
     public AddressList getAddressList() {
         return this.schoolInfo.getAddressList();
     }

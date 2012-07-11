@@ -25,7 +25,7 @@ import openadk.library.common.GradeLevels;
 import org.dozer.DozerConverter;
 
 /**
- * A converter to convert from SIF GradeLevels to SLI gradesOffered.
+ * A customized Dozer converter to convert SIF GradeLevels to SLI gradesOffered.
  *
  * @author slee
  *

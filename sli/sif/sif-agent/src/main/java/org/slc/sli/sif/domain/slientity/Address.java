@@ -18,6 +18,22 @@ package org.slc.sli.sif.domain.slientity;
 
 import java.util.Date;
 
+/**
+ * Corresponding to the address defined in SLI schema.
+ *
+ * The following fields have no counterparts found in SIF doamin,
+ * and hence not mapped:
+ * <ol>
+ * <li>countyFIPSCode</li>
+ * <li>latitude</li>
+ * <li>longitude</li>
+ * <li>openDate</li>
+ * <li>closeDate</li>
+ * </ol>
+ *
+ * @author slee
+ *
+ */
 public class Address
 {
     private String streetNumberName;
@@ -34,6 +50,10 @@ public class Address
     private Date openDate;
     private Date closeDate;
     private String addressType;
+
+    public Address() {
+
+    }
 
     public String getStreetNumberName() {
         return this.streetNumberName;

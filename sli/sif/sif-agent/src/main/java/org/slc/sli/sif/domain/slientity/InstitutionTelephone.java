@@ -16,10 +16,20 @@
 
 package org.slc.sli.sif.domain.slientity;
 
+/**
+ * Corresponding to the institutionTelephone defined in SLI schema.
+ *
+ * @author slee
+ *
+ */
 public class InstitutionTelephone
 {
     private String telephoneNumber;
     private String institutionTelephoneNumberType;
+
+    public InstitutionTelephone() {
+
+    }
 
     public String getTelephoneNumber() {
         return this.telephoneNumber;

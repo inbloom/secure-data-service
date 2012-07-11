@@ -16,8 +16,12 @@
 
 package org.slc.sli.sif.domain.slientity;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonProcessingException;
 
 /**
  * An SLI Entity corresponding to an SLI School.
@@ -27,9 +31,11 @@ import java.util.List;
  */
 public class SchoolEntity extends GenericEntity
 {
-    /*
+    /**
+     * _____mappingg_between_SIF_and_SLI_for_School_______________
+     *
      * SLI domain                               SIF domain
-     * ____________mappingg_between_SIF_and_SLI__________________
+     * -----------------------------------------------------------
      * stateOrganizationId                      StateProvinceId
      * nameOfInstitution                        SchoolName
      * organizationCategories [1..*]
@@ -63,8 +69,21 @@ public class SchoolEntity extends GenericEntity
     private String schoolCategory;
     private List<String> schoolCategories;
     private List<InstitutionTelephone> telephone;
-    /*
-     * The following fields have no corresponding SIF counterparts
+
+    /**
+     * The following fields have no counterparts found in SIF doamin,
+     * and hence not mapped:
+     * <ol>
+     * <li>charterStatus</li>
+     * <li>titleIPartASchoolDesignation</li>
+     * <li>magnetSpecialProgramEmphasisSchool</li>
+     * <li>shortNameOfInstitution</li>
+     * <li>agencyHierarchyName</li>
+     * <li>parentEducationAgencyReference</li>
+     * <li>educationOrgIdentificationCode</li>
+     * <li>accountabilityRatings</li>
+     * <li>programReference</li>
+     * </ol>
      */
     private String charterStatus;
     private String titleIPartASchoolDesignation;
@@ -168,7 +187,25 @@ public class SchoolEntity extends GenericEntity
     }
 
     /**
-     * Output the object as a JSON String
+     * Output this Entity as a JSON Node
+     */
+    @Override
+    public JsonNode json() {
+        try
+        {
+            return mapper.readTree(jsonString());
+        } catch (JsonProcessingException e)
+        {
+            e.printStackTrace();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
+     * Output this object as a JSON String
      */
     @Override
     public String jsonString() {

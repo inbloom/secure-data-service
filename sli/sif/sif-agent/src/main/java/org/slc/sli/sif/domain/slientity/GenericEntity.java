@@ -16,6 +16,7 @@
 
 package org.slc.sli.sif.domain.slientity;
 
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
@@ -35,6 +36,13 @@ public abstract class GenericEntity
 
     }
 
+    /**
+     * Output this Entity as a JSON String
+     */
     abstract public String jsonString();
+    /**
+     * Output this Entity as a JSON Node
+     */
+    abstract public JsonNode json();
 
 }

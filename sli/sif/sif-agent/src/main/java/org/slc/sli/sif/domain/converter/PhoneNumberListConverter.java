@@ -26,6 +26,12 @@ import org.dozer.DozerConverter;
 
 import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
 
+/**
+ * A customized Dozer converter to convert SIF PhoneNumberList to SLI telephone list.
+ *
+ * @author slee
+ *
+ */
 public class PhoneNumberListConverter extends DozerConverter<PhoneNumberList, List<InstitutionTelephone>>
 {
     public PhoneNumberListConverter() {

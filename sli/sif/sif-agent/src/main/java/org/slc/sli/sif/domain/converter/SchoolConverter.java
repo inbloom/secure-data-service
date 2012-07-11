@@ -23,6 +23,12 @@ import openadk.library.student.OperationalStatus;
 import openadk.library.student.SchoolFocusType;
 import openadk.library.student.SchoolLevelType;
 
+/**
+ * An utility to convert from SIF values to SLI values for mapped SchoolInfo fields.
+ *
+ * @author slee
+ *
+ */
 public class SchoolConverter
 {
     public static String toSliAddressType(String addressType) {
@@ -141,6 +147,9 @@ public class SchoolConverter
         return "Ungraded";
     }
 
+    /**
+     *  Method to convert SIF grade value to SLI grade values
+     */
     public static String toSliGrade(String gradeCode) {
         if ( GradeLevelCode._01.getValue().equals(gradeCode)) {
             return "First grade";

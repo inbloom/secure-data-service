@@ -25,6 +25,12 @@ import org.dozer.DozerConverter;
 
 import org.slc.sli.sif.domain.slientity.Address;
 
+/**
+ * A customized Dozer converter to convert SIF AddressList to SLI Address list.
+ *
+ * @author slee
+ *
+ */
 public class AddressListConverter extends DozerConverter<AddressList, List<Address>>
 {
     public AddressListConverter() {
