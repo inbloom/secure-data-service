@@ -46,10 +46,6 @@ import org.slc.sli.modeling.uml.index.ModelIndex;
  */
 final class Xsd2UmlLinker {
     
-    private static final String camelCase(final String text) {
-        return text.substring(0, 1).toLowerCase().concat(text.substring(1));
-    }
-    
     private static final List<Attribute> cleanUp(final ClassType classType, final List<Attribute> attributes,
             final Xsd2UmlPlugin plugin, final ModelIndex lookup, final Map<String, Identifier> nameToClassTypeId,
             final Map<String, AssociationEnd> classNavigations) {
@@ -256,11 +252,11 @@ final class Xsd2UmlLinker {
         } else {
             if (targetTypeName.equals(sourceTypeName)) {
                 // Reference to self. Avoid absurdity. See AssessmentFamily.
-                return camelCase(targetName);
+                return Xsd2UmlHelper.camelCase(targetName);
             } else if (targetName.toLowerCase().contains(sourceTypeName.toLowerCase())) {
-                return camelCase(Xsd2UmlHelper.replaceAllIgnoreCase(targetName, sourceTypeName, ""));
+                return Xsd2UmlHelper.camelCase(Xsd2UmlHelper.replaceAllIgnoreCase(targetName, sourceTypeName, ""));
             } else {
-                return camelCase(targetName);
+                return Xsd2UmlHelper.camelCase(targetName);
             }
         }
     }
@@ -274,8 +270,8 @@ final class Xsd2UmlLinker {
     }
     
     private static final String suggestAssociationEndName(final String name, final boolean pluralize) {
-        final String stem = camelCase(suggestStem(name));
-        return pluralize ? stem.concat("s") : stem;
+        final String stem = Xsd2UmlHelper.camelCase(suggestStem(name));
+        return pluralize ? Xsd2UmlHelper.pluralize(stem) : stem;
     }
     
     private static final String suggestStem(final String name) {
