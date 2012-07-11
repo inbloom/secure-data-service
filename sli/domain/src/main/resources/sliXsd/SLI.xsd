@@ -1,54 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <xs:schema xmlns:sli="http://slc-sli/ed-org/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	attributeFormDefault="qualified" elementFormDefault="qualified">
+           attributeFormDefault="qualified" elementFormDefault="qualified">
 
-	<xs:include schemaLocation="ComplexTypes.xsd" />
+  <xs:include schemaLocation="ComplexTypes.xsd" />
 
-	<!-- The top-level elements for the SLI database schema representation. -->
-	<!-- These elements correspond 1:1 with MongoDB collections. -->
+  <!-- The top-level elements for the SLI database schema representation. -->
+  <!-- These elements correspond 1:1 with MongoDB collections. -->
 
-	<xs:element name="assessment" type="assessment" />
-	<xs:element name="attendance" type="attendance" />
-	<xs:element name="cohort" type="cohort" />
-	<xs:element name="competencyLevelDescriptor" type="competencyLevelDescriptor" />
-	<xs:element name="competencyLevelDescriptorType" type="competencyLevelDescriptorType" />
-	<xs:element name="course" type="course" />
-	<xs:element name="disciplineIncident" type="disciplineIncident" />
-    <xs:element name="grade" type="grade" />
-	<xs:element name="gradebookEntry" type="gradebookEntry" />
-    <xs:element name="gradingPeriod" type="gradingPeriod" />
-	<xs:element name="learningObjective" type="learningObjective" />
-	<xs:element name="learningStandard" type="learningStandard" />
-	<xs:element name="parent" type="parent" />
-	<xs:element name="program" type="program" />
-	<xs:element name="reportCard" type="reportCard" />
-	<xs:element name="school" type="school" />
-	<xs:element name="section" type="section" />
-	<xs:element name="session" type="session" />
-	<xs:element name="courseOffering" type="courseOffering" />
-	<xs:element name="staff" type="staff" />
-	<xs:element name="staffCohortAssociation" type="staffCohortAssociation" />
-	<xs:element name="staffEducationOrganizationAssociation"
-		type="staffEducationOrganizationAssociation" />
-	<xs:element name="staffProgramAssociation" type="staffProgramAssociation" />
-	<xs:element name="student" type="student" />
-	<xs:element name="studentAcademicRecord" type="studentAcademicRecord" />
-	<xs:element name="studentAssessmentAssociation" type="studentAssessmentAssociation" />
-	<xs:element name="studentCohortAssociation" type="studentCohortAssociation" />
-	<xs:element name="studentCompetency" type="studentCompetency" />
-	<xs:element name="studentCompetencyObjective" type="studentCompetencyObjective" />
-	<xs:element name="studentCTEProgramAssociation" type="studentCTEProgramAssociation" />
-	<xs:element name="studentDisciplineIncidentAssociation"
-		type="studentDisciplineIncidentAssociation" />
-	<xs:element name="studentParentAssociation" type="studentParentAssociation" />
-	<xs:element name="studentProgramAssociation" type="studentProgramAssociation" />
-	<xs:element name="studentSectionAssociation" type="studentSectionAssociation" />
-	<xs:element name="studentSectionGradebookEntry" type="studentSectionGradebookEntry" />
-	<xs:element name="studentSpecialEdProgramAssociation" type="studentSpecialEdProgramAssociation" />
-	<xs:element name="studentSchoolAssociation" type="studentSchoolAssociation" />
-	<xs:element name="studentTranscriptAssociation" type="studentTranscriptAssociation" />
-	<xs:element name="teacher" type="teacher" />
-	<xs:element name="teacherSchoolAssociation" type="teacherSchoolAssociation" />
-    <xs:element name="teacherSectionAssociation" type="teacherSectionAssociation" />
+  <xs:element name="assessment" type="assessment" />
+  <xs:element name="attendance" type="attendance" />
+  <xs:element name="cohort" type="cohort" />
+  <xs:element name="competencyLevelDescriptor" type="competencyLevelDescriptor" />
+  <xs:element name="competencyLevelDescriptorType" type="competencyLevelDescriptorType" />
+  <xs:element name="course" type="course" />
+  <xs:element name="disciplineIncident" type="disciplineIncident" />
+  <xs:element name="grade" type="grade" />
+  <xs:element name="gradebookEntry" type="gradebookEntry" />
+  <xs:element name="gradingPeriod" type="gradingPeriod" />
+  <xs:element name="learningObjective" type="learningObjective" />
+  <xs:element name="learningStandard" type="learningStandard" />
+  <xs:element name="parent" type="parent" />
+  <xs:element name="program" type="program" />
+  <xs:element name="reportCard" type="reportCard" />
+  <xs:element name="school" type="school" />
+  <xs:element name="section" type="section" />
+  <xs:element name="session" type="session" />
+  <xs:element name="courseOffering" type="courseOffering" />
+  <xs:element name="staff" type="staff" />
+  <xs:element name="staffCohortAssociation" type="staffCohortAssociation" />
+  <xs:element name="staffEducationOrganizationAssociation" type="staffEducationOrganizationAssociation" />
+  <xs:element name="staffProgramAssociation" type="staffProgramAssociation" />
+  <xs:element name="student" type="student" />
+  <xs:element name="studentAcademicRecord" type="studentAcademicRecord" />
+  <xs:element name="studentAssessmentAssociation" type="studentAssessmentAssociation" />
+  <xs:element name="studentCohortAssociation" type="studentCohortAssociation" />
+  <xs:element name="studentCompetency" type="studentCompetency" />
+  <xs:element name="studentCompetencyObjective" type="studentCompetencyObjective" />
+  <xs:element name="studentCTEProgramAssociation" type="studentCTEProgramAssociation" />
+  <xs:element name="studentDisciplineIncidentAssociation" type="studentDisciplineIncidentAssociation" />
+  <xs:element name="studentParentAssociation" type="studentParentAssociation" />
+  <xs:element name="studentProgramAssociation" type="studentProgramAssociation" />
+  <xs:element name="studentSectionAssociation" type="studentSectionAssociation" />
+  <xs:element name="studentSectionGradebookEntry" type="studentSectionGradebookEntry" />
+  <xs:element name="studentSpecialEdProgramAssociation" type="studentSpecialEdProgramAssociation" />
+  <xs:element name="studentSchoolAssociation" type="studentSchoolAssociation" />
+  <xs:element name="studentTranscriptAssociation" type="studentTranscriptAssociation" />
+  <xs:element name="teacher" type="teacher" />
+  <xs:element name="teacherSchoolAssociation" type="teacherSchoolAssociation" />
+  <xs:element name="teacherSectionAssociation" type="teacherSectionAssociation" />
 
 </xs:schema>

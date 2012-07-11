@@ -686,25 +686,6 @@ public class StudentResourceTest {
     }
 
     @Test
-    public void testReadWithGrade() {
-        Response createResponse = studentResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
-        String studentId = ResourceTestUtil.parseIdFromLocation(createResponse);
-        createResponse = schoolResource.create(new EntityBody(
-                ResourceTestUtil.createTestEntity("SchoolResource")), httpHeaders, uriInfo);
-        String schoolId = ResourceTestUtil.parseIdFromLocation(createResponse);
-
-        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
-                "StudentSchoolAssociationResource", "StudentResource", studentId, "SchoolResource", schoolId);
-        map.put("entryGradeLevel", "First grade");
-        map.put("entryDate", "2001-09-01");
-        studentSchoolAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
-
-        Response response = studentResource.readWithGrade(studentId, httpHeaders, uriInfo);
-        EntityBody body = ResourceTestUtil.assertions(response);
-        assertEquals("Grade level should match", "First grade", body.get("gradeLevel"));
-    }
-
-    @Test
     public void testGetReportCards() {
         final String studentResourceName = "StudentResource";
         final String reportCardResourceName = "ReportCardResource";

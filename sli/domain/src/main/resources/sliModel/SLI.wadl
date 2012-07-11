@@ -546,21 +546,6 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{assessmentId}/sectionAssociations">
-        <wadl:param name="assessmentId" style="template" type="xs:string"></wadl:param>
-        <wadl:method name="GET" id="getSectionAssociationsForAssessmentsByAssessmentId">
-          <wadl:doc>Returns the requested collection of resources that are
-						associated with the specified
-						resource.
-					</wadl:doc>
-          <wadl:response>
-            <wadl:representation mediaType="application/json" element="sectionAssessmentAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="sectionAssessmentAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="sectionAssessmentAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml" element="sectionAssessmentAssociationList"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-      </wadl:resource>
       <wadl:resource path="{assessmentId}/sections">
         <wadl:param name="assessmentId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getSectionsForAssessmentsByAssessmentId">
@@ -1397,152 +1382,6 @@
         </wadl:method>
       </wadl:resource>
     </wadl:resource>
-    <wadl:resource path="v1/sectionAssessmentAssociations">
-      <wadl:doc>Represents the association between a $$Section$$ member a
-				$$Assessment$$.
-
-				For more information, see the schema for
-				$$SectionAssessmentAssociation$$ resources.
-			</wadl:doc>
-      <wadl:param name="includeCustom" style="query" type="xs:string" default="false"></wadl:param>
-      <wadl:method name="POST" id="postSectionAssessmentAssociations">
-        <wadl:request>
-          <wadl:representation mediaType="application/json" element="sectionAssessmentAssociation"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+json" element="sectionAssessmentAssociation"></wadl:representation>
-          <wadl:representation mediaType="application/xml" element="sectionAssessmentAssociation"></wadl:representation>
-        </wadl:request>
-        <wadl:response>
-          <wadl:representation mediaType="application/json"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+json"></wadl:representation>
-          <wadl:representation mediaType="application/xml"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+xml"></wadl:representation>
-        </wadl:response>
-      </wadl:method>
-      <wadl:method name="GET" id="getSectionAssessmentAssociations">
-        <wadl:request>
-          <wadl:param name="offset" style="query" type="xs:int" default="0"></wadl:param>
-          <wadl:param name="limit" style="query" type="xs:int" default="50"></wadl:param>
-        </wadl:request>
-        <wadl:response>
-          <wadl:representation mediaType="application/json" element="sectionAssessmentAssociationList"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+json" element="sectionAssessmentAssociationList"></wadl:representation>
-          <wadl:representation mediaType="application/xml" element="sectionAssessmentAssociationList"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+xml" element="sectionAssessmentAssociationList"></wadl:representation>
-        </wadl:response>
-      </wadl:method>
-      <wadl:resource path="{sectionAssessmentAssociationId}/section">
-        <wadl:param name="sectionAssessmentAssociationId" style="template" type="xs:string"></wadl:param>
-        <wadl:method name="GET" id="getSectionForSectionAssessmentAssociationsBySectionAssessmentAssociationId">
-          <wadl:doc>Returns the requested collection of resources that are
-						associated with the specified
-						resource.
-					</wadl:doc>
-          <wadl:request>
-            <wadl:param name="offset" style="query" type="xs:int" default="0"></wadl:param>
-            <wadl:param name="limit" style="query" type="xs:int" default="50"></wadl:param>
-          </wadl:request>
-          <wadl:response>
-            <wadl:representation mediaType="application/json" element="sectionList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="sectionList"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="sectionList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml" element="sectionList"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-      </wadl:resource>
-      <wadl:resource path="{sectionAssessmentAssociationId}/assessment">
-        <wadl:param name="sectionAssessmentAssociationId" style="template" type="xs:string"></wadl:param>
-        <wadl:method name="GET" id="getAssessmentForSectionAssessmentAssociationsBySectionAssessmentAssociationId">
-          <wadl:doc>Returns the requested collection of resources that are
-						associated with the specified
-						resource.
-					</wadl:doc>
-          <wadl:request>
-            <wadl:param name="offset" style="query" type="xs:int" default="0"></wadl:param>
-            <wadl:param name="limit" style="query" type="xs:int" default="50"></wadl:param>
-          </wadl:request>
-          <wadl:response>
-            <wadl:representation mediaType="application/json" element="assessmentList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="assessmentList"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="assessmentList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml" element="assessmentList"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-      </wadl:resource>
-      <wadl:resource path="{id}">
-        <wadl:param name="id" style="template" type="xs:string"></wadl:param>
-        <wadl:method name="DELETE" id="deleteSectionAssessmentAssociationsById">
-          <wadl:response>
-            <wadl:representation mediaType="application/json"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json"></wadl:representation>
-            <wadl:representation mediaType="application/xml"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-        <wadl:method name="GET" id="getSectionAssessmentAssociationsById">
-          <wadl:response>
-            <wadl:representation mediaType="application/json" element="sectionAssessmentAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="sectionAssessmentAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="sectionAssessmentAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml" element="sectionAssessmentAssociationList"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-        <wadl:method name="PUT" id="putSectionAssessmentAssociationsById">
-          <wadl:request>
-            <wadl:representation mediaType="application/json" element="sectionAssessmentAssociation"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="sectionAssessmentAssociation"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="sectionAssessmentAssociation"></wadl:representation>
-          </wadl:request>
-          <wadl:response>
-            <wadl:representation mediaType="application/json"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json"></wadl:representation>
-            <wadl:representation mediaType="application/xml"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-      </wadl:resource>
-      <wadl:resource path="{id}/custom">
-        <wadl:doc>Subresource for custom entities</wadl:doc>
-        <wadl:param name="id" style="template" type="xs:string"></wadl:param>
-        <wadl:method name="DELETE" id="deleteCustomForSectionAssessmentAssociationsById">
-          <wadl:doc>Remove the custom resource for the given entity.
-					</wadl:doc>
-          <wadl:response>
-            <wadl:doc>the response tot he DELETE request</wadl:doc>
-            <wadl:representation mediaType="*/*"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-        <wadl:method name="GET" id="getCustomForSectionAssessmentAssociationsById">
-          <wadl:doc>Read the contents of the custom resource for the given
-						entity.</wadl:doc>
-          <wadl:response>
-            <wadl:doc>the response to the GET request</wadl:doc>
-            <wadl:representation mediaType="*/*" element="custom"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-        <wadl:method name="PUT" id="putCustomForSectionAssessmentAssociationsById">
-          <wadl:doc>Set the contents of the custom resource for the given
-						entity.</wadl:doc>
-          <wadl:request>
-            <wadl:representation mediaType="*/*" element="custom"></wadl:representation>
-          </wadl:request>
-          <wadl:response>
-            <wadl:doc>the response to the PUT request</wadl:doc>
-            <wadl:representation mediaType="*/*"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-        <wadl:method name="POST" id="postCustomForSectionAssessmentAssociationsById">
-          <wadl:doc>Set the contents of the custom resource for the given
-						entity.</wadl:doc>
-          <wadl:request>
-            <wadl:representation mediaType="*/*" element="custom"></wadl:representation>
-          </wadl:request>
-          <wadl:response>
-            <wadl:doc>the response to the POST request</wadl:doc>
-            <wadl:representation mediaType="*/*"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-      </wadl:resource>
-    </wadl:resource>
     <wadl:resource path="v1/staffEducationOrganizationAssociations">
       <wadl:doc>Represents the link between an education organization and a
 				staff member. Education
@@ -1792,160 +1631,6 @@
           </wadl:response>
         </wadl:method>
         <wadl:method name="POST" id="postCustomForCompetencyLevelDescriptorById">
-          <wadl:doc>Set the contents of the custom resource for the given
-						entity.</wadl:doc>
-          <wadl:request>
-            <wadl:representation mediaType="*/*" element="custom"></wadl:representation>
-          </wadl:request>
-          <wadl:response>
-            <wadl:doc>the response to the POST request</wadl:doc>
-            <wadl:representation mediaType="*/*"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-      </wadl:resource>
-    </wadl:resource>
-    <wadl:resource path="v1/schoolSessionAssociations">
-      <wadl:doc>Represents the link between a school and a session of
-				instruction. A school will likely
-				be associated to multiple sessions over its operation and sessions can
-				be shared by
-				multiple schools (perhaps in the same district).
-
-				For more information, see the schema for $$SchoolSessionAssociation$$
-				resources.
-			</wadl:doc>
-      <wadl:param name="includeCustom" style="query" type="xs:string" default="false"></wadl:param>
-      <wadl:method name="POST" id="postSchoolSessionAssociations">
-        <wadl:doc>Creates a new resource using the given resource data.
-				</wadl:doc>
-        <wadl:request>
-          <wadl:representation mediaType="application/json" element="schoolSessionAssociation"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+json" element="schoolSessionAssociation"></wadl:representation>
-          <wadl:representation mediaType="application/xml" element="schoolSessionAssociation"></wadl:representation>
-        </wadl:request>
-        <wadl:response>
-          <wadl:representation mediaType="application/json"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+json"></wadl:representation>
-          <wadl:representation mediaType="application/xml"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+xml"></wadl:representation>
-        </wadl:response>
-      </wadl:method>
-      <wadl:method name="GET" id="getSchoolSessionAssociations">
-        <wadl:doc>Returns the requested collection of resource
-					representations.</wadl:doc>
-        <wadl:request>
-          <wadl:param name="offset" style="query" type="xs:int" default="0"></wadl:param>
-          <wadl:param name="limit" style="query" type="xs:int" default="50"></wadl:param>
-        </wadl:request>
-        <wadl:response>
-          <wadl:representation mediaType="application/json" element="schoolSessionAssociationList"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+json" element="schoolSessionAssociationList"></wadl:representation>
-          <wadl:representation mediaType="application/xml" element="schoolSessionAssociationList"></wadl:representation>
-          <wadl:representation mediaType="application/vnd.slc+xml" element="schoolSessionAssociationList"></wadl:representation>
-        </wadl:response>
-      </wadl:method>
-      <wadl:resource path="{schoolSessionAssociationId}">
-        <wadl:param name="schoolSessionAssociationId" style="template" type="xs:string"></wadl:param>
-        <wadl:method name="DELETE" id="deleteSchoolSessionAssociationsBySchoolSessionAssociationId">
-          <wadl:doc>Deletes the specified resource.</wadl:doc>
-          <wadl:response>
-            <wadl:representation mediaType="application/json"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json"></wadl:representation>
-            <wadl:representation mediaType="application/xml"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-        <wadl:method name="GET" id="getSchoolSessionAssociationsBySchoolSessionAssociationId">
-          <wadl:doc>Returns the specified resource representation(s).
-					</wadl:doc>
-          <wadl:response>
-            <wadl:representation mediaType="application/json" element="schoolSessionAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="schoolSessionAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="schoolSessionAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml" element="schoolSessionAssociationList"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-        <wadl:method name="PUT" id="putSchoolSessionAssociationsBySchoolSessionAssociationId">
-          <wadl:doc>Updates the specified resource using the given resource
-						data.</wadl:doc>
-          <wadl:request>
-            <wadl:representation mediaType="application/json" element="schoolSessionAssociation"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="schoolSessionAssociation"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="schoolSessionAssociation"></wadl:representation>
-          </wadl:request>
-          <wadl:response>
-            <wadl:representation mediaType="application/json"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json"></wadl:representation>
-            <wadl:representation mediaType="application/xml"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-      </wadl:resource>
-      <wadl:resource path="{schoolSessionAssociationId}/session">
-        <wadl:param name="schoolSessionAssociationId" style="template" type="xs:string"></wadl:param>
-        <wadl:method name="GET" id="getSessionForSchoolSessionAssociationsBySchoolSessionAssociationId">
-          <wadl:doc>Returns the requested collection of resources that are
-						associated with the specified resource.</wadl:doc>
-          <wadl:request>
-            <wadl:param name="offset" style="query" type="xs:int" default="0"></wadl:param>
-            <wadl:param name="limit" style="query" type="xs:int" default="50"></wadl:param>
-          </wadl:request>
-          <wadl:response>
-            <wadl:representation mediaType="application/json" element="sessionList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="sessionList"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="sessionList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml" element="sessionList"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-      </wadl:resource>
-      <wadl:resource path="{schoolSessionAssociationId}/school">
-        <wadl:param name="schoolSessionAssociationId" style="template" type="xs:string"></wadl:param>
-        <wadl:method name="GET" id="getSchoolForSchoolSessionAssociationsBySchoolSessionAssociationId">
-          <wadl:doc>Returns the requested collection of resources that are
-						associated with the specified resource.</wadl:doc>
-          <wadl:request>
-            <wadl:param name="offset" style="query" type="xs:int" default="0"></wadl:param>
-            <wadl:param name="limit" style="query" type="xs:int" default="50"></wadl:param>
-          </wadl:request>
-          <wadl:response>
-            <wadl:representation mediaType="application/json" element="schoolList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="schoolList"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="schoolList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml" element="schoolList"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-      </wadl:resource>
-      <wadl:resource path="{id}/custom">
-        <wadl:doc>Subresource for custom entities</wadl:doc>
-        <wadl:param name="id" style="template" type="xs:string"></wadl:param>
-        <wadl:method name="DELETE" id="deleteCustomForSchoolSessionAssociationsById">
-          <wadl:doc>Remove the custom resource for the given entity.
-					</wadl:doc>
-          <wadl:response>
-            <wadl:doc>the response tot he DELETE request</wadl:doc>
-            <wadl:representation mediaType="*/*"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-        <wadl:method name="GET" id="getCustomForSchoolSessionAssociationsById">
-          <wadl:doc>Read the contents of the custom resource for the given
-						entity.</wadl:doc>
-          <wadl:response>
-            <wadl:doc>the response to the GET request</wadl:doc>
-            <wadl:representation mediaType="*/*" element="custom"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-        <wadl:method name="PUT" id="putCustomForSchoolSessionAssociationsById">
-          <wadl:doc>Set the contents of the custom resource for the given
-						entity.</wadl:doc>
-          <wadl:request>
-            <wadl:representation mediaType="*/*" element="custom"></wadl:representation>
-          </wadl:request>
-          <wadl:response>
-            <wadl:doc>the response to the PUT request</wadl:doc>
-            <wadl:representation mediaType="*/*"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-        <wadl:method name="POST" id="postCustomForSchoolSessionAssociationsById">
           <wadl:doc>Set the contents of the custom resource for the given
 						entity.</wadl:doc>
           <wadl:request>
@@ -3394,41 +3079,6 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="studentWithGrade">
-        <wadl:method name="GET" id="getStudentWithGradeForStudents">
-          <wadl:doc>Returns the student with their grade information.
-					</wadl:doc>
-          <wadl:request>
-            <wadl:param name="offset" style="query" type="xs:int" default="0"></wadl:param>
-            <wadl:param name="limit" style="query" type="xs:int" default="50"></wadl:param>
-          </wadl:request>
-          <wadl:response>
-            <wadl:representation mediaType="application/json"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json"></wadl:representation>
-            <wadl:representation mediaType="application/xml"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-      </wadl:resource>
-      <wadl:resource path="{studentId}/studentWithGrade">
-        <wadl:param name="studentId" style="template" type="xs:string"></wadl:param>
-        <wadl:method name="GET" id="getStudentWithGradeForStudentsByStudentId">
-          <wadl:doc>Get a single $$Student$$ entity, with the grade included
-						Calculates the current grade based on entryDate and
-						exitWithdrawDate in
-						studentSchoolAssociations
-						Returns student with gradeLevel "Not Available" when information is
-						insufficient, or the code
-						experiences an exception
-					</wadl:doc>
-          <wadl:response>
-            <wadl:representation mediaType="application/json"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json"></wadl:representation>
-            <wadl:representation mediaType="application/xml"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-      </wadl:resource>
       <wadl:resource path="{studentId}/studentSectionAssociations/section">
         <wadl:param name="studentId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getSectionForStudentSectionAssociationsForStudentsByStudentId">
@@ -4140,32 +3790,6 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{schoolId}/schoolSessionAssociations">
-        <wadl:param name="schoolId" style="template" type="xs:string"></wadl:param>
-        <wadl:method name="GET" id="getSchoolSessionAssociationsForSessionsBySchoolId">
-          <wadl:doc>Returns the requested collection of resources that are
-						associated with the specified resource.</wadl:doc>
-          <wadl:response>
-            <wadl:representation mediaType="application/json" element="schoolSessionAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="schoolSessionAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="schoolSessionAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml" element="schoolSessionAssociationList"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-      </wadl:resource>
-      <wadl:resource path="{schoolId}/schoolSessionAssociations/school">
-        <wadl:param name="schoolId" style="template" type="xs:string"></wadl:param>
-        <wadl:method name="GET" id="getSchoolForSchoolSessionAssociationsForSessionsBySchoolId">
-          <wadl:doc>Returns the requested collection of resources that are
-						associated with the specified resource.</wadl:doc>
-          <wadl:response>
-            <wadl:representation mediaType="application/json" element="schoolList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="schoolList"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="schoolList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml" element="schoolList"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-      </wadl:resource>
       <wadl:resource path="{id}/custom">
         <wadl:doc>Subresource for custom entities</wadl:doc>
         <wadl:param name="id" style="template" type="xs:string"></wadl:param>
@@ -4828,36 +4452,6 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{schoolId}/schoolSessionAssociations">
-        <wadl:param name="schoolId" style="template" type="xs:string"></wadl:param>
-        <wadl:method name="GET" id="getSchoolSessionAssociationsForSchoolsBySchoolId">
-          <wadl:doc>Returns the requested collection of resources that are
-						associated with the specified
-						resource.
-					</wadl:doc>
-          <wadl:response>
-            <wadl:representation mediaType="application/json" element="schoolSessionAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="schoolSessionAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="schoolSessionAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml" element="schoolSessionAssociationList"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-      </wadl:resource>
-      <wadl:resource path="{schoolId}/schoolSessionAssociations/session">
-        <wadl:param name="schoolId" style="template" type="xs:string"></wadl:param>
-        <wadl:method name="GET" id="getSessionForSchoolSessionAssociationsForSchoolsBySchoolId">
-          <wadl:doc>Returns the requested collection of resources that are
-						associated with the specified
-						resource.
-					</wadl:doc>
-          <wadl:response>
-            <wadl:representation mediaType="application/json" element="sessionList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="sessionList"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="sessionList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml" element="sessionList"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-      </wadl:resource>
       <wadl:resource path="{id}">
         <wadl:param name="id" style="template" type="xs:string"></wadl:param>
         <wadl:method name="DELETE" id="deleteSchoolsById">
@@ -5160,7 +4754,7 @@
 				for details.
 				A section is associated with a student, teacher, and assessment
 				through $$StudentSectionAssociation$$,
-				$$TeacherSectionAssociation$$, and $$SectionAssessmentAssociation$$.
+				and $$TeacherSectionAssociation$$
 
 				For more details about the resources, see $$Student$$, $$Teacher$$
 				and $$Assessment$$ resources.
@@ -5193,45 +4787,6 @@
           <wadl:representation mediaType="application/vnd.slc+xml" element="sectionList"></wadl:representation>
         </wadl:response>
       </wadl:method>
-      <wadl:resource path="{sectionId}/assessmentAssociations">
-        <wadl:param name="sectionId" style="template" type="xs:string"></wadl:param>
-        <wadl:method name="GET" id="getAssessmentAssociationsForSectionsBySectionId">
-          <wadl:doc>Returns the requested collection of resources that are
-						associated with the specified resource.</wadl:doc>
-          <wadl:response>
-            <wadl:representation mediaType="application/json" element="sectionAssessmentAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="sectionAssessmentAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="sectionAssessmentAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml" element="sectionAssessmentAssociationList"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-      </wadl:resource>
-      <wadl:resource path="{sectionId}/studentSectionAssociations">
-        <wadl:param name="sectionId" style="template" type="xs:string"></wadl:param>
-        <wadl:method name="GET" id="getStudentSectionAssociationsForSectionsBySectionId">
-          <wadl:doc>Returns the requested collection of resources that are
-						associated with the specified resource.</wadl:doc>
-          <wadl:response>
-            <wadl:representation mediaType="application/json" element="studentSectionAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="studentSectionAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="studentSectionAssociationList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml" element="studentSectionAssociationList"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-      </wadl:resource>
-      <wadl:resource path="{sectionId}/studentSectionAssociations/student">
-        <wadl:param name="sectionId" style="template" type="xs:string"></wadl:param>
-        <wadl:method name="GET" id="getStudentForStudentSectionAssociationsForSectionsBySectionId">
-          <wadl:doc>Returns the requested collection of resources that are
-						associated with the specified resource.</wadl:doc>
-          <wadl:response>
-            <wadl:representation mediaType="application/json" element="studentList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+json" element="studentList"></wadl:representation>
-            <wadl:representation mediaType="application/xml" element="studentList"></wadl:representation>
-            <wadl:representation mediaType="application/vnd.slc+xml" element="studentList"></wadl:representation>
-          </wadl:response>
-        </wadl:method>
-      </wadl:resource>
       <wadl:resource path="{sectionId}/teacherSectionAssociations">
         <wadl:param name="sectionId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getTeacherSectionAssociationsForSectionsBySectionId">
