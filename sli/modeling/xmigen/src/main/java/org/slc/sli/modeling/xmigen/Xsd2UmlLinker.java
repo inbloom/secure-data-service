@@ -46,6 +46,11 @@ import org.slc.sli.modeling.uml.index.ModelIndex;
  */
 final class Xsd2UmlLinker {
     
+    /**
+     * Temporary switch that we set to false until we can clean up the ReST API.
+     */
+    private final static boolean simplifyAssociationEndNames = false;
+    
     private static final List<Attribute> cleanUp(final ClassType classType, final List<Attribute> attributes,
             final Xsd2UmlPlugin plugin, final ModelIndex lookup, final Map<String, Identifier> nameToClassTypeId,
             final Map<String, AssociationEnd> classNavigations) {
@@ -248,13 +253,17 @@ final class Xsd2UmlLinker {
         // Our first guess is the pluralization of the target type name.
         final String targetName = Xsd2UmlHelper.pluralize(targetTypeName);
         if (degeneracy > 1) {
-            return sourceName.concat(titleCase(targetName));
+            return sourceName.concat(Xsd2UmlHelper.titleCase(targetName));
         } else {
             if (targetTypeName.equals(sourceTypeName)) {
                 // Reference to self. Avoid absurdity. See AssessmentFamily.
                 return Xsd2UmlHelper.camelCase(targetName);
             } else if (targetName.toLowerCase().contains(sourceTypeName.toLowerCase())) {
-                return Xsd2UmlHelper.camelCase(Xsd2UmlHelper.replaceAllIgnoreCase(targetName, sourceTypeName, ""));
+                if (simplifyAssociationEndNames) {
+                    return Xsd2UmlHelper.camelCase(Xsd2UmlHelper.replaceAllIgnoreCase(targetName, sourceTypeName, ""));
+                } else {
+                    return Xsd2UmlHelper.camelCase(targetName);
+                }
             } else {
                 return Xsd2UmlHelper.camelCase(targetName);
             }
@@ -284,9 +293,5 @@ final class Xsd2UmlLinker {
         } else {
             return name;
         }
-    }
-    
-    private static final String titleCase(final String text) {
-        return text.substring(0, 1).toUpperCase().concat(text.substring(1));
     }
 }

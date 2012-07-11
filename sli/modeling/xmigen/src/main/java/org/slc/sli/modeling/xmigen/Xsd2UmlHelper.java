@@ -42,4 +42,11 @@ public final class Xsd2UmlHelper {
         }
         return text.substring(0, 1).toLowerCase().concat(text.substring(1));
     }
+    
+    public static final String titleCase(final String text) {
+        if (text == null) {
+            throw new NullPointerException("text");
+        }
+        return text.substring(0, 1).toUpperCase().concat(text.substring(1));
+    }
 }

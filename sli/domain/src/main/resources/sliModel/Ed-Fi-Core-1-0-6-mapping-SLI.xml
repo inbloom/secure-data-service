@@ -717,13 +717,13 @@
   <mapping>
     <lhs>
       <name>studentAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>DisciplineIncident</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs>
       <name>studentAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>DisciplineIncident</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -1021,13 +1021,13 @@
   <mapping>
     <lhs>
       <name>teacherAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Section</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs>
       <name>teacherAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Section</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -1837,13 +1837,13 @@
   <mapping>
     <lhs>
       <name>cohortAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Staff</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs>
       <name>cohortAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Staff</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -1917,13 +1917,13 @@
   <mapping>
     <lhs>
       <name>schoolAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Student</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs>
       <name>schoolAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Student</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -2717,13 +2717,13 @@
   <mapping>
     <lhs>
       <name>sectionAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Teacher</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs>
       <name>sectionAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Teacher</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -3117,13 +3117,13 @@
   <mapping>
     <lhs>
       <name>cohortAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Student</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs>
       <name>cohortAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Student</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -4205,13 +4205,13 @@
   <mapping>
     <lhs>
       <name>teacherAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>School</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs>
       <name>teacherAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>School</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -4381,13 +4381,13 @@
   <mapping>
     <lhs>
       <name>parentAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Student</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs>
       <name>parentAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Student</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -4893,13 +4893,13 @@
   <mapping>
     <lhs>
       <name>studentAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>School</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs>
       <name>studentAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>School</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -5085,13 +5085,13 @@
   <mapping>
     <lhs>
       <name>programAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Student</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs>
       <name>programAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Student</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -5165,13 +5165,13 @@
   <mapping>
     <lhs>
       <name>offerings</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Course</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs>
       <name>offerings</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Course</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -5757,13 +5757,13 @@
   <mapping>
     <lhs>
       <name>studentAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Program</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs>
       <name>studentAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Program</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -5837,13 +5837,13 @@
   <mapping>
     <lhs>
       <name>schoolAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Teacher</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs>
       <name>schoolAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Teacher</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -5933,13 +5933,13 @@
   <mapping>
     <lhs>
       <name>staffAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Program</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs>
       <name>staffAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Program</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -6013,13 +6013,13 @@
   <mapping>
     <lhs>
       <name>staffAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Cohort</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs>
       <name>staffAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Cohort</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -6141,13 +6141,13 @@
   <mapping>
     <lhs>
       <name>disciplineIncidentAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Student</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs>
       <name>disciplineIncidentAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Student</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -6237,13 +6237,13 @@
   <mapping>
     <lhs>
       <name>studentAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Cohort</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs>
       <name>studentAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Cohort</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -6349,13 +6349,13 @@
   <mapping>
     <lhs>
       <name>studentAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Parent</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs>
       <name>studentAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Parent</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -6637,13 +6637,13 @@
   <mapping>
     <lhs>
       <name>sectionAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Student</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs>
       <name>sectionAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Student</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -6749,13 +6749,13 @@
   <mapping>
     <lhs>
       <name>academicRecords</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Student</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs>
       <name>academicRecords</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Student</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -7805,13 +7805,13 @@
   <mapping>
     <lhs>
       <name>programAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Staff</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs>
       <name>programAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Staff</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -7917,13 +7917,13 @@
   <mapping>
     <lhs>
       <name>studentAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Section</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs>
       <name>studentAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Section</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -8729,7 +8729,7 @@
   <mapping>
     <lhs>
       <name>students</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>ObjectiveAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
@@ -9422,7 +9422,7 @@
   <mapping>
     <lhs>
       <name>students</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>AssessmentItem</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
@@ -9455,7 +9455,7 @@
   <mapping>
     <lhs>
       <name>transcripts</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Course</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
@@ -10268,7 +10268,7 @@
   <mapping>
     <lhs>
       <name>interventionAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Student</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
@@ -10784,7 +10784,7 @@
   <mapping>
     <lhs>
       <name>contracteds</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Staff</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
@@ -11091,7 +11091,7 @@
   <mapping>
     <lhs>
       <name>assessments</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Student</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
@@ -11564,7 +11564,7 @@
   <mapping>
     <lhs>
       <name>studentAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Intervention</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
@@ -12536,7 +12536,7 @@
   <mapping>
     <lhs>
       <name>educationOrgEmploymentAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Staff</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
@@ -12602,7 +12602,7 @@
   <mapping>
     <lhs>
       <name>students</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Assessment</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
@@ -12690,7 +12690,7 @@
   <mapping>
     <lhs>
       <name>items</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
@@ -13645,7 +13645,7 @@
   <mapping>
     <lhs>
       <name>educationOrgAssignmentAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Staff</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
@@ -13888,7 +13888,7 @@
     <lhs-missing/>
     <rhs>
       <name>assessmentAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Student</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -13992,7 +13992,7 @@
     <lhs-missing/>
     <rhs>
       <name>transcriptAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Student</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -15138,7 +15138,7 @@
     <lhs-missing/>
     <rhs>
       <name>studentAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Assessment</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -15193,7 +15193,7 @@
     <lhs-missing/>
     <rhs>
       <name>educationOrganizationAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Staff</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -15440,7 +15440,7 @@
     <lhs-missing/>
     <rhs>
       <name>staffAssociations</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>EducationOrganization</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -15790,7 +15790,7 @@
     <lhs-missing/>
     <rhs>
       <name>sectionGradebookEntries</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Student</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -15812,7 +15812,7 @@
     <lhs-missing/>
     <rhs>
       <name>studentGradebookEntries</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>Section</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -15909,6 +15909,556 @@
     <lhs-missing/>
     <rhs>
       <name>assessmentReferences</name>
+      <exists>true</exists>
+      <owner-name>Section</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>studentSchoolAssociations</name>
+      <exists>true</exists>
+      <owner-name>School</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs>
+      <name>studentSchoolAssociations</name>
+      <exists>true</exists>
+      <owner-name>School</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>studentProgramAssociations</name>
+      <exists>true</exists>
+      <owner-name>Student</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs>
+      <name>studentProgramAssociations</name>
+      <exists>true</exists>
+      <owner-name>Student</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>teacherSchoolAssociations</name>
+      <exists>true</exists>
+      <owner-name>School</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs>
+      <name>teacherSchoolAssociations</name>
+      <exists>true</exists>
+      <owner-name>School</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>studentAcademicRecords</name>
+      <exists>true</exists>
+      <owner-name>Student</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs>
+      <name>studentAcademicRecords</name>
+      <exists>true</exists>
+      <owner-name>Student</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>teacherSchoolAssociations</name>
+      <exists>true</exists>
+      <owner-name>Teacher</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs>
+      <name>teacherSchoolAssociations</name>
+      <exists>true</exists>
+      <owner-name>Teacher</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>studentSectionAssociations</name>
+      <exists>true</exists>
+      <owner-name>Section</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs>
+      <name>studentSectionAssociations</name>
+      <exists>true</exists>
+      <owner-name>Section</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>staffProgramAssociations</name>
+      <exists>true</exists>
+      <owner-name>Staff</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs>
+      <name>staffProgramAssociations</name>
+      <exists>true</exists>
+      <owner-name>Staff</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>studentParentAssociations</name>
+      <exists>true</exists>
+      <owner-name>Student</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs>
+      <name>studentParentAssociations</name>
+      <exists>true</exists>
+      <owner-name>Student</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>studentProgramAssociations</name>
+      <exists>true</exists>
+      <owner-name>Program</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs>
+      <name>studentProgramAssociations</name>
+      <exists>true</exists>
+      <owner-name>Program</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>studentSchoolAssociations</name>
+      <exists>true</exists>
+      <owner-name>Student</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs>
+      <name>studentSchoolAssociations</name>
+      <exists>true</exists>
+      <owner-name>Student</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>staffCohortAssociations</name>
+      <exists>true</exists>
+      <owner-name>Staff</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs>
+      <name>staffCohortAssociations</name>
+      <exists>true</exists>
+      <owner-name>Staff</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>studentDisciplineIncidentAssociations</name>
+      <exists>true</exists>
+      <owner-name>Student</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs>
+      <name>studentDisciplineIncidentAssociations</name>
+      <exists>true</exists>
+      <owner-name>Student</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>studentCohortAssociations</name>
+      <exists>true</exists>
+      <owner-name>Cohort</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs>
+      <name>studentCohortAssociations</name>
+      <exists>true</exists>
+      <owner-name>Cohort</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>studentParentAssociations</name>
+      <exists>true</exists>
+      <owner-name>Parent</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs>
+      <name>studentParentAssociations</name>
+      <exists>true</exists>
+      <owner-name>Parent</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>studentSectionAssociations</name>
+      <exists>true</exists>
+      <owner-name>Student</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs>
+      <name>studentSectionAssociations</name>
+      <exists>true</exists>
+      <owner-name>Student</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>courseOfferings</name>
+      <exists>true</exists>
+      <owner-name>Course</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs>
+      <name>courseOfferings</name>
+      <exists>true</exists>
+      <owner-name>Course</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>teacherSectionAssociations</name>
+      <exists>true</exists>
+      <owner-name>Teacher</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs>
+      <name>teacherSectionAssociations</name>
+      <exists>true</exists>
+      <owner-name>Teacher</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>staffCohortAssociations</name>
+      <exists>true</exists>
+      <owner-name>Cohort</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs>
+      <name>staffCohortAssociations</name>
+      <exists>true</exists>
+      <owner-name>Cohort</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>staffProgramAssociations</name>
+      <exists>true</exists>
+      <owner-name>Program</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs>
+      <name>staffProgramAssociations</name>
+      <exists>true</exists>
+      <owner-name>Program</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>studentDisciplineIncidentAssociations</name>
+      <exists>true</exists>
+      <owner-name>DisciplineIncident</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs>
+      <name>studentDisciplineIncidentAssociations</name>
+      <exists>true</exists>
+      <owner-name>DisciplineIncident</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>studentCohortAssociations</name>
+      <exists>true</exists>
+      <owner-name>Student</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs>
+      <name>studentCohortAssociations</name>
+      <exists>true</exists>
+      <owner-name>Student</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>teacherSectionAssociations</name>
+      <exists>true</exists>
+      <owner-name>Section</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs>
+      <name>teacherSectionAssociations</name>
+      <exists>true</exists>
+      <owner-name>Section</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>staffEducationOrgEmploymentAssociations</name>
+      <exists>true</exists>
+      <owner-name>Staff</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs-missing/>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>staffEducationOrgAssignmentAssociations</name>
+      <exists>true</exists>
+      <owner-name>Staff</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs-missing/>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>studentAssessments</name>
+      <exists>true</exists>
+      <owner-name>Student</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs-missing/>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>studentAssessmentItems</name>
+      <exists>true</exists>
+      <owner-name>StudentAssessment</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs-missing/>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>contractedStaffs</name>
+      <exists>true</exists>
+      <owner-name>Staff</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs-missing/>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>studentInterventionAssociations</name>
+      <exists>true</exists>
+      <owner-name>Intervention</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs-missing/>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>studentAssessmentItems</name>
+      <exists>true</exists>
+      <owner-name>AssessmentItem</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs-missing/>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>studentInterventionAssociations</name>
+      <exists>true</exists>
+      <owner-name>Student</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs-missing/>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>studentAssessments</name>
+      <exists>true</exists>
+      <owner-name>Assessment</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs-missing/>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>courseTranscripts</name>
+      <exists>true</exists>
+      <owner-name>Course</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs-missing/>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs>
+      <name>studentObjectiveAssessments</name>
+      <exists>true</exists>
+      <owner-name>ObjectiveAssessment</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
+    <rhs-missing/>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs-missing/>
+    <rhs>
+      <name>staffEducationOrganizationAssociations</name>
+      <exists>true</exists>
+      <owner-name>Staff</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs-missing/>
+    <rhs>
+      <name>studentAssessmentAssociations</name>
+      <exists>true</exists>
+      <owner-name>Student</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs-missing/>
+    <rhs>
+      <name>studentTranscriptAssociations</name>
+      <exists>true</exists>
+      <owner-name>Student</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs-missing/>
+    <rhs>
+      <name>studentSectionGradebookEntries</name>
+      <exists>true</exists>
+      <owner-name>Student</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs-missing/>
+    <rhs>
+      <name>staffEducationOrganizationAssociations</name>
+      <exists>true</exists>
+      <owner-name>EducationOrganization</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs-missing/>
+    <rhs>
+      <name>studentAssessmentAssociations</name>
+      <exists>true</exists>
+      <owner-name>Assessment</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs-missing/>
+    <rhs>
+      <name>studentSectionGradebookEntries</name>
       <exists>true</exists>
       <owner-name>Section</owner-name>
       <owner-exists>true</owner-exists>
