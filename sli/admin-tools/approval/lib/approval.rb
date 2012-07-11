@@ -282,21 +282,9 @@ module ApprovalEngine
     #
     # email_address: Previously added email_address identifying a user.
     def ApprovalEngine.remove_user(email_address)
-        user = @@storage.read_user(email_address)
+        #user = @@storage.read_user(email_address)
         clear_roles(email_address)
         @@storage.delete_user(email_address)
-    end
-
-    def ApprovalEngine.clear_roles(email_address)
-        @@roles.each do |role|
-             @@storage.remove_user_group(email_address, role)
-        end
-    end
-
-    def ApprovalEngine.set_roles(email_address)
-        @@roles.each do |role|
-             @@storage.add_user_group(email_address, role)
-        end
     end
 
     def ApprovalEngine.get_roles(email_address)
@@ -307,6 +295,19 @@ module ApprovalEngine
     # Private methods
     #############################################################
     private 
+
+    def ApprovalEngine.set_roles(email_address)
+        @@roles.each do |role|
+             @@storage.add_user_group(email_address, role)
+        end
+    end
+
+    def ApprovalEngine.clear_roles(email_address)
+        user_roles = @@storage.get_user_groups(email_address)
+        user_roles.each do |role|
+             @@storage.remove_user_group(email_address, role)
+        end
+    end
 
     def ApprovalEngine.set_emailtoken(user)
         user_info = {

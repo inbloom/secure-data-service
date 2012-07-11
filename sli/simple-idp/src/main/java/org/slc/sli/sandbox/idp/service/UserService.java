@@ -17,8 +17,8 @@
 
 package org.slc.sli.sandbox.idp.service;
 
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -59,7 +59,7 @@ public class UserService {
     @Value("${sli.simple-idp.groupObjectClass}")
     private String groupObjectClass;
 
-    private static final Map<String, String> LDAP_ROLE_MAPPING = Collections.emptyMap();
+    private static final Map<String, String> LDAP_ROLE_MAPPING = new HashMap<String,String>();
     static {
         // Mapping from roles in LDAP which comply with requirements of POSIX systems
         // to roles understood by the API
@@ -191,7 +191,7 @@ public class UserService {
 
         // map the roles in LDAP which are better suited for Posix systems to
         // the roles used by the API
-        List<String> result = Collections.emptyList();
+        List<String> result = new LinkedList<String>();
         for (String group : groups) {
             result.add(LDAP_ROLE_MAPPING.containsKey(group) ? LDAP_ROLE_MAPPING.get(group) : group);
         }
