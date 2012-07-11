@@ -20,6 +20,8 @@ OTHER_TAGS = ENV['OTHER_TAGS'] ? "--tags "+ENV['OTHER_TAGS'] : ""
 
 TOREMOVE = ENV['TOREMOVE'] ? true : false
 
+RUN_STAMPER = false
+
 #######################################################
 
 $SUCCESS=true
@@ -76,7 +78,9 @@ end
 # This method is to run a given test of set of test where a fixture is not needed
 # Inputs: (String) testDirPath = path to a directory of tests or a single feature file (starting in acceptance-tests directory)
 def runTests(testDirPath)
-  addSecurityData()
+  if RUN_STAMPER 
+  	addSecurityData()
+  end	
 
   @tags ||= ["~@wip", "~@sandbox"]
   sh "cucumber #{testDirPath} #{EXPAND} --tags #{@tags.join(' --tags ')} #{OTHER_TAGS} #{COLOR} -f junit --out ./target -f pretty" do |success, exit_code|
@@ -301,6 +305,7 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :apiV1AssociationTests,
                      :v1homeUriTests,
                      :v1ValidationTests,
+                     :v1WhiteListValidationTests,
                      :v1HierarchyTraversalTests,
                      :v1DirectReferencesTests,
                      :v1DirectReferenceCollectionsTests,
@@ -314,7 +319,8 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1StudentOptionalFieldsTests,
                      :v1SingleStudentViewTests,
                      :v1BlacklistValidationTests,
-                     :v1XMLTests] do
+                     :v1XMLTests,
+                     :v1CommaSeparatedListOrderTests] do
   displayFailureReport()
 end
 
@@ -637,6 +643,7 @@ task :importSecuredData do
 
   ]
   setMultipleFixtureFiles(testHash)
+  addSecurityData()
 end
 
 desc "Import Sandbox Test Data"
@@ -738,6 +745,11 @@ end
 def addSecurityData()
 	sh "ruby ../opstools/edorg/edorg_stamper.rb 127.0.0.1:27017"
 	sh "ruby ../opstools/teacher_security_stamper/teacher_stamper.rb 127.0.0.1:27017"
+end
+
+desc "Turn off stamper"
+task :turnOffStamper do
+	RUN_STAMPER = false
 end
 
 desc "Help information for this Rakefile"

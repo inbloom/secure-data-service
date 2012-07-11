@@ -17,6 +17,10 @@
 
 package org.slc.sli.api.security.service;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
@@ -54,11 +58,17 @@ public class SecurityCriteria {
      * @return
      */
     public NeutralQuery applySecurityCriteria(NeutralQuery query) {
-        query.addCriteria(securityCriteria);
-
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
+        String userId = user.getEntity().getEntityId();
+        NeutralQuery createdByQuery = new NeutralQuery(new NeutralCriteria("metaData.createdBy", NeutralCriteria.OPERATOR_EQUAL, userId, false));
+        createdByQuery.addCriteria(new NeutralCriteria("metaData.isOrphaned", NeutralCriteria.OPERATOR_EQUAL, "true", false));
+        
         if (blacklistCriteria != null) {
             query.addCriteria(blacklistCriteria);
         }
+        query.addOrQuery(new NeutralQuery(securityCriteria));
+        query.addOrQuery(createdByQuery);
 
         return query;
     }
