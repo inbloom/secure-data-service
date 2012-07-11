@@ -58,8 +58,6 @@ public class SecurityCriteria {
      * @return
      */
     public NeutralQuery applySecurityCriteria(NeutralQuery query) {
-        NeutralQuery securityQuery = new NeutralQuery(securityCriteria);
-        
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
         String userId = user.getEntity().getEntityId();
@@ -67,7 +65,7 @@ public class SecurityCriteria {
         createdByQuery.addCriteria(new NeutralCriteria("metaData.isOrphaned", NeutralCriteria.OPERATOR_EQUAL, "true", false));
         
         if (blacklistCriteria != null) {
-            securityQuery.addCriteria(blacklistCriteria);
+            query.addCriteria(blacklistCriteria);
         }
 
         query.addOrQuery(new NeutralQuery(securityCriteria));
