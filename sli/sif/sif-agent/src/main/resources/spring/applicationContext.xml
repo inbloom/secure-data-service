@@ -19,7 +19,7 @@
         </property>
     </bean>
 
-  	<bean id="sif2SliMapper" class="org.slc.sli.sif.domain.Sif2SliMapper"/>
+  	<bean id="Sif2SliTransformer" class="org.slc.sli.sif.domain.Sif2SliTransformer"/>
 
 	<!-- custom converter -->
   	<bean id="GradeLevelsConverter" class="org.slc.sli.sif.domain.converter.GradeLevelsConverter"/>

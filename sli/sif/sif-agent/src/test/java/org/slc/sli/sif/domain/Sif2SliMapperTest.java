@@ -46,7 +46,7 @@ import org.slc.sli.sif.uitl.SifEntityGenerator;
 public class Sif2SliMapperTest
 {
     @Autowired
-    private Sif2SliMapper mapper;
+    private Sif2SliTransformer xformer;
 
     private SchoolInfo schoolInfo;
 
@@ -57,7 +57,7 @@ public class Sif2SliMapperTest
 
     @Test
     public void testSchoolInfoMap2json() throws JsonProcessingException, MappingException, IOException {
-        JsonNode schoolNode = mapper.map2json(schoolInfo);
+        JsonNode schoolNode = xformer.transform2json(schoolInfo);
         Assert.assertEquals("Expecting 'IL-DAYBREAK' as stateOrganizationId",
                 "IL-DAYBREAK", schoolNode.get("stateOrganizationId").asText());
         Assert.assertEquals("Expecting 'Daybreak School District 4529' as nameOfInstitution",
@@ -124,7 +124,7 @@ public class Sif2SliMapperTest
 
     @Test
     public void testSchoolInfoMap() {
-        SchoolEntity schoolEntity = mapper.map(schoolInfo);
+        SchoolEntity schoolEntity = xformer.transform(schoolInfo);
         Assert.assertEquals("Expecting 2 telephone numbers", 2, schoolEntity.getTelephone().size());
         Assert.assertEquals("Expecting 'Main' as the first phone type", "Main", schoolEntity.getTelephone().get(0).getInstitutionTelephoneNumberType());
         Assert.assertEquals("Expecting '(312) 555-1234' as the first phone number", "(312) 555-1234", schoolEntity.getTelephone().get(0).getTelephoneNumber());

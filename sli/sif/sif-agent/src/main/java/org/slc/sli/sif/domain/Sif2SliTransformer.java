@@ -27,12 +27,12 @@ import org.slc.sli.sif.domain.sifentity.SchoolInfoEntity;
 import org.slc.sli.sif.domain.slientity.SchoolEntity;
 
 /**
- * Mapper to map an entity from SIF domain to SLI domain.
+ * Transformer for mapping entities from SIF domain to SLI domain.
  *
  * @author slee
  *
  */
-public class Sif2SliMapper
+public class Sif2SliTransformer
 {
     protected static ObjectMapper mapper = new ObjectMapper();
 
@@ -40,32 +40,32 @@ public class Sif2SliMapper
     private Mapper dozerMapper;
 
     /**
-     * Map an SIF SchoolInfo into an SLI JsonNode.
+     * Transform an SIF SchoolInfo into a corresponding SLI JsonNode ready for operations.
      *
      * @param SchoolInfo
      * @return JsonNode
      */
-    public JsonNode map2json(SchoolInfo schoolInfo) {
-        return map(schoolInfo).json();
+    public JsonNode transform2json(SchoolInfo schoolInfo) {
+        return transform(schoolInfo).json();
     }
 
     /**
-     * Map an SIF SchoolInfo into an SLI SchoolEntity.
+     * Transform an SIF SchoolInfo into an SLI SchoolEntity.
      *
      * @param SchoolInfo
      * @return SchoolEntity
      */
-    public SchoolEntity map(SchoolInfo schoolInfo) {
+    public SchoolEntity transform(SchoolInfo schoolInfo) {
         return this.dozerMapper.map(new SchoolInfoEntity(schoolInfo), SchoolEntity.class);
     }
 
     /**
-     * Map an SIF SchoolInfoEntity into an SLI SchoolEntity.
+     * Transform an SIF SchoolInfoEntity into an SLI SchoolEntity.
      *
      * @param SchoolInfoEntity
      * @return SchoolEntity
      */
-    public SchoolEntity map(SchoolInfoEntity schoolInfoEntity) {
+    public SchoolEntity transform(SchoolInfoEntity schoolInfoEntity) {
         return this.dozerMapper.map(schoolInfoEntity, SchoolEntity.class);
     }
 
