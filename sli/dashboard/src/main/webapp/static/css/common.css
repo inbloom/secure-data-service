@@ -10,6 +10,7 @@ html, body {
 	height: 100%;
 }
 
+.p10 { padding: 10px; }
 .placeholder {
 	color: #999;
 }
@@ -43,6 +44,18 @@ body {
 input {
     font-family: Helvetica,Arial,sans-serif;
     font-size: 13px;
+}
+
+.color-column-blue {
+	color: #0033CC !important;
+}
+
+.color-column-red {
+	color: #DD0000 !important;
+}
+
+.color-column-orange {
+	color: #993300 !important;
 }
 
 #sli_footer {

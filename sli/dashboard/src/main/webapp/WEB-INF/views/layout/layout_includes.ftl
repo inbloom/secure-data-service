@@ -27,6 +27,9 @@
   <#if panel.type == "GRID">
     <@includeGrid gridId=panel.id/>
   </#if>
+  <#if panel.type == "REPEAT_HEADER_GRID">
+    <@includeRepeatHeaderGrid gridId=panel.id/>
+  </#if>
 </#macro>
 
 <#function getDivId panelId>
@@ -51,8 +54,19 @@
     </script>
 
 </#macro>
-
 <#noescape>
+<#macro includeRepeatHeaderGrid gridId>
+
+  <#assign id = getDivId(gridId)>
+  </br>
+    <script type="text/javascript">
+      <#-- make grid -->
+      SLC.grid.repeatHeaderGrid.create('${id}', SLC.dataProxy.getConfig("${gridId}"), SLC.dataProxy.getData("${gridId}"));
+    </script>
+
+</#macro>
+
+
 
 
 <script>
