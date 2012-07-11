@@ -288,40 +288,10 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
     @Override
     @Cacheable(value = Constants.CACHE_USER_PANEL_DATA)
     public GenericEntity getUserInstHierarchy(String token, Object key, Data config) {
+
         List<GenericEntity> entities = getUserInstHierarchy(token);
         GenericEntity entity = new GenericEntity();
-
         entity.put(Constants.ATTR_ROOT, entities);
-        if (key != null) {
-
-            // if section has been selected by user, get section info
-            GenericEntity section = getApiClient().getEntity(token, "sections", (String) key, null);
-            String schoolId = section.getString(Constants.ATTR_SCHOOL_ID);
-
-            // find the ed-org and school, given the section. set the "selectedPopulation" attribute.
-            for (GenericEntity org : entities) {
-                Set<GenericEntity> schools = ((Set<GenericEntity>) org.get(Constants.ATTR_SCHOOLS));
-                for (GenericEntity school : schools) {
-                    if (school.getId().equals(schoolId)) {
-                        String courseOfferingId = section.getString(Constants.ATTR_COURSE_OFFERING_ID);
-                        // if correct section has been located, find courseOffering info
-                        GenericEntity courseOffering = getApiClient().getEntity(token, "courseOfferings",
-                                courseOfferingId, null);
-
-                        if (courseOffering != null) {
-                            GenericEntity selectedOrg = new GenericEntity();
-                            selectedOrg.put(Constants.ATTR_NAME, org.get(Constants.ATTR_NAME));
-                            section.put(Constants.ATTR_COURSE_ID, courseOffering.getString(Constants.ATTR_COURSE_ID));
-                            selectedOrg.put(Constants.ATTR_SECTION, section);
-                            entity.put(Constants.ATTR_SELECTED_POPULATION, selectedOrg);
-
-                            return entity;
-                        }
-                    }
-                }
-            }
-
-        }
         return entity;
     }
 
