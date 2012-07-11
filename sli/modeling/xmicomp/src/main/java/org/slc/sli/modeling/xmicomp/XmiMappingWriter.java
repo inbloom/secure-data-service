@@ -104,22 +104,30 @@ public class XmiMappingWriter {
             throws XMLStreamException {
         xsw.writeStartElement(elementName.getNamespaceURI(), elementName.getLocalPart());
         try {
-            xsw.writeStartElement(XmiMappingConstants.TYPE.getNamespaceURI(), XmiMappingConstants.TYPE.getLocalPart());
-            try {
-                xsw.writeCharacters(feature.getType());
-            } finally {
-                xsw.writeEndElement();
-            }
             xsw.writeStartElement(XmiMappingConstants.NAME.getNamespaceURI(), XmiMappingConstants.NAME.getLocalPart());
             try {
                 xsw.writeCharacters(feature.getName());
             } finally {
                 xsw.writeEndElement();
             }
-            xsw.writeStartElement(XmiMappingConstants.DEFN.getNamespaceURI(), XmiMappingConstants.DEFN.getLocalPart());
+            xsw.writeStartElement(XmiMappingConstants.EXISTS.getNamespaceURI(),
+                    XmiMappingConstants.EXISTS.getLocalPart());
             try {
-                final Boolean defined = feature.isDefined();
-                xsw.writeCharacters((defined != null) ? Boolean.toString(defined) : "");
+                xsw.writeCharacters(Boolean.toString(feature.exists()));
+            } finally {
+                xsw.writeEndElement();
+            }
+            xsw.writeStartElement(XmiMappingConstants.OWNER_NAME.getNamespaceURI(),
+                    XmiMappingConstants.OWNER_NAME.getLocalPart());
+            try {
+                xsw.writeCharacters(feature.getOwnerName());
+            } finally {
+                xsw.writeEndElement();
+            }
+            xsw.writeStartElement(XmiMappingConstants.OWNER_EXISTS.getNamespaceURI(),
+                    XmiMappingConstants.OWNER_EXISTS.getLocalPart());
+            try {
+                xsw.writeCharacters(Boolean.toString(feature.ownerExists()));
             } finally {
                 xsw.writeEndElement();
             }
@@ -188,7 +196,7 @@ public class XmiMappingWriter {
     private static final void writeMappingDocument(final XmiComparison documentElement, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeProcessingInstruction("xml-stylesheet", "type='text/xsl' href='xmi-mapping.xsl'");
-        xsw.setPrefix("", XmiMappingConstants.NAMESPACE_MAPPING);
+        xsw.setPrefix("", XmiMappingConstants.NAMESPACE_URI);
         xsw.writeStartElement(XmiMappingConstants.DOCUMENT_ELEMENT.getLocalPart());
         xsw.writeNamespace("xsi", "http://www.w3.org/2001/XMLSchema-instance");
         xsw.writeAttribute("xsi", "http://www.w3.org/2001/XMLSchema-instance", "noNamespaceSchemaLocation",

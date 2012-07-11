@@ -44,7 +44,7 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
     /**
      * Control the massaging of the W3C XML Schema. The less we do the better.
      */
-    private final boolean titleCaseSchemaTypeNames = false;
+    private final boolean titleCaseSchemaTypeNames = true;
     
     private static final TagDefinition makeTagDefinition(final String name, final Occurs lower, final Occurs upper,
             final Xsd2UmlPluginHost host) {

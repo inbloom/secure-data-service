@@ -6,8 +6,8 @@
 
 	<xs:complexType name="XmiComparison">
 		<xs:sequence>
-			<xs:element name="lhsModel" type="XmiDefinition"></xs:element>
-			<xs:element name="rhsModel" type="XmiDefinition"></xs:element>
+			<xs:element name="lhs-model" type="XmiDefinition"></xs:element>
+			<xs:element name="rhs-model" type="XmiDefinition"></xs:element>
 			<xs:element name="mapping" type="XmiMapping" minOccurs="0"
 				maxOccurs="unbounded"></xs:element>
 		</xs:sequence>
@@ -21,20 +21,21 @@
 	</xs:complexType>
 	<xs:complexType name="XmiFeature">
 		<xs:sequence>
-			<xs:element name="type" type="xs:string"></xs:element>
 			<xs:element name="name" type="xs:string"></xs:element>
-			<xs:element name="defined" type="xs:boolean"></xs:element>
+			<xs:element name="exists" type="xs:boolean"></xs:element>
+			<xs:element name="owner-name" type="xs:string"></xs:element>
+			<xs:element name="owner-exists" type="xs:boolean"></xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="XmiMapping">
 		<xs:sequence>
 			<xs:choice>
 				<xs:element name="lhs" type="XmiFeature"></xs:element>
-				<xs:element name="lhsMissing" type="XmiMissing"></xs:element>
+				<xs:element name="lhs-missing" type="XmiMissing"></xs:element>
 			</xs:choice>
 			<xs:choice>
 				<xs:element name="rhs" type="XmiFeature"></xs:element>
-				<xs:element name="rhsMissing" type="XmiMissing"></xs:element>
+				<xs:element name="rhs-missing" type="XmiMissing"></xs:element>
 			</xs:choice>
 			<xs:element name="status" type="XmiMappingStatus"></xs:element>
 			<xs:element name="comment" type="xs:string"></xs:element>

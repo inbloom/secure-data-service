@@ -1,22 +1,22 @@
 package org.slc.sli.modeling.xmicomp;
 
-public final class CaseInsensitiveName implements Comparable<CaseInsensitiveName> {
+public final class CaseInsensitiveString implements Comparable<CaseInsensitiveString> {
     
     private final String name;
     
-    public CaseInsensitiveName(final String name) {
+    public CaseInsensitiveString(final String name) {
         this.name = name.toLowerCase();
     }
     
     @Override
-    public int compareTo(final CaseInsensitiveName other) {
+    public int compareTo(final CaseInsensitiveString other) {
         return name.compareTo(other.name);
     }
     
     @Override
     public boolean equals(final Object obj) {
-        if (obj instanceof CaseInsensitiveName) {
-            final CaseInsensitiveName other = (CaseInsensitiveName) obj;
+        if (obj instanceof CaseInsensitiveString) {
+            final CaseInsensitiveString other = (CaseInsensitiveString) obj;
             return name.equals(other.name);
         }
         return false;
