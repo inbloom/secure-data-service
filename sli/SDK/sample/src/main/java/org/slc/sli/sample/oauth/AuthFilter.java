@@ -35,36 +35,33 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Response;
 
-import org.slc.sli.api.client.impl.BasicClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.slc.sli.api.client.impl.BasicClient;
 
 /**
  * Basic authentication example using the SLI SDK.
  */
 public class AuthFilter implements Filter {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(AuthFilter.class);
     private String clientId;
     private String clientSecret;
     private URL apiUrl;
     private URL callbackUrl;
     private String afterCallbackRedirect;
-    
+
     @Override
     public void destroy() {
         LOG.info("Destroy auth filter");
     }
-    
+
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
             ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
-/*        if (req.getParameter("byPassToken") != null && !req.getParameter("byPassToken").equals("")) {
-            byPassAuthenticate(request, response);
-            chain.doFilter(request, response);
-        } else */ 
-        LOG.info("URI:" + req.getRequestURI()); 
+        LOG.info("URI:" + req.getRequestURI());
         if (req.getRequestURI().equals("/sample/callback")) {
             if (handleCallback(request, response)) {
                 ((HttpServletResponse) response).sendRedirect(afterCallbackRedirect);
@@ -81,21 +78,20 @@ public class AuthFilter implements Filter {
             } catch (Exception e) {
                 // Redirect to login on any errors
                 // TODO - we should handle responses correctly here. If the session is invalidated,
-                // we need
-                // to handle this properly. Same with the other HTTP response codes.a
+                // we need to handle this properly. Same with the other HTTP response codes.
                 authenticate(request, response);
             }
         }
     }
-    
+
     private boolean handleCallback(ServletRequest request, ServletResponse response) throws IOException {
         BasicClient client = (BasicClient) ((HttpServletRequest) request).getSession().getAttribute("client");
         String code = ((HttpServletRequest) request).getParameter("code");
-        
+
         if (client != null) {
             String token = null;
             Response rval = client.connect(code, token);
-            
+
             switch (rval.getStatus()) {
                 case 200:  // OK
                     return true;
@@ -114,25 +110,12 @@ public class AuthFilter implements Filter {
                     return false;
             }
         }
-        
+
         return true;
     }
-    
-/*    private void byPassAuthenticate(ServletRequest req, ServletResponse res) {
-        BasicClient client = null;
-        if (((HttpServletRequest) req).getSession().getAttribute("client") == null) {
-            client = new BasicClient(apiUrl, clientId, clientSecret, callbackUrl);
-        } else {
-            client = (BasicClient) ((HttpServletRequest) req).getSession().getAttribute("client");
-        }
-        String sessionToken = req.getParameter("byPassToken");
-        client.setToken(sessionToken);
-        ((HttpServletRequest) req).getSession().removeAttribute("client");
-        ((HttpServletRequest) req).getSession().setAttribute("client", client);
-    } */ 
-    
+
     private void authenticate(ServletRequest req, ServletResponse res) {
-        
+
         BasicClient client = new BasicClient(apiUrl, clientId, clientSecret, callbackUrl);
         try {
             ((HttpServletResponse) res).sendRedirect(client.getLoginURL().toExternalForm());
@@ -141,14 +124,15 @@ public class AuthFilter implements Filter {
         }
         ((HttpServletRequest) req).getSession().setAttribute("client", client);
     }
-    
+
     @Override
     public void init(FilterConfig conf) throws ServletException {
         afterCallbackRedirect = conf.getInitParameter("afterCallbackRedirect");
-        
+
         InputStream propStream;
-        
+
         String externalProps = System.getProperty("sli.conf");
+        LOG.info("Loading properties from: {}", externalProps);
         if (externalProps != null) {
             try {
                 propStream = new FileInputStream(externalProps);
@@ -171,7 +155,7 @@ public class AuthFilter implements Filter {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        
+
         clientId = props.getProperty("sli.sample.clientId");
         clientSecret = props.getProperty("sli.sample.clientSecret");
         String apiUrlString = props.getProperty("sli.sample.apiUrl");
@@ -187,5 +171,5 @@ public class AuthFilter implements Filter {
             throw new RuntimeException(e);
         }
     }
-    
+
 }

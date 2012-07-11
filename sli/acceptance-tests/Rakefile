@@ -643,6 +643,7 @@ task :importSecuredData do
 
   ]
   setMultipleFixtureFiles(testHash)
+  addSecurityData()
 end
 
 desc "Import Sandbox Test Data"

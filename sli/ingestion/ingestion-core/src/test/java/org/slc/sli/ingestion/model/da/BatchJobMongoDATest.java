@@ -18,6 +18,8 @@
 package org.slc.sli.ingestion.model.da;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.times;
@@ -26,10 +28,15 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
+import com.mongodb.MongoException;
+import com.mongodb.WriteConcern;
+import com.mongodb.WriteResult;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -38,6 +45,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.CursorPreparer;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -62,6 +71,7 @@ import org.slc.sli.ingestion.util.BatchJobUtils;
 public class BatchJobMongoDATest {
 
     private static final String BATCHJOB_ERROR_COLLECTION = "error";
+    private static final String TENANT_JOB_LOCK_COLLECTION = "tenantJobLock";
     private static final String BATCHJOBID = "controlfile.ctl-2345342-2342334234";
     private static final int RESULTLIMIT = 3;
     private static final int START_INDEX = 0;
@@ -210,6 +220,73 @@ public class BatchJobMongoDATest {
         assertEquals(error.getErrorType(), "errorType" + iterationCount);
         assertEquals(error.getErrorDetail(), "errorDetail" + iterationCount);
 
+    }
+
+    @Test
+    public void testTenantLock() {
+
+        final Set<String> dummyTenantLock = new HashSet<String>();
+
+        when(mockMongoTemplate.getCollection(eq(TENANT_JOB_LOCK_COLLECTION))).thenReturn(mockedCollection);
+        when(mockedCollection.insert(Matchers.isA(DBObject.class), (WriteConcern) any())).thenAnswer(new Answer<WriteResult>() {
+            @Override
+            public WriteResult answer(InvocationOnMock invocation) throws Throwable {
+                DBObject dbObject = (DBObject) invocation.getArguments()[0];
+                String id = dbObject.get("_id").toString();
+                if (dummyTenantLock.contains(id)) {
+                    throw new MongoException(11000, "dupes");
+                }
+                dummyTenantLock.add(id);
+                return null;
+            }
+        });
+        when(mockedCollection.remove(Matchers.isA(DBObject.class), (WriteConcern) any())).thenAnswer(new Answer<WriteResult>() {
+            @Override
+            public WriteResult answer(InvocationOnMock invocation) throws Throwable {
+                DBObject dbObject = (DBObject) invocation.getArguments()[0];
+                String id = dbObject.get("_id").toString();
+                dummyTenantLock.remove(id);
+                return null;
+            }
+        });
+
+        String tenantOne = "tenant1";
+        String tenantTwo = "tenant2";
+
+        boolean locked = mockBatchJobMongoDA.attemptTentantLockForJob(tenantOne, "job123");
+        assertTrue(locked);
+
+        boolean lockShouldFail = mockBatchJobMongoDA.attemptTentantLockForJob(tenantOne, "job456");
+        assertFalse(lockShouldFail);
+
+        boolean lockTwo = mockBatchJobMongoDA.attemptTentantLockForJob(tenantTwo, "job123");
+        assertTrue(lockTwo);
+
+        mockBatchJobMongoDA.releaseTenantLockForJob(tenantOne, "job123");
+
+        boolean lockTwoShouldFail = mockBatchJobMongoDA.attemptTentantLockForJob(tenantTwo, "job456");
+        assertFalse(lockTwoShouldFail);
+
+        boolean lockedAgain = mockBatchJobMongoDA.attemptTentantLockForJob(tenantOne, "job456");
+        assertTrue(lockedAgain);
+
+        mockBatchJobMongoDA.releaseTenantLockForJob(tenantTwo, "job123");
+
+        boolean lockedTwoAgain = mockBatchJobMongoDA.attemptTentantLockForJob(tenantTwo, "job456");
+        assertTrue(lockedTwoAgain);
+
+        mockBatchJobMongoDA.releaseTenantLockForJob(tenantOne, "job456");
+        mockBatchJobMongoDA.releaseTenantLockForJob(tenantTwo, "job456");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testBadAttemptTenantLockForJob() {
+        mockBatchJobMongoDA.attemptTentantLockForJob(null, "job123");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testBadReleaseTenantLock() {
+        mockBatchJobMongoDA.releaseTenantLockForJob(null, "job123");
     }
 
 }
