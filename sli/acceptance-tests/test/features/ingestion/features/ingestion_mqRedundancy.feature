@@ -1,3 +1,4 @@
+@RALLY_US3197
 Feature: Activemq Redundancy Ingestion Test
 
 Background: I have a landing zone route configured

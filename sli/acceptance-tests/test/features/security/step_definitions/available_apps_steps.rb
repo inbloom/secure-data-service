@@ -50,6 +50,29 @@ Then /^I receive a JSON object listing all the admin apps$/ do
   assert(@result != nil, "Result of JSON parsing is nil")
 end
 
+Then /^I receive a JSON object listing all the apps approved for "(.*?)"$/ do |district|
+  assert(@res.code == 200, "Response code not expected: expected 200 but received "+@res.code.to_s)
+  @apps ||= {}
+  @apps[district] = JSON.parse(@res.body)
+  assert(@apps[district] != nil, "Result of JSON parsing is nil")
+end
+
+Then /^I receive a JSON object listing all the apps approved for both "(.*?)" and "(.*?)"$/ do |dist1, dist2|
+  assert(@res.code == 200, "Response code not expected: expected 200 but received "+@res.code.to_s)
+  @result = JSON.parse(@res.body)
+  assert(@result!= nil, "Result of JSON parsing is nil")
+  app_names = []
+  @apps[dist1].each { |app| app_names.push(app['name']) }
+  @apps[dist2].each { |app| app_names.push(app['name']) }
+
+  result_names = []
+  @result.each { |app| result_names.push(app['name']) }
+  result_names.each { |app_name| assert(app_names.include?(app_name), "App list contains #{app_name}") }
+  
+  assert(result_names.length == app_names.to_set.length, "List of apps should be the same.")
+end
+
+
 And /^the object includes an app URL, admin URL, image URL, description, title, vendor, version, display method, is admin app$/ do
 	assert(@result[0]["application_url"] != nil, "Contains app URL")
 	assert(@result[0]["administration_url"] != nil, "Contains administrative URL")
