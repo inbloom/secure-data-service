@@ -18,6 +18,7 @@
         <sli.home>${project.parent.parent.basedir}</sli.home>
         <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
         <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>
+        <listening.port>1337</listening.port>
     </properties>
 
 
@@ -106,7 +107,7 @@
                     <url>${tomcat.url}</url>
                     <username>${tomcat.username}</username>
                     <password>${tomcat.password}</password>
-                    <port>1337</port>
+                    <port>${listening.port}</port>
                     <systemProperties>
                         <sli.conf>${sli.conf}</sli.conf>
                         <sli.env>local</sli.env>
@@ -139,7 +140,7 @@
                     <connectors>
                         <connector
                             implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-                            <port>8000</port>
+                            <port>${listening.port}</port>
                             <maxIdleTime>60000</maxIdleTime>
                         </connector>
                     </connectors>
