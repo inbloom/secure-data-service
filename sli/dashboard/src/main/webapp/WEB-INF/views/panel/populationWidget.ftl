@@ -84,3 +84,7 @@
         </div>
     </div>
 </div>
+  <div class="ui-widget-no-border">
+    <table id="${id}"></table>
+    <div id="dsh_dv_error" class="hidden"></div>
+  </div>

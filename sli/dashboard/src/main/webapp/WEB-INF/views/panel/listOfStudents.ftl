@@ -44,10 +44,6 @@
         </div>
     </div>
 </div>
-  <div class="ui-widget-no-border">
-    <table id="${id}"></table>
-    <div id="losError" class="hidden"></div>
-  </div>
 
 <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/panels/SLC.studentList.js"></script>
 

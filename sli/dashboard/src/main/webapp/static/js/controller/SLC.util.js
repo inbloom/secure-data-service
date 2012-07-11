@@ -193,13 +193,13 @@ SLC.namespace('SLC.util', (function () {
 		}
 		
 		function displayErrorMessage(error) {
-		    $("#losError").show();
+		    $("#dsh_dv_error").show();
 		    $("#viewSelection").hide();
-		    $("#losError").html(error);
+		    $("#dsh_dv_error").html(error);
 		}
 		
 		function hideErrorMessage() {
-		    $("#losError").hide();
+		    $("#dsh_dv_error").hide();
 		}
 		
 		function setDropDownOptions(name, defaultOptions, options, titleKey, valueKey, autoSelect, callback) {

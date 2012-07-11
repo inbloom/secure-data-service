@@ -76,7 +76,6 @@ SLC.namespace('SLC.population', (function () {
 		function populateCourseMenu(){
 			var edOrgIndex = $("#edOrgSelect").val(),
 				schoolIndex = $("#schoolSelect").val();
-				
 			clearSelections("course");
 			SLC.util.setDropDownOptions("course", {"-1": "Choose One"}, courseSectionData, "courseTitle", "", true, function() {
 				clearSelections("section");
