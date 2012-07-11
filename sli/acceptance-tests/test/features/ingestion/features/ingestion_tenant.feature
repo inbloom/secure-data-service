@@ -28,8 +28,8 @@ Then I should see following map of entry counts in the corresponding collections
   
   
 Scenario: Add a landing zone to an existing tenant
-Given I add a new landing zone for "IL-Newtowne"
-  And I am using preconfigured Ingestion Landing Zone for "IL-Newtowne"
+Given I add a new landing zone for "Midgar-Newtowne"
+  And I am using preconfigured Ingestion Landing Zone for "Midgar-Newtowne"
   And I post "tenant.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
      | collectionName              |

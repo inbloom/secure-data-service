@@ -21,7 +21,7 @@ Given I am using local data store
 
 @smoke @integration @IL-Daybreak
 Scenario: Post a zip file containing all data for Illinois Daybreak as a payload of the ingestion job: Clean Database
-Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
+Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job
     And the following collections are empty in datastore:
         | collectionName              |
@@ -232,7 +232,7 @@ Then I should see following map of entry counts in the corresponding collections
 
 @integration @IL-Sunset
 Scenario: Post a zip file containing all data for Illinois Sunset as a payload of the ingestion job: Append Database
-Given I am using preconfigured Ingestion Landing Zone for "IL-Sunset"
+Given I am using preconfigured Ingestion Landing Zone for "Midgar-Sunset"
   And I post "StoriedDataSet_IL_Sunset.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
@@ -300,7 +300,7 @@ Then I should see following map of entry counts in the corresponding collections
 
 @integration @NY-NYC
 Scenario: Post a zip file containing all data for New York as a payload of the ingestion job: Append Database
-Given I am using preconfigured Ingestion Landing Zone for "NY-NYC"
+Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
   And I post "StoriedDataSet_NY.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job log has been created

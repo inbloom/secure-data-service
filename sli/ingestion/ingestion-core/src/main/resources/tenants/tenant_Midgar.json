@@ -3,14 +3,14 @@
 		{ 
 			"educationOrganization" : "Sunset" , 
 			"ingestionServer" : "<hostname>" , 
-			"path" : "<lzpath>/IL-STATE-SUNSET" , 
-			"desc" : "Landing zone for IL-SUNSET"
+			"path" : "<lzpath>/Midgar-SUNSET" , 
+			"desc" : "Landing zone for Midgar-SUNSET"
 		} , 
 		{ 
 			"educationOrganization" : "Daybreak" , 
 			"ingestionServer" : "<hostname>",
-			"path" : "<lzpath>/IL-STATE-DAYBREAK" ,
-			"desc" : "Landing zone for IL-DAYBREAK"
+			"path" : "<lzpath>/Midgar-DAYBREAK" ,
+			"desc" : "Landing zone for Midgar-DAYBREAK"
 		}
 	] , 
 	"tenantId" : "Midgar"

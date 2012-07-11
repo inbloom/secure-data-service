@@ -7,7 +7,7 @@ Background: I have a landing zone route configured
 Given I am using local data store
 
  Scenario: Post a zip file containing student
-Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
+Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
   And I post "TenantNoPurgeDefault.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
     | collectionName              |
@@ -23,7 +23,7 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeStudentDefault.xml records failed: 0" in the resulting batch job file
 
  Scenario: Post a zip file containing student from a different tenant
-Given I am using preconfigured Ingestion Landing Zone for "NY-NYC"
+Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
   And I post "TenantNoPurge.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
@@ -38,7 +38,7 @@ And I should not see an error log file created
  And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
 
  Scenario: Post a zip file containing purge configuration
- Given I am using preconfigured Ingestion Landing Zone for "NY-NYC"
+ Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
    And I post "TenantPurge.zip" file as the payload of the ingestion job
  When zip file is scp to ingestion landing zone
   And a batch job log has been created

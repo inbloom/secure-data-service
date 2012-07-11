@@ -22,6 +22,8 @@ TOREMOVE = ENV['TOREMOVE'] ? true : false
 
 RUN_STAMPER = true
 
+TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other"]
+
 #######################################################
 
 $SUCCESS=true
@@ -97,7 +99,7 @@ end
 def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropExistingCollection=true)
   if TOREMOVE
     if dropExistingCollection
-      dropCollectionsCleanly(collectionName)
+      removeCollectionsCleanly(collectionName, TENANT_COLLECTION)
       dropOption = ""
     end
   else
@@ -171,10 +173,18 @@ def cleanseApps()
   end
 end
 
-def dropCollectionsCleanly(collectionName, specificTenant=nil)
-  if specificTenant != nil
-    #TODO make sure this works for dropping data in a collection for a specific tenant
-    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.#{collectionName}.remove({\"metaData.tenantId\":\"#{specificTenant}\"})\""
+def cleanseCollectionWithTenantID(collectionName, specificTenants)
+  puts "Removing documents in #{collectionName} with tenantIds #{specificTenants}"
+  @conn = Mongo::Connection.new(DB_HOST)
+  @db = @conn.db(DB_NAME)
+  coll = @db.collection(collectionName)
+  
+  coll.remove("metaData.tenantId" => {"$in" => specificTenants})
+end
+
+def removeCollectionsCleanly(collectionName, specificTenants=nil)
+  if specificTenants != nil
+    cleanseCollectionWithTenantID(collectionName, specificTenants)
     sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig')\""
   else
     sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.#{collectionName}.remove({})\""
