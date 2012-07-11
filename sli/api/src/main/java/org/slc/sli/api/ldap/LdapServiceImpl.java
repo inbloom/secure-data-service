@@ -171,9 +171,14 @@ public class LdapServiceImpl implements LdapService {
             return null;
         }
     }
+    
+    @Override
+    public List<User> findUserByGroups(String realm, List<String> groupNames, String tenant, List<String> edorgs) {
+        return filterByEdorgs(filterByTenant(findUserByGroups(realm, groupNames), tenant), edorgs);
+    }
 
     private List<User> filterByTenant(List<User> users, String tenant) {
-        if (tenant == null) {
+        if (tenant == null || users == null) {
             return users;
         }
 
@@ -185,4 +190,18 @@ public class LdapServiceImpl implements LdapService {
         }
         return filteredUsers;
     }
+    
+    private List<User> filterByEdorgs(List<User> users, List<String> edorgs) {
+        if (edorgs == null || users == null) {
+            return users;
+        }
+        List<User> filteredUsers = new ArrayList<User>();
+        for (User user : users) {
+            if (edorgs.contains(user.getEdorg())) {
+                filteredUsers.add(user);
+            }
+        }
+        return filteredUsers;
+    }
+
 }

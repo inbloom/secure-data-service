@@ -32,4 +32,6 @@ public interface LdapService {
     public List<User> findUserByAttributes(String realm, List<String> attributes);
 
     public List<User> findUserByGroups(String realm, List<String> groupNames, String tenant);
+    
+    public List<User> findUserByGroups(String realm, List<String> groupNames, String tenant, List<String> edorgs);
 }
