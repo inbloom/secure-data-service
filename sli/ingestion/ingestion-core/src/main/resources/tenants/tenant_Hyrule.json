@@ -4,9 +4,9 @@
 		{ 
 			"educationOrganization" : "NYC" , 
 			"ingestionServer" : "<hostname>" , 
-			"path" : "<lzpath>/NY-STATE-NYC" , 
-			"desc" : "Landing zone for NY"
+			"path" : "<lzpath>/Hyrule-NYC" , 
+			"desc" : "Landing zone for Hyrule-NYC"
 		}
 	] , 
-	"tenantId" : "NY"
+	"tenantId" : "Hyrule"
 }

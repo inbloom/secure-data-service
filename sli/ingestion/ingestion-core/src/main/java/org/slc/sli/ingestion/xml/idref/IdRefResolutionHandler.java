@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.xml.idref;
 
 import java.io.BufferedInputStream;
@@ -87,6 +86,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
     private MessageSource messageSource;
 
     private String namespace;
+    private String batchJobId;
     private int passCount;
 
     @Autowired
@@ -101,6 +101,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                     .getFileType().getName());
             return fileEntry;
         }
+        batchJobId = fileEntry.getBatchJobId();
 
         File file = fileEntry.getFile();
 
@@ -113,7 +114,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
     protected File process(File xml, ErrorReport errorReport) {
         bucketCache.flushBucket(namespace);
-        namespace = xml.getName() + "_pass_" + (++passCount);
+        namespace = batchJobId + "_" + xml.getName() + "_pass_" + (++passCount);
 
         StopWatch sw = new StopWatch("Processing " + xml.getName());
 
@@ -152,6 +153,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         XmlEventVisitor collectIdRefsToResolve = new XmlEventVisitor() {
             Stack<StartElement> parents = new Stack<StartElement>();
             String currentXPath;
+
             @Override
             public boolean isSupported(XMLEvent xmlEvent) {
 
@@ -161,7 +163,8 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
 
                     parents.push(start);
                     currentXPath = getCurrentXPath(parents);
-                    if (!isSupportedRef(currentXPath) && start.getAttributeByName(REF_ATTR) != null && start.getAttributeByName(REF_RESOLVED_ATTR) == null) {
+                    if (!isSupportedRef(currentXPath) && start.getAttributeByName(REF_ATTR) != null
+                            && start.getAttributeByName(REF_RESOLVED_ATTR) == null) {
                         if (!isInnerRef(parents)) {
                             LOG.debug(MessageSourceHelper.getMessage(messageSource, "IDREF_WRNG_MSG2", currentXPath));
                             errorReport.warning(
@@ -453,18 +456,12 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
                     return true;
                 }
 
-
-
-
-
-
-
                 private String resolveRefs(String currentXPath, TransformableXmlString cachedContent, String id,
                         ErrorReport errorReport) {
 
                     String transformedContent = cachedContent.string;
                     ReferenceResolutionStrategy rrs = supportedResolvers.get(currentXPath);
-                    //At this point, only supported references are ready to be resolved
+                    // At this point, only supported references are ready to be resolved
 
                     if (!cachedContent.isTransformed) {
 
@@ -611,6 +608,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         }
         return sb.toString();
     }
+
     boolean isInnerRef(Stack<StartElement> parents) {
         for (StartElement start : parents) {
             Attribute attValue = start.getAttributeByName(REF_RESOLVED_ATTR);
@@ -631,6 +629,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
         }
         return false;
     }
+
     @Override
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;

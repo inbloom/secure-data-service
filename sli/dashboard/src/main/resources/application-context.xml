@@ -115,13 +115,11 @@
             </bean>
         </constructor-arg>
    </bean>
-
-    <bean id= "apiClient" class="org.slc.sli.dashboard.client.SDKAPIClient">
+    
+    <bean id= "apiClientRef" class="org.slc.sli.dashboard.client.SDKAPIClient">
         <property name="sdkClient" ref="basicClient" />
         <property name="gracePeriod" value="${sli.security.gracePeriod}" />
     </bean>
-
-    <alias alias="apiClientRef" name="${api.client}"/>
 
     <bean id="progressManager" class="org.slc.sli.dashboard.manager.impl.StudentProgressManagerImpl">
         <property name="entityManager" ref="entityManager"/>
