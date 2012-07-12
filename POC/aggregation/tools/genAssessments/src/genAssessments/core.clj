@@ -53,29 +53,40 @@
            (element :EntryDate {} "2011-09-01")
            (element :EntryGradeLevel {} "Seventh grade")))
 
-(defn gen-students
-  [ids output-file]
+(defn gen-section-assoc
+  [student section edorg]
+  (element :StudentSectionAssociation {}
+           (student-ref student)
+           (element :SectionReference {}
+                    (element :SectionIdentity {}
+                             (element :StateOrganizationId {} edorg)
+                             (element :UniqueSectionCode {} section)))))
+
+(defn gen-edfi
+  [interchange output-file contents]
   (with-open [out (java.io.FileWriter. output-file)]
     (emit
-      (element :InterchangeStudentParent {:xmlns "http://ed-fi.org/0100"}
-               (map gen-student ids))
+      (element interchange {:xmlns "http://ed-fi.org/0100"}
+               contents)
       out)))
+
+(defn gen-students
+  [ids output-file]
+  (gen-edfi :InterchangeStudentParent output-file (map gen-student ids)))
 
 (defn gen-saas
   [students assessment n output-file]
-  (with-open [out (java.io.FileWriter. output-file)]
-    (emit
-      (element :InterchangeStudentAssessment {:xmlns "http://ed-fi.org/0100"}
-               (for
-                 [s students
-                  i (range n)]
-                 (gen-saa s assessment (str "2011-10-1" i))))
-      out)))
+  (gen-edfi :InterchangeStudentAssessment output-file 
+            (for
+              [s students, i (range n)]
+              (gen-saa s assessment (str "2011-10-1" i)))))
 
 (defn gen-enrollments
   [students edorg output-file]
-  (with-open [out (java.io.FileWriter. output-file)]
-    (emit
-      (element :InterchangeStudentEnrollment {:xmlns "http://ed-fi.org/0100"}
-               (map #(gen-enroll % edorg) students))
-      out)))
+  (gen-edfi :InterchangeStudentEnrollment output-file 
+            (map #(gen-enroll % edorg) students)))
+
+(defn gen-section-enrollments
+  [students edorg section output-file]
+  (gen-edfi :InterchangeStudentEnrollment output-file 
+            (map #(gen-section-assoc % section edorg) students)))

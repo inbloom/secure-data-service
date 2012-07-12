@@ -12,6 +12,7 @@ Given I post "aggregationData.zip" file as the payload of the ingestion job
      | assessment                   |
      | student                      |
      | studentSchoolAssociation     |
+     | studentSectionAssociation     |
      | studentAssessmentAssociation |
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
@@ -19,6 +20,7 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName               | count |
      | student                      | 350   |
      | studentSchoolAssociation     | 350   |
+     | studentSectionAssociation     | 350   |
      | studentAssessmentAssociation | 3500  |
 When I run the aggregation job
    Then I check to find if record is in collection:
