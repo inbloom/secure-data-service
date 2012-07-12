@@ -1,3 +1,5 @@
 edfi-xml,StudentParent,students.xml,8469269a58878fef4b2b5cc4f723444a
+edfi-xml,EducationOrganization,InterchangeEducationOrganization.xml,2d42777e0985d20e480e85dcf2312297
+edfi-xml,StudentEnrollment,enrollment.xml,0904e9d67094918b6cf05dee5322cd5b
 edfi-xml,AssessmentMetadata,InterchangeAssessmentMetadata-StateAssessments.xml,07e98012ea9c9b5498245ee8e0dd3e20
 edfi-xml,StudentAssessment,student-assessments.xml,e957c67796f8bd1f82b5834e2c942fda

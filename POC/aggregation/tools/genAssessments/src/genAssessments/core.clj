@@ -22,6 +22,12 @@
     (> 27 score) "S"
     (> 33 score) "E"))
 
+(defn student-ref [student]
+  (element :StudentReference {}
+           (element :StudentIdentity {}
+                    (element :StudentUniqueStateId {} (str student)))))
+
+
 (defn gen-saa
   [student assessment date]
   (let [score (rand-nth (range 6 33))]
@@ -31,13 +37,21 @@
                       (element :Result {} (str score)))
              (element :PerformanceLevels {}
                       (element :CodeValue {} (get-perf-level score)))
-             (element :StudentReference {}
-                      (element :StudentIdentity {}
-                               (element :StudentUniqueStateId {} (str student))))
+             (student-ref student)
              (element :AssessmentReference {}
                       (element :AssessmentIdentity {}
                                (element :AssessmentIdentificationCode {:IdentificationSystem "Test Contractor"}
                                         (element :ID {} assessment)))))))
+
+(defn gen-enroll
+  [student edorg]
+  (element :StudentSchoolAssociation {}
+           (student-ref student)
+           (element :SchoolReference {}
+                    (element :EducationalOrgIdentity {}
+                             (element :StateOrganizationId {} (str edorg))))
+           (element :EntryDate {} "2011-09-01")
+           (element :EntryGradeLevel {} "Seventh grade")))
 
 (defn gen-students
   [ids output-file]
@@ -56,4 +70,12 @@
                  [s students
                   i (range n)]
                  (gen-saa s assessment (str "2011-10-1" i))))
+      out)))
+
+(defn gen-enrollments
+  [students edorg output-file]
+  (with-open [out (java.io.FileWriter. output-file)]
+    (emit
+      (element :InterchangeStudentEnrollment {:xmlns "http://ed-fi.org/0100"}
+               (map #(gen-enroll % edorg) students))
       out)))
