@@ -26,8 +26,6 @@ import java.util.List;
 import javax.ws.rs.core.MessageProcessingException;
 import javax.ws.rs.core.Response;
 
-import org.scribe.exceptions.OAuthException;
-
 import org.slc.sli.api.client.util.Query;
 
 /**
@@ -48,39 +46,6 @@ import org.slc.sli.api.client.util.Query;
  * @author asaarela
  */
 public interface SLIClient {
-
-    /**
-     * Retrieve the resource URL to the identity provider (IDP) used by application users
-     * to authenticate. The client application is responsible for redirecting the user
-     * to this URL. The response from this URL will contain the authorization token
-     * required to connect to the API.
-     *
-     * @return A URL that directs the user to authenticate with the appropriate IDP. On
-     *         successful login, the IDP sends an authorization token to the callbackURL.
-     */
-    public abstract URL getLoginURL();
-
-    /**
-     * Connect to the SLI ReSTful API web service passing the authentication token provided by
-     * the IDP. The IDP will redirect successful login attempts to the callbackURL and include
-     * an authorization token in the response. You must then pass the authorization token to
-     * this call.
-     *
-     * If the code is invalid, an exception is thrown.
-     *
-     * @requestCode Code provided to the callbackURL by the IDP.
-     * @param authorizationToken
-     *         Authorization token for the authenticated user, or null if
-     *         authentication fails
-     * @return HTTP Response to the request.
-     * @throws OAuthException
-     */
-    public abstract Response connect(final String requestCode, String authorizationToken) throws OAuthException;
-
-    /**
-     * Logout and invalidate the session.
-     */
-    public abstract void logout();
 
     /**
      * Create operation

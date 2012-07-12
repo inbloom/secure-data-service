@@ -8,15 +8,42 @@ import java.util.Map;
 
 import javax.ws.rs.core.Response;
 
+import org.scribe.exceptions.OAuthException;
+
 public interface RESTClient {
-    
+
     /**
-     * Get the URL used to authenticate with the IDP.
+     * Retrieve the resource URL to the identity provider (IDP) used by application users
+     * to authenticate. The client application is responsible for redirecting the user
+     * to this URL. The response from this URL will contain the authorization token
+     * required to connect to the API.
      *
-     * @return URL
+     * @return A URL that directs the user to authenticate with the appropriate IDP. On
+     *         successful login, the IDP sends an authorization token to the callbackURL.
      */
     public abstract URL getLoginURL();
-    
+
+
+
+
+    /**
+     * Connect to the SLI ReSTful API web service passing the authentication token provided by
+     * the IDP. The IDP will redirect successful login attempts to the callbackURL and include
+     * an authorization token in the response. You must then pass the authorization token to
+     * this call.
+     *
+     * If the code is invalid, an exception is thrown.
+     *
+     * @requestCode Code provided to the callbackURL by the IDP.
+     * @param authorizationToken
+     *         Authorization token for the authenticated user, or null if authentication fails.
+     * @return HTTP Response to the request.
+     * @throws OAuthException
+     * @throws MalformedURLException
+     * @throws URISyntaxException
+     */
+
+
     /**
      * Connect to the IDP and redirect to the callback URL.
      *
@@ -25,17 +52,15 @@ public interface RESTClient {
      * @param authorizationToken
      *            for the authenticated user, or null if the request failed.
      * @return Response containing the status code, headers, and body values.
-     * @throws MalformedURLException
-     * @throws URISyntaxException
      */
-    public abstract Response connect(final String authorizationCode, String authorizationToken)
-            throws MalformedURLException, URISyntaxException;
-    
+    public abstract Response connect(final String requestCode, String authorizationToken)
+            throws OAuthException, MalformedURLException, URISyntaxException;
+
     /**
      * Disconnect from the IDP.
      */
     public abstract void disconnect();
-    
+
     /**
      * Call the session/check API. If the SAML token is invalid or null, this will redirect
      * to the realm selector page.
@@ -49,7 +74,7 @@ public interface RESTClient {
      * @throws IOException
      */
     public abstract String sessionCheck(final String token) throws URISyntaxException, IOException;
-    
+
     /**
      * Make a synchronous GET request to a REST service.
      *
@@ -60,7 +85,7 @@ public interface RESTClient {
      * @throws URISyntaxException
      */
     public abstract Response getRequest(final URL url) throws MalformedURLException, URISyntaxException;
-    
+
     /**
      * Make a synchronous GET request to a REST service.
      *
@@ -74,7 +99,7 @@ public interface RESTClient {
      */
     public abstract Response getRequest(final String sessionToken, final URL url) throws MalformedURLException,
             URISyntaxException;
-    
+
     /**
      * Make a synchronous GET request to a REST service. The request includes additional header
      * information.
@@ -90,14 +115,14 @@ public interface RESTClient {
      */
     public abstract Response getRequestWithHeaders(final URL url, final Map<String, Object> headers)
             throws URISyntaxException;
-    
+
     /**
      * Get the sessionToken for all SLI API ReSTful service calls.
      *
      * @return sessionToken
      */
     public abstract String getSessionToken();
-    
+
     /**
      * Make a synchronous GET request to a REST service. The request includes additional header
      * information.
@@ -116,7 +141,7 @@ public interface RESTClient {
      */
     public abstract Response getRequestWithHeaders(final String sessionToken, final URL url,
             final Map<String, Object> headers) throws URISyntaxException;
-    
+
     /**
      * Synchronously post a new entity to the REST service. This corresponds to a create operation.
      *
@@ -130,7 +155,7 @@ public interface RESTClient {
      */
     public abstract Response postRequest(final URL url, final String json) throws URISyntaxException,
             MalformedURLException;
-    
+
     /**
      * Synchronously post a new entity to the REST service. This corresponds to a create operation.
      *
@@ -146,7 +171,7 @@ public interface RESTClient {
      */
     public abstract Response postRequest(final String sessionToken, final URL url, final String json)
             throws URISyntaxException, MalformedURLException;
-    
+
     /**
      * Synchronously post a new entity to the REST service. This request includes additional header
      * information.
@@ -164,7 +189,7 @@ public interface RESTClient {
      */
     public abstract Response postRequestWithHeaders(final URL url, final String json, final Map<String, Object> headers)
             throws URISyntaxException, MalformedURLException;
-    
+
     /**
      * Synchronously post a new entity to the REST service. This request includes additional header
      * information.
@@ -184,7 +209,7 @@ public interface RESTClient {
      */
     public abstract Response postRequestWithHeaders(final String sessionToken, final URL url, final String json,
             final Map<String, Object> headers) throws URISyntaxException, MalformedURLException;
-    
+
     /**
      * Synchronous Put request to the REST service. This corresponds to an update operation.
      *
@@ -198,7 +223,7 @@ public interface RESTClient {
      */
     public abstract Response putRequest(final URL url, final String json) throws MalformedURLException,
             URISyntaxException;
-    
+
     /**
      * Synchronous Put request to the REST service. This corresponds to an update operation.
      *
@@ -215,7 +240,7 @@ public interface RESTClient {
      */
     public abstract Response putRequest(final String sessionToken, final URL url, final String json)
             throws MalformedURLException, URISyntaxException;
-    
+
     /**
      * Synchronous Put request to the REST service. This corresponds to an update operation.
      * This request includes additional header information.
@@ -233,7 +258,7 @@ public interface RESTClient {
      */
     public abstract Response putRequestWithHeaders(final URL url, final String json, final Map<String, Object> headers)
             throws MalformedURLException, URISyntaxException;
-    
+
     /**
      * Synchronous Put request to the REST service. This corresponds to an update operation.
      * This request includes additional header information.
@@ -253,7 +278,7 @@ public interface RESTClient {
      */
     public abstract Response putRequestWithHeaders(final String sessionToken, final URL url, final String json,
             final Map<String, Object> headers) throws MalformedURLException, URISyntaxException;
-    
+
     /**
      * Synchronously delete an existing entity using the REST service.
      *
@@ -264,7 +289,7 @@ public interface RESTClient {
      * @throws URISyntaxException
      */
     public abstract Response deleteRequest(final URL url) throws MalformedURLException, URISyntaxException;
-    
+
     /**
      * Synchronously delete an existing entity using the REST service.
      *
@@ -278,7 +303,7 @@ public interface RESTClient {
      */
     public abstract Response deleteRequest(final String sessionToken, final URL url) throws MalformedURLException,
             URISyntaxException;
-    
+
     /**
      * Synchronously delete an existing entity using the REST service. This request includes
      * additional header
@@ -295,7 +320,7 @@ public interface RESTClient {
      */
     public abstract Response deleteRequestWithHeaders(final URL url, final Map<String, Object> headers)
             throws MalformedURLException, URISyntaxException;
-    
+
     /**
      * Synchronously delete an existing entity using the REST service. This request includes
      * additional header
@@ -315,19 +340,19 @@ public interface RESTClient {
      */
     public abstract Response deleteRequestWithHeaders(final String sessionToken, final URL url,
             final Map<String, Object> headers) throws MalformedURLException, URISyntaxException;
-    
+
     /**
      * Get the base URL for all SLI API ReSTful service calls.
      *
      * @return Server URL string.
      */
     public abstract String getBaseURL();
-    
+
     /**
      * Set the sessionToken for all SLI API ReSTful service calls.
      *
      * @param sessionToken
      */
     public abstract void setSessionToken(String sessionToken);
-    
+
 }
