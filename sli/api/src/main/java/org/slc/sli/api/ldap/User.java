@@ -47,6 +47,12 @@ public class User {
         }
         groups.add(group);
     }
+    
+    public void removeGroup(String group) {
+        if (groups != null && groups.contains(group)) {
+            groups.remove(group);
+        }
+    }
 
     public String getFirstName() {
         return firstName;

@@ -1,6 +1,7 @@
 package org.slc.sli.api.ldap;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -108,6 +109,24 @@ public class LdapServiceImplTest {
         assertEquals("testTenant", newUser.getTenant());
         assertEquals("testEdorg", newUser.getEdorg());
         
+        // test update
+        updateTestUser(newUser);
+        ldapService.updateUser("local", newUser);
+        User updatedUser = ldapService.getUser("local", newUserUid);
+        assertNotNull(updatedUser);
+        assertNotNull(updatedUser.getGroups());
+        assertFalse(updatedUser.getGroups().contains("SLC Operator"));
+        assertFalse(updatedUser.getGroups().contains("SEA Administrator"));
+        assertTrue(updatedUser.getGroups().contains("LEA Administrator"));
+        assertTrue(updatedUser.getGroups().contains("Realm Administrator"));
+        assertEquals(uid, updatedUser.getUid());
+        assertEquals("testemailupdate@slidev.org", updatedUser.getEmail());
+        assertEquals("testFirstUpdate", updatedUser.getFirstName());
+        assertEquals("testLastUpdate", updatedUser.getLastName());
+        assertEquals("/dev/null/update", updatedUser.getHomeDir());
+        assertEquals("testTenantUpdate", updatedUser.getTenant());
+        assertEquals("testEdorgUpdate", updatedUser.getEdorg());
+
         // test delete
         ldapService.removeUser("local", uid);
         User testUser = ldapService.getUser("local", uid);
@@ -128,6 +147,18 @@ public class LdapServiceImplTest {
         testUser.addGroup("SEA Administrator");
         testUser.addGroup("LEA Administrator");
         return testUser;
+    }
+    
+    private void updateTestUser(User user) {
+        user.setEdorg("testEdorgUpdate");
+        user.setTenant("testTenantUpdate");
+        user.setEmail("testemailupdate@slidev.org");
+        user.setHomeDir("/dev/null/update");
+        user.setFirstName("testFirstUpdate");
+        user.setLastName("testLastUpdate");
+        user.removeGroup("SLC Operator");
+        user.removeGroup("SEA Administrator");
+        user.addGroup("Realm Administrator");
     }
 
 }
