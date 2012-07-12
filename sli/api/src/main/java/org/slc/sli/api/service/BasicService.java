@@ -756,7 +756,7 @@ public class BasicService implements EntityService {
         SecurityCriteria securityCriteria = findAccessible(toType);
         NeutralQuery query = new NeutralQuery();
         query = securityCriteria.applySecurityCriteria(query);
-        query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, entityId));
+        query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, Arrays.asList(entityId)));
         Entity found = repo.findOne(collectionName, query);
         return found != null;
     }
