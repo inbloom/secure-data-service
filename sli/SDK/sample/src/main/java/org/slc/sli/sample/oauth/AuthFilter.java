@@ -172,11 +172,6 @@ public class AuthFilter implements Filter {
         clientSecret = props.getProperty("sli.sample.clientSecret");
         String apiUrlString = props.getProperty("sli.sample.apiUrl");
         String callbackUrlString = props.getProperty("sli.sample.callbackUrl");
-        //Yang Cao
-        LOG.info("client id: "+clientId);
-        LOG.info("client secret: "+clientSecret);
-        LOG.info("api url: "+apiUrlString);
-        LOG.info("callback url: "+callbackUrlString);
         if (clientId == null || clientSecret == null || apiUrlString == null || callbackUrlString == null) {
             throw new RuntimeException(
                     "Missing property.  All of the following properties must be available: clientId, clientSecret, apiUrl, callbackUrl");
