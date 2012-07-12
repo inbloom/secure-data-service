@@ -103,6 +103,25 @@
 
    <bean id= "basicClient" class="org.slc.sli.api.client.impl.BasicClient">
         <constructor-arg index="0">
+          <bean class="org.slc.sli.api.client.impl.BasicRESTClient">
+            <constructor-arg index="0">
+              <bean class="java.net.URL">
+                 <constructor-arg index="0" type="java.lang.String" value="${api.server.url}"/>
+              </bean>
+            </constructor-arg>
+            <constructor-arg index="1" type="java.lang.String" value="#{propertiesDecryptor.getDecryptedClientId()}"/>
+            <constructor-arg index="2" type="java.lang.String" value="#{propertiesDecryptor.getDecryptedClientSecret()}"/>
+            <constructor-arg index="3">
+               <bean class="java.net.URL">
+                  <constructor-arg index="0" type="java.lang.String" value="${oauth.redirect}"/>
+               </bean>
+            </constructor-arg>
+          </bean>
+        </constructor-arg>
+   </bean>
+
+<!--   <bean id= "basicClient" class="org.slc.sli.api.client.impl.BasicClient">
+        <constructor-arg index="0">
             <bean class="java.net.URL">
                 <constructor-arg index="0" type="java.lang.String" value="${api.server.url}"/>
             </bean>
@@ -114,8 +133,8 @@
                 <constructor-arg index="0" type="java.lang.String" value="${oauth.redirect}"/>
             </bean>
         </constructor-arg>
-   </bean>
-
+   </bean> -->
+   
     <bean id= "apiClient" class="org.slc.sli.dashboard.client.SDKAPIClient">
         <property name="sdkClient" ref="basicClient" />
         <property name="gracePeriod" value="${sli.security.gracePeriod}" />
