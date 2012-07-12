@@ -106,6 +106,9 @@ public interface PopulationManager {
     public GenericEntity getAssessments(String token, Object id, Config.Data config);
 
     public abstract List<String> getSessionDates(String token, String sessionId);
-
+    
+    @EntityMapping("sectionInfo")
+    public GenericEntity getSectionForProfile(String token, Object sectionId, Config.Data config);
+    
 }
 

@@ -28,6 +28,8 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
 
+import org.springframework.cache.annotation.Cacheable;
+
 import org.slc.sli.dashboard.entity.Config.Data;
 import org.slc.sli.dashboard.entity.EdOrgKey;
 import org.slc.sli.dashboard.entity.GenericEntity;
@@ -37,7 +39,6 @@ import org.slc.sli.dashboard.manager.UserEdOrgManager;
 import org.slc.sli.dashboard.util.Constants;
 import org.slc.sli.dashboard.util.DashboardException;
 import org.slc.sli.dashboard.util.SecurityUtil;
-import org.springframework.cache.annotation.Cacheable;
 
 /**
  * Retrieves and applies necessary business logic to obtain institution data
@@ -119,16 +120,6 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
 
         // create ed-org key and save to cache
         if (edOrg != null) {
-            @SuppressWarnings("unchecked")
-                    String nameOfinstitution = edOrg.get(Constants.ATTR_NAME_OF_INST).toString();
-//            LinkedHashMap<String, Object> metaData = (LinkedHashMap<String, Object>) edOrg.get(Constants.METADATA);
-//            if (metaData != null && !metaData.isEmpty()) {
-//                if (metaData.containsKey(Constants.EXTERNAL_ID)) {
-//                    edOrgKey = new EdOrgKey(metaData.get(Constants.EXTERNAL_ID).toString(), edOrg.getId());
-//                    putToCache(USER_ED_ORG_CACHE, token, edOrgKey);
-//                    return edOrgKey;
-//                }
-//            }
             return new EdOrgKey(edOrg.getId());
 
         }
@@ -145,15 +136,15 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
 
         return getApiClient().getSchools(token, null);
     }
-    
+
     /**
      * Get user's associated schools. Cache the results so we don't have to make the call
      * twice.
-     * 
+     *
      * @return
      */
     private List<GenericEntity> getMySchools(String token) {
-        
+
         return getApiClient().getMySchools(token);
     }
 

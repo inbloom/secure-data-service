@@ -50,18 +50,22 @@ public abstract class GenericLayoutController {
 
     private static final String GOOGLE_ANALYTICS_TRACKER_CONSTANT = "googleAnalyticsTrackerId";
     private static final String MINIFY_JS_CONSTANT = "minifyJs";
-    
+
     @Autowired
     @Qualifier("googleAnalyticsTrackerId")
     private String googleAnalyticsTrackerId;
 
-    
+
     @Autowired
     @Qualifier(MINIFY_JS_CONSTANT)
     private Boolean minifyJs;
 
     protected PortalWSManager portalWSManager;
 
+
+    protected ModelMap getPopulatedModel(String layoutId, Object entityKey, HttpServletRequest request) {
+        return getPopulatedModel(layoutId, entityKey, request, false);
+    }
 
     /**
      * Populate layout model according to layout defined config for a user/context domain
@@ -72,12 +76,12 @@ public abstract class GenericLayoutController {
      *            - entity id to pass to the child panels
      * @return
      */
-    protected ModelMap getPopulatedModel(String layoutId, Object entityKey, HttpServletRequest request) {
+    protected ModelMap getPopulatedModel(String layoutId, Object entityKey, HttpServletRequest request, boolean lazyOverride) {
 
         // set up model map
         ModelMap model = new ModelMap();
         ModelAndViewConfig modelAndConfig =
-                customizationAssemblyFactory.getModelAndViewConfig(layoutId, entityKey);
+                customizationAssemblyFactory.getModelAndViewConfig(layoutId, entityKey, lazyOverride);
         model.addAttribute(Constants.MM_COMPONENT_ID, layoutId);
         model.addAttribute(Constants.MM_ENTITY_ID, entityKey);
         model.addAttribute(Constants.MM_KEY_VIEW_CONFIGS, modelAndConfig.getConfig());
