@@ -78,27 +78,30 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |sunsetrealmadmin|sunsetrealmadmin1234 |            |           |SLI        |                            |403 |         |                |                                  |                            |
     |ingestionuser   |ingestionuser1234    |            |           |SLI        |                            |403 |         |                |                                  |                            |
 
-  @wip
-  @sandbox
+  #sandbox
   Scenario Outline:  As a admin I am able to read all admin accounts in my tenancy on sandbox
-    Given I have a <ADMIN_ROLE>  with <ALLOWED_RIGHTS> on <TENANT_ID>
-    When I am authenticated on <ADMIN_REALM>
-    And I navigate to GET <ADMIN_ACCOUT_URI>
+    Given I am logged in using "<USER>" "<PASSWORD>" to realm "<REALM>"
+    And I navigate to GET "/users"
     Then I should receive a return code of <CODE>
-    And then I should receive a list <Number> of <WANTED_ADMIN_ROLE>
-    And each account has <Full_Name>, <User_name>, <Email_Address>, "Date_Created" and "Date_Updated"
+    And I have a uid "<UID>" and role "<ADMIN_ROLE>"
+    And I should receive a list of size "<Number>" of "<WANTED_ADMIN_ROLE>"
+#    And each account has "fullName", "uid", "email", "createTime" and "modifyTime"
+    And one of the accounts has "<Full_Name>", "<User_ID>", "<Email_Address>"
 
   Examples:
-    |ADMIN_ROLE             |ADMIN_REALM                  |WANTED_ADMIN_ROLE           |ALLOWED_RIGHTS          |CODE|Number|Full_Name          |User_name  |Email_Address         |
-    |SLC_Operator           |Shared Learning Collaborative|SLC_Operator                |DEFAULT                 |200 |1     |SLC_Operator_2     |SLCOP2     |SLC_Operator@test.com |
-    |SLC_Operator           |Shared Learning Collaborative|Admin_App_Developer         |DEFAULT                 |200 |1     |Admin_App_Developer|AdminAppDev|Admin_App_Dev@test.com|
-    |SLC_Operator           |Shared Learning Collaborative|Application_Developer       |DEFAULT                 |200 |1     |App_Developer      |AppDev     |App_Dev@test.com      |
-    |Application_Developer  |Shared Learning Collaborative|SLC_Operator                |ADMIN_ACCOUNT_MANAGEMENT|401 |0     |SLC_Operator_2     |SLCOP2     |SLC_Operator@test.com |
-    |Application_Developer  |Shared Learning Collaborative|Admin_App_Developer         |ADMIN_ACCOUNT_MANAGEMENT|200 |1     |Admin_App_Developer|AdminAppDev|Admin_App_Dev@test.com|
-    |Application_Developer  |Shared Learning Collaborative|Application_Developer       |ADMIN_ACCOUNT_MANAGEMENT|200 |1     |App_Developer      |AppDev     |App_Dev@test.com      |
-    |Application_Developer  |Shared Learning Collaborative|SLC_Operator                |DEFAULT                 |401 |0     |SLC_Operator_2     |SLCOP2     |SLC_Operator@test.com |
-    |Application_Developer  |Shared Learning Collaborative|Admin_App_Developer         |DEFAULT                 |401 |0     |Admin_App_Developer|AdminAppDev|Admin_App_Dev@test.com|
-    |Application_Developer  |Shared Learning Collaborative|Application_Developer       |DEFAULT                 |200 |1     |App_Developer      |AppDev     |App_Dev@test.com      |
+    |USER              |PASSWORD            |UID                |ADMIN_ROLE             |REALM      |WANTED_ADMIN_ROLE     |CODE|Number   |Full_Name        |User_ID                       |Email_Address                |
+    |sandboxoperator   |sandboxoperator1234 |sandboxslcoperator |Sandbox SLC Operator   |SLI        |Sandbox SLC Operator  |200 |1 or more|Sandbox Operator |sandboxslcoperator            |sandboxslcoperator@slidev.org|
+#    |operator   |operator1234   |slcoperator |SLC Operator           |SLI        |SEA Administrator           |200 |1 or more|NY Admin        |nyadmin                          |                            |
+#    |ADMIN_ROLE             |ADMIN_REALM                  |WANTED_ADMIN_ROLE           |ALLOWED_RIGHTS          |CODE|Number|Full_Name          |User_name  |Email_Address         |
+#    |SLC_Operator           |Shared Learning Collaborative|SLC_Operator                |DEFAULT                 |200 |1     |SLC_Operator_2     |SLCOP2     |SLC_Operator@test.com |
+#    |SLC_Operator           |Shared Learning Collaborative|Admin_App_Developer         |DEFAULT                 |200 |1     |Admin_App_Developer|AdminAppDev|Admin_App_Dev@test.com|
+#    |SLC_Operator           |Shared Learning Collaborative|Application_Developer       |DEFAULT                 |200 |1     |App_Developer      |AppDev     |App_Dev@test.com      |
+#    |Application_Developer  |Shared Learning Collaborative|SLC_Operator                |ADMIN_ACCOUNT_MANAGEMENT|401 |0     |SLC_Operator_2     |SLCOP2     |SLC_Operator@test.com |
+#    |Application_Developer  |Shared Learning Collaborative|Admin_App_Developer         |ADMIN_ACCOUNT_MANAGEMENT|200 |1     |Admin_App_Developer|AdminAppDev|Admin_App_Dev@test.com|
+#    |Application_Developer  |Shared Learning Collaborative|Application_Developer       |ADMIN_ACCOUNT_MANAGEMENT|200 |1     |App_Developer      |AppDev     |App_Dev@test.com      |
+#    |Application_Developer  |Shared Learning Collaborative|SLC_Operator                |DEFAULT                 |401 |0     |SLC_Operator_2     |SLCOP2     |SLC_Operator@test.com |
+#    |Application_Developer  |Shared Learning Collaborative|Admin_App_Developer         |DEFAULT                 |401 |0     |Admin_App_Developer|AdminAppDev|Admin_App_Dev@test.com|
+#    |Application_Developer  |Shared Learning Collaborative|Application_Developer       |DEFAULT                 |200 |1     |App_Developer      |AppDev     |App_Dev@test.com      |
 
   @wip
   @production

@@ -24,15 +24,14 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * Class for bootstrapping the initial SLI realm that must always exist into mongo.
@@ -196,6 +195,8 @@ public class RealmInitializer {
         toReturn.add(createRoleMapping(RoleInitializer.REALM_ADMINISTRATOR));
         toReturn.add(createRoleMapping(RoleInitializer.SEA_ADMINISTRATOR));
         toReturn.add(createRoleMapping(RoleInitializer.INGESTION_USER));
+        toReturn.add(createRoleMapping(RoleInitializer.SANDBOX_SLC_OPERATOR));
+        toReturn.add(createRoleMapping(RoleInitializer.SANDBOX_ADMINISTRATOR));
         return toReturn;
     }
 
