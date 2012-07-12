@@ -43,7 +43,7 @@ Scenario Outline: Confirm all known reference fields generate two valid links th
     When I navigate to GET "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
      And I set the <reference field> to "<INVALID REFERENCE>"
      And I navigate to PUT "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
-    Then I should receive a return code of 400
+    Then I should receive a return code of 403
     When I set the <reference field> to <new valid value>
      And I navigate to PUT "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
     Then I should receive a return code of 204
@@ -96,7 +96,7 @@ Scenario Outline: Confirm all association generate one valid links that is imple
     When I navigate to GET "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
      And I set the <reference field> to "<INVALID REFERENCE>"
      And I navigate to PUT "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
-    Then I should receive a return code of 400
+    Then I should receive a return code of 403
     When I set the <reference field> to <new valid value>
      And I navigate to PUT "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
     Then I should receive a return code of 204

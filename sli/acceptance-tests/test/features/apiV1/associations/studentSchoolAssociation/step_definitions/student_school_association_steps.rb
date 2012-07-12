@@ -72,6 +72,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "self"                                   if human_readable_id == "SELF LINK NAME" 
   id = @newId                                   if human_readable_id == "NEWLY CREATED ASSOCIATION ID"
   id = "Validation failed"                      if human_readable_id == "VALIDATION"
+  id = "Invalid reference. No association to referenced entity." if human_readable_id == "BAD REFERENCE"
+
   
   #other
   id = "41baa245-ceea-4336-a9dd-0ba868526b9b"  if human_readable_id == "'Algebra Alternative' ID"

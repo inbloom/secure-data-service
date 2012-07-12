@@ -28,7 +28,6 @@ import org.slc.sli.domain.NeutralQuery;
  * Encapsulates security criteria used by queries
  *
  * @author srupasinghe
- *
  */
 public class SecurityCriteria {
     //main security criteria
@@ -54,21 +53,25 @@ public class SecurityCriteria {
 
     /**
      * Apply the security criteria to the given query
+     *
      * @param query The query to manipulate
      * @return
      */
     public NeutralQuery applySecurityCriteria(NeutralQuery query) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
-        String userId = user.getEntity().getEntityId();
-        NeutralQuery createdByQuery = new NeutralQuery(new NeutralCriteria("metaData.createdBy", NeutralCriteria.OPERATOR_EQUAL, userId, false));
-        createdByQuery.addCriteria(new NeutralCriteria("metaData.isOrphaned", NeutralCriteria.OPERATOR_EQUAL, "true", false));
-        
         if (blacklistCriteria != null) {
             query.addCriteria(blacklistCriteria);
         }
-        query.addOrQuery(new NeutralQuery(securityCriteria));
-        query.addOrQuery(createdByQuery);
+
+        if (securityCriteria != null) {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
+            String userId = user.getEntity().getEntityId();
+
+            NeutralQuery createdByQuery = new NeutralQuery(new NeutralCriteria("metaData.createdBy", NeutralCriteria.OPERATOR_EQUAL, userId, false));
+            createdByQuery.addCriteria(new NeutralCriteria("metaData.isOrphaned", NeutralCriteria.OPERATOR_EQUAL, "true", false));
+            query.addOrQuery(new NeutralQuery(securityCriteria));
+            query.addOrQuery(createdByQuery);
+        }
 
         return query;
     }

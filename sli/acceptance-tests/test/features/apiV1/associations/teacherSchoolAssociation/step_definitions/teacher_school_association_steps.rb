@@ -72,7 +72,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "self"                                   if human_readable_id == "SELF LINK NAME" 
   id = @newId                                   if human_readable_id == "NEWLY CREATED ASSOCIATION ID"
   id = "Validation failed"                      if human_readable_id == "VALIDATION"
-  
+  id = "Invalid reference. No association to referenced entity." if human_readable_id == "BAD REFERENCE"
+
   #return the translated value
   id
 end
