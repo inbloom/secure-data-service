@@ -21,4 +21,7 @@ Then I should see following map of entry counts in the corresponding collections
 When I run the aggregation job
    Then I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                                         | searchValue |
-     | student                     | 110                 | aggregations.assessments.Grade 7 2011 State Math.HighestEver.ScaleScore | 32.0          |
+     | student                     | 110                 | aggregations.assessments.Grade 7 2011 State Math.HighestEver.ScaleScore | 32.0        |
+   And for the student with "body.studentUniqueStateId" set to "0", "aggregations.assessments.Grade 7 2011 State Math.HighestEver.ScaleScore" is "32.0"
+   And for the student with "body.studentUniqueStateId" set to "1", "aggregations.assessments.Grade 7 2011 State Math.HighestEver.ScaleScore" is "27.0"
+   And for the student with "body.studentUniqueStateId" set to "2", "aggregations.assessments.Grade 7 2011 State Math.HighestEver.ScaleScore" is "30.0"
