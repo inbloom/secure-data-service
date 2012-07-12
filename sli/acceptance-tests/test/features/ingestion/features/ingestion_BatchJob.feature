@@ -27,7 +27,7 @@ Then I should see following map of entry counts in the corresponding batch job d
   | collectionName | expectedRecordCount | searchParameter                  | searchValue                          | searchType |
   | newBatchJob    | 1                   | totalFiles                       | 1                                    | integer    |
   | newBatchJob    | 1                   | status                           | CompletedSuccessfully                | string     |
-  | newBatchJob    | 1                   | batchProperties.tenantId         | IL                                   | string     |
+  | newBatchJob    | 1                   | batchProperties.tenantId         | Midgar                               | string     |
   # stages
   | newBatchJob    | 1                   | stages.0.chunks.0.stageName               | ZipFileProcessor                     | string     |
   | newBatchJob    | 1                   | stages.0.chunks.0.status                  | finished                             | string     |
@@ -149,10 +149,10 @@ Then I should see following map of entry counts in the corresponding batch job d
    And I should see "ERROR  Error resolving references in XML file InterchangeEducationOrganization.xml" in the resulting error log file
 
 Scenario: Post two zip files to different landing zones then see the batch jobs in the database: Clean Database
-Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
-    And I am using preconfigured Ingestion Landing Zone for "NY-NYC"
-    And I post "BatchJobLarge.zip" file as the payload of the ingestion job for "IL-Daybreak"
-    And I post "BatchJob.zip" file as the payload of the ingestion job for "NY-NYC"
+Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+    And I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
+    And I post "BatchJobLarge.zip" file as the payload of the ingestion job for "Midgar-Daybreak"
+    And I post "BatchJob.zip" file as the payload of the ingestion job for "Hyrule-NYC"
 
     And the following collections are empty in batch job datastore:
         | collectionName              |
@@ -160,8 +160,8 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | error                       |
         | tenantJobLock               |
 
-When zip file is scp to ingestion landing zone for "IL-Daybreak"
-  And zip file is scp to ingestion landing zone for "NY-NYC"
+When zip file is scp to ingestion landing zone for "Midgar-Daybreak"
+  And zip file is scp to ingestion landing zone for "Hyrule-NYC"
   And a batch job for file "BatchJob.zip" is completed in database
   And a batch job for file "BatchJobLarge.zip" is completed in database
 
