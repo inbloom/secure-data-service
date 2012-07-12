@@ -50,7 +50,7 @@ public class PhoneNumberListConverter extends DozerConverter<PhoneNumberList, Li
         for (PhoneNumber phoneNumber : phoneNumbers) {
             InstitutionTelephone phone = new InstitutionTelephone();
             phone.setTelephoneNumber(phoneNumber.getNumber());
-            phone.setInstitutionTelephoneNumberType(SchoolConverter.toSliInstitutionTelephoneNumberType(phoneNumber.getType()));
+            phone.setInstitutionTelephoneNumberType(SchoolMappings.toSliInstitutionTelephoneNumberType(phoneNumber.getType()));
             list.add(phone);
         }
         return list;

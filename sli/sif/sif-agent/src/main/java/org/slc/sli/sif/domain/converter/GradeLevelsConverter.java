@@ -45,7 +45,7 @@ public class GradeLevelsConverter extends DozerConverter<GradeLevels, List<Strin
         GradeLevel[] gradeLevels = source.getGradeLevels();
         List<String> list = new ArrayList<String>(gradeLevels.length);
         for (GradeLevel gradeLevel : gradeLevels) {
-            list.add(SchoolConverter.toSliGrade(gradeLevel.getCode()));
+            list.add(SchoolMappings.toSliGrade(gradeLevel.getCode()));
         }
         return list;
     }

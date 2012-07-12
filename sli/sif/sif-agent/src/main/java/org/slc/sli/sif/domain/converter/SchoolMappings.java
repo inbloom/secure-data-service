@@ -29,7 +29,7 @@ import openadk.library.student.SchoolLevelType;
  * @author slee
  *
  */
-public class SchoolConverter
+public class SchoolMappings
 {
     public static String toSliAddressType(String addressType) {
         if ( AddressType.MAILING.getValue().equals(addressType)) {
@@ -208,3 +208,4 @@ public class SchoolConverter
         return "Not Available";
     }
 }
+

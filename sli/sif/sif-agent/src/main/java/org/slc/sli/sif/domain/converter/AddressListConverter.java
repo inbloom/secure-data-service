@@ -52,7 +52,7 @@ public class AddressListConverter extends DozerConverter<AddressList, List<Addre
             sliAddr.setCountryCode(address.getCountry());
             sliAddr.setPostalCode(address.getPostalCode());
             sliAddr.setStateAbbreviation(address.getStateProvince());
-            sliAddr.setAddressType(SchoolConverter.toSliAddressType(address.getType()));
+            sliAddr.setAddressType(SchoolMappings.toSliAddressType(address.getType()));
             list.add(sliAddr);
         }
         return list;
