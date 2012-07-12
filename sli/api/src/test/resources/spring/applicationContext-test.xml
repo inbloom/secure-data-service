@@ -66,6 +66,8 @@
 		<property name="base" value="ou=DevTest,dc=slidev,dc=org" />
 		<property name="userDn" value="cn=DevLDAP User, ou=People,dc=slidev,dc=org" />
         <property name="password" value="Y;Gtf@w{" />
+        <property name="pooled" value="true" />
+        
 	</bean>
 	<bean
 		class="org.springframework.ldap.core.support.BaseLdapPathBeanPostProcessor" />

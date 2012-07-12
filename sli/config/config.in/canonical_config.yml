@@ -54,6 +54,10 @@ default:
 
         # User a negative number for unlimited
         sli.useraccount.maximum: 500
+        
+        # Ldap server user and pass
+        sli.api.ldap.user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
+        sli.api.ldap.pass: Y;Gtf@w{
 
     data-access: &DATA-ACCESS-DEFAULT
         # MongoDB Options (only used in data-access)
