@@ -65,7 +65,6 @@ public final class Level2ClientInterfaceWriter extends Level3ClientWriter {
     @Override
     protected void writeGET(final Method method, final Resource resource, final Resources resources,
             final Application application, final Stack<Resource> ancestors) throws IOException {
-
         final boolean quietMode = true;
         final SdkGenGrammars grammars = new SdkGenGrammarsWrapper(schemas);
 

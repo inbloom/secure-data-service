@@ -109,6 +109,10 @@ public final class LevelNClientJavaHelper {
             return JT_MAP_STRING_TO_OBJECT;
         }
         case NONE: {
+            // FIXME:
+            if (type.getSimpleName().equalsIgnoreCase("home")) {
+                return JT_ENTITY;
+            }
             if (quietMode) {
                 return JT_LIST_OF_ENTITY;
             } else {
@@ -138,5 +142,9 @@ public final class LevelNClientJavaHelper {
             throw new AssertionError(collectionKind);
         }
         }
+    }
+
+    public static final boolean isSingleton(final JavaType type) {
+        return type.getCollectionKind() == JavaCollectionKind.NONE;
     }
 }

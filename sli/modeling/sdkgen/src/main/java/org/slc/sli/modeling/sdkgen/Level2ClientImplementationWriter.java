@@ -13,14 +13,17 @@ import org.slc.sli.modeling.jgen.JavaParam;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 import org.slc.sli.modeling.jgen.JavaType;
 import org.slc.sli.modeling.rest.Application;
+import org.slc.sli.modeling.rest.Include;
 import org.slc.sli.modeling.rest.Method;
 import org.slc.sli.modeling.rest.Param;
 import org.slc.sli.modeling.rest.Resource;
 import org.slc.sli.modeling.rest.Resources;
 import org.slc.sli.modeling.rest.helpers.RestHelper;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenGrammars;
+import org.slc.sli.modeling.sdkgen.grammars.SdkGenResolver;
 import org.slc.sli.modeling.sdkgen.grammars.xsd.SdkGenGrammarsWrapper;
 import org.slc.sli.modeling.wadl.helpers.WadlHelper;
+import org.slc.sli.modeling.xsd.XsdReader;
 
 /**
  * Writes the implementation for the Level 2 Client SDK.
@@ -71,6 +74,10 @@ public final class Level2ClientImplementationWriter extends Level3ClientWriter {
             // Write Initializer
             writeCanonicalInitializer(application);
             writeConvenienceInitializer(application);
+            for (final Include include : application.getGrammars().getIncludes()) {
+                final File schemaFile = new File(wadlFile.getParentFile(), include.getHref());
+                schemas.add(XsdReader.readSchema(schemaFile, new SdkGenResolver()));
+            }
         } catch (final IOException e) {
             throw new RuntimeException(e);
         }
@@ -143,6 +150,8 @@ public final class Level2ClientImplementationWriter extends Level3ClientWriter {
             jsw.write("return").space().write(FIELD_CLIENT.getName()).write(".get(token, uri)");
             if (LevelNClientJavaHelper.isMapStringToObject(responseType)) {
                 jsw.write(".get(0).getData()");
+            } else if (LevelNClientJavaHelper.isSingleton(responseType)) {
+                jsw.write(".get(0)");
             }
             jsw.endStmt();
             jsw.endBlock();
