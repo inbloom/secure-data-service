@@ -30,7 +30,6 @@ GEM
       json (>= 1.4.6)
     gherkin (2.10.0-x86-mingw32)
       json (>= 1.4.6)
-    headless (0.3.1)
     httpauth (0.1)
     i18n (0.6.0)
     java_properties (0.0.4)
@@ -92,7 +91,6 @@ DEPENDENCIES
   builder
   cucumber
   ffi (= 1.0.9)
-  headless
   java_properties
   json (= 1.6.2)
   mongo
