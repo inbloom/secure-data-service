@@ -58,7 +58,7 @@
 <#macro includeRepeatHeaderGrid gridId>
 
   <#assign id = getDivId(gridId)>
-  </br>
+  <br/>
     <script type="text/javascript">
       <#-- make grid -->
       SLC.grid.repeatHeaderGrid.create('${id}', SLC.dataProxy.getConfig("${gridId}"), SLC.dataProxy.getData("${gridId}"));
