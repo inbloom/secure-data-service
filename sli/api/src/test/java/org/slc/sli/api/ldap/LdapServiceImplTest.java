@@ -10,7 +10,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
+import java.util.Collection;
 
 import org.junit.After;
 import org.junit.Before;
@@ -29,7 +29,7 @@ public class LdapServiceImplTest {
 
     @Autowired
     LdapService ldapService;
-    
+
     private static String uid;
     private static User testUser;
 
@@ -39,7 +39,7 @@ public class LdapServiceImplTest {
         uid = testUser.getUid();
         ldapService.removeUser("local", uid);
     }
-    
+
     @After
     public void clear() {
         ldapService.removeUser("local", uid);
@@ -73,9 +73,9 @@ public class LdapServiceImplTest {
     @Test
     public void testGetUserGroups() {
 
-        List<Group> groups = ldapService.getUserGroups("local", "slcoperator");
+        Collection<Group> groups = ldapService.getUserGroups("local", "slcoperator");
         assertNotNull(groups);
-        List<String> groupNames = new ArrayList<String>();
+        Collection<String> groupNames = new ArrayList<String>();
         for (Group group : groups) {
             groupNames.add(group.getGroupName());
         }
@@ -86,13 +86,13 @@ public class LdapServiceImplTest {
     @Test
     public void testFindUserByGroups() {
         String[] groups = new String[] { "SEA Administrator" };
-        List<User> users = ldapService.findUserByGroups("local", Arrays.asList(groups));
+        Collection<User> users = ldapService.findUserByGroups("local", Arrays.asList(groups));
         assertNotNull(users);
     }
-    
+
     @Test
     public void testCRUDUser() throws UnknownHostException {
-        
+
         // test create
         String newUserUid = ldapService.createUser("local", testUser);
         User newUser = ldapService.getUser("local", newUserUid);
@@ -101,14 +101,14 @@ public class LdapServiceImplTest {
         assertTrue(newUser.getGroups().contains("SLC Operator"));
         assertTrue(newUser.getGroups().contains("SEA Administrator"));
         assertTrue(newUser.getGroups().contains("LEA Administrator"));
-        assertEquals(uid,newUser.getUid());
+        assertEquals(uid, newUser.getUid());
         assertEquals("testemail@slidev.org", newUser.getEmail());
         assertEquals("testFirst", newUser.getFirstName());
         assertEquals("testLast", newUser.getLastName());
         assertEquals("/dev/null", newUser.getHomeDir());
         assertEquals("testTenant", newUser.getTenant());
         assertEquals("testEdorg", newUser.getEdorg());
-        
+
         // test update
         updateTestUser(newUser);
         ldapService.updateUser("local", newUser);
@@ -133,7 +133,7 @@ public class LdapServiceImplTest {
         assertNull(testUser);
 
     }
-    
+
     private User buildTestUser() throws UnknownHostException {
         User testUser = new User();
         testUser.setFirstName("testFirst");
@@ -148,7 +148,7 @@ public class LdapServiceImplTest {
         testUser.addGroup("LEA Administrator");
         return testUser;
     }
-    
+
     private void updateTestUser(User user) {
         user.setEdorg("testEdorgUpdate");
         user.setTenant("testTenantUpdate");
