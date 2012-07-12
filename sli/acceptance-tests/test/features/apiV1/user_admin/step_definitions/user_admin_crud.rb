@@ -7,13 +7,20 @@ Before do
 end
 
 Then /^I have a uid "(.*?)" and role "(.*?)"$/ do |uid, admin_role|
+ if uid != nil&& uid != ""
   @logged_in_user = get_user(uid)
   assert_not_nil(@logged_in_user, "Cannot find user with uid = <#{uid}> in \n#{@result}")
   assert_not_nil(@logged_in_user['groups'].index(admin_role), "The following user does not have role = #{admin_role}:\n#{@logged_in_user}")
 end
+end
 
-Then /^I should receive a list of size "([\d]+)" of "([^"]*)"$/ do |number, wanted_admin_role|
-  number = number.to_i
+Then /^I should receive a list of size "([^"]*)" of "([^"]*)"$/ do |number, wanted_admin_role|
+  if number == "1 or more" 
+  number =1
+  elsif number == "0"
+  number = 0
+  end
+  if number==1 or number ==0
   print_administrator_comma_separated
   @user_with_wanted_admin_role = []
   @result.each { |user|
@@ -25,7 +32,8 @@ Then /^I should receive a list of size "([\d]+)" of "([^"]*)"$/ do |number, want
       @user_with_wanted_admin_role << user
     end
   }
-  assert_equal(number, @user_with_wanted_admin_role.length, "Users with group #{wanted_admin_role}: #{@user_with_wanted_admin_role.to_yaml}")
+  assert( @user_with_wanted_admin_role.length>=number, "Users with group #{wanted_admin_role}: #{@user_with_wanted_admin_role.to_yaml}")
+end
 end
 
 Then /^each account has "(.*?)", "(.*?)", "(.*?)", "(.*?)" and "(.*?)"$/ do |fullName, uid, email, createTime, modifyTime|
