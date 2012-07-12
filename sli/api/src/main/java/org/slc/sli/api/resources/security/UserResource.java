@@ -8,13 +8,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
@@ -22,6 +25,7 @@ import javax.ws.rs.core.UriInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
+import org.springframework.ldap.NameAlreadyBoundException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
@@ -42,6 +46,7 @@ import org.slc.sli.domain.enums.Right;
 @Component
 @Scope("request")
 @Path("/users")
+@Consumes({ MediaType.APPLICATION_JSON + ";charset=utf-8" })
 @Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
 public class UserResource {
 
@@ -52,7 +57,7 @@ public class UserResource {
     private String realm;
 
     @GET
-    public Response readAll(
+    public final Response readAll(
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
@@ -73,6 +78,28 @@ public class UserResource {
 
         Collection<User> users = ldapService.findUserByGroups(realm, RightToGroupMapper.getInstance().getGroups(SecurityUtil.getAllRights()), tenant, edorgs);
         return Response.status(Status.OK).entity(users).build();
+    }
+
+    @POST
+    public final Response create(final User newUser, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        debug("creating a user {}", newUser.toString());
+
+        Collection<String> groupsAllowed = RightToGroupMapper.getInstance().getGroups(SecurityUtil.getAllRights());
+        Collection<String> newUserGroups = new HashSet<String>(newUser.getGroups());
+        if (!groupsAllowed.containsAll(newUserGroups)) {
+            newUserGroups.removeAll(groupsAllowed);
+            debug("the following groups are not allowed to be assigned: {}", User.printGroup(new ArrayList<String>(newUserGroups)));
+            EntityBody body = new EntityBody();
+            body.put("response", "You are not allowed to create this resource");
+            return Response.status(Status.FORBIDDEN).entity(body).build();
+        } else {
+            try {
+                ldapService.createUser(realm, newUser);
+            } catch (NameAlreadyBoundException e) {
+                return Response.status(Status.CONFLICT).build();
+            }
+            return Response.status(Status.CREATED).build();
+        }
     }
 
     /**
