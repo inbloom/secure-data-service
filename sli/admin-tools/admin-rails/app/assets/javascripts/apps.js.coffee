@@ -31,7 +31,9 @@ jQuery ->
     state = $(@).prop('checked')
     if state
       $('#redirect_uri > :input').prop('disabled', true)
+      $('#redirect_uri > :input').val('')
       $('#application_url > :input').prop('disabled', true)
+      $('#application_url > :input').val('')
     else
       $('#redirect_uri > :input').prop('disabled', false)
       $('#application_url > :input').prop('disabled', false)
