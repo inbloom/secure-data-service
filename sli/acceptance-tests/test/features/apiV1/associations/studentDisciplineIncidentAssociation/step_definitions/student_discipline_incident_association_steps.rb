@@ -73,6 +73,7 @@ Transform /^<([^"]*)>$/ do |val|
   when "SELF LINK NAME" then "self"
   when "NEWLY CREATED ASSOCIATION ID" then $createdId = @newId
   when "VALIDATION" then "Validation failed"
+  when "BAD REFERENCE" then "Invalid reference. No association to referenced entity."
   end
 end
 
