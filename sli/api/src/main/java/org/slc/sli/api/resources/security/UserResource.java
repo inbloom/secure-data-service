@@ -1,7 +1,10 @@
 package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +19,12 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.ldap.LdapService;
@@ -24,14 +33,10 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  * @author dliu
- * 
+ *
  */
 
 @Component
@@ -42,10 +47,6 @@ public class UserResource {
 
     @Autowired
     LdapService ldapService;
-    
-    // Use this to check if we're in sandbox mode
-    @Value("${sli.simple-idp.sandboxImpersonationEnabled}")
-    protected boolean isSandboxImpersonationEnabled;
 
     @Value("${sli.simple-idp.sliAdminRealmName}")
     private String realm;
@@ -56,126 +57,97 @@ public class UserResource {
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
 
-        if (!hasRight()) {
+        if (!isAdministrator(SecurityUtil.getAllRights())) {
             EntityBody body = new EntityBody();
             body.put("response", "You are not authorized to access this resource.");
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
         String tenant = SecurityUtil.getTenantId();
-        
+
         // add edorg filter for LEA Admin
         List<String> edorgs = null;
-        if (!this.isSandboxImpersonationEnabled && SecurityUtil.hasRole(RoleInitializer.LEA_ADMINISTRATOR)) {
+        if (SecurityUtil.hasRole(RoleInitializer.LEA_ADMINISTRATOR)) {
             edorgs = new ArrayList<String>();
             edorgs.add(SecurityUtil.getEdOrg());
         }
 
-        List<User> users = ldapService.findUserByGroups(realm,
-                RightToGroupMapper.getGroups(getRights(), this.isSandboxImpersonationEnabled), tenant, edorgs);
+        Collection<User> users = ldapService.findUserByGroups(realm, RightToGroupMapper.getInstance().getGroups(SecurityUtil.getAllRights()), tenant, edorgs);
         return Response.status(Status.OK).entity(users).build();
     }
 
-    private boolean hasRight() {
-        if (this.isSandboxImpersonationEnabled) {
-            if (!SecurityUtil.hasRight(Right.CRUD_SLC_OPERATOR) && !SecurityUtil.hasRight(Right.CRUD_SEA_ADMIN)) {
-                return false;
-            }
-        } else {
-            if (!SecurityUtil.hasRight(Right.CRUD_SLC_OPERATOR) && !SecurityUtil.hasRight(Right.CRUD_SEA_ADMIN)
-                    && !SecurityUtil.hasRight(Right.CRUD_LEA_ADMIN)) {
-                return false;
-            }
-        }
-        return true;
-    }
-    
-    private List<Right> getRights() {
-        List<Right> rights = new ArrayList<Right>();
-        if (SecurityUtil.hasRight(Right.CRUD_SLC_OPERATOR))
-            rights.add(Right.CRUD_SLC_OPERATOR);
-        if (SecurityUtil.hasRight(Right.CRUD_SEA_ADMIN))
-            rights.add(Right.CRUD_SEA_ADMIN);
-        if (!this.isSandboxImpersonationEnabled && SecurityUtil.hasRight(Right.CRUD_LEA_ADMIN))
-            rights.add(Right.CRUD_LEA_ADMIN);
-        if (this.isSandboxImpersonationEnabled && SecurityUtil.hasRight(Right.CRUD_APP_DEVELOPER))
-            rights.add(Right.CRUD_APP_DEVELOPER);
-
-        return rights;
+    /**
+     * Given a collection of rights, determine whether or not this user is an administrator.
+     * @param rights
+     * @return true if user is an administrator, false otherwise
+     */
+    private boolean isAdministrator(final Collection<GrantedAuthority> rights) {
+        Collection<GrantedAuthority> rightSet = new HashSet<GrantedAuthority>(rights);
+        rightSet.retainAll(Arrays.asList(Right.ALL_ADMIN_CRUD_RIGHTS));
+        return !rightSet.isEmpty();
     }
 
     /**
      * Map Right to Groups (LDAP's equivalence of Role)
-     * 
+     *
      */
-    
-    // TODO need configured to be environment specific
-    public static class RightToGroupMapper {
-        
-        private static Map<Right, List<String>> rightToGroupMap;
+    private static final class RightToGroupMapper {
+        private static final String[] GROUPS_ALL_ADMINS_ALLOW_TO_READ = new String[] {RoleInitializer.INGESTION_USER};
+        private static final String[] GROUPS_ONLY_PROD_ADMINS_ALLOW_TO_READ = new String[] {RoleInitializer.REALM_ADMINISTRATOR};
+        private static final String[] GROUPS_ONLY_SANDBOX_ADMINS_ALLOW_TO_READ = new String[] {RoleInitializer.APP_DEVELOPER};
 
-        public static List<String> getGroups(Right right, boolean isSandbox) {
-            if (rightToGroupMap == null || rightToGroupMap.size() == 0) {
-                init(isSandbox);
-            }
-            return rightToGroupMap.get(right);
-        }
-        
-        public static List<String> getGroups(List<Right> rights, boolean isSandbox) {
-            if (rights != null && rights.size() > 0) {
-                List<String> combinedGroupNames = new ArrayList<String>();
-                for (Right right : rights) {
-                    List<String> groupNames = getGroups(right, isSandbox);
-                    if (groupNames != null && groupNames.size() > 0) {
-                        for (String groupName : groupNames) {
-                            if (!combinedGroupNames.contains(groupName)) {
-                                combinedGroupNames.add(groupName);
-                            }
-                        }
+        private final Map<GrantedAuthority, Collection<String>> rightToGroupMap;
+        private static final RightToGroupMapper INSTANCE = new RightToGroupMapper();
+
+        private RightToGroupMapper() {
+            rightToGroupMap = new HashMap<GrantedAuthority, Collection<String>>();
+            Collection<GrantedAuthority> prodAdminCrudRights = Arrays.asList(Right.PROD_ADMIN_CRUD_RIGHTS);
+            Collection<GrantedAuthority> sandboxAdminCrudRights = Arrays.asList(Right.SANDBOX_ADMIN_CRUD_RIGHTS);
+            Collection<GrantedAuthority> allAdminCrudRights = Arrays.asList(Right.ALL_ADMIN_CRUD_RIGHTS);
+
+            for (GrantedAuthority right : Right.ALL_ADMIN_CRUD_RIGHTS) {
+                Collection<String> groups = new HashSet<String>();
+                if (allAdminCrudRights.contains(right)) {
+                    groups.addAll(Arrays.asList(GROUPS_ALL_ADMINS_ALLOW_TO_READ));
+                }
+                if (prodAdminCrudRights.contains(right)) {
+                    groups.addAll(Arrays.asList(GROUPS_ONLY_PROD_ADMINS_ALLOW_TO_READ));
+                }
+                if (sandboxAdminCrudRights.contains(right)) {
+                    groups.addAll(Arrays.asList(GROUPS_ONLY_SANDBOX_ADMINS_ALLOW_TO_READ));
+                }
+
+                if (right instanceof Right) {
+                    switch((Right) right) {
+                    case CRUD_SLC_OPERATOR: groups.add(RoleInitializer.SLC_OPERATOR); break;
+                    case CRUD_SEA_ADMIN: groups.add(RoleInitializer.SEA_ADMINISTRATOR); break;
+                    case CRUD_LEA_ADMIN: groups.add(RoleInitializer.LEA_ADMINISTRATOR); break;
+                    case CRUD_SANDBOX_SLC_OPERATOR: groups.add(RoleInitializer.SANDBOX_SLC_OPERATOR); break;
+                    case CRUD_SANDBOX_ADMIN: groups.add(RoleInitializer.SANDBOX_ADMINISTRATOR); break;
                     }
                 }
-                return combinedGroupNames;
+
+                rightToGroupMap.put(right, groups);
             }
-            return null;
         }
 
-        private static void init(boolean isSandbox) {
-            rightToGroupMap = new HashMap<Right, List<String>>();
+        /**
+         * Given the user's rights, determine which groups the user can have access to.
+         * @param rights
+         * @return the groups (AKA roles) the user has access to.
+         */
+        public Collection<String> getGroups(Collection<GrantedAuthority> rights) {
+            Collection<String> groups = new HashSet<String>();
+            for (GrantedAuthority right : rights) {
+                Collection<String> currentGroups = rightToGroupMap.get(right);
+                if (currentGroups != null) {
+                    groups.addAll(currentGroups);
+                }
+            }
+            return groups;
+        }
 
-            // define groups that CRUD_SLC_OPERATOR right can access
-            List<String> slcoperatorGroups = new ArrayList<String>();
-            slcoperatorGroups.add(RoleInitializer.SLC_OPERATOR);
-            if (!isSandbox) {
-                slcoperatorGroups.add(RoleInitializer.REALM_ADMINISTRATOR);
-            }
-            slcoperatorGroups.add(RoleInitializer.INGESTION_USER);
-            rightToGroupMap.put(Right.CRUD_SLC_OPERATOR, slcoperatorGroups);
-
-            // define groups that CRUD_SEA_ADMIN right can access
-            List<String> seaadmiGroups = new ArrayList<String>();
-            if (!isSandbox) {
-                seaadmiGroups.add(RoleInitializer.SEA_ADMINISTRATOR);
-                seaadmiGroups.add(RoleInitializer.REALM_ADMINISTRATOR);
-            } else {
-                seaadmiGroups.add(RoleInitializer.SANDBOX_ADMINISTRATOR);
-            }
-            seaadmiGroups.add(RoleInitializer.INGESTION_USER);
-            rightToGroupMap.put(Right.CRUD_SEA_ADMIN, seaadmiGroups);
-
-            // define groups that CRUD_LEA_ADMIN right can access for production env
-            if (!isSandbox) {
-                List<String> leaadminGroups = new ArrayList<String>();
-                leaadminGroups.add(RoleInitializer.LEA_ADMINISTRATOR);
-                leaadminGroups.add(RoleInitializer.REALM_ADMINISTRATOR);
-                leaadminGroups.add(RoleInitializer.INGESTION_USER);
-                rightToGroupMap.put(Right.CRUD_LEA_ADMIN, leaadminGroups);
-            }
-            
-            // define groups that CRUD_APP_DEVELOPER right can access for sandbox env
-            if (isSandbox) {
-                List<String> appadminGroups = new ArrayList<String>();
-                appadminGroups.add(RoleInitializer.APP_DEVELOPER);
-                rightToGroupMap.put(Right.CRUD_APP_DEVELOPER, appadminGroups);
-            }
+        public static RightToGroupMapper getInstance() {
+            return INSTANCE;
         }
     }
 }
