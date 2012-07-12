@@ -13,7 +13,7 @@ Scenario: View Matt Sollars
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Proprietary Information"
-And the title of the page is "SLC - Section Profile"
+And the title of the page is "SLC - List of Students"
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"

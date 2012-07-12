@@ -6,9 +6,6 @@
     entity: "student",
     cacheKey: "student"
   },
-  params: {
-    layout: ["student"]
-  },
   root:"studentEnrollment",
   items : [
     {id: "col1", name: "School Year", type:"FIELD", datatype: "string", field: "schoolYear", width: 100},

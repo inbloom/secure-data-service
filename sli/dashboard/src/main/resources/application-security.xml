@@ -37,7 +37,6 @@
     <intercept-url pattern="/static/**" filters="none"/>
     <intercept-url pattern="/" access="hasAnyRole('Educator', 'IT Administrator', 'Leader', 'Aggregate Viewer')"/>
     <intercept-url pattern="/service/**" access="hasAnyRole('Educator', 'IT Administrator', 'Leader', 'Aggregate Viewer')"/>
-    <intercept-url pattern="/s/**" access="hasAnyRole('Educator', 'IT Administrator', 'Leader', 'Aggregate Viewer')"/>
     <intercept-url pattern="/exception" access="permitAll"/>
     <intercept-url pattern="/testException" access="permitAll"/>
     <intercept-url pattern="/test404" access="permitAll"/>

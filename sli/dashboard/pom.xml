@@ -28,17 +28,25 @@
 
 	<dependencies>
 		<!-- Servlet dependencies -->
+
+    <!-- Due to multiple transitive dependencies on guava, we have opted to exclude 
+        the older ones. Because we need the newest Version 11.0.1 will be pulled from jersey-client -->
+    <dependency>
+        <groupId>com.googlecode.ehcache-spring-annotations</groupId>
+        <artifactId>ehcache-spring-annotations</artifactId>
+        <version>1.2.0</version>
+        <exclusions>
+            <exclusion>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+            </exclusion>
+        </exclusions>
+    </dependency>
         
         <dependency>
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
             <version>3.1</version>
-        </dependency>
-        
-        <dependency>
-	        <groupId>commons-lang</groupId>
-	        <artifactId>commons-lang</artifactId>
-	        <version>2.6</version>
         </dependency>
 
 		<dependency>
@@ -133,7 +141,6 @@
 				<artifactId>guava</artifactId>
 			</exclusion>
 		    </exclusions>
-		    <scope>test</scope>
 		</dependency>
 
 		<dependency>

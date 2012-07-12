@@ -13,19 +13,17 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<#assign NUL = {"NUL":true}>
 <#macro includePanelModel panelId>
   <#assign panelConfig = viewConfigs[panelId]>
-  <#assign panelData = data[panelConfig.data.cacheKey]!NUL>
+  <#if !panelConfig.data.lazy>
+    <#assign panelData = data[panelConfig.data.cacheKey]>
+  </#if>
 </#macro>
 
 <#macro includePanelContent panel>
   <#if panel.type == "PANEL">
-    <@includePanelModel panelId=panel.id/>
-    <#if !panelData.NUL?? >
-      <#include "../panel/" + panel.id + ".ftl">
-    </#if>
-  </#if> 
+    <#include "../panel/" + panel.id + ".ftl">
+  </#if>
   <#if panel.type == "GRID">
     <@includeGrid gridId=panel.id/>
   </#if>

@@ -6,11 +6,6 @@ task :dashboardPopWidgetTests do
   runTests("test/features/dashboard/dash/population_widget.feature")
 end
 
-desc "Run Dashboard section profile tests Tests"
-task :dashboardSectionProfileTests do
-  runTests("test/features/dashboard/dash/section_profile.feature")
-end
-
 desc "Run Dashboard K-3 view Tests"
 task :dashboardK3ViewTests do
   runTests("test/features/dashboard/dash/k3view.feature")

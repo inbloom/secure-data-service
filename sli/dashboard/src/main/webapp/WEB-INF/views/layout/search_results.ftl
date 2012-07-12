@@ -35,7 +35,7 @@
         <div class="panel">
             <div class="panel-header">
             </div>
-			<@includePanelModel panelId="studentSearchResults"/>
+			<@includePanelModel panelId="studentSearch"/>
         	Your search for "${panelData.searchString}" returned ${panelData.numResults} result<#if panelData.numResults != 1>s</#if>.
 
             <div class="panel-content">

@@ -51,7 +51,6 @@ end
 
 When /^I select <section> "([^"]*)"$/ do |elem|
   select_by_id(elem, "sectionSelect")
-  clickOnGo()
 end
 
 Then /^I should have a dropdown selector named "([^"]*)"$/ do |elem|

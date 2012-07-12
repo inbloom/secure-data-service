@@ -1,5 +1,5 @@
 {
-  id : "student",
+  id : "studentProfile",
   type: "LAYOUT",
   name: "SLC - Student Profile",
   data :{

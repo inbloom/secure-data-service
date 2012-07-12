@@ -22,7 +22,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -30,13 +29,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
 import org.slc.sli.api.client.SLIClient;
 import org.slc.sli.dashboard.entity.ConfigMap;
 import org.slc.sli.dashboard.entity.GenericEntity;
-import org.slc.sli.dashboard.entity.util.GenericEntityComparator;
 import org.slc.sli.dashboard.entity.util.GenericEntityEnhancer;
 import org.slc.sli.dashboard.util.Constants;
 import org.slc.sli.dashboard.util.ExecutionTimeLogger;
@@ -1401,7 +1398,8 @@ public class SDKAPIClient implements APIClient {
     /**
      * Get the associations between courses and sections
      */
-    public List<GenericEntity> getCourseSectionMappings(List<GenericEntity> sections, String token) {
+    private List<GenericEntity> getCourseSectionMappings(List<GenericEntity> sections, String token) {
+
         Map<String, GenericEntity> courseMap = new HashMap<String, GenericEntity>();
         Map<String, String> sectionIDToCourseIDMap = new HashMap<String, String>();
 
@@ -1432,7 +1430,7 @@ public class SDKAPIClient implements APIClient {
                 String courseOfferingId = (String) section.get(Constants.ATTR_COURSE_OFFERING_ID);
                 String courseId = courseOfferingToCourseIDMap.get(courseOfferingId);
                 if (!sectionLookup.containsKey(courseId)) {
-                    sectionLookup.put(courseId, new TreeSet<GenericEntity>(new GenericEntityComparator(Constants.ATTR_SECTION_NAME, String.class)));
+                    sectionLookup.put(courseId, new HashSet<GenericEntity>());
                 }
                 sectionLookup.get(courseId).add(section);
             }
@@ -1461,9 +1459,7 @@ public class SDKAPIClient implements APIClient {
 
         }
 
-        List<GenericEntity> courses = new ArrayList<GenericEntity>(courseMap.values());
-        Collections.sort(courses, new GenericEntityComparator(Constants.ATTR_COURSE_TITLE, String.class));
-        return courses;
+        return new ArrayList<GenericEntity>(courseMap.values());
     }
 
     /**
@@ -1505,14 +1501,6 @@ public class SDKAPIClient implements APIClient {
 
             // get course Entities
             List<GenericEntity> courses = getCourses(token, courseIds, null);
-            Collections.sort(courses, new Comparator<GenericEntity>() {
-
-                @Override
-                public int compare(GenericEntity o1, GenericEntity o2) {
-                    return o1.getString("coursesName").compareTo(o2.getString("coursesName"));
-                }
-
-            });
 
             // update courseMap with courseId. "id" for this entity
             for (GenericEntity course : courses) {
