@@ -33,14 +33,14 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |Application_Developer  |IL                           |SB_ACCOUNT_MANAGEMENT|401 |                 |
     |Application_Developer  |IL-DAYBREAK                  |DEFAULT              |401 |                 |
 
-
+  @wip
   Scenario Outline: As a admin I am able to read all Ed-Orgs in a tenancy
-    Given I have a <ADMIN_ROLE>
-    When I am authenticated on <ADMIN_REALM>
-    And I navigate to GET <EdOrg_URI>
-    And the "Tenant" is <Tenant>
+    Given I have a "<ADMIN_ROLE>"
+    When I am authenticated on "<ADMIN_REALM>"
+    And I navigate to GET "/users"
+    And the "Tenant" is "<Tenant>"
     Then I should receive a return code of <CODE>
-    And I should receive a list of Ed-Org and <EdOrg> is in the list
+    And I should receive a list of Ed-Org and "<EdOrg>" is in the list
   Examples:
     |ADMIN_ROLE             |ADMIN_REALM                  |CODE|Tenant         |EdOrg         |
     |SLC_Operator           |Shared Learning Collaborative|200 |IL             |              |
@@ -50,46 +50,46 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |Ingestion_Administrator|IL-DAYBREAK                  |401 |IL             |IL-DAYBREAK   |
 
   @production
-  Scenario Outline:  As a admin I am able to read all admin accounts in my tenancy
-    Given I have a <ADMIN_ROLE>
-    When I am authenticated on <ADMIN_REALM>
-    And I navigate to GET <ADMIN_ACCOUT_URI>
+  Scenario Outline:  As an administrator I can read all admin accounts in my tenancy
+    Given I am logged in using "<USER>" "<PASSWORD>" to realm "<REALM>"
+    And I navigate to GET "/users"
     Then I should receive a return code of <CODE>
-    And then I should receive a list <Number> of <WANTED_ADMIN_ROLE>
-    And each account has <Full_Name>, <User_name>, <Email_Address>, "Date_Created" and "Date_Updated"
-
+    And I have a uid "<UID>" and role "<ADMIN_ROLE>"
+    And I should receive a list of size "<Number>" of "<WANTED_ADMIN_ROLE>"
+#    And each account has "fullName", "uid", "email", "createTime" and "modifyTime"
+    And one of the accounts has "<Full_Name>", "<User_ID>", "<Email_Address>"
   Examples:
-    |ADMIN_ROLE             |ADMIN_REALM                  |WANTED_ADMIN_ROLE           |CODE|Number|Full_Name     |User_Name  |Email_Address        |
-    |SLC_Operator           |Shared Learning Collaborative|SLC_Operator                |200 |1     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|
-    |SLC_Operator           |Shared Learning Collaborative|SEA_Super_Administrator     |200 |1     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |
-    |SLC_Operator           |Shared Learning Collaborative|LEA_Super_Administrator     |200 |2     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |
-    |SLC_Operator           |Shared Learning Collaborative|Realm_Administrator         |200 |2     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |
-    |SLC_Operator           |Shared Learning Collaborative|Ingestion_Administrator     |200 |2     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |
-    |SEA_Super_Administrator|IL                           |SLC_Operator                |401 |0     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|
-    |SEA_Super_Administrator|IL                           |SEA_Super_Administrator     |200 |1     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |
-    |SEA_Super_Administrator|IL                           |LEA_Super_Administrator     |200 |2     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |
-    |SEA_Super_Administrator|IL                           |Realm_Administrator         |200 |2     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |
-    |SEA_Super_Administrator|IL                           |Ingestion_Administrator     |200 |2     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |
-    |LEA_Super_Administrator|IL-DAYBREAK                  |SLC_Operator                |401 |0     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|
-    |LEA_Super_Administrator|IL-DAYBREAK                  |SEA_Super_Administrator     |401 |0     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |
-    |LEA_Super_Administrator|IL-DAYBREAK                  |LEA_Super_Administrator     |200 |1     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |
-    |LEA_Super_Administrator|IL-DAYBREAK                  |Realm_Administrator         |200 |1     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |
-    |LEA_Super_Administrator|IL-DAYBREAK                  |Ingestion_Administrator     |200 |1     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |
-    |LEA_Super_Administrator|IL-SUNSET                    |SLC_Operator                |401 |0     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|
-    |LEA_Super_Administrator|IL-SUNSET                    |SEA_Super_Administrator     |401 |0     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |
-    |LEA_Super_Administrator|IL-SUNSET                    |LEA_Super_Administrator     |200 |1     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |
-    |LEA_Super_Administrator|IL-SUNSET                    |Realm_Administrator         |200 |1     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |
-    |LEA_Super_Administrator|IL-SUNSET                    |Ingestion_Administrator     |200 |1     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |
-    |Realm_Administrator    |IL-SUNSET                    |SLC_Operator                |401 |0     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|
-    |Realm_Administrator    |IL-SUNSET                    |SEA_Super_Administrator     |401 |0     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |
-    |Realm_Administrator    |IL-SUNSET                    |LEA_Super_Administrator     |401 |0     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |
-    |Realm_Administrator    |IL-SUNSET                    |Realm_Administrator         |401 |0     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |
-    |Realm_Administrator    |IL-SUNSET                    |Ingestion_Administrator     |401 |0     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |
-    |Ingestion_Administrator|IL-SUNSET                    |SLC_Operator                |401 |0     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|
-    |Ingestion_Administrator|IL-SUNSET                    |SEA_Super_Administrator     |401 |0     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |
-    |Ingestion_Administrator|IL-SUNSET                    |LEA_Super_Administrator     |401 |0     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |
-    |Ingestion_Administrator|IL-SUNSET                    |Realm_Administrator         |401 |0     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |
-    |Ingestion_Administrator|IL-SUNSET                    |Ingestion_Administrator     |401 |0     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |
+    |USER       |PASSWORD       |UID         |ADMIN_ROLE             |REALM                        |WANTED_ADMIN_ROLE           |CODE|Number|Full_Name       |User_ID                          |Email_Address               |
+    |operator   |operator1234   |slcoperator |SLC Operator           |SLI                          |SLC Operator                |200 |2     |Bill Operator   |slcoperator-email@slidev.org     |slcoperator-email@slidev.org|
+    |operator   |operator1234   |slcoperator |SLC Operator           |SLI                          |SEA Administrator           |200 |3     |NY Admin        |nyadmin                          |                            |
+    |operator   |operator1234   |slcoperator |SLC Operator           |SLI                          |LEA Administrator           |200 |4     |Daybreak Admin  |daybreakadmin                    |daybreakadmin@slidev.org    |
+    |operator   |operator1234   |slcoperator |SLC Operator           |SLI                          |Realm Administrator         |200 |7     |Mal Admin       |mreynolds                        |mreynolds@slidev.org        |
+    |operator   |operator1234   |slcoperator |SLC Operator           |SLI                          |Ingestion Administrator     |200 |0     |                |                                 |                            |
+#    |iladmin    |iladmin1234    |iladmin     |SEA Administrator      |SLI                          |SLC Operator                |200 |0     |                |                                 |                            |
+#    |iladmin    |iladmin1234    |iladmin     |SEA Administrator      |SLI                          |SEA Administrator           |200 |1     |IL Admin        |iladmin                          |                            |
+#    |iladmin    |iladmin1234    |iladmin     |SEA Administrator      |SLI                          |LEA Administrator           |200 |3     |Daybreak Admin  |daybreakadmin   |daybreakadmin@slidev.org    |
+#    |iladmin    |iladmin1234    |iladmin     |SEA Administrator      |SLI                          |Realm Administrator         |200 |3     |Sunset RealmAdmin   |sunsetrealadmin |sunsetrealmadmin@slidev.org  |
+#    |iladmin    |iladmin1234    |iladmin     |SEA Administrator      |SLI                          |Ingestion Administrator     |200 |0     |  || |
+#    |sunsetadmin     |sunsetadmin1234           |sunsetadmin|LEA Administrator|SLI                  |SLC_Operator                |200 |0     ||     ||
+#    |sunsetadmin     |           ||LEA_Super_Administrator|SLI                  |SEA Administrator     |200 |0     |     |  |    |
+#    |sunsetadmin     |           ||LEA_Super_Administrator|SLI                  |LEA Administrator     |200 |1     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |
+#    |     |           ||LEA Administrator|SLI                  |Realm Administrator         |200 |1     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |
+#    |     |           ||LEA Administrator|SLI                  |Ingestion Administrator     |200 |1     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |
+#    |     |           ||LEA Administrator|SLI                    |SLC Operator                |200 |0     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|
+#    |     |           ||LEA Administrator|SLI                    |SEA Administrator     |200 |0     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |
+#    |     |           ||LEA Administrator|SLI                    |LEA Administrator     |200 |1     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |
+#    |     |           ||LEA Administrator|SLI                    |Realm Administrator         |200 |1     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |
+#    |     |           ||LEA Administrator|SLI                    |Ingestion Administrator     |200 |1     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |
+#    |     |           ||Realm Administrator    |SLI                    |SLC Operator                |401 |0     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|
+#    |     |           ||Realm Administrator    |SLI                    |SEA Administrator     |401 |0     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |
+#    |     |           ||Realm Administrator    |SLI                    |LEA Administrator     |401 |0     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |
+#    |     |           ||Realm Administrator    |SLI                    |Realm Administrator         |401 |0     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |
+#    |     |           ||Realm Administrator    |SLI                    |Ingestion Administrator     |401 |0     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |
+#    |     |           ||Ingestion Administrator|SLI                    |SLC Operator                |401 |0     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|
+#    |     |           ||Ingestion Administrator|SLI                    |SEA Administrator     |401 |0     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |
+#    |     |           ||Ingestion Administrator|SLI                    |LEA Administrator     |401 |0     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |
+#    |     |           ||Ingestion Administrator|SLI                    |Realm Administrator         |401 |0     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |
+#    |     |           ||Ingestion Administrator|SLI                    |Ingestion Administrator     |401 |0     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |
 
   @wip
   @sandbox
