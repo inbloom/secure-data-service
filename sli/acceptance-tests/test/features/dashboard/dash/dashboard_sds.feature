@@ -184,6 +184,9 @@ And the Attendance History in grid "1" has the following entries:
 And the Attendance History in grid "2" has the following entries:
 |Term         |School                     |Grade Level  |% Present  |Total Absences |Excused  |Unexcused  |Tardy  |
 |2010-2011    |East Daybreak Junior High  |7            |0          |0              |0        |0          |0      |
+And the Attendance column "Excused" is of style "color-column-blue"
+And the Attendance column "Unexcused" is of style "color-column-red"
+And the Attendance column "Tardy" is of style "color-column-orange"
 And I click on the browser back button
 Then I see a list of 28 students
 

@@ -88,6 +88,20 @@ def getAttributes(tr, attribute)
   return values
 end
 
+def getGridHeaders(panel)
+  header = @explicitWait.until{panel.find_element(:class,"ui-jqgrid-hbox")}
+  return header.find_elements(:tag_name, "th")
+end
+
+def getHeaderCellBasedOnId(ths, attribute)
+  assert(!ths.nil?, "Row is empty")
+  ths.each do |th|
+    if (th.attribute("id").include? attribute)
+      return th
+    end
+  end
+end
+
 #Checks against entries in a grid
 #use <empty> for empty cells
 def checkGridEntries(panel, table, mapping, isExactRowsMatch = true, gridNumber = 1)

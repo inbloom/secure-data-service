@@ -38,7 +38,7 @@ When /^the Attendance History in grid "(.*?)" has the following entries:$/ do |g
   panel = getPanel("Attendance and Discipline", "Attendance History")
   
   #headers
-  mapping = {
+  @attendancMapping = {
     "Term" => "term",
     "School" => "schoolName",
     "Grade Level" => "gradeLevel",
@@ -48,5 +48,22 @@ When /^the Attendance History in grid "(.*?)" has the following entries:$/ do |g
     "Unexcused" => "unexcusedAbsenceCount",
     "Tardy" => "tardyCount" 
   }   
-  checkGridEntries(panel, table, mapping, true, gridNumber)
+  checkGridEntries(panel, table, @attendancMapping, true, gridNumber)
+end
+
+When /^the Attendance column "(.*?)" is of style "(.*?)"$/ do |columnName, styleName|
+  panel = getPanel("Attendance and Discipline", "Attendance History")
+  gridHeaders = getGridHeaders(panel)
+  headerCell = getHeaderCellBasedOnId(gridHeaders, @attendancMapping[columnName])
+  # Check the header has the style class
+  headerClass = headerCell.attribute("class")
+  assert((headerClass.include? styleName), "Actual class of header: #{headerClass}")
+  
+  grid = getGrid(panel)
+  # For each row, check that the style has been applied
+  grid.each do |tr|  
+    td = getTdBasedOnAttribute(tr, @attendancMapping[columnName])
+    contentClass = td.attribute("class")
+    assert((contentClass.include? styleName), "Actual class of content: #{contentClass}")
+  end
 end
