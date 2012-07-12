@@ -35,6 +35,7 @@ end
 
 def wait_until_found(filepath,pattern)
   print "\n  wait_until_found: pattern '#{pattern}' in file '#{filepath}' ."
+  $stdout.flush
 
   begin
     Timeout::timeout(30) {
@@ -42,6 +43,7 @@ def wait_until_found(filepath,pattern)
         text = File.read filepath
         return true if text =~ pattern
         print '.'
+        $stdout.flush
         sleep 1
       end
     }
@@ -58,9 +60,6 @@ puts "PWD: #{dir}"
 log_dir = "#{dir}/everyLog"
 Dir.mkdir(log_dir) unless File.exists?(log_dir)
 
-Dir.chdir log_dir 
-FileUtils.rm Dir.glob('*.log')
-
 jetty_pattern=/Starting scanner at interval of 5 seconds/
 
 procs = [
@@ -68,13 +67,14 @@ procs = [
   {name: 'Ingestion', port: 8000, dir: "#{dir}/ingestion/ingestion-service", exec: "mvn -o jetty:run", pattern: jetty_pattern},
   {name: 'Dashboard', port: 8888, dir: "#{dir}/dashboard", exec: "mvn -o jetty:run", pattern: jetty_pattern},
   {name: 'SimpleIDP', port: 8082, dir: "#{dir}/simple-idp", exec: "mvn -o jetty:run", pattern: jetty_pattern},
-  {name: 'Databrowser', port: 3000, dir: "#{dir}/databrowser", exec: "bundle exec rails server", pattern: />> Listening on/},
-  {name: 'AdminTools', port: 3001, dir: "#{dir}/admin-tools/admin-rails", exec: "bundle exec rails server", pattern: /WEBrick::HTTPServer#start:/}
+  {name: 'Databrowser', port: 3000, dir: "#{dir}/databrowser", exec: "bundle install; bundle exec rails server", pattern: />> Listening on/},
+  {name: 'AdminTools', port: 3001, dir: "#{dir}/admin-tools/admin-rails", exec: "bundle install; bundle exec rails server", pattern: /WEBrick::HTTPServer#start:/}
 ]
 
 procs.each { |p|
   if is_port_open?('localhost', p[:port])
     print "Starting #{p[:name]} on port #{p[:port]}"
+    $stdout.flush
     Dir.chdir p[:dir]
     `#{p[:exec]} > #{log_dir}/#{p[:name]}Console.log 2>&1 &`
     p[:pid] = $?.pid

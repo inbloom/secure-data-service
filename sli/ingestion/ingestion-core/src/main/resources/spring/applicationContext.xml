@@ -62,8 +62,8 @@
     <property name="parentLandingZoneDir" value="${landingzone.inbounddir}" />
     <property name="tenantRecordResourcePaths">
       <list>
-        <value>classpath:tenants/tenant_IL.json</value>
-        <value>classpath:tenants/tenant_NY.json</value>
+        <value>classpath:tenants/tenant_Midgar.json</value>
+        <value>classpath:tenants/tenant_Hyrule.json</value>
       </list>
     </property>
   </bean>

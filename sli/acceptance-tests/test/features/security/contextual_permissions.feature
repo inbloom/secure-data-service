@@ -26,7 +26,7 @@ Then I should receive a return code of <Code>
 Examples: 
 | Realm | Username   | Password       | School                      | OtherSchool                 | Code | 
 | "IL"  | "tbear"    | "tbear1234"    | "Fry High School"           | "Parker-Dust Middle School" | 404  | 
-| "IL"  | "john_doe" | "john_doe1234" | "Watson Elementary School"  | "Fry High School"           | 403  |
+| "IL"  | "john_doe" | "john_doe1234" | "Watson Elementary School"  | "Parker Elementary School"  | 404  |
 | "NY"  | "johndoe"  | "johndoe1234"  | "Parker-Dust Middle School" | "Watson Elementary School"  | 404  |
 | "NY"  | "ejane"    | "ejane1234"    | "Parker-Dust Middle School" | "Watson Elementary School"  | 404  |
 | "IL"  | "ejane"    | "ejane1234"    | "Watson Elementary School"  | "Parker-Dust Middle School" | 404  |

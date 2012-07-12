@@ -3,10 +3,10 @@
   type : "GRID",
   name : "Attendance History",
   data :{
-    entity: "studentAttendance",
-    cacheKey: "studentAttendance",
-    params: {
-    }
+    entity: "studentAttendance"
+  },
+  params: {
+    layout: ["student"]
   },
   root: 'attendance',
   items : [

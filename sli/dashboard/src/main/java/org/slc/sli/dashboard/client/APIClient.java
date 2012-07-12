@@ -171,6 +171,14 @@ public interface APIClient {
      * @return
      */
     public List<GenericEntity> getSchools(String token, List<String> ids);
+    
+    /**
+     * Get a list of all associated schools
+     * 
+     * @param token
+     * @return
+     */
+    public List<GenericEntity> getMySchools(String token);
 
     /**
      * Get a list of schools using a list of ids
@@ -571,4 +579,7 @@ public interface APIClient {
      */
     List<GenericEntity> getCoursesSectionsForSchool(String token, String schoolId);
 
+    public List<GenericEntity> getCourseSectionMappings(List<GenericEntity> sections, String token);
+   
+    
 }

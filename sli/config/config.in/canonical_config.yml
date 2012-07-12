@@ -338,8 +338,6 @@ acceptance-tests:
         # acceptance-tests/ingestion/queue.properties
         sli.ingestion.queue.workItem.host: devmq1.slidev.org
         sli.ingestion.queue.workItem.port: 5445
-        sli.ingestion.queue.workItem.secondaryhost:
-        sli.ingestion.queue.workItem.secondaryport:
         sli.ingestion.queue.workItem.queueURI: activemq:queue:IngestionWorkItemDemo
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
@@ -433,8 +431,6 @@ ci:
         # ci/ingestion/queue.properties
         sli.ingestion.queue.workItem.host: devmq1.slidev.org
         sli.ingestion.queue.workItem.port: 5445
-        sli.ingestion.queue.workItem.secondaryhost:
-        sli.ingestion.queue.workItem.secondaryport:
         sli.ingestion.queue.workItem.queueURI: activemq:queue:IngestionWorkItemAccept
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
@@ -517,8 +513,6 @@ dev:
         # dev/ingestion/queue.properties
         sli.ingestion.queue.workItem.host:
         sli.ingestion.queue.workItem.port:
-        sli.ingestion.queue.workItem.secondaryhost:
-        sli.ingestion.queue.workItem.secondaryport:
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
@@ -606,8 +600,6 @@ devjuggernauts:
         # dev/ingestion/queue.properties
         sli.ingestion.queue.workItem.host:
         sli.ingestion.queue.workItem.port:
-        sli.ingestion.queue.workItem.secondaryhost:
-        sli.ingestion.queue.workItem.secondaryport:
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
@@ -692,8 +684,6 @@ devapp1:
         # devapp1/ingestion/queue.properties
         sli.ingestion.queue.workItem.host:
         sli.ingestion.queue.workItem.port:
-        sli.ingestion.queue.workItem.secondaryhost:
-        sli.ingestion.queue.workItem.secondaryport:
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
@@ -773,8 +763,6 @@ local:
         logging.path: target/ingestion/logs
         sli.ingestion.queue.workItem.host: localhost
         sli.ingestion.queue.workItem.port: 61616
-        sli.ingestion.queue.workItem.secondaryhost:
-        sli.ingestion.queue.workItem.secondaryport:
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
@@ -974,8 +962,6 @@ team:
         # team/ingestion/queue.properties
         sli.ingestion.queue.workItem.host: localhost
         sli.ingestion.queue.workItem.port: 61616
-        sli.ingestion.queue.workItem.secondaryhost:
-        sli.ingestion.queue.workItem.secondaryport:
         sli.ingestion.queue.workItem.queueURI: activemq:queue:ingestion.workItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore: /opt/tomcat/ssl/tomcat.keystore
@@ -1088,8 +1074,6 @@ perf:
         # perf/ingestion/queue.properties
         sli.ingestion.queue.workItem.host:
         sli.ingestion.queue.workItem.port:
-        sli.ingestion.queue.workItem.secondaryhost:
-        sli.ingestion.queue.workItem.secondaryport:
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:

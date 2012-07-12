@@ -121,7 +121,7 @@ Examples:
 | "learningStandard"             | "learningStandards"       | 14 |
 | "parent"                       | "parents"                 | 3 |
 | "program"                      | "programs"                | 5 |
-| "school"                       | "schools"                 | 5 |
+| "school"                       | "schools"                 | 27 |
 | "section"                      | "sections"                | 94 |
 | "session"                      | "sessions"                | 22 |
 | "staff"                        | "staff"                   | 22 |

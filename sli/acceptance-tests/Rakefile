@@ -20,7 +20,9 @@ OTHER_TAGS = ENV['OTHER_TAGS'] ? "--tags "+ENV['OTHER_TAGS'] : ""
 
 TOREMOVE = ENV['TOREMOVE'] ? true : false
 
-RUN_STAMPER = true
+RUN_STAMPER = false
+
+TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other"]
 
 #######################################################
 
@@ -97,7 +99,7 @@ end
 def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropExistingCollection=true)
   if TOREMOVE
     if dropExistingCollection
-      dropCollectionsCleanly(collectionName)
+      removeCollectionsCleanly(collectionName, TENANT_COLLECTION)
       dropOption = ""
     end
   else
@@ -171,10 +173,18 @@ def cleanseApps()
   end
 end
 
-def dropCollectionsCleanly(collectionName, specificTenant=nil)
-  if specificTenant != nil
-    #TODO make sure this works for dropping data in a collection for a specific tenant
-    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.#{collectionName}.remove({\"metaData.tenantId\":\"#{specificTenant}\"})\""
+def cleanseCollectionWithTenantID(collectionName, specificTenants)
+  puts "Removing documents in #{collectionName} with tenantIds #{specificTenants}"
+  @conn = Mongo::Connection.new(DB_HOST)
+  @db = @conn.db(DB_NAME)
+  coll = @db.collection(collectionName)
+  
+  coll.remove("metaData.tenantId" => {"$in" => specificTenants})
+end
+
+def removeCollectionsCleanly(collectionName, specificTenants=nil)
+  if specificTenants != nil
+    cleanseCollectionWithTenantID(collectionName, specificTenants)
     sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig')\""
   else
     sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.#{collectionName}.remove({})\""
@@ -264,14 +274,13 @@ end
 # 'raise' exception logic below.  Rake will exit immediately if you raise an exception
 # before all the tests complete and will show incomplete results
 desc "Run API/Security Acceptances Tests"
-task :apiAndSecurityTests => [:turnOffStamper, :apiV1Tests, :securityTests, :onboardingTests, :apiMegaTests] do
+task :apiAndSecurityTests => [:apiV1Tests, :securityTests, :onboardingTests, :apiMegaTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
   else
     raise "Tests have failed"
   end
-  RUN_STAMPER = true
 end
 
 #desc "Run Liferay Tests"
@@ -463,7 +472,8 @@ task :dashboardSdsTests => [:dashboardSdsUploadConfigTests,
                          :dashboardSdsAttendanceTests,
                          :dashboardStudentSearchTests,
                          :dashboardSdsTranscriptPanelTests,
-                         :dashboardAssessmentTests] do
+                         :dashboardAssessmentTests,
+                         :dashboardSectionProfileTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -644,6 +654,7 @@ task :importSecuredData do
 
   ]
   setMultipleFixtureFiles(testHash)
+  addSecurityData()
 end
 
 desc "Import Sandbox Test Data"

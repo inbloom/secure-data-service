@@ -135,7 +135,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
             setExchangeHeaders(exchange, newBatchJob, errorReport);
 
-            setExchangeBody(exchange, controlFileDescriptor, errorReport, batchJobId);
+            setExchangeBody(exchange, controlFileDescriptor, errorReport, newBatchJob.getId());
 
         } catch (SubmissionLevelException exception) {
             String id = "null";

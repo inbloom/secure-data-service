@@ -13,7 +13,7 @@ Scenario: View Matt Sollars
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Proprietary Information"
-And the title of the page is "SLC - List of Students"
+And the title of the page is "SLC - Section Profile"
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
@@ -162,9 +162,9 @@ And Student Enrollment History has the following entries:
 |<empty>|East Daybreak Junior High  |8 |2011-09-01 |<empty>                                                                    |<empty>  |<empty>      |<empty>            |
 |<empty>|East Daybreak Junior High  |7 |2010-09-01 |Next year school                                                           |<empty>  |2011-05-11   |End of school year |
 |<empty>|East Daybreak Junior High  |6 |2009-09-07 |Transfer from a public school in the same local education agency           |<empty>  |2010-05-11   |End of school year |
-|<empty>|<empty>                    |5 |2008-09-05 |Next year school                                                           |<empty>  |2009-05-11   |End of school year |
-|<empty>|<empty>                    |4 |2007-09-12 |Next year school                                                           |<empty>  |2008-05-10   |End of school year |
-|<empty>|<empty>                    |3 |2006-09-11 |Transfer from a private, religiously-affiliated school in a different state|<empty>  |2007-05-09   |Student is in a different public school in the same local education agency|
+|<empty>|South Daybreak Elementary  |5 |2008-09-05 |Next year school                                                           |<empty>  |2009-05-11   |End of school year |
+|<empty>|South Daybreak Elementary  |4 |2007-09-12 |Next year school                                                           |<empty>  |2008-05-10   |End of school year |
+|<empty>|South Daybreak Elementary  |3 |2006-09-11 |Transfer from a private, religiously-affiliated school in a different state|<empty>  |2007-05-09   |Student is in a different public school in the same local education agency|
  When I click on "Assessment" Tab
 And Assessment History includes results for:
 |Test         |
@@ -391,16 +391,16 @@ And parent "Felizia Ortiz" is his "Mother"
 And there are "1" phone numbers
 And the list of phone number includes "3095550000"
 And Student Enrollment History has the following entries:
-|Year   |School                 |Gr|Entry Date |Entry Type                                                                               |Transfer     |Withdraw Date  |Withdraw Type      |
-|<empty>|Daybreak Central High  |11|2011-09-08 |Next year school                                                                         |<empty>      |<empty>        |<empty>            |
-|<empty>|Daybreak Central High  |10|2010-09-08 |Next year school                                                                         |<empty>      |2011-05-11     |End of school year |
-|<empty>|Daybreak Central High  |9 |2009-09-08 |Transfer from a public school in the same local education agency                         |<empty>      |2010-05-11     |End of school year |
-|<empty>|<empty>                |8 |2008-09-11 |Transfer from a public school in the same local education agency                         |<empty>      |2009-05-08     |Exited             |
-|<empty>|<empty>                |7 |2007-09-14 |Next year school                                                                         |<empty>      |2008-02-12     |Student is in a different public school in the same local education agency|
-|<empty>|<empty>                |7 |2007-09-14 |Next year school                                                                         |<empty>      |2008-02-12     |Student is in a different public school in the same local education agency|
-|<empty>|<empty>                |6 |2006-09-11 |Next year school                                                                         |<empty>      |2007-05-14     |End of school year |
-|<empty>|<empty>                |5 |2005-09-09 |Transfer from a private, religiously-affiliated school in the same local education agency|<empty>      |2006-05-15     |Exited|
-|<empty>|<empty>                |2 |2002-09-12 |Transfer from a school outside of the country                                            |<empty>      |2003-04-12     |Expelled or involuntarily withdrawn|
+|Year   |School                     |Gr|Entry Date |Entry Type                                                                               |Transfer     |Withdraw Date  |Withdraw Type      |
+|<empty>|Daybreak Central High      |11|2011-09-08 |Next year school                                                                         |<empty>      |<empty>        |<empty>            |
+|<empty>|Daybreak Central High      |10|2010-09-08 |Next year school                                                                         |<empty>      |2011-05-11     |End of school year |
+|<empty>|Daybreak Central High      |9 |2009-09-08 |Transfer from a public school in the same local education agency                         |<empty>      |2010-05-11     |End of school year |
+|<empty>|East Daybreak Junior High  |8 |2008-09-11 |Transfer from a public school in the same local education agency                         |<empty>      |2009-05-08     |Exited             |
+|<empty>|East Daybreak Junior High  |7 |2007-09-14 |Next year school                                                                         |<empty>      |2008-02-12     |Student is in a different public school in the same local education agency|
+|<empty>|East Daybreak Junior High  |7 |2007-09-14 |Next year school                                                                         |<empty>      |2008-02-12     |Student is in a different public school in the same local education agency|
+|<empty>|East Daybreak Junior High  |6 |2006-09-11 |Next year school                                                                         |<empty>      |2007-05-14     |End of school year |
+|<empty>|South Daybreak Elementary  |5 |2005-09-09 |Transfer from a private, religiously-affiliated school in the same local education agency|<empty>      |2006-05-15     |Exited|
+|<empty>|South Daybreak Elementary  |2 |2002-09-12 |Transfer from a school outside of the country                                            |<empty>      |2003-04-12     |Expelled or involuntarily withdrawn|
 And I see a header on the page that has the text "Logout"
 #And I see a footer on the page that has the text "Proprietary Information"
 When I click on "Assessment" Tab
