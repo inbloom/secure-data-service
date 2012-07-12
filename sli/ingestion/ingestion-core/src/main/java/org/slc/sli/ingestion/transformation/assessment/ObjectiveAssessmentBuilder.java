@@ -25,43 +25,41 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.ingestion.Job;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.cache.CacheProvider;
-import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.ingestion.Job;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.cache.CacheProvider;
+import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
+
 /**
  * Class for building objective assessments
- * 
+ *
  * @author nbrown
  * @author shalka
  */
 @Scope("prototype")
 @Component
 public class ObjectiveAssessmentBuilder {
-    private static final Logger LOG = LoggerFactory.getLogger(ObjectiveAssessmentBuilder.class);
-    
+
     private static final String CREATION_TIME = "creationTime";
     public static final String SUB_OBJECTIVE_REFS = "subObjectiveRefs";
     public static final String BY_IDENTIFICATION_CDOE = "identificationCode";
     public static final String BY_ID = "id";
     public static final String ASSESSMENT_ITEM_REFS = "assessmentItemRefs";
     public static final String OBJECTIVE_ASSESSMENT = "objectiveAssessment";
-    
+
     @Autowired
     private CacheProvider cacheProvider;
-    
+
     /**
      * Gets the specified objective assessment by first performing a look up on its '_id'
      * field, and if not found, checking the 'identificationCode' field.
-     * 
+     *
      * @param objectiveAssessmentId
      *            xml id or identification code for the objective assessment.
      * @param objectiveAssessments
@@ -70,46 +68,46 @@ public class ObjectiveAssessmentBuilder {
      */
     public Map<String, Object> getObjectiveAssessment(NeutralRecordMongoAccess access, Job job,
             String objectiveAssessmentId) {
-        
+
         String tenantId = job.getProperty("tenantId");
         String batchJobId = job.getId();
-        
+
         Map<String, Object> cached = getFromCache(OBJECTIVE_ASSESSMENT, tenantId, objectiveAssessmentId);
         if (cached != null) {
             return cached;
         }
-        
-        LOG.debug("Objective assessment: {} is not cached.. going to data store to find it.", objectiveAssessmentId);
-        
+
+        debug("Objective assessment: {} is not cached.. going to data store to find it.", objectiveAssessmentId);
+
         Map<String, Object> assessment = getObjectiveAssessment(access, batchJobId, objectiveAssessmentId, BY_ID);
         if (assessment == null || assessment.isEmpty()) {
-            LOG.debug("Couldn't find objective assessment: {} using its id --> Using identification code.",
+            debug("Couldn't find objective assessment: {} using its id --> Using identification code.",
                     objectiveAssessmentId);
             assessment = getObjectiveAssessment(access, batchJobId, objectiveAssessmentId, BY_IDENTIFICATION_CDOE);
-            
+
             if (assessment == null || assessment.isEmpty()) {
-                LOG.warn(
+                warn(
                         "Failed to find objective assessment: {} using both id and identification code --> Returning null.",
                         objectiveAssessmentId);
                 assessment = null;
             } else {
-                LOG.debug("Found objective assessment: {} using its identification code.", objectiveAssessmentId);
+                debug("Found objective assessment: {} using its identification code.", objectiveAssessmentId);
             }
         } else {
-            LOG.debug("Found objective assessment: {} using its id.", objectiveAssessmentId);
+            debug("Found objective assessment: {} using its id.", objectiveAssessmentId);
         }
-        
+
         if (assessment != null) {
-            LOG.debug("Caching objective assessment: {}", objectiveAssessmentId);
+            debug("Caching objective assessment: {}", objectiveAssessmentId);
             cache(OBJECTIVE_ASSESSMENT, tenantId, objectiveAssessmentId, assessment);
         }
-        
+
         return assessment;
     }
-    
+
     /**
      * Begins the recursion process for nesting all sub-objective assessments.
-     * 
+     *
      * @param objectiveAssessmentRef
      *            current objective assessment.
      * @param by
@@ -124,11 +122,11 @@ public class ObjectiveAssessmentBuilder {
         Map<Object, NeutralRecord> objectiveAssessments = loadAllObjectiveAssessments(access, batchJobId);
         return getObjectiveAssessment(objectiveAssessmentRef, parentObjs, by, objectiveAssessments);
     }
-    
+
     /**
      * Performs head recursion to nest sub-objective assessments onto the current objective
      * assessment. Also checks for circular references.
-     * 
+     *
      * @param objectiveAssessmentRef
      *            current objective assessment.
      * @param parentObjs
@@ -141,11 +139,11 @@ public class ObjectiveAssessmentBuilder {
      */
     private Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef, Set<String> parentObjs,
             String by, Map<Object, NeutralRecord> objectiveAssessments) {
-        LOG.debug("Looking up objective assessment: {} by: {}", objectiveAssessmentRef, by);
+        debug("Looking up objective assessment: {} by: {}", objectiveAssessmentRef, by);
         for (Map.Entry<Object, NeutralRecord> objectiveAssessment : objectiveAssessments.entrySet()) {
             Map<String, Object> record = objectiveAssessment.getValue().getAttributes();
             Map<String, Object> objectiveAssessmentToReturn = new HashMap<String, Object>();
-            
+
             if (record.get(by).equals(objectiveAssessmentRef)) {
                 List<?> subObjectiveRefs = (List<?>) record.get(SUB_OBJECTIVE_REFS);
                 if (subObjectiveRefs != null && !subObjectiveRefs.isEmpty()) {
@@ -159,21 +157,21 @@ public class ObjectiveAssessmentBuilder {
                             if (subAssessment != null) {
                                 subObjectives.add(subAssessment);
                             } else {
-                                LOG.warn("Could not find objective assessment ref: {}", subObjectiveRef);
+                                warn("Could not find objective assessment ref: {}", subObjectiveRef);
                             }
                         } else {
-                            LOG.warn("Ignoring sub objective assessment {} since it is already in the hierarchy",
+                            warn("Ignoring sub objective assessment {} since it is already in the hierarchy",
                                     subObjectiveRef);
                         }
                     }
                     objectiveAssessmentToReturn.put("objectiveAssessments", subObjectives);
-                    LOG.info("Found {} sub-objective assessments for objective assessment: {}", subObjectives.size(),
+                    info("Found {} sub-objective assessments for objective assessment: {}", subObjectives.size(),
                             objectiveAssessmentRef);
                 } else {
-                    LOG.debug("Objective assessment: {} has no sub-objectives (field is absent).",
+                    debug("Objective assessment: {} has no sub-objectives (field is absent).",
                             objectiveAssessmentRef);
                 }
-                
+
                 for (Map.Entry<String, Object> entry : record.entrySet()) {
                     if (!(entry.getKey().equals(SUB_OBJECTIVE_REFS) || entry.getKey().equals(ASSESSMENT_ITEM_REFS) || entry
                             .getKey().equals("id"))) {
@@ -185,24 +183,24 @@ public class ObjectiveAssessmentBuilder {
         }
         return null;
     }
-    
+
     /**
      * Returns collection entities found in staging ingestion database. If a work note was not
      * provided for
      * the job, then all entities in the collection will be returned.
-     * 
+     *
      * @param collectionName
      *            name of collection to be queried for.
      */
     public Map<Object, NeutralRecord> loadAllObjectiveAssessments(NeutralRecordMongoAccess access, String batchJobId) {
         Map<Object, NeutralRecord> all = new HashMap<Object, NeutralRecord>();
-        
+
         Query query = new Query().limit(0);
         query.addCriteria(Criteria.where("batchJobId").is(batchJobId));
         query.addCriteria(Criteria.where(CREATION_TIME).gt(0));
-        
+
         Iterable<NeutralRecord> data = access.getRecordRepository().findAllByQuery(OBJECTIVE_ASSESSMENT, query);
-        
+
         Iterator<NeutralRecord> itr = data.iterator();
         NeutralRecord record = null;
         while (itr.hasNext()) {
@@ -211,21 +209,21 @@ public class ObjectiveAssessmentBuilder {
         }
         return all;
     }
-    
+
     private Map<String, Object> getFromCache(String collection, String tenantId, String criteria) {
         String key = composeKey(collection, tenantId, criteria);
-        
+
         @SuppressWarnings("unchecked")
         Map<String, Object> found = (Map<String, Object>) cacheProvider.get(key);
-        
+
         return found;
     }
-    
+
     private void cache(String collection, String tenantId, String criteria, Map<String, Object> value) {
         String key = composeKey(collection, tenantId, criteria);
         cacheProvider.add(key, value);
     }
-    
+
     private String composeKey(String collection, String tenantId, String criteria) {
         return String.format("%s_%s_%s", tenantId, collection, criteria);
     }

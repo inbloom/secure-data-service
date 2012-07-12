@@ -21,8 +21,6 @@ import java.io.File;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.util.StopWatch;
 
 /**
@@ -32,7 +30,6 @@ import org.springframework.util.StopWatch;
  */
 @Ignore
 public class FileSplitHandlerTest {
-    public static final Logger LOG = LoggerFactory.getLogger(FileSplitHandlerTest.class);
 
     private static final String LOC = "/Users/dkornishev/projects/workspace/SLI/sli/acceptance-tests/test/features/ingestion/test_data/DailyAttendance/StudentAttendanceEvents.xml";
     private static final String LOC_ATTENDANCE = "/var/files/in/InterchangeStudentAttendance.xml";
@@ -48,7 +45,7 @@ public class FileSplitHandlerTest {
         split.split(new File(LOC_ATTENDANCE), "/var/files/out/");
         sw.stop();
 
-        LOG.info("DONE Attendance: " + sw.getLastTaskTimeMillis());
+        info("DONE Attendance: " + sw.getLastTaskTimeMillis());
     }
 
     @Test
@@ -58,7 +55,7 @@ public class FileSplitHandlerTest {
         split.split(new File(LOC_PROGRAM), "/var/files/out/");
         sw.stop();
 
-        LOG.info("DONE Program: " + sw.getLastTaskTimeMillis());
+        info("DONE Program: " + sw.getLastTaskTimeMillis());
 
     }
 

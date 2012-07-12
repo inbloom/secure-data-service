@@ -19,8 +19,11 @@ package org.slc.sli.ingestion.processors;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+<<<<<<< HEAD
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+=======
+>>>>>>> ef3a54300b42f3f6d148716315558f587c4f2a4a
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -40,7 +43,10 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.transformation.TransformationFactory;
 import org.slc.sli.ingestion.transformation.Transmogrifier;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+<<<<<<< HEAD
 import org.slc.sli.ingestion.util.LogUtil;
+=======
+>>>>>>> ef3a54300b42f3f6d148716315558f587c4f2a4a
 
 /**
  * Camel processor for transformation of data.
@@ -52,8 +58,6 @@ import org.slc.sli.ingestion.util.LogUtil;
 public class TransformationProcessor implements Processor {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.TRANSFORMATION_PROCESSOR;
-
-    private static final Logger LOG = LoggerFactory.getLogger(TransformationProcessor.class);
 
     @Autowired
     private TransformationFactory transformationFactory;
@@ -137,7 +141,7 @@ public class TransformationProcessor implements Processor {
      * @param job
      */
     void performDataTransformations(WorkNote workNote, Job job) {
-        LOG.info("performing data transformation BatchJob: {}", job);
+        info("performing data transformation BatchJob: {}", job);
 
         Transmogrifier transmogrifier = transformationFactory.createTransmogrifier(workNote, job);
 
@@ -147,12 +151,12 @@ public class TransformationProcessor implements Processor {
 
     private void handleNoBatchJobId(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
-        LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+        error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
     private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
-        LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
+        piiClearedError("Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
             Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
                     FaultType.TYPE_ERROR.getName(), null, exception.toString());
