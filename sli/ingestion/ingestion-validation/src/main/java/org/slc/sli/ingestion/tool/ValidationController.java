@@ -156,4 +156,8 @@ public class ValidationController {
         this.complexValidator = complexValidator;
     }
 
+    public void setControlFileFactory(ControlFileFactory cff) {
+        this.controlFileFactory = cff;
+    }
+
 }
