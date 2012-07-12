@@ -17,13 +17,10 @@
 
 package org.slc.sli.dashboard.manager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.dashboard.client.SDKConstants;
 import org.slc.sli.dashboard.entity.GenericEntity;
@@ -32,6 +29,9 @@ import org.slc.sli.dashboard.entity.util.GenericEntityEnhancer;
 import org.slc.sli.dashboard.entity.util.ParentsSorter;
 import org.slc.sli.dashboard.util.Constants;
 import org.slc.sli.dashboard.util.DashboardException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 /**
  * EntityManager which engages with the API client to build "logical" entity graphs to be leveraged
@@ -268,4 +268,42 @@ public class EntityManager extends ApiClientManager {
 
         return entities.get(0);
     }
+    
+    
+    /**
+     * Retrieve section, and populate with additional data for teacher and course, required for section profile panel
+     * @param token
+     * @param sectionId
+     * @return
+     */
+    public GenericEntity getSectionForProfile(String token, String sectionId) {
+    	GenericEntity section =  getApiClient().getSection(token, sectionId);
+    	
+    	
+    	//Retrieve teacher of record for the section, and add the teacher's name to the section entity.
+    	GenericEntity teacher = getApiClient().getTeacherForSection(token, section.getString(Constants.ATTR_ID));
+        if (teacher != null) {
+            @SuppressWarnings("unchecked")
+            Map<String, Object> teacherName = (Map<String, Object>) teacher.get(Constants.ATTR_NAME);
+            if (teacherName != null) {
+                section.put(Constants.ATTR_TEACHER_NAME, teacherName);
+            }
+        }
+    	
+    
+       List<GenericEntity> sections = new ArrayList<GenericEntity>();
+       sections.add(section);
+       
+       //Retrieve courses for the section, and add the course name and subject area to the section entity.
+       List<GenericEntity> courses = getApiClient().getCourseSectionMappings(sections, token);
+
+       if (courses != null && courses.size() > 0) {
+    	   GenericEntity course = courses.get(0);
+    	   section.put(Constants.ATTR_COURSE_TITLE, course.get(Constants.ATTR_COURSE_TITLE));
+    	   section.put(Constants.ATTR_SUBJECTAREA, course.get(Constants.ATTR_SUBJECTAREA));
+       }
+       
+        return section;
+    }
+    
 }
