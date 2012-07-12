@@ -72,6 +72,11 @@
 			</xs:enumeration>
 			<xs:enumeration value="transient" />
 			<xs:enumeration value="unknown" />
+			<xs:enumeration value="financial">
+				<xs:annotation>
+					<xs:documentation>The financial module.</xs:documentation>
+				</xs:annotation>
+			</xs:enumeration>
 		</xs:restriction>
 	</xs:simpleType>
 </xs:schema>

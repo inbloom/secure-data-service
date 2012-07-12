@@ -42,7 +42,8 @@
 							<xsl:sort select="lhs/name"></xsl:sort>
 							<xsl:sort select="rhs/owner-name"></xsl:sort>
 							<xsl:sort select="rhs/name"></xsl:sort>
-							<xsl:if test="not(contains(status,'ignorable'))">
+							<xsl:if
+								test="not(contains(status,'ignorable') or contains(status,'financial'))">
 								<tr>
 									<xsl:for-each select="lhs">
 										<xsl:choose>

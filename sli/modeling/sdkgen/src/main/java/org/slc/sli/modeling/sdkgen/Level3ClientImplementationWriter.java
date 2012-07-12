@@ -205,7 +205,14 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
         try {
             final List<JavaSnippetExpr> args = computeArgs(jparams);
             final MethodCallExpr callInner = new MethodCallExpr(VARNAME_INNER_CLIENT, methodName, args);
-            if (!LevelNClientJavaHelper.isMapStringToObject(responseType)) {
+            if (LevelNClientJavaHelper.isMapStringToObject(responseType)) {
+                jsw.write(new ReturnStmt(callInner));
+            } else if (LevelNClientJavaHelper.isSingleton(responseType)) {
+                final JavaParam entity = new JavaParam("entity", JT_ENTITY, true);
+                jsw.writeAssignment(entity, callInner);
+                jsw.write(new ReturnStmt(new NewInstanceExpr(responseType.primeType(), new MethodCallExpr(
+                                new VarNameExpr(entity.getName()), "getData"))));
+            } else {
                 final JavaParam entityList = new JavaParam("entityList", JT_LIST_OF_ENTITY, true);
                 jsw.writeAssignment(entityList, callInner);
 
@@ -218,10 +225,8 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
                 jsw.write(new EnhancedForLoop(entity, new VarNameExpr(entityList.getName()), new Stmt(
                         new MethodCallExpr(new VarNameExpr(responseList.getName()), "add", new NewInstanceExpr(
                                 responseType.primeType(), new MethodCallExpr(new VarNameExpr(entity.getName()),
-                                        "getData"))))));
+                                "getData"))))));
                 jsw.write(new ReturnStmt(new VarNameExpr(responseList.getName())));
-            } else {
-                jsw.write(new ReturnStmt(callInner));
             }
         } finally {
             jsw.endBlock();

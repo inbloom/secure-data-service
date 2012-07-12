@@ -213,6 +213,11 @@
 		<graph>graduationPlans</graph>
 		<singular>graduationPlan</singular>
 	</document>
+  <document name="Home">
+    <class name="Home"></class>
+    <graph>home</graph>
+    <singular>home</singular>
+  </document>
 	<document name="InstitutionTelephone">
 		<class name="InstitutionTelephone"></class>
 		<graph>institutionTelephones</graph>

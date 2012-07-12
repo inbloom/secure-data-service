@@ -46,11 +46,6 @@ import org.slc.sli.modeling.uml.index.ModelIndex;
  */
 final class Xsd2UmlLinker {
     
-    /**
-     * Temporary switch that we set to false until we can clean up the ReST API.
-     */
-    private final static boolean simplifyAssociationEndNames = false;
-    
     private static final List<Attribute> cleanUp(final ClassType classType, final List<Attribute> attributes,
             final Xsd2UmlPlugin plugin, final ModelIndex lookup, final Map<String, Identifier> nameToClassTypeId,
             final Map<String, AssociationEnd> classNavigations) {
@@ -230,7 +225,9 @@ final class Xsd2UmlLinker {
                     final String rhsTypeName = rhsType.getName();
                     final String lhsTypeName = lhsType.getName();
                     final Integer degs = degeneracies.get(rhsEndName);
-                    final String lhsEndName = makeEndName(rhsTypeName, rhsEndName, degs, lhsTypeName);
+                    
+                    final String lhsEndName = Xsd2UmlHelper.makeAssociationEndName(rhsTypeName, rhsEndName, degs, lhsTypeName);
+                    
                     final AssociationEnd lhsEnd = makeAssociationEnd(lhsEndName, lhsType, rhsEnd, plugin, host);
                     final String name = plugin.nameAssociation(lhsEnd, rhsEnd, host);
                     associations.add(new Association(name, lhsEnd, rhsEnd));
@@ -243,31 +240,6 @@ final class Xsd2UmlLinker {
             }
         }
         return associations;
-    }
-    
-    /**
-     * Compute a sensible name for the reverse (physical) navigation direction.
-     */
-    private static final String makeEndName(final String sourceTypeName, final String sourceName, final int degeneracy,
-            final String targetTypeName) {
-        // Our first guess is the pluralization of the target type name.
-        final String targetName = Xsd2UmlHelper.pluralize(targetTypeName);
-        if (degeneracy > 1) {
-            return sourceName.concat(Xsd2UmlHelper.titleCase(targetName));
-        } else {
-            if (targetTypeName.equals(sourceTypeName)) {
-                // Reference to self. Avoid absurdity. See AssessmentFamily.
-                return Xsd2UmlHelper.camelCase(targetName);
-            } else if (targetName.toLowerCase().contains(sourceTypeName.toLowerCase())) {
-                if (simplifyAssociationEndNames) {
-                    return Xsd2UmlHelper.camelCase(Xsd2UmlHelper.replaceAllIgnoreCase(targetName, sourceTypeName, ""));
-                } else {
-                    return Xsd2UmlHelper.camelCase(targetName);
-                }
-            } else {
-                return Xsd2UmlHelper.camelCase(targetName);
-            }
-        }
     }
     
     private static final Map<String, Identifier> makeNameToClassTypeId(final Iterable<ClassType> classTypes) {

@@ -49,4 +49,27 @@ public final class Xsd2UmlHelper {
         }
         return text.substring(0, 1).toUpperCase().concat(text.substring(1));
     }
+    
+    /**
+     * Compute a sensible name for the reverse (physical) navigation direction.
+     */
+    public static final String makeAssociationEndName(final String sourceTypeName, final String sourceName, final int degeneracy,
+            final String targetTypeName) {
+        // Our first guess is the pluralization of the target type name.
+        final String targetName = Xsd2UmlHelper.pluralize(targetTypeName);
+        if (degeneracy > 1) {
+            // There is more than one pathway so make sure that the name is unique.
+            return sourceName.concat(Xsd2UmlHelper.titleCase(targetName));
+        } else {
+            if (targetTypeName.equals(sourceTypeName)) {
+                // Reference to self. Avoid absurdity. See AssessmentFamily.
+                return Xsd2UmlHelper.camelCase(targetName);
+            } else if (targetName.toLowerCase().contains(sourceTypeName.toLowerCase())) {
+                return Xsd2UmlHelper.camelCase(Xsd2UmlHelper.replaceAllIgnoreCase(targetName, sourceTypeName, ""));
+            } else {
+                return Xsd2UmlHelper.camelCase(targetName);
+            }
+        }
+    }
+    
 }
