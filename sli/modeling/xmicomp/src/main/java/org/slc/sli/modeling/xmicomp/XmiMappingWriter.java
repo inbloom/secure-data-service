@@ -54,6 +54,10 @@ public class XmiMappingWriter {
                     xsw.writeCharacters(XmiMappingValues.STATUS_BUG);
                     break;
                 }
+                case FINANCIAL: {
+                    xsw.writeCharacters(XmiMappingValues.STATUS_FINANCIAL);
+                    break;
+                }
                 default: {
                     throw new AssertionError(status);
                 }

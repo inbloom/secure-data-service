@@ -385,6 +385,8 @@ public final class XmiMappingReader {
             return XmiMappingStatus.TRANSIENT;
         } else if (XmiMappingValues.STATUS_BUG.equals(value)) {
             return XmiMappingStatus.BUG;
+        } else if (XmiMappingValues.STATUS_FINANCIAL.equals(value)) {
+            return XmiMappingStatus.FINANCIAL;
         } else {
             throw new AssertionError(XmiMappingConstants.STATUS + " : " + value);
         }

@@ -63,4 +63,72 @@ public class Xsd2UmlHelperTestCase extends TestCase {
         assertEquals("URL", Xsd2UmlHelper.camelCase("URL"));
         assertEquals("URN", Xsd2UmlHelper.camelCase("URN"));
     }
+    
+    public void testMe() {
+        checkEndName("fooAssociations", "BarBaz", "barBaz", 1, "FooBarBazAssociation");
+        checkEndName("barBazAssociations", "Foo", "foo", 1, "FooBarBazAssociation");
+        checkEndName("fooBars", "BigBad", "bigBads", 1, "FooBar");
+        checkEndName("bigBadFooBars", "Bad", "bigBad", 2, "FooBar");
+        checkEndName("fooAssociations", "Bar", "bar", 1, "FooBarAssociation");
+        checkEndName("barAssociations", "Foo", "foo", 1, "FooBarAssociation");
+        checkEndName("foos", "BarBaz", "barBaz", 1, "Foo");
+        checkEndName("foos", "BarBazAssociation", "barBazAssociation", 1, "Foo");
+        checkEndName("fooBars", "Big", "big", 1, "FooBar");
+        checkEndName("foos", "Any", "any", 1, "Foo");
+        checkEndName("disciplineActions", "Student", "students", 1, "DisciplineAction");
+        checkEndName("gradingPeriods", "CalendarDate", "calendarDates", 1, "GradingPeriod");
+        checkEndName("reportCards", "Student", "student", 1, "ReportCard");
+        checkEndName("reportCards", "StudentCompetency", "studentCompetencies", 1, "ReportCard");
+        checkEndName("reportCards", "GradingPeriod", "gradingPeriod", 1, "ReportCard");
+        checkEndName("reportCards", "Grade", "grades", 1, "ReportCard");
+        checkEndName("learningObjectives", "LearningObjective", "parentLearningObjective", 1, "LearningObjective");
+        checkEndName("learningObjectives", "LearningStandard", "learningStandards", 1, "LearningObjective");
+        checkEndName("fooBarObjectives", "EducationOrganization", "educationOrganization", 1, "FooBarObjective");
+        checkEndName("sessions", "EducationOrganization", "school", 1, "Session");
+        checkEndName("sessions", "GradingPeriod", "gradingPeriods", 1, "Session");
+        checkEndName("gradingPeriodIdentityTypes", "EducationOrganization", "school", 1, "GradingPeriodIdentityType");
+        checkEndName("restraintEvents", "Program", "programs", 1, "RestraintEvent");
+        checkEndName("restraintEvents", "School", "school", 1, "RestraintEvent");
+        checkEndName("restraintEvents", "Student", "student", 1, "RestraintEvent");
+        checkEndName("academicRecords", "Student", "student", 1, "StudentAcademicRecord");
+        checkEndName("studentAcademicRecords", "Session", "session", 1, "StudentAcademicRecord");
+        checkEndName("studentCompetencies", "LearningObjective", "learningObjective", 1, "StudentCompetency");
+        checkEndName("fooBarcies", "FooBarcyObjective", "fooBarcyObjective", 1, "FooBarcy");
+        checkEndName("fooCompetencies", "FooSectionAssociation", "fooSectionAssociation", 1, "FooCompetency");
+        checkEndName("disciplineIncidentAssociations", "Student", "student", 1, "StudentDisciplineIncidentAssociation");
+        checkEndName("fooAssociations", "BarBaz", "barBaz", 1, "FooBarBazAssociation");
+        checkEndName("fooOrganizations", "FooOrganization", "parentFooAgency", 1, "FooOrganization");
+        checkEndName("sections", "Assessment", "assessmentReferences", 1, "Section");
+        checkEndName("sections", "CourseOffering", "courseOffering", 1, "Section");
+        checkEndName("staffAssociations", "Program", "programs", 1, "StaffProgramAssociation");
+        checkEndName("programAssociations", "Staff", "staff", 1, "StaffProgramAssociation");
+        checkEndName("offerings", "Course", "course", 1, "CourseOffering");
+        checkEndName("courseOfferings", "EducationOrganization", "school", 1, "CourseOffering");
+        checkEndName("courseOfferings", "Session", "session", 1, "CourseOffering");
+        checkEndName("fooDescriptors", "EducationOrganization", "educationOrganizations", 1, "FooDescriptor");
+        checkEndName("attendances", "School", "school", 1, "Attendance");
+        checkEndName("attendances", "Student", "student", 1, "Attendance");
+        checkEndName("behaviorDescriptors", "EducationOrganization", "educationOrganizations", 1, "BehaviorDescriptor");
+        checkEndName("objectiveAssessments", "LearningObjective", "learningObjectives", 1, "ObjectiveAssessment");
+        checkEndName("disciplineIncidents", "Staff", "staff", 1, "DisciplineIncident");
+        checkEndName("disciplineIncidents", "School", "school", 1, "DisciplineIncident");
+        checkEndName("fooBarAssociations", "EducationOrganization", "educationOrganization", 1, "FooBarAssociation");
+        checkEndName("studentTranscriptAssociations", "Course", "course", 1, "StudentTranscriptAssociation");
+        checkEndName("fooBarAssociations", "FooAcademicRecord", "fooAcademicRecord", 1, "FooBarAssociation");
+        checkEndName("transcriptAssociations", "Student", "student", 1, "StudentTranscriptAssociation");
+        checkEndName("cohorts", "Program", "programs", 1, "Cohort");
+        checkEndName("cohorts", "EducationOrganization", "educationOrg", 1, "Cohort");
+        checkEndName("sectionGradebookEntries", "Student", "student", 1, "StudentSectionGradebookEntry");
+        checkEndName("studentGradebookEntries", "Section", "section", 1, "StudentSectionGradebookEntry");
+        checkEndName("fooSectionGradebookEntries", "GradebookEntry", "gradebookEntry", 1, "FooSectionGradebookEntry");
+        checkEndName("courses", "School", "school", 1, "Course");
+        checkEndName("fooEntries", "Bar", "bar", 1, "FooEntry");
+        checkEndName("barFooFumBigBarAgencies", "BarAnything", "barFooFum", 2, "BigBarAgency");
+        checkEndName("bigBarAgencyBigBarAgencies", "BarAnything", "bigBarAgency", 2, "BigBarAgency");
+    }
+    
+    private void checkEndName(final String expected, final String sourceTypeName, final String sourceName,
+            final int degeneracy, final String targetTypeName) {
+        assertEquals(expected, Xsd2UmlHelper.makeAssociationEndName(sourceTypeName, sourceName, degeneracy, targetTypeName));
+    }
 }
