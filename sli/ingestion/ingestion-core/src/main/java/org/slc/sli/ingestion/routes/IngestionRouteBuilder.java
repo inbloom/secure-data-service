@@ -61,8 +61,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private static final Logger LOG = LoggerFactory.getLogger(IngestionRouteBuilder.class);
 
     @Autowired
-
-
     ControlFileProcessor ctlFileProcessor;
 
     @Autowired
@@ -96,7 +94,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     JobReportingProcessor jobReportingProcessor;
 
     @Autowired
-
     LandingZoneManager landingZoneManager;
 
     @Autowired
@@ -135,6 +132,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Value("${sli.ingestion.queue.pit.queueURI}")
     private String pitQueue;
 
+    @Value("${sli.ingestion.queue.pit.consumerQueueURI}")
+    private String pitConsumerQueue;
+
     @Value("${sli.ingestion.queue.pit.concurrentConsumers}")
     private String pitConsumers;
 
@@ -170,6 +170,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + workItemConsumers;
         String maestroQueueUri = maestroQueue + "?concurrentConsumers=" + maestroConsumers + maestroUriOptions;
         String pitNodeQueueUri = pitQueue + "?concurrentConsumers=" + pitConsumers + pitUriOptions;
+        String pitConsumerNodeQueueUri = pitConsumerQueue + "?concurrentConsumers=" + pitConsumers + pitUriOptions;
 
         if (IngestionNodeType.MAESTRO.equals(nodeInfo.getNodeType())
                 || IngestionNodeType.STANDALONE.equals(nodeInfo.getNodeType())) {
@@ -180,8 +181,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 // populate the tenant collection with a default set of tenants
                 tenantPopulator.populateDefaultTenants();
             }
-
-
 
             buildExtractionRoutes(workItemQueueUri);
 
@@ -197,7 +196,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
             LOG.info("configuring routes for pit node");
 
-            buildPitRoutes(pitNodeQueueUri, maestroQueueUri);
+            buildPitRoutes(pitConsumerNodeQueueUri, maestroQueueUri);
         }
 
         from(this.commandTopicUri).bean(this.lookup(CommandProcessor.class));
@@ -255,7 +254,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // WorkNoteAggregator.
         // the completion size should be the number of batches created for this
         // IngestionStagedEntity.
-        from("direct:transformationAggregator").routeId("transformationAggregator")
+        from("direct:transformationAggregator").routeId("transformationAggregator").transacted()
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to transformation aggregator.")
                 .aggregate(simple("${body.getIngestionStagedEntity}${body.getBatchJobId}"), new WorkNoteAggregator())
                 .completionSize(simple("${in.header.workNoteByEntityCount}")).to("direct:persistenceSplitter");
@@ -267,7 +266,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // the completion size should be the total number of WorkNotes created for this 'tier'.
         // unless we've processed all staged entities, route back to transformationSplitter for next
         // 'tier.'
-        from("direct:persistenceAggregator").routeId("persistenceAggregator")
+        from("direct:persistenceAggregator").routeId("persistenceAggregator").transacted()
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to persistence aggregator.")
                 .aggregate(simple("${body.getBatchJobId}"), new WorkNoteAggregator())
                 .completionSize(simple("${in.header.totalWorkNoteCount}")).process(aggregationPostProcessor).choice()
@@ -335,7 +334,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private void buildPitRoutes(String pitNodeQueueUri, String maestroQueueUri) {
 
         // routeId: pitNodes
-        from(pitNodeQueueUri).routeId("pitNodes")
+        from(pitNodeQueueUri).routeId("pitNodes").transacted()
                 .log(LoggingLevel.INFO, "CamelRouting", "Pit message received: ${body}").choice()
                 .when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to TransformationProcessor.")
