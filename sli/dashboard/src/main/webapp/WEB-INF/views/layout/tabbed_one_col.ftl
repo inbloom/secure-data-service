@@ -22,7 +22,6 @@
         }
     });
 </script>
-
 <div id="container">
 
   <div id="content">
@@ -30,7 +29,7 @@
     <#list layout as item>
       <@includePanelContent panel=item/>
     </#list>
-
+	<#if entityId?? >
     <#-- create tab div -->
     <div id="tabs">
 	    <ul>
@@ -47,15 +46,16 @@
 	    <#-- create pages -->
 	   <#list layout as item>
 	      <#if item.type == "TAB">
-
 	        <div id="page-${item.id}">
 		        <#-- create panels -->
 		        <#list item.items as panel>
 
 		          <div class="panel">
+		              <#if viewConfigs[panel.id].name??>
 			          <div class="panel-header">
 			            <h7>${viewConfigs[panel.id].name}</h7>
 			          </div>
+			          </#if>
 			          <div class="panel-content">
 			          <@includePanelContent panel=panel/>
 			          </div>
@@ -65,6 +65,7 @@
 	       </#if>
 
 	    </#list>
+	 </#if>
      </div>
   </div>
 </div>

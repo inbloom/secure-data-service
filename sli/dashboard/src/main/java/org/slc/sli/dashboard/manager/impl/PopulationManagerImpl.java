@@ -1214,4 +1214,13 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         }
 
     };
+
+    
+    /**
+     * Retrieves info required to create section profile.
+     */
+	@Override
+	public GenericEntity getSectionForProfile(String token, Object sectionId, Config.Data config) {
+		return entityManager.getSectionForProfile(token, (String) sectionId);
+	}
 }
