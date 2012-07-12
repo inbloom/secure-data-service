@@ -98,26 +98,6 @@ public class ApplicationInitializerTest {
     
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
-    public void testCreateWithGuid() throws Exception {
-        // when a GUID is specified, we have to use an update instead of a create
-        final List<Entity> apps = new ArrayList<Entity>();
-        props.put("bootstrap.app.admin.guid", "111");
-        props.put("bootstrap.app.dashboard.guid", "222");
-        saveProps();
-        Mockito.when(mockRepo.update(Mockito.anyString(), Mockito.any(Entity.class))).thenAnswer(new Answer<Boolean>() {
-            
-            @Override
-            public Boolean answer(InvocationOnMock invocation) throws Throwable {
-                apps.add((Entity) invocation.getArguments()[1]);
-                return true;
-            }
-        });
-        appInit.init();
-        assertEquals("Two apps updated", 2, apps.size());
-    }
-    
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    @Test
     public void testExistingApps() throws Exception {
         final List<Entity> apps = new ArrayList<Entity>();
         props.put("bootstrap.app.keys", "admin");

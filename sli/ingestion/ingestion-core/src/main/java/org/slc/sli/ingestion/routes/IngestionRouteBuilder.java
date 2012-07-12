@@ -22,8 +22,6 @@ import org.apache.camel.CamelContext;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.Processor;
 import org.apache.camel.spring.SpringRouteBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -57,8 +55,6 @@ import org.slc.sli.ingestion.tenant.TenantPopulator;
  */
 @Component
 public class IngestionRouteBuilder extends SpringRouteBuilder {
-
-    private static final Logger LOG = LoggerFactory.getLogger(IngestionRouteBuilder.class);
 
     @Autowired
 
@@ -165,7 +161,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        LOG.info("Configuring node {} for node type {}", nodeInfo.getUUID(), nodeInfo.getNodeType());
+        info("Configuring node {} for node type {}", nodeInfo.getUUID(), nodeInfo.getNodeType());
 
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + workItemConsumers;
         String maestroQueueUri = maestroQueue + "?concurrentConsumers=" + maestroConsumers + maestroUriOptions;
@@ -174,7 +170,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         if (IngestionNodeType.MAESTRO.equals(nodeInfo.getNodeType())
                 || IngestionNodeType.STANDALONE.equals(nodeInfo.getNodeType())) {
 
-            LOG.info("configuring routes for maestro node");
+            info("configuring routes for maestro node");
 
             if (loadDefaultTenants) {
                 // populate the tenant collection with a default set of tenants
@@ -195,7 +191,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         if (IngestionNodeType.PIT.equals(nodeInfo.getNodeType())
                 || IngestionNodeType.STANDALONE.equals(nodeInfo.getNodeType())) {
 
-            LOG.info("configuring routes for pit node");
+            info("configuring routes for pit node");
 
             buildPitRoutes(pitNodeQueueUri, maestroQueueUri);
         }
