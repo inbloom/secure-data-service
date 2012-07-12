@@ -2,6 +2,8 @@ package org.slc.sli.api.ldap;
 
 import java.util.Collection;
 
+import org.springframework.ldap.NameAlreadyBoundException;
+
 /**
  * define the interface for basic CRUD and search operations on LDAP
  *
@@ -23,7 +25,7 @@ public interface LdapService {
 
     public void removeUser(String realm, String uid);
 
-    public String createUser(String realm, User user);
+    public String createUser(String realm, User user) throws NameAlreadyBoundException;
 
     public boolean updateUser(String realm, User user);
 

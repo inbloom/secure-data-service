@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
+import org.springframework.ldap.NameAlreadyBoundException;
 import org.springframework.ldap.core.DirContextAdapter;
 import org.springframework.ldap.core.DistinguishedName;
 import org.springframework.ldap.core.LdapTemplate;
@@ -99,7 +100,7 @@ public class LdapServiceImpl implements LdapService {
     }
 
     @Override
-    public String createUser(String realm, User user) {
+    public String createUser(String realm, User user) throws NameAlreadyBoundException {
         ldapTemplate.bind(createUserContext(realm, user));
         List<String> groupNames = user.getGroups();
         if (groupNames != null && groupNames.size() > 0) {

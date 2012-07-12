@@ -47,7 +47,7 @@ public class User {
         }
         groups.add(group);
     }
-    
+
     public void removeGroup(String group) {
         if (groups != null && groups.contains(group)) {
             groups.remove(group);
@@ -123,24 +123,62 @@ public class User {
         }
     }
 
-    public String getCreateTime() {
-        return toDateString(createTime);
-    }
-
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
-    }
-
-    public String getModifyTime() {
-        return toDateString(modifyTime);
     }
 
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
     }
 
+    public String getCreateTime() {
+        if (createTime == null) {
+            return null;
+        }
+        return toDateString(createTime);
+    }
+
+    public String getModifyTime() {
+        if (modifyTime == null) {
+            return null;
+        }
+        return toDateString(modifyTime);
+    }
+
     private String toDateString(Date date) {
         SimpleDateFormat simpleDataFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssZ");
         return simpleDataFormat.format(date);
+    }
+
+    public static String printGroup(List<String> groups) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[");
+        if (groups != null) {
+            for (int i = 0; i < groups.size(); i++) {
+                sb.append(groups.get(i));
+                if (i != groups.size() - 1) {
+                    sb.append(", ");
+                }
+            }
+        }
+        sb.append("]");
+        return sb.toString();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("uid = ").append(uid).append("\n");
+        sb.append("first name = ").append(firstName).append("\n");
+        sb.append("last name = ").append(lastName).append("\n");
+        sb.append("groups = ").append(printGroup(groups)).append("\n");
+        sb.append("email = ").append(email).append("\n");
+        sb.append("tenant = ").append(tenant).append("\n");
+        sb.append("edorg = ").append(edorg).append("\n");
+        sb.append("home dir = ").append(homeDir).append("\n");
+        sb.append("create time = ").append(getCreateTime()).append("\n");
+        sb.append("modify time = ").append(getModifyTime()).append("\n");
+
+        return sb.toString();
     }
 }
