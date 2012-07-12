@@ -222,7 +222,7 @@
       </wadl:resource>
     </wadl:resource>
     <wadl:resource path="v1/gradebookEntries">
-      <wadl:doc>Represents a teacher’s assignment, homework, or classroom
+      <wadl:doc>Represents a teacher's assignment, homework, or classroom
 				assessment to be recorded in a gradebook.
 
 				For more information, see the schema for $$GradebookEntry$$ resources.
