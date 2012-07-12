@@ -19,7 +19,6 @@
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-	
     <!-- Environment config -->
     <bean id="commonProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
       <property name="ignoreResourceNotFound" value="true" />
@@ -47,5 +46,6 @@
 	<bean
 		class="org.springframework.ldap.core.support.BaseLdapPathBeanPostProcessor" /> 
   
+
 
 </beans>

@@ -59,6 +59,9 @@ default:
         sli.api.ldap.user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
         sli.api.ldap.pass: Y;Gtf@w{
 
+        #Used to access hudson build number
+        sli.application.buildTag: ${sli.app.buildTag}
+
     data-access: &DATA-ACCESS-DEFAULT
         # MongoDB Options (only used in data-access)
         sli.mongodb.database: sli
@@ -1115,6 +1118,9 @@ test-local:
         sli.ingestion.tenant.loadDefaultTenants: false
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
         sli.landingZone.server: landingZone
+
+        #Used to access hudson build number
+        sli.application.buildTag: UNKNOWN
 
 test-team:
     test:

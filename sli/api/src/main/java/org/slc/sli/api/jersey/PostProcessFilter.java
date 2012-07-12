@@ -25,6 +25,7 @@ import com.sun.jersey.api.uri.UriTemplate;
 import org.slc.sli.api.security.context.traversal.cache.SecurityCachingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -58,6 +59,9 @@ public class PostProcessFilter implements ContainerResponseFilter {
     @Autowired
     @Qualifier("performanceRepo")
     private Repository<Entity> perfRepo;
+
+    @Value("${sli.application.buildTag}")
+    private String buildTag;
     
     @Override
     public ContainerResponse filter(ContainerRequest request, ContainerResponse response) {
@@ -127,6 +131,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
             body.put("method",request.getMethod());
             body.put("entityCount",response.getHttpHeaders().get("TotalCount"));
             body.put("resource",endPoint);
+            body.put("buildNumber", buildTag);
             body.put("id",uri.get("id"));
             body.put("parameters", request.getQueryParameters());
             body.put("Date", dateFormatter.format(System.currentTimeMillis()));

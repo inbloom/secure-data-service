@@ -951,6 +951,7 @@
 						<sli.env>${sli.env}</sli.env>
 						<sli.encryption.keyStore>${sli.encryption.keyStore}</sli.encryption.keyStore>
 						<sli.encryption.properties>${sli.encryption.properties}</sli.encryption.properties>
+                        <sli.app.buildTag>${sli.app.buildTag}</sli.app.buildTag>
 					</systemPropertyVariables>
 				</configuration>
 			</plugin>
