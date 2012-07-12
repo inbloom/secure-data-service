@@ -37,15 +37,17 @@ import org.slc.sli.dashboard.web.entity.SafeUUID;
  * @author dwu
  */
 @Controller
+@RequestMapping(value = { "/service/component", "/s/c" })
 public class PanelController {
 
     private CustomizationAssemblyFactory customizationAssemblyFactory;
 
     /**
-     * Controller for client side pulls
+     * Controller for client side panel config & data pulls
+     * s - is for service and c for component
      *
      */
-    @RequestMapping(value = "/service/component/{componentId:[a-zA-Z0-9]+}/{id:[A-Za-z0-9-]*}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{componentId:[a-zA-Z0-9]+}/{id:[A-Za-z0-9-]*}", method = RequestMethod.GET)
     @ResponseBody public ModelAndViewConfig handle(
             @PathVariable final String componentId, @PathVariable final SafeUUID id, final HttpServletRequest request) {
         return customizationAssemblyFactory.getModelAndViewConfig(componentId, id.getId(), true);
@@ -55,7 +57,7 @@ public class PanelController {
      * Controller for client side data pulls without id
      *
      */
-    @RequestMapping(value = "/service/component/{componentId:[a-zA-Z0-9]+}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{componentId:[a-zA-Z0-9]+}", method = RequestMethod.GET)
     @ResponseBody public ModelAndViewConfig handleWithoutId(
             @PathVariable final String componentId, final HttpServletRequest request) {
         return customizationAssemblyFactory.getModelAndViewConfig(componentId, null, false);

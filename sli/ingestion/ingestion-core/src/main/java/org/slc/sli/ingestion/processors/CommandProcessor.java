@@ -45,8 +45,8 @@ import org.slc.sli.ingestion.cache.CacheProvider;
 @Component
 public class CommandProcessor {
 
-    private static final Object JOB_COMPLETED = "jobCompleted";
-    private static final String BATCH_JOB_ID = "batchJobId";
+   private static final Object JOB_COMPLETED = "jobCompleted";
+    private static final String BATCH_JOB_ID = "_id";
 
     @Resource(name = "batchJobMongoTemplate")
     private MongoTemplate mongo;
@@ -59,6 +59,7 @@ public class CommandProcessor {
         String command = exch.getIn().getBody().toString();
 
         info("Received: " + command);
+
         String[] chunks = command.split("\\|");
 
         if (JOB_COMPLETED.equals(chunks[0])) {
