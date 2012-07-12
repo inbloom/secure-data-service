@@ -1,6 +1,7 @@
 package org.slc.sli.api.ldap;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,9 +22,9 @@ import org.springframework.stereotype.Component;
 
 /**
  * implementation of LdapService interface for basic CRUD and search operations on LDAP directory
- * 
+ *
  * @author dliu
- * 
+ *
  */
 
 @Component
@@ -43,7 +44,7 @@ public class LdapServiceImpl implements LdapService {
 
     @Value("${sli.simple-idp.groupObjectClass}")
     private String groupObjectClass;
-    
+
     private static final String USER_ID_NUMBER = "500";
     private static final String GROUP_ID_NUMBER = "113";
 
@@ -76,7 +77,7 @@ public class LdapServiceImpl implements LdapService {
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<Group> getUserGroups(String realm, String uid) {
+    public Collection<Group> getUserGroups(String realm, String uid) {
         DistinguishedName dn = new DistinguishedName("ou=" + realm);
         AndFilter filter = new AndFilter();
         filter.and(new EqualsFilter("objectclass", groupObjectClass)).and(new EqualsFilter(groupSearchAttribute, uid));
@@ -86,10 +87,10 @@ public class LdapServiceImpl implements LdapService {
 
     @Override
     public void removeUser(String realm, String uid) {
-        List<Group> groups = getUserGroups(realm, uid);
+        Collection<Group> groups = getUserGroups(realm, uid);
         ldapTemplate.unbind(buildUserDN(realm, uid));
         if (groups != null && groups.size() > 0) {
-            
+
             for (Group group : groups) {
                 group.removeMemberUid(uid);
                 updateGroup(realm, group);
@@ -102,7 +103,7 @@ public class LdapServiceImpl implements LdapService {
         ldapTemplate.bind(createUserContext(realm, user));
         List<String> groupNames = user.getGroups();
         if (groupNames != null && groupNames.size() > 0) {
-            
+
             for (String groupName : groupNames) {
                 Group group = getGroup(realm, groupName);
                 group.addMemberUid(user.getUid());
@@ -114,22 +115,23 @@ public class LdapServiceImpl implements LdapService {
 
     @Override
     public boolean updateUser(String realm, User user) {
-        List<Group> oldGroups = getUserGroups(realm, user.getUid());
+        Collection<Group> oldGroups = getUserGroups(realm, user.getUid());
         DirContextAdapter context = (DirContextAdapter) ldapTemplate.lookupContext(buildUserDN(realm, user.getUid()));
         mapUserToContext(context, user);
         ldapTemplate.modifyAttributes(context);
-        List<String> newGroupNames = user.getGroups();
-        List<String> oldGroupNames = getGroupNames(oldGroups);
+        Collection<String> newGroupNames = user.getGroups();
+        Collection<String> oldGroupNames = getGroupNames(oldGroups);
 
-        if (oldGroups != null && oldGroups.size() > 0)
+        if (oldGroups != null && oldGroups.size() > 0) {
             for (Group oldGroup : oldGroups) {
                 if (!newGroupNames.contains(oldGroup.getGroupName())) {
                     oldGroup.removeMemberUid(user.getUid());
                     updateGroup(realm, oldGroup);
                 }
             }
+        }
 
-        if (newGroupNames != null && newGroupNames.size() > 0)
+        if (newGroupNames != null && newGroupNames.size() > 0) {
             for (String newGroupName : newGroupNames) {
                 if (!oldGroupNames.contains(newGroupName)) {
                     Group newGroup = getGroup(realm, newGroupName);
@@ -137,12 +139,13 @@ public class LdapServiceImpl implements LdapService {
                     updateGroup(realm, newGroup);
                 }
             }
+        }
         return true;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public List<User> findUserByGroups(String realm, List<String> groupNames) {
+    public Collection<User> findUserByGroups(String realm, Collection<String> groupNames) {
         List<User> users = new ArrayList<User>();
         List<String> uids = new ArrayList<String>();
         Map<String, List<String>> uidToGroupsMap = new HashMap<String, List<String>>();
@@ -151,7 +154,7 @@ public class LdapServiceImpl implements LdapService {
                 Group group = getGroup(realm, groupName);
                 if (group != null) {
                     List<String> memberUids = group.getMemberUids();
-                    
+
                     if (memberUids != null && memberUids.size() > 0) {
                         for (String memberUid : memberUids) {
                             if (uidToGroupsMap.containsKey(memberUid)) {
@@ -176,7 +179,7 @@ public class LdapServiceImpl implements LdapService {
             }
             filter.and(orFilter);
             DistinguishedName dn = new DistinguishedName("ou=" + realm);
-            users = (List<User>) (ldapTemplate.search(dn, filter.toString(), SearchControls.SUBTREE_SCOPE,
+            users = (ldapTemplate.search(dn, filter.toString(), SearchControls.SUBTREE_SCOPE,
                     new String[] { "*", CREATE_TIMESTAMP, MODIFY_TIMESTAMP }, new UserContextMapper()));
             for (User user : users) {
                 user.setGroups(uidToGroupsMap.get(user.getUid()));
@@ -187,12 +190,12 @@ public class LdapServiceImpl implements LdapService {
     }
 
     @Override
-    public List<User> findUserByGroups(String realm, List<String> groupNames, String tenant) {
+    public Collection<User> findUserByGroups(String realm, Collection<String> groupNames, String tenant) {
         return filterByTenant(findUserByGroups(realm, groupNames), tenant);
     }
 
     @Override
-    public List<User> findUserByAttributes(String realm, List<String> attributes) {
+    public Collection<User> findUserByAttributes(String realm, Collection<String> attributes) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -209,12 +212,12 @@ public class LdapServiceImpl implements LdapService {
             return null;
         }
     }
-    
+
     @Override
-    public List<User> findUserByGroups(String realm, List<String> groupNames, String tenant, List<String> edorgs) {
+    public Collection<User> findUserByGroups(String realm, Collection<String> groupNames, String tenant, Collection<String> edorgs) {
         return filterByEdorgs(filterByTenant(findUserByGroups(realm, groupNames), tenant), edorgs);
     }
-    
+
     @Override
     public boolean updateGroup(String realm, Group group) {
         DirContextAdapter context = (DirContextAdapter) ldapTemplate.lookupContext(buildGroupDN(realm,
@@ -224,7 +227,7 @@ public class LdapServiceImpl implements LdapService {
         return true;
     }
 
-    private List<User> filterByTenant(List<User> users, String tenant) {
+    private Collection<User> filterByTenant(Collection<User> users, String tenant) {
         if (tenant == null || users == null) {
             return users;
         }
@@ -237,12 +240,12 @@ public class LdapServiceImpl implements LdapService {
         }
         return filteredUsers;
     }
-    
-    private List<User> filterByEdorgs(List<User> users, List<String> edorgs) {
+
+    private Collection<User> filterByEdorgs(Collection<User> users, Collection<String> edorgs) {
         if (edorgs == null || edorgs.size() == 0 || users == null) {
             return users;
         }
-        List<User> filteredUsers = new ArrayList<User>();
+        Collection<User> filteredUsers = new ArrayList<User>();
         for (User user : users) {
             if (edorgs.contains(user.getEdorg())) {
                 filteredUsers.add(user);
@@ -250,23 +253,23 @@ public class LdapServiceImpl implements LdapService {
         }
         return filteredUsers;
     }
-    
+
     private DirContextAdapter createUserContext(String realm, User user) {
 
         DirContextAdapter context = new DirContextAdapter(buildUserDN(realm, user));
         mapUserToContext(context, user);
         return context;
     }
-    
+
     private DistinguishedName buildUserDN(String realm, User user) {
         return buildUserDN(realm, user.getUid());
     }
-    
+
     private DistinguishedName buildUserDN(String realm, String uid) {
         DistinguishedName dn = new DistinguishedName("cn=" + uid + ",ou=people,ou=" + realm);
         return dn;
     }
-    
+
     private DistinguishedName buildGroupDN(String realm, String groupName) {
         DistinguishedName dn = new DistinguishedName("cn=" + groupName + ",ou=groups,ou=" + realm);
         return dn;
@@ -283,14 +286,14 @@ public class LdapServiceImpl implements LdapService {
         context.setAttributeValue("mail", user.getEmail());
         context.setAttributeValue("homeDirectory", user.getHomeDir());
         context.setAttributeValue("description", "tenant=" + user.getTenant() + "," + "edOrg=" + user.getEdorg());
-        
+
     }
-    
+
     private void mapGroupToContext(DirContextAdapter context, Group group) {
         context.setAttributeValues("memberUid", group.getMemberUids().toArray());
     }
 
-    private List<String> getGroupNames(List<Group> groups) {
+    private List<String> getGroupNames(Collection<Group> groups) {
         if (groups != null && groups.size() > 0) {
             List<String> groupNames = new ArrayList<String>();
             for (Group group : groups) {

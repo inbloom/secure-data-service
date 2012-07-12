@@ -1,6 +1,6 @@
 package org.slc.sli.api.ldap;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * define the interface for basic CRUD and search operations on LDAP
@@ -17,7 +17,7 @@ public interface LdapService {
 
     public User getUser(String realm, String uid);
 
-    public List<Group> getUserGroups(String realm, String uid);
+    public Collection<Group> getUserGroups(String realm, String uid);
 
     public Group getGroup(String realm, String groupName);
 
@@ -26,14 +26,14 @@ public interface LdapService {
     public String createUser(String realm, User user);
 
     public boolean updateUser(String realm, User user);
-    
+
     public boolean updateGroup(String realm, Group group);
 
-    public List<User> findUserByGroups(String realm, List<String> groupNames);
+    public Collection<User> findUserByGroups(String realm, Collection<String> groupNames);
 
-    public List<User> findUserByAttributes(String realm, List<String> attributes);
+    public Collection<User> findUserByAttributes(String realm, Collection<String> attributes);
 
-    public List<User> findUserByGroups(String realm, List<String> groupNames, String tenant);
-    
-    public List<User> findUserByGroups(String realm, List<String> groupNames, String tenant, List<String> edorgs);
+    public Collection<User> findUserByGroups(String realm, Collection<String> groupNames, String tenant);
+
+    public Collection<User> findUserByGroups(String realm, Collection<String> groupNames, String tenant, Collection<String> edorgs);
 }
