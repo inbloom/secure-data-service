@@ -52,10 +52,7 @@ And I see the following sections:
 |6th Grade English - Sec 4  |
 |7th Grade English - Sec 5  |
 |7th Grade Math - Sec 2     |
-#Enable this when the links are available
-#And I click on section "8th Grade English - Sec 6"
-When I select course "8th Grade English"
-When I select section "8th Grade English - Sec 6"
+And I click on section "8th Grade English - Sec 6"
 Then I see a list of 28 students
 And I check "Student" column is sorted as "string" column
 And I click on "Absence Count" header to sort a "integer" column in "ascending" order

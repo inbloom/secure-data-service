@@ -344,8 +344,9 @@ Chicago, IL 11011
 """
 And the school phone number is "(917)-555-0212"
 And the grades served is "K, 1, 2, 3, 4, 5"
-And I select course "1st Grade Homeroom"
-And I select section "Mrs. Braverman's Homeroom #38"
+And I click on subject "Miscellaneous"
+And I click on course "1st Grade Homeroom"
+And I click on section "Mrs. Braverman's Homeroom #38"
 Then I see a list of 25 students
 And I click on student "Mi-Ha Tran"
 And I view its student profile

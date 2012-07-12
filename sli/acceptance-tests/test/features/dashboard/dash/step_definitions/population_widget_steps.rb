@@ -89,6 +89,7 @@ Then /^I don't see these values in the drop\-down: "([^"]*)"$/ do |listContent|
 end
 
 Then /^I see a list of (\d+) students$/ do |numOfStudents|
+  @explicitWait.until{@driver.find_element(:class,"sectionProfile")}
   studentList = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
   
   actualCount = countTableRows()

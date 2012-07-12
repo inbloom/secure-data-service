@@ -45,7 +45,7 @@ Then /^I click on course "(.*?)"$/ do |courseName|
 end
 
 Then /^I click on section "(.*?)"$/ do |sectionName|
-  findAndClickOnTreeGrid(sectionName)
+  findAndClickOnTreeGrid(sectionName, true)
 end
 
 Then /^I see the following subjects:$/ do |table|
@@ -90,9 +90,9 @@ end
 
 ### TREE GRID 
 
-def findAndClickOnTreeGrid(name)
+def findAndClickOnTreeGrid(name, isSection = false)
   readTreeGrid()
-  clickOnTreeGrid(name)
+  clickOnTreeGrid(name, isSection)
 end
 
 def readTreeGrid()
@@ -109,11 +109,15 @@ def readTreeGrid()
   end
 end
 
-def clickOnTreeGrid(name)
+def clickOnTreeGrid(name, isSection = false)
   found = false
   @currentVisibleTreeNodes.each do |node|
     if (node.text == name)
-      node.find_element(:tag_name,"span").click
+      if (!isSection)
+        node.find_element(:tag_name,"span").click
+      else
+        node.find_element(:tag_name,"a").click
+      end
       found = true
       break
     end
