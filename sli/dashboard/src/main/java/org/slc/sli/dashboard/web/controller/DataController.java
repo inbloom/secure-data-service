@@ -18,6 +18,7 @@
 package org.slc.sli.dashboard.web.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import org.slc.sli.dashboard.entity.ModelAndViewConfig;
+import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.manager.component.CustomizationAssemblyFactory;
 import org.slc.sli.dashboard.web.entity.SafeUUID;
 
@@ -37,30 +38,19 @@ import org.slc.sli.dashboard.web.entity.SafeUUID;
  * @author dwu
  */
 @Controller
-public class PanelController {
+public class DataController {
 
     private CustomizationAssemblyFactory customizationAssemblyFactory;
 
     /**
-     * Controller for client side pulls
+     * Controller for list of students
      *
      */
-    @RequestMapping(value = "/service/component/{componentId:[a-zA-Z0-9]+}/{id:[A-Za-z0-9-]*}", method = RequestMethod.GET)
-    @ResponseBody public ModelAndViewConfig handle(
-            @PathVariable final String componentId, @PathVariable final SafeUUID id, final HttpServletRequest request) {
-        return customizationAssemblyFactory.getModelAndViewConfig(componentId, id.getId(), true);
+    @RequestMapping(value = "/service/data/{componentId:[a-zA-Z0-9]+}", method = RequestMethod.GET)
+    @ResponseBody public GenericEntity handle(
+            @PathVariable final String componentId, @Valid final SafeUUID id, final HttpServletRequest request) {
+        return customizationAssemblyFactory.getDataComponent(componentId, id.getId());
     }
-
-    /**
-     * Controller for client side data pulls without id
-     *
-     */
-    @RequestMapping(value = "/service/component/{componentId:[a-zA-Z0-9]+}", method = RequestMethod.GET)
-    @ResponseBody public ModelAndViewConfig handleWithoutId(
-            @PathVariable final String componentId, final HttpServletRequest request) {
-        return customizationAssemblyFactory.getModelAndViewConfig(componentId, null, false);
-    }
-
 
     @Autowired
     public void setCustomizedDataFactory(CustomizationAssemblyFactory customizedDataFactory) {

@@ -34,17 +34,16 @@ import org.slc.sli.dashboard.web.entity.StudentSearch;
  * @author dwu
  */
 @Controller
-@RequestMapping(value = { "/s/l" })
-public class SearchController extends LayoutController {
+public class SearchController extends GenericLayoutController {
     private static final String SEARCH_RESULTS = "search_results";
 
     /**
      * Controller for student search
     */
-    @RequestMapping(value = "/studentSearch", method = RequestMethod.GET)
+    @RequestMapping(value = "/service/layout/studentSearchPage", method = RequestMethod.GET)
     public ModelAndView handle(
             @Valid StudentSearch studentSearch,
             HttpServletRequest request) {
-        return getModelView(SEARCH_RESULTS, getPopulatedModel("studentSearch", studentSearch.get(), request));
+        return getModelView(SEARCH_RESULTS, getPopulatedModel("studentSearchPage", studentSearch.get(), request));
     }
 }

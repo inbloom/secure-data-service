@@ -91,7 +91,7 @@ public class LayoutControllerTest extends ControllerTestBase  {
     @Test
     public void testHandleLos() throws Exception {
         try {
-            ModelAndView mv = layoutController.handleLos(request);
+            ModelAndView mv = layoutController.handleLos(null, request);
             Assert.assertEquals(2, ((Map<String, Config>) mv.getModel().get(Constants.MM_KEY_VIEW_CONFIGS)).size());
         } catch (Exception e) {
             Assert.fail("Should pass but getting " + e.getMessage());

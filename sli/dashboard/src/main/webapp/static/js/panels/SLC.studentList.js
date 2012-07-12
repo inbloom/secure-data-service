@@ -23,35 +23,30 @@
 SLC.namespace('SLC.studentList', (function () {
 	
 	var listOfStudents = 'listOfStudents',
+		instHierarchy = SLC.dataProxy.getData('populationWidget').root,
 		util = SLC.util,
 		contextRootPath = util.getContextRootPath();
-	
-	$(document).ready( function() {
-	    var config = SLC.dataProxy.getConfig("listOfStudents");
-	    populateView(config.items);
-	    if (config.items.length > 0) {
-            SLC.util.selectDropDownOption("view", 0, false);
-        } else {
-            $("#viewSelect").val(-1);
-        }
-        populateFilter();
-        SLC.util.selectDropDownOption("filter", -1, false);
-        printStudentList();
-	});
+    
+	function getStudentListData() {
+		var edorgIndex = $("#edOrgSelect").val(),
+			schoolIndex = $("#schoolSelect").val(),
+			courseIndex = $("#courseSelect").val(),
+			selectionIndex = $("#sectionSelect").val(),
+			courseSectionData = SLC.population.getCourseData();
+	      
+		location.href = contextRootPath + "/service/list/" + courseSectionData[courseIndex].sections[selectionIndex].id;
+	}
 	  
 	function printStudentList() {
 		var tableId = util.getTableId(),
 			panelConfig = SLC.dataProxy.getConfig(listOfStudents),
 			viewIndex = $("#viewSelect").val(),
-			options = {},
-			studentListData = SLC.dataProxy.getData(listOfStudents);
+			options = {};
 			
 		if (viewIndex !== -1) {
 			$.extend(options, panelConfig, {items:panelConfig.items[viewIndex].items});
-			SLC.grid.tablegrid.create(tableId, options, studentListData, {});
+			SLC.grid.tablegrid.create(tableId, options, SLC.dataProxy.getData(listOfStudents), {});
 		}
-		if (studentListData == undefined)
-		    SLC.util.hideErrorMessage();
 	}
 	    
 	function clearStudentList() {
@@ -98,23 +93,12 @@ SLC.namespace('SLC.studentList', (function () {
 	    filterStudentList(widgetConfig.items[filterSelect]); 
 	}
 	
-	function populateFilter() {
-	    var defaultOptions = {"-1": "No Filter"};
-		SLC.util.setDropDownOptions("filter", defaultOptions, SLC.dataProxy.getWidgetConfig("lozenge").items, "description", "", true, function() {
-			clearStudentList();
-			filterStudents();
-		});
-	}
-
-	function populateView(panelConfigItems) {
-		  $("#viewSelection").show();
-		  SLC.util.setDropDownOptions("view", null, panelConfigItems, "name", "", false, function() {
-			  clearStudentList();
-			  printStudentList();
-		  });
-	} 
-	
 	return {
+		getStudentListData: getStudentListData,
+		printStudentList: printStudentList,
+		clearStudentList: clearStudentList,
+		filterStudentList: filterStudentList,
+		filterStudents: filterStudents
 	};
 	
 	}())

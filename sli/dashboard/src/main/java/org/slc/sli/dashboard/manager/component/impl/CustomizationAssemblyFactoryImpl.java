@@ -35,19 +35,19 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import org.slc.sli.dashboard.entity.Config;
-import org.slc.sli.dashboard.entity.Config.Item;
-import org.slc.sli.dashboard.entity.Config.Type;
 import org.slc.sli.dashboard.entity.EdOrgKey;
 import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.entity.ModelAndViewConfig;
+import org.slc.sli.dashboard.entity.Config.Item;
+import org.slc.sli.dashboard.entity.Config.Type;
 import org.slc.sli.dashboard.manager.ConfigManager;
 import org.slc.sli.dashboard.manager.Manager;
-import org.slc.sli.dashboard.manager.Manager.EntityMappingManager;
 import org.slc.sli.dashboard.manager.UserEdOrgManager;
+import org.slc.sli.dashboard.manager.Manager.EntityMappingManager;
 import org.slc.sli.dashboard.manager.component.CustomizationAssemblyFactory;
 import org.slc.sli.dashboard.util.DashboardException;
-import org.slc.sli.dashboard.util.ExecutionTimeLogger.LogExecutionTime;
 import org.slc.sli.dashboard.util.SecurityUtil;
+import org.slc.sli.dashboard.util.ExecutionTimeLogger.LogExecutionTime;
 
 /**
  * Implementation of the CustomizationAssemblyFactory
@@ -376,9 +376,6 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
 
     @LogExecutionTime
     protected GenericEntity getDataComponent(String componentId, Object entityKey, Config.Data config) {
-        if (config == null) {
-            return null;
-        }
         InvokableSet set = this.getInvokableSet(config.getEntityRef());
         if (set == null) {
             throw new DashboardException("No entity mapping references found for " + config.getEntityRef() + ". Fix!!!");
