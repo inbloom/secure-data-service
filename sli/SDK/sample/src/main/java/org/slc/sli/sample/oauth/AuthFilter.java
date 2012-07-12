@@ -22,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Properties;
 
@@ -39,6 +40,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.api.client.impl.BasicClient;
+import org.slc.sli.api.client.impl.BasicRESTClient;
 
 /**
  * Basic authentication example using the SLI SDK.
@@ -90,7 +92,18 @@ public class AuthFilter implements Filter {
 
         if (client != null) {
             String token = null;
-            Response rval = client.connect(code, token);
+            Response rval = null;
+            try {
+                rval = client.getRESTClient().connect(code, token);
+            } catch (MalformedURLException e) {
+                LOG.error(String.format("Invalid/malformed URL when connecting: %s", e.toString()));
+            } catch (URISyntaxException e) {
+                LOG.error(String.format("Invalid/malformed URL when connecting: %s", e.toString()));
+            }
+
+            if (rval == null) {
+                return false;
+            }
 
             switch (rval.getStatus()) {
                 case 200:  // OK
@@ -115,10 +128,9 @@ public class AuthFilter implements Filter {
     }
 
     private void authenticate(ServletRequest req, ServletResponse res) {
-
-        BasicClient client = new BasicClient(apiUrl, clientId, clientSecret, callbackUrl);
+        BasicClient client = new BasicClient(new BasicRESTClient(apiUrl, clientId, clientSecret, callbackUrl));
         try {
-            ((HttpServletResponse) res).sendRedirect(client.getLoginURL().toExternalForm());
+            ((HttpServletResponse) res).sendRedirect(client.getRESTClient().getLoginURL().toExternalForm());
         } catch (IOException e) {
             LOG.error("Bad redirect", e);
         }
@@ -160,6 +172,11 @@ public class AuthFilter implements Filter {
         clientSecret = props.getProperty("sli.sample.clientSecret");
         String apiUrlString = props.getProperty("sli.sample.apiUrl");
         String callbackUrlString = props.getProperty("sli.sample.callbackUrl");
+        //Yang Cao
+        LOG.info("client id: "+clientId);
+        LOG.info("client secret: "+clientSecret);
+        LOG.info("api url: "+apiUrlString);
+        LOG.info("callback url: "+callbackUrlString);
         if (clientId == null || clientSecret == null || apiUrlString == null || callbackUrlString == null) {
             throw new RuntimeException(
                     "Missing property.  All of the following properties must be available: clientId, clientSecret, apiUrl, callbackUrl");
