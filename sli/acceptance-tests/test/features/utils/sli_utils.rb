@@ -89,8 +89,8 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "agillespie_IL" => "ba09eeb3-a50a-4278-b363-22074168421d",
                 "wgoodman_IL" => "8c950c56-74f3-4e5d-a02c-d09497fddb1d",
                 "ingestionuser_SLI" => "3b22ab4c-1de4-ac99-8b89-23bc03aaa812",
-                 "iladmin_SLI" => "9abf3111-0e5d-456a-8b89-004815162342",
-                 "stweed_IL" => "2cf7a5d4-75a2-ba63-8b53-b5f95131de48",
+                "iladmin_SLI" => "9abf3111-0e5d-456a-8b89-004815162342",
+                "stweed_IL" => "2cf7a5d4-75a2-ba63-8b53-b5f95131de48",
                 "teach1_SEC" => "00000000-5555-5555-0001-500000000001",
                 "teach2_SEC" => "00000000-5555-5555-0001-500000000002",
                 "teach3_SEC" => "00000000-5555-5555-0001-500000000003",
@@ -112,7 +112,9 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "staff15_SEC" => "00000000-5555-5555-0001-500000000115",
                 "staff16_SEC" => "00000000-5555-5555-0001-500000000116",
                 "staff17_SEC" => "00000000-5555-5555-0001-500000000117",
-                "staff18_SEC" => "00000000-5555-5555-0001-500000000118"}
+                "staff18_SEC" => "00000000-5555-5555-0001-500000000118",
+                "linda.kim_Zork" => "08e3cc74-4a5c-4a0e-b8ab-680ee11cc890",
+                "linda.kim_Chaos" => "160eb95e-173f-472a-8ed2-b973a4d775a3"}
 
 def assert(bool, message = 'assertion failure')
   raise message unless bool
