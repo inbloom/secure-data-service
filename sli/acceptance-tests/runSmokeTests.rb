@@ -83,9 +83,9 @@ procs.each { |p|
   end
 }
 
-#procs.each { |p|
-#  wait_until_found("#{log_dir}/#{p[:name]}Console.log", p[:pattern]) if p.has_key? :pid
-#}
+procs.each { |p|
+  wait_until_found("#{log_dir}/#{p[:name]}Console.log", p[:pattern]) if p.has_key? :pid
+}
 
 puts "\n\nStarting Smoke Tests\n"
 Dir.chdir "#{dir}/acceptance-tests"
