@@ -251,6 +251,38 @@ public class LoginTest {
     }
     
     @Test
+    public void testImpersonationLoginWithoutRoles() throws AuthenticationException {
+        loginController.setSandboxImpersonationEnabled(true);
+        Request reqInfo = Mockito.mock(Request.class);
+        Mockito.when(reqInfo.getRealm()).thenReturn(null);
+        Mockito.when(authRequestService.processRequest("SAMLRequest", "")).thenReturn(reqInfo);
+        
+        @SuppressWarnings("unchecked")
+        Map<String, String> attributes = Mockito.mock(HashMap.class);
+        Mockito.when(attributes.get("userName")).thenReturn("Test Name");
+        Mockito.when(attributes.get("tenant")).thenReturn("Super Tenant");
+        
+        List<String> roles = new ArrayList<String>();
+        UserService.User user = new User("userId", roles, attributes);
+        
+        Mockito.when(userService.authenticate("SLIAdmin", "userId", "password")).thenReturn(user);
+        List<RoleService.Role> defaultRoles = new ArrayList<RoleService.Role>();
+        defaultRoles.add(new RoleService.Role("roleName"));
+        Mockito.when(roleService.getAvailableRoles()).thenReturn(defaultRoles);
+        SamlAssertion samlResponse = new SamlAssertion("redirect_uri", "SAMLResponse");
+        Mockito.when(loginService.buildAssertion("impersonate", roles, attributes, reqInfo)).thenReturn(samlResponse);
+        
+        ModelAndView mov = loginController.login("userId", "password", "SAMLRequest", "", "impersonate", roles,
+                httpSession, null);
+        
+        assertEquals(mov.getModel().get("msg"), loginController.ROLE_SELECT_MESSAGE);
+        assertEquals("SAMLRequest", mov.getModel().get("SAMLRequest"));
+        assertEquals("", mov.getModel().get("realm"));
+        assertEquals("login", mov.getViewName());
+        assertEquals(true, mov.getModel().get("is_sandbox"));
+    }
+    
+    @Test
     public void testSandboxAdminLogin() throws AuthenticationException {
         loginController.setSandboxImpersonationEnabled(true);
         Request reqInfo = Mockito.mock(Request.class);

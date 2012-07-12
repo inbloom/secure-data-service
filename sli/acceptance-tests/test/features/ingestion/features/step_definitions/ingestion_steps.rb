@@ -38,6 +38,8 @@ INGESTION_DESTINATION_DATA_STORE = PropLoader.getProps['ingestion_destination_da
 INGESTION_USERNAME = PropLoader.getProps['ingestion_username']
 INGESTION_REMOTE_LZ_PATH = PropLoader.getProps['ingestion_remote_lz_path']
 
+TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT"]
+
 ############################################################
 # STEPS: BEFORE
 ############################################################
@@ -52,13 +54,13 @@ Before do
   @tenantColl = @mdb.collection('tenant')
 
 
-  #remove all tenants other than NY and IL
+  #remove all tenants other than Midgar and Hyrule
   @tenantColl.find.each do |row|
     if row['body'] == nil
       puts "removing record"
       @tenantColl.remove(row)
     else
-      if row['body']['tenantId'] != 'NY' and row['body']['tenantId'] != 'IL'
+      if row['body']['tenantId'] != 'Midgar' and row['body']['tenantId'] != 'Hyrule'
         puts "removing record"
         @tenantColl.remove(row)
       end
@@ -133,8 +135,8 @@ end
 def initializeTenants()
   @lzs_to_remove  = Array.new
 
-  defaultLz = @ingestion_lz_identifer_map['IL-Daybreak']
-  assert(defaultLz != nil, "Default landing zone not defined (IL-Daybreak)")
+  defaultLz = @ingestion_lz_identifer_map['Midgar-Daybreak']
+  assert(defaultLz != nil, "Default landing zone not defined (Midgar-Daybreak)")
 
   if defaultLz.rindex('/') == (defaultLz.length - 1)
     # remove last character (/)
@@ -323,7 +325,7 @@ def lzFileRmWait(file, wait_time)
 end
 
 Given /^I am using preconfigured Ingestion Landing Zone$/ do
-  initializeLandingZone(@ingestion_lz_identifer_map['IL-Daybreak'])
+  initializeLandingZone(@ingestion_lz_identifer_map['Midgar-Daybreak'])
 end
 
 Given /^I am using preconfigured Ingestion Landing Zone for "([^"]*)"$/ do |lz_key|
@@ -518,11 +520,11 @@ Given /^the following collections are empty in datastore:$/ do |table|
 
   table.hashes.map do |row|
     @entity_collection = @db[row["collectionName"]]
-    @entity_collection.remove
+    @entity_collection.remove("metaData.tenantId" => {"$in" => TENANT_COLLECTION})
 
-    puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."
+    puts "There are #{@entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count} records in collection " + row["collectionName"] + "."
 
-    if @entity_collection.count.to_s != "0"
+    if @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count.to_s != "0"
       @result = "false"
     end
   end
@@ -537,11 +539,11 @@ Given /^the following collections are empty in batch job datastore:$/ do |table|
 
   table.hashes.map do |row|
     @entity_collection = @db[row["collectionName"]]
-    @entity_collection.remove
+    @entity_collection.remove("metaData.tenantId" => {"$in" => TENANT_COLLECTION})
 
     puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."
 
-    if @entity_collection.count.to_s != "0"
+    if @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count.to_s != "0"
       @result = "false"
     end
   end
@@ -1096,7 +1098,7 @@ Then /^I should see following map of entry counts in the corresponding collectio
 
   table.hashes.map do |row|
     @entity_collection = @db.collection(row["collectionName"])
-    @entity_count = @entity_collection.count().to_i
+    @entity_count = @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count().to_i
 
     if @entity_count.to_s != row["count"].to_s
       @result = "false"
@@ -1142,15 +1144,15 @@ Then /^I check to find if record is in collection:$/ do |table|
     @entity_collection = @db.collection(row["collectionName"])
 
     if row["searchType"] == "integer"
-      @entity_count = @entity_collection.find({row["searchParameter"] => row["searchValue"].to_i}).count().to_s
+      @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
     elsif row["searchType"] == "boolean"
         if row["searchValue"] == "false"
-            @entity_count = @entity_collection.find({row["searchParameter"] => false}).count().to_s
+            @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => false}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
         else
-            @entity_count = @entity_collection.find({row["searchParameter"] => true}).count().to_s
+            @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => true}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
         end
     else
-      @entity_count = @entity_collection.find({row["searchParameter"] => row["searchValue"]}).count().to_s
+      @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"]},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
     end
 
     puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"]

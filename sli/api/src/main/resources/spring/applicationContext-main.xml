@@ -35,23 +35,12 @@
 		<constructor-arg ref="contextSource" />
 	</bean>
 	
-<!-- Spring ldap contextsource pooling configuration	
-  
-   <bean id="contextSource" class="org.springframework.ldap.pool.factory.PoolingContextSource">
-      <property name="contextSource" ref="contextSourceTarget" />
-      <property name="dirContextValidator" ref="dirContextValidator" /> 
-      <property name="testOnBorrow" value="false" />
-      <property name="testWhileIdle" value="true" />
-   </bean>
-   
-  <bean id="dirContextValidator" class="org.springframework.ldap.pool.validation.DefaultDirContextValidator" /> 
-   
-	<bean id="contextSourceTarget" class="org.springframework.ldap.core.support.LdapContextSource"> 
-	-->
 	
 	<bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource"> 
 		<property name="urls" value="${sli.simple-idp.ldap.urls}" />
 		<property name="base" value="${sli.simple-idp.ldap.base}" />
+		<property name="userDn" value="${sli.api.ldap.user}" />
+        <property name="password" value="${sli.api.ldap.pass}" />
         <property name="pooled" value="true" />
 	</bean>
 	 
