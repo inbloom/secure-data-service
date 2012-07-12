@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.slc.sli</groupId>
+    <artifactId>aggregation</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>aggregation</name>
+    <description>SLI Aggregation</description>
+    <url>http://sli.wgen.net</url>
+
+    <scm>
+        <connection>scm:git:git@git.slidev.org:sli/sli.git</connection>
+        <developerConnection>scm:git:git@git.slidev.org:sli/sli.git</developerConnection>
+        <url>https://git.slidev.org/sli/sli</url>
+    </scm>
+
+    <properties>
+        <java.version>1.6</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <lifecycle.mapping.version>1.0.0</lifecycle.mapping.version>
+
+        <!-- Logging Framework Versions -->
+        <logback.version>1.0.1</logback.version>
+
+        <!-- Testing Framework Versions -->
+        <junit.version>4.9</junit.version>
+        <mockito.version>1.8.5</mockito.version>
+
+        <hadoop-core.version>1.0.3</hadoop-core.version>
+        <mongo-hadoop-core.version>1.0.0</mongo-hadoop-core.version>
+        <mongo-java.version>2.8.0</mongo-java.version>
+
+		<maven.compiler.version>2.3.2</maven.compiler.version>
+		<maven.jar.version>2.3.2</maven.jar.version>
+		<maven.checkstyle.version>2.8</maven.checkstyle.version>
+		<maven.findbugs.version>2.3.2</maven.findbugs.version>
+		<maven.eclipse.version>2.8</maven.eclipse.version>
+		<maven.release.version>2.2</maven.release.version>
+
+		<!-- Signing Artifacts -->
+		<sli.sign.keystore>${project.parent.basedir}/../../sli/data-access/dal/keyStore/localKeyStore.jks</sli.sign.keystore>
+		<sli.sign.storepass>dalKey</sli.sign.storepass>
+	</properties>
+
+
+    <modules>
+        <module>US2875-HighestEver-ACT</module>
+        <module>US2875-ACT-Proficiency-Aggregation</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- JUnit dependency -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- Mockito dependency -->
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- Logging -->
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+
+            <!-- hadoop, mongo, connector -->
+            <dependency>
+                <groupId>org.apache.hadoop</groupId>
+                <artifactId>hadoop-core</artifactId>
+                <version>${hadoop-core.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mongodb</groupId>
+                <artifactId>mongo-hadoop-core_1.0.2</artifactId>
+                <version>${mongo-hadoop-core.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mongodb</groupId>
+                <artifactId>mongo-java-driver</artifactId>
+                <version>${mongo-java.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- common dependencies used across all projects -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-core</artifactId>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-hadoop-core_1.0.2</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+
+        <pluginManagement>
+            <plugins>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven.compiler.version}</version>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <encoding>${project.build.sourceEncoding}</encoding>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>${maven.release.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>${maven.checkstyle.version}</version>
+                    <configuration>
+                        <configLocation>${sli.home}../../build-tools/src/main/resources/checkstyle/checkstyle.xml</configLocation>
+                        <propertyExpansion>checkstyle.import.control.file=${sli.home}../../build-tools/src/main/resources/checkstyle/import-control.xml</propertyExpansion>
+                        <includeTestSourceDirectory>true</includeTestSourceDirectory>
+                        <linkXRef>false</linkXRef>
+                        <failsOnError>false</failsOnError>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-eclipse-plugin</artifactId>
+                    <version>${maven.eclipse.version}</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jarsigner-plugin</artifactId>
+                    <version>1.2</version>
+                    <executions>
+                        <execution>
+                            <id>sign</id>
+                            <goals>
+                                <goal>sign</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <alias>wildcard</alias>
+                        <keystore>${sli.sign.keystore}</keystore>
+                        <storepass>${sli.sign.storepass}</storepass>
+                    </configuration>
+                </plugin>
+
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-eclipse-plugin</artifactId>
+                <configuration>
+                    <workspace>${eclipse.workspace}</workspace>
+                    <workspaceCodeStylesURL>file:${sli.home}/../../sli/etc/eclipse/eclipse-sli-code-formatter.xml</workspaceCodeStylesURL>
+                    <downloadSources>false</downloadSources>
+                    <downloadJavadocs>false</downloadJavadocs>
+                    <wtpversion>2.0</wtpversion>
+
+                    <additionalProjectnatures>
+                        <projectnature>net.sf.eclipsecs.core.CheckstyleNature</projectnature>
+                        <projectnature>org.apache.hadoop.eclipse.Nature</projectnature>
+                    </additionalProjectnatures>
+
+                    <additionalBuildcommands>
+                        <buildcommand>net.sf.eclipsecs.core.CheckstyleBuilder</buildcommand>
+                    </additionalBuildcommands>
+
+                    <additionalConfig>
+                        <file>
+                            <name>.settings/checkstyle.xml</name>
+                            <location>${sli.home}/../../build-tools/src/main/resources/checkstyle/checkstyle.xml</location>
+                        </file>
+                        <file>
+                            <name>.settings/import-control.xml</name>
+                            <location>${sli.home}/../../build-tools/src/main/resources/checkstyle/import-control.xml</location>
+                        </file>
+                        <file>
+                            <name>.checkstyle</name>
+                            <location>${sli.home}/../../build-tools/src/main/resources/eclipse/eclipse-sli-checkstyle.xml</location>
+                        </file>
+                        <file>
+                            <name>.settings/org.eclipse.wst.validation.prefs</name>
+                            <location>${sli.home}/../../build-tools/src/main/resources/eclipse/org.eclipse.wst.validation.prefs</location>
+                        </file>
+                        <file>
+                            <name>.gitignore</name>
+                            <location>${sli.home}/../../build-tools/src/main/resources/git/gitignore</location>
+                        </file>
+                        <file>
+                            <name>.settings/org.eclipse.jdt.ui.prefs</name>
+                            <location>${sli.home}/../../build-tools/src/main/resources/eclipse/org.eclipse.jdt.ui.prefs</location>
+                        </file>
+                    </additionalConfig>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <inherited>true</inherited>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <findbugsXmlOutput>true</findbugsXmlOutput>
+                    <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
+                    <xmlOutput>true</xmlOutput>
+                    <effort>Max</effort>
+                    <failOnError>false</failOnError>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+            </plugin>
+
+        </plugins>
+
+    </build>
+
+    <repositories>
+
+        <repository>
+            <id>repo1</id>
+            <name>Maven2 repo1 repository</name>
+            <url>http://repo1.maven.org/maven2</url>
+        </repository>
+
+        <repository>
+            <id>repository.jboss.org-public</id>
+            <name>JBoss.org Maven repository</name>
+            <url>https://repository.jboss.org/nexus/content/groups/public</url>
+        </repository>
+
+        <repository>
+            <id>sonatype-snapshots</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+
+    </repositories>
+
+</project>

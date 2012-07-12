@@ -12,60 +12,23 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>Hadoop Job</name>
-  <url>http://maven.apache.org</url>
+  <parent>
+    <groupId>org.slc.sli</groupId>
+    <artifactId>aggregation</artifactId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <sli.home>${project.parent.basedir}</sli.home>
   </properties>
 
   <dependencies>
-    <dependency>
-      <groupId>org.apache.hadoop</groupId>
-      <artifactId>hadoop-core</artifactId>
-      <version>1.0.3</version>
-      <scope>compile</scope>
-    </dependency>
-    <!--
-         Add project dependencies here. The archetype plugin will
-         include all dependencies from the "compile" scope (which is
-	 the default) in the job jar's "lib" directory.
-    -->
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <version>1.9.0</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.10</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-    	<groupId>org.mongodb</groupId>
-    	<artifactId>mongo-hadoop-core_1.0.2</artifactId>
-    	<version>1.0.0</version>
-    </dependency>
-    <dependency>
-    	<groupId>org.mongodb</groupId>
-    	<artifactId>mongo-java-driver</artifactId>
-    	<version>2.8.0</version>
-    </dependency>
+    <!-- inherit hadoop dependencies from parent -->
   </dependencies>
 
   <build>
     <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>2.4</version>
-        <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
-        </configuration>
-      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-assembly-plugin</artifactId>
@@ -90,11 +53,9 @@
           </execution>
         </executions>
       </plugin>
-    </plugins>
-  </build>
 
-  <prerequisites>
-    <maven>2.2.1</maven>
-  </prerequisites>
+    </plugins>
+
+  </build>
 
 </project>
