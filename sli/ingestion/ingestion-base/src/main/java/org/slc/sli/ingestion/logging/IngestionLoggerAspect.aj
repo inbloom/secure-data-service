@@ -20,6 +20,7 @@ public aspect IngestionLoggerAspect {
             && !org.slc.sli.ingestion.validation.Valid*
             && !org.slc.sli.ingestion.validation.spring.SimpleV*
             && !org.slc.sli.ingestion.landingzone.validation.IngestionFileVal*
+            && !org.slc.sli.ingestion.landingzone.validation.FileTypeValida*
             && !java.lang.Enum+ ) implements IngestionLogger;
 
     public void IngestionLogger.debug(String msg) {
