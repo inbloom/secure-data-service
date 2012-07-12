@@ -253,7 +253,7 @@ expected={
 }
 
 # Set total counts
-expectationTotals = { "500k" => 0, "1000k" => 0, "1500k" => 0, "5M" => 0 }
+expectationTotals = { "500k" => 0, "1M" => 0, "1_5M" => 0, "5M" => 0 }
 expected.each do |set,collections|
   total=0
   collections.each do |name,count|
