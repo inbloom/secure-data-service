@@ -55,8 +55,7 @@ def wait_until_found(filepath,pattern)
 end
 
 
-dir = Dir.pwd
-puts "PWD: #{dir}"
+dir = "#{File.expand_path(File.dirname(__FILE__))}/.."
 log_dir = "#{dir}/everyLog"
 Dir.mkdir(log_dir) unless File.exists?(log_dir)
 
