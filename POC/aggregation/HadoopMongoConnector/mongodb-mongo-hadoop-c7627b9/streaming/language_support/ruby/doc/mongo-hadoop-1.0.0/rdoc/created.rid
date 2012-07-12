@@ -1,6 +1,0 @@
-Thu, 14 Jun 2012 10:00:19 -0400
-lib/mongo-hadoop/input.rb	Thu, 14 Jun 2012 10:00:17 -0400
-lib/mongo-hadoop/mapper.rb	Thu, 14 Jun 2012 10:00:17 -0400
-lib/mongo-hadoop/output.rb	Thu, 14 Jun 2012 10:00:17 -0400
-lib/mongo-hadoop/reducer.rb	Thu, 14 Jun 2012 10:00:17 -0400
-lib/mongo-hadoop.rb	Thu, 14 Jun 2012 10:00:17 -0400

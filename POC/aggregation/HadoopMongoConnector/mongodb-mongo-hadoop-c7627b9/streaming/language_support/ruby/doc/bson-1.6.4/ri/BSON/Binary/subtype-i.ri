@@ -1,2 +1,0 @@
-U:RDoc::Attr[iI"subtype:EFI"BSON::Binary#subtype;FI"RW;F:publico:RDoc::Markup::Document:@parts[o:RDoc::Markup::Paragraph;	[I">One of the SUBTYPE_* constants. Default is SUBTYPE_BYTES.;T:
-@fileI"lib/bson/types/binary.rb;TF@
