@@ -2793,7 +2793,7 @@
           <wadl:representation mediaType="application/vnd.slc+xml" element="studentList"></wadl:representation>
         </wadl:response>
       </wadl:method>
-      <wadl:resource path="{studentId}/studentProgramAssociations/program">
+      <wadl:resource path="{studentId}/programs">
         <wadl:param name="studentId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getProgramForStudentProgramAssociationsForStudentsByStudentId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -2845,7 +2845,7 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{studentId}/studentParentAssociations">
+      <wadl:resource path="{studentId}/parentAssociations">
         <wadl:param name="studentId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getStudentParentAssociationsForStudentsByStudentId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -2858,7 +2858,7 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{studentId}/studentDisciplineIncidentAssociations">
+      <wadl:resource path="{studentId}/disciplineIncidentAssociations">
         <wadl:param name="studentId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getStudentDisciplineIncidentAssociationsForStudentsByStudentId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -2884,7 +2884,7 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{studentId}/studentParentAssociations/parent">
+      <wadl:resource path="{studentId}/parents">
         <wadl:param name="studentId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getParentForStudentParentAssociationsForStudentsByStudentId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -2897,7 +2897,7 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{studentId}/studentProgramAssociations">
+      <wadl:resource path="{studentId}/programAssociations">
         <wadl:param name="studentId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getStudentProgramAssociationsForStudentsByStudentId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -2910,7 +2910,7 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{studentId}/studentSchoolAssociations">
+      <wadl:resource path="{studentId}/schoolAssociations">
         <wadl:param name="studentId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getStudentSchoolAssociationsForStudentsByStudentId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -2923,7 +2923,7 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{studentId}/studentSectionAssociations">
+      <wadl:resource path="{studentId}/sectionAssociations">
         <wadl:param name="studentId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getStudentSectionAssociationsForStudentsByStudentId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -2936,7 +2936,7 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{studentId}/studentSectionAssociations/section">
+      <wadl:resource path="{studentId}/sections">
         <wadl:param name="studentId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getSectionForStudentSectionAssociationsForStudentsByStudentId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -2949,7 +2949,7 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{studentId}/studentSchoolAssociations/school">
+      <wadl:resource path="{studentId}/schools">
         <wadl:param name="studentId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getSchoolForStudentSchoolAssociationsForStudentsByStudentId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -3001,7 +3001,7 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{studentId}/studentDisciplineIncidentAssociations/disciplineIncident">
+      <wadl:resource path="{studentId}/disciplineIncidents">
         <wadl:param name="studentId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getDisciplineIncidentForStudentDisciplineIncidentAssociationsForStudentsByStudentId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -3137,7 +3137,7 @@
           <wadl:representation mediaType="application/vnd.slc+xml" element="teacherList"></wadl:representation>
         </wadl:response>
       </wadl:method>
-      <wadl:resource path="{teacherId}/teacherSchoolAssociations">
+      <wadl:resource path="{teacherId}/schoolAssociations">
         <wadl:param name="teacherId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getTeacherSchoolAssociationsForTeachersByTeacherId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -3150,7 +3150,7 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{teacherId}/teacherSectionAssociations">
+      <wadl:resource path="{teacherId}/sectionAssociations">
         <wadl:param name="teacherId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getTeacherSectionAssociationsForTeachersByTeacherId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -3163,7 +3163,7 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{teacherId}/teacherSectionAssociations/section">
+      <wadl:resource path="{teacherId}/sections">
         <wadl:param name="teacherId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getSectionForTeacherSectionAssociationsForTeachersByTeacherId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -3176,7 +3176,7 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{teacherId}/teacherSchoolAssociations/school">
+      <wadl:resource path="{teacherId}/schools">
         <wadl:param name="teacherId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getSchoolForTeacherSchoolAssociationsForTeachersByTeacherId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -4234,7 +4234,7 @@
           <wadl:representation mediaType="application/vnd.slc+xml" element="schoolList"></wadl:representation>
         </wadl:response>
       </wadl:method>
-      <wadl:resource path="{schoolId}/teacherSchoolAssociations">
+      <wadl:resource path="{schoolId}/teacherAssociations">
         <wadl:param name="schoolId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getTeacherSchoolAssociationsForSchoolsBySchoolId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -4249,7 +4249,7 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{schoolId}/teacherSchoolAssociations/teacher">
+      <wadl:resource path="{schoolId}/teachers">
         <wadl:param name="schoolId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getTeacherForTeacherSchoolAssociationsForSchoolsBySchoolId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -4264,7 +4264,7 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{schoolId}/studentSchoolAssociations">
+      <wadl:resource path="{schoolId}/studentAssociations">
         <wadl:param name="schoolId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getStudentSchoolAssociationsForSchoolsBySchoolId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -4279,7 +4279,7 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{schoolId}/studentSchoolAssociations/student">
+      <wadl:resource path="{schoolId}/students">
         <wadl:param name="schoolId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getStudentForStudentSchoolAssociationsForSchoolsBySchoolId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -4644,7 +4644,7 @@
           <wadl:representation mediaType="application/vnd.slc+xml" element="sectionList"></wadl:representation>
         </wadl:response>
       </wadl:method>
-      <wadl:resource path="{sectionId}/teacherSectionAssociations">
+      <wadl:resource path="{sectionId}/teacherAssociations">
         <wadl:param name="sectionId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getTeacherSectionAssociationsForSectionsBySectionId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -4657,7 +4657,7 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{sectionId}/teacherSectionAssociations/teacher">
+      <wadl:resource path="{sectionId}/teachers">
         <wadl:param name="sectionId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getTeacherForTeacherSectionAssociationsForSectionsBySectionId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -5314,7 +5314,7 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{programId}/studentProgramAssociations">
+      <wadl:resource path="{programId}/studentAssociations">
         <wadl:param name="programId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getStudentProgramAssociationsForProgramsByProgramId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -5327,7 +5327,7 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{programId}/studentProgramAssociations/student">
+      <wadl:resource path="{programId}/students">
         <wadl:param name="programId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getStudentForStudentProgramAssociationsForProgramsByProgramId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -5468,7 +5468,7 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{parentId}/studentParentAssociations">
+      <wadl:resource path="{parentId}/studentAssociations">
         <wadl:param name="parentId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getStudentParentAssociationsForParentsByParentId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -5481,7 +5481,7 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{parentId}/studentParentAssociations/student">
+      <wadl:resource path="{parentId}/students">
         <wadl:param name="parentId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getStudentForStudentParentAssociationsForParentsByParentId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -5614,7 +5614,7 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{disciplineIncidentId}/studentDisciplineIncidentAssociations">
+      <wadl:resource path="{disciplineIncidentId}/studentAssociations">
         <wadl:param name="disciplineIncidentId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getStudentDisciplineIncidentAssociationsForDisciplineIncidentsByDisciplineIncidentId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -5627,7 +5627,7 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{disciplineIncidentId}/studentDisciplineIncidentAssociations/student">
+      <wadl:resource path="{disciplineIncidentId}/students">
         <wadl:param name="disciplineIncidentId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getStudentForStudentDisciplineIncidentAssociationsForDisciplineIncidentsByDisciplineIncidentId">
           <wadl:doc>Returns the requested collection of resources that are
