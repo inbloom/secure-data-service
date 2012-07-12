@@ -166,7 +166,7 @@ class AppsController < ApplicationController
     params[:app][:installed] = boolean_fix params[:app][:installed]
     params[:app][:authorized_ed_orgs] = params[@app.name.gsub(" ", "_") + "_authorized_ed_orgs"]
     params[:app][:authorized_ed_orgs] = [] if params[:app][:authorized_ed_orgs] == nil
-    params[:app].delete_if {|key, value| ["administration_url", "image_url"].include? key and value.length == 0 }
+    params[:app].delete_if {|key, value| ["administration_url", "image_url", "application_url", "redirect_uri"].include? key and value.length == 0 }
     #ugg...can't figure out why rails nests the app_behavior attribute outside the rest of the app
     params[:app][:behavior] = params[:app_behavior]
     @app.load(params[:app])
