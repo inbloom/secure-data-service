@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.routes.orchestra;
 
 import java.util.ArrayList;
@@ -29,6 +28,8 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.queues.MessageType;
 
 /**
  * WorkNote splitter to be used from camel
@@ -45,6 +46,9 @@ public class WorkNoteSplitter {
 
     @Autowired
     private SplitStrategy balancedTimestampSplitStrategy;
+
+    @Autowired
+    private BatchJobDAO batchJobDAO;
 
     /**
      * Splits the work that can be processed in parallel next round into individual WorkNotes.
@@ -80,8 +84,13 @@ public class WorkNoteSplitter {
 
             List<WorkNote> workNotesForEntity = balancedTimestampSplitStrategy.splitForEntity(stagedEntity, jobId);
 
+            batchJobDAO.createWorkNoteCountdownLatch(MessageType.DATA_TRANSFORMATION.name(), jobId,
+                    stagedEntity.getCollectionNameAsStaged(), workNotesForEntity.size());
+
             workNoteList.addAll(workNotesForEntity);
         }
+
+        batchJobDAO.createWorkNoteCountdownLatch(MessageType.PERSIST_REQUEST.name(), jobId, null, workNoteList.size());
 
         LOG.info("{} total WorkNotes created and ready for splitting for current tier.", workNoteList.size());
         return workNoteList;

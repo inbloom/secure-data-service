@@ -46,7 +46,7 @@ import org.slc.sli.ingestion.processors.XmlFileProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.routes.orchestra.AggregationPostProcessor;
 import org.slc.sli.ingestion.routes.orchestra.OrchestraPreProcessor;
-import org.slc.sli.ingestion.routes.orchestra.WorkNoteAggregator;
+import org.slc.sli.ingestion.routes.orchestra.WorkNoteLatch;
 import org.slc.sli.ingestion.tenant.TenantPopulator;
 
 /**
@@ -61,8 +61,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private static final Logger LOG = LoggerFactory.getLogger(IngestionRouteBuilder.class);
 
     @Autowired
-
-
     ControlFileProcessor ctlFileProcessor;
 
     @Autowired
@@ -96,7 +94,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     JobReportingProcessor jobReportingProcessor;
 
     @Autowired
-
     LandingZoneManager landingZoneManager;
 
     @Autowired
@@ -239,40 +236,21 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .split().method("WorkNoteSplitter", "passThroughSplit")
                 .setHeader("IngestionMessageType", constant(MessageType.PERSIST_REQUEST.name())).to(pitNodeQueueUri);
 
-        // aggregationSwitch
-        // a switch to route 'completed' WorkNotes from the maestro queue (coming from pits) to the
-        // correct aggregator.
-        from(maestroQueueUri).routeId("aggregationSwitch")
-                .log(LoggingLevel.INFO, "CamelRouting", "Maestro message received. Routing to aggregators: ${body}")
-                .choice().when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
-                .to("direct:transformationAggregator")
-                .when(header("IngestionMessageType").isEqualTo(MessageType.PERSIST_REQUEST.name()))
-                .to("direct:persistenceAggregator");
+        // workNoteLatch
+        from(maestroQueueUri).routeId("workNoteLatch")
+                .log(LoggingLevel.INFO, "CamelRouting", "Maestro message received. Processing: ${body}")
+                .bean(this.lookup(WorkNoteLatch.class))
+                .choice().when(header("latchOpened").isEqualTo(true))
+                    .log(LoggingLevel.INFO, "CamelRouting", "WorkNote latch opened.")
+                    .choice().when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
+                        .to("direct:persistenceSplitter")
+                    .when(header("IngestionMessageType").isEqualTo(MessageType.PERSIST_REQUEST.name()))
+                        .process(aggregationPostProcessor)
+                        .choice().when(header("processedAllStagedEntities").isEqualTo(true))
+                            .to("direct:stop")
+                        .otherwise()
+                            .to("direct:transformationSplitter");
 
-        // transformationAggregator
-        // aggregates WorkNotes based on their IngestionStagedEntity + BatchJobId.
-        // the aggregation completion size is pulled from an Exchange header, where it is set by
-        // WorkNoteAggregator.
-        // the completion size should be the number of batches created for this
-        // IngestionStagedEntity.
-        from("direct:transformationAggregator").routeId("transformationAggregator")
-                .log(LoggingLevel.INFO, "CamelRouting", "Routing to transformation aggregator.")
-                .aggregate(simple("${body.getIngestionStagedEntity}${body.getBatchJobId}"), new WorkNoteAggregator())
-                .completionSize(simple("${in.header.workNoteByEntityCount}")).to("direct:persistenceSplitter");
-
-        // persistenceAggregator
-        // aggregates WorkNotes based on their BatchJobId.
-        // the aggregation completion size is pulled from an Exchange header, where it is set by
-        // WorkNoteAggregator.
-        // the completion size should be the total number of WorkNotes created for this 'tier'.
-        // unless we've processed all staged entities, route back to transformationSplitter for next
-        // 'tier.'
-        from("direct:persistenceAggregator").routeId("persistenceAggregator")
-                .log(LoggingLevel.INFO, "CamelRouting", "Routing to persistence aggregator.")
-                .aggregate(simple("${body.getBatchJobId}"), new WorkNoteAggregator())
-                .completionSize(simple("${in.header.totalWorkNoteCount}")).process(aggregationPostProcessor).choice()
-                .when(header("processedAllStagedEntities").isEqualTo(true)).to("direct:stop").otherwise()
-                .to("direct:transformationSplitter");
     }
 
     /**

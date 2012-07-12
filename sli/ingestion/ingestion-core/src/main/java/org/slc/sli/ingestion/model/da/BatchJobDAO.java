@@ -68,4 +68,33 @@ public interface BatchJobDAO {
      * @param batchJobId
      */
     void releaseTenantLockForJob(String tenantId, String batchJobId);
+
+    /**
+     * Populate a shared-resource data structure that can be used to synchronize processing
+     *
+     * @param syncStage
+     *            An identifier for this synchronization stage
+     * @param jobId
+     *            Id for this job.
+     * @param recordType
+     *            The type of records being synchronized
+     * @param count
+     *            Initial count for latch.
+     * @return <code>True</code> if structure is created successfully. <code>False</code> otherwise.
+     */
+    boolean createWorkNoteCountdownLatch(String syncStage, String jobId, String recordType, int count);
+
+    /**
+     * Countdown 1 item from latch with given properties.
+     *
+     * @param syncStage
+     *            An identifier for this synchronization stage
+     * @param jobId
+     *            Id for this job.
+     * @param recordType
+     *            The type of records being synchronized
+     * @return <code>True</code> if latch reaches zero after this operation. <code>False</code>
+     *         otherwise.
+     */
+    boolean countDownWorkNoteLatch(String syncStage, String jobId, String recordType);
 }

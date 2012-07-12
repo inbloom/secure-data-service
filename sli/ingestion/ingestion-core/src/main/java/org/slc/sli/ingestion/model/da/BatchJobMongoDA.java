@@ -25,6 +25,7 @@ import java.util.List;
 import com.mongodb.BasicDBObject;
 import com.mongodb.Bytes;
 import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 import com.mongodb.MongoException;
 import com.mongodb.WriteConcern;
 
@@ -141,6 +142,33 @@ public class BatchJobMongoDA implements BatchJobDAO {
                     "Must specify a valid tenant id and batch job id for which to attempt lock.");
         }
         return false;
+    }
+
+    @Override
+    public boolean createWorkNoteCountdownLatch(String syncStage, String jobId, String recordType, int count) {
+        BasicDBObject latchObject = new BasicDBObject();
+        latchObject.put("syncStage", syncStage);
+        latchObject.put("jobId", jobId);
+        latchObject.put("recordType", recordType);
+        latchObject.put("count", count);
+        batchJobMongoTemplate.getCollection("workNoteLatch").insert(latchObject);
+        return true;
+    }
+
+    @Override
+    public boolean countDownWorkNoteLatch(String syncStage, String jobId, String recordType) {
+
+        BasicDBObject query = new BasicDBObject();
+        query.put("syncStage", syncStage);
+        query.put("jobId", jobId);
+        query.put("recordType", recordType);
+
+        BasicDBObject decrementCount = new BasicDBObject("count", -1);
+        BasicDBObject update = new BasicDBObject("$inc", decrementCount);
+
+        DBObject latchObject = batchJobMongoTemplate.getCollection("workNoteLatch").findAndModify(query, null, null,
+                false, update, true, false);
+        return 0 == (Integer) latchObject.get("count");
     }
 
     @Override
