@@ -169,23 +169,6 @@ SLC.namespace('SLC.util', (function () {
 			return lozenges;
 		}
 		
-		function getData(componentId, queryString, callback) {
-			$.ajax({
-				url: contextRootPath + '/service/data/' + componentId + '?' + queryString,
-				success: function (panelData) {
-					SLC.dataProxy[componentId] = panelData; callback(panelData);
-				}
-			});
-		}
-		
-		function getPageUrl(componentId, queryString) {
-			return contextRootPath + '/service/layout/' + componentId + ((queryString) ? ('?' + queryString) : '');
-		}
-		
-		function goToUrl(componentId, queryString) {
-			window.location = this.getPageUrl(componentId, queryString);
-		}
-		
 		function checkCondition(data, condition) {
 			var validValues = condition.value,
 				values = data[condition.field];
@@ -210,30 +193,30 @@ SLC.namespace('SLC.util', (function () {
 		}
 		
 		function displayErrorMessage(error) {
-		    $("#losError").show();
+		    $("#dsh_dv_error").show();
 		    $("#viewSelection").hide();
-		    $("#losError").html(error);
+		    $("#dsh_dv_error").html(error);
 		}
 		
 		function hideErrorMessage() {
-		    $("#losError").hide();
+		    $("#dsh_dv_error").hide();
 		}
 		
 		function setDropDownOptions(name, defaultOptions, options, titleKey, valueKey, autoSelect, callback) {
 			var select =  "",
-				autoSelectOption = -1;
+			autoSelectOption = -1;
 			
 			$("#"+name).find("dropdown-menu").html(select);
 			
 			
 			if(options === null || options === undefined || options.length === 0) {
-		                this.displayErrorMessage("There is no data available for your request.  Please contact your IT administrator.");
+		        this.displayErrorMessage("There is no data available for your request.  Please contact your IT administrator.");
 			} else {
 				if (options.length === 1 && autoSelect) {
 					autoSelectOption = 0;
 				}
-				
 				if (defaultOptions !== undefined && defaultOptions !== null) {
+
 					$.each(defaultOptions, function(val, displayText) {
 						select += "    <li class=\"\"><a href=\"#\" onclick=\"SLC.util.hideErrorMessage()\">" + displayText + "</a>" +
 						"<input type='hidden' value='"+ val + "' id ='selectionValue' /></li>";
@@ -295,6 +278,14 @@ SLC.namespace('SLC.util', (function () {
 			return true;
 		}
 		
+		function getLayoutLink(name, id, queryString) {
+			return contextRootPath + "/s/l/" + name + ((id) ? ("/" + id) : "") + ((queryString) ? ('?' + queryString) : '');
+		}
+		
+		function goToLayout(name, id, queryString) {
+			location.href = getLayoutLink(name, id, queryString);
+		}
+		
 		function setTableId(id) {
 			if (typeof id === "string") { 
 				tableId = id;
@@ -321,17 +312,20 @@ SLC.namespace('SLC.util', (function () {
 	        return contextRootPath;
 	    }
 	    
-	    $('#banner #dbrd_frm_search').live("submit", function(e) {
-		  e.preventDefault();
-		  var firstName = $('#dbrd_inp_search_firstName').val();
-		  if (!firstName || firstName === "First Name") {
-		    firstName = '';
-		  }
-		  var lastName = $('#dbrd_inp_search_lastName').val();
-		  if (!lastName || lastName === "Last Name") {
-		    lastName = '';
-		  }
-		  SLC.util.goToUrl('studentSearchPage', 'firstName=' + firstName + '&lastName=' + lastName);
+		$(document).ready( function() {
+		    $('#banner #dbrd_frm_search').live("submit", function(e) {
+			  e.preventDefault();
+			  var firstName = $('#dbrd_inp_search_firstName').val();
+			  if (!firstName || firstName === "First Name") {
+			    firstName = '';
+			  }
+			  var lastName = $('#dbrd_inp_search_lastName').val();
+			  if (!lastName || lastName === "Last Name") {
+			    lastName = '';
+			  }
+			  goToLayout('studentSearch', null, 'firstName=' + firstName + '&lastName=' + lastName);
+			  return false;
+			});
 		});
 		
 		return {
@@ -348,15 +342,14 @@ SLC.namespace('SLC.util', (function () {
 			checkAjaxError: checkAjaxError,
 			getStyleDeclaration: getStyleDeclaration,
 			renderLozenges: renderLozenges,
-			getData: getData,
-			goToUrl: goToUrl,
-			getPageUrl: getPageUrl,
 			checkCondition: checkCondition,
 			displayErrorMessage: displayErrorMessage,
 			hideErrorMessage: hideErrorMessage,
 			setDropDownOptions: setDropDownOptions,
 			selectDropDownOption: selectDropDownOption,
 			placeholderFix: placeholderFix,
+			goToLayout: goToLayout,
+			getLayoutLink: getLayoutLink,
 			setTableId: setTableId,
 			getTableId: getTableId,
 			setContextRootPath: setContextRootPath,
