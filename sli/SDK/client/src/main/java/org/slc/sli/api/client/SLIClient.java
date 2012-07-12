@@ -189,6 +189,9 @@ public interface SLIClient {
     public abstract Response deleteByToken(final String sessionToken, final String resourceUrl) throws MalformedURLException,
             URISyntaxException;
 
+    public abstract RESTClient getRESTClient();
+
+    //Deprecated
     /**
      * Perform a get operation against a generic resource. This is useful when following links
      * returned by other resources, for example.
@@ -208,6 +211,7 @@ public interface SLIClient {
     public abstract Response getResource(List<Entity> entities, URL resourceURL, Query query)
             throws URISyntaxException, MessageProcessingException, IOException;
 
+    //Deprecated
     /**
      * Perform a get operation against a generic resource. This is useful when following links
      * returned by other resources, for example.
@@ -228,6 +232,7 @@ public interface SLIClient {
              throws URISyntaxException, MessageProcessingException, IOException;
 
 
+    //Deprecated
     /**
      * Get the home resource for the authenticated user.
      *
@@ -239,22 +244,6 @@ public interface SLIClient {
      */
     public abstract Response getHomeResource(Entity home) throws URISyntaxException, MessageProcessingException,
             IOException;
-
-    /**
-     * Set access token
-     *
-     * @param sessionToken
-     *            Session token
-     */
-    public abstract void setToken(String sessionToken);
-
-    /**
-     * Get access token
-     *
-     * @return sessionToken
-     *         Session token
-     */
-    public abstract String getToken();
 
 
 

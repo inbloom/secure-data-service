@@ -116,12 +116,6 @@ public interface RESTClient {
     public abstract Response getRequestWithHeaders(final URL url, final Map<String, Object> headers)
             throws URISyntaxException;
 
-    /**
-     * Get the sessionToken for all SLI API ReSTful service calls.
-     *
-     * @return sessionToken
-     */
-    public abstract String getSessionToken();
 
     /**
      * Make a synchronous GET request to a REST service. The request includes additional header
@@ -354,5 +348,12 @@ public interface RESTClient {
      * @param sessionToken
      */
     public abstract void setSessionToken(String sessionToken);
+
+    /**
+     * Get the sessionToken for all SLI API ReSTful service calls.
+     *
+     * @return sessionToken
+     */
+    public abstract String getSessionToken();
 
 }
