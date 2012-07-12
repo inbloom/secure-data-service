@@ -38,11 +38,6 @@ public aspect IngestionLoggerAspect {
         LoggerFactory.getLogger(this.getClass()).debug(msg, params);
     }
 
-    public void IngestionLogger.ifDebug(String msg, Object... params) {
-        if (LoggerFactory.getLogger(this.getClass()).isDebugEnabled())
-        	debug(msg, params);
-    }
-
     public void IngestionLogger.info(String msg, Object... params) {
         LoggerFactory.getLogger(this.getClass()).info(msg, params);
     }
@@ -59,13 +54,14 @@ public aspect IngestionLoggerAspect {
         LoggerFactory.getLogger(this.getClass()).error(msg, x);
     }
 
-    public void IngestionLogger.piiClearedError(String msg, Throwable x) {
-        LogUtil.error(LoggerFactory.getLogger(this.getClass()), msg, (Exception)x);
+    public void IngestionLogger.piiClearedError(String msg, Exception x) {
+        LogUtil.error(LoggerFactory.getLogger(this.getClass()), msg, x);
     }
-    public void IngestionLogger.piiClearedWarn(String msg, Throwable x) {
-        LogUtil.warn(LoggerFactory.getLogger(this.getClass()), msg, (Exception)x);
+    public void IngestionLogger.piiClearedWarn(String msg, Exception x) {
+        LogUtil.warn(LoggerFactory.getLogger(this.getClass()), msg, x);
     }
-    public void IngestionLogger.piiClearedDebug(String msg, Throwable x) {
-        LogUtil.debug(LoggerFactory.getLogger(this.getClass()), msg, (Exception)x);
+    public void IngestionLogger.piiClearedDebug(String msg, Exception x) {
+        LogUtil.debug(LoggerFactory.getLogger(this.getClass()), msg, x);
     }
+
 }

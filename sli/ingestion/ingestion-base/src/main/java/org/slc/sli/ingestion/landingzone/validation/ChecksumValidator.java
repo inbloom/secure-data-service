@@ -24,6 +24,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slf4j.LoggerFactory;
 
 /**
  * Validates file's checksum using MD5 algorithm.
@@ -54,8 +55,10 @@ public class ChecksumValidator extends IngestionFileValidator {
 
         if (!checksumsMatch(actualMd5Hex, fe.getChecksum())) {
 
-            String[] args = { fe.getFileName(), actualMd5Hex, fe.getChecksum() };
-            ifDebug("File [{}] checksum ({}) does not match control file checksum ({}).", (Object[])args);
+            Object[] args = { fe.getFileName(), actualMd5Hex, fe.getChecksum() };
+            if (LoggerFactory.getLogger(this.getClass()).isDebugEnabled()) {
+            	debug("File [{}] checksum ({}) does not match control file checksum ({}).", args);
+            }
 
             fail(callback, getFailureMessage("SL_ERR_MSG2", fe.getFileName()));
 

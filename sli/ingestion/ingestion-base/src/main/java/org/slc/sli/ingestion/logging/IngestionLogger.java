@@ -23,10 +23,10 @@ public interface IngestionLogger {
 
     public void error(String msg, Throwable x);
 
-    public void piiClearedError(String msg, Throwable x);
+    public void piiClearedError(String msg, Exception x);
 
-    public void piiClearedWarn(String msg, Throwable x);
+    public void piiClearedWarn(String msg, Exception x);
 
-    public void piiClearedDebug(String msg, Throwable x);
+    public void piiClearedDebug(String msg, Exception x);
 
 }

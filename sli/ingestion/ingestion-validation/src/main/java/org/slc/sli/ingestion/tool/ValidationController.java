@@ -34,6 +34,7 @@ import org.slc.sli.ingestion.validation.ComplexValidator;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.LoggingErrorReport;
 import org.slf4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Validation Controller reads zip file or ctl file in a give directory and applies set of
@@ -47,6 +48,7 @@ public class ValidationController {
 
     private BatchJobAssembler batchJobAssembler;
 
+    @Autowired
     private ControlFileFactory controlFileFactory;
 
     // private List<? extends Validator<IngestionFileEntry>> validators;
