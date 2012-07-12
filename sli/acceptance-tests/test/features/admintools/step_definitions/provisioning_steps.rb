@@ -148,3 +148,15 @@ def remove_user(email)
   ApprovalEngine.remove_user(email)
   end
 end
+
+When /^I fill in the rsa key with "(.*?)"$/ do |arg1|
+  @driver.find_element(:id, "addKeyBtn").click
+  sleep 1
+  @driver.find_element(:id, "public_key").send_keys (arg1)
+end
+
+Then /^I get an rsa key error message$/ do
+  sleep 3
+  assertWithWait("Your key was not recognized. The SLC uses RFC4716 format for RSA keys. If you used another format, please covert your key to this format.")  {@driver.find_element(:id, "rsa_validation_error_text")}
+end
+

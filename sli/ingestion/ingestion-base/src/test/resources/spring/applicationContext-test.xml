@@ -38,6 +38,10 @@
     <property name="directory" value="src/test/resources/dummylz"></property>
   </bean>
 
+
+  <bean id="controlFileFactory" class="org.slc.sli.ingestion.landingzone.ControlFileFactory">
+  </bean>
+
   <aop:aspectj-autoproxy />
 
 </beans>

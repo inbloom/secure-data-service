@@ -20,8 +20,6 @@ package org.slc.sli.ingestion.routes.orchestra;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -38,7 +36,6 @@ import org.slc.sli.ingestion.dal.NeutralRecordAccess;
  */
 @Component
 public class BalancedTimestampSplitStrategy implements SplitStrategy {
-    private static final Logger LOG = LoggerFactory.getLogger(BalancedTimestampSplitStrategy.class);
 
     private static final int SINGLE_BATCH_SIZE = 1;
 
@@ -60,7 +57,7 @@ public class BalancedTimestampSplitStrategy implements SplitStrategy {
         long numRecords = getCountOfRecords(stagedEntity.getCollectionNameAsStaged(), minTime, maxTime, jobId);
 
         if (!stagedEntity.getEdfiEntity().isSelfReferencing() && numRecords > splitChunkSize) {
-            LOG.debug("Creating many WorkNotes for {} collection.", stagedEntity.getCollectionNameAsStaged());
+            debug("Creating many WorkNotes for {} collection.", stagedEntity.getCollectionNameAsStaged());
 
             workNotesForEntity = partitionWorkNotes(minTime, maxTime, stagedEntity, jobId);
 
@@ -68,10 +65,10 @@ public class BalancedTimestampSplitStrategy implements SplitStrategy {
                 workNote.setBatchSize(workNotesForEntity.size());
             }
 
-            LOG.info("Created {} WorkNotes for {}.", workNotesForEntity.size(),
+            info("Created {} WorkNotes for {}.", workNotesForEntity.size(),
                     stagedEntity.getCollectionNameAsStaged());
         } else {
-            LOG.info("Creating one WorkNote for collection: {}.", stagedEntity.getCollectionNameAsStaged());
+            info("Creating one WorkNote for collection: {}.", stagedEntity.getCollectionNameAsStaged());
             workNotesForEntity = singleWorkNoteList(minTime, maxTime, numRecords, stagedEntity, jobId);
         }
         return workNotesForEntity;
@@ -95,7 +92,7 @@ public class BalancedTimestampSplitStrategy implements SplitStrategy {
         if (recordsInRange <= splitChunkSize * (1.0 + splitThresholdPercentage) || (max - min <= 1)) {
             // we are within our target chunksize + margin.
             // OR we have a chunk size that cannot be partitioned further.
-            LOG.debug("Creating WorkNote for {} with time range that contains {} records", stagedEntity, recordsInRange);
+            debug("Creating WorkNote for {} with time range that contains {} records", stagedEntity, recordsInRange);
             return singleWorkNoteList(min, max, recordsInRange, stagedEntity, jobId);
         }
 

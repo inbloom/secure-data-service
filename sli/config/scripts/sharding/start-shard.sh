@@ -1,18 +1,24 @@
 #! /bin/bash
 
+
+if [ -z $1 ]; then
+  mongos_port=27017
+else
+  mongos_port=$1
+fi
+if [ -z $2 ]; then
+  num_shards=2
+else
+  num_shards=$2
+fi
+
+
 M=~/mongo/shard
 
 rm -rf $M/data $M/logs $M/pids
-mkdir -p $M/data/db/a
-mkdir -p $M/data/db/b
+
 mkdir -p $M/data/db/config
 mkdir -p $M/logs
-
-if [ -z $1 ]; then
-    mongos_port=27017
-else
-    mongos_port=$1
-fi
 
 wait_for_mongo() {
     local port="$1"
@@ -29,17 +35,18 @@ wait_for_mongo() {
 }
 
 echo "Starting up shard servers..."
-mongod --shardsvr --dbpath $M/data/db/a --port 10001 > $M/logs/sharda.log &
-echo $! >> $M/pids
-mongod --shardsvr --dbpath $M/data/db/b --port 10002 > $M/logs/shardb.log &
-echo $! >> $M/pids
+for ((i=1; i<=$num_shards; i++))
+do
+  shard_port=$(( 10000 + $i ))
+  mkdir -p $M/data/db/$i
+  mongod --shardsvr --dbpath $M/data/db/$i --port $shard_port > $M/logs/shard$i.log &
+  echo $! >> $M/pids
 
-wait_for_mongo 10001
-wait_for_mongo 10002
+  wait_for_mongo $shard_port
 
-echo "Setting chunk size on shard servers..."
-mongo config --port 10001 --eval 'db.settings.save({"_id":"chunksize", "value":1});'
-mongo config --port 10002 --eval 'db.settings.save({"_id":"chunksize", "value":1});'
+  mongo config --port $shard_port --eval 'db.settings.save({"_id":"chunksize", "value":1});'
+  echo "Shard $i up and running on port $shard_port"
+done
 
 echo "Starting up config server..."
 mongod --configsvr --dbpath $M/data/db/config --port 20000 > $M/logs/configdb.log &
@@ -47,7 +54,7 @@ echo $! >> $M/pids
 
 wait_for_mongo 20000
 
-echo "Setting chunk size on conig server..."
+echo "Setting chunk size on config server..."
 mongo config --port 20000 --eval 'db.settings.save({"_id":"chunksize", "value":1});'
 
 echo "Starting up mongos router..."
@@ -57,7 +64,9 @@ echo $! >> $M/pids
 wait_for_mongo $mongos_port
 
 echo "Adding shards to cluster..."
-mongo admin --port $mongos_port --eval 'db.runCommand( { addshard : "localhost:10001" } )'
-mongo admin --port $mongos_port --eval 'db.runCommand( { addshard : "localhost:10002" } )'
-
+for ((i=1; i<=$num_shards; i++))
+do
+  shard_port=$(( 10000 + $i ))
+  mongo admin --port $mongos_port --eval 'db.runCommand( { addshard : "localhost:'$shard_port'" } )'
+done
 echo "mongos is running on port $mongos_port"

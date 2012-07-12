@@ -27,6 +27,10 @@ import java.util.Enumeration;
 
 import org.apache.commons.io.FileUtils;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
@@ -35,7 +39,12 @@ import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
 /**
  * Test for ControlFile
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class ControlFileTest {
+
+    @Autowired
+    private ControlFileFactory controlFileFactory;
 
     @Test
     public void testParseFile() throws IOException, SubmissionLevelException {
@@ -47,7 +56,7 @@ public class ControlFileTest {
         File tmpFile = File.createTempFile("test", ".ctl");
         FileUtils.writeStringToFile(tmpFile, content);
 
-        ControlFile controlFile = ControlFile.parse(tmpFile);
+        ControlFile controlFile = controlFileFactory.parse(tmpFile, null);
         tmpFile.delete();
 
         ArrayList<IngestionFileEntry> items = (ArrayList<IngestionFileEntry>) controlFile.getFileEntries();

@@ -24,8 +24,6 @@ import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.apache.commons.lang3.text.WordUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -49,8 +47,6 @@ import org.slc.sli.ingestion.validation.ErrorReport;
 public class InternalIdNormalizer {
 
     private static final String METADATA_BLOCK = "metaData";
-
-    private static final Logger LOG = LoggerFactory.getLogger(InternalIdNormalizer.class);
 
     private static final String CACHE_NAMESPACE = "oldId";
 
@@ -129,7 +125,7 @@ public class InternalIdNormalizer {
         nq.setIncludeFields("_id");
 
         Entity e = entityRepository.findOne(collection, nq);
-        LOG.debug("~Entity~ {}", e == null ? "Not Found" : e.getType());
+        debug("~Entity~ {}", e == null ? "Not Found" : e.getType());
         if (e == null) {
             errorReport.error("Cannot find [" + collection + "] record using the following filter: " + nq, InternalIdNormalizer.class);
 

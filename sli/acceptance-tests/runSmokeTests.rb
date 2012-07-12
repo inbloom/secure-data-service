@@ -55,13 +55,9 @@ def wait_until_found(filepath,pattern)
 end
 
 
-dir = Dir.pwd
-puts "PWD: #{dir}"
+dir = "#{File.expand_path(File.dirname(__FILE__))}/.."
 log_dir = "#{dir}/everyLog"
 Dir.mkdir(log_dir) unless File.exists?(log_dir)
-
-Dir.chdir log_dir 
-FileUtils.rm Dir.glob('*.log')
 
 jetty_pattern=/Starting scanner at interval of 5 seconds/
 
@@ -70,8 +66,8 @@ procs = [
   {name: 'Ingestion', port: 8000, dir: "#{dir}/ingestion/ingestion-service", exec: "mvn -o jetty:run", pattern: jetty_pattern},
   {name: 'Dashboard', port: 8888, dir: "#{dir}/dashboard", exec: "mvn -o jetty:run", pattern: jetty_pattern},
   {name: 'SimpleIDP', port: 8082, dir: "#{dir}/simple-idp", exec: "mvn -o jetty:run", pattern: jetty_pattern},
-  {name: 'Databrowser', port: 3000, dir: "#{dir}/databrowser", exec: "bundle exec rails server", pattern: />> Listening on/},
-  {name: 'AdminTools', port: 3001, dir: "#{dir}/admin-tools/admin-rails", exec: "bundle exec rails server", pattern: /WEBrick::HTTPServer#start:/}
+  {name: 'Databrowser', port: 3000, dir: "#{dir}/databrowser", exec: "bundle install; bundle exec rails server", pattern: />> Listening on/},
+  {name: 'AdminTools', port: 3001, dir: "#{dir}/admin-tools/admin-rails", exec: "bundle install; bundle exec rails server", pattern: /WEBrick::HTTPServer#start:/}
 ]
 
 procs.each { |p|
@@ -93,5 +89,11 @@ procs.each { |p|
 
 puts "\n\nStarting Smoke Tests\n"
 Dir.chdir "#{dir}/acceptance-tests"
-exec 'bundle exec rake smokeTests'
+pid = Process.spawn('bundle exec rake smokeTests')
+Process.wait(pid)
 
+puts "signaling child processes to terminate"
+gpid = Process.getpgrp()
+Process.setpgid(Process.pid, 0)
+Process.fork { exec "kill -15 -#{gpid}; sleep 5; kill -9 -#{gpid}" }
+Process.waitall

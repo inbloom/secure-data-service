@@ -23,10 +23,6 @@ import org.milyn.Smooks;
 import org.milyn.cdr.SmooksResourceConfiguration;
 import org.milyn.templating.TemplatingConfiguration;
 import org.milyn.templating.freemarker.FreeMarkerTemplateProcessor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler;
 
 /**
  *
@@ -35,7 +31,6 @@ import org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler;
  */
 
 public class FreeMarkerExtendedReferenceResolver implements ReferenceResolutionStrategy {
-    public static final Logger LOG = LoggerFactory.getLogger(IdRefResolutionHandler.class);
 
     private static final String DOCUMENT = "#document";
 
