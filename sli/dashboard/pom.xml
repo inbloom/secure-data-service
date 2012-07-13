@@ -266,6 +266,7 @@
                         <include>**/widgets/license.js</include>
 	                    <include>**/widgets/SLC.loadingMask.js</include>
 	                    <include>**/widgets/grid/SLC.grid.tablegrid.js</include>
+	                    <include>**/widgets/grid/SLC.grid.tree.js</include>
 	                    <include>**/widgets/grid/SLC.grid.fuelGauge.js</include>
 	                    <include>**/widgets/grid/SLC.grid.formatters.js</include>
 	                    <include>**/widgets/grid/SLC.grid.sorters.js</include>
