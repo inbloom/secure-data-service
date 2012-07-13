@@ -1,6 +1,6 @@
 require_relative '../../utils/sli_utils.rb'
 
-Then /^I see an app named "(.*?)"$/ do |arg1|
+Then /^I see an app named "(.*?)" and not "(.*?)"$/ do |arg1, arg2|
   assert(@res.code == 200, "Response code not expected: expected 200 but received "+@res.code.to_s)
   result = JSON.parse(@res.body)
   assert(result!= nil, "Result of JSON parsing is nil")
@@ -8,6 +8,9 @@ Then /^I see an app named "(.*?)"$/ do |arg1|
   result.each do |app|
     if app["name"] == arg1
       found = true
+    end
+    if app["name"] == arg2
+      assert(false, "Found the app named #{arg2} when we shouldn't have: cross tenant leakage detected!")
     end
   end
   assert(found == true, "App named #{arg1} not found")
