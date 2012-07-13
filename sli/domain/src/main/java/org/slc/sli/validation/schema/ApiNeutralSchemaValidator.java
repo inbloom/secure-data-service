@@ -28,8 +28,12 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
         return super.validate(entity);
     }
 
-    @Override
-    public List<String> getNaturalKeyFields(Entity entity) {
+    /**
+     * Returns a list of natural keys from the schema for the given entity
+     * @param entity Entity to inspect
+     * @return
+     */
+    protected List<String> getNaturalKeyFields(Entity entity) {
 
         List<String> naturalKeyFields = new ArrayList<String>();
 
@@ -60,11 +64,11 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
     }
 
     /**
-     * Validates natural keys
+     * Validates natural keys against a given entity
      * @param entity
      * @return
      */
-    private void validateNaturalKeys(final Entity entity) {
+    protected void validateNaturalKeys(final Entity entity) {
         String collectionName = entity.getType();
         NeutralSchema schema = entitySchemaRegistry.getSchema(entity.getType());
 
@@ -131,7 +135,7 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
                 List<ValidationError> errors = new ArrayList<ValidationError>();
                 throw new EntityValidationException(entity.getEntityId(), entity.getType(), errors);
             } else {
-                throw new NaturalKeyValidationException(entity.getType());
+                throw new NaturalKeyValidationException(entity.getType(), naturalKeyList);
             }
         }
 
