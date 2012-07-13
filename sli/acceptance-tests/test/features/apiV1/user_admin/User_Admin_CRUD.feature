@@ -65,12 +65,12 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |operator   |operator1234   |SLC Operator           |SLI        |SEA Administrator           |200 |1 or more|NY Admin        |nyadmin                          |                            |
     |operator   |operator1234   |SLC Operator           |SLI        |LEA Administrator           |200 |1 or more|Daybreak Admin  |daybreakadmin                    |daybreakadmin@slidev.org    |
     |operator   |operator1234   |SLC Operator           |SLI        |Realm Administrator         |200 |1 or more|Mal Admin       |mreynolds                        |mreynolds@slidev.org        |
-    |operator   |operator1234   |SLC Operator           |SLI        |Ingestion Administrator     |200 |0        |                |                                 |                            |
+    |operator   |operator1234   |SLC Operator           |SLI        |Ingestion User              |200 |1 or more|Sunset IngestionUser|sunsetingestionuser          |sunsetingestionuser@slidev.org|
     |iladmin    |iladmin1234    |SEA Administrator      |SLI        |SLC Operator                |200 |0        |                |                                 |                            |
     |iladmin    |iladmin1234    |SEA Administrator      |SLI        |SEA Administrator           |200 |1 or more|IL Admin        |iladmin                          |                            |
     |iladmin    |iladmin1234    |SEA Administrator      |SLI        |LEA Administrator           |200 |1 or more|Daybreak Admin  |daybreakadmin                    |daybreakadmin@slidev.org    |
     |iladmin    |iladmin1234    |SEA Administrator      |SLI        |Realm Administrator         |200 |1 or more|Sunset RealmAdmin|sunsetrealmadmin                |sunsetrealmadmin@slidev.org |
-    |iladmin    |iladmin1234    |SEA Administrator      |SLI        |Ingestion Administrator     |200 |0        |                |                                 |                            |
+    |iladmin    |iladmin1234    |SEA Administrator      |SLI        |Ingestion User              |200 |1 or more|Sunset IngestionUser|sunsetingestionuser          |sunsetingestionuser@slidev.org|
     |sunsetadmin|sunsetadmin1234|LEA Administrator      |SLI        |SLC Operator                |200 |0        |                |                                 |                            |
     |sunsetadmin|sunsetadmin1234|LEA Administrator      |SLI        |SEA Administrator           |200 |0        |                |                                 |                            |
     |sunsetadmin|sunsetadmin1234|LEA Administrator      |SLI        |LEA Administrator           |200 |1 or more|Sunset Admin    |sunsetadmin                      |                            |
@@ -90,26 +90,18 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     And one of the accounts has "<Full_Name>", "<User_ID>", "<Email_Address>"
 
   Examples:
-    |USER              |PASSWORD            |ADMIN_ROLE             |REALM      |WANTED_ADMIN_ROLE     |CODE|Number   |Full_Name        |User_ID                       |Email_Address                 |
-    |sandboxoperator   |sandboxoperator1234 |Sandbox SLC Operator   |SLI        |Sandbox SLC Operator  |200 |1 or more|Sandbox Operator |sandboxslcoperator            |sandboxslcoperator@slidev.org |
-    |sandboxoperator   |sandboxoperator1234 |Sandbox SLC Operator   |SLI        |Sandbox Administrator |200 |1 or more|Sandbox Admin    |sandboxadministrator          |sandboxadministrator@slidev.org|
-    |sandboxoperator   |sandboxoperator1234 |Sandbox SLC Operator   |SLI        |Application Developer |200 |1 or more|Sandbox Developer|sandboxdeveloper              |sandboxdeveloper@slidev.org    |
+    |USER              |PASSWORD            |ADMIN_ROLE             |REALM      |WANTED_ADMIN_ROLE       |CODE|Number   |Full_Name        |User_ID                       |Email_Address                 |
+    |sandboxoperator   |sandboxoperator1234 |Sandbox SLC Operator   |SLI        |Sandbox SLC Operator    |200 |1 or more|Sandbox Operator |sandboxslcoperator            |sandboxslcoperator@slidev.org |
+    |sandboxoperator   |sandboxoperator1234 |Sandbox SLC Operator   |SLI        |Sandbox Administrator   |200 |1 or more|Sandbox Admin    |sandboxadministrator          |sandboxadministrator@slidev.org|
+    |sandboxoperator   |sandboxoperator1234 |Sandbox SLC Operator   |SLI        |Application Developer   |200 |1 or more|Sandbox Developer|sandboxdeveloper              |sandboxdeveloper@slidev.org    |
+    |sandboxoperator   |sandboxoperator1234 |Sandbox SLC Operator   |SLI        |Ingestion User          |200 |1 or more|Sandbox IngestionUser|sandboxingestionuser      |sandboxingestionuser@slidev.org|
     |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator|SLI     |Sandbox SLC Operator  |200 |0        |              |                              |                               |
     |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator|SLI     |Sandbox Administrator |200 |1 or more|Sandbox Admin |sandboxadministrator          |sandboxadministrator@slidev.org|
     |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator|SLI     |Application Developer |200 |1 or more|Sandbox Developer|sandboxdeveloper           |sandboxdeveloper@slidev.org    |
-    |sandboxdeveloper |sandboxdeveloper1234 |Application Developer  |SLI         |                        |403 |       |              |                              |                               |
-
-#    |operator   |operator1234   |slcoperator |SLC Operator           |SLI        |SEA Administrator           |200 |1 or more|NY Admin        |nyadmin                          |                            |
-#    |ADMIN_ROLE             |ADMIN_REALM                  |WANTED_ADMIN_ROLE           |ALLOWED_RIGHTS          |CODE|Number|Full_Name          |User_name  |Email_Address         |
-#    |SLC_Operator           |Shared Learning Collaborative|SLC_Operator                |DEFAULT                 |200 |1     |SLC_Operator_2     |SLCOP2     |SLC_Operator@test.com |
-#    |SLC_Operator           |Shared Learning Collaborative|Admin_App_Developer         |DEFAULT                 |200 |1     |Admin_App_Developer|AdminAppDev|Admin_App_Dev@test.com|
-#    |SLC_Operator           |Shared Learning Collaborative|Application_Developer       |DEFAULT                 |200 |1     |App_Developer      |AppDev     |App_Dev@test.com      |
-#    |Application_Developer  |Shared Learning Collaborative|SLC_Operator                |ADMIN_ACCOUNT_MANAGEMENT|401 |0     |SLC_Operator_2     |SLCOP2     |SLC_Operator@test.com |
-#    |Application_Developer  |Shared Learning Collaborative|Admin_App_Developer         |ADMIN_ACCOUNT_MANAGEMENT|200 |1     |Admin_App_Developer|AdminAppDev|Admin_App_Dev@test.com|
-#    |Application_Developer  |Shared Learning Collaborative|Application_Developer       |ADMIN_ACCOUNT_MANAGEMENT|200 |1     |App_Developer      |AppDev     |App_Dev@test.com      |
-#    |Application_Developer  |Shared Learning Collaborative|SLC_Operator                |DEFAULT                 |401 |0     |SLC_Operator_2     |SLCOP2     |SLC_Operator@test.com |
-#    |Application_Developer  |Shared Learning Collaborative|Admin_App_Developer         |DEFAULT                 |401 |0     |Admin_App_Developer|AdminAppDev|Admin_App_Dev@test.com|
-#    |Application_Developer  |Shared Learning Collaborative|Application_Developer       |DEFAULT                 |200 |1     |App_Developer      |AppDev     |App_Dev@test.com      |
+    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator|SLI     |Ingestion User        |200 |1 or more|Sandbox IngestionUser|sandboxingestionuser   |sandboxingestionuser@slidev.org|
+    |sandboxdeveloper |sandboxdeveloper1234 |Application Developer  |SLI         |                        |403 |         |                |                             |                               |
+    |ingestionuser    |ingestionuser1234    |Ingestion User          |SLI        |                        |403 |        |                |                              |                              |
+    
 
   @wip
   @production

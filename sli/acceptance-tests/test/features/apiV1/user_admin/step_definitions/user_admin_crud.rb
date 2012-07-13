@@ -36,7 +36,7 @@ Then /^I should receive a list of size "([^"]*)" of "([^"]*)"$/ do |number, want
       @user_with_wanted_admin_role << user
     end
   }
-  assert( @user_with_wanted_admin_role.length>=number, "Users with group #{wanted_admin_role}: #{@user_with_wanted_admin_role.to_yaml}")
+  assert( (number==0&&@user_with_wanted_admin_role.length==number)||(number==1&&@user_with_wanted_admin_role.length>=number), "Users with group #{wanted_admin_role}: #{@user_with_wanted_admin_role.to_yaml}")
 end
 end
 
