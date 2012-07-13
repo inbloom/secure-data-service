@@ -1,17 +1,21 @@
 require_relative '../../../utils/sli_utils.rb'
 require 'json'
 require 'test/unit'
+require "mongo"
 
 Before do
   extend Test::Unit::Assertions
+  @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])
 end
 
-Then /^I have a uid "(.*?)" and role "(.*?)"$/ do |uid, admin_role|
- if uid != nil&& uid != ""
-  @logged_in_user = get_user(uid)
-  assert_not_nil(@logged_in_user, "Cannot find user with uid = <#{uid}> in \n#{@result}")
-  assert_not_nil(@logged_in_user['groups'].index(admin_role), "The following user does not have role = #{admin_role}:\n#{@logged_in_user}")
+Given /^I have logged in to realm "(.*?)" using "(.*?)" "(.*?)"$/ do |realm, user, pass|
+  @user = user
+  step "I am logged in using \"#{user}\" \"#{pass}\" to realm \"#{realm}\""
 end
+
+Given /^I have a role "([^"]*)"$/ do |role|
+  @logged_in_user = get_user(@user)
+  assert_not_nil(@logged_in_user['roles'].index(role), "The user does not have role = #{role}")
 end
 
 Then /^I should receive a list of size "([^"]*)" of "([^"]*)"$/ do |number, wanted_admin_role|
@@ -21,13 +25,13 @@ Then /^I should receive a list of size "([^"]*)" of "([^"]*)"$/ do |number, want
   number = 0
   end
   if number==1 or number ==0
-  print_administrator_comma_separated
+  #print_administrator_comma_separated
   @user_with_wanted_admin_role = []
   @result.each { |user|
     user_contains_wanted_role = (user['groups'].index(wanted_admin_role) != nil)
     if user_contains_wanted_role
-      if(!@logged_in_user['tenant'].nil?)
-        assert_equal(@logged_in_user['tenant'], user['tenant'], "Logged in user should only be able to see users from same tenancy.\nLogged In User: #{@logged_in_user}\nUser shown: #{user}")
+      if(!@logged_in_user['tenantId'].nil?)
+        assert_equal(@logged_in_user['tenantId'], user['tenant'], "Logged in user should only be able to see users from same tenancy.\nLogged In User: #{@logged_in_user}\nUser shown: #{user}")
       end
       @user_with_wanted_admin_role << user
     end
@@ -46,11 +50,12 @@ Then /^each account has "(.*?)", "(.*?)", "(.*?)", "(.*?)" and "(.*?)"$/ do |ful
   }
 end
 
-Then /^one of the accounts has "(.*?)", "(.*?)", "(.*?)"$/ do |fullName, uid, email|
-  if(!(fullName.empty? && uid.empty? && email.empty?))
+Then /^one of the accounts has "([^"]*)", "([^"]*)", "([^"]*)"$/ do |fullName, uid, email|
+  if(!(fullName=="" && uid=="" && email==""))
     contains_specified_user = false
     @user_with_wanted_admin_role.each {|user|
-      if(user['fullName'] == fullName && user['uid'] = uid && user['email'] = email)
+      if((fullName==""||user['fullName'] == fullName) && (uid==""||user['uid'] == uid) && (email==""||user['email'] == email))
+      # puts user["fullName"],user["uid"],user["email"]
         contains_specified_user = true
         break
       end
@@ -60,14 +65,23 @@ Then /^one of the accounts has "(.*?)", "(.*?)", "(.*?)"$/ do |fullName, uid, em
 end
 
 def get_user(uid)
+=begin
   @result.each { |user|
     return user if(user['uid'] == uid)
   }
-  nil
+=end
+userSession_coll = @db['userSession']
+userSessions = userSession_coll.find({"body.principal.externalId" => uid})
+user=nil
+userSessions.each do |userSession|
+user=userSession["body"]["principal"]
+end
+
+return user
 end
 
 def print_administrator_comma_separated
-  administrators = ["SLC Operator", "LEA Administrator", "SEA Administrator", "Realm Administrator", "Ingestion Administrator"]
+  administrators = ["SLC Operator", "LEA Administrator", "SEA Administrator", "Realm Administrator", "Ingestion User", "Sandbox SLC Operator", "Sandbox Administrator","Application Developer"]
   out = []
   @result.each { |user|
     if((administrators & user['groups']).length > 0)
