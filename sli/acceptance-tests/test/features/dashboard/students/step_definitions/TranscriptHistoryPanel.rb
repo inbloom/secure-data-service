@@ -19,6 +19,7 @@ limitations under the License.
 
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../dash/step_definitions/selenium_common_dash.rb'
+require_relative '../../dash/step_definitions/profile.rb'
 require_relative '../../dash/step_definitions/student_profile_steps.rb'
 require_relative '../../dash/step_definitions/population_widget_steps.rb'
 require_relative '../../dash/step_definitions/pages_panel_steps.rb'
