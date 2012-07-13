@@ -261,7 +261,6 @@ end
 
 Then /^the directory structure for the landing zone is stored in ldap$/ do
   user=@ldap.read_user(@email)
-  puts "XYXYX:  #{user[:homedir]}      JKJKJKJ   #{sha256(@edorgName)}"
   assert(check_lz_path(user[:homedir], @tenantId, @edorgName),"the landing zone path is not stored in ldap")
 end
 
