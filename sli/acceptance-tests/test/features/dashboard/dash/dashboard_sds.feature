@@ -10,8 +10,8 @@ When I select "Illinois Daybreak School District 4529" and click go
 Scenario: View Matt Sollars
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
-And I see a header on the page that has the text "Logout"
-And I see a footer on the page that has the text "Proprietary Information"
+And I see a header on the page
+And I see a footer on the page
 And the title of the page is "SLC - Section Profile"
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
