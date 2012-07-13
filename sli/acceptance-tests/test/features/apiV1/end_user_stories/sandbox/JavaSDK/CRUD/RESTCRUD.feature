@@ -10,41 +10,41 @@ When I select "Illinois Daybreak School District 4529" and click go
  When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
 
 Scenario: IT Admin Add a students		
-		When I put "STUDENTS"  with Name "Monique L Johnson" 
+		When I put "STUDENTS"  with Name "Monique L Christie" 
 		And Sex as "Female" and  
-		And BirthDate as "1995-01-01"
+		And BirthDate as "1993-12-31"
 		And Address is "817 Oakridge Farm Lane"
 		Then the student is added
 		
 		When I read all the students
-		Then I should find student "Monique L Johnson" in the student list
+		Then I should find student "Monique L Christie" in the student list
 		
 		When I send test request "create" to SDK CRUD test url
 		Then I should receive response "succeed"
 		
 Scenario: IT Admin updates students
-		When I update "STUDENTS"  "Monique L Johnson" address  to "2817 Oakridge Farm Lane" 
+		When I update "STUDENTS"  "Monique L Christie" address  to "2817 New Found Lane" 
 		Then the street address is updated
 		
-		When I read "STUDENTS" with name "Monique L Johnson"
-		Then her address is "2817 Oakridge Farm Lane" 
+		When I read "STUDENTS" with name "Monique L Christie"
+		Then her address is "2817 New Found Lane" 
 		
 		When I send test request "update" to SDK CRUD test url
 		Then I should receive response "succeed"
 		
 Scenario: IT Admin deletes a students		
-		When I delete "STUDENTS" with name "Monique L Johnson"
+		When I delete "STUDENTS" with name "Monique L Christie"
 		Then the student is deleted
 		
 		When I read collection "STUDENTS"
-		Then I student "Monique L Johnson" is not in the student list
+		Then I student "Monique L Christie" is not in the student list
 		
 		When I send test request "delete" to SDK CRUD test url
 		Then I should receive response "succeed"
 			
 Scenario: IT Admin sees list of male teachers with decending order by first name
 		When I query for "teachers" with "sex" as "Male" and sort by "firstName" and sortOrder "descending"
-		Then I should see a descending list off teachers where first teachers firstName is "Stephen"	
+		Then I should see a descending list off teachers where first teachers firstName is "Mark"	
 		
 		When I send test request "query" to SDK CRUD test url
 		Then I should receive response "succeed"
