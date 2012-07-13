@@ -5,9 +5,9 @@
   data :{
     entity: "studentAttendance",
     cacheKey: "studentAttendance",
-    params: { yearsBack: "3"
+    params: { 
+        yearsBack: "3"
     }
-    entity: "studentAttendance"
   },
   params: {
     layout: ["student"]
