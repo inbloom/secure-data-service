@@ -3,7 +3,6 @@ package org.slc.sli.aggregation;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.hadoop.io.IntWritable;
@@ -43,20 +42,12 @@ public class SchoolProficiencyMapper
 
         Map<IntWritable, IntWritable> buckets = new HashMap<IntWritable, IntWritable>();
 
-        @SuppressWarnings("unchecked")
-        List<Map<String, String>> results = (List<Map<String, String>>) body.get("scoreResults");
+        // TODO -- find the highest ever math score for each student in the school.
 
-        String studentId = (String) body.get("studentId");
-        for (Map<String, String> result: results) {
-            String scoreType = result.get("assessmentReportingMethod");
-            if (type.equals(scoreType)) {
-                String scoreString = result.get("result");
-                MapWritable w = new MapWritable();
-                w.putAll(buckets);
-                context.write(new Text(studentId), w);
-                return;
-            }
-        }
+        MapWritable w = new MapWritable();
+        w.putAll(buckets);
+        context.write(schoolUUID, w);
+
 
     }
 }

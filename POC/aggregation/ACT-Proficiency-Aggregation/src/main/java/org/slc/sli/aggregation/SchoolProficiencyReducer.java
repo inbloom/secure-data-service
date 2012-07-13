@@ -2,28 +2,27 @@ package org.slc.sli.aggregation;
 
 import java.io.IOException;
 
-import org.apache.hadoop.io.DoubleWritable;
 import org.apache.hadoop.io.IntWritable;
+import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.mapreduce.Reducer;
 
-
+/**
+ * Aggregate reducer for school math assessments.
+ *
+ * @author asaarela
+ *
+ */
 public class SchoolProficiencyReducer
-        extends Reducer<IntWritable, DoubleWritable, IntWritable, DoubleWritable> {
+        extends Reducer<IntWritable, MapWritable, IntWritable, MapWritable> {
+
     @Override
-    public void reduce( final IntWritable pKey,
-                        final Iterable<DoubleWritable> pValues,
-                        final Context pContext )
-            throws IOException, InterruptedException{
-        int count = 0;
-        double sum = 0;
-        for ( final DoubleWritable value : pValues ){
-            sum += value.get();
-            count++;
-        }
+    public void reduce(final IntWritable pKey,
+                       final Iterable<MapWritable> pValues,
+                       final Context pContext)
+            throws IOException, InterruptedException {
 
-        final double avg = sum / count;
+    	// TODO -- emit the school level aggregate
 
-        pContext.write( pKey, new DoubleWritable( avg ) );
     }
 
 }
