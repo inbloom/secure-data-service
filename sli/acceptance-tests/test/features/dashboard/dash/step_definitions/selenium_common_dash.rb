@@ -41,6 +41,10 @@ Then /^I click on the browser back button$/ do
 end
 
 Then /^the title of the page is "(.*?)"$/ do |pageTitle|
+  verifyPageTitle(pageTitle)
+end
+
+def verifyPageTitle(pageTitle)
   assert(@driver.title == pageTitle, "Expected: " + pageTitle + " Actual " + @driver.title)
 end
 

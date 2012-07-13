@@ -48,7 +48,7 @@ public class Config implements Cloneable, Serializable {
      *
      */
     public enum Type {
-        LAYOUT(true), PANEL(true), GRID(true), TAB(false), WIDGET(true), FIELD(false), EXPAND(false), REPEAT_HEADER_GRID(true);
+        LAYOUT(true), PANEL(true), GRID(true), TREE(true), TAB(false), WIDGET(true), FIELD(false), EXPAND(false), REPEAT_HEADER_GRID(true);
 
         private boolean hasOwnConfig;
 

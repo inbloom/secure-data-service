@@ -31,7 +31,10 @@
   </#if>
   <#if panel.type == "REPEAT_HEADER_GRID">
     <@includeRepeatHeaderGrid gridId=panel.id/>
-  </#if>
+  </#if>  
+  <#if panel.type == "TREE">
+    <@includeTree treeId=panel.id/>
+  </#if>   
 </#macro>
 
 <#function getDivId panelId>
@@ -56,6 +59,22 @@
     </script>
 
 </#macro>
+
+<#macro includeTree treeId>
+  
+  <#assign id = getDivId(treeId)>
+  </br>
+<div class="ui-widget-no-border">
+    <table id="${id}"></table>
+</div>
+    <script type="text/javascript">
+      <#-- make tree -->
+      SLC.grid.tree.create('${id}', SLC.dataProxy.getConfig("${treeId}"), SLC.dataProxy.getData("${treeId}"));
+
+    </script>
+
+</#macro>
+
 <#noescape>
 <#macro includeRepeatHeaderGrid gridId>
 

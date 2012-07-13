@@ -341,8 +341,19 @@ When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
 Then I only see "South Daybreak Elementary"
 And I select school "South Daybreak Elementary"
-And I select course "1st Grade Homeroom"
-And I select section "Mrs. Braverman's Homeroom #38"
+And I click on the go button
+And I view the School Profile
+And the school name is "South Daybreak Elementary"
+And the school address is 
+"""
+111 Ave A
+Chicago, IL 11011
+"""
+And the school phone number is "(917)-555-0212"
+And the grades served is "K, 1, 2, 3, 4, 5"
+And I click on subject "Miscellaneous"
+And I click on course "1st Grade Homeroom"
+And I click on section "Mrs. Braverman's Homeroom #38"
 Then I see a list of 25 students
 And I click on student "Mi-Ha Tran"
 And I view its student profile

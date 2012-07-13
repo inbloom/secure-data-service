@@ -275,14 +275,19 @@ SLC.namespace('SLC.grid.formatters', (function () {
 	
 	    function restLink(value, options, rowObject) {
 			var link = options.colModel.formatoptions.link,
+			    level = options.colModel.formatoptions.level,
 				contextRootPath = util.getContextRootPath();
 	      
-	      if (typeof link === 'string')
-	      {
-	        return '<a href="' + util.getLayoutLink(link, rowObject.id) +'">'+$.jgrid.htmlEncode(value)+'</a>';
-	      } else {
-	        return value;
-	      }
+			if (typeof link !== 'string') {
+				return value;
+			}
+			
+			if (level != null && level !== undefined && rowObject.level != null && rowObject.level !== undefined &&
+			    level !== rowObject.level) {
+				return value;
+			}
+				
+			return '<a href="' + util.getLayoutLink(link, rowObject.id) +'">'+$.jgrid.htmlEncode(value)+'</a>';
 		}
 		
 		function dataColorBox(value, options, rowObject) {

@@ -12,11 +12,46 @@ Scenario: View Matt Sollars
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 And I see a header on the page that has the text "Logout"
 And I see a footer on the page that has the text "Proprietary Information"
-And the title of the page is "SLC - Section Profile"
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
-When I select course "8th Grade English"
-When I select section "8th Grade English - Sec 6"
+And I click on the go button
+And I view the School Profile
+And the school name is "East Daybreak Junior High"
+And the school address is 
+"""
+111 Ave B
+Chicago, IL 10112
+"""
+And the school phone number is "(917)-555-3312"
+And the grades served is "6, 7, 8"
+And I see the following subjects:
+|Subject                          |
+|Mathematics                      |
+|English Language and Literature  |
+And I click on subject "Mathematics"
+And I see the following courses:
+|Course|
+|6th Grade Math     |
+|7th Grade Math     |
+And I click on subject "English Language and Literature"
+And I see the following courses:
+|Course             |
+|6th Grade English  |
+|8th Grade English  |
+|7th Grade English  |
+|6th Grade Math     |
+|7th Grade Math     |
+And I click on course "8th Grade English"
+And I click on course "7th Grade English"
+And I click on course "6th Grade English"
+And I click on course "7th Grade Math"
+And I see the following sections:
+|Section                    |
+|8th Grade English - Sec 6  |
+|6th Grade English - Sec 4  |
+|7th Grade English - Sec 5  |
+|7th Grade Math - Sec 2     |
+And I click on section "8th Grade English - Sec 6"
 Then I see a list of 28 students
 And I check "Student" column is sorted as "string" column
 And I click on "Absence Count" header to sort a "integer" column in "ascending" order
