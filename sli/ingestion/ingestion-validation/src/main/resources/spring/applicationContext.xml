@@ -29,12 +29,9 @@
 
     <bean id="lz" class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone"/>
 
-    <bean id="cfFactory" class="org.slc.sli.ingestion.landingzone.ControlFileFactory"/>
-
     <bean id="validationController" class="org.slc.sli.ingestion.tool.ValidationController">
         <property name="zipFileHandler" ref="zipFileHandler"/>
         <property name="batchJobAssembler" ref="batchJobAssembler"/>
         <property name="ComplexValidator" ref="complexValidator"/>
-        <property name="controlFileFactory" ref="cfFactory"/>
      </bean>
 </beans>

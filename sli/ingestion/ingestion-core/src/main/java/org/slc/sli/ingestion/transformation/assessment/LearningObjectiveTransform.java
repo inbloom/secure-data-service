@@ -22,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -56,6 +58,8 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
     public static final String LOCAL_ID_OBJECTIVE = "parentObjective";
     public static final String LOCAL_ID_LEARNING_STANDARDS = "childLearningStandards";
 
+    private static final Logger LOG = LoggerFactory.getLogger(LearningObjectiveTransform.class);
+
     @SuppressWarnings("unchecked")
     @Override
     protected void performTransformation() {
@@ -64,9 +68,9 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
 
         List<NeutralRecord> allLearningObjectives = new ArrayList<NeutralRecord>();
 
-        info("Loading data for learning objective transformation.");
+        LOG.info("Loading data for learning objective transformation.");
         Map<Object, NeutralRecord> learningObjectives = getCollectionFromDb(LEARNING_OBJECTIVE);
-        info("{} is loaded into local storage.  Total Count = {}", LEARNING_OBJECTIVE, learningObjectives.size());
+        LOG.info("{} is loaded into local storage.  Total Count = {}", LEARNING_OBJECTIVE, learningObjectives.size());
 
         for (Map.Entry<Object, NeutralRecord> entry : learningObjectives.entrySet()) {
             NeutralRecord lo = entry.getValue();

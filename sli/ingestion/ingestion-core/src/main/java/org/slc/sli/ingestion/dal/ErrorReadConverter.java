@@ -21,6 +21,8 @@ import java.util.Date;
 
 import com.mongodb.DBObject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.convert.converter.Converter;
 
 import org.slc.sli.dal.encrypt.EntityEncryption;
@@ -32,6 +34,7 @@ import org.slc.sli.ingestion.model.Error;
  *
  */
 public class ErrorReadConverter implements Converter<DBObject, Error> {
+    private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordWriteConverter.class);
     EntityEncryption encryptor;
 
     public EntityEncryption getEncryptor() {
@@ -53,7 +56,7 @@ public class ErrorReadConverter implements Converter<DBObject, Error> {
         if (obj instanceof String) {
             error.setBatchJobId((String) obj);
         } else {
-            info("batchJobId is invalid!");
+            LOG.info("batchJobId is invalid!");
         }
 
         obj = dbObj.get("stageName");
@@ -61,49 +64,49 @@ public class ErrorReadConverter implements Converter<DBObject, Error> {
         if (obj instanceof String) {
             error.setStageName((String) obj);
         } else {
-            info("statgeName is invalid! ");
+            LOG.info("statgeName is invalid! ");
         }
 
         obj = dbObj.get("resourceId");
         if (obj instanceof String) {
             error.setResourceId((String) obj);
         } else {
-            info("resourceId is invalid! ");
+            LOG.info("resourceId is invalid! ");
         }
 
         obj = dbObj.get("sourceIp");
         if (obj instanceof String) {
             error.setSourceIp((String) obj);
         } else {
-            info("sourceIp is invalid! ");
+            LOG.info("sourceIp is invalid! ");
         }
 
         obj = dbObj.get("hostname");
         if (obj instanceof String) {
             error.setHostname((String) obj);
         } else {
-            info("hostname is invalid! ");
+            LOG.info("hostname is invalid! ");
         }
 
         obj = dbObj.get("timestamp");
         if (obj instanceof Date) {
             error.setTimestamp((Date) obj);
         } else {
-            info("timestamp is invalid! ");
+            LOG.info("timestamp is invalid! ");
         }
 
         obj = dbObj.get("severity");
         if (obj instanceof String) {
             error.setSeverity((String) obj);
         } else {
-            info("severity is invalid! ");
+            LOG.info("severity is invalid! ");
         }
 
         obj = dbObj.get("errorDetail");
         if (obj instanceof String) {
             error.setErrorDetail((String) encryptor.decryptSingleValue(obj));
         } else {
-            info("errorDetail is invalid! ");
+            LOG.info("errorDetail is invalid! ");
         }
 
         return error;
