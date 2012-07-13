@@ -17,8 +17,6 @@
 
 package org.slc.sli.ingestion.transformation;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.domain.Entity;
@@ -33,8 +31,6 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  * @author shalka
  */
 public class SessionEdFi2SLITransformer extends SmooksEdFi2SLITransformer {
-
-    private static final Logger LOG = LoggerFactory.getLogger(SessionEdFi2SLITransformer.class);
 
     /**
      * Matches a Session with a Session in the database.
@@ -52,10 +48,10 @@ public class SessionEdFi2SLITransformer extends SmooksEdFi2SLITransformer {
 
         EntityConfig entityConfig = getEntityConfigurations().getEntityConfiguration(entity.getType());
         if (entityConfig == null || entityConfig.getReferences().isEmpty()) {
-            LOG.warn("Cannot find reference configuration for entity of type: {}", entity.getType());
+            warn("Cannot find reference configuration for entity of type: {}", entity.getType());
             return;
         }
-        LOG.debug("Found reference configuration for entity of type: {}", entity.getType());
+        debug("Found reference configuration for entity of type: {}", entity.getType());
 
         Query query = createEntityLookupQuery(entity, entityConfig, errorReport);
 

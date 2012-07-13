@@ -34,17 +34,11 @@ import org.apache.avro.generic.GenericDatumReader;
 import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.util.Utf8;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.slc.sli.ingestion.util.LogUtil;
 
 /**
  *
  */
 public class NeutralRecordFileReader implements Iterator<NeutralRecord> {
-
-    private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordFileReader.class);
 
     protected File file;
 
@@ -140,7 +134,7 @@ public class NeutralRecordFileReader implements Iterator<NeutralRecord> {
         try {
             neutralRecord = getNeutralRecord((Record) this.reader.next());
         } catch (IOException e) {
-            LogUtil.error(LOG, "Could not decode NeutralRecord", e);
+            piiClearedError("Could not decode NeutralRecord", e);
         }
         return neutralRecord;
     }

@@ -43,7 +43,6 @@
 <#else>
     <script type="text/javascript" src = "${CONTEXT_ROOT_PATH}/static/js/SLC.js"></script>
     <script type="text/javascript" src = "${CONTEXT_ROOT_PATH}/static/js/widgets.js"></script>
-    <script type="text/javascript" src = "${CONTEXT_ROOT_PATH}/static/js/all.js"></script>
 </#if>
 
 </head>
