@@ -8,7 +8,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.slc.sli.aggregation</groupId>
-  <artifactId>ACT-HighestEver</artifactId>
+  <artifactId>Math-Proficiency-Aggregation</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
@@ -20,7 +20,7 @@
 
   <properties>
     <sli.home>${project.parent.basedir}</sli.home>
-    <hadoop.job.mainclass>org.slc.sli.aggregation.HighestEver</hadoop.job.mainclass>
+    <hadoop.job.mainclass>org.slc.sli.aggregation.SchoolProficiency</hadoop.job.mainclass>
   </properties>
 
   <dependencies>
