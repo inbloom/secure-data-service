@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby
+#!/Users/mpatel/.rvm/rubies/ruby-1.9.2-p290/bin/ruby
 
 =begin
 

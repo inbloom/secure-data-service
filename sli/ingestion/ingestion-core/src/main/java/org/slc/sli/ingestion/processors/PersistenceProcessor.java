@@ -24,13 +24,6 @@ import java.util.Set;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
@@ -53,10 +46,19 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.transformation.EdFi2SLITransformer;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
 /**
  * Ingestion Persistence Processor.
@@ -73,7 +75,9 @@ import org.slc.sli.ingestion.validation.ProxyErrorReport;
 public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.PERSISTENCE_PROCESSOR;
-
+    
+    private static final Logger LOG = LoggerFactory.getLogger(PersistenceProcessor.class);
+    
     private static final String BATCH_JOB_ID = "batchJobId";
     private static final String CREATION_TIME = "creationTime";
 
@@ -133,9 +137,9 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
             TenantContext.setTenantId(newJob.getTenantId());
-
-            debug("processing persistence: {}", newJob);
-
+            
+            LOG.debug("processing persistence: {}", newJob);
+            
             processWorkNote(workNote, newJob, stage);
 
         } catch (Exception exception) {
@@ -181,9 +185,9 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
         EntityPipelineType entityPipelineType = getEntityPipelineType(collectionNameAsStaged);
         String collectionToPersistFrom = getCollectionToPersistFrom(collectionNameAsStaged, entityPipelineType);
-
-        info("PERSISTING DATA IN COLLECTION: {} (staged as: {})", collectionToPersistFrom, collectionNameAsStaged);
-
+        
+        LOG.info("PERSISTING DATA IN COLLECTION: {} (staged as: {})", collectionToPersistFrom, collectionNameAsStaged);
+        
         Map<String, Metrics> perFileMetrics = new HashMap<String, Metrics>();
         ErrorReport errorReportForCollection = createDbErrorReport(job.getId(), collectionNameAsStaged);
 
@@ -227,7 +231,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             String fatalErrorMessage = "ERROR: Fatal problem saving records to database: \n" + "\tEntity\t"
                     + collectionNameAsStaged + " with message: " + e.getMessage() + "\n";
             errorReportForCollection.fatal(fatalErrorMessage, PersistenceProcessor.class);
-            piiClearedError("Exception when attempting to ingest NeutralRecords in: " + collectionNameAsStaged, e);
+            LogUtil.error(LOG, "Exception when attempting to ingest NeutralRecords in: " + collectionNameAsStaged, e);
         } finally {
 
             Iterator<Metrics> it = perFileMetrics.values().iterator();
@@ -252,9 +256,9 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     private long processTransformableNeutralRecord(NeutralRecord neutralRecord, String tenantId,
             ErrorReport errorReportForCollection) {
         long numFailed = 0;
-
-        debug("processing transformable neutral record of type: {}", neutralRecord.getRecordType());
-
+        
+        LOG.debug("processing transformable neutral record of type: {}", neutralRecord.getRecordType());
+        
         // remove _transformed metadata from type. upcoming transformation is based on type.
         neutralRecord.setRecordType(neutralRecord.getRecordType().replaceFirst("_transformed", ""));
 
@@ -275,14 +279,14 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
             AbstractIngestionHandler<SimpleEntity, Entity> entityPersistentHandler = findHandler(xformedEntity
                     .getType());
-
-            info("persisting simple entity: {}", xformedEntity);
-
+            
+            LOG.info("persisting simple entity: {}", xformedEntity);
+            
             entityPersistentHandler.handle(xformedEntity, errorReportForNrEntity);
 
             if (errorReportForNrEntity.hasErrors()) {
                 numFailed++;
-                warn("persistence of simple entity FAILED.");
+                LOG.warn("persistence of simple entity FAILED.");
             }
         }
 
@@ -305,16 +309,16 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     private long processOldStyleNeutralRecord(NeutralRecord neutralRecord, long recordNumber, String tenantId,
             ErrorReport errorReportForCollection) {
         long numFailed = 0;
-
-        debug("persisting neutral record of type: {}", neutralRecord.getRecordType());
-
+        
+        LOG.debug("persisting neutral record of type: {}", neutralRecord.getRecordType());
+        
         NeutralRecordEntity nrEntity = Translator.mapToEntity(neutralRecord, recordNumber);
         nrEntity.setMetaDataField(EntityMetadataKey.TENANT_ID.getKey(), tenantId);
 
         ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
-
-        info("persisting neutral record entity: {}", nrEntity);
-
+        
+        LOG.info("persisting neutral record entity: {}", nrEntity);
+        
         obsoletePersistHandler.handle(nrEntity, errorReportForNrEntity);
 
         if (errorReportForNrEntity.hasErrors()) {
@@ -361,10 +365,10 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
      */
     private AbstractIngestionHandler<SimpleEntity, Entity> findHandler(String type) {
         if (entityPersistHandlers.containsKey(type)) {
-            debug("Found special transformer for entity of type: {}", type);
+            LOG.debug("Found special transformer for entity of type: {}", type);
             return entityPersistHandlers.get(type);
         } else {
-            debug("Using default transformer for entity of type: {}", type);
+            LOG.debug("Using default transformer for entity of type: {}", type);
             return defaultEntityPersistHandler;
         }
     }
@@ -445,7 +449,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
      */
     private void handleNoBatchJobIdInExchange(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
-        error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+        LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
     /**
@@ -460,8 +464,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
      */
     private void handleProcessingExceptions(Exception exception, Exchange exchange, String batchJobId) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
-        piiClearedError("Error persisting batch job " + batchJobId, exception);
-
+        LogUtil.error(LOG, "Error persisting batch job " + batchJobId, exception);
+        
         Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
                 FaultType.TYPE_ERROR.getName(), "Exception", exception.getMessage());
         batchJobDAO.saveError(error);

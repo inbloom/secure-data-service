@@ -23,6 +23,8 @@ import java.util.Set;
 import junit.framework.Assert;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -30,7 +32,9 @@ import org.junit.Test;
  *
  */
 public class EdfiEntityTest {
-
+    
+    private static final Logger LOG = LoggerFactory.getLogger(EdfiEntityTest.class);
+    
     @Test
     public void testSmallSubset() {
         Set<EdfiEntity> expected = EnumSet.of(EdfiEntity.STUDENT, EdfiEntity.PARENT);
@@ -72,9 +76,9 @@ public class EdfiEntityTest {
         for (int i = 1; i < 100; i++) {
             Set<EdfiEntity> cleansed = EdfiEntity.cleanse(set);
             set.removeAll(cleansed);
-            info(cleansed.toString());
+            LOG.info(cleansed.toString());
             if (set.isEmpty()) {
-                info("Dependency diminuation finished in: {} passes", i);
+                LOG.info("Dependency diminuation finished in: {} passes", i);
                 break;
             }
         }

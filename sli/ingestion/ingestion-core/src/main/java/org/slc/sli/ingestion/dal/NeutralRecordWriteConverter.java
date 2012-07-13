@@ -24,6 +24,8 @@ import java.util.Map;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.convert.converter.Converter;
@@ -38,6 +40,8 @@ import org.slc.sli.ingestion.NeutralRecord;
  *
  */
 public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBObject> {
+    private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordWriteConverter.class);
+
 
     private EntityEncryption encryptor;
 
@@ -103,13 +107,13 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
     }
 
     @SuppressWarnings("unchecked")
-    private void cleanMap(Map<String, Object> map) {
+    private static void cleanMap(Map<String, Object> map) {
         List<String> toRemove = new LinkedList<String>();
         for (Map.Entry<String, Object> entry : map.entrySet()) {
 
             String key = entry.getKey();
             if (key.contains(".")) {
-                debug("Field being saved to mongo has a . in it.  Wrapping in quotes  key: {}", key);
+                LOG.debug("Field being saved to mongo has a . in it.  Wrapping in quotes  key: {}", key);
                 toRemove.add(key);
             } else {
                 Object val = map.get(key);
