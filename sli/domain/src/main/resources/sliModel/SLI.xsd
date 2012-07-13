@@ -5056,10 +5056,10 @@
           <xs:documentation>Individual test items, if appropriate.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="sections" type="Section" minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="studentAssociations" type="StudentAssessmentAssociation" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
-      <xs:element name="studentAssessmentAssociations" type="StudentAssessmentAssociation" minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="sections" type="Section" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
     </xs:sequence>
@@ -5374,12 +5374,6 @@
           <xs:documentation>The academic subject associated with an academic intervention.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="staffCohortAssociations" type="StaffCohortAssociation" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
-      <xs:element name="studentCohortAssociations" type="StudentCohortAssociation" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
       <xs:element name="programs" type="Program" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation>
           <xs:documentation>The (optional) program associated with this cohort (e.g., special education)</xs:documentation>
@@ -5389,6 +5383,12 @@
         <xs:annotation>
           <xs:documentation>The education organization associated with and owner of the cohort.</xs:documentation>
         </xs:annotation>
+      </xs:element>
+      <xs:element name="staffAssociations" type="StaffCohortAssociation" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="studentAssociations" type="StudentCohortAssociation" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
       </xs:element>
     </xs:sequence>
   </xs:complexType>
@@ -5516,15 +5516,15 @@
           <xs:documentation>Indicates the career cluster or pathway the course is associated with as part of a CTE curriculum.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="courseOfferings" type="CourseOffering" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
       <xs:element name="school" type="School">
         <xs:annotation>
           <xs:documentation>The Education Organization that defines the curriculum and courses offered - often the LEA or school.</xs:documentation>
         </xs:annotation>
       </xs:element>
       <xs:element name="studentTranscriptAssociations" type="StudentTranscriptAssociation" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="offerings" type="CourseOffering" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
     </xs:sequence>
@@ -5902,9 +5902,6 @@
           <xs:documentation>The case number assigned to the incident by law enforcement or other organization.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="studentDisciplineIncidentAssociations" type="StudentDisciplineIncidentAssociation" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
       <xs:element name="disciplineActions" type="DisciplineAction" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
@@ -5917,6 +5914,9 @@
         <xs:annotation>
           <xs:documentation>School where incident occurred</xs:documentation>
         </xs:annotation>
+      </xs:element>
+      <xs:element name="studentAssociations" type="StudentDisciplineIncidentAssociation" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
       </xs:element>
     </xs:sequence>
   </xs:complexType>
@@ -5996,10 +5996,13 @@
           <xs:documentation>An optional hierarchical name for the Ed Org using '.' separators.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="courseOfferings" type="CourseOffering" minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="gradingPeriodIdentityTypes" type="GradingPeriodIdentityType" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
-      <xs:element name="disciplineDescriptors" type="DisciplineDescriptor" minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="educationServiceCenterLocalEducationAgencies" type="LocalEducationAgency" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="localEducationAgencyLocalEducationAgencies" type="LocalEducationAgency" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
       <xs:element name="parentEducationAgency" type="EducationOrganization" minOccurs="0">
@@ -6010,31 +6013,28 @@
       <xs:element name="educationOrganizations" type="EducationOrganization" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
-      <xs:element name="studentProgramAssociations" type="StudentProgramAssociation" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
-      <xs:element name="studentCompetencyObjectives" type="StudentCompetencyObjective" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
-      <xs:element name="educationServiceCenterLocalEducationAgencies" type="LocalEducationAgency" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
-      <xs:element name="localEducationAgencyLocalEducationAgencies" type="LocalEducationAgency" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
       <xs:element name="behaviorDescriptors" type="BehaviorDescriptor" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
-      <xs:element name="staffEducationOrganizationAssociations" type="StaffEducationOrganizationAssociation" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
-      <xs:element name="sessions" type="Session" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
       <xs:element name="cohorts" type="Cohort" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
-      <xs:element name="gradingPeriodIdentityTypes" type="GradingPeriodIdentityType" minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="disciplineDescriptors" type="DisciplineDescriptor" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="sessions" type="Session" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="studentCompetencyObjectives" type="StudentCompetencyObjective" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="staffAssociations" type="StaffEducationOrganizationAssociation" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="studentProgramAssociations" type="StudentProgramAssociation" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="courseOfferings" type="CourseOffering" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
     </xs:sequence>
@@ -6137,6 +6137,9 @@
           <xs:documentation>A conversion of the level to a standard set of performance levels.</xs:documentation>
         </xs:annotation>
       </xs:element>
+      <xs:element name="reportCards" type="ReportCard" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
       <xs:element name="gradingPeriod" type="GradingPeriod" minOccurs="0">
         <xs:annotation>
           <xs:documentation>Identifies the grading period for the grade.</xs:documentation>
@@ -6146,9 +6149,6 @@
         <xs:annotation>
           <xs:documentation>Association to the student-section association with which the grade is awarded.</xs:documentation>
         </xs:annotation>
-      </xs:element>
-      <xs:element name="reportCards" type="ReportCard" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
       </xs:element>
     </xs:sequence>
   </xs:complexType>
@@ -6169,13 +6169,13 @@
           <xs:documentation>A description of the assignment, homework, or classroom assessment.</xs:documentation>
         </xs:annotation>
       </xs:element>
+      <xs:element name="studentSectionGradebookEntries" type="StudentSectionGradebookEntry" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
       <xs:element name="section" type="Section">
         <xs:annotation>
           <xs:documentation>Section where gradebook entry was recorded.</xs:documentation>
         </xs:annotation>
-      </xs:element>
-      <xs:element name="studentSectionGradebookEntries" type="StudentSectionGradebookEntry" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
       </xs:element>
     </xs:sequence>
   </xs:complexType>
@@ -6201,18 +6201,18 @@
           <xs:documentation>Total days available for educational instruction during the grading period.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="grades" type="Grade" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
       <xs:element name="calendarDates" type="CalendarDate" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation>
           <xs:documentation>Days associated with the grading period.</xs:documentation>
         </xs:annotation>
       </xs:element>
+      <xs:element name="reportCards" type="ReportCard" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
       <xs:element name="sessions" type="Session" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
-      <xs:element name="reportCards" type="ReportCard" minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="grades" type="Grade" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
     </xs:sequence>
@@ -6313,9 +6313,6 @@
           <xs:documentation>The grade level for which the learning objective is targeted,</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="studentCompetencies" type="StudentCompetency" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
       <xs:element name="objectiveAssessments" type="ObjectiveAssessment" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
@@ -6331,6 +6328,9 @@
         <xs:annotation>
           <xs:documentation>Learning standard(s) included in this objective.</xs:documentation>
         </xs:annotation>
+      </xs:element>
+      <xs:element name="studentCompetencies" type="StudentCompetency" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
       </xs:element>
     </xs:sequence>
   </xs:complexType>
@@ -6380,10 +6380,10 @@
           <xs:documentation>The official Course Title with which this learning standard is associated.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="assessmentItems" type="AssessmentItem" minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="learningObjectives" type="LearningObjective" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
-      <xs:element name="learningObjectives" type="LearningObjective" minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="assessmentItems" type="AssessmentItem" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
     </xs:sequence>
@@ -6730,7 +6730,7 @@
           <xs:documentation>The login ID for the user; used for security access control interface.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="studentParentAssociations" type="StudentParentAssociation" minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="studentAssociations" type="StudentParentAssociation" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
     </xs:sequence>
@@ -6805,19 +6805,19 @@
           <xs:documentation>Defines the services provided by this program to students.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="sections" type="Section" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
-      <xs:element name="staffProgramAssociations" type="StaffProgramAssociation" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
-      <xs:element name="studentProgramAssociations" type="StudentProgramAssociation" minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="restraintEvents" type="RestraintEvent" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
       <xs:element name="cohorts" type="Cohort" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
-      <xs:element name="restraintEvents" type="RestraintEvent" minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="studentAssociations" type="StudentProgramAssociation" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="staffAssociations" type="StaffProgramAssociation" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="sections" type="Section" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
     </xs:sequence>
@@ -7001,19 +7001,7 @@
               <xs:documentation>The type of education institution as classified by its funding source, for example public or private.</xs:documentation>
             </xs:annotation>
           </xs:element>
-          <xs:element name="sections" type="Section" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation></xs:annotation>
-          </xs:element>
-          <xs:element name="teacherSchoolAssociations" type="TeacherSchoolAssociation" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation></xs:annotation>
-          </xs:element>
-          <xs:element name="attendances" type="Attendance" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation></xs:annotation>
-          </xs:element>
-          <xs:element name="courses" type="Course" minOccurs="0" maxOccurs="unbounded">
-            <xs:annotation></xs:annotation>
-          </xs:element>
-          <xs:element name="studentSchoolAssociations" type="StudentSchoolAssociation" minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="restraintEvents" type="RestraintEvent" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation></xs:annotation>
           </xs:element>
           <xs:element name="assignmentSchoolDisciplineActions" type="DisciplineAction" minOccurs="0" maxOccurs="unbounded">
@@ -7022,10 +7010,22 @@
           <xs:element name="responsibilitySchoolDisciplineActions" type="DisciplineAction" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation></xs:annotation>
           </xs:element>
+          <xs:element name="studentAssociations" type="StudentSchoolAssociation" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation></xs:annotation>
+          </xs:element>
+          <xs:element name="courses" type="Course" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation></xs:annotation>
+          </xs:element>
           <xs:element name="disciplineIncidents" type="DisciplineIncident" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation></xs:annotation>
           </xs:element>
-          <xs:element name="restraintEvents" type="RestraintEvent" minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="teacherAssociations" type="TeacherSchoolAssociation" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation></xs:annotation>
+          </xs:element>
+          <xs:element name="attendances" type="Attendance" minOccurs="0" maxOccurs="unbounded">
+            <xs:annotation></xs:annotation>
+          </xs:element>
+          <xs:element name="sections" type="Section" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation></xs:annotation>
           </xs:element>
         </xs:sequence>
@@ -7102,6 +7102,18 @@
           <xs:documentation>The amount of credit available to a student who successfully meets the objectives of the course. Available credits are measured in Carnegie units, A course meeting every day for one period of the school day over the span of a school year offers one Carnegie unit. See publication: U.S. Department of Education, NCES, 2007-341, Secondary School Course Classification System: School Codes for the Exchange of Data (SCED).</xs:documentation>
         </xs:annotation>
       </xs:element>
+      <xs:element name="studentGradebookEntries" type="StudentSectionGradebookEntry" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="gradebookEntries" type="GradebookEntry" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="studentAssociations" type="StudentSectionAssociation" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="teacherAssociations" type="TeacherSectionAssociation" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
       <xs:element name="programs" type="Program" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation>
           <xs:documentation>Optional reference to program (e.g., CTE, etc.) the section is associated with.</xs:documentation>
@@ -7126,18 +7138,6 @@
         <xs:annotation>
           <xs:documentation>The course offering associated with the section. This reference is required.</xs:documentation>
         </xs:annotation>
-      </xs:element>
-      <xs:element name="teacherSectionAssociations" type="TeacherSectionAssociation" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
-      <xs:element name="gradebookEntries" type="GradebookEntry" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
-      <xs:element name="studentSectionGradebookEntries" type="StudentSectionGradebookEntry" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
-      <xs:element name="studentSectionAssociations" type="StudentSectionAssociation" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
       </xs:element>
     </xs:sequence>
   </xs:complexType>
@@ -7216,12 +7216,6 @@
           <xs:documentation>The total number of instructional days in the school calendar.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="courseOfferings" type="CourseOffering" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
-      <xs:element name="sections" type="Section" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
       <xs:element name="studentAcademicRecords" type="StudentAcademicRecord" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
@@ -7234,6 +7228,12 @@
         <xs:annotation>
           <xs:documentation>The grading periods that take place during the session.</xs:documentation>
         </xs:annotation>
+      </xs:element>
+      <xs:element name="courseOfferings" type="CourseOffering" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="sections" type="Section" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
       </xs:element>
     </xs:sequence>
   </xs:complexType>
@@ -7324,19 +7324,19 @@
           <xs:documentation>The login ID for the user; used for security access control interface.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="staffProgramAssociations" type="StaffProgramAssociation" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
-      <xs:element name="staffCohortAssociations" type="StaffCohortAssociation" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
-      <xs:element name="staffEducationOrganizationAssociations" type="StaffEducationOrganizationAssociation" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
       <xs:element name="disciplineActions" type="DisciplineAction" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
+      <xs:element name="cohortAssociations" type="StaffCohortAssociation" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
       <xs:element name="disciplineIncidents" type="DisciplineIncident" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="educationOrganizationAssociations" type="StaffEducationOrganizationAssociation" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="programAssociations" type="StaffProgramAssociation" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
     </xs:sequence>
@@ -7606,46 +7606,46 @@
           <xs:documentation>Current school</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="studentAcademicRecords" type="StudentAcademicRecord" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
-      <xs:element name="attendances" type="Attendance" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
-      <xs:element name="studentCohortAssociations" type="StudentCohortAssociation" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
-      <xs:element name="studentSectionGradebookEntries" type="StudentSectionGradebookEntry" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
-      <xs:element name="studentProgramAssociations" type="StudentProgramAssociation" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
-      <xs:element name="studentSectionAssociations" type="StudentSectionAssociation" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
-      <xs:element name="studentParentAssociations" type="StudentParentAssociation" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
-      <xs:element name="studentDisciplineIncidentAssociations" type="StudentDisciplineIncidentAssociation" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
-      <xs:element name="studentSchoolAssociations" type="StudentSchoolAssociation" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
-      <xs:element name="disciplineActions" type="DisciplineAction" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
-      <xs:element name="studentAssessmentAssociations" type="StudentAssessmentAssociation" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
-      <xs:element name="reportCards" type="ReportCard" minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="sectionGradebookEntries" type="StudentSectionGradebookEntry" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
       <xs:element name="restraintEvents" type="RestraintEvent" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
-      <xs:element name="studentTranscriptAssociations" type="StudentTranscriptAssociation" minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="parentAssociations" type="StudentParentAssociation" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="academicRecords" type="StudentAcademicRecord" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="disciplineActions" type="DisciplineAction" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="reportCards" type="ReportCard" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="schoolAssociations" type="StudentSchoolAssociation" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="transcriptAssociations" type="StudentTranscriptAssociation" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="sectionAssociations" type="StudentSectionAssociation" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="programAssociations" type="StudentProgramAssociation" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="assessmentAssociations" type="StudentAssessmentAssociation" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="cohortAssociations" type="StudentCohortAssociation" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="disciplineIncidentAssociations" type="StudentDisciplineIncidentAssociation" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
+      <xs:element name="attendances" type="Attendance" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
     </xs:sequence>
@@ -7898,6 +7898,9 @@
           <xs:documentation>A statement provided by the teacher that provides information in addition to the grade or assessment score.</xs:documentation>
         </xs:annotation>
       </xs:element>
+      <xs:element name="reportCards" type="ReportCard" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
+      </xs:element>
       <xs:element name="learningObjective" type="LearningObjective" minOccurs="0">
         <xs:annotation>
           <xs:documentation>The learning objective evaluated or assessed for the student.</xs:documentation>
@@ -7912,9 +7915,6 @@
         <xs:annotation>
           <xs:documentation>Association to the student-section association with which the competency is evaluated.</xs:documentation>
         </xs:annotation>
-      </xs:element>
-      <xs:element name="reportCards" type="ReportCard" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
       </xs:element>
     </xs:sequence>
   </xs:complexType>
@@ -7940,13 +7940,13 @@
           <xs:documentation>The grade level for which the competency objective is targeted,</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="studentCompetencies" type="StudentCompetency" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
       <xs:element name="educationOrganization" type="EducationOrganization">
         <xs:annotation>
           <xs:documentation>The Education Organization that defines the curriculum and courses offered - often the LEA or school.</xs:documentation>
         </xs:annotation>
+      </xs:element>
+      <xs:element name="studentCompetencies" type="StudentCompetency" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
       </xs:element>
     </xs:sequence>
   </xs:complexType>
@@ -8225,9 +8225,6 @@
           <xs:documentation>An indication as to whether a student has previously taken a given course. Repeated, counted in grade point average Repeated, not counted in grade point average Not repeated Other</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="studentCompetencies" type="StudentCompetency" minOccurs="0" maxOccurs="unbounded">
-        <xs:annotation></xs:annotation>
-      </xs:element>
       <xs:element name="student" type="Student">
         <xs:annotation>
           <xs:documentation>The student enrolled in the section.</xs:documentation>
@@ -8237,6 +8234,9 @@
         <xs:annotation>
           <xs:documentation>The section the student is enrolled in.</xs:documentation>
         </xs:annotation>
+      </xs:element>
+      <xs:element name="studentCompetencies" type="StudentCompetency" minOccurs="0" maxOccurs="unbounded">
+        <xs:annotation></xs:annotation>
       </xs:element>
       <xs:element name="grades" type="Grade" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
@@ -8428,10 +8428,10 @@
               <xs:documentation>An indication of whether a teacher is classified as highly qualified for his/her assignment according to state definition. This attribute indicates the teacher is highly qualified for ALL sections being taught.</xs:documentation>
             </xs:annotation>
           </xs:element>
-          <xs:element name="teacherSchoolAssociations" type="TeacherSchoolAssociation" minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="sectionAssociations" type="TeacherSectionAssociation" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation></xs:annotation>
           </xs:element>
-          <xs:element name="teacherSectionAssociations" type="TeacherSectionAssociation" minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="schoolAssociations" type="TeacherSchoolAssociation" minOccurs="0" maxOccurs="unbounded">
             <xs:annotation></xs:annotation>
           </xs:element>
         </xs:sequence>

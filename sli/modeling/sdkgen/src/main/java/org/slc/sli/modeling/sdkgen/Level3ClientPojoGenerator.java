@@ -436,7 +436,9 @@ public final class Level3ClientPojoGenerator {
             }
         } else if (baseType.getTypeKind() == JavaTypeKind.COMPLEX) {
             if (type.getCollectionKind() == JavaCollectionKind.LIST) {
-                new ReturnStmt(Word.NULL).write(jsw);
+                JavaType javaType = new JavaType(baseType.getSimpleName(), baseType.getCollectionKind(), baseType.getTypeKind(), baseType.getBase());
+                new ReturnStmt(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name,
+                        JavaType.collectionType(JavaCollectionKind.LIST, javaType))).write(jsw);
             } else {
                 jsw.beginStmt();
                 try {

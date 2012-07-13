@@ -2,6 +2,7 @@ package org.slc.sli.modeling.sdkgen.snippets;
 
 import java.io.IOException;
 
+import org.slc.sli.modeling.jgen.JavaCollectionKind;
 import org.slc.sli.modeling.jgen.JavaParam;
 import org.slc.sli.modeling.jgen.JavaSnippet;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
@@ -36,6 +37,8 @@ public final class CoerceToPojoTypeSnippet implements JavaSnippet {
             jsw.write("toInteger");
         } else if (MAP_STRING_TO_OBJECT.equals(type)) {
             jsw.write("toMap");
+        } else if (isList(type)) {
+            jsw.write("toList");
         } else {
             throw new AssertionError(type);
         }
@@ -43,8 +46,16 @@ public final class CoerceToPojoTypeSnippet implements JavaSnippet {
         try {
             jsw.write(field.getName()).write(".get");
             jsw.parenL().dblQte().write(name).dblQte().parenR();
+            if (isList(type)) {
+                jsw.comma().space().write(type.getSimpleName()).write(".class");
+            }
         } finally {
             jsw.parenR();
         }
+    }
+
+    private boolean isList(JavaType type) {
+        return type.getCollectionKind().equals(JavaCollectionKind.LIST) ||
+                type.getCollectionKind().equals(JavaCollectionKind.ARRAY_LIST);
     }
 }

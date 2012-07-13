@@ -1,6 +1,7 @@
 package org.slc.sli.shtick;
 
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Map;
 
 public final class Coercions {
@@ -51,6 +52,23 @@ public final class Coercions {
                 @SuppressWarnings("unchecked")
                 final Map<String, Object> map = (Map<String, Object>) obj;
                 return map;
+            } else {
+                throw new IllegalArgumentException("obj");
+            }
+        } else {
+            return null;
+        }
+    }
+
+    public static final <T> List<T> toList(final Object obj, final Class<T> clazz) {
+        if (clazz == null) {
+            throw new NullPointerException("clazz");
+        }
+        if (obj != null) {
+            if (obj instanceof List) {
+                @SuppressWarnings("unchecked")
+                final List<T> list = (List<T>) obj;
+                return list;
             } else {
                 throw new IllegalArgumentException("obj");
             }

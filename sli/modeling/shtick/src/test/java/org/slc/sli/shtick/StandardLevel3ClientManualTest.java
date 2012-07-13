@@ -17,18 +17,116 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import org.slc.sli.shtick.pojo.BirthData;
-import org.slc.sli.shtick.pojo.Name;
-import org.slc.sli.shtick.pojo.SexType;
-import org.slc.sli.shtick.pojo.Student;
+import org.slc.sli.shtick.pojo.*;
 
 public class StandardLevel3ClientManualTest {
 
     private static final String BASE_URL = "http://local.slidev.org:8080/api/rest/v1";
     private static final Map<String, Object> EMPTY_QUERY_ARGS = Collections.emptyMap();
 
+
+    @Before
+    public void setup() {
+    }
+
+    @Test
+    public void testCrudJson() {
+        try {
+            final Level2Client inner = new StandardLevel2Client(BASE_URL, new JsonLevel1Client());
+            final Level3Client client = new StandardLevel3Client(inner);
+
+            // POST
+            final String studentId = doPostStudentUsingJson(client);
+
+            // GET POSTED ENTITY
+            final Student student = doGetStudentById(client, studentId);
+            assertEquals("Jeff", student.getName().getFirstName());
+            assertEquals("Stokes", student.getName().getLastSurname());
+            assertEquals(studentId, student.getId());
+
+            // PUT UPDATED ENTITY
+            doPutStudent(client, student);
+            // GET UPDATED ENTITY
+            final Student updatedStudent = doGetStudentById(client, studentId);
+            assertEquals("John", updatedStudent.getName().getFirstName());
+            assertEquals(studentId, student.getId());
+
+            // DELETE ENTITY
+            doDeleteStudent(client, student);
+
+            // GET DELETED ENTITY (SHOULD NOW FAIL)
+            try {
+                doGetStudentById(client, studentId);
+            } catch (StatusCodeException e) {
+                assertEquals(404, e.getStatusCode());
+            }
+
+        } catch (final IOException e) {
+            e.printStackTrace();
+            fail(e.getMessage());
+        } catch (final StatusCodeException e) {
+            e.printStackTrace();
+            fail("Status Code Returned : " + e.getStatusCode());
+        }
+    }
+
+    @Test
+    public void testCustom() throws IOException, StatusCodeException {
+        final Level3Client client = new StandardLevel3Client(BASE_URL);
+        String studentId = doPostStudentUsingJson(client);
+        doPostCustomForStudentById(studentId, client);
+
+        Map<String, Object> custom = client.getCustomForStudentsById(TestingConstants.ROGERS_TOKEN,
+                Arrays.asList(studentId), new HashMap<String, Object>());
+
+        assertEquals("testCustom1V", custom.get("testCustom1K"));
+        assertEquals("testCustom2V", custom.get("testCustom2K"));
+        assertTrue(custom.get("testCustom3K") instanceof Map);
+    }
+
+    @Test
+    public void testHome() throws IOException, StatusCodeException {
+        final Level3Client client = new StandardLevel3Client(BASE_URL);
+        final Home home = client.getHome(TestingConstants.ROGERS_TOKEN, EMPTY_QUERY_ARGS);
+        List<Links> homeLinks = home.getLinks();
+        assertTrue(!homeLinks.isEmpty());
+    }
+
+    @Test
+    public void testGetStudentsByIdUsingJson() {
+        doGetStudentsById(new StandardLevel2Client(BASE_URL, new JsonLevel1Client()));
+    }
+
+    @Test
+    @Ignore("Single entity deserialization returns N-entities where N=number of properties")
+    public void testGetStudentsByIdUsingStAX() {
+        doGetStudentsById(new StandardLevel2Client(BASE_URL, new StAXLevel1Client()));
+    }
+
+    @Test
+    public void testGetStudentsUsingJson() {
+        doGetStudents(new StandardLevel2Client(BASE_URL, new JsonLevel1Client()));
+    }
+
+    @Test
+    public void testGetStudentsUsingStAX() {
+        doGetStudents(new StandardLevel2Client(BASE_URL, new StAXLevel1Client()));
+    }
+
+    @Test
+    @Ignore("Problem with invalid authorization token.")
+    public void testGetStudentsWithBrokenTokenUsingJson() {
+        doGetStudentsWithBrokenToken(new JsonLevel1Client());
+    }
+
+    @Test
+    @Ignore("Problem with invalid authorization token.")
+    public void testGetStudentsWithBrokenTokenUsingStAX() {
+        doGetStudentsWithBrokenToken(new StAXLevel1Client());
+    }
+
     private void doGetStudents(final Level2Client inner) {
-        final Level3ClientManual client = new StandardLevel3ClientManual(BASE_URL, inner);
+        final Level3Client client = new StandardLevel3Client(inner);
         try {
             final Map<String, Object> queryArgs = new HashMap<String, Object>();
             queryArgs.put("limit", 1000);
@@ -57,7 +155,7 @@ public class StandardLevel3ClientManualTest {
     }
 
     private void doGetStudentsById(final Level2Client inner) {
-        final Level3ClientManual client = new StandardLevel3ClientManual(BASE_URL, inner);
+        final Level3Client client = new StandardLevel3Client(inner);
         // One identifier.
         try {
             final List<String> studentIds = new LinkedList<String>();
@@ -114,72 +212,7 @@ public class StandardLevel3ClientManualTest {
             fail(e.getMessage());
         }
     }
-
-    @Before
-    public void setup() {
-    }
-
-    // @Test
-    public void testDeleteRequest() {
-
-    }
-
-    @Test
-    public void testCrudJson() {
-        try {
-            final Level2Client inner = new StandardLevel2Client(BASE_URL, new JsonLevel1Client());
-            final Level3ClientManual client = new StandardLevel3ClientManual(BASE_URL, inner);
-
-            // POST
-            final String studentId = doPostStudentUsingJson(client);
-
-            // GET POSTED ENTITY
-            final Student student = doGetStudentById(client, studentId);
-            assertEquals("Jeff", student.getName().getFirstName());
-            assertEquals("Stokes", student.getName().getLastSurname());
-            assertEquals(studentId, student.getId());
-
-            // PUT UPDATED ENTITY
-            doPutStudent(client, student);
-            // GET UPDATED ENTITY
-            final Student updatedStudent = doGetStudentById(client, studentId);
-            assertEquals("John", updatedStudent.getName().getFirstName());
-            assertEquals(studentId, student.getId());
-
-            // DELETE ENTITY
-            doDeleteStudent(client, student);
-
-            // GET DELETED ENTITY (SHOULD NOW FAIL)
-            try {
-                doGetStudentById(client, studentId);
-            } catch (StatusCodeException e) {
-                assertEquals(404, e.getStatusCode());
-            }
-
-        } catch (final IOException e) {
-            e.printStackTrace();
-            fail(e.getMessage());
-        } catch (final StatusCodeException e) {
-            e.printStackTrace();
-            fail("Status Code Returned : " + e.getStatusCode());
-        }
-    }
-
-    @Test
-    public void testCustom() throws IOException, StatusCodeException {
-        final Level3ClientManual client = new StandardLevel3ClientManual(BASE_URL);
-        String studentId = doPostStudentUsingJson(client);
-        doPostCustomForStudentById(studentId, client);
-
-        Map<String, Object> custom = client.getCustomForStudentsById(TestingConstants.ROGERS_TOKEN,
-                Arrays.asList(studentId), new HashMap<String, Object>());
-
-        assertEquals("testCustom1V", custom.get("testCustom1K"));
-        assertEquals("testCustom2V", custom.get("testCustom2K"));
-        assertTrue(custom.get("testCustom3K") instanceof Map);
-    }
-
-    private void doPostCustomForStudentById(String studentId, Level3ClientManual client) throws IOException,
+    private void doPostCustomForStudentById(String studentId, Level3Client client) throws IOException,
             StatusCodeException {
         Map<String, Object> data = new HashMap<String, Object>();
         data.put("testCustom1K", "testCustom1V");
@@ -191,25 +224,25 @@ public class StandardLevel3ClientManualTest {
 
         Entity customEntity = new Entity("Custom", data);
 
-        client.postCustomForStudentsById(TestingConstants.ROGERS_TOKEN, studentId, customEntity);
+        client.postCustomForStudentsById(TestingConstants.ROGERS_TOKEN, studentId, customEntity.getData());
     }
 
-    private void doDeleteStudent(Level3ClientManual client, Student student) throws IOException, StatusCodeException {
-        client.deleteStudent(TestingConstants.ROGERS_TOKEN, student);
+    private void doDeleteStudent(Level3Client client, Student student) throws IOException, StatusCodeException {
+        client.deleteStudentsById(TestingConstants.ROGERS_TOKEN, student.getId());
     }
 
-    private void doPutStudent(final Level3ClientManual client, final Student student) throws IOException,
+    private void doPutStudent(final Level3Client client, final Student student) throws IOException,
             StatusCodeException {
         student.getName().setFirstName("John");
-        client.putStudent(TestingConstants.ROGERS_TOKEN, student);
+        client.putStudentsById(TestingConstants.ROGERS_TOKEN, student.getId(), student);
     }
 
-    private Student doGetStudentById(final Level3ClientManual client, final String studentId) throws IOException,
+    private Student doGetStudentById(final Level3Client client, final String studentId) throws IOException,
             StatusCodeException {
         return client.getStudentsById(TestingConstants.ROGERS_TOKEN, Arrays.asList(studentId), EMPTY_QUERY_ARGS).get(0);
     }
 
-    private String doPostStudentUsingJson(final Level3ClientManual client) throws IOException, StatusCodeException {
+    private String doPostStudentUsingJson(final Level3Client client) throws IOException, StatusCodeException {
         Student student = new Student();
 
         Name name = new Name();
@@ -226,39 +259,6 @@ public class StandardLevel3ClientManualTest {
         student.setBirthData(birthData);
 
         student.setHispanicLatinoEthnicity(false);
-        return client.postStudent(TestingConstants.ROGERS_TOKEN, student);
-    }
-
-    @Test
-    public void testGetStudentsByIdUsingJson() {
-        doGetStudentsById(new StandardLevel2Client(BASE_URL, new JsonLevel1Client()));
-    }
-
-    @Test
-    @Ignore("Single entity deserialization returns N-entities where N=number of properties")
-    public void testGetStudentsByIdUsingStAX() {
-        doGetStudentsById(new StandardLevel2Client(BASE_URL, new StAXLevel1Client()));
-    }
-
-    @Test
-    public void testGetStudentsUsingJson() {
-        doGetStudents(new StandardLevel2Client(BASE_URL, new JsonLevel1Client()));
-    }
-
-    @Test
-    public void testGetStudentsUsingStAX() {
-        doGetStudents(new StandardLevel2Client(BASE_URL, new StAXLevel1Client()));
-    }
-
-    @Test
-    @Ignore("Problem with invalid autorization token.")
-    public void testGetStudentsWithBrokenTokenUsingJson() {
-        doGetStudentsWithBrokenToken(new JsonLevel1Client());
-    }
-
-    @Test
-    @Ignore("Problem with invalid autorization token.")
-    public void testGetStudentsWithBrokenTokenUsingStAX() {
-        doGetStudentsWithBrokenToken(new StAXLevel1Client());
+        return client.postStudents(TestingConstants.ROGERS_TOKEN, student);
     }
 }
