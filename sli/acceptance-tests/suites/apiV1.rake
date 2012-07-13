@@ -315,13 +315,18 @@ task :v1CommaSeparatedListOrderTests => [:realmInit] do
   setFixture("student", "student_fixture.json")
   runTests("test/features/apiV1/comma_separated_list/comma_separated_list_ordering.feature")
 end
-  
+
 desc "Run API Smoke Tests"
 task :apiSmokeTests do
   @tags = ["~@wip", "@smoke", "~@sandbox"]
   Rake::Task["apiV1EntityTests"].invoke
   Rake::Task["securityTests"].invoke
   Rake::Task["apiMegaTests"].invoke
+end
+
+desc "Run API Performance Tests"
+task :apiPerformanceTests => [:realmInit] do
+  runTests("test/features/apiV1/performance/performance.feature")
 end
 
 ############################################################
