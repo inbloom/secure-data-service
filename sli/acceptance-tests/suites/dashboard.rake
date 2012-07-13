@@ -90,6 +90,7 @@ end
 
 desc "Run Local Dashboard Tests - Import Realm, Import Data Data, Run Tests"
 task :localDashboardTests do
+  Rake::Task["loadDefaultIngestionTenants"].invoke
   Rake::Task["dashboardSadPathTestSuite"].invoke
   Rake::Task["realmInitNoPeople"].invoke
   Rake::Task["importUnifiedData"].invoke

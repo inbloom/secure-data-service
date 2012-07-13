@@ -32,9 +32,9 @@ Scenario Outline: As a SLC Operator I can determine mongo entity count and data 
 
     Examples:
     | Tenant_id | Count |  Size |
-    |    "T1"   |  "14" |  "20" |
+    |    "T1"   |  "15" |  "20" |
     |    "T2"   |  "49" | "100" |
-    |    "T3"   | "532" | "500" |
+    |    "T3"   | "533" | "500" |
 
 Scenario: As a SLC Operator I can determine the total mongo entity count and data size (in Kb) for all sandbox tenants
     Given I go to the "Tenant Usage Admin Tool"
@@ -43,7 +43,7 @@ Scenario: As a SLC Operator I can determine the total mongo entity count and dat
     When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
         Then I am displayed a list of "3" tenants
         And I am displayed the total data size is approximately "600"
-        And I am displayed the total entity count as "595"
+        And I am displayed the total entity count as "597"
 
 Scenario Outline: As a SLC Operator I can determine mongo entity count and data size (in Kb) for each collection for a single tenant
     Given I go to the "Tenant Usage Admin Tool"
@@ -62,7 +62,7 @@ Scenario Outline: As a SLC Operator I can determine mongo entity count and data 
 
     Examples:
     | Tenant_id | Collection_Count | Collection | CRecords | CSize | TSize | TCount |
-    |    "T1"   |       "4"        |  "grade"   |     "5"  |  "7"  |  "30" |   "14" |
+    |    "T1"   |       "4"        |  "grade"   |     "6"  |  "7"  |  "30" |   "15" |
     |    "T2"   |       "8"        |  "student" |    "13"  | "30"  | "120" |   "49" |
-    |    "T3"   |       "9"        |  "parent"  |   "146"  | "80"  | "400" |  "532" |
+    |    "T3"   |       "9"        |  "parent"  |   "146"  | "80"  | "400" |  "533" |
 

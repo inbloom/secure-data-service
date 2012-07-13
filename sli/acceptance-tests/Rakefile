@@ -18,11 +18,11 @@ COLOR = ENV['FORCE_COLOR'] ? "-c" : ""
 
 OTHER_TAGS = ENV['OTHER_TAGS'] ? "--tags "+ENV['OTHER_TAGS'] : ""
 
-TOREMOVE = ENV['TOREMOVE'] ? true : false
+TODROP = ENV['TODROP'] ? true : false
 
 RUN_STAMPER = false
 
-TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other"]
+TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "Zork", "SLI", "T1", "T2", "T3", "mreynolds"]
 
 #######################################################
 
@@ -97,13 +97,13 @@ def runTests(testDirPath)
 end
 
 def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropExistingCollection=true)
-  if TOREMOVE
+  if TODROP
+    dropOption = (dropExistingCollection) ? "--drop":""
+  else
     if dropExistingCollection
       removeCollectionsCleanly(collectionName, TENANT_COLLECTION)
       dropOption = ""
     end
-  else
-    dropOption = (dropExistingCollection) ? "--drop":""
   end
 
   #sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"printjson(db.#{collectionName}.dropIndexes().msg)\""
@@ -173,23 +173,45 @@ def cleanseApps()
   end
 end
 
+def cleanseTenantCollection()
+  puts 'About to clean up test tenants in mongo'
+  @conn = Mongo::Connection.new(DB_HOST)
+  @db = @conn.db(DB_NAME)
+  @tenantColl = @db.collection('tenant')
+
+  @tenantColl.find.each do |row|
+    if TENANT_COLLECTION.include?(row['body']['tenantId'])
+      @tenantColl.remove(row)
+    end
+    if row['body']['tenantId'].start_with?("devldapuser")
+      @tenantColl.remove(row)
+    end
+  end
+end
+
+
 def cleanseCollectionWithTenantID(collectionName, specificTenants)
   puts "Removing documents in #{collectionName} with tenantIds #{specificTenants}"
   @conn = Mongo::Connection.new(DB_HOST)
   @db = @conn.db(DB_NAME)
   coll = @db.collection(collectionName)
-  
-  coll.remove("metaData.tenantId" => {"$in" => specificTenants})
+  #need a few if blocks for apps, app Auth, oauth tokens, realms
+  if collectionName == "tenant"
+    cleanseTenantCollection
+  else
+    coll.remove("metaData.tenantId" => {"$in" => specificTenants})
+  end
 end
 
 def removeCollectionsCleanly(collectionName, specificTenants=nil)
   if specificTenants != nil
     cleanseCollectionWithTenantID(collectionName, specificTenants)
-    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig')\""
   else
     sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.#{collectionName}.remove({})\""
-    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig')\""
   end
+  
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig')\""
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.getLastError()\""
 end
 
 ############################################################################################################
@@ -222,6 +244,10 @@ task :appInit do
 
   setFixture("applicationAuthorization", "applicationAuthorization_fixture.json")
   setFixture("userSession", "oauth_authentication_tokens.json")
+end
+
+task :loadDefaultIngestionTenants do
+  setFixture("tenant", "defaultIngestionTenant_fixture.json", "test/data")
 end
 
 # Run a whole series of acceptance and integration tests
@@ -489,7 +515,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,:ingestionCommonCoreTest,
+task :ingestionTests => [:loadDefaultIngestionTenants,:ingestionAcceptanceSdsTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,:ingestionCommonCoreTest,
                          :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest,
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionAPAssessmentTests, :ingestionACTAssessmentTests, :ingestionStudentProgramAssociationTest,
@@ -516,6 +542,7 @@ end
 desc "Run Integration Acceptance Tests"
 task :integrationTests => [:realmInitNoPeople] do
   OTHER_TAGS = OTHER_TAGS+" --tags @integration"
+  Rake::Task["loadDefaultIngestionTenants"].invoke
   Rake::Task["ingestionAcceptanceSdsTest"].execute
   Rake::Task["crossAppTests"].execute
   Rake::Task["dashboardSdsTests"].invoke
