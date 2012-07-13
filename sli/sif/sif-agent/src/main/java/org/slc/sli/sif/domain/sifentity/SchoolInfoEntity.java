@@ -22,7 +22,7 @@ import openadk.library.common.PhoneNumberList;
 import openadk.library.student.SchoolFocus;
 import openadk.library.student.SchoolInfo;
 
-import org.slc.sli.sif.domain.converter.SchoolConverter;
+import org.slc.sli.sif.domain.converter.SchoolMappings;
 
 /**
  * An SIF Entity corresponding to an SIF SchoolInfo. Used by dozer to map SchoolInfo into an SLI SchoolEntity.
@@ -87,7 +87,7 @@ public class SchoolInfoEntity extends GenericEntity
      */
     public String getSchoolFocusType() {
         SchoolFocus[] schoolFocus = this.schoolInfo.getSchoolFocusList().getSchoolFocuses();
-        return SchoolConverter.toSliSchoolType(schoolFocus[0].getValue());
+        return SchoolMappings.toSliSchoolType(schoolFocus[0].getValue());
     }
 
     /**
@@ -103,7 +103,7 @@ public class SchoolInfoEntity extends GenericEntity
      *
      */
     public String getOperationalStatus() {
-        return SchoolConverter.toSliOperationalStatus(this.schoolInfo.getOperationalStatus());
+        return SchoolMappings.toSliOperationalStatus(this.schoolInfo.getOperationalStatus());
     }
 
     /**
@@ -112,7 +112,7 @@ public class SchoolInfoEntity extends GenericEntity
      *
      */
     public String getSchoolType() {
-        return SchoolConverter.toSliSchoolCategory(this.schoolInfo.getSchoolType());
+        return SchoolMappings.toSliSchoolCategory(this.schoolInfo.getSchoolType());
     }
 
     /**
