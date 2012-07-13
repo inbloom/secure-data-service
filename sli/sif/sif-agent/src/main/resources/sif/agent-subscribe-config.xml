@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<agent id="test.subscriber.agent" sifVersion="2.3">
+<agent id="SteveL.test.Subscriber" sifVersion="2.3">
 
     <!-- ======================================================================
         *** GLOBAL AGENT PROPERTIES *** ======================================================================
@@ -42,7 +42,7 @@
         <property> elements, they override properties of the same name that are defined
         in the zone template. ====================================================================== -->
 
-    <zone id="TestZone" template="Default" url="http://10.163.6.73:50002/TestZone" />
+    <zone id="TestZone" template="Default" url="http://10.163.6.73:50002/SteveLeeTestZone" />
 
 
     <!-- ======================================================================

@@ -32,7 +32,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.sif.domain.slientity.SchoolEntity;
-import org.slc.sli.sif.uitl.SifEntityGenerator;
+import org.slc.sli.sif.generator.SifEntityGenerator;
 
 
 /**
