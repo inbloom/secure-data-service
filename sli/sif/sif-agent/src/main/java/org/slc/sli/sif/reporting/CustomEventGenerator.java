@@ -29,6 +29,9 @@ import openadk.library.SIFVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Custom event generator.
+ */
 public class CustomEventGenerator implements EventGenerator {
 
     private static final Logger LOG = LoggerFactory.getLogger(CustomEventGenerator.class);
@@ -47,7 +50,7 @@ public class CustomEventGenerator implements EventGenerator {
             StringBuffer xml = new StringBuffer();
             int bufSize = 4096;
             char[] buf = new char[bufSize];
-            while(in.ready()) {
+            while (in.ready()) {
                 bufSize = in.read(buf, 0, buf.length);
                 xml.append(buf, 0, bufSize);
             }

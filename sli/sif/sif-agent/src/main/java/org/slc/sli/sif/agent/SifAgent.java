@@ -30,6 +30,11 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.sif.zone.SubscribeZoneConfigurator;
 import org.slc.sli.sif.zone.ZoneConfigurator;
+
+/**
+ * SIF agent
+ *
+ */
 @Component
 public class SifAgent extends Agent {
 
@@ -45,13 +50,13 @@ public class SifAgent extends Agent {
         this("SifAgent");
     }
 
-    public SifAgent(String id){
+    public SifAgent(String id) {
         super(id);
         setName(id);
         this.zoneConfigurator = new SubscribeZoneConfigurator();
     }
 
-    public SifAgent(String id, String configFilePath, ZoneConfigurator zoneConfig ){
+    public SifAgent(String id, String configFilePath, ZoneConfigurator zoneConfig) {
         super(id);
         setName(id);
         this.configFilePath = configFilePath;

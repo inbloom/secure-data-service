@@ -56,14 +56,13 @@ public class SifSubscriber implements Subscriber {
 
         inspectAndDestroyEvent(event);
 
-        //execute a call to the SDK
+        // execute a call to the SDK
         String token = slcInterface.sessionCheck();
         if (null != token && 0 < token.length()) {
-			LOG.info("Successfully executed session check with token " + token);
-		} else {
-			LOG.info("Session check failed");
-		}
+            LOG.info("Successfully executed session check with token " + token);
+        } else {
+            LOG.info("Session check failed");
+        }
     }
-
 
 }

@@ -38,6 +38,10 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.sif.subscriber.SifSubscriber;
 
+/**
+ * Manages a SIFAgent and its SifSubscriber
+ *
+ */
 @Component
 public class AgentManager {
 
@@ -78,14 +82,13 @@ public class AgentManager {
 
         Zone zone = agent.getZoneFactory().getZone(subscriberZoneName);
 
-        for(String dataTypeString : subscribeTypeList) {
+        for (String dataTypeString : subscribeTypeList) {
             ElementDef dataTypeDef = dtdMap.get(dataTypeString);
             if (dataTypeDef != null) {
                 zone.setSubscriber(subscriber, dataTypeDef, new SubscriptionOptions());
                 LOG.info("Subscribed zone " + subscriberZoneName +  " to SIF ADK datatype " + dataTypeString);
-            }
-            else {
-            	LOG.error("Unable to fine SIF ADK datatype " + dataTypeString);
+            } else {
+                LOG.error("Unable to fine SIF ADK datatype " + dataTypeString);
             }
         }
     }
