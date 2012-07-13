@@ -35,7 +35,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Transformer for StudentAssessmentAssociation entities.
- * 
+ *
  * @author nbrown
  * @author shalka
  */
@@ -52,13 +52,13 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     private static final String OBJECTIVE_ASSESSMENT_REFERENCE = "objectiveAssessmentRef";
     private static final String STUDENT_ASSESSMENT_ITEMS_FIELD = "studentAssessmentItems";
     private static final String BODY = "body.";
-    
+
     private Map<Object, NeutralRecord> studentAssessments;
     List<NeutralRecord> transformedStudentAssessments;
-    
+
     @Autowired
     private ObjectiveAssessmentBuilder builder;
-    
+
     /**
      * Default constructor.
      */
@@ -66,7 +66,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         studentAssessments = new HashMap<Object, NeutralRecord>();
         transformedStudentAssessments = new ArrayList<NeutralRecord>();
     }
-    
+
     /**
      * The chaining of transformation steps. This implementation assumes that all data will be
      * processed in "one-go."
@@ -77,7 +77,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         transform();
         insertRecords(transformedStudentAssessments, STUDENT_ASSESSMENT_ASSOCIATION_TRANSFORMED);
     }
-    
+
     /**
      * Pre-requisite interchanges for student assessment data to be successfully transformed:
      * student, assessment metadata
@@ -88,7 +88,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         LOG.info("{} is loaded into local storage.  Total Count = {}", STUDENT_ASSESSMENT_ASSOCIATION,
                 studentAssessments.size());
     }
-    
+
     /**
      * Transforms student assessments from Ed-Fi model into SLI model.
      */
@@ -125,11 +125,11 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         LOG.info("Finished transforming student assessment data for {} student assessment associations.",
                 studentAssessments.size());
     }
-    
+
     /**
      * Gets all student objective assessments that reference the student assessment's local (xml)
      * id.
-     * 
+     *
      * @param studentAssessmentAssociationId
      *            volatile identifier.
      * @return list of student objective assessments (represented by neutral records).
@@ -139,10 +139,10 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         Query query = new Query().limit(0);
         query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
         query.addCriteria(Criteria.where(BODY + STUDENT_ASSESSMENT_REFERENCE).is(studentAssessmentAssociationId));
-        
+
         Iterable<NeutralRecord> studentObjectiveAssessments = getNeutralRecordMongoAccess().getRecordRepository()
                 .findAllByQuery(STUDENT_OBJECTIVE_ASSESSMENT, query);
-        
+
         if (studentObjectiveAssessments != null) {
             Iterator<NeutralRecord> itr = studentObjectiveAssessments.iterator();
             NeutralRecord studentObjectiveAssessment = null;
@@ -163,7 +163,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                     LOG.warn("Failed to find objective assessment: {} for student assessment: {}",
                             objectiveAssessmentRef, studentAssessmentAssociationId);
                 }
-                
+
                 Map<String, Object> attributes = new HashMap<String, Object>();
                 for (Map.Entry<String, Object> entry : assessmentAttributes.entrySet()) {
                     if (!entry.getKey().equals(OBJECTIVE_ASSESSMENT_REFERENCE)
@@ -183,25 +183,25 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         LOG.info("Found {} student objective assessments for student assessment: {}", assessments.size(), studentAssessmentAssociationId);
         return assessments;
     }
-    
+
     private List<Map<String, Object>> getStudentAssessmentItems(String studentAssessmentId) {
         List<Map<String, Object>> studentAssessmentItems = new ArrayList<Map<String, Object>>();
         Map<String, String> studentAssessmentItemSearchPaths = new HashMap<String, String>();
         studentAssessmentItemSearchPaths.put("localParentIds.studentResultRef", studentAssessmentId);
-        
+
         Iterable<NeutralRecord> sassItems = getNeutralRecordMongoAccess().getRecordRepository().findByPathsForJob(
                 "studentAssessmentItem", studentAssessmentItemSearchPaths, getJob().getId());
-        
+
         if (sassItems != null) {
             for (NeutralRecord sai : sassItems) {
                 String assessmentId = (String) sai.getLocalParentIds().get("assessmentItemIdentificatonCode");
                 if (assessmentId != null) {
                     Map<String, String> assessmentSearchPath = new HashMap<String, String>();
                     assessmentSearchPath.put("body.identificationCode", assessmentId);
-                    
+
                     Iterable<NeutralRecord> assessmentItems = getNeutralRecordMongoAccess().getRecordRepository()
                             .findByPathsForJob("assessmentItem", assessmentSearchPath, getJob().getId());
-                    
+
                     if (assessmentItems.iterator().hasNext()) {
                         NeutralRecord assessmentItem = assessmentItems.iterator().next();
                         sai.getAttributes().put("assessmentItem", assessmentItem.getAttributes());
@@ -215,7 +215,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                             .error("StudentAsessmentItem does not contain an AssessmentItemIdentificationCode referencing an AssessmentItem",
                                     this);
                 }
-                
+
                 studentAssessmentItems.add(sai.getAttributes());
             }
         }

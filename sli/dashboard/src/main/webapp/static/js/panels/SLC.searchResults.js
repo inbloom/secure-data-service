@@ -22,7 +22,7 @@
 
 SLC.namespace('SLC.searchResults', (function () {
 	
-		var dataModel = SLC.dataProxy.getData("studentSearch"),
+		var dataModel = SLC.dataProxy.getData("studentSearchResults"),
 			no_result_string;
 			
 		 no_result_string = '<h4>I\'m sorry, we do not have results that match your search.</h4><p>There may be a quick fix:</p><ul><li>Are the names spelled correctly?</li><li>Are the names capitalized?</li><li>Is appropriate punctuation included?</li></ul><p>Please check these items and try again.</p><p>OR</p><p>Return to the <a href="#">previous page</a>.</p>';
@@ -84,7 +84,7 @@ SLC.namespace('SLC.searchResults', (function () {
 			params = 'firstName=' + dataModel.firstName + '&lastName=' + dataModel.lastSurname + '&pageNumber=' + postPageNum +
 			'&pageSize=' + postPageSize;
 			
-			SLC.util.goToUrl('studentSearchPage', params);
+			SLC.util.goToLayout('studentSearch', null, params);
 		}
 		
 		$("#searchPrevBtn").live("click", function () {

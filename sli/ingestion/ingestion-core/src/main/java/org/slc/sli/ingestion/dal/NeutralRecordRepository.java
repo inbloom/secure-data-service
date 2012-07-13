@@ -48,27 +48,27 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     
     private static final String BATCH_JOB_ID = "batchJobId";
     private static final String CREATION_TIME = "creationTime";
-    
+
     @Override
     public boolean update(String collection, NeutralRecord neutralRecord) {
         return update(neutralRecord.getRecordType(), neutralRecord, null);
     }
-    
+
     @Override
     protected Query getUpdateQuery(NeutralRecord entity) {
         throw new UnsupportedOperationException("NeutralReordRepository.getUpdateQuery not implemented");
     }
-    
+
     @Override
     protected NeutralRecord getEncryptedRecord(NeutralRecord entity) {
         throw new UnsupportedOperationException("NeutralReordRepository.getEncryptedRecord not implemented");
     }
-    
+
     @Override
     protected Update getUpdateCommand(NeutralRecord entity) {
         throw new UnsupportedOperationException("NeutralReordRepository.getUpdateCommand not implemented");
     }
-    
+
     @Override
     public NeutralRecord create(String type, Map<String, Object> body, Map<String, Object> metaData,
             String collectionName) {
@@ -78,7 +78,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         neutralRecord.setAttributes(body);
         return create(neutralRecord, collectionName);
     }
-    
+
     public NeutralRecord createForJob(NeutralRecord neutralRecord, String jobId) {
         Map<String, Object> body = neutralRecord.getAttributes();
         if (body == null) {
@@ -87,7 +87,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         neutralRecord.setAttributes(body);
         return create(neutralRecord, neutralRecord.getRecordType());
     }
-    
+
     public NeutralRecord insert(String type, Map<String, Object> body, Map<String, Object> metaData,
             String collectionName) {
         Assert.notNull(body, "The given entity must not be null!");
@@ -96,11 +96,11 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         neutralRecord.setAttributes(body);
         return insert(neutralRecord, collectionName);
     }
-    
+
     public NeutralRecord insert(NeutralRecord neutralRecord) {
         return insert(neutralRecord, neutralRecord.getRecordType());
     }
-    
+
     public List<NeutralRecord> insertAll(List<NeutralRecord> entities, String collectionName) {
         return insert(entities, collectionName);
     }
@@ -176,22 +176,22 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     public void updateFirstForJob(NeutralQuery query, Map<String, Object> update, String collectionName, String jobId) {
         update(prependBatchJobIdOntoQuery(query, jobId), update, collectionName);
     }
-    
+
     @Override
     protected String getRecordId(NeutralRecord neutralRecord) {
         return neutralRecord.getRecordId();
     }
-    
+
     @Override
     protected Class<NeutralRecord> getRecordClass() {
         return NeutralRecord.class;
     }
-    
+
     @Override
     public void setReferenceCheck(String referenceCheck) {
-        
+
     }
-    
+
     public NeutralQuery prependBatchJobIdOntoQuery(NeutralQuery query, String jobId) {
         NeutralCriteria criteria = new NeutralCriteria(BATCH_JOB_ID, NeutralCriteria.OPERATOR_EQUAL, jobId, false);
         if (!query.getCriteria().contains(criteria)) {
@@ -199,9 +199,10 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         }
         return query;
     }
-    
+
     // TODO FIXME hack for alpha release 6/18/12 - need to properly implement unsupported methods
     // above.
+    @Override
     public NeutralRecord create(NeutralRecord record, String collectionName) {
         template.save(record, collectionName);
         LOG.debug(" create a record in collection {} with id {}", new Object[] { collectionName, getRecordId(record) });
