@@ -18,6 +18,8 @@
   <allow pkg="org.slc.sli.aspect"/>
   <allow pkg="org.slc.sli.validation"/>
   <allow pkg="org.slc.sli.domain"/>
+  <allow pkg="org.slc.sli.sif"/>
+  <allow pkg="openadk.library"/>
 
   <subpackage name="dal">
     <allow pkg="org.slc.sli.dal"/>
