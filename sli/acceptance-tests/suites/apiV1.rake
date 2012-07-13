@@ -6,6 +6,12 @@ task :apiV1EntityTests => [:realmInit] do
   runTests("test/features/apiV1/entities/crud")
 end
 
+task :apiV1AssociationTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/associations/crud/assoc_crud.feature")
+  runTests("test/features/apiV1/associations/links/assoc_links.feature")
+end
+
 desc "Run V1 check for duplicate links"
 task :apiV1DuplicateLinkTest => [:realmInit] do
   # Import the data once, none of these tests edit the data
@@ -64,7 +70,7 @@ task :v1StudentDisciplineIncidentAssociationTests => [:realmInit] do
   setFixture("student", "student_fixture.json")
   setFixture("disciplineIncident", "disciplineIncident_fixture.json")
   setFixture("studentDisciplineIncidentAssociation", "studentDisciplineIncidentAssociation_fixture.json")
-  runTests("test/features/apiV1/associations/studentDisciplineIncidentAssociation")
+  runTests("test/features/apiV1/associations/legacy_tests/studentDisciplineIncidentAssociation")
 end
 
 desc "Run V1 Cascade Deletion Tests"
@@ -90,7 +96,7 @@ task :v1StudentParentAssociationTests => [:realmInit] do
   setFixture("student", "student_fixture.json")
   setFixture("parent", "parent_fixture.json")
   setFixture("studentParentAssociation", "studentParentAssociation_fixture.json")
-  runTests("test/features/apiV1/associations/studentParentAssociation")
+  runTests("test/features/apiV1/associations/legacy_tests/studentParentAssociation")
 end
 
 desc "Run V1 Student Transcript Association Tests"
@@ -98,7 +104,7 @@ task :v1StudentTranscriptAssociationTests => [:realmInit] do
   setFixture("student", "student_fixture.json")
   setFixture("course", "course_fixture.json")
   setFixture("studentTranscriptAssociation", "studentTranscriptAssociation_fixture.json")
-  runTests("test/features/apiV1/associations/studentTranscriptAssociation")
+  runTests("test/features/apiV1/associations/legacy_tests/studentTranscriptAssociation")
 end
 
 desc "Run V1 Teacher School Association Tests"
@@ -106,7 +112,7 @@ task :v1TeacherSchoolAssociationTests => [:realmInit] do
   setFixture("staff", "staff_fixture.json")
   setFixture("educationOrganization", "educationOrganization_fixture.json")
   setFixture("teacherSchoolAssociation", "teacherSchoolAssociation_fixture.json")
-  runTests("test/features/apiV1/associations/teacherSchoolAssociation")
+  runTests("test/features/apiV1/associations/legacy_tests/teacherSchoolAssociation")
 end
 
 desc "Run V1 Teacher Section Association Tests"
@@ -114,7 +120,7 @@ task :v1TeacherSectionAssociationTests => [:realmInit] do
   setFixture("staff", "staff_fixture.json")
   setFixture("section", "section_fixture.json")
   setFixture("teacherSectionAssociation", "teacherSectionAssociation_fixture.json")
-  runTests("test/features/apiV1/associations/teacherSectionAssociation")
+  runTests("test/features/apiV1/associations/legacy_tests/teacherSectionAssociation")
 end
 
 desc "Run V1 Student Assessment Association Tests"
@@ -124,7 +130,7 @@ task :v1StudentAssessmentAssociationTests => [:realmInit] do
   setFixture("assessment", "assessment_fixture.json")
   setFixture("studentAssessmentAssociation", "studentAssessmentAssociation_fixture.json")
   #run test
-  runTests("test/features/apiV1/associations/studentAssessmentAssociation")
+  runTests("test/features/apiV1/associations/legacy_tests/studentAssessmentAssociation")
 end
 
 desc "Run V1 Student Section Association Tests"
@@ -134,7 +140,7 @@ task :v1StudentSectionAssociationTests => [:realmInit] do
   setFixture("section", "section_fixture.json")
   setFixture("studentSectionAssociation", "studentSectionAssociation_fixture.json")
   #run test
-  runTests("test/features/apiV1/associations/studentSectionAssociation")
+  runTests("test/features/apiV1/associations/legacy_tests/studentSectionAssociation")
 end
 
 desc "Run V1 Staff Education Organization Association Tests"
@@ -142,7 +148,7 @@ task :v1StaffEdOrgAssociationTests => [:realmInit] do
   setFixture("staff", "staff_fixture.json")
   setFixture("educationOrganization", "educationOrganization_fixture.json")
   setFixture("staffEducationOrganizationAssociation", "staffEducationOrganizationAssociation_fixture.json")
-  runTests("test/features/apiV1/associations/staffEducationOrganizationAssociation")
+  runTests("test/features/apiV1/associations/legacy_tests/staffEducationOrganizationAssociation")
 end
 
 desc "Run V1 Staff Program Association Tests"
@@ -150,7 +156,7 @@ task :v1StaffProgramAssociationTests => [:realmInit] do
   setFixture("staff", "staff_fixture.json")
   setFixture("program", "program_fixture.json")
   setFixture("staffProgramAssociation", "staffProgramAssociation_fixture.json")
-  runTests("test/features/apiV1/associations/staffProgramAssociation")
+  runTests("test/features/apiV1/associations/legacy_tests/staffProgramAssociation")
 end
 
 desc "Run V1 Student Program Association Tests"
@@ -160,7 +166,7 @@ task :v1StudentProgramAssociationTests => [:realmInit] do
   setFixture("program", "program_fixture.json")
   setFixture("staffProgramAssociation", "staffProgramAssociation_fixture.json")
   setFixture("studentProgramAssociation", "studentProgramAssociation_fixture.json")
-  runTests("test/features/apiV1/associations/studentProgramAssociation")
+  runTests("test/features/apiV1/associations/legacy_tests/studentProgramAssociation")
 end
 
 desc "Run V1 School Session Association Tests"
@@ -170,7 +176,7 @@ task :v1SchoolSessionAssociationTests => [:realmInit] do
   setFixture("session", "session_fixture.json")
   setFixture("schoolSessionAssociation", "schoolSessionAssociation_fixture.json")
   #run test
-  runTests("test/features/apiV1/associations/schoolSessionAssociation")
+  runTests("test/features/apiV1/associations/legacy_tests/schoolSessionAssociation")
 end
 
 desc "Run V1 Student School Association Tests"
@@ -180,7 +186,7 @@ task :v1StudentSchoolAssociationTests => [:realmInit] do
   setFixture("student", "student_fixture.json")
   setFixture("studentSchoolAssociation", "studentSchoolAssociation_fixture.json")
   #run test
-  runTests("test/features/apiV1/associations/studentSchoolAssociation")
+  runTests("test/features/apiV1/associations/legacy_tests/studentSchoolAssociation")
 end
 
 desc "Run V1 Course Offering Tests"
@@ -192,7 +198,7 @@ task :v1CourseOfferingTests => [:realmInit] do
   setFixture("section", "section_fixture.json")
   setFixture("studentSectionAssociation", "studentSectionAssociation_fixture.json")
   #run test
-  runTests("test/features/apiV1/associations/courseOffering")
+  runTests("test/features/apiV1/associations/legacy_tests/courseOffering")
 end
 
 desc "Run V1 Staff Cohort Association Tests"
@@ -202,7 +208,7 @@ task :v1StaffCohortAssociationTests => [:realmInit] do
   setFixture("cohort", "cohort_fixture.json")
   setFixture("staffCohortAssociation", "staffCohortAssociation_fixture.json")
   #run test
-  runTests("test/features/apiV1/associations/staffCohortAssociation")
+  runTests("test/features/apiV1/associations/legacy_tests/staffCohortAssociation")
 end
 
 desc "Run V1 Student Cohort Association Tests"
@@ -210,7 +216,7 @@ task :v1StudentCohortAssociationTests => [:realmInit] do
   #drop data, re add fixture data
   Rake::Task["importSandboxData"].execute
   #run test
-  runTests("test/features/apiV1/associations/studentCohortAssociation")
+  runTests("test/features/apiV1/associations/legacy_tests/studentCohortAssociation")
 end
 
 desc "Run V1 Common Core Standards reference traversal Tests"
@@ -239,7 +245,15 @@ task :v1ValidationTests => [:realmInit] do
   setFixture("section", "section_fixture.json")
   setFixture("studentSectionAssociation", "studentSectionAssociation_fixture.json")
   setFixture("teacherSectionAssociation", "teacherSectionAssociation_fixture.json")
-  runTests("test/features/apiV1/validation")
+  runTests("test/features/apiV1/validation/validation.feature")
+end
+
+desc "Run V1 White List Validation Tests"
+task :v1WhiteListValidationTests => [:realmInit] do
+  setFixture("educationOrganization", "educationOrganization_fixture.json")
+  setFixture("staff", "staff_fixture.json")
+  setFixture("student", "student_fixture.json")
+  runTests("test/features/apiV1/validation/whitelist_validation.feature")
 end
 
 desc "Run Sorting and Paging Tests"
@@ -302,14 +316,24 @@ task :v1SecurityEventTests => [:realmInit] do
   runTests("test/features/apiV1/securityEvent/securityEvent.feature")
 end
 
-
+desc "Run V1 Comma-Separated List Order Tests"
+task :v1CommaSeparatedListOrderTests => [:realmInit] do
+  setFixture("student", "student_fixture.json")
+  runTests("test/features/apiV1/comma_separated_list/comma_separated_list_ordering.feature")
+end
 
 desc "Run API Smoke Tests"
 task :apiSmokeTests do
   @tags = ["~@wip", "@smoke", "~@sandbox"]
   Rake::Task["apiV1EntityTests"].invoke
+  Rake::Task["apiV1AssociationTests"].invoke
   Rake::Task["securityTests"].invoke
   Rake::Task["apiMegaTests"].invoke
+end
+
+desc "Run API Performance Tests"
+task :apiPerformanceTests => [:realmInit] do
+  runTests("test/features/apiV1/performance/performance.feature")
 end
 
 ############################################################

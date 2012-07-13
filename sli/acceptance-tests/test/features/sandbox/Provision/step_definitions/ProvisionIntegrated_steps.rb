@@ -21,6 +21,7 @@ require "selenium-webdriver"
 require 'approval'
 require "mongo" 
 require 'rumbster'
+require 'digest'
 
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
@@ -176,18 +177,18 @@ Then /^a tenant with tenantId "([^"]*)" created in Mongo$/ do |tenantId|
 end
 
 Then /^the directory structure for the landing zone is stored for tenant in mongo$/ do
- found =false
- tenant_coll=@db["tenant"]
- tenant_entity = tenant_coll.find("body.tenantId" => @tenantId)
- tenant_entity.each do |tenant|
- tenant['body']['landingZone'].each do |landing_zone|
- if landing_zone['path'].include?(@tenantId+"/"+@edorgName)
- found=true
- puts landing_zone['path']
- end
- end
- end
- assert(found,"the directory structure for the landing zone is not stored in mongo")
+  found =false
+  tenant_coll=@db["tenant"]
+  tenant_entity = tenant_coll.find("body.tenantId" => @tenantId)
+  tenant_entity.each do |tenant|
+    tenant['body']['landingZone'].each do |landing_zone|
+      if check_lz_path(landing_zone['path'], @tenantId, @edorgName)
+        found=true
+        puts landing_zone['path']
+      end
+    end
+  end
+  assert(found,"the directory structure for the landing zone is not stored in mongo")
 end
 
 Then /^the user gets a success message$/ do
@@ -260,8 +261,15 @@ end
 
 Then /^the directory structure for the landing zone is stored in ldap$/ do
   user=@ldap.read_user(@email)
-  puts user
-  assert(user[:homedir].include?(@edorgName) && user[:homedir].include?(@tenantId),"the landing zone path is not stored in ldap")
+  assert(check_lz_path(user[:homedir], @tenantId, @edorgName),"the landing zone path is not stored in ldap")
+end
+
+def check_lz_path(path, tenant, edOrg)
+  path.include?(tenant + "/" + sha256(edOrg)) || path.include?(tenant + "/" + edOrg)
+end
+
+def sha256(to_hash)
+  Digest::SHA256.hexdigest(to_hash)
 end
 
 def removeUser(email)

@@ -13,17 +13,19 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
+<#assign NUL = {"NUL":true}>
 <#macro includePanelModel panelId>
   <#assign panelConfig = viewConfigs[panelId]>
-  <#if !panelConfig.data.lazy>
-    <#assign panelData = data[panelConfig.data.cacheKey]>
-  </#if>
+  <#assign panelData = data[panelConfig.data.cacheKey]!NUL>
 </#macro>
 
 <#macro includePanelContent panel>
   <#if panel.type == "PANEL">
-    <#include "../panel/" + panel.id + ".ftl">
-  </#if>
+    <@includePanelModel panelId=panel.id/>
+    <#if !panelData.NUL?? >
+      <#include "../panel/" + panel.id + ".ftl">
+    </#if>
+  </#if> 
   <#if panel.type == "GRID">
     <@includeGrid gridId=panel.id/>
   </#if>
@@ -56,16 +58,16 @@
 
 
 <script>
-	var contextRootPath = '${CONTEXT_ROOT_PATH}',
-		pageTitle;
-
+	
+	SLC.util.setContextRootPath('${CONTEXT_ROOT_PATH}');
+		
 	SLC.dataProxy.loadAll(${viewDataConfig});
 
 	if ($.browser.msie && parseInt($.browser.version, 10) < 9) {
 		document.createElement("footer");
 	}
-	pageTitle = SLC.dataProxy.getLayoutName();
-	document.title = pageTitle;
+	
+	document.title = SLC.dataProxy.getLayoutName();
 
 	setTimeout(SLC.util.placeholderFix, 500);
 </script>

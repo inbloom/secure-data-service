@@ -1,9 +1,24 @@
 /*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
  * SLC grid formatters
+ * Handles all the methods for displaying cutpoints, lozenge, fuelGauge, grade and teardrop in the grid
  */
 /*global SLC $ */
-
-var contextRootPath = contextRootPath || "";
 
 SLC.namespace('SLC.grid.formatters', (function () {
 	
@@ -90,34 +105,35 @@ SLC.namespace('SLC.grid.formatters', (function () {
 	    function FuelGauge(value, options, rowObject) {
 	        var name = options.colModel.formatoptions.name,
 				valueField = options.colModel.formatoptions.valueField,
-				assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
-			
-		    if (!assessments || assessments === undefined) {
-		        return "" ;
-		    }
-				
-			var score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField],
-				fieldName = options.colModel.formatoptions.fieldName,
-				cutPoints = (assessments.assessments) ? assessments.assessments.assessmentPerformanceLevel : assessments.assessmentPerformanceLevel,
-				cutPointsArray = options.colModel.formatoptions.cutPointsArray,
-				perfLevel = options.colModel.formatoptions.perfLevel,
-				perfLevelClass = options.colModel.formatoptions.perfLevelClass,
-				divId = fieldName + util.counter(),
-				returnValue = "<div id='" + divId + "' class='fuelGauge " + perfLevelClass + "' >",
-				width = options.colModel.formatoptions.fuelGaugeWidth,
-				height = Math.sqrt(width);
-				       
+				assessments = (name) ? rowObject.assessments[name]: rowObject.assessments,
+				score, fieldName, cutPoints, cutPointsArray, perfLevel, perfLevelClass, divId,
+				returnValue, width, height;
+
+	        if (!assessments || assessments === undefined) {
+	            return "" ;
+	        }
+	        
+	        score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField];
+	        
 	        if (!score || score === undefined || value === undefined || value === null) {
 	            score = 0;
 	        }
 	        
+			fieldName = options.colModel.formatoptions.fieldName;
+			cutPoints = (assessments.assessments) ? assessments.assessments.assessmentPerformanceLevel : assessments.assessmentPerformanceLevel;
+			cutPointsArray = options.colModel.formatoptions.cutPointsArray;
+			
 	        if (cutPointsArray === null || cutPointsArray === undefined) {
 	            cutPointsArray = grid.cutPoints.toArray(cutPoints);
 	        }
 	        
+	        perfLevel = options.colModel.formatoptions.perfLevel;
+	        
 	        if (perfLevel === null || perfLevel === undefined ) {
 	            perfLevel = grid.cutPoints.getLevelFromArray(cutPointsArray, score);
 	        }
+	        
+	        perfLevelClass = options.colModel.formatoptions.perfLevelClass;
 	        
 	        if (perfLevelClass === null || perfLevelClass === undefined) {
 	            var cutPointLevel = options.colModel.formatoptions.cutPoints[perfLevel];
@@ -128,11 +144,16 @@ SLC.namespace('SLC.grid.formatters', (function () {
 	            }
 	        }
 	        
+	        divId = fieldName + util.counter();
+			returnValue = "<div id='" + divId + "' class='fuelGauge " + perfLevelClass + "' >";
+			
 	        returnValue += "<script>";
 	        returnValue += "var cutPoints = new Array(" + grid.cutPoints.getArrayToString(cutPointsArray) + ");";
 	        returnValue += "$('#" + divId + "').parent().attr('title', '" + score + "');"; 
 	        returnValue += "var fuelGauge = new SLC.grid.FuelGauge ('" + divId + "', " + score + ", cutPoints);";
 	        
+	        width = options.colModel.formatoptions.fuelGaugeWidth;
+			
 	        if (width === null || width === undefined) {
 	            width = options.colModel.width;
 	            if (width !== null && width !== undefined) {
@@ -142,6 +163,7 @@ SLC.namespace('SLC.grid.formatters', (function () {
 	            }
 	        }
 	        
+	        height = Math.sqrt(width);
 	        height -= height % 1;//removing the decimals.
 	        
 	        returnValue += "fuelGauge.setSize('" + width + "', '" + height + "');";
@@ -156,36 +178,40 @@ SLC.namespace('SLC.grid.formatters', (function () {
 	        var perfLevelClass = "",
 				name = options.colModel.formatoptions.name,
 				valueField = options.colModel.formatoptions.valueField,
-				assessments = (name) ? rowObject.assessments[name]: rowObject.assessments;
-				
-	        if (!assessments || assessments === undefined) {
-	        	
-	            if (value === undefined || value === null) {
-	                value = "";
-	            }
-	            return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
-	        }
-	        
-			var score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField],
-				cutPoints = (assessments.assessments) ? assessments.assessments.assessmentPerformanceLevel : assessments.assessmentPerformanceLevel,
-				cutPointsArray = grid.cutPoints.toArray(cutPoints),
-				perfLevel = grid.cutPoints.getLevelFromArray(cutPointsArray, score),
-				defaultCutPointsSettings = { 5:{style:'color-widget-darkgreen'}, 4:{style:'color-widget-green'}, 3:{style:'color-widget-yellow'}, 2:{style:'color-widget-orange'}, 1:{style:'color-widget-red'}},
-				cutPointsSettings = (options.colModel.formatoptions.cutPoints) ? options.colModel.formatoptions.cutPoints : defaultCutPointsSettings,
-				cutPointLevel = cutPointsSettings[perfLevel],
-				width = options.colModel.width;
+				assessments = (name) ? rowObject.assessments[name]: rowObject.assessments,
+				score, cutPoints, cutPointsArray, perfLevel, defaultCutPointsSettings,
+				cutPointsSettings, cutPointLevel, width;
 	        
 	        if (value === undefined || value === null) {
 	            return "<span class='fuelGauge-perfLevel'></span>";
 	        }
 	        
+	        if (!assessments || assessments === undefined) {
+	
+	            if (value === undefined || value === null) {
+	                value = "!";
+	            }
+	            return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
+	        }
+	        
+	        score = (assessments[valueField]) ? assessments[valueField] : rowObject[valueField];
+	        
 	        if (!score || score === undefined) {
 	            return "<span class='fuelGauge-perfLevel'>" + value + "</span>" ;
 	        }
 	        
+	        cutPoints = (assessments.assessments) ? assessments.assessments.assessmentPerformanceLevel : assessments.assessmentPerformanceLevel;
+			cutPointsArray = grid.cutPoints.toArray(cutPoints);
+			perfLevel = grid.cutPoints.getLevelFromArray(cutPointsArray, score);
+			defaultCutPointsSettings = { 5:{style:'color-widget-darkgreen'}, 4:{style:'color-widget-green'}, 3:{style:'color-widget-yellow'}, 2:{style:'color-widget-orange'}, 1:{style:'color-widget-red'}};
+			cutPointsSettings = (options.colModel.formatoptions.cutPoints) ? options.colModel.formatoptions.cutPoints : defaultCutPointsSettings;
+			cutPointLevel = cutPointsSettings[perfLevel];
+			
 	        if (cutPointLevel !== null && cutPointLevel !== undefined) {
 	            perfLevelClass = cutPointLevel.style;
 	        }
+	        
+	        width = options.colModel.width;
 	        
 	        if (width !== null &&  width !== undefined) {
 	            options.colModel.formatoptions.fuelGaugeWidth = Math.round(width * 3/400) * 100;
@@ -248,11 +274,12 @@ SLC.namespace('SLC.grid.formatters', (function () {
 	    }
 	
 	    function restLink(value, options, rowObject) {
-	      var link = options.colModel.formatoptions.link;
+			var link = options.colModel.formatoptions.link,
+				contextRootPath = util.getContextRootPath();
 	      
-	      if (typeof link == 'string')
+	      if (typeof link === 'string')
 	      {
-	        return '<a href="' + contextRootPath + '/' + link + rowObject.id+'">'+$.jgrid.htmlEncode(value)+'</a>';
+	        return '<a href="' + util.getLayoutLink(link, rowObject.id) +'">'+$.jgrid.htmlEncode(value)+'</a>';
 	      } else {
 	        return value;
 	      }

@@ -20,8 +20,6 @@ package org.slc.sli.ingestion;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.Entity;
@@ -35,8 +33,6 @@ import org.slc.sli.domain.Entity;
 @Component
 public class Translator {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Translator.class);
-
     /**
      * Converts the SLI Ingestion neutral record to a SLI Domain instance
      *
@@ -44,7 +40,6 @@ public class Translator {
      * @return
      */
     public static NeutralRecordEntity mapToEntity(NeutralRecord neutralRecord, long recordNumber) {
-        LOG.debug("converting NeutralRecord({}) to NeutralRecordEntity", recordNumber);
         return new NeutralRecordEntity(neutralRecord, recordNumber);
     }
 

@@ -17,10 +17,14 @@
 
 package org.slc.sli.ingestion.routes;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.NoExtractProcessor;
@@ -47,6 +51,8 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
     public static final String CTRL_POLLER_PREFIX = "ctlFilePoller-";
     public static final String ZIP_POLLER_PREFIX = "zipFilePoller-";
 
+    private final static String invalidCharacters = "?";
+
     private String workItemQueueUri;
 
     /**
@@ -67,8 +73,16 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
 
     @Override
     public void configure() throws Exception {
+
         for (String inboundDir : landingZonePaths) {
             log.info("Configuring route for landing zone: {} ", inboundDir);
+
+            //Don't create the file poller if failed to create
+            //the landing zone or the name is invalid
+            if ( !isValidDirName(inboundDir) || !createValidDir(inboundDir) ) {
+                continue;
+            }
+
             // routeId: ctlFilePoller-inboundDir
             from(
                     "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.CONTROL_FILE.getExtension()
@@ -77,7 +91,10 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
                     .routeId(CTRL_POLLER_PREFIX + inboundDir)
                     .log(LoggingLevel.INFO, "CamelRouting", "Control file detected. Routing to ControlFilePreProcessor.")
                     .process(controlFilePreProcessor)
-                    .to(workItemQueueUri);
+                    .choice().when(header("hasErrors").isEqualTo(true))
+                        .to("direct:stop")
+                    .otherwise()
+                        .to(workItemQueueUri);
 
             // routeId: zipFilePoller-inboundDir
             from(
@@ -89,13 +106,16 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
                     .routeId(ZIP_POLLER_PREFIX + inboundDir)
                     .log(LoggingLevel.INFO, "CamelRouting", "Zip file detected. Routing to ZipFileProcessor.")
                     .process(zipFileProcessor)
-                    .choice()
-                    .when(header("hasErrors").isEqualTo(true))
+                    .choice().when(header("hasErrors").isEqualTo(true))
                         .to("direct:stop")
                     .otherwise()
-                .log(LoggingLevel.INFO, "CamelRouting", "No errors in zip file. Routing to ControlFilePreProcessor.")
+                        .log(LoggingLevel.INFO, "CamelRouting", "No errors in zip file. Routing to ControlFilePreProcessor.")
                         .process(controlFilePreProcessor)
-                                    .to(workItemQueueUri);
+                            .choice().when(header("hasErrors").isEqualTo(true))
+                                .to("direct:stop")
+                            .otherwise()
+                                .to(workItemQueueUri);
+
             from(
                     "file:" + inboundDir + "?include=^(.*)\\.noextract$" + "&move=" + inboundDir
                             + "/.done/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}" + "&moveFailed=" + inboundDir
@@ -105,6 +125,39 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
                 .log(LoggingLevel.INFO, "CamelRouting",
                         "No-extract command file detected. Routing to NoExtractProcessor.").process(noExtractProcessor)
             .to("direct:postExtract");
+
         }
     }
+
+    /** Creating the directory, so that camel won't complain about
+     * directory name with dot(.) in it.
+     * @param inboundDir: the absolute directory path to be created
+     * @return : true if successfully created the directory.
+     **/
+   private boolean createValidDir(String inboundDir) {
+
+       File ibDir = new File(inboundDir);
+       try {
+           FileUtils.forceMkdir(ibDir);
+       } catch (IOException e) {
+           log.error("Failed to create landing zone: {} ", inboundDir);
+           return false;
+       }
+       return true;
+   }
+
+   /**
+    * Check if the inboundDir name contains any invalid characters
+    *
+    * @param inboundDir : directory name to be checked
+    * @return : true if directory name doesn't contain any invalid character.
+    */
+   private boolean isValidDirName(String inboundDir) {
+       boolean res = StringUtils.containsNone(inboundDir, invalidCharacters);
+       if(!res) {
+           log.error("Failed to create file poller, because of invalid characters in {}", inboundDir);
+       }
+
+       return res;
+   }
 }

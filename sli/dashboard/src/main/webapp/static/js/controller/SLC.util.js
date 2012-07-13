@@ -1,12 +1,29 @@
 /*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
  * SLC util
+ * Handles reusable or common methods required by other SLC javascript files
  */
 /*global SLC $ window */
 
-var contextRootPath = contextRootPath || "";
-
 SLC.namespace('SLC.util', (function () {
-		var counterInt = 1;
+		var counterInt = 1,
+			tableId,
+			contextRootPath = "";
 		
 		function counter() {
 			counterInt ++;
@@ -23,10 +40,6 @@ SLC.namespace('SLC.util', (function () {
 			if(!isNaN(a) && !isNaN(b)) {
 				return b-a; 
 			}
-		}
-		
-		function getContextRootPath() {
-			return contextRootPath;
 		}
 		
 		function getElementFontSize(element) {
@@ -156,23 +169,6 @@ SLC.namespace('SLC.util', (function () {
 			return lozenges;
 		}
 		
-		function getData(componentId, queryString, callback) {
-			$.ajax({
-				url: contextRootPath + '/service/data/' + componentId + '?' + queryString,
-				success: function (panelData) {
-					SLC.dataProxy[componentId] = panelData; callback(panelData);
-				}
-			});
-		}
-		
-		function getPageUrl(componentId, queryString) {
-			return contextRootPath + '/service/layout/' + componentId + ((queryString) ? ('?' + queryString) : '');
-		}
-		
-		function goToUrl(componentId, queryString) {
-			window.location = this.getPageUrl(componentId, queryString);
-		}
-		
 		function checkCondition(data, condition) {
 			var validValues = condition.value,
 				values = data[condition.field];
@@ -197,30 +193,30 @@ SLC.namespace('SLC.util', (function () {
 		}
 		
 		function displayErrorMessage(error) {
-		    $("#losError").show();
+		    $("#dsh_dv_error").show();
 		    $("#viewSelection").hide();
-		    $("#losError").html(error);
+		    $("#dsh_dv_error").html(error);
 		}
 		
 		function hideErrorMessage() {
-		    $("#losError").hide();
+		    $("#dsh_dv_error").hide();
 		}
 		
 		function setDropDownOptions(name, defaultOptions, options, titleKey, valueKey, autoSelect, callback) {
 			var select =  "",
-				autoSelectOption = -1;
+			autoSelectOption = -1;
 			
 			$("#"+name).find("dropdown-menu").html(select);
 			
 			
 			if(options === null || options === undefined || options.length === 0) {
-		                this.displayErrorMessage("There is no data available for your request.  Please contact your IT administrator.");
+		        this.displayErrorMessage("There is no data available for your request.  Please contact your IT administrator.");
 			} else {
 				if (options.length === 1 && autoSelect) {
 					autoSelectOption = 0;
 				}
-				
 				if (defaultOptions !== undefined && defaultOptions !== null) {
+
 					$.each(defaultOptions, function(val, displayText) {
 						select += "    <li class=\"\"><a href=\"#\" onclick=\"SLC.util.hideErrorMessage()\">" + displayText + "</a>" +
 						"<input type='hidden' value='"+ val + "' id ='selectionValue' /></li>";
@@ -282,11 +278,60 @@ SLC.namespace('SLC.util', (function () {
 			return true;
 		}
 		
+		function getLayoutLink(name, id, queryString) {
+			return contextRootPath + "/s/l/" + name + ((id) ? ("/" + id) : "") + ((queryString) ? ('?' + queryString) : '');
+		}
+		
+		function goToLayout(name, id, queryString) {
+			location.href = getLayoutLink(name, id, queryString);
+		}
+		
+		function setTableId(id) {
+			if (typeof id === "string") { 
+				tableId = id;
+				return true;
+			}
+			
+			return false;
+		}
+	    
+		function getTableId() {
+	        return tableId;
+	    }
+	    
+	    function setContextRootPath(path) {
+			if (typeof path === "string") {
+				contextRootPath = path;
+				return true;
+			}
+			
+			return false;
+	    }
+	    
+		function getContextRootPath() {
+	        return contextRootPath;
+	    }
+	    
+		$(document).ready( function() {
+		    $('#banner #dbrd_frm_search').live("submit", function(e) {
+			  e.preventDefault();
+			  var firstName = $('#dbrd_inp_search_firstName').val();
+			  if (!firstName || firstName === "First Name") {
+			    firstName = '';
+			  }
+			  var lastName = $('#dbrd_inp_search_lastName').val();
+			  if (!lastName || lastName === "Last Name") {
+			    lastName = '';
+			  }
+			  goToLayout('studentSearch', null, 'firstName=' + firstName + '&lastName=' + lastName);
+			  return false;
+			});
+		});
+		
 		return {
 			counter: counter,
 			compareInt: compareInt,
 			compareIntReverse: compareIntReverse,
-			getContextRootPath: getContextRootPath,
 			getElementFontSize: getElementFontSize,
 			getElementColor: getElementColor,
 			getElementWidth: getElementWidth,
@@ -297,15 +342,18 @@ SLC.namespace('SLC.util', (function () {
 			checkAjaxError: checkAjaxError,
 			getStyleDeclaration: getStyleDeclaration,
 			renderLozenges: renderLozenges,
-			getData: getData,
-			goToUrl: goToUrl,
-			getPageUrl: getPageUrl,
 			checkCondition: checkCondition,
 			displayErrorMessage: displayErrorMessage,
 			hideErrorMessage: hideErrorMessage,
 			setDropDownOptions: setDropDownOptions,
 			selectDropDownOption: selectDropDownOption,
-			placeholderFix: placeholderFix
+			placeholderFix: placeholderFix,
+			goToLayout: goToLayout,
+			getLayoutLink: getLayoutLink,
+			setTableId: setTableId,
+			getTableId: getTableId,
+			setContextRootPath: setContextRootPath,
+			getContextRootPath: getContextRootPath
 		};
 	}())
 );

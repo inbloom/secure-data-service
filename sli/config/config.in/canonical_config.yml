@@ -87,11 +87,11 @@ default:
         sli.test.prop: ci DAL Context Test Property
 
   # Write concerns
-        
+
         sli.ingestion.mongotemplate.writeConcern: SAFE
         sli.ingestion.staging.mongotemplate.writeConcern: SAFE
         sli.default.mongotemplate.writeConcern: SAFE
-      
+
     ingestion: &INGESTION-DEFAULT
 
         # ingestion landing zone
@@ -106,14 +106,18 @@ default:
         # ingestion exception message logging
         sli.ingestion.exception.message.log: true
 
-        # ingestion log level 
+        # ingestion log level
         sli.ingestion.log.level: info
         # concurrent or serial
         sli.ingestion.processor.edfi: concurrent
-        sli.ingestion.processor.xml: concurrent 
+        sli.ingestion.processor.xml: concurrent
         # ingestion queue definitions (only used in ingestion)
         sli.ingestion.queue.workItem.host:
         sli.ingestion.queue.workItem.port:
+        sli.ingestion.queue.workItem.secondaryhost:
+        sli.ingestion.queue.workItem.secondaryport:
+        sli.ingestion.queue.options: keepAlive=true&jms.prefetchPolicy.queuePrefetch=0
+        sli.ingestion.queue.brokerUrl: tcp://${sli.ingestion.queue.workItem.host}:${sli.ingestion.queue.workItem.port}?${sli.ingestion.queue.options}
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
@@ -136,23 +140,23 @@ default:
         sli.ingestion.queue.pit.uriOptions:
         sli.ingestion.queue.pit.keystore:
         sli.ingestion.queue.pit.keystorePassword:
-        
+
         sli.ingestion.nodeType: standalone
         sli.ingestion.tenant.deriveTenants: true
         sli.ingestion.tenant.loadDefaultTenants: true
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
 
         sli.ingestion.cache.type: inmemory
-        sli.ingestion.cache.servers: 
+        sli.ingestion.cache.servers:
         sli.ingestion.cache.opTimeout: 10
-        
+
         #Work Note Chunking Parameters
         sli.ingestion.split.chunk.size: 500
         sli.ingestion.split.threshold.percentage: 0.30
 
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
-        
+
     dashboard: &DASHBOARD-DEFAULT
 
         # Used in dashboard application context
@@ -192,12 +196,12 @@ default:
 
         # (only used in dashboard)
         dashboard.WSCall.timeout: 3000
-        
+
         dashboard.minify.js: true
         dashboard.cache.disable: false
 
-        # This is the same as the sli.encyrption.* .  But we need Dashboard to be 
-        # independant of sli specific configuration for open sources. Having the props 
+        # This is the same as the sli.encyrption.* .  But we need Dashboard to be
+        # independant of sli specific configuration for open sources. Having the props
         # independent here will allow us to use the same application-context for
         # the internal version as well as the external version.
         # (only used in dashboard)
@@ -215,7 +219,6 @@ default:
         bootstrap.app.admin.description: The SLC Administration Application allows you to change a variety of system settings.
         bootstrap.app.admin.version: 0.0
         bootstrap.app.databrowser.template: applications/databrowser.json
-        bootstrap.app.databrowser.guid: eab130ba-6e5a-ab75-864c-e03722e523c2
         bootstrap.app.databrowser.name: SLC Data Browser
         bootstrap.app.databrowser.description: The SLC Data Browser allows developers and administrators to access all available information in the SLC datastore.
         bootstrap.app.databrowser.version: 0.0
@@ -223,7 +226,6 @@ default:
         bootstrap.app.dashboard.description: The SLC Dashboards allow you to see information about students in lists and profiles.
         bootstrap.app.dashboard.template: applications/dashboard.json
         bootstrap.app.dashboard.version: A.0
-        bootstrap.app.dashboard.guid: 1ad39ff1-65f8-4a16-8912-b49872f1ee96
         bootstrap.app.vendor: SLC
 
     misc: &MISC-DEFAULT
@@ -307,8 +309,8 @@ acceptance-tests:
         sli.mongodb.port: 27017
         #sli.mongodb.user =
         #sli.mongodb.pass =
-        
-        
+
+
         sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: nxbuild.slidev.org
         sli.ingestion.staging.mongodb.port: 27017
@@ -745,8 +747,8 @@ local:
         sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
         sli.ingestion.warnings.tracking: true
-        
-      
+
+
     ingestion: &INGESTION-LOCAL
         <<: *INGESTION-DEFAULT
         landingzone.inbounddir: target/ingestion/lz/inbound
@@ -769,7 +771,7 @@ local:
         sli.encryption.keyStore: ../data-access/dal/keyStore/ciKeyStore.jks
 
         dashboard.minify.js: false
-        
+
         dashboard.log.level: info
 
     apps: &APPS-LOCAL
@@ -1207,7 +1209,7 @@ nxteam:
 
     data-access: &DATA-ACCESS-NXTEAM
         <<: *DATA-ACCESS-TEAM
-        sli.mongodb.host: localhost 
+        sli.mongodb.host: localhost
         sli.mongodb.port: 27017
         sli.ingestion.staging.mongodb.host: localhost
         sli.ingestion.staging.mongodb.port: 27018

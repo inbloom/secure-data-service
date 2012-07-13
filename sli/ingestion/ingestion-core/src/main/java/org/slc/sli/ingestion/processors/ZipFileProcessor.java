@@ -22,8 +22,6 @@ import java.io.IOException;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -42,7 +40,6 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
-import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
@@ -55,8 +52,6 @@ import org.slc.sli.ingestion.validation.ErrorReport;
 public class ZipFileProcessor implements Processor {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.ZIP_FILE_PROCESSOR;
-
-    private static final Logger LOG = LoggerFactory.getLogger(ZipFileProcessor.class);
 
     @Autowired
     private ZipFileHandler zipFileHandler;
@@ -88,7 +83,7 @@ public class ZipFileProcessor implements Processor {
 
         NewBatchJob newJob = null;
         try {
-            LOG.info("Received zip file: " + exchange.getIn());
+            info("Received zip file: " + exchange.getIn());
 
             File zipFile = exchange.getIn().getBody(File.class);
 
@@ -142,7 +137,7 @@ public class ZipFileProcessor implements Processor {
     private void handleProcessingException(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
+        error("Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
             Error error = Error.createIngestionError(batchJobId, null, BatchJobStageType.ZIP_FILE_PROCESSOR.getName(),
                     null, null, null, FaultType.TYPE_ERROR.getName(), null, exception.toString());
