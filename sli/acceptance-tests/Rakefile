@@ -316,7 +316,8 @@ task :appInit do
 end
 
 task :loadDefaultIngestionTenants do
-  setFixture("tenant", "defaultIngestionTenant_fixture.json", "test/data")
+  #jshort - must fix with some profile swap
+  #setFixture("tenant", "defaultIngestionTenant_fixture.json", "test/data")
 end
 
 # Run a whole series of acceptance and integration tests
