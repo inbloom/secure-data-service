@@ -25,12 +25,18 @@ import openadk.library.Zone;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.sif.slcinterface.SlcInterface;
 
+@Component
 public class SifSubscriber implements Subscriber {
 
     private static final Logger LOG = LoggerFactory.getLogger(SifSubscriber.class);
+
+    @Autowired
+    private SlcInterface slcInterface;
 
     private void inspectAndDestroyEvent(Event e) {
         LOG.info("###########################################################################");
@@ -48,13 +54,10 @@ public class SifSubscriber implements Subscriber {
         LOG.info("Received event:\n" + "\tEvent: " + event.getActionString() + "\n" + "\tZone: " + zone.getZoneId()
                 + "\n" + "\tInfo: " + info.getMessage());
 
-        System.out.println("GOT EVENT!!");
-
         inspectAndDestroyEvent(event);
 
         //execute a call to the SDK
-        SlcInterface sdk = new SlcInterface();
-        String token = sdk.sessionCheck();
+        String token = slcInterface.sessionCheck();
         if (null != token && 0 < token.length()) {
 			LOG.info("Successfully executed session check with token " + token);
 		} else {

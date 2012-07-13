@@ -26,8 +26,6 @@ import openadk.library.tools.cfg.AgentConfig;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.sif.zone.SubscribeZoneConfigurator;
@@ -39,8 +37,7 @@ public class SifAgent extends Agent {
 
     private AgentConfig fCfg;
 
-    @Value("classpath:/sif/agent-subscribe-config.xml")
-    private Resource configFile;
+    private String configFilePath;
 
     ZoneConfigurator zoneConfigurator;
 
@@ -54,23 +51,22 @@ public class SifAgent extends Agent {
         this.zoneConfigurator = new SubscribeZoneConfigurator();
     }
 
-    public SifAgent(String id, Resource configFile, ZoneConfigurator zoneConfig ){
+    public SifAgent(String id, String configFilePath, ZoneConfigurator zoneConfig ){
         super(id);
         setName(id);
-        this.configFile = configFile;
+        this.configFilePath = configFilePath;
         this.zoneConfigurator = zoneConfig;
     }
 
     public void startAgent() throws Exception {
-
-        File file = configFile.getFile();
-        String configPath = file.getAbsolutePath();
+        File configFile = new File(configFilePath);
+        String configPath = configFile.getAbsolutePath();
 
         LOG.info("Using config file: " + configPath);
 
         // Read the configuration file
         fCfg = new AgentConfig();
-        fCfg.read(file.getAbsolutePath(), false);
+        fCfg.read(configFile.getAbsolutePath(), false);
 
         // Override the SourceId passed to the constructor with the SourceId
         // specified in the configuration file
@@ -94,4 +90,21 @@ public class SifAgent extends Agent {
 
         zoneConfigurator.configure(allZones);
     }
+
+    public void setConfigFilePath(String configFilePath) {
+        this.configFilePath = configFilePath;
+    }
+
+    public String getConfigFilePath() {
+        return this.configFilePath;
+    }
+
+    public void setZoneConfigurator(ZoneConfigurator zoneConfigurator) {
+        this.zoneConfigurator = zoneConfigurator;
+    }
+
+    public ZoneConfigurator getZoneConfigurator() {
+        return this.zoneConfigurator;
+    }
+
 }

@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
     <context:annotation-config />
     <context:component-scan base-package="org.slc" />
@@ -18,8 +21,32 @@
             </list>
         </property>
     </bean>
-
-  	<bean id="Sif2SliTransformer" class="org.slc.sli.sif.domain.Sif2SliTransformer"/>
+    
+    <bean id="subscriberAgent" class="org.slc.sli.sif.agent.SifAgent">
+        <property name="configFilePath">
+            <value>src/main/resources/sif/agent-subscribe-config.xml</value>
+        </property>
+        <property name="zoneConfigurator">
+            <bean id="zoneConfigurator" class="org.slc.sli.sif.zone.SubscribeZoneConfigurator"/>
+        </property>
+    </bean>
+    
+    <bean id="agentManager" class="org.slc.sli.sif.agent.AgentManager">
+        
+        <property name="subscriberZoneName">
+            <value>TestZone</value>
+        </property>
+        
+        <property name="agent" ref="subscriberAgent"/>
+        
+        <property name="subscribeTypeList">
+            <!-- strings in this list relate to the ADK map in StudentDTD -->
+            <list>
+                <value>StudentPersonal</value>
+                <value>SchoolInfo</value>
+            </list>
+        </property>
+    </bean>
 
 	<!-- custom converter -->
   	<bean id="GradeLevelsConverter" class="org.slc.sli.sif.domain.converter.GradeLevelsConverter"/>
@@ -46,5 +73,7 @@
 <!--            </map>-->
 <!--        </property>-->
     </bean>
+    
+    <bean id="Sif2SliTransformer" class="org.slc.sli.sif.domain.Sif2SliTransformer"/>
 
 </beans>
