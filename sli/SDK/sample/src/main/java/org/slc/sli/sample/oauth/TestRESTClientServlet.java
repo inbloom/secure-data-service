@@ -56,7 +56,7 @@ public class TestRESTClientServlet extends HttpServlet {
 
     // build the test student entity that can pass schema validation
     private static final String STUDENT_MONIQUE =
-            "{                                                                  "
+                      "{                                                                  "
                     + "    \"studentUniqueStateId\":\"123456\",                           "
                     + "    \"sex\":\"Female\",                                            "
                     + "    \"economicDisadvantaged\":false,                               "
@@ -108,12 +108,14 @@ public class TestRESTClientServlet extends HttpServlet {
     }
 
     // test the create for Java SDK
-    @SuppressWarnings("unchecked")
     private String testCreate(RESTClient client) {
 
         String[] inDB = persistAndRead(STUDENT_MONIQUE, client, ResourceNames.STUDENTS);
-        String studentBody = inDB[1];
+        if (inDB == null) {
+            return FAILED;
+        }
 
+        String studentBody = inDB[1];
         if (studentBody.indexOf("\"lastSurname\":\"Christie\"") > -1 && studentBody.indexOf("\"firstName\":\"Monique\"") > -1) {
             return SUCCEED;
         }
@@ -122,10 +124,12 @@ public class TestRESTClientServlet extends HttpServlet {
     }
 
     // test the update for Java SDK
-    @SuppressWarnings("unchecked")
     private String testUpdate(RESTClient client) {
 
         String[] inDB = persistAndRead(STUDENT_MONIQUE, client, ResourceNames.STUDENTS);
+        if (inDB == null) {
+            return FAILED;
+        }
         String resourceLocation = inDB[0];
         String studentBody = inDB[1];
 
@@ -143,9 +147,9 @@ public class TestRESTClientServlet extends HttpServlet {
             }
 
         } catch (MalformedURLException e) {
-            //SUPPRESS
+            return FAILED;
         } catch (URISyntaxException e) {
-            //SUPPRESS
+            return FAILED;
         }
 
         return FAILED;
@@ -172,16 +176,15 @@ public class TestRESTClientServlet extends HttpServlet {
                 return SUCCEED;
             }
         } catch (MalformedURLException e) {
-            //SUPPRESS
+            return FAILED;
         } catch (URISyntaxException e) {
-            //SUPPRESS
+            return FAILED;
         }
 
         return FAILED;
     }
 
     // test query and sorting of Java SDK
-    @SuppressWarnings("unchecked")
     private String testQuery(RESTClient client) {
 
         Query query = BasicQuery.Builder.create().filterEqual("sex", "Male")
@@ -202,9 +205,9 @@ public class TestRESTClientServlet extends HttpServlet {
                 return SUCCEED;
             }
         } catch (MalformedURLException e) {
-            //SUPPRESS
+            return FAILED;
         } catch (URISyntaxException e) {
-            //SUPPRESS
+            return FAILED;
         }
 
         return FAILED;
