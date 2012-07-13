@@ -6,11 +6,11 @@ Scenario Outline: Get List of Authorized Apps
 
 Given I am logged in using "linda.kim" "linda.kim1234" to realm <Realm>
 When I make an API call to get my available apps
-Then I see an app named <App Name>
+Then I see an app named <App Name> and not <Other App>
 Examples:
-| Realm   | App Name       |
-| "Zork"  | "Phzorked"     |
-| "Chaos" | "Chaos Monkey" |
+| Realm   | App Name       | Other App      |
+| "Zork"  | "Phzorked"     | "Chaos Monkey" |
+| "Chaos" | "Chaos Monkey" | "Phzorked"     |
 
 Scenario: Editing Data in one tenant not visible to other
 
