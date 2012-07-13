@@ -23,6 +23,9 @@ import java.util.Set;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.ingestion.EdfiEntity;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.NeutralRecord;
@@ -31,8 +34,6 @@ import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  *
@@ -41,8 +42,6 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class OrchestraPreProcessor implements Processor {
-
-    private static final Logger LOG = LoggerFactory.getLogger(OrchestraPreProcessor.class);
 
     @Autowired
     private BatchJobDAO batchJobDAO;
@@ -58,7 +57,7 @@ public class OrchestraPreProcessor implements Processor {
         String jobId = workNote.getBatchJobId();
         exchange.getIn().setHeader("jobId", jobId);
 
-        LOG.info("Looking up staged entities for batch job: {}", jobId);
+        info("Looking up staged entities for batch job: {}", jobId);
 
         Set<String> stagedCollectionNames = neutralRecordMongoAccess.getRecordRepository().getStagedCollectionsForJob(
                 jobId);
@@ -91,10 +90,10 @@ public class OrchestraPreProcessor implements Processor {
                 stagedEntities.add(ingestionStagedEntity);
 
             } else {
-                LOG.warn("Unrecognized collection: {} dropping it on the floor", stagedCollection);
+                warn("Unrecognized collection: {} dropping it on the floor", stagedCollection);
             }
         }
-        LOG.info("staged entities for job: {}", stagedEntities);
+        info("staged entities for job: {}", stagedEntities);
         return stagedEntities;
     }
 

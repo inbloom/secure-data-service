@@ -17,35 +17,10 @@
 
 package org.slc.sli.api.resources.v1.association;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
-
 import com.sun.jersey.core.util.MultivaluedMapImpl;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.constants.ResourceNames;
@@ -58,11 +33,33 @@ import org.slc.sli.api.resources.v1.entity.CohortResource;
 import org.slc.sli.api.resources.v1.entity.StudentResource;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for the resource representing a cohort
- * @author srichards
  *
+ * @author srichards
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -98,33 +95,31 @@ public class StudentCohortAssociationResourceTest {
         when(httpHeaders.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
     }
 
-/*    private Map<String, Object> createTestCohortEntity() {
-        Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put(ChortResource.COHORT_IDENTIFIER, firstCohortId);
-        entity.put(CohortResource.COHORT_TYPE, "Unua Type");
-        entity.put(CohortResource.EDUCATION_ORGANIZATION_ID, edOrgId);
-        return entity;
-    }
+    /*    private Map<String, Object> createTestCohortEntity() {
+            Map<String, Object> entity = new HashMap<String, Object>();
+            entity.put(ChortResource.COHORT_IDENTIFIER, firstCohortId);
+            entity.put(CohortResource.COHORT_TYPE, "Unua Type");
+            entity.put(CohortResource.EDUCATION_ORGANIZATION_ID, edOrgId);
+            return entity;
+        }
 
-    private Map<String, Object> createTestStudentEntity() {
-        Map<String, Object> entity = new HashMap<String, Object>();
-        entity.put(ParameterConstants.STUDENT_ID, firstStudentId);
-        entity.put(StudentResource.UNIQUE_STATE_ID, uniqueStateId);
-        entity.put(StudentResource.NAME, "Unua");
-        entity.put(StudentResource.SEX, "Female");
-        entity.put(StudentResource.BIRTH_DATA, "01/01/1999");
-        entity.put(StudentResource.HISPANIC_LATINO_ETHNICITY, "true");
-        return entity;
-    }
-*/
+        private Map<String, Object> createTestStudentEntity() {
+            Map<String, Object> entity = new HashMap<String, Object>();
+            entity.put(ParameterConstants.STUDENT_ID, firstStudentId);
+            entity.put(StudentResource.UNIQUE_STATE_ID, uniqueStateId);
+            entity.put(StudentResource.NAME, "Unua");
+            entity.put(StudentResource.SEX, "Female");
+            entity.put(StudentResource.BIRTH_DATA, "01/01/1999");
+            entity.put(StudentResource.HISPANIC_LATINO_ETHNICITY, "true");
+            return entity;
+        }
+    */
     private final String assnId = "1234";
     private final String firstBeginDate = "2012-01-01";
     private final String secondBeginDate = "2012-06-06";
     private final String updatedBeginDate = "2012-12-31";
-    private final String studentId = "2345";
-    private final String cohortId = "3456";
 
-    private Map<String, Object> createTestAssociation() {
+    private Map<String, Object> createTestAssociation(String studentId, String cohortId) {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID, assnId);
         entity.put(StudentCohortAssociationResource.BEGIN_DATE, firstBeginDate);
@@ -133,7 +128,7 @@ public class StudentCohortAssociationResourceTest {
         return entity;
     }
 
-    private Map<String, Object> createTestUpdateAssociation() {
+    private Map<String, Object> createTestUpdateAssociation(String studentId, String cohortId) {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID, assnId);
         entity.put(StudentCohortAssociationResource.BEGIN_DATE, updatedBeginDate);
@@ -146,14 +141,20 @@ public class StudentCohortAssociationResourceTest {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(ParameterConstants.STUDENT_COHORT_ASSOCIATION_ID, "4567");
         entity.put(StudentCohortAssociationResource.BEGIN_DATE, secondBeginDate);
-        entity.put(ParameterConstants.STUDENT_ID, "5678");
-        entity.put(ParameterConstants.COHORT_ID, "6789");
+        entity.put(ParameterConstants.STUDENT_ID, ResourceTestUtil.parseIdFromLocation(studentResource.create(new EntityBody(), httpHeaders, uriInfo)));
+        entity.put(ParameterConstants.COHORT_ID, ResourceTestUtil.parseIdFromLocation(cohortResource.create(new EntityBody(), httpHeaders, uriInfo)));
         return entity;
     }
 
     @Test
     public void testCreate() {
-        Response response = studentCohortAssn.create(new EntityBody(createTestAssociation()), httpHeaders, uriInfo);
+        Response res = studentResource.create(new EntityBody(), httpHeaders, uriInfo);
+        String studentId = ResourceTestUtil.parseIdFromLocation(res);
+
+        Response res1 = cohortResource.create(new EntityBody(), httpHeaders, uriInfo);
+        String cohortId = ResourceTestUtil.parseIdFromLocation(res1);
+
+        Response response = studentCohortAssn.create(new EntityBody(createTestAssociation(studentId, cohortId)), httpHeaders, uriInfo);
         assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), response.getStatus());
 
         String id = ResourceTestUtil.parseIdFromLocation(response);
@@ -162,8 +163,14 @@ public class StudentCohortAssociationResourceTest {
 
     @Test
     public void testRead() {
+        Response res = studentResource.create(new EntityBody(), httpHeaders, uriInfo);
+        String studentId = ResourceTestUtil.parseIdFromLocation(res);
+
+        Response res1 = cohortResource.create(new EntityBody(), httpHeaders, uriInfo);
+        String cohortId = ResourceTestUtil.parseIdFromLocation(res1);
+
         //create one entity
-        Response createResponse = studentCohortAssn.create(new EntityBody(createTestAssociation()), httpHeaders, uriInfo);
+        Response createResponse = studentCohortAssn.create(new EntityBody(createTestAssociation(studentId, cohortId)), httpHeaders, uriInfo);
         String id = ResourceTestUtil.parseIdFromLocation(createResponse);
         Response response = studentCohortAssn.read(id, httpHeaders, uriInfo);
 
@@ -189,8 +196,14 @@ public class StudentCohortAssociationResourceTest {
 
     @Test
     public void testDelete() {
+        Response res = studentResource.create(new EntityBody(), httpHeaders, uriInfo);
+        String studentId = ResourceTestUtil.parseIdFromLocation(res);
+
+        Response res1 = cohortResource.create(new EntityBody(), httpHeaders, uriInfo);
+        String cohortId = ResourceTestUtil.parseIdFromLocation(res1);
+
         //create one entity
-        Response createResponse = studentCohortAssn.create(new EntityBody(createTestAssociation()), httpHeaders, uriInfo);
+        Response createResponse = studentCohortAssn.create(new EntityBody(createTestAssociation(studentId, cohortId)), httpHeaders, uriInfo);
         String id = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         //delete it
@@ -210,18 +223,24 @@ public class StudentCohortAssociationResourceTest {
 
     @Test
     public void testUpdate() {
+        Response res = studentResource.create(new EntityBody(), httpHeaders, uriInfo);
+        String studentId = ResourceTestUtil.parseIdFromLocation(res);
+
+        Response res1 = cohortResource.create(new EntityBody(), httpHeaders, uriInfo);
+        String cohortId = ResourceTestUtil.parseIdFromLocation(res1);
+
         //create one entity
-        Response createResponse = studentCohortAssn.create(new EntityBody(createTestAssociation()), httpHeaders, uriInfo);
+        Response createResponse = studentCohortAssn.create(new EntityBody(createTestAssociation(studentId, cohortId)), httpHeaders, uriInfo);
         String id = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         //update it
-        Response response = studentCohortAssn.update(id, new EntityBody(createTestUpdateAssociation()), httpHeaders, uriInfo);
+        Response response = studentCohortAssn.update(id, new EntityBody(createTestUpdateAssociation(studentId, cohortId)), httpHeaders, uriInfo);
         assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
 
         //try to get it
         Response getResponse = studentCohortAssn.read(id, httpHeaders, uriInfo);
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), getResponse.getStatus());
-        EntityResponse entityResponse  = (EntityResponse) getResponse.getEntity();
+        EntityResponse entityResponse = (EntityResponse) getResponse.getEntity();
         EntityBody body = (EntityBody) entityResponse.getEntity();
         assertNotNull("Should return an entity", body);
         assertEquals(StudentCohortAssociationResource.BEGIN_DATE + " should be " + updatedBeginDate, updatedBeginDate, body.get(StudentCohortAssociationResource.BEGIN_DATE));
@@ -230,8 +249,14 @@ public class StudentCohortAssociationResourceTest {
 
     @Test
     public void testReadAll() {
+        Response res = studentResource.create(new EntityBody(), httpHeaders, uriInfo);
+        String studentId = ResourceTestUtil.parseIdFromLocation(res);
+
+        Response res1 = cohortResource.create(new EntityBody(), httpHeaders, uriInfo);
+        String cohortId = ResourceTestUtil.parseIdFromLocation(res1);
+
         //create two entities
-        studentCohortAssn.create(new EntityBody(createTestAssociation()), httpHeaders, uriInfo);
+        studentCohortAssn.create(new EntityBody(createTestAssociation(studentId, cohortId)), httpHeaders, uriInfo);
         studentCohortAssn.create(new EntityBody(createTestSecondaryAssociation()), httpHeaders, uriInfo);
 
         //read everything
@@ -239,7 +264,7 @@ public class StudentCohortAssociationResourceTest {
         assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
 
         @SuppressWarnings("unchecked")
-        EntityResponse entityResponse  = (EntityResponse) response.getEntity();
+        EntityResponse entityResponse = (EntityResponse) response.getEntity();
         List<EntityBody> results = (List<EntityBody>) entityResponse.getEntity();
         assertNotNull("Should return entities", results);
         assertTrue("Should have at least two entities", results.size() >= 2);
@@ -251,7 +276,7 @@ public class StudentCohortAssociationResourceTest {
         assertEquals("Status code should be 200", Status.OK.getStatusCode(), response.getStatus());
 
         @SuppressWarnings("unchecked")
-        EntityResponse entityResponse  = (EntityResponse) response.getEntity();
+        EntityResponse entityResponse = (EntityResponse) response.getEntity();
         List<EntityBody> results = (List<EntityBody>) entityResponse.getEntity();
         assertEquals("Should get 2 entities", 2, results.size());
 
@@ -307,8 +332,14 @@ public class StudentCohortAssociationResourceTest {
     }
 
     private String getIDList(String resource) {
+        Response res = studentResource.create(new EntityBody(), httpHeaders, uriInfo);
+        String studentId = ResourceTestUtil.parseIdFromLocation(res);
+
+        Response res1 = cohortResource.create(new EntityBody(), httpHeaders, uriInfo);
+        String cohortId = ResourceTestUtil.parseIdFromLocation(res1);
+
         //create more resources
-        Response createResponse1 = studentCohortAssn.create(new EntityBody(createTestAssociation()), httpHeaders, uriInfo);
+        Response createResponse1 = studentCohortAssn.create(new EntityBody(createTestAssociation(studentId, cohortId)), httpHeaders, uriInfo);
         Response createResponse2 = studentCohortAssn.create(new EntityBody(createTestSecondaryAssociation()), httpHeaders, uriInfo);
 
         return ResourceTestUtil.parseIdFromLocation(createResponse1) + "," + ResourceTestUtil.parseIdFromLocation(createResponse2);

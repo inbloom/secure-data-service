@@ -39,13 +39,13 @@ puts " \==========================================================="
 puts ""
 
 expected={
- # actual record count: 485,795
+ # actual record count: 485,681
  # entities not persisted:
- # - assessmentFamily --> count: 85
- # - assessmentItem --> count: 375
- # - assessmentPeriodDescriptor --> count: 123
- # - objectiveAssessment --> count: 85
- # - performanceLevelDescriptor --> count: 128
+ # - assessmentFamily --> count: 92
+ # - assessmentItem --> count: 374
+ # - assessmentPeriodDescriptor --> count: 119
+ # - objectiveAssessment --> count: 88
+ # - performanceLevelDescriptor --> count: 133
  # - serviceDescriptor --> count: 4
  # - studentAssessmentItem --> count: 0
  # - studentObjectiveAssessment --> count: 0
@@ -64,12 +64,11 @@ expected={
   "gradebookEntry"=>0,
   "gradingPeriod"=>240,
   "graduationPlan"=>30,
-  "learningObjective"=>46,
-  "learningStandard"=>262,
-  "parent"=>4540,
+  "learningObjective"=>42,
+  "learningStandard"=>264,
+  "parent"=>4479,
   "program"=>37,
   "reportCard"=>0,
-  "schoolSessionAssociation"=>0,
   "section"=>20160,
   "session"=>60,
   "staff"=>435,
@@ -83,7 +82,7 @@ expected={
   "studentCompetency"=>0,
   "studentCompetencyObjective"=>0,
   "studentDisciplineIncidentAssociation"=>3000,
-  "studentParentAssociation"=>4540,
+  "studentParentAssociation"=>4479,
   "studentProgramAssociation"=>2588,
   "studentSchoolAssociation"=>3000,
   "studentSectionAssociation"=>42000,
@@ -93,17 +92,17 @@ expected={
   "teacherSectionAssociation"=>20160
  },
  
- # actual record count: 969,932
+ # actual record count: 970,113
  # entities not persisted:
- # - assessmentFamily --> count: 92
- # - assessmentItem --> count: 376
- # - assessmentPeriodDescriptor --> count: 124
- # - objectiveAssessment --> count: 80
- # - performanceLevelDescriptor --> count: 114
+ # - assessmentFamily --> count: 83
+ # - assessmentItem --> count: 393
+ # - assessmentPeriodDescriptor --> count: 126
+ # - objectiveAssessment --> count: 91
+ # - performanceLevelDescriptor --> count: 131
  # - serviceDescriptor --> count: 4
  # - studentAssessmentItem --> count: 0
  # - studentObjectiveAssessment --> count: 0
- "1000k" => {
+ "1M" => {
   "assessment"=>163,
   "attendance"=>6000,
   "calendarDate"=>240,
@@ -116,14 +115,13 @@ expected={
   "educationOrganization"=>67,
   "grade"=>0,
   "gradebookEntry"=>0,
-  "gradingPeriod"=>960,
+  "gradingPeriod"=>480,
   "graduationPlan"=>60,
-  "learningObjective"=>51,
-  "learningStandard"=>245,
-  "parent"=>9002,
+  "learningObjective"=>43,
+  "learningStandard"=>262,
+  "parent"=>9069,
   "program"=>73,
   "reportCard"=>0,
-  "schoolSessionAssociation"=>0,
   "section"=>40320,
   "session"=>120,
   "staff"=>735,
@@ -137,7 +135,7 @@ expected={
   "studentCompetency"=>0,
   "studentCompetencyObjective"=>0,
   "studentDisciplineIncidentAssociation"=>6000,
-  "studentParentAssociation"=>9002,
+  "studentParentAssociation"=>9069,
   "studentProgramAssociation"=>5208,
   "studentSchoolAssociation"=>6000,
   "studentSectionAssociation"=>84000,
@@ -147,17 +145,17 @@ expected={
   "teacherSectionAssociation"=>40320
  },
  
- # actual record count: 1,454,040
+ # actual record count: 1,454,031
  # entities not persisted:
- # - assessmentFamily --> count: 79
- # - assessmentItem --> count: 359
- # - assessmentPeriodDescriptor --> count: 122
- # - objectiveAssessment --> count: 69
- # - performanceLevelDescriptor --> count: 112
+ # - assessmentFamily --> count: 89
+ # - assessmentItem --> count: 389
+ # - assessmentPeriodDescriptor --> count: 117
+ # - objectiveAssessment --> count: 81
+ # - performanceLevelDescriptor --> count: 144
  # - serviceDescriptor --> count: 4
  # - studentAssessmentItem --> count: 0
  # - studentObjectiveAssessment --> count: 0
- "1500k" => {
+ "1_5M" => {
   "assessment"=>163,
   "attendance"=>9000,
   "calendarDate"=>360,
@@ -170,14 +168,13 @@ expected={
   "educationOrganization"=>100,
   "grade"=>0,
   "gradebookEntry"=>0,
-  "gradingPeriod"=>1440,
+  "gradingPeriod"=>720,
   "graduationPlan"=>90,
-  "learningObjective"=>34,
-  "learningStandard"=>236,
-  "parent"=>13539,
+  "learningObjective"=>44,
+  "learningStandard"=>246,
+  "parent"=>13485,
   "program"=>109,
   "reportCard"=>0,
-  "schoolSessionAssociation"=>0,
   "section"=>60480,
   "session"=>180,
   "staff"=>1035,
@@ -191,7 +188,7 @@ expected={
   "studentCompetency"=>0,
   "studentCompetencyObjective"=>0,
   "studentDisciplineIncidentAssociation"=>9000,
-  "studentParentAssociation"=>13539,
+  "studentParentAssociation"=>13485,
   "studentProgramAssociation"=>7763,
   "studentSchoolAssociation"=>9000,
   "studentSectionAssociation"=>126000,
@@ -199,11 +196,64 @@ expected={
   "studentTranscriptAssociation"=>0,
   "teacherSchoolAssociation"=>900,
   "teacherSectionAssociation"=>60480
+ },
+ 
+ # actual record count: 4,843,305
+ # entities not persisted:
+ # - assessmentFamily --> count: 73
+ # - assessmentItem --> count: 374
+ # - assessmentPeriodDescriptor --> count: 121
+ # - objectiveAssessment --> count: 90
+ # - performanceLevelDescriptor --> count: 137
+ # - serviceDescriptor --> count: 4
+ # - studentAssessmentItem --> count: 0
+ # - studentObjectiveAssessment --> count: 0
+ "5M" => {
+  "assessment"=>163,
+  "attendance"=>30000,
+  "calendarDate"=>1200,
+  "cohort"=>600,
+  "compentencyLevelDescriptor"=>0,
+  "course"=>7200,
+  "courseOffering"=>14400,
+  "disciplineAction"=>30000,
+  "disciplineIncident"=>30000,
+  "educationOrganization"=>307,
+  "grade"=>0,
+  "gradebookEntry"=>0,
+  "gradingPeriod"=>2400,
+  "graduationPlan"=>300,
+  "learningObjective"=>46,
+  "learningStandard"=>256,
+  "parent"=>45104,
+  "program"=>313,
+  "reportCard"=>0,
+  "section"=>201600,
+  "session"=>600,
+  "staff"=>3135,
+  "staffCohortAssociation"=>600,
+  "staffEducationOrganizationAssociation"=>135,
+  "staffProgramAssociation"=>313,
+  "student"=>30000,
+  "studentAcademicRecord"=>0,
+  "studentAssessmentAssociation"=>300000,
+  "studentCohortAssociation"=>55865,
+  "studentCompetency"=>0,
+  "studentCompetencyObjective"=>0,
+  "studentDisciplineIncidentAssociation"=>30000,
+  "studentParentAssociation"=>45104,
+  "studentProgramAssociation"=>25865,
+  "studentSchoolAssociation"=>30000,
+  "studentSectionAssociation"=>420000,
+  "studentSectionGradebookEntry"=>0,
+  "studentTranscriptAssociation"=>0,
+  "teacherSchoolAssociation"=>3000,
+  "teacherSectionAssociation"=>201600
  }
 }
 
 # Set total counts
-expectationTotals = { "500k" => 0, "1000k" => 0, "1500k" => 0 }
+expectationTotals = { "500k" => 0, "1M" => 0, "1_5M" => 0, "5M" => 0 }
 expected.each do |set,collections|
   total=0
   collections.each do |name,count|

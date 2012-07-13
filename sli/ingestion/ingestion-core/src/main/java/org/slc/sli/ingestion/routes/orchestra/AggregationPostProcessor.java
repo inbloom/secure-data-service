@@ -21,8 +21,6 @@ import java.util.List;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,15 +36,13 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 @Component
 public class AggregationPostProcessor implements Processor {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AggregationPostProcessor.class);
-
     @Autowired
     private BatchJobDAO batchJobDAO;
 
     @Override
     public void process(Exchange exchange) throws Exception {
 
-        LOG.info("Aggregation completed for current tier. Will now remove entities in tier from processing pool.");
+        info("Aggregation completed for current tier. Will now remove entities in tier from processing pool.");
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
         String jobId = workNote.getBatchJobId();
         @SuppressWarnings("unchecked")
@@ -56,7 +52,7 @@ public class AggregationPostProcessor implements Processor {
         exchange.getIn().setHeader("jobId", jobId);
 
         if (isEmpty) {
-            LOG.info("Processing pool is now empty, continue out of orchestra routes.");
+            info("Processing pool is now empty, continue out of orchestra routes.");
 
             exchange.getIn().setHeader("processedAllStagedEntities", true);
             workNote = WorkNote.createSimpleWorkNote(jobId);
@@ -70,7 +66,7 @@ public class AggregationPostProcessor implements Processor {
         for (String recordType : finishedEntities) {
             isEmpty = batchJobDAO.removeStagedEntityForJob(recordType, jobId);
 
-            LOG.info("removed EdfiEntity from processing pool: {}", recordType);
+            info("removed EdfiEntity from processing pool: {}", recordType);
         }
 
         return isEmpty;

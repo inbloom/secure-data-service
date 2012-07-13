@@ -32,8 +32,6 @@ import com.mongodb.DBObject;
 import com.mongodb.MongoException;
 import com.mongodb.WriteConcern;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.CursorPreparer;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -52,8 +50,6 @@ import org.slc.sli.ingestion.queues.MessageType;
  */
 @Component
 public class BatchJobMongoDA implements BatchJobDAO {
-
-    private static final Logger LOG = LoggerFactory.getLogger(BatchJobMongoDA.class);
 
     private static final String BATCHJOB_ERROR_COLLECTION = "error";
     private static final String BATCHJOB_STAGE_SEPARATE_COLLECTION = "batchJobStage";
@@ -136,7 +132,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
                 return true;
             } catch (MongoException me) {
                 if (me.getCode() == 11000 /* dup key */) {
-                    LOG.debug("Cannot obtain lock for tenant: {}", tenantId);
+                    debug("Cannot obtain lock for tenant: {}", tenantId);
                 } else {
                     throw me;
                 }

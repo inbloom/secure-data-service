@@ -21,11 +21,12 @@ import java.io.File;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -83,13 +84,18 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     @Value("${sli.tenant.ingestionServers}")
     private String ingestionServers;
 
-    private String[] ingestionServerList;
+    private List<String> ingestionServerList;
 
-    private Random random = new Random(System.currentTimeMillis());
+    /* this is only available for unit testing */
+    public void setIngestionServerList(List<String> testList) {
+        ingestionServerList = testList;
+    }
+
+    //private Random random = new Random(System.currentTimeMillis());
 
     @PostConstruct
     protected void init() {
-        ingestionServerList = ingestionServers.split(",");
+        ingestionServerList = Arrays.asList(ingestionServers.split(","));
     }
 
     public static final String UUID = "uuid";
@@ -161,7 +167,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria(TENANT_ID, "=", tenantId));
 
-        String ingestionServer = randomIngestionServer();
+        String ingestionServer = findLeastLoadedIngestionServer();
         File inboundDirFile = new File(landingZoneMountPoint);
         File fullPath = new File(inboundDirFile, tenantId + "/" + DigestUtils.sha256Hex(edOrgId));
         String path = fullPath.getAbsolutePath();
@@ -249,8 +255,49 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         return existingTenantId;
     }
 
-    private String randomIngestionServer() {
+/*    private String randomIngestionServer() {
         return ingestionServerList[random.nextInt(ingestionServerList.length)];
+    }*/
+
+    class MutableInt {
+      int value = 0;
+      public void increment () { ++value;      }
+      public int  get ()       { return value; }
+    }
+
+    public String findLeastLoadedIngestionServer() {
+        EntityService tenantService = store.lookupByResourceName(RESOURCE_NAME).getService();
+        Iterable<EntityBody> tenants = tenantService.get(tenantService.listIds(new NeutralQuery()));
+        Map<String, MutableInt> map = new HashMap<String, MutableInt>(ingestionServerList.size());
+
+        for (String s : ingestionServerList) {
+            map.put(s.toLowerCase(), new MutableInt());
+        }
+
+        for (EntityBody t : tenants) {
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> currentLZs = (List<Map<String, Object>>) t.get(LZ);
+            for (Map<String, Object> lz : currentLZs) {
+                String server = ((String) lz.get(LZ_INGESTION_SERVER)).toLowerCase(); 
+                MutableInt use = map.get(server);
+                //only increment if we actually have that server in our list
+                if (null != use) {
+                    use.increment();
+                }
+            }
+        }
+
+        int curMin = Integer.MAX_VALUE;
+        String curHost = ingestionServerList.get(0);
+        for (Entry<String, MutableInt> e : map.entrySet()) {
+            int i = e.getValue().get();
+            if (i < curMin) {
+                curMin = i;
+                curHost = e.getKey();
+            }
+        }
+
+        return curHost;
     }
 
     @Override

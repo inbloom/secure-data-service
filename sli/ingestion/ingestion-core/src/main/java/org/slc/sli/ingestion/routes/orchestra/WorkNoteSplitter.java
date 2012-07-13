@@ -21,8 +21,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.camel.Exchange;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -39,7 +37,6 @@ import org.slc.sli.ingestion.queues.MessageType;
  */
 @Component
 public class WorkNoteSplitter {
-    private static final Logger LOG = LoggerFactory.getLogger(WorkNoteSplitter.class);
 
     @Autowired
     private SplitStrategy balancedTimestampSplitStrategy;
@@ -57,7 +54,7 @@ public class WorkNoteSplitter {
     public List<WorkNote> split(Exchange exchange) {
 
         String jobId = exchange.getIn().getHeader("jobId").toString();
-        LOG.info("orchestrating splitting for job: {}", jobId);
+        info("orchestrating splitting for job: {}", jobId);
 
         Set<IngestionStagedEntity> stagedEntities = batchJobDAO.getStagedEntitiesForJob(jobId);
 
@@ -74,7 +71,7 @@ public class WorkNoteSplitter {
     }
 
     private List<WorkNote> createWorkNotes(Set<IngestionStagedEntity> stagedEntities, String jobId) {
-        LOG.info("creating WorkNotes for processable entities: {}", stagedEntities);
+        info("creating WorkNotes for processable entities: {}", stagedEntities);
 
         List<WorkNote> workNoteList = new ArrayList<WorkNote>();
         for (IngestionStagedEntity stagedEntity : stagedEntities) {
@@ -87,7 +84,7 @@ public class WorkNoteSplitter {
             workNoteList.addAll(workNotesForEntity);
         }
 
-        LOG.info("{} total WorkNotes created and ready for splitting for current tier.", workNoteList.size());
+        info("{} total WorkNotes created and ready for splitting for current tier.", workNoteList.size());
         return workNoteList;
     }
 
@@ -97,8 +94,9 @@ public class WorkNoteSplitter {
         List<WorkNote> workNoteList = new ArrayList<WorkNote>();
 
         String jobId = exchange.getIn().getHeader("jobId").toString();
-        LOG.info("orchestrating splitting for job: {}", jobId);
 
+
+        info("Splitting out (pass-through) list of WorkNotes: {}", workNoteList);
         List<WorkNote> workNotesForEntity = balancedTimestampSplitStrategy.splitForEntity(stagedEntity, jobId);
         batchJobDAO.createWorkNoteCountdownLatch(MessageType.PERSIST_REQUEST.name(), jobId, stagedEntity.getCollectionNameAsStaged(), workNotesForEntity.size());
 
