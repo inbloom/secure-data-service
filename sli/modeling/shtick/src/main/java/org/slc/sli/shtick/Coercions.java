@@ -60,15 +60,11 @@ public final class Coercions {
         }
     }
 
-    public static final <T> List<T> toList(final Object obj, final Class<T> clazz) {
-        if (clazz == null) {
-            throw new NullPointerException("clazz");
-        }
+    @SuppressWarnings("unchecked")
+    public static final List toList(final Object obj) {
         if (obj != null) {
             if (obj instanceof List) {
-                @SuppressWarnings("unchecked")
-                final List<T> list = (List<T>) obj;
-                return list;
+                return (List) obj;
             } else {
                 throw new IllegalArgumentException("obj");
             }

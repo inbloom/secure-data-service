@@ -46,9 +46,6 @@ public final class CoerceToPojoTypeSnippet implements JavaSnippet {
         try {
             jsw.write(field.getName()).write(".get");
             jsw.parenL().dblQte().write(name).dblQte().parenR();
-            if (isList(type)) {
-                jsw.comma().space().write(type.getSimpleName()).write(".class");
-            }
         } finally {
             jsw.parenR();
         }

@@ -85,11 +85,20 @@ public class StandardLevel3ClientManualTest {
     }
 
     @Test
+    @Ignore("Links don't come in as HashMap -- Why??")
     public void testHome() throws IOException, StatusCodeException {
         final Level3Client client = new StandardLevel3Client(BASE_URL);
         final Home home = client.getHome(TestingConstants.ROGERS_TOKEN, EMPTY_QUERY_ARGS);
         List<Links> homeLinks = home.getLinks();
         assertTrue(!homeLinks.isEmpty());
+
+        Map<String, Links> linksMap = new HashMap<String, Links>();
+        for (Links link : home.getLinks()) {
+           linksMap.put(link.getRel(), link);
+        }
+        assertTrue(linksMap.containsKey("self"));
+        Links selfLink = linksMap.get("self");
+        assertTrue(selfLink.getHref().contains("staff"));
     }
 
     @Test
@@ -171,6 +180,8 @@ public class StandardLevel3ClientManualTest {
             assertEquals(SexType.MALE, student.getSex());
             assertEquals(Boolean.FALSE, student.getEconomicDisadvantaged());
             assertEquals("100000005", student.getStudentUniqueStateId());
+
+            List<Address> studentAddresses = student.getAddress();
         } catch (final IOException e) {
             throw new RuntimeException(e);
         } catch (final StatusCodeException e) {

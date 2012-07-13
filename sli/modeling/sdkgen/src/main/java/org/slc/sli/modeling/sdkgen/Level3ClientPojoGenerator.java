@@ -27,6 +27,8 @@ import org.slc.sli.modeling.jgen.JavaTypeKind;
 import org.slc.sli.modeling.jgen.JavadocHelper;
 import org.slc.sli.modeling.jgen.snippets.Block;
 import org.slc.sli.modeling.jgen.snippets.IfThenElse;
+import org.slc.sli.modeling.jgen.snippets.MethodCallExpr;
+import org.slc.sli.modeling.jgen.snippets.NewInstanceExpr;
 import org.slc.sli.modeling.jgen.snippets.NotEqual;
 import org.slc.sli.modeling.jgen.snippets.ParenExpr;
 import org.slc.sli.modeling.jgen.snippets.ReturnStmt;
@@ -437,8 +439,28 @@ public final class Level3ClientPojoGenerator {
         } else if (baseType.getTypeKind() == JavaTypeKind.COMPLEX) {
             if (type.getCollectionKind() == JavaCollectionKind.LIST) {
                 JavaType javaType = new JavaType(baseType.getSimpleName(), baseType.getCollectionKind(), baseType.getTypeKind(), baseType.getBase());
-                new ReturnStmt(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name,
-                        JavaType.collectionType(JavaCollectionKind.LIST, javaType))).write(jsw);
+                final JavaType returnType = JavaType.collectionType(JavaCollectionKind.LIST, javaType);
+                final String rList = "rList";
+                final String elem = "elem";
+                jsw.writeAssignment(
+                        new JavaParam(rList, returnType, true),
+                        new NewInstanceExpr(JavaType.collectionType(JavaCollectionKind.ARRAY_LIST, javaType)));
+
+                jsw.write("for").parenL().writeParams(new JavaParam(elem, JavaType.JT_OBJECT, true));
+                jsw.write(":");
+                jsw.write(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, javaType)).parenR();
+                jsw.beginBlock();
+
+                jsw.write(new MethodCallExpr(
+                        new VarNameExpr(rList),
+                        "add",
+                        new NewInstanceExpr(
+                                javaType.primeType(),
+                                new VarNameExpr("Coercions.toMap(elem)")))
+                ).endStmt();
+                jsw.endBlock();
+
+                jsw.write(new ReturnStmt(new VarNameExpr(rList)));
             } else {
                 jsw.beginStmt();
                 try {
