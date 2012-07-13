@@ -69,29 +69,31 @@ public class UserResource {
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
 
-        String tenant = null;
         Collection<String> edorgs = null;
         Collection<String> groupsAllowed = RightToGroupMapper.getInstance().getGroups(SecurityUtil.getAllRights());
-        if (!groupsAllowed.contains(RoleInitializer.SLC_OPERATOR)) {
-            if (groupsAllowed.contains(RoleInitializer.SEA_ADMINISTRATOR)) {
-                tenant = SecurityUtil.getTenantId();
-            } else if (groupsAllowed.contains(RoleInitializer.LEA_ADMINISTRATOR)) {
-                tenant = SecurityUtil.getTenantId();
-                edorgs = new ArrayList<String>();
-                edorgs.add(SecurityUtil.getEdOrg());
-            }
+        if (groupsAllowed.contains(RoleInitializer.LEA_ADMINISTRATOR)) {
+            edorgs = new ArrayList<String>();
+            edorgs.add(SecurityUtil.getEdOrg());
         }
 
-        Collection<User> users = ldapService.findUsersByGroups(realm, RightToGroupMapper.getInstance().getGroups(SecurityUtil.getAllRights()), tenant, edorgs);
+        Collection<User> users = ldapService.findUsersByGroups(realm, RightToGroupMapper.getInstance().getGroups(SecurityUtil.getAllRights()), SecurityUtil.getTenantId(), edorgs);
         return Response.status(Status.OK).entity(users).build();
+    }
+
+    private Response checkAdmin() {
+        if (!isAdministrator(SecurityUtil.getAllRights())) {
+            EntityBody body = new EntityBody();
+            body.put("response", "You are not authorized to access this resource.");
+            return Response.status(Status.FORBIDDEN).entity(body).build();
+        }
+        return null;
     }
 
     @POST
     public final Response create(final User newUser, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        if (!isAdministrator(SecurityUtil.getAllRights())) {
-            EntityBody body = new EntityBody();
-            body.put("response", "You are not authorized to create this resource.");
-            return Response.status(Status.FORBIDDEN).entity(body).build();
+        Response result = checkAdmin();
+        if (result != null) {
+            return result;
         }
 
         debug("creating a user {}", newUser.toString());
@@ -170,7 +172,7 @@ public class UserResource {
     public final Response update(final User updateUser, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         if (!isAdministrator(SecurityUtil.getAllRights())) {
             EntityBody body = new EntityBody();
-            body.put("response", "You are not authorized to update this resource.");
+            body.put("response", "You are not authorized to access this resource.");
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
 
