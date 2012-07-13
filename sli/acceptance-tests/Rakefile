@@ -87,7 +87,12 @@ def runTests(testDirPath)
   	addSecurityData()
   end	
 
-  @tags ||= ["~@wip", "~@sandbox"]
+  if IS_WINDOWS
+    @tags ||= ["~@wip", "~@sandbox", "~@not-windows"]
+  else
+    @tags ||= ["~@wip", "~@sandbox"]
+  end
+  
   sh "cucumber #{testDirPath} #{EXPAND} --tags #{@tags.join(' --tags ')} #{OTHER_TAGS} #{COLOR} -f junit --out ./target -f pretty" do |success, exit_code|
     if success
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Passed"
@@ -96,28 +101,6 @@ def runTests(testDirPath)
       $SUCCESS=false
       raise "Tests Failed" unless (ENV['FAILSLOW'])
     end
-  end
-end
-
-# This method behave mostly the same as runTests, except it will skip tests with "not-windows" tag on Windows
-def runTestsNotWindows(testDirPath)
-  if RUN_STAMPER 
-    addSecurityData()
-  end 
-
-  if IS_WINDOWS
-    @tags ||= ["~@wip", "~@sandbox", "~@not-windows"]
-    sh "cucumber #{testDirPath} #{EXPAND} --tags #{@tags.join(' --tags ')} #{OTHER_TAGS} #{COLOR} -f junit --out ./target -f pretty" do |success, exit_code|
-      if success
-        $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Passed"
-      else
-        $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Failed"
-        $SUCCESS=false
-        raise "Tests Failed" unless (ENV['FAILSLOW'])
-      end
-    end
-  else
-    runTests(testDirPath)
   end
 end
 
