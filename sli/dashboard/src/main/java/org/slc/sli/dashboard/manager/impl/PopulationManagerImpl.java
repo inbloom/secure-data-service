@@ -76,6 +76,9 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     
     private static final String STUDENT_CACHE = "user.student";
     
+    private static final int DEFAULT_YEARS_BACK = 3;
+    private static final int NO_LIMIT = -1;
+    
     private static Logger log = LoggerFactory.getLogger(PopulationManagerImpl.class);
     
     @Autowired
@@ -921,13 +924,14 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     @Override
     public GenericEntity getAttendance(String token, Object studentIdObj, Config.Data config) {
         // get yearsBack from param
-        String period = config.getParams() == null ? null : (String) config.getParams().get("yearsBack");
-        int yearsBack = 3;
-        if (period != null) {
+        String yearsBack = config.getParams() == null ? null : (String) config.getParams().get("yearsBack");
+        int intYearsBack = DEFAULT_YEARS_BACK;
+        if (yearsBack != null) {
             try {
-                yearsBack = Integer.parseInt(period);
+                intYearsBack = Integer.parseInt(yearsBack);
             } catch (Exception e) {
-                yearsBack = 3;
+                log.error("params: value of yearsBack was not integer. ["+intYearsBack+"]. Using default value ["+DEFAULT_YEARS_BACK+"]");
+                intYearsBack = DEFAULT_YEARS_BACK;
             }
         }
         
@@ -953,11 +957,11 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             // find a year for exitWithdarwDate
             if (exitWithdrawDate != null && exitWithdrawDate.length() > 3) {
                 exitWithdrawDateYear = exitWithdrawDate.substring(0, 4);
-            } else if (exitWithdrawDate == null) {
+            } else {
                 // exitWithdrawDate is null because it is in current term.
                 // add one year to entryDateYear.
                 currentSchoolYear = Integer.parseInt(entryDateYear);
-                exitWithdrawDateYear = "" + (currentSchoolYear + 1);
+                exitWithdrawDateYear = Integer.toString(currentSchoolYear + 1);
             }
             
             // creating index lookup key
@@ -997,11 +1001,13 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                     String schoolYear = (String) schoolYearAttendance.get(Constants.ATTR_SCHOOL_YEAR);
                     
                     // if some reasons we cannot find currentSchoolYear, then display all histories
-                    if (yearsBack != -1 && currentSchoolYear != 0) {
+                    //if intYearsBack is not set to NO_LIMIT (-1) and found currentSchoolYear,
+                    //then exam whether current loop is within user defined yearsBack
+                    if (intYearsBack != NO_LIMIT && currentSchoolYear != 0) {
                         int targetYear = Integer.parseInt(schoolYear.substring(0, 4));
                         // if yearsBack is 1, it means current schoolYear.
                         // break from the loop if currentSchoolYear-targetYear is over yearsBack.
-                        if (!((currentSchoolYear - targetYear) < yearsBack)) {
+                        if ((currentSchoolYear - targetYear) >= intYearsBack) {
                             break;
                         }
                     }
@@ -1016,7 +1022,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                             String event = (String) attendanceEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
                             if (event != null) {
                                 totalCount++;
-                                if (event.equals(Constants.ATTR_ATTENDANCE_IN_ATETNDANCE)) {
+                                if (event.equals(Constants.ATTR_ATTENDANCE_IN_ATTENDANCE)) {
                                     inAttendanceCount++;
                                 } else if (event.equals(Constants.ATTR_ATTENDANCE_ABSENCE)) {
                                     absenceCount++;
@@ -1065,14 +1071,14 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                                             .format(totalCount == 0 ? 0
                                                     : ((inAttendanceCount + tardyCount + earlyDepartureCount) / (double) totalCount) * 100));
                     // set In Attendance
-                    currentTermAttendance.put(Constants.ATTENDANCE_HISTROY_IN_ATTENDANCE, inAttendanceCount);
+                    currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_IN_ATTENDANCE, inAttendanceCount);
                     
                     // set Total Absences
                     currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_TOTAL_ABSENCES, absenceCount
                             + excusedAbsenceCount + unexcusedAbsenceCount);
                     
                     // set Absence
-                    currentTermAttendance.put(Constants.ATTENDANCE_HISTROY_ABSENCE, absenceCount);
+                    currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_ABSENCE, absenceCount);
                     
                     // set Excused Absences
                     currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_EXCUSED, excusedAbsenceCount);
@@ -1081,7 +1087,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                     currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_UNEXCUSED, unexcusedAbsenceCount);
                     
                     // set Tardy
-                    currentTermAttendance.put(Constants.ATTENDANCE_HISTROY_TARDY, tardyCount);
+                    currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_TARDY, tardyCount);
                     
                     // set Early departure
                     currentTermAttendance.put(Constants.ATTENDANCE_EARLY_DEPARTURE, earlyDepartureCount);
