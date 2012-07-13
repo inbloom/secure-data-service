@@ -17,7 +17,9 @@
 package org.slc.sli.ingestion.model.da;
 
 import java.util.List;
+import java.util.Set;
 
+import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
@@ -97,4 +99,12 @@ public interface BatchJobDAO {
      *         otherwise.
      */
     boolean countDownWorkNoteLatch(String syncStage, String jobId, String recordType);
+
+    Set<IngestionStagedEntity> getStagedEntitiesForJob(String jobId);
+
+    boolean removeStagedEntityForJob(String recordType, String jobId);
+
+    void setStagedEntitiesForJob(Set<IngestionStagedEntity> stagedEntities, String jobId);
+
+    List<String> getPersistedWorkNotes(String jobId);
 }

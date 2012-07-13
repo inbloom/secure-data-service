@@ -42,9 +42,6 @@ public class WorkNoteSplitter {
     private static final Logger LOG = LoggerFactory.getLogger(WorkNoteSplitter.class);
 
     @Autowired
-    private StagedEntityTypeDAO stagedEntityTypeDAO;
-
-    @Autowired
     private SplitStrategy balancedTimestampSplitStrategy;
 
     @Autowired
@@ -62,7 +59,7 @@ public class WorkNoteSplitter {
         String jobId = exchange.getIn().getHeader("jobId").toString();
         LOG.info("orchestrating splitting for job: {}", jobId);
 
-        Set<IngestionStagedEntity> stagedEntities = stagedEntityTypeDAO.getStagedEntitiesForJob(jobId);
+        Set<IngestionStagedEntity> stagedEntities = batchJobDAO.getStagedEntitiesForJob(jobId);
 
         if (stagedEntities.size() == 0) {
             throw new IllegalStateException(
@@ -90,19 +87,23 @@ public class WorkNoteSplitter {
             workNoteList.addAll(workNotesForEntity);
         }
 
-        batchJobDAO.createWorkNoteCountdownLatch(MessageType.PERSIST_REQUEST.name(), jobId, null, workNoteList.size());
-
         LOG.info("{} total WorkNotes created and ready for splitting for current tier.", workNoteList.size());
         return workNoteList;
     }
 
     public List<WorkNote> passThroughSplit(Exchange exchange) {
+        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+        IngestionStagedEntity stagedEntity = workNote.getIngestionStagedEntity();
+        List<WorkNote> workNoteList = new ArrayList<WorkNote>();
 
-        @SuppressWarnings("unchecked")
-        List<WorkNote> workNoteList = exchange.getIn().getBody(List.class);
+        String jobId = exchange.getIn().getHeader("jobId").toString();
+        LOG.info("orchestrating splitting for job: {}", jobId);
 
-        LOG.info("Splitting out (pass-through) list of WorkNotes: {}", workNoteList);
+        List<WorkNote> workNotesForEntity = balancedTimestampSplitStrategy.splitForEntity(stagedEntity, jobId);
+        batchJobDAO.createWorkNoteCountdownLatch(MessageType.PERSIST_REQUEST.name(), jobId, stagedEntity.getCollectionNameAsStaged(), workNotesForEntity.size());
 
+        workNoteList.addAll(workNotesForEntity);
         return workNoteList;
     }
+
 }

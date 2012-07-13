@@ -23,16 +23,13 @@ public class WorkNoteLatch {
 
     @Handler
     public void receive(Exchange exchange) throws Exception {
+        exchange.getIn().setHeader("latchOpened", false);
 
         String messageType = exchange.getIn().getHeader("IngestionMessageType").toString();
 
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
 
         String recordType = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
-        if (MessageType.PERSIST_REQUEST.name().equals(messageType)) {
-            // persist latch is cross-entity
-            recordType = null;
-        }
 
         if (batchJobDAO.countDownWorkNoteLatch(messageType, workNote.getBatchJobId(), recordType)) {
             exchange.getIn().setHeader("latchOpened", true);
