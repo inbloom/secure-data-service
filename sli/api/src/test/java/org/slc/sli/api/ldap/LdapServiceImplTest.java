@@ -87,7 +87,7 @@ public class LdapServiceImplTest {
     @Test
     public void testFindUserByGroups() {
         String[] groups = new String[] { "SEA Administrator" };
-        Collection<User> users = ldapService.findUserByGroups("local", Arrays.asList(groups));
+        Collection<User> users = ldapService.findUsersByGroups("local", Arrays.asList(groups));
         assertNotNull(users);
     }
 

@@ -5,13 +5,14 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -67,21 +68,32 @@ public class UserResource {
             body.put("response", "You are not authorized to access this resource.");
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
-        String tenant = SecurityUtil.getTenantId();
 
-        // add edorg filter for LEA Admin
-        List<String> edorgs = null;
-        if (SecurityUtil.hasRole(RoleInitializer.LEA_ADMINISTRATOR)) {
-            edorgs = new ArrayList<String>();
-            edorgs.add(SecurityUtil.getEdOrg());
+        String tenant = null;
+        Collection<String> edorgs = null;
+        Collection<String> groupsAllowed = RightToGroupMapper.getInstance().getGroups(SecurityUtil.getAllRights());
+        if (!groupsAllowed.contains(RoleInitializer.SLC_OPERATOR)) {
+            if (groupsAllowed.contains(RoleInitializer.SEA_ADMINISTRATOR)) {
+                tenant = SecurityUtil.getTenantId();
+            } else if (groupsAllowed.contains(RoleInitializer.LEA_ADMINISTRATOR)) {
+                tenant = SecurityUtil.getTenantId();
+                edorgs = new ArrayList<String>();
+                edorgs.add(SecurityUtil.getEdOrg());
+            }
         }
 
-        Collection<User> users = ldapService.findUserByGroups(realm, RightToGroupMapper.getInstance().getGroups(SecurityUtil.getAllRights()), tenant, edorgs);
+        Collection<User> users = ldapService.findUsersByGroups(realm, RightToGroupMapper.getInstance().getGroups(SecurityUtil.getAllRights()), tenant, edorgs);
         return Response.status(Status.OK).entity(users).build();
     }
 
     @POST
     public final Response create(final User newUser, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        if (!isAdministrator(SecurityUtil.getAllRights())) {
+            EntityBody body = new EntityBody();
+            body.put("response", "You are not authorized to create this resource.");
+            return Response.status(Status.FORBIDDEN).entity(body).build();
+        }
+
         debug("creating a user {}", newUser.toString());
 
         Collection<String> groupsAllowed = RightToGroupMapper.getInstance().getGroups(SecurityUtil.getAllRights());
@@ -92,13 +104,127 @@ public class UserResource {
             EntityBody body = new EntityBody();
             body.put("response", "You are not allowed to create this resource");
             return Response.status(Status.FORBIDDEN).entity(body).build();
-        } else {
-            try {
-                ldapService.createUser(realm, newUser);
-            } catch (NameAlreadyBoundException e) {
-                return Response.status(Status.CONFLICT).build();
+        }
+
+        Collection<String> adminRoles = Arrays.asList(RoleInitializer.ADMIN_ROLES);
+        adminRoles.retainAll(newUserGroups);
+        if (adminRoles.size() > 1) {
+            EntityBody body = new EntityBody();
+            body.put("response", "You cannot assign more than one admin role to a user");
+            return Response.status(Status.FORBIDDEN).entity(body).build();
+        }
+
+        // Production
+        if (newUserGroups.contains(RoleInitializer.SLC_OPERATOR)) {
+            newUser.setTenant(null);
+            newUser.setEdorg(null);
+        } else if (groupsAllowed.contains(RoleInitializer.SLC_OPERATOR)) {
+            if (newUser.getTenant() == null || newUser.getEdorg() == null) {
+                EntityBody body = new EntityBody();
+                body.put("response", "Only SLC Operator can have null for tenant/edorg");
+                return Response.status(Status.FORBIDDEN).entity(body).build();
             }
-            return Response.status(Status.CREATED).build();
+        } else if (groupsAllowed.contains(RoleInitializer.SEA_ADMINISTRATOR)) {
+            if (newUser.getEdorg() == null) {
+                EntityBody body = new EntityBody();
+                body.put("response", "SEA Administrators cannot assign empty edorg");
+                return Response.status(Status.FORBIDDEN).entity(body).build();
+            } else {
+                newUser.setTenant(SecurityUtil.getTenantId());
+            }
+        } else if (groupsAllowed.contains(RoleInitializer.LEA_ADMINISTRATOR)) {
+            newUser.setTenant(SecurityUtil.getTenantId());
+            newUser.setEdorg(SecurityUtil.getEdOrg());
+        }
+
+        // Sandbox
+        if (newUserGroups.contains(RoleInitializer.SANDBOX_SLC_OPERATOR)) {
+            newUser.setTenant(null);
+            newUser.setEdorg(null);
+        } else if (groupsAllowed.contains(RoleInitializer.SANDBOX_SLC_OPERATOR)) {
+            if (newUser.getTenant() == null || newUser.getEdorg() == null) {
+                EntityBody body = new EntityBody();
+                body.put("response", "Only Sandbox SLC Operator can have null for tenant/edorg");
+                return Response.status(Status.FORBIDDEN).entity(body).build();
+            }
+        } else if (groupsAllowed.contains(RoleInitializer.SANDBOX_ADMINISTRATOR)) {
+            if (newUser.getEdorg() == null) {
+                EntityBody body = new EntityBody();
+                body.put("response", "Sandbox Administrator cannot assign empty edorg");
+                return Response.status(Status.FORBIDDEN).entity(body).build();
+            } else {
+                newUser.setTenant(SecurityUtil.getTenantId());
+            }
+        }
+
+        try {
+            ldapService.createUser(realm, newUser);
+        } catch (NameAlreadyBoundException e) {
+            return Response.status(Status.CONFLICT).build();
+        }
+        return Response.status(Status.CREATED).build();
+
+    }
+
+    @PUT
+    public final Response update(final User updateUser, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        if (!isAdministrator(SecurityUtil.getAllRights())) {
+            EntityBody body = new EntityBody();
+            body.put("response", "You are not authorized to update this resource.");
+            return Response.status(Status.FORBIDDEN).entity(body).build();
+        }
+
+        Collection<String> groupsAllowed = RightToGroupMapper.getInstance().getGroups(SecurityUtil.getAllRights());
+        Collection<String> updateUserGroups = new HashSet<String>(updateUser.getGroups());
+        if (!groupsAllowed.containsAll(updateUserGroups)) {
+            updateUserGroups.removeAll(groupsAllowed);
+            debug("the following groups are not allowed to be assigned: {}", User.printGroup(new ArrayList<String>(updateUserGroups)));
+            EntityBody body = new EntityBody();
+            body.put("response", "You are not allowed to update this resource");
+            return Response.status(Status.FORBIDDEN).entity(body).build();
+        } else {
+            ldapService.updateUser(realm, updateUser);
+            return Response.status(Status.OK).build();
+        }
+    }
+
+    @DELETE
+    public final synchronized Response delete(final String uid, final HttpHeaders headers, final UriInfo uriInfo) {
+        if (!isAdministrator(SecurityUtil.getAllRights())) {
+            EntityBody body = new EntityBody();
+            body.put("response", "You are not authorized to delete this resource.");
+            return Response.status(Status.FORBIDDEN).entity(body).build();
+        }
+
+        User userToDelete = ldapService.getUser(realm, uid);
+        Collection<String> groupsAllowed = RightToGroupMapper.getInstance().getGroups(SecurityUtil.getAllRights());
+        Collection<String> deleteUserGroups = new HashSet<String>(userToDelete.getGroups());
+        if (!groupsAllowed.containsAll(deleteUserGroups)) {
+            deleteUserGroups.removeAll(groupsAllowed);
+            debug("the user we are trying to delete is more powerful than the user executing the deletion: {}", User.printGroup(new ArrayList<String>(deleteUserGroups)));
+            EntityBody body = new EntityBody();
+            body.put("response", "You are not allowed to delete this resource");
+            return Response.status(Status.FORBIDDEN).entity(body).build();
+        } else {
+            Collection<String> groups = userToDelete.getGroups();
+            if (groups.contains(RoleInitializer.SLC_OPERATOR)) {
+                Collection<User> users = ldapService.findUsersByGroups(realm, Arrays.asList(new String[] {RoleInitializer.SLC_OPERATOR}));
+                if (users.size() <= 1) {
+                    EntityBody body = new EntityBody();
+                    body.put("response", "You are not allowed to delete the last SLC Operator");
+                    return Response.status(Status.FORBIDDEN).entity(body).build();
+                }
+            }
+            if (groups.contains(RoleInitializer.SEA_ADMINISTRATOR)) {
+                Collection<User> users = ldapService.findUsersByGroups(realm, Arrays.asList(new String[] {RoleInitializer.SEA_ADMINISTRATOR}), SecurityUtil.getTenantId());
+                if (users.size() <= 1) {
+                    EntityBody body = new EntityBody();
+                    body.put("response", "You are not allowed to delete the last SEA Administrator with tenant id = " + SecurityUtil.getTenantId());
+                    return Response.status(Status.FORBIDDEN).entity(body).build();
+                }
+            }
+            ldapService.removeUser(realm, uid);
+            return Response.status(Status.OK).build();
         }
     }
 
