@@ -86,6 +86,9 @@ default:
         # Test specific properties (only used in ingestion)
         sli.test.prop: ci DAL Context Test Property
 
+        # Security Event capsize
+        sli.ingestion.securityEvent.capSize: 2000000
+
   # Write concerns
 
         sli.ingestion.mongotemplate.writeConcern: SAFE
