@@ -16,7 +16,6 @@
 
 package org.slc.sli.sif.reporting;
 
-import java.io.File;
 import java.util.Properties;
 
 import openadk.library.ADK;
@@ -33,12 +32,14 @@ import openadk.library.student.StudentDTD;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 
 import org.slc.sli.sif.agent.SifAgent;
 import org.slc.sli.sif.zone.PublishZoneConfigurator;
 
+/**
+ * Test agent to trigger event reports
+ *
+ */
 public class EventReporter implements Publisher {
 
     static {
@@ -60,8 +61,9 @@ public class EventReporter implements Publisher {
         ADK.debug = ADK.DBG_ALL;
 
         try {
-            Resource configFile = new FileSystemResource(new File("src/main/resources/sif/agent-publish-config.xml"));
-            SifAgent agent = new SifAgent("PublisherAgent", configFile, new PublishZoneConfigurator());
+            SifAgent agent = new SifAgent("PublisherAgent",
+                    "src/main/resources/sif/agent-publish-config.xml",
+                    new PublishZoneConfigurator());
 
             agent.startAgent();
 
@@ -81,7 +83,6 @@ public class EventReporter implements Publisher {
         } catch (Exception e) {
             logger.error("Exception trying to report event", e);
         }
- //       System.exit(0);
     }
 
     public static final int ZONE_ID = 0;

@@ -17,84 +17,44 @@
 
 package org.slc.sli.sif.slcinterface;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Properties;
 
-import org.slc.sli.api.client.impl.BasicClient;
-import org.slc.sli.sif.agent.SifAgent;
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.client.impl.BasicClient;
 
 /**
  * Basic authentication example using the SLI SDK.
  */
+@Component
 public class SlcInterface {
 
     private static final Logger LOG = LoggerFactory.getLogger(SlcInterface.class);
 
+    @Value("${bootstrap.app.sif.client_id}")
     private String clientId;
+
+    @Value("${bootstrap.app.sif.client_secret}")
     private String clientSecret;
+
+    @Value("${bootstrap.app.sif.apiUrl}")
     private URL apiUrl;
-    private URL callbackUrl; //TODO: this may become a problem
+
+    @Value("${bootstrap.app.sif.callbackUrl}")
+    private URL callbackUrl; //TODO: this may become a problem because it seems to be required but our application probably won't have one.
+
+    @Value("${bootstrap.app.sif.token}")
     private String token;
 
     private BasicClient client;
 
-    public SlcInterface() {
-        init();
-    }
-    
+    @PostConstruct
     public void init() {
-        InputStream propStream;
-        String externalProps = System.getProperty("sli.conf");
-        if (externalProps != null) {
-            try {
-                propStream = new FileInputStream(externalProps);
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException("Unable to load properties file: " + externalProps);
-            }
-        } else {
-            String env = System.getProperty("sli.env");
-            if (env == null) {
-                throw new RuntimeException("sli.env system property is not set!");
-            }
-            propStream = this.getClass().getResourceAsStream("/config/" + env + ".properties");
-            if (propStream == null) {
-                throw new RuntimeException("no properties file found for sli.env: " + env);
-            }
-        }
-        Properties props = new Properties();
-        try {
-            props.load(propStream);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        clientId = props.getProperty("bootstrap.app.sif.client_id");
-        clientSecret = props.getProperty("bootstrap.app.sif.client_secret");
-        token = props.getProperty("bootstrap.app.sif.token");
-        String apiUrlString = props.getProperty("bootstrap.app.sif.apiUrl");
-        String callbackUrlString = props.getProperty("bootstrap.app.sif.callbackUrl");
-        if (clientId == null || clientSecret == null || apiUrlString == null || callbackUrlString == null) {
-            throw new RuntimeException(
-                    "Missing property.  All of the following properties must be available: clientId, clientSecret, apiUrl, callbackUrl");
-        }
-        try {
-            apiUrl = new URL(apiUrlString);
-            callbackUrl = new URL(callbackUrlString);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
-        
-        initializeClient();
-    }
-
-    private void initializeClient() {
         if (null == client) {
             client = new BasicClient(apiUrl, clientId, clientSecret, callbackUrl);
             client.setToken(token);

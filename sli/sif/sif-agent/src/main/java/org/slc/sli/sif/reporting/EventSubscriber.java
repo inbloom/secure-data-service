@@ -16,8 +16,6 @@
 
 package org.slc.sli.sif.reporting;
 
-import java.io.File;
-
 import openadk.library.ADK;
 import openadk.library.ADKException;
 import openadk.library.DataObjectInputStream;
@@ -35,8 +33,6 @@ import openadk.library.student.StudentDTD;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 
 import org.slc.sli.sif.agent.SifAgent;
 import org.slc.sli.sif.slcinterface.SlcInterface;
@@ -63,8 +59,9 @@ public class EventSubscriber implements Subscriber, QueryResults {
         ADK.debug = ADK.DBG_ALL;
 
         try {
-            Resource configFile = new FileSystemResource(new File("src/main/resources/sif/agent-subscribe-config.xml"));
-            SifAgent agent = new SifAgent("PublisherAgent", configFile, new SubscribeZoneConfigurator());
+            SifAgent agent = new SifAgent("SubscriberAgent",
+                    "src/main/resources/sif/agent-subscribe-config.xml",
+                    new SubscribeZoneConfigurator());
 
             agent.startAgent();
 
@@ -74,9 +71,7 @@ public class EventSubscriber implements Subscriber, QueryResults {
                 new EventSubscriber(zone);
             } else {
                 Zone zone = agent.getZoneFactory().getZone("TestZone");
-                EventSubscriber subscriber = new EventSubscriber(zone);
-                //agent.setSubscriber(subscriber);
-                //subscriber.sendQuery();
+                new EventSubscriber(zone);
             }
         } catch (Exception e) {
             logger.error("Exception trying to subscriber to event", e);
@@ -127,7 +122,6 @@ public class EventSubscriber implements Subscriber, QueryResults {
     public void onEvent(Event event, Zone zone, MessageInfo info) throws ADKException {
         LOG.info("Received event:\n" + "\tEvent: " + event.getActionString() + "\n" + "\tZone: " + zone.getZoneId()
                 + "\n" + "\tInfo: " + info.getMessage());
-        System.out.println("GOT MESSAGE!!");
         inspectAndDestroyEvent(event);
 
         //execute a call to the SDK
