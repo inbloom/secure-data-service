@@ -91,10 +91,10 @@ public class AuthFilter implements Filter {
         String code = ((HttpServletRequest) request).getParameter("code");
 
         if (client != null) {
-            String token = null;
+
             Response rval = null;
             try {
-                rval = client.getRESTClient().connect(code, token);
+                rval = client.getRESTClient().connect(code, null);
             } catch (MalformedURLException e) {
                 LOG.error(String.format("Invalid/malformed URL when connecting: %s", e.toString()));
             } catch (URISyntaxException e) {
@@ -102,6 +102,7 @@ public class AuthFilter implements Filter {
             }
 
             if (rval == null) {
+                ((HttpServletResponse) response).sendRedirect("404.html");
                 return false;
             }
 
