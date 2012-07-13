@@ -303,7 +303,7 @@ class SLCFixer
     clear_stamps(@db['staffEducationOrganizationAssociation'])
     clear_stamps(@db['staff'])
     clear_stamps(@db['teacherSchoolAssociation'])
-    @log.info "Iterating teacherSectionAssociation with query: {}"
+    @log.info "Iterating staffEducationOrganizationAssociation with query: {}"
     @db['staffEducationOrganizationAssociation'].find({}, @basic_options) do |cur|
       cur.each do |staff|
         old = old_edorgs(@db['staff'], staff['body']['staffReference'])
@@ -313,7 +313,7 @@ class SLCFixer
       end
     end
     #This needed?
-    @log.info "Iterating teacherSectionAssociation with query: {}"
+    @log.info "Iterating teacherSchoolAssociation with query: {}"
     @db['teacherSchoolAssociation'].find({}, @basic_options) do |cur|
       cur.each do |teacher|
         old = old_edorgs(@db['staff'], teacher['body']['teacherId'])
@@ -428,6 +428,18 @@ class SLCFixer
 
   private
   def clear_stamps(collection)
+    @log.info "Clearing edorg stamps on #{collection.name}"
+    collection.find({"metaData.edOrgs" => {"$exists" => true}}, @basic_options) do |cur|
+      cur.each do |doc|
+        tenant = nil
+        begin
+          tenant = doc["metaData"]["tenantId"]
+        rescue
+          @log.warn "No tenant found when clearning edorgs for #{collection.name}##{doc["_id"]}"
+        end
+        collection.update({"_id" => doc["_id"], 'metaData.tenantId' => tenant}, {"$unset" => {"metaData.edOrgs" => 1}}) unless tenant.nil?
+      end
+    end
 
   end
   def edorg_digger(id)
