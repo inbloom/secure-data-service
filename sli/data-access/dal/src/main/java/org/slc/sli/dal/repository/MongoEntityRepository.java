@@ -17,11 +17,15 @@
 
 package org.slc.sli.dal.repository;
 
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Date;
 
+import org.slc.sli.validation.EntityValidationException;
+import org.slc.sli.validation.NaturalKeyValidationException;
+import org.slc.sli.validation.ValidationError;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -107,9 +111,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         validator.validate(entity);
 
         // natural fields are only applicable for API crud operations
-        if (isKeyFieldsRecordExists(entity, collectionName)) {
-            return null;
-        }
+        validateNaturalKeys(entity, collectionName);
 
         this.addTimestamps(entity);
         return super.create(entity, collectionName);
@@ -143,9 +145,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         validator.validate(entity);
 
         // natural fields can only be applicable for API crud operations
-        if (isKeyFieldsRecordExists(entity, collection)) {
-            return false;
-        }
+        validateNaturalKeys(entity, collection);
+
         this.updateTimestamp(entity);
 
         // Map<String, Object> body = entity.getBody();
@@ -177,7 +178,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
      * @param collectionName
      * @return
      */
-    private boolean isKeyFieldsRecordExists(final Entity entity, String collectionName) {
+    private void validateNaturalKeys(final Entity entity, String collectionName) {
 
         boolean recordMatchingKeyFields = false;
         List<String> naturalKeyList = validator.getNaturalKeyFields(entity);
@@ -233,7 +234,15 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
         }
 
-        return recordMatchingKeyFields;
+        if (recordMatchingKeyFields) {
+            if (entity.getEntityId() != null && !entity.getEntityId().isEmpty()) {
+                List<ValidationError> errors = new ArrayList<ValidationError>();
+                throw new EntityValidationException(entity.getEntityId(), entity.getType(), errors);
+            } else {
+                throw new NaturalKeyValidationException(entity.getType());
+            }
+        }
+
     }
 
 }

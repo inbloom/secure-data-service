@@ -4099,7 +4099,7 @@
 			</xs:documentation>
             <xs:appinfo>
                 <sli:CollectionType>staff</sli:CollectionType>
-				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
+				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
             </xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
