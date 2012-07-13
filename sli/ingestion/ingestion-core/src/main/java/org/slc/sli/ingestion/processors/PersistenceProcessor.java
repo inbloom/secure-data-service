@@ -228,8 +228,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             }
 
         } catch (Exception e) {
-            String fatalErrorMessage = "ERROR: Fatal problem saving records to database: \n" + "\tEntity\t"
-                    + collectionNameAsStaged + " with message: " + e.getMessage() + "\n";
+            String fatalErrorMessage = "Fatal problem saving records to database: \n" + "\tEntity\t"
+                    + collectionNameAsStaged + "\n";
             errorReportForCollection.fatal(fatalErrorMessage, PersistenceProcessor.class);
             LogUtil.error(LOG, "Exception when attempting to ingest NeutralRecords in: " + collectionNameAsStaged, e);
         } finally {
