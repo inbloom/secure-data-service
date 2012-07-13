@@ -147,12 +147,19 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
     @Override
     public boolean createWorkNoteCountdownLatch(String syncStage, String jobId, String recordType, int count) {
-        BasicDBObject latchObject = new BasicDBObject();
-        latchObject.put("syncStage", syncStage);
-        latchObject.put("jobId", jobId);
-        latchObject.put("recordType", recordType);
-        latchObject.put("count", count);
-        batchJobMongoTemplate.getCollection("workNoteLatch").insert(latchObject);
+        try {
+            BasicDBObject latchObject = new BasicDBObject();
+            latchObject.put("syncStage", syncStage);
+            latchObject.put("jobId", jobId);
+            latchObject.put("recordType", recordType);
+            latchObject.put("count", count);
+            batchJobMongoTemplate.getCollection("workNoteLatch").insert(latchObject);
+        } catch (MongoException me) {
+            if (me.getCode() == 11000 /* dup key */) {
+                debug(me.getMessage());
+            }
+            return false;
+        }
         return true;
     }
 
@@ -183,14 +190,16 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
         DBCursor cursor = batchJobMongoTemplate.getCollection("workNoteLatch").find(ref);
 
-        int totalCount = 0;
+        boolean isEmpty = true;
 
         while (cursor.hasNext()) {
             DBObject obj = cursor.next();
             int count = (Integer) obj.get("count");
-            totalCount +=count;
+            if (count != 0) {
+                isEmpty = false;
+            }
         }
-        return 0 == totalCount;
+        return isEmpty;
     }
 
     @Override
@@ -366,12 +375,17 @@ public class BatchJobMongoDA implements BatchJobDAO {
     public void setStagedEntitiesForJob(Set<IngestionStagedEntity> stagedEntities, String jobId) {
         List<String> recordTypes = IngestionStagedEntity.toEntityNames(stagedEntities);
 
-        BasicDBObject entities = new BasicDBObject();
-        entities.put("jobId", jobId);
-        entities.put("recordTypes", recordTypes);
+        try {
+            BasicDBObject entities = new BasicDBObject();
+            entities.put("jobId", jobId);
+            entities.put("recordTypes", recordTypes);
 
-        batchJobMongoTemplate.getCollection("stagedEntities").insert(entities);
-
+            batchJobMongoTemplate.getCollection("stagedEntities").insert(entities);
+        } catch (MongoException me) {
+            if (me.getCode() == 11000 /* dup key */) {
+                debug(me.getMessage());
+            }
+        }
     }
 
     @Override
