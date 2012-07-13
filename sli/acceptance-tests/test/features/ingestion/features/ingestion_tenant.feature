@@ -27,6 +27,7 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "tenant.xml records failed: 0" in the resulting batch job file
   
   #This invalid case should not affect other tenants
+@wip
 Scenario: Add a invalid landing zone
 Given I add a new named landing zone for "Midgar-STATE-DAYBREAK.test@gmail_.c?omtest!@:#$|<>;"
   And I am using preconfigured Ingestion Landing Zone for "Midgar-STATE-DAYBREAK.test@gmail_.c?omtest!@:#$|<>;"
