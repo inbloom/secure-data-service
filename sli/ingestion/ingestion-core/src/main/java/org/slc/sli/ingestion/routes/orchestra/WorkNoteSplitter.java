@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.camel.Exchange;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -36,6 +38,7 @@ import org.slc.sli.ingestion.WorkNote;
  */
 @Component
 public class WorkNoteSplitter {
+    private static final Logger LOG = LoggerFactory.getLogger(WorkNoteSplitter.class);
 
     @Autowired
     private StagedEntityTypeDAO stagedEntityTypeDAO;
@@ -53,7 +56,7 @@ public class WorkNoteSplitter {
     public List<WorkNote> split(Exchange exchange) {
 
         String jobId = exchange.getIn().getHeader("jobId").toString();
-        info("orchestrating splitting for job: {}", jobId);
+        LOG.info("orchestrating splitting for job: {}", jobId);
 
         Set<IngestionStagedEntity> stagedEntities = stagedEntityTypeDAO.getStagedEntitiesForJob(jobId);
 
@@ -70,7 +73,7 @@ public class WorkNoteSplitter {
     }
 
     private List<WorkNote> createWorkNotes(Set<IngestionStagedEntity> stagedEntities, String jobId) {
-        info("creating WorkNotes for processable entities: {}", stagedEntities);
+        LOG.info("creating WorkNotes for processable entities: {}", stagedEntities);
 
         List<WorkNote> workNoteList = new ArrayList<WorkNote>();
         for (IngestionStagedEntity stagedEntity : stagedEntities) {
@@ -80,7 +83,7 @@ public class WorkNoteSplitter {
             workNoteList.addAll(workNotesForEntity);
         }
 
-        info("{} total WorkNotes created and ready for splitting for current tier.", workNoteList.size());
+        LOG.info("{} total WorkNotes created and ready for splitting for current tier.", workNoteList.size());
         return workNoteList;
     }
 
@@ -89,7 +92,7 @@ public class WorkNoteSplitter {
         @SuppressWarnings("unchecked")
         List<WorkNote> workNoteList = exchange.getIn().getBody(List.class);
 
-        info("Splitting out (pass-through) list of WorkNotes: {}", workNoteList);
+        LOG.info("Splitting out (pass-through) list of WorkNotes: {}", workNoteList);
 
         return workNoteList;
     }

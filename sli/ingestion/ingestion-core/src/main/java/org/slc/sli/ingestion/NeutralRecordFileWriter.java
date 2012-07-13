@@ -34,14 +34,19 @@ import org.apache.avro.generic.GenericRecord;
 import org.apache.avro.util.Utf8;
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
+import org.slc.sli.ingestion.util.LogUtil;
 
 /**
  *
  */
 public class NeutralRecordFileWriter {
+
+    private static final Logger LOG = LoggerFactory.getLogger(NeutralRecordFileWriter.class);
 
     private Schema avroSchema;
     private GenericDatumWriter<GenericRecord> avroDatumWriter;
@@ -91,7 +96,7 @@ public class NeutralRecordFileWriter {
             this.jsonObjectMapper = new ObjectMapper();
 
         } catch (FileNotFoundException fileNotFoundException) {
-            error("Error writing to Neutral Record file", fileNotFoundException);
+            LogUtil.error(LOG, "Error writing to Neutral Record file", fileNotFoundException);
         } finally {
             IOUtils.closeQuietly(is);
         }
@@ -168,6 +173,8 @@ public class NeutralRecordFileWriter {
 
     private String maptoJson(Map<String, Object> attributes) throws IOException {
         String jsonVal = jsonObjectMapper.writeValueAsString(attributes);
+//        DE260 - commenting out possibly sensitive data
+//        LOG.debug("encoded attributes map to json: {}", jsonVal);
         return jsonVal;
     }
 

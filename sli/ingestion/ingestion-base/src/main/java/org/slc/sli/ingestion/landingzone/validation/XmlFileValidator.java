@@ -23,32 +23,37 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Validator for EdFi xml ingestion files.
- *
+ * 
  * @author dduran
- *
+ * 
  */
 public class XmlFileValidator extends SimpleValidatorSpring<IngestionFileEntry> {
-
+    
+    private static final Logger LOG = LoggerFactory.getLogger(XmlFileValidator.class);
+    
     @Override
     public boolean isValid(IngestionFileEntry fileEntry, ErrorReport errorReport) {
-        debug("validating xml...");
-
+        LOG.debug("validating xml...");
+        
         if (isEmptyOrUnreadable(fileEntry, errorReport)) {
             return false;
         }
-
+        
         return true;
     }
-
+    
     private boolean isEmptyOrUnreadable(IngestionFileEntry fileEntry, ErrorReport errorReport) {
         boolean isEmpty = false;
         BufferedReader br = null;
-
+        
         try {
             br = new BufferedReader(new FileReader(fileEntry.getFile()));
             if (br.read() == -1) {
@@ -56,11 +61,11 @@ public class XmlFileValidator extends SimpleValidatorSpring<IngestionFileEntry> 
                 isEmpty = true;
             }
         } catch (FileNotFoundException e) {
-            error("File not found: " + fileEntry.getFileName());
+            LOG.error("File not found: " + fileEntry.getFileName());
             errorReport.error(getFailureMessage("SL_ERR_MSG11", fileEntry.getFileName()), XmlFileValidator.class);
             isEmpty = true;
         } catch (IOException e) {
-            error("Problem reading file: " + fileEntry.getFileName());
+            LOG.error("Problem reading file: " + fileEntry.getFileName());
             errorReport.error(getFailureMessage("SL_ERR_MSG12", fileEntry.getFileName()), XmlFileValidator.class);
             isEmpty = true;
         } finally {
@@ -69,11 +74,11 @@ public class XmlFileValidator extends SimpleValidatorSpring<IngestionFileEntry> 
                     br.close();
                 }
             } catch (IOException e) {
-                error("Error closing buffered reader", e);
+                LogUtil.error(LOG, "Error closing buffered reader", e);
             }
         }
-
+        
         return isEmpty;
     }
-
+    
 }

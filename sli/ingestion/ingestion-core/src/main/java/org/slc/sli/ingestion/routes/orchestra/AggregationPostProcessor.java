@@ -21,6 +21,8 @@ import java.util.List;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -35,13 +37,15 @@ import org.slc.sli.ingestion.WorkNote;
 @Component
 public class AggregationPostProcessor implements Processor {
 
+    private static final Logger LOG = LoggerFactory.getLogger(AggregationPostProcessor.class);
+
     @Autowired
     private StagedEntityTypeDAO stagedEntityTypeDAO;
 
     @Override
     public void process(Exchange exchange) throws Exception {
 
-        info("Aggregation completed for current tier. Will now remove entities in tier from processing pool.");
+        LOG.info("Aggregation completed for current tier. Will now remove entities in tier from processing pool.");
 
         @SuppressWarnings("unchecked")
         List<WorkNote> workNoteList = exchange.getIn().getBody(List.class);
@@ -61,7 +65,7 @@ public class AggregationPostProcessor implements Processor {
         exchange.getIn().setHeader("jobId", jobId);
 
         if (stagedEntityTypeDAO.getStagedEntitiesForJob(jobId).size() == 0) {
-            info("Processing pool is now empty, continue out of orchestra routes.");
+            LOG.info("Processing pool is now empty, continue out of orchestra routes.");
 
             exchange.getIn().setHeader("processedAllStagedEntities", true);
             WorkNote workNote = WorkNote.createSimpleWorkNote(jobId);
@@ -74,7 +78,7 @@ public class AggregationPostProcessor implements Processor {
         IngestionStagedEntity stagedEntityToRemove = workNote.getIngestionStagedEntity();
 
         if (stagedEntityTypeDAO.removeStagedEntityForJob(stagedEntityToRemove, jobId)) {
-            info("removed EdfiEntity from processing pool: {}", stagedEntityToRemove.getCollectionNameAsStaged());
+            LOG.info("removed EdfiEntity from processing pool: {}", stagedEntityToRemove.getCollectionNameAsStaged());
         }
     }
 
