@@ -17,23 +17,37 @@ limitations under the License.
 =end
 
 require 'rubygems'
-require 'net/sftp'
 require 'net/ssh'
   
-class LogDownloader
+module LogMarker
   
-  def initialize(host, user, password)
-    @host = host
-    @user = user
-    @password = password
-  end
+  class LocalLogMarker
   
-  def downloadLog(remoteLog, localLog)
-    Net::SFTP.start(@host, @user, :password => @password) do |sftp|
-      puts "Downloading #{remoteLog} to #{localLog}"
-      sftp.download!(remoteLog, localLog)
+    def markLog(log, marker)
+      logFile = File.open(log, 'a')
+      logFile.write("#{marker}\n")
+      logFile.close
     end
+  
   end
   
+  class RemoteLogMarker
+  
+    def initialize(host, user, password)
+      @host = host
+      @user = user
+      @password = password
+    end
+  
+    def markLog(remoteLog, marker)
+      Net::SSH.start(@host, @user, :password => @password) do |ssh|
+        puts "echo #{marker} >> #{remoteLog}"
+        output = ssh.exec!("echo #{marker} >> #{remoteLog}")
+        puts output if output != nil
+      end
+    end
+  
+  end
+
 end
 
