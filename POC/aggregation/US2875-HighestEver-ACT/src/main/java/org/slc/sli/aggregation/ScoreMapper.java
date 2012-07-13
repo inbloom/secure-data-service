@@ -26,9 +26,9 @@ public class ScoreMapper extends Mapper<String, BSONObject, Text, DoubleWritable
         @SuppressWarnings("unchecked")
         List<Map<String, String>> results = (List<Map<String, String>>) body.get("scoreResults");
         String studentId = (String) body.get("studentId");
-        for(Map<String, String> result: results){
+        for (Map<String, String> result: results) {
             String scoreType = result.get("assessmentReportingMethod");
-            if(type.equals(scoreType)){
+            if (type.equals(scoreType)) {
                 String scoreString = result.get("result");
                 double score = Double.parseDouble(scoreString);
                 context.write(new Text(studentId), new DoubleWritable(score));

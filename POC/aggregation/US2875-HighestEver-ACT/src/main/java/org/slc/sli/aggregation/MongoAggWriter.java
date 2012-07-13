@@ -9,6 +9,12 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 import com.mongodb.hadoop.output.MongoRecordWriter;
 
+/**
+ * M/R result records to mongo.
+ *
+ * @param <K>
+ * @param <V>
+ */
 public class MongoAggWriter<K, V> extends MongoRecordWriter<K, V> {
     
     private final DBCollection output;
