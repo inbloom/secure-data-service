@@ -34,45 +34,51 @@ end
 # returns all trs of a grid in a particular panel
 # excludes the header of the grid
 def getGrid(panel)
-  grid = @explicitWait.until{panel.find_element(:class,"ui-jqgrid-bdiv")}
-  all_trs = panel.find_elements(:xpath,".//tr[contains(@class,'ui-widget-content')]")
+  getNthGrid(panel, 1)
+end
+
+def getNthGrid(panel, n)
+  n = n.to_i-1
+  grids = @explicitWait.until{panel.find_elements(:class,"ui-jqgrid-bdiv")}
+  assert(n < grids.length && n >=0 , "n must be less than #{grids.length}")
+  all_trs = grids[n].find_elements(:css, "tr[class*='ui-widget-content']")
   return all_trs
 end
 
 def getTdBasedOnAttribute(tr,attribute)
   assert(!tr.nil?, "Row is empty")
-  searchText = "td[contains(@aria-describedby,'" + attribute + "')]"
-  td = tr.find_element(:xpath, searchText)
+  searchText = "td[aria-describedby*='" + attribute + "']"
+  td = tr.find_element(:css, searchText)
   return td
 end
 
 def getTdsBasedOnAttribute(tr,attribute)
   assert(!tr.nil?, "Row is empty")
-  searchText = "td[contains(@aria-describedby,'" + attribute + "')]"
-  tds = tr.find_elements(:xpath, searchText)
+  searchText = "td[aria-describedby*='" + attribute + "']"
+  tds = tr.find_elements(:css, searchText)
   return tds
 end
 
 def getAttributeByName(tr, attribute, name)
   assert(!tr.nil?, "Row is empty")
-  searchText = "td[contains(@aria-describedby,'" + attribute + "')]"
-  td = tr.find_element(:xpath, searchText)
+  searchText = "td[aria-describedby*='" + attribute + "']"
+  td = tr.find_element(:css, searchText)
   return td.attribute(name)
 end
 
 def getAttribute(tr, attribute)
   assert(!tr.nil?, "Row is empty")
-  searchText = "td[contains(@aria-describedby,'" + attribute + "')]"
-  value = tr.find_element(:xpath, searchText)
+  searchText = "td[aria-describedby*='" + attribute + "']"
+  value = tr.find_element(:css, searchText)
   return value.text
 end
 
 def getAttributes(tr, attribute)
   assert(!tr.nil?, "Row is empty")
-  searchText = "td[contains(@aria-describedby,'" + attribute + "')]"
+  searchText = "td[aria-describedby*='" + attribute + "']"
   values = []
   i = 0
-  elements = tr.find_elements(:xpath, searchText)
+  elements = tr.find_elements(:css, searchText)
   elements.each do |element|
     if (element.text.length > 0)
       values[i] = element.text
@@ -82,9 +88,23 @@ def getAttributes(tr, attribute)
   return values
 end
 
+def getGridHeaders(panel)
+  header = @explicitWait.until{panel.find_element(:class,"ui-jqgrid-hbox")}
+  return header.find_elements(:tag_name, "th")
+end
+
+def getHeaderCellBasedOnId(ths, attribute)
+  assert(!ths.nil?, "Row is empty")
+  ths.each do |th|
+    if (th.attribute("id").include? attribute)
+      return th
+    end
+  end
+end
+
 #Checks against entries in a grid
 #use <empty> for empty cells
-def checkGridEntries(panel, table, mapping, isExactRowsMatch = true)
+def checkGridEntries(panel, table, mapping, isExactRowsMatch = true, gridNumber = 1)
   table.headers.each do |current|
     if (mapping[current] == nil)
       puts "Warning: No mapping found for header: " + current
@@ -92,7 +112,7 @@ def checkGridEntries(panel, table, mapping, isExactRowsMatch = true)
     end
   end
   
-  grid = getGrid(panel)
+  grid = getNthGrid(panel, gridNumber)
   if (isExactRowsMatch)
     assert(table.rows.length == grid.length, "Expected entries: " + table.rows.length.to_s + " Actual: " + grid.length.to_s)
   end
@@ -148,8 +168,8 @@ end
 def sortColumn(columnName, columnType, isAscending, attributeToCompare = nil)
   hTable = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-htable")}
   returnedName = getColumnLookupName(columnName)
-  searchText = ".//div[contains(@id,'" + returnedName + "')]"
-  column = hTable.find_element(:xpath, searchText)
+  searchText = "div[id*='" + returnedName + "']"
+  column = hTable.find_element(:css, searchText)
 
   sorted = getColumnValues(columnName, columnType, attributeToCompare).sort
 
