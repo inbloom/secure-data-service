@@ -73,7 +73,7 @@ When /^I send the enter key$/ do
 end
 
 Then /^I should be informed that "([^"]*)" results are returned$/ do |numResults|
-  @explicitWait.until{@driver.current_url.include?("studentSearchPage") == true}
+  @explicitWait.until{@driver.current_url.include?("studentSearch") == true}
   expectedText = "returned " + numResults + " results"
   if (numResults.to_i == 1)
     expectedText = "returned " + numResults + " result"

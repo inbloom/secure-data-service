@@ -7,6 +7,10 @@
     cacheKey: "studentAttendance",
     params: { yearsBack: "3"
     }
+    entity: "studentAttendance"
+  },
+  params: {
+    layout: ["student"]
   },
   root: 'attendance',
   items : [

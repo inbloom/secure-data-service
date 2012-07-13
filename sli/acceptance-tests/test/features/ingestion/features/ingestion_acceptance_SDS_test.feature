@@ -21,7 +21,7 @@ Given I am using local data store
 
 @smoke @integration @IL-Daybreak
 Scenario: Post a zip file containing all data for Illinois Daybreak as a payload of the ingestion job: Clean Database
-Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
+Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job
     And the following collections are empty in datastore:
         | collectionName              |
@@ -232,7 +232,7 @@ Then I should see following map of entry counts in the corresponding collections
 
 @integration @IL-Sunset
 Scenario: Post a zip file containing all data for Illinois Sunset as a payload of the ingestion job: Append Database
-Given I am using preconfigured Ingestion Landing Zone for "IL-Sunset"
+Given I am using preconfigured Ingestion Landing Zone for "Midgar-Sunset"
   And I post "StoriedDataSet_IL_Sunset.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
@@ -300,7 +300,7 @@ Then I should see following map of entry counts in the corresponding collections
 
 @integration @NY-NYC
 Scenario: Post a zip file containing all data for New York as a payload of the ingestion job: Append Database
-Given I am using preconfigured Ingestion Landing Zone for "NY-NYC"
+Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
   And I post "StoriedDataSet_NY.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
@@ -369,9 +369,12 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentDiscipline.xml records ingested successfully: 7" in the resulting batch job file
     And I should see "InterchangeStudentDiscipline.xml records failed: 0" in the resulting batch job file
     
- @wip
 Scenario: Concurrent job processing
-Given the following collections are empty in datastore:
+Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+    And I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
+    And I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job for "Midgar-Daybreak"
+    And I post "StoriedDataSet_NY.zip" file as the payload of the ingestion job for "Hyrule-NYC"
+    And the following collections are empty in datastore:
         | collectionName              |
         | student                     |
         | studentSchoolAssociation    |
@@ -404,35 +407,32 @@ Given the following collections are empty in datastore:
         | learningObjective           |
         | disciplineIncident          |
         | disciplineAction            |
-	   | studentDisciplineIncidentAssociation|
+		| studentDisciplineIncidentAssociation|
         | grade                       |
         | gradingPeriod               |
         | calendarDate                |
         | reportCard                  |
         | courseOffering              |
         | studentAcademicRecord       |
-Given I am using preconfigured Ingestion Landing Zone for "NY-NYC"
-	When zip file "StoriedDataSet_NY.zip" is scp to ingestion landing zone
-Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
-	When zip file "StoriedDataSet_IL_Daybreak.zip" is scp to ingestion landing zone
-Given I am using preconfigured Ingestion Landing Zone for "IL-Sunset"
-	When zip file "StoriedDataSet_IL_Sunset.zip" is scp to ingestion landing zone
-And a batch job log for "NY-NYC" file "StoriedDataSet_NY.zip" has been created
-And a batch job log for "IL-Sunset" file "StoriedDataSet_IL_Sunset.zip" has been created
-And a batch job log for "IL-Daybreak" file "StoriedDataSet_IL_Daybreak.zip" has been created
+
+When zip file is scp to ingestion landing zone for "Midgar-Daybreak"
+  And zip file is scp to ingestion landing zone for "Hyrule-NYC"
+  And a batch job for file "StoriedDataSet_IL_Daybreak.zip" is completed in database
+  And a batch job for file "StoriedDataSet_NY.zip" is completed in database
+
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
-        | student                     | 191   |
-        | studentSchoolAssociation    | 280   |
-        | course                      | 104   |
-        | educationOrganization       | 14    |
-        | section                     | 116   |
-        | studentSectionAssociation   | 410   |
-        | staff                       | 58    |
-        | staffEducationOrganizationAssociation| 37 |
-        | teacherSchoolAssociation    | 20    |
-        | teacherSectionAssociation   | 30    |
-        | session                     | 27    |
+        | student                     | 86    |
+        | studentSchoolAssociation    | 175   |
+        | course                      | 103   |
+        | educationOrganization       | 12    |
+        | section                     | 113   |
+        | studentSectionAssociation   | 305   |
+        | staff                       | 51    |
+        | staffEducationOrganizationAssociation| 31 |
+        | teacherSchoolAssociation    | 19    |
+        | teacherSectionAssociation   | 27    |
+        | session                     | 26    |
         | assessment                  | 19    |
         | studentAssessmentAssociation| 203   |
         | studentTranscriptAssociation| 196   |
@@ -447,9 +447,16 @@ Then I should see following map of entry counts in the corresponding collections
         | cohort                      | 3     |
         | staffCohortAssociation      | 3     |
         | studentCohortAssociation    | 6     |
+        | studentCompetency           | 59    |
+        | studentCompetencyObjective  | 4     |
+        | learningStandard            | 1463  |
+        | learningObjective           | 135   |
         | disciplineIncident          | 4     |
         | disciplineAction            | 3     |
-	   | studentDisciplineIncidentAssociation| 8|
+		| studentDisciplineIncidentAssociation| 8 |
         | grade                       | 4     |
+        | gradingPeriod               | 23    |
+        | calendarDate                | 1112  |
         | reportCard                  | 2     |
-        | courseOffering              | 104   |
+        | courseOffering              | 103   |
+        | studentAcademicRecord       | 117   |

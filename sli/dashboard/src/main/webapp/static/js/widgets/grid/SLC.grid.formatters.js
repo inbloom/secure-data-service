@@ -279,7 +279,7 @@ SLC.namespace('SLC.grid.formatters', (function () {
 	      
 	      if (typeof link === 'string')
 	      {
-	        return '<a href="' + contextRootPath + '/' + link + rowObject.id+'">'+$.jgrid.htmlEncode(value)+'</a>';
+	        return '<a href="' + util.getLayoutLink(link, rowObject.id) +'">'+$.jgrid.htmlEncode(value)+'</a>';
 	      } else {
 	        return value;
 	      }

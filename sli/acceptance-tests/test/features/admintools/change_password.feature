@@ -6,6 +6,7 @@ Feature: Change Password
   Background:
     Given I have an open web browser
 
+@LDAP_Reset_developer-email
   Scenario: SLI Developer Logging in
 
     Given I am a valid SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory

@@ -1,11 +1,28 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
 require 'rubygems'
 require 'statsample'
 require 'json'
 
 class LogAnalyzer
 
-  def initialize(originalInputFileName, apiLog, clientLog, batchId, numIterations, resultFileName)
-    @originalInputFileName = originalInputFileName
+  def initialize(apiLog, clientLog, batchId, numIterations, resultFileName)
     @apiLog = apiLog
     @clientLog = clientLog
     @batchId = batchId
@@ -23,8 +40,6 @@ class LogAnalyzer
   end
     
   def analyze()  
-    @originalInputFileName = File.basename(@originalInputFileName, '.*')
-    
     puts "Analyzing API log: #{@apiLog}"
     puts "Using client batch log: #{@clientLog}"
     
@@ -54,9 +69,6 @@ class LogAnalyzer
       puts "Exception: #{err}"
       err
     end
-    
-    #printTimeArrayMap(timeArrayMap)
-    
     
     responseSizeMap = {}
     
@@ -89,11 +101,14 @@ class LogAnalyzer
     resultFile = File.new(@resultFileName, "w")
     
     # analysis
+    returnMap = {}
     resultFile.write("Call,Number,Response time (ms),Max time, Min time,90th Percentile,Standard deviation,Response size (bytes),Percent standard deviation, Weighted total time\n")
     
     totalTime = 0
     
     timeArrayMap.each do |key, timeArrayRef|
+      callStats = {}
+      
       numCalls = timeArrayRef.length
       v = timeArrayRef.to_vector(:scale)
       averageTime = v.mean
@@ -109,12 +124,26 @@ class LogAnalyzer
       responseSize = responseSizeMap[key]
       weightedTotalTime = (numCalls / @numIterations) * averageTime
       percStdDev = (std / averageTime) * 100
-    
+   
+      callStats['NUM_CALLS'] = numCalls
+      callStats['AVG_TIME'] = averageTime
+      callStats['MAX_TIME'] = max
+      callStats['MIN_TIME'] = min
+      callStats['PERC_90'] = percentile90
+      callStats['STD_DEV'] = std
+      callStats['RESP_SIZE'] = responseSize
+      callStats['PERC_STD_DEV'] = percStdDev
+      callStats['WGT_TOTAL_TIME'] = weightedTotalTime
+
       resultFile.write("\"#{key}\",#{numCalls},#{averageTime},#{max},#{min},#{percentile90},#{std},#{responseSize},#{percStdDev},#{weightedTotalTime}\n")
       totalTime += weightedTotalTime
+
+      returnMap[key] = callStats
     end
     
     resultFile.write(",,,,,,,,,#{totalTime}\n")
     resultFile.close
+
+    return returnMap
   end
 end

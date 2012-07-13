@@ -28,25 +28,17 @@
 
 	<dependencies>
 		<!-- Servlet dependencies -->
-
-    <!-- Due to multiple transitive dependencies on guava, we have opted to exclude 
-        the older ones. Because we need the newest Version 11.0.1 will be pulled from jersey-client -->
-    <dependency>
-        <groupId>com.googlecode.ehcache-spring-annotations</groupId>
-        <artifactId>ehcache-spring-annotations</artifactId>
-        <version>1.2.0</version>
-        <exclusions>
-            <exclusion>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-            </exclusion>
-        </exclusions>
-    </dependency>
         
         <dependency>
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
             <version>3.1</version>
+        </dependency>
+        
+        <dependency>
+	        <groupId>commons-lang</groupId>
+	        <artifactId>commons-lang</artifactId>
+	        <version>2.6</version>
         </dependency>
 
 		<dependency>
@@ -141,6 +133,7 @@
 				<artifactId>guava</artifactId>
 			</exclusion>
 		    </exclusions>
+		    <scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -264,26 +257,6 @@
 	          <nosuffix>true</nosuffix>
 	          <nomunge>true</nomunge>
 	          <aggregations>
-	            <aggregation>
-	              
-	              <removeIncluded>true</removeIncluded>
-	              
-	              <!-- insert new line after each concatenation (default: false) -->
-	              <insertNewLine>true</insertNewLine>
-	              <output>${basedir}/target/dashboard/static/js/all.js</output>
-	              <!-- files to include, path relative to output's directory or absolute path-->
-	              <!--inputDir>base directory for non absolute includes, default to parent dir of output</inputDir-->
-	              <excludes>
-	              <exclude>**/libs/**/*.js</exclude>
-	              <exclude>**/widgets/**/*.js</exclude>
-	              <exclude>**/controller/**/*.js</exclude>
-	              <exclude>**/panels/**/*.js</exclude>
-	              </excludes>
-	              <includes>
-                        <include>**/license.js</include>
-	                <include>**/*.js</include>
-	              </includes>
-	            </aggregation>
 	            <aggregation>
 	                <removeIncluded>true</removeIncluded>
 	                

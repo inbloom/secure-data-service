@@ -22,6 +22,8 @@ TOREMOVE = ENV['TOREMOVE'] ? true : false
 
 RUN_STAMPER = false
 
+TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other"]
+
 #######################################################
 
 $SUCCESS=true
@@ -97,7 +99,7 @@ end
 def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropExistingCollection=true)
   if TOREMOVE
     if dropExistingCollection
-      dropCollectionsCleanly(collectionName)
+      removeCollectionsCleanly(collectionName, TENANT_COLLECTION)
       dropOption = ""
     end
   else
@@ -171,14 +173,81 @@ def cleanseApps()
   end
 end
 
-def dropCollectionsCleanly(collectionName, specificTenant=nil)
-  if specificTenant != nil
-    #TODO make sure this works for dropping data in a collection for a specific tenant
-    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.#{collectionName}.remove({\"metaData.tenantId\":\"#{specificTenant}\"})\""
+def cleanseCollectionWithTenantID(collectionName, specificTenants)
+  puts "Removing documents in #{collectionName} with tenantIds #{specificTenants}"
+  @conn = Mongo::Connection.new(DB_HOST)
+  @db = @conn.db(DB_NAME)
+  coll = @db.collection(collectionName)
+  
+  coll.remove("metaData.tenantId" => {"$in" => specificTenants})
+end
+
+def removeCollectionsCleanly(collectionName, specificTenants=nil)
+  if specificTenants != nil
+    cleanseCollectionWithTenantID(collectionName, specificTenants)
     sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig')\""
   else
     sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.#{collectionName}.remove({})\""
     sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig')\""
+  end
+end
+
+# The admin realm and sandbox realm IDs are dynamically created during bootstrap,
+# so here we swap out references to those realms in long-lived sessions with 
+# the dynamic ID of the realm.
+def swap_realm_ids()
+  @conn = Mongo::Connection.new(DB_HOST)
+  @db = @conn.db(DB_NAME)
+  realm_col = @db.collection('realm')
+  user_sessions = @db.collection('userSession')
+  to_swap = [
+        {"unique_realm_id" => "Shared Learning Infrastructure", "placeholder" => "ADMIN_REALM_ID_PLACEHOLDER"},
+        {"unique_realm_id" => "SandboxIDP", "placeholder" => "SANDBOX_REALM_ID_PLACEHOLDER"},
+  ]
+
+  to_swap.each do |realm|
+    realm_ent = realm_col.find_one({"body.uniqueIdentifier" => realm['unique_realm_id']})
+
+    if realm_ent
+      puts "Swapping realm ID for #{realm['unique_realm_id']}"
+      realm_id = realm_ent['_id']
+      update_count = 0
+      user_sessions.find({"body.principal.realm" => realm['placeholder']}).each do |row|
+        user_sessions.update({"_id" => row["_id"]}, {"$set" => {"body.principal.realm" => realm_id}})
+        update_count = update_count + 1
+      end
+      puts "\tUpdated #{update_count} user sessions"
+    else
+      puts "Skipping realm ID swap for #{realm['unique_realm_id']}"
+    end
+  end
+end
+
+# The app ids for bootstrapped apps are dynamically generated,
+# so here we swap out references to those apps in the app authroization 
+# wht the dynamic ID of the app.
+def swap_app_ids()
+  @conn = Mongo::Connection.new(DB_HOST)
+  @db = @conn.db(DB_NAME)
+  to_swap = [
+        {"app_name" => "SLC Data Browser", "placeholder" => "DATABROWSER_ID_PLACEHOLDER"},
+        {"app_name" => "SLC Dashboards", "placeholder" => "DASHBOARD_ID_PLACEHOLDER"},
+  ]
+  apps = @db.collection('application')
+  app_auths = @db.collection('applicationAuthorization')
+
+  to_swap.each do |app|
+    puts "Swapping IDs for #{app['app_name']}"
+    app_ent = apps.find_one({"body.name" => app['app_name']})
+    app_id = app_ent['_id']
+    update_count = 0
+    app_auths.find("body.appIds" =>  app['placeholder']).each do |row|
+      app_ids = row['body']['appIds']
+      app_ids[app_ids.index(app['placeholder'])] = app_id
+      app_auths.update({"_id" => row["_id"]}, {"$set" => {"body.appIds" => app_ids}})
+      update_count = update_count + 1
+    end
+    puts "\tUpdate #{update_count} entries"
   end
 end
 
@@ -212,6 +281,8 @@ task :appInit do
 
   setFixture("applicationAuthorization", "applicationAuthorization_fixture.json")
   setFixture("userSession", "oauth_authentication_tokens.json")
+  swap_realm_ids()
+  swap_app_ids()
 end
 
 # Run a whole series of acceptance and integration tests
@@ -462,7 +533,8 @@ task :dashboardSdsTests => [:dashboardSdsUploadConfigTests,
                          :dashboardSdsAttendanceTests,
                          :dashboardStudentSearchTests,
                          :dashboardSdsTranscriptPanelTests,
-                         :dashboardAssessmentTests] do
+                         :dashboardAssessmentTests,
+                         :dashboardSectionProfileTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
