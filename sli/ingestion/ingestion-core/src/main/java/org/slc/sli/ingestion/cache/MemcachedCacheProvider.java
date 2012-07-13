@@ -21,9 +21,6 @@ import net.spy.memcached.MemcachedClient;
 import net.spy.memcached.OperationTimeoutException;
 import net.spy.memcached.spring.MemcachedClientFactoryBean;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * Memcached backed provider of cache services.
  *
@@ -32,8 +29,6 @@ import org.slf4j.LoggerFactory;
  */
 
 public class MemcachedCacheProvider implements CacheProvider {
-
-    private static final Logger LOG = LoggerFactory.getLogger(MemcachedCacheProvider.class);
 
     private MemcachedClient client;
 
@@ -59,7 +54,7 @@ public class MemcachedCacheProvider implements CacheProvider {
 
         // DON'T log any entities here - PII :)
 
-        LOG.debug("Adding {} {}", key, value);
+        debug("Adding {} {}", key, value);
 
         client.set(key, 0, value);
 
@@ -71,13 +66,13 @@ public class MemcachedCacheProvider implements CacheProvider {
         try {
             val = client.get(key);
 
-            LOG.debug("Memcached {} for {} ", val == null ? "MISS" : "HIT", key);
+            debug("Memcached {} for {} ", val == null ? "MISS" : "HIT", key);
             if (val != null) {
 
-                LOG.debug("Found {} for key {}", val, key);
+                debug("Found {} for key {}", val, key);
             }
         } catch (OperationTimeoutException ex) {
-            LOG.warn("Operation timed out - is memcached responding? ", ex);
+            warn("Operation timed out - is memcached responding? ", ex);
         }
         return val;
     }

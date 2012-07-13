@@ -23,8 +23,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.time.FastDateFormat;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Fault;
@@ -46,8 +44,6 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
  *
  */
 public class BatchJobUtils {
-
-    private static final Logger LOG = LoggerFactory.getLogger(BatchJobUtils.class);
 
     private static final String TIMESTAMPPATTERN = "yyyy-MM-dd:HH-mm-ss";
     private static final FastDateFormat FORMATTER = FastDateFormat.getInstance(TIMESTAMPPATTERN);

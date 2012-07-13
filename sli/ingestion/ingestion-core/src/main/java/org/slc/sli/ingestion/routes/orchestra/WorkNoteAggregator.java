@@ -22,8 +22,6 @@ import java.util.List;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.processor.aggregate.AggregationStrategy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.queues.MessageType;
@@ -35,8 +33,6 @@ import org.slc.sli.ingestion.queues.MessageType;
  *
  */
 public class WorkNoteAggregator implements AggregationStrategy {
-
-    private static final Logger LOG = LoggerFactory.getLogger(WorkNoteAggregator.class);
 
     @Override
     public Exchange aggregate(Exchange hasBeenAggregated, Exchange toBeAggregated) {
@@ -54,7 +50,7 @@ public class WorkNoteAggregator implements AggregationStrategy {
 
             workNoteList.add(workNote);
 
-            LOG.info("aggregated WorkNote: {} ", workNote);
+            info("aggregated WorkNote: {} ", workNote);
         }
 
         return hasBeenAggregated;
@@ -67,7 +63,7 @@ public class WorkNoteAggregator implements AggregationStrategy {
         Exchange hasBeenAggregated = toBeAggregated;
 
         if (MessageType.DATA_TRANSFORMATION.name().equals(toBeAggregated.getIn().getHeader("IngestionMessageType"))) {
-            LOG.info("Setting {} as the aggregation completion size for {}", workNote.getBatchSize(),
+            info("Setting {} as the aggregation completion size for {}", workNote.getBatchSize(),
                     workNote.getIngestionStagedEntity());
 
             hasBeenAggregated.getIn().setHeader("workNoteByEntityCount", workNote.getBatchSize());

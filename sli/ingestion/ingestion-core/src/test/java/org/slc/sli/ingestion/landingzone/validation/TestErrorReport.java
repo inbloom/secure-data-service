@@ -41,7 +41,7 @@ public final class TestErrorReport implements ErrorReport {
     @Override
     public void fatal(String message, Object sender) {
         messages.add(message);
-        LOG.error("FATAL - " + message);
+        error("FATAL - " + message);
     }
 
     @Override
