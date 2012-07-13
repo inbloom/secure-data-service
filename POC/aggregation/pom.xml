@@ -45,12 +45,20 @@
 
 
     <modules>
-        <module>US2875-HighestEver-ACT</module>
-        <module>US2875-ACT-Proficiency-Aggregation</module>
+        <module>mapreduce</module>
+        <module>ACT-HighestEver</module>
+        <module>ACT-Proficiency-Aggregation</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
+
+            <!-- map reduce helper functions -->
+            <dependency>
+                <groupId>org.slc.sli.aggregation</groupId>
+                <artifactId>mapreduce</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
 
             <!-- JUnit dependency -->
             <dependency>

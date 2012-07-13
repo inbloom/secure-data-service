@@ -8,7 +8,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.slc.sli.aggregation</groupId>
-  <artifactId>US2875-ACT-Proficiency-Aggregation</artifactId>
+  <artifactId>ACT-Proficiency-Aggregation</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
@@ -22,5 +22,12 @@
     <sli.home>${project.parent.basedir}</sli.home>
     <hadoop.job.mainclass>org.slc.sli.aggregation.WordCount</hadoop.job.mainclass>
   </properties>
+
+  <dependencies>
+    <dependency>
+        <groupId>org.slc.sli.aggregation</groupId>
+        <artifactId>mapreduce</artifactId>
+    </dependency>
+  </dependencies>
 
 </project>
