@@ -596,7 +596,7 @@ end
 # SDK Tests start
 ############################################################
 desc "Run JavaSDK acceptance tests"
-task :JavaSDKTests => [:JavaSDKSampleAppTest,:JavaSDKCRUDTest] do
+task :JavaSDKTests => [:JavaSDKSampleAppTest,:JavaSDKCRUDTest,:JavaRESTCRUDTest] do
     displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
