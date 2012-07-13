@@ -5,7 +5,6 @@ As a developer, I want a smoke test for the dashboard component that finishes in
 Scenario: MEGA SHMOKE - IT Admin 
 #Upload valid config file
 Given I have an open web browser
-Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
 And I was redirected to the "Simple" IDP Login page
@@ -36,7 +35,6 @@ And the class for id "attendances.tardyCount" for student "Mi-Ha Tran" is "color
 Scenario: MEGA SHMOKE - Teacher
 #Selecting classes on LOS
 Given I have an open web browser
-Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
 And I was redirected to the "Simple" IDP Login page
