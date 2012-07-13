@@ -31,11 +31,11 @@ public interface LdapService {
 
     public boolean updateGroup(String realm, Group group);
 
-    public Collection<User> findUserByGroups(String realm, Collection<String> groupNames);
+    public Collection<User> findUsersByGroups(String realm, Collection<String> groupNames);
 
-    public Collection<User> findUserByAttributes(String realm, Collection<String> attributes);
+    public Collection<User> findUsersByAttributes(String realm, Collection<String> attributes);
 
-    public Collection<User> findUserByGroups(String realm, Collection<String> groupNames, String tenant);
+    public Collection<User> findUsersByGroups(String realm, Collection<String> groupNames, String tenant);
 
-    public Collection<User> findUserByGroups(String realm, Collection<String> groupNames, String tenant, Collection<String> edorgs);
+    public Collection<User> findUsersByGroups(String realm, Collection<String> groupNames, String tenant, Collection<String> edorgs);
 }

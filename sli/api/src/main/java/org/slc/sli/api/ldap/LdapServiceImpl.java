@@ -146,7 +146,7 @@ public class LdapServiceImpl implements LdapService {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Collection<User> findUserByGroups(String realm, Collection<String> groupNames) {
+    public Collection<User> findUsersByGroups(String realm, Collection<String> groupNames) {
         List<User> users = new ArrayList<User>();
         List<String> uids = new ArrayList<String>();
         Map<String, List<String>> uidToGroupsMap = new HashMap<String, List<String>>();
@@ -191,12 +191,12 @@ public class LdapServiceImpl implements LdapService {
     }
 
     @Override
-    public Collection<User> findUserByGroups(String realm, Collection<String> groupNames, String tenant) {
-        return filterByTenant(findUserByGroups(realm, groupNames), tenant);
+    public Collection<User> findUsersByGroups(String realm, Collection<String> groupNames, String tenant) {
+        return filterByTenant(findUsersByGroups(realm, groupNames), tenant);
     }
 
     @Override
-    public Collection<User> findUserByAttributes(String realm, Collection<String> attributes) {
+    public Collection<User> findUsersByAttributes(String realm, Collection<String> attributes) {
         // TODO Auto-generated method stub
         return null;
     }
@@ -215,8 +215,8 @@ public class LdapServiceImpl implements LdapService {
     }
 
     @Override
-    public Collection<User> findUserByGroups(String realm, Collection<String> groupNames, String tenant, Collection<String> edorgs) {
-        return filterByEdorgs(filterByTenant(findUserByGroups(realm, groupNames), tenant), edorgs);
+    public Collection<User> findUsersByGroups(String realm, Collection<String> groupNames, String tenant, Collection<String> edorgs) {
+        return filterByEdorgs(filterByTenant(findUsersByGroups(realm, groupNames), tenant), edorgs);
     }
 
     @Override
