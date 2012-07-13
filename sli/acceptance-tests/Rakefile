@@ -402,23 +402,6 @@ task :apiV1EntitySecurityTests do
 
 end
 
-task :apiV1AssociationTests => [:v1CourseOfferingTests,
-                                :v1StaffEdOrgAssociationTests,
-                                :v1StaffProgramAssociationTests,
-                                :v1StudentProgramAssociationTests,
-                                :v1StudentAssessmentAssociationTests,
-                                :v1StudentParentAssociationTests,
-                                :v1StudentDisciplineIncidentAssociationTests,
-                                :v1StudentSchoolAssociationTests,
-                                :v1StudentSectionAssociationTests,
-                                :v1StudentTranscriptAssociationTests,
-                                :v1TeacherSchoolAssociationTests,
-                                :v1TeacherSectionAssociationTests,
-                                :v1StaffCohortAssociationTests,
-                                :v1StudentCohortAssociationTests] do
-  # Repair the damage that was done during the tests
-  Rake::Task["importSandboxData"].execute
-end
 ############################################################
 # API V1 tests end
 ############################################################
