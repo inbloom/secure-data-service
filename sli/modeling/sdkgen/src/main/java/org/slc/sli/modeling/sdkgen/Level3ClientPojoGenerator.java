@@ -58,7 +58,7 @@ public final class Level3ClientPojoGenerator {
     public static final void doModel(final ModelIndex model, final File dir, final String targetPkgName,
             final JavaGenConfig config) throws FileNotFoundException {
         for (final ClassType classType : model.getClassTypes().values()) {
-            if (!classType.isAssociation()) {
+            if (classType.isClassType()) {
                 final String fileName = classType.getName().concat(".java");
                 final File file = new File(dir, fileName);
                 final List<String> importNames = new ArrayList<String>();
