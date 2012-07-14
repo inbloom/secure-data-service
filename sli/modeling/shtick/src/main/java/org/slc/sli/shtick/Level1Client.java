@@ -9,10 +9,10 @@ import java.util.List;
  */
 public interface Level1Client {
     List<Entity> get(final String token, final URI uri) throws IOException, StatusCodeException;
-
+    
     void delete(final String token, final URI uri) throws IOException, StatusCodeException;
-
+    
     URI post(final String token, final Entity data, final URI uri) throws IOException, StatusCodeException;
-
+    
     void put(final String token, final Entity data, final URI uri) throws IOException, StatusCodeException;
 }

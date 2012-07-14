@@ -109,7 +109,6 @@ public final class Xsd2UmlTweakerVisitor implements Visitor {
             }
             if (singletonEnds.size() == 2) {
                 if (classType.getName().endsWith("Association")) {
-                    System.out.println(classType.getName());
                     final AssociationEnd lhsAssociationEnd = singletonEnds.get(0);
                     final AssociationEnd rhsAssociationEnd = singletonEnds.get(1);
                     final AssociationEnd lhsEnd = compute(lhsAssociationEnd);

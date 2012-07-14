@@ -15,43 +15,41 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
 public final class StAXLevel1Client implements Level1Client {
-
+    
     private final Level0Client inner;
-
+    
     public StAXLevel1Client() {
         this(new JaxRSLevel0Client());
     }
-
+    
     public StAXLevel1Client(final Level0Client inner) {
         if (inner == null) {
             throw new NullPointerException("inner");
         }
         this.inner = inner;
     }
-
+    
     @Override
     public List<Entity> get(final String token, final URI uri) throws IOException, StatusCodeException {
         final String body = inner.get(token, uri, "application/xml");
         return deserialize(body);
     }
-
+    
     @Override
     public void delete(final String token, final URI uri) throws IOException, StatusCodeException {
         throw new UnsupportedOperationException("TODO");
     }
-
+    
     @Override
-    public URI post(final String token, final Entity data, final URI uri) throws IOException,
-            StatusCodeException {
+    public URI post(final String token, final Entity data, final URI uri) throws IOException, StatusCodeException {
         throw new UnsupportedOperationException("TODO");
     }
-
+    
     @Override
-    public void put(final String token, final Entity data, final URI uri) throws IOException,
-            StatusCodeException {
+    public void put(final String token, final Entity data, final URI uri) throws IOException, StatusCodeException {
         throw new UnsupportedOperationException("TODO");
     }
-
+    
     private List<Entity> deserialize(final String body) throws IOException {
         final StringReader sw = new StringReader(body);
         final XMLInputFactory factory = XMLInputFactory.newInstance();
@@ -66,23 +64,23 @@ public final class StAXLevel1Client implements Level1Client {
             throw new RuntimeException(body, e);
         }
     }
-
+    
     private static final List<Entity> readDocument(final XMLStreamReader reader) throws XMLStreamException {
         if (XMLStreamConstants.START_DOCUMENT == reader.getEventType()) {
             final List<Entity> entities = new ArrayList<Entity>();
             while (reader.hasNext()) {
                 reader.next();
                 switch (reader.getEventType()) {
-                case XMLStreamConstants.START_ELEMENT: {
-                    entities.addAll(readDocumentElement(reader));
-                    break;
-                }
-                case XMLStreamConstants.END_DOCUMENT: {
-                    return entities;
-                }
-                default: {
-                    throw new AssertionError(reader.getEventType());
-                }
+                    case XMLStreamConstants.START_ELEMENT: {
+                        entities.addAll(readDocumentElement(reader));
+                        break;
+                    }
+                    case XMLStreamConstants.END_DOCUMENT: {
+                        return entities;
+                    }
+                    default: {
+                        throw new AssertionError(reader.getEventType());
+                    }
                 }
             }
             throw new AssertionError();
@@ -90,68 +88,68 @@ public final class StAXLevel1Client implements Level1Client {
             throw new AssertionError(reader.getLocalName());
         }
     }
-
+    
     private static final List<Entity> readDocumentElement(final XMLStreamReader reader) throws XMLStreamException {
         final QName elementName = reader.getName();
         final List<Entity> entities = new ArrayList<Entity>();
         while (reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
-            case XMLStreamConstants.START_ELEMENT: {
-                entities.add(readEntity(reader));
-                break;
-            }
-            case XMLStreamConstants.END_ELEMENT: {
-                if (elementName.equals(reader.getName())) {
-                    return entities;
-                } else {
-                    throw new AssertionError(reader.getName());
+                case XMLStreamConstants.START_ELEMENT: {
+                    entities.add(readEntity(reader));
+                    break;
                 }
-            }
-            case XMLStreamConstants.CHARACTERS: {
-                // Ignore.
-                break;
-            }
-            default: {
-                throw new AssertionError(reader.getEventType());
-            }
+                case XMLStreamConstants.END_ELEMENT: {
+                    if (elementName.equals(reader.getName())) {
+                        return entities;
+                    } else {
+                        throw new AssertionError(reader.getName());
+                    }
+                }
+                case XMLStreamConstants.CHARACTERS: {
+                    // Ignore.
+                    break;
+                }
+                default: {
+                    throw new AssertionError(reader.getEventType());
+                }
             }
         }
         throw new AssertionError();
     }
-
+    
     private static final Entity readEntity(final XMLStreamReader reader) throws XMLStreamException {
         final QName elementName = reader.getName();
         final Map<String, Object> data = new HashMap<String, Object>();
         while (reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
-            case XMLStreamConstants.START_ELEMENT: {
-                final QName key = reader.getName();
-                final Object value = readValue(reader);
-                data.put(key.getLocalPart(), value);
-                break;
-            }
-            case XMLStreamConstants.END_ELEMENT: {
-                if (elementName.equals(reader.getName())) {
-                    // Our best guess for the type is the local-name of the element.
-                    return new Entity(elementName.getLocalPart(), data);
-                } else {
-                    throw new AssertionError(reader.getName());
+                case XMLStreamConstants.START_ELEMENT: {
+                    final QName key = reader.getName();
+                    final Object value = readValue(reader);
+                    data.put(key.getLocalPart(), value);
+                    break;
                 }
-            }
-            case XMLStreamConstants.CHARACTERS: {
-                // Ignore.
-                break;
-            }
-            default: {
-                throw new AssertionError(reader.getEventType());
-            }
+                case XMLStreamConstants.END_ELEMENT: {
+                    if (elementName.equals(reader.getName())) {
+                        // Our best guess for the type is the local-name of the element.
+                        return new Entity(elementName.getLocalPart(), data);
+                    } else {
+                        throw new AssertionError(reader.getName());
+                    }
+                }
+                case XMLStreamConstants.CHARACTERS: {
+                    // Ignore.
+                    break;
+                }
+                default: {
+                    throw new AssertionError(reader.getEventType());
+                }
             }
         }
         throw new AssertionError();
     }
-
+    
     /**
      * The return value might be a {@link Map} or {@link String}.
      * <p>
@@ -165,35 +163,35 @@ public final class StAXLevel1Client implements Level1Client {
         while (reader.hasNext()) {
             reader.next();
             switch (reader.getEventType()) {
-            case XMLStreamConstants.START_ELEMENT: {
-                final QName key = reader.getName();
-                final Object value = readValue(reader);
-                data.put(key.getLocalPart(), value);
-                break;
-            }
-            case XMLStreamConstants.END_ELEMENT: {
-                if (elementName.equals(reader.getName())) {
-                    if (data.size() > 0) {
-                        return data;
-                    } else {
-                        return coerceValue(sb.toString());
-                    }
-                } else {
-                    throw new AssertionError(reader.getName());
+                case XMLStreamConstants.START_ELEMENT: {
+                    final QName key = reader.getName();
+                    final Object value = readValue(reader);
+                    data.put(key.getLocalPart(), value);
+                    break;
                 }
-            }
-            case XMLStreamConstants.CHARACTERS: {
-                sb.append(reader.getText());
-                break;
-            }
-            default: {
-                throw new AssertionError(reader.getEventType());
-            }
+                case XMLStreamConstants.END_ELEMENT: {
+                    if (elementName.equals(reader.getName())) {
+                        if (data.size() > 0) {
+                            return data;
+                        } else {
+                            return coerceValue(sb.toString());
+                        }
+                    } else {
+                        throw new AssertionError(reader.getName());
+                    }
+                }
+                case XMLStreamConstants.CHARACTERS: {
+                    sb.append(reader.getText());
+                    break;
+                }
+                default: {
+                    throw new AssertionError(reader.getEventType());
+                }
             }
         }
         throw new AssertionError();
     }
-
+    
     /**
      * FIXME: This is a hack so that we can continue testing.
      * It converts String values to Boolean if they look like a Boolean.

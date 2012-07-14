@@ -26,40 +26,40 @@ import org.codehaus.jackson.node.ObjectNode;
  * Intentionally package-protected.
  */
 final class JacksonRestEntityDeserializer extends StdDeserializer<Entity> {
-
+    
     public JacksonRestEntityDeserializer() {
         super(Entity.class);
     }
-
+    
     private Map<String, Object> processObject(final ObjectNode obj) {
         Map<String, Object> rval = new HashMap<String, Object>();
-
+        
         Iterator<String> it = obj.getFieldNames();
-
+        
         while (it.hasNext()) {
             String key = it.next();
             JsonNode node = obj.get(key);
             rval.put(key, processElement(key, node));
         }
-
+        
         return rval;
     }
-
+    
     private Object processElement(final String key, final JsonNode element) {
         Object rval = null;
         if (element instanceof ObjectNode) {
             Map<String, Object> r2 = processObject((ObjectNode) element);
-
+            
             // convert TreeMap entries into Link instances.
             if (key.equals(Constants.LINKS_KEY)) {
                 rval = new LinkedList<Link>();
-
+                
                 String refName = (String) r2.get(Constants.LINK_RESOURCE_KEY);
                 String hrefString = (String) r2.get(Constants.LINK_HREF_KEY);
-
+                
                 try {
                     rval = new Link(refName, new URL(hrefString));
-
+                    
                 } catch (MalformedURLException e) {
                     rval = r2;
                 }
@@ -73,23 +73,23 @@ final class JacksonRestEntityDeserializer extends StdDeserializer<Entity> {
         } else {
             rval = processPrimitive(element);
         }
-
+        
         return rval;
     }
-
+    
     private List<Object> processArray(final String key, final ArrayNode asJsonArray) {
         List<Object> list = new LinkedList<Object>();
-
+        
         Iterator<JsonNode> it = asJsonArray.getElements();
         while (it.hasNext()) {
             list.add(processElement(key, it.next()));
         }
         return list;
     }
-
+    
     private Object processPrimitive(final JsonNode prim) {
         Object val;
-
+        
         if (prim instanceof BooleanNode) {
             val = prim.getBooleanValue();
         } else if (prim instanceof DoubleNode) {
@@ -103,20 +103,20 @@ final class JacksonRestEntityDeserializer extends StdDeserializer<Entity> {
         }
         return val;
     }
-
+    
     @Override
     public Entity deserialize(JsonParser parser, DeserializationContext context) throws IOException {
-
+        
         ObjectMapper mapper = (ObjectMapper) parser.getCodec();
         ObjectNode root = (ObjectNode) mapper.readTree(parser);
-
+        
         String entityType = null;
-
+        
         if (root.has(Constants.ENTITY_TYPE_KEY)) {
             entityType = root.get(Constants.ENTITY_TYPE_KEY).getTextValue();
             root.remove(Constants.ENTITY_TYPE_KEY);
         }
-
+        
         Map<String, Object> data = processObject(root);
         if (entityType != null) {
             return new Entity(entityType, data);

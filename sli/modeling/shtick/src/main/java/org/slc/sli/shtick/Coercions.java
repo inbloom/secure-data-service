@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 public final class Coercions {
-
+    
     public static final BigInteger toBigInteger(final Object obj) {
         if (obj != null) {
             return new BigInteger(obj.toString());
@@ -13,7 +13,7 @@ public final class Coercions {
             return null;
         }
     }
-
+    
     public static final Boolean toBoolean(final Object obj) {
         if (obj != null) {
             if (obj instanceof Boolean) {
@@ -25,7 +25,7 @@ public final class Coercions {
             return null;
         }
     }
-
+    
     public static final Double toDouble(final Object obj) {
         if (obj != null) {
             if (obj instanceof Double) {
@@ -37,7 +37,7 @@ public final class Coercions {
             return null;
         }
     }
-
+    
     public static final Integer toInteger(final Object obj) {
         if (obj != null) {
             return Integer.valueOf(obj.toString());
@@ -45,7 +45,7 @@ public final class Coercions {
             return null;
         }
     }
-
+    
     public static final Map<String, Object> toMap(final Object obj) {
         if (obj != null) {
             if (obj instanceof Map) {
@@ -59,12 +59,14 @@ public final class Coercions {
             return null;
         }
     }
-
-    @SuppressWarnings("unchecked")
-    public static final List toList(final Object obj) {
+    
+    public static final List<Object> toList(final Object obj) {
         if (obj != null) {
             if (obj instanceof List) {
-                return (List) obj;
+                // Creating a temporary variable allows us to localize the warning suppression.
+                @SuppressWarnings("unchecked")
+                final List<Object> temp = (List<Object>) obj;
+                return temp;
             } else {
                 throw new IllegalArgumentException("obj");
             }
@@ -72,7 +74,7 @@ public final class Coercions {
             return null;
         }
     }
-
+    
     public static final String toString(final Object obj) {
         if (obj != null) {
             if (obj instanceof String) {

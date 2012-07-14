@@ -16,7 +16,7 @@ public final class MapHelper {
         }
         return copy;
     }
-
+    
     private static List<Object> copyList(final List<Object> toCopy) {
         final List<Object> copy = new ArrayList<Object>(toCopy.size());
         for (Object elem : toCopy) {
@@ -24,7 +24,7 @@ public final class MapHelper {
         }
         return copy;
     }
-
+    
     private static Object copyValue(final Object elem) {
         if (elem instanceof Map) {
             @SuppressWarnings("unchecked")

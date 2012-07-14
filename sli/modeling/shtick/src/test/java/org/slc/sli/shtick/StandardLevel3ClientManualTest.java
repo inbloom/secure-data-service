@@ -16,8 +16,13 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import org.slc.sli.shtick.pojo.*;
+import org.slc.sli.shtick.pojo.Address;
+import org.slc.sli.shtick.pojo.BirthData;
+import org.slc.sli.shtick.pojo.Home;
+import org.slc.sli.shtick.pojo.Links;
+import org.slc.sli.shtick.pojo.Name;
+import org.slc.sli.shtick.pojo.SexType;
+import org.slc.sli.shtick.pojo.Student;
 
 public class StandardLevel3ClientManualTest {
 
@@ -181,6 +186,7 @@ public class StandardLevel3ClientManualTest {
             assertEquals(Boolean.FALSE, student.getEconomicDisadvantaged());
             assertEquals("100000005", student.getStudentUniqueStateId());
 
+            @SuppressWarnings("unused")
             List<Address> studentAddresses = student.getAddress();
         } catch (final IOException e) {
             throw new RuntimeException(e);

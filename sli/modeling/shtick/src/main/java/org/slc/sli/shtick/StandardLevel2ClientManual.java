@@ -12,23 +12,23 @@ import org.apache.commons.lang3.StringUtils;
  * @author jstokes
  */
 public final class StandardLevel2ClientManual implements Level2ClientManual {
-
+    
     private final String baseUrl;
     private final Level1Client client;
-
+    
     protected StandardLevel2ClientManual(final String baseUrl, final Level1Client client) {
         if (baseUrl == null) {
             throw new NullPointerException("baseUrl");
         }
-
+        
         this.client = client;
         this.baseUrl = baseUrl;
     }
-
+    
     public StandardLevel2ClientManual(final String baseUrl) {
         this(baseUrl, new JsonLevel1Client());
     }
-
+    
     @Override
     public List<Entity> getStudentsByStudentId(final String token, final List<String> studentIds,
             Map<String, Object> queryArgs) throws IOException, StatusCodeException {
@@ -47,7 +47,7 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
             throw new AssertionError(e);
         }
     }
-
+    
     @Override
     public List<Entity> getStudents(final String token, Map<String, Object> queryArgs) throws IOException,
             StatusCodeException {
@@ -63,7 +63,7 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
             throw new AssertionError(e);
         }
     }
-
+    
     @Override
     public void deleteStudentsById(final String token, final String entityId) throws IOException, StatusCodeException {
         if (token == null) {
@@ -78,7 +78,7 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
             throw new AssertionError(e);
         }
     }
-
+    
     @Override
     public String postStudents(final String token, final Entity entity) throws IOException, StatusCodeException {
         if (token == null) {
@@ -97,7 +97,7 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
             throw new AssertionError(e);
         }
     }
-
+    
     @Override
     public void putStudentsById(final String token, final Entity entity) throws IOException, StatusCodeException {
         if (token == null) {
@@ -115,5 +115,5 @@ public final class StandardLevel2ClientManual implements Level2ClientManual {
             throw new AssertionError(e);
         }
     }
-
+    
 }

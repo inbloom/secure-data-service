@@ -8,13 +8,13 @@ import java.util.Map;
 import org.slc.sli.shtick.pojo.Student;
 
 public final class StandardLevel3ClientManual implements Level3ClientManual {
-
+    
     private final Level2Client inner;
-
+    
     public StandardLevel3ClientManual(final String baseUrl) {
         this(baseUrl, new StandardLevel2Client(baseUrl));
     }
-
+    
     public StandardLevel3ClientManual(final String baseUrl, final Level2Client inner) {
         if (baseUrl == null) {
             throw new NullPointerException("baseUrl");
@@ -24,7 +24,7 @@ public final class StandardLevel3ClientManual implements Level3ClientManual {
         }
         this.inner = inner;
     }
-
+    
     @Override
     public List<Student> getStudents(final String token, final Map<String, Object> queryArgs) throws IOException,
             StatusCodeException {
@@ -35,7 +35,7 @@ public final class StandardLevel3ClientManual implements Level3ClientManual {
         }
         return students;
     }
-
+    
     @Override
     public List<Student> getStudentsById(final String token, final List<String> studentIds,
             final Map<String, Object> queryArgs) throws IOException, StatusCodeException {
@@ -46,28 +46,28 @@ public final class StandardLevel3ClientManual implements Level3ClientManual {
         }
         return students;
     }
-
+    
     @Override
     public String postStudent(final String token, final Student student) throws IOException, StatusCodeException {
         return inner.postStudents(token, new Entity("student", student.toMap()));
     }
-
+    
     @Override
     public void putStudent(final String token, final Student student) throws IOException, StatusCodeException {
         inner.putStudentsById(token, student.getId(), new Entity("student", student.toMap()));
     }
-
+    
     @Override
     public void deleteStudent(final String token, final Student student) throws IOException, StatusCodeException {
         inner.deleteStudentsById(token, student.getId());
     }
-
+    
     @Override
     public Map<String, Object> getCustomForStudentsById(String token, List<String> studentIds,
             Map<String, Object> queryArgs) throws IOException, StatusCodeException {
         return inner.getCustomForStudentsById(token, studentIds, queryArgs);
     }
-
+    
     @Override
     public void postCustomForStudentsById(String token, String id, Entity entity) throws IOException,
             StatusCodeException {
