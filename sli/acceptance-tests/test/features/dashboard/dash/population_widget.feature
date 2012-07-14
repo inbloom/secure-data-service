@@ -3,7 +3,6 @@ Feature: Population Widget <US435>
 @RALLY_US200
 Scenario: Selecting classes on LOS
 Given I have an open web browser
-Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
  And I was redirected to the "Simple" IDP Login page

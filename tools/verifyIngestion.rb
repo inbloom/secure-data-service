@@ -306,6 +306,7 @@ if allCountsCorrect
 end
 
 expectedSetTotal = expectationTotals[setName]
+printf " #{color}Persisted %d of %d records (%d%% missing). \n\n",totalActualCount,expectedSetTotal,(1.0-(Float(totalActualCount)/Float(expectedSetTotal)))*100
 if expectedSetTotal != totalActualCount
   color="\e[31m"
   printf "#{color} Ingestion failed! \n\n"

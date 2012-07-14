@@ -36,11 +36,15 @@ Then /^I should see a student named "([^"]*)"$/ do |student|
 end
 
 def get_all_elements
+  #click the droplist first else there are issues seeing hidden elements
+  @selector.find_element(:tag_name, "a").click
   options = @selector.find_element(:class, "dropdown-menu").find_elements(:tag_name, "li")
   arr = []
   options.each do |option|
-    link = option.find_element(:tag_name, "a").attribute("text")
+    link = option.find_element(:tag_name, "a").text
     arr << link
   end
+  #unclick it
+  @selector.find_element(:tag_name, "a").click
   arr
 end

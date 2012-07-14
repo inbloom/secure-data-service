@@ -51,9 +51,8 @@ end
 
 When /^I click on "([^"]*)" Tab$/ do |tabName|
   tab = getTabIndex(tabName)
-  searchPattern = "//a[contains(@href,'" + tab + "')]"
-  @driver.find_element(:xpath, searchPattern).click()
-  
+  searchPattern = "a[href*='" + tab + "']"
+  @driver.find_element(:css, searchPattern).click()
 end
 
 # Given a tabname, find the tab ID index to know which tab to read from
