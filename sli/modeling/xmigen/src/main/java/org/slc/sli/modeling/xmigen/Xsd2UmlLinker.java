@@ -45,6 +45,12 @@ import org.slc.sli.modeling.uml.index.ModelIndex;
  * Intentionally package protected.
  */
 final class Xsd2UmlLinker {
+ 
+    // FIXME: Externalize this concept into the plug-in.
+    private static final String SUFFIX_REFERENCES = "References";
+    private static final String SUFFIX_REFERENCE = "Reference";
+    private static final String SUFFIX_IDS = "Ids";
+    private static final String SUFFIX_ID = "Id";
     
     private static final List<Attribute> splitClassFeatures(final ClassType classType,
             final List<Attribute> attributes, final Xsd2UmlPlugin plugin, final ModelIndex lookup,
@@ -98,9 +104,10 @@ final class Xsd2UmlLinker {
             final Identifier reference = nameToClassTypeId.get(referenceType);
             // Reuse the attribute parts because attribute is no longer needed.
             final Identifier id = attribute.getId();
+            // FIXME: Move this code into the suggestAssociationEndName function.
             final Multiplicity multiplicity = attribute.getMultiplicity();
             final String oldName = attribute.getName();
-            final String newName = suggestAssociationEndName(attribute.getName(),
+            final String newName = suggestAssociationEndName(classType, attribute,
                     multiplicity.getRange().getUpper() == Occurs.UNBOUNDED);
             final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>(attribute.getTaggedValues());
             {
@@ -253,20 +260,31 @@ final class Xsd2UmlLinker {
         return map;
     }
     
-    private static final String suggestAssociationEndName(final String name, final boolean pluralize) {
-        final String stem = Xsd2UmlHelper.camelCase(suggestStem(name));
+    private static final String suggestAssociationEndName(final ClassType classType, final Attribute attribute,
+            final boolean pluralize) {
+        final String stem = Xsd2UmlHelper.camelCase(suggestStem(classType, attribute));
         return pluralize ? Xsd2UmlHelper.pluralize(stem) : stem;
     }
     
-    private static final String suggestStem(final String name) {
-        if (name.endsWith("Id")) {
-            return name.substring(0, name.length() - 2);
-        } else if (name.endsWith("Ids")) {
-            return name.substring(0, name.length() - 3);
-        } else if (name.endsWith("Reference")) {
-            return name.substring(0, name.length() - 9);
+    private static final String suggestStem(final ClassType classType, final Attribute attribute) {
+        final String name = attribute.getName();
+        if (name.endsWith(SUFFIX_ID)) {
+            return name.substring(0, name.length() - SUFFIX_ID.length());
+        } else if (name.endsWith(SUFFIX_IDS)) {
+            return name.substring(0, name.length() - SUFFIX_IDS.length());
+        } else if (name.endsWith(SUFFIX_REFERENCE)) {
+            reportIllegalSuffix(classType, attribute);
+            return name.substring(0, name.length() - SUFFIX_REFERENCE.length());
+        } else if (name.endsWith(SUFFIX_REFERENCES)) {
+            reportIllegalSuffix(classType, attribute);
+            return name.substring(0, name.length() - SUFFIX_REFERENCES.length());
         } else {
+            reportIllegalSuffix(classType, attribute);
             return name;
         }
+    }
+
+    private static final void reportIllegalSuffix(final ClassType classType, final Attribute attribute) {
+        System.err.println("Illegal suffix in " + classType.getName() + "." + attribute.getName());
     }
 }

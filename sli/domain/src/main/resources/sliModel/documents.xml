@@ -484,22 +484,22 @@
 		<graph>studentSectionAssociations</graph>
 		<singular>studentSectionAssociation</singular>
 	</document>
-	<document name="StudentSectionGradebookEntry">
-		<class name="StudentSectionGradebookEntry"></class>
+	<document name="Student Gradebook Entry">
+		<class name="StudentGradebookEntry"></class>
 		<!-- FIXME: -->
 		<graph>studentGradebookEntries</graph>
-		<singular>studentSectionGradebookEntry</singular>
+		<singular>studentGradebookEntry</singular>
 	</document>
 	<document name="StudentSpecialEdProgramAssociation">
 		<class name="StudentSpecialEdProgramAssociation"></class>
 		<graph>studentSpecialEdProgramAssociations</graph>
 		<singular>studentSpecialEdProgramAssociation</singular>
 	</document>
-	<document name="StudentTranscriptAssociation">
-		<class name="StudentTranscriptAssociation"></class>
+	<document name="Course Transcript">
+		<class name="CourseTranscript"></class>
 		<!-- FIXME: UML class name is excessive; EdFi is CourseTranscript? -->
 		<graph>courseTranscripts</graph>
-		<singular>studentTranscriptAssociation</singular>
+		<singular>courseTranscript</singular>
 	</document>
 	<document name="Teacher">
 		<class name="Teacher"></class>

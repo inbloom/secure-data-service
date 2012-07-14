@@ -1679,7 +1679,7 @@
           <wadl:representation mediaType="application/vnd.slc+xml" element="courseList"></wadl:representation>
         </wadl:response>
       </wadl:method>
-      <wadl:resource path="{courseId}/courseOfferings">
+      <wadl:resource path="{courseId}/offerings">
         <wadl:param name="courseId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getCourseOfferingsForCoursesByCourseId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -1692,7 +1692,7 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{courseId}/courseOfferings/session">
+      <wadl:resource path="{courseId}/offerings/session">
         <wadl:param name="courseId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getSessionForCourseOfferingsForCoursesByCourseId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -1705,7 +1705,7 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{courseId}/courseTranscripts">
+      <wadl:resource path="{courseId}/transcripts">
         <wadl:param name="courseId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getCourseTranscriptsForCoursesByCourseId">
           <wadl:doc>Returns the requested collection of resources that are
@@ -1718,7 +1718,7 @@
           </wadl:response>
         </wadl:method>
       </wadl:resource>
-      <wadl:resource path="{courseId}/courseTranscripts/student">
+      <wadl:resource path="{courseId}/transcripts/student">
         <wadl:param name="courseId" style="template" type="xs:string"></wadl:param>
         <wadl:method name="GET" id="getStudentForCourseTranscriptsForCoursesByCourseId">
           <wadl:doc>Returns the requested collection of resources that are

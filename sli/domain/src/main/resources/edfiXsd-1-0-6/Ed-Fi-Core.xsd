@@ -3389,12 +3389,12 @@ Met standard
 			<xs:documentation>This association indicates the staff associated with a cohort of students.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StaffReference" type="StaffReferenceType" maxOccurs="unbounded">
+			<xs:element name="StaffReference" type="StaffReferenceType">
 				<xs:annotation>
 					<xs:documentation>The staff associated with the cohort of students.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="CohortReference" type="CohortReferenceType" maxOccurs="unbounded">
+			<xs:element name="CohortReference" type="CohortReferenceType">
 				<xs:annotation>
 					<xs:documentation>Reference to the cohort associated with the staff.</xs:documentation>
 				</xs:annotation>
@@ -3501,12 +3501,12 @@ Volunteer/no contract
 			<xs:documentation>This association indicates the staff associated with a program.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="StaffReference" type="StaffReferenceType" maxOccurs="unbounded">
+			<xs:element name="StaffReference" type="StaffReferenceType">
 				<xs:annotation>
 					<xs:documentation>The staff associated with the program.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="ProgramReference" type="ProgramReferenceType" maxOccurs="unbounded">
+			<xs:element name="ProgramReference" type="ProgramReferenceType">
 				<xs:annotation>
 					<xs:documentation>The program associated to the staff.</xs:documentation>
 				</xs:annotation>
@@ -3951,7 +3951,7 @@ Local Neglected Program</xs:documentation>
 					<xs:documentation>The teacher providing services to the school.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="SchoolReference" type="EducationOrganizationReferenceType" maxOccurs="unbounded">
+			<xs:element name="SchoolReference" type="EducationOrganizationReferenceType">
 				<xs:annotation>
 					<xs:documentation>The school where the teacher provides services.</xs:documentation>
 				</xs:annotation>

@@ -749,11 +749,12 @@ public final class XmiReader {
                         reference = assertNotNull(readIdentifier(reader));
                     } else if (match(XmiElementName.CLASS, reader)) {
                         reference = assertNotNull(readIdentifier(reader));
+                    } else if (match(XmiElementName.ASSOCIATION_CLASS, reader)) {
+                        reference = assertNotNull(readIdentifier(reader));
                     } else if (match(XmiElementName.ENUMERATION, reader)) {
                         reference = assertNotNull(readIdentifier(reader));
                     } else {
-                        throw new AssertionError(reader.getLocalName());
-                        // skipElement(reader);
+                        skipElement(reader, true);
                     }
                     break;
                 }
