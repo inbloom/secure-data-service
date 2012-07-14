@@ -53,21 +53,31 @@ public final class Xsd2UmlHelper {
     /**
      * Compute a sensible name for the reverse (physical) navigation direction.
      */
-    public static final String makeAssociationEndName(final String sourceTypeName, final String sourceName, final int degeneracy,
-            final String targetTypeName) {
-        // Our first guess is the pluralization of the target type name.
-        final String targetName = Xsd2UmlHelper.pluralize(targetTypeName);
+    public static final String makeAssociationEndName(final String sourceTypeName, final String sourceEndName,
+            final int degeneracy, final String targetTypeName) {
         if (degeneracy > 1) {
+            // FIXME: It's rather crude to use a type name.
+            final String targetName = Xsd2UmlHelper.pluralize(targetTypeName);
             // There is more than one pathway so make sure that the name is unique.
-            return sourceName.concat(Xsd2UmlHelper.titleCase(targetName));
+            return sourceEndName.concat(Xsd2UmlHelper.titleCase(targetName));
         } else {
             if (targetTypeName.equals(sourceTypeName)) {
                 // Reference to self. Avoid absurdity. See AssessmentFamily.
-                return Xsd2UmlHelper.camelCase(targetName);
-            } else if (targetName.toLowerCase().contains(sourceTypeName.toLowerCase())) {
-                return Xsd2UmlHelper.camelCase(Xsd2UmlHelper.replaceAllIgnoreCase(targetName, sourceTypeName, ""));
+                if ("parent".concat(sourceTypeName).equals(sourceEndName)) {
+                    return "child".concat(Xsd2UmlHelper.pluralize(targetTypeName));
+                } else {
+                    // FIXME: It's rather crude to use a type name.
+                    final String targetName = Xsd2UmlHelper.pluralize(targetTypeName);
+                    return Xsd2UmlHelper.camelCase(targetName);
+                }
             } else {
-                return Xsd2UmlHelper.camelCase(targetName);
+                // FIXME: It's rather crude to use a type name.
+                final String targetName = Xsd2UmlHelper.pluralize(targetTypeName);
+                if (targetName.toLowerCase().contains(sourceTypeName.toLowerCase())) {
+                    return Xsd2UmlHelper.camelCase(Xsd2UmlHelper.replaceAllIgnoreCase(targetName, sourceTypeName, ""));
+                } else {
+                    return Xsd2UmlHelper.camelCase(targetName);
+                }
             }
         }
     }

@@ -5187,7 +5187,7 @@
     </lhs>
     <rhs>
       <name>learningObjectives</name>
-      <exists>true</exists>
+      <exists>false</exists>
       <owner-name>LearningObjective</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
@@ -10316,8 +10316,13 @@
       <owner-name>Section</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
-    <rhs-missing/>
-    <status>unknown</status>
+    <rhs>
+      <name>assessments</name>
+      <exists>true</exists>
+      <owner-name>Section</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -15747,17 +15752,6 @@
   <mapping>
     <lhs-missing/>
     <rhs>
-      <name>assessmentReferences</name>
-      <exists>true</exists>
-      <owner-name>Section</owner-name>
-      <owner-exists>true</owner-exists>
-    </rhs>
-    <status>unknown</status>
-    <comment></comment>
-  </mapping>
-  <mapping>
-    <lhs-missing/>
-    <rhs>
       <name>teachers</name>
       <exists>true</exists>
       <owner-name>Section</owner-name>
@@ -16178,6 +16172,17 @@
       <name>diagnosticStatement</name>
       <exists>true</exists>
       <owner-name>CourseTranscript</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs-missing/>
+    <rhs>
+      <name>childLearningObjectives</name>
+      <exists>true</exists>
+      <owner-name>LearningObjective</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>

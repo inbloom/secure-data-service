@@ -64,7 +64,7 @@ public class Xsd2UmlHelperTestCase extends TestCase {
         assertEquals("URN", Xsd2UmlHelper.camelCase("URN"));
     }
     
-    public void testMe() {
+    public void testMakeAssociationEndName() {
         checkEndName("fooAssociations", "BarBaz", "barBaz", 1, "FooBarBazAssociation");
         checkEndName("barBazAssociations", "Foo", "foo", 1, "FooBarBazAssociation");
         checkEndName("fooBars", "BigBad", "bigBads", 1, "FooBar");
@@ -81,7 +81,7 @@ public class Xsd2UmlHelperTestCase extends TestCase {
         checkEndName("reportCards", "StudentCompetency", "studentCompetencies", 1, "ReportCard");
         checkEndName("reportCards", "GradingPeriod", "gradingPeriod", 1, "ReportCard");
         checkEndName("reportCards", "Grade", "grades", 1, "ReportCard");
-        checkEndName("learningObjectives", "LearningObjective", "parentLearningObjective", 1, "LearningObjective");
+        checkEndName("childLearningObjectives", "LearningObjective", "parentLearningObjective", 1, "LearningObjective");
         checkEndName("learningObjectives", "LearningStandard", "learningStandards", 1, "LearningObjective");
         checkEndName("fooBarObjectives", "EducationOrganization", "educationOrganization", 1, "FooBarObjective");
         checkEndName("sessions", "EducationOrganization", "school", 1, "Session");
@@ -129,6 +129,7 @@ public class Xsd2UmlHelperTestCase extends TestCase {
     
     private void checkEndName(final String expected, final String sourceTypeName, final String sourceName,
             final int degeneracy, final String targetTypeName) {
-        assertEquals(expected, Xsd2UmlHelper.makeAssociationEndName(sourceTypeName, sourceName, degeneracy, targetTypeName));
+        assertEquals(expected,
+                Xsd2UmlHelper.makeAssociationEndName(sourceTypeName, sourceName, degeneracy, targetTypeName));
     }
 }
