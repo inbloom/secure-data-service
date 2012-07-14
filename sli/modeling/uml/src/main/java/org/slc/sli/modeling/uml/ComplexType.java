@@ -13,39 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.slc.sli.modeling.uml;
 
+import java.util.List;
+
 /**
- * Visitor for the various model elements.
+ * A complex type is something that can have attributes.
  */
-public interface Visitor {
+public abstract class ComplexType extends NamespaceOwnedElement implements Type {
     
-    void beginPackage(UmlPackage pkg);
+    public ComplexType(final Identifier id, final String name) {
+        super(id, name);
+    }
     
-    void endPackage(UmlPackage pkg);
+    public ComplexType(final Identifier id, final String name, final List<TaggedValue> taggedValues) {
+        super(id, name, taggedValues);
+    }
     
-    void visit(AssociationEnd associationEnd);
+    public ComplexType(final String name, final List<TaggedValue> taggedValues) {
+        super(name, taggedValues);
+    }
     
-    void visit(Attribute attribute);
+    public ComplexType(final String name) {
+        super(name);
+    }
     
-    void visit(ClassType classType);
-    
-    void visit(DataType dataType);
-    
-    void visit(EnumLiteral enumLiteral);
-    
-    void visit(EnumType enumType);
-    
-    void visit(Generalization generalization);
-    
-    void visit(Model model);
-    
-    void visit(Multiplicity multiplicity);
-    
-    void visit(Range range);
-    
-    void visit(TagDefinition tagDefinition);
-    
-    void visit(TaggedValue taggedValue);
+    public abstract List<Attribute> getAttributes();
 }

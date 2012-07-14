@@ -23,10 +23,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.slc.sli.modeling.psm.helpers.TagName;
-import org.slc.sli.modeling.uml.Association;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.ComplexType;
 import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.Multiplicity;
@@ -46,13 +46,14 @@ import org.slc.sli.modeling.uml.index.ModelIndex;
  */
 final class Xsd2UmlLinker {
     
-    private static final List<Attribute> cleanUp(final ClassType classType, final List<Attribute> attributes,
-            final Xsd2UmlPlugin plugin, final ModelIndex lookup, final Map<String, Identifier> nameToClassTypeId,
-            final Map<String, AssociationEnd> classNavigations) {
+    private static final List<Attribute> splitClassFeatures(final ClassType classType,
+            final List<Attribute> attributes, final Xsd2UmlPlugin plugin, final ModelIndex lookup,
+            final Map<String, Identifier> nameToClassTypeId, final Map<String, Attribute> classAttributes,
+            final Map<String, AssociationEnd> classAssociationEnds) {
         final List<Attribute> result = new LinkedList<Attribute>();
         for (final Attribute attribute : attributes) {
-            final Attribute cleanUp = cleanUpAttribute(classType, attribute, plugin, lookup, nameToClassTypeId,
-                    classNavigations);
+            final Attribute cleanUp = splitClassFeature(classType, attribute, plugin, lookup, nameToClassTypeId,
+                    classAssociationEnds);
             if (cleanUp != null) {
                 result.add(cleanUp);
             }
@@ -60,7 +61,7 @@ final class Xsd2UmlLinker {
         return result;
     }
     
-    private static final Attribute cleanUpAttribute(final ClassType classType, final Attribute attribute,
+    private static final Attribute splitClassFeature(final ClassType classType, final Attribute attribute,
             final Xsd2UmlPlugin plugin, final ModelIndex indexedModel, final Map<String, Identifier> classTypeMap,
             final Map<String, AssociationEnd> associationEnds) {
         final Xsd2UmlPluginHost host = new Xsd2UmlPluginHostAdapter(indexedModel);
@@ -73,17 +74,18 @@ final class Xsd2UmlLinker {
         }
     }
     
-    private static final ClassType cleanUpClassType(final ClassType classType, final Xsd2UmlPlugin plugin,
+    private static final ComplexType cleanUpClassType(final ClassType classType, final Xsd2UmlPlugin plugin,
             final ModelIndex lookup, final Map<String, Identifier> nameToClassTypeId,
             final Map<Type, Map<String, AssociationEnd>> navigations) {
         final Identifier id = classType.getId();
         final String name = classType.getName();
         boolean isAbstract = classType.isAbstract();
-        final HashMap<String, AssociationEnd> classNavigations = new HashMap<String, AssociationEnd>();
-        final List<Attribute> attributes = cleanUp(classType, classType.getAttributes(), plugin, lookup,
-                nameToClassTypeId, classNavigations);
-        if (classNavigations.size() > 0) {
-            navigations.put(classType, classNavigations);
+        final HashMap<String, Attribute> classAttributes = new HashMap<String, Attribute>();
+        final HashMap<String, AssociationEnd> classAssociationEnds = new HashMap<String, AssociationEnd>();
+        final List<Attribute> attributes = splitClassFeatures(classType, classType.getAttributes(), plugin, lookup,
+                nameToClassTypeId, classAttributes, classAssociationEnds);
+        if (classAssociationEnds.size() > 0) {
+            navigations.put(classType, classAssociationEnds);
         }
         final List<TaggedValue> taggedValues = classType.getTaggedValues();
         return new ClassType(id, name, isAbstract, attributes, taggedValues);
@@ -209,9 +211,9 @@ final class Xsd2UmlLinker {
         return new AssociationEnd(sourceMultiplicity, lhsName, navigable, lhsType.getId());
     }
     
-    private static final List<Association> makeAssociations(final Map<Type, Map<String, AssociationEnd>> navigations,
+    private static final List<ClassType> makeAssociations(final Map<Type, Map<String, AssociationEnd>> navigations,
             final ModelIndex lookup, final Xsd2UmlPlugin plugin, final Xsd2UmlPluginHost host) {
-        final List<Association> associations = new LinkedList<Association>();
+        final List<ClassType> associations = new LinkedList<ClassType>();
         // Make sure that every navigation has a reverse navigation.
         for (final Type lhsType : navigations.keySet()) {
             final Map<String, AssociationEnd> sourceAttributes = navigations.get(lhsType);
@@ -226,16 +228,17 @@ final class Xsd2UmlLinker {
                     final String lhsTypeName = lhsType.getName();
                     final Integer degs = degeneracies.get(rhsEndName);
                     
-                    final String lhsEndName = Xsd2UmlHelper.makeAssociationEndName(rhsTypeName, rhsEndName, degs, lhsTypeName);
+                    final String lhsEndName = Xsd2UmlHelper.makeAssociationEndName(rhsTypeName, rhsEndName, degs,
+                            lhsTypeName);
                     
                     final AssociationEnd lhsEnd = makeAssociationEnd(lhsEndName, lhsType, rhsEnd, plugin, host);
                     final String name = plugin.nameAssociation(lhsEnd, rhsEnd, host);
-                    associations.add(new Association(name, lhsEnd, rhsEnd));
+                    associations.add(new ClassType(name, lhsEnd, rhsEnd));
                     
                 } else {
                     final AssociationEnd lhsEnd = getNavigation(rhsType, lhsType, navigations, rhsEnd);
                     final String name = plugin.nameAssociation(lhsEnd, rhsEnd, host);
-                    associations.add(new Association(name, lhsEnd, rhsEnd));
+                    associations.add(new ClassType(name, lhsEnd, rhsEnd));
                 }
             }
         }

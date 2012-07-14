@@ -59,7 +59,6 @@ import org.apache.ws.commons.schema.XmlSchemaSimpleTypeRestriction;
 import org.apache.ws.commons.schema.XmlSchemaSimpleTypeUnion;
 import org.apache.ws.commons.schema.XmlSchemaType;
 import org.slc.sli.modeling.psm.helpers.TagName;
-import org.slc.sli.modeling.uml.Association;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
@@ -157,8 +156,8 @@ final class Xsd2UmlConvert {
         
         attributes.addAll(parseFields(complexType, schema, config));
         
-        handler.visit(new ClassType(complexTypeId, config.nameFromSchemaTypeName(complexTypeName), false, attributes,
-                taggedValues));
+        final String name = config.nameFromSchemaTypeName(complexTypeName);
+        handler.visit(new ClassType(complexTypeId, name, false, attributes, taggedValues));
     }
     
     /**
@@ -174,8 +173,8 @@ final class Xsd2UmlConvert {
             // FIXME: What's the best way to handle? complexType?
             // final XmlSchemaSimpleTypeList simpleTypeList = (XmlSchemaSimpleTypeList)content;
             // final XmlSchemaSimpleType itemType = simpleTypeList.getItemType();
-            final DataType dataType = new DataType(simpleTypeId, config.nameFromSchemaTypeName(simpleType.getQName()), false,
-                    annotations(simpleType, config));
+            final DataType dataType = new DataType(simpleTypeId, config.nameFromSchemaTypeName(simpleType.getQName()),
+                    false, annotations(simpleType, config));
             handler.visit(dataType);
         } else if (content instanceof XmlSchemaSimpleTypeRestriction) {
             final XmlSchemaSimpleTypeRestriction restriction = (XmlSchemaSimpleTypeRestriction) content;
@@ -236,8 +235,8 @@ final class Xsd2UmlConvert {
             taggedValues.addAll(annotations(simpleType, config));
             final Identifier typeIdentifier;
             if (enumLiterals.isEmpty()) {
-                final DataType dataType = new DataType(simpleTypeId, config.nameFromSchemaTypeName(simpleType.getQName()),
-                        false, taggedValues);
+                final DataType dataType = new DataType(simpleTypeId, config.nameFromSchemaTypeName(simpleType
+                        .getQName()), false, taggedValues);
                 handler.visit(dataType);
                 typeIdentifier = dataType.getId();
                 if (!restriction.getBaseTypeName().equals(WxsNamespace.STRING)) {
@@ -245,8 +244,8 @@ final class Xsd2UmlConvert {
                             restriction.getBaseTypeName()), typeIdentifier, baseId));
                 }
             } else {
-                final EnumType enumType = new EnumType(simpleTypeId, config.nameFromSchemaTypeName(simpleType.getQName()),
-                        enumLiterals, taggedValues);
+                final EnumType enumType = new EnumType(simpleTypeId, config.nameFromSchemaTypeName(simpleType
+                        .getQName()), enumLiterals, taggedValues);
                 handler.visit(enumType);
                 typeIdentifier = enumType.getId();
                 if (!restriction.getBaseTypeName().equals(WxsNamespace.TOKEN)) {
@@ -255,8 +254,8 @@ final class Xsd2UmlConvert {
                 }
             }
         } else if (content instanceof XmlSchemaSimpleTypeUnion) {
-            final DataType dataType = new DataType(simpleTypeId, config.nameFromSchemaTypeName(simpleType.getQName()), false,
-                    annotations(simpleType, config));
+            final DataType dataType = new DataType(simpleTypeId, config.nameFromSchemaTypeName(simpleType.getQName()),
+                    false, annotations(simpleType, config));
             handler.visit(dataType);
         } else {
             throw new AssertionError(content);
@@ -633,11 +632,6 @@ final class Xsd2UmlConvert {
                     
                     @Override
                     public void endPackage(final UmlPackage pkg) {
-                        throw new AssertionError();
-                    }
-                    
-                    @Override
-                    public void visit(final Association association) {
                         throw new AssertionError();
                     }
                     

@@ -25,7 +25,6 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
-import org.slc.sli.modeling.uml.Association;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
@@ -149,13 +148,6 @@ final class IndexingVisitor implements Visitor {
     
     public final Map<Identifier, Set<ModelElement>> getWhereUsed() {
         return Collections.unmodifiableMap(new HashMap<Identifier, Set<ModelElement>>(whereUsed));
-    }
-    
-    @Override
-    public void visit(final Association association) {
-        record(new QName(getNamespaceURI(), association.getName()), association, nameMap);
-        elementMap.put(association.getId(), association);
-        visitTaggedValues(association, this);
     }
     
     @Override
