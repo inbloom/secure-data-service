@@ -279,7 +279,7 @@
       <owner-name>LearningObjectiveIdentityType</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
-    <status>match</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -1527,7 +1527,7 @@
       <owner-name>GradingPeriodIdentityType</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
-    <status>match</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -2503,7 +2503,7 @@
       <owner-name>LearningObjectiveIdentityType</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
-    <status>match</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -5159,7 +5159,7 @@
       <owner-name>GradingPeriodIdentityType</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
-    <status>match</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -6103,7 +6103,7 @@
       <owner-name>LearningStandardIdentityType</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
-    <status>match</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8147,7 +8147,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8158,7 +8158,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8279,7 +8279,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8323,7 +8323,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8333,8 +8333,13 @@
       <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
-    <rhs-missing/>
-    <status>unknown</status>
+    <rhs>
+      <name>administrationDate</name>
+      <exists>true</exists>
+      <owner-name>StudentAssessment</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8367,7 +8372,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8460,7 +8465,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8482,7 +8487,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8515,7 +8520,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8526,7 +8531,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8559,7 +8564,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8569,8 +8574,13 @@
       <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
-    <rhs-missing/>
-    <status>unknown</status>
+    <rhs>
+      <name>linguisticAccommodations</name>
+      <exists>true</exists>
+      <owner-name>StudentAssessment</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8592,7 +8602,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8647,7 +8657,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8658,7 +8668,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8669,7 +8679,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8691,7 +8701,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8713,7 +8723,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8724,7 +8734,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8746,7 +8756,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8844,8 +8854,13 @@
       <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
-    <rhs-missing/>
-    <status>unknown</status>
+    <rhs>
+      <name>reasonNotTested</name>
+      <exists>true</exists>
+      <owner-name>StudentAssessment</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8867,7 +8882,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8911,7 +8926,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8955,7 +8970,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9032,7 +9047,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9054,7 +9069,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9065,7 +9080,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9087,7 +9102,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9119,8 +9134,13 @@
       <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
-    <rhs-missing/>
-    <status>unknown</status>
+    <rhs>
+      <name>studentObjectiveAssessments</name>
+      <exists>true</exists>
+      <owner-name>StudentAssessment</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9131,7 +9151,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9142,7 +9162,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9208,7 +9228,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9230,7 +9250,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9307,7 +9327,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9362,7 +9382,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9373,7 +9393,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9416,8 +9436,13 @@
       <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
-    <rhs-missing/>
-    <status>unknown</status>
+    <rhs>
+      <name>administrationEndDate</name>
+      <exists>true</exists>
+      <owner-name>StudentAssessment</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9466,7 +9491,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9488,7 +9513,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9532,7 +9557,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9587,7 +9612,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9631,7 +9656,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9642,7 +9667,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9653,7 +9678,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9675,7 +9700,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9713,7 +9738,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9723,8 +9748,13 @@
       <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
-    <rhs-missing/>
-    <status>unknown</status>
+    <rhs>
+      <name>student</name>
+      <exists>true</exists>
+      <owner-name>StudentAssessment</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9790,7 +9820,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9834,7 +9864,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9845,7 +9875,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9867,7 +9897,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9889,7 +9919,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9900,7 +9930,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9970,8 +10000,13 @@
       <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
-    <rhs-missing/>
-    <status>unknown</status>
+    <rhs>
+      <name>scoreResults</name>
+      <exists>true</exists>
+      <owner-name>StudentAssessment</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9982,7 +10017,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10124,8 +10159,13 @@
       <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
-    <rhs-missing/>
-    <status>unknown</status>
+    <rhs>
+      <name>serialNumber</name>
+      <exists>true</exists>
+      <owner-name>StudentAssessment</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10147,7 +10187,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10158,7 +10198,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10180,7 +10220,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10213,7 +10253,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10224,7 +10264,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10366,7 +10406,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10399,7 +10439,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10421,7 +10461,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10476,7 +10516,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10498,7 +10538,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10509,7 +10549,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10520,7 +10560,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10542,7 +10582,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10553,7 +10593,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>ignorable</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -11265,8 +11305,13 @@
       <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
-    <rhs-missing/>
-    <status>unknown</status>
+    <rhs>
+      <name>specialAccommodations</name>
+      <exists>true</exists>
+      <owner-name>StudentAssessment</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -11628,8 +11673,13 @@
       <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
-    <rhs-missing/>
-    <status>unknown</status>
+    <rhs>
+      <name>administrationEnvironment</name>
+      <exists>true</exists>
+      <owner-name>StudentAssessment</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -12671,8 +12721,13 @@
       <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
-    <rhs-missing/>
-    <status>unknown</status>
+    <rhs>
+      <name>retestIndicator</name>
+      <exists>true</exists>
+      <owner-name>StudentAssessment</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -13028,8 +13083,13 @@
       <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
-    <rhs-missing/>
-    <status>unknown</status>
+    <rhs>
+      <name>assessment</name>
+      <exists>true</exists>
+      <owner-name>StudentAssessment</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -13039,8 +13099,13 @@
       <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
-    <rhs-missing/>
-    <status>unknown</status>
+    <rhs>
+      <name>gradeLevelWhenAssessed</name>
+      <exists>true</exists>
+      <owner-name>StudentAssessment</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -13675,8 +13740,13 @@
       <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
-    <rhs-missing/>
-    <status>unknown</status>
+    <rhs>
+      <name>administrationLanguage</name>
+      <exists>true</exists>
+      <owner-name>StudentAssessment</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -13880,17 +13950,6 @@
   <mapping>
     <lhs-missing/>
     <rhs>
-      <name>assessmentAssociations</name>
-      <exists>true</exists>
-      <owner-name>Student</owner-name>
-      <owner-exists>true</owner-exists>
-    </rhs>
-    <status>unknown</status>
-    <comment></comment>
-  </mapping>
-  <mapping>
-    <lhs-missing/>
-    <rhs>
       <name>shortDescription</name>
       <exists>true</exists>
       <owner-name>DisciplineDescriptor</owner-name>
@@ -14039,17 +14098,6 @@
   <mapping>
     <lhs-missing/>
     <rhs>
-      <name>studentObjectiveAssessments</name>
-      <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
-      <owner-exists>true</owner-exists>
-    </rhs>
-    <status>unknown</status>
-    <comment></comment>
-  </mapping>
-  <mapping>
-    <lhs-missing/>
-    <rhs>
       <name>assessmentPeriodDescriptor</name>
       <exists>true</exists>
       <owner-name>Assessment</owner-name>
@@ -14173,17 +14221,6 @@
       <name>courses</name>
       <exists>true</exists>
       <owner-name>School</owner-name>
-      <owner-exists>true</owner-exists>
-    </rhs>
-    <status>unknown</status>
-    <comment></comment>
-  </mapping>
-  <mapping>
-    <lhs-missing/>
-    <rhs>
-      <name>studentAssessmentItems</name>
-      <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -14368,17 +14405,6 @@
   <mapping>
     <lhs-missing/>
     <rhs>
-      <name>administrationLanguage</name>
-      <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
-      <owner-exists>true</owner-exists>
-    </rhs>
-    <status>unknown</status>
-    <comment></comment>
-  </mapping>
-  <mapping>
-    <lhs-missing/>
-    <rhs>
       <name>telephone</name>
       <exists>true</exists>
       <owner-name>Parent</owner-name>
@@ -14549,17 +14575,6 @@
   <mapping>
     <lhs-missing/>
     <rhs>
-      <name>administrationEndDate</name>
-      <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
-      <owner-exists>true</owner-exists>
-    </rhs>
-    <status>unknown</status>
-    <comment></comment>
-  </mapping>
-  <mapping>
-    <lhs-missing/>
-    <rhs>
       <name>schoolReference</name>
       <exists>true</exists>
       <owner-name>Diploma</owner-name>
@@ -14675,17 +14690,6 @@
   <mapping>
     <lhs-missing/>
     <rhs>
-      <name>student</name>
-      <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
-      <owner-exists>true</owner-exists>
-    </rhs>
-    <status>unknown</status>
-    <comment></comment>
-  </mapping>
-  <mapping>
-    <lhs-missing/>
-    <rhs>
       <name>codeValue</name>
       <exists>true</exists>
       <owner-name>DisciplineDescriptorType</owner-name>
@@ -14761,17 +14765,6 @@
     <comment></comment>
   </mapping>
   <mapping>
-    <lhs-missing/>
-    <rhs>
-      <name>administrationDate</name>
-      <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
-      <owner-exists>true</owner-exists>
-    </rhs>
-    <status>unknown</status>
-    <comment></comment>
-  </mapping>
-  <mapping>
     <lhs>
       <name>additionalCreditsEarned</name>
       <exists>true</exists>
@@ -14793,17 +14786,6 @@
       <name>beginDate</name>
       <exists>true</exists>
       <owner-name>StaffEducationOrganizationAssociation</owner-name>
-      <owner-exists>true</owner-exists>
-    </rhs>
-    <status>unknown</status>
-    <comment></comment>
-  </mapping>
-  <mapping>
-    <lhs-missing/>
-    <rhs>
-      <name>performanceLevelDescriptors</name>
-      <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -14867,17 +14849,6 @@
   <mapping>
     <lhs-missing/>
     <rhs>
-      <name>specialAccommodations</name>
-      <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
-      <owner-exists>true</owner-exists>
-    </rhs>
-    <status>unknown</status>
-    <comment></comment>
-  </mapping>
-  <mapping>
-    <lhs-missing/>
-    <rhs>
       <name>behaviorDescriptors</name>
       <exists>true</exists>
       <owner-name>EducationOrganization</owner-name>
@@ -14922,17 +14893,6 @@
   <mapping>
     <lhs-missing/>
     <rhs>
-      <name>retestIndicator</name>
-      <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
-      <owner-exists>true</owner-exists>
-    </rhs>
-    <status>unknown</status>
-    <comment></comment>
-  </mapping>
-  <mapping>
-    <lhs-missing/>
-    <rhs>
       <name>loginId</name>
       <exists>true</exists>
       <owner-name>Staff</owner-name>
@@ -14947,17 +14907,6 @@
       <name>behaviorCategory</name>
       <exists>true</exists>
       <owner-name>BehaviorDescriptor</owner-name>
-      <owner-exists>true</owner-exists>
-    </rhs>
-    <status>unknown</status>
-    <comment></comment>
-  </mapping>
-  <mapping>
-    <lhs-missing/>
-    <rhs>
-      <name>scoreResults</name>
-      <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -15031,42 +14980,9 @@
   <mapping>
     <lhs-missing/>
     <rhs>
-      <name>studentAssociations</name>
-      <exists>true</exists>
-      <owner-name>Assessment</owner-name>
-      <owner-exists>true</owner-exists>
-    </rhs>
-    <status>unknown</status>
-    <comment></comment>
-  </mapping>
-  <mapping>
-    <lhs-missing/>
-    <rhs>
       <name>school</name>
       <exists>true</exists>
       <owner-name>Session</owner-name>
-      <owner-exists>true</owner-exists>
-    </rhs>
-    <status>unknown</status>
-    <comment></comment>
-  </mapping>
-  <mapping>
-    <lhs-missing/>
-    <rhs>
-      <name>linguisticAccommodations</name>
-      <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
-      <owner-exists>true</owner-exists>
-    </rhs>
-    <status>unknown</status>
-    <comment></comment>
-  </mapping>
-  <mapping>
-    <lhs-missing/>
-    <rhs>
-      <name>serialNumber</name>
-      <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -15300,17 +15216,6 @@
   <mapping>
     <lhs-missing/>
     <rhs>
-      <name>administrationEnvironment</name>
-      <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
-      <owner-exists>true</owner-exists>
-    </rhs>
-    <status>unknown</status>
-    <comment></comment>
-  </mapping>
-  <mapping>
-    <lhs-missing/>
-    <rhs>
       <name>school</name>
       <exists>true</exists>
       <owner-name>GradingPeriodIdentityType</owner-name>
@@ -15336,28 +15241,6 @@
       <name>codeValue</name>
       <exists>true</exists>
       <owner-name>CompetencyLevelDescriptor</owner-name>
-      <owner-exists>true</owner-exists>
-    </rhs>
-    <status>unknown</status>
-    <comment></comment>
-  </mapping>
-  <mapping>
-    <lhs-missing/>
-    <rhs>
-      <name>reasonNotTested</name>
-      <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
-      <owner-exists>true</owner-exists>
-    </rhs>
-    <status>unknown</status>
-    <comment></comment>
-  </mapping>
-  <mapping>
-    <lhs-missing/>
-    <rhs>
-      <name>gradeLevelWhenAssessed</name>
-      <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -15424,17 +15307,6 @@
       <name>description</name>
       <exists>true</exists>
       <owner-name>DisciplineDescriptor</owner-name>
-      <owner-exists>true</owner-exists>
-    </rhs>
-    <status>unknown</status>
-    <comment></comment>
-  </mapping>
-  <mapping>
-    <lhs-missing/>
-    <rhs>
-      <name>assessment</name>
-      <exists>true</exists>
-      <owner-name>StudentAssessmentAssociation</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -16183,6 +16055,28 @@
       <name>childLearningObjectives</name>
       <exists>true</exists>
       <owner-name>LearningObjective</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs-missing/>
+    <rhs>
+      <name>performanceLevelDescriptors</name>
+      <exists>true</exists>
+      <owner-name>StudentAssessment</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>unknown</status>
+    <comment></comment>
+  </mapping>
+  <mapping>
+    <lhs-missing/>
+    <rhs>
+      <name>studentAssessmentItems</name>
+      <exists>true</exists>
+      <owner-name>StudentAssessment</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
