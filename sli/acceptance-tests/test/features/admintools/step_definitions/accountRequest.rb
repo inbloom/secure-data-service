@@ -46,6 +46,9 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   url = "lalsop_#{Socket.gethostname}@acme.com"                 if human_readable_id == "USER_ACCOUNT_EMAIL"
   url = "devldapuser_#{Socket.gethostname}@slidev.org"           if human_readable_id == "USER_ID"
   url = "test1234"                                               if human_readable_id == "USER_PASS"
+  url = "abcdefg"                                 if human_readable_id == "BAD_RSAKEY"
+  url = "---- BEGIN SSH2 PUBLIC KEY ----\nComment: \"2048-bit RSA, converted from OpenSSH by syau@devpantheon\"\nAAAAB3NzaC1yc2EAAAABIwAAAQEA6JVegtFBWdLKDE1gQplnHA8PZ+ceAnoduBTnJj+XjB\nLi4To5DSEFLzF1D6fLorIK3F2GIe+3yGT+wmdhXRFXEtpU+p8MD1ys/w6qR+s57kkV9/tp\na3Ako7DwAL2YOIM50dEcWkvNGZbIOSBgjxM/dI6x5YEQZXsRc4wFydcJxQ8K6sN5t0fke8\nNb28W0C5u7TvZrWgWTPbR6sZ2lK1dsmaXa+dsPWwHnvBPEGImThe/nyqIvpyIGXvlMd+4I\n3wx3PoRceyJD/PtsJBYI7NBYiflVnqiLhM1/rRKMOBNqmQat/vwsY6VVxbNkC4a12GM2ip\nOxzd/1/ZKeKmQ5j5R63Q==\n---- END SSH2 PUBLIC KEY ----"   if human_readable_id == "GOOD_RSAKEY"
+  url = "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA6JVegtFBWdLKDE1gQplnHA8PZ+ceAnoduBTnJj+XjBLi4To5DSEFLzF1D6fLorIK3F2GIe+3yGT+wmdhXRFXEtpU+p8MD1ys/w6qR+s57kkV9/tpa3Ako7DwAL2YOIM50dEcWkvNGZbIOSBgjxM/dI6x5YEQZXsRc4wFydcJxQ8K6sN5t0fke8Nb28W0C5u7TvZrWgWTPbR6sZ2lK1dsmaXa+dsPWwHnvBPEGImThe/nyqIvpyIGXvlMd+4I3wx3PoRceyJD/PtsJBYI7NBYiflVnqiLhM1/rRKMOBNqmQat/vwsY6VVxbNkC4a12GM2ipOxzd/1/ZKeKmQ5j5R63Q== srichards@wgen.net"                                         if human_readable_id == "OPENSSH_RSAKEY"
   #return the translated value
   url
 end

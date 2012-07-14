@@ -180,34 +180,31 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         Response resp = null;
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        // synchronizing since extraCriteria isn't thread safe
-        synchronized (this) {
-            if (hasRight(Right.DEV_APP_CRUD)) {
-                extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL,
-                        principal.getExternalId());
-                resp = super.readAll(offset, limit, headers, uriInfo);
-            } else if (!hasRight(Right.SLC_APP_APPROVE)) {
-                debug("ED-ORG of operator/admin {}", principal.getEdOrg());
-                extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
-                        principal.getEdOrg());
-                resp = super.readAll(offset, limit, headers, uriInfo);
+        if (hasRight(Right.DEV_APP_CRUD)) {
+            extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL,
+                    principal.getExternalId());
+            resp = super.readAll(offset, limit, headers, uriInfo);
+        } else if (!hasRight(Right.SLC_APP_APPROVE)) {
+            debug("ED-ORG of operator/admin {}", principal.getEdOrg());
+            extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
+                    principal.getEdOrg());
+            resp = super.readAll(offset, limit, headers, uriInfo);
 
-                // also need the bootstrap apps -- so in an ugly fashion, let's query those too and
-                // add it to the response
-                extraCriteria = new NeutralCriteria("bootstrap", NeutralCriteria.OPERATOR_EQUAL, true);
-                Response bootstrap = super.readAll(offset, limit, headers, uriInfo);
-                Map entity = (Map) resp.getEntity();
-                List apps = (List) entity.get("application");
-                Map bsEntity = (Map) bootstrap.getEntity();
-                List bsApps = (List) bsEntity.get("application");
-                apps.addAll(bsApps);
-                // TODO: total count might not be accurate--currently seems correct though,
-                // which means the service doesn't take extraCriteria into account
-            } else {
-                resp = super.readAll(offset, limit, headers, uriInfo);
-            }
-
+            // also need the bootstrap apps -- so in an ugly fashion, let's query those too and
+            // add it to the response
+            extraCriteria = new NeutralCriteria("bootstrap", NeutralCriteria.OPERATOR_EQUAL, true);
+            Response bootstrap = super.readAll(offset, limit, headers, uriInfo);
+            Map entity = (Map) resp.getEntity();
+            List apps = (List) entity.get("application");
+            Map bsEntity = (Map) bootstrap.getEntity();
+            List bsApps = (List) bsEntity.get("application");
+            apps.addAll(bsApps);
+            // TODO: total count might not be accurate--currently seems correct though,
+            // which means the service doesn't take extraCriteria into account
+        } else {
+            resp = super.readAll(offset, limit, headers, uriInfo);
         }
+  
         filterSensitiveData((Map) resp.getEntity());
         return resp;
     }

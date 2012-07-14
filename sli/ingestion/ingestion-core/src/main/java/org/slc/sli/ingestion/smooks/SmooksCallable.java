@@ -146,7 +146,7 @@ public class SmooksCallable implements Callable<Boolean> {
             populateRecordCountsFromSmooks(smooks, fileProcessStatus, ingestionFileEntry);
 
         } catch (SmooksException se) {
-            LogUtil.error(LOG, "smooks exception - encountered problem with " + ingestionFileEntry.getFile().getName(),
+            LOG.error("smooks exception - encountered problem with " + ingestionFileEntry.getFile().getName(),
                     se);
             errorReport.error("SmooksException encountered while filtering input.", SmooksFileHandler.class);
         } finally {
@@ -169,7 +169,7 @@ public class SmooksCallable implements Callable<Boolean> {
             LOG.info("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
                     ingestionFileEntry.getFileName());
         } catch (Exception e) {
-            LogUtil.error(LOG, "Error accessing visitor list in smooks", e);
+            LOG.error("Error accessing visitor list in smooks", e);
         }
     }
 

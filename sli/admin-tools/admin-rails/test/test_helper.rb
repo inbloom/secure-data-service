@@ -91,6 +91,9 @@ class ActiveSupport::TestCase
       #mock.get "/api/rest/educationOrganization-associations", {"Accept" => "application/json"}, [@ed_org_fixtures["assoc_one"]].to_json
       #ed org associations
       mock.get "/api/rest/"
+
+      #change password
+      mock.get "/api/rest/change_passwords", {"Accept"=>"application/json"}, [].to_json
     end
   end
 

@@ -24,6 +24,16 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slc.sli.common.util.logging.LogLevelType;
+import org.slc.sli.common.util.logging.LoggingUtils;
+import org.slc.sli.common.util.logging.SecurityEvent;
+import org.slc.sli.sandbox.idp.service.AuthRequestService;
+import org.slc.sli.sandbox.idp.service.AuthenticationException;
+import org.slc.sli.sandbox.idp.service.RoleService;
+import org.slc.sli.sandbox.idp.service.SamlAssertionService;
+import org.slc.sli.sandbox.idp.service.SamlAssertionService.SamlAssertion;
+import org.slc.sli.sandbox.idp.service.UserService;
+import org.slc.sli.sandbox.idp.service.UserService.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,17 +45,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import org.slc.sli.common.util.logging.LogLevelType;
-import org.slc.sli.common.util.logging.LoggingUtils;
-import org.slc.sli.common.util.logging.SecurityEvent;
-import org.slc.sli.sandbox.idp.service.AuthRequestService;
-import org.slc.sli.sandbox.idp.service.AuthenticationException;
-import org.slc.sli.sandbox.idp.service.RoleService;
-import org.slc.sli.sandbox.idp.service.SamlAssertionService;
-import org.slc.sli.sandbox.idp.service.SamlAssertionService.SamlAssertion;
-import org.slc.sli.sandbox.idp.service.UserService;
-import org.slc.sli.sandbox.idp.service.UserService.User;
-
 /**
  * Handles login form submissions.
  *
@@ -54,6 +53,7 @@ import org.slc.sli.sandbox.idp.service.UserService.User;
  */
 @Controller
 public class Login {
+    public static final String ROLE_SELECT_MESSAGE = "Please select at least one role to impersonate.";
     private static final Logger LOG = LoggerFactory.getLogger(Login.class);
     private static final String USER_SESSION_KEY = "user_session_key";
 
@@ -130,6 +130,7 @@ public class Login {
         if (isSandboxImpersonationEnabled && (incomingRealm == null || incomingRealm.length() == 0)) {
             doImpersonation = true;
             realm = sliAdminRealmName;
+
         }
 
         AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, incomingRealm);
@@ -173,6 +174,16 @@ public class Login {
         }
 
         if (doImpersonation) {
+            if (roles == null || roles.size() == 0) {
+                ModelAndView mav = new ModelAndView("login");
+                mav.addObject("msg", ROLE_SELECT_MESSAGE);
+                mav.addObject("SAMLRequest", encodedSamlRequest);
+                mav.addObject("realm", incomingRealm);
+                mav.addObject("is_sandbox", true);
+                mav.addObject("impersonate_user", impersonateUser);
+                mav.addObject("roles", roleService.getAvailableRoles());
+                return mav;
+            }
             user.setUserId(impersonateUser);
             user.setRoles(roles);
             // only send the tenant - no other values since this is impersonatation
