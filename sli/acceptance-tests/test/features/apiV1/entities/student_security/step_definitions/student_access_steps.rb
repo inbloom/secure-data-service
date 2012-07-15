@@ -104,5 +104,9 @@ end
 
 Then /^I should see a count of (\d+)$/ do |arg1|
   data = JSON.parse(@res.body)
-  assert(data.count == arg1.to_i, "Count should match (#{arg1} != #{data.count})")
+  if (@res.code == 403)
+    assert(arg1.to_i == 0, "Received 403 HTML code but expected non-zero count")
+  else
+    assert(data.count == arg1.to_i, "Count should match (#{arg1} != #{data.count})")
+  end
 end
