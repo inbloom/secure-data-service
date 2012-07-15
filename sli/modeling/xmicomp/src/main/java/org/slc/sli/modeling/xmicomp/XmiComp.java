@@ -34,7 +34,13 @@ import org.slc.sli.modeling.xmi.reader.XmiReader;
  * </p>
  */
 public final class XmiComp {
-    
+    /**
+     * Class name suffix that means class is used for establishing identity.
+     */
+    private static final String OWNER_NAME_SUFFIX_IDENTITY_TYPE = "IdentityType";
+    /**
+     * Command Line Arguments.
+     */
     private static final List<String> ARG_HELP = asList("h", "?");
     private static final String ARG_MAP_FILE = "mapFile";
     private static final String ARG_LHS_XMI_FILE = "lhsFile";
@@ -184,9 +190,9 @@ public final class XmiComp {
             rhsFeature = checkFeature(mappingDocument.getRhsDef(), rhsFeature, rhsModel, status, rhsClassTypes);
         }
         
-        checkStatus(mapping);
+        final XmiMappingStatus checkedStatus = checkStatus(mapping);
         
-        return new XmiMapping(lhsFeature, rhsFeature, mapping.getStatus(), mapping.getComment());
+        return new XmiMapping(lhsFeature, rhsFeature, checkedStatus, mapping.getComment());
     }
     
     private static final Map<CaseInsensitiveString, Feature> computeFeatures(final ClassType classType,
@@ -234,11 +240,12 @@ public final class XmiComp {
         }
     }
     
-    private static final void checkStatus(final XmiMapping mapping) {
+    private static final XmiMappingStatus checkStatus(final XmiMapping mapping) {
         if (mapping == null) {
             throw new NullPointerException("mapping");
         }
-        switch (mapping.getStatus()) {
+        final XmiMappingStatus status = mapping.getStatus();
+        switch (status) {
             case MATCH: {
                 if (mapping.getLhsFeature() == null) {
                     System.err.println("Inconsistent status for mapping : " + mapping);
@@ -246,8 +253,26 @@ public final class XmiComp {
                 if (mapping.getRhsFeature() == null) {
                     System.err.println("Inconsistent status for mapping : " + mapping);
                 }
+                return status;
+            }
+            case UNKNOWN: {
+                if (mapping.getLhsFeature() != null) {
+                    final XmiFeature lhsFeature = mapping.getLhsFeature();
+                    if (lhsFeature.getOwnerName().endsWith(OWNER_NAME_SUFFIX_IDENTITY_TYPE)) {
+                        return XmiMappingStatus.IGNORABLE;
+                    }
+                }
+                if (mapping.getRhsFeature() != null) {
+                    final XmiFeature rhsFeature = mapping.getRhsFeature();
+                    if (rhsFeature.getOwnerName().endsWith(OWNER_NAME_SUFFIX_IDENTITY_TYPE)) {
+                        return XmiMappingStatus.IGNORABLE;
+                    }
+                }
+                return status;
+            }
+            default: {
+                return status;
             }
         }
-        
     }
 }
