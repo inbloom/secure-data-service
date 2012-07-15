@@ -59,7 +59,10 @@ public class XmiMappingWriter {
                     break;
                 }
                 default: {
-                    throw new AssertionError(status);
+                    // Handle non-schema status gracefully.
+                    System.err.println("Unexpected status : " + status);
+                    xsw.writeCharacters(status.toString());
+                    break;
                 }
             }
         } finally {

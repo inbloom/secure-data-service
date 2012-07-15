@@ -8312,7 +8312,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>financial</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8542,7 +8542,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>financial</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8591,7 +8591,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>financial</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8822,7 +8822,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>financial</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8915,7 +8915,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>financial</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -8948,7 +8948,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>financial</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9568,7 +9568,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>financial</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -9831,7 +9831,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>financial</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10071,8 +10071,13 @@
       <owner-name>Cohort</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
-    <rhs-missing/>
-    <status>unknown</status>
+    <rhs>
+      <name>educationOrg</name>
+      <exists>true</exists>
+      <owner-name>Cohort</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10105,7 +10110,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>financial</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10395,7 +10400,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>financial</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10427,8 +10432,13 @@
       <owner-name>School</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
-    <rhs-missing/>
-    <status>unknown</status>
+    <rhs>
+      <name>diplomas</name>
+      <exists>true</exists>
+      <owner-name>School</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10741,7 +10751,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>financial</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -10916,8 +10926,13 @@
       <owner-name>Course</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
-    <rhs-missing/>
-    <status>unknown</status>
+    <rhs>
+      <name>school</name>
+      <exists>true</exists>
+      <owner-name>Course</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -11092,7 +11107,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>financial</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -11185,7 +11200,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>financial</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -11196,7 +11211,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>financial</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -11217,8 +11232,13 @@
       <owner-name>Program</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
-    <rhs-missing/>
-    <status>unknown</status>
+    <rhs>
+      <name>educationOrganizations</name>
+      <exists>true</exists>
+      <owner-name>Program</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -11251,7 +11271,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>financial</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -11366,7 +11386,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>financial</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -11871,7 +11891,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>financial</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -12387,7 +12407,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>financial</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -12563,7 +12583,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>financial</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -12935,17 +12955,6 @@
   </mapping>
   <mapping>
     <lhs>
-      <name>country</name>
-      <exists>true</exists>
-      <owner-name>Address</owner-name>
-      <owner-exists>true</owner-exists>
-    </lhs>
-    <rhs-missing/>
-    <status>unknown</status>
-    <comment></comment>
-  </mapping>
-  <mapping>
-    <lhs>
       <name>location</name>
       <exists>true</exists>
       <owner-name>SectionIdentityType</owner-name>
@@ -13149,7 +13158,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>financial</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -13170,8 +13179,13 @@
       <owner-name>Diploma</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
-    <rhs-missing/>
-    <status>unknown</status>
+    <rhs>
+      <name>school</name>
+      <exists>true</exists>
+      <owner-name>Diploma</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -13182,7 +13196,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>financial</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -13357,7 +13371,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>financial</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -13549,7 +13563,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>financial</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -13790,7 +13804,7 @@
       <owner-exists>true</owner-exists>
     </lhs>
     <rhs-missing/>
-    <status>unknown</status>
+    <status>financial</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -13833,8 +13847,13 @@
       <owner-name>EducationOrganization</owner-name>
       <owner-exists>true</owner-exists>
     </lhs>
-    <rhs-missing/>
-    <status>unknown</status>
+    <rhs>
+      <name>programs</name>
+      <exists>true</exists>
+      <owner-name>EducationOrganization</owner-name>
+      <owner-exists>true</owner-exists>
+    </rhs>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -14227,14 +14246,19 @@
     <comment></comment>
   </mapping>
   <mapping>
-    <lhs-missing/>
+    <lhs>
+      <name>country</name>
+      <exists>true</exists>
+      <owner-name>Address</owner-name>
+      <owner-exists>true</owner-exists>
+    </lhs>
     <rhs>
       <name>countryCode</name>
       <exists>true</exists>
       <owner-name>Address</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
-    <status>unknown</status>
+    <status>match</status>
     <comment></comment>
   </mapping>
   <mapping>
@@ -14575,17 +14599,6 @@
   <mapping>
     <lhs-missing/>
     <rhs>
-      <name>schoolReference</name>
-      <exists>true</exists>
-      <owner-name>Diploma</owner-name>
-      <owner-exists>true</owner-exists>
-    </rhs>
-    <status>unknown</status>
-    <comment></comment>
-  </mapping>
-  <mapping>
-    <lhs-missing/>
-    <rhs>
       <name>parentEducationAgency</name>
       <exists>true</exists>
       <owner-name>EducationOrganization</owner-name>
@@ -14871,17 +14884,6 @@
   <mapping>
     <lhs-missing/>
     <rhs>
-      <name>educationOrg</name>
-      <exists>true</exists>
-      <owner-name>Cohort</owner-name>
-      <owner-exists>true</owner-exists>
-    </rhs>
-    <status>unknown</status>
-    <comment></comment>
-  </mapping>
-  <mapping>
-    <lhs-missing/>
-    <rhs>
       <name>student</name>
       <exists>true</exists>
       <owner-name>Attendance</owner-name>
@@ -15120,17 +15122,6 @@
       <name>electronicMail</name>
       <exists>true</exists>
       <owner-name>Staff</owner-name>
-      <owner-exists>true</owner-exists>
-    </rhs>
-    <status>unknown</status>
-    <comment></comment>
-  </mapping>
-  <mapping>
-    <lhs-missing/>
-    <rhs>
-      <name>school</name>
-      <exists>true</exists>
-      <owner-name>Course</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
@@ -15912,17 +15903,6 @@
       <name>sections</name>
       <exists>true</exists>
       <owner-name>Student</owner-name>
-      <owner-exists>true</owner-exists>
-    </rhs>
-    <status>unknown</status>
-    <comment></comment>
-  </mapping>
-  <mapping>
-    <lhs-missing/>
-    <rhs>
-      <name>programId</name>
-      <exists>true</exists>
-      <owner-name>EducationOrganization</owner-name>
       <owner-exists>true</owner-exists>
     </rhs>
     <status>unknown</status>
