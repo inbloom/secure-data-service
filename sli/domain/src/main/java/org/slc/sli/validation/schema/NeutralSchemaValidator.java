@@ -89,11 +89,6 @@ public class NeutralSchemaValidator implements EntityValidator {
         return true;
     }
 
-    @Override
-    public List<String> getNaturalKeyFields(Entity entity) {
-        return null;
-    }
-
     public void setSchemaRegistry(SchemaRepository schemaRegistry) {
         entitySchemaRegistry = schemaRegistry;
     }

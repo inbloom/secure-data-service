@@ -45,15 +45,15 @@ public class OrchestraPreProcessor implements Processor {
     
     @Autowired
     private StagedEntityTypeDAO stagedEntityTypeDAO;
-    
+
     @Autowired
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
-    
+
     @Override
     public void process(Exchange exchange) throws Exception {
-        
+
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
-        
+
         String jobId = workNote.getBatchJobId();
         exchange.getIn().setHeader("jobId", jobId);
         
@@ -61,34 +61,34 @@ public class OrchestraPreProcessor implements Processor {
         
         Set<String> stagedCollectionNames = neutralRecordMongoAccess.getRecordRepository().getStagedCollectionsForJob(
                 jobId);
-        
+
         // ******
         // Ensure ordering
         // EdOrgs can only be processes if SEA->LEA->School
         // rearrangeData(jobId);
-        
+
         Set<IngestionStagedEntity> stagedEntities = constructStagedEntities(stagedCollectionNames);
-        
+
         if (stagedEntities.size() > 0) {
             stagedEntityTypeDAO.setStagedEntitiesForJob(stagedEntities, jobId);
         } else {
             exchange.getIn().setHeader("stagedEntitiesEmpty", true);
         }
     }
-    
+
     private Set<IngestionStagedEntity> constructStagedEntities(Set<String> stagedCollectionNames) {
-        
+
         Set<IngestionStagedEntity> stagedEntities = new HashSet<IngestionStagedEntity>();
         for (String stagedCollection : stagedCollectionNames) {
-            
+
             EdfiEntity stagedEdfiEntity = EdfiEntity.fromEntityName(stagedCollection);
             if (stagedEdfiEntity != null) {
-                
+
                 IngestionStagedEntity ingestionStagedEntity = new IngestionStagedEntity(stagedCollection,
                         stagedEdfiEntity);
-                
+
                 stagedEntities.add(ingestionStagedEntity);
-                
+
             } else {
                 LOG.warn("Unrecognized collection: {} dropping it on the floor", stagedCollection);
             }
@@ -96,17 +96,17 @@ public class OrchestraPreProcessor implements Processor {
         LOG.info("staged entities for job: {}", stagedEntities);
         return stagedEntities;
     }
-    
+
     @SuppressWarnings({ "unchecked", "unused" })
     private void rearrangeData(String jobId) {
         Iterable<NeutralRecord> edorgs = neutralRecordMongoAccess.getRecordRepository().findAll(
                 EdfiEntity.EDUCATION_ORGANIZATION.getEntityName());
         List<List<NeutralRecord>> recs = new ArrayList<List<NeutralRecord>>();
-        
+
         recs.add(new ArrayList<NeutralRecord>());   // SEA
         recs.add(new ArrayList<NeutralRecord>());   // LEA
         recs.add(new ArrayList<NeutralRecord>());   // School
-        
+
         for (NeutralRecord nr : edorgs) {
             List<String> categories = (List<String>) nr.getAttributes().get("organizationCategories");
             if (categories != null) {
@@ -118,18 +118,18 @@ public class OrchestraPreProcessor implements Processor {
                 } else if (categories.contains("School")) {
                     index = 2;
                 }
-                
+
                 recs.get(index).add(nr);
             }
         }
-        
+
         neutralRecordMongoAccess.getRecordRepository().deleteAll(EdfiEntity.EDUCATION_ORGANIZATION.getEntityName());
-        
+
         for (List<NeutralRecord> list : recs) {
             for (NeutralRecord nr : list) {
                 neutralRecordMongoAccess.getRecordRepository().createForJob(nr, jobId);
             }
         }
     }
-    
+
 }
