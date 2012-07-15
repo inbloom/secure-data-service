@@ -307,22 +307,22 @@ Examples:
 | "staff15" | "student02"    | 403       | "excludes"      | "excludes"   | 403        | state-staff can't access student because the staff was terminated |
 | "staff16" | "student02"    | 403       | "excludes"      | "excludes"   | 403        | state-staff can't access student because the staff was not associated |
 
-| "staff11" | "student03"    | 403      | "excludes"      | "excludes"   | 403        | state-staff as Educator can't access student because the student is not currently enrolled |
-| "staff12" | "student03"    | 403      | "excludes"      | "excludes"   | 403        | state-staff as Leader   can't access student because the student is not currently enrolled |
-| "staff13" | "student03"    | 403      | "excludes"      | "excludes"   | 403        | state-staff as IT Admin can't access student because the student is not currently enrolled |
-| "staff14" | "student03"    | 403      | "excludes"      | "excludes"   | 403        | state-staff as Agg View can't access student because the student is not currently enrolled |
-| "staff15" | "student03"    | 403      | "excludes"      | "excludes"   | 403        | state-staff can't access student because the staff was terminated |
-| "staff16" | "student03"    | 403      | "excludes"      | "excludes"   | 403        | state-staff can't access student because the staff was not associated |
+| "staff11" | "student03"    | 403       | "excludes"      | "excludes"   | 403        | state-staff as Educator can't access student because the student is not currently enrolled |
+| "staff12" | "student03"    | 403       | "excludes"      | "excludes"   | 403        | state-staff as Leader   can't access student because the student is not currently enrolled |
+| "staff13" | "student03"    | 403       | "excludes"      | "excludes"   | 403        | state-staff as IT Admin can't access student because the student is not currently enrolled |
+| "staff14" | "student03"    | 403       | "excludes"      | "excludes"   | 403        | state-staff as Agg View can't access student because the student is not currently enrolled |
+| "staff15" | "student03"    | 403       | "excludes"      | "excludes"   | 403        | state-staff can't access student because the staff was terminated |
+| "staff16" | "student03"    | 403       | "excludes"      | "excludes"   | 403        | state-staff can't access student because the staff was not associated |
 
-| "staff1"  | "student47"    | 403      | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school within tenant |
-| "staff1"  | "student51"    | 403      | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school outside district |
-| "staff1"  | "student54"    | 404      | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school outside tenant |
-| "staff6"  | "student47"    | 200      | "excludes"      | "includes"   | 403        | district-staff can see student in another school within district |
-| "staff6"  | "student51"    | 403      | "excludes"      | "excludes"   | 403        | district-staff can't see student in another school outside district |
-| "staff6"  | "student54"    | 404      | "excludes"      | "excludes"   | 403        | district-staff can't see student in another school outside tenant |
-| "staff11" | "student47"    | 200      | "excludes"      | "includes"   | 403        | state-staff can see student in school within state |
-| "staff11" | "student51"    | 200      | "excludes"      | "includes"   | 403        | state-staff can see student in another school in other district |
-| "staff11" | "student54"    | 404      | "excludes"      | "excludes"   | 403        | state-staff can't see student in another school outside tenant |
+| "staff1"  | "student47"    | 403       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school within tenant |
+| "staff1"  | "student51"    | 403       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school outside district |
+| "staff1"  | "student54"    | 404       | "excludes"      | "excludes"   | 403        | school-staff can't see student in another school outside tenant |
+| "staff6"  | "student47"    | 200       | "excludes"      | "includes"   | 403        | district-staff can see student in another school within district |
+| "staff6"  | "student51"    | 403       | "excludes"      | "excludes"   | 403        | district-staff can't see student in another school outside district |
+| "staff6"  | "student54"    | 404       | "excludes"      | "excludes"   | 403        | district-staff can't see student in another school outside tenant |
+| "staff11" | "student47"    | 200       | "excludes"      | "includes"   | 403        | state-staff can see student in school within state |
+| "staff11" | "student51"    | 200       | "excludes"      | "includes"   | 403        | state-staff can see student in another school in other district |
+| "staff11" | "student54"    | 404       | "excludes"      | "excludes"   | 403        | state-staff can't see student in another school outside tenant |
 
 | "staff11" | "student03"    | 403       | "excludes"      | "excludes"   | 403        | state-staff as Educator can't access student because the student is not currently enrolled |
 | "staff12" | "student03"    | 403       | "excludes"      | "excludes"   | 403        | state-staff as Leader   can't access student because the student is not currently enrolled |
@@ -350,32 +350,3 @@ Examples:
 | "staff1"  | 45    | School-staff should see all students currently enrolled at the school. |
 | "staff6"  | 47    | District-staff should see all students currently enrolled at the schools in their district. |
 | "staff11" | 49    | State-staff should see all students currently enrolled at the schools in their state. |
-
-
-Scenario Outline: Seeing data about student only if you can see the student
-Given A
-When a
-Then a
-Examples:
-|stuff|
-|yo   |
-
-Scenario Outline: Update data associations to change access for teachers and staff
-Given A
-When a
-Then a
-Examples:
-|stuff|
-|yo   |
-
-Scenario: Re-run stamper
-When I run ze stamper
-Then Stuff Happens
-
-Scenario Outline: Teachers and Staff seeing new data from changed associations
-Given A
-When a
-Then a
-Examples:
-|stuff|
-|yo   |
