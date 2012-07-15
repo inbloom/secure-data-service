@@ -42,7 +42,11 @@
 
 <div class = "field" id='application_url'>
 	<%= f.label :application_url, "Url", :class => "required" %>
-	<%= f.text_field :application_url, :placeholder => 'https://' %>
+    <% if app.installed %>
+          <%= f.text_field :application_url, :placeholder => "https://", :disabled => true %>
+	<% else %>
+      <%= f.text_field :application_url, :placeholder => "https://" %>
+    <% end %>
 	<span class="help-inline">The URL used to access your application</span>
 </div>
 <div class = "field">
@@ -62,7 +66,11 @@
 </div>
 <div class = "field" id='redirect_uri'>
 	<%= f.label :redirect_uri, "Redirect Url", :class => "required" %>
-	<%= f.text_field :redirect_uri, :placeholder => 'https://' %>
+     <% if app.installed %>
+	    <%= f.text_field :redirect_uri, :placeholder => 'https://', :disabled => true %>
+     <% else %>
+        <%= f.text_field :redirect_uri, :placeholder => "https://" %>
+     <% end %>
 	<span class="help-inline">Where OAuth will redirect to after authentication.</span>
 </div>
 <div class = "field" id='installed'>
