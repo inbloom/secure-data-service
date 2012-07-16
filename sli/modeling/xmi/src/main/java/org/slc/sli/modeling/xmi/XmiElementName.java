@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.modeling.xmi;
 
 /**
@@ -25,6 +24,10 @@ public enum XmiElementName {
      * 
      */
     ASSOCIATION("Association"),
+    /**
+     * 
+     */
+    ASSOCIATION_CLASS("AssociationClass"),
     /**
      * 
      */
