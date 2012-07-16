@@ -102,6 +102,16 @@ public class SecurityUtil {
         return false;
     }
 
+    public static String getUid() {
+        SLIPrincipal principal = null;
+        SecurityContext context = SecurityContextHolder.getContext();
+        if (context.getAuthentication() != null) {
+            principal = (SLIPrincipal) context.getAuthentication().getPrincipal();
+            return principal.getExternalId();
+        }
+        return null;
+    }
+
     public static String getEdOrg() {
         SLIPrincipal principal = null;
         SecurityContext context = SecurityContextHolder.getContext();
