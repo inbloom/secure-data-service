@@ -88,12 +88,20 @@ public final class JavaFeature {
         }
     }
 
+    public JavaType getAttributeType(final JavaGenConfig config) {
+        return JavaTypeHelper.getAttributeType(feature, model, config);
+    }
+
     public String getAttributeTypeName(final JavaGenConfig config) {
         return JavaTypeHelper.getAttributeTypeName(feature, model, config);
     }
 
     public String getNavigableTypeName() {
         return JavaTypeHelper.getNavigableTypeName(feature, model);
+    }
+
+    public JavaType getNavigableType() {
+        return JavaTypeHelper.getNavigableType(feature, model);
     }
 
     public boolean isOptional() {

@@ -29,7 +29,7 @@ import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.resources.v1.DefaultCrudResource;
 
 /**
- * Represents a teacher’s assignment, homework, or classroom assessment to be recorded in a
+ * Represents a teacher's assignment, homework, or classroom assessment to be recorded in a
  * gradebook.
  *
  * For more information, see the schema for $$GradebookEntry$$ resources.

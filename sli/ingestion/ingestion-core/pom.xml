@@ -279,12 +279,6 @@
           <source>1.6</source>
           <weaveDependencies>
           </weaveDependencies>
-                    <aspectLibraries>
-                      <aspectLibrary>
-               <groupId>org.slc.sli.ingestion</groupId>
-               <artifactId>ingestion-base</artifactId>
-            </aspectLibrary>
-          </aspectLibraries>
         </configuration>
         <executions>
           <execution>

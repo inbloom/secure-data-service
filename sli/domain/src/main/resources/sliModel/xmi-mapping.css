@@ -1,0 +1,27 @@
+body {
+	font-family: Arial;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table,th,td {
+	border: 1px solid black;
+}
+
+td {
+	padding: 3px;
+}
+
+td.info {
+	color: green;
+}
+
+td.warning {
+	color: blue;
+}
+
+td.error {
+	color: red;
+}

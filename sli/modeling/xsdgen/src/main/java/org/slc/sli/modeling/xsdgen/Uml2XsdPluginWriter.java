@@ -52,8 +52,9 @@ public interface Uml2XsdPluginWriter {
 
     void minOccurs(final Occurs value);
 
+    void ref(QName name);
+
     void sequence();
 
     void type(QName name);
-
 }

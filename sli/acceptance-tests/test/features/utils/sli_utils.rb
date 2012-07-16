@@ -471,3 +471,9 @@ def id_from_juuid(uuid)
   hex = msb + lsb;
   BSON::Binary.new([hex].pack('H*'), BSON::Binary::SUBTYPE_UUID)
 end
+
+######################
+### create a deep copy of entity data used in API CRUD tests
+def deep_copy(o)
+  Marshal.load(Marshal.dump(o))
+end
