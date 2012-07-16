@@ -18,8 +18,8 @@
     <maven.compiler.version>2.3.2</maven.compiler.version>
     <maven.surefire.version>2.10</maven.surefire.version>
     <junit.version>4.9</junit.version>
-    <jaxrs-api>2.0-m01</jaxrs-api>
-    <jersey-client>2.0-m01</jersey-client>
+    <jaxrs-api>2.0-m09</jaxrs-api>
+    <jersey-client>2.0-m05-1</jersey-client>
     <commons-cli>1.2</commons-cli>
     <commons-io>2.1</commons-io>
     <scribe>1.3.0</scribe>
