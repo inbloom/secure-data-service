@@ -91,7 +91,7 @@ class APIBenchmarker
     apiCallExecutor = APICallExecutor.new(@apiUser, @apiUserRealm, @apiAcceptFormat, @apiServerInstance)
     i = 1
     while i <= @numIterations do
-      timestamp "Starting iteration #{i}"
+#      timestamp "Starting iteration #{i}"
       # if single resource is defined, perform GET
       if (!@apiResource.nil?)
         apiCallExecutor.get(@apiResource, @benchmarkBatchLog)
