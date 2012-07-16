@@ -21,7 +21,7 @@ require_relative '../../../../utils/sli_utils.rb'
 
 Then /^I should be able to access data about (the student "[^"]*")$/ do |arg1|
   @format = "application/vnd.slc+json"
-  ["attendances", "studentGradebookEntries", "studentAssessments"].each do |endpoint|
+  ["attendances", "studentAssessments"].each do |endpoint|
     restHttpGet("/v1/#{endpoint}?studentId=#{arg1}")
     assert(@res != nil, "Response from rest-client GET is nil")
     assert(@res.code == 200, "Get on endpoint #{endpoint}, expected code: 200 but actual code was #{@res.code}")
@@ -32,12 +32,12 @@ end
 
 Then /^I should not be able to access data about (the student "[^"]*")$/ do |arg1|
   @format = "application/vnd.slc+json"
-  ["attendances", "studentGradebookEntries", "studentAssessments"].each do |endpoint|
+  ["attendances", "studentAssessments"].each do |endpoint|
     restHttpGet("/v1/#{endpoint}?studentId=#{arg1}")
     assert(@res != nil, "Response from rest-client PUT is nil")
-    assert(@res.code == 200, "Get on endpoint #{endpoint}, expected code: 200 but actual code was #{@res.code}")
-    data = JSON.parse(@res.body)
-    assert(data.count == 0, "Expected to only see no #{endpoint} but saw #{data.count}")
+    assert(@res.code == 403, "Get on endpoint #{endpoint}, expected code: 200 but actual code was #{@res.code}")
+#    data = JSON.parse(@res.body)
+#    assert(data.count == 0, "Expected to only see no #{endpoint} but saw #{data.count}")
   end
 end
 
