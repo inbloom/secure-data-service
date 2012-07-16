@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.transformation;
 
 import java.util.Collections;
@@ -22,6 +21,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -46,6 +48,8 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  *
  */
 public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List<SimpleEntity>> {
+
+    private static final Logger LOG = LoggerFactory.getLogger(EdFi2SLITransformer.class);
 
     protected static final String METADATA_BLOCK = "metaData";
 
@@ -74,7 +78,6 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             return Collections.emptyList();
         }
 
-
         if (transformed != null && !transformed.isEmpty()) {
 
             for (SimpleEntity entity : transformed) {
@@ -85,14 +88,18 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
                 entity.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), item.getSourceId());
 
-                matchEntity(entity, errorReport);
+                try {
+                    matchEntity(entity, errorReport);
+                } catch (DataAccessResourceFailureException darfe) {
+                    LOG.error("Exception in matchEntity", darfe);
+                }
 
                 if (errorReport.hasErrors()) {
                     return Collections.emptyList();
                 }
             }
         } else {
-            error("EdFi2SLI Transform has resulted in either a null or empty list of transformed SimpleEntities.");
+            LOG.error("EdFi2SLI Transform has resulted in either a null or empty list of transformed SimpleEntities.");
         }
 
         return transformed;
@@ -104,13 +111,10 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
         ComplexRefDef ref = entityConfig.getComplexReference();
         if (ref != null) {
-            idNormalizer.resolveReferenceWithComplexArray(entity, item.getSourceId(),
-                                                          ref.getValueSource(),
-                                                          ref.getFieldPath(),
-                                                          ref.getCollectionName(),
-                                                          ref.getPath(),
-                                                          ref.getComplexFieldNames(),
-                                                          errorReport);
+            idNormalizer
+                    .resolveReferenceWithComplexArray(entity, item.getSourceId(), ref.getValueSource(),
+                            ref.getFieldPath(), ref.getCollectionName(), ref.getPath(), ref.getComplexFieldNames(),
+                            errorReport);
         }
 
         idNormalizer.resolveInternalIds(entity, item.getSourceId(), entityConfig, errorReport);
@@ -137,8 +141,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         }
 
         String collection = null;
-        if (entity.getType().equals("stateEducationAgency")
-                || entity.getType().equals("localEducationAgency")
+        if (entity.getType().equals("stateEducationAgency") || entity.getType().equals("localEducationAgency")
                 || entity.getType().equals("school")) {
             collection = "educationOrganization";
         } else if (entity.getType().equals("teacher")) {
@@ -156,14 +159,17 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             entity.setEntityId(matched.getEntityId());
             entity.getMetaData().putAll(matched.getMetaData());
         }
-     }
+    }
 
     /**
      * Create entity lookup query from EntityConfig fields
      *
-     * @param entity : the entity to be looked up.
-     * @param keyFields : the list of the fields with which to generate the filter
-     * @param errorReport: error reporting
+     * @param entity
+     *            : the entity to be looked up.
+     * @param keyFields
+     *            : the list of the fields with which to generate the filter
+     * @param errorReport
+     *            : error reporting
      * @return Look up filter
      *
      * @author tke
@@ -175,8 +181,8 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         if (entityConfig.getKeyFields() == null || entityConfig.getKeyFields().size() == 0) {
             errorReport.fatal("Cannot find a match for an entity: No key fields specified", this);
         } else {
-            errorMessage += "       Entity      " + entity.getType() + "\n"
-                          + "       Key Fields  " + entityConfig.getKeyFields() + "\n";
+            errorMessage += "       Entity      " + entity.getType() + "\n" + "       Key Fields  "
+                    + entityConfig.getKeyFields() + "\n";
             if (entityConfig.getReferences() != null && entityConfig.getReferences().size() > 0) {
                 errorMessage += "     The following collections are referenced by the key fields:" + "\n";
                 for (RefDef refDef : entityConfig.getReferences()) {

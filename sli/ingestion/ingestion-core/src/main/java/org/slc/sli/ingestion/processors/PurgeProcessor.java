@@ -23,6 +23,8 @@ import java.util.Set;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
@@ -54,6 +56,7 @@ import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 public class PurgeProcessor implements Processor, MessageSourceAware {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.PURGE_PROCESSOR;
+    private static Logger logger = LoggerFactory.getLogger(PurgeProcessor.class);
 
     private static final String METADATA_BLOCK = "metaData";
 
@@ -156,7 +159,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
             mongoTemplate.remove(searchTenantId, collectionName);
         }
         exchange.setProperty("purge.complete", "Purge process completed successfully.");
-        info("Purge process complete.");
+        logger.info("Purge process complete.");
 
     }
 
@@ -171,7 +174,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
 
     private void handleNoTenantId(String batchJobId) {
         String noTenantMessage = MessageSourceHelper.getMessage(messageSource, "PURGEPROC_ERR_MSG1");
-        info(noTenantMessage);
+        logger.info(noTenantMessage);
 
         Error error = Error.createIngestionError(batchJobId, null, BatchJobStageType.PURGE_PROCESSOR.getName(), null,
                 null, null, FaultType.TYPE_WARNING.getName(), null, noTenantMessage);
@@ -182,7 +185,7 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         exchange.setProperty("purge.complete", "Errors encountered during purge process");
-        error("Error processing batch job " + batchJobId, exception);
+        logger.error("Error processing batch job " + batchJobId, exception);
 
         if (batchJobId != null) {
             Error error = Error.createIngestionError(batchJobId, null, BatchJobStageType.PURGE_PROCESSOR.getName(),
@@ -204,6 +207,6 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
     private void missingBatchJobIdError(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+        logger.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 }

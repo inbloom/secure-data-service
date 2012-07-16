@@ -177,7 +177,8 @@ public final class WadlReader {
             final String namespaceURI = reader.getNamespaceURI(prefix);
             return new QName(namespaceURI, localName, prefix);
         } else {
-            return new QName(lexicalName);
+            final String namespaceURI = reader.getNamespaceURI("");
+            return new QName(namespaceURI, lexicalName);
         }
     }
 

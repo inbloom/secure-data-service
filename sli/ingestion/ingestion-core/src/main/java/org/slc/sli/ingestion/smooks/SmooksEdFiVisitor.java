@@ -34,16 +34,21 @@ import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.util.NeutralRecordUtils;
 import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Visitor that writes a neutral record or reports errors encountered.
- *
+ * 
  * @author dduran
- *
+ * 
  */
 @StreamResultWriter
 public final class SmooksEdFiVisitor implements SAXElementVisitor {
-
+    
+    // Logging
+    private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFiVisitor.class);
+    
     /** Constant to write a log message every N records. */
     private static final int FLUSH_QUEUE_THRESHOLD = 10000;
 
@@ -100,8 +105,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         } else {
 
             // Indicate Smooks Validation Failure
-            error("Error: Smooks validation failure at element " + element.getName().toString());
-
+            LOG.error("Error: Smooks validation failure at element " + element.getName().toString());
+            
             if (errorReport != null) {
                 errorReport.error(terminationError.getMessage(), SmooksEdFiVisitor.class);
             }
@@ -130,7 +135,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
             for (Map.Entry<String, List<NeutralRecord>> entry : queuedWrites.entrySet()) {
                 if (entry.getValue().size() > 0) {
                     nrMongoStagingWriter.insertResources(entry.getValue(), entry.getKey(), batchJobId);
-                    info("Persisted {} records of type {} ", entry.getValue().size(), entry.getKey());
+                    LOG.info("Persisted {} records of type {} ", entry.getValue().size(), entry.getKey());
                     queuedWrites.get(entry.getKey()).clear();
                 }
             }

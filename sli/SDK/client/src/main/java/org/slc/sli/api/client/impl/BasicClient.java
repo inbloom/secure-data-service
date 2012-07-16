@@ -24,7 +24,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.core.MessageProcessingException;
+import javax.ws.rs.MessageProcessingException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
@@ -80,7 +80,7 @@ public class BasicClient implements SLIClient {
         checkResponse(response, Status.CREATED, "Could not created entity.");
 
         // extract the id of the newly created entity from the header.
-        String location = response.getHeaders().getHeaderValues("Location").get(0);
+        String location = response.getHeader("Location");
         return location.substring(location.lastIndexOf("/") + 1);
         //  return restClient.postRequest(this.getToken(), url, mapper.writeValueAsString(e)); NOTE: added
     }

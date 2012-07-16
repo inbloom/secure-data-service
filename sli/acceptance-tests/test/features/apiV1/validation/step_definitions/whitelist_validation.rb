@@ -150,11 +150,3 @@ $entityData = {
         ]
     }
 }
-
-#########################################################################
-# DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF
-#########################################################################
-
-def deep_copy(o)
-  Marshal.load(Marshal.dump(o))
-end

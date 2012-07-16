@@ -34,8 +34,8 @@ Then /^the grades teardrop color widgets for "([^"]*)" are mapped correctly:$/ d
       if (gradeMapping[foundGrade] == nil)
           puts "Grade Mapping doesn't exist for grade: " + foundGrade
       else
-          searchText = ".//div[contains(@class,'" + gradeMapping[foundGrade] + "')]"
-          tearDrop = tdsWithGrade.find_element(:xpath, searchText)
+          searchText = "div[class*='" + gradeMapping[foundGrade] + "']"
+          tearDrop = tdsWithGrade.find_element(:css, searchText)
           assert(tearDrop != nil, "Expected color" + gradeMapping[foundGrade])
       end
     end

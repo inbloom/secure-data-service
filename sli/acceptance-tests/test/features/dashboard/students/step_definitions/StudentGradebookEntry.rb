@@ -26,13 +26,6 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id
 end
 
-When /^I navigate to the Dashboard home page$/ do
-  url = getBaseUrl()
-  @driver.get url
-  # There's a redirect to the realm page, so this assert should fail
-  # assert(@driver.current_url == url, "Failed to navigate to "+url)
-end
-
 When /^I select "([^"]*)" and click go$/ do |arg1|
   realm_select = @explicitWait.until{@driver.find_element(:name=> "realmId")}
 

@@ -4,7 +4,6 @@ Test Sad Paths and Display Error Messages
 
 Background:
 Given I have an open web browser
-Given the server is in "live" mode
 When I navigate to the Dashboard home page
 Then I should be redirected to the Realm page
 

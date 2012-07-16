@@ -21,10 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
@@ -33,15 +29,22 @@ import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * Base TransformationStrategy.
- *
+ * 
  * @author dduran
  * @author shalka
  */
 public abstract class AbstractTransformationStrategy implements TransformationStrategy {
-
+    
+    private static final Logger LOG = LoggerFactory.getLogger(AbstractTransformationStrategy.class);
+    
     protected static final String BATCH_JOB_ID_KEY = "batchJobId";
     protected static final String CREATION_TIME = "creationTime";
     protected static final String TYPE_KEY = "type";
@@ -145,13 +148,13 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
                 collectionName, query);
 
         if (!data.iterator().hasNext()) {
-            warn("Found no records in collection: {} for batch job id: {}", collectionName, getJob().getId());
+            LOG.warn("Found no records in collection: {} for batch job id: {}", collectionName, getJob().getId());
         }
 
         Map<Object, NeutralRecord> collection = iterableResultsToMap(data);
 
         if (collection.size() != workNote.getRecordsInRange()) {
-            error("Number of records in creationTime query result ({}) does not match resultsInRange of {} ",
+            LOG.error("Number of records in creationTime query result ({}) does not match resultsInRange of {} ",
                     collection.size(), workNote);
         }
 
@@ -181,7 +184,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
      */
     public void insertRecords(List<NeutralRecord> records, String collectionName) {
         neutralRecordMongoAccess.getRecordRepository().insertAll(records, collectionName);
-        info("Successfully persisted {} records for collection: {}", records.size(), collectionName);
+        LOG.info("Successfully persisted {} records for collection: {}", records.size(), collectionName);
     }
 
     /**

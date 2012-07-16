@@ -151,12 +151,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             public Response run(EntityDefinition entityDef) {
                 String id = entityDef.getService().create(newEntityBody);
 
-                if (!id.isEmpty()) {
-                    String uri = ResourceUtil.getURI(uriInfo, PathConstants.V1,
+                String uri = ResourceUtil.getURI(uriInfo, PathConstants.V1,
                             PathConstants.TEMP_MAP.get(entityDef.getResourceName()), id).toString();
-                    return Response.status(Status.CREATED).header("Location", uri).build();
-                }
-                return Response.status(Status.CONFLICT).build();
+                return Response.status(Status.CREATED).header("Location", uri).build();
             }
         });
     }
@@ -533,11 +530,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 EntityBody copy = new EntityBody(newEntityBody);
                 copy.remove(ResourceConstants.LINKS);
 
+                entityDef.getService().update(id, copy);
+
 //                DE260 - Logging of possibly sensitive data
 //                LOGGER.debug("updating entity {}", copy);
-                if(!entityDef.getService().update(id, copy)) {
-                    return Response.status(Status.BAD_REQUEST).build();
-                }
 
 //                DE260 - Logging of possibly sensitive data
 //                LOGGER.debug("updating entity {}", copy);

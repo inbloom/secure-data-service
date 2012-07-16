@@ -169,7 +169,7 @@ Given /^I create a student object with "([^"]*)" set to MM\-DD\-YYYY$/ do |arg1|
 end
 
 Given /^a valid json document for ([^\"]*)$/ do |entity|
-  @result = $entityData[entity]
+  @result = deep_copy($validationTestData[entity])
 end
 
 When /^I navigate to PUT "([^\"]*)"$/ do |url|
@@ -240,7 +240,7 @@ end
 
 
 # Entity data for POST and PUT validation
-$entityData = {
+$validationTestData = {
     "gradingPeriod" => {
         "gradingPeriodIdentity" => {
             "educationalOrgIdentity" => [{
@@ -408,7 +408,7 @@ $entityData = {
         "gradingPeriodReference" => ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130", "ef72b883-90fa-40fa-afc2-4cb1ae17623b"],
     },
     "staff" => {
-        "staffUniqueStateId" => "validationteststaffid",
+        "staffUniqueStateId" => "WLVDSUSID00001",
         "sex" => "Male",
         "hispanicLatinoEthnicity" => false,
         "highestLevelOfEducationCompleted" => "No Degree",
@@ -474,6 +474,7 @@ $entityData = {
         "sex" => "Male",
         "yearsOfPriorTeachingExperience" => 32,
         "staffUniqueStateId" => "12345678",
+        "teacherUniqueStateId" => "testing123",
         "highlyQualifiedTeacher" => true,
         "highestLevelOfEducationCompleted" => "No Degree",
         "name" => {

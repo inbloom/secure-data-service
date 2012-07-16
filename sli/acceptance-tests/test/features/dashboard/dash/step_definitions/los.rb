@@ -37,6 +37,7 @@ def getStudentCell (student_name)
   all_trs.each do |tr|
     if tr.attribute("innerHTML").to_s.include?(student_name)
       studentCell = tr
+      break
     end
   end  
 

@@ -31,6 +31,8 @@ import org.milyn.SmooksException;
 import org.milyn.delivery.ContentHandlerConfigMapTable;
 import org.milyn.delivery.VisitorConfigMap;
 import org.milyn.delivery.sax.SAXVisitAfter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
@@ -50,6 +52,8 @@ import org.slc.sli.ingestion.validation.ErrorReport;
 @Component
 public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> {
 
+    private static final Logger LOG = LoggerFactory.getLogger(SmooksFileHandler.class);
+
     @Autowired
     private SliSmooksFactory sliSmooksFactory;
 
@@ -61,11 +65,11 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             generateNeutralRecord(fileEntry, errorReport, fileProcessStatus);
 
         } catch (IOException e) {
-            error("IOException: Could not instantiate smooks, unable to read configuration file");
+            LOG.error("IOException: Could not instantiate smooks, unable to read configuration file");
             errorReport.fatal("Could not instantiate smooks, unable to read configuration file.",
                     SmooksFileHandler.class);
         } catch (SAXException e) {
-            error("SAXException: Could not instantiate smooks, problem parsing configuration file");
+            LOG.error("SAXException: Could not instantiate smooks, problem parsing configuration file");
             errorReport.fatal("Could not instantiate smooks, problem parsing configuration file.",
                     SmooksFileHandler.class);
         }
@@ -95,13 +99,13 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
                 int recordsPersisted = visitAfter.getRecordsPerisisted();
                 fileProcessStatus.setTotalRecordCount(recordsPersisted);
 
-                info("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
+                LOG.info("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
                         ingestionFileEntry.getFileName());
             } catch (Exception e) {
-                piiClearedError("Error accessing visitor list in smooks", e);
+                LOG.error("Error accessing visitor list in smooks", e);
             }
         } catch (SmooksException se) {
-            error("smooks exception: encountered problem with " + ingestionFileEntry.getFile().getName() + "\n", se);
+            LOG.error("smooks exception: encountered problem with " + ingestionFileEntry.getFile().getName() + "\n", se);
             errorReport.error("SmooksException encountered while filtering input.", SmooksFileHandler.class);
         } finally {
             IOUtils.closeQuietly(inputStream);

@@ -19,6 +19,8 @@ package org.slc.sli.ingestion.processors;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.queues.MessageType;
@@ -33,6 +35,8 @@ public class XmlSplitterProcessor  implements Processor {
 
 
     private static final String INGESTION_MESSAGE_TYPE = "IngestionMessageType";
+
+    private static final Logger LOG = LoggerFactory.getLogger(NoExtractProcessor.class);
 
     private void setExchangeHeaders(Exchange exchange, boolean hasErrors) {
         exchange.getIn().setHeader("hasErrors", hasErrors);

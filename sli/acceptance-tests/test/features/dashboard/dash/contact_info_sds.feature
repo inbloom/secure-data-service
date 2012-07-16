@@ -3,7 +3,6 @@ As a teacher in a school district, I want to click on a student and be directed 
 
 Background:
 Given I have an open web browser
-Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
 
@@ -157,6 +156,7 @@ When I select ed org "Daybreak School District 4529"
 When I select school "South Daybreak Elementary"
 When I select course "1st Grade Homeroom"
 When I select section "Mrs. Braverman's Homeroom #38"
+Then I see a list of 25 students
 Given I click on student "Dara Nemecek"
 And I view its student profile
 And I look at the panel "Contact Information"

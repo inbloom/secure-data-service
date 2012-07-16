@@ -39,13 +39,6 @@ public interface EntityValidator {
     public boolean validate(Entity entity) throws EntityValidationException;
 
     /**
-     * Get the natural key fields for entity validation
-     *
-     * @param entity
-     */
-    public List<String> getNaturalKeyFields(Entity entity);
-
-    /**
      * Enable / disable reference checking as a part of entity validation
      *
      * @param referenceCheck

@@ -22,22 +22,25 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.slc.sli.ingestion.Job;
+import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
-import org.slc.sli.ingestion.Job;
-import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
-
 /**
  * @author ifaybyshev
- *
+ * 
  *         Factory for transformation strategies
  *
  */
 public class TransformationFactory implements ApplicationContextAware {
-
+    
+    private static final Logger LOG = LoggerFactory.getLogger(TransformationFactory.class);
+    
     private ApplicationContext applicationContext;
 
     private String transformationStrategySuffix;
@@ -62,11 +65,11 @@ public class TransformationFactory implements ApplicationContextAware {
 
         for (String strategy : collectionNames) {
             String expectedTransformationStrategy = strategy + getTransformationStrategySuffix();
-            debug("looking up transformation strategy for {}", expectedTransformationStrategy);
+            LOG.debug("looking up transformation strategy for {}", expectedTransformationStrategy);
             if (applicationContext.containsBeanDefinition(expectedTransformationStrategy)) {
                 TransformationStrategy bean = applicationContext.getBean(expectedTransformationStrategy,
                         TransformationStrategy.class);
-                debug("found transformation strategy {}", bean);
+                LOG.debug("found transformation strategy {}", bean);
                 transformationStrategies.add(bean);
             }
         }

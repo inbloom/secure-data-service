@@ -89,6 +89,9 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "agillespie_IL" => "ba09eeb3-a50a-4278-b363-22074168421d",
                 "wgoodman_IL" => "8c950c56-74f3-4e5d-a02c-d09497fddb1d",
                 "ingestionuser_SLI" => "3b22ab4c-1de4-ac99-8b89-23bc03aaa812",
+                 "sandboxoperator_SLI" => "a8cf185b-9c8e-4254-9f46-ed4e9f4f597c",
+                 "sandboxadministrator_SLI" => "a8cf186b-9c8e-4253-9f46-ed4e9f4f598c",
+                 "sandboxdeveloper_SLI" => "a1cf186b-9c8e-4252-9f46-ed4e9f4f597c",
                 "iladmin_SLI" => "9abf3111-0e5d-456a-8b89-004815162342",
                 "stweed_IL" => "2cf7a5d4-75a2-ba63-8b53-b5f95131de48",
                 "teach1_SEC" => "00000000-5555-5555-0001-500000000001",
@@ -376,7 +379,7 @@ module DataProvider
   
   def self.getValidAppData()
     return {
-      "installed" => true,
+      "installed" => false,
       "redirect_uri" => "https://slidev.org",
       "description" => "Prints hello world.",
       "name" => "Hello World",
@@ -470,4 +473,10 @@ def id_from_juuid(uuid)
   lsb = lsb[14, 2] + lsb[12, 2] + lsb[10, 2] + lsb[8, 2] + lsb[6, 2] + lsb[4, 2] + lsb[2, 2] + lsb[0, 2]
   hex = msb + lsb;
   BSON::Binary.new([hex].pack('H*'), BSON::Binary::SUBTYPE_UUID)
+end
+
+######################
+### create a deep copy of entity data used in API CRUD tests
+def deep_copy(o)
+  Marshal.load(Marshal.dump(o))
 end

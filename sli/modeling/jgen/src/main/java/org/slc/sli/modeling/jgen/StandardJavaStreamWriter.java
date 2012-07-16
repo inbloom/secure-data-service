@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.util.Collections;
 import java.util.List;
 
 import org.slc.sli.modeling.uml.Feature;
@@ -29,6 +30,8 @@ import org.slc.sli.modeling.uml.Occurs;
 import org.slc.sli.modeling.uml.Range;
 
 public final class StandardJavaStreamWriter implements JavaStreamWriter {
+
+    private static final List<String> EMPTY_STRING_LIST = Collections.emptyList();
 
     private static final String SPACE = " ";
     private static final String LPAREN = "(";
@@ -44,11 +47,30 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
         return text.substring(0, 1).toLowerCase().concat(text.substring(1));
     }
 
+    private static final String makeDefensiveCopy(final JavaFeature javaFeature, final JavaGenConfig config) {
+        final Feature feature = javaFeature.getFeature();
+        final Multiplicity multiplicity = feature.getMultiplicity();
+        final Range range = multiplicity.getRange();
+        final String primeType = javaFeature.getPrimeTypeName(config);
+        if (range.getUpper() == Occurs.UNBOUNDED) {
+            return "Collections.unmodifiableList(new ArrayList<" + primeType + ">("
+                    + camelCase(javaFeature.getName(config)) + "))";
+        } else {
+            return camelCase(feature.getName());
+        }
+    }
+
     private static final String titleCase(final String text) {
         return text.substring(0, 1).toUpperCase().concat(text.substring(1));
     }
 
+    /**
+     * Keep state so that we can make some smarter choices.
+     */
+    private boolean insideInterface = false;
+
     private final OutputStreamWriter writer;
+
     private final JavaGenConfig config;
 
     public StandardJavaStreamWriter(final OutputStream stream, final String encoding, final JavaGenConfig config)
@@ -68,7 +90,70 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     }
 
     @Override
+    public void beginCatch(final JavaType type, final String variableName) throws IOException {
+        if (null == type) {
+            throw new NullPointerException("type");
+        }
+        if (null == variableName) {
+            throw new NullPointerException("variableName");
+        }
+        writer.write("catch");
+        parenL();
+        try {
+            write("final").space().writeType(type).space().write(variableName);
+        } finally {
+            parenR();
+            beginBlock();
+        }
+    }
+
+    @Override
+    public void beginClass(final String name) throws IOException {
+        if (name == null) {
+            throw new NullPointerException("name");
+        }
+        writer.write("public");
+        writer.write(SPACE);
+        writer.write("final");
+        writer.write(SPACE);
+        writer.write("class");
+        writer.write(SPACE);
+        writer.write(name);
+        beginBlock();
+    }
+
+    @Override
+    public void beginClass(final String name, final List<String> implementations) throws IOException {
+        if (name == null) {
+            throw new NullPointerException("name");
+        }
+        if (implementations == null) {
+            throw new NullPointerException("implementations");
+        }
+        writer.write("public");
+        writer.write(SPACE);
+        writer.write("final");
+        writer.write(SPACE);
+        writer.write("class");
+        writer.write(SPACE);
+        writer.write(name);
+        if (!implementations.isEmpty()) {
+            writer.write(" implements ");
+            for (final String implementation : implementations) {
+                writer.write(implementation);
+            }
+        }
+        beginBlock();
+    }
+
+    @Override
     public void beginClass(final String name, final String extendsClass) throws IOException {
+        if (name == null) {
+            throw new NullPointerException("name");
+        }
+        if (extendsClass == null) {
+            throw new NullPointerException("extendsClass");
+        }
         writer.write("public");
         writer.write(SPACE);
         writer.write("final");
@@ -85,12 +170,43 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
 
     @Override
     public void beginEnum(final String name) throws IOException {
+        beginEnum(name, EMPTY_STRING_LIST);
+    }
+
+    @Override
+    public void beginEnum(final String name, final List<String> implementations) throws IOException {
+        if (name == null) {
+            throw new NullPointerException("name");
+        }
+        if (implementations == null) {
+            throw new NullPointerException("implementations");
+        }
         writer.write("public");
         writer.write(SPACE);
         writer.write("enum");
         writer.write(SPACE);
         writer.write(name);
+        if (!implementations.isEmpty()) {
+            writer.write(" implements ");
+            for (final String implementation : implementations) {
+                writer.write(implementation);
+            }
+        }
         beginBlock();
+    }
+
+    @Override
+    public void beginInterface(final String name) throws IOException {
+        if (name == null) {
+            throw new NullPointerException("name");
+        }
+        writer.write("public");
+        writer.write(SPACE);
+        writer.write("interface");
+        writer.write(SPACE);
+        writer.write(name);
+        beginBlock();
+        insideInterface = true;
     }
 
     @Override
@@ -99,8 +215,23 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     }
 
     @Override
+    public JavaStreamWriter castAs(final JavaType type) throws IOException {
+        if (type == null) {
+            throw new NullPointerException("type");
+        }
+        parenL().writeType(type).parenR();
+        return this;
+    }
+
+    @Override
     public void close() throws IOException {
         writer.close();
+    }
+
+    @Override
+    public JavaStreamWriter comma() throws IOException {
+        writer.write(COMMA);
+        return this;
     }
 
     @Override
@@ -118,6 +249,11 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     @Override
     public void endBlock() throws IOException {
         writer.write("}");
+    }
+
+    @Override
+    public void endCatch() throws IOException {
+        endBlock();
     }
 
     @Override
@@ -141,6 +277,33 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
     }
 
     @Override
+    public JavaStreamWriter parenL() throws IOException {
+        writer.write(LPAREN);
+        return this;
+    }
+
+    @Override
+    public JavaStreamWriter parenR() throws IOException {
+        writer.write(RPAREN);
+        return this;
+    }
+
+    @Override
+    public JavaStreamWriter space() throws IOException {
+        writer.write(SPACE);
+        return this;
+    }
+
+    @Override
+    public JavaStreamWriter write(final JavaSnippet snippet) throws IOException {
+        if (snippet == null) {
+            throw new NullPointerException("snippet");
+        }
+        snippet.write(this);
+        return this;
+    }
+
+    @Override
     public JavaStreamWriter write(final String text) throws IOException {
         writer.write(text);
         return this;
@@ -154,14 +317,81 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
         writer.write(SPACE);
         writer.write("get");
         writer.write(titleCase(name));
-        writer.write(LPAREN);
-        writer.write(RPAREN);
+        parenL();
+        parenR();
         beginBlock();
         writer.write("return");
         writer.write(SPACE);
         writer.write(camelCase(name));
         writer.write(SEMICOLON);
         endBlock();
+    }
+
+    @Override
+    public void writeArgs(final List<String> args) throws IOException {
+        boolean first = true;
+        for (final String arg : args) {
+            if (first) {
+                first = false;
+            } else {
+                writer.write(COMMA);
+                writer.write(SPACE);
+            }
+            writer.write(arg);
+        }
+    }
+
+    @Override
+    public void writeArgs(final String... args) throws IOException {
+        boolean first = true;
+        for (final String arg : args) {
+            if (first) {
+                first = false;
+            } else {
+                writer.write(COMMA);
+                writer.write(SPACE);
+            }
+            writer.write(arg);
+        }
+    }
+
+    @Override
+    public void writeAssignment(final JavaParam lhs, final JavaSnippetExpr rhs) throws IOException {
+        if (lhs == null) {
+            throw new NullPointerException("lhs");
+        }
+        if (rhs == null) {
+            throw new NullPointerException("rhs");
+        }
+        beginStmt();
+        try {
+            writer.write("final");
+            writer.write(SPACE);
+            writeType(lhs.getType());
+            writer.write(SPACE);
+            writer.write(lhs.getName());
+            writer.write(SPACE);
+            writer.write("=");
+            writer.write(SPACE);
+            write(rhs);
+        } finally {
+            endStmt();
+        }
+    }
+
+    @Override
+    public void writeAttribute(final JavaParam param) throws IOException {
+        if (param == null) {
+            throw new NullPointerException("param");
+        }
+        writer.write("private");
+        writer.write(SPACE);
+        writer.write("final");
+        writer.write(SPACE);
+        writeType(param.getType());
+        writer.write(SPACE);
+        writer.write(param.getName());
+        writer.write(SEMICOLON);
     }
 
     @Override
@@ -174,11 +404,6 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
         writer.write(SPACE);
         writer.write(camelCase(name));
         writer.write(SEMICOLON);
-    }
-
-    @Override
-    public void writeComma() throws IOException {
-        writer.write(COMMA);
     }
 
     @Override
@@ -269,17 +494,10 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
         endBlock();
     }
 
-    private static final String makeDefensiveCopy(final JavaFeature javaFeature, final JavaGenConfig config) {
-        final Feature feature = javaFeature.getFeature();
-        final Multiplicity multiplicity = feature.getMultiplicity();
-        final Range range = multiplicity.getRange();
-        final String primeType = javaFeature.getPrimeTypeName(config);
-        if (range.getUpper() == Occurs.UNBOUNDED) {
-            return "Collections.unmodifiableList(new ArrayList<" + primeType + ">("
-                    + camelCase(javaFeature.getName(config)) + "))";
-        } else {
-            return camelCase(feature.getName());
-        }
+    @Override
+    public void writeOverride() throws IOException {
+        writer.write("@Override");
+        writer.write(CR);
     }
 
     @Override
@@ -288,5 +506,86 @@ public final class StandardJavaStreamWriter implements JavaStreamWriter {
         writer.write(SPACE);
         writer.write(name);
         writer.write(SEMICOLON);
+    }
+
+    @Override
+    public void writeParams(final JavaParam... params) throws IOException {
+        boolean first = true;
+        for (final JavaParam param : params) {
+            if (first) {
+                first = false;
+            } else {
+                writer.write(COMMA);
+                writer.write(SPACE);
+            }
+            if (!insideInterface && param.isFinal()) {
+                writer.write("final");
+                writer.write(SPACE);
+            }
+            writeType(param.getType());
+            writer.write(SPACE);
+            writer.write(param.getName());
+        }
+    }
+
+    @Override
+    public void writeParams(final List<JavaParam> params) throws IOException {
+        boolean first = true;
+        for (final JavaParam param : params) {
+            if (first) {
+                first = false;
+            } else {
+                writer.write(COMMA);
+                writer.write(SPACE);
+            }
+            if (!insideInterface && param.isFinal()) {
+                writer.write("final");
+                writer.write(SPACE);
+            }
+            writeType(param.getType());
+            writer.write(SPACE);
+            writer.write(param.getName());
+        }
+    }
+
+    @Override
+    public void writeThrows(final JavaType... exceptions) throws IOException {
+        writer.write(" throws ");
+        boolean first = true;
+        for (final JavaType exception : exceptions) {
+            if (first) {
+                first = false;
+            } else {
+                writer.write(COMMA);
+                writer.write(SPACE);
+            }
+            writeType(exception);
+        }
+    }
+
+    @Override
+    public JavaStreamWriter writeType(final JavaType type) throws IOException {
+        final JavaCollectionKind collectionKind = type.getCollectionKind();
+        switch (collectionKind) {
+        case LIST: {
+            write("List<").write(type.getSimpleName()).write(">");
+            return this;
+        }
+        case ARRAY_LIST: {
+            write("ArrayList<").write(type.getSimpleName()).write(">");
+            return this;
+        }
+        case MAP: {
+            write("Map<").write(type.getSimpleName()).write(",Object>");
+            return this;
+        }
+        case NONE: {
+            write(type.getSimpleName());
+            return this;
+        }
+        default: {
+            throw new AssertionError(collectionKind);
+        }
+        }
     }
 }

@@ -22,27 +22,30 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.mongodb.DBCollection;
-
+import org.slc.sli.dal.repository.MongoRepository;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
-import org.slc.sli.dal.repository.MongoRepository;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.ingestion.NeutralRecord;
+import com.mongodb.DBCollection;
 
 /**
  * Specialized class providing basic CRUD and field query methods for neutral records
  * using a Mongo Staging DB, for use for staging data for intermediate operations.
- *
+ * 
  * @author Thomas Shewchuk tshewchuk@wgen.net 2/23/2012 (PI3 US1226)
- *
+ * 
  */
 public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
-
+    
+    protected static final Logger LOG = LoggerFactory.getLogger(NeutralRecordRepository.class);
+    
     private static final String BATCH_JOB_ID = "batchJobId";
     private static final String CREATION_TIME = "creationTime";
 
@@ -101,75 +104,75 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     public List<NeutralRecord> insertAll(List<NeutralRecord> entities, String collectionName) {
         return insert(entities, collectionName);
     }
-
+    
     public List<NeutralRecord> insertAllForJob(List<NeutralRecord> entities, String collectionName) {
         return insertAll(entities, collectionName);
     }
-
+    
     @SuppressWarnings("deprecation")
     public Iterable<NeutralRecord> findAllByQuery(String collectionName, Query query) {
         return findByQuery(collectionName, query);
     }
-
+    
     public Iterable<NeutralRecord> findAllForJob(String collectionName, String jobId, NeutralQuery neutralQuery) {
         return findAll(collectionName, prependBatchJobIdOntoQuery(neutralQuery, jobId));
     }
-
+    
     @SuppressWarnings("deprecation")
     public Iterable<NeutralRecord> findByPathsForJob(String collectionName, Map<String, String> paths, String jobId) {
         paths.put(BATCH_JOB_ID, jobId);
         return findByPaths(collectionName, paths);
     }
-
+    
     public NeutralRecord findOneForJob(String collectionName, NeutralQuery neutralQuery, String jobId) {
         return findOne(collectionName, prependBatchJobIdOntoQuery(neutralQuery, jobId));
     }
-
+    
     public DBCollection getCollectionForJob(String collectionName) {
         return getCollection(collectionName);
     }
-
+    
     public long countForJob(String collectionName, NeutralQuery neutralQuery, String jobId) {
         return count(collectionName, prependBatchJobIdOntoQuery(neutralQuery, jobId));
     }
-
+    
     public long countByQuery(String collectionName, Query query) {
         return count(collectionName, query);
     }
-
+    
     public Set<String> getStagedCollectionsForJob(String batchJobId) {
         Set<String> collectionNamesForJob = new HashSet<String>();
         if (batchJobId != null) {
-            info("Checking staged collection counts for batch job id: {}", batchJobId);
+            LOG.info("Checking staged collection counts for batch job id: {}", batchJobId);
             Query query = new Query().limit(0);
             query.addCriteria(Criteria.where(BATCH_JOB_ID).is(batchJobId));
             query.addCriteria(Criteria.where(CREATION_TIME).gt(0));
-
+            
             for (String currentCollection : getTemplate().getCollectionNames()) {
                 long count = countByQuery(currentCollection, query);
                 if (count > 0) {
                     collectionNamesForJob.add(currentCollection);
                 }
-                info("Count for collection: {} ==> {} [query: {}]",
+                LOG.info("Count for collection: {} ==> {} [query: {}]",
                         new Object[] { currentCollection, count, query });
             }
         }
         return collectionNamesForJob;
     }
-
+    
     public void deleteStagedRecordsForJob(String batchJobId) {
         if (batchJobId != null) {
             Query query = new Query(Criteria.where(BATCH_JOB_ID).is(batchJobId));
             for (String currentCollection : getTemplate().getCollectionNames()) {
                 if (!currentCollection.startsWith("system.")) {
-                    info("Removing staged entities in collection: {} for batch job: {}", currentCollection,
+                    LOG.info("Removing staged entities in collection: {} for batch job: {}", currentCollection,
                             batchJobId);
                     getTemplate().remove(query, currentCollection);
                 }
             }
         }
     }
-
+    
     public void updateFirstForJob(NeutralQuery query, Map<String, Object> update, String collectionName, String jobId) {
         update(prependBatchJobIdOntoQuery(query, jobId), update, collectionName);
     }
@@ -202,7 +205,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     @Override
     public NeutralRecord create(NeutralRecord record, String collectionName) {
         template.save(record, collectionName);
-        debug(" create a record in collection {} with id {}", new Object[] { collectionName, getRecordId(record) });
+        LOG.debug(" create a record in collection {} with id {}", new Object[] { collectionName, getRecordId(record) });
         return record;
     }
 }

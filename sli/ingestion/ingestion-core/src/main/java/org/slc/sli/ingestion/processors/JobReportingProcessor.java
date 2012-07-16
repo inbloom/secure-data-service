@@ -40,6 +40,8 @@ import org.apache.camel.Processor;
 import org.apache.camel.ProducerTemplate;
 import org.apache.camel.impl.DefaultProducerTemplate;
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -76,6 +78,8 @@ public class JobReportingProcessor implements Processor {
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.JOB_REPORTING_PROCESSOR;
 
     public static final String JOB_STAGE_RESOURCE_ID = "job";
+
+    private static final Logger LOG = LoggerFactory.getLogger(JobReportingProcessor.class);
 
     private static final int ERRORS_RESULT_LIMIT = 100;
 
@@ -118,7 +122,7 @@ public class JobReportingProcessor implements Processor {
             writeBatchJobReportFile(exchange, job, hasErrors);
 
         } catch (Exception e) {
-            piiClearedError("Exception encountered in JobReportingProcessor. ", e);
+             LOG.error("Exception encountered in JobReportingProcessor. ", e);
         } finally {
             cleanupStagingDatabase(workNote);
 
@@ -175,7 +179,7 @@ public class JobReportingProcessor implements Processor {
 
             batchJobDAO.saveBatchJob(job);
         } else {
-            warn("Couldn't find job {}", jobId);
+            LOG.warn("Couldn't find job {}", jobId);
         }
     }
 
@@ -217,7 +221,7 @@ public class JobReportingProcessor implements Processor {
             }
 
         } catch (IOException e) {
-            error("Unable to write report file for: {}", job.getId());
+            LOG.error("Unable to write report file for: {}", job.getId());
         } finally {
             cleanupWriterAndLocks(jobReportWriter, lock, channel);
         }
@@ -259,7 +263,7 @@ public class JobReportingProcessor implements Processor {
                     if (errorWriter != null) {
                         writeErrorLine(errorWriter, error.getErrorDetail());
                     } else {
-                        error("Error: Unable to write to error file for: {} {}", job.getId(), externalResourceId);
+                        LOG.error("Error: Unable to write to error file for: {} {}", job.getId(), externalResourceId);
                     }
                 } else if (FaultType.TYPE_WARNING.getName().equals(error.getSeverity())) {
 
@@ -271,19 +275,19 @@ public class JobReportingProcessor implements Processor {
                     if (errorWriter != null) {
                         writeWarningLine(errorWriter, error.getErrorDetail());
                     } else {
-                        error("Error: Unable to write to warning file for: {} {}", job.getId(), externalResourceId);
+                        LOG.error("Error: Unable to write to warning file for: {} {}", job.getId(), externalResourceId);
                     }
                 }
 
                 if (countErrors > 1000 || countWarnings > 1000) {
-                    info("EXCEEDED MAXIMUM THRESHOLD OF ERRORS");
+                    LOG.info("EXCEEDED MAXIMUM THRESHOLD OF ERRORS");
                     break;
                 }
 
             }
 
         } catch (IOException e) {
-            error("Unable to write error file for: {}", job.getId());
+            LOG.error("Unable to write error file for: {}", job.getId());
         } finally {
             for (PrintWriter writer : resourceToErrorMap.values()) {
                 writer.close();
@@ -367,7 +371,7 @@ public class JobReportingProcessor implements Processor {
         for (Metrics metric : combinedMetrics) {
             ResourceEntry resourceEntry = job.getResourceEntry(metric.getResourceId());
             if (resourceEntry == null) {
-                error("The resource referenced by metric by resourceId " + metric.getResourceId()
+                LOG.error("The resource referenced by metric by resourceId " + metric.getResourceId()
                         + " is not defined for this job");
                 continue;
             }
@@ -414,7 +418,7 @@ public class JobReportingProcessor implements Processor {
     private void missingBatchJobIdError(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        error("No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+        LOG.error("No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
     private void writeInfoLine(PrintWriter jobReportWriter, String string) {
@@ -443,14 +447,14 @@ public class JobReportingProcessor implements Processor {
             try {
                 lock.release();
             } catch (IOException e) {
-                piiClearedError("unable to release FileLock.", e);
+                LOG.error("unable to release FileLock.", e);
             }
         }
         if (channel != null) {
             try {
                 channel.close();
             } catch (IOException e) {
-                piiClearedError("unable to close FileChannel.", e);
+                LOG.error("unable to close FileChannel.", e);
             }
         }
     }
@@ -464,7 +468,7 @@ public class JobReportingProcessor implements Processor {
             ipAddr = addr.getAddress();
 
         } catch (UnknownHostException e) {
-            piiClearedError("Error getting local host", e);
+            LOG.error("Error getting local host", e);
         }
         List<String> userRoles = Collections.emptyList();
         SecurityEvent event = new SecurityEvent();
@@ -489,9 +493,9 @@ public class JobReportingProcessor implements Processor {
     private void cleanupStagingDatabase(WorkNote workNote) {
         if ("true".equals(clearOnCompletion)) {
             neutralRecordMongoAccess.getRecordRepository().deleteStagedRecordsForJob(workNote.getBatchJobId());
-            info("Successfully deleted all staged records for batch job: {}", workNote.getBatchJobId());
+            LOG.info("Successfully deleted all staged records for batch job: {}", workNote.getBatchJobId());
         } else {
-            info("Not deleting staged records for batch job: {} --> clear on completion flag is set to FALSE",
+            LOG.info("Not deleting staged records for batch job: {} --> clear on completion flag is set to FALSE",
                     workNote.getBatchJobId());
         }
     }
@@ -509,7 +513,7 @@ public class JobReportingProcessor implements Processor {
             template.sendBody(this.commandTopicUri, "jobCompleted|" + workNote.getBatchJobId());
             template.stop();
         } catch (Exception e) {
-            error("Error sending `that's all folks` message to the orchestra", e);
+            LOG.error("Error sending `that's all folks` message to the orchestra", e);
         }
     }
 

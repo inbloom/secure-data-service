@@ -107,7 +107,6 @@
         <configuration>
           <showWeaveInfo>true</showWeaveInfo>
           <source>1.6</source>
-          <outxml>true</outxml>
           <weaveDependencies>
           </weaveDependencies>
         </configuration>
