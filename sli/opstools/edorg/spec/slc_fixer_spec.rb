@@ -34,7 +34,7 @@ describe SLCFixer do
       filtered = ['tenant', 'userSession', 'realm', 'userAccount', 'roles', 'realm', 'application', 'applicationAuthorization',
         'system.indexes', 'system.js', 'school', 'educationOrganization', 'educationOrganizationSchoolAssociation', 'educationOrganizationAssociation',
         'aggregationDefinition', 'learningStandard', 'learningObjective', 'courseSectionAssociation', 'securityEvent', 'custom_entities',
-        'calendarDate', 'studentCompetencyObjective']
+        'calendarDate', 'studentCompetencyObjective', 'assessment', 'teacher', 'error', 'iterableTest']
       @db.collections.each do |collection|
         col_count = collection.count
         stamped_count = collection.find({'metaData.edOrgs' => {"$exists" => true}}).count
@@ -81,8 +81,8 @@ describe SLCFixer do
       failed = []
       @db['staff'].find({'metaData.edOrgs'=> { '$exists' => false }, 'metaData.tenantId' => {'$exists' => true}}).each {|s| failed << s['_id']}
       assoc = []
-      @db['staffEducationOrganizationAssociation'].find.each {|s| assoc << s['body']['staffReference'] if s['metaData'].include? 'tenantId'}
-      @db['teacherSchoolAssociation'].find.each {|s| assoc << s['body']['teacherId'] if s['metaData'].include? 'tenantId'}
+      @db['staffEducationOrganizationAssociation'].find({"metaData.edOrgs" => {"$exists" => true}}).each {|s| assoc << s['body']['staffReference'] if s['metaData'].include? 'tenantId'}
+      @db['teacherSchoolAssociation'].find({"metaData.edOrgs" => {"$exists" => true}}).each {|s| assoc << s['body']['teacherId'] if s['metaData'].include? 'tenantId'}
       assoc.uniq!
       unassociated = @db['staff'].count - assoc.size
       unassociated.should == failed.size

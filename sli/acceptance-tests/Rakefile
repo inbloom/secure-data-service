@@ -23,7 +23,7 @@ TODROP = ENV['TODROP'] ? true : false
 
 CERTAIN_TENANTS = ENV['CERTAIN_TENANTS'] ? true : false
 
-RUN_STAMPER = false
+RUN_STAMPER = ENV['RUN_STAMPER'] ? true : false
 
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "Zork", "SLI", "T1", "T2", "T3", "mreynolds"]
 
@@ -432,6 +432,7 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1SingleStudentViewTests,
                      :v1BlacklistValidationTests,
                      :v1XMLTests,
+                     :userAdminCrudTests,
                      :v1CommaSeparatedListOrderTests] do
   displayFailureReport()
 end
