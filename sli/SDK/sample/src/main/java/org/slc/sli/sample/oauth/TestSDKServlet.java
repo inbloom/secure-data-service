@@ -88,7 +88,7 @@ public class TestSDKServlet extends HttpServlet {
         try {
             String id = client.create(student);
             client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
-            if (collection != null && collection.size() == 1) {
+            if (collection.size() == 1) {
 
                 String firstName = ((Map<String, String>) collection.get(0).getData().get("name")).get("firstName");
                 String lastSurname = ((Map<String, String>) collection.get(0).getData().get("name")).get("lastSurname");
@@ -122,14 +122,16 @@ public class TestSDKServlet extends HttpServlet {
             id = client.create(student);
 
             client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
-            if (collection != null && collection.size() == 1) {
-                student = collection.get(0);
-                ((List<Map<String, String>>) student.getData().get("address")).get(0).put("streetNumberName",
+            if (collection.size() == 1) {
+                Entity foundStudent = collection.get(0);
+                Map<String, Object> studentData = foundStudent.getData();
+
+                ((List<Map<String, String>>) studentData.get("address")).get(0).put("streetNumberName",
                         "2817 Oakridge Farm Lane");
-                client.update(student);
+                client.update(foundStudent);
             }
             client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
-            if (collection != null && collection.size() == 1) {
+            if (collection.size() == 1) {
                 student = collection.get(0);
                 String address = ((List<Map<String, String>>) student.getData().get("address")).get(0).get(
                         "streetNumberName");
@@ -161,7 +163,7 @@ public class TestSDKServlet extends HttpServlet {
             id = client.create(student);
 
             client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
-            if (collection != null && collection.size() == 1) {
+            if (collection.size() == 1) {
                 student = collection.get(0);
                 client.delete(ResourceNames.STUDENTS, id);
             }
@@ -191,9 +193,12 @@ public class TestSDKServlet extends HttpServlet {
         List<Entity> collection = new ArrayList<Entity>();
         String testResult = "";
         try {
-            client.read(collection, ResourceNames.TEACHERS, BasicQuery.Builder.create().filterEqual("sex", "Male")
-                    .sortBy("name.firstName").sortDescending().build());
-            if (collection != null && collection.size() > 0) {
+            client.read(collection, ResourceNames.TEACHERS,
+                    BasicQuery.Builder.create().filterEqual("sex", "Male")
+                                               .sortBy("name.firstName")
+                                               .sortDescending()
+                                               .build());
+            if (collection.size() > 0) {
                 String firstName = ((Map<String, String>) collection.get(0).getData().get("name")).get("firstName");
                 if (firstName.equals("Mark")) {
                     testResult = "succeed";
@@ -202,6 +207,8 @@ public class TestSDKServlet extends HttpServlet {
                     return testResult;
                 }
             }
+        } catch (SLIClientException e) {
+            LOG.error("RESPONSE:" + e.getMessage());
         } catch (Exception e) {
             LOG.error("RESPONSE:" + e.getMessage());
             testResult = "failed";

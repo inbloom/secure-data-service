@@ -50,6 +50,8 @@ import org.slc.sli.api.client.impl.BasicRESTClient;
 public class AuthFilter implements Filter {
 
     private static final Logger LOG = LoggerFactory.getLogger(AuthFilter.class);
+    private static final String CALL_BACK_PATH = "/sample/callback";
+
     private String clientId;
     private String clientSecret;
     private URL apiUrl;
@@ -75,7 +77,7 @@ public class AuthFilter implements Filter {
             client = new BasicClient(restClient);
             ((HttpServletResponse) response).sendRedirect(client.getRESTClient().getLoginURL().toExternalForm());
             httpRequest.getSession().setAttribute("client", client);
-        } else if ("/sample/callback".equals(httpRequest.getRequestURI())) {
+        } else if (CALL_BACK_PATH.equals(httpRequest.getRequestURI())) {
             // Authentication was successful lets connect to the API
             String code = httpRequest.getParameter("code");
             Response apiResponse = null;
