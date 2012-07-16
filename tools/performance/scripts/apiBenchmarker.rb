@@ -118,7 +118,7 @@ class APIBenchmarker
     end
 
     timestamp "Analyzing API log"
-    logAnalyzer = LogAnalyzer.new(@benchmarkAPILog, @benchmarkBatchLog, @batchId, @numIterations, @benchmarkResults)
+    logAnalyzer = LogAnalyzer.new(@benchmarkAPILog, @benchmarkBatchLog, @numIterations, @benchmarkResults)
     stats = logAnalyzer.analyze()
 
     timestamp "Ending benchmarking process"
