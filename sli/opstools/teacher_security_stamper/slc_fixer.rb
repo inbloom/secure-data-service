@@ -24,7 +24,6 @@ class SLCFixer
     }
 
     @studentId_to_teachers = {}
-    @studentId_to_tenant = {}
 
     @current_date = Date.today.to_s
     @grace_date = (Date.today - grace_period).to_s
@@ -66,8 +65,6 @@ class SLCFixer
     @db[:student].find({}, {fields: ['_id', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
       cursor.each { |student|
         studentId = student['_id']
-        tenantId = student['metaData']['tenantId']
-        @studentId_to_tenant[studentId] = tenantId
 
         teacherIds = []
         teacherIds += find_teachers_for_student_through_section(studentId)
@@ -409,28 +406,14 @@ class SLCFixer
 
   def stamp_assessments
     @log.info "Stamping assessment associations"
-    assessment_to_teachers = {}
-    assessment_to_tenant = {}
-
     @db['studentAssessmentAssociation'].find({}, {fields: ['_id', 'body.studentId', 'body.assessmentId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
       cursor.each { |assoc|
         teachers = @studentId_to_teachers[assoc['body']['studentId']]
         #@log.debug "studentAssessmentAssociation #{assoc['_id']} teacherContext #{teachers.to_s}"
         stamp_context(@db['studentAssessmentAssociation'], assoc, teachers)
-
-        assessment_id = assoc['body']['assessmentId']
-        assessment_to_tenant[assessment_id] ||= assoc['metaData']['tenantId']
-        assessment_to_teachers[assessment_id] ||= []
-        assessment_to_teachers[assessment_id] += teachers unless teachers.nil?
       }
     }
 
-    #not stamping assessments because they are public
-    #assessment_to_teachers.each { |assessment, teachers|
-    #  teachers = teachers.flatten
-    #  teachers = teachers.uniq
-    #  @db['assessment'].update({'_id'=> assessment, 'metaData.tenantId'=> assessment_to_tenant[assessment]}, {"$unset" => {"padding" => 1}, '$set' => {'metaData.teacherContext' => teachers}})
-    #}
     # TODO sectionAssesmentAssociation?
   end
 
