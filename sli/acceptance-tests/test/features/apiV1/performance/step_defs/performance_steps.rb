@@ -56,7 +56,7 @@ Before do
 
   @props['API_FORMAT'] = 'application/vnd.slc+json'
   @props['API_SERVER'] = 'localhost'
-  @props['API_SERVER_INSTANCE'] = 'http://local.slidev.org:8080/api/rest/v1'
+  @props['API_SERVER_INSTANCE'] = 'https://local.slidev.org/api/rest/v1'
 
   # this prop will likely be the only one overridden from the env
   @props['API_LOG_ORIGINAL'] = '/storage/logs/apicall.log' if @props['API_LOG_ORIGINAL'].nil?
