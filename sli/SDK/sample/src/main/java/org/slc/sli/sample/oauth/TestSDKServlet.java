@@ -26,7 +26,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.Response;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -127,11 +126,7 @@ public class TestSDKServlet extends HttpServlet {
                 student = collection.get(0);
                 ((List<Map<String, String>>) student.getData().get("address")).get(0).put("streetNumberName",
                         "2817 Oakridge Farm Lane");
-                Response response = client.update(student);
-                if (response.getStatus() != 204) {
-                    testResult = "failed";
-                    return testResult;
-                }
+                client.update(student);
             }
             client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
             if (collection != null && collection.size() == 1) {
@@ -145,7 +140,9 @@ public class TestSDKServlet extends HttpServlet {
                 }
             }
         } catch (SLIClientException e) {
+            // either the update or read call failed
         	LOG.error("SLIClientException:" + e.getMessage());
+            testResult = "failed";
         } catch (Exception e) {
             LOG.error("RESPONSE:" + e.getMessage());
             testResult = "failed";
@@ -168,14 +165,19 @@ public class TestSDKServlet extends HttpServlet {
                 student = collection.get(0);
                 client.delete(ResourceNames.STUDENTS, id);
             }
-            Response response = client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
-            if (response.getStatus() == 404) {
-                testResult = "succeed";
-            } else {
+            // make sure the read fails
+            try {
+                client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
                 testResult = "failed";
-                return testResult;
             }
-
+            catch (SLIClientException e) {
+                // unable to read therefore the delete succeded.
+                testResult = "succeed";
+            }
+        } catch (SLIClientException e) {
+            // either the create or delete failed
+            LOG.error("Response:" + e.getMessage());
+            testResult = "failed";
         } catch (Exception e) {
             LOG.error("RESPONSE:" + e.getMessage());
             testResult = "failed";
@@ -206,7 +208,6 @@ public class TestSDKServlet extends HttpServlet {
         }
 
         return testResult;
-
     }
 
     // build the test student entity that can pass schema validation
