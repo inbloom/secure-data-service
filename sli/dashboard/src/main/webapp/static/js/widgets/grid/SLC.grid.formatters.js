@@ -275,14 +275,29 @@ SLC.namespace('SLC.grid.formatters', (function () {
 	
 	    function restLink(value, options, rowObject) {
 			var link = options.colModel.formatoptions.link,
+			    level = options.colModel.formatoptions.level,
 				contextRootPath = util.getContextRootPath();
 	      
-	      if (typeof link === 'string')
-	      {
-	        return '<a href="' + contextRootPath + '/' + link + rowObject.id+'">'+$.jgrid.htmlEncode(value)+'</a>';
-	      } else {
-	        return value;
-	      }
+			if (typeof link !== 'string') {
+				return value;
+			}
+			
+			if (level != null && level !== undefined && rowObject.level != null && rowObject.level !== undefined &&
+			    level !== rowObject.level) {
+				return value;
+			}
+				
+			return '<a href="' + util.getLayoutLink(link, rowObject.id) +'">'+$.jgrid.htmlEncode(value)+'</a>';
+		}
+		
+		function dataColorBox(value, options, rowObject) {
+			var cssClass = options.colModel.formatoptions.style;
+	      
+			if (typeof cssClass === 'string') {
+				return '<span class=' + cssClass + '>' + value + '</span>';
+			} else {
+				return value;
+			}
 		}
 		
 		return {
@@ -294,7 +309,8 @@ SLC.namespace('SLC.grid.formatters', (function () {
 			FuelGauge: FuelGauge,
 			Grade: Grade,
 			TearDrop: TearDrop,
-			restLink: restLink
+			restLink: restLink,
+			dataColorBox: dataColorBox
 		};
 	}())
 );

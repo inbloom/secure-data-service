@@ -41,7 +41,6 @@ import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
-import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
@@ -103,10 +102,10 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
                 LOG.info("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
                         ingestionFileEntry.getFileName());
             } catch (Exception e) {
-                LogUtil.error(LOG, "Error accessing visitor list in smooks", e);
+                LOG.error("Error accessing visitor list in smooks", e);
             }
         } catch (SmooksException se) {
-            LogUtil.error(LOG, "smooks exception: encountered problem with " + ingestionFileEntry.getFile().getName() + "\n", se);
+            LOG.error("smooks exception: encountered problem with " + ingestionFileEntry.getFile().getName() + "\n", se);
             errorReport.error("SmooksException encountered while filtering input.", SmooksFileHandler.class);
         } finally {
             IOUtils.closeQuietly(inputStream);

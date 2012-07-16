@@ -17,35 +17,10 @@
 
 package org.slc.sli.api.resources.v1.entity;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
-
 import com.sun.jersey.core.util.MultivaluedMapImpl;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.constants.ResourceNames;
@@ -63,6 +38,28 @@ import org.slc.sli.api.resources.v1.association.StudentSectionAssociationResourc
 import org.slc.sli.api.resources.v1.association.StudentTranscriptAssociationResource;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit tests for the resource representing a Student
@@ -127,6 +124,9 @@ public class StudentResourceTest {
     StudentTranscriptAssociationResource studentTranscriptAssociationResource;
 
     @Autowired
+    EducationOrganizationResource educationOrganizationResource;
+
+    @Autowired
     private SecurityContextInjector injector;
 
     private UriInfo uriInfo;
@@ -188,11 +188,11 @@ public class StudentResourceTest {
         return entity;
     }
 
-    private Map<String, Object> createTestCohortEntity() {
+    private Map<String, Object> createTestCohortEntity(String edOrgId) {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put(CohortResource.COHORT_IDENTIFIER, cohortId);
         entity.put(CohortResource.COHORT_TYPE, cohortType);
-        entity.put(CohortResource.EDUCATION_ORGANIZATION_ID, "8765");
+        entity.put(CohortResource.EDUCATION_ORGANIZATION_ID, edOrgId);
         return entity;
     }
 
@@ -318,7 +318,10 @@ public class StudentResourceTest {
         Response createResponse = studentResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         String studentId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
-        createResponse = cohortResource.create(new EntityBody(createTestCohortEntity()), httpHeaders, uriInfo);
+        Response res = educationOrganizationResource.create(new EntityBody(), httpHeaders, uriInfo);
+        String edOrgId = ResourceTestUtil.parseIdFromLocation(res);
+
+        createResponse = cohortResource.create(new EntityBody(createTestCohortEntity(edOrgId)), httpHeaders, uriInfo);
         String targetId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         Map<String, Object> map = createTestCohortAssociationEntity();
@@ -366,7 +369,10 @@ public class StudentResourceTest {
         Response createResponse = studentResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
         String studentId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
-        createResponse = cohortResource.create(new EntityBody(createTestCohortEntity()), httpHeaders, uriInfo);
+        Response res = educationOrganizationResource.create(new EntityBody(), httpHeaders, uriInfo);
+        String edOrgId = ResourceTestUtil.parseIdFromLocation(res);
+
+        createResponse = cohortResource.create(new EntityBody(createTestCohortEntity(edOrgId)), httpHeaders, uriInfo);
         String cohortId = ResourceTestUtil.parseIdFromLocation(createResponse);
 
         Map<String, Object> map = createTestCohortAssociationEntity();
@@ -683,25 +689,6 @@ public class StudentResourceTest {
 
         Response response = studentResource.getStudentTranscriptAssociationCourses(studentId, httpHeaders, uriInfo);
         ResourceTestUtil.assertions(response);
-    }
-
-    @Test
-    public void testReadWithGrade() {
-        Response createResponse = studentResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
-        String studentId = ResourceTestUtil.parseIdFromLocation(createResponse);
-        createResponse = schoolResource.create(new EntityBody(
-                ResourceTestUtil.createTestEntity("SchoolResource")), httpHeaders, uriInfo);
-        String schoolId = ResourceTestUtil.parseIdFromLocation(createResponse);
-
-        Map<String, Object> map = ResourceTestUtil.createTestAssociationEntity(
-                "StudentSchoolAssociationResource", "StudentResource", studentId, "SchoolResource", schoolId);
-        map.put("entryGradeLevel", "First grade");
-        map.put("entryDate", "2001-09-01");
-        studentSchoolAssociationResource.create(new EntityBody(map), httpHeaders, uriInfo);
-
-        Response response = studentResource.readWithGrade(studentId, httpHeaders, uriInfo);
-        EntityBody body = ResourceTestUtil.assertions(response);
-        assertEquals("Grade level should match", "First grade", body.get("gradeLevel"));
     }
 
     @Test

@@ -175,4 +175,6 @@ Scenario: App Developer registers an application in App Registration Tool in San
 	Then the application is registered
 		And I can see the client ID and shared secret
 		And the Registration Status field is Registered
+	When I click on the In Progress button
+	  Then I can see the ed-orgs I want to approve for my application
 

@@ -3,7 +3,6 @@ Feature:  Dashboard Tests For 3 Sample Students
 
 Background:
 Given I have an open web browser
-Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
 
@@ -11,13 +10,49 @@ When I select "Illinois Daybreak School District 4529" and click go
 Scenario: View Matt Sollars
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
-And I see a header on the page that has the text "Logout"
-And I see a footer on the page that has the text "Proprietary Information"
-And the title of the page is "SLC - List of Students"
+And I see a header on the page
+And I see a footer on the page
+And the title of the page is "SLC - Section Profile"
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
-When I select course "8th Grade English"
-When I select section "8th Grade English - Sec 6"
+And I click on the go button
+And I view the School Profile
+And the school name is "East Daybreak Junior High"
+And the school address is 
+"""
+111 Ave B
+Chicago, IL 10112
+"""
+And the school phone number is "(917)-555-3312"
+And the grades served is "6, 7, 8"
+And I see the following subjects:
+|Subject                          |
+|Mathematics                      |
+|English Language and Literature  |
+And I click on subject "Mathematics"
+And I see the following courses:
+|Course|
+|6th Grade Math     |
+|7th Grade Math     |
+And I click on subject "English Language and Literature"
+And I see the following courses:
+|Course             |
+|6th Grade English  |
+|8th Grade English  |
+|7th Grade English  |
+|6th Grade Math     |
+|7th Grade Math     |
+And I click on course "8th Grade English"
+And I click on course "7th Grade English"
+And I click on course "6th Grade English"
+And I click on course "7th Grade Math"
+And I see the following sections:
+|Section                    |
+|8th Grade English - Sec 6  |
+|6th Grade English - Sec 4  |
+|7th Grade English - Sec 5  |
+|7th Grade Math - Sec 2     |
+And I click on section "8th Grade English - Sec 6"
 Then I see a list of 28 students
 And I check "Student" column is sorted as "string" column
 And I click on "Absence Count" header to sort a "integer" column in "ascending" order
@@ -87,8 +122,8 @@ And the grades teardrop color widgets for "previousSemester;twoSemestersAgo" are
  |F-   |teardrop-red       |
  |F    |teardrop-red       |
 And I click on student "Matt Sollars"
-And I see a header on the page that has the text "Logout"
-And I see a footer on the page that has the text "Proprietary Information"
+And I see a header on the page
+And I see a footer on the page
 And the title of the page is "SLC - Student Profile"
 And I view its student profile
 And their name shown in profile is "Matt Joseph Sollars Jr"
@@ -178,6 +213,16 @@ And the Assessment History for "StateTest Writing" has the following entries:
 |Date         |Grade  |Assessment Name            |Perf Level|Scale score|
 |2011-10-01   |8      |Grade 8 2011 StateTest Writing  |1         |1          |
 |2011-09-01   |8      |Grade 8 2011 StateTest Writing  |25        |25         |
+When I click on "Attendance and Discipline" Tab
+And the Attendance History in grid "1" has the following entries:
+|Term         |School                     |Grade Level  |% Present  |Total Absences |Excused  |Unexcused  |Tardy  |
+|2011-2012    |East Daybreak Junior High  |8            |95         |4              |4        |0          |0      |
+And the Attendance History in grid "2" has the following entries:
+|Term         |School                     |Grade Level  |% Present  |Total Absences |Excused  |Unexcused  |Tardy  |
+|2010-2011    |East Daybreak Junior High  |7            |0          |0              |0        |0          |0      |
+And the Attendance column "Excused" is of style "color-column-blue"
+And the Attendance column "Unexcused" is of style "color-column-red"
+And the Attendance column "Tardy" is of style "color-column-orange"
 And I click on the browser back button
 Then I see a list of 28 students
 
@@ -193,8 +238,8 @@ Then I see a list of 25 students
 Then I should only see one view named "Early Literacy View"
 And the list includes: "Mi-Ha Tran"
 And the following students have "ELL" lozenges: "Malcolm Haehn;Dara Nemecek;Lauretta Seip"
-And I see a header on the page that has the text "Logout"
-And I see a footer on the page that has the text "Proprietary Information"
+And I see a header on the page
+And I see a footer on the page
 # Early Literacy View
 And the count for id "attendances.absenceCount" for student "Mi-Ha Tran" is "1"
 And the class for id "attendances.absenceCount" for student "Mi-Ha Tran" is "color-widget-green"
@@ -289,8 +334,6 @@ And Student Enrollment History has the following entries:
 |Year      |School                     |Gr  |Entry Date |Entry Type                                 |Transfer |Withdraw Date  |Withdraw Type      |
 |<empty>   |South Daybreak Elementary  |1   |2011-09-05 |Next year school                           |<empty>  |<empty>        |<empty>            |
 |<empty>   |South Daybreak Elementary  |K   |2010-09-03 |Original entry into a United States school |<empty>  |2011-05-11     |End of school year |
-And I see a header on the page that has the text "Logout"
-And I see a footer on the page that has the text "Proprietary Information"
 And I click on the browser back button
 Then I see a list of 25 students
 
@@ -305,8 +348,8 @@ And I select section "Sec 145"
 Then I see a list of 25 students
 And the list includes: "Carmen Ortiz"
 And the following students have "ELL" lozenges: "Randolph Vanhooser;Kelvin Zahm;Johnathan Zenz"
-And I see a header on the page that has the text "Logout"
-And I see a footer on the page that has the text "Proprietary Information"
+And I see a header on the page
+And I see a footer on the page
 Then I should only see one view named "College Ready ELA View"
 And the count for id "attendances.absenceCount" for student "Carmen Ortiz" is "1"
 And the class for id "attendances.absenceCount" for student "Carmen Ortiz" is "color-widget-green"
@@ -401,8 +444,7 @@ And Student Enrollment History has the following entries:
 |<empty>|East Daybreak Junior High  |6 |2006-09-11 |Next year school                                                                         |<empty>      |2007-05-14     |End of school year |
 |<empty>|South Daybreak Elementary  |5 |2005-09-09 |Transfer from a private, religiously-affiliated school in the same local education agency|<empty>      |2006-05-15     |Exited|
 |<empty>|South Daybreak Elementary  |2 |2002-09-12 |Transfer from a school outside of the country                                            |<empty>      |2003-04-12     |Expelled or involuntarily withdrawn|
-And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Proprietary Information"
+And I see a header on the page
 When I click on "Assessment" Tab
 And Assessment History includes results for:
 |Test       |

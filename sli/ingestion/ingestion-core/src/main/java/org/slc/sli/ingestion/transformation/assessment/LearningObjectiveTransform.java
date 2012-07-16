@@ -97,31 +97,41 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
             List<Map<String, Object>> childLearningObjRefs = (List<Map<String, Object>>) parentLO.getAttributes().get(
                     LEARNING_OBJ_REFS);
 
-            for (Map<String, Object> loRef : childLearningObjRefs) {
-                String objectiveId = getByPath(LO_ID_CODE_PATH, loRef);
-                String contentStandard = getByPath(LO_CONTENT_STANDARD_NAME_PATH, loRef);
-                LearningObjectiveId loId = new LearningObjectiveId(objectiveId, contentStandard);
-                NeutralRecord childLo = learningObjectiveIdMap.get(loId);
-                if (childLo != null) {
-                    if (childLo.getLocalParentIds() == null) {
-                        childLo.setLocalParentIds(new HashMap<String, Object>());
-                    }
-                    if (!childLo.getLocalParentIds().containsKey(LOCAL_ID_OBJECTIVE_ID)) {
-                        childLo.getLocalParentIds().put(LOCAL_ID_OBJECTIVE_ID, parentObjectiveId);
-                        childLo.getLocalParentIds().put(LOCAL_ID_CONTENT_STANDARD, parentContentStandard);
-                        childLo.getLocalParentIds().put(LOCAL_ID_OBJECTIVE, parentObjective);
-                    } else {
-                        super.getErrorReport(childLo.getSourceFile()).error(
-                                "LearningObjective cannot have multiple parents. IdentificationCode: "
-                                        + loId.objectiveId, this);
-                    }
-                } else {
-                    super.getErrorReport(parentLO.getSourceFile()).error(
-                            "Could not resolve LearningObjectiveReference with IdentificationCode " + objectiveId
-                                    + ", ContentStandardName " + contentStandard, this);
-                }
-            }
-
+			if (childLearningObjRefs != null) {
+				for (Map<String, Object> loRef : childLearningObjRefs) {
+					String objectiveId = getByPath(LO_ID_CODE_PATH, loRef);
+					String contentStandard = getByPath(
+							LO_CONTENT_STANDARD_NAME_PATH, loRef);
+					LearningObjectiveId loId = new LearningObjectiveId(
+							objectiveId, contentStandard);
+					NeutralRecord childLo = learningObjectiveIdMap.get(loId);
+					if (childLo != null) {
+						if (childLo.getLocalParentIds() == null) {
+							childLo.setLocalParentIds(new HashMap<String, Object>());
+						}
+						if (!childLo.getLocalParentIds().containsKey(
+								LOCAL_ID_OBJECTIVE_ID)) {
+							childLo.getLocalParentIds().put(
+									LOCAL_ID_OBJECTIVE_ID, parentObjectiveId);
+							childLo.getLocalParentIds().put(
+									LOCAL_ID_CONTENT_STANDARD,
+									parentContentStandard);
+							childLo.getLocalParentIds().put(LOCAL_ID_OBJECTIVE,
+									parentObjective);
+						} else {
+							super.getErrorReport(childLo.getSourceFile())
+									.error("LearningObjective cannot have multiple parents. IdentificationCode: "
+											+ loId.objectiveId, this);
+						}
+					} else {
+						super.getErrorReport(parentLO.getSourceFile()).error(
+								"Could not resolve LearningObjectiveReference with IdentificationCode "
+										+ objectiveId
+										+ ", ContentStandardName "
+										+ contentStandard, this);
+					}
+				}
+			}
             List<Map<String, Object>> childLearningStdRefs = (List<Map<String, Object>>) parentLO.getAttributes().get(
                     LEARNING_STD_REFS);
             List<Map<String, Object>> lsRefList = new ArrayList<Map<String, Object>>();

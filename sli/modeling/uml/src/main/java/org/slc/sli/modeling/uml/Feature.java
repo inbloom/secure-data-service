@@ -13,8 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package org.slc.sli.modeling.uml;
 
 import java.util.List;
@@ -31,7 +29,7 @@ public abstract class Feature extends NamedModelElement implements HasType, HasM
      * The type of the attribute. Never <code>null</code>.
      */
     private final Identifier type;
-
+    
     public Feature(final Identifier id, final String name, final Identifier type, final Multiplicity multiplicity,
             final List<TaggedValue> taggedValues) {
         super(id, name, taggedValues);
@@ -44,21 +42,21 @@ public abstract class Feature extends NamedModelElement implements HasType, HasM
         this.type = type;
         this.multiplicity = multiplicity;
     }
-
+    
     public abstract boolean isAttribute();
-
+    
     public abstract boolean isAssociationEnd();
-
+    
     @Override
     public final Multiplicity getMultiplicity() {
         return multiplicity;
     }
-
+    
     @Override
     public final Identifier getType() {
         return type;
     }
-
+    
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();

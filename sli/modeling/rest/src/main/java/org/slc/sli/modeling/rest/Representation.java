@@ -28,13 +28,13 @@ import javax.xml.namespace.QName;
  */
 public final class Representation extends WadlElement {
     private final String id;
-    private final QName element;
+    private final QName elementName;
     private final String mediaType;
     private final List<String> profiles;
     private final List<Param> params;
 
-    public Representation(final String id, final QName element, final String mediaType, final List<String> profiles,
-            final List<Documentation> doc, final List<Param> params) {
+    public Representation(final String id, final QName elementName, final String mediaType,
+            final List<String> profiles, final List<Documentation> doc, final List<Param> params) {
         super(doc);
         if (null == mediaType) {
             throw new NullPointerException("mediaType");
@@ -46,7 +46,7 @@ public final class Representation extends WadlElement {
             throw new NullPointerException("params");
         }
         this.id = id;
-        this.element = element;
+        this.elementName = elementName;
         this.mediaType = mediaType;
         this.profiles = Collections.unmodifiableList(new ArrayList<String>(profiles));
         this.params = Collections.unmodifiableList(new ArrayList<Param>(params));
@@ -56,8 +56,8 @@ public final class Representation extends WadlElement {
         return id;
     }
 
-    public QName getElement() {
-        return element;
+    public QName getElementName() {
+        return elementName;
     }
 
     public String getMediaType() {
@@ -78,7 +78,7 @@ public final class Representation extends WadlElement {
         sb.append("{");
         sb.append("id").append(" : ").append(id);
         sb.append(", ");
-        sb.append("element").append(" : ").append(element);
+        sb.append("elementName").append(" : ").append(elementName);
         sb.append(", ");
         sb.append("mediaType").append(" : ").append(mediaType);
         sb.append(", ");

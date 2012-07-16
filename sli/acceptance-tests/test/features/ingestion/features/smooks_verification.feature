@@ -65,7 +65,7 @@ Scenario: Assessment and StudentAssessment Verification
     And I should see "stu_assess.xml records ingested successfully: 1" in the resulting batch job file
     And I should see "stu_assess.xml records failed: 0" in the resulting batch job file
 
-    And I find a(n) "studentAssessmentAssociation" record where "metaData.tenantId" is equal to "IL"
+    And I find a(n) "studentAssessmentAssociation" record where "metaData.tenantId" is equal to "Midgar"
     And verify the following data in that document:
        | searchParameter                                                          | searchValue                           | searchType           |
        | body.administrationDate                                                  | 2011-05-01                            | string               |

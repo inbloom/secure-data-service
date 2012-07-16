@@ -21,8 +21,9 @@ class Realm < SessionResource
 
   self.site = "#{APP_CONFIG['api_base']}"
   self.collection_name = "realm"
-  validates_length_of :uniqueIdentifier, :minimum => 5, :message => "must be at least 5 characters long"
+  validates_length_of :uniqueIdentifier, :name, :minimum => 5, :message => "must be at least 5 characters long"
   validates_presence_of :name, :message => "can't be blank"
+  validates_format_of :name, :uniqueIdentifier, :with => /^[a-zA-Z0-9\-_ ]*$/, :message => "cannot contain special characters"
   validate :idp_and_redirect_cannot_be_blank
   validate :defaults_on_save
 

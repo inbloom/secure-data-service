@@ -92,7 +92,7 @@ public class XsdValidator extends SimpleValidatorSpring<IngestionFileEntry> {
         } catch (RuntimeException e) {
             LOG.error("Problem ingesting file: " + ingestionFileEntry.getFileName());
         } catch (Exception e) {
-            LogUtil.error(LOG, "Error processing file " + ingestionFileEntry.getFileName(), e);
+            LOG.error("Error processing file " + ingestionFileEntry.getFileName(), e);
         } finally {
             IOUtils.closeQuietly(is);
         }

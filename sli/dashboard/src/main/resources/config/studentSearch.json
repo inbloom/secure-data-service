@@ -1,18 +1,8 @@
 {
-id : "studentSearch",
-type : "GRID",
-name : "Student Search",
-data : {
-    entity: "studentSearch",
-    cacheKey: "studentSearch"
-    },
-    
-    root: "students",
-    
-    items: [
-    {id: "col1", name: "Student", align: "left", width: 220, field: "name.fullName", formatter: restLink, params: {link:'service/layout/studentProfile/', target:"_self"}},
-    {id: "col2", name: "Grade", align: "left", type: "FIELD", datatype: "string", field: "gradeLevelCode", width: 220},
-    {id: "col3", name: "School", align: "left", type:"FIELD", datatype: "string", field: "currentSchoolName", width: 250}
-    ]
-    
+  id : "studentSearch",
+  type: "LAYOUT",
+  name: "SLC - Search",
+  items: [
+    {id: "studentSearchResults", name: "Student Search", type: "GRID"}
+  ]
 }

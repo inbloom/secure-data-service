@@ -1,0 +1,39 @@
+{
+    "sex":"Female",
+    "studentUniqueStateId":"900000011",
+    "name":{
+        "middleName":"Delany",
+        "lastSurname":"Mcwain",
+        "firstName":"Robin"
+    },
+    "birthData":{
+        "birthDate":"1995-03-15"
+    },
+
+    "limitedEnglishProficiency":"NotLimited",
+    "address":[
+        {
+            "nameOfCounty":"Cook",
+            "apartmentRoomSuiteNumber":"APT 4071",
+            "postalCode":"60860-4641",
+            "streetNumberName":"3734 Stuart Street",
+            "stateAbbreviation":"IL",
+            "countryCode":"US",
+            "addressType":"Billing",
+            "city":"Chicago"
+        }
+    ],
+    "electronicMail":[
+        {
+            "emailAddress":"rmcwain@yahoo.com",
+            "emailAddressType":"Other"
+        }
+    ],
+    "telephone":[
+        {
+            "telephoneNumber":"574-773-0726",
+            "primaryTelephoneNumberIndicator":false,
+            "telephoneNumberType":"Emergency 1"
+        }
+    ]
+}

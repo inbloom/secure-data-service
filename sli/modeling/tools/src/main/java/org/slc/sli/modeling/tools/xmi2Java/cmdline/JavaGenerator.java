@@ -34,8 +34,8 @@ import org.slc.sli.modeling.jgen.JavaGenConfig;
 import org.slc.sli.modeling.jgen.JavaGenConfigBuilder;
 import org.slc.sli.modeling.jgen.JavaOutputFactory;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
-import org.slc.sli.modeling.jgen.JavadocHelper;
 import org.slc.sli.modeling.jgen.JavaTypeHelper;
+import org.slc.sli.modeling.jgen.JavadocHelper;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.DataType;
 import org.slc.sli.modeling.uml.EnumLiteral;
@@ -43,6 +43,7 @@ import org.slc.sli.modeling.uml.EnumType;
 import org.slc.sli.modeling.uml.Generalization;
 import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Type;
+import org.slc.sli.modeling.uml.helpers.NamespaceHelper;
 import org.slc.sli.modeling.uml.index.DefaultModelIndex;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.reader.XmiReader;
@@ -52,12 +53,8 @@ public final class JavaGenerator {
     public static void main(final String[] args) {
         try {
             final JavaGenConfig config = new JavaGenConfigBuilder().build();
-            doModel("SLI.xmi",
-                    "/Users/dholmes/Development/SLI/sli/sli/modeling/tools/src/main/java/org/slc/sli/modeling/ninja",
-                    "org.slc.sli.modeling.ninja", config);
-            // doModel("xmi-mapping.xmi",
-            // "/Users/dholmes/Development/SLI/sli/sli/modeling/tools/src/main/java/org/slc/sli/modeling/tools/xmicomp/cmdline",
-            // "org.slc.sli.modeling.tools.xmicomp.cmdline", config);
+            doModel("./../../domain/src/main/resources/sliModel/SLI.xmi",
+                    "./../../modeling/shtick/src/main/java/org/slc/sli/shtick/pojo", "org.slc.sli.shtick.pojo", config);
         } catch (final FileNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -67,7 +64,7 @@ public final class JavaGenerator {
             final String targetPkgName, final JavaGenConfig config) throws FileNotFoundException {
         final ModelIndex model = new DefaultModelIndex(XmiReader.readModel(modelFileName));
         final File dir = new File(targetDirName);
-        for (final ClassType classType : model.getClassTypes()) {
+        for (final ClassType classType : model.getClassTypes().values()) {
             final String fileName = classType.getName().concat(".java");
             final File file = new File(dir, fileName);
             final List<String> importNames = new ArrayList<String>();
@@ -83,7 +80,9 @@ public final class JavaGenerator {
         for (final DataType dataType : model.getDataTypes().values()) {
             final String fileName = dataType.getName().concat(".java");
             final File file = new File(dir, fileName);
-            writeDataType(targetPkgName, dataType, model, file, config);
+            if (!NamespaceHelper.getNamespace(dataType, model).equals("http://www.w3.org/2001/XMLSchema")) {
+                writeDataType(targetPkgName, dataType, model, file, config);
+            }
         }
     }
 
@@ -109,7 +108,7 @@ public final class JavaGenerator {
             try {
                 jsw.writePackage(targetPkgName);
                 JavadocHelper.writeJavadoc(dataType, model, jsw);
-                jsw.beginClass(dataType.getName(), null);
+                jsw.beginClass(dataType.getName());
                 try {
                     final String dataTypeBaseName = JavaTypeHelper.getAttributePrimeTypeName(getDataTypeBase(dataType,
                             model));
@@ -209,7 +208,7 @@ public final class JavaGenerator {
                         if (index == size) {
                             jsw.endStmt();
                         } else {
-                            jsw.writeComma();
+                            jsw.comma();
                         }
                     }
                     jsw.writeAttribute("name", "String");
