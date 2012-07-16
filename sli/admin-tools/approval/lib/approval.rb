@@ -55,15 +55,19 @@ module ApprovalEngine
         STATE_DISABLED      => { ACTION_ENABLE  => STATE_APPROVED }
     }
 
+    # Roles 
+    ROLE_APPLICATION_DEVELOPER = "application_developer"
+    ROLE_INGESTION_USER        = "ingestion_user"
+
     # Roles to set in sandbox mode
     SANDBOX_ROLES = [
-        "Application Developer",
-        "Ingestion User"
+        ROLE_APPLICATION_DEVELOPER,
+        ROLE_INGESTION_USER
     ]
 
     # Roles to set in production mode
     PRODUCTION_ROLES = [
-        "Application Developer"
+        ROLE_APPLICATION_DEVELOPER
     ]
 
     # all the user states that should be included in the user count 
@@ -278,21 +282,9 @@ module ApprovalEngine
     #
     # email_address: Previously added email_address identifying a user.
     def ApprovalEngine.remove_user(email_address)
-        user = @@storage.read_user(email_address)
+        #user = @@storage.read_user(email_address)
         clear_roles(email_address)
         @@storage.delete_user(email_address)
-    end
-
-    def ApprovalEngine.clear_roles(email_address)
-        @@roles.each do |role|
-             @@storage.remove_user_group(email_address, role)
-        end
-    end
-
-    def ApprovalEngine.set_roles(email_address)
-        @@roles.each do |role|
-             @@storage.add_user_group(email_address, role)
-        end
     end
 
     def ApprovalEngine.get_roles(email_address)
@@ -303,6 +295,19 @@ module ApprovalEngine
     # Private methods
     #############################################################
     private 
+
+    def ApprovalEngine.set_roles(email_address)
+        @@roles.each do |role|
+             @@storage.add_user_group(email_address, role)
+        end
+    end
+
+    def ApprovalEngine.clear_roles(email_address)
+        user_roles = @@storage.get_user_groups(email_address)
+        user_roles.each do |role|
+             @@storage.remove_user_group(email_address, role)
+        end
+    end
 
     def ApprovalEngine.set_emailtoken(user)
         user_info = {
