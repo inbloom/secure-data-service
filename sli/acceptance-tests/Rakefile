@@ -23,7 +23,7 @@ TODROP = ENV['TODROP'] ? true : false
 
 CERTAIN_TENANTS = ENV['CERTAIN_TENANTS'] ? true : false
 
-RUN_STAMPER = false
+RUN_STAMPER = ENV['RUN_STAMPER'] ? true : false
 
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "Zork", "SLI", "T1", "T2", "T3", "mreynolds"]
 
