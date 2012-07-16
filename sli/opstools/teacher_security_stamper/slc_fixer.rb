@@ -519,7 +519,6 @@ class SLCFixer
           teachers = teachers.uniq
         end
 
-        #@db['teacher'].update({'_id'=> teacher_id, 'metaData.tenantId'=> teacher_to_tenant[teacher_id]}, {"$unset" => {"padding" => 1}, '$set' => {'metaData.teacherContext' => teachers}})
         stamp_context(@db['staff'], teacher, teachers)
       }
     }
