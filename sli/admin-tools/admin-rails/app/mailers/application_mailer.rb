@@ -45,8 +45,8 @@ class ApplicationMailer < ActionMailer::Base
   
   def notify_reset_password(email, key)
     user = APP_LDAP_CLIENT.read_user(email)
-    @fullName = user[:first]
-    @url = APP_CONFIG['email_replace_uri'] + "/resetPassword?key=" + key
+    @fullName = user[:first] + " " + user[:last]
+    @resetPasswordUrl = APP_CONFIG['email_replace_uri'] + "/resetPassword?key=" + key
     mail(:to => 'vummalaneni@wgen.net', :subject => FORGOT_PASSWORD_SUBJECT )
   end
   

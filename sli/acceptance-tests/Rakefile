@@ -370,9 +370,9 @@ task :apiSeleniumTests => [:adminToolsTests, :databrowserTests] do
   end
 end
 
-desc "Run Change Password Selenium Tests"
-task :changePasswordTests => [:realmInit] do
-  runTests("test/features/admintools/change_password.feature")
+desc "Run Reset and Change Password Selenium Tests"
+task :resetAndChangePasswordTests => [:realmInit] do
+  runTests("test/features/admintools/reset_change_password.feature")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"

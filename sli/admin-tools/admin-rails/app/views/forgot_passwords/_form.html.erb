@@ -1,7 +1,7 @@
 <%= form_for(@forgot_password) do |f| %>
   <% if @forgot_password.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(@forgot_password.errors.count, "error") %> prohibited this forgot_password from being saved:</h2>
+      <h2><%= pluralize(@forgot_password.errors.count, "error") %> prohibited you from resetting your password</h2>
 
       <ul>
       <% @forgot_password.errors.full_messages.each do |msg| %>
@@ -49,7 +49,7 @@
     <table>
         <tr>
           <td id="SubmitButton"><%= f.submit "Submit", 
-            :id => "submitChangePasswordButton"%></td>
+            :id => "submitForgotPasswordButton"%></td>
           <td id="CancelLink"></td>
         </tr>
     </table>

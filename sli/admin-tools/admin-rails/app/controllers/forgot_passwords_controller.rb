@@ -18,6 +18,7 @@ limitations under the License.
 
 
 require 'active_support/secure_random'
+require 'digest'
 require 'ldapstorage'
 require 'time'
 require 'date'
@@ -40,20 +41,17 @@ class ForgotPasswordsController < ApplicationController
     @forgot_password = ForgotPassword.new(params[:forgot_password])
     @forgot_password.errors.clear
     respond_to do |format|
-      if @forgot_password.valid? == true
+      user = APP_LDAP_CLIENT.read_user_resetkey(@forgot_password.token)
+           
+      if !!user && @forgot_password.valid? == true
          begin
-           str = (Base64.decode64(@forgot_password.token)).split(" ");
-           email = str[0]
-           resetKey = str[1]
            update_info = {
-                :email => "#{email}",
+                :email => "#{user[:email]}",
                 :password   => "#{@forgot_password.new_pass}",
                 :resetKey => ""
            }
-           puts "before response" + email
            response =  APP_LDAP_CLIENT.update_user_info(update_info)
-           puts "after response"
-           user = APP_LDAP_CLIENT.read_user(email)
+           
            emailAddress = user[:emailAddress]
            fullName = user[:first] + " " + user[:last]
            ApplicationMailer.notify_password_change(emailAddress, fullName).deliver
@@ -83,30 +81,25 @@ class ForgotPasswordsController < ApplicationController
   # PUT /forgot_passwords/1.json
   def update
     @forgot_password = ForgotPassword.new
-    token = params[:key]
-    puts @forgot_password
-    @forgot_password.set_token(token)
-    str = (Base64.decode64(@forgot_password.token)).split(" ");
-    user_id = str[0]
-    resetKey = str[1]
-    
-    user =  APP_LDAP_CLIENT.read_user(user_id)
-    puts user
-    currentTime = DateTime.current
-    difference = ((currentTime - user[:updated]) * 24 * 60 * 60).to_i
+    key = params[:key]
+    @forgot_password.set_token(key)
     respond_to do |format|
-      if difference < 86400
-       if resetKey == user[:resetKey]
+      user = APP_LDAP_CLIENT.read_user_resetkey(key)
+      if (!!user)
+        resetKey = user[:resetKey]
+        currentTimestamp = DateTime.current.utc.to_i
+        difference = currentTimestamp - Integer(resetKey.sub(key + "@", ""))
+        puts difference
+        if difference >= 0 && difference < 86400
           format.html { render action: "update" }
           format.json { render json: @forgot_password, status: :created, location: @forgot_password }
-        else
-          puts "I am here"
-          @forgot_password.errors.add(:base, "Unable to verify user, Please contact SLC Operator")
+        else 
+          @forgot_password.errors.add(:base, "Password reset request expired!")
           format.html { render action: "show" }
           format.json { render json: @forgot_password.errors, status: :unprocessable_entity }
         end
-      else 
-        @forgot_password.errors.add(:base, "Password reset request expired!")
+      else
+        @forgot_password.errors.add(:base, "Unable to verify user, Please contact SLC Operator")
         format.html { render action: "show" }
         format.json { render json: @forgot_password.errors, status: :unprocessable_entity }
       end
@@ -122,16 +115,16 @@ class ForgotPasswordsController < ApplicationController
     respond_to do |format|
       if ApplicationHelper.user_exists?(user_id)
         begin
-          key = SecureRandom.base64(10)
+          currentTimestamp = DateTime.current.utc.to_i.to_s
+          key = Digest::MD5.hexdigest(SecureRandom.base64(10) + currentTimestamp + user_id)
+          token = key + "@" + currentTimestamp
           update_info = {
             :email    => "#{user_id}",
-            :resetKey => "#{key}"
+            :resetKey => "#{token}"
           }
-          
-          token = Base64.encode64("#{user_id}" + " " + "#{key}")
           response =  APP_LDAP_CLIENT.update_user_info(update_info)
           
-          ApplicationMailer.notify_reset_password(user_id, token).deliver
+          ApplicationMailer.notify_reset_password(user_id, key).deliver
           
           format.html { redirect_to "/forgotPassword/notify", notice: 'Your password reset instructions are sent to your email. Please follow the instructions in the email' }
           format.json { render :json => @forgot_password, status: :created, location: @forgot_password }

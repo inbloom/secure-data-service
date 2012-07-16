@@ -235,6 +235,11 @@ class LDAPStorage
         return search_map_user_fields(filter, 1)[0]        
     end
 
+    # returns extended user_info for the given resetKey (see create_user) or nil 
+    def read_user_resetkey(resetKey)
+        filter = Net::LDAP::Filter.begins(ENTITY_ATTR_MAPPING[:resetKey].to_s, resetKey + "@")
+        return search_map_user_fields(filter, 1)[0]        
+    end
   # returns array of extended user_info for all users or all users with given status
   # use constants in approval.rb
   def read_users(status=nil)
