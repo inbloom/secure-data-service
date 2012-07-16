@@ -153,10 +153,10 @@ public class BatchJobMongoDA implements BatchJobDAO {
             latchObject.put("jobId", jobId);
             latchObject.put("recordType", recordType);
             latchObject.put("count", count);
-            batchJobMongoTemplate.getCollection("workNoteLatch").insert(latchObject);
+            batchJobMongoTemplate.getCollection("workNoteLatch").insert(latchObject, WriteConcern.SAFE);
         } catch (MongoException me) {
             if (me.getCode() == 11000 /* dup key */) {
-                debug(me.getMessage());
+                error(me.getMessage());
             }
             return false;
         }
@@ -180,12 +180,13 @@ public class BatchJobMongoDA implements BatchJobDAO {
         if (syncStage.equals(MessageType.PERSIST_REQUEST.name())) {
            return countDownPersistWorkNodeLatches(syncStage, jobId, recordType);
         }
+
         return 0 == (Integer) latchObject.get("count");
     }
 
     private boolean countDownPersistWorkNodeLatches(String syncStage, String jobId, String recordType) {
         BasicDBObject ref = new BasicDBObject();
-        ref.put("syncStage", syncStage);
+
         ref.put("jobId", jobId);
 
         DBCursor cursor = batchJobMongoTemplate.getCollection("workNoteLatch").find(ref);
