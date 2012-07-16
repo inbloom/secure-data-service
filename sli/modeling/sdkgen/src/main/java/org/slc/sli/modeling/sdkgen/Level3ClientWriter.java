@@ -15,15 +15,10 @@ import org.slc.sli.modeling.jgen.JavaCollectionKind;
 import org.slc.sli.modeling.jgen.JavaParam;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 import org.slc.sli.modeling.jgen.JavaType;
-import org.slc.sli.modeling.rest.Application;
-import org.slc.sli.modeling.rest.Method;
-import org.slc.sli.modeling.rest.Representation;
-import org.slc.sli.modeling.rest.Request;
-import org.slc.sli.modeling.rest.Resource;
-import org.slc.sli.modeling.rest.Resources;
-import org.slc.sli.modeling.rest.Response;
+import org.slc.sli.modeling.rest.*;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenGrammars;
 import org.slc.sli.modeling.wadl.helpers.WadlHandler;
+import org.slc.sli.modeling.xdm.DmNode;
 
 public abstract class Level3ClientWriter implements WadlHandler {
     /**
@@ -198,6 +193,28 @@ public abstract class Level3ClientWriter implements WadlHandler {
         } catch (final IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Writes out the doc elements from the method
+     * @param method
+     * @throws IOException
+     */
+    protected void writeMethodDocumentation(Method method) throws IOException {
+        StringBuffer docBufer = new StringBuffer();
+
+        List<Documentation> docs = method.getDocumentation();
+        for (Documentation doc : docs) {
+            List<DmNode> nodes = doc.getContents();
+
+            for (DmNode node : nodes) {
+                docBufer.append(node.getStringValue());
+                docBufer.append("\n");
+            }
+        }
+        docBufer.append(method.getId());
+
+        jsw.writeComment(docBufer.toString());
     }
 
     protected abstract void writeGET(final Method method, final Resource resource, final Resources resources,
