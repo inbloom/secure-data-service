@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -19,9 +20,11 @@ import org.junit.Test;
 import org.slc.sli.shtick.pojo.Address;
 import org.slc.sli.shtick.pojo.BirthData;
 import org.slc.sli.shtick.pojo.Home;
+import org.slc.sli.shtick.pojo.LanguageItemType;
 import org.slc.sli.shtick.pojo.Links;
 import org.slc.sli.shtick.pojo.Name;
 import org.slc.sli.shtick.pojo.SexType;
+import org.slc.sli.shtick.pojo.StateAbbreviationType;
 import org.slc.sli.shtick.pojo.Student;
 
 public class StandardLevel3ClientManualTest {
@@ -48,6 +51,8 @@ public class StandardLevel3ClientManualTest {
             assertEquals("Jeff", student.getName().getFirstName());
             assertEquals("Stokes", student.getName().getLastSurname());
             assertEquals(studentId, student.getId());
+
+            assertEquals(2, student.getAddress().size());
 
             // PUT UPDATED ENTITY
             doPutStudent(client, student);
@@ -266,6 +271,30 @@ public class StandardLevel3ClientManualTest {
         name.setMiddleName("Allen");
         name.setLastSurname("Stokes");
         student.setName(name);
+
+        List<Address> addressList = new ArrayList<Address>();
+        Address address1 = new Address();
+        address1.setStreetNumberName("1234 My Street");
+        address1.setCity("New York");
+        address1.setPostalCode("11111");
+        address1.setStateAbbreviation(StateAbbreviationType.NY);
+
+        Address address2 = new Address();
+        address2.setStreetNumberName("5555 My Street");
+        address2.setCity("San Fran");
+        address2.setPostalCode("22222");
+        address2.setStateAbbreviation(StateAbbreviationType.CA);
+
+        addressList.add(address1);
+        addressList.add(address2);
+
+        student.setAddress(addressList);
+
+//        List<LanguageItemType> languageList = new ArrayList<LanguageItemType>();
+//        languageList.add(LanguageItemType.ENGLISH);
+//        languageList.add(LanguageItemType.APACHE);
+//
+//        student.setLanguages(languageList);
 
         student.setStudentUniqueStateId("1234-STUDENT");
         student.setSex(SexType.MALE);
