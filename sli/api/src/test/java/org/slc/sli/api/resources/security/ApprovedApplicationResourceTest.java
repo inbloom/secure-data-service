@@ -106,6 +106,7 @@ public class ApprovedApplicationResourceTest {
         adminApp.put("endpoints", endpoints);
         adminApp.put("created_by", "slcdeveloper");
         adminApp.put("name", "Admin App");
+        adminApp.put("admin_visible", true);
         userApp = new EntityBody();
         userApp.put("is_admin", false);
         userApp.put("installed", false);
