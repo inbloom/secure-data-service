@@ -53,7 +53,8 @@ end
 Then /^I receive a JSON object listing all the apps approved for "(.*?)"$/ do |district|
   assert(@res.code == 200, "Response code not expected: expected 200 but received "+@res.code.to_s)
   @apps ||= {}
-  @apps[district] = JSON.parse(@res.body)
+  @result = JSON.parse(@res.body)
+  @apps[district] = @result
   assert(@apps[district] != nil, "Result of JSON parsing is nil")
 end
 
@@ -94,6 +95,26 @@ And /^the list contains the admin app$/ do
 	end
 	assert(@admin_app != nil, "Admin app found")
 end
+
+Then /^the list contains and app named "(.*?)"$/ do |app_name|
+	@result.each do |app|
+		if app["name"] == app_name
+			@found_app = app
+		end
+	end
+	assert(@found_app != nil, "Did not find an app named #{app_name}")
+
+end
+
+Then /^the list does not contain and app named "(.*?)"$/ do |app_name|
+	@result.each do |app|
+		if app["name"] == app_name
+			@found_app = app
+		end
+	end
+	assert(@found_app == nil, "Found an app named #{app_name}")
+end
+
 
 And /^the admin app endpoints only contains SLI operator endpoints$/ do
 	assert(@admin_app["endpoints"] != nil)

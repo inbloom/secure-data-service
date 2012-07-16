@@ -206,6 +206,7 @@ public class ApplicationResourceTest {
         developer.put("organization", "Acme");
         developer.put("license_accepted", true);
         app.put("developer_info", developer);
+        app.put("installed", false);
         return app;
     }
 

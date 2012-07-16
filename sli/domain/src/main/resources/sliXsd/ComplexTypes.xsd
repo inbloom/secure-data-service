@@ -7452,4 +7452,23 @@
 		</xs:sequence>
 	</xs:complexType>
 
+  <xs:complexType name="home">
+    <xs:annotation>
+      <xs:documentation>TODO: Placeholder documentation</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="links" type="links" maxOccurs="unbounded" minOccurs="0" />
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="links">
+    <xs:annotation>
+      <xs:documentation>TODO: Placeholder documentation</xs:documentation>
+    </xs:annotation>
+    <xs:sequence>
+      <xs:element name="rel" type="xs:string" />
+      <xs:element name="href" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+
 </xs:schema>
