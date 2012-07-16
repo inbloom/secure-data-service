@@ -169,6 +169,9 @@ public class SecuritySessionResource {
             return principal.getExternalId();
         }
         Map<String, Object> body = (Map) principal.getEntity().getBody();
+        if (!body.containsKey("electronicMail")) {
+            return "";
+        }
         List emails = (List) body.get("electronicMail");
         if (emails.size() == 1) {
             Map<String, String> email = (Map) emails.get(0);
