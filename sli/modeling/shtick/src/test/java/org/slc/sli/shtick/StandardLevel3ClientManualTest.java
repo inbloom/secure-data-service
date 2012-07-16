@@ -290,11 +290,11 @@ public class StandardLevel3ClientManualTest {
 
         student.setAddress(addressList);
 
-//        List<LanguageItemType> languageList = new ArrayList<LanguageItemType>();
-//        languageList.add(LanguageItemType.ENGLISH);
-//        languageList.add(LanguageItemType.APACHE);
-//
-//        student.setLanguages(languageList);
+        List<LanguageItemType> languageList = new ArrayList<LanguageItemType>();
+        languageList.add(LanguageItemType.ENGLISH);
+        languageList.add(LanguageItemType.APACHE);
+
+        student.setLanguages(languageList);
 
         student.setStudentUniqueStateId("1234-STUDENT");
         student.setSex(SexType.MALE);
