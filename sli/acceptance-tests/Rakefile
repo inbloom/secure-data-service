@@ -716,6 +716,8 @@ task :importSecuredData do
     end
   end
   testHash = Hash[
+    "assessment" => "secured/assessment.json",
+    "attendance" => "secured/attendance.json",
     "cohort" => "secured/cohort.json",
     "educationOrganization" => "secured/educationOrganization.json",
     "program" => "secured/program.json",
@@ -725,6 +727,7 @@ task :importSecuredData do
     "staffEducationOrganizationAssociation" => "secured/staffEducationOrganizationAssociation.json",
     "staffProgramAssociation" => "secured/staffProgramAssociation.json",
     "student" => "secured/student.json",
+    "studentAssessmentAssociation" => "secured/studentAssessment.json",
     "studentCohortAssociation" => "secured/studentCohortAssociation.json",
     "studentProgramAssociation" => "secured/studentProgramAssociation.json",
     "studentSchoolAssociation" => "secured/studentSchoolAssociation.json",
