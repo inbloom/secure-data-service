@@ -13,17 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package org.slc.sli.modeling.xmigen;
 
 import org.apache.ws.commons.schema.XmlSchema;
-
 import org.slc.sli.modeling.uml.Model;
 
 public final class Xsd2Uml {
     public static final Model transform(final String name, final XmlSchema schema, final Xsd2UmlPlugin plugin) {
-        final Model extract = Xsd2UmlConvert.extract(name, schema, plugin);
-        return Xsd2UmlLinker.link(extract, plugin);
+        final Model model01 = Xsd2UmlConvert.extract(name, schema, plugin);
+        final Model model02 = Xsd2UmlLinker.link(model01, plugin);
+        final Model model03 = Xsd2UmlTweaker.tweak(model02, plugin);
+        return model03;
     }
 }

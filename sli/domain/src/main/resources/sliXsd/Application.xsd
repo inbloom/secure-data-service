@@ -16,6 +16,9 @@
                     minOccurs="1" />
                     
                 <xs:element name="bootstrap" type="xs:boolean" minOccurs="0" />
+                <xs:element name="authorized_for_all_edorgs" type="xs:boolean" minOccurs="0" />
+                <xs:element name="allowed_for_all_edorgs" type="xs:boolean" minOccurs="0" />
+                <xs:element name="admin_visible" type="xs:boolean" minOccurs="0" />
                 <xs:element name="behavior" minOccurs="1">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">

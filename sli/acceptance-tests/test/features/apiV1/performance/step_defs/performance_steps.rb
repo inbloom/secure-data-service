@@ -20,7 +20,7 @@ require_relative '../../../../../../../tools/performance/scripts/apiBenchmarker'
 require_relative '../../../../../../../tools/performance/scripts/databaseUtils'
 
 require 'pp'
-require 'FileUtils'
+require 'fileutils'
 
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../entities/common.rb'
@@ -116,7 +116,10 @@ Then /^the "([^"]*)" should be less than (\d+) ms$/ do |statKey, threshold|
 
   resource = @props['API_SERVER_INSTANCE'] + @props['API_RESOURCE']
   statsMap = @results[resource]
-
+  puts "StatsMap:\n"
+  puts statsMap
+  puts "Resource:\n"
+  puts resource
   assert(!statsMap.nil? && !statsMap.empty?, "Results null or empty")
 
   value = statsMap[statKey]
