@@ -19,9 +19,26 @@ limitations under the License.
 require 'json'
 require_relative '../../../../utils/sli_utils.rb'
 
+Then /^I should be able to access data about (the student "[^"]*")$/ do |arg1|
+  @format = "application/vnd.slc+json"
+  ["attendances", "gradebookEntries", "studentAssessments"].each do |endpoint|
+    restHttpGet("/v1/#{endpoint}?studentId=#{arg1}/")
+    assert(@res != nil, "Response from rest-client GET is nil")
+    assert(@res.code == 200, "Get on endpoint #{endpoint}, expected code: 200 but actual code was #{@res.code}")
+    data = JSON.parse(@res.body)
+    assert(data.count == 1, "Expected to only see one #{endpoint} but saw #{data.count}")
+  end
+end
 
-Then /^I should receive a code of (\d+) when accessing data about that student$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+Then /^I should not be able to access data about (the student "[^"]*")$/ do |arg1|
+  @format = "application/vnd.slc+json"
+  ["attendances", "gradebookEntries", "studentAssessments"].each do |endpoint|
+    restHttpGet("/v1/#{endpoint}?studentId=#{arg1}/")
+    assert(@res != nil, "Response from rest-client PUT is nil")
+    assert(@res.code == 200, "Get on endpoint #{endpoint}, expected code: 200 but actual code was #{@res.code}")
+    data = JSON.parse(@res.body)
+    assert(data.count == 0, "Expected to only see no #{endpoint} but saw #{data.count}")
+  end
 end
 
 When /^I move teacher12 to a new section$/ do
