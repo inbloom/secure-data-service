@@ -17,34 +17,68 @@
 package org.slc.sli.sample.oauth;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.net.MalformedURLException;
+import java.net.URISyntaxException;
+import java.net.URL;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.api.client.RESTClient;
+import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.client.impl.BasicClient;
+import org.slc.sli.api.client.impl.BasicQuery;
+import org.slc.sli.api.client.util.Query;
+import org.slc.sli.api.client.util.URLBuilder;
 
 /**
- * Servlet that do CRUD test against Java SDK.
+ * Servlet that do CRUD test against Java SDK via RESTClient interface.
  *
- * @author dliu
+ * This is almost a clone of TestSDKServlet
+ *
+ * @author ycao
  *
  */
 public class TestRESTClientServlet extends HttpServlet {
 
     private static final long serialVersionUID = 6114075027060L;
     private static final Logger LOG = LoggerFactory.getLogger(TestRESTClientServlet.class);
+
     private static final String SUCCEED = "succeed";
     private static final String FAILED = "failed";
+
+    // build the test student entity that can pass schema validation
+    private static final String STUDENT_MONIQUE =
+                      "{                                                                  "
+                    + "    \"studentUniqueStateId\":\"123456\",                           "
+                    + "    \"sex\":\"Female\",                                            "
+                    + "    \"economicDisadvantaged\":false,                               "
+                    + "    \"address\":                                                   "
+                    + "        [ {                                                        "
+                    + "            \"nameOfCounty\":\"Orange\",                           "
+                    + "            \"apartmentRoomSuiteNumber\":\"200\",                  "
+                    + "            \"postalCode\":\"45678\",                              "
+                    + "            \"streetNumberName\":\"817 Oakridge Farm Lane\",       "
+                    + "            \"stateAbbreviation\":\"CA\",                          "
+                    + "            \"addressType\":\"Physical\",                          "
+                    + "            \"city\":\"Los Angeles\"                               "
+                    + "        } ],                                                       "
+                    + "    \"name\":                                                      "
+                    + "        {                                                          "
+                    + "            \"middleName\":\"L\",                                  "
+                    + "            \"lastSurname\":\"Christie\",                          "
+                    + "            \"firstName\":\"Monique\"                              "
+                    + "        },                                                         "
+                    + "    \"birthData\":                                                 "
+                    + "        {\"birthDate\":\"1993-12-31\"}                             "
+                    + "}                                                                  ";
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -74,168 +108,166 @@ public class TestRESTClientServlet extends HttpServlet {
     }
 
     // test the create for Java SDK
-    @SuppressWarnings("unchecked")
     private String testCreate(RESTClient client) {
-        String testResult = SUCCEED;
-        /*
-        String id = "";
-        Entity student = new GenericEntity(ResourceNames.STUDENTS, createStudentBody());
-        List<Entity> collection = new ArrayList<Entity>();
-        try {
-            id = client.create(student);
-            client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
-            if (collection != null && collection.size() == 1) {
 
-                String firstName = ((Map<String, String>) collection.get(0).getData().get("name")).get("firstName");
-                String lastSurname = ((Map<String, String>) collection.get(0).getData().get("name")).get("lastSurname");
-                if (firstName.equals("Monique") && lastSurname.equals("Johnson")) {
-                    testResult = "succeed";
-                } else {
-                    LOG.error("Wrong response:" + firstName + " " + lastSurname);
-                    testResult = "failed";
-                }
-            }
-
-        } catch (SLIClientException e) {
-        	LOG.error("Exception:" + e.getMessage());
-        } catch (Exception e) {
-            LOG.error("Exception:" + e.getMessage());
-            testResult = "failed";
+        String[] inDB = persistAndRead(STUDENT_MONIQUE, client, ResourceNames.STUDENTS);
+        if (inDB == null) {
+            return FAILED;
         }
-        */
-        return testResult;
+
+        String studentBody = inDB[1];
+        if (studentBody.indexOf("\"lastSurname\":\"Christie\"") > -1 && studentBody.indexOf("\"firstName\":\"Monique\"") > -1) {
+            return SUCCEED;
+        }
+
+        return FAILED;
     }
 
     // test the update for Java SDK
-    @SuppressWarnings("unchecked")
     private String testUpdate(RESTClient client) {
-        String testResult = SUCCEED;
-        /*
-        String id = "";
-        Entity student = new GenericEntity(ResourceNames.STUDENTS, createStudentBody());
 
-        List<Entity> collection = new ArrayList<Entity>();
-        try {
-            id = client.create(student);
-
-            client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
-            if (collection != null && collection.size() == 1) {
-                student = collection.get(0);
-                ((List<Map<String, String>>) student.getData().get("address")).get(0).put("streetNumberName",
-                        "2817 Oakridge Farm Lane");
-                Response response = client.update(student);
-                if (response.getStatus() != 204) {
-                    testResult = "failed";
-                    return testResult;
-                }
-            }
-            client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
-            if (collection != null && collection.size() == 1) {
-                student = collection.get(0);
-                String address = ((List<Map<String, String>>) student.getData().get("address")).get(0).get(
-                        "streetNumberName");
-                if (address.equals("2817 Oakridge Farm Lane")) {
-                    testResult = "succeed";
-                } else {
-                    testResult = "failed";
-                }
-            }
-        } catch (SLIClientException e) {
-        	LOG.error("SLIClientException:" + e.getMessage());
-        } catch (Exception e) {
-            LOG.error("RESPONSE:" + e.getMessage());
-            testResult = "failed";
+        String[] inDB = persistAndRead(STUDENT_MONIQUE, client, ResourceNames.STUDENTS);
+        if (inDB == null) {
+            return FAILED;
         }
-        */
-        return testResult;
+        String resourceLocation = inDB[0];
+        String studentBody = inDB[1];
+
+        String updatedMonique = studentBody.replaceAll("817 Oakridge Farm Lane", "2817 New Found Lane");
+
+        try {
+            URL resourceURL = new URL(resourceLocation);
+
+            Response response = client.putRequest(resourceURL, updatedMonique);
+            response = client.getRequest(resourceURL);
+
+            String updated = response.readEntity(String.class);
+            if (updated.indexOf("2817 New Found Lane") > -1) {
+                return SUCCEED;
+            }
+
+        } catch (MalformedURLException e) {
+            return FAILED;
+        } catch (URISyntaxException e) {
+            return FAILED;
+        }
+
+        return FAILED;
     }
 
     // test the delete of Java SDK
     private String testDelete(RESTClient client) {
-        String testResult = SUCCEED;
-        /*
-        String id = "";
-        Entity student = new GenericEntity(ResourceNames.STUDENTS, createStudentBody());
 
-        List<Entity> collection = new ArrayList<Entity>();
         try {
-            id = client.create(student);
+            String resourceLocation = persistInMongo(STUDENT_MONIQUE, client, ResourceNames.STUDENTS);
+            if (resourceLocation != null) {
+                URL resourceURL = new URL(resourceLocation);
 
-            client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
-            if (collection != null && collection.size() == 1) {
-                student = collection.get(0);
-                client.delete(ResourceNames.STUDENTS, id);
-            }
-            Response response = client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
-            if (response.getStatus() == 404) {
-                testResult = "succeed";
-            } else {
-                testResult = "failed";
-                return testResult;
-            }
+                Response response = client.deleteRequest(resourceURL);
+                if (!requestSucceed(response)) {
+                    return FAILED;
+                }
 
-        } catch (Exception e) {
-            LOG.error("RESPONSE:" + e.getMessage());
-            testResult = "failed";
+                response = client.getRequest(resourceURL);
+                if (response.getStatus() != Status.NOT_FOUND.getStatusCode()) {
+                    return FAILED;
+                }
+
+                return SUCCEED;
+            }
+        } catch (MalformedURLException e) {
+            return FAILED;
+        } catch (URISyntaxException e) {
+            return FAILED;
         }
-        */
-        return testResult;
+
+        return FAILED;
     }
 
     // test query and sorting of Java SDK
-    @SuppressWarnings("unchecked")
     private String testQuery(RESTClient client) {
-        String testResult = SUCCEED;
-        /*
-        List<Entity> collection = new ArrayList<Entity>();
+
+        Query query = BasicQuery.Builder.create().filterEqual("sex", "Male")
+                .sortBy("name.firstName").sortDescending().build();
+
+        URLBuilder urlBuilder = URLBuilder.create(client.getBaseURL()).entityType(ResourceNames.TEACHERS);
+        urlBuilder.query(query);
+
         try {
-            client.read(collection, ResourceNames.TEACHERS, BasicQuery.Builder.create().filterEqual("sex", "Male")
-                    .sortBy("name.firstName").sortDescending().build());
-            if (collection != null && collection.size() > 0) {
-                String firstName = ((Map<String, String>) collection.get(0).getData().get("name")).get("firstName");
-                if (firstName.equals("Mark")) {
-                    testResult = "succeed";
-                } else {
-                    testResult = "failed";
-                    return testResult;
-                }
+            URL url = urlBuilder.build();
+            Response response = client.getRequest(url);
+            String result = response.readEntity(String.class);
+
+            result = result.substring(result.indexOf("firstName\":\"") + 12);
+            result = result.substring(0, result.indexOf("\""));
+
+            if ("Mark".equals(result)) {
+                return SUCCEED;
             }
-        } catch (Exception e) {
-            LOG.error("RESPONSE:" + e.getMessage());
-            testResult = "failed";
+        } catch (MalformedURLException e) {
+            return FAILED;
+        } catch (URISyntaxException e) {
+            return FAILED;
         }
-        */
-        return testResult;
 
+        return FAILED;
     }
 
-    // build the test student entity that can pass schema validation
-    private Map<String, Object> createStudentBody() {
-        Map<String, Object> body = new HashMap<String, Object>();
-        Map<String, String> name = new HashMap<String, String>();
-        name.put("firstName", "Monique");
-        name.put("lastSurname", "Johnson");
-        name.put("middleName", "L");
-        body.put("name", name);
-        body.put("sex", "Female");
-        Map<String, String> birthDate = new HashMap<String, String>();
-        birthDate.put("birthDate", "1995-01-01");
-        body.put("birthData", birthDate);
-        body.put("studentUniqueStateId", "123456");
-        body.put("economicDisadvantaged", false);
-        List<Map<String, String>> addresses = new ArrayList<Map<String, String>>();
-        Map<String, String> address = new HashMap<String, String>();
-        address.put("addressType", "Physical");
-        address.put("streetNumberName", "817 Oakridge Farm Lane");
-        address.put("apartmentRoomSuiteNumber", "200");
-        address.put("city", "NY");
-        address.put("stateAbbreviation", "NY");
-        address.put("postalCode", "12345");
-        address.put("nameOfCounty", "Wake");
-        addresses.add(address);
-        body.put("address", addresses);
 
-        return body;
+    private String[] persistAndRead(String jsonObj, RESTClient client, String resourceType) {
+
+        String[] result = new String[2];
+        Response response = null;
+        try {
+
+            String location = persistInMongo(jsonObj, client, resourceType);
+            if (location == null) {
+                return null;
+            }
+            result[0] = location;
+
+            response = client.getRequest(new URL(location));
+            if (response == null || !requestSucceed(response)) {
+                return null;
+            }
+
+        } catch (MalformedURLException e1) {
+            return null;
+        } catch (URISyntaxException e1) {
+            return null;
+        }
+
+        result[1] = response.readEntity(String.class);
+
+        return result;
     }
 
+
+    private String persistInMongo(String jsonObj, RESTClient client, String resourceType) throws MalformedURLException, URISyntaxException {
+
+        URL url = URLBuilder.create(client.getBaseURL()).entityType(resourceType).build();
+        Response response = client.postRequest(url, jsonObj);
+
+        if (response.getStatus() != Status.CREATED.getStatusCode()) {
+            return null;
+        }
+
+        return getLocation(response);
+    }
+
+
+    private String getLocation(Response response) {
+        return response.getHeaders().getHeaderValues("Location").get(0);
+    }
+
+
+    private String getId(String location) {
+        return location.substring(location.lastIndexOf("/") + 1);
+    }
+
+
+    private boolean requestSucceed(Response response) {
+        //2xx are successful status
+        return response.getStatus() >= 200 && response.getStatus() < 300;
+    }
 }
