@@ -54,6 +54,10 @@ public class StandardLevel3ClientManualTest {
 
             assertEquals(2, student.getAddress().size());
 
+            assertEquals(2, student.getLanguages().size());
+            assertTrue(student.getLanguages().contains(LanguageItemType.ENGLISH));
+            assertTrue(student.getLanguages().contains(LanguageItemType.APACHE));
+
             // PUT UPDATED ENTITY
             doPutStudent(client, student);
             // GET UPDATED ENTITY
