@@ -74,6 +74,8 @@ public class UserService {
         LDAP_ROLE_MAPPING.put("realm_administrator",   "Realm Administrator");
         LDAP_ROLE_MAPPING.put("ingestion_user",        "Ingestion User");
         LDAP_ROLE_MAPPING.put("acceptance_test_user",  "Acceptance Test User");
+        LDAP_ROLE_MAPPING.put("sandbox_administrator", "Sandbox Administrator");
+        LDAP_ROLE_MAPPING.put("sandbox_slc_operator",  "Sandbox SLC Operator");
     }
 
     public UserService() {

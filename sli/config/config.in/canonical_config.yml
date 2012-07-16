@@ -263,7 +263,7 @@ default:
         # LDAP base URLs, comma separated list of ldap servers
         sli.simple-idp.ldap.urls: ldap://ldap.slidev.org:389
         # LDAP base DN
-        sli.simple-idp.ldap.base: dc=slidev,dc=org
+        sli.simple-idp.ldap.base: ou=DevTest,dc=slidev,dc=org
 
         # SLI Subdomain substituted by various services (used by SDK and dashboard)
         sli.dev.subdomain: ci
