@@ -32,6 +32,7 @@ import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.landingzone.LandingZoneManager;
 import org.slc.sli.ingestion.nodes.IngestionNodeType;
 import org.slc.sli.ingestion.nodes.NodeInfo;
+import org.slc.sli.ingestion.processors.CommandProcessor;
 import org.slc.sli.ingestion.processors.ConcurrentEdFiProcessor;
 import org.slc.sli.ingestion.processors.ConcurrentXmlFileProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
@@ -199,7 +200,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
             buildPitRoutes(pitNodeQueueUri, maestroQueueUri);
         }
 
-        //from(this.commandTopicUri).bean(this.lookup(CommandProcessor.class));
+        from(this.commandTopicUri).bean(this.lookup(CommandProcessor.class));
     }
 
     /**
