@@ -48,7 +48,7 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |LEA_Super_Administrator|IL-DAYBREAK                  |200 |IL             |IL-DAYBREAK   |
     |Realm_Administrator    |IL-DAYBREAK                  |401 |IL             |IL-DAYBREAK   |
     |Ingestion_Administrator|IL-DAYBREAK                  |401 |IL             |IL-DAYBREAK   |
-
+  @wip
   @production
   Scenario Outline:  As an administrator I can read all admin accounts in my tenancy
     
@@ -78,8 +78,9 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |sunsetadmin|sunsetadmin1234|LEA Administrator      |SLI        |Ingestion User              |200 |1 or more|Sunset IngestionUser|sunsetingestionuser          |sunsetingestionuser@slidev.org|
     |sunsetrealmadmin|sunsetrealmadmin1234 |Realm Administrator     |SLI        |                |403 |         |                |                                  |                            |
     |ingestionuser   |ingestionuser1234    |Ingestion User          |SLI        |                |403 |         |                |                                  |                            |
-
+  
   #sandbox
+  @wip
   Scenario Outline:  As a admin I am able to read all admin accounts in my tenancy on sandbox
    Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
     And I have a role "<ADMIN_ROLE>"
@@ -103,77 +104,78 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |ingestionuser    |ingestionuser1234    |Ingestion User          |SLI        |                        |403 |        |                |                              |                              |
     
 
-  @wip
   @production
   Scenario Outline:  As a admin I am able to create/update admin accounts in my tenancy
-    Given I have a <ADMIN_ROLE>
-    When I am authenticated on <ADMIN_REALM>
-    And I navigate to <ACTION> <CREATE_ADMIN_ROLE>
-    And "Full_Name" is <Full_Name>
-    And "Username" is <User_Name>
-    And "Email" is <Email_Address>
-    And "Role" is <CREATE_ADMIN_ROLE>
-    And "Additional Role" is <Additional_Role>
-    And "Tenant" is <Tenant>
-    And "Edorg" is <Ed_Org>
+    Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
+    And I have a role "<ADMIN_ROLE>"
+    And the new/update user has
+    And "fullName" is "<Full_Name>"
+    And "uid" is "<User_Name>"
+    And "email" is "<Email_Address>"
+    And "role" is "<CREATE_ADMIN_ROLE>"
+    And "additional_role" is "<Additional_Role>"
+    And "tenant" is "<Tenant>"
+    And "edorg" is "<Ed_Org>"
+    And the format is "application/json"
+    And I navigate to "<ACTION>" "/users"
     Then I should receive a return code of <CODE>
-    When I navigate to GET <CREATE_ADMIN_ROLE>
+    When I navigate to GET "/users"
     Then I should receive a return code of <READ_CODE>
-    And then I should receive a list <NUMBER> of <WANTED_ADMIN_ROLE>
-    And each account has <Full_Name>, <User_name>, <Email_Address>, "Date_Created" and "Date_Updated"
+    And I should receive a list of size "<Number>" of "<CREATE_ADMIN_ROLE>"
+    And one of the accounts has "<Full_Name>", "<User_NAME>", "<Email_Address>"
 
   Examples:
-    |ADMIN_ROLE             |ADMIN_REALM                  |CREATE_ADMIN_ROLE           |ACTION    |CODE|READ_CODE|NUMBER|Full_Name     |User_Name  |Email_Address        |Addtional_Role |Tenant|Ed_Org     |
-    |SLC_Operator           |Shared Learning Collaborative|SLC_Operator                |POST      |200 |200      |1     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|               |      |           |
-    |SLC_Operator           |Shared Learning Collaborative|SEA_Super_Administrator     |POST      |200 |200      |1     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |               |      |           |
-    |SLC_Operator           |Shared Learning Collaborative|LEA_Super_Administrator     |POST      |200 |200      |1     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |               |      |           |
-    |SLC_Operator           |Shared Learning Collaborative|Realm_Administrator         |POST      |200 |200      |1     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |               |      |           |
-    |SLC_Operator           |Shared Learning Collaborative|Ingestion_Administrator     |POST      |200 |200      |1     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |               |      |           |
-    |SEA_Super_Administrator|IL                           |SLC_Operator                |POST      |401 |401      |0     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|               |      |           |
-    |SEA_Super_Administrator|IL                           |SEA_Super_Administrator     |POST      |200 |200      |1     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |               |IL    |IL         |
-    |SEA_Super_Administrator|IL                           |LEA_Super_Administrator     |POST      |200 |200      |1     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |Ingestion_Admin|IL    |IL-DAYBREAK|
-    |SEA_Super_Administrator|IL                           |Realm_Administrator         |POST      |200 |200      |1     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |Realm_Admin    |IL    |IL-DAYBREAK|
-    |SEA_Super_Administrator|IL                           |Ingestion_Administrator     |POST      |200 |200      |1     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |               |      |           |
-    |LEA_Super_Administrator|IL-SUNSET                    |SLC_Operator                |POST      |401 |401      |0     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|               |      |           |
-    |LEA_Super_Administrator|IL-SUNSET                    |SEA_Super_Administrator     |POST      |401 |401      |0     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |               |IL    |IL         |
-    |LEA_Super_Administrator|IL-SUNSET                    |LEA_Super_Administrator     |POST      |200 |200      |1     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |Ingestion_Admin|IL    |IL-DAYBREAK|
-    |LEA_Super_Administrator|IL-SUNSET                    |Realm_Administrator         |POST      |200 |200      |1     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |Realm_Admin    |IL    |IL-DAYBREAK|
-    |LEA_Super_Administrator|IL-SUNSET                    |Ingestion_Administrator     |POST      |200 |200      |1     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |Ingestion_Admin|IL    |IL-DAYBREAK|
-    |Realm_Administrator    |IL-SUNSET                    |SLC_Operator                |POST      |401 |401      |0     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|               |      |           |
-    |Realm_Administrator    |IL-SUNSET                    |SEA_Super_Administrator     |POST      |401 |401      |0     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |               |IL    |IL         |
-    |Realm_Administrator    |IL-SUNSET                    |LEA_Super_Administrator     |POST      |401 |401      |0     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |Ingestion_Admin|IL    |IL-DAYBREAK|
-    |Realm_Administrator    |IL-SUNSET                    |Realm_Administrator         |POST      |401 |401      |0     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |Realm_Admin    |IL    |IL-DAYBREAK|
-    |Realm_Administrator    |IL-SUNSET                    |Ingestion_Administrator     |POST      |401 |401      |0     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |Ingestion_Admin|IL    |IL-DAYBREAK|
-    |Ingestion_Administrator|IL-SUNSET                    |SLC_Operator                |POST      |401 |401      |0     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|               |      |           |
-    |Ingestion_Administrator|IL-SUNSET                    |SEA_Super_Administrator     |POST      |401 |401      |0     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |               |IL    |IL         |
-    |Ingestion_Administrator|IL-SUNSET                    |LEA_Super_Administrator     |POST      |401 |401      |0     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |Ingestion_Admin|IL    |IL-DAYBREAK|
-    |Ingestion_Administrator|IL-SUNSET                    |Realm_Administrator         |POST      |401 |401      |0     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |Realm_Admin    |IL    |IL-DAYBREAK|
-    |Ingestion_Administrator|IL-SUNSET                    |Ingestion_Administrator     |POST      |401 |401      |0     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |Ingestion_Admin|IL    |IL-DAYBREAK|
-    |SLC_Operator           |Shared Learning Collaborative|SLC_Operator                |PUT       |200 |200      |1     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|               |      |           |
-    |SLC_Operator           |Shared Learning Collaborative|SEA_Super_Administrator     |PUT       |200 |200      |1     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |               |IL    |IL         |
-    |SLC_Operator           |Shared Learning Collaborative|LEA_Super_Administrator     |PUT       |200 |200      |1     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |Ingestion_Admin|IL    |IL-DAYBREAK|
-    |SLC_Operator           |Shared Learning Collaborative|Realm_Administrator         |PUT       |200 |200      |1     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |Realm_Admin    |IL    |IL-DAYBREAK|
-    |SLC_Operator           |Shared Learning Collaborative|Ingestion_Administrator     |PUT       |200 |200      |1     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |Ingestion_Admin|IL    |IL-DAYBREAK|
-    |SEA_Super_Administrator|IL                           |SLC_Operator                |PUT       |401 |401      |0     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|               |      |           |
-    |SEA_Super_Administrator|IL                           |SEA_Super_Administrator     |PUT       |200 |200      |1     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |               |IL    |IL         |
-    |SEA_Super_Administrator|IL                           |LEA_Super_Administrator     |PUT       |200 |200      |1     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |Ingestion_Admin|IL    |IL-DAYBREAK|
-    |SEA_Super_Administrator|IL                           |Realm_Administrator         |PUT       |200 |200      |1     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |Realm_Admin    |IL    |IL-DAYBREAK|
-    |SEA_Super_Administrator|IL                           |Ingestion_Administrator     |PUT       |200 |200      |1     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |Ingestion_Admin|IL    |IL-DAYBREAK|
-    |LEA_Super_Administrator|IL-SUNSET                    |SLC_Operator                |PUT       |401 |401      |0     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|               |      |           |
-    |LEA_Super_Administrator|IL-SUNSET                    |SEA_Super_Administrator     |PUT       |401 |401      |0     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |               |IL    |IL         |
-    |LEA_Super_Administrator|IL-SUNSET                    |LEA_Super_Administrator     |PUT       |200 |200      |1     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |Ingestion_Admin|IL    |IL-DAYBREAK|
-    |LEA_Super_Administrator|IL-SUNSET                    |Realm_Administrator         |PUT       |200 |200      |1     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |Realm_Admin    |IL    |IL-DAYBREAK|
-    |LEA_Super_Administrator|IL-SUNSET                    |Ingestion_Administrator     |PUT       |200 |200      |1     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |Ingestion_Admin|IL    |IL-DAYBREAK|
-    |Realm_Administrator    |IL-SUNSET                    |SLC_Operator                |PUT       |401 |401      |0     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|               |      |           |
-    |Realm_Administrator    |IL-SUNSET                    |SEA_Super_Administrator     |PUT       |401 |401      |0     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |               |IL    |IL         |
-    |Realm_Administrator    |IL-SUNSET                    |LEA_Super_Administrator     |PUT       |401 |401      |0     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |Ingestion_Admin|IL    |IL-DAYBREAK|
-    |Realm_Administrator    |IL-SUNSET                    |Realm_Administrator         |PUT       |401 |401      |0     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |Realm_Admin    |IL    |IL-DAYBREAK|
-    |Realm_Administrator    |IL-SUNSET                    |Ingestion_Administrator     |PUT       |401 |401      |0     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |Ingestion_Admin|IL    |IL-DAYBREAK|
-    |Ingestion_Administrator|IL-SUNSET                    |SLC_Operator                |PUT       |401 |401      |0     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|               |      |           |
-    |Ingestion_Administrator|IL-SUNSET                    |SEA_Super_Administrator     |PUT       |401 |401      |0     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |               |IL    |IL         |
-    |Ingestion_Administrator|IL-SUNSET                    |LEA_Super_Administrator     |PUT       |401 |401      |0     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |Ingestion_Admin|IL    |IL-DAYBREAK|
-    |Ingestion_Administrator|IL-SUNSET                    |Realm_Administrator         |PUT       |401 |401      |0     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |Realm_Admin    |IL    |IL-DAYBREAK|
-    |Ingestion_Administrator|IL-SUNSET                    |Ingestion_Administrator     |PUT       |401 |401      |0     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |Ingestion_Admin|IL    |IL-DAYBREAK|
+    |USER              |PASSWORD            |ADMIN_ROLE             |REALM    |CREATE_ADMIN_ROLE   |ACTION    |CODE|READ_CODE|NUMBER   |Full_Name     |User_Name  |Email_Address        |Additional_Role |Tenant|Ed_Org     |
+    |operator          |operator1234        |SLC Operator           |SLI      |SLC Operator        |POST      |201 |200      |1 or more|SLC Operator2 |SLCOP2     |SLC_Operator@test.com|               |      |           |
+#    |SLC_Operator           |Shared Learning Collaborative|SEA_Super_Administrator     |POST      |200 |200      |1     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |               |      |           |
+#    |SLC_Operator           |Shared Learning Collaborative|LEA_Super_Administrator     |POST      |200 |200      |1     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |               |      |           |
+#    |SLC_Operator           |Shared Learning Collaborative|Realm_Administrator         |POST      |200 |200      |1     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |               |      |           |
+#    |SLC_Operator           |Shared Learning Collaborative|Ingestion_Administrator     |POST      |200 |200      |1     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |               |      |           |
+#    |SEA_Super_Administrator|IL                           |SLC_Operator                |POST      |401 |401      |0     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|               |      |           |
+#    |SEA_Super_Administrator|IL                           |SEA_Super_Administrator     |POST      |200 |200      |1     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |               |IL    |IL         |
+#    |SEA_Super_Administrator|IL                           |LEA_Super_Administrator     |POST      |200 |200      |1     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |Ingestion_Admin|IL    |IL-DAYBREAK|
+#    |SEA_Super_Administrator|IL                           |Realm_Administrator         |POST      |200 |200      |1     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |Realm_Admin    |IL    |IL-DAYBREAK|
+#    |SEA_Super_Administrator|IL                           |Ingestion_Administrator     |POST      |200 |200      |1     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |               |      |           |
+#    |LEA_Super_Administrator|IL-SUNSET                    |SLC_Operator                |POST      |401 |401      |0     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|               |      |           |
+#    |LEA_Super_Administrator|IL-SUNSET                    |SEA_Super_Administrator     |POST      |401 |401      |0     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |               |IL    |IL         |
+#    |LEA_Super_Administrator|IL-SUNSET                    |LEA_Super_Administrator     |POST      |200 |200      |1     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |Ingestion_Admin|IL    |IL-DAYBREAK|
+#    |LEA_Super_Administrator|IL-SUNSET                    |Realm_Administrator         |POST      |200 |200      |1     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |Realm_Admin    |IL    |IL-DAYBREAK|
+#    |LEA_Super_Administrator|IL-SUNSET                    |Ingestion_Administrator     |POST      |200 |200      |1     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |Ingestion_Admin|IL    |IL-DAYBREAK|
+#    |Realm_Administrator    |IL-SUNSET                    |SLC_Operator                |POST      |401 |401      |0     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|               |      |           |
+#    |Realm_Administrator    |IL-SUNSET                    |SEA_Super_Administrator     |POST      |401 |401      |0     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |               |IL    |IL         |
+#    |Realm_Administrator    |IL-SUNSET                    |LEA_Super_Administrator     |POST      |401 |401      |0     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |Ingestion_Admin|IL    |IL-DAYBREAK|
+#    |Realm_Administrator    |IL-SUNSET                    |Realm_Administrator         |POST      |401 |401      |0     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |Realm_Admin    |IL    |IL-DAYBREAK|
+#    |Realm_Administrator    |IL-SUNSET                    |Ingestion_Administrator     |POST      |401 |401      |0     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |Ingestion_Admin|IL    |IL-DAYBREAK|
+#    |Ingestion_Administrator|IL-SUNSET                    |SLC_Operator                |POST      |401 |401      |0     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|               |      |           |
+#    |Ingestion_Administrator|IL-SUNSET                    |SEA_Super_Administrator     |POST      |401 |401      |0     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |               |IL    |IL         |
+#    |Ingestion_Administrator|IL-SUNSET                    |LEA_Super_Administrator     |POST      |401 |401      |0     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |Ingestion_Admin|IL    |IL-DAYBREAK|
+#    |Ingestion_Administrator|IL-SUNSET                    |Realm_Administrator         |POST      |401 |401      |0     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |Realm_Admin    |IL    |IL-DAYBREAK|
+#    |Ingestion_Administrator|IL-SUNSET                    |Ingestion_Administrator     |POST      |401 |401      |0     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |Ingestion_Admin|IL    |IL-DAYBREAK|
+#    |SLC_Operator           |Shared Learning Collaborative|SLC_Operator                |PUT       |200 |200      |1     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|               |      |           |
+#    |SLC_Operator           |Shared Learning Collaborative|SEA_Super_Administrator     |PUT       |200 |200      |1     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |               |IL    |IL         |
+#    |SLC_Operator           |Shared Learning Collaborative|LEA_Super_Administrator     |PUT       |200 |200      |1     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |Ingestion_Admin|IL    |IL-DAYBREAK|
+#    |SLC_Operator           |Shared Learning Collaborative|Realm_Administrator         |PUT       |200 |200      |1     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |Realm_Admin    |IL    |IL-DAYBREAK|
+#    |SLC_Operator           |Shared Learning Collaborative|Ingestion_Administrator     |PUT       |200 |200      |1     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |Ingestion_Admin|IL    |IL-DAYBREAK|
+#    |SEA_Super_Administrator|IL                           |SLC_Operator                |PUT       |401 |401      |0     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|               |      |           |
+#    |SEA_Super_Administrator|IL                           |SEA_Super_Administrator     |PUT       |200 |200      |1     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |               |IL    |IL         |
+#    |SEA_Super_Administrator|IL                           |LEA_Super_Administrator     |PUT       |200 |200      |1     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |Ingestion_Admin|IL    |IL-DAYBREAK|
+#    |SEA_Super_Administrator|IL                           |Realm_Administrator         |PUT       |200 |200      |1     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |Realm_Admin    |IL    |IL-DAYBREAK|
+#    |SEA_Super_Administrator|IL                           |Ingestion_Administrator     |PUT       |200 |200      |1     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |Ingestion_Admin|IL    |IL-DAYBREAK|
+#    |LEA_Super_Administrator|IL-SUNSET                    |SLC_Operator                |PUT       |401 |401      |0     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|               |      |           |
+#    |LEA_Super_Administrator|IL-SUNSET                    |SEA_Super_Administrator     |PUT       |401 |401      |0     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |               |IL    |IL         |
+#    |LEA_Super_Administrator|IL-SUNSET                    |LEA_Super_Administrator     |PUT       |200 |200      |1     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |Ingestion_Admin|IL    |IL-DAYBREAK|
+#    |LEA_Super_Administrator|IL-SUNSET                    |Realm_Administrator         |PUT       |200 |200      |1     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |Realm_Admin    |IL    |IL-DAYBREAK|
+#    |LEA_Super_Administrator|IL-SUNSET                    |Ingestion_Administrator     |PUT       |200 |200      |1     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |Ingestion_Admin|IL    |IL-DAYBREAK|
+#    |Realm_Administrator    |IL-SUNSET                    |SLC_Operator                |PUT       |401 |401      |0     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|               |      |           |
+#    |Realm_Administrator    |IL-SUNSET                    |SEA_Super_Administrator     |PUT       |401 |401      |0     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |               |IL    |IL         |
+#    |Realm_Administrator    |IL-SUNSET                    |LEA_Super_Administrator     |PUT       |401 |401      |0     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |Ingestion_Admin|IL    |IL-DAYBREAK|
+#    |Realm_Administrator    |IL-SUNSET                    |Realm_Administrator         |PUT       |401 |401      |0     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |Realm_Admin    |IL    |IL-DAYBREAK|
+#    |Realm_Administrator    |IL-SUNSET                    |Ingestion_Administrator     |PUT       |401 |401      |0     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |Ingestion_Admin|IL    |IL-DAYBREAK|
+#    |Ingestion_Administrator|IL-SUNSET                    |SLC_Operator                |PUT       |401 |401      |0     |SLC_Operator_2|SLCOP2     |SLC_Operator@test.com|               |      |           |
+#    |Ingestion_Administrator|IL-SUNSET                    |SEA_Super_Administrator     |PUT       |401 |401      |0     |SEA_Admin     |SeaAdmin   |SeaAdmin@test.com    |               |IL    |IL         |
+#    |Ingestion_Administrator|IL-SUNSET                    |LEA_Super_Administrator     |PUT       |401 |401      |0     |LEA_Admin     |LeaAdmin   |LeaAdmin@test.com    |Ingestion_Admin|IL    |IL-DAYBREAK|
+#    |Ingestion_Administrator|IL-SUNSET                    |Realm_Administrator         |PUT       |401 |401      |0     |Realm_Admin   |RealmAdmin |RealmAdmin@test.com  |Realm_Admin    |IL    |IL-DAYBREAK|
+#    |Ingestion_Administrator|IL-SUNSET                    |Ingestion_Administrator     |PUT       |401 |401      |0     |Ingest_Admin  |IngestAdmin|IngestAdmin@test.com |Ingestion_Admin|IL    |IL-DAYBREAK|
 
   @wip
   @sandbox

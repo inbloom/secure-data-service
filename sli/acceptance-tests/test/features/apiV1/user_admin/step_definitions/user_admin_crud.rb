@@ -40,6 +40,42 @@ Then /^I should receive a list of size "([^"]*)" of "([^"]*)"$/ do |number, want
 end
 end
 
+Given /^the new\/update user has$/ do
+  @new_update_user=Hash.new
+end
+
+Given /^"(.*?)" is "(.*?)"$/ do |key, value|
+  if key == "fullName" && value!= ""
+  @new_update_user.merge!({"firstName" => value.split(" ")[0], "lastName" => value.split(" ")[1]})
+  elsif key!="role" && key!="additional_role"&&value!=""
+  puts "\n\r", key,value 
+  @new_update_user.merge!({key => value})
+  elsif key=="role" && value!=""
+  @new_update_user.merge!({"groups" => [value]})
+  elsif key=="additional_role" && value!=""
+  roles = @new_update_user["groups"]
+  roles<<value
+  @new_update_user.merge!({"groups" => roles })
+  end
+  @new_update_user.merge!({"homeDir" => "/dev/null","password" => "test1234"})
+end
+
+Given /^the format is "(.*?)"$/ do |format|
+  @format = format
+end
+
+Given /^I navigate to "(.*?)" "(.*?)"$/ do |action, link|
+  puts @new_update_user
+  if action == "POST"
+  restHttpDelete(link,@new_update_user.to_json)
+  restHttpPost(link,@new_update_user.to_json)
+  elsif action=="PUT"
+  restHttpPut(link,@new_update_user.to_json)
+  end
+  
+end
+
+
 Then /^each account has "(.*?)", "(.*?)", "(.*?)", "(.*?)" and "(.*?)"$/ do |fullName, uid, email, createTime, modifyTime|
   @user_with_wanted_admin_role.each {|user|
     assert_not_nil(user[fullName], "The following user has no #{fullName}: #{user}")
