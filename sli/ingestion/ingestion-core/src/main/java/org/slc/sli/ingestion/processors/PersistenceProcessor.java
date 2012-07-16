@@ -24,16 +24,6 @@ import java.util.Set;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
-import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
@@ -61,6 +51,15 @@ import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
 /**
  * Ingestion Persistence Processor.
@@ -283,8 +282,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             AbstractIngestionHandler<SimpleEntity, Entity> entityPersistentHandler = findHandler(xformedEntity
                     .getType());
 
-            LOG.info("persisting simple entity: {}", xformedEntity);
-
             try {
                 entityPersistentHandler.handle(xformedEntity, errorReportForNrEntity);
             } catch (DataAccessResourceFailureException darfe) {
@@ -323,8 +320,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         nrEntity.setMetaDataField(EntityMetadataKey.TENANT_ID.getKey(), tenantId);
 
         ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
-
-        LOG.info("persisting neutral record entity: {}", nrEntity);
 
         try {
             obsoletePersistHandler.handle(nrEntity, errorReportForNrEntity);
