@@ -36,3 +36,27 @@ Then I receive a JSON object listing all the apps approved for "IL-SUNSET"
 Given I am logged in using "mjohnson" "mjohnson1234" to realm "IL"
 When I make an API call to get my available apps 
 Then I receive a JSON object listing all the apps approved for both "IL-DAYBREAK" and "IL-SUNSET"
+
+Scenario: Verify auto-approved and auto-authorized applications are visible
+Given I am logged in using "cgray" "cgray1234" to realm "IL"
+When I make an API call to get my available apps 
+Then I receive a JSON object listing all the apps approved for "IL-DAYBREAK"
+And the list contains and app named "AuthorizeTestApp1"
+
+Scenario: Verify non-auto-authorized applications are not visible
+Given I am logged in using "cgray" "cgray1234" to realm "IL"
+When I make an API call to get my available apps 
+Then I receive a JSON object listing all the apps approved for "IL-DAYBREAK"
+And the list does not contain and app named "AuthorizeTestApp2"
+
+Scenario: Verify non-admin-visible applications are not visible to admins
+Given I am logged in using "operator" "operator1234" to realm "SLI"
+When I make an API call to get my available apps 
+Then I receive a JSON object listing all the apps approved for "SLI"
+And the list does not contain and app named "AuthorizeTestApp3"
+
+Scenario: Verify admin-visible applications are visible to admins
+Given I am logged in using "operator" "operator1234" to realm "SLI"
+When I make an API call to get my available apps 
+Then I receive a JSON object listing all the apps approved for "SLI"
+And the list contains and app named "AuthorizeTestApp4"

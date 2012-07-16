@@ -99,6 +99,9 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     public static final String LOCATION = "Location";
 
     private static final String CREATED_BY = "created_by";
+    
+    //These fields can only be set during bootstrapping and can never be modified through the API
+    private static final String[] PERMANENT_FIELDS = new String[] {"bootstrap", "authorized_for_all_edorgs", "allowed_for_all_edorgs", "admin_visible"};
 
     public void setAutoRegister(boolean register) {
         autoRegister = register;
@@ -154,8 +157,11 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         String clientSecret = TokenGenerator.generateToken(CLIENT_SECRET_LENGTH);
         newApp.put(CLIENT_SECRET, clientSecret);
 
-        // we don't allow create apps to have the boostrap flag
-        newApp.remove("bootstrap");
+        // we don't allow certain fields to be set through API
+        for (String fieldName : PERMANENT_FIELDS) {
+            newApp.remove(fieldName);
+        }
+
         return super.create(newApp, headers, uriInfo);
     }
 
@@ -190,9 +196,9 @@ public class ApplicationResource extends DefaultCrudEndpoint {
                     principal.getEdOrg());
             resp = super.readAll(offset, limit, headers, uriInfo);
 
-            // also need the bootstrap apps -- so in an ugly fashion, let's query those too and
+            // also need the auto-allowed apps -- so in an ugly fashion, let's query those too and
             // add it to the response
-            extraCriteria = new NeutralCriteria("bootstrap", NeutralCriteria.OPERATOR_EQUAL, true);
+            extraCriteria = new NeutralCriteria("allowed_for_all_edorgs", NeutralCriteria.OPERATOR_EQUAL, true);
             Response bootstrap = super.readAll(offset, limit, headers, uriInfo);
             Map entity = (Map) resp.getEntity();
             List apps = (List) entity.get("application");
@@ -390,10 +396,13 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
 
-        //we don't allow created apps to have the bootstrap flag
-        if (!oldApp.containsKey("bootstrap")) {
-            app.remove("bootstrap");
+        //Make sure bootstrap and auto_authorize/approve fields aren't ever modified
+        for (String fieldName : PERMANENT_FIELDS) {
+            if (!oldApp.containsKey(fieldName)) {
+                app.remove(fieldName);
+            }
         }
+
 
         return super.update(uuid, app, headers, uriInfo);
     }

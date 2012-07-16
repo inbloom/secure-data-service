@@ -75,11 +75,11 @@ public class ApplicationAuthorizationValidator {
         //For hosted users (Developer, SLC Operator, SEA/LEA Administrator) they're not associated with a district
         List<Entity> districts = SecurityUtil.isHostedUser(repo, principal) ? new ArrayList<Entity>() : findUsersDistricts(principal);
         
-        Set<String> bootstrapApps = getBootstrapApps();
+        Set<String> bootstrapApps = getDefaultAllowedApps();
         Set<String> results = getDefaultAuthorizedApps();
                 
         for (Entity district : districts) {
-            debug("User is in district " + district.getEntityId());
+            debug("User is in district {}.", district.getEntityId());
 
             NeutralQuery query = new NeutralQuery();
             query.addCriteria(new NeutralCriteria("authId", "=", district.getBody().get("stateOrganizationId")));
@@ -109,33 +109,31 @@ public class ApplicationAuthorizationValidator {
     }
     
     /**
-     * 
+     * These are the apps that are auto-authorized, i.e. the district admin doesn't
+     * need to manually authorize the application. 
      * @return
      */
     private Set<String> getDefaultAuthorizedApps() {
         Set<String> toReturn = new HashSet<String>();
-        NeutralQuery bootstrapQuery = new NeutralQuery(0);
-        bootstrapQuery.addCriteria(new NeutralCriteria("bootstrap", "=", true));
-        Iterable<Entity> bootstrapApps = repo.findAll("application", bootstrapQuery);
+        NeutralQuery autoAuthQuery = new NeutralQuery(0);
+        autoAuthQuery.addCriteria(new NeutralCriteria("authorized_for_all_edorgs", "=", true));
+        Iterable<Entity> autoAuthApps = repo.findAll("application", autoAuthQuery);
         
-        for (Entity currentApp : bootstrapApps) {
-            if (isSandbox()) {
-                toReturn.add(currentApp.getEntityId());
-            } else {
-                String appName = (String) currentApp.getBody().get("name");
-                if (appName.indexOf("Admin") > -1 || appName.indexOf("Portal") > -1) {
-                    toReturn.add(currentApp.getEntityId()); 
-                }
-            }
+        for (Entity currentApp : autoAuthApps) {
+            toReturn.add(currentApp.getEntityId());
         }
         return toReturn;
     }
     
-    
-    private Set<String> getBootstrapApps() {
+    /**
+     * These are apps that are auto-allowed, i.e. the app developer doesn't need
+     * to select the districts that can use the app.
+     * @return
+     */
+    private Set<String> getDefaultAllowedApps() {
         Set<String> toReturn = new HashSet<String>();
         NeutralQuery bootstrapQuery = new NeutralQuery(0);
-        bootstrapQuery.addCriteria(new NeutralCriteria("bootstrap", "=", true));
+        bootstrapQuery.addCriteria(new NeutralCriteria("allowed_for_all_edorgs", "=", true));
         Iterable<Entity> bootstrapApps = repo.findAll("application", bootstrapQuery);
         
         for (Entity currentApp : bootstrapApps) {

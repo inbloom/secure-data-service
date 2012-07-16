@@ -63,10 +63,14 @@ public class ApplicationInitializerTest {
         props.put("bootstrap.app.dashboard.url", "https://dashboard");
         props.put("bootstrap.app.dashboard.client_id", "XXXXXXXX");
         props.put("bootstrap.app.dashboard.client_secret", "YYYYYYYYYYYY");
+        props.put("bootstrap.app.dashboard.authorized_for_all_edorgs", "false");
+        props.put("bootstrap.app.dashboard.allowed_for_all_edorgs", "true");
         props.put("bootstrap.app.admin.template", "applications/admin.json");
         props.put("bootstrap.app.admin.url", "https://admin");
         props.put("bootstrap.app.admin.client_id", "XXXXXXXX");
         props.put("bootstrap.app.admin.client_secret", "YYYYYYYYYYYY");
+        props.put("bootstrap.app.admin.authorized_for_all_edorgs", "true");
+        props.put("bootstrap.app.admin.allowed_for_all_edorgs", "true");
         saveProps();
 
 

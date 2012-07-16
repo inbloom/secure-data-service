@@ -164,15 +164,8 @@ public class ApprovedApplicationResource {
 
         //make sure hosted SLI users can only see admin and portal
         if (SecurityUtil.isHostedUser(repo, (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal())) {
-            String name = (String) result.get("name");
-            String dev = (String) result.get("created_by");
-            if (dev != null && dev.equals("slcdeveloper")) {
-                if (!name.startsWith("Admin") && !name.startsWith("Portal")) {
-                    //somewhat quick and dirty way of checking for admin/portal
-                    //maybe we should add special flag to the app instead
-                    return true;
-                }
-            } else {
+            Boolean adminVisible = (Boolean) result.get("admin_visible");
+            if (adminVisible == null || !adminVisible) {
                 return true;
             }
         }
