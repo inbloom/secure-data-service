@@ -37,7 +37,7 @@ simpleIDP_realm_suffix: "Local"
 
 ldap_hostname: ldap.slidev.org
 ldap_port: 389
-ldap_base: "ou=Local,ou=DevTest,dc=slidev,dc=org"
+ldap_base: "ou=LocalNew,ou=DevTest,dc=slidev,dc=org"
 ldap_admin_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
 ldap_admin_pass: Y;Gtf@w{
 
