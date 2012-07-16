@@ -119,7 +119,7 @@ When /^I move student61 to a new school$/ do
     "entryGradeLevel" => "First grade",
     "schoolId" => "00000000-0000-0000-0000-000000000005",
     "studentId" => "00000000-abcd-0000-0000-000000000061",
-    "exitWithdrawDate" => "2005-12-16"
+    "exitWithdrawDate" => "2015-12-16"
   }
   
   #Make the old association outdated

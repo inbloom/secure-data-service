@@ -98,7 +98,7 @@ end
 
 When /^I make an API call to get my student list$/ do
   @format = "application/vnd.slc+json"
-  restHttpGet("/v1/students/")
+  restHttpGet("/v1/students/?limit=0")
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 

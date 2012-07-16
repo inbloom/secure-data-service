@@ -348,5 +348,5 @@ Scenario Outline: Staff accessing lists of students at differing levels
 Examples:
 | User      | Count | Comment |
 | "staff1"  | 45    | School-staff should see all students currently enrolled at the school. |
-| "staff6"  | 47    | District-staff should see all students currently enrolled at the schools in their district. |
-| "staff11" | 49    | State-staff should see all students currently enrolled at the schools in their state. |
+| "staff6"  | 48    | District-staff should see all students currently enrolled at the schools in their district. |
+| "staff11" | 55    | State-staff should see all students currently enrolled at the schools in their state. |
