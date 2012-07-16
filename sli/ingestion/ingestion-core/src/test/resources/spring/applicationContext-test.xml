@@ -26,6 +26,7 @@
     </property>
   </bean>
 
+  <import resource="activemq-context.xml" />
   <import resource="smooks-context.xml" />
   <import resource="classpath:/spring/db.xml" />
   <import resource="dal-context.xml" />
