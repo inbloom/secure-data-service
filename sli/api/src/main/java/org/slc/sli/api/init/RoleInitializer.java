@@ -63,13 +63,8 @@ public class RoleInitializer {
     };
 
     @Autowired
-<<<<<<< HEAD
-    private Repository<Entity> repository;
-=======
     @Qualifier("validationRepo")
     private Repository<Entity>    repository;
->>>>>>> adding spring qualifier to specify mongo entity repo
-
     @PostConstruct
     public void init() {
         dropRoles();
