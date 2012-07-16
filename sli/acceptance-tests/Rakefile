@@ -21,13 +21,9 @@ OTHER_TAGS = ENV['OTHER_TAGS'] ? "--tags "+ENV['OTHER_TAGS'] : ""
 
 TODROP = ENV['TODROP'] ? true : false
 
-<<<<<<< HEAD
 CERTAIN_TENANTS = ENV['CERTAIN_TENANTS'] ? true : false
 
-RUN_STAMPER = false
-=======
 RUN_STAMPER = ENV['RUN_STAMPER'] ? true : false
->>>>>>> Stamper can be turned on with RUN_STAMPER
 
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "Zork", "SLI", "T1", "T2", "T3", "mreynolds"]
 
