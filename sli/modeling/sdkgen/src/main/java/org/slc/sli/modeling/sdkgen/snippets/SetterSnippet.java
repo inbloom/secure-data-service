@@ -68,7 +68,7 @@ public final class SetterSnippet implements JavaSnippet {
                     new PutMapEntry(name, new VarNameExpr(enumNames)));
             new Block(assnmt, new IfThenElse(testSnippet, thenSnippet, elseSnippet)).write(jsw);
         } else {
-            thenSnippet = new Stmt(new PutMapEntry(name, new CoerceToJsonTypeSnippet(name, type)));
+            thenSnippet = new PutMapEntry(name, new CoerceToJsonTypeSnippet(name, type));
             new Block(new IfThenElse(testSnippet, thenSnippet, elseSnippet)).write(jsw);
         }
     }

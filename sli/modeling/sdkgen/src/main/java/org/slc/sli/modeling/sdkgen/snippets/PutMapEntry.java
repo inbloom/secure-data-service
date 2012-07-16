@@ -23,6 +23,9 @@ public final class PutMapEntry implements JavaSnippet {
 
     @Override
     public void write(final JavaStreamWriter jsw) throws IOException {
+        jsw.beginStmt();
         jsw.write("data.put").parenL().dblQte().write(name).dblQte().comma().write(value).parenR();
+        jsw.endStmt();
     }
+
 }

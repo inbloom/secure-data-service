@@ -20,10 +20,8 @@ public class StmtList implements JavaSnippet {
     }
     @Override
     public void write(JavaStreamWriter jsw) throws IOException {
-        jsw.beginStmt();
         for (JavaSnippet stmt : stmts) {
             jsw.write(stmt);
         }
-        jsw.endStmt();
     }
 }
