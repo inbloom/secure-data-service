@@ -23,7 +23,7 @@ Examples:
 Scenario: Update data associations to change access for teachers and staff
 Given I am user "staff13" in IDP "SEC"
 When I move teacher12 to a new section
-And I move student59 to a new section
+And I move student58 to a new section
 And I move staff22 to a new school
 And I move student61 to a new school
 Then the stamper runs and completes
