@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeMasterSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
   xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-MasterSchedule.xsd">
-
   <CourseOffering>
     <LocalCourseCode>Algebra-10</LocalCourseCode>
     <LocalCourseTitle>Algebra-10</LocalCourseTitle>
@@ -24,7 +23,6 @@
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
-
   <CourseOffering>
     <LocalCourseCode>Geometry-10</LocalCourseCode>
     <LocalCourseTitle>Geometry-10</LocalCourseTitle>
@@ -47,7 +45,6 @@
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
-
   <CourseOffering>
     <LocalCourseCode>7th Grade English</LocalCourseCode>
     <LocalCourseTitle>7th Grade English</LocalCourseTitle>
@@ -70,7 +67,6 @@
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
-
   <CourseOffering>
     <LocalCourseCode>Algebra-11</LocalCourseCode>
     <LocalCourseTitle>Algebra-11</LocalCourseTitle>
@@ -93,7 +89,6 @@
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
-
   <CourseOffering>
     <LocalCourseCode>American Literature</LocalCourseCode>
     <LocalCourseTitle>American Literature</LocalCourseTitle>
@@ -116,7 +111,6 @@
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
-
   <CourseOffering>
     <LocalCourseCode>Writing about Government</LocalCourseCode>
     <LocalCourseTitle>Writing about Government</LocalCourseTitle>
@@ -139,7 +133,6 @@
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
-
   <CourseOffering>
     <LocalCourseCode>1st Grade Homeroom</LocalCourseCode>
     <LocalCourseTitle>1st Grade Homeroom</LocalCourseTitle>
@@ -162,7 +155,6 @@
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
-
   <CourseOffering>
     <LocalCourseCode>7th Grade English</LocalCourseCode>
     <LocalCourseTitle>7th Grade English</LocalCourseTitle>
@@ -185,7 +177,6 @@
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
-
   <CourseOffering>
     <LocalCourseCode>8th Grade English</LocalCourseCode>
     <LocalCourseTitle>8th Grade English</LocalCourseTitle>
@@ -208,7 +199,6 @@
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
-
   <CourseOffering>
     <LocalCourseCode>Club/Team</LocalCourseCode>
     <LocalCourseTitle>Club/Team</LocalCourseTitle>
@@ -231,7 +221,6 @@
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
-
   <CourseOffering>
     <LocalCourseCode>1st Grade Homeroom</LocalCourseCode>
     <LocalCourseTitle>1st Grade Homeroom</LocalCourseTitle>
@@ -254,7 +243,6 @@
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
-
   <CourseOffering>
     <LocalCourseCode>Reading Group</LocalCourseCode>
     <LocalCourseTitle>Reading Group</LocalCourseTitle>
@@ -277,7 +265,6 @@
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
-
   <CourseOffering>
     <LocalCourseCode>Special Elective:Debate Clinic</LocalCourseCode>
     <LocalCourseTitle>Special Elective:Debate Clinic</LocalCourseTitle>
@@ -300,7 +287,6 @@
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
-
   <CourseOffering>
     <LocalCourseCode>Geometry-10</LocalCourseCode>
     <LocalCourseTitle>Geometry-10</LocalCourseTitle>
@@ -323,7 +309,6 @@
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
-
   <CourseOffering>
     <LocalCourseCode>7th Grade Composition</LocalCourseCode>
     <LocalCourseTitle>7th Grade Composition</LocalCourseTitle>
@@ -346,7 +331,6 @@
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
-
   <Section>
     <UniqueSectionCode>Mrs. Kim's Homeroom</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
@@ -375,7 +359,6 @@
       </SessionIdentity>
     </SessionReference>
   </Section>
-  
   <Section>
     <UniqueSectionCode>8th Grade English - Sec 4</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
