@@ -22,9 +22,6 @@ import java.util.List;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Fault;
@@ -43,21 +40,28 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Camel interface for processing our EdFi batch job.
  * Derives the handler to use based on the file format of the files in the batch job and delegates
  * the processing to it.
- *
+ * 
  * @author dduran
- *
+ * 
  */
 @Component
 public class EdFiProcessor implements Processor {
-
+    
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.EDFI_PROCESSOR;
-
+    
+    private static final Logger LOG = LoggerFactory.getLogger(EdFiProcessor.class);
+    
     @Autowired
     private SmooksFileHandler smooksFileHandler;
 
@@ -76,8 +80,8 @@ public class EdFiProcessor implements Processor {
     }
 
     private void processEdFi(WorkNote workNote, Exchange exchange) {
-        info("Starting stage: {}", BATCH_JOB_STAGE);
-
+        LOG.info("Starting stage: {}", BATCH_JOB_STAGE);
+        
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
         String batchJobId = workNote.getBatchJobId();
@@ -131,11 +135,11 @@ public class EdFiProcessor implements Processor {
         if (fe.getFileType() != null) {
             FileFormat fileFormat = fe.getFileType().getFileFormat();
             if (fileFormat == FileFormat.EDFI_XML) {
-                info("Processing file: {}", fe.getFile().getPath());
-
+                LOG.info("Processing file: {}", fe.getFile().getPath());
+                
                 smooksFileHandler.handle(fe, errorReport, fileProcessStatus);
-
-                info("Done processing file: {}", fe.getFile().getPath());
+                
+                LOG.info("Done processing file: {}", fe.getFile().getPath());
             } else {
                 throw new IllegalArgumentException("Unsupported file format: " + fe.getFileType().getFileFormat());
             }
@@ -188,7 +192,7 @@ public class EdFiProcessor implements Processor {
     private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        piiClearedError("Error processing batch job " + batchJobId, exception);
+        LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
             Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
                     FaultType.TYPE_ERROR.getName(), null, exception.toString());
@@ -206,6 +210,6 @@ public class EdFiProcessor implements Processor {
     private void handleNoBatchJobIdInExchange(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+        LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 }

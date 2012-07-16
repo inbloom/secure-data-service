@@ -42,30 +42,6 @@ When /^I select "([^"]*)" and click go$/ do |arg1|
   
 end
 
-When /^I login as "([^"]*)" "([^"]*)"/ do | username, password |
-    @explicitWait.until{@driver.find_element(:id, "IDToken1")}.send_keys username
-    @driver.find_element(:id, "IDToken2").send_keys password
-#    @driver.find_element(:name, "Login.Submit").click
-    @driver.find_element(:id, "IDToken2").send_keys(:enter)
-    # Catches the encryption pop up seen in local box set up
-    begin
-      @driver.switch_to.alert.accept
-    rescue
-    end
-end
-
-Then /^I should be redirected to the app selection page$/ do
-  expected_url = getBaseUrl() + PropLoader.getProps['dashboard_app_selector_page']
-  puts "Expected URL = " + expected_url + ", Current URL = " + @driver.current_url 
-  assert(@driver.current_url == expected_url)
-end
-
-
-When /^I click on the Dashboard page$/ do
-   @explicitWait.until{@driver.find_element(:link_text=> "Dashboard")}.click
-  sleep(2)
-end
-
 Then /^The students who have an ELL lozenge exist in the API$/ do
   #todo: grab a token id from api 
   @sessionId = "4cf7a5d4-37a1-ca19-8b13-b5f95131ac85"
@@ -82,12 +58,12 @@ end
 
 def getStudentsWithELLLozenge()
   studentTable = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
-  all_trs = studentTable.find_elements(:xpath,".//tr[contains(@class,'ui-widget')]")
+  all_trs = studentTable.find_elements(:css,"tr[class*='ui-widget']")
   students_with_lozenges = []
   i = 0
   all_trs.each do |tr|
-   fullName = tr.find_element(:xpath, "td[contains(@aria-describedby,'name.fullName')]")
-   programParticipation = tr.find_element(:xpath, "td[contains(@aria-describedby,'programParticipation') and title='ELL']")
+   fullName = tr.find_element(:css, "td[aria-describedby*='name.fullName']")
+   programParticipation = tr.find_element(:css, "td[aria-describedby*='programParticipation'][title='ELL']")
    if (programParticipation.length > 0)
     students_with_lozenges[i] = fullName
     i+=1

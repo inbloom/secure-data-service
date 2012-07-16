@@ -1192,6 +1192,60 @@
     <jb:value property="contentStandardName" data="LearningObjectiveIdentity/LearningObjectiveId/@ContentStandardName" />
   </jb:bean>
 
+
+<!-- LearningObjective for interchangeStudentGrade -->
+<jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentGrade/LearningObjective">
+    <jb:expression property="recordType">'learningObjective'</jb:expression>
+    <jb:wiring property="attributes" beanIdRef="learningObjectiveAttributesSGLO" />
+  </jb:bean>
+
+  <jb:bean beanId="learningObjectiveAttributesSGLO" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/LearningObjective">
+    <jb:wiring property="learningObjectiveId" beanIdRef="learningObjectiveIdRefSGLO" />
+    <jb:value property="objective" data="InterchangeStudentGrade/LearningObjective/Objective" />
+    <jb:value property="description" data="InterchangeStudentGrade/LearningObjective/Description" />
+    <jb:value property="academicSubject" data="InterchangeStudentGrade/LearningObjective/AcademicSubject" />
+    <jb:value property="objectiveGradeLevel" data="InterchangeStudentGrade/LearningObjective/ObjectiveGradeLevel" />
+    <jb:wiring property="learningStandardRefs" beanIdRef="learningStandardReferenceArrayLOSGLO" />
+    <jb:wiring property="learningObjectiveRefs" beanIdRef="learningObjectiveReferenceArrayLOSGLO" />
+  </jb:bean>
+
+
+ <jb:bean beanId="learningObjectiveIdRefSGLO" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/LearningObjective/LearningObjectiveId">
+    <jb:value property="identificationCode" data="InterchangeStudentGrade/LearningObjective/LearningObjectiveId/IdentificationCode" />
+    <jb:value property="contentStandardName" data="InterchangeStudentGrade/LearningObjective/LearningObjectiveId/IdentificationCode/@ContentStandardName" />
+  </jb:bean>
+  
+    <jb:bean beanId="learningStandardReferenceArraySGLO" class="java.util.ArrayList"
+    createOnElement="InterchangeStudentGrade/LearningObjective">
+    <jb:wiring beanIdRef="learningStandardReferenceSGLO" />
+  </jb:bean>
+
+<jb:bean beanId="learningStandardReferenceSGLO" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/LearningStandardReference">
+    <jb:wiring property="learningStandardId" beanIdRef="learningStandardRefIdRefSGLO" />
+  </jb:bean>
+
+  <jb:bean beanId="learningStandardRefIdRefSGLO" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/LearningStandardReference/LearningStandardIdentity/LearningStandardId">
+    <jb:value property="identificationCode"  data="InterchangeStudentGrade/LearningStandardId/IdentificationCode" />
+    <jb:value property="contentStandardName" data="InterchangeStudentGrade/LearningStandardId/@ContentStandardName" />
+  </jb:bean>
+
+<jb:bean beanId="learningObjectiveReferenceArraySGLO" class="java.util.ArrayList" createOnElement="InterchangeStudentGrade/LearningObjective">
+    <jb:wiring beanIdRef="learningObjectiveReferenceSGLO" />
+  </jb:bean>
+
+ <jb:bean beanId="learningObjectiveReferenceSGLO" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/LearningObjectiveReference">
+    <jb:value property="objective" data="InterchangeStudentGrade/LearningObjectiveReference/LearningObjectiveIdentity/Objective" />
+    <jb:wiring property="learningObjectiveId" beanIdRef="InterchangeStudentGrade/learningObjectiveRefIdRefSGLO" />
+  </jb:bean>
+
+  <jb:bean beanId="learningObjectiveRefIdRefSGLO" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/LearningObjectiveReference/LearningObjectiveIdentity/LearningObjectiveId">
+    <jb:value property="identificationCode" data="InterchangeStudentGrade/LearningObjectiveIdentity/LearningObjectiveId/IdentificationCode" />
+    <jb:value property="contentStandardName" data="InterchangeStudentGrade/LearningObjectiveIdentity/LearningObjectiveId/@ContentStandardName" />
+  </jb:bean>
+
+
+
+
   <!-- Learning Standard mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="LearningStandard">
     <jb:expression property="recordType">'learningStandard'</jb:expression>

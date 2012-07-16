@@ -78,6 +78,17 @@ SLC.namespace('SLC.grid.tablegrid', (function () {
 			        options = $.extend(options, {colNames: colNames, colModel: colModel});
 			    }
 			    $(this).jqGrid(options);
+			    $(this).jqGrid('hideCol','rn');
+			    // Add css class for column header
+			    if (panelConfig.items) {
+					for (i = 0; i < panelConfig.items.length; i++) {
+						item = panelConfig.items[i];
+						if (item.style) {
+							$(this).jqGrid('setLabel',item.field, '', item.style);
+						}
+					}
+				}
+				
 			    if (groupHeaders.length > 0) {
 					$(this).jqGrid('setGroupHeaders', {
 						useColSpanStyle: true, 

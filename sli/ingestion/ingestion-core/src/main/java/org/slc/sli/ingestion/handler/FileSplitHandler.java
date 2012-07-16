@@ -33,13 +33,17 @@ import javax.xml.stream.events.EndElement;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Splits files
- *
+ * 
  * @author dkornishev
- *
+ * 
  */
 public class FileSplitHandler {
+    public static final Logger LOG = LoggerFactory.getLogger(FileSplitHandler.class);
     private static final int SPLIT_AT = 10000;
 
     private XMLEventFactory eventFactory = XMLEventFactory.newInstance();

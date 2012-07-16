@@ -26,7 +26,6 @@ import org.slc.sli.ingestion.handler.ZipFileHandler;
 import org.slc.sli.ingestion.landingzone.BatchJobAssembler;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
-import org.slc.sli.ingestion.landingzone.ControlFileFactory;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
@@ -34,7 +33,6 @@ import org.slc.sli.ingestion.validation.ComplexValidator;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.LoggingErrorReport;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Validation Controller reads zip file or ctl file in a give directory and applies set of
@@ -47,10 +45,7 @@ public class ValidationController {
     private ZipFileHandler zipFileHandler;
 
     private BatchJobAssembler batchJobAssembler;
-
-    @Autowired
-    private ControlFileFactory controlFileFactory;
-
+    
     // private List<? extends Validator<IngestionFileEntry>> validators;
     private ComplexValidator<IngestionFileEntry> complexValidator;
 
@@ -107,8 +102,8 @@ public class ValidationController {
         try {
             LocalFileSystemLandingZone lz = new LocalFileSystemLandingZone();
             lz.setDirectory(ctlFile.getAbsoluteFile().getParentFile());
-            ControlFile cfile = controlFileFactory.parse(ctlFile);
-
+            ControlFile cfile = ControlFile.parse(ctlFile);
+            
             ControlFileDescriptor cfd = new ControlFileDescriptor(cfile, lz);
 
             job = batchJobAssembler.assembleJob(cfd);
@@ -155,9 +150,5 @@ public class ValidationController {
     public void setComplexValidator(ComplexValidator<IngestionFileEntry> complexValidator) {
         this.complexValidator = complexValidator;
     }
-
-    public void setControlFileFactory(ControlFileFactory cff) {
-        this.controlFileFactory = cff;
-    }
-
+    
 }
