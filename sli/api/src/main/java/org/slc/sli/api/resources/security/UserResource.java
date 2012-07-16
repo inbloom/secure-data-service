@@ -59,8 +59,6 @@ public class UserResource {
 
     @POST
     public final Response create(final User newUser, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        debug("creating a user {}", newUser.toString());
-
         Collection<String> groupsAllowed = RightToGroupMapper.getInstance().getGroups(SecurityUtil.getAllRights());
         Collection<String> newUserGroups = new HashSet<String>(newUser.getGroups());
 
@@ -100,21 +98,14 @@ public class UserResource {
 
     @PUT
     public final Response update(final User updateUser, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        debug("updating a user {}", updateUser.toString());
-
         Collection<String> groupsAllowed = RightToGroupMapper.getInstance().getGroups(SecurityUtil.getAllRights());
         Collection<String> updateUserGroups = new HashSet<String>(updateUser.getGroups());
 
         Response result = validateUserCreateOrUpdate(groupsAllowed, updateUserGroups, updateUser);
-        if (updateUser.getUid().equals(SecurityUtil.getUid())) {
-            User currentUser = ldapService.getUser(realm, SecurityUtil.getUid());
-            if (!currentUser.getGroups().containsAll(updateUser.getGroups()) || !updateUser.getGroups().containsAll(currentUser.getGroups())) {
-                EntityBody body = new EntityBody();
-                body.put("response", "you cannot change your own roles");
-                return Response.status(Status.FORBIDDEN).entity(body).build();
-            }
+        if (result != null) {
+            return result;
         }
-
+        result = validateCannotUpdateOwnsRoles(updateUser);
         if (result != null) {
             return result;
         }
@@ -132,22 +123,39 @@ public class UserResource {
 
         User userToDelete = ldapService.getUser(realm, uid);
         Collection<String> groupsAllowed = RightToGroupMapper.getInstance().getGroups(SecurityUtil.getAllRights());
-        Collection<String> deleteUserGroups = new HashSet<String>(userToDelete.getGroups());
-        if (!groupsAllowed.containsAll(deleteUserGroups)) {
-            deleteUserGroups.removeAll(groupsAllowed);
-            debug("the user we are trying to delete is more powerful than the user executing the deletion: {}", User.printGroup(new ArrayList<String>(deleteUserGroups)));
-            EntityBody body = new EntityBody();
-            body.put("response", "You are not allowed to delete this resource");
-            return Response.status(Status.FORBIDDEN).entity(body).build();
+        result = validateUserGroupsAllowed(groupsAllowed, userToDelete.getGroups());
+        if (result != null) {
+            return result;
         }
-        if (userToDelete.getUid().equals(SecurityUtil.getUid())) {
+
+        result = validateCannotOperateOfSelf(uid);
+        if (result != null) {
+            return result;
+        }
+
+        ldapService.removeUser(realm, uid);
+        return Response.status(Status.OK).build();
+    }
+
+    private Response validateCannotUpdateOwnsRoles(User user) {
+        if (user.getUid().equals(SecurityUtil.getUid())) {
+            User currentUser = ldapService.getUser(realm, SecurityUtil.getUid());
+            if (!currentUser.getGroups().containsAll(user.getGroups()) || !user.getGroups().containsAll(currentUser.getGroups())) {
+                EntityBody body = new EntityBody();
+                body.put("response", "you cannot change your own roles");
+                return Response.status(Status.FORBIDDEN).entity(body).build();
+            }
+        }
+        return null;
+    }
+
+    private Response validateCannotOperateOfSelf(String uid) {
+        if (uid.equals(SecurityUtil.getUid())) {
             EntityBody body = new EntityBody();
             body.put("response", "You are not allowed to delete yourself");
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
-            ldapService.removeUser(realm, uid);
-            return Response.status(Status.OK).build();
-
+        return null;
     }
 
     /**
@@ -210,7 +218,7 @@ public class UserResource {
         return null;
     }
 
-    private Response validateAtMostOneAdminRole(Collection<String> groups) {
+    private Response validateAtMostOneAdminRole(final Collection<String> groups) {
         Collection<String> adminRoles = Arrays.asList(RoleInitializer.ADMIN_ROLES);
         adminRoles.retainAll(groups);
         if (adminRoles.size() > 1) {
@@ -221,9 +229,8 @@ public class UserResource {
         return null;
     }
 
-    static Response validateUserGroupsAllowed(Collection<String> groupsAllowed, Collection<String> userGroups) {
+    static Response validateUserGroupsAllowed(final Collection<String> groupsAllowed, final Collection<String> userGroups) {
         if (!groupsAllowed.containsAll(userGroups)) {
-            userGroups.removeAll(groupsAllowed);
             EntityBody body = new EntityBody();
             body.put("response", "You are not allowed to access this resource");
             return Response.status(Status.FORBIDDEN).entity(body).build();
