@@ -62,11 +62,18 @@ public class PostProcessFilter implements ContainerResponseFilter {
 
     @Value("${sli.application.buildTag}")
     private String buildTag;
+
+    @Value("${sli.api.performance.tracking}")
+    private String apiPerformanceTracking;
     
     @Override
     public ContainerResponse filter(ContainerRequest request, ContainerResponse response) {
         SecurityContextHolder.clearContext();
-        logApiDataToDb(request,response);
+
+        if("true".equals(apiPerformanceTracking)){
+            logApiDataToDb(request,response);
+        }
+
         printElapsed(request);
         expireCache();
 

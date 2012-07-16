@@ -1,0 +1,15 @@
+<script type="text/javascript">
+  var courses = eval(<%= courses %>)
+  var sessions = eval(<%= sessions %>)
+  var students = eval(<%= students %>)
+  var teachers = eval(<%= teachers %>)
+  var sections = eval(<%= sections %>)
+
+ 
+</script>
+
+<% JSON.parse(students).each do |student| %>
+  <div><p><%= student["name"]["firstName"] %></p></div> 
+<% end %>
+
+

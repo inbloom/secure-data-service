@@ -263,10 +263,6 @@
                             <name>sli.encryption.properties</name>
                             <value>${sli.encryption.properties}</value>
                         </systemProperty>
-                        <systemProperty>
-                            <name>sli.app.buildTag</name>
-                            <value>${sli.app.buildTag}</value>
-                        </systemProperty>
                     </systemProperties>
 
                     <contextPath>api</contextPath>

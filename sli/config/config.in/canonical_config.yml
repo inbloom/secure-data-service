@@ -61,6 +61,7 @@ default:
 
         #Used to access hudson build number
         sli.application.buildTag: ${sli.app.buildTag}
+        sli.api.performance.tracking: true
 
     data-access: &DATA-ACCESS-DEFAULT
         # MongoDB Options (only used in data-access)
