@@ -31,12 +31,12 @@ public class UserResourceTest {
 
     @Test
     public void testValidateAdminRights() {
-        assertNotNull(UserResource.validAdminRights(Arrays.asList(EMPTY_RIGHT)));
-        assertNotNull(UserResource.validAdminRights(Arrays.asList(NO_ADMIN_RIGHT)));
-        assertNull(UserResource.validAdminRights(Arrays.asList(ONE_ADMIN_RIGHT_ONLY)));
-        assertNull(UserResource.validAdminRights(Arrays.asList(ONE_ADMIN_RIGHT_WITH_OTHERS)));
-        assertNull(UserResource.validAdminRights(Arrays.asList(TWO_ADMIN_RIGHTS_ONLY)));
-        assertNull(UserResource.validAdminRights(Arrays.asList(TWO_ADMIN_RIGHTS_WITH_OTHERS)));
+        assertNotNull(UserResource.validateAdminRights(Arrays.asList(EMPTY_RIGHT)));
+        assertNotNull(UserResource.validateAdminRights(Arrays.asList(NO_ADMIN_RIGHT)));
+        assertNull(UserResource.validateAdminRights(Arrays.asList(ONE_ADMIN_RIGHT_ONLY)));
+        assertNull(UserResource.validateAdminRights(Arrays.asList(ONE_ADMIN_RIGHT_WITH_OTHERS)));
+        assertNull(UserResource.validateAdminRights(Arrays.asList(TWO_ADMIN_RIGHTS_ONLY)));
+        assertNull(UserResource.validateAdminRights(Arrays.asList(TWO_ADMIN_RIGHTS_WITH_OTHERS)));
     }
 
     @Test
@@ -60,7 +60,14 @@ public class UserResourceTest {
         assertCollectionEquals(Arrays.asList(new String[] {RoleInitializer.SLC_OPERATOR, RoleInitializer.REALM_ADMINISTRATOR, RoleInitializer.INGESTION_USER}), slcOperatorGroups2);
     }
 
-
+    @Test
+    public void testValidateAtMostOneAdminRole() {
+        assertNull(UserResource.validateAtMostOneAdminRole(Arrays.asList(new String[] {})));
+        assertNull(UserResource.validateAtMostOneAdminRole(Arrays.asList(new String[] {RoleInitializer.INGESTION_USER})));
+        assertNull(UserResource.validateAtMostOneAdminRole(Arrays.asList(new String[] {RoleInitializer.SLC_OPERATOR})));
+        assertNotNull(UserResource.validateAtMostOneAdminRole(Arrays.asList(new String[] {RoleInitializer.SLC_OPERATOR, RoleInitializer.LEA_ADMINISTRATOR})));
+        assertNull(UserResource.validateAtMostOneAdminRole(Arrays.asList(new String[] {RoleInitializer.LEA_ADMINISTRATOR, RoleInitializer.LEA_ADMINISTRATOR})));
+    }
 
     private void assertCollectionEquals(final Collection<String> expected, final Collection<String> actual) {
         assertTrue(expected.containsAll(actual) && actual.containsAll(expected));

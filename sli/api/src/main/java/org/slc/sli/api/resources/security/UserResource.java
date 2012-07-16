@@ -59,10 +59,7 @@ public class UserResource {
 
     @POST
     public final Response create(final User newUser, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        Collection<String> groupsAllowed = RightToGroupMapper.getInstance().getGroups(SecurityUtil.getAllRights());
-        Collection<String> newUserGroups = new HashSet<String>(newUser.getGroups());
-
-        Response result = validateUserCreateOrUpdate(groupsAllowed, newUserGroups, newUser);
+        Response result = validateUserCreate(newUser);
         if (result != null) {
             return result;
         }
@@ -81,7 +78,7 @@ public class UserResource {
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
 
-        Response result = validAdminRights(SecurityUtil.getAllRights());
+        Response result = validateAdminRights(SecurityUtil.getAllRights());
         if (result != null) {
             return result;
         }
@@ -98,14 +95,7 @@ public class UserResource {
 
     @PUT
     public final Response update(final User updateUser, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        Collection<String> groupsAllowed = RightToGroupMapper.getInstance().getGroups(SecurityUtil.getAllRights());
-        Collection<String> updateUserGroups = new HashSet<String>(updateUser.getGroups());
-
-        Response result = validateUserCreateOrUpdate(groupsAllowed, updateUserGroups, updateUser);
-        if (result != null) {
-            return result;
-        }
-        result = validateCannotUpdateOwnsRoles(updateUser);
+        Response result = validateUserUpdate(updateUser);
         if (result != null) {
             return result;
         }
@@ -116,19 +106,7 @@ public class UserResource {
 
     @DELETE
     public final synchronized Response delete(final String uid, final HttpHeaders headers, final UriInfo uriInfo) {
-        Response result = validAdminRights(SecurityUtil.getAllRights());
-        if (result != null) {
-            return result;
-        }
-
-        User userToDelete = ldapService.getUser(realm, uid);
-        Collection<String> groupsAllowed = RightToGroupMapper.getInstance().getGroups(SecurityUtil.getAllRights());
-        result = validateUserGroupsAllowed(groupsAllowed, userToDelete.getGroups());
-        if (result != null) {
-            return result;
-        }
-
-        result = validateCannotOperateOfSelf(uid);
+        Response result = validateUserDelete(uid);
         if (result != null) {
             return result;
         }
@@ -137,22 +115,95 @@ public class UserResource {
         return Response.status(Status.OK).build();
     }
 
+    private Response validateUserCreate(User user) {
+        Response result = validateAdminRights(SecurityUtil.getAllRights());
+        if (result != null) {
+            return result;
+        }
+
+        result = validateUserGroupsAllowed(getGroupsAllowed(), user.getGroups());
+        if (result != null) {
+            return result;
+        }
+
+        result = validateAtMostOneAdminRole(user.getGroups());
+        if (result != null) {
+            return result;
+        }
+
+        result = validateTenantAndEdorg(getGroupsAllowed(), user);
+        if (result != null) {
+            return result;
+        }
+
+        return null;
+    }
+
+    private Response validateUserUpdate(User user) {
+        Response result = validateAdminRights(SecurityUtil.getAllRights());
+        if (result != null) {
+            return result;
+        }
+
+        result = validateUserGroupsAllowed(getGroupsAllowed(), user.getGroups());
+        if (result != null) {
+            return result;
+        }
+
+        result = validateAtMostOneAdminRole(user.getGroups());
+        if (result != null) {
+            return result;
+        }
+
+        result = validateTenantAndEdorg(getGroupsAllowed(), user);
+        if (result != null) {
+            return result;
+        }
+
+        result = validateCannotUpdateOwnsRoles(user);
+        if (result != null) {
+            return result;
+        }
+
+        return null;
+    }
+
+    private Response validateUserDelete(String uid) {
+        Response result = validateAdminRights(SecurityUtil.getAllRights());
+        if (result != null) {
+            return result;
+        }
+
+        User userToDelete = ldapService.getUser(realm, uid);
+        result = validateUserGroupsAllowed(getGroupsAllowed(), userToDelete.getGroups());
+        if (result != null) {
+            return result;
+        }
+
+        result = validateCannotOperateOnSelf(uid);
+        if (result != null) {
+            return result;
+        }
+
+        return null;
+    }
+
     private Response validateCannotUpdateOwnsRoles(User user) {
         if (user.getUid().equals(SecurityUtil.getUid())) {
             User currentUser = ldapService.getUser(realm, SecurityUtil.getUid());
             if (!currentUser.getGroups().containsAll(user.getGroups()) || !user.getGroups().containsAll(currentUser.getGroups())) {
                 EntityBody body = new EntityBody();
-                body.put("response", "you cannot change your own roles");
+                body.put("response", "cannot update own roles");
                 return Response.status(Status.FORBIDDEN).entity(body).build();
             }
         }
         return null;
     }
 
-    private Response validateCannotOperateOfSelf(String uid) {
+    private Response validateCannotOperateOnSelf(String uid) {
         if (uid.equals(SecurityUtil.getUid())) {
             EntityBody body = new EntityBody();
-            body.put("response", "You are not allowed to delete yourself");
+            body.put("response", "not allowed execute this operation on self");
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
         return null;
@@ -163,7 +214,7 @@ public class UserResource {
      * @param rights
      * @return null if success, response with error otherwise
      */
-    static Response validAdminRights(Collection<GrantedAuthority> rights) {
+    static Response validateAdminRights(Collection<GrantedAuthority> rights) {
         if (!isAdministrator(rights)) {
             EntityBody body = new EntityBody();
             body.put("response", "You are not authorized to access this resource.");
@@ -172,9 +223,9 @@ public class UserResource {
         return null;
     }
 
-    private Response validateTenantAndEdorg(Collection<String> userGroups, Collection<String> groupsAllowed, User user) {
+    private Response validateTenantAndEdorg(Collection<String> groupsAllowed, User user) {
         // Production
-        if (userGroups.contains(RoleInitializer.SLC_OPERATOR)) {
+        if (user.getGroups().contains(RoleInitializer.SLC_OPERATOR)) {
             user.setTenant(null);
             user.setEdorg(null);
         } else if (groupsAllowed.contains(RoleInitializer.SLC_OPERATOR)) {
@@ -197,7 +248,7 @@ public class UserResource {
         }
 
         // Sandbox
-        if (userGroups.contains(RoleInitializer.SANDBOX_SLC_OPERATOR)) {
+        if (user.getGroups().contains(RoleInitializer.SANDBOX_SLC_OPERATOR)) {
             user.setTenant(null);
             user.setEdorg(null);
         } else if (groupsAllowed.contains(RoleInitializer.SANDBOX_SLC_OPERATOR)) {
@@ -218,8 +269,8 @@ public class UserResource {
         return null;
     }
 
-    private Response validateAtMostOneAdminRole(final Collection<String> groups) {
-        Collection<String> adminRoles = Arrays.asList(RoleInitializer.ADMIN_ROLES);
+    static Response validateAtMostOneAdminRole(final Collection<String> groups) {
+        Collection<String> adminRoles = new ArrayList<String>(Arrays.asList(RoleInitializer.ADMIN_ROLES));
         adminRoles.retainAll(groups);
         if (adminRoles.size() > 1) {
             EntityBody body = new EntityBody();
@@ -238,27 +289,8 @@ public class UserResource {
         return null;
     }
 
-    private Response validateUserCreateOrUpdate(Collection<String> groupsAllowed, Collection<String> userGroups, User user) {
-        Response result = validAdminRights(SecurityUtil.getAllRights());
-        if (result != null) {
-            return result;
-        }
-
-        result = validateUserGroupsAllowed(groupsAllowed, userGroups);
-        if (result != null) {
-            return result;
-        }
-
-        result = validateAtMostOneAdminRole(userGroups);
-        if (result != null) {
-            return result;
-        }
-
-        result = validateTenantAndEdorg(userGroups, groupsAllowed, user);
-        if (result != null) {
-            return result;
-        }
-        return null;
+    private Collection<String> getGroupsAllowed() {
+        return RightToGroupMapper.getInstance().getGroups(SecurityUtil.getAllRights());
     }
 
     /**
