@@ -20,7 +20,7 @@ require_relative '../../../../../../../tools/performance/scripts/apiBenchmarker'
 require_relative '../../../../../../../tools/performance/scripts/databaseUtils'
 
 require 'pp'
-require 'FileUtils'
+require 'fileutils'
 
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../entities/common.rb'

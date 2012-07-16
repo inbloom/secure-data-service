@@ -6,7 +6,7 @@ Feature: Ensure API performance meets defined thresholds
 #  Given I copy the database "apiperf" to database "sli"
 
 Scenario Outline: Check API performance for a staff
-  Given I want to execute each call "5" times
+  Given I want to execute each call "100" times
     And I want to log in as "rrogers" to realm "IL"
   When I execute a series of GETs on "<resource>"
   Then the "<AVERAGE TIME STAT>" should be less than <average time> ms
