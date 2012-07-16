@@ -39,7 +39,6 @@ import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.cache.BucketCache;
 import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.Error;
@@ -70,9 +69,6 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
 
     @Autowired
     private BatchJobDAO batchJobDAO;
-
-    @Autowired
-    private BucketCache bucketCache;
 
     @Override
     public void process(Exchange exchange) throws Exception {
@@ -120,7 +116,6 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
         } catch (Exception exception) {
             handleProcessingExceptions(exchange, batchJobId, exception);
         } finally {
-            bucketCache.flushAllBuckets();
             BatchJobUtils.stopStageAndAddToJob(stage, newJob);
             batchJobDAO.saveBatchJob(newJob);
         }
@@ -139,7 +134,7 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
 
                 IngestionFileEntry fileEntry = new IngestionFileEntry(format, type, resource.getResourceId(),
                         resource.getChecksum());
-
+                fileEntry.setBatchJobId(newJob.getId());
                 fileEntry.setFile(new File(resource.getResourceName()));
 
                 IdRefResolutionHandler idRefResolutionHandler = context.getBean("IdReferenceResolutionHandler",

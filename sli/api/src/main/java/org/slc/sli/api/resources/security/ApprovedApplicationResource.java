@@ -32,13 +32,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
@@ -53,6 +46,12 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 /**
  * Used to retrieve the list of apps that a user is allowed to use.
@@ -164,7 +163,7 @@ public class ApprovedApplicationResource {
         }
 
         //make sure hosted SLI users can only see admin and portal
-        if (isHostedUser()) {
+        if (SecurityUtil.isHostedUser(repo, (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal())) {
             String name = (String) result.get("name");
             String dev = (String) result.get("created_by");
             if (dev != null && dev.equals("slcdeveloper")) {
@@ -179,26 +178,7 @@ public class ApprovedApplicationResource {
         }
         return false;
     }
-
-    /**
-     * Host users are those who are hosted in the SLI's IDP.
-     *
-     * They only have access to admin tools and portal.
-     *
-     * @return
-     */
-    private boolean isHostedUser() {
-        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String realmId = principal.getRealm();
-
-        Entity entity = repo.findById("realm", realmId);
-        if (entity != null) {
-            Boolean admin = (Boolean) entity.getBody().get("admin");
-            return admin != null ? admin : false;
-        }
-        return false;
-    }
-
+    
     private List<String> getUsersRoles() {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ArrayList<String> toReturn = new ArrayList(principal.getRoles());

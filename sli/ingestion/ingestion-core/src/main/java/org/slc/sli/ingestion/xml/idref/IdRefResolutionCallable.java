@@ -46,10 +46,10 @@ public class IdRefResolutionCallable implements Callable<Boolean> {
     private final IngestionFileEntry entry;
     private final Job job;
     private final BatchJobDAO batchJobDao;
-    
+
     /**
      * Default constructor for the id reference resolution callable.
-     * 
+     *
      * @param fileEntry
      *            ingestion file entry.
      * @param job
@@ -64,7 +64,7 @@ public class IdRefResolutionCallable implements Callable<Boolean> {
         this.job = job;
         this.batchJobDao = batchJobDao;
     }
-    
+
     /**
      * Entry point of IdRefResolutionCallable.
      */
@@ -74,16 +74,16 @@ public class IdRefResolutionCallable implements Callable<Boolean> {
         
         LOG.info("Starting IdRefResolutionCallable for: " + entry.getFileName());
         resolver.handle(entry, entry.getErrorReport());
-            
+
         hasErrors = aggregateAndLogResolutionErrors(entry);
         LOG.info("Finished IdRefResolutionCallable for: " + entry.getFileName());
 
         return hasErrors;
     }
-    
+
     /**
      * Logs errors incurred during id reference resolution.
-     * 
+     *
      * @param fileEntry
      *            ingestion file entry.
      * @return integer representing number of errors during id reference resolution.
@@ -94,12 +94,12 @@ public class IdRefResolutionCallable implements Callable<Boolean> {
             String faultMessage = fault.getMessage();
             String faultLevel = fault.isError() ? FaultType.TYPE_ERROR.getName()
                     : fault.isWarning() ? FaultType.TYPE_WARNING.getName() : "Unknown";
-            
+
             Error error = Error.createIngestionError(job.getId(), fileEntry.getFileName(),
                     BatchJobStageType.XML_FILE_PROCESSOR.getName(), null, null, null, faultLevel, faultLevel,
                     faultMessage);
             batchJobDao.saveError(error);
-            
+
             if (fault.isError()) {
                 errorCount++;
             }

@@ -307,7 +307,6 @@ db["studentCompetencyObjective"].ensureIndex({"metaData.tenantId":1,"metaData.ed
 db["studentSectionGradebookEntry"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 //db["studentSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 //db["studentTranscriptAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
-db["teacher"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 //db["teacherSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 //db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 
@@ -357,7 +356,6 @@ db["studentSectionAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.isO
 db["studentSectionGradebookEntry"].ensureIndex({"metaData.tenantId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["studentSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["studentTranscriptAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
-db["teacher"].ensureIndex({"metaData.tenantId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["teacherSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 
@@ -456,7 +454,6 @@ db["studentSectionAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.ext
 db["studentSectionGradebookEntry"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["studentSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["studentTranscriptAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
-db["teacher"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["teacherSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 

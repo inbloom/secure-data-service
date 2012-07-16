@@ -17,6 +17,10 @@
 
 package org.slc.sli.api.security.service;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
@@ -24,7 +28,6 @@ import org.slc.sli.domain.NeutralQuery;
  * Encapsulates security criteria used by queries
  *
  * @author srupasinghe
- *
  */
 public class SecurityCriteria {
     //main security criteria
@@ -50,14 +53,24 @@ public class SecurityCriteria {
 
     /**
      * Apply the security criteria to the given query
+     *
      * @param query The query to manipulate
      * @return
      */
     public NeutralQuery applySecurityCriteria(NeutralQuery query) {
-        query.addCriteria(securityCriteria);
-
         if (blacklistCriteria != null) {
             query.addCriteria(blacklistCriteria);
+        }
+
+        if (securityCriteria != null) {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
+            String userId = user.getEntity().getEntityId();
+
+            NeutralQuery createdByQuery = new NeutralQuery(new NeutralCriteria("metaData.createdBy", NeutralCriteria.OPERATOR_EQUAL, userId, false));
+            createdByQuery.addCriteria(new NeutralCriteria("metaData.isOrphaned", NeutralCriteria.OPERATOR_EQUAL, "true", false));
+            query.addOrQuery(new NeutralQuery(securityCriteria));
+            query.addOrQuery(createdByQuery);
         }
 
         return query;

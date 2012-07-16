@@ -34,6 +34,7 @@ Feature: Reset and Change Password
     Then I click on "submitForgotPasswordButton"
     Then I check for message  "Your password has been successfully modified."
     
+@LDAP_Reset_developer-email    
   Scenario: SLI Developer Change Password
 
     Given I am a valid SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory

@@ -4,15 +4,15 @@ Test Sad Paths and Display Error Messages
 
 Background:
 Given I have an open web browser
-Given the server is in "live" mode
 When I navigate to the Dashboard home page
 Then I should be redirected to the Realm page
 
-@wip
 Scenario: Teacher's school has no data (no courses)
 When I select "New York Realm" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "mario.sanchez" "mario.sanchez1234" for the "Simple" login page
+ When I select ed org "New York Parker District School System"
+ When I select school "Parker Elementary School"
 Then I am informed that "There is no data available for your request. Please contact your IT administrator."
 
 Scenario: Staff's edorg has no data (no schools)
