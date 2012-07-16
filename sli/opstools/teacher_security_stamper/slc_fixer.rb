@@ -161,14 +161,14 @@ class SLCFixer
 
   def stamp_sections
 
-    # teachers that can context to a student student also have context to:
+    # teachers that have context to a student student also have context to:
     # studentSectionAssocs, sections, and teacherSectionAssocs
 
     section_to_teachers = {}
     @db[:studentSectionAssociation].find({}, @basic_options) { |cursor|
       cursor.each { |ssa|
         teachers = @studentId_to_teachers[ssa['body']['studentId']]
-        stamp_context(@db['section'],ssa,teachers)
+        stamp_context(@db['studentSectionAssociation'],ssa,teachers)
 
         section_to_teachers[ssa['body']['sectionId']] ||= []
         section_to_teachers[ssa['body']['sectionId']] += teachers unless teachers.nil?
@@ -176,15 +176,18 @@ class SLCFixer
     }
     section_to_teachers.each { |_,t| t.flatten!; t.uniq! }
 
-    @db[:section].find({}, @basic_options) { |cursor|
-      cursor.each { |sec|
-        stamp_context(@db['section'],sec,section_to_teachers[sec['_id']])
+    # push teacher listed in teacherSectionAssociation to have context to section
+    @db[:teacherSectionAssociation].find({}, @basic_options) { |cursor|
+      cursor.each { |tsa|
+        section_to_teachers[tsa['body']['sectionId']] ||= []
+        section_to_teachers[tsa['body']['sectionId']].push tsa['body']['teacherId']
+        stamp_context(@db['teacherSectionAssociation'],tsa,section_to_teachers[tsa['body']['sectionId']])
       }
     }
 
-    @db[:teacherSectionAssociation].find({}, @basic_options) { |cursor|
-      cursor.each { |tsa|
-        stamp_context(@db['teacherSectionAssociation'],tsa,section_to_teachers[tsa['body']['sectionId']])
+    @db[:section].find({}, @basic_options) { |cursor|
+      cursor.each { |sec|
+        stamp_context(@db['section'],sec,section_to_teachers[sec['_id']])
       }
     }
 
