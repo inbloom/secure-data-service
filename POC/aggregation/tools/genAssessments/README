@@ -20,3 +20,12 @@ where student ids is the same list of ids, school is the StateOrganizationId of 
 To generate section enrollments, run
 (gen-section-enrollments student-ids school section output-file)
 with the same arguments as the school enrollments, but with section equal to the UniqueSectionCode of the section
+
+The following commands will generate data with 350 students and 10 assessments each that can be used with the IL Daybreak InterchangeAssessmentMetadata-StateAssessments.xml, InterchangeEducationOrganization.xml, InterchangeEducationOrgCalendar.xml, and InterchangeMasterSchedule.xml
+(let [students (range 350)]
+  (gen-students students "data/students.xml")
+  (gen-saas students "Grade 7 2011 State Math" 10 "data/assessment-results.xml")
+  (gen-enrollments students "East Daybreak Junior High" "data/enrollment.xml")
+  (gen-section-enrollments students "East Daybreak Junior High" "7th Grade Math - Sec 2" "data/sections.xml"))
+
+Note this is not intended to be a general purpose data generation tool.  It makes a number of assumptions about what the data should look like (for instance, the assessment reporting code is assumed to be "Test Contractor") and make not work with other sets of data.
