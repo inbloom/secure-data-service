@@ -118,6 +118,8 @@ Then /^the "([^"]*)" should be less than (\d+) ms$/ do |statKey, threshold|
   statsMap = @results[resource]
   puts "StatsMap:\n"
   puts statsMap
+  puts "Resource:\n"
+  puts resource
   assert(!statsMap.nil? && !statsMap.empty?, "Results null or empty")
 
   value = statsMap[statKey]
