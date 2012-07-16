@@ -99,7 +99,7 @@ public class BasicClient implements SLIClient {
     }
 
     @Override
-    public void read(List<Entity> entities, final String type, final String id, final Query query)
+    public void read(final List<Entity> entities, final String type, final String id, final Query query)
             throws URISyntaxException, MessageProcessingException, IOException, SLIClientException {
 
         entities.clear();
@@ -142,15 +142,13 @@ public class BasicClient implements SLIClient {
     }
 
 
-    @SuppressWarnings("unchecked")
     @Override
     public Response deleteByToken(final String sessionToken, final String resourceUrl) throws URISyntaxException, MalformedURLException {
         return restClient.deleteRequest(sessionToken, new URL(restClient.getBaseURL() + resourceUrl));
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Response getResource(List<Entity> entities, URL resourceURL, Query query) throws URISyntaxException,
+    public Response getResource(final List<Entity> entities, URL resourceURL, Query query) throws URISyntaxException,
             MessageProcessingException, IOException {
         entities.clear();
 
