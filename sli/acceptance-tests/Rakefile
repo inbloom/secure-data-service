@@ -21,6 +21,8 @@ OTHER_TAGS = ENV['OTHER_TAGS'] ? "--tags "+ENV['OTHER_TAGS'] : ""
 
 TODROP = ENV['TODROP'] ? true : false
 
+CERTAIN_TENANTS = ENV['CERTAIN_TENANTS'] ? true : false
+
 RUN_STAMPER = false
 
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "Zork", "SLI", "T1", "T2", "T3", "mreynolds"]
@@ -109,7 +111,11 @@ def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropEx
     dropOption = (dropExistingCollection) ? "--drop":""
   else
     if dropExistingCollection
-      removeCollectionsCleanly(collectionName, TENANT_COLLECTION)
+      if CERTAIN_TENANTS
+        removeCollectionsCleanly(collectionName, TENANT_COLLECTION)
+      else
+        removeCollectionsCleanly(collectionName)
+      end
       dropOption = ""
     end
   end
