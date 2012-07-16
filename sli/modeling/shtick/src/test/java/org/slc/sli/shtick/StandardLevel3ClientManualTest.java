@@ -90,7 +90,6 @@ public class StandardLevel3ClientManualTest {
     }
 
     @Test
-    @Ignore("Links don't come in as HashMap -- Why??")
     public void testHome() throws IOException, StatusCodeException {
         final Level3Client client = new StandardLevel3Client(BASE_URL);
         final Home home = client.getHome(TestingConstants.ROGERS_TOKEN, EMPTY_QUERY_ARGS);

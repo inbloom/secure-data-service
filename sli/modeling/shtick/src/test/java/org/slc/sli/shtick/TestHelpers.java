@@ -131,13 +131,6 @@ public class TestHelpers {
         return rval;
     }
 
-    public static Link createBasicLink() {
-        try {
-            return new Link("test", new URL("http://www.test.com"));
-        } catch (MalformedURLException e) {
-            return null;
-        }
-    }
 
     public static final String SIMPLE_JSON_BODY = "{\"Double\":4.0,\"Long\":2,"
             + "\"String\":\"StringValue\",\"Boolean\":false,\"Integer\":1}";

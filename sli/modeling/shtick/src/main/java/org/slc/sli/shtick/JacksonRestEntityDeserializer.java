@@ -49,23 +49,7 @@ final class JacksonRestEntityDeserializer extends StdDeserializer<Entity> {
         Object rval = null;
         if (element instanceof ObjectNode) {
             Map<String, Object> r2 = processObject((ObjectNode) element);
-            
-            // convert TreeMap entries into Link instances.
-            if (key.equals(Constants.LINKS_KEY)) {
-                rval = new LinkedList<Link>();
-                
-                String refName = (String) r2.get(Constants.LINK_RESOURCE_KEY);
-                String hrefString = (String) r2.get(Constants.LINK_HREF_KEY);
-                
-                try {
-                    rval = new Link(refName, new URL(hrefString));
-                    
-                } catch (MalformedURLException e) {
-                    rval = r2;
-                }
-            } else {
-                rval = r2;
-            }
+            rval = r2;
         } else if (element instanceof NullNode) {
             rval = null;
         } else if (element instanceof ArrayNode) {

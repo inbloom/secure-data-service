@@ -65,15 +65,6 @@ public final class Entity {
         return getString(Constants.ENTITY_ID_KEY);
     }
     
-    @SuppressWarnings("unchecked")
-    public List<Link> getLinks() {
-        
-        if (data.containsKey(Constants.LINKS_KEY)) {
-            return (List<Link>) data.get(Constants.LINKS_KEY);
-        }
-        return Collections.emptyList();
-    }
-    
     /**
      * Returns the type name for this entity.
      */
