@@ -30,7 +30,7 @@ class SLCFixer
   end
 
   def measure(lable, &block)
-    time = Benchmark.measure("derp") {stamp_students}
+    time = Benchmark.measure {block.call()}
     puts "%-15s#{time}" % lable
   end
 
