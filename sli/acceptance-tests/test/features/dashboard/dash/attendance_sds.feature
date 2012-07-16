@@ -9,7 +9,6 @@ attendance data for a list of students.
 
 Background:
     Given I have an open web browser
-    Given the server is in "live" mode
 
 @wip
 Scenario: Teacher sees Absence Count in K-3 list of students view

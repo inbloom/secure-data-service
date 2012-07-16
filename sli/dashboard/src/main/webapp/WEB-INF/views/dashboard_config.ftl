@@ -57,7 +57,6 @@
                 error: function(event, request, settings) {
                     alert("Your request could not be completed.");
                 }
-
             });
         });
 
@@ -83,4 +82,3 @@
         </div>
     </#if>
 <br>
-
