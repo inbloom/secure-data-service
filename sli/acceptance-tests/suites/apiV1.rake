@@ -333,6 +333,7 @@ end
 
 desc "Run API Performance Tests"
 task :apiPerformanceTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/performance/performance.feature")
 end
 

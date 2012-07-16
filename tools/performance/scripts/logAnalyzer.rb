@@ -22,10 +22,9 @@ require 'json'
 
 class LogAnalyzer
 
-  def initialize(apiLog, clientLog, batchId, numIterations, resultFileName)
+  def initialize(apiLog, clientLog, numIterations, resultFileName)
     @apiLog = apiLog
     @clientLog = clientLog
-    @batchId = batchId
     @numIterations = numIterations.to_i
     @resultFileName = resultFileName
   end

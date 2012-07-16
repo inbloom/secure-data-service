@@ -106,6 +106,7 @@ GEM
       statsample-bivariate-extension (> 0)
     statsample-bivariate-extension (1.1.0)
       distribution (~> 0.6)
+    test-unit (2.5.1)
     text-table (1.2.2)
     treetop (1.4.10)
       polyglot
@@ -131,3 +132,4 @@ DEPENDENCIES
   rumbster
   selenium-webdriver
   statsample
+  test-unit
