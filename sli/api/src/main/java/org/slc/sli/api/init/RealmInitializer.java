@@ -25,7 +25,6 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
@@ -84,11 +83,7 @@ public class RealmInitializer {
         if (existingAdminRealm != null) {
             updateRealmIfNecessary(existingAdminRealm, bootstrapAdminRealmBody);
         } else {
-            // TODO: don't hardcode realm the mongo ID. Currently a workaround since we reference it
-            // elsewhere in fixture data, e.g. long-lived sessions
-            Entity entity = new MongoEntity(REALM_RESOURCE, "5a4bfe96-1724-4565-9db1-35b3796e3ce1", bootstrapAdminRealmBody,
-                    new HashMap<String, Object>());
-            repository.update("realm", entity);
+            repository.create("realm", bootstrapAdminRealmBody);
         }
 
         // if sandbox mode, bootstrap the sandbox realm
@@ -98,11 +93,7 @@ public class RealmInitializer {
             if (existingSandboxRealm != null) {
                 updateRealmIfNecessary(existingSandboxRealm, bootstrapSandboxRealmBody);
             } else {
-                // TODO: don't hardcode realm the mongo ID. Currently a workaround since we
-                // reference it elsewhere in fixture data, e.g. long-lived sessions
-                Entity entity = new MongoEntity(REALM_RESOURCE, "45b01db0-1bed-6dd7-a936-09ab31bd37fe",
-                        bootstrapSandboxRealmBody, new HashMap<String, Object>());
-                repository.update("realm", entity);
+                repository.create("realm", bootstrapSandboxRealmBody);
             }
         }
     }

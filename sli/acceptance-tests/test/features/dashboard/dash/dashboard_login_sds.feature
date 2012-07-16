@@ -5,7 +5,6 @@ on SLI, so I could use the Dashboard application.
 
 Background:
 Given I have an open web browser
-Given the server is in "live" mode
 
 @integration
 Scenario: Valid user login
@@ -138,7 +137,7 @@ When I enter "rudolph" into the "firstName" search box
 And I click the search button
 Then "2" results are returned in the page
 And the search results include:
-  |Student          |Grade    |School                     |
+ |Student          |Grade    |School                     |
   |Rudolph Sennett  |1        |South Daybreak Elementary  |
   |Rudolph Krinsky  |12       |Daybreak Central High      |
 
@@ -148,6 +147,7 @@ When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
+Then I should be redirected to the Dashboard landing page
 When I look in the ed org drop-down
 Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526"
 When I select ed org "Daybreak School District 4529"
@@ -169,7 +169,7 @@ Then "50" results are returned in the page
 And I select page size of "100"
 And "54" results are returned in the page
 And the search results include:
-  |Student          |Grade    |School                     |
+ |Student          |Grade    |School                     |
   |Matt Sollars     |8        |East Daybreak Junior High  |
   |Matt Forker      |11       |Sunset Central High School |
 And I click on student "Matt Sollars"
@@ -189,6 +189,7 @@ When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "sbantu" "sbantu1234" for the "Simple" login page
+Then I should be redirected to the Dashboard landing page
 When I look in the ed org drop-down
 Then I only see "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"
@@ -223,8 +224,8 @@ When I enter "Matt" into the "firstName" search box
 And I click the search button
 Then "1" results are returned in the page
 And the search results include:
-  |Student          |Grade    |School                     |
-  |Matt Sollars     |8        |East Daybreak Junior High  |
+ |Student          |Grade    |School                     |
+ |Matt Sollars     |8        |East Daybreak Junior High  |
 
  @integration @RALLY_US200 @wip
  Scenario: Login with District level Agg. Viewer
@@ -232,6 +233,7 @@ When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jjackson" "jjackson1234" for the "Simple" login page
+Then I should be redirected to the Dashboard landing page
 When I look in the ed org drop-down
 Then I only see "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"
@@ -246,6 +248,7 @@ When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "mjohnson" "mjohnson1234" for the "Simple" login page
+Then I should be redirected to the Dashboard landing page
 When I look in the ed org drop-down
 Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526"
 When I select ed org "Daybreak School District 4529"
@@ -264,6 +267,7 @@ When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "ckoch" "ckoch1234" for the "Simple" login page
+Then I should be redirected to the Dashboard landing page
 When I look in the ed org drop-down
 Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526"
 When I select ed org "Daybreak School District 4529"
@@ -290,14 +294,15 @@ Then "50" results are returned in the page
 And I select page size of "100"
 And "54" results are returned in the page
 And the search results include:
-  |Student          |Grade    |School                     |
+ |Student          |Grade    |School                     |
   |Matt Sollars     |8        |East Daybreak Junior High  |
-  |Matt Forker      |11       |Sunset Central High School |
+ |Matt Forker      |11       |Sunset Central High School |
 And I click on student "Matt Forker"
 And I view its student profile
 And their name shown in profile is "Matt Forker"
 And their id shown in proflie is "1000000002"
 And their grade is "11"
+#TODO bug in csi
 #And the teacher is "Mr Mark Anthony"
 And the class is "A.P. Calculus Sec 201"
 
@@ -307,6 +312,7 @@ When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "mgonzales" "mgonzales1234" for the "Simple" login page
+Then I should be redirected to the Dashboard landing page
 When I look in the ed org drop-down
 Then I only see "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"
@@ -328,14 +334,26 @@ When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "akopel" "akopel1234" for the "Simple" login page
+Then I should be redirected to the Dashboard landing page
 When I look in the ed org drop-down
 Then I only see "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
 Then I only see "South Daybreak Elementary"
 And I select school "South Daybreak Elementary"
-And I select course "1st Grade Homeroom"
-And I select section "Mrs. Braverman's Homeroom #38"
+And I click on the go button
+And I view the School Profile
+And the school name is "South Daybreak Elementary"
+And the school address is 
+"""
+111 Ave A
+Chicago, IL 11011
+"""
+And the school phone number is "(917)-555-0212"
+And the grades served is "K, 1, 2, 3, 4, 5"
+And I click on subject "Miscellaneous"
+And I click on course "1st Grade Homeroom"
+And I click on section "Mrs. Braverman's Homeroom #38"
 Then I see a list of 25 students
 And I click on student "Mi-Ha Tran"
 And I view its student profile
@@ -352,6 +370,7 @@ When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "msmith" "msmith1234" for the "Simple" login page
+Then I should be redirected to the Dashboard landing page
 When I look in the ed org drop-down
 Then I only see "Daybreak School District 4529"
 When I select ed org "Daybreak School District 4529"

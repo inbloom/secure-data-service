@@ -3,15 +3,12 @@
 require 'json'
 require 'net/http'
 
-#SMOKE_TEST="/API/job/NxFullBuild"
-SMOKE_TEST="Integration/job/NxIntegration%20Tests/"
+SMOKE_TEST={"Smoke/job/Smoke/"=>"Smoke Unit Tests","Smoke/job/SmokeTest/"=>"Smoke Acceptance Tests"}
 
 module Jenkins
   BASE_URI="http://jenkins.slidev.org:8080/view"
   STATII={:last=>"lastBuild",:failed=>"lastFailedBuild",:successful=>"lastSuccessfulBuild",:completed=>"lastCompletedBuild"}
   BUILDS=["API","Dashboard","Ingestion","Integration","Portal","Sandbox","Tools"]
-
-  puts "key: \e[36mbuilding \e[32mpassing \e[31mfailure"
 
   #  Gets the job for given name and id
   def self.getJob(jobName, jobId)
@@ -82,7 +79,6 @@ module Jenkins
             out_str += lastBuild.inspect
           end
 
-
           out_str += building ? "\e[36m*" : " "
           out_str += "#{color}%-30s\e[0m" % name
         end
@@ -90,16 +86,13 @@ module Jenkins
       }
     end
 
-    broken=false
     text = []
     threads.each {
       |t| t.join
       text << t[:output][:text]
-      broken = true if t[:output][:broken]
     }
 
     puts text.sort
-    puts "\e[31mPUSHING WHEN BUILD IS BROKEN\e[0m" if broken
   end
 
   # Calls the url and returns processed json
@@ -113,15 +106,27 @@ module Jenkins
   end
 end
 
+puts "-----------------------------"
+puts "key: \e[36mbuilding \e[32mpassing \e[31mfailure\e[0m"
+puts "-----------------------------"
+
 Jenkins.printJobStatuses()
 
-lastBuild=Jenkins.getJob(SMOKE_TEST,:completed)
+puts "-----------------------------"
 
-if lastBuild["result"]=="FAILURE"
-  puts "Time broken: "+Jenkins.getTimeBroken(SMOKE_TEST)
+SMOKE_TEST.each do |url,name|
+  lastBuild=Jenkins.getJob(url,:completed)
 
-  Jenkins.getFirstFailureCulprits(SMOKE_TEST).each do |person|
-    puts person["fullName"]
+  if lastBuild["result"]=="FAILURE"
+    puts "#{name} are \e[31mBROKEN\e[0m"
+    puts "Time broken: "+Jenkins.getTimeBroken(SMOKE_TEST)
+
+    Jenkins.getFirstFailureCulprits(SMOKE_TEST).each do |person|
+      puts person["fullName"]
+    end
+  else
+    puts "\e[34m#{name} are \e[32mGREEN\e[0m"
   end
 end
 
+puts "-----------------------------"

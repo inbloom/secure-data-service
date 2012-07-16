@@ -258,26 +258,6 @@
 	          <nomunge>true</nomunge>
 	          <aggregations>
 	            <aggregation>
-	              
-	              <removeIncluded>true</removeIncluded>
-	              
-	              <!-- insert new line after each concatenation (default: false) -->
-	              <insertNewLine>true</insertNewLine>
-	              <output>${basedir}/target/dashboard/static/js/all.js</output>
-	              <!-- files to include, path relative to output's directory or absolute path-->
-	              <!--inputDir>base directory for non absolute includes, default to parent dir of output</inputDir-->
-	              <excludes>
-	              <exclude>**/libs/**/*.js</exclude>
-	              <exclude>**/widgets/**/*.js</exclude>
-	              <exclude>**/controller/**/*.js</exclude>
-	              <exclude>**/panels/**/*.js</exclude>
-	              </excludes>
-	              <includes>
-                        <include>**/license.js</include>
-	                <include>**/*.js</include>
-	              </includes>
-	            </aggregation>
-	            <aggregation>
 	                <removeIncluded>true</removeIncluded>
 	                
 	                <insertNewLine>true</insertNewLine>
@@ -286,6 +266,8 @@
                         <include>**/widgets/license.js</include>
 	                    <include>**/widgets/SLC.loadingMask.js</include>
 	                    <include>**/widgets/grid/SLC.grid.tablegrid.js</include>
+	                    <include>**/widgets/grid/SLC.grid.repeatHeaderGrid.js</include>
+	                    <include>**/widgets/grid/SLC.grid.tree.js</include>
 	                    <include>**/widgets/grid/SLC.grid.fuelGauge.js</include>
 	                    <include>**/widgets/grid/SLC.grid.formatters.js</include>
 	                    <include>**/widgets/grid/SLC.grid.sorters.js</include>
