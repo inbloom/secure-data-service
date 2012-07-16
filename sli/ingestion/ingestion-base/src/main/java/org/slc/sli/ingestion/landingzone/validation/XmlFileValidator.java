@@ -31,29 +31,29 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Validator for EdFi xml ingestion files.
- * 
+ *
  * @author dduran
- * 
+ *
  */
 public class XmlFileValidator extends SimpleValidatorSpring<IngestionFileEntry> {
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(XmlFileValidator.class);
-    
+
     @Override
     public boolean isValid(IngestionFileEntry fileEntry, ErrorReport errorReport) {
         LOG.debug("validating xml...");
-        
+
         if (isEmptyOrUnreadable(fileEntry, errorReport)) {
             return false;
         }
-        
+
         return true;
     }
-    
+
     private boolean isEmptyOrUnreadable(IngestionFileEntry fileEntry, ErrorReport errorReport) {
         boolean isEmpty = false;
         BufferedReader br = null;
-        
+
         try {
             br = new BufferedReader(new FileReader(fileEntry.getFile()));
             if (br.read() == -1) {
@@ -61,7 +61,7 @@ public class XmlFileValidator extends SimpleValidatorSpring<IngestionFileEntry> 
                 isEmpty = true;
             }
         } catch (FileNotFoundException e) {
-            LOG.error("File not found: " + fileEntry.getFileName());
+            LOG.error("File not found: " + fileEntry.getFileName(), e);
             errorReport.error(getFailureMessage("SL_ERR_MSG11", fileEntry.getFileName()), XmlFileValidator.class);
             isEmpty = true;
         } catch (IOException e) {
@@ -77,8 +77,8 @@ public class XmlFileValidator extends SimpleValidatorSpring<IngestionFileEntry> 
                 LogUtil.error(LOG, "Error closing buffered reader", e);
             }
         }
-        
+
         return isEmpty;
     }
-    
+
 }
