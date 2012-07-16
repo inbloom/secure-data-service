@@ -1,4 +1,5 @@
 require 'mongo'
+require 'rbconfig'
 
 Dir.glob('suites/*.rake').each { |r| import r }
 
@@ -18,11 +19,15 @@ COLOR = ENV['FORCE_COLOR'] ? "-c" : ""
 
 OTHER_TAGS = ENV['OTHER_TAGS'] ? "--tags "+ENV['OTHER_TAGS'] : ""
 
-TOREMOVE = ENV['TOREMOVE'] ? true : false
+TODROP = ENV['TODROP'] ? true : false
+
+CERTAIN_TENANTS = ENV['CERTAIN_TENANTS'] ? true : false
 
 RUN_STAMPER = false
 
-TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other"]
+TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "Zork", "SLI", "T1", "T2", "T3", "mreynolds"]
+
+IS_WINDOWS = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
 
 #######################################################
 
@@ -84,7 +89,12 @@ def runTests(testDirPath)
   	addSecurityData()
   end	
 
-  @tags ||= ["~@wip", "~@sandbox"]
+  if IS_WINDOWS
+    @tags ||= ["~@wip", "~@sandbox", "~@not-windows"]
+  else
+    @tags ||= ["~@wip", "~@sandbox"]
+  end
+  
   sh "cucumber #{testDirPath} #{EXPAND} --tags #{@tags.join(' --tags ')} #{OTHER_TAGS} #{COLOR} -f junit --out ./target -f pretty" do |success, exit_code|
     if success
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Passed"
@@ -97,13 +107,17 @@ def runTests(testDirPath)
 end
 
 def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropExistingCollection=true)
-  if TOREMOVE
+  if TODROP
+    dropOption = (dropExistingCollection) ? "--drop":""
+  else
     if dropExistingCollection
-      removeCollectionsCleanly(collectionName, TENANT_COLLECTION)
+      if CERTAIN_TENANTS
+        removeCollectionsCleanly(collectionName, TENANT_COLLECTION)
+      else
+        removeCollectionsCleanly(collectionName)
+      end
       dropOption = ""
     end
-  else
-    dropOption = (dropExistingCollection) ? "--drop":""
   end
 
   #sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"printjson(db.#{collectionName}.dropIndexes().msg)\""
@@ -173,22 +187,103 @@ def cleanseApps()
   end
 end
 
+def cleanseTenantCollection()
+  puts 'About to clean up test tenants in mongo'
+  @conn = Mongo::Connection.new(DB_HOST)
+  @db = @conn.db(DB_NAME)
+  @tenantColl = @db.collection('tenant')
+
+  @tenantColl.find.each do |row|
+    if TENANT_COLLECTION.include?(row['body']['tenantId'])
+      @tenantColl.remove(row)
+    end
+    if row['body']['tenantId'].start_with?("devldapuser")
+      @tenantColl.remove(row)
+    end
+  end
+end
+
+
 def cleanseCollectionWithTenantID(collectionName, specificTenants)
   puts "Removing documents in #{collectionName} with tenantIds #{specificTenants}"
   @conn = Mongo::Connection.new(DB_HOST)
   @db = @conn.db(DB_NAME)
   coll = @db.collection(collectionName)
-  
-  coll.remove("metaData.tenantId" => {"$in" => specificTenants})
+  #need a few if blocks for apps, app Auth, oauth tokens, realms
+  if collectionName == "tenant"
+    cleanseTenantCollection
+  else
+    coll.remove("metaData.tenantId" => {"$in" => specificTenants})
+  end
 end
 
 def removeCollectionsCleanly(collectionName, specificTenants=nil)
   if specificTenants != nil
     cleanseCollectionWithTenantID(collectionName, specificTenants)
-    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig')\""
   else
     sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.#{collectionName}.remove({})\""
-    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig')\""
+  end
+  
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig')\""
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.getLastError()\""
+end
+
+# The admin realm and sandbox realm IDs are dynamically created during bootstrap,
+# so here we swap out references to those realms in long-lived sessions with 
+# the dynamic ID of the realm.
+def swap_realm_ids()
+  @conn = Mongo::Connection.new(DB_HOST)
+  @db = @conn.db(DB_NAME)
+  realm_col = @db.collection('realm')
+  user_sessions = @db.collection('userSession')
+  to_swap = [
+        {"unique_realm_id" => "Shared Learning Infrastructure", "placeholder" => "ADMIN_REALM_ID_PLACEHOLDER"},
+        {"unique_realm_id" => "SandboxIDP", "placeholder" => "SANDBOX_REALM_ID_PLACEHOLDER"},
+  ]
+
+  to_swap.each do |realm|
+    realm_ent = realm_col.find_one({"body.uniqueIdentifier" => realm['unique_realm_id']})
+
+    if realm_ent
+      puts "Swapping realm ID for #{realm['unique_realm_id']}"
+      realm_id = realm_ent['_id']
+      update_count = 0
+      user_sessions.find({"body.principal.realm" => realm['placeholder']}).each do |row|
+        user_sessions.update({"_id" => row["_id"]}, {"$set" => {"body.principal.realm" => realm_id}})
+        update_count = update_count + 1
+      end
+      puts "\tUpdated #{update_count} user sessions"
+    else
+      puts "Skipping realm ID swap for #{realm['unique_realm_id']}"
+    end
+  end
+end
+
+# The app ids for bootstrapped apps are dynamically generated,
+# so here we swap out references to those apps in the app authroization 
+# wht the dynamic ID of the app.
+def swap_app_ids()
+  @conn = Mongo::Connection.new(DB_HOST)
+  @db = @conn.db(DB_NAME)
+  to_swap = [
+        {"app_name" => "SLC Data Browser", "placeholder" => "DATABROWSER_ID_PLACEHOLDER"},
+        {"app_name" => "SLC Dashboards", "placeholder" => "DASHBOARD_ID_PLACEHOLDER"},
+  ]
+  apps = @db.collection('application')
+  app_auths = @db.collection('applicationAuthorization')
+
+  to_swap.each do |app|
+    puts "Swapping IDs for #{app['app_name']}"
+    app_ent = apps.find_one({"body.name" => app['app_name']})
+    app_id = app_ent['_id']
+    update_count = 0
+    app_auths.find("body.appIds" =>  app['placeholder']).each do |row|
+      app_ids = row['body']['appIds']
+      app_ids[app_ids.index(app['placeholder'])] = app_id
+      app_auths.update({"_id" => row["_id"]}, {"$set" => {"body.appIds" => app_ids}})
+      update_count = update_count + 1
+    end
+    puts "\tUpdate #{update_count} entries"
   end
 end
 
@@ -222,6 +317,13 @@ task :appInit do
 
   setFixture("applicationAuthorization", "applicationAuthorization_fixture.json")
   setFixture("userSession", "oauth_authentication_tokens.json")
+  swap_realm_ids()
+  swap_app_ids()
+end
+
+task :loadDefaultIngestionTenants do
+  #jshort - must fix with some profile swap
+  #setFixture("tenant", "defaultIngestionTenant_fixture.json", "test/data")
 end
 
 # Run a whole series of acceptance and integration tests
@@ -342,23 +444,6 @@ task :apiV1EntitySecurityTests do
 
 end
 
-task :apiV1AssociationTests => [:v1CourseOfferingTests,
-                                :v1StaffEdOrgAssociationTests,
-                                :v1StaffProgramAssociationTests,
-                                :v1StudentProgramAssociationTests,
-                                :v1StudentAssessmentAssociationTests,
-                                :v1StudentParentAssociationTests,
-                                :v1StudentDisciplineIncidentAssociationTests,
-                                :v1StudentSchoolAssociationTests,
-                                :v1StudentSectionAssociationTests,
-                                :v1StudentTranscriptAssociationTests,
-                                :v1TeacherSchoolAssociationTests,
-                                :v1TeacherSectionAssociationTests,
-                                :v1StaffCohortAssociationTests,
-                                :v1StudentCohortAssociationTests] do
-  # Repair the damage that was done during the tests
-  Rake::Task["importSandboxData"].execute
-end
 ############################################################
 # API V1 tests end
 ############################################################
@@ -491,7 +576,7 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,:ingestionCommonCoreTest,
+task :ingestionTests => [:loadDefaultIngestionTenants,:ingestionAcceptanceSdsTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,:ingestionCommonCoreTest,
                          :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest,
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionAPAssessmentTests, :ingestionACTAssessmentTests, :ingestionStudentProgramAssociationTest,
@@ -518,6 +603,7 @@ end
 desc "Run Integration Acceptance Tests"
 task :integrationTests => [:realmInitNoPeople] do
   OTHER_TAGS = OTHER_TAGS+" --tags @integration"
+  Rake::Task["loadDefaultIngestionTenants"].invoke
   Rake::Task["ingestionAcceptanceSdsTest"].execute
   Rake::Task["crossAppTests"].execute
   Rake::Task["dashboardSdsTests"].invoke

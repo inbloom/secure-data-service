@@ -797,6 +797,67 @@ Given /^I add a new landing zone for "([^"]*)"$/ do |lz_key|
   @lzs_to_remove.push(lz_key)
 end
 
+Given /^I add a new named landing zone for "([^"]*)"$/ do |lz_key|
+  tenant = lz_key
+  edOrg = lz_key
+
+  # split tenant from edOrg on hyphen
+  if lz_key.index('-') > 0
+      tenant = lz_key[0, lz_key.index('-')]
+      edOrg = lz_key[lz_key.index('-') + 1, lz_key.length]
+  end
+
+  @db = @conn[INGESTION_DB_NAME]
+  @tenantColl = @db.collection('tenant')
+
+  matches = @tenantColl.find("body.tenantId" => tenant, "body.landingZone.educationOrganization" => edOrg).to_a
+  puts "Found " + matches.size.to_s + " existing records for " + lz_key
+
+  assert(matches.size == 0, "Tenant already exists for " + lz_key)
+
+  @existingTenant = @tenantColl.find_one("body.tenantId" => tenant)
+
+  @id = @existingTenant['_id']
+  @body = @existingTenant['body']
+
+  @landingZones = @body['landingZone'].to_a
+
+  path = @tenantTopLevelLandingZone + lz_key
+
+  absolutePath = path
+  if INGESTION_MODE == 'remote'
+      absolutePath = INGESTION_REMOTE_LZ_PATH + absolutePath
+  end
+
+  if INGESTION_MODE != 'remote'
+      FileUtils.mkdir_p(path)
+      FileUtils.chmod(0777, path)
+      else
+      createRemoteDirectory(path)
+  end
+
+  puts lz_key + " -> " + path
+
+  ingestionServer = Socket.gethostname
+  if INGESTION_MODE == 'remote'
+      ingestionServer = INGESTION_SERVER_URL
+      if ingestionServer.index('.') != nil
+          ingestionServer = ingestionServer[0, ingestionServer.index('.')]
+      end
+  end
+
+  @newLandingZone = {
+      "educationOrganization" => edOrg,
+      "ingestionServer" => ingestionServer,
+      "path" => absolutePath
+  }
+
+  @landingZones.push(@newLandingZone)
+  @tenantColl.save(@existingTenant)
+  @ingestion_lz_identifer_map[lz_key] = path + '/'
+  @lzs_to_remove.push(lz_key)
+end
+
 ############################################################
 # STEPS: WHEN
 ############################################################
@@ -866,6 +927,44 @@ When /^a batch job log has been created$/ do
     assert(true, "")
   else
     assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
+  end
+
+end
+
+When /^a batch job log has not been created$/ do
+  intervalTime = 3 #seconds
+  #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
+  @maxTimeout ? @maxTimeout : @maxTimeout = 900
+  iters = (1.0*@maxTimeout/intervalTime).ceil
+  found = false
+  if (INGESTION_MODE == 'remote')
+    iters.times do |i|
+
+      if remoteLzContainsFile("job-#{@source_file_name}*.log", @landing_zone_path)
+        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+        found = true
+        break
+      else
+        sleep(intervalTime)
+      end
+    end
+  else
+    sleep(3) # waiting to poll job file removes race condition (windows-specific)
+    iters.times do |i|
+      if dirContainsBatchJobLog? @landing_zone_path
+        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+        found = true
+        break
+      else
+        sleep(intervalTime)
+      end
+    end
+  end
+
+  if found
+    assert(false, "")
+  else
+    assert(true, "Batch log was never created")
   end
 
 end

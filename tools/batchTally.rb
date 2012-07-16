@@ -66,6 +66,7 @@ jobStart = job["jobStartTimestamp"]
 jobEnd = job["jobStopTimestamp" ]
 if ! jobEnd.nil? && !jobStart.nil?
   totalJobTime = jobEnd-jobStart
+  puts "Total Job time #{totalJobTime} sec"
 end
 # Record Counts for stage
 rcStage={
@@ -190,6 +191,10 @@ end
 transformedRecordCount = rcStage["TransformationProcessor"]
 persistedRecordCount = rcStage["PersistenceProcessor"]
 edfiRecordCount = rcStage["EdFiProcessor"]
+
+jobRps = transformedRecordCount / totalJobTime.round()
+puts "Total job rps: #{jobRps}"
+
 puts "Edfi record #{edfiRecordCount}"
 
 wallClockForPits = (jobProcessingEndTime-pitProcessingStartTime)
@@ -235,8 +240,6 @@ pitRPS = (transformedRecordCount / wallClockForPits )
 
 puts "PIT RPS (transformed / pit wall-clock)  \e[35m#{pitRPS}\e[0m"
 puts "PIT RPS (persistence / pit wall-clock)  \e[35m#{(persistedRecordCount / wallClockForPits )}\e[0m"
-
-jobRps = transformedRecordCount / totalJobTime.round()
 
 if  !totalJobTime.nil?
   puts "Edfi / job time RPS \e[35m#{edfiRecordCount / totalJobTime.round()}\e[0m"

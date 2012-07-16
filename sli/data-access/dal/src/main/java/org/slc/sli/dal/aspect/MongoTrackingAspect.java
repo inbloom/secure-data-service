@@ -48,7 +48,7 @@ public class MongoTrackingAspect {
     private ConcurrentMap<String, Pair<AtomicLong, AtomicLong>> stats = new ConcurrentHashMap<String, Pair<AtomicLong, AtomicLong>>();
     private static final long SLOW_QUERY_THRESHOLD = 50;  // ms
 
-    @Around("call(* org.springframework.data.mongodb.core.MongoTemplate.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test)")
+    //@Around("call(* org.springframework.data.mongodb.core.MongoTemplate.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test)")
     public Object track(ProceedingJoinPoint pjp) throws Throwable {
 
         MongoTemplate mt = (MongoTemplate) pjp.getTarget();
@@ -81,7 +81,7 @@ public class MongoTrackingAspect {
         return result;
     }
 
-    @Around("call(* com.mongodb.DBCollection.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test)")
+    //@Around("call(* com.mongodb.DBCollection.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test)")
     public Object trackDBCollection(ProceedingJoinPoint pjp) throws Throwable {
         long start = System.currentTimeMillis();
         Object result = pjp.proceed();

@@ -62,11 +62,6 @@ public class AvroEntityValidator implements EntityValidator {
         return true;
     }
 
-    @Override
-    public List<String> getNaturalKeyFields(Entity entity) {
-        return null;
-    }
-
     protected void runValidation(Entity entity, Schema schema) {
         ValidatorInstance vi = new ValidatorInstance();
         boolean valid = vi.matchesSchema(schema, "", entity.getBody(), true);

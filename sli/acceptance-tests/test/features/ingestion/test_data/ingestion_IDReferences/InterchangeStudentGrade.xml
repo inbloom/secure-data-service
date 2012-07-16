@@ -1179,4 +1179,21 @@
 		</GradingPeriodIdentity>
 	</GradingPeriodReference>
 
+	    <LearningObjective>
+		<LearningObjectiveId ContentStandardName="Content Standard Name">
+            <IdentificationCode>lobj1</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+        <Description>Learning Objective Description</Description>
+        <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+        <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
+		<LearningStandardReference>
+            <LearningStandardIdentity>
+                <LearningStandardId ContentStandardName="lstd0Name">
+                    <IdentificationCode>lstd0</IdentificationCode>
+                </LearningStandardId>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+    </LearningObjective>
+
 </InterchangeStudentGrade>

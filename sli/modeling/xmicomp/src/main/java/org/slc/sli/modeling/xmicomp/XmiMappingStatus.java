@@ -1,0 +1,1 @@
+package org.slc.sli.modeling.xmicomp;public enum XmiMappingStatus {    /**     * align     */    ALIGN,    /**     * bug     */    BUG,    /**     * bug     */    FINANCIAL,    /**     * ignore     */    IGNORABLE,    /**     * match     */    MATCH,    /**     * transient     */    TRANSIENT,    /**     * unknown     */    UNKNOWN;}

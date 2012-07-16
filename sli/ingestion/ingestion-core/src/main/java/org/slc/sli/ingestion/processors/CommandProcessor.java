@@ -46,10 +46,8 @@ import org.slc.sli.ingestion.cache.CacheProvider;
  */
 @Component
 public class CommandProcessor {
-
-    private static final Logger LOG = LoggerFactory.getLogger(CommandProcessor.class);
-
-    private static final Object JOB_COMPLETED = "jobCompleted";
+   private static final Logger LOG = LoggerFactory.getLogger(CommandProcessor.class);
+   private static final Object JOB_COMPLETED = "jobCompleted";
     private static final String BATCH_JOB_ID = "_id";
 
     @Resource(name = "batchJobMongoTemplate")

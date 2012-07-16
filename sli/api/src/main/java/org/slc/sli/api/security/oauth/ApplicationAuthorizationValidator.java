@@ -88,7 +88,7 @@ public class ApplicationAuthorizationValidator {
 
             if (authorizedApps != null) {
                 
-                NeutralQuery districtQuery = new NeutralQuery();
+                NeutralQuery districtQuery = new NeutralQuery(0);
                 districtQuery.addCriteria(new NeutralCriteria("authorized_ed_orgs", "=", district.getBody().get(
                         "stateOrganizationId")));
                 
@@ -114,7 +114,7 @@ public class ApplicationAuthorizationValidator {
      */
     private Set<String> getDefaultAuthorizedApps() {
         Set<String> toReturn = new HashSet<String>();
-        NeutralQuery bootstrapQuery = new NeutralQuery();
+        NeutralQuery bootstrapQuery = new NeutralQuery(0);
         bootstrapQuery.addCriteria(new NeutralCriteria("bootstrap", "=", true));
         Iterable<Entity> bootstrapApps = repo.findAll("application", bootstrapQuery);
         
@@ -134,7 +134,7 @@ public class ApplicationAuthorizationValidator {
     
     private Set<String> getBootstrapApps() {
         Set<String> toReturn = new HashSet<String>();
-        NeutralQuery bootstrapQuery = new NeutralQuery();
+        NeutralQuery bootstrapQuery = new NeutralQuery(0);
         bootstrapQuery.addCriteria(new NeutralCriteria("bootstrap", "=", true));
         Iterable<Entity> bootstrapApps = repo.findAll("application", bootstrapQuery);
         

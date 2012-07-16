@@ -34,6 +34,8 @@
     <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/controller/SLC.dataProxy.js"></script>
     <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/SLC.loadingMask.js"></script>
     <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.tablegrid.js"></script>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.repeatHeaderGrid.js"></script>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.tree.js"></script>
     <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.fuelGauge.js"></script>
     <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.formatters.js"></script>
     <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/widgets/grid/SLC.grid.sorters.js"></script>
@@ -42,7 +44,6 @@
 <#else>
     <script type="text/javascript" src = "${CONTEXT_ROOT_PATH}/static/js/SLC.js"></script>
     <script type="text/javascript" src = "${CONTEXT_ROOT_PATH}/static/js/widgets.js"></script>
-    <script type="text/javascript" src = "${CONTEXT_ROOT_PATH}/static/js/all.js"></script>
 </#if>
 
 </head>
