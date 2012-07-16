@@ -20,14 +20,20 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Iterator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.core.MessageProcessingException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.node.ObjectNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -116,8 +122,18 @@ public class TestRESTClientServlet extends HttpServlet {
         }
 
         String studentBody = inDB[1];
-        if (studentBody.indexOf("\"lastSurname\":\"Christie\"") > -1 && studentBody.indexOf("\"firstName\":\"Monique\"") > -1) {
-            return SUCCEED;
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            JsonNode jsonNode = mapper.readTree(studentBody);
+            if (jsonNode.path("name").path("lastSurname").getTextValue().equals("Christie")
+                    && jsonNode.path("name").path("firstName").getTextValue().equals("Monique")) {
+                return SUCCEED;
+            }
+        } catch (JsonProcessingException e) {
+            return FAILED;
+        } catch (IOException e) {
+            return FAILED;
         }
 
         return FAILED;
@@ -133,22 +149,56 @@ public class TestRESTClientServlet extends HttpServlet {
         String resourceLocation = inDB[0];
         String studentBody = inDB[1];
 
-        String updatedMonique = studentBody.replaceAll("817 Oakridge Farm Lane", "2817 New Found Lane");
+        ObjectMapper mapper = new ObjectMapper();
+        String updatedMonique = null;
+        String newAddress = "2817 New Found Lane";
 
         try {
+
+            JsonNode student = mapper.readTree(studentBody);
+            Iterator<JsonNode> it = student.path("address").getElements();
+            while (it.hasNext()) {
+                JsonNode address = it.next();
+                String streetNum =  address.path("streetNumberName").getTextValue();
+                if ("817 Oakridge Farm Lane".equals(streetNum)) {
+                    ((ObjectNode) address).put("streetNumberName", newAddress);
+                }
+            }
+
+            updatedMonique = mapper.writeValueAsString(student);
+
+        } catch (JsonProcessingException e1) {
+            return FAILED;
+        } catch (IOException e1) {
+            return FAILED;
+        }
+
+        try {
+
             URL resourceURL = new URL(resourceLocation);
 
             Response response = client.putRequest(resourceURL, updatedMonique);
             response = client.getRequest(resourceURL);
 
-            String updated = response.readEntity(String.class);
-            if (updated.indexOf("2817 New Found Lane") > -1) {
-                return SUCCEED;
+            JsonNode student = mapper.readTree(response.readEntity(String.class));
+            Iterator<JsonNode> it = student.path("address").getElements();
+            while (it.hasNext()) {
+                JsonNode address = it.next();
+                String streetNum =  address.path("streetNumberName").getTextValue();
+                if (newAddress.equals(streetNum)) {
+                    return SUCCEED;
+                }
             }
 
         } catch (MalformedURLException e) {
             return FAILED;
         } catch (URISyntaxException e) {
+            return FAILED;
+        } catch (JsonProcessingException e) {
+            return FAILED;
+        } catch (MessageProcessingException e) {
+            return FAILED;
+        } catch (IOException e) {
             return FAILED;
         }
 
@@ -193,20 +243,33 @@ public class TestRESTClientServlet extends HttpServlet {
         URLBuilder urlBuilder = URLBuilder.create(client.getBaseURL()).entityType(ResourceNames.TEACHERS);
         urlBuilder.query(query);
 
+        String result = null;
         try {
+
             URL url = urlBuilder.build();
             Response response = client.getRequest(url);
-            String result = response.readEntity(String.class);
+            result = response.readEntity(String.class);
 
-            result = result.substring(result.indexOf("firstName\":\"") + 12);
-            result = result.substring(0, result.indexOf("\""));
-
-            if ("Mark".equals(result)) {
-                return SUCCEED;
-            }
         } catch (MalformedURLException e) {
             return FAILED;
         } catch (URISyntaxException e) {
+            return FAILED;
+        }
+
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+
+            JsonNode teachers = mapper.readTree(result);
+            Iterator<JsonNode> it = teachers.getElements();
+            JsonNode teacher = it.next();
+            String firstName =  teacher.path("name").path("firstName").getTextValue();
+            if ("Mark".equals(firstName)) {
+                return SUCCEED;
+            }
+
+        } catch (JsonProcessingException e1) {
+            return FAILED;
+        } catch (IOException e1) {
             return FAILED;
         }
 
