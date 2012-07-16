@@ -93,8 +93,8 @@ public interface SLIClient {
      * @throws MessageProcessingException
      * @throws SLIClientException
      */
-    public abstract Response read(List<Entity> entities, final String type, final String id, final Query query)
-            throws URISyntaxException, MessageProcessingException, IOException;
+    public abstract void read(List<Entity> entities, final String type, final String id, final Query query)
+            throws URISyntaxException, MessageProcessingException, IOException, SLIClientException;
 
     /**
      * Read operation
@@ -111,8 +111,8 @@ public interface SLIClient {
      * @throws IOException
      * @throws MessageProcessingException
      */
-    public abstract Response read(List<Entity> entities, final String type, final Query query)
-            throws URISyntaxException, MessageProcessingException, IOException;
+    public abstract void read(List<Entity> entities, final String type, final Query query)
+            throws URISyntaxException, MessageProcessingException, IOException, SLIClientException;
 
     /**
      * Read operation
@@ -144,7 +144,7 @@ public interface SLIClient {
      * @throws IOException
      * @throws MessageProcessingException
      */
-    public abstract Response update(final Entity e) throws URISyntaxException, MessageProcessingException, IOException;
+    public abstract void update(final Entity e) throws URISyntaxException, MessageProcessingException, IOException, SLIClientException;
 
     /**
      * Update operation

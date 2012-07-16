@@ -53,7 +53,7 @@ public interface RESTClient {
      *            for the authenticated user, or null if the request failed.
      * @return Response containing the status code, headers, and body values.
      */
-    public abstract Response connect(final String requestCode, String authorizationToken)
+    public abstract Response connect(final String authorizationCode)
             throws OAuthException, MalformedURLException, URISyntaxException;
 
     /**

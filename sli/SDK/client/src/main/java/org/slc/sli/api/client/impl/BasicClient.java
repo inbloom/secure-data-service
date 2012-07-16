@@ -93,15 +93,14 @@ public class BasicClient implements SLIClient {
     }
 
     @Override
-    public Response read(List<Entity> entities, final String type, final Query query) throws URISyntaxException,
-            MessageProcessingException, IOException {
-
-        return read(entities, type, null, query);
+    public void read(List<Entity> entities, final String type, final Query query) throws URISyntaxException,
+            MessageProcessingException, IOException, SLIClientException {
+        read(entities, type, null, query);
     }
 
     @Override
-    public Response read(List<Entity> entities, final String type, final String id, final Query query)
-            throws URISyntaxException, MessageProcessingException, IOException {
+    public void read(List<Entity> entities, final String type, final String id, final Query query)
+            throws URISyntaxException, MessageProcessingException, IOException, SLIClientException {
 
         entities.clear();
 
@@ -110,7 +109,8 @@ public class BasicClient implements SLIClient {
             builder.id(id);
         }
 
-        return getResource(entities, builder.build(), query);
+        Response response = getResource(entities, builder.build(), query);
+        checkResponse(response, Status.OK, "Unable to retrieve entity.");
     }
 
     @Override
@@ -121,9 +121,11 @@ public class BasicClient implements SLIClient {
     }
 
     @Override
-    public Response update(final Entity e) throws URISyntaxException, MessageProcessingException, IOException {
+    public void update(final Entity e)
+            throws URISyntaxException, MessageProcessingException, IOException, SLIClientException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
-        return restClient.putRequest(url, mapper.writeValueAsString(e));
+        Response response = restClient.putRequest(url, mapper.writeValueAsString(e));
+        checkResponse(response, Status.NO_CONTENT, "Unable to update entity.");
     }
 
     @Override

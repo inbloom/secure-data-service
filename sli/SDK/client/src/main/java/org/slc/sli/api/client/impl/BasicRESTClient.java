@@ -36,6 +36,7 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.scribe.builder.ServiceBuilder;
+import org.scribe.exceptions.OAuthException;
 import org.scribe.model.OAuthConfig;
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
@@ -102,8 +103,7 @@ public class BasicRESTClient implements RESTClient {
      * @see org.slc.sli.api.client.impl.IRESTClient#connect(java.lang.String, java.lang.String)
      */
     @Override
-    public Response connect(final String authorizationCode, String authorizationToken) throws MalformedURLException,
-            URISyntaxException {
+    public Response connect(final String authorizationCode) throws OAuthException, MalformedURLException, URISyntaxException {
 
         OAuthService service = new ServiceBuilder().provider(SliApi.class).apiKey(config.getApiKey())
                 .apiSecret(config.getApiSecret()).callback(config.getCallback()).build();

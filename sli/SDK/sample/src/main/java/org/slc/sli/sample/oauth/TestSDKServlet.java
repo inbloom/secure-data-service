@@ -84,11 +84,10 @@ public class TestSDKServlet extends HttpServlet {
     @SuppressWarnings("unchecked")
     private String testCreate(BasicClient client) {
         String testResult = "failed";
-        String id = "";
         Entity student = new GenericEntity(ResourceNames.STUDENTS, createStudentBody());
         List<Entity> collection = new ArrayList<Entity>();
         try {
-            id = client.create(student);
+            String id = client.create(student);
             client.read(collection, ResourceNames.STUDENTS, id, BasicQuery.EMPTY_QUERY);
             if (collection != null && collection.size() == 1) {
 

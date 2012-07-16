@@ -39,6 +39,8 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.slc.sli.api.client.RESTClient;
+import org.slc.sli.api.client.SLIClient;
 import org.slc.sli.api.client.impl.BasicClient;
 import org.slc.sli.api.client.impl.BasicRESTClient;
 
@@ -94,7 +96,7 @@ public class AuthFilter implements Filter {
 
             Response rval = null;
             try {
-                rval = client.getRESTClient().connect(code, null);
+                rval = client.getRESTClient().connect(code);
             } catch (MalformedURLException e) {
                 LOG.error(String.format("Invalid/malformed URL when connecting: %s", e.toString()));
             } catch (URISyntaxException e) {
@@ -129,7 +131,8 @@ public class AuthFilter implements Filter {
     }
 
     private void authenticate(ServletRequest req, ServletResponse res) {
-        BasicClient client = new BasicClient(new BasicRESTClient(apiUrl, clientId, clientSecret, callbackUrl));
+        RESTClient restClient = new BasicRESTClient(apiUrl, clientId, clientSecret, callbackUrl);
+        SLIClient client = new BasicClient(restClient);
         try {
             ((HttpServletResponse) res).sendRedirect(client.getRESTClient().getLoginURL().toExternalForm());
         } catch (IOException e) {
