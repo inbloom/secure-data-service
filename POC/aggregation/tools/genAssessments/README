@@ -4,3 +4,19 @@ Generate assessment data for aggregation testing.
 
 Requirements:
 - clojure
+
+To generate student ed-fi, run
+(gen-students student-ids output-file)
+where student-ids is a list of ids (can be generated using (range n), where n is the number of students you want) and output-file is the file name where you want the ed-fi written to
+
+To generate student assessment associations, run
+(gen-saas student-ids assessment-id n output-file)
+where student-ids is the same list of ids, assessment-id is the assessment identification code of the assessment you are using, n is the number of times each student takes the assessment, and output-file is the file name where you want the ed-fi written to
+
+To generate school enrollments, run
+(gen-enrollments student-ids school output-file)
+where student ids is the same list of ids, school is the StateOrganizationId of the school/ed-org, and output-file is the file name where you want the ed-fi written to
+
+To generate section enrollments, run
+(gen-section-enrollments student-ids school section output-file)
+with the same arguments as the school enrollments, but with section equal to the UniqueSectionCode of the section
