@@ -309,13 +309,24 @@ class SLCFixer
 
   def stamp_parents
     @log.info "Stamping parents and associations"
-    @db['studentParentAssociation'].find({}, {fields: ['_id', 'body.studentId', 'body.parentId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
+    parent_to_teachers = {}
+    @db[:studentParentAssociation].find({}, @basic_options) { |cursor|
       cursor.each { |assoc|
         teachers = @studentId_to_teachers[assoc['body']['studentId']] || []
-        teachers += get_existing_context(@db['parent'], assoc['body']['parentId'])
-        teachers.uniq!
         stamp_context(@db['studentParentAssociation'], assoc, teachers)
-        stamp_full_context(@db['parent'], assoc['body']['parentId'], assoc['metaData']['tenantId'], teachers)
+
+        parent_id = assoc['body']['parentId']
+        unless parent_id.nil? || teachers.nil?
+          parent_to_teachers[parent_id] ||= []
+          parent_to_teachers[parent_id] += teachers
+        end
+      }
+    }
+    parent_to_teachers.each { |_,t| t.flatten!; t.uniq! }
+
+    @db[:parent].find({}, @basic_options) { |cursor|
+      cursor.each { |parent|
+        stamp_context(@db['parent'], parent, parent_to_teachers[parent['_id']])
       }
     }
   end
@@ -587,6 +598,7 @@ class SLCFixer
   end
 
   private
+
   def make_ids_obj(record)
     obj = {}
     obj['_id'] = record['_id']
@@ -597,15 +609,12 @@ class SLCFixer
     end
     obj
   end
-  def get_existing_context(collection, id)
-    context = []
-    collection.find({"_id" => id}, {fields: ['metaData.teacherContext']}.merge(@basic_options)) {|cursor| cursor.each {|coll| context += coll['metaData']['teacherContext'] unless coll['metaData']['teacherContext'].nil?}}
-    context
-  end
+
   def stamp_context(collection, object, teachers)
     obj = make_ids_obj(object)
     stamp_full_context(collection, obj['_id'], obj['metaData.tenantId'], teachers)
   end
+
   def stamp_full_context(collection, id, tenant, teachers)
     #puts "stamping " + collection.name + ": " + id.to_s + " with tenant " + tenant + " for teachers " + teachers.to_s
     if tenant.nil?
