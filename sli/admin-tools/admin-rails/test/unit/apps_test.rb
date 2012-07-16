@@ -70,6 +70,8 @@ class AppTest < ActiveSupport::TestCase
     app.application_url = "https://derp"
     app.vendor = "McDonalds"
     app.version = "1.0"
+    app.administration_url = "https://morederp"
+    app.image_url = "https://morederp"
     app
   end
 end

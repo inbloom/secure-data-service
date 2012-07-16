@@ -132,6 +132,12 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             body.put("message", "You are not authorized to create new applications.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
+        if (!missingRequiredUrls(newApp)) {
+            EntityBody body = new EntityBody();
+            body.put("message", "Applications that are not marked as installed must have a application url and redirect url");
+            return Response.status(Status.BAD_REQUEST).entity(body).build();
+        }
+        
         // Destroy the ed-orgs
         newApp.put(AUTHORIZED_ED_ORGS, new ArrayList<String>());
 
@@ -289,6 +295,11 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     @Path("{" + UUID + "}")
     public Response updateApplication(@PathParam(UUID) String uuid, EntityBody app, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
+        if (!missingRequiredUrls(app)) {
+            EntityBody body = new EntityBody();
+            body.put("message", "Applications that are not marked as installed must have a application url and redirect url");
+            return Response.status(Status.BAD_REQUEST).entity(body).build();
+        }
 
         EntityBody oldApp = service.get(uuid);
 
@@ -488,5 +499,22 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             return oldDate.equals(newDate);
         }
         return false;
+    }
+    
+    private boolean missingRequiredUrls(EntityBody body) {
+        String redirectUrl = (String) body.get("redirect_uri");
+        String applicationUrl = (String) body.get("application_url");
+
+        if (!(Boolean) body.get("installed")) {
+            if (redirectUrl == null || redirectUrl.isEmpty() || applicationUrl == null || applicationUrl.isEmpty()) {
+                return false;
+            }
+        } else {
+            if ((redirectUrl != null && redirectUrl.length() > 0) || (applicationUrl != null && applicationUrl.length() > 0)) {
+                return false;
+            }
+        }
+        
+        return true;
     }
 }
