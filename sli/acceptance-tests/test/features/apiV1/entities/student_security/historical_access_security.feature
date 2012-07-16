@@ -43,6 +43,6 @@ Examples:
 | "teacher10" | 1     | "student57"       | "student58"          |
 | "teacher11" | 1     | "student58"       | "student59"          |
 | "teacher12" | 1     | "student58"       | "student57"          |
-| "staff20"   | 1     | "student60"       | "student61"          |
-| "staff21"   | 2     | "student61"       | "student60"          |
-| "staff22"   | 2     | "student62"       | "student60"          |
+| "staff20"   | 6     | "student60"       | "student61"          |
+| "staff21"   | 4     | "student61"       | "student60"          |
+| "staff22"   | 4     | "student62"       | "student60"          |

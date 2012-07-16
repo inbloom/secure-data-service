@@ -134,5 +134,6 @@ When /^I move student61 to a new school$/ do
 end
 
 Then /^the stamper runs and completes$/ do
-  pending # express the regexp above with the code you wish you had
+  puts `ruby ../opstools/edorg/edorg_stamper.rb 127.0.0.1:27017`
+  puts `ruby ../opstools/teacher_security_stamper/teacher_stamper.rb 127.0.0.1:27017`
 end
