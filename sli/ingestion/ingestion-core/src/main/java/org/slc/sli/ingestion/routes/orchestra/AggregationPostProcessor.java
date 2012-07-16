@@ -24,7 +24,6 @@ import org.apache.camel.Processor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 
@@ -70,6 +69,11 @@ public class AggregationPostProcessor implements Processor {
         }
 
         return isEmpty;
+    }
+
+    public void setBatchJobDAO(BatchJobDAO dao) {
+        batchJobDAO = dao;
+
     }
 
 }
