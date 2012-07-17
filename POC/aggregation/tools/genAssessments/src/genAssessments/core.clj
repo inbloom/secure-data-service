@@ -64,7 +64,7 @@
 
 (defn gen-edfi
   [interchange output-file contents]
-  (with-open [out (java.io.FileWriter. output-file)]
+  (with-open [out (java.io.OutputStreamWriter. (java.io.FileOutputStream. output-file) "UTF-8")]
     (emit
       (element interchange {:xmlns "http://ed-fi.org/0100"}
                contents)
@@ -79,7 +79,7 @@
   (gen-edfi :InterchangeStudentAssessment output-file 
             (for
               [s students, i (range n)]
-              (gen-saa s assessment (str "2011-10-1" i)))))
+              (gen-saa s assessment (str "2011-10-" (format "%02d" i))))))
 
 (defn gen-enrollments
   [students edorg output-file]
