@@ -26,6 +26,8 @@ import java.util.List;
 import javax.ws.rs.MessageProcessingException;
 import javax.ws.rs.core.Response;
 
+import org.scribe.exceptions.OAuthException;
+
 import org.slc.sli.api.client.util.Query;
 
 /**
@@ -46,6 +48,39 @@ import org.slc.sli.api.client.util.Query;
  * @author asaarela
  */
 public interface SLIClient {
+
+    /**
+     * Retrieve the resource URL to the identity provider (IDP) used by application users
+     * to authenticate. The client application is responsible for redirecting the user
+     * to this URL. The response from this URL will contain the authorization token
+     * required to connect to the API.
+     *
+     * @return A URL that directs the user to authenticate with the appropriate IDP. On
+     *         successful login, the IDP sends an authorization token to the callbackURL.
+     */
+    public abstract URL getLoginURL();
+
+    /**
+     * Connect to the SLI ReSTful API web service passing the authentication token provided by
+     * the IDP. The IDP will redirect successful login attempts to the callbackURL and include
+     * an authorization token in the response. You must then pass the authorization token to
+     * this call.
+     *
+     * If the code is invalid, an exception is thrown.
+     *
+     * @requestCode Code provided to the callbackURL by the IDP.
+     * @param authorizationToken
+     *         Authorization token for the authenticated user, or null if
+     *         authentication fails
+     * @return HTTP Response to the request.
+     * @throws OAuthException
+     */
+    public abstract Response connect(final String requestCode, String authorizationToken) throws OAuthException;
+
+    /**
+     * Logout and invalidate the session.
+     */
+    public abstract void logout();
 
     /**
      * Create operation
@@ -93,8 +128,8 @@ public interface SLIClient {
      * @throws MessageProcessingException
      * @throws SLIClientException
      */
-    public abstract void read(List<Entity> entities, final String type, final String id, final Query query)
-            throws URISyntaxException, MessageProcessingException, IOException, SLIClientException;
+    public abstract Response read(List<Entity> entities, final String type, final String id, final Query query)
+            throws URISyntaxException, MessageProcessingException, IOException;
 
     /**
      * Read operation
@@ -111,8 +146,8 @@ public interface SLIClient {
      * @throws IOException
      * @throws MessageProcessingException
      */
-    public abstract void read(List<Entity> entities, final String type, final Query query)
-            throws URISyntaxException, MessageProcessingException, IOException, SLIClientException;
+    public abstract Response read(List<Entity> entities, final String type, final Query query)
+            throws URISyntaxException, MessageProcessingException, IOException;
 
     /**
      * Read operation
@@ -144,7 +179,7 @@ public interface SLIClient {
      * @throws IOException
      * @throws MessageProcessingException
      */
-    public abstract void update(final Entity e) throws URISyntaxException, MessageProcessingException, IOException, SLIClientException;
+    public abstract Response update(final Entity e) throws URISyntaxException, MessageProcessingException, IOException;
 
     /**
      * Update operation
@@ -189,9 +224,6 @@ public interface SLIClient {
     public abstract Response deleteByToken(final String sessionToken, final String resourceUrl) throws MalformedURLException,
             URISyntaxException;
 
-    public abstract RESTClient getRESTClient();
-
-    //Deprecated
     /**
      * Perform a get operation against a generic resource. This is useful when following links
      * returned by other resources, for example.
@@ -211,7 +243,6 @@ public interface SLIClient {
     public abstract Response getResource(List<Entity> entities, URL resourceURL, Query query)
             throws URISyntaxException, MessageProcessingException, IOException;
 
-    //Deprecated
     /**
      * Perform a get operation against a generic resource. This is useful when following links
      * returned by other resources, for example.
@@ -232,7 +263,6 @@ public interface SLIClient {
              throws URISyntaxException, MessageProcessingException, IOException;
 
 
-    //Deprecated
     /**
      * Get the home resource for the authenticated user.
      *
@@ -244,6 +274,22 @@ public interface SLIClient {
      */
     public abstract Response getHomeResource(Entity home) throws URISyntaxException, MessageProcessingException,
             IOException;
+
+    /**
+     * Set access token
+     *
+     * @param sessionToken
+     *            Session token
+     */
+    public abstract void setToken(String sessionToken);
+
+    /**
+     * Get access token
+     *
+     * @return sessionToken
+     *         Session token
+     */
+    public abstract String getToken();
 
 
 
