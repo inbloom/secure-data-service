@@ -26,7 +26,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.core.MessageProcessingException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
@@ -196,8 +195,8 @@ public class TestRESTClientServlet extends HttpServlet {
             return FAILED;
         } catch (JsonProcessingException e) {
             return FAILED;
-        } catch (MessageProcessingException e) {
-            return FAILED;
+//        } catch (MessageProcessingException e) {
+//            return FAILED;
         } catch (IOException e) {
             return FAILED;
         }
@@ -320,7 +319,7 @@ public class TestRESTClientServlet extends HttpServlet {
 
 
     private String getLocation(Response response) {
-        return response.getHeaders().getHeaderValues("Location").get(0);
+        return response.getHeader("Location");
     }
 
 
