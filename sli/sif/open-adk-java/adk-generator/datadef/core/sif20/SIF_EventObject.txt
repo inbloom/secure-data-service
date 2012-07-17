@@ -1,0 +1,18 @@
+	/**
+	 *  Attach a SIFMessagePayload to this EventObject.<p>
+	 */
+	public void attach( SIFDataObject payload )
+	{
+		List<SIFElement> children = _childList();
+		children.add( payload );
+	}
+	
+	/**
+	 *  Detach a SIFMessagePayload from this EventObject.<p>
+	 */
+  public void detach( SIFDataObject payload )
+  {
+    if( fChildren != null )
+      fChildren.remove( payload );
+  }
+  

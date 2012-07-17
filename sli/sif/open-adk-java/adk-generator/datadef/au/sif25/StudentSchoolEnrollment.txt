@@ -1,0 +1,67 @@
+	/**
+	 * Computes the "TimeFrame" element based on the given dates using the guidelines 
+	 * published in the SIF Specification. In order for this calculation to be accurate,
+	 * the EntryDate and ExitDate, if applicable need to be set on this object before calling
+	 * this method.
+	 * 
+	 * For clarity on exactly how this value is derived, here is the source 
+	 * of this method:
+	 * <blockquote>
+	 * <pre>
+	 * public TimeFrame computeTimeFrame( Calendar compareDate )
+	 * {
+	 * 	Calendar exitDate = getExitDate();
+	 * 	Calendar entryDate = getEntryDate();
+	 *
+	 * 	TimeFrame tf = null;
+	 * 	if( exitDate != null ) {
+	 * 		if( compareDate.after(exitDate) ) {
+	 * 			tf = TimeFrame.HISTORICAL;
+	 * 		}
+	 * 	}
+	 * 	if( (tf == null) && entryDate != null) {
+	 * 		if ((compareDate.before(entryDate) )) {
+	 * 	    	 tf = TimeFrame.FUTURE;
+	 * 	    } else {
+	 * 	    	 tf = TimeFrame.CURRENT;
+	 * 	    }
+	 * 	}
+	 *
+	 * 	setTimeFrame( tf );
+	 * 	return tf;
+	 * }
+	 * 
+	 *</pre>
+	 *</blockquote>
+	 * @param compareDate The timestamp to base the calculation on. 
+	 * For SIF_Requests, this must be the date of the SIF_Request, 
+	 * and should be the value returned from {@link SIFMessageInfo#getTimestamp()}.
+	 * For SIF_Events, this must be the timestamp of when the event is 
+	 * going to be published, and can be the current time.
+	 * @return The TimeFrame value that was computed and set as the TimeFrame
+	 * of this StudentSchoolEnrollment object. If the TimeFrame cannot be computed
+	 * because there is no EntryDate set, null will be returned.
+	 */
+	public TimeFrame computeTimeFrame( Calendar compareDate )
+	{
+		Calendar exitDate = getExitDate();
+		Calendar entryDate = getEntryDate();
+		
+		TimeFrame tf = null;
+		if( exitDate != null ) {
+			if( compareDate.after(exitDate) ) {
+				tf = TimeFrame.HISTORICAL;
+			}
+		}
+		if( (tf == null) && entryDate != null) {
+			if ((compareDate.before(entryDate) )) {
+		    	 tf = TimeFrame.FUTURE;
+		    } else {
+		    	 tf = TimeFrame.CURRENT;
+		    }
+		}
+		
+		setTimeFrame( tf );
+		return tf;
+		
+	}

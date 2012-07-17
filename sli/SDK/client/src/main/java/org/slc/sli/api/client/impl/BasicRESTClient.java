@@ -52,7 +52,7 @@ import org.slc.sli.api.client.security.SliApi;
  */
 public class BasicRESTClient implements RESTClient {
 
-    private static final String SESSION_CHECK_PREFIX = "api/rest/v1/system/session/check";
+    private static final String SESSION_CHECK_PREFIX = "system/session/check";
 
     private static Logger logger = Logger.getLogger("RESTClient");
     private String apiServerUri = null;
@@ -160,9 +160,10 @@ public class BasicRESTClient implements RESTClient {
         if (obj.has("authenticated")) {
             JsonNode e = obj.get("authenticated");
             if (e.getBooleanValue()) {
-                e = obj.get("sessionId");
-                sessionToken = e.asText();
-            }
+                //e = obj.get("sessionId");
+                //sessionToken = e.asText();
+            } else
+                return "";
         }
 
         return sessionToken;
