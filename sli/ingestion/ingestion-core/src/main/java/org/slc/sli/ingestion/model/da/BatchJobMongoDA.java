@@ -181,7 +181,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
            return countDownPersistWorkNodeLatches(syncStage, jobId, recordType);
         }
 
-        return 0 == (Integer) latchObject.get("count");
+        return (Integer) latchObject.get("count") <= 0;
     }
 
     private boolean countDownPersistWorkNodeLatches(String syncStage, String jobId, String recordType) {
@@ -196,7 +196,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
         while (cursor.hasNext()) {
             DBObject obj = cursor.next();
             int count = (Integer) obj.get("count");
-            if (count != 0) {
+            if (count > 0) {
                 isEmpty = false;
             }
         }
@@ -406,5 +406,20 @@ public class BatchJobMongoDA implements BatchJobDAO {
             persistedWorkNotes.add((String) obj.get("recordType"));
         }
         return persistedWorkNotes;
+    }
+
+    @Override
+    public void updateWorkNoteCountdownLatch(String name, String jobId, String collectionNameAsStaged, int size) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("syncStage", name);
+        query.put("jobId", jobId);
+        query.put("recordType", collectionNameAsStaged);
+
+        BasicDBObject decrementCount = new BasicDBObject("count", size-1);
+        BasicDBObject update = new BasicDBObject("$inc", decrementCount);
+
+        DBObject latchObject = batchJobMongoTemplate.getCollection("workNoteLatch").findAndModify(query, null, null,
+                false, update, true, false);
+
     }
 }

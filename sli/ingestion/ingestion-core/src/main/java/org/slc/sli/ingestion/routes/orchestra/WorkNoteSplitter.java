@@ -81,6 +81,7 @@ public class WorkNoteSplitter {
             batchJobDAO.createWorkNoteCountdownLatch(MessageType.DATA_TRANSFORMATION.name(), jobId,
                     stagedEntity.getCollectionNameAsStaged(), workNotesForEntity.size());
 
+            batchJobDAO.createWorkNoteCountdownLatch(MessageType.PERSIST_REQUEST.name(), jobId, stagedEntity.getCollectionNameAsStaged(), 1);
             workNoteList.addAll(workNotesForEntity);
         }
 
@@ -98,7 +99,7 @@ public class WorkNoteSplitter {
 
         info("Splitting out (pass-through) list of WorkNotes: {}", workNoteList);
         List<WorkNote> workNotesForEntity = balancedTimestampSplitStrategy.splitForEntity(stagedEntity, jobId);
-        batchJobDAO.createWorkNoteCountdownLatch(MessageType.PERSIST_REQUEST.name(), jobId, stagedEntity.getCollectionNameAsStaged(), workNotesForEntity.size());
+        batchJobDAO.updateWorkNoteCountdownLatch(MessageType.PERSIST_REQUEST.name(), jobId, stagedEntity.getCollectionNameAsStaged(), workNotesForEntity.size());
 
         workNoteList.addAll(workNotesForEntity);
         return workNoteList;

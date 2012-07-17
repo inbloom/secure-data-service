@@ -107,4 +107,6 @@ public interface BatchJobDAO {
     void setStagedEntitiesForJob(Set<IngestionStagedEntity> stagedEntities, String jobId);
 
     List<String> getPersistedWorkNotes(String jobId);
+
+    void updateWorkNoteCountdownLatch(String name, String jobId, String collectionNameAsStaged, int size);
 }
