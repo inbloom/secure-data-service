@@ -41,7 +41,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * @author dliu
- *
+ * 
  */
 
 @Component
@@ -88,8 +88,10 @@ public class UserResource {
             edorgs = new ArrayList<String>();
             edorgs.add(SecurityUtil.getEdOrg());
         }
-
-        Collection<User> users = ldapService.findUsersByGroups(realm, RightToGroupMapper.getInstance().getGroups(SecurityUtil.getAllRights()), SecurityUtil.getTenantId(), edorgs);
+        
+        Collection<User> users = ldapService.findUsersByGroups(realm,
+                RightToGroupMapper.getInstance().getGroups(SecurityUtil.getAllRights()), SecurityUtil.getTenantId(),
+                edorgs);
         return Response.status(Status.OK).entity(users).build();
     }
 
@@ -193,7 +195,8 @@ public class UserResource {
     private Response validateCannotUpdateOwnsRoles(User user) {
         if (user.getUid().equals(SecurityUtil.getUid())) {
             User currentUser = ldapService.getUser(realm, SecurityUtil.getUid());
-            if (!currentUser.getGroups().containsAll(user.getGroups()) || !user.getGroups().containsAll(currentUser.getGroups())) {
+            if (!currentUser.getGroups().containsAll(user.getGroups())
+                    || !user.getGroups().containsAll(currentUser.getGroups())) {
                 EntityBody body = new EntityBody();
                 body.put("response", "cannot update own roles");
                 return Response.status(Status.FORBIDDEN).entity(body).build();
@@ -213,6 +216,7 @@ public class UserResource {
 
     /**
      * Check that the rights contains an admin right.
+     * 
      * @param rights
      * @return null if success, response with error otherwise
      */
@@ -228,52 +232,71 @@ public class UserResource {
     private Response validateTenantAndEdorg(Collection<String> groupsAllowed, User user) {
         // Production
         if (user.getGroups().contains(RoleInitializer.SLC_OPERATOR)) {
-            user.setTenant(null);
-            user.setEdorg(null);
+            if (user.getTenant() != null || user.getEdorg() != null) {
+                EntityBody body = new EntityBody();
+                body.put("response", "SLC Operator can not have tenant/edorg");
+                return Response.status(Status.BAD_REQUEST).entity(body).build();
+            }
         } else if (groupsAllowed.contains(RoleInitializer.SLC_OPERATOR)) {
             if (user.getTenant() == null || user.getEdorg() == null) {
                 EntityBody body = new EntityBody();
-                body.put("response", "Only SLC Operator can have null for tenant/edorg");
-                return Response.status(Status.FORBIDDEN).entity(body).build();
+                body.put("response", "Required tenant/edorg info is missing");
+                return Response.status(Status.BAD_REQUEST).entity(body).build();
             }
         } else if (groupsAllowed.contains(RoleInitializer.SEA_ADMINISTRATOR)) {
-            if (user.getEdorg() == null) {
+            if (user.getTenant() == null || user.getEdorg() == null) {
                 EntityBody body = new EntityBody();
-                body.put("response", "SEA Administrators cannot assign empty edorg");
-                return Response.status(Status.FORBIDDEN).entity(body).build();
-            } else {
-                user.setTenant(SecurityUtil.getTenantId());
+                body.put("response", "Required tenant/edorg info is missing");
+                return Response.status(Status.BAD_REQUEST).entity(body).build();
+            } else if (!user.getTenant().equals(SecurityUtil.getTenantId())) {
+                EntityBody body = new EntityBody();
+                body.put("response", "tenant info mismatch");
+                return Response.status(Status.BAD_REQUEST).entity(body).build();
             }
         } else if (groupsAllowed.contains(RoleInitializer.LEA_ADMINISTRATOR)) {
-            user.setTenant(SecurityUtil.getTenantId());
-            user.setEdorg(SecurityUtil.getEdOrg());
+            if (user.getTenant() == null || user.getEdorg() == null) {
+                EntityBody body = new EntityBody();
+                body.put("response", "Required tenant/edorg info is missing");
+                return Response.status(Status.BAD_REQUEST).entity(body).build();
+            } else if (!user.getTenant().equals(SecurityUtil.getTenantId())
+                    || !user.getEdorg().equals(SecurityUtil.getEdOrg())) {
+                EntityBody body = new EntityBody();
+                body.put("response", "tenant/edorg info mismatch");
+                return Response.status(Status.BAD_REQUEST).entity(body).build();
+            }
         }
 
         // Sandbox
         if (user.getGroups().contains(RoleInitializer.SANDBOX_SLC_OPERATOR)) {
-            user.setTenant(null);
-            user.setEdorg(null);
-        } else if (groupsAllowed.contains(RoleInitializer.SANDBOX_SLC_OPERATOR)) {
-            if (user.getTenant() == null || user.getEdorg() == null) {
+            if (user.getTenant() != null || user.getEdorg() != null) {
                 EntityBody body = new EntityBody();
-                body.put("response", "Only Sandbox SLC Operator can have null for tenant/edorg");
-                return Response.status(Status.FORBIDDEN).entity(body).build();
+                body.put("response", "Sandbox SLC Operator can not have tenant/edorg");
+                return Response.status(Status.BAD_REQUEST).entity(body).build();
+            }} else if (groupsAllowed.contains(RoleInitializer.SANDBOX_SLC_OPERATOR)) {
+                if (user.getTenant() == null) {
+                    EntityBody body = new EntityBody();
+                    body.put("response", "Required tenant info is missing");
+                    return Response.status(Status.BAD_REQUEST).entity(body).build();
+                }
+            } else if (groupsAllowed.contains(RoleInitializer.SANDBOX_ADMINISTRATOR)) {
+                if (user.getTenant() == null) {
+                    EntityBody body = new EntityBody();
+                    body.put("response", "Required tenant info is missing");
+                    return Response.status(Status.BAD_REQUEST).entity(body).build();
+                } else if (!user.getTenant().equals(SecurityUtil.getTenantId())) {
+                    EntityBody body = new EntityBody();
+                    body.put("response", "tenant info mismatch");
+                    return Response.status(Status.BAD_REQUEST).entity(body).build();
+                }
             }
-        } else if (groupsAllowed.contains(RoleInitializer.SANDBOX_ADMINISTRATOR)) {
-            if (user.getEdorg() == null) {
-                EntityBody body = new EntityBody();
-                body.put("response", "Sandbox Administrator cannot assign empty edorg");
-                return Response.status(Status.FORBIDDEN).entity(body).build();
-            } else {
-                user.setTenant(SecurityUtil.getTenantId());
-            }
-        }
+
         return null;
     }
+    
+    private static final String[] ADMIN_ROLES = new String[] { RoleInitializer.LEA_ADMINISTRATOR,
+            RoleInitializer.SEA_ADMINISTRATOR, RoleInitializer.SLC_OPERATOR, RoleInitializer.SANDBOX_SLC_OPERATOR,
+            RoleInitializer.SANDBOX_ADMINISTRATOR };
 
-    private static final String[] ADMIN_ROLES = new String[] {
-        RoleInitializer.LEA_ADMINISTRATOR, RoleInitializer.SEA_ADMINISTRATOR, RoleInitializer.SLC_OPERATOR, RoleInitializer.SANDBOX_SLC_OPERATOR, RoleInitializer.SANDBOX_ADMINISTRATOR
-    };
     static Response validateAtMostOneAdminRole(final Collection<String> groups) {
         Collection<String> adminRoles = new ArrayList<String>(Arrays.asList(ADMIN_ROLES));
         adminRoles.retainAll(groups);
@@ -284,8 +307,9 @@ public class UserResource {
         }
         return null;
     }
-
-    static Response validateUserGroupsAllowed(final Collection<String> groupsAllowed, final Collection<String> userGroups) {
+    
+    static Response validateUserGroupsAllowed(final Collection<String> groupsAllowed,
+            final Collection<String> userGroups) {
         if (!groupsAllowed.containsAll(userGroups)) {
             EntityBody body = new EntityBody();
             body.put("response", "You are not allowed to access this resource");
@@ -300,6 +324,7 @@ public class UserResource {
 
     /**
      * Given a collection of rights, determine whether or not this user is an administrator.
+     * 
      * @param rights
      * @return true if user is an administrator, false otherwise
      */
@@ -311,12 +336,12 @@ public class UserResource {
 
     /**
      * Map Right to Groups (LDAP's equivalence of Role)
-     *
+     * 
      */
     static final class RightToGroupMapper {
-        private static final String[] GROUPS_ALL_ADMINS_ALLOW_TO_READ = new String[] {RoleInitializer.INGESTION_USER};
-        private static final String[] GROUPS_ONLY_PROD_ADMINS_ALLOW_TO_READ = new String[] {RoleInitializer.REALM_ADMINISTRATOR};
-        private static final String[] GROUPS_ONLY_SANDBOX_ADMINS_ALLOW_TO_READ = new String[] {RoleInitializer.APP_DEVELOPER};
+        private static final String[] GROUPS_ALL_ADMINS_ALLOW_TO_READ = new String[] { RoleInitializer.INGESTION_USER };
+        private static final String[] GROUPS_ONLY_PROD_ADMINS_ALLOW_TO_READ = new String[] { RoleInitializer.REALM_ADMINISTRATOR };
+        private static final String[] GROUPS_ONLY_SANDBOX_ADMINS_ALLOW_TO_READ = new String[] { RoleInitializer.APP_DEVELOPER };
 
         private final Map<GrantedAuthority, Collection<String>> rightToGroupMap;
         private static final RightToGroupMapper INSTANCE = new RightToGroupMapper();
@@ -340,12 +365,22 @@ public class UserResource {
                 }
 
                 if (right instanceof Right) {
-                    switch((Right) right) {
-                    case CRUD_SLC_OPERATOR: groups.add(RoleInitializer.SLC_OPERATOR); break;
-                    case CRUD_SEA_ADMIN: groups.add(RoleInitializer.SEA_ADMINISTRATOR); break;
-                    case CRUD_LEA_ADMIN: groups.add(RoleInitializer.LEA_ADMINISTRATOR); break;
-                    case CRUD_SANDBOX_SLC_OPERATOR: groups.add(RoleInitializer.SANDBOX_SLC_OPERATOR); break;
-                    case CRUD_SANDBOX_ADMIN: groups.add(RoleInitializer.SANDBOX_ADMINISTRATOR); break;
+                    switch ((Right) right) {
+                        case CRUD_SLC_OPERATOR:
+                            groups.add(RoleInitializer.SLC_OPERATOR);
+                            break;
+                        case CRUD_SEA_ADMIN:
+                            groups.add(RoleInitializer.SEA_ADMINISTRATOR);
+                            break;
+                        case CRUD_LEA_ADMIN:
+                            groups.add(RoleInitializer.LEA_ADMINISTRATOR);
+                            break;
+                        case CRUD_SANDBOX_SLC_OPERATOR:
+                            groups.add(RoleInitializer.SANDBOX_SLC_OPERATOR);
+                            break;
+                        case CRUD_SANDBOX_ADMIN:
+                            groups.add(RoleInitializer.SANDBOX_ADMINISTRATOR);
+                            break;
                     }
                 }
 
@@ -355,6 +390,7 @@ public class UserResource {
 
         /**
          * Given the user's rights, determine which groups the user can have access to.
+         * 
          * @param rights
          * @return the groups (AKA roles) the user has access to.
          */
