@@ -254,7 +254,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // WorkNoteAggregator.
         // the completion size should be the number of batches created for this
         // IngestionStagedEntity.
-        from("direct:transformationAggregator").routeId("transformationAggregator").transacted()
+        from("direct:transformationAggregator").routeId("transformationAggregator")
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to transformation aggregator.")
                 .aggregate(simple("${body.getIngestionStagedEntity}${body.getBatchJobId}"), new WorkNoteAggregator())
                 .completionSize(simple("${in.header.workNoteByEntityCount}")).to("direct:persistenceSplitter");
@@ -266,7 +266,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // the completion size should be the total number of WorkNotes created for this 'tier'.
         // unless we've processed all staged entities, route back to transformationSplitter for next
         // 'tier.'
-        from("direct:persistenceAggregator").routeId("persistenceAggregator").transacted()
+        from("direct:persistenceAggregator").routeId("persistenceAggregator")
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to persistence aggregator.")
                 .aggregate(simple("${body.getBatchJobId}"), new WorkNoteAggregator())
                 .completionSize(simple("${in.header.totalWorkNoteCount}")).process(aggregationPostProcessor).choice()
@@ -334,7 +334,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private void buildPitRoutes(String pitNodeQueueUri, String maestroQueueUri) {
 
         // routeId: pitNodes
-        from(pitNodeQueueUri).routeId("pitNodes").transacted()
+        from(pitNodeQueueUri).routeId("pitNodes")
                 .log(LoggingLevel.INFO, "CamelRouting", "Pit message received: ${body}").choice()
                 .when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to TransformationProcessor.")
