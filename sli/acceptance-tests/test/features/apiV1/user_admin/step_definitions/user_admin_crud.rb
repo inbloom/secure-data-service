@@ -69,8 +69,8 @@ end
 Given /^I navigate to "(.*?)" "(.*?)"$/ do |action, link|
 # puts @new_update_user
   @new_update_user = append_hostname(@new_update_user)
-  puts "\n\r"
-  puts @new_update_user
+ # puts "\n\r"
+ # puts @new_update_user
   @append_host=true
   if action == "POST"
     restHttpDelete(link+"/"+@new_update_user["uid"])
@@ -121,8 +121,14 @@ Given /^I have a tenant "(.*?)" and edorg "(.*?)"$/ do |tenant, edorg|
   @edorg = edorg
 end
 
-When /^I navigate to DELETE  "(.*?)"$/ do |wanted_admin_role|
-  idpRealmLogin("operator", nil)
+When /^I navigate to DELETE  "(.*?)" in environment "(.*?)"$/ do |wanted_admin_role, environment|
+  if (environment == "production")
+    idpRealmLogin("operator", nil)
+  elsif (environment == "sandbox")
+    idpRealmLogin("sandboxoperator", nil)
+  else
+    assert(false) # environment must be production or sandbox
+  end
   sessionId = @sessionId
   new_user = build_user("test_user", [wanted_admin_role], @tenant, @edorg)
   format = "application/json"

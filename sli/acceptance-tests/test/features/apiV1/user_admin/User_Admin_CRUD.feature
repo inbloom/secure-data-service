@@ -19,8 +19,8 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |Realm_Administrator    |IL-DAYBREAK                  |401 |               |
     |Ingestion_Administrator|IL-DAYBREAK                  |401 |               |
 
+  #sandbox
   @wip
-  @sandbox
   Scenario Outline: As a admin I am able to read all Tenants on sandbox
     Given I have a <ADMIN_ROLE> with <ALLOWED_RIGHTS> on <TENANT_ID>
     When I am authenticated on <ADMIN_REALM>
@@ -49,7 +49,6 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |Realm_Administrator    |IL-DAYBREAK                  |401 |IL             |IL-DAYBREAK   |
     |Ingestion_Administrator|IL-DAYBREAK                  |401 |IL             |IL-DAYBREAK   |
 
-  @wip
   @production
   Scenario Outline:  As an administrator I can read all admin accounts in my tenancy
     
@@ -81,7 +80,6 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |ingestionuser   |ingestionuser1234    |Ingestion User          |SLI        |                |403 |         |                |                                  |                            |
 
   #sandbox
-  @wip
   Scenario Outline:  As a admin I am able to read all admin accounts in my tenancy on sandbox
    Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
     And I have a role "<ADMIN_ROLE>"
@@ -104,7 +102,6 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |sandboxdeveloper |sandboxdeveloper1234 |Application Developer  |SLI         |                        |403 |         |                |                             |                               |
     |ingestionuser    |ingestionuser1234    |Ingestion User          |SLI        |                        |403 |        |                |                              |                              |
 
-  @wip
   @production
   Scenario Outline:  As a admin I am able to create/update admin accounts in my tenancy
     Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
@@ -180,7 +177,6 @@ Feature: As an admin I can create admin accounts for tenancies I administer
 
 
   #sandbox
-  @wip
   Scenario Outline:  As a admin I am able to create/update admin accounts in my tenancy on sandbox
     Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
     And I have a role "<ADMIN_ROLE>"
@@ -203,35 +199,36 @@ Feature: As an admin I can create admin accounts for tenancies I administer
   Examples:
   |USER              |PASSWORD            |ADMIN_ROLE             |REALM    |CREATE_ADMIN_ROLE   |ACTION    |CODE|READ_CODE|Number   |Full_Name            |User_Name            |Email_Address                |Additional_Role |Tenant|Ed_Org     |
   |sandboxoperator   |sandboxoperator1234 |Sandbox SLC Operator   |SLI      |Sandbox SLC Operator|POST      |201 |200      |1 or more|Sandbox SLCOperator2 |Sandbox_SLC_Operator2|sandbox_SLC_Operator@test.com|                |      |           |
- # |sandboxoperator   |sandboxoperator1234 |Sandbox SLC Operator   |SLI      |Sandbox Administrator|POST      |201 |200     |1 or more|Sandbox Administrator2 |Sandbox_Administrator2|sandboxadministrator@slidev.org|            |sandboxadministrator@slidev.org|   |
- 
-  
-#    |ADMIN_ROLE             |ADMIN_REALM                  |WANTED_ROLE                 |ALLOWED_RIGHTS       |ACTION    |CODE|READ_CODE|NUMBER|Full_Name          |User_Name  |Email_Address         |Tenant                |
-#    |SLC_Operator           |Shared Learning Collaborative|SLC_Operator                |DEFAULT              |POST      |200 |200      |1     |SLC_Operator_2     |SLCOP2     |SLC_Operator@test.com |                      |
-#    |SLC_Operator           |Shared Learning Collaborative|Admin_App_Developer         |DEFAULT              |POST      |200 |200      |1     |Admin_App_Developer|AdminAppDev|Admin_App_Dev@test.com|Admin_App_Dev@test.com|
-#    |SLC_Operator           |Shared Learning Collaborative|Application_Developer       |DEFAULT              |POST      |200 |200      |1     |App_Developer      |AppDev     |App_Dev@test.com      |Admin_App_Dev@test.com|
-#    |Application_Developer  |Shared Learning Collaborative|SLC_Operator                |SB_ACCOUNT_MANAGEMENT|POST      |401 |401      |0     |SLC_Operator_2     |SLCOP2     |SLC_Operator@test.com |                      |
-#    |Application_Developer  |Shared Learning Collaborative|Admin_App_Developer         |SB_ACCOUNT_MANAGEMENT|POST      |200 |200      |1     |Admin_App_Developer|AdminAppDev|Admin_App_Dev@test.com|Admin_App_Dev@test.com|
-#    |Application_Developer  |Shared Learning Collaborative|Application_Developer       |SB_ACCOUNT_MANAGEMENT|POST      |200 |200      |1     |App_Developer      |AppDev     |App_Dev@test.com      |Admin_App_Dev@test.com|
-#    |Application_Developer  |Shared Learning Collaborative|SLC_Operator                |DEFAULT              |POST      |401 |401      |0     |SLC_Operator_2     |SLCOP2     |SLC_Operator@test.com |                      |
-#    |Application_Developer  |Shared Learning Collaborative|Admin_App_Developer         |DEFAULT              |POST      |401 |401      |0     |Admin_App_Developer|AdminAppDev|Admin_App_Dev@test.com|Admin_App_Dev@test.com|
-#    |Application_Developer  |Shared Learning Collaborative|Application_Developer       |DEFAULT              |POST      |401 |401      |1     |App_Developer      |AppDev     |App_Dev@test.com      |Admin_App_Dev@test.com|
-#    |SLC_Operator           |Shared Learning Collaborative|SLC_Operator                |DEFAULT              |PUT       |401 |401      |1     |SLC_Operator_2     |SLCOP2     |SLC_Operator@test.com |                      |
-#    |SLC_Operator           |Shared Learning Collaborative|Admin_App_Developer         |DEFAULT              |PUT       |200 |200      |1     |Admin_App_Developer|AdminAppDev|Admin_App_Dev@test.com|Admin_App_Dev@test.com|
-#    |SLC_Operator           |Shared Learning Collaborative|Application_Developer       |DEFAULT              |PUT       |200 |200      |1     |App_Developer      |AppDev     |App_Dev@test.com      |Admin_App_Dev@test.com|
-#    |Application_Developer  |Shared Learning Collaborative|SLC_Operator                |SB_ACCOUNT_MANAGEMENT|PUT       |401 |401      |0     |SLC_Operator_2     |SLCOP2     |SLC_Operator@test.com |                      |
-#    |Application_Developer  |Shared Learning Collaborative|Admin_App_Developer         |SB_ACCOUNT_MANAGEMENT|PUT       |200 |200      |1     |Admin_App_Developer|AdminAppDev|Admin_App_Dev@test.com|Admin_App_Dev@test.com|
-#    |Application_Developer  |Shared Learning Collaborative|Application_Developer       |SB_ACCOUNT_MANAGEMENT|PUT       |200 |200      |1     |App_Developer      |AppDev     |App_Dev@test.com      |Admin_App_Dev@test.com|
-#    |Application_Developer  |Shared Learning Collaborative|SLC_Operator                |DEFAULT              |PUT       |401 |401      |0     |SLC_Operator_2     |SLCOP2     |SLC_Operator@test.com |                      |
-#    |Application_Developer  |Shared Learning Collaborative|Admin_App_Developer         |DEFAULT              |PUT       |401 |401      |0     |Admin_App_Developer|AdminAppDev|Admin_App_Dev@test.com|Admin_App_Dev@test.com|
-#    |Application_Developer  |Shared Learning Collaborative|Application_Developer       |DEFAULT              |PUT       |401 |401      |1     |App_Developer      |AppDev     |App_Dev@test.com      |Admin_App_Dev@test.com|
-  @wip
+  |sandboxoperator   |sandboxoperator1234 |Sandbox SLC Operator   |SLI      |Sandbox Administrator|POST      |201 |200     |1 or more|Sandbox Administrator2 |Sandbox_Administrator2|sandboxadministrator@slidev.org|            |sandboxadministrator@slidev.org|   |
+  |sandboxoperator   |sandboxoperator1234 |Sandbox SLC Operator   |SLI      |Application Developer|POST      |201 |200     |1 or more|Application Developer2 |Application_Developer2|applicationdeveloper@slidev.org|            |sandboxadministrator@slidev.org|   |
+  |sandboxoperator   |sandboxoperator1234 |Sandbox SLC Operator   |SLI      |Ingestion User       |POST      |201 |200     |1 or more|Ingestion User2 |Ingestion_User2|ingestionuser@slidev.org|            |sandboxadministrator@slidev.org|   |
+  |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator|SLI|Sandbox SLC Operator |POST      |403 |200     |0        |Sandbox SLCOperator3 |Sandbox_SLC_Operator3|sandbox_SLC_Operator@test.com|                |      |           | 
+  |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator|SLI|Sandbox Administrator|POST      |201 |200     |1 or more|Sandbox Administrator3 |Sandbox_Administrator3|sandboxadministrator@slidev.org|            |sandboxadministrator@slidev.org|   |
+  |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator|SLI|Application Developer|POST      |201 |200     |1 or more|Application Developer3 |Application_Developer3|applicationdeveloper@slidev.org|            |sandboxadministrator@slidev.org|   |
+  |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator|SLI|Ingestion User       |POST      |201 |200     |1 or more|Ingestion User3 |Ingestion_User3|ingestionuser@slidev.org|            |sandboxadministrator@slidev.org|   |
+  |sandboxdeveloper |sandboxdeveloper1234 |Application Developer  |SLI      |Sandbox SLC Operator |POST      |403 |403     |0        |Sandbox SLCOperator4 |Sandbox_SLC_Operator4|sandbox_SLC_Operator@test.com|                |      |           |
+  |sandboxdeveloper |sandboxdeveloper1234 |Application Developer  |SLI      |Sandbox Administrator|POST      |403 |403     |0         |Sandbox Administrator4 |Sandbox_Administrator4|sandboxadministrator@slidev.org|            |sandboxadministrator@slidev.org|   |
+  |sandboxdeveloper |sandboxdeveloper1234 |Application Developer  |SLI      |Application Developer|POST      |403 |403     |0         |Application Developer4 |Application_Developer4|applicationdeveloper@slidev.org|            |sandboxadministrator@slidev.org|   |
+  |sandboxdeveloper |sandboxdeveloper1234 |Application Developer  |SLI      |Ingestion User       |POST      |403 |403     |0         |Ingestion User4 |Ingestion_User4|ingestionuser@slidev.org|            |sandboxadministrator@slidev.org|   |      
+  |sandboxoperator   |sandboxoperator1234 |Sandbox SLC Operator   |SLI      |Sandbox SLC Operator|PUT      |204 |200      |1 or more|Sandbox SLCOperator2 |Sandbox_SLC_Operator2|sandbox_SLC_Operator@test.com|                |      |           |
+  |sandboxoperator   |sandboxoperator1234 |Sandbox SLC Operator   |SLI      |Sandbox Administrator|PUT      |204 |200     |1 or more|Sandbox Administrator2 |Sandbox_Administrator2|sandboxadministrator@slidev.org|            |sandboxadministrator@slidev.org|   |
+  |sandboxoperator   |sandboxoperator1234 |Sandbox SLC Operator   |SLI      |Application Developer|PUT      |204 |200     |1 or more|Application Developer2 |Application_Developer2|applicationdeveloper@slidev.org|            |sandboxadministrator@slidev.org|   |
+  |sandboxoperator   |sandboxoperator1234 |Sandbox SLC Operator   |SLI      |Ingestion User       |PUT      |204 |200     |1 or more|Ingestion User2 |Ingestion_User2|ingestionuser@slidev.org|            |sandboxadministrator@slidev.org|   |
+  |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator|SLI|Sandbox SLC Operator |PUT      |403 |200     |0        |Sandbox SLCOperator3 |Sandbox_SLC_Operator3|sandbox_SLC_Operator@test.com|                |      |           | 
+  |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator|SLI|Sandbox Administrator|PUT      |204 |200     |1 or more|Sandbox Administrator3 |Sandbox_Administrator3|sandboxadministrator@slidev.org|            |sandboxadministrator@slidev.org|   |
+  |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator|SLI|Application Developer|PUT      |204 |200     |1 or more|Application Developer3 |Application_Developer3|applicationdeveloper@slidev.org|            |sandboxadministrator@slidev.org|   |
+  |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator|SLI|Ingestion User       |PUT      |204 |200     |1 or more|Ingestion User3 |Ingestion_User3|ingestionuser@slidev.org|            |sandboxadministrator@slidev.org|   |
+  |sandboxdeveloper |sandboxdeveloper1234 |Application Developer  |SLI      |Sandbox SLC Operator |PUT      |403 |403     |0        |Sandbox SLCOperator4 |Sandbox_SLC_Operator4|sandbox_SLC_Operator@test.com|                |      |           |
+  |sandboxdeveloper |sandboxdeveloper1234 |Application Developer  |SLI      |Sandbox Administrator|PUT      |403 |403     |0         |Sandbox Administrator4 |Sandbox_Administrator4|sandboxadministrator@slidev.org|            |sandboxadministrator@slidev.org|   |
+  |sandboxdeveloper |sandboxdeveloper1234 |Application Developer  |SLI      |Application Developer|PUT      |403 |403     |0         |Application Developer4 |Application_Developer4|applicationdeveloper@slidev.org|            |sandboxadministrator@slidev.org|   |
+  |sandboxdeveloper |sandboxdeveloper1234 |Application Developer  |SLI      |Ingestion User       |PUT      |403 |403     |0         |Ingestion User4 |Ingestion_User4|ingestionuser@slidev.org|            |sandboxadministrator@slidev.org|   |      
+
   @production
   Scenario Outline:  As a admin I am able to delete admin accounts in my tenancy
     Given I have logged in to realm "<ADMIN_REALM>" using "<USER>" "<PASSWORD>"
     And I have a role "<ADMIN_ROLE>"
     And I have a tenant "<TENANT>" and edorg "<ED_ORG>"
-    When I navigate to DELETE  "<WANTED_ADMIN_ROLE>"
+    When I navigate to DELETE  "<WANTED_ADMIN_ROLE>" in environment "production"
     Then I should receive a return code "<CODE>"
 
   Examples:
@@ -241,22 +238,22 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |operator          |operator1234        |SLC Operator           |SLI                          |LEA Administrator           |200 |test  |test       |
     |operator          |operator1234        |SLC Operator           |SLI                          |Realm Administrator         |200 |test  |test       |
     |operator          |operator1234        |SLC Operator           |SLI                          |Ingestion User              |200 |test  |test       |
-    |iladmin           |iladmin1234         |SEA Administrator      |SLI                          |SLC Operator                |403 |Midgar|IL-SUNSET  |
+    |iladmin           |iladmin1234         |SEA Administrator      |SLI                          |SLC Operator                |403 |      |           |
     |iladmin           |iladmin1234         |SEA Administrator      |SLI                          |SEA Administrator           |200 |Midgar|IL-SUNSET  |
     |iladmin           |iladmin1234         |SEA Administrator      |SLI                          |LEA Administrator           |200 |Midgar|IL-SUNSET  |
     |iladmin           |iladmin1234         |SEA Administrator      |SLI                          |Realm Administrator         |200 |Midgar|IL-SUNSET  |
     |iladmin           |iladmin1234         |SEA Administrator      |SLI                          |Ingestion User              |200 |Midgar|IL-SUNSET  |
-    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |SLC Operator                |403 |Midgar|IL-SUNSET  |
+    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |SLC Operator                |403 |      |           |
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |SEA Administrator           |403 |Midgar|IL-SUNSET  |
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |LEA Administrator           |200 |Midgar|IL-SUNSET  |
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |Realm Administrator         |200 |Midgar|IL-SUNSET  |
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |Ingestion User              |200 |Midgar|IL-SUNSET  |
-    |sunsetrealmadmin  |sunsetrealmadmin1234|Realm Administrator    |SLI                          |SLC Operator                |403 |Midgar|IL-SUNSET  |
+    |sunsetrealmadmin  |sunsetrealmadmin1234|Realm Administrator    |SLI                          |SLC Operator                |403 |      |           |
     |sunsetrealmadmin  |sunsetrealmadmin1234|Realm Administrator    |SLI                          |SEA Administrator           |403 |Midgar|IL-SUNSET  |
     |sunsetrealmadmin  |sunsetrealmadmin1234|Realm Administrator    |SLI                          |LEA Administrator           |403 |Midgar|IL-SUNSET  |
     |sunsetrealmadmin  |sunsetrealmadmin1234|Realm Administrator    |SLI                          |Realm Administrator         |403 |Midgar|IL-SUNSET  |
     |sunsetrealmadmin  |sunsetrealmadmin1234|Realm Administrator    |SLI                          |Ingestion User              |403 |Midgar|IL-SUNSET  |
-    |ingestionuser     |ingestionuser1234   |Ingestion User         |SLI                          |SLC Operator                |403 |Midgar|IL-SUNSET  |
+    |ingestionuser     |ingestionuser1234   |Ingestion User         |SLI                          |SLC Operator                |403 |      |           |
     |ingestionuser     |ingestionuser1234   |Ingestion User         |SLI                          |SEA Administrator           |403 |Midgar|IL-SUNSET  |
     |ingestionuser     |ingestionuser1234   |Ingestion User         |SLI                          |LEA Administrator           |403 |Midgar|IL-SUNSET  |
     |ingestionuser     |ingestionuser1234   |Ingestion User         |SLI                          |Realm Administrator         |403 |Midgar|IL-SUNSET  |
@@ -268,39 +265,27 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     Given I have logged in to realm "<ADMIN_REALM>" using "<USER>" "<PASSWORD>"
     And I have a role "<ADMIN_ROLE>"
     And I have a tenant "<TENANT>" and edorg "<ED_ORG>"
-    When I navigate to DELETE  "<WANTED_ADMIN_ROLE>"
+    When I navigate to DELETE  "<WANTED_ADMIN_ROLE>" in environment "sandbox"
     Then I should receive a return code "<CODE>"
 
   Examples:
     |USER                 |PASSWORD                 |ADMIN_ROLE             |ADMIN_REALM                  |WANTED_ADMIN_ROLE           |CODE|TENANT|ED_ORG     |
     |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |Sandbox SLC Operator        |200 |      |           |
-    |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |SEA Administrator           |200 |Midgar|IL-SUNSET  |
-    |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |LEA Administrator           |200 |Midgar|IL-SUNSET  |
-    |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |Realm Administrator         |200 |Midgar|IL-SUNSET  |
+    |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |Sandbox Administrator       |200 |Midgar|IL-SUNSET  |
     |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |Ingestion User              |200 |Midgar|IL-SUNSET  |
-    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Sandbox SLC Operator        |200 |Midgar|IL-SUNSET  |
-    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |SEA Administrator           |200 |Midgar|IL-SUNSET  |
-    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |LEA Administrator           |200 |Midgar|IL-SUNSET  |
-    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Realm Administrator         |200 |Midgar|IL-SUNSET  |
+    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Sandbox SLC Operator        |403 |      |           |
+    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Sandbox Administrator       |200 |Midgar|IL-SUNSET  |
     |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Ingestion User              |200 |Midgar|IL-SUNSET  |
-    |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Sandbox SLC Operator        |403 |Midgar|IL-SUNSET  |
-    |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Sandbox Administrator       |200 |Midgar|IL-SUNSET  |
-    |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Application Developer       |200 |Midgar|IL-SUNSET  |
-    |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Realm Administrator         |200 |Midgar|IL-SUNSET  |
-    |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Ingestion User              |200 |Midgar|IL-SUNSET  |
-    |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Sandbox SLC Operator        |403 |Midgar|IL-SUNSET  |
+    |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Sandbox SLC Operator        |403 |      |           |
     |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Sandbox Administrator       |403 |Midgar|IL-SUNSET  |
     |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Application Developer       |403 |Midgar|IL-SUNSET  |
-    |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Realm Administrator         |403 |Midgar|IL-SUNSET  |
     |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Ingestion User              |403 |Midgar|IL-SUNSET  |
-    |sunsetrealmadmin     |sunsetrealmadmin1234     |Realm Administrator    |SLI                          |Sandbox SLC Operator        |403 |Midgar|IL-SUNSET  |
+    |sunsetrealmadmin     |sunsetrealmadmin1234     |Realm Administrator    |SLI                          |Sandbox SLC Operator        |403 |      |           |
     |sunsetrealmadmin     |sunsetrealmadmin1234     |Realm Administrator    |SLI                          |Sandbox Administrator       |403 |Midgar|IL-SUNSET  |
     |sunsetrealmadmin     |sunsetrealmadmin1234     |Realm Administrator    |SLI                          |Application Developer       |403 |Midgar|IL-SUNSET  |
-    |sunsetrealmadmin     |sunsetrealmadmin1234     |Realm Administrator    |SLI                          |Realm Administrator         |403 |Midgar|IL-SUNSET  |
     |sunsetrealmadmin     |sunsetrealmadmin1234     |Realm Administrator    |SLI                          |Ingestion User              |403 |Midgar|IL-SUNSET  |
-    |ingestionuser        |ingestionuser1234        |Ingestion User         |SLI                          |Sandbox SLC Operator        |403 |Midgar|IL-SUNSET  |
+    |ingestionuser        |ingestionuser1234        |Ingestion User         |SLI                          |Sandbox SLC Operator        |403 |      |           |
     |ingestionuser        |ingestionuser1234        |Ingestion User         |SLI                          |Sandbox Administrator       |403 |Midgar|IL-SUNSET  |
     |ingestionuser        |ingestionuser1234        |Ingestion User         |SLI                          |Application Developer       |403 |Midgar|IL-SUNSET  |
-    |ingestionuser        |ingestionuser1234        |Ingestion User         |SLI                          |Realm Administrator         |403 |Midgar|IL-SUNSET  |
     |ingestionuser        |ingestionuser1234        |Ingestion User         |SLI                          |Ingestion User              |403 |Midgar|IL-SUNSET  |
 
