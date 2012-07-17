@@ -197,9 +197,9 @@ public final class InterchangeStudentGradeGenerator {
         generateCompentencyLevelDescriptor(StudentGradeRelations.competencyLevelDescriptors, writer);
         System.out.println("Finished CompentencyLevelDescriptor [" + StudentGradeRelations.COMPETENCY_LEVEL_DESCRIPTOR
                 + "] Records Generated");
-        generateLearningObjective(StudentGradeRelations.REPORT_CARD_META, writer);
-        System.out.println("Finished LearningObjective [" + StudentGradeRelations.learningObjectives.size()
-                + "] Records Generated");
+        //generateLearningObjective(StudentGradeRelations.REPORT_CARD_META, writer);
+        //System.out.println("Finished LearningObjective [" + StudentGradeRelations.learningObjectives.size()
+        //        + "] Records Generated");
         generateStudentCompentencyObjective(StudentGradeRelations.REPORT_CARD_META, writer);
         System.out.println("Finished StudentCompentencyObjective ["
                 + StudentGradeRelations.studentCompetencyObjectives.size() + "] Records Generated");
@@ -427,14 +427,17 @@ public final class InterchangeStudentGradeGenerator {
                     StudentCompetency studentCompetency = StudentGradeGenerator.getStudentCompetency(ssaRef, loRef,
                             null);
                     CompetencyLevelDescriptorType competencyLevel = new CompetencyLevelDescriptorType();
-                    competencyLevel.setId(ID_PREFIX_CLD
-                            + randGenerator.nextInt(StudentGradeRelations.COMPETENCY_LEVEL_DESCRIPTOR));
-                    competencyLevel.setRef(competencyLevel);
+                    //competencyLevel.setId(ID_PREFIX_CLD
+                           // + randGenerator.nextInt(StudentGradeRelations.COMPETENCY_LEVEL_DESCRIPTOR));
+                    //competencyLevel.setRef(competencyLevel);
 
-                    CompetencyLevelDescriptorType competencyLevelRef = new CompetencyLevelDescriptorType();
-                    competencyLevelRef.setRef(competencyLevel);
+                    //CompetencyLevelDescriptorType competencyLevelRef = new CompetencyLevelDescriptorType();
+                    //competencyLevelRef.setRef(competencyLevel);
+                    
+                    competencyLevel.setCodeValue("1");
 
-                    studentCompetency.setCompetencyLevel(competencyLevelRef);
+                    //studentCompetency.setCompetencyLevel(competencyLevelRef);
+                    studentCompetency.setCompetencyLevel(competencyLevel);
                     studentCompetency.setId(ID_PREFIX_LO + reportCardId + "_" + loId + "_" + studentId);
                     
                     writer.marshal(studentCompetency);
@@ -466,13 +469,15 @@ public final class InterchangeStudentGradeGenerator {
                     StudentCompetency studentCompetency = StudentGradeGenerator.getStudentCompetency(ssaRef,
                             learningObjectiveRef, scoRef);
                     CompetencyLevelDescriptorType competencyLevel = new CompetencyLevelDescriptorType();
-                    competencyLevel.setId(ID_PREFIX_CLD
-                            + randGenerator.nextInt(StudentGradeRelations.COMPETENCY_LEVEL_DESCRIPTOR));
-
-                    CompetencyLevelDescriptorType competencyLevelRef = new CompetencyLevelDescriptorType();
-                    competencyLevelRef.setRef(competencyLevel);
-
-                    studentCompetency.setCompetencyLevel(competencyLevelRef);
+//                    competencyLevel.setId(ID_PREFIX_CLD
+//                            + randGenerator.nextInt(StudentGradeRelations.COMPETENCY_LEVEL_DESCRIPTOR));
+//
+//                    CompetencyLevelDescriptorType competencyLevelRef = new CompetencyLevelDescriptorType();
+//                    competencyLevelRef.setRef(competencyLevel);
+                    competencyLevel.setCodeValue("1");
+                    
+                    //studentCompetency.setCompetencyLevel(competencyLevelRef);
+                    studentCompetency.setCompetencyLevel(competencyLevel);
 
                     studentCompetency.setId(ID_PREFIX_SCO + reportCardId + "_" + scoId + "_" + studentId);
                     

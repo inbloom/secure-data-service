@@ -31,6 +31,7 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -59,6 +60,7 @@ import com.mongodb.util.JSON;
 public class ApplicationInitializer {
 
     @Autowired
+    @Qualifier("validationRepo")
     private Repository<Entity> repository;
     
     @Value("file:${bootstrap.app.conf}")

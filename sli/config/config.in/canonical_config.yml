@@ -59,6 +59,10 @@ default:
         sli.api.ldap.user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
         sli.api.ldap.pass: Y;Gtf@w{
 
+        #Used to access hudson build number
+        sli.application.buildTag: sli.app.buildTag
+        sli.api.performance.tracking: false
+
     data-access: &DATA-ACCESS-DEFAULT
         # MongoDB Options (only used in data-access)
         sli.mongodb.database: sli
@@ -112,9 +116,11 @@ default:
 
         # ingestion log level
         sli.ingestion.log.level: info
+
         # concurrent or serial
         sli.ingestion.processor.edfi: concurrent
         sli.ingestion.processor.xml: concurrent
+
         # ingestion queue definitions (only used in ingestion)
         sli.ingestion.queue.workItem.host:
         sli.ingestion.queue.workItem.port:
@@ -122,6 +128,8 @@ default:
         sli.ingestion.queue.workItem.secondaryport:
         sli.ingestion.queue.options: keepAlive=true&jms.prefetchPolicy.queuePrefetch=0
         sli.ingestion.queue.brokerUrl: tcp://${sli.ingestion.queue.workItem.host}:${sli.ingestion.queue.workItem.port}?${sli.ingestion.queue.options}
+        sli.ingestion.queue.maxConnections: 25
+        sli.ingestion.queue.maximumActive: 500
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
@@ -140,6 +148,7 @@ default:
         sli.ingestion.queue.pit.host:
         sli.ingestion.queue.pit.port:
         sli.ingestion.queue.pit.queueURI: seda:IngestionPit
+        sli.ingestion.queue.pit.consumerQueueURI: seda:IngestionPit
         sli.ingestion.queue.pit.concurrentConsumers: 5
         sli.ingestion.queue.pit.uriOptions:
         sli.ingestion.queue.pit.keystore:
@@ -361,6 +370,7 @@ acceptance-tests:
         sli.ingestion.queue.pit.host: devmq1.slidev.org
         sli.ingestion.queue.pit.port: 5445
         sli.ingestion.queue.pit.queueURI: activemq:queue:IngestionPit
+        sli.ingestion.queue.pit.consumerQueueURI: txActivemq:queue:ingestion.pit
         sli.ingestion.queue.pit.concurrentConsumers: 5
         sli.ingestion.queue.pit.uriOptions: '&transferExchange=true'
         sli.ingestion.queue.pit.keystore: /opt/tomcat/ssl/tomcat.keystore
@@ -984,6 +994,7 @@ team:
         sli.ingestion.queue.pit.host: localhost
         sli.ingestion.queue.pit.port: 61616
         sli.ingestion.queue.pit.queueURI: activemq:queue:ingestion.pit
+        sli.ingestion.queue.pit.consumerQueueURI: txActivemq:queue:ingestion.pit
         sli.ingestion.queue.pit.concurrentConsumers: 5
         sli.ingestion.queue.pit.uriOptions: '&transferExchange=true'
         sli.ingestion.queue.pit.keystore: /opt/tomcat/ssl/tomcat.keystore
@@ -1115,6 +1126,9 @@ test-local:
         sli.ingestion.tenant.loadDefaultTenants: false
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
         sli.landingZone.server: landingZone
+
+        #Used to access hudson build number
+        sli.application.buildTag: UNKNOWN
 
 test-team:
     test:
@@ -1270,3 +1284,36 @@ nxteam-pit:
         <<: *DATA-ACCESS-NXTEAM
     misc:
         <<: *MISC-NXTEAM
+
+
+local-maestro:
+    api:
+        <<: *API-LOCAL
+    dashboard:
+        <<: *DASHBOARD-LOCAL
+    ingestion:
+        <<: *INGESTION-TEAM
+        sli.ingestion.nodeType: maestro
+        landingzone.inbounddir: target/ingestion/lz/inbound
+        logging.path: target/ingestion/logs
+    data-access:
+        <<: *DATA-ACCESS-LOCAL
+        sli.ingestion.staging.clearOnCompletion: transformed
+    misc:
+        <<: *MISC-LOCAL
+
+
+local-pit:
+    api:
+        <<: *API-LOCAL
+    dashboard:
+        <<: *DASHBOARD-LOCAL
+    ingestion:
+        <<: *INGESTION-TEAM
+        sli.ingestion.nodeType: pit
+        landingzone.inbounddir: target/ingestion/lz/inbound
+        logging.path: target/ingestion/logs
+    data-access:
+        <<: *DATA-ACCESS-LOCAL
+    misc:
+        <<: *MISC-LOCAL
