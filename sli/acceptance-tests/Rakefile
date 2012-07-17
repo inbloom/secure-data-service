@@ -729,6 +729,7 @@ task :importSecuredData do
     "educationOrganization" => "secured/educationOrganization.json",
     "gradebookEntry" => "secured/gradebookEntry.json",
     "program" => "secured/program.json",
+    "reportCard" => "secured/reportCard.json",
     "section" => "secured/section.json",
     "staff" => "secured/staff.json",
     "staffCohortAssociation" => "secured/staffCohortAssociation.json",
