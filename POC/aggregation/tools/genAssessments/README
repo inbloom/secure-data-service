@@ -5,6 +5,12 @@ Generate assessment data for aggregation testing.
 Requirements:
 - clojure
 
+Loading:
+- Start repl by invoking 'lein repl'
+- call (load-file "src/genAssessments/core.clj")
+- call (refer 'genAssessments.core)
+
+
 To generate student ed-fi, run
 (gen-students student-ids output-file)
 where student-ids is a list of ids (can be generated using (range n), where n is the number of students you want) and output-file is the file name where you want the ed-fi written to
@@ -22,7 +28,7 @@ To generate section enrollments, run
 with the same arguments as the school enrollments, but with section equal to the UniqueSectionCode of the section
 
 The following commands will generate data with 350 students and 10 assessments each that can be used with the IL Daybreak InterchangeAssessmentMetadata-StateAssessments.xml, InterchangeEducationOrganization.xml, InterchangeEducationOrgCalendar.xml, and InterchangeMasterSchedule.xml
-(let [students (range 350)]
+(def students (range 350))
   (gen-students students "data/students.xml")
   (gen-saas students "Grade 7 2011 State Math" 10 "data/assessment-results.xml")
   (gen-enrollments students "East Daybreak Junior High" "data/enrollment.xml")
