@@ -93,12 +93,12 @@ class ForgotPasswordsController < ApplicationController
           format.html { render action: "update" }
           format.json { render json: @forgot_password, status: :created, location: @forgot_password }
         else 
-          @forgot_password.errors.add(:base, "Password reset request expired!")
+          @forgot_password.errors.add(:base, "Password reset request expired. Please make a new request.")
           format.html { render action: "show" }
           format.json { render json: @forgot_password.errors, status: :unprocessable_entity }
         end
       else
-        @forgot_password.errors.add(:base, "Unable to verify user, Please contact SLC Operator")
+        @forgot_password.errors.add(:base, "Unable to verify user. Please contact the SLC")
         format.html { render action: "show" }
         format.json { render json: @forgot_password.errors, status: :unprocessable_entity }
       end
@@ -125,15 +125,15 @@ class ForgotPasswordsController < ApplicationController
           
           ApplicationMailer.notify_reset_password(user_id, key).deliver
           
-          format.html { redirect_to "/forgotPassword/notify", notice: 'Your password reset instructions are sent to your email. Please follow the instructions in the email' }
+          format.html { redirect_to "/forgotPassword/notify", notice: 'Password reset instructions have been emailed to you. Please follow the instructions in the email.' }
           format.json { render :json => @forgot_password, status: :created, location: @forgot_password }
         rescue Exception => e
-          @forgot_password.errors.add(:base, "Unable to reset your password. Please contact, The Shared Learning Collaborative")
+          @forgot_password.errors.add(:base, "Unable to reset your password. Please contact the SLC.")
           format.html { render action: "reset" }
           format.json { render json: @forgot_password.errors, status: :unprocessable_entity }
         end
       else
-        @forgot_password.errors.add(:base, "Unable to verify your user ID.")
+        @forgot_password.errors.add(:base, "Unable to verify your user ID. Please contact the SLC.")
         format.html { render action: "reset" }
         format.json { render json: @forgot_password.errors, status: :unprocessable_entity }
       end
