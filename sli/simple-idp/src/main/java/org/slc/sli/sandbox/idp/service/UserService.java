@@ -188,7 +188,8 @@ public class UserService {
             Map<String, String> attributes = new HashMap<String, String>();
  
             attributes.put("userName", context.getStringAttribute("cn"));
-            attributes.put("emailToken", context.getStringAttribute("dispayName"));
+            
+            attributes.put("emailToken", context.getStringAttribute("displayName"));
             
             String description = context.getStringAttribute("description");
             if (description != null && description.length() > 0) {

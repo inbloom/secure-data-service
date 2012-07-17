@@ -272,20 +272,10 @@ public class Login {
     }
     
     private boolean shouldForcePasswordChange(User user) {
-    	
-    	if(user== null) return false;
-    	
-    	try{
-    		String emailToken = (String)(user.getAttributes().get("emailToken"));
-    		
-    		if(emailToken.trim().length()==0){
-    			return false;
-    		}
+    	if(user.getAttributes().get("emailToken")==null || 
+    	   user.getAttributes().get("emailToken").trim().length()==0)
     		return true;
-    	}
-    	catch( NullPointerException e ) {
-    		LOG.info("Email Token is null");
-    		return false;
-    	}
+    	
+    	return false;
     }
 }
