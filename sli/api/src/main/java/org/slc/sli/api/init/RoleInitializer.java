@@ -58,10 +58,6 @@ public class RoleInitializer {
     public static final String SANDBOX_ADMINISTRATOR = "Sandbox Administrator";
     public static final String ROLES = "roles";
 
-    public static final String[] ADMIN_ROLES = new String[] {
-        LEA_ADMINISTRATOR, SEA_ADMINISTRATOR, SLC_OPERATOR, SANDBOX_SLC_OPERATOR, SANDBOX_ADMINISTRATOR
-    };
-
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity>    repository;

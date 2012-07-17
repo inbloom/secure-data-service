@@ -286,7 +286,16 @@ public class LdapServiceImpl implements LdapService {
         context.setAttributeValue("cn", user.getUid());
         context.setAttributeValue("mail", user.getEmail());
         context.setAttributeValue("homeDirectory", user.getHomeDir());
-        context.setAttributeValue("description", "tenant=" + user.getTenant() + "," + "edOrg=" + user.getEdorg());
+        String description = "";
+        if (user.getTenant() != null) {
+            description += "tenant=" + user.getTenant();
+        }
+        if (user.getEdorg() != null) {
+            description += ",edOrg=" + user.getEdorg();
+        }
+        if(!"".equals(description)) {
+            context.setAttributeValue("description", "tenant=" + user.getTenant() + "," + "edOrg=" + user.getEdorg());
+        }
 
     }
 
