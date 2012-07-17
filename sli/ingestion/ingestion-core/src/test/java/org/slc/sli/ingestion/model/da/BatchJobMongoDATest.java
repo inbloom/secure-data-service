@@ -37,6 +37,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Matchers;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.CursorPreparer;
@@ -176,8 +177,20 @@ public class BatchJobMongoDATest {
             iterationCount++;
         }
 
-        // check we use the prepared cursor to query the db twice
+        // check we use the prepared cursor to query the db twicey
         verify(mockMongoTemplate, times(2)).find((Query) any(), eq(Error.class), Matchers.isA(CursorPreparer.class), eq(BATCHJOB_ERROR_COLLECTION));
+    }
+
+    @Test
+    public void testcountDownWorkNoteLatch() {
+        DBCollection collection = Mockito.mock(DBCollection.class);
+        Mockito.when(mockMongoTemplate.getCollection("workNoteLatch")).thenReturn(collection);
+
+        Mockito.when(collection
+                .findAndModify(Mockito.any(DBObject.class), Mockito.any(DBObject.class),
+                        Mockito.any(DBObject.class), Mockito.anyBoolean(), Mockito.any(DBObject.class), Mockito.anyBoolean(), Mockito.anyBoolean()));
+
+
     }
 
     private List<Error> createErrorsFromIndex(int errorStartIndex, int numberOfErrors) {

@@ -130,6 +130,11 @@ def ensureBatchJobIndexes(db_connection)
   @collection.ensure_index([['jobId', 1], ['stageName', 1]])
   @collection.remove({ 'jobId' => " ", 'stageName' => " "  })
 
+  @collection = @db["workNoteLatch"]
+  @collection.save({ '_id' => " " })
+  @collection.ensure_index([['syncStage', 1], ['jobId', 1], ['recordType' , 1]] , :unique => true)
+  @collection.remove({ '_id' => " " })
+
 end
 
 def initializeTenants()

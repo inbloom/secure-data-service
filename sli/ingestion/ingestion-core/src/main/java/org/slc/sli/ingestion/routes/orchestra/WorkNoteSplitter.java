@@ -99,7 +99,7 @@ public class WorkNoteSplitter {
 
         info("Splitting out (pass-through) list of WorkNotes: {}", workNoteList);
         List<WorkNote> workNotesForEntity = balancedTimestampSplitStrategy.splitForEntity(stagedEntity, jobId);
-        batchJobDAO.updateWorkNoteCountdownLatch(MessageType.PERSIST_REQUEST.name(), jobId, stagedEntity.getCollectionNameAsStaged(), workNotesForEntity.size());
+        batchJobDAO.setWorkNoteLatchCount(MessageType.PERSIST_REQUEST.name(), jobId, stagedEntity.getCollectionNameAsStaged(), workNotesForEntity.size());
 
         workNoteList.addAll(workNotesForEntity);
         return workNoteList;

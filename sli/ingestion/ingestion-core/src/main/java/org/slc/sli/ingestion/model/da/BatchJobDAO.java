@@ -24,6 +24,8 @@ import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 
+import com.mongodb.DBObject;
+
 /**
  * Data access object for batch job data.
  *
@@ -106,7 +108,7 @@ public interface BatchJobDAO {
 
     void setStagedEntitiesForJob(Set<IngestionStagedEntity> stagedEntities, String jobId);
 
-    List<String> getPersistedWorkNotes(String jobId);
+    DBObject setWorkNoteLatchCount(String name, String jobId, String collectionNameAsStaged, int size);
 
-    void updateWorkNoteCountdownLatch(String name, String jobId, String collectionNameAsStaged, int size);
+    boolean removeAllPersistedStagedEntitiesFromJob(String jobId);
 }

@@ -44,8 +44,7 @@ public class AggregationPostProcessorTest {
 
         BatchJobDAO dao = Mockito.mock(BatchJobDAO.class);
         FINISHED_ENTITIES.add("testRecord");
-        Mockito.when(dao.getPersistedWorkNotes(JOBID)).thenReturn(FINISHED_ENTITIES);
-        Mockito.when(dao.removeStagedEntityForJob(RECORD_TYPE, JOBID)).thenReturn(true);
+        Mockito.when(dao.removeAllPersistedStagedEntitiesFromJob(JOBID)).thenReturn(true);
         WorkNote workNote = WorkNote.createSimpleWorkNote(JOBID);
         preObject.getIn().setBody(workNote);
 

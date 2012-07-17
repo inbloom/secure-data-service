@@ -46,7 +46,7 @@ public class AggregationPostProcessor implements Processor {
         String jobId = workNote.getBatchJobId();
         @SuppressWarnings("unchecked")
 
-        boolean isEmpty = removeWorkNoteFromRemainingEntities(jobId, workNote);
+        boolean isEmpty = batchJobDAO.removeAllPersistedStagedEntitiesFromJob(jobId);
 
         exchange.getIn().setHeader("jobId", jobId);
 
@@ -57,18 +57,6 @@ public class AggregationPostProcessor implements Processor {
             workNote = WorkNote.createSimpleWorkNote(jobId);
             exchange.getIn().setBody(workNote);
         }
-    }
-
-    private boolean removeWorkNoteFromRemainingEntities(String jobId, WorkNote workNote) {
-        List<String> finishedEntities = batchJobDAO.getPersistedWorkNotes(jobId);
-        boolean isEmpty = false;
-        for (String recordType : finishedEntities) {
-            isEmpty = batchJobDAO.removeStagedEntityForJob(recordType, jobId);
-
-            info("removed EdfiEntity from processing pool: {}", recordType);
-        }
-
-        return isEmpty;
     }
 
     public void setBatchJobDAO(BatchJobDAO dao) {
