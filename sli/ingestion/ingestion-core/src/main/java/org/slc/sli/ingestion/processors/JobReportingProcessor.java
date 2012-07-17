@@ -263,7 +263,7 @@ public class JobReportingProcessor implements Processor {
                     if (errorWriter != null) {
                         writeErrorLine(errorWriter, error.getErrorDetail());
                     } else {
-                        LOG.error("Error: Unable to write to error file for: {} {}", job.getId(), externalResourceId);
+                        LOG.error("Unable to write to error file for: {} {}", job.getId(), externalResourceId);
                     }
                 } else if (FaultType.TYPE_WARNING.getName().equals(error.getSeverity())) {
 
@@ -275,14 +275,14 @@ public class JobReportingProcessor implements Processor {
                     if (errorWriter != null) {
                         writeWarningLine(errorWriter, error.getErrorDetail());
                     } else {
-                        LOG.error("Error: Unable to write to warning file for: {} {}", job.getId(), externalResourceId);
+                        LOG.error("Unable to write to warning file for: {} {}", job.getId(), externalResourceId);
                     }
                 }
 
             }
 
         } catch (IOException e) {
-            LOG.error("Unable to write error file for: {}", job.getId());
+            LOG.error("Unable to write error file for: {}", job.getId(), e);
         } finally {
             for (PrintWriter writer : resourceToErrorMap.values()) {
                 writer.close();

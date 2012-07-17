@@ -45,7 +45,7 @@ class SLCFixer
       @threads << Thread.new {x.report('other')     {stamp_other}}
       @threads << Thread.new {x.report('student_associations')     {stamp_student_associations}}
       @threads << Thread.new {x.report('teacher')     {stamp_teacher}}
-      @threads << Thread.new {x.report('studentSectionGradebookEntry')     {stamp_gradebook}}
+      @threads << Thread.new {x.report('studentGradebookEntry')     {stamp_gradebook}}
       @threads << Thread.new {x.report('school')     {stamp_schools}}
     end
 
@@ -461,10 +461,10 @@ class SLCFixer
   def stamp_gradebook
     @log.info "Stamping student section gradebook entry"
 
-    @db['studentSectionGradebookEntry'].find({}, {fields: ['_id', 'body.studentId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
+    @db['studentGradebookEntry'].find({}, {fields: ['_id', 'body.studentId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
       cursor.each { |assoc|
         teachers = @studentId_to_teachers[assoc['body']['studentId']]
-        stamp_context(@db['studentSectionGradebookEntry'], assoc, teachers)
+        stamp_context(@db['studentGradebookEntry'], assoc, teachers)
       }
     }
   end

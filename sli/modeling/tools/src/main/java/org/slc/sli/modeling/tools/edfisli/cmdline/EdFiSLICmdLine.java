@@ -70,7 +70,6 @@ public final class EdFiSLICmdLine {
         renames.put("CourseOffering", "CourseOffering");
         renames.put("CourseTranscript", "StudentTranscriptAssociation");
         renames.put("StudentAssessment", "StudentAssessmentAssociation");
-        renames.put("StudentGradebookEntry", "StudentSectionGradebookEntry");
         renames.put("StaffEducationOrgAssignmentAssociation", "StaffEducationOrganizationAssociation");
         return Collections.unmodifiableMap(renames);
     }

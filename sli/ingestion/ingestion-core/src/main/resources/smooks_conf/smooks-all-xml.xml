@@ -2410,7 +2410,7 @@
   <!-- Start StudentGradebookEntry mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord"
     createOnElement="InterchangeStudentGrade/StudentGradebookEntry">
-    <jb:expression property="recordType">'studentSectionGradebookEntry'</jb:expression>
+    <jb:expression property="recordType">'studentGradebookEntry'</jb:expression>
     <jb:wiring property="attributes" beanIdRef="studentGradebookEntryAttributes" />
   </jb:bean>
 

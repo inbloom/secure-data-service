@@ -75,7 +75,7 @@ public class LiveAPIClient {
     private static final String ASSMT_URL = "/v1/assessments/";
     private static final String SESSION_URL = "/v1/sessions/";
     private static final String STUDENT_ASSMT_ASSOC_URL = "/v1/studentAssessmentAssociations/";
-    private static final String STUDENT_SECTION_GRADEBOOK = "/v1/studentSectionGradebookEntries";
+    private static final String STUDENT_GRADEBOOK_ENTR_URL = "/v1/studentGradebookEntries";
     private static final String STUDENT_ACADEMIC_RECORD_URL = "/v1/studentAcademicRecords";
 
     // resources to append to base urls
@@ -1042,7 +1042,7 @@ public class LiveAPIClient {
      * @return
      */
     //@Override
-    public List<GenericEntity> getStudentSectionGradebookEntries(final String token, final String studentId,
+    public List<GenericEntity> getStudentGradebookEntries(final String token, final String studentId,
             Map<String, String> params) {
         StringBuilder url = new StringBuilder();
 
@@ -1051,7 +1051,7 @@ public class LiveAPIClient {
 
         // build the url
         url.append(getApiUrl());
-        url.append(STUDENT_SECTION_GRADEBOOK);
+        url.append(STUDENT_GRADEBOOK_ENTR_URL);
         // add the query string
         if (!params.isEmpty()) {
             url.append("?");

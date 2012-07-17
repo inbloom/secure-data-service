@@ -44,6 +44,7 @@ public class SDKConstants {
     public static final String PARENTS = "/parents";
     public static final String ATTENDANCES = "/attendances";
     public static final String CUSTOM_DATA = "/custom";
+    public static final String STUDENT_GRADEBOOK_ENTRY = "/studentGradebookEntries";
 
     // SDK associations to append to base entities
     public static final String STAFF_EDORG_ASSIGNMENT_ASSOC = "/staffEducationOrgAssignmentAssociations";
@@ -53,7 +54,6 @@ public class SDKConstants {
     public static final String TEACHER_SECTION_ASSOC = "/teacherSectionAssociations";
     public static final String TEACHER_SCHOOL_ASSOC = "/teacherSchoolAssociations";
     public static final String STUDENT_ASSMT_ASSOC = "/studentAssessmentAssociations";
-    public static final String STUDENT_GRADEBOOK_ASSOC = "/studentSectionGradebookEntries";
     public static final String STUDENT_TRANSCRIPT_ASSOC = "/studentTranscriptAssociations";
     public static final String STUDENT_ACADEMIC_RECORD_ASSOC = "/studentAcademicRecords";
     public static final String COURSE_OFFERINGS = "/courseOfferings/";
