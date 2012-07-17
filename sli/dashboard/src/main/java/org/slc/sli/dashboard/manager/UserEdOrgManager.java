@@ -18,9 +18,9 @@
 package org.slc.sli.dashboard.manager;
 
 import org.slc.sli.dashboard.entity.Config;
+import org.slc.sli.dashboard.entity.Config.Data;
 import org.slc.sli.dashboard.entity.EdOrgKey;
 import org.slc.sli.dashboard.entity.GenericEntity;
-import org.slc.sli.dashboard.entity.Config.Data;
 import org.slc.sli.dashboard.manager.Manager.EntityMapping;
 import org.slc.sli.dashboard.manager.Manager.EntityMappingManager;
 
@@ -43,4 +43,8 @@ public interface UserEdOrgManager {
     GenericEntity getStaffInfo(String token);
     @EntityMapping("userCoursesSections")
     GenericEntity getUserCoursesAndSections(String token, Object schoolIdObj, Data config);
+    @EntityMapping("userSectionList")
+    GenericEntity getUserSectionList(String token, Object schoolIdObj, Data config);
+    @EntityMapping("schoolInfo")
+    GenericEntity getSchoolInfo(String token, Object schoolIdObj, Data config);
 }

@@ -33,11 +33,11 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.servlet.ModelAndView;
 
 import org.slc.sli.dashboard.entity.Config;
+import org.slc.sli.dashboard.entity.Config.Data;
+import org.slc.sli.dashboard.entity.Config.Type;
 import org.slc.sli.dashboard.entity.ConfigMap;
 import org.slc.sli.dashboard.entity.EdOrgKey;
 import org.slc.sli.dashboard.entity.GenericEntity;
-import org.slc.sli.dashboard.entity.Config.Data;
-import org.slc.sli.dashboard.entity.Config.Type;
 import org.slc.sli.dashboard.manager.UserEdOrgManager;
 import org.slc.sli.dashboard.manager.impl.PortalWSManagerImpl;
 import org.slc.sli.dashboard.util.Constants;
@@ -104,6 +104,18 @@ public class ConfigControllerTest extends ControllerTestBase {
 
             @Override
             public GenericEntity getUserCoursesAndSections(String token, Object key, Data config) {
+                // TODO Auto-generated method stub
+                return null;
+            }
+
+            @Override
+            public GenericEntity getUserSectionList(String token, Object key, Data config) {
+                // TODO Auto-generated method stub
+                return null;
+            }
+
+            @Override
+            public GenericEntity getSchoolInfo(String token, Object key, Data config) {
                 // TODO Auto-generated method stub
                 return null;
             }

@@ -20,7 +20,7 @@ require_relative '../../../../../../../tools/performance/scripts/apiBenchmarker'
 require_relative '../../../../../../../tools/performance/scripts/databaseUtils'
 
 require 'pp'
-require 'FileUtils'
+require 'fileutils'
 
 require_relative '../../../utils/sli_utils.rb'
 require_relative '../../entities/common.rb'
@@ -56,7 +56,7 @@ Before do
 
   @props['API_FORMAT'] = 'application/vnd.slc+json'
   @props['API_SERVER'] = 'localhost'
-  @props['API_SERVER_INSTANCE'] = 'http://local.slidev.org:8080/api/rest/v1'
+  @props['API_SERVER_INSTANCE'] = 'https://local.slidev.org/api/rest/v1'
 
   # this prop will likely be the only one overridden from the env
   @props['API_LOG_ORIGINAL'] = '/storage/logs/apicall.log' if @props['API_LOG_ORIGINAL'].nil?
@@ -116,7 +116,6 @@ Then /^the "([^"]*)" should be less than (\d+) ms$/ do |statKey, threshold|
 
   resource = @props['API_SERVER_INSTANCE'] + @props['API_RESOURCE']
   statsMap = @results[resource]
-
   assert(!statsMap.nil? && !statsMap.empty?, "Results null or empty")
 
   value = statsMap[statKey]

@@ -195,8 +195,10 @@
 				<CourseCode IdentificationSystem="CSSC course code">
 					<ID>Art001</ID>
 				</CourseCode>
+				<Term>Spring Semester</Term>
+				<SchoolYear>2011-2012</SchoolYear>
 				<StateOrganizationId>1000000122</StateOrganizationId>
-				<SessionName>Dusk-Elem-Spring2012</SessionName>
+				<!--<SessionName>Dusk-Elem-Spring2012</SessionName>-->
 			</CourseOfferingIdentity>
 		</CourseOfferingReference>
 		<SchoolReference>
@@ -219,8 +221,10 @@
 				<CourseCode IdentificationSystem="CSSC course code">
 					<ID>Mason201</ID>
 				</CourseCode>
+				<Term>Spring Semester</Term>
+				<SchoolYear>2011-2012</SchoolYear>
 				<StateOrganizationId>10000000121</StateOrganizationId>
-				<SessionName>Dusk-High-Spring2012</SessionName>
+				<!--<SessionName>Dusk-High-Spring2012</SessionName>-->
 			</CourseOfferingIdentity>
 		</CourseOfferingReference>
 		<SchoolReference>
@@ -243,8 +247,10 @@
 				<CourseCode IdentificationSystem="CSSC course code">
 					<ID>Mason201</ID>
 				</CourseCode>
+				<Term>Spring Semester</Term>
+				<SchoolYear>2011-2012</SchoolYear>
 				<StateOrganizationId>10000000121</StateOrganizationId>
-				<SessionName>Dusk-High-Spring2012</SessionName>
+				<!--<SessionName>Dusk-High-Spring2012</SessionName>-->
 			</CourseOfferingIdentity>
 		</CourseOfferingReference>
 		<SchoolReference>
@@ -267,8 +273,10 @@
 				<CourseCode IdentificationSystem="CSSC course code">
 					<ID>Art001</ID>
 				</CourseCode>
+				<Term>Spring Semester</Term>
+				<SchoolYear>2011-2012</SchoolYear>
 				<StateOrganizationId>1000000122</StateOrganizationId>
-				<SessionName>Dusk-Elem-Spring2012</SessionName>
+				<!--<SessionName>Dusk-Elem-Spring2012</SessionName>-->
 			</CourseOfferingIdentity>
 		</CourseOfferingReference>
 		<SchoolReference>
@@ -291,8 +299,10 @@
 				<CourseCode IdentificationSystem="CSSC course code">
 					<ID>PhySci001</ID>
 				</CourseCode>
+				<Term>Spring Semester</Term>
+				<SchoolYear>2011-2012</SchoolYear>
 				<StateOrganizationId>1000000112</StateOrganizationId>
-				<SessionName>Parker-Elem-Spring2012</SessionName>
+                                <!--<SessionName>Parker-Elem-Spring2012</SessionName>-->
 			</CourseOfferingIdentity>
 		</CourseOfferingReference>
 		<SchoolReference>
@@ -315,8 +325,10 @@
 				<CourseCode IdentificationSystem="CSSC course code">
 					<ID>Math001</ID>
 				</CourseCode>
+				<Term>Spring Semester</Term>
+				<SchoolYear>2011-2012</SchoolYear>
 				<StateOrganizationId>1000000112</StateOrganizationId>
-				<SessionName>Parker-Elem-Spring2012</SessionName>
+                                <!--<SessionName>Parker-Elem-Spring2012</SessionName>-->
 			</CourseOfferingIdentity>
 		</CourseOfferingReference>
 		<SchoolReference>
@@ -339,8 +351,10 @@
 				<CourseCode IdentificationSystem="CSSC course code">
 					<ID>Math001</ID>
 				</CourseCode>
+				<Term>Spring Semester</Term>
+				<SchoolYear>2011-2012</SchoolYear>
 				<StateOrganizationId>1000000112</StateOrganizationId>
-				<SessionName>Parker-Elem-Spring2012</SessionName>
+				<!--<SessionName>Parker-Elem-Spring2012</SessionName>-->
 			</CourseOfferingIdentity>
 		</CourseOfferingReference>
 		<SchoolReference>
@@ -363,8 +377,10 @@
 				<CourseCode IdentificationSystem="CSSC course code">
 					<ID>PhySci001</ID>
 				</CourseCode>
+				<Term>Spring Semester</Term>
+				<SchoolYear>2011-2012</SchoolYear>
 				<StateOrganizationId>1000000112</StateOrganizationId>
-				<SessionName>Parker-Elem-Spring2012</SessionName>
+				<!--<SessionName>Parker-Elem-Spring2012</SessionName>-->
 			</CourseOfferingIdentity>
 		</CourseOfferingReference>
 		<SchoolReference>
@@ -387,8 +403,10 @@
 				<CourseCode IdentificationSystem="CSSC course code">
 					<ID>PE001</ID>
 				</CourseCode>
+				<Term>Spring Semester</Term>
+				<SchoolYear>2011-2012</SchoolYear>
 				<StateOrganizationId>1000000122</StateOrganizationId>
-				<SessionName>Dusk-Elem-Spring2012</SessionName>
+				<!--<SessionName>Dusk-Elem-Spring2012</SessionName>-->
 			</CourseOfferingIdentity>
 		</CourseOfferingReference>
 		<SchoolReference>
@@ -411,7 +429,9 @@
 				<CourseCode IdentificationSystem="CSSC course code">
 					<ID>Sci127</ID>
 				</CourseCode>
-				<SessionName>Parker-High-Spring2012</SessionName>
+				<Term>Spring Semester</Term>
+				<SchoolYear>2011-2012</SchoolYear>
+				<!--<SessionName>Parker-High-Spring2012</SessionName>-->
 				<StateOrganizationId>1000000111</StateOrganizationId>
 			</CourseOfferingIdentity>
 		</CourseOfferingReference>
@@ -435,8 +455,10 @@
 				<CourseCode IdentificationSystem="CSSC course code">
 					<ID>PE001</ID>
 				</CourseCode>
+				<Term>Spring Semester</Term>
+				<SchoolYear>2011-2012</SchoolYear>
 				<StateOrganizationId>1000000122</StateOrganizationId>
-				<SessionName>Dusk-Elem-Spring2012</SessionName>
+				<!--<SessionName>Dusk-Elem-Spring2012</SessionName>-->
 			</CourseOfferingIdentity>
 		</CourseOfferingReference>
 		<SchoolReference>
@@ -459,7 +481,9 @@
 				<CourseCode IdentificationSystem="CSSC course code">
 					<ID>Sci127</ID>
 				</CourseCode>
-				<SessionName>Parker-High-Spring2012</SessionName>
+				<Term>Spring Semester</Term>
+				<SchoolYear>2011-2012</SchoolYear>
+				<!--<SessionName>Parker-High-Spring2012</SessionName>-->
 				<StateOrganizationId>1000000111</StateOrganizationId>
 			</CourseOfferingIdentity>
 		</CourseOfferingReference>
@@ -483,8 +507,10 @@
 				<CourseCode IdentificationSystem="CSSC course code">
 					<ID>ARCH221</ID>
 				</CourseCode>
+				<Term>Spring Semester</Term>
+				<SchoolYear>2011-2012</SchoolYear>
 				<StateOrganizationId>1000000111</StateOrganizationId>
-				<SessionName>Parker-High-Spring2012</SessionName>
+				<!--<SessionName>Parker-High-Spring2012</SessionName>-->
 			</CourseOfferingIdentity>
 		</CourseOfferingReference>
 		<SchoolReference>
@@ -507,8 +533,10 @@
 				<CourseCode IdentificationSystem="CSSC course code">
 					<ID>Chem305</ID>
 				</CourseCode>
+				<Term>Spring Semester</Term>
+				<SchoolYear>2011-2012</SchoolYear>
 				<StateOrganizationId>10000000121</StateOrganizationId>
-				<SessionName>Dusk-High-Spring2012</SessionName>
+				<!--<SessionName>Dusk-High-Spring2012</SessionName>-->
 			</CourseOfferingIdentity>
 		</CourseOfferingReference>
 		<SchoolReference>
@@ -531,8 +559,10 @@
 				<CourseCode IdentificationSystem="CSSC course code">
 					<ID>Chem305</ID>
 				</CourseCode>
+				<Term>Spring Semester</Term>
+				<SchoolYear>2011-2012</SchoolYear>
 				<StateOrganizationId>10000000121</StateOrganizationId>
-				<SessionName>Dusk-High-Spring2012</SessionName>
+				<!--<SessionName>Dusk-High-Spring2012</SessionName>-->
 			</CourseOfferingIdentity>
 		</CourseOfferingReference>
 		<SchoolReference>
@@ -555,8 +585,10 @@
 				<CourseCode IdentificationSystem="CSSC course code">
 					<ID>ARCH221</ID>
 				</CourseCode>
+				<Term>Spring Semester</Term>
+				<SchoolYear>2011-2012</SchoolYear>
 				<StateOrganizationId>1000000111</StateOrganizationId>
-				<SessionName>Parker-High-Spring2012</SessionName>
+				<!--<SessionName>Parker-High-Spring2012</SessionName>-->
 			</CourseOfferingIdentity>
 		</CourseOfferingReference>
 		<SchoolReference>

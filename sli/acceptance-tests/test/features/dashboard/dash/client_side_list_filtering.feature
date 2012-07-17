@@ -7,7 +7,6 @@ that are displayed.
 
     Background:
         Given I have an open web browser
-        Given the server is in "test" mode
 
 @RALLY_US145
     Scenario: Check user has multiple filters available

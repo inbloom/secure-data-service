@@ -7,8 +7,6 @@ Given I have an open web browser
 
 @integration @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: Valid componentId PathVariable accessing LayoutController
-
-Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
  And I was redirected to the "Simple" IDP Login page
@@ -23,8 +21,6 @@ Then I view its student profile
 
 @integration
 Scenario: Invalid componentId PathVariable accessing LayoutController
-
-Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
  And I was redirected to the "Simple" IDP Login page
@@ -35,8 +31,6 @@ Then I am informed that "the page that you were looking for could not be found"
 
 @integration
 Scenario: Invalid componentId and id PathVariables accessing PanelController
-
-Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Illinois Sunset School District 4526" and click go
  And I was redirected to the "Simple" IDP Login page

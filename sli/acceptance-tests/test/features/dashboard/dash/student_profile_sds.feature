@@ -4,7 +4,6 @@ As a teacher in a school district, I want to click on a student and be directed 
 
 Background:
 Given I have an open web browser
-Given the server is in "live" mode
 When I navigate to the Dashboard home page
 
 @integration @RALLY_US200 @RALLY_US147 @RALLY_US198

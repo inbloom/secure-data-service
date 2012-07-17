@@ -54,6 +54,14 @@ default:
 
         # User a negative number for unlimited
         sli.useraccount.maximum: 500
+        
+        # Ldap server user and pass
+        sli.api.ldap.user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
+        sli.api.ldap.pass: Y;Gtf@w{
+
+        #Used to access hudson build number
+        sli.application.buildTag: sli.app.buildTag
+        sli.api.performance.tracking: false
 
     data-access: &DATA-ACCESS-DEFAULT
         # MongoDB Options (only used in data-access)
@@ -108,9 +116,11 @@ default:
 
         # ingestion log level
         sli.ingestion.log.level: info
+
         # concurrent or serial
         sli.ingestion.processor.edfi: concurrent
         sli.ingestion.processor.xml: concurrent
+
         # ingestion queue definitions (only used in ingestion)
         sli.ingestion.queue.workItem.host:
         sli.ingestion.queue.workItem.port:
@@ -118,6 +128,8 @@ default:
         sli.ingestion.queue.workItem.secondaryport:
         sli.ingestion.queue.options: keepAlive=true&jms.prefetchPolicy.queuePrefetch=0
         sli.ingestion.queue.brokerUrl: tcp://${sli.ingestion.queue.workItem.host}:${sli.ingestion.queue.workItem.port}?${sli.ingestion.queue.options}
+        sli.ingestion.queue.maxConnections: 25
+        sli.ingestion.queue.maximumActive: 500
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
         sli.ingestion.queue.workItem.concurrentConsumers: 4
         sli.ingestion.queue.workItem.keystore:
@@ -136,6 +148,7 @@ default:
         sli.ingestion.queue.pit.host:
         sli.ingestion.queue.pit.port:
         sli.ingestion.queue.pit.queueURI: seda:IngestionPit
+        sli.ingestion.queue.pit.consumerQueueURI: seda:IngestionPit
         sli.ingestion.queue.pit.concurrentConsumers: 5
         sli.ingestion.queue.pit.uriOptions:
         sli.ingestion.queue.pit.keystore:
@@ -218,14 +231,20 @@ default:
         bootstrap.app.admin.name: Admin Apps
         bootstrap.app.admin.description: The SLC Administration Application allows you to change a variety of system settings.
         bootstrap.app.admin.version: 0.0
+        bootstrap.app.admin.authorized_for_all_edorgs: true
+        bootstrap.app.admin.allowed_for_all_edorgs: true
         bootstrap.app.databrowser.template: applications/databrowser.json
         bootstrap.app.databrowser.name: SLC Data Browser
         bootstrap.app.databrowser.description: The SLC Data Browser allows developers and administrators to access all available information in the SLC datastore.
         bootstrap.app.databrowser.version: 0.0
+        bootstrap.app.databrowser.authorized_for_all_edorgs: false
+        bootstrap.app.databrowser.allowed_for_all_edorgs: true
         bootstrap.app.dashboard.name: SLC Dashboards
         bootstrap.app.dashboard.description: The SLC Dashboards allow you to see information about students in lists and profiles.
         bootstrap.app.dashboard.template: applications/dashboard.json
         bootstrap.app.dashboard.version: A.0
+        bootstrap.app.dashboard.authorized_for_all_edorgs: false
+        bootstrap.app.dashboard.allowed_for_all_edorgs: true
         bootstrap.app.vendor: SLC
 
     misc: &MISC-DEFAULT
@@ -263,7 +282,7 @@ default:
         # LDAP base URLs, comma separated list of ldap servers
         sli.simple-idp.ldap.urls: ldap://ldap.slidev.org:389
         # LDAP base DN
-        sli.simple-idp.ldap.base: dc=slidev,dc=org
+        sli.simple-idp.ldap.base: ou=DevTest,dc=slidev,dc=org
 
         # SLI Subdomain substituted by various services (used by SDK and dashboard)
         sli.dev.subdomain: ci
@@ -351,6 +370,7 @@ acceptance-tests:
         sli.ingestion.queue.pit.host: devmq1.slidev.org
         sli.ingestion.queue.pit.port: 5445
         sli.ingestion.queue.pit.queueURI: activemq:queue:IngestionPit
+        sli.ingestion.queue.pit.consumerQueueURI: txActivemq:queue:ingestion.pit
         sli.ingestion.queue.pit.concurrentConsumers: 5
         sli.ingestion.queue.pit.uriOptions: '&transferExchange=true'
         sli.ingestion.queue.pit.keystore: /opt/tomcat/ssl/tomcat.keystore
@@ -828,6 +848,8 @@ local-sandbox:
 
     apps:
         <<: *APPS-LOCAL
+        bootstrap.app.databrowser.authorized_for_all_edorgs: true
+        bootstrap.app.dashboard.authorized_for_all_edorgs: true
 
     misc:
         <<: *MISC-LOCAL
@@ -972,6 +994,7 @@ team:
         sli.ingestion.queue.pit.host: localhost
         sli.ingestion.queue.pit.port: 61616
         sli.ingestion.queue.pit.queueURI: activemq:queue:ingestion.pit
+        sli.ingestion.queue.pit.consumerQueueURI: txActivemq:queue:ingestion.pit
         sli.ingestion.queue.pit.concurrentConsumers: 5
         sli.ingestion.queue.pit.uriOptions: '&transferExchange=true'
         sli.ingestion.queue.pit.keystore: /opt/tomcat/ssl/tomcat.keystore
@@ -1104,6 +1127,9 @@ test-local:
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s
         sli.landingZone.server: landingZone
 
+        #Used to access hudson build number
+        sli.application.buildTag: UNKNOWN
+
 test-team:
     test:
         # team/data-access/test.properties
@@ -1175,9 +1201,11 @@ sandbox:
         bootstrap.app.databrowser.url: https://${sli.dev.subdomain}.slidev.org:2000
         bootstrap.app.databrowser.client_id: G9tjgDx1aL
         bootstrap.app.databrowser.client_secret: GTV8WeZSuRz2kR3GKyHLjYmtRMeRspHJTFXv72SBj81OccS3
+        bootstrap.app.databrowser.authorized_for_all_edorgs: true
         bootstrap.app.dashboard.url: https://${sli.dev.subdomain}.slidev.org/dashboard
         bootstrap.app.dashboard.client_id: 6TW4tHwcWG
         bootstrap.app.dashboard.client_secret: 53ww1lyWM7PchV3GwyH3BUjdkat2r3SziRMuXQeV3rtF4ZQ6
+        bootstrap.app.dashboard.authorized_for_all_edorgs: true
     misc:
         <<: *MISC-TEAM
         sli.simple-idp.issuer-base: https://${sli.dev.subdomain}.slidev.org/simple-idp
@@ -1256,3 +1284,36 @@ nxteam-pit:
         <<: *DATA-ACCESS-NXTEAM
     misc:
         <<: *MISC-NXTEAM
+
+
+local-maestro:
+    api:
+        <<: *API-LOCAL
+    dashboard:
+        <<: *DASHBOARD-LOCAL
+    ingestion:
+        <<: *INGESTION-TEAM
+        sli.ingestion.nodeType: maestro
+        landingzone.inbounddir: target/ingestion/lz/inbound
+        logging.path: target/ingestion/logs
+    data-access:
+        <<: *DATA-ACCESS-LOCAL
+        sli.ingestion.staging.clearOnCompletion: transformed
+    misc:
+        <<: *MISC-LOCAL
+
+
+local-pit:
+    api:
+        <<: *API-LOCAL
+    dashboard:
+        <<: *DASHBOARD-LOCAL
+    ingestion:
+        <<: *INGESTION-TEAM
+        sli.ingestion.nodeType: pit
+        landingzone.inbounddir: target/ingestion/lz/inbound
+        logging.path: target/ingestion/logs
+    data-access:
+        <<: *DATA-ACCESS-LOCAL
+    misc:
+        <<: *MISC-LOCAL

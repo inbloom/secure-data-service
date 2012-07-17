@@ -27,6 +27,7 @@ import java.util.Queue;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
@@ -50,6 +51,7 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeAggregator {
     private CallingApplicationInfoProvider clientInfo;
 
     @Autowired
+    @Qualifier("validationRepo")
     private Repository<Entity> repo;
 
     @Override

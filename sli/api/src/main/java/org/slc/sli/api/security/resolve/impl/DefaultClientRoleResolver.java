@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.resolve.ClientRoleResolver;
@@ -41,6 +42,7 @@ import org.slc.sli.domain.NeutralQuery;
 public class DefaultClientRoleResolver implements ClientRoleResolver {
     
     @Autowired
+    @Qualifier("validationRepo")
     private Repository<Entity> repo;
     
     /**

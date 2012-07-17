@@ -13,8 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package org.slc.sli.modeling.uml;
 
 import java.util.ArrayList;
@@ -24,7 +22,37 @@ import java.util.List;
 /**
  * The meta-data for a class.
  */
-public final class ClassType extends NamespaceOwnedElement implements Type {
+public final class ClassType extends ComplexType implements Navigable {
+    private static final List<Attribute> EMPTY_ATTRIBUTE_LIST = Collections.emptyList();
+    
+    /**
+     * Checks the invariant that either both ends are specified or both omitted.
+     */
+    private static boolean checkAssociationEnds(final AssociationEnd lhs, final AssociationEnd rhs,
+            final boolean required) {
+        if (lhs != null) {
+            if (rhs != null) {
+                return true;
+            } else {
+                if (required) {
+                    throw new NullPointerException("rhs");
+                } else {
+                    throw new IllegalArgumentException("lhs is specified, but rhs is null.");
+                }
+            }
+        } else {
+            if (required) {
+                throw new NullPointerException("lhs");
+            } else {
+                if (rhs == null) {
+                    return false;
+                } else {
+                    throw new IllegalArgumentException("rhs is specified, but lhs is null.");
+                }
+            }
+        }
+    }
+    
     /**
      * The attributes of this class.
      */
@@ -33,9 +61,21 @@ public final class ClassType extends NamespaceOwnedElement implements Type {
      * Determines whether the class can be instantiated.
      */
     private final boolean isAbstract;
-
-    public ClassType(final Identifier id, final String name, final boolean isAbstract,
-            final List<Attribute> attributes, final List<TaggedValue> taggedValues) {
+    private final boolean isClassType;
+    private final AssociationEnd lhs;
+    
+    private final AssociationEnd rhs;
+    
+    public ClassType(final AssociationEnd lhs, final AssociationEnd rhs) {
+        this(Identifier.random(), "", lhs, rhs, EMPTY_TAGGED_VALUES);
+    }
+    
+    /**
+     * Canonical Initializer (but should not be accessible).
+     */
+    private ClassType(final boolean isClassType, final Identifier id, final String name, final boolean isAbstract,
+            final List<Attribute> attributes, final AssociationEnd lhs, final AssociationEnd rhs,
+            final List<TaggedValue> taggedValues) {
         super(id, name, taggedValues);
         if (name == null) {
             throw new NullPointerException("name");
@@ -43,41 +83,92 @@ public final class ClassType extends NamespaceOwnedElement implements Type {
         if (attributes == null) {
             throw new NullPointerException("attributes");
         }
+        checkAssociationEnds(lhs, rhs, !isClassType);
         this.isAbstract = isAbstract;
         this.attributes = Collections.unmodifiableList(new ArrayList<Attribute>(attributes));
+        this.lhs = lhs;
+        this.rhs = rhs;
+        this.isClassType = isClassType;
     }
-
+    
+    public ClassType(final Identifier id, final String name, final AssociationEnd lhs, final AssociationEnd rhs,
+            final List<TaggedValue> taggedValues) {
+        this(false, id, name, false, EMPTY_ATTRIBUTE_LIST, lhs, rhs, taggedValues);
+        checkAssociationEnds(lhs, rhs, true);
+        if (lhs.getId().equals(rhs.getId())) {
+            throw new IllegalArgumentException();
+        }
+    }
+    
+    /**
+     * UML AssociationClass initializer.
+     */
+    public ClassType(final Identifier id, final String name, final boolean isAbstract,
+            final List<Attribute> attributes, final AssociationEnd lhs, final AssociationEnd rhs,
+            final List<TaggedValue> taggedValues) {
+        this(true, id, name, isAbstract, attributes, lhs, rhs, taggedValues);
+        checkAssociationEnds(lhs, rhs, true);
+    }
+    
+    public ClassType(final Identifier id, final String name, final boolean isAbstract,
+            final List<Attribute> attributes, final List<TaggedValue> taggedValues) {
+        this(true, id, name, isAbstract, attributes, null, null, taggedValues);
+    }
+    
+    public ClassType(final String name, final AssociationEnd lhs, final AssociationEnd rhs) {
+        this(Identifier.random(), name, lhs, rhs, EMPTY_TAGGED_VALUES);
+    }
+    
+    public ClassType(final String name, final AssociationEnd lhs, final AssociationEnd rhs,
+            final List<TaggedValue> taggedValues) {
+        this(Identifier.random(), name, lhs, rhs, taggedValues);
+    }
+    
     @Override
     public void accept(final Visitor visitor) {
         visitor.visit(this);
     }
-
+    
+    @Override
     public List<Attribute> getAttributes() {
-        // We've already made defensive copy in initializer, and have made
-        // immutable.
         return attributes;
     }
-
+    
+    @Override
+    public AssociationEnd getLHS() {
+        return lhs;
+    }
+    
+    @Override
+    public AssociationEnd getRHS() {
+        return rhs;
+    }
+    
     @Override
     public boolean isAbstract() {
         return isAbstract;
     }
-
+    
+    @Override
+    public boolean isAssociation() {
+        return checkAssociationEnds(lhs, rhs, false);
+    }
+    
     @Override
     public boolean isClassType() {
-        return true;
+        return isClassType;
     }
-
+    
     @Override
     public boolean isDataType() {
         return false;
     }
-
+    
     @Override
     public boolean isEnumType() {
         return false;
     }
-
+    
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder();

@@ -10,6 +10,9 @@ html, body {
 	height: 100%;
 }
 
+.p10 { padding: 10px; }
+
+.bold { font-weight: bold !important; }
 .placeholder {
 	color: #999;
 }
@@ -43,6 +46,27 @@ body {
 input {
     font-family: Helvetica,Arial,sans-serif;
     font-size: 13px;
+}
+
+.color-column-blue {
+	color: #0064C8 !important;
+	font-weight: bold !important;
+}
+
+.color-column-red {
+	color: #DD0000 !important;
+	font-weight: bold !important;
+}
+
+.color-column-orange {
+	color:#F5844C !important;
+	font-weight: bold !important;
+}
+
+.color-box-orange {
+	border: solid 2px #F5844C !important;
+	padding: 2px 4px;
+	color: #000;
 }
 
 #sli_footer {

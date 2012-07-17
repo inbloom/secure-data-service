@@ -68,19 +68,23 @@ When /^I look at the section drop\-down$/ do
 end
 
 Then /^I see these values in the drop\-down: "([^"]*)"$/ do |listContent|
-  puts "@dropDownId = " + @dropDownId
   desiredContentArray = listContent.split(";")
   select = @driver.find_element(:id, @dropDownId)
+  #click the droplist first else there are issues seeing hidden elements
+  dropList = select.find_element(:tag_name, "a")
+  dropList.click
   all_options = select.find_element(:class_name, "dropdown-menu").find_elements(:tag_name, "li")
   matchCondition = true
   selectContent = ""
   # If any list item has a value that is not in the list - set flag to false
   all_options.each do |option|
-    selectContent += option.find_element(:tag_name, "a").attribute("text") + ";"
+    selectContent += option.find_element(:tag_name, "a").text + ";"
     puts "selectContent = " + selectContent
   end
   selectContentArray = selectContent.split(";")
   result = (desiredContentArray | selectContentArray) - (desiredContentArray & selectContentArray)
+  #unclick it
+  dropList.click
   assert(result == ["Choose One"], "list content does not match required content: " + listContent)  
 end
 
@@ -89,6 +93,7 @@ Then /^I don't see these values in the drop\-down: "([^"]*)"$/ do |listContent|
 end
 
 Then /^I see a list of (\d+) students$/ do |numOfStudents|
+  @explicitWait.until{@driver.find_element(:class,"sectionProfile")}
   studentList = @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
   
   actualCount = countTableRows()

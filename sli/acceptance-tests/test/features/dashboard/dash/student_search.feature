@@ -1,9 +1,7 @@
-@wip
 Feature:  Simple Student Search
 
 Background:
 Given I have an open web browser
-Given the server is in "live" mode
 
 
 @integration @RALLY_US197

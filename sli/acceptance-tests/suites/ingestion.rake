@@ -19,7 +19,7 @@ end
 
 desc "Run Ingestion Tenant Test"
 task :ingestionTenantTest do
-  runTestsNotWindows("test/features/ingestion/features/ingestion_tenant.feature")
+  runTests("test/features/ingestion/features/ingestion_tenant.feature")
 end
 
 desc "Run Ingestion Session Test"
