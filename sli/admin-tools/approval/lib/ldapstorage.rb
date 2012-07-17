@@ -95,11 +95,12 @@ class LDAPStorage
 
   # these values are injected when the user is created
   ENTITY_CONSTANTS = {
-        :emailtoken => "-",
+      :emailtoken => "-",
       :uidnumber  => CONST_USERID_NUM,
       :gidnumber  => CONST_GROUPID_NUM,
       :vendor     => "none",
-      :homedir    => "/dev/null"
+      :homedir    => "/dev/null",
+      :resetKey   => ""
   }
 
   # List of fields to fetch from LDAP for user
