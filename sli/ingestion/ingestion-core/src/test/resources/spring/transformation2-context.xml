@@ -36,7 +36,7 @@
   <bean id="validator" class="org.slc.sli.validation.schema.NeutralSchemaValidator" />
   <bean id="schemaFactory" class="org.slc.sli.validation.NeutralSchemaFactory" />
   <bean id="repo" class="org.slc.sli.validation.utils.XsdToNeutralSchemaRepo" />
-  <bean id="entityRepository" class="org.slc.sli.ingestion.validation.IngestionDummyEntityRepository" />
+  <bean id="entityRepository"  name="validationRepo" class="org.slc.sli.ingestion.validation.IngestionDummyEntityRepository" />
 
   <import resource="classpath:/spring/validation.xml" />
 

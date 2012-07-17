@@ -239,7 +239,6 @@
 
     <build>
         <finalName>api</finalName>
-
         <plugins>
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>

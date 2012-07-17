@@ -79,7 +79,7 @@ public class MediumStudentGenerator {
 
 	        Student student = new Student();
 	        
-	        student.setId(studentId);
+	        student.setId("REF-" + studentId);
 
 	        student.setStudentUniqueStateId(studentId);
 
