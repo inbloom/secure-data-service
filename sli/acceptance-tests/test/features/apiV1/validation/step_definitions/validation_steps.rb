@@ -418,7 +418,7 @@ $validationTestData = {
             "lastSurname" => "Students"
         }
     },
-    "studentSectionGradebookEntry" => {
+    "studentGradebookEntry" => {
         "gradebookEntryId" => "008fd89d-88a2-43aa-8af1-74ac16a29380",
         "letterGradeEarned" => "A",
         "sectionId" => "706ee3be-0dae-4e98-9525-f564e05aa388",

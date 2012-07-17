@@ -245,6 +245,18 @@ default:
         bootstrap.app.dashboard.version: A.0
         bootstrap.app.dashboard.authorized_for_all_edorgs: false
         bootstrap.app.dashboard.allowed_for_all_edorgs: true
+        bootstrap.app.sif.name: SIF Agent
+        bootstrap.app.sif.description: SIF Agent
+        bootstrap.app.sif.template: applications/sif.json
+        bootstrap.app.sif.version: 0.0
+        bootstrap.app.sif.url: http://local.slidev.org:1338/
+        bootstrap.app.sif.apiUrl: http://local.slidev.org:8080/
+        bootstrap.app.sif.callbackUrl: http://local.slidev.org:8081/
+        bootstrap.app.sif.guid: 2ad39ff1-65f8-4a16-8912-b49872f1ee97
+        bootstrap.app.sif.token: 9f58b6dc-0880-4e2a-a65f-3aa8b5201fbd 
+        bootstrap.app.sif.client_id: bZEkFldWJT
+        bootstrap.app.sif.client_secret: F1b5Fy2nZq0qZJP6x3ci5onwr7XViBppOGqJTSNuz7K6eBQq
+
         bootstrap.app.vendor: SLC
 
     misc: &MISC-DEFAULT
@@ -301,6 +313,12 @@ default:
         sli.sample.callbackUrl: http://local.slidev.org:8081/sample/callback
         sli.sample.clientId: fm67sH6vZZ
         sli.sample.clientSecret: sb70uDUEYK1IkE5LB2xdBkTJRIQNhBnaOYu1ig5EZW3UwpP4
+        
+        # sif-agent appp properties
+        sli.sif-agent.agentId: test.subscriber.agent
+        sli.sif-agent.agentPort: 25100
+        sli.sif-agent.zoneId: TestZone
+        sli.sif-agent.zoneUrl: http://10.163.6.73:50002/TestZone
 
 acceptance-tests:
     api:
@@ -768,6 +786,8 @@ local:
         sli.ingestion.errors.tracking: true
         sli.ingestion.warnings.tracking: true
 
+        # Security Event capsize
+        sli.ingestion.securityEvent.capSize:
 
     ingestion: &INGESTION-LOCAL
         <<: *INGESTION-DEFAULT
@@ -807,6 +827,11 @@ local:
         bootstrap.app.dashboard.url: http://local.slidev.org:8888/dashboard
         bootstrap.app.dashboard.client_id: K2e7Dwhq5J
         bootstrap.app.dashboard.client_secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
+
+        bootstrap.app.sif.url: http://local.slidev.org:1338/
+        bootstrap.app.sif.client_id: bZEkFldWJT
+        bootstrap.app.sif.client_secret: F1b5Fy2nZq0qZJP6x3ci5onwr7XViBppOGqJTSNuz7K6eBQq
+        bootstrap.app.sif.token: 9f58b6dc-0880-4e2a-a65f-3aa8b5201fbd 
 
     misc: &MISC-LOCAL
         <<: *MISC-DEFAULT
@@ -904,6 +929,14 @@ local-acceptance-tests:
         bootstrap.app.dashboard.url: http://local.slidev.org:8080/dashboard
         bootstrap.app.dashboard.client_id: K2e7Dwhq55
         bootstrap.app.dashboard.client_secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
+
+        bootstrap.app.sif.url: http://local.slidev.org:1338/
+        bootstrap.app.sif.apiUrl: http://local.slidev.org:8080/
+        bootstrap.app.sif.callbackUrl: http://local.slidev.org:8081/
+        bootstrap.app.sif.guid: 2ad39ff1-65f8-4a16-8912-b49872f1ee97
+        bootstrap.app.sif.token: 9f58b6dc-0880-4e2a-a65f-3aa8b5201fbd 
+        bootstrap.app.sif.client_id: bZEkFldWJT
+        bootstrap.app.sif.client_secret: F1b5Fy2nZq0qZJP6x3ci5onwr7XViBppOGqJTSNuz7K6eBQq
 
     misc:
         <<: *MISC-LOCAL
@@ -1035,6 +1068,15 @@ team:
         bootstrap.app.dashboard.url: https://${sli.dev.subdomain}.slidev.org/dashboard
         bootstrap.app.dashboard.client_id: 6TW4tHwcWG
         bootstrap.app.dashboard.client_secret: 53ww1lyWM7PchV3GwyH3BUjdkat2r3SziRMuXQeV3rtF4ZQ6
+
+        bootstrap.app.sif.url: http://${sli.dev.subdomain}.slidev.org:1338/
+        bootstrap.app.sif.apiUrl: http://local.slidev.org:8080/
+        bootstrap.app.sif.callbackUrl: http://local.slidev.org:8081/
+        bootstrap.app.sif.guid: 2ad39ff1-65f8-4a16-8912-b49872f1ee97
+        bootstrap.app.sif.token: 9f58b6dc-0880-4e2a-a65f-3aa8b5201fbd 
+        bootstrap.app.sif.client_id: bZEkFldWJT
+        bootstrap.app.sif.client_secret: F1b5Fy2nZq0qZJP6x3ci5onwr7XViBppOGqJTSNuz7K6eBQq
+
 
 
     misc: &MISC-TEAM
@@ -1206,6 +1248,11 @@ sandbox:
         bootstrap.app.dashboard.client_id: 6TW4tHwcWG
         bootstrap.app.dashboard.client_secret: 53ww1lyWM7PchV3GwyH3BUjdkat2r3SziRMuXQeV3rtF4ZQ6
         bootstrap.app.dashboard.authorized_for_all_edorgs: true
+        bootstrap.app.sif.url: http://${sli.dev.subdomain}.slidev.org:1338/
+        bootstrap.app.sif.client_id: bZEkFldWJT
+        bootstrap.app.sif.client_secret: F1b5Fy2nZq0qZJP6x3ci5onwr7XViBppOGqJTSNuz7K6eBQq
+        bootstrap.app.sif.token: 9f58b6dc-0880-4e2a-a65f-3aa8b5201fbd 
+
     misc:
         <<: *MISC-TEAM
         sli.simple-idp.issuer-base: https://${sli.dev.subdomain}.slidev.org/simple-idp

@@ -1,0 +1,62 @@
+/**
+ *	Metadata for the Schools Interoperability Framework (SIF)<p>
+ *
+ * 	SIFDTD defines global {@linkplain com.edustructures.sifworks.ElementDef} 
+ * 	constants that describe SIF Data Objects, elements, and attributes across all 
+ *	supported versions of the SIF Specification. The ADK uses this metadata 
+ *	internally to parse and render SIF Data Objects.  In addition, many of the 
+ * 	framework APIs require that the programmer pass an ElementDef constant from 
+ *	the SIFDTD class to identify an object, element, or attribute.<p>
+ *
+ *	ElementDef constants are named <code>[PARENT_]ENTITY</code>, where 
+ * 	<code><i>PARENT</i></code> is the name of the parent element and 
+ *	<code><i>ENTITY</i></code> is the name of the element or attribute 
+ * 	encapsulated by the ElementDef. Some examples of ElementDef constants defined
+ * 	by this class include:<p>
+ *
+ *	<table>
+ *		<tr><td>ElementDef</td><td>Description</td></tr>
+ *		<tr>
+ *			<td><code>SIFDTD.STUDENTPERSONAL</code></td>
+ *			<td>Identifies the StudentPersonal data object</td>
+ *		</tr>
+ *	</table>
+ *
+ * 	Many of the ADK's public interfaces require an ElementDef constant to be passed
+ * 	as a parameter. For example, the first parameter to the <code>Zone.setSubscriber</code>
+ * 	method is an ElementDef:<p>
+ * 
+ * 	<code>
+ * 	&nbsp;&nbsp;&nbsp;&nbsp;myZone.setSubscriber( SIFDTD.BUSINFO, this, ADKFlags.PROV_SUBSCRIBE );</code><p>
+ * 
+ * 	ElementDef also identifies child elements and attributes as demonstrated by the
+ * 	<code>Query.addCondition</code> method:<p>
+ * 
+ * 	&nbsp;&nbsp;&nbsp;&nbsp;Query query = new Query( SIFDTD.STUDENTPERSONAL );<br/>
+ *  &nbsp;&nbsp;&nbsp;&nbsp;query.addCondition(<br/>
+ *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SIFDTD.STUDENTPERSONAL_REFID, Condition.EQ,<br/>
+ *  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"4A37969803F0D00322AF0EB969038483" );<br/>
+ * 	</code><p>
+ *
+ * 	<b>SDO Libraries</b><p>
+ *  
+ * 	ElementDef metadata is grouped into "SDO Libraries", which are organized along 
+ * 	SIF Working Group boundaries. SDO Libraries are loaded into the <code>SIFDTD</code> 
+ * 	class when the ADK is initialized. All or part of the metadata is loaded into depending on the flags passed to the
+ * 	{@linkplain com.edustructures.sifworks.ADK#initialize(SIFVersion, int)} method,
+ * 	metadata from one or more SDO Libraries may be loaded. For example, the following
+ * 	call loads metadata for the <i>Student Information Working Group Objects</i>  
+ * 	and <i>Transportation &amp; Geographic Information Working Group Objects</i> 
+ * 	(Common Elements and <i>Infrastructure Working Group Objects</i> metadata is 
+ * 	always loaded):<p>
+ * 
+ * 	<code>&nbsp;&nbsp;&nbsp;&nbsp;ADK.initialize( SIFVersion.LATEST, SDO.STUDENT | SDO.TRANS )</code><p>
+ * 
+ * 	If an given SDO Library is not loaded, all of the SIFDTD constants that belong
+ * 	to that library will be <code>null</code> and cannot be referenced. For example,
+ * 	given the SDO Libraries loaded above, attempting to reference the 
+ * 	<code>SIFDTD.LIBRARYPATRONSTATUS</code> object from the Library Automation Working
+ * 	Group would result in a NullPointerException:<p>
+ * 
+ *  <code>&nbsp;&nbsp;&nbsp;&nbsp;SIFDTD.LIBRARYPATRONSTATUS.name();</code>
+ */

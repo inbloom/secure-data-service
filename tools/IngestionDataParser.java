@@ -223,7 +223,7 @@ public class IngestionDataParser {
 		entityMappings.put("studentCompetency", Arrays.asList("StudentCompetency"));
 		entityMappings.put("studentCompetencyObjective", Arrays.asList("StudentCompetencyObjective"));
 		entityMappings.put("studentDisciplineIncidentAssociation", Arrays.asList("StudentDisciplineIncidentAssociation"));
-		entityMappings.put("studentSectionGradebookEntry", Arrays.asList("StudentGradebookEntry"));
+		entityMappings.put("studentGradebookEntry", Arrays.asList("StudentGradebookEntry"));
 		entityMappings.put("studentObjectiveAssessment", Arrays.asList("StudentObjectiveAssessment"));
 		entityMappings.put("studentParentAssociation", Arrays.asList("StudentParentAssociation"));
 		entityMappings.put("studentProgramAssociation", Arrays.asList("StudentProgramAssociation"));

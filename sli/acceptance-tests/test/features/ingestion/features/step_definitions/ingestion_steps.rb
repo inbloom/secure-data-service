@@ -22,6 +22,7 @@ require 'mongo'
 require 'fileutils'
 require 'socket'
 require 'net/sftp'
+require 'net/http'
 
 require_relative '../../../utils/sli_utils.rb'
 
@@ -646,7 +647,7 @@ def ensureIndexes(db)
   @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
   @collection.remove( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'sectionId' => " ", 'studentId' => " "}} )
 
-  @collection = @db["studentSectionGradebookEntry"]
+  @collection = @db["studentGradebookEntry"]
   @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
   @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
   @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
@@ -1165,6 +1166,18 @@ end
 When /^an activemq instance "([^"]*)" running in "([^"]*)" and on jmx port "([^"]*)" stops$/ do |instance_name, instance_source, port|
   runShellCommand("#{instance_source}/activemq-admin stop  --jmxurl service:jmx:rmi:///jndi/rmi://localhost:#{port}/jmxrmi #{instance_name}" )
 end
+
+When /^I navigate to the Ingestion Service HealthCheck page and submit login credentials "([^"]*)" "([^"]*)"$/ do |user, pass|
+   uri = URI('http://localhost:8000/ingestion-service/HealthCheck')
+   req = Net::HTTP::Get.new(uri.request_uri)
+   req.basic_auth user, pass
+   res = Net::HTTP.start(uri.hostname, uri.port) {|http|
+   http.request(req)
+   }
+   puts res.body
+   $healthCheckResult = res.body
+end
+
 ############################################################
 # STEPS: THEN
 ############################################################
@@ -1670,6 +1683,10 @@ end
 
 Then /^I restart the activemq instance "([^"]*)" running on "([^"]*)"$/ do |instance_name, instance_source|
   Open3.popen2e("#{instance_source}/#{instance_name}/bin/#{instance_name}" )
+end
+
+Then /^I am informed that "(.*?)"$/ do |arg1|
+    assert($healthCheckResult.tr("\n","") == arg1, "Ingestion service is not running")
 end
 
 ############################################################

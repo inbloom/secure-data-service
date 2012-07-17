@@ -50,18 +50,18 @@ public class StudentGradebookOptionalFieldAppender implements OptionalFieldAppen
         List<String> sectionIds = new ArrayList<String>(optionalFieldAppenderHelper.getSectionIds(entities));
 
         //get the list of student section grade book entries for all sections
-        List<EntityBody> studentSectionGradebookEntries;
+        List<EntityBody> studentGradebookEntries;
         if (sectionIds.size() != 0) {
-            studentSectionGradebookEntries = optionalFieldAppenderHelper.queryEntities(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES,
+            studentGradebookEntries = optionalFieldAppenderHelper.queryEntities(ResourceNames.STUDENT_GRADEBOOK_ENTRIES,
                     ParameterConstants.SECTION_ID, sectionIds);
         } else {
             List<String> studentIds = new ArrayList<String>(optionalFieldAppenderHelper.getIdList(entities, "id"));
-            studentSectionGradebookEntries = optionalFieldAppenderHelper.queryEntities(ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES,
+            studentGradebookEntries = optionalFieldAppenderHelper.queryEntities(ResourceNames.STUDENT_GRADEBOOK_ENTRIES,
                     ParameterConstants.STUDENT_ID, studentIds);
         }
 
         //get all gradebook entry ids
-        List<String> gradebookEntryIds = optionalFieldAppenderHelper.getIdList(studentSectionGradebookEntries, ParameterConstants.GRADEBOOK_ENTRY_ID);
+        List<String> gradebookEntryIds = optionalFieldAppenderHelper.getIdList(studentGradebookEntries, ParameterConstants.GRADEBOOK_ENTRY_ID);
 
         //get all gradebook entries for the sections
         List<EntityBody> gradebookEntries = optionalFieldAppenderHelper.queryEntities(ResourceNames.GRADEBOOK_ENTRIES,
@@ -69,21 +69,21 @@ public class StudentGradebookOptionalFieldAppender implements OptionalFieldAppen
 
         for (EntityBody student : entities) {
             //get the student gradebook entries for the given student
-            List<EntityBody> studentSectionGradebookEntriesForStudent = optionalFieldAppenderHelper.getEntitySubList(studentSectionGradebookEntries,
+            List<EntityBody> studentGradebookEntriesForStudent = optionalFieldAppenderHelper.getEntitySubList(studentGradebookEntries,
                     ParameterConstants.STUDENT_ID, (String) student.get("id"));
 
-            for (EntityBody studentSectionGradebookEntry : studentSectionGradebookEntriesForStudent) {
+            for (EntityBody studentGradebookEntry : studentGradebookEntriesForStudent) {
                 //get the gradebook entry for the student gradebook entry
                 EntityBody gradebookEntry = optionalFieldAppenderHelper.getEntityFromList(gradebookEntries, "id",
-                        (String) studentSectionGradebookEntry.get(ParameterConstants.GRADEBOOK_ENTRY_ID));
+                        (String) studentGradebookEntry.get(ParameterConstants.GRADEBOOK_ENTRY_ID));
 
                 if (gradebookEntry != null) {
-                    studentSectionGradebookEntry.put(PathConstants.GRADEBOOK_ENTRIES, gradebookEntry);
+                    studentGradebookEntry.put(PathConstants.GRADEBOOK_ENTRIES, gradebookEntry);
                 }
             }
 
             //add the body to the student
-            student.put(PathConstants.STUDENT_SECTION_GRADEBOOK_ENTRIES, studentSectionGradebookEntriesForStudent);
+            student.put(PathConstants.STUDENT_GRADEBOOK_ENTRIES, studentGradebookEntriesForStudent);
         }
 
         return entities;

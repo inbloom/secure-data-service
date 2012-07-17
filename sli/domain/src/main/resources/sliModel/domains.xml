@@ -665,7 +665,7 @@
 		<!-- StudentCompetencyObjective is not defined for SLI -->
 		<entity>
 			<title xml:lang="en">Student Gradebook Entry</title>
-			<class name="StudentSectionGradebookEntry"></class>
+			<class name="StudentGradebookEntry"></class>
 		</entity>
 		<entity>
 			<title xml:lang="en">Student Section Association</title>
