@@ -115,6 +115,20 @@ public class StandardLevel3ClientManualTest {
     }
 
     @Test
+    public void testValidationError() throws IOException, StatusCodeException {
+        final Level3Client client = new StandardLevel3Client(BASE_URL);
+        final Student student = new Student();
+
+        // try to post an empty student
+        try {
+            client.postStudents(TestingConstants.ROGERS_TOKEN, student);
+        } catch (final StatusCodeException sce) {
+            assertEquals(400, sce.getStatusCode());
+            assertTrue(sce.getMessage().contains("ValidationError"));
+        }
+    }
+
+    @Test
     public void testGetStudentsByIdUsingJson() {
         doGetStudentsById(new StandardLevel2Client(BASE_URL, new JsonLevel1Client()));
     }
@@ -268,22 +282,22 @@ public class StandardLevel3ClientManualTest {
     }
 
     private String doPostStudentUsingJson(final Level3Client client) throws IOException, StatusCodeException {
-        Student student = new Student();
+        final Student student = new Student();
 
-        Name name = new Name();
+        final Name name = new Name();
         name.setFirstName("Jeff");
         name.setMiddleName("Allen");
         name.setLastSurname("Stokes");
         student.setName(name);
 
         List<Address> addressList = new ArrayList<Address>();
-        Address address1 = new Address();
+        final Address address1 = new Address();
         address1.setStreetNumberName("1234 My Street");
         address1.setCity("New York");
         address1.setPostalCode("11111");
         address1.setStateAbbreviation(StateAbbreviationType.NY);
 
-        Address address2 = new Address();
+        final Address address2 = new Address();
         address2.setStreetNumberName("5555 My Street");
         address2.setCity("San Fran");
         address2.setPostalCode("22222");
@@ -294,7 +308,7 @@ public class StandardLevel3ClientManualTest {
 
         student.setAddress(addressList);
 
-        List<LanguageItemType> languageList = new ArrayList<LanguageItemType>();
+        final List<LanguageItemType> languageList = new ArrayList<LanguageItemType>();
         languageList.add(LanguageItemType.ENGLISH);
         languageList.add(LanguageItemType.APACHE);
 
@@ -303,7 +317,7 @@ public class StandardLevel3ClientManualTest {
         student.setStudentUniqueStateId("1234-STUDENT");
         student.setSex(SexType.MALE);
 
-        BirthData birthData = new BirthData();
+        final BirthData birthData = new BirthData();
         birthData.setBirthDate("1988-12-01");
         student.setBirthData(birthData);
 
