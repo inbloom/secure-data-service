@@ -175,10 +175,9 @@ public class UserService {
 
     /**
      * LDAPTemplate mapper for getting attributes from the person context. Retrieves cn and
-     * description,
-     * parsing the value of description by line and then by key=value.
-     *
-     * @author scole
+     * description, parsing the value of description by line and then by key=value.
+     * retrieve pwdMustChange for force password reset
+     * @author scole, ychen
      *
      */
     static class PersonContextMapper implements ContextMapper {
@@ -187,7 +186,10 @@ public class UserService {
             DirContextAdapter context = (DirContextAdapter) ctx;
             User user = new User();
             Map<String, String> attributes = new HashMap<String, String>();
+ 
             attributes.put("userName", context.getStringAttribute("cn"));
+            attributes.put("emailToken", context.getStringAttribute("dispayName"));
+            
             String description = context.getStringAttribute("description");
             if (description != null && description.length() > 0) {
                 String[] pairs;

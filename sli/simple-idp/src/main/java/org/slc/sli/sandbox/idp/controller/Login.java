@@ -87,6 +87,7 @@ public class Login {
      * Loads required data and redirects to the login page view.
      *
      */
+    
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView form(@RequestParam("SAMLRequest") String encodedSamlRequest,
             @RequestParam(value = "realm", required = false) String realm, HttpSession httpSession) {
@@ -208,12 +209,37 @@ public class Login {
 
         httpSession.setAttribute(USER_SESSION_KEY, user);
 
-        ModelAndView mav = new ModelAndView("post");
+        ModelAndView mav;
+        
+        if(shouldForcePasswordChange(user))
+        	mav = new ModelAndView("forcePasswordChange");
+        else
+        	mav = new ModelAndView("post");
+        
         mav.addObject("samlAssertion", samlAssertion);
         return mav;
 
     }
 
+    /*
+     * Form for force password change
+     */
+    @RequestMapping(value = "/forcePasswordChange", method = RequestMethod.GET)
+    public ModelAndView forcePasswordChange(
+            HttpServletRequest request) {
+    	//place holder for force password change
+    	ModelAndView mav = new ModelAndView("forcePasswordChange");
+        return mav;
+    }
+    
+    /*
+     * PUT Method for change password
+     */
+    @RequestMapping(value = "/changePassword", method = RequestMethod.PUT)
+    public ModelAndView changePassword(){
+    	return new ModelAndView("put");
+    }
+    
     private void writeLoginSecurityEvent(boolean successful, String userId, List<String> roles, String edOrg,
             HttpServletRequest request) {
         SecurityEvent event = new SecurityEvent();
@@ -243,5 +269,23 @@ public class Login {
         }
 
         audit(event);
+    }
+    
+    private boolean shouldForcePasswordChange(User user) {
+    	
+    	if(user== null) return false;
+    	
+    	try{
+    		String emailToken = (String)(user.getAttributes().get("emailToken"));
+    		
+    		if(emailToken.trim().length()==0){
+    			return false;
+    		}
+    		return true;
+    	}
+    	catch( NullPointerException e ) {
+    		LOG.info("Email Token is null");
+    		return false;
+    	}
     }
 }
