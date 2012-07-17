@@ -60,7 +60,7 @@ default:
         sli.api.ldap.pass: Y;Gtf@w{
 
         #Used to access hudson build number
-        sli.application.buildTag: buildTag
+        sli.application.buildTag: sli.app.buildTag
         sli.api.performance.tracking: false
 
     data-access: &DATA-ACCESS-DEFAULT

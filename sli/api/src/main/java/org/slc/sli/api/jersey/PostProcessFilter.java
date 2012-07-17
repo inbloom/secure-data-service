@@ -65,6 +65,9 @@ public class PostProcessFilter implements ContainerResponseFilter {
 
     @Value("${sli.api.performance.tracking}")
     private String apiPerformanceTracking;
+
+    @Value("${api.server.url}")
+    private String apiServerUrl;
     
     @Override
     public ContainerResponse filter(ContainerRequest request, ContainerResponse response) {
@@ -107,10 +110,12 @@ public class PostProcessFilter implements ContainerResponseFilter {
         if(requestURL.contains("?")){
             requestURL = requestURL.substring(0,requestURL.indexOf("?"));
         }
-        UriTemplate fourPartUri = new UriTemplate("http://local.slidev.org:8080/api/rest/v1/{resource}/{id}/{association}/{associateEntity}");
-        UriTemplate threePartUri = new UriTemplate("http://local.slidev.org:8080/api/rest/v1/{resource}/{id}/{association}");
-        UriTemplate twoPartUri = new UriTemplate("http://local.slidev.org:8080/api/rest/v1/{resource}/{id}");
-        UriTemplate readAllUri = new UriTemplate("http://local.slidev.org:8080/api/rest/v1/{resource}");
+        String serverUrl = apiServerUrl+ "api/rest/v1/";
+        UriTemplate fourPartUri = new UriTemplate(serverUrl+"{resource}/{id}/{association}/{associateEntity}");
+        UriTemplate threePartUri = new UriTemplate(serverUrl+"{resource}/{id}/{association}");
+        UriTemplate twoPartUri = new UriTemplate(serverUrl+"{resource}/{id}");
+        UriTemplate readAllUri = new UriTemplate(serverUrl+"{resource}");
+        System.out.print(serverUrl+"{resource}/{id}");
         HashMap<String, String> uri = new HashMap<String, String>();
        // MultiMap<String,String> quaryParams;
         boolean logIntoDb = true ;
@@ -134,7 +139,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
                 }
             }
 
-            body.put("url",requestURL) ;
+            body.put("url",requestURL.replace(serverUrl,"/")) ;
             body.put("method",request.getMethod());
             body.put("entityCount",response.getHttpHeaders().get("TotalCount"));
             body.put("resource",endPoint);

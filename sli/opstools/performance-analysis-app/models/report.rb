@@ -25,7 +25,7 @@ class Report
       buildTag = urlParams[(index+10)..-1]
       initialize_parameters
       query = {"body.resource"=> "/"+endPoint,"body.buildNumber"=>buildTag}
-      create_report('build_tag',query,'apiResponse')
+      create_report('url',query,'apiResponse')
     end
 
   def self.initialize_parameters
@@ -54,8 +54,14 @@ class Report
 
           @db[collection].find(query, @basic_options) do |cur|
             cur.each do |record|
-              hAxisVal = record['_id'][hAxis]
-              responseTime = record['value']['avg_time']
+
+              if collection == 'apiResponse'
+                hAxisVal = record['body'][hAxis]
+                responseTime = record['body']['responseTime']
+              else
+                hAxisVal = record['_id'][hAxis]
+                responseTime = record['value']['avg_time']
+              end
               response = response + @row%[hAxisVal,responseTime.to_s] +','
             end
           end
