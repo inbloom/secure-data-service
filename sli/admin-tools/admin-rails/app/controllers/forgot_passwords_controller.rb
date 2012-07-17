@@ -55,8 +55,7 @@ class ForgotPasswordsController < ApplicationController
            emailAddress = user[:emailAddress]
            fullName = user[:first] + " " + user[:last]
            ApplicationMailer.notify_password_change(emailAddress, fullName).deliver
-           puts "after mailer"
-
+           
            format.html { redirect_to "/forgotPassword/notify", notice: 'Your password has been successfully modified.'}
            format.json { render :json => @forgot_password, status: :created, location: @forgot_password }
 
@@ -82,15 +81,15 @@ class ForgotPasswordsController < ApplicationController
   def update
     @forgot_password = ForgotPassword.new
     key = params[:key]
-    @forgot_password.set_token(key)
+    @forgot_password.token = key
     respond_to do |format|
       user = APP_LDAP_CLIENT.read_user_resetkey(key)
       if (!!user)
         resetKey = user[:resetKey]
         currentTimestamp = DateTime.current.utc.to_i
         difference = currentTimestamp - Integer(resetKey.sub(key + "@", ""))
-        puts difference
-        if difference >= 0 && difference < 86400
+        
+        if difference >= 0 && difference < Integer(APP_CONFIG['reset_password_lifespan'])
           format.html { render action: "update" }
           format.json { render json: @forgot_password, status: :created, location: @forgot_password }
         else 
@@ -129,7 +128,6 @@ class ForgotPasswordsController < ApplicationController
           format.html { redirect_to "/forgotPassword/notify", notice: 'Your password reset instructions are sent to your email. Please follow the instructions in the email' }
           format.json { render :json => @forgot_password, status: :created, location: @forgot_password }
         rescue Exception => e
-          puts e
           @forgot_password.errors.add(:base, "Unable to reset your password. Please contact, The Shared Learning Collaborative")
           format.html { render action: "reset" }
           format.json { render json: @forgot_password.errors, status: :unprocessable_entity }
@@ -139,19 +137,6 @@ class ForgotPasswordsController < ApplicationController
         format.html { render action: "reset" }
         format.json { render json: @forgot_password.errors, status: :unprocessable_entity }
       end
-    end
-    #redirect_to(:controller => "reset_passwords", :action => "show")
-  end
-
-  # DELETE /forgot_passwords/1
-  # DELETE /forgot_passwords/1.json
-  def destroy
-    @forgot_password = ForgotPassword.find(params[:id])
-    @forgot_password.destroy
-
-    respond_to do |format|
-      format.html { redirect_to forgot_passwords_url }
-      format.json { head :ok }
     end
   end
 end

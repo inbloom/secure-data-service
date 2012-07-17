@@ -47,7 +47,7 @@ class ApplicationMailer < ActionMailer::Base
     user = APP_LDAP_CLIENT.read_user(email)
     @fullName = user[:first] + " " + user[:last]
     @resetPasswordUrl = APP_CONFIG['email_replace_uri'] + "/resetPassword?key=" + key
-    mail(:to => 'vummalaneni@wgen.net', :subject => FORGOT_PASSWORD_SUBJECT )
+    mail(:to => user[:emailAddress], :subject => FORGOT_PASSWORD_SUBJECT )
   end
   
   def verify_email(email_address, firstName, userEmailValidationLink)

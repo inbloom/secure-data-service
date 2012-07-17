@@ -36,10 +36,6 @@ class ForgotPassword
     end
   end
   
-  def set_token(token) 
-    self.token = token
-  end
-  
   def persisted?
     false
   end
