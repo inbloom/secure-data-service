@@ -38,24 +38,6 @@ class SLCFixer
     time = Time.now
 
     @threads = []
-<<<<<<< HEAD
-    Benchmark.bm(20) do |x|
-      x.report('students')    {stamp_students}
-      @threads << Thread.new {x.report('section')    {stamp_sections}}
-      @threads << Thread.new {x.report('program')    {stamp_programs}}
-      @threads << Thread.new {x.report('cohort')     {stamp_cohorts}}
-      @threads << Thread.new {x.report('parent')     {stamp_parents}}
-      @threads << Thread.new {x.report('assessments')     {stamp_assessments}}
-      @threads << Thread.new {x.report('disciplines')     {stamp_disciplines}}
-      @threads << Thread.new {x.report('other')     {stamp_other}}
-      @threads << Thread.new {x.report('student_associations')     {stamp_student_associations}}
-      @threads << Thread.new {x.report('teacher')     {stamp_teacher}}
-      @threads << Thread.new {x.report('studentGradebookEntry')     {stamp_gradebook}}
-      @threads << Thread.new {x.report('school')     {stamp_schools}}
-    end
-
-    @threads.each do |th|
-=======
     measure('students') {stamp_students}
     @threads << Thread.new {measure('sections') {stamp_sections}}
     @threads << Thread.new {measure('programs') {stamp_programs}}
@@ -70,7 +52,6 @@ class SLCFixer
     @threads << Thread.new {measure('schools') {stamp_schools}}
 
     @threads.each { |th|
->>>>>>> teacher-stamper-updates
       th.join
     }
 
