@@ -272,23 +272,24 @@ public class UserResource {
                 EntityBody body = new EntityBody();
                 body.put("response", "Sandbox SLC Operator can not have tenant/edorg");
                 return Response.status(Status.BAD_REQUEST).entity(body).build();
-            }} else if (groupsAllowed.contains(RoleInitializer.SANDBOX_SLC_OPERATOR)) {
-                if (user.getTenant() == null) {
-                    EntityBody body = new EntityBody();
-                    body.put("response", "Required tenant info is missing");
-                    return Response.status(Status.BAD_REQUEST).entity(body).build();
-                }
-            } else if (groupsAllowed.contains(RoleInitializer.SANDBOX_ADMINISTRATOR)) {
-                if (user.getTenant() == null) {
-                    EntityBody body = new EntityBody();
-                    body.put("response", "Required tenant info is missing");
-                    return Response.status(Status.BAD_REQUEST).entity(body).build();
-                } else if (!user.getTenant().equals(SecurityUtil.getTenantId())) {
-                    EntityBody body = new EntityBody();
-                    body.put("response", "tenant info mismatch");
-                    return Response.status(Status.BAD_REQUEST).entity(body).build();
-                }
             }
+        } else if (groupsAllowed.contains(RoleInitializer.SANDBOX_SLC_OPERATOR)) {
+            if (user.getTenant() == null) {
+                EntityBody body = new EntityBody();
+                body.put("response", "Required tenant info is missing");
+                return Response.status(Status.BAD_REQUEST).entity(body).build();
+            }
+        } else if (groupsAllowed.contains(RoleInitializer.SANDBOX_ADMINISTRATOR)) {
+            if (user.getTenant() == null) {
+                EntityBody body = new EntityBody();
+                body.put("response", "Required tenant info is missing");
+                return Response.status(Status.BAD_REQUEST).entity(body).build();
+            } else if (!user.getTenant().equals(SecurityUtil.getTenantId())) {
+                EntityBody body = new EntityBody();
+                body.put("response", "tenant info mismatch");
+                return Response.status(Status.BAD_REQUEST).entity(body).build();
+            }
+        }
 
         return null;
     }

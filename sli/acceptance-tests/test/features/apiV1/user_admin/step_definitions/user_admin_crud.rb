@@ -69,8 +69,8 @@ end
 Given /^I navigate to "(.*?)" "(.*?)"$/ do |action, link|
 # puts @new_update_user
   @new_update_user = append_hostname(@new_update_user)
-  puts "\n\r"
-  puts @new_update_user
+ # puts "\n\r"
+ # puts @new_update_user
   @append_host=true
   if action == "POST"
     restHttpDelete(link+"/"+@new_update_user["uid"])
