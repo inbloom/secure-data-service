@@ -242,7 +242,11 @@ task :ingestionSmokeTests do
   Rake::Task["ingestionAcceptanceSdsTest"].invoke
 end
 
-############################################################
+desc "Run Small Sample Data Set Test"
+task :ingestionSmallSampleDataSet do
+  runTests("test/features/ingestion/features/ingestion_SmallSampleDataSet.feature")
+end
+
 # Ingestion tests end
 ############################################################
 
