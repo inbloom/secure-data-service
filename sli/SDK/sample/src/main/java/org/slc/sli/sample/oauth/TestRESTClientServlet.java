@@ -177,6 +177,9 @@ public class TestRESTClientServlet extends HttpServlet {
             URL resourceURL = new URL(resourceLocation);
 
             Response response = client.putRequest(resourceURL, updatedMonique);
+            if (response.getStatus() != Status.NO_CONTENT.getStatusCode()) {
+                return FAILED;
+            }
             response = client.getRequest(resourceURL);
 
             JsonNode student = mapper.readTree(response.readEntity(String.class));
@@ -208,7 +211,7 @@ public class TestRESTClientServlet extends HttpServlet {
     private String testDelete(RESTClient client) {
 
         try {
-            String resourceLocation = persistInMongo(STUDENT_MONIQUE, client, ResourceNames.STUDENTS);
+            String resourceLocation = create(STUDENT_MONIQUE, ResourceNames.STUDENTS, client);
             if (resourceLocation != null) {
                 URL resourceURL = new URL(resourceLocation);
 
@@ -282,7 +285,7 @@ public class TestRESTClientServlet extends HttpServlet {
         Response response = null;
         try {
 
-            String location = persistInMongo(jsonObj, client, resourceType);
+            String location = create(jsonObj, resourceType, client);
             if (location == null) {
                 return null;
             }
@@ -305,7 +308,7 @@ public class TestRESTClientServlet extends HttpServlet {
     }
 
 
-    private String persistInMongo(String jsonObj, RESTClient client, String resourceType) throws MalformedURLException, URISyntaxException {
+    private String create(String jsonObj, String resourceType, RESTClient client) throws MalformedURLException, URISyntaxException {
 
         URL url = URLBuilder.create(client.getBaseURL()).entityType(resourceType).build();
         Response response = client.postRequest(url, jsonObj);
