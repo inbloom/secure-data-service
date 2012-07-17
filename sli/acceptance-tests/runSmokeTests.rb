@@ -92,8 +92,8 @@ Dir.chdir "#{dir}/acceptance-tests"
 pid = Process.spawn('bundle exec rake smokeTests')
 Process.wait(pid)
 
-puts "signaling child processes to terminate"
-gpid = Process.getpgrp()
-Process.setpgid(Process.pid, 0)
-Process.fork { exec "kill -15 -#{gpid}; sleep 5; kill -9 -#{gpid}" }
-Process.waitall
+#puts "signaling child processes to terminate"
+#gpid = Process.getpgrp()
+#Process.setpgid(Process.pid, 0)
+#Process.fork { exec "kill -15 -#{gpid}; sleep 5; kill -9 -#{gpid}" }
+#Process.waitall

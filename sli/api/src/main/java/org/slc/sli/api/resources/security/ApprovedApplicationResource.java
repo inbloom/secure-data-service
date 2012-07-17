@@ -54,12 +54,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
 /**
  * Used to retrieve the list of apps that a user is allowed to use.
@@ -180,7 +174,7 @@ public class ApprovedApplicationResource {
         }
         return false;
     }
-    
+
     private List<String> getUsersRoles() {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ArrayList<String> toReturn = new ArrayList(principal.getRoles());

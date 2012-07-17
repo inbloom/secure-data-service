@@ -16,24 +16,26 @@
 
 package org.slc.sli.api.resources.config;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.slc.sli.api.representation.EntityBody;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertNotNull;
+import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
-import javax.xml.stream.XMLStreamException;
 import java.io.ByteArrayInputStream;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
+import javax.xml.stream.XMLStreamException;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import org.slc.sli.api.representation.EntityBody;
 
 /**
  * @author jstokes
@@ -86,13 +88,12 @@ public class StAXMsgBodyReaderTest {
 
     @Test
     public void testMaps() {
-        final String xmlMaps =
-                "<test>" +
-                  "<key1>" +
-                    "<ek1>ev1</ek1>" +
-                    "<ek2>ev2</ek2>" +
-                  "</key1>" +
-                "</test>";
+        final String xmlMaps = "<test>"
+                + "<key1>"
+                + "<ek1>ev1</ek1>"
+                + "<ek2>ev2</ek2>"
+                + "</key1>"
+                + "</test>";
 
         EntityBody body = null;
         try {
@@ -113,38 +114,38 @@ public class StAXMsgBodyReaderTest {
     @Test
     public void testSomethingComplex() {
         final String complexXML =
-            "<school xmlns:sli=\"urn:sli\">\n" +
-            "  <id>8cc0a1ac-ccb5-dffc-1d74-32964722179b</id>\n" +
-            "  <schoolCategories sli:member=\"true\">Middle School</schoolCategories>\n" +
-            "  <gradesOffered sli:member=\"true\">Sixth grade</gradesOffered>\n" +
-            "  <gradesOffered sli:member=\"true\">Eighth grade</gradesOffered>\n" +
-            "  <gradesOffered sli:member=\"true\">Seventh grade</gradesOffered>\n" +
-            "  <organizationCategories sli:member=\"true\">School</organizationCategories>\n" +
-            "  <address sli:member=\"true\">\n" +
-            "    <addressType>Physical</addressType>\n" +
-            "    <streetNumberName>456 Blah Street</streetNumberName>\n" +
-            "    <city>Las Vegas</city>\n" +
-            "    <stateAbbreviation>NV</stateAbbreviation>\n" +
-            "    <postalCode>66666</postalCode>\n" +
-            "    <nameOfCounty>Vegas County</nameOfCounty>\n" +
-            "  </address>\n" +
-            "  <address sli:member=\"true\">\n" +
-            "    <addressType>Physical</addressType>\n" +
-            "    <streetNumberName>123 Blah Street</streetNumberName>\n" +
-            "    <city>Durham</city>\n" +
-            "    <stateAbbreviation>NC</stateAbbreviation>\n" +
-            "    <postalCode>66666</postalCode>\n" +
-            "    <nameOfCounty>Durham</nameOfCounty>\n" +
-            "  </address>\n" +
-            "  <parentEducationAgencyReference>bd086bae-ee82-4cf2-baf9-221a9407ea07</parentEducationAgencyReference>\n" +
-            "  <stateOrganizationId>152901004</stateOrganizationId>\n" +
-            "  <entityType>school</entityType>\n" +
-            "  <telephone sli:member=\"true\">\n" +
-            "    <institutionTelephoneNumberType>Main</institutionTelephoneNumberType>\n" +
-            "    <telephoneNumber>(333) 344-7777</telephoneNumber>\n" +
-            "  </telephone>\n" +
-            "  <nameOfInstitution>Purple Middle School</nameOfInstitution>\n" +
-            "</school>\n";
+                "<school xmlns:sli=\"urn:sli\">\n"
+                        + "  <id>8cc0a1ac-ccb5-dffc-1d74-32964722179b</id>\n"
+                        + "  <schoolCategories sli:member=\"true\">Middle School</schoolCategories>\n"
+                        + "  <gradesOffered sli:member=\"true\">Sixth grade</gradesOffered>\n"
+                        + "  <gradesOffered sli:member=\"true\">Eighth grade</gradesOffered>\n"
+                        + "  <gradesOffered sli:member=\"true\">Seventh grade</gradesOffered>\n"
+                        + "  <organizationCategories sli:member=\"true\">School</organizationCategories>\n"
+                        + "  <address sli:member=\"true\">\n"
+                        + "    <addressType>Physical</addressType>\n"
+                        + "    <streetNumberName>456 Blah Street</streetNumberName>\n"
+                        + "    <city>Las Vegas</city>\n"
+                        + "    <stateAbbreviation>NV</stateAbbreviation>\n"
+                        + "    <postalCode>66666</postalCode>\n"
+                        + "    <nameOfCounty>Vegas County</nameOfCounty>\n"
+                        + "  </address>\n"
+                        + "  <address sli:member=\"true\">\n"
+                        + "    <addressType>Physical</addressType>\n"
+                        + "    <streetNumberName>123 Blah Street</streetNumberName>\n"
+                        + "    <city>Durham</city>\n"
+                        + "    <stateAbbreviation>NC</stateAbbreviation>\n"
+                        + "    <postalCode>66666</postalCode>\n"
+                        + "    <nameOfCounty>Durham</nameOfCounty>\n"
+                        + "  </address>\n"
+                        + "  <parentEducationAgencyReference>bd086bae-ee82-4cf2-baf9-221a9407ea07</parentEducationAgencyReference>\n"
+                        + "  <stateOrganizationId>152901004</stateOrganizationId>\n"
+                        + "  <entityType>school</entityType>\n"
+                        + "  <telephone sli:member=\"true\">\n"
+                        + "    <institutionTelephoneNumberType>Main</institutionTelephoneNumberType>\n"
+                        + "    <telephoneNumber>(333) 344-7777</telephoneNumber>\n"
+                        + "  </telephone>\n"
+                        + "  <nameOfInstitution>Purple Middle School</nameOfInstitution>\n"
+                        + "</school>\n";
 
         EntityBody body = null;
         try {
