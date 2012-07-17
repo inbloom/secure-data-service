@@ -41,7 +41,7 @@
   <xs:element name="studentParentAssociation" type="studentParentAssociation" />
   <xs:element name="studentProgramAssociation" type="studentProgramAssociation" />
   <xs:element name="studentSectionAssociation" type="studentSectionAssociation" />
-  <xs:element name="studentSectionGradebookEntry" type="studentSectionGradebookEntry" />
+  <xs:element name="studentGradebookEntry" type="studentGradebookEntry" />
   <xs:element name="studentSpecialEdProgramAssociation" type="studentSpecialEdProgramAssociation" />
   <xs:element name="studentSchoolAssociation" type="studentSchoolAssociation" />
   <xs:element name="studentTranscriptAssociation" type="studentTranscriptAssociation" />
