@@ -65,12 +65,12 @@ public final class MetaRelations {
     public static final int PROGRAMS_PER_SCHOOL = 2;
     public static final int PROGRAMS_PER_SEA = 1;
     public static final int STAFF_PER_PROGRAM = 8;
-    public static final int FREE_STANDING_COHORT_PER_SCHOOL = 10;
+    public static final int FREE_STANDING_COHORT_PER_SCHOOL = 2;
     public static final int FREE_STANDING_COHORT_SIZE = 50;//--
     public static final int STAFF_PER_FREE_STANDING_COHORT = 10;
     public static final int INV_PROB_SECTION_HAS_PROGRAM = 1;
     public static final int ASSESSMENTS_PER_STUDENT = 5;
-    public static final int ATTENDANCE_PER_STUDENT_SECTION = 1;//--
+    public static final int ATTENDANCE_PER_STUDENT_SECTION = 2;//--
     public static final int DISCPLINE_ACTIONS_PER_SCHOOL = 975;
     public static final int DISCPLINE_INCIDENTS_PER_SCHOOL = 975;
     public static final int INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT = 3000;
@@ -111,8 +111,8 @@ public final class MetaRelations {
     public static final Map<String, DisciplineActionMeta> DISCIPLINE_ACTION_MAP = new TreeMap<String, DisciplineActionMeta>();
     public static final Map<String, GraduationPlanMeta> GRADUATION_PLAN_MAP = new TreeMap<String, GraduationPlanMeta>();
 
-    public static final String SEA_PREFIX = "NY";
-    public static final String FIRST_TEACHER_ID = "cgray";
+    public static final String SEA_PREFIX = "CAP";
+    public static final String FIRST_TEACHER_ID = "lroslin";
     
     /**
      * Construct the meta relationships necessary for XML interchanges
