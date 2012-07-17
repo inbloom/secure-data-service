@@ -242,6 +242,11 @@ task :ingestionSmokeTests do
   Rake::Task["ingestionAcceptanceSdsTest"].invoke
 end
 
+desc "Run Ingestion HealthCheck Test"
+task :ingestionHealthCheckTest do
+  runTests("test/features/ingestion/features/ingestion_healthCheck.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################
