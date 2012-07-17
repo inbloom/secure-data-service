@@ -3746,10 +3746,10 @@
 		</xs:sequence>
 	</xs:complexType>
 
-	<xs:complexType name="studentSectionGradebookEntry">
+	<xs:complexType name="studentGradebookEntry">
 		<xs:annotation>
 			<xs:documentation>
-				StudentSectionGradebookEntry
+				StudentGradebookEntry
 				This entity holds a
 				student’s grade or competency level for a
 				GradeBookEntry.
@@ -5735,9 +5735,9 @@
 				assignment, homework, or classroom
 				assessment to be recorded in a
 				gradebook.
-				Associations: studentSectionGradebookEntry, section.
+				Associations: studentGradebookEntry, section.
 				This
-				is similar to a studentSectionGradebookEntry, but this entity
+				is similar to a studentGradebookEntry, but this entity
 				represents the
 				assessment/evaluation, not the grade a student
 				received.

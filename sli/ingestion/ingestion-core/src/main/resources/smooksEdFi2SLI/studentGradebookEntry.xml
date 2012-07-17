@@ -9,16 +9,16 @@
 
   <json:reader rootName="json" />
 
-  <jb:bean beanId="studentSectionGradebookEntrys" class="java.util.ArrayList" createOnElement="#document">
-    <jb:wiring beanIdRef="studentSectionGradebookEntry" />
+  <jb:bean beanId="studentGradebookEntrys" class="java.util.ArrayList" createOnElement="#document">
+    <jb:wiring beanIdRef="studentGradebookEntry" />
   </jb:bean>
 
-  <jb:bean beanId="studentSectionGradebookEntry" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
-    <jb:expression property="type">'studentSectionGradebookEntry'</jb:expression>
-    <jb:wiring property="body" beanIdRef="studentSectionGradebookEntryBody" />
+  <jb:bean beanId="studentGradebookEntry" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+    <jb:expression property="type">'studentGradebookEntry'</jb:expression>
+    <jb:wiring property="body" beanIdRef="studentGradebookEntryBody" />
   </jb:bean>
 
-  <jb:bean beanId="studentSectionGradebookEntryBody" class="java.util.HashMap" createOnElement="attributes">
+  <jb:bean beanId="studentGradebookEntryBody" class="java.util.HashMap" createOnElement="attributes">
     <jb:value property="studentId" data="attributes studentId" />
     <jb:value property="sectionId" data="attributes sectionId" />
     <jb:value property="gradebookEntryId" data="attributes gradebookEntryId" />
