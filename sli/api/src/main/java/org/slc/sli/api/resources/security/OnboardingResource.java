@@ -31,6 +31,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -58,6 +59,7 @@ import org.slc.sli.domain.enums.Right;
 public class OnboardingResource {
 
     @Autowired
+    @Qualifier("validationRepo")
     private Repository<Entity> repo;
 
     @Autowired

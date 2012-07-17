@@ -1,3 +1,5 @@
+# requires python 2.7+
+
 # use sli
 # db.system.profile.drop()
 # db.createCollection("system.profile", {capped:true, size:1024000000});
@@ -10,82 +12,109 @@
 import sys
 import json
 import re
+import collections
+from copy import deepcopy
 
-ignore = [[], ["_id"], ["$msg"]] #indexes to ignore
+IGNORE_IDX = [[], ["_id"], ["_id", "_id"], ["$msg"]] #indexes to ignore
+QUERY_OPS = ['query', 'remove', 'update'] #'getmore' op ignored
 
-indexes = []
-index_strings = []
-queries = []
-crnt_indexes = []
+TENANT_ID = "metaData.tenantId"
 
-if len(sys.argv) > 1:
-    jsonfile = open(sys.argv[1])
-    queries = jsonfile.read().splitlines()
-    if len(sys.argv) > 2:
-        indexfile = open(sys.argv[2])
-        crnt_indexes = indexfile.read().splitlines()
-else:
-    print "python parse-profile-dump.py system.profile.json [current_sli_indexes]"
-    exit(0)
+def is_count_cmd(json_object):
+    return json_object['op'] == 'command' and 'count' in json_object['command']
 
-def handle_new_index(ns, keys, query):
-    if keys not in ignore:
-        new_index = (ns, keys, query)
-        indexes.append(new_index)
+def build_query_list(query_json_object):
+    indexes = []
+    for key in query_json_object:
+        if key == '$or':
+            new_indexes = []
+            or_array = query_json_object[key]
+            for ora in or_array:
+                new_or_indexes = build_query_list(ora.keys())
+                copy_of_indexes = deepcopy(indexes)
+                for coi in copy_of_indexes:
+                    coi.extend(new_or_indexes[0])
+                new_indexes.extend(copy_of_indexes)
+            indexes = new_indexes
+        else:
+            if len(indexes) == 0:
+                indexes.append([key])
+            else:
+                for idx in indexes:
+                    idx.append(key)
+
+    return indexes
+
+def format_index(ns, idx):
+    if TENANT_ID in idx and idx[0] != TENANT_ID:
+        idx.remove(TENANT_ID)
+        idx.insert(0, TENANT_ID)
+
+    return "db[\"%s\"].ensureIndex({\"%s\":1});" % (ns.replace('sli.',''), "\":1,\"".join(idx))
 
 def handle_query(json_object, query):
+    indexes = []
     ns = json_object['ns']
-    query_keys = json_object['query'].keys()
-    # if it's an $or query, handle each disjunct
-    # TODO - ordering in $or disjuncts? (currently uses the first disjunct during output below)
-    if '$or' in query_keys:
-        for or_query_key in json_object['query']['$or']:
-            handle_new_index(ns, or_query_key.keys(), query)
-    else:
-        handle_new_index(ns, query_keys, query)
+    query_object = json_object['query']
+    if 'query' in query_object:
+        query_object = query_object['query']
+    new_indexes = build_query_list(query_object)
+    for idx in new_indexes:
+        if idx not in IGNORE_IDX:
+            indexes.append(format_index(ns, idx))
+    return indexes
 
 def handle_count(json_object, query):
+    indexes = []
     ns = json_object['command']['count']
-    count_query = json_object['command']['query']
-    if len(count_query.keys()) > 0:
-        handle_new_index(ns, count_query.keys(), query)
+    new_indexes = build_query_list(json_object['command']['query'])
+    for idx in new_indexes:
+        if idx not in IGNORE_IDX:
+            indexes.append(format_index(ns, idx))
+    return indexes
 
-# iterate through lines of json, looking for query operations, ignoring
-# sli.system and sli.custom
-for query in queries:
-    # reformat the date, don't care about the actual value
-    query = re.sub(r'Date\(\s\d*\s\)', '"date"', query)
+def remove_crnt_indexes(indexes, crnt_indexes):
+    new_indexes = []
+    for idx in indexes:
+        if idx not in crnt_indexes:
+            new_indexes.append(idx)
 
-    if 'sli.system' in query or 'sli.custom' in query:
-        continue
+    return new_indexes
 
-    json_object = json.loads(query)
+def parse_profile_dump(queries, crnt_indexes):
+    indexes = []
+    for query in queries:
+        # reformat the date, don't care about the actual value
+        query = re.sub(r'Date\(\s\d*\s\)', '"date"', query)
+        json_object = json.loads(query, object_pairs_hook=collections.OrderedDict)
 
-    if 'op' in json_object:
-        if json_object['op'] == 'query':
-            handle_query(json_object, query)
-        elif json_object['op'] == 'command' and 'count' in json_object['command'] and 'query' in json_object['command']:
-            handle_count(json_object, query)
+        if 'op' in json_object:
+            if json_object['op'] in QUERY_OPS:
+                indexes.extend(handle_query(json_object, query))
+            elif is_count_cmd(json_object) and 'query' in json_object['command']:
+                indexes.extend(handle_count(json_object, query))
 
-# order the indexes based on their order in the query, and generate a javascript
-# command to create the index
-for index in indexes:
-    index_fields_sort = []
-    table, index_fields, query = index
-    table = table.replace('sli.','')
+    indexes = remove_crnt_indexes(indexes, crnt_indexes)
 
-    for field in index_fields:
-        index_fields_sort.append((query.find(field), field))
+    indexes = sorted(set(indexes))
+    for idx in indexes:
+        print idx
 
-    index_fields_sort = sorted(index_fields_sort)
-    order, index_fields = zip(*index_fields_sort)
+def main():
+    if len(sys.argv) > 1:
+        jsonfile = open(sys.argv[1])
+        queries = jsonfile.read().splitlines()
+        jsonfile.close()
+        crnt_indexes = []
+        if len(sys.argv) > 2:
+            indexfile = open(sys.argv[2])
+            crnt_indexes = indexfile.read().splitlines()
+            indexfile.close()
+        parse_profile_dump(queries, crnt_indexes)
+    else:
+        print "python parse-profile-dump.py system.profile.json [current_sli_indexes]"
+        exit(0)
 
-    new_index_string = "db[\"%s\"].ensureIndex({\"%s\":1});" % (table, "\":1,\"".join(index_fields))
-    if new_index_string not in index_strings:
-        index_strings.append(new_index_string)
 
-# sort the strings alphabetically, print
-for str in sorted(index_strings):
-    # do not print if index is already in index file
-    if str not in crnt_indexes:
-        print str
+if __name__ == "__main__":
+    main()

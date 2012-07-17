@@ -167,7 +167,7 @@ public class SessionGenerator {
     public static Session generateLowFi(String id, String schoolId, List<String> calendarList) {
         Session session = new Session();
         Random random = new Random();
-        int roll = random.nextInt(30) + 1;
+        int roll = 1;//random.nextInt(30) + 1;
         session.setSessionName(id);
         session.setSchoolYear("2011-2012");
         session.setTerm(TermType.SPRING_SEMESTER);
@@ -180,7 +180,7 @@ public class SessionGenerator {
         	session.setBeginDate("2012-01-" + roll );
         
         if (roll < 10 ) {
-            session.setEndDate("2012-01-" + finalRoll );
+            session.setEndDate("2012-06-" + finalRoll );
         }
         else
         	session.setEndDate("2012-06-" + + roll);

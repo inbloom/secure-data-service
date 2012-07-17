@@ -271,8 +271,11 @@ public class UserResource {
         return null;
     }
 
+    private static final String[] ADMIN_ROLES = new String[] {
+        RoleInitializer.LEA_ADMINISTRATOR, RoleInitializer.SEA_ADMINISTRATOR, RoleInitializer.SLC_OPERATOR, RoleInitializer.SANDBOX_SLC_OPERATOR, RoleInitializer.SANDBOX_ADMINISTRATOR
+    };
     static Response validateAtMostOneAdminRole(final Collection<String> groups) {
-        Collection<String> adminRoles = new ArrayList<String>(Arrays.asList(RoleInitializer.ADMIN_ROLES));
+        Collection<String> adminRoles = new ArrayList<String>(Arrays.asList(ADMIN_ROLES));
         adminRoles.retainAll(groups);
         if (adminRoles.size() > 1) {
             EntityBody body = new EntityBody();

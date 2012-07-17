@@ -30,6 +30,9 @@ import org.slc.sli.api.security.roles.RoleBuilder;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 /**
  * A simple initializing bean to initialize our Mongo instance with default roles.
@@ -55,13 +58,9 @@ public class RoleInitializer {
     public static final String SANDBOX_ADMINISTRATOR = "Sandbox Administrator";
     public static final String ROLES = "roles";
 
-    public static final String[] ADMIN_ROLES = new String[] {
-        LEA_ADMINISTRATOR, SEA_ADMINISTRATOR, SLC_OPERATOR, SANDBOX_SLC_OPERATOR, SANDBOX_ADMINISTRATOR
-    };
-
     @Autowired
-    private Repository<Entity> repository;
-
+    @Qualifier("validationRepo")
+    private Repository<Entity>    repository;
     @PostConstruct
     public void init() {
         dropRoles();
