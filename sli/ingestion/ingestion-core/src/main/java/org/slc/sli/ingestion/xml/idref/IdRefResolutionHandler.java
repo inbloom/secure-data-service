@@ -58,6 +58,7 @@ import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.referenceresolution.ReferenceResolutionStrategy;
 import org.slc.sli.ingestion.util.FileUtils;
+import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
@@ -584,7 +585,7 @@ public class IdRefResolutionHandler extends AbstractIngestionHandler<IngestionFi
             browse(eventReader, addToXml);
 
         } catch (XMLStreamException e) {
-            LOG.error("Exception reading xml stream for idref", e);
+            LogUtil.error(LOG,"Exception reading xml stream for idref", e);
         }
     }
 

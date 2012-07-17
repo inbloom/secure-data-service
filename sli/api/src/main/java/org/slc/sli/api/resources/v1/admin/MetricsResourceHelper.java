@@ -8,7 +8,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 
 /**
- * TODO: add javadoc
+ * Helper class for calculating system usage metrics.
  *
  */
 public class MetricsResourceHelper {

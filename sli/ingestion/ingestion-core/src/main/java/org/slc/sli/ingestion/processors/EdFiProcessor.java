@@ -51,17 +51,17 @@ import org.springframework.stereotype.Component;
  * Camel interface for processing our EdFi batch job.
  * Derives the handler to use based on the file format of the files in the batch job and delegates
  * the processing to it.
- * 
+ *
  * @author dduran
- * 
+ *
  */
 @Component
 public class EdFiProcessor implements Processor {
-    
+
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.EDFI_PROCESSOR;
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(EdFiProcessor.class);
-    
+
     @Autowired
     private SmooksFileHandler smooksFileHandler;
 
@@ -81,7 +81,7 @@ public class EdFiProcessor implements Processor {
 
     private void processEdFi(WorkNote workNote, Exchange exchange) {
         LOG.info("Starting stage: {}", BATCH_JOB_STAGE);
-        
+
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
         String batchJobId = workNote.getBatchJobId();
@@ -136,9 +136,9 @@ public class EdFiProcessor implements Processor {
             FileFormat fileFormat = fe.getFileType().getFileFormat();
             if (fileFormat == FileFormat.EDFI_XML) {
                 LOG.info("Processing file: {}", fe.getFile().getPath());
-                
+
                 smooksFileHandler.handle(fe, errorReport, fileProcessStatus);
-                
+
                 LOG.info("Done processing file: {}", fe.getFile().getPath());
             } else {
                 throw new IllegalArgumentException("Unsupported file format: " + fe.getFileType().getFileFormat());
@@ -210,6 +210,6 @@ public class EdFiProcessor implements Processor {
     private void handleNoBatchJobIdInExchange(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+        LOG.error("No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 }
