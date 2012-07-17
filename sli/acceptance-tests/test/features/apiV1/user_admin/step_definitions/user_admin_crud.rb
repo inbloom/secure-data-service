@@ -19,25 +19,28 @@ Given /^I have a role "([^"]*)"$/ do |role|
 end
 
 Then /^I should receive a list of size "([^"]*)" of "([^"]*)"$/ do |number, wanted_admin_role|
-  if number == "1 or more" 
+  if number == "1 or more"
   number =1
   elsif number == "0"
   number = 0
   end
   if number==1 or number ==0
-  #print_administrator_comma_separated
-  @user_with_wanted_admin_role = []
-  @result.each { |user|
-    user_contains_wanted_role = (user['groups'].index(wanted_admin_role) != nil)
-    if user_contains_wanted_role
-      if(!@logged_in_user['tenantId'].nil?)
-        assert_equal(@logged_in_user['tenantId'], user['tenant'], "Logged in user should only be able to see users from same tenancy.\nLogged In User: #{@logged_in_user}\nUser shown: #{user}")
-      end
-      @user_with_wanted_admin_role << user
+    @number =number
+    #print_administrator_comma_separated
+    @user_with_wanted_admin_role = []
+    if @res.code == 200
+      @result.each { |user|
+        user_contains_wanted_role = (user['groups'].index(wanted_admin_role) != nil)
+        if user_contains_wanted_role
+          if(!@logged_in_user['tenantId'].nil?)
+            assert_equal(@logged_in_user['tenantId'], user['tenant'], "Logged in user should only be able to see users from same tenancy.\nLogged In User: #{@logged_in_user}\nUser shown: #{user}")
+          end
+        @user_with_wanted_admin_role << user
+        end
+      }
+      assert( (number==0&&@user_with_wanted_admin_role.length==number)||(number==1&&@user_with_wanted_admin_role.length>=number), "Users with group #{wanted_admin_role}: #{@user_with_wanted_admin_role.to_yaml}")
     end
-  }
-  assert( (number==0&&@user_with_wanted_admin_role.length==number)||(number==1&&@user_with_wanted_admin_role.length>=number), "Users with group #{wanted_admin_role}: #{@user_with_wanted_admin_role.to_yaml}")
-end
+  end
 end
 
 Given /^the new\/update user has$/ do
@@ -46,16 +49,15 @@ end
 
 Given /^"(.*?)" is "(.*?)"$/ do |key, value|
   if key == "fullName" && value!= ""
-  @new_update_user.merge!({"firstName" => value.split(" ")[0], "lastName" => value.split(" ")[1]})
+    @new_update_user.merge!({"firstName" => value.split(" ")[0], "lastName" => value.split(" ")[1]})
   elsif key!="role" && key!="additional_role"&&value!=""
-  puts "\n\r", key,value 
-  @new_update_user.merge!({key => value})
+    @new_update_user.merge!({key => value})
   elsif key=="role" && value!=""
-  @new_update_user.merge!({"groups" => [value]})
+    @new_update_user.merge!({"groups" => [value]})
   elsif key=="additional_role" && value!=""
-  roles = @new_update_user["groups"]
-  roles<<value
-  @new_update_user.merge!({"groups" => roles })
+    roles = @new_update_user["groups"]
+    roles<<value
+    @new_update_user.merge!({"groups" => roles })
   end
   @new_update_user.merge!({"homeDir" => "/dev/null","password" => "test1234"})
 end
@@ -65,16 +67,21 @@ Given /^the format is "(.*?)"$/ do |format|
 end
 
 Given /^I navigate to "(.*?)" "(.*?)"$/ do |action, link|
+# puts @new_update_user
+  @new_update_user = append_hostname(@new_update_user)
+  puts "\n\r"
   puts @new_update_user
+  @append_host=true
   if action == "POST"
-  restHttpDelete(link,@new_update_user.to_json)
-  restHttpPost(link,@new_update_user.to_json)
+    restHttpDelete(link+"/"+@new_update_user["uid"])
+    restHttpPost(link,@new_update_user.to_json)
   elsif action=="PUT"
-  restHttpPut(link,@new_update_user.to_json)
+    restHttpDelete(link+"/"+@new_update_user["uid"])
+    restHttpPost(link,@new_update_user.to_json)
+    restHttpPut(link,@new_update_user.to_json)
   end
-  
-end
 
+end
 
 Then /^each account has "(.*?)", "(.*?)", "(.*?)", "(.*?)" and "(.*?)"$/ do |fullName, uid, email, createTime, modifyTime|
   @user_with_wanted_admin_role.each {|user|
@@ -87,33 +94,42 @@ Then /^each account has "(.*?)", "(.*?)", "(.*?)", "(.*?)" and "(.*?)"$/ do |ful
 end
 
 Then /^one of the accounts has "([^"]*)", "([^"]*)", "([^"]*)"$/ do |fullName, uid, email|
-  if(!(fullName=="" && uid=="" && email==""))
+  if(!((fullName=="" && uid=="" && email=="")||@number==0))
+    #append host name to new user that will be created
+    if @append_host==true && uid!=""
+      uid=uid+"_"+Socket.gethostname
+    end
     contains_specified_user = false
     @user_with_wanted_admin_role.each {|user|
       if((fullName==""||user['fullName'] == fullName) && (uid==""||user['uid'] == uid) && (email==""||user['email'] == email))
       # puts user["fullName"],user["uid"],user["email"]
-        contains_specified_user = true
-        break
+      contains_specified_user = true
+      break
       end
     }
     assert(contains_specified_user, "Cannot find user with fullName = #{fullName}, uid = #{uid}, and email = #{email} in the following: #{@user_with_wanted_admin_role.to_yaml}")
   end
+  #remove the test user that is created for create and update test
+  if @append_host==true
+    remove_user(@new_update_user)
+  end
+
 end
 
 def get_user(uid)
 =begin
-  @result.each { |user|
-    return user if(user['uid'] == uid)
-  }
+@result.each { |user|
+return user if(user['uid'] == uid)
+}
 =end
-userSession_coll = @db['userSession']
-userSessions = userSession_coll.find({"body.principal.externalId" => uid})
-user=nil
-userSessions.each do |userSession|
-user=userSession["body"]["principal"]
-end
+  userSession_coll = @db['userSession']
+  userSessions = userSession_coll.find({"body.principal.externalId" => uid})
+  user=nil
+  userSessions.each do |userSession|
+    user=userSession["body"]["principal"]
+  end
 
-return user
+  return user
 end
 
 def print_administrator_comma_separated
@@ -131,3 +147,15 @@ def print_administrator_comma_separated
     puts entry
   }
 end
+
+def append_hostname(user )
+  oldUid = user["uid"]
+  newUid = oldUid+"_"+Socket.gethostname
+  user.merge!({"uid" => newUid})
+  return user
+end
+
+def remove_user(user)
+  restHttpDelete("/users/"+user["uid"])
+end
+
