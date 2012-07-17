@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -44,6 +45,7 @@ public class DelegationUtil {
     private EdOrgToChildEdOrgNodeFilter edOrgNodeFilter;
 
     @Autowired
+    @Qualifier("validationRepo")
     Repository<Entity> repo;
 
     public String getUsersStateUniqueId() {

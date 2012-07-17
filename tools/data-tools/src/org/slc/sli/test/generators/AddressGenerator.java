@@ -125,7 +125,7 @@ public class AddressGenerator {
             add.setBuildingSiteNumber(bldgNumber);
             add.setCity(city);
             add.setStateAbbreviation(StateAbbreviationType.fromValue(state));
-            add.setPostalCode(postalCode);
+            add.setPostalCode("22234");
             add.setNameOfCounty(county);
             add.setCountyFIPSCode("    ");
 //            add.setCountry(CountryType.UNITED_STATES);
@@ -144,7 +144,7 @@ public class AddressGenerator {
 
     public static Address generateLowFi() {
         Address add = new Address();
-
+    
         add.setStreetNumberName("streetNumberName");
         add.setApartmentRoomSuiteNumber("7C");
         add.setBuildingSiteNumber("BuildingSiteNumber");
@@ -152,7 +152,7 @@ public class AddressGenerator {
         add.setStateAbbreviation(StateAbbreviationType.AK);
         add.setPostalCode("12345");
         add.setNameOfCounty("County");
-        add.setCountyFIPSCode("FIPS");
+        add.setCountyFIPSCode("99999");
         // add.setCountry(CountryType.UNITED_STATES);
         // add.getAddressLine().add("address line 1");
         // add.getAddressLine().add("address line 2");

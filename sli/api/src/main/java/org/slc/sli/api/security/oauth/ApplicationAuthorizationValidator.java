@@ -32,6 +32,7 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -46,6 +47,7 @@ import org.springframework.stereotype.Component;
 public class ApplicationAuthorizationValidator {
 
     @Autowired
+    @Qualifier("validationRepo")
     private Repository<Entity> repo;
 
     @Autowired

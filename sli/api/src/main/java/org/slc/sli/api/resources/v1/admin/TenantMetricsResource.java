@@ -18,6 +18,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -40,6 +41,7 @@ import org.slc.sli.domain.enums.Right;
 public class TenantMetricsResource {
 
     @Autowired
+    @Qualifier("validationRepo")
     protected Repository<Entity> repo;
 
     @GET

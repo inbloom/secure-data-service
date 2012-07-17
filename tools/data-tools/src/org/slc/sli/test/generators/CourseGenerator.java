@@ -307,12 +307,13 @@ public class CourseGenerator {
         course.setCourseTitle(cc.getID());
 
         EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
+        edOrgIdentityType.setStateOrganizationId(schoolId);
  
 // TODO Comment out the next 4 lines ...
-        EducationOrgIdentificationCode eoic = new EducationOrgIdentificationCode();
-        eoic.setIdentificationSystem(EducationOrgIdentificationSystemType.SCHOOL);
-        eoic.setID(schoolId);
-        edOrgIdentityType.getEducationOrgIdentificationCode().add(eoic);
+        //EducationOrgIdentificationCode eoic = new EducationOrgIdentificationCode();
+        //eoic.setIdentificationSystem(EducationOrgIdentificationSystemType.SCHOOL);
+        //eoic.setID(schoolId);
+        //edOrgIdentityType.getEducationOrgIdentificationCode().add(eoic);
 // TODO and uncomment this 1 line to implement changes coming out of HERMOD.
 //        edOrgIdentityType.setStateOrganizationId(schoolId);
         // edOrgIdentityType.getStateOrganizationIdOrEducationOrgIdentificationCode().add(eoic);
