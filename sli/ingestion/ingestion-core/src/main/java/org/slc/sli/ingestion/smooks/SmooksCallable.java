@@ -126,7 +126,7 @@ public class SmooksCallable implements Callable<Boolean> {
             errorReport.fatal("Could not instantiate smooks, unable to read configuration file.",
                     SmooksFileHandler.class);
         } catch (SAXException e) {
-            LOG.error("Could not instantiate smooks, problem parsing configuration file");
+            LogUtil.error(LOG,"Could not instantiate smooks, problem parsing configuration file", e);
             errorReport.fatal("Could not instantiate smooks, problem parsing configuration file.",
                     SmooksFileHandler.class);
         }
@@ -146,7 +146,7 @@ public class SmooksCallable implements Callable<Boolean> {
             populateRecordCountsFromSmooks(smooks, fileProcessStatus, ingestionFileEntry);
 
         } catch (SmooksException se) {
-            LOG.error("smooks exception - encountered problem with " + ingestionFileEntry.getFile().getName(),
+            LogUtil.error(LOG,"smooks exception - encountered problem with " + ingestionFileEntry.getFile().getName(),
                     se);
             errorReport.error("SmooksException encountered while filtering input.", SmooksFileHandler.class);
         } finally {

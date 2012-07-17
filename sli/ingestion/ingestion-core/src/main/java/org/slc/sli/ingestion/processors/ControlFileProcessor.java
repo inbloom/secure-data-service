@@ -108,7 +108,7 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
     private void handleNoBatchJobIdInExchange(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+        LOG.error("No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
     private void processControlFile(Exchange exchange, String batchJobId) {

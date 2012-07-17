@@ -497,8 +497,8 @@
 		<xs:annotation>
 			<xs:documentation>GradebookEntry This entity represents a teacher’s
 				assignment, homework, or classroom assessment to be recorded in a
-				gradebook. Associations: studentSectionGradebookEntry, section. This
-				is similar to a studentSectionGradebookEntry, but this entity
+				gradebook. Associations: studentGradebookEntry, section. This
+				is similar to a studentGradebookEntry, but this entity
 				represents the assessment/evaluation, not the grade a student
 				received. Limitations: None</xs:documentation>
 		</xs:annotation>
@@ -1225,15 +1225,15 @@
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>
-	<xs:element name="studentSectionGradebookEntrys">
+	<xs:element name="studentGradebookEntrys">
 		<xs:annotation>
-			<xs:documentation>StudentSectionGradebookEntry This entity holds a
+			<xs:documentation>StudentGradebookEntry This entity holds a
 				student’s grade or competency level for a GradeBookEntry.
 				Associations: Student, Section, GradebookEntry</xs:documentation>
 		</xs:annotation>
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element name="studentSectionGradebookEntry" type="StudentSectionGradebookEntry"
+				<xs:element name="studentGradebookEntry" type="StudentGradebookEntry"
 					minOccurs="0" maxOccurs="unbounded"></xs:element>
 			</xs:sequence>
 		</xs:complexType>
@@ -9609,7 +9609,7 @@
 			</xs:choice>
 		</xs:sequence>
 	</xs:complexType>
-	<xs:complexType name="StudentSectionGradebookEntry">
+	<xs:complexType name="StudentGradebookEntry">
 		<xs:sequence>
 			<xs:element name="dateFulfilled" type="xs:date" minOccurs="0">
 				<xs:annotation>

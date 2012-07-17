@@ -77,8 +77,8 @@ public class StudentGradebookOptionalFieldAppenderTest {
         gradebookEntryId1 = repo.create("gradebookEntry", createGradebookEntry()).getEntityId();
         gradebookEntryId1 = repo.create("gradebookEntry", createGradebookEntry()).getEntityId();
 
-        repo.create("studentSectionGradebookEntry", createStudentSectionGradebookEntry(STUDENT_ID, SECTION_ID, gradebookEntryId1));
-        repo.create("studentSectionGradebookEntry", createStudentSectionGradebookEntry(STUDENT_ID, SECTION_ID, gradebookEntryId1));
+        repo.create("studentGradebookEntry", createStudentGradebookEntry(STUDENT_ID, SECTION_ID, gradebookEntryId1));
+        repo.create("studentGradebookEntry", createStudentGradebookEntry(STUDENT_ID, SECTION_ID, gradebookEntryId1));
     }
 
     @After
@@ -94,10 +94,10 @@ public class StudentGradebookOptionalFieldAppenderTest {
         entities = studentGradebookOptionalFieldAppender.applyOptionalField(entities, null);
         assertEquals("Should be 1", 1, entities.size());
 
-        List<EntityBody> studentSectionGradebookAssociations = (List<EntityBody>) entities.get(0).get("studentGradebookEntries");
-        assertEquals("Should match", 2, studentSectionGradebookAssociations.size());
-        assertEquals("Should match", STUDENT_ID, studentSectionGradebookAssociations.get(0).get("studentId"));
-        assertEquals("Should match", SECTION_ID, studentSectionGradebookAssociations.get(0).get("sectionId"));
+        List<EntityBody> studentGradebookAssociations = (List<EntityBody>) entities.get(0).get("studentGradebookEntries");
+        assertEquals("Should match", 2, studentGradebookAssociations.size());
+        assertEquals("Should match", STUDENT_ID, studentGradebookAssociations.get(0).get("studentId"));
+        assertEquals("Should match", SECTION_ID, studentGradebookAssociations.get(0).get("sectionId"));
 
         EntityBody body = (EntityBody) ((List<EntityBody>) entities.get(0).get("studentGradebookEntries")).get(0);
         EntityBody gradebookEntry = (EntityBody) body.get("gradebookEntries");
@@ -124,7 +124,7 @@ public class StudentGradebookOptionalFieldAppenderTest {
         return entity;
     }
 
-    private Map<String, Object> createStudentSectionGradebookEntry(String studentId, String sectionId,
+    private Map<String, Object> createStudentGradebookEntry(String studentId, String sectionId,
                                                                    String gradebookEntryId) {
         Map<String, Object> entity = new HashMap<String, Object>();
         entity.put("studentId", studentId);
