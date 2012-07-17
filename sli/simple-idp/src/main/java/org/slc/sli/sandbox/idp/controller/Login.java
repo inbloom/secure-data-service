@@ -221,25 +221,6 @@ public class Login {
 
     }
 
-    /*
-     * Form for force password change
-     */
-    @RequestMapping(value = "/forcePasswordChange", method = RequestMethod.GET)
-    public ModelAndView forcePasswordChange(
-            HttpServletRequest request) {
-    	//place holder for force password change
-    	ModelAndView mav = new ModelAndView("forcePasswordChange");
-        return mav;
-    }
-    
-    /*
-     * PUT Method for change password
-     */
-    @RequestMapping(value = "/changePassword", method = RequestMethod.PUT)
-    public ModelAndView changePassword(){
-    	return new ModelAndView("put");
-    }
-    
     private void writeLoginSecurityEvent(boolean successful, String userId, List<String> roles, String edOrg,
             HttpServletRequest request) {
         SecurityEvent event = new SecurityEvent();
