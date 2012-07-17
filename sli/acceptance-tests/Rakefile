@@ -583,7 +583,7 @@ task :ingestionTests => [:loadDefaultIngestionTenants,:ingestionAcceptanceSdsTes
                          :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest,
                          :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest, :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest,
                          :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest, 
-                         :ingestionEmptyControlFileTest, :ingestionDryRunTest, :ingestionCourseOfferingTest, :ingestionComplexObjectArrayIdRefTest ] do
+                         :ingestionEmptyControlFileTest, :ingestionDryRunTest, :ingestionCourseOfferingTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest ] do
 
   displayFailureReport()
   if $SUCCESS
@@ -622,7 +622,7 @@ end
 # SDK Tests start
 ############################################################
 desc "Run JavaSDK acceptance tests"
-task :JavaSDKTests => [:JavaSDKSampleAppTest,:JavaSDKCRUDTest] do
+task :JavaSDKTests => [:JavaSDKSampleAppTest,:JavaSDKCRUDTest,:JavaRESTCRUDTest] do
     displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"

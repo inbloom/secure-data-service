@@ -20,6 +20,8 @@ ingestion_username: "ingestion"
 ingestion_remote_lz_path: "/home/ingestion/"
 ingestion_mode: "local"
 ingestion_destination_data_store: "../ingestion/ingestion-service/target/ingestion/logs/"
+ingestion_service_url: "http://local.slidev.org:8000/ingestion-service"
+ingestion_healthcheck_suffix: "/HealthCheck"
 
 DB_HOST: "localhost"
 api_database_name : "sli"
