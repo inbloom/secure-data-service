@@ -18,6 +18,8 @@ limitations under the License.
 
 ######################################
 # WIP: Requires changing API logging #
+# Eventually could insert records    #
+# into mongo from API logs           #
 ######################################
 
 require 'rubygems'

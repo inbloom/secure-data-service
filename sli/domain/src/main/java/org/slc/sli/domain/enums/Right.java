@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.domain.enums;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
@@ -25,23 +25,13 @@ import org.springframework.security.core.GrantedAuthority;
  * FULL_ACCESS -> allows operations on all entities everywhere without regard for associations
  */
 public enum Right implements GrantedAuthority {
-    ANONYMOUS_ACCESS,
-    READ_GENERAL,
-    WRITE_GENERAL,
-    READ_RESTRICTED,
-    WRITE_RESTRICTED,
-    AGGREGATE_READ,
-    AGGREGATE_WRITE,
-    ADMIN_ACCESS,
-    FULL_ACCESS,
-    CRUD_REALM_ROLES,
-    ROLE_CRUD,
-    SLC_APP_APPROVE,
-    EDORG_APP_AUTHZ,
-    EDORG_DELEGATE,
-    DEV_APP_CRUD,
-    INGEST_DATA,
-    READ_PUBLIC;
+    ANONYMOUS_ACCESS, READ_GENERAL, WRITE_GENERAL, READ_RESTRICTED, WRITE_RESTRICTED, AGGREGATE_READ, AGGREGATE_WRITE, ADMIN_ACCESS, FULL_ACCESS, CRUD_REALM_ROLES, ROLE_CRUD, SLC_APP_APPROVE, EDORG_APP_AUTHZ, EDORG_DELEGATE, DEV_APP_CRUD, INGEST_DATA, CRUD_SLC_OPERATOR, CRUD_SANDBOX_SLC_OPERATOR, CRUD_SANDBOX_ADMIN, CRUD_SEA_ADMIN, CRUD_LEA_ADMIN, READ_PUBLIC;
+
+    public static final GrantedAuthority[] PROD_ADMIN_CRUD_RIGHTS = new Right[] {CRUD_LEA_ADMIN, CRUD_SEA_ADMIN, CRUD_SLC_OPERATOR};
+
+    public static final GrantedAuthority[] SANDBOX_ADMIN_CRUD_RIGHTS = new Right[] {CRUD_SANDBOX_ADMIN, CRUD_SANDBOX_SLC_OPERATOR};
+
+    public static final GrantedAuthority[] ALL_ADMIN_CRUD_RIGHTS = ArrayUtils.addAll(PROD_ADMIN_CRUD_RIGHTS, SANDBOX_ADMIN_CRUD_RIGHTS);
 
     @Override
     public String getAuthority() {

@@ -48,7 +48,7 @@ import org.slc.sli.domain.Repository;
  * Mock implementation of the Repository<Entity> for unit testing.
  *
  */
-@Component
+@Component("validationRepo")
 @Primary
 public class MockRepo implements Repository<Entity> {
     @Override

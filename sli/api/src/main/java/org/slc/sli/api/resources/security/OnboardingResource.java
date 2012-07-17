@@ -31,6 +31,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -58,6 +59,7 @@ import org.slc.sli.domain.enums.Right;
 public class OnboardingResource {
 
     @Autowired
+    @Qualifier("validationRepo")
     private Repository<Entity> repo;
 
     @Autowired
@@ -76,16 +78,7 @@ public class OnboardingResource {
     public static final String ADDRESS_STATE_ABRV = "stateAbbreviation";
     public static final String ADDRESS_POSTAL_CODE = "postalCode";
     public static final String CATEGORIES = "organizationCategories";  // 'State Education Agency'
-    public static final String APPLICATION_RESOURCE_NAME = "application";
-    public static final String APPLICATION_AUTH_RESOURCE_NAME = "applicationAuthorization";
-    public static final String APPLICATION_NAME = "name";
-    public static final String APPLICATION_AUTH_EDORGS = "authorized_ed_orgs";
-    public static final String AUTH_TYPE_EDUCATION_ORGANIZATION = "EDUCATION_ORGANIZATION";
-    public static final String AUTH_TYPE = "authType";
-    public static final String AUTH_ID = "authId";
-    public static final String APP_IDS = "appIds";
-    public static final String APP_BOOTSTRAP = "bootstrap";
-
+    
     private final String landingZoneServer;
 
 
