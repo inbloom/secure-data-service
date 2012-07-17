@@ -50,11 +50,6 @@ module LandingZoneHelper
     FileUtils.makedirs(rsaKeyDir)
     keyFile = File.join(rsaKeyDir, uid)
     Rails.logger.debug("Writing public key to #{keyFile}")
-    # Format key as needed by sftp: 
-    # remove carrage returns
-    key = key.tr("\r", "") 
-    # append trailing newline. 
-    key = key + "\n"
     file = File.new(keyFile, "w")
     file.write(key)
     file.close()
