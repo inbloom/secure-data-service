@@ -49,6 +49,7 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |Realm_Administrator    |IL-DAYBREAK                  |401 |IL             |IL-DAYBREAK   |
     |Ingestion_Administrator|IL-DAYBREAK                  |401 |IL             |IL-DAYBREAK   |
 
+  @wip
   @production
   Scenario Outline:  As an administrator I can read all admin accounts in my tenancy
     
@@ -78,8 +79,9 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |sunsetadmin|sunsetadmin1234|LEA Administrator      |SLI        |Ingestion User              |200 |1 or more|Sunset IngestionUser|sunsetingestionuser          |sunsetingestionuser@slidev.org|
     |sunsetrealmadmin|sunsetrealmadmin1234 |Realm Administrator     |SLI        |                |403 |         |                |                                  |                            |
     |ingestionuser   |ingestionuser1234    |Ingestion User          |SLI        |                |403 |         |                |                                  |                            |
-  
+
   #sandbox
+  @wip
   Scenario Outline:  As a admin I am able to read all admin accounts in my tenancy on sandbox
    Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
     And I have a role "<ADMIN_ROLE>"
@@ -101,7 +103,8 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator|SLI     |Ingestion User        |200 |1 or more|Sandbox IngestionUser|sandboxingestionuser   |sandboxingestionuser@slidev.org|
     |sandboxdeveloper |sandboxdeveloper1234 |Application Developer  |SLI         |                        |403 |         |                |                             |                               |
     |ingestionuser    |ingestionuser1234    |Ingestion User          |SLI        |                        |403 |        |                |                              |                              |
-    
+
+  @wip
   @production
   Scenario Outline:  As a admin I am able to create/update admin accounts in my tenancy
     Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
@@ -177,6 +180,7 @@ Feature: As an admin I can create admin accounts for tenancies I administer
 
 
   #sandbox
+  @wip
   Scenario Outline:  As a admin I am able to create/update admin accounts in my tenancy on sandbox
     Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
     And I have a role "<ADMIN_ROLE>"
@@ -221,84 +225,82 @@ Feature: As an admin I can create admin accounts for tenancies I administer
 #    |Application_Developer  |Shared Learning Collaborative|SLC_Operator                |DEFAULT              |PUT       |401 |401      |0     |SLC_Operator_2     |SLCOP2     |SLC_Operator@test.com |                      |
 #    |Application_Developer  |Shared Learning Collaborative|Admin_App_Developer         |DEFAULT              |PUT       |401 |401      |0     |Admin_App_Developer|AdminAppDev|Admin_App_Dev@test.com|Admin_App_Dev@test.com|
 #    |Application_Developer  |Shared Learning Collaborative|Application_Developer       |DEFAULT              |PUT       |401 |401      |1     |App_Developer      |AppDev     |App_Dev@test.com      |Admin_App_Dev@test.com|
-
   @wip
   @production
-  Scenario Outline:  As a admin I am able to delete admin accounts in my tenancy if there will be 1 left
-    Given I have a <ADMIN_ROLE>
-    When I am authenticated on <ADMIN_REALM>
-    And I navigate to DELETE  <WANTED_ADMIN_ROLE_URI>
-    And there are 2 admins with <WANTED_ADMIN_ROLE>
-    Then I should receive a return code of <CODE>
-    When I navigate to DELETE  <WANTED_ADMIN_ROLE_URI>
-    And there is only one admin with <WANTED_ADMIN_ROLE>
-    Then I should receive a return code of 400
+  Scenario Outline:  As a admin I am able to delete admin accounts in my tenancy
+    Given I have logged in to realm "<ADMIN_REALM>" using "<USER>" "<PASSWORD>"
+    And I have a role "<ADMIN_ROLE>"
+    And I have a tenant "<TENANT>" and edorg "<ED_ORG>"
+    When I navigate to DELETE  "<WANTED_ADMIN_ROLE>"
+    Then I should receive a return code "<CODE>"
 
   Examples:
-    |ADMIN_ROLE             |ADMIN_REALM                  |WANTED_ADMIN_ROLE           |CODE|
-    |SLC_Operator           |Shared Learning Collaborative|SLC_Operator                |200 |
-    |SLC_Operator           |Shared Learning Collaborative|SEA_Super_Administrator     |200 |
-    |SLC_Operator           |Shared Learning Collaborative|LEA_Super_Administrator     |200 |
-    |SLC_Operator           |Shared Learning Collaborative|Realm_Administrator         |200 |
-    |SLC_Operator           |Shared Learning Collaborative|Ingestion_Administrator     |200 |
-    |SEA_Super_Administrator|IL                           |SLC_Operator                |401 |
-    |SEA_Super_Administrator|IL                           |SEA_Super_Administrator     |200 |
-    |SEA_Super_Administrator|IL                           |LEA_Super_Administrator     |200 |
-    |SEA_Super_Administrator|IL                           |Realm_Administrator         |200 |
-    |SEA_Super_Administrator|IL                           |Ingestion_Administrator     |200 |
-    |LEA_Super_Administrator|IL-SUNSET                    |SLC_Operator                |401 |
-    |LEA_Super_Administrator|IL-SUNSET                    |SEA_Super_Administrator     |401 |
-    |LEA_Super_Administrator|IL-SUNSET                    |LEA_Super_Administrator     |200 |
-    |LEA_Super_Administrator|IL-SUNSET                    |Realm_Administrator         |200 |
-    |LEA_Super_Administrator|IL-SUNSET                    |Ingestion_Administrator     |200 |
-    |Realm_Administrator    |IL-SUNSET                    |SLC_Operator                |401 |
-    |Realm_Administrator    |IL-SUNSET                    |SEA_Super_Administrator     |401 |
-    |Realm_Administrator    |IL-SUNSET                    |LEA_Super_Administrator     |401 |
-    |Realm_Administrator    |IL-SUNSET                    |Realm_Administrator         |401 |
-    |Realm_Administrator    |IL-SUNSET                    |Ingestion_Administrator     |401 |
-    |Ingestion_Administrator|IL-SUNSET                    |SLC_Operator                |401 |
-    |Ingestion_Administrator|IL-SUNSET                    |SEA_Super_Administrator     |401 |
-    |Ingestion_Administrator|IL-SUNSET                    |LEA_Super_Administrator     |401 |
-    |Ingestion_Administrator|IL-SUNSET                    |Realm_Administrator         |401 |
-    |Ingestion_Administrator|IL-SUNSET                    |Ingestion_Administrator     |401 |
+    |USER              |PASSWORD            |ADMIN_ROLE             |ADMIN_REALM                  |WANTED_ADMIN_ROLE           |CODE|TENANT|ED_ORG     |
+    |operator          |operator1234        |SLC Operator           |SLI                          |SLC Operator                |200 |      |           |
+    |operator          |operator1234        |SLC Operator           |SLI                          |SEA Administrator           |200 |test  |test       |
+    |operator          |operator1234        |SLC Operator           |SLI                          |LEA Administrator           |200 |test  |test       |
+    |operator          |operator1234        |SLC Operator           |SLI                          |Realm Administrator         |200 |test  |test       |
+    |operator          |operator1234        |SLC Operator           |SLI                          |Ingestion User              |200 |test  |test       |
+    |iladmin           |iladmin1234         |SEA Administrator      |SLI                          |SLC Operator                |403 |Midgar|IL-SUNSET  |
+    |iladmin           |iladmin1234         |SEA Administrator      |SLI                          |SEA Administrator           |200 |Midgar|IL-SUNSET  |
+    |iladmin           |iladmin1234         |SEA Administrator      |SLI                          |LEA Administrator           |200 |Midgar|IL-SUNSET  |
+    |iladmin           |iladmin1234         |SEA Administrator      |SLI                          |Realm Administrator         |200 |Midgar|IL-SUNSET  |
+    |iladmin           |iladmin1234         |SEA Administrator      |SLI                          |Ingestion User              |200 |Midgar|IL-SUNSET  |
+    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |SLC Operator                |403 |Midgar|IL-SUNSET  |
+    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |SEA Administrator           |403 |Midgar|IL-SUNSET  |
+    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |LEA Administrator           |200 |Midgar|IL-SUNSET  |
+    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |Realm Administrator         |200 |Midgar|IL-SUNSET  |
+    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |Ingestion User              |200 |Midgar|IL-SUNSET  |
+    |sunsetrealmadmin  |sunsetrealmadmin1234|Realm Administrator    |SLI                          |SLC Operator                |403 |Midgar|IL-SUNSET  |
+    |sunsetrealmadmin  |sunsetrealmadmin1234|Realm Administrator    |SLI                          |SEA Administrator           |403 |Midgar|IL-SUNSET  |
+    |sunsetrealmadmin  |sunsetrealmadmin1234|Realm Administrator    |SLI                          |LEA Administrator           |403 |Midgar|IL-SUNSET  |
+    |sunsetrealmadmin  |sunsetrealmadmin1234|Realm Administrator    |SLI                          |Realm Administrator         |403 |Midgar|IL-SUNSET  |
+    |sunsetrealmadmin  |sunsetrealmadmin1234|Realm Administrator    |SLI                          |Ingestion User              |403 |Midgar|IL-SUNSET  |
+    |ingestionuser     |ingestionuser1234   |Ingestion User         |SLI                          |SLC Operator                |403 |Midgar|IL-SUNSET  |
+    |ingestionuser     |ingestionuser1234   |Ingestion User         |SLI                          |SEA Administrator           |403 |Midgar|IL-SUNSET  |
+    |ingestionuser     |ingestionuser1234   |Ingestion User         |SLI                          |LEA Administrator           |403 |Midgar|IL-SUNSET  |
+    |ingestionuser     |ingestionuser1234   |Ingestion User         |SLI                          |Realm Administrator         |403 |Midgar|IL-SUNSET  |
+    |ingestionuser     |ingestionuser1234   |Ingestion User         |SLI                          |Ingestion User              |403 |Midgar|IL-SUNSET  |
 
-  @wip
-  @sandbox
-  Scenario Outline:  As a admin on sandbox I am able to delete admin accounts in my tenancy if there will be 1 left
-    Given I have a <ADMIN_ROLE> with <ALLOWED_RIGHTS> on <TENANT_ID>
-    When I am authenticated on <ADMIN_REALM>
-    And I navigate to DELETE  <WANTED_ADMIN_ROLE_URI>
-    And there are 2 admins with <WANTED_ADMIN_ROLE>
-    Then I should receive a return code of <CODE>
-    When I navigate to DELETE  <WANTED_ADMIN_ROLE_URI
-    And there is only one admin with <WANTED_ADMIN_ROLE>
-    Then I should receive a return code of 400
+
+  #@sandbox
+  Scenario Outline:  As a admin on sandbox I am able to delete admin accounts in my tenancy
+    Given I have logged in to realm "<ADMIN_REALM>" using "<USER>" "<PASSWORD>"
+    And I have a role "<ADMIN_ROLE>"
+    And I have a tenant "<TENANT>" and edorg "<ED_ORG>"
+    When I navigate to DELETE  "<WANTED_ADMIN_ROLE>"
+    Then I should receive a return code "<CODE>"
 
   Examples:
-    |ADMIN_ROLE             |ADMIN_REALM                  |ALLOWED_RIGHTS       |WANTED_ADMIN_ROLE           |CODE|
-    |SLC_Operator           |Shared Learning Collaborative|DEFAULT              |SLC_Operator                |200 |
-    |SLC_Operator           |Shared Learning Collaborative|DEFAULT              |SEA_Super_Administrator     |200 |
-    |SLC_Operator           |Shared Learning Collaborative|DEFAULT              |LEA_Super_Administrator     |200 |
-    |SLC_Operator           |Shared Learning Collaborative|DEFAULT              |Realm_Administrator         |200 |
-    |SLC_Operator           |Shared Learning Collaborative|DEFAULT              |Ingestion_Administrator     |200 |
-    |Application_Developer  |Shared Learning Collaborative|SB_ACCOUNT_MANAGEMENT|SLC_Operator                |401 |
-    |Application_Developer  |Shared Learning Collaborative|SB_ACCOUNT_MANAGEMENT|Admin_App_Developer         |200 |
-    |Application_Developer  |Shared Learning Collaborative|SB_ACCOUNT_MANAGEMENT|Application_Developer       |200 |
-    |Application_Developer  |Shared Learning Collaborative|SB_ACCOUNT_MANAGEMENT|Realm_Administrator         |200 |
-    |Application_Developer  |Shared Learning Collaborative|SB_ACCOUNT_MANAGEMENT|Ingestion_Administrator     |200 |
-    |Application_Developer  |Shared Learning Collaborative|DEFAULT              |SLC_Operator                |401 |
-    |Application_Developer  |Shared Learning Collaborative|DEFAULT              |Admin_App_Developer         |401 |
-    |Application_Developer  |Shared Learning Collaborative|DEFAULT              |Application_Developer       |401 |
-    |Application_Developer  |Shared Learning Collaborative|DEFAULT              |Realm_Administrator         |401 |
-    |Application_Developer  |Shared Learning Collaborative|DEFAULT              |Ingestion_Administrator     |401 |
-    |Realm_Administrator    |Shared Learning Collaborative|DEFAULT              |SLC_Operator                |401 |
-    |Realm_Administrator    |Shared Learning Collaborative|DEFAULT              |Admin_App_Developer         |401 |
-    |Realm_Administrator    |Shared Learning Collaborative|DEFAULT              |Application_Developer       |401 |
-    |Realm_Administrator    |Shared Learning Collaborative|DEFAULT              |Realm_Administrator         |401 |
-    |Realm_Administrator    |Shared Learning Collaborative|DEFAULT              |Ingestion_Administrator     |401 |
-    |Ingestion_Administrator|Shared Learning Collaborative|DEFAULT              |SLC_Operator                |401 |
-    |Ingestion_Administrator|Shared Learning Collaborative|DEFAULT              |Admin_App_Developer         |401 |
-    |Ingestion_Administrator|Shared Learning Collaborative|DEFAULT              |Application_Developer       |401 |
-    |Ingestion_Administrator|Shared Learning Collaborative|DEFAULT              |Realm_Administrator         |401 |
-    |Ingestion_Administrator|Shared Learning Collaborative|DEFAULT              |Ingestion_Administrator     |401 |
+    |USER                 |PASSWORD                 |ADMIN_ROLE             |ADMIN_REALM                  |WANTED_ADMIN_ROLE           |CODE|TENANT|ED_ORG     |
+    |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |Sandbox SLC Operator        |200 |      |           |
+    |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |SEA Administrator           |200 |Midgar|IL-SUNSET  |
+    |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |LEA Administrator           |200 |Midgar|IL-SUNSET  |
+    |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |Realm Administrator         |200 |Midgar|IL-SUNSET  |
+    |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |Ingestion User              |200 |Midgar|IL-SUNSET  |
+    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Sandbox SLC Operator        |200 |Midgar|IL-SUNSET  |
+    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |SEA Administrator           |200 |Midgar|IL-SUNSET  |
+    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |LEA Administrator           |200 |Midgar|IL-SUNSET  |
+    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Realm Administrator         |200 |Midgar|IL-SUNSET  |
+    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Ingestion User              |200 |Midgar|IL-SUNSET  |
+    |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Sandbox SLC Operator        |403 |Midgar|IL-SUNSET  |
+    |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Sandbox Administrator       |200 |Midgar|IL-SUNSET  |
+    |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Application Developer       |200 |Midgar|IL-SUNSET  |
+    |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Realm Administrator         |200 |Midgar|IL-SUNSET  |
+    |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Ingestion User              |200 |Midgar|IL-SUNSET  |
+    |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Sandbox SLC Operator        |403 |Midgar|IL-SUNSET  |
+    |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Sandbox Administrator       |403 |Midgar|IL-SUNSET  |
+    |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Application Developer       |403 |Midgar|IL-SUNSET  |
+    |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Realm Administrator         |403 |Midgar|IL-SUNSET  |
+    |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Ingestion User              |403 |Midgar|IL-SUNSET  |
+    |sunsetrealmadmin     |sunsetrealmadmin1234     |Realm Administrator    |SLI                          |Sandbox SLC Operator        |403 |Midgar|IL-SUNSET  |
+    |sunsetrealmadmin     |sunsetrealmadmin1234     |Realm Administrator    |SLI                          |Sandbox Administrator       |403 |Midgar|IL-SUNSET  |
+    |sunsetrealmadmin     |sunsetrealmadmin1234     |Realm Administrator    |SLI                          |Application Developer       |403 |Midgar|IL-SUNSET  |
+    |sunsetrealmadmin     |sunsetrealmadmin1234     |Realm Administrator    |SLI                          |Realm Administrator         |403 |Midgar|IL-SUNSET  |
+    |sunsetrealmadmin     |sunsetrealmadmin1234     |Realm Administrator    |SLI                          |Ingestion User              |403 |Midgar|IL-SUNSET  |
+    |ingestionuser        |ingestionuser1234        |Ingestion User         |SLI                          |Sandbox SLC Operator        |403 |Midgar|IL-SUNSET  |
+    |ingestionuser        |ingestionuser1234        |Ingestion User         |SLI                          |Sandbox Administrator       |403 |Midgar|IL-SUNSET  |
+    |ingestionuser        |ingestionuser1234        |Ingestion User         |SLI                          |Application Developer       |403 |Midgar|IL-SUNSET  |
+    |ingestionuser        |ingestionuser1234        |Ingestion User         |SLI                          |Realm Administrator         |403 |Midgar|IL-SUNSET  |
+    |ingestionuser        |ingestionuser1234        |Ingestion User         |SLI                          |Ingestion User              |403 |Midgar|IL-SUNSET  |
 

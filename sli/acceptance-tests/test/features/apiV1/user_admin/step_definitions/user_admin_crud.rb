@@ -116,6 +116,31 @@ Then /^one of the accounts has "([^"]*)", "([^"]*)", "([^"]*)"$/ do |fullName, u
 
 end
 
+Given /^I have a tenant "(.*?)" and edorg "(.*?)"$/ do |tenant, edorg|
+  @tenant = tenant
+  @edorg = edorg
+end
+
+When /^I navigate to DELETE  "(.*?)"$/ do |wanted_admin_role|
+  idpRealmLogin("operator", nil)
+  sessionId = @sessionId
+  new_user = build_user("test_user", [wanted_admin_role], @tenant, @edorg)
+  format = "application/json"
+  restHttpDelete("/users/#{new_user['uid']}", format, sessionId)
+  restHttpPost("/users", new_user.to_json, format, sessionId)
+
+  idpRealmLogin(@user, nil)
+  sessionIdTestAdmin = @sessionId
+  restHttpDelete("/users/#{new_user['uid']}", format, sessionIdTestAdmin)
+  @response_code = @res.code
+
+  restHttpDelete("/users/#{new_user['uid']}", format, sessionId)
+end
+
+Then /^I should receive a return code "(.*?)"$/ do |return_code|
+  assert_equal(return_code.to_i, @response_code)
+end
+
 def get_user(uid)
 =begin
 @result.each { |user|
@@ -157,5 +182,20 @@ end
 
 def remove_user(user)
   restHttpDelete("/users/"+user["uid"])
+end
+
+def build_user(uid, groups, tenant, edorg)
+  new_user = {
+      "uid" => uid,
+      "groups" => groups,
+      "firstName" => "Test",
+      "lastName" => "User",
+      "password" => "#{uid}1234",
+      "email" => "testuser@wgen.net",
+      "tenant" => tenant,
+      "edorg" => edorg,
+      "homeDir" => "/dev/null"
+  }
+  append_hostname(new_user)
 end
 
