@@ -189,7 +189,9 @@ public class UserService {
  
             attributes.put("userName", context.getStringAttribute("cn"));
             
-            attributes.put("emailToken", context.getStringAttribute("displayName"));
+            String emailToken = context.getStringAttribute("displayName");
+            if(emailToken==null) emailToken = "";
+            attributes.put("emailToken", emailToken);
             
             String description = context.getStringAttribute("description");
             if (description != null && description.length() > 0) {
