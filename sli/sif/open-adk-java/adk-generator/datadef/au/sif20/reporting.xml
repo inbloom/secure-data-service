@@ -1,0 +1,34 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.1 reporting objects             -->
+<!-- ======================================== -->
+<adk package="reporting" version="2.0" namespace="http://www.sifinfo.org/au/infrastructure/2.x">
+  <!--ReportData object-->
+  <object name="ReportData" >
+    <desc>This object is here only as necessary for the ADK, but not supported in the UK data model</desc>
+  </object>
+  <!--SIF_ReportObject object-->
+  <object name="SIF_ReportObject" topic="true">
+    <desc>This object is here only as necessary for the ADK, but not supported in the UK data model</desc>
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that uniquely identifies this instance of a report.</desc>
+    </attribute>
+    <element name="ReportInfo" type="ReportInfo" flags="O" />
+    <element name="ReportData" type="ReportData" flags="O">
+      <desc>
+        Container element for the report content; one valid SIF object can occur as a child here. This element is conditional.
+        This element or ReportInfo or SIF_ExtendedQueryResults is included but never at the same time.
+        See examples of the usage of the object below.
+      </desc>
+    </element>
+    <element name="SIF_ExtendedQueryResults" type="SIF_ExtendedQueryResults" flags="O">
+      <desc>
+        The report content resulting from a SIF_ExtendedQuery-based report.  This element is conditional.
+        This element or ReportInfo or ReportData is included but never at the same time.
+      </desc>
+    </element>
+  </object>
+</adk>

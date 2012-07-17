@@ -1,0 +1,346 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.2 gradebook objects             -->
+<!-- ======================================== -->
+<adk package="gradebook" version="2.2" namespace="http://www.sifinfo.org/infrastructure/2.x">
+  <!--AuditInfo object-->
+  <object name="AuditInfo">
+    <element name="CreationUser" type="CreationUser" flags="O" />
+    <element name="CreationDateTime" type="DateTime" flags="O">
+      <desc>The date and time of this attendance record was created.</desc>
+    </element>
+  </object>
+  <!--AuditInfoType enum-->
+  <enum name="AuditInfoType">
+    <value name="OFFICE_STAFF" value="Office Staff" desc="Office Staff" />
+    <value name="SCHOOL_ADMIN" value="School Admin" desc="School Admin" />
+    <value name="PARENT" value="Parent" desc="Parent" />
+    <value name="NURSE" value="Nurse" desc="Nurse" />
+    <value name="TEACHER" value="Teacher" desc="Teacher" />
+    <value name="OTHER" value="Other" desc="Other" />
+  </enum>
+  <!--CreationUser object-->
+  <object name="CreationUser">
+    <attribute name="Type" enum="AuditInfoType" flags="R">
+      <desc>The role of the staff member for that created this attendance record.</desc>
+    </attribute>
+    <element name="UserId" type="NormalizedString" flags="R">
+      <desc>Unique identifier of the user that created the attendance record.  This will depend on the user and the source.  The preferred identifier would be a RefId for a StaffPersonal, StudentContact, or StudentPersonal Object.  However, the user may not be associated with any of these SIF objects.  In that case a unique ID given by the source should be used.</desc>
+    </element>
+  </object>
+  <!--DetailedDescription object-->
+  <object name="DetailedDescription">
+    <attribute name="Type" enum="DetailedDescriptionType" flags="R">
+      <desc>The type of information that is contained in the DetailedDescription element.</desc>
+    </attribute>
+  </object>
+  <!--DetailedDescriptionType enum-->
+  <enum name="DetailedDescriptionType">
+    <value name="URL" value="URL" desc="URL" />
+    <value name="PDF" value="PDF" desc="PDF" />
+  </enum>
+  <!--GradingAssignment object-->
+  <object name="GradingAssignment" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>A GUID that identifies GradingAssignment.</desc>
+    </attribute>
+    <attribute name="SectionInfoRefId" type="IdRefType" flags="R">
+      <desc>The GUID for the SectionInfo object.</desc>
+    </attribute>
+    <attribute name="TermInfoRefId" type="IdRefType" flags="R">
+      <desc>The GUID for the TermInfo object that defines the marking period that the assignment was created in.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that uniquely identifies the School that these Mark Values apply to.</desc>
+    </attribute>
+    <attribute name="GradingCategoryRefId" type="IdRefType" flags="R">
+      <desc>The GUID for the GradingCategory that this assignment is part of.</desc>
+    </attribute>
+    <element name="Description" type="String" flags="O">
+      <desc>The text-based description of the assignment.</desc>
+    </element>
+    <element name="PointsPossible" type="UnsignedInt" flags="O">
+      <desc>The points possible on the assignment.</desc>
+    </element>
+    <element name="CreateDate" type="Date" flags="O">
+      <desc>Creation date of the assignment.</desc>
+    </element>
+    <element name="DueDate" type="Date" flags="O">
+      <desc>Date the assignment is due.</desc>
+    </element>
+    <element name="Weight" type="Decimal" flags="O">
+      <desc>The weight of the assignment.</desc>
+    </element>
+    <element name="DetailedDescription" type="DetailedDescription" flags="O">
+      <desc>This element defines the assignment.  If the Type attribute is URL, this is the location of the document that describes the assignment.  If Type is PDF, this element will contain the Base64 encoding of the entire document.</desc>
+    </element>
+  </object>
+  <!--GradingAssignmentScore object-->
+  <object name="GradingAssignmentScore" topic="true">
+    <attribute name="StudentPersonalRefId" type="IdRefType" flags="R" />
+    <attribute name="SectionInfoRefId" type="IdRefType" flags="R" />
+    <attribute name="SchoolInfoRefId" type="IdRefType" flags="R">
+      <desc>The GUID that specifies the school this score was recorded at.</desc>
+    </attribute>
+    <attribute name="GradingAssignmentRefId" type="IdRefType" flags="R" />
+    <element name="ScorePoints" type="UnsignedInt" flags="O">
+      <desc>The score represented as points.  Conditionally required that one or more of ScorePoints, ScorePercent or ScoreLetter must be filled in.</desc>
+    </element>
+    <element name="ScorePercent" type="Decimal" flags="O">
+      <desc>The score represented as a percent.  Conditionally required that one or more of ScorePoints, ScorePercent or ScoreLetter must be filled in.</desc>
+    </element>
+    <element name="ScoreLetter" type="String" flags="O">
+      <desc>The score represented as a letter grade.  Conditionally required that one or more of ScorePoints, ScorePercent or ScoreLetter must be filled in.</desc>
+    </element>
+    <element name="ScoreDescription" type="String" flags="O">
+      <desc>Text description of the score.</desc>
+    </element>
+  </object>
+  <!--GradingCategory object-->
+  <object name="GradingCategory" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies a grading category.</desc>
+    </attribute>
+    <attribute name="SectionInfoRefId" type="IdRefType" flags="R">
+      <desc>The GUID for the SectionInfo object that this category is used for grading in.</desc>
+    </attribute>
+    <attribute name="TermInfoRefId" type="IdRefType" flags="R">
+      <desc>The GUID for the TermInfo object that defines the marking period that the category was created in.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that uniquely identifies the School that these Mark Values apply to.</desc>
+    </attribute>
+    <element name="Description" type="String" flags="O">
+      <desc>The name/short description of the category.</desc>
+    </element>
+  </object>
+  <!--Letter object-->
+  <object name="Letter" superclass="SIFList&lt;ValidMark&gt;">
+    <attribute name="IsAccepted" type="boolean" flags="M">
+      <desc>Indicates whether a letter Mark is accepted and is used in Change events to unambiguously signal whether support for the Mark has changed, especially ended.</desc>
+    </attribute>
+    <element name="ValidMark" type="ValidMark" flags="OR" />
+  </object>
+  <!--Mark object-->
+  <object name="Mark">
+    <attribute name="MarkInfoRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that identifies a mark that was given for this student.</desc>
+    </attribute>
+    <element name="Percentage" type="decimal" flags="C">
+      <desc>The percent score for this mark (0.00 - 100.00)</desc>
+    </element>
+    <element name="Numeric" type="unsignedInt" flags="C">
+      <desc>The raw numeric score for this mark.</desc>
+    </element>
+    <element name="Letter" type="normalizedString" flags="C">
+      <desc>The letter grade for this mark.</desc>
+    </element>
+    <element name="Narrative" type="string" flags="C">
+      <desc>The free form text narrative for this mark.</desc>
+    </element>
+  </object>
+  <!--MarkInfo object-->
+  <object name="MarkInfo" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that uniquely identifies this Grading Mark entity.</desc>
+    </attribute>
+    <attribute name="MarkValueInfoRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that uniquely identifies the MarkValueInfo.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that uniquely identifies the School that this Mark applies to.</desc>
+    </attribute>
+    <element name="SchoolYear" type="GYear" flags="O">
+      <desc>The year that this  MarkInfo applies to.</desc>
+    </element>
+    <element name="Description" type="String" flags="O">
+      <desc>Textual description of the type of Mark (e.g. "Marking Period Grade", "Comment 1", "Comment 2", "Conduct", "Effort", "WorkHabits").</desc>
+    </element>
+  </object>
+  <!--MarkInfoList object-->
+  <object name="MarkInfoList" superclass="SIFActionList&lt;MarkInfoRefId&gt;">
+    <attribute name="TermInfoRefId" flags="R" />
+    <attribute key="false" name="SIF_Action" flags="O" enum="SIFActionType">
+      <desc>In a Change event, this flag can be used to indicate an element has been deleted from the parent list container. At a minimum the key for the list must also be present.</desc>
+    </attribute>
+    <element name="MarkInfoRefId" type="MarkInfoRefId" flags="MR" />
+  </object>
+  <!--MarkInfoRefId object-->
+  <object name="MarkInfoRefId" datatype="IdRefType" />
+  <!--MarkList object-->
+  <object name="MarkList">
+    <element name="Mark" type="Mark" flags="OR" />
+  </object>
+  <!--MarkValueInfo object-->
+  <object name="MarkValueInfo" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that uniquely identifies this MarkValueInfo entity.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that uniquely identifies the School that these Mark Values apply to.</desc>
+    </attribute>
+    <element name="SchoolYear" type="GYear" flags="O">
+      <desc>The year that this  MarkValueInfo applies to.</desc>
+    </element>
+    <element name="Name" type="String" flags="O">
+      <desc>The text name of the value list ("Letter Grades", "Letter Grades (+/-)", "ESU", "Pass/Fail", "Override Grades", "Citizenship Comment Codes", etc.).</desc>
+    </element>
+    <element name="Percentage" type="Percentage" flags="O" />
+    <element name="Numeric" type="Numeric" flags="O" />
+    <element name="Letter" type="Letter" flags="O" />
+    <element name="Narrative" type="Narrative" flags="O" />
+  </object>
+  <!--Narrative object-->
+  <object name="Narrative">
+    <desc>If present, indicates that a free-form text narrative is accepted.</desc>
+    <attribute name="IsAccepted" type="boolean" flags="O">
+      <desc>Indicates whether a narrative is accepted and is used in Change events to unambiguously signal whether support for the Mark has changed, especially ended.</desc>
+    </attribute>
+    <element name="MaximumSize" type="uint" flags="O">
+      <desc>An integer value representing the maximum number of Unicode characters for the narrative, the UTF-8 encoding of which may be longer.</desc>
+    </element>
+  </object>
+  <!--Numeric object-->
+  <object name="Numeric">
+    <attribute name="IsAccepted" type="boolean" flags="O">
+      <desc>Indicates whether a numeric score is accepted and is used in Change events to unambiguously signal whether support for the Mark has changed, especially ended.</desc>
+    </attribute>
+    <element name="Precision" type="UnsignedInt" flags="O">
+      <desc>Number of significant digits.</desc>
+    </element>
+    <element name="Scale" type="UnsignedInt" flags="O">
+      <desc>Number of decimal places.</desc>
+    </element>
+    <element name="Low" type="Decimal" flags="O">
+      <desc>Lowest Mark in the range (e.g., 98, 3.95).</desc>
+    </element>
+    <element name="High" type="Decimal" flags="O">
+      <desc>Highest Mark in the range (e.g., 100, 4.0).</desc>
+    </element>
+  </object>
+  <!--OfficialStudentPeriodAttendance object-->
+  <object name="OfficialStudentPeriodAttendance" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R" />
+    <attribute name="StudentPersonalRefId" type="IdRefType" flags="R">
+      <desc>The GUID of the student that this attendance applies to.</desc>
+    </attribute>
+    <attribute name="SectionInfoRefId" type="IdRefType" flags="R">
+      <desc>The GUID of the section that this attendance applies to.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="IdRefType" flags="R">
+      <desc>The school where the attendance was recorded.  Somewhat redundant, needed for requests.</desc>
+    </attribute>
+    <attribute name="Date" type="Date" flags="R">
+      <desc>The date of the attendance event.</desc>
+    </attribute>
+    <element name="TimetablePeriod" type="NormalizedString" flags="O">
+      <desc>The period within which attendance is being reported, e.g. "4D".  Conditional on the SectionInfo object having MeetingTime elements.  If one or more are defined for the Section, this element is required.</desc>
+    </element>
+    <element name="TimeIn" type="Time" flags="O">
+      <desc>The time the student entered or returned to this class.</desc>
+    </element>
+    <element name="TimeOut" type="Time" flags="O">
+      <desc>The time the student left this class.</desc>
+    </element>
+    <element name="AttendanceCode" type="AttendanceCode" flags="O">
+      <desc>The local attendance code.</desc>
+    </element>
+    <element name="AuditInfo" type="AuditInfo" flags="O" />
+    <element name="AttendanceComment" type="String" flags="O">
+      <desc>This element contains the comments that are relevant to this attendance record.</desc>
+    </element>
+  </object>
+  <!--Percentage object-->
+  <object name="Percentage">
+    <desc>Indicates whether a percent Mark is accepted (format ##0.00).</desc>
+    <attribute name="IsAccepted" type="boolean" flags="O">
+      <desc>Indicates whether a percent Mark is accepted and is used in Change events to unambiguously signal whether support for the Mark has changed, especially ended.</desc>
+    </attribute>
+    <element name="Minimum" type="decimal" flags="O">
+      <desc>The minimum percent value accepted for this mark. If present, the publisher of this object is required to ensure that any values present in the StudentSectionMarks object will not be lower than this value.</desc>
+    </element>
+    <element name="Maximum" type="decimal" flags="O">
+      <desc>The maximum percent value accepted for this mark. If present, the publisher of this object is required to ensure that any values present in the StudentSectionMarks object will not be higher than this value.</desc>
+    </element>
+  </object>
+  <!--SectionMarkInfo object-->
+  <object name="SectionMarkInfo" topic="true">
+    <attribute name="SectionInfoRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that uniquely identifies the SectionInfo object that this item refers to.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that uniquely identifies the School that these Mark Values apply to.</desc>
+    </attribute>
+    <element name="TermMarkLists" type="TermMarkLists" flags="M" />
+  </object>
+  <!--StudentPeriodAttendance object-->
+  <object name="StudentPeriodAttendance" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R" />
+    <attribute name="StudentPersonalRefId" type="IdRefType" flags="R">
+      <desc>The GUID of the student that this attendance applies to.</desc>
+    </attribute>
+    <attribute name="SectionInfoRefId" type="IdRefType" flags="R">
+      <desc>The GUID of the section that this attendance applies to.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="IdRefType" flags="R">
+      <desc>The school where the attendance was recorded.  Somewhat redundant, needed for requests.</desc>
+    </attribute>
+    <attribute name="Date" type="Date" flags="R">
+      <desc>The date of the attendance event.</desc>
+    </attribute>
+    <element name="TimetablePeriod" type="NormalizedString" flags="O">
+      <desc>The period within which attendance is being reported, e.g. "4D".  Conditional on the SectionInfo object having MeetingTime elements.  If one or more are defined for the Section, this element is required.</desc>
+    </element>
+    <element name="TimeIn" type="Time" flags="O">
+      <desc>The time the student entered or returned to this class.</desc>
+    </element>
+    <element name="TimeOut" type="Time" flags="O">
+      <desc>The time the student left this class.</desc>
+    </element>
+    <element name="AttendanceCode" type="AttendanceCode" flags="O">
+      <desc>The local attendance code.</desc>
+    </element>
+    <element name="AuditInfo" type="AuditInfo" flags="O" />
+    <element name="AttendanceComment" type="String" flags="O">
+      <desc>This element contains the comments that are relevant to this attendance record.</desc>
+    </element>
+  </object>
+  <!--StudentSectionMarks object-->
+  <object name="StudentSectionMarks" topic="true">
+    <attribute name="StudentPersonalRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that uniquely identifies the StudentPersonal object that this item refers to.</desc>
+    </attribute>
+    <attribute name="SectionInfoRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that uniquely identifies the SectionInfo object that this item refers to.</desc>
+    </attribute>
+    <attribute name="TermInfoRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that identifies the marking period that the following marks are recorded in.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that uniquely identifies the School that these Mark Values apply to.</desc>
+    </attribute>
+    <element name="IsFinal" type="Boolean" flags="O">
+      <desc>Indicates if the grades are "Final" from the perspective of the teacher or school.  Does not mean that change events will not occur for this item.</desc>
+    </element>
+    <element name="MarkList" type="MarkList" flags="O" />
+  </object>
+  <!--TermMarkLists object-->
+  <object name="TermMarkLists" superclass="SIFList&lt;MarkInfoList&gt;">
+    <element name="MarkInfoList" type="MarkInfoList" flags="MR" />
+  </object>
+  <!--ValidMark object-->
+  <object name="ValidMark">
+    <element name="Code" type="Token" flags="M">
+      <desc>String representing the actual Mark that would appear on the report card (e.g., "A+", "I", "100").</desc>
+    </element>
+    <element name="NumericEquivalent" type="Decimal" flags="O">
+      <desc>Numeric equivalent for the Mark (e.g., 100, 4.0).</desc>
+    </element>
+    <element name="Description" type="String" flags="O">
+      <desc>The description for this code. (e.g. "Excellent", "Participates in Class", "Incomplete", etc...).</desc>
+    </element>
+  </object>
+</adk>

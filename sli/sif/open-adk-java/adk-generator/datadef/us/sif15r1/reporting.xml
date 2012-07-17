@@ -1,0 +1,300 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s) -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 1.5r1 reporting objects           -->
+<!-- ======================================== -->
+<adk package="reporting" version="1.5r1" name="Vertical Reporting" namespace="http://www.sifinfo.org/infrastructure/1.x">
+  <!--AuthorityLevel enum-->
+  <enum name="AuthorityLevel">
+    <value name="FEDERAL" value="Federal" desc="Federal" />
+    <value name="STATE" value="State" desc="State" />
+    <value name="RSA" value="RSA" desc="RSA" />
+    <value name="LEA" value="LEA" desc="LEA" />
+    <value name="SCHOOL" value="School" desc="School" />
+    <value name="OTHER" value="Other" desc="Other" />
+  </enum>
+  <!--IdStatus enum-->
+  <enum name="IdStatus">
+    <value name="REQUEST" value="Request" desc="This is a request to the state for an ID.  The StatePrId element may not necessarily be blank - if the requesting agency believes they know the student's state-assigned ID, StatePrId can be pre-filled for validation by the state." />
+    <value name="RELEASE" value="Release" desc="Some states require notification when a student leaves the district.  This request, accompanied by a valid StatePrId, instructs the state to release the binding between this student and the LEA..  The response should also be qualified Release" />
+    <value name="VALID" value="Valid" desc="Marks a response from the state with a valid StatePrId.  If the Request included a StatePrId, the value of StatePrId in the response could be different." />
+    <value name="AMBIGUOUS" value="Ambiguous" desc="Marks a response where the state couldn't uniquely identify the student based on the information provided.  The state may respond to the request with a single StudentLocator object marked &quot;Ambiguous&quot; and an empty StatePrId.  Alternatively, if the district agent supports it, the state response may include one or more StudentLocator objects with candidate matches.  Each of these objects would be marked &quot;Ambiguous&quot;, and populated per the particular state's policies.  StatePrId need not be empty in these objects." />
+    <value name="RESOLVE" value="Resolve" desc="If the state and district choose to resolve ambiguities via StudentLocator, the district might follow up an &quot;Ambiguous&quot; response that included match candidate(s) with a &quot;Resolve&quot; request populated with the information from the match candidate selected by the district." />
+    <value name="NEW" value="New" desc="If the state and district choose to resolve ambiguities via StudentLocator, the district might follow up an &quot;Ambiguous&quot; response that included match candidate(s) with a request marked &quot;New&quot; to notify the state that none of the match candidates is appropriate and a new state-assigned ID should be created." />
+  </enum>
+  <!--ReceivingAuthority object-->
+  <object name="ReceivingAuthority" datatype="IdRefType">
+    <desc>The authority for whom the report is intended, usually the same authority that defines this manifest.</desc>
+    <attribute name="SIF_RefObject" flags="R">
+      <desc>The name of the object referenced.</desc>
+    </attribute>
+  </object>
+  <!--ReportAuthorityInfo object-->
+  <object name="ReportAuthorityInfo" topic="true">
+    <desc>This object contains information on authorities that provide ReportManifest objects and/or collect SIF_ReportObject objects, such as state departments of education, regional service agencies, or other report collecting agencies.  SIF_Events are reported.</desc>
+    <attribute name="RefId" flags="R">
+      <desc>The unique identifier for this agency/report authority.</desc>
+    </attribute>
+    <element name="AuthorityName" flags="M">
+      <desc>Name of the agency/report authority.</desc>
+    </element>
+    <element name="AuthorityId" flags="M">
+      <desc>The zone unique case-sensitive identifier for the authority. This will be the contents of the SIF_SourceId element in the header of requests for reports.</desc>
+    </element>
+    <element name="AuthorityDepartment" renderAs="AuthorityDept" flags="O">
+      <desc>Department, office, or subdivision of the agency/report authority.</desc>
+    </element>
+    <element name="AuthorityLevel" enum="AuthorityLevel" flags="M">
+      <desc>Level of the authority.ValuesFederal, State, RSA, LEA, School, Other</desc>
+    </element>
+    <element name="ContactInfo" type="ContactInfo" flags="O">
+      <desc>Information on the contact person in this agency.  For a description of this element, see 5.1.3 ContactInfo</desc>
+    </element>
+    <element name="Address" type="Address" flags="O">
+      <desc>For a description of this element, see 5.1.1 Address.</desc>
+    </element>
+    <element name="PhoneNumber" type="PhoneNumber" flags="O" surrogate="PhoneNumberSurrogate{}">
+      <desc>For a description of this element, see 5.1.22 PhoneNumber.</desc>
+    </element>
+  </object>
+  <!--ReportData object-->
+  <object name="ReportData">
+    <desc>Container element for the report content.  This element is conditional. This element is included or the ReportInfo element is included but never both at the same time. See examples of the usage of the object below.</desc>
+  </object>
+  <!--ReportDefinitionSource object-->
+  <object name="ReportDefinitionSource">
+    <desc>Indicates where the report definition can be found.  If Type="Description", this element's value contains the report definition.  If Type="URL", this element's value is the URL pointing to the external source for the definition.  Type="SIF_Query" indicates that the SIF_QueryGroup element below contains the definition.</desc>
+    <attribute name="Type" enum="ReportDefinitionSourceType" flags="R">
+      <desc>This attribute indicates the source of the report definition. ValuesURL, Description, SIF_Query, ExampleObject</desc>
+    </attribute>
+  </object>
+  <!--ReportDefinitionSourceType enum-->
+  <enum name="ReportDefinitionSourceType">
+    <value name="DESCRIPTION" value="Description" desc="Description" deprecated="true" />
+    <value name="URL" value="URL" desc="URL" />
+    <value name="SIF_QUERY" value="SIF_Query" desc="SIF_Query" />
+    <value name="EXAMPLEOBJECT" value="ExampleObject" desc="ExampleObject" deprecated="true" />
+  </enum>
+  <!--ReportFormat object-->
+  <object name="ReportFormat">
+    <desc>References a third-party format that describes the visual representation of the report data.</desc>
+    <attribute name="Type" enum="ReportFormatType" flags="R">
+      <desc>This attribute indicates the encoding of the format reference.ValuesURL, Description, Base64Binary</desc>
+    </attribute>
+  </object>
+  <!--ReportFormatList object-->
+  <object name="ReportFormatList">
+    <element name="ReportFormat" type="ReportFormat" flags="OR">
+      <desc>References a third-party format that describes the visual representation of the report data.</desc>
+    </element>
+  </object>
+  <!--ReportFormatType enum-->
+  <enum name="ReportFormatType">
+    <value name="URL" value="URL" desc="URL" />
+    <value name="DESCRIPTION" value="Description" desc="Description" deprecated="true" />
+    <value name="BASE64BINARY" value="Base64Binary" desc="Base64Binary" />
+    <value name="SIFQUERY" value="SIF_Query" desc="SIF_Query" />
+    <value name="SIFEXTENDEDQUERY" value="SIF_ExtendedQuery" desc="SIF_ExtendedQuery" />
+  </enum>
+  <!--ReportInfo object-->
+  <object name="ReportInfo">
+    <desc>Identifies the manifest for the report and characteristics of the submission. This element is a conditional element. This element is included or the ReportData element is included but never both at the same time within an instance of this object. See examples of the usage of the object below.</desc>
+    <attribute name="ReportManifestRefId" flags="R">
+      <desc>The report manifest corresponding to this report.</desc>
+    </attribute>
+    <element name="CalculationDate" type="SIFDate" flags="M">
+      <desc>The date on which the report was calculated.</desc>
+    </element>
+    <element name="SubmissionNumber" type="int" flags="M">
+      <desc>A number that identifies the submission; beginning at 1 and incremented each time a submission is done for a particular report; used to indicate resubmission(s).</desc>
+    </element>
+    <element name="SubmissionReason" enum="SubmissionReason" flags="M">
+      <desc>Reason for the report submission.ValuesInitial, Correction. Revision, Addition</desc>
+    </element>
+    <element name="ReportSubmitterInfo" type="ReportSubmitterInfo" flags="C">
+      <desc>Identifies the submitter of the report.This element is conditional depending on the context in which the SIF_ReportObject is used.  It must be present in the ReportInfo element when a SIF_ReportObject is sent to a report authority in a SIF_Event message.  However, its presence is optional in SIF_ReportObject packets delivered to report authorities in SIF_Response messages.</desc>
+    </element>
+    <element name="Description" flags="O">
+      <desc />
+    </element>
+  </object>
+  <!--ReportingPeriod object-->
+  <object name="ReportingPeriod">
+    <desc>Information on the period of time over which the report spans.</desc>
+    <element name="BeginReportDate" type="SIFDate" flags="O">
+      <desc>The first date for which the report contains information.</desc>
+    </element>
+    <element name="EndReportDate" type="SIFDate" flags="O">
+      <desc>The last date for which the report contains information.  May be the same as BeginReportDate for snapshot-type reports.</desc>
+    </element>
+    <element name="BeginSubmitDate" type="SIFDate" flags="O">
+      <desc>The first date on which the report may be submitted to the authority.</desc>
+    </element>
+    <element name="EndSubmitDate" type="SIFDate" flags="O">
+      <desc>The last date on which the report may be submitted to the authority.</desc>
+    </element>
+    <element name="DueDate" type="SIFDate" flags="O">
+      <desc>The official due date of the report.</desc>
+    </element>
+  </object>
+  <!--ReportManifest object-->
+  <object name="ReportManifest" topic="true">
+    <desc>This object provides a way to define a report within a SIF zone. It contains metadata about the report. This object represents a mutual agreement between senders and receivers of the report.  SIF_Events are reported.</desc>
+    <attribute name="RefId" flags="R">
+      <desc>The unique identifier for this report manifest.</desc>
+    </attribute>
+    <attribute name="ReportAuthorityInfoRefId" flags="O" type="IdRefType">
+      <desc>The authority for whom the report is intended, usually the same authority that defines this manifest.</desc>
+    </attribute>
+    <element name="SIF_Version" type="SIFVersion" flags="M">
+      <desc>Specifies which SIF Specification version should be used when returning the report data.</desc>
+    </element>
+    <element name="SIF_MaxBufferSize" type="UnsignedInt" flags="M">
+      <desc>Specifies the maximum size of a packet to be returned to the report authority.</desc>
+    </element>
+    <element name="ReceivingAuthority" type="ReceivingAuthority" flags="O" surrogate="XPathSurrogate{ReceivingAuthority/@ReportAuthorityInfoRefId=.}">
+      <desc>The authority for whom the report is intended, usually the same authority that defines this manifest.</desc>
+    </element>
+    <element name="ReportName" flags="M">
+      <desc>The authority's accepted name for the report.</desc>
+    </element>
+    <element name="Description" flags="O">
+      <desc>The description for the report.</desc>
+    </element>
+    <element name="ReportingPeriod" type="ReportingPeriod" flags="O">
+      <desc>Information on the period of time over which the report spans.</desc>
+    </element>
+    <element name="ReportDefinitionSource" type="ReportDefinitionSource" flags="M">
+      <desc>Indicates where the report definition can be found.  If Type="Description", this element's value contains the report definition.  If Type="URL", this element's value is the URL pointing to the external source for the definition.  Type="SIF_Query" indicates that the SIF_QueryGroup element below contains the definition.</desc>
+    </element>
+    <element name="ReportFormatList" type="ReportFormatList" flags="O" collapsed="true">
+      <desc>References a third-party format that describes the visual representation of the report data.</desc>
+    </element>
+    <element name="SIF_QueryGroup" type="SIF_QueryGroup" flags="C">
+      <desc>Parent element containing the querying criteria for extracting the report information.  SIF_QueryGroup subelements are the same as the SIF_Query subelement of the SIF_Request object, except that the set of valid SIF_Operator values for this object is an expanded set.</desc>
+    </element>
+  </object>
+  <!--ReportSubmitterInfo object-->
+  <object name="ReportSubmitterInfo">
+    <desc>Identifies the submitter of the report.This element is conditional depending on the context in which the SIF_ReportObject is used.  It must be present in the ReportInfo element when a SIF_ReportObject is sent to a report authority in a SIF_Event message.  However, its presence is optional in SIF_ReportObject packets delivered to report authorities in SIF_Response messages.</desc>
+    <element name="SIF_RefId" type="SIF_RefId" renderAs="SifEntity" flags="O" surrogate="SifEntitySurrogate{}">
+      <desc>If the submitter is described by another SIF data object such as a SchoolInfo or LEAInfo instance, this element references that object by RefId.</desc>
+    </element>
+    <element name="SubmitterName" flags="M">
+      <desc>Name of the report submitter.This is a descriptive string that names the entity submitting the SIF_ReportObject to the report authority.  It could be the name of an agency, a district, a school, the SIF_SourceId of the submitting agent, or any other string that a report authority could use to identify the submitter of a report.  This element may be present regardless of the presence of the SifRefIdType and SifRefId elements.  When those elements are used, it is recommended that collector agents reproduce the name of the LEA or school here.</desc>
+    </element>
+    <element name="SubmitterDepartment" renderAs="SubmitterDept" flags="O">
+      <desc>Department, office, or subdivision of the agency submitting the report.</desc>
+    </element>
+    <element name="ContactInfo" type="ContactInfo" flags="O">
+      <desc>Information on the contact person in this agency submitting the report.  For a description of this element, see 5.1.3 ContactInfo.</desc>
+    </element>
+    <element name="Address" type="Address" flags="O">
+      <desc>For a description of this element, see 5.1.1 AddressAddress.</desc>
+    </element>
+    <element name="PhoneNumber" type="PhoneNumber" flags="O" surrogate="PhoneNumberSurrogate{}">
+      <desc>For a description of this element, see 5.1.22 PhoneNumber.</desc>
+    </element>
+    <element name="SubmitterNotes" flags="O">
+      <desc>Optional notes for the report authority, such as information about a district's reporting policies and procedures, instructions for contacting the district for technical support, etc.</desc>
+    </element>
+  </object>
+  <!--RequestingAgencyId object-->
+  <object name="RequestingAgencyId">
+    <desc>Identification of the agency and/or location requesting the state ID.  Optional because the SIF Zone infrastructure may provide adequate information for the state to ascertain the origin of the request.NOTE: Although used in the context of a Request query, this field conveys information to the state and typically does not participate in the matching logic.</desc>
+    <attribute name="Type" enum="RequestingAgencyIdType" flags="R">
+      <desc>The functional level of the requesting agency.ValuesESA - Educational Services AgencyLEA - Local Educational Agency (District)School</desc>
+    </attribute>
+  </object>
+  <!--RequestingAgencyIdType enum-->
+  <enum name="RequestingAgencyIdType">
+    <value name="ESA" value="ESA" desc="ESA" />
+    <value name="LEA" value="LEA" desc="LEA" />
+    <value name="SCHOOL" value="School" desc="School" />
+  </enum>
+  <!--SIF_QueryGroup object-->
+  <object name="SIF_QueryGroup">
+    <element name="SIF_Query" type="SIF_Query" flags="OR" />
+  </object>
+  <!--SIF_ReportObject object-->
+  <object name="SIF_ReportObject" topic="true">
+    <desc>This object is an envelope used to send other data objects, typically reports, to authorities such as state departments of education, district offices, other schools, etc.  It is also used to signal a data collector agent that a report is compiled and ready to be requested.  SIF_ReportObject contains a data object, which is either complete or partial (a partial data object is one that contains a subset of the elements for the data object).  One or a series of SIF_ReportObjects contained within one or a series of related SIF_Response messages makes up a complete report.  SIF_Events are reported.</desc>
+    <attribute name="RefId" flags="R">
+      <desc>The ID (GUID) that uniquely identifies this instance of a report.</desc>
+    </attribute>
+    <element name="ReportInfo" type="ReportInfo" flags="C">
+      <desc>Identifies the manifest for the report and characteristics of the submission. This element is a conditional element. This element is included or the ReportData element is included but never both at the same time within an instance of this object. See examples of the usage of the object below</desc>
+    </element>
+    <element name="ReportData" type="ReportData" flags="C">
+      <desc>Container element for the report content.  This element is conditional. This element is included or the ReportInfo element is included but never both at the same time. See examples of the usage of the object below.</desc>
+    </element>
+  </object>
+  <!--SLContact object-->
+  <object name="SLContact">
+    <desc>Typically used to provide the state information about a student's parents and legal guardians.</desc>
+    <element name="Relationship" type="Relationship" flags="M">
+      <desc>Relationship to the student.For a description of this element, see the common element 5.1.25 Relationship.</desc>
+    </element>
+    <element name="Name" type="Name" flags="OR">
+      <desc>The name(s) of the contact.For a description of this element, see the common element 5.1.18 Name.</desc>
+    </element>
+    <element name="OtherId" type="OtherId" flags="O">
+      <desc>The ID(s) of the contact.For a description of this element, see the common element 5.1.21 OtherId.</desc>
+    </element>
+    <element name="EducationalLevel" enum="EducationalLevelCode" flags="O">
+      <desc>Highest level of education completed by the contact.For a description of this element, see the common element 5.1.6 EducationalLevel.</desc>
+    </element>
+  </object>
+  <!--StudentLocator object-->
+  <object name="StudentLocator" topic="true">
+    <desc>This object provides a mechanism for requesting and updating Student State ID information.  SIF_Events are not reported.</desc>
+    <attribute name="IdStatus" key="false" enum="IdStatus" flags="R">
+      <desc>Communicates the orchestration status for the object. NOTE: Although used in the context of a Request query, this field conveys information to (and from) the state and typically does not participate in the matching logic.</desc>
+    </attribute>
+    <element key="false" name="StateProvinceId" renderAs="StatePrId" type="String" flags="M">
+      <desc>This is the student's state-assigned ID.  May be empty in a response where IdStatus is "Ambiguous."For a description of this element, see the common element 5.1.29 StatePrId.NOTE: Although used in the context of a Request query, this field conveys information to (and from) the state and typically does not participate in the matching logic.</desc>
+    </element>
+    <element name="Confidence" flags="O">
+      <desc>Confidence score.  The main use of this element is when IdStatus equals "Ambiguous" and the state returns one or more* candidate matches.  The interpretation is that the information populated in each returned object matches the information in the request to the extent expressed in this score.  The matching/scoring algorithms (and resultant values) are defined by the particular state.States may also choose to use this element for the district to indicate in the query what score threshold it wants associated with the request.*A response marked "Ambiguous" with a single match candidate populated likely means that the Confidence score is below the state's threshold for assignment but above the threshold for creating a new state-assigned ID.</desc>
+    </element>
+    <element name="LocalId" flags="O">
+      <desc>This is the requesting agency's unique ID for the student.For a description of this element, see the common element 5.1.16 LocalId.NOTE: Although used in the context of a Request query, this field conveys information to (and from) the state and typically does not participate in the matching logic.</desc>
+    </element>
+    <element name="StudentPersonalRefId" flags="O">
+      <desc>Requesting agency's local zone GUID of the student's StudentPersonal object.NOTE: Although used in the context of a Request query, this field conveys information to (and from) the State and typically does not participate in the matching logic.</desc>
+    </element>
+    <element name="RequestingAgencyId" type="RequestingAgencyId" flags="OR">
+      <desc>Identification of the agency and/or location requesting the state ID.  Optional because the SIF Zone infrastructure may provide adequate information for the state to ascertain the origin of the request.NOTE: Although used in the context of a Request query, this field conveys information to the state and typically does not participate in the matching logic.</desc>
+    </element>
+    <element name="GradeLevel" type="GradeLevel" flags="O">
+      <desc>The student's current grade level.For a description of this element, see the common element 5.1.11 GradeLevel.</desc>
+    </element>
+    <element name="SSN" renderAs="Ssn" flags="O">
+      <desc>Social security number of the student.</desc>
+    </element>
+    <element name="Name" type="Name" flags="OR">
+      <desc>The name(s) of the student.For a description of this element, see the common element 5.1.18 Name.</desc>
+    </element>
+    <element name="Address" type="Address" flags="OR">
+      <desc>The address(es) of the student.For a description of this element, see the common element 5.1.1 Address.</desc>
+    </element>
+    <element name="Demographics" type="Demographics" flags="O">
+      <desc>Demographic information about the student.  This will typically be the core matching information.  Privacy considerations may mean that it is filled differently here than it might be in a local StudentPersonal, but it must include enough to drive the state's matching algorithms.For a description of this element, see the common element 5.1.4 Demographics.</desc>
+    </element>
+    <element name="Contact" type="SLContact" flags="OR">
+      <desc>Typically used to provide the state information about a student's parents and legal guardians.</desc>
+    </element>
+    <element name="EffectiveDate" type="SIFDate" flags="O">
+      <desc>For Requests, this should match StudentSchoolEnrollment/EntryDate.  For Releases, StudentSchoolEnrollment/ExitDate.NOTE: Although used in the context of a Request query, this field conveys information to the state and typically does not participate in the matching logic.</desc>
+    </element>
+  </object>
+  <!--SubmissionReason enum-->
+  <enum name="SubmissionReason">
+    <value name="INITIAL" value="Initial" />
+    <value name="CORRECTION" value="Correction" />
+    <value name="REVISION" value="Revision" />
+    <value name="ADDITION" value="Addition" />
+  </enum>
+</adk>

@@ -1,0 +1,24 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s) -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 1.1 common objects                -->
+<!-- ======================================== -->
+<adk package="global" version="1.1" name="" namespace="http://www.sifinfo.org/infrastructure/1.x">
+  <!--MediaType object-->
+  <object name="MediaType" datatype="String">
+    <desc>MIME type [MIME] based on IANA registration (see RFC2048) or 'non-digital'.</desc>
+  </object>
+  <!--MediaTypes object-->
+  <object name="MediaTypes">
+    <element name="MediaType" type="MediaType" flags="OR">
+      <desc>MIME type [MIME] based on IANA registration (see RFC2048) or 'non-digital'.</desc>
+    </element>
+  </object> 
+  <!--YesNo enum-->
+  <enum name="YesNo">
+    <value name="YES" value="Yes" desc="Yes" />
+    <value name="NO" value="No" desc="No" />
+  </enum>
+</adk>
