@@ -57,10 +57,10 @@ public class ObjectiveAssessmentGenerator {
             // TODO: this is only modeled as XML ReferenceType...
         }
 
-        for (String learningObjectiveIdString : objAssessMeta.learningObjectiveIds) {
-            objectiveAssessment.getLearningObjectiveReference().add(
-                    LearningObjectiveGenerator.getLearningObjectiveReferenceType(learningObjectiveIdString));
-        }
+//        for (String learningObjectiveIdString : objAssessMeta.learningObjectiveIds) {
+//            objectiveAssessment.getLearningObjectiveReference().add(
+//                    LearningObjectiveGenerator.getLearningObjectiveReferenceType(learningObjectiveIdString));
+//        }
 
         for (String learningStandardIdString : objAssessMeta.learningStandardIds) {
             objectiveAssessment.getLearningStandardReference().add(

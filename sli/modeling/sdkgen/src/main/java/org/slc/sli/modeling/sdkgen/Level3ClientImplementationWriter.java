@@ -159,7 +159,7 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
     @Override
     protected void writeDELETE(Method method, Resource resource, Resources resources, Application application,
             Stack<Resource> ancestors) throws IOException {
-        jsw.writeComment(method.getId());
+        writeMethodDocumentation(method);
         jsw.writeOverride();
         jsw.write("public").space().writeType(JavaType.JT_VOID).space().write(method.getId());
         jsw.parenL();
@@ -191,7 +191,8 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
 
         final String methodName = method.getId();
 
-        jsw.writeComment(methodName);
+        writeMethodDocumentation(method);
+
         jsw.writeOverride();
         final JavaType responseType = LevelNClientJavaHelper.getResponseJavaType(method, grammars, quietMode);
         jsw.write("public").space().writeType(responseType).space().write(methodName);
@@ -248,7 +249,8 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
         final boolean quietMode = true;
         final SdkGenGrammars grammars = new SdkGenGrammarsWrapper(schemas);
 
-        jsw.writeComment(method.getId());
+        writeMethodDocumentation(method);
+
         jsw.writeOverride();
         jsw.write("public").space().writeType(JavaType.JT_STRING).space().write(method.getId());
         jsw.parenL();
@@ -314,7 +316,8 @@ public final class Level3ClientImplementationWriter extends Level3ClientWriter {
 
         final String methodName = method.getId();
 
-        jsw.writeComment(methodName);
+        writeMethodDocumentation(method);
+
         jsw.writeOverride();
         jsw.write("public").space().writeType(JavaType.JT_VOID).space().write(methodName);
         jsw.parenL();

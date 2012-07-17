@@ -9,16 +9,12 @@ import java.util.Stack;
 import org.slc.sli.modeling.jgen.JavaParam;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 import org.slc.sli.modeling.jgen.JavaType;
-import org.slc.sli.modeling.rest.Application;
-import org.slc.sli.modeling.rest.Include;
-import org.slc.sli.modeling.rest.Method;
-import org.slc.sli.modeling.rest.Param;
-import org.slc.sli.modeling.rest.Resource;
-import org.slc.sli.modeling.rest.Resources;
+import org.slc.sli.modeling.rest.*;
 import org.slc.sli.modeling.rest.helpers.RestHelper;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenGrammars;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenResolver;
 import org.slc.sli.modeling.sdkgen.grammars.xsd.SdkGenGrammarsWrapper;
+import org.slc.sli.modeling.xdm.DmNode;
 import org.slc.sli.modeling.xsd.XsdReader;
 
 public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
@@ -66,7 +62,8 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
 
         final String methodName = method.getId();
 
-        jsw.writeComment(methodName);
+        writeMethodDocumentation(method);
+
         jsw.beginStmt();
         try {
             final JavaType responseType = LevelNClientJavaHelper.getResponseJavaType(method, grammars, quietMode);
@@ -92,7 +89,9 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
 
         final String methodId = method.getId();
         final String methodName = method.getId();
-        jsw.writeComment(methodId);
+
+        writeMethodDocumentation(method);
+
         jsw.beginStmt();
         try {
             // The return type is a string because we return the identifier of the posted resource.
@@ -117,7 +116,9 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
         final SdkGenGrammars grammars = new SdkGenGrammarsWrapper(schemas);
 
         final String methodName = method.getId();
-        jsw.writeComment(methodName);
+
+        writeMethodDocumentation(method);
+
         jsw.beginStmt();
         try {
             jsw.writeType(JavaType.JT_VOID).space().write(methodName);
@@ -143,7 +144,9 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
     @Override
     protected void writeDELETE(Method method, Resource resource, Resources resources, Application application,
             Stack<Resource> ancestors) throws IOException {
-        jsw.writeComment(method.getId());
+
+        writeMethodDocumentation(method);
+
         jsw.beginStmt();
         try {
             jsw.writeType(JavaType.JT_VOID).space().write(method.getId());
@@ -179,4 +182,5 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
             final Stack<Resource> ancestors) {
         // Ignore.
     }
+
 }
