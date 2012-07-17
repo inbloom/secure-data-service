@@ -1,0 +1,1698 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s) -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.0 student objects               -->
+<!-- ======================================== -->
+<adk package="student" version="2.0" name="Student Information" namespace="http://www.sifinfo.org/infrastructure/2.x">
+  <!--Action object-->
+  <object name="Action">
+    <element name="Code" type="Token" flags="M" key="false" />
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" key="false">
+      <desc>List of other codes or strings that crosswalk to or serve as translations of the Code element.  If Code changes and OtherCode elements are supported, both Code and all associated OtherCode elements must be present.</desc>
+    </element>
+    <element name="StartDate" type="Date" flags="M" key="false">
+      <desc>The date on which the disciplinary action begins.</desc>
+    </element>
+    <element name="EndDate" type="Date" flags="M" key="false">
+      <desc>The date through which the disciplinary action is in effect, inclusive.</desc>
+    </element>
+    <element name="Duration" type="Decimal" flags="M" key="false">
+      <desc>Identifies the length, in school days, of the disciplinary action.  Note: decimal places may be used for fractions of school days.</desc>
+    </element>
+    <element name="ZeroTolerance" enum="YesNo" flags="M" key="false">
+      <desc>Identifies whether or not this action taken against a student was imposed as a consequence of state or local zero tolerance policies.</desc>
+    </element>
+    <element name="FullYearExpulsion" enum="YesNo" flags="M" key="false">
+      <desc>Identifies whether or not the action involved an expulsion with or without services for a period of one full year (i.e., 365 days).</desc>
+    </element>
+    <element name="ShortenedExpulsion" enum="YesNo" flags="M" key="false">
+      <desc>Identifies whether or not the action involved an expulsion with or without services that is shortened to a term of less than one year by the superintendent or chief administrator of a school district.</desc>
+    </element>
+    <element name="PoliceNotification" enum="YesNo" flags="M" key="false">
+      <desc>Identifies whether or not the offender's action included notification of local law enforcement, regardless of whether official action was taken.</desc>
+    </element>
+    <element name="Arrest" enum="ArrestStatus" flags="M" key="false">
+      <desc>Identifies whether or not the offender was arrested.</desc>
+    </element>
+    <element name="AlternativeEducation" enum="YesNo" flags="M" key="false">
+      <desc>Identifies whether or not the offender was assigned to an Alternative Education facility.</desc>
+    </element>
+  </object>
+  <!--ActionList object-->
+  <object name="ActionList">
+    <element name="Action" type="Action" flags="OR" />
+  </object>
+  <!--AdministratorAttendance object-->
+  <object name="AdministratorAttendance">
+    <element name="CountsTowardAttendance" enum="YesNo" flags="O">
+      <desc>Designates whether this date should be counted toward administrator attendance.</desc>
+    </element>
+    <element name="AttendanceValue" type="Decimal" flags="O" />
+  </object>
+  <!--AgencyReporting object-->
+  <object name="AgencyReporting">
+    <attribute name="SIF_RefObject" enum="AgencyReportingObject" flags="R">
+      <desc>The name of the SIF object to which the GUID relates.</desc>
+    </attribute>
+  </object>
+  <!--AgencyReportingObject enum-->
+  <enum name="AgencyReportingObject">
+    <value name="SCHOOLINFO" value="SchoolInfo" desc="SchoolInfo" />
+    <value name="LEAINFO" value="LEAInfo" desc="LEAInfo" />
+  </enum>
+  <!--AlertMessage object-->
+  <object name="AlertMessage">
+    <attribute name="Type" enum="AlertMessageType" flags="R">
+      <desc>This attribute specifies what type of alert message this is.</desc>
+    </attribute>
+  </object>
+  <!--AlertMessages object-->
+  <object name="AlertMessages">
+    <element name="AlertMessage" type="AlertMessage" flags="OR">
+      <desc>This is an alert message that is associated with the student.</desc>
+    </element>
+  </object>
+  <!--AlertMessageType enum-->
+  <enum name="AlertMessageType">
+    <value name="LEGAL" value="Legal" desc="Legal" />
+    <value name="DISCIPLINE" value="Discipline" desc="Discipline" />
+    <value name="EDUCATIONAL" value="Educational" desc="Educational" />
+    <value name="OTHER" value="Other" desc="Other" />
+  </enum>
+  <!--ArrestStatus enum-->
+  <enum name="ArrestStatus">
+    <value name="YES" value="Yes" desc="Yes" />
+    <value name="NO" value="No" desc="No" />
+    <value name="PENDING" value="Pending" desc="Pending" />
+  </enum>
+  <!--AttendanceCodeInfo object-->
+  <object name="AttendanceCodeInfo" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that uniquely identifies this AttendanceCodeInfo entity.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that identifies the school where the attendance code is used.</desc>
+    </attribute>
+    <element name="AttendanceCode" type="Token" flags="M">
+      <desc>Locally defined code for attendance.</desc>
+    </element>
+    <element name="AttendanceType" enum="AttendanceType" flags="M">
+      <desc>Type of attendance code.</desc>
+    </element>
+    <element name="AttendanceStatus" enum="AttendanceStatus" flags="M">
+      <desc>Excused status of the attendance code.</desc>
+    </element>
+    <element name="Description" type="NormalizedString" flags="O">
+      <desc>The text description of the attendance code.</desc>
+    </element>
+    <element name="AbsenceValue" type="Decimal" flags="O">
+      <desc>The amoung of absense represented by AttendanceCode, up to trhee decimal places</desc>
+    </element>
+    <element name="UsedForDailyAttendance" enum="YesNo" flags="O">
+      <desc>Is this attendance code used for daily attendance?</desc>
+    </element>
+    <element name="UsedForPeriodAttendance" enum="YesNo" flags="O">
+      <desc>Is this attendance code used for period attendance?</desc>
+    </element>
+  </object>
+  <!--AttendanceStatus enum-->
+  <enum name="AttendanceStatus">
+    <value name="EXCUSED" value="Excused" desc="Excused" />
+    <value name="UNEXCUSED" value="Unexcused" desc="Unexcused" />
+    <value name="UNKNOWN" value="Unknown" desc="Unknown" />
+    <value name="NA" value="NA" desc="NA" />
+  </enum>
+  <!--AttendanceType enum-->
+  <enum name="AttendanceType">
+    <value name="ABSENT" value="Absent" desc="Absent" />
+    <value name="TARDY" value="Tardy" desc="Tardy" />
+    <value name="EARLY_DEPARTURE" value="EarlyDeparture" desc="EarlyDeparture" />
+    <value name="PARTIAL" value="Partial" desc="Partial" />
+    <value name="PRESENT" value="Present" desc="Present" />
+    <value name="OTHER" value="Other" desc="Other" />
+  </enum>
+  <!--CalendarDate object-->
+  <object name="CalendarDate" topic="true">
+    <desc>This object defines information related to a school calendar day in a given school calendar year. If both CalendarDate and CalendarSummary objects are supported, there must be an instance of this object for each date between CalendarSummary StartDate and EndDate, inclusive.</desc>
+    <attribute name="Date" type="Date" flags="R">
+      <desc>A specific school day that occurs within the school year.</desc>
+    </attribute>
+    <attribute name="CalendarSummaryRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) of the calendar summary in which this calendar date is.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) of the school for which this calendar information is being reported.</desc>
+    </attribute>
+    <attribute name="SchoolYear" type="GYear" flags="R">
+      <desc>School year for which the information is applicable, expressed as the four-digit year in which the school year ends (e.g., "2007" for the 2006-07 school year).</desc>
+    </attribute>
+    <element name="CalendarDateType" type="CalendarDateType" flags="M" />
+    <element name="CalendarDateNumber" type="int" flags="O" />
+    <element name="StudentAttendance" type="StudentAttendance" flags="O" />
+    <element name="TeacherAttendance" type="TeacherAttendance" flags="O" />
+    <element name="AdministratorAttendance" type="AdministratorAttendance" flags="O" />
+  </object>
+  <!--CalendarDateType object-->
+  <object name="CalendarDateType">
+    <element name="Code" enum="CalendarEventCode" flags="O">
+      <desc>Code indicating the type of school day.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+  <!--CalendarEventCode enum-->
+  <enum name="CalendarEventCode">
+    <value name="EMERGENCY_DAY" value="0849" desc="Emergency day" />
+    <value name="HOLIDAY" value="0846" desc="Holiday" />
+    <value name="OTHER" value="9999" desc="Other" />
+    <value name="STRIKE" value="3421" desc="Strike" />
+    <value name="LATE_EARLY" value="0848" desc="Student late arrival/early dismissal" />
+    <value name="TEACHER_ONLY" value="0845" desc="Teacher only day" />
+    <value name="INST" value="INST" desc="Instructional School Day" />
+    <value name="MKUP" value="MKUP" desc="Instructional day that is scheduled solely to make up for emergency days or early dismissal days." />
+  </enum>
+  <!--CalendarSummary object-->
+  <object name="CalendarSummary" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) of the calendar to which this information relates.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) of the school for which this calendar information is being reported.</desc>
+    </attribute>
+    <attribute name="SchoolYear" type="GYear" flags="R">
+      <desc>School year for which the information is applicable, expressed as the four-digit year in which the school year ends (e.g., "2007" for the 2006-07 school year).</desc>
+    </attribute>
+    <element name="LocalId" type="NormalizedString" flags="M">
+      <desc>The locally assigned identifier for this calendar.</desc>
+    </element>
+    <element name="Description" type="String" flags="O">
+      <desc>Textual description of the school calendar.</desc>
+    </element>
+    <element name="DaysInSession" type="UnsignedInt" flags="M">
+      <desc>The total number of days that the school was or is anticipated to be in session during the school year.  Also included are days on which the education institution facility is closed and the student body as a whole is engaged in planned activities off-campus under the guidance and direction of staff members.</desc>
+    </element>
+    <element name="StartDate" type="Date" flags="O">
+      <desc>The first calendar date, whether or not instruction was provided. If both CalendarSummary and CalendarDate objects are supported, StartDate must be the date of the first chronological instance of CalendarDate for the school's calendar.</desc>
+    </element>
+    <element name="EndDate" type="Date" flags="O">
+      <desc>The last calendar date, whether or not instruction was provided. If both CalendarSummary and CalendarDate objects are supported, EndDate must be the last chronological instance of CalendarDate for the school's calendar.</desc>
+    </element>
+    <element name="FirstInstructionDate" type="Date" flags="O">
+      <desc>The first day of student instruction.</desc>
+    </element>
+    <element name="LastInstructionDate" type="Date" flags="O">
+      <desc>The last day of student instruction (including days or times that students are present for purposes of testing and/or evaluation, but not including whole or part-days whose sole purposes is for distribution of report cards).</desc>
+    </element>
+    <element name="GraduationDate" type="PartialDateType" flags="O">
+      <desc>Date of graduation ceremony.</desc>
+    </element>
+    <element name="InstructionalMinutes" type="UnsignedInt" flags="O">
+      <desc>The total number of instructional minutes for this calendar for the school year.</desc>
+    </element>
+    <element name="MinutesPerDay" type="UnsignedInt" flags="O">
+      <desc>The number of minutes in the day in which the school is normally in session.</desc>
+    </element>
+    <element name="GradeLevels" type="GradeLevels" flags="O">
+      <desc>Collection of grade levels applicable to this school calendar.</desc>
+    </element>
+  </object>
+  <!--ContactFlags object-->
+  <object name="ContactFlags">
+    <element name="ParentLegalGuardian" enum="YesNoUnknown" flags="O">
+      <desc>Does the individual have parental or legal guardianship responsibility for the student?</desc>
+    </element>
+    <element name="PickupRights" enum="YesNoUnknown" flags="O">
+      <desc>This element tells whether or not the contact has pickup rights.</desc>
+    </element>
+    <element name="LivesWith" enum="YesNoUnknown" flags="O">
+      <desc>Does the student live with this contact?</desc>
+    </element>
+    <element name="AccessToRecords" enum="YesNoUnknown" flags="O">
+      <desc>Does this contact have access to the student's records?</desc>
+    </element>
+    <element name="EmergencyContact" enum="YesNoUnknown" flags="O">
+      <desc>Should this contact be notified in case of emergency?</desc>
+    </element>
+    <element name="HasCustody" enum="YesNoUnknown" flags="O">
+      <desc>Does this contact have or share custody of the student?</desc>
+    </element>
+    <element name="DisciplinaryContact" enum="YesNoUnknown" flags="O">
+      <desc>Is this person to be contacted in case of disciplinary action?</desc>
+    </element>
+    <element name="PrimaryCareProvider" enum="YesNoUnknown" flags="O">
+      <desc>Does this person provide daily living or personal assistance to the student?</desc>
+    </element>
+  </object>
+  <!--CourseCredits object-->
+  <object name="CourseCredits" dataType="Decimal">
+    <attribute name="Type" enum="CreditType" flags="R">
+      <desc>The type of credit offered</desc>
+    </attribute>
+  </object>
+  <!--CourseLevel enum-->
+  <enum name="CourseLevel">
+    <value name="B" value="B" desc="Basic or remedial" />
+    <value name="G" value="G" desc="General or regular" />
+    <value name="E" value="E" desc="Enriched or advanced" />
+    <value name="H" value="H" desc="Honors" />
+  </enum>
+  <!--CreditsAttempted object-->
+  <object name="CreditsAttempted" empty="false">
+    <desc>Number of credits the student is attempting to earn.  If present, this element's value overrides the credits in SchoolCourseInfo and SectionInfo.</desc>
+    <attribute name="Type" enum="CreditType" flags="R">
+      <desc />
+    </attribute>
+  </object>
+  <!--CreditType enum-->
+  <enum name="CreditType">
+    <value name="0108_0598" value="0598" desc="Adult education credit" />
+    <value name="0108_0585" value="0585" desc="Carnegie unit" />
+    <value name="0108_0601" value="0601" desc="Converted occupational experience credit" />
+    <value name="0108_0600" value="0600" desc="Correspondence credit" />
+    <value name="0108_0599" value="0599" desc="Credit by examination" />
+    <value name="0108_0592" value="0592" desc="Intersession hour credit" />
+    <value name="0108_0595" value="0595" desc="Long session hour credit" />
+    <value name="0108_0590" value="0590" desc="Mini-term hour credit" />
+    <value name="0108_9998" value="9998" desc="None" />
+    <value name="0108_9999" value="9999" desc="Other" />
+    <value name="0108_0588" value="0588" desc="Quarter hour credit" />
+    <value name="0108_0589" value="0589" desc="Quinmester hour credit" />
+    <value name="0108_0586" value="0586" desc="Semester hour credit" />
+    <value name="0108_0591" value="0591" desc="Summer term hour credit" />
+    <value name="0108_0587" value="0587" desc="Trimester hour credit" />
+    <value name="0108_0596" value="0596" desc="Twelve month hour credit" />
+    <value name="0108_0597" value="0597" desc="Vocational credit" />
+  </enum>
+  <!--DisciplineIncident object-->
+  <object name="DisciplineIncident" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The unique identifier (GUID) of this discipline incident.</desc>
+    </attribute>
+    <attribute name="SchoolYear" type="GYear" flags="R">
+      <desc>School year in which the incident occurred, and for which the information is applicable, expressed as the four-digit year in which the school year ends (e.g., "2007" for the 2006-07 school year).</desc>
+    </attribute>
+    <element name="AgencyReporting" type="AgencyReporting" flags="M" />
+    <element name="IncidentNumber" type="NormalizedString" flags="M">
+      <desc>The locally-defined unique identifier (within the school or school district) to identify this specific incident or occurrence.</desc>
+    </element>
+    <element name="IncidentDate" type="Date" flags="M">
+      <desc>The date when the incident occurred.</desc>
+    </element>
+    <element name="IncidentTime" type="IncidentTime" flags="M">
+      <desc>The time when the incident occurred.</desc>
+    </element>
+    <element name="IncidentLocation" type="IncidentLocation" flags="M">
+      <desc>The locally-defined identifier or description of the location where the incident occurred.</desc>
+    </element>
+    <element name="IncidentLocationRefId" type="IncidentLocationRefId" flags="O" />
+    <element name="IncidentCost" type="String" flags="O">
+      <desc>If the incident resulted in a quantifiable monetary loss for any entity involved, identify and record the value of that loss.  Cost may be reported by specific dollar amount or range.</desc>
+    </element>
+    <element name="IncidentReporter" type="IncidentReporter" flags="O" />
+    <element name="RelatedToList" type="RelatedToList" flags="O" />
+    <element name="WeaponTypeList" type="WeaponTypeList" flags="O" />
+    <element name="IncidentCategory" type="IncidentCategory" flags="M" />
+    <element name="OffenderList" type="OffenderList" flags="M" />
+    <element name="VictimList" type="VictimList" flags="M" />
+  </object>
+  <!--EducationAgencyType object-->
+  <object name="EducationAgencyType" empty="true">
+    <element name="Code" enum="EducationAgencyTypeCode" flags="M">
+      <desc>Code indicating the operational/administrative level.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+  <!--EducationAgencyTypeCode enum-->
+  <enum name="EducationAgencyTypeCode">
+    <value name="1151_3486_REGULAR_SCHOOL_DISTRICT" value="3486" desc="Regular school district" />
+    <value name="1151_3487_SCHOOL_DISTRICT_UNION" value="3487" desc="School district that is a component of a supervisory union" />
+    <value name="1151_3488_SUPERVISORY_UNION" value="3488" desc="Supervisory Union" />
+    <value name="1151_3489_RESA" value="3489" desc="Regional education service agency (RESA)" />
+    <value name="1151_3490_STATE_SCHOOL_DISTRICT" value="3490" desc="State school district" />
+    <value name="1151_3491_FEDERAL_SCHOOL_DISTRICT" value="3491" desc="Federal school district" />
+    <value name="1151_9999_OTHER" value="9999" desc="Other" />
+    <value name="REG_DISTRICT" value="1" desc="Regular local school district that is not a component of a supervisory union. This category includes both independent school districts and those that are a dependent segment of a local government such as a city or county. INCLUDE agencies that do not operate schools (non-ops) but have primary responsibility to provide free public elementary and/or secondary education to school-age children within their jurisdictions." deprecated="true" />
+    <value name="SUPERVISED_DISTRICT" value="2" desc="Local school district that is a component of a supervisory union. A superintendent and administrative services are shared with other local school districts. Each agency given this code should have an entry in the Supervisory Union Identification Number field corresponding to the appropriate type 3 or type 4 agency. Non-ops in supervisory unions should be included in this category." deprecated="true" />
+    <value name="SUPERVISORY_UNION" value="3" desc="Supervisory union administrative center, or county superintendent’s office serving the same purposes. Each agency given this code should have an entry in the Supervisory Union Identification Number data field. Student and staff data reported elsewhere should NOT be duplicated in records carrying this code." deprecated="true" />
+    <value name="REGIONAL_AGENCY" value="4" desc="Regional education services agency (RESA). Agencies created for the purposes of providing specialized educational services to other education agencies. Student and staff data reported elsewhere should NOT be duplicated in records carrying this code." deprecated="true" />
+    <value name="STATE_AGENCY" value="5" desc="State agency charged with providing elementary and/or secondary level instruction to school-age children in a specified population, e.g., agency responsible for state schools for blind or deaf students, correctional facilities, and state hospitals." deprecated="true" />
+    <value name="FEDERAL_AGENCY" value="6" desc="Federal agency charged with providing elementary and/or secondary level instruction to school-age children in a specified population." deprecated="true" />
+    <value name="OTHER_AGENCY" value="7" desc="Other education agencies that do not fit into the first six categories." deprecated="true" />
+  </enum>
+  <!--EmployerTypeCode enum-->
+  <enum name="EmployerTypeCode">
+    <value name="0614_1808_AGRICULTURE" value="1808" desc="Agricultural/fishery seasonal employer" />
+    <value name="0614_1803_GOVERNMENT" value="1803" desc="Government" />
+    <value name="0614_1804_MILITARY" value="1804" desc="Military" />
+    <value name="0614_1807_MILITARY_DEFENSE" value="1807" desc="Military/Department of Defense" />
+    <value name="0614_9999_OTHER" value="9999" desc="Other" />
+    <value name="0614_1805_PRIVATE" value="1805" desc="Private organization" />
+    <value name="0614_1806_SELF_EMPLOYED" value="1806" desc="Self-employed" />
+  </enum>
+  <!--FTPTStatus enum-->
+  <enum name="FTPTStatus">
+    <value name="FULLTIME" value="FullTime" desc="FullTime" />
+    <value name="PARTTIME" value="PartTime" desc="PartTime" />
+  </enum>
+  <!--GradAward enum-->
+  <enum name="GradAward">
+    <value name="DIPLOMA" value="Diploma" desc="Diploma" />
+    <value name="CERTIFICATE" value="Certificate" desc="Certificate" />
+    <value name="GED" value="GED" desc="GED" />
+  </enum>
+  <!--GradOnTime enum-->
+  <enum name="GradOnTime">
+    <value name="YES" value="Yes" desc="Yes" />
+    <value name="NO" value="No" desc="No" />
+    <value name="UNAVAILABLE" value="Unavailable" desc="Unavailable" />
+    <value name="NA" value="NA" desc="NA" />
+  </enum>
+  <!--HomeEnrollment object-->
+  <object name="HomeEnrollment">
+    <element name="StudentSchoolEnrollmentRefId" type="IdRefType" flags="O" />
+    <element name="SchoolName" type="NormalizedString" flags="O">
+      <desc>Name of the school.</desc>
+    </element>
+    <element name="SchoolInfoRefId" type="IdRefType" flags="C">
+      <desc>Provide both the HomeEnrollment/SchoolId and HomeEnrollment/LocalId elements if possible. If not, one or the other must be provided.</desc>
+    </element>
+    <element name="LocalId" type="NormalizedString" flags="C">
+      <desc>
+        The locally-defined identifier for this school.
+        Provide both the HomeEnrollment/LocalId and HomeEnrollment/SchoolId elements if possible.
+        If not, one or the other must be provided.
+      </desc>
+    </element>
+    <element name="StateProvinceId" type="String" flags="O">
+      <desc>The state or province defined identifier for this school.</desc>
+    </element>
+    <element name="Status" enum="HomeEnrollmentStatus" flags="M">
+      <desc>Enrollment status as of the SnapDate.</desc>
+    </element>
+    <element name="GradeLevel" type="GradeLevel" flags="M">
+      <desc>Grade or academic level of student.</desc>
+    </element>
+    <element name="Homeroom" type="Homeroom" flags="O" />
+    <element name="HomeroomNumber" type="NormalizedString" flags="O">
+      <desc>The locally-defined identifier for this room.</desc>
+    </element>
+    <element name="FullYearEnrollment" enum="YesNoUnknown" flags="O">
+      <desc>An indication as to whether or not the student was enrolled for the whole school year. If the SchoolYear is in progress as of the SnapDate, use the value "Unknown".</desc>
+    </element>
+  </object>
+  <!--HomeEnrollmentStatus enum-->
+  <enum name="HomeEnrollmentStatus">
+    <value name="ACTIVE" value="Active" desc="Active" />
+    <value name="INACTIVE" value="Inactive" desc="Inactive" />
+    <value name="UNREPORTED" value="Unreported" desc="Unreported" />
+  </enum>
+  <!--Homeroom object-->
+  <object name="Homeroom" datatype="IdRefType">
+    <desc>The GUID of the RoomInfo referenced by this enrollment.</desc>
+    <attribute name="SIF_RefObject" flags="R" key="false">
+      <desc>The name of the object referenced.</desc>
+    </attribute>
+  </object>
+  <!--IncidentCategory object-->
+  <object name="IncidentCategory">
+    <element name="Code" enum="IncidentCodeType" flags="O">
+      <desc>Identifies the type of incident being reported.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O">
+      <desc>List of other codes or strings that crosswalk to or serve as translations of the Code element.  If Code changes and OtherCode elements are supported, both Code and all associated OtherCode elements must be present.</desc>
+    </element>
+  </object>
+  <!--IncidentCodeType enum-->
+  <enum name="IncidentCodeType">
+    <!--TODO: Rename these enum names-->
+    <value name="1049_1000_ALCOHOL" value="1000" desc="Alcohol (liquor law violations: possession, use, sale)" />
+    <value name="1049_1010_SALE_ALCOHOL" value="1010" desc="Sale of alcohol" />
+    <value name="1049_1020_DISTRIBUTION_ALCOHOL" value="1020" desc="Distribution of alcohol" />
+    <value name="1049_1030" value="1030" desc="Drinking alcohol" />
+    <value name="1049_1040" value="1040" desc="Possession of alcohol" />
+    <value name="1049_1050" value="1050" desc="Suspicion of alcohol use" />
+    <value name="1049_1097" value="1097" desc="Other alcohol" />
+    <value name="1049_1100" value="1100" desc="Arson (Setting a Fire)" />
+    <value name="1049_1200" value="1200" desc="Attendance Policy Violation (Not Attending School or Classes as Required)" />
+    <value name="1049_1210" value="1210" desc="Forging absence excuse" />
+    <value name="1049_1220" value="1220" desc="Skipping class" />
+    <value name="1049_1230" value="1230" desc="Tardiness" />
+    <value name="1049_1240" value="1240" desc="Truancy" />
+    <value name="1049_1297" value="1297" desc="Other attendance policy violation" />
+    <value name="1049_1300" value="1300" desc="Battery (Physical Attack/Harm)" />
+    <value name="1049_1400" value="1400" desc="Burglary/Breaking and Entering (Stealing Property/Unlawful Entry)" />
+    <value name="1049_1500" value="1500" desc="Disorderly Conduct (Disruptive Behavior)" />
+    <value name="1049_1600" value="1600" desc="Drugs Excluding Alcohol and Tobacco (Illegal Drug Possession, Sale, Use/Under the Influence)" />
+    <value name="1049_1610" value="1610" desc="Sale of illegal drug" />
+    <value name="1049_1620" value="1620" desc="Sale of substance represented as an illegal drug" />
+    <value name="1049_1630" value="1630" desc="Distribution of illegal drug" />
+    <value name="1049_1640" value="1640" desc="Distribution of substance represented as an illegal drug" />
+    <value name="1049_1650" value="1650" desc="Use of illegal drug" />
+    <value name="1049_1660" value="1660" desc="Possession of illegal drug" />
+    <value name="1049_1670" value="1670" desc="Possession of drug paraphernalia" />
+    <value name="1049_1680" value="1680" desc="Suspicion of use" />
+    <value name="1049_1697" value="1697" desc="Other drug offense" />
+    <value name="1049_1700" value="1700" desc="Fighting (Mutual Altercation)" />
+    <value name="1049_1800" value="1800" desc="Harassment, Nonsexual (Physical, Verbal, or Psychological)" />
+    <value name="1049_1810" value="1810" desc="Bullying" />
+    <value name="1049_1820" value="1820" desc="Hazing" />
+    <value name="1049_1897" value="1897" desc="Other nonsexual harassment" />
+    <value name="1049_1900" value="1900" desc="Harassment, Sexual (Unwelcome Sexual Contact)" />
+    <value name="1049_2000" value="2000" desc="Homicide (Murder or Manslaughter)" />
+    <value name="1049_2100" value="2100" desc="Inappropriate Use of Medication (Prescription or over-the-counter)" />
+    <value name="1049_2110" value="2110" desc="Sale of medication" />
+    <value name="1049_2120" value="2120" desc="Distribution of medication" />
+    <value name="1049_2130" value="2130" desc="Use of medication in violation of school rules" />
+    <value name="1049_2140" value="2140" desc="Possession of medication in violation of school rules" />
+    <value name="1049_2150" value="2150" desc="Suspicion of use of medication in violation of school rules" />
+    <value name="1049_2197" value="2197" desc="Other inappropriate use of medication" />
+    <value name="1049_2200" value="2200" desc="Insubordination (Disobedience)" />
+    <value name="1049_2300" value="2300" desc="Kidnapping (Abduction)" />
+    <value name="1049_2400" value="2400" desc="Obscene Behavior" />
+    <value name="1049_2410" value="2410" desc="Displays of affection in violation of school policy" />
+    <value name="1049_2420" value="2420" desc="Obscene written messages" />
+    <value name="1049_2430" value="2430" desc="Drawing obscene pictures" />
+    <value name="1049_2440" value="2440" desc="Obscene electronic communication" />
+    <value name="1049_2450" value="2450" desc="Obscene gestures" />
+    <value name="1049_2460" value="2460" desc="Obscene language/profanity" />
+    <value name="1049_2497" value="2497" desc="Other obscene behavior" />
+    <value name="1049_2500" value="2500" desc="Physical Altercation, Minor (Pushing, Shoving)" />
+    <value name="1049_2600" value="2600" desc="Robbery (Taking of Things by Force)" />
+    <value name="1049_2700" value="2700" desc="School Threat (Threat of Destruction or Harm)" />
+    <value name="1049_2710" value="2710" desc="Bomb threat" />
+    <value name="1049_2720" value="2720" desc="Fire alarm" />
+    <value name="1049_2730" value="2730" desc="Chemical/biological threat" />
+    <value name="1049_2740" value="2740" desc="Terroristic threat" />
+    <value name="1049_2797" value="2797" desc="Other school threat" />
+    <value name="1049_2800" value="2800" desc="Sexual Battery (Sexual Assault)" />
+    <value name="1049_2900" value="2900" desc="Sexual Offenses, Other (Lewd Behavior, Indecent Exposure)" />
+    <value name="1049_3000" value="3000" desc="Suicide" />
+    <value name="1049_3010" value="3010" desc="Suicide" />
+    <value name="1049_3020" value="3020" desc="Attempted suicide" />
+    <value name="1049_3097" value="3097" desc="Other suicide offense" />
+    <value name="1049_3100" value="3100" desc="Theft (Stealing Personal or Other Property)" />
+    <value name="1049_3110" value="3110" desc="General theft, Person" />
+    <value name="1049_3120" value="3120" desc="General theft, Other entity" />
+    <value name="1049_3197" value="3197" desc="Other theft" />
+    <value name="1049_3200" value="3200" desc="Threat/Intimidation (Causing Fear of Harm)" />
+    <value name="1049_3210" value="3210" desc="Physical threat" />
+    <value name="1049_3220" value="3220" desc="Verbal threat" />
+    <value name="1049_3230" value="3230" desc="Written threat" />
+    <value name="1049_3240" value="3240" desc="Electronic threat" />
+    <value name="1049_3297" value="3297" desc="Other threat" />
+    <value name="1049_3300" value="3300" desc="Tobacco (Possession or Use)" />
+    <value name="1049_3310" value="3310" desc="Sale of tobacco" />
+    <value name="1049_3320" value="3320" desc="Distribution of tobacco" />
+    <value name="1049_3330" value="3330" desc="Use of tobacco" />
+    <value name="1049_3340" value="3340" desc="Possession of tobacco" />
+    <value name="1049_3350" value="3350" desc="Suspicion of use of tobacco" />
+    <value name="1049_3397" value="3397" desc="Other tobacco offense" />
+    <value name="1049_3400" value="3400" desc="Trespassing (Unlawful or Unauthorized Presence)" />
+    <value name="1049_3500" value="3500" desc="Vandalism (Damage to School or Personal Property)" />
+    <value name="1049_3510" value="3510" desc="Vandalism of school property" />
+    <value name="1049_3520" value="3520" desc="Vandalism of personal property" />
+    <value name="1049_3597" value="3597" desc="Other vandalism" />
+    <value name="1049_3600" value="3600" desc="Violation of School Rules (Disobeying School Policy)" />
+    <value name="1049_3700" value="3700" desc="Weapons Possession (Firearms and Other Weapons)" />
+    <value name="1049_9000" value="9000" desc="Other Offenses (e.g., Forgery, Extortion)" />
+  </enum>
+  <!--IncidentLocation object-->
+  <object name="IncidentLocation">
+    <attribute name="Type" enum="IncidentLocationType" flags="R">
+      <desc>Identifies where the incident occurred.</desc>
+    </attribute>
+  </object>
+  <!--IncidentLocationObject enum-->
+  <enum name="IncidentLocationObject">
+    <value name="SCHOOLINFO" value="SchoolInfo" desc="SchoolInfo" />
+    <value name="LOCATIONINFO" value="LocationInfo" desc="LocationInfo" />
+  </enum>
+  <!--IncidentLocationRefId object-->
+  <object name="IncidentLocationRefId" datatype="IdRefType">
+    <attribute name="SIF_RefObject" enum="IncidentLocationObject" flags="R">
+      <desc>The name of the SIF object to which the GUID relates.</desc>
+    </attribute>
+  </object>
+  <!--IncidentLocationType enum-->
+  <enum name="IncidentLocationType">
+    <value name="ADMIN_OFFICES" value="3012" desc="Administrative offices area" />
+    <value name="FIELD_PLAYGROUND" value="3022" desc="Athletic field or playground" />
+    <value name="AUDITORIUM" value="3020" desc="Auditorium" />
+    <value name="BUS_STOP" value="3027" desc="Bus stop" />
+    <value name="CAFETERIA" value="3013" desc="Cafeteria area" />
+    <value name="CLASSROOM" value="3014" desc="Classroom" />
+    <value name="COMPUTER_LAB" value="3019" desc="Computer lab" />
+    <value name="HALLWAY_STAIRS" value="3015" desc="Hallway or stairs" />
+    <value name="LIBRARY" value="3018" desc="Library/media center" />
+    <value name="LOCKER_ROOM_GYM" value="3016" desc="Locker room or gym areas" />
+    <value name="OFF_CAMPUS" value="3026" desc="Off campus" />
+    <value name="ON_CAMPUS" value="3011" desc="On campus" />
+    <value name="OTHER_INSIDE" value="3021" desc="Other inside area" />
+    <value name="OTHER_OUTSIDE" value="3025" desc="Other outside area" />
+    <value name="OTHER_SCHOOL" value="3030" desc="Other school" />
+    <value name="OTHER_DISTRICT_FACILITY" value="3031" desc="Other school district facility" />
+    <value name="PARKING_LOT" value="3024" desc="Parking lot" />
+    <value name="RESTROOM" value="3017" desc="Restroom" />
+    <value name="SCHOOL_BUS" value="3028" desc="School bus" />
+    <value name="STADIUM" value="3023" desc="Stadium" />
+    <value name="UNKNOWN" value="9997" desc="Unknown" />
+    <value name="TO_FROM_SCHOOL" value="3029" desc="Walking to or from school" />
+  </enum>
+  <!--IncidentReporter object-->
+  <object name="IncidentReporter">
+    <attribute name="Type" enum="ReporterDescriptionType" flags="M" />
+    <element name="Name" type="Name" flags="O">
+      <desc>The name of the individual reporting the incident.</desc>
+    </element>
+    <element name="SIF_RefId" type="SIF_RefId" flags="O" />
+  </object>
+  <!--IncidentTime object-->
+  <object name="IncidentTime">
+    <attribute name="Type" enum="SafetyTimeType" flags="R">
+      <desc>Identifies whether or not the incident occurred during school hours. </desc>
+    </attribute>
+  </object>
+  <!--InjuryType enum-->
+  <enum name="InjuryType">
+    <value name="MAJOR" value="3064" desc="Major injury" />
+    <value name="MINOR" value="3063" desc="Minor injury" />
+    <value name="NONE" value="3065" desc="No injury" />
+  </enum>
+  <!--LanguageOfInstruction object-->
+  <object name="LanguageOfInstruction">
+    <element name="Code" enum="LanguageCode" flags="O">
+      <desc>Code representing the language of instruction.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+  <!--LEAContact object-->
+  <object name="LEAContact">
+    <element name="PublishInDirectory" enum="YesNo" flags="O">
+      <desc>Indicates whether or not this LEA contact's information should be published in a directory of LEA information.</desc>
+    </element>
+    <element name="ContactInfo" type="ContactInfo" flags="M" />
+  </object>
+  <!--LEAContactList object-->
+  <object name="LEAContactList">
+    <element name="LEAContact" type="LEAContact" flags="OR">
+      <desc>Information on contact persons for this LEA.</desc>
+    </element>
+  </object>
+  <!--LEAInfo object-->
+  <object name="LEAInfo" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The GUID of the LEA whose information this is.</desc>
+    </attribute>
+    <element name="LocalId" type="NormalizedString" flags="O">
+      <desc>The locally-assigned identifier for this LEA.</desc>
+    </element>
+    <element name="StateProvinceId" type="String" flags="O">
+      <desc>The state-assigned identifier for this LEA.</desc>
+    </element>
+    <element name="NCESId" type="NormalizedString" flags="O">
+      <desc>The NCES-assigned identifier for this LEA.</desc>
+    </element>
+    <element name="LEAName" type="NormalizedString" flags="M">
+      <desc>Name of LEA.</desc>
+    </element>
+    <element name="LEAURL" flags="O">
+      <desc>URL for the LEA.</desc>
+    </element>
+    <element name="EducationAgencyType" type="EducationAgencyType" flags="O" />
+    <element name="LEAContactList" type="LEAContactList" flags="O" />
+    <element name="PhoneNumberList" type="PhoneNumberList" flags="O">
+      <desc>The LEA's phone number(s).</desc>
+    </element>
+    <element name="AddressList" type="AddressList" flags="O">
+      <desc>The LEA's address(es).</desc>
+    </element>
+    <element name="IdentificationInfoList" type="IdentificationInfoList" flags="O">
+      <desc>Other identification information associated with an LEA, such as the locally-defined code/identifier, etc.</desc>
+    </element>
+    <element name="GradeLevels" type="GradeLevels" flags="O">
+      <desc>Collection of grade levels offered in this LEA.</desc>
+    </element>
+    <element name="OperationalStatus" enum="OperationalStatus" flags="O">
+      <desc>Operational condition of an LEA.</desc>
+    </element>
+    <element name="CongressionalDistrict" type="NormalizedString" flags="O">
+      <desc>Number for the US congressional district where the LEA is located.</desc>
+    </element>
+  </object>
+  <!--LocationOfInstruction object-->
+  <object name="LocationOfInstruction">
+    <element name="Code" enum="LocationOfInstructionCode" flags="M">
+      <desc>Code representing the location of instruction.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+  <!--LocationOfInstructionCode enum-->
+  <enum name="LocationOfInstructionCode">
+    <value name="0171_0997_BUSINESS" value="0997" desc="Business" />
+    <value name="0171_0752_COMMUNITY_FACILITY" value="0752" desc="Community facility" />
+    <value name="0171_2192_HOME" value="2192" desc="Home" />
+    <value name="0171_0754_HOSPITAL" value="0754" desc="Hospital" />
+    <value name="0171_0340_SCHOOL" value="0340" desc="In school" />
+    <value name="0171_3018_LIBRARY" value="3018" desc="Library/media center" />
+    <value name="0171_9999_OTHER" value="9999" desc="Other" />
+    <value name="0171_0341_OTHER_K12" value="0341" desc="Other K-12 educational institution" />
+    <value name="0171_0342_POSTSECONDARY_FACILITY" value="0342" desc="Postsecondary facility" />
+  </enum>
+  <!--ManifestationDetermination object-->
+  <object name="ManifestationDetermination">
+    <element name="MeetingHeld" enum="YesNo" flags="O">
+      <desc>Was a manifestation determination meeting held for this student regarding this offense?</desc>
+    </element>
+    <element name="MeetingDate" type="Date" flags="O">
+      <desc>Date of the manifestation determination meeting, if applicable.</desc>
+    </element>
+    <element name="DueToDisability" enum="YesNo" flags="O">
+      <desc>Did the team determine that the offense was a manifestation of the student's disability?</desc>
+    </element>
+  </object>
+  <!--MedicalAlertMessage object-->
+  <object name="MedicalAlertMessage">
+    <attribute name="Severity" enum="MedicalAlertMessageSeverity" flags="R">
+      <desc>The level of severity of this medical alert.</desc>
+    </attribute>
+  </object>
+  <!--MedicalAlertMessages object-->
+  <object name="MedicalAlertMessages">
+    <element name="MedicalAlertMessage" type="MedicalAlertMessage" flags="OR">
+      <desc>Medical alert associated with the student.</desc>
+    </element>
+  </object>
+  <!--MedicalAlertMessageSeverity enum-->
+  <enum name="MedicalAlertMessageSeverity">
+    <value name="LOW" value="Low" desc="Low" />
+    <value name="MODERATE" value="Moderate" desc="Moderate" />
+    <value name="HIGH" value="High" desc="High" />
+    <value name="SEVERE" value="Severe" desc="Severe" />
+    <value name="UNKNOWN" value="Unknown" desc="Unknown" />
+  </enum>
+  <!--MediumOfInstruction object-->
+  <object name="MediumOfInstruction">
+    <element name="Code" enum="MediumOfInstructionCode" flags="R">
+      <desc>Code representing the medium of instruction.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+  <!--MediumOfInstructionCode enum-->
+  <enum name="MediumOfInstructionCode">
+    <value name="0209_0609_CENTER_BASED" value="0609" desc="Center-based instruction" />
+    <value name="0209_0603_COMPUTER_BASED" value="0603" desc="Computer-based " />
+    <value name="0209_0604_CORRESPONDENCE" value="0604" desc="Correspondence" />
+    <value name="0209_0605_DIRECT_INTERACTION" value="0605" desc="Direct student-teacher interaction " />
+    <value name="0209_0606_DIRECTED_SELF_STUDY" value="0606" desc="Directed self-study" />
+    <value name="0209_0607_DISTANCE_LEARNING" value="0607" desc="Distance learning" />
+    <value name="0209_0610_INDEPENDENT_STUDY" value="0610" desc="Independent study" />
+    <value name="0209_0608_INTERACTIVE_TELECOM" value="0608" desc="Interactive telecommunications " />
+    <value name="0209_0611_INTERNSHIP" value="0611" desc="Internship" />
+    <value name="0209_9999_OTHER" value="9999" desc="Other" />
+  </enum>
+  <!--MostRecent object-->
+  <object name="MostRecent">
+    <element name="SchoolLocalId" type="NormalizedString" flags="O">
+      <desc>Local identifier representing the school in which the student is or was most recently enrolled in the district.</desc>
+    </element>
+    <element name="HomeroomLocalId" type="NormalizedString" flags="O">
+      <desc>Local identifier representing the current or most recent homeroom in which the student is or was most recently assigned in the district.</desc>
+    </element>
+    <element name="GradeLevel" type="GradeLevel" flags="O">
+      <desc>The current or most recent grade level of the student in the district.</desc>
+    </element>
+  </object>
+  <!--Offender object-->
+  <object name="Offender">
+    <attribute name="Type" enum="ReporterDescriptionType" flags="R">
+      <desc>Identifies the type of offender involved in the incident.</desc>
+    </attribute>
+    <element name="Name" type="Name" flags="O">
+      <desc>The name of the offender.</desc>
+    </element>
+    <element name="SIF_RefId" type="SIF_RefId" flags="O" />
+    <element name="Injury" enum="InjuryType" flags="M">
+      <desc>Identifies whether or not this specific offender was physically injured, and if so, identifies whether the injury was major or minor.</desc>
+    </element>
+    <element name="ManifestationDetermination" type="ManifestationDetermination" flags="O" />
+    <element name="ActionList" type="ActionList" flags="O" />
+  </object>
+  <!--OffenderList object-->
+  <object name="OffenderList">
+    <element name="Offender" type="Offender" flags="OR" />
+  </object>
+  <!--OperationalStatus enum-->
+  <enum name="OperationalStatus">
+    <value name="SCHOOL_OPEN" value="0820" desc="School Open: School is currently in operation with no significant change in instructional levels and programs." />
+    <value name="SCHOOL_CLOSED" value="0821" desc="School Closed: School is not currently open in operation and is not expected to operate in the future." />
+    <value name="SCHOOL_INACTIVE" value="0822" desc="School Inactive: School is temporarily closed (e.g. under construction) and may reopen within three years." />
+    <value name="SCHOOL_NEW" value="0104" desc="New School: School is newly created or completely restructured into the instructional levels and programs that are currently in operation." />
+    <value name="SCHOOL_FUTURE" value="0105" desc="Future School: School is scheduled to be operational within two years." />
+    <value name="AGENCY_CHANGED" value="0118" desc="Changed Agency: School is affiliated with another agency although the internal organization and instructional level have not changed." />
+    <value name="AGENCY_CLOSED" value="0107" desc="Agency Closed" />
+    <value name="AGENCY_OPEN" value="0106" desc="Agency Open" />
+    <value name="CHANGED_BOUNDARY" value="0109" desc="Changed Boundary" />
+    <value name="AGENCY_FUTURE" value="0111" desc="Future Agency" />
+    <value name="AGENCY_INACTIVE" value="0110" desc="Inactive Agency" />
+    <value name="AGENCY_NEW" value="0108" desc="New Agency" />
+  </enum>
+  <!--OtherLEA object-->
+  <object name="OtherLEA" dataType="IdRefType">
+    <attribute name="SIF_RefObject" type="String" flags="R">
+      <desc>The name of the object reference.</desc>
+    </attribute>
+  </object>
+  <!--PrincipalInfo object-->
+  <object name="PrincipalInfo">
+    <element name="ContactName" type="NormalizedString" flags="M">
+      <desc>The name of the principal.</desc>
+    </element>
+    <element name="ContactTitle" type="NormalizedString" flags="O">
+      <desc>The principal's title.</desc>
+    </element>
+  </object>
+  <!--RelatedTo object-->
+  <object name="RelatedTo" enum="RelatedToCode" />
+  <!--RelatedToCode enum-->
+  <enum name="RelatedToCode">
+    <value name="1048_3066_ALCOHOL_RELATED" value="3066" desc="Alcohol-related" />
+    <value name="1048_3067_DRUG_RELATED" value="3067" desc="Drug-related" />
+    <value name="1048_3068_GANG_RELATED" value="3068" desc="Gang-related" />
+    <value name="1048_3069_HATE_RELATED" value="3069" desc="Hate-related" />
+    <value name="1048_3070_WEAPON_RELATED" value="3070" desc="Weapon-related" />
+  </enum>
+  <!--RelatedToList object-->
+  <object name="RelatedToList">
+    <element name="RelatedTo" type="RelatedTo" flags="OR">
+      <desc>Identifies if incident was related to a specific category.</desc>
+    </element>
+  </object>
+  <!--ReporterDescriptionType enum-->
+  <enum name="ReporterDescriptionType">
+    <value name="1043_3168" value="3168" desc="Former student" />
+    <value name="1043_3054" value="3054" desc="Law enforcement officer" />
+    <value name="1043_3059" value="3059" desc="Nonschool personnel" />
+    <value name="1043_3061" value="3061" desc="Other adult" />
+    <value name="1043_3062" value="3062" desc="Other nonstudent youth" />
+    <value name="1043_0850" value="0850" desc="Parent/guardian" />
+    <value name="1043_3060" value="3060" desc="Representative of visiting school" />
+    <value name="1043_3422" value="3422" desc="Staff member" />
+    <value name="1043_0126" value="0126" desc="Student" />
+    <value name="1043_9997" value="9997" desc="Unknown" />
+  </enum>
+  <!--RoomInfo object-->
+  <object name="RoomInfo" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies this room.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies the school that this room belongs to.</desc>
+    </attribute>
+    <element name="RoomNumber" type="Token" flags="O">
+      <desc>Room number as presented to the user/application.</desc>
+    </element>
+    <element name="StaffList" type="StaffList" flags="O" />
+    <element name="Description" type="NormalizedString" flags="O">
+      <desc>Friendly name that can be assigned to the room (e.g. Staff Cafeteria).</desc>
+    </element>
+    <element name="Building" type="NormalizedString" flags="O">
+      <desc>Extra building information. In the future Building could become its own object in which case this element will need to be changed to a RefId. Currently it is only required as a free text field.</desc>
+    </element>
+    <element name="HomeroomNumber" type="NormalizedString" flags="O">
+      <desc>When a room is designated as a homeroom it may have a different number. Usually blank when room is not a homeroom.</desc>
+    </element>
+    <element name="Size" type="UnsignedInt" flags="O">
+      <desc>Size in square feet.</desc>
+    </element>
+    <element name="Capacity" type="UnsignedInt" flags="O">
+      <desc>Number of persons (usually students) that this room can hold.</desc>
+    </element>
+    <element name="PhoneNumber" type="PhoneNumber" flags="O">
+      <desc>Phone number for the room</desc>
+    </element>
+    <element name="RoomTypeRefId" type="IdRefType" flags="O">
+      <desc>GUID that identifies the room type assigned to this room.</desc>
+    </element>
+  </object>
+  <!--RoomInfoRefId object-->
+  <object name="RoomInfoRefId" datatype="IdRefType">
+    <desc>The ID (GUID) of the room in which this section is taught</desc>
+  </object>
+  <!--RoomType object-->
+  <object name="RoomType" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies this room type.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies the school that this room type belongs to.</desc>
+    </attribute>
+    <element name="Description" type="NormalizedString" flags="M">
+      <desc>Description of the room type.</desc>
+    </element>
+  </object>
+  <!--SafetyTimeType enum-->
+  <enum name="SafetyTimeType">
+    <!--TODO: Rename these enum values-->
+    <value name="100" value="100" desc="During School Hours" />
+    <value name="110" value="110" desc="Before classes" />
+    <value name="120" value="120" desc="During class" />
+    <value name="130" value="130" desc="During passing" />
+    <value name="140" value="140" desc="During lunch/recess" />
+    <value name="150" value="150" desc="After classes" />
+    <value name="197" value="197" desc="Other time during school hours" />
+    <value name="200" value="200" desc="In Transit" />
+    <value name="210" value="210" desc="On the way to school" />
+    <value name="220" value="220" desc="On the way from school" />
+    <value name="300" value="300" desc="Outside School Hours" />
+    <value name="310" value="310" desc="School-sponsored activity" />
+    <value name="320" value="320" desc="Nonschool-sponsored activity" />
+    <value name="397" value="397" desc="Other" />
+    <value name="999" value="999" desc="Unknown" />
+  </enum>
+  <!--SCEDCode object-->
+  <object name="SCEDCode">
+    <element name="CourseDescription" type="Token" flags="O" />
+    <element name="CourseLevel" enum="CourseLevel" flags="O">
+      <desc>Conveys the level of the course.</desc>
+    </element>
+    <element name="AvailableCredit" type="Decimal" flags="O">
+      <desc>Identifies the amount of credit available to a student who successfully meets the objectives of the course, measured in Carnegie units (9.99 format).</desc>
+    </element>
+    <element name="SequenceNumber" type="UnsignedInt" flags="O">
+      <desc>One-digit number describing where a specific course lies when it is part of a consecutive sequence of courses described by the same general course description.</desc>
+    </element>
+    <element name="SequenceLimit" type="UnsignedInt" flags="O">
+      <desc>One-digit number representing the total number of courses in the consecutive sequence described by the same general course description.</desc>
+    </element>
+  </object>
+  <!--ScheduleInfo object-->
+  <object name="ScheduleInfo">
+    <attribute name="TermInfoRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) of the term to which this schedule information relates.</desc>
+    </attribute>
+    <element name="TeacherList" type="TeacherList" flags="O" />
+    <element name="SectionRoomList" type="SectionRoomList" flags="O" />
+    <element name="MeetingTimeList" type="MeetingTimeList" flags="O" />
+  </object>
+  <!--ScheduleInfoList object-->
+  <object name="ScheduleInfoList">
+    <element name="ScheduleInfo" type="ScheduleInfo" flags="OR" />
+  </object>
+  <!--ScheduleInfoOverride object-->
+  <object name="ScheduleInfoOverride">
+    <attribute name="Override" enum="YesNo" flags="R">
+      <desc>Designates whether or not scheduling information has been overridden with different values for this student.</desc>
+    </attribute>
+    <attribute name="TermInfoRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) of the term to which this override information relates for this student.</desc>
+    </attribute>
+    <element name="MeetingTimeList" type="MeetingTimeList" flags="O" />
+  </object>
+  <!--ScheduleInfoOverrideList object-->
+  <object name="ScheduleInfoOverrideList">
+    <element name="ScheduleInfoOverride" type="ScheduleInfoOverride" flags="OR" />
+  </object>
+  <!--SchoolCourseInfo object-->
+  <object name="SchoolCourseInfo" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that uniquely identifies the school course.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that identifies the school where the course is offered.</desc>
+    </attribute>
+    <attribute name="SchoolYear" type="GYear" key="false" flags="R">
+      <desc>School year for which the information is applicable, expressed as the four-digit year in which the school year ends (e.g. 2007 for the 2006-07 school year).</desc>
+    </attribute>
+    <element name="CourseCode" type="NormalizedString" flags="O">
+      <desc>School-defined local code for the course.</desc>
+    </element>
+    <element name="StateCourseCode" type="NormalizedString" flags="O">
+      <desc>State-defined standard course code used to report information about courses.</desc>
+    </element>
+    <element name="DistrictCourseCode" type="NormalizedString" flags="O">
+      <desc>The corresponding district course code.</desc>
+    </element>
+    <element name="SubjectAreaList" type="SubjectAreaList" flags="O" />
+    <element name="CourseTitle" type="NormalizedString" flags="O">
+      <desc>Title of the course.</desc>
+    </element>
+    <element name="Description" type="NormalizedString" flags="O">
+      <desc>Textual description of the course.</desc>
+    </element>
+    <element name="InstructionalLevel" type="InstructionalLevel" flags="O">
+      <desc>An indication of the general nature and difficulty of instruction provided.</desc>
+    </element>
+    <element name="CourseCredits" type="CourseCredits" flags="O">
+      <desc>The number of credits awarded upon course completion.</desc>
+    </element>
+    <element name="CoreAcademicCourse" enum="YesNo" flags="O">
+      <desc>Does the course meet the state definition of a core academic course?</desc>
+    </element>
+    <element name="GraduationRequirement" enum="YesNo" flags="O">
+      <desc>Does the state require that the course be completed for graduation?</desc>
+    </element>
+    <element name="Department" type="NormalizedString" flags="O" />
+    <element name="SCEDCode" type="SCEDCode" flags="O">
+      <desc>Course code from the School Codes for the Exchange of Data that describes the course content.</desc>
+    </element>
+  </object>
+  <!--SchoolCourseInfoOverride object-->
+  <object name="SchoolCourseInfoOverride">
+    <desc>Optional overrides of the course information for a section</desc>
+    <attribute name="Override" enum="YesNo" flags="R">
+      <desc>Designates whether or not SchoolCourseInfo information has been overridden with different values for this section</desc>
+    </attribute>
+    <element name="CourseCode" type="NormalizedString" flags="O">
+      <desc>Override of the school-defined course code for this section.</desc>
+    </element>
+    <element name="StateCourseCode" type="NormalizedString" flags="O">
+      <desc>Override of the state-defined course code for this section.</desc>
+    </element>
+    <element name="DistrictCourseCode" type="NormalizedString" flags="O">
+      <desc>Override of the district course code for this section.</desc>
+    </element>
+    <element name="SubjectArea" type="SubjectArea" flags="O">
+      <desc>Override of the subject matter area for this section.</desc>
+    </element>
+    <element name="CourseTitle" type="NormalizedString" flags="O">
+      <desc>Override of the course title for this section.</desc>
+    </element>
+    <element name="InstructionalLevel" type="InstructionalLevel" flags="O">
+      <desc>Override of the instructional level for this section.</desc>
+    </element>
+    <element name="CourseCredits" type="CourseCredits" flags="O">
+      <desc>Override of the course credits for this section.</desc>
+    </element>
+  </object>
+  <!--SchoolFocus object-->
+  <object name="SchoolFocus" enum="SchoolFocusType" />
+  <!--SchoolFocusList object-->
+  <object name="SchoolFocusList">
+    <element name="SchoolFocus" type="SchoolFocus" flags="OR">
+      <desc>The type of educational institution as classified by its focus.</desc>
+    </element>
+  </object>
+  <!--SchoolFocusType enum-->
+  <enum name="SchoolFocusType">
+    <value name="REGULAR" value="Regular" desc="Regular" />
+    <value name="SPECIALED" value="SpecialEd" desc="SpecialEd" />
+    <value name="VOCATIONAL" value="Vocational" desc="Vocational" />
+    <value name="ALTERNATIVE" value="Alternative" desc="Alternative" />
+    <value name="MAGNET" value="Magnet" desc="Magnet" />
+    <value name="CHARTER" value="Charter" desc="Charter" />
+  </enum>
+  <!--SchoolInfo object-->
+  <object name="SchoolInfo" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The GUID that identifies this school.</desc>
+    </attribute>
+    <element name="LocalId" type="NormalizedString" flags="O">
+      <desc>The locally-assigned identifier for this school.</desc>
+    </element>
+    <element name="StateProvinceId" type="String" flags="O">
+      <desc>The state-assigned identifier for this school.</desc>
+    </element>
+    <element name="NCESId" type="NormalizedString" flags="O">
+      <desc>The NCES-assigned identifier for this school.</desc>
+    </element>
+    <element name="SchoolName" type="NormalizedString" flags="M">
+      <desc>Name of school.</desc>
+    </element>
+    <element name="LEAInfoRefId" type="IdRefType" flags="O">
+      <desc>School district of which this school is a member.</desc>
+    </element>
+    <element name="OtherLEA" type="OtherLEA" flags="O">
+      <desc>Other related education agency, such as a regional service agency.</desc>
+    </element>
+    <element name="SchoolType" enum="SchoolLevelType" flags="O">
+      <desc>An indication of the level of the educational institution.</desc>
+    </element>
+    <element name="SchoolFocusList" type="SchoolFocusList" flags="O" />
+    <element name="SchoolURL" type="AnyUri" flags="O">
+      <desc>URL for the school.</desc>
+    </element>
+    <element name="PrincipalInfo" type="PrincipalInfo" flags="O" />
+    <element name="SchoolContactList" type="SchoolContactList" flags="O" />
+    <element name="AddressList" type="AddressList" flags="O">
+      <desc>The school's addresses.</desc>
+    </element>
+    <element name="PhoneNumberList" type="PhoneNumberList" flags="O">
+      <desc>The school's phone numbers.</desc>
+    </element>
+    <element name="IdentificationInfoList" type="IdentificationInfoList" flags="O">
+      <desc>Other identification information associated with a school, such as the locally-defined code/identifier, etc.</desc>
+    </element>
+    <element name="SessionType" enum="SessionTypeCode" flags="O">
+      <desc>Code that specifies the session type.</desc>
+    </element>
+    <element name="GradeLevels" type="GradeLevels" flags="O">
+      <desc>Collection of grade levels offered in this school.</desc>
+    </element>
+    <element name="Title1Status" enum="Title1Status" flags="O">
+      <desc>Status of the school's Title I eligibility. Certain schools are designated under appropriate state and federal regulations as being eligible for participation in programs authorized by Title I of Public Law 103-382.</desc>
+    </element>
+    <element name="OperationalStatus" enum="OperationalStatus" flags="O">
+      <desc>Operational condition of a school.</desc>
+    </element>
+    <element name="CongressionalDistrict" type="NormalizedString" flags="O">
+      <desc>Number for the US congressional district of the school location.</desc>
+    </element>
+  </object>
+  <!--SchoolLevelType enum-->
+  <enum name="SchoolLevelType">
+    <value name="0031_0013_ADULT" value="0013" desc="Adult" />
+    <value name="0031_1302_ALL_LEVELS" value="1302" desc="All levels" />
+    <value name="0031_1304_ELEMENTARY" value="1304" desc="Elementary" />
+    <value name="0031_2402_HIGH_SCHOOL" value="2402" desc="High school" />
+    <value name="0031_0787_INFANTS_TODDLERS" value="0787" desc="Infants/toddlers" />
+    <value name="0031_2399_INTERMEDIATE" value="2399" desc="Intermediate" />
+    <value name="0031_2401_JUNIOR" value="2401" desc="Junior" />
+    <value name="0031_2400_MIDDLE" value="2400" desc="Middle" />
+    <value name="0031_0789_PRE_KINDERGARTEN" value="0789" desc="Pre-kindergarten" />
+    <value name="0031_1981_PRESCHOOL" value="1981" desc="Preschool/early childhood" />
+    <value name="0031_2397_PRIMARY" value="2397" desc="Primary" />
+    <value name="0031_2403_SECONDARY" value="2403" desc="Secondary" />
+  </enum>
+  <!--SectionInfo object-->
+  <object name="SectionInfo" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that uniquely identifies this section entity.</desc>
+    </attribute>
+    <attribute name="SchoolCourseInfoRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that identifies the course being taught in this section.</desc>
+    </attribute>
+    <attribute name="SchoolYear" type="GYear" flags="R">
+      <desc>School year for which the information is applicable, expressed as the four-digit year in which the school year ends (e.g. 2007 for the 2006-07 school year).</desc>
+    </attribute>
+    <element name="LocalId" type="NormalizedString" flags="O">
+      <desc>The locally-assigned identifier for this course section.</desc>
+    </element>
+    <element name="Description" type="NormalizedString" flags="O">
+      <desc>Description of the course section.</desc>
+    </element>
+    <element name="ScheduleInfoList" type="ScheduleInfoList" flags="M" />
+    <element name="MediumOfInstruction" type="MediumOfInstruction" flags="O" />
+    <element name="LanguageOfInstruction" type="LanguageOfInstruction" flags="O" />
+    <element name="LocationOfInstruction" type="LocationOfInstruction" flags="O" />
+    <element name="SummerSchool" enum="YesNo" flags="O">
+      <desc>Is this a summer school assignment?</desc>
+    </element>
+    <element name="SchoolCourseInfoOverride" type="SchoolCourseInfoOverride" flags="O" />
+  </object>
+  <!--SectionRoomList object-->
+  <object name="SectionRoomList">
+    <element name="RoomInfoRefId" type="RoomInfoRefId" flags="OR">
+      <desc>The ID (GUID) of the room in which this section is taught</desc>
+    </element>
+  </object>
+  <!--Severity enum-->
+  <enum name="Severity">
+    <value name="LOW" value="Low" desc="Low" />
+    <value name="MODERATE" value="Moderate" desc="Moderate" />
+    <value name="HIGH" value="High" desc="High" />
+    <value name="SEVERE" value="Severe" desc="Severe" />
+    <value name="UNKNOWN" value="Unknown" desc="Unknown" />
+  </enum>
+  <!--StaffAssignment object-->
+  <object name="StaffAssignment" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The GUID that uniquely identifies a particular staff assignment.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that identifies the school where the staff member is assigned.</desc>
+    </attribute>
+    <attribute name="SchoolYear" type="GYear" flags="R">
+      <desc>School year for which the information is applicable, expressed as the four-digit year in which the school year ends (e.g., 2007 for the 2006-07 school year).</desc>
+    </attribute>
+    <attribute name="StaffPersonalRefId" type="IdRefType" flags="R">
+      <desc>ID (GUID) of this staff member, as represented in the StaffPersonal object. </desc>
+    </attribute>
+    <element name="Description" type="NormalizedString" flags="O">
+      <desc>Short assignment description</desc>
+    </element>
+    <element name="PrimaryAssignment" enum="YesNo" flags="M">
+      <desc>Is this the staff member's primary assignment?  Note: There must be one and only one instance of the object with a Yes value in this element per school year.</desc>
+    </element>
+    <element name="JobStartDate" type="Date" flags="O">
+      <desc>This is the date from which the staff assignment is valid (inclusive).</desc>
+    </element>
+    <element name="JobEndDate" type="Date" flags="O">
+      <desc>This is the date through which the staff assignment is valid (inclusive).</desc>
+    </element>
+    <element name="JobFTE" type="Decimal" flags="O">
+      <desc>Full-time job equivalent ratio for this assignment. (Format is x.xx; an employee who is full-time and who is 50% of their time on this assignment would be represented as 0.50)</desc>
+    </element>
+    <element name="JobFunction" type="JobFunction" flags="O" />
+    <element name="TeachingAssignment" type="TeachingAssignment" flags="O" />
+    <element name="GradeLevels" type="GradeLevels" flags="O">
+      <desc>An indication of the grade level(s) the individual is assigned</desc>
+    </element>
+    <element name="ItinerantTeacher" enum="YesNo" flags="O">
+      <desc>Is this staff itinerant for this assignment?</desc>
+    </element>
+    <element name="InstructionalLevel" type="InstructionalLevel" flags="O">
+      <desc>An indication of the general nature of instruction provided throughout a course.</desc>
+    </element>
+    <element name="EmployeePersonalRefId" type="IdRefType" flags="O">
+      <desc>A GUID referencing an EmployeePersonal object to be able to establish a link between HR employee objects and SIS staff objects.</desc>
+    </element>
+  </object>
+  <!--StaffList object-->
+  <object name="StaffList">
+    <element name="StaffPersonalRefId" type="StaffPersonalRefId" flags="MR">
+      <desc>Staff assigned to this room. For example, the homeroom teacher.</desc>
+    </element>
+  </object>
+  <!--StaffPersonal object-->
+  <object name="StaffPersonal" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The GUID of the staff member.</desc>
+    </attribute>
+    <element name="LocalId" type="NormalizedString" flags="M">
+      <desc>The locally-assigned identifier for this staff member.</desc>
+    </element>
+    <element name="StateProvinceId" type="String" flags="O">
+      <desc>The state-assigned identifier for this staff member.</desc>
+    </element>
+    <element name="ElectronicIdList" type="ElectronicIdList" flags="O">
+      <desc>Electronic identifier(s) associated with this entity.</desc>
+    </element>
+    <element name="OtherIdList" type="OtherIdList" flags="M">
+      <desc>Lists all "other" identifiers associated with the staff member.</desc>
+    </element>
+    <element name="Name" type="Name" flags="M">
+      <desc>Name of the staff member.  Note: Always use Type value of 04.</desc>
+    </element>
+    <element name="OtherNames" type="OtherNames" flags="O" />
+    <element name="Demographics" type="Demographics" flags="O">
+      <desc>This element contains information related to staff member demographics.</desc>
+    </element>
+    <element name="Title" type="NormalizedString" flags="O">
+      <desc>The staff member's title.</desc>
+    </element>
+    <element name="AddressList" type="AddressList" flags="O">
+      <desc>The staff member's address(es).</desc>
+    </element>
+    <element name="PhoneNumberList" type="PhoneNumberList" flags="O">
+      <desc>The staff member's phone number(s).</desc>
+    </element>
+    <element name="EmailList" type="EmailList" flags="O">
+      <desc>The staff member's e-mail address(es).</desc>
+    </element>
+    <element name="EmployeePersonalRefId" type="IdRefType" flags="O">
+      <desc>Allows for a linkage to the HR/Fin EmployeePersonal object.</desc>
+    </element>
+  </object>
+  <!--StaffPersonalRefId object-->
+  <object name="StaffPersonalRefId" datatype="IdRefType" />
+  <!--StudentAddress object-->
+  <object name="StudentAddress">
+	<attribute name="PickupOrDropoff" type="String" flags="R">
+		<desc>Specifies if this is a pickup or dropoff address. This property may be needed by a transportation application.</desc>
+	</attribute>
+	<attribute name="DayOfWeek" type="String" flags="R">
+		<desc>This attribute indicates the days of the week for which the pickup or dropoff address is valid. The attribute if relevant only if the value of the PickupOrDropoff attribute is "Pickup," "Dropoff" or "Both."</desc>
+	</attribute>
+	<element name="Address" type="Address" flags="M">
+		<desc>This is the actual address.</desc>
+	</element>
+  </object>
+  <!--StudentAddressList object-->
+  <object name="StudentAddressList" type="SIFActionList&lt;Address&gt;">
+    <desc>A student address</desc>
+    <element name="Address" type="Address" flags="MR">
+      <desc>The street address</desc>
+    </element>
+  </object>
+  <!--StudentAttendance object-->
+  <object name="StudentAttendance">
+    <element name="CountsTowardAttendance" enum="YesNo" flags="O">
+      <desc>Designates whether this date should be counted toward student attendance.</desc>
+    </element>
+    <element name="AttendanceValue" type="Decimal" flags="O">
+      <desc>Amount of the school day in which the student should be in attendance (Format is x.x; a student who should be in attendance a full day would be represented as 1.0).  If StudentAttendance is present, StudentAttendanceValue must also be present.  If StudentAttendance equals "Yes" then StudentAttendanceValue must be greater than zero.</desc>
+    </element>
+  </object>
+  <!--StudentAttendanceSummary object-->
+  <object name="StudentAttendanceSummary" topic="true">
+    <attribute name="StudentPersonalRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) of the student for whom this attendance information is being reported.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) of the school for which this attendance information is being reported.</desc>
+    </attribute>
+    <attribute name="SchoolYear" type="GYear" flags="R">
+      <desc>School year for which the information is applicable.</desc>
+    </attribute>
+    <element name="StartDate" type="Date" flags="M">
+      <desc>Starting date of this attendance reporting period.</desc>
+    </element>
+    <element name="StartDay" type="UnsignedInt" flags="M">
+      <desc>Number of the school day represented in StartDate.</desc>
+    </element>
+    <element name="EndDate" type="Date" flags="M">
+      <desc>Ending date of this attendance reporting period.</desc>
+    </element>
+    <element name="EndDay" type="UnsignedInt" flags="M">
+      <desc>Number of the school day represented in EndDate.</desc>
+    </element>
+    <element name="Resident" enum="YesNoUnknown" flags="M">
+      <desc>An indication as to whether or not the student's legal residence was within the boundaries of the school during the time between the StartDate and EndDate, inclusive.</desc>
+    </element>
+    <element name="FTE" type="Decimal" flags="O">
+      <desc>Full time equivalent numeric value of the student's course load during this attendance period, expressed in decimal form, where 1.00 represents a full time enrollment.</desc>
+    </element>
+    <element name="DaysAttended" type="Decimal" flags="M">
+      <desc>The number of days the student attended school when school was in session between the StartDate and EndDate, inclusive.</desc>
+    </element>
+    <element name="ExcusedAbsences" type="Decimal" flags="M">
+      <desc>The number of days the student was absent from school with a valid excuse when school was in session between the StartDate and EndDate, inclusive.</desc>
+    </element>
+    <element name="UnexcusedAbsences" type="Decimal" flags="M">
+      <desc>The number of days the student was absent from school without a valid excuse when school was in session between the StartDate and EndDate, inclusive.</desc>
+    </element>
+    <element name="DaysTardy" type="Decimal" flags="O">
+      <desc>The number of days the student was tardy when school was in session between the StartDate and EndDate, inclusive.</desc>
+    </element>
+    <element name="DaysInMembership" type="Decimal" flags="M">
+      <desc>The number of days the student was present plus the number of days the student was absent when school was in session during the period between the StartDate and EndDate, inclusive.</desc>
+    </element>
+  </object>
+  <!--StudentContact object-->
+  <object name="StudentContact" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The GUID of this contact.</desc>
+    </attribute>
+    <attribute name="StudentPersonalRefId" type="IdRefType" flags="R">
+      <desc>The GUID of the student whose contact this is.</desc>
+    </attribute>
+    <element name="LocalId" type="NormalizedString" flags="O">
+      <desc>
+        The locally-assigned identifier for this contact.  Note: LocalId may be used as a unique person identifier
+        rather than a unique contact identifier.  In this case there may be more than one StudentContact instance with the same LocalId.
+      </desc>
+    </element>
+    <element name="OtherIdList" type="OtherIdList" flags="O">
+      <desc>Lists all "other" IDs associated with the contact.</desc>
+    </element>
+    <element name="Name" type="Name" flags="O">
+      <desc>The name of the contact.  Note: Always use Type attribute value of 04.</desc>
+    </element>
+    <element name="OtherNames" type="OtherNames" flags="O" />
+    <element name="Demographics" type="Demographics" flags="O">
+      <desc>Demographic information about the contact.</desc>
+    </element>
+    <element name="AddressList" type="AddressList" flags="O">
+      <desc>The contact's address(es).</desc>
+    </element>
+    <element name="PhoneNumberList" type="PhoneNumberList" flags="O">
+      <desc>The contact's phone number(s).</desc>
+    </element>
+    <element name="EmailList" type="EmailList" flags="O">
+      <desc>The contact's e-mail address(es).</desc>
+    </element>
+    <element name="Relationship" type="Relationship" flags="O">
+      <desc>Defines the relationship of the contact to the student.</desc>
+    </element>
+    <element name="EmployerType" enum="EmployerTypeCode" flags="O">
+      <desc>Code that defines the employer type.</desc>
+    </element>
+    <element name="EducationalLevel" enum="EducationalLevelCode" flags="O">
+      <desc>The highest level of education completed by the contact person.</desc>
+    </element>
+    <element name="ContactFlags" type="ContactFlags" flags="O" />
+    <element name="ContactSequence" type="UnsignedInt" flags="O">
+      <desc>Number indicating the order in which the person should be contacted.</desc>
+    </element>
+  </object>
+  <!--StudentDailyAttendance object-->
+  <object name="StudentDailyAttendance" topic="true">
+    <attribute name="StudentPersonalRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) of the student for whom this attendance information is being reported.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) of the school for which this attendance information is being reported.</desc>
+    </attribute>
+    <attribute name="Date" type="Date" flags="R">
+      <desc>The calendar date to which this attendance information relates.</desc>
+    </attribute>
+    <attribute name="SchoolYear" type="GYear" key="false" flags="R">
+      <desc>
+        School year for which this enrollment is applicable, expressed as the four-digit year in which the school year
+        ends (e.g. 2007 for the 2006-07 school year).
+      </desc>
+    </attribute>
+    <element name="AttendanceCodeInfoRefId" type="IdRefType" flags="M">
+      <desc>The ID (GUID) of the locally-defined daily attendance code information.</desc>
+    </element>
+    <element name="TimeIn" type="Time" flags="O">
+      <desc>The time the student entered or returned to school.</desc>
+    </element>
+    <element name="TimeOut" type="Time" flags="O">
+      <desc>The time the student left school.</desc>
+    </element>
+    <element name="AttendanceNote" type="NormalizedString" flags="O">
+      <desc>Note related to this particular attendance.</desc>
+    </element>
+  </object>
+  <!--StudentPersonal object-->
+  <object name="StudentPersonal" topic="true" extras="StudentPersonal.txt">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The GUID of the student.</desc>
+    </attribute>
+    <element name="AlertMessages" type="AlertMessages" flags="O" />
+    <element name="MedicalAlertMessages" type="MedicalAlertMessages" flags="O" />
+    <element name="LocalId" type="NormalizedString" flags="M">
+      <desc>The locally-assigned identifier for this student.</desc>
+    </element>
+    <element name="StateProvinceId" type="String" flags="O">
+      <desc>The state-assigned identifier for this student.</desc>
+    </element>
+    <element name="ElectronicIdList" type="ElectronicIdList" flags="O">
+      <desc>Electronic identifier(s) associated with this entity.</desc>
+    </element>
+    <element name="OtherIdList" type="OtherIdList" flags="O">
+      <desc>Lists all "other" IDs associated with the student.</desc>
+    </element>
+    <element name="Name" type="Name" flags="M">
+      <desc>Name of the student.  Note: Always use Type value of 04.</desc>
+    </element>
+    <element name="OtherNames" type="OtherNames" flags="O" />
+    <element name="Demographics" type="Demographics" flags="O">
+      <desc>This element contains information related to student demographics.</desc>
+    </element>
+    <element name="AddressList" type="StudentAddressList" flags="O">
+      <desc>The student's address(es)</desc>
+    </element>
+    <element name="PhoneNumberList" type="PhoneNumberList" flags="O">
+      <desc>The student's phone number(s).</desc>
+    </element>
+    <element name="EmailList" type="EmailList" flags="O">
+      <desc>The student's e-mail address(es).</desc>
+    </element>
+    <element name="ProjectedGraduationYear" type="GYear" flags="O">
+      <desc>Currently projected graduation year.</desc>
+    </element>
+    <element name="OnTimeGraduationYear" type="GYear" flags="O">
+      <desc>First projected graduation year, usually determined when student is accepted into 9th grade.</desc>
+    </element>
+    <element name="GraduationDate" type="PartialDateType" flags="O">
+      <desc>First projected graduation year, usually determined when student is accepted into 9th grade.</desc>
+    </element>
+    <element name="MostRecent" type="MostRecent" flags="O" />
+    <element name="AcceptableUsePolicy" enum="YesNo" flags="O">
+      <desc>Does the student have a current signed Acceptable Use Policy document for system access?</desc>
+    </element>
+    <element name="IDEA" enum="YesNoUnknown" flags="O" />
+    <element name="Migrant" enum="YesNoUnknown" flags="O" />
+    <element name="Title1" enum="YesNoUnknown" flags="O" />
+    <element name="GiftedTalented" enum="YesNoUnknown" flags="O" />
+    <element name="EconomicDisadvantage" enum="YesNoUnknown" flags="O" />
+    <element name="ELL" enum="YesNoUnknown" flags="O" />
+    <element name="Homeless" enum="YesNoUnknown" flags="O" />
+    <element name="Section504" enum="YesNoUnknown" flags="O" />
+    <element name="VocationalConcentrator" enum="YesNoUnknown" flags="O" />
+    <element name="Immigrant" enum="YesNoUnknown" flags="O" />
+    <element name="NeglectedDelinquent" enum="YesNoUnknown" flags="O" />
+  </object>
+  <!--StudentPicture object-->
+  <object name="StudentPicture" topic="true">
+    <attribute name="StudentPersonalRefId" type="IdRefType" flags="R">
+      <desc>This is the GUID of the student whose picture this is.</desc>
+    </attribute>
+    <attribute name="SchoolYear" key="false" type="GYear" flags="R">
+      <desc>
+        School year for which this enrollment is applicable, expressed as the four-digit year in which the school year
+        ends (e.g. 2007 for the 2006-07 school year).
+      </desc>
+    </attribute>
+    <element name="PictureSource" type="PictureSource" flags="M">
+      <desc>This element defines the picture. If the Type attribute is URL, this is the location of the picture in [JPEG] format; if Type is JPEG, this is the [JPEG] image data encoded using the Base64 Content-Transfer-Encoding defined in Section 6.8 of [RFC 2045].</desc>
+    </element>
+    <element name="OKToPublish" enum="YesNo" flags="O">
+      <desc>Can the picture be published?</desc>
+    </element>
+  </object>
+  <!--StudentSchoolEnrollment object-->
+  <object name="StudentSchoolEnrollment" topic="true" extras="StudentSchoolEnrollment.txt">
+    <desc>
+      This object defines information related to a student's enrollment. SIF_Events are reported. StudentSchoolEnrollment
+      instances must not span multiple school years.
+    </desc>
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that uniquely identifies a particular enrollment.</desc>
+    </attribute>
+    <attribute name="StudentPersonalRefId" key="false" type="Token" flags="R">
+      <desc>The ID (GUID) of the student to whom this information is linked.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" key="false" type="Token" flags="R">
+      <desc>The ID (GUID) of the school to which this enrollment applies.</desc>
+    </attribute>
+    <attribute name="MembershipType" key="false" enum="MembershipType" flags="R">
+      <desc>The type of this enrollment as it relates to the school identified in SchoolInfoRefId.</desc>
+    </attribute>
+    <attribute name="TimeFrame" key="false" enum="TimeFrame" flags="R">
+      <desc>The timeframe of the enrollment based on the SIF_Date in the SIF_Header of the message. For events, it is determined as of the date the event is generated. For requests and responses, it is calculated based on the date of the request.</desc>
+    </attribute>
+    <attribute name="SchoolYear" key="false" type="GYear" flags="R">
+      <desc>
+        School year for which this enrollment is applicable, expressed as the four-digit year in which the school year ends (e.g. 2007 for the 2006-07 school year). StudentSchoolEnrollment instances must not span multiple school years.
+      </desc>
+    </attribute>
+    <element name="EntryDate" type="Date" flags="M">
+      <desc>The date from when this enrollment is valid.</desc>
+    </element>
+    <element name="EntryType" type="EntryType" flags="O" />
+    <element name="GradeLevel" type="GradeLevel" flags="O">
+      <desc>Grade or academic level of student.</desc>
+    </element>
+    <element name="Homeroom" type="Homeroom" flags="O" />
+    <element name="Advisor" type="SIF_RefId" flags="O" />
+    <element name="Counselor" type="SIF_RefId" flags="O" />
+    <element name="ExitDate" type="Date" flags="O">
+      <desc>The last School calendar day (membership day) the student was enrolled in the school (inclusive). If the student has existed the school, ExitDate must have a value.</desc>
+    </element>
+    <element name="ExitStatus" type="ExitStatus" flags="O" />
+    <element name="ExitType" type="ExitType" flags="O" />
+    <element name="FTE" type="Decimal" flags="O">
+      <desc>Full-time equivalent numeric value of the student's course load during this enrollment, expressed in decimal form, where 1.00 represents a full-time enrollment.</desc>
+    </element>
+    <element name="FTPTStatus" enum="FTPTStatus" flags="O">
+      <desc>An indication of whether the student is enrolled full time or part time.</desc>
+    </element>
+    <element name="ResidencyStatus" type="ResidencyStatus" flags="O" />
+    <element name="NonResidentAttendReason" enum="NonResidentAttendRationale" flags="O">
+      <desc>
+        If the school represented by this enrollment is outside of the student's usual attendance area
+        (as indicated in the ResidencyStatus element), this element indicates the reason that the student attends this school.
+      </desc>
+    </element>
+  </object>
+  <!--StudentSectionEnrollment object-->
+  <object name="StudentSectionEnrollment" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that uniquely identifies this StudentSectionEnrollment entity.</desc>
+    </attribute>
+    <attribute name="StudentPersonalRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) of the student to whom the enrollment information applies.</desc>
+    </attribute>
+    <attribute name="SectionInfoRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) of the section in which this student is enrolled.</desc>
+    </attribute>
+    <attribute name="SchoolYear" type="GYear" flags="R">
+      <desc>
+        School year for which the information is applicable, expressed as the four-digit year in which the school
+        year ends (e.g. 2007 for the 2006-07 school year).
+      </desc>
+    </attribute>
+    <element name="EntryDate" type="Date" flags="O">
+      <desc>Date from when this course section enrollment is valid.</desc>
+    </element>
+    <element name="ExitDate" type="Date" flags="O">
+      <desc>The last school calendar day (membership day) the student was enrolled in the course section (inclusive).</desc>
+    </element>
+    <element name="ScheduleInfoOverrideList" type="ScheduleInfoOverrideList" flags="O" />
+    <element name="CreditsAttempted" type="CreditsAttempted" flags="O" />
+  </object>
+  <!--StudentSnapshot object-->
+  <object name="StudentSnapshot" topic="true">
+    <attribute name="SnapDate" type="Date" flags="R">
+      <desc>The date the data snapshot was taken. Some elements are provided/calculated as of the SnapDate, and some are provided as of the date the object is requested (i.e., some can be historical and some will represent the last information available/last known value). In a SIS the following elements are provided/calculated as of the SnapDate: Age, HomeEnrollment and all its child elements. Other applications (e.g., data warehouses) may be able to provide values for other elements on various snap dates.</desc>
+    </attribute>
+    <attribute name="StudentPersonalRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) of the student to whom this information relates.</desc>
+    </attribute>
+    <attribute name="SchoolYear" key="false" type="GYear" flags="R">
+      <desc>
+        School year in which the SnapDate falls, and for which the information is applicable, expressed as the four-digit year
+        in which the school year ends (e.g. 2007 for the 2006-07 school year).
+      </desc>
+    </attribute>
+    <element name="Name" type="Name" flags="O">
+      <desc>The name of the student.</desc>
+    </element>
+    <element name="LocalId" type="NormalizedString" flags="O">
+      <desc>The locally-defined identifier for this student.</desc>
+    </element>
+    <element name="StateProvinceId" type="String" flags="O">
+      <desc>The state-assigned identifier for this student.</desc>
+    </element>
+    <element name="Address" type="Address" flags="O">
+      <desc>The address of the student.</desc>
+    </element>
+    <element name="RaceList" type="RaceList" flags="O">
+      <desc>Person's race</desc>
+    </element>
+    <element name="HispanicLatino" enum="YesNo" flags="O" />
+    <element name="Gender" enum="Gender" flags="O">
+      <desc>Person's gender.</desc>
+    </element>
+    <element name="BirthDate" type="Date" flags="O">
+      <desc>The person's date of birth.</desc>
+    </element>
+    <element name="Age" type="UnsignedInt" flags="O">
+      <desc>The age (in years) of the student on the date in SnapDate.</desc>
+    </element>
+    <element name="ProjectedGraduationYear" type="GYear" flags="O">
+      <desc>Currently projected graduation year.</desc>
+    </element>
+    <element name="OnTimeGraduationYear" type="GYear" flags="O">
+      <desc>First projected graduation year, usually determined when student is accepted into ninth grade.</desc>
+    </element>
+    <element name="GraduationDate" type="PartialDateType" flags="O">
+      <desc>Date student officially graduated from secondary education.</desc>
+    </element>
+    <element name="GraduationAward" enum="GradAward" flags="O">
+      <desc>The award received upon graduation.</desc>
+    </element>
+    <element name="GraduationOnTime" enum="GradOnTime" flags="O">
+      <desc>Did the student graduate in the expected number of years?</desc>
+    </element>
+    <element name="HomeEnrollment" type="HomeEnrollment" flags="O" />
+    <element name="IDEA" enum="YesNoUnknown" flags="O" />
+    <element name="Migrant" enum="YesNoUnknown" flags="O" />
+    <element name="Title1" enum="YesNoUnknown" flags="O" />
+    <element name="GiftedTalented" enum="YesNoUnknown" flags="O" />
+    <element name="EconomicDisadvantage" enum="YesNoUnknown" flags="O" />
+    <element name="ELL" enum="YesNoUnknown" flags="O" />
+    <element name="Homeless" enum="YesNoUnknown" flags="O" />
+    <element name="Section504" enum="YesNoUnknown" flags="O" />
+    <element name="VocationalConcentrator" enum="YesNoUnknown" flags="O" />
+    <element name="Immigrant" enum="YesNoUnknown" flags="O" />
+    <element name="NeglectedDelinquent" enum="YesNoUnknown" flags="O" />
+    <element name="FreeAndReducedStatus" enum="FreeReducedStatus" flags="O">
+      <desc>Student's eligibility for free and reduced meals.</desc>
+    </element>
+  </object>
+  <!--TeacherAttendance object-->
+  <object name="TeacherAttendance">
+    <element name="CountsTowardAttendance" enum="YesNo" flags="O">
+      <desc>Designates whether this date should be counted toward teacher attendance.</desc>
+    </element>
+    <element name="AttendanceValue" type="Decimal" flags="O" />
+  </object>
+  <!--TeacherList object-->
+  <object name="TeacherList">
+    <element name="StaffPersonalRefId" type="StaffPersonalRefId" flags="OR" />
+  </object>
+  <!--TeachingAssignment object-->
+  <object name="TeachingAssignment">
+    <element name="Code" enum="TeachingArea" flags="M">
+      <desc>Code representing the type of teaching assignment.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+  <!--TermInfo object-->
+  <object name="TermInfo" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that uniquely identifies this TermInfo entity.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that identifies the school where the term is used.</desc>
+    </attribute>
+    <attribute name="SchoolYear" type="GYear" flags="R">
+      <desc>School year for which the information is applicable, expressed as the four-digit year in which the school year ends (e.g., 2007 for the 2006-07 school year).</desc>
+    </attribute>
+    <element name="StartDate" type="Date" flags="M">
+      <desc>Starting date of the term.</desc>
+    </element>
+    <element name="EndDate" type="Date" flags="M">
+      <desc>Ending date of the term (CCYYMMDD).</desc>
+    </element>
+    <element name="Description" type="NormalizedString" flags="O">
+      <desc>Text-based description of the term.</desc>
+    </element>
+    <element name="RelativeDuration" type="Decimal" flags="O" />
+    <element name="TermCode" type="NormalizedString" flags="O">
+      <desc>Locally-defined code.</desc>
+    </element>
+    <element name="Track" type="NormalizedString" flags="O">
+      <desc>The name, description, or code of the track that contains this term. This is used when there are multiple tracks within a school. For instance, kindergarten commonly has a different set of terms than other grades within the school.</desc>
+    </element>
+    <element name="TermSpan" type="TermSpan" flags="O" />
+    <element name="MarkingTerm" enum="YesNo" flags="O">
+      <desc>Does this TermInfo represent a marking period?</desc>
+    </element>
+    <element name="SchedulingTerm" enum="YesNo" flags="O">
+      <desc>Does this TermInfo represent a scheduling term?</desc>
+    </element>
+    <element name="AttendanceTerm" enum="YesNo" flags="O">
+      <desc>Does this TermInfo represent an attendance term?</desc>
+    </element>
+  </object>
+  <!--TimeFrame enum-->
+  <enum name="TimeFrame">
+    <value name="CURRENT" value="Current" desc="Event/request date falls between EntryDate and ExitDate (inclusive)" />
+    <value name="HISTORICAL" value="Historical" desc="Event/request date falls after ExitDate" />
+    <value name="FUTURE" value="Future" desc="Event/request date falls before EntryDate" />
+  </enum>
+  <!--Title1Status enum-->
+  <enum name="Title1Status">
+    <value name="TARGETED" value="Targeted" desc="Certain students enrolled in the school are eligible for Title I programs" />
+    <value name="SCHOOLWIDE" value="SchoolWide" desc="All students in the school are eligible for Title I programs" />
+    <value name="NA" value="NA" desc="Not applicable, school is not eligible for Title I programs" />
+  </enum>
+  <!--Victim object-->
+  <object name="Victim">
+    <attribute name="Type" enum="ReporterDescriptionType" flags="R">
+      <desc>Identifies the type of individual victimized in the incident.</desc>
+    </attribute>
+    <element name="Name" type="Name" flags="O">
+      <desc>The name of the victim.</desc>
+    </element>
+    <element name="SIF_RefId" type="SIF_RefId" flags="O" />
+    <element name="Injury" enum="InjuryType" flags="O">
+      <desc>Identifies whether or not this specific victim was physically injured, and if so, identify whether the injury was major or minor.</desc>
+    </element>
+  </object>
+  <!--VictimList object-->
+  <object name="VictimList">
+    <element name="Victim" type="Victim" flags="OR" />
+  </object>
+  <!--WeaponType object-->
+  <object name="WeaponType" enum="WeaponTypeCode" />
+  <!--WeaponTypeCode enum-->
+  <enum name="WeaponTypeCode">
+    <value name="0010_FIREARM" value="0010" desc="Firearm" />
+    <value name="0011_HANDGUN" value="0011" desc="Handgun" />
+    <value name="0012_SHOTGUN_RIFLE" value="0012" desc="Shotgun/rifle" />
+    <value name="0013_OTHER_FIREARM" value="0013" desc="Other type of firearm" />
+    <value name="0020_KNIFE" value="0020" desc="Knife" />
+    <value name="0021_KNIFE_LESS_2_5" value="0021" desc="Knife with blade less than 2.5 inches" />
+    <value name="0023_KNIFE_GREATER_2_5" value="0023" desc="Knife with blade greater than or equal to 2.5 inches" />
+    <value name="0029_OTHER_KNIFE" value="0029" desc="Other knife" />
+    <value name="0030_OTHER_SHARP_OBJECT" value="0030" desc="Other Sharp Objects" />
+    <value name="0040_OTHER_OBJECT" value="0040" desc="Other Object" />
+    <value name="0050_SUBSTANCE" value="0050" desc="Substance Used as Weapon" />
+    <value name="0097_OTHER" value="0097" desc="Other" />
+    <value name="0098_NO_WEAPON" value="0098" desc="No Weapon" />
+    <value name="0099_UNKNOWN_WEAPON" value="0099" desc="Unknown Weapon" />
+  </enum>
+  <!--WeaponTypeList object-->
+  <object name="WeaponTypeList">
+    <element name="WeaponType" type="WeaponType" flags="OR">
+      <desc>Identifies the type of weapon used during an incident.</desc>
+    </element>
+  </object>
+</adk>
