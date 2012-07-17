@@ -742,6 +742,8 @@ task :importSecuredData do
     "studentSectionAssociation" => "secured/studentSectionAssociation.json",
     "studentSectionGradebookEntry" => "secured/studentSectionGradebookEntry.json",
     "teacherSchoolAssociation" => "secured/teacherSchoolAssociation.json",
+    "parent" => "secured/parent.json",
+    "studentParentAssociation" => "secured/studentParentAssociation.json",
     "teacherSectionAssociation" => "secured/teacherSectionAssociation.json"
 
   ]

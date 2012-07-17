@@ -356,7 +356,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             @Override
             public Response run(EntityDefinition entityDef) {
                 final int idLength = idList.split(",").length;
-                
+
                 if (idLength > DefaultCrudEndpoint.MAX_MULTIPLE_UUIDS) {
                     Status errorStatus = Status.PRECONDITION_FAILED;
                     String errorMessage = "Too many GUIDs: " + idLength + " (input) vs "
@@ -372,14 +372,14 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 for (String id : idList.split(",")) {
                     ids.add(id);
                 }
-                
+
                 NeutralQuery neutralQuery = new ApiQuery(uriInfo);
                 neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
                 neutralQuery = addTypeCriteria(entityDef, neutralQuery);
-                
+
                 neutralQuery.setLimit(0);
                 neutralQuery.setOffset(0);
-                
+
                 // final/resulting information
                 List<EntityBody> finalResults = new ArrayList<EntityBody>();
 
@@ -388,7 +388,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     entities = Arrays.asList(new EntityBody[] { entityDef.getService().get(idList, neutralQuery) });
                 } else {
 
-                    System.out.println("Running list operation");
+//                    System.out.println("Running list operation");
 
                     entities = entityDef.getService().list(neutralQuery);
                 }
@@ -405,40 +405,40 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 }
 
                 finalResults = appendOptionalFields(uriInfo, finalResults, DefaultCrudEndpoint.this.resourceName);
-                
+
                 if (idLength == 1 && finalResults.isEmpty()) {
                     throw new EntityNotFoundException(ids.get(0));
                 }
-                
+
                 if (idLength > 1) {
                     Collections.sort(finalResults, new Comparator<EntityBody>() {
                         @Override
                         public int compare(EntityBody o1, EntityBody o2) {
                             return ids.indexOf(o1.get("id")) - ids.indexOf(o2.get("id"));
                         }
-                        
+
                     });
-                    
+
                     int finalResultsSize = finalResults.size();
-                    
+
                     //loop if results quantity does not matched requested quantity
                     for (int i = 0; finalResultsSize != idLength && i < idLength; i++) {
-                        
+
                         String checkedId = ids.get(i);
-                        
+
                         boolean checkedIdMissing = false;
-                        
+
                         try {
-                            checkedIdMissing = (finalResults.get(i).get("id").equals(checkedId) == false);
+                            checkedIdMissing = !(finalResults.get(i).get("id").equals(checkedId));
                         } catch (IndexOutOfBoundsException ioobe) {
                             checkedIdMissing = true;
                         }
-                        
+
                         //if a particular input ID is not present in the results at the appropriate spot
                         if (checkedIdMissing) {
 
                             Map<String, Object> errorResult = new HashMap<String, Object>();
-                            
+
                             //try individual lookup to capture specific error message (type)
                             try {
                                 DefaultCrudEndpoint.this.read(resourceName, ids.get(i), headers, uriInfo);
@@ -455,15 +455,15 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                                 errorResult.put("message", "Internal Server Error: " + e.getMessage());
                                 errorResult.put("code", Status.INTERNAL_SERVER_ERROR.getStatusCode());
                             }
-                            
+
                             finalResults.add(i, new EntityBody(errorResult));
                         }
                     }
                 }
-                
+
                 //return is based on number of requested IDs
                 switch (idLength) {
-                
+
                     //specific id requested
                     case 1:
                         return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), finalResults.get(0))),
@@ -474,7 +474,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                         long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), neutralQuery);
                         return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), finalResults)),
                                 pagingHeaderTotalCount, uriInfo).build();
-                    
+
                     //multiple id's requested
                     default:
                         return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), finalResults)),
