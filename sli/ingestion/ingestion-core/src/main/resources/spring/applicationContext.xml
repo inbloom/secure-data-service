@@ -28,12 +28,12 @@
 
 
   <!-- ActiveMQ -->
-  <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+<!--   <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
     <property name="brokerURL" value="${sli.ingestion.queue.brokerUrl}" />
-  </bean>
-
+  </bean> -->
 
   <!-- Main application context, contains all other contexts in /spring -->
+  <import resource="activemq-context.xml" />
   <import resource="smooks-context.xml" />
   <import resource="camel-context.xml" />
   <import resource="persistence-context.xml" />

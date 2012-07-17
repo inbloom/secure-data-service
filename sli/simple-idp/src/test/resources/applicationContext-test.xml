@@ -36,4 +36,5 @@
     </bean>
 
 	<context:component-scan base-package="org.slc.sli" />
+
 </beans>

@@ -24,6 +24,11 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -67,6 +72,7 @@ public class RealmInitializer {
     private boolean createSandboxRealm;
 
     @Autowired
+    @Qualifier("validationRepo")
     private Repository<Entity> repository;
 
     protected static final String REALM_RESOURCE = "realm";
