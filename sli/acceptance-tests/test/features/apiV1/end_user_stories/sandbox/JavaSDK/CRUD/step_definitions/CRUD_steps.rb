@@ -34,6 +34,15 @@ Given /^I navigate to the Sample App$/ do
   @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 30)
 end
 
+Given /^I navigate to the Sample App REST client$/ do
+  url = PropLoader.getProps['sampleApp_server_address']
+  url = url + @appPrefix
+  puts url
+  @driver.get url
+  @appPrefix = "sample/testrest"
+  @explicitWait = Selenium::WebDriver::Wait.new(:timeout => 30)
+end
+
 When /^I put "([^"]*)"  with Name "([^"]*)"$/ do |arg1, arg2|
   # implemented in SDK test app
 end
