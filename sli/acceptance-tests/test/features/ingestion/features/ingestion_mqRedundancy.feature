@@ -24,7 +24,7 @@ Given I am using preconfigured Ingestion Landing Zone for "IL-Daybreak"
         | studentAssessmentAssociation|
         | gradebookEntry              |
         | studentTranscriptAssociation|
-        | studentSectionGradebookEntry|
+        | studentGradebookEntry       |
         | parent                      |
         | studentParentAssociation    |
         | attendance                  |

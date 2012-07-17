@@ -96,7 +96,7 @@ Scenario: Applying optional fields
   # gradebook
   Then I should find 3 "<studentGradebookEntries>"
   And I should see "<dateFulfilled>" is "2012-01-31" for one of them
-  And I should see "<entityType>" is "studentSectionGradebookEntry" for it
+  And I should see "<entityType>" is "studentGradebookEntry" for it
   And I should see "<letterGradeEarned>" is "A" for it
   And I should find "<gradebookEntries>" under it
   And I should see "<entityType>" is "gradebookEntry" for it
@@ -152,7 +152,7 @@ Scenario: Applying optional fields - single student view
   # gradebook
   Then I should find 3 "<studentGradebookEntries>"
   And I should see "<dateFulfilled>" is "2012-01-31" for one of them
-  And I should see "<entityType>" is "studentSectionGradebookEntry" for it
+  And I should see "<entityType>" is "studentGradebookEntry" for it
   And I should see "<letterGradeEarned>" is "A" for it
   And I should find "<gradebookEntries>" under it
   And I should see "<entityType>" is "gradebookEntry" for it

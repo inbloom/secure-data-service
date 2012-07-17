@@ -113,7 +113,7 @@ public class BasicService implements EntityService {
             EntityNames.STUDENT_PROGRAM_ASSOCIATION,
             EntityNames.STUDENT_SCHOOL_ASSOCIATION,
             EntityNames.STUDENT_SECTION_ASSOCIATION,
-            EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY,
+            EntityNames.STUDENT_GRADEBOOK_ENTRY,
             EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION,
             EntityNames.TEACHER,
             EntityNames.TEACHER_SCHOOL_ASSOCIATION,

@@ -31,16 +31,16 @@ import org.slc.sli.api.resources.v1.DefaultCrudResource;
 /**
  * Represents a student's grade or competency level for a $$GradebookEntry$$.
  *
- * For detailed information, see the schema for $$StudentSectionGradebookEntry$$ resources.
+ * For detailed information, see the schema for $$StudentGradebookEntry$$ resources.
  */
-@Path(PathConstants.V1 + "/" + PathConstants.STUDENT_SECTION_GRADEBOOK_ENTRIES)
+@Path(PathConstants.V1 + "/" + PathConstants.STUDENT_GRADEBOOK_ENTRIES)
 @Component
 @Scope("request")
-public class StudentSectionGradebookEntryResource extends DefaultCrudResource {
+public class StudentGradebookEntryResource extends DefaultCrudResource {
 
     @Autowired
-    public StudentSectionGradebookEntryResource(EntityDefinitionStore entityDefs) {
-        super(entityDefs, ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES);
+    public StudentGradebookEntryResource(EntityDefinitionStore entityDefs) {
+        super(entityDefs, ResourceNames.STUDENT_GRADEBOOK_ENTRIES);
     }
 
 }

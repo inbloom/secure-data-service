@@ -646,7 +646,7 @@ def ensureIndexes(db)
   @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
   @collection.remove( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'sectionId' => " ", 'studentId' => " "}} )
 
-  @collection = @db["studentSectionGradebookEntry"]
+  @collection = @db["studentGradebookEntry"]
   @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
   @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
   @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })

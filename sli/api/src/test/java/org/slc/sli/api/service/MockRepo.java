@@ -109,7 +109,7 @@ public class MockRepo implements Repository<Entity> {
         repo.put("parent", new LinkedHashMap<String, Entity>());
         repo.put("program", new LinkedHashMap<String, Entity>());
         repo.put("gradebookEntry", new LinkedHashMap<String, Entity>());
-        repo.put("studentSectionGradebookEntry", new LinkedHashMap<String, Entity>());
+        repo.put("studentGradebookEntry", new LinkedHashMap<String, Entity>());
         repo.put("learningObjective", new LinkedHashMap<String, Entity>());
         repo.put("studentDisciplineIncidentAssociation", new LinkedHashMap<String, Entity>());
         repo.put("studentParentAssociation", new LinkedHashMap<String, Entity>());

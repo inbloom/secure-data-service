@@ -65,7 +65,7 @@ db["studentObjectiveAssessment"].ensureIndex({"batchJobId" : 1, "creationTime":1
 db["studentParentAssociation"].ensureIndex({"batchJobId" : 1, "creationTime":1});
 db["studentProgramAssociation"].ensureIndex({"batchJobId" : 1, "creationTime":1});
 db["studentSectionAssociation"].ensureIndex({"batchJobId" : 1, "creationTime":1});
-db["studentSectionGradebookEntry"].ensureIndex({"batchJobId" : 1, "creationTime":1});
+db["studentGradebookEntry"].ensureIndex({"batchJobId" : 1, "creationTime":1});
 db["studentSchoolAssociation"].ensureIndex({"batchJobId" : 1, "creationTime":1});
 db["studentTranscriptAssociation"].ensureIndex({"batchJobId" : 1, "creationTime":1});
 db["studentTranscriptAssociation_transformed"].ensureIndex({"batchJobId" : 1, "creationTime":1});
@@ -121,7 +121,7 @@ db["studentDisciplineIncidentAssociation"].ensureIndex({"batchJobId" : 1, "_id" 
 db["studentParentAssociation"].ensureIndex({"batchJobId" : 1, "_id" : 1});
 db["studentProgramAssociation"].ensureIndex({"batchJobId" : 1, "_id" : 1});
 db["studentSectionAssociation"].ensureIndex({"batchJobId" : 1, "_id" : 1});
-db["studentSectionGradebookEntry"].ensureIndex({"batchJobId" : 1, "_id" : 1});
+db["studentGradebookEntry"].ensureIndex({"batchJobId" : 1, "_id" : 1});
 db["studentSchoolAssociation"].ensureIndex({"batchJobId" : 1, "_id" : 1});
 db["studentTranscriptAssociation"].ensureIndex({"batchJobId" : 1, "_id" : 1});
 db["studentTranscriptAssociation_transformed"].ensureIndex({"batchJobId" : 1, "_id" : 1});

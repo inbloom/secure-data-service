@@ -34,7 +34,7 @@ Given I post "DemoData.zip" file as the payload of the ingestion job
         | studentAssessmentAssociation|
         | studentTranscriptAssociation|
         | studentAcademicRecord       |
-        | studentSectionGradebookEntry|
+        | studentGradebookEntry       |
         | parent                      |
         | studentParentAssociation    |
         | graduationPlan              |
@@ -58,7 +58,7 @@ Then I should see following map of entry counts in the corresponding collections
         | studentAssessmentAssociation| 104   |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
-        | studentSectionGradebookEntry| 135   |
+        | studentGradebookEntry       | 135   |
         | graduationPlan              | 3     |
         | studentAcademicRecord       | 86    |
         | studentTranscriptAssociation| 87    |
@@ -127,7 +127,7 @@ Then I should see following map of entry counts in the corresponding collections
         | studentAcademicRecord       | 86    |
         | parent                      | 9     |
         | studentParentAssociation    | 9     |
-        | studentSectionGradebookEntry| 135   |
+        | studentGradebookEntry       | 135   |
         | graduationPlan              | 3     |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
