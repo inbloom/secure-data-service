@@ -1,0 +1,72 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.3 general objects             -->
+<!-- ======================================== -->
+<adk package="system" version="2.4" namespace="http://www.sifinfo.org/au/infrastructure/2.x">
+
+    <!-- SystemRole -->
+    <object name="SystemRole" topic="true">
+        <attribute name="RefId" type="String" flags="R">
+            <desc>The ID (GUID) that uniquely identifies the SystemRole.</desc>
+        </attribute>
+        <element name="SIF_RefId" type="SystenRoleSIF_RefId" flags="M" />
+    </object>
+
+    <!-- SIF_RefId Element of SystemRole -->
+    <object name="SystenRoleSIF_RefId">
+        <attribute name="SIF_RefObject" enum="SystemRoleObjectType" flags="R"/>
+        <element name="SystemContextList" type="SystemContextList" flags="M" />
+    </object>
+
+    <object name="SystemContextList">
+        <element name="SystemContext" type="SystemContext" flags="MR" />
+    </object>
+
+    <object name="SystemContext">
+        <attribute name="SystemId" type="String" flags="R"/>
+        <element name="RoleList" type="RoleList" flags="O" />
+    </object>
+
+    <object name="RoleList">
+        <element name="Role" type="Role" flags="MR" />
+    </object>
+
+    <object name="Role">
+        <attribute name="RoleId" type="String" flags="R"/>
+        <element name="RoleScopeList" type="RoleScopeList" flags="O" />
+    </object>
+
+    <object name="RoleScopeList">
+        <element name="RoleScope" type="RoleScope" flags="MR" />
+    </object>
+
+    <object name="RoleScope">
+        <element name="RoleScopeName" type="String" flags="O" />
+        <element name="RoleScopeRefId" type="RoleScopeRefId" flags="O" />
+    </object>
+
+    <object name="RoleScopeRefId">
+        <attribute name="SIF_RefObject" enum="RoleScopeRefIdType" flags="R"/>
+    </object>
+
+    <!-- ********************* -->
+    <!--  Various enumerations -->
+    <!-- ********************* -->
+    
+    <enum name="SystemRoleObjectType">
+        <value name="IDENTITY" value="Identity" desc="Identity" />
+        <value name="STUDENT_PERSONAL" value="StudentPersonal" desc="StudentPersonal" />
+        <value name="STAFF_PERSONAL" value="StaffPersonal" desc="StaffPersonal" />
+        <value name="STUDENT_CONTACT_PERSONAL" value="StudentContactPersonal"  desc="StudentContactPersonal" />
+    </enum>
+
+    <enum name="RoleScopeRefIdType">
+        <value name="SCHOOL_INFO" value="SchoolInfo" desc="SchoolInfo" />
+        <value name="TEACHING_GROUP" value="TeachingGroup" desc="TeachingGroup" />
+        <value name="STUDENT_ACTIVITY_PARTICIPATION" value="StudentActivityParticipation" desc="StudentActivityParticipation" />
+    </enum>
+
+</adk>

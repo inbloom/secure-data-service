@@ -1,0 +1,257 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s) -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 1.5r1 programs objects            -->
+<!-- ======================================== -->
+<adk package="programs" version="1.5r1" name="Special Programs" namespace="http://www.sifinfo.org/infrastructure/1.x">
+  <!--DurationUnit enum-->
+  <enum name="DurationUnit">
+    <value name="MINUTES" value="Minutes" desc="Minutes" />
+    <value name="HOURS" value="Hours" desc="Hours" />
+  </enum>
+  <!--ProgramExitReason object-->
+  <object name="ProgramExitReason">
+    <desc>Required if student has exited the program.</desc>
+    <attribute name="CodeType" enum="ProgramExitReasonCode" deprecated="true" key="false" default="NCES" flags="R">
+      <desc>If value="NCES" then use code set 0815 Program Exit Reason [NCES Handbooks]</desc>
+    </attribute>
+    <element name="Code" enum="ProgramExitReasonCode" flags="O">
+      <desc>Review by program / state.  May be required if student has exited the program.</desc>
+    </element>
+  </object>
+  <!--ProgramExitReasonCode enum-->
+  <enum name="ProgramExitReasonCode">
+    <value name="COMPLETION_OF_IFSP" value="2226" desc="Completion of IFSP prior to reaching maximum age for Part C" />
+    <value name="DIED" value="2223" desc="Died" />
+    <value name="DISCONTINUED_SCHOOLING" value="2222" desc="Discontinued schooling, not special education" />
+    <value name="DISCONTINUED_SPEC_ED" value="2221" desc="Discontinued schooling, special education only" />
+    <value name="ELIGIBLE_FOR_IDEA_B" value="2227" desc="Eligible for IDEA Part B" />
+    <value name="EXPULSION" value="2224" desc="Expulsion" />
+    <value name="GRADUATED_WITH_DIPLOMA" value="2212" desc="Graduated with a high school diploma" />
+    <value name="MOVED_OUT_OF_STATE" value="2231" desc="Moved out of state" />
+    <value name="NO_SPECIAL_ED" value="2216" desc="No longer receving special education" />
+    <value name="NOT_ELIGIBLE_FOR_PART_B" value="2228" desc="Not eligible for Part B, exit with referrals to other programs" />
+    <value name="PART_B_NOT_ELIGIBLE" value="2230" desc="Part B eligibility not determined" />
+    <value name="PROGRAM_COMPLETION" value="2214" desc="Program completion" />
+    <value name="PROGRAM_DISCONTINUED" value="2225" desc="Program discontinued" />
+    <value name="REACHED_MAXIMUM_AGE" value="2215" desc="Reached maximum age" />
+    <value name="RECEIVED_CERTIFICATE" value="2213" desc="Received certificate of completion, modified diploma, or finished IEP requirements" />
+    <value name="REFUSED_SERVICES" value="2217" desc="Refused services" />
+    <value name="SUSPENDED_FROM_SCHOOL" value="2220" desc="Suspended from school" />
+    <value name="TRANSFERRED_NOT_CONTINUING" value="2406" desc="Transferred to another district or school, known not to be continuing in program / service" />
+    <value name="TRANSFERRED_CONTINUING" value="2218" desc="Transferred to another district or school, known to be continuing in program / service" />
+    <value name="TRANSFERRED_NOT_KNOWN" value="2219" desc="Transferred to another district or school, not known to be continuing in program / service" />
+    <value name="UNKNOWN_REASON" value="2233" desc="Unknown reason" />
+    <value name="WITHDRAWAL_BY_GUARDIAN" value="2232" desc="Withdrawal by a parent (or guardian)" />
+    <value name="OTHER" value="9999" desc="Other" />
+    <value name="STUDENT_CHOICE" value="S001" desc="Student choice" />
+    <value name="STUDENT_SERVED_OTHER" value="S002" desc="Student served in other ways" />
+  </enum>
+  <!--ProgramPlanType object-->
+  <object name="ProgramPlanType">
+    <element name="Code" enum="ProgramPlanTypeCode" flags="O">
+      <desc>The document that outlines the student program/plan as approved by parents, guardians, and staff.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+  <!--ServiceSetting object-->
+  <object name="ServiceSetting">
+    <desc>Category represents the educational setting in which children with disabilities have been placed (setting where child has most desirable learning environment).  Primarily used for IDEA federal reporting.</desc>
+    <attribute name="CodeType" default="NCES" deprecated="true" key="false" flags="R">
+      <desc>If CodeType = "NCES" Then use Code set 0307 Service Setting [NCES Handbooks]</desc>
+    </attribute>
+    <element name="Code" enum="ServiceSettingCode" flags="M">
+      <desc>Code for the frequency that the service is provided.</desc>
+    </element>
+  </object>
+  <!--ServiceSettingCode enum-->
+  <enum name="ServiceSettingCode">
+    <value name="EARLY_INTERVENTION_CLASSROOM" value="0127" desc="Early intervention classroom / center" />
+    <value name="HOMEBOUND_PLACEMENT_INSTRUCTIO" value="0128" desc="Homebound placement instruction" />
+    <value name="HOSPITAL_PLACEMENT_INSTRUCTION" value="0129" desc="Hospital placement instruction" />
+    <value name="ITINERANT_SERVICES_OUTSIDE" value="0140" desc="Itinerant services outside the home" />
+    <value name="OUTPATIENT_SERVICE_FACILITY" value="0356" desc="Outpatient service facility" />
+    <value name="PRIVATE_RESIDENTIAL_PLACEMENT" value="0132" desc="Private residential placement" />
+    <value name="PRIVATE_SEPARATE_DAY_SCHOOL" value="0358" desc="Private separate day school placement" />
+    <value name="PUBLIC_RESIDENTIAL_PLACEMENT" value="0134" desc="Public residential placement" />
+    <value name="PUBLIC_SEPARATE_DAY_SCHOOL" value="0135" desc="Public separate day school placement" />
+    <value name="REGULAR_NURSERY_SCHOOL" value="0365" desc="Regular nursery school / child care center" />
+    <value name="REGULAR_SCHOOL_CAMPUS" value="0130" desc="Regular school campus / regular class placement" />
+    <value name="RESIDENTIAL_FACILITY" value="0756" desc="Residential facility" />
+    <value name="RESOURCE_ROOM_PLACEMENT" value="0136" desc="Resource room placement (pullout program)" />
+    <value name="RESPITE_CARE" value="0367" desc="Respite care" />
+    <value name="REVERSE_MAINSTREAM_SETTING" value="0143" desc="Reverse mainstream setting" />
+    <value name="SEPARATE_CLASS_PLACEMENT" value="0137" desc="Separate class placement" />
+    <value name="SHORT_TERM_DETENTION" value="0364" desc="Short-term detention facility" />
+    <value name="BUSINESS_WORKPLACE" value="2170" desc="Business / workplace" />
+    <value name="CHILDS_HOME" value="2164" desc="Child's home" />
+    <value name="COMMUNITY_BASED_AGENCY" value="0166" desc="Community-based agency representative" />
+    <value name="HEAD_START_CENTER" value="2168" desc="Head Start Center (no matter where offered)" />
+    <value name="HOME_OTHER_THAN_THE_CHILDS" value="2165" desc="Home other than the child's" />
+    <value name="HOSPITAL_OR_OTHER_TREATMENT" value="2173" desc="Hospital or other treatment center" />
+    <value name="PRIVATE_SCHOOL_OR_CHILDCARE" value="2167" desc="Private school or childcare facility" />
+    <value name="PUBLIC_SCHOOL_FACILITY" value="2166" desc="Public school facility" />
+    <value name="RELIGION_AFFILIATED_INSTITUTIO" value="2169" desc="Religion-affiliated institution" />
+    <value name="SHELTER_OR_OPHANAGE" value="2174" desc="Shelter or ophanage" />
+    <value name="UNIVERSITY_POSTSECONDARY" value="2172" desc="University / Postsecondary institution" />
+    <value name="OTHER" value="9999" desc="Other" />
+    <value name="FACILITY_OTHER" value="2191" desc="A center in a facility other than a public or private school, a day care or children's facility, or other public programs such as Head Start" />
+    <value name="FACILITY_STATE" value="2190" desc="facility sponsored by a state agency" />
+    <value name="HOME" value="2192" desc="Home" />
+    <value name="HOSPITAL_FACILITY" value="2187" desc="Hospital facility" />
+    <value name="OTHER_COMMUNITY_BASED" value="2188" desc="Other community-based setting" />
+    <value name="SPECIAL_EDU_CHILDCARE" value="2184" desc="Special education classroom im child care facility" />
+    <value name="SPECIAL_EDU_BUILDING" value="2185" desc="Special education classroom in regular school building" />
+    <value name="SPECIAL_EDU_PORTABLE" value="2189" desc="Special education classroom in trailers or portables outside regular school buildings" />
+  </enum>
+  <!--ServiceTypeValue enum-->
+  <enum name="ServiceTypeValue">
+    <value name="INSTRUCTIONAL_SERVICE" value="InstructionalService" desc="InstructionalService" />
+    <value name="RELATED_SERVICE" value="RelatedService" desc="RelatedService" />
+    <value name="OTHER" value="Other" desc="Other" />
+  </enum>
+  <!--SIF1x_ProgramPlanTypeCode enum-->
+  <enum name="SIF1x_ProgramPlanTypeCode">
+    <value name="SIF1x_IND_FAMILY_SERVICE" value="IFSP" desc="Individualized Family Service Plan" />
+    <value name="SIF1x_IND_EDUCATION" value="IEP" desc="Individualized Education Plan" />
+    <value name="SIF1x_IND_LEARNING" value="ILP" desc="Individualized Learning Plan" />
+    <value name="SIF1x_LITERACY_PLAN" value="LIT" desc="Literacy Plan" />
+    <value name="SIF1x_SERVICES_PLAN" value="SP" desc="Services Plan" />
+    <value name="SIF1x_IND_TRANSITION" value="ITP" desc="Individualized Transition Plan" />
+    <value name="SIF1x_OTHER" value="Other" desc="Other" />
+  </enum>
+  <!--StudentParticipation object-->
+  <object name="StudentParticipation" topic="true">
+    <desc>This object contains information pertaining to student eligibility for and participation in support programs.  SIF_Events are reported.</desc>
+    <attribute name="RefId" flags="R">
+      <desc>This is the unique identification code</desc>
+    </attribute>
+    <attribute name="StudentPersonalRefId" flags="R">
+      <desc>The GUID of the student that this object is linked to.</desc>
+    </attribute>
+    <attribute name="Type" enum="StudentParticipationType" deprecated="true" flags="R">
+      <desc />
+    </attribute>
+    <element name="ReferralDate" type="SIFDate" flags="O">
+      <desc>Date student was referred for evaluation/program participation.</desc>
+    </element>
+    <element name="EvaluationDate" type="SIFDate" flags="O">
+      <desc>Date the evaluation/assessment process for student was completed.</desc>
+    </element>
+    <element name="ReevaluationDate" type="SIFDate" flags="O">
+      <desc>Date students will be reevaluated for continued placement in a support program(s).</desc>
+    </element>
+    <element name="ExceptionalityCategories" type="ExceptionalityCategories" flags="O" collapsed="True">
+      <desc>Exceptionality description/code which will identify the exceptionality of the student.  Not all programs require identification of an exceptionality.  If required for this program type, must have at least one element with Type attribute = "Primary".</desc>
+    </element>
+    <element name="ProgramEligibilityDate" type="SIFDate" flags="O">
+      <desc>Date student is eligible for beginning the support program(s).</desc>
+    </element>
+    <element name="ProgramPlanType" renderAs="ProgramPlan" type="ProgramPlanType" surrogate="XPathSurrogate{ProgramPlan=@Code}" flags="O">
+      <desc>The document that outlines the student program/plan as approved by parents, guardians, and staff.  Values"IFSP" - Individualized Family Service Plan"IEP" - Individualized Education Plan"ILP" - Individualized Learning Plan"LIT" - Literacy Plan"SP" - Services Plan"ITP"-Individualized Transition Plan"Other"</desc>
+    </element>
+    <element name="ProgramPlanDate" type="SIFDate" flags="O">
+      <desc>Official date the district becomes obligated to serve the student in the support program (for IDEA, the date the IEP was signed).</desc>
+    </element>
+    <element name="ProgramPlacementDate" type="SIFDate" flags="O">
+      <desc>Date student began the support program.</desc>
+    </element>
+    <element name="LeastRestrictiveEnvironment" type="ServiceSetting" flags="O">
+      <desc>Category represents the educational setting in which children with disabilities have been placed (setting where child has most desirable learning environment).  Primarily used for IDEA federal reporting.</desc>
+    </element>
+    <element name="ExtendedSchoolYear" type="Boolean" flags="O">
+      <desc>Values Yes, No</desc>
+    </element>
+    <element name="PrivateNotPlacedByPublic" type="Boolean" flags="O">
+      <desc>Indicates whether or not the student is enrolled by a parent/guardian in a private school but whose special education/services are provided at public expense.  Necessary for the OSEP federal IDEA reports.  Allowable values:  "Yes" and "No"</desc>
+    </element>
+    <element name="ProgramReviewDate" type="SIFDate" flags="O">
+      <desc>Projected date of the program review (for IDEA, the projected annual IEP review date).</desc>
+    </element>
+    <element name="ProgramExitDate" type="SIFDate" flags="O">
+      <desc>Date student exited support program(s).</desc>
+    </element>
+    <!-- TODO: Define a surrogate that will properly translate the CodeType-->
+    <!-- Perhaps XPathSurrogate needs to be able to take multiple XPaths-->
+    <element name="ProgramExitReason" type="ProgramExitReason" flags="C" surrogate="XPathSurrogate{ProgramExitReason/@Code=.}">
+      <desc>Required if student has exited the program.</desc>
+    </element>
+    <element name="ParticipationContact" flags="O">
+      <desc>Primary contact for this record</desc>
+    </element>
+  </object>
+  <!--StudentParticipationType enum-->
+  <enum name="StudentParticipationType">
+    <value name="IDEA-B" value="IDEA-B" desc="IDEA-B" />
+    <value name="IDEA-C" value="IDEA-C" desc="IDEA-C" />
+    <value name="ESL" value="ESL" desc="ESL" />
+    <value name="SECTION504" value="Section504" desc="Section504" />
+    <value name="TITLE1" value="Title1" desc="Title1" />
+    <value name="LIT" value="LIT" desc="LIT" />
+    <value name="GIFTED_TALENTED" value="GiftedTalented" desc="GiftedTalented" />
+    <value name="BEHAVIOR_DISORDER" value="BehaviorDisorder" desc="BehaviorDisorder" />
+    <value name="CORRECTIONAL" value="Correctional" desc="Correctional" />
+    <value name="VOCATIONAL" value="Vocational" desc="Vocational" />
+    <value name="MIGRANT" value="Migrant" desc="Migrant" />
+    <value name="EVENSTART" value="EvenStart" desc="EvenStart" />
+    <value name="HEADSTART" value="HeadStart" desc="HeadStart" />
+    <value name="OTHER" value="Other" desc="Other" />
+  </enum>
+  <!--StudentPlacement object-->
+  <object name="StudentPlacement" topic="true">
+    <desc>This object contains information specific to support programs in which students have been placed.  SIF_Events are reported.</desc>
+    <attribute name="RefId" flags="R">
+      <desc>This is the unique identification code</desc>
+    </attribute>
+    <attribute name="StudentParticipationRefId" flags="R">
+      <desc>This is the reference code for student eligibility for participation</desc>
+    </attribute>
+    <attribute name="StudentPersonalRefId" flags="R">
+      <desc>The GUID of the student that this object is linked to.</desc>
+    </attribute>
+    <element name="Service" type="Service" flags="M" surrogate="ServiceSurrogate{}">
+      <desc>Specialized instruction or related service provided to this student.</desc>
+    </element>
+    <element name="ServiceProviderAgency" flags="O">
+      <desc>Service provider title (such as Physical Therapist or Psychologist), agency (such as Clinic), or local code (ID number of clinic).</desc>
+    </element>
+    <element name="ServiceProviderName" flags="O">
+      <desc>The name of the person who delivers the service</desc>
+    </element>
+    <element name="ServiceSetting" type="ServiceSetting" renderAs="ServiceLocation"  flags="O" surrogate="ServiceLocationSurrogate{}" deprecated="true">
+      <desc>Location where service is provided (Regular Class, Resource Room, Homebound, Detention Center, etc.)</desc>
+    </element>
+    <element name="StartDate" type="SIFDate" flags="O">
+      <desc>Date student began this placement.</desc>
+    </element>
+    <element name="EndDate" type="SIFDate" flags="O">
+      <desc>Date student ended this placement.</desc>
+    </element>
+    <element name="FrequencyTime" type="FrequencyTime" surrogate="XPathSurrogate{FrequencyTime=@Code}" flags="O">
+      <desc>Code or text descriptor of the frequency that the service is provided, such as "once a week", "MWF", or "05" (code representing "every Friday")</desc>
+    </element>
+    <element name="DirectTime" type="TimeUnit" flags="O">
+      <desc>Number of units of time per session spent directly providing the service to the student.</desc>
+    </element>
+    <element name="IndirectTime" type="TimeUnit" flags="O">
+      <desc>Number of units of time per session NOT spent directly providing the service to the student.</desc>
+    </element>
+    <element name="TotalServiceDuration" type="TimeUnit" flags="O">
+      <desc>Total of the direct and indirect time as it relates to the FrequencyTime; e.g., DirectTime 60 + IndirectTime 30 = 90</desc>
+    </element>
+    <element name="SpecialNeedsTransportation" type="Boolean" flags="O">
+      <desc>Does the student require transportation to the location of Placement/Service? Values: Yes, No</desc>
+    </element>
+    <element name="AssistiveTechnology" type="Boolean" flags="O">
+      <desc>Does the student require assistive technology for this Placement/Service? Values: Yes, No</desc>
+    </element>
+  </object>
+  <!--TimeUnit object-->
+  <object name="TimeUnit" dataType="Decimal">
+    <attribute name="UnitOfMeasure" enum="DurationUnit" flags="R">
+      <desc>Values"Minutes""Hours"</desc>
+    </attribute>
+  </object>
+</adk>
