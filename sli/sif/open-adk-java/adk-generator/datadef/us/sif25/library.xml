@@ -1,0 +1,171 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.5 library objects               -->
+<!-- ======================================== -->
+<adk package="library" version="2.5" namespace="http://www.sifinfo.org/infrastructure/2.x">
+  <!--CheckoutInfo object-->
+  <object name="CheckoutInfo">
+    <element name="ReturnBy" type="DateTime" flags="M">
+      <desc>The date and time that this item is due to be returned.</desc>
+    </element>
+  </object>
+  <!--FineInfo object-->
+  <object name="FineInfo">
+    <attribute name="Type" enum="FineType" flags="R">
+      <desc>Type of fine assessed to this patron and item.  A corresponding ItemInfo is required for all FineInfo types except "Other" and "Refund" where it is permissible to omit the ItemInfo element if there isn't an item associated with the fine.</desc>
+    </attribute>
+    <element name="Assessed" type="DateTime" flags="M">
+      <desc>The date and time that this fine was assessed to the patron.</desc>
+    </element>
+    <element name="Description" type="String" flags="O">
+      <desc>More detailed information concerning the assessed fine or refund.</desc>
+    </element>
+    <element name="Amount" type="MonetaryAmount" flags="M">
+      <desc>The current balance of the fine expressed as a positive number. </desc>
+    </element>
+    <element name="Reference" type="String" flags="O">
+      <desc>An application-specific reference identifier for the fine being assessed, paid, or refunded.  It is intended to identify a specific fine transaction allowing consumers to include this information in Billing or Payment events sent to the library application.</desc>
+    </element>
+  </object>
+  <!--FineInfoList object-->
+  <object name="FineInfoList">
+    <element name="FineInfo" type="FineInfo" flags="OR" />
+  </object>
+  <!--FineType enum-->
+  <enum name="FineType">
+    <value name="DAMAGED" value="Damaged" desc="Damaged" />
+    <value name="LOST" value="Lost" desc="Lost" />
+    <value name="OVERDUE" value="Overdue" desc="Overdue" />
+    <value name="REFUND" value="Refund" desc="Refund" />
+    <value name="OTHER" value="Other" desc="Other" />
+  </enum>
+  <!--HoldInfo object-->
+  <object name="HoldInfo">
+    <attribute name="Type" enum="HoldStatus" flags="R">
+      <desc>The type of hold being referenced.</desc>
+    </attribute>
+    <element name="DatePlaced" type="Date" flags="M">
+      <desc>The date that the patron placed the hold.</desc>
+    </element>
+    <element name="DateNeeded" type="Date" flags="O">
+      <desc>The date that the patron needs this item by.</desc>
+    </element>
+    <element name="MadeAvailable" type="Date" flags="O">
+      <desc>The date that this item became available for the patron to pick up.</desc>
+    </element>
+    <element name="Expires" type="Date" flags="O">
+      <desc>The date when this ready hold will expire freeing the item to be assigned to another patron.</desc>
+    </element>
+  </object>
+  <!--HoldInfoList object-->
+  <object name="HoldInfoList">
+    <element name="HoldInfo" type="HoldInfo" flags="OR" />
+  </object>
+  <!--HoldStatus enum-->
+  <enum name="HoldStatus">
+    <value name="READY" value="Ready" desc="(which means that a previously placed hold is ready for the patron to pick up at the library desk)" />
+    <value name="NOTREADY" value="NotReady" desc="(hold has been placed but hasn't been fulfilled yet)" />
+  </enum>
+  <!--ItemInfo object-->
+  <object name="ItemInfo">
+    <attribute name="Type" enum="ItemType" flags="R" />
+    <element name="Title" type="String" flags="M">
+      <desc>The title of the item being referenced by this Transaction.</desc>
+    </element>
+    <element name="Author" type="String" flags="O">
+      <desc>The author of the item being referenced by this Transaction.</desc>
+    </element>
+    <element name="ElectronicId" type="ElectronicId" flags="O">
+      <desc>Electronic identifier associated with this Transaction.</desc>
+    </element>
+    <element name="CallNumber" type="String" flags="O">
+      <desc>The library call number, if any, assigned to this item.</desc>
+    </element>
+    <element name="Price" type="MonetaryAmount" flags="O">
+      <desc>The cost of this item. </desc>
+    </element>
+  </object>
+  <!--ItemType enum-->
+  <enum name="ItemType">
+    <value name="ASSET" value="Asset" desc="Asset" />
+    <value name="LIBRARYMATERIAL" value="LibraryMaterial" desc="LibraryMaterial" />
+    <value name="MEDIA" value="Media" desc="Media" />
+    <value name="TEXTBOOK" value="Textbook" desc="Textbook" />
+  </enum>
+  <!--LibraryPatronStatus object-->
+  <object name="LibraryPatronStatus" topic="true">
+    <attribute name="LibraryType" key="false" type="String" flags="R">
+      <desc>A library-defined language-independent value that refers to a specific patron type.</desc>
+    </attribute>
+    <attribute name="SIF_RefId" type="IdRefType" flags="R">
+      <desc>The SIF wide unique identifier of a student or teacher.</desc>
+    </attribute>
+    <attribute name="SIF_RefObject" key="false" enum="PatronType" flags="R">
+      <desc>The type of patron mapped to a SIF supported object. Library automation products work with patrons who could be students or teachers.</desc>
+    </attribute>
+    <element name="ElectronicIdList" type="ElectronicIdList" flags="M">
+      <desc>This is an open list with no primary key.</desc>
+    </element>
+    <element name="TransactionList" type="TransactionList" flags="O" />
+    <element name="MessageList" type="MessageList" flags="O" />
+    <element name="NumberOfCheckouts" type="UnsignedInt" flags="M">
+      <desc>The total number of items that this patron currently has checked out including overdue items.</desc>
+    </element>
+    <element name="NumberOfOverdues" type="UnsignedInt" flags="M">
+      <desc>The total number of checkouts that are currently overdue.</desc>
+    </element>
+    <element name="NumberOfFines" type="UnsignedInt" flags="M">
+      <desc>The total number of fines currently assessed to this patron.</desc>
+    </element>
+    <element name="FineAmount" type="MonetaryAmount" flags="M">
+      <desc>The total monetary amount of the fines that this patron currently owes the library expressed as a positive number.</desc>
+    </element>
+    <element name="NumberOfRefunds" type="UnsignedInt" flags="O">
+      <desc>The total number of refunds currently credited to this patron.</desc>
+    </element>
+    <element name="RefundAmount" type="MonetaryAmount" flags="O">
+      <desc>The total monetary amount of the refunds that the library currently owes the patron expressed as a positive number.</desc>
+    </element>
+  </object>
+  <!--Message object-->
+  <object name="Message">
+    <attribute name="Priority" enum="Priority" flags="R">
+      <desc>The level of urgency associated with this message.</desc>
+    </attribute>
+    <element name="Sent" type="DateTime" flags="O">
+      <desc>The date and time that this message was originally sent.</desc>
+    </element>
+    <element name="Text" type="String" flags="M">
+      <desc>The contents of the message.</desc>
+    </element>
+  </object>
+  <!--MessageList object-->
+  <object name="MessageList">
+    <element name="Message" type="Message" flags="OR" />
+  </object>
+  <!--PatronType enum-->
+  <enum name="PatronType">
+    <value name="STUDENTPERSONAL" value="StudentPersonal" desc="StudentPersonal" />
+    <value name="STAFFPERSONAL" value="StaffPersonal" desc="StaffPersonal" />
+  </enum>
+  <!--Priority enum-->
+  <enum name="Priority">
+    <value name="LOW" value="Low" desc="Low" />
+    <value name="NORMAL" value="Normal" desc="Normal" />
+    <value name="URGENT" value="Urgent" desc="Urgent" />
+  </enum>
+  <!--Transaction object-->
+  <object name="Transaction">
+    <element name="ItemInfo" type="ItemInfo" flags="O" />
+    <element name="CheckoutInfo" type="CheckoutInfo" flags="O" />
+    <element name="FineInfoList" type="FineInfoList" flags="O" />
+    <element name="HoldInfoList" type="HoldInfoList" flags="O" />
+  </object>
+  <!--TransactionList object-->
+  <object name="TransactionList">
+    <element name="Transaction" type="Transaction" flags="OR" />
+  </object>
+</adk>

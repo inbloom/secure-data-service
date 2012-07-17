@@ -1,0 +1,34 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+   <modelVersion>4.0.0</modelVersion>
+
+   <parent>
+      <groupId>org.slc.sli</groupId>
+      <artifactId>sli</artifactId>
+      <version>1.0-SNAPSHOT</version>
+   </parent>
+
+   <groupId>org.slc.sli.sif</groupId>
+   <artifactId>sif</artifactId>
+   <packaging>pom</packaging>
+
+  <properties>
+      <sli.home>${project.parent.basedir}</sli.home>
+  </properties>
+
+  <name>SLI - SIF</name>
+
+   <modules>
+      <module>open-adk-java/adk-library</module>
+      <module>sif-agent</module>
+   </modules>
+
+   <dependencyManagement>
+      <dependencies>
+      </dependencies>
+   </dependencyManagement>
+
+   <dependencies>
+   </dependencies>
+
+</project>

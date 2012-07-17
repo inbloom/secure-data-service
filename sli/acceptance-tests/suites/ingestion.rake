@@ -247,6 +247,12 @@ task :ingestionSmallSampleDataSet do
   runTests("test/features/ingestion/features/ingestion_SmallSampleDataSet.feature")
 end
 
+desc "Run Ingestion HealthCheck Test"
+task :ingestionHealthCheckTest do
+  runTests("test/features/ingestion/features/ingestion_healthCheck.feature")
+end
+
+############################################################
 # Ingestion tests end
 ############################################################
 

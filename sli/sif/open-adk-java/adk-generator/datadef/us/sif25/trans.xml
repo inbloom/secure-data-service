@@ -1,0 +1,416 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.5 trans objects                 -->
+<!-- ======================================== -->
+<adk package="trans" version="2.5" namespace="http://www.sifinfo.org/infrastructure/2.x">
+  <!--BusDriver object-->
+  <object name="BusDriver">
+    <desc>Information identifying the driver.</desc>
+    <element name="Name" type="Name" flags="O">
+      <desc>The name of the driver. Condition is that at least one of this and BusDriver/EmpLink must be included.</desc>
+    </element>
+    <element name="EmployeePersonalRefId" type="IdRefType" flags="C">
+      <desc>The GUID of the driver's EmployeePersonal object. Condition is that at least one of this and BusDriver/Name must be included.</desc>
+    </element>
+    <element name="Status" enum="StaffBoardingStatus" flags="R">
+      <desc>Boarding status of the driver.</desc>
+    </element>
+  </object>
+  <!--BusEquipment object-->
+  <object name="BusEquipment" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies this type of equipment.</desc>
+    </attribute>
+    <element name="Description" type="String" flags="M">
+      <desc>Explanation about the type of equipment.</desc>
+    </element>
+  </object>
+  <!--BusInfo object-->
+  <object name="BusInfo" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies this bus.</desc>
+    </attribute>
+    <element name="VehicleNumber" type="NormalizedString" flags="O">
+      <desc>Vehicle number of the bus.</desc>
+    </element>
+    <element name="SeatingCapacity" type="UnsignedInt" flags="O">
+      <desc>The number of people who can ride on the bus at the same time.</desc>
+    </element>
+    <element name="Contractor" type="NormalizedString" flags="O">
+      <desc>The name of the contractor for this bus.</desc>
+    </element>
+    <element name="EquipmentList" type="EquipmentList" flags="O" />
+    <element name="ManufactureYear" type="gYear" flags="O">
+      <desc>The manufacture year of the bus (CCYY).</desc>
+    </element>
+    <element name="VehicleIdentificationNumber" type="NormalizedString" flags="O">
+      <desc>The Vehicle Identification Number (VIN) of the bus.</desc>
+    </element>
+    <element name="LicensePlateNumber" type="NormalizedString" flags="O">
+      <desc>The vehicle's license plate number.</desc>
+    </element>
+  </object>
+  <!--BusPositionInfo object-->
+  <object name="BusPositionInfo" topic="true">
+    <attribute name="BusInfoRefId" type="IdRefType" flags="R">
+      <desc>The GUID that identifies the bus. This object only has meaning as current data for this particular bus.</desc>
+    </attribute>
+    <element name="Date" type="Date" flags="O">
+      <desc>The date of the report from the bus.</desc>
+    </element>
+    <element name="Time" type="Time" flags="O">
+      <desc>The time of the report from the bus.</desc>
+    </element>
+    <element name="GridLocation" type="GridLocation" flags="O">
+      <desc>The location of the bus.</desc>
+    </element>
+    <element name="TelematicsId" type="NormalizedString" flags="O">
+      <desc>ID of the hardware unit on the bus that tracks &amp;amp; reports location and status. The interpretation of the content is deployment specific, but the format must be compact.</desc>
+    </element>
+    <element name="TelemetryList" type="TelemetryList" flags="O">
+      <desc>Indicators and values provided by the hardware along with this position snapshot. For events, it is safe to assume that one of these items triggered the hardware to issue an update.</desc>
+    </element>
+    <element name="BusDriver" type="BusDriver" flags="O" />
+    <element name="BusStaffList" type="BusStaffList" flags="O" />
+    <element name="RouteStatus" type="RouteStatus" flags="O" />
+    <element name="OtherStatus" type="NormalizedString" flags="O">
+      <desc>If the bus is not running a regularly scheduled route but is transporting (or positioning to transport) passengers as approved and directed by the school district, this element describes the activity. It's also used for maintenance, repair, and other authorized movements. This element is mutually exclusive with RouteStatus. Absence of both RouteStatus and OtherStatus is acceptable, but may indicate unauthorized operation.</desc>
+    </element>
+    <element name="Odometer" type="Odometer" flags="O">
+      <desc>Current odometer reading.</desc>
+    </element>
+    <element name="Speedometer" type="Speedometer" flags="O">
+      <desc>Current speedometer reading.</desc>
+    </element>
+    <element name="Students" type="TransStudents" flags="O">
+      <desc>List of students and their status.  The complete list may be sent with some events (e.g. change in RouteStatus) per district policy, but it is more typical of responses.</desc>
+    </element>
+  </object>
+  <!--BusRouteDetail object-->
+  <object name="BusRouteDetail" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies this object.</desc>
+    </attribute>
+    <attribute name="BusRouteInfoRefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies the bus route. See the BusRoute specification for more details.</desc>
+    </attribute>
+    <element name="BusStopInfoRefId" type="IdRefType" flags="M">
+      <desc>Describes a bus stop</desc>
+    </element>
+    <element name="ArrivalTime" type="Time" flags="M">
+      <desc>The time that the bus associated with this route will stop at this bus stop.</desc>
+    </element>
+  </object>
+  <!--BusRouteInfo object-->
+  <object name="BusRouteInfo" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies this bus route.</desc>
+    </attribute>
+    <element name="BusInfoRefId" type="IdRefType" flags="M" />
+    <element name="RouteNumber" type="NormalizedString" flags="M">
+      <desc>A unique identifier for the route. It may contain any printable ASCII character. For instance, you may have route 16AM in the morning and a 16PM in the afternoon.</desc>
+    </element>
+    <element name="RouteType" enum="RouteType" flags="M">
+      <desc>The type of route.</desc>
+    </element>
+    <element name="MaximumLoad" type="UnsignedInt" flags="O">
+      <desc>The maximum number of students who are on the bus at any point along this route.</desc>
+    </element>
+    <element name="Description" type="String" flags="O">
+      <desc>Short explanation of the route. It may be used to designate an area, or used to color-code bus routes (the "orange" route).</desc>
+    </element>
+    <element name="Name" type="Name" flags="O">
+      <desc>Name of the driver who drives this route.</desc>
+    </element>
+    <element name="RouteDurationLoaded" type="duration" flags="O" />
+    <element name="RouteDurationTotal" type="duration" flags="O" />
+    <element name="RouteDistanceLoaded" type="Distance" flags="O">
+      <desc>Refers to the distance the bus drives when at least one student is riding the bus.</desc>
+    </element>
+    <element name="RouteDistanceTotal" type="Distance" flags="O">
+      <desc>Includes the total distance driven for this route including to and from garage.</desc>
+    </element>
+  </object>
+  <!--BusStaff object-->
+  <object name="BusStaff">
+    <desc>List identifying other staff.  This may include aides, nurses, proctors, etc.</desc>
+    <element name="Name" type="Name" flags="O">
+      <desc>The name of this staff member. Condition is that at least one of this and BusStaff/EmpLink must be included.</desc>
+    </element>
+    <element name="EmployeePersonalRefId" type="IdRefType" flags="O" />
+    <element name="Status" enum="StaffBoardingStatus" flags="R">
+      <desc>Boarding status of this staff member.</desc>
+    </element>
+  </object>
+  <!--BusStaffList object-->
+  <object name="BusStaffList">
+    <element name="BusStaff" type="BusStaff" flags="OR" />
+  </object>
+  <!--BusStopInfo object-->
+  <object name="BusStopInfo" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies this location.</desc>
+    </attribute>
+    <element name="Description" type="String" flags="M">
+      <desc>An explanation of this location.</desc>
+    </element>
+    <element name="GridLocation" type="GridLocation" flags="O">
+      <desc>The location of the bus stop.</desc>
+    </element>
+  </object>
+  <!--DestinationPoint object-->
+  <object name="DestinationPoint">
+    <attribute name="BusRouteDetailRefId" type="String" flags="R">
+      <desc>GUID that identifies the bus stop/route where the student gets off the bus.</desc>
+    </attribute>
+    <element name="ArrivalTime" type="Time" flags="O">
+      <desc>The time that the bus associated with this route will stop at this bus stop.</desc>
+    </element>
+    <element name="RouteNumber" type="String" flags="O">
+      <desc>A unique identifier for the route. F or instance, you may have route 16AM in the morning and a 16PM in the afternoon.</desc>
+    </element>
+    <element name="RouteDescription" type="String" flags="O">
+      <desc>Short explanation of the route. It may be used to designate an area, or used to color-code bus routes (the "orange" route).</desc>
+    </element>
+    <element name="VehicleNumber" type="String" flags="O" />
+    <element name="BusStopDescription" type="String" flags="O">
+      <desc>An explanation of this location.</desc>
+    </element>
+  </object>
+  <!--DisembarkBusRouteDetail object-->
+  <object name="DisembarkBusRouteDetail" datatype="IdRefType">
+    <attribute name="SIF_RefObject" type="string" flags="M" />
+  </object>
+  <!--Distance object-->
+  <object name="Distance" datatype="decimal">
+    <attribute name="Unit" enum="DistanceUnit" flags="R">
+      <desc>Units used in the odometer reading.</desc>
+    </attribute>
+  </object>
+  <!--DistanceUnit enum-->
+  <enum name="DistanceUnit">
+    <value name="KM" value="km" desc="Kilometers" />
+    <value name="M" value="m" desc="Miles" />
+  </enum>
+  <!--Eligibility enum-->
+  <enum name="Eligibility">
+    <value name="BUS" value="Bus" desc="Bus" />
+    <value name="WALK" value="Walk" desc="Walk" />
+    <value name="BUS_HAZARD" value="BusHazard" desc="Bus Hazard" />
+    <value name="BUS_OUT_OF_ATTENDANCE" value="BusOutOfAttendance" desc="Bus Out of Attendance" />
+    <value name="PARENT_PAY" value="ParentPay" desc="Parent Pay" />
+    <value name="UNKNOWN" value="Unknown" desc="Unknown" />
+  </enum>
+  <!--EmbarkBusRouteDetail object-->
+  <object name="EmbarkBusRouteDetail" datatype="IdRefType">
+    <attribute name="SIF_RefObject" type="string" flags="M" />
+  </object>
+  <!--EmpLink object-->
+  <object name="EmpLink">
+    <desc>Attribute carries the GUID of the driver’s EmployeePersonal object.  Condition is that at least one of this and BusDriver/Name must be included.</desc>
+    <attribute name="EmployeePersonalRefId" flags="R">
+      <desc>GUID</desc>
+    </attribute>
+  </object>
+  <!--Equipment object-->
+  <object name="Equipment" empty="true">
+    <desc>Describes equipment on a bus</desc>
+    <element name="BusEquipmentRefId" flags="R">
+      <desc>GUID that identifies the type of equipment</desc>
+    </element>
+    <element name="Count" flags="R" key="false">
+      <desc>The number of pieces of this type of equipment</desc>
+    </element>
+  </object>
+  <!--EquipmentList object-->
+  <object name="EquipmentList">
+    <element name="Equipment" type="Equipment" flags="OR" />
+  </object>
+  <!--HomeBusRouteDetail object-->
+  <object name="HomeBusRouteDetail" datatype="IdRefType">
+    <desc>GUID referring to a BusRouteDetail object that identifies the origin bus stop for an inbound route or the destination bus stop for an outbound route. If the HomeBusRouteDetail element does not exist, then the student does not ride a bus to/from school.</desc>
+    <attribute name="SIF_RefObject" flags="R">
+      <desc>Must be set to BusRouteDetail</desc>
+    </attribute>
+  </object>
+  <!--Odometer object-->
+  <object name="Odometer" datatype="decimal">
+    <attribute name="Unit" enum="DistanceUnit" flags="R">
+      <desc>Units used in the odometer reading.</desc>
+    </attribute>
+  </object>
+  <!--OriginPoint object-->
+  <object name="OriginPoint">
+    <attribute name="BusRouteDetailRefId" type="String" flags="R">
+      <desc>GUID that identifies the bus stop/route where the student gets on the bus.</desc>
+    </attribute>
+    <element name="ArrivalTime" type="Time" flags="O">
+      <desc>The time that the bus associated with this route will stop at this bus stop.</desc>
+    </element>
+    <element name="RouteNumber" type="String" flags="O">
+      <desc>A unique identifier for the route. For instance, you may have route 16AM in the morning and a 16PM in the afternoon.</desc>
+    </element>
+    <element name="RouteDescription" type="String" flags="O">
+      <desc>Short explanation of the route.</desc>
+    </element>
+    <element name="VehicleNumber" type="String" flags="O">
+      <desc>Vehicle number of the bus.</desc>
+    </element>
+    <element name="BusStopDescription" type="String" flags="O">
+      <desc>An explanation of this location.</desc>
+    </element>
+  </object>
+  <!--RouteStatus object-->
+  <object name="RouteStatus">
+    <element name="BusRouteInfoRefId" type="IdRefType" flags="R">
+      <desc>GUID</desc>
+    </element>
+    <element name="Status" enum="RouteStatusStatus" flags="R" key="false">
+      <desc>Status of the route.</desc>
+    </element>
+  </object>
+  <!--RouteStatusStatus enum-->
+  <enum name="RouteStatusStatus">
+    <value name="BEGIN" value="Begin" desc="Begin" />
+    <value name="END" value="End" desc="End" />
+    <value name="CONTINUE" value="Continue" desc="Continue" />
+  </enum>
+  <!--RouteType enum-->
+  <enum name="RouteType">
+    <value name="INBOUND" value="Inbound" desc="Inbound" />
+    <value name="OUTBOUND" value="Outbound" desc="Outbound" />
+  </enum>
+  <!--SchoolBusRouteDetail object-->
+  <object name="SchoolBusRouteDetail" datatype="IdRefType">
+    <desc>GUID referring to a BusRouteDetail object that identifies the origin bus stop for an outbound route or the destination bus stop for an inbound route.
+    If the SchoolBusRouteDetail does not exist, then the student does not ride a bus to/from school.</desc>
+    <attribute key="false" name="SIF_RefObject" flags="R">
+      <desc>GUID referring to a BusRouteDetail object that identifies the origin bus stop for an inbound route or the destination bus stop for an outbound route.</desc>
+    </attribute>
+  </object>
+  <!--Speedometer object-->
+  <object name="Speedometer" datatype="decimal">
+    <attribute name="Unit" enum="DistanceUnit" flags="R">
+      <desc>Units used in the speedometer reading. </desc>
+    </attribute>
+  </object>
+  <!--StaffBoardingStatus enum-->
+  <enum name="StaffBoardingStatus">
+    <value name="ON" value="On" desc="boarded the bus and no exit detected" />
+    <value name="OFF" value="Off" desc="exited the bus" />
+    <value name="SCHED" value="Sched" desc="scheduled for this run, but either hasn't boarded or the telematics hardware can't confirm their identity" />
+  </enum>
+  <!--StudentBoardingStatus enum-->
+  <enum name="StudentBoardingStatus">
+    <value name="ON" value="On" desc="boarded the bus and no exit detected" />
+    <value name="OFF" value="Off" desc="Off" />
+    <value name="ENTERED" value="Entered" desc="boarded the bus since previous event" />
+    <value name="EXITED" value="Exited" desc="left the bus since previous event" />
+    <value name="SCHED" value="Sched" desc="scheduled for this run, but either hasn't boarded or the telematics hardware can't confirm their identity" />
+  </enum>
+  <!--StudentTransportInfo object-->
+  <object name="StudentTransportInfo" topic="true">
+    <desc>
+      This object contains transportation information about a student. Students should
+      have at least two StudentTransportInfo objects associated with them: one for
+      inbound information (getting to school) and one for outbound information (leaving
+      school). If their transportation changes based on the day of the week, then a
+      student will have more than two StudentTransportInfo objects.
+    </desc>
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies this object.</desc>
+    </attribute>
+    <attribute name="StudentPersonalRefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies the student that this object refers to.</desc>
+    </attribute>
+    <attribute name="Type" enum="StudentTransportInfoType" flags="R">
+      <desc>The direction of transportation that this object refers to.</desc>
+    </attribute>
+    <attribute name="DayOfWeek" type="String" flags="R">
+      <desc>This attribute indicates the day(s) of the week to which this object refers.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="IdRefType" flags="R">
+      <desc>GUID referring to the school that the student attends on these day(s) of the week.</desc>
+    </attribute>
+    <element name="Eligibility" enum="Eligibility" flags="O">
+      <desc>Eligibility status of student for district transportation for this trip.</desc>
+    </element>
+    <element name="HomeToSchoolDistance" type="Distance" flags="O">
+      <desc>Distance between the student's home address and the school.</desc>
+    </element>
+    <element name="WalkToStopDistance" type="Distance" flags="O">
+      <desc>Distance between the student's address and the bus stop where they are picked up or dropped off.</desc>
+    </element>
+    <element name="StopToSchoolDistance" type="Distance" flags="O">
+      <desc>Distance between the bus stop where a student is picked up or dropped off and the school.</desc>
+    </element>
+    <element name="OriginPoint" type="OriginPoint" flags="O">
+      <desc />
+    </element>
+    <element name="HomeBusRouteDetail" type="HomeBusRouteDetail" flags="O">
+      <desc>If the HomeBusRouteDetail element does not exist then the student does not ride a bus to/from school.</desc>
+    </element>
+    <element name="TransferPoints" type="TransferPoints" flags="O">
+      <desc>There should be one TransferPoint for each intermediate point on a trip. The "embark" and "disembark" bus stops for a single transfer point must be at the same location. To order multiple TransferPoint elements, use the Time element of the BusStopInfo objects referenced by the attributes.</desc>
+    </element>
+    <element name="SchoolBusRouteDetail" type="SchoolBusRouteDetail" flag="O">
+      <desc>If the SchoolBusRouteDetail element does not exist then the student does not ride a bus to/from school.</desc>
+    </element>
+    <element name="DestinationPoint" type="DestinationPoint" flags="O">
+      <desc />
+    </element>
+    <element name="StateAidQualification" type="String" flags="O">
+      <desc>The qualification status of a student entitling local education agency to receive state transportation aid.</desc>
+    </element>
+    <element name="TransportationStatus" type="String" flags="O">
+      <desc>Information about whether or not a student is transported to and/or from school or receives services, aid, or payment in lieu of transportation.</desc>
+    </element>
+    <element name="PublicExpense" type="String" flags="O">
+      <desc>The eligibility of a student for transportation between home and school at local public expense because of distance, disability, or other reasons.</desc>
+    </element>
+  </object>
+  <!--StudentTransportInfoType enum-->
+  <enum name="StudentTransportInfoType">
+    <value name="INBOUND" value="Inbound" desc="Inbound" />
+    <value name="OUTBOUND" value="Outbound" desc="Outbound" />
+  </enum>
+  <!--Telemetry object-->
+  <object name="Telemetry" datatype="String" />
+  <!--TelemetryList object-->
+  <object name="TelemetryList">
+    <element name="Telemetry" type="Telemetry" flags="OR">
+      <desc>Indicators and values provided by the hardware along with this position snapshot. For events, it is safe to assume that one of these items triggered the hardware to issue an update.</desc>
+    </element>
+  </object>
+  <!--TransferPoint object-->
+  <object name="TransferPoint" empty="true">
+    <desc>Describes a transfer point for each intermediate point on a trip</desc>
+    <element name="EmbarkBusRouteDetail" type="EmbarkBusRouteDetail" flags="R">
+      <desc>The GUID that identifies the bus stop/route when the student gets on the bus.</desc>
+    </element>
+    <element name="DisembarkBusRouteDetail" type="DisembarkBusRouteDetail" flags="R">
+      <desc>The GUID that identifies the bus stop/route when the student gets off the bus.</desc>
+    </element>
+  </object>
+  <!--TransferPoints object-->
+  <object name="TransferPoints">
+    <element name="TransferPoint" type="TransferPoint" flags="OR" />
+  </object>
+  <!--TransStudent object-->
+  <object name="TransStudent">
+    <desc>List of students and their status.  The complete list may be sent with some events (e.g. change in RouteStatus) per district policy, but it is more typical of responses.</desc>
+    <element name="StudentPersonalRefId" flags="R">
+      <desc>GUID that identifies the student that this element refers to.</desc>
+    </element>
+    <element name="Status" enum="StudentBoardingStatus" flags="R">
+      <desc>Boarding status of this student</desc>
+    </element>
+  </object>
+  <!--TransStudents object-->
+  <object name="TransStudents">
+    <element name="Student" type="TransStudent" flags="OR" />
+  </object>
+</adk>

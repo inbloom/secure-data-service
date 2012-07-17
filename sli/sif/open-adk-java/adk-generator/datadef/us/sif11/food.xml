@@ -1,0 +1,41 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s) -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 1.1 food objects                  -->
+<!-- ======================================== -->
+<adk package="food" version="1.1" name="Food Services" namespace="http://www.sifinfo.org/infrastructure/1.x">
+  <!--MealStatus object-->
+  <object name="MealStatus" empty="true">
+    <desc>Information about a student's meal status</desc>
+    <attribute name="Type" flags="R" enum="FreeReducedStatus">
+		The meal status type (Free, Reduced, or None)
+	</attribute>
+  </object>
+  <!--StudentMeal object-->
+  <object name="StudentMeal" topic="true">
+    <desc>This object contains information about the meal status of a student.</desc>
+    <attribute name="StudentPersonalRefId" flags="R">
+      <desc>The GUID of the student to whom this object is linked.</desc>
+    </attribute>
+    <element name="MealStatus" type="MealStatus" flags="O">
+      <desc>Information about a student's meal status</desc>
+    </element>
+    <element name="LastBreakfastDate" renderAs="LastBrkDate" flags="O" type="SIFDate">
+      <desc>Date the student last had breakfast</desc>
+    </element>
+    <element name="LastLunchDate" renderAs="LastLunDate" flags="O" type="SIFDate">
+      <desc>Date the student last had lunch</desc>
+    </element>
+    <element name="Cash" flags="O">
+      <desc>The student's cash balance</desc>
+    </element>
+    <element name="BrkCredits" flags="O">
+      <desc>Number of breakfast credits remaining</desc>
+    </element>
+    <element name="LunCredits" flags="O">
+      <desc>Number of lunch credits remaining</desc>
+    </element>
+  </object>
+</adk>

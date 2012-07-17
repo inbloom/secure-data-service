@@ -1,0 +1,3428 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.5 datamodel objects             -->
+<!-- ======================================== -->
+<adk package="common" version="2.5"
+	namespace="http://www.sifinfo.org/au/infrastructure/2.x">
+	<!--AUAddressRoleType enum-->
+	<enum name="AUAddressRoleType">
+		<value name="012A_TERM_ADDRESS" value="012A"
+			desc="Term Address" />
+		<value name="012B_HOME_ADDRESS" value="012B"
+			desc="Home Address" />
+		<value name="012C_HOME_STAY_ADDRESS" value="012C"
+			desc="Home Stay Address" />
+		<value name="013A_OVERSEAS_ADDRESS" value="013A"
+			desc="Overseas Address" />
+		<value name="1073_OT_HOME_ADDRESS" value="1073"
+			desc="Other home address" />
+		<value name="1074_EMPLOYERS_ADDRESS" value="1074"
+			desc="Employer's address" />
+		<value name="1075_EMPLOYMENT_ADDRESS" value="1075"
+			desc="Employment address" />
+		<value name="2382_OT_ORGANISATION" value="2382"
+			desc="Other organisation address" />
+		<value name="9999_OT_ADDRESS" value="9999" desc="Other Address" />
+	</enum>
+	<!--Codeset enum-->
+	<enum name="Codeset">
+		<value name="STATEPROVINCE" value="StateProvince" desc="StateProvince" />
+		<value name="LOCAL" value="Local" desc="Local" />
+		<value name="OTHER" value="Other" desc="Other" />
+		<value name="TEXT" value="Text" desc="Text" />
+	</enum>
+	<!--OtherCode object -->
+	<object name="OtherCode" datatype="Token">
+		<attribute name="Codeset" enum="Codeset" flags="R">
+			<desc>Describes the OtherCode element content as either a
+				state/province code, a local code, other code, or text string.
+			</desc>
+		</attribute>
+	</object>
+	<!--OtherCodeList object -->
+	<object name="OtherCodeList">
+		<element name="OtherCode" type="OtherCode" flags="OR">
+			<desc>A state/province code, local code, other code or a text string
+				that crosswalks to or serves as a translation of an associated Code
+				element.</desc>
+		</element>
+	</object>
+	<!--AU025AddressType-->
+	<enum name="AU025AddressType">
+		<value name="0123_MAILING_ADDRESS" value="0123"
+			desc="Mailing address" />
+		<value name="0124_SHIPPING_ADDRESS" value="0124"
+			desc="Shipping address" />
+		<value name="0765_PHYSICAL_LOCATION" value="0765"
+			desc="Physical location address" />
+		<value name="9999_OTHER" value="9999" desc="Other" />
+	</enum>
+	<!--AU0315BirthdateVerificationType-->
+	<enum name="AU0315BirthdateVerificationType">
+		<value name="1004_BIRTH_CERTIFICATE" value="1004"
+			desc="Birth certificate" />
+		<value name="1006_HOSPITAL_CERTIFICATE" value="1006"
+			desc="Hospital certificate" />
+		<value name="1008_PASSPORT" value="1008" desc="Passport" />
+		<value name="1009_PHYSICIANS_CERTIFICATE" value="1009"
+			desc="Physician's certificate" />
+		<value name="1010_PREVIOUSLY_VERIFIED_SCHOOL" value="1010"
+			desc="Previously verified school records" />
+		<value name="1011_STATEISSUED_ID" value="1011"
+			desc="State-issued ID" />
+		<value name="1012_DRIVERS_LICENSE" value="1012"
+			desc="Driver's license" />
+		<value name="1013_IMMIGRATION_DOCUMENT" value="1013"
+			desc="Immigration document/visa" />
+		<value name="3423_OT_OFFICIAL_DOCUMENT" value="3423"
+			desc="Other official document" />
+		<value name="3424_OT_NONOFFICIAL_DOCUMENT" value="3424"
+			desc="Other non-official document" />
+		<value name="9999_OTHER" value="9999" desc="Other" />
+		<value name="N_BIRTHDATE_NOT_VERIFIED" value="N"
+			desc="Birthdate NOT Verified" />
+		<value name="Y_DOCUMENTATION_SIGHTED_TYPE_NOT" value="Y"
+			desc="Documentation Sighted, type not recorded" />
+	</enum>
+	<!--AustralianCitizenshipStatusType-->
+	<enum name="AustralianCitizenshipStatusType">
+		<value name="1_AUSTRALIAN_CITIZEN" value="1"
+			desc="Australian Citizen" />
+		<value name="2_NEW_ZEALAND_CITIZEN" value="2"
+			desc="New Zealand Citizen" />
+		<value name="3_PERMANENT_RESIDENT" value="3"
+			desc="Permanent Resident" />
+		<value name="4_TEMPORARY_ENTRY_PERMIT" value="4"
+			desc="Temporary Entry Permit" />
+		<value name="5_OT_OVERSEAS" value="5" desc="Other Overseas" />
+		<value name="8_PERMANENT_HUMANITARIAN" value="8"
+			desc="Permanent Humanitarian Visa" />
+		<value name="X_NOT_PROVIDED" value="X" desc="Not Provided" />
+	</enum>
+	<!--OtherId object-->
+	<object name="OtherId">
+		<desc>Describes an alternate ID for a person</desc>
+		<attribute name="Type" enum="OtherIdType" flags="R">
+			<desc>
+				Code that defines the type of this other ID. Note: A
+				subset of valid values may be specified in data objects.
+			</desc>
+		</attribute>
+	</object>
+	<!--OtherIdList object-->
+	<object name="OtherIdList">
+		<element name="OtherId" type="OtherId" flags="OR" />
+	</object>
+	<!--OtherIdType enum-->
+	<enum name="OtherIdType">
+		<desc>Codes that define valid types for OtherId elements</desc>
+	</enum>
+	<!--PermanentResidentStatusType-->
+	<enum name="PermanentResidentStatusType">
+		<value name="99_UNKNOWN" value="99" desc="Unknown" />
+		<value name="N_NOTRESIDENT" value="N" desc="Not a Resident" />
+		<value name="P_PERMANENT_RESIDENT" value="P"
+			desc="Permanent Resident" />
+		<value name="T_TEMPORARY_RESIDENT" value="T"
+			desc="Temporary Resident" />
+	</enum>
+	<!--ReligionType-->
+	<enum name="ReligionType">
+		<value name="1_BUDDHISM" value="1" desc="BUDDHISM" />
+		<value name="101_BUDDHISM" value="101" desc="Buddhism" />
+		<value name="1011_BUDDHISM" value="1011" desc="Buddhism" />
+		<value name="2_CHRISTIANITY" value="2" desc="CHRISTIANITY" />
+		<value name="201_ANGLICAN" value="201" desc="Anglican" />
+		<value name="2012_ANGLICAN_CHURCH_OF" value="2012"
+			desc="Anglican Church of Australia" />
+		<value name="2013_ANGLICAN_CATHOLIC" value="2013"
+			desc="Anglican Catholic Church" />
+		<value name="203_BAPTIST" value="203" desc="Baptist" />
+		<value name="2031_BAPTIST" value="2031" desc="Baptist" />
+		<value name="205_BRETHREN" value="205" desc="Brethren" />
+		<value name="2051_BRETHREN" value="2051" desc="Brethren" />
+		<value name="207_CATHOLIC" value="207" desc="Catholic" />
+		<value name="2071_WESTERN_CATHOLIC" value="2071"
+			desc="Western Catholic" />
+		<value name="2072_MARONITE_CATHOLIC" value="2072"
+			desc="Maronite Catholic" />
+		<value name="2073_MELKITE_CATHOLIC" value="2073"
+			desc="Melkite Catholic" />
+		<value name="2074_UKRAINIAN_CATHOLIC" value="2074"
+			desc="Ukrainian Catholic" />
+		<value name="2075_CHALDEAN_CATHOLIC" value="2075"
+			desc="Chaldean Catholic" />
+		<value name="2079_CATHOLIC_NEC" value="2079"
+			desc="Catholic, nec" />
+		<value name="211_CHURCHES_OF_CHRIST" value="211"
+			desc="Churches of Christ" />
+		<value name="2111_CHURCHES_OF_CHRIST_CONFERENCE" value="2111"
+			desc="Churches of Christ (Conference)" />
+		<value name="2112_CHURCH_OF_CHRIST_NONDENOMINATIONAL"
+			value="2112" desc="Church of Christ (Nondenominational)" />
+		<value name="2113_INTERNATIONAL_CHURCH_OF" value="2113"
+			desc="International Church of Christ" />
+		<value name="213_JEHOVAHS_WITNESSES" value="213"
+			desc="Jehovah's Witnesses" />
+		<value name="2131_JEHOVAHS_WITNESSES" value="2131"
+			desc="Jehovah's Witnesses" />
+		<value name="215_LATTER_DAY_SAINTS" value="215"
+			desc="Latter Day Saints" />
+		<value name="2151_CHURCH_OF_JESUS_CHRIST_OF_LDS_MORMONS"
+			value="2151" desc="Church of Jesus Christ of LDS (Mormons)" />
+		<value name="2152_COMMUNITY_OF_CHRIST" value="2152"
+			desc="Community of Christ" />
+		<value name="217_LUTHERAN" value="217" desc="Lutheran" />
+		<value name="2171_LUTHERAN" value="2171" desc="Lutheran" />
+		<value name="221_ORIENTAL_ORTHODOX" value="221"
+			desc="Oriental Orthodox" />
+		<value name="2212_ARMENIAN_APOSTOLIC" value="2212"
+			desc="Armenian Apostolic" />
+		<value name="2214_COPTIC_ORTHODOX" value="2214"
+			desc="Coptic Orthodox Church" />
+		<value name="2215_SYRIAN_ORTHODOX" value="2215"
+			desc="Syrian Orthodox Church" />
+		<value name="2216_ETHIOPIAN_ORTHODOX" value="2216"
+			desc="Ethiopian Orthodox Church" />
+		<value name="2219_ORIENTAL_ORTHODOX" value="2219"
+			desc="Oriental Orthodox, nec" />
+		<value name="222_ASSYRIAN_APOSTOLIC" value="222"
+			desc="Assyrian Apostolic" />
+		<value name="2221_ASSYRIAN_CHURCH" value="2221"
+			desc="Assyrian Church of the East" />
+		<value name="2222_ANCIENT_CHURCH_OFEAST" value="2222"
+			desc="Ancient Church of the East" />
+		<value name="2229_ASSYRIAN_APOSTOLIC" value="2229"
+			desc="Assyrian Apostolic, nec" />
+		<value name="223_EASTERN_ORTHODOX" value="223"
+			desc="Eastern Orthodox" />
+		<value name="2231_ALBANIAN_ORTHODOX" value="2231"
+			desc="Albanian Orthodox" />
+		<value name="2232_ANTIOCHIAN_ORTHODOX" value="2232"
+			desc="Antiochian Orthodox" />
+		<value name="2233_GREEK_ORTHODOX" value="2233"
+			desc="Greek Orthodox" />
+		<value name="2234_MACEDONIAN_ORTHODOX" value="2234"
+			desc="Macedonian Orthodox" />
+		<value name="2235_ROMANIAN_ORTHODOX" value="2235"
+			desc="Romanian Orthodox" />
+		<value name="2236_RUSSIAN_ORTHODOX" value="2236"
+			desc="Russian Orthodox" />
+		<value name="2237_SERBIAN_ORTHODOX" value="2237"
+			desc="Serbian Orthodox" />
+		<value name="2238_UKRAINIAN_ORTHODOX" value="2238"
+			desc="Ukrainian Orthodox" />
+		<value name="2239_EASTERN_ORTHODOX" value="2239"
+			desc="Eastern Orthodox, nec" />
+		<value name="225_PRESBYTERIANREFORMED" value="225"
+			desc="Presbyterian and Reformed" />
+		<value name="2251_PRESBYTERIAN" value="2251"
+			desc="Presbyterian" />
+		<value name="2252_REFORMED" value="2252" desc="Reformed" />
+		<value name="2253_FREE_REFORMED" value="2253"
+			desc="Free Reformed" />
+		<value name="227_SALVATION_ARMY" value="227"
+			desc="Salvation Army" />
+		<value name="2271_SALVATION_ARMY" value="2271"
+			desc="Salvation Army" />
+		<value name="231_SEVENTHDAY_ADVENTIST" value="231"
+			desc="Seventh-day Adventist" />
+		<value name="2311_SEVENTHDAY_ADVENTIST" value="2311"
+			desc="Seventh-day Adventist" />
+		<value name="233_UNITING_CHURCH" value="233"
+			desc="Uniting Church" />
+		<value name="2331_UNITING_CHURCH" value="2331"
+			desc="Uniting Church" />
+		<value name="24_PENTECOSTAL" value="24" desc="Pentecostal" />
+		<value name="2401_APOSTOLIC_CHURCH_AUSTRALIA" value="2401"
+			desc="Apostolic Church (Australia)" />
+		<value name="2402_ASSEMBLIES_OF_GOD" value="2402"
+			desc="Assemblies of God" />
+		<value name="2403_BETHESDA_CHURCHES" value="2403"
+			desc="Bethesda Churches" />
+		<value name="2404_CHRISTIAN_CITY_CHURCH" value="2404"
+			desc="Christian City Church" />
+		<value name="2405_CHRISTIAN_LIFE_CHURCHES" value="2405"
+			desc="Christian Life Churches International" />
+		<value name="2406_CHRISTIAN_OUTREACH" value="2406"
+			desc="Christian Outreach Centres" />
+		<value name="2407_CHRISTIAN_REVIVAL" value="2407"
+			desc="Christian Revival Crusade" />
+		<value name="2408_FAITH_CHURCHES" value="2408"
+			desc="Faith Churches" />
+		<value name="2411_FOURSQUARE_GOSPEL" value="2411"
+			desc="Foursquare Gospel Church" />
+		<value name="2412_FULL_GOSPEL_CHURCH" value="2412"
+			desc="Full Gospel Church" />
+		<value name="2413_REVIVAL_CENTRES" value="2413"
+			desc="Revival Centres" />
+		<value name="2414_RHEMA_FAMILY_CHURCH" value="2414"
+			desc="Rhema Family Church" />
+		<value name="2415_UNITED_PENTECOSTAL" value="2415"
+			desc="United Pentecostal" />
+		<value name="2499_PENTECOSTAL_NEC" value="2499"
+			desc="Pentecostal, nec" />
+		<value name="28_OT_PROTESTANT" value="28"
+			desc="Other Protestant" />
+		<value name="2801_ABORIGINAL_EVANGELICAL" value="2801"
+			desc="Aboriginal Evangelical Missions" />
+		<value name="2802_BORN_AGAIN_CHRISTIAN" value="2802"
+			desc="Born Again Christian" />
+		<value name="2803_CHRISTIANMISSIONARY" value="2803"
+			desc="Christian and Missionary Alliance" />
+		<value name="2804_CHURCH_OFNAZARENE" value="2804"
+			desc="Church of the Nazarene" />
+		<value name="2805_CONGREGATIONAL" value="2805"
+			desc="Congregational" />
+		<value name="2806_ETHNIC_EVANGELICAL" value="2806"
+			desc="Ethnic Evangelical Churches" />
+		<value name="2807_INDEPENDENT_EVANGELICAL" value="2807"
+			desc="Independent Evangelical Churches" />
+		<value name="2808_WESLEYAN_METHODIST" value="2808"
+			desc="Wesleyan Methodist Church" />
+		<value name="2899_OT_PROTESTANT_NEC" value="2899"
+			desc="Other Protestant, nec" />
+		<value name="29_OT_CHRISTIAN" value="29" desc="Other Christian" />
+		<value name="2901_APOSTOLIC_CHURCH_OF" value="2901"
+			desc="Apostolic Church of Queensland" />
+		<value name="2902_CHRISTADELPHIANS" value="2902"
+			desc="Christadelphians" />
+		<value name="2903_CHRISTIAN_SCIENCE" value="2903"
+			desc="Christian Science" />
+		<value name="2904_GNOSTIC_CHRISTIANS" value="2904"
+			desc="Gnostic Christians" />
+		<value name="2905_LIBERAL_CATHOLIC" value="2905"
+			desc="Liberal Catholic Church" />
+		<value name="2906_NEW_APOSTOLIC_CHURCH" value="2906"
+			desc="New Apostolic Church" />
+		<value name="2907_NEW_CHURCHES_SWEDENBORGIAN" value="2907"
+			desc="New Churches (Swedenborgian)" />
+		<value name="2908_RATANA_MAORI" value="2908"
+			desc="Ratana (Maori)" />
+		<value name="2911_RELIGIOUS_SCIENCE" value="2911"
+			desc="Religious Science" />
+		<value name="2912_RELIGIOUS_SOCIETY_OF_FRIENDS_QUAKERS"
+			value="2912" desc="Religious Society of Friends (Quakers)" />
+		<value name="2913_TEMPLE_SOCIETY" value="2913"
+			desc="Temple Society" />
+		<value name="2914_UNITARIAN" value="2914" desc="Unitarian" />
+		<value name="2915_WORLDWIDE_CHURCH_OF" value="2915"
+			desc="Worldwide Church of God" />
+		<value name="2999_OT_CHRISTIAN_NEC" value="2999"
+			desc="Other Christian, nec" />
+		<value name="3_HINDUISM" value="3" desc="HINDUISM" />
+		<value name="301_HINDUISM" value="301" desc="Hinduism" />
+		<value name="3011_HINDUISM" value="3011" desc="Hinduism" />
+		<value name="4_ISLAM" value="4" desc="ISLAM" />
+		<value name="401_ISLAM" value="401" desc="Islam" />
+		<value name="4011_ISLAM" value="4011" desc="Islam" />
+		<value name="5_JUDAISM" value="5" desc="JUDAISM" />
+		<value name="501_JUDAISM" value="501" desc="Judaism" />
+		<value name="5011_JUDAISM" value="5011" desc="Judaism" />
+		<value name="6_OT_RELIGIONS" value="6" desc="OTHER RELIGIONS" />
+		<value name="601_AUSTRALIAN_ABORIGINAL_TRADITIONAL" value="601"
+			desc="Australian Aboriginal Traditional Religions" />
+		<value name="6011_AUSTRALIAN_ABORIGINAL_TRADITIONAL"
+			value="6011" desc="Australian Aboriginal Traditional Religions" />
+		<value name="603_BAHAI" value="603" desc="Baha'i" />
+		<value name="6031_BAHAI" value="6031" desc="Baha'i" />
+		<value name="605_CHINESE_RELIGIONS" value="605"
+			desc="Chinese Religions" />
+		<value name="6051_ANCESTOR_VENERATION" value="6051"
+			desc="Ancestor Veneration" />
+		<value name="6052_CONFUCIANISM" value="6052"
+			desc="Confucianism" />
+		<value name="6053_TAOISM" value="6053" desc="Taoism" />
+		<value name="6059_CHINESE_RELIGIONS" value="6059"
+			desc="Chinese Religions, nec" />
+		<value name="607_DRUSE" value="607" desc="Druse" />
+		<value name="6071_DRUSE" value="6071" desc="Druse" />
+		<value name="611_JAPANESE_RELIGIONS" value="611"
+			desc="Japanese Religions" />
+		<value name="6111_SHINTO" value="6111" desc="Shinto" />
+		<value name="6112_SUKYO_MAHIKARI" value="6112"
+			desc="Sukyo Mahikari" />
+		<value name="6113_TENRIKYO" value="6113" desc="Tenrikyo" />
+		<value name="6119_JAPANESE_RELIGIONS" value="6119"
+			desc="Japanese Religions, nec" />
+		<value name="613_NATURE_RELIGIONS" value="613"
+			desc="Nature Religions" />
+		<value name="6131_ANIMISM" value="6131" desc="Animism" />
+		<value name="6132_DRUIDISM" value="6132" desc="Druidism" />
+		<value name="6133_PAGANISM" value="6133" desc="Paganism" />
+		<value name="6134_PANTHEISM" value="6134" desc="Pantheism" />
+		<value name="6135_WICCAN_WITCHCRAFT" value="6135"
+			desc="Wiccan/Witchcraft" />
+		<value name="6139_NATURE_RELIGIONS" value="6139"
+			desc="Nature Religions, nec" />
+		<value name="615_SIKHISM" value="615" desc="Sikhism" />
+		<value name="6151_SIKHISM" value="6151" desc="Sikhism" />
+		<value name="617_SPIRITUALISM" value="617" desc="Spiritualism" />
+		<value name="6171_SPIRITUALISM" value="6171"
+			desc="Spiritualism" />
+		<value name="699_MISCELLANEOUS_RELIGIONS" value="699"
+			desc="Miscellaneous Religions" />
+		<value name="6991_CAODAISM" value="6991" desc="Caodaism" />
+		<value name="6992_CHURCH_OF_SCIENTOLOGY" value="6992"
+			desc="Church of Scientology" />
+		<value name="6993_ECKANKAR" value="6993" desc="Eckankar" />
+		<value name="6994_RASTAFARIANISM" value="6994"
+			desc="Rastafarianism" />
+		<value name="6995_SATANISM" value="6995" desc="Satanism" />
+		<value name="6996_THEOSOPHY" value="6996" desc="Theosophy" />
+		<value name="6997_JAINISM" value="6997" desc="Jainism" />
+		<value name="6998_ZOROASTRIANISM" value="6998"
+			desc="Zoroastrianism" />
+		<value name="6999_RELIGIOUS_GROUPS" value="6999"
+			desc="Religious Groups, nec" />
+		<value name="7_NO_RELIGION" value="7" desc="NO RELIGION" />
+		<value name="701_NO_RELIGION" value="701" desc="No Religion" />
+		<value name="7011_AGNOSTICISM" value="7011" desc="Agnosticism" />
+		<value name="7012_ATHEISM" value="7012" desc="Atheism" />
+		<value name="7013_HUMANISM" value="7013" desc="Humanism" />
+		<value name="7014_RATIONALISM" value="7014" desc="Rationalism" />
+		<value name="0001_NOT_STATED" value="0001" desc="Not Stated" />
+		<value name="0002_RELIGIOUS_BELIEF" value="0002"
+			desc="Religious Belief, nfd" />
+		<value name="0003_NOT_DEFINED" value="0003" desc="Not Defined" />
+		<value name="0004_NEW_AGE_SO_DESCRIBED" value="0004"
+			desc="New Age, so described" />
+		<value name="0005_THEISM" value="0005" desc="Theism" />
+		<value name="2000_CHRISTIAN_NFD" value="2000"
+			desc="Christian, nfd" />
+		<value name="2001_APOSTOLIC_CHURCH_SO" value="2001"
+			desc="Apostolic Church, so described" />
+		<value name="2002_CHURCH_OF_GOD_SO" value="2002"
+			desc="Church of God, so described" />
+		<value name="2003_AUSTRALIAN_CHRISTIAN_CHURCHES_SO" value="2003"
+			desc="Australian Christian Churches, so described" />
+		<value name="2004_NEW_CHURCH_ALLIANCE_SO" value="2004"
+			desc="New Church Alliance, so described" />
+		<value name="2110_CHURCHES_OF_CHRIST" value="2110"
+			desc="Churches of Christ, nfd" />
+		<value name="2150_CHURCH_OF_JESUS_CHRIST_OF_LATTER_DAY_SAINTS"
+			value="2150" desc="Church of Jesus Christ of Latter Day Saints, nfd" />
+		<value name="2210_ORIENTAL_ORTHODOX" value="2210"
+			desc="Oriental Orthodox, nfd" />
+		<value name="2220_ASSYRIAN_APOSTOLIC" value="2220"
+			desc="Assyrian Apostolic, nfd" />
+		<value name="2230_EASTERN_ORTHODOX" value="2230"
+			desc="Eastern Orthodox, nfd" />
+		<value name="2250_PRESBYTERIANREFORMED" value="2250"
+			desc="Presbyterian and Reformed, nfd" />
+		<value name="2400_PENTECOSTAL_NFD" value="2400"
+			desc="Pentecostal, nfd" />
+		<value name="2800_OT_PROTESTANT_NFD" value="2800"
+			desc="Other Protestant, nfd" />
+		<value name="2900_OT_CHRISTIAN_NFD" value="2900"
+			desc="Other Christian, nfd" />
+		<value name="6050_CHINESE_RELIGIONS" value="6050"
+			desc="Chinese Religions, nfd" />
+		<value name="6110_JAPANESE_RELIGIONS" value="6110"
+			desc="Japanese Religions, nfd" />
+		<value name="6130_NATURE_RELIGIONS" value="6130"
+			desc="Nature Religions, nfd" />
+		<value name="7010_NO_RELIGION_NFD" value="7010"
+			desc="No Religion, nfd" />
+		<value name="20791_ARMENIAN_CATHOLIC" value="20791"
+			desc="Armenian Catholic" />
+		<value name="20792_COPTIC_CATHOLIC" value="20792"
+			desc="Coptic Catholic" />
+		<value name="20793_RUSSIAN_CATHOLIC" value="20793"
+			desc="Russian Catholic" />
+		<value name="20794_SYRIAN_CATHOLIC" value="20794"
+			desc="Syrian Catholic" />
+	</enum>
+
+	<!--IndigenousStatusType-->
+	<enum name="IndigenousStatusType">
+		<value name="1_ABORIGINAL_BUT_NOT_TORRES_STRAIT_ISLANDER"
+			value="1" desc="Aboriginal but not Torres Strait Islander Origin" />
+		<value name="2_TORRES_STRAIT_ISLANDER_BUT_NOT_ABORIGINAL"
+			value="2" desc="Torres Strait Islander but Not Aboriginal Origin" />
+		<value name="3_BOTH_TORRES_STRAITABORIGINAL" value="3"
+			desc="Both Torres Strait and Aboriginal Origin" />
+		<value name="4_NEITHER_ABORIGINAL_OR_TORRES_STRAIT" value="4"
+			desc="Neither  Aboriginal or Torres Strait Origin" />
+		<value name="9_NOT_STATED_UNKNOWN" value="9"
+			desc="Not Stated/Unknown" />
+	</enum>
+	<!--ImmunisationCertificateStatusType-->
+	<enum name="ImmunisationCertificateStatusType">
+		<value name="C_COMPLETE" value="C" desc="Complete" />
+		<value name="I_INCOMPLETE" value="I" desc="Incomplete" />
+		<value name="N_NOT_SIGHTED" value="N" desc="Not Sighted" />
+	</enum>
+    
+	<!--VisaStatCodeType-->
+    <!-- 
+	<enum name="VisaStatCodeType">
+		<value name="00_SUBSIDISED_BYAUSTRALIAN" value="00"
+			desc="Subsidised by the Australian Government" />
+		<value name="01_AUSAID_SCHOLARSHIP" value="01"
+			desc="AusAid scholarship holder" />
+		<value name="02_DEFENCE_EMSS_PERSONNEL" value="02"
+			desc="Defence/EMSS personnel" />
+		<value name="03_IPRS_AEAP_AGAP_CSFP" value="03"
+			desc="IPRS, AEAP, AGAP, CSFP scholarshipholder" />
+		<value name="04_FULL_FEE_PAYING_INTERNATIONAL_FEE_PAYING"
+			value="04" desc="Full Fee Paying - International Fee paying student" />
+		<value name="05_OT_AUSTRALIAN_GOVERNMENT" value="05"
+			desc="Other Australian Government Assisted" />
+		<value name="06_APPROVED_AUSTRALIAN_NONGOVERNMENT" value="06"
+			desc="Approved Australian non-government scholarship" />
+		<value name="07_HIGHER_EDUCATION_INSTITUTION" value="07"
+			desc="Higher Education Institution Scholarship" />
+		<value name="08_FAMILY_UNIT_EXEMPT_FROM_NATIONAL_CHARGING"
+			value="08" desc="Family Unit exempt from National Charging Policy" />
+		<value name="09_NATIONAL_FOREIGN_GOVERNMENT_OR_MULTILATERAL"
+			value="09"
+			desc="National Foreign Government or multi-lateral agency sponsored" />
+	</enum>
+    -->
+    
+	<!--VisaSubClassType-->
+	<enum name="VisaSubClassType">
+		<value name="10_BRIDGING_VISA_CLASS" value="10"
+			desc="Bridging Visa Class A" />
+		<value name="100_SPOUSE" value="100" desc="Spouse" />
+		<value name="101_CHILD" value="101" desc="Child" />
+		<value name="102_ADOPTION" value="102" desc="Adoption" />
+		<value name="103_PARENT" value="103" desc="Parent" />
+		<value name="104_PREFERENTIAL_FAMILY" value="104"
+			desc="Preferential family" />
+		<value name="105_SKILLED_AUSTRALIAN" value="105"
+			desc="Skilled - Australian Linked" />
+		<value name="106_REGIONALLINKED" value="106"
+			desc="Regional-linked" />
+		<value name="110_INTERDEPENDENCY" value="110"
+			desc="Interdependency" />
+		<value name="113_AGED_PARENT" value="113" desc="Aged Parent" />
+		<value name="114_AGED_DEPENDENT_RELATIVE" value="114"
+			desc="Aged Dependent Relative" />
+		<value name="115_REMAINING_RELATIVE" value="115"
+			desc="Remaining Relative" />
+		<value name="116_CARER" value="116" desc="Carer" />
+		<value name="117_ORPHAN_RELATIVE" value="117"
+			desc="Orphan Relative" />
+		<value name="118_DESIGNATED_PARENT" value="118"
+			desc="Designated Parent" />
+		<value name="119_REGIONAL_SPONSORED_MIGRATION" value="119"
+			desc="Regional Sponsored Migration Scheme" />
+		<value name="120_LABOUR_AGREEMENT" value="120"
+			desc="Labour Agreement" />
+		<value name="121_EMPLOYER_NOMINATION" value="121"
+			desc="Employer nomination" />
+		<value name="124_DISTINGUISHED_TALENT" value="124"
+			desc="Distinguished talent" />
+		<value name="125_DISTINGUISHED_TALENTSPECIAL_SERVICE"
+			value="125"
+			desc="Distinguished talent and special service - independe" />
+		<value name="126_INDEPENDENT" value="126" desc="Independent" />
+		<value name="127_BUSINESS_OWNER_NO_LONGER_ISSUED" value="127"
+			desc="Business Owner (No longer issued)" />
+		<value name="128_SENIOR_EXECUTIVE_NO_LONGER_ISSUED" value="128"
+			desc="Senior Executive (No longer issued)" />
+		<value name="129_STATE_TERRITORY_SPONSORED_BUSINESS_OWNER_NLI"
+			value="129" desc="State/Territory sponsored business owner (NLI)" />
+		<value name="130_STATE_TERRITORY_SPONSORED_SENIOR_EXECUTIVE_NLI"
+			value="130" desc="State/Territory Sponsored Senior Executive (NLI)" />
+		<value name="131_INVESTMENTLINKED_NO_LONGER_ISSUED" value="131"
+			desc="Investment-linked (No longer issued)" />
+		<value name="132_BUSINESS_TALENT_NO_LONGER_ISSUED" value="132"
+			desc="Business Talent (No longer issued)" />
+		<value name="134_SKILL_MATCHING" value="134"
+			desc="Skill Matching" />
+		<value name="135_STATE_TERRITORY_NOMINATED" value="135"
+			desc="State/Territory nominated independent" />
+		<value name="136_SKILLED_INDEPENDENT" value="136"
+			desc="Skilled - Independent" />
+		<value name="137_SKILLED_STATE_TERRITORY_NOMINATED" value="137"
+			desc="Skilled - State/Territory nominated independent" />
+		<value name="138_SKILLED_AUSTRALIAN" value="138"
+			desc="Skilled - Australian sponsored" />
+		<value name="139_SKILLED_DESIGNATED_AREASPONSORED_NO_LONGER"
+			value="139"
+			desc="Skilled Designated Area-sponsored (No longer issued)" />
+		<value name="143_CONTRIBUTORY_PARENT" value="143"
+			desc="Contributory Parent " />
+		<value name="150_FORMER_CITIZEN" value="150"
+			desc="Former citizen" />
+		<value name="151_FORMER_RESIDENT" value="151"
+			desc="Former resident" />
+		<value name="152_FAMILY_OF_NZ_CITIZEN" value="152"
+			desc="Family of NZ citizen" />
+		<value name="154_RESIDENT_RETURN" value="154"
+			desc="Resident Return" />
+		<value name="155_FIVE_YEAR_RESIDENT" value="155"
+			desc="Five year resident return" />
+		<value name="156_ONE_YEAR_RESIDENT_RETURN_NO_LONGER_ISSUED"
+			value="156" desc="One Year Resident Return (No longer Issued)" />
+		<value name="157_THREE_MONTH_RESIDENT" value="157"
+			desc="Three month resident return" />
+		<value name="159_PROVISIONAL_RESIDENT" value="159"
+			desc="Provisional resident return" />
+		<value name="160_BUSINESS_OWNER_PROVISIONAL" value="160"
+			desc="Business Owner (Provisional)" />
+		<value name="161_SENIOR_EXECUTIVE_PROVISIONAL" value="161"
+			desc="Senior Executive (Provisional)" />
+		<value name="162_INVESTOR_PROVISIONAL" value="162"
+			desc="Investor (Provisional)" />
+		<value name="163_STATE_TERRITORY_SPONSORED_BUSINESS_OWNER_PROV"
+			value="163" desc="State/Territory Sponsored Business Owner (Prov.)" />
+		<value
+			name="164_STATE_TERRITORY_SPONSORED_SENIOR_EXECUTIVE_PROV"
+			value="164"
+			desc="State/Territory Sponsored Senior Executive (Prov.)" />
+		<value name="165_STATE_TERRITORY_SPONSORED_INVESTOR_PROVISIONAL"
+			value="165" desc="State/Territory Sponsored Investor (Provisional)" />
+		<value name="173_CONTRIBUTORY_PARENT_TEMPORARY" value="173"
+			desc="Contributory Parent (Temporary)" />
+		<value name="175_SKILLED_INDEPENDENT" value="175"
+			desc="Skilled - independent" />
+		<value name="176_SKILLED_SPONSORED" value="176"
+			desc="Skilled - sponsored" />
+		<value name="20_BRIDGING_VISA_CLASS" value="20"
+			desc="Bridging Visa Class B" />
+		<value name="200_REFUGEE" value="200" desc="Refugee" />
+		<value name="201_INCOUNTRY_SPECIAL" value="201"
+			desc="In-country special humanitarian" />
+		<value name="202_GLOBAL_SPECIAL_HUMANITARIAN" value="202"
+			desc="Global special humanitarian" />
+		<value name="203_EMERGENCY_RESCUE" value="203"
+			desc="Emergency rescue" />
+		<value name="204_WOMAN_AT_RISK" value="204"
+			desc="Woman at risk" />
+		<value name="205_CAMP_CLEARANCE" value="205"
+			desc="Camp clearance" />
+		<value name="208_EAST_TIMORESE_IN_PORTUGALMACAU_OR" value="208"
+			desc="East Timorese in Portugal,Macau or Mozambique" />
+		<value name="209_CITIZEN_OF_FORMER_YUGOSLAVIA_DISPLACED"
+			value="209" desc="Citizen of former Yugoslavia - displaced person" />
+		<value name="210_MINORITIES_OF_FORMER" value="210"
+			desc="Minorities of former USSR" />
+		<value name="211_BURMESE_IN_BURMA" value="211"
+			desc="Burmese in Burma" />
+		<value name="212_SUDANESE" value="212" desc="Sudanese" />
+		<value name="213_BURMESE_IN_THAILAND" value="213"
+			desc="Burmese in Thailand" />
+		<value name="214_CAMBODIAN" value="214" desc="Cambodian" />
+		<value name="215_SRI_LANKAN_SPECIAL" value="215"
+			desc="Sri Lankan - special assistance" />
+		<value name="216_AHMADI" value="216" desc="Ahmadi" />
+		<value name="217_VIETNAMESE" value="217" desc="Vietnamese" />
+		<value name="30_BRIDGING_VISA_CLASS" value="30"
+			desc="Bridging Visa Class C" />
+		<value name="300_PROSPECTIVE_MARRIAGE" value="300"
+			desc="Prospective marriage" />
+		<value name="302_EMERGENCY_PERMANENT_VISA_APPLICANT" value="302"
+			desc="Emergency (Permanent Visa Applicant)" />
+		<value name="303_EMERGENCY_TEMPORARY_VISA_APPLICANT" value="303"
+			desc="Emergency (Temporary Visa Applicant)" />
+		<value name="309_SPOUSE_PROVISIONAL" value="309"
+			desc="Spouse (provisional)" />
+		<value name="310_INTERDEPENDENCY_PROVISIONAL" value="310"
+			desc="Interdependency (provisional)" />
+		<value name="40_BRIDGING_VISA_PROSPECTIVE_APPLICANT" value="40"
+			desc="Bridging Visa (Prospective Applicant)" />
+		<value name="41_BRIDGING_VISA_NONAPPLICANT" value="41"
+			desc="Bridging Visa (Non-Applicant)" />
+		<value name="410_RETIREMENT" value="410" desc="Retirement" />
+		<value name="411_EXCHANGE" value="411" desc="Exchange" />
+		<value name="412_INDEPENDENT_EXECUTIVE" value="412"
+			desc="Independent Executive" />
+		<value name="413_BUSINESS_EXECUTIVE" value="413"
+			desc="Business Executive" />
+		<value name="414_BUSINESS_SPECIALIST" value="414"
+			desc="Business Specialist" />
+		<value name="415_FOREIGN_GOVERNMENT" value="415"
+			desc="Foreign government agency" />
+		<value name="416_SPECIAL_PROGRAM" value="416"
+			desc="Special program" />
+		<value name="417_WORKING_HOLIDAY" value="417"
+			desc="Working holiday" />
+		<value name="418_EDUCATIONAL" value="418" desc="Educational" />
+		<value name="419_VISITING_ACADEMIC" value="419"
+			desc="Visiting academic" />
+		<value name="42_BRIDGING_VISA_CLASS" value="42"
+			desc="Bridging Visa Class A" />
+		<value name="420_ENTERTAINMENT" value="420"
+			desc="Entertainment" />
+		<value name="421_SPORT" value="421" desc="Sport" />
+		<value name="422_MEDICAL_PRACTITIONER" value="422"
+			desc="Medical practitioner" />
+		<value name="423_MEDIAFILM_STAFF" value="423"
+			desc="Media and film staff" />
+		<value name="424_PUBLIC_LECTURER" value="424"
+			desc="Public lecturer" />
+		<value name="425_FAMILY_RELATIONSHIP" value="425"
+			desc="Family relationship" />
+		<value name="426_DOMESTIC_WORKER_DIPLOMATIC_OR" value="426"
+			desc="Domestic worker - diplomatic or consular" />
+		<value name="427_DOMESTIC_WORKER_EXECUTIVE" value="427"
+			desc="Domestic worker - executive" />
+		<value name="428_RELIGIOUS_WORKER" value="428"
+			desc="Religious worker" />
+		<value name="430_SUPPORTED_DEPENDANT" value="430"
+			desc="Supported dependant" />
+		<value name="432_EXPATRIATE" value="432" desc="Expatriate" />
+		<value name="435_SRI_LANKAN" value="435" desc="Sri Lankan " />
+		<value name="442_OCCUPATIONAL_TRAINEE" value="442"
+			desc="Occupational Trainee" />
+		<value name="443_CITIZENS_OF_FORMER" value="443"
+			desc="Citizens of former Yugoslavia" />
+		<value name="444_SPECIAL_CATEGORY" value="444"
+			desc="Special Category" />
+		<value name="445_DEPENDENT_CHILD" value="445"
+			desc="Dependent Child" />
+		<value name="446_CONFIRMATORY_TEMPORARY" value="446"
+			desc="Confirmatory (Temporary)" />
+		<value name="447_SECONDARY_MOVEMENT_OFFSHORE_ENTRY_TEMPORARY"
+			value="447" desc="Secondary Movement Offshore Entry (Temporary)" />
+		<value name="448_KOSOVAR_SAFE_HAVEN" value="448"
+			desc="Kosovar Safe Haven" />
+		<value name="449_HUMANITARIAN_STAY_TEMPORARY" value="449"
+			desc="Humanitarian Stay (Temporary)" />
+		<value name="450_RESOLUTION_OF_STATUS_FAMILY_MEMBER_TEMPORARY"
+			value="450" desc="Resolution of Status - Family member (Temporary)" />
+		<value name="451_SECONDARY_MOVEMENT_RELOCATION_TEMPORARY"
+			value="451" desc="Secondary Movement Relocation (Temporary)" />
+		<value name="456_BUSINESS_SHORT_STAY" value="456"
+			desc="Business - Short Stay" />
+		<value name="457_BUSINESS_LONG_STAY" value="457"
+			desc="Business - long stay" />
+		<value name="459_SPONSORED_BUSINESS_VISITOR_SHORT_STAY"
+			value="459" desc="Sponsored Business Visitor (short stay)" />
+		<value name="461_NEW_ZEALAND_CITIZEN_FAMILY" value="461"
+			desc="New Zealand Citizen Family Relationship" />
+		<value name="462_WORKHOLIDAY" value="462"
+			desc="Work and Holiday" />
+		<value name="470_PROFESSIONAL_DEVELOPMENT" value="470"
+			desc="Professional Development" />
+		<value name="471_TRADE_SKILLS_TRAINING" value="471"
+			desc="Trade Skills Training" />
+		<value name="475_SKILLED_REGIONAL" value="475"
+			desc="Skilled Regional Sponsored" />
+		<value name="485_SKILLED_GRADUATE" value="485"
+			desc="Skilled - Graduate" />
+		<value name="487_SKILLED_REGIONAL" value="487"
+			desc="Skilled - Regional Sponsored" />
+		<value name="495_SKILLED_INDEPENDENT_REGIONAL_TEMPORARY"
+			value="495" desc="Skilled Independent Regional (Temporary)" />
+		<value name="496_SKILLED_DESIGNATED_AREA_SPONSORED_PROVISIONAL"
+			value="496" desc="Skilled - Designated Area Sponsored (Provisional)" />
+		<value name="497_GRADUATE_SKILLED" value="497"
+			desc="Graduate - Skilled" />
+		<value name="499_OLYMPIC_SUPPORT_NO_LONGER_ISSUED" value="499"
+			desc="Olympic (Support) (No longer issued)" />
+		<value name="50_BRIDGING_VISA_GENERAL" value="50"
+			desc="Bridging Visa (General)" />
+		<value name="51_BRIDGING_VISA_PROTECTION_VISA_APPLICANT"
+			value="51" desc="Bridging Visa (Protection Visa Applicant)" />
+		<value name="560_STUDENT_NO_LONGER_ISSUED" value="560"
+			desc="Student (No longer issued)" />
+		<value name="562_IRANIAN_POSTGRADUATE" value="562"
+			desc="Iranian Postgraduate Student" />
+		<value name="563_IRANIAN_POSTGRADUATE_STUDENT" value="563"
+			desc="Iranian Postgraduate Student Dependent" />
+		<value name="570_STUDENT_ELICOS" value="570"
+			desc="Student - ELICOS" />
+		<value name="571_STUDENT_SCHOOLS" value="571"
+			desc="Student - Schools" />
+		<value name="572_STUDENT_VET" value="572" desc="Student - VET" />
+		<value name="573_STUDENT_HIGHER_EDUCATION" value="573"
+			desc="Student - Higher Education" />
+		<value name="574_STUDENT_MASTERS" value="574"
+			desc="Student - Masters &amp;amp; Doctorate" />
+		<value name="575_STUDENT_NONAWARD" value="575"
+			desc="Student - Non-Award Foundation" />
+		<value name="576_STUDENT_AUSAID" value="576"
+			desc="Student - AusAID &amp;amp; Defence" />
+		<value name="580_STUDENT_GUARDIAN" value="580"
+			desc="Student Guardian Visa" />
+		<value name="675_MEDICAL_TREATMENT_SHORT" value="675"
+			desc="Medical treatment - short stay" />
+		<value name="676_TOURIST_SHORT_STAY" value="676"
+			desc="Tourist - short stay" />
+		<value name="679_SPONSORED_FAMILY_VISITOR_SHORT_STAY"
+			value="679" desc="Sponsored Family Visitor (short stay)" />
+		<value name="685_MEDICAL_TREATMENT_LONG" value="685"
+			desc="Medical treatment  - Long Stay" />
+		<value name="686_TOURIST_LONG_STAY" value="686"
+			desc="Tourist - Long Stay" />
+		<value name="695_TEMPORARY_PROVISIONAL_PENDING" value="695"
+			desc="Temporary Provisional - Pending return" />
+		<value name="70_REMOVAL_PENDING_BRIDGING" value="70"
+			desc="Removal Pending Bridging Visa" />
+		<value name="771_TRANSIT" value="771" desc="Transit" />
+		<value name="773_BORDER" value="773" desc="Border" />
+		<value name="785_TEMPORARY_PROTECTION" value="785"
+			desc="Temporary Protection" />
+		<value name="786_TEMPORARY_HUMANITARIAN_CONCERN" value="786"
+			desc="Temporary (Humanitarian Concern)" />
+		<value name="800_TERRITORIAL_ASYLUM" value="800"
+			desc="Territorial Asylum" />
+		<value name="801_SPOUSE" value="801" desc="Spouse" />
+		<value name="802_CHILD" value="802" desc="Child" />
+		<value name="804_AGED_PARENT" value="804" desc="Aged Parent" />
+		<value name="805_SKILLED" value="805" desc="Skilled" />
+		<value name="806_FAMILY" value="806" desc="Family" />
+		<value name="808_CONFIRMATORY_RESIDENCE" value="808"
+			desc="Confirmatory Residence" />
+		<value name="814_INTERDEPENDENCY" value="814"
+			desc="Interdependency" />
+		<value name="819_AGED_PARENT" value="819" desc="Aged Parent" />
+		<value name="820_SPOUSE" value="820" desc="Spouse" />
+		<value name="826_INTERDEPENDENCY" value="826"
+			desc="Interdependency" />
+		<value name="831_PROSPECTIVE_MARRIAGE" value="831"
+			desc="Prospective marriage spouse" />
+		<value name="832_CLOSE_TIES" value="832" desc="Close Ties" />
+		<value name="833_CERTAIN_UNLAWFUL" value="833"
+			desc="Certain unlawful non-citizens" />
+		<value name="834_PERMANENT_RESIDENT_OF_NORFOLK" value="834"
+			desc="Permanent resident of Norfolk Island" />
+		<value name="835_REMAINING_RELATIVE" value="835"
+			desc="Remaining Relative" />
+		<value name="836_CARER" value="836" desc="Carer" />
+		<value name="837_ORPHAN_RELATIVE" value="837"
+			desc="Orphan Relative" />
+		<value name="838_AGED_DEPENDANT_RELATIVE" value="838"
+			desc="Aged Dependant Relative" />
+		<value name="840_BUSINESS_OWNER" value="840"
+			desc="Business Owner" />
+		<value name="841_SENIOR_EXECUTIVE" value="841"
+			desc="Senior Executive" />
+		<value name="842_STATE_TERRITORY_SPONSORED_BUSINESS" value="842"
+			desc="State/Territory sponsored business owner" />
+		<value name="843_STATE_TERRITORY_SPONSORED_SENIOR" value="843"
+			desc="State/Territory sponsored senior executive" />
+		<value name="844_INVESTMENTLINKED" value="844"
+			desc="Investment-linked" />
+		<value name="845_ESTABLISHED_BUSINESS_IN" value="845"
+			desc="Established Business in Australia" />
+		<value name="846_STATE_TERRITORY_SPONSORED_REGIONAL_ESTABLISHED"
+			value="846"
+			desc="State/Territory Sponsored Regional Established Busin" />
+		<value name="850_RESOLUTION_STATUS_TEMPORARY" value="850"
+			desc="Resolution Status (Temporary)" />
+		<value name="851_RESOLUTION_OF_STATUS" value="851"
+			desc="Resolution of Status" />
+		<value name="852_WITNESS_PROTECTION" value="852"
+			desc="Witness Protection" />
+		<value name="855_LABOUR_AGREEMENT" value="855"
+			desc="Labour Agreement" />
+		<value name="856_EMPLOYER_NOMINATION" value="856"
+			desc="Employer Nomination Scheme" />
+		<value name="857_REGIONAL_SPONSORED_MIGRATION" value="857"
+			desc="Regional Sponsored Migration Scheme" />
+		<value name="858_DISTINGUISHED_TALENT" value="858"
+			desc="Distinguished Talent" />
+		<value name="859_DESIGNATED_PARENT" value="859"
+			desc="Designated Parent" />
+		<value name="861_SKILLED_ONSHORE_INDEPENDENT_NEW_ZEALAND"
+			value="861" desc="Skilled - Onshore Independent New Zealand Citizen" />
+		<value name="862_SKILLED_AUSTRALIANSPONSORED_NEW_ZEALAND"
+			value="862" desc="Skilled Australian-sponsored New Zealand Citizen" />
+		<value name="863_SKILLED_DESIGNATED_AREASPONSORED_N_ZEALAND"
+			value="863"
+			desc="Skilled Designated Area-sponsored N. Zealand Citizen" />
+		<value name="864_CONTRIBUTORY_AGED_PARENT_RESIDENCE" value="864"
+			desc="Contributory Aged Parent (Residence)" />
+		<value name="866_PROTECTION" value="866" desc="Protection" />
+		<value name="880_SKILLED_INDEPENDENT_OVERSEAS" value="880"
+			desc="Skilled - Independent Overseas Student" />
+		<value name="881_SKILLED_AUSTRALIANSPONSORED_OVERSEAS"
+			value="881" desc="Skilled - Australian-sponsored Overseas Student" />
+		<value name="882_SKILLED_DESIGNATED_AREASPONSORED_OVERSEAS"
+			value="882"
+			desc="Skilled - Designated Area-sponsored Overseas Student" />
+		<value name="883_SKILLED_DESIGNATED_AREA_SPONSORED_RESIDENCE"
+			value="883"
+			desc="Skilled Designated Area Sponsored (Residence) visa" />
+		<value name="884_CONTRIBUTORY_AGED_PARENT_TEMPORARY" value="884"
+			desc="Contributory Aged Parent (Temporary)" />
+		<value name="885_SKILLED_INDEPENDENT" value="885"
+			desc="Skilled - Independent" />
+		<value name="886_SKILLED_SPONSORED" value="886"
+			desc="Skilled - Sponsored" />
+		<value name="887_SKILLED_REGIONAL" value="887"
+			desc="Skilled - Regional" />
+		<value name="890_BUSINESS_OWNER" value="890"
+			desc="Business Owner" />
+		<value name="891_INVESTOR" value="891" desc="Investor" />
+		<value name="892_STATE_TERRITORY_SPONSORED_BUSINESS" value="892"
+			desc="State/Territory sponsored business owner" />
+		<value name="893_STATE_TERRITORY_SPONSORED_SENIOR" value="893"
+			desc="State/Territory sponsored senior executive" />
+		<value name="956_ELECTRONIC_TRAVEL_AUTHORITY_BUSINESS"
+			value="956" desc="Electronic Travel Authority - Business - Long" />
+		<value name="976_ELECTRONIC_TRAVEL_AUTHORITY" value="976"
+			desc="Electronic Travel Authority - Visitor" />
+		<value name="977_ELECTRONIC_TRAVEL_AUTHORITY_BUSINESS"
+			value="977" desc="Electronic Travel Authority - Business - Short" />
+		<value name="995_DIPLOMATIC_TEMPORARY" value="995"
+			desc="Diplomatic (Temporary)" />
+		<value name="998_DECLARATORY" value="998" desc="Declaratory" />
+	</enum>
+
+	<!--AustralianClassificationOfLanguagesType-->
+	<enum name="AustralianClassificationOfLanguagesType">
+		<value name="0_NOT_STATED" value="0" desc="Not Stated" />
+		<value name="1_NORTHERN_EUROPEAN_LANGUAGES" value="1"
+			desc="NORTHERN EUROPEAN LANGUAGES" />
+		<value name="11_CELTIC" value="11" desc="Celtic" />
+		<value name="1101_GAELIC_SCOTLAND" value="1101"
+			desc="Gaelic (Scotland)" />
+		<value name="1102_IRISH" value="1102" desc="Irish" />
+		<value name="1103_WELSH" value="1103" desc="Welsh" />
+		<value name="1199_CELTIC_NEC" value="1199" desc="Celtic, nec" />
+		<value name="12_ENGLISH" value="12" desc="English" />
+		<value name="1201_ENGLISH" value="1201" desc="English" />
+		<value name="13_GERMANRELATED_LANGUAGES" value="13"
+			desc="German and Related Languages" />
+		<value name="1301_GERMAN" value="1301" desc="German" />
+		<value name="1302_LETZEBURGISH" value="1302"
+			desc="Letzeburgish" />
+		<value name="1303_YIDDISH" value="1303" desc="Yiddish" />
+		<value name="14_DUTCHRELATED_LANGUAGES" value="14"
+			desc="Dutch and Related Languages" />
+		<value name="1401_DUTCH" value="1401" desc="Dutch" />
+		<value name="1402_FRISIAN" value="1402" desc="Frisian" />
+		<value name="1403_AFRIKAANS" value="1403" desc="Afrikaans" />
+		<value name="15_SCANDINAVIAN" value="15" desc="Scandinavian" />
+		<value name="1501_DANISH" value="1501" desc="Danish" />
+		<value name="1502_ICELANDIC" value="1502" desc="Icelandic" />
+		<value name="1503_NORWEGIAN" value="1503" desc="Norwegian" />
+		<value name="1504_SWEDISH" value="1504" desc="Swedish" />
+		<value name="1599_SCANDINAVIAN_NEC" value="1599"
+			desc="Scandinavian, nec" />
+		<value name="16_FINNISHRELATED_LANGUAGES" value="16"
+			desc="Finnish and Related Languages" />
+		<value name="1601_ESTONIAN" value="1601" desc="Estonian" />
+		<value name="1602_FINNISH" value="1602" desc="Finnish" />
+		<value name="1699_FINNISHRELATED_LANGUAGES" value="1699"
+			desc="Finnish and Related Languages, nec" />
+		<value name="2_SOUTHERN_EUROPEAN_LANGUAGES" value="2"
+			desc="SOUTHERN EUROPEAN LANGUAGES" />
+		<value name="21_FRENCH" value="21" desc="French" />
+		<value name="2101_FRENCH" value="2101" desc="French" />
+		<value name="22_GREEK" value="22" desc="Greek" />
+		<value name="2201_GREEK" value="2201" desc="Greek" />
+		<value name="23_IBERIAN_ROMANCE" value="23"
+			desc="Iberian Romance" />
+		<value name="2301_CATALAN" value="2301" desc="Catalan" />
+		<value name="2302_PORTUGUESE" value="2302" desc="Portuguese" />
+		<value name="2303_SPANISH" value="2303" desc="Spanish" />
+		<value name="2399_IBERIAN_ROMANCE" value="2399"
+			desc="Iberian Romance, nec" />
+		<value name="24_ITALIAN" value="24" desc="Italian" />
+		<value name="2401_ITALIAN" value="2401" desc="Italian" />
+		<value name="25_MALTESE" value="25" desc="Maltese" />
+		<value name="2501_MALTESE" value="2501" desc="Maltese" />
+		<value name="29_OT_SOUTHERN_EUROPEAN" value="29"
+			desc="Other Southern European Languages" />
+		<value name="2901_BASQUE" value="2901" desc="Basque" />
+		<value name="2902_LATIN" value="2902" desc="Latin" />
+		<value name="2999_OT_SOUTHERN_EUROPEAN_LANGUAGES" value="2999"
+			desc="Other Southern European Languages, nec" />
+		<value name="3_EASTERN_EUROPEAN_LANGUAGES" value="3"
+			desc="EASTERN EUROPEAN LANGUAGES" />
+		<value name="31_BALTIC" value="31" desc="Baltic" />
+		<value name="3101_LATVIAN" value="3101" desc="Latvian" />
+		<value name="3102_LITHUANIAN" value="3102" desc="Lithuanian" />
+		<value name="33_HUNGARIAN" value="33" desc="Hungarian" />
+		<value name="3301_HUNGARIAN" value="3301" desc="Hungarian" />
+		<value name="34_EAST_SLAVIC" value="34" desc="East Slavic" />
+		<value name="3401_BELORUSSIAN" value="3401" desc="Belorussian" />
+		<value name="3402_RUSSIAN" value="3402" desc="Russian" />
+		<value name="3403_UKRAINIAN" value="3403" desc="Ukrainian" />
+		<value name="35_SOUTH_SLAVIC" value="35" desc="South Slavic" />
+		<value name="3501_BOSNIAN" value="3501" desc="Bosnian" />
+		<value name="3502_BULGARIAN" value="3502" desc="Bulgarian" />
+		<value name="3503_CROATIAN" value="3503" desc="Croatian" />
+		<value name="3504_MACEDONIAN" value="3504" desc="Macedonian" />
+		<value name="3505_SERBIAN" value="3505" desc="Serbian" />
+		<value name="3506_SLOVENE" value="3506" desc="Slovene" />
+		<value name="3507_SERBOCROATIAN_YUGOSLAVIAN_SO" value="3507"
+			desc="Serbo-Croatian/Yugoslavian, so described" />
+		<value name="36_WEST_SLAVIC" value="36" desc="West Slavic" />
+		<value name="3601_CZECH" value="3601" desc="Czech" />
+		<value name="3602_POLISH" value="3602" desc="Polish" />
+		<value name="3603_SLOVAK" value="3603" desc="Slovak" />
+		<value name="39_OT_EASTERN_EUROPEAN" value="39"
+			desc="Other Eastern European Languages" />
+		<value name="3901_ALBANIAN" value="3901" desc="Albanian" />
+		<value name="3903_AROMUNIAN_MACEDOROMANIAN" value="3903"
+			desc="Aromunian (Macedo-Romanian)" />
+		<value name="3904_ROMANIAN" value="3904" desc="Romanian" />
+		<value name="3905_ROMANY" value="3905" desc="Romany" />
+		<value name="3999_OT_EASTERN_EUROPEAN_LANGUAGES" value="3999"
+			desc="Other Eastern European Languages, nec" />
+		<value name="4_SOUTHWESTCENTRAL_ASIAN" value="4"
+			desc="SOUTHWEST AND CENTRAL ASIAN LANGUAGES" />
+		<value name="41_IRANIC" value="41" desc="Iranic" />
+		<value name="4101_KURDISH" value="4101" desc="Kurdish" />
+		<value name="4102_PASHTO" value="4102" desc="Pashto" />
+		<value name="4104_BALOCHI" value="4104" desc="Balochi" />
+		<value name="4105_DARI" value="4105" desc="Dari" />
+		<value name="4106_PERSIAN_EXCLUDING_DARI" value="4106"
+			desc="Persian (excluding Dari)" />
+		<value name="4199_IRANIC_NEC" value="4199" desc="Iranic, nec" />
+		<value name="42_MIDDLE_EASTERN_SEMITIC" value="42"
+			desc="Middle Eastern Semitic Languages" />
+		<value name="4202_ARABIC" value="4202" desc="Arabic" />
+		<value name="4203_ASSYRIAN" value="4203" desc="Assyrian" />
+		<value name="4204_HEBREW" value="4204" desc="Hebrew" />
+		<value name="4299_MIDDLE_EASTERN_SEMITIC_LANGUAGES" value="4299"
+			desc="Middle Eastern Semitic Languages, nec" />
+		<value name="43_TURKIC" value="43" desc="Turkic" />
+		<value name="4301_TURKISH" value="4301" desc="Turkish" />
+		<value name="4302_AZERI" value="4302" desc="Azeri" />
+		<value name="4303_TATAR" value="4303" desc="Tatar" />
+		<value name="4304_TURKMEN" value="4304" desc="Turkmen" />
+		<value name="4305_UYGUR" value="4305" desc="Uygur" />
+		<value name="4306_UZBEK" value="4306" desc="Uzbek" />
+		<value name="4399_TURKIC_NEC" value="4399" desc="Turkic, nec" />
+		<value name="49_OT_SOUTHWESTCENTRAL_ASIAN" value="49"
+			desc="Other Southwest and Central Asian Languages" />
+		<value name="4901_ARMENIAN" value="4901" desc="Armenian" />
+		<value name="4902_GEORGIAN" value="4902" desc="Georgian" />
+		<value name="4999_OT_SOUTHWESTCENTRAL_ASIAN_LANGUAGES"
+			value="4999" desc="Other Southwest and Central Asian Languages, nec" />
+		<value name="5_SOUTHERN_ASIAN_LANGUAGES" value="5"
+			desc="SOUTHERN ASIAN LANGUAGES" />
+		<value name="51_DRAVIDIAN" value="51" desc="Dravidian" />
+		<value name="5101_KANNADA" value="5101" desc="Kannada" />
+		<value name="5102_MALAYALAM" value="5102" desc="Malayalam" />
+		<value name="5103_TAMIL" value="5103" desc="Tamil" />
+		<value name="5104_TELUGU" value="5104" desc="Telugu" />
+		<value name="5105_TULU" value="5105" desc="Tulu" />
+		<value name="5199_DRAVIDIAN_NEC" value="5199"
+			desc="Dravidian, nec" />
+		<value name="52_INDOARYAN" value="52" desc="Indo-Aryan" />
+		<value name="5201_BENGALI" value="5201" desc="Bengali" />
+		<value name="5202_GUJARATI" value="5202" desc="Gujarati" />
+		<value name="5203_HINDI" value="5203" desc="Hindi" />
+		<value name="5204_KONKANI" value="5204" desc="Konkani" />
+		<value name="5205_MARATHI" value="5205" desc="Marathi" />
+		<value name="5206_NEPALI" value="5206" desc="Nepali" />
+		<value name="5207_PUNJABI" value="5207" desc="Punjabi" />
+		<value name="5208_SINDHI" value="5208" desc="Sindhi" />
+		<value name="5211_SINHALESE" value="5211" desc="Sinhalese" />
+		<value name="5212_URDU" value="5212" desc="Urdu" />
+		<value name="5213_ASSAMESE" value="5213" desc="Assamese" />
+		<value name="5214_DHIVEHI" value="5214" desc="Dhivehi" />
+		<value name="5215_KASHMIRI" value="5215" desc="Kashmiri" />
+		<value name="5216_ORIYA" value="5216" desc="Oriya" />
+		<value name="5299_INDOARYAN_NEC" value="5299"
+			desc="Indo-Aryan, nec" />
+		<value name="59_OT_SOUTHERN_ASIAN" value="59"
+			desc="Other Southern Asian Languages" />
+		<value name="5999_OT_SOUTHERN_ASIAN" value="5999"
+			desc="Other Southern Asian Languages" />
+		<value name="6_SOUTHEAST_ASIAN_LANGUAGES" value="6"
+			desc="SOUTHEAST ASIAN LANGUAGES" />
+		<value name="61_BURMESERELATED_LANGUAGES" value="61"
+			desc="Burmese and Related Languages" />
+		<value name="6101_BURMESE" value="6101" desc="Burmese" />
+		<value name="6102_HAKA" value="6102" desc="Haka" />
+		<value name="6103_KAREN" value="6103" desc="Karen" />
+		<value name="6199_BURMESERELATED_LANGUAGES" value="6199"
+			desc="Burmese and Related Languages, nec" />
+		<value name="62_HMONGMIEN" value="62" desc="Hmong-Mien" />
+		<value name="6201_HMONG" value="6201" desc="Hmong" />
+		<value name="6299_HMONGMIEN_NEC" value="6299"
+			desc="Hmong-Mien, nec" />
+		<value name="63_MONKHMER" value="63" desc="Mon-Khmer" />
+		<value name="6301_KHMER" value="6301" desc="Khmer" />
+		<value name="6302_VIETNAMESE" value="6302" desc="Vietnamese" />
+		<value name="6303_MON" value="6303" desc="Mon" />
+		<value name="6399_MONKHMER_NEC" value="6399"
+			desc="Mon-Khmer, nec" />
+		<value name="64_TAI" value="64" desc="Tai" />
+		<value name="6401_LAO" value="6401" desc="Lao" />
+		<value name="6402_THAI" value="6402" desc="Thai" />
+		<value name="6499_TAI_NEC" value="6499" desc="Tai, nec" />
+		<value name="65_SOUTHEAST_ASIAN_AUSTRONESIAN" value="65"
+			desc="Southeast Asian Austronesian Languages" />
+		<value name="6501_BISAYA" value="6501" desc="Bisaya" />
+		<value name="6502_CEBUANO" value="6502" desc="Cebuano" />
+		<value name="6503_IIOKANO" value="6503" desc="IIokano" />
+		<value name="6504_INDONESIAN" value="6504" desc="Indonesian" />
+		<value name="6505_MALAY" value="6505" desc="Malay" />
+		<value name="6507_TETUM" value="6507" desc="Tetum" />
+		<value name="6508_TIMORESE" value="6508" desc="Timorese" />
+		<value name="6511_TAGALOG" value="6511" desc="Tagalog" />
+		<value name="6512_FILIPINO" value="6512" desc="Filipino" />
+		<value name="6513_ACEHNESE" value="6513" desc="Acehnese" />
+		<value name="6514_BALINESE" value="6514" desc="Balinese" />
+		<value name="6515_BIKOL" value="6515" desc="Bikol" />
+		<value name="6516_IBAN" value="6516" desc="Iban" />
+		<value name="6517_ILONGGO_HILIGAYNON" value="6517"
+			desc="Ilonggo (Hiligaynon)" />
+		<value name="6518_JAVANESE" value="6518" desc="Javanese" />
+		<value name="6521_PAMPANGAN" value="6521" desc="Pampangan" />
+		<value name="6599_SOUTHEAST_ASIAN_AUSTRONESIAN_LANGUAGES"
+			value="6599" desc="Southeast Asian Austronesian Languages, nec" />
+		<value name="69_OT_SOUTHEAST_ASIAN" value="69"
+			desc="Other Southeast Asian Languages" />
+		<value name="6999_OT_SOUTHEAST_ASIAN" value="6999"
+			desc="Other Southeast Asian Languages" />
+		<value name="7_EASTERN_ASIAN_LANGUAGES" value="7"
+			desc="EASTERN ASIAN LANGUAGES" />
+		<value name="71_CHINESE" value="71" desc="Chinese" />
+		<value name="7101_CANTONESE" value="7101" desc="Cantonese" />
+		<value name="7102_HAKKA" value="7102" desc="Hakka" />
+		<value name="7103_HOKKIEN" value="7103" desc="Hokkien" />
+		<value name="7104_MANDARIN" value="7104" desc="Mandarin" />
+		<value name="7105_TEOCHEW" value="7105" desc="Teochew" />
+		<value name="7106_WU" value="7106" desc="Wu" />
+		<value name="7199_CHINESE_NEC" value="7199" desc="Chinese, nec" />
+		<value name="72_JAPANESE" value="72" desc="Japanese" />
+		<value name="7201_JAPANESE" value="7201" desc="Japanese" />
+		<value name="73_KOREAN" value="73" desc="Korean" />
+		<value name="7301_KOREAN" value="7301" desc="Korean" />
+		<value name="79_OT_EASTERN_ASIAN_LANGUAGES" value="79"
+			desc="Other Eastern Asian Languages" />
+		<value name="7901_TIBETAN" value="7901" desc="Tibetan" />
+		<value name="7902_MONGOLIAN" value="7902" desc="Mongolian" />
+		<value name="7999_OT_EASTERN_ASIAN_LANGUAGES" value="7999"
+			desc="Other Eastern Asian Languages, nec" />
+		<value name="8_AUSTRALIAN_INDIGENOUS" value="8"
+			desc="AUSTRALIAN INDIGENOUS LANGUAGES" />
+		<value name="81_ARNHEM_LANDDALY_RIVER_REGION" value="81"
+			desc="Arnhem Land and Daly River Region Languages" />
+		<value name="8101_ANINDILYAKWA" value="8101"
+			desc="Anindilyakwa" />
+		<value name="8102_BURARRA" value="8102" desc="Burarra" />
+		<value name="8108_KUNWINJKU" value="8108" desc="Kunwinjku" />
+		<value name="8111_MAUNG" value="8111" desc="Maung" />
+		<value name="8113_NGANGIKURUNGGURR" value="8113"
+			desc="Ngan'gikurunggurr" />
+		<value name="8114_NUNGGUBUYU" value="8114" desc="Nunggubuyu" />
+		<value name="8115_REMBARRNGA" value="8115" desc="Rembarrnga" />
+		<value name="8117_TIWI" value="8117" desc="Tiwi" />
+		<value name="8121_ALAWA" value="8121" desc="Alawa" />
+		<value name="8122_DALABON" value="8122" desc="Dalabon" />
+		<value name="8123_GUDANJI" value="8123" desc="Gudanji" />
+		<value name="8124_GUNDJEIHMI" value="8124" desc="Gundjeihmi" />
+		<value name="8125_GUNNARTPA" value="8125" desc="Gun-nartpa" />
+		<value name="8126_GURRGONI" value="8126" desc="Gurr-goni" />
+		<value name="8127_IWAIDJA" value="8127" desc="Iwaidja" />
+		<value name="8128_JAMINJUNG" value="8128" desc="Jaminjung" />
+		<value name="8131_JAWOYN" value="8131" desc="Jawoyn" />
+		<value name="8132_JINGULU" value="8132" desc="Jingulu" />
+		<value name="8133_KUNBARLANG" value="8133" desc="Kunbarlang" />
+		<value name="8134_KUNE" value="8134" desc="Kune" />
+		<value name="8135_KUNINJKU" value="8135" desc="Kuninjku" />
+		<value name="8136_LARRAKIYA" value="8136" desc="Larrakiya" />
+		<value name="8137_MALAK_MALAK" value="8137" desc="Malak Malak" />
+		<value name="8138_MANGARRAYI" value="8138" desc="Mangarrayi" />
+		<value name="8141_MARINGARR" value="8141" desc="Maringarr" />
+		<value name="8142_MARRA" value="8142" desc="Marra" />
+		<value name="8143_MARRITHIYEL" value="8143" desc="Marrithiyel" />
+		<value name="8144_MATNGALA" value="8144" desc="Matngala" />
+		<value name="8145_MAYALI" value="8145" desc="Mayali" />
+		<value name="8146_MURRINH_PATHA" value="8146"
+			desc="Murrinh Patha" />
+		<value name="8147_NAKARA" value="8147" desc="Na-kara" />
+		<value name="8148_NDJBBANA_GUNAVIDJI" value="8148"
+			desc="Ndjbbana (Gunavidji)" />
+		<value name="8151_NGALAKGAN" value="8151" desc="Ngalakgan" />
+		<value name="8152_NGALIWURRU" value="8152" desc="Ngaliwurru" />
+		<value name="8153_NUNGALI" value="8153" desc="Nungali" />
+		<value name="8154_WAMBAYA" value="8154" desc="Wambaya" />
+		<value name="8155_WARDAMAN" value="8155" desc="Wardaman" />
+		<value name="8199_ARNHEM_LANDDALY_RIVER_REGION_LANGUAGES"
+			value="8199" desc="Arnhem Land and Daly River Region Languages, nec" />
+		<value name="82_YOLNGU_MATHA" value="82" desc="Yolngu Matha" />
+		<value name="821_DHANGU" value="821" desc="Dhangu" />
+		<value name="8211_GALPU" value="8211" desc="Galpu" />
+		<value name="8212_GOLUMALA" value="8212" desc="Golumala" />
+		<value name="8213_WANGURRI" value="8213" desc="Wangurri" />
+		<value name="8219_DHANGU_NEC" value="8219" desc="Dhangu, nec" />
+		<value name="822_DHAYYI" value="822" desc="Dhay'yi" />
+		<value name="8221_DHALWANGU" value="8221" desc="Dhalwangu" />
+		<value name="8222_DJARRWARK" value="8222" desc="Djarrwark" />
+		<value name="8229_DHAYYI_NEC" value="8229" desc="Dhay'yi, nec" />
+		<value name="823_DHUWAL" value="823" desc="Dhuwal" />
+		<value name="8231_DJAMBARRPUYNGU" value="8231"
+			desc="Djambarrpuyngu" />
+		<value name="8232_DJAPU" value="8232" desc="Djapu" />
+		<value name="8233_DAATIWUY" value="8233" desc="Daatiwuy" />
+		<value name="8234_MARRANGU" value="8234" desc="Marrangu" />
+		<value name="8235_LIYAGALAWUMIRR" value="8235"
+			desc="Liyagalawumirr" />
+		<value name="8239_DHUWAL_NEC" value="8239" desc="Dhuwal, nec" />
+		<value name="824_DHUWALA" value="824" desc="Dhuwala" />
+		<value name="8241_DHUWAYA" value="8241" desc="Dhuwaya" />
+		<value name="8242_GUMATJ" value="8242" desc="Gumatj" />
+		<value name="8243_GUPAPUYNGU" value="8243" desc="Gupapuyngu" />
+		<value name="8244_GUYAMIRRILILI" value="8244"
+			desc="Guyamirrilili" />
+		<value name="8245_MADARRPA" value="8245" desc="Madarrpa" />
+		<value name="8246_MANGGALILI" value="8246" desc="Manggalili" />
+		<value name="8247_WUBULKARRA" value="8247" desc="Wubulkarra" />
+		<value name="8249_DHUWALA_NEC" value="8249" desc="Dhuwala, nec" />
+		<value name="825_DJINANG" value="825" desc="Djinang" />
+		<value name="8251_WURLAKI" value="8251" desc="Wurlaki" />
+		<value name="8259_DJINANG_NEC" value="8259" desc="Djinang, nec" />
+		<value name="826_DJINBA" value="826" desc="Djinba" />
+		<value name="8261_GANALBINGU" value="8261" desc="Ganalbingu" />
+		<value name="8269_DJINBA_NEC" value="8269" desc="Djinba, nec" />
+		<value name="827_YAKUY" value="827" desc="Yakuy" />
+		<value name="8271_RITHARRNGU" value="8271" desc="Ritharrngu" />
+		<value name="8279_YAKUY_NEC" value="8279" desc="Yakuy, nec" />
+		<value name="828_NHANGU" value="828" desc="Nhangu" />
+		<value name="8281_NHANGU" value="8281" desc="Nhangu" />
+		<value name="829_OT_YOLNGU_MATHA" value="829"
+			desc="Other Yolngu Matha" />
+		<value name="8299_OT_YOLNGU_MATHA" value="8299"
+			desc="Other Yolngu Matha" />
+		<value name="83_CAPE_YORK_PENINSULA" value="83"
+			desc="Cape York Peninsula Languages" />
+		<value name="8301_KUKU_YALANJI" value="8301"
+			desc="Kuku Yalanji" />
+		<value name="8302_GUUGU_YIMIDHIRR" value="8302"
+			desc="Guugu Yimidhirr" />
+		<value name="8303_KUUKUYAU" value="8303" desc="Kuuku-Ya'u" />
+		<value name="8304_WIK_MUNGKAN" value="8304" desc="Wik Mungkan" />
+		<value name="8305_DJABUGAY" value="8305" desc="Djabugay" />
+		<value name="8306_DYIRBAL" value="8306" desc="Dyirbal" />
+		<value name="8307_GIRRAMAY" value="8307" desc="Girramay" />
+		<value name="8308_KOKOBERA" value="8308" desc="Koko-Bera" />
+		<value name="8311_KUUK_THAYORRE" value="8311"
+			desc="Kuuk Thayorre" />
+		<value name="8312_LAMALAMA" value="8312" desc="Lamalama" />
+		<value name="8313_YIDINY" value="8313" desc="Yidiny" />
+		<value name="8314_WIK_NGATHAN" value="8314" desc="Wik Ngathan" />
+		<value name="8399_CAPE_YORK_PENINSULA_LANGUAGES" value="8399"
+			desc="Cape York Peninsula Languages, nec" />
+		<value name="84_TORRES_STRAIT_ISLAND" value="84"
+			desc="Torres Strait Island Languages" />
+		<value name="8401_KALAW_KAWAW_YA_KALAW_LAGAW" value="8401"
+			desc="Kalaw Kawaw Ya/Kalaw Lagaw Ya" />
+		<value name="8402_MERIAM_MIR" value="8402" desc="Meriam Mir" />
+		<value name="8403_TORRES_STRAIT_CREOLE" value="8403"
+			desc="Torres Strait Creole" />
+		<value name="85_NORTHERN_DESERT_FRINGE_AREA" value="85"
+			desc="Northern Desert Fringe Area Languages" />
+		<value name="8504_BILINARRA" value="8504" desc="Bilinarra" />
+		<value name="8505_GURINDJI" value="8505" desc="Gurindji" />
+		<value name="8506_GURINDJI_KRIOL" value="8506"
+			desc="Gurindji Kriol" />
+		<value name="8507_JARU" value="8507" desc="Jaru" />
+		<value name="8508_LIGHT_WARLPIRI" value="8508"
+			desc="Light Warlpiri" />
+		<value name="8511_MALNGIN" value="8511" desc="Malngin" />
+		<value name="8512_MUDBURRA" value="8512" desc="Mudburra" />
+		<value name="8513_NGANDI" value="8513" desc="Ngandi" />
+		<value name="8514_NGARDI" value="8514" desc="Ngardi" />
+		<value name="8515_NGARINYMAN" value="8515" desc="Ngarinyman" />
+		<value name="8516_WALMAJARRI" value="8516" desc="Walmajarri" />
+		<value name="8517_WANYJIRRA" value="8517" desc="Wanyjirra" />
+		<value name="8518_WARLMANPA" value="8518" desc="Warlmanpa" />
+		<value name="8521_WARLPIRI" value="8521" desc="Warlpiri" />
+		<value name="8522_WARUMUNGU" value="8522" desc="Warumungu" />
+		<value name="8599_NORTHERN_DESERT_FRINGE_AREA_LANGUAGES"
+			value="8599" desc="Northern Desert Fringe Area Languages, nec" />
+		<value name="86_ARANDIC" value="86" desc="Arandic" />
+		<value name="8603_ALYAWARR" value="8603" desc="Alyawarr" />
+		<value name="8604_ANMATYERR" value="8604" desc="Anmatyerr" />
+		<value name="8605_ARRERNTE" value="8605" desc="Arrernte" />
+		<value name="8606_KAYTETYE" value="8606" desc="Kaytetye" />
+		<value name="8699_ARANDIC_NEC" value="8699" desc="Arandic, nec" />
+		<value name="87_WESTERN_DESERT_LANGUAGE" value="87"
+			desc="Western Desert Language" />
+		<value name="8703_ANTIKARINYA" value="8703" desc="Antikarinya" />
+		<value name="8704_KARTUJARRA" value="8704" desc="Kartujarra" />
+		<value name="8705_KUKATHA" value="8705" desc="Kukatha" />
+		<value name="8706_KUKATJA" value="8706" desc="Kukatja" />
+		<value name="8707_LURITJA" value="8707" desc="Luritja" />
+		<value name="8708_MANYJILYJARRA" value="8708"
+			desc="Manyjilyjarra" />
+		<value name="8711_MARTU_WANGKA" value="8711"
+			desc="Martu Wangka" />
+		<value name="8712_NGAANYATJARRA" value="8712"
+			desc="Ngaanyatjarra" />
+		<value name="8713_PINTUPI" value="8713" desc="Pintupi" />
+		<value name="8714_PITJANTJATJARA" value="8714"
+			desc="Pitjantjatjara" />
+		<value name="8715_WANGKAJUNGA" value="8715" desc="Wangkajunga" />
+		<value name="8716_WANGKATHA" value="8716" desc="Wangkatha" />
+		<value name="8717_WARNMAN" value="8717" desc="Warnman" />
+		<value name="8718_YANKUNYTJATJARA" value="8718"
+			desc="Yankunytjatjara" />
+		<value name="8721_YULPARIJA" value="8721" desc="Yulparija" />
+		<value name="8799_WESTERN_DESERT_LANGUAGE" value="8799"
+			desc="Western Desert Language, nec" />
+		<value name="88_KIMBERLEY_AREA_LANGUAGES" value="88"
+			desc="Kimberley Area Languages" />
+		<value name="8801_BARDI" value="8801" desc="Bardi" />
+		<value name="8802_BUNUBA" value="8802" desc="Bunuba" />
+		<value name="8803_GOONIYANDI" value="8803" desc="Gooniyandi" />
+		<value name="8804_MIRIWOONG" value="8804" desc="Miriwoong" />
+		<value name="8805_NGARINYIN" value="8805" desc="Ngarinyin" />
+		<value name="8806_NYIKINA" value="8806" desc="Nyikina" />
+		<value name="8807_WORLA" value="8807" desc="Worla" />
+		<value name="8808_WORRORRA" value="8808" desc="Worrorra" />
+		<value name="8811_WUNAMBAL" value="8811" desc="Wunambal" />
+		<value name="8812_YAWURU" value="8812" desc="Yawuru" />
+		<value name="8899_KIMBERLEY_AREA_LANGUAGES" value="8899"
+			desc="Kimberley Area Languages, nec" />
+		<value name="89_OT_AUSTRALIAN_INDIGENOUS" value="89"
+			desc="Other Australian Indigenous Languages" />
+		<value name="8901_ADNYMATHANHA" value="8901"
+			desc="Adnymathanha" />
+		<value name="8902_ARABANA" value="8902" desc="Arabana" />
+		<value name="8903_BANDJALANG" value="8903" desc="Bandjalang" />
+		<value name="8904_BANYJIMA" value="8904" desc="Banyjima" />
+		<value name="8905_BATJALA" value="8905" desc="Batjala" />
+		<value name="8906_BIDJARA" value="8906" desc="Bidjara" />
+		<value name="8907_DHANGGATTI" value="8907" desc="Dhanggatti" />
+		<value name="8908_DIYARI" value="8908" desc="Diyari" />
+		<value name="8911_GAMILARAAY" value="8911" desc="Gamilaraay" />
+		<value name="8912_GARRWA" value="8912" desc="Garrwa" />
+		<value name="8913_GARUWALI" value="8913" desc="Garuwali" />
+		<value name="8914_GITHABUL" value="8914" desc="Githabul" />
+		<value name="8915_GUMBAYNGGIR" value="8915" desc="Gumbaynggir" />
+		<value name="8916_KANAI" value="8916" desc="Kanai" />
+		<value name="8917_KARAJARRI" value="8917" desc="Karajarri" />
+		<value name="8918_KARIYARRA" value="8918" desc="Kariyarra" />
+		<value name="8921_KAURNA" value="8921" desc="Kaurna" />
+		<value name="8922_KAYARDILD" value="8922" desc="Kayardild" />
+		<value name="8923_KIJA" value="8923" desc="Kija" />
+		<value name="8924_KRIOL" value="8924" desc="Kriol" />
+		<value name="8925_LARDIL" value="8925" desc="Lardil" />
+		<value name="8926_MANGALA" value="8926" desc="Mangala" />
+		<value name="8927_MURUWARI" value="8927" desc="Muruwari" />
+		<value name="8928_NARUNGGA" value="8928" desc="Narungga" />
+		<value name="8931_NGARLUMA" value="8931" desc="Ngarluma" />
+		<value name="8932_NGARRINDJERI" value="8932"
+			desc="Ngarrindjeri" />
+		<value name="8933_NYAMAL" value="8933" desc="Nyamal" />
+		<value name="8934_NYANGUMARTA" value="8934" desc="Nyangumarta" />
+		<value name="8935_NYUNGAR" value="8935" desc="Nyungar" />
+		<value name="8936_PAAKANTYI" value="8936" desc="Paakantyi" />
+		<value name="8937_PALYKU_NYIYAPARLI" value="8937"
+			desc="Palyku/Nyiyaparli" />
+		<value name="8938_WAJARRI" value="8938" desc="Wajarri" />
+		<value name="8941_WIRADJURI" value="8941" desc="Wiradjuri" />
+		<value name="8942_YANYUWA" value="8942" desc="Yanyuwa" />
+		<value name="8943_YINDJIBARNDI" value="8943"
+			desc="Yindjibarndi" />
+		<value name="8944_YINHAWANGKA" value="8944" desc="Yinhawangka" />
+		<value name="8945_YORTA_YORTA" value="8945" desc="Yorta Yorta" />
+		<value name="8998_ABORIGINAL_ENGLISH_SO" value="8998"
+			desc="Aboriginal English, so described" />
+		<value name="8999_OT_AUSTRALIAN_INDIGENOUS_LANGUAGES"
+			value="8999" desc="Other Australian Indigenous Languages, nec" />
+		<value name="9_OT_LANGUAGES" value="9" desc="OTHER LANGUAGES" />
+		<value name="91_AMERICAN_LANGUAGES" value="91"
+			desc="American Languages" />
+		<value name="9101_AMERICAN_LANGUAGES" value="9101"
+			desc="American Languages" />
+		<value name="92_AFRICAN_LANGUAGES" value="92"
+			desc="African Languages" />
+		<value name="9201_ACHOLI" value="9201" desc="Acholi" />
+		<value name="9203_AKAN" value="9203" desc="Akan" />
+		<value name="9205_MAURITIAN_CREOLE" value="9205"
+			desc="Mauritian Creole" />
+		<value name="9206_OROMO" value="9206" desc="Oromo" />
+		<value name="9207_SHONA" value="9207" desc="Shona" />
+		<value name="9208_SOMALI" value="9208" desc="Somali" />
+		<value name="9211_SWAHILI" value="9211" desc="Swahili" />
+		<value name="9212_YORUBA" value="9212" desc="Yoruba" />
+		<value name="9213_ZULU" value="9213" desc="Zulu" />
+		<value name="9214_AMHARIC" value="9214" desc="Amharic" />
+		<value name="9215_BEMBA" value="9215" desc="Bemba" />
+		<value name="9216_DINKA" value="9216" desc="Dinka" />
+		<value name="9217_EWE" value="9217" desc="Ewe" />
+		<value name="9218_GA" value="9218" desc="Ga" />
+		<value name="9221_HARARI" value="9221" desc="Harari" />
+		<value name="9222_HAUSA" value="9222" desc="Hausa" />
+		<value name="9223_IGBO" value="9223" desc="Igbo" />
+		<value name="9224_KIKUYU" value="9224" desc="Kikuyu" />
+		<value name="9225_KRIO" value="9225" desc="Krio" />
+		<value name="9226_LUGANDA" value="9226" desc="Luganda" />
+		<value name="9227_LUO" value="9227" desc="Luo" />
+		<value name="9228_NDEBELE" value="9228" desc="Ndebele" />
+		<value name="9231_NUER" value="9231" desc="Nuer" />
+		<value name="9232_NYANJA_CHICHEWA" value="9232"
+			desc="Nyanja (Chichewa)" />
+		<value name="9233_SHILLUK" value="9233" desc="Shilluk" />
+		<value name="9234_TIGR" value="9234" desc="Tigr" />
+		<value name="9235_TIGRINYA" value="9235" desc="Tigrinya" />
+		<value name="9236_TSWANA" value="9236" desc="Tswana" />
+		<value name="9237_XHOSA" value="9237" desc="Xhosa" />
+		<value name="9238_SEYCHELLES_CREOLE" value="9238"
+			desc="Seychelles Creole" />
+		<value name="9299_AFRICAN_LANGUAGES" value="9299"
+			desc="African Languages, nec" />
+		<value name="93_PACIFIC_AUSTRONESIAN" value="93"
+			desc="Pacific Austronesian Languages" />
+		<value name="9301_FIJIAN" value="9301" desc="Fijian" />
+		<value name="9302_GILBERTESE" value="9302" desc="Gilbertese" />
+		<value name="9303_MAORI_COOK_ISLAND" value="9303"
+			desc="Maori (Cook Island)" />
+		<value name="9304_MAORI_NEW_ZEALAND" value="9304"
+			desc="Maori (New Zealand)" />
+		<value name="9305_MOTU" value="9305" desc="Motu" />
+		<value name="9306_NAURUAN" value="9306" desc="Nauruan" />
+		<value name="9307_NIUE" value="9307" desc="Niue" />
+		<value name="9308_SAMOAN" value="9308" desc="Samoan" />
+		<value name="9311_TONGAN" value="9311" desc="Tongan" />
+		<value name="9312_ROTUMAN" value="9312" desc="Rotuman" />
+		<value name="9313_TOKELAUAN" value="9313" desc="Tokelauan" />
+		<value name="9314_TUVALUAN" value="9314" desc="Tuvaluan" />
+		<value name="9315_YAPESE" value="9315" desc="Yapese" />
+		<value name="9399_PACIFIC_AUSTRONESIAN_LANGUAGES" value="9399"
+			desc="Pacific Austronesian Languages, nec" />
+		<value name="94_OCEANIAN_PIDGINSCREOLES" value="94"
+			desc="Oceanian Pidgins and Creoles" />
+		<value name="9401_TOK_PISIN" value="9401" desc="Tok Pisin" />
+		<value name="9402_BISLAMA" value="9402" desc="Bislama" />
+		<value name="9403_HAWAIIAN_ENGLISH" value="9403"
+			desc="Hawaiian English" />
+		<value name="9404_PITCAIRNESE" value="9404" desc="Pitcairnese" />
+		<value name="9405_SOLOMON_ISLANDS" value="9405"
+			desc="Solomon Islands Pijin" />
+		<value name="9499_OCEANIAN_PIDGINSCREOLES" value="9499"
+			desc="Oceanian Pidgins and Creoles, nec" />
+		<value name="95_PAPUA_NEW_GUINEA_PAPUAN" value="95"
+			desc="Papua New Guinea Papuan Languages" />
+		<value name="9502_KIWAI" value="9502" desc="Kiwai" />
+		<value name="9599_PAPUA_NEW_GUINEA_PAPUAN_LANGUAGES"
+			value="9599" desc="Papua New Guinea Papuan Languages, nec" />
+		<value name="96_INVENTED_LANGUAGES" value="96"
+			desc="Invented Languages" />
+		<value name="9601_INVENTED_LANGUAGES" value="9601"
+			desc="Invented Languages" />
+		<value name="97_SIGN_LANGUAGES" value="97"
+			desc="Sign Languages" />
+		<value name="9701_AUSLAN" value="9701" desc="Auslan" />
+		<value name="9702_MAKATON" value="9702" desc="Makaton" />
+		<value name="9799_SIGN_LANGUAGES_NEC" value="9799"
+			desc="Sign Languages, nec" />
+		<value name="0000_INADEQUATELY_DESCRIBED" value="0000"
+			desc="Inadequately Described" />
+		<value name="0001_NON_VERBAL_SO_DESCRIBED" value="0001"
+			desc="Non Verbal, so described" />
+		<value name="0002_NOT_STATED" value="0002" desc="Not Stated" />
+		<value name="0003_SWISS_SO_DESCRIBED" value="0003"
+			desc="Swiss, so described" />
+		<value name="0004_CYPRIOT_SO_DESCRIBED" value="0004"
+			desc="Cypriot, so described" />
+		<value name="0005_CREOLE_NFD" value="0005" desc="Creole, nfd" />
+		<value name="0006_FRENCH_CREOLE_NFD" value="0006"
+			desc="French Creole, nfd" />
+		<value name="0007_SPANISH_CREOLE_NFD" value="0007"
+			desc="Spanish Creole, nfd" />
+		<value name="0008_PORTUGUESE_CREOLE" value="0008"
+			desc="Portuguese Creole, nfd" />
+		<value name="0009_PIDGIN_NFD" value="0009" desc="Pidgin, nfd" />
+		<value name="1000_NORTHERN_EUROPEAN_LANGUAGES" value="1000"
+			desc="Northern European Languages, nfd" />
+		<value name="1100_CELTIC_NFD" value="1100" desc="Celtic, nfd" />
+		<value name="1300_GERMANRELATED_LANGUAGES" value="1300"
+			desc="German and Related Languages, nfd" />
+		<value name="1400_DUTCHRELATED_LANGUAGES" value="1400"
+			desc="Dutch and Related Languages, nfd" />
+		<value name="1500_SCANDINAVIAN_NFD" value="1500"
+			desc="Scandinavian, nfd" />
+		<value name="1600_FINNISHRELATED_LANGUAGES" value="1600"
+			desc="Finnish and Related Languages, nfd" />
+		<value name="2000_SOUTHERN_EUROPEAN_LANGUAGES" value="2000"
+			desc="Southern European Languages, nfd" />
+		<value name="2300_IBERIAN_ROMANCE" value="2300"
+			desc="Iberian Romance, nfd" />
+		<value name="2900_OT_SOUTHERN_EUROPEAN_LANGUAGES" value="2900"
+			desc="Other Southern European Languages, nfd" />
+		<value name="3000_EASTERN_EUROPEAN_LANGUAGES" value="3000"
+			desc="Eastern European Languages, nfd" />
+		<value name="3100_BALTIC_NFD" value="3100" desc="Baltic, nfd" />
+		<value name="3400_EAST_SLAVIC_NFD" value="3400"
+			desc="East Slavic, nfd" />
+		<value name="3500_SOUTH_SLAVIC_NFD" value="3500"
+			desc="South Slavic, nfd" />
+		<value name="3600_WEST_SLAVIC_NFD" value="3600"
+			desc="West Slavic, nfd" />
+		<value name="3900_OT_EASTERN_EUROPEAN_LANGUAGES" value="3900"
+			desc="Other Eastern European Languages, nfd" />
+		<value name="4000_SOUTHWESTCENTRAL_ASIAN_LANGUAGES" value="4000"
+			desc="Southwest and Central Asian Languages, nfd" />
+		<value name="4100_IRANIC_NFD" value="4100" desc="Iranic, nfd" />
+		<value name="4200_MIDDLE_EASTERN_SEMITIC_LANGUAGES" value="4200"
+			desc="Middle Eastern Semitic Languages, nfd" />
+		<value name="4300_TURKIC_NFD" value="4300" desc="Turkic, nfd" />
+		<value name="4900_OT_SOUTHWESTCENTRAL_ASIAN_LANGUAGES"
+			value="4900" desc="Other Southwest and Central Asian Languages, nfd" />
+		<value name="5000_SOUTHERN_ASIAN_LANGUAGES" value="5000"
+			desc="Southern Asian Languages, nfd" />
+		<value name="5100_DRAVIDIAN_NFD" value="5100"
+			desc="Dravidian, nfd" />
+		<value name="5200_INDOARYAN_NFD" value="5200"
+			desc="Indo-Aryan, nfd" />
+		<value name="6000_SOUTHEAST_ASIAN_LANGUAGES" value="6000"
+			desc="Southeast Asian Languages, nfd" />
+		<value name="6100_BURMESERELATED_LANGUAGES" value="6100"
+			desc="Burmese and Related Languages, nfd" />
+		<value name="6200_HMONGMIEN_NFD" value="6200"
+			desc="Hmong-Mien, nfd" />
+		<value name="6300_MONKHMER_NFD" value="6300"
+			desc="Mon-Khmer, nfd" />
+		<value name="6400_TAI_NFD" value="6400" desc="Tai, nfd" />
+		<value name="6500_SOUTHEAST_ASIAN_AUSTRONESIAN_LANGUAGES"
+			value="6500" desc="Southeast Asian Austronesian Languages, nfd" />
+		<value name="7000_EASTERN_ASIAN_LANGUAGES" value="7000"
+			desc="Eastern Asian Languages, nfd" />
+		<value name="7100_CHINESE_NFD" value="7100" desc="Chinese, nfd" />
+		<value name="7900_OT_EASTERN_ASIAN_LANGUAGES" value="7900"
+			desc="Other Eastern Asian Languages, nfd" />
+		<value name="8000_AUSTRALIAN_INDIGENOUS_LANGUAGES" value="8000"
+			desc="Australian Indigenous Languages, nfd" />
+		<value name="8100_ARNHEM_LANDDALY_RIVER_REGION_LANGUAGES"
+			value="8100" desc="Arnhem Land and Daly River Region Languages, nfd" />
+		<value name="8200_YONGU_MATHA_NFD" value="8200"
+			desc="Yongu Matha, nfd" />
+		<value name="8210_DHANGU_NFD" value="8210" desc="Dhangu, nfd" />
+		<value name="8220_DHAYYI_NFD" value="8220" desc="Dhay'yi, nfd" />
+		<value name="8230_DHUWAL_NFD" value="8230" desc="Dhuwal, nfd" />
+		<value name="8240_DHUWALA_NFD" value="8240" desc="Dhuwala, nfd" />
+		<value name="8250_DJINANG_NFD" value="8250" desc="Djinang, nfd" />
+		<value name="8260_DJINBA_NFD" value="8260" desc="Djinba, nfd" />
+		<value name="8270_YAKUY_NFD" value="8270" desc=" Yakuy, nfd" />
+		<value name="8300_CAPE_YORK_PENINSULA_LANGUAGES" value="8300"
+			desc="Cape York Peninsula Languages, nfd" />
+		<value name="8400_TORRES_STRAIT_ISLAND_LANGUAGES" value="8400"
+			desc="Torres Strait Island Languages, nfd" />
+		<value name="8500_NORTHERN_DESERT_FRINGE_AREA_LANGUAGES"
+			value="8500" desc="Northern Desert Fringe Area Languages, nfd" />
+		<value name="8600_ARANDIC_NFD" value="8600" desc="Arandic, nfd" />
+		<value name="8700_WESTERN_DESERT_LANGUAGE" value="8700"
+			desc="Western Desert Language, nfd" />
+		<value name="8800_KIMBERLEY_AREA_LANGUAGES" value="8800"
+			desc="Kimberley Area Languages, nfd" />
+		<value name="8900_OT_AUSTRALIAN_INDIGENOUS_LANGUAGES"
+			value="8900" desc="Other Australian Indigenous Languages, nfd" />
+		<value name="9000_OT_LANGUAGES_NFD" value="9000"
+			desc="Other Languages, nfd" />
+		<value name="9200_AFRICAN_LANGUAGES" value="9200"
+			desc="African Languages, nfd" />
+		<value name="9300_PACIFIC_AUSTRONESIAN_LANGUAGES" value="9300"
+			desc="Pacific Austronesian Languages, nfd" />
+		<value name="9400_OCEANIAN_PIDGINSCREOLES" value="9400"
+			desc="Oceanian Pidgins and Creoles, nfd" />
+		<value name="9500_PAPUA_NEW_GUINEA_PAPUAN_LANGUAGES"
+			value="9500" desc="Papua New Guinea Papuan Languages, nfd" />
+		<value name="9700_SIGN_LANGUAGES_NFD" value="9700"
+			desc="Sign Languages, nfd" />
+		<value name="0999_NO_LANGUAGE_STUDIED_CEO_DEFINED" value="0999"
+			desc="No language studied (CEO defined)" />
+	</enum>
+	<!--AULanguageType-->
+	<enum name="AULanguageType">
+		<value name="1_MAIN_LANGUAGE_SPOKEN_AT" value="1"
+			desc="Main Language Spoken at Home" />
+		<value name="2_MAIN_LANGUAGE_OT_THAN_ENGLISH_SPOKEN_AT"
+			value="2" desc="Main Language Other Than English Spoken at Home," />
+		<value name="3_FIRST_LANGUAGE_SPOKEN" value="3"
+			desc="First Language Spoken" />
+		<value name="4_LANGUAGE_SPOKEN_AT" value="4"
+			desc="Language Spoken at Home" />
+		<value name="5_LANGUAGE_OF_GREATEST" value="5"
+			desc="Language of Greatest Competency" />
+		<value name="6_PREFERRED_LANGUAGE" value="6"
+			desc="Preferred Language" />
+		<value name="9_OTHER" value="9" desc="Other" />
+	</enum>
+	<!--AUEnglishProficiencyType-->
+	<enum name="AUEnglishProficiencyType">
+		<value name="0_NOT_STATED_INADEQUATELY" value="0"
+			desc="Not Stated/Inadequately described" />
+		<value name="1_VERY_WELL" value="1" desc="Very well" />
+		<value name="2_WELL" value="2" desc="Well" />
+		<value name="3_NOT_WELL" value="3" desc="Not well" />
+		<value name="4_NOT_AT_ALL" value="4" desc="Not at all" />
+		<value name="9_NOT_APPLICABLE_ENGLISH_IS_FIRST_LANGUAGE"
+			value="9"
+			desc="Not Applicable - English is 'first language spoken' and do not 'speak a language other than English at home'." />
+	</enum>
+	<!--AU0600DwellingArrangementType-->
+	<enum name="AU0600DwellingArrangementType">
+		<value name="1669_BOARDING_HOUSE" value="1669"
+			desc="Boarding house" />
+		<value name="1670_COOPERATIVE_HOUSE" value="1670"
+			desc="Cooperative house" />
+		<value name="1671_CRISIS_SHELTER" value="1671"
+			desc="Crisis shelter" />
+		<value name="1672_DISASTER_SHELTER" value="1672"
+			desc="Disaster shelter" />
+		<value name="1673_RESIDENTIAL_SCHOOL" value="1673"
+			desc="Residential school/dormitory" />
+		<value name="1674_FAMILY_RESIDENCE_BOTH_PARENTS" value="1674"
+			desc="Family residence - Both Parents/Guardians" />
+		<value name="1675_FOSTER_HOME" value="1675" desc="Foster home" />
+		<value name="1676_INSTITUTION" value="1676" desc="Institution" />
+		<value name="1677_PRISON_OR_JUVENILE_DETENTION" value="1677"
+			desc="Prison or juvenile detention center" />
+		<value name="1678_ROOMING_HOUSE" value="1678"
+			desc="Rooming house" />
+		<value name="1679_TRANSIENT_SHELTER" value="1679"
+			desc="Transient shelter" />
+		<value name="167I_INDEPENDENT" value="167I" desc="Independent" />
+		<value name="167o_FAMILY_RESIDENCE_ONE_PARENT" value="167o"
+			desc="Family residence - One Parent/Guardian" />
+		<value name="1680_NO_HOME_HOMELESS_YOUTH" value="1680"
+			desc="No home (Homeless Youth)" />
+		<value name="1681_OT_DORMITORY" value="1681"
+			desc="Other dormitory" />
+		<value name="168A_ARRANGED_BY_STATE_OUT_OF_HOME" value="168A"
+			desc="Arranged by State - Out of Home Care" />
+		<value name="3425_GROUP_HOME_HALFWAY" value="3425"
+			desc="Group home/halfway house" />
+		<value name="4000_BOARDER" value="4000" desc="Boarder" />
+		<value name="9999_OTHER" value="9999" desc="Other" />
+	</enum>
+	<!--ElectronicIdType-->
+	<enum name="ElectronicIdType">
+		<value name="BARCODE" value="Barcode" desc="Barcode" />
+		<value name="MAGSTRIPE" value="Magstripe" desc="Magstripe" />
+		<value name="PIN" value="PIN" desc="PIN" />
+		<value name="RFID" value="RFID" desc="RFID" />
+	</enum>
+
+	<!--YearLevelCode-->
+	<enum name="YearLevelCode">
+		<value name="1_YEAR_1" value="1" desc="Year 1" />
+		<value name="10_YEAR_10" value="10" desc="Year 10" />
+		<value name="11_YEAR_11" value="11" desc="Year 11" />
+		<value name="12_YEAR_12" value="12" desc="Year 12" />
+		<value name="13_YEAR_13" value="13" desc="Year 13" />
+		<value name="2_YEAR_2" value="2" desc="Year 2" />
+		<value name="3_YEAR_3" value="3" desc="Year 3" />
+		<value name="4_YEAR_4" value="4" desc="Year 4" />
+		<value name="5_YEAR_5" value="5" desc="Year 5" />
+		<value name="6_YEAR_6" value="6" desc="Year 6" />
+		<value name="7_YEAR_7" value="7" desc="Year 7" />
+		<value name="8_YEAR_8" value="8" desc="Year 8" />
+		<value name="9_YEAR_9" value="9" desc="Year 9" />
+		<value name="K_KINDERGARTEN" value="K" desc="Kindergarten" />
+		<value name="P_PREP" value="P" desc="Prep" />
+		<value name="PS_PRESCHOOL" value="PS" desc="Pre-School" />
+		<value name="UG_UNGRADED" value="UG" desc="Ungraded" />
+	</enum>
+
+	<!--StartCode-->
+	<enum name="StartCode">
+		<value name="1_YEAR_1" value="1" desc="Year 1" />
+		<value name="10_YEAR_10" value="10" desc="Year 10" />
+		<value name="11_YEAR_11" value="11" desc="Year 11" />
+		<value name="12_YEAR_12" value="12" desc="Year 12" />
+		<value name="13_YEAR_13" value="13" desc="Year 13" />
+		<value name="2_YEAR_2" value="2" desc="Year 2" />
+		<value name="3_YEAR_3" value="3" desc="Year 3" />
+		<value name="4_YEAR_4" value="4" desc="Year 4" />
+		<value name="5_YEAR_5" value="5" desc="Year 5" />
+		<value name="6_YEAR_6" value="6" desc="Year 6" />
+		<value name="7_YEAR_7" value="7" desc="Year 7" />
+		<value name="8_YEAR_8" value="8" desc="Year 8" />
+		<value name="9_YEAR_9" value="9" desc="Year 9" />
+		<value name="K_KINDERGARTEN" value="K" desc="Kindergarten" />
+		<value name="P_PREP" value="P" desc="Prep" />
+		<value name="PS_PRESCHOOL" value="PS" desc="Pre-School" />
+		<value name="UG_UNGRADED" value="UG" desc="Ungraded" />
+	</enum>
+
+	<!--Sex-->
+	<enum name="Sex">
+		<value name="1_MALE" value="1" desc="Male" />
+		<value name="2_FEMALE" value="2" desc="Female" />
+		<value name="9_NOT_STATED_INADEQUATELY" value="9"
+			desc="Not Stated/Inadequately Described" />
+	</enum>
+	<!--AcademicYearCode-->
+	<enum name="AcademicYearCode">
+		<value name="1_YEAR_1" value="1" desc="Year 1" />
+		<value name="10_YEAR_10" value="10" desc="Year 10" />
+		<value name="11_YEAR_11" value="11" desc="Year 11" />
+		<value name="12_YEAR_12" value="12" desc="Year 12" />
+		<value name="13_YEAR_13" value="13" desc="Year 13" />
+		<value name="2_YEAR_2" value="2" desc="Year 2" />
+		<value name="3_YEAR_3" value="3" desc="Year 3" />
+		<value name="4_YEAR_4" value="4" desc="Year 4" />
+		<value name="5_YEAR_5" value="5" desc="Year 5" />
+		<value name="6_YEAR_6" value="6" desc="Year 6" />
+		<value name="7_YEAR_7" value="7" desc="Year 7" />
+		<value name="8_YEAR_8" value="8" desc="Year 8" />
+		<value name="9_YEAR_9" value="9" desc="Year 9" />
+		<value name="K_KINDERGARTEN" value="K" desc="Kindergarten" />
+		<value name="P_PREP" value="P" desc="Prep" />
+		<value name="PS_PRESCHOOL" value="PS" desc="Pre-School" />
+		<value name="UG_UNGRADED" value="UG" desc="Ungraded" />
+	</enum>
+
+	<!--EndCode-->
+	<enum name="EndCode">
+		<value name="1_YEAR_1" value="1" desc="Year 1" />
+		<value name="10_YEAR_10" value="10" desc="Year 10" />
+		<value name="11_YEAR_11" value="11" desc="Year 11" />
+		<value name="12_YEAR_12" value="12" desc="Year 12" />
+		<value name="13_YEAR_13" value="13" desc="Year 13" />
+		<value name="2_YEAR_2" value="2" desc="Year 2" />
+		<value name="3_YEAR_3" value="3" desc="Year 3" />
+		<value name="4_YEAR_4" value="4" desc="Year 4" />
+		<value name="5_YEAR_5" value="5" desc="Year 5" />
+		<value name="6_YEAR_6" value="6" desc="Year 6" />
+		<value name="7_YEAR_7" value="7" desc="Year 7" />
+		<value name="8_YEAR_8" value="8" desc="Year 8" />
+		<value name="9_YEAR_9" value="9" desc="Year 9" />
+		<value name="K_KINDERGARTEN" value="K" desc="Kindergarten" />
+		<value name="P_PREP" value="P" desc="Prep" />
+		<value name="PS_PRESCHOOL" value="PS" desc="Pre-School" />
+		<value name="UG_UNGRADED" value="UG" desc="Ungraded" />
+	</enum>
+
+	<!--Language-->
+	<object name="Language">
+		<element name="Code"
+			enum="AustralianClassificationOfLanguagesType" flags="M">
+			<desc>
+				The code representing the specific language that an
+				individual uses to communicate.
+			</desc>
+		</element>
+		<element name="OtherCodeList" type="OtherCodeList" flags="O" />
+		<element name="LanguageType" enum="AULanguageType" flags="O">
+			<desc>
+				An indication of the function and context in which an
+				individual uses a language to communicate.
+			</desc>
+		</element>
+		<element name="Dialect" type="String" flags="O">
+			<desc>Specific dialect of a person's language.</desc>
+		</element>
+	</object>
+	<enum name="NameType">
+		<value name="AKA" value="AKA" desc="Also known as or alias" />
+		<value name="BIRTH" value="BTH" desc="Name at Birth" />
+		<value name="LEGAL" value="LGL"
+			desc="Legal Name of the client as defined by the organisation which collects it (legal not defined in this standard" />
+		<value name="MAIDEN" value="MDN" desc="Maiden Name" />
+		<value name="NEW" value="NEW"
+			desc="New born identification name" />
+		<value name="OTH" value="OTH"
+			desc="Non Specific Name Usage Type" />
+		<value name="PREFERRED" value="PRF" desc="Preferred Name" />
+		<value name="PREVIOUS" value="PRV" desc="Previous name" />
+		<value name="STAGE" value="STG" desc="Stage name" />
+		<value name="TRIBAL" value="TRB" desc="Tribal Name" />
+	</enum>
+
+	<!--SchoolContactList-->
+	<object name="SchoolContactList">
+		<element name="SchoolContact" type="SchoolContact" flags="MR" />
+	</object>
+    
+	<!--DwellingArrangement-->
+	<object name="DwellingArrangement">
+		<element name="Code" enum="AU0600DwellingArrangementType"
+			flags="M">
+			<desc>
+				Code representing the setting/environment in which the
+				person resides
+			</desc>
+		</element>
+        <element name="OtherIdList" type="OtherIdList" flags="O" />
+	</object>
+
+	<!--ContactInfo-->
+	<object name="ContactInfo">
+		<element name="Name" type="Name" flags="M" />
+		<element name="PositionTitle" type="String" flags="O">
+			<desc>The contact person's position title.</desc>
+		</element>
+		<element name="Role" type="String" flags="O">
+			<desc>Role played by this contact in this instance.</desc>
+		</element>
+		<element name="Address" type="Address" flags="O">
+			<desc>Address of the contact.</desc>
+		</element>
+		<element name="EmailList" type="EmailList" flags="O">
+			<desc>List of Email elements.</desc>
+		</element>
+		<element name="PhoneNumberList" type="PhoneNumberList"
+			flags="O">
+			<desc>List of PhoneNumber elements.</desc>
+		</element>
+	</object>
+	<!--Demographics-->
+	<object name="Demographics">
+		<element name="IndigenousStatus" enum="IndigenousStatusType"
+			flags="O">
+			<desc>
+				Whether or not the student identifies themselves as
+				being of Aboriginal and/or Torres Strait Islander
+				descent.
+			</desc>
+		</element>
+		<element name="Sex" enum="Sex" flags="O">
+			<desc>
+				'Sex' is the distinction 'male' and 'female', as
+				reported by the person
+			</desc>
+		</element>
+		<element name="BirthDate" type="Date" flags="O">
+			<desc>The person's date of birth.</desc>
+		</element>
+		<element name="BirthDateVerification"
+			enum="AU0315BirthdateVerificationType" flags="O">
+			<desc>
+				Means by which the person's birth date was validated.
+			</desc>
+		</element>
+		<element name="PlaceOfBirth" type="String" flags="O">
+			<desc>
+				The person's place of birth‚Äîlike village, town, city
+				etc.
+			</desc>
+		</element>
+		<element name="StateOfBirth" enum="StateTerritoryCodeType" flags="O">
+			<desc>The person's state of birth.</desc>
+		</element>
+		<element name="CountryOfBirth" enum="CountryCode" flags="O">
+			<desc>The person's country of birth.</desc>
+		</element>
+		<element name="CountriesOfCitizenship"
+			type="CountriesOfCitizenship" flags="O" />
+		<element name="CountriesOfResidency" type="CountriesOfResidency"
+			flags="O" />
+		<element name="CountryArrivalDate" type="Date" flags="O">
+			<desc>Date the person first arrived in the country.</desc>
+		</element>
+		<element name="AustralianCitizenshipStatus"
+			enum="AustralianCitizenshipStatusType" flags="O">
+			<desc>The person's citizenship status.</desc>
+		</element>
+		<element name="EnglishProficiency" type="EnglishProficiency"
+			flags="O">
+			<desc>Person's proficiency in English.</desc>
+		</element>
+		<element name="LanguageList" type="LanguageList" flags="O">
+			<desc>
+				List of languages an individual uses to communicate.
+			</desc>
+		</element>
+		<element name="DwellingArrangement" type="DwellingArrangement"
+			flags="O" />
+		<element name="Religion" type="Religion" flags="O">
+			<desc>Type of Religion if any</desc>
+		</element>
+		<element name="ReligiousEventList" type="ReligiousEventList"
+			flags="O" />
+		<element name="ReligiousRegion" type="String" flags="O">
+			<desc>
+				Belong to Religious Region - Currently Free Text.
+			</desc>
+		</element>
+		<element name="PermanentResident"
+			enum="PermanentResidentStatusType" flags="O">
+			<desc>
+				Australian Residency Status (Mandatory for Student)
+			</desc>
+		</element>
+		<element name="VisaSubClass" type="String"
+			flags="O">
+			<desc>
+				Visa Sub-Class - Can be free text - not necessary to
+				validate
+			</desc>
+		</element>
+		<element name="VisaStatisticalCode" type="String" flags="O">
+			<desc> Visa Statistical Code - Can be free text - not necessary to validate</desc>
+		</element>
+		<element name="VisaExpiryDate" type="Date" flags="O">
+			<desc>Expiry Date of Visa if one exists</desc>
+		</element>
+		<element name="ImmunisationCertificateStatus"
+			enum="ImmunisationCertificateStatusType" flags="O">
+			<desc>Status of Immunisation Certificate</desc>
+		</element>
+		<element name="PrePrimaryEducation" type="String" flags="O">
+			<desc>
+				Care prior to kinder enrolment eg. Family day
+				care/home/extended care etc
+			</desc>
+		</element>
+		<element name="CulturalBackground" enum="AustralianStandardClassificationOfCulturalAndEthnicGroupsASCCEGType" flags="O">
+		  <desc>Used to indicate cultural background.</desc>
+		</element>
+        <element name="MaritalStatus" enum="AUCodeSetsMaritalStatusAIHWType" flags="O">
+          <desc>The person's marital status.</desc>
+        </element>
+	</object>
+	
+	  <!--AustralianStandardClassificationOfCulturalAndEthnicGroupsASCCEGType-->
+	<enum name="AustralianStandardClassificationOfCulturalAndEthnicGroupsASCCEGType">
+	  <value name="0000_INADEQUATELY_DESCRIBED" value="0000" desc="Inadequately described" />
+	  <value name="0001_NOT_STATED" value="0001" desc="Not stated" />
+	  <value name="0901_EURASIAN_SO_DESCRIBED" value="0901" desc="Eurasian, so described" />
+	  <value name="0902_ASIAN_SO_DESCRIBED" value="0902" desc="Asian, so described" />
+	  <value name="0903_AFRICAN_SO_DESCRIBED" value="0903" desc="African, so described" />
+	  <value name="0904_EUROPEAN_SO_DESCRIBED" value="0904" desc="European, so described" />
+	  <value name="0905_CAUCASIAN_SO_DESCRIBED" value="0905" desc="Caucasian, so described" />
+	  <value name="0906_CREOLE_SO_DESCRIBED" value="0906" desc="Creole, so described" />
+	  <value name="1000_OCEANIAN_NFD" value="1000" desc="Oceanian, n.f.d." />
+	  <value name="1100_AUSTRALIAN_PEOPLES" value="1100" desc="Australian Peoples, n.f.d." />
+	  <value name="1101_AUSTRALIAN" value="1101" desc="Australian" />
+	  <value name="1102_AUSTRALIAN_ABORIGINAL" value="1102" desc="Australian Aboriginal" />
+	  <value name="1103_AUSTRALIAN_SOUTH_SEA" value="1103" desc="Australian South Sea Islander" />
+	  <value name="1104_TORRES_STRAIT_ISLANDER" value="1104" desc="Torres Strait Islander" />
+	  <value name="1200_NEW_ZEALAND_PEOPLES" value="1200" desc="New Zealand Peoples, n.f.d." />
+	  <value name="1201_MAORI" value="1201" desc="Maori" />
+	  <value name="1202_NEW_ZEALANDER" value="1202" desc="New Zealander" />
+	  <value name="1300_MELANESIANPAPUAN" value="1300" desc="Melanesian and Papuan, n.f.d." />
+	  <value name="1301_NEW_CALEDONIAN" value="1301" desc="New Caledonian" />
+	  <value name="1302_NIVANUATU" value="1302" desc="Ni-Vanuatu" />
+	  <value name="1303_PAPUA_NEW_GUINEAN" value="1303" desc="Papua New Guinean " />
+	  <value name="1304_SOLOMON_ISLANDER" value="1304" desc="Solomon Islander" />
+	  <value name="1399_MELANESIANPAPUAN_NEC_INCLUDES_BISORIO" value="1399" desc="Melanesian and Papuan, n.e.c. (includes Bisorio, Bougainvillian, Huli)" />
+	  <value name="1400_MICRONESIAN_NFD" value="1400" desc="Micronesian, n.f.d." />
+	  <value name="1401_IKIRIBATI" value="1401" desc="I-Kiribati " />
+	  <value name="1402_NAURUAN" value="1402" desc="Nauruan " />
+	  <value name="1499_MICRONESIAN_NEC_INCLUDES_MARIANAS_ISLANDER" value="1499" desc="Micronesian, n.e.c. (includes Marianas Islander, Marshallese, Palauan)" />
+	  <value name="1500_POLYNESIAN_NFD" value="1500" desc="Polynesian, n.f.d." />
+	  <value name="1501_COOK_ISLANDER" value="1501" desc="Cook Islander" />
+	  <value name="1502_FIJIAN" value="1502" desc="Fijian" />
+	  <value name="1503_NIUEAN" value="1503" desc="Niuean" />
+	  <value name="1504_SAMOAN" value="1504" desc="Samoan" />
+	  <value name="1505_TONGAN" value="1505" desc="Tongan" />
+	  <value name="1506_HAWAIIAN" value="1506" desc="Hawaiian" />
+	  <value name="1507_TAHITIAN" value="1507" desc="Tahitian" />
+	  <value name="1508_TOKELAUAN" value="1508" desc="Tokelauan" />
+	  <value name="1511_TUVALUAN" value="1511" desc="Tuvaluan" />
+	  <value name="1599_POLYNESIAN_NEC_INCLUDES_FRENCH_POLYNESIAN" value="1599" desc="Polynesian, n.e.c. (includes French Polynesian, Pitcairn Islander, Wallisian)" />
+	  <value name="2000_NORTHWEST_EUROPEAN" value="2000" desc="North-West European, n.f.d." />
+	  <value name="2100_BRITISH_NFD" value="2100" desc="British, n.f.d." />
+	  <value name="2101_ENGLISH" value="2101" desc="English" />
+	  <value name="2102_SCOTTISH" value="2102" desc="Scottish" />
+	  <value name="2103_WELSH" value="2103" desc="Welsh" />
+	  <value name="2104_CHANNEL_ISLANDER" value="2104" desc="Channel Islander" />
+	  <value name="2105_MANX" value="2105" desc="Manx " />
+	  <value name="2199_BRITISH_NEC_INCLUDES_FALKLAND_ISLANDER" value="2199" desc="British, n.e.c. (includes Falkland Islander)" />
+	  <value name="2201_IRISH" value="2201" desc="Irish" />
+	  <value name="2300_WESTERN_EUROPEAN" value="2300" desc="Western European, n.f.d." />
+	  <value name="2301_AUSTRIAN" value="2301" desc="Austrian" />
+	  <value name="2303_DUTCH" value="2303" desc="Dutch" />
+	  <value name="2304_FLEMISH" value="2304" desc="Flemish" />
+	  <value name="2305_FRENCH" value="2305" desc="French" />
+	  <value name="2306_GERMAN" value="2306" desc="German" />
+	  <value name="2307_SWISS" value="2307" desc="Swiss" />
+	  <value name="2311_BELGIAN" value="2311" desc="Belgian" />
+	  <value name="2312_FRISIAN" value="2312" desc="Frisian" />
+	  <value name="2313_LUXEMBOURG" value="2313" desc="Luxembourg" />
+	  <value name="2399_WESTERN_EUROPEAN_NEC_INCLUDES_ALSATIAN" value="2399" desc="Western European, n.e.c. (includes Alsatian, Breton, Walloon)" />
+	  <value name="2400_NORTHERN_EUROPEAN" value="2400" desc="Northern European, n.f.d." />
+	  <value name="2401_DANISH" value="2401" desc="Danish" />
+	  <value name="2402_FINNISH" value="2402" desc="Finnish" />
+	  <value name="2403_ICELANDIC" value="2403" desc="Icelandic" />
+	  <value name="2404_NORWEGIAN" value="2404" desc="Norwegian" />
+	  <value name="2405_SWEDISH" value="2405" desc="Swedish" />
+	  <value name="2499_NORTHERN_EUROPEAN_NEC_INCLUDES_FAEROESE" value="2499" desc="Northern European, n.e.c. (includes Faeroese, Greenlandic, Saami)" />
+	  <value name="3000_SOUTHERNEASTERN_EUROPEAN" value="3000" desc="Southern and Eastern European, n.f.d." />
+	  <value name="3100_SOUTHERN_EUROPEAN" value="3100" desc="Southern European, n.f.d." />
+	  <value name="3101_BASQUE" value="3101" desc="Basque" />
+	  <value name="3102_CATALAN" value="3102" desc="Catalan" />
+	  <value name="3103_ITALIAN" value="3103" desc="Italian" />
+	  <value name="3104_MALTESE" value="3104" desc="Maltese" />
+	  <value name="3105_PORTUGUESE" value="3105" desc="Portuguese" />
+	  <value name="3106_SPANISH" value="3106" desc="Spanish" />
+	  <value name="3107_GIBRALTARIAN" value="3107" desc="Gibraltarian" />
+	  <value name="3199_SOUTHERN_EUROPEAN_NEC_INCLUDES_ANDORRAN" value="3199" desc="Southern European, n.e.c. (includes Andorran, Galician, Ladin)" />
+	  <value name="3200_SOUTH_EASTERN_EUROPEAN" value="3200" desc="South Eastern European, n.f.d." />
+	  <value name="3201_ALBANIAN" value="3201" desc="Albanian" />
+	  <value name="3202_BOSNIAN" value="3202" desc="Bosnian" />
+	  <value name="3203_BULGARIAN" value="3203" desc="Bulgarian " />
+	  <value name="3204_CROATIAN" value="3204" desc="Croatian" />
+	  <value name="3205_GREEK" value="3205" desc="Greek" />
+	  <value name="3206_MACEDONIAN" value="3206" desc="Macedonian" />
+	  <value name="3207_MOLDOVAN" value="3207" desc="Moldovan" />
+	  <value name="3208_MONTENEGRIN" value="3208" desc="Montenegrin" />
+	  <value name="3211_ROMANIAN" value="3211" desc="Romanian" />
+	  <value name="3212_ROMA_GYPSY" value="3212" desc="Roma/Gypsy" />
+	  <value name="3213_SERBIAN" value="3213" desc="Serbian" />
+	  <value name="3214_SLOVENE" value="3214" desc="Slovene" />
+	  <value name="3215_CYPRIOT" value="3215" desc="Cypriot" />
+	  <value name="3216_VLACH" value="3216" desc="Vlach" />
+	  <value name="3299_SOUTH_EASTERN_EUROPEAN_NEC_INCLUDES_AROMANI" value="3299" desc="South Eastern European, n.e.c. (includes Aromani, Karakachani)" />
+	  <value name="3300_EASTERN_EUROPEAN" value="3300" desc="Eastern European, n.f.d." />
+	  <value name="3301_BELARUSAN" value="3301" desc="Belarusan" />
+	  <value name="3302_CZECH" value="3302" desc="Czech" />
+	  <value name="3303_ESTONIAN" value="3303" desc="Estonian" />
+	  <value name="3304_HUNGARIAN" value="3304" desc="Hungarian " />
+	  <value name="3305_LATVIAN" value="3305" desc="Latvian" />
+	  <value name="3306_LITHUANIAN" value="3306" desc="Lithuanian" />
+	  <value name="3307_POLISH" value="3307" desc="Polish" />
+	  <value name="3308_RUSSIAN" value="3308" desc="Russian" />
+	  <value name="3311_SLOVAK" value="3311" desc="Slovak" />
+	  <value name="3312_UKRAINIAN" value="3312" desc="Ukrainian" />
+	  <value name="3313_SORB_WEND" value="3313" desc="Sorb/Wend" />
+	  <value name="3399_EASTERN_EUROPEAN_NEC_INCLUDES_ADYGEI" value="3399" desc="Eastern European, n.e.c. (includes Adygei, Khanty, Nenets) " />
+	  <value name="4000_NORTH_AFRICANMIDDLE_EASTERN" value="4000" desc="North African and Middle Eastern, n.f.d." />
+	  <value name="4100_ARAB_NFD" value="4100" desc="Arab, n.f.d." />
+	  <value name="4101_ALGERIAN" value="4101" desc="Algerian" />
+	  <value name="4102_EGYPTIAN" value="4102" desc="Egyptian" />
+	  <value name="4103_IRAQI" value="4103" desc="Iraqi" />
+	  <value name="4104_JORDANIAN" value="4104" desc="Jordanian" />
+	  <value name="4105_KUWAITI" value="4105" desc="Kuwaiti" />
+	  <value name="4106_LEBANESE" value="4106" desc="Lebanese" />
+	  <value name="4107_LIBYAN" value="4107" desc="Libyan" />
+	  <value name="4108_MOROCCAN" value="4108" desc="Moroccan" />
+	  <value name="4111_PALESTINIAN" value="4111" desc="Palestinian" />
+	  <value name="4112_SAUDI_ARABIAN" value="4112" desc="Saudi Arabian" />
+	  <value name="4113_SYRIAN" value="4113" desc="Syrian" />
+	  <value name="4114_TUNISIAN" value="4114" desc="Tunisian" />
+	  <value name="4115_YEMENI" value="4115" desc="Yemeni" />
+	  <value name="4199_ARAB_NEC_INCLUDES_BAGGARA_BEDOUIN_OMANI" value="4199" desc="Arab, n.e.c. (includes Baggara, Bedouin, Omani)" />
+	  <value name="4201_JEWISH" value="4201" desc="Jewish" />
+	  <value name="4900_OT_NORTH_AFRICANMIDDLE_EASTERN" value="4900" desc="Other North African and Middle Eastern, n.f.d." />
+	  <value name="4901_ASSYRIAN_CHALDEAN" value="4901" desc="Assyrian/Chaldean" />
+	  <value name="4902_BERBER" value="4902" desc="Berber" />
+	  <value name="4903_COPTIC" value="4903" desc="Coptic" />
+	  <value name="4904_IRANIAN" value="4904" desc="Iranian" />
+	  <value name="4905_KURDISH" value="4905" desc="Kurdish" />
+	  <value name="4906_SUDANESE" value="4906" desc="Sudanese" />
+	  <value name="4907_TURKISH" value="4907" desc="Turkish" />
+	  <value name="4999_OT_NORTH_AFRICANMIDDLE_EASTERN_NEC" value="4999" desc="Other North African and Middle Eastern, n.e.c. (includes Azande, Madi, Nubian)" />
+	  <value name="5000_SOUTHEAST_ASIAN" value="5000" desc="South-East Asian, n.f.d." />
+	  <value name="5100_MAINLAND_SOUTHEAST_ASIAN" value="5100" desc="Mainland South-East Asian, n.f.d." />
+	  <value name="5101_ANGLOBURMESE" value="5101" desc="Anglo-Burmese" />
+	  <value name="5102_BURMESE" value="5102" desc="Burmese" />
+	  <value name="5103_HMONG" value="5103" desc="Hmong" />
+	  <value name="5104_KHMER" value="5104" desc="Khmer" />
+	  <value name="5105_LAO" value="5105" desc="Lao" />
+	  <value name="5106_THAI" value="5106" desc="Thai" />
+	  <value name="5107_VIETNAMESE" value="5107" desc="Vietnamese" />
+	  <value name="5108_KAREN" value="5108" desc="Karen" />
+	  <value name="5111_MON" value="5111" desc="Mon" />
+	  <value name="5199_MAINLAND_SOUTHEAST_ASIAN_NEC_INCLUDES" value="5199" desc="Mainland South-East Asian, n.e.c. (includes Arakanese, Chin, Shan)" />
+	  <value name="5200_MARITIME_SOUTHEAST_ASIAN" value="5200" desc="Maritime South-East Asian, n.f.d." />
+	  <value name="5201_FILIPINO" value="5201" desc="Filipino" />
+	  <value name="5202_INDONESIAN" value="5202" desc="Indonesian" />
+	  <value name="5203_JAVANESE" value="5203" desc="Javanese" />
+	  <value name="5204_MADURESE" value="5204" desc="Madurese" />
+	  <value name="5205_MALAY" value="5205" desc="Malay" />
+	  <value name="5206_SUNDANESE" value="5206" desc="Sundanese" />
+	  <value name="5207_TIMORESE" value="5207" desc="Timorese" />
+	  <value name="5208_ACEHNESE" value="5208" desc="Acehnese" />
+	  <value name="5211_BALINESE" value="5211" desc="Balinese" />
+	  <value name="5212_BRUNEIAN" value="5212" desc="Bruneian" />
+	  <value name="5213_KADAZAN" value="5213" desc="Kadazan" />
+	  <value name="5214_SINGAPOREAN" value="5214" desc="Singaporean" />
+	  <value name="5215_TEMOQ" value="5215" desc="Temoq" />
+	  <value name="5299_MARITIME_SOUTHEAST_ASIAN_NEC_INCLUDES_IBAN" value="5299" desc="Maritime South-East Asian, n.e.c. (includes Iban, Irian Jayan, Sumatran)" />
+	  <value name="6000_NORTHEAST_ASIAN" value="6000" desc="North-East Asian, n.f.d." />
+	  <value name="6100_CHINESE_ASIAN_NFD" value="6100" desc="Chinese Asian, n.f.d." />
+	  <value name="6101_CHINESE" value="6101" desc="Chinese" />
+	  <value name="6102_TAIWANESE" value="6102" desc="Taiwanese" />
+	  <value name="6199_CHINESE_ASIAN_NEC_INCLUDES_HUI_MANCHU_YI" value="6199" desc="Chinese Asian, n.e.c. (includes Hui, Manchu, Yi)" />
+	  <value name="6900_OT_NORTHEAST_ASIAN" value="6900" desc="Other North-East Asian, n.f.d." />
+	  <value name="6901_JAPANESE" value="6901" desc="Japanese" />
+	  <value name="6902_KOREAN" value="6902" desc="Korean" />
+	  <value name="6903_MONGOLIAN" value="6903" desc="Mongolian" />
+	  <value name="6904_TIBETAN" value="6904" desc="Tibetan " />
+	  <value name="6999_OT_NORTHEAST_ASIAN_NEC_INCLUDES_AINU" value="6999" desc="Other North-East Asian, n.e.c. (includes Ainu, Menba, Xiareba)" />
+	  <value name="7000_SOUTHERNCENTRAL_ASIAN" value="7000" desc="Southern and Central Asian, n.f.d." />
+	  <value name="7100_SOUTHERN_ASIAN_NFD" value="7100" desc="Southern Asian, n.f.d." />
+	  <value name="7101_ANGLOINDIAN" value="7101" desc="Anglo-Indian" />
+	  <value name="7102_BENGALI" value="7102" desc="Bengali" />
+	  <value name="7103_BURGHER" value="7103" desc="Burgher" />
+	  <value name="7104_GUJARATI" value="7104" desc="Gujarati" />
+	  <value name="7106_INDIAN" value="7106" desc="Indian" />
+	  <value name="7107_MALAYALI" value="7107" desc="Malayali" />
+	  <value name="7111_NEPALESE" value="7111" desc="Nepalese" />
+	  <value name="7112_PAKISTANI" value="7112" desc="Pakistani " />
+	  <value name="7113_PUNJABI" value="7113" desc="Punjabi" />
+	  <value name="7114_SIKH" value="7114" desc="Sikh" />
+	  <value name="7115_SINHALESE" value="7115" desc="Sinhalese" />
+	  <value name="7116_TAMIL" value="7116" desc="Tamil" />
+	  <value name="7117_MALDIVIAN" value="7117" desc="Maldivian" />
+	  <value name="7199_SOUTHERN_ASIAN_NEC_INCLUDES_GURKHA" value="7199" desc="Southern Asian, n.e.c. (includes Gurkha, Kashmiri, Marathi)" />
+	  <value name="7200_CENTRAL_ASIAN_NFD" value="7200" desc="Central Asian, n.f.d." />
+	  <value name="7201_AFGHAN" value="7201" desc="Afghan" />
+	  <value name="7202_ARMENIAN" value="7202" desc="Armenian" />
+	  <value name="7203_GEORGIAN" value="7203" desc="Georgian" />
+	  <value name="7204_KAZAKH" value="7204" desc="Kazakh" />
+	  <value name="7205_PATHAN" value="7205" desc="Pathan" />
+	  <value name="7206_UZBEK" value="7206" desc="Uzbek" />
+	  <value name="7207_AZERI" value="7207" desc="Azeri" />
+	  <value name="7208_HAZARA" value="7208" desc="Hazara" />
+	  <value name="7211_TAJIK" value="7211" desc="Tajik" />
+	  <value name="7212_TATAR" value="7212" desc="Tatar" />
+	  <value name="7213_TURKMEN" value="7213" desc="Turkmen" />
+	  <value name="7214_UIGHUR" value="7214" desc="Uighur " />
+	  <value name="7299_CENTRAL_ASIAN_NEC_INCLUDES_CHECHEN" value="7299" desc="Central Asian, n.e.c. (includes Chechen, Circassian, Ingush)" />
+	  <value name="8000_PEOPLE_OFAMERICAS" value="8000" desc="People of the Americas, n.f.d." />
+	  <value name="8100_NORTH_AMERICAN_NFD" value="8100" desc="North American, n.f.d." />
+	  <value name="8101_AFRICAN_AMERICAN" value="8101" desc="African American" />
+	  <value name="8102_AMERICAN" value="8102" desc="American" />
+	  <value name="8103_CANADIAN" value="8103" desc="Canadian" />
+	  <value name="8104_FRENCH_CANADIAN" value="8104" desc="French Canadian" />
+	  <value name="8105_HISPANIC_NORTH_AMERICAN" value="8105" desc="Hispanic (North American)" />
+	  <value name="8106_NATIVE_NORTH_AMERICAN_INDIAN" value="8106" desc="Native North American Indian " />
+	  <value name="8107_BERMUDAN" value="8107" desc="Bermudan" />
+	  <value name="8199_NORTH_AMERICAN_NEC_INCLUDES_ALEUT_INUIT" value="8199" desc="North American, n.e.c. (includes Aleut, Inuit, Metis)" />
+	  <value name="8200_SOUTH_AMERICAN_NFD" value="8200" desc="South American, n.f.d." />
+	  <value name="8201_ARGENTINIAN" value="8201" desc="Argentinian" />
+	  <value name="8202_BOLIVIAN" value="8202" desc="Bolivian" />
+	  <value name="8203_BRAZILIAN" value="8203" desc="Brazilian" />
+	  <value name="8204_CHILEAN" value="8204" desc="Chilean" />
+	  <value name="8205_COLOMBIAN" value="8205" desc="Colombian" />
+	  <value name="8206_ECUADORIAN" value="8206" desc="Ecuadorian" />
+	  <value name="8207_GUYANESE" value="8207" desc="Guyanese" />
+	  <value name="8208_PERUVIAN" value="8208" desc="Peruvian" />
+	  <value name="8211_URUGUAYAN" value="8211" desc="Uruguayan" />
+	  <value name="8212_VENEZUELAN" value="8212" desc="Venezuelan" />
+	  <value name="8213_PARAGUAYAN" value="8213" desc="Paraguayan" />
+	  <value name="8299_SOUTH_AMERICAN_NEC_INCLUDES_ARAWAK_CARIB" value="8299" desc="South American, n.e.c. (includes Arawak, Carib, Surinamese)" />
+	  <value name="8300_CENTRAL_AMERICAN" value="8300" desc="Central American, n.f.d." />
+	  <value name="8301_MEXICAN" value="8301" desc="Mexican" />
+	  <value name="8302_NICARAGUAN" value="8302" desc="Nicaraguan" />
+	  <value name="8303_SALVADORAN" value="8303" desc="Salvadoran" />
+	  <value name="8304_COSTA_RICAN" value="8304" desc="Costa Rican" />
+	  <value name="8305_GUATEMALAN" value="8305" desc="Guatemalan" />
+	  <value name="8306_MAYAN" value="8306" desc="Mayan" />
+	  <value name="8399_CENTRAL_AMERICAN_NEC_INCLUDES_BELIZEAN" value="8399" desc="Central American, n.e.c. (includes Belizean, Honduran, Panamanian)" />
+	  <value name="8400_CARIBBEAN_ISLANDER" value="8400" desc="Caribbean Islander, n.f.d." />
+	  <value name="8401_CUBAN" value="8401" desc="Cuban" />
+	  <value name="8402_JAMAICAN" value="8402" desc="Jamaican" />
+	  <value name="8403_TRINIDADIAN_TOBAGONIAN" value="8403" desc="Trinidadian (Tobagonian)" />
+	  <value name="8404_BARBADIAN" value="8404" desc="Barbadian" />
+	  <value name="8405_PUERTO_RICAN" value="8405" desc="Puerto Rican" />
+	  <value name="8499_CARIBBEAN_ISLANDER_NEC_INCLUDES_BAHAMIAN" value="8499" desc="Caribbean Islander, n.e.c. (includes Bahamian, Grenadian, Haitian)" />
+	  <value name="9000_SUBSAHARAN_AFRICAN" value="9000" desc="Sub-Saharan African, n.f.d." />
+	  <value name="9100_CENTRALWEST_AFRICAN" value="9100" desc="Central and West African, n.f.d." />
+	  <value name="9101_AKAN" value="9101" desc="Akan" />
+	  <value name="9103_GHANAIAN" value="9103" desc="Ghanaian" />
+	  <value name="9104_NIGERIAN" value="9104" desc="Nigerian" />
+	  <value name="9105_YORUBA" value="9105" desc="Yoruba" />
+	  <value name="9106_IVOREAN" value="9106" desc="Ivorean" />
+	  <value name="9107_LIBERIAN" value="9107" desc="Liberian" />
+	  <value name="9108_SIERRA_LEONEAN" value="9108" desc="Sierra Leonean" />
+	  <value name="9199_CENTRALWEST_AFRICAN_NEC_INCLUDES_FANG" value="9199" desc="Central and West African, n.e.c. (includes Fang, Fulani, Kongo)" />
+	  <value name="9200_SOUTHERNEAST_AFRICAN" value="9200" desc="Southern and East African, n.f.d." />
+	  <value name="9201_AFRIKANER" value="9201" desc="Afrikaner " />
+	  <value name="9202_ANGOLAN" value="9202" desc="Angolan" />
+	  <value name="9203_ERITREAN" value="9203" desc="Eritrean" />
+	  <value name="9204_ETHIOPIAN" value="9204" desc="Ethiopian" />
+	  <value name="9205_KENYAN" value="9205" desc="Kenyan" />
+	  <value name="9206_MALAWIAN" value="9206" desc="Malawian" />
+	  <value name="9207_MAURITIAN" value="9207" desc="Mauritian" />
+	  <value name="9208_MOZAMBICAN" value="9208" desc="Mozambican" />
+	  <value name="9212_OROMO" value="9212" desc="Oromo" />
+	  <value name="9213_SEYCHELLOIS" value="9213" desc="Seychellois" />
+	  <value name="9214_SOMALI" value="9214" desc="Somali" />
+	  <value name="9215_SOUTH_AFRICAN" value="9215" desc="South African" />
+	  <value name="9216_TANZANIAN" value="9216" desc="Tanzanian" />
+	  <value name="9217_UGANDAN" value="9217" desc="Ugandan" />
+	  <value name="9218_ZAMBIAN" value="9218" desc="Zambian" />
+	  <value name="9221_ZIMBABWEAN" value="9221" desc="Zimbabwean" />
+	  <value name="9222_AMHARA" value="9222" desc="Amhara" />
+	  <value name="9223_BATSWANA" value="9223" desc="Batswana" />
+	  <value name="9224_DINKA" value="9224" desc="Dinka" />
+	  <value name="9225_HUTU" value="9225" desc="Hutu" />
+	  <value name="9226_MASAI" value="9226" desc="Masai" />
+	  <value name="9227_NUER" value="9227" desc="Nuer" />
+	  <value name="9228_TIGRAYAN" value="9228" desc="Tigrayan" />
+	  <value name="9231_TIGRE" value="9231" desc="Tigre" />
+	  <value name="9232_ZULU" value="9232" desc="Zulu" />
+	  <value name="9299_SOUTHERNEAST_AFRICAN_NEC_INCLUDES_AFAR" value="9299" desc="Southern and East African, n.e.c. (includes Afar, Namibian, Tutsi)" />
+	</enum>
+
+
+    <!--AUCodeSetsMaritalStatusAIHWType-->
+    <enum name="AUCodeSetsMaritalStatusAIHWType">
+        <value name="NEVER_MARRIED" value="1" desc="Never Married" />
+        <value name="WIDOWED" value="2" desc="Widowed" />
+        <value name="DIVORCED" value="3" desc="Divorced" />
+        <value name="SEPARATED" value="4" desc="Separated" />
+        <value name="MARRIED" value="5" desc="Married (registered and de facto)" />
+        <value name="NOT_STATED" value="6" desc="Not stated/inadequately described" />
+    </enum>
+
+	<!--AU0609RelationshipToStudentType-->
+	<enum name="AU0609RelationshipToStudentType">
+		<value name="01_PARENT" value="01" desc="Parent" />
+		<value name="02_STEPPARENT" value="02" desc="Step-Parent" />
+		<value name="03_ADOPTIVE_PARENT" value="03"
+			desc="Adoptive Parent" />
+		<value name="04_FOSTER_PARENT" value="04" desc="Foster Parent" />
+		<value name="05_HOST_FAMILY" value="05" desc="Host Family" />
+		<value name="06_RELATIVE" value="06" desc="Relative" />
+		<value name="07_FRIEND" value="07" desc="Friend" />
+		<value name="08_SELF" value="08" desc="Self" />
+		<value name="09_OTHER" value="09" desc="Other" />
+		<value name="10_SIBLING" value="10" desc="Sibling" />
+		<value name="11_GRANDPARENT" value="11" desc="Grandparent" />
+		<value name="12_AUNT_UNCLE" value="12" desc="Aunt/Uncle" />
+		<value name="13_NEPHEW_NIECE" value="13" desc="Nephew/Niece" />
+		<value name="99_NOT_PROVIDED" value="99" desc="Not provided" />
+	</enum>
+	<!--SchoolContact-->
+	<object name="SchoolContact">
+		<element name="PublishInDirectory" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+			<desc>
+				Indicates whether or not this school contact's
+				information should be published in a directory of school
+				information.
+			</desc>
+		</element>
+		<element name="ContactInfo" type="ContactInfo" flags="M" />
+	</object>
+	<!--ElectronicId-->
+	<object name="ElectronicId">
+		<attribute name="Type" enum="ElectronicIdType" flags="R">
+			<desc>Electronic ID type.</desc>
+		</attribute>
+	</object>
+	<!--EnglishProficiency-->
+	<object name="EnglishProficiency">
+		<element name="Code" enum="AUEnglishProficiencyType"
+			flags="M">
+			<desc>Person's proficiency in English.</desc>
+		</element>
+		<element name="OtherCodeList" type="OtherCodeList" flags="O" />
+	</object>
+	<!--Relationship-->
+	<object name="Relationship">
+		<element name="Code" enum="AU0609RelationshipToStudentType"
+			flags="M">
+			<desc>Code representing the relationship.</desc>
+		</element>
+		<element name="OtherCodeList" type="OtherCodeList" flags="O" />
+	</object>
+	<!--YearLevel-->
+	<object name="YearLevel">
+		<element name="Code" enum="YearLevelCode" flags="M">
+			<desc>Code representing the year level.</desc>
+		</element>
+		<element name="OtherCodeList" type="OtherCodeList" flags="O" />
+	</object>
+	<!--YearLevels-->
+	<object name="YearLevels">
+		<element name="YearLevel" type="YearLevel" flags="MR" />
+	</object>
+  
+  <!--PrincipalInfo-->
+  <object name="PrincipalInfo">
+    <element name="ContactName" type="ContactName" flags="M">
+      <desc>The name of the principal.</desc>
+    </element>
+    <element name="ContactTitle" type="String" flags="O">
+      <desc>The principal's title.</desc>
+    </element>
+    <element name="PhoneNumberList" type="PhoneNumberList" flags="O">
+      <desc>The principal’s phone number(s).</desc>
+    </element>
+    <element name="EmailList" type="EmailList" flags="O">
+      <desc>The principal’s e-mail address(es).</desc>
+    </element>
+  </object>
+
+
+  <!--EmailList-->
+	<object name="EmailList">
+		<element name="Email" type="Email" flags="MR" />
+	</object>
+	<!--OtherNames-->
+	<object name="OtherNames">
+		<element name="Name" type="Name" flags="MR" />
+	</object>
+	<!--ReligiousEvent-->
+	<object name="ReligiousEvent">
+		<element name="Type" type="String" flags="M">
+			<desc>Religious Event - Currently Free Text</desc>
+		</element>
+		<element name="Date" type="Date" flags="M">
+			<desc>Date of Religions Event</desc>
+		</element>
+	</object>
+	<!--PhoneNumber-->
+	<object name="PhoneNumber">
+		<attribute name="Type" enum="PhoneNumberType" flags="R">
+			<desc>
+				Code that specifies what type of phone number this is.
+				Note: A subset of valid values may be specified in data
+				objects.
+			</desc>
+		</attribute>
+		<element name="Number" type="String" flags="M">
+			<desc>
+				Phone number. Free-form, but typical U.S. formats
+				include:
+			</desc>
+		</element>
+		<element name="Extension" type="String" flags="O">
+			<desc>Phone number extension.</desc>
+		</element>
+		<element name="ListedStatus" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+			<desc>
+				Indicates whether or not the phone number is available
+				to the public.
+			</desc>
+		</element>
+	</object>
+	<!--PhoneNumberType enum-->
+	<enum name="PhoneNumberType">
+		<value name="ALT" value="0350" desc="Alternate telephone number" />
+		<value name="ANSWERING_SERVICE" value="0359" desc="Answering service" />
+		<value name="APPOINTMENT" value="0400" desc="Appointment telephone number" />
+		<value name="BEEPER" value="0370" desc="Beeper number" />
+		<value name="FAX" value="2364" desc="Facsimile number" />
+		<value name="INSTANT_MESSAGING" value="0478" desc="Instant messaging number" />
+		<value name="PRIMARY" value="0096" desc="Main telephone number" />
+		<value name="MEDIA_CONFERENCE" value="0486" desc="Media conferencing number" />
+		<value name="TELEMAIL" value="0437" desc="Telemail" />
+		<value name="TELEX" value="0426" desc="Telex number" />
+		<value name="VOICE_MAIL" value="0448" desc="Voice mail" />
+        <value name="HOME_TELNO" value="0777" desc="Home Telephone Number" />
+        <value name="HOME_MOBILE" value="0779" desc="Home Mobile" />
+        <value name="WORK_TELNO" value="0887" desc="Work Telephone Number" />
+        <value name="MOBILE" value="0888" desc="Mobile Phone" />
+        <value name="WORK_MOBILE" value="0889" desc="Work Mobile" />
+	</enum>
+
+	<!--AddressList-->
+	<object name="AddressList">
+		<element name="Address" type="Address" flags="MR" />
+	</object>
+	<!--Street-->
+	<object name="Street">
+		<element name="Line1" type="String" flags="M">
+			<desc>Address line 1.</desc>
+		</element>
+		<element name="Line2" type="String" flags="O">
+			<desc>Address line 2.</desc>
+		</element>
+		<element name="Line3" type="String" flags="O">
+			<desc>Address line 3.</desc>
+		</element>
+		<element name="Complex" type="String" flags="O">
+			<desc>Name of the complex.</desc>
+		</element>
+		<element name="StreetNumber" type="String" flags="O">
+			<desc>The address number assigned to the building.</desc>
+		</element>
+		<element name="StreetPrefix" type="String" flags="O">
+			<desc>Street prefix like NE</desc>
+		</element>
+		<element name="StreetName" type="String" flags="O">
+			<desc>The name of the street.</desc>
+		</element>
+		<element name="StreetType" type="String" flags="O">
+			<desc>
+				The type of street. For example, Lane, Blvd., Ave., etc.
+			</desc>
+		</element>
+		<element name="StreetSuffix" type="String" flags="O">
+			<desc>Street suffix like SW.</desc>
+		</element>
+		<element name="ApartmentType" type="String" flags="O">
+			<desc>Type of apartment, for example, Suite.</desc>
+		</element>
+		<element name="ApartmentNumberPrefix" type="String" flags="O">
+			<desc>Apartment number prefix.</desc>
+		</element>
+		<element name="ApartmentNumber" type="String" flags="O">
+			<desc>The number of the apartment.</desc>
+		</element>
+		<element name="ApartmentNumberSuffix" type="String" flags="O">
+			<desc>Apartment number suffix.</desc>
+		</element>
+	</object>
+
+	<!--CountriesOfResidency-->
+	<object name="CountriesOfResidency">
+		<element name="CountryOfResidency" type="Country" flags="MR">
+			<desc>A person's country of residence.</desc>
+		</element>
+	</object>
+
+	<!--Country object-->
+	<object name="Country" enum="CountryCode" />
+	<!--Email-->
+	<object name="Email">
+		<attribute name="Type" enum="EmailType" flags="M">
+			<desc>
+				This attribute specifies the type of e-mail address
+			</desc>
+		</attribute>
+		<attribute name="SIF_Action" enum="SIFActionType" flags="O">
+			<desc>
+				In a Change event, this flag can be used to indicate an
+				element has been deleted from the parent list container.
+				At a minimum the key for the list must also be present.
+			</desc>
+		</attribute>
+	</object>
+	<!--EmailType enum-->
+	<enum name="EmailType">
+		<value name="PRIMARY" value="01" desc="Primary" />
+		<value name="ALTERNATE1" value="02" desc="Alternate1" />
+		<value name="ALTERNATE2" value="03" desc="Alternate2" />
+		<value name="ALTERNATE3" value="04" desc="Alternate3" />
+		<value name="ALTERNATE4" value="05" desc="Alternate4" />
+        <value name="WORK" value="06" desc="Work" />
+        <value name="PERSONAL" value="07" desc="Personal" />
+	</enum>
+	<!--ElectronicIdList-->
+	<object name="ElectronicIdList">
+		<element name="ElectronicId" type="ElectronicId" flags="MR" />
+	</object>
+
+	<!--CountriesOfCitizenship-->
+	<object name="CountriesOfCitizenship">
+		<element name="CountryOfCitizenship" type="Country"
+			flags="MR">
+			<desc>A person's country of citizenship.</desc>
+		</element>
+	</object>
+	<!--Address-->
+	<object name="Address">
+	  <attribute name="Type" enum="AddressType" flags="R">
+	    <desc>Code that defines the location of the address. Note: A subset of specific valid values for each instance in a data object may be listed in that object.</desc>
+	  </attribute>
+	  <attribute name="Role" enum="AddressRoleType" flags="R">
+	    <desc>A facet of Address</desc>
+	  </attribute>
+	  <element name="Street" type="Street" flags="M" />
+	  <element name="City" type="String" flags="M">
+	    <desc>The city part of the address.</desc>
+	  </element>
+	  <element name="StateProvince" enum="StateTerritoryCodeType" flags="O">
+	    <desc>The state or province code. StateTerritory Code only applicable if an Australian Address. Conditional- If Australian Address this is mandatory.</desc>
+	  </element>
+	  <element name="Country" enum="CountryCode" flags="O">
+	    <desc>The country code.</desc>
+	  </element>
+	  <element name="PostalCode" type="String" flags="M">
+	    <desc>The ZIP/postal code.</desc>
+	  </element>
+	  <element name="GridLocation" type="GridLocation" flags="O">
+	    <desc>The location of the address.</desc>
+	  </element>
+	  <element name="MapReference" type="MapReference" flags="O" />
+	  <element name="RadioContact" type="String" flags="O">
+	    <desc>UHF Radio frequency or channel used for contact eg: 477MHz or CH60</desc>
+	  </element>
+      <element name="Community" type="String" flags="O">
+        <desc>This element is used to describe a Community that is associated with the instance of the address.</desc>
+      </element>
+      <element name="LocalId" type="String" flags="O">
+        <desc>This is the LocalId of the specific address if it can be provided.</desc>
+      </element>
+      <element name="AddressGlobalUID" type="String" flags="O"/>
+	</object>
+	
+	  <!--CountryCode enum-->
+  <enum name="CountryCode">
+    <value name="8104" value="8104" desc="United States of America" />
+    <value name="2201" value="2201" desc="Ireland" />
+    <value name="2103" value="2103" desc="Isle of Man" />
+    <value name="0923" value="0923" desc="United Kingdom" />
+    <value name="8102" value="8102" desc="Canada" />
+    <value name="2301" value="2301" desc="Australia" />
+    <value name="1201" value="1201" desc="New Zealand" />
+    <value name="0003" value="0003" desc="Not Stated" />
+  </enum>
+	
+	
+	<!--StateTerritoryCodeType-->
+	<enum name="StateTerritoryCodeType">
+	  <value name="ACT" value="ACT" desc="Australian Capital Teritory" />
+	  <value name="NSW" value="NSW" desc="New South Wales" />
+	  <value name="NT" value="NT" desc="Northern Territory" />
+	  <value name="QLD" value="QLD" desc="Queensland" />
+	  <value name="SA" value="SA" desc="South Australia" />
+	  <value name="TAS" value="TAS" desc="Tasmania" />
+	  <value name="VIC" value="VIC" desc="Victoria" />
+	  <value name="WA" value="WA" desc="Western Australia" />
+	  <value name="XXX" value="XXX" desc="Not Provided" />
+	</enum>
+	
+	 
+  <!--PersonInfo-->
+  <object name="PersonInfo">
+    <element name="Name" type="Name" flags="M">
+      <desc>The name of the person. Note: Type attribute value of LGL must be used here.</desc>
+    </element>
+    <element name="OtherNames" type="OtherNames" flags="O">
+      <desc>Previous, alternate or other names or aliases associated with the person.</desc>
+    </element>
+    <element name="Demographics" type="Demographics" flags="O">
+      <desc>Demographic information about the person.</desc>
+    </element>
+    <element name="AddressList" type="AddressList" flags="O">
+      <desc>The person's address(es).</desc>
+    </element>
+    <element name="PhoneNumberList" type="PhoneNumberList" flags="O">
+      <desc>The person's phone number(s).</desc>
+    </element>
+    <element name="EmailList" type="EmailList" flags="O">
+      <desc>The person's e-mail address(es).</desc>
+    </element>
+  </object>
+	
+	<!--AddressRoleType-->
+	<enum name="AddressRoleType">
+	  <value name="012A_TERM_ADDRESS" value="012A" desc="Term Address" />
+	  <value name="012B_HOME_ADDRESS" value="012B" desc="Home Address" />
+	  <value name="012C_HOME_STAY_ADDRESS" value="012C" desc="Home Stay Address" />
+	  <value name="013A_OVERSEAS_ADDRESS" value="013A" desc="Overseas Address" />
+	  <value name="1073_OT_HOME_ADDRESS" value="1073" desc="Other home address" />
+	  <value name="1074_EMPLOYERS_ADDRESS" value="1074" desc="Employer's address" />
+	  <value name="1075_EMPLOYMENT_ADDRESS" value="1075" desc="Employment address" />
+	  <value name="2382_OT_ORGANISATION" value="2382" desc="Other organisation address" />
+	  <value name="9999_OT_ADDRESS" value="9999" desc="Other Address" />
+	</enum>
+	
+	<!--AddressType-->
+	<enum name="AddressType">
+	  <value name="0123_MAILING_ADDRESS" value="0123" desc="Mailing address" />
+	  <value name="0123A_ALTERNATE_MAILING" value="0123A" desc="Alternate Mailing address" />
+	  <value name="0124_SHIPPING_ADDRESS" value="0124" desc="Shipping address" />
+	  <value name="0124A_ALTERNATE_SHIPPING" value="0124A" desc="Alternate Shipping address" />
+	  <value name="0765_PHYSICAL_LOCATION" value="0765" desc="Physical location address" />
+	  <value name="0765A_ALTERNATE_PHYSICAL_LOCATION" value="0765A" desc="Alternate Physical location address" />
+	  <value name="9999_OTHER" value="9999" desc="Other" />
+	  <value name="9999A_ALTERNATE_OT_ADDRESS" value="9999A" desc="Alternate Other address" />
+	</enum>
+
+	<!--PhoneNumberList-->
+	<object name="PhoneNumberList">
+		<element name="PhoneNumber" type="PhoneNumber" flags="MR" />
+	</object>
+	<!--Language object-->
+	<object name="Language" dataType="String" />
+
+	<!--SubjectAreaList-->
+	<object name="SubjectAreaList">
+		<element name="SubjectArea" type="SubjectArea" flags="MR">
+			<desc>Subject matter.</desc>
+		</element>
+	</object>
+	
+  <!--SubjectArea-->
+  <object name="SubjectArea">
+    <element name="Code" type="String" flags="M">
+      <desc>The subject area details</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+
+	
+	<!--GridLocation-->
+	<object name="GridLocation">
+		<element name="Latitude" type="Decimal" flags="M" />
+		<element name="Longitude" type="Decimal" flags="M" />
+	</object>
+
+	<!--LanguageList-->
+	<object name="LanguageList">
+		<element name="Language" type="Language" flags="MR" />
+	</object>
+	<!--ReligiousEventList-->
+	<object name="ReligiousEventList">
+		<element name="ReligiousEvent" type="ReligiousEvent" flags="OR" />
+	</object>
+
+	<!--MapReference-->
+	<object name="MapReference">
+		<attribute name="Type" type="String" flags="R">
+			<desc>Type map reference</desc>
+		</attribute>
+		<element name="XCoordinate" type="String" flags="M">
+			<desc>X Co-ordinate of reference</desc>
+		</element>
+		<element name="YCoordinate" type="String" flags="M">
+			<desc>Y Co-ordinate of reference</desc>
+		</element>
+	</object>
+	<!--Name-->
+	<object name="Name">
+		<attribute name="Type" enum="NameType" flags="R">
+			<desc>
+				Code that specifies what type of name this is. If
+				unsure, use LGL.
+			</desc>
+		</attribute>
+		<element name="Title" type="String" flags="O">
+			<desc>
+				A title or prefix associated with the name. If any of:
+				Mr, Mrs, Ms, Miss, Rev, Fr, Dr, Prof, Hon, Sir, Lord,
+				Lady - these must be as shown, otherwise free text. Note
+				that title is not applicable to learners.
+			</desc>
+		</element>
+		<element name="FamilyName" type="String" flags="O">
+			<desc>
+				Family name. That part of the person's name which is
+				used to describe family, clan, tribal group, or marital
+				association. Note that this element is required when
+				known. However, it may not be possible to know the
+				family name in which case you should add the available
+				information to the FullName element.
+			</desc>
+		</element>
+		<element name="GivenName" type="String" flags="O">
+			<desc>
+				Given name of the person. Note that this element is
+				required if known. However, it may not be possible to
+				know the given name in which case you should add the
+				available information to the FullName element.
+			</desc>
+		</element>
+		<element name="MiddleName" type="String" flags="O">
+			<desc>
+				All other given or middle names, each separated with a
+				single space character.
+			</desc>
+		</element>
+		<element name="FamilyNameFirst" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+			<desc>
+				An indicator used to identify the naming conventions
+				used by some predominantly non-European, ethnic or
+				language groups and related to the display nature of a
+				name.
+			</desc>
+		</element>
+		<element name="PreferredFamilyName" type="String" flags="O">
+			<desc>
+				The family name preferred most by the person (as
+				written).
+			</desc>
+		</element>
+		<element name="PerferredFamilyNameFirst" enum="AUCodeSetsYesOrNoCategoryType"
+			flags="O">
+			<desc>
+				An indicator used to identify the naming conventions
+				used by some predominantly non-European, ethnic or
+				language groups and related to the display nature of a
+				name.
+			</desc>
+		</element>
+		<element name="PreferredGivenName" type="String" flags="O">
+			<desc>
+				The given name preferred most by the person (as
+				written).
+			</desc>
+		</element>
+		<element name="Suffix" type="String" flags="O">
+			<desc>Textual suffix like PHD, JP, BSc.</desc>
+		</element>
+		<element name="FullName" type="String" flags="O">
+			<desc>
+				A free text field for the complete name for display
+				purposes. If this is associated with a ContactPersonal
+				record and the FamilyName and GivenName are not both
+				specified, then this becomes mandatory.
+			</desc>
+		</element>
+	</object>
+	
+  <!--Religion-->
+  <object name="Religion">
+    <element name="Code" enum="ReligionType" flags="M">
+      <desc>Religion Code</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+ 
+  <!--SIF_RefObject-->
+  <enum name="SIF_RefObject">
+    <value name="STUDENTPERSONAL" value="StudentPersonal" desc="StudentPersonal" />
+    <value name="STAFFPERSONAL" value="StaffPersonal" desc="StaffPersonal" />
+    <value name="STUDENTCONTACTPERSONAL" value="StudentContactPersonal" desc="StudentContactPersonal" />
+  </enum>
+
+  <!--ParentObjectRefId-->
+  <object name="ParentObjectRefId">
+    <attribute name="SIF_RefObject" enum="ParentObjectRefIdSIF_RefObject" flags="R">
+      <desc>The name of the object reference.</desc>
+    </attribute>
+  </object>
+
+  <!--ParentObjectRefIdSIF_RefObject-->
+  <enum name="ParentObjectRefIdSIF_RefObject">
+    <value name="STUDENTPERSONAL" value="StudentPersonal" desc="StudentPersonal" />
+    <value name="STAFFPERSONAL" value="StaffPersonal" desc="StaffPersonal" />
+    <value name="STUDENTCONTACTPERSONAL" value="StudentContactPersonal" desc="StudentContactPersonal" />
+  </enum>
+	
+    
+    <!--AustralianStandardClassificationOfReligiousGroupsASCRGType-->
+  <enum name="AustralianStandardClassificationOfReligiousGroupsASCRGType">
+    <value name="0001_NOT_STATED" value="0001" desc="Not Stated" />
+    <value name="0002_RELIGIOUS_BELIEF" value="0002" desc="Religious Belief, nfd" />
+    <value name="0003_NOT_DEFINED" value="0003" desc="Not Defined" />
+    <value name="0004_NEW_AGE_SO_DESCRIBED" value="0004" desc="New Age, so described" />
+    <value name="0005_THEISM" value="0005" desc="Theism" />
+    <value name="1011_BUDDHISM" value="1011" desc="Buddhism" />
+    <value name="2000_CHRISTIAN_NFD" value="2000" desc="Christian, nfd" />
+    <value name="2001_APOSTOLIC_CHURCH_SO" value="2001" desc="Apostolic Church, so described" />
+    <value name="2002_CHURCH_OF_GOD_SO" value="2002" desc="Church of God, so described" />
+    <value name="2003_AUSTRALIAN_CHRISTIAN_CHURCHES_SO" value="2003" desc="Australian Christian Churches, so described" />
+    <value name="2004_NEW_CHURCH_ALLIANCE_SO" value="2004" desc="New Church Alliance, so described" />
+    <value name="2010_ANGLICAN_NFD" value="2010" desc="Anglican, nfd" />
+    <value name="2012_ANGLICAN_CHURCH_OF" value="2012" desc="Anglican Church of Australia" />
+    <value name="2013_ANGLICAN_CATHOLIC" value="2013" desc="Anglican Catholic Church" />
+    <value name="2031_BAPTIST" value="2031" desc="Baptist" />
+    <value name="2051_BRETHREN" value="2051" desc="Brethren" />
+    <value name="2071_WESTERN_CATHOLIC" value="2071" desc="Western Catholic" />
+    <value name="2072_MARONITE_CATHOLIC" value="2072" desc="Maronite Catholic" />
+    <value name="2073_MELKITE_CATHOLIC" value="2073" desc="Melkite Catholic" />
+    <value name="2074_UKRAINIAN_CATHOLIC" value="2074" desc="Ukrainian Catholic" />
+    <value name="2075_CHALDEAN_CATHOLIC" value="2075" desc="Chaldean Catholic" />
+    <value name="2079_CATHOLIC_NEC" value="2079" desc="Catholic, nec" />
+    <value name="2110_CHURCHES_OF_CHRIST" value="2110" desc="Churches of Christ, nfd" />
+    <value name="2111_CHURCHES_OF_CHRIST_CONFERENCE" value="2111" desc="Churches of Christ (Conference)" />
+    <value name="2112_CHURCH_OF_CHRIST_NONDENOMINATIONAL" value="2112" desc="Church of Christ (Nondenominational)" />
+    <value name="2113_INTERNATIONAL_CHURCH_OF" value="2113" desc="International Church of Christ" />
+    <value name="2131_JEHOVAHS_WITNESSES" value="2131" desc="Jehovah's Witnesses" />
+    <value name="2150_CHURCH_OF_JESUS_CHRIST_OF_LATTER_DAY_SAINTS" value="2150" desc="Church of Jesus Christ of Latter Day Saints, nfd" />
+    <value name="2151_CHURCH_OF_JESUS_CHRIST_OF_LDS_MORMONS" value="2151" desc="Church of Jesus Christ of LDS (Mormons)" />
+    <value name="2152_COMMUNITY_OF_CHRIST" value="2152" desc="Community of Christ" />
+    <value name="2171_LUTHERAN" value="2171" desc="Lutheran" />
+    <value name="2210_ORIENTAL_ORTHODOX" value="2210" desc="Oriental Orthodox, nfd" />
+    <value name="2212_ARMENIAN_APOSTOLIC" value="2212" desc="Armenian Apostolic" />
+    <value name="2214_COPTIC_ORTHODOX" value="2214" desc="Coptic Orthodox Church" />
+    <value name="2215_SYRIAN_ORTHODOX" value="2215" desc="Syrian Orthodox Church" />
+    <value name="2216_ETHIOPIAN_ORTHODOX" value="2216" desc="Ethiopian Orthodox Church" />
+    <value name="2219_ORIENTAL_ORTHODOX" value="2219" desc="Oriental Orthodox, nec" />
+    <value name="2220_ASSYRIAN_APOSTOLIC" value="2220" desc="Assyrian Apostolic, nfd" />
+    <value name="2221_ASSYRIAN_CHURCH" value="2221" desc="Assyrian Church of the East" />
+    <value name="2222_ANCIENT_CHURCH_OFEAST" value="2222" desc="Ancient Church of the East" />
+    <value name="2229_ASSYRIAN_APOSTOLIC" value="2229" desc="Assyrian Apostolic, nec" />
+    <value name="2230_EASTERN_ORTHODOX" value="2230" desc="Eastern Orthodox, nfd" />
+    <value name="2231_ALBANIAN_ORTHODOX" value="2231" desc="Albanian Orthodox" />
+    <value name="2232_ANTIOCHIAN_ORTHODOX" value="2232" desc="Antiochian Orthodox" />
+    <value name="2233_GREEK_ORTHODOX" value="2233" desc="Greek Orthodox" />
+    <value name="2234_MACEDONIAN_ORTHODOX" value="2234" desc="Macedonian Orthodox" />
+    <value name="2235_ROMANIAN_ORTHODOX" value="2235" desc="Romanian Orthodox" />
+    <value name="2236_RUSSIAN_ORTHODOX" value="2236" desc="Russian Orthodox" />
+    <value name="2237_SERBIAN_ORTHODOX" value="2237" desc="Serbian Orthodox" />
+    <value name="2238_UKRAINIAN_ORTHODOX" value="2238" desc="Ukrainian Orthodox" />
+    <value name="2239_EASTERN_ORTHODOX" value="2239" desc="Eastern Orthodox, nec" />
+    <value name="2250_PRESBYTERIANREFORMED" value="2250" desc="Presbyterian and Reformed, nfd" />
+    <value name="2251_PRESBYTERIAN" value="2251" desc="Presbyterian" />
+    <value name="2252_REFORMED" value="2252" desc="Reformed" />
+    <value name="2253_FREE_REFORMED" value="2253" desc="Free Reformed" />
+    <value name="2271_SALVATION_ARMY" value="2271" desc="Salvation Army" />
+    <value name="2311_SEVENTHDAY_ADVENTIST" value="2311" desc="Seventh-day Adventist" />
+    <value name="2331_UNITING_CHURCH" value="2331" desc="Uniting Church" />
+    <value name="2400_PENTECOSTAL_NFD" value="2400" desc="Pentecostal, nfd" />
+    <value name="2401_APOSTOLIC_CHURCH_AUSTRALIA" value="2401" desc="Apostolic Church (Australia)" />
+    <value name="2402_ASSEMBLIES_OF_GOD" value="2402" desc="Assemblies of God" />
+    <value name="2403_BETHESDA_CHURCHES" value="2403" desc="Bethesda Churches" />
+    <value name="2404_CHRISTIAN_CITY_CHURCH" value="2404" desc="Christian City Church" />
+    <value name="2405_CHRISTIAN_LIFE_CHURCHES" value="2405" desc="Christian Life Churches International" />
+    <value name="2406_CHRISTIAN_OUTREACH" value="2406" desc="Christian Outreach Centres" />
+    <value name="2407_CHRISTIAN_REVIVAL" value="2407" desc="Christian Revival Crusade" />
+    <value name="2408_FAITH_CHURCHES" value="2408" desc="Faith Churches" />
+    <value name="2411_FOURSQUARE_GOSPEL" value="2411" desc="Foursquare Gospel Church" />
+    <value name="2412_FULL_GOSPEL_CHURCH" value="2412" desc="Full Gospel Church" />
+    <value name="2413_REVIVAL_CENTRES" value="2413" desc="Revival Centres" />
+    <value name="2414_RHEMA_FAMILY_CHURCH" value="2414" desc="Rhema Family Church" />
+    <value name="2415_UNITED_PENTECOSTAL" value="2415" desc="United Pentecostal" />
+    <value name="2499_PENTECOSTAL_NEC" value="2499" desc="Pentecostal, nec" />
+    <value name="2800_OT_PROTESTANT_NFD" value="2800" desc="Other Protestant, nfd" />
+    <value name="2801_ABORIGINAL_EVANGELICAL" value="2801" desc="Aboriginal Evangelical Missions" />
+    <value name="2802_BORN_AGAIN_CHRISTIAN" value="2802" desc="Born Again Christian" />
+    <value name="2803_CHRISTIANMISSIONARY" value="2803" desc="Christian and Missionary Alliance" />
+    <value name="2804_CHURCH_OFNAZARENE" value="2804" desc="Church of the Nazarene" />
+    <value name="2805_CONGREGATIONAL" value="2805" desc="Congregational" />
+    <value name="2806_ETHNIC_EVANGELICAL" value="2806" desc="Ethnic Evangelical Churches" />
+    <value name="2807_INDEPENDENT_EVANGELICAL" value="2807" desc="Independent Evangelical Churches" />
+    <value name="2808_WESLEYAN_METHODIST" value="2808" desc="Wesleyan Methodist Church" />
+    <value name="2899_OT_PROTESTANT_NEC" value="2899" desc="Other Protestant, nec" />
+    <value name="2900_OT_CHRISTIAN_NFD" value="2900" desc="Other Christian, nfd" />
+    <value name="2901_APOSTOLIC_CHURCH_OF" value="2901" desc="Apostolic Church of Queensland" />
+    <value name="2902_CHRISTADELPHIANS" value="2902" desc="Christadelphians" />
+    <value name="2903_CHRISTIAN_SCIENCE" value="2903" desc="Christian Science" />
+    <value name="2904_GNOSTIC_CHRISTIANS" value="2904" desc="Gnostic Christians" />
+    <value name="2905_LIBERAL_CATHOLIC" value="2905" desc="Liberal Catholic Church" />
+    <value name="2906_NEW_APOSTOLIC_CHURCH" value="2906" desc="New Apostolic Church" />
+    <value name="2907_NEW_CHURCHES_SWEDENBORGIAN" value="2907" desc="New Churches (Swedenborgian)" />
+    <value name="2908_RATANA_MAORI" value="2908" desc="Ratana (Maori)" />
+    <value name="2911_RELIGIOUS_SCIENCE" value="2911" desc="Religious Science" />
+    <value name="2912_RELIGIOUS_SOCIETY_OF_FRIENDS_QUAKERS" value="2912" desc="Religious Society of Friends (Quakers)" />
+    <value name="2913_TEMPLE_SOCIETY" value="2913" desc="Temple Society" />
+    <value name="2914_UNITARIAN" value="2914" desc="Unitarian" />
+    <value name="2915_WORLDWIDE_CHURCH_OF" value="2915" desc="Worldwide Church of God" />
+    <value name="2999_OT_CHRISTIAN_NEC" value="2999" desc="Other Christian, nec" />
+    <value name="3011_HINDUISM" value="3011" desc="Hinduism" />
+    <value name="4011_ISLAM" value="4011" desc="Islam" />
+    <value name="5011_JUDAISM" value="5011" desc="Judaism" />
+    <value name="6011_AUSTRALIAN_ABORIGINAL_TRADITIONAL" value="6011" desc="Australian Aboriginal Traditional Religions" />
+    <value name="6031_BAHAI" value="6031" desc="Baha'i" />
+    <value name="6050_CHINESE_RELIGIONS" value="6050" desc="Chinese Religions, nfd" />
+    <value name="6051_ANCESTOR_VENERATION" value="6051" desc="Ancestor Veneration" />
+    <value name="6052_CONFUCIANISM" value="6052" desc="Confucianism" />
+    <value name="6053_TAOISM" value="6053" desc="Taoism" />
+    <value name="6059_CHINESE_RELIGIONS" value="6059" desc="Chinese Religions, nec" />
+    <value name="6071_DRUSE" value="6071" desc="Druse" />
+    <value name="6110_JAPANESE_RELIGIONS" value="6110" desc="Japanese Religions, nfd" />
+    <value name="6111_SHINTO" value="6111" desc="Shinto" />
+    <value name="6112_SUKYO_MAHIKARI" value="6112" desc="Sukyo Mahikari" />
+    <value name="6113_TENRIKYO" value="6113" desc="Tenrikyo" />
+    <value name="6119_JAPANESE_RELIGIONS" value="6119" desc="Japanese Religions, nec" />
+    <value name="6130_NATURE_RELIGIONS" value="6130" desc="Nature Religions, nfd" />
+    <value name="6131_ANIMISM" value="6131" desc="Animism" />
+    <value name="6132_DRUIDISM" value="6132" desc="Druidism" />
+    <value name="6133_PAGANISM" value="6133" desc="Paganism" />
+    <value name="6134_PANTHEISM" value="6134" desc="Pantheism" />
+    <value name="6135_WICCAN_WITCHCRAFT" value="6135" desc="Wiccan/Witchcraft" />
+    <value name="6139_NATURE_RELIGIONS" value="6139" desc="Nature Religions, nec" />
+    <value name="6151_SIKHISM" value="6151" desc="Sikhism" />
+    <value name="6171_SPIRITUALISM" value="6171" desc="Spiritualism" />
+    <value name="6991_CAODAISM" value="6991" desc="Caodaism" />
+    <value name="6992_CHURCH_OF_SCIENTOLOGY" value="6992" desc="Church of Scientology" />
+    <value name="6993_ECKANKAR" value="6993" desc="Eckankar" />
+    <value name="6994_RASTAFARIANISM" value="6994" desc="Rastafarianism" />
+    <value name="6995_SATANISM" value="6995" desc="Satanism" />
+    <value name="6996_THEOSOPHY" value="6996" desc="Theosophy" />
+    <value name="6997_JAINISM" value="6997" desc="Jainism" />
+    <value name="6998_ZOROASTRIANISM" value="6998" desc="Zoroastrianism" />
+    <value name="6999_RELIGIOUS_GROUPS" value="6999" desc="Religious Groups, nec" />
+    <value name="7010_NO_RELIGION_NFD" value="7010" desc="No Religion, nfd" />
+    <value name="7011_AGNOSTICISM" value="7011" desc="Agnosticism" />
+    <value name="7012_ATHEISM" value="7012" desc="Atheism" />
+    <value name="7013_HUMANISM" value="7013" desc="Humanism" />
+    <value name="7014_RATIONALISM" value="7014" desc="Rationalism" />
+  </enum>
+
+
+
+
+
+  <!--FederalElectorateType-->
+  <enum name="FederalElectorateType">
+    <value name="101_BANKS" value="101" desc="Banks" />
+    <value name="102_BARTON" value="102" desc="Barton" />
+    <value name="103_BENNELONG" value="103" desc="Bennelong" />
+    <value name="104_BEROWRA" value="104" desc="Berowra" />
+    <value name="105_BLAXLAND" value="105" desc="Blaxland" />
+    <value name="106_BRADFIELD" value="106" desc="Bradfield" />
+    <value name="107_CALARE" value="107" desc="Calare" />
+    <value name="108_CHARLTON" value="108" desc="Charlton" />
+    <value name="109_CHIFLEY" value="109" desc="Chifley" />
+    <value name="110_COOK" value="110" desc="Cook" />
+    <value name="111_COWPER" value="111" desc="Cowper" />
+    <value name="112_CUNNINGHAM" value="112" desc="Cunningham" />
+    <value name="113_DOBELL" value="113" desc="Dobell" />
+    <value name="114_EDENMONARO" value="114" desc="Eden-Monaro" />
+    <value name="115_FARRER" value="115" desc="Farrer" />
+    <value name="116_FOWLER" value="116" desc="Fowler" />
+    <value name="117_GILMORE" value="117" desc="Gilmore" />
+    <value name="118_GRAYNDLER" value="118" desc="Grayndler" />
+    <value name="119_GREENWAY" value="119" desc="Greenway" />
+    <value name="120_GWYDIR" value="120" desc="Gwydir" />
+    <value name="121_HUGHES" value="121" desc="Hughes" />
+    <value name="122_HUME" value="122" desc="Hume" />
+    <value name="123_HUNTER" value="123" desc="Hunter" />
+    <value name="124_KINGSFORD_SMITH" value="124" desc="Kingsford Smith" />
+    <value name="125_LINDSAY" value="125" desc="Lindsay" />
+    <value name="126_LOWE" value="126" desc="Lowe" />
+    <value name="127_LYNE" value="127" desc="Lyne" />
+    <value name="128_MACARTHUR" value="128" desc="Macarthur" />
+    <value name="129_MACKELLAR" value="129" desc="Mackellar" />
+    <value name="130_MACQUARIE" value="130" desc="Macquarie" />
+    <value name="131_ITCHELL" value="131" desc="itchell" />
+    <value name="132_NEW_ENGLAND" value="132" desc="New England" />
+    <value name="133_NEWCASTLE" value="133" desc="Newcastle" />
+    <value name="134_NORTH_SYDNEY" value="134" desc="North Sydney" />
+    <value name="135_PAGE" value="135" desc="Page" />
+    <value name="136_PARKES" value="136" desc="Parkes" />
+    <value name="137_PARRAMATTA" value="137" desc="Parramatta" />
+    <value name="138_PATERSON" value="138" desc="Paterson" />
+    <value name="139_PROSPECT" value="139" desc="Prospect" />
+    <value name="140_REID" value="140" desc="Reid" />
+    <value name="141_RICHMOND" value="141" desc="Richmond" />
+    <value name="142_RIVERINA" value="142" desc="Riverina" />
+    <value name="143_ROBERTSON" value="143" desc="Robertson" />
+    <value name="144_SHORTLAND" value="144" desc="Shortland" />
+    <value name="145_SYDNEY" value="145" desc="Sydney" />
+    <value name="146_THROSBY" value="146" desc="Throsby" />
+    <value name="147_WARRINGAH" value="147" desc="Warringah" />
+    <value name="148_WATSON" value="148" desc="Watson" />
+    <value name="149_WENTWORTH" value="149" desc="Wentworth" />
+    <value name="150_WERRIWA" value="150" desc="Werriwa" />
+    <value name="199_NOT_APPLICABLE_NSW" value="199" desc="Not Applicable (NSW)" />
+    <value name="201_ASTON" value="201" desc="Aston" />
+    <value name="202_BALLARAT" value="202" desc="Ballarat" />
+    <value name="203_BATMAN" value="203" desc="Batman" />
+    <value name="204_BENDIGO" value="204" desc="Bendigo" />
+    <value name="205_BRUCE" value="205" desc="Bruce" />
+    <value name="206_CALWELL" value="206" desc="Calwell" />
+    <value name="207_CASEY" value="207" desc="Casey" />
+    <value name="208_CHISHOLM" value="208" desc="Chisholm" />
+    <value name="209_CORANGAMITE" value="209" desc="Corangamite" />
+    <value name="210_CORIO" value="210" desc="Corio" />
+    <value name="211_DEAKIN" value="211" desc="Deakin" />
+    <value name="212_DUNKLEY" value="212" desc="Dunkley" />
+    <value name="213_FLINDERS" value="213" desc="Flinders" />
+    <value name="214_GELLIBRAND" value="214" desc="Gellibrand" />
+    <value name="215_GIPPSLAND" value="215" desc="Gippsland" />
+    <value name="216_GOLDSTEIN" value="216" desc="Goldstein" />
+    <value name="217_GORTON" value="217" desc="Gorton" />
+    <value name="218_HIGGINS" value="218" desc="Higgins" />
+    <value name="219_HOLT" value="219" desc="Holt" />
+    <value name="220_HOTHAM" value="220" desc="Hotham" />
+    <value name="221_INDI" value="221" desc="Indi" />
+    <value name="222_ISAACS" value="222" desc="Isaacs" />
+    <value name="223_JAGAJAGA" value="223" desc="Jagajaga" />
+    <value name="224_KOOYONG" value="224" desc="Kooyong" />
+    <value name="225_LA_TROBE" value="225" desc="La Trobe" />
+    <value name="226_LALOR" value="226" desc="Lalor" />
+    <value name="227_MALLEE" value="227" desc="Mallee" />
+    <value name="228_MARIBYRNONG" value="228" desc="Maribyrnong" />
+    <value name="229_MCEWEN" value="229" desc="McEwen" />
+    <value name="230_MCMILLAN" value="230" desc="McMillan" />
+    <value name="231_MELBOURNE" value="231" desc="Melbourne" />
+    <value name="232_MELBOURNE_PORTS" value="232" desc="Melbourne Ports" />
+    <value name="233_MENZIES" value="233" desc="Menzies" />
+    <value name="234_MURRAY" value="234" desc="Murray" />
+    <value name="235_SCULLIN" value="235" desc="Scullin" />
+    <value name="236_WANNON" value="236" desc="Wannon" />
+    <value name="237_WILLS" value="237" desc="Wills" />
+    <value name="299_NOT_APPLICABLE_VIC" value="299" desc="Not Applicable (VIC)" />
+    <value name="301_BLAIR" value="301" desc="Blair" />
+    <value name="302_BONNER" value="302" desc="Bonner" />
+    <value name="303_BOWMAN" value="303" desc="Bowman" />
+    <value name="304_BRISBANE" value="304" desc="Brisbane" />
+    <value name="305_CAPRICORNIA" value="305" desc="Capricornia" />
+    <value name="306_DAWSON" value="306" desc="Dawson" />
+    <value name="307_DICKSON" value="307" desc="Dickson" />
+    <value name="308_FADDEN" value="308" desc="Fadden" />
+    <value name="309_FAIRFAX" value="309" desc="Fairfax" />
+    <value name="310_FISHER" value="310" desc="Fisher" />
+    <value name="311_FORDE" value="311" desc="Forde" />
+    <value name="312_GRIFFITH" value="312" desc="Griffith" />
+    <value name="313_GROOM" value="313" desc="Groom" />
+    <value name="314_HERBERT" value="314" desc="Herbert" />
+    <value name="315_HINKLER" value="315" desc="Hinkler" />
+    <value name="316_KENNEDY" value="316" desc="Kennedy" />
+    <value name="317_LEICHHARDT" value="317" desc="Leichhardt" />
+    <value name="318_LILLEY" value="318" desc="Lilley" />
+    <value name="319_LONGMAN" value="319" desc="Longman" />
+    <value name="320_MARANOA" value="320" desc="Maranoa" />
+    <value name="321_MCPHERSON" value="321" desc="McPherson" />
+    <value name="322_MONCRIEFF" value="322" desc="Moncrieff" />
+    <value name="323_MORETON" value="323" desc="Moreton" />
+    <value name="324_OXLEY" value="324" desc="Oxley" />
+    <value name="325_PETRIE" value="325" desc="Petrie" />
+    <value name="326_RANKIN" value="326" desc="Rankin" />
+    <value name="327_RYAN" value="327" desc="Ryan" />
+    <value name="328_WIDE_BAY" value="328" desc="Wide Bay" />
+    <value name="399_NOT_APPLICABLE_QLD" value="399" desc="Not Applicable (QLD)" />
+    <value name="401_ADELAIDE" value="401" desc="Adelaide" />
+    <value name="402_BARKER" value="402" desc="Barker" />
+    <value name="403_BOOTHBY" value="403" desc="Boothby" />
+    <value name="404_GREY" value="404" desc="Grey" />
+    <value name="405_HINDMARSH" value="405" desc="Hindmarsh" />
+    <value name="406_KINGSTON" value="406" desc="Kingston" />
+    <value name="407_MAKIN" value="407" desc="Makin" />
+    <value name="408_MAYO" value="408" desc="Mayo" />
+    <value name="409_PORT_ADELAIDE" value="409" desc="Port Adelaide" />
+    <value name="410_STURT" value="410" desc="Sturt" />
+    <value name="411_WAKEFIELD" value="411" desc="Wakefield" />
+    <value name="499_NOT_APPLICABLE_SA" value="499" desc="Not Applicable (SA)" />
+    <value name="501_BRAND" value="501" desc="Brand" />
+    <value name="502_CANNING" value="502" desc="Canning" />
+    <value name="503_COWAN" value="503" desc="Cowan" />
+    <value name="504_CURTIN" value="504" desc="Curtin" />
+    <value name="505_FORREST" value="505" desc="Forrest" />
+    <value name="506_FREMANTLE" value="506" desc="Fremantle" />
+    <value name="507_HASLUCK" value="507" desc="Hasluck" />
+    <value name="508_KALGOORLIE" value="508" desc="Kalgoorlie" />
+    <value name="509_MOORE" value="509" desc="Moore" />
+    <value name="510_OCONNOR" value="510" desc="O'Connor" />
+    <value name="511_PEARCE" value="511" desc="Pearce" />
+    <value name="512_PERTH" value="512" desc="Perth" />
+    <value name="513_STIRLING" value="513" desc="Stirling" />
+    <value name="514_SWAN" value="514" desc="Swan" />
+    <value name="515_TANGNEY" value="515" desc="Tangney" />
+    <value name="599_NOT_APPLICABLE_WA" value="599" desc="Not Applicable (WA)" />
+    <value name="601_BASS" value="601" desc="Bass" />
+    <value name="602_BRADDON" value="602" desc="Braddon" />
+    <value name="603_DENISON" value="603" desc="Denison" />
+    <value name="604_FRANKLIN" value="604" desc="Franklin" />
+    <value name="605_LYONS" value="605" desc="Lyons" />
+    <value name="699_NOT_APPLICABLE_TAS" value="699" desc="Not Applicable (TAS)" />
+    <value name="701_LINGIARI" value="701" desc="Lingiari" />
+    <value name="702_SOLOMON" value="702" desc="Solomon" />
+    <value name="799_NOT_APPLICABLE_NT" value="799" desc="Not Applicable (NT)" />
+    <value name="801_CANBERRA" value="801" desc="Canberra" />
+    <value name="802_FRASER" value="802" desc="Fraser" />
+    <value name="899_NOT_APPLICABLE_ACT" value="899" desc="Not Applicable (ACT)" />
+    <value name="999_NOT_APPLICABLE" value="999" desc="Not Applicable" />
+  </enum>
+   
+  <!--SessionType-->
+  <enum name="SessionType">
+    <value name="0827_FULL_SCHOOL_YEAR" value="0827" desc="Full school year" />
+    <value name="0828_SEMESTER" value="0828" desc="Semester" />
+    <value name="0829_TRIMESTER" value="0829" desc="Trimester" />
+    <value name="0830_QUARTER" value="0830" desc="Quarter" />
+    <value name="0832_MINITERM" value="0832" desc="Mini-term" />
+    <value name="0833_SUMMER_TERM" value="0833" desc="Summer term" />
+    <value name="0837_TWELVE_MONTH" value="0837" desc="Twelve month" />
+    <value name="9999_OTHER" value="9999" desc="Other" />
+  </enum>
+   
+  
+  <!--AttendanceCode-->
+  <object name="AttendanceCode">
+    <element name="Code" enum="AttendanceCodeType" flags="M">
+      <desc>Code representing the absence/attendance.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+ 	
+
+  <!--AttendanceCodeType-->
+  <enum name="AttendanceCodeType">
+    <value name="0_NOT_MARKED" value="0" desc="Not Marked" />
+    <value name="100_PRESENT" value="100" desc="Present" />
+    <value name="101_ABSENT_GENERAL" value="101" desc="Absent - General" />
+    <value name="111_LATE_ARRIVAL_AT_SCHOOL" value="111" desc="Late arrival at School" />
+    <value name="112_EARLY_DEPARTURE_FROM" value="112" desc="Early departure from School" />
+    <value name="113_LATE_ARRIVAL_UNEXPLAINED" value="113" desc="Late arrival unexplained" />
+    <value name="114_EARLY_DEPARTURE_UNEXPLAINED" value="114" desc="Early departure unexplained" />
+    <value name="116_LATE_ARRIVAL_TO_CLASS" value="116" desc="Late arrival to Class" />
+    <value name="117_EARLY_LEAVER_FROM" value="117" desc="Early leaver from Class" />
+    <value name="118_LATE_CLASS_UNEXPLAINED" value="118" desc="Late Class Unexplained " />
+    <value name="119_EARLY_CLASS_UNEXPLAINED" value="119" desc="Early Class Unexplained" />
+    <value name="200_MEDICAL" value="200" desc="Medical" />
+    <value name="201_ILLNESS" value="201" desc="Illness" />
+    <value name="202_ACCIDENT" value="202" desc="Accident" />
+    <value name="203_COUNSELLING" value="203" desc="Counselling" />
+    <value name="204_SICK_BAY" value="204" desc="Sick Bay" />
+    <value name="205_MEDICAL_APPOINTMENT" value="205" desc="Medical Appointment" />
+    <value name="206_HOSPITALISED" value="206" desc="Hospitalised" />
+    <value name="207_QUARANTINE" value="207" desc="Quarantine" />
+    <value name="208_REFUSAL" value="208" desc="Refusal" />
+    <value name="209_DENTIST" value="209" desc="Dentist " />
+    <value name="210_MEDICAL_WELFARE" value="210" desc="Medical/Welfare" />
+    <value name="211_BEREAVEMENT" value="211" desc="Bereavement" />
+    <value name="300_TRUANCY" value="300" desc="Truancy" />
+    <value name="400_SUSPENSION" value="400" desc="Suspension" />
+    <value name="401_SUSPENSION_EXTERNAL" value="401" desc="Suspension - External" />
+    <value name="500_UNEXPLAINED" value="500" desc="Unexplained" />
+    <value name="600_EDUCATIONAL" value="600" desc="Educational" />
+    <value name="601_GROUP_ACTIVITY" value="601" desc="Group Activity" />
+    <value name="602_COMMUNITY_SERVICE" value="602" desc="Community Service" />
+    <value name="603_DUTY_STUDENT" value="603" desc="Duty Student" />
+    <value name="604_EXCURSION" value="604" desc="Excursion" />
+    <value name="605_SPECIAL_EVENT" value="605" desc="Special Event" />
+    <value name="606_CAMP" value="606" desc="Camp" />
+    <value name="607_OT_EDUCATIONAL_ACTIVITY" value="607" desc="Other Educational Activity" />
+    <value name="608_OFFSITE_LEARNING_PROGRAM_EG_TAFE" value="608" desc="Off-Site Learning Program (eg. TAFE)" />
+    <value name="609_WORK_EXPERIENCE" value="609" desc="Work Experience" />
+    <value name="610_SCHOOL_PRODUCTION" value="610" desc="School Production" />
+    <value name="611_SPORTS" value="611" desc="Sports" />
+    <value name="612_STUDY_LEAVE" value="612" desc="Study Leave" />
+    <value name="700_FLAGS" value="700" desc="Flags" />
+    <value name="701_EXIT" value="701" desc="Exit" />
+    <value name="702_TRANSFERRED" value="702" desc="Transferred" />
+    <value name="800_PARENT_CHOICE" value="800" desc="Parent Choice" />
+    <value name="801_PARENTAL_ARRANGEMENT" value="801" desc="Parental Arrangement" />
+    <value name="802_EXEMPT" value="802" desc="Exempt" />
+    <value name="803_PARENTAL_ACKNOWLEDGEMENT" value="803" desc="Parental Acknowledgement" />
+    <value name="804_EXTENDED_FAMILY_HOLIDAYS" value="804" desc="Extended Family Holidays" />
+    <value name="805_RELIGIOUS_CULTURAL" value="805" desc="Religious/Cultural Observance" />
+    <value name="900_SCHOOL_CHOICE" value="900" desc="School Choice" />
+    <value name="901_INDUSTRIAL_ACTION" value="901" desc="Industrial Action" />
+    <value name="902_FACILITY_DAMAGE" value="902" desc="Facility Damage" />
+    <value name="903_WEATHER" value="903" desc="Weather" />
+    <value name="904_STAFF_MEETING" value="904" desc="Staff Meeting" />
+    <value name="999_OTHER" value="999" desc="Other" />
+  </enum>
+
+  <!--Campus-->
+  <object name="Campus">
+    <element name="SchoolCampusId" type="String" flags="M">
+      <desc>Campus ID  - Needs to be considered as part of School. Different Campus' have different addresses</desc>
+    </element>
+    <element name="CampusType" enum="CampusAUSchoolLevelType" flags="O">
+      <desc>Type of Campus</desc>
+    </element>
+    <element name="AdminStatus" enum="AUCodeSetsYesOrNoCategoryType" flags="M">
+      <desc>Is this Campus the Admin Campus?</desc>
+    </element>
+  </object>
+  
+  <!--CampusAUSchoolLevelType-->
+  <enum name="CampusAUSchoolLevelType">
+    <value name="CAMP" value="Camp" desc="Camp" />
+    <value name="Kind_PRESCHOOL_KINDERGARTEN" value="Kind" desc="Preschool/Kindergarten" />
+    <value name="Lang_LANGUAGE" value="Lang" desc="Language" />
+    <value name="Middle_MIDDLE_SCHOOL" value="Middle" desc="Middle School" />
+    <value name="OTHER" value="Other" desc="Other" />
+    <value name="Pri_Sec_PRIMARY_SECONDAY" value="Pri/Sec" desc="Primary/Seconday Combined" />
+    <value name="Prim_PRIMARY" value="Prim" desc="Primary" />
+    <value name="Sec_SECONDARY" value="Sec" desc="Secondary" />
+    <value name="Senior_SENIOR_SECONDARY" value="Senior" desc="Senior Secondary School" />
+    <value name="SPECIAL" value="Special" desc="Special" />
+    <value name="Specif_SPECIFIC_PURPOSE" value="Specif" desc="Specific Purpose" />
+    <value name="Supp_SUPPORTCENTRE" value="Supp" desc="SupportCentre" />
+    <value name="UNKNOWN" value="Unknown" desc="Unknown" />
+    <value name="EarlyCh_EARLY_CHILDHOOD" value="EarlyCh" desc="Early Childhood" />
+    <value name="JunPri_JUNIOR_PRIMARY" value="JunPri" desc="Junior Primary" />
+    <value name="Commty_COMMUNITY_COLLEGE" value="Commty" desc="Community College" />
+  </enum>
+
+  
+  <!--ContactName-->
+  <object name="ContactName">
+    <attribute name="Type" type="String" flags="R"> </attribute>
+    <element name="Title" type="String" flags="O">
+      <desc>A title or prefix associated with the name. If any of: Mr, Mrs, Ms, Miss, Rev, Fr, Dr, Prof, Hon, Sir, Lord, Lady - these must be as shown, otherwise free text. Note that title is not applicable to learners.</desc>
+    </element>
+    <element name="FamilyName" type="String" flags="O">
+      <desc>Family name. That part of the person's name which is used to describe family, clan, tribal group, or marital association. Note that this element is required when known. However, it may not be possible to know the family name in which case you should add the available information to the FullName element.</desc>
+    </element>
+    <element name="GivenName" type="String" flags="O">
+      <desc>Given name of the person. Note that this element is required if known. However, it may not be possible to know the given name in which case you should add the available information to the FullName element.</desc>
+    </element>
+    <element name="MiddleName" type="String" flags="O">
+      <desc>All other given or middle names, each separated with a single space character.</desc>
+    </element>
+    <element name="FamilyNameFirst" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>An indicator used to identify the naming conventions used by some predominantly non-European, ethnic or language groups and related to the display nature of a name.</desc>
+    </element>
+    <element name="PreferredFamilyName" type="String" flags="O">
+      <desc>The family name preferred most by the person (as written).</desc>
+    </element>
+    <element name="PreferredFamilyNameFirst" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>An indicator used to identify the naming conventions used by some predominantly non-European, ethnic or language groups and related to the display nature of a name.</desc>
+    </element>
+    <element name="PreferredGivenName" type="String" flags="O">
+      <desc>The given name preferred most by the person (as written).</desc>
+    </element>
+    <element name="Suffix" type="String" flags="O">
+      <desc>Textual suffix like PHD, JP, BSc.</desc>
+    </element>
+    <element name="FullName" type="String" flags="O">
+      <desc>A free text field for the complete name for display purposes. If this is associated with a StudentPersonal,StaffPersonal or StudentContactPersonal record and the FamilyName and GivenName are not both specified, then this becomes mandatory.</desc>
+    </element>
+  </object>
+
+  
+  <!--OtherLEASIF_RefObject-->
+  <enum name="OtherLEASIF_RefObject">
+    <value name="LEAINFO" value="LEAInfo" desc="LEAInfo" />
+  </enum>
+   
+  <!--OtherLEA-->
+  <object name="OtherLEA">
+    <attribute name="SIF_RefObject" enum="OtherLEASIF_RefObject" flags="R">
+      <desc>The name of the object reference.</desc>
+    </attribute>
+  </object>
+  
+  <!--PictureSource-->
+  <object name="PictureSource">
+    <attribute name="Type" enum="PictureSourceType" flags="R">
+      <desc>The way the picture is specified.</desc>
+    </attribute>
+  </object>
+  
+  <!--PictureSourceType-->
+  <enum name="PictureSourceType">
+    <value name="01_URL" value="01" desc="URL" />
+    <value name="02_JPG" value="02" desc="JPG" />
+    <value name="03_BITMAP" value="03" desc="Bitmap" />
+    <value name="04_GIF" value="04" desc="Gif" />
+    <value name="05_PIF" value="05" desc="PIF" />
+    <value name="06_PDF" value="06" desc="PDF" />
+    <value name="09_OTHER" value="09" desc="Other" />
+    <value name="10_MIME" value="10" desc="MIME" />
+  </enum>
+  
+  <enum name="AUCodeSetsYesOrNoCategoryType">
+    <value name="YES" value="Y" desc="Yes" />
+    <value name="NO" value="N" desc="No" />
+    <value name="UNKNOWN" value="U" desc="Unknown" />
+    <value name="NOT_PROVIDED" value="X" desc="Not Provided" />
+  </enum>
+  
+    <!--EducationFilter object-->
+    <object name="EducationFilter">
+        <element name="LearningStandardItems" type="LearningStandardItems" flags="O">
+            <desc>Allows any SIF object to be correlated to learning standards.</desc>
+        </element>
+    </object>
+    
+    <object name="LearningStandardItems">
+        <element name="LearningStandardItemRefId" type="LearningStandardItemRefId" flags="MR"/>
+    </object>
+
+    <object name="LearningStandardItemRefId" datatype="IdRefType"/>
+
+  <!--PartialDateType object-->
+  <object name="PartialDateType" dataType="String">
+    <desc>A Date, with an optional month/day, or an optional month by itself.</desc>
+  </object>
+
+  <!--ACStrandSubjectArea object-->
+  <object name="ACStrandSubjectArea">
+        <element name="ACStrand" enum="AUCodeSetsACStrandType" flags="M"/>
+        <element name="SubjectArea" type="SubjectArea" flags="O"/>    
+  </object>
+  
+  
+  <enum name="AUCodeSetsACStrandType">
+    <value name="ENGLISH" value="E" desc="English" />
+    <value name="GEOGRAPHY" value="G" desc="Geography" />
+    <value name="HISTORY" value="H" desc="History" />
+    <value name="MATHEMATICS" value="M" desc="Mathematics" />
+    <value name="ARTS" value="NPA" desc="Arts" />
+    <value name="OTHER_LANGUAGES" value="NPL" desc="Languages other than English" />
+    <value name="HEALT_PHYSICAL_EDU" value="NPP" desc="Health and Physical Education" />
+    <value name="TECHNOLOGY" value="NPT" desc="Technology" />
+    <value name="SOCIETY_ENVIRONMENT" value="NPV" desc="Studies of society and environment" />
+    <value name="SCIENCE" value="S" desc="Science" />
+  </enum>
+
+    <object name="Year" datatype="int"/>
+
+
+  <!--BinaryData object-->
+  <object name="BinaryData" datatype="String">
+    <desc>Contains the base64Binary encoding of binary or text data not encoded in UTF-8.</desc>
+    <attribute name="MIMEType" type="String" flags="M">
+      <desc>Optional MIME type to specifically indicate the text type. Otherwise text/plain can be assumed.</desc>
+    </attribute>
+    <attribute name="FileName" type="String" flags="O">
+      <desc>Optional file name to indicate the file from which the content originated, or to suggest a name to use when saving the content.</desc>
+    </attribute>
+    <attribute name="Description" type="String" flags="O">
+      <desc>Contains an optional description of the content or a processing hint with regard to its structure (e.g. named standard, file layout or XSD). Contents may be mandated in instances of this type, or types that follow the AbstractContentPackageType pattern.</desc>
+    </attribute>
+  </object>
+
+  <!--TextData object-->
+  <object name="TextData" datatype="String">
+    <desc>Contains arbitrary text, encoded in UTF-8.</desc>
+    <attribute name="MIMEType" type="String" flags="O">
+      <desc>Optional MIME type to specifically indicate the text type. Otherwise text/plain can be assumed.</desc>
+    </attribute>
+    <attribute name="FileName" type="String" flags="O">
+      <desc>Optional file name to indicate the file from which the content originated, or to suggest a name to use when saving the content.</desc>
+    </attribute>
+    <attribute name="Description" type="String" flags="O">
+      <desc>Contains an optional description of the content or a processing hint with regard to its structure (e.g. named standard, file layout or XSD). Contents may be mandated in instances of this type, or types that follow the AbstractContentPackageType pattern.</desc>
+    </attribute>
+  </object>
+
+  <!--Reference object-->
+  <object name="Reference" datatype="String">
+    <desc>References external content via a URL.</desc>
+    <attribute name="MIMEType" type="String" flags="M">
+      <desc>MIME type to indicate the content type to be expected when retrieving the external content.</desc>
+    </attribute>
+    <attribute name="Description" type="String" flags="O">
+      <desc>Contains an optional description of the content or a processing hint with regard to its structure (e.g. named standard, file layout or XSD). Contents may be mandated in instances of this type, or types that follow the AbstractContentPackageType pattern.</desc>
+    </attribute>
+    <element name="URL" type="String" flags="M">
+      <desc>Location of external content.</desc>
+    </element>
+  </object>
+
+
+  <object name="AbstractContentElementType">
+    <element name="XMLData" type="XMLData" flags="O"/>
+    <element name="TextData" type="TextData" flags="O"/>
+    <element name="BinaryData" type="BinaryData" flags="O"/>
+    <element name="Reference" type="Reference" flags="O"/>
+  </object>
+
+
+  <!--Location-->
+  <object name="Location">
+    <attribute name="Type" enum="LocationType" flags="O" />
+    <element name="LocationName" type="String" flags="O">
+      <desc>Name of the location.</desc>
+    </element>
+    <element name="LocationRefId" type="LocationRefId" flags="O" />
+  </object>
+
+  <!--LocationRefId-->
+  <object name="LocationRefId">
+    <attribute name="SIF_RefObject" enum="LocationRefIdSIF_RefObject" flags="R">
+      <desc>Type of SIF Object</desc>
+    </attribute>
+  </object>
+
+  <!--LocationRefIdSIF_RefObject-->
+  <enum name="LocationRefIdSIF_RefObject">
+    <value name="SCHOOLINFO" value="SchoolInfo" desc="SchoolInfo" />
+    <value name="LEAINFO" value="LEAInfo" desc="LEAInfo" />
+    <value name="ROOMINFO" value="RoomInfo" desc="RoomInfo" />
+  </enum>
+    
+    <!--LocationType-->
+  <enum name="LocationType">
+    <value name="CLASSROOM" value="Classroom" desc="Classroom" />
+    <value name="SCHOOL" value="School" desc="School" />
+    <value name="DISTRICT" value="District" desc="District" />
+    <value name="CAMPUS" value="Campus" desc="Campus" />
+    <value name="INTERMEDIATEUNIT" value="IntermediateUnit" desc="IntermediateUnit" />
+    <value name="STATEEDUCATIONAGENCY" value="StateEducationAgency" desc="StateEducationAgency" />
+    <value name="NONINSTRUCTIONALSPACE" value="NonInstructionalSpace" desc="NonInstructionalSpace" />
+    <value name="ATHLETICVENUE" value="AthleticVenue" desc="AthleticVenue" />
+    <value name="OTHER" value="Other" desc="Other" />
+  </enum>
+
+  <!--AUCodeSetsAssessmentReportingMethodType enum-->
+  <enum name="AUCodeSetsAssessmentReportingMethodType">
+    <value name="0144" value="0144" desc="Letter grade/mark" />
+    <value name="0490" value="0490" desc="Age score" />
+    <value name="0492" value="0492" desc="Tertiary admission examination score" />
+    <value name="0493" value="0493" desc="Year equivalent or year-level indicator" />
+    <value name="0497" value="0497" desc="Normal curve equivalent" />
+    <value name="0498" value="0498" desc="Normalized standard score" />
+    <value name="0499" value="0499" desc="Number score" />
+    <value name="0500" value="0500" desc="Pass-fail" />
+    <value name="0502" value="0502" desc="Percentile rank" />
+    <value name="0503" value="0503" desc="Proficiency level" />
+    <value name="0504" value="0504" desc="Ranking" />
+    <value name="0506" value="0506" desc="Standard age score" />
+    <value name="0512" value="0512" desc="Achievement/proficiency level" />
+    <value name="0513" value="0513" desc="Mastery level" />
+    <value name="3473" value="3473" desc="Graduation score" />
+    <value name="3474" value="3474" desc="Growth/value-added/indexing" />
+    <value name="3475" value="3475" desc="International Baccalaureate score" />
+    <value name="3476" value="3476" desc="Percentile" />
+    <value name="3478" value="3478" desc="Raw score" />
+    <value name="3479" value="3479" desc="Scale score" />
+    <value name="3480" value="3480" desc="Workplace readiness score" />
+    <value name="9999" value="9999" desc="Other" />
+  </enum>
+
+  <!--AUCodeSetsEmploymentTypeType enum-->
+  <enum name="AUCodeSetsEmploymentTypeType">
+    <value name="1_SEN_MGM" value="1" desc="Senior management in large business organisation, government administration and defence and qualified professionals." />
+    <value name="2_OTHER_MGR" value="2" desc="Other business manages, arts/media/sportspersons and associate professionals" />
+    <value name="3_TRADIES" value="3" desc="Tradsesmen/women, clerks and skilled office, sales and service staff" />
+    <value name="4_LABOURERS" value="4" desc="Machine Operators, hospitality staff, assistants, labourers and related workers" />
+    <value name="8_OUT_OF_EMPLOYMENT" value="8" desc="Out of employed work for 12 months or more (If less use previous occupational group.)" />
+    <value name="9_UNKNOWN" value="9" desc="Unknown" />
+  </enum>
+  
+  <!--AUCodeSetsSchoolEducationLevelTypeType enum-->
+  <enum name="AUCodeSetsSchoolEducationLevelTypeType">
+    <value name="0_UNK_NOT_STATED" value="0" desc="Not stated/Unknown" />
+    <value name="1_YEAR9" value="1" desc="Year 9 or equivalent or below" />
+    <value name="2_YEAR10" value="2" desc="Year 10 or equivalent" />
+    <value name="3_YEAR11" value="3" desc="Year 11 or equivalent" />
+    <value name="4_YEAR12" value="4" desc="Year 12 or equivalent" />
+  </enum>
+  
+    <!--AUCodeSetsNonSchoolEducationType enum-->
+  <enum name="AUCodeSetsNonSchoolEducationType">
+    <value name="0_UNK_NOT_STATED" value="0" desc="Not stated/Unknown" />
+    <value name="5_CERT_I_IV" value="5" desc="Certificate I to IV (including trade certificate)" />
+    <value name="6_ADV_DIPLOMA" value="6" desc="Advanced diploma/Diploma" />
+    <value name="7_BACHELOR" value="7" desc="Bachelor degree or above" />
+    <value name="8_NONE" value="8" desc="No non-school qualification" />
+  </enum>
+
+    <!--AUCodeSetsStaffStatusType enum-->
+  <enum name="AUCodeSetsStaffStatusType">
+    <value name="ACTIVE" value="A" desc="Active" />
+    <value name="INACTIVE" value="I" desc="Inactive" />
+    <value name="ON_LEAVE" value="O" desc="On Leave" />
+  </enum>
+
+
+
+	<!--Topics enum-->
+	<enum name="Topics">
+		<value name="ATTENDANCECODEINFO" value="AttendanceCodeInfo"
+			desc="AttendanceCodeInfo" />
+		<value name="CALENDARDATE" value="CalendarDate"
+			desc="CalendarDate" />
+		<value name="CALENDARSUMMARY" value="CalendarSummary"
+			desc="CalendarSummary" />
+		<value name="ROOMINFO" value="RoomInfo" desc="RoomInfo" />
+		<value name="SCHOOLCOURSEINFO" value="SchoolCourseInfo"
+			desc="SchoolCourseInfo" />
+		<value name="SCHOOLINFO" value="SchoolInfo" desc="SchoolInfo" />
+		<value name="SESSIONINFO" value="SessionInfo"
+			desc="SessionInfo" />
+		<value name="SIF_AGENTACL" value="SIF_AgentACL"
+			desc="SIF_AgentACL" />
+		<value name="SIF_LOGENTRY" value="SIF_LogEntry"
+			desc="SIF_LogEntry" />
+		<value name="SIF_ZONESTATUS" value="SIF_ZoneStatus"
+			desc="SIF_ZoneStatus" />
+		<value name="STAFFASSIGNMENT" value="StaffAssignment"
+			desc="StaffAssignment" />
+		<value name="STAFFPERSONAL" value="StaffPersonal"
+			desc="StaffPersonal" />
+		<value name="STUDENTATTENDANCESUMMARY"
+			value="StudentAttendanceSummary" desc="StudentAttendanceSummary" />
+		<value name="STUDENTCONTACT" value="StudentContact"
+			desc="StudentContact" />
+		<value name="STUDENTDAILYATTENDANCE"
+			value="StudentDailyAttendance" desc="StudentDailyAttendance" />
+		<value name="STUDENTPARTICIPATION" value="StudentParticipation"
+			desc="StudentParticipation" />
+		<value name="STUDENTPERIODATTENDANCE"
+			value="StudentPeriodAttendance" desc="StudentPeriodAttendance" />
+		<value name="STUDENTPERSONAL" value="StudentPersonal"
+			desc="StudentPersonal" />
+		<value name="STUDENTPICTURE" value="StudentPicture"
+			desc="StudentPicture" />
+		<value name="STUDENTSCHOOLENROLLMENT"
+			value="StudentSchoolEnrollment" desc="StudentSchoolEnrollment" />
+		<value name="STUDENTSNAPSHOT" value="StudentSnapshot"
+			desc="StudentSnapshot" />
+		<value name="TEACHINGGROUP" value="TeachingGroup"
+			desc="TeachingGroup" />
+		<value name="TIMETABLE" value="TimeTable" desc="TimeTable" />
+		<value name="TIMETABLECELL" value="TimeTableCell"
+			desc="TimeTableCell" />
+		<value name="TIMETABLESUBJECT" value="TimeTableSubject"
+			desc="TimeTableSubject" />
+        <value name="SYSTEMROLE" value="SystemRole"
+            desc="SystemRole" />
+        <value name="LEARNINGSTANDARDITEM" value="LearningStandardItem"
+            desc="LearningStandardItem" />
+        <value name="LEARNINGSTANDARDDOCUMENT" value="LearningStandardDocument"
+            desc="LearningStandardDocument" />
+        <value name="LEARNINGRESOURCEPACKAGE" value="LearningResourcePackage"
+            desc="LearningResourcePackage" />
+        <value name="LEARNINGRESOURCE" value="LearningResource"
+            desc="LearningResource" />
+        <value name="ASSESSMENT" value="Assessment" desc="Assessment" />
+        <value name="ASSESSMENTITEM" value="AssessmentItem" desc="AssessmentItem" />
+        <value name="ASSESSMENTREGISTRATION" value="AssessmentRegistration" desc="AssessmentRegistration" />
+        <value name="ASSESSMENTSUBTEST" value="AssessmentSubTest" desc="AssessmentSubTest" />
+        <value name="ASSESSMENTFORM" value="AssessmentForm" desc="AssessmentForm" />
+        <value name="ASSESSMENTADMINISTRATION" value="AssessmentAdministration" desc="AssessmentAdministration" />
+        <value name="ASSESSMENTPACKAGE" value="AssessmentPackage" desc="AssessmentPackage" />    
+        <value name="STUDENTSCORESET" value="StudentScoreSet" desc="StudentScoreSet" />    
+	    <value name="AGGREGATECHARACTERISTICINFO" value="AggregateCharacteristicInfo" desc="AggregateCharacteristicInfo" />
+	    <value name="AGGREGATESTATISTICFACT" value="AggregateStatisticFact" desc="AggregateStatisticFact" />
+	    <value name="AGGREGATESTATISTICINFO" value="AggregateStatisticInfo" desc="AggregateStatisticInfo" />
+        <value name="RESOURCEUSAGE" value="ResourceUsage" desc="ResourceUsage" />
+	</enum>
+
+</adk>

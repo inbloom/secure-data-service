@@ -1,0 +1,149 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s) -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.3 catering objects             -->
+<!-- ======================================== -->
+<adk package="catering" version="2.3" name="Catering" namespace="http://www.sifinfo.org/uk/infrastructure/2.x">
+
+  <!--PersonDietaryPreference-->
+  <object name="PersonDietaryPreference" topic="true">
+    <attribute name="RefId" type="String" flags="R" />
+    <element name="PersonRefId" type="String" flags="M">
+      <desc>The ID (GUID) of the person to whom the Dietary preference is linked.</desc>
+    </element>
+    <element name="WeeklyMealPatternList" type="WeeklyMealPatternList" flags="O" />
+    <element name="DietaryPreferenceList" type="DietaryPreferenceList" flags="O" />
+  </object>
+  
+  <!--DietaryPreferenceList-->
+  <object name="DietaryPreferenceList">
+    <element name="DietaryPreference" type="DietaryPreference" flags="MR" />
+  </object>
+
+  <!--DietaryPreference-->
+  <object name="DietaryPreference">
+    <element name="PreferenceType" enum="PreferenceType" flags="M">
+      <desc>The Type of preference</desc>
+    </element>
+    <element name="MealComponent" type="String" flags="M">
+      <desc>The component of meal</desc>
+    </element>
+    <element name="Note" type="String" flags="O">
+      <desc>A note relating to dietary preference</desc>
+    </element>
+    <element name="MealEffect" enum="MealEffect" flags="O">
+      <desc>Should the Meal component be Included or Excluded from the meal.  Default is Exclude</desc>
+    </element>
+  </object>
+  
+  <!--MealEffect-->
+  <enum name="MealEffect">
+    <value name="INCLUDE" value="Include" desc="Include" />
+    <value name="EXCLUDE" value="Exclude" desc="Exclude" />
+  </enum>
+  
+  <!--PreferenceType-->
+  <enum name="PreferenceType">
+    <value name="MEDICAL" value="Medical" desc="Medical" />
+    <value name="ALLERGY" value="Allergy" desc="Allergy" />
+    <value name="PERSONAL" value="Personal" desc="Personal" />
+    <value name="FAITH" value="Faith" desc="Faith" />
+    <value name="CULTURAL" value="Cultural" desc="Cultural" />
+  </enum>
+
+  <!--WeeklyMealPatternList-->
+  <object name="WeeklyMealPatternList">
+    <element name="WeeklyMealPattern" type="WeeklyMealPattern" flags="MR" />
+  </object>
+
+  <!--WeeklyMealPattern-->
+  <object name="WeeklyMealPattern">
+    <element name="StartDate" type="Date" flags="M">
+      <desc>Date Specific pattern starts</desc>
+    </element>
+    <element name="EndDate" type="Date" flags="M">
+      <desc>Date Specific pattern Ends.</desc>
+    </element>
+    <element name="Note" type="String" flags="O">
+      <desc>A note relating to pattern</desc>
+    </element>
+    <element name="Meals" type="Meals" flags="M" />
+  </object>
+
+  <!--Meals-->
+  <object name="Meals">
+    <element name="Meal" type="Meal" flags="MR" />
+  </object>
+
+  <!--Meal-->
+  <object name="Meal">
+    <element name="Day" enum="Day" flags="M">
+      <desc>The Day of week that Meal is required</desc>
+    </element>
+    <element name="MealTime" enum="MealTime" flags="M">
+      <desc>Which meal of the day is required</desc>
+    </element>
+    <element name="MealType" enum="MealType" flags="M">
+      <desc>What type of meal is required</desc>
+    </element>
+  </object>
+  
+ <!--Day-->
+  <enum name="Day">
+    <value name="MON" value="Mon" desc="Mon" />
+    <value name="TUE" value="Tue" desc="Tue" />
+    <value name="WED" value="Wed" desc="Wed" />
+    <value name="THU" value="Thu" desc="Thu" />
+    <value name="FRI" value="Fri" desc="Fri" />
+    <value name="SAT" value="Sat" desc="Sat" />
+    <value name="SUN" value="Sun" desc="Sun" />
+    <value name="ALL" value="All" desc="All" />
+  </enum>
+
+  <!--MealTime-->
+  <enum name="MealTime">
+    <value name="BREAKFAST" value="Breakfast" desc="Breakfast" />
+    <value name="LUNCH" value="Lunch" desc="Lunch" />
+    <value name="DINNER" value="Dinner" desc="Dinner" />
+    <value name="OTHER" value="Other" desc="Other" />
+  </enum>
+
+  <!--MealType-->
+  <enum name="MealType">
+    <value name="COOKED" value="Cooked" desc="Cooked" />
+    <value name="FIXED" value="Fixed" desc="Fixed" />
+    <value name="CHOICE" value="Choice" desc="Choice" />
+    <value name="COLD" value="Cold" desc="Cold" />
+    <value name="SANDWICH" value="Sandwich" desc="Sandwich" />
+  </enum>
+  
+  
+  <!--SchoolMealStatus-->
+  <object name="SchoolMealStatus" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The ID (GUID) that uniquely identifies a particular MealStatus reference</desc>
+    </attribute>
+    <element name="SchoolInfoRefId" type="String" flags="M">
+      <desc>The ID (GUID) of the school to which this MealStatus applies.</desc>
+    </element>
+    <element name="SchoolMealStatusDate" type="Date" flags="M">
+      <desc>The status of the school on a particular date; e.g., Status for staff; Y/N, Status for pupils Y/N</desc>
+    </element>
+    <element name="SchoolMealStatusDateSession" enum="SchoolMealStatusDateSession" flags="M">
+      <desc>AM or PM</desc>
+    </element>
+    <element name="SchoolMealStatusTier" type="SchoolMealStatusTier" flags="M" />
+  </object>
+
+  <!--SchoolMealStatusDateSession-->
+  <enum name="SchoolMealStatusDateSession">
+    <value name="AM" value="AM" desc="AM" />
+    <value name="PM" value="PM" desc="PM" />
+  </enum>
+
+  <!--SchoolMealStatusTier-->
+  <object name="SchoolMealStatusTier" />
+ 
+</adk> 

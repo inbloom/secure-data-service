@@ -1,0 +1,50 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s) -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 1.1 hrfin objects                 -->
+<!-- ======================================== -->
+<adk package="hrfin" version="1.1" name="Human Resources and Financials" namespace="http://www.sifinfo.org/infrastructure/1.x">
+  <!--Billing object-->
+  <object name="Billing" topic="true">
+    <desc>This object contains an amount to be billed to an outside entity.</desc>
+    <attribute name="RefId" flags="R">
+      <desc>GUID for this transaction. The application that owns this object is responsible for generating this unique ID. This ID can be generated using a combination of existing attributes of the object.</desc>
+    </attribute>
+    <element name="EntityId" flags="M">
+      <desc>ID of the entity being billed for this billing activity (e.g. student ID, employee ID, organization, etc.)</desc>
+    </element>
+    <element name="BillingDate" flags="M" type="SIFDate">
+      <desc>Date of the transaction.</desc>
+    </element>
+    <element name="TransactionDescription" flags="M">
+      <desc>Description of the transaction.</desc>
+    </element>
+    <element name="BilledAmount" flags="M" type="MonetaryAmount">
+      <desc>Amount to be billed.</desc>
+    </element>
+  </object>
+  <!--Payment object-->
+  <object name="Payment" topic="true">
+    <desc>This object complements the Billing object, and contains information about the payment of a billing object.</desc>
+    <attribute name="RefId" flags="R">
+      <desc>GUID for this transaction. The application that owns this object is responsible for generating this unique ID. This ID can be generated using a combination of existing attributes of the object.</desc>
+    </attribute>
+    <element name="EntityId" flags="M">
+      <desc>ID of the entity related to this billing activity (e.g. student ID, employee ID, organization, etc.)</desc>
+    </element>
+    <element name="ReceivedDate" flags="M" type="SIFDate">
+      <desc>Date payment was received.</desc>
+    </element>
+    <element name="TransactionDescription" flags="M">
+      <desc>Description of the transaction.</desc>
+    </element>
+    <element name="ReceivedAmount" type="MonetaryAmount" flags="M">
+      <desc>Amount received.</desc>
+    </element>
+    <element name="ReceivedTransactionId" flags="M">
+      <desc>Memo transaction ID from other vendor software.</desc>
+    </element>
+  </object>
+</adk>
