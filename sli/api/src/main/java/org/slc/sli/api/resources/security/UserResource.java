@@ -240,7 +240,8 @@ public class UserResource {
         if ("".equals(user.getTenant())) {
             user.setTenant(null);
         }
-        if("".equals(user.getEdorg())) {
+
+        if ("".equals(user.getEdorg())) {
             user.setEdorg(null);
         }
 
