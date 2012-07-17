@@ -2232,9 +2232,9 @@
 	<!-- GradingPeriods for the 2011-2012 school year -->
 	<GradingPeriod id="GRDP_20110822">
 		<GradingPeriodIdentity>
-			<StateOrganizationId>10000000121</StateOrganizationId>
 			<GradingPeriod>First Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
+			<StateOrganizationId>10000000121</StateOrganizationId>
 		</GradingPeriodIdentity>
 		<BeginDate>2011-08-22</BeginDate>
 		<EndDate>2011-10-09</EndDate>
@@ -2292,9 +2292,9 @@
 
 	<GradingPeriod id="GRDP_20111010">
 		<GradingPeriodIdentity>
-			<StateOrganizationId>10000000121</StateOrganizationId>
 			<GradingPeriod>Second Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
+			<StateOrganizationId>10000000121</StateOrganizationId>
 		</GradingPeriodIdentity>
 		<BeginDate>2011-10-10</BeginDate>
 		<EndDate>2011-11-27</EndDate>
@@ -2352,9 +2352,9 @@
 
 	<GradingPeriod id="GRDP_20111128">
 		<GradingPeriodIdentity>
-			<StateOrganizationId>1000000112</StateOrganizationId>
 			<GradingPeriod>Third Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
+			<StateOrganizationId>1000000112</StateOrganizationId>
 		</GradingPeriodIdentity>
 		<BeginDate>2011-11-28</BeginDate>
 		<EndDate>2012-01-22</EndDate>
@@ -2419,9 +2419,9 @@
 
 	<GradingPeriod id="GRDP_20120123">
 		<GradingPeriodIdentity>
-			<StateOrganizationId>1000000112</StateOrganizationId>
 			<GradingPeriod>Fourth Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
+			<StateOrganizationId>1000000112</StateOrganizationId>
 		</GradingPeriodIdentity>
 		<BeginDate>2012-01-23</BeginDate>
 		<EndDate>2012-03-04</EndDate>
@@ -2472,9 +2472,9 @@
 
 	<GradingPeriod id="GRDP_20120124">
 		<GradingPeriodIdentity>
-			<StateOrganizationId>1000000111</StateOrganizationId>
 			<GradingPeriod>Fifth Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
+			<StateOrganizationId>1000000111</StateOrganizationId>
 		</GradingPeriodIdentity>
 		<BeginDate>2012-03-05</BeginDate>
 		<EndDate>2012-04-15</EndDate>
@@ -2525,9 +2525,9 @@
 
 	<GradingPeriod id="GRDP_20120125">
 		<GradingPeriodIdentity>
-			<StateOrganizationId>1000000111</StateOrganizationId>
 			<GradingPeriod>Sixth Six Weeks</GradingPeriod>
 			<SchoolYear>2011-2012</SchoolYear>
+			<StateOrganizationId>1000000111</StateOrganizationId>
 		</GradingPeriodIdentity>
 		<BeginDate>2012-04-16</BeginDate>
 		<EndDate>2012-05-25</EndDate>
