@@ -30,6 +30,15 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
@@ -113,7 +122,7 @@ public class BasicService implements EntityService {
             EntityNames.STUDENT_PROGRAM_ASSOCIATION,
             EntityNames.STUDENT_SCHOOL_ASSOCIATION,
             EntityNames.STUDENT_SECTION_ASSOCIATION,
-            EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY,
+            EntityNames.STUDENT_GRADEBOOK_ENTRY,
             EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION,
             EntityNames.TEACHER,
             EntityNames.TEACHER_SCHOOL_ASSOCIATION,
@@ -128,6 +137,7 @@ public class BasicService implements EntityService {
     private Right writeRight; // this is possibly the worst named variable ever
 
     @Autowired
+    @Qualifier("validationRepo")
     private Repository<Entity> repo;
 
     @Autowired

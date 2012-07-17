@@ -56,7 +56,7 @@ db.runCommand( { shardcollection : "sli.studentDisciplineIncidentAssociation", k
 db.runCommand( { shardcollection : "sli.studentParentAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.studentProgramAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.studentSectionAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );
-db.runCommand( { shardcollection : "sli.studentSectionGradebookEntry", key : {"metaData.tenantId" : 1, "_id" : 1} } );
+db.runCommand( { shardcollection : "sli.studentGradebookEntry", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.studentSchoolAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.studentTranscriptAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );
 db.runCommand( { shardcollection : "sli.teacherSchoolAssociation", key : {"metaData.tenantId" : 1, "_id" : 1} } );

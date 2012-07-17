@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
@@ -47,6 +48,7 @@ public class StaffProgramResolver implements EntityContextResolver {
     private AssociativeContextHelper helper;
 
     @Autowired
+    @Qualifier("validationRepo")
     private Repository<Entity> repository;
 
     @Override

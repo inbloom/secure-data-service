@@ -147,7 +147,7 @@ public class TransformationProcessor implements Processor {
 
     private void handleNoBatchJobId(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
-        LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+        LOG.error("No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
     private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {

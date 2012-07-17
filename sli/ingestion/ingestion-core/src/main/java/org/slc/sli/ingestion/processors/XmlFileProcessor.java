@@ -53,9 +53,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class XmlFileProcessor implements Processor {
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.XML_FILE_PROCESSOR;
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(XmlFileProcessor.class);
-    
+
     @Autowired
     private IdRefResolutionHandler idRefResolutionHandler;
 
@@ -113,11 +113,11 @@ public class XmlFileProcessor implements Processor {
                             resource.getChecksum());
 
                     fe.setFile(new File(resource.getResourceName()));
-                    
+
                     LOG.info("Starting ID ref resolution for file entry: {} ", fe.getFileName());
                     idRefResolutionHandler.handle(fe, fe.getErrorReport());
                     LOG.info("Finished ID ref resolution for file entry: {} ", fe.getFileName());
-                    
+
                     hasErrors = aggregateAndPersistErrors(batchJobId, fe);
                 } else {
                     LOG.warn("Warning: The resource {} is not an EDFI format.", resource.getResourceName());
@@ -167,7 +167,7 @@ public class XmlFileProcessor implements Processor {
     private void missingBatchJobIdError(Exchange exchange) {
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+        LOG.error("No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
     public IdRefResolutionHandler getIdRefResolutionHandler() {

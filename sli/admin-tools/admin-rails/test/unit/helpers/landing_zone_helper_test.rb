@@ -86,7 +86,7 @@ Nb28W0C5u7TvZrWgWTPbR6sZ2lK1dsmaXa+dsPWwHnvBPEGImThe/nyqIvpyIGXvlMd+4I
   	#check keyFile contents
   	keyFile = File.open(keyFilePath, 'rb')
 	contents = keyFile.read
-  	assert_equal "the_key", contents
+  	assert_equal "the_key\n", contents
   end
 
   test "OpenSSH style RSA key should be convertable to a valid RSA key" do

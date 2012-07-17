@@ -2460,7 +2460,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>1st Grade Homeroom</ID>
         </CourseCode>
-        <SessionName>Fall 2011 South Daybreak Elementary</SessionName>
+        <Term>Fall Semester</Term>
+	<SchoolYear>2011-2012</SchoolYear>
+	<!--<SessionName>Fall 2011 South Daybreak Elementary</SessionName>-->
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
@@ -2488,7 +2490,9 @@
         <CourseCode IdentificationSystem="CSSC course code">
           <ID>Kindergarten Homeroom</ID>
         </CourseCode>
-        <SessionName>Fall 2010 South Daybreak Elementary</SessionName>
+        <Term>Fall Semester</Term>
+	<SchoolYear>2010-2011</SchoolYear>
+	<!--<SessionName>Fall 2010 South Daybreak Elementary</SessionName>-->
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </CourseOfferingIdentity>
     </CourseOfferingReference>
@@ -3471,7 +3475,9 @@
                 <CourseCode IdentificationSystem="CSSC course code">
                     <ID>Phys-Ed 4A</ID>
                 </CourseCode>
-                <SessionName>Fall 2007 South Daybreak Elementary</SessionName>
+                <Term>Fall Semester</Term>
+		<SchoolYear>2007-2008</SchoolYear>
+		<!--<SessionName>Fall 2007 South Daybreak Elementary</SessionName>-->
                 <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
             </CourseOfferingIdentity>
         </CourseOfferingReference>

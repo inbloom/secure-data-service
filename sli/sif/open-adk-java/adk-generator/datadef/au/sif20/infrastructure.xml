@@ -1,0 +1,14 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s) -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.0 infra objects                 -->
+<!-- ======================================== -->
+<adk package="infrastructure" version="2.0" name="Infrastructure" namespace="http://www.sifinfo.org/infrastructure/2.x">
+  <!--SIFProtocols enum-->
+  <enum name="SIFProtocols">
+    <value name="HTTPS" value="HTTPS" desc="HTTPS" />
+    <value name="HTTP" value="HTTPS" desc="HTTPS" />
+  </enum>
+</adk>

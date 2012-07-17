@@ -32,6 +32,7 @@ import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.landingzone.LandingZoneManager;
 import org.slc.sli.ingestion.nodes.IngestionNodeType;
 import org.slc.sli.ingestion.nodes.NodeInfo;
+import org.slc.sli.ingestion.processors.CommandProcessor;
 import org.slc.sli.ingestion.processors.ConcurrentEdFiProcessor;
 import org.slc.sli.ingestion.processors.ConcurrentXmlFileProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
@@ -60,8 +61,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private static final Logger LOG = LoggerFactory.getLogger(IngestionRouteBuilder.class);
 
     @Autowired
-
-
     ControlFileProcessor ctlFileProcessor;
 
     @Autowired
@@ -95,7 +94,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     JobReportingProcessor jobReportingProcessor;
 
     @Autowired
-
     LandingZoneManager landingZoneManager;
 
     @Autowired
@@ -134,6 +132,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Value("${sli.ingestion.queue.pit.queueURI}")
     private String pitQueue;
 
+    @Value("${sli.ingestion.queue.pit.consumerQueueURI}")
+    private String pitConsumerQueue;
+
     @Value("${sli.ingestion.queue.pit.concurrentConsumers}")
     private String pitConsumers;
 
@@ -169,6 +170,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + workItemConsumers;
         String maestroQueueUri = maestroQueue + "?concurrentConsumers=" + maestroConsumers + maestroUriOptions;
         String pitNodeQueueUri = pitQueue + "?concurrentConsumers=" + pitConsumers + pitUriOptions;
+        String pitConsumerNodeQueueUri = pitConsumerQueue + "?concurrentConsumers=" + pitConsumers + pitUriOptions;
 
         if (IngestionNodeType.MAESTRO.equals(nodeInfo.getNodeType())
                 || IngestionNodeType.STANDALONE.equals(nodeInfo.getNodeType())) {
@@ -179,8 +181,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 // populate the tenant collection with a default set of tenants
                 tenantPopulator.populateDefaultTenants();
             }
-
-
 
             buildExtractionRoutes(workItemQueueUri);
 
@@ -196,10 +196,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
             LOG.info("configuring routes for pit node");
 
-            buildPitRoutes(pitNodeQueueUri, maestroQueueUri);
+            buildPitRoutes(pitConsumerNodeQueueUri, maestroQueueUri);
         }
 
-        //from(this.commandTopicUri).bean(this.lookup(CommandProcessor.class));
+        from(this.commandTopicUri).bean(this.lookup(CommandProcessor.class));
     }
 
     /**

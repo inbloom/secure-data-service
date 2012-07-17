@@ -12,10 +12,12 @@ common: &common
     email_sender_name_user_reg_app: Administrator
     email_sender_address_user_reg_app: noreply@slidev.org
     admin_realm: Shared Learning Infrastructure
+    app_dev_documentation_link: http://dev.slcedu.org/getting-started
 
 sandbox: &sandbox
     is_sandbox: true
     maximum_user_count: 500
+    app_dev_documentation_link: http://dev.slcedu.org/getting-started/sandbox
     sample_data_url: http://dev.slcedu.org
 
 ldap_default: &ldap_default
@@ -47,7 +49,7 @@ development:
     client_id: Eg6eseKRzN
     client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
     redirect_uri: http://local.slidev.org:3001/callback
-    ldap_base: ou=Local,ou=DevTest,dc=slidev,dc=org
+    ldap_base: ou=LocalNew,ou=DevTest,dc=slidev,dc=org
     is_sandbox: false
     email_replace_uri: http://local.slidev.org:3001
     portal_url: https://rcportal.slidev.org/portal
@@ -78,7 +80,7 @@ development_sb:
     client_id: Eg6eseKRzN
     client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
     redirect_uri: http://local.slidev.org:3001/callback
-    ldap_base: ou=Local,ou=DevTest,dc=slidev,dc=org
+    ldap_base: ou=LocalNew,ou=DevTest,dc=slidev,dc=org
     email_replace_uri: http://local.slidev.org:3001
     portal_url: https://rc2portal.slidev.org/portal
     rsa_key_dir: /var/tmp/.sftp/authorized_keys

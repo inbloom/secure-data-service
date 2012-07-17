@@ -21,7 +21,9 @@ OTHER_TAGS = ENV['OTHER_TAGS'] ? "--tags "+ENV['OTHER_TAGS'] : ""
 
 TODROP = ENV['TODROP'] ? true : false
 
-RUN_STAMPER = false
+CERTAIN_TENANTS = ENV['CERTAIN_TENANTS'] ? true : false
+
+RUN_STAMPER = ENV['RUN_STAMPER'] ? true : false
 
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "Zork", "SLI", "T1", "T2", "T3", "mreynolds"]
 
@@ -47,7 +49,7 @@ $collectionSet = ["student",
                   "studentAssessmentAssociation",
                   "gradebookEntry",
                   "studentTranscriptAssociation",
-                  "studentSectionGradebookEntry",
+                  "studentGradebookEntry",
                   "parent",
                   "studentParentAssociation",
                   "attendance",
@@ -109,7 +111,11 @@ def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropEx
     dropOption = (dropExistingCollection) ? "--drop":""
   else
     if dropExistingCollection
-      removeCollectionsCleanly(collectionName, TENANT_COLLECTION)
+      if CERTAIN_TENANTS
+        removeCollectionsCleanly(collectionName, TENANT_COLLECTION)
+      else
+        removeCollectionsCleanly(collectionName)
+      end
       dropOption = ""
     end
   end
@@ -426,6 +432,7 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1SingleStudentViewTests,
                      :v1BlacklistValidationTests,
                      :v1XMLTests,
+                     :userAdminCrudTests,
                      :v1CommaSeparatedListOrderTests] do
   displayFailureReport()
 end
@@ -576,7 +583,7 @@ task :ingestionTests => [:loadDefaultIngestionTenants,:ingestionAcceptanceSdsTes
                          :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest,
                          :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest, :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest,
                          :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest, 
-                         :ingestionEmptyControlFileTest, :ingestionDryRunTest, :ingestionCourseOfferingTest, :ingestionComplexObjectArrayIdRefTest ] do
+                         :ingestionEmptyControlFileTest, :ingestionDryRunTest, :ingestionCourseOfferingTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest ] do
 
   displayFailureReport()
   if $SUCCESS
@@ -615,7 +622,7 @@ end
 # SDK Tests start
 ############################################################
 desc "Run JavaSDK acceptance tests"
-task :JavaSDKTests => [:JavaSDKSampleAppTest,:JavaSDKCRUDTest] do
+task :JavaSDKTests => [:JavaSDKSampleAppTest,:JavaSDKCRUDTest,:JavaRESTCRUDTest] do
     displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -716,8 +723,11 @@ task :importSecuredData do
     end
   end
   testHash = Hash[
+    "assessment" => "secured/assessment.json",
+    "attendance" => "secured/attendance.json",
     "cohort" => "secured/cohort.json",
     "educationOrganization" => "secured/educationOrganization.json",
+    "gradebookEntry" => "secured/gradebookEntry.json",
     "program" => "secured/program.json",
     "section" => "secured/section.json",
     "staff" => "secured/staff.json",
@@ -725,10 +735,12 @@ task :importSecuredData do
     "staffEducationOrganizationAssociation" => "secured/staffEducationOrganizationAssociation.json",
     "staffProgramAssociation" => "secured/staffProgramAssociation.json",
     "student" => "secured/student.json",
+    "studentAssessmentAssociation" => "secured/studentAssessment.json",
     "studentCohortAssociation" => "secured/studentCohortAssociation.json",
     "studentProgramAssociation" => "secured/studentProgramAssociation.json",
     "studentSchoolAssociation" => "secured/studentSchoolAssociation.json",
     "studentSectionAssociation" => "secured/studentSectionAssociation.json",
+    "studentSectionGradebookEntry" => "secured/studentSectionGradebookEntry.json",
     "teacherSchoolAssociation" => "secured/teacherSchoolAssociation.json",
     "teacherSectionAssociation" => "secured/teacherSectionAssociation.json"
 
@@ -763,7 +775,7 @@ task :importSandboxData do
     "sectionAssessmentAssociation" => "sectionAssessmentAssociation_fixture.json",
     "studentTranscriptAssociation" => "studentTranscriptAssociation_fixture.json",
     "gradebookEntry" => "gradebookEntry_fixture.json",
-    "studentSectionGradebookEntry" => "studentSectionGradebookEntry_fixture.json",
+    "studentGradebookEntry" => "studentGradebookEntry_fixture.json",
     "disciplineIncident" => "disciplineIncident_fixture.json",
     "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociation_fixture.json",
     "disciplineAction" => "disciplineAction_fixture.json",
@@ -818,7 +830,7 @@ task :importUnifiedData => [:realmInit] do
     "studentParentAssociation" => "unified_data/uds_studentParentAssociation.json",
     "studentSchoolAssociation" => "unified_data/uds_studentSchoolAssociation.json",
     "studentSectionAssociation" => "unified_data/uds_studentSectionAssociation.json",
-    "studentSectionGradebookEntry" => "unified_data/uds_studentSectionGradebookEntry.json",
+    "studentGradebookEntry" => "unified_data/uds_studentGradebookEntry.json",
     "studentTranscriptAssociation" => "unified_data/uds_studentTranscriptAssociation.json",
     "staff" => "unified_data/uds_staff.json",
     "teacherSchoolAssociation" => "unified_data/uds_teacherSchoolAssociation.json",

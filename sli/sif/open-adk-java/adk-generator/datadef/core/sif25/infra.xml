@@ -1,0 +1,1009 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.5 infra objects                 -->
+<!-- ======================================== -->
+<adk package="infra" version="2.5" name="Core Infrastructure" namespace="http://www.sifinfo.org/infrastructure/2.x">
+  <!--Action enum-->
+  <enum name="Action">
+    <value name="ADD" value="Add" desc="Add" />
+    <value name="DELETE" value="Delete" desc="Delete" />
+    <value name="CHANGE" value="Change" desc="Change" />
+  </enum>  
+  <!--AuthenticationLevel enum-->
+  <enum name="AuthenticationLevel">
+    <value name="ZERO" value="0" desc="No authentication required and a valid certificate does not need to be presented." />
+    <value name="ONE" value="1" desc="A valid certificate must be presented." />
+    <value name="TWO" value="2" desc="A valid certificate from a trusted certificate authority must be presented." />
+    <value name="THREE" value="3" desc="A valid certificate from a trusted certificate authority must be presented and the CN field of the certificate's Subject entry must match the host sending the certificate." />
+  </enum>
+  <!--C object-->
+  <object name="C" />
+  <!--ConditionType enum-->
+  <enum name="ConditionType">
+    <value name="AND" value="And" desc="And" />
+    <value name="OR" value="Or" desc="Or" />
+    <value name="NONE" value="None" desc="None" />
+  </enum>
+  <!--EncryptionLevel enum-->
+  <enum name="EncryptionLevel">
+    <value name="ZERO" value="0" desc="No encryption required" />
+    <value name="ONE" value="1" desc="Symmetric key length of at least 40 bits is to be used" />
+    <value name="TWO" value="2" desc="Symmetric key length of at least 56 bits is to be used" />
+    <value name="THREE" value="3" desc="Symmetric key length of at least 80 bits is to be used" />
+    <value name="FOUR" value="4" desc="Symmetric key length of at least 128 bits is to be used" />
+  </enum>
+  <!--LogLevel enum-->
+  <enum name="LogLevel">
+    <value name="INFO" value="Info" desc="Info" />
+    <value name="WARNING" value="Warning" desc="Warning" />
+    <value name="ERROR" value="Error" desc="Error" />
+  </enum>
+  <!--LogSource enum-->
+  <enum name="LogSource">
+    <value name="AGENT" value="Agent" desc="Agent" />
+    <value name="ZIS" value="ZIS" desc="ZIS" />
+  </enum>
+  <!--Operators enum-->
+  <enum name="Operators">
+    <value name="EQ" value="EQ" desc="Equals" />
+    <value name="LT" value="LT" desc="Less Than" />
+    <value name="GT" value="GT" desc="Greater Than" />
+    <value name="LE" value="LE" desc="Less Than Or Equals" />
+    <value name="GE" value="GE" desc="Greater Than Or Equals" />
+    <value name="NE" value="NE" desc="Not Equals" />
+  </enum>
+  <!--Password object-->
+  <object name="Password">
+    <attribute name="Algorithm" enum="PasswordAlgorithm" flags="R">
+      <desc>The method used to encrypt the user's password. See the implementation details below.</desc>
+    </attribute>
+    <attribute name="KeyName" type="NormalizedString" flags="R" key="false">
+      <desc>The name of the key to be used for decryption of the password.  Left blank for plain, encoded text (Algorithm attribute value of "base64") and hash algorithms.</desc>
+    </attribute>
+  </object>
+  <!--PasswordAlgorithm enum-->
+  <enum name="PasswordAlgorithm">
+    <value name="BASE64" value="base64" desc="base64" />
+    <value name="MD5" value="MD5" desc="MD5" />
+    <value name="SHA1" value="SHA1" desc="SHA1" />
+    <value name="DES" value="DES" desc="DES" />
+    <value name="TRIPLEDES" value="TripleDES" desc="TripleDES" />
+    <value name="RC2" value="RC2" desc="RC2" />
+    <value name="AES" value="AES" desc="AES" />
+    <value name="RSA" value="RSA" desc="RSA" />
+  </enum>
+  <!--R object-->
+  <object name="R">
+    <element name="C" type="C" flags="MR" key="false" />
+  </object>
+  <!--SIF_Ack infra-->
+  <infra name="SIF_Ack">
+    <desc>Contains one of the SIF message types.</desc>
+    <element name="SIF_Header" type="SIF_Header" flags="M">
+      <desc>Header information associated with this message.</desc>
+    </element>
+    <element name="SIF_OriginalSourceId" type="Token" flags="M">
+      <desc>The SIF_SourceId of the infrastructure message for which the SIF_Ack serves as a response.</desc>
+    </element>
+    <element name="SIF_OriginalMsgId" type="Token" flags="M">
+      <desc>The SIF_MsgId of the infrastructure message for which the SIF_Ack message serves as a response.</desc>
+    </element>
+    <element name="SIF_Status" type="SIF_Status" flags="C">
+      <desc>This element is used to signal a successful response.</desc>
+    </element>
+    <element name="SIF_Error" type="SIF_Error" flags="C">
+      <desc>This element is used to signal an unsuccessful response.</desc>
+    </element>
+  </infra>
+  <!--SIF_AddPublishers object-->
+  <object name="SIF_AddPublishers">
+    <element name="SIF_Publisher" type="SIF_Publisher" flags="OR" />
+  </object>
+  <!--SIF_AgentACL object-->
+  <object name="SIF_AgentACL" topic="true">
+    <element name="SIF_ProvideAccess" type="SIF_ProvideAccess" flags="O" />
+    <element name="SIF_SubscribeAccess" type="SIF_SubscribeAccess" flags="O" />
+    <element name="SIF_PublishAddAccess" type="SIF_PublishAddAccess" flags="O" />
+    <element name="SIF_PublishChangeAccess" type="SIF_PublishChangeAccess" flags="O" />
+    <element name="SIF_PublishDeleteAccess" type="SIF_PublishDeleteAccess" flags="O" />
+    <element name="SIF_RequestAccess" type="SIF_RequestAccess" flags="O" />
+    <element name="SIF_RespondAccess" type="SIF_RespondAccess" flags="O" />
+  </object>
+  <!--SIF_Application object-->
+  <object name="SIF_Application">
+    <element name="SIF_Vendor" type="NormalizedString" flags="M">
+      <desc>The name of the company of the product that this agent supports.</desc>
+    </element>
+    <element name="SIF_Product" type="NormalizedString" flags="M">
+      <desc>The name of the product that this agent supports.</desc>
+    </element>
+    <element name="SIF_Version" type="SIFVersion" flags="M">
+      <desc>The version of the product. This field is informative only.</desc>
+    </element>
+  </object>
+  <!-- SIF_Body object -->
+  <object name="SIF_Body" empty="true"/>
+  <!--SIF_CancelRequests object-->
+  <object name="SIF_CancelRequests">
+    <desc>This sub-message asks a receiver (ZIS or Push-Mode Agent) to cancel the specified SIF_Requests, pending or in process.</desc>
+    <element name="SIF_NotificationType" enum="SIF_NotificationType" flags="M" />
+    <element name="SIF_RequestMsgIds" type="SIF_RequestMsgIds" flags="M" />
+  </object>
+  <!--SIF_ChangePublishers object-->
+  <object name="SIF_ChangePublishers">
+    <element name="SIF_Publisher" type="SIF_Publisher" flags="OR" />
+  </object>
+  <!--SIF_Condition object-->
+  <object name="SIF_Condition">
+    <element name="SIF_Element" type="NormalizedString" flags="M">
+      <desc>This is the element/attribute being queried.  See below for syntax.</desc>
+    </element>
+    <element name="SIF_Operator" enum="Operators" flags="M">
+      <desc>The comparison operator for the condition.</desc>
+    </element>
+    <element name="SIF_Value" type="NormalizedString" flags="M">
+      <desc>SIF_Value is the data that is used to compare with the value of the element or attribute.</desc>
+    </element>
+  </object>
+  <!--SIF_ConditionGroup object-->
+  <object name="SIF_ConditionGroup">
+    <attribute name="Type" enum="ConditionType" flags="R">
+      <desc>
+        The Boolean operator for joining conditions (SIF_Conditions elements) within this element.  Note that None should be used if there is only one
+        SIF_Conditions element.
+      </desc>
+    </attribute>
+    <element name="SIF_Conditions" type="SIF_Conditions" flags="MR" />
+  </object>
+  <!--SIF_Conditions object-->
+  <object name="SIF_Conditions">
+    <attribute name="Type" enum="ConditionType" flags="R" />
+    <element name="SIF_Condition" type="SIF_Condition" flags="OR" />
+  </object>
+  <!--SIF_Context object-->
+  <object name="SIF_Context" datatype="Token" />
+  <!--SIF_Contexts object-->
+  <object name="SIF_Contexts">
+    <element name="SIF_Context" type="SIF_Context" flags="OR" />
+    <desc>
+      Each SIF Context that applies to the message.  If none is specified, the applicable context is Default.
+    </desc>
+  </object>
+  <!--SIF_Data object-->
+  <object name="SIF_Data" />
+  <!--SIF_DeletePublishers object-->
+  <object name="SIF_DeletePublishers">
+    <element name="SIF_Publisher" type="SIF_Publisher" flags="OR" />
+  </object>
+  <!--SIF_Element object-->
+  <object name="SIF_Element" datatype="String" />
+  <!--SIF_Error object-->
+  <object name="SIF_Error">
+    <element name="SIF_Category" type="int" flags="M" />
+    <element name="SIF_Code" type="int" flags="M">
+      <desc>See Error Codes.</desc>
+    </element>
+    <element name="SIF_Desc" key="false" type="String" flags="M">
+      <desc>A simple, easy to understand, description of the error. The primary consumer of this message is the application user. Example: "Unable to open database."</desc>
+    </element>
+    <element name="SIF_ExtendedDesc" type="String" flags="O">
+      <desc>An optional error description that is more complete and technical in nature. It is to be used as a diagnostic message in trouble-shooting procedures. Example: "The 'Students' table is opened in exclusive mode by user 'ADM1' (dbm.cpp, line 300)."</desc>
+    </element>
+  </object>
+  <!--SIF_Event infra-->
+  <infra name="SIF_Event">
+    <desc>Contains one of the SIF message types.</desc>
+    <element name="SIF_Header" type="SIF_Header" flags="M">
+      <desc>Header information associated with this message.</desc>
+    </element>
+    <element name="SIF_ObjectData" type="SIF_ObjectData" flags="M" />
+  </infra>
+  <!--SIF_EventObject object-->
+  <object name="SIF_EventObject">
+    <attribute name="ObjectName" flags="R">
+      <desc>This is the name of the object being added, changed or deleted.</desc>
+    </attribute>
+    <attribute name="Action" enum="Action" flags="R">
+      <desc>This is the action associated with the object that is being conveyed by this SIF_Event.</desc>
+    </attribute>
+  </object>
+  <!--SIF_Example object-->
+  <object name="SIF_Example" />
+  <!--SIF_ExtendedQuery object-->
+  <object name="SIF_ExtendedQuery">
+    <element name="SIF_DestinationProvider" enum="Topics" flags="O" />
+    <element name="SIF_Select" type="SIF_Select" flags="M" />
+    <element name="SIF_From" type="SIF_From" flags="M" />
+    <element name="SIF_Where" type="SIF_Where" flags="O" />
+    <element name="SIF_OrderBy" type="SIF_OrderBy" flags="O" />
+  </object>
+  <!--SIF_ExtendedQueryResults object-->
+  <object name="SIF_ExtendedQueryResults">
+    <element name="SIF_ColumnHeaders" type="SIF_ColumnHeaders" flags="M" />
+    <element name="SIF_Rows" type="SIF_Rows" flags="M" />
+  </object>
+  <!--SIF_From object-->
+  <object name="SIF_From">
+    <attribute name="ObjectName" enum="Topics" flags="R" />
+    <element name="SIF_Object" type="SIF_Object" flags="M" />
+    <element name="SIF_Join" type="SIF_Join" flags="OR" />
+  </object>
+  <!--SIF_GetAgentACL object-->
+  <object name="SIF_GetAgentACL" empty="true">
+    <desc>This element holds the sub-message being sent.</desc>
+  </object>
+  <!--SIF_GetMessage object-->
+  <object name="SIF_GetMessage" empty="true">
+    <desc>This element holds the sub-message being sent.</desc>
+  </object>
+  <!--SIF_GetZoneStatus object-->
+  <object name="SIF_GetZoneStatus" empty="true">
+    <desc>This element holds the sub-message being sent.</desc>
+  </object>
+  <!--SIF_Header object-->
+  <object name="SIF_Header">
+    <element name="SIF_MsgId" type="Token" flags="M">
+      <desc>SIF_MsgId is a globally unique message identifier from the Agent or ZIS that sends out the message.</desc>
+    </element>
+    <element name="SIF_Timestamp" key="false" type="DateTime" flags="M">
+      <desc>Timestamp of when the message was sent.</desc>
+    </element>
+    <element name="SIF_Security" type="SIF_Security" flags="O" />
+    <element name="SIF_SourceId" key="false" type="Token" flags="M">
+      <desc>The SIF_SourceId is the ID of the originator of the message. Each source needs to have a zone unique case-sensitive identifier.</desc>
+    </element>
+    <element name="SIF_DestinationId" type="Token" flags="O">
+      <desc>This element represents the ID of the recipient of the message and may be present as follows:</desc>
+    </element>
+    <element name="SIF_Contexts" type="SIF_Contexts" flags="O">
+      <desc>
+        Each SIF Context that applies to the message.  If none is specified, the applicable context is Default.
+        Repeatable for SIF_Events, not repeatable for SIF_Request or SIF_Response.
+      </desc>
+    </element>
+  </object>
+  <!--SIF_Join object-->
+  <object name="SIF_Join">
+    <attribute name="Type" enum="SIFJoinType" flags="M" />
+    <element name="SIF_JoinOn" type="SIF_JoinOn" flags="MR" />
+  </object>
+  <!--SIF_JoinOn object-->
+  <object name="SIF_JoinOn">
+    <element name="SIF_LeftElement" type="SIF_LeftElement" flags="M" />
+    <element name="SIF_RightElement" type="SIF_RightElement" flags="M" />
+  </object>
+  <!--SIF_LeftElement object-->
+  <object name="SIF_LeftElement">
+    <attribute name="ObjectName" enum="Topics" flags="R" />
+  </object>
+  <!--SIF_LogEntry object-->
+  <object name="SIF_LogEntry" topic="true">
+    <attribute name="Source" enum="LogSource" flags="R">
+      <desc>The SIF node that logged this entry.</desc>
+    </attribute>
+    <attribute name="LogLevel" enum="LogLevel" flags="R">
+      <desc>The level of the log entry herein described.</desc>
+    </attribute>
+    <element name="SIF_LogEntryHeader" type="SIF_LogEntryHeader" flags="M" />
+    <element name="SIF_OriginalHeader" type="SIF_LogEntryHeader" flags="O" />
+    <element name="SIF_Category" enum="SIFLogCategory" flags="O">
+      <desc>A SIF_LogEntry category. May be omitted for informational-type postings, where typically a textual description will suffice.</desc>
+    </element>
+    <element name="SIF_Code" type="int" flags="O">
+      <desc>A SIF_LogEntry code with regard to SIF_Category above. May be omitted for informational-type postings, where typically a textual description will suffice. If a SIF_Code is included, SIF_Category must be included as well.</desc>
+    </element>
+    <element name="SIF_ApplicationCode" type="NormalizedString" flags="O">
+      <desc>
+        An error code specific to the application posting the entry.
+        Can be used by vendors to query log entries for errors specific to their applications.
+        If a SIF_ApplicationCode is included, SIF_Category must be included as well;
+        i.e., application-specific error codes should fall within one of the defined log entry categories.
+      </desc>
+    </element>
+    <element name="SIF_Desc" type="String" flags="M">
+      <desc>A textual description of the error.</desc>
+    </element>
+    <element name="SIF_ExtendedDesc" type="String" flags="O">
+      <desc>Any extended error description.</desc>
+    </element>
+    <element name="SIF_LogObjects" type="SIF_LogObjects" flags="O" />
+  </object>
+  <!--SIF_LogEntryHeader object-->
+  <object name="SIF_LogEntryHeader">
+    <element name="SIF_Header" type="SIF_Header" flags="O" />
+  </object>
+  <!--SIF_LogObject object-->
+  <object name="SIF_LogObject">
+    <attribute name="ObjectName" type="String" flags="R">
+      <desc>The name of the SIF object referenced (e.g. StudentPersonal).</desc>
+    </attribute>
+  </object>
+  <!--SIF_LogObjects object-->
+  <object name="SIF_LogObjects">
+    <element name="SIF_LogObject" type="SIF_LogObject" flags="OR">
+      <desc>Any SIF data objects to which this log entry may apply.</desc>
+    </element>
+  </object>
+  <!--SIF_NotificationType enum-->
+  <enum name="SIF_NotificationType">
+    <value name="STANDARD" value="Standard" desc="Standard" />
+    <value name="NONE" value="None" desc="None" />
+  </enum>
+  <!--SIF_Object object-->
+  <object name="SIF_Object" empty="true">
+    <attribute name="ObjectName" flags="R">
+      <desc>The name of a SIF data object</desc>
+    </attribute>
+    <element name="SIF_ExtendedQuerySupport" type="Boolean" flags="O" />
+    <element name="SIF_Contexts" type="SIF_Contexts" flags="O" />
+  </object>
+  <!--SIF_ObjectData object-->
+  <object name="SIF_ObjectData">
+    <element name="SIF_EventObject" type="SIF_EventObject" flags="M">
+      <desc>Contains the actual object (partial or whole) that is being added, changed or deleted.</desc>
+    </element>
+  </object>
+  <!--SIF_ObjectList object-->
+  <object name="SIF_ObjectList">
+    <element name="SIF_Object" type="SIF_Object" flags="OR" />
+  </object>
+  <!--SIF_OrderBy object-->
+  <object name="SIF_OrderBy">
+    <element name="SIF_Element" type="SIFOrderByElement" flags="MR">
+      <desc>
+        Indicates the element/attribute by which to sort.
+      </desc>
+    </element>
+  </object>
+  <!--SIF_Ping object-->
+  <object name="SIF_Ping" empty="true">
+    <desc>This element holds the sub-message being sent.</desc>
+  </object>
+  <!--SIF_Property object-->
+  <object name="SIF_Property">
+    <element name="SIF_Name" flags="M" />
+    <element name="SIF_Value" flags="M" />
+  </object>
+  <!--SIF_Protocol object-->
+  <object name="SIF_Protocol">
+    <attribute name="Type" flags="R">
+      <desc>Identifies the type being used (e.g. "HTTP", "HTTPS", "MSMQ", etc.)</desc>
+    </attribute>
+    <attribute name="Secure" enum="YesNo" flags="R" key="false">
+      <desc>Indicates if the protocol provides a secure channel</desc>
+    </attribute>
+    <element name="SIF_URL" flags="O">
+      <desc>A URL that identifies the SIF_SIFNode</desc>
+    </element>
+    <element name="SIF_Property" type="SIF_Property" flags="OR">
+      <desc>A set of properties defined for this protocol</desc>
+    </element>
+  </object>
+  <!--SIF_ProtocolName object-->
+  <object name="SIF_ProtocolName" enum="SIFProtocolName" />
+  <!--SIF_Provide infra-->
+  <infra name="SIF_Provide">
+    <desc>Contains one of the SIF message types.</desc>
+    <element name="SIF_Header" type="SIF_Header" flags="M">
+      <desc>Header information associated with this message.</desc>
+    </element>
+    <element name="SIF_Object" type="SIF_Object" flags="MR" />
+  </infra>
+  <!--SIF_ProvideAccess object-->
+  <object name="SIF_ProvideAccess">
+    <element name="SIF_Object" type="SIF_Object" flags="MR" />
+  </object>
+  <!--SIF_ProvideObjects object-->
+  <object name="SIF_ProvideObjects">
+    <element name="SIF_Object" type="SIF_Object" flags="MR" />
+  </object>
+  <!--SIF_Provider object-->
+  <object name="SIF_Provider">
+    <attribute name="SourceId" type="Token" flags="R">
+      <desc>The identifier of the SIF node that is providing objects. This is the agent or ZIS identifier that would appear in the SIF_SourceId field of any SIF_Header created by the SIF node.</desc>
+    </attribute>
+    <element name="SIF_ObjectList" type="SIF_ObjectList" flags="M" />
+  </object>
+  <!--SIF_Providers object-->
+  <object name="SIF_Providers">
+    <element name="SIF_Provider" type="SIF_Provider" flags="OR" />
+  </object>
+  <!--SIF_Provision infra-->
+  <infra name="SIF_Provision">
+    <element name="SIF_Header" type="SIF_Header" flags="M" />
+    <element name="SIF_ProvideObjects" type="SIF_ProvideObjects" flags="O" />
+    <element name="SIF_SubscribeObjects" type="SIF_SubscribeObjects" flags="O" />
+    <element name="SIF_PublishAddObjects" type="SIF_PublishAddObjects" flags="O" />
+    <element name="SIF_PublishChangeObjects" type="SIF_PublishChangeObjects" flags="O" />
+    <element name="SIF_PublishDeleteObjects" type="SIF_PublishDeleteObjects" flags="O" />
+    <element name="SIF_RequestObjects" type="SIF_RequestObjects" flags="O" />
+    <element name="SIF_RespondObjects" type="SIF_RespondObjects" flags="O" />
+  </infra>
+  <!--SIF_PublishAddAccess object-->
+  <object name="SIF_PublishAddAccess">
+    <element name="SIF_Object" type="SIF_Object" flags="MR" />
+  </object>
+  <!--SIF_PublishAddObjects object-->
+  <object name="SIF_PublishAddObjects">
+    <element name="SIF_Object" type="SIF_Object" flags="MR" />
+  </object>
+  <!--SIF_PublishChangeAccess object-->
+  <object name="SIF_PublishChangeAccess">
+    <element name="SIF_Object" type="SIF_Object" flags="MR" />
+  </object>
+  <!--SIF_PublishChangeObjects object-->
+  <object name="SIF_PublishChangeObjects">
+    <element name="SIF_Object" type="SIF_Object" flags="MR" />
+  </object>
+  <!--SIF_PublishDeleteAccess object-->
+  <object name="SIF_PublishDeleteAccess">
+    <element name="SIF_Object" type="SIF_Object" flags="MR" />
+  </object>
+  <!--SIF_PublishDeleteObjects object-->
+  <object name="SIF_PublishDeleteObjects">
+    <element name="SIF_Object" type="SIF_Object" flags="MR" />
+  </object>
+  <!--SIF_Publisher object-->
+  <object name="SIF_Publisher">
+    <attribute name="SourceId" type="Token" flags="R">
+      <desc>The identifier of the SIF node that is providing objects. This is the agent or ZIS identifier that would appear in the SIF_SourceId field of any SIF_Header created by the SIF node.</desc>
+    </attribute>
+    <element name="SIF_ObjectList" type="SIF_ObjectList" flags="O" />
+  </object>
+  <!--SIF_Query object-->
+  <object name="SIF_Query">
+    <element name="SIF_QueryObject" type="SIF_QueryObject" flags="M" />
+    <element name="SIF_ConditionGroup" type="SIF_ConditionGroup" flags="O">
+      <desc>
+        Either SIF_ConditionGroup or SIF_Example may optionally be specified to present
+        conditions matching objects should satisfy.
+      </desc>
+    </element>
+    <element name="SIF_Example" type="SIF_Example" flags="O">
+      <desc>
+        An example SIF object that serves as a template for matching objects.  There is an implied EQ operator
+        for every element/attribute value present and an implied And group of all resulting conditions.  Currently
+        this is an experimental feature and limited to use with LearnerLocator; wider use may be considered in future
+        major versions of this specification.
+      </desc>
+    </element>
+  </object>
+  <!--SIF_QueryObject object-->
+  <object name="SIF_QueryObject">
+    <attribute name="ObjectName" flags="R" />
+    <element name="SIF_Element" type="SIF_Element" flags="OR">
+      <desc>Individual elements/attributes being requested of matching object.  See syntax below. If specified, only the elements/attributes requested are returned in the SIF_Response (with any parent elements/attributes); otherwise, all elements supported by the provider's object are returned.</desc>
+    </element>
+  </object>
+  <!--SIF_Register infra-->
+  <infra name="SIF_Register">
+    <desc>Contains one of the SIF message types.</desc>
+    <element name="SIF_Header" type="SIF_Header" flags="M">
+      <desc>Header information associated with this message.</desc>
+    </element>
+    <element name="SIF_Name" type="NormalizedString" flags="M">
+      <desc>This is the descriptive name of the agent that is registering (i.e. Ramsey Media Center).</desc>
+    </element>
+    <element name="SIF_Version" type="SIF_Version" flags="MR">
+      <desc>Specifies which SIF Specification version(s) the agent supports. If the ZIS cannot communicate in this format, it should reject the request.</desc>
+    </element>
+    <element name="SIF_MaxBufferSize" type="UnsignedInt" flags="M">
+      <desc>Specifies the maximum size of a packet to be returned by the ZIS. The ZIS may return packets smaller than, or equal to, the maximum value.</desc>
+    </element>
+    <element name="SIF_Mode" enum="SIFMode" flags="M">
+      <desc>Specifies the communication mode (Pull or Push) as chosen by the message sender.</desc>
+    </element>
+    <element name="SIF_Protocol" type="SIF_Protocol" flags="O" />
+    <element name="SIF_NodeVendor" type="NormalizedString" flags="O">
+      <desc>The vendor of the SIF agent.</desc>
+    </element>
+    <element name="SIF_NodeVersion" type="NormalizedString" flags="O">
+      <desc>
+        The agent version number.  The format of this field is undefined, but it should
+        match the format used in the agent's conformance statement, if the agent is SIF Certified.
+      </desc>
+    </element>
+    <element name="SIF_Application" type="SIF_Application" flags="O" />
+    <element name="SIF_Icon" type="AnyUri" flags="O">
+      <desc>
+        HTTP URL referencing an icon for graphical representation of the application/agent.
+        Should range from 16x16 pixels to 128x128 pixels and be of an image MIME type commonly supported by Web browsers (e.g. PNG, JPEG, GIF).
+        Agents may optionally follow the more restrictive guidelines at [FAVICON].
+      </desc>
+    </element>
+  </infra>
+  <!--SIF_Request infra-->
+  <infra name="SIF_Request">
+    <desc>Contains one of the SIF message types.</desc>
+    <element name="SIF_Header" type="SIF_Header" flags="M">
+      <desc>Header information associated with this message.</desc>
+    </element>
+    <element name="SIF_Version" type="SIF_Version" flags="MR">
+      <desc>
+        Specifies which SIF Specification version should be used when returning the response data; wildcards are allowed.
+        The version specified by SIF_Message/@Version SHOULD be the preferred version
+        to return if it exists in the list, either explicitly or implicitly via a wildcard.  Otherwise the responding agent
+        can return data in any version it chooses that matches/satisfies one of the versions in the list.
+      </desc>
+    </element>
+    <element name="SIF_MaxBufferSize" type="UnsignedInt" flags="M">
+      <desc>Specifies the maximum size of a response packet to be returned to the requester. The responder may return packets smaller than, or equal to, the maximum value. If the maximum size is too small to contain a single whole response object, the responder should reject the SIF_Request. To guarantee delivery of response packets, requesting agents must not specify a SIF_MaxBufferSize greater than its registered SIF_Register/SIF_MaxBufferSize.</desc>
+    </element>
+    <element name="SIF_Query" type="SIF_Query" flags="O">
+      <desc>Either SIF_Query or SIF_ExtendedQuery must be specified, which contain the criteria to be used to match response objects.</desc>
+    </element>
+    <element name="SIF_ExtendedQuery" type="SIF_ExtendedQuery" flags="O" />
+  </infra>
+  <!--SIF_RequestAccess object-->
+  <object name="SIF_RequestAccess">
+    <element name="SIF_Object" type="SIF_Object" flags="MR" />
+  </object>
+  <!--SIF_Requester object-->
+  <object name="SIF_Requester">
+    <attribute name="SourceId" type="Token" flags="R">
+      <desc>The identifier of the SIF node that is providing objects. This is the agent or ZIS identifier that would appear in the SIF_SourceId field of any SIF_Header created by the SIF node.</desc>
+    </attribute>
+    <element name="SIF_ObjectList" type="SIF_ObjectList" flags="O" />
+  </object>
+  <!--SIF_Requesters object-->
+  <object name="SIF_Requesters">
+    <element name="SIF_Requester" type="SIF_Requester" flags="OR" />
+  </object>
+  <!--SIF_RequestMsgId object-->
+  <object name="SIF_RequestMsgId" datatype="IdRefType" />
+  <!--SIF_RequestMsgIds object-->
+  <object name="SIF_RequestMsgIds">
+    <element name="SIF_RequestMsgId" type="SIF_RequestMsgId" flags="MR" />
+  </object>
+  <!--SIF_RequestObjects object-->
+  <object name="SIF_RequestObjects">
+    <element name="SIF_Object" type="SIF_Object" flags="MR" />
+  </object>
+  <!--SIF_RespondAccess object-->
+  <object name="SIF_RespondAccess">
+    <element name="SIF_Object" type="SIF_Object" flags="MR" />
+  </object>
+  <!--SIF_Responder object-->
+  <object name="SIF_Responder">
+    <attribute name="SourceId" type="Token" flags="R">
+      <desc>The identifier of the SIF node that is providing objects. This is the agent or ZIS identifier that would appear in the SIF_SourceId field of any SIF_Header created by the SIF node.</desc>
+    </attribute>
+    <element name="SIF_ObjectList" type="SIF_ObjectList" flags="O" />
+  </object>
+  <!--SIF_Responders object-->
+  <object name="SIF_Responders">
+    <element name="SIF_Responder" type="SIF_Responder" flags="OR" />
+  </object>
+  <!--SIF_RespondObjects object-->
+  <object name="SIF_RespondObjects">
+    <element name="SIF_Object" type="SIF_Object" flags="OR" />
+  </object>
+  <!--SIF_Response infra-->
+  <infra name="SIF_Response">
+    <desc>Contains one of the SIF message types.</desc>
+    <element name="SIF_Header" type="SIF_Header" flags="M">
+      <desc>Header information associated with this message. The SIF_DestinationId needs to be the SIF_SourceId of the original SIF_Request message being processed.</desc>
+    </element>
+    <element name="SIF_RequestMsgId" type="Token" flags="M">
+      <desc>This is the message ID of the SIF_Request message being processed. It provides a unique match between a SIF_Response and a previous SIF_Request. Since the ID of each message from an agent is unique, the receiver of a SIF_Response message will be able to relate the SIF_Response to a SIF_Request that it sent out previously.</desc>
+    </element>
+    <element name="SIF_PacketNumber" type="PositiveInteger" flags="M">
+      <desc>This element represents the index of the SIF_Response message in the sequence of packets that make up a complete response. Its value must be in the range of 1 through n, with n equal to the total number of packets that make up a response.</desc>
+    </element>
+    <element name="SIF_MorePackets" enum="YesNo" flags="M">
+      <desc>This element provides an indication as to whether there are more packets besides this one to make up a complete response.</desc>
+    </element>
+    <element name="SIF_Error" type="SIF_Error" flags="O" />
+    <element name="SIF_ObjectData" type="SIF_ObjectData" flags="O">
+      <desc>
+        The SIF_ObjectData element contains the data objects matching the supplied criteria in the SIF_Request message if the
+        SIF_Request contained SIF_Query.  If the SIF_Request contained SIF_ExtendedQuery, include SIF_ExtendedQueryResults.
+        If the SIF_Error element is present, this element MUST be empty.
+      </desc>
+    </element>
+    <element name="SIF_ExtendedQueryResults" type="SIF_ExtendedQueryResults" flags="O">
+      <desc>
+        This element contains the elements requested by SIF_ExtendedQuery in SIF_Request.
+        If the SIF_Error element is present, this element MUST be empty.
+      </desc>
+    </element>
+  </infra>
+  <!--SIF_RightElement object-->
+  <object name="SIF_RightElement">
+    <attribute name="ObjectName" enum="Topics" flags="R" />
+  </object>
+  <!--SIF_Rows object-->
+  <object name="SIF_Rows">
+    <element name="R" type="R" flags="OR" />
+  </object>
+  <!--SIF_SecureChannel object-->
+  <object name="SIF_SecureChannel">
+    <element name="SIF_AuthenticationLevel" enum="AuthenticationLevel" flags="M">
+      <desc>The minimum level of authentication required by the message originator to be considered a secure channel upon message delivery to other agents.</desc>
+    </element>
+    <element name="SIF_EncryptionLevel" enum="EncryptionLevel" flags="M">
+      <desc>The minimum level of encryption required by the message originator to be considered a secure channel upon message delivery to other agents.</desc>
+    </element>
+  </object>
+  <!--SIF_Security object-->
+  <object name="SIF_Security">
+    <element name="SIF_SecureChannel" type="SIF_SecureChannel" flags="M" />
+  </object>
+  <!--SIF_Select object-->
+  <object name="SIF_Select">
+    <attribute name="Distinct" type="boolean" flags="M">
+      <desc>Specifies whether query results should return all rows (false) or just distinct ones (true). Rows are distinct if at least one column differs between them.</desc>
+    </attribute>
+    <attribute name="RowCount" type="String" flags="M">
+      <desc>The maximum number of rows to return. If All, return all rows, otherwise return the top rows up to the maximum row count indicated.</desc>
+    </attribute>
+    <element name="SIF_Element" type="SIFSelectElement" flags="MR" />
+  </object>
+  <!--SIF_ServiceInput -->
+  <infra name="SIF_ServiceInput">
+    <desc>This message is used to invoke a method that is exposed by a SIF Zone Service.</desc>
+    <element name="SIF_Header" type="SIF_Header" flags="M">
+      <desc>Header information associated with this message.</desc>
+    </element>
+    <element name="SIF_Service" type="Token" flags="M">
+      <desc>The name of the SIF Zone Service that is being invoked.</desc>
+    </element>
+    <element name="SIF_Operation" type="Token" flags="M">
+      <desc>The name of the service operation that is being invoked.</desc>
+    </element>
+    <element name="SIF_ServiceMsgId" type="Token" flags="M">
+      <desc>The unique ID of this service request invocation.</desc>
+    </element>
+    <element name="SIF_Version" type="SIF_Version" flags="MR">
+      <desc>
+        Specifies which SIF Implementation Specification version should be used when returning the response data.
+        Is a responder cannot return response data in this format, it should reject the SIF_ServiceInput.
+        It is recommended that requesters use a wild card version for the minor portion of the version, such as 2.*.
+      </desc>
+    </element>
+    <element name="SIF_MaxBufferSize" type="UnsignedInt" flags="M">
+      <desc>Specifies the maximum size of a response packet to be returned to the requester. The responder may return packets smaller than, or equal to, the maximum value. If the maximum size is too small to contain a single whole response object, the responder should reject the SIF_ServiceInput. To guarantee delivery of response packets, requesting agents must not specify a SIF_MaxBufferSize greater than its registered SIF_Register/SIF_MaxBufferSize.</desc>
+    </element>
+    <element name="SIF_PacketNumber" type="PositiveInteger" flags="M">
+      <desc>This element represents the index of the SIF_ServiceInput message in the sequence of packets that make up a complete response. Its value must be in the range of 1 through n, with n equal to the total number of packets that make up a response.</desc>
+    </element>
+    <element name="SIF_MorePackets" enum="YesNo" flags="M">
+      <desc>This element provides an indication as to whether there are more packets besides this one to make up a complete response.</desc>
+    </element>
+    <element name="SIF_Error" type="SIF_Error" flags="O" />
+    <element name="SIF_Body" type="SIF_Body" flags="O">
+      <desc>Contains a single child element that has the same name as the value of the SIF_Operation element.</desc>
+    </element>
+  </infra>
+  <!--SIF_ServiceNotify-->
+  <infra name="SIF_ServiceNotify">
+    <desc>This message is used to deliver notifications to service clients that some state associated with the service has changed.</desc>
+    <element name="SIF_Header" type="SIF_Header" flags="M">
+      <desc>Header information associated with this message.</desc>
+    </element>
+    <element name="SIF_Service" type="Token" flags="M">
+      <desc>The name of the SIf Zone Service that initiated the event.</desc>
+    </element>
+    <element name="SIF_Operation" type="Token" flags="M">
+      <desc>The name of the notification event being sent.</desc>
+    </element>
+    <element name="SIF_ServiceMsgId" type="Token" flags="M">
+      <desc>The unique ID that has been assigned to this series of messages.</desc>
+    </element>
+    <element name="SIF_PacketNumber" type="PositiveInteger" flags="M">
+      <desc>This element represents the index of the SIF_ServiveNotify message in the sequence of packets that make up a complete event. Its value must be in the range of 1 through n, with n equal to the total number of packets that make up a event.</desc>
+    </element>
+    <element name="SIF_MorePackets" enum="YesNo" flags="M">
+      <desc>This element provides an indication as to whether there are more packets besides this one to make up a complete event.</desc>
+    </element>
+    <element name="SIF_Error" type="SIF_Error" flags="O" />
+    <element name="SIF_Body" type="SIF_Body" flags="O">
+      <desc>Contains a single child element that has a name composed of the value of the SIF_Operation element.</desc>
+    </element>
+  </infra>
+  <!--SIF_ServiceOutput infra-->
+  <infra name="SIF_ServiceOutput">
+    <desc>This message is used to respond to a SIF_ServiceInput message.</desc>
+    <element name="SIF_Header" type="SIF_Header" flags="M">
+      <desc>Header information associated with this message. The SIF_DestinationId needs to be the SIF_SourceId of the original SIF_Request message being processed.</desc>
+    </element>
+    <element name="SIF_Service" type="Token" flags="M">
+      <desc>The name of the SIf Zone Service that is being invoked.</desc>
+    </element>
+    <element name="SIF_Operation" type="Token" flags="M">
+      <desc>The name of the service operation that is being invoked.</desc>
+    </element>
+    <element name="SIF_ServiceMsgId" type="Token" flags="M">
+      <desc>This is the message ID of the SIF_ServiceInput message being processed. It provides a unique match between a SIF_erviceOutput and a previous SIF_ServiceInput.</desc>
+    </element>
+    <element name="SIF_PacketNumber" type="PositiveInteger" flags="M">
+      <desc>This element represents the index of the SIF_ServiceOutput message in the sequence of packets that make up a complete response. Its value must be in the range of 1 through n, with n equal to the total number of packets that make up a response.</desc>
+    </element>
+    <element name="SIF_MorePackets" enum="YesNo" flags="M">
+      <desc>This element provides an indication as to whether there are more packets besides this one to make up a complete response.</desc>
+    </element>
+    <element name="SIF_Error" type="SIF_Error" flags="O" />
+    <element name="SIF_Body" type="String" flags="O">
+      <desc>Contains a single child element that has the same name as the value of the SIF_Operation element.</desc>
+    </element>
+  </infra>
+  <!--SIF_SIFNode object-->
+  <object name="SIF_SIFNode">
+    <attribute name="Type" flags="R" enum="SIF_SIFNodeType">
+      <desc>The type of node ("Agent" or "ZIS")</desc>
+    </attribute>
+    <element name="SIF_Name" type="NormalizedString" flags="O">
+      <desc>The descriptive name of the SIF node (i.e. Ramsey Food Services).</desc>
+    </element>
+    <element name="SIF_Icon" type="AnyUri" flags="O">
+      <desc>
+        HTTP URL referencing an icon for graphical representation of the application/agent.
+        Should range from 16x16 pixels to 128x128 pixels and be of an image MIME type commonly supported by Web browsers (e.g. PNG, JPEG, GIF).
+        Agents may optionally follow the more restrictive guidelines at [FAVICON].
+      </desc>
+    </element>
+    <element name="SIF_NodeVendor" type="NormalizedString" flags="O">
+      <desc>The vendor of the SIF agent.</desc>
+    </element>
+    <element name="SIF_NodeVersion" type="NormalizedString" flags="O">
+      <desc>
+        The agent version number.  The format of this field is undefined, but it should
+        match the format used in the agent's conformance statement, if the agent is SIF Certified.
+      </desc>
+    </element>
+    <element name="SIF_Application" type="SIF_Application" flags="O" />
+    <element name="SIF_SourceId" type="Token" flags="O">
+      <desc>The agent or ZIS identifier. This is the same value that the SIF node would place in any SIF_Header that it would create.</desc>
+    </element>
+    <element name="SIF_Mode" enum="SIFMode" flags="O">
+      <desc>Specifies the communication mode (Pull or Push) as chosen by the message sender.</desc>
+    </element>
+    <element name="SIF_Protocol" type="SIF_Protocol" flags="O" />
+    <element name="SIF_VersionList" type="SIF_VersionList" flags="O" />
+    <element name="SIF_AuthenticationLevel" enum="AuthenticationLevel" flags="O">
+      <desc>This is the level of authentication that the SIF node supports when it wants to communicate via a secure channel.</desc>
+    </element>
+    <element name="SIF_EncryptionLevel" enum="EncryptionLevel" flags="O">
+      <desc>This is the level of encryption that the SIF node supports when it wants to communicate via a secure channel.</desc>
+    </element>
+    <element name="SIF_MaxBufferSize" type="UnsignedInt" flags="O">
+      <desc>Specifies that the ZIS should never send packets larger than this value. Query responses from other providers are controlled by the SIF_MaxBufferSize attribute in the SIF_Request message.</desc>
+    </element>
+    <element name="SIF_Sleeping" enum="YesNo" flags="O">
+      <desc>This element shows whether the SIF node is ready to process messages.</desc>
+    </element>
+  </object>
+  <!--SIF_SIFNodes object-->
+  <object name="SIF_SIFNodes">
+    <element name="SIF_SIFNode" type="SIF_SIFNode" flags="OR" />
+  </object>
+  <!--SIF_SIFNodeType enum-->
+  <enum name="SIF_SIFNodeType">
+    <value name="AGENT" value="Agent" desc="SIF Agent" />
+    <value name="ZIS" value="ZIS" desc="Zone Integration Server" />
+  </enum>
+  <!--SIF_Sleep object-->
+  <object name="SIF_Sleep" empty="true">
+    <desc>This element holds the sub-message being sent.</desc>
+  </object>
+  <!--SIF_Status object-->
+  <object name="SIF_Status">
+    <element name="SIF_Code" flags="M" type="int" />
+    <element name="SIF_Desc" type="String" flags="O">
+      <desc>An optional textual description/equivalent of SIF_Code.</desc>
+    </element>
+    <element name="SIF_Data" type="SIF_Data" flags="O">
+      <desc>
+        Optional element to hold data related to a successful operation.  This data is currently limited
+        to a SIF_Message returned by the ZIS in response to a Pull-Mode Agent's SIF_GetMessage,
+        SIF_AgentACL returned by the ZIS in response to SIF_Register and SIF_GetAgentACL,
+        and SIF_ZoneStatus returned by the ZIS in response to SIF_GetZoneStatus.
+      </desc>
+    </element>
+  </object>
+  <!--SIF_Subscribe infra-->
+  <infra name="SIF_Subscribe">
+    <desc>Contains one of the SIF message types.</desc>
+    <element name="SIF_Header" type="SIF_Header" flags="M">
+      <desc>Header information associated with this message.</desc>
+    </element>
+    <element name="SIF_Object" type="SIF_Object" flags="MR" />
+  </infra>
+  <!--SIF_SubscribeAccess object-->
+  <object name="SIF_SubscribeAccess">
+    <element name="SIF_Object" type="SIF_Object" flags="MR" />
+  </object>
+  <!--SIF_SubscribeObjects object-->
+  <object name="SIF_SubscribeObjects">
+    <element name="SIF_Object" type="SIF_Object" flags="MR" />
+  </object>
+  <!--SIF_Subscriber object-->
+  <object name="SIF_Subscriber">
+    <attribute name="SourceId" type="Token" flags="R">
+      <desc>The identifier of the SIF node that is subscribing to the object events. This is the agent or ZIS identifier that would appear in the SIF_SourceId field of any SIF_Header created by the SIF node.</desc>
+    </attribute>
+    <element name="SIF_ObjectList" type="SIF_ObjectList" flags="M">
+      <desc>The name of the object being subscribed to by this SIF_SIFNode</desc>
+    </element>
+  </object>
+  <!--SIF_Subscribers object-->
+  <object name="SIF_Subscribers">
+    <element name="SIF_Subscriber" type="SIF_Subscriber" flags="OR" />
+  </object>
+  <!--SIF_SupportedAuthentication object-->
+  <object name="SIF_SupportedAuthentication">
+    <element name="SIF_ProtocolName" type="SIF_ProtocolName" flags="OR" />
+  </object>
+  <!--SIF_SupportedProtocols object-->
+  <object name="SIF_SupportedProtocols">
+    <element name="SIF_Protocol" type="SIF_Protocol" flags="OR" />
+  </object>
+  <!--SIF_SupportedVersions object-->
+  <object name="SIF_SupportedVersions">
+    <element name="SIF_Version" type="SIF_Version" flags="OR">
+      <desc>Lists a specific SIF Specification version.</desc>
+    </element>
+  </object>
+  <!--SIF_SystemControl infra-->
+  <infra name="SIF_SystemControl">
+    <desc>Contains one of the SIF message types.</desc>
+    <element name="SIF_Header" type="SIF_Header" flags="M">
+      <desc>Header information associated with this message.</desc>
+    </element>
+    <element name="SIF_SystemControlData" key="false" type="SIF_SystemControlData" flags="M">
+      <desc>This element holds the sub-message being sent.</desc>
+    </element>
+  </infra>
+  <!--SIF_SystemControlData object-->
+  <object name="SIF_SystemControlData">
+    <desc>
+      This element holds the sub-message being sent by the &lt;SIF_SystemControl&gt;
+      message. This class is used internally by the ADK. To send a ping, sleep, or wakeup
+      request to the Zone Integration Server, agents should call the sifPing,
+      sleep, and wakeup methods of the Zone and Agent classes. SIF_GetMessage is
+      automatically sent by the class framework for zones that are connected in
+      Pull mode.
+    </desc>
+  </object>
+  <!--SIF_Unprovide infra-->
+  <infra name="SIF_Unprovide">
+    <desc>Contains one of the SIF message types.</desc>
+    <element name="SIF_Header" type="SIF_Header" flags="M">
+      <desc>Header information associated with this message.</desc>
+    </element>
+    <element name="SIF_Object" type="SIF_Object" flags="MR" />
+  </infra>
+  <!--SIF_Unregister infra-->
+  <infra name="SIF_Unregister">
+    <desc>Contains one of the SIF message types.</desc>
+    <element name="SIF_Header" type="SIF_Header" flags="M" />
+  </infra>
+  <!--SIF_Unsubscribe infra-->
+  <infra name="SIF_Unsubscribe">
+    <desc>Contains one of the SIF message types.</desc>
+    <element name="SIF_Header" type="SIF_Header" flags="M">
+      <desc>Header information associated with this message.</desc>
+    </element>
+    <element name="SIF_Object" type="SIF_Object" flags="MR" />
+  </infra>
+  <!--SIF_Vendor object-->
+  <object name="SIF_Vendor">
+    <element name="SIF_Name" type="NormalizedString" flags="M">
+      <desc>The name of the company who wrote the ZIS.</desc>
+    </element>
+    <element name="SIF_Product" type="NormalizedString" flags="M">
+      <desc>The product name assigned by the vendor to identify this ZIS.</desc>
+    </element>
+    <element name="SIF_Version" type="SIFVersion" flags="M">
+      <desc>The version of the vendor's product--not necessarily the SIF version.</desc>
+    </element>
+  </object>
+  <!--SIF_Version object-->
+  <object name="SIF_Version" dataType="String" />
+  <!--SIF_VersionList object-->
+  <object name="SIF_VersionList">
+    <element name="SIF_Version" type="SIF_Version" flags="OR">
+      <desc>This is the version or versions of the SIF Specification that the SIF node uses. For agents, this information was communicated when the SIF node registered with the ZIS.</desc>
+    </element>
+  </object>
+  <!--SIF_Wakeup object-->
+  <object name="SIF_Wakeup" empty="true">
+    <desc>This element holds the sub-message being sent.</desc>
+  </object>
+  <!--SIF_Where object-->
+  <object name="SIF_Where">
+    <element name="SIF_ConditionGroup" type="SIF_ConditionGroup" flags="M" />
+  </object>
+  <!--SIF_ZoneStatus object-->
+  <object name="SIF_ZoneStatus" topic="true">
+    <attribute name="ZoneId" type="Token" flags="R">
+      <desc>
+        The identifier for this Zone.
+        It is the same as the SIF_SourceId that the ZIS would place in any SIF_Header that it creates.
+      </desc>
+    </attribute>
+    <element name="SIF_Name" type="NormalizedString" flags="O">
+      <desc>The descriptive name for the zone.</desc>
+    </element>
+    <element name="SIF_Icon" type="AnyUri" flags="O">
+      <desc>
+        HTTP URL referencing an icon for graphical representation of the ZIS/Zone.
+        Should range from 16x16 pixels to 128x128 pixels and be of an image MIME type commonly supported by Web browsers (e.g. PNG, JPEG, GIF).
+        Agents may optionally follow the more restrictive guidelines at [FAVICON].
+      </desc>
+    </element>
+    <element name="SIF_Vendor" type="SIF_Vendor" flags="O" />
+    <element name="SIF_Providers" type="SIF_Providers" flags="O" />
+    <element name="SIF_Subscribers" type="SIF_Subscribers" flags="O" />
+    <element name="SIF_AddPublishers" type="SIF_AddPublishers" flags="O" />
+    <element name="SIF_ChangePublishers" type="SIF_ChangePublishers" flags="O" />
+    <element name="SIF_DeletePublishers" type="SIF_DeletePublishers" flags="O" />
+    <element name="SIF_Responders" type="SIF_Responders" flags="O" />
+    <element name="SIF_Requesters" type="SIF_Requesters" flags="O" />
+    <element name="SIF_SIFNodes" type="SIF_SIFNodes" flags="O" />
+    <element name="SIF_SupportedAuthentication" type="SIF_SupportedAuthentication" flags="O" />
+    <element name="SIF_SupportedProtocols" type="SIF_SupportedProtocols" flags="O" />
+    <element name="SIF_SupportedVersions" type="SIF_SupportedVersions" flags="O" />
+    <element name="SIF_AdministrationURL" type="AnyUri" flags="O">
+      <desc>Should a ZIS vendor provide an administration interface for the zone via a URL, the ZIS can make the URL available in SIF_ZoneStatus. Agent administrators can use the URL to access zone administration features, should they have permission to do so.</desc>
+    </element>
+    <element name="SIF_Contexts" type="SIF_Contexts" flags="O" />
+  </object>
+  <!--SIFColumnHeader object-->
+  <object name="SIFColumnHeader" dataType="String">
+    <attribute name="ObjectName" flags="M" />
+    <attribute name="Alias" flags="O" />
+    <attribute name="XsiType" renderAs="xsi:type" flags="O" />
+  </object>
+  <!--SIFJoinType enum-->
+  <enum name="SIFJoinType">
+    <value name="INNER" value="Inner" desc="Inner Join" />
+    <value name="LEFTOUTER" value="LeftOuter" desc="Left Outer Join" />
+    <value name="RIGHTOUTER" value="RightOuter" desc="Right Outer Join" />
+    <value name="FULLOUTER" value="FullOuter" desc="Full Outer Join" />
+  </enum>
+  <!--SIFLogCategory enum-->
+  <enum name="SIFLogCategory">
+    <value name="SUCCESS" value="1" desc="Success" />
+    <value name="ISSUES_SUCCESS" value="2" desc="Data Issues with Success Result" />
+    <value name="ISSUES_FAILURE" value="3" desc="Data Issues with Failure Result" />
+    <value name="ERROR" value="4" desc="Error Conditions" />
+  </enum>
+  <!--SIFMode enum-->
+  <enum name="SIFMode">
+    <value name="PUSH" value="Push" desc="Push" />
+    <value name="PULL" value="Pull" desc="Pull" />
+  </enum>
+  <!--SIFNodeType enum-->
+  <enum name="SIFNodeType">
+    <value name="AGENT" value="Agent" desc="SIF Agent" />
+    <value name="ZIS" value="ZIS" desc="Zone Integration Server" />
+  </enum>
+  <!--SIFOrderBy enum-->
+  <enum name="SIFOrderBy">
+    <value name="ASCENDING" value="Ascending" desc="Ascending" />
+    <value name="DESCENDING" value="Descending" desc="Descending" />
+  </enum>
+  <!--SIFOrderByElement object-->
+  <object name="SIFOrderByElement" renderAs="SIF_Element" datatype="String">
+    <attribute name="ObjectName" enum="Topics" flags="R" />
+    <attribute name="Ordering" enum="SIFOrderBy" flags="R" />
+  </object>
+  <!--SIFProtocolName enum-->
+  <enum name="SIFProtocolName">
+    <value name="X509" value="X.509" desc="X.509" />
+  </enum>
+  <!--SIFProtocols enum-->
+  <enum name="SIFProtocols">
+    <value name="HTTPS" value="HTTPS" desc="HTTPS" />
+    <value name="HTTP" value="HTTPS" desc="HTTPS" />
+  </enum>
+  <!--SIFSelectElement object-->
+  <object name="SIFSelectElement" renderAs="SIF_Element" datatype="String">
+    <attribute name="Alias" type="Token" flags="R" />
+    <attribute name="ObjectName" enum="Topics" flags="R" />
+  </object>
+</adk>
