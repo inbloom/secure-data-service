@@ -50,7 +50,7 @@ public class HighestEver extends Configured implements Tool {
         MongoConfigUtil.setCreateInputSplits(conf,  true);
 
         Job job = new Job(conf, "HighestEver");
-        job.setJarByClass(getClass());
+        job.setJarByClass(HighestEver.class);
 
         job.setMapperClass(ScoreMapper.class);
         job.setCombinerClass(Highest.class);
