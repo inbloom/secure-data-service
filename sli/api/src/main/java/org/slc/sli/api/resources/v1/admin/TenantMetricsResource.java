@@ -31,7 +31,7 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 
 /**
- * TODO: add javadoc
+ * Provides tenant usage statistics.
  *
  */
 @Component
@@ -44,6 +44,9 @@ public class TenantMetricsResource {
     @Qualifier("validationRepo")
     protected Repository<Entity> repo;
 
+    /**
+     * Generates summary usage statistics for every tenancy in the system.  Only accessible to SLC Operators.
+     */
     @GET
     public Response getTenantMetrics(@Context final UriInfo uriInfo) {
 
@@ -87,6 +90,9 @@ public class TenantMetricsResource {
         return Response.ok(metrics).build();
     }
 
+    /**
+     * Calculates usage statistics for an tenant.  Only accessible to SLC Operators.
+     */
     @GET
     @Path("{id}")
     public Response getTenantMetrics(@PathParam("id") final String tenantId, @Context final UriInfo uriInfo) {
