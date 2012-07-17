@@ -39,7 +39,7 @@ import org.slc.sli.domain.Repository;
  * @author nbrown
  *
  */
-@Component
+@Component("validationRepo")
 public class IngestionDummyEntityRepository implements Repository<Entity> {
 
     @Override

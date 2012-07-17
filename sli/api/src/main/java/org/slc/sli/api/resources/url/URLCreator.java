@@ -22,6 +22,7 @@ import java.util.List;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EmbeddedLink;
@@ -41,6 +42,7 @@ public abstract class URLCreator {
     protected EntityDefinitionStore store;
 
     @Autowired
+    @Qualifier("validationRepo")
     protected Repository<Entity> repo;
 
     /**

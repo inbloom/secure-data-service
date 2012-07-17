@@ -18,6 +18,7 @@
 package org.slc.sli.api.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.representation.EntityBody;
@@ -35,6 +36,7 @@ import org.slc.sli.domain.Repository;
 public class MetaDataTreatment implements Treatment {
 
     @Autowired
+    @Qualifier("validationRepo")
     private Repository<Entity> repo;
 
     public static final String METADATA = "metaData";
