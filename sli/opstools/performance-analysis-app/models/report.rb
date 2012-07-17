@@ -4,13 +4,18 @@ require "set"
 require 'date'
 require 'logger'
 require 'json'
+require 'yaml'
 
 class Report
   
   def self.generate_latest_report
     initialize_parameters
-    query = {"_id.build_tag"=>"jenkins-api-27"}
-    create_report('end_point',query)
+    buildTag = ""
+    @db['apiResponse'].find.sort([['body.Date',-1],['body.endTime',-1]]).limit(1).each do |record|
+       buildTag = record['body']['buildNumber']
+    end
+    finalQuery = {"_id.build_tag"=>buildTag}
+    create_report('end_point',finalQuery)
   end
 
   def self.generate_end_point_report(endPoint)
@@ -29,10 +34,13 @@ class Report
     end
 
   def self.initialize_parameters
+      environment = ENV['RACK_ENV']
+      app_config = YAML.load_file(settings.root+'/config/config.yml')[environment]
       terminates = false
-      database = 'apiPerf'
-      host = 'localhost'
-      port = '27017'
+      database = app_config["database"]
+      host = app_config["host"]
+      port = app_config["port"]
+      puts host
       connection = Mongo::Connection.new(host, port, :pool_size => 10, :pool_timeout => 25, :safe => {:wtimeout => 500})
       log = Logger.new(STDOUT)
       log.level = Logger::ERROR
