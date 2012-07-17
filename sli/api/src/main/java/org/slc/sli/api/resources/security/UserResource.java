@@ -14,6 +14,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -105,7 +106,9 @@ public class UserResource {
     }
 
     @DELETE
-    public final synchronized Response delete(final String uid, final HttpHeaders headers, final UriInfo uriInfo) {
+    @Path("{uid}")
+    public final synchronized Response delete(@PathParam("uid") final String uid, @Context HttpHeaders headers,
+            @Context final UriInfo uriInfo) {
         Response result = validateUserDelete(uid);
         if (result != null) {
             return result;
@@ -269,8 +272,11 @@ public class UserResource {
         return null;
     }
 
+    private static final String[] ADMIN_ROLES = new String[] {
+        RoleInitializer.LEA_ADMINISTRATOR, RoleInitializer.SEA_ADMINISTRATOR, RoleInitializer.SLC_OPERATOR, RoleInitializer.SANDBOX_SLC_OPERATOR, RoleInitializer.SANDBOX_ADMINISTRATOR
+    };
     static Response validateAtMostOneAdminRole(final Collection<String> groups) {
-        Collection<String> adminRoles = new ArrayList<String>(Arrays.asList(RoleInitializer.ADMIN_ROLES));
+        Collection<String> adminRoles = new ArrayList<String>(Arrays.asList(ADMIN_ROLES));
         adminRoles.retainAll(groups);
         if (adminRoles.size() > 1) {
             EntityBody body = new EntityBody();

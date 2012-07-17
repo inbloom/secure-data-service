@@ -279,11 +279,6 @@ public class JobReportingProcessor implements Processor {
                     }
                 }
 
-                if (countErrors > 1000 || countWarnings > 1000) {
-                    LOG.info("EXCEEDED MAXIMUM THRESHOLD OF ERRORS");
-                    break;
-                }
-
             }
 
         } catch (IOException e) {
