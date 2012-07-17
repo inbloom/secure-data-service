@@ -786,6 +786,8 @@ local:
         sli.ingestion.errors.tracking: true
         sli.ingestion.warnings.tracking: true
 
+        # Security Event capsize
+        sli.ingestion.securityEvent.capSize:
 
     ingestion: &INGESTION-LOCAL
         <<: *INGESTION-DEFAULT
