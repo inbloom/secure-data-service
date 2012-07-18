@@ -297,7 +297,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
         } catch (MongoException me) {
             if (me.getCode() == 11000 /* dup key */) {
-                debug(me.getMessage());
+                LOG.debug(me.getMessage());
             }
             return false;
         }
@@ -387,7 +387,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
             batchJobMongoTemplate.getCollection("stagedEntities").insert(entities);
         } catch (MongoException me) {
             if (me.getCode() == 11000 /* dup key */) {
-                debug(me.getMessage());
+                LOG.debug(me.getMessage());
             }
         }
     }
