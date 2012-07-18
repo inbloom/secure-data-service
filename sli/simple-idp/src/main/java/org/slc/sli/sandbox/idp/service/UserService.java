@@ -33,6 +33,8 @@ import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.core.support.CollectingAuthenticationErrorCallback;
 import org.springframework.ldap.filter.AndFilter;
 import org.springframework.ldap.filter.EqualsFilter;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -176,13 +178,30 @@ public class UserService {
         return user;
     }
     
-    public void updateUser(String realm, User user, String newPass){
-    	LOG.info("Update User with Fake Password");
-    	user.attributes.put("Password", newPass);
-    	//DirContextAdapter context = new DirContextAdapter(buildUserDN(realm, user));
-    	DirContextAdapter context = (DirContextAdapter) ldapTemplate.lookupContext(buildUserDN(realm, user.getAttributes().get("uid")));
-    	mapUserToContext(context, user, newPass);
+    public boolean updateUser(String realm, User user){
+    	LOG.info("Update User with new password");
+    	
+    	String displayName = user.getAttributes().get("emailToken");
+    	
+    	if(displayName==null||displayName.trim().length()==0){
+    		String token=Math.random()+
+    					user.getAttributes().get("mail")+
+    					user.getAttributes().get("givenName")+
+    					user.getAttributes().get("sn");
+    		
+    		PasswordEncoder encoder = new Md5PasswordEncoder();
+    	    String hashedToken = encoder.encodePassword(token, null);
+    	    
+    		user.attributes.put("emailToken", hashedToken);
+    	}
+    	DirContextAdapter context = 
+    			(DirContextAdapter) ldapTemplate.lookupContext(buildUserDN(realm, user.getAttributes().get("userName")));
+    	
+    	mapUserToContext(context, user);
+        
     	ldapTemplate.modifyAttributes(context);
+    	
+    	return true;
     }
 
     /**
@@ -215,7 +234,7 @@ public class UserService {
     	return dn;
     }
     
-    private void mapUserToContext(DirContextAdapter context, User user, String newPass) {
+    private void mapUserToContext(DirContextAdapter context, User user) {
          context.setAttributeValues("objectclass", new String[] { "inetOrgPerson", "posixAccount", "top" });
          context.setAttributeValue("givenName", user.getAttributes().get("givenName"));
          context.setAttributeValue("sn", user.getAttributes().get("sn"));
@@ -223,11 +242,11 @@ public class UserService {
          context.setAttributeValue("uidNumber", user.getAttributes().get("uidNumber"));
          context.setAttributeValue("gidNumber", user.getAttributes().get("gidNumber"));
          context.setAttributeValue("cn", user.getAttributes().get("userName"));
-         //context.setAttributeValue("mail", user.getAttributes().get("mail"));
+         context.setAttributeValue("mail", user.getAttributes().get("mail"));
          context.setAttributeValue("homeDirectory", user.getAttributes().get("homeDirectory"));
          
-         context.setAttributeValue("displayName", "sunsetAdmin");
-         context.setAttributeValue("userPassword", newPass);
+         context.setAttributeValue("displayName", user.getAttributes().get("emailToken"));
+         context.setAttributeValue("userPassword", user.getAttributes().get("userPassword"));
          
          String description = "";
          if (user.getAttributes().get("tenant") != null) {
@@ -259,18 +278,17 @@ public class UserService {
             attributes.put("userName", context.getStringAttribute("cn"));
             attributes.put("givenName", context.getStringAttribute("givenName"));
             attributes.put("sn", context.getStringAttribute("sn"));
-            attributes.put("uid", context.getStringAttribute("cn"));
+            attributes.put("uid", context.getStringAttribute("uid"));
             
             attributes.put("uidNumber", context.getStringAttribute("uidNumber"));
             attributes.put("gidNumber", context.getStringAttribute("gidNumber"));
-
-            
-            //attributes.put("mail", context.getStringAttribute("mail"));
             attributes.put("homeDirectory", context.getStringAttribute("homeDirectory"));
+            attributes.put("mail", context.getStringAttribute("mail"));
             
             String emailToken = context.getStringAttribute("displayName");
             if(emailToken==null) emailToken = "";
             attributes.put("emailToken", emailToken);
+            
             
             String description = context.getStringAttribute("description");
             if (description != null && description.length() > 0) {
@@ -293,6 +311,7 @@ public class UserService {
                     }
                 }
             }
+
             user.attributes = attributes;
             return user;
         }

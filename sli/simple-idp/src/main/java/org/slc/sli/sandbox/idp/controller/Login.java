@@ -130,17 +130,22 @@ public class Login {
         if (isSandboxImpersonationEnabled && (incomingRealm == null || incomingRealm.length() == 0)) {
             doImpersonation = true;
             realm = sliAdminRealmName;
-
         }
 
         AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, incomingRealm);
-
         User user;
+        
         try {
         	user = userService.authenticate(realm, userId, password);
 
-        	userService.updateUser(realm, user, "test1234");
-        	
+        	//check whether user needs force password change
+        	if(shouldForcePasswordChange(user)){
+                ModelAndView mav = new ModelAndView("changePassword");
+                mav.addObject("SAMLRequest", encodedSamlRequest);
+                mav.addObject("realm", incomingRealm);
+                mav.addObject("userId", userId);
+                return mav;
+        	}	
         } catch (AuthenticationException e) {
             ModelAndView mav = new ModelAndView("login");
             mav.addObject("msg", "Invalid User Name or password");
@@ -246,5 +251,16 @@ public class Login {
         }
 
         audit(event);
+    }
+    
+    private boolean shouldForcePasswordChange(User user){
+    	if(user==null) return false;
+    	
+    	String emailToken = user.getAttributes().get("emailToken");
+    	
+    	if(emailToken==null ||emailToken.trim().length()==0)
+    		return true;
+    	
+    	return false;
     }
 }
