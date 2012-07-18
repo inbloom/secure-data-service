@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.client.impl.BasicClient;
+import org.slc.sli.api.client.impl.BasicRESTClient;
 
 /**
  * Basic authentication example using the SLI SDK.
@@ -56,8 +57,8 @@ public class SlcInterface {
     @PostConstruct
     public void init() {
         if (null == client) {
-            client = new BasicClient(apiUrl, clientId, clientSecret, callbackUrl);
-            client.setToken(token);
+            client = new BasicClient(new BasicRESTClient(apiUrl, clientId, clientSecret, callbackUrl));
+            client.getRESTClient().setSessionToken(token);
         }
     }
 
