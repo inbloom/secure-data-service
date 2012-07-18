@@ -39,7 +39,7 @@ Scenario: Realm creation/editing should have validation
   And I should see that I am on the "Brand New Realm" edit page
   And I should remove all of the fields
   And I should click the "Save" button
-  Then I should get 4 errors
+  Then I should get 5 errors
   When I enter valid data into all fields
   And I should click the "Save" button
   Then I should not see any errors

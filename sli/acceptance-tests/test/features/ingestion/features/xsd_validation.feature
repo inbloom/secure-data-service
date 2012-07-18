@@ -59,7 +59,7 @@ Scenario: InterchangeStudentGrade.xml Ed-Fi XSD Validation - <CompetencyLevel> u
       | section                     |
 	  | gradingPeriod               |
       | session                     |
-      | studentSectionGradebookEntry|
+      | studentGradebookEntry       |
     When zip file is scp to ingestion landing zone
     And a batch job log has been created
 
@@ -73,12 +73,12 @@ Scenario: InterchangeStudentGrade.xml Ed-Fi XSD Validation - <CompetencyLevel> u
       | session                     | 1     |
 	  | courseOffering              | 1     |
       | section                     | 1     |
-      | studentSectionGradebookEntry| 1     |
+      | studentGradebookEntry       | 1     |
     And I check to find if record is in collection:
       | collectionName              | expectedRecordCount | searchParameter                    | searchValue           | searchType        |
       | student                     | 1                   | body.studentUniqueStateId          | 100000000             | string            |
       | student                     | 1                   | body.schoolFoodServicesEligibility | Reduced price         | string            |
-      | studentSectionGradebookEntry| 1                   | body.dateFulfilled                 | 2011-09-16            | string            |
+      | studentGradebookEntry       | 1                   | body.dateFulfilled                 | 2011-09-16            | string            |
 
     Then I should see "Processed 291 records." in the resulting batch job file
     And I should see "InterchangeStudentGrade.xml records considered: 2" in the resulting batch job file

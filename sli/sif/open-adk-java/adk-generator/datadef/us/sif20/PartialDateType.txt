@@ -1,0 +1,327 @@
+	private Integer fDate[] = new Integer[3];
+	
+	/**
+	 *  Constructor that accepts values for all mandatory fields
+	 *  @param date The Calendar object representing the date
+	 */
+	public PartialDateType( Calendar date ) {
+		super( CommonDTD.PARTIALDATETYPE );
+		setDate( date );
+	}
+	
+	
+	/**
+	 *  Create a PartialDateType representing the given year
+	 *  @param year Year (CCYY).
+	 */
+	public PartialDateType( Integer year ) {
+		super( CommonDTD.PARTIALDATETYPE );
+		fDate[0] = year;
+		calculateTextValue();
+	}
+	
+	
+	/**
+	 *  Create a PartialDateType representing the given year and month
+	 *  @param year Year (CCYY).
+	 *  @param month Month (MM)
+	 */
+	public PartialDateType( Integer year, Integer month ) {
+		super( CommonDTD.PARTIALDATETYPE );
+		setDate( year, month );
+	}
+	
+	/**
+	 *  Create a PartialDateType representing the given year, month and date
+	 *  @param year Year (CCYY).
+	 *  @param month Month (MM)
+	 *  @param day  Day (DD)
+	 */
+	public PartialDateType( Integer year, Integer month, Integer day ) {
+		super( CommonDTD.PARTIALDATETYPE );
+		setDate( year, month, day );
+	}
+	
+	/**
+	 * Sets the Year component of this partial date
+	 * @param year
+	 */
+	public void setYear( Integer year )
+	{
+		fDate[0] = year;
+		calculateTextValue();
+	}
+	
+	/**
+	 * returns the Year component of this partial date
+	 * @return the year component, or null if not set
+	 */
+	public Integer getYear()
+	{
+		return fDate[0];
+	}
+	
+	/**
+	 * Sets the Month component of this partial date
+	 * @param month
+	 */
+	public void setMonth( Integer month )
+	{
+		fDate[1] = month;
+		calculateTextValue();
+	}
+	
+	/**
+	 * returns the Month component of this partial date
+	 * @return The month (1-12), or null if not set
+	 */
+	public Integer getMonth()
+	{
+		return fDate[1];
+	}
+	
+	/**
+	 * Sets the Day component of this partial date
+	 * @param day
+	 */
+	public void setDay( Integer day )
+	{
+		fDate[2] = day;
+		calculateTextValue();
+	}
+	
+	/**
+	 * returns the Day component of this partial date
+	 * @return The day or null if not set
+	 */
+	public Integer getDay()
+	{
+		return fDate[2];
+	}
+	
+	/**
+	 * Sets the date value of this PartialDateType
+	 * @param date The date value to set
+	 */
+	public void setDate( Calendar date )
+	{
+		setDate( date.get( Calendar.YEAR ), date.get( Calendar.MONTH ) + 1, date.get( Calendar.DAY_OF_MONTH ) );
+	}
+	
+	/**
+	 * Returns a Calendar instance with its Year, Month and Day fields set
+	 * to the values of this partial date type
+	 * @return a Calendar instance representing this PartialDate
+	 */
+	public Calendar getDate()
+	{
+		Calendar c = Calendar.getInstance();
+		c.clear();
+		if( fDate[0]!= null ){
+			c.set( Calendar.YEAR, fDate[0] );
+		}
+		if( fDate[1]!= null ){
+			c.set( Calendar.MONTH, fDate[1] - 1 );
+		}
+		if( fDate[2]!= null ){
+			c.set( Calendar.DAY_OF_MONTH, fDate[2] );
+		}
+		return c;
+	}
+	
+	/**
+	 * Sets the integral components of this partial date instance
+	 * @param year
+	 * @param month
+	 * @param day
+	 */
+	public void setDate( Integer year, Integer month, Integer day )
+	{
+		fDate[0] = year;
+		fDate[1] = month;
+		fDate[2] = day;
+		calculateTextValue();
+	}
+	
+	/**
+	 * Sets the integral year and month components
+	 * @param year
+	 * @param month
+	 */
+	public void setDate( Integer year, Integer month )
+	{
+		fDate[0] = year;
+		fDate[1] = month;
+		fDate[2] = null;
+		calculateTextValue();
+	}
+	
+	
+	/**
+	 * Parses the text value of this element into its representative integral parts 
+	 */
+	private void parseTextValue()
+	{
+		// The text value for this element can be an xsd:date, xsd:gYear, or xsd:gYearMonth
+		// The time zone component is ignored
+		// Set all of the values to null before parsing
+		fDate[0] = null;
+		fDate[1] = null;
+		fDate[2] = null;
+		String dateValue = getValue();
+		if( dateValue == null || dateValue.length() == 0 ){
+			return;
+		}
+		
+		// chop off the time zone
+		int loc = dateValue.indexOf( "Z" );
+		if( loc > -1 ){
+			dateValue = dateValue.substring( 0, loc  );
+		}
+		loc = dateValue.indexOf( ":" );
+		if( loc > -1 ){
+			dateValue = dateValue.substring( 0, loc - 3 );
+		}
+		
+		// Now it should be in the format, YYYY, YYYY-mm, or YYYY-mm-dd
+		switch( dateValue.length() ){
+			case 4:
+				fDate[0] = Integer.parseInt( dateValue );
+				break;
+			case 7:
+				fDate[0] = Integer.parseInt( dateValue.substring( 0, 4 ) );
+				fDate[1] = Integer.parseInt( dateValue.substring( 5, 7 ) );
+				break;
+			default:
+				Calendar c = ADK.DTD().getFormatter( SIFVersion.SIF20 ).toDate( dateValue );
+				fDate[0] = c.get( Calendar.YEAR );
+				fDate[1] = c.get( Calendar.MONTH ) + 1;
+				fDate[2] = c.get( Calendar.DAY_OF_MONTH );
+		}
+		// If no value was parsed for year, remove the text value
+		if( fDate[0] == null ){
+			removeField( CommonDTD.PARTIALDATETYPE );
+		}
+		
+	}
+	
+	/**
+	 * Sets the text value of this element from its representative date parts.
+	 * This is called any time one of the integral components of the date is set,
+	 * overwriting any previous text value
+	 */
+	private void calculateTextValue()
+	{
+		// Do not call setField( ElementDef, SIFSimplyType ) because it would cause
+		// the integral components to have to be re-parsed
+		if( fDate[0] == null  )
+		{
+			// No year component
+			removeField( CommonDTD.PARTIALDATETYPE );
+		}
+		else
+		{
+			String textValue = null;
+			if( fDate[1] == null ){
+				// Year only
+				textValue = String.format( "%1$04d", fDate[0].intValue() );
+			} else if ( fDate[2] == null ){
+				// Year-month only
+				textValue = String.format( "%1$04d-%2$02d", fDate[0].intValue(), fDate[1].intValue() );
+			} else {
+				textValue = String.format( "%1$04d-%2$02d-%3$02d", fDate[0].intValue(), fDate[1].intValue(), fDate[2].intValue() );
+			}
+
+			SIFString value = new SIFString( textValue );
+			SimpleField field = value.createField( this, CommonDTD.PARTIALDATETYPE );
+			setField( field );
+		}
+	}
+	
+	
+
+	@Override
+	public SimpleField setField(ElementDef id, SIFSimpleType value) {
+		// verify the parameter values
+		if( id == null || !(CommonDTD.PARTIALDATETYPE.name().equals( id.name() ))){
+			throw new IllegalArgumentException("ElementDef must be CommonDTD.PARTIALDATETYPE" );
+		}
+		if( value != null && value.getDataType() != SIFDataType.STRING ){
+			throw new IllegalArgumentException("Value type must be SIFDataType.STRING" );
+		}
+		
+		// Allow any datatype to be set, but convert it to a string
+		// This is important, because the value of this could be set to 
+		// an int from mappings, because it was an int in SIF 1.5
+		if( value.getDataType() != SIFDataType.STRING ){
+			value = new SIFString( value.toString() );
+		}
+		// Parse the text value into its representative parts
+		SimpleField returnValue = super.setField(id, value);
+		parseTextValue();
+		return returnValue;
+	}
+	
+	@Override
+	public void setField(SimpleField field) {
+		if( field.getSIFValue().getDataType() != SIFDataType.STRING ){
+			field.setSIFValue( new SIFString( field.getSIFValue().toString() ) );
+		}
+		super.setField(field);
+		parseTextValue();
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.edustructures.sifworks.Element#setTextValue(java.lang.String)
+	 */
+	@Override
+	public void setTextValue( String value ) {
+		super.setTextValue( value );
+		parseTextValue();
+	}
+
+	/**
+	 * Gets the DataType represented by this date (Date, YearMonth, Year)
+	 * @return the Datatype represented by this date
+	 */
+	public DataType getDataType() {
+		if( fDate[0] != null ){
+			if( fDate[1] != null ){
+				if( fDate[2] != null ){
+					return DataType.DATE;
+				} else {
+					return DataType.GYEARMONTH;
+				}
+			} else {
+				return DataType.GYEAR;
+			}
+		}
+		return DataType.UNKNOWN;
+	}
+	
+	/**
+	 * The set of Data types supported by PartialDateType
+	 * 
+	 * @author Andrew Elmhorst
+	 *
+	 */
+	public enum DataType
+	{
+		/**
+		 * The PartialDateType instance contains year, month, and day information 
+		 */
+		DATE,
+		/**
+		 * The PartialDateType instance contains only the year
+		 */
+		GYEAR,
+		/**
+		 * The PartialDateType instance contains only the year and month
+		 */
+		GYEARMONTH,
+		/**
+		 * The PartialDateType instance does not contain enough information to 
+		 * determine the datatype. For example, the value could be null.
+		 */
+		UNKNOWN
+	}

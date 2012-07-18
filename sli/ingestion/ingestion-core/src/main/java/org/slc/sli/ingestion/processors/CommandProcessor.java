@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.processors;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -26,6 +26,8 @@ import javax.annotation.Resource;
 import org.apache.camel.Exchange;
 import org.apache.camel.Handler;
 import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -44,8 +46,8 @@ import org.slc.sli.ingestion.cache.CacheProvider;
  */
 @Component
 public class CommandProcessor {
-
-   private static final Object JOB_COMPLETED = "jobCompleted";
+    private static final Logger LOG = LoggerFactory.getLogger(CommandProcessor.class);
+    private static final Object JOB_COMPLETED = "jobCompleted";
     private static final String BATCH_JOB_ID = "_id";
 
     @Resource(name = "batchJobMongoTemplate")
@@ -58,34 +60,38 @@ public class CommandProcessor {
     public void processCommand(Exchange exch) throws Exception {
         String command = exch.getIn().getBody().toString();
 
-        info("Received: " + command);
-
+        LOG.info("Received: " + command);
         String[] chunks = command.split("\\|");
 
         if (JOB_COMPLETED.equals(chunks[0])) {
 
-            info("Clearing cache at job completion.");
+            LOG.info("Clearing cache at job completion.");
 
             cacheProvider.flush();
 
-            String batchId = chunks[1];
-            Map<String, Pair<AtomicLong, AtomicLong>> stats = MongoTrackingAspect.aspectOf().getStats();
-
-            String hostName = InetAddress.getLocalHost().getHostName();
-            hostName = hostName.replaceAll("\\.", "#");
-            Update update = new Update();
-            update.set("executionStats." + hostName, stats);
-
-            info("Dumping runtime stats to db for job {}", batchId);
-            info(stats.toString());
-
-            mongo.updateFirst(new Query(Criteria.where(BATCH_JOB_ID).is(batchId)), update, "newBatchJob");
-            MongoTrackingAspect.aspectOf().reset();
-            info("Runtime stats are now cleared.");
+            // don't do this while aspect is disabled.
+            // dumpMongoTracking(chunks);
 
         } else {
-            error("Unsupported command");
+            LOG.error("Unsupported command");
         }
+    }
+
+    private void dumpMongoTracking(String[] chunks) throws UnknownHostException {
+        String batchId = chunks[1];
+        Map<String, Pair<AtomicLong, AtomicLong>> stats = MongoTrackingAspect.aspectOf().getStats();
+
+        String hostName = InetAddress.getLocalHost().getHostName();
+        hostName = hostName.replaceAll("\\.", "#");
+        Update update = new Update();
+        update.set("executionStats." + hostName, stats);
+
+        LOG.info("Dumping runtime stats to db for job {}", batchId);
+        LOG.info(stats.toString());
+
+        mongo.updateFirst(new Query(Criteria.where(BATCH_JOB_ID).is(batchId)), update, "newBatchJob");
+        MongoTrackingAspect.aspectOf().reset();
+        LOG.info("Runtime stats are now cleared.");
     }
 
 }

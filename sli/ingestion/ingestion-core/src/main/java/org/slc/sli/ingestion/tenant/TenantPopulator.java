@@ -27,11 +27,15 @@ import java.util.List;
 import java.util.regex.Matcher;
 
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.ingestion.util.LogUtil;
 
 /**
  * Populates the tenant database collection with default tenant collections.
@@ -40,6 +44,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class TenantPopulator implements ResourceLoaderAware {
+
+    Logger log = LoggerFactory.getLogger(TenantPopulator.class);
 
     @Autowired
     private TenantDA tenantDA;
@@ -71,7 +77,7 @@ public class TenantPopulator implements ResourceLoaderAware {
             tenantDA.insertTenant(tenantRecord);
 
         } catch (Exception e) {
-            error("Exception adding tenant " + tenantRecord + " :", e);
+            log.error("Exception adding tenant " + tenantRecord + " :", e);
             return false;
         }
         return true;
@@ -90,7 +96,7 @@ public class TenantPopulator implements ResourceLoaderAware {
                 tenantDA.insertTenant(tenant);
             }
         } catch (Exception e) {
-            error("Exception encountered populating default tenants:", e);
+            log.error("Exception encountered populating default tenants:", e);
         }
     }
 
@@ -207,7 +213,7 @@ public class TenantPopulator implements ResourceLoaderAware {
                 tenant = TenantRecord.parse(tenantIs);
             }
         } catch (IOException e) {
-            error("Exception encountered loading tenant resource: ", e);
+            LogUtil.error(log, "Exception encountered loading tenant resource: ", e);
         } finally {
             IOUtils.closeQuietly(tenantIs);
         }

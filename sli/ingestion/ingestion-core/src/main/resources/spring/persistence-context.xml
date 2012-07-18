@@ -72,7 +72,7 @@
     <value>studentDisciplineIncidentAssociation</value>
     <value>studentProgramAssociation</value>
     <value>studentSchoolAssociation</value>
-    <value>studentSectionGradebookEntry</value>
+    <value>studentGradebookEntry</value>
     <value>teacherSchoolAssociation</value>
     <value>teacherSectionAssociation</value>
   </util:set>

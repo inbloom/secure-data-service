@@ -22,6 +22,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Properties;
 
@@ -38,7 +39,10 @@ import javax.ws.rs.core.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.slc.sli.api.client.RESTClient;
+import org.slc.sli.api.client.SLIClient;
 import org.slc.sli.api.client.impl.BasicClient;
+import org.slc.sli.api.client.impl.BasicRESTClient;
 
 /**
  * Basic authentication example using the SLI SDK.
@@ -46,6 +50,8 @@ import org.slc.sli.api.client.impl.BasicClient;
 public class AuthFilter implements Filter {
 
     private static final Logger LOG = LoggerFactory.getLogger(AuthFilter.class);
+    private static final String CALL_BACK_PATH = "/sample/callback";
+
     private String clientId;
     private String clientSecret;
     private URL apiUrl;
@@ -58,71 +64,70 @@ public class AuthFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException,
-            ServletException {
-        HttpServletRequest req = (HttpServletRequest) request;
-        LOG.info("URI:" + req.getRequestURI());
-        if (req.getRequestURI().equals("/sample/callback")) {
-            if (handleCallback(request, response)) {
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        SLIClient client = (SLIClient) httpRequest.getSession().getAttribute("client");
+
+        LOG.info("URI:" + httpRequest.getRequestURI());
+
+        if (client == null) {
+            // this use is not authenticat yet
+            LOG.info("authenticate");
+            RESTClient restClient = new BasicRESTClient(apiUrl, clientId, clientSecret, callbackUrl);
+            client = new BasicClient(restClient);
+            ((HttpServletResponse) response).sendRedirect(client.getRESTClient().getLoginURL().toExternalForm());
+            httpRequest.getSession().setAttribute("client", client);
+        } else if (CALL_BACK_PATH.equals(httpRequest.getRequestURI())) {
+            // Authentication was successful lets connect to the API
+            String code = httpRequest.getParameter("code");
+            Response apiResponse = null;
+            try {
+                apiResponse = client.getRESTClient().connect(code);
+            } catch (MalformedURLException e) {
+                LOG.error(String.format("Invalid/malformed URL when connecting: %s", e.toString()));
+            } catch (URISyntaxException e) {
+                LOG.error(String.format("Invalid/malformed URL when connecting: %s", e.toString()));
+            }
+
+            if ((apiResponse == null) || (apiResponse.getStatus() != 200)) {
+                handleAPIResponseFailure(apiResponse, response);
+            } else {
                 ((HttpServletResponse) response).sendRedirect(afterCallbackRedirect);
             }
             LOG.info("callback");
-            return;
-        } else if (req.getSession().getAttribute("client") == null) {
-            LOG.info("authenticate");
-            authenticate(request, response);
         } else {
-            try {
-                LOG.info("chain");
-                chain.doFilter(request, response);
-            } catch (Exception e) {
-                // Redirect to login on any errors
-                // TODO - we should handle responses correctly here. If the session is invalidated,
-                // we need to handle this properly. Same with the other HTTP response codes.
-                authenticate(request, response);
-            }
+            // Assuming authenticated user, process request as necessary.
+            LOG.info("chain");
+            chain.doFilter(request, response);
+
+            // Redirect to login on any errors
+            // TODO - we should handle responses correctly here. If the session is invalidated,
+            // we need to handle this properly. Same with the other HTTP response codes.
+            // Possible solution:
+            //      authenticate(request, response);
         }
     }
 
-    private boolean handleCallback(ServletRequest request, ServletResponse response) throws IOException {
-        BasicClient client = (BasicClient) ((HttpServletRequest) request).getSession().getAttribute("client");
-        String code = ((HttpServletRequest) request).getParameter("code");
-
-        if (client != null) {
-            String token = null;
-            Response rval = client.connect(code, token);
-
-            switch (rval.getStatus()) {
-                case 200:  // OK
-                    return true;
+    private void handleAPIResponseFailure(Response apiResponse, ServletResponse response) throws IOException {
+        if (apiResponse == null) {
+            ((HttpServletResponse) response).sendRedirect("404.html");
+        } else {
+            switch(apiResponse.getStatus()) {
                 case 403:
                     ((HttpServletResponse) response).sendRedirect("403.html");
-                    return false;
+                    break;
                 case 404:
                     ((HttpServletResponse) response).sendRedirect("404.html");
-                    return false;
+                    break;
                 case 422:
                     ((HttpServletResponse) response).sendRedirect("422.html");
-                    return false;
+                    break;
                 case 400:
                 case 500:
                     ((HttpServletResponse) response).sendRedirect("500.html");
-                    return false;
+                    break;
             }
         }
-
-        return true;
-    }
-
-    private void authenticate(ServletRequest req, ServletResponse res) {
-
-        BasicClient client = new BasicClient(apiUrl, clientId, clientSecret, callbackUrl);
-        try {
-            ((HttpServletResponse) res).sendRedirect(client.getLoginURL().toExternalForm());
-        } catch (IOException e) {
-            LOG.error("Bad redirect", e);
-        }
-        ((HttpServletRequest) req).getSession().setAttribute("client", client);
     }
 
     @Override

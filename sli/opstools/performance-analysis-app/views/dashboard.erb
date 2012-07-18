@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Wireframe</title>
+
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+
+</head>
+
+<body>
+    <div id="chart_div" style="width: 100%; height: 1000px;"></div>
+</body>
+<script type="text/javascript">
+    google.load("visualization", "1", {packages:["corechart"]});
+    $(document).ready(function(){
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "/generateReport",
+            success: function(result){
+                var json = eval(result);
+                var dataJSON = new google.visualization.DataTable(json);
+
+                var options = {
+                    title: 'Response Time for each end point',
+                    legend: 'none',
+                    vAxis: {title: 'Response Time(ms)',  titleTextStyle: {color: 'red'} },
+                    hAxis : {title: 'Api endpoints',textPosition: 'none'}
+                };
+                var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+                chart.draw(dataJSON, options);
+                google.visualization.events.addListener(chart, 'select', function() {
+                    //dataJSON.getValue()
+                    var tableRow = chart.getSelection();
+                    var endPoint = dataJSON.getValue(tableRow[0].row,0);
+                    drawChartForEndPoint(endPoint);
+                });
+
+            }
+        });
+    });
+
+    function drawChartForEndPoint(endPoint) {
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "/generateEndPointReport"+endPoint,
+            success: function(result){
+                var json = eval(result);
+                var dataJSON = new google.visualization.DataTable(json);
+
+                var options = {
+                    title: 'Response Time for '+endPoint,
+                    legend: 'none',
+                    vAxis: {title: 'Response Time(ms)',  titleTextStyle: {color: 'red'} },
+                    hAxis : {title: 'Jenkins build ',textPosition: 'none'}
+                };
+                var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+                chart.draw(dataJSON, options);
+                google.visualization.events.addListener(chart, 'select', function() {
+                    //dataJSON.getValue()
+                    var tableRow = chart.getSelection();
+                    var buildTag = dataJSON.getValue(tableRow[0].row,0);
+                    drawChartForEndPointPerBuild(endPoint,buildTag);
+                });
+            }
+        });
+    }
+
+    function drawChartForEndPointPerBuild(endPoint,buildTag) {
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "/generateEndPointReportForBuild"+endPoint+"/buildTag/"+buildTag,
+            success: function(result){
+                var json = eval(result);
+                var dataJSON = new google.visualization.DataTable(json);
+
+                var options = {
+                    title: 'Response Time for '+endPoint,
+                    legend: 'none',
+                    vAxis: {title: 'Response Time(ms)',  titleTextStyle: {color: 'red'} },
+                    hAxis : {title: 'Jenkins build ',textPosition: 'none'}
+                };
+                var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+                chart.draw(dataJSON, options);
+            }
+        });
+    }
+
+</script>
+</html>
+

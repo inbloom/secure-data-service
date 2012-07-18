@@ -33,6 +33,30 @@ class RealmTest < ActiveSupport::TestCase
     realm.name = nil
     assert(!realm.valid?, "Name validation should fail")
   end
+
+  test "name specific validation" do
+    realm = Realm.new
+    realm.uniqueIdentifier = "Waffles" #valid
+    realm.idp = Realm::Idp.new({:id => "Waffles", :redirectEndpoint => "Waffles"})
+    realm.name = "Super awesome"
+    assert realm.valid?, "Realm should be valid"
+    realm.name = "REALM!"
+    assert !realm.valid?, "Realm should not be valid (Special Character)"
+    realm.name = "RE"
+    assert !realm.valid?, "Realm should not be valid (Length)"
+  end
+
+  test "unique identifier validation" do
+    realm = Realm.new
+    realm.name = "Waffles" #valid
+    realm.idp = Realm::Idp.new({:id => "Waffles", :redirectEndpoint => "Waffles"})
+    realm.uniqueIdentifier = "Super awesome"
+    assert realm.valid?, "Realm should be valid: #{realm.errors.to_json}"
+    realm.uniqueIdentifier = "REALM!"
+    assert !realm.valid?, "Realm should not be valid (Special Character)"
+    realm.uniqueIdentifier = "RE"
+    assert !realm.valid?, "Realm should not be valid (Length)"
+  end
   
   test "idp validation" do
     realm = Realm.new

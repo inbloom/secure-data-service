@@ -19,7 +19,7 @@ sh $SLI_HOME/config/scripts/sharding/start-shard.sh $mongos_port $num_shards
 echo Shards started.
 
 mongo admin $SLI_HOME/config/shards/sli_shards.js
-mongo admin $SLI_HOME/config/shards/is_shards.js
+#mongo admin $SLI_HOME/config/shards/is_shards.js
 echo shards configured.
 
 mongo sli $SLI_HOME/config/indexes/sli_indexes.js

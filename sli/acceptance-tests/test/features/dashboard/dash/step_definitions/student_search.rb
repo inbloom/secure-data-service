@@ -92,5 +92,6 @@ Then /^I click on the previous page$/ do
 end
 
 Then /^I select page size of "([^"]*)"$/ do |pageSize|
+  @currentSearchResultsUrl = @driver.current_url
   selectOption("pageSizeSelect", pageSize.to_s)
 end

@@ -19,7 +19,8 @@ package org.slc.sli.ingestion.transformation.normalization;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -33,6 +34,8 @@ import com.mongodb.BasicDBObject;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -45,6 +48,7 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.cache.CacheProvider;
+import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
 
@@ -59,6 +63,8 @@ import org.slc.sli.ingestion.validation.ProxyErrorReport;
 
 @Component
 public class IdNormalizer {
+    private static final Logger LOG = LoggerFactory.getLogger(IdNormalizer.class);
+
     private static final String METADATA_BLOCK = "metaData";
 
     private static final String CACHE_NAMESPACE = "newId";
@@ -76,12 +82,12 @@ public class IdNormalizer {
     public void resolveInternalIds(Entity entity, String tenantId, EntityConfig entityConfig, ErrorReport errorReport) {
 
         if (entityConfig == null) {
-            warn("Entity configuration is null --> returning...");
+            LOG.warn("Entity configuration is null --> returning...");
             return;
         }
 
         if (entityConfig.getReferences() == null) {
-            warn("Entity configuration contains no references --> checking for sub-entities and then returning...");
+            LOG.debug("Entity configuration contains no references --> checking for sub-entities and then returning...");
             resolveSubEntities(entity, tenantId, entityConfig, errorReport);
             return;
         }
@@ -113,7 +119,7 @@ public class IdNormalizer {
                                         }
                                     } catch (Exception e) {
                                         if (!reference.getRef().isOptional()) {
-                                            error("Error accessing indexed bean property " + valueSourcePath
+                                            LOG.error("Error accessing indexed bean property " + valueSourcePath
                                                     + " for bean " + entity.getType());
                                             String errorMessage = "ERROR: Failed to resolve a reference"
                                                     + "\n"
@@ -140,7 +146,7 @@ public class IdNormalizer {
 
                 if (ids == null || ids.size() == 0) {
                     if (!reference.getRef().isOptional() && (numRefInstances > 0)) {
-                        error("Error with entity " + entity.getType() + " missing required reference "
+                        LOG.error("Error with entity " + entity.getType() + " missing required reference "
                                 + collectionName);
                         String errorMessage = "ERROR: Missing required reference" + "\n" + "       Entity "
                                 + entity.getType() + ": Missing reference to " + collectionName;
@@ -151,7 +157,7 @@ public class IdNormalizer {
                 }
 
                 if (ids.size() != numRefInstances) {
-                    error("Error in number of resolved internal ids for entity " + entity.getType() + ": Expected "
+                    LOG.error("Error in number of resolved internal ids for entity " + entity.getType() + ": Expected "
                             + numRefInstances + ", got " + ids.size() + " references to " + collectionName);
                     String errorMessage = "ERROR: Failed to resolve expected number of references" + "\n"
                             + "       Entity " + entity.getType() + ": Expected " + numRefInstances + ", got "
@@ -177,7 +183,7 @@ public class IdNormalizer {
 
             }
         } catch (Exception e) {
-            piiClearedError("Error resolving reference to " + collectionName + " in " + entity.getType(), e);
+            LogUtil.error(LOG, "Error resolving reference to " + collectionName + " in " + entity.getType(), e);
             String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity " + entity.getType()
                     + ": Reference to " + collectionName + " cannot be resolved" + "\n";
             if (resolvedReferences != null && !resolvedReferences.equals("")) {
@@ -193,13 +199,13 @@ public class IdNormalizer {
     private void resolveSubEntities(Entity entity, String tenantId, EntityConfig entityConfig, ErrorReport errorReport) {
         Map<String, String> subEntityConfigs = entityConfig.getSubEntities();
         if (subEntityConfigs != null) {
-            info("Checking entity: {} for sub-entities: {}", entity.getType(), subEntityConfigs);
+            LOG.debug("Checking entity: {} for sub-entities: {}", entity.getType(), subEntityConfigs);
             for (Map.Entry<String, String> entry : subEntityConfigs.entrySet()) {
                 String pathString = entry.getKey();
                 boolean optional = pathString.endsWith("?");
                 String path = optional ? pathString.substring(0, pathString.length() - 1) : pathString;
                 EntityConfig subEntityConfig = entityConfigurations.getEntityConfiguration(entry.getValue());
-                info("Checking sub-entity: {} [optional: {}]", pathString, optional);
+                LOG.debug("Checking sub-entity: {} [optional: {}]", pathString, optional);
                 try {
                     Object subEntityObject = PropertyUtils.getProperty(entity, path);
                     if (subEntityObject == null) {
@@ -210,20 +216,20 @@ public class IdNormalizer {
                         }
                     }
                     if (subEntityObject instanceof List) {
-                        info("Resolving list of sub-entities.");
+                        LOG.debug("Resolving list of sub-entities.");
                         for (Object subEntityInstance : (List<?>) subEntityObject) {
                             resolveSubEntity(tenantId, errorReport, subEntityConfig, subEntityInstance);
                         }
                     } else {
-                        info("Resolving single sub-entity.");
+                        LOG.debug("Resolving single sub-entity.");
                         resolveSubEntity(tenantId, errorReport, subEntityConfig, subEntityObject);
                     }
                 } catch (Exception e) {
-                    piiClearedError("Error parsing " + entity, e);
+                    LogUtil.error(LOG, "Error parsing " + entity, e);
                 }
             }
         } else {
-            info("Entity: {} does not have any sub-entities.", entity.getType());
+            LOG.debug("Entity: {} does not have any sub-entities.", entity.getType());
         }
     }
 
@@ -236,13 +242,13 @@ public class IdNormalizer {
             Entity subEntity = new NeutralRecordEntity(nr);
             resolveInternalIds(subEntity, tenantId, subEntityConfig, errorReport);
         } catch (ClassCastException e) {
-            piiClearedError("error resolving " + subEntityInstance, e);
+            LogUtil.error(LOG, "error resolving " + subEntityInstance, e);
         }
     }
 
     public String resolveInternalId(Entity entity, String tenantId, Ref refConfig, String fieldPath,
             ErrorReport errorReport, String resolvedReferences) {
-        debug("resolving id for {}", entity.getType());
+        LOG.debug("resolving id for {}", entity.getType());
         List<String> ids = resolveReferenceInternalIds(entity, tenantId, refConfig, fieldPath, errorReport);
 
         if (ids.size() == 0) {
@@ -364,7 +370,7 @@ public class IdNormalizer {
                                                             if (keyObj == null) {
                                                                 continue;
                                                             }
-                                                            debug(keyObj.toString());
+                                                            LOG.debug(keyObj.toString());
                                                             if (field.getQueryList().containsKey(keyObj.toString())) {
                                                                 choice.addCriteria(Criteria.where(field.getQueryList().get(keyObj.toString())).is(queryDbObject.toMap().get(keyObj)));
                                                                 criteriaCount++;
@@ -384,7 +390,7 @@ public class IdNormalizer {
                                     }
                                 } catch (Exception e) {
                                     if (!refConfig.isOptional()) {
-                                        piiClearedError("Error accessing indexed bean property " + valueSourcePath
+                                        LogUtil.error(LOG, "Error accessing indexed bean property " + valueSourcePath
                                                 + " for bean " + entity.getType(), e);
                                         String errorMessage = "ERROR: Failed to resolve a reference"
                                                 + "\n"
@@ -401,7 +407,7 @@ public class IdNormalizer {
                             }
                         }
                         if (filterValues.size() > 0) {
-                            debug("adding criteria for {}", field.getPath());
+                            LOG.debug("adding criteria for {}", field.getPath());
                             choice.addCriteria(Criteria.where(field.getPath()).in(filterValues));
                             criteriaCount++;
                         }
@@ -415,7 +421,7 @@ public class IdNormalizer {
             if (refConfig.isOptional()) {
                 return new ArrayList<String>();
             }
-            piiClearedError("Error resolving reference to " + fieldPath + " in " + entity.getType(), e);
+            LogUtil.error(LOG, "Error resolving reference to " + fieldPath + " in " + entity.getType(), e);
             String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity " + entity.getType()
                     + ": Reference to " + collection + " unresolved";
 
@@ -451,6 +457,9 @@ public class IdNormalizer {
 
             cache(ids, collection, tenantId, filter);
         }
+
+        // sort because the $or query can produce different results every time
+        Collections.sort(ids);
         return ids;
     }
 
@@ -511,7 +520,7 @@ public class IdNormalizer {
             query.or(queryOrList.toArray(new Query[queryOrList.size()]));
 
             // execute query and record results
-            Set<String> foundIds = new HashSet<String>();
+            Set<String> foundIds = new LinkedHashSet<String>();
             @SuppressWarnings("deprecation")
             Iterable<Entity> foundRecords = entityRepository.findByQuery(collectionName, query, 0, 0);
 
@@ -527,7 +536,7 @@ public class IdNormalizer {
             }
 
         } catch (Exception e) {
-            piiClearedError("Error resolving reference to " + collectionName + " in " + entity.getType(), e);
+            LogUtil.error(LOG, "Error resolving reference to " + collectionName + " in " + entity.getType(), e);
             String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity " + entity.getType()
                     + ": Reference to " + collectionName + " cannot be resolved" + "\n";
             errorReport.error(errorMessage, this);
@@ -601,7 +610,7 @@ public class IdNormalizer {
         int numRefInstances = 1;
         if (refConfig.isRefList()) {
             List<?> refValues = (List<?>) PropertyUtils.getProperty(entity, refConfig.getRefObjectPath());
-            Set<String> valueSet = new HashSet<String>();
+            Set<String> valueSet = new LinkedHashSet<String>();
             for (Object entry : refValues) {
                 valueSet.add(entry.toString());
             }

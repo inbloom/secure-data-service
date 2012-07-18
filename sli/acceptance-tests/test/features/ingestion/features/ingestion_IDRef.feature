@@ -34,19 +34,19 @@ Then I should see following map of entry counts in the corresponding collections
      | educationOrganization        |   8     |
      | gradebookEntry               |  18     |
      | gradingPeriod                |  10     |
-     | learningObjective            |   5     |
+     | learningObjective            |   6     |
      | learningStandard             |   6     |
      | session                      |  10     |
      | section                      |  12     |
      | student                      |  11     |
      | courseOffering               |   3     |
-  And I should see "Processed 116 records." in the resulting batch job file
+  And I should see "Processed 117 records." in the resulting batch job file
   And I should see "InterchangeAssessmentMetadata.xml records ingested successfully: 11" in the resulting batch job file
   And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 29" in the resulting batch job file
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 14" in the resulting batch job file
   And I should see "InterchangeMasterSchedule.xml records ingested successfully: 15" in the resulting batch job file
   And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 3" in the resulting batch job file
-  And I should see "InterchangeStudentGrade.xml records ingested successfully: 18" in the resulting batch job file
+  And I should see "InterchangeStudentGrade.xml records ingested successfully: 19" in the resulting batch job file
   And I should see "InterchangeStudentParent.xml records ingested successfully: 11" in the resulting batch job file
 #  And I should see "Unable to resolve a reference with ref=[LS_101]: No matching element with id=[LS_101]" in the resulting warning log file for "InterchangeStudentGrade.xml"
 #  And I should see "Unable to resolve a reference with ref=[LO_101]: No matching element with id=[LO_101]" in the resulting warning log file for "InterchangeStudentGrade.xml"

@@ -7,7 +7,6 @@ Given I have an open web browser
 
 @RALLY_US2817
 Scenario: View section's profile
-Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page

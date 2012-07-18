@@ -32,6 +32,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.EntityValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -49,6 +50,7 @@ public class BasicAssocService extends BasicService implements AssociationServic
     private final String targetKey;
     
     @Autowired
+    @Qualifier("validationRepo")
     private Repository<Entity> repo;
     
     public BasicAssocService(final String collectionName, final List<Treatment> treatments,

@@ -22,6 +22,7 @@
 	<button id="dbrd_btn_name_search" class="btn" type="submit">
 		<img src="${CONTEXT_ROOT_PATH}/static/images/search_icon.png" alt="Search" width="12px" height="12px"/>
 	</button>
+
 </form>
 
    <div class="banner-label">

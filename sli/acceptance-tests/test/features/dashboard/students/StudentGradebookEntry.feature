@@ -5,7 +5,6 @@ As a SLI user, I want to be able to select different views in my dashboard appli
 
 Background:
   Given I have an open web browser
-  Given the server is in "live" mode
 
 Scenario: Displaying gradebook entry data for all students - Linda Kim
     When I navigate to the Dashboard home page

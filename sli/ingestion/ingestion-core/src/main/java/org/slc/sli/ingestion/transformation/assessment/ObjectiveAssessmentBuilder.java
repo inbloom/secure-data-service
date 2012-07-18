@@ -25,16 +25,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.slc.sli.ingestion.Job;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.cache.CacheProvider;
+import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.ingestion.Job;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.cache.CacheProvider;
-import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 
 /**
  * Class for building objective assessments
@@ -45,7 +46,8 @@ import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 @Scope("prototype")
 @Component
 public class ObjectiveAssessmentBuilder {
-
+    private static final Logger LOG = LoggerFactory.getLogger(ObjectiveAssessmentBuilder.class);
+    
     private static final String CREATION_TIME = "creationTime";
     public static final String SUB_OBJECTIVE_REFS = "subObjectiveRefs";
     public static final String BY_IDENTIFICATION_CDOE = "identificationCode";
@@ -76,29 +78,29 @@ public class ObjectiveAssessmentBuilder {
         if (cached != null) {
             return cached;
         }
-
-        debug("Objective assessment: {} is not cached.. going to data store to find it.", objectiveAssessmentId);
-
+        
+        LOG.debug("Objective assessment: {} is not cached.. going to data store to find it.", objectiveAssessmentId);
+        
         Map<String, Object> assessment = getObjectiveAssessment(access, batchJobId, objectiveAssessmentId, BY_ID);
         if (assessment == null || assessment.isEmpty()) {
-            debug("Couldn't find objective assessment: {} using its id --> Using identification code.",
+            LOG.debug("Couldn't find objective assessment: {} using its id --> Using identification code.",
                     objectiveAssessmentId);
             assessment = getObjectiveAssessment(access, batchJobId, objectiveAssessmentId, BY_IDENTIFICATION_CDOE);
-
+            
             if (assessment == null || assessment.isEmpty()) {
-                warn(
+                LOG.warn(
                         "Failed to find objective assessment: {} using both id and identification code --> Returning null.",
                         objectiveAssessmentId);
                 assessment = null;
             } else {
-                debug("Found objective assessment: {} using its identification code.", objectiveAssessmentId);
+                LOG.debug("Found objective assessment: {} using its identification code.", objectiveAssessmentId);
             }
         } else {
-            debug("Found objective assessment: {} using its id.", objectiveAssessmentId);
+            LOG.debug("Found objective assessment: {} using its id.", objectiveAssessmentId);
         }
-
+        
         if (assessment != null) {
-            debug("Caching objective assessment: {}", objectiveAssessmentId);
+            LOG.debug("Caching objective assessment: {}", objectiveAssessmentId);
             cache(OBJECTIVE_ASSESSMENT, tenantId, objectiveAssessmentId, assessment);
         }
 
@@ -139,7 +141,7 @@ public class ObjectiveAssessmentBuilder {
      */
     private Map<String, Object> getObjectiveAssessment(String objectiveAssessmentRef, Set<String> parentObjs,
             String by, Map<Object, NeutralRecord> objectiveAssessments) {
-        debug("Looking up objective assessment: {} by: {}", objectiveAssessmentRef, by);
+        LOG.debug("Looking up objective assessment: {} by: {}", objectiveAssessmentRef, by);
         for (Map.Entry<Object, NeutralRecord> objectiveAssessment : objectiveAssessments.entrySet()) {
             Map<String, Object> record = objectiveAssessment.getValue().getAttributes();
             Map<String, Object> objectiveAssessmentToReturn = new HashMap<String, Object>();
@@ -157,18 +159,18 @@ public class ObjectiveAssessmentBuilder {
                             if (subAssessment != null) {
                                 subObjectives.add(subAssessment);
                             } else {
-                                warn("Could not find objective assessment ref: {}", subObjectiveRef);
+                                LOG.warn("Could not find objective assessment ref: {}", subObjectiveRef);
                             }
                         } else {
-                            warn("Ignoring sub objective assessment {} since it is already in the hierarchy",
+                            LOG.warn("Ignoring sub objective assessment {} since it is already in the hierarchy",
                                     subObjectiveRef);
                         }
                     }
                     objectiveAssessmentToReturn.put("objectiveAssessments", subObjectives);
-                    info("Found {} sub-objective assessments for objective assessment: {}", subObjectives.size(),
+                    LOG.info("Found {} sub-objective assessments for objective assessment: {}", subObjectives.size(),
                             objectiveAssessmentRef);
                 } else {
-                    debug("Objective assessment: {} has no sub-objectives (field is absent).",
+                    LOG.debug("Objective assessment: {} has no sub-objectives (field is absent).",
                             objectiveAssessmentRef);
                 }
 

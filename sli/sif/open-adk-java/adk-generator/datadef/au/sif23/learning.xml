@@ -1,0 +1,85 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.3 datamodel objects             -->
+<!-- ======================================== -->
+<adk package="learning" version="2.3" namespace="http://www.sifinfo.org/au/infrastructure/2.x">
+
+  <!--TeachingGroup-->
+  <object name="TeachingGroup" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The GUID of the TeachingGroup</desc>
+    </attribute>
+    <element name="SchoolYear" type="int" flags="M" />
+    <element name="LocalId" type="String" flags="M" />
+    <element name="ShortName" type="String" flags="M">
+      <desc>Short free format label that describes the group.</desc>
+    </element>
+    <element name="LongName" type="String" flags="O">
+      <desc>Longer description of required</desc>
+    </element>
+    <element name="Set" type="String" flags="O">
+      <desc>Set Number (UK)</desc>
+    </element>
+    <element name="Block" type="String" flags="O">
+      <desc>Block (UK)</desc>
+    </element>
+    <element name="CurriculumLevel" type="String" flags="O">
+      <desc>Assessment Stage eg VELS Level</desc>
+    </element>
+    <element name="SchoolInfoRefId" type="String" flags="O">
+      <desc>GUID of SchoolInfo object this teaching group belongs to.</desc>
+    </element>
+    <element name="SchoolLocalId" type="String" flags="O">
+      <desc>Local School Id.</desc>
+    </element>
+    <element name="SchoolCourseInfoRefId" type="String" flags="O">
+      <desc>GUID of SchoolCourseInfo object this teaching group is part of.</desc>
+    </element>
+    <element name="SchoolCourseLocalId" type="String" flags="O">
+      <desc>Local Course Id.</desc>
+    </element>
+    <element name="TimeTableSubjectRefId" type="String" flags="O">
+      <desc>GUID of TimeTableSubject object this teaching group belongs to.</desc>
+    </element>
+    <element name="TimeTableSubjectLocalId" type="String" flags="O">
+      <desc>Local subject Id.</desc>
+    </element>
+    <element name="StudentList" type="StudentList" flags="O" />
+    <element name="TeacherList" type="TeacherList" flags="O" />
+    <element name="MinClassSize" type="int" flags="O">
+      <desc>Minimum class size.</desc>
+    </element>
+    <element name="MaxClassSize" type="int" flags="O">
+      <desc>Maximum class size</desc>
+    </element>
+  </object>
+
+  <!--StudentList-->
+  <object name="StudentList">
+    <element name="TeachingGroupStudent" type="TeachingGroupStudent" flags="MR" />
+  </object>
+
+  <!--TeachingGroupStudent-->
+  <object name="TeachingGroupStudent">
+    <element name="StudentPersonalRefId" type="String" flags="O" />
+    <element name="StudentLocalId" type="String" flags="M" />
+    <element name="Name" type="Name" flags="M" />
+  </object>
+
+  <!--TeacherList-->
+  <object name="TeacherList">
+    <element name="TeachingGroupTeacher" type="TeachingGroupTeacher" flags="MR" />
+  </object>
+
+  <!--TeachingGroupTeacher-->
+  <object name="TeachingGroupTeacher">
+    <element name="StaffPersonalRefId" type="String" flags="O" />
+    <element name="StaffLocalId" type="String" flags="M" />
+    <element name="Name" type="Name" flags="M" />
+    <element name="Association" type="String" flags="M" />
+  </object>
+
+</adk>

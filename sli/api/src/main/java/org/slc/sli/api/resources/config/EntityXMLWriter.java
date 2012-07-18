@@ -31,7 +31,6 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
-import javax.xml.XMLConstants;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -108,7 +107,9 @@ public class EntityXMLWriter implements MessageBodyWriter<EntityResponse> {
             writer = factory.createXMLStreamWriter(entityStream);
 
             String resourceName = entityResponse.getEntityCollectionName();
-            if (isList(entityResponse.getEntity())) resourceName += "List";
+            if (isList(entityResponse.getEntity())) {
+                resourceName += "List";
+            }
 
             //start the document
             writer.writeStartDocument();

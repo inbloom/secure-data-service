@@ -13,8 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package org.slc.sli.modeling.uml;
 
 import java.util.List;
@@ -23,7 +21,7 @@ import java.util.List;
  * A simple type is a super-type of either a data-type or an enumeration.
  */
 public interface SimpleType extends Type {
-
+    
     List<EnumLiteral> getLiterals();
-
+    
 }

@@ -24,6 +24,8 @@ import java.util.Set;
 
 import com.mongodb.DBCollection;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -42,6 +44,8 @@ import org.slc.sli.ingestion.NeutralRecord;
  *
  */
 public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
+
+    protected static final Logger LOG = LoggerFactory.getLogger(NeutralRecordRepository.class);
 
     private static final String BATCH_JOB_ID = "batchJobId";
     private static final String CREATION_TIME = "creationTime";
@@ -140,7 +144,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     public Set<String> getStagedCollectionsForJob(String batchJobId) {
         Set<String> collectionNamesForJob = new HashSet<String>();
         if (batchJobId != null) {
-            info("Checking staged collection counts for batch job id: {}", batchJobId);
+            LOG.info("Checking staged collection counts for batch job id: {}", batchJobId);
             Query query = new Query().limit(0);
             query.addCriteria(Criteria.where(BATCH_JOB_ID).is(batchJobId));
             query.addCriteria(Criteria.where(CREATION_TIME).gt(0));
@@ -150,7 +154,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
                 if (count > 0) {
                     collectionNamesForJob.add(currentCollection);
                 }
-                info("Count for collection: {} ==> {} [query: {}]",
+                LOG.debug("Count for collection: {} ==> {} [query: {}]",
                         new Object[] { currentCollection, count, query });
             }
         }
@@ -162,7 +166,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
             Query query = new Query(Criteria.where(BATCH_JOB_ID).is(batchJobId));
             for (String currentCollection : getTemplate().getCollectionNames()) {
                 if (!currentCollection.startsWith("system.")) {
-                    info("Removing staged entities in collection: {} for batch job: {}", currentCollection,
+                    LOG.info("Removing staged entities in collection: {} for batch job: {}", currentCollection,
                             batchJobId);
                     getTemplate().remove(query, currentCollection);
                 }
@@ -202,7 +206,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     @Override
     public NeutralRecord create(NeutralRecord record, String collectionName) {
         template.save(record, collectionName);
-        debug(" create a record in collection {} with id {}", new Object[] { collectionName, getRecordId(record) });
+        LOG.debug(" create a record in collection {} with id {}", new Object[] { collectionName, getRecordId(record) });
         return record;
     }
 }

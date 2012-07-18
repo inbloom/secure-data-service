@@ -1,0 +1,51 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.2 infra objects                 -->
+<!-- ======================================== -->
+<adk package="infrastructure" version="2.4" name="Infrastructure" namespace="http://www.sifinfo.org/au/infrastructure/2.x">
+  <!--AuthenticationSource-->
+  <enum name="AuthenticationSource">
+    <value name="AUACCESSSHIBBOLETH" value="AUAccessShibboleth" desc="AUAccessShibboleth" />
+    <value name="MSACTIVEDIRECTORY" value="MSActiveDirectory" desc="MSActiveDirectory" />
+    <value name="NOVELLNDS" value="NovellNDS" desc="NovellNDS" />
+    <value name="OPENDIRECTORY" value="OpenDirectory" desc="OpenDirectory" />
+    <value name="OPENID" value="OpenID" desc="OpenID" />
+    <value name="OTHER" value="Other" desc="Other" />
+  </enum>  
+  <!--Identity-->
+  <object name="Identity" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The SIF RefId that uniquely identifies this object.</desc>
+    </attribute>
+    <element name="SIF_RefId" type="SIF_RefId" flags="M" />
+    <element name="AuthenticationSource" enum="AuthenticationSource" flags="M">
+      <desc>The type of source system that produced this Identityobject.</desc>
+    </element>
+    <element name="IdentityAssertions" type="IdentityAssertions" flags="O" />
+    <element name="PasswordList" type="PasswordList" flags="O" />
+    <element name="AuthenticationSourceGlobalUID" type="String" flags="O">
+      <desc>The globally unique person identifier that links together separate Identity objects which reference the same Person.</desc>
+    </element>
+  </object>    
+  <!--IdentityAssertions-->
+  <object name="IdentityAssertions">
+    <element name="IdentityAssertion" type="IdentityAssertion" flags="MR">
+      <desc>The identification string for this user.</desc>
+    </element>
+  </object>
+  <!--IdentityAssertion-->
+  <object name="IdentityAssertion">
+    <attribute name="SchemaName" type="String" flags="R">
+      <desc>The name of the field.</desc>
+    </attribute>
+  </object>
+  <!--PasswordList-->
+  <object name="PasswordList">
+    <element name="Password" type="Password" flags="MR">
+      <desc>A representation of the user's password using the given algorithm.</desc>
+    </element>
+  </object>
+</adk>

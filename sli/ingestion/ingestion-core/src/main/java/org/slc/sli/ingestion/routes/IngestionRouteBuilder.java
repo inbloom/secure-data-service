@@ -22,6 +22,8 @@ import org.apache.camel.CamelContext;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.Processor;
 import org.apache.camel.spring.SpringRouteBuilder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -55,6 +57,8 @@ import org.slc.sli.ingestion.tenant.TenantPopulator;
  */
 @Component
 public class IngestionRouteBuilder extends SpringRouteBuilder {
+
+    private static final Logger LOG = LoggerFactory.getLogger(IngestionRouteBuilder.class);
 
     @Autowired
     ControlFileProcessor ctlFileProcessor;
@@ -128,6 +132,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Value("${sli.ingestion.queue.pit.queueURI}")
     private String pitQueue;
 
+    @Value("${sli.ingestion.queue.pit.consumerQueueURI}")
+    private String pitConsumerQueue;
+
     @Value("${sli.ingestion.queue.pit.concurrentConsumers}")
     private String pitConsumers;
 
@@ -158,23 +165,22 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Override
     public void configure() throws Exception {
-        info("Configuring node {} for node type {}", nodeInfo.getUUID(), nodeInfo.getNodeType());
+        LOG.info("Configuring node {} for node type {}", nodeInfo.getUUID(), nodeInfo.getNodeType());
 
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + workItemConsumers;
         String maestroQueueUri = maestroQueue + "?concurrentConsumers=" + maestroConsumers + maestroUriOptions;
         String pitNodeQueueUri = pitQueue + "?concurrentConsumers=" + pitConsumers + pitUriOptions;
+        String pitConsumerNodeQueueUri = pitConsumerQueue + "?concurrentConsumers=" + pitConsumers + pitUriOptions;
 
         if (IngestionNodeType.MAESTRO.equals(nodeInfo.getNodeType())
                 || IngestionNodeType.STANDALONE.equals(nodeInfo.getNodeType())) {
 
-            info("configuring routes for maestro node");
+            LOG.info("configuring routes for maestro node");
 
             if (loadDefaultTenants) {
                 // populate the tenant collection with a default set of tenants
                 tenantPopulator.populateDefaultTenants();
             }
-
-
 
             buildExtractionRoutes(workItemQueueUri);
 
@@ -188,9 +194,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         if (IngestionNodeType.PIT.equals(nodeInfo.getNodeType())
                 || IngestionNodeType.STANDALONE.equals(nodeInfo.getNodeType())) {
 
-            info("configuring routes for pit node");
+            LOG.info("configuring routes for pit node");
 
-            buildPitRoutes(pitNodeQueueUri, maestroQueueUri);
+            buildPitRoutes(pitConsumerNodeQueueUri, maestroQueueUri);
         }
 
         from(this.commandTopicUri).bean(this.lookup(CommandProcessor.class));
@@ -310,7 +316,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         // routeId: pitNodes
         from(pitNodeQueueUri).routeId("pitNodes")
-                .log(LoggingLevel.INFO, "CamelRouting", "Pit message received: ${body}").choice()
+                .log(LoggingLevel.DEBUG, "CamelRouting", "Pit message received: ${body}").choice()
                 .when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to TransformationProcessor.")
                 .process(transformationProcessor)

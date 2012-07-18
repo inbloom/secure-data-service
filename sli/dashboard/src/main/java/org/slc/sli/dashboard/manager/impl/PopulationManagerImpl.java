@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.dashboard.manager.impl;
 
 import java.text.DateFormat;
@@ -53,6 +52,7 @@ import org.springframework.cache.annotation.Cacheable;
 
 import org.slc.sli.dashboard.entity.Config;
 import org.slc.sli.dashboard.entity.GenericEntity;
+import org.slc.sli.dashboard.entity.util.GenericEntityComparator;
 import org.slc.sli.dashboard.entity.util.GenericEntityEnhancer;
 import org.slc.sli.dashboard.manager.ApiClientManager;
 import org.slc.sli.dashboard.manager.EntityManager;
@@ -75,6 +75,9 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     private static final String ATTENDANCE_ABSENCE = "Absence";
 
     private static final String STUDENT_CACHE = "user.student";
+
+    private static final int DEFAULT_YEARS_BACK = 3;
+    private static final int NO_LIMIT = -1;
 
     private static Logger log = LoggerFactory.getLogger(PopulationManagerImpl.class);
 
@@ -427,26 +430,27 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                 if (course != null) {
                     String courseId = (String) course.get(Constants.ATTR_ID);
 
-            // we need to keep track of special cases, e.g. previous semester and two semesters ago
-            // data
-            List<Date> dates = getSessionDates(section);
-            Date sectionEndDate = (dates == null) ? null : dates.get(1);
-            String tag;
-            if (sectionEndDate != null) {
-                if (prevDate != null && prevDate.equals(sectionEndDate)) {
-                    // this is the previous semester's section
-                    tag = "previousSemester";
-                } else if (prevPrevDate != null && prevPrevDate.equals(sectionEndDate)) {
-                    // this is two semesters ago
-                    tag = "twoSemestersAgo";
-                } else {
-                    // this is neither of the cases of interest
-                    continue;
-                }
-            } else {
-                // no section end date means we cannot determine where this data belongs
-                continue;
-            }
+                    // we need to keep track of special cases, e.g. previous semester and two
+                    // semesters ago
+                    // data
+                    List<Date> dates = getSessionDates(section);
+                    Date sectionEndDate = (dates == null) ? null : dates.get(1);
+                    String tag;
+                    if (sectionEndDate != null) {
+                        if (prevDate != null && prevDate.equals(sectionEndDate)) {
+                            // this is the previous semester's section
+                            tag = "previousSemester";
+                        } else if (prevPrevDate != null && prevPrevDate.equals(sectionEndDate)) {
+                            // this is two semesters ago
+                            tag = "twoSemestersAgo";
+                        } else {
+                            // this is neither of the cases of interest
+                            continue;
+                        }
+                    } else {
+                        // no section end date means we cannot determine where this data belongs
+                        continue;
+                    }
 
                     // Find the correct course. If that course is found in
                     // the transcript, then record that letter grade to the
@@ -459,12 +463,12 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                                 Map<String, Object> grade = new LinkedHashMap<String, Object>();
                                 grade.put(Constants.SECTION_LETTER_GRADE, finalLetterGrade);
                                 grade.put(Constants.SECTION_COURSE, courseTitle);
-                        List<Map<String, Object>> semesterScores = (List<Map<String, Object>>) student.get(tag);
+                                List<Map<String, Object>> semesterScores = (List<Map<String, Object>>) student.get(tag);
                                 if (semesterScores == null) {
                                     semesterScores = new ArrayList<Map<String, Object>>();
                                 }
                                 semesterScores.add(grade);
-                        student.put(tag, semesterScores);
+                                student.put(tag, semesterScores);
                                 break;
                             }
                         }
@@ -919,65 +923,179 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
      */
     @Override
     public GenericEntity getAttendance(String token, Object studentIdObj, Config.Data config) {
-        String studentId = (String) studentIdObj;
-        // TODO: start using periods
-        String period = config.getParams() == null ? null : (String) config.getParams().get("daysBack");
-        int daysBack = (period == null) ? 360 : Integer.parseInt(period);
-        MutableDateTime daysBackTime = new DateTime().toMutableDateTime();
-        daysBackTime.addDays(-1 * daysBack);
-
-        DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
-        DateTimeFormatter dtfMonth = DateTimeFormat.forPattern("yyyy-MM");
-        List<GenericEntity> attendanceList = this.getStudentAttendance(token, studentId, null, null);
-        Collections.sort(attendanceList, new Comparator<GenericEntity>() {
-
-            @Override
-            public int compare(GenericEntity att1, GenericEntity att2) {
-                return ((String) att2.get(Constants.ATTR_ATTENDANCE_DATE)).compareTo((String) att1
-                        .get(Constants.ATTR_ATTENDANCE_DATE));
+        // get yearsBack from param
+        String yearsBack = config.getParams() == null ? null : (String) config.getParams().get("yearsBack");
+        int intYearsBack = DEFAULT_YEARS_BACK;
+        if (yearsBack != null) {
+            try {
+                intYearsBack = Integer.parseInt(yearsBack);
+            } catch (Exception e) {
+                log.error("params: value of yearsBack was not integer. ["+intYearsBack+"]. Using default value ["+DEFAULT_YEARS_BACK+"]");
+                intYearsBack = DEFAULT_YEARS_BACK;
             }
+        }
 
-        });
         GenericEntity attendance = new GenericEntity();
-        GenericEntity currentEntry;
-        String currentMonth = null, month;
-        NumberFormat nf = NumberFormat.getNumberInstance();
-        nf.setMaximumFractionDigits(0);
-        int tardyCount = 0, eAbsenceCount = 0, uAbsenceCount = 0, totalCount = 0;
-        String date;
-        for (GenericEntity entry : attendanceList) {
-            date = (String) entry.get(Constants.ATTR_ATTENDANCE_DATE);
-            month = (date == null) ? null : dtf.parseDateTime(date).toString(dtfMonth);
-            if (currentMonth == null) {
-                currentMonth = month;
-            } else if (!currentMonth.equals(month)) {
-                currentEntry = new GenericEntity();
-                currentEntry.put(Constants.ATTR_ATTENDANCE_DATE, month);
-                currentEntry.put("totalCount", totalCount);
-                currentEntry.put("excusedAbsenceCount", eAbsenceCount);
-                currentEntry.put("unexcusedAbsenceCount", uAbsenceCount);
-                currentEntry.put("tardyCount", tardyCount);
-                currentEntry.put("tardyRate", nf.format(100. * tardyCount / totalCount));
-                currentEntry.put("attendanceRate",
-                        nf.format(100. * (totalCount - (uAbsenceCount + eAbsenceCount)) / totalCount));
-                attendance.appendToList("attendance", currentEntry);
-                currentMonth = month;
-                uAbsenceCount = 0;
-                eAbsenceCount = 0;
-                tardyCount = 0;
-                totalCount = 0;
+        String studentId = (String) studentIdObj;
+        // get Enrollment History
+        List<GenericEntity> enrollments = getApiClient().getEnrollmentForStudent(token, studentId);
+
+        // creating lookup index for enrollment, key is term (yyyy-yyyy)
+        int currentSchoolYear = 0;
+        Map<String, LinkedHashMap<String, Object>> enrollmentsIndex = new HashMap<String, LinkedHashMap<String, Object>>();
+        for (LinkedHashMap<String, Object> enrollment : enrollments) {
+            String entryDateYear = "";
+            String exitWithdrawDateYear = "";
+            String entryDate = (String) enrollment.get(Constants.ATTR_ENROLLMENT_ENTRY_DATE);
+            String exitWithdrawDate = (String) enrollment.get(Constants.ATTR_ENROLLMENT_EXIT_WITHDRAW_DATE);
+
+            // find a year for entryDate
+            if (entryDate != null && entryDate.length() > 3) {
+                entryDateYear = entryDate.substring(0, 4);
             }
-            String value = (String) entry.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
-            if (value != null) {
-                if (value.contains(ATTENDANCE_TARDY)) {
-                    tardyCount++;
-                } else if (value.contains("Excused Absence")) {
-                    eAbsenceCount++;
-                } else if (value.contains("Unexcused Absence")) {
-                    uAbsenceCount++;
+
+            // find a year for exitWithdarwDate
+            if (exitWithdrawDate != null && exitWithdrawDate.length() > 3) {
+                exitWithdrawDateYear = exitWithdrawDate.substring(0, 4);
+            } else {
+                // exitWithdrawDate is null because it is in current term.
+                // add one year to entryDateYear.
+                currentSchoolYear = Integer.parseInt(entryDateYear);
+                exitWithdrawDateYear = Integer.toString(currentSchoolYear + 1);
+            }
+
+            // creating index lookup key
+            String key = entryDateYear + "-" + exitWithdrawDateYear;
+
+            enrollmentsIndex.put(key, enrollment);
+        }
+
+        // Numberformat for %Present - no fraction
+        NumberFormat numberFormat = NumberFormat.getNumberInstance();
+        numberFormat.setMaximumFractionDigits(0);
+
+        // get attendance for the student
+        List<GenericEntity> attendanceList = this.getStudentAttendance(token, studentId, null, null);
+        for (LinkedHashMap<String, Object> targetAttendance : attendanceList) {
+
+            // get schoolYearAttendance
+            List<LinkedHashMap<String, Object>> schoolYearAttendances = (List<LinkedHashMap<String, Object>>) targetAttendance
+                    .get(Constants.ATTR_ATTENDANCE_SCHOOLYEAR_ATTENDANCE);
+            if (schoolYearAttendances != null) {
+
+                // sort by schoolYear
+                GenericEntityComparator comparator = new GenericEntityComparator(Constants.ATTR_SCHOOL_YEAR,
+                        String.class);
+                Collections.sort(schoolYearAttendances, Collections.reverseOrder(comparator));
+
+                for (LinkedHashMap<String, Object> schoolYearAttendance : schoolYearAttendances) {
+                    int inAttendanceCount = 0;
+                    int absenceCount = 0;
+                    int excusedAbsenceCount = 0;
+                    int unexcusedAbsenceCount = 0;
+                    int tardyCount = 0;
+                    int earlyDepartureCount = 0;
+                    int totalCount = 0;
+
+                    // get schoolYear
+                    String schoolYear = (String) schoolYearAttendance.get(Constants.ATTR_SCHOOL_YEAR);
+
+                    // if some reasons we cannot find currentSchoolYear, then display all histories
+                    //if intYearsBack is not set to NO_LIMIT (-1) and found currentSchoolYear,
+                    //then exam whether current loop is within user defined yearsBack
+                    if (intYearsBack != NO_LIMIT && currentSchoolYear != 0) {
+                        int targetYear = Integer.parseInt(schoolYear.substring(0, 4));
+                        // if yearsBack is 1, it means current schoolYear.
+                        // break from the loop if currentSchoolYear-targetYear is over yearsBack.
+                        if ((currentSchoolYear - targetYear) >= intYearsBack) {
+                            break;
+                        }
+                    }
+
+                    // get attendanceEvent
+                    List<LinkedHashMap<String, Object>> attendanceEvents = (List<LinkedHashMap<String, Object>>) schoolYearAttendance
+                            .get(Constants.ATTR_ATTENDANCE_ATTENDANCE_EVENT);
+
+                    // count each attendance event
+                    if (attendanceEvents != null) {
+                        for (LinkedHashMap<String, Object> attendanceEvent : attendanceEvents) {
+                            String event = (String) attendanceEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
+                            if (event != null) {
+                                totalCount++;
+                                if (event.equals(Constants.ATTR_ATTENDANCE_IN_ATTENDANCE)) {
+                                    inAttendanceCount++;
+                                } else if (event.equals(Constants.ATTR_ATTENDANCE_ABSENCE)) {
+                                    absenceCount++;
+                                } else if (event.equals(Constants.ATTR_ATTENDANCE_EXCUSED_ABSENCE)) {
+                                    excusedAbsenceCount++;
+                                } else if (event.equals(Constants.ATTR_ATTENDANCE_UNEXCUSED_ABSENCE)) {
+                                    unexcusedAbsenceCount++;
+                                } else if (event.equals(Constants.ATTR_ATTENDANCE_TARDY)) {
+                                    tardyCount++;
+                                } else if (event.equals(Constants.ATTR_ATTENDANCE_EARLY_DEPARTURE)) {
+                                    earlyDepartureCount++;
+                                }
+                            }
+                        }
+                    }
+                    // get target school year enrollment
+                    LinkedHashMap<String,Object> enrollment = enrollmentsIndex.get(schoolYear);
+                    GenericEntity currentTermAttendance = new GenericEntity();
+
+                    // set school term
+                    currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_TERM, schoolYear);
+
+                    String nameOfInstitution = "";
+                    // get school name from enrollment
+                    if (enrollment != null) {
+                        LinkedHashMap<String, Object> school = (LinkedHashMap<String, Object>) enrollment
+                                .get(Constants.ATTR_SCHOOL);
+                        if (school != null) {
+                            nameOfInstitution = (String) school.get(Constants.ATTR_NAME_OF_INST);
+                        }
+                    }
+                    // set school name
+                    currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_SCHOOL, nameOfInstitution);
+
+                    String gradeLevel = "";
+                    // set grade level
+                    if (enrollment != null) {
+                        gradeLevel = (String) enrollment.get(Constants.ATTR_ENROLLMENT_ENTRY_GRADE_LEVEL_CODE);
+                    }
+                    currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_GRADE_LEVEL, gradeLevel);
+
+                    // set %Present
+                    currentTermAttendance
+                            .put(Constants.ATTENDANCE_HISTORY_PRESENT,
+                                    numberFormat
+                                            .format(totalCount == 0 ? 0
+                                                    : ((inAttendanceCount + tardyCount + earlyDepartureCount) / (double) totalCount) * 100));
+                    // set In Attendance
+                    currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_IN_ATTENDANCE, inAttendanceCount);
+
+                    // set Total Absences
+                    currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_TOTAL_ABSENCES, absenceCount
+                            + excusedAbsenceCount + unexcusedAbsenceCount);
+
+                    // set Absence
+                    currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_ABSENCE, absenceCount);
+
+                    // set Excused Absences
+                    currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_EXCUSED, excusedAbsenceCount);
+
+                    // set Unexcused Absences
+                    currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_UNEXCUSED, unexcusedAbsenceCount);
+
+                    // set Tardy
+                    currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_TARDY, tardyCount);
+
+                    // set Early departure
+                    currentTermAttendance.put(Constants.ATTENDANCE_EARLY_DEPARTURE, earlyDepartureCount);
+
+                    // Add to attendance list
+                    attendance.appendToList("attendance", currentTermAttendance);
                 }
             }
-            totalCount++;
         }
         return attendance;
     }
@@ -1093,6 +1211,9 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             GenericEntityEnhancer.enhanceStudent(student);
             enhancedStudents.add(student);
         }
+        // sort students by last & first name
+        Collections.sort(enhancedStudents, STUDENT_COMPARATOR);
+
         // This is a temporary solution until we decide how to integrate the search with the API
         // pagination calls. Currently, when API is used, the total number of search results is
         // stored in the header which is not accessible. Also, code above performs two searches and
@@ -1215,7 +1336,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     };
 
-    
+
     /**
      * Retrieves info required to create section profile.
      */
