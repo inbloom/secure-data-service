@@ -192,7 +192,7 @@ public final class XmiComp {
         
         final XmiMappingStatus checkedStatus = checkStatus(mapping);
         
-        return new XmiMapping(lhsFeature, rhsFeature, checkedStatus, mapping.getComment());
+        return new XmiMapping(lhsFeature, rhsFeature, checkedStatus, mapping.getTracking(), mapping.getComment());
     }
     
     private static final Map<CaseInsensitiveString, Feature> computeFeatures(final ClassType classType,

@@ -1,7 +1,5 @@
 package org.slc.sli.shtick;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
