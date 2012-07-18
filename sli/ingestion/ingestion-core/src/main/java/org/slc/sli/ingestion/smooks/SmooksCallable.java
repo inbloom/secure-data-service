@@ -166,7 +166,7 @@ public class SmooksCallable implements Callable<Boolean> {
             int recordsPersisted = visitAfter.getRecordsPerisisted();
             fileProcessStatus.setTotalRecordCount(recordsPersisted);
 
-            LOG.info("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
+            LOG.debug("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
                     ingestionFileEntry.getFileName());
         } catch (Exception e) {
             LOG.error("Error accessing visitor list in smooks", e);
