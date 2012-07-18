@@ -67,8 +67,8 @@ $entityData = {
     "environment" => "Sandbox"
   },
   "attendance" => {
-    "studentId" => "1563ec1d-924d-4c02-8099-3a0e314ef1d4",
-    "schoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
+    "studentId" => "61161008-2560-480d-aadf-4b0264dc2ae3",
+    "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
     "schoolYearAttendance" => [{
       "schoolYear" => "2011-2012",
       "attendanceEvent" => [{
@@ -102,7 +102,7 @@ $entityData = {
     "cohortScope" => "Statewide",
     "academicSubject" => "Physical, Health, and Safety Education",
     "educationOrgId" => "b1bd3db6-d020-4651-b1b8-a8dba688d9e1",
-    "programId" => ["9b8c3aab-8fd5-11e1-86ec-0021701f543f"]
+    "programId" => ["9b8cafdc-8fd5-11e1-86ec-0021701f543f"]
   },
   "course" => {
     "courseTitle" => "Chinese 1",

@@ -613,7 +613,7 @@ public class BasicService implements EntityService {
             debug("Field {} is referencing {}", fieldName, entityType);
             List<String> ids = value instanceof List ? (List<String>) value : Arrays.asList((String) value);
             String collectionName = definitionStore.lookupByEntityType(entityType).getStoredCollectionName();
-            SecurityCriteria securityCriteria = findAccessible(collectionName);
+            SecurityCriteria securityCriteria = findAccessible(entityType);
 
             NeutralQuery neutralQuery = new NeutralQuery();
             neutralQuery.setOffset(0);
