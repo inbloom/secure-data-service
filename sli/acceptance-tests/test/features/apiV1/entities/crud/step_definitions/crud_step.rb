@@ -66,15 +66,16 @@ $entityData = {
     "validated" => false,
     "environment" => "Sandbox"
   },
+
   "attendance" => {
-    "studentId" => "61161008-2560-480d-aadf-4b0264dc2ae3",
+    "entityType" => "attendance",
+    "studentId" => "0c2756fd-6a30-4010-af79-488d6ef2735a",
     "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
     "schoolYearAttendance" => [{
       "schoolYear" => "2011-2012",
       "attendanceEvent" => [{
         "date" => "2011-09-16", 
-        "event" => "Tardy", 
-        "reason" => "Missed school bus" 
+        "event" => "Tardy"
       }]
     }]
   },
@@ -306,8 +307,8 @@ $entityData = {
      "diagnosticStatement" => "passed with flying colors"
   },
   "reportCard" => {
-      "grades" => ["708c4e08-9942-11e1-a8a9-68a86d21d918", "708b3c95-9942-11e1-a8a9-68a86d21d918"],
-      "studentCompetencyId" => ["b57643e4-9acf-11e1-89a7-68a86d21d918"],
+      "grades" => ["ef42e2a2-9942-11e1-a8a9-68a86d21d918"],
+      "studentCompetencyId" => ["3a2ea9f8-9acf-11e1-add5-68a86d83461b"],
       "gpaGivenGradingPeriod" => 3.14,
       "gpaCumulative" => 2.9,
       "numberOfDaysAbsent" => 15,

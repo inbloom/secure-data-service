@@ -93,7 +93,7 @@ Examples:
 | "session"                      | "sessions"                | "totalInstructionalDays" | "43"                                         |
 | "staff"                        | "staff"                   | "sex"                    | "Female"                                     |
 | "student"                      | "students"                | "sex"                    | "Female"                                     |
-| "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "67ce204b-9999-4a11-aacb-000000000003"       |
+| "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "f923035d-1086-4c25-81e8-e0ff915c1f2c"       |
 | "studentGradebookEntry"        | "studentGradebookEntries" | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
 | "teacher"                      | "teachers"                | "highlyQualifiedTeacher" | "false"                                      |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
@@ -167,7 +167,7 @@ Examples:
 Examples:
 | Entity Type                    | Entity Resource URI       | Update Field             | Updated Value                                |
 | "assessment"                   | "assessments"             | "assessmentTitle"        | "Advanced Placement Test - Subject: Writing" |
-| "attendance"                   | "attendances"             | "studentId"              | "2fab099f-47d5-4099-addf-69120db3b53b"       |
+#| "attendance"                   | "attendances"             | "studentId"              | "cc62d233-b79e-43ae-8d3a-3dfed41c00e2"       |
 | "cohort"                       | "cohorts"                 | "cohortDescription"      | "frisbee golf team"                          |
 | "course"                       | "courses"                 | "courseDescription"      | "Advanced Linguistic Studies"                |
 | "disciplineAction"             | "disciplineActions"       | "disciplineDate"         | "2012-03-18"                                 |
@@ -180,7 +180,7 @@ Examples:
 | "program"                      | "programs"                | "programSponsor"         | "State Education Agency"                     |
 | "school"                       | "schools"                 | "nameOfInstitution"      | "Yellow Middle School"                       |
 | "section"                      | "sections"                | "sequenceOfCourse"       | "2"                                          |
-| "session"                      | "sessions"                | "totalInstructionalDays" | "43"                                         |
+#| "session"                      | "sessions"                | "totalInstructionalDays" | "43"                                         |
 | "staff"                        | "staff"                   | "sex"                    | "Female"                                     |
 | "student"                      | "students"                | "sex"                    | "Female"                                     |
 | "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "abcff7ae-1f01-46bc-8cc7-cf409819bbce"       |
