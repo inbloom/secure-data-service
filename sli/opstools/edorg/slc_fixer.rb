@@ -35,7 +35,7 @@ class SLCFixer
     @count = 0
     @basic_options = {:timeout => false, :batch_size => 100}
     @log = logger || Logger.new(STDOUT)
-    @log.level = Logger::INFO if logger.nil?
+    @log.level = Logger::WARN if logger.nil?
     @parent_ed_org_hash = {}
     @tenant_to_ed_orgs = {}
   end
@@ -43,7 +43,7 @@ class SLCFixer
   def start
     time = Time.now
     @threads = []
-    build_edorg_list
+    fix {build_edorg_list}
     fix {fix_students}
     fix {fix_sections}
     fix {fix_staff}
@@ -88,7 +88,6 @@ class SLCFixer
         edorgs = edorgs.flatten.uniq.sort
         stamp_id(@db['studentSchoolAssociation'], student['_id'], student['body']['schoolId'], student['metaData']['tenantId'])
         @student_hash[student['body']['studentId']] = edorgs
-        @log.info "STAMPING STUDEN ##{student['body']['studentId']} with #{edorgs.to_s}"
         stamp_id(@students, student['body']['studentId'], edorgs, student['metaData']['tenantId'])
       end
     end
@@ -389,12 +388,21 @@ class SLCFixer
     set_stamps(@db['studentAcademicRecord'])
     #StudentTranscriptAssociation
     @log.info "Iterating studentTranscriptAssociation with query: {}"
+
+    #Student Academic Record
+    @log.info "Iterating studentAcademicRecord with query: {}"
+    @db['studentAcademicRecord'].find({}, @basic_options) do |cur|
+      cur.each do |student|
+        edorg = student_edorgs(student['body']['studentId'])
+        stamp_id(@db['studentAcademicRecord'], student['_id'], edorg, student['metaData']['tenantId'])
+      end
+    end
     @db['studentTranscriptAssociation'].find({}, @basic_options) do |cur|
       cur.each do |trans|
         edorg = []
         edorg << old_edorgs(@db['studentTranscriptAssociation'], trans['_id'])
-        edorg << student_edorgs(trans['body']['studentId'])
-        @log.info "Iterating studentAcademicRecord with query: {'_id': #{trans['body']['studentAcademicRecordId']}}"
+        edorg << old_edorgs(@db['studentAcademicRecord'], trans['body']['studentAcademicRecordId'])
+       # @log.info "Iterating studentAcademicRecord with query: {'_id': #{trans['body']['studentAcademicRecordId']}}"
         #@db['studentAcademicRecord'].find({"_id" => trans['body']['studentAcademicRecordId']}, @basic_options) do |scur|
         #  scur.each do |sar|
         #    studentId = sar['body']['studentId']
@@ -402,6 +410,8 @@ class SLCFixer
         #  end
         #end
         edorg = edorg.flatten.uniq
+        @log.info "No edorgs on student #{trans['body']['studentId']}?" if edorg.empty?
+        @log.info "Edorgs for sTA##{trans['_id']} is #{edorg.to_s}" unless edorg.empty?
         stamp_id(@db['studentTranscriptAssociation'], trans['_id'], edorg, trans['metaData']['tenantId'])
       end
     end
@@ -424,40 +434,21 @@ class SLCFixer
       end
     end
 
-    #Student Academic Record
-    @log.info "Iterating studentAcademicRecord with query: {}"
-    @db['studentAcademicRecord'].find({}, @basic_options) do |cur|
-      cur.each do |student|
-        edorg = student_edorgs(student['body']['studentId'])
-        stamp_id(@db['studentAcademicRecord'], student['_id'], edorg, student['metaData']['tenantId'])
-      end
-    end
   end
 
   private
   def set_stamps(collection)
-    @log.info "Adding #{collection.name} to the list of things we're stamping"
     Thread.current[:stamping].push collection.name
-  #  @log.info "Clearing edorg stamps on #{collection.name}"
-  #  collection.find({"metaData.edOrgs" => {"$exists" => true}}, @basic_options) do |cur|
-  #    cur.each do |doc|
-  #      tenant = nil
-  #      begin
-  #        tenant = doc["metaData"]["tenantId"]
-  #      rescue
-  #        @log.warn "No tenant found when clearning edorgs for #{collection.name}##{doc["_id"]}"
-  #      end
-  #      collection.update({"_id" => doc["_id"], 'metaData.tenantId' => tenant}, {"$unset" => {"metaData.edOrgs" => 1}}) unless tenant.nil?
-  #    end
-  #  end
-
   end
   def edorg_digger(id)
     edorgs = []
     []
   end
   def stamp_id(collection, id, edOrg, tenantid)
+    Thread.current[:cache].merge id if id.is_a? Array
+    Thread.current[:cache].add id unless id.is_a? Array
     if edOrg.nil? or edOrg.empty? or tenantid.nil?
+      @log.warn "EdOrg: #{edOrg.to_s}\tTenant: #{tenantid}"
       @log.warn "No edorgs or tenant found for #{collection.name}##{id}"
       return
     end
@@ -481,10 +472,8 @@ class SLCFixer
         id.each do |array_id|
           collection.update({"_id" => array_id, 'metaData.tenantId' => tenantid}, {"$unset" => {"padding" => 1}, "$set" => {"metaData.edOrgs" => edOrgs}}) unless tenantid.nil?
         end
-        Thread.current[:cache].merge id 
       else
         collection.update({"_id" => id, 'metaData.tenantId' => tenantid}, {"$unset" => {"padding" => 1}, "$set" => {"metaData.edOrgs" => edOrgs}}) unless tenantid.nil?
-        @log.info "ADDING #{id} to the cache"; Thread.current[:cache].add id 
       end
     rescue Exception => e
       @log.error "Writing to #{collection.name}##{id} - #{e.message}"
