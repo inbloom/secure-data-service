@@ -45,10 +45,16 @@ class ForgotPasswordsController < ApplicationController
            
       if !!user && @forgot_password.valid? == true
          begin
+           emailToken = user[:emailToken]
+           if emailToken.nil?
+             currentTimestamp = DateTime.current.utc.to_i.to_s
+             emailToken = Digest::MD5.hexdigest(SecureRandom.base64(10)+currentTimestamp+user[:email]+user[:first]+user[:last])
+           end
            update_info = {
-                :email => "#{user[:email]}",
-                :password   => "#{@forgot_password.new_pass}",
-                :resetKey => ""
+             :email => "#{user[:email]}",
+             :password => "#{@forgot_password.new_pass}",
+             :resetKey => "",
+             :emailToken => "#{emailToken}"
            }
            response =  APP_LDAP_CLIENT.update_user_info(update_info)
            
@@ -88,7 +94,8 @@ class ForgotPasswordsController < ApplicationController
         resetKey = user[:resetKey]
         currentTimestamp = DateTime.current.utc.to_i
         difference = currentTimestamp - Integer(resetKey.sub(key + "@", ""))
-        
+	puts resetKey, currentTimestamp, difference, resetKey.sub(key + "@", "") 
+
         if difference >= 0 && difference < Integer(APP_CONFIG['reset_password_lifespan'])
           format.html { render action: "update" }
           format.json { render json: @forgot_password, status: :created, location: @forgot_password }

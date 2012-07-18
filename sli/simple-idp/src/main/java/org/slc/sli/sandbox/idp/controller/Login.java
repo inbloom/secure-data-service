@@ -18,6 +18,7 @@
 package org.slc.sli.sandbox.idp.controller;
 
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -148,19 +149,23 @@ public class Login {
             user = userService.authenticate(realm, userId, password);
             
             if(shouldForcePasswordChange(user)){
-            	Date date= new Date();
-            	Timestamp ts = new Timestamp(date.getTime());
-            	PasswordEncoder pe = new Md5PasswordEncoder();
             	
+            	//create timestamp as part of resetKey for user
+            	Date date = new Date();
+            	Timestamp ts = new Timestamp(date.getTime());
+            	
+            	PasswordEncoder pe = new Md5PasswordEncoder();
             	String token = Math.random() + user.getAttributes().get("mail");
             	String hashedToken = pe.encodePassword(token, null);
-            	String resetKey = hashedToken +"@"+ts.getTime();
+            	
+            	String resetKey = hashedToken +"@"+ts.getTime()/1000;
 
             	userService.updateUser(realm, user, resetKey, password);
             	
                 ModelAndView mav = new ModelAndView("forcePasswordChange");
-                String resetUrl = adminUrl + "/resetPassword?key=" + hashedToken;
-                mav.addObject("resetUrl", resetUrl);
+                String resetUri = adminUrl + "/resetPassword";
+                mav.addObject("resetUri", resetUri);
+                mav.addObject("key", hashedToken);
                 return mav;
             }
         } catch (AuthenticationException e) {

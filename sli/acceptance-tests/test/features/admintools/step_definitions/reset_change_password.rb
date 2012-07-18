@@ -26,12 +26,19 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 require 'date'
 
-Given /^I am a SLI Developer "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
+Given /^I am a valid SLI Developer "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
   # No code needed, done as configuration
 end
 
-Given /^I am a SLC Operator "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
+Given /^I am a valid SLC Operator "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
   # No code needed, done as configuration
+end
+
+Given /^I am a valid SLC Admin "([^"]*)" from the "([^"]*)" hosted directory logging in for the first time$/ do |arg1, arg2|
+  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
+                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
+                          PropLoader.getProps['ldap_admin_pass'])
+  @ldap.delete_user_attribute(arg1, 'emailToken')
 end
 
 When /^I hit the Change Password URL$/ do
@@ -57,6 +64,10 @@ end
 
 Then /^I am redirected to the Forgot Password page$/ do
   assertWithWait("Failed to navigate to the Forgot Password page")  {@driver.page_source.index("Forgot Password") != nil}
+end
+
+When /^I am forced to change password$/ do
+  assertWithWait("Failed to navigate to the Reset Password page")  {@driver.page_source.index("Reset Password") != nil}
 end
 
 Then /^I am redirected to the Reset Password page$/ do

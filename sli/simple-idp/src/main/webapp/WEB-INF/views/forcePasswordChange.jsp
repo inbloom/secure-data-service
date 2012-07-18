@@ -7,7 +7,8 @@
 </head>
 
 <body>
-	<form action="${resetUrl}" method="get" name="hiddenform">
+	<form action="${resetUri}" method="get" name="hiddenform">
+		<input type="hidden" name="key" value="${key}" />
 		<noscript>
 			<p>Script is disabled. Click Submit to continue.</p>
 			<input type="submit" value="Submit" />

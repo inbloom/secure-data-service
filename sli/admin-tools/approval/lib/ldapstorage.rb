@@ -406,7 +406,17 @@ class LDAPStorage
       end
     end
   end
-
+  
+  # delete attribute for a user
+  def delete_user_attribute(email_address, attribute)
+    found_user = read_user(email_address)
+    if found_user
+      Net::LDAP.open(@ldap_conf) do |ldap|
+        ldap.delete_attribute(:dn => get_DN(found_user[:cn]), ENTITY_ATTR_MAPPING[attribute])
+      end
+    end
+  end
+  
   #############################################################################
   # PRIVATE methods
   #############################################################################
