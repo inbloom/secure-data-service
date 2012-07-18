@@ -45,7 +45,7 @@ class ForgotPasswordsController < ApplicationController
            
       if !!user && @forgot_password.valid? == true
          begin
-           emailToken = user[:emailToken]
+           emailToken = user[:emailtoken]
            if emailToken.nil?
              currentTimestamp = DateTime.current.utc.to_i.to_s
              emailToken = Digest::MD5.hexdigest(SecureRandom.base64(10)+currentTimestamp+user[:email]+user[:first]+user[:last])
@@ -54,7 +54,7 @@ class ForgotPasswordsController < ApplicationController
              :email => "#{user[:email]}",
              :password => "#{@forgot_password.new_pass}",
              :resetKey => "",
-             :emailToken => "#{emailToken}"
+             :emailtoken => "#{emailToken}"
            }
            response =  APP_LDAP_CLIENT.update_user_info(update_info)
            
