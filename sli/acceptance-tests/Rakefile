@@ -465,9 +465,9 @@ task :apiSeleniumTests => [:adminToolsTests, :databrowserTests] do
   end
 end
 
-desc "Run Change Password Selenium Tests"
-task :changePasswordTests => [:realmInit] do
-  runTests("test/features/admintools/change_password.feature")
+desc "Run Reset and Change Password Selenium Tests"
+task :resetAndChangePasswordTests => [:realmInit] do
+  runTests("test/features/admintools/reset_change_password.feature")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -477,7 +477,7 @@ task :changePasswordTests => [:realmInit] do
 end
 
 desc "Run Admin-Tools Selenium Tests"
-task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests,:onboardingIntegrationTests,:provisionIntegrationTests,:tenantMetricsTests] do
+task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests,:onboardingIntegrationTests,:provisionIntegrationTests,:tenantMetricsTests, :resetAndChangePasswordTests] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/admintools")
   Rake::Task["importSandboxData"].execute
@@ -729,6 +729,7 @@ task :importSecuredData do
     "educationOrganization" => "secured/educationOrganization.json",
     "gradebookEntry" => "secured/gradebookEntry.json",
     "program" => "secured/program.json",
+    "reportCard" => "secured/reportCard.json",
     "section" => "secured/section.json",
     "staff" => "secured/staff.json",
     "staffCohortAssociation" => "secured/staffCohortAssociation.json",
@@ -737,11 +738,14 @@ task :importSecuredData do
     "student" => "secured/student.json",
     "studentAssessmentAssociation" => "secured/studentAssessment.json",
     "studentCohortAssociation" => "secured/studentCohortAssociation.json",
+    "studentDisciplineIncidentAssociation" => "secured/studentDisciplineIncidentAssociation.json",
     "studentProgramAssociation" => "secured/studentProgramAssociation.json",
     "studentSchoolAssociation" => "secured/studentSchoolAssociation.json",
     "studentSectionAssociation" => "secured/studentSectionAssociation.json",
-    "studentSectionGradebookEntry" => "secured/studentSectionGradebookEntry.json",
+    "studentGradebookEntry" => "secured/studentGradebookEntry.json",
     "teacherSchoolAssociation" => "secured/teacherSchoolAssociation.json",
+    "parent" => "secured/parent.json",
+    "studentParentAssociation" => "secured/studentParentAssociation.json",
     "teacherSectionAssociation" => "secured/teacherSectionAssociation.json"
 
   ]

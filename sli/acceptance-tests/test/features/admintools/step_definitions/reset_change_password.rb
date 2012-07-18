@@ -20,6 +20,7 @@ limitations under the License.
 require "selenium-webdriver"
 require 'json'
 require 'net/imap'
+require 'ldapstorage'
 
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
@@ -37,12 +38,37 @@ When /^I hit the Change Password URL$/ do
   @driver.get(PropLoader.getProps['admintools_server_url'] + "/change_passwords/new")
 end
 
+When /^I hit the Admin URL$/ do
+  @driver.get(PropLoader.getProps['admintools_server_url'])
+end
+
+When /^I visit the link sent to "(.*?)"$/ do |arg1|
+  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
+                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
+                          PropLoader.getProps['ldap_admin_pass'])
+  user = @ldap.read_user(arg1)
+  resetKey = user[:resetKey].split("@")[0]
+  @driver.get(PropLoader.getProps['admintools_server_url'] + "/resetPassword?key=" + resetKey)
+end
+
 Then /^I am redirected to the Change Password page$/ do
   assertWithWait("Failed to navigate to the Change Password page")  {@driver.page_source.index("Change Password") != nil}
 end
 
+Then /^I am redirected to the Forgot Password page$/ do
+  assertWithWait("Failed to navigate to the Forgot Password page")  {@driver.page_source.index("Forgot Password") != nil}
+end
+
+Then /^I am redirected to the Reset Password page$/ do
+  assertWithWait("Failed to navigate to the Reset Password page")  {@driver.page_source.index("Reset Password") != nil}
+end
+
 Then /^I see the input boxes to change my password$/ do
   assertWithWait("Failed to find the input boxes to change my password") {@driver.find_element(:id, "new_change_password")}
+end
+
+Then /^I see the input box to enter user id$/ do
+  assertWithWait("Failed to find the input boxes to change my password") {@driver.find_element(:id, "user_id")}
 end
 
 When /^I fill out the input field "([^\"]*)" as "([^\"]*)"$/ do |field, value|
@@ -56,6 +82,10 @@ Then /^I click on "(.*?)"$/ do |arg1|
   @driver.find_element(:xpath, "//input[contains(@id, '#{arg1}')]").click
 end
 
+Then /^I click the "(.*?)" link$/ do |arg1| 
+  @driver.find_element(:xpath, "//a[contains(@id, '#{arg1}')]").click
+end
+
 Then /^I see an error message "(.*?)"$/ do |errorMsg|
   assert(@driver.find_element(:xpath, "//h2[contains(@id, 'errorCountNotifier' and contains(text(), '#{errorMsg}')]").size != 0,
          "Cannot find error message \"#{errorMsg}\"")
@@ -64,3 +94,4 @@ end
 Then /^I check for message  "(.*?)"$/ do |arg1|
   assertText(arg1)
 end
+
