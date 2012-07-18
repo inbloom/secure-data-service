@@ -38,7 +38,7 @@ Given /^I am a SLC Admin "([^"]*)" from the "([^"]*)" hosted directory logging i
   @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
                           PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
                           PropLoader.getProps['ldap_admin_pass'])
-  @ldap.delete_user_attribute(arg1, 'emailToken')
+  @ldap.delete_user_attribute(arg1, :emailtoken)
 end
 
 When /^I hit the Change Password URL$/ do
