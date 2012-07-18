@@ -15,7 +15,7 @@ import re
 import collections
 from copy import deepcopy
 
-IGNORE_IDX = [[], ["_id"], ["_id", "_id"], ["_id", "metaData.tenantId"], ["metaData.tenantId", "_id"], ["metaData.tenantId", "metaData.externalId"], ["$msg"], "$and", "metaData"] #indexes to ignore
+IGNORE_IDX = [[], ["_id"], ["_id", "_id"], ["_id", "metaData.tenantId"], ["metaData.tenantId", "_id"], ["metaData.tenantId", "metaData.externalId"], ["$msg"], ["$and"], ["metaData"], ["metaData.tenantId"], ["metaData.edOrgs"], ["metaData.teacherContext"], ["body"], ["metaData.externalId"], ["metaData.externalId", "metaData.tenantId"]] #indexes to ignore
 QUERY_OPS = ['query', 'remove', 'update'] #'getmore' operation ignored
 
 TENANT_ID = "metaData.tenantId"
