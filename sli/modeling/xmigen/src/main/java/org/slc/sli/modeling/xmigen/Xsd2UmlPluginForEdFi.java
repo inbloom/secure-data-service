@@ -63,6 +63,7 @@ public final class Xsd2UmlPluginForEdFi extends Xsd2UmlPluginDefault {
     @Override
     public String getAssociationEndTypeName(final ClassType classType, final Attribute attribute,
             final Xsd2UmlPluginHost host) {
+        // FIXME: Can we do this by looking at the attribute type?
         if (attribute == null) {
             throw new NullPointerException("attribute");
         }
@@ -98,9 +99,11 @@ public final class Xsd2UmlPluginForEdFi extends Xsd2UmlPluginDefault {
             return "Diploma";
         } else if ("educationContentReference".equalsIgnoreCase(attributeName)) {
             return "EducationContent";
-        } else if ("educationOrganizationReference".equalsIgnoreCase(attributeName)) {
-            return "EducationOrganization";
+        } else if ("educationOrganizationNetworkReference".equalsIgnoreCase(attributeName)) {
+            return "EducationOrganizationNetwork";
         } else if ("educationOrganizationPeerReference".equalsIgnoreCase(attributeName)) {
+            return "EducationOrganization";
+        } else if ("educationOrganizationReference".equalsIgnoreCase(attributeName)) {
             return "EducationOrganization";
         } else if ("educationOrgReference".equalsIgnoreCase(attributeName)) {
             return "EducationOrganization";
@@ -122,16 +125,22 @@ public final class Xsd2UmlPluginForEdFi extends Xsd2UmlPluginDefault {
             return "InterventionPrescription";
         } else if ("learningStandardReference".equalsIgnoreCase(attributeName)) {
             return "LearningStandard";
+        } else if ("learningStandardItemReference".equalsIgnoreCase(attributeName)) {
+            return "LearningStandard";
         } else if ("learningObjectiveReference".equalsIgnoreCase(attributeName)) {
             return "LearningObjective";
         } else if ("localEducationAgencyReference".equalsIgnoreCase(attributeName)) {
             return "LocalEducationAgency";
         } else if ("locationReference".equalsIgnoreCase(attributeName)) {
             return "Location";
+        } else if ("mandatingEducationOrganizationReference".equalsIgnoreCase(attributeName)) {
+            return "EducationOrganization";
         } else if ("meetingTimeReference".equalsIgnoreCase(attributeName)) {
             return "MeetingTime";
         } else if ("objectiveAssessmentReference".equalsIgnoreCase(attributeName)) {
             return "ObjectiveAssessment";
+        } else if ("prerequisiteLearningStandardReference".equalsIgnoreCase(attributeName)) {
+            return "LearningStandard";
         } else if ("programReference".equalsIgnoreCase(attributeName)) {
             return "Program";
         } else if ("parentReference".equalsIgnoreCase(attributeName)) {

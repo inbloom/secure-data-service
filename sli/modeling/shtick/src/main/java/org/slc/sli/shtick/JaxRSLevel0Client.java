@@ -147,7 +147,7 @@ public final class JaxRSLevel0Client implements Level0Client {
             throw new NullPointerException("expected");
         }
         if (response.getStatus() != expected.getStatusCode()) {
-            throw new StatusCodeException(response.getStatus());
+            throw new StatusCodeException(response.getStatus(), response.readEntity(String.class));
         } else {
             return responseToRestResponse(response);
         }

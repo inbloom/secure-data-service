@@ -14,14 +14,13 @@ import org.slc.sli.modeling.rest.helpers.RestHelper;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenGrammars;
 import org.slc.sli.modeling.sdkgen.grammars.SdkGenResolver;
 import org.slc.sli.modeling.sdkgen.grammars.xsd.SdkGenGrammarsWrapper;
-import org.slc.sli.modeling.xdm.DmNode;
 import org.slc.sli.modeling.xsd.XsdReader;
 
 public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
-
+    
     private final String packageName;
     private final String className;
-
+    
     public Level3ClientInterfaceWriter(final String packageName, final String className, final File wadlFile,
             final JavaStreamWriter jsw) {
         super(jsw, wadlFile);
@@ -34,7 +33,7 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
         this.packageName = packageName;
         this.className = className;
     }
-
+    
     @Override
     public void beginApplication(final Application application) {
         try {
@@ -52,18 +51,18 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
             throw new RuntimeException(e);
         }
     }
-
+    
     @Override
     protected void writeGET(final Method method, final Resource resource, final Resources resources,
             final Application application, final Stack<Resource> ancestors) throws IOException {
-
+        
         final boolean quietMode = true;
         final SdkGenGrammars grammars = new SdkGenGrammarsWrapper(schemas);
-
+        
         final String methodName = method.getId();
-
+        
         writeMethodDocumentation(method);
-
+        
         jsw.beginStmt();
         try {
             final JavaType responseType = LevelNClientJavaHelper.getResponseJavaType(method, grammars, quietMode);
@@ -74,24 +73,23 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
             jsw.writeParams(params);
             jsw.parenR();
             jsw.writeThrows(IO_EXCEPTION, STATUS_CODE_EXCEPTION);
-
+            
         } finally {
             jsw.endStmt();
         }
     }
-
+    
     @Override
     protected void writePOST(final Method method, final Resource resource, final Resources resources,
             final Application application, final Stack<Resource> ancestors) throws IOException {
-
+        
         final boolean quietMode = true;
         final SdkGenGrammars grammars = new SdkGenGrammarsWrapper(schemas);
-
-        final String methodId = method.getId();
+        
         final String methodName = method.getId();
-
+        
         writeMethodDocumentation(method);
-
+        
         jsw.beginStmt();
         try {
             // The return type is a string because we return the identifier of the posted resource.
@@ -107,18 +105,18 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
             jsw.endStmt();
         }
     }
-
+    
     @Override
     protected void writePUT(Method method, Resource resource, Resources resources, Application application,
             Stack<Resource> ancestors) throws IOException {
-
+        
         final boolean quietMode = true;
         final SdkGenGrammars grammars = new SdkGenGrammarsWrapper(schemas);
-
+        
         final String methodName = method.getId();
-
+        
         writeMethodDocumentation(method);
-
+        
         jsw.beginStmt();
         try {
             jsw.writeType(JavaType.JT_VOID).space().write(methodName);
@@ -140,13 +138,13 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
             jsw.endStmt();
         }
     }
-
+    
     @Override
     protected void writeDELETE(Method method, Resource resource, Resources resources, Application application,
             Stack<Resource> ancestors) throws IOException {
-
+        
         writeMethodDocumentation(method);
-
+        
         jsw.beginStmt();
         try {
             jsw.writeType(JavaType.JT_VOID).space().write(method.getId());
@@ -161,13 +159,13 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
             jsw.endStmt();
         }
     }
-
+    
     @Override
     public void beginResource(final Resource resource, final Resources resources, final Application app,
             final Stack<Resource> ancestors) {
         // Ignore.
     }
-
+    
     @Override
     public void endApplication(final Application application) {
         try {
@@ -176,11 +174,11 @@ public final class Level3ClientInterfaceWriter extends Level3ClientWriter {
             throw new RuntimeException(e);
         }
     }
-
+    
     @Override
     public void endResource(final Resource resource, final Resources resources, final Application app,
             final Stack<Resource> ancestors) {
         // Ignore.
     }
-
+    
 }
