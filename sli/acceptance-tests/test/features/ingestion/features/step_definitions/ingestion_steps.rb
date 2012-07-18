@@ -1179,32 +1179,6 @@ When /^I navigate to the Ingestion Service HealthCheck page and submit login cre
 end
 
 ############################################################
-# STEPS: AND
-############################################################
-
-And /^a test Maestro on the local platform is started$/ do
-  system("ruby.exe %SLI_ROOT%\config\scripts\webapp-provision.rb %SLI_ROOT%\config\config.in\canonical_config.yml local-maestro %SLI_ROOT%\config\properties\maestro.properties")
-  maestro_pid = spawn("start /b mvn -Dsli.conf=%SLI_ROOT%\config\properties\maestro.properties jetty:run" )
-end
-
-And /^a test Pit on the local platform is started$/ do
-  system("ruby.exe %SLI_ROOT%\config\scripts\webapp-provision.rb %SLI_ROOT%\config\config.in\canonical_config.yml local-pit %SLI_ROOT%\config\properties\pit.properties")
-  pit_pid = spawn("mvn -Dsli.conf=%SLI_ROOT%\config\properties\pit.properties jetty:run" )
-end
-
-And /^a test ActiveMQ server on the local platform is started$/ do
-  system("start /b activemq broker:(tcp://localhost:61616)?brokerName=testmq" )
-end
-
-And /^I wait for the Pit consumer queue to be populated$/ do
-  pendingMessages = 0
-  while (pendingMessages == 0)
-    pendingMessages = `activemq-admin query -QQueue=ingestion.pit --view QueueSize | find "QueueSize"`
-    pendingMessages = pendingMessages.sub("QueueSize = ", "")
-  end
-end
-
-############################################################
 # STEPS: THEN
 ############################################################
 Then /^I should see following map of indexes in the corresponding collections:$/ do |table|
