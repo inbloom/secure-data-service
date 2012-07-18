@@ -295,7 +295,7 @@ $entityData = {
     }
   },
   "grade" => {
-    "studentSectionAssociationId" => "bac890d6-b580-4d9d-a0d4-8bce4e8d351a",
+    "studentSectionAssociationId" => "00cbf81b-41df-4bda-99ad-a5717d3e81a1",
     "letterGradeEarned" => "B+",
     "gradeType" => "Final"
   },
