@@ -45,7 +45,14 @@ end
 # GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN GIVEN
 ###############################################################################
 
-$entityData = {
+
+Given /^entity URI "([^"]*)"$/ do |arg1|
+  @entityUri = arg1
+end
+
+
+Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
+@entityData = {
   "gradingPeriod" => {
     "gradingPeriodIdentity" => {
       "educationalOrgIdentity" => [{
@@ -295,7 +302,7 @@ $entityData = {
     }
   },
   "grade" => {
-    "studentSectionAssociationId" => "bac890d6-b580-4d9d-a0d4-8bce4e8d351a",
+    "studentSectionAssociationId" => "00cbf81b-41df-4bda-99ad-a5717d3e81a1",
     "letterGradeEarned" => "B+",
     "gradeType" => "Final"
   },
@@ -306,8 +313,8 @@ $entityData = {
      "diagnosticStatement" => "passed with flying colors"
   },
   "reportCard" => {
-      "grades" => ["708c4e08-9942-11e1-a8a9-68a86d21d918", "708b3c95-9942-11e1-a8a9-68a86d21d918"],
-      "studentCompetencyId" => ["b57643e4-9acf-11e1-89a7-68a86d21d918"],
+      "grades" => ["ef42e2a2-9942-11e1-a8a9-68a86d21d918"],
+      "studentCompetencyId" => ["3a2ea9f8-9acf-11e1-add5-68a86d83461b"],
       "gpaGivenGradingPeriod" => 3.14,
       "gpaCumulative" => 2.9,
       "numberOfDaysAbsent" => 15,
@@ -317,14 +324,7 @@ $entityData = {
       #"gradingPeriodId" => "TODO"
   }
 }
-
-Given /^entity URI "([^"]*)"$/ do |arg1|
-  @entityUri = arg1
-end
-
-
-Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
-  @fields = $entityData[arg1]
+  @fields = @entityData[arg1]
 end
 
 Then /^I should receive a new entity URI$/ do
