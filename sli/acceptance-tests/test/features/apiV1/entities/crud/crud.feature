@@ -180,7 +180,7 @@ Examples:
 | "program"                      | "programs"                | "programSponsor"         | "State Education Agency"                     |
 | "school"                       | "schools"                 | "nameOfInstitution"      | "Yellow Middle School"                       |
 | "section"                      | "sections"                | "sequenceOfCourse"       | "2"                                          |
-| "session"                      | "sessions"                | "totalInstructionalDays" | "43"                                         |
+#| "session"                      | "sessions"                | "totalInstructionalDays" | "43"                                         |
 | "staff"                        | "staff"                   | "sex"                    | "Female"                                     |
 | "student"                      | "students"                | "sex"                    | "Female"                                     |
 | "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "abcff7ae-1f01-46bc-8cc7-cf409819bbce"       |
