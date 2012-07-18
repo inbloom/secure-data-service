@@ -772,8 +772,8 @@ local:
         #sli.tenant.ingestionServers: localhost
         #sli.landingZone.server: localhost
 
-        bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=Local
-        bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=Local
+        bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=LocalNew
+        bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=LocalNew
 
     data-access: &DATA-ACCESS-LOCAL
         <<: *DATA-ACCESS-DEFAULT
@@ -860,7 +860,7 @@ local:
         <<: *MISC-DEFAULT
 
          # Name of the SLIAdmin realm used to authenticate sandbox developers when no realm specified
-        sli.simple-idp.sliAdminRealmName: Local
+        sli.simple-idp.sliAdminRealmName: LocalNew
         # LDAP base URLs, comma separated list of ldap servers
         sli.simple-idp.ldap.urls: ldap://ldap.slidev.org:389
         # LDAP base DN

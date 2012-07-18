@@ -23,6 +23,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.zip.UnsupportedZipFeatureException;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.io.IOUtils;
 
@@ -67,6 +68,11 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
             if (!isValid) {
                 fail(callback, getFailureMessage("SL_ERR_MSG5", zipFile.getName()));
             }
+        } catch (UnsupportedZipFeatureException ex) {
+            // Unsupported compression method
+            fail(callback, getFailureMessage("SL_ERR_MSG18", zipFile.getName()));
+            return false;
+
         } catch (IOException ex) {
             // error reading zip file
             fail(callback, getFailureMessage("SL_ERR_MSG4", zipFile.getName()));

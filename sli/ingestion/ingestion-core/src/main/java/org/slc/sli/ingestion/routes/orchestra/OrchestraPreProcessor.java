@@ -93,7 +93,7 @@ public class OrchestraPreProcessor implements Processor {
                 LOG.warn("Unrecognized collection: {} dropping it on the floor", stagedCollection);
             }
         }
-        LOG.info("staged entities for job: {}", stagedEntities);
+        LOG.debug("staged entities for job: {}", stagedEntities);
         return stagedEntities;
     }
 
