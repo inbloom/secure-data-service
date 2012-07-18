@@ -56,7 +56,8 @@ class LDAPStorage
       :homeDirectory        => :homedir,
       :uidNumber            => :uidnumber,
       :gidNumber            => :gidnumber,
-      :mail                 => :emailAddress
+      :mail                 => :emailAddress,
+      :gecos                => :resetKey
   }
   ENTITY_ATTR_MAPPING = LDAP_ATTR_MAPPING.invert
 
@@ -94,11 +95,12 @@ class LDAPStorage
 
   # these values are injected when the user is created
   ENTITY_CONSTANTS = {
-        :emailtoken => "-",
+      :emailtoken => "-",
       :uidnumber  => CONST_USERID_NUM,
       :gidnumber  => CONST_GROUPID_NUM,
       :vendor     => "none",
-      :homedir    => "/dev/null"
+      :homedir    => "/dev/null",
+      :resetKey   => ""
   }
 
   # List of fields to fetch from LDAP for user
@@ -113,7 +115,8 @@ class LDAPStorage
       :homedir,
       :tenant,
       :edorg,
-      :emailAddress
+      :emailAddress,
+      :resetKey
   ]
 
   LDAP_DATETIME_FIELDS = Set.new [
@@ -233,6 +236,11 @@ class LDAPStorage
         return search_map_user_fields(filter, 1)[0]        
     end
 
+    # returns extended user_info for the given resetKey (see create_user) or nil 
+    def read_user_resetkey(resetKey)
+        filter = Net::LDAP::Filter.begins(ENTITY_ATTR_MAPPING[:resetKey].to_s, resetKey + "@")
+        return search_map_user_fields(filter, 1)[0]        
+    end
   # returns array of extended user_info for all users or all users with given status
   # use constants in approval.rb
   def read_users(status=nil)
@@ -361,7 +369,19 @@ class LDAPStorage
               desc_attributes[attribute] = user_info[attribute]
             else
               if !(ldap.replace_attribute(dn, ENTITY_ATTR_MAPPING[attribute], user_info[attribute]))
-                raise ldap_ex(ldap, "Unable to update attribute '#{ENTITY_ATTR_MAPPING[attribute]}' with value '#{user_info[attribute]}'.")
+                if !curr_user_info[attribute]
+                  if !(ldap.add_attribute(dn, ENTITY_ATTR_MAPPING[attribute], user_info[attribute]))
+                    puts curr_user_info
+                    puts user_info
+                    
+                    ops = [[:add, ENTITY_ATTR_MAPPING[attribute], user_info[attribute]]]
+                    ldap.modify :dn => dn, :operations => ops
+                    
+                    raise ldap_ex(ldap, "Unable to add new attribute '#{ENTITY_ATTR_MAPPING[attribute]}' with value '#{user_info[attribute]}'.")
+                  end
+                else
+                  raise ldap_ex(ldap, "Unable to update attribute '#{ENTITY_ATTR_MAPPING[attribute]}' with value '#{user_info[attribute]}'.")
+                end
               end
             end
           end

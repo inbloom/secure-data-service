@@ -259,10 +259,18 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         return ingestionServerList[random.nextInt(ingestionServerList.length)];
     }*/
 
+    /**
+     * TODO: add javadoc
+     *
+     */
     class MutableInt {
       int value = 0;
-      public void increment () { ++value;      }
-      public int  get ()       { return value; }
+      public void increment() {
+          ++value;
+      }
+      public int  get() {
+          return value;
+      }
     }
 
     public String findLeastLoadedIngestionServer() {
@@ -278,7 +286,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             @SuppressWarnings("unchecked")
             List<Map<String, Object>> currentLZs = (List<Map<String, Object>>) t.get(LZ);
             for (Map<String, Object> lz : currentLZs) {
-                String server = ((String) lz.get(LZ_INGESTION_SERVER)).toLowerCase(); 
+                String server = ((String) lz.get(LZ_INGESTION_SERVER)).toLowerCase();
                 MutableInt use = map.get(server);
                 //only increment if we actually have that server in our list
                 if (null != use) {

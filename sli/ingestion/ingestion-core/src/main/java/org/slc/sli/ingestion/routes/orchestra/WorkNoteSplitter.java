@@ -92,7 +92,7 @@ public class WorkNoteSplitter {
         @SuppressWarnings("unchecked")
         List<WorkNote> workNoteList = exchange.getIn().getBody(List.class);
 
-        LOG.info("Splitting out (pass-through) list of WorkNotes: {}", workNoteList);
+        LOG.debug("Splitting out (pass-through) list of WorkNotes: {}", workNoteList);
 
         return workNoteList;
     }
