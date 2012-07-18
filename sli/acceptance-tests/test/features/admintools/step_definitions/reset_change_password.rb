@@ -26,15 +26,15 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 require 'date'
 
-Given /^I am a valid SLI Developer "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
+Given /^I am a SLI Developer "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
   # No code needed, done as configuration
 end
 
-Given /^I am a valid SLC Operator "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
+Given /^I am a SLC Operator "([^"]*)" from the "([^"]*)" hosted directory$/ do |arg1, arg2|
   # No code needed, done as configuration
 end
 
-Given /^I am a valid SLC Admin "([^"]*)" from the "([^"]*)" hosted directory logging in for the first time$/ do |arg1, arg2|
+Given /^I am a SLC Admin "([^"]*)" from the "([^"]*)" hosted directory logging in for the first time$/ do |arg1, arg2|
   @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
                           PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
                           PropLoader.getProps['ldap_admin_pass'])
