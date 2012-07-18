@@ -1,0 +1,676 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.4 programs objects              -->
+<!-- ======================================== -->
+<adk package="programs" version="2.4" namespace="http://www.sifinfo.org/infrastructure/2.x">
+  <!--Accommodation object-->
+  <object name="Accommodation">
+    <element name="Code" enum="AccommodationCode" flags="O">
+      <desc>Identifies the specific accommodation.  At least one required if the repeating group is sent.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+    <element name="AccommodationCategory" type="AccommodationCategory" flags="O" />
+    <element name="SpecialMaterials" type="Boolean" flags="O">
+      <desc>Accommodation specified requires special materials. Required if the repeating group is sent.</desc>
+    </element>
+  </object>
+  <!--AccommodationCategory object-->
+  <object name="AccommodationCategory">
+    <element name="Code" enum="AccommodationCategoryCode" flags="O" />
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+  <!--AccommodationCategoryCode enum-->
+  <enum name="AccommodationCategoryCode">
+    <value name="PRESENTATION" value="S001" desc="Presentation" />
+    <value name="PRESENTATION_EQUIPMENT" value="S002" desc="Presentation equipment / technology" />
+    <value name="RESPONSE" value="S003" desc="Response" />
+    <value name="SCHEDULING_TIMING" value="S004" desc="Scheduling / timing" />
+    <value name="SETTING" value="S005" desc="Setting" />
+    <value name="TEST_RESPONSE" value="S006" desc="Test Response" />
+    <value name="OTHER" value="S999" desc="Other" />
+  </enum>
+  <!--AccommodationCode enum-->
+  <enum name="AccommodationCode">
+    <value name="BRAILLE" value="0463" desc="Braille" />
+    <value name="FOREIGN_LANGUAGE" value="0546" desc="Foreign Language" />
+    <value name="LARGE_PRINT_BOOKLET" value="0468" desc="Large print booklet" />
+    <value name="READER" value="0470" desc="Reader" />
+    <value name="MANUALLY_CODED_ENGLISH" value="0474" desc="Manually coded English or American sign Language to present test questions" />
+    <value name="SPECIAL_LIGHTING" value="0476" desc="Special lighting" />
+    <value name="WORD_PROCESSOR" value="S101" desc="Word processor" />
+    <value name="AUDIOTAPE_OR_CD" value="S102" desc="Audiotape or CD" />
+    <value name="CLARIFY_DIRECTIONS" value="S103" desc="Clarify directions" />
+    <value name="CUEING" value="S104" desc="Cueing" />
+    <value name="EXAMINER_FAMILIARITY" value="S106" desc="Examiner familiarity" />
+    <value name="FOREIGN_LANGUAGE_INTERPRET" value="S107" desc="Foreign language interpreter" />
+    <value name="FOREIGN_LANGUAGE_QUESTIONS" value="S108" desc="Foreign language interpreter for instructions, ask questions" />
+    <value name="FORMAT" value="S109" desc="Format" />
+    <value name="PARAPHRASING" value="S110" desc="Paraphrasing" />
+    <value name="READ_QUESTIONS_ALOUD" value="S111" desc="Test administrator read questions aloud" />
+    <value name="READ_DIRECTIONS_ALOUD" value="S112" desc="Test administrator read directions aloud" />
+    <value name="SIMPLIFIED_LANGUAGE" value="S113" desc="Simplified language" />
+    <value name="STUDENT_READ_ALOUD" value="S114" desc="Student read aloud" />
+    <value name="VISUAL_CUES" value="S115" desc="Visual cues" />
+    <value name="FONT_ENLARGED_BEYOND_LARGE" value="S116" desc="Font enlarged beyond large print version requirements" />
+    <value name="UNLISTED_S117" value="S117" desc="Unlisted accommodation or modification" />
+    <value name="ADJUSTABLE_SWIVEL_ARM" value="0461" desc="Adjustable swivel arm" />
+    <value name="ADJUSTABLE_TABLE_HEIGHT" value="0462" desc="Adjustable table height" />
+    <value name="ENLARGED_KEYBOARD" value="0937" desc="Enlarged keyboard" />
+    <value name="ENLARGED_MONITOR_VIEW" value="0464" desc="Enlarged monitor view / screen display" />
+    <value name="SPECIAL_FURNITURE" value="0475" desc="Special furniture" />
+    <value name="TRACK_BALL" value="0477" desc="Track ball" />
+    <value name="OTHER" value="9999" desc="Other" />
+    <value name="AUDIO_CASSETTE_PLAYER" value="S201" desc="Audio cassette player" />
+    <value name="COLORED_LENSES" value="S202" desc="Colored lenses" />
+    <value name="COMPUTER_ADMIN_S203" value="S203" desc="Computer administration" />
+    <value name="MAGNIFICATION_DEVICE" value="S204" desc="Magnification device" />
+    <value name="PHYSICAL_SUPPORTS" value="S205" desc="Physical supports" />
+    <value name="TECHNOLOGICAL_AID" value="S206" desc="Technological aid" />
+    <value name="VIDEO_CASSETTE" value="S207" desc="Video cassette" />
+    <value name="UNLISTED_S208" value="S208" desc="Unlisted accommodation or modification" />
+    <value name="RECORDER_OR_AMANUENSIS" value="0471" desc="Recorder or amanuensis" />
+    <value name="BRAILLE_WRITER_NO_THESAURUS" value="S301" desc="Braille writer, no thesaurus, spell-or grammar-checker" />
+    <value name="CALCULATOR" value="S302" desc="Calculator (math or science)" />
+    <value name="COMPUTER_ADMIN_S303" value="S303" desc="Computer administration" />
+    <value name="CRANMER_ABACUS" value="S304" desc="Cranmer abacus" />
+    <value name="DICTATED_ORAL_RESPONSE" value="S305" desc="Dictated oral response (to a proctor)" />
+    <value name="QUALIFIED_FOREIGN_LANGUAGE" value="S306" desc="Qualified foreign language interpreter for LEP student" />
+    <value name="RESPONSE_DICTATED_IN_AMERICAN" value="S307" desc="Response dictated in American Sign Language / Manually coded English" />
+    <value name="SPEECH_RECOGNITION_SYSTEM" value="S308" desc="Speech recognition system" />
+    <value name="SPELL_CHECKER" value="S309" desc="Spell-checker" />
+    <value name="STUDENT_MARKED_IN_TEST" value="S310" desc="Student marked in test booklet" />
+    <value name="TAPE_RECORDER" value="S311" desc="Tape recorder" />
+    <value name="TEST_ADMINISTRATOR_MARKED" value="S312" desc="Test administrator marked / wrote test at student's direction due to student handwriting issues" />
+    <value name="TRANSLATION_DICTIONARY_FOR" value="S313" desc="Translation dictionary for LEP student" />
+    <value name="VERBALIZED_PROBLEM_SOLVING" value="S314" desc="Verbalized problem-solving" />
+    <value name="WORD_PROCESSOR_NO_GRAMMER" value="S315" desc="Word processor / typewriter / computer with thesaurus / spell-checker / grammar-checker turned off" />
+    <value name="WORD_PROCESSOR_GRAMMER" value="S316" desc="Word processor / typewriter / computer with thesaurus / spell-checker / grammar-checker enabled on essay responses writing portion of test" />
+    <value name="ASSISTIVE_DOES_NOT" value="S317" desc="Assistive device that does not interfere with independent work of the student" />
+    <value name="ASSISTIVE_DOES" value="S318" desc="Assistive device that does interfere with independent work of the student" />
+    <value name="DICTIONARY" value="S319" desc="Dictionary" />
+    <value name="ARITHMETIC_TABLE" value="S320" desc="Arithmetic table (math or science)" />
+    <value name="MATH_MANIPULATIVES" value="S321" desc="Math manipulatives (math or science)" />
+    <value name="ESSAY_RESPONSES_DICTATED" value="S322" desc="Essay responses dictated to a scribe orally, in manually coded English or in American Sign Language; and scribe provides spelling, grammar and language conventions" />
+    <value name="UNLISTED_S323" value="S323" desc="Unlisted accommodation or modification" />
+    <value name="ACCESS_TO_TRANSLATION" value="S324" desc="Access to translation glossaries / word lists (english-to-primary language).  Shall not include definitions of formulas" />
+    <value name="SCHEDULED_EXTENDED_TIME" value="0465" desc="Scheduled extended time" />
+    <value name="MULTI_DAY_ADMINISTRATION" value="0469" desc="Multi-day administration" />
+    <value name="UNTIMED" value="0479" desc="Untimed" />
+    <value name="STUDENT_REQUESTED_EXTENDED" value="S401" desc="Student-requested extended time" />
+    <value name="MULTIPLE_TEST_SESSIONS" value="S402" desc="Multiple test sessions" />
+    <value name="SUPERVISED_TEST_BREAKS" value="S403" desc="Supervised test breaks" />
+    <value name="TEST_ADMINISTERED_AT_BEST" value="S404" desc="Test administered at best time of day for student" />
+    <value name="UNLISTED_S405" value="S405" desc="Unlisted accommodation or modification" />
+    <value name="ADDITIONAL_SUPERVISED_TEST" value="S406" desc="Additional supervised test breaks for English Learners within testing day or following each section provided that test section is completed within a testing day" />
+    <value name="SEPARATE_ROOM" value="0473" desc="Separate room" />
+    <value name="HOSPITAL_HOME_TESTING" value="S501" desc="Hospital / home testing" />
+    <value name="INDIVIDUAL" value="S502" desc="Individual" />
+    <value name="SMALL_GROUP" value="S503" desc="Small group" />
+    <value name="SPECIALIZED_SETTING" value="S504" desc="Specialized setting" />
+    <value name="SEPARATE_ROOM_WITH_OTHER" value="S505" desc="Separate room with other English Learners under supervision of district employee" />
+    <value name="UNLISTED_S506" value="S506" desc="Unlisted accommodation or modification" />
+  </enum>
+  <!--Accommodations object-->
+  <object name="Accommodations">
+    <element name="Accommodation" type="Accommodation" flags="O" />
+  </object>
+  <!-- AdditionalProgramAvailabilityList -->
+  <object name="AdditionalProgramAvailabilityList">
+  	<element name="ProgramAvailability" type="ProgramAvailability" flags="OR"/>
+  </object>
+  <!--AuthorizedActual enum-->
+  <enum name="AuthorizedActual">
+    <value name="AUTHORIZED" value="S001" desc="Authorized" />
+    <value name="ACTUAL" value="S002" desc="Actual (actually used during test administration)" />
+    <value name="OTHER" value="S999" desc="Other" />
+  </enum>
+  <!--DirectTime object-->
+  <object name="DirectTime">
+    <attribute name="UnitOfMeasure" enum="DurationUnit" flags="R">
+      <desc>Identifies unit of measure in which amount of time is expressed.</desc>
+    </attribute>
+  </object>
+  <!--DurationUnit enum-->
+  <enum name="DurationUnit">
+    <value name="MINUTES" value="Minutes" desc="Minutes" />
+    <value name="HOURS" value="Hours" desc="Hours" />
+  </enum>
+  <!--IndirectTime object-->
+  <object name="IndirectTime">
+    <attribute name="UnitOfMeasure" enum="DurationUnit" flags="R">
+      <desc>Identifies unit of measure in which amount of time is expressed.</desc>
+    </attribute>
+  </object>
+  <!--LeastRestrictiveEnvironment object-->
+  <object name="LeastRestrictiveEnvironment">
+    <element name="Code" type="String" flags="O">
+      <desc>Category represents the optimal educational setting in which the student should be placed (setting where child has most desirable learning environment).  Relates specifically to special education.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+  <!-- NeglectedOrDelinquentParticipation object -->
+  <object name="NeglectedOrDelinquentParticipation">
+  	<desc>The type and number of days a student participated in a Neglected or Delinquent program during the reporting period.</desc>
+  	<element name="Type" enum="NeglectedOrDelinquentParticipationType" flags="M" >
+  		<desc>The specific classification for the neglected or delinquent program.</desc>
+  	</element>
+  	<element name="TotalDayCount" type="UnsignedInt" flags="O" >
+  		<desc>The total number of instructional days the student was enrolled in this neglected or delinquent program during this reporting period.</desc>
+  	</element>
+  	<element name="ConsecutiveDayCount" type="UnsignedInt" flags="O" >
+  		<desc>The highest number of consecutive instructional days the student was enrolled in this neglected or delinquent program. This may or may not match the TotalDayCount for the reporting period.</desc>
+  	</element>
+  </object>
+  <!-- NeglectedOrDelinquentParticipationList object -->
+  <object name="NeglectedOrDelinquentParticipationList">
+  	<element name="NeglectedOrDelinquentParticipation" type="NeglectedOrDelinquentParticipation" flags="MR">
+  		<desc>The type and number of days a student participated in a Neglected or Delinquent program during the reporting period.</desc>
+  	</element>
+  </object>
+  <!-- NeglectedOrDelinquentParticipationType object -->
+  <enum name="NeglectedOrDelinquentParticipationType">
+	<value name="NEGLECTED_PROGRAMS" value="S001" desc="Neglected programs" />
+	<value name="JUVENILE_DETENTION_FACILITY" value="S002" desc="Juvenile detention facility" />
+	<value name="JUVENILE_CORRECTIONAL_INSTITUTION" value="S003" desc="Juvenile correctional institution" />    
+	<value name="ADULT_CORRECTIONAL_INSTITUTION" value="S004" desc="Adult correctional institution" />
+	<value name="AT_RISK_PROGRAM" value="S005" desc="At risk program" />
+	<value name="OTHER_PROGRAM" value="S006" desc="Other program" />
+  </enum>
+  <!--PartCTransitionMeetingNotHeldReason object-->
+  <object name="PartCTransitionMeetingNotHeldReason">
+    <element name="Code" type="String" flags="O">
+      <desc>A reason why the Part C transition meeting was not held.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+  <!--PartCTransitionMeetingNotHeldReasons object-->
+  <object name="PartCTransitionMeetingNotHeldReasons">
+    <element name="PartCTransitionMeetingNotHeldReason" type="PartCTransitionMeetingNotHeldReason" flags="OR" />
+  </object>
+  <!--PartCTransitionMeetingOutcome object-->
+  <object name="PartCTransitionMeetingOutcome">
+    <element name="Code" type="String" flags="O">
+      <desc>An outcome of a Part C transition meeting.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+  <!--PartCTransitionMeetingOutcomes object-->
+  <object name="PartCTransitionMeetingOutcomes">
+    <element name="PartCTransitionMeetingOutcome" type="PartCTransitionMeetingOutcome" flags="OR" />
+  </object>
+  <!--ProgramAvailability object-->
+  <object name="ProgramAvailability">
+    <element name="Code" enum="ProgramAvailabilityCode" flags="M">
+      <desc>Describes the availability of the program.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+  <!--ProgramAvailabilityCode enum-->
+  <enum name="ProgramAvailabilityCode">
+    <value name="BEFORE_SCHOOL" value="0235" desc="Before School" />
+    <value name="DURING_SCHOOL" value="0231" desc="During school" />
+    <value name="AFTER_SCHOOL" value="0236" desc="After school" />
+    <value name="WEEKEND" value="0234" desc="Weekend" />
+    <value name="SUMMER" value="0237" desc="Summer" />
+    <value name="IN_SCHOOL_SERVICE_DAY" value="0238" desc="In-school service day" />
+    <value name="EVENINGS" value="0239" desc="Evenings" />
+    <value name="OTHER" value="9999" desc="Other" />
+  </enum>
+  <!--ProgramExitReason object-->
+  <object name="ProgramExitReason">
+    <element name="Code" enum="ProgramExitReasonCode" flags="O">
+      <desc>Review by program / state.  May be required if student has exited the program.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+  <!--ProgramExitReasonCode enum-->
+  <enum name="ProgramExitReasonCode">
+    <value name="COMPLETION_OF_IFSP" value="2226" desc="Completion of IFSP prior to reaching maximum age for Part C" />
+    <value name="DIED" value="2223" desc="Died" />
+    <value name="DISCONTINUED_SCHOOLING" value="2222" desc="Discontinued schooling, not special education" />
+    <value name="DISCONTINUED_SPEC_ED" value="2221" desc="Discontinued schooling, special education only" />
+    <value name="ELIGIBLE_FOR_IDEA_B" value="2227" desc="Eligible for IDEA Part B" />
+    <value name="EXPULSION" value="2224" desc="Expulsion" />
+    <value name="GRADUATED_WITH_DIPLOMA" value="2212" desc="Graduated with a high school diploma" />
+    <value name="MOVED_OUT_OF_STATE" value="2231" desc="Moved out of state" />
+    <value name="NO_SPECIAL_ED" value="2216" desc="No longer receving special education" />
+    <value name="NOT_ELIGIBLE_FOR_PART_B" value="2228" desc="Not eligible for Part B, exit with referrals to other programs" />
+    <value name="PART_B_NOT_ELIGIBLE" value="2230" desc="Part B eligibility not determined" />
+    <value name="PROGRAM_COMPLETION" value="2214" desc="Program completion" />
+    <value name="PROGRAM_DISCONTINUED" value="2225" desc="Program discontinued" />
+    <value name="REACHED_MAXIMUM_AGE" value="2215" desc="Reached maximum age" />
+    <value name="RECEIVED_CERTIFICATE" value="2213" desc="Received certificate of completion, modified diploma, or finished IEP requirements" />
+    <value name="REFUSED_SERVICES" value="2217" desc="Refused services" />
+    <value name="SUSPENDED_FROM_SCHOOL" value="2220" desc="Suspended from school" />
+    <value name="TRANSFERRED_NOT_CONTINUING" value="2406" desc="Transferred to another district or school, known not to be continuing in program / service" />
+    <value name="TRANSFERRED_CONTINUING" value="2218" desc="Transferred to another district or school, known to be continuing in program / service" />
+    <value name="TRANSFERRED_NOT_KNOWN" value="2219" desc="Transferred to another district or school, not known to be continuing in program / service" />
+    <value name="UNKNOWN_REASON" value="2233" desc="Unknown reason" />
+    <value name="WITHDRAWAL_BY_GUARDIAN" value="2232" desc="Withdrawal by a parent (or guardian)" />
+    <value name="OTHER" value="9999" desc="Other" />
+    <value name="STUDENT_CHOICE" value="S001" desc="Student choice" />
+    <value name="STUDENT_SERVED_OTHER" value="S002" desc="Student served in other ways" />
+  </enum>
+  <!--ProgramPlanType object-->
+  <object name="ProgramPlanType">
+    <element name="Code" enum="ProgramPlanTypeCode" flags="O">
+      <desc>The document that outlines the student program/plan as approved by parents, guardians, and staff.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+  <!--ProgramPlanTypeCode enum-->
+  <enum name="ProgramPlanTypeCode">
+    <value name="INDIVIDUALIZED_EDUCATION" value="2196" desc="Individualized education program (IEP)" />
+    <value name="INDIVIDUALIZED_FAMILY_SERVICE" value="2198" desc="Individualized family service plan (IFSP)" />
+    <value name="INDIVIDUALIZED_LEARNING" value="2197" desc="Individualized learning program (ILP)" />
+    <value name="OTHER" value="9999" desc="Other" />
+    <value name="504_PLAN" value="S001" desc="504 plan" />
+    <value name="STUDENT_INTERVENTION" value="S002" desc="Student intervention / support plan" />
+    <value name="GIEP_INDIVIDUALIZED" value="S003" desc="GIEP - Individualized education program for gifted student" />
+    <value name="LITERACY_PLAN" value="S004" desc="Literacy plan" />
+    <value name="INDIVIDUALIZED_TRANSITION" value="S005" desc="Individualized transition plan" />
+    <value name="SERVICES_PLAN" value="S006" desc="Services plan" />
+  </enum>
+  <!--ProjectedExitReason object-->
+  <object name="ProjectedExitReason">
+    <attribute name="Codeset" enum="Codeset" flags="R">
+      <desc>Identifies source of value provided.</desc>
+    </attribute>
+  </object>
+  <!--ReferralSource object-->
+  <object name="ReferralSource">
+    <element name="Code" enum="ReferralSourceCode" flags="O">
+      <desc>The method by which a student was identified for referral to a particular program.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+  <!--ReferralSourceCode enum-->
+  <enum name="ReferralSourceCode">
+    <value name="EDUCATION_ASSESSMENT" value="2147" desc="Education assessment" />
+    <value name="HEALTH_ASSESSMENT___SCREENING" value="2148" desc="Health assessment / screening" />
+    <value name="PARENT_GUARDIAN_REFERRAL" value="2149" desc="Parent / guardian referral" />
+    <value name="SELF_REPORT_SURVEY" value="2151" desc="Self-report / survey" />
+    <value name="SPECIAL_EDUCATION_ASSESSMENT" value="2152" desc="Special education assessment / evaluation" />
+    <value name="TEACHER_REFERRAL" value="2153" desc="Teacher referral" />
+    <value name="OTHER" value="9999" desc="Other" />
+  </enum>
+  <!--SchoolWhereServiceDelivered object-->
+  <object name="SchoolWhereServiceDelivered">
+    <attribute name="SIF_RefObject" type="String" flags="R" />
+  </object>
+  <!--ServiceSetting object-->
+  <object name="ServiceSetting">
+    <element name="Code" enum="ServiceSettingCode" flags="M">
+      <desc>Setting where service is provided (Regular Class, Resource Room, Homebound, Detention Center, etc.).</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+  <!--ServiceSettingCode enum-->
+  <enum name="ServiceSettingCode">
+    <value name="EARLY_INTERVENTION_CLASSROOM" value="0127" desc="Early intervention classroom / center" />
+    <value name="HOMEBOUND_PLACEMENT_INSTRUCTIO" value="0128" desc="Homebound placement instruction" />
+    <value name="HOSPITAL_PLACEMENT_INSTRUCTION" value="0129" desc="Hospital placement instruction" />
+    <value name="ITINERANT_SERVICES_OUTSIDE" value="0140" desc="Itinerant services outside the home" />
+    <value name="OUTPATIENT_SERVICE_FACILITY" value="0356" desc="Outpatient service facility" />
+    <value name="PRIVATE_RESIDENTIAL_PLACEMENT" value="0132" desc="Private residential placement" />
+    <value name="PRIVATE_SEPARATE_DAY_SCHOOL" value="0358" desc="Private separate day school placement" />
+    <value name="PUBLIC_RESIDENTIAL_PLACEMENT" value="0134" desc="Public residential placement" />
+    <value name="PUBLIC_SEPARATE_DAY_SCHOOL" value="0135" desc="Public separate day school placement" />
+    <value name="REGULAR_NURSERY_SCHOOL" value="0365" desc="Regular nursery school / child care center" />
+    <value name="REGULAR_SCHOOL_CAMPUS" value="0130" desc="Regular school campus / regular class placement" />
+    <value name="RESIDENTIAL_FACILITY" value="0756" desc="Residential facility" />
+    <value name="PRIVATE_SCHOOL" value="0776" desc="Private School" />
+    <value name="RESOURCE_ROOM_PLACEMENT" value="0136" desc="Resource room placement (pullout program)" />
+    <value name="RESPITE_CARE" value="0367" desc="Respite care" />
+    <value name="REVERSE_MAINSTREAM_SETTING" value="0143" desc="Reverse mainstream setting" />
+    <value name="SEPARATE_CLASS_PLACEMENT" value="0137" desc="Separate class placement" />
+    <value name="SHORT_TERM_DETENTION" value="0364" desc="Short-term detention facility" />
+    <value name="BUSINESS_WORKPLACE" value="2170" desc="Business / workplace" />
+    <value name="CHILDS_HOME" value="2164" desc="Child's home" />
+    <value name="COMMUNITY_BASED_AGENCY" value="0166" desc="Community-based agency representative" />
+    <value name="HEAD_START_CENTER" value="2168" desc="Head Start Center (no matter where offered)" />
+    <value name="HOME_OTHER_THAN_THE_CHILDS" value="2165" desc="Home other than the child's" />
+    <value name="HOSPITAL_OR_OTHER_TREATMENT" value="2173" desc="Hospital or other treatment center" />
+    <value name="PUBLIC_SCHOOL_FACILITY" value="2166" desc="Public school facility" />
+    <value name="RELIGION_AFFILIATED_INSTITUTIO" value="2169" desc="Religion-affiliated institution" />
+    <value name="SHELTER_OR_OPHANAGE" value="2174" desc="Shelter or ophanage" />
+    <value name="UNIVERSITY_POSTSECONDARY" value="2172" desc="University / Postsecondary institution" />
+    <value name="OTHER" value="9999" desc="Other" />
+    <value name="FACILITY_OTHER" value="2191" desc="A center in a facility other than a public or private school, a day care or children's facility, or other public programs such as Head Start" />
+    <value name="FACILITY_STATE" value="2190" desc="facility sponsored by a state agency" />
+    <value name="HOME" value="2192" desc="Home" />
+    <value name="HOSPITAL_FACILITY" value="2187" desc="Hospital facility" />
+    <value name="OTHER_COMMUNITY_BASED" value="2188" desc="Other community-based setting" />
+    <value name="SPECIAL_EDU_CHILDCARE" value="2184" desc="Special education classroom im child care facility" />
+    <value name="SPECIAL_EDU_BUILDING" value="2185" desc="Special education classroom in regular school building" />
+    <value name="SPECIAL_EDU_PORTABLE" value="2189" desc="Special education classroom in trailers or portables outside regular school buildings" />
+    <value name="OTHER_CHILDCARE" value="2191" desc="Other childcare facility" />
+  </enum>
+  <!--ServicingPublicAgency object-->
+  <object name="ServicingPublicAgency">
+    <attribute name="SIF_RefObject" type="String" flags="R" />
+  </object>
+  <!--ServicingSchool object-->
+  <object name="ServicingSchool">
+    <attribute name="SIF_RefObject" type="String" flags="R" />
+  </object>
+  <!--StudentParticipation object-->
+  <object name="StudentParticipation" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>This is the unique identification code</desc>
+    </attribute>
+    <attribute name="StudentPersonalRefId" type="IdRefType" flags="O">
+      <desc>The GUID of the student that this object is linked to.</desc>
+    </attribute>
+    <element name="StudentParticipationAsOfDate" type="Date" flags="O">
+      <desc>
+        Effective date (NOT the entry date) of this StudentParticipation instance for the identified student and program.
+        Each time there is a change to the student's program participation profile, a new instance of this object is to be generated with
+        the appropriate StudentParticipationAsOfDate and a new RefId.
+      </desc>
+    </element>
+    <element name="ProgramType" type="ProgramType" flags="O" />
+    <element name="ProgramFundingSources" type="ProgramFundingSources" flags="O" />
+    <element name="ManagingPublicAgency" type="SIF_RefId" flags="O" />
+    <element name="ManagingSchool" type="SIF_RefId" flags="O" />
+    <element name="PartCTransitionMeetingNotHeldReasons" type="PartCTransitionMeetingNotHeldReasons" flags="O" />
+    <element name="PartCTransitionMeetingDate" type="Date" flags="O">
+      <desc>Date the transition meeting was held for a Part C child.</desc>
+    </element>
+    <element name="PartCTransitionMeetingOutcomes" type="PartCTransitionMeetingOutcomes" flags="O" />
+    <element name="ReferralDate" type="Date" flags="O">
+      <desc>Date student was referred for evaluation/program participation.</desc>
+    </element>
+    <element name="ReferralSource" type="ReferralSource" flags="O" />
+    <element name="ProgramStatus" type="ProgramStatus" flags="O" />
+    <element name="GiftedEligibilityCriteria" type="Token" flags="O">
+      <desc>State / local code used to determine eligibility for Gifted / Talented program.</desc>
+    </element>
+    <element name="EvaluationParentalConsentDate" type="Date" flags="O">
+      <desc>Date parent(s) consented to completion of evaluation of child for program participation.</desc>
+    </element>
+    <element name="EvaluationDate" type="Date" flags="O">
+      <desc>Date the evaluation/assessment process for student was completed.</desc>
+    </element>
+    <element name="EvaluationExtensionDate" type="Date" flags="O">
+      <desc>Actual date by which evaluation must be completed (for state use in determining timeliness in event that parent and LEA agreed to an extension beyond normal state deadline).</desc>
+    </element>
+    <element name="ExtensionComments" type="String" flags="O">
+      <desc>Contains any comments on the extension.  Optional even if an EvaluationExtensionDate is present.</desc>
+    </element>
+    <element name="ReevaluationDate" type="Date" flags="O">
+      <desc>Date students will be reevaluated for continued placement in a support program(s).</desc>
+    </element>
+    <element name="ExceptionalityCategories" type="ExceptionalityCategories" flags="O" />
+    <element name="ProgramEligibilityDate" type="Date" flags="O">
+      <desc>Date student is eligible for beginning the support program(s).</desc>
+    </element>
+    <element name="ProgramPlanType" type="ProgramPlanType" flags="O" />
+    <element name="ProgramPlanDate" type="Date" flags="O">
+      <desc>Date the most recent program plan was completed and approved by the team responsible for developing it.  The date the parent consented to placement is NOREPDate.</desc>
+    </element>
+    <element name="ProgramPlanEffectiveDate" type="Date" flags="O">
+      <desc>Date by which the plan must be implemented for the student.</desc>
+    </element>
+    <element name="NOREPDate" type="Date" flags="O">
+      <desc>Date the Notice of Recommended Educational Placement was signed and approved by the parent / guardian of the student.</desc>
+    </element>
+    <element name="PlacementParentalConsentDate" type="Date" flags="O">
+      <desc>Date the parent(s) consented to the proposed placement.</desc>
+    </element>
+    <element name="ProgramPlacementDate" type="Date" flags="O">
+      <desc>Date student began the support program.</desc>
+    </element>
+    <element name="LeastRestrictiveEnvironment" type="ServiceSetting" flags="O" />
+    <element name="ExtendedSchoolYear" type="Boolean" flags="O">
+      <desc>For special education, indicates whether Extended School Year (ESY) / summer  services have been determined as necessary</desc>
+    </element>
+    <element name="ExtendedDay" type="Boolean" flags="O">
+      <desc>For special education, indicates whether Extended School Day (ESD) services have been determined as necessary.</desc>
+    </element>
+    <element name="ProgramAvailability" type="ProgramAvailability" flags="O" />
+    <element name="PrivateNotPlacedByPublic" type="Boolean" flags="O">
+      <desc>Indicates whether the student is enrolled by a parent/guardian in a private school and has special education/services provided at public expense.  Necessary for the OSEP federal IDEA reports..</desc>
+    </element>
+    <element name="ProgramReviewDate" type="Date" flags="O">
+      <desc>Projected date of the program plan review (for IDEA, the projected annual IEP review date).</desc>
+    </element>
+    <element name="FBADate" type="Date" flags="O">
+      <desc>The most recent date on which the IEP Team completed a full and comprehensive review of all functional behavioral assessment materials.</desc>
+    </element>
+    <element name="BIPDate" type="Date" flags="O">
+      <desc>The most recent date on which the IEP Team approved a behavioral intervention plan.</desc>
+    </element>
+    <element name="ProgramExitDate" type="Date" flags="O">
+      <desc>Date student exited support program(s).</desc>
+    </element>
+    <element name="ProgramExitReason" type="ProgramExitReason" flags="O" />
+    <element name="ProjectedExitDate" type="Date" flags="O">
+      <desc>The date on which it is projected that a student will exit program.  Has typically been provided when student turns 14; under new IDEA, may change to 16.</desc>
+    </element>
+    <element name="ProjectedExitReason" type="ProjectedExitReason" flags="O">
+      <desc>Review by program / state.  May be required if a ProjectedExitDate is present.  The projected reason for a student's exit from program.</desc>
+    </element>
+    <element name="PlannedAssessmentParticipation" type="PlannedAssessmentParticipation" flags="O">
+      <desc>The student's planned level of participation in statewide assessments.</desc>
+    </element>
+    <element name="TransitionPlanning" type="TransitionPlanning" flags="O">
+      <desc>Purpose / goal for recommended transition planning services.</desc>
+    </element>
+    <element name="StudentSpecialEducationFTE" type="Decimal" flags="O">
+      <desc>Calculated ratio of time the student is in a special ed setting.  Values range from 0.00 to 1.00.  If the student is in a special ed setting 25% of the time, the value is .25; if 100% of the time, the value is 1.00.</desc>
+    </element>
+    <element name="EntryPerson" type="NormalizedString" flags="O">
+      <desc>Identification / name of the person who created the transaction that led to the creation of this instance of the object.</desc>
+    </element>
+    <element name="ParticipationContact" type="NormalizedString" flags="O">
+      <desc>Primary contact for this record.</desc>
+    </element>
+    <element name="AdditionalProgramAvailabilityList" type="AdditionalProgramAvailabilityList" flags="O"/>
+    <element name="CaseManager" type="NormalizedString" flags="O">
+    	<desc>The name of the case manager responsible for the academic plans of this student.</desc>
+    </element>
+  </object>
+  <!--StudentPlacement object-->
+  <object name="StudentPlacement" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>This is the unique identification code</desc>
+    </attribute>
+    <attribute name="StudentParticipationRefId" type="IdRefType" flags="R">
+      <desc>This is the reference code for student eligibility for participation</desc>
+    </attribute>
+    <attribute name="StudentPersonalRefId" type="IdRefType" flags="R">
+      <desc>The GUID of the student that this object is linked to.</desc>
+    </attribute>
+    <element name="StudentPlacementAsOfDate" type="Date" flags="O">
+      <desc>Effective date (NOT the entry date) of this StudentParticipation instance for the identified student and program.   
+      It is intended that each time the contents of this instance of the object changes, it will be published with a new RefId.</desc>
+    </element>
+    <element name="Service" type="Service" flags="M" />
+    <element name="ServiceCategory" enum="ServiceCategory" flags="O">
+      <desc>Category of service (for example, whether it is instruction or a related / transitional service or a supplemental service).  Typically designated by a state.</desc>
+    </element>
+    <element name="ServiceFundingSources" type="ServiceFundingSources" flags="O" />
+    <element name="ServicingPublicAgency" type="SIF_RefId" flags="O" />
+    <element name="ServicingSchool" type="SIF_RefId" flags="O" />
+    <element name="SchoolWhereServiceDelivered" type="SIF_RefId" flags="O" />
+    <element name="ServiceProviderType" type="ServiceProviderType" flags="O" />
+    <element name="AgencyType" type="NormalizedString" flags="O">
+      <desc>Identifies an agency or clinic that will provide the specified service.</desc>
+    </element>
+    <element name="ServiceProviderName" type="NormalizedString" flags="O">
+      <desc>The name of the person who delivers the service.</desc>
+    </element>
+    <element name="ServiceSetting" type="ServiceSetting" flags="O" />
+    <element name="WhenServiceProvided" type="ProgramAvailability" flags="O" />
+    <element name="LatestStartDate" type="Date" flags="O">
+      <desc>Date by which service is supposed to start for this student.</desc>
+    </element>
+    <element name="StartDate" type="Date" flags="O">
+      <desc>Actual date this service began for this student.</desc>
+    </element>
+    <element name="EndDate" type="Date" flags="O">
+      <desc>Actual date this service ended for this student.</desc>
+    </element>
+    <element name="FrequencyTime" type="FrequencyTime" flags="O" />
+    <element name="DirectTime" type="TimeUnit" flags="O">
+      <desc>Number of units of time per session spent directly providing the service to the student.</desc>
+    </element>
+    <element name="IndirectTime" type="TimeUnit" flags="O">
+      <desc>Number of units of time per session NOT spent directly providing the service to the student but rather spent providing consultation services to someone related to the student (e.g. parent, a general ed teacher, a new service provider, etc.).</desc>
+    </element>
+    <element name="TotalServiceDuration" type="TimeUnit" flags="O">
+      <desc>Total of the direct and indirect time as it relates to the FrequencyTime; e.g., DirectTime 60 + IndirectTime 30 = 90.</desc>
+    </element>
+    <element name="IncludedInSpecialEducationFTE" type="Boolean" flags="O">
+      <desc>Indicates whether the direct time for this service is included in the calculation of a student's special education FTE.</desc>
+    </element>
+    <element name="SpecialNeedsTransportation" type="Boolean" flags="O">
+      <desc>Indicates whether the student requires transportation to the location of Placement/Service.</desc>
+    </element>
+    <element name="AssistiveTechnology" type="Boolean" flags="O">
+      <desc>Indicates whether the student requires assistive technology for this Placement/Service.</desc>
+    </element>
+    <element name="EntryPerson" type="NormalizedString" flags="O">
+      <desc>Identification / name of the person who created the transaction that led to the creation of this instance of the object.</desc>
+    </element>
+  </object>
+  <!--StudentProgramAccommodation object-->
+  <object name="StudentProgramAccommodation">
+    <element name="StudentParticipationRefId" type="IdRefType" flags="O">
+      <desc>Reference to the instance of the StudentParticipation object in which the required test accommodation(s) are specified for the date of the test.</desc>
+    </element>
+    <element name="StudentProgramType" type="StudentProgramType" flags="O" />
+    <element name="Accommodations" type="Accommodations" flags="O" />
+  </object>
+  <!--StudentProgramAccommodations object-->
+  <object name="StudentProgramAccommodations">
+    <element name="StudentProgramAccommodation" type="StudentProgramAccommodation" flags="OR" />
+  </object>
+  <!--StudentProgramType object-->
+  <object name="StudentProgramType">
+    <element name="Code" type="Token" flags="O">
+      <desc>The value specified in the referenced StudentParticipation object in ProgramType</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+  <!-- StudentSpecialEducationSummary -->
+  <object name="StudentSpecialEducationSummary" topic="true">
+  	<desc>This object provides a summary of a student's participation and placement in special education programs for a given school for a given school year, reflecting the known or calculated values at the time (SummaryDate) the summary was provided. As such, there may be multiple instances of this object for a student in a school over the course of a school year. SIF_Events are not supported by this object.</desc>
+  	<attribute name="StudentPersonalRefId" type="IdRefType" flags="M">
+  		<desc>The Id (GUID) of the student for whom this special education information is being reported.</desc>
+  	</attribute>
+  	<attribute name="SummaryDate" type="Date" flags="M">
+  		<desc>The date the data summary was taken. Some elements are provided/calculated as of the SummaryDate, and some are provided as of the date the object is requested (i.e., some can be historical and some will represent the last information available/last known value).</desc>
+  	</attribute>
+  	<attribute name="SchoolYear" type="int" flags="M">
+  		<desc>School year for which the information is applicable.</desc>
+  	</attribute>
+  	<element name="StudentSpecialEducationFTE" type="Decimal" flags="O">
+  		<desc>Calculated ratio of time the student is in a special ed setting. Values range from 0.00 to 1.00. If the student is in a special ed setting 25% of the time, the value is .25; if 100% of the time, the value is 1.00.</desc>
+  	</element>
+  	<element name="PrimaryDisabilityCode" enum="NCES0768PrimaryDisabilityType" flags="O">
+  		<desc>A code that identifies the primary disability type for a student who is eligible for services under the Individuals with Disabilities Education Act (IDEA) and who has an Individualized Education Program (IEP). Since primary disability is time-dependent a student’s primary disability can change through a school year or reporting period</desc>
+  	</element>
+  	<element name="NeglectedOrDelinquentParticipationList" type="NeglectedOrDelinquentParticipationList" flags="O"/>
+  	<element name="StudentParticipationList" type="StudentParticipationList" flags="O"/>
+  	<element name="StudentPlacementList" type="StudentPlacementList" flags="O">
+  		<desc>This list contains information that describes each specific instructional, related or transitional service that has been prescribed or recommended in the program plan developed for a student who has been placed in an individualized special program.</desc>
+  	</element>
+  </object>
+  <!--TestAccommodation object-->
+  <object name="TestAccommodation" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>Unique ID for this set of test accommodations required for a particular student who is participating in a special program and for whom this set of test accommodation(s) is recommended / prescribed for this test administration (specific subject area and level) in a specific special programs plan.</desc>
+    </attribute>
+    <element name="StudentPersonalRefId" type="IdRefType" flags="O">
+      <desc>Reference to StudentPersonal object.  Typically a vendor is allowed to receive a StatePrId or a StudentName, but not both together.  The student must be identified by StudentPersonalRefId, or StudentName and LocalId, or StateStudentId.</desc>
+    </element>
+    <element name="Name" type="Name" flags="O">
+      <desc>The student's name as presented in StudentPersonal object, Name element with a Type of 02 (Current Legal Name).  If Type 02 is not available, Type of 04 (Name of Record)</desc>
+    </element>
+    <element name="LocalId" type="NormalizedString" flags="O">
+      <desc>The locally assigned identifier for this student.</desc>
+    </element>
+    <element name="StateProvinceId" type="String" flags="O">
+      <desc>Reference to the state code identifying the student in the StudentPersonal object, as of the date of the response.</desc>
+    </element>
+    <element name="StateDistrictId" type="NormalizedString" flags="O">
+      <desc>Reference to State code (StatePrId for LEAInfo) for the student's district of enrollment as of the date of the response (optional because school might be independent).</desc>
+    </element>
+    <element name="LEAInfoRefId" type="IdRefType" flags="O">
+      <desc>The RefId for the district to which the student's home school of enrollment belongs as of the date of the response (optional because school might be independent).</desc>
+    </element>
+    <element name="SchoolInfoRefId" type="IdRefType" flags="O">
+      <desc>The RefId for the student's home school of enrollment as of the date of the response.</desc>
+    </element>
+    <element name="StateSchoolId" type="NormalizedString" flags="O">
+      <desc>Reference to State code (StatePrId for SchoolInfo) for student's home school of enrollment as of the date of the response (optional because state may not require).</desc>
+    </element>
+    <element name="GradeLevel" type="GradeLevel" flags="O">
+      <desc>Code for the current actual grade placement of the student as of the date of the response  from StudentSchoolEnrollment.</desc>
+    </element>
+    <element name="AssessmentRegistrationRefId" type="IdRefType" flags="O">
+      <desc>RefId for the student's registration / assignment to take a particular test (test name, subject area, level, grade level, type) at a particular time or within a particular timeframe.  An assessment may also be identified by omitting this element and specifying the whole set (TestAdministration, TestSubjectArea, TestGradeLevel, TestAdministrationDateRange or PlannedTestAdministrationDate, and TestType).</desc>
+    </element>
+    <element name="TestAdministration" type="Token" flags="O">
+      <desc>Abbreviated name of the test for which this set of accommodations is to be provided.</desc>
+    </element>
+    <element name="TestSubjectArea" type="Token" flags="O">
+      <desc>Subject area of the test.  Teachers may only supply this element, while a high-stakes test will supply the whole set (TestAdministration, TestSubjectArea, TestGradeLevel, TestAdministrationDateRange or PlannedTestAdministrationDate, and TestType).</desc>
+    </element>
+    <element name="TestGradeLevel" type="Token" flags="O">
+      <desc>Grade level of the test.</desc>
+    </element>
+    <element name="TestAdministrationDateRange" type="NormalizedString" flags="O">
+      <desc>General date range of the test (e.g. "Spring 2005").  Date is identified by either TestAdministrationDateRange or PlannedTestAdministrationDate</desc>
+    </element>
+    <element name="PlannedTestAdministrationDate" type="Date" flags="O">
+      <desc>The date the test is planned to be administered.  Should contain the most current known date (Date is needed in order to identify accommodations to be sent -- accommodations are date-dependent).</desc>
+    </element>
+    <element name="TestType" enum="TestType" flags="O">
+      <desc>Identifies whether the test the student is to take is a standard or alternate.</desc>
+    </element>
+    <element name="AuthorizedActual" enum="AuthorizedActual" flags="O">
+      <desc>Indicator - Identifies whether accommodations in this object are authorized or were actually used.</desc>
+    </element>
+    <element name="ActualTestAdministrationDate" type="Date" flags="O">
+      <desc>The date the test was actually administered.</desc>
+    </element>
+    <element name="StudentProgramAccommodations" type="StudentProgramAccommodations" flags="O" />
+  </object>
+  <!--TestType enum-->
+  <enum name="TestType">
+    <value name="STANDARD" value="S001" desc="Standard" />
+    <value name="ALTERNATE" value="S002" desc="Alternate" />
+    <value name="OTHER" value="9999" desc="Other" />
+  </enum>
+  <!--TimeUnit object-->
+  <object name="TimeUnit" dataType="Decimal">
+    <attribute name="UnitOfMeasure" enum="DurationUnit" flags="R">
+      <desc>Identifies unit of measure in which amount of time is expressed.</desc>
+    </attribute>
+  </object>
+  <!--TotalServiceDuration object-->
+  <object name="TotalServiceDuration">
+    <attribute name="UnitOfMeasure" enum="DurationUnit" flags="R">
+      <desc>Identifies unit of measure in which amount of time is expressed.</desc>
+    </attribute>
+  </object>
+  <!--TransitionPlanning object-->
+  <object name="TransitionPlanning">
+    <attribute name="Codeset" enum="Codeset" flags="R">
+      <desc>Identifies source of value provided.</desc>
+    </attribute>
+  </object>
+  <!--WhenServiceProvided object-->
+  <object name="WhenServiceProvided">
+    <element name="Code" enum="ProgramAvailabilityCode" flags="O">
+      <desc>General timing of service delivery relative to school calendar / schedule.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+</adk>

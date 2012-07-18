@@ -398,12 +398,12 @@ class SLCFixer
       end
     end
 
-    #StudentSectionGradeBook
-    @log.info "Iterating studentSectionGradebookEntry with query: {}"
-    @db['studentSectionGradebookEntry'].find({}, @basic_options) do |cur|
+    #StudentGradebookEntry
+    @log.info "Iterating studentGradebookEntry with query: {}"
+    @db['studentGradebookEntry'].find({}, @basic_options) do |cur|
       cur.each do |trans|
         edorg = student_edorgs(trans['body']['studentId'])
-        stamp_id(@db['studentSectionGradebookEntry'], trans['_id'], edorg, trans['metaData']['tenantId'])
+        stamp_id(@db['studentGradebookEntry'], trans['_id'], edorg, trans['metaData']['tenantId'])
       end
     end
 

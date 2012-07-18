@@ -1,0 +1,136 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.5 workforce objects             -->
+<!-- ======================================== -->
+<adk package="workforce" version="2.5" namespace="http://www.sifinfo.org/uk/infrastructure/2.x">
+  <!--CurrentAssignment object-->
+  <object name="CurrentAssignment">
+    <desc>A list of assignments associated with a workforce member, including school and role.  This list serves as a quick lookup for information relating to a workforce member's postings or assignments to an LA, School, or other establishment.  An agent will operate more eficiently if the data represented here is sufficient.  Otherwise, it will be necessary for the agent to also request the WorkforceAssignment object(s).</desc>
+    <element name="LAId" key="false" type="Token" flags="O">
+      <desc>The DfES assigned number for the LA in which the workforce member is working, if associated.</desc>
+    </element>
+    <element name="EstablishmentId" key="false" type="Token" flags="O">
+      <desc>The DfES assigned number for the school or establishment in which the workforce member is working.  Note that the school may not necessarily be in the same LA listed as the LAId.</desc>
+    </element>
+    <element name="Posts" key="false" type="Posts" flags="O">
+      <desc>The role(s) of the person within this school.</desc>
+    </element>
+  </object>
+  <!--CurrentAssignmentList object-->
+  <object name="CurrentAssignmentList">
+    <desc>A list of assignments associated with a workforce member, including school and role.  This list serves as a quick lookup for information relating to a workforce member's postings or assignments to an LA, School, or other establishment.  An agent will operate more eficiently if the data represented here is sufficient.  Otherwise, it will be necessary for the agent to also request the WorkforceAssignment object(s).</desc>
+    <element name="CurrentAssignment" type="CurrentAssignment" flags="MR">
+      <desc>A workforce member's assignment.</desc>
+    </element>
+  </object>
+  <!--EmployeePost enum-->
+  <enum name="EmployeePost">
+    <value name="ADMINISTRATOR_CLERK" value="ADMC" desc="Administrator / Clerk " />
+    <value name="ADVISORY_TEACHER_UNATTACHED" value="ADVT" desc="Advisory teacher (unattached)" />
+    <value name="ART_OR_DESIGN_TECHNICIAN" value="ARTD" desc="Art and/or Design Technician" />
+    <value name="ASSISTANT_HEAD" value="ASHT" desc="Assistant head" />
+    <value name="ATTENDANCE_OFFICER" value="ATTN" desc="Attendance Officer" />
+    <value name="BILINGUAL_SUPPORT_ASSISTANT" value="BILN" desc="Bilingual Support Assistant" />
+    <value name="BURSAR" value="BURS" desc="Bursar" />
+    <value name="BUSINESS_MANAGER" value="BUSS" desc="Business Manager" />
+    <value name="CARETAKER" value="CTKR" desc="Caretaker" />
+    <value name="CLASSROOM_ASSISTANT" value="CLSA" desc="Classroom Assistant" />
+    <value name="CLASSROOM_TEACHER" value="TCHR" desc="Classroom Teacher" />
+    <value name="CLEANER" value="CLNR" desc="Cleaner" />
+    <value name="CONNEXIONS_PERSONAL_ADVISER" value="CXPA" desc="Connexions Personal Adviser" />
+    <value name="COOK" value="COOK" desc="Cook" />
+    <value name="COVER_SUPERVISOR" value="COVR" desc="Cover Supervisor" />
+    <value name="CREATIVE_ARTS_SPECIALIST" value="CART" desc="Creative Arts Specialist" />
+    <value name="DATA_MANAGER_ANALYST" value="DATA" desc="Data Manager / Analyst" />
+    <value name="DEPUTY_HEAD" value="DPHT" desc="Deputy head" />
+    <value name="EDUCATION_WELFARE_OFFICER" value="EDWO" desc="Education Welfare Officer" />
+    <value name="EDUCATIONAL_PSYCHOLOGIST" value="EPSY" desc="Educational Psychologist" />
+    <value name="ESCORT" value="ESCT" desc="Escort" />
+    <value name="EXAM_INVIGILATOR" value="INVG" desc="Exam Invigilator" />
+    <value name="EXAMINATIONS_OFFICER" value="EXAM" desc="Examinations Officer" />
+    <value name="FINANCE_OFFICER" value="FINC" desc="Finance Officer" />
+    <value name="HEAD_TEACHER" value="HDTR" desc="Head teacher" />
+    <value name="HIGHER_LEVEL_TEACHING" value="HLTA" desc="Higher Level Teaching Assistant" />
+    <value name="HOME_SCHOOL_LIAISON_OFFICER" value="HSLO" desc="Home-School Liaison Officer" />
+    <value name="ICT_NETWORK_MANAGER" value="ICTM" desc="ICT Network Manager" />
+    <value name="ICT_TECHNICIAN" value="ICTT" desc="ICT Technician" />
+    <value name="INSTRUCTOR" value="INST" desc="Instructor" />
+    <value name="LANGUAGE_ASSISTANT" value="LANA" desc="Language Assistant" />
+    <value name="LANGUAGE_SUPPORT" value="LANG" desc="Language support" />
+    <value name="LEA_SUPPLY_POOL" value="SPLY" desc="LEA Supply Pool" />
+    <value name="LEARNING_MANAGER" value="LRNM" desc="Learning Manager" />
+    <value name="LEARNING_MENTOR" value="LMEN" desc="Learning Mentor" />
+    <value name="LEARNING_SUPPORT_ASSISTANT" value="LSEN" desc="Learning Support Assistant (for SEN pupils)" />
+    <value name="LIBRARIAN" value="LIBR" desc="Librarian" />
+    <value name="LITERACY_WORKER" value="LITR" desc="Literacy Worker" />
+    <value name="MIDDAY_ASSISTANT" value="MIDA" desc="Midday Assistant" />
+    <value name="MIDDAY_SUPERVISOR" value="MIDS" desc="Midday Supervisor" />
+    <value name="MINORITY_ETHNIC_SUPPORT" value="MINS" desc="Minority ethnic support" />
+    <value name="MISCELLANEOUS_TEACHING" value="MISC" desc="Miscellaneous Teaching Service for the LEA" />
+    <value name="MUSIC_SPECIALIST" value="MUSS" desc="Music Specialist" />
+    <value name="MUSIC_TUITION" value="MUSC" desc="Music tuition (include peripatetic)" />
+    <value name="NURSE" value="NURS" desc="Nurse" />
+    <value name="NURSERY_NURSE" value="NNSE" desc="Nursery Nurse " />
+    <value name="OFFICE_MANAGER" value="OMAN" desc="Office Manager" />
+    <value name="OTHER_CATERING_STAFF" value="CATR" desc="Other Catering Staff" />
+    <value name="OTHER_ICT_SUPPORT_STAFF" value="OICT" desc="Other ICT Support Staff" />
+    <value name="PERIPATETIC_TEACHER" value="PERI" desc="Peripatetic Teacher (unattached)" />
+    <value name="PERSONAL_ASSISTANT_TO" value="PAHT" desc="Personal Assistant to Headteacher" />
+    <value name="PREMISES_MANAGER" value="PREM" desc="Premises Manager" />
+    <value name="RECEPTIONIST" value="RECP" desc="Receptionist" />
+    <value name="REPROGRAPHICS_TECHNICIAN" value="RPRG" desc="Reprographics Technician" />
+    <value name="SCHOOL_SECRETARY" value="SSEC" desc="School Secretary" />
+    <value name="SCIENCE_TECHNICIAN" value="STCH" desc="Science Technician" />
+    <value name="SEN_COORDINATOR" value="SENC" desc="SEN co-ordinator" />
+    <value name="TEACHER_NON_ED" value="TNON" desc="Teacher: engaged for non-school education" />
+    <value name="TEACHER_REFERRAL" value="TPRU" desc="Teacher: engaged to teach in a Pupil Referral Unit" />
+    <value name="TEACHER_MISC_EST" value="TMIS" desc="Teacher: engaged to teach in miscellaneous establishments" />
+    <value name="TEACHING_ASSISTANT" value="TASS" desc="Teaching Assistant" />
+    <value name="TECHNOLOGY_TECHNICIAN" value="TTCH" desc="Technology Technician" />
+    <value name="THERAPIST" value="THER" desc="Therapist" />
+    <value name="TRAVELLER_SUPPORT" value="TRAV" desc="Traveller support" />
+    <value name="WELFARE_ASSISTANT" value="WELF" desc="Welfare Assistant" />
+  </enum>
+  <!--Post object-->
+  <object name="Post" enum="EmployeePost">
+    <desc>The role(s) of the person within this school.</desc>
+  </object>
+  <!--Posts object-->
+  <object name="Posts">
+    <element name="Post" type="Post" flags="MR">
+      <desc>The role(s) of the person within this school.</desc>
+    </element>
+  </object>
+  <!--WorkforcePersonal object-->
+  <object name="WorkforcePersonal" topic="true">
+    <desc>This object contains key personal information relating to a workforce member, who might be a teacher or other employee of the school or LA.  Compare with US/Canada objects: EmployeePersonal and StaffPersonal</desc>
+    <attribute name="RefId" type="Token" flags="M">
+      <desc>Note that the same GUID may be assigned to this person when they are also a learner (via LearnerPersonal) and/or a contact (via ContactPersonal).</desc>
+    </attribute>
+    <element name="LocalId" type="Token" flags="M">
+      <desc>The locally-assigned identifier for this workforce member.</desc>
+    </element>
+    <element name="AlertMsgList" type="AlertMsgList" flags="O">
+      <desc />
+    </element>
+    <element name="MedicalAlertMsgList" type="MedicalAlertMsgList" flags="O">
+      <desc />
+    </element>
+    <element name="PersonalInformation" type="PersonalInformation" flags="M">
+      <desc>Personal name, demographic, address, email, and phone information for this person. CBDS: Mulitple</desc>
+    </element>
+    <element name="TeacherNumber" type="normalizedString" flags="O">
+      <desc>The DfES Teacher Reference number. For those who have one this is a unique number. CBDS: 400014</desc>
+    </element>
+    <element name="NINumber" type="normalizedString" flags="O">
+      <desc>National Insurance Number. Do not specify temporary numbers. Format:  AAnnnnnnA CBDS: 400013</desc>
+    </element>
+    <element name="CurrentAssignmentList" type="CurrentAssignmentList" flags="O">
+      <desc>A list of assignments associated with a workforce member, including school and role.  This list serves as a quick lookup for information relating to a workforce member's postings or assignments to an LA, School, or other establishment.  An agent will operate more eficiently if the data represented here is sufficient.  Otherwise, it will be necessary for the agent to also request the WorkforceAssignment object(s).</desc>
+    </element>
+  </object>
+  
+</adk>

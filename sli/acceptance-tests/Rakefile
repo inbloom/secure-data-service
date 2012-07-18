@@ -49,7 +49,7 @@ $collectionSet = ["student",
                   "studentAssessmentAssociation",
                   "gradebookEntry",
                   "studentTranscriptAssociation",
-                  "studentSectionGradebookEntry",
+                  "studentGradebookEntry",
                   "parent",
                   "studentParentAssociation",
                   "attendance",
@@ -583,7 +583,7 @@ task :ingestionTests => [:loadDefaultIngestionTenants,:ingestionAcceptanceSdsTes
                          :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest,
                          :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest, :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest,
                          :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest, 
-                         :ingestionEmptyControlFileTest, :ingestionDryRunTest, :ingestionCourseOfferingTest, :ingestionComplexObjectArrayIdRefTest ] do
+                         :ingestionEmptyControlFileTest, :ingestionDryRunTest, :ingestionCourseOfferingTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest ] do
 
   displayFailureReport()
   if $SUCCESS
@@ -729,6 +729,7 @@ task :importSecuredData do
     "educationOrganization" => "secured/educationOrganization.json",
     "gradebookEntry" => "secured/gradebookEntry.json",
     "program" => "secured/program.json",
+    "reportCard" => "secured/reportCard.json",
     "section" => "secured/section.json",
     "staff" => "secured/staff.json",
     "staffCohortAssociation" => "secured/staffCohortAssociation.json",
@@ -737,11 +738,14 @@ task :importSecuredData do
     "student" => "secured/student.json",
     "studentAssessmentAssociation" => "secured/studentAssessment.json",
     "studentCohortAssociation" => "secured/studentCohortAssociation.json",
+    "studentDisciplineIncidentAssociation" => "secured/studentDisciplineIncidentAssociation.json",
     "studentProgramAssociation" => "secured/studentProgramAssociation.json",
     "studentSchoolAssociation" => "secured/studentSchoolAssociation.json",
     "studentSectionAssociation" => "secured/studentSectionAssociation.json",
-    "studentSectionGradebookEntry" => "secured/studentSectionGradebookEntry.json",
+    "studentGradebookEntry" => "secured/studentGradebookEntry.json",
     "teacherSchoolAssociation" => "secured/teacherSchoolAssociation.json",
+    "parent" => "secured/parent.json",
+    "studentParentAssociation" => "secured/studentParentAssociation.json",
     "teacherSectionAssociation" => "secured/teacherSectionAssociation.json"
 
   ]
@@ -775,7 +779,7 @@ task :importSandboxData do
     "sectionAssessmentAssociation" => "sectionAssessmentAssociation_fixture.json",
     "studentTranscriptAssociation" => "studentTranscriptAssociation_fixture.json",
     "gradebookEntry" => "gradebookEntry_fixture.json",
-    "studentSectionGradebookEntry" => "studentSectionGradebookEntry_fixture.json",
+    "studentGradebookEntry" => "studentGradebookEntry_fixture.json",
     "disciplineIncident" => "disciplineIncident_fixture.json",
     "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociation_fixture.json",
     "disciplineAction" => "disciplineAction_fixture.json",
@@ -830,7 +834,7 @@ task :importUnifiedData => [:realmInit] do
     "studentParentAssociation" => "unified_data/uds_studentParentAssociation.json",
     "studentSchoolAssociation" => "unified_data/uds_studentSchoolAssociation.json",
     "studentSectionAssociation" => "unified_data/uds_studentSectionAssociation.json",
-    "studentSectionGradebookEntry" => "unified_data/uds_studentSectionGradebookEntry.json",
+    "studentGradebookEntry" => "unified_data/uds_studentGradebookEntry.json",
     "studentTranscriptAssociation" => "unified_data/uds_studentTranscriptAssociation.json",
     "staff" => "unified_data/uds_staff.json",
     "teacherSchoolAssociation" => "unified_data/uds_teacherSchoolAssociation.json",

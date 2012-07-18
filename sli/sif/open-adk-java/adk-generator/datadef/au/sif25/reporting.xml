@@ -1,0 +1,225 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.5 reporting objects             -->
+<!-- ======================================== -->
+<adk package="reporting" version="2.5" namespace="http://www.sifinfo.org/au/infrastructure/2.x">
+ 
+  <!--SubmissionReason-->
+  <enum name="SubmissionReason">
+    <value name="INITIAL" value="Initial" desc="Initial" />
+    <value name="CORRECTION" value="Correction" desc="Correction" />
+    <value name="REVISION" value="Revision" desc="Revision" />
+    <value name="ADDITION" value="Addition" desc="Addition" />
+  </enum>
+  
+   <!--ReportSubmitterInfo-->
+  <object name="ReportSubmitterInfo">
+    <element name="SIF_RefId" type="SIF_RefId" flags="O" />
+    <element name="SubmitterName" type="String" flags="M">
+      <desc>Name of the report submitter.</desc>
+    </element>
+    <element name="SubmitterDepartment" type="String" flags="O">
+      <desc>Department, office, or subdivision of the agency submitting the report.</desc>
+    </element>
+    <element name="ContactInfo" type="ContactInfo" flags="O">
+      <desc>Information on the contact person in this agency submitting the report.</desc>
+    </element>
+    <element name="Address" type="Address" flags="O" />
+    <element name="PhoneNumber" type="PhoneNumber" flags="O" />
+    <element name="SubmitterNotes" type="String" flags="O">
+      <desc>Optional notes for the report authority, such as information about a district's reporting policies and procedures, instructions for contacting the district for technical support, etc.</desc>
+    </element>
+  </object>
+  
+  <!--SIF_ReportObject object-->
+  <object name="SIF_ReportObject" topic="true">
+    <desc>This object is here only as necessary for the ADK, but not supported in the UK data model</desc>
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The ID (GUID) that uniquely identifies this instance of a report.</desc>
+    </attribute>
+    <element name="ReportInfo" type="ReportInfo" flags="O" />
+    <element name="ReportData" type="ReportData" flags="O">
+      <desc>
+        Container element for the report content; one valid SIF object can occur as a child here. This element is conditional.
+        This element or ReportInfo or SIF_ExtendedQueryResults is included but never at the same time.
+        See examples of the usage of the object below.
+      </desc>
+    </element>
+    <element name="SIF_ExtendedQueryResults" type="SIF_ExtendedQueryResults" flags="O">
+      <desc>
+        The report content resulting from a SIF_ExtendedQuery-based report.  This element is conditional.
+        This element or ReportInfo or ReportData is included but never at the same time.
+      </desc>
+    </element>
+  </object>
+  
+   <!--ReportData-->
+  <object name="ReportData"  />
+  
+  <!--ReportInfo-->
+  <object name="ReportInfo" >
+    <attribute name="ReportManifestRefId" type="String" flags="R">
+      <desc>The report manifest corresponding to this report.</desc>
+    </attribute>
+    <element name="CalculationDate" type="Date" flags="M">
+      <desc>The date on which the report was calculated.</desc>
+    </element>
+    <element name="SubmissionNumber" type="int" flags="M">
+      <desc>A number that identifies the submission; beginning at 1 and incremented each time a submission is done for a particular report; used to indicate resubmission(s).</desc>
+    </element>
+    <element name="SubmissionReason" enum="SubmissionReason" flags="M">
+      <desc>Reason for the report submission.</desc>
+    </element>
+    <element name="ReportSubmitterInfo" type="ReportSubmitterInfo" flags="O" />
+    <element name="Description" type="String" flags="O" />
+  </object>
+
+  <!--ReportManifest-->
+  <object name="ReportManifest" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The unique identifier for this report manifest.</desc>
+    </attribute>
+    <attribute name="ReportAuthorityInfoRefId" type="String" flags="R">
+      <desc>ID (GUID) of the authority providing this manifest.</desc>
+    </attribute>
+    <element name="SIF_Version" type="String" flags="M">
+      <desc>Specifies which SIF Implementation Specification version should be used when returning the report data; wildcards are allowed.  When a wildcard is specified,        the responding agent SHOULD attempt to return the report data in the version specified by SIF_Message/@Version,        if that version matches the wildcard version.  If not, the responding agent can return the data in any version it chooses that matches the wildcard version.</desc>
+    </element>
+    <element name="SIF_MaxBufferSize" type="Uint" flags="M">
+      <desc>Specifies the maximum size of a packet to be returned to the report authority.</desc>
+    </element>
+    <element name="ReceivingAuthority" type="ReceivingAuthority" flags="O" />
+    <element name="ReportName" type="String" flags="M">
+      <desc>The authority's accepted name for the report.</desc>
+    </element>
+    <element name="Description" type="String" flags="O">
+      <desc>The description for the report.</desc>
+    </element>
+    <element name="ReportingPeriod" type="ReportingPeriod" flags="O" />
+    <element name="ReportDefinitionSource" type="ReportDefinitionSource" flags="M">
+      <desc>Indicates where the report definition can be found.        If Type is Embedded or Base64Binary, this element's value contains the report definition.  If Type is        URL, this element's value is the location of the external definition.  A Type value of SIF_Query        indicates that the SIF_QueryGroup element contains the definition.</desc>
+    </element>
+    <element name="ReportFormatList" type="ReportFormatList" flags="O" />
+    <element name="SIF_QueryGroup" type="SIF_QueryGroup" flags="O" />
+    <element name="SIF_ExtendedQuery" type="SIF_ExtendedQuery" flags="O">
+      <desc>Query criteria for extracting the report information if ReportDefinitionSource/@Type          is SIF_ExtendedQuery.</desc>
+    </element>
+  </object>
+  
+  <!--SIF_QueryGroup-->
+  <object name="SIF_QueryGroup">
+    <element name="SIF_Query" type="SIF_Query" flags="MR" />
+  </object>
+  
+  <!--ReportFormatType-->
+  <enum name="ReportFormatType">
+    <value name="URL" value="URL" desc="URL" />
+    <value name="EMBEDDED" value="Embedded" desc="Embedded" />
+    <value name="BASE64BINARY" value="Base64Binary" desc="Base64Binary" />
+  </enum>
+
+  <!--ReportFormat-->
+  <object name="ReportFormat">
+    <attribute name="Type" enum="ReportFormatType" flags="R">
+      <desc>This attribute indicates the encoding of the format reference.</desc>
+    </attribute>
+    <attribute name="ContentType" type="String" flags="R">
+      <desc>The vendor-defined content type (e.g. com.vendor.format, PDF, etc.</desc>
+    </attribute>
+  </object>
+
+  <!--ReportFormatList-->
+  <object name="ReportFormatList">
+    <element name="ReportFormat" type="ReportFormat" flags="MR">
+      <desc>A third-party format that describes the visual representation of the report data.</desc>
+    </element>
+  </object>
+  
+  <!--ReportDefinitionSource-->
+  <object name="ReportDefinitionSource">
+    <attribute name="Type" enum="ReportDefinitionSourceType" flags="R">
+      <desc>This attribute indicates the source of the report definition.</desc>
+    </attribute>
+    <attribute name="QueryLanguage" type="String" flags="R">
+      <desc>The vendor-defined query language used in the report definition (e.g. SQL, ExampleObject,        Description, com.vendor.format, etc.).  If the Type attribute is SIF_Query, then QueryLanguage should also be SIF_Query.        If the Type attribute is SIF_ExtendedQuery, then QueryLanguage should also be SIF_ExtendedQuery.</desc>
+    </attribute>
+  </object>
+  
+  <!--ReportDefinitionSourceType-->
+  <enum name="ReportDefinitionSourceType">
+    <value name="URL" value="URL" desc="URL" />
+    <value name="EMBEDDED" value="Embedded" desc="Embedded" />
+    <value name="BASE64BINARY" value="Base64Binary" desc="Base64Binary" />
+    <value name="SIF_QUERY" value="SIF_Query" desc="SIF_Query" />
+    <value name="SIF_EXTENDEDQUERY" value="SIF_ExtendedQuery" desc="SIF_ExtendedQuery" />
+  </enum>
+  
+   <!--ReportingPeriod-->
+  <object name="ReportingPeriod">
+    <element name="BeginReportDate" type="Date" flags="O">
+      <desc>The first date for which the report contains information.</desc>
+    </element>
+    <element name="EndReportDate" type="Date" flags="O">
+      <desc>The last date for which the report contains information. May be the same as BeginReportDate for snapshot-type reports.</desc>
+    </element>
+    <element name="BeginSubmitDate" type="Date" flags="O">
+      <desc>The first date on which the report may be submitted to the authority.</desc>
+    </element>
+    <element name="EndSubmitDate" type="Date" flags="O">
+      <desc>The last date on which the report may be submitted to the authority.</desc>
+    </element>
+    <element name="DueDate" type="Date" flags="O">
+      <desc>The official due date of the report.</desc>
+    </element>
+  </object>
+  
+  <!--ReceivingAuthority-->
+  <object name="ReceivingAuthority">
+    <attribute name="SIF_RefObject" enum="ReceivingAuthoritySIF_RefObject" flags="R">
+      <desc>The name of the object referenced.</desc>
+    </attribute>
+  </object>
+    
+  <!--ReceivingAuthoritySIF_RefObject-->
+  <enum name="ReceivingAuthoritySIF_RefObject">
+    <value name="REPORTAUTHORITYINFO" value="ReportAuthorityInfo" desc="ReportAuthorityInfo" />
+  </enum>
+    
+  
+   <!--ReportAuthorityInfo-->
+  <object name="ReportAuthorityInfo" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The unique identifier for this agency/report authority.</desc>
+    </attribute>
+    <element name="AuthorityName" type="String" flags="M">
+      <desc>Name of the agency/report authority.</desc>
+    </element>
+    <element name="AuthorityId" type="String" flags="M">
+      <desc>The zone unique case-sensitive identifier for the authority. This will be the contents of the SIF_SourceId element in the header of requests for reports.</desc>
+    </element>
+    <element name="AuthorityDepartment" type="String" flags="O">
+      <desc>Department, office, or subdivision of the agency/report authority.</desc>
+    </element>
+    <element name="AuthorityLevel" enum="AuthorityLevel" flags="M">
+      <desc>Level of the authority.</desc>
+    </element>
+    <element name="ContactInfo" type="ContactInfo" flags="O">
+      <desc>Information on the contact person in this agency.</desc>
+    </element>
+    <element name="Address" type="Address" flags="O" />
+    <element name="PhoneNumber" type="PhoneNumber" flags="O" />
+  </object>
+ 
+  <!--AuthorityLevel-->
+  <enum name="AuthorityLevel">
+    <value name="FEDERAL" value="Federal" desc="Federal" />
+    <value name="STATE" value="State" desc="State" />
+    <value name="LEA" value="LEA" desc="LEA" />
+    <value name="SCHOOL" value="School" desc="School" />
+    <value name="OTHER" value="Other" desc="Other" />
+  </enum>
+  
+</adk>

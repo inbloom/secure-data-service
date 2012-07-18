@@ -1,0 +1,680 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s) -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 1.5r1 instr objects               -->
+<!-- ======================================== -->
+<adk package="instr" version="1.5r1" name="Instructional Services" namespace="http://www.sifinfo.org/infrastructure/1.x">
+  <!--Activity object-->
+  <object name="Activity" topic="true">
+    <desc>The work assigned to students, an educational event planned by a teacher to deliver a particular educational concept or skill.  SIF_Events are reported.</desc>
+    <attribute name="RefId" flags="R" />
+    <attribute name="Language" renderAs="xml:lang" enum="LanguageCode" flags="R" />
+    <element name="TechnicalRequirements" type="TechnicalRequirements" collapsed="true" flags="O">
+      <desc>Applications, OS, and network requirements for activity if applicable.</desc>
+    </element>
+    <element name="EssentialMaterials" flags="O" type="EssentialMaterials" collapsed="true">
+      <desc>Essential materials required to engage in this activity.</desc>
+    </element>
+    <element name="Title" flags="O">
+      <desc>Descriptive name of the activity.</desc>
+    </element>
+    <element name="Preamble" flags="O">
+      <desc>Description and context for the activity.</desc>
+    </element>
+    <element name="LearningObjectives" flags="O" type="LearningObjectives" collapsed="true">
+      <desc>Description of the educational objective of the activity.</desc>
+    </element>
+    <element name="LearningStandards" type="LearningStandards" flags="O" collapsed="true">
+      <desc>Link from activity to associated LearningStandardItem objects.</desc>
+    </element>
+    <element name="SubjectArea" type="SubjectArea" flags="O">
+      <desc>Refer to section 5.1.30 SubjectArea.</desc>
+    </element>
+    <element name="Prerequisites" flags="O" type="Prerequisites" collapsed="true">
+      <desc>Skills or competencies the student must have to engage in activity.</desc>
+    </element>
+    <element name="Students" flags="O" type="Students" collapsed="true">
+      <desc>Link to any student or group or category of students that this activity is for.</desc>
+    </element>
+    <element name="SourceObjects" type="SourceObjects" flags="O" collapsed="true">
+      <desc>GUID assigned to the source object.  The source object is the "thing" being assigned to a student.</desc>
+    </element>
+    <element name="Points" type="UnsignedInt" flags="O">
+      <desc>Number of possible points for an activity.</desc>
+    </element>
+    <element name="ActivityTime" type="ActivityTime" flags="M">
+      <desc>Time structures for the activity.</desc>
+    </element>
+    <element name="AssessmentRefId" flags="O">
+      <desc>Link to the SIF Assessment object containing the evaluation information for this activity.</desc>
+    </element>
+    <element name="MaxAttemptsAllowed" type="UnsignedInt" flags="O">
+      <desc>How many tries allowed.</desc>
+    </element>
+    <element name="ActivityWeight" type="Decimal" flags="O">
+      <desc>The percentage weight of the activity during the particular course or term.</desc>
+    </element>
+    <element name="Evaluation" type="Evaluation" flags="O">
+      <desc>Field for non-numeric types of grading and evaluation such as "narrative."</desc>
+    </element>
+    <element name="LearningResources" type="LearningResources" flags="O" collapsed="true">
+      <desc>A GUID reference to a SIF LearningResource object that support this activity</desc>
+    </element>
+  </object>
+  <!--ActivityRefId object-->
+  <object name="ActivityRefId" datatype="IdRefType" />
+  <!--ActivityTime object-->
+  <object name="ActivityTime">
+    <desc>Time structures for the activity.</desc>
+    <element name="CreationDate" type="SIFDate" flags="M">
+      <desc>Creation date of the activity.</desc>
+    </element>
+    <element name="Duration" type="Duration" flags="O">
+      <desc>Time required to complete the activity.</desc>
+    </element>
+    <element name="StartDate" type="SIFDate" flags="O">
+      <desc>Date activity is started.</desc>
+    </element>
+    <element name="FinishDate" type="SIFDate" flags="O">
+      <desc>Date activity is finished.</desc>
+    </element>
+    <element name="DueDate" type="SIFDate" flags="O">
+      <desc>Date activity is due.</desc>
+    </element>
+  </object>
+  <!--Approval object-->
+  <object name="Approval" renderAs="ResourceApproval">
+    <element name="Organization" renderAs="ApprovalOrganization" type="String" flags="O">
+      <desc>Name of agency that approved use of resource.</desc>
+    </element>
+    <element name="Date" renderAs="ApprovalDate" type="Date" flags="O">
+      <desc>Date resource was approved.</desc>
+    </element>
+  </object>
+  <!--Approvals object-->
+  <object name="Approvals">
+    <element name="Approval" renderAs="ResourceApproval" type="Approval" flags="OR" />
+  </object>
+  <!--Assignment object-->
+  <object name="Assignment" topic="true">
+    <desc>The work assigned to a student, which can comprise of learning resources, activities, and assessments.  It must have a student and a time attached to it.  SIF_Events are reported.</desc>
+    <attribute name="RefId" flags="R">
+      <desc>GUID assigned to assignment.</desc>
+    </attribute>
+    <attribute name="Language" renderAs="xml:lang" enum="LanguageCode" flags="R" />
+    <element name="Students" type="Students" flags="O" collapsed="true">
+      <desc>GUID assigned to the student or students given this assignment.</desc>
+    </element>
+    <element name="StaffPersonalRefId" flags="O">
+      <desc>GUID assigned to the educator who gave the assignment.</desc>
+    </element>
+    <element name="TechnicalRequirements" type="TechnicalRequirements" collapsed="true" flags="O">
+      <desc>Applications, OS, and network requirements for activity if applicable.</desc>
+    </element>
+    <element name="EssentialMaterials" type="EssentialMaterials" flags="O" collapsed="true">
+      <desc>Essential materials required to engage in the assignment.</desc>
+    </element>
+    <element name="Title" flags="O">
+      <desc>Descriptive name of the assignment.</desc>
+    </element>
+    <element name="Preamble" flags="O">
+      <desc>Description and context for the assignment.</desc>
+    </element>
+    <element name="LearningObjectives" type="LearningObjectives" flags="O" collapsed="true">
+      <desc>Description of the educational objectives of the assignment.</desc>
+    </element>
+    <element name="LearningStandards" type="LearningStandards" flags="O" collapsed="true">
+      <desc>Link from assignment to associated LearningStandardItem objects.</desc>
+    </element>
+    <element name="Prerequisites" type="Prerequisites" flags="O" collapsed="true">
+      <desc>Skills or competencies the student must have to engage in assignment.</desc>
+    </element>
+    <element name="SourceObjects" type="SourceObjects" flags="O" collapsed="true">
+      <desc>GUID assigned to the source object.  The source object is the "thing" being assigned to a student.</desc>
+    </element>
+    <element name="AssignmentTime" type="AssignmentTime" flags="M">
+      <desc>Time structures for the assignment.</desc>
+    </element>
+    <element name="MaxAttemptsAllowed" type="UnsignedInt" flags="O">
+      <desc>The number attempts a student may make on this assignment.  Assumed to be unlimited if omitted.</desc>
+    </element>
+    <element name="AddToGradeBookFlag" type="Boolean" flags="O">
+      <desc>Flag to prompt grade book processing. Values True, False</desc>
+    </element>
+  </object>
+  <!--AssignmentTime object-->
+  <object name="AssignmentTime">
+    <desc>Time structures for the assignment.</desc>
+    <element name="CreationDate" type="SIFDate" flags="O">
+      <desc>Creation date of the assignment</desc>
+    </element>
+    <element name="Duration" type="TimeDuration" flags="O">
+      <desc>Time required to complete the assignment.</desc>
+    </element>
+    <element name="StartDate" type="SIFDate" flags="M">
+      <desc>Date assignment  is started.</desc>
+    </element>
+    <element name="StartTime" type="SIFTime" flags="O" surrogate="SIFTimeSurrogate{}">
+      <desc>Time assignment  is started.</desc>
+    </element>
+    <element name="DueDate" type="SIFDate" flags="M">
+      <desc>Date assignment is due.</desc>
+    </element>
+    <element name="DueTime" type="SIFTime" flags="O" surrogate="SIFTimeSurrogate{}">
+      <desc>Time assignment is due.</desc>
+    </element>
+    <element name="AdministrationDate" renderAs="AdminDate" type="SIFDate" flags="O">
+      <desc>Date that the assignment was administered to student if an assessment.</desc>
+    </element>
+  </object>
+  <!--AssociatedObject object-->
+  <object name="AssociatedObject" renderAs="ObjectRefId" dataType="IdRefType">
+    <attribute name="SIF_RefObject" renderAs="ObjectType" type="String" flags="R">
+      <desc>Attribute that identifies the type of SIF object being referenced.</desc>
+    </attribute>
+  </object>
+  <!--AssociatedObjects object-->
+  <object name="AssociatedObjects">
+    <element name="AssociatedObject" renderAs="ObjectRefId" type="AssociatedObject" flags="OR" />
+  </object>
+  <!--Component object-->
+  <object name="Component" renderAs="ResourceComponent">
+    <desc>A lesson or activity-sized portion of a resource.</desc>
+    <attribute name="ResourceComponentRefId" flags="R" type="String" key="false">
+      <desc>GUID for resource component</desc>
+    </attribute>
+    <element name="Name" renderAs="ComponentName"  type="NormalizedString" flags="M">
+      <desc>Name of learning resource component within the resource, i.e. "Chapter 1, Section 4.</desc>
+    </element>
+    <element name="Reference" renderAs="ComponentReference" type="String" flags="M">
+      <desc>Description of where ResourceComponent is located within resource or in general, i.e. "Section 4, pages 32-38," or URL string, or whatever locator is appropriate for media.</desc>
+    </element>
+    <element name="Description" renderAs="ComponentDescription" type="String" flags="O">
+      <desc>Description of ResourceComponent, i.e. "Discover how changing the scale of a map can either increase or decrease the level of detail you see."</desc>
+    </element>
+    <element name="Strategies" type="Strategies" flags="OR" collapsed="true">
+      <desc>Teaching/learning strategies uses in the learning resource. One per element.</desc>
+    </element>
+    <element name="AssociatedObjects" type="AssociatedObjects" flags="O" collapsed="true" />
+  </object>
+  <!--ComponentObject object-->
+  <object name="ComponentObject" renderAs="ObjectRefId">
+    <attribute name="SIF_RefObject" renderAs="ObjectType" type="String" flags="R">
+      <desc>The type of learning object being referenced.</desc>
+    </attribute>
+  </object>
+  <!--ComponentObjects object-->
+  <object name="ComponentObjects">
+    <element name="ComponentObject" renderAs="ObjectRefId" type="ComponentObject" flags="OR" />
+  </object>
+  <!--Components object-->
+  <object name="Components" collapsed="true">
+    <element name="Component" renderAs="ResourceComponent" type="Component" flags="OR" />
+  </object>
+  <!--Copyright object-->
+  <object name="Copyright">
+    <desc>Copyright for document.</desc>
+    <element name="Date" type="SIFDate" flags="C">
+      <desc>Copyright date</desc>
+    </element>
+    <element name="Holder" flags="C">
+      <desc>Name of the copyright holder</desc>
+    </element>
+  </object>
+  <!--CurriculumHierarchyLevel object-->
+  <object name="CurriculumHierarchyLevel">
+    <desc>Integer assigned to each hierarchical level within the CurriculumStructure tree.  The top level is "1".</desc>
+    <attribute name="Name" renderAs="HierarchyLevelName" flags="R">
+      <desc>Used to describe what role this is serving in the structure.  Some curriculum objects describe their levels in terms of programs of study, courses and units.  Others use other terms.  This attribute names the level of the item.</desc>
+    </attribute>
+    <attribute key="false" name="Description" renderAs="HierarchyLevelDescription" flags="R">
+      <desc>Used to describe what role this is serving in the structure.  Some curriculum objects describe their levels in terms of programs of study, courses and units.  Others use other terms.</desc>
+    </attribute>
+  </object>
+  <!--CurriculumStructure object-->
+  <object name="CurriculumStructure" topic="true">
+    <desc>An object designed to contain instructional objects such as units, lessons, activities, and assessments joined together under a particular topic and/or duration.  SIF_Events are reported.</desc>
+    <attribute name="RefId" flags="R">
+      <desc>GUID for this particular object.</desc>
+    </attribute>
+    <attribute name="Language" renderAs="xml:lang" enum="LanguageCode" flags="R" />
+    <element name="Titles" type="Titles" flags="M" collapsed="True">
+      <desc>Name of this type of curriculum object (e.g., "American Revolutionary War")</desc>
+    </element>
+    <element name="Description" flags="O">
+      <desc>Description of this curriculum object</desc>
+    </element>
+    <element name="SubjectArea" type="SubjectArea" flags="O">
+      <desc>For a description of this element, see 5.1.30 SubjectArea.</desc>
+    </element>
+    <element name="CurriculumHierarchyLevel" type="CurriculumHierarchyLevel" flags="M" surrogate="XPathSurrogate{CurriculumHierarchyLevel=@Number}">
+      <desc>Integer assigned to each hierarchical level within the CurriculumStructure tree.  The top level is "1".</desc>
+    </element>
+    <element name="PredecessorObjects" flags="O" type="PredecessorObjects" collapsed="true">
+      <desc>GUID assigned to the CurriculumStructure object directly above it in the hierarchy tree.  This is repeatable because a single object can have multiple parent levels of the hierarchy.  It is null if there is no parent object.</desc>
+    </element>
+    <element name="LearningObjectives" flags="O" type="LearningObjectives" collapsed="true">
+      <desc>Narrative description of learning objective(s) for the CurriculumStructure object.</desc>
+    </element>
+    <element name="ComponentObjects" type="ComponentObjects" flags="O" collapsed="true">
+      <desc>A GUID reference to the component objects, if any, that make up this object.</desc>
+    </element>
+    <element name="LearningStandards" type="LearningStandards" flags="O" collapsed="true">
+      <desc>GUID of an associated LearningStandardItem object</desc>
+    </element>
+  </object>
+  <!--CurriculumStructureRefId object-->
+  <object name="CurriculumStructureRefId" datatype="IdRefType" />
+  <!--DocumentStatus enum-->
+  <enum name="DocumentStatus">
+    <value name="DRAFT" value="Draft" desc="Draft" />
+    <value name="ADOPTED" value="Adopted" desc="Adopted" />
+    <value name="ARCHIVED" value="Archived" desc="Archived" />
+    <value name="UNKNOWN" value="Unknown" desc="Unknown" />
+  </enum>
+  <!--EssentialMaterials object-->
+  <object name="EssentialMaterials">
+    <element name="EssentialMaterial" type="EssentialMaterial" flags="OR">
+      <desc>Essential material required to engage in this activity.</desc>
+    </element>
+  </object>
+  <!--Evaluation object-->
+  <object name="Evaluation">
+    <desc>Field for non-numeric types of grading and evaluation such as "narrative."</desc>
+    <attribute name="EvaluationType" enum="EvaluationType" flags="R">
+      <desc>A qualifer for what type of evaluation this is.  Valid values are "Inline" and "RefId".  Inline values are contained in the optional Description element, RefIds are contained in the AssessmentRefId element.</desc>
+    </attribute>
+    <element name="Description" flags="O">
+      <desc>A free text description of the evaluation to be used for this activity</desc>
+    </element>
+  </object>
+  <!--EvaluationType enum-->
+  <enum name="EvaluationType">
+    <value name="INLINE" value="Inline" desc="Inline" />
+    <value name="REFID" value="RefId" desc="RefId" />
+  </enum>
+  <!--LearningResource object-->
+  <object name="LearningResource" topic="true">
+    <desc>This object contains information related to learning resources that may be used in educational settings. These include textbooks, Internet content, educational software, videos and DVDs, supplemental print material, etc.  SIF_Events are reported.</desc>
+    <attribute name="RefId" flags="R">
+      <desc>GUID assigned to this LearningResource.</desc>
+    </attribute>
+    <attribute name="Language" renderAs="xml:lang" enum="LanguageCode" flags="R" />
+    <element name="Name" renderAs="ResourceName" flags="M">
+      <desc>Name of learning resource.</desc>
+    </element>
+    <element name="Author" renderAs="ResourceAuthor" flags="O">
+      <desc>Name of organization or company that created the resource.</desc>
+    </element>
+    <element name="Contacts" type="Contacts" flags="O" collapsed="true">
+      <desc>Contains contact information about resource authors.</desc>
+    </element>
+    <element name="Location" renderAs="ResourceLocation"  type="ResourceLocation" flags="O">
+      <desc>Description of location of resource, i.e. location in library or URL, community resource, outside resource supplier.</desc>
+    </element>
+    <element name="Status" renderAs="ResourceStatus" flags="O">
+      <desc>Describes availability status of resource, e.g. "checked out."</desc>
+    </element>
+    <element name="Description" renderAs="ResourceDescription" flags="O">
+      <desc>Description of the resource, e.g., "This textbook is intended for grade 4 social studies students and addresses"</desc>
+    </element>
+    <element name="GradeLevels" type="GradeLevels" flags="O">
+      <desc>For a description of this element, see 5.1.12 GradeLevels.</desc>
+    </element>
+    <element name="SubjectAreas" type="SubjectAreas" flags="O" collapsed="true">
+      <desc>For a description of this element, see 5.1.30 SubjectArea.</desc>
+    </element>
+    <element name="MediaTypes" type="MediaTypes" flags="O" collapsed="true">
+      <desc>MIME types [MIME] based on IANA registration (see RFC2048) or 'non-digital'.</desc>
+    </element>
+    <element name="UseAgreement" flags="O">
+      <desc>Describes terms of use for resource.</desc>
+    </element>
+    <element name="AgreementDate" type="SIFDate" flags="O">
+      <desc>A date that defines the date of agreement.</desc>
+    </element>
+    <element name="Approvals" type="Approvals" flags="O" collapsed="true">
+      <desc>A sub-element containing authorizations to use this resource.  For example, this resource may be included as part of the district's standard curriculum model.</desc>
+    </element>
+    <element name="Evaluations" type="ResourceEvaluations" flags="O" collapsed="true">
+      <desc>Evaluations/reviews of resource.</desc>
+    </element>
+    <element name="Components" type="Components" flags="M" collapsed="true">
+      <desc>A lesson or activity-sized portion of a resource.</desc>
+    </element>
+    <element name="LearningStandards" type="LearningStandards" flags="O" collapsed="true">
+      <desc>Reference to a LearningStandardItem.</desc>
+    </element>
+  </object>
+  <!--LearningStandardDocument object-->
+  <object name="LearningStandardDocument" topic="true">
+    <desc>This object contains information related to curriculum standards documents and like documents. The LearningStandardDocument is an expectation of student work.  SIF_Events are reported.</desc>
+    <attribute name="RefId" flags="R">
+      <desc>ID for the standards document</desc>
+    </attribute>
+    <attribute name="Language" renderAs="xml:lang" enum="LanguageCode" flags="R" />
+    <element name="Title" flags="M">
+      <desc>Name of standard document, i.e., "Washington Essential Academic Learning Requirements."</desc>
+    </element>
+    <element name="Description" flags="O">
+      <desc>Description of the standards document.</desc>
+    </element>
+    <element name="Source" enum="LearningStandardDocumentSource" flags="O">
+      <desc>Defines source of standard document. This is the descriptive type of the organization listed as "Organization". It serves to describe the type of the standards contained within the document.</desc>
+    </element>
+    <element name="Organizations" type="Organizations" flags="M" collapsed="true">
+      <desc>Name of organization represented by the document, i.e., "National Council of Teachers of Mathematics (NCTM)," "Washington," "Seattle School District."</desc>
+    </element>
+    <element name="Authors" type="Authors" flags="O" collapsed="true">
+      <desc>Name of the organization that authored the standards document, i.e. "Mid-Continent Research for Education &amp;amp; Learning (McREL)."  May be the same as "Organization" above.</desc>
+    </element>
+    <element name="OrganizationContactPoint" flags="O">
+      <desc>A brief description of how to contact the organization maintaining the standards.  It could be a phone number, email address, or URL.</desc>
+    </element>
+    <element name="SubjectAreas" type="SubjectAreas" flags="M" collapsed="true">
+      <desc>For a description of this element, see 5.1.30 SubjectArea.</desc>
+    </element>
+    <element name="DocumentStatus" enum="DocumentStatus" flags="M">
+      <desc>ValuesDraft,AdoptedArchivedUnknown</desc>
+    </element>
+    <element name="DocumentDate" type="SIFDate" flags="O">
+      <desc>The date the current status was achieved.</desc>
+    </element>
+    <element name="LocalAdoptionDate" type="SIFDate" flags="O">
+      <desc>The date the local organization adopted this standard document</desc>
+    </element>
+    <element name="LocalArchiveDate" type="SIFDate" flags="O">
+      <desc>The date the local organization stopped using this standard document and superseded by a new document.</desc>
+    </element>
+    <element name="EndOfLifeDate" type="SIFDate" flags="O">
+      <desc>This is the date that the governing organization retired this document.</desc>
+    </element>
+    <element name="Copyright" type="Copyright" flags="O">
+      <desc>Copyright for document.</desc>
+    </element>
+    <element name="GradeLevels" type="GradeLevels" flags="O">
+      <desc>SIF common GradeLevels element</desc>
+    </element>
+    <element name="RepositoryDate" type="SIFDate" flags="O">
+      <desc>Date document data was added to the repository</desc>
+    </element>
+    <element name="LearningStandardItemRefId" type="IdRefType" flags="M">
+      <desc>Link to the first/top LearningStandardItem in the Standard hierarchy</desc>
+    </element>
+    <element name="RelatedLearningStandards" type="RelatedLearningStandards" flags="O" collapsed="true">
+      <desc>Links to related LearningStandardDocument</desc>
+    </element>
+  </object>
+  <!--LearningStandardDocumentSource enum-->
+  <enum name="LearningStandardDocumentSource">
+    <value name="NATIONAL" value="National" desc="National" />
+    <value name="STATE" value="State" desc="State" />
+    <value name="REGIONAL" value="Regional" desc="Regional" />
+    <value name="DISTRICT" value="District" desc="District" />
+    <value name="SITE" value="Site" desc="Site" />
+    <value name="CLASSROOM" value="Classroom" desc="Classroom" />
+  </enum>
+  <!--LearningStandardItem object-->
+  <object name="LearningStandardItem" topic="true">
+    <desc>This object contains information related to curriculum standards statements "standards" or "benchmarks" or the like within the document. This object primarily focuses upon state department curriculum standards, published curriculum standards and local education agency learning standards.  SIF_Events are reported.</desc>
+    <attribute name="RefId" flags="R">
+      <desc>GUID assigned to each statement at each level within the document hierarchy</desc>
+    </attribute>
+    <attribute name="Language" renderAs="xml:lang" enum="LanguageCode" flags="R" />
+    <element name="StandardHierarchyLevel" type="StandardHierarchyLevel" flags="M">
+      <desc>Integer assigned to each hierarchical level within standards tree.  The top level is "1".</desc>
+    </element>
+    <element name="PredecessorItems" type="PredecessorItems" flags="O" collapsed="true">
+      <desc>GUID assigned to the LearningStandardItem directly above it in the hierarchy tree.  This is a repeatable element because a single granular item may relate to multiple parent levels of the hierarchy.If the object has no parent, the ParentRefId should be the same as the object's RefId.  The RefId in LearningStandardDocumentRefId will always point to the parent's LearningStandardDocument object.</desc>
+    </element>
+    <element name="StatementCodes" type="StatementCodes" flags="O" collapsed="true">
+      <desc>An alphanumeric ID code as defined by the organization to identify the statement.</desc>
+    </element>
+    <element name="Statements" type="Statements" flags="O" collapsed="true">
+      <desc>The text of the "standard," or "benchmark."</desc>
+    </element>
+    <element name="GradeLevels" type="GradeLevels" flags="M">
+      <desc>For a description of this element, see 5.1.12 GradeLevels.</desc>
+    </element>
+    <element name="SubjectArea" type="SubjectArea" flags="O">
+      <desc>For a description of this element, see 5.1.30 SubjectArea.</desc>
+    </element>
+    <element name="LearningStandardDocumentRefId" flags="M">
+      <desc>The RefId of the item's parent LearningStandardDocument.</desc>
+    </element>
+  </object>
+  <!--Lesson object-->
+  <object name="Lesson" topic="true">
+    <desc>A series of Activities and LearningResources tied together under a particular topic or period of time to deliver a particular educational concept or skill.  SIF_Events are reported.</desc>
+    <attribute name="RefId" flags="R" />
+    <attribute name="Language" renderAs="xml:lang" enum="LanguageCode" flags="R" />
+    <element name="CurriculumStructures" type="CurriculumStructures" flags="O" collapsed="true">
+      <desc>A GUID reference to the parent CurriculumStructure object of this Lesson.</desc>
+    </element>
+    <element name="SubjectArea" type="SubjectArea" flags="O">
+      <desc>For a description of this element, see 5.1.30 SubjectArea.</desc>
+    </element>
+    <element name="Title" flags="M">
+      <desc>Name of lesson.</desc>
+    </element>
+    <element name="Duration" type="Duration" flags="O">
+      <desc>Desired duration of the lesson</desc>
+    </element>
+    <element name="Description" flags="O">
+      <desc>Description of the lesson plan.</desc>
+    </element>
+    <element name="Strategies" type="Strategies" flags="O" collapsed="true">
+      <desc>Teaching strategy used in this lesson plan.</desc>
+    </element>
+    <element name="LearningObjectives" type="LearningObjectives" flags="O" collapsed="true">
+      <desc>Description of learning objective(s) for this lesson, i.e., "Student will be able to use Pythagorean Theorem." - equates to 'benchmark' or 'goal' or other terminology</desc>
+    </element>
+    <element name="SupportingActivities" type="SupportingActivities" flags="O" collapsed="true">
+      <desc>Links to Activity objects that make support the lesson</desc>
+    </element>
+    <element name="LearningStandards" type="LearningStandards" flags="O" collapsed="true">
+      <desc>Link to an associated LearningStandardItem.  This allows for a single Lesson to be aligned to multiple standard statements.</desc>
+    </element>
+    <element name="LearningResources" type="LearningResources" flags="O" collapsed="true">
+      <desc>Link to an aligned LearningResource object.</desc>
+    </element>
+    <element name="LessonSources" type="LessonSources" flags="O" collapsed="true">
+      <desc>One or more sources for the lesson.  This describes the lesson's origin.</desc>
+    </element>
+  </object>
+  <!--LessonSource object-->
+  <object name="LessonSource">
+    <desc>One or more sources for the lesson.  This describes the lesson's origin.</desc>
+    <element name="Author" renderAs="SourceAuthor" type="SourceAuthor" flags="OR">
+      <desc>For each source, the authors of the source.</desc>
+    </element>
+  </object>
+  <!--LessonSources object-->
+  <object name="LessonSources" collapsed="true">
+    <element name="LessonSource" type="LessonSource" flags="OR" />
+  </object>
+  <!--PredecessorItems object-->
+  <object name="PredecessorItems">
+    <element name="LearningStandardItemRefId" renderAs="ParentItemRefId" type="LearningStandardItemRefId" flags="OR">
+      <desc>GUID assigned to the LearningStandardItem directly above it in the hierarchy tree. This is a repeatable element because a single granular item may relate to multiple parent levels of the hierarchy.</desc>
+    </element>
+  </object>
+  <!--PredecessorObjects object-->
+  <object name="PredecessorObjects">
+    <element name="CurriculumStructureRefId" type="CurriculumStructureRefId" flags="OR">
+      <desc>GUID assigned to the CurriculumStructure object directly above it in the hierarchy tree.</desc>
+    </element>
+  </object>
+  <!--Prerequisites object-->
+  <object name="Prerequisites">
+    <element name="Prerequisite" type="Prerequisite" flags="OR">
+      <desc>Skill or competency the student must have to engage in activity.</desc>
+    </element>
+  </object>
+  <!--ReferenceType enum-->
+  <enum name="ReferenceType">
+    <value name="URI" value="URI" desc="URI" />
+    <value name="SIF_GUID" value="SIF_GUID" desc="SIF_GUID" />
+  </enum>
+  <!--ResourceComponent object-->
+  <object name="ResourceComponent">
+    <desc>A lesson or activity-sized portion of a resource.</desc>
+    <attribute name="RefId" renderAs="ResourceComponentRefId" flags="R">
+      <desc>GUID for resource component</desc>
+    </attribute>
+    <element name="Name" renderAs="ComponentName" flags="M">
+      <desc>Name of learning resource component within the resource, i.e. "Chapter 1, Section 4.</desc>
+    </element>
+    <element name="Reference" renderAs="ComponentReference" flags="M">
+      <desc>Description of where ResourceComponent is located within resource or in general, i.e. "Section 4, pages 32-38," or URL string, or whatever locator is appropriate for media.</desc>
+    </element>
+    <element name="Description" renderAs="ComponentDescription" flags="O">
+      <desc>Description of ResourceComponent, i.e. "Discover how changing the scale of a map can either increase or decrease the level of detail you see."</desc>
+    </element>
+    <element name="Strategies" type="Strategies" flags="O" collapsed="true">
+      <desc>Teaching/learning strategies uses in the learning resource.  One per element.</desc>
+    </element>
+    <element name="AssociatedObjects" type="AssociatedObjects" flags="O" collapsed="true">
+      <desc>Reference from ResourceComponent to associated elements within another SIF object.</desc>
+    </element>
+  </object>
+  <!--ResourceContact object-->
+  <object name="ResourceContact">
+    <element name="Name" type="Name" flags="O">
+      <desc>Name of contact person. Use the generic element Name.</desc>
+    </element>
+    <element name="Address" type="Address" flags="O">
+      <desc>Address of organization or company.</desc>
+    </element>
+    <element name="PhoneNumber" type="PhoneNumber" flags="O" surrogate="PhoneNumberSurrogate{}">
+      <desc>Phone number of organization or company.</desc>
+    </element>
+    <element name="Email" type="Email" flags="O">
+      <desc>The email of the organization or company.</desc>
+    </element>
+  </object>
+  <!--ResourceEvaluation object-->
+  <object name="ResourceEvaluation">
+    <desc>Evaluations/reviews of resource.</desc>
+    <attribute name="RefId" flags="R" renderAs="EvaluationRefId">
+      <desc>GUID assigned to an evaluation.</desc>
+    </attribute>
+    <element name="Description" flags="O">
+      <desc>Description of evaluation of resource.</desc>
+    </element>
+    <element name="Date" renderAs="EvaluationDate" type="SIFDate" flags="O">
+      <desc>Date evaluation was performed</desc>
+    </element>
+    <element name="Name" type="Name" flags="O">
+      <desc>Name of individual who submitted evaluation. For a description of this element, see 5.1.18 Name.</desc>
+    </element>
+  </object>
+  <!--ResourceEvaluations object-->
+  <object name="ResourceEvaluations" collapsed="true">
+    <element name="Evaluation" renderAs="ResourceEvaluation" type="ResourceEvaluation" flags="OR" />
+  </object>
+  <!--ResourceLocation object-->
+  <object name="ResourceLocation">
+    <desc>Description of location of resource, i.e. location in library or URL, community resource, outside resource supplier.</desc>
+    <attribute name="ReferenceType" enum="ReferenceType" flags="R">
+      <desc>A qualifying attribute for the ResourceLocation payload.  If ReferenceType is "URI", the payload contains a web address where the resource can be found.</desc>
+    </attribute>
+  </object>
+  <!--SourceAuthor object-->
+  <object name="SourceAuthor">
+    <element name="Name" type="Name" flags="O">
+      <desc>Name of the author.</desc>
+    </element>
+    <element name="Organization" type="String" flags="O">
+      <desc>Organization name.</desc>
+    </element>
+    <element name="Address" type="Address" flags="O">
+      <desc>Address of the author.</desc>
+    </element>
+    <element name="Email" type="Email" flags="O">
+      <desc>Email address of the author.</desc>
+    </element>
+  </object>
+  <!--SourceObject object-->
+  <object name="SourceObject">
+    <attribute name="SIF_RefObject" renderAs="Type"  type="String" flags="R">
+      <desc>The type of learning object the source object is.</desc>
+    </attribute>
+  </object>
+  <!--SourceObjects object-->
+  <object name="SourceObjects">
+    <element name="SourceObject" renderAs="SourceObjectRefId"  type="SourceObject" flags="OR" />
+  </object>
+  <!--StandardHierarchyLevel object-->
+  <object name="StandardHierarchyLevel">
+    <attribute key="false" name="Description" renderAs="HierarchyLevelDescription" flags="R">
+      <desc>Used to describe what role this item is serving in the structure.  Some standards describe their levels in terms of standard, strands, and topics.  Others use standards, benchmarks, and indicators.  This attribute names the level of the item.</desc>
+    </attribute>
+    <element key="false" name="Number" type="uint" flags="M">
+      <desc>Integer assigned to each hierarchical level within standards tree. The top level is "1".</desc>
+    </element>
+  </object>
+  <!--Statement object-->
+  <object name="Statement" datatype="string" />
+  <!--StatementCode object-->
+  <object name="StatementCode" datatype="string" />
+  <!--StatementCodes object-->
+  <object name="StatementCodes">
+    <element name="StatementCode" type="StatementCode" flags="MR">
+      <desc>An alphanumeric ID code as defined by the organization to identify the statement.</desc>
+    </element>
+  </object>
+  <!--Statements object-->
+  <object name="Statements" collapsed="true">
+    <element name="Statement" type="Statement" flags="MR">
+      <desc>The text of the "standard," or "benchmark."</desc>
+    </element>
+  </object>
+  <!--Strategies object-->
+  <object name="Strategies" collapsed="true">
+    <element name="Strategy" renderAs="ResourceStrategy" type="Strategy" flags="OR">
+      <desc>Teaching strategy used in this lesson plan.</desc>
+    </element>
+  </object>
+  <!--Strategy object-->
+  <object name="Strategy" datatype="String" />
+  <!--Street object-->
+  <!--SupportingActivities object-->
+  <object name="SupportingActivities">
+    <element name="ActivityRefId" type="ActivityRefId" flags="OR">
+      <desc>Links to Activity objects that may support the lesson</desc>
+    </element>
+  </object>
+  <!--TechnicalRequirement object-->
+  <object name="TechnicalRequirement" datatype="String" />
+  <!--TechnicalRequirements object-->
+  <object name="TechnicalRequirements" collapsed="True">
+    <element name="TechnicalRequirement" type="TechnicalRequirement" flags="OR">
+      <desc>Applications, OS, or network requirement for activity.</desc>
+    </element>
+  </object>
+  <!--TimeDuration object-->
+  <object name="TimeDuration" dataType="decimal">
+    <attribute name="Units" enum="TimeUnits" flags="R" />
+  </object>
+  <!--TimeUnits enum-->
+  <enum name="TimeUnits">
+    <value name="WEEK" value="Week" desc="Week" />
+    <value name="DAY" value="Day" desc="Day" />
+    <value name="HOUR" value="Hour" desc="Hour" />
+    <value name="MINUTE" value="Minute" desc="Minute" />
+    <value name="SECOND" value="Second" desc="Second" />
+  </enum>
+  <!--Title object-->
+  <object name="Title" datatype="String">
+    <desc>Name of this type of curriculum object (e.g., "American Revolutionary War")</desc>
+  </object>
+  <!--Titles object-->
+  <object name="Titles">
+    <element name="Title" type="Title" flags="MR">
+      <desc>Name of this type of curriculum object (e.g., "American Revolutionary War")</desc>
+    </element>
+  </object>
+</adk>

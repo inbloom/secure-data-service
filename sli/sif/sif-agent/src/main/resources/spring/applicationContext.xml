@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+    <context:annotation-config />
+    <context:component-scan base-package="org.slc.sli.sif" />
+
+    <!-- Environment config -->
+    <bean id="commonProperties"
+        class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreResourceNotFound" value="true" />
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+        <property name="locations">
+            <list>
+                <value>file:${sli.conf}</value>
+            </list>
+        </property>
+    </bean>
+    
+    <import resource="agent-config.xml" />
+
+	<!-- custom converter -->
+  	<bean id="GradeLevelsConverter" class="org.slc.sli.sif.domain.converter.GradeLevelsConverter"/>
+  	<bean id="PhoneNumberListConverter" class="org.slc.sli.sif.domain.converter.PhoneNumberListConverter"/>
+  	<bean id="AddressListConverter" class="org.slc.sli.sif.domain.converter.AddressListConverter"/>
+  	
+	<bean id="dozerBeanMapperFactory" class="org.dozer.spring.DozerBeanMapperFactoryBean">
+    	<property name="mappingFiles" value="classpath*:/dozer/*dozer-mapping.xml" />
+		<property name="customConvertersWithId"> 
+	    	<map> 
+	        	<entry key="gradeLevelsConverter" value-ref="GradeLevelsConverter"/> 
+	        	<entry key="phoneNumberListConverter" value-ref="PhoneNumberListConverter"/> 
+	        	<entry key="addressListConverter" value-ref="AddressListConverter"/> 
+	      	</map> 
+    	</property>   
+<!--        <property name="eventListeners">-->
+<!--            <list>-->
+<!--                <bean class="org.dozer.listeners.EventListener"/>-->
+<!--            </list>-->
+<!--        </property>-->
+<!--        <property name="factories">-->
+<!--            <map>-->
+<!--                <entry key="id" value-ref="bean-factory-ref"/>-->
+<!--            </map>-->
+<!--        </property>-->
+    </bean>
+    
+    <bean id="Sif2SliTransformer" class="org.slc.sli.sif.domain.Sif2SliTransformer"/>
+
+</beans>

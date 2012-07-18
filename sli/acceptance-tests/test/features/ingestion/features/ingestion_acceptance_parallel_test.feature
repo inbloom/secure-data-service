@@ -26,7 +26,7 @@ Given the following collections are empty in datastore:
         | studentAssessmentAssociation          |
         | gradebookEntry                        |
         | studentTranscriptAssociation          |
-        | studentSectionGradebookEntry          |
+        | studentGradebookEntry                 |
         | parent                                |
         | studentParentAssociation              |
         | attendance                            |
@@ -65,7 +65,7 @@ Then I should see following map of entry counts in the corresponding collections
         | parent                                | 9     |
         | studentParentAssociation              | 9     |
         | gradebookEntry                        | 12    |
-        | studentSectionGradebookEntry          | 78    |
+        | studentGradebookEntry                 | 78    |
 #        | attendance                            | 13650 |
         | program                               | 2     |
         | staffProgramAssociation               | 3     |
@@ -130,8 +130,8 @@ Then I should see following map of entry counts in the corresponding collections
 #        | studentParentAssociation              | 0                   | metaData.tenantId        | Hyrule                         | string               |
 #        | gradebookEntry                        | 12                  | metaData.tenantId        | Midgar                         | string               |
 #        | gradebookEntry                        | 0                   | metaData.tenantId        | Hyrule                         | string               |
-#        | studentSectionGradebookEntry          | 78                  | metaData.tenantId        | Midgar                         | string               |
-#        | studentSectionGradebookEntry          | 0                   | metaData.tenantId        | Hyrule                         | string               |
+#        | studentGradebookEntry                 | 78                  | metaData.tenantId        | Midgar                         | string               |
+#        | studentGradebookEntry                 | 0                   | metaData.tenantId        | Hyrule                         | string               |
 #        | attendance                            | 13650               | metaData.tenantId        | Midgar                         | string               |
 #        | attendance                            | 0                   | metaData.tenantId        | Hyrule                         | string               |
 #        | program                               | 2                   | metaData.tenantId        | Midgar                         | string               |

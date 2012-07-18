@@ -1,0 +1,78 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.5 datamodel objects             -->
+<!-- ======================================== -->
+<adk package="gradebook" version="2.5" namespace="http://www.sifinfo.org/au/infrastructure/2.x">
+  
+  <!--StudentPeriodAttendance-->
+  <object name="StudentPeriodAttendance" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The ID (GUID) assigned to uniquely identify this attendance record.</desc>
+    </attribute>
+    <element name="StudentPersonalRefId" type="String" flags="M">
+      <desc>The GUID of the student that this attendance applies to.</desc>
+    </element>
+    <element name="SchoolInfoRefId" type="String" flags="M">
+      <desc>The school where the attendance was recorded.  Somewhat redundant, needed for requests.</desc>
+    </element>
+    <element name="Date" type="Date" flags="M">
+      <desc>The date of the attendance event.</desc>
+    </element>
+    <element name="SessionInfoRefId" type="String" flags="O">
+      <desc>The GUID of the session that this attendance applies to.</desc>
+    </element>
+    <element name="TimetablePeriod" type="String" flags="O">
+      <desc>The period within which attendance is being reported, e.g. "4D".</desc>
+    </element>
+    <element name="TimeIn" type="Time" flags="O" />
+    <element name="TimeOut" type="Time" flags="O" />
+    <element name="AttendanceCode" type="AttendanceCode" flags="M" />
+    <element name="AttendanceStatus" enum="StudentPeriodAttendanceAttendanceStatusType" flags="M">
+      <desc>Approved or Unapproved status of this attendance code.</desc>
+    </element>
+    <element name="SchoolYear" type="int" flags="O">
+      <desc>School year for which this enrolment is applicable, expressed as the four-digit year in which the school year        ends (e.g. 2007).</desc>
+    </element>
+    <element name="AuditInfo" type="AuditInfo" flags="O">
+      <desc>An audit trail to help determine who entered this attendance event and when.</desc>
+    </element>
+    <element name="AttendanceComment" type="String" flags="O"/>
+  </object>
+
+  <object name="AuditInfo" topic="false">
+    <element name="CreationUser" type="CreationUser" flags="M">
+      <desc>Information about which staff member created this attendance record.</desc>
+    </element>
+    <element name="CreationDateTime" type="DateTime" flags="M">
+      <desc>The date and time of this attendance record was created.</desc>
+    </element>
+  </object>
+  
+  <object name="CreationUser" topic="false">
+    <attribute name="Type" enum="CreationUserType" flags="R">
+      <desc>The role of the staff member for that created this attendance record.</desc>
+    </attribute>
+    <element name="UserId" type="String" flags="M"/>
+  </object>
+
+  <!--StudentPeriodAttendanceAttendanceStatusType-->
+  <enum name="StudentPeriodAttendanceAttendanceStatusType">
+    <value name="01_EXCUSED" value="01" desc="Excused" />
+    <value name="02_UNEXCUSED" value="02" desc="Unexcused" />
+    <value name="99_UNKNOWN" value="99" desc="Unknown" />
+    <value name="NA_NOT_APPLICABLE" value="NA" desc="Not Applicable" />
+  </enum>
+  
+  <enum name="CreationUserType">
+    <value name="OFFICE_STAFF" value="Office Staff" desc="Office Staff" />
+    <value name="SCHOOL_ADMIN" value="School Admin" desc="School Admin" />
+    <value name="PARENT" value="Parent" desc="Parent" />
+    <value name="NURESE" value="Nurse" desc="Nurse" />
+    <value name="TEACHER" value="Teacher" desc="Teacher" />
+    <value name="OTHER" value="Other" desc="Not Other" />
+  </enum>
+  
+</adk>

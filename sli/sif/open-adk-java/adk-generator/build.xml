@@ -1,0 +1,247 @@
+<?xml version="1.0" ?>
+<project default="US" name="ADK Generator" basedir=".">
+	<property name="project.dir" value="./target/adkgen" />	
+	<property name="datadef.dir" value="${basedir}/datadef"/>
+	<property name="mvn.target.dir" value="${basedir}/target"/>
+	<property name="mvn.classes.dir" value="${basedir}/target/classes"/>
+    <property name="deploy.dir" value="../../../open-adk-csharp/open-adk-csharp/src" />
+
+	
+	<property name="build.compiler" value="extJavac" />
+	<property name="compile.classpath" value="${basedir}/lib/xercesImpl.jar;${basedir}/lib/xml-apis.jar;${mvn.classes.dir}" />
+
+	<!--
+		This target is used to initialize properties as well as any other setup that needs to happen before the build process starts
+	-->
+	<target name="clean">
+		<delete dir="target" failonerror="false"/>
+	</target>
+
+	<target name="init" depends="clean">
+		<!-- Create the output directory -->
+		<mkdir dir="${srcgen.dir}" />
+		<mkdir dir="${mvn.classes.dir}" />
+	</target>
+	
+	<target name="build" depends="init">
+		<echo>Executing ADK Generation...</echo>
+		<echo>basedir: ${basedir}</echo>
+		<echo>srcgen.dir: ${srcgen.dir}</echo>
+
+		<!-- compile ADK generator -->
+		<javac destdir="${mvn.classes.dir}" debug="true" classpath="${compile.classpath}">
+			<src location="src/main/java" />
+		</javac>
+		
+		<!-- For the compile to run we need the SIFDTD_xxx.txt files in the building folder ... but they reside in the adkgen folder -->
+		<copy todir="${project.dir}" overwrite="true">
+			<fileset dir="${basedir}/src/main/resources">
+				<include name="SIFDTD_*.txt" />
+			</fileset>
+		</copy>
+
+		<java classname="openadk.generator.Main" fork="true" dir="${project.dir}" classpath="${compile.classpath}">
+			<arg value="${input.datadef}" />
+			<arg value="o=${srcgen.dir.name}" />
+		</java>
+	</target>
+
+	<!--
+	This is the main target of the build script and it depends on all 
+    other targets in order to execute the build process successfully.
+    The default target builds the US data model
+
+	Generates ADK SDO classes based on the US SIF datamodel
+	-->
+	<target name="US">
+		<property name="input.datadef" value="${datadef.dir}/us/sif11;${datadef.dir}/us/sif15r1;${datadef.dir}/us/sif20;${datadef.dir}/us/sif20r1;${datadef.dir}/us/sif21;${datadef.dir}/us/sif22;${datadef.dir}/us/sif23;${datadef.dir}/us/sif24;${datadef.dir}/us/sif25;${datadef.dir}/core/sif11;${datadef.dir}/core/sif15r1;${datadef.dir}/core/sif20;${datadef.dir}/core/sif20r1;${datadef.dir}/core/sif21;${datadef.dir}/core/sif22;${datadef.dir}/core/sif23;${datadef.dir}/core/sif24;${datadef.dir}/core/sif25;" />
+		<property name="srcgen.dir.name" value="generated-sources"/>
+		<property name="srcgen.dir" value="${project.dir}/${srcgen.dir.name}"/>
+		<antcall target="build" />
+
+		<!--This fixes a small compilation problem where an object needs to import some other objects.  There isn't really a general rule for this-->
+		<replace file="${srcgen.dir}/openadk/library/common/StudentRecordExchangeData.java" token="import openadk.library.*;" value="import openadk.library.*;${line.separator}import openadk.library.etranscripts.*;${line.separator}import openadk.library.gradebook.Letter;" />
+		<!-- The US build requires additional surrogates to be copied over that are specific to the US -->
+		<copy todir="${srcgen.dir}/openadk/library/impl/surrogates" overwrite="true">
+			<fileset dir="${datadef.dir}/us/sif20/surrogates">
+				<include name="**/*.java" />
+			</fileset>
+		</copy>
+
+		<!-- Copy the Package files -->
+		<copy file="${datadef.dir}/us/sif20/assessment.package.html" tofile="${srcgen.dir}/openadk/library/assessment/package.html" />
+		<copy file="${datadef.dir}/us/sif20/common.package.html" tofile="${srcgen.dir}/openadk/library/common/package.html" />
+		<copy file="${datadef.dir}/us/sif20/datamodel.package.html" tofile="${srcgen.dir}/openadk/library/datamodel/package.html" />
+		<copy file="${datadef.dir}/us/sif20/dw.package.html" tofile="${srcgen.dir}/openadk/library/dw/package.html" />
+		<copy file="${datadef.dir}/us/sif20/etranscripts.package.html" tofile="${srcgen.dir}/openadk/library/etranscripts/package.html" />
+		<copy file="${datadef.dir}/us/sif20/food.package.html" tofile="${srcgen.dir}/openadk/library/food/package.html" />
+		<copy file="${datadef.dir}/us/sif20/gradebook.package.html" tofile="${srcgen.dir}/openadk/library/gradebook/package.html" />
+		<copy file="${datadef.dir}/us/sif20/hrfin.package.html" tofile="${srcgen.dir}/openadk/library/hrfin/package.html" />
+		<copy file="${datadef.dir}/us/sif20/infra.package.html" tofile="${srcgen.dir}/openadk/library/infra/package.html" />
+		<copy file="${datadef.dir}/us/sif20/instr.package.html" tofile="${srcgen.dir}/openadk/library/instr/package.html" />
+		<copy file="${datadef.dir}/us/sif20/library.package.html" tofile="${srcgen.dir}/openadk/library/library/package.html" />
+		<copy file="${datadef.dir}/us/sif20/profdev.package.html" tofile="${srcgen.dir}/openadk/library/profdev/package.html" />
+		<copy file="${datadef.dir}/us/sif20/programs.package.html" tofile="${srcgen.dir}/openadk/library/programs/package.html" />
+		<copy file="${datadef.dir}/us/sif20/reporting.package.html" tofile="${srcgen.dir}/openadk/library/reporting/package.html" />
+		<copy file="${datadef.dir}/us/sif20/student.package.html" tofile="${srcgen.dir}/openadk/library/student/package.html" />
+		<copy file="${datadef.dir}/us/sif20/trans.package.html" tofile="${srcgen.dir}/openadk/library/trans/package.html" />
+		<!-- added by slee to copy school package-->
+		<copy file="${datadef.dir}/uk/sif20/school.package.html" tofile="${srcgen.dir}/openadk/library/school/package.html" />
+	</target>
+	
+	<!--
+		Generates ADK SDO classes based on the AU SIF datamodel
+	-->
+	<target name="AU">
+		<property name="input.datadef" value="${datadef.dir}/au/sif20;${datadef.dir}/core/sif20;${datadef.dir}/au/sif23;${datadef.dir}/core/sif23;${datadef.dir}/au/sif24;${datadef.dir}/au/sif25;${datadef.dir}/core/sif24;${datadef.dir}/core/sif25" />
+		<property name="srcgen.dir.name" value="generated-sources"/>
+		<property name="srcgen.dir" value="${project.dir}/${srcgen.dir.name}"/>
+		<antcall target="build" />
+		<!-- Copy the Package files -->
+		<copy file="${datadef.dir}/au/sif20/infra.package.html" tofile="${srcgen.dir}/openadk/library/infra/package.html" />
+		<copy file="${datadef.dir}/au/sif20/common.package.html" tofile="${srcgen.dir}/openadk/library/common/package.html" />
+		<copy file="${datadef.dir}/au/sif20/datamodel.package.html" tofile="${srcgen.dir}/openadk/library/datamodel/package.html" />
+		<copy file="${datadef.dir}/au/sif20/reporting.package.html" tofile="${srcgen.dir}/openadk/library/reporting/package.html" />
+	</target>
+
+	<!--
+		Generates ADK SDO classes based on the UK SIF datamodel
+	-->
+	<target name="UK">
+		<property name="input.datadef" value="${datadef.dir}/uk/sif20;${datadef.dir}/uk/sif20r1;${datadef.dir}/uk/sif21;${datadef.dir}/uk/sif22;${datadef.dir}/uk/sif23;${datadef.dir}/uk/sif24;${datadef.dir}/uk/sif25;${datadef.dir}/core/sif20;${datadef.dir}/core/sif20r1;${datadef.dir}/core/sif21;${datadef.dir}/core/sif22;${datadef.dir}/core/sif23;${datadef.dir}/core/sif24;${datadef.dir}/core/sif25;" />
+		<property name="srcgen.dir.name" value="generated-sources"/>
+		<property name="srcgen.dir" value="${project.dir}/${srcgen.dir.name}"/>
+		<antcall target="build" />
+		<!-- Copy the Package files -->
+		<copy file="${datadef.dir}/uk/sif20/infra.package.html" tofile="${srcgen.dir}/openadk/library/infra/package.html" />
+		<copy file="${datadef.dir}/uk/sif20/common.package.html" tofile="${srcgen.dir}/openadk/library/common/package.html" />
+		<copy file="${datadef.dir}/uk/sif20/datamodel.package.html" tofile="${srcgen.dir}/openadk/library/datamodel/package.html" />
+		<copy file="${datadef.dir}/uk/sif20/learner.package.html" tofile="${srcgen.dir}/openadk/library/learner/package.html" />
+		<copy file="${datadef.dir}/uk/sif20/school.package.html" tofile="${srcgen.dir}/openadk/library/school/package.html" />
+		<copy file="${datadef.dir}/uk/sif20/workforce.package.html" tofile="${srcgen.dir}/openadk/library/workforce/package.html" />
+		<copy file="${datadef.dir}/uk/sif20/reporting.package.html" tofile="${srcgen.dir}/openadk/library/reporting/package.html" />
+	</target>
+	
+	<!-- targets for .NET/C# data model classes -->
+
+	<target name="DotNetBuild" depends="">
+		<echo>Executing ADK Generation...</echo>
+		<echo>basedir: ${basedir}</echo>
+		<echo>srcgen.dir: ${srcgen.dir}</echo>
+
+		<!-- compile ADK generator -->
+		<javac destdir="${mvn.classes.dir}" debug="true" classpath="${compile.classpath}">
+			<src location="src/main/java" />
+		</javac>
+		
+		<!-- For the compile to run we need the SIFDTD_xxx.txt files in the building folder ... but they reside in the adkgen folder -->
+		<copy todir="${project.dir}" overwrite="true">
+			<fileset dir="${basedir}/src/main/resources">
+				<include name="SIFDTD_*.txt" />
+			</fileset>
+		</copy>
+
+		<java classname="openadk.generator.Main" fork="true" dir="${project.dir}" classpath="${compile.classpath}">
+			<arg value="${input.datadef}" />
+			<arg value="o=${srcgen.dir.name}" />
+			<arg value="l=cs" />
+			<arg value="locale=${input.locale}" />
+		</java>
+	</target>
+
+	<target name="dotnet" depends="init">
+		<antcall target="dotnet.core" />
+		<antcall target="dotnet.uk" />
+		<antcall target="dotnet.au" />
+		<antcall target="dotnet.us" />
+	</target>
+
+	<target name="dotnet.core">
+		<property name="input.datadef" value="${datadef.dir}/core/sif11;${datadef.dir}/core/sif15r1;${datadef.dir}/core/sif20;${datadef.dir}/core/sif20r1;${datadef.dir}/core/sif21;${datadef.dir}/core/sif22;${datadef.dir}/core/sif23;${datadef.dir}/core/sif24;${datadef.dir}/core/sif25;" />
+		<property name="input.locale" value="core"/>
+		<property name="srcgen.dir.name" value="generated-sources"/>
+		<property name="srcgen.dir" value="${project.dir}/${srcgen.dir.name}"/>
+		<antcall target="DotNetBuild" />
+		<mkdir dir="${mvn.target.dir}/dotnet/core/OpenADK" />
+		<move file="${srcgen.dir}/openadk/library/Global" tofile="${mvn.target.dir}/dotnet/core/OpenADK/Global" />
+		<move file="${srcgen.dir}/openadk/library/Infra" tofile="${mvn.target.dir}/dotnet/core/OpenADK/Infra" />
+	</target>
+
+	<target name="dotnet.au">
+		<property name="input.datadef" value="${datadef.dir}/core/sif11;${datadef.dir}/core/sif15r1;${datadef.dir}/core/sif20;${datadef.dir}/core/sif20r1;${datadef.dir}/core/sif21;${datadef.dir}/core/sif22;${datadef.dir}/core/sif23;${datadef.dir}/core/sif24;${datadef.dir}/core/sif25;${datadef.dir}/au/sif20;${datadef.dir}/au/sif23;${datadef.dir}/au/sif24;${datadef.dir}/au/sif25;" />
+		<property name="input.locale" value="au"/>
+		<property name="srcgen.dir.name" value="generated-sources"/>
+		<property name="srcgen.dir" value="${project.dir}/${srcgen.dir.name}"/>
+		<antcall target="DotNetBuild" />		
+		<delete dir="${srcgen.dir}/openadk/library/Global" failonerror="false"/>
+		<delete dir="${srcgen.dir}/openadk/library/Infra" failonerror="false"/>
+		<mkdir dir="${mvn.target.dir}/dotnet/core/OpenADK/au" />
+		<move file="${srcgen.dir}/openadk/library/SifDtd.cs" tofile="${mvn.target.dir}/dotnet/core/OpenADK/au/SifDtd.cs" />
+		<move file="${srcgen.dir}/openadk/library/SdoLibraryType.cs" tofile="${mvn.target.dir}/dotnet/core/OpenADK/au/SdoLibraryType.cs" />
+		<mkdir dir="${mvn.target.dir}/dotnet/au/sdo" />
+		<move todir="${mvn.target.dir}/dotnet/au/sdo" includeEmptyDirs="false">
+			<fileset dir="${srcgen.dir}/openadk/library" casesensitive="no">
+				<include name="**/*" />
+			</fileset>
+		</move>
+	</target>
+
+	<target name="dotnet.uk">
+		<property name="input.datadef" value="${datadef.dir}/core/sif11;${datadef.dir}/core/sif15r1;${datadef.dir}/core/sif20;${datadef.dir}/core/sif20r1;${datadef.dir}/core/sif21;${datadef.dir}/core/sif22;${datadef.dir}/core/sif23;${datadef.dir}/core/sif24;${datadef.dir}/core/sif25;${datadef.dir}/uk/sif20;${datadef.dir}/uk/sif20r1;${datadef.dir}/uk/sif21;${datadef.dir}/uk/sif22;${datadef.dir}/uk/sif23;${datadef.dir}/uk/sif24;${datadef.dir}/uk/sif25;" />
+		<property name="input.locale" value="uk"/>
+		<property name="srcgen.dir.name" value="generated-sources"/>
+		<property name="srcgen.dir" value="${project.dir}/${srcgen.dir.name}"/>
+		<antcall target="DotNetBuild" />		
+		<delete dir="${srcgen.dir}/openadk/library/Global" failonerror="false"/>
+		<delete dir="${srcgen.dir}/openadk/library/Infra" failonerror="false"/>
+		<mkdir dir="${mvn.target.dir}/dotnet/core/OpenADK/uk" />
+		<move file="${srcgen.dir}/openadk/library/SifDtd.cs" tofile="${mvn.target.dir}/dotnet/core/OpenADK/uk/SifDtd.cs" />
+		<move file="${srcgen.dir}/openadk/library/SdoLibraryType.cs" tofile="${mvn.target.dir}/dotnet/core/OpenADK/uk/SdoLibraryType.cs" />
+		<mkdir dir="${mvn.target.dir}/dotnet/uk/sdo" />
+		<move todir="${mvn.target.dir}/dotnet/uk/sdo" includeEmptyDirs="false">
+			<fileset dir="${srcgen.dir}/openadk/library" casesensitive="no">
+				<include name="**/*" />
+			</fileset>
+		</move>
+	</target>
+	
+	<target name="dotnet.us">
+		<property name="input.datadef" value="${datadef.dir}/core/sif11;${datadef.dir}/core/sif15r1;${datadef.dir}/core/sif20;${datadef.dir}/core/sif20r1;${datadef.dir}/core/sif21;${datadef.dir}/core/sif22;${datadef.dir}/core/sif23;${datadef.dir}/core/sif24;${datadef.dir}/core/sif25;${datadef.dir}/us/sif11;${datadef.dir}/us/sif15r1;${datadef.dir}/us/sif20;${datadef.dir}/us/sif20r1;${datadef.dir}/us/sif21;${datadef.dir}/us/sif22;${datadef.dir}/us/sif23;${datadef.dir}/us/sif24;${datadef.dir}/us/sif25;" />
+		<property name="input.locale" value="us"/>
+		<property name="srcgen.dir.name" value="generated-sources"/>
+		<property name="srcgen.dir" value="${project.dir}/${srcgen.dir.name}"/>
+		<antcall target="DotNetBuild" />		
+		<delete dir="${srcgen.dir}/openadk/library/Global" failonerror="false"/>
+		<delete dir="${srcgen.dir}/openadk/library/Infra" failonerror="false"/>
+		<mkdir dir="${mvn.target.dir}/dotnet/core/OpenADK/us" />
+		<move file="${srcgen.dir}/openadk/library/SifDtd.cs" tofile="${mvn.target.dir}/dotnet/core/OpenADK/us/SifDtd.cs" />
+		<move file="${srcgen.dir}/openadk/library/SdoLibraryType.cs" tofile="${mvn.target.dir}/dotnet/core/OpenADK/us/SdoLibraryType.cs" />
+		<mkdir dir="${mvn.target.dir}/dotnet/us/sdo" />
+		<move todir="${mvn.target.dir}/dotnet/us/sdo" includeEmptyDirs="false">
+			<fileset dir="${srcgen.dir}/openadk/library" casesensitive="no">
+				<include name="**/*" />
+			</fileset>
+		</move>
+	</target>
+
+    <target name="dotnet.deploy" depends="dotnet">
+        <delete dir="${deploy.dir}/au/sdo" failonerror="false"/>
+        <delete dir="${deploy.dir}/uk/sdo" failonerror="false"/>
+        <delete dir="${deploy.dir}/us/sdo" failonerror="false"/>
+        <copy todir="${deploy.dir}/au/sdo">
+            <fileset dir="${mvn.target.dir}/dotnet/au/sdo" />
+        </copy>
+        <copy todir="${deploy.dir}/uk/sdo">
+            <fileset dir="${mvn.target.dir}/dotnet/uk/sdo" />
+        </copy>
+        <copy todir="${deploy.dir}/us/sdo">
+            <fileset dir="${mvn.target.dir}/dotnet/us/sdo" />
+        </copy>
+        <copy todir="${deploy.dir}/core">
+            <fileset dir="${mvn.target.dir}/dotnet/core" />
+        </copy>
+
+    </target>
+
+</project>
+

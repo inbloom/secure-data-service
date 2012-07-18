@@ -1,0 +1,982 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.2 hrfin objects                 -->
+<!-- ======================================== -->
+<adk package="hrfin" version="2.2" namespace="http://www.sifinfo.org/infrastructure/2.x">
+  <!--AccountClass enum-->
+  <enum name="AccountClass">
+    <value name="REVENUE" value="Revenue" desc="Revenue" />
+    <value name="EXPENDITURE" value="Expenditure" desc="Expenditure" />
+    <value name="OTHER" value="Other" desc="Other" />
+  </enum>
+  <!--AccountingPeriod object-->
+  <object name="AccountingPeriod" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies this accounting period.</desc>
+    </attribute>
+    <element name="Name" type="NormalizedString" flags="M">
+      <desc>Name of the accounting period.</desc>
+    </element>
+    <element name="Description" type="String" flags="O" />
+    <element name="FiscalYearRefId" type="IdRefType" flags="M">
+      <desc>Fiscal year to which this accounting period belongs.</desc>
+    </element>
+    <element name="StartDate" type="Date" flags="M">
+      <desc>Start date of the accounting period.</desc>
+    </element>
+    <element name="EndDate" type="Date" flags="M">
+      <desc>End date of the accounting period.</desc>
+    </element>
+  </object>
+  <!--AnnualItem object-->
+  <object name="AnnualItem">
+    <element name="AccountType" enum="AccountClass" flags="M">
+      <desc>Classification of budgetary account code summary</desc>
+    </element>
+    <element name="FundType" enum="FundType" flags="M">
+      <desc>Is the account a general or special account code designation?</desc>
+    </element>
+    <element name="StateProvinceId" type="String" flags="O">
+      <desc>State-assigned ID for the relative area in which the expenditure/revenue was used.</desc>
+    </element>
+    <element name="ExpenditureArea" enum="ExpenditureAreaValue">
+      <desc>Relative area in which the expenditure was used.</desc>
+    </element>
+    <element name="Function" type="NormalizedString" flags="M">
+      <desc>Function break in account code for summarization.</desc>
+    </element>
+    <element name="Object" type="NormalizedString" flags="O">
+      <desc>Object break in account code for summarization.</desc>
+    </element>
+    <element name="InstructionalProgram" type="NormalizedString" flags="O">
+      <desc>Instructional program break in account code for summarization</desc>
+    </element>
+    <element name="Amount" type="MonetaryAmount" flags="M">
+      <desc>Summarized amount.</desc>
+    </element>
+    <element name="SpecialAmountType" enum="SpecialAmountType" flags="O">
+      <desc>With regard to regional/local education service agencies report of "special" account code information, the account code summarization can be classified as:</desc>
+    </element>
+    <element name="GLAmountType" enum="GLAmountType" flags="O">
+      <desc>With regard to an account code grouping classified as a General Ledger account:</desc>
+    </element>
+  </object>
+  <!--AnnualItems object-->
+  <object name="AnnualItems">
+    <element name="AnnualItem" type="AnnualItem" flags="OR" />
+  </object>
+  <!--BilledEntity object-->
+  <object name="BilledEntity">
+    <attribute name="SIF_RefObject" enum="BilledEntityObject" flags="R">
+      <desc>SIF object referenced by SIF_RefId.</desc>
+    </attribute>
+  </object>
+  <!--BilledEntityObject enum-->
+  <enum name="BilledEntityObject">
+    <value name="STUDENTPERSONAL" value="StudentPersonal" desc="StudentPersonal" />
+    <value name="STAFFPERSONAL" value="StaffPersonal" desc="StaffPersonal" />
+    <value name="VENDORINFO" value="VendorInfo" desc="VendorInfo" />
+    <value name="PURCHASING" value="Purchasing" desc="Purchasing" />
+  </enum>
+  <!--Billing object-->
+  <object name="Billing" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID for this transaction. The application that owns this object is responsible for generating this unique ID.</desc>
+    </attribute>
+    <element name="BilledEntity" type="BilledEntity" flags="M" />
+    <element name="BillingDate" type="Date" flags="M">
+      <desc>Date of the transaction.</desc>
+    </element>
+    <element name="TransactionDescription" type="String" flags="M">
+      <desc>Description of the transaction.</desc>
+    </element>
+    <element name="BilledAmount" type="MonetaryAmount" flags="M">
+      <desc>Amount to be billed.</desc>
+    </element>
+  </object>
+  <!--BudgetAccount object-->
+  <object name="BudgetAccount">
+    <element name="AccountClass" enum="AccountClass" flags="M" key="false">
+      <desc>Classification of budgetary account code summary</desc>
+    </element>
+    <element name="FundBreakdown" type="NormalizedString" flags="O">
+      <desc>Fund breakdown of account code for summarization.</desc>
+    </element>
+    <element name="FunctionBreakdown" type="NormalizedString" flags="M" key="false">
+      <desc>Function breakdown of account code for summarization.</desc>
+    </element>
+    <element name="ObjectBreakdown" type="NormalizedString" flags="O">
+      <desc>Object breakdown of account code for summarization.</desc>
+    </element>
+    <element name="BudgetAmount" type="MonetaryAmount" flags="M" key="false">
+      <desc>Summarized, positive amount without cents for breakdowns</desc>
+    </element>
+  </object>
+  <!--BudgetAccounts object-->
+  <object name="BudgetAccounts">
+    <element name="BudgetAccount" type="BudgetAccount" flags="OR" />
+  </object>
+  <!--ContractualTermCode enum-->
+  <enum name="ContractualTermCode">
+    <value name="SHORT-TERM" value="1439" desc="Short-term" />
+    <value name="ANNUAL_YEAR" value="0410" desc="Annual year" />
+    <value name="CONTINUING" value="1440" desc="Continuing" />
+    <value name="RENEWABLE" value="1441" desc="Renewable" />
+    <value name="MULTIYEAR" value="1442" desc="Multiyear" />
+    <value name="OTHER" value="9999" desc="Other" />
+  </enum>
+  <!--EmployeeAssignment object-->
+  <object name="EmployeeAssignment" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The GUID that uniquely identifies a particular HR staff assignment.</desc>
+    </attribute>
+    <attribute name="EmployeePersonalRefId" type="IdRefType" flags="R">
+      <desc>This GUID referencing the parent EmployeePersonal object</desc>
+    </attribute>
+    <element name="Description" type="String" flags="M">
+      <desc>Short assignment description</desc>
+    </element>
+    <element name="PrimaryAssignment" enum="YesNo" flags="M">
+      <desc>Is this the staff member's primary assignment? There must be one and only one instance of the object with Yes in this value per school year.</desc>
+    </element>
+    <element name="LocationInfoRefId" type="IdRefType" flags="O">
+      <desc>
+        This is an optional element so the placement of the employee within the agency can be tracked as needed.
+        The GUID references the LocationInfo object.
+      </desc>
+    </element>
+    <element name="JobStartDate" type="Date" flags="O">
+      <desc>This is the date from which the staff assignment is valid (inclusive).</desc>
+    </element>
+    <element name="JobEndDate" type="Date" flags="O">
+      <desc>This is the date through which the staff assignment is valid (inclusive).  Present if the JobStartDate is entered and a JobEndDate is available.</desc>
+    </element>
+    <element name="JobFTE" type="Decimal" flags="O">
+      <desc>Full-time job equivalent ratio for this assignment. (Format is x.xx; an employee who is full-time and who spends 50% of their time on this assignment would be represented as 0.50)</desc>
+    </element>
+    <element name="JobClassification" type="JobClassification" flags="O">
+      <desc>The specific group of duties or responsibilities of position.</desc>
+    </element>
+    <element name="ProgramType" type="HRProgramType" flags="O">
+      <desc>The type of instructional or non-instructional program.</desc>
+    </element>
+    <element name="FundingSource" type="ProgramFundingSource" flags="O">
+      <desc>Provider of funds for the program or service.</desc>
+    </element>
+  </object>
+  <!--EmployeeContract object-->
+  <object name="EmployeeContract" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The GUID of the employee contract information.</desc>
+    </attribute>
+    <attribute name="EmployeePersonalRefId" type="IdRefType" flags="R">
+      <desc>The GUID that refers to the EmployeePersonal object.</desc>
+    </attribute>
+    <element name="BaseSalary" type="MonetaryAmount" flags="M">
+      <desc>Base salary of employee for this contact in whole dollars</desc>
+    </element>
+    <element name="ContractStartDate" type="Date" flags="M">
+      <desc>Contractual start date.</desc>
+    </element>
+    <element name="ContractEndDate" type="Date" flags="M">
+      <desc>Contractual ending date.</desc>
+    </element>
+    <element name="ContractTerm" enum="ContractualTermCode" flags="O">
+      <desc>Contractual Term in school years</desc>
+    </element>
+    <element name="ContractDays" type="UnsignedInt" flags="O">
+      <desc>Number of days in service for contract total</desc>
+    </element>
+    <element name="AssignmentDays" type="UnsignedInt" flags="O">
+      <desc>Number of days per year employee is expected to work in this assignment</desc>
+    </element>
+  </object>
+  <!--EmployeePersonal object-->
+  <object name="EmployeePersonal" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The GUID that uniquely identifies this employee.</desc>
+    </attribute>
+    <element name="StateProvinceId" flags="O" type="Token">
+      <desc>The state-assigned identifier for this staff member.</desc>
+    </element>
+    <element name="OtherIdList" type="HrOtherIdList" flags="O">
+      <desc>This field can hold SSN, state and locally assigned IDs.</desc>
+    </element>
+    <element name="Name" type="Name" flags="O">
+      <desc>Name of employee.</desc>
+    </element>
+    <element name="Demographics" type="Demographics" flags="O">
+      <desc>This element contains information related to employee demographics.</desc>
+    </element>
+    <element name="AddressList" type="AddressList" flags="O">
+      <desc>The employee's address(es).</desc>
+    </element>
+    <element name="PhoneNumberList" type="PhoneNumberList" flags="O">
+      <desc>The employee's phone number(s).</desc>
+    </element>
+    <element name="EmailList" type="EmailList" flags="O">
+      <desc>The employee's e-mail address(es).</desc>
+    </element>
+  </object>
+  <!--EmployeePicture object-->
+  <object name="EmployeePicture" topic="true">
+    <attribute name="EmployeePersonalRefId" type="IdRefType" flags="R">
+      <desc>This is the GUID of the Employee whose picture this is.</desc>
+    </attribute>
+    <element name="PictureSource" type="PictureSource" flags="M">
+      <desc>This element defines the picture. If the Type attribute is URL, this is the location of the picture in [JPEG] format; if Type is JPEG, this is the [JPEG] image data encoded using the Base64 Content-Transfer-Encoding defined in Section 6.8 of [RFC 2045].</desc>
+    </element>
+  </object>
+  <!--EmployeeWage object-->
+  <object name="EmployeeWage" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The GUID of the employee's pay information.</desc>
+    </attribute>
+    <attribute name="EmployeePersonalRefId" type="IdRefType" flags="R">
+      <desc>The GUID that refers to the EmployeePersonal object.</desc>
+    </attribute>
+    <element name="PayRates" type="PayRates" flags="M" />
+  </object>
+  <!--EmploymentRecord object-->
+  <object name="EmploymentRecord" topic="true">
+    <desc>This object contains a snapshot (view) of employment information for an employee.</desc>
+    <attribute name="SIF_RefId" type="IdRefType" flags="R">
+      <desc>The GUID can either refer to the EmployeePersonal or StaffPersonal object.</desc>
+    </attribute>
+    <attribute key="false" name="SIF_RefObject" type="String" flags="R" />
+    <element name="LEAInfoRefId" type="IdRefType" flags="M">
+      <desc>The GUID reference to the LEAInfo object representing the LEA
+        that employs the staff member.</desc>
+    </element>
+    <element name="Active" type="Boolean" flags="O">
+      <desc>Staff is currently active and/or employed.</desc>
+    </element>
+    <element name="FullTimeStatus" enum="FullTimeStatus" flags="O">
+      <desc>Full-time status of employee.</desc>
+    </element>
+    <element name="HireDate" type="Date" flags="O">
+      <desc>Date the employee was hired.</desc>
+    </element>
+    <element name="TerminationDate" type="Date" flags="O">
+      <desc>Date the employee resigned.  Present if a HireDate is entered and a TerminationDate is available.</desc>
+    </element>
+    <element name="TotalYearsExperience" type="UnsignedInt" flags="O">
+      <desc>Total number of years of prior experience.</desc>
+    </element>
+    <element name="PositionTitle" type="NormalizedString" flags="O">
+      <desc>Employee's current position title.</desc>
+    </element>
+    <element name="PositionNumber" type="NormalizedString" flags="O">
+      <desc>Employee's level or category assigned by employer.</desc>
+    </element>
+    <element name="SeniorityDate" type="Date" flags="O">
+      <desc>Date employee has seniority.</desc>
+    </element>
+    <element name="TenureDate" type="Date" flags="O">
+      <desc>Date employee is tenured.</desc>
+    </element>
+  </object>
+  <!--ExpenditureAreaValue enum-->
+  <enum name="ExpenditureAreaValue">
+    <value name="ELEMENTARY" value="Elementary" desc="Elementary" />
+    <value name="SECONDARY" value="Secondary" desc="Secondary" />
+    <value name="FEDERAL" value="Federal" desc="Federal" />
+    <value name="OTHER" value="Other" desc="Other" />
+  </enum>
+  <!--ExpenseAccount object-->
+  <object name="ExpenseAccount">
+    <element name="AccountCode" type="Token" flags="M">
+      <desc>Account code charged to this item.</desc>
+    </element>
+    <element name="Amount" type="MonetaryAmount" flags="M">
+      <desc>Amount charged to this account.</desc>
+    </element>
+  </object>
+  <!--ExpenseAccounts object-->
+  <object name="ExpenseAccounts">
+    <element name="ExpenseAccount" type="ExpenseAccount" flags="OR" />
+  </object>
+  <!--FederalTaxId object-->
+  <object name="FederalTaxId">
+    <attribute name="Code" enum="FederalTaxIdCode" flags="R">
+      <desc>The type tax ID that this is. TIN based on IRS Publication 1915 [IRSTIN].</desc>
+    </attribute>
+  </object>
+  <!--FederalTaxIdCode enum-->
+  <enum name="FederalTaxIdCode">
+    <value name="EIN" value="EIN" desc="EIN" />
+    <value name="SSNO" value="SSNO" desc="SSNO" />
+    <value name="ITIN" value="ITIN" desc="ITIN" />
+    <value name="ATIN" value="ATIN" desc="ATIN" />
+    <value name="OTHER" value="OTHER" desc="OTHER" />
+  </enum>
+  <!--FinancialAccount object-->
+  <object name="FinancialAccount" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies this financial account.</desc>
+    </attribute>
+    <element name="AccountNumber" type="NormalizedString" flags="M">
+      <desc>Account number used for ledger.</desc>
+    </element>
+    <element name="Name" type="NormalizedString" flags="M">
+      <desc>Name of the account.</desc>
+    </element>
+    <element name="Description" type="String" flags="O">
+      <desc>Description.</desc>
+    </element>
+    <element name="FinancialClassRefId" type="IdRefType" flags="M">
+      <desc>Financial class of the account.</desc>
+    </element>
+    <element name="CreationDate" type="Date" flags="M">
+      <desc>Account creation date.</desc>
+    </element>
+    <element name="CreationTime" type="Time" flags="M">
+      <desc>Account creation time.</desc>
+    </element>
+  </object>
+  <!--FinancialAccountAccountingPeriodLocationInfo object-->
+  <object name="FinancialAccountAccountingPeriodLocationInfo" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies this object.</desc>
+    </attribute>
+    <element name="FinancialAccountRefId" type="IdRefType" flags="M">
+      <desc>Financial account reference.</desc>
+    </element>
+    <element name="AccountingPeriodRefId" type="IdRefType" flags="M">
+      <desc>Accounting period reference.</desc>
+    </element>
+    <element name="LocationInfoRefId" type="IdRefType" flags="M">
+      <desc>LocationInfo reference.</desc>
+    </element>
+  </object>
+  <!--FinancialAnnual object-->
+  <object name="FinancialAnnual" topic="true">
+    <element name="ReportDate" type="Date" flags="M">
+      <desc>Date on which snapshot was generated.</desc>
+    </element>
+    <element name="StateProvinceId" type="String" flags="M">
+      <desc>State assigned reporting ID for district or agency</desc>
+    </element>
+    <element name="FiscalYear" type="int" flags="M">
+      <desc>Fiscal year of summary account</desc>
+    </element>
+    <element name="AnnualItems" type="AnnualItems" flags="M" />
+  </object>
+  <!--FinancialBudget object-->
+  <object name="FinancialBudget" topic="true">
+    <element name="ReportDate" type="Date" flags="M">
+      <desc>Date on which snapshot was generated.</desc>
+    </element>
+    <element name="StateProvinceId" type="String" flags="M">
+      <desc>State-assigned identifier for this location</desc>
+    </element>
+    <element name="FiscalYear" type="GYear" flags="M">
+      <desc>Fiscal Year of summary account</desc>
+    </element>
+    <element name="BudgetAccounts" type="BudgetAccounts" flags="M" />
+  </object>
+  <!--FinancialClass object-->
+  <object name="FinancialClass" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies this financial class.</desc>
+    </attribute>
+    <element name="Name" type="NormalizedString" flags="M">
+      <desc>Name of the financial class.</desc>
+    </element>
+    <element name="Description" type="String" flags="O">
+      <desc>Description.</desc>
+    </element>
+    <element name="ClassType" enum="FinancialClassType" flags="M" />
+  </object>
+  <!--FinancialClassType enum-->
+  <enum name="FinancialClassType">
+    <value name="ASSET" value="Asset" desc="Asset" />
+    <value name="LIABILITY" value="Liability" desc="Liability" />
+    <value name="REVENUE" value="Revenue" desc="Revenue" />
+    <value name="EXPENSE" value="Expense" desc="Expense" />
+  </enum>
+  <!--FinancialIncomeStatement object-->
+  <object name="FinancialIncomeStatement" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies this income statement.</desc>
+    </attribute>
+    <element name="GenerationDate" type="Date" flags="M">
+      <desc>Generation date.</desc>
+    </element>
+    <element name="GenerationTime" type="Time" flags="M">
+      <desc>Generation time.</desc>
+    </element>
+    <element name="LocationInfoRefId" type="IdRefType" flags="M">
+      <desc>LocationInfo reference.</desc>
+    </element>
+    <element name="Period" type="FISPeriod" flags="O">
+      <desc>Period of the income statement.</desc>
+    </element>
+    <element name="Amounts" type="FISAmounts" flags="M">
+      <desc>Amount in the account.</desc>
+    </element>
+    <element name="Program" type="Program" flags="O" />
+  </object>
+  <!--FinancialTransaction object-->
+  <object name="FinancialTransaction" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies this financial transaction.</desc>
+    </attribute>
+    <element name="TransactionDate" type="Date" flags="O">
+      <desc>Transaction date.</desc>
+    </element>
+    <element name="TransactionTime" type="Time" flags="O">
+      <desc>Transaction time.</desc>
+    </element>
+    <element name="Amounts" type="FTAmounts" flags="M">
+      <desc>Dollar amount of the transaction.</desc>
+    </element>
+    <element name="Program" type="Program" flags="O" />
+    <element name="Description" type="String" flags="O" />
+  </object>
+  <!--FISAmount object-->
+  <object name="FISAmount" datatype="decimal" renderAs="Amount">
+    <desc>Amount in the account.</desc>
+    <attribute name="Currency" enum="CurrencyNames" flags="O" />
+    <attribute name="FinancialAccountAccountingPeriodLocationInfoRefId" flags="R">
+      <desc>FinancialAccountAccountingPeriodLocationInfo reference.</desc>
+    </attribute>
+    <attribute name="FinancialClassRefId" flags="R">
+      <desc>Class of the financial account.</desc>
+    </attribute>
+  </object>
+  <!--FISAmounts object-->
+  <object name="FISAmounts">
+    <element name="Amount" type="FISAmount" flags="MR" />
+  </object>
+  <!--FiscalYear object-->
+  <object name="FiscalYear" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID that identifies this object.</desc>
+    </attribute>
+    <element name="Description" type="String" flags="O">
+      <desc>A description of the fiscal year.</desc>
+    </element>
+    <element name="StartDate" type="Date" flags="O">
+      <desc>Start date of the fiscal year.</desc>
+    </element>
+    <element name="EndDate" type="Date" flags="O">
+      <desc>End date of the fiscal year.</desc>
+    </element>
+  </object>
+  <!--FISPeriod object-->
+  <object name="FISPeriod">
+    <element name="StartDate" type="Date" flags="R">
+      <desc>Start date.</desc>
+    </element>
+    <element name="EndDate" type="Date" flags="R">
+      <desc>End date.</desc>
+    </element>
+  </object>
+  <!--FormType enum-->
+  <enum name="FormType">
+    <value name="PO" value="PO" desc="Purchase order" />
+    <value name="REQ" value="REQ" desc="Requisition" />
+  </enum>
+  <!--FTAmount object-->
+  <object name="FTAmount" renderAs="Amount" datatype="decimal">
+    <desc>Dollar amount of the transaction.</desc>
+    <attribute name="FinancialAccountAccountingPeriodLocationInfoRefId" flags="R">
+      <desc>Account.</desc>
+    </attribute>
+    <attribute name="Type" enum="FTAmountType" flags="R">
+      <desc>Values: Debit, Credit</desc>
+    </attribute>
+    <attribute name="Currency" enum="CurrencyNames" flags="O">
+      <desc>	Currency code. Where omitted, defaults to implementation-defined local currency, typically USD in the United States. </desc>
+    </attribute>
+  </object>
+  <!--FTAmounts object-->
+  <object name="FTAmounts" renderAs="Amounts">
+    <element name="Amount" type="FTAmount" flags="OR" />
+  </object>
+  <!--FTAmountType enum-->
+  <enum name="FTAmountType">
+    <value name="DEBIT" value="Debit" desc="Debit" />
+    <value name="CREDIT" value="Credit" desc="Credit" />
+  </enum>
+  <!--FullTimeStatus enum-->
+  <enum name="FullTimeStatus">
+    <value name="FULLTIME" value="0843" desc="Full-time" />
+    <value name="PARTTIME" value="0844" desc="Part-time" />
+  </enum>
+  <!--FundType enum-->
+  <enum name="FundType">
+    <value name="GENERAL" value="General" desc="General" />
+    <value name="SPECIAL" value="Special" desc="Special" />
+  </enum>
+  <!--GLAmountType enum-->
+  <enum name="GLAmountType">
+    <value name="ADMINISTRATION" value="1" desc="Administration" />
+    <value name="CURRICULUM_DEVELOPMENT" value="2" desc="Curriculum Development and Improvement" />
+    <value name="EDUCATION_PLANNING" value="3" desc="Education Planning" />
+    <value name="INSTRUCTIONAL_MATERIALS" value="4" desc="Instructional Materials" />
+    <value name="MANAGEMENT" value="5" desc="Management" />
+    <value name="CONTINUING_EDUCATION" value="6" desc="Continuing Education" />
+    <value name="PUPIL_PERSONNEL" value="7" desc="Pupil Personnel" />
+    <value name="STATE_AND_FEDERAL_LIAISON" value="8" desc="State and Federal Liaison" />
+    <value name="FEDERAL" value="9" desc="Federal" />
+    <value name="MEDICAL_ASSISTANCE" value="10" desc="Medical Assistance" />
+    <value name="AUXILIARY_SERVICES" value="11" desc="Auxiliary services of non-profit private and parochial schools" />
+    <value name="OTHER" value="12" desc="Other" />
+  </enum>
+  <!--HrOtherIdList object-->
+  <object name="HrOtherIdList">
+    <element name="OtherId" type="OtherId" flags="OR">
+      <desc>List all "other" IDs associated with employee.</desc>
+    </element>
+  </object>
+  <!--HRProgramType object-->
+  <object name="HRProgramType">
+    <desc>The specific group of duties or responsibilities of position.</desc>
+    <element name="Code" enum="ProgramTypeCode" flags="O" />
+    <element name="OtherCodeList" Type="OtherCodeList" flags="O" />
+  </object>
+  <!--JobClassification object-->
+  <object name="JobClassification">
+    <desc>The specific group of duties or responsibilities of position.</desc>
+    <element name="Code" enum="JobClassificationCode" flags="M" />
+    <element name="OtherCodeList" Type="OtherCodeList" flags="O" />
+  </object>
+  <!--JobClassificationCode enum-->
+  <enum name="JobClassificationCode">
+    <value name="OFFICIAL_ADMINISTRATIVE" value="0100" desc="Official-administrative—Performs management activities that require developing broad policies and executing those policies through direction of individuals at all levels. This includes high-level administrative activities performed directly for policy makers." />
+    <value name="ADMINISTRATIVE_SUPERVISORY" value="0101" desc=" Administrative/supervisory/ancillary services officer—Performs professional management, administrative, research, analytical, supervisory, and/or ancillary services for a senior executive. This includes personnel responsible for services such as evaluation, teacher development, dissemination, curriculum development, admissions and recruitment, marketing and development." />
+    <value name="BOARD_OF_EDUCATION_SCHOOL_BOAR" value="0102" desc="Board of education/school board/board of trustees member—Performs activities as a member of a legally constituted body which has been created and vested with responsibilities for educational policy- and decision-making as specified in education codes and regulations in a given geographical area." />
+    <value name="COMMANDANT_OF_CADETS" value="0103" desc="Commandant of cadets—Performs executive management functions of the cadet corps, and is responsible for cadet promotions, leadership training, and the system utilized by the institution to maintain and administer disciplinary measures to promote order and decorum." />
+    <value name="DEAN_DEAN_OF_INSTRUCTIONS_DEAN" value="0104" desc="Dean/dean of instructions/dean of students/dean of boys/dean of girls/dean of student activities—Oversees either academic/curriculum activities, or, student body activities and behaviors such as student government, school club, rally and assembly." />
+    <value name="DEPUTY_ASSOCIATE_VICE-_ASSISTA" value="0105" desc="Deputy/associate/vice-/assistant principal—Performs high-level executive management functions in an individual school, group of schools, or units of a school system. Primary duties include but are not limited to: 1) supervising student behavior; 2) handling specific assigned duties related to school management; 3) continuing curriculum and staff development; 4) working cooperatively with professional staff; 5) providing leadership in the instructional program; and 6) coordinating and/or arranging class schedule." />
+    <value name="DEPUTY_ASSOCIATE_ASSISTANT_SUP" value="0106" desc="Deputy/associate/assistant superintendent/ commissioner—Performs high-level executive management functions for a superintendent in the areas of personnel, instruction, and/or administration such as business, transportation, food services, maintenance, operation, facility management/planning, and others. Such an assignment also includes performing the duties of the superintendent in his or her absence as assigned or designated." />
+    <value name="EXECUTIVE_ASSISTANT-PERFORMS_P" value="0107" desc="Executive assistant-Performs professional activities assisting an executive officer in directing and managing the functions of a school or system." />
+    <value name="INSTRUCTIONAL_PROGRAM_DIRECTOR" value="0108" desc="Instructional program director/coordinator/consultant—Coordinates, manages (including supervising other certified individuals), or directs activities and/or services (e.g., vocational education and special education) within an instructional program or area of instruction." />
+    <value name="MANAGER" value="0109" desc="Manager—Directs individuals and manages functional supporting services (e.g., financial aid) under the direction of a senior staff member. This includes directors/managers of purchasing agents, physical plant maintenance, management information and technology services, business managers, budget managers, and psychological services." />
+    <value name="NON-INSTRUCTIONAL_PROGRAM_DIR" value="0110" desc="Non-instructional program director/coordinator/consultant—Coordinates, manages (including supervising other certified individuals), or directs activities and/or services within a non-instructional program." />
+    <value name="OMBUDSPERSON" value="0111" desc="Ombudsperson—Receives and investigates complaints made by individuals against alleged abuses resulting from capricious acts by administrative officials. The ombudsman usually works for the board of education in a quasi-official status." />
+    <value name="PRINCIPAL_HEADMASTER_HEADMISTRESS" value="0112" desc="Principal/headmaster/headmistress/head of school—Performs the highest level of executive management functions in an individual school, a group of schools, or units of a school system. Responsibilities include the administration of instructional programs, extracurricular programs, community relations, operation of the school plant, selection and evaluation of professional and support staff, and the coordination of staff and student activities." />
+    <value name="SCHOOL_PRESIDENT" value="0113" desc="School president—Implements short and long-range plans; performs recruitment, community relations, fund-raising, and other external functions; in some cases, supervises principal and establishes institutional operation philosophy to follow Board policy." />
+    <value name="SCHOOL_SITE_COUNCIL_MEMBER" value="0114" desc="School site council member—Performs activities as a member of an advis ory body which has been created by state legislation to provide for an individual school advice/support on various school activities such as fund spending on a particular program." />
+    <value name="SUPERINTENDENT_COMMISSIONER" value="0115" desc="Superintendent/commissioner—Serves as the chief executive officer and primary advisor to the board of education. Responsibilities include overseeing the development of educational programs and all other activities which impact on those programs." />
+    <value name="PROFESSIONAL-EDUCATIONAL" value="0200" desc="Professional-educational—Performs duties requiring a high degree of knowledge and skills generally acquired through at least a baccalaureate degree (or its equivalent obtained through special study and/or experience) including skills in the field of education, educational psychology, educational social work, or an education therapy field." />
+    <value name="ATHLETIC_COACH" value="0201" desc="Athletic coach—Instructs individuals in the fundamentals of a competitive sport and direct team or individual strategy." />
+    <value name="BEHAVIORAL_MANAGEMENT_SPECIALIST" value="0202" desc="Behavioral management specialist—Performs analysis of students' inappropriate behaviors, devises interventions to change such behaviors, and monitors behavior improvement progress overtime." />
+    <value name="COUNSELOR" value="0203" desc="Counselor—Guides individuals, families, groups, and ommunities by assisting them in problem-solving, decision-making, discovering meaning, and articulating goals related to personal, educational, and career development." />
+    <value name="CURRICULUM_SPECIALIST" value="0204" desc="Curriculum specialist—Develops or supervises curriculum and instructional development activities. This assignment requires expertise in a specialized field and includes the curriculum consultant and curriculum supervisor." />
+    <value name="EDUCATION_DIAGNOSTICIAN" value="0205" desc="Education diagnostician—Diagnoses students who might need special education services and/or other educational interventions." />
+    <value name="LIBRARIAN_MEDIA_CONSULTANT" value="0206" desc="Librarian/media consultant—Develops plans for and manage the use of teaching and learning resources, including the maintenance of equipment, content material, services, multi-media, and information sources." />
+    <value name="REMEDIAL_SPECIALIST" value="0207" desc="Remedial specialist—Performs activities concerned with developing specific cognitive skills, usually in language arts or mathematics, from a deficient level to one that is appropriate to the educational abilities and aspirations of the student." />
+    <value name="STUDENT_ACTIVITY_ADVISOR_NON-A" value="0208" desc="Student activity advisor/non-athletic coach—Instructs individuals in the fundamentals of a non-athletic activity and develops training and competition schedules." />
+    <value name="STUDENT_TEACHER" value="0209" desc="Student teacher—Provides learning experiences and care to students under the supervision of a certified teacher as part of a formalized higher education program of teacher preparation." />
+    <value name="TEACHER" value="0210" desc="Teacher—Provides instruction, learning experiences, and care to students during a particular time period or in a given discipline." />
+    <value name="TEACHER_TRAINER" value="0211" desc="Teacher trainer—Provides instruction, learning experiences, and/or professional development activities to teachers during a particular time period or in a given discipline." />
+    <value name="TEACHING_INTERN" value="0212" desc="Teaching intern—Provides instruction, learning experiences, and care to students while obtaining the necessary knowledge and skills in education and/or educational psychology." />
+    <value name="RESOURCE_TEACHER" value="0213" desc="Resource teacher—Assists a classroom teacher by providing services to enrich the instruction of the students with special education needs." />
+    <value name="PROFESSIONAL-OTHER" value="0300" desc="Professional-other—Performs assignments requiring a high degree of knowledge and skills usually acquired through at least a baccalaureate degree (or its equivalent obtained through special study and/or experience) but not necessarily requiring skills in the field of education." />
+    <value name="ACCOUNTANT" value="0301" desc="Accountant—Designs and maintains financial, staff, student, program, or property records; summarizes, analyzes, audits, or verifies such records; and/or controls and certifies expenditures and receipts." />
+    <value name="ACCREDITATION_OFFICER" value="0302" desc="Accreditation officer—Reviews and evaluates an organizational unit to certify the observation of legal requirements or prescribed standards for the operation of such units." />
+    <value name="ADMINISTRATIVE_INTERN" value="0303" desc="Administrative intern—Performs administrative activities as part of a formal training program requiring supervision and periodic evaluation." />
+    <value name="ADMISSIONS_OFFICER" value="0304" desc="Admissions officer—Examines academic records of students to determine eligibility for graduation or for entrance to school." />
+    <value name="ANALYST" value="0305" desc="Analyst—Examines, evaluates, and makes recommendations in such areas as cost, systems, curriculum, educational sectors, or other areas including management, research and assessment, policy, budget, and personnel." />
+    <value name="ARCHITECT" value="0306" desc="Architect—Performs activities such as designing and preparing plans and specifications for the construction, remodeling, or repair of buildings and facilities, modification of site, and overseeing the construction to ensure compliance with plans and specifications." />
+    <value name="ATHLETIC_TRAINER" value="0307" desc="Athletic trainer—Coordinates and implements training activities for athletes to improve their athletic performance." />
+    <value name="ATTENDANCE_OFFICER" value="0308" desc="Attendance officer—Monitors compulsory attendance laws." />
+    <value name="AUDIOLOGIST" value="0309" desc="Audiologist—Provides services including: 1) identification of individuals with hearing loss; 2) determination of the range, nature, and degree of hearing loss, including referral for medical or other professional attention; 3) provision of habilitating activities such as language habilitation, auditory training, speech reading (lip-reading), hearing evaluation, and speech conservation; 4) creation and administration of programs for prevention of hearing loss; 5) counseling and guidance of students, parent/guardians, and teachers regarding hearing loss; and 6) determination of an individual's need for group and individual amplification, selecting and fitting an appropriate aid, and evaluating the effectiveness of amplification." />
+    <value name="AUDITOR" value="0310" desc="Auditor—Performs activities concerned with examining, verifying, and reporting on accounting records." />
+    <value name="BENEFITS_SPECIALIST" value="0311" desc="Benefits specialist—Organizes and provides information to employees about organizational fringe benefits." />
+    <value name="CAMPUS_MINISTER_CHAPLAIN" value="0312" desc="Campus minister/chaplain (clergy or layperson)—Performs religious functions in a school." />
+    <value name="CASEWORKER" value="0313" desc="Caseworker—Counsels and aids individuals and families requiring assistance of social service agencies and secures information on factors contributing to a clients situation. Counsels clients regarding plans for meeting needs and aids clients in mobilizing capacities and environmental resources to improve social functioning." />
+    <value name="COMPUTER_PROGRAMMER" value="0314" desc="Computer programmer—Prepares sets of instructions for a computer, based on project specifications, in order to solve problems." />
+    <value name="COMPUTER_SYSTEMS_ANALYST" value="0315" desc="Computer systems analyst—Analyzes user requirements, procedures, and problems in processing or to improve and/or modify an existing computer system." />
+    <value name="CURATOR_AND_ARCHIVIST" value="0316" desc="Curator and archivist—Collects, classifies, preserves, and exhibits objects of interest in such fields as science, literature, history and art." />
+    <value name="DENTAL_HYGIENIST" value="0317" desc="Dental hygienist—Performs dental prophylactic treatments and instructs patients in the care of the teeth and mouth." />
+    <value name="DENTIST" value="0318" desc="Dentist—Diagnoses and treats diseases, injuries, and malformations of the teeth and gums." />
+    <value name="DIETITIAN_NUTRITIONIST" value="0319" desc="Dietitian/nutritionist—Plans and directs food service menu preparation including determining the nutritional value of food for meals." />
+    <value name="ENGINEER" value="0320" desc="Engineer—Applies scientific and mathematical principles to practical ends such as the design, construction, and operation of efficient and economical structures, equipment, and systems. " />
+    <value name="EVALUATOR" value="0321" desc="Evaluator—Determines the value or effect of plans, programs, and activities by appraisal of data and activities in light of specified goals and objectives (e.g. personnel evaluator)." />
+    <value name="FAMILY_COMMUNITY_SUPPORT_COORD" value="0322" desc="Family/community support coordinator—Fosters ties between the school, the family, and/or community by conducting services such as family education, the integration of community services, and/or direct intervention as needed." />
+    <value name="FINANCIAL_AID_OFFICER" value="0323" desc="Financial aid officer—Reviews and assesses student applications for financial aid programs such as loans, grants-in-aid, or scholarships, in order to make determinations concerning assistance." />
+    <value name="FUNCTIONAL_APPLICATION_SUPPORT" value="0324" desc="Functional application support specialist—Assists individual computer users in a mini- or micro-computer [e.g., personal computer (PC)] environment to resolve hardware and software issues." />
+    <value name="GRANT_DEVELOPER" value="0325" desc="Grant developer—Expands opportunities to obtain funds from outside parties in exchange for completion of a task." />
+    <value name="HISTORIAN" value="0326" desc="Historian—Prepares a chronological account or record of past or current events dealing with some phase of human activity, either in terms of individuals, social, ethnic, political, or geographic groupings." />
+    <value name="INTERNAL_AUDITOR" value="0327" desc="Internal auditor—Verifies account records, including evaluating the adequacy of the internal control system, verifying and safeguarding assets, reviewing the reliability of the accounting and reporting systems, and ascertaining compliance with established policies and procedures." />
+    <value name="INTERPRETER" value="0328" desc="Interpreter—Translates consecutively or instantaneously from one language into another language using spoken and/or manual words (e.g., sign language interpreter)." />
+    <value name="LAWYER" value="0329" desc="Lawyer—Practices law and performs such activities as conducting lawsuits, drawing up legal documents, and advising on legal rights." />
+    <value name="LEGISLATIVE_LIAISON" value="0330" desc="Legislative liaison—Coordinates with the legislature in the preparation of legislation, provides information to legislative committees and members, and testifies before such bodies." />
+    <value name="NEGOTIATOR" value="0331" desc="Negotiator—Performs such activities as resolving labor/management problems and helping to settle disputes and effect compromises. This includes representatives of either management or labor (e.g., shop stewards)." />
+    <value name="NETWORK_ADMINISTRATOR" value="0332" desc="Network administrator—Coordinates the inputs, outputs, and use of computer networks (e.g., local area networks (LAN) and wide area networks (WAN))." />
+    <value name="NURSE_PRACTITIONER" value="0333" desc="Nurse Practitioner—Performs the functions of a registered nurse either independently, or dependently with a written agreement of a medical doctor." />
+    <value name="OCCUPATIONAL_THERAPIST" value="0334" desc="Occupational therapist—Provides services that address the functional needs of an individual related to the following: 1) improving developing or restoring functions impaired or lost through illness, injury, or deprivation; 2) improving ability to perform tasks for independent functioning when functions are impaired or lost; 3) preventing through early intervention, initial or further impairment or loss of function. The provider of these services is a certified, licensed, or otherwise qualified individual." />
+    <value name="OPHTHALMOLOGIST" value="0335" desc="Ophthalmologist—Provides specialized services in the care of the eye and its related structures." />
+    <value name="OPTOMETRIST" value="0336" desc="Optometrist—Treats optical and muscle defects of the eye without the use of drugs or surgery." />
+    <value name="PERSONNEL_OFFICER_SPECIALIST" value="0337" desc="Personnel officer/specialist—Performs activities concerned with staff recruitment, selection, training, and assignment. This includes maintaining staff records, working with administrators in developing pension and insurance plans, and maintaining employer-employee harmony and efficiency through negotiations and internal public relations efforts." />
+    <value name="PHYSICAL_THERAPIST" value="0338" desc="Physical therapist—Facilitates remediation and compensation for deficits in foundation skills necessary for classroom and/or basic job performance, particular areas of emphasis include gross motor skills, functional mobility and gait, musculoskeletal alignment, strength, endurance, and positioning. Typical responsibilities include: screening, evaluation, and assessment of children to identify movement dysfunction; obtaining, interpreting, and integrating information appropriate to program planning, to prevent or alleviate movement dysfunction and related functional problems; and providing individual and group services to treatment to prevent, alleviate, or compensate for movement dysfunction and related functional problems. The provider of these services is a licensed, certified, or otherwise qualified professional." />
+    <value name="PHYSICIAN" value="0339" desc="Physician—Diagnoses and treats diseases and disorders of the human body." />
+    <value name="PHYSICIAN_ASSISTANT" value="0340" desc="Physician assistant—Provides health care services to patients under the direction and responsibility of a physician." />
+    <value name="PLANNING_SPECIALIST" value="0341" desc="Planning specialist—Performs activities concerned with selecting or identifying the goals, priorities, objectives, and projected trends of an organization and formulating the courses of action necessary to fulfill these objectives." />
+    <value name="PSYCHIATRIST" value="0342" desc="Psychiatrist—Diagnoses and treats diseases and disorders of the mind." />
+    <value name="PSYCHOLOGIST" value="0343" desc="Psychologist—Evaluates and analyzes students' behavior by measuring and interpreting their intellectual, emotional, and social development, and diagnosing their educational and personal problems." />
+    <value name="PUBLIC_RELATIONS_INFORMATIONAL" value="0344" desc="Public relations/informational services officer—Attempts to foster good relations between an organization and the public as a whole, by planning and conducting programs to disseminate accurate information through such media as newspapers, radio and television, public forums, and civic activities, and by reviewing material for and directing preparation of publications." />
+    <value name="RECREATIONAL_THERAPIST" value="0345" desc="Recreational therapist—Plans, organizes, and directs medically -approved recreation programs for patients. Activities include sports, trips, dramatics, social activities, and arts and crafts." />
+    <value name="RECREATION_WORKER" value="0346" desc="Recreation worker—Conducts group recreation activities; organizes and promotes activities such as arts and crafts, sports, games, music, dramatics, social recreation, camping, and hobbies, taking into account the needs and interests of individual members. " />
+    <value name="REGISTERED_NURSE" value="0347" desc="Registered nurse—Conducts a health service program at a school or system for the evaluation, improvement and protection of the health of students and school personnel in accordance with state law and local policies and procedures." />
+    <value name="REGISTRAR" value="0348" desc="Registrar—Coordinates and directs registration activities, including the compilation and analysis of registration data for administrative use." />
+    <value name="REHABILITATION_COUNSELOR" value="0349" desc="Rehabilitation counselor—Provides services in individual or group sessions that focus specifically on career development, employment preparation, achieving independence, and integration in the workplace and community of a student with a disability. The provider of these services is a certified, license, or otherwise qualified professional. The term also includes vocational rehabilitation services provided to students with disabilities by vocational rehabilitation programs funded under the Rehabilitation Act of 1973, as amended." />
+    <value name="RESEARCH_AND_DEVELOPMENT_SPECI" value="0350" desc="Research and development specialist—Performs activities concerned with systematic study and investigation using the products of research and judgement to improve programs." />
+    <value name="RESPIRATORY_THERAPIST" value="0351" desc="Respiratory therapist—Administers respiratory therapy care and life support to patients with deficiencies and abnormalities of the cardiopulmonary system, under the direction and responsibility of a physician." />
+    <value name="SOCIAL_WORKER" value="0352" desc="Social worker—Provides social services for clients who may be individuals, families, groups, communities, organizations, or society in general. Typical responsibilities include: 1) preparing a social or developmental history on a student with disabilities; 2) group and individual counseling with a student and his or her family; 3) working with those problems in a student’s living situation (home, school, and community) that affect adjustment in school; 4) mobilizing school and community resources in order to enable the student to receive maximum benefit from his or her educational program; and 5) other related services as necessary. The provider of these services are certified, licensed, or otherwise qualified professionals." />
+    <value name="SPEECH_PATHOLOGIST_THERAPIST" value="0353" desc="Speech pathologist/therapist—Diagnoses communicative disorders, plans, directs and participates in individual or group therapy sessions which focus on the remediation of specific articulation problems including: 1) identification of children with speech or language impairments; 2) diagnosis and appraisal of specific speech or language impairments; 3) referral for medical or other professional attention necessary for the habilitation of speech or language impairments; 4) provision of speech and language services for the habilitation or prevention of communicative impairments; and 5) counseling and guidance of parents, children, and teachers regarding speech and language requirements. The provider of these services are certified, licensed, or otherwise qualified professionals." />
+    <value name="STAFF_DEVELOPER_TEACHER_TRAINE" value="0354" desc="Staff developer/teacher trainer—Plans, coordinates, and implements inservice training activities that help individuals to identify future career options and improve skills necessary to achieve them." />
+    <value name="STATISTICIAN" value="0355" desc="Statistician—Plans surveys and collects, summarizes, and interprets numerical data, applying statistical theory and methods to provide usable information." />
+    <value name="STUDENT_PERSONNEL_OFFICER" value="0356" desc="Student personnel officer—Works with the family, school, and community to determine the cause of and provide solutions for students who are experiencing serious attendance, academic and/or discipline problems in order to promote positive educational development." />
+    <value name="TAX_ASSESSOR_COLLECTOR" value="0357" desc="Tax assessor/collector—Provides services in the assessment of real and personal property for tax computation purposes and in the collection of taxes for the school or system." />
+    <value name="TRANSITION_COORDINATOR" value="0358" desc="Transition coordinator—Provides services that: 1) strengthen and coordinate special programs and related services for individuals with special needs, including students with disabilities, who are currently in school or have recently left school and may benefit from assistance during the transition to postsecondary education, vocational training, competitive employment (including supported employment), continuing education or adult services; 2) stimulate the improvement and development of programs for secondary special education; and/or 3) stimulate the improvement of vocational and life skills to enable students with special needs to be better prepared for transition to adult life and services." />
+    <value name="TRANSLATOR" value="0359" desc="Translator—Expresses in another language systematically to retain the original sense, primarily of written works." />
+    <value name="VOLUNTEER_COORDINATOR" value="0360" desc="Volunteer coordinator—Oversees and coordinates the activity of individuals who enter into positions without the promise of compensation." />
+    <value name="WORK_STUDY_COORDINATOR" value="0361" desc="Work study coordinator—Plans and conducts special education work-study programs. He or she confers with school and community personnel to impart information about program and to coordinate program functions with related activities." />
+    <value name="WRITER_EDITOR" value="0362" desc="Writer/editor—Writes original prose materials and reviews manuscripts for distribution and/or publication." />
+    <value name="MEDIATOR_INTERVENTION_SPECIALI" value="0363" desc="Mediator/intervention specialist—Specializes in serving as a third party to help resolve disputes between individuals and/or organizations." />
+    <value name="PARAPROFESSIONALS" value="0400" desc="Paraprofessionals—Works alongside and assists professional individuals. " />
+    <value name="ASSISTANT_COUNSELOR" value="0401" desc="Assistant counselor—Assists students, parents, teachers, or other staff, under the supervision or direction of a counselor, by helping individuals make plans and decisions in relation to education, career, or personal development." />
+    <value name="BILINGUAL_AIDE" value="0402" desc="Bilingual aide—Assists in the instruction of students using more than one language for teaching content." />
+    <value name="BILINGUAL_SPECIAL_EDUCATION_AI" value="0403" desc="Bilingual special education aide—Assists in the instruction of students in a special education program using more than one language for teaching content" />
+    <value name="CAREER_AIDE" value="0404" desc="Career aide—Assists students in the process of choosing a profession or occupation." />
+    <value name="CHILD_CARE_GIVER" value="0405" desc="Child care giver—Assists in organizing and leading prekindergarten children in activities such as reading, drawing, and games." />
+    <value name="COMPUTER_AIDE" value="0406" desc="Computer aide—Assists and provides direction to computer users." />
+    <value name="EXTRA_CURRICULAR_ACTIVITY_AIDE" value="0407" desc="Extra-curricular activity aide—Supervises school-sponsored activities that are not related to curriculum (e.g., sports), including all direct and personal services that are planned for student enjoyment." />
+    <value name="FINANCIAL_AID_SPECIALIST" value="0408" desc="Financial aid specialist—Interviews students applying for financial aid, including loans, grants -in-aid, or scholarships, to determine eligibility for assistance. " />
+    <value name="MONITOR_PREFECT" value="0409" desc="Monitor/prefect—Monitors the conduct of students in classrooms, detention halls, lunch rooms, playground, hallways, and places where alternatives to classroom instruction are provided (e.g., test sites)." />
+    <value name="LIBRARY_AIDE" value="0410" desc="Library aide—Assists in the maintenance and operation of a library by aiding in the selection, ordering, cataloging, processing, and circulation of all media." />
+    <value name="MEDIA_CENTER_AIDE" value="0411" desc="Media center aide—Assists in the maintenance and operation of a media center by serving as a specialist in the organization and use of all teaching and learning resources, including hardware, content material and services." />
+    <value name="PSYCHOLOGIST_ASSISTANT" value="0412" desc="Psychologist assistant—Assists a psychologist with routine activities associated with providing psychological services." />
+    <value name="TEACHING_CLASSROOM_AIDE" value="0413" desc="Teaching/classroom aide—Assists a teacher with routine activities associated with teaching (i.e., those activities requiring minor decisions regarding students, such as conducting rote exercises, operating equipment, and clerking)." />
+    <value name="TEACHING_ASSISTANT" value="0414" desc="Teaching assistant—Performs the day-to-day activities of teaching students while under the supervision of a teacher. The teaching assistant does not make diagnostic or long-range evaluative decisions regarding students. This includes individuals who may or may not be certified but must have completed at least two years of formal education preparation for teaching or the equivalent in experience or training." />
+    <value name="TUTOR" value="0415" desc="Tutor—Provides academic instruction (e.g., in English, mathematics, and foreign language) to students requiring additional assistance outside of the classroom." />
+    <value name="TECHNICAL" value="0500" desc="Technical—Performs tasks requiring a combination of basic scientific knowledge and manual skills which can be obtained through approximately two years of postsecondary education such as that which is offered in community/junior colleges and technical institutes, or through equivalent special study and/or on-the-job training." />
+    <value name="AUDIOMETRIST" value="0501" desc="Audiometrist—Administers audiometric (hearing acuity) screening tests while under the direction and responsibility of an audiologist or physician." />
+    <value name="COMPUTER_TECHNICIAN" value="0502" desc="Computer technician—Installs and maintains computer hard- and software equipment." />
+    <value name="DRAFTER" value="0503" desc="Drafter—Drafts detailed drawings, such as writing diagrams, layout drawings, mechanical detail drawings, and drawings of intermediate and final assemblies, used to manufacture, assemble, install, and repair electronic components, printed circuit boards, and other equipment." />
+    <value name="ENGINEERING_AIDE" value="0504" desc="Engineering aide—Assists in planning and directing operations in a technical field." />
+    <value name="GRAPHIC_ARTIST" value="0505" desc="Graphic artist—Plans and arranges art layouts which illustrate programs or processes for publication, demonstration, and more effective communication." />
+    <value name="INSPECTOR" value="0506" desc="Inspector—Examines the condition of equipment and buildings as they relate to safety and health the condition of new construction as it relates to specifications and codes." />
+    <value name="LICENSED_PRACTICAL_NURSE" value="0507" desc="Licensed practical nurse—Performs auxiliary medical services, such as taking and recording temperature, pulse, and respiration rate, and giving medication under the direction and responsibility of a physician or a registered nurse." />
+    <value name="MEDIA_TECHNOLOGIST" value="0508" desc="Media technologist—Maintains and programs audio, video, and other media equipment." />
+    <value name="PHOTOGRAPHER" value="0509" desc="Photographer—Uses cameras and flashbulb equipment to photograph individuals and may take exposed film to a darkroom for processing and developing." />
+    <value name="PSYCHOMETRIST" value="0510" desc="Psychometrist—Measures the intellectual, social, and emotional development of individuals through the administration and interpretation of psychological tests. These activities are usually carried out under the direction or supervis ion of a psychologist or a related professional." />
+    <value name="PURCHASING_AGENT" value="0511" desc="Purchasing agent—Buys supplies, equipment, and materials used in the operation of an organization." />
+    <value name="SPEECH_LANGUAGE_TECHNICIAN" value="0512" desc="Speech language technician—Assis ts with the provision of speech and language services in collaboration with a speech pathologist." />
+    <value name="SUPERVISOR" value="0513" desc="Supervisor—Supervises the day-to-day operations of a group of skilled, semiskilled, or unskilled workers (e.g., warehouse or garage workers). Frequently called a foreman or crew leader." />
+    <value name="OFFICE_CLERICAL_ADMINISTRATIVE" value="0600" desc="Office/clerical/administrative support—Performs the activities of preparing, transferring, transcribing, systematizing, or preserving communications, records, and transactions." />
+    <value name="BOOKKEEPING_ACCOUNTING_AUDITIN" value="0601" desc="Bookkeeping/accounting/auditing clerk—Keeps a systematic record of accounts or transactions and prepares statements reflecting those activities." />
+    <value name="CASHIER" value="0602" desc="Cashier—Collects and records payments received for items purchased." />
+    <value name="COMPUTER_OPERATOR" value="0603" desc="Computer operator—Operates computer and peripheral equipment to process data by entering commands using a keyboard or computer terminal." />
+    <value name="DATA_ENTRY_CLERK" value="0604" desc="Data entry clerk—Enters information into a data processing format using data processing equipment." />
+    <value name="DISPATCHER" value="0605" desc="Dispatcher—Assigns vehicles and drivers to perform specific services and to record such information concerning vehicle movement as a school or system may require." />
+    <value name="DUPLICATING_PHOTOCOPYING_ASSIS" value="0606" desc="Duplicating/photocopying assistant—Operates duplicating machines to print typewritten or handwritten documents directly from a master copy." />
+    <value name="ELECTRICAL_AND_ELECTRONIC_REPA" value="0607" desc="Electrical and electronic repairers—Installs and repairs electric and electronics equipment." />
+    <value name="FILE_CLERK" value="0608" desc="File clerk—Classifies records in alphabetical or numerical order or according to subject matter or other system." />
+    <value name="GENERAL_OFFICE_CLERK" value="0609" desc="General office clerk—Performs such activities as preparing, transcribing, systematizing or preserving written communication and reports or operating mechanical equipment (e.g., computers, fax machines, typewriters, calculators, and word-processing equipment)." />
+    <value name="MAIL_CLERK" value="0610" desc="Mail clerk—Routes mail, prepares outgoing materials for mailing, and maintains internal written communication systems." />
+    <value name="MESSENGER" value="0611" desc="Messenger—Delivers messages, documents, packages, and other items to offices or departments within or outside of an organization." />
+    <value name="OFFICE_MANAGER" value="0612" desc="Office manager—Coordinates office services such as personnel, budget preparation and control, housekeeping, records control, and special management activities." />
+    <value name="RECEPTIONIST" value="0613" desc="Receptionist—Receives callers or visitors at the establishment, determine the nature of business, and directs callers or visitors to destinations." />
+    <value name="RECORDS_CLERK" value="0614" desc="Records clerk—Establishes and ma intains an adequate and efficient system for controlling records (e.g., registration, admission, attendance) of an organization." />
+    <value name="SECRETARY" value="0615" desc="Secretary—Schedules appointments, gives information to callers, takes dictation, and otherwise relieves officials of clerical work and minor administrative and business detail." />
+    <value name="STENOGRAPHER" value="0616" desc="Stenographer—Takes dictation of correspondence, reports, and other materials in shorthand and operates a typewriter, wordprocessor, or computer to transcribe the dictated material." />
+    <value name="STORES_SUPPLIES_HANDLER" value="0617" desc="Stores/supplies handler—Receives, stores, and dispenses supplies, materials, and equipment." />
+    <value name="SWITCHBOARD_PBX_OPERATOR" value="0618" desc="Switchboard/PBX operator—Operates a telephone switchboard and relays incoming, outgoing, and interoffice calls." />
+    <value name="TYPIST_AND_WORDPROCESSOR" value="0619" desc="Typist and wordprocessor—Operates a typewriter, computer or a wordprocessor to compile, type, revise, combine, edit, print, and/or store documents." />
+    <value name="CRAFTS_AND_TRADES" value="0700" desc="Crafts and trades—Performs tasks requiring high manual skill level which is acquired through on-the-job training and experience or through apprenticeship or other formal training programs. This assignment requires considerable judgement and a thorough and comprehensive knowledge of the processes involved in the work." />
+    <value name="BRICK_MASON" value="0701" desc="Brick mason—Works with brick and similar materials in the construction, erection, and reparation of structures and fixtures." />
+    <value name="CARPENTER" value="0702" desc="Carpenter—Constructs, erects, installs, and repairs wooden structures and fixtures." />
+    <value name="CEMENT_MASON" value="0703" desc="Cement mason—Works with cement and similar materials in the construction, erection, and reparation of structures and fixtures." />
+    <value name="ELECTRICIAN" value="0704" desc="Electrician—Plans, layouts, installs, and repairs wiring, electrical fixtures, apparatus, and control equipment." />
+    <value name="HVAC_MECHANIC" value="0705" desc="HVAC mechanic—Services heating units, ventilation systems and air conditioners in buildings." />
+    <value name="LOCKSMITH" value="0706" desc="Locksmith—Installs, repairs, rebuilds, and services mechanical or electrical locking devices using hand tools and specialized equipment." />
+    <value name="MAINTENANCE_REPAIRERS_GENERAL_" value="0707" desc="Maintenance repairers/general utility—Repairs and maintains buildings, machinery, electrical and mechanical equipment." />
+    <value name="PAINTER_AND_PAPERHANGER" value="0708" desc="Painter and paperhanger—Paints, varnishes, and stains or wallpaper the interior and/or exterior of buildings and fixtures." />
+    <value name="PLASTERER" value="0709" desc="Plasterer—Applies and repairs plaster in the interior and/or exterior of buildings." />
+    <value name="PLUMBER" value="0710" desc="Plumber—Assembles, installs, and repairs pipes, fittings, and fixtures of heating, water, and drainage systems." />
+    <value name="PRINTER" value="0711" desc="Printer—Makes copies by chemical or photographic means." />
+    <value name="VEHICLE_MECHANIC" value="0712" desc="Vehicle mechanic—Inspects, repairs, and maintains functional parts of mechanical equipment and machinery." />
+    <value name="OPERATIVE" value="0800" desc="Operative—Performs tasks requiring an intermediate level manual skills which can be mastered in a few weeks through limited training to operate machines. This includes bus drivers and vehicle operators." />
+    <value name="BUS_DRIVER" value="0801" desc="Bus driver—Drives a bus used in the service of a school or system." />
+    <value name="OTHER_VEHICLE_OPERATOR" value="0802" desc="Other vehicle operator—Drives a vehicle such as a truck or automobile used in the service of a school or system." />
+    <value name="LABORER" value="0900" desc="Laborer—Performs tasks requiring some manual skills which can be conducted with no special training. This includes individuals performing lifting, digging, mixing, loading, and pulling operations." />
+    <value name="CONSTRUCTION_LABORER" value="0901" desc="Construction laborer—Performs any combination of duties on construction projects, usually working in utility capacity, by transferring from one task to another. Duties include measuring distances from grade stakes, signaling operators of construction equipment, and mixing concrete." />
+    <value name="FREIGHT_STOCK_AND_MATERIALS_" value="0902" desc="Freight, stock, and materials handlers—Loads, unloads, and moves freight, stock, and other materials manually or with equipment that does not require technical skill to operate (e.g., wheel barrows, conveyor belts, etc)." />
+    <value name="GARBAGE_COLLECTOR" value="0903" desc="Garbage collector—Collects refuse in designated areas. May drive a truck and operate hoisting device that raises refuse bin into the opening of the truck body." />
+    <value name="GARDENER" value="0904" desc="Gardener—Works a plot of ground where herbs, fruits, flowers, or vegetables are cultivated." />
+    <value name="GROUNDSKEEPER" value="0905" desc="Groundskeeper—Maintains grounds that are owned, rented, or leased and used by a school or system. This does not include the operation of machinery requiring semi -skilled training or experience." />
+    <value name="GARAGE_PARKINGLOT_ATTENDANT" value="0906" desc="Garage/parking-lot attendant—Patrols and monitors parking areas to prevent thefts of and from parked automobiles and collects parking fees from drivers." />
+    <value name="VEHICLE_WASHER_EQUIPMENT_CLEAN" value="0907" desc="Vehicle washer/equipment cleaner—Washes vehicles and equipment with washing and rinsing solutions to remove debris. May manually dislodge debris from objects being washed and dry objects using a cloth or airhose." />
+    <value name="SERVICE_WORK" value="1000" desc="Service work—Performs tasks regardless of level of difficulty which relates to both protective and nonprotective supportive services." />
+    <value name="BUS_MONITOR_CROSSING_GUARD" value="1001" desc="Bus monitor/crossing guard—Helps keep order on buses or other school or system modes of transportation. This includes traffic guards for loading buses, crossing guards for monitoring pedestrian traffic." />
+    <value name="CHILD_CARE_WORKER" value="1002" desc="Child care worker—Assists in implementing child care activities, including custodial functions." />
+    <value name="COOK_FOOD_PREPARER" value="1003" desc="Cook/food preparer—Prepares and cooks foodstuffs in quantities according to menu and number of persons to be served." />
+    <value name="CUSTODIAN" value="1004" desc="Custodian—Performs plant housekeeping and servicing activities consisting of the cleaning; operation of the heating, ventilating, and air-conditioning systems; and the servicing of building equipment." />
+    <value name="DIETARY_TECHNICIAN" value="1005" desc="Dietary technician—Advises and assists personnel in public and private establishments in food services systems by making recommendations for foods that will constitute nutritionally adequate meals." />
+    <value name="ELEVATOR_OPERATOR" value="1006" desc="Elevator operator—Transports passengers and freight between floors of a building via an elevator." />
+    <value name="FACILITIES_MAINTENANCE_WORKER" value="1007" desc="Facilities maintenance worker—Inspects buildings and office areas to evaluate suitability for occupancy considering such factors as air circulation, lighting, location, and size." />
+    <value name="FOOD_SERVER" value="1008" desc="Food server—Serves sandwiches, salads, beverages, desserts and other kinds of food. May order items to replace stocks and collect money for purchases." />
+    <value name="POLICE_OFFICER" value="1009" desc="Police officer—Maintains order, enforces the law, prevents and investigates crime in a school building and its surrounding areas." />
+    <value name="RESIDENT_DORMITORY_SUPERVISOR" value="1010" desc="Resident/dormitory supervisor—Supervises a dormitory or building in which students reside." />
+    <value name="SECURITY_GUARD" value="1011" desc="Security guard—Provides protection to individuals and safeguard the school facility." />
+    <value name="EXTENDED_DAY-CARE_PROVIDER" value="1012" desc="Extended day-care provider—Provides professional day-care services, whether at home or in a center, and who has satisfied any state requirement regarding those services." />
+    <value name="OTHER" value="9999" desc="Other" />
+  </enum>
+  <!--LEAInfoRefId object-->
+  <object name="LEAInfoRefId" datatype="IdRefType" />
+  <!--LocationInfo object-->
+  <object name="LocationInfo" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>The SIF unique identifier for the location.</desc>
+    </attribute>
+    <attribute name="LocationType" enum="LocationInfoType" flags="R">
+      <desc>Defines whether the location is a school or a non-school location.</desc>
+    </attribute>
+    <element name="SiteCategory" type="NormalizedString" flags="M">
+      <desc>Specific site category.</desc>
+    </element>
+    <element name="Name" type="NormalizedString" flags="M">
+      <desc>Text name of the location</desc>
+    </element>
+    <element name="Description" type="String" flags="O">
+      <desc>Description about the location.</desc>
+    </element>
+    <element name="LocalId" type="NormalizedString" flags="M">
+      <desc>The locally-assigned identifier for this location.</desc>
+    </element>
+    <element name="IdentificationInfoList" type="IdentificationInfoList" flags="O" />
+    <element name="StateProvinceId" type="String" flags="O">
+      <desc>The state-assigned identifier for this location.</desc>
+    </element>
+    <element name="NCESId" type="NormalizedString" flags="O" />
+    <element name="LEAInfoRefId" type="IdRefType" flags="O">
+      <desc>The ID (GUID) that identifies the district.</desc>
+    </element>
+    <element name="OtherLEAs" type="OtherLEAs" flags="O">
+      <desc>Other related education agency, such as a regional service agency.</desc>
+    </element>
+    <element name="ParentLocationInfo" type="ParentLocationInfo" flags="O" />
+    <element name="SchoolInfoRefId" type="IdRefType" flags="O" />
+    <element name="AddressList" type="AddressList" flags="O">
+      <desc>This element has the LocationInfo address information.</desc>
+    </element>
+    <element name="PhoneNumberList" type="PhoneNumberList" flags="O">
+      <desc>The location's phone numbers.</desc>
+    </element>
+  </object>
+  <!--LocationInfoType enum-->
+  <enum name="LocationInfoType">
+    <value name="SCHOOL" value="School" desc="School" />
+    <value name="NONSCHOOL" value="NonSchool" desc="NonSchool" />
+  </enum>
+  <!--MaritalStatusRate enum-->
+  <enum name="MaritalStatusRate">
+    <value name="MARRIED" value="Married" desc="Married" />
+    <value name="SINGLE" value="Single" desc="Single" />
+    <value name="MARRIEDSINGLERATE" value="MarriedSingleRate" desc="MarriedSingleRate" />
+  </enum>
+  <!--OtherLEAs object-->
+  <object name="OtherLEAs">
+    <element name="LEAInfoRefId" type="LEAInfoRefId" flags="OR">
+      <desc>The ID (GUID) of an other related education agency, such as a regional service agency.</desc>
+    </element>
+  </object>
+  <!--ParentLocationInfo object-->
+  <object name="ParentLocationInfo" datatype="IdRefType">
+    <desc>A LocationInfo instance could be related to another LocationInfo.  This element will help create that relation.</desc>
+    <attribute name="SIF_RefObject" flags="R">
+      <desc>The name of the object referenced.</desc>
+    </attribute>
+  </object>
+  <!--Payment object-->
+  <object name="Payment" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID for this transaction. The application that owns this object is responsible for generating this unique ID.</desc>
+    </attribute>
+    <attribute name="BillingRefId" type="IdRefType" flags="M">
+      <desc>A pointer back to the Billing object.</desc>
+    </attribute>
+    <element name="ReceivedDate" type="Date" flags="M">
+      <desc>Date payment was received.</desc>
+    </element>
+    <element name="ReceivedAmount" type="MonetaryAmount" flags="M">
+      <desc>Amount received.</desc>
+    </element>
+    <element name="ReceivedTransactionId" type="NormalizedString" flags="M">
+      <desc>Memo transaction ID from other vendor software.</desc>
+    </element>
+    <element name="TransactionDescription" type="String" flags="O">
+      <desc>Description of the transaction.</desc>
+    </element>
+  </object>
+  <!--PayRate object-->
+  <object name="PayRate">
+    <desc>Per pay distributions</desc>
+    <attribute name="Type" enum="PayRateType" flags="R">
+      <desc>Type of pay</desc>
+    </attribute>
+    <element name="Amount" type="MonetaryAmount" flags="M">
+      <desc>Pay amount.</desc>
+    </element>
+    <element name="Percentage" type="Decimal" flags="M">
+      <desc>Percentage of pay this represents.</desc>
+    </element>
+  </object>
+  <!--PayRates object-->
+  <object name="PayRates">
+    <element name="PayRate" type="PayRate" flags="OR" />
+  </object>
+  <!--PayRateType enum-->
+  <enum name="PayRateType">
+    <value name="PER_PAY" value="P" desc="Per pay" />
+    <value name="HOURLY" value="H" desc="Hourly" />
+    <value name="PER_DIEM" value="D" desc="Per diem" />
+    <value name="EXTRA" value="X" desc="Extra pay" />
+  </enum>
+  <!--Period object-->
+  <object name="Period">
+    <element name="StartDate" type="Date" flags="O">
+      <desc>Start date.</desc>
+    </element>
+    <element name="EndDate" type="Date" flags="O">
+      <desc>End date.</desc>
+    </element>
+  </object>
+  <!--Purchasing object-->
+  <object name="Purchasing" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>Transaction GUID for this purchasing activity. The application that owns this object and is responsible for generating this unique ID.</desc>
+    </attribute>
+    <element name="FormType" enum="FormType" flags="M">
+      <desc>Type of purchasing document.</desc>
+    </element>
+    <element name="FormNumber" type="NormalizedString" flags="O">
+      <desc>Requisition or PO number.</desc>
+    </element>
+    <element name="FiscalYearRefId" type="IdRefType" flags="O">
+      <desc>Reference to fiscal year for the transaction.</desc>
+    </element>
+    <element name="VendorInfoRefId" type="IdRefType" flags="O">
+      <desc>This object references the VendorInfo object and should be considered manditory when FormType="PO"</desc>
+    </element>
+    <element name="LocationInfoRefId" type="IdRefType" flags="O">
+      <desc>The building ID for this purchasing activity.</desc>
+    </element>
+    <element name="EmployeePersonalRefId" type="IdRefType" flags="O">
+      <desc>The employee ID for the originator of this purchasing activity.</desc>
+    </element>
+    <element name="PurchasingItems" type="PurchasingItems" flags="M" />
+  </object>
+  <!--PurchasingItem object-->
+  <object name="PurchasingItem">
+    <element name="ItemNumber" type="NormalizedString" flags="O">
+      <desc>Vendor item number.</desc>
+    </element>
+    <element name="ItemDescription" type="String" flags="M">
+      <desc>Description of the item.</desc>
+    </element>
+    <element name="Quantity" type="NormalizedString" flags="O">
+      <desc>Quantity ordered.</desc>
+    </element>
+    <element name="UnitCost" type="MonetaryAmount" flags="O">
+      <desc>Unit cost of the item.</desc>
+    </element>
+    <element name="ExpenseAccounts" type="ExpenseAccounts" flags="O" />
+  </object>
+  <!--PurchasingItems object-->
+  <object name="PurchasingItems">
+    <element name="PurchasingItem" type="PurchasingItem" flags="OR" />
+  </object>
+  <!--SpecialAmountType enum-->
+  <enum name="SpecialAmountType">
+    <value name="SPECIAL_ID" value="1" desc="Special Education" />
+    <value name="TRANSPORTATION" value="2" desc="Transportation" />
+    <value name="EARLY_INTERVENTION" value="3" desc="Early Intervention" />
+    <value name="INSTITUTIONALIZED" value="4" desc="Institutionalized Children" />
+    <value name="OTHER" value="5" desc="Other" />
+  </enum>
+  <!--TimeWorked object-->
+  <object name="TimeWorked" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>GUID for this object. The application that owns this object is responsible for generating this unique ID.</desc>
+    </attribute>
+    <element name="EmployeePersonalRefId" type="Token" flags="M">
+      <desc>References associated EmployeePersonal object.</desc>
+    </element>
+    <element name="LocationInfoRefId" type="IdRefType" flags="M">
+      <desc>Site where employee actually worked.  References LocationInfo object.</desc>
+    </element>
+    <element name="JobFunction" type="JobFunction" flags="O">
+      <desc>The purpose of the activities as related to students.</desc>
+    </element>
+    <element name="RegularHours" type="Decimal" flags="O">
+      <desc>Regular hours worked.  Enter 0 if no hours worked.</desc>
+    </element>
+    <element name="OvertimeHours" type="Decimal" flags="O">
+      <desc>Overtime hours worked.  Enter 0 if no overtime hours worked.</desc>
+    </element>
+    <element name="PayPeriod" type="NormalizedString" flags="M">
+      <desc>Pay period hours were worked in.</desc>
+    </element>
+  </object>
+  <!--VendorInfo object-->
+  <object name="VendorInfo" topic="true">
+    <attribute name="RefId" type="IdRefType" flags="R">
+      <desc>Vendor ID.</desc>
+    </attribute>
+    <element name="Name" type="NormalizedString" flags="M">
+      <desc>Name of the vendor.</desc>
+    </element>
+    <element name="ContactInfo" type="ContactInfo" flags="O">
+      <desc>Contact information.</desc>
+    </element>
+    <element name="CustomerId" type="NormalizedString" flags="O">
+      <desc>Account number or other ID.</desc>
+    </element>
+    <element name="EmployeePersonalRefId" type="IdRefType" flags="O">
+      <desc>
+        When the vendor and employee are the same, it may be appropriate to link the EmployeePersonal records to
+        the VendorInfo when tracking expense and tuition reimbursement.  This is the GUID of the associated EmployeePersonal object.
+      </desc>
+    </element>
+    <element name="Send1099" type="Boolean" flags="O">
+      <desc>Send 1099 to this vendor.</desc>
+    </element>
+    <element name="FederalTaxId" type="FederalTaxId" flags="O">
+      <desc>Taxpayer identification number/Federal tax ID for this vendor.</desc>
+    </element>
+  </object>
+  <!--W4 object-->
+  <object name="W4" topic="true">
+    <attribute name="EmployeePersonalRefId" type="IdRefType" flags="R">
+      <desc>This is the GUID that points to the employee represented in the EmployeePersonal object.</desc>
+    </attribute>
+    <element name="W4Date" type="Date" flags="M">
+      <desc>Date W4 was completed.</desc>
+    </element>
+    <element name="MaritalStatusRate" enum="MaritalStatusRate" flags="M">
+      <desc>This denotes the current martial status of the employee</desc>
+    </element>
+    <element name="FederalAllowancesNumber" type="UnsignedInt" flags="M">
+      <desc>Number of federal allowances.</desc>
+    </element>
+    <element name="StateAllowancesNumber" type="UnsignedInt" flags="O">
+      <desc>Number of state allowances.</desc>
+    </element>
+    <element name="StateProvince" enum="StatePrCode" flags="M">
+      <desc>State of residence.</desc>
+    </element>
+    <element name="Exempt" type="Boolean" flags="M">
+      <desc>Is this employee exempt from federal and state exemptions?</desc>
+    </element>
+  </object>
+</adk>
