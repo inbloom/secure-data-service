@@ -22,7 +22,7 @@ Feature: Reset and Change Password
     And I fill out the input field "user_id" as "developer-email@slidev.org"
     Then I click on "submit"
     Then I am redirected to the Reset Password page
-    Then I check for message  "Your password reset instructions are sent to your email. Please follow the instructions in the email" 
+    Then I check for message  "Password reset instructions have been emailed to you. Please follow the instructions in the email." 
     When I visit the link sent to "developer-email@slidev.org"
     Then I am redirected to the Reset Password page
     And I fill out the input field "Forgot_password_New_Pass" as "testpswd123"
