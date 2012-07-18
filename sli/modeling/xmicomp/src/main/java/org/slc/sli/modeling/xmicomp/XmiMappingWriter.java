@@ -79,6 +79,16 @@ public class XmiMappingWriter {
         }
     }
     
+    private static final void writeTracking(final String tracking, final XMLStreamWriter xsw) throws XMLStreamException {
+        xsw.writeStartElement(XmiMappingConstants.TRACKING.getNamespaceURI(),
+                XmiMappingConstants.TRACKING.getLocalPart());
+        try {
+            xsw.writeCharacters(tracking);
+        } finally {
+            xsw.writeEndElement();
+        }
+    }
+    
     private static final void writeReference(final XmiDefinition ref, final QName elementName, final XMLStreamWriter xsw)
             throws XMLStreamException {
         xsw.writeStartElement(elementName.getNamespaceURI(), elementName.getLocalPart());
@@ -160,6 +170,7 @@ public class XmiMappingWriter {
                 xsw.writeEmptyElement(XmiMappingConstants.RHS_MISSING.getLocalPart());
             }
             writeStatus(mapping.getStatus(), xsw);
+            writeTracking(mapping.getTracking(), xsw);
             writeComment(mapping.getComment(), xsw);
         } finally {
             xsw.writeEndElement();
