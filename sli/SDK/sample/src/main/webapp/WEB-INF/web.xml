@@ -38,7 +38,18 @@
 		<servlet-name>TestSDK</servlet-name>
 		<url-pattern>/testsdk</url-pattern>
 	</servlet-mapping>
+	
+    <servlet>
+        <display-name>Test REST Servlets</display-name>
+        <servlet-name>TestREST</servlet-name>
+        <servlet-class>org.slc.sli.sample.oauth.TestRESTClientServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
 
+    <servlet-mapping>
+        <servlet-name>TestREST</servlet-name>
+        <url-pattern>/testrest</url-pattern>
+    </servlet-mapping>
 	<servlet>
 		<display-name>Cohort Servlets</display-name>
 		<servlet-name>Cohorts</servlet-name>
