@@ -135,6 +135,7 @@ public class UserService {
 
         User user = getUser(realm, userId);
         user.roles = getUserGroups(realm, userId);
+        
         return user;
     }
 
@@ -153,6 +154,15 @@ public class UserService {
         User user = (User) ldapTemplate.searchForObject(dn, filter.toString(), new PersonContextMapper());
         user.userId = userId;
         return user;
+    }
+    
+    public void updateUser(String realm, User user, String newPass){
+    	LOG.info("Update User with Fake Password");
+    	user.attributes.put("Password", newPass);
+    	//DirContextAdapter context = new DirContextAdapter(buildUserDN(realm, user));
+    	DirContextAdapter context = (DirContextAdapter) ldapTemplate.lookupContext(buildUserDN(realm, user.getAttributes().get("uid")));
+    	mapUserToContext(context, user, newPass);
+    	ldapTemplate.modifyAttributes(context);
     }
 
     /**
@@ -173,6 +183,38 @@ public class UserService {
         return groups;
     }
 
+    private DistinguishedName buildUserDN(String realm, String uid) {
+    	DistinguishedName dn = new DistinguishedName("cn=" + uid + ",ou=people,ou=" + realm);
+    	return dn;
+    }
+    
+    private void mapUserToContext(DirContextAdapter context, User user, String newPass) {
+         context.setAttributeValues("objectclass", new String[] { "inetOrgPerson", "posixAccount", "top" });
+         context.setAttributeValue("givenName", user.getAttributes().get("givenName"));
+         context.setAttributeValue("sn", user.getAttributes().get("sn"));
+         context.setAttributeValue("uid", user.getAttributes().get("uid"));
+         context.setAttributeValue("uidNumber", user.getAttributes().get("uidNumber"));
+         context.setAttributeValue("gidNumber", user.getAttributes().get("gidNumber"));
+         context.setAttributeValue("cn", user.getAttributes().get("userName"));
+         //context.setAttributeValue("mail", user.getAttributes().get("mail"));
+         context.setAttributeValue("homeDirectory", user.getAttributes().get("homeDirectory"));
+         
+         context.setAttributeValue("displayName", "sunsetAdmin");
+         context.setAttributeValue("userPassword", newPass);
+         
+         String description = "";
+         if (user.getAttributes().get("tenant") != null) {
+             description += "tenant=" + user.getAttributes().get("tenant");
+         }
+         if (user.getAttributes().get("edOrg") != null) {
+             description += ",edOrg=" + user.getAttributes().get("edOrg");
+         }
+         if(!"".equals(description)) {
+             context.setAttributeValue("description", "tenant=" + user.getAttributes().get("tenant") + "," + "edOrg=" + user.getAttributes().get("edOrg"));
+         }
+ 
+     }
+
     /**
      * LDAPTemplate mapper for getting attributes from the person context. Retrieves cn and
      * description, parsing the value of description by line and then by key=value.
@@ -188,6 +230,16 @@ public class UserService {
             Map<String, String> attributes = new HashMap<String, String>();
  
             attributes.put("userName", context.getStringAttribute("cn"));
+            attributes.put("givenName", context.getStringAttribute("givenName"));
+            attributes.put("sn", context.getStringAttribute("sn"));
+            attributes.put("uid", context.getStringAttribute("cn"));
+            
+            attributes.put("uidNumber", context.getStringAttribute("uidNumber"));
+            attributes.put("gidNumber", context.getStringAttribute("gidNumber"));
+
+            
+            //attributes.put("mail", context.getStringAttribute("mail"));
+            attributes.put("homeDirectory", context.getStringAttribute("homeDirectory"));
             
             String emailToken = context.getStringAttribute("displayName");
             if(emailToken==null) emailToken = "";

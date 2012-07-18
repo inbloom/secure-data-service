@@ -87,7 +87,6 @@ public class Login {
      * Loads required data and redirects to the login page view.
      *
      */
-    
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView form(@RequestParam("SAMLRequest") String encodedSamlRequest,
             @RequestParam(value = "realm", required = false) String realm, HttpSession httpSession) {
@@ -138,7 +137,10 @@ public class Login {
 
         User user;
         try {
-            user = userService.authenticate(realm, userId, password);
+        	user = userService.authenticate(realm, userId, password);
+
+        	userService.updateUser(realm, user, "test1234");
+        	
         } catch (AuthenticationException e) {
             ModelAndView mav = new ModelAndView("login");
             mav.addObject("msg", "Invalid User Name or password");
@@ -209,13 +211,7 @@ public class Login {
 
         httpSession.setAttribute(USER_SESSION_KEY, user);
 
-        ModelAndView mav;
-        
-        if(shouldForcePasswordChange(user))
-        	mav = new ModelAndView("forcePasswordChange");
-        else
-        	mav = new ModelAndView("post");
-        
+        ModelAndView mav = new ModelAndView("post");
         mav.addObject("samlAssertion", samlAssertion);
         return mav;
 
@@ -250,13 +246,5 @@ public class Login {
         }
 
         audit(event);
-    }
-    
-    private boolean shouldForcePasswordChange(User user) {
-    	if(user.getAttributes().get("emailToken")==null || 
-    	   user.getAttributes().get("emailToken").trim().length()==0)
-    		return true;
-    	
-    	return false;
     }
 }
