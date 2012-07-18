@@ -23,20 +23,21 @@ require "benchmark"
 require "set"
 require 'date'
 require 'logger'
+require 'thread'
 
 class SLCFixer
   attr_accessor :count, :db, :log, :parent_ed_org_hash
   def initialize(db, logger = nil)
+    @mutex = Mutex.new
     @db = db
     @students = @db['student']
     @student_hash = {}
     @count = 0
     @basic_options = {:timeout => false, :batch_size => 100}
     @log = logger || Logger.new(STDOUT)
+    @log.level = Logger::INFO if logger.nil?
     @parent_ed_org_hash = {}
     @tenant_to_ed_orgs = {}
-    @cache = Set.new
-    @stamping = []
   end
 
   def start
@@ -67,8 +68,9 @@ class SLCFixer
   end
 
   def fix
-    @stamping.clear
-    @cache.clear
+    @log.info "Clearing out caches"
+    Thread.current[:stamping] = []
+    Thread.current[:cache] = Set.new
     yield
   end
 
@@ -86,6 +88,7 @@ class SLCFixer
         edorgs = edorgs.flatten.uniq.sort
         stamp_id(@db['studentSchoolAssociation'], student['_id'], student['body']['schoolId'], student['metaData']['tenantId'])
         @student_hash[student['body']['studentId']] = edorgs
+        @log.info "STAMPING STUDEN ##{student['body']['studentId']} with #{edorgs.to_s}"
         stamp_id(@students, student['body']['studentId'], edorgs, student['metaData']['tenantId'])
       end
     end
@@ -392,12 +395,12 @@ class SLCFixer
         edorg << old_edorgs(@db['studentTranscriptAssociation'], trans['_id'])
         edorg << student_edorgs(trans['body']['studentId'])
         @log.info "Iterating studentAcademicRecord with query: {'_id': #{trans['body']['studentAcademicRecordId']}}"
-        @db['studentAcademicRecord'].find({"_id" => trans['body']['studentAcademicRecordId']}, @basic_options) do |scur|
-          scur.each do |sar|
-            studentId = sar['body']['studentId']
-            edorg << student_edorgs(studentId)
-          end
-        end
+        #@db['studentAcademicRecord'].find({"_id" => trans['body']['studentAcademicRecordId']}, @basic_options) do |scur|
+        #  scur.each do |sar|
+        #    studentId = sar['body']['studentId']
+        #    edorg << student_edorgs(studentId)
+        #  end
+        #end
         edorg = edorg.flatten.uniq
         stamp_id(@db['studentTranscriptAssociation'], trans['_id'], edorg, trans['metaData']['tenantId'])
       end
@@ -433,7 +436,8 @@ class SLCFixer
 
   private
   def set_stamps(collection)
-    @stamping.push collection.name
+    @log.info "Adding #{collection.name} to the list of things we're stamping"
+    Thread.current[:stamping].push collection.name
   #  @log.info "Clearing edorg stamps on #{collection.name}"
   #  collection.find({"metaData.edOrgs" => {"$exists" => true}}, @basic_options) do |cur|
   #    cur.each do |doc|
@@ -477,10 +481,11 @@ class SLCFixer
         id.each do |array_id|
           collection.update({"_id" => array_id, 'metaData.tenantId' => tenantid}, {"$unset" => {"padding" => 1}, "$set" => {"metaData.edOrgs" => edOrgs}}) unless tenantid.nil?
         end
+        Thread.current[:cache].merge id 
       else
         collection.update({"_id" => id, 'metaData.tenantId' => tenantid}, {"$unset" => {"padding" => 1}, "$set" => {"metaData.edOrgs" => edOrgs}}) unless tenantid.nil?
+        @log.info "ADDING #{id} to the cache"; Thread.current[:cache].add id 
       end
-      @cache.add id
     rescue Exception => e
       @log.error "Writing to #{collection.name}##{id} - #{e.message}"
       @log.error "Writing to #{collection.name}##{id} - #{e.backtrace}"
@@ -507,7 +512,10 @@ class SLCFixer
     #
     # If we are asking for old edorgs within that set, we refuse
     # to give it unless we have already started stamping it.
-    nil if @stamping.include? collection and !@cache.include? id
+    if Thread.current[:stamping].include? collection.name and !Thread.current[:cache].include? id
+      @log.info "We aren't stamping #{collection.name}##{id} because of additive concerns"
+      return []
+    end
     if id.is_a? Array
       doc = collection.find({"_id" => {'$in' => id}})
     else

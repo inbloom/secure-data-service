@@ -143,10 +143,10 @@ end
 private
 def check_associated_data(arg1, response)
   @format = "application/vnd.slc+json"
-  ["studentTranscriptAssociations", "studentAcademicRecords", "attendances", "studentAssessments", "reportCards", "studentDisciplineIncidentAssociations", "studentParentAssociations"].each do |endpoint|
+  ["courseTranscripts", "studentAcademicRecords", "attendances", "studentAssessments", "reportCards", "studentDisciplineIncidentAssociations", "studentParentAssociations"].each do |endpoint|
     restHttpGet("/v1/#{endpoint}?studentId=#{arg1}")
     assert(@res != nil, "Response from rest-client GET is nil")
-    assert(@res.code == response, "Get on endpoint #{endpoint}, expected code: 200 but actual code was #{@res.code}")
+    assert(@res.code == response, "Get on endpoint #{endpoint}, expected code: #{response} but actual code was #{@res.code}")
     data = JSON.parse(@res.body) unless response == 403
     assert(data.count == 1, "Expected to only see one #{endpoint} but saw #{data.count}") unless response == 403
   end
