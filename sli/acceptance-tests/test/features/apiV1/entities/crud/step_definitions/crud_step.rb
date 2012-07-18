@@ -127,7 +127,7 @@ $entityData = {
       "credit" => 1.0
     },
     "careerPathway" => "Hospitality and Tourism",
-    "schoolId" => "bd086bae-ee82-4cf2-baf9-221a9407ea07"
+    "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
   },
   "courseOffering" => { 
     "schoolId" => "67ce204b-9999-4a11-aaab-000000000008", 
@@ -144,10 +144,10 @@ $entityData = {
         {"description" => "Long disciplinary Action 3"}
     ]],
     "disciplineDate" => "2012-01-28",
-    "disciplineIncidentId" => ["0e26de79-22ea-5d67-9201-5113ad50a03b"],
-    "studentId" => ["1563ec1d-924d-4c02-8099-3a0e314ef1d4"],
-    "responsibilitySchoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
-    "assignmentSchoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
+    "disciplineIncidentId" => ["0e26de79-7efa-5e67-9201-5113ad50a03b"],
+    "studentId" => ["61161008-2560-480d-aadf-4b0264dc2ae3"],
+    "responsibilitySchoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
+    "assignmentSchoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
   },
   "disciplineIncident" => {
     "incidentIdentifier" => "Incident ID XXX",
@@ -158,7 +158,7 @@ $entityData = {
         {"shortDescription" => "Behavior 012 description"},
         {"codeValue" => "BEHAVIOR 012"}
     ]],
-    "schoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"
+    "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
   },
   "educationOrganization" => {
     "organizationCategories" => ["State Education Agency"],
@@ -205,9 +205,9 @@ $entityData = {
     "educationalEnvironment" => "Off-school center",
     "mediumOfInstruction" => "Independent study",
     "populationServed" => "Regular Students",
-    "schoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb",
-    "sessionId" => "fb0ac9e8-9e4e-48a0-95d2-ae07ee15ee92",
-    "courseOfferingId" => "71e04e2f-c9c0-4f94-b0b6-4a107630ab6a",
+    "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
+    "sessionId" => "0410354d-dbcb-0214-250a-404401060c93",
+    "courseOfferingId" => "00291269-33e0-415e-a0a4-833f0ef38189",
     "assessmentReferences" => ["29f044bd-1449-4fb7-8e9a-5e2cf9ad252a"]
   },
   "session" => {
@@ -217,7 +217,7 @@ $entityData = {
     "beginDate" => "2012-01-01",
     "endDate" => "2012-06-31",
     "totalInstructionalDays" => 80,
-    "gradingPeriodReference" => ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130", "ef72b883-90fa-40fa-afc2-4cb1ae17623b"],
+    "gradingPeriodReference" => ["ef72b883-90fa-40fa-afc2-4cb1ae17623b"],
   },
   "staff" => {
     "staffUniqueStateId" => "EMPLOYEE123456789",

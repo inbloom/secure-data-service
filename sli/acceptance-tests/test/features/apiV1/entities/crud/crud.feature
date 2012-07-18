@@ -6,8 +6,9 @@ and verify that the correct links are made available.
 Background: Nothing yet
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
       And format "application/vnd.slc+json"
-@wip
-    Scenario Outline: CRUD operations on an entity
+
+
+	    Scenario Outline: CRUD operations on an entity
        Given entity URI <Entity Resource URI>
         # Create
        Given a valid entity json document for a <Entity Type>
@@ -57,8 +58,9 @@ Examples:
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
-@wip
-    Scenario Outline: CRUD operations on invalid entities
+ 
+ 
+	    Scenario Outline: CRUD operations on invalid entities
     Given entity URI <Entity Resource URI>
     #Read invalid
      When I navigate to GET "/<ENTITY URI>/<INVALID REFERENCE>"
@@ -98,8 +100,9 @@ Examples:
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
 #| "gradingPeriod"                | "gradingPeriods"          | "endDate"                | "2015-10-15"                                 |
 | "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
-@wip
-    Scenario Outline: Get All Entities
+
+
+	    Scenario Outline: Get All Entities
     Given entity URI <Entity Resource URI>
     Given parameter "limit" is "0"
      When I navigate to GET "/<ENTITY URI>"
