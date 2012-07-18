@@ -79,8 +79,8 @@ $entityData = {
     }]
   },
   "studentAcademicRecord" => {
-    "studentId" => "1563ec1d-924d-4c02-8099-3a0e314ef1d4", 
-    "sessionId" => "c549e272-9a7b-4c02-aff7-b105ed76c904"
+    "studentId" => "61161008-2560-480d-aadf-4b0264dc2ae3",
+    "sessionId" => "0410354d-dbcb-0214-250a-404401060c93"
   },
   "student" => {
     "birthData" => {
@@ -175,7 +175,7 @@ $entityData = {
   "gradebookEntry" => {
     "gradebookEntryType" => "Quiz", 
     "dateAssigned" => "2012-02-14", 
-    "sectionId" => "7295e51e-cd51-4901-ae67-fa33966478c7"
+    "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda"
   },
   "learningObjective" => {
     "academicSubject" => "Mathematics",
@@ -231,12 +231,12 @@ $entityData = {
     }
   },
   "studentGradebookEntry" => { 
-    "gradebookEntryId" => "20120613-56b6-4d17-847b-2997b7227686", 
-    "letterGradeEarned" => "A", 
-    "sectionId" => "7b052b82-66f8-424b-8882-5313d11a8a5d", 
-    "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085", 
-    "numericGradeEarned" => 98, 
-    "dateFulfilled" => "2012-01-31", 
+    "gradebookEntryId" => "20120613-56b6-4d17-847b-2997b7227686",
+    "letterGradeEarned" => "A",
+    "sectionId" => "1d345e41-f1c7-41b2-9cc4-9898c82faeda",
+    "studentId" => "2fab099f-47d5-4099-addf-69120db3b53b",
+    "numericGradeEarned" => 98,
+    "dateFulfilled" => "2012-01-31",
     "diagnosticStatement" => "Finished the quiz in 5 minutes" 
   },
   "assessment" => {
