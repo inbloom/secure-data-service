@@ -17,6 +17,7 @@
 
 package org.slc.sli.sandbox.idp.controller;
 
+import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Collections;
@@ -154,8 +155,16 @@ public class Login {
             	Date date = new Date();
             	Timestamp ts = new Timestamp(date.getTime());
             	
+            	SecureRandom sRandom = new SecureRandom();
+            	byte bytes[] = new byte[20];
+            	sRandom.nextBytes(bytes);
+            	
+            	StringBuilder sb = new StringBuilder();
+            	for( byte bt : bytes ){ sb.append((char)bt); }
+            	
+            	String token = sb.toString() + user.getAttributes().get("mail");
+            	
             	PasswordEncoder pe = new Md5PasswordEncoder();
-            	String token = Math.random() + user.getAttributes().get("mail");
             	String hashedToken = pe.encodePassword(token, null);
             	
             	String resetKey = hashedToken +"@"+ts.getTime()/1000;
