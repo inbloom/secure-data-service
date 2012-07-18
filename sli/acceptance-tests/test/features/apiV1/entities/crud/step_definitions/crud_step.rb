@@ -230,7 +230,7 @@ $entityData = {
       "lastSurname" => "Students"
     }
   },
-  "studentSectionGradebookEntry" => { 
+  "studentGradebookEntry" => { 
     "gradebookEntryId" => "20120613-56b6-4d17-847b-2997b7227686", 
     "letterGradeEarned" => "A", 
     "sectionId" => "7b052b82-66f8-424b-8882-5313d11a8a5d", 

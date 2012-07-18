@@ -17,22 +17,24 @@
 
 package org.slc.sli.api.resources.config;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
-import org.slc.sli.api.representation.EntityBody;
-import org.springframework.stereotype.Component;
-
-import javax.xml.namespace.QName;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamConstants;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.namespace.QName;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.representation.EntityBody;
 
 /**
  * Helper class to parse XML into EntityBody objects
@@ -75,8 +77,11 @@ public class StAXMsgBodyReader {
                 reader.next();
                 switch (reader.getEventType()) {
                     case XMLStreamConstants.START_ELEMENT : {
-                        if (body == null) body = readDocumentElement(reader);
-                        else throw new XMLStreamException("Reassignment to entity body");
+                        if (body == null) {
+                            body = readDocumentElement(reader);
+                        } else {
+                            throw new XMLStreamException("Reassignment to entity body");
+                        }
                     }
                     case XMLStreamConstants.END_DOCUMENT : {
                         return body;
@@ -142,7 +147,9 @@ public class StAXMsgBodyReader {
         final Object toAdd = memberDataPair.getLeft();
 
         // Duplicate key for a non list item
-        if (elements.containsKey(key) && !member) throw new XMLStreamException("Reassignment of key for non list member");
+        if (elements.containsKey(key) && !member) {
+            throw new XMLStreamException("Reassignment of key for non list member");
+        }
 
         if (member) {
             if (elements.containsKey(key)) { // We have already inserted this list
@@ -150,8 +157,9 @@ public class StAXMsgBodyReader {
             } else { // First time inserting to a list element
                 elements.put(key, new ArrayList<Object>(Arrays.asList(toAdd)));
             }
+        } else {
+            elements.put(key, toAdd);
         }
-        else elements.put(key, toAdd);
     }
 
     /**

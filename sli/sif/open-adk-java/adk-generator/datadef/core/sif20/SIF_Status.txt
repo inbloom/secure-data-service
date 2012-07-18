@@ -1,0 +1,14 @@
+	public String toString()
+	{
+		StringBuffer sb = new StringBuffer();
+
+		sb.append( getSIF_Code() );
+		SIF_Data data = getSIF_Data();
+		if( data != null ) {
+			sb.append( " (" );
+			sb.append( data.getTextValue() );
+			sb.append( ")" );
+		}
+
+		return sb.toString();
+	}

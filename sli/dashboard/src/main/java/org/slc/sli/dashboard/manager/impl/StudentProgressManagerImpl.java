@@ -382,7 +382,7 @@ public class StudentProgressManagerImpl implements StudentProgressManager {
             String studentId = student.getString(Constants.ATTR_ID);
 
             @SuppressWarnings("unchecked")
-            List<Map<String, Object>> studentGradebookEntries = (List<Map<String, Object>>) student.get(Constants.ATTR_STUDENT_SECTION_GRADEBOOK);
+            List<Map<String, Object>> studentGradebookEntries = (List<Map<String, Object>>) student.get(Constants.ATTR_STUDENT_GRADEBOOK_ENTRIES);
             if (studentGradebookEntries == null) {
                 continue;
             }

@@ -629,7 +629,7 @@
       <xs:sequence>
         <xs:element ref="gradebookEntry" minOccurs="0" maxOccurs="unbounded">
           <xs:annotation>
-            <xs:documentation>GradebookEntry This entity represents a teacher’s assignment, homework, or classroom assessment to be recorded in a gradebook. Associations: studentSectionGradebookEntry, section. This is similar to a studentSectionGradebookEntry, but this entity represents the assessment/evaluation, not the grade a student received. Limitations: None</xs:documentation>
+            <xs:documentation>GradebookEntry This entity represents a teacher’s assignment, homework, or classroom assessment to be recorded in a gradebook. Associations: studentGradebookEntry, section. This is similar to a studentGradebookEntry, but this entity represents the assessment/evaluation, not the grade a student received. Limitations: None</xs:documentation>
           </xs:annotation>
         </xs:element>
       </xs:sequence>
@@ -637,7 +637,7 @@
   </xs:element>
   <xs:element name="gradebookEntry" type="GradebookEntry">
     <xs:annotation>
-      <xs:documentation>GradebookEntry This entity represents a teacher’s assignment, homework, or classroom assessment to be recorded in a gradebook. Associations: studentSectionGradebookEntry, section. This is similar to a studentSectionGradebookEntry, but this entity represents the assessment/evaluation, not the grade a student received. Limitations: None</xs:documentation>
+      <xs:documentation>GradebookEntry This entity represents a teacher’s assignment, homework, or classroom assessment to be recorded in a gradebook. Associations: studentGradebookEntry, section. This is similar to a studentGradebookEntry, but this entity represents the assessment/evaluation, not the grade a student received. Limitations: None</xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="gradingPeriodList">
@@ -1536,20 +1536,20 @@
       <xs:documentation>This association indicates the course sections a student is assigned to.</xs:documentation>
     </xs:annotation>
   </xs:element>
-  <xs:element name="studentSectionGradebookEntryList">
+  <xs:element name="studentGradebookEntryList">
     <xs:complexType>
       <xs:sequence>
-        <xs:element ref="studentSectionGradebookEntry" minOccurs="0" maxOccurs="unbounded">
+        <xs:element ref="studentGradebookEntry" minOccurs="0" maxOccurs="unbounded">
           <xs:annotation>
-            <xs:documentation>StudentSectionGradebookEntry This entity holds a student’s grade or competency level for a GradeBookEntry. Associations: Student, Section, GradebookEntry</xs:documentation>
+            <xs:documentation>StudentGradebookEntry This entity holds a student’s grade or competency level for a GradeBookEntry. Associations: Student, Section, GradebookEntry</xs:documentation>
           </xs:annotation>
         </xs:element>
       </xs:sequence>
     </xs:complexType>
   </xs:element>
-  <xs:element name="studentSectionGradebookEntry" type="StudentSectionGradebookEntry">
+  <xs:element name="studentGradebookEntry" type="StudentGradebookEntry">
     <xs:annotation>
-      <xs:documentation>StudentSectionGradebookEntry This entity holds a student’s grade or competency level for a GradeBookEntry. Associations: Student, Section, GradebookEntry</xs:documentation>
+      <xs:documentation>StudentGradebookEntry This entity holds a student’s grade or competency level for a GradeBookEntry. Associations: Student, Section, GradebookEntry</xs:documentation>
     </xs:annotation>
   </xs:element>
   <xs:element name="studentSpecialEdProgramAssociationList">
@@ -6169,7 +6169,7 @@
           <xs:documentation>A description of the assignment, homework, or classroom assessment.</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="studentSectionGradebookEntries" type="StudentSectionGradebookEntry" minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="studentGradebookEntries" type="StudentGradebookEntry" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
       <xs:element name="section" type="Section">
@@ -7102,7 +7102,7 @@
           <xs:documentation>The amount of credit available to a student who successfully meets the objectives of the course. Available credits are measured in Carnegie units, A course meeting every day for one period of the school day over the span of a school year offers one Carnegie unit. See publication: U.S. Department of Education, NCES, 2007-341, Secondary School Course Classification System: School Codes for the Exchange of Data (SCED).</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="studentGradebookEntries" type="StudentSectionGradebookEntry" minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="studentGradebookEntries" type="StudentGradebookEntry" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
       <xs:element name="gradebookEntries" type="GradebookEntry" minOccurs="0" maxOccurs="unbounded">
@@ -7606,7 +7606,7 @@
           <xs:documentation>Current school</xs:documentation>
         </xs:annotation>
       </xs:element>
-      <xs:element name="sectionGradebookEntries" type="StudentSectionGradebookEntry" minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="sectionGradebookEntries" type="StudentGradebookEntry" minOccurs="0" maxOccurs="unbounded">
         <xs:annotation></xs:annotation>
       </xs:element>
       <xs:element name="restraintEvents" type="RestraintEvent" minOccurs="0" maxOccurs="unbounded">
@@ -8243,7 +8243,7 @@
       </xs:element>
     </xs:sequence>
   </xs:complexType>
-  <xs:complexType name="StudentSectionGradebookEntry">
+  <xs:complexType name="StudentGradebookEntry">
     <xs:sequence>
       <xs:element name="dateFulfilled" type="xs:date" minOccurs="0">
         <xs:annotation>

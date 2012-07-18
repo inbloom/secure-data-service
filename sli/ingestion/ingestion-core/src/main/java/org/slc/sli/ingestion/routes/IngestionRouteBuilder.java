@@ -242,7 +242,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // a switch to route 'completed' WorkNotes from the maestro queue (coming from pits) to the
         // correct aggregator.
         from(maestroQueueUri).routeId("aggregationSwitch")
-                .log(LoggingLevel.INFO, "CamelRouting", "Maestro message received. Routing to aggregators: ${body}")
+                .log(LoggingLevel.DEBUG, "CamelRouting", "Maestro message received: ${body}")
+                .log(LoggingLevel.INFO, "CamelRouting", "Routing to aggregators.")
                 .choice().when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
                 .to("direct:transformationAggregator")
                 .when(header("IngestionMessageType").isEqualTo(MessageType.PERSIST_REQUEST.name()))
@@ -254,7 +255,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // WorkNoteAggregator.
         // the completion size should be the number of batches created for this
         // IngestionStagedEntity.
-        from("direct:transformationAggregator").routeId("transformationAggregator").transacted()
+        from("direct:transformationAggregator").routeId("transformationAggregator")
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to transformation aggregator.")
                 .aggregate(simple("${body.getIngestionStagedEntity}${body.getBatchJobId}"), new WorkNoteAggregator())
                 .completionSize(simple("${in.header.workNoteByEntityCount}")).to("direct:persistenceSplitter");
@@ -266,7 +267,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // the completion size should be the total number of WorkNotes created for this 'tier'.
         // unless we've processed all staged entities, route back to transformationSplitter for next
         // 'tier.'
-        from("direct:persistenceAggregator").routeId("persistenceAggregator").transacted()
+        from("direct:persistenceAggregator").routeId("persistenceAggregator")
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to persistence aggregator.")
                 .aggregate(simple("${body.getBatchJobId}"), new WorkNoteAggregator())
                 .completionSize(simple("${in.header.totalWorkNoteCount}")).process(aggregationPostProcessor).choice()
@@ -334,8 +335,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private void buildPitRoutes(String pitNodeQueueUri, String maestroQueueUri) {
 
         // routeId: pitNodes
-        from(pitNodeQueueUri).routeId("pitNodes").transacted()
-                .log(LoggingLevel.INFO, "CamelRouting", "Pit message received: ${body}").choice()
+        from(pitNodeQueueUri).routeId("pitNodes")
+                .log(LoggingLevel.DEBUG, "CamelRouting", "Pit message received: ${body}").choice()
                 .when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to TransformationProcessor.")
                 .process(transformationProcessor)

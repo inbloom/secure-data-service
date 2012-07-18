@@ -52,7 +52,7 @@ Examples:
 | "staff"                        | "staff"                   | "sex"                    | "Female"                                     |
 | "student"                      | "students"                | "sex"                    | "Female"                                     |
 | "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "abcff7ae-1f01-46bc-8cc7-cf409819bbce"       |
-| "studentSectionGradebookEntry" | "studentGradebookEntries" | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
+| "studentGradebookEntry"        | "studentGradebookEntries" | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
 | "teacher"                      | "teachers"                | "highlyQualifiedTeacher" | "false"                                      |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
@@ -92,7 +92,7 @@ Examples:
 | "staff"                        | "staff"                   | "sex"                    | "Female"                                     |
 | "student"                      | "students"                | "sex"                    | "Female"                                     |
 | "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "67ce204b-9999-4a11-aacb-000000000003"       |
-| "studentSectionGradebookEntry" | "studentGradebookEntries" | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
+| "studentGradebookEntry"        | "studentGradebookEntries" | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
 | "teacher"                      | "teachers"                | "highlyQualifiedTeacher" | "false"                                      |
 | "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
@@ -127,7 +127,7 @@ Examples:
 | "staff"                        | "staff"                   | 22 |
 | "student"                      | "students"                | 83 |
 | "studentAcademicRecord"        | "studentAcademicRecords"  | 2 |
-| "studentSectionGradebookEntry" | "studentGradebookEntries" | 5 |
+| "studentGradebookEntry"        | "studentGradebookEntries" | 5 |
 | "teacher"                      | "teachers"                | 5 |
 | "grade"                        | "grades"                  | 3 |
 | "studentCompetency"            | "studentCompetencies"     | 3 |

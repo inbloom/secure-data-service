@@ -39,16 +39,16 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Visitor that writes a neutral record or reports errors encountered.
- * 
+ *
  * @author dduran
- * 
+ *
  */
 @StreamResultWriter
 public final class SmooksEdFiVisitor implements SAXElementVisitor {
-    
+
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFiVisitor.class);
-    
+
     /** Constant to write a log message every N records. */
     private static final int FLUSH_QUEUE_THRESHOLD = 10000;
 
@@ -105,8 +105,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         } else {
 
             // Indicate Smooks Validation Failure
-            LOG.error("Error: Smooks validation failure at element " + element.getName().toString());
-            
+            LOG.error("Smooks validation failure at element " + element.getName().toString());
+
             if (errorReport != null) {
                 errorReport.error(terminationError.getMessage(), SmooksEdFiVisitor.class);
             }

@@ -1,0 +1,1304 @@
+/* (non-Javadoc)
+	 * @see com.edustructures.sifworks.DTD#lookupElementDef(java.lang.String)
+	 */
+	public ElementDef lookupElementDef( String key ) {
+		return sElementDefs.get(key);
+	}
+	
+	
+	/* (non-Javadoc)
+	 * @see com.edustructures.sifworks.DTD#lookupElementDef(com.edustructures.sifworks.ElementDef, java.lang.String)
+	 */
+	public ElementDef lookupElementDef(ElementDef parent, String childTag) {
+		return sElementDefs.get( parent.name() + "_" + childTag );
+	}
+	private int fLoaded = 0;
+	
+
+	/**
+	 * Loads the SDO Libraries specified by using flags from the SDO_ constants
+	 * defined by SIFDTD. 
+	 * @param libraries An integer with zero or more library identifier bits set 
+	 * (e.g. SIFDTD.SDO_FOOD )
+	 * @throws ADKException
+	 */
+	public void loadLibraries( int libraries )
+		throws ADKException
+	{
+		int libsLoaded = libraries | ( SDO_COMMON | SDO_INFRA );
+		List<String> packages = getLibraryNames( libsLoaded );
+		if( packages == null ){
+			throw new IllegalArgumentException( "No library identifiers are included in this value (" + libraries + ")" );
+		}
+
+		for( String name : packages )
+		{
+			String cls = "openadk.library." + name + "." + name.substring(0,1).toUpperCase() + name.substring( 1 ) + "DTD";
+			try
+			{
+				SDOLibraryImpl lib = (SDOLibraryImpl)Class.forName(cls).newInstance();
+				lib.load();
+				lib.addElementMappings( SIFDTD.sElementDefs );
+			}
+			catch( ClassNotFoundException cnfe )
+			{
+				throw new ADKException( "SDOLibrary class \""+cls+"\" not found (make sure sdo" + name + ".jar or sdoall.jar is on the classpath)", null );
+			}
+			catch( Exception ie )
+			{
+				throw new ADKException( "Cannot load the \""+name+"\" SIF Data Object library: " + ie, null );
+			}
+		}
+
+		fLoaded = libsLoaded;
+	}
+
+	/**
+	 *  Determines if the specified SDO library is loaded
+	 *  @param library The library identifier (e.g. SDOLibrary.FOOD)
+	 */
+	public boolean isLibraryLoaded( int library ) {
+		return ( fLoaded & library ) != 0 ;
+	}
+
+	/**
+	 *  Gets an integer identifying all loaded libraries
+	 *  @return An integer with zero or more library identifier bits set (e.g.
+	 *      SDOLibrary.FOOD)
+	 */
+	public int getLoadedLibraries() {
+		return fLoaded;
+	}
+
+	/**
+	 *  Gets the names of SDO libraries given an identifier derived from 
+	 *  bitwise combinations of the <code>SDO_</code> constants defined by <code>SIFDTD</code>.
+	 *  @param libraries The library identifier (e.g. <code>SIFDTD.SDO_FOOD</code>)
+	 *  @return An array of strings naming all SDO Libraries identified by the
+	 *      <i>libraries</i> value
+	 */
+	public List<String> getLibraryNames( int libraries )
+	{
+		ArrayList<String> list = new ArrayList<String>();
+		if( ( libraries & SDO_COMMON ) != 0 )
+			list.add("common");
+		if( ( libraries & SDO_INFRA ) != 0 )
+			list.add("infra");
+		
+		// Now, go through the array of available libraries and check to 
+		// see if the appropriate bit is set
+		for( int a = 0; a < sLibNames.length; a++ )
+		{
+			int libConst = (int)Math.pow( 2, a );
+			if( ( libraries & libConst ) != 0 ){
+				list.add( sLibNames[a] );
+			}
+		}
+		
+		return list;
+	}
+
+	/**
+	 *  Gets the names of all SDO libraries offered with this version of the ADK
+	 */
+	public String[] getAvailableLibraries()
+	{
+		return sLibNames;
+	}
+	
+	/**
+	 *  Get the SIF namespace for a given version of the specification.<p>
+	 *
+	 *  @return If the SIFVersion is less than SIF 1.1, a namespace in the form
+	 *      "http://www.sifinfo.org/v1.0r2/messages" is returned, where the full
+	 *      SIF Version number is included in the namespace. For SIF 1.x and
+	 *      later, a namespace in the form "http://www.sifinfo.org/infrastructure/1.x"
+	 *      is returned, where only the major version number is included in the
+	 *      namespace.
+	 */
+	public String getNamespace( SIFVersion version )
+	{
+		return version.getXmlns();
+	}
+
+	public String getElementTag( byte type ) {
+		if( type > 0 && type <= sTagmap.length )
+			return sTagmap[type-1];
+		return null;
+	}
+
+	public byte getElementType( String name ) {
+		Byte b = (Byte)sTypemap.get(name);
+		return b == null ? 0 : b.byteValue();
+	}
+
+	private static boolean XPATH_DEBUG = true;
+
+	/**
+	 *  Lookup an ElementDef given a SIF Query Pattern string.<p>
+	 *  @param relativeTo An ElementDef for a root SIF Data Object to which the
+	 *      query is relative (e.g. SIFDTD.STUDENTPERSONAL)
+	 *  @param query A SIF Query Pattern (e.g. "@RefId", "Name/FirstName", etc.)
+	 */
+	public ElementDef lookupElementDefBySQP( ElementDef relativeTo, String query )
+	{
+		return lookupElementDefBySQP( relativeTo, query, 0 );
+	}
+	
+	/**
+	 * Attempts to convert the path to the specified version of SIF. If it is unable to perform
+	 * a conversion, due to being unable to parse the path, the original path will be returned, instead,
+	 * and a warning will be written to the ADK log
+	 * @param objectType The metadata object representing the object type
+	 * @param path The XPath query (such as "Demographics/Ethnicity")
+	 * @param version The SIF version to render the path in, such as SIFVersion.SIF20
+	 * @return The path translated to the specified version of SIF e.g. "Demographics/RaceList/Race"
+	 */
+	public String translateSQP(ElementDef objectType, String path, SIFVersion version ) {
+		
+		String returnValue = path;
+		try
+		{
+			List<Segment> segments = parseSQP( objectType, path );
+			if( segments == null ){
+				ADK.getLog().warn( "Unable to translate SIF Query Pattern: " + path );
+				return path;
+			}
+			if( segments.size() > 0 ){
+				StringBuilder pathBuilder = new StringBuilder();
+				int actualSegments = 0;
+				for( Segment segment: segments ){
+					int segmentStart = pathBuilder.length();
+					if( segment.appendToSQP( pathBuilder, version ) )
+					{
+						actualSegments++;
+					}
+					if( actualSegments > 1 ){
+						pathBuilder.insert( segmentStart, "/" );
+					}
+				}
+				returnValue = pathBuilder.toString();
+			}
+			
+		} catch (IllegalArgumentException iae ){
+			ADK.getLog().warn( "Unable to translate SIF Query Pattern: " + path + " Error: " + iae, iae );
+		}
+		return returnValue;
+		
+	}
+	
+	/**
+	 * Looks up an ElementDef by SQP using recursion
+	 * @param relativeTo
+	 * @param query
+	 * @param startIndex
+	 * @return
+	 */
+	private ElementDef lookupElementDefBySQP( ElementDef relativeTo, String query, int startIndex )
+	{
+		if( relativeTo == null || query.length() == startIndex ){
+			return null;
+		}
+		if( query.length() > ( startIndex -1 ) && query.charAt( startIndex ) == '@' )
+		{
+			//  Query identifies an attribute of relativeTo
+			return lookupElementDef(  relativeTo, query.substring( startIndex + 1 ) );
+		}
+
+		//  Query identifies a child element of relativeTo
+		int segment = query.indexOf( '/', startIndex );
+		
+		// Look for and remove any xpath predicates.
+		int segmentEnd = query.indexOf( '[', startIndex );
+
+		if( segment == -1 ){
+			// This is the final segment in the SQP
+			if( segmentEnd == -1 ){
+				// No xpath predicate was found
+				segmentEnd = query.length();
+			}
+			return lookupElementDef( relativeTo, query.substring( startIndex, segmentEnd ) );
+		} else {
+			// There are more segments to process in the SQP
+			if( segmentEnd == -1 ){
+				// No predicate was found. The end of the segment should be the index of the '/'
+				segmentEnd = segment;
+			} else if( segmentEnd > segment ){
+				// A predicate was found, but it was past the current segment
+				segmentEnd = segment;
+			}
+
+			if( segmentEnd == startIndex ){
+				// Double slashes in the SQP path should resolve to null;
+				return null;
+			}
+			ElementDef segmentDef = lookupElementDef( relativeTo, query.substring( startIndex, segmentEnd ) );
+			return lookupElementDefBySQP( segmentDef, query, segment + 1 );
+		}
+
+	}
+	
+	/**
+	 * Creates a parsed list of segments from the SIF Query Pattern xpath string
+	 * @param relativeTo
+	 * @param query
+	 * @return A list of segments or null if the query cannot be parsed into segments
+	 */
+	private List<Segment> parseSQP( ElementDef relativeTo, String query )
+	{
+		List<Segment> segments = new ArrayList<Segment>();
+		if( relativeTo == null ){
+			return null;
+		}
+		
+		ElementDef previousSegment = relativeTo;
+		
+		String[] segmentTokens = query.split( "/" );
+		for( String token : segmentTokens ){
+			if( token.length() == 0 ){
+				ADK.log.warn( "Unable to parse empty segment in SQP: " + query );
+				// Empty segment. Exit 
+				// We could throw an exception here, but the previous ADK code
+				// allowed for empty segments (and returned null).
+				break;
+			}
+			
+			// Look for any xpath predicates.
+			String elementName = token;
+			int segmentEnd = token.indexOf( '[' );
+			if( segmentEnd > -1 ){
+				elementName = token.substring( 0, segmentEnd );
+			}
+			if( elementName.startsWith( "@" ) ){
+				elementName = elementName.substring( 1 );
+			}
+			ElementDef current = lookupChild(previousSegment, elementName);
+			if( current == null ){
+				// Unable to parse this path. Return null;
+				return null;
+			}
+			// Look for any "collapsed" element definitions. For example,
+			// "Demographics/Ethnicity" should translate to "Demographics/RaceList/Race"
+			ElementDef parent = current.getParent();
+			if( parent != null ){
+				ElementVersionInfo sif15Info = parent.getVersionInfo( SIFVersion.SIF15r1 );
+				if( sif15Info != null){
+					ElementDef candidate = lookupChild( previousSegment, sif15Info.getTag() );
+					if( candidate != null && candidate.isCollapsed( SIFVersion.SIF15r1  ) ){
+						segments.add( new Segment( candidate ) );
+					}
+				}
+			}
+		
+			
+			
+			Segment next = new Segment( current );
+			if( segmentEnd > -1 )
+			{
+				int predicateEnd = token.indexOf( "]", segmentEnd );
+				if( predicateEnd == -1 ){
+					predicateEnd = token.length();
+				}
+				parsePredicates( next, token.substring( segmentEnd + 1, predicateEnd ) );
+			}
+			segments.add( next );
+			previousSegment = current;
+		}
+		
+		
+		return segments;
+		
+	}
+	
+	private void parsePredicates( Segment segment, String predicates )
+	{
+		// Very simplistic... Only support comma-seperated predicates
+		String[] predicateTokens = predicates.split( "," );
+		for( String token : predicateTokens ){
+			// Very simplistic.... Only support simple predicates (field=value)
+			int pos = token.indexOf( '=' );
+			if( pos == -1 ){
+				throw new IllegalArgumentException( "Unable to parse predicate expression: " + predicates );
+			}
+			int start = token.startsWith( "@" ) ? 1 : 0;
+			ElementDef def = lookupChild( segment.fElementDef, token.substring( start, pos ).trim() );
+			if( def == null ){
+				throw new IllegalArgumentException( "Unable to resolve element or attribute: " + predicates );
+			}
+			segment.addPredicate( def, token.substring( pos ) );
+		}
+		
+	}
+
+
+	/**
+	 * Looks up a child element def
+	 * @param previousSegment
+	 * @param token
+	 * @return The looked up metadata def or null if not found
+	 */
+	private ElementDef lookupChild(ElementDef parent, String token) {
+		ElementDef current = lookupElementDef( parent, token );
+		if( current == null ){
+			current = lookupElementDef( token );
+		}
+		if( current == null ){
+			if( token.equalsIgnoreCase( "SIF_ExtendedElements" ) ){
+				current = CommonDTD.SIF_EXTENDEDELEMENTS;
+			} else if (token.equalsIgnoreCase( "SIF_Metadata" ) ){
+				current = DatamodelDTD.SIF_METADATA;
+			}
+		}
+		return current;
+	}
+	
+	private class Segment
+	{
+		ElementDef fElementDef;
+		List<Predicate> fPredicates;
+
+		/**
+		 * Creates a segment representing a portion of an XPath
+		 * @param def
+		 */
+		Segment( ElementDef def )
+		{
+			fElementDef = def;
+		}
+		
+		/**
+		 * Adds a predicate condition to this segment of the XPath
+		 * @param def
+		 * @param value
+		 */
+		void addPredicate( ElementDef def, String condition )
+		{
+			if( fPredicates == null ){
+				fPredicates = new ArrayList<Predicate>();
+			}
+			fPredicates.add( new Predicate( def, condition ) );
+		}
+		
+		/**
+		 * Writes this segment to the StringBuilder using the specified version of SIF
+		 * @param builder the StringBuilder to append to
+		 * @param version The version of SIF to render in
+		 */
+		boolean appendToSQP( StringBuilder builder, SIFVersion version )
+		{
+			ElementVersionInfo evi = fElementDef.getVersionInfo( version );
+			if( evi == null ){
+				// This element is not supported in this version of SIF
+				throw new IllegalArgumentException( fElementDef.name() + " is not supported in SIF Version " + version.toString() );
+			}
+			if( evi.isCollapsed() ){
+				return false;
+			}
+			if( evi.isAttribute() ){
+				builder.append( '@' );
+			}
+			builder.append( evi.getTag() );
+			if( fPredicates != null ){
+				builder.append( '[' );
+				for( int a = 0; a < fPredicates.size(); a++ ){
+					if( a > 0 ){
+						builder.append( " and " );
+					}
+					Predicate p = fPredicates.get( a );
+					p.appendToSQP( builder, version );
+				}
+				builder.append( ']' );
+			}
+			
+			return true;
+		}
+		
+	}
+	
+	private class Predicate
+	{
+		private ElementDef fElementDef;
+		private String fCondition;
+		
+		Predicate( ElementDef def, String condition )
+		{
+			fElementDef = def;
+			fCondition = condition;
+		}
+		void appendToSQP( StringBuilder builder, SIFVersion version )
+		{
+			ElementVersionInfo evi = fElementDef.getVersionInfo( version );
+			if( evi.isAttribute() ){
+				builder.append( '@' );
+			}
+			builder.append( evi.getTag() );
+			builder.append( fCondition );
+		}
+	}
+	
+	
+	/**
+	 *  Find an SIFElement given a SIF Query Pattern string.
+	 *
+	 *  @param relativeTo An ElementDef identifying a SIF Data Object to which
+	 *      the query is relative to (e.g. STUDENTPERSONAL, BUSINFO, etc.)
+	 *  @param query A SIF Query Pattern string as described by the SIF 1.0r1
+	 *      Specification
+	 *
+	 *  @return The Element satisfying the query, or <code>null</code> if no
+	 *      match was found. If the query resolves to an attribute, a SimpleField
+	 *      object is returned. If the query resolves to an element, a SIFElement
+	 *      object is returned. In both cases the caller can obtain the text
+	 *      value of the attribute or element by calling its <code>getTextValue</code>
+	 *      method.
+	 */
+	public Element lookupBySQP( SIFDataObject relativeTo, String query )
+		throws ADKSchemaException
+	{
+		return lookupByXPath( relativeTo, query, null );
+	}
+
+	/**
+	 *  Find an SIFElement given an XPath-like query string.<p>
+	 *
+	 *  Query strings can only take one of these forms:<p>
+	 *
+	 *  <ul>
+	 *      <li><code>@Attr</code></li>
+	 *      <li><code>Element</code></li>
+	 *      <li><code>Element/@Attr</code></li>
+	 *      <li><code>Element/Element/.../@Attr</code></li>
+	 *      <li><code>Element[@Attr='value1']</code></li>
+	 *      <li><code>Element[@Attr1='value1',@Attr2='value2',...]/Element/...</code></li>
+	 *  </ul>
+	 *  <p>
+	 *
+	 *  @param relativeTo A SIFDataObject to which the query is relative to.
+	 *  @param query An XPath-like query string as described above
+	 *
+	 *  @return The Element satisfying the query, or <code>null</code> if no
+	 *      match was found. If the query resolves to an attribute, a SimpleField
+	 *      object is returned. If the query resolves to an element, a SIFElement
+	 *      object is returned. In both cases the caller can obtain the text
+	 *      value of the attribute or element by calling its <code>getTextValue</code>
+	 *      method.
+	 */
+	public Element lookupByXPath( SIFDataObject relativeTo, String query )
+		throws ADKSchemaException
+	{
+		return lookupByXPath( relativeTo, query, null );
+	}
+
+	/**
+	 *  Find an SIFElement given an XPath-like query string.<p>
+	 *
+	 *  Query strings can only take one of these forms:<p>
+	 *
+	 *  <ul>
+	 *      <li><code>@Attr</code></li>
+	 *      <li><code>Element</code></li>
+	 *      <li><code>Element/@Attr</code></li>
+	 *      <li><code>Element/Element/.../@Attr</code></li>
+	 *      <li><code>Element[@Attr='value1']</code></li>
+	 *      <li><code>Element[@Attr1='value1',@Attr2='value2',...]/Element/...</code></li>
+	 *  </ul>
+	 *  <p>
+	 *
+	 *  When the <i>create</i> parameter is true, the method will ensure that
+	 *  the elements and attributes specified in the query string are created in
+	 *  the SIFDataObject. All values are evaluated by the ValueBuilder implementation
+	 *  passed to this method. In addition, the query string may end with a value
+	 *  expression in the form "<code>Element[@Attribute='val']=<b><i>expression</i></b></code>",
+	 *  where <i>expression</i> is evaluated by the <code>ValueBuilder</code>.
+	 *  Refer to the <code>DefaultValueBuilder</code> class for a description of
+	 *  how value expressions are evaluated by in XPath query strings by default.
+	 *  <p>
+	 *
+	 *  Note that when <i>create</i> is true, this method will attempt to create
+	 *  a new element when a set of attributes is specified and an element does
+	 *  not already exist with those same attribute settings. This is not always
+	 *  desirable, however. For example, if you call this method in succession
+	 *  with the following XPath query strings, the result will be a single
+	 *  <code>OtherId[@Type='ZZ']</code> element with a value of "$(School)".
+	 *  This is because each call will match the <code>OtherId[@Type='ZZ']</code>
+	 *  element created by the first call, and will replace its value instead of
+	 *  creating an new instance of the <code>OtherId</code> element:
+	 *
+	 *  <p>
+     *      <code>OtherId[@Type='ZZ']=GRADE:$(Grade)</code><br/>
+     *      <code>OtherId[@Type='ZZ']=HOMEROOM:$(HomeRoom)</code><br/>
+     *      <code>OtherId[@Type='ZZ']=SCHOOL:$(School)</code><br/>
+	 *  </p>
+	 *
+	 * Produces:
+	 *
+	 *  <p>
+	 *      <code>&lt;OtherId Type='ZZ'&gt;SCHOOL:$(School)&lt;OtherId&gt;</code><br/>
+	 *  </p>
+     *
+	 *  To instruct the function to always create a new instance of an element
+	 *  even when a matching element is found, append the attribute list with a
+	 *  plus sign. The plus sign must come immediately before the closing right
+	 *  backet regardless of how many attributes are specified in the attribute
+	 *  list:
+	 *
+	 *  <p>
+     *      <code>OtherId[@Type='ZZ'+]=GRADE:$(Grade)</code><br/>
+     *      <code>OtherId[@Type='ZZ'+]=HOMEROOM:$(HomeRoom)</code><br/>
+     *      <code>OtherId[@Type='ZZ'+]=SCHOOL:$(School)</code><br/>
+	 *  </p>
+	 *
+	 * Produces:
+	 *
+	 *  <p>
+	 *      <code>&lt;OtherId Type='ZZ'&gt;GRADE:$(Grade)&lt;OtherId&gt;</code><br/>
+	 *      <code>&lt;OtherId Type='ZZ'&gt;HOMEROOM:$(HomeRoom)&lt;OtherId&gt;</code><br/>
+	 *      <code>&lt;OtherId Type='ZZ'&gt;SCHOOL:$(School)&lt;OtherId&gt;</code><br/>
+	 *  </p>
+	 *
+	 *  <p>
+	 *
+	 *  @param relativeTo A SIFDataObject to which the query is relative to.<p>
+	 *
+	 *  @param query An XPath-like query string as described above.<p>
+	 *
+	 *  @param create True to create the element or attribute referenced by the
+	 *      query if it does not exist; false to return <code>null</code>.
+	 *      If the query specifies an attribute value (e.g. "Element[@Attr='value']"),
+	 *      that value is assigned to the attribute. When more than one attribute
+	 *      value is provided the first one will be used.<p>
+	 *
+	 *  @return The Element satisfying the query, or <code>null</code> if no
+	 *      match was found (unless the <i>create</i> parameter is true). If the
+	 *      query resolves to an attribute, a SimpleField object is returned. If
+	 *      it resolves to an element, a SIFElement object is returned. In both
+	 *      cases the caller can obtain the text value of the attribute or
+	 *      element by calling its <code>getTextValue</code> method.
+	 */
+	public Element lookupByXPath(
+		SIFDataObject relativeTo,
+		String query,
+		ValueBuilder valueBuilder )
+			throws ADKSchemaException
+	{
+		int i = query.indexOf('/');
+
+		Element result = _xpath( relativeTo,
+			query.substring( 0, i == -1 ? query.length() : i ),
+			i == -1 ? null : query.substring( i + 1 ) );
+
+		return result;
+	}
+
+	/**
+	 *  Recursively parse an XPath-like query.<p>
+	 *
+	 *  @param relativeTo The SIFElement this iteration is relative to. For the
+	 *      first call to this method, the <i>relativeTo</i> parameter is usually
+	 *      a SIFDataObject such as StudentPersonal to which the XPath query
+	 *      string is relative. With each subsequent call it is the SIFElement
+	 *      or SimpleField that was previously processed.
+	 *
+	 *  @param curSegment The current segment of the path that is being processed.
+	 *      For the first call to this method, the <i>curSegment</i> should be
+	 *      the portion of the XPath query string up to the first forward slash,
+	 *      exclusive.
+	 *
+	 *  @param nextSegment The remaining portion of the path to be processed.
+	 *      For the first call to this method, the <i>nextSegment</i> should be
+	 *      the portion of the XPath query string following the first forward
+	 *      slash.
+	 *
+	 *  @return The Element satisfying the query, or <code>null</code> if no
+	 *      match was found (unless the <i>create</i> parameter is true). If the
+	 *      query resolves to an attribute, a SimpleField object is returned. If
+	 *      it resolves to an element, a SIFElement object is returned. In both
+	 *      cases the caller can obtain the text value of the attribute or
+	 *      element by calling its <code>getTextValue</code> method.
+	 */
+	private Element _xpath( SIFElement relativeTo, String curSegment, String nextSegment )
+		throws ADKSchemaException
+	{
+		SIFElement nextEle = null;
+		ElementDef eleDef = null;
+
+		int attr = curSegment.indexOf('@');
+		int bracket = curSegment.indexOf('[');
+		if( bracket != -1 )
+		{
+			if( attr == -1 )
+				throw new ADKSchemaException( "Invalid query: \"" + curSegment + "\" must be in the form [@Attribute='value']");
+
+			String subEleTag = curSegment.substring( 0,bracket );
+		    SIFElement subEle = relativeTo.getChild( subEleTag );
+			if( subEle == null )
+				return null;
+
+			int endBracket = curSegment.indexOf( ']', bracket );
+			if( bracket == -1 )
+				throw new ADKSchemaException( "Invalid query: \"" + curSegment + "\" must be in the form [@Attribute='value']");
+
+			Vector condsList = new Vector();
+			String conds = curSegment.substring( bracket+1,endBracket );
+			StringTokenizer tok = new StringTokenizer( conds, "," );
+			while( tok.hasMoreTokens() )
+			{
+				String thisTok = tok.nextToken();
+				if( thisTok.charAt(0) != '@' )
+					throw new ADKSchemaException( "Attribute names must be preceded with the @ character: " + thisTok );
+
+				int eq = thisTok.indexOf('=');
+				if( eq == -1 )
+					throw new ADKSchemaException( "Attribute value must be in the form [@Attribute='value']: " + thisTok );
+
+				//  Lookup the referenced attribute
+				SimpleField attrEle = subEle.getField( thisTok.substring( 1,eq ) );
+				if( attrEle == null )
+					return null;
+
+				//  Add the attribute/value to the list
+				String aval = _attrValue( thisTok.substring(eq+1) );
+				SearchCond sc = new SearchCond( attrEle.fElementDef, aval );
+				condsList.addElement( sc );
+			}
+
+			//  Search the parent's subEleTag children for matching attributes.
+			//  All attributes in the condsList must match.
+			SIFElement cmpEle = null;
+			List ch = relativeTo.getChildList( subEleTag );
+			int chLen = ch.size();
+			for( int i = 0; i < chLen && nextEle == null; i++ )
+			{
+				cmpEle = (SIFElement)ch.get(i);
+
+				int matched = 0;
+
+				//  Compare the attributes
+				for( int x = 0; x < condsList.size(); x++ )
+				{
+					SearchCond sc = (SearchCond)condsList.elementAt(x);
+					SimpleField atr = cmpEle.getField( sc.Attr );
+					if( atr == null )
+						break;
+					if( atr.getTextValue().equals( sc.Value ) )
+						matched++;
+				}
+
+				//  If all attributes matched, this is a match
+				if( matched == condsList.size() )
+				{
+					nextEle = cmpEle;
+
+					//  Continue the search if nextSegment has a value
+					if( nextSegment != null && nextSegment.length() > 0 )
+					{
+						int ii = nextSegment != null ? nextSegment.indexOf('/') : -1;
+
+						Element ee = _xpath(
+							nextEle,
+							ii == -1 ? nextSegment : nextSegment.substring(0,ii),
+							ii == -1 ? null : nextSegment.substring(ii+1) );
+						if( ee != null )
+							return ee;
+						else
+							nextEle = null;
+					}
+				}
+			}
+
+			if( nextEle == null )
+				return null;
+		}
+		else
+		{
+			//  Search for the named attribute/element
+			if( attr != -1 )
+			{
+				return relativeTo.getField( curSegment.substring(1) );
+			}
+			else
+			{
+				nextEle = relativeTo.getChild( curSegment );
+				if( nextEle == null ) 
+				{
+					if( nextSegment == null || ( nextSegment.length() > 0 && nextSegment.charAt(0) == '@' ) )
+						return relativeTo.getField( curSegment );
+						
+					return null;
+				}
+			}
+		}
+
+		//  Continue the search if nextSegment has a value
+		if( nextEle != null && ( nextSegment != null && nextSegment.length() > 0 ) )
+		{
+			int i = nextSegment != null ? nextSegment.indexOf('/') : -1;
+
+			return _xpath(
+				nextEle,
+				i == -1 ? nextSegment : nextSegment.substring(0,i),
+				i == -1 ? null : nextSegment.substring(i+1) );
+		}
+
+		return nextEle;
+	}
+
+	//
+	//  Expand any escaped characters in an attribute value string and return
+	//  the resulting string. If the value begins with a single or double quote,
+	//  it must also end with a single or double quote; only the quoted text is
+	//  returned.
+	//
+	private String _attrValue( String val )
+		throws ADKSchemaException
+	{
+		if( val == null || val.length() == 0 )
+			return val;
+
+		StringBuilder b = new StringBuilder();
+		int st = 0, strlen = val.length();
+		if( val.charAt( strlen-1 ) == '+' )
+			strlen--;
+		int end = strlen-1;
+
+		if( val.charAt(0) == '\'' || val.charAt(0) == '"' ) {
+			st++; end--;
+			if( !( val.charAt( strlen-1 ) == '\'' || val.charAt( strlen-1 ) == '"' ) )
+				throw new ADKSchemaException( "Attribute value must be enclosed in quotes: " + val );
+		}
+
+		return val.substring(st,end+1);
+	}
+	
+	/**
+	 * Create all elements and attributes referenced by the XPath-like query string.
+	 * @param relativeTo The element that is the starting point of the path
+	 * @param query The xPath query to build out
+	 * @param valueBuilder The class to use for 
+	 * @param formatter The formatter to use for formatting values
+	 * @return
+	 * @throws ADKSchemaException
+	 */
+	public Element createElementOrAttributeFromXPath(
+		SIFElement relativeTo,
+		String query,
+		ValueBuilder valueBuilder )
+		    throws ADKSchemaException
+	{
+		SIFVersion version = ADK.getSIFVersion();
+		SIFFormatter pathFormatter = ADK.DTD().getFormatter( version );
+		SIFFormatter textFormatter = ADK.getTextFormatter();
+		return createElementOrAttributeFromXPath( 
+				relativeTo, query, valueBuilder, version, textFormatter, pathFormatter );
+	}
+
+	/**
+	 * Create all elements and attributes referenced by the XPath-like query string.
+	 * @param relativeTo The element that is the starting point of the path
+	 * @param query The xPath query to build out
+	 * @param valueBuilder The class to use for
+	 * @param version The version of SIF for which this mapping operation is being evaluated
+	 * @param textFormatter The SIFFormatter instance used to parse strings into strongly-typed data values.
+	 * 				For many uses of this API, this formatter is equivalent to ADK.getTextFormatter()
+	 * @param pathFormatter The SIFFormatter instance used for setting child SIFElements on their parents.
+	 *              This formatter may be different than the text formatter. The text formatter is, for
+	 *              compatibility's sake defaulted to SIF 1.x. However, the path formatter must be 
+	 *              correct for the mappings path being evaluated. 
+	 * @return
+	 * @throws ADKSchemaException
+	 */
+	public Element createElementOrAttributeFromXPath(
+		SIFElement relativeTo,
+		String query,
+		ValueBuilder valueBuilder,
+		SIFVersion version,
+		SIFFormatter textFormatter,
+		SIFFormatter pathFormatter )
+		    throws ADKSchemaException
+	{
+		int i = query.indexOf('/');
+		String currentSegment = null;
+		String nextSegment = null;
+		if( i == -1 ){
+			currentSegment = query;
+		} else {
+			currentSegment = query.substring( 0, i );
+			nextSegment = query.substring( i + 1 );
+		}
+		Element result = _xpathBuild( relativeTo,
+			new StringBuilder(),
+			currentSegment,
+			nextSegment,
+			null,
+			valueBuilder,
+			version,
+			textFormatter,
+			pathFormatter );
+
+		return result;
+	}
+
+	/**
+	 *  Recursively builds elements and attributes relative to a SIFElement.<p>
+	 *
+	 *  @param relativeTo The SIFElement this iteration is relative to. For the
+	 *      first call to this method, the <i>relativeTo</i> parameter is usually
+	 *      a SIFDataObject such as StudentPersonal to which the XPath query
+	 *      string is relative. With each subsequent call it is the SIFElement
+	 *      or SimpleField that was previously processed.
+	 *
+	 *  @param path A running path of the segments processed thus far; an empty
+	 *      StringBuilder should be passed to this parameter the first time the
+	 *      method is called
+	 *
+	 *  @param curSegment The current segment of the path that is being processed.
+	 *      For the first call to this method, the <i>curSegment</i> should be
+	 *      the portion of the XPath query string up to the first forward slash,
+	 *      exclusive.
+	 *
+	 *  @param nextSegment The remaining portion of the path to be processed.
+	 *      For the first call to this method, the <i>nextSegment</i> should be
+	 *      the portion of the XPath query string following the first forward
+	 *      slash.
+	 *
+	 *  @param prevAttributes An optional array of attribute values that were
+	 *      used to construct an Element in the processing of the last segment.
+	 *      The array is comprised of attribute name and value pairs such that
+	 *      element N is an attribute name and N+1 is its value. For the first
+	 *      call to this method, the array should be null. For subsequent calls,
+	 *      it should be null unless an Element was constructed from attribute
+	 *      values.
+	 *      
+	 * @param version The version of SIF for which this mapping operation is being evaluated
+	 * 
+	 * @param textFormatter The SIFFormatter instance used to parse strings into strongly-typed data values.
+	 * 				For many uses of this API, this formatter is equivalent to ADK.getTextFormatter()
+	 * 
+	 * @param pathFormatter The SIFFormatter instance used for setting child SIFElements on their parents.
+	 *              This formatter may be different than the text formatter. The text formatter is, for
+	 *              compatibility's sake defaulted to SIF 1.x. However, the path formatter must be 
+	 *              correct for the mappings path being evaluated.
+	 *              	 
+	 *  @return The Element satisfying the query, or <code>null</code> if no
+	 *      match was found (unless the <i>create</i> parameter is true). If the
+	 *      query resolves to an attribute, a SimpleField object is returned. If
+	 *      it resolves to an element, a SIFElement object is returned. In both
+	 *      cases the caller can obtain the text value of the attribute or
+	 *      element by calling its <code>getTextValue</code> method.
+	 */
+	private Element _xpathBuild(
+		SIFElement relativeTo,
+		StringBuilder path,
+		String curSegment,
+		String nextSegment,
+		String[] prevAttributes,
+		ValueBuilder valueBuilder,
+		SIFVersion version,
+		SIFFormatter textFormatter,
+		SIFFormatter pathFormatter )
+		    throws ADKSchemaException
+	{
+		String[] _prevAttributes = null;
+		SIFElement nextEle = null;
+		ElementDef eleDef = null;
+
+		int asgnEq = curSegment.lastIndexOf('=');
+		int attr = curSegment.lastIndexOf('@', asgnEq == -1 ? curSegment.length()-1 : asgnEq-1 );
+		int bracket = curSegment.indexOf('[');
+		if( bracket != -1 )
+		{
+			if( attr == -1 )
+				throw new ADKSchemaException( "Invalid query: \"" + curSegment + "\" must be in the form [@Attr='value1','value2',...]");
+
+			String subEleTag = curSegment.substring( 0,bracket );
+			SIFElement subEle = null;
+
+		    int lastBracket = curSegment.lastIndexOf(']');
+			StringTokenizer attrList = new StringTokenizer(
+				curSegment.substring( bracket+1,lastBracket ), "," );
+			_prevAttributes = new String[ attrList.countTokens() * 2 ];
+			int _prevI = 0;
+
+			while( attrList.hasMoreTokens() )
+			{
+				String _curSegment = attrList.nextToken();
+
+				//  Determine the value of the attribute
+				int eq = _curSegment.indexOf("=");
+				String value = _curSegment.substring( eq + 1 );
+				String v = null;
+				if( value.charAt(0) == '\'' ) {
+					int end = value.indexOf( '\'', 1 );
+					if( end != -1 )
+						v = valueBuilder == null ? value.substring(1,end) : valueBuilder.evaluate( value.substring(1,end) );
+				}
+
+				if( v == null )
+					throw new ADKSchemaException( "Attribute value (" + value + ") must be in the form @Attribute='value'" );
+
+				String attrName = _curSegment.substring( 1, eq );
+
+				_prevAttributes[_prevI++] = attrName;
+				_prevAttributes[_prevI++] = v;
+
+				if( nextEle == null )
+				{
+					//
+					//  Look at all of the peer elements to determine if any have the
+					//  attribute value set. If so, return it; otherwise create a new
+					//  instance of the element with the attribute set. For example, if
+					//  curSegment is "Address[@Type='M']", we must look at all of the
+					//  Address children of relativeTo in order to determine if any
+					//  currently exist with a Type field set to a value of 'M'. If one
+					//  does, then it already exists and there is nothing to do; if
+					//  not found, however, a new Address child must be added with a
+					//  Type field of 'M'.
+					//
+
+					//  Lookup the ElementDef of relativeTo
+					ElementDef subEleDef = ADK.DTD().lookupElementDef( relativeTo.fElementDef, subEleTag );
+					if( subEleDef == null ) {
+						subEleDef = ADK.DTD().lookupElementDef( subEleTag );
+						if( subEleDef == null )
+	    					throw new ADKSchemaException( subEleTag + " is not a recognized attribute of " + relativeTo.tag() );
+					}
+
+				    boolean repeatable = subEleDef.isRepeatable( relativeTo.getSIFVersion() );
+
+					SIFElement[] peers = relativeTo.getChildren( subEleDef );
+
+					if( curSegment.indexOf("+]") == -1 )
+					{
+						//
+						//  Determine if relativeTo has any children that already
+						//  define this attribute/value; if not, create a new instance.
+						//  If subEleDef is not repeatable, however, we cannot add
+						//  another instance of it regardless.
+						//
+						SimpleField ftest = null;
+						for( int i = 0; i < peers.length && nextEle == null; i++ ) {
+							ftest = peers[i].getField( attrName );
+							if( ftest != null && ftest.getTextValue().equals(v) )
+								nextEle = peers[i];
+						}
+					}
+
+					if( nextEle == null )
+					{
+						if( !( peers.length > 0 && !repeatable ) ){
+							nextEle = _createChild( relativeTo, subEleTag, valueBuilder, version, textFormatter, pathFormatter );
+						}
+						else
+						{
+							//
+							//  subEleDef is not repeatable, so we need to back up
+							//  and add this attribute/value to a fresh instance of
+							//  relativeTo if possible. First use _xpath(path) to try
+							//  to select that instance in case it already exists (otherwise
+							//  we'd create a new instance each iteration, which is
+							//  not the desired result.)
+							//
+
+							String _tmp = null;
+							if( path.length() > 0 )
+								_tmp = path.toString() + "/" + curSegment;
+							else
+								_tmp = curSegment;
+if( XPATH_DEBUG )
+	System.out.print( "Searching for path relative to " + relativeTo.getRoot().getElementDef().name() + ": " + _tmp);
+
+				    		int _del = _tmp.indexOf('/');
+							nextEle = (SIFElement)_xpath( (SIFElement)relativeTo.getRoot(),
+				    			_tmp.substring( 0, _del == -1 ? _tmp.length() : _del ),
+				    			_del == -1 ? null : _tmp.substring( _del + 1 ) );
+
+if( XPATH_DEBUG ) {
+	if( nextEle == null ) {
+		System.out.println("; not found, a new instance will be created" );
+	} else {
+		System.out.println("; found");
+	}
+}
+
+							if( nextEle == null )
+							{
+								if( relativeTo.getElementDef().isRepeatable( relativeTo.getSIFVersion() ) )
+								{
+									//  Clone relativeTo
+									SIFElement grandParent = (SIFElement)relativeTo.getParent();
+									nextEle = SIFElement.create( grandParent, relativeTo.getElementDef() );
+									pathFormatter.addChild( grandParent, nextEle, version );
+
+									//  Clone subEleDef; this now becomes nextEle
+									SIFElement newEle = SIFElement.create( nextEle, subEleDef );
+									pathFormatter.addChild( nextEle, newEle, version );
+									_copyAttributes( nextEle, prevAttributes );
+									nextEle = newEle;
+								}
+								else
+								{
+									throw new ADKSchemaException( "It is not possible to create the element or attribute identified by this path: " +
+										_tmp + ( nextSegment == null ? "" : "/" + nextSegment ) + ". The element or attribute is either undefined in this version of SIF, " +
+										"or an attempt is being made to create another instance of an element that is not Repeatable." );
+								}
+							}
+						}
+					}
+				}
+
+				if( nextEle != null ){
+					_createField( nextEle, attrName, v );
+				}
+
+				if( !attrList.hasMoreTokens() && nextEle == null )
+					return null;
+			}
+		}
+		else
+		{
+			//  Search for the named attribute/element
+			if( attr != -1 )
+			{
+				SimpleField ff = relativeTo.getField( curSegment.substring(1) );
+				if( ff == null )
+					ff = _createField( relativeTo, curSegment.substring(1), null );
+
+				return ff;
+			}
+			else
+			{
+				String _tag = curSegment;
+				int eq = curSegment.indexOf('=');
+				if( eq != -1 )
+					_tag = curSegment.substring(0,eq);
+
+				nextEle = relativeTo.getChild( _tag );
+				if( nextEle == null )
+				{
+					//  The curSegment element does not exist as a child of the relativeTo
+					//  object, so create it.
+					nextEle = _createChild( relativeTo, curSegment, valueBuilder, version, textFormatter, pathFormatter );
+					if( nextEle == null )
+					{
+						if( nextSegment == null )
+	    					return relativeTo.getField( _tag );
+		    			return null;
+					}
+				}
+			}
+		}
+
+		//  Continue the search if nextSegment has a value
+		if( nextEle != null && ( nextSegment != null && nextSegment.length() > 0 ) )
+		{
+			int i = nextSegment != null ? nextSegment.indexOf('/') : -1;
+
+			if( path.length() > 0 )
+				path.append( "/" );
+			path.append( curSegment );
+
+			return _xpathBuild(
+				nextEle,
+				path,
+				i == -1 ? nextSegment : nextSegment.substring(0,i),
+				i == -1 ? null : nextSegment.substring(i+1),
+				_prevAttributes,
+				valueBuilder,
+				version,
+				textFormatter,
+				pathFormatter );
+		}
+
+		if( nextSegment == null && nextEle != null && ( nextEle.getTextValue() == null || nextEle.getTextValue().length() == 0 ) )
+		{
+			int eq2 = curSegment.lastIndexOf('=');
+			if( eq2 != -1 )
+			{
+				if( bracket == -1 || ( curSegment.lastIndexOf(']') < eq2 ) )
+				{
+					//
+					//  An equals sign in the final segment indicates there is
+					//  a value constant or expression following the XPath
+					//  (e.g. "OtherId[@Type='06']=@pad($(PERMNUM),0,5)" ). Use
+					//  the user-supplied ValueBuilder to evaluate it.
+					//
+					String str = curSegment.substring( eq2+1 );
+					nextEle.setTextValue( valueBuilder == null ? str : valueBuilder.evaluate( str ) );
+				}
+			}
+		}
+			
+		return nextEle;
+	}
+	
+	/**
+	 *  Assigns a list of attribute values to a destination SIFElement.
+	 *  @param dst The SIFElement to copy the attributes to
+	 *  @param attributes An array where element N is an attribute name and
+	 *      element N+1 is the attribute value
+	 */
+	private void _copyAttributes( SIFElement dst, String[] attributes )
+		throws ADKSchemaException
+	{
+		for( int i = 0; i < attributes.length; i++ ) {
+			ElementDef attrDef = ADK.DTD().lookupElementDef( dst.getElementDef(), attributes[i] );
+			dst.setField( attrDef, attributes[++i] );
+		}
+	}
+	
+
+	/**
+	 * Creates a child element and sets the text value
+	 * @param relativeTo The parent SIFElement to add the new element to
+	 * @param tag The tag name of the element
+	 * @param valueBuilder The ValueBuilder instance to use to evaluate macros
+	 * @param version The version of SIF for which this mapping operation is being evaluated
+	 * @param textFormatter The SIFFormatter instance used to parse strings into strongly-typed data values.
+	 * 				For many uses of this API, this formatter is equivalent to ADK.getTextFormatter()
+	 * @param pathFormatter The SIFFormatter instance used for setting child SIFElements on their parents.
+	 *              This formatter may be different than the text formatter. The text formatter is, for
+	 *              compatibility's sake defaulted to SIF 1.x. However, the path formatter must be 
+	 *              correct for the mappings path being evaluated.
+	 * @return
+	 * @throws ADKSchemaException
+	 */
+	private SIFElement _createChild( 
+			SIFElement relativeTo, 
+			String tag, 
+			ValueBuilder valueBuilder,
+			SIFVersion version,
+			SIFFormatter textFormatter,
+			SIFFormatter pathFormatter )
+			throws ADKSchemaException
+		{
+			String _tag = tag;
+			String assignValue = null;
+			int eq = tag.indexOf('=');
+			if( eq != -1 )
+			{
+				_tag = tag.substring(0,eq);
+				String str = tag.substring(eq+1);
+				assignValue = valueBuilder == null ? str : valueBuilder.evaluate(str);
+			}
+
+			//  Lookup the ElementDef
+			ElementDef def = ADK.DTD().lookupElementDef( relativeTo.fElementDef, _tag );
+			if( def == null )
+				def = ADK.DTD().lookupElementDef( _tag );
+			if( def == null )
+				throw new ADKSchemaException( _tag + " is not a recognized element or attribute of " + relativeTo.tag() );
+
+			try
+			{
+				SIFTypeConverter defConverter = def.getTypeConverter();
+				if( defConverter == null ){
+					defConverter = SIFTypeConverters.STRING;
+				}
+				if( def.isField() )
+				{
+					SimpleField field = defConverter.parseField( relativeTo, def, textFormatter, assignValue );
+					relativeTo.setField( field );
+				}
+				else
+				{
+					//  Create element instance
+					
+					SIFElement ele = (SIFElement)Class.forName( def.getFQClassName() ).newInstance();
+					ele.setElementDef( def );
+					pathFormatter.addChild( relativeTo, ele, version);
+					if( assignValue != null ){
+						// TODO: THis needs to be done using the type converter
+						ele.setTextValue( assignValue );
+					}
+
+					return ele;
+				}
+			}
+			catch( ClassNotFoundException cnfe )
+			{
+				throw new RuntimeException( "The " + def.getPackage() + " SDO module is not loaded (ensure the ADK is initialized to load this module)" );
+			}
+			catch( Throwable thr )
+			{
+				throw new RuntimeException( "Failed to create an instance of the " + def.getClassName() + " class from the " + def.getPackage() + " SDO module: " + thr );
+			}
+
+			return null;
+		}
+	
+	/**
+	 *  Set a field value on a SIFElement
+	 *  @param parent The SIFElement on which to set the field
+	 *  @param attr The name of the attribute or simple child element
+	 *  @param value The text value to assign to the attribute or simple child element
+	 */
+	private SimpleField _createField( SIFElement parent, String attr, String value )
+		throws ADKSchemaException
+	{
+		//  Lookup the ElementDef relative to the parent
+		ElementDef def = ADK.DTD().lookupElementDef( parent.fElementDef, attr );
+		if( def == null ){
+			throw new ADKSchemaException( attr + " is not a recognized attribute of " + parent.tag() );
+		}
+		if( !def.isField() ){
+			throw new ADKSchemaException( "Query references a complex element ('" + attr + "') where an attribute or simple field was expected" );
+		}
+
+		//  Set the field value on the parent
+		return parent.setField( def, value );
+	}
+
+  /**
+   *  Creates an instance of a SIFDataObject given an ElementDef.
+   *
+   *  @param objType An ElementDef constant from the SIFDTD class that identifies
+   *      a top-level SIF Data Object such as SIFDTD.STUDENTPERSONAL, SIFDTD.BUSINFO, etc.
+   *  @return A new instance of the corresponding SIFDataObject class
+   *      (e.g. com.edustructures.sifworks.student.StudentPersonal)
+   *
+   *  @exception ADKSchemaException thrown if the <i>objType</i> parameter does
+   *        not identify a top-level SIF Data Object, or the ADK was not
+   *        initialized to load the SDO module in which the specified object
+   *        type is defined.
+   */
+	public SIFDataObject createSIFDataObject( ElementDef objType )
+	    throws ADKSchemaException,
+			   ClassNotFoundException,
+			   IllegalAccessException,
+			   InstantiationException
+	{
+		if( objType == null ){
+			throw new ADKSchemaException( 
+					"The ADK was not initialized to load the SDO module that provides the requested object" );
+		}
+		
+		if( !objType.isObject() ){
+			throw new ADKSchemaException( "SIFDTD." + objType.name().toUpperCase() + " is not a top-level SIF Data Object" );
+		}
+
+		//  Create element instance
+    	return (SIFDataObject)Class.forName( objType.getFQClassName() ).newInstance();
+	}
+
+	private class SearchCond {
+		ElementDef Attr;
+		String Value;
+		public SearchCond( ElementDef attr, String value ) {
+			Attr = attr;
+			Value = value;
+		}
+	};
+	
+	public SIFFormatter getFormatter(SIFVersion version) {
+		if( version.getMajor() == 2 ){
+			return SIF_2X_FORMATTER;
+		} else if( version.getMajor() == 1 ){
+			return SIF_1X_FORMATTER;
+		}  else	{
+			throw new RuntimeException( "Formatter not defined for SIFVersion: " + version.toString() );
+		}
+	};
+
+	
+	static SIFFormatter SIF_1X_FORMATTER = new SIF1xFormatter();
+	static SIFFormatter SIF_2X_FORMATTER = new SIF2xFormatter();
