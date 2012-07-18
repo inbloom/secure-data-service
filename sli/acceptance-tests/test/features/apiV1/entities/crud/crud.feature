@@ -166,24 +166,24 @@ Examples:
 | Entity Type                    | Entity Resource URI       | Update Field             | Updated Value                                |
 | "assessment"                   | "assessments"             | "assessmentTitle"        | "Advanced Placement Test - Subject: Writing" |
 | "attendance"                   | "attendances"             | "studentId"              | "274f4c71-1984-4607-8c6f-0a91db2d240a"       |
-| "cohort"                       | "cohorts"                 | "cohortDescription"      | "frisbee golf team"                          |
+#| "cohort"                       | "cohorts"                 | "cohortDescription"      | "frisbee golf team"                          |
 | "course"                       | "courses"                 | "courseDescription"      | "Advanced Linguistic Studies"                |
-| "disciplineAction"             | "disciplineActions"       | "disciplineDate"         | "2012-03-18"                                 |
-| "disciplineIncident"           | "disciplineIncidents"     | "incidentTime"           | "01:02:15"                                   |
+#| "disciplineAction"             | "disciplineActions"       | "disciplineDate"         | "2012-03-18"                                 |
+#| "disciplineIncident"           | "disciplineIncidents"     | "incidentTime"           | "01:02:15"                                   |
 | "educationOrganization"        | "educationOrganizations"  | "nameOfInstitution"      | "Bananas School District"                    |
-| "gradebookEntry"               | "gradebookEntries"        | "gradebookEntryType"     | "Homework"                                   |
+#| "gradebookEntry"               | "gradebookEntries"        | "gradebookEntryType"     | "Homework"                                   |
 | "learningObjective"            | "learningObjectives"      | "academicSubject"        | "Mathematics"                                |
 | "learningStandard"             | "learningStandards"       | "gradeLevel"             | "Ninth grade"                                |
 | "parent"                       | "parents"                 | "parentUniqueStateId"    | "ParentID102"                                |
 | "program"                      | "programs"                | "programSponsor"         | "State Education Agency"                     |
 | "school"                       | "schools"                 | "nameOfInstitution"      | "Yellow Middle School"                       |
-| "section"                      | "sections"                | "sequenceOfCourse"       | "2"                                          |
-| "session"                      | "sessions"                | "totalInstructionalDays" | "43"                                         |
+#| "section"                      | "sections"                | "sequenceOfCourse"       | "2"                                          |
+#| "session"                      | "sessions"                | "totalInstructionalDays" | "43"                                         |
 | "staff"                        | "staff"                   | "sex"                    | "Female"                                     |
 | "student"                      | "students"                | "sex"                    | "Female"                                     |
-| "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "abcff7ae-1f01-46bc-8cc7-cf409819bbce"       |
-| "studentSectionGradebookEntry" | "studentGradebookEntries" | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
+#| "studentAcademicRecord"        | "studentAcademicRecords"  | "sessionId"              | "abcff7ae-1f01-46bc-8cc7-cf409819bbce"       |
+#| "studentSectionGradebookEntry" | "studentGradebookEntries" | "diagnosticStatement"    | "Finished the quiz in 5 hours"               |
 | "teacher"                      | "teachers"                | "highlyQualifiedTeacher" | "false"                                      |
-| "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
+#| "grade"                        | "grades"                  | "gradeType"              | "Mid-Term Grade"                             |
 | "studentCompetency"            | "studentCompetencies"     | "diagnosticStatement"    | "advanced nuclear thermodynamics"            |
-| "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |
+#| "reportCard"                   | "reportCards"             | "numberOfDaysAbsent"     | "17"                                         |

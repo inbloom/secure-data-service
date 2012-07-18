@@ -124,7 +124,7 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "staff22_SEC" => "00000000-5555-5555-0001-500000000122",
                 "linda.kim_Zork" => "08e3cc74-4a5c-4a0e-b8ab-680ee11cc890",
                 "linda.kim_Chaos" => "160eb95e-173f-472a-8ed2-b973a4d775a3",
-                "cgrayadmin_IL" => "aaaaaaaa-9881-b831-7788-432139989a48",
+                "cgrayadmin_IL" => "bd8987d4-75a2-ba63-8b53-424242424242",
 }
 
 def assert(bool, message = 'assertion failure')
