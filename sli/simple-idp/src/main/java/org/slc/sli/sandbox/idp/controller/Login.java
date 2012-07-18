@@ -17,9 +17,11 @@
 
 package org.slc.sli.sandbox.idp.controller;
 
+import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -39,11 +41,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
+import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+ 
 
 /**
  * Handles login form submissions.
@@ -134,7 +139,6 @@ public class Login {
         if (isSandboxImpersonationEnabled && (incomingRealm == null || incomingRealm.length() == 0)) {
             doImpersonation = true;
             realm = sliAdminRealmName;
-
         }
 
         AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, incomingRealm);
@@ -142,6 +146,23 @@ public class Login {
         User user;
         try {
             user = userService.authenticate(realm, userId, password);
+            
+            if(shouldForcePasswordChange(user)){
+            	Date date= new Date();
+            	Timestamp ts = new Timestamp(date.getTime());
+            	PasswordEncoder pe = new Md5PasswordEncoder();
+            	
+            	String token = Math.random() + user.getAttributes().get("mail");
+            	String hashedToken = pe.encodePassword(token, null);
+            	String resetKey = hashedToken +"@"+ts.getTime();
+
+            	userService.updateUser(realm, user, resetKey, password);
+            	
+                ModelAndView mav = new ModelAndView("forcePasswordChange");
+                String resetUrl = adminUrl + "/resetPassword?key=" + hashedToken;
+                mav.addObject("resetUrl", resetUrl);
+                return mav;
+            }
         } catch (AuthenticationException e) {
             ModelAndView mav = new ModelAndView("login");
             mav.addObject("msg", "Invalid User Name or password");
@@ -247,5 +268,13 @@ public class Login {
         }
 
         audit(event);
+    }
+    
+    private boolean shouldForcePasswordChange(User user){
+    	if(user==null) return false;
+    	
+    	if(user.getAttributes().get("emailToken").trim().length()==0)
+    		return true;
+    	return false;
     }
 }
