@@ -73,15 +73,16 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "validated" => false,
     "environment" => "Sandbox"
   },
+
   "attendance" => {
-    "studentId" => "61161008-2560-480d-aadf-4b0264dc2ae3",
+    "entityType" => "attendance",
+    "studentId" => "0c2756fd-6a30-4010-af79-488d6ef2735a",
     "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
     "schoolYearAttendance" => [{
       "schoolYear" => "2011-2012",
       "attendanceEvent" => [{
         "date" => "2011-09-16", 
-        "event" => "Tardy", 
-        "reason" => "Missed school bus" 
+        "event" => "Tardy"
       }]
     }]
   },
