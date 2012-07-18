@@ -46,7 +46,7 @@ public class WorkNoteSplitterTest {
     }
 
     @Test
-    public void testSplit() {
+    public void testSplitTransformationWorkNotes() {
         Exchange exchange = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);
         Mockito.when(exchange.getIn()).thenReturn(message);
@@ -61,7 +61,7 @@ public class WorkNoteSplitterTest {
         list.add(WorkNote.createBatchedWorkNote("", IngestionStagedEntity.createFromRecordType("student"), 0, 0, 0, 0));
         Mockito.when(balancedTimestampSplitStrategy.splitForEntity(IngestionStagedEntity.createFromRecordType("student"), "1")).thenReturn(list);
 
-        List<WorkNote> result = workNoteSplitter.split(exchange);
+        List<WorkNote> result = workNoteSplitter.splitTransformationWorkNotes(exchange);
 
         Assert.assertEquals(list, result);
         Mockito.verify(balancedTimestampSplitStrategy, Mockito.times(1)).splitForEntity(Mockito.any(IngestionStagedEntity.class), Mockito.anyString());
@@ -78,11 +78,11 @@ public class WorkNoteSplitterTest {
         Set<IngestionStagedEntity> set = new HashSet<IngestionStagedEntity>();
         Mockito.when(mockBatchJobMongoDA.getStagedEntitiesForJob("1")).thenReturn(set);
 
-        workNoteSplitter.split(exchange);
+        workNoteSplitter.splitTransformationWorkNotes(exchange);
     }
 
     @Test
-    public void testPassThroughSplit() {
+    public void testSplitPersistanceWorkNotes() {
 
         Exchange exchange = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);
@@ -99,7 +99,7 @@ public class WorkNoteSplitterTest {
         list.add(WorkNote.createBatchedWorkNote("", IngestionStagedEntity.createFromRecordType("student"), 0, 0, 0, 0));
         Mockito.when(balancedTimestampSplitStrategy.splitForEntity(IngestionStagedEntity.createFromRecordType("student"), "1")).thenReturn(list);
 
-        List<WorkNote> result = workNoteSplitter.passThroughSplit(exchange);
+        List<WorkNote> result = workNoteSplitter.splitPersistanceWorkNotes(exchange);
 
         Assert.assertEquals(list, result);
         Mockito.verify(balancedTimestampSplitStrategy, Mockito.times(1)).splitForEntity(Mockito.any(IngestionStagedEntity.class), Mockito.anyString());

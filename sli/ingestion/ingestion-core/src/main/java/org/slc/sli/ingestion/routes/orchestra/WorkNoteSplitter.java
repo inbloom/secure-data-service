@@ -51,7 +51,7 @@ public class WorkNoteSplitter {
      * @return list of WorkNotes that camel will iterate over, issuing each as a new message
      * @throws IllegalStateException
      */
-    public List<WorkNote> split(Exchange exchange) {
+    public List<WorkNote> splitTransformationWorkNotes(Exchange exchange) {
 
         String jobId = exchange.getIn().getHeader("jobId").toString();
         info("orchestrating splitting for job: {}", jobId);
@@ -89,7 +89,7 @@ public class WorkNoteSplitter {
         return workNoteList;
     }
 
-    public List<WorkNote> passThroughSplit(Exchange exchange) {
+    public List<WorkNote> splitPersistanceWorkNotes(Exchange exchange) {
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
         IngestionStagedEntity stagedEntity = workNote.getIngestionStagedEntity();
         List<WorkNote> workNoteList = new ArrayList<WorkNote>();

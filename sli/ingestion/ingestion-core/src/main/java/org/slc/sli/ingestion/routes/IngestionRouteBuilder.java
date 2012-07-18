@@ -219,7 +219,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // split WorkNotes into separate Exchanges and drop into the pit node queue.
         from("direct:transformationSplitter").routeId("transformationSplitter")
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to WorkNoteSplitter for transformation splitting.")
-                .split().method("WorkNoteSplitter", "split")
+                .split().method("WorkNoteSplitter", "splitTransformationWorkNotes")
                 .setHeader("IngestionMessageType", constant(MessageType.DATA_TRANSFORMATION.name()))
                 .to(pitNodeQueueUri);
 
@@ -229,7 +229,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // and drop into the pit node queue.
         from("direct:persistenceSplitter").routeId("persistenceSplitter")
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to WorkNoteSplitter for persistence splitting.")
-                .split().method("WorkNoteSplitter", "passThroughSplit")
+                .split().method("WorkNoteSplitter", "splitPersistanceWorkNotes")
                 .setHeader("IngestionMessageType", constant(MessageType.PERSIST_REQUEST.name())).to(pitNodeQueueUri);
 
         // workNoteLatch
