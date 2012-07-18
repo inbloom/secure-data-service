@@ -18,6 +18,7 @@
 package org.slc.sli.test.generators;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 import org.slc.sli.test.edfi.entities.CalendarDate;
@@ -28,33 +29,53 @@ import org.slc.sli.test.edfi.entities.CalendarEventType;
 public class CalendarDateGenerator {
     static Random generator = new Random();
 
-    public static CalendarDate getCalendarDate(String id) {
+    public static CalendarDate getCalendarDate(String id, int dateCount) {
         CalendarDate cd = new CalendarDate();
         
         cd.setId(id);
 
-        cd.setDate("2011-03-04");
+//        cd.setDate("2011-03-04");
+        int day = ((dateCount/8) % 28) + 1;
+        int month = (((dateCount/8) / 28) % 12) + 1;
+        int year = (((dateCount/8) / 28) / 12) + 2011;
 
-        cd.setCalendarEvent(getCalendarEventType());
+        String dayString = "";
+        if (day < 10) {
+        	dayString = "0" + day;
+        } else {
+        	dayString = "" + day;
+        }
+        
+        String monthString = "";
+        if (month < 10) {
+        	monthString = "0" + month;
+        } else {
+        	monthString = "" + month;
+        }
+        
+        String yearString = "" + year;
+        
+        cd.setDate(yearString+"-"+monthString+"-"+dayString);
+        
+//        cd.setCalendarEvent(getCalendarEventType());
+        cd.setCalendarEvent(getCalendarEventType(dateCount%8+1));
 
         return cd;
     }
 
     
 
-    public static CalendarEventType getCalendarEventType() {
-        int roll = generator.nextInt(8) + 1;
+    public static CalendarEventType getCalendarEventType(int roll) {
+//        int roll = generator.nextInt(8) + 1;
         switch (roll) {
-            case 1:  return CalendarEventType.EMERGENCY_DAY;
-
+            case 1: return CalendarEventType.EMERGENCY_DAY;
             case 2: return CalendarEventType.HOLIDAY;
             case 3: return CalendarEventType.INSTRUCTIONAL_DAY;
-            case 4: return CalendarEventType.INSTRUCTIONAL_DAY;
-            case 5: return CalendarEventType.MAKE_UP_DAY;
-            case 6: return CalendarEventType.OTHER;
-            case 7: return CalendarEventType.STRIKE;
-            case 8: return CalendarEventType.STUDENT_LATE_ARRIVAL_EARLY_DISMISSAL;
-            case 9: return CalendarEventType.TEACHER_ONLY_DAY;
+            case 4: return CalendarEventType.MAKE_UP_DAY;
+            case 5: return CalendarEventType.OTHER;
+            case 6: return CalendarEventType.STRIKE;
+            case 7: return CalendarEventType.STUDENT_LATE_ARRIVAL_EARLY_DISMISSAL;
+            case 8: return CalendarEventType.TEACHER_ONLY_DAY;
             default: return CalendarEventType.WEATHER_DAY;
         }
     }
