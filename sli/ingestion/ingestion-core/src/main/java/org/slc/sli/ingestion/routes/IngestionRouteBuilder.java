@@ -242,7 +242,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // a switch to route 'completed' WorkNotes from the maestro queue (coming from pits) to the
         // correct aggregator.
         from(maestroQueueUri).routeId("aggregationSwitch")
-                .log(LoggingLevel.INFO, "CamelRouting", "Maestro message received. Routing to aggregators: ${body}")
+                .log(LoggingLevel.DEBUG, "CamelRouting", "Maestro message received: ${body}")
+                .log(LoggingLevel.INFO, "CamelRouting", "Routing to aggregators.")
                 .choice().when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
                 .to("direct:transformationAggregator")
                 .when(header("IngestionMessageType").isEqualTo(MessageType.PERSIST_REQUEST.name()))
@@ -335,7 +336,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         // routeId: pitNodes
         from(pitNodeQueueUri).routeId("pitNodes")
-                .log(LoggingLevel.INFO, "CamelRouting", "Pit message received: ${body}").choice()
+                .log(LoggingLevel.DEBUG, "CamelRouting", "Pit message received: ${body}").choice()
                 .when(header("IngestionMessageType").isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to TransformationProcessor.")
                 .process(transformationProcessor)

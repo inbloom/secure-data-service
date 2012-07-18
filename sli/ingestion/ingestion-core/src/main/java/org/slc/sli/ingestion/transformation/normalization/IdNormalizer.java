@@ -87,7 +87,7 @@ public class IdNormalizer {
         }
 
         if (entityConfig.getReferences() == null) {
-            LOG.warn("Entity configuration contains no references --> checking for sub-entities and then returning...");
+            LOG.debug("Entity configuration contains no references --> checking for sub-entities and then returning...");
             resolveSubEntities(entity, tenantId, entityConfig, errorReport);
             return;
         }
@@ -199,13 +199,13 @@ public class IdNormalizer {
     private void resolveSubEntities(Entity entity, String tenantId, EntityConfig entityConfig, ErrorReport errorReport) {
         Map<String, String> subEntityConfigs = entityConfig.getSubEntities();
         if (subEntityConfigs != null) {
-            LOG.info("Checking entity: {} for sub-entities: {}", entity.getType(), subEntityConfigs);
+            LOG.debug("Checking entity: {} for sub-entities: {}", entity.getType(), subEntityConfigs);
             for (Map.Entry<String, String> entry : subEntityConfigs.entrySet()) {
                 String pathString = entry.getKey();
                 boolean optional = pathString.endsWith("?");
                 String path = optional ? pathString.substring(0, pathString.length() - 1) : pathString;
                 EntityConfig subEntityConfig = entityConfigurations.getEntityConfiguration(entry.getValue());
-                LOG.info("Checking sub-entity: {} [optional: {}]", pathString, optional);
+                LOG.debug("Checking sub-entity: {} [optional: {}]", pathString, optional);
                 try {
                     Object subEntityObject = PropertyUtils.getProperty(entity, path);
                     if (subEntityObject == null) {
@@ -216,12 +216,12 @@ public class IdNormalizer {
                         }
                     }
                     if (subEntityObject instanceof List) {
-                        LOG.info("Resolving list of sub-entities.");
+                        LOG.debug("Resolving list of sub-entities.");
                         for (Object subEntityInstance : (List<?>) subEntityObject) {
                             resolveSubEntity(tenantId, errorReport, subEntityConfig, subEntityInstance);
                         }
                     } else {
-                        LOG.info("Resolving single sub-entity.");
+                        LOG.debug("Resolving single sub-entity.");
                         resolveSubEntity(tenantId, errorReport, subEntityConfig, subEntityObject);
                     }
                 } catch (Exception e) {
@@ -229,7 +229,7 @@ public class IdNormalizer {
                 }
             }
         } else {
-            LOG.info("Entity: {} does not have any sub-entities.", entity.getType());
+            LOG.debug("Entity: {} does not have any sub-entities.", entity.getType());
         }
     }
 

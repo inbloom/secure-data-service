@@ -54,7 +54,7 @@ public class WorkNoteAggregator implements AggregationStrategy {
 
             workNoteList.add(workNote);
 
-            LOG.info("aggregated WorkNote: {} ", workNote);
+            LOG.debug("aggregated WorkNote: {} ", workNote);
         }
 
         return hasBeenAggregated;
