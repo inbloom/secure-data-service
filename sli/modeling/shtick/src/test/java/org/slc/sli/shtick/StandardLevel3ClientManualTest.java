@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -19,9 +20,11 @@ import org.junit.Test;
 import org.slc.sli.shtick.pojo.Address;
 import org.slc.sli.shtick.pojo.BirthData;
 import org.slc.sli.shtick.pojo.Home;
+import org.slc.sli.shtick.pojo.LanguageItemType;
 import org.slc.sli.shtick.pojo.Links;
 import org.slc.sli.shtick.pojo.Name;
 import org.slc.sli.shtick.pojo.SexType;
+import org.slc.sli.shtick.pojo.StateAbbreviationType;
 import org.slc.sli.shtick.pojo.Student;
 
 public class StandardLevel3ClientManualTest {
@@ -48,6 +51,12 @@ public class StandardLevel3ClientManualTest {
             assertEquals("Jeff", student.getName().getFirstName());
             assertEquals("Stokes", student.getName().getLastSurname());
             assertEquals(studentId, student.getId());
+
+            assertEquals(2, student.getAddress().size());
+
+            assertEquals(2, student.getLanguages().size());
+            assertTrue(student.getLanguages().contains(LanguageItemType.ENGLISH));
+            assertTrue(student.getLanguages().contains(LanguageItemType.APACHE));
 
             // PUT UPDATED ENTITY
             doPutStudent(client, student);
@@ -90,7 +99,6 @@ public class StandardLevel3ClientManualTest {
     }
 
     @Test
-    @Ignore("Links don't come in as HashMap -- Why??")
     public void testHome() throws IOException, StatusCodeException {
         final Level3Client client = new StandardLevel3Client(BASE_URL);
         final Home home = client.getHome(TestingConstants.ROGERS_TOKEN, EMPTY_QUERY_ARGS);
@@ -104,6 +112,20 @@ public class StandardLevel3ClientManualTest {
         assertTrue(linksMap.containsKey("self"));
         Links selfLink = linksMap.get("self");
         assertTrue(selfLink.getHref().contains("staff"));
+    }
+
+    @Test
+    public void testValidationError() throws IOException, StatusCodeException {
+        final Level3Client client = new StandardLevel3Client(BASE_URL);
+        final Student student = new Student();
+
+        // try to post an empty student
+        try {
+            client.postStudents(TestingConstants.ROGERS_TOKEN, student);
+        } catch (final StatusCodeException sce) {
+            assertEquals(400, sce.getStatusCode());
+            assertTrue(sce.getMessage().contains("ValidationError"));
+        }
     }
 
     @Test
@@ -260,18 +282,42 @@ public class StandardLevel3ClientManualTest {
     }
 
     private String doPostStudentUsingJson(final Level3Client client) throws IOException, StatusCodeException {
-        Student student = new Student();
+        final Student student = new Student();
 
-        Name name = new Name();
+        final Name name = new Name();
         name.setFirstName("Jeff");
         name.setMiddleName("Allen");
         name.setLastSurname("Stokes");
         student.setName(name);
 
+        List<Address> addressList = new ArrayList<Address>();
+        final Address address1 = new Address();
+        address1.setStreetNumberName("1234 My Street");
+        address1.setCity("New York");
+        address1.setPostalCode("11111");
+        address1.setStateAbbreviation(StateAbbreviationType.NY);
+
+        final Address address2 = new Address();
+        address2.setStreetNumberName("5555 My Street");
+        address2.setCity("San Fran");
+        address2.setPostalCode("22222");
+        address2.setStateAbbreviation(StateAbbreviationType.CA);
+
+        addressList.add(address1);
+        addressList.add(address2);
+
+        student.setAddress(addressList);
+
+        final List<LanguageItemType> languageList = new ArrayList<LanguageItemType>();
+        languageList.add(LanguageItemType.ENGLISH);
+        languageList.add(LanguageItemType.APACHE);
+
+        student.setLanguages(languageList);
+
         student.setStudentUniqueStateId("1234-STUDENT");
         student.setSex(SexType.MALE);
 
-        BirthData birthData = new BirthData();
+        final BirthData birthData = new BirthData();
         birthData.setBirthDate("1988-12-01");
         student.setBirthData(birthData);
 

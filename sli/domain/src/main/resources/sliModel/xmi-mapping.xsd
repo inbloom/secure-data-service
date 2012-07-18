@@ -38,6 +38,7 @@
 				<xs:element name="rhs-missing" type="XmiMissing"></xs:element>
 			</xs:choice>
 			<xs:element name="status" type="XmiMappingStatus"></xs:element>
+			<xs:element name="tracking" type="xs:string"></xs:element>
 			<xs:element name="comment" type="xs:string"></xs:element>
 		</xs:sequence>
 	</xs:complexType>

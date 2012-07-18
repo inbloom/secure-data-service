@@ -33,6 +33,7 @@ require_relative '../../../utils/sli_utils.rb'
 INGESTION_DB_NAME = PropLoader.getProps['ingestion_database_name']
 INGESTION_DB = PropLoader.getProps['ingestion_db']
 INGESTION_BATCHJOB_DB_NAME = PropLoader.getProps['ingestion_batchjob_database_name']
+LZ_SERVER_URL = PropLoader.getProps['lz_server_url']
 INGESTION_SERVER_URL = PropLoader.getProps['ingestion_server_url']
 INGESTION_MODE = PropLoader.getProps['ingestion_mode']
 INGESTION_DESTINATION_DATA_STORE = PropLoader.getProps['ingestion_destination_data_store']
@@ -209,7 +210,7 @@ end
 ############################################################
 
 def remoteLzCopy(srcPath, destPath)
-	Net::SFTP.start(INGESTION_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+	Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
 		puts "attempting to remote copy " + srcPath + " to " + destPath
 		sftp.upload(srcPath, destPath)
     end
@@ -219,7 +220,7 @@ def clearRemoteLz(landingZone)
 
 	puts "clear landing zone " + landingZone
 
-	Net::SFTP.start(INGESTION_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+	Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
 		sftp.dir.foreach(landingZone) do |entry|
 			next if entry.name == '.' or entry.name == '..'
 
@@ -235,7 +236,7 @@ end
 def remoteLzContainsFile(pattern, landingZone)
 	puts "remoteLzContainsFiles(" + pattern + " , " + landingZone + ")"
 
-	Net::SFTP.start(INGESTION_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+	Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
 		sftp.dir.glob(landingZone, pattern) do |entry|
 			return true
 		end
@@ -247,7 +248,7 @@ def remoteLzContainsFiles(pattern, targetNum , landingZone)
 	puts "remoteLzContainsFiles(" + pattern + ", " + targetNum + " , " + landingZone + ")"
 
 	count = 0
-	Net::SFTP.start(INGESTION_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+	Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
 		sftp.dir.glob(landingZone, pattern) do |entry|
 			count += 1
 			if count >= targetNum
@@ -261,7 +262,7 @@ end
 def remoteFileContainsMessage(prefix, message, landingZone)
 
 	puts "remoteFileContainsMessage prefix " + prefix + ", message " + message + ", landingZone " + landingZone
-	Net::SFTP.start(INGESTION_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+	Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
 		sftp.dir.glob(landingZone, prefix + "*") do |entry|
 			entryPath = File.join(landingZone, entry.name)
 			puts "found file " + entryPath
@@ -282,7 +283,7 @@ end
 def createRemoteDirectory(dirPath)
 	puts "attempting to create dir: " + dirPath
 
-	Net::SFTP.start(INGESTION_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+	Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
 		begin
 			sftp.mkdir!(dirPath)
 		rescue

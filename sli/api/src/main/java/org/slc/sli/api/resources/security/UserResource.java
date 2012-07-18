@@ -64,7 +64,7 @@ public class UserResource {
         if (result != null) {
             return result;
         }
-
+        newUser.setGroups((List<String>) (RoleToGroupMapper.getInstance().mapRoleToGroups(newUser.getGroups())));
         try {
             ldapService.createUser(realm, newUser);
         } catch (NameAlreadyBoundException e) {
@@ -107,7 +107,7 @@ public class UserResource {
         if (result != null) {
             return result;
         }
-
+        updateUser.setGroups((List<String>) (RoleToGroupMapper.getInstance().mapRoleToGroups(updateUser.getGroups())));
         ldapService.updateUser(realm, updateUser);
         return Response.status(Status.NO_CONTENT).build();
     }
@@ -453,8 +453,8 @@ public class UserResource {
             ROLETOGROUPMAP.put(RoleInitializer.REALM_ADMINISTRATOR, "Realm Administrator");
             ROLETOGROUPMAP.put(RoleInitializer.SEA_ADMINISTRATOR, "SEA Administrator");
             ROLETOGROUPMAP.put(RoleInitializer.LEA_ADMINISTRATOR, "LEA Administrator");
-            ROLETOGROUPMAP.put(RoleInitializer.APP_DEVELOPER, "Application Developer");
-            ROLETOGROUPMAP.put(RoleInitializer.INGESTION_USER, "Ingestion User");
+            ROLETOGROUPMAP.put(RoleInitializer.APP_DEVELOPER, "application_developer");
+            ROLETOGROUPMAP.put(RoleInitializer.INGESTION_USER, "ingestion_user");
             ROLETOGROUPMAP.put(RoleInitializer.SANDBOX_SLC_OPERATOR, "Sandbox SLC Operator");
             ROLETOGROUPMAP.put(RoleInitializer.SANDBOX_ADMINISTRATOR, "Sandbox Administrator");
             
@@ -462,8 +462,8 @@ public class UserResource {
             GROUPTOROLEMAP.put("Realm Administrator", RoleInitializer.REALM_ADMINISTRATOR);
             GROUPTOROLEMAP.put("SEA Administrator", RoleInitializer.SEA_ADMINISTRATOR);
             GROUPTOROLEMAP.put("LEA Administrator", RoleInitializer.LEA_ADMINISTRATOR);
-            GROUPTOROLEMAP.put("Application Developer", RoleInitializer.APP_DEVELOPER);
-            GROUPTOROLEMAP.put("Ingestion User", RoleInitializer.INGESTION_USER);
+            GROUPTOROLEMAP.put("application_developer", RoleInitializer.APP_DEVELOPER);
+            GROUPTOROLEMAP.put("ingestion_user", RoleInitializer.INGESTION_USER);
             GROUPTOROLEMAP.put("Sandbox SLC Operator", RoleInitializer.SANDBOX_SLC_OPERATOR);
             GROUPTOROLEMAP.put("Sandbox Administrator", RoleInitializer.SANDBOX_ADMINISTRATOR);
         }
