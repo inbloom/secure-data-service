@@ -35,41 +35,46 @@ class SLCFixer
     @log = logger || Logger.new(STDOUT)
     @parent_ed_org_hash = {}
     @tenant_to_ed_orgs = {}
+    @cache = Set.new
+    @stamping = []
   end
 
   def start
     time = Time.now
     @threads = []
+    build_edorg_list
+    fix {fix_students}
+    fix {fix_sections}
+    fix {fix_staff}
+    @threads << Thread.new {    fix {fix_attendance}}
+    @threads << Thread.new {   fix {fix_assessments}}
+    @threads << Thread.new {    fix {fix_disciplines}}
+    @threads << Thread.new {       fix {fix_parents}}
+    @threads << Thread.new {   fix {fix_report_card}}
+    @threads << Thread.new {      fix {fix_programs}}
+    @threads << Thread.new {       fix {fix_courses}}
+    @threads << Thread.new { fix {fix_miscellany}}
+    @threads << Thread.new {       fix {fix_cohorts}}
+    @threads << Thread.new {        fix {fix_grades}}
+    @threads << Thread.new {      fix {fix_sessions}}
 
-    Benchmark.bm(20) do |x|
-      x.report("Parent EdOrgs") {build_edorg_list}
-      x.report("Students")      {fix_students}
-      x.report("Sections")      {fix_sections}
-      x.report("Staff")         {fix_staff}
-      @threads << Thread.new {x.report("Attendance")    {fix_attendance}}
-      @threads << Thread.new {x.report("Assessments")   {fix_assessments}}
-      @threads << Thread.new {x.report("Discipline")    {fix_disciplines}}
-      @threads << Thread.new {x.report("Parents")       {fix_parents}}
-      @threads << Thread.new {x.report("Report Card")   {fix_report_card}}
-      @threads << Thread.new {x.report("Programs")      {fix_programs}}
-      @threads << Thread.new {x.report("Courses")       {fix_courses}}
-      @threads << Thread.new {x.report("Miscellaneous") {fix_miscellany}}
-      @threads << Thread.new {x.report("Cohorts")       {fix_cohorts}}
-      @threads << Thread.new {x.report("Grades")        {fix_grades}}
-      @threads << Thread.new {x.report("Sessions")      {fix_sessions}}
-    end
     @threads.each do |th|
       th.join
     end
     finalTime = Time.now - time
-    puts "\t Final time is #{finalTime} secs"
-    puts "\t Documents(#{@count}) per second #{@count/finalTime}"
+    @log.info "\t Final time is #{finalTime} secs"
+    @log.info "\t Documents(#{@count}) per second #{@count/finalTime}"
   end
 
+  def fix
+    @stamping.clear
+    @cache.clear
+    yield
+  end
 
   def fix_students
-    clear_stamps(@db['studentSchoolAssociation'])
-    clear_stamps(@db['student'])
+    set_stamps(@db['studentSchoolAssociation'])
+    set_stamps(@db['student'])
     @log.info "Iterating studentSchoolAssociation with query {}"
 
     @db['studentSchoolAssociation'].find({}, @basic_options) do |cur|
@@ -87,11 +92,11 @@ class SLCFixer
   end
 
   def fix_sections
-    clear_stamps(@db['section'])
-    clear_stamps(@db['teacherSectionAssociaton'])
-    clear_stamps(@db['sectionAssessmentAssociation'])
-    clear_stamps(@db['studentSectionAssociation'])
-    clear_stamps(@db['sectionSchoolAssociation'])
+    set_stamps(@db['section'])
+    set_stamps(@db['teacherSectionAssociaton'])
+    set_stamps(@db['sectionAssessmentAssociation'])
+    set_stamps(@db['studentSectionAssociation'])
+    set_stamps(@db['sectionSchoolAssociation'])
     @log.info "Iterating sections with query: {}"
     @db['section'].find({}, @basic_options) do |cur|
       cur.each do |section|
@@ -118,7 +123,7 @@ class SLCFixer
   end
 
   def fix_attendance
-    clear_stamps(@db['attendance'])
+    set_stamps(@db['attendance'])
     @log.info "Iterating attendance with query: {}"
     @db['attendance'].find({}, @basic_options) do |cur|
       cur.each do |attendance|
@@ -130,8 +135,8 @@ class SLCFixer
 
   def fix_assessments
 
-    clear_stamps(@db['studentAssessmentAssociation'])
-    clear_stamps(@db['sectionAssessmentAssociation'])
+    set_stamps(@db['studentAssessmentAssociation'])
+    set_stamps(@db['sectionAssessmentAssociation'])
     @log.info "Iterating studentAssessmentAssociation with query: {}"
     @db['studentAssessmentAssociation'].find({}, @basic_options) do |cur|
       cur.each do |studentAssessment|
@@ -155,9 +160,9 @@ class SLCFixer
   end
 
   def fix_disciplines
-    clear_stamps(@db['disciplineAction'])
-    clear_stamps(@db['studentDisciplineIncidentAssociation'])
-    clear_stamps(@db['disciplineIncident'])
+    set_stamps(@db['disciplineAction'])
+    set_stamps(@db['studentDisciplineIncidentAssociation'])
+    set_stamps(@db['disciplineIncident'])
     @log.info "Iterating disciplineAction with query: {}"
     @db['disciplineAction'].find({}, :timeout => false) do |cur|
       cur.each do |action|
@@ -186,8 +191,8 @@ class SLCFixer
   end
 
   def fix_parents
-    clear_stamps(@db['studentParentAssociation'])
-    clear_stamps(@db['parent'])
+    set_stamps(@db['studentParentAssociation'])
+    set_stamps(@db['parent'])
     @log.info "Iterating studentParentAssociation with query: {}"
     @db['studentParentAssociation'].find({}, @basic_options) do |cur|
       cur.each do |parent|
@@ -199,7 +204,7 @@ class SLCFixer
   end
 
   def fix_report_card
-    clear_stamps(@db['reportCard'])
+    set_stamps(@db['reportCard'])
     @log.info "Iterating reportCard with query: {}"
     @db['reportCard'].find({}, @basic_options) do |cur|
       cur.each do |card|
@@ -210,9 +215,9 @@ class SLCFixer
   end
 
   def fix_programs
-    clear_stamps(@db['studentProgramAssociation'])
-    clear_stamps(@db['program'])
-    clear_stamps(@db['staffProgramAssociation'])
+    set_stamps(@db['studentProgramAssociation'])
+    set_stamps(@db['program'])
+    set_stamps(@db['staffProgramAssociation'])
     @log.info "Iterating studentProgramAssociation with query: {}"
     @db['studentProgramAssociation'].find({}, @basic_options) do |cur|
       cur.each do |program|
@@ -236,9 +241,9 @@ class SLCFixer
   end
 
   def fix_cohorts
-    clear_stamps(@db['cohort'])
-    clear_stamps(@db['studentCohortAssociation'])
-    clear_stamps(@db['staffCohortAssociation'])
+    set_stamps(@db['cohort'])
+    set_stamps(@db['studentCohortAssociation'])
+    set_stamps(@db['staffCohortAssociation'])
     @log.info "Iterating cohort with query: {}"
     @db['cohort'].find({}, @basic_options) do |cur|
       cur.each do |cohort|
@@ -266,9 +271,9 @@ class SLCFixer
   end
 
   def fix_sessions
-    clear_stamps(@db['session'])
-    clear_stamps(@db['schoolSessionAssociation'])
-    clear_stamps(@db['gradingPeriod'])
+    set_stamps(@db['session'])
+    set_stamps(@db['schoolSessionAssociation'])
+    set_stamps(@db['gradingPeriod'])
     @log.info "Iterating session with query: {}"
     @db['session'].find({}, @basic_options) do |cur|
       cur.each do |session|
@@ -300,9 +305,9 @@ class SLCFixer
   end
 
   def fix_staff
-    clear_stamps(@db['staffEducationOrganizationAssociation'])
-    clear_stamps(@db['staff'])
-    clear_stamps(@db['teacherSchoolAssociation'])
+    set_stamps(@db['staffEducationOrganizationAssociation'])
+    set_stamps(@db['staff'])
+    set_stamps(@db['teacherSchoolAssociation'])
     @log.info "Iterating staffEducationOrganizationAssociation with query: {}"
     @db['staffEducationOrganizationAssociation'].find({}, @basic_options) do |cur|
       cur.each do |staff|
@@ -324,8 +329,8 @@ class SLCFixer
   end
 
   def fix_grades
-    clear_stamps(@db['gradebookEntry'])
-    clear_stamps(@db['grade'])
+    set_stamps(@db['gradebookEntry'])
+    set_stamps(@db['grade'])
     @log.info "Iterating gradebookEntry with query: {}"
     @db['gradebookEntry'].find({}, @basic_options) do |cur|
       cur.each do |grade|
@@ -345,8 +350,8 @@ class SLCFixer
   end
 
   def fix_courses
-    clear_stamps(@db['courseOffering'])
-    clear_stamps(@db['course'])
+    set_stamps(@db['courseOffering'])
+    set_stamps(@db['course'])
     @log.info "Iterating section with query: {}"
     @db['section'].find({}, @basic_options) do |cur|
       cur.each do |section|
@@ -375,10 +380,10 @@ class SLCFixer
   end
 
   def fix_miscellany
-    clear_stamps(@db['studentTranscriptAssociation'])
-    clear_stamps(@db['studentSectionGradebookEntry'])
-    clear_stamps(@db['studentCompetency'])
-    clear_stamps(@db['studentAcademicRecord'])
+    set_stamps(@db['studentTranscriptAssociation'])
+    set_stamps(@db['studentSectionGradebookEntry'])
+    set_stamps(@db['studentCompetency'])
+    set_stamps(@db['studentAcademicRecord'])
     #StudentTranscriptAssociation
     @log.info "Iterating studentTranscriptAssociation with query: {}"
     @db['studentTranscriptAssociation'].find({}, @basic_options) do |cur|
@@ -427,19 +432,20 @@ class SLCFixer
   end
 
   private
-  def clear_stamps(collection)
-    @log.info "Clearing edorg stamps on #{collection.name}"
-    collection.find({"metaData.edOrgs" => {"$exists" => true}}, @basic_options) do |cur|
-      cur.each do |doc|
-        tenant = nil
-        begin
-          tenant = doc["metaData"]["tenantId"]
-        rescue
-          @log.warn "No tenant found when clearning edorgs for #{collection.name}##{doc["_id"]}"
-        end
-        collection.update({"_id" => doc["_id"], 'metaData.tenantId' => tenant}, {"$unset" => {"metaData.edOrgs" => 1}}) unless tenant.nil?
-      end
-    end
+  def set_stamps(collection)
+    @stamping.push collection.name
+  #  @log.info "Clearing edorg stamps on #{collection.name}"
+  #  collection.find({"metaData.edOrgs" => {"$exists" => true}}, @basic_options) do |cur|
+  #    cur.each do |doc|
+  #      tenant = nil
+  #      begin
+  #        tenant = doc["metaData"]["tenantId"]
+  #      rescue
+  #        @log.warn "No tenant found when clearning edorgs for #{collection.name}##{doc["_id"]}"
+  #      end
+  #      collection.update({"_id" => doc["_id"], 'metaData.tenantId' => tenant}, {"$unset" => {"metaData.edOrgs" => 1}}) unless tenant.nil?
+  #    end
+  #  end
 
   end
   def edorg_digger(id)
@@ -474,6 +480,7 @@ class SLCFixer
       else
         collection.update({"_id" => id, 'metaData.tenantId' => tenantid}, {"$unset" => {"padding" => 1}, "$set" => {"metaData.edOrgs" => edOrgs}}) unless tenantid.nil?
       end
+      @cache.add id
     rescue Exception => e
       @log.error "Writing to #{collection.name}##{id} - #{e.message}"
       @log.error "Writing to #{collection.name}##{id} - #{e.backtrace}"
@@ -495,6 +502,12 @@ class SLCFixer
   end
 
   def old_edorgs(collection, id)
+    # Some base cases are to avoid rolling up "Old" data
+    # we do taht by keeping an array of the collections we stamp
+    #
+    # If we are asking for old edorgs within that set, we refuse
+    # to give it unless we have already started stamping it.
+    nil if @stamping.include? collection and !@cache.include? id
     if id.is_a? Array
       doc = collection.find({"_id" => {'$in' => id}})
     else
