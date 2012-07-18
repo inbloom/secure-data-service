@@ -1,0 +1,37 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s) -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.0 datamodel objects             -->
+<!-- ======================================== -->
+<adk package="datamodel" version="2.1" name="Data Model" namespace="http://www.sifinfo.org/infrastructure/2.x">
+  <!--EducationFilter object-->
+  <object name="EducationFilter">
+    <element name="MediaTypes" type="MediaTypes" flags="O" />
+    <element name="GradeLevels" type="GradeLevels" flags="O">
+      <desc>Applicable grade levels as defined by SIF.</desc>
+    </element>
+    <element name="SubjectAreas" type="SubjectAreas" flags="O" />
+    <element name="InterestLevels" type="InterestLevels" flags="O" />
+    <element name="LearningStandardItems" type="LearningStandardItems" flags="O" />
+  </object>
+  <!--InterestLevel object-->
+  <object name="InterestLevel" empty="true">
+    <element name="Code" enum="GradeLevelCode" flags="M">
+      <desc>Code representing the grade level.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+  <!--InterestLevels object-->
+  <object name="InterestLevels">
+    <element name="InterestLevel" type="InterestLevel" flags="OR" />
+  </object>
+    <!--SIF_Metadata object-->
+  <object name="SIF_Metadata">
+    <element name="TimeElements" type="TimeElements" flags="O" />
+    <element name="LifeCycle" type="LifeCycle" flags="O" />
+    <element name="RightsElements" type="RightsElements" flags="O" />
+    <element name="EducationFilter" type="EducationFilter" flags="O" />
+  </object>
+</adk>

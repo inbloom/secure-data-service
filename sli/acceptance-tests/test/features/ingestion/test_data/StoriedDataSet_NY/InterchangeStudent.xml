@@ -18,7 +18,6 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>60057-5477</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
 		</Address>
 		<Address AddressType="Physical">
 			<StreetNumberName>8523 Lester Court</StreetNumberName>
@@ -26,7 +25,6 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10062-3727</PostalCode>
 			<NameOfCounty>Queens</NameOfCounty>
-			<CountryCode>US</CountryCode>
 		</Address>
 		<Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
 			<TelephoneNumber>331-703-1951</TelephoneNumber>
@@ -89,7 +87,6 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>60863-4143</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
 		</Address>
 		<Telephone TelephoneNumberType="Emergency 2" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>847-977-0907</TelephoneNumber>
@@ -126,7 +123,6 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>60447-1536</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
 		</Address>
 		<Address AddressType="Mailing">
 			<StreetNumberName>7472 Ross Street</StreetNumberName>
@@ -134,7 +130,6 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10180-7445</PostalCode>
 			<NameOfCounty>Queens</NameOfCounty>
-			<CountryCode>US</CountryCode>
 		</Address>
 		<Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>262-298-8577</TelephoneNumber>
@@ -172,7 +167,6 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>60267-4406</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
 		</Address>
 		<Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="true">
 			<TelephoneNumber>224-167-3247</TelephoneNumber>
@@ -207,7 +201,6 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>60813-4537</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
 		</Address>
 		<Address AddressType="Physical">
 			<StreetNumberName>6248 Livonia Avenue</StreetNumberName>
@@ -216,7 +209,6 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10639-1170</PostalCode>
 			<NameOfCounty>Kings</NameOfCounty>
-			<CountryCode>US</CountryCode>
 		</Address>
 		<Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>708-028-5573</TelephoneNumber>
@@ -253,7 +245,6 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>60991-2644</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
 		</Address>
 		<Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>262-583-8809</TelephoneNumber>
@@ -300,7 +291,6 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>60013-2084</PostalCode>
 			<NameOfCounty>Cook</NameOfCounty>
-			<CountryCode>US</CountryCode>
 		</Address>
 		<Address AddressType="Other">
 			<StreetNumberName>4692 Hutchinson Court</StreetNumberName>
@@ -308,7 +298,6 @@
 			<StateAbbreviation>NY</StateAbbreviation>
 			<PostalCode>10751-7708</PostalCode>
 			<NameOfCounty>Queens</NameOfCounty>
-			<CountryCode>US</CountryCode>
 		</Address>
 		<Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="false">
 			<TelephoneNumber>815-380-7412</TelephoneNumber>

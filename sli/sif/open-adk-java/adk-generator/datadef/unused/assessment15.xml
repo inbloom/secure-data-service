@@ -1,0 +1,784 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 1.5r1 assessment objects		  -->
+<!-- These objects have been removed in SIF 2.0 -->
+<!-- ======================================== -->
+<adk package="assessment15" version="1.5r1" namespace="http://www.sifinfo.org/infrastructure/1.x">
+	<!--Administration object-->
+	<object name="Administration" deprecated="true">
+		<desc>This is a structure that contains sub-elements with administration information specific to the test taker and conditions surrounding the administration of the assessment required to properly interpret and score responses</desc>
+		<element name="StaffPersonalRefId" flags="OR">
+			<desc>GUID assigned to the educator or school staff that is associated with the result set.</desc>
+		</element>
+		<element name="Form" type="Form" flags="O">
+			<desc>Contains administration information specific to the assessment that is relevant to scoring, interpretation and reporting of results.</desc>
+		</element>
+		<element name="SpecialCondition" type="SpecialCondition" flags="OR">
+			<desc>Any special report information specific to the assessment being reported.</desc>
+		</element>
+		<element name="AdminTime" type="AdminTime" flags="O">
+			<desc>Information about the time when the result was generated.</desc>
+		</element>
+	</object>
+	<!--AdminTime object-->
+	<object name="AdminTime" deprecated="true">
+		<desc>Information about the time when the result was generated.</desc>
+		<element name="ResultDuration" flags="O">
+			<desc>The time taken to complete the object being reported. The format of this value is DD:HH:MM:SS.SS where the seconds contain an optional decimal point with one or two additional digits.</desc>
+		</element>
+		<element name="StartDate" type="SIFDate" flags="O">
+			<desc>Date activity/assessment is started.</desc>
+		</element>
+		<element name="FinishDate" type="SIFDate" flags="O">
+			<desc>Date activity/assessment is finished.</desc>
+		</element>
+		<element name="StartTime" type="SIFTime" flags="O">
+			<desc>Time activity/assessment is started.</desc>
+		</element>
+		<element name="FinishTime" type="SIFTime" flags="O">
+			<desc>Time activity/assessment is finished.</desc>
+		</element>
+		<element name="DueDate" type="SIFDate" flags="O">
+			<desc>Date activity, etc. is due. (To determine if the assessment was completed past the due date.)</desc>
+		</element>
+	</object>
+	<!--Assessment object-->
+	<object name="Assessment" topic="true">
+		<desc>This object is used to contain the exchange of test data structures.  It can contain items or sections and may contain meta-data, objectives, rubric control switches, assessment-level processing, feedback and selection and sequencing information for sections.  SIF_Events are reported.</desc>
+		<attribute name="RefId" flags="R">
+			<desc>The GUID for the assessment.</desc>
+		</attribute>
+		<attribute name="Language" renderAs="xml:lang" flags="R" />
+		<element name="MaxAttemptsAllowed" flags="O">
+			<desc>The number of attempts permitted.</desc>
+		</element>
+		<element name="LearningStandardItemRefId" type="StringElement" flags="OR">
+			<desc>This is a reference to the LearningStandardItem that this assessment is referenced against</desc>
+		</element>
+		<element name="Title" flags="O">
+			<desc>The title of the assessment.</desc>
+		</element>
+		<element name="AssessmentType" enum="AssessmentTypeValue" flags="O">
+			<desc>Educational test or requirement code (test code). Indicates a particular national, regional, state, or local test or requirement. Values (based on GEM 2.0):  AlternativeAssessment, AuthenticAssessment, Curriculum-basedAssessment, InformalAssessment, PeerEvaluation, Observation, PortfolioAssessment, SelfEvaluation, StandardizedTesting, Testing</desc>
+		</element>
+		<element name="AssessmentInstanceForm" flags="MR">
+			<desc>This describes the level of the assessment.ValuesAssessment, Level, Form, Subtest, ItemAs it is understood by the test publishing industry.</desc>
+		</element>
+		<element name="AssessmentComment" type="AssessmentComment" flags="O">
+			<desc>This element contains the comments that are relevant to the assessment as a whole</desc>
+		</element>
+		<element name="Duration" type="Duration" flags="O">
+			<desc>The amount of time that a participant is permitted to use in attempting to complete the assessment.</desc>
+		</element>
+		<element name="PauseFlag" enum="YesNo" flags="M">
+			<desc>Indicates whether the assessment can be stopped or not.</desc>
+		</element>
+		<element name="Objective" type="Objective" flags="OR">
+			<desc>Used to store the information that describes the educational aims of the assessment. These objectives can be defined for each of the different 'view' perspectives. This element should not be used to contain information specific to an assessment because the question-engine may not make this information available to the item during the actual test.</desc>
+		</element>
+		<element name="AssessmentControl" type="AssessmentControl" flags="O">
+			<desc>The control switches that are used to enable or disable the display of hints, solutions and feedback within the assessment</desc>
+		</element>
+		<element name="Rubric" type="Rubric" flags="OR">
+			<desc>The rubric element is used to contain contextual information that is important to the element; e.g., it could contain standard data values that might or might not be useful for scoring the question. Different sets of rubric can be defined for each of the possible 'views'.</desc>
+		</element>
+		<element name="PresentationMaterial" type="PresentationMaterial" flags="O">
+			<desc>The information that is to be presented to set the context for the contained objects. This can be used to contain question-based material that is common to all of the child objects.</desc>
+		</element>
+		<element name="OutcomesProcessingExtension" type="OutcomesProcessingExtension" flags="O">
+			<desc>This is a container for any outcome processing instructions to be applied at the Assessment level.  This container could either contain a URI to a proprietary local structure for selection ordering or utilize the Selection and Ordering Specification defined in IMS QTI ASI Specification 1.2c. [QTI]</desc>
+		</element>
+		<element name="AssessmentFeedback" type="AssessmentFeedback" flags="OR">
+			<desc>The assessment-level feedback that is to be presented as a result of assessment-level processing of the user's responses.</desc>
+		</element>
+		<element name="SelectionOrdering" type="SelectionOrdering" flags="O">
+			<desc>This element is used to contain the selection and ordering rules that are to be applied to the contained objects.  This container could either contain a URI to a proprietary local structure for selection ordering or utilize the Selection and Ordering Specification defined in IMS QTI ASI Specification 1.2c.  [QTI]</desc>
+		</element>
+		<element name="Reference" flags="O">
+			<desc>This element is used to contain any common materials that are to be available to any of the child objects. The common material may or may not be presented to the participant.  This could also be a URI.</desc>
+		</element>
+		<element name="AssessmentSectionRefId" flags="OR">
+			<desc>This is used to refer to one or more Sections that have been defined by an AssessmentSection object but which are to be logically related to this assessment.</desc>
+		</element>
+		<element name="AssessmentItemRefId" flags="OR">
+			<desc>This is used to refer to one or more AssessmentItems that have been defined by an AssessmentItem object but which are to be logically related to this assessment.</desc>
+		</element>
+	</object>
+	<!--AssessmentComment object-->
+	<object name="AssessmentComment">
+		<desc>This element contains the comments that are relevant to the assessment as a whole</desc>
+		<attribute name="Language" renderAs="xml:lang" flags="R" />
+	</object>
+	<!--AssessmentControl object-->
+	<object name="AssessmentControl">
+		<desc>The control switches that are used to enable or disable the display of hints, solutions and feedback within the assessment</desc>
+		<attribute name="View" enum="ItemAuthorizedView" flags="R">
+			<desc>The view defines the scope for the display of the associated information i.e. to whom the material can be presented. Values All, Administrator, AdminAuthority, Assessor, Author, Candidate, InvigilatorProctor, Psychometrician, Scorer, Tutor</desc>
+		</attribute>
+		<attribute name="SolutionSwitch" enum="YesNo" flags="R">
+			<desc>The switch setting for the display of solutions within the assessment.Values Yes, No</desc>
+		</attribute>
+		<attribute name="HintSwitch" enum="YesNo" flags="R">
+			<desc>The switch setting for the display of hints within the assessment Values Yes, No</desc>
+		</attribute>
+		<attribute name="FeedbackSwitch" enum="YesNo" flags="R">
+			<desc>The switch setting for the display of feedback within the assessment. Values Yes, No</desc>
+		</attribute>
+	</object>
+	<!--AssessmentFeedback object-->
+	<object name="AssessmentFeedback">
+		<desc>The assessment-level feedback that is to be presented as a result of assessment-level processing of the user's responses.</desc>
+		<attribute name="AssessmentFeedbackRefId" flags="R">
+			<desc>The GUID for the feedback.</desc>
+		</attribute>
+		<attribute name="View" enum="ItemAuthorizedView" flags="R">
+			<desc>The view defines the scope for the display of the associated information i.e. to whom the material can be presented. Values All, Administrator, AdminAuthority, Assessor, Author, Candidate, InvigilatorProctor, Psychometrician, Scorer, Tutor</desc>
+		</attribute>
+		<element name="FeedbackTitle" flags="O">
+			<desc>The title of the feedback section.</desc>
+		</element>
+		<element name="AssessmentFeedbackContent" renderAs="Content" flags="M">
+			<desc>The assessment-level feedback that is to be presented as a result of assessment-level processing of the user's responses.</desc>
+		</element>
+	</object>
+	<!--AssessmentInstanceForm enum-->
+	<enum name="AssessmentInstanceForm">
+		<value name="ASSESSMENT" value="Assessment" desc="Assessment" />
+		<value name="LEVEL" value="Level" desc="Level" />
+		<value name="FORM" value="Form" desc="Form" />
+		<value name="SUBTEST" value="Subtest" desc="Subtest" />
+		<value name="ITEM" value="Item" desc="Item" />
+	</enum>
+	<!--AssessmentInstanceFormValue enum-->
+	<enum name="AssessmentInstanceFormValue">
+		<value name="ASSESSMENT" value="Assessment" desc="Assessment" />
+		<value name="LEVEL" value="Level" desc="Level" />
+		<value name="FORM" value="Form" desc="Form" />
+		<value name="SUBTEST" value="Subtest" desc="Subtest" />
+		<value name="ITEM" value="Item" desc="Item" />
+	</enum>
+	<!--AssessmentItem object-->
+	<object name="AssessmentItem" topic="true">
+		<desc>An item is the most granular object of assessment.  Often associated with a question and its associated attributes and processes.  SIF_Events are reported.</desc>
+		<attribute name="RefId" flags="R">
+			<desc>The GUID for the AssessmentItem.</desc>
+		</attribute>
+		<attribute name="Language" renderAs="xml:lang" flags="R" />
+		<element name="Title" flags="O">
+			<desc>The title of the AssessmentItem.</desc>
+		</element>
+		<element name="LearningStandardItemRefId" type="StringElement" flags="OR">
+			<desc>This is a reference to the LearningStandardItem that this assessment is referenced against.</desc>
+		</element>
+		<element name="Label" flags="O">
+			<desc>A label that can be used by authoring tools to identify key features and classifiers.</desc>
+		</element>
+		<element name="MaxAttemptsAllowed" flags="O">
+			<desc>The number of attempts permitted.</desc>
+		</element>
+		<element name="ItemComment" type="ItemComment" flags="OR">
+			<desc>This element contains the comments that are relevant to the item as a whole.</desc>
+		</element>
+		<element name="Duration" type="Duration" flags="O">
+			<desc>The amount of time that a participant is permitted to use in attempting to complete the item.</desc>
+		</element>
+		<element name="Objective" type="Objective" flags="OR">
+			<desc>Used to store the information that describes the educational aims of the item. These objectives can be defined for each of the different 'view' perspectives. This element should not be used to contain information specific to an item because the question-engine may not make this information available to the item during the actual test.</desc>
+		</element>
+		<element name="ItemControl" type="ItemControl" flags="O">
+			<desc>The control switches that are used to enable or disable the display of hints, solutions and feedback within the item</desc>
+		</element>
+		<element name="Rubric" type="Rubric" flags="OR">
+			<desc>A scoring template that includes a range of qualitative or quantitative ratings, dimensions along which an artifact will be evaluated, and standards for each dimension at each rating level.</desc>
+		</element>
+		<element name="Presentation" type="Presentation" flags="M" />
+		<element name="ResponseProcessing" flags="O">
+			<desc>This is the element within which all of the instructions for the response processing are contained. This includes the scoring variables to contain the associated scores and the set of response condition tests that are to be applied to the received user response.</desc>
+		</element>
+		<element name="ItemFeedback" type="ItemFeedback" flags="O" />
+		<element name="ItemContent" type="ItemContent" flags="M">
+			<desc>This represents the type of question.  This is an extension of the QTI profile [QTI].</desc>
+		</element>
+	</object>
+	<!--AssessmentSection object-->
+	<object name="AssessmentSection" topic="true">
+		<desc>This object is used to define arbitrarily complex hierarchical section and item data structures.  It may contain meta-data, objectives, rubric control switches, assessment-level processing, feedback and selection and sequencing information for sections and items.  SIF_Events are reported.</desc>
+		<attribute name="RefId" flags="R">
+			<desc>This is the GUID for the AssessmentSection.</desc>
+		</attribute>
+		<attribute name="Language" renderAs="xml:lang" flags="R" />
+		<element name="LearningStandardItemRefId" type="StringElement" flags="OR">
+			<desc>This is a reference to the LearningStandardItem that this assessment is referenced against.</desc>
+		</element>
+		<element name="Title" flags="O">
+			<desc>This is the title of the section.</desc>
+		</element>
+		<element name="MaxAttemptsAllowed" flags="O">
+			<desc>The number of attempts permitted.</desc>
+		</element>
+		<element name="SectionComment" type="SectionComment" flags="O">
+			<desc>This element contains the comments that are relevant to the section as a whole.</desc>
+		</element>
+		<element name="Duration" type="Duration" flags="O">
+			<desc>The amount of time that a participant is permitted to use in attempting to complete the section.</desc>
+		</element>
+		<element name="PauseFlag" flags="M" enum="YesNo">
+			<desc>Indicates whether section can be broken or not.</desc>
+		</element>
+		<element name="Objective" type="Objective" flags="OR">
+			<desc>Used to store the information that describes the educational aims of the section. These objectives can be defined for each of the different 'view' perspectives. This element should not be used to contain information specific to the items in a section because the question-engine may not make this information available to the items during the actual test.</desc>
+		</element>
+		<element name="SectionControl" type="SectionControl" flags="O">
+			<desc>The control switches that are used to enable or disable the display of hints, solutions and feedback within the section</desc>
+		</element>
+		<element name="Rubric" type="Rubric" flags="OR">
+			<desc>The rubric element is used to contain contextual information that is important to the element e.g. it could contain standard data values that might or might not be useful for scoring the question. Different sets of rubric can be defined for each of the possible 'views'.</desc>
+		</element>
+		<element name="PresentationMaterial" type="PresentationMaterial" flags="O">
+			<desc>The information that is to be presented to set the context for the contained objects. This can be used to contain question-based material that is common to all of the child objects.</desc>
+		</element>
+		<element name="OutcomesProcessingExtension" type="OutcomesProcessingExtension" flags="O">
+			<desc>This is a container for any outcome processing instructions to be applied at the section level.  This container could either contain a URI to a proprietary local structure for selection ordering or use the Selection and Ordering Specification defined in IMS QTI ASI Specification 1.2c. [QTI]</desc>
+		</element>
+		<element name="SectionFeedback" type="SectionFeedback" flags="OR">
+			<desc>The section-level feedback that is to be presented as a result of section-level processing of the user's responses.</desc>
+		</element>
+		<element name="SelectionOrdering" type="SelectionOrdering" flags="O">
+			<desc>This element is used to contain the selection and ordering rules that are to be applied to the contained objects. Source: Selection and Ordering Specification defined in IMS QTI ASI Specification 1.2c. [QTI]</desc>
+		</element>
+		<element name="Reference" flags="O">
+			<desc>This element is used to contain any common materials that are to be available to any of the child objects. The common material may or may not be presented to the participant.</desc>
+		</element>
+		<element name="AssessmentSectionRefId" flags="OR">
+			<desc>This is used to refer to one or more sections that have been defined by another AssessmentSection object but which are to be logically related to this AssessmentSection. This allows for nesting of subsections within sections.</desc>
+		</element>
+		<element name="AssessmentItemRefId" flags="OR">
+			<desc>This is used to refer to one or more items that have been defined by an AssessmentItem object but which are to be logically related to this AssessmentSection.</desc>
+		</element>
+	</object>
+	<!--AssessmentSubTest object-->
+	<object name="AssessmentSubTest" topic="true">
+		<desc>A psychological construct measured by the assessment. Operationally, a subtest is a class of scores on an assessment.  Some assessments may have only one subtest or type of score but most assessments measure more than one psychological construct. The subtest can be based upon items in a section or items that are empirically related. Subtests can also be composites of other subtests that are combined using a particular algorithm. Examples of subtests of an assessment are math total, reading composite, total test, English composition.  SIF_Events are reported.</desc>
+		<attribute name="RefId" flags="R">
+			<desc>GUID assigned to AssessmentSubTest</desc>
+		</attribute>
+		<attribute name="Language" renderAs="xml:lang" flags="R" />
+		<element name="AssessmentRefId" flags="M">
+			<desc>GUID assigned to the assessment.</desc>
+		</element>
+		<element name="SubTestName" flags="M">
+			<desc>Name of the subtest.ExamplesTotal Score, Total Math, Vocabulary, ReadingComprehension</desc>
+		</element>
+		<element name="CompositeIndicator" flags="O">
+			<desc>Indicates whether this subtest is made up of a composite of other subtests.ValuesTrue,False</desc>
+		</element>
+		<element name="LearningStandardItemRefId" type="StringElement" flags="OR">
+			<desc>This is a GUID reference to the LearningStandardItem that this subtest is referenced against</desc>
+		</element>
+		<element name="GradeLevels" type="GradeLevels" flags="O">
+			<desc>Refer to section 5.1.12 GradeLevels common element</desc>
+		</element>
+	</object>
+	<!--AssessmentTypeValue enum-->
+	<enum name="AssessmentTypeValue">
+		<value name="ALTERNATIVE" value="AlternativeAssessment" desc="Alternative Assessment" />
+		<value name="AUTHENTIC" value="AuthenticAssessment" desc="Authentic Assessment" />
+		<value name="CURRICULUM_BASED" value="Curriculum-basedAssessment" desc="Curriculum-based Assessment" />
+		<value name="INFORMAL" value="InformalAssessment" desc="Informal Assessment" />
+		<value name="PEER_EVALUATION" value="PeerEvaluation" desc="Peer Evaluation" />
+		<value name="OBSERVATION" value="Observation" desc="Observation" />
+		<value name="PORTFOLIO" value="PortfolioAssessment" desc="Portfolio Assessment" />
+		<value name="SELF_EVALUATION" value="SelfEvaluation" desc="Self Evaluation" />
+		<value name="STANDARDIZED_TESTING" value="StandardizedTesting" desc="Standardized Testing" />
+		<value name="TESTING" value="Testing" desc="Testing" />
+	</enum>
+	<!--Diagnostic object-->
+	<object name="Diagnostic">
+		<attribute name="DiagnosticRefId" flags="R">
+			<desc>Identifier for the particular diagnostic</desc>
+		</attribute>
+		<attribute name="DiagnosticType" enum="DiagnosticType" flags="R">
+			<desc>Name of a SIF object or "NA" if RefIdType is not "SIF_GUID" Values LearningResouceResourceComponentActivityAssignmentAssessmentSubTestLessonAssessmentAssessmentItemSectionNA</desc>
+		</attribute>
+		<attribute name="RefIdType" enum="RefIdType" flags="R">
+			<desc>Values: SIF_GUID, URI, Namestring</desc>
+		</attribute>
+		<element name="DiagnosticStatement" flags="O">
+			<desc>Contains the diagnostic statement</desc>
+		</element>
+	</object>
+	<!--DiagnosticType enum-->
+	<enum name="DiagnosticType">
+		<value name="LEARNING_RESOURCE" value="LearningResource" desc="LearningResource" />
+		<value name="RESOURCE_COMPONENT" value="ResourceComponent" desc="ResourceComponent" />
+		<value name="ACTIVITY" value="Activity" desc="Activity" />
+		<value name="ASSIGNMENT" value="Assignment" desc="Assignment" />
+		<value name="ASSESSMENT_SUBTEST" value="AssessmentSubTest" desc="AssessmentSubTest" />
+		<value name="LESSON" value="Lesson" desc="Lesson" />
+		<value name="ASSESSMENT" value="Assessment" desc="Assessment" />
+		<value name="ASSESSMENTITEM" value="AssessmentItem" desc="AssessmentItem" />
+		<value name="SECTION" value="Section" desc="Section" />
+		<value name="NA" value="NA" desc="NA" />
+	</enum>
+  <!--Form object-->
+  <object name="Form">
+    <desc>Contains administration information specific to the assessment that is relevant to scoring, interpretation and reporting of results.</desc>
+    <element name="Number" flags="O">
+      <desc>A short descriptor of the form as used in standardized tests.  (e.g.  Form "6" or "C")</desc>
+    </element>
+    <element name="FormName" flags="O">
+      <desc>Name or other identifier of the form</desc>
+    </element>
+    <element name="Level" flags="O">
+      <desc>The level of the form that the student took or the current educational level of the test taker.  Source: 1131 (Level of Individual or Test Code) [SPEEDE] Subset: 0K, 01, 02, 03, 04, 05, 06, 07, 08, 09, 10, 11, 12, PK, UN</desc>
+    </element>
+    <element name="Period" flags="O">
+      <desc>Description of the time period in which the form is intended to be administered. ExamplesSpring, Fall, Pre-test, Post-test</desc>
+    </element>
+  </object>
+  <!--ItemComment object-->
+  <object name="ItemComment">
+    <desc>This element contains the comments that are relevant to the item as a whole.</desc>
+    <attribute name="Language" renderAs="xml:lang" flags="R" />
+  </object>
+  <!--ItemCommentList object-->
+  <object name="ItemCommentList">
+    <element name="ItemComment" flags="O">
+      <desc>This element contains the comments that are relevant to the item as a whole.</desc>
+    </element>
+  </object>
+  <!--ItemContent object-->
+  <object name="ItemContent">
+    <desc>This represents the type of question.  This is an extension of the QTI profile [QTI].</desc>
+    <attribute name="View" enum="ItemAuthorizedView" flags="R">
+      <desc>The view defines the scope for the display of the associated information i.e. to whom the material can be presented.ValuesAll, Administrator, AdminAuthority, Assessor, Author, Candidate, InvigilatorProctor, Psychometrician, Scorer, Tutor</desc>
+    </attribute>
+    <element name="ItemContentType" flags="M">
+      <desc>This is the item type.  ValuesThis can include a URI pointing to your own type structure or you can pass the DTD or schema.</desc>
+    </element>
+    <element name="ItemAnswerList" flags="O" collapsed="true">
+      <desc>This is the item answer. ValuesThis can include a URI pointing to your own type structure or you can pass the DTD or schema.</desc>
+    </element>
+  </object>
+  <!--ItemControl object-->
+  <object name="ItemControl">
+    <desc>The control switches that are used to enable or disable the display of hints, solutions and feedback within the item</desc>
+    <attribute name="View" enum="ItemAuthorizedView" flags="R">
+      <desc>The view defines the scope for the display of the associated information i.e. to whom the material can be presented.</desc>
+    </attribute>
+    <attribute name="SolutionSwitch" enum="YesNo" flags="R">
+      <desc>The switch setting for the display of solutions within the item. </desc>
+    </attribute>
+    <attribute name="HintSwitch" enum="YesNo" flags="R">
+      <desc>The switch setting for the display of hints within the item.</desc>
+    </attribute>
+    <attribute name="FeedbackSwitch" enum="YesNo" flags="R">
+      <desc>The switch setting for the display of feedback within the item.</desc>
+    </attribute>
+  </object>
+  <!--ItemFeedback object-->
+  <object name="ItemFeedback">
+    <attribute name="View" enum="ItemAuthorizedView" flags="R">
+      <desc>The view defines the scope for the display of the associated information i.e. to whom the material can be presented. ValuesAll, Administrator, AdminAuthority, Assessor, Author, Candidate, InvigilatorProctor, Psychometrician, Scorer, Tutor</desc>
+    </attribute>
+    <element name="Title" flags="O">
+      <desc>The title of the feedback section.</desc>
+    </element>
+    <element name="Feedback" flags="O">
+      <desc>The feedback that is to be presented as a result of the user's responses. The feedback can include hints and solutions and both of these can be revealed in a variety of different ways.</desc>
+    </element>
+  </object>
+  <!--LearningObjectiveList object-->
+  <object name="LearningObjectiveList">
+    <element name="LearningObjective" type="StringElement" flags="OR">
+      <desc>Description of the educational objectives of the assignment.</desc>
+    </element>
+  </object>
+  <!--Objective object-->
+  <object name="Objective">
+    <desc>Used to store the information that describes the educational aims of the assessment. These objectives can be defined for each of the different 'view' perspectives. This element should not be used to contain information specific to an assessment because the question-engine may not make this information available to the item during the actual test.</desc>
+    <attribute name="View" enum="ItemAuthorizedView" flags="R">
+      <desc>The view defines the scope for the display of the associated information i.e. to whom the material can be presented.</desc>
+    </attribute>
+  </object>
+  <!--ObjectiveList object-->
+  <object name="ObjectiveList">
+    <element name="Objective" flags="O">
+      <desc>Used to store the information that describes the educational aims of the item. These objectives can be defined for each of the different 'view' perspectives. This element should not be used to contain information specific to an item because the question-engine may not make this information available to the item during the actual test.</desc>
+    </element>
+  </object>
+  <!--ObjectiveTextList object-->
+  <object name="ObjectiveTextList">
+    <element name="ObjectiveText" flags="O">
+      <desc>Narrative description of learning objective(s) for the CurriculumStructure object.</desc>
+    </element>
+  </object>
+  <!--OrganizationRefId object-->
+  <object name="OrganizationRefId">
+    <attribute name="RefIdType" enum="RefIdType" flags="R">
+      <desc>Values SIF_GUID, URI, Namestring. If the RefIdType is "SIF_GUID", it is assumed that OrganizationRefId refers to an LEAInfo object.</desc>
+    </attribute>
+    <attribute name="Type" enum="OrganizationRefIdType" flags="R">
+      <desc>If RefIdType is "SIF_GUID", Type must be "LEAInfo" or "SchoolInfo", and the OrganizationRefId will contain a GUID reference to an object of that type.Values LEAInfo, SchoolInfo, NA</desc>
+    </attribute>
+  </object>
+  <!--OrganizationRefIdList object-->
+  <object name="OrganizationRefIdList">
+    <element name="OrganizationRefId" flags="O" />
+  </object>
+  <!--OrganizationRefIdType enum-->
+  <enum name="OrganizationRefIdType">
+    <value name="LEAINFO" value="LEAInfo" desc="LEAInfo" />
+    <value name="SCHOOLINFO" value="SchoolInfo" desc="SchoolInfo" />
+    <value name="NA" value="NA" desc="NA" />
+  </enum>
+  <!--OutcomesProcessingExtension object-->
+  <object name="OutcomesProcessingExtension">
+    <desc>This is a container for any outcome processing instructions to be applied at the Assessment level.  This container could either contain a URI to a proprietary local structure for selection ordering or utilize the Selection and Ordering Specification defined in IMS QTI ASI Specification 1.2c. [QTI]</desc>
+    <attribute name="ExtensionType" enum="ReferenceType" flags="R">
+      <desc>A qualifier for the type of link contained in the OutcomeProcessingExtension element. ValuesURI,  SIF_GUID If the ExtensionType value is "SIF_GUID". It is assumed that the RefId refers to a LearningResource object.</desc>
+    </attribute>
+  </object>
+  <!--PresentationMaterial object-->
+	<object name="PresentationMaterial">
+		<desc>The information that is to be presented to set the context for the contained objects. This can be used to contain question-based material that is common to all of the child objects.</desc>
+		<element name="PresentationMaterialRefId" type="PresentationMaterialRefId" flags="O">
+			<desc>Reference ID to a URI that references presentation material structures</desc>
+		</element>
+	</object>
+	<!--PresentationMaterialRefId object-->
+	<object name="PresentationMaterialRefId">
+		<desc>Reference ID to a URI that references presentation material structures</desc>
+		<attribute name="ReferenceType" enum="ReferenceType" flags="R">
+			<desc>A qualifier for the type of link contained in the PresentationMaterialRefId element.  Values URI, SIF_GUIDIf the ReferenceType value is "SIF_GUID". It is assumed that the RefId refers to a LearningResource object.</desc>
+		</attribute>
+	</object>
+  <!--Rubric object-->
+  <object name="Rubric">
+    <desc>The rubric element is used to contain contextual information that is important to the element; e.g., it could contain standard data values that might or might not be useful for scoring the question. Different sets of rubric can be defined for each of the possible 'views'.</desc>
+    <attribute name="View" enum="ItemAuthorizedView" flags="R">
+      <desc>The view defines the scope for the display of the associated information i.e. to whom the material can be presented. Values All, Administrator, AdminAuthority, Assessor, Author, Candidate, InvigilatorProctor, Psychometrician, Scorer, Tutor</desc>
+    </attribute>
+    <element name="RubricLinkList" type="RubricLink" flags="O" collapsed="true">
+      <desc>The RubricLink defines a URI to a reference document such as an instructor's guide for test scoring.</desc>
+    </element>
+    <element name="RatingList" flags="O" collapsed="true">
+      <desc>Quantitative or qualitative rating of performance level in an artifact, with regard to a particular criterion.</desc>
+    </element>
+    <element name="CriterionList" flags="O" collapsed="true">
+      <desc>Dimension along which an artifact is evaluated.</desc>
+    </element>
+    <element name="RubricStandardList" flags="O" collapsed="true">
+      <desc>Standard of excellence for each performance level on a particular criterion.</desc>
+    </element>
+  </object>
+  <!--RubricLink object-->
+  <object name="RubricLink">
+    <desc>The RubricLink defines a URI or a pointer to a reference document such as an instructor's guide for test scoring.</desc>
+    <attribute name="ReferenceType" enum="ReferenceType" flags="R">
+      <desc>A qualifier for the type of link contained in the RubricLink element.  ValuesURI,  SIF_GUIDIf the ReferenceType value is "SIF_GUID". It is assumed that the RefId refers to a LearningResource object.</desc>
+    </attribute>
+  </object>
+  <!--RubricLinkList object-->
+  <object name="RubricLinkList">
+    <element name="RubricLink" flags="O">
+      <desc>The RubricLink defines a URI to a reference document such as an instructor's guide for test scoring.</desc>
+    </element>
+  </object>
+  <!--RubricList object-->
+  <object name="RubricList">
+    <element name="Rubric" flags="O">
+      <desc>A scoring template that includes a range of qualitative or quantitative ratings, dimensions along which an artifact will be evaluated, and standards for each dimension at each rating level.</desc>
+    </element>
+  </object>
+  <!--RubricStandardList object-->
+  <object name="RubricStandardList">
+    <element name="RubricStandard" flags="O">
+      <desc>Standard of excellence for each performance level on a particular criterion.</desc>
+    </element>
+  </object>
+  <!--SectionComment object-->
+  <object name="SectionComment">
+    <desc>This element contains the comments that are relevant to the section as a whole.</desc>
+    <attribute name="Language" renderAs="xml:lang" flags="R" />
+  </object>
+  <!--SectionControl object-->
+  <object name="SectionControl">
+    <desc>The control switches that are used to enable or disable the display of hints, solutions and feedback within the section</desc>
+    <attribute name="View" enum="ItemAuthorizedView" flags="R">
+      <desc>The view defines the scope for the display of the associated information i.e. to whom the material can be presented. ValuesAll, Administrator, AdminAuthority, Assessor, Author, Candidate, InvigilatorProctor, Psychometrician, Scorer, Tutor</desc>
+    </attribute>
+    <attribute name="SolutionSwitch" enum="YesNo" flags="R">
+      <desc>The switch setting for the display of solutions within the section. </desc>
+    </attribute>
+    <attribute name="HintSwitch" enum="YesNo" flags="R">
+      <desc>The switch setting for the display of hints within the section.</desc>
+    </attribute>
+    <attribute name="FeedbackSwitch" enum="YesNo" flags="R">
+      <desc>The switch setting for the display of feedback within the section.</desc>
+    </attribute>
+  </object>
+  <!--SectionFeedback object-->
+  <object name="SectionFeedback">
+    <desc>The section-level feedback that is to be presented as a result of section-level processing of the user's responses.</desc>
+    <attribute name="SectionFeedbackRefId" flags="R">
+      <desc>The GUID for the feedback.</desc>
+    </attribute>
+    <attribute name="View" enum="ItemAuthorizedView" flags="R">
+      <desc>The view defines the scope for the display of the associated information i.e. to whom the material can be presented.ValuesAll, Administrator, AdminAuthority, Assessor, Author, Candidate, InvigilatorProctor, Psychometrician, Scorer, Tutor</desc>
+    </attribute>
+    <element name="FeedbackTitle" flags="O">
+      <desc>The title of the feedback section.</desc>
+    </element>
+    <element name="SectionFeedbackContent" renderAs="Content" flags="M">
+      <desc>The section-level feedback that is to be presented as a result of section-level processing of the user's responses.</desc>
+    </element>
+  </object>
+  <!--SectionFeedbackList object-->
+  <object name="SectionFeedbackList">
+    <element name="SectionFeedback" flags="O">
+      <desc>The section-level feedback that is to be presented as a result of section-level processing of the user's responses.</desc>
+    </element>
+  </object>
+  <!--SelectionOrdering object-->
+  <object name="SelectionOrdering">
+    <desc>This element is used to contain the selection and ordering rules that are to be applied to the contained objects.  This container could either contain a URI to a proprietary local structure for selection ordering or utilize the Selection and Ordering Specification defined in IMS QTI ASI Specification 1.2c.  [QTI]</desc>
+    <attribute name="OrderingType" enum="ReferenceType" flags="R">
+      <desc>A qualifier for the type of link contained in the SelectionOrdering element.  ValuesURI,  SIF_GUIDIf the OrderingType value is "SIF_GUID". It is assumed that the RefId refers to a LearningResource object.</desc>
+    </attribute>
+  </object>
+  <!--SpecialCondition object-->
+  <object name="SpecialCondition">
+    <desc>Any special report information specific to the assessment being reported.</desc>
+    <element name="ConditionCode" flags="O">
+      <desc>A code or value indicating a special condition that occurred during the administration of the test or that exists with the test taker.</desc>
+    </element>
+    <element name="Description" flags="O">
+      <desc>A textual description for a special condition that occurred during the administration of the test or that exists with the test taker.</desc>
+    </element>
+  </object>
+  <!--SpecialConditionList object-->
+  <object name="SpecialConditionList">
+    <element name="SpecialCondition" flags="O">
+      <desc>Any special report information specific to the assessment being reported.</desc>
+    </element>
+  </object>
+  <!--StudentResultSet object-->
+  <object name="StudentResultSet" topic="true" deprecated="true">
+    <desc>
+      REMOVED in SIF 2.0. The student work produced by an assessment or activity in raw as well as scored form.
+      This object can contain student responses to items, the score for a set of one or more items, or the scores for a set of one or more subtests.
+      This object also contains context information related to the administration of the assessment or activity.  SIF_Events are reported.
+    </desc>
+    <attribute name="RefId" flags="R">
+      <desc>SIF GUID assigned to StudentResultSet.</desc>
+    </attribute>
+    <attribute name="Language" renderAs="xml:lang" flags="R" />
+    <element name="StudentPersonalRefId" flags="M">
+      <desc>GUID assigned to the student.</desc>
+    </element>
+    <element name="GradeLevels" type="GradeLevels" flags="O">
+      <desc>See 5.1.12 GradeLevels.</desc>
+    </element>
+    <element name="OrganizationRefIdList" type="OrganizationRefId" flags="O" collapsed="true" />
+    <element name="Description" flags="O">
+      <desc>A short, plain text description of this result set.</desc>
+    </element>
+    <element name="Administration" type="Administration" flags="O">
+      <desc>This is a structure that contains sub-elements with administration information specific to the test taker and conditions surrounding the administration of the assessment required to properly interpret and score responses</desc>
+    </element>
+    <element name="Result" type="Result" flags="MR">
+      <desc>This is the structure that contains all the elements for the results that are being reported.</desc>
+    </element>
+  </object>
+  <!--Result object-->
+  <object name="Result">
+    <desc>This is the structure that contains all the elements for the results that are being reported.</desc>
+    <attribute name="Type" enum="ResultType" flags="R">
+      <desc>Describes the type of result contained in this element. ExamplesLearningResouceResourceComponentActivityAssignmentAssessmentSubTestLessonAssessmentAssessmentItemSection Objectives (Informal "non-learning standard item" types of objectives) Custom</desc>
+    </attribute>
+    <element name="AssessmentInstanceForm" enum="AssessmentInstanceFormValue" flags="O">
+      <desc>This describes the level of the assessment.Values: Assessment, Level, Form, Subtest, Item. As it is used by the test publishing industry in assessments.</desc>
+    </element>
+    <element name="Description" flags="O">
+      <desc>Short, simple, textual description of ResultType (useful for custom results).</desc>
+    </element>
+    <element name="Score" type="Score" flags="OR">
+      <desc>This is a structure containing scored results and scoring information specific to each score.</desc>
+    </element>
+    <element name="ResponseList" type="Response" flags="O" collapsed="true">
+      <desc>Contains the actual response to a particular assessment item.</desc>
+    </element>
+    <element name="GradeBookFlag" enum="YesNo" flags="O">
+      <desc>Optional flag for the grade book insertion process. This is used to give a gradebook application a hint as to whether it should log the information about this result in a grade book application.   This is a designer feature. The author or compiler would indicate whether they intended this item as a grade book item or not.</desc>
+    </element>
+    <element name="LearningStandardItemRefIdList" flags="O" collapsed="true">
+      <desc>This is a GUID reference to the LearningStandardItem that this result is referenced against (This allows for the ResultType score to be used against a LearningStandard even if the original item/assessment was not matched. ie: a custom teacher quiz.)</desc>
+    </element>
+  </object>
+  <!--ResultType enum-->
+  <enum name="ResultType">
+    <value name="LEARNING_RESOURCE" value="LearningResource" desc="LearningResource" />
+    <value name="RESOURCE_COMPONENT" value="ResourceComponent" desc="ResourceComponent" />
+    <value name="ACTIVITY" value="Activity" desc="Activity" />
+    <value name="ASSIGNMENT" value="Assignment" desc="Assignment" />
+    <value name="ASSESSMENT_SUBTEST" value="AssessmentSubTest" desc="AssessmentSubTest" />
+    <value name="LESSON" value="Lesson" desc="Lesson" />
+    <value name="ASSESSMENT" value="Assessment" desc="Assessment" />
+    <value name="ASSESSMENT_ITEM" value="AssessmentItem" desc="AssessmentItem" />
+    <value name="SECTION" value="Section" desc="Section" />
+    <value name="OBJECTIVES" value="Objectives" desc="Objectives" />
+    <value name="CUSTOM" value="Custom" desc="Custom" />
+  </enum>
+  <!--Score object-->
+  <object name="Score">
+    <desc>This is a structure containing scored results and scoring information specific to each score.</desc>
+    <attribute name="ScoreRefId" flags="R">
+      <desc>Reference to the specific subtest, task, item, etc. that is being reported. Refers to an object of the the type specified in  the Result@Type attribute.  The value of RefIdType can only be "SIF_GUID" if the Result@Type is pointing to a SIF object.</desc>
+    </attribute>
+    <attribute name="RefIdType" enum="RefIdType" flags="R">
+      <desc>Values: SIF_GUID, URI, Namestring</desc>
+    </attribute>
+    <element name="DiagnosticList" type="Diagnostic" flags="O" collapsed="true" />
+    <element name="ScoreValue" type="ScoreValue" flags="MR">
+      <desc>Contains the score for individual report items. ExamplesCorrectIncorrect ProficientPartially Proficient954Not Proficient</desc>
+    </element>
+    <element name="Min" flags="O">
+      <desc>Minimum score possible.</desc>
+    </element>
+    <element name="Max" flags="O">
+      <desc>Minimum score possible.</desc>
+    </element>
+    <element name="Cut" flags="O">
+      <desc>Cutoff point for passing.</desc>
+    </element>
+  </object>
+  <!--ScoreList object-->
+  <object name="ScoreList">
+    <element name="Score" flags="O">
+      <desc>This is a structure containing scored results and scoring information specific to each score.</desc>
+    </element>
+  </object>
+  <!--Response object-->
+  <object name="Response">
+    <desc>Contains the actual response to a particular assessment item.</desc>
+    <attribute name="ResponseRefId" flags="R">
+      <desc>Reference to the specific subtest, task, item, etc. that is being reported. Refers to an object of the the type specified in  the Result@Type attribute.  The value of RefIdType can only be "SIF_GUID" if the Result@Type is pointing to a SIF object.</desc>
+    </attribute>
+    <attribute name="RefIdType" enum="RefIdType" flags="R">
+      <desc>Values SIF_GUID URI Namestring</desc>
+    </attribute>
+    <attribute name="ValueType" enum="ValueTypeValue" flags="R">
+      <desc>Designates whether the value is the actual response or a reference to an external location. Values: Inline, URL</desc>
+    </attribute>
+    <attribute name="ContentType" flags="R">
+      <desc>MIME-type of file</desc>
+    </attribute>
+    <element name="ResponseValue" flags="M">
+      <desc>The response itself or a reference to the response as determined by the ValueType attribute.</desc>
+    </element>
+    <element name="Status" flags="O">
+      <desc>Information about the response ExamplesCompletedPartially CompletedSeenNotViewed (the item or section was not actually viewed by the student)NotAnswered Attempted(The item or section viewed but no responses were given)Incomplete</desc>
+    </element>
+  </object>
+  <!--ResponseList object-->
+  <object name="ResponseList">
+    <element name="Response" flags="O">
+      <desc>Contains the actual response to a particular assessment item.</desc>
+    </element>
+  </object>
+
+  <!--ItemAnswerList object-->
+  <object name="ItemAnswerList">
+    <element name="ItemAnswer" flags="O">
+      <desc>This is the item answer. ValuesThis can include a URI pointing to your own type structure or you can pass the DTD or schema.</desc>
+    </element>
+  </object>
+  <!--ItemAuthorizedView enum-->
+  <enum name="ItemAuthorizedView">
+    <value name="ALL" value="All" desc="All" />
+    <value name="ADMINISTRATOR" value="Administrator" desc="Administrator" />
+    <value name="ADMINAUTHORITY" value="AdminAuthority" desc="AdminAuthority" />
+    <value name="ASSESSOR" value="Assessor" desc="Assessor" />
+    <value name="AUTHOR" value="Author" desc="Author" />
+    <value name="CANDIDATE" value="Candidate" desc="Candidate" />
+    <value name="INVIGILATORPROCTOR" value="InvigilatorProctor" desc="InvigilatorProctor" />
+    <value name="PSYCHOMETRICIAN" value="Psychometrician" desc="Psychometrician" />
+    <value name="SCORER" value="Scorer" desc="Scorer" />
+    <value name="TUTOR" value="Tutor" desc="Tutor" />
+  </enum>
+  <!--Presentation object-->
+  <object name="Presentation">
+    <attribute name="Width" type="int" flags="R">
+      <desc>This identifies the width of the text box i.e. its x-axis length The reference size of the y-axis of the box is in pixels</desc>
+    </attribute>
+    <attribute name="Height" type="int" flags="R">
+      <desc>This identifies the height of the text box i.e. its y-axis length. The reference size of the y-axis of the box is in pixels.</desc>
+    </attribute>
+    <attribute name="X0" type="int" flags="R">
+      <desc>The top left hand X-coordinate point for the content</desc>
+    </attribute>
+    <attribute name="Y0" type="int" flags="R">
+      <desc>The top left hand Y-coordinate point for the content</desc>
+    </attribute>
+    <attribute name="Language" renderAs="xml:lang" flags="R" />
+    <element name="PresentationLabel" flags="O">
+      <desc>A label that can be used by authoring tools to identify key features.</desc>
+    </element>
+    <element name="Instruction" flags="O">
+      <desc>A element to contain instructions.</desc>
+    </element>
+    <element name="PresentationContent" renderAs="Content" flags="O">
+      <desc>This element contains all of the instructions for the presentation of the question during an evaluation. This information includes the actual material to be presented. The labels for the possible responses are also identified and these are used by the response processing element defined elsewhere in the item.</desc>
+    </element>
+  </object>
+  <!--RefIdType enum-->
+  <enum name="RefIdType">
+    <value name="SIF_GUID" value="SIF_GUID" desc="SIF_GUID" />
+    <value name="URI" value="URI" desc="URI" />
+    <value name="NAMESTRING" value="Namestring" desc="Namestring" />
+  </enum>
+  <!--ScoreValue object-->
+  <object name="ScoreValue">
+    <desc>Contains the score for individual report items. ExamplesCorrectIncorrect ProficientPartially Proficient954Not Proficient</desc>
+    <attribute name="Metric" enum="ScoreValueMetric" flags="R">
+      <desc>The metric or scale in which the actual test score result is reported. Values0056 Assessment Reporting Method [NCES Handbooks]</desc>
+    </attribute>
+    <attribute name="Weight" flags="R">
+      <desc>Weight of the result.  Defaults to "none"</desc>
+    </attribute>
+  </object>
+  <!--ScoreValueMetric enum-->
+  <enum name="ScoreValueMetric">
+    <value name="ACHIEVEMENT" value="0512" desc="Achievement" />
+    <value name="AGE" value="0490" desc="Age" />
+    <value name="C_SCALED" value="0491" desc="C-scaled" />
+    <value name="CEEB-SCORES" value="0492" desc="CEEB-scores" />
+    <value name="GRADE" value="0493" desc="Grade" />
+    <value name="ITED_SCORE" value="0494" desc="ITED-score" />
+    <value name="LETTER" value="0144" desc="Letter" />
+    <value name="MASTERY" value="0513" desc="Mastery" />
+    <value name="NORMAL" value="0497" desc="Normal" />
+    <value name="NORMALIZED" value="0498" desc="Normalized" />
+    <value name="NUMBER" value="0499" desc="Number" />
+    <value name="OTHER" value="9999" desc="Other" />
+    <value name="PASS_FAIL" value="0500" desc="Pass-Fail" />
+    <value name="PERCENTILE" value="0502" desc="Percentile" />
+    <value name="PROFICIENCY" value="0503" desc="Proficiency" />
+    <value name="RANKING" value="0504" desc="Ranking" />
+    <value name="RATIO" value="0505" desc="Ratio" />
+    <value name="STANDARD" value="0506" desc="Standard" />
+    <value name="STANINE" value="0508" desc="Stanine" />
+    <value name="STEN" value="0509" desc="Sten" />
+    <value name="T_SCORE" value="0510" desc="T-score" />
+    <value name="Z_SCORE" value="0511" desc="Z-score" />
+  </enum>
+  <!--ValueTypeValue enum-->
+  <enum name="ValueTypeValue">
+    <value name="INLINE" value="Inline" desc="Inline" />
+    <value name="URL" value="URL" desc="URL" />
+  </enum>
+</adk>

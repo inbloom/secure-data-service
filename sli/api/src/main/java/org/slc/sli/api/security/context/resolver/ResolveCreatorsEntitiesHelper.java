@@ -24,6 +24,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -42,6 +43,7 @@ import org.slc.sli.domain.Repository;
 public class ResolveCreatorsEntitiesHelper {
 
     @Autowired
+    @Qualifier("validationRepo")
     private Repository<Entity> repo;
 
     private final HashMap<String, String> entityCollectionTransform = new HashMap<String, String>();

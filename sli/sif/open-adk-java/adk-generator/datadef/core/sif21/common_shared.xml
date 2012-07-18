@@ -1,0 +1,87 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s) -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.1 common objects                -->
+<!-- ======================================== -->
+<adk package="global" version="2.1" name="" namespace="http://www.sifinfo.org/infrastructure/2.x">
+  <!--CurrencyNames enum-->
+  <enum name="CurrencyNames">
+    <value name="USD" value="USD" desc="US Dollar" />
+    <value name="USN" value="USN" desc="US Dollar (Next Day)" />
+    <value name="USS" value="USS" desc="US Dollar (Same Day)" />
+    <value name="GBP" value="GBP" desc="Pound Sterling" />
+    <value name="EUR" value="EUR" desc="Euro" />
+    <value name="CAD" value="CAD" desc="Candian Dollar" />
+    <value name="AUD" value="AUD" desc="Australian Dollar" />
+  </enum>
+  <!--MediaType object-->
+  <object name="MediaType" datatype="String">
+    <desc>MIME type [MIME] based on IANA registration (see RFC2048) or 'non-digital'.</desc>
+  </object>
+  <!--MediaTypes object-->
+  <object name="MediaTypes">
+    <element name="MediaType" type="MediaType" flags="OR">
+      <desc>MIME type [MIME] based on IANA registration (see RFC2048) or 'non-digital'.</desc>
+    </element>
+  </object>
+  <!--MonetaryAmount object-->
+  <object name="MonetaryAmount" datatype="Decimal">
+    <attribute name="Currency" enum="CurrencyNames" flags="O" />
+  </object>
+  <!--SIF_ExtendedElement object-->
+  <object name="SIF_ExtendedElement" datatype="String">
+    <attribute name="Name" type="NormalizedString" flags="R">
+      <desc>The name of the extended element. As it is possible that names for extended elements may collide from agent to agent, it is recommended that the names of extended elements be configurable in an agent, or that agents use URIs for the names of extended elements.</desc>
+    </attribute>
+    <attribute name="XsiType" renderAs="xsi:type" type="NormalizedString" flags="O">
+      <desc>Allows type of element to be explicitly communicated.</desc>
+    </attribute>
+    <attribute name="SIF_Action" key="false" flags="O" enum="SIFActionType">
+      <desc>In a Change event, this flag can be used to indicate an element has been deleted from the parent list container. At a minimum the key for the list must also be present.</desc>
+    </attribute>
+    <attribute name="SIF_Action" key="false" flags="O" enum="SIFActionType">
+      <desc>In a Change event, this flag can be used to indicate an element has been deleted from the parent list container. At a minimum the key for the list must also be present.</desc>
+    </attribute>
+  </object>
+  <!--SIF_ExtendedElements object-->
+  <object name="SIF_ExtendedElements" superclass="SIFActionList&lt;SIF_ExtendedElement&gt;">
+    <desc>The following element is supported at the end of all SIF objects.</desc>
+    <element name="SIF_ExtendedElement" type="SIF_ExtendedElement" flags="OR">
+      <desc>A name/value pair, the name being contained in the Name attribute, the value being the element content.</desc>
+    </element>
+  </object>
+  <!--SIFActionType enum-->
+  <enum name="SIFActionType">
+    <value name="Delete" value="Delete" desc="Delete" />
+  </enum>
+  <!--SIF_RefId object-->
+  <object name="SIF_RefId">
+    <attribute name="SIF_RefObject" flags="R" />
+  </object>  
+  <!--YesNo enum-->
+  <enum name="YesNo">
+    <value name="YES" value="Yes" desc="Yes" />
+    <value name="NO" value="No" desc="No" />
+  </enum>
+  <!--YesNoNA enum-->
+  <enum name="YesNoNA">
+    <value name="YES" value="Yes" desc="Yes" />
+    <value name="NO" value="No" desc="No" />
+    <value name="NA" value="NA" desc="Not Applicable" />
+  </enum>
+  <!--YesNoUnknown enum-->
+  <enum name="YesNoUnknown">
+    <value name="YES" value="Yes" desc="Yes" />
+    <value name="NO" value="No" desc="No" />
+    <value name="UNKNOWN" value="Unknown" desc="Unknown" />
+  </enum>
+    <!--XMLData object-->
+  <object name="XMLData" empty="True" >
+    <desc>Contains an arbitary XML element, encoded in UTF-8</desc>
+    <attribute name="Description" type="String" flags="C">
+      <desc>Contains an optional description of the content or a processing hint with regard to its structure (e.g. named standard, file layout or XSD). Contents may be mandated in instances of this type, or types that follow the AbstractContentPackageType pattern.</desc>
+    </attribute>
+  </object>
+</adk>

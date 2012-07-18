@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.UserLocator;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
@@ -40,6 +41,7 @@ import org.slc.sli.domain.Repository;
 public class MongoUserLocator implements UserLocator {
 
     @Autowired
+    @Qualifier("validationRepo")
     private Repository<Entity> repo;
 
     @Override

@@ -1,0 +1,64 @@
+<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s) -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 1.5r1 infra objects               -->
+<!-- ======================================== -->
+<adk package="infrastructure" version="1.5r1" name="Infrastructure" namespace="http://www.sifinfo.org/infrastructure/1.x"> 
+  <!--Authentication object-->
+  <object name="Authentication" topic="true">
+    <desc>Passwords in the Authentication object can be stored in one of three ways, all base64 encoded:  as clear text, as one-way hashes, or as encrypted text resulting from the application of a symmetric or asymmetric cipher.  Clear text passwords are not retrievable from values stored as one-way hashes-these hashed values can only be used to verify passwords input by a user.  Clear text passwords can be retrieved from encrypted text, if the receiving system has the appropriate key to decrypt the encrypted text. This specification does not define the exchange of keys for symmetric and asymmetric cryptographic algorithms, but provides the KeyName attribute to associate a key with an encrypted password.  It is envisioned that when  systems exchange keys in a manner outside this specification, a key name is sufficient to retrieve a key for input to the appropriate decryption algorithm.</desc>
+    <attribute name="RefId" flags="R">
+      <desc>The ID (GUID) that uniquely identifies this authentication object.</desc>
+    </attribute>
+    <attribute name="SIF_RefId" renderAs="SifRefId" flags="R">
+      <desc>The SIF-wide unique identifier of a student or staff.</desc>
+    </attribute>
+    <attribute name="SIF_RefObject" renderAs="SifRefIdType" enum="AuthSifRefIdType" flags="R">
+      <desc>The type of SIF object SifRefId identifies.</desc>
+    </attribute>
+    <element name="AuthenticationInfo" type="AuthenticationInfo" flags="O">
+      <desc>The authentication information for one system.</desc>
+    </element>
+  </object>
+  <!--AuthenticationInfo object-->
+  <object name="AuthenticationInfo">
+    <desc>The authentication information for one system.</desc>
+    <element name="System" type="AuthSystem" flags="M">
+      <desc>Identifying string for the system that supports this authentication information.</desc>
+    </element>
+    <element name="Username" flags="O">
+      <desc>The identification string for this user.</desc>
+    </element>
+    <element name="DistinguishedName" flags="O">
+      <desc>This is the distinguished name of the user in a network directory system.</desc>
+    </element>
+    <element name="PasswordList" type="PasswordList" flags="O" collapsed="true" />
+  </object>
+  <!--AuthSifRefIdType enum-->
+  <enum name="AuthSifRefIdType">
+    <value name="STUDENTPERSONAL" value="StudentPersonal" desc="This Refid refers to a StudentPersonal Object" />
+    <value name="STAFFPERSONAL" value="StaffPersonal" desc="This Refid refers to a s Object" />
+    <value name="STUDENTCONTACT" value="StudentContact" desc="This Refid refers to a StudentContact Object" />
+    <value name="EMPLOYEEPERSONAL" value="EmployeePersonal" desc="This Refid refers to a EmployeePersonal Object" />
+  </enum>
+  <!--AuthSystem object-->
+  <object name="AuthSystem" renderAs="System">
+    <desc>Identifying string for the system that supports this authentication information.</desc>
+    <attribute name="Type" enum="AuthSystemType" flags="R">
+      <desc>Specific type of user identification.ValuesNetwork, Application</desc>
+    </attribute>
+  </object>
+  <!--AuthSystemType enum-->
+  <enum name="AuthSystemType">
+    <value name="NETWORK" value="Network" desc="Network" />
+    <value name="APPLICATION" value="Application" desc="Application" />
+  </enum>
+  <!--PasswordList object-->
+  <object name="PasswordList">
+    <element name="Password" type="Password" flags="OR">
+      <desc>A representation of the user's password using the given algorithm.</desc>
+    </element>
+  </object>
+</adk>

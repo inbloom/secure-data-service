@@ -20,6 +20,8 @@ ingestion_username: "ingestion"
 ingestion_remote_lz_path: "/home/ingestion/"
 ingestion_mode: "local"
 ingestion_destination_data_store: "../ingestion/ingestion-service/target/ingestion/logs/"
+ingestion_service_url: "http://local.slidev.org:8000/ingestion-service"
+ingestion_healthcheck_suffix: "/HealthCheck"
 
 DB_HOST: "localhost"
 api_database_name : "sli"
@@ -34,7 +36,7 @@ simpleIDP_realm_suffix: "Local"
 
 ldap_hostname: ldap.slidev.org
 ldap_port: 389
-ldap_base: "ou=Local,ou=DevTest,dc=slidev,dc=org"
+ldap_base: "ou=LocalNew,ou=DevTest,dc=slidev,dc=org"
 ldap_admin_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
 ldap_admin_pass: Y;Gtf@w{
 

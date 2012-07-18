@@ -25,9 +25,9 @@
         </Address>
         <Address AddressType="Work">
             <StreetNumberName>9857 Kingsborough 2nd Walk</StreetNumberName>
-            <City>Toronto</City>
+            <City>Seattle</City>
             <StateAbbreviation>WA</StateAbbreviation>
-            <PostalCode>A1B 2C3</PostalCode>
+            <PostalCode>98115</PostalCode>
         </Address>
         <ElectronicMail EmailAddressType="Other">
             <EmailAddress>Bennie.C@gmail.com</EmailAddress>

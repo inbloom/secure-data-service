@@ -46,6 +46,13 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.jdom.Document;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.ClientRoleResolver;
@@ -58,11 +65,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
 
 /**
  * Process SAML assertions
@@ -77,6 +79,7 @@ public class SamlFederationResource {
     private SamlHelper saml;
 
     @Autowired
+    @Qualifier("validationRepo")
     private Repository<Entity> repo;
 
     @Autowired
@@ -178,13 +181,13 @@ public class SamlFederationResource {
         org.jdom.Element stmt = assertion.getChild("AttributeStatement", SamlHelper.SAML_NS);
 
         org.jdom.Element conditions = assertion.getChild("Conditions", SamlHelper.SAML_NS);
-        
+
         if (conditions != null) {
-            
+
             //One or both of these can be null
             String notBefore = conditions.getAttributeValue("NotBefore");
             String notOnOrAfter = conditions.getAttributeValue("NotOnOrAfter");
-            
+
             if (!isTimeInRange(notBefore, notOnOrAfter)) {
                 throw new RuntimeException("SAML Conditions failed.  Current time not in range " + notBefore + " to " + notOnOrAfter + ".");
             }
@@ -199,11 +202,11 @@ public class SamlFederationResource {
             if (!uriInfo.getRequestUri().toString().equals(recipient)) {
                 throw new RuntimeException("SAML Recipient was invalid, was " + recipient);
             }
-            
+
             //One or both of these can be null
             String notBefore = subjConfirmationData.getAttributeValue("NotBefore");
             String notOnOrAfter = subjConfirmationData.getAttributeValue("NotOnOrAfter");
-            
+
             if (!isTimeInRange(notBefore, notOnOrAfter)) {
                 throw new RuntimeException("SAML Subject failed.  Current time not in range " + notBefore + " to " + notOnOrAfter + ".");
             }
@@ -378,14 +381,14 @@ public class SamlFederationResource {
 
     /**
      * Check that the current time is within the specified range.
-     * 
+     *
      * @param notBefore - can be null to skip before check
      * @param notOnOrAfter - can be null to skip after check
      * @return true if in range, false otherwise
      */
     private boolean isTimeInRange(String notBefore, String notOnOrAfter) {
         DateTime currentTime = new DateTime(DateTimeZone.UTC);
-        
+
         if (notBefore != null) {
             DateTime calNotBefore = DateTime.parse(notBefore);
             if (currentTime.isBefore(calNotBefore)) {
@@ -393,7 +396,7 @@ public class SamlFederationResource {
                 return false;
             }
         }
-        
+
         if (notOnOrAfter != null) {
             DateTime calNotOnOrAfter = DateTime.parse(notOnOrAfter);
             if (currentTime.isAfter(calNotOnOrAfter) || currentTime.isEqual(calNotOnOrAfter)) {
@@ -403,6 +406,6 @@ public class SamlFederationResource {
         }
         return true;
     }
-    
+
 
 }

@@ -231,10 +231,25 @@ task :ingestionSandboxDataTest do
   runTests("test/features/ingestion/features/ingestion_sandbox_data_test.feature")
 end
 
+desc "Run Medium Sample Data Set Test"
+task :ingestionMediumSampleDataSet do
+  runTests("test/features/ingestion/features/ingestion_MediumSampleDataSet.feature")
+end
+
 desc "Run Ingestion Smoke Tests"
 task :ingestionSmokeTests do
   @tags = ["~@wip", "@smoke", "~@sandbox"]
   Rake::Task["ingestionAcceptanceSdsTest"].invoke
+end
+
+desc "Run Small Sample Data Set Test"
+task :ingestionSmallSampleDataSet do
+  runTests("test/features/ingestion/features/ingestion_SmallSampleDataSet.feature")
+end
+
+desc "Run Ingestion HealthCheck Test"
+task :ingestionHealthCheckTest do
+  runTests("test/features/ingestion/features/ingestion_healthCheck.feature")
 end
 
 ############################################################

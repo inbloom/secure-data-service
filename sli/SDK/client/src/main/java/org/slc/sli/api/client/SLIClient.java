@@ -23,7 +23,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 
-import javax.ws.rs.core.MessageProcessingException;
+import javax.ws.rs.MessageProcessingException;
 import javax.ws.rs.core.Response;
 
 import org.scribe.exceptions.OAuthException;

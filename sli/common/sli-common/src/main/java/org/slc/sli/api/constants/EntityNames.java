@@ -64,7 +64,7 @@ public final class EntityNames {
     public static final String STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION = "studentDisciplineIncidentAssociation";
     public static final String STUDENT_OBJECTIVE_ASSESSMENT = "studentObjectiveAssessment";
     public static final String STUDENT_PROGRAM_ASSOCIATION = "studentProgramAssociation";
-    public static final String STUDENT_SECTION_GRADEBOOK_ENTRY = "studentSectionGradebookEntry";
+    public static final String STUDENT_GRADEBOOK_ENTRY = "studentGradebookEntry";
     public static final String STUDENT_SCHOOL_ASSOCIATION = "studentSchoolAssociation";
     public static final String STUDENT_SECTION_ASSOCIATION = "studentSectionAssociation";
     public static final String STUDENT_PARENT_ASSOCIATION = "studentParentAssociation";

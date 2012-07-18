@@ -18,6 +18,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +31,7 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 
 /**
- * TODO: add javadoc
+ * Provides tenant usage statistics.
  *
  */
 @Component
@@ -40,8 +41,12 @@ import org.slc.sli.domain.enums.Right;
 public class TenantMetricsResource {
 
     @Autowired
+    @Qualifier("validationRepo")
     protected Repository<Entity> repo;
 
+    /**
+     * Generates summary usage statistics for every tenancy in the system.  Only accessible to SLC Operators.
+     */
     @GET
     public Response getTenantMetrics(@Context final UriInfo uriInfo) {
 
@@ -85,6 +90,9 @@ public class TenantMetricsResource {
         return Response.ok(metrics).build();
     }
 
+    /**
+     * Calculates usage statistics for an tenant.  Only accessible to SLC Operators.
+     */
     @GET
     @Path("{id}")
     public Response getTenantMetrics(@PathParam("id") final String tenantId, @Context final UriInfo uriInfo) {

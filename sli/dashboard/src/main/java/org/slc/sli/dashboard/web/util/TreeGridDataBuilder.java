@@ -35,6 +35,18 @@ public class TreeGridDataBuilder {
     private static final String PARENT = "parent";
     private static final String LEVEL = "level";
 
+    /**
+     * Takes a list of GenericEntities, containing hierarchical data, and flattens the structure
+     * for use by jqGrid tree grid. The subLevels param is a list of strings, specifying the attribute
+     * names to progress down levels of the hierarchy.
+     *
+     * For example, if the data is a list of subjects, with nested "courses" and "sections" attributes,
+     * you would pass in "courses" and "sections" in the subLevel list.
+     *
+     * @param entities
+     * @param subLevels
+     * @return
+     */
     static public List<GenericEntity> build(List<GenericEntity> entities, List<String> subLevels) {
 
         List<GenericEntity> treeGrid = new ArrayList<GenericEntity>();
@@ -46,6 +58,16 @@ public class TreeGridDataBuilder {
         return treeGrid;
     }
 
+    /**
+     * Takes one node of the input hierarchical data structure, adds it to the treeGrid,
+     * and then recurses down to the next node, indicated by the subLevels and level params.
+     *
+     * @param treeGrid
+     * @param entity
+     * @param parentId
+     * @param subLevels
+     * @param level
+     */
     @SuppressWarnings("unchecked")
     static private void buildLevel(List<GenericEntity> treeGrid, GenericEntity entity, String parentId, List<String> subLevels, int level) {
 
