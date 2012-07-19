@@ -17,7 +17,9 @@
 package org.slc.sli.ingestion.routes.orchestra;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.camel.Exchange;
@@ -75,18 +77,25 @@ public class WorkNoteSplitter {
 
     private List<WorkNote> createWorkNotes(Set<IngestionStagedEntity> stagedEntities, String jobId) {
         LOG.info("creating WorkNotes for processable entities: {}", stagedEntities);
+        List<Map<String, Object>> defaultPersistenceLatch = new ArrayList<Map<String, Object>>();
 
         List<WorkNote> workNoteList = new ArrayList<WorkNote>();
         for (IngestionStagedEntity stagedEntity : stagedEntities) {
 
             List<WorkNote> workNotesForEntity = balancedTimestampSplitStrategy.splitForEntity(stagedEntity, jobId);
 
-            batchJobDAO.createWorkNoteCountdownLatch(MessageType.DATA_TRANSFORMATION.name(), jobId,
+            batchJobDAO.createTransformationWorkNoteCountdownLatch(jobId,
                     stagedEntity.getCollectionNameAsStaged(), workNotesForEntity.size());
 
-            batchJobDAO.createWorkNoteCountdownLatch(MessageType.PERSIST_REQUEST.name(), jobId, stagedEntity.getCollectionNameAsStaged(), 1);
+            Map<String, Object> entity = new HashMap<String, Object>() ;
+            entity.put("count", 1);
+            entity.put("type", stagedEntity.getCollectionNameAsStaged());
+            defaultPersistenceLatch.add(entity);
+
             workNoteList.addAll(workNotesForEntity);
         }
+
+        batchJobDAO.createPersistanceWorkNoteCountdownLatch(defaultPersistenceLatch, jobId);
 
         LOG.info("{} total WorkNotes created and ready for splitting for current tier.", workNoteList.size());
         return workNoteList;
@@ -101,7 +110,7 @@ public class WorkNoteSplitter {
 
         LOG.debug("Splitting out (pass-through) list of WorkNotes: {}", workNoteList);
         List<WorkNote> workNotesForEntity = balancedTimestampSplitStrategy.splitForEntity(stagedEntity, jobId);
-        batchJobDAO.setWorkNoteLatchCount(MessageType.PERSIST_REQUEST.name(), jobId, stagedEntity.getCollectionNameAsStaged(), workNotesForEntity.size());
+        batchJobDAO.setPersistenceWorkNoteLatchCount(jobId, stagedEntity.getCollectionNameAsStaged(), workNotesForEntity.size());
 
         workNoteList.addAll(workNotesForEntity);
         return workNoteList;

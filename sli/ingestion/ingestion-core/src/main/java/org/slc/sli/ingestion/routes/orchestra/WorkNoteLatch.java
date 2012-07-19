@@ -48,6 +48,7 @@ public class WorkNoteLatch {
 
         if (batchJobDAO.countDownWorkNoteLatch(messageType, workNote.getBatchJobId(), recordType)) {
             exchange.getIn().setHeader("latchOpened", true);
+
         }
     }
 }

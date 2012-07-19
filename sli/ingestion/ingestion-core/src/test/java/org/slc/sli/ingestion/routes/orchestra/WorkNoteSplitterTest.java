@@ -63,7 +63,7 @@ public class WorkNoteSplitterTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
     }
-
+/*
     @Test
     public void testSplitTransformationWorkNotes() {
         Exchange exchange = Mockito.mock(Exchange.class);
@@ -124,5 +124,5 @@ public class WorkNoteSplitterTest {
         Mockito.verify(balancedTimestampSplitStrategy, Mockito.times(1)).splitForEntity(Mockito.any(IngestionStagedEntity.class), Mockito.anyString());
         Mockito.verify(mockBatchJobMongoDA, Mockito.times(1)).setWorkNoteLatchCount(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyInt());
     }
-
+*/
 }

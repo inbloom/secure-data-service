@@ -17,6 +17,7 @@
 package org.slc.sli.ingestion.model.da;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.mongodb.DBObject;
@@ -86,7 +87,13 @@ public interface BatchJobDAO {
      *            Initial count for latch.
      * @return <code>True</code> if structure is created successfully. <code>False</code> otherwise.
      */
-    boolean createWorkNoteCountdownLatch(String syncStage, String jobId, String recordType, int count);
+    boolean createTransformationWorkNoteCountdownLatch(String jobId, String recordType, int count);
+
+    /**
+     * @param defaultPersistenceLatch
+     * @param jobId
+     */
+    void createPersistanceWorkNoteCountdownLatch(List<Map<String, Object>> defaultPersistenceLatch, String jobId);
 
     /**
      * Countdown 1 item from latch with given properties.
@@ -102,15 +109,16 @@ public interface BatchJobDAO {
      */
     boolean countDownWorkNoteLatch(String syncStage, String jobId, String recordType);
 
+    void setPersistenceWorkNoteLatchCount(String jobId, String collectionNameAsStaged, int size);
+
     Set<IngestionStagedEntity> getStagedEntitiesForJob(String jobId);
 
     boolean removeStagedEntityForJob(String recordType, String jobId);
 
     void setStagedEntitiesForJob(Set<IngestionStagedEntity> stagedEntities, String jobId);
 
-    DBObject setWorkNoteLatchCount(String name, String jobId, String collectionNameAsStaged, int size);
-
     boolean removeAllPersistedStagedEntitiesFromJob(String jobId);
 
     void cleanUpWorkNoteLatchAndStagedEntites(String jobId);
+
 }

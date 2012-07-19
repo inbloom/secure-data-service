@@ -124,7 +124,6 @@
     <property name="neutralRecordReadConverter" ref="neutralRecordReadConverter" />
   </bean>
 
-  <bean id="WorkNoteAggregator" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteAggregator" />
   <bean id="WorkNoteSplitter" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteSplitter" />
   <bean id="stagedEntityTypeDAO" class="org.slc.sli.ingestion.routes.orchestra.InMemoryStagedEntityTypeDAO" />
 
