@@ -354,20 +354,8 @@ public class BasicService implements EntityService {
 
     @Override
     public EntityBody get(String id) {
-        checkAccess(readRight, id);
-        // change to accommodate tenantId:
-        // findById does not support NeutralQuery and therefore cannot be used any more
-        // Entity entity = getRepo().findById(collectionName, id);
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.addCriteria(new NeutralCriteria("_id", "=", id));
+        return get(id, new NeutralQuery());
 
-        Entity entity = getRepo().findOne(collectionName, neutralQuery);
-
-        if (entity == null) {
-            info("Could not find {}", id);
-            throw new EntityNotFoundException(id);
-        }
-        return makeEntityBody(entity);
     }
 
     @Override
