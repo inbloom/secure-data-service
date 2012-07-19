@@ -338,7 +338,7 @@ db["staffEducationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1,"
 db["staffEducationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["staffEducationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1,"metaData.teacherContext":1});
 db["staffEducationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1,"body.educationOrganizationReference":1,"metaData.edOrgs":1});
-db["staffEducationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1,"body.educationOrganizationReference":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
+db["staffEducationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1,"body.educationOrganizationReference":1,"metaData.isOrphaned":1,"metaData.createdBy":1}, {"name":"tenantId_edOrgRef_isOrphaned_createdBy"});
 db["staffEducationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1,"body.educationOrganizationReference":1,"metaData.teacherContext":1});
 db["staffEducationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1,"body.staffReference":1,"metaData.edOrgs":1});
 db["staffEducationOrganizationAssociation"].ensureIndex({"metaData.tenantId":1,"body.staffReference":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
@@ -418,7 +418,7 @@ db["studentDisciplineIncidentAssociation"].ensureIndex({"metaData.tenantId":1,"_
 db["studentDisciplineIncidentAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["studentDisciplineIncidentAssociation"].ensureIndex({"metaData.tenantId":1,"_id":1,"metaData.teacherContext":1});
 db["studentDisciplineIncidentAssociation"].ensureIndex({"metaData.tenantId":1,"body.disciplineIncidentId":1,"metaData.edOrgs":1});
-db["studentDisciplineIncidentAssociation"].ensureIndex({"metaData.tenantId":1,"body.disciplineIncidentId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
+db["studentDisciplineIncidentAssociation"].ensureIndex({"metaData.tenantId":1,"body.disciplineIncidentId":1,"metaData.isOrphaned":1,"metaData.createdBy":1}, {"name":"tenantId_disciplineIncidentId_isOrphaned_createdBy"});
 db["studentDisciplineIncidentAssociation"].ensureIndex({"metaData.tenantId":1,"body.disciplineIncidentId":1,"metaData.teacherContext":1});
 db["studentDisciplineIncidentAssociation"].ensureIndex({"metaData.tenantId":1,"body.studentId":1,"metaData.edOrgs":1});
 db["studentDisciplineIncidentAssociation"].ensureIndex({"metaData.tenantId":1,"body.studentId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
