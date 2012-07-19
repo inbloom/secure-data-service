@@ -67,6 +67,11 @@ final class Xsd2UmlPluginHostAdapter implements Xsd2UmlPluginHost {
     }
     
     @Override
+    public String getReferenceSuffix() {
+        return "Id";
+    }
+    
+    @Override
     public TagDefinition getTagDefinition(final Identifier id) {
         return mapper.getTagDefinition(id);
     }
@@ -93,23 +98,23 @@ final class Xsd2UmlPluginHostAdapter implements Xsd2UmlPluginHost {
     }
     
     @Override
-    public String nameFromSchemaElementName(final QName name) {
-        throw new UnsupportedOperationException();
-    }
-    
-    @Override
     public String nameFromSchemaAttributeName(final QName name) {
         throw new UnsupportedOperationException();
     }
     
     @Override
-    public String nameFromSimpleTypeRestriction(final QName simpleType, final QName base) {
-        return nameFromSchemaTypeName(simpleType).concat(" restricts ").concat(nameFromSchemaTypeName(base));
+    public String nameFromSchemaElementName(final QName name) {
+        throw new UnsupportedOperationException();
     }
     
     @Override
     public String nameFromSchemaTypeName(final QName name) {
         return name.getLocalPart();
+    }
+    
+    @Override
+    public String nameFromSimpleTypeRestriction(final QName simpleType, final QName base) {
+        return nameFromSchemaTypeName(simpleType).concat(" restricts ").concat(nameFromSchemaTypeName(base));
     }
     
     @Override

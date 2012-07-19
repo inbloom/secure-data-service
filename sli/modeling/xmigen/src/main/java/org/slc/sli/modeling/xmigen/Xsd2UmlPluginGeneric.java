@@ -43,6 +43,11 @@ final class Xsd2UmlPluginGeneric extends Xsd2UmlPluginDefault {
     }
     
     @Override
+    public String getReferenceSuffix() {
+        throw new UnsupportedOperationException();
+    }
+    
+    @Override
     public boolean isAssociationEnd(final ClassType classType, final Attribute attribute, final Xsd2UmlPluginHost host) {
         throw new UnsupportedOperationException();
     }

@@ -45,7 +45,7 @@ import org.slc.sli.modeling.uml.index.ModelIndex;
  * Intentionally package protected.
  */
 final class Xsd2UmlLinker {
- 
+    
     // FIXME: Externalize this concept into the plug-in.
     private static final String SUFFIX_REFERENCES = "References";
     private static final String SUFFIX_REFERENCE = "Reference";
@@ -68,11 +68,12 @@ final class Xsd2UmlLinker {
     }
     
     private static final Attribute splitClassFeature(final ClassType classType, final Attribute attribute,
-            final Xsd2UmlPlugin plugin, final ModelIndex indexedModel, final Map<String, Identifier> classTypeMap,
+            final Xsd2UmlPlugin plugin, final ModelIndex model, final Map<String, Identifier> classTypeMap,
             final Map<String, AssociationEnd> associationEnds) {
-        final Xsd2UmlPluginHost host = new Xsd2UmlPluginHostAdapter(indexedModel);
+        final Xsd2UmlPluginHost host = new Xsd2UmlPluginHostAdapter(model);
         if (plugin.isAssociationEnd(classType, attribute, host)) {
-            final AssociationEnd associationEnd = toAssociationEnd(classType, attribute, plugin, host, classTypeMap);
+            final AssociationEnd associationEnd = toAssociationEnd(classType, attribute, model, plugin, host,
+                    classTypeMap);
             associationEnds.put(associationEnd.getName(), associationEnd);
             return null;
         } else {
@@ -98,7 +99,8 @@ final class Xsd2UmlLinker {
     }
     
     private static final AssociationEnd toAssociationEnd(final ClassType classType, final Attribute attribute,
-            final Xsd2UmlPlugin plugin, final Xsd2UmlPluginHost lookup, final Map<String, Identifier> nameToClassTypeId) {
+            final ModelIndex model, final Xsd2UmlPlugin plugin, final Xsd2UmlPluginHost lookup,
+            final Map<String, Identifier> nameToClassTypeId) {
         final String referenceType = plugin.getAssociationEndTypeName(classType, attribute, lookup);
         if (nameToClassTypeId.containsKey(referenceType)) {
             final Identifier reference = nameToClassTypeId.get(referenceType);
@@ -107,8 +109,8 @@ final class Xsd2UmlLinker {
             // FIXME: Move this code into the suggestAssociationEndName function.
             final Multiplicity multiplicity = attribute.getMultiplicity();
             final String oldName = attribute.getName();
-            final String newName = suggestAssociationEndName(classType, attribute,
-                    multiplicity.getRange().getUpper() == Occurs.UNBOUNDED);
+            final String newName = suggestAssociationEndName(classType, attribute, model, multiplicity.getRange()
+                    .getUpper() == Occurs.UNBOUNDED, plugin);
             final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>(attribute.getTaggedValues());
             {
                 final Identifier navigation = lookup.ensureTagDefinitionId(TagName.MONGO_NAVIGABLE);
@@ -261,30 +263,47 @@ final class Xsd2UmlLinker {
     }
     
     private static final String suggestAssociationEndName(final ClassType classType, final Attribute attribute,
-            final boolean pluralize) {
-        final String stem = Xsd2UmlHelper.camelCase(suggestStem(classType, attribute));
+            final ModelIndex model, final boolean pluralize, final Xsd2UmlPlugin plugin) {
+        final String stem = Xsd2UmlHelper.camelCase(suggestStem(classType, attribute, model, plugin));
         return pluralize ? Xsd2UmlHelper.pluralize(stem) : stem;
     }
     
-    private static final String suggestStem(final ClassType classType, final Attribute attribute) {
+    private static final String suggestStem(final ClassType classType, final Attribute attribute,
+            final ModelIndex model, final Xsd2UmlPlugin plugin) {
         final String name = attribute.getName();
-        if (name.endsWith(SUFFIX_ID)) {
+        
+        // Leaving some breadcrumbs here for how to retrieve tag definitions.
+        // for (final TaggedValue taggedValue : attribute.getTaggedValues()) {
+        // final Identifier tagDefinitionId = taggedValue.getTagDefinition();
+        // final TagDefinition tagDefinition = model.getTagDefinition(tagDefinitionId);
+        // System.out.println(tagDefinition.getName() + "=>" + taggedValue.getValue());
+        // }
+        
+        final String suffixSingular = plugin.getReferenceSuffix();
+        final String suffixPlural = Xsd2UmlHelper.pluralize(suffixSingular);
+        if (name.endsWith(suffixSingular)) {
+            return name.substring(0, name.length() - suffixSingular.length());
+        } else if (name.endsWith(suffixPlural)) {
+            return name.substring(0, name.length() - suffixPlural.length());
+        } else if (name.endsWith(SUFFIX_ID)) {
+            reportInconsistentSuffix(classType, attribute);
             return name.substring(0, name.length() - SUFFIX_ID.length());
         } else if (name.endsWith(SUFFIX_IDS)) {
+            reportInconsistentSuffix(classType, attribute);
             return name.substring(0, name.length() - SUFFIX_IDS.length());
         } else if (name.endsWith(SUFFIX_REFERENCE)) {
-            reportIllegalSuffix(classType, attribute);
+            reportInconsistentSuffix(classType, attribute);
             return name.substring(0, name.length() - SUFFIX_REFERENCE.length());
         } else if (name.endsWith(SUFFIX_REFERENCES)) {
-            reportIllegalSuffix(classType, attribute);
+            reportInconsistentSuffix(classType, attribute);
             return name.substring(0, name.length() - SUFFIX_REFERENCES.length());
         } else {
-            reportIllegalSuffix(classType, attribute);
+            reportInconsistentSuffix(classType, attribute);
             return name;
         }
     }
-
-    private static final void reportIllegalSuffix(final ClassType classType, final Attribute attribute) {
-        System.err.println("Illegal suffix in " + classType.getName() + "." + attribute.getName());
+    
+    private static final void reportInconsistentSuffix(final ClassType classType, final Attribute attribute) {
+        System.err.println("Warning: Inconsistent suffix in " + classType.getName() + "." + attribute.getName());
     }
 }

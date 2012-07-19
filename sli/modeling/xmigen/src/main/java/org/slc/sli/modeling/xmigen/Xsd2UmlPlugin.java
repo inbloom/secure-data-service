@@ -37,6 +37,11 @@ public interface Xsd2UmlPlugin {
     
     String getAssociationEndTypeName(ClassType classType, Attribute attribute, Xsd2UmlPluginHost host);
     
+    /**
+     * Returns the suffix that is used for references. e.g. "Id" or "Reference"
+     */
+    String getReferenceSuffix();
+    
     boolean isAssociationEnd(ClassType classType, Attribute attribute, Xsd2UmlPluginHost host);
     
     String nameAssociation(AssociationEnd lhs, AssociationEnd rhs, Xsd2UmlPluginHost host);

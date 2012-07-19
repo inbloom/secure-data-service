@@ -19,10 +19,12 @@ import org.apache.ws.commons.schema.XmlSchema;
 import org.slc.sli.modeling.uml.Model;
 
 public final class Xsd2Uml {
-    public static final Model transform(final String name, final XmlSchema schema, final Xsd2UmlPlugin plugin) {
-        final Model model01 = Xsd2UmlConvert.extract(name, schema, plugin);
-        final Model model02 = Xsd2UmlLinker.link(model01, plugin);
-        final Model model03 = Xsd2UmlTweaker.tweak(model02, plugin);
-        return model03;
+    public static final Model transform(final String name, final XmlSchema schema, final Xsd2UmlPlugin plugIn) {
+        final Model model01 = Xsd2UmlConvert.extract(name, schema, plugIn);
+        final Model model02 = Xsd2UmlLinker.link(model01, plugIn);
+        // Temporarily disable the conversion of Association to AssociationClass because ArgoUML
+        // doesn't allow us to make diagrams following an XMI import.
+        // return Xsd2UmlTweaker.tweak(model02, plugIn);
+        return model02;
     }
 }

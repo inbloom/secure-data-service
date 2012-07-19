@@ -81,6 +81,11 @@ final class Xsd2UmlConfig implements Xsd2UmlPlugin, Xsd2UmlPluginHost {
     }
     
     @Override
+    public String getReferenceSuffix() {
+        return plugin.getReferenceSuffix();
+    }
+    
+    @Override
     public TagDefinition getTagDefinition(final Identifier id) {
         throw new UnsupportedOperationException();
     }
@@ -112,6 +117,14 @@ final class Xsd2UmlConfig implements Xsd2UmlPlugin, Xsd2UmlPluginHost {
     }
     
     @Override
+    public String nameFromSchemaAttributeName(final QName name) {
+        if (name == null) {
+            throw new NullPointerException("name");
+        }
+        return plugin.nameFromSchemaAttributeName(name);
+    }
+    
+    @Override
     public String nameFromSchemaElementName(final QName name) {
         if (name == null) {
             throw new NullPointerException("name");
@@ -120,11 +133,11 @@ final class Xsd2UmlConfig implements Xsd2UmlPlugin, Xsd2UmlPluginHost {
     }
     
     @Override
-    public String nameFromSchemaAttributeName(final QName name) {
+    public String nameFromSchemaTypeName(final QName name) {
         if (name == null) {
             throw new NullPointerException("name");
         }
-        return plugin.nameFromSchemaAttributeName(name);
+        return plugin.nameFromSchemaTypeName(name);
     }
     
     @Override
@@ -136,14 +149,6 @@ final class Xsd2UmlConfig implements Xsd2UmlPlugin, Xsd2UmlPluginHost {
             throw new NullPointerException("base");
         }
         return plugin.nameFromSimpleTypeRestriction(simpleType, base);
-    }
-    
-    @Override
-    public String nameFromSchemaTypeName(final QName name) {
-        if (name == null) {
-            throw new NullPointerException("name");
-        }
-        return plugin.nameFromSchemaTypeName(name);
     }
     
     @Override

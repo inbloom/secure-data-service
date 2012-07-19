@@ -183,6 +183,11 @@ public final class Xsd2UmlPluginForEdFi extends Xsd2UmlPluginDefault {
     }
     
     @Override
+    public String getReferenceSuffix() {
+        return "Reference";
+    }
+    
+    @Override
     public boolean isAssociationEnd(final ClassType classType, final Attribute attribute, final Xsd2UmlPluginHost host) {
         if (attribute == null) {
             throw new NullPointerException("attribute");

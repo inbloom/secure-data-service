@@ -41,11 +41,6 @@ import org.w3c.dom.NodeList;
 
 public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
     
-    /**
-     * Control the massaging of the W3C XML Schema. The less we do the better.
-     */
-    private final boolean titleCaseSchemaTypeNames = true;
-    
     private static final TagDefinition makeTagDefinition(final String name, final Occurs lower, final Occurs upper,
             final Xsd2UmlPluginHost host) {
         final Range range = new Range(lower, upper);
@@ -67,6 +62,11 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
     private static final String titleCase(final String text) {
         return text.substring(0, 1).toUpperCase().concat(text.substring(1));
     }
+    
+    /**
+     * Control the massaging of the W3C XML Schema. The less we do the better.
+     */
+    private final boolean titleCaseSchemaTypeNames = true;
     
     public Xsd2UmlPluginForSLI() {
     }
@@ -100,6 +100,11 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
             }
         }
         return null;
+    }
+    
+    @Override
+    public String getReferenceSuffix() {
+        return "Id";
     }
     
     @Override
