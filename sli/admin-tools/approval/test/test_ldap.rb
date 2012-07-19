@@ -418,7 +418,9 @@ class TestLdap < Test::Unit::TestCase
     #@ldap.delete_user(test_user_info[:email])
   end 
 
-
+  def test_user_count
+    puts "User count: #{@ldap.get_user_count}"
+  end 
 
 end
 
