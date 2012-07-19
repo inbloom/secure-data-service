@@ -129,7 +129,7 @@ public class UsersTest {
         assertEquals("Full Name", user.getAttributes().get("userName"));
         assertEquals("myTenantId", user.getAttributes().get("tenant"));
         assertEquals("myEdorgId", user.getAttributes().get("edOrg"));
-        assertEquals(11, user.getAttributes().size());
+        assertEquals(3, user.getAttributes().size());
     }
     
     @Test
@@ -141,7 +141,7 @@ public class UsersTest {
         User user = (User) mapper.mapFromContext(context);
         assertEquals("myTenantId", user.getAttributes().get("tenant"));
         assertEquals("myEdorgId", user.getAttributes().get("edOrg"));
-        assertEquals(11, user.getAttributes().size());
+        assertEquals(3, user.getAttributes().size());
     }
     
     @Test
@@ -153,7 +153,7 @@ public class UsersTest {
         User user = (User) mapper.mapFromContext(context);
         assertEquals("myTenantId", user.getAttributes().get("tenant"));
         assertEquals("myEdorgId", user.getAttributes().get("edOrg"));
-        assertEquals(11, user.getAttributes().size());
+        assertEquals(3, user.getAttributes().size());
     }
     
     @Test
@@ -165,7 +165,7 @@ public class UsersTest {
         User user = (User) mapper.mapFromContext(context);
         assertEquals("myTenantId", user.getAttributes().get("tenant"));
         assertEquals("My Edorg Id", user.getAttributes().get("edOrg"));
-        assertEquals(11, user.getAttributes().size());
+        assertEquals(3, user.getAttributes().size());
     }
     
     @Test
@@ -177,7 +177,7 @@ public class UsersTest {
         User user = (User) mapper.mapFromContext(context);
         assertEquals("myTenantId", user.getAttributes().get("tenant"));
         assertEquals("My Edorg Id", user.getAttributes().get("edOrg"));
-        assertEquals(11, user.getAttributes().size());
+        assertEquals(3, user.getAttributes().size());
     }
     
     @Test
@@ -189,7 +189,7 @@ public class UsersTest {
         User user = (User) mapper.mapFromContext(context);
         assertEquals(null, user.getAttributes().get("tenant"));
         assertEquals("My Edorg Id", user.getAttributes().get("edOrg"));
-        assertEquals(10, user.getAttributes().size());
+        assertEquals(2, user.getAttributes().size());
     }
     
     @Test
@@ -201,7 +201,7 @@ public class UsersTest {
         User user = (User) mapper.mapFromContext(context);
         assertEquals(null, user.getAttributes().get("tenant"));
         assertEquals(null, user.getAttributes().get("edOrg"));
-        assertEquals(9, user.getAttributes().size());
+        assertEquals(1, user.getAttributes().size());
     }
     
     @Test
@@ -213,7 +213,7 @@ public class UsersTest {
         User user = (User) mapper.mapFromContext(context);
         assertEquals(null, user.getAttributes().get("tenant"));
         assertEquals("My Edorg Id", user.getAttributes().get("edOrg"));
-        assertEquals(10, user.getAttributes().size());
+        assertEquals(2, user.getAttributes().size());
     }
     
     @Test
@@ -225,6 +225,6 @@ public class UsersTest {
         User user = (User) mapper.mapFromContext(context);
         assertEquals(null, user.getAttributes().get("tenant"));
         assertEquals(null, user.getAttributes().get("edOrg"));
-        assertEquals(9, user.getAttributes().size());
+        assertEquals(1, user.getAttributes().size());
     }
 }
