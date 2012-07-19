@@ -169,21 +169,12 @@ public class Login {
             	
             	String resetKey = hashedToken +"@"+ts.getTime()/1000;
 
-            	try{
-                	userService.updateUser(realm, user, resetKey, password);
-                    ModelAndView mav = new ModelAndView("forcePasswordChange");
-                    String resetUri = adminUrl + "/resetPassword";
-                    mav.addObject("resetUri", resetUri);
-                    mav.addObject("key", hashedToken);
-                    return mav;
-            	}
-            	catch(NullPointerException e){
-            		LOG.error(e.getMessage(), e.getStackTrace());
-            		ModelAndView mav = new ModelAndView("error");
-            		mav.addObject("errMessage", "There is a problem with your account. Please contact the Shared Learning Collaborative for assistance.");
-            		return mav;
-            	}
-
+            	userService.updateUser(realm, user, resetKey, password);
+                ModelAndView mav = new ModelAndView("forcePasswordChange");
+                String resetUri = adminUrl + "/resetPassword";
+                mav.addObject("resetUri", resetUri);
+                mav.addObject("key", hashedToken);
+                return mav;
             }
         } catch (AuthenticationException e) {
             ModelAndView mav = new ModelAndView("login");
@@ -248,17 +239,25 @@ public class Login {
             user.getAttributes().clear();
             user.getAttributes().put("tenant", tenant);
         }
-        SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
-                user.getAttributes(), requestInfo);
+        
+        try{
+        	SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
+        			user.getAttributes(), requestInfo);
 
-        writeLoginSecurityEvent(true, userId, user.getRoles(), user.getAttributes().get("edOrg"), request);
-
-        httpSession.setAttribute(USER_SESSION_KEY, user);
-
-        ModelAndView mav = new ModelAndView("post");
-        mav.addObject("samlAssertion", samlAssertion);
-        return mav;
-
+	        writeLoginSecurityEvent(true, userId, user.getRoles(), user.getAttributes().get("edOrg"), request);
+	
+	        httpSession.setAttribute(USER_SESSION_KEY, user);
+	
+	        ModelAndView mav = new ModelAndView("post");
+	        mav.addObject("samlAssertion", samlAssertion);
+	        return mav;
+        }
+    	catch(NullPointerException e){
+    		LOG.error(e.getMessage(), e.getStackTrace());
+    		ModelAndView mav = new ModelAndView("error");
+    		mav.addObject("errMessage", "There is a problem with your account. Please contact the Shared Learning Collaborative for assistance.");
+    		return mav;
+    	}
     }
 
     private void writeLoginSecurityEvent(boolean successful, String userId, List<String> roles, String edOrg,
