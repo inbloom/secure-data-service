@@ -107,24 +107,23 @@ public class NodeDateFilter extends NodeFilter {
      * @return DateTime representation of the String.
      */
     protected DateTime getDateTime(String dateTime) throws IllegalArgumentException {
-        if (dateTime == "") {
-            return DateTime.now();
-        }
         return DateTime.parse(dateTime, new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd").toFormatter());
     }
     
     /**
      * Converts the input strings to DateTime representations, in order to determine if the date in
-     * question falls between the start date and end date (exclusive).
+     * question falls between the start date and end date (inclusive).
      * 
      * @param date
      *            String representation of the date to compare with start and end dates.
      * @param startDate
-     *            String representation of the first value on interval (exclusive).
+     *            String representation of the first value on interval (inclusive).
      * @param endDate
-     *            String representation of the last value on interval (exclusive).
-     * @return true if the DateTime representation of 'date' is greater than the DateTime
-     *         representation of start date but less than the DateTime representation of end date,
+     *            String representation of the last value on interval (inclusive).
+     * @return true if the DateTime representation of 'date' is greater than or equal to the
+     *         DateTime
+     *         representation of start date but less than or equal to the DateTime representation of
+     *         end date,
      *         false otherwise.
      */
     protected boolean isDateInRange(String date, String startDate, String endDate) throws IllegalArgumentException {
@@ -132,30 +131,34 @@ public class NodeDateFilter extends NodeFilter {
     }
     
     /**
-     * Determines if the date in question falls between the start date and end date (exclusive).
+     * Determines if the date in question falls between the start date and end date.
      * 
      * @param date
      *            Date to compare with start and end dates.
      * @param startDate
-     *            First value on interval (exclusive).
+     *            First value on interval (inclusive).
      * @param endDate
-     *            Last value on interval (exclusive).
-     * @return true if 'date' is greater than start date but less than end date, false otherwise.
+     *            Last value on interval (inclusive).
+     * @return true if 'date' is greater than or equal to start date but less than or equal to end
+     *         date, false otherwise.
      */
-    protected boolean isDateInRange(DateTime date, DateTime startDate, DateTime endDate) throws IllegalArgumentException {
-        return date.isAfter(startDate) && date.isBefore(endDate);
+    protected boolean isDateInRange(DateTime date, DateTime startDate, DateTime endDate)
+            throws IllegalArgumentException {
+        return (date.getMillis() == startDate.getMillis()) || (date.getMillis() == endDate.getMillis())
+                || date.isAfter(startDate) && date.isBefore(endDate);
     }
     
     /**
      * Compares two given dates.
-     * Returns true when first date is before or second date.
-     * Determines 'is date is before end date'.
      * 
      * @param formattedFirstDateString
+     *            first date
      * @param formattedSecondDateString
-     * @return
+     *            second date
+     * @return true when first date is before the second date, false otherwise.
      */
-    protected boolean isFirstDateBeforeSecondDate(String formattedFirstDateString, String formattedSecondDateString) throws IllegalArgumentException {
+    protected boolean isFirstDateBeforeSecondDate(String formattedFirstDateString, String formattedSecondDateString)
+            throws IllegalArgumentException {
         DateTime date = getDateTime(formattedFirstDateString);
         DateTime endDate = getDateTime(formattedSecondDateString);
         return date.isBefore(endDate);
