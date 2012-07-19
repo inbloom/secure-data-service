@@ -113,7 +113,9 @@ public class Login {
             mav.addObject("samlAssertion", samlAssertion);
             return mav;
         }
-
+        
+        boolean isForgotPasswordVisible=(realm.equals(sliAdminRealmName));
+        
         ModelAndView mav = new ModelAndView("login");
         mav.addObject("SAMLRequest", encodedSamlRequest);
         mav.addObject("adminUrl", adminUrl);
@@ -125,6 +127,7 @@ public class Login {
             mav.addObject("is_sandbox", false);
         }
         mav.addObject("realm", realm);
+        mav.addObject("isForgotPasswordVisible", isForgotPasswordVisible);
         return mav;
     }
 
@@ -149,7 +152,7 @@ public class Login {
         try {
             user = userService.authenticate(realm, userId, password);
             
-            if(shouldForcePasswordChange(user)){
+            if(shouldForcePasswordChange(user, incomingRealm)){
             	
             	//create timestamp as part of resetKey for user
             	Date date = new Date();
@@ -291,10 +294,12 @@ public class Login {
         audit(event);
     }
     
-    private boolean shouldForcePasswordChange(User user){
-    	if(user==null) return false;
+    private boolean shouldForcePasswordChange(User user, String incomingRealm){
     	
-    	if(user.getAttributes().get("emailToken").trim().length()==0)
+    	if(!incomingRealm.equals(sliAdminRealmName)||user==null) return false;
+    	
+    	if(user.getAttributes().get("emailToken").trim().length()==0
+    	&&(incomingRealm == null || incomingRealm.length() == 0))
     		return true;
     	return false;
     }

@@ -59,6 +59,9 @@ public class UserService {
     @Value("${sli.simple-idp.groupObjectClass}")
     private String groupObjectClass;
 
+    @Value("${sli.simple-idp.sliAdminRealmName}")
+    private String sliAdminRealmName;
+
     private static final Map<String, String> LDAP_ROLE_MAPPING = new HashMap<String,String>();
     static {
         // Mapping from roles in LDAP which comply with requirements of POSIX systems
@@ -170,7 +173,10 @@ public class UserService {
         AndFilter filter = new AndFilter();
         filter.and(new EqualsFilter("objectclass", userObjectClass)).and(new EqualsFilter(userSearchAttribute, userId));
         DistinguishedName dn = new DistinguishedName("ou=" + realm);
-        User user = (User) ldapTemplate.searchForObject(dn, filter.toString(), new PersonContextMapper());
+        PersonContextMapper pcm = new PersonContextMapper();
+        boolean needAdditionalAttributes=(realm.equals(sliAdminRealmName));
+        pcm.setAddAttributes(needAdditionalAttributes);
+        User user = (User) ldapTemplate.searchForObject(dn, filter.toString(), pcm);
         user.userId = userId;
         return user;
     }
@@ -254,6 +260,12 @@ public class UserService {
      *
      */
     static class PersonContextMapper implements ContextMapper {
+    	boolean needAdditionalAttributes = false;
+    	
+    	public void setAddAttributes(boolean addAttributes) {
+    		this.needAdditionalAttributes = needAdditionalAttributes;
+    	}
+    	
         @Override
         public Object mapFromContext(Object ctx) {
             DirContextAdapter context = (DirContextAdapter) ctx;
@@ -261,17 +273,20 @@ public class UserService {
             Map<String, String> attributes = new HashMap<String, String>();
             
             attributes.put("userName", context.getStringAttribute("cn"));
-            attributes.put("givenName", context.getStringAttribute("givenName"));
-            attributes.put("sn", context.getStringAttribute("sn"));
-            attributes.put("uid", context.getStringAttribute("uid"));
-            attributes.put("uidNumber", context.getStringAttribute("uidNumber"));
-            attributes.put("gidNumber", context.getStringAttribute("gidNumber"));
-            attributes.put("homeDirectory", context.getStringAttribute("homeDirectory"));
-            attributes.put("mail", context.getStringAttribute("mail"));
             
-            String emailToken = context.getStringAttribute("displayName");
-            if(emailToken==null||emailToken.trim().length()==0) emailToken="";
-            attributes.put("emailToken", emailToken);
+            if(needAdditionalAttributes){
+	            attributes.put("givenName", context.getStringAttribute("givenName"));
+	            attributes.put("sn", context.getStringAttribute("sn"));
+	            attributes.put("uid", context.getStringAttribute("uid"));
+	            attributes.put("uidNumber", context.getStringAttribute("uidNumber"));
+	            attributes.put("gidNumber", context.getStringAttribute("gidNumber"));
+	            attributes.put("homeDirectory", context.getStringAttribute("homeDirectory"));
+	            attributes.put("mail", context.getStringAttribute("mail"));
+	            
+	            String emailToken = context.getStringAttribute("displayName");
+	            if(emailToken==null||emailToken.trim().length()==0) emailToken="";
+	            attributes.put("emailToken", emailToken);
+        	}
             
             String description = context.getStringAttribute("description");
             if (description != null && description.length() > 0) {
