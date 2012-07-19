@@ -1,12 +1,66 @@
-<table>
-  <tr>
-    <td>Full Name</td>
-    <td>Email</td>
-  </tr>
-  <% @users.each do |user| %>
+<div class="page-header">
+    <% if APP_CONFIG['is_sandbox'] %>
+        <h1>Sandbox Account Management</h1>
+    <% else %>
+        <h1>User Management</h1>
+    <% end %>
+</div>
+<p></p>
+<h4>Manage users that have access to your <% if APP_CONFIG['is_sandbox'] %>Sandbox<% else %>Production<% end %> environment.</h4>
+<p>&nbsp;</p>
+
+  <p id="Search_Box">
+    <%= text_field_tag :search, params[:search] %>
+    <%= submit_tag "Search", :name => nil %>
+  </p>
+  
+<p id="error_notice"><%= @error_notice %></p>
+<p id="success_notice"><%= @success_notice %></p>
+
+<table id="Users_Management_Table" class="table table-striped">
+  <thead>
     <tr>
-      <td><%= user.firstName %> <%= user.lastName %></td>
-      <td><%= user.email %></td>
+        <th id="full_name">Full Name</th>
+        <th id="email">Email</th>
+        <th id="role">Role</th>
+        <% if not APP_CONFIG['is_sandbox'] %>
+            <th id="additional_role">Additional Role</th>
+            <th id="tenant">Tenant</th>
+        <% end %>
+        <th id="edorg">EdOrg</th>
+        <th id="date_created">Date Created</th>
+        <th id="Actions">Actions</th>
     </tr>
-  <% end %>
+    </thead>
+    <tbody>
+    <% if @users!=nil and @users.length>0%>
+        <% @users.each do |user| %>
+        <tr>
+        <td class="full_name"><%= user.firstName%> <%= user.lastName%></td>
+        <td class="email"><%= user.email%></td>
+        <td id="role">place holder</td>
+        <% if not APP_CONFIG['is_sandbox'] %>
+            <td id="additional_role">more place holder</td>
+            <td id="tenant">hold even more</td>
+        <% end %>
+        <td id="edorg">myEdOrg</td>
+        <td id="date_created">Today</td>
+		<td>
+		    <%= form_for "" do |f| %>
+            <%= f.hidden_field "email", :name=>"email", :value => user.email %>
+            <%= f.submit "Edit",:id=> "edit_button_"+user.firstName,:class => "btn" %>
+            <%= f.submit "Delete",:id=> "delete_button_"+user.firstName,
+                :confirm => "Do you really want to delete this user?", :class => "btn btn-danger"%> 
+            <% end %>
+        </td>
+        </tr>
+        <% end %>
+    <% end %>
+    </tbody>
 </table>
+
+<br/>
+
+<%= form_for "" do |f| %>
+<%= f.submit "Add User", :id => "adduser", :class => "btn btn-primary"%>
+<% end %>
