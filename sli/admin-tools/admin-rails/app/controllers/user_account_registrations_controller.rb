@@ -79,11 +79,22 @@ private
     "accept" => "application/json"
   }
 
+  # def user_limit_reached?
+  #   max_user = APP_CONFIG['maximum_user_count']
+  #   user_count = ApprovalEngine.get_user_count_ignore_states
+  #   Rails.logger.debug "max user = #{APP_CONFIG['maximum_user_count']}, user count = #{user_count}"
+  #   max_user && (max_user < 0 || user_count >= max_user)
+  # end
+  
   def user_limit_reached?
     max_user = APP_CONFIG['maximum_user_count']
-    user_count = ApprovalEngine.get_user_count_ignore_states
-    Rails.logger.debug "max user = #{APP_CONFIG['maximum_user_count']}, user count = #{user_count}"
-    max_user && (max_user < 0 || user_count >= max_user)
+    if (max_user)
+      user_count = ApprovalEngine.get_user_count_ignore_states
+      Rails.logger.debug "max user = #{APP_CONFIG['maximum_user_count']}, user count = #{user_count}"
+      user_count >= max_user
+    else
+      nil
+    end
   end
 
   #redirect cancel
