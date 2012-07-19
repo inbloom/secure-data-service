@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.domain;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -52,6 +52,7 @@ public class MongoEntity implements Entity, Serializable {
     private String padding;
     private Map<String, Object> body;
     private final Map<String, Object> metaData;
+    private final AggregateData aggregationData;
 
     /**
      * Default constructor for the MongoEntity class.
@@ -62,7 +63,7 @@ public class MongoEntity implements Entity, Serializable {
      *            Body of Mongo Entity.
      */
     public MongoEntity(String type, Map<String, Object> body) {
-        this(type, null, body, null);
+        this(type, null, body, null, new AggregateData());
     }
 
     /**
@@ -77,11 +78,17 @@ public class MongoEntity implements Entity, Serializable {
      * @param metaData
      *            Metadata of Mongo Entity.
      */
-    public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData) {
-        this(type, id, body, metaData, 0);
+    public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
+            AggregateData aggregateData) {
+        this(type, id, body, metaData, aggregateData, 0);
     }
 
     public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData, int paddingLength) {
+        this(type, id, body, metaData, null, paddingLength);
+    }
+
+    public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
+            AggregateData aggregateData, int paddingLength) {
         this.type = type;
         this.entityId = id;
 
@@ -101,6 +108,9 @@ public class MongoEntity implements Entity, Serializable {
         } else {
             this.metaData = metaData;
         }
+
+        this.aggregationData = aggregateData == null ? new AggregateData(new HashMap<String, Map<String, String>>())
+                : aggregateData;
     }
 
     @Override
@@ -196,8 +206,9 @@ public class MongoEntity implements Entity, Serializable {
 
         Map<String, Object> metaData = (Map<String, Object>) dbObj.get("metaData");
         Map<String, Object> body = (Map<String, Object>) dbObj.get("body");
+        Map<String, Map<String, String>> aggs = (Map<String, Map<String, String>>) dbObj.get("aggregate");
 
-        return new MongoEntity(type, id, body, metaData);
+        return new MongoEntity(type, id, body, metaData, new AggregateData(aggs));
     }
 
     /**
@@ -217,4 +228,10 @@ public class MongoEntity implements Entity, Serializable {
     public Map<String, Object> getMetaData() {
         return metaData;
     }
+
+    @Override
+    public AggregateData getAggregates() {
+        return aggregationData;
+    }
+
 }

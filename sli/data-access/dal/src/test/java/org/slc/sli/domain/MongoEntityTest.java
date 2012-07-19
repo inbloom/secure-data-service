@@ -83,7 +83,7 @@ public class MongoEntityTest {
 
         Map<String, Object> body = new HashMap<String, Object>();
         Map<String, Object> metaData = new HashMap<String, Object>();
-        MongoEntity entity = new MongoEntity("student", uuid, body, metaData);
+        MongoEntity entity = new MongoEntity("student", uuid, body, metaData, null);
 
         return entity;
     }
