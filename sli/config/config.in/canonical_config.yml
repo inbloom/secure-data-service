@@ -425,7 +425,7 @@ ci:
 
 
         api.perf.log.path:
-        sli.api.performance.tracking: true
+        sli.api.performance.tracking: false
     data-access:
         <<: *DATA-ACCESS-DEFAULT
         # ci/data-access/db.properties
@@ -971,7 +971,7 @@ team:
         bootstrap.sandbox.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.sandbox.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.app.conf: ${sli.conf}
-        sli.api.performance.tracking: true
+        sli.api.performance.tracking: false
     data-access: &DATA-ACCESS-TEAM
         <<: *DATA-ACCESS-DEFAULT
         # team/data-access/db.properties
