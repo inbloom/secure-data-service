@@ -123,6 +123,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Value("${sli.ingestion.queue.maestro.queueURI}")
     private String maestroQueue;
 
+    @Value("${sli.ingestion.queue.maestro.consumerQueueURI}")
+    private String maestroConsumerQueue;
     @Value("${sli.ingestion.queue.maestro.concurrentConsumers}")
     private String maestroConsumers;
 
@@ -169,6 +171,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + workItemConsumers;
         String maestroQueueUri = maestroQueue + "?concurrentConsumers=" + maestroConsumers + maestroUriOptions;
+        String maestroConsumerQueueUri = maestroConsumerQueue + "?concurrentConsumers=" + maestroConsumers + maestroUriOptions;
         String pitNodeQueueUri = pitQueue + "?concurrentConsumers=" + pitConsumers + pitUriOptions;
         String pitConsumerNodeQueueUri = pitConsumerQueue + "?concurrentConsumers=" + pitConsumers + pitUriOptions;
 
@@ -184,7 +187,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
             buildExtractionRoutes(workItemQueueUri);
 
-            buildMaestroRoutes(maestroQueueUri, pitNodeQueueUri);
+            buildMaestroRoutes(maestroConsumerQueueUri, pitNodeQueueUri);
 
             configureTenantPollingTimerRoute();
             tenantProcessor.setWorkItemQueueUri(getWorkItemQueueUri());

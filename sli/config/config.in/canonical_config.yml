@@ -142,6 +142,7 @@ default:
         sli.ingestion.queue.maestro.host:
         sli.ingestion.queue.maestro.port:
         sli.ingestion.queue.maestro.queueURI: seda:IngestionMaestro
+        sli.ingestion.queue.maestro.consumerQueueURI: seda:IngestionMaestro
         sli.ingestion.queue.maestro.concurrentConsumers: 1
         sli.ingestion.queue.maestro.uriOptions:
         sli.ingestion.queue.maestro.keystore:
@@ -386,6 +387,7 @@ acceptance-tests:
         sli.ingestion.queue.maestro.host: devmq1.slidev.org
         sli.ingestion.queue.maestro.port: 5445
         sli.ingestion.queue.maestro.queueURI: activemq:queue:IngestionMaestro
+        sli.ingestion.queue.maestro.consumerQueueURI: txActivemq:queue:IngestionMaestro
         sli.ingestion.queue.maestro.concurrentConsumers: 1
         sli.ingestion.queue.maestro.uriOptions: '&transferExchange=true'
         sli.ingestion.queue.maestro.keystore: /opt/tomcat/ssl/tomcat.keystore
@@ -1045,6 +1047,7 @@ team:
         sli.ingestion.queue.maestro.host: localhost
         sli.ingestion.queue.maestro.port: 61616
         sli.ingestion.queue.maestro.queueURI: activemq:queue:ingestion.maestro
+        sli.ingestion.queue.maestro.consumerQueueURI: txActivemq:queue:ingestion.maestro
         sli.ingestion.queue.maestro.concurrentConsumers: 1
         sli.ingestion.queue.maestro.uriOptions: '&transferExchange=true'
         sli.ingestion.queue.maestro.keystore: /opt/tomcat/ssl/tomcat.keystore
