@@ -53,6 +53,7 @@ import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
 import org.slc.sli.api.security.service.SecurityCriteria;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.domain.AggregateData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -315,6 +316,16 @@ public class BasicService implements EntityService {
 
     @Override
     public EntityBody get(String id, NeutralQuery neutralQuery) {
+        Entity entity = getEntity(id, neutralQuery);
+
+        if (entity == null) {
+            throw new EntityNotFoundException(id);
+        }
+
+        return makeEntityBody(entity);
+    }
+
+    private Entity getEntity(String id, NeutralQuery neutralQuery) {
         checkAccess(readRight, id);
         checkFieldAccess(neutralQuery);
 
@@ -324,12 +335,7 @@ public class BasicService implements EntityService {
         neutralQuery.addCriteria(new NeutralCriteria("_id", "=", id));
 
         Entity entity = repo.findOne(collectionName, neutralQuery);
-
-        if (entity == null) {
-            throw new EntityNotFoundException(id);
-        }
-
-        return makeEntityBody(entity);
+        return entity;
     }
 
 
@@ -1041,4 +1047,11 @@ public class BasicService implements EntityService {
     protected void setClientInfo(CallingApplicationInfoProvider clientInfo) {
         this.clientInfo = clientInfo;
     }
+
+    @Override
+    public AggregateData getAggregateData(String id) {
+        Entity entity = getEntity(id, new NeutralQuery());
+        return entity.getAggregates();
+    }
+
 }
