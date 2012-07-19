@@ -159,11 +159,11 @@ public class ApplicationAuthorizationValidator {
     private List<Entity> findUsersDistricts(SLIPrincipal principal) {
         List<Entity> toReturn = new ArrayList<Entity>();
         
-        List<String> leaIds = helper.getLEAs(principal.getEntity());
+        List<String> leaIds = helper.getDistricts(principal.getEntity());
         
         NeutralQuery query = new NeutralQuery(0);
         query.addCriteria(new NeutralCriteria("_id", "in", leaIds, false));
-        for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION)) {
+        for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
             toReturn.add(entity);
         }
        
