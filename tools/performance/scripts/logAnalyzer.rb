@@ -20,10 +20,10 @@ require 'rubygems'
 require 'statsample'
 require 'json'
 
+
 class LogAnalyzer
 
-  def initialize(apiLog, clientLog, numIterations, resultFileName)
-    @apiLog = apiLog
+  def initialize(clientLog, numIterations, resultFileName)
     @clientLog = clientLog
     @numIterations = numIterations.to_i
     @resultFileName = resultFileName
@@ -37,10 +37,46 @@ class LogAnalyzer
       end
     end
   end
+
+  def analyzeClientLog
+    timestamp "Analyzing client log: #{@clientLog}"
+
+    timeArrayMap = {}
+
+    # sample line
+    # { "resource" : "http://local.slidev.org:8080/api/rest/v1/cohorts", "code" : 200, "length" : 12861, "time" : "23.442" }
+    begin
+      file = File.new(@clientLog, "r")
+      regex = Regexp.new(/.*"resource" : "(http.*?)", .* "time" : "(.*?)".*/)
+      while (entry = file.gets)
+        entry.chomp!
+        entry.scan(regex) do |md|
+          url = md[0]
+          time = md[1]
     
-  def analyze()  
-    puts "Analyzing API log: #{@apiLog}"
-    puts "Using client batch log: #{@clientLog}"
+          key = url
+          if (!timeArrayMap[key])
+            arr = []
+            timeArrayMap[key] = arr
+          end
+    
+          array_ref = timeArrayMap[key]
+          array_ref.push(time.to_f)
+        end
+      end
+      file.close
+    rescue => err
+      puts "Exception: #{err}"
+      err
+    end
+
+    analyze(timeArrayMap)
+  end
+
+  def analyzeAPILog(apiLog)
+    @apiLog = apiLog
+
+    timestamp "Analyzing API log: #{@apiLog}"
     
     timeArrayMap = {}
     
@@ -60,7 +96,7 @@ class LogAnalyzer
           end
     
           array_ref = timeArrayMap[key]
-          array_ref.push(time.to_i)
+          array_ref.push(time.to_f)
         end
       end
       file.close
@@ -68,9 +104,21 @@ class LogAnalyzer
       puts "Exception: #{err}"
       err
     end
-    
+
+    analyze(timeArrayMap)
+  end
+
+  private
+
+  def timestamp(line)
+    time = Time.now.strftime("[%Y%m%d_%H%M%S]")
+    puts "#{time} #{line}"
+  end
+
+  def analyze(timeArrayMap)  
     responseSizeMap = {}
     
+    timestamp "Using client batch log: #{@clientLog}"
     begin
       file = File.new(@clientLog, "r")
       regex = Regexp.new(/^\{/)
@@ -146,3 +194,11 @@ class LogAnalyzer
     return returnMap
   end
 end
+
+
+# TEST
+la = LogAnalyzer.new("/storage/logs/performance/rrogers_2012716_84129_349841_client.log", "5", "/tmp/test.csv") 
+la.analyzeClientLog
+
+
+

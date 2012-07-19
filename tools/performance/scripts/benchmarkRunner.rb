@@ -53,6 +53,11 @@ OptionParser.new do |opts|
   opts.on("-n", "--num iterations", "Number of iterations") do |value|
     props['NUM_ITERATIONS'] = value
   end
+  
+  # session token
+  opts.on("-t", "--session token", "Session token") do |value|
+    props['API_SESSION_TOKEN'] = value
+  end
 end.parse!
 
 apiBenchmarker = APIBenchmarker.new(props)
