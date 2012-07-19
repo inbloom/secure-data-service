@@ -7,8 +7,7 @@ Requirements:
 
 Loading:
 - Start repl by invoking 'lein repl'
-- call (load-file "src/genAssessments/core.clj")
-- call (refer 'genAssessments.core)
+- call (use 'genAssessments.core)
 
 
 To generate student ed-fi, run
