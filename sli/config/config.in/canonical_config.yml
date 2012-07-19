@@ -70,6 +70,9 @@ default:
         sli.mongodb.port: 27017
         sli.mongodb.user:
         sli.mongodb.pass:
+        sli.perf.mongodb.database: apiPerf
+        sli.perf.mongodb.host: jenkins.slidev.org
+        sli.perf.mongodb.port: 27017
 
         #Connection pool
         sli.mongodb.connections: 20
@@ -429,6 +432,7 @@ ci:
 
 
         api.perf.log.path:
+        sli.api.performance.tracking: false
     data-access:
         <<: *DATA-ACCESS-DEFAULT
         # ci/data-access/db.properties
@@ -791,7 +795,9 @@ local:
         sli.mongodb.port: 27017
         sli.mongodb.user:
         sli.mongodb.pass:
-
+        sli.perf.mongodb.database: apiPerf
+        sli.perf.mongodb.host: localhost
+        sli.perf.mongodb.port: 27017
         # Ingestion Staging DB
         sli.ingestion.staging.mongodb.database: is
         sli.ingestion.staging.mongodb.host: localhost
@@ -990,6 +996,7 @@ team:
         bootstrap.sandbox.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.sandbox.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.app.conf: ${sli.conf}
+        sli.api.performance.tracking: false
     data-access: &DATA-ACCESS-TEAM
         <<: *DATA-ACCESS-DEFAULT
         # team/data-access/db.properties

@@ -40,17 +40,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 /**
  * Unit Tests
@@ -70,9 +68,6 @@ public class NodeDateFilterTest {
     @Mock
     private AssociativeContextHelper mockHelper;
 
-    @Mock
-    private Repository<Entity> mockRepo;
-
     @Before
     public void setup() {
     }
@@ -80,13 +75,18 @@ public class NodeDateFilterTest {
     @Test
     public void testIsFirstDateBeforeSecondDate() {
         assertTrue("Should be true", nodeFilter.isFirstDateBeforeSecondDate("2012-02-03", "2012-08-03"));
-
-        assertFalse("Should be true", nodeFilter.isFirstDateBeforeSecondDate("2012-02-03", ""));
+        assertTrue("Should be true", nodeFilter.isFirstDateBeforeSecondDate("2012-02-03", ""));
+        
         assertFalse("Should be false", nodeFilter.isFirstDateBeforeSecondDate("2012-06-03", "2012-05-12"));
         assertFalse("Should be false", nodeFilter.isFirstDateBeforeSecondDate("", "2012-05-12"));
-        assertFalse("Should be false", nodeFilter.isFirstDateBeforeSecondDate("2012-06-03", "somevalue"));
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testBadDateString() {
+        nodeFilter.isFirstDateBeforeSecondDate("2012-06-03", "somevalue");
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testFilterIds() {
         List<Entity> studentSchoolAssociations = getStudentSchoolAssociations();
