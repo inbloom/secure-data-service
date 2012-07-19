@@ -1,6 +1,6 @@
 package org.slc.sli.api.security.context.resolver;
 
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -36,15 +36,16 @@ public class EdOrgHelperTest {
     /*
      *  Create an EdOrg Hierarchy that looks like
      *  sea1 --> staff4
-     *   |
-     *   |
+     *   | \
+     *   |  lea4
      *  lea1 --> staff1
      *   |  \
-     *   |   school1 -- teacher1
+     *   |   school1 --> teacher1
      *  lea2 --> staff2
      *   |  \
      *   |   school2 --> teacher1
      *  lea3 --> staff2
+     *   |
      *   |
      *  school3 --> teacher3
      */
@@ -57,6 +58,7 @@ public class EdOrgHelperTest {
     Entity lea1 = null;
     Entity lea2 = null;
     Entity lea3 = null;
+    Entity lea4 = null;
     Entity school1 = null;
     Entity school2 = null;
     Entity school3 = null;
@@ -110,6 +112,11 @@ public class EdOrgHelperTest {
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
         body.put("parentEducationAgencyReference", lea2.getEntityId());
         lea3 = repo.create("educationOrganization", body);
+        
+        body = new HashMap<String, Object>();
+        body.put("organizationCategories", Arrays.asList("Local Education Agency"));
+        body.put("parentEducationAgencyReference", sea1.getEntityId());
+        lea4 = repo.create("educationOrganization", body);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("School"));
@@ -165,11 +172,9 @@ public class EdOrgHelperTest {
     
     @Test
     public void testStaff1() {
-        List<String> leas = helper.getLEAs(staff1);
+        List<String> leas = helper.getDistricts(staff1);
         assertTrue("staff1 must see lea1", leas.contains(lea1.getEntityId()));
-        assertTrue("staff1 must see lea2", leas.contains(lea2.getEntityId()));
-        assertTrue("staff1 must see lea3", leas.contains(lea3.getEntityId()));
-        assertFalse("staff1 must not see sea1", leas.contains(sea1.getEntityId()));
+        assertEquals("staff1 must only see one district", 1, leas.size());
         
         List<String> seas = helper.getSEAs(staff1);
         assertTrue("staff1 must see sea1", seas.contains(sea1.getEntityId()));
@@ -177,11 +182,9 @@ public class EdOrgHelperTest {
     
     @Test
     public void testStaff2() {
-        List<String> leas = helper.getLEAs(staff2);
+        List<String> leas = helper.getDistricts(staff2);
         assertTrue("staff2 must see lea1", leas.contains(lea1.getEntityId()));
-        assertTrue("staff2 must see lea2", leas.contains(lea2.getEntityId()));
-        assertTrue("staff2 must see lea3", leas.contains(lea3.getEntityId()));
-        assertFalse("staff2 must not see sea1", leas.contains(sea1.getEntityId()));
+        assertEquals("staff2 must only see one district", 1, leas.size());
         
         List<String> seas = helper.getSEAs(staff2);
         assertTrue("staff2 must see sea1", seas.contains(sea1.getEntityId()));
@@ -189,11 +192,9 @@ public class EdOrgHelperTest {
     
     @Test
     public void testStaff3() {
-        List<String> leas = helper.getLEAs(staff3);
+        List<String> leas = helper.getDistricts(staff3);
         assertTrue("staff3 must see lea1", leas.contains(lea1.getEntityId()));
-        assertTrue("staff3 must see lea2", leas.contains(lea2.getEntityId()));
-        assertTrue("staff3 must see lea3", leas.contains(lea3.getEntityId()));
-        assertFalse("staff3 must not see sea1", leas.contains(sea1.getEntityId()));
+        assertEquals("staff3 must only see one district", 1, leas.size());
         
         List<String> seas = helper.getSEAs(staff3);
         assertTrue("staff3 must see sea1", seas.contains(sea1.getEntityId()));
@@ -201,11 +202,10 @@ public class EdOrgHelperTest {
     
     @Test
     public void testStaff4() {
-        List<String> leas = helper.getLEAs(staff4);
+        List<String> leas = helper.getDistricts(staff4);
         assertTrue("staff4 must see lea1", leas.contains(lea1.getEntityId()));
-        assertTrue("staff4 must see lea2", leas.contains(lea2.getEntityId()));
-        assertTrue("staff4 must see lea3", leas.contains(lea3.getEntityId()));
-        assertFalse("staff4 must not see sea1", leas.contains(sea1.getEntityId()));
+        assertTrue("staff4 must lea4", leas.contains(lea4.getEntityId()));
+        assertEquals("staff4 must only see two districts", 2, leas.size());
         
         List<String> seas = helper.getSEAs(staff4);
         assertTrue("staff4 must see sea1", seas.contains(sea1.getEntityId()));
@@ -213,11 +213,9 @@ public class EdOrgHelperTest {
     
     @Test
     public void testTeacher1() {
-        List<String> leas = helper.getLEAs(teacher1);
+        List<String> leas = helper.getDistricts(teacher1);
         assertTrue("teacher1 must see lea1", leas.contains(lea1.getEntityId()));
-        assertFalse("teacher1 must not see lea2", leas.contains(lea2.getEntityId()));
-        assertFalse("teacher1 must not see lea3", leas.contains(lea3.getEntityId()));
-        assertFalse("teacher1 must not see sea1", leas.contains(sea1.getEntityId()));
+        assertEquals("teacher1 must only see one district", 1, leas.size());
         
         List<String> seas = helper.getSEAs(teacher1);
         assertTrue("teacher1 must see sea1", seas.contains(sea1.getEntityId()));
@@ -225,11 +223,9 @@ public class EdOrgHelperTest {
     
     @Test
     public void testTeacher2() {
-        List<String> leas = helper.getLEAs(teacher2);
+        List<String> leas = helper.getDistricts(teacher2);
         assertTrue("teacher2 must see lea1", leas.contains(lea1.getEntityId()));
-        assertTrue("teacher2 must see lea2", leas.contains(lea2.getEntityId()));
-        assertFalse("teacher2 must not see lea3", leas.contains(lea3.getEntityId()));
-        assertFalse("teacher2 must not see sea1", leas.contains(sea1.getEntityId()));
+        assertEquals("teacher2 must only see one district", 1, leas.size());
         
         List<String> seas = helper.getSEAs(teacher2);
         assertTrue("teacher2 must see sea1", seas.contains(sea1.getEntityId()));
@@ -237,11 +233,9 @@ public class EdOrgHelperTest {
     
     @Test
     public void testTeacher3() {
-        List<String> leas = helper.getLEAs(teacher3);
+        List<String> leas = helper.getDistricts(teacher3);
         assertTrue("teacher3 must see lea1", leas.contains(lea1.getEntityId()));
-        assertTrue("teacher3 must see lea2", leas.contains(lea2.getEntityId()));
-        assertTrue("teacher3 must see lea3", leas.contains(lea3.getEntityId()));
-        assertFalse("teacher3 must not see sea1", leas.contains(sea1.getEntityId()));
+        assertEquals("teacher3 must only see one district", 1, leas.size());
         
         List<String> seas = helper.getSEAs(teacher3);
         assertTrue("teacher3 must see sea1", seas.contains(sea1.getEntityId()));
