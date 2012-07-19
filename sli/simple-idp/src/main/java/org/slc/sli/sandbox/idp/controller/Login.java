@@ -169,13 +169,21 @@ public class Login {
             	
             	String resetKey = hashedToken +"@"+ts.getTime()/1000;
 
-            	userService.updateUser(realm, user, resetKey, password);
-            	
-                ModelAndView mav = new ModelAndView("forcePasswordChange");
-                String resetUri = adminUrl + "/resetPassword";
-                mav.addObject("resetUri", resetUri);
-                mav.addObject("key", hashedToken);
-                return mav;
+            	try{
+                	userService.updateUser(realm, user, resetKey, password);
+                    ModelAndView mav = new ModelAndView("forcePasswordChange");
+                    String resetUri = adminUrl + "/resetPassword";
+                    mav.addObject("resetUri", resetUri);
+                    mav.addObject("key", hashedToken);
+                    return mav;
+            	}
+            	catch(NullPointerException e){
+            		LOG.error(e.getMessage(), e.getStackTrace());
+            		ModelAndView mav = new ModelAndView("error");
+            		mav.addObject("errMessage", "There is a problem with your account. Please contact the Shared Learning Collaborative for assistance.");
+            		return mav;
+            	}
+
             }
         } catch (AuthenticationException e) {
             ModelAndView mav = new ModelAndView("login");
