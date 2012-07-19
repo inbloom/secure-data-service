@@ -78,6 +78,10 @@ public class MongoEntity implements Entity, Serializable {
      * @param metaData
      *            Metadata of Mongo Entity.
      */
+    public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData) {
+        this(type, id, body, metaData, new AggregateData(), 0);
+    }
+
     public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
             AggregateData aggregateData) {
         this(type, id, body, metaData, aggregateData, 0);
