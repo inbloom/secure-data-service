@@ -46,7 +46,7 @@ import org.slc.sli.modeling.uml.index.ModelIndex;
  */
 final class Xsd2UmlLinker {
     
-    // FIXME: Externalize this concept into the plug-in.
+    // Common reference suffix that we fall back to in case the plug-in value is not matched.
     private static final String SUFFIX_REFERENCES = "References";
     private static final String SUFFIX_REFERENCE = "Reference";
     private static final String SUFFIX_IDS = "Ids";
