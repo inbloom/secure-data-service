@@ -35,7 +35,7 @@ Background: Nothing yet
 
 Examples:
 | Entity Type                    | Entity Resource URI       | Update Field             | Updated Value                                |
-| "assessment"                   | "assessments"             | "assessmentTitle"        | "Advanced Placement Test - Subject: Writing" |
+| "Assessment"                   | "assessments"             | "assessmentTitle"        | "Advanced Placement Test - Subject: Writing" |
 | "attendance"                   | "attendances"             | "studentId"              | "274f4c71-1984-4607-8c6f-0a91db2d240a"       |
 | "cohort"                       | "cohorts"                 | "cohortDescription"      | "frisbee golf team"                          |
 | "course"                       | "courses"                 | "courseDescription"      | "Advanced Linguistic Studies"                |
@@ -76,7 +76,7 @@ Examples:
 
 Examples:
 | Entity Type                    | Entity Resource URI       | Update Field             | Updated Value                                |
-| "assessment"                   | "assessments"             | "assessmentTitle"        | "Advanced Placement Test - Subject: Writing" |
+| "Assessment"                   | "assessments"             | "assessmentTitle"        | "Advanced Placement Test - Subject: Writing" |
 | "attendance"                   | "attendances"             | "schoolYearAttendance"   | "[]"                                         |
 | "cohort"                       | "cohorts"                 | "cohortDescription"      | "frisbee golf team"                          |
 | "course"                       | "courses"                 | "courseDescription"      | "Advanced Linguistic Studies"                |
@@ -112,7 +112,7 @@ Examples:
 
 Examples:
 | Entity Type                    | Entity Resource URI       | Entity Count |
-| "assessment"                   | "assessments"             | 17 |
+| "Assessment"                   | "assessments"             | 17 |
 | "attendance"                   | "attendances"             | 2 |
 | "cohort"                       | "cohorts"                 | 8 |
 | "course"                       | "courses"                 | 91 |
@@ -166,7 +166,7 @@ Examples:
 
 Examples:
 | Entity Type                    | Entity Resource URI       | Update Field             | Updated Value                                |
-| "assessment"                   | "assessments"             | "assessmentTitle"        | "Advanced Placement Test - Subject: Writing" |
+| "Assessment"                   | "assessments"             | "assessmentTitle"        | "Advanced Placement Test - Subject: Writing" |
 | "attendance"                   | "attendances"             | "studentId"              | "2fab099f-47d5-4099-addf-69120db3b53b"       |
 | "cohort"                       | "cohorts"                 | "cohortDescription"      | "frisbee golf team"                          |
 | "course"                       | "courses"                 | "courseDescription"      | "Advanced Linguistic Studies"                |

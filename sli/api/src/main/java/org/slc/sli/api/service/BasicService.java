@@ -856,7 +856,7 @@ public class BasicService implements EntityService {
         } else {
             return defn.getType().equals(EntityNames.LEARNING_OBJECTIVE)
                     || defn.getType().equals(EntityNames.LEARNING_STANDARD)
-                    || defn.getType().equals(EntityNames.ASSESSMENT)
+                    || defn.getType().equals("Assessment")
  || defn.getType().equals(EntityNames.SCHOOL)
                     || defn.getType().equals(EntityNames.EDUCATION_ORGANIZATION);
         }

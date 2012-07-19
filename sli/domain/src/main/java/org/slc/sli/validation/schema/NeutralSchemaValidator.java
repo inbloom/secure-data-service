@@ -75,6 +75,7 @@ public class NeutralSchemaValidator implements EntityValidator {
     @Override
     public boolean validate(Entity entity) throws EntityValidationException {
 
+        System.out.println("breakpoint");
         NeutralSchema schema = entitySchemaRegistry.getSchema(entity.getType());
         if (schema == null) {
             LOG.warn("No schema associatiated for type {}", entity.getType());

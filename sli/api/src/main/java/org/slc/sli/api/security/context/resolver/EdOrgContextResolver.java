@@ -59,7 +59,7 @@ public class EdOrgContextResolver implements EntityContextResolver {
 
     @Override
     public boolean canResolve(String fromEntityType, String toEntityType) {
-        if (toEntityType.equals(EntityNames.LEARNING_OBJECTIVE) || toEntityType.equals(EntityNames.LEARNING_STANDARD) || toEntityType.equals(EntityNames.ASSESSMENT)) {
+        if (toEntityType.equals(EntityNames.LEARNING_OBJECTIVE) || toEntityType.equals(EntityNames.LEARNING_STANDARD) || toEntityType.equals("Assessment")) {
             return false;
         }
         return ((fromEntityType != null) && fromEntityType.equals(EntityNames.STAFF));

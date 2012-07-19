@@ -247,7 +247,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "dateFulfilled" => "2012-01-31",
     "diagnosticStatement" => "Finished the quiz in 5 minutes" 
   },
-  "assessment" => {
+  "Assessment" => {
     "assessmentTitle" => "Writing Advanced Placement Test",
     "assessmentIdentificationCode" => [{
       "identificationSystem" => "School",

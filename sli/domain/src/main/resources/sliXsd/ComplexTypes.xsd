@@ -7,7 +7,7 @@
 	<xs:include schemaLocation="SimpleTypes.xsd" />
 
 	<!-- This file contains the complex types for the SLI database schema representation. -->
-	<xs:complexType name="assessment">
+	<xs:complexType name="Assessment">
 		<xs:annotation>
 			<xs:documentation>
 				This entity represents a tool, instrument, process,
@@ -1365,7 +1365,7 @@
                     <xs:documentation>The assessment(s) which the section is associated with
                     </xs:documentation>
                     <xs:appinfo>
-                        <sli:ReferenceType>assessment</sli:ReferenceType>
+                        <sli:ReferenceType>Assessment</sli:ReferenceType>
                     </xs:appinfo>
                 </xs:annotation>
             </xs:element>
@@ -2966,7 +2966,7 @@
 						student.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:ReferenceType>assessment</sli:ReferenceType>
+						<sli:ReferenceType>Assessment</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
 					</xs:appinfo>
 				</xs:annotation>

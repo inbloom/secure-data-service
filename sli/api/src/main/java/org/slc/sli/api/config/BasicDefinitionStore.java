@@ -97,7 +97,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
     public void init() {
 
         // adding the entity definitions
-        EntityDefinition assessment = factory.makeEntity(EntityNames.ASSESSMENT, ResourceNames.ASSESSMENTS)
+        EntityDefinition assessment = factory.makeEntity("Assessment", ResourceNames.ASSESSMENTS).storeAs(EntityNames.ASSESSMENT)
                 .buildAndRegister(this);
         factory.makeEntity(EntityNames.ATTENDANCE, ResourceNames.ATTENDANCES).buildAndRegister(this);
         //factory.makeEntity(EntityNames.BELL_SCHEDULE, ResourceNames.BELL_SCHEDULES).buildAndRegister(this);
