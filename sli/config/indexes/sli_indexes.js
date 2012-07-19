@@ -626,6 +626,25 @@ db["studentTranscriptAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.
 db["teacherSchoolAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 db["teacherSectionAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1});
 
+//stamper - profiles
+db["courseOffering"].ensureIndex({"body.sessionId":1});
+db["educationOrganization"].ensureIndex({"type":1});
+db["grade"].ensureIndex({"body.studentSectionAssociationId":1});
+db["schoolSessionAssociation"].ensureIndex({"body.sessionId":1});
+db["section"].ensureIndex({"body.sessionId":1});
+db["sectionAssessmentAssociation"].ensureIndex({"body.sectionId":1});
+db["staff"].ensureIndex({"type":1});
+db["staffCohortAssociation"].ensureIndex({"body.cohortId":1,"body.studentRecordAccess":1,"body.endDate":1});
+db["staffProgramAssociation"].ensureIndex({"body.programId":1,"body.studentRecordAccess":1,"body.endDate":1});
+db["studentCohortAssociation"].ensureIndex({"body.studentId":1,"body.endDate":1});
+db["studentCompetency"].ensureIndex({"body.studentSectionAssociationId":1});
+db["studentProgramAssociation"].ensureIndex({"body.studentId":1,"body.endDate":1});
+db["studentSectionAssociation"].ensureIndex({"body.sectionId":1});
+db["studentSectionAssociation"].ensureIndex({"body.studentId":1,"body.endDate":1});
+db["studentTranscriptAssociation"].ensureIndex({"body.studentId":1});
+db["teacherSchoolAssociation"].ensureIndex({"body.schoolId":1,"body.endDate":1});
+db["teacherSectionAssociation"].ensureIndex({"body.sectionId":1,"body.endDate":1});
+
 // profiled
 db["assessment"].ensureIndex({"metaData.tenantId":1,"body.assessmentIdentificationCode":1});
 db["attendance"].ensureIndex({"metaData.tenantId":1,"body.schoolId":1,"body.studentId":1});
