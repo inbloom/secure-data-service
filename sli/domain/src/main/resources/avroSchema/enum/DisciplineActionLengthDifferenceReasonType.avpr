@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "DisciplineActionLengthDifferenceReasonType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "Indicates the reason for the difference, if any, between the official and actual lengths of a students disciplinary assignment.",
-  "xsd-type" : "token",
-  "symbols" : [ "No_Difference", "Term_Modified_By_District", "Term_Modified_By_Court_Order", "Term_Modified_By_Mutual_Agreement", "Student_Completed_Term_Requirements_Sooner_Than_Expected", "Student_Incarcerated", "Term_Decreased_Due_To_Extenuating_Health_Related_Circumstances", "Student_Withdrew_From_School", "School_Year_Ended", "Continuation_Of_Previous_Years_Disciplinary_Action_Assignment", "Term_Modified_By_Placement_Program_Due_To_Student_Behavior_While_In_The_Placement", "Other" ]
-}

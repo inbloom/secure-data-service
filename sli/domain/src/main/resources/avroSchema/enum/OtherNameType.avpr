@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "OtherNameType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The types of alternate names for a person.",
-  "xsd-type" : "token",
-  "symbols" : [ "Alias", "Nickname", "Other_Name", "Previous_Legal_Name" ]
-}

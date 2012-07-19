@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "DiplomaType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The type of diploma/credential that is awarded to a student in recognition of his/her completion of the curricular requirements..",
-  "xsd-type" : "token",
-  "symbols" : [ "Regular_diploma", "Endorsed_advanced_diploma", "Regents_diploma", "International_Baccalaureate", "Modified_diploma", "Other_diploma", "Alternative_credential", "Certificate_of_attendance", "Certificate_of_completion", "High_school_equivalency_credential_other_than_GED", "General_Educational_Development_GED_credential", "Post_graduate_certificate_grade_13", "Vocational_certificate", "Other" ]
-}

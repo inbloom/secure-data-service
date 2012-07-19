@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "PersonalTitlePrefixType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "A prefix used to denote the title, degree, position or seniority of the person.",
-  "xsd-type" : "token",
-  "symbols" : [ "Colonel", "Dr", "Mr", "Mrs", "Ms", "Reverend", "Sr", "Sister" ]
-}

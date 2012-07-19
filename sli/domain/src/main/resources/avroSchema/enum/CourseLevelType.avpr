@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "CourseLevelType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The secondary course's level of rigor.",
-  "xsd-type" : "token",
-  "symbols" : [ "Basic_or_remedial", "Enriched_or_advanced", "General_or_regular", "Honors" ]
-}

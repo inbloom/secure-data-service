@@ -1,9 +1,0 @@
-{
-  id : "contactInfo",
-  type : "PANEL",
-  name : "Contact Information",
-  data :{
-    entity: "student",
-    cacheKey: "student"
-  }
-}

@@ -1,8 +1,0 @@
-{
-  id : "csi",
-  type : "PANEL",
-  data :{
-    entity: "student",
-    cacheKey: "student"
-  }
-}

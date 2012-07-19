@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "GPAWeightedType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "An indication of whether the reported GPA is weighted or unweighted.",
-  "xsd-type" : "token",
-  "symbols" : [ "Unweighted", "Weighted" ]
-}

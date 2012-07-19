@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "RaceItemType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The enumeration items defining the racial categories which most clearly reflects the individual's recognition of his or her community or with which the individual most identifies.",
-  "xsd-type" : "token",
-  "symbols" : [ "American_Indian_Alaskan_Native", "Asian", "Black_African_American", "Native_Hawaiian_Pacific_Islander", "White" ]
-}

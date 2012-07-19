@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "ProgramType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The formal name of the program of instruction, training, services or benefits available through federal, state, or local agencies.",
-  "xsd-type" : "token",
-  "symbols" : [ "Adult_Continuing_Education", "Alternative_Education", "Athletics", "Bilingual", "Career_and_Technical_Education", "Cocurricular_Programs", "College_Preparatory", "Community_Service_Program", "Community_Junior_College_Education_Program", "Compensatory_Services_for_Disadvantaged_Students", "Counseling_Services", "English_as_a_Second_Language_ESL", "Even_Start", "Extended_Day_Child_Care_Services", "Gifted_and_Talented", "Head_Start", "Health_Services_Program", "High_School_Equivalency_Program_HSEP", "IDEA", "Immigrant_Education", "Indian_Education", "International_Baccalaureate", "Library_Media_Services_Program", "Magnet_Special_Program_Emphasis", "Migrant_Education", "Neglected_and_Delinquent_Program", "Optional_Flexible_School_Day_Program_OFSDP", "Other", "Regular_Education", "Remedial_Education", "Section_504_Placement", "Service_Learning", "Special_Education", "Student_Retention_Dropout_Prevention", "Substance_Abuse_Education_Prevention", "Teacher_Professional_Development_Mentoring", "Technical_Preparatory", "Title_I_Part_A", "Vocational_Education" ]
-}

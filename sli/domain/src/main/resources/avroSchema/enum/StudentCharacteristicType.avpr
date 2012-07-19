@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "StudentCharacteristicType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "Enumeration items for the important characteristics of the student's home situation: Displaced Homemaker, Homeless, Immigrant, Migratory, Military Parent, Pregnant Teen, Single Parent, Unaccompanied Youth",
-  "xsd-type" : "token",
-  "symbols" : [ "Displaced_Homemaker", "Foster_Care", "Homeless", "Immigrant", "Migratory", "Parent_in_Military", "Pregnant", "Single_Parent", "Unaccompanied_Youth", "Unschooled_Asylee", "Unschooled_Refugee" ]
-}

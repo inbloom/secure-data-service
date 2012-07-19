@@ -1,8 +1,0 @@
-{
-  id : "populationCourseSection",
-  type : "PANEL",
-  data :{
-    entity: "userCoursesSections",
-    cacheKey: "userCoursesSections"
-  } 
-}

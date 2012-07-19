@@ -1,9 +1,0 @@
-<StudentAcademicRecordReference>
-    <StudentReference>
-        <StudentIdentity>
-            <StudentUniqueStateId>
-                ${StudentAcademicRecord.StudentReference.StudentIdentity.StudentUniqueStateId}
-            </StudentUniqueStateId>
-        </StudentIdentity>
-    </StudentReference>
-</StudentAcademicRecordReference>

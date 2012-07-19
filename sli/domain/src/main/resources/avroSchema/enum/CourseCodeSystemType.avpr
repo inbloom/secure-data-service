@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "CourseCodeSystemType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "A system that is used to identify the organization of subject matter and related learning experiences provided for the instruction of students. In addition to identifying courses using the appropriate state codes, it is encouraged that courses are also cross referenced against one o fthe national course codes.",
-  "xsd-type" : "token",
-  "symbols" : [ "CSSC_course_code", "Intermediate_agency_course_code", "LEA_course_code", "NCES_Pilot_SNCCS_course_code", "Other", "SCED_course_code", "School_course_code", "State_course_code", "University_course_code" ]
-}

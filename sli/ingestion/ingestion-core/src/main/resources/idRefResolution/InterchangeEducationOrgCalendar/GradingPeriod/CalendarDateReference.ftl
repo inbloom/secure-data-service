@@ -1,1 +1,0 @@
-<#include "../../templates/CalendarDateReference.ftl">

@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "CohortScopeType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The scope of cohort (e.g., school, district, classroom, etc.)",
-  "xsd-type" : "token",
-  "symbols" : [ "District", "School", "Classroom", "Teacher", "Principal", "Counselor", "Statewide" ]
-}

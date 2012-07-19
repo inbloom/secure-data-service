@@ -1,1 +1,0 @@
-{"_id":{"$binary":"hE7S3KoMmziOsemmpNq3kw==", "$type" : "03" },"type":"session","body":{"schoolYear":"2010-2011","sessionName":"Spring 2011","term":"Spring Semester","endDate":"2011-06-31","beginDate":"2011-01-01","totalInstructionalDays":90}, "tenantId":"Zork"}

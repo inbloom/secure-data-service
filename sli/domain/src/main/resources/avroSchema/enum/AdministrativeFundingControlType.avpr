@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "AdministrativeFundingControlType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The type of education institution as classified by its funding source.",
-  "xsd-type" : "token",
-  "symbols" : [ "Public_School", "Private_School", "Other" ]
-}

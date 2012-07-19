@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "ESLProgramType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "Indicates whether the student is participating in a state-approved English as a Second Language (ESL) program.",
-  "xsd-type" : "token",
-  "symbols" : [ "Student_Does_Not_Participate", "Content_Based", "Pull_Out" ]
-}

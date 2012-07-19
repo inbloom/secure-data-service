@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "ItemCategoryType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "Category or type of the assessment item.  For example:\n\t\t\tMultiple choice\nAnalytic\nProse\n....",
-  "xsd-type" : "token",
-  "symbols" : [ "Analytic", "List_Question", "Math_Matrix", "Matching", "Multiple_Choice", "Prose", "True_False" ]
-}

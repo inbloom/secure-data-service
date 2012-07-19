@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "AssessmentReportingMethodType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The method that the instructor of the class uses to report the performance and achievement of all students. It may be a qualitative method such as individualized teacher comments or a quantitative method such as a letter or a numerical grade. In some cases, more than one type of reporting method may be used.",
-  "xsd-type" : "token",
-  "symbols" : [ "Achievement_proficiency_level", "ACT_score", "Age_score", "C_scaled_scores", "College_Board_examination_scores", "Grade_equivalent_or_grade_level_indicator", "Graduation_score", "Growth_value_added_indexing", "International_Baccalaureate_score", "Letter_grade_mark", "Mastery_level", "Normal_curve_equivalent", "Normalized_standard_score", "Number_score", "Pass_fail", "Percentile", "Percentile_rank", "Proficiency_level", "Promotion_score", "Ranking", "Ratio_IQs", "Raw_score", "Scale_score", "Standard_age_score", "Stanine_score", "Sten_score", "T_score", "Vertical_score", "Workplace_readiness_score", "Z_score", "Other" ]
-}

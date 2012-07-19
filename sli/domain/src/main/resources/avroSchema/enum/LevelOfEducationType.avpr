@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "LevelOfEducationType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The enumeration of the different levels of education achievable.",
-  "xsd-type" : "token",
-  "symbols" : [ "No_Degree", "Bachelors", "Masters", "Doctorate" ]
-}

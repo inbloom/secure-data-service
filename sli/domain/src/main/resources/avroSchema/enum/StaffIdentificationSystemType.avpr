@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "StaffIdentificationSystemType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "A coding scheme that is used for identification and record-keeping purposes by schools, social services, or other agencies to refer to a staff member.",
-  "xsd-type" : "token",
-  "symbols" : [ "Drivers_License", "Health_Record", "Medicaid", "Professional_Certificate", "School", "District", "State", "Federal", "Other_Federal", "Selective_Service", "SSN", "US_Visa", "PIN", "Canadian_SIN", "Other" ]
-}

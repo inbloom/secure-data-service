@@ -1,8 +1,0 @@
-{
-  id : "populationWidget",
-  type : "PANEL",
-  data :{
-    entity: "userEdOrg",
-    cacheKey: "userEdOrg"
-  } 
-}

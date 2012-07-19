@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "CourseGPAApplicabilityType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "An indicator of whether or not this course being described is included in the computation of the student’s Grade Point Average, and if so, if it weighted differently from regular courses.",
-  "xsd-type" : "token",
-  "symbols" : [ "Applicable", "Not_Applicable", "Weighted" ]
-}

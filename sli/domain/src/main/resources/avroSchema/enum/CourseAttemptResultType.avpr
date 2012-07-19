@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "CourseAttemptResultType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The result from the student's attempt to take the course, for example:\nPass\nFail\nIncomplete\nWithdrawn",
-  "xsd-type" : "token",
-  "symbols" : [ "Pass", "Fail", "Incomplete", "Withdrawn" ]
-}

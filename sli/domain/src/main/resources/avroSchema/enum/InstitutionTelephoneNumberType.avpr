@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "InstitutionTelephoneNumberType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The type of communication number listed for an organization.",
-  "xsd-type" : "token",
-  "symbols" : [ "Main", "Administrative", "HealthClinic", "Attendance", "Other", "Fax" ]
-}

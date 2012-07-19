@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "SeparationType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "Type of employment separation; for example:  Voluntary separation, Involuntary separation, Mutual agreement. Other, etc.",
-  "xsd-type" : "token",
-  "symbols" : [ "Voluntary_separation", "Involuntary_separation", "Mutual_agreement", "Other" ]
-}

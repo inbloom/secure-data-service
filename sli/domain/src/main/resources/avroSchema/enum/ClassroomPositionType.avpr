@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "ClassroomPositionType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The type of position the staff member holds in the specific class/section.",
-  "xsd-type" : "token",
-  "symbols" : [ "Teacher_of_Record", "Assistant_Teacher", "Support_Teacher", "Substitute_Teacher" ]
-}

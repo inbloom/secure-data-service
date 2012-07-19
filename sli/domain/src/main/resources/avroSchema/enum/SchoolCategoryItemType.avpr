@@ -1,8 +1,0 @@
-{
-  "type" : "enum",
-  "name" : "SchoolCategoryItemType",
-  "namespace" : "org.slc.sli.domain.enum",
-  "doc" : "The category of school. For example: High School, Middle School, Elementary School",
-  "xsd-type" : "token",
-  "symbols" : [ "Elementary_School", "High_School", "Middle_School", "Junior_High_School", "Secondary_School", "Ungraded", "Adult_School", "Infant_toddler_School", "Preschool_early_childhood", "Primary_School", "Intermediate_School" ]
-}
