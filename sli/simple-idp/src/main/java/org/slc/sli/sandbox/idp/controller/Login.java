@@ -296,10 +296,9 @@ public class Login {
     
     private boolean shouldForcePasswordChange(User user, String incomingRealm){
     	
-    	if(!incomingRealm.equals(sliAdminRealmName)||user==null) return false;
+    	if(incomingRealm==null||!incomingRealm.equals(sliAdminRealmName)||user==null) return false;
     	
-    	if(user.getAttributes().get("emailToken").trim().length()==0
-    	&&(incomingRealm == null || incomingRealm.length() == 0))
+    	if(user.getAttributes().get("emailToken").trim().length()==0)
     		return true;
     	return false;
     }
