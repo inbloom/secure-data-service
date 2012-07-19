@@ -60,13 +60,6 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -620,7 +613,7 @@ public class BasicService implements EntityService {
             debug("Field {} is referencing {}", fieldName, entityType);
             List<String> ids = value instanceof List ? (List<String>) value : Arrays.asList((String) value);
             String collectionName = definitionStore.lookupByEntityType(entityType).getStoredCollectionName();
-            SecurityCriteria securityCriteria = findAccessible(collectionName);
+            SecurityCriteria securityCriteria = findAccessible(entityType);
 
             NeutralQuery neutralQuery = new NeutralQuery();
             neutralQuery.setOffset(0);
@@ -894,7 +887,7 @@ public class BasicService implements EntityService {
             List<Map<String, Object>> telephones = (List<Map<String, Object>>) eb.get(telephone);
             if (telephones != null) {
 
-                for (Iterator<Map<String, Object>> it = telephones.iterator(); it.hasNext(); ) {
+                for (Iterator<Map<String, Object>> it = telephones.iterator(); it.hasNext();) {
                     if (!work.equals(it.next().get(telephoneNumberType))) {
                         it.remove();
                     }
@@ -905,7 +898,7 @@ public class BasicService implements EntityService {
             List<Map<String, Object>> emails = (List<Map<String, Object>>) eb.get(electronicMail);
             if (emails != null) {
 
-                for (Iterator<Map<String, Object>> it = emails.iterator(); it.hasNext(); ) {
+                for (Iterator<Map<String, Object>> it = emails.iterator(); it.hasNext();) {
                     if (!work.equals(it.next().get(emailAddressType))) {
                         it.remove();
                     }

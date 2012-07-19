@@ -1,7 +1,5 @@
 package org.slc.sli.shtick;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
@@ -63,15 +61,6 @@ public final class Entity {
     
     public String getId() {
         return getString(Constants.ENTITY_ID_KEY);
-    }
-    
-    @SuppressWarnings("unchecked")
-    public List<Link> getLinks() {
-        
-        if (data.containsKey(Constants.LINKS_KEY)) {
-            return (List<Link>) data.get(Constants.LINKS_KEY);
-        }
-        return Collections.emptyList();
     }
     
     /**

@@ -9,11 +9,11 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import org.junit.Test;
-import org.springframework.security.core.GrantedAuthority;
-
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.resources.security.UserResource.RightToGroupMapper;
+import org.slc.sli.api.resources.security.UserResource.RoleToGroupMapper;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.security.core.GrantedAuthority;
 
 /**
  * Unit tests for user resource.
@@ -45,19 +45,35 @@ public class UserResourceTest {
         assertEquals(0, rightToGroupMapper.getGroups(Arrays.asList(new GrantedAuthority[] {})).size());
 
         Collection<String> leaAdminGroups = rightToGroupMapper.getGroups(Arrays.asList(new GrantedAuthority[] {Right.CRUD_LEA_ADMIN}));
-        assertCollectionEquals(Arrays.asList(new String[] {RoleInitializer.LEA_ADMINISTRATOR, RoleInitializer.REALM_ADMINISTRATOR, RoleInitializer.INGESTION_USER}), leaAdminGroups);
+        assertCollectionEquals(
+                RoleToGroupMapper.getInstance().mapRoleToGroups(
+                        Arrays.asList(new String[] { RoleInitializer.LEA_ADMINISTRATOR,
+                                RoleInitializer.REALM_ADMINISTRATOR, RoleInitializer.INGESTION_USER })), leaAdminGroups);
 
         Collection<String> seaAdminGroups = rightToGroupMapper.getGroups(Arrays.asList(new GrantedAuthority[] {Right.CRUD_SEA_ADMIN, Right.CRUD_LEA_ADMIN}));
-        assertCollectionEquals(Arrays.asList(new String[] {RoleInitializer.SEA_ADMINISTRATOR, RoleInitializer.LEA_ADMINISTRATOR, RoleInitializer.REALM_ADMINISTRATOR, RoleInitializer.INGESTION_USER}), seaAdminGroups);
+        assertCollectionEquals(
+                RoleToGroupMapper.getInstance().mapRoleToGroups(
+                        Arrays.asList(new String[] { RoleInitializer.SEA_ADMINISTRATOR,
+                                RoleInitializer.LEA_ADMINISTRATOR, RoleInitializer.REALM_ADMINISTRATOR,
+                                RoleInitializer.INGESTION_USER })), seaAdminGroups);
 
         Collection<String> slcOperatorGroups = rightToGroupMapper.getGroups(Arrays.asList(new GrantedAuthority[] {Right.CRUD_SLC_OPERATOR, Right.CRUD_SEA_ADMIN, Right.CRUD_LEA_ADMIN}));
-        assertCollectionEquals(Arrays.asList(new String[] {RoleInitializer.SLC_OPERATOR, RoleInitializer.SEA_ADMINISTRATOR, RoleInitializer.LEA_ADMINISTRATOR, RoleInitializer.REALM_ADMINISTRATOR, RoleInitializer.INGESTION_USER}), slcOperatorGroups);
+        assertCollectionEquals(
+                RoleToGroupMapper.getInstance().mapRoleToGroups(
+                        Arrays.asList(new String[] { RoleInitializer.SLC_OPERATOR, RoleInitializer.SEA_ADMINISTRATOR,
+                                RoleInitializer.LEA_ADMINISTRATOR, RoleInitializer.REALM_ADMINISTRATOR,
+                                RoleInitializer.INGESTION_USER })), slcOperatorGroups);
 
         Collection<String> sandboxAdminGroups = rightToGroupMapper.getGroups(Arrays.asList(new GrantedAuthority[] {Right.CRUD_SANDBOX_ADMIN}));
-        assertCollectionEquals(Arrays.asList(new String[] {RoleInitializer.SANDBOX_ADMINISTRATOR, RoleInitializer.APP_DEVELOPER, RoleInitializer.INGESTION_USER}), sandboxAdminGroups);
+        assertCollectionEquals(RoleToGroupMapper.getInstance().mapRoleToGroups(
+                Arrays.asList(new String[] { RoleInitializer.SANDBOX_ADMINISTRATOR, RoleInitializer.APP_DEVELOPER,
+ RoleInitializer.INGESTION_USER })), sandboxAdminGroups);
 
         Collection<String> slcOperatorGroups2 = rightToGroupMapper.getGroups(Arrays.asList(new GrantedAuthority[] {Right.CRUD_SLC_OPERATOR}));
-        assertCollectionEquals(Arrays.asList(new String[] {RoleInitializer.SLC_OPERATOR, RoleInitializer.REALM_ADMINISTRATOR, RoleInitializer.INGESTION_USER}), slcOperatorGroups2);
+        assertCollectionEquals(
+                RoleToGroupMapper.getInstance().mapRoleToGroups(
+                        Arrays.asList(new String[] { RoleInitializer.SLC_OPERATOR, RoleInitializer.REALM_ADMINISTRATOR,
+                                RoleInitializer.INGESTION_USER })), slcOperatorGroups2);
     }
 
     @Test

@@ -1,0 +1,51 @@
+	
+	/**
+	 *  Adds a StudentAddressList instance for interoperating with multiple addresses in SIF Version 1.x
+	 * <p> In SIF 2.0, the StudentAddressList object is not a repeatable element. Use this method of adding
+	 * a student address only if you are creating an object for use in SIF 1.x
+	 * 
+	 * <p> In SIF 2.0, or if you are only dealing with a single Student address, you can add the address 
+	 * to the StudentPersonal object by calling the 
+	 *  {link StudentAddressList#add( Address )} method.
+	 *
+	 *  @param value A <code>StudentAddressList</code> object
+	 *  @since 1.1
+	 */
+	public void addAddressList( StudentAddressList value ) { 
+		addChild( StudentDTD.STUDENTPERSONAL_ADDRESSLIST, value);
+	}
+
+	/**
+	 *  Adds a StudentAddressList instance for interoperating with multiple addresses in SIF Version 1.x
+	 * <p> In SIF 2.0, the StudentAddressList object is not a repeatable element. Use this method of adding
+	 * a student address only if you are creating an object for use in SIF 1.x
+	 *
+	 * <p> In SIF 2.0, or if you are only dealing with a single Student address, you can add the address 
+	 * to the StudentPersonal object by calling the 
+	 *  {link StudentAddressList#add( Address )} method.
+	 *
+	 *  @param pickupOrDropoff Specifies if this is a pickup or dropoff address
+	 *  @param dayOfWeek The days of the week for which the pickup or dropoff address is valid
+	 *  @param address The street address
+	 *  @since 1.1
+	 */
+	public void addAddressList( PickupOrDropoff pickupOrDropoff, String dayOfWeek, Address address ) {
+		addChild( StudentDTD.STUDENTPERSONAL_ADDRESSLIST, new StudentAddressList( pickupOrDropoff, dayOfWeek, address ) );
+	}
+	
+
+	/**
+	 *  Gets all <code>StudentAddressList</code> object instances. More than one instance can be defined for this object in SIF 1.x,
+	 *  but this object is not repeatable in SIF 2.x. In SIF 2.x, all of the student addresses can be obtained by calling
+	 *  {@link StudentAddressList#getAddresses} method
+	 *
+	 *  @return An array of <code>StudentAddressList</code> objects
+	 *  @since 1.1
+	 */
+	public StudentAddressList[] getAddressLists() {
+		List<SIFElement> v = getChildList( StudentDTD.STUDENTPERSONAL_ADDRESSLIST);
+		StudentAddressList[] cvt = new StudentAddressList[v.size()];
+		v.toArray(cvt);
+		return cvt;
+	}	
+	

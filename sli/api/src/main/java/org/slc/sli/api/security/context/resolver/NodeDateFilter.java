@@ -14,78 +14,74 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.security.context.resolver;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatterBuilder;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.traversal.graph.NodeFilter;
 import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
 /**
  * Filters the entity by a given date
- *
+ * 
  * @author jcole
  */
 @Component
 public class NodeDateFilter extends NodeFilter {
-
+    
     @Autowired
     private AssociativeContextHelper helper;
-
-    DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-
+    
     protected String getGracePeriod() {
         return gracePeriod;
     }
-
+    
     protected String getEndDateParamName() {
         return endDateParamName;
     }
-
+    
     public String getStartDateParamName() {
         return startDateParamName;
     }
-
+    
     public void setStartDateParamName(String startDateParamName) {
         this.startDateParamName = startDateParamName;
     }
-
+    
     private String gracePeriod;
     private String endDateParamName;
     private String startDateParamName;
-
+    
     public void setParameters(String gracePeriod, String endDateParamName) {
         this.gracePeriod = gracePeriod;
         this.endDateParamName = endDateParamName;
         this.startDateParamName = "";
     }
-
+    
     @Override
     public List<Entity> filterEntities(List<Entity> toResolve, String referenceField) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         List<Entity> returnEntityList = new ArrayList<Entity>();
-
+        
         if (gracePeriod != null && endDateParamName != null) {
-            //get the filter date
+            // get the filter date
             String curDateWithGracePeriod = helper.getFilterDate(gracePeriod, calendar);
-
+            
             if (!toResolve.isEmpty()) {
                 for (Entity entity : toResolve) {
                     String endDateStr = (String) entity.getBody().get(endDateParamName);
-
+                    
                     if (startDateParamName.isEmpty()) {
-                        if (endDateStr == null || endDateStr.isEmpty() || isFirstDateBeforeSecondDate(curDateWithGracePeriod, endDateStr)) {
+                        if (endDateStr == null || endDateStr.isEmpty()
+                                || isFirstDateBeforeSecondDate(curDateWithGracePeriod, endDateStr)) {
                             returnEntityList.add(entity);
                         }
                     } else {
@@ -95,50 +91,79 @@ public class NodeDateFilter extends NodeFilter {
                             returnEntityList.add(entity);
                         }
                     }
-
+                    
                 }
             }
         }
-
+        
         return returnEntityList;
     }
-
-    protected boolean isDateInRange(String date, String startDate, String endDate) {
-        try {
-            return isDateInRange(formatter.parse(date), formatter.parse(startDate), formatter.parse(endDate));
-        } catch (ParseException e) {
-            return false;
+    
+    /**
+     * Parses the dateTime string using the format 'yyyy-MM-dd'.
+     * 
+     * @param dateTime
+     *            String to be parsed.
+     * @return DateTime representation of the String.
+     */
+    protected DateTime getDateTime(String dateTime) throws IllegalArgumentException {
+        if (dateTime == "") {
+            return DateTime.now();
         }
+        return DateTime.parse(dateTime, new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd").toFormatter());
     }
-
-    protected boolean isDateInRange(Date date, Date startDate, Date endDate) {
-        return date.compareTo(startDate) >= 0 && date.compareTo(endDate) <= 0;
+    
+    /**
+     * Converts the input strings to DateTime representations, in order to determine if the date in
+     * question falls between the start date and end date (exclusive).
+     * 
+     * @param date
+     *            String representation of the date to compare with start and end dates.
+     * @param startDate
+     *            String representation of the first value on interval (exclusive).
+     * @param endDate
+     *            String representation of the last value on interval (exclusive).
+     * @return true if the DateTime representation of 'date' is greater than the DateTime
+     *         representation of start date but less than the DateTime representation of end date,
+     *         false otherwise.
+     */
+    protected boolean isDateInRange(String date, String startDate, String endDate) throws IllegalArgumentException {
+        return isDateInRange(getDateTime(date), getDateTime(startDate), getDateTime(endDate));
     }
-
+    
+    /**
+     * Determines if the date in question falls between the start date and end date (exclusive).
+     * 
+     * @param date
+     *            Date to compare with start and end dates.
+     * @param startDate
+     *            First value on interval (exclusive).
+     * @param endDate
+     *            Last value on interval (exclusive).
+     * @return true if 'date' is greater than start date but less than end date, false otherwise.
+     */
+    protected boolean isDateInRange(DateTime date, DateTime startDate, DateTime endDate) throws IllegalArgumentException {
+        return date.isAfter(startDate) && date.isBefore(endDate);
+    }
+    
     /**
      * Compares two given dates.
      * Returns true when first date is before or second date.
      * Determines 'is date is before end date'.
-     *
+     * 
      * @param formattedFirstDateString
      * @param formattedSecondDateString
      * @return
      */
-    protected boolean isFirstDateBeforeSecondDate(String formattedFirstDateString, String formattedSecondDateString) {
-        try {
-            Date date = formatter.parse(formattedFirstDateString);
-            Date endDate = formatter.parse(formattedSecondDateString);
-            return date.before(endDate);
-        } catch (ParseException e) {
-            warn("parse exception {} {}", formattedFirstDateString, formattedSecondDateString);
-            return false;
-        }
+    protected boolean isFirstDateBeforeSecondDate(String formattedFirstDateString, String formattedSecondDateString) throws IllegalArgumentException {
+        DateTime date = getDateTime(formattedFirstDateString);
+        DateTime endDate = getDateTime(formattedSecondDateString);
+        return date.isBefore(endDate);
     }
-
+    
     protected String getCurrentDate() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         return helper.getFilterDate(null, calendar);
     }
-
 }

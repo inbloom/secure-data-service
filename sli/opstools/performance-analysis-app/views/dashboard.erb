@@ -33,7 +33,6 @@
                 var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
                 chart.draw(dataJSON, options);
                 google.visualization.events.addListener(chart, 'select', function() {
-                    //dataJSON.getValue()
                     var tableRow = chart.getSelection();
                     var endPoint = dataJSON.getValue(tableRow[0].row,0);
                     drawChartForEndPoint(endPoint);
@@ -61,7 +60,6 @@
                 var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
                 chart.draw(dataJSON, options);
                 google.visualization.events.addListener(chart, 'select', function() {
-                    //dataJSON.getValue()
                     var tableRow = chart.getSelection();
                     var buildTag = dataJSON.getValue(tableRow[0].row,0);
                     drawChartForEndPointPerBuild(endPoint,buildTag);
@@ -80,10 +78,10 @@
                 var dataJSON = new google.visualization.DataTable(json);
 
                 var options = {
-                    title: 'Response Time for '+endPoint,
+                    title: 'Response Time for '+endPoint + 'in build '+ buildTag,
                     legend: 'none',
                     vAxis: {title: 'Response Time(ms)',  titleTextStyle: {color: 'red'} },
-                    hAxis : {title: 'Jenkins build ',textPosition: 'none'}
+                    hAxis : {title: 'call details',textPosition: 'none'}
                 };
                 var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
                 chart.draw(dataJSON, options);

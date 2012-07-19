@@ -212,6 +212,7 @@ public final class XmiMappingReader {
         XmiFeature rhs = null;
         XmiMappingStatus status = null;
         String comment = null;
+        String tracking = "";
         boolean done = false;
         while (!done && reader.hasNext()) {
             reader.next();
@@ -229,6 +230,8 @@ public final class XmiMappingReader {
                         status = readStatus(reader);
                     } else if (match(XmiMappingConstants.COMMENT, reader)) {
                         comment = readStringContent(reader.getName(), reader);
+                    } else if (match(XmiMappingConstants.TRACKING, reader)) {
+                        tracking = readStringContent(reader.getName(), reader);
                     } else if (match(XmiMappingConstants.LHS_MISSING, reader)) {
                         XMLStreamReaderTools.skipElement(reader);
                     } else if (match(XmiMappingConstants.RHS_MISSING, reader)) {
@@ -253,7 +256,7 @@ public final class XmiMappingReader {
                 }
             }
         }
-        return new XmiMapping(lhs, rhs, status, comment);
+        return new XmiMapping(lhs, rhs, status, tracking, comment);
     }
     
     public static final XmiComparison readMappingList(final String fileName) throws FileNotFoundException {

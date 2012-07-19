@@ -88,7 +88,7 @@ public final class XmiMappingHelper {
         final Set<CaseInsensitiveQName> common = commonFeatures(lhsMissing.keySet(), rhsMissing.keySet());
         
         for (final CaseInsensitiveQName name : common) {
-            mappings.add(new XmiMapping(lhsMissing.get(name), rhsMissing.get(name), XmiMappingStatus.MATCH,
+            mappings.add(new XmiMapping(lhsMissing.get(name), rhsMissing.get(name), XmiMappingStatus.MATCH, "",
                     mergeComment));
             lhsMissing.remove(name);
             rhsMissing.remove(name);
@@ -124,7 +124,7 @@ public final class XmiMappingHelper {
                 final XmiMapping oldMapping = mappings.get(index);
                 final XmiFeature lhs = isLHS ? features.get(missingName) : oldMapping.getLhsFeature();
                 final XmiFeature rhs = isRHS ? features.get(missingName) : oldMapping.getRhsFeature();
-                final XmiMapping newMapping = new XmiMapping(lhs, rhs, XmiMappingStatus.MATCH, mergeComment);
+                final XmiMapping newMapping = new XmiMapping(lhs, rhs, XmiMappingStatus.MATCH, "", mergeComment);
                 mappings.set(index, newMapping);
                 features.remove(missingName);
             }
@@ -141,7 +141,7 @@ public final class XmiMappingHelper {
         for (final CaseInsensitiveQName name : names) {
             final XmiFeature lhsFeature = isLHS ? features.get(name) : null;
             final XmiFeature rhsFeature = isRHS ? features.get(name) : null;
-            final XmiMapping mapping = new XmiMapping(lhsFeature, rhsFeature, XmiMappingStatus.UNKNOWN, comment);
+            final XmiMapping mapping = new XmiMapping(lhsFeature, rhsFeature, XmiMappingStatus.UNKNOWN, "", comment);
             mappings.add(mapping);
             features.remove(name);
         }

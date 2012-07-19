@@ -35,6 +35,7 @@
 							<th>Class</th>
 							<th>Feature</th>
 							<th>Status</th>
+							<th>Tracking</th>
 							<th>Comment</th>
 						</tr>
 						<xsl:for-each select="mapping">
@@ -159,6 +160,9 @@
 											</td>
 										</xsl:otherwise>
 									</xsl:choose>
+									<td>
+										<xsl:value-of select="tracking"></xsl:value-of>
+									</td>
 									<td>
 										<xsl:value-of select="comment"></xsl:value-of>
 									</td>

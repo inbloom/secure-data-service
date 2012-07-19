@@ -179,7 +179,7 @@ public class ApplicationAuthorizationResource {
     public Response getAuthorizations(@Context UriInfo info) {
         SecurityUtil.ensureAuthenticated();
         List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
-        String edOrg = delegationUtil.getUsersStateUniqueId();
+        String edOrg = SecurityUtil.getEdOrg();
 
         if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ) && !SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
             return SecurityUtil.forbiddenResponse();
@@ -222,7 +222,7 @@ public class ApplicationAuthorizationResource {
     }
 
     private void verifyAccess(String authId, String tenantId) throws AccessDeniedException {
-        String edOrg = delegationUtil.getUsersStateUniqueId();
+        String edOrg = SecurityUtil.getEdOrg();;
         if (edOrg == null) {
             throw new InsufficientAuthenticationException("No edorg exists on principal.");
         }

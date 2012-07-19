@@ -2,12 +2,20 @@ package org.slc.sli.modeling.sdkgen.snippets;
 
 import java.io.IOException;
 
+import org.slc.sli.modeling.jgen.JavaCollectionKind;
 import org.slc.sli.modeling.jgen.JavaParam;
 import org.slc.sli.modeling.jgen.JavaSnippet;
 import org.slc.sli.modeling.jgen.JavaStreamWriter;
 import org.slc.sli.modeling.jgen.JavaType;
+import org.slc.sli.modeling.jgen.JavaTypeKind;
+import org.slc.sli.modeling.jgen.snippets.Assignment;
 import org.slc.sli.modeling.jgen.snippets.Block;
+import org.slc.sli.modeling.jgen.snippets.EnhancedForLoop;
 import org.slc.sli.modeling.jgen.snippets.IfThenElse;
+import org.slc.sli.modeling.jgen.snippets.MethodCallExpr;
+import org.slc.sli.modeling.jgen.snippets.NewInstanceExpr;
+import org.slc.sli.modeling.jgen.snippets.Stmt;
+import org.slc.sli.modeling.jgen.snippets.StmtList;
 import org.slc.sli.modeling.jgen.snippets.VarNameExpr;
 import org.slc.sli.modeling.jgen.snippets.NotEqual;
 import org.slc.sli.modeling.jgen.snippets.Word;
@@ -44,9 +52,25 @@ public final class SetterSnippet implements JavaSnippet {
         jsw.writeParams(param);
         jsw.parenR();
         final JavaSnippet testSnippet = new NotEqual(value, Word.NULL);
-        final JavaSnippet thenSnippet = new PutMapEntry(name, new CoerceToJsonTypeSnippet(name, type));
+        final JavaSnippet thenSnippet;
         final JavaSnippet elseSnippet = new RemoveMapEntry(name);
-        new Block(new IfThenElse(testSnippet, thenSnippet, elseSnippet)).write(jsw);
+        if (type.getTypeKind().equals(JavaTypeKind.ENUM) && type.getCollectionKind().equals(JavaCollectionKind.LIST)) {
+            final String enumNames = "enumNames";
+            final JavaSnippet assnmt = new Assignment(
+                    new JavaParam(enumNames, JavaType.collectionType(JavaCollectionKind.LIST, JavaType.JT_STRING), true),
+                    new NewInstanceExpr(JavaType.collectionType(JavaCollectionKind.ARRAY_LIST, JavaType.JT_STRING)));
+            thenSnippet = new StmtList(
+                    new EnhancedForLoop(
+                        new JavaParam("item", type.primeType(), true),
+                        new VarNameExpr(param.getName()),
+                        new Stmt(new MethodCallExpr(new VarNameExpr(enumNames), "add",
+                                new MethodCallExpr(new VarNameExpr("item"), "getName")))),
+                    new PutMapEntry(name, new VarNameExpr(enumNames)));
+            new Block(assnmt, new IfThenElse(testSnippet, thenSnippet, elseSnippet)).write(jsw);
+        } else {
+            thenSnippet = new PutMapEntry(name, new CoerceToJsonTypeSnippet(name, type));
+            new Block(new IfThenElse(testSnippet, thenSnippet, elseSnippet)).write(jsw);
+        }
     }
 
     private static final String titleCase(final String text) {

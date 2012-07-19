@@ -26,6 +26,13 @@
 	margin: 10px;
 	margin-top: 30px;
 }
+
+.tool-tip-link {
+	margin-left:140px;
+	color:rgb(0, 102, 153);
+	font-size:11px; 
+}
+
 </style>
 <link href="resources/bootstrap.css" rel="stylesheet"/>
 </head>
@@ -81,6 +88,9 @@
 					<div class="control-group">
 						<label for="password" class="control-label">Password:</label>
 						<input type="password" id="password" name="password" />
+					</div>
+					<div class="control-group">
+						<a class="tool-tip-link" id="forgotPassword" name="forgotPassword" href="${fn:escapeXml(adminUrl)}/forgotPassword">Forgot your password?</a>
 					</div>
 					<c:if test="${is_sandbox}">
 					<div class="control-group">

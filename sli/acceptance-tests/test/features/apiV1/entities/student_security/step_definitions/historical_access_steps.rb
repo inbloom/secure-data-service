@@ -20,25 +20,11 @@ require 'json'
 require_relative '../../../../utils/sli_utils.rb'
 
 Then /^I should be able to access data about (the student "[^"]*")$/ do |arg1|
-  @format = "application/vnd.slc+json"
-  ["attendances", "studentAssessments"].each do |endpoint|
-    restHttpGet("/v1/#{endpoint}?studentId=#{arg1}")
-    assert(@res != nil, "Response from rest-client GET is nil")
-    assert(@res.code == 200, "Get on endpoint #{endpoint}, expected code: 200 but actual code was #{@res.code}")
-    data = JSON.parse(@res.body)
-    assert(data.count == 1, "Expected to only see one #{endpoint} but saw #{data.count}")
-  end
+  check_associated_data(arg1, 200)
 end
 
 Then /^I should not be able to access data about (the student "[^"]*")$/ do |arg1|
-  @format = "application/vnd.slc+json"
-  ["attendances", "studentAssessments"].each do |endpoint|
-    restHttpGet("/v1/#{endpoint}?studentId=#{arg1}")
-    assert(@res != nil, "Response from rest-client PUT is nil")
-    assert(@res.code == 403, "Get on endpoint #{endpoint}, expected code: 200 but actual code was #{@res.code}")
-#    data = JSON.parse(@res.body)
-#    assert(data.count == 0, "Expected to only see no #{endpoint} but saw #{data.count}")
-  end
+  check_associated_data(arg1, 403)
 end
 
 When /^I move teacher12 to a new section$/ do
@@ -153,4 +139,15 @@ end
 Then /^the stamper runs and completes$/ do
   puts `ruby ../opstools/edorg/edorg_stamper.rb 127.0.0.1:27017`
   puts `ruby ../opstools/teacher_security_stamper/teacher_stamper.rb 127.0.0.1:27017`
+end
+private
+def check_associated_data(arg1, response)
+  @format = "application/vnd.slc+json"
+  ["courseTranscripts", "studentAcademicRecords", "attendances", "studentAssessments", "reportCards", "studentDisciplineIncidentAssociations", "studentParentAssociations"].each do |endpoint|
+    restHttpGet("/v1/#{endpoint}?studentId=#{arg1}")
+    assert(@res != nil, "Response from rest-client GET is nil")
+    assert(@res.code == response, "Get on endpoint #{endpoint}, expected code: #{response} but actual code was #{@res.code}")
+    data = JSON.parse(@res.body) unless response == 403
+    assert(data.count == 1, "Expected to only see one #{endpoint} but saw #{data.count}") unless response == 403
+  end
 end

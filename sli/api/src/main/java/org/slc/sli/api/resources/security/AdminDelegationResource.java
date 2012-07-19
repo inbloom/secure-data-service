@@ -66,9 +66,9 @@ public class AdminDelegationResource {
     @Autowired
     @Qualifier("validationRepo")
     Repository<Entity> repo;
-
+    
     @Autowired
-    EdOrgToChildEdOrgNodeFilter edOrgNodeFilter;
+    DelegationUtil util;
 
     private EntityService service;
 
@@ -100,8 +100,7 @@ public class AdminDelegationResource {
 
             List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
             NeutralQuery query = new NeutralQuery();
-            query.addCriteria(new NeutralCriteria(LEA_ID, NeutralCriteria.CRITERIA_IN,
-                    edOrgNodeFilter.getChildEducationOrganizations(edOrg)));
+            query.addCriteria(new NeutralCriteria(LEA_ID, NeutralCriteria.CRITERIA_IN, util.getDelegateEdOrgs()));
             for (Entity entity : repo.findAll(RESOURCE_NAME, query)) {
                 entity.getBody().put("id", entity.getEntityId());
                 results.add(entity.getBody());

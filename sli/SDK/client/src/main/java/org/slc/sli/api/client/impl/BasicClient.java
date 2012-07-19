@@ -23,8 +23,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.ws.rs.MessageProcessingException;
 import javax.ws.rs.core.Response;
@@ -37,10 +35,10 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.node.ArrayNode;
 import org.codehaus.jackson.node.ObjectNode;
 import org.codehaus.jackson.type.TypeReference;
-import org.scribe.exceptions.OAuthException;
 
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.Link;
+import org.slc.sli.api.client.RESTClient;
 import org.slc.sli.api.client.SLIClient;
 import org.slc.sli.api.client.SLIClientException;
 import org.slc.sli.api.client.constants.v1.PathConstants;
@@ -59,34 +57,24 @@ import org.slc.sli.api.client.util.URLBuilder;
  */
 public class BasicClient implements SLIClient {
 
+    // handles the underlying communication with the API via HTTP
     private RESTClient restClient;
-    private static Logger logger = Logger.getLogger("BasicClient");
+
+    // Entity (de-)serialization (from) to Json.
     ObjectMapper mapper = new ObjectMapper();
 
-    @Override
-    public URL getLoginURL() {
-        return restClient.getLoginURL();
+    /**
+     * Construct a new BasicClient instance, using the JSON message converter.
+     *
+     * @param restClient
+     *            Instance of RESTClient that handles the low level HTTP operations.
+     */
+    public BasicClient(final RESTClient restClient) {
+        this.restClient = restClient;
     }
 
     @Override
-    public Response connect(final String requestCode, String authorizationToken) throws OAuthException {
-        try {
-            return restClient.connect(requestCode, authorizationToken);
-        } catch (MalformedURLException e) {
-            logger.log(Level.SEVERE, String.format("Invalid/malformed URL when connecting: %s", e.toString()));
-        } catch (URISyntaxException e) {
-            logger.log(Level.SEVERE, String.format("Invalid/malformed URL when connecting: %s", e.toString()));
-        }
-        return null;
-    }
-
-    @Override
-    public void logout() {
-        // TODO - implement this when logout becomes available.
-    }
-
-    @Override
-    public String create(final Entity e) throws URISyntaxException, IOException, SLIClientException {
+    public String create(final Entity e) throws IOException, URISyntaxException, SLIClientException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).build();
         Response response = restClient.postRequest(url, mapper.writeValueAsString(e));
         checkResponse(response, Status.CREATED, "Could not created entity.");
@@ -105,15 +93,14 @@ public class BasicClient implements SLIClient {
     }
 
     @Override
-    public Response read(List<Entity> entities, final String type, final Query query) throws URISyntaxException,
-            MessageProcessingException, IOException {
-
-        return read(entities, type, null, query);
+    public void read(List<Entity> entities, final String type, final Query query) throws URISyntaxException,
+            MessageProcessingException, IOException, SLIClientException {
+        read(entities, type, null, query);
     }
 
     @Override
-    public Response read(List<Entity> entities, final String type, final String id, final Query query)
-            throws URISyntaxException, MessageProcessingException, IOException {
+    public void read(final List<Entity> entities, final String type, final String id, final Query query)
+            throws URISyntaxException, MessageProcessingException, IOException, SLIClientException {
 
         entities.clear();
 
@@ -122,7 +109,8 @@ public class BasicClient implements SLIClient {
             builder.id(id);
         }
 
-        return getResource(entities, builder.build(), query);
+        Response response = getResource(entities, builder.build(), query);
+        checkResponse(response, Status.OK, "Unable to retrieve entity.");
     }
 
     @Override
@@ -133,9 +121,11 @@ public class BasicClient implements SLIClient {
     }
 
     @Override
-    public Response update(final Entity e) throws URISyntaxException, MessageProcessingException, IOException {
+    public void update(final Entity e)
+            throws URISyntaxException, MessageProcessingException, IOException, SLIClientException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
-        return restClient.putRequest(url, mapper.writeValueAsString(e));
+        Response response = restClient.putRequest(url, mapper.writeValueAsString(e));
+        checkResponse(response, Status.NO_CONTENT, "Unable to update entity.");
     }
 
     @Override
@@ -152,15 +142,13 @@ public class BasicClient implements SLIClient {
     }
 
 
-    @SuppressWarnings("unchecked")
     @Override
     public Response deleteByToken(final String sessionToken, final String resourceUrl) throws URISyntaxException, MalformedURLException {
         return restClient.deleteRequest(sessionToken, new URL(restClient.getBaseURL() + resourceUrl));
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public Response getResource(List<Entity> entities, URL resourceURL, Query query) throws URISyntaxException,
+    public Response getResource(final List<Entity> entities, URL resourceURL, Query query) throws URISyntaxException,
             MessageProcessingException, IOException {
         entities.clear();
 
@@ -195,7 +183,7 @@ public class BasicClient implements SLIClient {
     }
 
     @SuppressWarnings("unchecked")
-	@Override
+    @Override
     public Response getResource(final String sessionToken, List entities, URL restURL, Class entityClass)
             throws URISyntaxException, MessageProcessingException, IOException {
         entities.clear();
@@ -255,37 +243,22 @@ public class BasicClient implements SLIClient {
         return response;
     }
 
-    /**
-     * Construct a new BasicClient instance, using the JSON message converter.
-     *
-     * @param apiServerURL
-     *            Fully qualified URL to the root of the API server.
-     * @param clientId
-     *            Unique client identifier for this application.
-     * @param clientSecret
-     *            Unique client secret value for this application.
-     * @param callbackURL
-     *            URL used to redirect after authentication.
-     */
-    public BasicClient(final URL apiServerURL, final String clientId, final String clientSecret, final URL callbackURL) {
-        restClient = new RESTClient(apiServerURL, clientId, clientSecret, callbackURL);
+    public String sessionCheck(final String token) throws URISyntaxException, IOException {
+        return restClient.sessionCheck(token);
     }
 
     /**
-     * Set the sessionToken for all SLI API ReSTful service calls.
      *
-     * @param sessionToken
      */
     @Override
-    public void setToken(String sessionToken) {
-        restClient.setSessionToken(sessionToken);
+    public RESTClient getRESTClient() {
+        return restClient;
     }
 
-    @Override
-    public String getToken() {
-        return restClient.getSessionToken();
-    }
-
+    /*
+     * Checks the response status of the HTTP request against the expected status and throws an
+     * exception with the provided error message if the status doesn't match.
+     */
     private void checkResponse(Response response, Status status, String msg) throws SLIClientException {
         if (response.getStatus() != status.getStatusCode()) {
            throw new SLIClientException(msg + "Receveived status code " + response.getStatus() + ". Expected " + status.getStatusCode() + ".");
