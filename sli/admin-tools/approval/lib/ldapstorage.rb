@@ -202,6 +202,18 @@ class LDAPStorage
     return ldap.bind
   end
 
+    def get_user_count()
+        filter = Net::LDAP::Filter.eq("objectClass", "inetOrgPerson")
+
+        count = 0 
+        Net::LDAP.open(@ldap_conf) do |ldap|
+          ldap.search(:filter => filter, :attributes => attributes) do |entry|
+            count += 1
+          end 
+        end
+        return count 
+    end 
+
     # returns extended user_info
     def read_user(email_address)
         filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:email].to_s, email_address)
