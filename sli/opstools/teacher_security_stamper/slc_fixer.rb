@@ -570,7 +570,7 @@ class SLCFixer
       cursor.each { |school|
         teachers = {}
         @db['teacherSchoolAssociation'].find({'body.schoolId'=>school['_id'], '$or'=> [ {'body.endDate'=> {'$exists'=> false}}, {'body.endDate'=> {'$gte'=> @current_date}} ]},
-                                             {fields: ['body.teacherId']}.merge(@basic_options)) { |cursor|
+                                             @basic_options) { |cursor|
           cursor.each { |tsa|
             teacher_id = tsa['body']['teacherId']
             teachers[teacher_id] = true

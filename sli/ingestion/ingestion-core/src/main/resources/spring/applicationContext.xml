@@ -27,11 +27,6 @@
   </bean>
 
 
-  <!-- ActiveMQ -->
-<!--   <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
-    <property name="brokerURL" value="${sli.ingestion.queue.brokerUrl}" />
-  </bean> -->
-
   <!-- Main application context, contains all other contexts in /spring -->
   <import resource="activemq-context.xml" />
   <import resource="smooks-context.xml" />

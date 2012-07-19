@@ -12,6 +12,10 @@ public final class XmiMappingConstants {
      */
     public static final QName COMMENT = new QName(NAMESPACE_URI, "comment");
     /**
+     * A tracking number for the mapping.
+     */
+    public static final QName TRACKING = new QName(NAMESPACE_URI, "tracking");
+    /**
      * The top-level a.k.a document element name.
      */
     public static final QName DOCUMENT_ELEMENT = new QName(NAMESPACE_URI, "mappings");

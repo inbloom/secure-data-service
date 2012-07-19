@@ -54,7 +54,7 @@ default:
 
         # User a negative number for unlimited
         sli.useraccount.maximum: 500
-        
+
         # Ldap server user and pass
         sli.api.ldap.user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
         sli.api.ldap.pass: Y;Gtf@w{
@@ -96,6 +96,9 @@ default:
 
         # Test specific properties (only used in ingestion)
         sli.test.prop: ci DAL Context Test Property
+
+        # Security Event capsize
+        sli.ingestion.securityEvent.capSize:
 
   # Write concerns
 
@@ -256,7 +259,7 @@ default:
         bootstrap.app.sif.apiUrl: http://local.slidev.org:8080/
         bootstrap.app.sif.callbackUrl: http://local.slidev.org:8081/
         bootstrap.app.sif.guid: 2ad39ff1-65f8-4a16-8912-b49872f1ee97
-        bootstrap.app.sif.token: 9f58b6dc-0880-4e2a-a65f-3aa8b5201fbd 
+        bootstrap.app.sif.token: 9f58b6dc-0880-4e2a-a65f-3aa8b5201fbd
         bootstrap.app.sif.client_id: bZEkFldWJT
         bootstrap.app.sif.client_secret: F1b5Fy2nZq0qZJP6x3ci5onwr7XViBppOGqJTSNuz7K6eBQq
 
@@ -316,7 +319,7 @@ default:
         sli.sample.callbackUrl: http://local.slidev.org:8081/sample/callback
         sli.sample.clientId: fm67sH6vZZ
         sli.sample.clientSecret: sb70uDUEYK1IkE5LB2xdBkTJRIQNhBnaOYu1ig5EZW3UwpP4
-        
+
         # sif-agent appp properties
         sli.sif-agent.agentId: test.subscriber.agent
         sli.sif-agent.agentPort: 25100
@@ -366,6 +369,10 @@ acceptance-tests:
         sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
         sli.ingestion.warnings.tracking: true
+
+        # Security Event capsize
+        sli.ingestion.securityEvent.capSize:
+
     ingestion:
         <<: *INGESTION-DEFAULT
         # acceptance-tests/ingestion/queue.properties
@@ -391,7 +398,7 @@ acceptance-tests:
         sli.ingestion.queue.pit.host: devmq1.slidev.org
         sli.ingestion.queue.pit.port: 5445
         sli.ingestion.queue.pit.queueURI: activemq:queue:IngestionPit
-        sli.ingestion.queue.pit.consumerQueueURI: txActivemq:queue:ingestion.pit
+        sli.ingestion.queue.pit.consumerQueueURI: txActivemq:queue:IngestionPit
         sli.ingestion.queue.pit.concurrentConsumers: 5
         sli.ingestion.queue.pit.uriOptions: '&transferExchange=true'
         sli.ingestion.queue.pit.keystore: /opt/tomcat/ssl/tomcat.keystore
@@ -457,6 +464,10 @@ ci:
         sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
         sli.ingestion.warnings.tracking: true
+
+        # Security Event capsize
+        sli.ingestion.securityEvent.capSize:
+
     ingestion:
         <<: *INGESTION-DEFAULT
         # ci/ingestion/ingestion_conf.properties
@@ -539,6 +550,10 @@ dev:
         sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
         sli.ingestion.warnings.tracking: true
+
+        # Security Event capsize
+        sli.ingestion.securityEvent.capSize:
+
     ingestion:
         <<: *INGESTION-DEFAULT
         # dev/ingestion/ingestion_conf.properties
@@ -626,6 +641,10 @@ devjuggernauts:
         sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
         sli.ingestion.warnings.tracking: true
+
+        # Security Event capsize
+        sli.ingestion.securityEvent.capSize:
+
     ingestion:
         <<: *INGESTION-DEFAULT
         # dev/ingestion/ingestion_conf.properties
@@ -710,6 +729,10 @@ devapp1:
         sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
         sli.ingestion.warnings.tracking: true
+
+        # Security Event capsize
+        sli.ingestion.securityEvent.capSize:
+
     ingestion:
         <<: *INGESTION-DEFAULT
         # devapp1/ingestion/ingestion_conf.properties
@@ -753,8 +776,8 @@ local:
         #sli.tenant.ingestionServers: localhost
         #sli.landingZone.server: localhost
 
-        bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=Local
-        bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=Local
+        bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=LocalNew
+        bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=LocalNew
 
     data-access: &DATA-ACCESS-LOCAL
         <<: *DATA-ACCESS-DEFAULT
@@ -792,6 +815,8 @@ local:
         sli.ingestion.errors.tracking: true
         sli.ingestion.warnings.tracking: true
 
+        # Security Event capsize
+        sli.ingestion.securityEvent.capSize:
 
     ingestion: &INGESTION-LOCAL
         <<: *INGESTION-DEFAULT
@@ -835,13 +860,13 @@ local:
         bootstrap.app.sif.url: http://local.slidev.org:1338/
         bootstrap.app.sif.client_id: bZEkFldWJT
         bootstrap.app.sif.client_secret: F1b5Fy2nZq0qZJP6x3ci5onwr7XViBppOGqJTSNuz7K6eBQq
-        bootstrap.app.sif.token: 9f58b6dc-0880-4e2a-a65f-3aa8b5201fbd 
+        bootstrap.app.sif.token: 9f58b6dc-0880-4e2a-a65f-3aa8b5201fbd
 
     misc: &MISC-LOCAL
         <<: *MISC-DEFAULT
 
          # Name of the SLIAdmin realm used to authenticate sandbox developers when no realm specified
-        sli.simple-idp.sliAdminRealmName: Local
+        sli.simple-idp.sliAdminRealmName: LocalNew
         # LDAP base URLs, comma separated list of ldap servers
         sli.simple-idp.ldap.urls: ldap://ldap.slidev.org:389
         # LDAP base DN
@@ -938,7 +963,7 @@ local-acceptance-tests:
         bootstrap.app.sif.apiUrl: http://local.slidev.org:8080/
         bootstrap.app.sif.callbackUrl: http://local.slidev.org:8081/
         bootstrap.app.sif.guid: 2ad39ff1-65f8-4a16-8912-b49872f1ee97
-        bootstrap.app.sif.token: 9f58b6dc-0880-4e2a-a65f-3aa8b5201fbd 
+        bootstrap.app.sif.token: 9f58b6dc-0880-4e2a-a65f-3aa8b5201fbd
         bootstrap.app.sif.client_id: bZEkFldWJT
         bootstrap.app.sif.client_secret: F1b5Fy2nZq0qZJP6x3ci5onwr7XViBppOGqJTSNuz7K6eBQq
 
@@ -1002,6 +1027,10 @@ team:
         sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
         sli.ingestion.warnings.tracking: true
+
+        # Security Event capsize
+        sli.ingestion.securityEvent.capSize:
+
     ingestion: &INGESTION-TEAM
         <<: *INGESTION-DEFAULT
         # team/ingestion/ingestion_conf.properties
@@ -1078,7 +1107,7 @@ team:
         bootstrap.app.sif.apiUrl: http://local.slidev.org:8080/
         bootstrap.app.sif.callbackUrl: http://local.slidev.org:8081/
         bootstrap.app.sif.guid: 2ad39ff1-65f8-4a16-8912-b49872f1ee97
-        bootstrap.app.sif.token: 9f58b6dc-0880-4e2a-a65f-3aa8b5201fbd 
+        bootstrap.app.sif.token: 9f58b6dc-0880-4e2a-a65f-3aa8b5201fbd
         bootstrap.app.sif.client_id: bZEkFldWJT
         bootstrap.app.sif.client_secret: F1b5Fy2nZq0qZJP6x3ci5onwr7XViBppOGqJTSNuz7K6eBQq
 
@@ -1127,6 +1156,10 @@ perf:
         sli.ingestion.batchjob.mongodb.pass:
         sli.ingestion.errors.tracking: true
         sli.ingestion.warnings.tracking: true
+
+        # Security Event capsize
+        sli.ingestion.securityEvent.capSize:
+
     ingestion:
         <<: *INGESTION-DEFAULT
         # perf/ingestion/ingestion_conf.properties
@@ -1256,7 +1289,7 @@ sandbox:
         bootstrap.app.sif.url: http://${sli.dev.subdomain}.slidev.org:1338/
         bootstrap.app.sif.client_id: bZEkFldWJT
         bootstrap.app.sif.client_secret: F1b5Fy2nZq0qZJP6x3ci5onwr7XViBppOGqJTSNuz7K6eBQq
-        bootstrap.app.sif.token: 9f58b6dc-0880-4e2a-a65f-3aa8b5201fbd 
+        bootstrap.app.sif.token: 9f58b6dc-0880-4e2a-a65f-3aa8b5201fbd
 
     misc:
         <<: *MISC-TEAM
