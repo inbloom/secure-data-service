@@ -50,6 +50,7 @@ public class AccessDeniedExceptionHandler implements ExceptionMapper<AccessDenie
     public Response toResponse(AccessDeniedException e) {
         Response.Status errorStatus = Response.Status.FORBIDDEN;
         warn("Access has been denied to user: {}", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        warn("Cause: {}", e.getMessage());
         audit(securityEventBuilder.createSecurityEvent(RealmRoleManagerResource.class.getName(), uriInfo, "Access Denied!"));
         return Response.status(errorStatus).entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(), "Access DENIED: " + e.getMessage())).build();
     }

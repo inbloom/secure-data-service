@@ -5,9 +5,9 @@
             <IdentificationCode>lstd0</IdentificationCode>
         </LearningStandardId>
         <Description>lstd0 Descriptions</Description>
-        <ContentStandard>PSAT</ContentStandard>
-        <GradeLevel>Seventh grade</GradeLevel>
-        <SubjectArea>Communication and Audio/Visual Technology</SubjectArea>
+        <ContentStandard>National Standard</ContentStandard>
+        <GradeLevel>Third grade</GradeLevel>
+        <SubjectArea>Composite</SubjectArea>
         <CourseTitle>lstd0 CourseTitle</CourseTitle>
     </LearningStandard>
     <LearningStandard id="lstd1">
@@ -15,10 +15,20 @@
             <IdentificationCode>lstd1</IdentificationCode>
         </LearningStandardId>
         <Description>lstd1 Descriptions</Description>
-        <ContentStandard>LEA Standard</ContentStandard>
-        <GradeLevel>Ninth grade</GradeLevel>
-        <SubjectArea>Computer and Information Sciences</SubjectArea>
+        <ContentStandard>PSAT</ContentStandard>
+        <GradeLevel>Second grade</GradeLevel>
+        <SubjectArea>Manufacturing</SubjectArea>
         <CourseTitle>lstd1 CourseTitle</CourseTitle>
+    </LearningStandard>
+    <LearningStandard id="lstd2">
+        <LearningStandardId ContentStandardName="lstd2Name">
+            <IdentificationCode>lstd2</IdentificationCode>
+        </LearningStandardId>
+        <Description>lstd2 Descriptions</Description>
+        <ContentStandard>Advanced Placement</ContentStandard>
+        <GradeLevel>Adult Education</GradeLevel>
+        <SubjectArea>Religious Education and Theology</SubjectArea>
+        <CourseTitle>lstd2 CourseTitle</CourseTitle>
     </LearningStandard>
     <LearningObjective>
         <LearningObjectiveId ContentStandardName="Content Standard Name">
@@ -50,22 +60,90 @@
         </LearningStandardReference>
         <Nomenclature>Nomenclature</Nomenclature>
     </AssessmentItem>
-    <ObjectiveAssessment id="objas0">
-        <IdentificationCode>objas0</IdentificationCode>
+    <AssessmentItem>
+        <IdentificationCode>asit1</IdentificationCode>
+        <ItemCategory>Analytic</ItemCategory>
         <MaxRawScore>100</MaxRawScore>
-        <PercentOfAssessment>50</PercentOfAssessment>
-        <Nomenclature>Nomenclature</Nomenclature>
-        <LearningObjectiveReference>
-            <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="lobj0Content Standard">
-                    <IdentificationCode>lobj0</IdentificationCode>
-                </LearningObjectiveId>
-            </LearningObjectiveIdentity>
-        </LearningObjectiveReference>
+        <CorrectResponse>CorrectResponse</CorrectResponse>
         <LearningStandardReference>
             <LearningStandardIdentity>
                 <LearningStandardId ContentStandardName="lstd0Name">
                     <IdentificationCode>lstd0</IdentificationCode>
+                </LearningStandardId>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <Nomenclature>Nomenclature</Nomenclature>
+    </AssessmentItem>
+    <AssessmentItem>
+        <IdentificationCode>asit2</IdentificationCode>
+        <ItemCategory>Analytic</ItemCategory>
+        <MaxRawScore>100</MaxRawScore>
+        <CorrectResponse>CorrectResponse</CorrectResponse>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <LearningStandardId ContentStandardName="lstd0Name">
+                    <IdentificationCode>lstd0</IdentificationCode>
+                </LearningStandardId>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <Nomenclature>Nomenclature</Nomenclature>
+    </AssessmentItem>
+    <AssessmentItem>
+        <IdentificationCode>asit3</IdentificationCode>
+        <ItemCategory>Analytic</ItemCategory>
+        <MaxRawScore>100</MaxRawScore>
+        <CorrectResponse>CorrectResponse</CorrectResponse>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <LearningStandardId ContentStandardName="lstd0Name">
+                    <IdentificationCode>lstd0</IdentificationCode>
+                </LearningStandardId>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <Nomenclature>Nomenclature</Nomenclature>
+    </AssessmentItem>
+    <AssessmentItem>
+        <IdentificationCode>asit4</IdentificationCode>
+        <ItemCategory>Analytic</ItemCategory>
+        <MaxRawScore>100</MaxRawScore>
+        <CorrectResponse>CorrectResponse</CorrectResponse>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <LearningStandardId ContentStandardName="lstd2Name">
+                    <IdentificationCode>lstd2</IdentificationCode>
+                </LearningStandardId>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <Nomenclature>Nomenclature</Nomenclature>
+    </AssessmentItem>
+    <PerformanceLevelDescriptor>
+        <CodeValue>pld0</CodeValue>
+        <Description>Description for pld0</Description>
+        <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
+    </PerformanceLevelDescriptor>
+    <PerformanceLevelDescriptor>
+        <CodeValue>pld1</CodeValue>
+        <Description>Description for pld1</Description>
+        <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
+    </PerformanceLevelDescriptor>
+    <ObjectiveAssessment id="objas0">
+        <IdentificationCode>objas0</IdentificationCode>
+        <MaxRawScore>100</MaxRawScore>
+        <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <CodeValue>pld0</CodeValue>
+                <PerformanceLevelMet>true</PerformanceLevelMet>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Adaptive scale score</AssessmentReportingMethod>
+            <MinimumScore>0</MinimumScore>
+            <MaximumScore>100</MaximumScore>
+        </AssessmentPerformanceLevel>
+        <PercentOfAssessment>50</PercentOfAssessment>
+        <Nomenclature>Nomenclature</Nomenclature>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <LearningStandardId ContentStandardName="lstd1Name">
+                    <IdentificationCode>lstd1</IdentificationCode>
                 </LearningStandardId>
             </LearningStandardIdentity>
         </LearningStandardReference>

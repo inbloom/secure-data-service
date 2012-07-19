@@ -74,6 +74,9 @@ public class Login {
 
     @Value("${sli.simple-idp.sliAdminRealmName}")
     private String sliAdminRealmName;
+    
+    @Value("${bootstrap.app.admin.url}")
+    private String adminUrl;
 
     void setSandboxImpersonationEnabled(boolean isSandboxImpersonationEnabled) {
         this.isSandboxImpersonationEnabled = isSandboxImpersonationEnabled;
@@ -106,6 +109,7 @@ public class Login {
 
         ModelAndView mav = new ModelAndView("login");
         mav.addObject("SAMLRequest", encodedSamlRequest);
+        mav.addObject("adminUrl", adminUrl);
         if (isSandboxImpersonationEnabled && (realm == null || realm.length() == 0)) {
             realm = null;
             mav.addObject("is_sandbox", true);

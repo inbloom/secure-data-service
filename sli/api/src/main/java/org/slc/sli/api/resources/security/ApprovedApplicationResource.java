@@ -23,7 +23,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -32,21 +31,19 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
-import org.slc.sli.api.service.EntityNotFoundException;
-import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
@@ -81,18 +78,11 @@ public class ApprovedApplicationResource {
     private ApplicationAuthorizationValidator appValidator;
 
     @Autowired
+    @Qualifier("validationRepo")
     private Repository<Entity> repo;
-
-    private EntityService service;
 
     @Autowired
     private DelegationUtil delegationUtil;
-
-    @PostConstruct
-    public void init() {
-        EntityDefinition def = store.lookupByResourceName(RESOURCE_NAME);
-        this.service = def.getService();
-    }
 
     @SuppressWarnings("unchecked")
     @GET
@@ -100,31 +90,19 @@ public class ApprovedApplicationResource {
         List<String> allowedApps = getAllowedAppIds();
 
         List<EntityBody> results = new ArrayList<EntityBody>();
+        
+        NeutralQuery query = new NeutralQuery(0);
+        query.addCriteria(new NeutralCriteria("_id", "in", allowedApps, false));       
 
-        for (final String id : allowedApps) {
+        for (Entity result : repo.findAll("application", query)) {
+            
+            EntityBody body = new EntityBody(result.getBody());
+            if (!shouldFilterApp(body, adminFilter)) {
 
-            EntityBody result  = SecurityUtil.sudoRun(new SecurityTask<EntityBody>()  {
-                @Override
-                public  EntityBody execute() {
-                    try {
-                        return service.get(id);
-                    } catch (EntityNotFoundException e) {
-                        //Probably means that the application is in the appAuthorization
-                        //collection but not the application one.
-                        return null;
-                    }
-                }
-            });
-
-
-            if (result != null) {
-
-                if (!shouldFilterApp(result, adminFilter)) {
-
-                    filterAttributes(result);
-                    results.add(result);
-                }
+                filterAttributes(body);
+                results.add(body);
             }
+            
         }
         return Response.status(Status.OK).entity(results).build();
     }
@@ -164,21 +142,14 @@ public class ApprovedApplicationResource {
 
         //make sure hosted SLI users can only see admin and portal
         if (SecurityUtil.isHostedUser(repo, (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal())) {
-            String name = (String) result.get("name");
-            String dev = (String) result.get("created_by");
-            if (dev != null && dev.equals("slcdeveloper")) {
-                if (!name.startsWith("Admin") && !name.startsWith("Portal")) {
-                    //somewhat quick and dirty way of checking for admin/portal
-                    //maybe we should add special flag to the app instead
-                    return true;
-                }
-            } else {
+            Boolean adminVisible = (Boolean) result.get("admin_visible");
+            if (adminVisible == null || !adminVisible) {
                 return true;
             }
         }
         return false;
     }
-    
+
     private List<String> getUsersRoles() {
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ArrayList<String> toReturn = new ArrayList(principal.getRoles());
@@ -234,23 +205,6 @@ public class ApprovedApplicationResource {
             throw new InsufficientAuthenticationException("Application list is a protected resource.");
         }
         List<String> toReturn = appValidator.getAuthorizedApps(principal);
-
-        //For now, null (meaning no LEA data for the user) defaults to all apps
-        if (toReturn == null) {
-            toReturn = new ArrayList<String>();
-
-            //the app list is an admin-protected resource, so we must sudo it
-            Iterable<String> appIds = SecurityUtil.sudoRun(new SecurityTask<Iterable<String>>()  {
-                @Override
-                public  Iterable<String> execute() {
-                    return service.listIds(new NeutralQuery());
-                }
-            });
-
-            for (String id : appIds) {
-                toReturn.add(id);
-            }
-        }
         return toReturn;
     }
 

@@ -20,8 +20,10 @@ package org.slc.sli.dashboard.manager.impl;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,11 +36,13 @@ import org.slc.sli.dashboard.entity.Config.Data;
 import org.slc.sli.dashboard.entity.EdOrgKey;
 import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.entity.util.GenericEntityComparator;
+import org.slc.sli.dashboard.entity.util.GenericEntityEnhancer;
 import org.slc.sli.dashboard.manager.ApiClientManager;
 import org.slc.sli.dashboard.manager.UserEdOrgManager;
 import org.slc.sli.dashboard.util.Constants;
 import org.slc.sli.dashboard.util.DashboardException;
 import org.slc.sli.dashboard.util.SecurityUtil;
+import org.slc.sli.dashboard.web.util.TreeGridDataBuilder;
 
 /**
  * Retrieves and applies necessary business logic to obtain institution data
@@ -284,40 +288,10 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
     @Override
     @Cacheable(value = Constants.CACHE_USER_PANEL_DATA)
     public GenericEntity getUserInstHierarchy(String token, Object key, Data config) {
+
         List<GenericEntity> entities = getUserInstHierarchy(token);
         GenericEntity entity = new GenericEntity();
-
         entity.put(Constants.ATTR_ROOT, entities);
-        if (key != null) {
-
-            // if section has been selected by user, get section info
-            GenericEntity section = getApiClient().getEntity(token, "sections", (String) key, null);
-            String schoolId = section.getString(Constants.ATTR_SCHOOL_ID);
-
-            // find the ed-org and school, given the section. set the "selectedPopulation" attribute.
-            for (GenericEntity org : entities) {
-                Set<GenericEntity> schools = ((Set<GenericEntity>) org.get(Constants.ATTR_SCHOOLS));
-                for (GenericEntity school : schools) {
-                    if (school.getId().equals(schoolId)) {
-                        String courseOfferingId = section.getString(Constants.ATTR_COURSE_OFFERING_ID);
-                        // if correct section has been located, find courseOffering info
-                        GenericEntity courseOffering = getApiClient().getEntity(token, "courseOfferings",
-                                courseOfferingId, null);
-
-                        if (courseOffering != null) {
-                            GenericEntity selectedOrg = new GenericEntity();
-                            selectedOrg.put(Constants.ATTR_NAME, org.get(Constants.ATTR_NAME));
-                            section.put(Constants.ATTR_COURSE_ID, courseOffering.getString(Constants.ATTR_COURSE_ID));
-                            selectedOrg.put(Constants.ATTR_SECTION, section);
-                            entity.put(Constants.ATTR_SELECTED_POPULATION, selectedOrg);
-
-                            return entity;
-                        }
-                    }
-                }
-            }
-
-        }
         return entity;
     }
 
@@ -330,6 +304,75 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
 
         String schoolId = (String) schoolIdObj;
         List<GenericEntity> entities = getApiClient().getCoursesSectionsForSchool(token, schoolId);
+        GenericEntity entity = new GenericEntity();
+        entity.put(Constants.ATTR_ROOT, entities);
+        return entity;
+    }
+
+    /**
+     * Get list of subjects, courses, and sections for a school.
+     * Pass out a flattened structure with parent/child relationships defined.
+     *
+     * @param token
+     * @return
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public GenericEntity getUserSectionList(String token, Object schoolIdObj, Data config) {
+
+        String schoolId = (String) schoolIdObj;
+        List<GenericEntity> courses = getApiClient().getCoursesSectionsForSchool(token, schoolId);
+
+        // set any null subjects to Miscellaneous
+        for (GenericEntity course : courses) {
+            if (course.getString(Constants.ATTR_SUBJECTAREA) == null) {
+                course.put(Constants.ATTR_SUBJECTAREA, "Miscellaneous");
+            }
+        }
+
+        // sort courses by subject area
+        Collections.sort(courses, new CourseSubjectComparator());
+
+        Map<String, GenericEntity> subjects = new LinkedHashMap<String, GenericEntity>();
+        int subjectIndex = 0;
+
+        // do some restructuring
+        for (GenericEntity course : courses) {
+
+            String subjectArea = course.getString(Constants.ATTR_SUBJECTAREA);
+            GenericEntity subject = null;
+
+            // add/get subject entity
+            if (!subjects.containsKey(subjectArea)) {
+                subject = new GenericEntity();
+                subject.put(Constants.ATTR_NAME, subjectArea);
+                subject.put(Constants.ATTR_ID, String.valueOf(++subjectIndex));
+                List<GenericEntity> c = new ArrayList<GenericEntity>();
+                subject.put(Constants.ATTR_COURSES, c);
+                subjects.put(subjectArea, subject);
+            } else {
+                subject = subjects.get(subjectArea);
+            }
+
+            course.put(Constants.ATTR_NAME, course.getString(Constants.ATTR_COURSE_TITLE));
+            course.remove(Constants.ATTR_LINKS);
+            ((List<GenericEntity>) subject.get(Constants.ATTR_COURSES)).add(course);
+
+            List<GenericEntity> sections = (List<GenericEntity>) course.get(Constants.ATTR_SECTIONS);
+            if (sections != null && sections.size() > 0) {
+                for (GenericEntity section : sections) {
+                    section.put(Constants.ATTR_NAME, section.getString(Constants.ATTR_SECTION_NAME));
+                    section.remove(Constants.ATTR_LINKS);
+                }
+            }
+        }
+
+        // call the tree grid builder to format/structure the data
+        List<String> subLevels = new ArrayList<String>();
+        subLevels.add(Constants.ATTR_COURSES);
+        subLevels.add(Constants.ATTR_SECTIONS);
+        List<GenericEntity> entities = TreeGridDataBuilder.build(new ArrayList<GenericEntity>(subjects.values()), subLevels);
+
         GenericEntity entity = new GenericEntity();
         entity.put(Constants.ATTR_ROOT, entities);
         return entity;
@@ -359,5 +402,55 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
             }
         }
         return staffEntity;
+    }
+
+    private class CourseSubjectComparator implements Comparator<GenericEntity> {
+
+        @Override
+        public int compare(GenericEntity course1, GenericEntity course2) {
+
+            // compare subject area
+            String subject1 = course1.getString(Constants.ATTR_SUBJECTAREA);
+            String subject2 = course2.getString(Constants.ATTR_SUBJECTAREA);
+            if (subject1 == null) {
+                return -1;
+            }
+            if (subject2 == null) {
+                return 1;
+            }
+            int i = subject1.compareToIgnoreCase(subject2);
+            if (i != 0) {
+                return i;
+            }
+
+            // compare course title
+            String courseTitle1 = course1.getString(Constants.ATTR_COURSE_TITLE);
+            String courseTitle2 = course2.getString(Constants.ATTR_COURSE_TITLE);
+            if (courseTitle1 == null) {
+                return -1;
+            }
+            if (courseTitle2 == null) {
+                return 1;
+            }
+            return courseTitle1.compareToIgnoreCase(courseTitle2);
+        }
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public GenericEntity getSchoolInfo(String token, Object schoolIdObj, Data config) {
+
+        // get school entity
+        GenericEntity school = getApiClient().getSchool(token, (String) schoolIdObj);
+
+        // convert grade strings
+        List<String> gradesOffered = school.getList("gradesOffered");
+        List<String> gradesOfferedCode = new ArrayList<String>();
+        for (String gradeOffered : gradesOffered) {
+            gradesOfferedCode.add(GenericEntityEnhancer.convertGradeLevel(gradeOffered));
+        }
+        school.put("gradesOfferedCode", gradesOfferedCode);
+
+        return school;
     }
 }

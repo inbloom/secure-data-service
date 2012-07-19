@@ -30,39 +30,9 @@ task :v1XMLTests => [:realmInit] do
   runTests("test/features/apiV1/xml/xml.feature")
 end
 
-desc "Run V1 Program Security Tests"
-task :v1ProgramSecurityTests => [:realmInit] do
-  runTests("test/features/apiV1/entities/program/program_security.feature")
-end
-
-desc "Run V1 Discipline Incident Security Tests"
-task :v1DisciplineIncidentSecurityTests => [:realmInit] do
-  runTests("test/features/apiV1/entities/disciplineIncident/disciplineIncident_security.feature")
-end
-
 desc "Run V1 Staff Secuity Tests"
 task :v1StaffSecurityTests => [:realmInit] do
   runTests("test/features/security/staff_security.feature")
-end
-
-desc "Run V1 Discipline Action Secuity Tests"
-task :v1DisciplineActionSecurityTests => [:realmInit] do
-  runTests("test/features/apiV1/entities/disciplineAction/disciplineAction_security.feature")
-end
-
-desc "Run V1 Parent Security Tests"
-task :v1ParentSecurityTests => [:realmInit] do
-  runTests("test/features/apiV1/entities/parent/parent_security.feature")
-end
-
-desc "Run V1 Attendance Security Tests"
-task :v1AttendanceSecurityTests => [:realmInit] do
-  runTests("test/features/apiV1/entities/attendance/attendance_security.feature")
-end
-
-desc "Run V1 Cohort Security Tests"
-task :v1CohortSecurityTests => [:realmInit] do
-  runTests("test/features/apiV1/entities/cohort/cohort_security.feature")
 end
 
 desc "Run V1 Student Discipline Incident Association Tests"
@@ -231,6 +201,12 @@ task :v1homeUriTests => [:realmInit] do
   runTests("test/features/apiV1/home_uri")
 end
 
+desc "Run User Admin CRUD Tests"
+task :userAdminCrudTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/user_admin")
+end
+
 desc "Run V1 Hierachy Traversal Tests"
 task :v1HierarchyTraversalTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
@@ -333,6 +309,7 @@ end
 
 desc "Run API Performance Tests"
 task :apiPerformanceTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/performance/performance.feature")
 end
 

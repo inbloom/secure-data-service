@@ -211,7 +211,7 @@ public class EntityManager extends ApiClientManager {
      *            - param map
      * @return
      */
-    public List<GenericEntity> getStudentSectionGradebookEntries(final String token, final String studentId,
+    public List<GenericEntity> getStudentGradebookEntries(final String token, final String studentId,
             Map<String, String> params) {
         return getApiClient().getCoursesForStudent(token, studentId, params);
     }

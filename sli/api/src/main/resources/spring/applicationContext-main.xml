@@ -19,7 +19,6 @@
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-	
     <!-- Environment config -->
     <bean id="commonProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
       <property name="ignoreResourceNotFound" value="true" />
@@ -27,9 +26,27 @@
       <property name="locations">
          <list>
             <value>file:${sli.conf}</value>
+             <value>classpath:api.properties</value>
          </list>
       </property>
    </bean>
+   
+   <bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+		<constructor-arg ref="contextSource" />
+	</bean>
+	
+	
+	<bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource"> 
+		<property name="urls" value="${sli.simple-idp.ldap.urls}" />
+		<property name="base" value="${sli.simple-idp.ldap.base}" />
+		<property name="userDn" value="${sli.api.ldap.user}" />
+        <property name="password" value="${sli.api.ldap.pass}" />
+        <property name="pooled" value="true" />
+	</bean>
+	 
+	<bean
+		class="org.springframework.ldap.core.support.BaseLdapPathBeanPostProcessor" /> 
   
+
 
 </beans>

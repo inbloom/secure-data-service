@@ -22,6 +22,7 @@ require 'mongo'
 require 'fileutils'
 require 'socket'
 require 'net/sftp'
+require 'net/http'
 
 require_relative '../../../utils/sli_utils.rb'
 
@@ -32,6 +33,7 @@ require_relative '../../../utils/sli_utils.rb'
 INGESTION_DB_NAME = PropLoader.getProps['ingestion_database_name']
 INGESTION_DB = PropLoader.getProps['ingestion_db']
 INGESTION_BATCHJOB_DB_NAME = PropLoader.getProps['ingestion_batchjob_database_name']
+LZ_SERVER_URL = PropLoader.getProps['lz_server_url']
 INGESTION_SERVER_URL = PropLoader.getProps['ingestion_server_url']
 INGESTION_MODE = PropLoader.getProps['ingestion_mode']
 INGESTION_DESTINATION_DATA_STORE = PropLoader.getProps['ingestion_destination_data_store']
@@ -208,7 +210,7 @@ end
 ############################################################
 
 def remoteLzCopy(srcPath, destPath)
-	Net::SFTP.start(INGESTION_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+	Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
 		puts "attempting to remote copy " + srcPath + " to " + destPath
 		sftp.upload(srcPath, destPath)
     end
@@ -218,7 +220,7 @@ def clearRemoteLz(landingZone)
 
 	puts "clear landing zone " + landingZone
 
-	Net::SFTP.start(INGESTION_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+	Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
 		sftp.dir.foreach(landingZone) do |entry|
 			next if entry.name == '.' or entry.name == '..'
 
@@ -234,7 +236,7 @@ end
 def remoteLzContainsFile(pattern, landingZone)
 	puts "remoteLzContainsFiles(" + pattern + " , " + landingZone + ")"
 
-	Net::SFTP.start(INGESTION_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+	Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
 		sftp.dir.glob(landingZone, pattern) do |entry|
 			return true
 		end
@@ -246,7 +248,7 @@ def remoteLzContainsFiles(pattern, targetNum , landingZone)
 	puts "remoteLzContainsFiles(" + pattern + ", " + targetNum + " , " + landingZone + ")"
 
 	count = 0
-	Net::SFTP.start(INGESTION_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+	Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
 		sftp.dir.glob(landingZone, pattern) do |entry|
 			count += 1
 			if count >= targetNum
@@ -260,7 +262,7 @@ end
 def remoteFileContainsMessage(prefix, message, landingZone)
 
 	puts "remoteFileContainsMessage prefix " + prefix + ", message " + message + ", landingZone " + landingZone
-	Net::SFTP.start(INGESTION_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+	Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
 		sftp.dir.glob(landingZone, prefix + "*") do |entry|
 			entryPath = File.join(landingZone, entry.name)
 			puts "found file " + entryPath
@@ -281,7 +283,7 @@ end
 def createRemoteDirectory(dirPath)
 	puts "attempting to create dir: " + dirPath
 
-	Net::SFTP.start(INGESTION_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+	Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
 		begin
 			sftp.mkdir!(dirPath)
 		rescue
@@ -646,7 +648,7 @@ def ensureIndexes(db)
   @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
   @collection.remove( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'sectionId' => " ", 'studentId' => " "}} )
 
-  @collection = @db["studentSectionGradebookEntry"]
+  @collection = @db["studentGradebookEntry"]
   @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
   @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
   @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
@@ -1165,6 +1167,18 @@ end
 When /^an activemq instance "([^"]*)" running in "([^"]*)" and on jmx port "([^"]*)" stops$/ do |instance_name, instance_source, port|
   runShellCommand("#{instance_source}/activemq-admin stop  --jmxurl service:jmx:rmi:///jndi/rmi://localhost:#{port}/jmxrmi #{instance_name}" )
 end
+
+When /^I navigate to the Ingestion Service HealthCheck page and submit login credentials "([^"]*)" "([^"]*)"$/ do |user, pass|
+   uri = URI('http://localhost:8000/ingestion-service/HealthCheck')
+   req = Net::HTTP::Get.new(uri.request_uri)
+   req.basic_auth user, pass
+   res = Net::HTTP.start(uri.hostname, uri.port) {|http|
+   http.request(req)
+   }
+   puts res.body
+   $healthCheckResult = res.body
+end
+
 ############################################################
 # STEPS: THEN
 ############################################################
@@ -1670,6 +1684,10 @@ end
 
 Then /^I restart the activemq instance "([^"]*)" running on "([^"]*)"$/ do |instance_name, instance_source|
   Open3.popen2e("#{instance_source}/#{instance_name}/bin/#{instance_name}" )
+end
+
+Then /^I am informed that "(.*?)"$/ do |arg1|
+    assert($healthCheckResult.tr("\n","") == arg1, "Ingestion service is not running")
 end
 
 ############################################################

@@ -73,7 +73,7 @@ public class GenericEntityEnhancer {
         }
         return entity;
     }
-    
+
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public static Map convertGradeLevel(Map entity, String elementName) {
         // determin this entity has gradeLevel
@@ -84,6 +84,10 @@ public class GenericEntityEnhancer {
             entity.put(elementName + "Code", gradeConversion.get(gradeLevel));
         }
         return entity;
+    }
+
+    public static String convertGradeLevel(String gradeLevel) {
+        return gradeConversion.get(gradeLevel);
     }
 
     /**

@@ -24,14 +24,14 @@ import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.ContextResolverStore;
-import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -46,13 +46,11 @@ import org.springframework.stereotype.Component;
 public class ApplicationAuthorizationValidator {
 
     @Autowired
+    @Qualifier("validationRepo")
     private Repository<Entity> repo;
-
-    @Autowired
-    private ContextResolverStore contextResolverStore;
     
     @Autowired
-    private EdOrgToChildEdOrgNodeFilter parentResolver;
+    private EdOrgHelper helper;
     
     @Autowired
     @Value("${sli.sandbox.enabled}")
@@ -75,11 +73,11 @@ public class ApplicationAuthorizationValidator {
         //For hosted users (Developer, SLC Operator, SEA/LEA Administrator) they're not associated with a district
         List<Entity> districts = SecurityUtil.isHostedUser(repo, principal) ? new ArrayList<Entity>() : findUsersDistricts(principal);
         
-        Set<String> bootstrapApps = getBootstrapApps();
+        Set<String> bootstrapApps = getDefaultAllowedApps();
         Set<String> results = getDefaultAuthorizedApps();
                 
         for (Entity district : districts) {
-            debug("User is in district " + district.getEntityId());
+            debug("User is in district {}.", district.getEntityId());
 
             NeutralQuery query = new NeutralQuery();
             query.addCriteria(new NeutralCriteria("authId", "=", district.getBody().get("stateOrganizationId")));
@@ -109,33 +107,31 @@ public class ApplicationAuthorizationValidator {
     }
     
     /**
-     * 
+     * These are the apps that are auto-authorized, i.e. the district admin doesn't
+     * need to manually authorize the application. 
      * @return
      */
     private Set<String> getDefaultAuthorizedApps() {
         Set<String> toReturn = new HashSet<String>();
-        NeutralQuery bootstrapQuery = new NeutralQuery(0);
-        bootstrapQuery.addCriteria(new NeutralCriteria("bootstrap", "=", true));
-        Iterable<Entity> bootstrapApps = repo.findAll("application", bootstrapQuery);
+        NeutralQuery autoAuthQuery = new NeutralQuery(0);
+        autoAuthQuery.addCriteria(new NeutralCriteria("authorized_for_all_edorgs", "=", true));
+        Iterable<Entity> autoAuthApps = repo.findAll("application", autoAuthQuery);
         
-        for (Entity currentApp : bootstrapApps) {
-            if (isSandbox()) {
-                toReturn.add(currentApp.getEntityId());
-            } else {
-                String appName = (String) currentApp.getBody().get("name");
-                if (appName.indexOf("Admin") > -1 || appName.indexOf("Portal") > -1) {
-                    toReturn.add(currentApp.getEntityId()); 
-                }
-            }
+        for (Entity currentApp : autoAuthApps) {
+            toReturn.add(currentApp.getEntityId());
         }
         return toReturn;
     }
     
-    
-    private Set<String> getBootstrapApps() {
+    /**
+     * These are apps that are auto-allowed, i.e. the app developer doesn't need
+     * to select the districts that can use the app.
+     * @return
+     */
+    private Set<String> getDefaultAllowedApps() {
         Set<String> toReturn = new HashSet<String>();
         NeutralQuery bootstrapQuery = new NeutralQuery(0);
-        bootstrapQuery.addCriteria(new NeutralCriteria("bootstrap", "=", true));
+        bootstrapQuery.addCriteria(new NeutralCriteria("allowed_for_all_edorgs", "=", true));
         Iterable<Entity> bootstrapApps = repo.findAll("application", bootstrapQuery);
         
         for (Entity currentApp : bootstrapApps) {
@@ -162,24 +158,13 @@ public class ApplicationAuthorizationValidator {
      */
     private List<Entity> findUsersDistricts(SLIPrincipal principal) {
         List<Entity> toReturn = new ArrayList<Entity>();
-    
-        List<String> edOrgs = contextResolverStore.findResolver(principal.getEntity().getType(), EntityNames.EDUCATION_ORGANIZATION).findAccessible(principal.getEntity());
-        Set<String> setEdOrgs = new HashSet<String>(edOrgs);
-        for (String id : parentResolver.fetchParents(setEdOrgs)) {
-            if (!edOrgs.contains(id)) {
-                edOrgs.add(id);
-            }
-        }
         
-        edOrgs.remove("-133"); //avoid querying bad mongo ID
+        List<String> leaIds = helper.getDistricts(principal.getEntity());
         
-        for (String id : edOrgs) {
-            Entity entity = repo.findById(EntityNames.EDUCATION_ORGANIZATION, id);
-            List<String> category = (List<String>) entity.getBody().get("organizationCategories");
-
-            if (category.contains("Local Education Agency")) {
-                toReturn.add(entity);
-            }
+        NeutralQuery query = new NeutralQuery(0);
+        query.addCriteria(new NeutralCriteria("_id", "in", leaIds, false));
+        for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
+            toReturn.add(entity);
         }
        
         return toReturn;

@@ -16,5 +16,34 @@ http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
+
+	<servlet>
+		<servlet-name>Metrics</servlet-name>
+		<servlet-class>com.yammer.metrics.reporting.MetricsServlet</servlet-class>
+	</servlet>
 	
+	<servlet>
+        <servlet-name>HealthCheck</servlet-name>
+        <servlet-class>org.slc.sli.ingestion.AuthenticatedHealthCheckServlet</servlet-class>
+        
+        <init-param>
+            <param-name>healthCheckUser</param-name>
+            <param-value>admin</param-value>
+        </init-param>
+        <init-param>
+            <param-name>healthCheckPassword</param-name>
+            <param-value>admin</param-value>
+        </init-param>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>Metrics</servlet-name>
+        <url-pattern>/monitoring/*</url-pattern>
+    </servlet-mapping>
+	
+	<servlet-mapping>
+        <servlet-name>HealthCheck</servlet-name>
+        <url-pattern>/HealthCheck/*</url-pattern>
+    </servlet-mapping>
+    
 </web-app> 

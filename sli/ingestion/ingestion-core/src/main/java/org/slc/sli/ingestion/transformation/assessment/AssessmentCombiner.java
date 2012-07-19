@@ -22,14 +22,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
 /**
  * Transformer for Assessment Entities
@@ -40,7 +41,9 @@ import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 @Scope("prototype")
 @Component("assessmentTransformationStrategy")
 public class AssessmentCombiner extends AbstractTransformationStrategy {
-
+    
+    private static final Logger LOG = LoggerFactory.getLogger(AssessmentCombiner.class);
+    
     private Map<Object, NeutralRecord> assessments;
     private List<NeutralRecord> transformedAssessments;
 
@@ -76,16 +79,16 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
      * none (as of 5/8/2012)
      */
     public void loadData() {
-        info("Loading data for assessment transformation.");
+        LOG.info("Loading data for assessment transformation.");
         assessments = getCollectionFromDb(ASSESSMENT);
-        info("{} is loaded into local storage.  Total Count = {}", ASSESSMENT, assessments.size());
+        LOG.info("{} is loaded into local storage.  Total Count = {}", ASSESSMENT, assessments.size());
     }
 
     /**
      * Transforms assessments from Ed-Fi model into SLI model.
      */
     public void transform() {
-        info("Transforming assessment data");
+        LOG.info("Transforming assessment data");
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : assessments.entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
 
@@ -108,11 +111,11 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                             getNeutralRecordMongoAccess(), getJob(), objectiveAssessmentRef);
 
                     if (objectiveAssessment != null && !objectiveAssessment.isEmpty()) {
-                        info("Found objective assessment: {} for family: {}", objectiveAssessmentRef,
+                        LOG.info("Found objective assessment: {} for family: {}", objectiveAssessmentRef,
                                 familyHierarchyName);
                         familyObjectiveAssessments.add(objectiveAssessment);
                     } else {
-                        warn("Failed to match objective assessment: {} for family: {}", objectiveAssessmentRef,
+                        LOG.warn("Failed to match objective assessment: {} for family: {}", objectiveAssessmentRef,
                                 familyHierarchyName);
                     }
                 }

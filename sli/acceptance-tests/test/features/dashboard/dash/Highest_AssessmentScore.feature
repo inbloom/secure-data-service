@@ -5,7 +5,6 @@ application, that will change the subset of information that is displayed.
 
 Background:
   Given I have an open web browser
-  Given the server is in "test" mode
 
 #USE :  "assessmentFamilyHierarchy" is  "ACT"
 @wip

@@ -89,33 +89,6 @@ public class AssessmentResource extends DefaultCrudResource {
      * resource.
      */
     @GET
-    @Path("{" + ParameterConstants.ASSESSMENT_ID + "}" + "/" + PathConstants.SECTION_ASSESSMENT_ASSOCIATIONS)
-    public Response getSectionAssessmentAssociations(
-            @PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId, @Context HttpHeaders headers,
-            @Context final UriInfo uriInfo) {
-        return super
-                .read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId, headers, uriInfo);
-    }
-
-    /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
-     */
-    @GET
-    @Path("{" + ParameterConstants.ASSESSMENT_ID + "}" + "/" + PathConstants.SECTION_ASSESSMENT_ASSOCIATIONS + "/"
-            + PathConstants.SECTIONS)
-    public Response getSectionAssessmentAssociationsSections(
-            @PathParam(ParameterConstants.ASSESSMENT_ID) final String assessmentId, @Context HttpHeaders headers,
-            @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "assessmentId", assessmentId, "sectionId",
-                ResourceNames.SECTIONS, headers, uriInfo);
-    }
-
-    /**
-     * Returns the requested collection of resources that are associated with the specified
-     * resource.
-     */
-    @GET
     @Path("{" + ParameterConstants.ASSESSMENT_ID + "}" + "/" + PathConstants.LEARNING_STANDARDS)
     public Response getLearningStandards(@PathParam(ParameterConstants.ASSESSMENT_ID) final String id) {
         return Response.status(Status.NOT_FOUND).build();

@@ -11,7 +11,7 @@
     {id: "tab7", name: "Elementary School Overview",  type : "TAB", condition: {field: "gradeLevel", value: ["Infant/toddler", "Early Education", "Preschool/Prekindergarten", "Transitional Kindergarten", "Kindergarten", "First Grade", "Second Grade", "Third Grade", "Other", "Ungraded", "Not Available"]}, items: [{id : "contactInfo", type: "PANEL"}, {id : "enrollmentHist", name: "Student Enrollment Panel", type: "GRID"}]},
     {id: "tab8", name: "Middle School Overview",  type : "TAB", condition: {field: "gradeLevel", value: ["Fourth Grade", "Fifth Grade", "Sixth Grade", "Seventh Grade", "Eighth grade", "Other", "Ungraded", "Not Available"]}, items: [{id : "contactInfo", type: "PANEL"}, {id : "enrollmentHist", name: "Student Enrollment Panel", type: "GRID"}]},
     {id: "tab9", name: "High School Overview",  type : "TAB", condition: {field: "gradeLevel", value: ["Ninth grade", "Tenth grade", "Eleventh grade", "Twelfth grade", "Adult Education", "Grade 13", "Postsecondary", "Other", "Ungraded", "Not Available"]}, items: [{id : "contactInfo", type: "PANEL"}, {id : "enrollmentHist", name: "Student Enrollment Panel", type: "GRID"}]},
-    {id: "tab2", name: "Attendance and Discipline", type : "TAB", items: [{id : "attendanceHist", type: "GRID"}]},
+    {id: "tab2", name: "Attendance and Discipline", type : "TAB", items: [{id : "attendanceHist", type: "REPEAT_HEADER_GRID"}]},
     {id: "tab3", name: "Assessments",  type : "TAB", items: [{id : "assessmentHist", type: "GRID"}]},
     {id: "tab4", name: "Grades and Credits",  type : "TAB", items: [{id : "transcriptHistory", type : "PANEL"}]}
   ]

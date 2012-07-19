@@ -1,0 +1,21 @@
+package org.slc.sli.modeling.wadl.helpers;
+
+import java.util.Stack;
+
+import org.slc.sli.modeling.rest.Application;
+import org.slc.sli.modeling.rest.Method;
+import org.slc.sli.modeling.rest.Resource;
+import org.slc.sli.modeling.rest.Resources;
+
+public interface WadlHandler {
+
+    void beginApplication(Application application);
+
+    void endApplication(Application application);
+
+    void beginResource(Resource resource, Resources resources, Application app, Stack<Resource> ancestors);
+
+    void endResource(Resource resource, Resources resources, Application app, Stack<Resource> ancestors);
+
+    void method(Method method, Resource resource, Resources resources, Application app, Stack<Resource> ancestors);
+}

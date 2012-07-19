@@ -1,4 +1,5 @@
 require 'mongo'
+require 'rbconfig'
 
 Dir.glob('suites/*.rake').each { |r| import r }
 
@@ -18,11 +19,15 @@ COLOR = ENV['FORCE_COLOR'] ? "-c" : ""
 
 OTHER_TAGS = ENV['OTHER_TAGS'] ? "--tags "+ENV['OTHER_TAGS'] : ""
 
-TOREMOVE = ENV['TOREMOVE'] ? true : false
+TODROP = ENV['TODROP'] ? true : false
 
-RUN_STAMPER = false
+CERTAIN_TENANTS = ENV['CERTAIN_TENANTS'] ? true : false
 
-TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other"]
+RUN_STAMPER = ENV['RUN_STAMPER'] ? true : false
+
+TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "Zork", "SLI", "T1", "T2", "T3", "mreynolds"]
+
+IS_WINDOWS = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
 
 #######################################################
 
@@ -44,7 +49,7 @@ $collectionSet = ["student",
                   "studentAssessmentAssociation",
                   "gradebookEntry",
                   "studentTranscriptAssociation",
-                  "studentSectionGradebookEntry",
+                  "studentGradebookEntry",
                   "parent",
                   "studentParentAssociation",
                   "attendance",
@@ -84,7 +89,12 @@ def runTests(testDirPath)
   	addSecurityData()
   end	
 
-  @tags ||= ["~@wip", "~@sandbox"]
+  if IS_WINDOWS
+    @tags ||= ["~@wip", "~@sandbox", "~@not-windows"]
+  else
+    @tags ||= ["~@wip", "~@sandbox"]
+  end
+  
   sh "cucumber #{testDirPath} #{EXPAND} --tags #{@tags.join(' --tags ')} #{OTHER_TAGS} #{COLOR} -f junit --out ./target -f pretty" do |success, exit_code|
     if success
       $failures[testDirPath[testDirPath.rindex('/')+1..-1]] = "Passed"
@@ -97,13 +107,17 @@ def runTests(testDirPath)
 end
 
 def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropExistingCollection=true)
-  if TOREMOVE
+  if TODROP
+    dropOption = (dropExistingCollection) ? "--drop":""
+  else
     if dropExistingCollection
-      removeCollectionsCleanly(collectionName, TENANT_COLLECTION)
+      if CERTAIN_TENANTS
+        removeCollectionsCleanly(collectionName, TENANT_COLLECTION)
+      else
+        removeCollectionsCleanly(collectionName)
+      end
       dropOption = ""
     end
-  else
-    dropOption = (dropExistingCollection) ? "--drop":""
   end
 
   #sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"printjson(db.#{collectionName}.dropIndexes().msg)\""
@@ -173,23 +187,45 @@ def cleanseApps()
   end
 end
 
+def cleanseTenantCollection()
+  puts 'About to clean up test tenants in mongo'
+  @conn = Mongo::Connection.new(DB_HOST)
+  @db = @conn.db(DB_NAME)
+  @tenantColl = @db.collection('tenant')
+
+  @tenantColl.find.each do |row|
+    if TENANT_COLLECTION.include?(row['body']['tenantId'])
+      @tenantColl.remove(row)
+    end
+    if row['body']['tenantId'].start_with?("devldapuser")
+      @tenantColl.remove(row)
+    end
+  end
+end
+
+
 def cleanseCollectionWithTenantID(collectionName, specificTenants)
   puts "Removing documents in #{collectionName} with tenantIds #{specificTenants}"
   @conn = Mongo::Connection.new(DB_HOST)
   @db = @conn.db(DB_NAME)
   coll = @db.collection(collectionName)
-  
-  coll.remove("metaData.tenantId" => {"$in" => specificTenants})
+  #need a few if blocks for apps, app Auth, oauth tokens, realms
+  if collectionName == "tenant"
+    cleanseTenantCollection
+  else
+    coll.remove("metaData.tenantId" => {"$in" => specificTenants})
+  end
 end
 
 def removeCollectionsCleanly(collectionName, specificTenants=nil)
   if specificTenants != nil
     cleanseCollectionWithTenantID(collectionName, specificTenants)
-    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig')\""
   else
     sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.#{collectionName}.remove({})\""
-    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig')\""
   end
+  
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig')\""
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.getLastError()\""
 end
 
 # The admin realm and sandbox realm IDs are dynamically created during bootstrap,
@@ -283,6 +319,11 @@ task :appInit do
   setFixture("userSession", "oauth_authentication_tokens.json")
   swap_realm_ids()
   swap_app_ids()
+end
+
+task :loadDefaultIngestionTenants do
+  #jshort - must fix with some profile swap
+  #setFixture("tenant", "defaultIngestionTenant_fixture.json", "test/data")
 end
 
 # Run a whole series of acceptance and integration tests
@@ -391,6 +432,7 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1SingleStudentViewTests,
                      :v1BlacklistValidationTests,
                      :v1XMLTests,
+                     :userAdminCrudTests,
                      :v1CommaSeparatedListOrderTests] do
   displayFailureReport()
 end
@@ -423,9 +465,9 @@ task :apiSeleniumTests => [:adminToolsTests, :databrowserTests] do
   end
 end
 
-desc "Run Change Password Selenium Tests"
-task :changePasswordTests => [:realmInit] do
-  runTests("test/features/admintools/change_password.feature")
+desc "Run Reset and Change Password Selenium Tests"
+task :resetAndChangePasswordTests => [:realmInit] do
+  runTests("test/features/admintools/reset_change_password.feature")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -435,7 +477,7 @@ task :changePasswordTests => [:realmInit] do
 end
 
 desc "Run Admin-Tools Selenium Tests"
-task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests,:onboardingIntegrationTests,:provisionIntegrationTests,:tenantMetricsTests] do
+task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests,:onboardingIntegrationTests,:provisionIntegrationTests,:tenantMetricsTests, :resetAndChangePasswordTests] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/admintools")
   Rake::Task["importSandboxData"].execute
@@ -534,14 +576,14 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:ingestionAcceptanceSdsTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,:ingestionCommonCoreTest,
+task :ingestionTests => [:loadDefaultIngestionTenants,:ingestionAcceptanceSdsTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,:ingestionCommonCoreTest,
                          :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest,
                          :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
                          :ingestionAPAssessmentTests, :ingestionACTAssessmentTests, :ingestionStudentProgramAssociationTest,
                          :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest,
                          :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest, :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest,
                          :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest, 
-                         :ingestionEmptyControlFileTest, :ingestionDryRunTest, :ingestionCourseOfferingTest, :ingestionComplexObjectArrayIdRefTest ] do
+                         :ingestionEmptyControlFileTest, :ingestionDryRunTest, :ingestionCourseOfferingTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest ] do
 
   displayFailureReport()
   if $SUCCESS
@@ -561,6 +603,7 @@ end
 desc "Run Integration Acceptance Tests"
 task :integrationTests => [:realmInitNoPeople] do
   OTHER_TAGS = OTHER_TAGS+" --tags @integration"
+  Rake::Task["loadDefaultIngestionTenants"].invoke
   Rake::Task["ingestionAcceptanceSdsTest"].execute
   Rake::Task["crossAppTests"].execute
   Rake::Task["dashboardSdsTests"].invoke
@@ -579,7 +622,7 @@ end
 # SDK Tests start
 ############################################################
 desc "Run JavaSDK acceptance tests"
-task :JavaSDKTests => [:JavaSDKSampleAppTest,:JavaSDKCRUDTest] do
+task :JavaSDKTests => [:JavaSDKSampleAppTest,:JavaSDKCRUDTest,:JavaRESTCRUDTest] do
     displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -680,20 +723,32 @@ task :importSecuredData do
     end
   end
   testHash = Hash[
+    "assessment" => "secured/assessment.json",
+    "attendance" => "secured/attendance.json",
     "cohort" => "secured/cohort.json",
+    "course" => "secured/course.json",
     "educationOrganization" => "secured/educationOrganization.json",
+    "gradebookEntry" => "secured/gradebookEntry.json",
     "program" => "secured/program.json",
+    "reportCard" => "secured/reportCard.json",
     "section" => "secured/section.json",
     "staff" => "secured/staff.json",
     "staffCohortAssociation" => "secured/staffCohortAssociation.json",
     "staffEducationOrganizationAssociation" => "secured/staffEducationOrganizationAssociation.json",
     "staffProgramAssociation" => "secured/staffProgramAssociation.json",
     "student" => "secured/student.json",
+    "studentAssessmentAssociation" => "secured/studentAssessment.json",
     "studentCohortAssociation" => "secured/studentCohortAssociation.json",
+    "studentDisciplineIncidentAssociation" => "secured/studentDisciplineIncidentAssociation.json",
     "studentProgramAssociation" => "secured/studentProgramAssociation.json",
+    "studentTranscriptAssociation" => "secured/studentTranscriptAssociation.json",
+    "studentAcademicRecord" => "secured/studentAcademicRecord.json",
     "studentSchoolAssociation" => "secured/studentSchoolAssociation.json",
     "studentSectionAssociation" => "secured/studentSectionAssociation.json",
+    "studentGradebookEntry" => "secured/studentGradebookEntry.json",
     "teacherSchoolAssociation" => "secured/teacherSchoolAssociation.json",
+    "parent" => "secured/parent.json",
+    "studentParentAssociation" => "secured/studentParentAssociation.json",
     "teacherSectionAssociation" => "secured/teacherSectionAssociation.json"
 
   ]
@@ -727,7 +782,7 @@ task :importSandboxData do
     "sectionAssessmentAssociation" => "sectionAssessmentAssociation_fixture.json",
     "studentTranscriptAssociation" => "studentTranscriptAssociation_fixture.json",
     "gradebookEntry" => "gradebookEntry_fixture.json",
-    "studentSectionGradebookEntry" => "studentSectionGradebookEntry_fixture.json",
+    "studentGradebookEntry" => "studentGradebookEntry_fixture.json",
     "disciplineIncident" => "disciplineIncident_fixture.json",
     "studentDisciplineIncidentAssociation" => "studentDisciplineIncidentAssociation_fixture.json",
     "disciplineAction" => "disciplineAction_fixture.json",
@@ -782,7 +837,7 @@ task :importUnifiedData => [:realmInit] do
     "studentParentAssociation" => "unified_data/uds_studentParentAssociation.json",
     "studentSchoolAssociation" => "unified_data/uds_studentSchoolAssociation.json",
     "studentSectionAssociation" => "unified_data/uds_studentSectionAssociation.json",
-    "studentSectionGradebookEntry" => "unified_data/uds_studentSectionGradebookEntry.json",
+    "studentGradebookEntry" => "unified_data/uds_studentGradebookEntry.json",
     "studentTranscriptAssociation" => "unified_data/uds_studentTranscriptAssociation.json",
     "staff" => "unified_data/uds_staff.json",
     "teacherSchoolAssociation" => "unified_data/uds_teacherSchoolAssociation.json",

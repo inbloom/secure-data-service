@@ -26,6 +26,7 @@
     </property>
   </bean>
 
+  <import resource="activemq-context.xml" />
   <import resource="smooks-context.xml" />
   <import resource="classpath:/spring/db.xml" />
   <import resource="dal-context.xml" />
@@ -54,7 +55,7 @@
   <!-- <bean id="entitySchemaRegistry" class="org.slc.sli.validation.AvroEntitySchemaRegistry"></bean> -->
   <bean id="validator" class="org.slc.sli.validation.schema.NeutralSchemaValidator" />
 
-  <bean id="repo" class="org.slc.sli.ingestion.validation.IngestionDummyEntityRepository" />
+  <bean id="repo"  name="validationRepo" class="org.slc.sli.ingestion.validation.IngestionDummyEntityRepository" />
 
   <context:annotation-config />
 
@@ -107,8 +108,6 @@
   </bean>
 
   <bean id="edFiProcessor" class="org.slc.sli.ingestion.processors.EdFiProcessor" />
-
-  <bean id="controlFileFactory" class="org.slc.sli.ingestion.landingzone.ControlFileFactory" />
 
   <bean id="entityPersistHandler" class="org.slc.sli.ingestion.handler.EntityPersistHandler">
     <property name="entityRepository" ref="mongoEntityRepository" />

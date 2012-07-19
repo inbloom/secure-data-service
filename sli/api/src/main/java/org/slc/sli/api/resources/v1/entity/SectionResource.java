@@ -110,28 +110,4 @@ public class SectionResource extends DefaultCrudResource {
         return super.read(ResourceNames.TEACHER_SECTION_ASSOCIATIONS, "sectionId", sectionId, "teacherId",
                 ResourceNames.TEACHERS, headers, uriInfo);
     }
-
-    /**
-     * Returns the requested collection of resources that are associated with the specified resource.
-     */
-    @GET
-    @Path("{" + ParameterConstants.SECTION_ID + "}" + "/" + PathConstants.SECTION_ASSESSMENT_ASSOCIATIONS)
-    public Response getSectionAssessmentAssociations(@PathParam(ParameterConstants.SECTION_ID) final String sectionId,
-                                                  @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "sectionId", sectionId, headers,
-                uriInfo);
-    }
-
-    /**
-     * Returns the requested collection of resources that are associated with the specified resource.
-     */
-    @GET
-    @Path("{" + ParameterConstants.SECTION_ID + "}" + "/" + PathConstants.SECTION_ASSESSMENT_ASSOCIATIONS + "/"
-            + PathConstants.ASSESSMENTS)
-    public Response getSectionAssessmentAssociationAssessments(
-            @PathParam(ParameterConstants.SECTION_ID) final String sectionId, @Context HttpHeaders headers,
-            @Context final UriInfo uriInfo) {
-        return super.read(ResourceNames.SECTION_ASSESSMENT_ASSOCIATIONS, "sectionId", sectionId, "assessmentId",
-                ResourceNames.ASSESSMENTS, headers, uriInfo);
-    }
 }

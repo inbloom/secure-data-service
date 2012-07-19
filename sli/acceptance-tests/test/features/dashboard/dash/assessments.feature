@@ -5,7 +5,6 @@ application, that will change the subset of information that is displayed.
 
 Background:
   Given I have an open web browser
-  Given the server is in "live" mode
 
  @RALLY_US200
 Scenario: Displaying simple StateTest reading and writing results for all students

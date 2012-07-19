@@ -198,7 +198,7 @@ public class StudentProgressManagerTest {
         gradebooks.add(gradebook2);
         gradebooks.add(gradebook3);
 
-        studentInfo.put(Constants.ATTR_STUDENT_SECTION_GRADEBOOK, gradebooks);
+        studentInfo.put(Constants.ATTR_STUDENT_GRADEBOOK_ENTRIES, gradebooks);
         studentInfo.put("id", STUDENTID);
         studentInfos.add(studentInfo);
 

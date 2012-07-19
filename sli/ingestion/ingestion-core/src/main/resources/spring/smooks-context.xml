@@ -131,6 +131,8 @@
                 <value>${smooks.targetselector.xml.grade}</value>
                 <value>${smooks.targetselector.xml.reportCard}</value>
                 <value>${smooks.targetselector.xml.studentCompetency}</value>
+                 <value>InterchangeStudentGrade/LearningObjective</value>
+               
               </list>
             </constructor-arg>
           </bean>

@@ -22,7 +22,7 @@
 
    <!-- MONGODB CONFIG -->
    <mongo:mongo id="sliMongo" host="${sli.mongodb.host}" port="${sli.mongodb.port}">
-      <mongo:options connections-per-host="${sli.mongodb.connections}" auto-connect-retry="true" socket-timeout="5000" socket-keep-alive="true"/>
+      <mongo:options connections-per-host="${sli.mongodb.connections}" auto-connect-retry="true" socket-timeout="60000" socket-keep-alive="true"/>
    </mongo:mongo>
 
   <mongo:db-factory id="mongoDbFactory" dbname="${sli.mongodb.database}" mongo-ref="sliMongo" />
@@ -39,6 +39,25 @@
     </mongo:custom-converters>
   </mongo:mapping-converter>
 
+   <!-- DB TO LOG API PERF CONFIG-->
+    <mongo:mongo id="perfApiMongo" host="${sli.perf.mongodb.host}" port="${sli.perf.mongodb.port}">
+        <mongo:options connections-per-host="${sli.mongodb.connections}" auto-connect-retry="true" socket-timeout="5000" socket-keep-alive="true"/>
+    </mongo:mongo>
+
+    <mongo:db-factory id="mongoPerfDbFactory" dbname="${sli.perf.mongodb.database}" mongo-ref="perfApiMongo" />
+    <!-- username="${sli.mongodb.user}" password="${sli.mongodb.pass}" /> -->
+
+    <mongo:mapping-converter id="mappingPerfDbConverter" base-package="org.slc.sli" db-factory-ref="mongoPerfDbFactory">
+        <mongo:custom-converters>
+            <mongo:converter>
+                <bean class="org.slc.sli.dal.convert.EntityReadConverter" />
+            </mongo:converter>
+            <mongo:converter>
+                <bean class="org.slc.sli.dal.convert.EntityWriteConverter" />
+            </mongo:converter>
+        </mongo:custom-converters>
+    </mongo:mapping-converter>
+
   <bean id="entityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
    <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.AesCipher">
    </bean>
@@ -53,6 +72,12 @@
     -->
   </bean>
 
+    <bean id="mongoPerfDbTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg ref="mongoPerfDbFactory" />
+        <constructor-arg ref="mappingPerfDbConverter" />
+        <property name="slaveOk" value="false" />
+    </bean>
+
   <bean id="mongoIdConverter" class="org.slc.sli.dal.convert.MongoIdConverter" />
 
   <bean id="mongoEntityRepository" name="validationRepo"
@@ -60,7 +85,11 @@
     <property name="template" ref="mongoTemplate" />
     <property name="idConverter" ref="mongoIdConverter" />
   </bean>
-  
+    <bean id="mongoPerfEntityRepository" name="performanceRepo"
+          class="org.slc.sli.dal.repository.MongoPerfRepository">
+        <property name="perfDbtemplate" ref="mongoPerfDbTemplate" />
+        <property name="idConverter" ref="mongoIdConverter" />
+    </bean>
   <import resource="classpath:/spring/validation.xml" />
   <context:component-scan base-package="org.slc.sli.dal" />
 </beans>

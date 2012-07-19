@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -44,20 +46,11 @@ public class DelegationUtil {
     private EdOrgToChildEdOrgNodeFilter edOrgNodeFilter;
 
     @Autowired
+    @Qualifier("validationRepo")
     Repository<Entity> repo;
 
-    public String getUsersStateUniqueId() {
-        SLIPrincipal principal = null;
-        SecurityContext context = SecurityContextHolder.getContext();
-        if (context.getAuthentication() != null) {
-            principal = (SLIPrincipal) context.getAuthentication().getPrincipal();
-            return principal.getEdOrg();
-        }
-        return null;
-    }
-
     public List<String> getDelegateEdOrgs() {
-        String edOrg = getUsersStateUniqueId();
+        String edOrg = SecurityUtil.getEdOrg();
 
         List<String> myEdOrgsIds = edOrgNodeFilter.getChildEducationOrganizations(edOrg);
         List<String> delegateEdOrgs = new ArrayList<String>();

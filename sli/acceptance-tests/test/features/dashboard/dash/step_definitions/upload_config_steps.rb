@@ -167,7 +167,7 @@ Then /^I paste Valid json config into the text box$/ do
     {id: \"tab7\", name: \"Elementary School Overview\",  type : \"TAB\", condition: {field: \"gradeLevel\", value: [\"Infant/toddler\", \"Early Education\", \"Preschool/Prekindergarten\", \"Transitional Kindergarten\", \"Kindergarten\", \"First Grade\", \"Second Grade\", \"Third Grade\", \"Other\", \"Ungraded\", \"Not Available\"]}, items: [{id : \"contactInfo\", type: \"PANEL\"}, {id : \"enrollmentHist\", name: \"Student Enrollment Panel\", type: \"GRID\"}]},
     {id: \"tab8\", name: \"Middle School Overview\",  type : \"TAB\", condition: {field: \"gradeLevel\", value: [\"Fourth Grade\", \"Fifth Grade\", \"Sixth Grade\", \"Seventh Grade\", \"Eighth grade\", \"Other\", \"Ungraded\", \"Not Available\"]}, items: [{id : \"contactInfo\", type: \"PANEL\"}, {id : \"enrollmentHist\", name: \"Student Enrollment Panel\", type: \"GRID\"}]},
     {id: \"tab9\", name: \"High School Overview\",  type : \"TAB\", condition: {field: \"gradeLevel\", value: [\"Ninth grade\", \"Tenth grade\", \"Eleventh grade\", \"Twelfth grade\", \"Adult Education\", \"Grade 13\", \"Postsecondary\", \"Other\", \"Ungraded\", \"Not Available\"]}, items: [{id : \"contactInfo\", type: \"PANEL\"}, {id : \"enrollmentHist\", name: \"Student Enrollment Panel\", type: \"GRID\"}]},
-    {id: \"tab2\", name: \"Attendance and Discipline\", type : \"TAB\", items: [{id : \"attendanceHist\", type: \"GRID\"}]},
+    {id: \"tab2\", name: \"Attendance and Discipline\", type : \"TAB\", items: [{id : \"attendanceHist\", type: \"REPEAT_HEADER_GRID\"}]},
     {id: \"tabE\", name: \"Assessments\",  type : \"TAB\", items: [{id : \"assessmentHistREAD2\", type: \"GRID\"}], condition: {field: \"gradeLevel\", value: [\"Infant/toddler\", \"Early Education\", \"Preschool/Prekindergarten\", \"Transitional Kindergarten\", \"Kindergarten\", \"First Grade\", \"Second Grade\", \"Third Grade\", \"Other\", \"Ungraded\", \"Not Available\"]}},
     {id: \"tabM\", name: \"Assessments\",  type : \"TAB\", items: [{id : \"assessmentHistStateTestR\", type: \"GRID\"}, {id : \"assessmentHistStateTestW\", type: \"GRID\"}], condition: {field: \"gradeLevel\", value: [\"Fourth Grade\", \"Fifth Grade\", \"Sixth Grade\", \"Seventh Grade\", \"Eighth grade\", \"Other\", \"Ungraded\", \"Not Available\"]}},
     {id: \"tabH\", name: \"Assessments\",  type : \"TAB\", items: [{id : \"assessmentHistAPE\", type: \"GRID\"}, {id : \"assessmentHistSATR\", type: \"GRID\"}, {id : \"assessmentHistSATW\", type: \"GRID\"}], condition: {field: \"gradeLevel\", value: [\"Ninth grade\", \"Tenth grade\", \"Eleventh grade\", \"Twelfth grade\", \"Adult Education\", \"Grade 13\", \"Postsecondary\", \"Other\", \"Ungraded\", \"Not Available\"]}},
@@ -256,6 +256,12 @@ end
 When /^I logout$/ do
   # current logout functionaly means delete all the cookies
   @driver.manage.delete_all_cookies
+  browser = PropLoader.getProps['browser'].downcase
+  # cannot delete httponly cookie in IE
+  if (browser == "ie")
+    @driver.quit
+    @driver = Selenium::WebDriver.for :ie
+  end
 end
 
 Then /^I should be shown a success message$/ do

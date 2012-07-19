@@ -1,0 +1,2115 @@
+﻿<!-- ======================================== -->
+<!--    Open ADK Object Definition File   -->
+<!--     Copyright (c)1998-2011 Pearson Education, Inc. or its affiliate(s)     -->
+<!--     All Rights Reserved                  -->
+<!-- ======================================== -->
+<!--    SIF 2.3 datamodel objects             -->
+<!-- ======================================== -->
+<adk package="student" version="2.3" namespace="http://www.sifinfo.org/au/infrastructure/2.x">
+
+
+
+  <!--AU0644ExitWithdrawalType-->
+  <enum name="AU0644ExitWithdrawalType">
+    <value name="1907_STUDENT_IS_INDIFFERENT_PUBLIC_SCHOOL" value="1907" desc="Student is in a different public school in the same district" />
+    <value name="1908_TRANSFERRED_TOPUBLIC_SCHOOL_INDIFFERENT" value="1908" desc="Transferred to a public school in a different local education agency in the same jurisdiction" />
+    <value name="1909_TRANSFERRED_TOPUBLIC_SCHOOL_INDIFFERENT" value="1909" desc="Transferred to a public school in a different jurisdiction" />
+    <value name="1910_TRANSFERRED_TOPRIVATE" value="1910" desc="Transferred to a private, non-religiously-affiliated school in the district" />
+    <value name="1911_TRANSFERRED_TOPRIVATE" value="1911" desc="Transferred to a private, non-religiously-affiliated school in a different district the same jurisdiction" />
+    <value name="1912_TRANSFERRED_TOPRIVATE" value="1912" desc="Transferred to a private, non-religiously-affiliated school in a different jurisdiction" />
+    <value name="1913_TRANSFERRED_TOPRIVATE_RELIGIOUSLYAFFILIATED" value="1913" desc="Transferred to a private, religiously-affiliated school in the same district" />
+    <value name="1914_TRANSFERRED_TOPRIVATE_RELIGIOUSLYAFFILIATED" value="1914" desc="Transferred to a private, religiously-affiliated school in a different district in the same jurisdiction" />
+    <value name="1915_TRANSFERRED_TOPRIVATE_RELIGIOUSLYAFFILIATED" value="1915" desc="Transferred to a private, religiously-affiliated school in a different jurisdiction" />
+    <value name="1916_TRANSFERRED_TOSCHOOL_OUTSIDE" value="1916" desc="Transferred to a school outside of the country" />
+    <value name="1917_TRANSFERRED_TOINSTITUTION" value="1917" desc="Transferred to an institution" />
+    <value name="1918_TRANSFERRED_TO_HOME" value="1918" desc="Transferred to home schooling" />
+    <value name="1919_TRANSFERRED_TOCHARTER" value="1919" desc="Transferred to a charter school" />
+    <value name="1921_GRADUATED_WITH_REGULAR_ADVANCED_INTERNATIONAL" value="1921" desc="Graduated with regular, advanced, International Baccalaureate, or other type of diploma" />
+    <value name="1922_COMPLETED_SCHOOL_WITH_OT" value="1922" desc="Completed school with other credentials" />
+    <value name="1923_DIED_OR_IS_PERMANENTLY" value="1923" desc="Died or is permanently incapacitated" />
+    <value name="1924_WITHDRAWN_DUE_TO" value="1924" desc="Withdrawn due to illness" />
+    <value name="1925_EXPELLED_OR_INVOLUNTARILY" value="1925" desc="Expelled or involuntarily withdrawn" />
+    <value name="1926_REACHED_MAXIMUM" value="1926" desc="Reached maximum age for services" />
+    <value name="1927_DISCONTINUED_SCHOOLING" value="1927" desc="Discontinued schooling" />
+    <value name="1928_COMPLETED_GRADE_12_BUT_DID_NOT_MEET_ALL" value="1928" desc="Completed grade 12, but did not meet all graduation requirements" />
+    <value name="1930_ENROLLED_INPOSTSECONDARY_EARLY_ADMISSION" value="1930" desc="Enrolled in a postsecondary early admission program, eligible to return" />
+    <value name="1931_NOT_ENROLLED_UNKNOWN" value="1931" desc="Not enrolled, unknown status" />
+    <value name="3499_STUDENT_IS_INSAME_LOCAL_EDUCATION" value="3499" desc="Student is in the same local education agency and receiving education services, but is not assigned " />
+    <value name="3500_ENROLLED_INADULT_EDUCATION_OR_TRAINING" value="3500" desc="Enrolled in an adult education or training program" />
+    <value name="3501_COMPLETEDSTATERECOGNIZED_VOCATIONAL_EDUCATION" value="3501" desc="Completed a state-recognized vocational education program" />
+    <value name="3502_NOT_ENROLLED_ELIGIBLE_TO" value="3502" desc="Not enrolled, eligible to return" />
+    <value name="3503_ENROLLED_INFOREIGN_EXCHANGE_PROGRAM_ELIGIBLE" value="3503" desc="Enrolled in a foreign exchange program, eligible to return" />
+    <value name="3504_WITHDRAWN_FROM_SCHOOL" value="3504" desc="Withdrawn from school, under the age for compulsory attendance; eligible to return" />
+    <value name="3505_EXITED" value="3505" desc="Exited" />
+    <value name="3509_COMPLETED_WITHSTATERECOGNIZED_EQUIVALENCY" value="3509" desc="Completed with a state-recognized equivalency certificate" />
+    <value name="9999_OTHER" value="9999" desc="Other" />
+  </enum>
+  <!--EmploymentType-->
+  <enum name="EmploymentType">
+    <value name="1_SENIOR_MANAGEMENT_IN_LARGE_BUSINESS_ORGANISATION" value="1" desc="Senior management in large business organisation, government administration and defence and qualified professionals." />
+    <value name="2_OT_BUSINESS_MANAGES_ARTS_MEDIA_SPORTSPERSONS" value="2" desc="Other business manages, arts/media/sportspersons and associate professionals" />
+    <value name="3_TRADSESMEN_WOMEN_CLERKSSKILLED_OFFICE" value="3" desc="Tradsesmen/women, clerks and skilled office, sales and service staff" />
+    <value name="4_MACHINE_OPERATORS_HOSPITALITY_STAFF_ASSISTANTS" value="4" desc="Machine Operators, hospitality staff, assistants, labourers and related workers" />
+    <value name="8_OUT_OF_EMPLOYED_WORK12_MONTHS_OR_MORE_IF" value="8" desc="Out of employed work for 12 months or more  (If less use previous occupational group.)" />
+    <value name="9_UNKNOWN" value="9" desc="Unknown" />
+  </enum>
+
+    <!--NonSchoolEducationType-->
+  <enum name="NonSchoolEducationType">
+    <value name="0_NOT_STATED_UNKNOWN" value="0" desc="Not stated/Unknown" />
+    <value name="5_CERTIFICATE_I_TO_IV_INCLUDING_TRADE_CERTIFICATE" value="5" desc="Certificate I to IV (including trade certificate)" />
+    <value name="6_ADVANCED_DIPLOMA_DIPLOMA" value="6" desc="Advanced diploma/Diploma" />
+    <value name="7_BACHELOR_DEGREE_OR" value="7" desc="Bachelor degree or above" />
+    <value name="8_NO_NONSCHOOL_QUALIFICATION" value="8" desc="No non-school qualification" />
+  </enum>
+  <!--AU0619EntryType-->
+  <enum name="AU0619EntryType">
+    <value name="1821_TRANSFER_FROMPUBLIC_SCHOOL_INSAME" value="1821" desc="Transfer from a public school in the same district" />
+    <value name="1822_TRANSFER_FROMPUBLIC_SCHOOL_INDIFFERENT" value="1822" desc="Transfer from a public school in a different district in the same jurisdiction" />
+    <value name="1823_TRANSFER_FROMPUBLIC_SCHOOL_INDIFFERENT" value="1823" desc="Transfer from a public school in a different jurisdication" />
+    <value name="1824_TRANSFER_FROMPRIVATE" value="1824" desc="Transfer from a private, non-religiously-affiliated school in the same district" />
+    <value name="1825_TRANSFER_FROMPRIVATE" value="1825" desc="Transfer from a private, non-religiously-affiliated school in a different district" />
+    <value name="1826_TRANSFER_FROMPRIVATE" value="1826" desc="Transfer from a private, non-religiously-affiliated school in a different jurisdiction" />
+    <value name="1827_TRANSFER_FROMPRIVATE_RELIGIOUSLYAFFILIATED" value="1827" desc="Transfer from a private, religiously-affiliated school in the same district" />
+    <value name="1828_TRANSFER_FROMPRIVATE_RELIGIOUSLYAFFILIATED" value="1828" desc="Transfer from a private, religiously-affiliated school in a different district in the same jurisdiction" />
+    <value name="1829_TRANSFER_FROMPRIVATE_RELIGIOUSLYAFFILIATED" value="1829" desc="Transfer from a private, religiously-affiliated school in a different jurisdiction" />
+    <value name="1830_TRANSFER_FROMSCHOOL_OUTSIDE" value="1830" desc="Transfer from a school outside of the country" />
+    <value name="1831_TRANSFER_FROMINSTITUTION" value="1831" desc="Transfer from an institution" />
+    <value name="1833_TRANSFER_FROM_HOME" value="1833" desc="Transfer from home schooling" />
+    <value name="1835_REENTRY_FROMSAME_SCHOOL_WITH_NO" value="1835" desc="Re-entry from the same school with no interruption of schooling" />
+    <value name="1836_REENTRY_AFTERVOLUNTARY" value="1836" desc="Re-entry after a voluntary withdrawal" />
+    <value name="1837_REENTRY_AFTERINVOLUNTARY" value="1837" desc="Re-entry after an involuntary withdrawal" />
+    <value name="1838_ORIGINAL_ENTRY_INTOAUSTRALIAN" value="1838" desc="Original entry into an Australian school" />
+    <value name="1839_ORIGINAL_ENTRY_INTOAUSTRALIAN_SCHOOL" value="1839" desc="Original entry into an Australian school from a foreign country with no interruption in schooling" />
+    <value name="1840_ORIGINAL_ENTRY_INTOAUSTRALIAN_SCHOOL" value="1840" desc="Original entry into an Australian school from a foreign country with an interruption in schooling" />
+    <value name="9998_Temporary_Enrolment" value="9998" desc="Used with remote school throughout Australia becuase student may move around a lot" />
+    <value name="9999_OTHER" value="9999" desc="Other" />
+  </enum>
+  <!--AttendanceStatusType-->
+  <enum name="AttendanceStatusType">
+    <value name="01_EXCUSED" value="01" desc="Excused" />
+    <value name="02_UNEXCUSED" value="02" desc="Unexcused" />
+    <value name="99_UNKNOWN" value="99" desc="Unknown" />
+    <value name="NA_NOT_APPLICABLE" value="NA" desc="Not Applicable" />
+  </enum>
+  <!--MembershipType-->
+  <enum name="MembershipType">
+    <value name="01_HOME_SCHOOL" value="01" desc="Home School" />
+    <value name="02_OT_SCHOOL" value="02" desc="Other School" />
+    <value name="03_CONCURRENT_ENROLMENT" value="03" desc="Concurrent Enrolment" />
+  </enum>
+ 
+  <!--SchoolInfoReligionType-->
+  <enum name="SchoolInfoReligionType">
+    <value name="1_BUDDHISM" value="1" desc="BUDDHISM" />
+    <value name="101_BUDDHISM" value="101" desc="Buddhism" />
+    <value name="1011_BUDDHISM" value="1011" desc="Buddhism" />
+    <value name="2_CHRISTIANITY" value="2" desc="CHRISTIANITY" />
+    <value name="201_ANGLICAN" value="201" desc="Anglican" />
+    <value name="2012_ANGLICAN_CHURCH_OF" value="2012" desc="Anglican Church of Australia" />
+    <value name="2013_ANGLICAN_CATHOLIC" value="2013" desc="Anglican Catholic Church" />
+    <value name="203_BAPTIST" value="203" desc="Baptist" />
+    <value name="2031_BAPTIST" value="2031" desc="Baptist" />
+    <value name="205_BRETHREN" value="205" desc="Brethren" />
+    <value name="2051_BRETHREN" value="2051" desc="Brethren" />
+    <value name="207_CATHOLIC" value="207" desc="Catholic" />
+    <value name="2071_WESTERN_CATHOLIC" value="2071" desc="Western Catholic" />
+    <value name="2072_MARONITE_CATHOLIC" value="2072" desc="Maronite Catholic" />
+    <value name="2073_MELKITE_CATHOLIC" value="2073" desc="Melkite Catholic" />
+    <value name="2074_UKRAINIAN_CATHOLIC" value="2074" desc="Ukrainian Catholic" />
+    <value name="2075_CHALDEAN_CATHOLIC" value="2075" desc="Chaldean Catholic" />
+    <value name="2079_CATHOLIC_NEC" value="2079" desc="Catholic, nec" />
+    <value name="211_CHURCHES_OF_CHRIST" value="211" desc="Churches of Christ" />
+    <value name="2111_CHURCHES_OF_CHRIST_CONFERENCE" value="2111" desc="Churches of Christ (Conference)" />
+    <value name="2112_CHURCH_OF_CHRIST_NONDENOMINATIONAL" value="2112" desc="Church of Christ (Nondenominational)" />
+    <value name="2113_INTERNATIONAL_CHURCH_OF" value="2113" desc="International Church of Christ" />
+    <value name="213_JEHOVAHS_WITNESSES" value="213" desc="Jehovah's Witnesses" />
+    <value name="2131_JEHOVAHS_WITNESSES" value="2131" desc="Jehovah's Witnesses" />
+    <value name="215_LATTER_DAY_SAINTS" value="215" desc="Latter Day Saints" />
+    <value name="2151_CHURCH_OF_JESUS_CHRIST_OF_LDS_MORMONS" value="2151" desc="Church of Jesus Christ of LDS (Mormons)" />
+    <value name="2152_COMMUNITY_OF_CHRIST" value="2152" desc="Community of Christ" />
+    <value name="217_LUTHERAN" value="217" desc="Lutheran" />
+    <value name="2171_LUTHERAN" value="2171" desc="Lutheran" />
+    <value name="221_ORIENTAL_ORTHODOX" value="221" desc="Oriental Orthodox" />
+    <value name="2212_ARMENIAN_APOSTOLIC" value="2212" desc="Armenian Apostolic" />
+    <value name="2214_COPTIC_ORTHODOX" value="2214" desc="Coptic Orthodox Church" />
+    <value name="2215_SYRIAN_ORTHODOX" value="2215" desc="Syrian Orthodox Church" />
+    <value name="2216_ETHIOPIAN_ORTHODOX" value="2216" desc="Ethiopian Orthodox Church" />
+    <value name="2219_ORIENTAL_ORTHODOX" value="2219" desc="Oriental Orthodox, nec" />
+    <value name="222_ASSYRIAN_APOSTOLIC" value="222" desc="Assyrian Apostolic" />
+    <value name="2221_ASSYRIAN_CHURCH" value="2221" desc="Assyrian Church of the East" />
+    <value name="2222_ANCIENT_CHURCH_OFEAST" value="2222" desc="Ancient Church of the East" />
+    <value name="2229_ASSYRIAN_APOSTOLIC" value="2229" desc="Assyrian Apostolic, nec" />
+    <value name="223_EASTERN_ORTHODOX" value="223" desc="Eastern Orthodox" />
+    <value name="2231_ALBANIAN_ORTHODOX" value="2231" desc="Albanian Orthodox" />
+    <value name="2232_ANTIOCHIAN_ORTHODOX" value="2232" desc="Antiochian Orthodox" />
+    <value name="2233_GREEK_ORTHODOX" value="2233" desc="Greek Orthodox" />
+    <value name="2234_MACEDONIAN_ORTHODOX" value="2234" desc="Macedonian Orthodox" />
+    <value name="2235_ROMANIAN_ORTHODOX" value="2235" desc="Romanian Orthodox" />
+    <value name="2236_RUSSIAN_ORTHODOX" value="2236" desc="Russian Orthodox" />
+    <value name="2237_SERBIAN_ORTHODOX" value="2237" desc="Serbian Orthodox" />
+    <value name="2238_UKRAINIAN_ORTHODOX" value="2238" desc="Ukrainian Orthodox" />
+    <value name="2239_EASTERN_ORTHODOX" value="2239" desc="Eastern Orthodox, nec" />
+    <value name="225_PRESBYTERIANREFORMED" value="225" desc="Presbyterian and Reformed" />
+    <value name="2251_PRESBYTERIAN" value="2251" desc="Presbyterian" />
+    <value name="2252_REFORMED" value="2252" desc="Reformed" />
+    <value name="2253_FREE_REFORMED" value="2253" desc="Free Reformed" />
+    <value name="227_SALVATION_ARMY" value="227" desc="Salvation Army" />
+    <value name="2271_SALVATION_ARMY" value="2271" desc="Salvation Army" />
+    <value name="231_SEVENTHDAY_ADVENTIST" value="231" desc="Seventh-day Adventist" />
+    <value name="2311_SEVENTHDAY_ADVENTIST" value="2311" desc="Seventh-day Adventist" />
+    <value name="233_UNITING_CHURCH" value="233" desc="Uniting Church" />
+    <value name="2331_UNITING_CHURCH" value="2331" desc="Uniting Church" />
+    <value name="24_PENTECOSTAL" value="24" desc="Pentecostal" />
+    <value name="2401_APOSTOLIC_CHURCH_AUSTRALIA" value="2401" desc="Apostolic Church (Australia)" />
+    <value name="2402_ASSEMBLIES_OF_GOD" value="2402" desc="Assemblies of God" />
+    <value name="2403_BETHESDA_CHURCHES" value="2403" desc="Bethesda Churches" />
+    <value name="2404_CHRISTIAN_CITY_CHURCH" value="2404" desc="Christian City Church" />
+    <value name="2405_CHRISTIAN_LIFE_CHURCHES" value="2405" desc="Christian Life Churches International" />
+    <value name="2406_CHRISTIAN_OUTREACH" value="2406" desc="Christian Outreach Centres" />
+    <value name="2407_CHRISTIAN_REVIVAL" value="2407" desc="Christian Revival Crusade" />
+    <value name="2408_FAITH_CHURCHES" value="2408" desc="Faith Churches" />
+    <value name="2411_FOURSQUARE_GOSPEL" value="2411" desc="Foursquare Gospel Church" />
+    <value name="2412_FULL_GOSPEL_CHURCH" value="2412" desc="Full Gospel Church" />
+    <value name="2413_REVIVAL_CENTRES" value="2413" desc="Revival Centres" />
+    <value name="2414_RHEMA_FAMILY_CHURCH" value="2414" desc="Rhema Family Church" />
+    <value name="2415_UNITED_PENTECOSTAL" value="2415" desc="United Pentecostal" />
+    <value name="2499_PENTECOSTAL_NEC" value="2499" desc="Pentecostal, nec" />
+    <value name="28_OT_PROTESTANT" value="28" desc="Other Protestant" />
+    <value name="2801_ABORIGINAL_EVANGELICAL" value="2801" desc="Aboriginal Evangelical Missions" />
+    <value name="2802_BORN_AGAIN_CHRISTIAN" value="2802" desc="Born Again Christian" />
+    <value name="2803_CHRISTIANMISSIONARY" value="2803" desc="Christian and Missionary Alliance" />
+    <value name="2804_CHURCH_OFNAZARENE" value="2804" desc="Church of the Nazarene" />
+    <value name="2805_CONGREGATIONAL" value="2805" desc="Congregational" />
+    <value name="2806_ETHNIC_EVANGELICAL" value="2806" desc="Ethnic Evangelical Churches" />
+    <value name="2807_INDEPENDENT_EVANGELICAL" value="2807" desc="Independent Evangelical Churches" />
+    <value name="2808_WESLEYAN_METHODIST" value="2808" desc="Wesleyan Methodist Church" />
+    <value name="2899_OT_PROTESTANT_NEC" value="2899" desc="Other Protestant, nec" />
+    <value name="29_OT_CHRISTIAN" value="29" desc="Other Christian" />
+    <value name="2901_APOSTOLIC_CHURCH_OF" value="2901" desc="Apostolic Church of Queensland" />
+    <value name="2902_CHRISTADELPHIANS" value="2902" desc="Christadelphians" />
+    <value name="2903_CHRISTIAN_SCIENCE" value="2903" desc="Christian Science" />
+    <value name="2904_GNOSTIC_CHRISTIANS" value="2904" desc="Gnostic Christians" />
+    <value name="2905_LIBERAL_CATHOLIC" value="2905" desc="Liberal Catholic Church" />
+    <value name="2906_NEW_APOSTOLIC_CHURCH" value="2906" desc="New Apostolic Church" />
+    <value name="2907_NEW_CHURCHES_SWEDENBORGIAN" value="2907" desc="New Churches (Swedenborgian)" />
+    <value name="2908_RATANA_MAORI" value="2908" desc="Ratana (Maori)" />
+    <value name="2911_RELIGIOUS_SCIENCE" value="2911" desc="Religious Science" />
+    <value name="2912_RELIGIOUS_SOCIETY_OF_FRIENDS_QUAKERS" value="2912" desc="Religious Society of Friends (Quakers)" />
+    <value name="2913_TEMPLE_SOCIETY" value="2913" desc="Temple Society" />
+    <value name="2914_UNITARIAN" value="2914" desc="Unitarian" />
+    <value name="2915_WORLDWIDE_CHURCH_OF" value="2915" desc="Worldwide Church of God" />
+    <value name="2999_OT_CHRISTIAN_NEC" value="2999" desc="Other Christian, nec" />
+    <value name="3_HINDUISM" value="3" desc="HINDUISM" />
+    <value name="301_HINDUISM" value="301" desc="Hinduism" />
+    <value name="3011_HINDUISM" value="3011" desc="Hinduism" />
+    <value name="4_ISLAM" value="4" desc="ISLAM" />
+    <value name="401_ISLAM" value="401" desc="Islam" />
+    <value name="4011_ISLAM" value="4011" desc="Islam" />
+    <value name="5_JUDAISM" value="5" desc="JUDAISM" />
+    <value name="501_JUDAISM" value="501" desc="Judaism" />
+    <value name="5011_JUDAISM" value="5011" desc="Judaism" />
+    <value name="6_OT_RELIGIONS" value="6" desc="OTHER RELIGIONS" />
+    <value name="601_AUSTRALIAN_ABORIGINAL_TRADITIONAL" value="601" desc="Australian Aboriginal Traditional Religions" />
+    <value name="6011_AUSTRALIAN_ABORIGINAL_TRADITIONAL" value="6011" desc="Australian Aboriginal Traditional Religions" />
+    <value name="603_BAHAI" value="603" desc="Baha'i" />
+    <value name="6031_BAHAI" value="6031" desc="Baha'i" />
+    <value name="605_CHINESE_RELIGIONS" value="605" desc="Chinese Religions" />
+    <value name="6051_ANCESTOR_VENERATION" value="6051" desc="Ancestor Veneration" />
+    <value name="6052_CONFUCIANISM" value="6052" desc="Confucianism" />
+    <value name="6053_TAOISM" value="6053" desc="Taoism" />
+    <value name="6059_CHINESE_RELIGIONS" value="6059" desc="Chinese Religions, nec" />
+    <value name="607_DRUSE" value="607" desc="Druse" />
+    <value name="6071_DRUSE" value="6071" desc="Druse" />
+    <value name="611_JAPANESE_RELIGIONS" value="611" desc="Japanese Religions" />
+    <value name="6111_SHINTO" value="6111" desc="Shinto" />
+    <value name="6112_SUKYO_MAHIKARI" value="6112" desc="Sukyo Mahikari" />
+    <value name="6113_TENRIKYO" value="6113" desc="Tenrikyo" />
+    <value name="6119_JAPANESE_RELIGIONS" value="6119" desc="Japanese Religions, nec" />
+    <value name="613_NATURE_RELIGIONS" value="613" desc="Nature Religions" />
+    <value name="6131_ANIMISM" value="6131" desc="Animism" />
+    <value name="6132_DRUIDISM" value="6132" desc="Druidism" />
+    <value name="6133_PAGANISM" value="6133" desc="Paganism" />
+    <value name="6134_PANTHEISM" value="6134" desc="Pantheism" />
+    <value name="6135_WICCAN_WITCHCRAFT" value="6135" desc="Wiccan/Witchcraft" />
+    <value name="6139_NATURE_RELIGIONS" value="6139" desc="Nature Religions, nec" />
+    <value name="615_SIKHISM" value="615" desc="Sikhism" />
+    <value name="6151_SIKHISM" value="6151" desc="Sikhism" />
+    <value name="617_SPIRITUALISM" value="617" desc="Spiritualism" />
+    <value name="6171_SPIRITUALISM" value="6171" desc="Spiritualism" />
+    <value name="699_MISCELLANEOUS_RELIGIONS" value="699" desc="Miscellaneous Religions" />
+    <value name="6991_CAODAISM" value="6991" desc="Caodaism" />
+    <value name="6992_CHURCH_OF_SCIENTOLOGY" value="6992" desc="Church of Scientology" />
+    <value name="6993_ECKANKAR" value="6993" desc="Eckankar" />
+    <value name="6994_RASTAFARIANISM" value="6994" desc="Rastafarianism" />
+    <value name="6995_SATANISM" value="6995" desc="Satanism" />
+    <value name="6996_THEOSOPHY" value="6996" desc="Theosophy" />
+    <value name="6997_JAINISM" value="6997" desc="Jainism" />
+    <value name="6998_ZOROASTRIANISM" value="6998" desc="Zoroastrianism" />
+    <value name="6999_RELIGIOUS_GROUPS" value="6999" desc="Religious Groups, nec" />
+    <value name="7_NO_RELIGION" value="7" desc="NO RELIGION" />
+    <value name="701_NO_RELIGION" value="701" desc="No Religion" />
+    <value name="7011_AGNOSTICISM" value="7011" desc="Agnosticism" />
+    <value name="7012_ATHEISM" value="7012" desc="Atheism" />
+    <value name="7013_HUMANISM" value="7013" desc="Humanism" />
+    <value name="7014_RATIONALISM" value="7014" desc="Rationalism" />
+    <value name="0001_NOT_STATED" value="0001" desc="Not Stated" />
+    <value name="0002_RELIGIOUS_BELIEF" value="0002" desc="Religious Belief, nfd" />
+    <value name="0003_NOT_DEFINED" value="0003" desc="Not Defined" />
+    <value name="0004_NEW_AGE_SO_DESCRIBED" value="0004" desc="New Age, so described" />
+    <value name="0005_THEISM" value="0005" desc="Theism" />
+    <value name="2000_CHRISTIAN_NFD" value="2000" desc="Christian, nfd" />
+    <value name="2001_APOSTOLIC_CHURCH_SO" value="2001" desc="Apostolic Church, so described" />
+    <value name="2002_CHURCH_OF_GOD_SO" value="2002" desc="Church of God, so described" />
+    <value name="2003_AUSTRALIAN_CHRISTIAN_CHURCHES_SO" value="2003" desc="Australian Christian Churches, so described" />
+    <value name="2004_NEW_CHURCH_ALLIANCE_SO" value="2004" desc="New Church Alliance, so described" />
+    <value name="2110_CHURCHES_OF_CHRIST" value="2110" desc="Churches of Christ, nfd" />
+    <value name="2150_CHURCH_OF_JESUS_CHRIST_OF_LATTER_DAY_SAINTS" value="2150" desc="Church of Jesus Christ of Latter Day Saints, nfd" />
+    <value name="2210_ORIENTAL_ORTHODOX" value="2210" desc="Oriental Orthodox, nfd" />
+    <value name="2220_ASSYRIAN_APOSTOLIC" value="2220" desc="Assyrian Apostolic, nfd" />
+    <value name="2230_EASTERN_ORTHODOX" value="2230" desc="Eastern Orthodox, nfd" />
+    <value name="2250_PRESBYTERIANREFORMED" value="2250" desc="Presbyterian and Reformed, nfd" />
+    <value name="2400_PENTECOSTAL_NFD" value="2400" desc="Pentecostal, nfd" />
+    <value name="2800_OT_PROTESTANT_NFD" value="2800" desc="Other Protestant, nfd" />
+    <value name="2900_OT_CHRISTIAN_NFD" value="2900" desc="Other Christian, nfd" />
+    <value name="6050_CHINESE_RELIGIONS" value="6050" desc="Chinese Religions, nfd" />
+    <value name="6110_JAPANESE_RELIGIONS" value="6110" desc="Japanese Religions, nfd" />
+    <value name="6130_NATURE_RELIGIONS" value="6130" desc="Nature Religions, nfd" />
+    <value name="7010_NO_RELIGION_NFD" value="7010" desc="No Religion, nfd" />
+    <value name="20791_ARMENIAN_CATHOLIC" value="20791" desc="Armenian Catholic" />
+    <value name="20792_COPTIC_CATHOLIC" value="20792" desc="Coptic Catholic" />
+    <value name="20793_RUSSIAN_CATHOLIC" value="20793" desc="Russian Catholic" />
+    <value name="20794_SYRIAN_CATHOLIC" value="20794" desc="Syrian Catholic" />
+  </enum>
+
+
+
+
+  <!--AU0266SessionType-->
+  <enum name="AU0266SessionType">
+    <value name="0827_FULL_SCHOOL_YEAR" value="0827" desc="Full school year" />
+    <value name="0828_SEMESTER" value="0828" desc="Semester" />
+    <value name="0829_TRIMESTER" value="0829" desc="Trimester" />
+    <value name="0830_QUARTER" value="0830" desc="Quarter" />
+    <value name="0832_MINITERM" value="0832" desc="Mini-term" />
+    <value name="0833_SUMMER_TERM" value="0833" desc="Summer term" />
+    <value name="0837_TWELVE_MONTH" value="0837" desc="Twelve month" />
+    <value name="9999_OTHER" value="9999" desc="Other" />
+  </enum>
+  <!--AU0274StudentFamilyProgramType-->
+  <enum name="AU0274StudentFamilyProgramType">
+    <value name="0240_REGULAR_PREKINDERGARTEN" value="0240" desc="Regular prekindergarten program" />
+    <value name="0241_INFANTTODDLERS_PROGRAM" value="0241" desc="Infant and toddlers program" />
+    <value name="0242_SPECIAL_EDUCATION_SERVICESBIRTHAGE" value="0242" desc="Special education services for Birth-Age 2" />
+    <value name="0244_SPECIAL_EDUCATION" value="0244" desc="Special education services for preschoolers" />
+    <value name="0245_MIGRANT_EARLY_CHILDHOOD" value="0245" desc="Migrant early childhood program" />
+    <value name="0246_HEAD_START" value="0246" desc="Head Start" />
+    <value name="0247_DAY_CARE" value="0247" desc="Day care" />
+    <value name="0248_AFTER_SCHOOL_CHILD" value="0248" desc="After school child care" />
+    <value name="0249_ALTERNATIVE_EDUCATION" value="0249" desc="Alternative education program" />
+    <value name="0250_BEFORE_SCHOOL_CHILD" value="0250" desc="Before school child care" />
+    <value name="0251_BILINGUAL_EDUCATION" value="0251" desc="Bilingual education" />
+    <value name="0252_COMMUNITY_SERVICE" value="0252" desc="Community service projects" />
+    <value name="0253_COMPENSATORY_EDUCATION" value="0253" desc="Compensatory education" />
+    <value name="0255_COUNSELING" value="0255" desc="Counseling" />
+    <value name="0256_ENGLISH_ASSECOND" value="0256" desc="English as a second language" />
+    <value name="0257_FREEREDUCED_PRICE_SCHOOL_MEALS" value="0257" desc="Free and reduced price school meals programs" />
+    <value name="0260_HEARING_OR_VISION" value="0260" desc="Hearing or vision screening" />
+    <value name="0261_HIGHER_ORDER_THINKING" value="0261" desc="Higher order thinking skills" />
+    <value name="0262_MEDICAL_SERVICES" value="0262" desc="Medical services" />
+    <value name="0263_PROGRAMSMIGRANTS_DURINGSCHOOL" value="0263" desc="Programs for migrants during the school year" />
+    <value name="0265_PROGRAMSMIGRANTS" value="0265" desc="Programs for migrants during the summer" />
+    <value name="0267_READING_LITERACY" value="0267" desc="Reading/literacy" />
+    <value name="0268_SCHOOL_SUPPLIES" value="0268" desc="School supplies" />
+    <value name="0269_SERVICESOUTOFSCHOOL" value="0269" desc="Services for out-of-school youth" />
+    <value name="0270_SPECIAL_EDUCATION" value="0270" desc="Special education program" />
+    <value name="0271_SPECIAL_ONETIME" value="0271" desc="Special (one-time) events" />
+    <value name="0272_STUDENT_ASSISTANCE_PROGRAMS_SUCH_AS_COUNSELING" value="0272" desc="Student assistance programs such as counseling, mentoring, identification and referral" />
+    <value name="0273_SUMMER_CHILD_CARE" value="0273" desc="Summer child care" />
+    <value name="0277_TRANSPORTATION" value="0277" desc="Transportation" />
+    <value name="0278_TUTORING_REMEDIAL" value="0278" desc="Tutoring/remedial instruction" />
+    <value name="0279_ACADEMIC_INSTRUCTIONAL_PROGRAM_IN_REGULAR" value="0279" desc="Academic/instructional program in regular education" />
+    <value name="0280_ADULT_BASIC_EDUCATION_REMEDIAL" value="0280" desc="Adult basic education/remedial instruction" />
+    <value name="0281_CHILD_CARE_SO_THAT_PARENTS_CAN_ATTEND_SCHOOL" value="0281" desc="Child care so that parents can attend school meetings" />
+    <value name="0282_CONTINUING_PROFESSIONAL" value="0282" desc="Continuing professional education" />
+    <value name="0283_HEALTH_OR_SOCIAL" value="0283" desc="Health or social services" />
+    <value name="0284_LITERACY" value="0284" desc="Literacy" />
+    <value name="0285_OCCUPATIONAL_EDUCATION" value="0285" desc="Occupational education" />
+    <value name="0286_ORIENTATION_TO_SCHOOL_SETTINGNEW" value="0286" desc="Orientation to school setting for new families" />
+    <value name="0287_PARENT_TRAINING" value="0287" desc="Parent training/involvement" />
+    <value name="0288_PARENTING_EDUCATION" value="0288" desc="Parenting education" />
+    <value name="0289_RECREATIONAL_ADVOCATIONAL" value="0289" desc="Recreational/advocational program" />
+    <value name="0342_TECHNOLOGY" value="0342" desc="Technology" />
+    <value name="0875_AFTER_SCHOOL_ENRICHMENT" value="0875" desc="After school enrichment" />
+    <value name="0876_BEFORE_SCHOOL_ENRICHMENT" value="0876" desc="Before school enrichment" />
+    <value name="2381_GIFTEDTALENTED" value="2381" desc="Gifted and talented" />
+    <value name="2389_EVEN_START" value="2389" desc="Even Start" />
+    <value name="2393_MAGNET_PROGRAM" value="2393" desc="Magnet program" />
+    <value name="9999_OTHER" value="9999" desc="Other" />
+  </enum>
+
+
+
+  <!--AttendanceType-->
+  <enum name="AttendanceType">
+    <value name="0_NOT_MARKED" value="0" desc="Not Marked" />
+    <value name="100_PRESENT" value="100" desc="Present" />
+    <value name="101_Absent-General" value="101" desc="General Absence" />
+    <value name="111_LATE_ARRIVAL_AT_SCHOOL" value="111" desc="Late arrival at School" />
+    <value name="112_EARLY_DEPARTURE_FROM" value="112" desc="Early departure from School" />
+    <value name="113_LATE_ARRIVAL_UNEXPLAINED" value="113" desc="Late arrival unexplained" />
+    <value name="114_EARLY_DEPARTURE_UNEXPLAINED" value="114" desc="Early departure unexplained" />
+    <value name="116_LATE_ARRIVAL_TO_CLASS" value="116" desc="Late arrival to Class" />
+    <value name="117_EARLY_LEAVER_FROM" value="117" desc="Early leaver from Class" />
+    <value name="118_LATE_CLASS_UNEXPLAINED" value="118" desc="Late Class Unexplained " />
+    <value name="119_EARLY_CLASS_UNEXPLAINED" value="119" desc="Early Class Unexplained" />
+    <value name="200_MEDICAL" value="200" desc="Medical" />
+    <value name="201_ILLNESS" value="201" desc="Illness" />
+    <value name="202_ACCIDENT" value="202" desc="Accident" />
+    <value name="203_COUNSELLING" value="203" desc="Counselling" />
+    <value name="204_SICK_BAY" value="204" desc="Sick Bay" />
+    <value name="205_MEDICAL_APPOINTMENT" value="205" desc="Medical Appointment" />
+    <value name="206_HOSPITALISED" value="206" desc="Hospitalised" />
+    <value name="207_QUARANTINE" value="207" desc="Quarantine" />
+    <value name="208_REFUSAL" value="208" desc="Refusal" />
+    <value name="209_DENTIST" value="209" desc="Dentist " />
+    <value name="210_MEDICAL_WELFARE" value="210" desc="Medical/Welfare" />
+    <value name="211_BEREAVEMENT" value="211" desc="Bereavement" />
+    <value name="300_TRUANCY" value="300" desc="Truancy" />
+    <value name="400_SUSPENSION" value="400" desc="Suspension" />
+    <value name="401_SUSPENSION_EXTERNAL" value="401" desc="Suspension - External" />
+    <value name="500_UNEXPLAINED" value="500" desc="Unexplained" />
+    <value name="600_EDUCATIONAL" value="600" desc="Educational" />
+    <value name="601_GROUP_ACTIVITY" value="601" desc="Group Activity" />
+    <value name="602_COMMUNITY_SERVICE" value="602" desc="Community Service" />
+    <value name="603_DUTY_STUDENT" value="603" desc="Duty Student" />
+    <value name="604_EXCURSION" value="604" desc="Excursion" />
+    <value name="605_SPECIAL_EVENT" value="605" desc="Special Event" />
+    <value name="606_CAMP" value="606" desc="Camp" />
+    <value name="607_OT_EDUCATIONAL_ACTIVITY" value="607" desc="Other Educational Activity" />
+    <value name="608_TAFE" value="608" desc="TAFE" />
+    <value name="609_WORK_EXPERIENCE" value="609" desc="Work Experience" />
+    <value name="610_SCHOOL_PRODUCTION" value="610" desc="School Production" />
+    <value name="611_SPORTS" value="611" desc="Sports" />
+    <value name="612_STUDY_LEAVE" value="612" desc="Study Leave" />
+    <value name="700_FLAGS" value="700" desc="Flags" />
+    <value name="701_EXIT" value="701" desc="Exit" />
+    <value name="702_TRANSFERRED" value="702" desc="Transferred" />
+    <value name="800_PARENT_CHOICE" value="800" desc="Parent Choice" />
+    <value name="801_PARENTAL_ARRANGEMENT" value="801" desc="Parental Arrangement" />
+    <value name="802_EXEMPT" value="802" desc="Exempt" />
+    <value name="803_PARENTAL_ACKNOWLEDGEMENT" value="803" desc="Parental Acknowledgement" />
+    <value name="804_EXTENDED_FAMILY_HOLIDAYS" value="804" desc="Extended Family Holidays" />
+    <value name="805_RELIGIOUS_CULTURAL" value="805" desc="Religious/Cultural Observance" />
+    <value name="900_SCHOOL_CHOICE" value="900" desc="School Choice" />
+    <value name="901_INDUSTRIAL_ACTION" value="901" desc="Industrial Action" />
+    <value name="902_FACILITY_DAMAGE" value="902" desc="Facility Damage" />
+    <value name="903_WEATHER" value="903" desc="Weather" />
+    <value name="904_STAFF_MEETING" value="904" desc="Staff Meeting" />
+    <value name="999_OTHER" value="999" desc="Other" />
+  </enum>
+
+  <!--AU0643ExitWithdrawalStatusType-->
+  <enum name="AU0643ExitWithdrawalStatusType">
+    <value name="1905_PERMANENT_EXIT_WITHDRAWAL" value="1905" desc="Permanent exit/withdrawal" />
+    <value name="1906_TEMPORARY_EXIT_WITHDRAWAL" value="1906" desc="Temporary exit/withdrawal" />
+    <value name="9999_UNKNOWN" value="9999" desc="Unknown" />
+  </enum>
+
+
+  <!--AU0084CalendarEventType-->
+  <enum name="AU0084CalendarEventType">
+    <value name="0845_TEACHER_ONLY_DAY" value="0845" desc="Teacher only day" />
+    <value name="0846_HOLIDAY" value="0846" desc="Holiday" />
+    <value name="0848_STUDENT_LATE_ARRIVAL_EARLY" value="0848" desc="Student late arrival/early dismissal" />
+    <value name="0849_EMERGENCY_DAY" value="0849" desc="Emergency day" />
+    <value name="3421_STRIKE" value="3421" desc="Strike" />
+    <value name="9999_OTHER" value="9999" desc="Other" />
+    <value name="INST_INSTRUCTIONAL_SCHOOL" value="INST" desc="Instructional School Day" />
+    <value name="MKUP_INSTRUCTIONAL_DAY_THAT_IS_SCHEDULED_SOLELY_TO" value="MKUP" desc="Instructional day that is scheduled solely to make up for emergency days or early dismissal days." />
+  </enum>
+  <!--FTPTStatusCodeType-->
+  <enum name="FTPTStatusCodeType">
+    <value name="01_FULL_TIME" value="01" desc="Full Time" />
+    <value name="02_PART_TIME" value="02" desc="Part Time" />
+  </enum>
+  <!--AU0598PublicSchoolCatchmentStatusType-->
+  <enum name="AU0598PublicSchoolCatchmentStatusType">
+    <value name="1652_RESIDENT_OF_USUAL_SCHOOL_CATCHMENT" value="1652" desc="Resident of usual school catchment area" />
+    <value name="1653_RESIDENT_OF_ANOT_SCHOOL_CATCHMENT" value="1653" desc="Resident of another school catchment area" />
+    <value name="9999_UNKNOWN" value="9999" desc="Unknown" />
+  </enum>
+
+
+
+  <!--AUSchoolLevelType-->
+  <enum name="AUSchoolLevelType">
+    <value name="CAMP" value="Camp" desc="Camp" />
+    <value name="Kind_PRESCHOOL_KINDERGARTEN" value="Kind" desc="Preschool/Kindergarten" />
+    <value name="Lang_LANGUAGE" value="Lang" desc="Language" />
+    <value name="Middle_MIDDLE_SCHOOL" value="Middle" desc="Middle School" />
+    <value name="OTHER" value="Other" desc="Other" />
+    <value name="Pri_Sec_PRIMARY_SECONDAY" value="Pri/Sec" desc="Primary/Seconday Combined" />
+    <value name="Prim_PRIMARY" value="Prim" desc="Primary" />
+    <value name="Sec_SECONDARY" value="Sec" desc="Secondary" />
+    <value name="Senior_SENIOR_SECONDARY" value="Senior" desc="Senior Secondary School" />
+    <value name="SPECIAL" value="Special" desc="Special" />
+    <value name="Specif_SPECIFIC_PURPOSE" value="Specif" desc="Specific Purpose" />
+    <value name="Supp_SUPPORTCENTRE" value="Supp" desc="SupportCentre" />
+    <value name="UNKNOWN" value="Unknown" desc="Unknown" />
+    <value name="EarlyCh_EARLY_CHILDHOOD" value="EarlyCh" desc="Early Childhood" />
+    <value name="JunPri_JUNIOR_PRIMARY" value="JunPri" desc="Junior Primary" />
+    <value name="Commty_COMMUNITY_COLLEGE" value="Commty" desc="Community College" />
+    <value name="MCH_MATERNAL_CHILD_HEALTH" value="MCH" desc="Maternal and Child Health Centres" />
+  </enum>
+
+
+  <!--StatisticalLocalAreaCodeType-->
+  <enum name="StatisticalLocalAreaCodeType">
+    <!--Too many values to write: Value Count - 1397-->
+  </enum>
+  
+  <!--StudentSnapshotSex-->
+  <enum name="StudentSnapshotSex">
+    <value name="1_MALE" value="1" desc="Male" />
+    <value name="2_FEMALE" value="2" desc="Female" />
+    <value name="9_NOT_STATED_INADEQUATELY" value="9" desc="Not Stated/Inadequately Described" />
+  </enum>
+  <!--Severity-->
+  <enum name="Severity">
+    <value name="LOW" value="Low" desc="Low" />
+    <value name="MODERATE" value="Moderate" desc="Moderate" />
+    <value name="HIGH" value="High" desc="High" />
+    <value name="SEVERE" value="Severe" desc="Severe" />
+    <value name="UNKNOWN" value="Unknown" desc="Unknown" />
+  </enum>
+  <!--AdvisorSIF_RefObject-->
+  <enum name="AdvisorSIF_RefObject">
+    <value name="STAFFPERSONAL" value="StaffPersonal" desc="StaffPersonal" />
+  </enum>
+  <!--AlertMessageType-->
+  <enum name="AlertMessageType">
+    <value name="LEGAL" value="Legal" desc="Legal" />
+    <value name="DISCIPLINE" value="Discipline" desc="Discipline" />
+    <value name="EDUCATIONAL" value="Educational" desc="Educational" />
+    <value name="OTHER" value="Other" desc="Other" />
+  </enum>
+  <!--CounselorSIF_RefObject-->
+  <enum name="CounselorSIF_RefObject">
+    <value name="STAFFPERSONAL" value="StaffPersonal" desc="StaffPersonal" />
+  </enum>
+  
+  <!--StudentPersonal-->
+  <object name="StudentPersonal" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The GUID of the student.</desc>
+    </attribute>
+    <element name="AlertMessages" type="AlertMessages" flags="O" />
+    <element name="MedicalAlertMessages" type="MedicalAlertMessages" flags="O" />
+    <element name="LocalId" type="String" flags="M" />
+    <element name="StateProvinceId" type="String" flags="O">
+      <desc>The state-assigned identifier for this student.</desc>
+    </element>
+    <element name="ElectronicIdList" type="ElectronicIdList" flags="O">
+      <desc>Electronic identifier(s) associated with this entity.</desc>
+    </element>
+    <element name="OtherIdList" type="OtherIdList" flags="O" />
+    <element name="PersonInfo" type="PersonInfo" flags="M" />
+    <element name="ProjectedGraduationYear" type="int" flags="O">
+      <desc>Currently projected graduation year.</desc>
+    </element>
+    <element name="OnTimeGraduationYear" type="int" flags="O">
+      <desc>First projected graduation year, usually determined when student is accepted into 9th grade.</desc>
+    </element>
+    <element name="MostRecent" type="MostRecent" flags="O" />
+    <element name="AcceptableUsePolicy" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Does the student have a current signed Acceptable Use Policy document for system access?</desc>
+    </element>
+    <element name="EconomicDisadvantage" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Does the student meet the State criteria for classification as having an economic disadvantage?</desc>
+    </element>
+    <element name="ESL" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Does the student meet ‘English as a Second Language Criteria’?</desc>
+    </element>
+    <element name="YoungCarersRole" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Is the student a carer of other family members?</desc>
+    </element>
+    <element name="Disability" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Does the student have funding for disability?</desc>
+    </element>
+    <element name="IntegrationAide" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Does the Student require an Integration Aide?</desc>
+    </element>
+    <element name="PrePrimaryEducation" type="String" flags="O">
+      <desc>Care prior to kinder enrolment (eg. Family day care/home/extended care etc).</desc>
+    </element>
+    <element name="FirstAUSchoolEnrollment" type="Date" flags="O">
+      <desc>Date of the first enrolment in an Australian School</desc>
+    </element>
+  </object>
+
+  
+  
+  <!--ContactFlags-->
+  <object name="ContactFlags">
+    <element name="ParentLegalGuardian" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Does the individual have parental or legal guardianship responsibility for the student?</desc>
+    </element>
+    <element name="PickupRights" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>This element tells whether or not the contact has pickup rights.</desc>
+    </element>
+    <element name="LivesWith" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Does the student live with this contact?</desc>
+    </element>
+    <element name="AccessToRecords" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Does this contact have access to the student's records?</desc>
+    </element>
+    <element name="EmergencyContact" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Should this contact be notified in case of emergency?</desc>
+    </element>
+    <element name="HasCustody" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Does this contact have or share custody of the student?</desc>
+    </element>
+    <element name="DisciplinaryContact" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Is this person to be contacted in case of disciplinary action?</desc>
+    </element>
+    <element name="PrimaryCareProvider" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Does this person provide daily living or personal assistance to the student?</desc>
+    </element>
+    <element name="FeesBilling" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Is this the contact responsible for Payment of Fees?</desc>
+    </element>
+    <element name="FamilyMail" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Does this person receive family mail?</desc>
+    </element>
+    <element name="InterventionOrder" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Is their an InterventionOrder against this Contact?</desc>
+    </element>
+  </object>
+  <!--MostRecent-->
+  <object name="MostRecent">
+    <element name="SchoolLocalId" type="String" flags="O">
+      <desc>Local identifier representing the school in which the student is or was most recently enrolled in the district.</desc>
+    </element>
+    <element name="HomeroomLocalId" type="String" flags="O">
+      <desc>Local identifier representing the current or most recent homeroom in which the student is or was most recently assigned in the district.  Use the value from RoomInfo/HomeroomNumber if supported.  If not supported, use the value from RoomInfo/RoomNumber.  If neither is supported, use the most appropriate value from the agent‚Äôs application.</desc>
+    </element>
+    <element name="YearLevel" type="YearLevel" flags="O">
+      <desc>The current or most recent grade level of the student in the district.</desc>
+    </element>
+  </object>
+  <!--AlertMessage-->
+  <object name="AlertMessage">
+    <attribute name="Type" enum="AlertMessageType" flags="R">
+      <desc>This attribute specifies what type of alert message this is.</desc>
+    </attribute>
+  </object>
+  <!--StudentAttendanceSummary-->
+  <object name="StudentAttendanceSummary" topic="true">
+    <attribute name="StudentPersonalRefId" type="String" flags="R">
+      <desc>The ID (GUID) of the student for whom this attendance information is being reported.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="String" flags="R">
+      <desc>The ID (GUID) of the school for which this attendance information is being reported.</desc>
+    </attribute>
+    <attribute name="SchoolYear" type="int" flags="R">
+      <desc>School year for which the information is applicable.</desc>
+    </attribute>
+    <attribute name="StartDate" type="Date" flags="R">
+      <desc>Starting date of this attendance reporting period.</desc>
+    </attribute>
+    <attribute name="EndDate" type="Date" flags="R">
+      <desc>Ending date of this attendance reporting period.</desc>
+    </attribute>
+    <element name="StartDay" type="Uint" flags="O">
+      <desc>Number of the school day represented in StartDate.</desc>
+    </element>
+    <element name="EndDay" type="Uint" flags="O">
+      <desc>Number of the school day represented in EndDate.</desc>
+    </element>
+    <element name="FTE" type="Decimal" flags="O" />
+    <element name="DaysAttended" type="Decimal" flags="M">
+      <desc>The number of days the student attended school when school was in session between the StartDate and EndDate, inclusive.</desc>
+    </element>
+    <element name="ExcusedAbsences" type="Decimal" flags="M">
+      <desc>The number of days the student was absent from school with a valid excuse when school was in session between the StartDate and EndDate, inclusive.</desc>
+    </element>
+    <element name="UnexcusedAbsences" type="Decimal" flags="M">
+      <desc>The number of days the student was absent from school without a valid excuse when school was in session between the StartDate and EndDate, inclusive.</desc>
+    </element>
+    <element name="DaysTardy" type="Decimal" flags="O">
+      <desc>The number of days the student was tardy when school was in session between the StartDate and EndDate, inclusive.</desc>
+    </element>
+    <element name="DaysInMembership" type="Decimal" flags="M">
+      <desc>The number of days the student was present plus the number of days the student was absent when school was in session during the period between the StartDate and EndDate, inclusive.</desc>
+    </element>
+  </object>
+  <!--AlertMessages-->
+  <object name="AlertMessages">
+    <element name="AlertMessage" type="AlertMessage" flags="MR">
+      <desc>This is an alert message that is associated with the student.</desc>
+    </element>
+  </object>
+  
+  <!--StaffAssignment-->
+  <object name="StaffAssignment" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The GUID that uniquely identifies a particular staff assignment.</desc>
+    </attribute>
+    <element name="SchoolInfoRefId" type="String" flags="M">
+      <desc>The ID (GUID) that identifies the school where the staff member is assigned.</desc>
+    </element>
+    <element name="SchoolYear" type="int" flags="M" />
+    <element name="StaffPersonalRefId" type="String" flags="M">
+      <desc>ID (GUID) of this staff member, as represented in the StaffPersonal object.</desc>
+    </element>
+    <element name="Description" type="String" flags="O">
+      <desc>Short assignment description</desc>
+    </element>
+    <element name="PrimaryAssignment" enum="AUCodeSetsYesOrNoCategoryType" flags="M">
+      <desc>Is this the staff member's primary assignment?  Note: There must be one and only one instance of the object with a Yes value in this element per school year.</desc>
+    </element>
+    <element name="JobStartDate" type="Date" flags="O">
+      <desc>This is the date from which the staff assignment is valid (inclusive).</desc>
+    </element>
+    <element name="JobEndDate" type="Date" flags="O">
+      <desc>This is the date through which the staff assignment is valid (inclusive).</desc>
+    </element>
+    <element name="JobFTE" type="Decimal" flags="O" />
+    <element name="JobFunction" type="String" flags="O">
+      <desc>The purpose of the activities as related to students.</desc>
+    </element>
+    <element name="StaffSubjectList" type="StaffSubjectList" flags="O" />
+    <element name="YearLevels" type="YearLevels" flags="O">
+      <desc>Year level(s) that the teacher is allowed to teach.</desc>
+    </element>
+    <element name="CasualReliefTeacher" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Is this teacher a casual relief teacher CRT?</desc>
+    </element>
+    <element name="Homegroup" type="String" flags="O">
+      <desc>The name of the homegroup the staff member is assigned to.</desc>
+    </element>
+    <element name="House" type="String" flags="O">
+      <desc>The name of the house the staff member is assigned to.</desc>
+    </element>
+  </object>
+  
+
+  
+  
+  <!--MedicalAlertMessages-->
+  <object name="MedicalAlertMessages">
+    <element name="MedicalAlertMessage" type="MedicalAlertMessage" flags="MR">
+      <desc>Medical alert associated with the student.</desc>
+    </element>
+  </object>
+  <!--ExitType-->
+  <object name="ExitType">
+    <element name="Code" enum="AU0644ExitWithdrawalType" flags="M">
+      <desc>Code indicating the type of exit for this enrollment.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+    
+   <!--CalendarSummary-->
+  <object name="CalendarSummary" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The ID (GUID) of the calendar to which this information relates.</desc>
+    </attribute>
+    <element name="SchoolInfoRefId" type="String" flags="M">
+      <desc>The ID (GUID) of the school for which this calendar information is being reported.</desc>
+    </element>
+    <element name="SchoolYear" type="int" flags="M" />
+    <element name="LocalId" type="String" flags="M" />
+    <element name="Description" type="String" flags="O">
+      <desc>Textual description of the school calendar.</desc>
+    </element>
+    <element name="DaysInSession" type="Uint" flags="M">
+      <desc>The total number of days that the school was or is anticipated to be in session during the school year.  Also included are days on which the education institution facility is closed and the student body as a whole is engaged in planned activities off-campus under the guidance and direction of staff members.</desc>
+    </element>
+    <element name="StartDate" type="Date" flags="O">
+      <desc>The first calendar date, whether or not instruction was provided. If both CalendarSummary and CalendarDate objects are supported, StartDate must be the date of the first chronological instance of CalendarDate for the school's calendar.</desc>
+    </element>
+    <element name="EndDate" type="Date" flags="O">
+      <desc>The last calendar date, whether or not instruction was provided. If both CalendarSummary and CalendarDate objects are supported, EndDate must be the last chronological instance of CalendarDate for the school's calendar.</desc>
+    </element>
+    <element name="FirstInstructionDate" type="Date" flags="O">
+      <desc>The first day of student instruction.</desc>
+    </element>
+    <element name="LastInstructionDate" type="Date" flags="O">
+      <desc>The last day of student instruction (including days or times that students are present for purposes of testing and/or evaluation, but not including whole or part-days whose sole purposes is for distribution of report cards).</desc>
+    </element>
+    <element name="GraduationDate" type="String" flags="O">
+      <desc>Date of graduation ceremony.</desc>
+    </element>
+    <element name="InstructionalMinutes" type="Uint" flags="O">
+      <desc>The total number of instructional minutes for this calendar for the school year.</desc>
+    </element>
+    <element name="MinutesPerDay" type="Uint" flags="O">
+      <desc>The number of minutes in the day in which the school is normally in session.</desc>
+    </element>
+    <element name="YearLevels" type="YearLevels" flags="O">
+      <desc>Collection of year levels applicable to this school calendar.</desc>
+    </element>
+  </object>
+ 
+ 
+  
+  <!--StudentSubjectChoiceList-->
+  <object name="StudentSubjectChoiceList">
+    <element name="StudentSubjectChoice" type="StudentSubjectChoice" flags="MR" />
+  </object>
+  <!--StaffList-->
+  <object name="StaffList">
+    <element name="StaffPersonalRefId" type="StaffPersonalRefId" flags="MR">
+      <desc>GUID that identifies the staff person assigned to this room (e.g. the homeroom teacher).</desc>
+    </element>
+  </object>
+    <!--StaffPersonalRefId object-->
+  <object name="StaffPersonalRefId" datatype="IdRefType" />
+  <!--ExitStatus-->
+  <object name="ExitStatus">
+    <element name="Code" enum="AU0643ExitWithdrawalStatusType" flags="M">
+      <desc>Code indicating the closure status for this enrollment.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+
+  <!--StudentContact-->
+  <object name="StudentContact" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The GUID of this contact.</desc>
+    </attribute>
+    <attribute name="StudentPersonalRefId" type="String" flags="R">
+      <desc>The GUID of the student whose contact this is.</desc>
+    </attribute>
+    <element name="LocalId" type="String" flags="O">
+      <desc>The locally-assigned identifier for this contact.  Note: LocalId may be used as a unique person identifier        rather than a unique contact identifier.  In this case there may be more than one StudentContact instance with the same LocalId.</desc>
+    </element>
+    <element name="OtherIdList" type="OtherIdList" flags="O" />
+    <element name="Name" type="Name" flags="M">
+      <desc>The name of the contact.  Note: Type attribute value of 04 must be used here.</desc>
+    </element>
+    <element name="OtherNames" type="OtherNames" flags="O">
+      <desc>Previous, alternate or other names or aliases associated with the contact.</desc>
+    </element>
+    <element name="Demographics" type="Demographics" flags="O">
+      <desc>Demographic information about the contact.</desc>
+    </element>
+    <element name="AddressList" type="AddressList" flags="O">
+      <desc>The contact's address(es).</desc>
+    </element>
+    <element name="PhoneNumberList" type="PhoneNumberList" flags="O">
+      <desc>The contact's phone number(s).</desc>
+    </element>
+    <element name="EmailList" type="EmailList" flags="O">
+      <desc>The contact's e-mail address(es).</desc>
+    </element>
+    <element name="Relationship" enum="AU0609RelationshipToStudentType" flags="O">
+      <desc>Defines the relationship of the contact to the student.</desc>
+    </element>
+    <element name="EmploymentType" enum="EmploymentType" flags="O">
+      <desc>Code that defines employment type. This is compulsory for Parents or Guardians of the Student.</desc>
+    </element>
+    <element name="SchoolEducationalLevel" type="String" flags="O">
+      <desc>The highest level of education completed by the contact person.</desc>
+    </element>
+    <element name="NonSchoolEducation" enum="NonSchoolEducationType" flags="O">
+      <desc>This reflects the level of the Contact‚Äôs Non-School Education.</desc>
+    </element>
+    <element name="ContactFlags" type="ContactFlags" flags="M" />
+    <element name="MainlySpeaksEnglishAtHome" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Is English the main language spoken at home?</desc>
+    </element>
+    <element name="ContactSequence" type="Uint" flags="O">
+      <desc>Number indicating the order in which the person should be contacted.</desc>
+    </element>
+
+
+  </object>
+  <!--MedicalAlertMessage-->
+  <object name="MedicalAlertMessage">
+    <attribute name="Severity" enum="Severity" flags="R">
+      <desc>The level of severity of this medical alert.</desc>
+    </attribute>
+  </object>
+   <!--StudentSnapshot-->
+  <object name="StudentSnapshot" topic="true">
+    <attribute name="SnapDate" type="Date" flags="R">
+      <desc>The date the data snapshot was taken.        Some elements are provided/calculated as of the SnapDate, and some are provided as of the date the object is requested        (i.e., some can be historical and some will represent the last information available/last known value).        In a SIS the following elements are provided/calculated as of the SnapDate: Age, HomeEnrollment and all its child elements.        Other applications (e.g., data warehouses) may be able to provide values for other elements on various snap dates.</desc>
+    </attribute>
+    <attribute name="StudentPersonalRefId" type="String" flags="R">
+      <desc>The ID (GUID) of the student to whom this information relates.</desc>
+    </attribute>
+    <element name="SchoolYear" type="int" flags="M" />
+    <element name="Name" type="Name" flags="M" />
+    <element name="LocalId" type="String" flags="M" />
+    <element name="StateProvinceId" type="String" flags="O">
+      <desc>The state-assigned identifier for this student.</desc>
+    </element>
+    <element name="Sex" enum="StudentSnapshotSexCodeType" flags="O">
+      <desc>'Sex' is the distinction 'male' and 'female', as reported by the person.</desc>
+    </element>
+    <element name="BirthDate" type="Date" flags="O">
+      <desc>The person's date of birth.</desc>
+    </element>
+    <element name="Age" type="Uint" flags="O">
+      <desc>The age (in years) of the student on the date in SnapDate.</desc>
+    </element>
+    <element name="ProjectedGraduationYear" type="int" flags="O">
+      <desc>Currently projected graduation year.</desc>
+    </element>
+    <element name="OnTimeGraduationYear" type="int" flags="O">
+      <desc>First projected graduation year, usually determined when student is accepted into ninth grade.</desc>
+    </element>
+    <element name="StudentSubjectChoiceList" type="StudentSubjectChoiceList" flags="O" />
+    <element name="HomeEnrollment" type="HomeEnrollment" flags="M" />
+  </object>
+
+  <!--StudentSnapshotSexCodeType-->
+  <enum name="StudentSnapshotSexCodeType">
+    <value name="1_MALE" value="1" desc="Male" />
+    <value name="2_FEMALE" value="2" desc="Female" />
+    <value name="9_NOT_STATED_INADEQUATELY" value="9" desc="Not Stated/Inadequately Described" />
+  </enum>
+  
+   <!--CalendarDate-->
+  <object name="CalendarDate" topic="true">
+    <attribute name="Date" type="Date" flags="R">
+      <desc>A specific school day that occurs within the school year.</desc>
+    </attribute>
+    <attribute name="CalendarSummaryRefId" type="String" flags="R">
+      <desc>The ID (GUID) of the calendar summary in which this calendar date is.</desc>
+    </attribute>
+    <element name="SchoolInfoRefId" type="String" flags="M">
+      <desc>The ID (GUID) of the school for which this calendar information is being reported.</desc>
+    </element>
+    <element name="SchoolYear" type="int" flags="M" />
+    <element name="CalendarDateType" type="CalendarDateType" flags="M" />
+    <element name="StudentAttendance" type="CalendarAttendance" flags="O" />
+  </object>
+  
+   
+  <!--CalendarAttendance-->
+  <object name="CalendarAttendance">
+    <element name="CountsTowardAttendance" enum="YesNo" flags="M">
+      <desc>Designates whether this date should be counted toward student attendance.</desc>
+    </element>
+    <element name="AttendanceValue" type="Decimal" flags="M" />
+  </object>
+  
+  <!--CatchmentStatus-->
+  <object name="CatchmentStatus">
+    <element name="Code" enum="AU0598PublicSchoolCatchmentStatusType" flags="M">
+      <desc>Code indicating the residency status for this enrollment.Code indicating Enrollment Catchment Status</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+  
+  <!--CalendarDateType-->
+  <object name="CalendarDateType">
+    <element name="Code" enum="AU0084CalendarEventType" flags="M">
+      <desc>Code indicating the type of school day.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+
+  <!--StudentSchoolEnrollment-->
+  <object name="StudentSchoolEnrollment" topic="true" extras="StudentSchoolEnrollment.txt">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The ID (GUID) that uniquely identifies a particular enrollment.</desc>
+    </attribute>
+    <element name="StudentPersonalRefId" type="String" flags="M">
+      <desc>The ID (GUID) of the student to whom this information is linked.</desc>
+    </element>
+    <element name="SchoolInfoRefId" type="String" flags="M">
+      <desc>The ID (GUID) of the school to which this enrollment applies.</desc>
+    </element>
+    <element name="MembershipType" enum="SchoolEnrollmentType" flags="M">
+      <desc>The type of this enrollment as it relates to the school identified in SchoolInfoRefId.</desc>
+    </element>
+    <element name="TimeFrame" enum="TimeFrame" flags="M">
+      <desc>The timeframe of the enrollment based on the SIF_Date in the SIF_Header of the message. For events, it is determined as of the date the event is generated. For requests and responses, it is calculated based on the date of the request.</desc>
+    </element>
+    <element name="SchoolYear" type="int" flags="M" />
+    <element name="EntryDate" type="Date" flags="M">
+      <desc>The date from when this enrollment is valid.</desc>
+    </element>
+    <element name="EntryType" type="EntryType" flags="O" />
+    <element name="YearLevel" type="YearLevel" flags="O">
+      <desc>Year or academic level of student.</desc>
+    </element>
+    <element name="Homeroom" type="Homeroom" flags="O" />
+    <element name="Advisor" type="Advisor" flags="O" />
+    <element name="Counselor" type="Counselor" flags="O" />
+    <element name="Homegroup" type="String" flags="O">
+      <desc>The name of the homegroup the student enrollment belongs to.</desc>
+    </element>
+    <element name="House" type="String" flags="O">
+      <desc>The name of the house the student belongs to.</desc>
+    </element>
+    <element name="IndividualLearningPlan" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Does this student have an individual learning plan in place?</desc>
+    </element>
+    <element name="Calendar" type="CalendarType" flags="O" />
+    <element name="ExitDate" type="Date" flags="O">
+      <desc>The last school calendar day of this enrollment. If the student has exited the school or the enrollment has a RecordClosureReason, ExitDate must have a value.</desc>
+    </element>
+    <element name="ExitStatus" type="ExitStatus" flags="O" />
+    <element name="ExitType" type="ExitType" flags="O" />
+    <element name="FTE" type="Decimal" flags="O" />
+    <element name="FTPTStatus" enum="FTPTStatusCodeType" flags="O">
+      <desc>An indication of whether the student is enrolled full time or part time.</desc>
+    </element>
+    <element name="CatchmentStatus" type="CatchmentStatus" flags="O" />
+    <element name="RecordClosureReason" enum="RecordClosureReason" flags="O">
+      <desc>The reason why this enrollment was closed.  The EndOfYear option must be used to convey status change due to rollover activity.</desc>
+    </element>
+    <element name="PromotionInfo" type="PromotionInfo" flags="O" />
+    <element name="PreviousSchool" type="String" flags="O">
+      <desc>If the student has previously been enrolled at a school, i.e. student is transferring, the previous school number.</desc>
+    </element>
+    <element name="DestinationSchool" type="String" flags="O">
+      <desc>If the student has exited the school, the local id of the school to which the student has transferred to.</desc>
+    </element>
+    <element name="StudentSubjectChoiceList" type="StudentSubjectChoiceList" flags="O" />
+ </object>
+
+  
+
+  <!--FTPTStatusCodeType-->
+  <enum name="FTPTStatusCodeType">
+    <value name="01_FULL_TIME" value="01" desc="Full Time" />
+    <value name="02_PART_TIME" value="02" desc="Part Time" />
+  </enum>
+ 
+  <!--TimeFrame-->
+  <enum name="TimeFrame">
+    <value name="CURRENT" value="C" desc="Current" />
+    <value name="FUTURE" value="F" desc="Future" />
+    <value name="HISTORICAL" value="H" desc="Historical" />
+  </enum>
+ 
+  <!--SchoolEnrollmentType-->
+  <enum name="SchoolEnrollmentType">
+    <value name="01_HOME_SCHOOL" value="01" desc="Home School" />
+    <value name="02_OT_SCHOOL" value="02" desc="Other School" />
+    <value name="03_CONCURRENT_ENROLMENT" value="03" desc="Concurrent Enrolment" />
+  </enum>
+
+  <!--PromotionInfo-->
+  <object name="PromotionInfo">
+    <element name="PromotionStatus" enum="PromotionStatus" flags="O">
+      <desc>This value should be set if this enrollment instance is closed for an end-of-year closeout or a mid-year promotion or demotion. A value other than NA should be specified when the enrollment instance represents an end-of-year closeout or mid-year promotion/demotion.</desc>
+    </element>
+  </object>
+  
+  <!--RecordClosureReason-->
+  <enum name="RecordClosureReason">
+    <value name="SCHOOLEXIT" value="SchoolExit" desc="SchoolExit" />
+    <value name="TIMEDEPENDENTDATACHANGE" value="TimeDependentDataChange" desc="TimeDependentDataChange" />
+    <value name="ENDOFYEAR" value="EndOfYear" desc="EndOfYear" />
+  </enum>
+  
+  
+  <!--StudentSubjectChoice-->
+  <object name="StudentSubjectChoice">
+    <element name="PreferenceNumber" type="Uint" flags="O">
+      <desc>Subject Priority</desc>
+    </element>
+    <element name="SubjectLocalId" type="String" flags="M">
+      <desc>Local Subject Id</desc>
+    </element>
+    <element name="StudyDescription" type="StudyDescription" flags="O">
+      <desc>Description about Study Mode.</desc>
+    </element>
+    <element name="OtherSchoolLocalId" type="String" flags="O">
+      <desc>Localid of a school where the student studies this subject if not at the home school.</desc>
+    </element>
+  </object>
+  <!--Advisor-->
+  <object name="Advisor">
+    <attribute name="SIF_RefObject" enum="AdvisorSIF_RefObject" flags="R">
+      <desc>The name of the object referenced.</desc>
+    </attribute>
+  </object>
+  <!--StaffSubjectList-->
+  <object name="StaffSubjectList">
+    <element name="StaffSubject" type="StaffSubject" flags="MR" />
+  </object>
+  <!--Counselor-->
+  <object name="Counselor">
+    <attribute name="SIF_RefObject" enum="CounselorSIF_RefObject" flags="R">
+      <desc>The name of the object referenced.</desc>
+    </attribute>
+  </object>
+  <!--HomeEnrollment-->
+  <object name="HomeEnrollment">
+    <element name="StudentSchoolEnrollmentRefId" type="String" flags="O">
+      <desc>The ID (GUID) of the StudentSchoolEnrollment object from which the enrollment information is derived.</desc>
+    </element>
+    <element name="SchoolName" type="String" flags="O">
+      <desc>Name of the school.</desc>
+    </element>
+    <element name="SchoolInfoRefId" type="String" flags="O">
+      <desc>The ID (GUID) of the school.  Provide both the HomeEnrollment/SchoolInfoRefId and HomeEnrollment/LocalId elements if possible.        If not, one or the other must be provided.</desc>
+    </element>
+    <element name="LocalId" type="String" flags="O">
+      <desc>The locally-defined identifier for this school.        Provide both the HomeEnrollment/LocalId and HomeEnrollment/SchoolId elements if possible.        If not, one or the other must be provided.</desc>
+    </element>
+    <element name="SchoolNo" type="String" flags="O">
+      <desc>The state or province defined identifier for this school.</desc>
+    </element>
+    <element name="YearLevel" type="YearLevel" flags="M" />
+    <element name="Homeroom" type="Homeroom" flags="O" />
+    <element name="HomeroomNumber" type="String" flags="O" />
+  </object>
+  
+  <!--StaffPersonal-->
+  <object name="StaffPersonal" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The GUID of the staff member.</desc>
+    </attribute>
+    <element name="LocalId" type="String" flags="M" />
+    <element name="StateProvinceId" type="String" flags="O">
+      <desc>The state-assigned identifier for this staff member.</desc>
+    </element>
+    <element name="ElectronicIdList" type="ElectronicIdList" flags="O">
+      <desc>Electronic identifier(s) associated with this entity.</desc>
+    </element>
+    <element name="OtherIdList" type="OtherIdList" flags="O" />
+    <element name="PersonInfo" type="PersonInfo" flags="M" />
+    <element name="Title" type="String" flags="O">
+      <desc>The staff member's title.</desc>
+    </element>
+  </object>
+  
+  <!--StaffSubject-->
+  <object name="StaffSubject">
+    <element name="PreferenceNumber" type="Uint" flags="M">
+      <desc>Priority of Subject to Teach</desc>
+    </element>
+    <element name="SubjectLocalId" type="String" flags="O">
+      <desc>Local Subject Id</desc>
+    </element>
+    <element name="TimeTableSubjectRefId" type="String" flags="O">
+      <desc>RefId of TimeTableSubject</desc>
+    </element>
+  </object>
+  <!--StudentPicture-->
+  <object name="StudentPicture" topic="true">
+    <attribute name="StudentPersonalRefId" type="String" flags="R">
+      <desc>This is the GUID of the student whose picture this is.</desc>
+    </attribute>
+    <attribute name="SchoolYear" type="int" flags="R">
+      <desc>School year for which this enrollment is applicable, expressed as the four-digit year in which the school year        ends (e.g. 2007 for the 2006-07 school year).</desc>
+    </attribute>
+    <element name="PictureSource" type="PictureSource" flags="M" />
+    <element name="OKToPublish" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Can the picture be published?</desc>
+    </element>
+  </object>
+  
+  <!--AttendanceCodeInfo-->
+  <object name="AttendanceCodeInfo" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The ID (GUID) that uniquely identifies this AttendanceCodeInfo entity.</desc>
+    </attribute>
+    <attribute name="SchoolInfoRefId" type="String" flags="R">
+      <desc>The ID (GUID) that identifies the school where the attendance code is used.</desc>
+    </attribute>
+    <element name="AttendanceCode" type="String" flags="M">
+      <desc>Locally defined code for attendance.</desc>
+    </element>
+    <element name="AttendanceType" enum="AttendanceType" flags="M">
+      <desc>Type of attendance code.</desc>
+    </element>
+    <element name="AttendanceStatus" enum="AttendanceStatusType" flags="M">
+      <desc>Excused status of the attendance code.</desc>
+    </element>
+    <element name="Description" type="String" flags="O">
+      <desc>The text description of the attendance code.</desc>
+    </element>
+    <element name="AbsenceValue" type="Decimal" flags="O" />
+    <element name="UsedForDailyAttendance" enum="AUCodeSetsYesOrNoCategoryType" flags="M">
+      <desc>Is this attendance code used for daily attendance?</desc>
+    </element>
+    <element name="UsedForPeriodAttendance" enum="AUCodeSetsYesOrNoCategoryType" flags="M">
+      <desc>Is this attendance code used for period attendance?</desc>
+    </element>
+  </object>
+  
+  <!--Homeroom-->
+  <object name="Homeroom">
+    <attribute name="SIF_RefObject" enum="SIF_RefObject" flags="R">
+      <desc>The name of the object referenced.</desc>
+    </attribute>
+  </object>
+  
+  <!--EntryType-->
+  <object name="EntryType">
+    <element name="Code" enum="AU0619EntryType" flags="M">
+      <desc>Code indicating the type of entry for this enrollment</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+  
+
+  <!--RoomInfo-->
+  <object name="RoomInfo" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>GUID that identifies this room.</desc>
+    </attribute>
+    <element name="SchoolInfoRefId" type="String" flags="M">
+      <desc>GUID that identifies the school that this room belongs to.</desc>
+    </element>
+    <element name="RoomNumber" type="String" flags="M">
+      <desc>Room number as presented to the user/application.</desc>
+    </element>
+    <element name="StaffList" type="StaffList" flags="O" />
+    <element name="Description" type="String" flags="O">
+      <desc>Friendly name that can be assigned to the room (e.g. Staff Cafeteria).</desc>
+    </element>
+    <element name="Building" type="String" flags="O">
+      <desc>Extra building information. In the future Building could become its own object in which case this element will need to be changed to a RefId. Currently it is only required as a free text field.</desc>
+    </element>
+    <element name="HomeroomNumber" type="String" flags="O">
+      <desc>When a room is designated as a homeroom it may have a different number. Usually blank when room is not a homeroom.</desc>
+    </element>
+    <element name="Size" type="Decimal" flags="O">
+      <desc>Size in square meters.</desc>
+    </element>
+    <element name="Capacity" type="Uint" flags="O">
+      <desc>Number of persons (usually students) that this room can hold.</desc>
+    </element>
+    <element name="PhoneNumber" type="PhoneNumber" flags="O">
+      <desc>Phone number for the room</desc>
+    </element>
+   </object>
+
+  <!--SchoolCourseInfo-->
+  <object name="SchoolCourseInfo" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The ID (GUID) that uniquely identifies the school course.</desc>
+    </attribute>
+    <element name="SchoolInfoRefId" type="String" flags="M">
+      <desc>The ID (GUID) that identifies the school where the course is offered.</desc>
+    </element>
+    <element name="SchoolLocalId" type="String" flags="O">
+      <desc>The locally-assigned identifier for this school/campus.</desc>
+    </element>
+    <element name="SchoolYear" type="int" flags="O">
+      <desc>School year for which the information is applicable, expressed as the four-digit year in which the school year ends (e.g. 2007).</desc>
+    </element>
+    <element name="TermInfoRefId" type="String" flags="O">
+      <desc>The ID (GUID) that uniquely identifies this TermInfo (reportable time period).        Either SchoolYear or TermInfoRefId must be provided.</desc>
+    </element>
+    <element name="CourseCode" type="String" flags="M">
+      <desc>School-defined local code for the course.</desc>
+    </element>
+    <element name="StateCourseCode" type="String" flags="O">
+      <desc>State-defined standard course code used to report information about courses.</desc>
+    </element>
+    <element name="DistrictCourseCode" type="String" flags="O">
+      <desc>The corresponding district course code.</desc>
+    </element>
+    <element name="SubjectAreaList" type="SubjectAreaList" flags="O">
+      <desc>Subject matter areas.</desc>
+    </element>
+    <element name="CourseTitle" type="String" flags="M">
+      <desc>Title of the course.</desc>
+    </element>
+    <element name="Description" type="String" flags="O">
+      <desc>Textual description of the course.</desc>
+    </element>
+    <element name="InstructionalLevel" type="String" flags="O">
+      <desc>An indication of the general nature and difficulty of instruction provided.</desc>
+    </element>
+    <element name="CourseCredits" type="String" flags="O">
+      <desc>The number of credits awarded upon course completion.</desc>
+    </element>
+    <element name="CoreAcademicCourse" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Does the course meet the state definition of a core academic course?</desc>
+    </element>
+    <element name="GraduationRequirement" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Does the state require that the course be completed for graduation?</desc>
+    </element>
+    <element name="Department" type="String" flags="O">
+      <desc>Department with jurisdiction over this course.</desc>
+    </element>
+    <element name="CourseContent" type="String" flags="O">
+      <desc>Description of course content.</desc>
+    </element>
+  </object>
+ 
+
+  
+  
+  <!--StudentDailyAttendance-->
+  <object name="StudentDailyAttendance" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The ID (GUID) assigned to uniquely identify this attendance record.</desc>
+    </attribute>
+    <element name="StudentPersonalRefId" type="String" flags="M">
+      <desc>The ID (GUID) of the student for whom this attendance information is being reported.</desc>
+    </element>
+    <element name="SchoolInfoRefId" type="String" flags="M">
+      <desc>The ID (GUID) of the school for which this attendance information is being reported.</desc>
+    </element>
+    <element name="Date" type="Date" flags="M">
+      <desc>The calendar date to which this attendance information relates.</desc>
+    </element>
+    <element name="SchoolYear" type="int" flags="M" />
+    <element name="DayValue" enum="DayValueCodeType" flags="O">
+      <desc>Value of a day this instance, represents.</desc>
+    </element>
+    <element name="AttendanceCode" type="AttendanceCode" flags="M" />
+    <element name="AttendanceStatus" enum="AttendanceStatusType" flags="M">
+      <desc>Approved or Unapproved status of this attendance code.</desc>
+    </element>
+    <element name="TimeIn" type="Time" flags="O">
+      <desc>The time the student entered or returned to school.  Must be provided if ‚ÄòPartial‚Äô chosen for DayValue.</desc>
+    </element>
+    <element name="TimeOut" type="Time" flags="O">
+      <desc>The time the student left school.  Must be provided if ‚ÄòPartial‚Äô chosen for DayValue..</desc>
+    </element>
+    <element name="AbsenceValue" type="Decimal" flags="O" />
+    <element name="AttendanceNote" type="String" flags="O">
+      <desc>Note related to this particular attendance.</desc>
+    </element>
+  </object>
+
+  <!--DayValueCodeType-->
+  <enum name="DayValueCodeType">
+    <value name="AM_MORNING" value="AM" desc="Morning" />
+    <value name="Full_ALL_DAY" value="Full" desc="All Day" />
+    <value name="N_A_NOT_APPLICABLE" value="N/A" desc="Not Applicable" />
+    <value name="Partial_PARTIAL_DAY" value="Partial" desc="Partial Day" />
+    <value name="PM_AFTERNOON" value="PM" desc="Afternoon" />
+  </enum>
+
+  <!--AttendanceStatusType-->
+  <enum name="AttendanceStatusType">
+    <value name="01_EXCUSED" value="01" desc="Excused" />
+    <value name="02_UNEXCUSED" value="02" desc="Unexcused" />
+    <value name="99_UNKNOWN" value="99" desc="Unknown" />
+    <value name="NA_NOT_APPLICABLE" value="NA" desc="Not Applicable" />
+  </enum>
+ 
+  
+  
+    <!--LEAInfo-->
+  <object name="LEAInfo" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The GUID of the LEA whose information this is.</desc>
+    </attribute>
+    <element name="LocalId" type="String" flags="M" />
+    <element name="StateProvinceId" type="String" flags="O">
+      <desc>The state-assigned identifier for this LEA.</desc>
+    </element>
+    <element name="CommonwealthId" type="String" flags="O">
+      <desc>Commonwealth Identifier for this District (LEA).</desc>
+    </element>
+    <element name="LEAName" type="String" flags="M">
+      <desc>Name of LEA.</desc>
+    </element>
+    <element name="LEAURL" type="String" flags="O">
+      <desc>URL for the LEA.</desc>
+    </element>
+    <element name="EducationAgencyType" type="EducationAgencyType" flags="O" />
+    <element name="LEAContactList" type="LEAContactList" flags="O" />
+    <element name="PhoneNumberList" type="PhoneNumberList" flags="O">
+      <desc>The LEA's phone number(s).</desc>
+    </element>
+    <element name="AddressList" type="AddressList" flags="O">
+      <desc>The LEA's address(es).</desc>
+    </element>
+    <element name="OperationalStatus" type="String" flags="O">
+      <desc>Operational condition of a school.</desc>
+    </element>
+    <element name="JurisdictionLowerHouse" type="String" flags="O">
+      <desc>Lower House area  that the school/campus  belongs to.</desc>
+    </element>
+    <element name="SLA" type="String" flags="O">
+      <desc>Statistical Local Area that the school/campus belongs to.</desc>
+    </element>
+  </object>
+
+  <!--EducationAgencyType-->
+  <object name="EducationAgencyType">
+    <element name="Code" enum="EducationAgencyCode" flags="M">
+      <desc>Code indicating the operational/administrative level.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+
+  <!--EducationAgencyType-->
+  <enum name="EducationAgencyCode">
+    <value name="01_JURISDICTIONAL_AGENCY" value="01" desc="Jurisdictional agency" />
+    <value name="02_CROSSJURISDICTIONAL" value="02" desc="Cross-jurisdictional agency" />
+    <value name="03_INTRAJURISDICTIONAL" value="03" desc="Intra-jurisdictional agency" />
+    <value name="99_OTHER" value="99" desc="Other" />
+  </enum>
+
+  <!--LEAContactList-->
+  <object name="LEAContactList">
+    <element name="LEAContact" type="LEAContact" flags="MR" />
+  </object>
+
+  <!--LEAContact-->
+  <object name="LEAContact">
+    <element name="PublishInDirectory" type="String" flags="O">
+      <desc>Indicates whether or not this LEA contact's information should be published in a directory of LEA information.</desc>
+    </element>
+    <element name="ContactInfo" type="ContactInfo" flags="M" />
+  </object>
+  
+  <!--StudentContactPersonal-->
+  <object name="StudentContactPersonal" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The ID (GUID) that uniquely identifies the instance of the object.</desc>
+    </attribute>
+    <element name="LocalId" type="String" flags="O">
+      <desc>The locally-assigned identifier for this person. Note: LocalId may be used as a unique person identifier rather than a unique contact identifier. In this case there may be more than one StudentContactPersonal instance with the same LocalId.</desc>
+    </element>
+    <element name="OtherIdList" type="OtherIdList" flags="O" />
+    <element name="PersonInfo" type="PersonInfo" flags="M" />
+    <element name="EmploymentType" enum="EmploymentType" flags="O">
+      <desc>Code that defines employment type. This is compulsory for Parents or Guardians of the Student.</desc>
+    </element>
+    <element name="SchoolEducationalLevel" type="String" flags="O">
+      <desc>The highest level of education completed by the contact person.</desc>
+    </element>
+    <element name="NonSchoolEducation" enum="NonSchoolEducationType" flags="O">
+      <desc>This reflects the level of the Contact‚Äôs Non-School Education.</desc>
+    </element>
+  </object>
+  
+  <!--EmploymentType-->
+  <enum name="EmploymentType">
+    <value name="1_SENIOR_MANAGEMENT_IN_LARGE_BUSINESS_ORGANISATION" value="1" desc="Senior management in large business organisation, government administration and defence and qualified professionals." />
+    <value name="2_OT_BUSINESS_MANAGES_ARTS_MEDIA_SPORTSPERSONS" value="2" desc="Other business manages, arts/media/sportspersons and associate professionals" />
+    <value name="3_TRADSESMEN_WOMEN_CLERKSSKILLED_OFFICE" value="3" desc="Tradsesmen/women, clerks and skilled office, sales and service staff" />
+    <value name="4_MACHINE_OPERATORS_HOSPITALITY_STAFF_ASSISTANTS" value="4" desc="Machine Operators, hospitality staff, assistants, labourers and related workers" />
+    <value name="8_OUT_OF_EMPLOYED_WORK12_MONTHS_OR_MORE_IF" value="8" desc="Out of employed work for 12 months or more  (If less use previous occupational group.)" />
+    <value name="9_UNKNOWN" value="9" desc="Unknown" />
+  </enum>
+  
+   <!--NonSchoolEducationType-->
+  <enum name="NonSchoolEducationType">
+    <value name="0_NOT_STATED_UNKNOWN" value="0" desc="Not stated/Unknown" />
+    <value name="5_CERTIFICATE_I_TO_IV_INCLUDING_TRADE_CERTIFICATE" value="5" desc="Certificate I to IV (including trade certificate)" />
+    <value name="6_ADVANCED_DIPLOMA_DIPLOMA" value="6" desc="Advanced diploma/Diploma" />
+    <value name="7_BACHELOR_DEGREE_OR" value="7" desc="Bachelor degree or above" />
+    <value name="8_NO_NONSCHOOL_QUALIFICATION" value="8" desc="No non-school qualification" />
+  </enum>
+
+  <!--StudentContactRelationship-->
+  <object name="StudentContactRelationship" topic="true">
+    <attribute name="StudentPersonalRefId" type="String" flags="R">
+      <desc>GUID that identifies the student for the relationship.</desc>
+    </attribute>
+    <attribute name="StudentContactPersonalRefId" type="String" flags="R">
+      <desc>GUID that identifies the contact person for the relationship.</desc>
+    </attribute>
+    <element name="Relationship" type="Relationship" flags="M" />
+    <element name="HouseholdList" type="HouseholdList" flags="O" />
+    <element name="ContactFlags" type="ContactFlags" flags="O" />
+    <element name="MainlySpeaksEnglishAtHome" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Is English the main language spoken at home?</desc>
+    </element>
+    <element name="ContactSequence" type="Uint" flags="O">
+      <desc>Number indicating the order in which the person should be contacted.</desc>
+    </element>
+    <element name="ContactSequenceSource" enum="SourceCodeType" flags="O">
+      <desc>Indicates the source who provided the contact sequence order.</desc>
+    </element>
+  </object>
+  
+  <!--HouseholdList-->
+  <object name="HouseholdList">
+    <element name="Household" type="Household" flags="MR">
+      <desc>Repeatable element containing the ID of a household.</desc>
+    </element>
+  </object>
+  
+  <!--Household-->
+  <object name="Household" datatype="String">
+      <desc>Repeatable element containing the ID of a household.</desc>
+  </object>
+  
+
+  
+  <!--SourceCodeType-->
+  <enum name="SourceCodeType">
+    <value name="C_PROVIDED_BYCHILD_IE_PUPIL" value="C" desc="Provided by the child (ie pupil)" />
+    <value name="O_OT" value="O" desc="Other " />
+    <value name="P_PROVIDED_BYPARENT" value="P" desc="Provided by the parent" />
+    <value name="S_ASCRIBED_BYCURRENT" value="S" desc="Ascribed by the current school" />
+    <value name="T_ASCRIBED_BYPREVIOUS" value="T" desc="Ascribed by a previous school" />
+  </enum>
+
+  <!--SummaryEnrollmentInfo-->
+  <object name="SummaryEnrollmentInfo" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The ID (GUID) that uniquely identifies the enrollment.</desc>
+    </attribute>
+    <element name="SchoolYear" type="int" flags="M" />
+    <element name="ParentObjectRefId" type="ParentObjectRefId" flags="M" />
+    <element name="LocalId" type="String" flags="M" />
+    <element name="StateProvinceId" type="String" flags="O">
+      <desc>The state-assigned identifier for this student/teacher.</desc>
+    </element>
+    <element name="PersonInfo" type="PersonInfo" flags="M" />
+    <element name="SchoolEnrollmentList" type="SchoolEnrollmentList" flags="M" />
+  </object>
+
+  <!--SchoolEnrollmentList-->
+  <object name="SchoolEnrollmentList">
+    <element name="SchoolEnrollment" type="SchoolEnrollment" flags="MR" />
+  </object>
+
+  <!--SchoolEnrollment-->
+  <object name="SchoolEnrollment">
+    <element name="SchoolName" type="String" flags="M">
+      <desc>Name of school/campus.</desc>
+    </element>
+    <element name="SchoolInfoRefId" type="String" flags="O">
+      <desc>The ID (GUID) of the school. Provide both the SchoolInfo RefId and LocalId elements if possible. If not, one or the other must be provided.</desc>
+    </element>
+    <element name="SchoolLocalId" type="String" flags="O">
+      <desc>The locally-defined identifier for this school. Provide both the LocalId and SchoolId elements if possible. If not, one or the other must be provided.</desc>
+    </element>
+    <element name="SchoolStateProvinceId" type="String" flags="O">
+      <desc>The state or province defined identifier for this school.</desc>
+    </element>
+    <element name="Student" type="Student" flags="O" />
+    <element name="Staff" type="Staff" flags="O" />
+    <element name="EnrollmentList" type="EnrollmentList" flags="O" />
+  </object>
+
+  <!--StudentActivityInfo-->
+  <object name="StudentActivityInfo" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The ID (GUID) that uniquely identifies the instance of the object.</desc>
+    </attribute>
+    <element name="Title" type="String" flags="M">
+      <desc>Name of the co-curricular or extra-curricular activity.</desc>
+    </element>
+    <element name="Description" type="String" flags="O">
+      <desc>The description of the co-curricular or extra-curricular activity.</desc>
+    </element>
+    <element name="StudentActivityType" type="StudentActivityType" flags="M" />
+    <element name="StudentActivityLevel" type="String" flags="O">
+      <desc>A description of the separation of level in the activity (e.g.,House, Inter-school, Club, State, National).</desc>
+    </element>
+    <element name="YearLevels" type="YearLevels" flags="O">
+      <desc>Collection of grade levels applicable to this co-curricular or extra-curricular activity.</desc>
+    </element>
+    <element name="CurricularStatus" enum="ActivityType" flags="O">
+      <desc>An indication of the degree to which an activity is related to a student's curriculum.</desc>
+    </element>
+    <element name="Location" type="Location" flags="O">
+      <desc>Location where the activity takes place.</desc>
+    </element>
+  </object>
+  
+  
+    <!--ActivityType-->
+  <enum name="ActivityType">
+    <value name="0750_COCURRICULAR_ACTIVITY" value="0750" desc="Co-curricular activity" />
+    <value name="0751_EXTRACURRICULAR" value="0751" desc="Extra-curricular Activity" />
+    <value name="9999_OTHER" value="9999" desc="Other" />
+  </enum>
+
+  <!--StudentActivityType-->
+  <object name="StudentActivityType">
+    <element name="Code" enum="ActivityInvolvementCodeType" flags="M">
+      <desc>Code identifying the co-curricular or extra-curricular activity.</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+
+  <!--ActivityInvolvementCodeType-->
+  <enum name="ActivityInvolvementCodeType">
+    <value name="1010_EXERCISE_NFD" value="1010" desc="Exercise, n.f.d." />
+    <value name="1011_EXERCISE_BIKING" value="1011" desc="Exercise biking" />
+    <value name="1012_FITNESS_CENTRE_ACTIVITIES" value="1012" desc="Fitness centre activities" />
+    <value name="1013_GYMNASIUM_WORKOUTS" value="1013" desc="Gymnasium workouts" />
+    <value name="1014_AEROBICS_EXERCISING_OTHER" value="1014" desc="Aerobics/exercising (other)" />
+    <value name="1015_CIRCUITS" value="1015" desc="Circuits" />
+    <value name="1020_AIR_SPORTS_NFD" value="1020" desc="Air sports, n.f.d." />
+    <value name="1021_AEROBATICS" value="1021" desc="Aerobatics" />
+    <value name="1022_BALLOONING" value="1022" desc="Ballooning" />
+    <value name="1023_GLIDING" value="1023" desc="Gliding" />
+    <value name="1024_GYROPLANE_FLYING" value="1024" desc="Gyroplane flying" />
+    <value name="1025_HANG_GLIDING" value="1025" desc="Hang gliding" />
+    <value name="1026_ULTRALIGHT_FLYING" value="1026" desc="Ultralight flying" />
+    <value name="1027_AIR_SPORT_OT" value="1027" desc="Air sport ( other )" />
+    <value name="1031_AQUAROBICS" value="1031" desc="Aquarobics" />
+    <value name="1041_ARCHERY" value="1041" desc="Archery" />
+    <value name="1051_ATHLETICS_TRACK_AMP" value="1051" desc="Athletics, track &amp;amp; field" />
+    <value name="1061_AUSTRALIAN_RULES" value="1061" desc="Australian rules football" />
+    <value name="1071_BADMINTON" value="1071" desc="Badminton" />
+    <value name="1081_BASEBALL" value="1081" desc="Baseball" />
+    <value name="1091_BASKETBALL_INDOOR_AMP_OUTDOOR" value="1091" desc="Basketball (indoor &amp;amp; outdoor)" />
+    <value name="1101_BEACH_VOLLEYBALL" value="1101" desc="Beach volleyball" />
+    <value name="1110_CUE_SPORTS_NFD" value="1110" desc="Cue Sports, n.f.d." />
+    <value name="1111_BILLIARDS" value="1111" desc="Billiards" />
+    <value name="1112_POOL" value="1112" desc="Pool" />
+    <value name="1113_SNOOKER" value="1113" desc="Snooker" />
+    <value name="1121_BOCCE" value="1121" desc="Bocce" />
+    <value name="1122_BOULES" value="1122" desc="Boules" />
+    <value name="1123_PETANQUE" value="1123" desc="Petanque" />
+    <value name="1131_BOXING" value="1131" desc="Boxing" />
+    <value name="1141_BUSH_WALKING" value="1141" desc="Bush walking" />
+    <value name="1151_CANOEING" value="1151" desc="Canoeing" />
+    <value name="1152_KAYAKING" value="1152" desc="Kayaking" />
+    <value name="1161_CARPET_BOWLS" value="1161" desc="Carpet bowls" />
+    <value name="1171_CRICKET_INDOOR" value="1171" desc="Cricket (Indoor)" />
+    <value name="1181_CRICKET_OUTDOOR" value="1181" desc="Cricket (Outdoor)" />
+    <value name="1191_CROQUET" value="1191" desc="Croquet" />
+    <value name="1201_CROSS_COUNTRY_RUNNING" value="1201" desc="Cross country running" />
+    <value name="1210_BIKE_SPORTS_NFD" value="1210" desc="Bike sports, n.f.d." />
+    <value name="1211_BIKE_RIDING" value="1211" desc="Bike riding" />
+    <value name="1212_CYCLING" value="1212" desc="Cycling" />
+    <value name="1213_BMXING" value="1213" desc="BMXing" />
+    <value name="1214_MOUNTAIN_BIKING" value="1214" desc="Mountain biking" />
+    <value name="1220_DANCE_SPORTS_NFD" value="1220" desc="Dance Sports, n.f.d." />
+    <value name="1221_BOOT_SCOOTING" value="1221" desc="Boot scooting" />
+    <value name="1222_CLASSICAL_BALLET" value="1222" desc="Classical Ballet" />
+    <value name="1223_JAZZ_BALLET" value="1223" desc="Jazz Ballet" />
+    <value name="1224_BALLROOM_DANCING" value="1224" desc="Ballroom Dancing" />
+    <value name="1225_DANCE_TEAM" value="1225" desc="Dance team" />
+    <value name="1229_DANCING_OTHER" value="1229" desc="Dancing (other)" />
+    <value name="1231_DARTS" value="1231" desc="Darts" />
+    <value name="1241_DOG_RACING" value="1241" desc="Dog racing" />
+    <value name="1250_DOG_COMPETITIONS" value="1250" desc="Dog competitions, n.f.d." />
+    <value name="1251_DOG_SHOWS" value="1251" desc="Dog shows" />
+    <value name="1252_SHEEPDOG_TRIALS" value="1252" desc="Sheepdog trials" />
+    <value name="1261_FENCING" value="1261" desc="Fencing" />
+    <value name="1271_ANGLING" value="1271" desc="Angling" />
+    <value name="1272_FISHING" value="1272" desc="Fishing" />
+    <value name="1280_THROWING_NFD" value="1280" desc="Throwing, n.f.d." />
+    <value name="1281_ULTIMATE_FRISBEE" value="1281" desc="Ultimate frisbee" />
+    <value name="1282_BOOMERANG_THROWING" value="1282" desc="Boomerang throwing" />
+    <value name="1291_GAELIC_FOOTBALL" value="1291" desc="Gaelic football" />
+    <value name="1301_GOLF" value="1301" desc="Golf" />
+    <value name="1311_GRIDIRON_USA_FOOTBALL" value="1311" desc="Gridiron (USA football )" />
+    <value name="1321_GYMNASTICS" value="1321" desc="Gymnastics" />
+    <value name="1322_CIRCUS_ACROBATICS" value="1322" desc="Circus acrobatics" />
+    <value name="1323_CALLISTHENICS" value="1323" desc="Callisthenics" />
+    <value name="1324_TRAMPOLINING" value="1324" desc="Trampolining" />
+    <value name="1331_HANDBALL" value="1331" desc="Handball" />
+    <value name="1341_HARNESS_RACING_TROTTING" value="1341" desc="Harness racing/Trotting" />
+    <value name="1351_HOCKEY_INDOOR" value="1351" desc="Hockey (Indoor)" />
+    <value name="1352_HOCKEY_OUTDOOR" value="1352" desc="Hockey (Outdoor)" />
+    <value name="1362_HORSE_RACING" value="1362" desc="Horse racing" />
+    <value name="1371_HORSE_RIDING_EQUESTRIAN" value="1371" desc="Horse riding/Equestrian activities" />
+    <value name="1372_POLO" value="1372" desc="Polo" />
+    <value name="1373_POLO_CROSS" value="1373" desc="Polo cross" />
+    <value name="1374_SHOW_JUMPING" value="1374" desc="Show jumping" />
+    <value name="1380_ICE_SNOW_SPORTS" value="1380" desc="Ice/Snow Sports, n.f.d." />
+    <value name="1381_ICE_HOCKEY" value="1381" desc="Ice hockey" />
+    <value name="1383_ICE_SNOW_SPORT_OTHER" value="1383" desc="Ice/Snow sport (other)" />
+    <value name="1384_SNOW_SKIING" value="1384" desc="Snow skiing" />
+    <value name="1385_SNOW_BOARDING" value="1385" desc="Snow boarding" />
+    <value name="1391_KORFBALL" value="1391" desc="Korfball" />
+    <value name="1392_ICE_SKATING" value="1392" desc="Ice skating" />
+    <value name="1401_LACROSSE" value="1401" desc="Lacrosse" />
+    <value name="1402_SOFTCROSSE" value="1402" desc="Softcrosse" />
+    <value name="1411_LAWN_BOWLS" value="1411" desc="Lawn bowls" />
+    <value name="1421_MARCHING" value="1421" desc="Marching" />
+    <value name="1430_MARTIAL_ARTS_NFD" value="1430" desc="Martial arts, n.f.d." />
+    <value name="1431_CHI_KUNG" value="1431" desc="Chi Kung" />
+    <value name="1432_JUDO_JUJITSU" value="1432" desc="Judo/Jujitsu" />
+    <value name="1433_KARATE" value="1433" desc="Karate" />
+    <value name="1434_KICKBOXING" value="1434" desc="Kickboxing" />
+    <value name="1435_TAEKWONDO" value="1435" desc="Taekwondo" />
+    <value name="1436_TAI_CHI" value="1436" desc="Tai Chi" />
+    <value name="1439_MARTIAL_ARTS_OTHER" value="1439" desc="Martial arts (other)" />
+    <value name="1441_MINIGOLF" value="1441" desc="Minigolf" />
+    <value name="1442_PUTTPUTT_GOLF" value="1442" desc="Putt-putt golf" />
+    <value name="1450_MOTOR_SPORTS_NFD" value="1450" desc="Motor sports, n.f.d." />
+    <value name="1451_GOKARTING_MOTOR_SPORTS" value="1451" desc="Go-Karting (motor sports)" />
+    <value name="1452_TRACK_MOTOR_SPORT" value="1452" desc="Track motor sport" />
+    <value name="1459_MOTOR_SPORT_OTHER" value="1459" desc="Motor sport (other)" />
+    <value name="1461_NETBALL_INDOOROUTDOOR" value="1461" desc="Netball (Indoor and outdoor)" />
+    <value name="1471_ORIENTEERING" value="1471" desc="Orienteering" />
+    <value name="1472_ROGAINING" value="1472" desc="Rogaining" />
+    <value name="1481_PILATES" value="1481" desc="Pilates" />
+    <value name="1490_OUTDOOR_ROCK_ACTIVITIES" value="1490" desc="Outdoor rock activities, n.f.d." />
+    <value name="1491_ABSEILING" value="1491" desc="Abseiling" />
+    <value name="1492_CAVING" value="1492" desc="Caving" />
+    <value name="1493_ROCK_CLIMBING" value="1493" desc="Rock climbing" />
+    <value name="1501_RODEOS" value="1501" desc="Rodeos" />
+    <value name="1510_ROLLER_SPORTS_NFD" value="1510" desc="Roller sports, n.f.d." />
+    <value name="1511_ROLLERBLADING" value="1511" desc="Roller-blading" />
+    <value name="1512_SKATEBOARDING" value="1512" desc="Skateboarding" />
+    <value name="1513_INLINE_HOCKEY" value="1513" desc="Inline hockey" />
+    <value name="1514_ROLLER_SPORT_OTHER" value="1514" desc="Roller sport (other)" />
+    <value name="1521_ROWING" value="1521" desc="Rowing" />
+    <value name="1531_ROYAL_TENNIS" value="1531" desc="Royal Tennis" />
+    <value name="1541_RUGBY_LEAGUE_FOOTBALL" value="1541" desc="Rugby league (football)" />
+    <value name="1551_RUGBY_UNION_FOOTBALL" value="1551" desc="Rugby union (football)" />
+    <value name="1561_JOGGING" value="1561" desc="Jogging" />
+    <value name="1562_RUNNING" value="1562" desc="Running" />
+    <value name="1571_SAILING" value="1571" desc="Sailing" />
+    <value name="1581_SCUBA_DIVING" value="1581" desc="Scuba diving" />
+    <value name="1590_SHOOTING_SPORTS" value="1590" desc="Shooting sports, n.f.d." />
+    <value name="1591_HUNTING" value="1591" desc="Hunting" />
+    <value name="1592_PAINTBALL_SHOOTING" value="1592" desc="Paintball shooting" />
+    <value name="1593_PISTOL_SHOOTING" value="1593" desc="Pistol shooting" />
+    <value name="1594_SHOOTING_SPORT_OTHER" value="1594" desc="Shooting sport (other)" />
+    <value name="1595_TARGET_SHOOTING" value="1595" desc="Target shooting" />
+    <value name="1601_SOCCER_INDOOR" value="1601" desc="Soccer (Indoor)" />
+    <value name="1612_SOCCER_OUTDOOR" value="1612" desc="Soccer (Outdoor)" />
+    <value name="1621_SOFTBALL" value="1621" desc="Softball" />
+    <value name="1622_TEE_BALL_T_BALL" value="1622" desc="Tee ball (T ball)" />
+    <value name="1631_SQUASH" value="1631" desc="Squash" />
+    <value name="1632_RACQUET_BALL" value="1632" desc="Racquet ball" />
+    <value name="1641_SURF_LIFESAVING_ROYAL" value="1641" desc="Surf Lifesaving/Royal Lifesaving" />
+    <value name="1651_SURFING" value="1651" desc="Surfing" />
+    <value name="1652_SURF_SPORT_OTHER" value="1652" desc="Surf sport (other)" />
+    <value name="1660_INDOOR_WATER_SPORTS" value="1660" desc="Indoor water sports, n.f.d." />
+    <value name="1661_DIVING_BOARD" value="1661" desc="Diving (board)" />
+    <value name="1662_SWIMMING" value="1662" desc="Swimming" />
+    <value name="1663_SYNCHRONIZED_SWIMMING" value="1663" desc="Synchronized Swimming" />
+    <value name="1671_TABLE_TENNIS" value="1671" desc="Table tennis" />
+    <value name="1681_TENNIS_INDOOROUTDOOR" value="1681" desc="Tennis (Indoor and outdoor)" />
+    <value name="1691_TENPIN_BOWLING" value="1691" desc="Tenpin bowling" />
+    <value name="1701_TOUCH_FOOTBALL" value="1701" desc="Touch football" />
+    <value name="1711_TRAIL_BIKING_MOTOR_SPORTS" value="1711" desc="Trail biking (motor sports)" />
+    <value name="1712_DIRT_BIKE_RIDING_MOTOR_SPORTS" value="1712" desc="Dirt bike riding (motor sports)" />
+    <value name="1721_TRIATHLONS" value="1721" desc="Triathlons" />
+    <value name="1731_VOLLEYBALL_INDOOROUTDOOR" value="1731" desc="Volleyball (Indoor and outdoor)" />
+    <value name="1741_WALKINGEXERCISE" value="1741" desc="Walking for exercise" />
+    <value name="1751_WATER_POLO" value="1751" desc="Water polo" />
+    <value name="1760_MOTORISED_WATER_SPORTS" value="1760" desc="Motorised water sports, n.f.d." />
+    <value name="1761_JET_SKIING" value="1761" desc="Jet skiing" />
+    <value name="1762_POWERBOATING" value="1762" desc="Powerboating" />
+    <value name="1763_WATERSKIING" value="1763" desc="Water-skiing" />
+    <value name="1770_NONMOTORISED_OUTDOOR_WATER_SPORTS" value="1770" desc="Non-motorised outdoor water sports, n.f.d." />
+    <value name="1771_CANOE_POLO" value="1771" desc="Canoe polo" />
+    <value name="1772_WATER_VOLLEYBALL" value="1772" desc="Water volleyball" />
+    <value name="1773_UNDERWATER_HOCKEY" value="1773" desc="Underwater hockey" />
+    <value name="1774_WHITE_WATER_RAFTING" value="1774" desc="White water rafting" />
+    <value name="1781_COMPETITION_WEIGHTLIFTING" value="1781" desc="Competition weight-lifting" />
+    <value name="1791_BODYBUILDING" value="1791" desc="Bodybuilding" />
+    <value name="1792_WEIGHT_TRAINING_FOR_FITNESS_OTHER" value="1792" desc="Weight training (for fitness - other)" />
+    <value name="1800_BOARD_SPORTS_NFD" value="1800" desc="Board sports, n.f.d." />
+    <value name="1801_WIND_SURFING" value="1801" desc="Wind surfing" />
+    <value name="1802_SAILBOARDING" value="1802" desc="Sailboarding" />
+    <value name="1811_WOOD_CHOPPING" value="1811" desc="Wood chopping" />
+    <value name="1821_WRESTLING" value="1821" desc="Wrestling" />
+    <value name="1831_YOGA" value="1831" desc="Yoga" />
+    <value name="1840_OT_SPORTING_ACTIVITIES" value="1840" desc="Other sporting activities, n.f.d." />
+    <value name="1841_PIGEON_RACING" value="1841" desc="Pigeon racing" />
+    <value name="1842_PLAYING" value="1842" desc="Playing" />
+    <value name="1843_MULTIDISCIPLINARY" value="1843" desc="Multidisciplinary events" />
+    <value name="1844_RADIO_CONTROLLED_MODEL_CAR_BOAT_PLANE" value="1844" desc="Radio controlled model car/boat/plane racing" />
+    <value name="1845_CHEERLEADING" value="1845" desc="Cheerleading" />
+    <value name="1849_OT_SPORTING_ACTIVITIES" value="1849" desc="Other sporting activities" />
+    <value name="2010_LEADERSHIP_ACTVITIES" value="2010" desc="Leadership Actvities" />
+    <value name="2011_TEAM_CAPTAIN" value="2011" desc="Team captain" />
+    <value name="2012_STUDENT_REPRESENTATIVE_COUNCIL" value="2012" desc="Student representative council president" />
+    <value name="2013_CLASS_CAPTAIN" value="2013" desc="Class captain" />
+    <value name="2014_CLASS_OFFICER" value="2014" desc="Class officer" />
+    <value name="2015_STUDENT_REPRESENTATIVE_COUNCIL" value="2015" desc="Student representative council officer" />
+    <value name="2016_SCHOOL_CAPTAIN" value="2016" desc="School captain" />
+    <value name="2017_DUKE_OF_EDINBURUGH" value="2017" desc="Duke of Edinburugh Award" />
+    <value name="2019_OT_STUDENT_LEADERSHIP" value="2019" desc="Other student leadership" />
+    <value name="3010_YOUTH_DEVELOPMENT" value="3010" desc="Youth Development, n.f.d." />
+    <value name="3011_ARMY_CADETS" value="3011" desc="Army Cadets" />
+    <value name="3012_AIRFORCE_CADETS" value="3012" desc="Airforce Cadets" />
+    <value name="3013_OT_CADETS" value="3013" desc="Other Cadets" />
+    <value name="3014_BOY_SCOUTS" value="3014" desc="Boy Scouts" />
+    <value name="3015_GIRL_SCOUTS" value="3015" desc="Girl Scouts" />
+    <value name="3019_OT_YOUTH_DEVELOPMENT" value="3019" desc="Other youth development group" />
+    <value name="4011_MUSIC_VOCAL" value="4011" desc="Music - vocal" />
+    <value name="4012_CHOIR" value="4012" desc="Choir" />
+    <value name="4019_OT_VOCAL_ENSEMBLE" value="4019" desc="Other vocal ensemble" />
+    <value name="4021_MUSIC_INSTRUMENTAL" value="4021" desc="Music - instrumental" />
+    <value name="4022_CONCERT_BAND" value="4022" desc="Concert Band" />
+    <value name="4023_ORCHESTRA" value="4023" desc="Orchestra" />
+    <value name="4024_JAZZ_ENSEMBLE" value="4024" desc="Jazz ensemble" />
+    <value name="4025_CHAMBER_ENSEMBLE" value="4025" desc="Chamber ensemble" />
+    <value name="4029_OT_INSTRUMENTAL" value="4029" desc="Other instrumental ensemble" />
+    <value name="4031_MUSIC_THEORYCOMPOSITION" value="4031" desc="Music - theory and composition" />
+    <value name="4039_OT_MUSIC" value="4039" desc="Other Music" />
+    <value name="4041_THEATRE_DRAMA" value="4041" desc="Theatre/drama" />
+    <value name="4042_EISTEDDFOD" value="4042" desc="Eisteddfod" />
+    <value name="4043_ANNUAL_MUSIC_PRODUCTION" value="4043" desc="Annual music production" />
+    <value name="4044_OT_PERFORMING_ARTS" value="4044" desc="Other performing arts" />
+    <value name="5010_ARTS_ACTIVITES_NFD" value="5010" desc="Arts activites,  n.f.d." />
+    <value name="5011_ARTGRAPHIC_DESIGN" value="5011" desc="Art and graphic design" />
+    <value name="5012_PAINTING" value="5012" desc="Painting" />
+    <value name="5013_EMBROIDERY" value="5013" desc="Embroidery" />
+    <value name="5019_OT_ARTS_ACTIVITY" value="5019" desc="Other arts activity" />
+    <value name="5020_COMMUNICATIONS_NFD" value="5020" desc="Communications, nf.d." />
+    <value name="5021_JOURNALISM" value="5021" desc="Journalism" />
+    <value name="5022_BROADCASTING" value="5022" desc="Broadcasting" />
+    <value name="5023_SCHOOL_YEAR_BOOK" value="5023" desc="School Year book" />
+    <value name="5024_LITERARY_PUBLICATIONS" value="5024" desc="Literary publications" />
+    <value name="5025_SPEECH_DEBATE" value="5025" desc="Speech/debate" />
+    <value name="5029_OT_COMMUNICATIONS" value="5029" desc="Other communications" />
+    <value name="6011_BOOK_CLUB" value="6011" desc="Book Club" />
+    <value name="6012_DRAMA_CLUB" value="6012" desc="Drama club" />
+    <value name="6013_LANGUAGE_CLUB" value="6013" desc="Language club" />
+    <value name="6014_ART_CLUB" value="6014" desc="Art club" />
+    <value name="6019_OT_CULTURAL_CLUB" value="6019" desc="Other Cultural club" />
+    <value name="6021_TECHNOLOGY_STUDENTS" value="6021" desc="Technology Students" />
+    <value name="6022_COMPUTER_CLUB" value="6022" desc="Computer club" />
+    <value name="6023_SCIENCE_CLUB" value="6023" desc="Science Club" />
+    <value name="6029_OT_TECHNOLOGY_CLUB" value="6029" desc="Other Technology Club" />
+    <value name="6031_HEALTH_OCCUPATIONS" value="6031" desc="Health Occupations Students" />
+    <value name="6032_CHESS_CLUB" value="6032" desc="Chess club" />
+    <value name="6039_OT_CLUB_OR_ORGANIZATION" value="6039" desc="Other club or organization" />
+    <value name="7011_PEER_COUNSELING" value="7011" desc="Peer counseling" />
+    <value name="7012_TUTORING" value="7012" desc="Tutoring" />
+    <value name="7013_FORMAL_SOCIAL_DEBUTANTE" value="7013" desc="Formal/Social/Debutante Ball" />
+    <value name="7019_OT_GENERAL_ACTIVITY" value="7019" desc="Other general activity" />
+  </enum>
+  
+  <!--StudentActivityParticipation-->
+  <object name="StudentActivityParticipation" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The ID (GUID) that uniquely identifies the instance of the object.</desc>
+    </attribute>
+    <element name="StudentPersonalRefId" type="String" flags="M">
+      <desc>GUID that identifies the student participating in the activity.</desc>
+    </element>
+    <element name="StudentActivityInfoRefId" type="String" flags="M">
+      <desc>GUID that identifies the activity in which the student participates.</desc>
+    </element>
+    <element name="SchoolYear" type="int" flags="O">
+      <desc>School year for which the information is applicable, expressed as the four-digit year in which the school year ends (e.g., "2009").</desc>
+    </element>
+    <element name="ParticipationComment" type="String" flags="O">
+      <desc>Comment related to the student's participation in the activity.</desc>
+    </element>
+    <element name="StartDate" type="Date" flags="O">
+      <desc>This is the date which the activity participation is valid (inclusive).</desc>
+    </element>
+    <element name="EndDate" type="Date" flags="O">
+      <desc>This is the date through which the activity participation is valid (inclusive). If element is supported by the publisher/responder, should contain a date if the student withdraws from the activity before the end of the school year.</desc>
+    </element>
+    <element name="Role" type="String" flags="O">
+      <desc>Specific role the student plays in the activity (e.g., band leader, student body president).</desc>
+    </element>
+    <element name="RecognitionList" type="RecognitionList" flags="O" />
+  </object>
+
+  <!--RecognitionList-->
+  <object name="RecognitionList">
+    <element name="Recognition" type="Recognition" flags="MR">
+      <desc>The nature of recognition given to the student for the successful completion of work in a co-curricular or extra-curricular activity.</desc>
+    </element>
+  </object>
+
+  <!--Recognition-->
+  <object name="Recognition" datatype="String">
+    <desc>The nature of recognition given to the student for the successful completion of work in a co-curricular or extra-curricular activity.</desc>
+  </object>
+  
+
+  <!--TermInfo-->
+  <object name="TermInfo" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The ID (GUID) that uniquely identifies this TermInfo entity.</desc>
+    </attribute>
+    <element name="SchoolInfoRefId" type="String" flags="M">
+      <desc>The ID (GUID) that identifies the school where the term is used.</desc>
+    </element>
+    <element name="SchoolYear" type="int" flags="M" />
+    <element name="StartDate" type="Date" flags="M">
+      <desc>Starting date of the term.</desc>
+    </element>
+    <element name="EndDate" type="Date" flags="M">
+      <desc>Ending date of the term.</desc>
+    </element>
+    <element name="Description" type="String" flags="O">
+      <desc>Text-based description of the term.</desc>
+    </element>
+    <element name="RelativeDuration" type="Decimal" flags="O" />
+    <element name="TermCode" type="String" flags="O">
+      <desc>Locally-defined code.</desc>
+    </element>
+    <element name="Track" type="String" flags="O">
+      <desc>The name, description, or code of the track that contains this term. This is used when there are multiple tracks within a school. For instance, kindergarten commonly has a different set of terms than other grades within the school.</desc>
+    </element>
+    <element name="TermSpan" enum="TermInfoSessionType" flags="O">
+      <desc>What sort of Session this TermSpan equates to.</desc>
+    </element>
+    <element name="MarkingTerm" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Does this TermInfo represent a marking period?</desc>
+    </element>
+    <element name="SchedulingTerm" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Does this TermInfo represent a scheduling term?</desc>
+    </element>
+    <element name="AttendanceTerm" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Does this TermInfo represent an attendance term?</desc>
+    </element>
+  </object>
+
+  <!--TermInfoSessionType-->
+  <enum name="TermInfoSessionType">
+    <value name="0827_FULL_SCHOOL_YEAR" value="0827" desc="Full school year" />
+    <value name="0828_SEMESTER" value="0828" desc="Semester" />
+    <value name="0829_TRIMESTER" value="0829" desc="Trimester" />
+    <value name="0830_QUARTER" value="0830" desc="Quarter" />
+    <value name="0832_MINITERM" value="0832" desc="Mini-term" />
+    <value name="0833_SUMMER_TERM" value="0833" desc="Summer term" />
+    <value name="0837_TWELVE_MONTH" value="0837" desc="Twelve month" />
+    <value name="9999_OTHER" value="9999" desc="Other" />
+  </enum>
+
+
+  <!--StudentSDTN-->
+  <object name="StudentSDTN" topic="true">
+    <attribute name="RefId" type="String" flags="R">
+      <desc>The GUID that uniquely identifies this SDTN Object.</desc>
+    </attribute>
+    <element name="SnapDate" type="Date" flags="M">
+      <desc>The date that this object was sent.</desc>
+    </element>
+    <element name="StudentPersonalRefId" type="String" flags="M">
+      <desc>The RefId of the StudentPersonal object at the sending school.</desc>
+    </element>
+    <element name="PersonInfo" type="PersonInfo" flags="M" />
+    <element name="SchoolInfoRefId" type="String" flags="M">
+      <desc>GUID that identifies the school that provided the SDTN.</desc>
+    </element>
+    <element name="SchoolLocalId" type="String" flags="O">
+      <desc>The locally-assigned identifier for the school in the original database (sender)</desc>
+    </element>
+    <element name="SchoolName" type="String" flags="M">
+      <desc>Name of school/campus.</desc>
+    </element>
+    <element name="AddressList" type="AddressList" flags="O">
+      <desc>The school's addresses.</desc>
+    </element>
+    <element name="PrincipalInfo" type="PrincipalInfo" flags="O">
+      <desc>Information about the campus or school principal.</desc>
+    </element>
+    <element name="FurtherInformation" type="FurtherInformation" flags="O" />
+    <element name="EnrollmentDate" type="Date" flags="O">
+      <desc>The date when the student first attended the school.</desc>
+    </element>
+    <element name="DepartureDate" type="Date" flags="O">
+      <desc>The last school calendar day the student attended or sign-out date if departure is before end of school year.</desc>
+    </element>
+    <element name="YearLevel" type="YearLevel" flags="O">
+      <desc>School Year or academic level of student at departure date.</desc>
+    </element>
+    <element name="ReasonForLeaving" type="String" flags="O" />
+    <element name="PreviousSchoolsList" type="PreviousSchoolsList" flags="O" />
+    <element name="AttendanceConcerns" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Indicator of whether the Student had attendance concerns worth noting.</desc>
+    </element>
+    <element name="HealthNeeds" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Indicator of whether the Student has any Health Care Needs.</desc>
+    </element>
+    <element name="AreasOfInterestList" type="AreasOfInterestList" flags="O" />
+    <element name="NegotiatedCurriculumPlan" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Does the student have a negotiated curriculum plan?</desc>
+    </element>
+    <element name="AdjustedEducationProgram" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Does the student have an adjusted education program?</desc>
+    </element>
+    <element name="CareerGuidanceFileHeld" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Does the student have a career guidance file?</desc>
+    </element>
+    <element name="SchoolCounsellorFileHeld" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Is there a School counsellor/psychologist file held?</desc>
+    </element>
+    <element name="OtherLearningSupport" type="String" flags="O">
+      <desc>Comments describing any other required learning support, eg ESL needs.</desc>
+    </element>
+    <element name="AcceleratedProgram" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Did the student participate in an accelerated learning program?</desc>
+    </element>
+    <element name="YoungCarersRole" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Is the student a carer of other family members?</desc>
+    </element>
+    <element name="Literacy" enum="ProgressLevelType" flags="O">
+      <desc>Progress in Literacy or English according to the National Standard.</desc>
+    </element>
+    <element name="Numeracy" enum="StudentSDTNProgressLevelType" flags="O">
+      <desc>Progress in Numeracy or Maths according to the National Standard.</desc>
+    </element>
+    <element name="OtherLearningAreasList" type="OtherLearningAreasList" flags="O" />
+    <element name="LatestStudentReportAvailable" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Is the latest student report available?</desc>
+    </element>
+    <element name="PastoralCare" type="PastoralCare" flags="O" />
+  </object>
+  
+  <!--AreasOfInterestList-->
+  <object name="AreasOfInterestList">
+    <element name="ActivityInfo" type="ActivityInfo" flags="MR" />
+  </object>
+
+  <!--ActivityInfo-->
+  <object name="ActivityInfo">
+    <element name="StudentActivityInfoRefId" type="String" flags="O">
+      <desc>GUID that identifies the activity in which the student participates.</desc>
+    </element>
+    <element name="StudentActivityDescription" type="String" flags="M">
+      <desc>Description of Activity Info in the Previous Schools’ zone.</desc>
+    </element>
+  </object>
+  
+
+
+  <!--PastoralCare-->
+  <object name="PastoralCare">
+    <element name="DisciplinaryAbsences" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Have there been any school disciplinary absences (in or out of school) in the last 12 months</desc>
+    </element>
+    <element name="IndividualBehaviourPlan" enum="AUCodeSetsYesOrNoCategoryType" flags="O">
+      <desc>Is there an individual behaviour management plan</desc>
+    </element>
+  </object>
+
+   <!--OtherLearningArea-->
+  <object name="OtherLearningArea">
+    <element name="Description" type="String" flags="M">
+      <desc>Description of Other Learning Area.</desc>
+    </element>
+    <element name="Result" enum="ProgressLevelType" flags="O">
+      <desc>Progress in other learning area according to the National Standard.</desc>
+    </element>
+  </object>
+ 
+  <!--OtherLearningAreasList-->
+  <object name="OtherLearningAreasList">
+    <element name="OtherLearningArea" type="OtherLearningArea" flags="MR" />
+  </object>
+  
+  <!--StudentSDTNProgressLevelType-->
+  <enum name="StudentSDTNProgressLevelType">
+    <value name="Below_BELOW_LEVEL" value="Below" desc="Below level" />
+    <value name="At_AT_LEVEL" value="At" desc="At level" />
+    <value name="Above_ABOVE_LEVEL" value="Above" desc="Above level" />
+  </enum>
+
+  <!--ProgressLevelType-->
+  <enum name="ProgressLevelType">
+    <value name="Below_BELOW_LEVEL" value="Below" desc="Below level" />
+    <value name="At_AT_LEVEL" value="At" desc="At level" />
+    <value name="Above_ABOVE_LEVEL" value="Above" desc="Above level" />
+  </enum>
+
+
+  
+  <!--PreviousSchool-->
+  <object name="PreviousSchool">
+    <element name="SchoolName" type="String" flags="M">
+      <desc>Previous School Name</desc>
+    </element>
+    <element name="ReasonLeft" type="String" flags="O">
+      <desc>Reason for leaving previous school if known.</desc>
+    </element>
+  </object>
+
+  <!--PreviousSchoolsList-->
+  <object name="PreviousSchoolsList">
+    <element name="PreviousSchool" type="PreviousSchool" flags="MR" />
+  </object>
+
+  <!--FurtherInformation-->
+  <object name="FurtherInformation">
+    <element name="ContactName" type="ContactName" flags="O">
+      <desc>The name of the person to contact for further information on this student.</desc>
+    </element>
+    <element name="PhoneNumberList" type="PhoneNumberList" flags="O">
+      <desc>The further contact person‚Äôs phone number(s).</desc>
+    </element>
+    <element name="EmailList" type="EmailList" flags="O">
+      <desc>The further contact person‚Äôs e-mail address(es).</desc>
+    </element>
+  </object>
+
+
+  <!--Student-->
+  <object name="Student">
+    <element name="StudentSchoolEnrollmentRefId" type="String" flags="M">
+      <desc>The ID (GUID) of the StudentSchoolEnrollment object from which the enrollment information is derived.</desc>
+    </element>
+    <element name="StudentLocalId" type="String" flags="O">
+      <desc>The locally-defined identifier for this Student.</desc>
+    </element>
+  </object>
+
+  <!--Staff-->
+  <object name="Staff">
+    <element name="StaffAssignmentRefId" type="String" flags="M">
+      <desc>The ID (GUID) of the StaffAssignment object from which the enrollment information is derived.</desc>
+    </element>
+    <element name="StaffLocalId" type="String" flags="O">
+      <desc>The locally-defined identifier for this Staff.</desc>
+    </element>
+  </object>
+  
+  <!--EnrollmentList-->
+  <object name="EnrollmentList">
+    <element name="Enrollment" type="Enrollment" flags="MR" />
+  </object>
+
+  <!--Enrollment-->
+  <object name="Enrollment">
+    <element name="TeachingGroupRefId" type="String" flags="O">
+      <desc>GUID that identifies this Class as a Teaching Group.</desc>
+    </element>
+    <element name="SchoolCourseInfoRefId" type="String" flags="O">
+      <desc>GUID that identifies this Course for this class.</desc>
+    </element>
+    <element name="TimeTableSubjectRefId" type="String" flags="O">
+      <desc>GUID that identifies this Subject/Offering for this class.</desc>
+    </element>
+    <element name="LocalId" type="String" flags="M" />
+    <element name="ShortName" type="String" flags="O">
+      <desc>Short free format label that describes the class. Should be the same as the ShortName in the TeachingGroup</desc>
+    </element>
+    <element name="SchoolYear" type="int" flags="O">
+      <desc>School year for which the information is applicable, expressed as the four-digit year in which the school year ends (e.g., "2009").</desc>
+    </element>
+    <element name="SubjectLocalId" type="String" flags="O">
+      <desc>The local subject/offering code for this class.</desc>
+    </element>
+    <element name="CourseLocalId" type="String" flags="O">
+      <desc>The local course code for this class.</desc>
+    </element>
+  </object>
+
+  <!--StudyDescription-->
+  <object name="StudyDescription">
+    <element name="Code" type="String" flags="M">
+      <desc>The subject area details</desc>
+    </element>
+    <element name="OtherCodeList" type="OtherCodeList" flags="O" />
+  </object>
+
+
+  <!--PromotionStatus-->
+  <enum name="PromotionStatus">
+    <value name="PROMOTED" value="Promoted" desc="Promoted" />
+    <value name="DEMOTED" value="Demoted" desc="Demoted" />
+    <value name="RETAINED" value="Retained" desc="Retained" />
+    <value name="NA" value="NA" desc="NA" />
+  </enum>
+  
+  <!--CalendarType-->
+  <object name="CalendarType">
+    <attribute name="SIF_RefObject" enum="CalendarSIF_RefObject" flags="R">
+      <desc>The name of the object referenced.</desc>
+    </attribute>
+  </object>
+
+  <!--CalendarSIF_RefObject-->
+  <enum name="CalendarSIF_RefObject">
+    <value name="CALENDARSUMMARY" value="CalendarSummary" desc="CalendarSummary" />
+  </enum>
+
+</adk>

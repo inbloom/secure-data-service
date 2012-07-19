@@ -6,7 +6,6 @@ As a teacher in a school district, I want to use the SLI IDP Login to authentica
 Scenario: Authenticate against IDP and navigate to studentlist page
 #bundled with a test in student_profile test
 Given I have an open web browser
-Given the server is in "live" mode
 When I navigate to the Dashboard home page
 And I wait for "2" seconds
 When I select "Sunset School District 4526" and click go

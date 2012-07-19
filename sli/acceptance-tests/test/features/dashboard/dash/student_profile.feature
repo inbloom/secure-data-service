@@ -4,11 +4,10 @@ As a teacher in a school district, I want to click on a student and be directed 
 
 Background:
 Given I have an open web browser
+When I navigate to the Dashboard home page
 
 @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: View student's profile
-Given the server is in "live" mode
-When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
@@ -20,8 +19,6 @@ When I select section "8th Grade English - Sec 6"
 And the following students have "ELL" lozenges: "Matt Sollars;Odysseus Merrill;Hoyt Hicks;Brielle Klein;Patricia Harper"
 # Lozenges check on LOS
 Then there is no lozenges for student "Jeanette Graves"
-#And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Copyright"
 And I click on student "Kimberley Pennington"
 And I view its student profile
 And their name shown in profile is "Kimberley Yuli Pennington Jr"
@@ -31,8 +28,6 @@ And their grade is "8"
 And the class is "8th Grade English - Sec 6"
 And the lozenges count is "1"
 And the lozenges include "ELL"
-#And I see a header on the page that has the text "Logout"
-#And I see a footer on the page that has the text "Copyright"
 #Display hide tabs based on grades
 And there are "4" Tabs
 And Tab has a title named "Middle School Overview"
@@ -48,8 +43,6 @@ And Student Enrollment History has the following entries:
 
 @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: Student with no grade level
-Given the server is in "live" mode
-When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
