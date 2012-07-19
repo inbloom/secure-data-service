@@ -87,4 +87,5 @@ SLIAdmin::Application.routes.draw do
 
   root :to => 'roles#index'
 
+  resources :users
 end
