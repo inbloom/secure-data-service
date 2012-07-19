@@ -37,7 +37,7 @@ public class EdOrgHelper {
     
     @Autowired
     @Qualifier("validationRepo")
-    private Repository<Entity> repo;
+    protected Repository<Entity> repo;
     
     @Autowired
     private AssociativeContextHelper helper;
@@ -63,6 +63,9 @@ public class EdOrgHelper {
     
     /**
      * Traverse the edorg hierarchy and find all LEAs the user is associated with, directly or indirectly.
+     * 
+     * Currently for if you belong to an LEA, you see all the parent and child LEAs
+     * If you belong to a school, you only see the direct parent LEAs
      * 
      * @param user
      * @return a list of entity IDs
