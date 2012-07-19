@@ -286,24 +286,26 @@ final class Xsd2UmlLinker {
         } else if (name.endsWith(suffixPlural)) {
             return name.substring(0, name.length() - suffixPlural.length());
         } else if (name.endsWith(SUFFIX_ID)) {
-            reportInconsistentSuffix(classType, attribute);
+            reportInconsistentSuffix(suffixSingular, classType, attribute);
             return name.substring(0, name.length() - SUFFIX_ID.length());
         } else if (name.endsWith(SUFFIX_IDS)) {
-            reportInconsistentSuffix(classType, attribute);
+            reportInconsistentSuffix(suffixPlural, classType, attribute);
             return name.substring(0, name.length() - SUFFIX_IDS.length());
         } else if (name.endsWith(SUFFIX_REFERENCE)) {
-            reportInconsistentSuffix(classType, attribute);
+            reportInconsistentSuffix(suffixSingular, classType, attribute);
             return name.substring(0, name.length() - SUFFIX_REFERENCE.length());
         } else if (name.endsWith(SUFFIX_REFERENCES)) {
-            reportInconsistentSuffix(classType, attribute);
+            reportInconsistentSuffix(suffixPlural, classType, attribute);
             return name.substring(0, name.length() - SUFFIX_REFERENCES.length());
         } else {
-            reportInconsistentSuffix(classType, attribute);
+            reportInconsistentSuffix(suffixSingular + " or " + suffixPlural, classType, attribute);
             return name;
         }
     }
     
-    private static final void reportInconsistentSuffix(final ClassType classType, final Attribute attribute) {
-        System.err.println("Warning: Inconsistent suffix in " + classType.getName() + "." + attribute.getName());
+    private static final void reportInconsistentSuffix(final String expected, final ClassType classType,
+            final Attribute attribute) {
+        System.err.println("Warning: Inconsistent suffix in " + classType.getName() + "." + attribute.getName()
+                + ". Expected: " + expected);
     }
 }
