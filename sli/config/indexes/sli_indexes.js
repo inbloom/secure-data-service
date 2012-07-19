@@ -652,7 +652,6 @@ db["calendarDate"].ensureIndex({"metaData.tenantId":1,"body.date":1,"body.calend
 db["cohort"].ensureIndex({"metaData.tenantId":1,"body.educationOrgId":1,"metaData.externalId":1});
 db["course"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1,"body.courseTitle":1,"body.schoolId":1});
 db["courseOffering"].ensureIndex({"metaData.tenantId":1,"body.sessionId":1,"body.localCourseCode":1});
-db["disciplineAction"].ensureIndex({"metaData.tenantId":1,"body.studentId":1,"body.disciplineIncidentId":1,"body.disciplineDate":1,"body.disciplineActionIdentifier":1}, {"name":"tenantId_studentId_discIncId_discDate_discActId"});
 db["disciplineIncident"].ensureIndex({"metaData.tenantId":1,"body.incidentIdentifier":1,"body.schoolId":1});
 db["educationOrganization"].ensureIndex({"metaData.tenantId":1,"body.stateOrganizationId":1});
 db["grade"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1,"body.studentSectionAssociationId":1});
@@ -662,8 +661,6 @@ db["learningObjective"].ensureIndex({"metaData.tenantId":1,"body.objective":1,"b
 db["section"].ensureIndex({"metaData.tenantId":1,"body.uniqueSectionCode":1,"body.schoolId":1,"body.sessionId":1,"body.courseOfferingId":1});
 db["section"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1,"body.schoolId":1});
 db["session"].ensureIndex({"metaData.tenantId":1,"body.sessionName":1,"body.schoolYear":1,"body.term":1,"body.schoolId":1});
-db["staffCohortAssociation"].ensureIndex({"metaData.tenantId":1,"body.staffId":1,"body.cohortId":1});
-db["staffProgramAssociation"].ensureIndex({"metaData.tenantId":1,"body.staffId":1,"body.programId":1});
 db["studentAcademicRecord"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1,"body.studentId":1,"body.sessionId":1});
 db["studentAssessmentAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1,"body.assessmentId":1,"body.studentId":1,"body.administrationDate":1}, {"name":"tenantId_externalId_assessmentId_studentId_adminDate"});
 db["studentCohortAssociation"].ensureIndex({"metaData.tenantId":1,"body.studentId":1,"body.cohortId":1,"body.beginDate":1});
