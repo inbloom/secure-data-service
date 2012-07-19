@@ -78,6 +78,17 @@ def remove_crnt_indexes(indexes, crnt_indexes):
             new_indexes.append(idx)
     return new_indexes
 
+def remove_redundant_indexes(indexes, crnt_indexes):
+    new_indexes = []
+    for idx in indexes:
+        found_cover = False
+        for cidx in crnt_indexes:
+            if idx[:idx.find('}')] in cidx:
+                found_cover = True
+        if not found_cover:
+            new_indexes.append(idx)
+    return new_indexes
+
 def parse_profile_dump(queries, crnt_indexes):
     indexes = []
     for query in queries:
@@ -91,6 +102,7 @@ def parse_profile_dump(queries, crnt_indexes):
             elif is_count_cmd(json_object) and 'query' in json_object['command']:
                 indexes.extend(handle_count(json_object, query))
     indexes = remove_crnt_indexes(indexes, crnt_indexes)
+    indexes = remove_redundant_indexes(indexes, crnt_indexes)
     indexes = sorted(set(indexes))
     for idx in indexes:
         print idx

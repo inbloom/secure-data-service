@@ -123,6 +123,7 @@ public class InterchangeEdOrgCalGenerator {
 	private static void generateCalendar(List<ComplexObjectType> interchangeObjects, Collection<CalendarMeta> calendarMetas) {
     	
     	 long startTime = System.currentTimeMillis();
+    	 int dateCount = 0;
          for (CalendarMeta calendarMeta : calendarMetas) {
 
         	 CalendarDate calendar;
@@ -130,11 +131,13 @@ public class InterchangeEdOrgCalGenerator {
              if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
             	 calendar = null;
              } else {
-            	 calendar = CalendarDateGenerator.getCalendarDate(calendarMeta.id);
+//            	 calendar = CalendarDateGenerator.getCalendarDate(calendarMeta.id);
+            	 calendar = CalendarDateGenerator.getCalendarDate(calendarMeta.id, dateCount);
              }
 
              interchangeObjects.add(calendar);
          }
+         dateCount++;
 
          System.out.println("generated " + calendarMetas.size() + " Calendar objects in: "
                  + (System.currentTimeMillis() - startTime));

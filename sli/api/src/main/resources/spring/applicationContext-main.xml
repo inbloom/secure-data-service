@@ -26,6 +26,7 @@
       <property name="locations">
          <list>
             <value>file:${sli.conf}</value>
+             <value>classpath:api.properties</value>
          </list>
       </property>
    </bean>
