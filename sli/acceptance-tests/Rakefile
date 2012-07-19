@@ -752,6 +752,17 @@ task :importSecuredData do
     "teacherSectionAssociation" => "secured/teacherSectionAssociation.json"
 
   ]
+  tenant = {
+    "type" => "tenant",
+    "body" => {
+      "tenantId" => "Security"
+      },
+    "metaData" => {
+        "tenantId" => "Security"
+      }
+  }
+  db = Mongo::Connection.new(DB_HOST)['sli']
+  db['tenant'].insert(tenant) if db['tenant'].find_one({"body.tenantId" => "Security"}).nil?
   setMultipleFixtureFiles(testHash)
   addSecurityData()
 end

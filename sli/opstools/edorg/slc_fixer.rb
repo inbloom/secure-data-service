@@ -102,7 +102,7 @@ class SLCFixer
     set_stamps(@db['sectionAssessmentAssociation'])
     set_stamps(@db['studentSectionAssociation'])
     set_stamps(@db['sectionSchoolAssociation'])
-    @log.info "Iterating sections with query: {}"
+    @log.info "Iterating sections with query: #{@basic_query}"
     @db['section'].find(@basic_query, @basic_options) do |cur|
       cur.each do |section|
         edorgs = section['body']['schoolId']
@@ -122,7 +122,7 @@ class SLCFixer
         end
       end
     end
-    @log.info "Iterating sectionSchoolAssociation with query: {}"
+    @log.info "Iterating sectionSchoolAssociation with query: #{@basic_query}"
     @db['sectionSchoolAssociation'].find(@basic_query, @basic_options) do |cur|
       cur.each { |assoc| stamp_id(@db['sectionSchoolAssociation'], assoc['_id'], assoc['body']['schoolId'], assoc['metaData']['tenantId']) }
     end
@@ -130,7 +130,7 @@ class SLCFixer
 
   def fix_attendance
     set_stamps(@db['attendance'])
-    @log.info "Iterating attendance with query: {}"
+    @log.info "Iterating attendance with query: #{@basic_query}"
     @db['attendance'].find(@basic_query, @basic_options) do |cur|
       cur.each do |attendance|
         edOrg = student_edorgs(attendance['body']['studentId'])
@@ -143,7 +143,7 @@ class SLCFixer
 
     set_stamps(@db['studentAssessmentAssociation'])
     set_stamps(@db['sectionAssessmentAssociation'])
-    @log.info "Iterating studentAssessmentAssociation with query: {}"
+    @log.info "Iterating studentAssessmentAssociation with query: #{@basic_query}"
     @db['studentAssessmentAssociation'].find(@basic_query, @basic_options) do |cur|
       cur.each do |studentAssessment|
         edOrg = []
@@ -153,7 +153,7 @@ class SLCFixer
         stamp_id(@db['studentAssessmentAssociation'], studentAssessment['_id'], edOrg, studentAssessment['metaData']['tenantId'])
       end
     end
-    @log.info "Iterating sectionAssessmentAssociation with query: {}"
+    @log.info "Iterating sectionAssessmentAssociation with query: #{@basic_query}"
     @db['sectionAssessmentAssociation'].find(@basic_query, @basic_options) do |cur|
       cur.each do |assessment|
         edorgs = []
@@ -169,14 +169,14 @@ class SLCFixer
     set_stamps(@db['disciplineAction'])
     set_stamps(@db['studentDisciplineIncidentAssociation'])
     set_stamps(@db['disciplineIncident'])
-    @log.info "Iterating disciplineAction with query: {}"
+    @log.info "Iterating disciplineAction with query: #{@basic_query}"
     @db['disciplineAction'].find(@basic_query, :timeout => false) do |cur|
       cur.each do |action|
         edorg = student_edorgs(action['body']['studentId'])
         stamp_id(@db['disciplineAction'], action['_id'], edorg, action['metaData']['tenantId'])
       end
     end
-    @log.info "Iterating studentDisciplineIncidentAssociation with query: {}"
+    @log.info "Iterating studentDisciplineIncidentAssociation with query: #{@basic_query}"
     @db['studentDisciplineIncidentAssociation'].find(@basic_query, :timeout => false) do |cur|
       cur.each do |incident|
         edorg = student_edorgs(incident['body']['studentId'])
@@ -184,7 +184,7 @@ class SLCFixer
         stamp_id(@db['disciplineIncident'], incident['body']['disciplineIncidentId'], edorg, incident['metaData']['tenantId'])
       end
     end
-    @log.info "Iterating disciplineIncident with query: {}"
+    @log.info "Iterating disciplineIncident with query: #{@basic_query}"
     @db['disciplineIncident'].find(@basic_query, :timeout => false) do |cur|
       cur.each do |discipline|
         edorgs = []
@@ -199,7 +199,7 @@ class SLCFixer
   def fix_parents
     set_stamps(@db['studentParentAssociation'])
     set_stamps(@db['parent'])
-    @log.info "Iterating studentParentAssociation with query: {}"
+    @log.info "Iterating studentParentAssociation with query: #{@basic_query}"
     @db['studentParentAssociation'].find(@basic_query, @basic_options) do |cur|
       cur.each do |parent|
         edorg = student_edorgs(parent['body']['studentId'])
@@ -211,7 +211,7 @@ class SLCFixer
 
   def fix_report_card
     set_stamps(@db['reportCard'])
-    @log.info "Iterating reportCard with query: {}"
+    @log.info "Iterating reportCard with query: #{@basic_query}"
     @db['reportCard'].find(@basic_query, @basic_options) do |cur|
       cur.each do |card|
         edorg = student_edorgs(card['body']['studentId'])
@@ -224,7 +224,7 @@ class SLCFixer
     set_stamps(@db['studentProgramAssociation'])
     set_stamps(@db['program'])
     set_stamps(@db['staffProgramAssociation'])
-    @log.info "Iterating studentProgramAssociation with query: {}"
+    @log.info "Iterating studentProgramAssociation with query: #{@basic_query}"
     @db['studentProgramAssociation'].find(@basic_query, @basic_options) do |cur|
       cur.each do |program|
         edorg = student_edorgs(program['body']['studentId'])
@@ -232,7 +232,7 @@ class SLCFixer
         stamp_id(@db['program'], program['body']['programId'], program['body']['educationOrganizationId'], program['metaData']['tenantId'])
       end
     end
-    @log.info "Iterating staffProgramAssociation with query: {}"
+    @log.info "Iterating staffProgramAssociation with query: #{@basic_query}"
     @db['staffProgramAssociation'].find(@basic_query, @basic_options) do |cur|
       cur.each do |program|
         edorg = []
@@ -250,23 +250,24 @@ class SLCFixer
     set_stamps(@db['cohort'])
     set_stamps(@db['studentCohortAssociation'])
     set_stamps(@db['staffCohortAssociation'])
-    @log.info "Iterating cohort with query: {}"
+    @log.info "Iterating cohort with query: #{@basic_query}"
     @db['cohort'].find(@basic_query, @basic_options) do |cur|
       cur.each do |cohort|
         stamp_id(@db['cohort'], cohort['_id'], cohort['body']['educationOrgId'], cohort['metaData']['tenantId'])
       end
     end
-    @log.info "Iterating studentCohortAssociation with query: {}"
+    @log.info "Iterating studentCohortAssociation with query: #{@basic_query}"
     @db['studentCohortAssociation'].find(@basic_query, @basic_options) do |cur|
       cur.each do |cohort|
         edorg = old_edorgs(@db['student'], cohort['body']['studentId'])
         stamp_id(@db['studentCohortAssociation'], cohort['_id'], edorg, cohort['metaData']['tenantId'])
       end
     end
-    @log.info "Iterating staffCohortAssociation with query: {}"
+    @log.info "Iterating staffCohortAssociation with query: #{@basic_query}"
     @db['staffCohortAssociation'].find(@basic_query, @basic_options) do |cur|
       cur.each do |cohort|
         edorg = []
+        @log.error "Special cohort" if cohort['body']['cohortId'] == "b40926af-8fd5-11e1-86ec-0021701f543f"
         edorg << old_edorgs(@db['cohort'], cohort['body']['cohortId'])
         edorg << old_edorgs(@db['staff'], cohort['body']['staffId'])
         edorg = edorg.flatten.uniq
@@ -280,7 +281,7 @@ class SLCFixer
     set_stamps(@db['session'])
     set_stamps(@db['schoolSessionAssociation'])
     set_stamps(@db['gradingPeriod'])
-    @log.info "Iterating session with query: {}"
+    @log.info "Iterating session with query: #{@basic_query}"
     @db['session'].find(@basic_query, @basic_options) do |cur|
       cur.each do |session|
         edorg = []
@@ -315,7 +316,7 @@ class SLCFixer
     set_stamps(@db['staffEducationOrganizationAssociation'])
     set_stamps(@db['staff'])
     set_stamps(@db['teacherSchoolAssociation'])
-    @log.info "Iterating staffEducationOrganizationAssociation with query: {}"
+    @log.info "Iterating staffEducationOrganizationAssociation with query: #{@basic_query}"
     @db['staffEducationOrganizationAssociation'].find(@basic_query, @basic_options) do |cur|
       cur.each do |staff|
         old = old_edorgs(@db['staff'], staff['body']['staffReference'])
@@ -325,7 +326,7 @@ class SLCFixer
       end
     end
     #This needed?
-    @log.info "Iterating teacherSchoolAssociation with query: {}"
+    @log.info "Iterating teacherSchoolAssociation with query: #{@basic_query}"
     @db['teacherSchoolAssociation'].find(@basic_query, @basic_options) do |cur|
       cur.each do |teacher|
         old = old_edorgs(@db['staff'], teacher['body']['teacherId'])
@@ -338,7 +339,7 @@ class SLCFixer
   def fix_grades
     set_stamps(@db['gradebookEntry'])
     set_stamps(@db['grade'])
-    @log.info "Iterating gradebookEntry with query: {}"
+    @log.info "Iterating gradebookEntry with query: #{@basic_query}"
     @db['gradebookEntry'].find(@basic_query, @basic_options) do |cur|
       cur.each do |grade|
         edorg = old_edorgs(@db['section'], grade['body']['sectionId'])
@@ -346,7 +347,7 @@ class SLCFixer
       end
     end
     #Grades and grade period
-    @log.info "Iterating grade with query: {}"
+    @log.info "Iterating grade with query: #{@basic_query}"
     @db['grade'].find(@basic_query, @basic_options) do |cur|
       cur.each do |grade|
         edorg = old_edorgs(@db['studentSectionAssociation'], grade['body']['studentSectionAssociationId'])
@@ -359,21 +360,21 @@ class SLCFixer
   def fix_courses
     set_stamps(@db['courseOffering'])
     set_stamps(@db['course'])
-    @log.info "Iterating section with query: {}"
+    @log.info "Iterating section with query: #{@basic_query}"
     @db['section'].find(@basic_query, @basic_options) do |cur|
       cur.each do |section|
         edorg = section['metaData']['edOrgs']
         stamp_id(@db['courseOffering'], section['body']['courseOfferingId'], edorg, section['metaData']['tenantId'])
       end
     end
-    @log.info "Iterating courseOffering with query: {}"
+    @log.info "Iterating courseOffering with query: #{@basic_query}"
     @db['courseOffering'].find(@basic_query, @basic_options) do |cur|
       cur.each do |courseOffering|
         edorg = courseOffering['metaData']['edOrgs']
         stamp_id(@db['course'], courseOffering['body']['courseId'], edorg, courseOffering['metaData']['tenantId'])
       end
     end
-    @log.info "Iterating courseOffering with query: {}"
+    @log.info "Iterating courseOffering with query: #{@basic_query}"
     @db['courseOffering'].find(@basic_query, @basic_options) do |cur|
       cur.each do |courseOffering|
         edorgs = []
@@ -392,10 +393,10 @@ class SLCFixer
     set_stamps(@db['studentCompetency'])
     set_stamps(@db['studentAcademicRecord'])
     #StudentTranscriptAssociation
-    @log.info "Iterating studentTranscriptAssociation with query: {}"
+    @log.info "Iterating studentTranscriptAssociation with query: #{@basic_query}"
 
     #Student Academic Record
-    @log.info "Iterating studentAcademicRecord with query: {}"
+    @log.info "Iterating studentAcademicRecord with query: #{@basic_query}"
     @db['studentAcademicRecord'].find(@basic_query, @basic_options) do |cur|
       cur.each do |student|
         edorg = student_edorgs(student['body']['studentId'])
@@ -415,7 +416,7 @@ class SLCFixer
     end
 
     #StudentGradebookEntry
-    @log.info "Iterating studentGradebookEntry with query: {}"
+    @log.info "Iterating studentGradebookEntry with query: #{@basic_query}"
     @db['studentGradebookEntry'].find(@basic_query, @basic_options) do |cur|
       cur.each do |trans|
         edorg = student_edorgs(trans['body']['studentId'])
@@ -424,7 +425,7 @@ class SLCFixer
     end
 
     #Student Compentency
-    @log.info "Iterating studentCompetency with query: {}"
+    @log.info "Iterating studentCompetency with query: #{@basic_query}"
     @db['studentCompetency'].find(@basic_query, @basic_options) do |cur|
       cur.each do |student|
         edorg = old_edorgs(@db['studentSectionAssociation'], student['body']['studentSectionAssociationId'])
@@ -498,11 +499,17 @@ class SLCFixer
     #
     # If we are asking for old edorgs within that set, we refuse
     # to give it unless we have already started stamping it.
-    if Thread.current[:stamping].include? collection.name and !Thread.current[:cache].include? id
+    if Thread.current[:stamping].include? collection.name and !Thread.current[:cache].include? id and !id.is_a? Array
       @log.info "We aren't stamping #{collection.name}##{id} because of additive concerns"
       return []
     end
     if id.is_a? Array
+      id.each do |i|
+        if Thread.current[:cache].include? i and Thread.current[:stamping].include? collection.name
+
+          @log.info "We aren't stamping #{collection.name}##{id} because of additive concerns"
+        end
+      end
       doc = collection.find({"_id" => {'$in' => id}}) if @tenant.nil?
       doc = collection.find({"metaData.tenantId" => @tenant, "_id" => {'$in' => id}}) unless @tenant.nil?
     else

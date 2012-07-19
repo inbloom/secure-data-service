@@ -24,7 +24,7 @@ def run_fixer(tenant = nil)
   begin
     fixer.start
   rescue Exception => e  
-    log.error "#{e}"
+    @log.error "#{e}"
   end
 end
 def launch_fixer

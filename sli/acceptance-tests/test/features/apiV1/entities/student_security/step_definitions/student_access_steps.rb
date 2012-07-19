@@ -42,19 +42,6 @@ Transform /the student "([^"]*)"/ do |arg1|
   base
 end
 
-Given /^I have a tenant of "(.*?)"$/ do |arg1|
-  tenant = {
-    "type" => "tenant",
-    "body" => {
-      "tenantId" => arg1
-      },
-    "metaData" => {
-        "tenantId" => arg1
-      }
-  }
-  db = Mongo::Connection.new(DB_HOST)['sli']
-  db['tenant'].insert(tenant) unless db['tenant'].find_one({"body.tenantId" => arg1}).nil?
-end
 Given /^I am user "([^"]*)" in IDP "([^"]*)"$/ do |arg1, arg2|
   user = arg1
   pass = arg1+"1234"
