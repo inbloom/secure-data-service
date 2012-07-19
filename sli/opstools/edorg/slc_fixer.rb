@@ -445,8 +445,6 @@ class SLCFixer
     []
   end
   def stamp_id(collection, id, edOrg, tenantid)
-    Thread.current[:cache].merge id if id.is_a? Array
-    Thread.current[:cache].add id unless id.is_a? Array
     if edOrg.nil? or edOrg.empty? or tenantid.nil?
       @log.warn "EdOrg: #{edOrg.to_s}\tTenant: #{tenantid}"
       @log.warn "No edorgs or tenant found for #{collection.name}##{id}"
@@ -472,8 +470,10 @@ class SLCFixer
         id.each do |array_id|
           collection.update({"_id" => array_id, 'metaData.tenantId' => tenantid}, {"$unset" => {"padding" => 1}, "$set" => {"metaData.edOrgs" => edOrgs}}) unless tenantid.nil?
         end
+        Thread.current[:cache].merge id if id.is_a? Array
       else
         collection.update({"_id" => id, 'metaData.tenantId' => tenantid}, {"$unset" => {"padding" => 1}, "$set" => {"metaData.edOrgs" => edOrgs}}) unless tenantid.nil?
+        Thread.current[:cache].add id unless id.is_a? Array
       end
     rescue Exception => e
       @log.error "Writing to #{collection.name}##{id} - #{e.message}"
