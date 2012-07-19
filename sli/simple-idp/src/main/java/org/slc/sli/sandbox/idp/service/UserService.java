@@ -208,22 +208,22 @@ public class UserService {
 
     public void updateUser(String realm, User user, String resetKey, String password){
         LOG.info("Update User with resetKey");
-        
+
         user.attributes.put("resetKey", resetKey);
         user.attributes.put("userPassword", password);
-        
-        DirContextAdapter context = 	
-                        (DirContextAdapter) ldapTemplate.lookupContext(buildUserDN(realm, user.getAttributes().get("userName")));	
-        
-        mapUserToContext(context, user);	
+
+        DirContextAdapter context =
+                        (DirContextAdapter) ldapTemplate.lookupContext(buildUserDN(realm, user.getAttributes().get("userName")));
+
+        mapUserToContext(context, user);
         ldapTemplate.modifyAttributes(context);
     }
-    
+
     private DistinguishedName buildUserDN(String realm, String uid) {
     	DistinguishedName dn = new DistinguishedName("cn=" + uid + ",ou=people,ou=" + realm);
     	return dn;
     }
-    
+
     private void mapUserToContext(DirContextAdapter context, User user) {
          context.setAttributeValues("objectclass", new String[] { "inetOrgPerson", "posixAccount", "top" });
          context.setAttributeValue("givenName", user.getAttributes().get("givenName"));
@@ -234,10 +234,10 @@ public class UserService {
          context.setAttributeValue("cn", user.getAttributes().get("userName"));
          context.setAttributeValue("mail", user.getAttributes().get("mail"));
          context.setAttributeValue("homeDirectory", user.getAttributes().get("homeDirectory"));
-         
+
          context.setAttributeValue("gecos", user.getAttributes().get("resetKey"));
          context.setAttributeValue("userPassword", user.getAttributes().get("userPassword"));
-         
+
          String description = "";
          if (user.getAttributes().get("tenant") != null) {
              description += "tenant=" + user.getAttributes().get("tenant");
@@ -248,9 +248,9 @@ public class UserService {
          if(!"".equals(description)) {
              context.setAttributeValue("description", "tenant=" + user.getAttributes().get("tenant") + "," + "edOrg=" + user.getAttributes().get("edOrg"));
          }
- 
+
      }
-    
+
     /**
      * LDAPTemplate mapper for getting attributes from the person context. Retrieves cn and
      * description,
@@ -261,19 +261,19 @@ public class UserService {
      */
     static class PersonContextMapper implements ContextMapper {
     	boolean needAdditionalAttributes = false;
-    	
-    	public void setAddAttributes(boolean addAttributes) {
+
+    	public void setAddAttributes(boolean needAdditionalAttributes) {
     		this.needAdditionalAttributes = needAdditionalAttributes;
     	}
-    	
+
         @Override
         public Object mapFromContext(Object ctx) {
             DirContextAdapter context = (DirContextAdapter) ctx;
             User user = new User();
             Map<String, String> attributes = new HashMap<String, String>();
-            
+
             attributes.put("userName", context.getStringAttribute("cn"));
-            
+
             if(needAdditionalAttributes){
 	            attributes.put("givenName", context.getStringAttribute("givenName"));
 	            attributes.put("sn", context.getStringAttribute("sn"));
@@ -282,12 +282,14 @@ public class UserService {
 	            attributes.put("gidNumber", context.getStringAttribute("gidNumber"));
 	            attributes.put("homeDirectory", context.getStringAttribute("homeDirectory"));
 	            attributes.put("mail", context.getStringAttribute("mail"));
-	            
+
 	            String emailToken = context.getStringAttribute("displayName");
-	            if(emailToken==null||emailToken.trim().length()==0) emailToken="";
+	            if(emailToken==null||emailToken.trim().length()==0) {
+					emailToken="";
+				}
 	            attributes.put("emailToken", emailToken);
         	}
-            
+
             String description = context.getStringAttribute("description");
             if (description != null && description.length() > 0) {
                 String[] pairs;
