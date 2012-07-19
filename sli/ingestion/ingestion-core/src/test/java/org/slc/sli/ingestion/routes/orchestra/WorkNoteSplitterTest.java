@@ -1,6 +1,20 @@
-package org.slc.sli.ingestion.routes.orchestra;
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-import static org.junit.Assert.*;
+package org.slc.sli.ingestion.routes.orchestra;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -18,15 +32,20 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.slc.sli.ingestion.IngestionStagedEntity;
-import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
-import org.slc.sli.ingestion.queues.MessageType;
-import org.slc.sli.validation.EntityValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.ingestion.IngestionStagedEntity;
+import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
+import org.slc.sli.ingestion.queues.MessageType;
+
+/**
+ *
+ * @author ablum
+ *
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class WorkNoteSplitterTest {
@@ -55,7 +74,7 @@ public class WorkNoteSplitterTest {
         Set<IngestionStagedEntity> set = new HashSet<IngestionStagedEntity>();
         set.add(IngestionStagedEntity.createFromRecordType("student"));
         Mockito.when(mockBatchJobMongoDA.getStagedEntitiesForJob("1")).thenReturn(set);
-        Mockito.when(mockBatchJobMongoDA.createWorkNoteCountdownLatch(MessageType.DATA_TRANSFORMATION.name(), "1","student", 0)).thenReturn(true);
+        Mockito.when(mockBatchJobMongoDA.createWorkNoteCountdownLatch(MessageType.DATA_TRANSFORMATION.name(), "1", "student", 0)).thenReturn(true);
 
         List<WorkNote> list = new ArrayList<WorkNote>();
         list.add(WorkNote.createBatchedWorkNote("", IngestionStagedEntity.createFromRecordType("student"), 0, 0, 0, 0));
@@ -65,7 +84,7 @@ public class WorkNoteSplitterTest {
 
         Assert.assertEquals(list, result);
         Mockito.verify(balancedTimestampSplitStrategy, Mockito.times(1)).splitForEntity(Mockito.any(IngestionStagedEntity.class), Mockito.anyString());
-        Mockito.verify(mockBatchJobMongoDA, Mockito.times(1)).createWorkNoteCountdownLatch(Mockito.anyString(), Mockito.anyString(),Mockito.anyString(), Mockito.anyInt());
+        Mockito.verify(mockBatchJobMongoDA, Mockito.times(2)).createWorkNoteCountdownLatch(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyInt());
     }
 
     @Test(expected = IllegalStateException.class)
@@ -93,7 +112,7 @@ public class WorkNoteSplitterTest {
 
         Mockito.when(message.getHeader("jobId")).thenReturn("1");
 
-        Mockito.when(mockBatchJobMongoDA.createWorkNoteCountdownLatch(MessageType.DATA_TRANSFORMATION.name(), "1","student", 0)).thenReturn(true);
+        Mockito.when(mockBatchJobMongoDA.createWorkNoteCountdownLatch(MessageType.DATA_TRANSFORMATION.name(), "1", "student", 0)).thenReturn(true);
 
         List<WorkNote> list = new ArrayList<WorkNote>();
         list.add(WorkNote.createBatchedWorkNote("", IngestionStagedEntity.createFromRecordType("student"), 0, 0, 0, 0));
@@ -103,9 +122,7 @@ public class WorkNoteSplitterTest {
 
         Assert.assertEquals(list, result);
         Mockito.verify(balancedTimestampSplitStrategy, Mockito.times(1)).splitForEntity(Mockito.any(IngestionStagedEntity.class), Mockito.anyString());
-        Mockito.verify(mockBatchJobMongoDA, Mockito.times(1)).createWorkNoteCountdownLatch(Mockito.anyString(), Mockito.anyString(),Mockito.anyString(), Mockito.anyInt());
-
-
+        Mockito.verify(mockBatchJobMongoDA, Mockito.times(1)).setWorkNoteLatchCount(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyInt());
     }
 
 }

@@ -31,12 +31,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
-import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
+import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 
 /**
  * @author tke
@@ -82,7 +83,7 @@ public class OrchestraPreProcessorTest {
 
         orchestraPreProcessor.process(ex);
 
-        Assert.assertEquals(true,ex.getIn().getHeader("stagedEntitiesEmpty"));
+        Assert.assertEquals(true, ex.getIn().getHeader("stagedEntitiesEmpty"));
         Assert.assertEquals(BATCHJOBID, ex.getIn().getHeader("jobId"));
     }
 
