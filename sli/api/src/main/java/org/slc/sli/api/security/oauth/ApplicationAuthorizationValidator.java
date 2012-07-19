@@ -24,8 +24,7 @@ import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.ContextResolverStore;
-import org.slc.sli.api.security.context.resolver.EdOrgToChildEdOrgNodeFilter;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -49,12 +48,9 @@ public class ApplicationAuthorizationValidator {
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
-
-    @Autowired
-    private ContextResolverStore contextResolverStore;
     
     @Autowired
-    private EdOrgToChildEdOrgNodeFilter parentResolver;
+    private EdOrgHelper helper;
     
     @Autowired
     @Value("${sli.sandbox.enabled}")
@@ -162,24 +158,13 @@ public class ApplicationAuthorizationValidator {
      */
     private List<Entity> findUsersDistricts(SLIPrincipal principal) {
         List<Entity> toReturn = new ArrayList<Entity>();
-    
-        List<String> edOrgs = contextResolverStore.findResolver(principal.getEntity().getType(), EntityNames.EDUCATION_ORGANIZATION).findAccessible(principal.getEntity());
-        Set<String> setEdOrgs = new HashSet<String>(edOrgs);
-        for (String id : parentResolver.fetchParents(setEdOrgs)) {
-            if (!edOrgs.contains(id)) {
-                edOrgs.add(id);
-            }
-        }
         
-        edOrgs.remove("-133"); //avoid querying bad mongo ID
+        List<String> leaIds = helper.getLEAs(principal.getEntity());
         
-        for (String id : edOrgs) {
-            Entity entity = repo.findById(EntityNames.EDUCATION_ORGANIZATION, id);
-            List<String> category = (List<String>) entity.getBody().get("organizationCategories");
-
-            if (category.contains("Local Education Agency")) {
-                toReturn.add(entity);
-            }
+        NeutralQuery query = new NeutralQuery(0);
+        query.addCriteria(new NeutralCriteria("_id", "in", leaIds, false));
+        for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION)) {
+            toReturn.add(entity);
         }
        
         return toReturn;

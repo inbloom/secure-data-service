@@ -272,7 +272,7 @@ public class ApplicationAuthorizationResourceTest {
         Mockito.when(mockAuth.getPrincipal()).thenReturn(principal);
         SecurityContextHolder.getContext().setAuthentication(mockAuth);
         
-        Mockito.when(delegationUtil.getUsersStateUniqueId()).thenReturn(edorg);
+        //Mockito.when(delegationUtil.getUsersStateUniqueId()).thenReturn(edorg);
     }
 
     public UriInfo buildMockUriInfo(final String queryString) throws Exception {
