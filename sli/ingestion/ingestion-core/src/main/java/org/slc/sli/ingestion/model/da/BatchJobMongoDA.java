@@ -19,7 +19,6 @@ package org.slc.sli.ingestion.model.da;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
 import static org.springframework.data.mongodb.core.query.Query.query;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -61,6 +60,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private static final String ERROR = "error";
     private static final String WARNING = "warning";
     private static final String BATCHJOBID_FIELDNAME = "batchJobId";
+    private static final String WORK_NOTE_LATCH = "workNoteLatch";
+    private static final String STAGED_ENTITIES = "stagedEntities";
 
     private MongoTemplate batchJobMongoTemplate;
 
@@ -149,7 +150,6 @@ public class BatchJobMongoDA implements BatchJobDAO {
         return false;
     }
 
-
     @Override
     public void releaseTenantLockForJob(String tenantId, String batchJobId) {
         if (tenantId != null && batchJobId != null) {
@@ -164,6 +164,163 @@ public class BatchJobMongoDA implements BatchJobDAO {
             throw new IllegalArgumentException(
                     "Must specify a valid tenant id and batch job id for which to attempt lock release.");
         }
+    }
+
+    @Override
+    public boolean createWorkNoteCountdownLatch(String syncStage, String jobId, String recordType, int count) {
+        try {
+
+            BasicDBObject latchObject = new BasicDBObject();
+            latchObject.put("syncStage", syncStage);
+            latchObject.put("jobId", jobId);
+            latchObject.put("recordType", recordType);
+            latchObject.put("count", count);
+            batchJobMongoTemplate.getCollection(WORK_NOTE_LATCH).insert(latchObject, WriteConcern.SAFE);
+
+        } catch (MongoException me) {
+            if (me.getCode() == 11000 /* dup key */) {
+                LOG.debug(me.getMessage());
+            }
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean countDownWorkNoteLatch(String syncStage, String jobId, String recordType) {
+
+        BasicDBObject query = new BasicDBObject();
+        query.put("syncStage", syncStage);
+        query.put("jobId", jobId);
+        query.put("recordType", recordType);
+
+        BasicDBObject decrementCount = new BasicDBObject("count", -1);
+        BasicDBObject update = new BasicDBObject("$inc", decrementCount);
+
+        DBObject latchObject = batchJobMongoTemplate.getCollection(WORK_NOTE_LATCH).findAndModify(query, null, null,
+                false, update, true, false);
+
+        if (syncStage.equals(MessageType.PERSIST_REQUEST.name())) {
+           return tallyPersistWorkNodeLatches(syncStage, jobId);
+        }
+
+        return (Integer) latchObject.get("count") <= 0;
+    }
+
+    private boolean tallyPersistWorkNodeLatches(String syncStage, String jobId) {
+
+        DBCursor cursor = getWorkNoteLatchesForStage(jobId, syncStage);
+
+        boolean isEmpty = true;
+
+        while (cursor.hasNext()) {
+            DBObject obj = cursor.next();
+            int count = (Integer) obj.get("count");
+            if (count > 0) {
+                isEmpty = false;
+            }
+        }
+        return isEmpty;
+    }
+
+    @Override
+    public DBObject setWorkNoteLatchCount(String name, String jobId, String collectionNameAsStaged, int size) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("syncStage", name);
+        query.put("jobId", jobId);
+        query.put("recordType", collectionNameAsStaged);
+
+        BasicDBObject decrementCount = new BasicDBObject("count", size);
+        BasicDBObject update = new BasicDBObject("$set", decrementCount);
+
+        DBObject latchObject = batchJobMongoTemplate.getCollection(WORK_NOTE_LATCH).findAndModify(query, null, null,
+                false, update, true, false);
+
+        return latchObject;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Set<IngestionStagedEntity> getStagedEntitiesForJob(String jobId) {
+        BasicDBObject query = new BasicDBObject();
+        query.put("jobId", jobId);
+
+        DBObject entities = batchJobMongoTemplate.getCollection(STAGED_ENTITIES).findOne(query);
+        List<String> recordTypes = (List<String>) entities.get("recordTypes");
+
+        Set<IngestionStagedEntity> stagedEntities = new HashSet<IngestionStagedEntity>();
+        for (String recordType: recordTypes) {
+            stagedEntities.add(IngestionStagedEntity.createFromRecordType(recordType));
+        }
+
+        return stagedEntities;
+
+    }
+
+    @Override
+    public void setStagedEntitiesForJob(Set<IngestionStagedEntity> stagedEntities, String jobId) {
+        List<String> recordTypes = IngestionStagedEntity.toEntityNames(stagedEntities);
+
+        try {
+            BasicDBObject entities = new BasicDBObject();
+            entities.put("jobId", jobId);
+            entities.put("recordTypes", recordTypes);
+
+            batchJobMongoTemplate.getCollection(STAGED_ENTITIES).insert(entities);
+        } catch (MongoException me) {
+            if (me.getCode() == 11000 /* dup key */) {
+                LOG.debug(me.getMessage());
+            }
+        }
+    }
+
+    @Override
+    public boolean removeAllPersistedStagedEntitiesFromJob(String jobId) {
+        DBCursor cursor = getWorkNoteLatchesForStage(jobId, MessageType.PERSIST_REQUEST.name());
+        boolean isEmpty = false;
+        while (cursor.hasNext()) {
+            DBObject latch = cursor.next();
+            isEmpty = removeStagedEntityForJob((String) latch.get("recordType"), jobId);
+        }
+        return isEmpty;
+
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public boolean removeStagedEntityForJob(String recordType, String jobId) {
+
+        BasicDBObject query = new BasicDBObject();
+        query.put("jobId", jobId);
+
+        BasicDBObject decrementCount = new BasicDBObject("recordTypes", recordType);
+        BasicDBObject update = new BasicDBObject("$pull", decrementCount);
+
+        DBObject latchObject = batchJobMongoTemplate.getCollection(STAGED_ENTITIES).findAndModify(query, null, null,
+                false, update, true, false);
+
+
+        return ((List<String>) latchObject.get("recordTypes")).size() == 0;
+    }
+
+    private DBCursor getWorkNoteLatchesForStage(String jobId, String syncStage) {
+
+        BasicDBObject ref = new BasicDBObject();
+        ref.put("syncStage", syncStage);
+        ref.put("jobId", jobId);
+
+        DBCursor cursor = batchJobMongoTemplate.getCollection(WORK_NOTE_LATCH).find(ref);
+
+        return cursor;
+
+    }
+
+    @Override
+    public void cleanUpWorkNoteLatchAndStagedEntites(String jobId) {
+        BasicDBObject dbObj = new BasicDBObject();
+        dbObj.put("jobId", jobId);
+        batchJobMongoTemplate.getCollection(WORK_NOTE_LATCH).remove(dbObj);
+        batchJobMongoTemplate.getCollection(STAGED_ENTITIES).remove(dbObj);
     }
 
     /**
@@ -283,153 +440,4 @@ public class BatchJobMongoDA implements BatchJobDAO {
     public void setBatchJobMongoTemplate(MongoTemplate mongoTemplate) {
         this.batchJobMongoTemplate = mongoTemplate;
     }
-
-    @Override
-    public boolean createWorkNoteCountdownLatch(String syncStage, String jobId, String recordType, int count) {
-        try {
-
-            BasicDBObject latchObject = new BasicDBObject();
-            latchObject.put("syncStage", syncStage);
-            latchObject.put("jobId", jobId);
-            latchObject.put("recordType", recordType);
-            latchObject.put("count", count);
-            batchJobMongoTemplate.getCollection("workNoteLatch").insert(latchObject, WriteConcern.SAFE);
-
-        } catch (MongoException me) {
-            if (me.getCode() == 11000 /* dup key */) {
-                LOG.debug(me.getMessage());
-            }
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public boolean countDownWorkNoteLatch(String syncStage, String jobId, String recordType) {
-
-        BasicDBObject query = new BasicDBObject();
-        query.put("syncStage", syncStage);
-        query.put("jobId", jobId);
-        query.put("recordType", recordType);
-
-        BasicDBObject decrementCount = new BasicDBObject("count", -1);
-        BasicDBObject update = new BasicDBObject("$inc", decrementCount);
-
-        DBObject latchObject = batchJobMongoTemplate.getCollection("workNoteLatch").findAndModify(query, null, null,
-                false, update, true, false);
-
-        if (syncStage.equals(MessageType.PERSIST_REQUEST.name())) {
-           return tallyPersistWorkNodeLatches(syncStage, jobId);
-        }
-
-        return (Integer) latchObject.get("count") <= 0;
-    }
-
-    private boolean tallyPersistWorkNodeLatches(String syncStage, String jobId) {
-
-        DBCursor cursor = getWorkNoteLatchesForStage(jobId, syncStage);
-
-        boolean isEmpty = true;
-
-        while (cursor.hasNext()) {
-            DBObject obj = cursor.next();
-            int count = (Integer) obj.get("count");
-            if (count > 0) {
-                isEmpty = false;
-            }
-        }
-        return isEmpty;
-    }
-
-    @Override
-    public DBObject setWorkNoteLatchCount(String name, String jobId, String collectionNameAsStaged, int size) {
-        BasicDBObject query = new BasicDBObject();
-        query.put("syncStage", name);
-        query.put("jobId", jobId);
-        query.put("recordType", collectionNameAsStaged);
-
-        BasicDBObject decrementCount = new BasicDBObject("count", size);
-        BasicDBObject update = new BasicDBObject("$set", decrementCount);
-
-        DBObject latchObject = batchJobMongoTemplate.getCollection("workNoteLatch").findAndModify(query, null, null,
-                false, update, true, false);
-
-        return latchObject;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public Set<IngestionStagedEntity> getStagedEntitiesForJob(String jobId) {
-        BasicDBObject query = new BasicDBObject();
-        query.put("jobId", jobId);
-
-        DBObject entities = batchJobMongoTemplate.getCollection("stagedEntities").findOne(query);
-        List<String> recordTypes = (List<String>) entities.get("recordTypes");
-
-        Set<IngestionStagedEntity> stagedEntities = new HashSet<IngestionStagedEntity>();
-        for (String recordType: recordTypes) {
-            stagedEntities.add(IngestionStagedEntity.createFromRecordType(recordType));
-        }
-
-        return stagedEntities;
-
-    }
-
-    @Override
-    public void setStagedEntitiesForJob(Set<IngestionStagedEntity> stagedEntities, String jobId) {
-        List<String> recordTypes = IngestionStagedEntity.toEntityNames(stagedEntities);
-
-        try {
-            BasicDBObject entities = new BasicDBObject();
-            entities.put("jobId", jobId);
-            entities.put("recordTypes", recordTypes);
-
-            batchJobMongoTemplate.getCollection("stagedEntities").insert(entities);
-        } catch (MongoException me) {
-            if (me.getCode() == 11000 /* dup key */) {
-                LOG.debug(me.getMessage());
-            }
-        }
-    }
-
-    @Override
-    public boolean removeAllPersistedStagedEntitiesFromJob(String jobId) {
-        DBCursor cursor = getWorkNoteLatchesForStage(jobId, MessageType.PERSIST_REQUEST.name());
-        boolean isEmpty = false;
-        while (cursor.hasNext()) {
-            DBObject latch = cursor.next();
-            isEmpty = removeStagedEntityForJob((String) latch.get("recordType"), jobId);
-        }
-        return isEmpty;
-
-    }
-
-    @Override
-    public boolean removeStagedEntityForJob(String recordType, String jobId) {
-
-        BasicDBObject query = new BasicDBObject();
-        query.put("jobId", jobId);
-
-        BasicDBObject decrementCount = new BasicDBObject("recordTypes", recordType);
-        BasicDBObject update = new BasicDBObject("$pull", decrementCount);
-
-        DBObject latchObject = batchJobMongoTemplate.getCollection("stagedEntities").findAndModify(query, null, null,
-                false, update, true, false);
-
-
-        return ((List<String>) latchObject.get("recordTypes")).size()==0;
-    }
-
-    private DBCursor getWorkNoteLatchesForStage(String jobId, String syncStage) {
-
-        BasicDBObject ref = new BasicDBObject();
-        ref.put("syncStage", syncStage);
-        ref.put("jobId", jobId);
-
-        DBCursor cursor = batchJobMongoTemplate.getCollection("workNoteLatch").find(ref);
-
-        return cursor;
-
-    }
-
 }
