@@ -20,8 +20,6 @@
 
    <modules>
       <module>ingestion-base</module>
-      <module>ingestion-core</module>
-      <module>ingestion-service</module>
       <module>ingestion-validation</module>
    </modules>
 
@@ -31,12 +29,6 @@
          <dependency>
             <groupId>org.slc.sli.ingestion</groupId>
             <artifactId>ingestion-base</artifactId>
-            <version>${project.version}</version>
-         </dependency>
-
-         <dependency>
-            <groupId>org.slc.sli.ingestion</groupId>
-            <artifactId>ingestion-core</artifactId>
             <version>${project.version}</version>
          </dependency>
 
