@@ -14,7 +14,9 @@ class Report
     @db['apiResponse'].find.sort([['body.Date',-1],['body.endTime',-1]]).limit(1).each do |record|
        buildTag = record['body']['buildNumber']
     end
+    buildTag = 'jenkins-api-27'
     finalQuery = {"_id.build_tag"=>buildTag}
+
     create_report('end_point',finalQuery)
   end
 
