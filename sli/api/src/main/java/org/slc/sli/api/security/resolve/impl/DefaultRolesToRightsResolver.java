@@ -25,6 +25,7 @@ import org.slc.sli.api.security.resolve.ClientRoleResolver;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleRightAccess;
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +72,15 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
     }
     
     private boolean isAdminRealm(String realmId) {
-        Entity entity = repo.findById("realm", realmId);
+        Entity entity = null;
+        String tmpTenantId = TenantContext.getTenantId();
+        try {
+            TenantContext.setTenantId(null);
+            entity = repo.findById("realm", realmId);
+        } finally {
+            TenantContext.setTenantId(tmpTenantId);
+        }
+       
         Boolean admin = (Boolean) entity.getBody().get("admin");
         return admin != null ? admin : false;
     }
