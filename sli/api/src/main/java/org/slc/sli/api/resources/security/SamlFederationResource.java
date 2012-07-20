@@ -61,6 +61,7 @@ import org.slc.sli.api.security.saml.SamlAttributeTransformer;
 import org.slc.sli.api.security.saml.SamlHelper;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -126,7 +127,7 @@ public class SamlFederationResource {
     public Response consume(@FormParam("SAMLResponse") String postData, @Context UriInfo uriInfo) throws Exception {
 
         info("Received a SAML post for SSO...");
-
+        TenantContext.setTenantId(null);
         Document doc = null;
 
         try {
