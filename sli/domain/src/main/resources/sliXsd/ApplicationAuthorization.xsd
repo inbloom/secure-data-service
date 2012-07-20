@@ -24,12 +24,20 @@
 						</xs:restriction>
 					</xs:simpleType>
 				</xs:element>
-				<xs:element name="authId" type="xs:string" minOccurs="1"/>
-               <xs:element name="appIds" minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="authId" type="reference" minOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>The education organization that has enabled use of this application.
+                        </xs:documentation>
+                        <xs:appinfo>
+                            <sli:ReferenceType>educationOrganization</sli:ReferenceType>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="appIds" minOccurs="0" maxOccurs="unbounded">
                    <xs:simpleType>
                       <xs:restriction base="xs:string"/>
                    </xs:simpleType>
-               </xs:element>
+                </xs:element>
 			</xs:sequence>
 		</xs:complexType>
 	</xs:element>

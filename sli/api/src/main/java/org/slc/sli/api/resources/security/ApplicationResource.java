@@ -431,35 +431,24 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         String sandboxTenant = principal.getExternalId();
         EntityService edorgService = store.lookupByResourceName(ResourceNames.EDUCATION_ORGANIZATIONS).getService();
 
-        // make a query to get edorgs in list that are in tenant of principal.. return true if count matchs number of edorgs searched.
-        for (String edOrgId : edOrgs) {
 
-            EntityBody entity = edorgService.list(new NeutralQuery(new NeutralCriteria("stateOrganizationId", "=", edOrgId))).iterator().next();
-            if (entity != null && entity.containsKey("metaData")) {
-                @SuppressWarnings("rawtypes")
-                Map metaData = (Map) entity.get("metaData");
-                if (!sandboxTenant.equals(metaData.get("tenantId"))) {
-                    debug("EdOrg {} does not belong to tenant {}.", edOrgId, sandboxTenant);
-                    return false;
-                }
-            } else {
-                debug("Did not find metadata for {}", edOrgId);
-            }
-        }
-        return true;
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, sandboxTenant, false));
+        query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, edOrgs));
+        return edOrgs.size() == edorgService.count(query);
     }
 
-    private void iterateEdOrgs(String uuid, List<String> edOrgs) {
-        for (String edOrg : edOrgs) {
+    private void iterateEdOrgs(String uuid, List<String> edOrgIds) {
+        for (String edOrgId : edOrgIds) {
             NeutralQuery query = new NeutralQuery();
-            query.addCriteria(new NeutralCriteria("authId", NeutralCriteria.OPERATOR_EQUAL, edOrg));
+            query.addCriteria(new NeutralCriteria("authId", NeutralCriteria.OPERATOR_EQUAL, edOrgId));
             Iterable<EntityBody> auths = service.list(query);
             long count = service.count(query);
             if (count == 0) {
                 debug("No application authorization exists. Creating one.");
                 EntityBody body = new EntityBody();
                 body.put("authType", "EDUCATION_ORGANIZATION");
-                body.put("authId", edOrg);
+                body.put("authId", edOrgId);
                 body.put("appIds", new ArrayList());
                 service.create(body);
                 auths = service.list(query);
