@@ -51,15 +51,21 @@ public class SecurityUtil {
     public static final String SYSTEM_ENTITY = "system_entity";
 
     private static ThreadLocal<Authentication> cachedAuth = new ThreadLocal<Authentication>();
-
+    private static ThreadLocal<String> tenantContext = new ThreadLocal<String>();
+    private static ThreadLocal<Boolean> inSudo = new ThreadLocal<Boolean>(); //use to detect nested sudos
+    private static ThreadLocal<Boolean> inTenantBlock = new ThreadLocal<Boolean>(); //use to detect nested tenant blocks
+    
     static {
         SLIPrincipal system = new SLIPrincipal("SYSTEM");
         system.setEntity(new MongoEntity(SYSTEM_ENTITY, new HashMap<String, Object>()));
-
         FULL_ACCESS_AUTH = new PreAuthenticatedAuthenticationToken(system, "API", Arrays.asList(Right.FULL_ACCESS));
     }
 
     public static <T> T sudoRun(SecurityTask<T> task) {
+        if (inSudo.get() != null && inSudo.get()) {
+            throw new RuntimeException("Cannot sudo inside a sudo block");
+        }
+        inSudo.set(true);
         T toReturn = null;
 
         cachedAuth.set(SecurityContextHolder.getContext().getAuthentication());
@@ -69,6 +75,29 @@ public class SecurityUtil {
             toReturn = task.execute();
         } finally {
             SecurityContextHolder.getContext().setAuthentication(cachedAuth.get());
+            cachedAuth.remove();
+            inSudo.set(false);
+        }
+
+        return toReturn;
+    }
+    
+    public static <T> T runWithAllTenants(SecurityTask<T> task) {
+        if (inTenantBlock.get() != null && inTenantBlock.get()) {
+            throw new RuntimeException("Cannot nest tenant blocks");
+        }
+        inTenantBlock.set(true);
+        T toReturn = null;
+
+        tenantContext.set(TenantContext.getTenantId());
+
+        try {
+            TenantContext.setTenantId(null);
+            toReturn = task.execute();
+        } finally {
+            TenantContext.setTenantId(tenantContext.get());
+            tenantContext.remove();
+            inTenantBlock.set(false);
         }
 
         return toReturn;
@@ -173,20 +202,19 @@ public class SecurityUtil {
     public static boolean isHostedUser(final Repository<Entity> repo, SLIPrincipal principal) {
         final String realmId = principal.getRealm();
 
-        String tenantId = TenantContext.getTenantId();
+        Entity entity = runWithAllTenants(new SecurityTask<Entity>() {
+
+            @Override
+            public Entity execute() {
+                return repo.findById("realm", realmId);
+            }});
         
-        Entity entity = null;
-        try {
-            TenantContext.setTenantId(null);
-            entity = repo.findById("realm", realmId);
-        } finally {
-            TenantContext.setTenantId(tenantId);
-        }
         
         if (entity != null) {
             Boolean admin = (Boolean) entity.getBody().get("admin");
             return admin != null ? admin : false;
+        } else {
+            throw new RuntimeException("Could not find realm " + realmId);
         }
-        return false;
     }
 }

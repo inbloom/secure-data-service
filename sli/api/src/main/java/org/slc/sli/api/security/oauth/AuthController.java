@@ -128,11 +128,7 @@ public class AuthController {
                     map.put(node.get("id").toString(), node.get("name").toString());
                     if (realmUniqueId != null && realmUniqueId.length() > 0) {
                         if (realmUniqueId.equals(node.get("uniqueIdentifier"))) {
-                            try {
-                                return ssoInit(node.get("id").toString(), sessionId, redirectUri, clientId, state, res, model);
-                            } catch (IOException e) {
-                                error("Error initiating SSO", e);
-                            }
+                            return node;
                         }
                     }
                 }
@@ -140,8 +136,8 @@ public class AuthController {
             }
         });
         
-        if (result instanceof String) {
-            return (String) result;
+        if (result instanceof EntityBody) {
+            return ssoInit( ((EntityBody) result).get("id").toString(), sessionId, redirectUri, clientId, state, res, model);
         }
         
         Map<String, String> map = (Map<String, String>) result;
