@@ -83,9 +83,15 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     /* Shared query parameters that are used by all endpoints */
     @QueryParam(ParameterConstants.INCLUDE_CUSTOM)
     @DefaultValue(ParameterConstants.DEFAULT_INCLUDE_CUSTOM)
-    protected String includeCustomEntityStr;
+    private String includeCustomEntityStr;
+
+    @QueryParam(ParameterConstants.INCLUDE_AGGREGATES)
+    @DefaultValue(ParameterConstants.DEFAULT_INCLUDE_AGGS)
+    private String includeAggs;
 
     /* Critera you can override in sublcass */
+    // TODO fix this
+    // Never make instance variables anything but private
     protected NeutralCriteria extraCriteria;
 
     /* The maximum number of values allowed in a comma separated string */
@@ -397,6 +403,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
                         // add the custom entity if it was requested
                         addCustomEntity(result, entityDef, uriInfo);
+
+                        // add the aggregates if they were requested
+                        addAggregates(result, entityDef, uriInfo);
                     }
                     finalResults.add(result);
                 }
@@ -713,6 +722,21 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             EntityBody custom = entityDef.getService().getCustom(entityId);
             if (custom != null) {
                 entityBody.put(ResourceConstants.CUSTOM, custom);
+            }
+        }
+    }
+
+    /**
+     * Retrieve the custom entity for the given request if flag includeCustom is set to true.
+     *
+     */
+    private void addAggregates(EntityBody entityBody, final EntityDefinition entityDef, UriInfo uriInfo) {
+        boolean includeAggregates = "true".equals(includeAggs);
+        if (includeAggregates) {
+            String entityId = (String) entityBody.get("id");
+            AggregateData aggs = entityDef.getService().getAggregateData(entityId);
+            if (aggs != null) {
+                entityBody.put(ResourceConstants.AGGREGATE_TYPE, aggs.getAggregates());
             }
         }
     }
