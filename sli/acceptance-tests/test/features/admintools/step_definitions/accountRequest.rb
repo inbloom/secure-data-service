@@ -135,7 +135,7 @@ Then /^my field entries are validated$/ do
 end
 
 Then /^I am redirected to a page with terms and conditions$/ do
-  assert(@driver.current_url.include?("#{@baseUrl}/eula"))
+  assertWithWait("Was not redirected to the EULA page") {@driver.current_url.include?("#{@baseUrl}/eula")}
   assertText("Terms and Conditions")
 end
 
@@ -144,12 +144,14 @@ Then /^I receive an error that the account already exists$/ do
 end
 
 Then /^I am redirected to the hosting website$/ do
-  assert(@driver.current_url.include?(PropLoader.getProps['user_registration_app_host_url']))
+  assertWithWait("Was not redirected to the hosting website") {@driver.current_url.include?(PropLoader.getProps['user_registration_app_host_url'])}
 end
 
 Then /^I am directed to an acknowledgement page.$/ do
-  assertText("Thank You")
-  assertText("Be on the lookout for a confirmation email.")
+  assertWithWait("Could not find text 'Thank You' on page") {@driver.page_source.include?("Thank You")}
+  assertWithWait("Could not find text 'confirmation email' on page") {@driver.page_source.include?("Be on the lookout for a confirmation email")}
+#  assertText("Thank You")
+#  assertText("Be on the lookout for a confirmation email.")
 end
 
 Then /^I get a record for "([^\"]*)"$/ do |email|
