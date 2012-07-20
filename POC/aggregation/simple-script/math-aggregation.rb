@@ -168,8 +168,14 @@ r = Thread.new {
 t1 = Thread.new { emit_student_scores() }
 
 t1.join()
+r.kill()
 
-puts(@rvals)
+edOrgCollection = @db['educationOrganization']
+@rvals.each_pair { |key, val|
+  edOrg = edOrgCollection.find_one('_id' => key)
+  edOrgCollection.update({"_id" => key}, {"$set" => { "aggregations.assessments." + @assmtIDCode + ".Proficiency" => val }})
+}
+
 
 puts "Time elapsed #{time} seconds."
 puts "Total emit operations: #{@emitCount}"
