@@ -175,7 +175,8 @@ public class UserService {
         DistinguishedName dn = new DistinguishedName("ou=" + realm);
         PersonContextMapper pcm = new PersonContextMapper();
         boolean needAdditionalAttributes=(realm.equals(sliAdminRealmName));
-        pcm.setAddAttributes(needAdditionalAttributes);
+        //US2917 TO-DO: Uncomment below one line to activate force password change
+        //pcm.setAddAttributes(needAdditionalAttributes);
         User user = (User) ldapTemplate.searchForObject(dn, filter.toString(), pcm);
         user.userId = userId;
         return user;
