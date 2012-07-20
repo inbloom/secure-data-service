@@ -16,6 +16,12 @@
 -->
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="false" maxBytesLocalHeap="50%">
+    
+    <cacheManagerPeerProviderFactory class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
+    	properties="peerDiscovery=automatic, multicastGroupAddress=230.0.0.1, multicastGroupPort=4449, timeToLive=64"/>
+
+    <cacheManagerPeerListenerFactory class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory" 
+    	properties="port=40001, socketTimeoutMillis=2000"/>
 
     <defaultCache eternal="false" maxElementsInMemory="1000"
         overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
@@ -23,11 +29,15 @@
 
     <cache name="user.panel.data" eternal="false" overflowToDisk="false"><sizeOfPolicy maxDepth="100000"/></cache>
 
-    <cache name="user.custom.config" eternal="false" overflowToDisk="false"><sizeOfPolicy maxDepth="100000"/></cache>
+    <cache name="user.custom.config" eternal="false" overflowToDisk="false"><sizeOfPolicy maxDepth="100000"/>
+    <cacheEventListenerFactory class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"/>
+    </cache>
 
     <cache name="user.config.widget" eternal="false" overflowToDisk="false"><sizeOfPolicy maxDepth="100000"/></cache>
 
-    <cache name="user.panel.config" eternal="false" overflowToDisk="false" />
+    <cache name="user.panel.config" eternal="false" overflowToDisk="false" >
+    	<cacheEventListenerFactory class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"/>
+    </cache>
 
     <cache name="portal.data" eternal="false" overflowToDisk="false" />
 

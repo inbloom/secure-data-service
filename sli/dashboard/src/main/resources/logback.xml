@@ -34,6 +34,8 @@
 		<layout class="org.slc.sli.common.util.logging.CommonPatternLayout" />
 	</encoder>
   </appender>
+  <logger name="net.sf.ehcache.distribution" level="FINE"/>
+  
 
   <root level="${dashboard.log.level}">
       <appender-ref ref="FILE"/>
