@@ -182,7 +182,7 @@ def cleanseApps()
 
   @appColl.find.each do |row|
     if row['body']['bootstrap'] != true
-      @appColl.remove(row)
+      @appColl.remove(row, :safe => true)
     end
   end
 end
@@ -195,10 +195,10 @@ def cleanseTenantCollection()
 
   @tenantColl.find.each do |row|
     if TENANT_COLLECTION.include?(row['body']['tenantId'])
-      @tenantColl.remove(row)
+      @tenantColl.remove(row, :safe => true)
     end
     if row['body']['tenantId'].start_with?("devldapuser")
-      @tenantColl.remove(row)
+      @tenantColl.remove(row, :safe => true)
     end
   end
 end
@@ -209,11 +209,12 @@ def cleanseCollectionWithTenantID(collectionName, specificTenants)
   @conn = Mongo::Connection.new(DB_HOST)
   @db = @conn.db(DB_NAME)
   coll = @db.collection(collectionName)
+  
   #need a few if blocks for apps, app Auth, oauth tokens, realms
   if collectionName == "tenant"
     cleanseTenantCollection
   else
-    coll.remove("metaData.tenantId" => {"$in" => specificTenants})
+    coll.remove({"metaData.tenantId" => {"$in" => specificTenants}}, :safe => true)
   end
 end
 
@@ -221,11 +222,11 @@ def removeCollectionsCleanly(collectionName, specificTenants=nil)
   if specificTenants != nil
     cleanseCollectionWithTenantID(collectionName, specificTenants)
   else
-    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.#{collectionName}.remove({})\""
+    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.#{collectionName}.remove({}); assert.eq(null, db.getLastError());\""
   end
   
-  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig')\""
-  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.getLastError()\""
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig'); assert.eq(null, db.getLastError());\""
+#  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.getLastError()\""
 end
 
 # The admin realm and sandbox realm IDs are dynamically created during bootstrap,

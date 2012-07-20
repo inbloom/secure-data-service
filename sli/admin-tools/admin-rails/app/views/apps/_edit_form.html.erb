@@ -105,9 +105,9 @@
   <% @district_hierarchy.keys.each do |district| %>
     <li>
       <% if !app.authorized_ed_orgs.nil? %>
-        <%= check_box_tag(check_box_name, district["stateOrganizationId"], app.authorized_ed_orgs.include?(district["stateOrganizationId"])) %>
+        <%= check_box_tag(check_box_name, district["id"], app.authorized_ed_orgs.include?(district["id"])) %>
       <% else %>
-         <%= check_box_tag(check_box_name, district["stateOrganizationId"]) %>
+         <%= check_box_tag(check_box_name, district["id"]) %>
       <%end%>
 
          <%= district["name"] %>
@@ -116,9 +116,9 @@
             <li>
             <%=
                 if app.authorized_ed_orgs != nil
-                    check_box_tag(check_box_name, child_district["stateOrganizationId"], app.authorized_ed_orgs.include?(child_district["stateOrganizationId"]))
+                    check_box_tag(check_box_name, child_district["id"], app.authorized_ed_orgs.include?(child_district["id"]))
                 else
-                    check_box_tag(check_box_name, child_district["stateOrganizationId"])
+                    check_box_tag(check_box_name, child_district["id"])
                 end
             %>
             <%= child_district["name"] %>
