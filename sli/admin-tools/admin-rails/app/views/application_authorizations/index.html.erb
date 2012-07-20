@@ -37,7 +37,7 @@
             $("table").hide();
             $("h1").hide();
             <!--Now figure out how to get an h1 tag in jQuery by its text.  -->
-            $("h1:contains('" + $(this).attr('value') + "')").show();
+            $("h1:contains('" + $(this).text() + "')").show();
             $("#AuthorizedAppsTable_" + $(this).attr('value')).show();
        });
      }).change();
