@@ -234,7 +234,7 @@ public class ApplicationAuthorizationResource {
         }
 
         List<String> delegateEdOrgs = delegationUtil.getDelegateEdOrgs();
-        if (!appAuthEdOrgId.equals(edOrgId) && !delegateEdOrgs.contains(edOrgId)) {
+        if (!appAuthEdOrgId.equals(edOrgId) && !delegateEdOrgs.contains(appAuthEdOrgId)) {
             throw new AccessDeniedException("User can only access " + edOrgId);
         }
     }
