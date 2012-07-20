@@ -17,21 +17,16 @@
 
 package org.slc.sli.api.security;
 
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.domain.Entity;
 
 /**
  * Attribute holder for SLI Principal
@@ -41,11 +36,7 @@ import java.util.Map;
  */
 @Component
 public class SLIPrincipal implements Principal, Serializable {
-
-    @Autowired
-    @Qualifier("validationRepo")
-    private Repository<Entity> repo;
-
+    
     private static final long serialVersionUID = 1L;
     private String id;
     private String name;
@@ -56,6 +47,7 @@ public class SLIPrincipal implements Principal, Serializable {
     private String tenantId;
     private List<String> roles;
     private List<String> sliRoles;
+    private String edOrgId;
     
     private Entity entity;
     
@@ -173,16 +165,11 @@ public class SLIPrincipal implements Principal, Serializable {
     }
     
     public String getEdOrgId() {
-        if (edOrg == null || tenantId == null) {
-            return null;
-        }
-
-        NeutralQuery idQuery = new NeutralQuery();
-        idQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, tenantId, false));
-        idQuery.addCriteria(new NeutralCriteria("stateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, edOrg));
-        Entity entity = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, idQuery);
-
-        return entity != null ? entity.getEntityId() : null;
+        return edOrgId;
+    }
+    
+    public void setEdOrgId(String edOrgId) {
+        this.edOrgId = edOrgId;
     }
     
     public Map<String, Object> toMap() throws Exception {

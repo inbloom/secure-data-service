@@ -132,6 +132,24 @@ public class SecurityUtil {
         }
         return null;
     }
+    
+    public static String getEdOrgId() {
+        SLIPrincipal principal = getSLIPrincipal();
+        if (principal != null) {
+            return principal.getEdOrgId();
+        }
+        return null;
+    }
+    
+    public static SLIPrincipal getSLIPrincipal() {
+        SLIPrincipal principal = null;
+        SecurityContext context = SecurityContextHolder.getContext();
+        if (context.getAuthentication() != null) {
+            principal = (SLIPrincipal) context.getAuthentication().getPrincipal();
+            return principal;
+        }
+        return null;
+    }
 
     public static Response forbiddenResponse() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
