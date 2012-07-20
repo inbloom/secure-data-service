@@ -101,16 +101,12 @@
                 <xs:element name="installed" type="xs:boolean" minOccurs="1" />
                 <xs:element name="vendor" type="xs:string" minOccurs="1" />
                 <xs:element name="registration" type="registration"
-                    minOccurs="0" />   
+                    minOccurs="0" />
                 <xs:element name="endpoints" type="endpoint" minOccurs="0" maxOccurs="unbounded"/>
-                <xs:element name="authorized_ed_orgs" type="reference" minOccurs="0">
-                    <xs:annotation>
-                        <xs:documentation>The education organizations that have enabled use of this application.
-                        </xs:documentation>
-                        <xs:appinfo>
-                            <sli:ReferenceType>educationOrganization</sli:ReferenceType>
-                        </xs:appinfo>
-                    </xs:annotation>
+                <xs:element name="authorized_ed_orgs" minOccurs="0">
+                    <xs:simpleType>
+                        <xs:list itemType="xs:string"/>
+                    </xs:simpleType>
                 </xs:element>
             </xs:sequence>
         </xs:complexType>
