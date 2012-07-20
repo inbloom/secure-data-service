@@ -23,14 +23,12 @@ import static org.mockito.Mockito.when;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.UUID;
 
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBObject;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -101,14 +99,12 @@ public class MongoEntityTest {
         Map<String, Object> highestEver = new HashMap<String, Object>();
         highestEver.put("ScaleScore", "28.0");
         mathTest.put("HighestEver", highestEver);
-        assessments.put("Grade 7 2011 State Math", mathTest);
+        assessments.put("ACT", mathTest);
         aggregate.put("assessments", assessments);
         DBObject dbObject = new BasicDBObjectBuilder().add("_id", "42").add("body", body)
                 .add("aggregations", aggregate).get();
         AggregateData data = MongoEntity.fromDBObject(dbObject).getAggregates();
-        assertEquals(new HashSet<String>(Arrays.asList("assessments")), data.getAggregatedTypes());
-        Map<String, Object> assessmentAggs = data.getAggregatesForType("assessments");
-        assertEquals("28.0", BeanUtils.getProperty(assessmentAggs, "Grade 7 2011 State Math.HighestEver.ScaleScore"));
+        assertEquals(Arrays.asList(new AggregateDatum("assessments", "HighestEver", "ACT", "ScaleScore", "28.0")), data.getAggregates());
     }
 
 }

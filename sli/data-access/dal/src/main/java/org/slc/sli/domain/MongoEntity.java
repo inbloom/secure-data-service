@@ -208,7 +208,7 @@ public class MongoEntity implements Entity, Serializable {
 
         Map<String, Object> metaData = (Map<String, Object>) dbObj.get("metaData");
         Map<String, Object> body = (Map<String, Object>) dbObj.get("body");
-        Map<String, Map<String, Object>> aggs = (Map<String, Map<String, Object>>) dbObj.get("aggregations");
+        Map<String, Map<String, Map<String, Map<String, Object>>>> aggs = (Map<String, Map<String, Map<String, Map<String, Object>>>>) dbObj.get("aggregations");
 
         return new MongoEntity(type, id, body, metaData, new AggregateData(aggs));
     }
