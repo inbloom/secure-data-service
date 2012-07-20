@@ -24,7 +24,7 @@ public final class Xsd2Uml {
         final Model model02 = Xsd2UmlLinker.link(model01, plugIn);
         // Temporarily disable the conversion of Association to AssociationClass because ArgoUML
         // doesn't allow us to make diagrams following an XMI import.
-        // return Xsd2UmlTweaker.tweak(model02, plugIn);
-        return model02;
+         return Xsd2UmlTweaker.tweak(model02, plugIn);
+        //return model02;
     }
 }

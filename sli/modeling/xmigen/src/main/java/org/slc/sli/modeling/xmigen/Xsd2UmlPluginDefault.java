@@ -1,5 +1,8 @@
 package org.slc.sli.modeling.xmigen;
 
+import org.slc.sli.modeling.uml.Attribute;
+import org.slc.sli.modeling.uml.ClassType;
+
 import javax.xml.namespace.QName;
 
 /**
@@ -60,5 +63,10 @@ public abstract class Xsd2UmlPluginDefault implements Xsd2UmlPlugin {
             throw new NullPointerException("base");
         }
         return nameFromSchemaTypeName(simpleType).concat(" restricts ").concat(nameFromSchemaTypeName(base));
+    }
+
+    @Override
+    public boolean isPotentialReferenceType(ClassType classType, Attribute attribute, Xsd2UmlPluginHost host){
+        return true;
     }
 }

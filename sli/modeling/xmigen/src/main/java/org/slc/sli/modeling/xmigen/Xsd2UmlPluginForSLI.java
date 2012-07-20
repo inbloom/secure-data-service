@@ -40,6 +40,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
+
+    private static final String TYPE_IDENTIFICATION_CODE = "IdentificationCode";
     
     private static final TagDefinition makeTagDefinition(final String name, final Occurs lower, final Occurs upper,
             final Xsd2UmlPluginHost host) {
@@ -122,6 +124,24 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
             }
         }
         return false;
+    }
+
+    @Override
+    /**
+     * To determine whether the attribute should be a reference type the attribute name is checked along with the type
+     */
+    public boolean isPotentialReferenceType(final ClassType classType, final Attribute attribute, final Xsd2UmlPluginHost host) {
+
+        boolean bIsValidReference = true ;
+        final String type = host.getType(attribute.getType()).getName();
+        final String name = attribute.getName();
+        final String suffixSingular = getReferenceSuffix();
+        final String suffixPlural = Xsd2UmlHelper.pluralize(suffixSingular);
+        final boolean isTypeRef = isAssociationEnd(classType,attribute,host);
+        if (!isTypeRef && !type.equals(TYPE_IDENTIFICATION_CODE) && (name.endsWith(suffixSingular) || name.endsWith(suffixPlural)) ) {
+            bIsValidReference = false;
+        }
+        return bIsValidReference;
     }
     
     @Override

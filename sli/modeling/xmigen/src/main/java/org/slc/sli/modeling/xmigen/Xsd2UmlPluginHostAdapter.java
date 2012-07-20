@@ -85,6 +85,11 @@ final class Xsd2UmlPluginHostAdapter implements Xsd2UmlPluginHost {
     public boolean isAssociationEnd(final ClassType classType, final Attribute attribute, final Xsd2UmlPluginHost host) {
         return false;
     }
+
+    @Override
+    public boolean isPotentialReferenceType(final ClassType classType, final Attribute attribute, final Xsd2UmlPluginHost host) {
+        return true;
+    }
     
     @Override
     public String nameAssociation(final AssociationEnd lhs, final AssociationEnd rhs, final Xsd2UmlPluginHost host) {

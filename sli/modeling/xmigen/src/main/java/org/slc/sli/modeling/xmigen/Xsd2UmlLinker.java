@@ -22,6 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.modeling.psm.helpers.SliUmlConstants;
 import org.slc.sli.modeling.psm.helpers.TagName;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
@@ -34,6 +35,7 @@ import org.slc.sli.modeling.uml.NamespaceOwnedElement;
 import org.slc.sli.modeling.uml.Occurs;
 import org.slc.sli.modeling.uml.Range;
 import org.slc.sli.modeling.uml.TaggedValue;
+import org.slc.sli.modeling.uml.TagDefinition;
 import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.index.DefaultModelIndex;
 import org.slc.sli.modeling.uml.index.ModelIndex;
@@ -57,7 +59,11 @@ final class Xsd2UmlLinker {
             final Map<String, Identifier> nameToClassTypeId, final Map<String, Attribute> classAttributes,
             final Map<String, AssociationEnd> classAssociationEnds) {
         final List<Attribute> result = new LinkedList<Attribute>();
+        final Xsd2UmlPluginHost host = new Xsd2UmlPluginHostAdapter(lookup);
         for (final Attribute attribute : attributes) {
+            if(!plugin.isPotentialReferenceType(classType,attribute,host)) {
+                reportInconsistentReferenceType(classType,attribute);
+            }
             final Attribute cleanUp = splitClassFeature(classType, attribute, plugin, lookup, nameToClassTypeId,
                     classAssociationEnds);
             if (cleanUp != null) {
@@ -272,13 +278,6 @@ final class Xsd2UmlLinker {
             final ModelIndex model, final Xsd2UmlPlugin plugin) {
         final String name = attribute.getName();
         
-        // Leaving some breadcrumbs here for how to retrieve tag definitions.
-        // for (final TaggedValue taggedValue : attribute.getTaggedValues()) {
-        // final Identifier tagDefinitionId = taggedValue.getTagDefinition();
-        // final TagDefinition tagDefinition = model.getTagDefinition(tagDefinitionId);
-        // System.out.println(tagDefinition.getName() + "=>" + taggedValue.getValue());
-        // }
-        
         final String suffixSingular = plugin.getReferenceSuffix();
         final String suffixPlural = Xsd2UmlHelper.pluralize(suffixSingular);
         if (name.endsWith(suffixSingular)) {
@@ -298,6 +297,7 @@ final class Xsd2UmlLinker {
             reportInconsistentSuffix(suffixPlural, classType, attribute);
             return name.substring(0, name.length() - SUFFIX_REFERENCES.length());
         } else {
+
             reportInconsistentSuffix(suffixSingular + " or " + suffixPlural, classType, attribute);
             return name;
         }
@@ -307,5 +307,9 @@ final class Xsd2UmlLinker {
             final Attribute attribute) {
         System.err.println("Warning: Inconsistent suffix in " + classType.getName() + "." + attribute.getName()
                 + ". Expected: " + expected);
+    }
+
+    private static final void reportInconsistentReferenceType (final ClassType classType,final Attribute attribute) {
+        System.err.println("Warning: " + classType.getName() + "." + attribute.getName() + " could be sli:ReferenceType");
     }
 }

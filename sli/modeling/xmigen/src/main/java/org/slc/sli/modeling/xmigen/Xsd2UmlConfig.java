@@ -99,6 +99,11 @@ final class Xsd2UmlConfig implements Xsd2UmlPlugin, Xsd2UmlPluginHost {
     public boolean isAssociationEnd(final ClassType classType, final Attribute attribute, final Xsd2UmlPluginHost host) {
         return plugin.isAssociationEnd(classType, attribute, host);
     }
+
+    @Override
+    public boolean isPotentialReferenceType(final ClassType classType, final Attribute attribute, final Xsd2UmlPluginHost host) {
+        return plugin.isPotentialReferenceType(classType, attribute, host);
+    }
     
     @Override
     public String nameAssociation(final AssociationEnd lhs, final AssociationEnd rhs, final Xsd2UmlPluginHost host) {

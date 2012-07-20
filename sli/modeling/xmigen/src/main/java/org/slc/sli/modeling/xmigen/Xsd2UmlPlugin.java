@@ -43,6 +43,8 @@ public interface Xsd2UmlPlugin {
     String getReferenceSuffix();
     
     boolean isAssociationEnd(ClassType classType, Attribute attribute, Xsd2UmlPluginHost host);
+
+    boolean isPotentialReferenceType(ClassType classType, Attribute attribute, Xsd2UmlPluginHost host);
     
     String nameAssociation(AssociationEnd lhs, AssociationEnd rhs, Xsd2UmlPluginHost host);
     
