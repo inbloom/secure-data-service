@@ -64,6 +64,7 @@ public class SecurityContextInjector {
         Mockito.when(entity.getType()).thenReturn("admin-staff");
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
         principal.setEdOrg(ED_ORG_ID);
+        principal.setEdOrgId(ED_ORG_ID);
         setSecurityContext(principal);
     }
     
