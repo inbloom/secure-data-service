@@ -146,8 +146,8 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeAggregator {
             Entity appAuth = i.next();
             List<String> appIdArray = (List<String>) appAuth.getBody().get("appIds");
             if (!appIdArray.contains(appId)) {
-                NeutralQuery query = new NeutralQuery(new NeutralCriteria("stateOrganizationId",
-                        NeutralCriteria.OPERATOR_EQUAL, appAuth.getBody().get("authId")));
+                NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id",
+                        NeutralCriteria.OPERATOR_EQUAL, appAuth.getBody().get("authId"), false));
                 Entity edorgEntity = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, query);
                 if (edorgEntity != null) {
                     blacklist.add(edorgEntity.getEntityId());

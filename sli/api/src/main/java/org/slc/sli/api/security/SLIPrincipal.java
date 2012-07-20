@@ -164,10 +164,19 @@ public class SLIPrincipal implements Principal, Serializable {
         return tenantId;
     }
     
+    /**
+     * Gets the entity ID of the edOrg the user is associated with
+     * @return
+     */
     public String getEdOrgId() {
         return edOrgId;
     }
     
+    
+    /**
+     * 
+     * @param edOrgId the entityId of the edOrg the user is associated with
+     */
     public void setEdOrgId(String edOrgId) {
         this.edOrgId = edOrgId;
     }

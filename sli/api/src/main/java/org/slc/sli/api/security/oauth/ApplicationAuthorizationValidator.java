@@ -80,15 +80,14 @@ public class ApplicationAuthorizationValidator {
             debug("User is in district {}.", district.getEntityId());
 
             NeutralQuery query = new NeutralQuery();
-            query.addCriteria(new NeutralCriteria("authId", "=", district.getBody().get("stateOrganizationId")));
+            query.addCriteria(new NeutralCriteria("authId", "=", district.getEntityId()));
             query.addCriteria(new NeutralCriteria("authType", "=", "EDUCATION_ORGANIZATION"));
             Entity authorizedApps = repo.findOne("applicationAuthorization", query);
 
             if (authorizedApps != null) {
                 
                 NeutralQuery districtQuery = new NeutralQuery(0);
-                districtQuery.addCriteria(new NeutralCriteria("authorized_ed_orgs", "=", district.getBody().get(
-                        "stateOrganizationId")));
+                districtQuery.addCriteria(new NeutralCriteria("authorized_ed_orgs", "=", district.getEntityId()));
                 
                 Set<String> vendorAppsEnabledForEdorg = new HashSet<String>(bootstrapApps); //bootstrap apps automatically added
                 
