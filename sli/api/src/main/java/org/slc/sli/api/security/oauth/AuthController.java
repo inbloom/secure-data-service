@@ -216,6 +216,7 @@ public class AuthController {
         String realmId = getRealmId(sessionId);
         boolean forceAuthn = (sessionId != null && realmId != null) ? false : true;
 
+        //Ugly, but we need both sudo access and full tenant access
         EntityBody realmEnt = SecurityUtil.sudoRun(new SecurityTask<EntityBody>() {
 
                     @Override
