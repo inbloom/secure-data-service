@@ -34,6 +34,7 @@ import org.slc.sli.modeling.uml.NamespaceOwnedElement;
 import org.slc.sli.modeling.uml.Occurs;
 import org.slc.sli.modeling.uml.Range;
 import org.slc.sli.modeling.uml.TaggedValue;
+import org.slc.sli.modeling.uml.TagDefinition;
 import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.index.DefaultModelIndex;
 import org.slc.sli.modeling.uml.index.ModelIndex;
@@ -271,13 +272,20 @@ final class Xsd2UmlLinker {
     private static final String suggestStem(final ClassType classType, final Attribute attribute,
             final ModelIndex model, final Xsd2UmlPlugin plugin) {
         final String name = attribute.getName();
-        
-        // Leaving some breadcrumbs here for how to retrieve tag definitions.
-        // for (final TaggedValue taggedValue : attribute.getTaggedValues()) {
-        // final Identifier tagDefinitionId = taggedValue.getTagDefinition();
-        // final TagDefinition tagDefinition = model.getTagDefinition(tagDefinitionId);
-        // System.out.println(tagDefinition.getName() + "=>" + taggedValue.getValue());
-        // }
+
+        boolean isTypeReference = false;
+        for (final TaggedValue taggedValue : attribute.getTaggedValues()) {
+            final Identifier tagDefinitionId = taggedValue.getTagDefinition();
+            final TagDefinition tagDefinition = model.getTagDefinition(tagDefinitionId);
+            if(tagDefinition.getName().endsWith("reference")) {
+                isTypeReference = true;
+                break;
+            }
+        }
+        if ((name.endsWith(SUFFIX_ID) || name.endsWith(SUFFIX_IDS) || name.endsWith(SUFFIX_REFERENCE)
+                || name.endsWith(SUFFIX_REFERENCES)) && !isTypeReference) {
+            reportInconsistentSuffix("Does not have sli:reference Type",classType,attribute);
+        }
         
         final String suffixSingular = plugin.getReferenceSuffix();
         final String suffixPlural = Xsd2UmlHelper.pluralize(suffixSingular);
