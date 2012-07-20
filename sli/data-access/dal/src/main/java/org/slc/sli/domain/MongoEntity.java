@@ -18,7 +18,6 @@ package org.slc.sli.domain;
 
 import java.io.Serializable;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -113,8 +112,7 @@ public class MongoEntity implements Entity, Serializable {
             this.metaData = metaData;
         }
 
-        this.aggregationData = aggregateData == null ? new AggregateData(new HashMap<String, Map<String, String>>())
-                : aggregateData;
+        this.aggregationData = aggregateData == null ? new AggregateData() : aggregateData;
     }
 
     @Override
@@ -210,7 +208,7 @@ public class MongoEntity implements Entity, Serializable {
 
         Map<String, Object> metaData = (Map<String, Object>) dbObj.get("metaData");
         Map<String, Object> body = (Map<String, Object>) dbObj.get("body");
-        Map<String, Map<String, String>> aggs = (Map<String, Map<String, String>>) dbObj.get("aggregate");
+        Map<String, Map<String, Object>> aggs = (Map<String, Map<String, Object>>) dbObj.get("aggregations");
 
         return new MongoEntity(type, id, body, metaData, new AggregateData(aggs));
     }

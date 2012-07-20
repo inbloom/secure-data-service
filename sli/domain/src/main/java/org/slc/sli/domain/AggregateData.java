@@ -11,13 +11,13 @@ import java.util.Map;
  *
  */
 public class AggregateData {
-    private final Map<String, Map<String, String>> aggregates;
+    private final Map<String, Map<String, Object>> aggregates;
 
     public AggregateData() {
-        this(new HashMap<String, Map<String, String>>());
+        this(new HashMap<String, Map<String, Object>>());
     }
 
-    public AggregateData(Map<String, Map<String, String>> aggregates) {
+    public AggregateData(Map<String, Map<String, Object>> aggregates) {
         super();
         this.aggregates = aggregates;
     }
@@ -26,7 +26,14 @@ public class AggregateData {
         return aggregates.keySet();
     }
 
-    public Map<String, String> getAggregatesForType(String type) {
+    public Map<String, Object> getAggregatesForType(String type) {
         return aggregates.get(type);
     }
+
+    @Override
+    public String toString() {
+        return "AggregateData [aggregates=" + aggregates + ", getAggregatedTypes()=" + getAggregatedTypes() + "]";
+    }
+
+
 }

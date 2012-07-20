@@ -14,19 +14,23 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.domain;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.UUID;
 
+import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBObject;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -39,7 +43,7 @@ public class MongoEntityTest {
 
     private UUIDGeneratorStrategy mockGeneratorStrategy;
 
-    private static final String FIXED_UUID = "2012wd-type1uuid"; //new UUID(42L, 5150L);
+    private static final String FIXED_UUID = "2012wd-type1uuid"; // new UUID(42L, 5150L);
 
     @Before
     public void init() {
@@ -86,6 +90,25 @@ public class MongoEntityTest {
         MongoEntity entity = new MongoEntity("student", uuid, body, metaData, null);
 
         return entity;
+    }
+
+    @Test
+    public void testCreateAggregate() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+        Map<String, Object> body = new HashMap<String, Object>();
+        Map<String, Object> aggregate = new HashMap<String, Object>();
+        Map<String, Object> assessments = new HashMap<String, Object>();
+        Map<String, Object> mathTest = new HashMap<String, Object>();
+        Map<String, Object> highestEver = new HashMap<String, Object>();
+        highestEver.put("ScaleScore", "28.0");
+        mathTest.put("HighestEver", highestEver);
+        assessments.put("Grade 7 2011 State Math", mathTest);
+        aggregate.put("assessments", assessments);
+        DBObject dbObject = new BasicDBObjectBuilder().add("_id", "42").add("body", body)
+                .add("aggregations", aggregate).get();
+        AggregateData data = MongoEntity.fromDBObject(dbObject).getAggregates();
+        assertEquals(new HashSet<String>(Arrays.asList("assessments")), data.getAggregatedTypes());
+        Map<String, Object> assessmentAggs = data.getAggregatesForType("assessments");
+        assertEquals("28.0", BeanUtils.getProperty(assessmentAggs, "Grade 7 2011 State Math.HighestEver.ScaleScore"));
     }
 
 }
