@@ -7,7 +7,7 @@ Given /^I am using the general data store$/ do
 end
 
 When /^I run the highest ever aggregation job$/ do
-        `hadoop jar $SLI_HOME/POC/aggregation/US2875-HighestEver-ACT/target/US2875-HighestEver-ACT-1.0-SNAPSHOT-job.jar`
+        `hadoop jar $SLI_HOME/POC/aggregation/Math-HighestEver/target/Math-HighestEver-1.0-SNAPSHOT-job.jar`
 end
 
 Then /^for the (.*?) with "(.*?)" set to "(.*?)", "(.*?)" is "(.*?)"$/ do |type, query, queryValue, testKey, testValue| 

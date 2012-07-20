@@ -6,7 +6,7 @@ Given I am using the general data store
   And I am using preconfigured Ingestion Landing Zone
 
 Scenario: Post a zip file containing all configured interchanges as a payload of the ingestion job: Clean Database
-Given I post "aggregationData.zip" file as the payload of the ingestion job
+Given I post "aggregationData/DataSet1.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
      | collectionName               |
      | assessment                   |
