@@ -25,13 +25,13 @@ admin:
       -
         name: something
         roles:
-          -One
-          -Two
+          - One
+          - Two
       -
         name: something else
         roles:
-          -One
-          -Two
+          - One
+          - Two
 
     created_on: 1331670018
     updated_on: 1331670018
@@ -71,7 +71,6 @@ waffles:
         
 update:
     id: 1
-    client_secret: "Waffle Copter"
     scope: installed
     redirect_uri: https://devadmin1.slidev.org/callback
     description: Waffle application
@@ -79,6 +78,10 @@ update:
     name: Waffle Application (Deoployment)
     application_url: https://devadmin1.slidev.org/
     administration_url: https://devadmin1.slidev.org/apps
+    authorized_ed_orgs:
+        - 1
+        - 2
+        - 3
     registration:
         status: "APPROVED"
         request_date: 1330521193111

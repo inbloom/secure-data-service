@@ -220,10 +220,10 @@ class AppsController < ApplicationController
     state_ed_orgs.each do |ed_org|
       # In sandbox mode, only show edorgs for the current user's tenant
       next if ed_org.organizationCategories == nil or ed_org.organizationCategories.index("State Education Agency") == nil
-      current_parent = {"id" => ed_org.id, "name" => ed_org.nameOfInstitution, "stateOrganizationId" => ed_org.stateOrganizationId}
+      current_parent = {"id" => ed_org.id, "name" => ed_org.nameOfInstitution }
       child_ed_orgs = EducationOrganization.find(:all, :params => {"parentEducationAgencyReference" => ed_org.id})
       child_ed_orgs.each do |child_ed_org|
-        current_child = {"id" => child_ed_org.id, "name" => child_ed_org.nameOfInstitution, "stateOrganizationId" => child_ed_org.stateOrganizationId}
+        current_child = {"id" => child_ed_org.id, "name" => child_ed_org.nameOfInstitution}
         if result.keys.include?(current_parent)
           result[current_parent].push(current_child)
         else
