@@ -27,6 +27,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -35,6 +36,10 @@ import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleRightAccess;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
@@ -141,6 +146,8 @@ public class SecuritySessionResource {
             sessionDetails.put("granted_authorities", principal.getRoles());
             sessionDetails.put("realm", principal.getRealm());
             sessionDetails.put("edOrg", principal.getEdOrg());
+            sessionDetails.put("edOrgId", principal.getEdOrgId());
+            
             sessionDetails.put("sliRoles", roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
             sessionDetails.put("tenantId", principal.getTenantId());
             sessionDetails.put("external_id", principal.getExternalId());

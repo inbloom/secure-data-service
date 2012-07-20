@@ -26,7 +26,10 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Attribute holder for SLI Principal
@@ -161,6 +164,14 @@ public class SLIPrincipal implements Principal, Serializable {
      */
     public String getTenantId() {
         return tenantId;
+    }
+    
+    public String getEdOrgId() {
+        NeutralQuery idQuery = new NeutralQuery();
+        idQuery.addCriteria(new NeutralCriteria("stateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, stateOrgId));
+        idQuery.addCriteria(new NeutralCriteria("metaData.tenantId", "=", usersTenant));
+        Entity edOrg = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, idQuery);
+        return edOrg.getEntityId();
     }
     
     public Map<String, Object> toMap() throws Exception {
