@@ -12,15 +12,7 @@
                 </xs:appinfo>
             </xs:annotation>
             <xs:sequence>
-                <xs:element name="localEdOrgId" type="reference" minOccurs="1" >
-                    <xs:annotation>
-                        <xs:documentation>The education organizations that allows/disallows this delegation.
-                        </xs:documentation>
-                        <xs:appinfo>
-                            <sli:ReferenceType>educationOrganization</sli:ReferenceType>
-                        </xs:appinfo>
-                    </xs:annotation>
-                </xs:element>
+                <xs:element name="localEdOrgId" type="xs:string" minOccurs="1" />                
                 <xs:element name="appApprovalEnabled" type="xs:boolean" minOccurs="1" />
                 <xs:element name="viewSecurityEventsEnabled" type="xs:boolean" minOccurs="1" />
             </xs:sequence>
