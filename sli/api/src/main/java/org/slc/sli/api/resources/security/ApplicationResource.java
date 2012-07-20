@@ -199,7 +199,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         } else if (!hasRight(Right.SLC_APP_APPROVE)) {
             debug("ED-ORG of operator/admin {}", principal.getEdOrg());
             extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
-                    principal.getEdOrg());
+                    principal.getEdOrgId());
             resp = super.readAll(offset, limit, headers, uriInfo);
 
             // also need the auto-allowed apps -- so in an ugly fashion, let's query those too and
@@ -241,7 +241,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         } else if (!hasRight(Right.SLC_APP_APPROVE)) {
             debug("ED-ORG of operator/admin {}", principal.getEdOrg());
             extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
-                    principal.getEdOrg());
+                    principal.getEdOrgId());
         }
         resp = super.read(uuid, headers, uriInfo);
         filterSensitiveData((Map) resp.getEntity());
@@ -431,6 +431,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         String sandboxTenant = principal.getExternalId();
         EntityService edorgService = store.lookupByResourceName(ResourceNames.EDUCATION_ORGANIZATIONS).getService();
 
+        // make a query to get edorgs in list that are in tenant of principal.. return true if count matchs number of edorgs searched.
         for (String edOrgId : edOrgs) {
 
             EntityBody entity = edorgService.list(new NeutralQuery(new NeutralCriteria("stateOrganizationId", "=", edOrgId))).iterator().next();

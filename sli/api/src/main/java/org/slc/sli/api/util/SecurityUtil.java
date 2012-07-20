@@ -34,6 +34,7 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
@@ -131,6 +132,24 @@ public class SecurityUtil {
         }
         return null;
     }
+    
+    public static String getEdOrgId() {
+        SLIPrincipal principal = getSLIPrincipal();
+        if (principal != null) {
+            return principal.getEdOrgId();
+        }
+        return null;
+    }
+    
+    public static SLIPrincipal getSLIPrincipal() {
+        SLIPrincipal principal = null;
+        SecurityContext context = SecurityContextHolder.getContext();
+        if (context.getAuthentication() != null) {
+            principal = (SLIPrincipal) context.getAuthentication().getPrincipal();
+            return principal;
+        }
+        return null;
+    }
 
     public static Response forbiddenResponse() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -169,10 +188,19 @@ public class SecurityUtil {
      *
      * @return true if the user is hosted, false otherwise
      */
-    public static boolean isHostedUser(Repository<Entity> repo, SLIPrincipal principal) {
-        String realmId = principal.getRealm();
+    public static boolean isHostedUser(final Repository<Entity> repo, SLIPrincipal principal) {
+        final String realmId = principal.getRealm();
 
-        Entity entity = repo.findById("realm", realmId);
+        String tenantId = TenantContext.getTenantId();
+        
+        Entity entity = null;
+        try {
+            TenantContext.setTenantId(null);
+            entity = repo.findById("realm", realmId);
+        } finally {
+            TenantContext.setTenantId(tenantId);
+        }
+        
         if (entity != null) {
             Boolean admin = (Boolean) entity.getBody().get("admin");
             return admin != null ? admin : false;

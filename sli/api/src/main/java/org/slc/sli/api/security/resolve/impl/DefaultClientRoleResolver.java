@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.resolve.ClientRoleResolver;
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.NeutralCriteria;
@@ -57,7 +58,14 @@ public class DefaultClientRoleResolver implements ClientRoleResolver {
         neutralQuery.setLimit(1);
         neutralQuery.addCriteria(new NeutralCriteria("_id", "=", realmId));
         
-        Iterable<Entity> realms = repo.findAll("realm", neutralQuery);
+        Iterable<Entity> realms = null;
+        String tmpTenantId = TenantContext.getTenantId();
+        try {
+            TenantContext.setTenantId(null);
+            realms = repo.findAll("realm", neutralQuery);
+        } finally {
+            TenantContext.setTenantId(tmpTenantId);
+        }
 
         Map<String, Object> realm = null;
         for (Entity firstRealm : realms) {

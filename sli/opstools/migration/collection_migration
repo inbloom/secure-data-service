@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+require 'mongo'
+
+DB = ARGV[0] 
+OLD_TYPE = ARGV[1]
+NEW_TYPE = ARGV[2]
+
+if (ARGV.size != 3) 
+  puts " How to use... "
+  puts " ./collection_migration <DATABASE> <OLD_COLLECTION> <NEW_COLLECTION>"
+  puts " example: ./collection_migration sli student section"
+  exit
+end
+
+def change_type rec, new_type
+  rec['type'] = new_type
+  rec
+end
+
+@conn = Mongo::Connection.new
+@db = @conn[DB]
+@old_coll = @db[OLD_TYPE]
+@new_coll = @db[NEW_TYPE]
+
+puts "#{OLD_TYPE} size is #{@old_coll.size}"
+puts "#{NEW_TYPE} size is #{@new_coll.size}"
+
+puts "moving entries from #{OLD_TYPE} to #{NEW_TYPE}"
+@old_coll.find.each do |rec| 
+  updated = change_type(rec, NEW_TYPE)
+  @new_coll.insert updated
+end
+
+puts "#{NEW_TYPE} size is #{@new_coll.size}"
+
+#puts "removing #{OLD_TYPE}"
+#@old_coll.drop
