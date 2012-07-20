@@ -84,7 +84,7 @@ end
 
 Then /^I should also update app authorizations for (district "[^"]*")$/ do |district|
   @format = "application/json"
-  dataObj = {"authId" => "b2c6e292-37b0-4148-bf75-c98a2fcc905f", "authType" => "EDUCATION_ORGANIZATION"}
+  dataObj = {"authId" => "b2c6e292-37b0-4148-bf75-c98a2fcc905f", "authType" => "EDUCATION_ORGANIZATION", "appIds" => []}
   data = prepareData("application/json", dataObj)
   puts("The data is #{data}") if ENV['DEBUG']
   restHttpPut("/applicationAuthorization/" + district, data)
