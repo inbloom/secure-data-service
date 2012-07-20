@@ -113,12 +113,7 @@ public class Login {
             mav.addObject("samlAssertion", samlAssertion);
             return mav;
         }
-
-        boolean isForgotPasswordVisible = false;
-        if ((realm != null && sliAdminRealmName != null && realm.equals(sliAdminRealmName)) || realm == null ) {
-        	isForgotPasswordVisible = true;
-        }
-
+        
         ModelAndView mav = new ModelAndView("login");
         mav.addObject("SAMLRequest", encodedSamlRequest);
         mav.addObject("adminUrl", adminUrl);
@@ -130,7 +125,6 @@ public class Login {
             mav.addObject("is_sandbox", false);
         }
         mav.addObject("realm", realm);
-        mav.addObject("isForgotPasswordVisible", isForgotPasswordVisible);
         return mav;
     }
 
@@ -154,34 +148,6 @@ public class Login {
         User user;
         try {
             user = userService.authenticate(realm, userId, password);
-
-            if(shouldForcePasswordChange(user, incomingRealm)){
-
-            	//create timestamp as part of resetKey for user
-            	Date date = new Date();
-            	Timestamp ts = new Timestamp(date.getTime());
-
-            	SecureRandom sRandom = new SecureRandom();
-            	byte bytes[] = new byte[20];
-            	sRandom.nextBytes(bytes);
-
-            	StringBuilder sb = new StringBuilder();
-            	for( byte bt : bytes ){ sb.append((char)bt); }
-
-            	String token = sb.toString() + user.getAttributes().get("mail");
-
-            	PasswordEncoder pe = new Md5PasswordEncoder();
-            	String hashedToken = pe.encodePassword(token, null);
-
-            	String resetKey = hashedToken +"@"+ts.getTime()/1000;
-
-            	userService.updateUser(realm, user, resetKey, password);
-                ModelAndView mav = new ModelAndView("forcePasswordChange");
-                String resetUri = adminUrl + "/resetPassword";
-                mav.addObject("resetUri", resetUri);
-                mav.addObject("key", hashedToken);
-                return mav;
-            }
         } catch (AuthenticationException e) {
             ModelAndView mav = new ModelAndView("login");
             mav.addObject("msg", "Invalid User Name or password");
@@ -246,24 +212,16 @@ public class Login {
             user.getAttributes().put("tenant", tenant);
         }
 
-        try{
-        	SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
-        			user.getAttributes(), requestInfo);
+    	SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
+    			user.getAttributes(), requestInfo);
 
-	        writeLoginSecurityEvent(true, userId, user.getRoles(), user.getAttributes().get("edOrg"), request);
+        writeLoginSecurityEvent(true, userId, user.getRoles(), user.getAttributes().get("edOrg"), request);
 
-	        httpSession.setAttribute(USER_SESSION_KEY, user);
+        httpSession.setAttribute(USER_SESSION_KEY, user);
 
-	        ModelAndView mav = new ModelAndView("post");
-	        mav.addObject("samlAssertion", samlAssertion);
-	        return mav;
-        }
-    	catch(NullPointerException e){
-    		LOG.error(e.getMessage(), e.getStackTrace());
-    		ModelAndView mav = new ModelAndView("error");
-    		mav.addObject("errMessage", "There is a problem with your account. Please contact the Shared Learning Collaborative for assistance.");
-    		return mav;
-    	}
+        ModelAndView mav = new ModelAndView("post");
+        mav.addObject("samlAssertion", samlAssertion);
+        return mav;
     }
 
     private void writeLoginSecurityEvent(boolean successful, String userId, List<String> roles, String edOrg,
@@ -295,16 +253,5 @@ public class Login {
         }
 
         audit(event);
-    }
-
-    private boolean shouldForcePasswordChange(User user, String incomingRealm){
-    	//US2917 TO-DO: Uncomment below to activate force password changes
-    	/*
-    	if(incomingRealm==null||!incomingRealm.equals(sliAdminRealmName)||user==null) return false;
-
-    	if(user.getAttributes().get("emailToken").trim().length()==0)
-    		return true;
-    	*/
-    	return false;
     }
 }

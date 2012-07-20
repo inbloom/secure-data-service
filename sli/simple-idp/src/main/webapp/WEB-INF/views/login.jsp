@@ -89,11 +89,9 @@
 						<label for="password" class="control-label">Password:</label>
 						<input type="password" id="password" name="password" />
 					</div>
-					<c:if test="${isForgotPasswordVisible}">
-						<div class="control-group">
-							<a class="tool-tip-link" id="forgotPassword" name="forgotPassword" href="${fn:escapeXml(adminUrl)}/forgotPassword">Forgot your password?</a>
-						</div>
-					</c:if>
+					<div class="control-group">
+						<a class="tool-tip-link" id="forgotPassword" name="forgotPassword" href="${fn:escapeXml(adminUrl)}/forgotPassword">Forgot your password?</a>
+					</div>
 					<c:if test="${is_sandbox}">
 					<div class="control-group">
 						<label for="impersonate_user" class="control-label">Login as User:</label>
