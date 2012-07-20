@@ -180,7 +180,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                     studentAssessmentAssociationId);
         }
 
-        LOG.debug("Found {} student objective assessments for student assessment: {}", assessments.size(), studentAssessmentAssociationId);
+        LOG.info("Found {} student objective assessments for student assessment: {}", assessments.size(), studentAssessmentAssociationId);
         return assessments;
     }
 
