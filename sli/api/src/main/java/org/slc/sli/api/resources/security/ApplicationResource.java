@@ -434,7 +434,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, sandboxTenant, false));
-        query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, edOrgs));
+        query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, edOrgs, false));
         return edOrgs.size() == edorgService.count(query);
     }
 
