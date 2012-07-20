@@ -23,6 +23,15 @@ import java.util.HashMap;
 
 import javax.ws.rs.core.Response;
 
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.dal.TenantContext;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
@@ -32,20 +41,14 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.dal.TenantContext;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
-
 /**
  * Holder for security utilities
  *
  * @author dkornishev
  */
 public class SecurityUtil {
+    
+    private static final Logger LOG = LoggerFactory.getLogger(SecurityUtil.class);
 
     private static final Authentication FULL_ACCESS_AUTH;
     public static final String SYSTEM_ENTITY = "system_entity";
@@ -93,11 +96,13 @@ public class SecurityUtil {
 
         try {
             TenantContext.setTenantId(null);
+            LOG.debug("Temporarily set tenant context from {} to {}", tenantContext.get(), TenantContext.getTenantId());
             toReturn = task.execute();
         } finally {
             TenantContext.setTenantId(tenantContext.get());
             tenantContext.remove();
             inTenantBlock.set(false);
+            LOG.debug("Set tenant context back to {}.", TenantContext.getTenantId());
         }
 
         return toReturn;
