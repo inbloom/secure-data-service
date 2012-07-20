@@ -62,7 +62,7 @@ end
 
 Then /^I should update app authorizations for (district "[^"]*")$/ do |district|
   @format = "application/json"
-  dataObj = {"authId" => "IL-SUNSET", "appIds" => [], "authType" => "EDUCATION_ORGANIZATION"}
+  dataObj = {"authId" => "b2c6e292-37b0-4148-bf75-c98a2fcc905f", "appIds" => [], "authType" => "EDUCATION_ORGANIZATION"}
   data = prepareData("application/json", dataObj)
   puts("The data is #{data}") if ENV['DEBUG']
   restHttpPut("/applicationAuthorization/" + district, data)
@@ -71,7 +71,7 @@ end
 
 Then /^I should update one app authorization for (district "[^"]*")$/ do |district|
   @format = "application/json"
-  dataObj = {"authId" => "IL-SUNSET", "appIds" => ["78f71c9a-8e37-0f86-8560-7783379d96f7"], "authType" => "EDUCATION_ORGANIZATION"}
+  dataObj = {"authId" => "b2c6e292-37b0-4148-bf75-c98a2fcc905f", "appIds" => ["78f71c9a-8e37-0f86-8560-7783379d96f7"], "authType" => "EDUCATION_ORGANIZATION"}
   data = prepareData("application/json", dataObj)
   puts("The data is #{data}") if ENV['DEBUG']
   restHttpPut("/applicationAuthorization/" + district, data)
@@ -80,7 +80,7 @@ end
 
 Then /^I should also update app authorizations for (district "[^"]*")$/ do |district|
   @format = "application/json"
-  dataObj = {"authId" => "IL-SUNSET", "authType" => "EDUCATION_ORGANIZATION"}
+  dataObj = {"authId" => "b2c6e292-37b0-4148-bf75-c98a2fcc905f", "authType" => "EDUCATION_ORGANIZATION"}
   data = prepareData("application/json", dataObj)
   puts("The data is #{data}") if ENV['DEBUG']
   restHttpPut("/applicationAuthorization/" + district, data)
