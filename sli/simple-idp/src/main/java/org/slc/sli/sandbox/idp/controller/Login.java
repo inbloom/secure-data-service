@@ -295,11 +295,13 @@ public class Login {
     }
     
     private boolean shouldForcePasswordChange(User user, String incomingRealm){
-    	
+    	//US2917 TO-DO: Uncomment below to activate force password changes
+    	/*
     	if(incomingRealm==null||!incomingRealm.equals(sliAdminRealmName)||user==null) return false;
     	
     	if(user.getAttributes().get("emailToken").trim().length()==0)
     		return true;
+    	*/
     	return false;
     }
 }
