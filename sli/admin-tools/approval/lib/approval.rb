@@ -58,11 +58,13 @@ module ApprovalEngine
     # Roles 
     ROLE_APPLICATION_DEVELOPER = "application_developer"
     ROLE_INGESTION_USER        = "ingestion_user"
+    ROLE_SANDBOX_ADMINISTRATOR = "Sandbox Administrator"
 
     # Roles to set in sandbox mode
     SANDBOX_ROLES = [
         ROLE_APPLICATION_DEVELOPER,
-        ROLE_INGESTION_USER
+        ROLE_INGESTION_USER,
+        ROLE_SANDBOX_ADMINISTRATOR
     ]
 
     # Roles to set in production mode
