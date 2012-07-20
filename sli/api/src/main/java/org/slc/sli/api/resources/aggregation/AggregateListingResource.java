@@ -24,7 +24,6 @@ import javax.ws.rs.core.Response;
 
 import org.slc.sli.domain.AggregateData;
 import org.slc.sli.domain.AggregateDatum;
-import org.slc.sli.domain.Entity;
 
 /**
  * Resource for displaying aggregate listings
@@ -36,9 +35,9 @@ public class AggregateListingResource {
 
     private final AggregateData data;
 
-    public AggregateListingResource(Entity entity) {
+    public AggregateListingResource(AggregateData data) {
         super();
-        this.data = entity.getAggregates();
+        this.data = data;
     }
 
     /**

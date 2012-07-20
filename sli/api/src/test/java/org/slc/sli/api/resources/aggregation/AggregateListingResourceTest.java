@@ -4,8 +4,6 @@
 package org.slc.sli.api.resources.aggregation;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -16,7 +14,6 @@ import org.junit.Test;
 
 import org.slc.sli.domain.AggregateData;
 import org.slc.sli.domain.AggregateDatum;
-import org.slc.sli.domain.Entity;
 
 /**
  * @author nbrown
@@ -24,7 +21,6 @@ import org.slc.sli.domain.Entity;
  */
 public class AggregateListingResourceTest {
 
-    private Entity entityToAggregate = mock(Entity.class);
     private AggregateListingResource resource;
 
     @Before
@@ -45,8 +41,7 @@ public class AggregateListingResourceTest {
         attendance.put("MathClass", mathClass);
         aggregateMap.put("attendance", attendance);
         AggregateData data = new AggregateData(aggregateMap);
-        when(entityToAggregate.getAggregates()).thenReturn(data);
-        resource = new AggregateListingResource(entityToAggregate);
+        resource = new AggregateListingResource(data);
 
     }
 
