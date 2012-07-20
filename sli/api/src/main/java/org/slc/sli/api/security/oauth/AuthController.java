@@ -216,7 +216,7 @@ public class AuthController {
         String realmId = getRealmId(sessionId);
         boolean forceAuthn = (sessionId != null && realmId != null) ? false : true;
 
-        EntityBody realmEnt = SecurityUtil.sudoRun(new SecurityTask<EntityBody>() {
+        EntityBody realmEnt = SecurityUtil.runWithAllTenants(new SecurityTask<EntityBody>() {
             @Override
             public EntityBody execute() {
                 EntityBody body = getRealmEntityService().get(realmIndex);
