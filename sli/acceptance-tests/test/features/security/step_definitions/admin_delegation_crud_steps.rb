@@ -22,6 +22,8 @@ require 'mongo'
 
 Transform /^district "([^"]*)"$/ do |district|
   id = "4726e42f-b265-372a-3c17-dc8d5d5fb263" if district == "IL-SUNSET"
+  id = "b2c6e292-37b0-4148-bf75-c98a2fcc905f" if district == "IL-SUNSET's ID"
+  id
 end
 
 When /^I POST a new admin delegation$/ do
@@ -33,6 +35,7 @@ When /^I POST a new admin delegation$/ do
   restHttpPost("/adminDelegation", data)
 
   assert(@res != nil, "Response from POST operation was null")
+  
 end
 
 
@@ -52,6 +55,7 @@ end
 When /^I PUT to admin delegation$/ do
   @format = "application/json"
   data = prepareData(@format, @adminDelegation)
+  puts data.inspect
   restHttpPut("/adminDelegation/myEdOrg", data)
   assert(@res != nil, "Response from PUT operation was nil")
 end
@@ -92,7 +96,7 @@ Then /^I should get my delegations$/ do
   assert(@res != nil, "Response from GET operation was nil")
 end
 
-Then /^I should see that "([^"]*)" is "([^"]*)" for "([^"]*)"$/ do |field, value, district|
+Then /^I should see that "([^"]*)" is "([^"]*)" for (district "[^"]*")$/ do |field, value, district|
   list = JSON.parse(@res.body)
   foundIt = false
   list.each do |cur|
@@ -104,7 +108,7 @@ Then /^I should see that "([^"]*)" is "([^"]*)" for "([^"]*)"$/ do |field, value
   assert(foundIt, "Never found district #{district}")
 end
 
-When /^I should save the old app authorizations for "([^"]*)"/ do |district|
+When /^I should save the old app authorizations for ("[^"]*")/ do |district|
   appAuthColl()
   $appAuths = @coll.find_one({"body.authId" => district})
 end
