@@ -29,7 +29,7 @@ puts "#{NEW_TYPE} size is #{@new_coll.size}"
 puts "moving entries from #{OLD_TYPE} to #{NEW_TYPE}"
 @old_coll.find.each do |rec| 
   updated = change_type(rec, NEW_TYPE)
-  @new_coll.insert updated
+  @new_coll.save updated
 end
 
 puts "#{NEW_TYPE} size is #{@new_coll.size}"
