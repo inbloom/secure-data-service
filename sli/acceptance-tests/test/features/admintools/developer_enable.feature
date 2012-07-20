@@ -1,4 +1,3 @@
-@derp
 Feature: Developer Enablement
 	As a developer I want to be able to enable my application for specific states and districts.
 	As an admin I want to be able to approve the applications that developers enabled.
