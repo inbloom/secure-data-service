@@ -22,7 +22,7 @@ SHARD_KEY = Hash["metaData.tenantId" => 1.0, "_id" => 1.0]
   indexes.keys.each do |index|
     crnt_index = indexes[index]["key"]
     if crnt_index != SHARD_KEY and crnt_index != ID_KEY
-      print "Removing index: "
+      print "Removing index: " + coll_name + " "
       puts crnt_index
       @coll.drop_index(index)
     end
