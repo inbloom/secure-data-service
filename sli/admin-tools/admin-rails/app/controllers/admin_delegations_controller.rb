@@ -30,9 +30,10 @@ class AdminDelegationsController < ApplicationController
   # GET /admin_delegations.json
   def index
     admin_delegations = AdminDelegation.all
+    edOrgId = session[:edOrgId]
+    @edorgName = EducationOrganization.find(edOrgId).nameOfInstitution
     if admin_delegations == nil
       @admin_delegation = AdminDelegation.new
-      edOrgId = session[:edOrgId]
       @admin_delegation.localEdOrgId = edOrgId
     else
       @admin_delegation = admin_delegations[0]

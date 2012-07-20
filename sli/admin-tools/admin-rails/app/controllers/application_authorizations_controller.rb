@@ -48,6 +48,11 @@ class ApplicationAuthorizationsController < ApplicationController
       end
       @application_authorizations = @application_authorizations.sort {|a, b| a.authId <=> b.authId}
     end
+    #Get EDORGS for the authId
+    @edorgs = {}
+    @application_authorizations.each do |auth|
+      @edorgs[auth.authId] = EducationOrganization.find(auth.authId).nameOfInstitution
+    end
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @application_authorizations }
