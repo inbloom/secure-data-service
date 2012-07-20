@@ -47,18 +47,6 @@ When /^I navigate to the SLI Default Roles Admin Page$/ do
   @driver.get url
 end
 
-Given /^I am authenticated to SEA\/LEA IDP as user "([^"]*)" with pass "([^"]*)"$/ do |arg1, arg2|
-  url = PropLoader.getProps['sea_idp_server_url']+"/UI/Login"
-  @driver.get url
-  @driver.find_element(:id, "IDToken1").send_keys arg1
-  @driver.find_element(:id, "IDToken2").send_keys arg2
-  @driver.find_element(:name, "Login.Submit").click
-  begin
-    @driver.switch_to.alert.accept
-  rescue
-  end
-end
-
 Then /^I should be redirected to the SLI Default Roles Admin Page$/ do
   assertWithWait("Failed to navigate to the Admintools Role page")  {@driver.page_source.index("Default SLC Roles") != nil}
 end
@@ -82,11 +70,6 @@ end
 
 Given /^"([^"]*)" is invalid "([^"]*)" user$/ do |arg1, arg2|
   #No code needed for this step
-end
-
-Then /^I am informed that authentication has failed$/ do
-  errorBox = @driver.find_element(:class, "error-message")
-  assert(errorBox != nil, webdriverDebugMessage(@driver,"Could not find error message div"))
 end
 
 Then /^I do not have access to the SLI Default Roles Admin Page$/ do

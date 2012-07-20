@@ -9,7 +9,7 @@ Feature: Reset and Change Password
 
  Scenario: SLI Developer Reset Password
 
-    Given I am a valid SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
+    Given I am a SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
     When I hit the Admin URL
     And I was redirected to the "Simple" IDP Login page
     Then I click the "forgotPassword" link
@@ -37,7 +37,7 @@ Feature: Reset and Change Password
 @LDAP_Reset_developer-email    
   Scenario: SLI Developer Change Password
 
-    Given I am a valid SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
+    Given I am a SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
     When I hit the Change Password URL
     And I was redirected to the "Simple" IDP Login page
     And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
@@ -64,4 +64,15 @@ Feature: Reset and Change Password
     Then I click on "submitChangePasswordButton"
     Then I check for message  "Your password has been successfully modified."
 
-
+@wip
+  Scenario: Force Change Password
+    
+    Given I am a SLC Admin "sunsetadmin" from the "SLI" hosted directory logging in for the first time
+    When I hit the Admin URL
+    And I was redirected to the "Simple" IDP Login page
+    And I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
+    When I am forced to change password
+    And I fill out the input field "Forgot_password_New_Pass" as "sunsetadmin1234"
+    And I fill out the field "Forgot_password_Confirmation" as "sunsetadmin1234"
+    Then I click on "submitForgotPasswordButton"
+    Then I check for message  "Your password has been successfully modified."
