@@ -64,7 +64,6 @@ Feature: Reset and Change Password
     Then I click on "submitChangePasswordButton"
     Then I check for message  "Your password has been successfully modified."
 
-@wip
   Scenario: Force Change Password
     
     Given I am a SLC Admin "sunsetadmin" from the "SLI" hosted directory logging in for the first time
