@@ -115,26 +115,33 @@ public class AuthController {
             }
         }
 
-        Object result = SecurityUtil.sudoRun(new SecurityTask<Object>() {
-            @Override
-            public Object execute() {
-                NeutralQuery neutralQuery = new NeutralQuery();
-                neutralQuery.setOffset(0);
-                neutralQuery.setLimit(0);
-                Iterable<String> realmList = getRealmEntityService().listIds(neutralQuery);
-                Map<String, String> map = new HashMap<String, String>();
-                for (String realmId : realmList) {
-                    EntityBody node = getRealmEntityService().get(realmId);
-                    map.put(node.get("id").toString(), node.get("name").toString());
-                    if (realmUniqueId != null && realmUniqueId.length() > 0) {
-                        if (realmUniqueId.equals(node.get("uniqueIdentifier"))) {
-                            return node;
-                        }
-                    }
-                }
-                return map;
-            }
-        });
+        Object result = 
+                SecurityUtil.runWithAllTenants(new SecurityTask<Object>() {
+
+                    @Override
+                    public Object execute() {
+                        return  SecurityUtil.sudoRun(new SecurityTask<Object>() {
+                            @Override
+                            public Object execute() {
+                                NeutralQuery neutralQuery = new NeutralQuery();
+                                neutralQuery.setOffset(0);
+                                neutralQuery.setLimit(0);
+                                Iterable<String> realmList = getRealmEntityService().listIds(neutralQuery);
+                                Map<String, String> map = new HashMap<String, String>();
+                                for (String realmId : realmList) {
+                                    EntityBody node = getRealmEntityService().get(realmId);
+                                    map.put(node.get("id").toString(), node.get("name").toString());
+                                    if (realmUniqueId != null && realmUniqueId.length() > 0) {
+                                        if (realmUniqueId.equals(node.get("uniqueIdentifier"))) {
+                                            return node;
+                                        }
+                                    }
+                                }
+                                return map;
+                            }
+                        });
+                    }});
+ 
 
         if (result instanceof EntityBody) {
             return ssoInit( ((EntityBody) result).get("id").toString(), sessionId, redirectUri, clientId, state, res, model);
