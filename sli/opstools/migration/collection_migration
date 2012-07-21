@@ -1,23 +1,24 @@
 #!/usr/bin/env ruby
 require 'mongo'
 
-DB = ARGV[0] 
-OLD_TYPE = ARGV[1]
-NEW_TYPE = ARGV[2]
-
-if (ARGV.size != 3) 
+if (ARGV.size != 4) 
   puts " How to use... "
-  puts " ./collection_migration <DATABASE> <OLD_COLLECTION> <NEW_COLLECTION>"
-  puts " example: ./collection_migration sli student section"
+  puts " ./collection_migration <DATABASE> <SERVER>:<MONGO_PORT> <OLD_COLLECTION> <NEW_COLLECTION>"
+  puts " example: ./collection_migration sli localhost:27017 student section"
   exit
 end
+
+DB = ARGV[0] 
+SERVER, PORT = ARGV[1].split(':')
+OLD_TYPE = ARGV[2]
+NEW_TYPE = ARGV[3]
 
 def change_type rec, new_type
   rec['type'] = new_type
   rec
 end
 
-@conn = Mongo::Connection.new
+@conn = Mongo::Connection.new(SERVER, PORT)
 @db = @conn[DB]
 @old_coll = @db[OLD_TYPE]
 @new_coll = @db[NEW_TYPE]
@@ -28,7 +29,7 @@ puts "#{NEW_TYPE} size is #{@new_coll.size}"
 puts "moving entries from #{OLD_TYPE} to #{NEW_TYPE}"
 @old_coll.find.each do |rec| 
   updated = change_type(rec, NEW_TYPE)
-  @new_coll.insert updated
+  @new_coll.save updated
 end
 
 puts "#{NEW_TYPE} size is #{@new_coll.size}"

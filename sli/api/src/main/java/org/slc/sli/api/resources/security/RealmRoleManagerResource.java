@@ -56,6 +56,7 @@ import org.slc.sli.api.security.roles.RoleRightAccess;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -307,27 +308,33 @@ public class RealmRoleManagerResource {
         }
 
         // Check for uniqueness of Unique ID
-        NeutralQuery query = new NeutralQuery();
+        final NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("uniqueIdentifier", "=", uniqueId));
         if (realmId != null) {
             query.addCriteria(new NeutralCriteria("_id", "!=", idConverter.toDatabaseId(realmId)));
         }
-        Entity entity = repo.findOne("realm", query);
+        Entity body = 
+                SecurityUtil.runWithAllTenants(new SecurityTask<Entity>() {
 
-        if (entity != null) {
-            debug("uniqueId: {}", entity.getBody().get("uniqueIdentifier"));
+                    @Override
+                    public Entity execute() {
+                        return repo.findOne("realm", query);
+                    }});
+
+        if (body != null) {
+            debug("uniqueId: {}", body.getBody().get("uniqueIdentifier"));
             Map<String, String> res = new HashMap<String, String>();
             res.put("response", "Cannot have duplicate unique identifiers");
             return Response.status(Status.BAD_REQUEST).entity(res).build();
         }
 
         // Check for uniqueness of Display Name
-        query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria("name", "=", displayName));
+        NeutralQuery displayNameQuery = new NeutralQuery();
+        displayNameQuery.addCriteria(new NeutralCriteria("name", "=", displayName));
         if (realmId != null) {
-            query.addCriteria(new NeutralCriteria("_id", "!=", idConverter.toDatabaseId(realmId)));
+            displayNameQuery.addCriteria(new NeutralCriteria("_id", "!=", idConverter.toDatabaseId(realmId)));
         }
-        entity = repo.findOne("realm", query);
+        Entity entity = repo.findOne("realm", displayNameQuery);
 
         if (entity != null) {
             debug("name: {}", entity.getBody().get("name"));
