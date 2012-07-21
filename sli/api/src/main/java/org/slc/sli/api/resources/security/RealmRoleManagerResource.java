@@ -306,12 +306,13 @@ public class RealmRoleManagerResource {
         if (uniqueId == null || uniqueId.length() == 0) {
             return null;
         }
+        // Check for uniqueness of Unique ID
         final NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("uniqueIdentifier", "=", uniqueId));
         if (realmId != null) {
             query.addCriteria(new NeutralCriteria("_id", "!=", idConverter.toDatabaseId(realmId)));
         }
-        Entity body = 
+        Entity body =
                 SecurityUtil.runWithAllTenants(new SecurityTask<Entity>() {
 
                     @Override
@@ -323,6 +324,21 @@ public class RealmRoleManagerResource {
             debug("uniqueId: {}", body.getBody().get("uniqueIdentifier"));
             Map<String, String> res = new HashMap<String, String>();
             res.put("response", "Cannot have duplicate unique identifiers");
+            return Response.status(Status.BAD_REQUEST).entity(res).build();
+        }
+
+        // Check for uniqueness of Display Name
+        NeutralQuery displayNameQuery = new NeutralQuery();
+        displayNameQuery.addCriteria(new NeutralCriteria("name", "=", displayName));
+        if (realmId != null) {
+            displayNameQuery.addCriteria(new NeutralCriteria("_id", "!=", idConverter.toDatabaseId(realmId)));
+        }
+        Entity entity = repo.findOne("realm", displayNameQuery);
+
+        if (entity != null) {
+            debug("name: {}", entity.getBody().get("name"));
+            Map<String, String> res = new HashMap<String, String>();
+            res.put("response", "Cannot have duplicate display names");
             return Response.status(Status.BAD_REQUEST).entity(res).build();
         }
 

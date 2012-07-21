@@ -7,6 +7,7 @@ on SLI, so I could see high school students results
 @wip
 Scenario: Check table headers
 Given I have an open web browser
+Given that dashboard has been authorized for all ed orgs
 When I navigate to the Dashboard home page
 When I select "Sunset School District 4526" and click go
  And I was redirected to the "Simple" IDP Login page

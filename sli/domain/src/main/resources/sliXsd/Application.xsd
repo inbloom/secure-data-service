@@ -3,6 +3,8 @@
     xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
     attributeFormDefault="qualified">
 
+    <xs:include schemaLocation="SimpleTypes.xsd" />
+
     <xs:element name="application">
         <xs:complexType>
             <xs:annotation>
@@ -99,14 +101,13 @@
                 <xs:element name="installed" type="xs:boolean" minOccurs="1" />
                 <xs:element name="vendor" type="xs:string" minOccurs="1" />
                 <xs:element name="registration" type="registration"
-                    minOccurs="0" />   
+                    minOccurs="0" />
                 <xs:element name="endpoints" type="endpoint" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element name="authorized_ed_orgs" minOccurs="0">
                     <xs:simpleType>
                         <xs:list itemType="xs:string"/>
                     </xs:simpleType>
                 </xs:element>
-                
             </xs:sequence>
         </xs:complexType>
     </xs:element>

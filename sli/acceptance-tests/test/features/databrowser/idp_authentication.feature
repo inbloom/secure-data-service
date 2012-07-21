@@ -3,10 +3,12 @@
 Feature: Authentication to SLI through various IDP types
 As a developer, I want to have tests that tell me if I break OpenAM, ADFS or other IDP authentication with SLI
 
+
 Background: Use HTTPS
 	Given My API is running on HTTPS
 	And I have an open web browser
 	And I navigated to the Data Browser Home URL
+   And that databrowser has been authorized for all ed orgs
 
 Scenario: User authenticating using OpenAM
 Given I was redirected to the Realm page

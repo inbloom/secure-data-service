@@ -137,7 +137,7 @@ public class AdminDelegationResource {
         }
 
         //verifyBodyEdOrgMatchesPrincipalEdOrg
-        if (body == null || !body.containsKey(LEA_ID) || !body.get(LEA_ID).equals(SecurityUtil.getEdOrg())) {
+        if (body == null || !body.containsKey(LEA_ID) || !body.get(LEA_ID).equals(SecurityUtil.getEdOrgId())) {
             EntityBody response = new EntityBody();
             response.put("message", "Entity EdOrg must match principal's EdOrg when writing delegation record.");
             return Response.status(Status.BAD_REQUEST).entity(response).build();
@@ -180,13 +180,13 @@ public class AdminDelegationResource {
 
 
     private Entity getDelegationRecordForPrincipal() {
-        String edOrg = SecurityUtil.getEdOrg();
-        if (edOrg == null) {
+        String edOrgId = SecurityUtil.getEdOrgId();
+        if (edOrgId == null) {
             throw new InsufficientAuthenticationException("No edorg exists on principal.");
         }
 
         NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria(LEA_ID, "=", edOrg));
+        query.addCriteria(new NeutralCriteria(LEA_ID, "=", edOrgId));
         return repo.findOne(RESOURCE_NAME, query);
     }
 

@@ -3,6 +3,7 @@ As a teacher in a school district, I want to click on a student and be directed 
 
 Background:
 Given I have an open web browser
+Given that dashboard has been authorized for all ed orgs
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
 
