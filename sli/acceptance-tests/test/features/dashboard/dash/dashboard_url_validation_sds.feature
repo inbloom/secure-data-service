@@ -4,6 +4,7 @@ As a secrutiy officer, I want the application to be pretected from attacks via P
 
 Background:
 Given I have an open web browser
+Given that dashboard has been authorized for all ed orgs
 
 @integration @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: Valid componentId PathVariable accessing LayoutController

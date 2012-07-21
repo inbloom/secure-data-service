@@ -13,7 +13,6 @@ class SLCFixer
     @basic_options = {:timeout => false, :batch_size => 100}
     @count = 0
     @log = logger || Logger.new(STDOUT)
-    # @log = Logger.new(STDOUT)
     @log.level ||= Logger::WARN
 
     @teacher_ids = {}
@@ -31,7 +30,7 @@ class SLCFixer
 
   def measure(lable, &block)
     time = Benchmark.measure {block.call()}
-    puts "%-15s#{time}" % lable
+    @log.info "%-15s#{time}" % lable
   end
 
   def start
@@ -56,7 +55,7 @@ class SLCFixer
     }
 
     finalTime = Time.now - time
-    puts "\t Final time is #{finalTime} secs"
+    @log.info "\t Final time is #{finalTime} secs"
   end
 
   def stamp_students
@@ -65,11 +64,12 @@ class SLCFixer
     @db[:student].find({}, {fields: ['_id', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
       cursor.each { |student|
         studentId = student['_id']
+        tenantId = student['metaData']['tenantId']
 
         teacherIds = []
-        teacherIds += find_teachers_for_student_through_section(studentId)
-        teacherIds += find_teachers_for_student_through_program(studentId)
-        teacherIds += find_teachers_for_student_through_cohort(studentId)
+        teacherIds += find_teachers_for_student_through_section(studentId,tenantId)
+        teacherIds += find_teachers_for_student_through_program(studentId,tenantId)
+        teacherIds += find_teachers_for_student_through_cohort(studentId,tenantId)
         teacherIds.flatten!; teacherIds.uniq!
         @studentId_to_teachers[studentId] = teacherIds
         stamp_context(@db['student'], student, teacherIds)
@@ -77,15 +77,16 @@ class SLCFixer
     }
 
     @studentId_to_teachers.delete_if {|_,v| v.nil?}
+    @log.info "Finished: Stamping students"
   end
 
-  def find_teachers_for_student_through_section(studentId)
+  def find_teachers_for_student_through_section(studentId, tenantId)
     teachers = []
-    @db['studentSectionAssociation'].find({'body.studentId'=> studentId,
+    @db['studentSectionAssociation'].find({'metaData.tenantId' => tenantId, 'body.studentId'=> studentId,
                                             '$or'=> [ {'body.endDate'=> {'$exists'=> false}}, {'body.endDate'=> {'$gte'=> @grace_date}} ]
                                           }, @basic_options) { |ssa_cursor|
       ssa_cursor.each { |ssa|
-        @db['teacherSectionAssociation'].find({'body.sectionId'=> ssa['body']['sectionId'],
+        @db['teacherSectionAssociation'].find({'metaData.tenantId' => tenantId, 'body.sectionId'=> ssa['body']['sectionId'],
                                                 '$or'=> [ {'body.endDate'=> {'$exists'=> false}}, {'body.endDate'=> {'$gte'=> @grace_date}} ]
                                               }, @basic_options) { |tsa_cursor|
           tsa_cursor.each { |tsa|
@@ -100,15 +101,15 @@ class SLCFixer
     teachers
   end
 
-  def find_teachers_for_student_through_cohort(studentId)
+  def find_teachers_for_student_through_cohort(studentId, tenantId)
     teachers = []
-    @db['studentCohortAssociation'].find({'body.studentId'=> studentId,
+    @db['studentCohortAssociation'].find({'metaData.tenantId' => tenantId, 'body.studentId'=> studentId,
                                            '$or'=> [ {'body.endDate'=> {'$exists'=> false}}, {'body.endDate'=> {'$gte'=> @current_date}} ]
                                          }, @basic_options) { |stu_assoc_cursor|
       stu_assoc_cursor.each { |stu_assoc|
         #@log.debug "stuCohortAssoc->cohortId #{stu_assoc['body']['cohortId'].to_s}"
         #@log.debug "found assoc - #{stu_assoc['_id']} #{stu_assoc['body']['endDate']}"
-        @db['staffCohortAssociation'].find({'body.cohortId'=> stu_assoc['body']['cohortId'],
+        @db['staffCohortAssociation'].find({'metaData.tenantId' => tenantId, 'body.cohortId'=> stu_assoc['body']['cohortId'],
                                               #'$or'=> [ {'body.studentRecordAccess'=> {'$exists'=> false}}, {'body.studentRecordAccess'=> true} ],
                                               'body.studentRecordAccess'=> true,
                                               '$or'=> [ {'body.endDate'=> {'$exists'=> false}}, {'body.endDate'=> {'$gte'=> @current_date}} ]
@@ -129,15 +130,15 @@ class SLCFixer
     teachers
   end
 
-  def find_teachers_for_student_through_program(studentId)
+  def find_teachers_for_student_through_program(studentId, tenantId)
     teachers = []
-    @db['studentProgramAssociation'].find({'body.studentId'=> studentId,
+    @db['studentProgramAssociation'].find({'metaData.tenantId' => tenantId, 'body.studentId'=> studentId,
                                             '$or'=> [ {'body.endDate'=> {'$exists'=> false}}, {'body.endDate'=> {'$gte'=> @current_date}} ]
                                           }, @basic_options) { |stu_assoc_cursor|
       stu_assoc_cursor.each { |stu_assoc|
         #@log.debug "stuProgramAssoc->programId #{stu_assoc['body']['programId'].to_s}"
         #@log.debug "found assoc - #{stu_assoc['_id']} #{stu_assoc['body']['endDate']}"
-        @db['staffProgramAssociation'].find({'body.programId'=> {'$in'=> [stu_assoc['body']['programId']]},
+        @db['staffProgramAssociation'].find({'metaData.tenantId' => tenantId, 'body.programId'=> {'$in'=> [stu_assoc['body']['programId']]},
                                               #'$or'=> [ {'body.studentRecordAccess'=> {'$exists'=> false}}, {'body.studentRecordAccess'=> true} ],
                                               'body.studentRecordAccess'=> true,
                                               '$or'=> [ {'body.endDate'=> {'$exists'=> false}}, {'body.endDate'=> {'$gte'=> @current_date}} ]
@@ -163,6 +164,7 @@ class SLCFixer
     # teachers that have context to a student student also have context to:
     # studentSectionAssocs, sections, and teacherSectionAssocs
 
+    @log.info "Stamping studentSecctionAssociations"
     section_to_teachers = {}
     @db[:studentSectionAssociation].find({}, @basic_options) { |cursor|
       cursor.each { |ssa|
@@ -173,9 +175,11 @@ class SLCFixer
         section_to_teachers[ssa['body']['sectionId']] += teachers unless teachers.nil?
       }
     }
+    @log.info "Finished: Stamping studentSecctionAssociations"
     section_to_teachers.each { |_,t| t.flatten!; t.uniq! }
 
     # push teacher listed in teacherSectionAssociation to have context to section
+    @log.info "Stamping teacherSecctionAssociations"
     @db[:teacherSectionAssociation].find({}, @basic_options) { |cursor|
       cursor.each { |tsa|
         section_to_teachers[tsa['body']['sectionId']] ||= []
@@ -183,24 +187,30 @@ class SLCFixer
         stamp_context(@db['teacherSectionAssociation'],tsa,section_to_teachers[tsa['body']['sectionId']])
       }
     }
+    @log.info "Finished: Stamping teacherSecctionAssociations"
 
+    @log.info "Stamping sections"
     @db[:section].find({}, @basic_options) { |cursor|
       cursor.each { |sec|
         stamp_context(@db['section'],sec,section_to_teachers[sec['_id']])
       }
     }
+    @log.info "Finished: Stamping sections"
 
+    @log.info "Stamping gradebookEntries"
     @db[:gradebookEntry].find({}, {fields: ['body.sectionId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
       cursor.each { |item|
         stamp_context(@db[:gradebookEntry], item, section_to_teachers[item['body']['sectionId']])
       }
     }
+    @log.info "Finished: Stamping gradebookEntries"
 
     #Session related entities below
     
     #iterates over section again to populate session and course offering context
     session_to_teachers = {}
     course_offering_to_teachers = {}
+    @log.info "Iterating over sections"
     @db[:section].find({}, @basic_options) { |cursor|
       cursor.each { |sec|
         teachers = section_to_teachers[sec['_id']]
@@ -213,15 +223,19 @@ class SLCFixer
         session_to_teachers[sec['body']['sessionId']] += teachers
       }
     }
+    @log.info "Finished Iterating over sections"
     session_to_teachers.each { |_,t| t.flatten!; t.uniq! }
 
+    @log.info "Stamping schoolSessionAssociation"
     @db[:schoolSessionAssociation].find({}, @basic_options) { |cursor|
       cursor.each { |ssa|
         stamp_context(@db['schoolSessionAssociation'], ssa, session_to_teachers[ssa['body']['sessionId']])
       }
     }
+    @log.info "Finished: Stamping schoolSessionAssociation"
 
     gp_to_teachers = {}
+    @log.info "Stamping sessions"
     @db[:session].find({}, @basic_options) { |cursor|
       cursor.each { |ses|
         teachers = session_to_teachers[ses['_id']]
@@ -241,17 +255,21 @@ class SLCFixer
         end
       }
     }
+    @log.info "Finished: Stamping sessions"
     gp_to_teachers.each { |_,t| t.flatten!; t.uniq! }
     course_offering_to_teachers.each { |_,t| t.flatten!; t.uniq! }
 
+    @log.info "Stamping gradingPeriods"
     @db[:gradingPeriod].find({}, @basic_options) { |cursor|
       cursor.each { |gp|
         stamp_context(@db['gradingPeriod'], gp, gp_to_teachers[gp['_id']])
       }
     }
+    @log.info "Finished: Stamping gradingPeriods"
 
     #courseOfferings stamped with union of section->courseOffering and session->courseOffering
     course_to_teachers = {}
+    @log.info "Stamping courseOffering"
     @db[:courseOffering].find({}, @basic_options) { |cursor|
       cursor.each { |co|
         teachers = course_offering_to_teachers[co['_id']]
@@ -264,20 +282,23 @@ class SLCFixer
         end
       }
     }
+    @log.info "Finished: Stamping courseOffering"
     course_to_teachers.each { |_,t| t.flatten!; t.uniq! }
 
+    @log.info "Stamping course"
     @db[:course].find({}, @basic_options) { |cursor|
       cursor.each { |course|
         stamp_context(@db['course'], course, course_to_teachers[course['_id']])
       }
     }
+    @log.info "Finished: Stamping course"
   end
 
   def stamp_cohorts
-    @log.info "Stamping cohorts and associations"
 
     cohort_to_teachers = {}
 
+    @log.info "Stamping studentCohortAssociation"
     @db['studentCohortAssociation'].find({}, {fields: ['_id', 'body.studentId', 'body.cohortId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
       cursor.each { |assoc|
         teachers = @studentId_to_teachers[assoc['body']['studentId']]
@@ -289,14 +310,18 @@ class SLCFixer
         cohort_to_teachers[cohort_id] += teachers unless teachers.nil?
       }
     }
+    @log.info "Finished: Stamping studentCohortAssociations"
     cohort_to_teachers.each { |_,t| t.flatten!; t.uniq! }
 
+    @log.info "Stamping cohorts"
     @db[:cohort].find({}, @basic_options) { |cursor|
       cursor.each { |cohort|
         stamp_context(@db['cohort'], cohort, cohort_to_teachers[cohort['_id']])
       }
     }
+    @log.info "Finished: Stamping cohorts"
 
+    @log.info "Stamping staffCohortAssociations"
     @db['staffCohortAssociation'].find({}, @basic_options) { |cursor|
       cursor.each { |assoc|
         teachers = []
@@ -306,11 +331,12 @@ class SLCFixer
         stamp_context(@db['staffCohortAssociation'], assoc, teachers)
       }
     }
+    @log.info "Finished: Stamping staffCohortAssociations"
   end
 
   def stamp_parents
-    @log.info "Stamping parents and associations"
     parent_to_teachers = {}
+    @log.info "Stamping studentParentAssociations"
     @db[:studentParentAssociation].find({}, @basic_options) { |cursor|
       cursor.each { |assoc|
         teachers = @studentId_to_teachers[assoc['body']['studentId']] || []
@@ -323,20 +349,23 @@ class SLCFixer
         end
       }
     }
+    @log.info "Finished: Stamping studentParentAssociations"
     parent_to_teachers.each { |_,t| t.flatten!; t.uniq! }
 
+    @log.info "Stamping parents"
     @db[:parent].find({}, @basic_options) { |cursor|
       cursor.each { |parent|
         stamp_context(@db['parent'], parent, parent_to_teachers[parent['_id']])
       }
     }
+    @log.info "Finished: Stamping parents"
   end
 
   def stamp_programs
-    @log.info "Stamping programs and associations"
 
     program_to_teachers = {}
 
+    @log.info "Stamping studentProgramAssociations"
     @db['studentProgramAssociation'].find({}, {fields: ['_id', 'body.studentId', 'body.programId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
       cursor.each { |assoc|
         teachers = @studentId_to_teachers[assoc['body']['studentId']]
@@ -348,14 +377,18 @@ class SLCFixer
         program_to_teachers[program_id] += teachers unless teachers.nil?
       }
     }
+    @log.info "Finished: Stamping studentProgramAssociations"
 
     program_to_teachers.each { |_,t| t.flatten!; t.uniq! }
+    @log.info "Stamping programs"
     @db[:program].find({}, @basic_options) { |cursor|
       cursor.each { |program|
         stamp_context(@db['program'], program, program_to_teachers[program['_id']])
       }
     }
+    @log.info "Finished: Stamping programs"
 
+    @log.info "Stamping staffProgramAssociations"
     @db['staffProgramAssociation'].find({}, @basic_options) { |cursor|
       cursor.each { |assoc|
         teachers = []
@@ -365,6 +398,7 @@ class SLCFixer
         stamp_context(@db['staffProgramAssociation'], assoc, teachers)
       }
     }
+    @log.info "Finished: Stamping staffProgramAssociations"
   end
 
   def stamp_attendance
@@ -377,10 +411,11 @@ class SLCFixer
         stamp_context(@db['attendance'], attendance, teachers)
       }
     }
+    @log.info "Finished: Stamping attendance"
   end
 
   def stamp_disciplines
-    @log.info "Stamping disciplineAction and disciplineIncident"
+    @log.info "Stamping disciplineActions and disciplineIncidents"
     @db['disciplineAction'].find({}, {fields: ['body.studentId', 'body.staffId', 'body.disciplineIncidentId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
       cursor.each { |action|
         teachers = []
@@ -393,6 +428,7 @@ class SLCFixer
         }
       }
     }
+    @log.info "Finished: Stamping disciplineActions and disciplineIncidents"
 
     #TODO look more closely at these relationships and make sure they are stamped correctly.
     @log.info "Stamping studentDisciplineIncidentAssociation"
@@ -402,6 +438,7 @@ class SLCFixer
         # @db['studentDisciplineIncidentAssociation'].update(make_ids_obj(assoc), {"$unset" => {"padding" => 1}, "$set" => {'metaData.teacherContext' => @studentId_to_teachers[assoc['body']['studentId']].flatten.uniq }}) unless @studentId_to_teachers[assoc['body']['studentId']].nil?
       }
     }
+    @log.info "Finished: Stamping studentDisciplineIncidentAssociation"
   end
 
   def stamp_assessments
@@ -413,20 +450,22 @@ class SLCFixer
         stamp_context(@db['studentAssessmentAssociation'], assoc, teachers)
       }
     }
+    @log.info "Finished: Stamping assessment associations"
 
     # TODO sectionAssesmentAssociation?
   end
 
   def stamp_student_associations
-    @log.info "Stamping student associations"
-
+    @log.info "Stamping studentSchoolAssociations"
     @db['studentSchoolAssociation'].find({}, {fields: ['_id', 'body.studentId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
       cursor.each { |assoc|
         teachers = @studentId_to_teachers[assoc['body']['studentId']]
         stamp_context(@db['studentSchoolAssociation'], assoc, teachers)
       }
     }
+    @log.info "Finished: Stamping studentSchoolAssociations"
 
+    @log.info "Stamping studentTranscriptAssociations"
     @db['studentTranscriptAssociation'].find({}, @basic_options) { |cursor|
       cursor.each { |assoc|
         student_id = assoc['body']['studentId']
@@ -435,7 +474,7 @@ class SLCFixer
         teachers = []
         teachers += @studentId_to_teachers[student_id] unless student_id.nil? || @studentId_to_teachers[student_id].nil?
         unless record_id.nil?
-          @db['studentAcademicRecord'].find({'_id'=>record_id, 'metaData.tenantId'=>tenant_id}, @basic_options) { |cursor|
+          @db['studentAcademicRecord'].find({'metaData.tenantId'=>tenant_id, '_id'=>record_id}, @basic_options) { |cursor|
             cursor.each { |record|
               student_id = record['body']['studentId']
               teachers += @studentId_to_teachers[student_id] unless student_id.nil? or @studentId_to_teachers[student_id].nil?
@@ -452,6 +491,7 @@ class SLCFixer
       #TODO Add tenantId, remove multi
       @db['studentTranscriptAssociation'].update({'body.studentId'=> student}, {"$unset" => {"padding" => 1}, '$set' => {'metaData.teacherContext' => teachers}}, {:multi => true})
     }
+    @log.info "Finished: Stamping studentTranscriptAssociations"
   end
 
   def stamp_other
@@ -469,6 +509,7 @@ class SLCFixer
         stamp_context(@db[type], item, teachers)
       }
     }
+    @log.info "Finished: Stamping #{type}"
   end
 
   def stamp_gradebook
@@ -480,15 +521,16 @@ class SLCFixer
         stamp_context(@db['studentGradebookEntry'], assoc, teachers)
       }
     }
+    @log.info "Finished: Stamping student section gradebook entry"
   end
 
   def stamp_teacher
-    @log.info "Stamping teachers and staff and associations"
 
     school_to_teachers = {}
     teacher_to_schools = {}
     teacher_to_tenant = {}
     assoc_to_teacher = {}
+    @log.info "Iterating teachersSchoolAssociations"
     @db['teacherSchoolAssociation'].find({'$or'=> [ {'body.endDate'=> {'$exists'=> false}}, {'body.endDate'=> {'$gte'=> @current_date}} ]},
                                          {fields: ['_id', 'body.teacherId', 'body.schoolId', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
       cursor.each { |assoc|
@@ -505,8 +547,10 @@ class SLCFixer
         assoc_to_teacher[assoc['_id']] = teacher_id
       }
     }
+    @log.info "Finished: Iterating teachersSchoolAssociations"
 
     # tag teachers
+    @log.info "Stamping teachers"
     @db['staff'].find({'type'=>'teacher'}, {fields: ['_id', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
       cursor.each { |teacher|
         teacher_id = teacher['_id']
@@ -522,8 +566,10 @@ class SLCFixer
         stamp_context(@db['staff'], teacher, teachers)
       }
     }
+    @log.info "Finished: Stamping teachers"
 
     # tag teacherSchoolAssociations
+    @log.info "Finished: Stamping teacherSchoolAssociations"
     assoc_to_teacher.each { |assoc_id,teacher_id|
       teachers = [teacher_id]
       schools = teacher_to_schools[teacher_id]
@@ -534,6 +580,7 @@ class SLCFixer
       end
       stamp_full_context(@db['teacherSchoolAssociation'], assoc_id, teacher_to_tenant[teacher_id], teachers)
     }
+    @log.info "Finished: Stamping teacherSchoolAssociations"
 
     # tag staff ed orgs
     # NOTE staff ed org tagging on basis that teachers are connected to ed orgs through teacherSchoolAssociation and staff through staffEdOrgAssociation
@@ -553,8 +600,10 @@ class SLCFixer
         end
       }
     }
+    @log.info "Finished: Stamping staffEducationOrganizationAssociation"
 
     # tag non-teacher staff
+    @log.info "Stamping non-teacher staff"
     staff_to_schools.each { |staff_id, schools|
       teachers = []
       schools.each { |school| teachers << school_to_teachers[school] }
@@ -562,6 +611,7 @@ class SLCFixer
       teachers = teachers.uniq
       stamp_full_context(@db['staff'], staff_id, staff_to_tenant[staff_id], teachers)
     }
+    @log.info "Finished: Stamping non-teacher staff"
   end
 
   def stamp_schools
@@ -569,7 +619,7 @@ class SLCFixer
     @db['educationOrganization'].find({'type'=>'school'}, {fields: ['_id', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
       cursor.each { |school|
         teachers = {}
-        @db['teacherSchoolAssociation'].find({'body.schoolId'=>school['_id'], '$or'=> [ {'body.endDate'=> {'$exists'=> false}}, {'body.endDate'=> {'$gte'=> @current_date}} ]},
+        @db['teacherSchoolAssociation'].find({'metaData.tenantId'=>school['metaData']['tenantId'], 'body.schoolId'=>school['_id'], '$or'=> [ {'body.endDate'=> {'$exists'=> false}}, {'body.endDate'=> {'$gte'=> @current_date}} ]},
                                              @basic_options) { |cursor|
           cursor.each { |tsa|
             teacher_id = tsa['body']['teacherId']
@@ -580,6 +630,7 @@ class SLCFixer
         #@log.debug "school #{school['_id']} teachers #{teachers.keys}"
       }
     }
+    @log.info "Finished: Stamping schools"
   end
 
   private

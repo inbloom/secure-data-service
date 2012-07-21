@@ -407,7 +407,7 @@ module DataProvider
     return {
       "viewSecurityEventsEnabled" => false,
       "appApprovalEnabled" => false,
-      "localEdOrgId" => "IL-SUNSET"
+      "localEdOrgId" => "b2c6e292-37b0-4148-bf75-c98a2fcc905f"
       }
   end
 

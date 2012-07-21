@@ -53,6 +53,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.ClientRoleResolver;
@@ -61,6 +62,7 @@ import org.slc.sli.api.security.saml.SamlAttributeTransformer;
 import org.slc.sli.api.security.saml.SamlHelper;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -126,7 +128,7 @@ public class SamlFederationResource {
     public Response consume(@FormParam("SAMLResponse") String postData, @Context UriInfo uriInfo) throws Exception {
 
         info("Received a SAML post for SSO...");
-
+        TenantContext.setTenantId(null);
         Document doc = null;
 
         try {
@@ -290,6 +292,17 @@ public class SamlFederationResource {
         if (samlTenant != null) {
             principal.setTenantId(samlTenant);
         }
+        
+        NeutralQuery idQuery = new NeutralQuery();
+        idQuery.addCriteria(new NeutralCriteria("metaData.tenantId", "=", principal.getTenantId(), false));
+        idQuery.addCriteria(new NeutralCriteria("stateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, principal.getEdOrg()));
+        Entity edOrg = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, idQuery);
+        if (edOrg != null) {
+            principal.setEdOrgId(edOrg.getEntityId());
+        } else {
+            debug("Failed to find edOrg with stateOrganizationID {} and tenantId {}", principal.getEdOrg(), principal.getTenantId());
+        }
+
 
         Entity session = sessionManager.getSessionForSamlId(inResponseTo);
         Map<String, Object> appSession = sessionManager.getAppSession(inResponseTo, session);

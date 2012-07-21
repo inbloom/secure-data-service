@@ -199,7 +199,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         } else if (!hasRight(Right.SLC_APP_APPROVE)) {
             debug("ED-ORG of operator/admin {}", principal.getEdOrg());
             extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
-                    principal.getEdOrg());
+                    principal.getEdOrgId());
             resp = super.readAll(offset, limit, headers, uriInfo);
 
             // also need the auto-allowed apps -- so in an ugly fashion, let's query those too and
@@ -241,7 +241,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         } else if (!hasRight(Right.SLC_APP_APPROVE)) {
             debug("ED-ORG of operator/admin {}", principal.getEdOrg());
             extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
-                    principal.getEdOrg());
+                    principal.getEdOrgId());
         }
         resp = super.read(uuid, headers, uriInfo);
         filterSensitiveData((Map) resp.getEntity());
@@ -431,34 +431,24 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         String sandboxTenant = principal.getExternalId();
         EntityService edorgService = store.lookupByResourceName(ResourceNames.EDUCATION_ORGANIZATIONS).getService();
 
-        for (String edOrgId : edOrgs) {
 
-            EntityBody entity = edorgService.list(new NeutralQuery(new NeutralCriteria("stateOrganizationId", "=", edOrgId))).iterator().next();
-            if (entity != null && entity.containsKey("metaData")) {
-                @SuppressWarnings("rawtypes")
-                Map metaData = (Map) entity.get("metaData");
-                if (!sandboxTenant.equals(metaData.get("tenantId"))) {
-                    debug("EdOrg {} does not belong to tenant {}.", edOrgId, sandboxTenant);
-                    return false;
-                }
-            } else {
-                debug("Did not find metadata for {}", edOrgId);
-            }
-        }
-        return true;
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, sandboxTenant, false));
+        query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, edOrgs, false));
+        return edOrgs.size() == edorgService.count(query);
     }
 
-    private void iterateEdOrgs(String uuid, List<String> edOrgs) {
-        for (String edOrg : edOrgs) {
+    private void iterateEdOrgs(String uuid, List<String> edOrgIds) {
+        for (String edOrgId : edOrgIds) {
             NeutralQuery query = new NeutralQuery();
-            query.addCriteria(new NeutralCriteria("authId", NeutralCriteria.OPERATOR_EQUAL, edOrg));
+            query.addCriteria(new NeutralCriteria("authId", NeutralCriteria.OPERATOR_EQUAL, edOrgId));
             Iterable<EntityBody> auths = service.list(query);
             long count = service.count(query);
             if (count == 0) {
                 debug("No application authorization exists. Creating one.");
                 EntityBody body = new EntityBody();
                 body.put("authType", "EDUCATION_ORGANIZATION");
-                body.put("authId", edOrg);
+                body.put("authId", edOrgId);
                 body.put("appIds", new ArrayList());
                 service.create(body);
                 auths = service.list(query);

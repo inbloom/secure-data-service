@@ -129,15 +129,24 @@ end
 Given /^I see an application "([^"]*)" in the table$/ do |arg1|
   @appName = arg1
   apps = @driver.find_elements(:xpath, ".//tbody/tr/td[text()='#{arg1}']/..")
+  apps.each do |cur|
+    puts("The app is #{cur.inspect} and #{cur.text}")
+  end
   assert(apps != nil)
 end
 
 Given /^in Status it says "([^"]*)"$/ do |arg1|
   statusIndex = 4
-    
-  @appRow = @driver.find_element(:xpath, ".//tbody/tr/td[text()='#{@appName}']/..")
+  
+  rows = @driver.find_elements(:xpath, ".//tbody/tr/td[text()='#{@appName}']/..")
+  rows.each do |curRow|
+    if curRow.text.length > 0
+      @appRow = curRow
+    end
+  end
+  puts("The app row is #{@appRow.text}")
   actualStatus = @appRow.find_element(:xpath, ".//td[#{statusIndex}]").text
-  assert(actualStatus == arg1, "Expected status of #{@appName} to be #{arg1} instead it's #{actualStatus}")
+  assert(actualStatus == arg1, "Expected status of #{@appName} to be #{arg1} instead it's #{actualStatus.inspect}")
 end
 
 Given /^I click on the "([^"]*)" button next to it$/ do |arg1|
@@ -163,7 +172,15 @@ Then /^the application is authorized to use data of "([^"]*)"$/ do |arg1|
 end
 
 Then /^is put on the top of the table$/ do
-  @row = @driver.find_element(:xpath, ".//tbody/tr/td/..")
+  rows = @driver.find_elements(:xpath, ".//tbody/tr/td/..")
+  rows.each do |curRow|
+    if curRow.text.length > 0
+      @row = curRow
+      puts("The curRow is #{curRow.text}")
+      break
+    end
+  end
+  puts("The final row is #{@row}")
   assert(@row.find_element(:xpath, ".//td[1]").text == @appName, "The approved application should have moved to the top")
 end
 

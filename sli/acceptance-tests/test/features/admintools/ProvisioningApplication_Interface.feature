@@ -36,31 +36,32 @@ When I go to the provisioning application
 And I click the Provision button
 Then I get a already provisioned message
 
-Scenario: As a Admin I can provision my landing zone if I send correct rsa key
-Given there is a production account in ldap for vendor "Macro Corp"
-And I have an open web browser
-When I go to the provisioning application
-And I submit the credentials "<USER_ID>" "<USER_PASS>" for the "Simple" login page
-And I fill in the rsa key with "<GOOD_RSAKEY>"
-And I click the Provision button
-Then I get the success message
-
-Scenario: As a Admin I cannot provision my landing zone if I send incorrect rsa key
-Given there is a production account in ldap for vendor "Macro Corp"
-And I have an open web browser
-When I go to the provisioning application
-And I submit the credentials "<USER_ID>" "<USER_PASS>" for the "Simple" login page
-And I fill in the rsa key with "<BAD_RSAKEY>"
-And I click the Provision button
-Then I get an rsa key error message
-
-Scenario: As a Admin I can provision my landing zone if I send correct rsa key in openssh format
-Given there is a production account in ldap for vendor "Macro Corp"
-And I have an open web browser
-When I go to the provisioning application
-And I submit the credentials "<USER_ID>" "<USER_PASS>" for the "Simple" login page
-And I fill in the rsa key with "<OPENSSH_RSAKEY>"
-And I click the Provision button
-Then I get the success message
+##  !!! Commenting out RSA Key field UI temporarily !!!
+# Scenario: As a Admin I can provision my landing zone if I send correct rsa key
+# Given there is a production account in ldap for vendor "Macro Corp"
+# And I have an open web browser
+# When I go to the provisioning application
+# And I submit the credentials "<USER_ID>" "<USER_PASS>" for the "Simple" login page
+# And I fill in the rsa key with "<GOOD_RSAKEY>"
+# And I click the Provision button
+# Then I get the success message
+# 
+# Scenario: As a Admin I cannot provision my landing zone if I send incorrect rsa key
+# Given there is a production account in ldap for vendor "Macro Corp"
+# And I have an open web browser
+# When I go to the provisioning application
+# And I submit the credentials "<USER_ID>" "<USER_PASS>" for the "Simple" login page
+# And I fill in the rsa key with "<BAD_RSAKEY>"
+# And I click the Provision button
+# Then I get an rsa key error message
+# 
+# Scenario: As a Admin I can provision my landing zone if I send correct rsa key in openssh format
+# Given there is a production account in ldap for vendor "Macro Corp"
+# And I have an open web browser
+# When I go to the provisioning application
+# And I submit the credentials "<USER_ID>" "<USER_PASS>" for the "Simple" login page
+# And I fill in the rsa key with "<OPENSSH_RSAKEY>"
+# And I click the Provision button
+# Then I get the success message
 
 

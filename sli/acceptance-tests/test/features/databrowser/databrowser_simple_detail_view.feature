@@ -1,6 +1,8 @@
 @RALLY_US215
 Feature: Data Browser
 As a Data Browser user, I want to be able to traverse all of the data I have access to so that I can investigate/troubleshoot issues as they come up
+Background:
+  Given that databrowser has been authorized for all ed orgs
 
 Scenario: Go to Data Browser when authenticated SLI
  
