@@ -174,9 +174,8 @@ public class UserService {
         filter.and(new EqualsFilter("objectclass", userObjectClass)).and(new EqualsFilter(userSearchAttribute, userId));
         DistinguishedName dn = new DistinguishedName("ou=" + realm);
         PersonContextMapper pcm = new PersonContextMapper();
-        boolean needAdditionalAttributes=(realm.equals(sliAdminRealmName));
-        //US2917 TO-DO: Uncomment below one line to activate force password change
-        //pcm.setAddAttributes(needAdditionalAttributes);
+        boolean needAdditionalAttributes=(realm != null && realm.equals(sliAdminRealmName));
+        pcm.setAddAttributes(needAdditionalAttributes);
         User user = (User) ldapTemplate.searchForObject(dn, filter.toString(), pcm);
         user.userId = userId;
         return user;
@@ -207,11 +206,10 @@ public class UserService {
         return result;
     }
 
-    public void updateUser(String realm, User user, String resetKey, String password){
+    public void updateUser(String realm, User user, String resetKey, String password) {
         LOG.info("Update User with resetKey");
 
         user.attributes.put("resetKey", resetKey);
-        user.attributes.put("userPassword", password);
 
         DirContextAdapter context =
                         (DirContextAdapter) ldapTemplate.lookupContext(buildUserDN(realm, user.getAttributes().get("userName")));

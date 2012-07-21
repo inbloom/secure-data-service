@@ -56,6 +56,7 @@ import org.slc.sli.api.security.roles.RoleRightAccess;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -305,20 +306,26 @@ public class RealmRoleManagerResource {
         if (uniqueId == null || uniqueId.length() == 0) {
             return null;
         }
-        NeutralQuery query = new NeutralQuery();
+        final NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("uniqueIdentifier", "=", uniqueId));
         if (realmId != null) {
             query.addCriteria(new NeutralCriteria("_id", "!=", idConverter.toDatabaseId(realmId)));
         }
-        Iterable<Entity> bodies = repo.findAll("realm", query);
-        for (Entity body : bodies) {
+        Entity body = 
+                SecurityUtil.runWithAllTenants(new SecurityTask<Entity>() {
+
+                    @Override
+                    public Entity execute() {
+                        return repo.findOne("realm", query);
+                    }});
+
+        if (body != null) {
             debug("uniqueId: {}", body.getBody().get("uniqueIdentifier"));
-        }
-        if (bodies != null && bodies.iterator().hasNext()) {
             Map<String, String> res = new HashMap<String, String>();
             res.put("response", "Cannot have duplicate unique identifiers");
             return Response.status(Status.BAD_REQUEST).entity(res).build();
         }
+
         return null;
     }
 
