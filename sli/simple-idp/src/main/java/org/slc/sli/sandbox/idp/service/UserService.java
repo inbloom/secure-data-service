@@ -206,11 +206,10 @@ public class UserService {
         return result;
     }
 
-    public void updateUser(String realm, User user, String resetKey, String password){
+    public void updateUser(String realm, User user, String resetKey, String password) {
         LOG.info("Update User with resetKey");
 
         user.attributes.put("resetKey", resetKey);
-        user.attributes.put("userPassword", password);
 
         DirContextAdapter context =
                         (DirContextAdapter) ldapTemplate.lookupContext(buildUserDN(realm, user.getAttributes().get("userName")));
