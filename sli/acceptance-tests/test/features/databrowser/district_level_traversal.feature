@@ -1,6 +1,8 @@
 @wip
 @RALLY_US215
 Feature: Traversal of district level data
+Background:
+  Given that databrowser has been authorized for all ed orgs
 
 Scenario: Leader traversing through the available district data in the Data Browser
 
