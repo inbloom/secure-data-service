@@ -174,7 +174,7 @@ public class UserService {
         filter.and(new EqualsFilter("objectclass", userObjectClass)).and(new EqualsFilter(userSearchAttribute, userId));
         DistinguishedName dn = new DistinguishedName("ou=" + realm);
         PersonContextMapper pcm = new PersonContextMapper();
-        boolean needAdditionalAttributes=(realm != null && realm.equals(sliAdminRealmName));
+        boolean needAdditionalAttributes=(realm.equals(sliAdminRealmName));
         pcm.setAddAttributes(needAdditionalAttributes);
         User user = (User) ldapTemplate.searchForObject(dn, filter.toString(), pcm);
         user.userId = userId;
