@@ -326,7 +326,7 @@ public class RealmRoleManagerResource {
             res.put("response", "Cannot have duplicate unique identifiers");
             return Response.status(Status.BAD_REQUEST).entity(res).build();
         }
-
+/*
         // Check for uniqueness of Display Name
         NeutralQuery displayNameQuery = new NeutralQuery();
         displayNameQuery.addCriteria(new NeutralCriteria("name", "=", displayName));
@@ -340,7 +340,7 @@ public class RealmRoleManagerResource {
             Map<String, String> res = new HashMap<String, String>();
             res.put("response", "Cannot have duplicate display names");
             return Response.status(Status.BAD_REQUEST).entity(res).build();
-        }
+        } */
 
         return null;
     }
