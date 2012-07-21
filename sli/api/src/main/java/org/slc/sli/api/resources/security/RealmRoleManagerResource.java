@@ -136,7 +136,7 @@ public class RealmRoleManagerResource {
             body.put("response", "You are not authorized to update this realm.");
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
-        Response validateUniqueness = validateUniqueId(realmId, (String) updatedRealm.get("uniqueIdentifier"), (String) updatedRealm.get("name"));
+        Response validateUniqueness = validateUniqueId(realmId, (String) updatedRealm.get("uniqueIdentifier"));
         if (validateUniqueness != null) {
             return validateUniqueness;
         }
@@ -188,7 +188,7 @@ public class RealmRoleManagerResource {
             body.put("response", "You are not authorized to create a realm for another ed org");
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
-        Response validateUniqueness = validateUniqueId(null, (String) newRealm.get("uniqueIdentifier"), (String) newRealm.get("name"));
+        Response validateUniqueness = validateUniqueId(null, (String) newRealm.get("uniqueIdentifier"));
         if (validateUniqueness != null) {
             debug("On realm create, uniqueId is not unique");
             return validateUniqueness;
@@ -301,41 +301,24 @@ public class RealmRoleManagerResource {
         return null;
     }
 
-    private Response validateUniqueId(String realmId, String uniqueId, String displayName) {
+    private Response validateUniqueId(String realmId, String uniqueId) {
         if (uniqueId == null || uniqueId.length() == 0) {
             return null;
         }
-
-        // Check for uniqueness of Unique ID
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("uniqueIdentifier", "=", uniqueId));
         if (realmId != null) {
             query.addCriteria(new NeutralCriteria("_id", "!=", idConverter.toDatabaseId(realmId)));
         }
-        Entity entity = repo.findOne("realm", query);
-
-        if (entity != null) {
-            debug("uniqueId: {}", entity.getBody().get("uniqueIdentifier"));
+        Iterable<Entity> bodies = repo.findAll("realm", query);
+        for (Entity body : bodies) {
+            debug("uniqueId: {}", body.getBody().get("uniqueIdentifier"));
+        }
+        if (bodies != null && bodies.iterator().hasNext()) {
             Map<String, String> res = new HashMap<String, String>();
             res.put("response", "Cannot have duplicate unique identifiers");
             return Response.status(Status.BAD_REQUEST).entity(res).build();
         }
-
-        // Check for uniqueness of Display Name
-        query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria("name", "=", displayName));
-        if (realmId != null) {
-            query.addCriteria(new NeutralCriteria("_id", "!=", idConverter.toDatabaseId(realmId)));
-        }
-        entity = repo.findOne("realm", query);
-
-        if (entity != null) {
-            debug("name: {}", entity.getBody().get("name"));
-            Map<String, String> res = new HashMap<String, String>();
-            res.put("response", "Cannot have duplicate display names");
-            return Response.status(Status.BAD_REQUEST).entity(res).build();
-        }
-
         return null;
     }
 
