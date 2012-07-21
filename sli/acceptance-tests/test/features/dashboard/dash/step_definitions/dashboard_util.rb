@@ -1,4 +1,5 @@
 require 'mongo'
+require 'securerandom'
 
 API_DB = PropLoader.getProps['DB_HOST']
 API_DB_NAME = PropLoader.getProps['api_database_name']
@@ -17,9 +18,10 @@ Given /^that dashboard has been authorized for all ed orgs$/ do
   neededEdOrgs.each do |edOrg|
     puts("Currently on edOrg #{edOrg.inspect}") if ENV['DEBUG']
     edOrgId = edOrg["_id"]
+    edOrgTenant = edOrg["metaData"]["tenantId"]
     existingAppAuth = appAuthColl.find_one({"body.authId" => edOrgId})
     if existingAppAuth == nil 
-      newAppAuth = {"body" => {"authType" => "EDUCATION_ORGANIZATION", "authId" => edOrgId, "appIds" => [dashboardId]}, "metaData" => {"tenantId" => "Midgar"}}
+      newAppAuth = {"_id" => "2012ls-#{SecureRandom.uuid}", "body" => {"authType" => "EDUCATION_ORGANIZATION", "authId" => edOrgId, "appIds" => [dashboardId]}, "metaData" => {"tenantId" => edOrgTenant}}
       puts("About to insert #{newAppAuth.inspect}") if ENV['DEBUG']
       appAuthColl.insert(newAppAuth)
     else

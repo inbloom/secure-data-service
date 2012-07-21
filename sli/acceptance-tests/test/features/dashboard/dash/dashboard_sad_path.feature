@@ -4,6 +4,7 @@ Test Sad Paths and Display Error Messages
 
 Background:
 Given I have an open web browser
+Given that dashboard has been authorized for all ed orgs
 When I navigate to the Dashboard home page
 Then I should be redirected to the Realm page
 

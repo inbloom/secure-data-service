@@ -9,6 +9,7 @@ attendance data for a list of students.
 
 Background:
     Given I have an open web browser
+And that dashboard has been authorized for all ed orgs
 
 @wip
 Scenario: Teacher sees Absence Count in K-3 list of students view
