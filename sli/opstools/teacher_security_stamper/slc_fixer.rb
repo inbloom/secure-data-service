@@ -16,11 +16,6 @@ class SLCFixer
     @log.level ||= Logger::WARN
 
     @teacher_ids = {}
-    @db['staff'].find({type: "teacher"}, {fields: ['_id', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
-      cursor.each { |teacher|
-        @teacher_ids[teacher['_id']] = teacher['metaData']['tenantId']
-      }
-    }
 
     @studentId_to_teachers = {}
 
@@ -37,6 +32,14 @@ class SLCFixer
     time = Time.now
 
     @threads = []
+
+    # Needed to move this inside the start method from init, since in forever mode it woudl only init with the teachers currently in system
+    @db['staff'].find({type: "teacher"}, {fields: ['_id', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
+      cursor.each { |teacher|
+        @teacher_ids[teacher['_id']] = teacher['metaData']['tenantId']
+      }
+    }
+
     measure('students') {stamp_students}
     @threads << Thread.new {measure('sections') {stamp_sections}}
     @threads << Thread.new {measure('programs') {stamp_programs}}
