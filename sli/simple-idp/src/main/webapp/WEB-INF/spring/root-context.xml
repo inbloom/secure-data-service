@@ -21,6 +21,8 @@
 	<bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
 		<property name="urls" value="${sli.simple-idp.ldap.urls}" />
 		<property name="base" value="${sli.simple-idp.ldap.base}" />
+		<property name="userDn" value="${sli.api.ldap.user}" />
+        <property name="password" value="${sli.api.ldap.pass}" />
 	</bean>
 	<bean
 		class="org.springframework.ldap.core.support.BaseLdapPathBeanPostProcessor" />

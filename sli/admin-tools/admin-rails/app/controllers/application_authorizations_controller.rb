@@ -36,7 +36,7 @@ class ApplicationAuthorizationsController < ApplicationController
     @application_authorizations = ApplicationAuthorization.all
     existing_authorizations = @application_authorizations.map{|cur| cur.authId}
     if @application_authorizations.length == 0 and is_lea_admin?
-      newAppAuthorization = ApplicationAuthorization.new({"authId" => session[:edOrg], "authType" => "EDUCATION_ORGANIZATION", "appIds" => []})
+      newAppAuthorization = ApplicationAuthorization.new({"authId" => session[:edOrgId], "authType" => "EDUCATION_ORGANIZATION", "appIds" => []})
       @application_authorizations = [newAppAuthorization]
     elsif is_sea_admin?
       my_delegations = AdminDelegation.all
@@ -47,6 +47,11 @@ class ApplicationAuthorizationsController < ApplicationController
         @application_authorizations.push(newAppAuthorization)
       end
       @application_authorizations = @application_authorizations.sort {|a, b| a.authId <=> b.authId}
+    end
+    #Get EDORGS for the authId
+    @edorgs = {}
+    @application_authorizations.each do |auth|
+      @edorgs[auth.authId] = EducationOrganization.find(auth.authId).nameOfInstitution
     end
     respond_to do |format|
       format.html # index.html.erb

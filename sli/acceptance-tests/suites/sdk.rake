@@ -2,7 +2,7 @@
 # SDK Tests
 ############################################################
 desc "Run JavaSDK sampleApp acceptance tests"
-task :JavaSDKSampleAppTest => [:importUnifiedData, :realmInitNoPeople] do
+task :JavaSDKSampleAppTest => [:realmInit, :importSandboxData] do
     runTests("test/features/apiV1/end_user_stories/sandbox/JavaSDK/sampleApp/sampleApp.feature")
 end
 

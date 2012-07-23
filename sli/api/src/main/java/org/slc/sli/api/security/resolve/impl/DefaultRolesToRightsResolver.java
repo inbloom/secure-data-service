@@ -25,6 +25,8 @@ import org.slc.sli.api.security.resolve.ClientRoleResolver;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleRightAccess;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,14 +72,29 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
         return auths;
     }
     
-    private boolean isAdminRealm(String realmId) {
-        Entity entity = repo.findById("realm", realmId);
+    private boolean isAdminRealm(final String realmId) {
+        
+         Entity entity = SecurityUtil.runWithAllTenants(new SecurityTask<Entity>() {
+
+            @Override
+            public Entity execute() {
+                return repo.findById("realm", realmId);
+            }
+        });
+
         Boolean admin = (Boolean) entity.getBody().get("admin");
         return admin != null ? admin : false;
     }
     
-    private Role findRole(String roleName) {
-        return roleRightAccess.getDefaultRole(roleName);
+    private Role findRole(final String roleName) {
+        return SecurityUtil.sudoRun(new SecurityTask<Role>() {
+
+            @Override
+            public Role execute() {
+                return roleRightAccess.getDefaultRole(roleName);
+            }
+        });
+        
     }
 
     public void setRoleRightAccess(RoleRightAccess roleRightAccess) {

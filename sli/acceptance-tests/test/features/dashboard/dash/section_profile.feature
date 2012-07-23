@@ -4,6 +4,7 @@ As a teacher in a school district, I want to navigate to a section, and be direc
 
 Background:
 Given I have an open web browser
+Given that dashboard has been authorized for all ed orgs
 
 @RALLY_US2817
 Scenario: View section's profile

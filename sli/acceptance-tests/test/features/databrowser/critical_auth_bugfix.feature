@@ -2,6 +2,10 @@
 Feature: Validate critical bugs do not resurface after being sqashed
 I want to detect the ressurection of 'zombie bugs' for critical defects fixed previously
 
+Background:
+	Given that databrowser has been authorized for all ed orgs
+
+	
 Scenario: Zombie Bug 1: Gaining access as the previously authenticated user when given no credentials
 
 	Given Another user has authenticated to SLI previously

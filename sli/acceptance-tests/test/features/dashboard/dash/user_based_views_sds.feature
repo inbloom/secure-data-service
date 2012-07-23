@@ -5,7 +5,8 @@ application, that will change the subset of information that is displayed.
 
 Background:
   Given I have an open web browser
-  When I navigate to the Dashboard home page
+  Given that dashboard has been authorized for all ed orgs
+When I navigate to the Dashboard home page
   When I select "Illinois Daybreak School District 4529" and click go
 
 @integration @wip

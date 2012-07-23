@@ -74,6 +74,8 @@ public class AdminDelegationResourceTest {
 
         securityContextInjector.setLeaAdminContext();
         ((SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).setEdOrg("1234");
+        ((SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).setEdOrgId("1234");
+
 
         Assert.assertEquals(resource.getSingleDelegation().getStatus(), Response.Status.NOT_FOUND.getStatusCode());
     }
@@ -100,11 +102,12 @@ public class AdminDelegationResourceTest {
         securityContextInjector.setLeaAdminContext();
 
         ((SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).setEdOrg("1234");
+        ((SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).setEdOrgId("1234");
 
         EntityBody body = new EntityBody();
         body.put(resource.LEA_ID, "1234");
 
-        Assert.assertEquals(resource.setLocalDelegation(body).getStatus(), Response.Status.CREATED.getStatusCode());
+        Assert.assertEquals(Response.Status.CREATED.getStatusCode(), resource.setLocalDelegation(body).getStatus());
 
     }
 }

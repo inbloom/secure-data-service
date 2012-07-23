@@ -38,7 +38,7 @@ def wait_until_found(filepath,pattern)
   $stdout.flush
 
   begin
-    Timeout::timeout(30) {
+    Timeout::timeout(90) {
       while true do
         text = File.read filepath
         return true if text =~ pattern
