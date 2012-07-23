@@ -20,6 +20,7 @@ package org.slc.sli.dashboard.manager.impl;
 import java.io.File;
 import java.io.FileReader;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,9 +32,9 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 import org.slc.sli.dashboard.entity.Config;
+import org.slc.sli.dashboard.entity.Config.Type;
 import org.slc.sli.dashboard.entity.ConfigMap;
 import org.slc.sli.dashboard.entity.EdOrgKey;
-import org.slc.sli.dashboard.entity.Config.Type;
 import org.slc.sli.dashboard.manager.ApiClientManager;
 import org.slc.sli.dashboard.manager.ConfigManager;
 import org.slc.sli.dashboard.util.Constants;
@@ -223,6 +224,36 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
             widgets.put(id, getComponentConfig(token, edOrgKey, id));
         }
         return widgets.values();
+    }
+
+    @Override
+    public Collection<Config> getLayoutConfigs(String token) {
+
+        Collection<Config> layouts = new ArrayList<Config>();
+        Config config;
+
+        // list files in driver dir
+        File driverConfigDir = new File(this.driverConfigLocation);
+        File[] configs = driverConfigDir.listFiles();
+        if (configs == null) {
+            logger.error("Unable to read config directory");
+            throw new DashboardException("Unable to read config directory!!!!");
+        }
+
+        for (File f : driverConfigDir.listFiles()) {
+            try {
+                config = loadConfig(f);
+            } catch (Exception t) {
+                logger.error("Unable to read config " + f.getName() + ". Skipping file", t);
+                continue;
+            }
+            // assemble widgets
+            if (config.getType() == Type.LAYOUT) {
+                layouts.add(config);
+            }
+        }
+
+        return layouts;
     }
 
     /**
