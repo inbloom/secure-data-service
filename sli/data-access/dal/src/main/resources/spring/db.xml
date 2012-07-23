@@ -62,7 +62,7 @@
    <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.AesCipher">
    </bean>
 
-  <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+  <bean id="mongoTemplate" class="org.slc.sli.dal.repository.MongoTemplate2">
     <constructor-arg ref="mongoDbFactory" />
     <constructor-arg ref="mappingConverter" />
     <property name="slaveOk" value="false" />
@@ -72,7 +72,7 @@
     -->
   </bean>
 
-    <bean id="mongoPerfDbTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+    <bean id="mongoPerfDbTemplate" class="org.slc.sli.dal.repository.MongoTemplate2">
         <constructor-arg ref="mongoPerfDbFactory" />
         <constructor-arg ref="mappingPerfDbConverter" />
         <property name="slaveOk" value="false" />

@@ -60,7 +60,7 @@ import org.slc.sli.domain.Repository;
 public abstract class MongoRepository<T> implements Repository<T> {
     protected static final Logger LOG = LoggerFactory.getLogger(MongoRepository.class);
 
-    protected MongoTemplate template;
+    protected MongoTemplate2 template;
 
     protected IdConverter idConverter;
 
@@ -143,7 +143,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return c;
     }
 
-    public void setTemplate(MongoTemplate template) {
+    public void setTemplate(MongoTemplate2 template) {
         this.template = template;
     }
 
@@ -200,7 +200,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
      * @return Successfully inserted record.
      */
     public List<T> insert(List<T> records, String collectionName) {
-        template.insert(records, collectionName);
+        template.insert(records, collectionName, new WriteConcern(2, 1000));
         LOG.info("Insert {} records into collection: {}", new Object[] {records.size(), collectionName});
         return records;
     }
