@@ -15,27 +15,6 @@
 @RALLY_DE87
 @RALLY_DE621
 @RALLY_US3202
-#The following feature test are merged into SDS_Acceptance_Test
-#ingestion_session.feature
-#ingestion_program.feature
-#ingestion_cohort.feature
-#ingestion_StaffProgramAssociation.feature
-#ingestion_StudentCohortAssociation.feature
-#ingestion_StudentDisciplineIncidentAssociation.feature
-#ingestion_courseOffering.feature
-#ingestion_disciplineIncident.feature
-#ACTAssessment.feature
-#ingestion_assessment_metadata.feature 
-#StudentAssessmentItem_SOA_SAA_Mapping.feature
-#ingestion_daily_attendance.feature 
-#assessmentItem_mapping.feature
-#ingestion_StudentTranscriptAssociation.feature
-#ingestion_StaffCohortAssociation.feature
-#apAssessment.feature
-#ingestion_disciplineAction.feature
-#ingestion_GradebookEntry.feature
-#ingestion_StudentProgramAssociation.feature
-#ingestion_student_parents.feature  
 Feature: Acceptance Storied Data Ingestion Test
 
 Background: I have a landing zone route configured
@@ -729,9 +708,6 @@ Then I should see following map of entry counts in the corresponding collections
  And I should see "CourseOffering.xml records considered: 2" in the resulting batch job file
   And I should see "CourseOffering.xml records ingested successfully: 2" in the resulting batch job file
   And I should see "CourseOffering.xml records failed: 0" in the resulting batch job file
-  And I should see "StudentAttendanceNoStudent.xml records considered: 0" in the resulting batch job file
-  And I should see "StudentAttendanceNoStudent.xml records ingested successfully: 0" in the resulting batch job file
-  And I should see "StudentAttendanceNoStudent.xml records failed: 0" in the resulting batch job file
   And I should see "actAssessment_CCSMapping.xml records considered: 1" in the resulting batch job file
   And I should see "actAssessment_CCSMapping.xml records ingested successfully: 1" in the resulting batch job file
   And I should see "actAssessment_CCSMapping.xml records failed: 0" in the resulting batch job file
