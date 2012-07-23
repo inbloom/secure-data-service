@@ -60,11 +60,9 @@ connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 10, :pool_ti
 @db[:applicationAuthorization].find({}).each { |app_auth|
   ed_org = @db[:educationOrganization].find_one({'metaData.tenantId' => app_auth['metaData']['tenantId'], 'body.stateOrganizationId' => app_auth['body']['authId']})
   ed_org_id = ed_org.nil? ? '' : ed_org['_id']
-  app_names = app_auth['body']['appIds']
-  app_ids = app_names.map{ |name| @app_name_to_id[name] }.compact unless app_names.nil?
 
   @db[:applicationAuthorization].update({'metaData.tenantId' => app_auth['metaData']['tenantId'], '_id' => app_auth['_id']},
-                           {"$unset" => {"padding" => 1}, '$set' => {'body.appIds' => app_ids, 'body.authId' => ed_org_id}})
+                           {"$unset" => {"padding" => 1}, '$set' => {'body.authId' => ed_org_id}})
   @log.info "migrated applicationAuthorization #{app_auth['_id']}"
 }
 
