@@ -39,7 +39,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.domain.AggregateData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -407,11 +406,6 @@ public class MockRepo implements Repository<Entity> {
                 public String getType() {
                     return "realm";
                 }
-
-                @Override
-                public AggregateData getAggregates() {
-                    return null;
-                }
             };
         } else {
             Iterator<Entity> iter = this.findAll(entityType, neutralQuery).iterator();
@@ -456,11 +450,6 @@ public class MockRepo implements Repository<Entity> {
             @Override
             public String getType() {
                 return type;
-            }
-
-            @Override
-            public AggregateData getAggregates() {
-                return null;
             }
         };
 
@@ -533,11 +522,6 @@ public class MockRepo implements Repository<Entity> {
             @Override
             public String getType() {
                 return type;
-            }
-
-            @Override
-            public AggregateData getAggregates() {
-                return null;
             }
         };
 

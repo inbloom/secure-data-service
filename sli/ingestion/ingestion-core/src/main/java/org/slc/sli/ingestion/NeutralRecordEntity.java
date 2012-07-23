@@ -20,7 +20,6 @@ package org.slc.sli.ingestion;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slc.sli.domain.AggregateData;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -82,9 +81,8 @@ public class NeutralRecordEntity implements Entity {
      * @author tshewchuk 2/2/2010 (PI3 US811)
      */
     public void setMetaDataField(String fieldName, Object fieldValue) {
-        if (metaData.containsKey(fieldName)) {
+        if (metaData.containsKey(fieldName))
             metaData.remove(fieldName);
-        }
         metaData.put(fieldName, fieldValue);
     }
 
@@ -148,10 +146,5 @@ public class NeutralRecordEntity implements Entity {
         entity.append("{record number: ").append(getRecordNumberInFile()).append(" }");
         entity.append(" ]");
         return entity.toString();
-    }
-
-    @Override
-    public AggregateData getAggregates() {
-        return new AggregateData();
     }
 }
