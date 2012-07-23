@@ -47,4 +47,17 @@ public class AggregateData {
         return aggregates;
     }
 
+    public List<AggregateDatum> getAggregates(String type, String window, String methodology, String name) {
+        List<AggregateDatum> aggs = new ArrayList<AggregateDatum>();
+        for (AggregateDatum datum : aggregates) {
+            if ((type == null || type.equals(datum.getType())) && (window == null || window.equals(datum.getWindow()))
+                    && (methodology == null || methodology.equals(datum.getMethodology()))
+                    && (name == null || name.equals(datum.getName()))) {
+                aggs.add(datum);
+            }
+        }
+        return aggs;
+    }
+
+
 }

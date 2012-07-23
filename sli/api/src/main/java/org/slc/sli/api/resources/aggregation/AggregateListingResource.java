@@ -15,7 +15,6 @@
  */
 package org.slc.sli.api.resources.aggregation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.GET;
@@ -52,14 +51,8 @@ public class AggregateListingResource {
     @GET
     public Response getAggregates(@QueryParam("type") String type, @QueryParam("window") String window,
             @QueryParam("method") String methodology, @QueryParam("name") String name) {
-        List<AggregateDatum> aggs = new ArrayList<AggregateDatum>();
-        for (AggregateDatum datum : data.getAggregates()) {
-            if ((type == null || type.equals(datum.getType())) && (window == null || window.equals(datum.getWindow()))
-                    && (methodology == null || methodology.equals(datum.getMethodology()))
-                    && (name == null || name.equals(datum.getName()))) {
-                aggs.add(datum);
-            }
-        }
+        List<AggregateDatum> aggs = data.getAggregates(type, window, methodology, name);
         return Response.ok(aggs).build();
     }
+
 }
