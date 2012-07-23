@@ -32,21 +32,28 @@ else
   terminates = (ARGV[2].nil? ? false : true)
   database = (ARGV[1].nil? ? 'sli' : ARGV[1])
   hp = ARGV[0].split(":")
-  connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 10, :pool_timeout => 25, :safe => {:wtimeout => 500})
   log = Logger.new(STDOUT)
   log.level = Logger::WARN
-  db = connection[database]
-  fixer = SLCFixer.new(db, log)
   if terminates
     while true
       begin
+        connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 10, :pool_timeout => 25, :safe => {:wtimeout => 500})
+        db = connection[database]
+        fixer = SLCFixer.new(db, log)
         fixer.start
+        connection.close
       rescue Exception => e  
-        log.error "#{e}"
+        log.error "EXCEPTION #{e}"
+        connection.close
+        sleep 5
       end
     end
   else
+    connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 10, :pool_timeout => 25, :safe => {:wtimeout => 500})
+    db = connection[database]
+    fixer = SLCFixer.new(db, log)
     fixer.start
+    connection.close
   end
 end
 
