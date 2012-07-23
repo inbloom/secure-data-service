@@ -334,13 +334,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     }
 
     private Collection<GrantedAuthority> resolveAuthorities(final String realm, final List<String> roleNames) {
-        Collection<GrantedAuthority> userAuthorities = SecurityUtil.sudoRun(new SecurityTask<Collection<GrantedAuthority>>() {
-            @Override
-            public Collection<GrantedAuthority> execute() {
-                return resolver.resolveRoles(realm, roleNames);
-            }
-        });
-        return userAuthorities;
+        return resolver.resolveRoles(realm, roleNames);
     }
 
     private OAuth2Authentication createAnonymousAuth() {

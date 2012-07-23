@@ -1,5 +1,8 @@
 @RALLY_US215
   Feature: User being denied databrowser access 
+  
+Background:
+  Given that databrowser has been authorized for all ed orgs
 
   # These tests rely on fixture data to set which apps can be used or not.
   @wip

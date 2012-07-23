@@ -40,11 +40,11 @@
   </mongo:mapping-converter>
 
    <!-- DB TO LOG API PERF CONFIG-->
-    <mongo:mongo id="perfApiMongo" host="${sli.mongodb.host}" port="${sli.mongodb.port}">
+    <mongo:mongo id="perfApiMongo" host="${sli.perf.mongodb.host}" port="${sli.perf.mongodb.port}">
         <mongo:options connections-per-host="${sli.mongodb.connections}" auto-connect-retry="true" socket-timeout="5000" socket-keep-alive="true"/>
     </mongo:mongo>
 
-    <mongo:db-factory id="mongoPerfDbFactory" dbname="apiPerf" mongo-ref="perfApiMongo" />
+    <mongo:db-factory id="mongoPerfDbFactory" dbname="${sli.perf.mongodb.database}" mongo-ref="perfApiMongo" />
     <!-- username="${sli.mongodb.user}" password="${sli.mongodb.pass}" /> -->
 
     <mongo:mapping-converter id="mappingPerfDbConverter" base-package="org.slc.sli" db-factory-ref="mongoPerfDbFactory">

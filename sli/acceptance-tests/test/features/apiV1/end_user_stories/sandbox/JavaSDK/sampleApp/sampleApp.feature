@@ -13,4 +13,4 @@ Scenario: Teacher sees list of students
 When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
  When I go to List of Students
   Then the page should include a table with header "List of Students"
-  And I should see student "Ashley, Jolene" in the student list
+  And I should see student "Cusimana, Daniela" in the student list

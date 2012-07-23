@@ -145,6 +145,7 @@ public class LoginTest {
         @SuppressWarnings("unchecked")
         Map<String, String> attributes = Mockito.mock(HashMap.class);
         Mockito.when(attributes.get("userName")).thenReturn("Test Name");
+        Mockito.when(attributes.get("emailToken")).thenReturn("mockToken");
         
         List<String> roles = Arrays.asList("role1", "role2");
         
@@ -171,6 +172,7 @@ public class LoginTest {
         @SuppressWarnings("unchecked")
         Map<String, String> attributes = Mockito.mock(HashMap.class);
         Mockito.when(attributes.get("userName")).thenReturn("Test Name");
+        Mockito.when(attributes.get("emailToken")).thenReturn("mockToken");
         
         List<String> roles = Arrays.asList("role1", "role2");
         
@@ -198,6 +200,7 @@ public class LoginTest {
         @SuppressWarnings("unchecked")
         Map<String, String> attributes = Mockito.mock(HashMap.class);
         Mockito.when(attributes.get("userName")).thenReturn("Test Name");
+        Mockito.when(attributes.get("emailToken")).thenReturn("mockToken");
         Mockito.when(attributes.get("tenant")).thenReturn("myTenant");
         
         List<String> roles = Arrays.asList("role1", "role2");
@@ -229,6 +232,7 @@ public class LoginTest {
         @SuppressWarnings("unchecked")
         Map<String, String> attributes = Mockito.mock(HashMap.class);
         Mockito.when(attributes.get("userName")).thenReturn("Test Name");
+        Mockito.when(attributes.get("emailToken")).thenReturn("mockToken");
         Mockito.when(attributes.get("tenant")).thenReturn("");
         
         List<String> roles = Arrays.asList("role1", "role2");
@@ -261,6 +265,7 @@ public class LoginTest {
         Map<String, String> attributes = Mockito.mock(HashMap.class);
         Mockito.when(attributes.get("userName")).thenReturn("Test Name");
         Mockito.when(attributes.get("tenant")).thenReturn("Super Tenant");
+        Mockito.when(attributes.get("emailToken")).thenReturn("mockToken");
         
         List<String> roles = new ArrayList<String>();
         UserService.User user = new User("userId", roles, attributes);
@@ -292,6 +297,7 @@ public class LoginTest {
         @SuppressWarnings("unchecked")
         Map<String, String> attributes = Mockito.mock(HashMap.class);
         Mockito.when(attributes.get("userName")).thenReturn("Test Name");
+        Mockito.when(attributes.get("emailToken")).thenReturn("mockToken");
         
         List<String> roles = Arrays.asList("role1", "role2");
         
