@@ -30,6 +30,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
@@ -241,8 +242,12 @@ public class ResourceUtil {
     }
 
     private static boolean areAggregatesPresent(final EntityDefinition defn, String id) {
-        AggregateData aggregateData = defn.getService().getAggregateData(id);
-        return aggregateData != null && !aggregateData.getAggregates().isEmpty();
+        try {
+            AggregateData aggregateData = defn.getService().getAggregateData(id);
+            return aggregateData != null && !aggregateData.getAggregates().isEmpty();
+        } catch (AccessDeniedException e) {
+            return false;
+        }
     }
 
     private static List<EmbeddedLink> getLinkedDefinitions(final EntityDefinitionStore entityDefs,
