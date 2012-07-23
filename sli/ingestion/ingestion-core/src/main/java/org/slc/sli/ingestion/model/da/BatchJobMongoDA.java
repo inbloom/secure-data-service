@@ -232,6 +232,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
         return (Integer) latchObject.get("count") <= 0;
     }
 
+    @SuppressWarnings("unchecked")
     private boolean countDownPersistenceLatches(String jobId, String recordType) {
 
         BasicDBObject query = new BasicDBObject();
@@ -268,9 +269,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
         BasicDBObject decrementCount = new BasicDBObject("entities.$.count", size);
         BasicDBObject update = new BasicDBObject("$set", decrementCount);
 
-        DBObject latchObject = batchJobMongoTemplate.getCollection(PERSISTENCE_LATCH).findAndModify(query, null, null,
+        batchJobMongoTemplate.getCollection(PERSISTENCE_LATCH).findAndModify(query, null, null,
                 false, update, true, false);
-
     }
 
     @SuppressWarnings("unchecked")
@@ -308,6 +308,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public boolean removeAllPersistedStagedEntitiesFromJob(String jobId) {
         DBCursor cursor = getWorkNoteLatchesForStage(jobId, MessageType.PERSIST_REQUEST.name());
@@ -365,8 +366,9 @@ public class BatchJobMongoDA implements BatchJobDAO {
     public void cleanUpWorkNoteLatchAndStagedEntites(String jobId) {
         BasicDBObject dbObj = new BasicDBObject();
         dbObj.put("jobId", jobId);
-       // batchJobMongoTemplate.getCollection(WORK_NOTE_LATCH).remove(dbObj);
-       // batchJobMongoTemplate.getCollection(STAGED_ENTITIES).remove(dbObj);
+        batchJobMongoTemplate.getCollection(TRANSFORMATION_LATCH).remove(dbObj);
+        batchJobMongoTemplate.getCollection(PERSISTENCE_LATCH).remove(dbObj);
+        batchJobMongoTemplate.getCollection(STAGED_ENTITIES).remove(dbObj);
     }
 
     /**
