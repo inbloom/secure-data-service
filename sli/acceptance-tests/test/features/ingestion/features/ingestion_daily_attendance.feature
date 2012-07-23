@@ -1,5 +1,6 @@
 @RALLY_US0615
 @RALLY_US927
+#This feature test has been merged into SDS_Acceptance_Test, original feature file is reserved for future use because there are some scenarios tagged by @wip.
 Feature: Daily Attendance Ingestion Test
 
 Background: I have a landing zone route configured
@@ -75,7 +76,7 @@ Then I should see following map of entry counts in the corresponding collections
    And I should see "StudentAttendanceAppend.xml records ingested successfully: 72" in the resulting batch job file
    And I should see "StudentAttendanceAppend.xml records failed: 0" in the resulting batch job file
 
-@wip
+
 Scenario: Post a zip file containing duplicate configured interchanges as a payload of the ingestion job: Populated Database
 Given I post "DailyAttendanceDuplicate.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
