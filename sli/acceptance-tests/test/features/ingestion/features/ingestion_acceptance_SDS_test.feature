@@ -732,9 +732,6 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeStudent.xml records considered: 13" in the resulting batch job file
   And I should see "InterchangeStudent.xml records ingested successfully: 12" in the resulting batch job file
   And I should see "InterchangeStudent.xml records failed: 1" in the resulting batch job file
-  And I should see "InterchangeAttendance.xml records considered: 1" in the resulting batch job file
-  And I should see "InterchangeAttendance.xml records ingested successfully: 1" in the resulting batch job file
-  And I should see "InterchangeAttendance.xml records failed: 0" in the resulting batch job file
   And I should see "InterchangeEducationOrgCalendar.xml records considered: 3" in the resulting batch job file
   And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 3" in the resulting batch job file
   And I should see "InterchangeEducationOrgCalendar.xml records failed: 0" in the resulting batch job file
