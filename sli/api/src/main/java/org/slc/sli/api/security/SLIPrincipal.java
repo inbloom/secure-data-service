@@ -47,6 +47,7 @@ public class SLIPrincipal implements Principal, Serializable {
     private String tenantId;
     private List<String> roles;
     private List<String> sliRoles;
+    private String edOrgId;
     
     private Entity entity;
     
@@ -161,6 +162,23 @@ public class SLIPrincipal implements Principal, Serializable {
      */
     public String getTenantId() {
         return tenantId;
+    }
+    
+    /**
+     * Gets the entity ID of the edOrg the user is associated with
+     * @return
+     */
+    public String getEdOrgId() {
+        return edOrgId;
+    }
+    
+    
+    /**
+     * 
+     * @param edOrgId the entityId of the edOrg the user is associated with
+     */
+    public void setEdOrgId(String edOrgId) {
+        this.edOrgId = edOrgId;
     }
     
     public Map<String, Object> toMap() throws Exception {

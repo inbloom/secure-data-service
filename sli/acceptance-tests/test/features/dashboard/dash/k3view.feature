@@ -7,6 +7,7 @@ on SLI, so I could see elementary school students results
 Scenario: Check assessment result (live)
 #TODO when fuel gauge works
 Given I have an open web browser
+Given that dashboard has been authorized for all ed orgs
 And I am authenticated to SLI as "rbraverman" password "rbraverman"
 When I select ed org "Daybreak School District 4529"
 When I select school "South Daybreak Elementary"
@@ -18,6 +19,7 @@ Then the fuel gauge label for the assessment "READ2_NEXT.Mastery level" and stud
  @RALLY_US200 @RALLY_US147 @RALLY_US198
 Scenario: Check K-3 Student Name in Live
 Given I have an open web browser
+Given that dashboard has been authorized for all ed orgs
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page
@@ -38,6 +40,7 @@ And Tab has a title named "Elementary School Overview"
 @wip @integration
 Scenario: Check K-3 Student Name in sds
 Given I have an open web browser
+Given that dashboard has been authorized for all ed orgs
 When I navigate to the Dashboard home page
 When I select "Sunset School District 4526" and click go
  And I was redirected to the "Simple" IDP Login page
