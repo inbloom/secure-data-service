@@ -13,10 +13,10 @@ Feature: As an admin I can access user accounts management tools and manage user
    When I hit the sandbox user account management app list all users page
    Then I see a table with headings of "Full Name" and "Email" and "Tenant" and "EdOrg" and "Date Created" and "Actions"
    Then I see a user with "Full Name" is "<USER_FULL_NAME>" in the table
-   Then I see a user with "Email" is "<USER_EMAIL>" in the table
-   Then I see a user with "Role" is "<USER_ROLE>" in the table
-   Then I see a user with "Tenant" is "<USER_TENANT>" in the table
-   Then I see a user with "EdOrg" is "<USER_EDORG>" in the table
+   Then the user "Email" is "<USER_EMAIL>"
+   Then the user "Role" is "<USER_ROLE>"
+   Then the user "Tenant" is "<USER_TENANT>"
+   Then the user "EdOrg" is "<USER_EDORG>"
    
 
   Examples:
@@ -42,3 +42,22 @@ Feature: As an admin I can access user accounts management tools and manage user
  @wip   
  @sandbox
   Scenario Outline:  As a sandbox admin I am able to delete admin accounts in my tenancy on sandbox
+  Given I navigate to the sandbox user account management page
+   Then I will be redirected to "Simple" login page
+   Given I submit the credentials "<USER>" "<PASSWORD>" for the "Simple" login page
+   When I hit the sandbox user account management app list all users page
+   Then I see a user with "Full Name" is "<USER_FULL_NAME>" in the table
+   And the user "Role" is "<USER_ROLE>"
+   When I click on delete button
+   Then I should receive a warning message to confirm deletion
+   When I click on confirm deletion
+   Then I should receive a message that "user has been deleted successfully"
+   Then I can not see a user with "Full Name" is "USER_FULL_NAME" in the table
+   
+    Examples:
+    |USER                 |PASSWORD                 |USER_FULL_NAME                |USER_ROLE                      |
+    |sandboxadministrator |sandboxadministrator1234 |Sandbox Admin_hostname        |Sandbox Administrator          |
+    |sandboxadministrator |sandboxadministrator1234 |Sandbox Developer_hostname    |Application Developer          |
+    |sandboxadministrator |sandboxadministrator1234 |Sandbox IngestionUser_hostname|Ingestion User                 |
+    
+  
