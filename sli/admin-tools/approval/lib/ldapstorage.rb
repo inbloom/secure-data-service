@@ -21,6 +21,7 @@ require 'rubygems'
 require 'net/ldap'
 require 'net/ldap/dn'
 require 'date'
+require 'duckpunch-netldap'
 
 class InvalidPasswordException < StandardError
 end
@@ -225,7 +226,7 @@ class LDAPStorage
     return ldap.bind
   end
 
-    def get_user_count()
+    def get_user_count
         filter = Net::LDAP::Filter.eq("objectClass", "inetOrgPerson")
 
         count = 0 
@@ -234,7 +235,7 @@ class LDAPStorage
             count += 1
           end 
         end
-        return count 
+        count 
     end 
 
     # returns extended user_info
@@ -257,7 +258,11 @@ class LDAPStorage
   # returns array of extended user_info for all users or all users with given status
   # use constants in approval.rb
   def read_users(status=nil)
-    filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:status].to_s, status ? status : "*")
+    if status 
+      filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:status].to_s, status ? status : "*")
+    else
+      filter = Net::LDAP::Filter.eq(:objectClass, "inetOrgPerson")
+    end
     return search_map_user_fields(filter)
   end
 
