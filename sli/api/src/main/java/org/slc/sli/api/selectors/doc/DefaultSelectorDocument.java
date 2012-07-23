@@ -1,13 +1,12 @@
 package org.slc.sli.api.selectors.doc;
 
 import org.codehaus.plexus.util.StringUtils;
+import org.slc.sli.api.selectors.model.ModelProvider;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.ClassType;
-import org.slc.sli.modeling.uml.index.DefaultModelIndex;
-import org.slc.sli.modeling.uml.index.ModelIndex;
-import org.slc.sli.modeling.xmi.reader.XmiReader;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -25,16 +24,13 @@ import java.util.Map;
 @Component
 public class DefaultSelectorDocument implements SelectorDocument {
 
-    private ModelIndex model;
+    @Autowired
+    private ModelProvider modelProvider;
     private Map<String, ClassType> types;
-
 
     @PostConstruct
     public void init() throws FileNotFoundException {
-        String xmiFile = "/Users/srupasinghe/git/SLI/sli/domain/src/main/resources/sliModel/SLI.xmi";
-        model = new DefaultModelIndex(XmiReader.readModel(xmiFile));
-
-        types = model.getClassTypes();
+        types = modelProvider.getClassTypes();
     }
 
     @Override

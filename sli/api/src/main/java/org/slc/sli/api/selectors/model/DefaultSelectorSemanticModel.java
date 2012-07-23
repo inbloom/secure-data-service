@@ -2,9 +2,7 @@ package org.slc.sli.api.selectors.model;
 
 import org.codehaus.plexus.util.StringUtils;
 import org.slc.sli.modeling.uml.*;
-import org.slc.sli.modeling.uml.index.DefaultModelIndex;
-import org.slc.sli.modeling.uml.index.ModelIndex;
-import org.slc.sli.modeling.xmi.reader.XmiReader;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -22,31 +20,23 @@ import java.util.Map;
  */
 @Component
 public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
-
-    private ModelIndex model;
+    @Autowired
+    private ModelProvider modelProvider;
     private Map<String, ClassType> types;
-
 
     @PostConstruct
     public void init() throws FileNotFoundException {
-        String xmiFile = "/Users/srupasinghe/git/SLI/sli/domain/src/main/resources/sliModel/SLI.xmi";
-        model = new DefaultModelIndex(XmiReader.readModel(xmiFile));
-
-        types = model.getClassTypes();
+        types = modelProvider.getClassTypes();
     }
 
     @Override
     public Map<ClassType, Object> parse(Map<String, Object> selectors, ClassType type) {
         Map<ClassType, Object> selectorsWithType = new HashMap<ClassType, Object>();
-
         parse(selectors, type, selectorsWithType);
-
         return selectorsWithType;
     }
 
     private void parse(Map<String, Object> selectors, ClassType type, Map<ClassType, Object> selectorsWithType) {
-
-
         for (Map.Entry<String, Object> entry : selectors.entrySet()) {
             Object value = entry.getValue();
 
@@ -95,13 +85,11 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
     }
 
     private boolean isAttribute(ClassType type, String attribute) {
-
-
         return false;
     }
 
     private boolean isAssociation(ClassType type, String attribute) {
-        List<AssociationEnd> associationEnds = model.getAssociationEnds(type.getId());
+        List<AssociationEnd> associationEnds = modelProvider.getAssociationEnds(type.getId());
 
         for (AssociationEnd end : associationEnds) {
             if (end.getName().equals(attribute)) {
@@ -126,7 +114,7 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
 
     private ClassType getType(ClassType type, String attr) {
         if (type.isClassType()) {
-            List<AssociationEnd> associationEnds = model.getAssociationEnds(type.getId());
+            List<AssociationEnd> associationEnds = modelProvider.getAssociationEnds(type.getId());
 
             for (AssociationEnd end : associationEnds) {
                 if (end.getName().equals(attr)) {
@@ -137,8 +125,8 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
                 }
             }
         } else if (type.isAssociation()) {
-            TagDefinition l = model.getTagDefinition(type.getId());
-            Type r = model.getType(type.getRHS().getId());
+            TagDefinition l = modelProvider.getTagDefinition(type.getId());
+            Type r = modelProvider.getType(type.getRHS().getId());
             System.out.println(l + " " + r);
         }
 
