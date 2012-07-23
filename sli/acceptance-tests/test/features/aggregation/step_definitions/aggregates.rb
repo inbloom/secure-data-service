@@ -1,4 +1,6 @@
 require 'mongo'
+require_relative '../../utils/sli_utils.rb'
+require_relative '../../utils/common_stepdefs.rb'
 require_relative '../../ingestion/features/step_definitions/ingestion_steps.rb'
 
 
