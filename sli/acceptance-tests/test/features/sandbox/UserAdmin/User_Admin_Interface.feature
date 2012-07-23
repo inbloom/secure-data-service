@@ -11,11 +11,10 @@ Feature: As an admin I can access user accounts management tools and manage user
    Then I will be redirected to "Simple" login page
    Given I submit the credentials "<USER>" "<PASSWORD>" for the "Simple" login page
    When I hit the sandbox user account management app list all users page
-   Then I see a table with headings of "Full Name" and "Email" and "Tenant" and "EdOrg" and "Date Created" and "Actions"
+   Then I see a table with headings of "Full Name" and "Email" and "EdOrg" and "Date Created" and "Actions"
    Then I see a user with "Full Name" is "<USER_FULL_NAME>" in the table
    Then the user "Email" is "<USER_EMAIL>"
    Then the user "Role" is "<USER_ROLE>"
-   Then the user "Tenant" is "<USER_TENANT>"
    Then the user "EdOrg" is "<USER_EDORG>"
    
 
