@@ -1,7 +1,9 @@
 package org.slc.sli.api.selectors.model;
 
+import org.apache.commons.lang.StringUtils;
 import org.slc.sli.api.selectors.model.ModelElementNotFoundException;
 import org.slc.sli.modeling.uml.AssociationEnd;
+import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Model;
@@ -28,8 +30,8 @@ public final class ModelProvider {
     private final ModelIndex modelIndex;
     private final static String DEFAULT_XMI_LOC = "/sliModel/SLI.xmi";
 
-    public ModelProvider(final String XMI_LOC) {
-        final Model model = XmiReader.readModel(getClass().getResourceAsStream(XMI_LOC));
+    public ModelProvider(final String xmiLoc) {
+        final Model model = XmiReader.readModel(getClass().getResourceAsStream(xmiLoc));
         modelIndex = new DefaultModelIndex(model);
     }
 
@@ -61,6 +63,56 @@ public final class ModelProvider {
         return modelIndex.getType(id);
     }
 
+    public boolean isAttribute(final ClassType type, final String attributeName) {
+        final List<Attribute> attributes = type.getAttributes();
+
+        for (Attribute attribute : attributes) {
+            if (attribute.getName().equals(attributeName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isInModel(final ClassType type, final String attr) {
+        final List<Attribute> attributes = type.getAttributes();
+
+        for (final Attribute attribute : attributes) {
+            if (attribute.getName().equals(attr)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ClassType getType(final ClassType type, final String attr) {
+        if (type.isClassType()) {
+            final List<AssociationEnd> associationEnds = getAssociationEnds(type.getId());
+            for (final AssociationEnd end : associationEnds) {
+                if (end.getName().equals(attr)) {
+                    final String name = attr + "<=>" + StringUtils.uncapitalise(type.getName());
+                    //String name = type.getName();
+                    return getType(name);
+                }
+            }
+        } else if (type.isAssociation()) {
+            final TagDefinition l = getTagDefinition(type.getId());
+            final Type r = getType(type.getRHS().getId());
+        }
+        return null;
+    }
+
+    public boolean isAssociation(ClassType type, String attribute) {
+        final List<AssociationEnd> associationEnds = getAssociationEnds(type.getId());
+
+        for (final AssociationEnd end : associationEnds) {
+            if (end.getName().equals(attribute)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public ClassType lookupSingleModelElement(final QName qName)
             throws ModelElementNotFoundException {
         final Set<ModelElement> elementSet = lookupByName(qName);
@@ -72,5 +124,9 @@ public final class ModelProvider {
             error("Element {} was not found", qName);
             throw new ModelElementNotFoundException();
         }
+    }
+
+    public ClassType getType(final String typeName) {
+        return modelIndex.getClassTypes().get(typeName);
     }
 }

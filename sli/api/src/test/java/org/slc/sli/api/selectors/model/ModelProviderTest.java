@@ -61,19 +61,6 @@ public class ModelProviderTest {
         verify(mockIndex).getAssociationEnds(mockIdentifier);
     }
 
-//    @Test
-//    public void testLookupSingleModelElement(final QName qName) {
-//        provider = new ModelProvider(TEST_XMI_LOC);
-//        ClassType student;
-//        try {
-//            student = provider.lookupSingleModelElement(QName.valueOf("Student"));
-//        } catch (ModelElementNotFoundException e) {
-//            fail(e.getMessage());
-//        }
-//
-//        final List<Attribute> studentAttributes = student.getAttributes();
-//    }
-
     @Test
     public void testHowToUse() {
         provider = new ModelProvider(TEST_XMI_LOC);
