@@ -26,6 +26,7 @@ public enum AttributeType {
     PURGE("purge"),
     DRYRUN("dry-run"),
     NO_ID_REF("no-id-ref");
+    DELETE("delete");
 
     private String name;
 

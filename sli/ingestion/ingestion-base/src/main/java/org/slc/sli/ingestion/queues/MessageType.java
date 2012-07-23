@@ -33,5 +33,7 @@ public enum MessageType {
     DATA_TRANSFORMATION,
     DATA_MODEL_TRANSFORMATION,
     DATA_STAGED,
-    XML_FILE_SPLIT; // XML file has been split
+    XML_FILE_SPLIT, // XML file has been split
+    DELETE;
+
 }
