@@ -1,6 +1,5 @@
 @RALLY_US0615
 @RALLY_US927
-#This feature test has been merged into SDS_Acceptance_Test, original feature file is reserved for future use because there are some scenarios tagged by @wip.
 Feature: Daily Attendance Ingestion Test
 
 Background: I have a landing zone route configured
