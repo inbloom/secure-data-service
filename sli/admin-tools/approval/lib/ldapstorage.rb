@@ -226,18 +226,6 @@ class LDAPStorage
     return ldap.bind
   end
 
-    def get_user_count
-        filter = Net::LDAP::Filter.eq("objectClass", "inetOrgPerson")
-
-        count = 0 
-        Net::LDAP.open(@ldap_conf) do |ldap|
-          ldap.search(:filter => filter, :attributes => attributes) do |entry|
-            count += 1
-          end 
-        end
-        count 
-    end 
-
     # returns extended user_info
     def read_user(email_address)
         filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:email].to_s, email_address)
@@ -258,6 +246,8 @@ class LDAPStorage
   # returns array of extended user_info for all users or all users with given status
   # use constants in approval.rb
   def read_users(status=nil)
+    # if a filter is provided for the status then set it otherwise just search for people
+    # Note: The filter will not capture users that do not have their status set. 
     if status 
       filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:status].to_s, status ? status : "*")
     else
