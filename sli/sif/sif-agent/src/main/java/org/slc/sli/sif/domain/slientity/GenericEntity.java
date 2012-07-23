@@ -16,13 +16,30 @@
 
 package org.slc.sli.sif.domain.slientity;
 
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
+
 /**
  * An GenericEntity in the SLI domain.
+ * Each SLI Entity can be converted to a JSON Node ready for SLI operations.
  *
  * @author slee
  *
  */
-public class GenericEntity
+public abstract class GenericEntity
 {
+    protected static ObjectMapper mapper = new ObjectMapper();
+
+    /**
+     *  Constructor
+     */
+    public GenericEntity() {
+
+    }
+
+    /**
+     * Output this Entity as a JSON Node
+     */
+    abstract public JsonNode json();
 
 }

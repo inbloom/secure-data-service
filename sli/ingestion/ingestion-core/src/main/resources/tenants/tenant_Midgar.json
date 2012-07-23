@@ -1,0 +1,17 @@
+{
+	"landingZone" : [ 
+		{ 
+			"educationOrganization" : "Sunset" , 
+			"ingestionServer" : "<hostname>" , 
+			"path" : "<lzpath>/Midgar-SUNSET" , 
+			"desc" : "Landing zone for Midgar-SUNSET"
+		} , 
+		{ 
+			"educationOrganization" : "Daybreak" , 
+			"ingestionServer" : "<hostname>",
+			"path" : "<lzpath>/Midgar-DAYBREAK" ,
+			"desc" : "Landing zone for Midgar-DAYBREAK"
+		}
+	] , 
+	"tenantId" : "Midgar"
+}

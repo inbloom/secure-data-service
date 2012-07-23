@@ -19,20 +19,6 @@ limitations under the License.
 
 require_relative '../../../utils/sli_utils.rb'
 
-Given /^I am authenticated to SLI as "([^"]*)" "([^"]*)"$/ do |user, pass|
-  url = PropLoader.getProps['dashboard_server_address']
-  url = url + PropLoader.getProps[@appPrefix]
-  
-  #url = "http://localhost:8080/dashboard"
-  @driver.get(url)
-  @driver.manage.timeouts.implicit_wait = 30
-  @driver.find_element(:name, "j_username").clear
-  @driver.find_element(:name, "j_username").send_keys user
-  @driver.find_element(:name, "j_password").clear
-  @driver.find_element(:name, "j_password").send_keys pass
-  @driver.find_element(:name, "submit").click
-end
-
 When /^I go to "([^"]*)"$/ do |student_list|
   @driver.find_element(:link, "Dashboard").click
 end
@@ -51,6 +37,7 @@ end
 
 When /^I select <section> "([^"]*)"$/ do |elem|
   select_by_id(elem, "sectionSelect")
+  clickOnGo()
 end
 
 Then /^I should have a dropdown selector named "([^"]*)"$/ do |elem|
@@ -59,14 +46,18 @@ Then /^I should have a dropdown selector named "([^"]*)"$/ do |elem|
 end
 
 Then /^I should have a selectable view named "([^"]*)"$/ do |view_name|
-  options = @selector.find_element(:class, "dropdown-menu").find_elements(:tag_name, "li")
-  puts options.length
-  arr = []
-  options.each do |option|
-    link = option.find_element(:tag_name, "a").attribute("text")
-    arr << link
+  @selector = @explicitWait.until{@driver.find_element(:id, "viewSelectMenu")}
+  spans = get_all_elements
+  assert(spans.length > 0, "No views found")
+  found = false
+  spans.each do |span|
+    puts span
+    if (span.should include view_name)
+      found = true
+      break
+    end
   end
-  arr.should include view_name
+  assert(found, "View was not found")
 end
 
 Then /^I should only see one view named "([^"]*)"$/ do |view_name|

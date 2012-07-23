@@ -27,7 +27,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.tenant.TenantDA;
-import org.slc.sli.ingestion.util.LogUtil;
 
 /**
  * Mananges the landing zones to be monitored.
@@ -74,7 +73,7 @@ public class LandingZoneManager {
             }
 
         } catch (Exception e) {
-            LogUtil.error(log, "Exception encountered extracting landing zones from tenant collection:", e);
+            log.error("Exception encountered extracting landing zones from tenant collection:", e);
         }
         return landingZoneList;
     }

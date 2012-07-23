@@ -39,6 +39,42 @@ div.edOrgIdSelect label{
   height:0px;
 }
 
+div.rsaKeyBlock{
+  overflow:hidden;
+  display:block;
+  clear:both;
+}
+
+div.rsaKeyBlock label{
+  color:#0000FF;
+  margin-left:10px;
+  margin-right:10px;
+  cursor: pointer;
+}
+
+div.rsaKeyBlock i{
+  margin-left:10px;
+  margin-right:10px;
+}
+
+div.rsaKeyBlock input{
+  margin-left:10px;
+  margin-right:10px;
+}
+
+div#rsaKeyField textarea{
+  overflow:hidden;
+  display:inline;
+  clear:left;
+  height:300px;
+  width:500px;
+}
+
+div#validationErrorsBlock {
+  clear:right;
+  margin-left:10px;
+}
+
 div.provisionButtons input{
   margin-top:18px;
   float:right;
@@ -48,3 +84,22 @@ div.sidebar {
   float:right
 }
 
+div.form-actions{
+  clear:both
+}
+
+a.tooltip_link{
+  color: #0000FF;
+}
+
+span#rsa_validation_error_text {
+  width: 500px;	    
+  background: #FFEEEE; 
+}
+
+span.spinner {
+  // offset the spinner so it'll overlap with the rsa_validation_error_text
+  left: -240px;
+  top: 120px;
+  position: relative;
+}

@@ -59,7 +59,7 @@
         [modal release];
     }
     else {
-        ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:@"http://local.slidev.org:8080/api/rest/v1/students"]];
+        ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:@"https://api.sandbox.slcedu.org/api/rest/v1/students"]];
         [request addRequestHeader:@"Authorization" value:[NSString stringWithFormat:@"Bearer %@", [OAuthViewController getToken]]];
         [request setDelegate:self];
         [request startAsynchronous];
@@ -133,21 +133,6 @@
     }
 }
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
-{
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

@@ -21,11 +21,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.security.GeneralSecurityException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.TimeZone;
 import java.util.UUID;
 
 import javax.xml.crypto.MarshalException;
@@ -40,6 +37,9 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.ISODateTimeFormat;
 import org.slc.sli.common.encrypt.security.saml2.XmlSignatureHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -83,9 +83,15 @@ public class SamlResponseComposer {
         template = template.replace("__RESPONSE_ID__", UUID.randomUUID().toString());
         template = template.replace("__ASSERTION_ID__", UUID.randomUUID().toString());
         template = template.replace("__REQUEST_ID__", requestId);
-        template = template.replace("__ISSUE_INSTANT__", currentTimeUTC());
+        template = template.replace("__ISSUE_INSTANT__", 
+                new DateTime().withZone(DateTimeZone.UTC).toString(ISODateTimeFormat.dateTimeNoMillis()));
         template = template.replace("__DESTINATION__", destination);
         template = template.replace("__ISSUER__", issuer);
+        template = template.replace("__TRANSIENT_ID__", UUID.randomUUID().toString()); //must be at least a 128-bit random string
+        DateTime notOnOrAfter = new DateTime();
+        notOnOrAfter = notOnOrAfter.plusMinutes(10);
+        template = template.replace("__NOT_ON_OR_AFTER__", 
+                notOnOrAfter.withZone(DateTimeZone.UTC).toString(ISODateTimeFormat.dateTimeNoMillis()));
         
         StringBuilder buf = new StringBuilder();
         addAttribute(buf, "userId", userId);
@@ -147,9 +153,4 @@ public class SamlResponseComposer {
         }
     }
     
-    private static String currentTimeUTC() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
-        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-        return dateFormat.format(new Date());
-    }
 }

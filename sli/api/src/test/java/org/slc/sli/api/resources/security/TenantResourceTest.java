@@ -25,6 +25,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -96,6 +97,8 @@ public class TenantResourceTest {
         httpHeaders = mock(HttpHeaders.class);
         when(httpHeaders.getRequestHeader("accept")).thenReturn(acceptRequestHeaders);
         when(httpHeaders.getRequestHeaders()).thenReturn(new MultivaluedMapImpl());
+
+        tenantResource.setIngestionServerList(Arrays.asList("FIRST", "Second", "third"));
     }
 
     private Map<String, Object> createTestEntity() {
@@ -289,6 +292,36 @@ public class TenantResourceTest {
                     (TENANT_1.equals(body.get(TenantResourceImpl.TENANT_ID)) || TENANT_3.equals(body
                             .get(TenantResourceImpl.TENANT_ID))));
         }
+    }
+
+    @Test
+    public void testIngestionServerAssignment() {
+        createLandingZone(new EntityBody(createTestEntity()));
+        createLandingZone(new EntityBody(createTestAppendEntity()));
+        createLandingZone(new EntityBody(createTestSecondaryEntity()));
+        // read everything
+        Response response = tenantResource.readAll(0, 100, httpHeaders, uriInfo);
+        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
+
+        EntityResponse entityResponse = (EntityResponse) response.getEntity();
+        @SuppressWarnings("unchecked")
+        List<EntityBody> results = (List<EntityBody>) entityResponse.getEntity();
+        assertNotNull("Should return entities", results);
+
+        Map<String, Integer> serverCounts = new HashMap<String, Integer>();
+        for (EntityBody body : results) {
+            @SuppressWarnings("unchecked")
+            List<Map<String, Object>> landingZones = (List<Map<String, Object>>) body.get(TenantResourceImpl.LZ);
+            for (Map<String, Object> lz : landingZones) {
+                String server = (String) lz.get(TenantResourceImpl.LZ_INGESTION_SERVER);
+                Integer count = serverCounts.get(server);
+                if (null == count)
+                    serverCounts.put(server, new Integer(1));
+                else
+                    serverCounts.put(server, new Integer(count + 1));
+            }
+        }
+        assertTrue("Should have used all ingestion servers", 3 <= serverCounts.size());
     }
 
     private String getIDList(String resource) {

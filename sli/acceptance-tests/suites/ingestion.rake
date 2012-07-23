@@ -14,6 +14,7 @@ end
 desc "Run Ingestion Acceptance SDS Tests"
 task :ingestionAcceptanceSdsTest do
   runTests("test/features/ingestion/features/ingestion_acceptance_SDS_test.feature")
+  addSecurityData()
 end
 
 desc "Run Ingestion Tenant Test"
@@ -172,6 +173,7 @@ end
 desc "Run Ingestion for Dashboard Sad Path Tests"
 task :ingestionDashboardSadPathTest do
   runTests("test/features/ingestion/features/ingestion_dashboardSadPath.feature")
+  addSecurityData()
 end
 
 desc "Run Blacklist Validation Tests"
@@ -229,10 +231,25 @@ task :ingestionSandboxDataTest do
   runTests("test/features/ingestion/features/ingestion_sandbox_data_test.feature")
 end
 
+desc "Run Medium Sample Data Set Test"
+task :ingestionMediumSampleDataSet do
+  runTests("test/features/ingestion/features/ingestion_MediumSampleDataSet.feature")
+end
+
 desc "Run Ingestion Smoke Tests"
 task :ingestionSmokeTests do
   @tags = ["~@wip", "@smoke", "~@sandbox"]
   Rake::Task["ingestionAcceptanceSdsTest"].invoke
+end
+
+desc "Run Small Sample Data Set Test"
+task :ingestionSmallSampleDataSet do
+  runTests("test/features/ingestion/features/ingestion_SmallSampleDataSet.feature")
+end
+
+desc "Run Ingestion HealthCheck Test"
+task :ingestionHealthCheckTest do
+  runTests("test/features/ingestion/features/ingestion_healthCheck.feature")
 end
 
 ############################################################

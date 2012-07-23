@@ -32,6 +32,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.tuple.Pair;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -78,6 +79,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     private int hardLogout;
 
     @Autowired
+    @Qualifier("validationRepo")
     private Repository<Entity> repo;
 
     @Autowired
@@ -332,13 +334,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     }
 
     private Collection<GrantedAuthority> resolveAuthorities(final String realm, final List<String> roleNames) {
-        Collection<GrantedAuthority> userAuthorities = SecurityUtil.sudoRun(new SecurityTask<Collection<GrantedAuthority>>() {
-            @Override
-            public Collection<GrantedAuthority> execute() {
-                return resolver.resolveRoles(realm, roleNames);
-            }
-        });
-        return userAuthorities;
+        return resolver.resolveRoles(realm, roleNames);
     }
 
     private OAuth2Authentication createAnonymousAuth() {

@@ -23,7 +23,7 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 
 /**
- * TODO: add javadoc
+ * Provides system usage statistics.
  */
 @Component
 @Scope("request")
@@ -34,6 +34,9 @@ public class MetricsResource {
     @Autowired
     protected Repository<Entity> repo;
 
+    /**
+     * Calculates a usage statistic that matches the provided criteria.  Only accessible to SLC Operators.
+     */
     @GET
     public Response getMetrics(@QueryParam("key") final String fieldKey, @QueryParam("value") final String fieldValue,
             @Context final UriInfo uriInfo) {

@@ -16,122 +16,147 @@
 
 package org.slc.sli.sif.agent;
 
-import java.io.File;
+import java.util.Properties;
 
 import openadk.library.ADK;
 import openadk.library.ADKException;
-import openadk.library.ADKFlags;
 import openadk.library.Agent;
 import openadk.library.SIFVersion;
 import openadk.library.Zone;
-import openadk.library.tools.cfg.AgentConfig;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.sif.zone.ZoneConfigurator;
+
+/**
+ * SIF agent
+ *
+ */
 @Component
 public class SifAgent extends Agent {
 
     private static final Logger LOG = LoggerFactory.getLogger(SifAgent.class);
 
-    private AgentConfig fCfg;
+    private String configFilePath;
 
-    @Value("classpath:/sif/agent-config.xml")
-    private Resource configFile;
+    private ZoneConfigurator zoneConfigurator;
+
+    private Properties agentProperties;
+
+    private Properties httpProperties;
+
+    private Properties httpsProperties;
+
+    private SIFVersion sifVersion;
+
+    @Value("${sli.sif-agent.zoneId}")
+    private String zoneId;
+
+    @Value("${sli.sif-agent.agentId}")
+    private String agentId;
+
+    @Value("${sli.sif-agent.zoneUrl}")
+    private String zoneUrl;
 
     public SifAgent() {
         this("SifAgent");
     }
 
-    public SifAgent(String id){
+    public SifAgent(String id) {
         super(id);
         setName(id);
     }
 
-    public void startAgent() throws Exception {
-
-        File file = configFile.getFile();
-        String configPath = file.getAbsolutePath();
-
-        LOG.info("Using config file: " + configPath);
-
-        // Read the configuration file
-        fCfg = new AgentConfig();
-        fCfg.read(file.getAbsolutePath(), false);
-
-        // Override the SourceId passed to the constructor with the SourceId
-        // specified in the configuration file
-        setId(fCfg.getSourceId());
-
-        // Inform the ADK of the version of SIF specified in the sifVersion=
-        // attribute of the <agent> element
-        SIFVersion version = fCfg.getVersion();
-        LOG.info("Using SIF version: " + version);
-        ADK.setVersion(version);
-
-        // initialize once the configuration file has been read
-        super.initialize();
-
-        fCfg.apply(this, true);
-
-        // Connect to each zone specified in the configuration file, registering
-        // this agent as the Provider of the SIS objects.
-
-        Zone[] allZones = getZoneFactory().getAllZones();
-        for (Zone zone : allZones) {
-            try {
-                // Connect to this zone
-
-                LOG.info("- Connecting to zone \"" + zone.getZoneId() + "\" at " + zone.getZoneUrl());
-
-                zone.connect(ADKFlags.PROV_REGISTER | ADKFlags.PROV_PROVIDE | ADKFlags.PROV_SUBSCRIBE);
-            } catch (ADKException ex) {
-                LOG.error("  " + ex.getMessage(), ex);
-            }
-        }
+    public SifAgent(String id, ZoneConfigurator zoneConfig, Properties agentProperties,
+            Properties httpProperties, Properties httpsProperties, String zoneId,
+            String zoneUrl, SIFVersion sifVersion) {
+        super(id);
+        this.agentId = id;
+        this.zoneConfigurator = zoneConfig;
+        this.agentProperties = agentProperties;
+        this.httpProperties = httpProperties;
+        this.httpsProperties = httpsProperties;
+        this.zoneId = zoneId;
+        this.zoneUrl = zoneUrl;
+        this.sifVersion = sifVersion;
+        setName(id);
     }
 
-    // FOR TESTING ONLY
-    public void startAgentWithConfig(File file) throws Exception {
-        String configPath = file.getAbsolutePath();
-
-        LOG.info("Using config file: " + configPath);
-
-        // Read the configuration file
-        fCfg = new AgentConfig();
-        fCfg.read(file.getAbsolutePath(), false);
-
-        // Override the SourceId passed to the constructor with the SourceId
-        // specified in the configuration file
-        setId(fCfg.getSourceId());
-
-        // Inform the ADK of the version of SIF specified in the sifVersion=
-        // attribute of the <agent> element
-        SIFVersion version = fCfg.getVersion();
-        LOG.info("Using SIF version: " + version);
-        ADK.setVersion(version);
-
+    public void startAgent() throws Exception {
         // initialize once the configuration file has been read
         super.initialize();
 
-        fCfg.apply(this, true);
+        setProperties();
 
         // Connect to each zone specified in the configuration file, registering
         // this agent as the Provider of the SIS objects.
-
         Zone[] allZones = getZoneFactory().getAllZones();
-        for (Zone zone : allZones) {
-            try {
-                // Connect to this zone
-                LOG.info("- Connecting to zone \"" + zone.getZoneId() + "\" at " + zone.getZoneUrl());
+        zoneConfigurator.configure(allZones);
+    }
 
-                zone.connect(ADKFlags.PROV_REGISTER | ADKFlags.PROV_PROVIDE | ADKFlags.PROV_SUBSCRIBE);
-            } catch (ADKException ex) {
-                LOG.error("  " + ex.getMessage(), ex);
-            }
-        }
+    private void setProperties() throws ADKException {
+        ADK.setVersion(SIFVersion.SIF23);
+
+        //set the agentId
+        setId(agentId);
+
+        //apply properties
+        getProperties().putAll(agentProperties);
+        getDefaultHttpProperties().putAll(httpProperties);
+        getDefaultHttpsProperties().putAll(httpsProperties);
+
+        //add zone
+        this.getZoneFactory().getInstance(zoneId, zoneUrl);
+    }
+
+    public void setConfigFilePath(String configFilePath) {
+        this.configFilePath = configFilePath;
+    }
+
+    public String getConfigFilePath() {
+        return this.configFilePath;
+    }
+
+    public void setZoneConfigurator(ZoneConfigurator zoneConfigurator) {
+        this.zoneConfigurator = zoneConfigurator;
+    }
+
+    public ZoneConfigurator getZoneConfigurator() {
+        return this.zoneConfigurator;
+    }
+
+    public void setAgentProperties(Properties agentProperties) {
+        this.agentProperties = agentProperties;
+    }
+
+    public Properties getAgentProperties() {
+        return agentProperties;
+    }
+
+    public void setHttpProperties(Properties httpProperties) {
+        this.httpProperties = httpProperties;
+    }
+
+    public Properties getHttpProperties() {
+        return httpProperties;
+    }
+
+    public void setHttpsProperties(Properties httpsProperties) {
+        this.httpsProperties = httpsProperties;
+    }
+
+    public Properties getHttpsProperties() {
+        return httpsProperties;
+    }
+
+    public void setSifVersion(SIFVersion sifVersion) {
+        this.sifVersion = sifVersion;
+    }
+
+    public SIFVersion getSifVersion() {
+        return sifVersion;
     }
 }

@@ -3,11 +3,12 @@ Feature: Dashboard User Login Authentication
 As a SEA/LEA user, I want to use the SLI IDP Login to authenticate
 on SLI, so I could use the Dashboard application.
 
+Background:
+Given I have an open web browser
+Given that dashboard has been authorized for all ed orgs
+
  @RALLY_US200
 Scenario: Valid user login
-
-Given I have an open web browser
-Given the server is in "live" mode
 #hitting static URL
 When I access "/static/html/test.html"
 Then I can see "Static HTML page"
@@ -23,9 +24,6 @@ Then I am informed that "the page that you were looking for could not be found"
 
  @RALLY_US200
 Scenario: Invalid user login
-
-Given I have an open web browser
-Given the server is in "live" mode
 When I navigate to the Dashboard home page
 And was redirected to the Realm page
 When I select "New York Realm" and click go
@@ -35,9 +33,6 @@ Then I am informed that "Invalid User Name or password"
 
 @wip
 Scenario: Login with cookie
-
-Given I have an open web browser
-Given the server is in "live" mode
 When I navigate to the Dashboard home page
 Then I should be redirected to the Realm page
 Then I add a cookie for linda.kim
@@ -46,8 +41,6 @@ Then I should be redirected to the Dashboard landing page
 
 @wip
 Scenario: user in IDP but not in mongo
-Given I have an open web browser
-Given the server is in "live" mode
 When I access "/static/html/test.html"
 Then I can see "Static HTML page"
 When I navigate to the Dashboard home page

@@ -125,8 +125,10 @@ class AppsController < ApplicationController
     params[:app][:behavior] = params[:app_behavior]
     params[:app][:authorized_ed_orgs] = params[:authorized_ed_orgs]
     params[:app][:authorized_ed_orgs] = [] if params[:app][:authorized_ed_orgs] == nil
-    params[:app].delete_if {|key, value| ["administration_url", "image_url"].include? key and value.length == 0 }
-    
+    params[:app].delete_if {|key, value| ["administration_url", "image_url", "application_url", "redirect_uri"].include? key and value.length == 0 }
+
+
+
     logger.debug {params[:app].inspect}
 
     @app = App.new(params[:app])
@@ -164,12 +166,16 @@ class AppsController < ApplicationController
     params[:app][:installed] = boolean_fix params[:app][:installed]
     params[:app][:authorized_ed_orgs] = params[@app.name.gsub(" ", "_") + "_authorized_ed_orgs"]
     params[:app][:authorized_ed_orgs] = [] if params[:app][:authorized_ed_orgs] == nil
-    params[:app].delete_if {|key, value| ["administration_url", "image_url"].include? key and value.length == 0 }
+    params[:app].delete_if {|key, value| ["administration_url", "image_url", "application_url", "redirect_uri"].include? key and value.length == 0 }
     #ugg...can't figure out why rails nests the app_behavior attribute outside the rest of the app
     params[:app][:behavior] = params[:app_behavior]
     @app.load(params[:app])
     @app.attributes.delete :image_url unless params[:app].include? :image_url
     @app.attributes.delete :administration_url unless params[:app].include? :administration_url
+    @app.attributes.delete :application_url unless params[:app].include? :application_url
+    @app.attributes.delete :redirect_uri unless params[:app].include? :redirect_uri
+
+    logger.debug("App params are #{params[:app].inspect}")
     logger.debug {"App found (Update): #{@app.to_json}"}
     
     respond_to do |format|
@@ -210,15 +216,14 @@ class AppsController < ApplicationController
     state_ed_orgs = EducationOrganization.all
     result = {}
     user_tenant = get_tenant
+
     state_ed_orgs.each do |ed_org|
       # In sandbox mode, only show edorgs for the current user's tenant
-      filter_tenant = APP_CONFIG["is_sandbox"] && (!ed_org.metaData.attributes.has_key?("tenantId") || ed_org.metaData.tenantId != user_tenant)
-
-      next if ed_org.organizationCategories == nil or ed_org.organizationCategories.index("State Education Agency") == nil or filter_tenant
-      current_parent = {"id" => ed_org.id, "name" => ed_org.nameOfInstitution, "stateOrganizationId" => ed_org.stateOrganizationId}
+      next if ed_org.organizationCategories == nil or ed_org.organizationCategories.index("State Education Agency") == nil
+      current_parent = {"id" => ed_org.id, "name" => ed_org.nameOfInstitution }
       child_ed_orgs = EducationOrganization.find(:all, :params => {"parentEducationAgencyReference" => ed_org.id})
       child_ed_orgs.each do |child_ed_org|
-        current_child = {"id" => child_ed_org.id, "name" => child_ed_org.nameOfInstitution, "stateOrganizationId" => child_ed_org.stateOrganizationId}
+        current_child = {"id" => child_ed_org.id, "name" => child_ed_org.nameOfInstitution}
         if result.keys.include?(current_parent)
           result[current_parent].push(current_child)
         else

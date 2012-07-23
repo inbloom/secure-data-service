@@ -39,11 +39,6 @@ public class MockValidator implements EntityValidator {
     }
 
     @Override
-    public List<String> getNaturalKeyFields(Entity entity) {
-        return null;
-    }
-
-    @Override
     public void setReferenceCheck(String referenceCheck) {
     }
 }

@@ -4,11 +4,11 @@ As a secrutiy officer, I want the output strings to be HTML escaped.
 
 Background:
 Given I have an open web browser
+Given that dashboard has been authorized for all ed orgs
 
 @RALLY_US200
 Scenario: Student Name Contains Special Character "<" and ">"
 
-Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
 And I was redirected to the "Simple" IDP Login page

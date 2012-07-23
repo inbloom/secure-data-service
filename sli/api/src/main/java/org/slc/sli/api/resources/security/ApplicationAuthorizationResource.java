@@ -37,6 +37,7 @@ import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
@@ -70,6 +71,7 @@ public class ApplicationAuthorizationResource {
     private EntityDefinitionStore store;
 
     @Autowired
+    @Qualifier("validationRepo")
     Repository<Entity> repo;
 
     @Autowired
@@ -177,17 +179,17 @@ public class ApplicationAuthorizationResource {
     public Response getAuthorizations(@Context UriInfo info) {
         SecurityUtil.ensureAuthenticated();
         List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
-        String edOrg = delegationUtil.getUsersStateUniqueId();
+        String edOrgId = SecurityUtil.getEdOrgId();
 
         if (!SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ) && !SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
             return SecurityUtil.forbiddenResponse();
         }
 
         if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
-            if (edOrg != null) {
+            if (edOrgId != null) {
                 NeutralQuery query = new NeutralQuery();
                 query.addCriteria(new NeutralCriteria(AUTH_TYPE, "=", EDORG_AUTH_TYPE));
-                query.addCriteria(new NeutralCriteria(AUTH_ID, "=", edOrg));
+                query.addCriteria(new NeutralCriteria(AUTH_ID, "=", edOrgId));
                 query.addCriteria(new NeutralCriteria("metaData.tenantId", "=", SecurityUtil.getTenantId(), false));
                 Entity ent = repo.findOne(RESOURCE_NAME, query);
                 if (ent != null) {
@@ -219,20 +221,21 @@ public class ApplicationAuthorizationResource {
         return uri.getBaseUri() + uri.getPath().replaceAll("/$", "");
     }
 
-    private void verifyAccess(String authId, String tenantId) throws AccessDeniedException {
-        String edOrg = delegationUtil.getUsersStateUniqueId();
-        if (edOrg == null) {
-            throw new InsufficientAuthenticationException("No edorg exists on principal.");
-        }
-
+    private void verifyAccess(String appAuthEdOrgId, String tenantId) throws AccessDeniedException {
+        String edOrgId = SecurityUtil.getEdOrgId();
         String usersTenant = SecurityUtil.getTenantId();
+
+        if (edOrgId == null) {
+            throw new InsufficientAuthenticationException("No EdOrg exists on principal.");
+        }
+        
         if (tenantId != null && !tenantId.equals(usersTenant)) {
             throw new AccessDeniedException("User cannot modify application authorizations outside of their tenant");
         }
 
         List<String> delegateEdOrgs = delegationUtil.getDelegateEdOrgs();
-        if (!edOrg.equals(authId) && !delegateEdOrgs.contains(authId)) {
-            throw new AccessDeniedException("User can only access " + edOrg);
+        if (!appAuthEdOrgId.equals(edOrgId) && !delegateEdOrgs.contains(appAuthEdOrgId)) {
+            throw new AccessDeniedException("User can only access " + edOrgId);
         }
     }
 

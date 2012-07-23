@@ -93,7 +93,7 @@ public class TeacherEntityTest {
             + "    <StateAbbreviation>NY</StateAbbreviation>"
             + "    <PostalCode>10021</PostalCode>"
             + "    <NameOfCounty>New York</NameOfCounty>"
-            + "    <CountyFIPSCode>US123</CountyFIPSCode>"
+            + "    <CountyFIPSCode>12345</CountyFIPSCode>"
             + "    <CountryCode>US</CountryCode>"
             + "    <Latitude>245</Latitude>"
             + "    <Longitude>432</Longitude>"
@@ -162,7 +162,7 @@ public class TeacherEntityTest {
 
         String teacherCsv = "111111111,District,OrgCode,111111111,Birth certificate,Dr,Teacher,Jose,NotStaff,III,maiden name,"
                 + "Alias,Mr,shady,guy,alias,Jr,Male,1971-01-01,Home,100 10th street,1A,building site number,"
-                + "New York,NY,10021,New York,US123,US,245,432,1969-01-01,2012-12-12,Mobile,123-123-1234,true,Work,teacher@school.edu,"
+                + "New York,NY,10021,New York,12345,US,245,432,1969-01-01,2012-12-12,Mobile,123-123-1234,true,Work,teacher@school.edu,"
                 + "false,Hispanic,White,Bachelor's,12,13,Certification,C110AW,Computer Science certificate,"
                 + "Junior High (Grade Level 6-8),One Year,2005-09-25,2013-09-25,Doctoral degree,aTeacher,teacher123,true";
 
@@ -247,7 +247,7 @@ public class TeacherEntityTest {
         EntityTestUtils.assertObjectInMapEquals(addressMap, "stateAbbreviation", "NY");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "postalCode", "10021");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "nameOfCounty", "New York");
-        EntityTestUtils.assertObjectInMapEquals(addressMap, "countyFIPSCode", "US123");
+        EntityTestUtils.assertObjectInMapEquals(addressMap, "countyFIPSCode", "12345");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "countryCode", "US");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "latitude", "245");
         EntityTestUtils.assertObjectInMapEquals(addressMap, "longitude", "432");

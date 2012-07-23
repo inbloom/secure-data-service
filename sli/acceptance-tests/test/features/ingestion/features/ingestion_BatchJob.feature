@@ -1,4 +1,5 @@
 @RALLY_US2033
+@RALLY_US2956
 Feature: Batchjob Datamodel Data Ingestion Test
 
 Background: I have a landing zone route configured
@@ -26,7 +27,7 @@ Then I should see following map of entry counts in the corresponding batch job d
   | collectionName | expectedRecordCount | searchParameter                  | searchValue                          | searchType |
   | newBatchJob    | 1                   | totalFiles                       | 1                                    | integer    |
   | newBatchJob    | 1                   | status                           | CompletedSuccessfully                | string     |
-  | newBatchJob    | 1                   | batchProperties.tenantId         | IL                                   | string     |
+  | newBatchJob    | 1                   | batchProperties.tenantId         | Midgar                               | string     |
   # stages
   | newBatchJob    | 1                   | stages.0.chunks.0.stageName               | ZipFileProcessor                     | string     |
   | newBatchJob    | 1                   | stages.0.chunks.0.status                  | finished                             | string     |
@@ -147,14 +148,20 @@ Then I should see following map of entry counts in the corresponding batch job d
    And I should see "Processed 0 records." in the resulting batch job file
    And I should see "ERROR  Error resolving references in XML file InterchangeEducationOrganization.xml" in the resulting error log file
 
-Scenario: Post two zip files then see the batch jobs in the database: Clean Database
-Given I post "BatchJobLarge.zip" and "BatchJob.zip" files as the payload of two ingestion jobs
+Scenario: Post two zip files to different landing zones then see the batch jobs in the database: Clean Database
+Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+    And I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
+    And I post "BatchJobLarge.zip" file as the payload of the ingestion job for "Midgar-Daybreak"
+    And I post "BatchJob.zip" file as the payload of the ingestion job for "Hyrule-NYC"
+
     And the following collections are empty in batch job datastore:
         | collectionName              |
         | newBatchJob                 |
         | error                       |
+        | tenantJobLock               |
 
-When zip files are scped to the ingestion landing zone
+When zip file is scp to ingestion landing zone for "Midgar-Daybreak"
+  And zip file is scp to ingestion landing zone for "Hyrule-NYC"
   And a batch job for file "BatchJob.zip" is completed in database
   And a batch job for file "BatchJobLarge.zip" is completed in database
 
@@ -170,3 +177,30 @@ Then I should see following map of entry counts in the corresponding batch job d
   | newBatchJob    | 1                   | resourceEntries.0.resourceId   | BatchJob.zip            | string     |
   | newBatchJob    | 1                   | resourceEntries.0.resourceId   | BatchJobLarge.zip       | string     |
 
+
+
+Scenario: Post two zip files to the same landing zone and see that the second is locked out: Clean Database
+Given I post "BatchJobLarge.zip" and "BatchJob.zip" files as the payload of two ingestion jobs
+    And the following collections are empty in batch job datastore:
+        | collectionName              |
+        | newBatchJob                 |
+        | error                       |
+        | tenantJobLock               |
+
+When zip files are scped to the ingestion landing zone
+  And a batch job for file "BatchJob.zip" is completed in database
+  And a batch job for file "BatchJobLarge.zip" is completed in database
+
+Then I should see following map of entry counts in the corresponding batch job db collections:
+        | collectionName              | count |
+        | newBatchJob                 | 2     |
+
+ And I check to find if record is in batch job collection:
+  | collectionName | expectedRecordCount | searchParameter                | searchValue             | searchType |
+  | newBatchJob    | 1                   | totalFiles                     | 1                       | integer    |
+  | newBatchJob    | 1                   | status                         | CompletedSuccessfully   | string     |
+  | newBatchJob    | 1                   | status                         | CompletedWithErrors     | string     | 
+  | newBatchJob    | 1                   | resourceEntries.0.resourceId   | BatchJob.zip            | string     |
+  | newBatchJob    | 1                   | resourceEntries.0.resourceId   | BatchJobLarge.zip       | string     |
+
+ And I should see "ERROR  Another job is currently running for this tenant.  Please retry this ingestion once it has finished." in the resulting error log file

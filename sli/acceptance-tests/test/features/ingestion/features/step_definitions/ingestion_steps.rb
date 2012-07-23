@@ -22,6 +22,7 @@ require 'mongo'
 require 'fileutils'
 require 'socket'
 require 'net/sftp'
+require 'net/http'
 
 require_relative '../../../utils/sli_utils.rb'
 
@@ -32,11 +33,14 @@ require_relative '../../../utils/sli_utils.rb'
 INGESTION_DB_NAME = PropLoader.getProps['ingestion_database_name']
 INGESTION_DB = PropLoader.getProps['ingestion_db']
 INGESTION_BATCHJOB_DB_NAME = PropLoader.getProps['ingestion_batchjob_database_name']
+LZ_SERVER_URL = PropLoader.getProps['lz_server_url']
 INGESTION_SERVER_URL = PropLoader.getProps['ingestion_server_url']
 INGESTION_MODE = PropLoader.getProps['ingestion_mode']
 INGESTION_DESTINATION_DATA_STORE = PropLoader.getProps['ingestion_destination_data_store']
 INGESTION_USERNAME = PropLoader.getProps['ingestion_username']
 INGESTION_REMOTE_LZ_PATH = PropLoader.getProps['ingestion_remote_lz_path']
+
+TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT"]
 
 ############################################################
 # STEPS: BEFORE
@@ -52,13 +56,13 @@ Before do
   @tenantColl = @mdb.collection('tenant')
 
 
-  #remove all tenants other than NY and IL
+  #remove all tenants other than Midgar and Hyrule
   @tenantColl.find.each do |row|
     if row['body'] == nil
       puts "removing record"
       @tenantColl.remove(row)
     else
-      if row['body']['tenantId'] != 'NY' and row['body']['tenantId'] != 'IL'
+      if row['body']['tenantId'] != 'Midgar' and row['body']['tenantId'] != 'Hyrule'
         puts "removing record"
         @tenantColl.remove(row)
       end
@@ -133,8 +137,8 @@ end
 def initializeTenants()
   @lzs_to_remove  = Array.new
 
-  defaultLz = @ingestion_lz_identifer_map['IL-Daybreak']
-  assert(defaultLz != nil, "Default landing zone not defined (IL-Daybreak)")
+  defaultLz = @ingestion_lz_identifer_map['Midgar-Daybreak']
+  assert(defaultLz != nil, "Default landing zone not defined (Midgar-Daybreak)")
 
   if defaultLz.rindex('/') == (defaultLz.length - 1)
     # remove last character (/)
@@ -206,7 +210,7 @@ end
 ############################################################
 
 def remoteLzCopy(srcPath, destPath)
-	Net::SFTP.start(INGESTION_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+	Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
 		puts "attempting to remote copy " + srcPath + " to " + destPath
 		sftp.upload(srcPath, destPath)
     end
@@ -216,7 +220,7 @@ def clearRemoteLz(landingZone)
 
 	puts "clear landing zone " + landingZone
 
-	Net::SFTP.start(INGESTION_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+	Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
 		sftp.dir.foreach(landingZone) do |entry|
 			next if entry.name == '.' or entry.name == '..'
 
@@ -232,7 +236,7 @@ end
 def remoteLzContainsFile(pattern, landingZone)
 	puts "remoteLzContainsFiles(" + pattern + " , " + landingZone + ")"
 
-	Net::SFTP.start(INGESTION_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+	Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
 		sftp.dir.glob(landingZone, pattern) do |entry|
 			return true
 		end
@@ -244,7 +248,7 @@ def remoteLzContainsFiles(pattern, targetNum , landingZone)
 	puts "remoteLzContainsFiles(" + pattern + ", " + targetNum + " , " + landingZone + ")"
 
 	count = 0
-	Net::SFTP.start(INGESTION_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+	Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
 		sftp.dir.glob(landingZone, pattern) do |entry|
 			count += 1
 			if count >= targetNum
@@ -258,7 +262,7 @@ end
 def remoteFileContainsMessage(prefix, message, landingZone)
 
 	puts "remoteFileContainsMessage prefix " + prefix + ", message " + message + ", landingZone " + landingZone
-	Net::SFTP.start(INGESTION_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+	Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
 		sftp.dir.glob(landingZone, prefix + "*") do |entry|
 			entryPath = File.join(landingZone, entry.name)
 			puts "found file " + entryPath
@@ -279,7 +283,7 @@ end
 def createRemoteDirectory(dirPath)
 	puts "attempting to create dir: " + dirPath
 
-	Net::SFTP.start(INGESTION_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+	Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
 		begin
 			sftp.mkdir!(dirPath)
 		rescue
@@ -323,7 +327,7 @@ def lzFileRmWait(file, wait_time)
 end
 
 Given /^I am using preconfigured Ingestion Landing Zone$/ do
-  initializeLandingZone(@ingestion_lz_identifer_map['IL-Daybreak'])
+  initializeLandingZone(@ingestion_lz_identifer_map['Midgar-Daybreak'])
 end
 
 Given /^I am using preconfigured Ingestion Landing Zone for "([^"]*)"$/ do |lz_key|
@@ -518,11 +522,11 @@ Given /^the following collections are empty in datastore:$/ do |table|
 
   table.hashes.map do |row|
     @entity_collection = @db[row["collectionName"]]
-    @entity_collection.remove
+    @entity_collection.remove("metaData.tenantId" => {"$in" => TENANT_COLLECTION})
 
-    puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."
+    puts "There are #{@entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count} records in collection " + row["collectionName"] + "."
 
-    if @entity_collection.count.to_s != "0"
+    if @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count.to_s != "0"
       @result = "false"
     end
   end
@@ -537,11 +541,11 @@ Given /^the following collections are empty in batch job datastore:$/ do |table|
 
   table.hashes.map do |row|
     @entity_collection = @db[row["collectionName"]]
-    @entity_collection.remove
+    @entity_collection.remove("metaData.tenantId" => {"$in" => TENANT_COLLECTION})
 
     puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."
 
-    if @entity_collection.count.to_s != "0"
+    if @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count.to_s != "0"
       @result = "false"
     end
   end
@@ -644,7 +648,7 @@ def ensureIndexes(db)
   @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
   @collection.remove( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'sectionId' => " ", 'studentId' => " "}} )
 
-  @collection = @db["studentSectionGradebookEntry"]
+  @collection = @db["studentGradebookEntry"]
   @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
   @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
   @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
@@ -795,6 +799,67 @@ Given /^I add a new landing zone for "([^"]*)"$/ do |lz_key|
   @lzs_to_remove.push(lz_key)
 end
 
+Given /^I add a new named landing zone for "([^"]*)"$/ do |lz_key|
+  tenant = lz_key
+  edOrg = lz_key
+
+  # split tenant from edOrg on hyphen
+  if lz_key.index('-') > 0
+      tenant = lz_key[0, lz_key.index('-')]
+      edOrg = lz_key[lz_key.index('-') + 1, lz_key.length]
+  end
+
+  @db = @conn[INGESTION_DB_NAME]
+  @tenantColl = @db.collection('tenant')
+
+  matches = @tenantColl.find("body.tenantId" => tenant, "body.landingZone.educationOrganization" => edOrg).to_a
+  puts "Found " + matches.size.to_s + " existing records for " + lz_key
+
+  assert(matches.size == 0, "Tenant already exists for " + lz_key)
+
+  @existingTenant = @tenantColl.find_one("body.tenantId" => tenant)
+
+  @id = @existingTenant['_id']
+  @body = @existingTenant['body']
+
+  @landingZones = @body['landingZone'].to_a
+
+  path = @tenantTopLevelLandingZone + lz_key
+
+  absolutePath = path
+  if INGESTION_MODE == 'remote'
+      absolutePath = INGESTION_REMOTE_LZ_PATH + absolutePath
+  end
+
+  if INGESTION_MODE != 'remote'
+      FileUtils.mkdir_p(path)
+      FileUtils.chmod(0777, path)
+      else
+      createRemoteDirectory(path)
+  end
+
+  puts lz_key + " -> " + path
+
+  ingestionServer = Socket.gethostname
+  if INGESTION_MODE == 'remote'
+      ingestionServer = INGESTION_SERVER_URL
+      if ingestionServer.index('.') != nil
+          ingestionServer = ingestionServer[0, ingestionServer.index('.')]
+      end
+  end
+
+  @newLandingZone = {
+      "educationOrganization" => edOrg,
+      "ingestionServer" => ingestionServer,
+      "path" => absolutePath
+  }
+
+  @landingZones.push(@newLandingZone)
+  @tenantColl.save(@existingTenant)
+  @ingestion_lz_identifer_map[lz_key] = path + '/'
+  @lzs_to_remove.push(lz_key)
+end
+
 ############################################################
 # STEPS: WHEN
 ############################################################
@@ -864,6 +929,44 @@ When /^a batch job log has been created$/ do
     assert(true, "")
   else
     assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
+  end
+
+end
+
+When /^a batch job log has not been created$/ do
+  intervalTime = 3 #seconds
+  #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
+  @maxTimeout ? @maxTimeout : @maxTimeout = 900
+  iters = (1.0*@maxTimeout/intervalTime).ceil
+  found = false
+  if (INGESTION_MODE == 'remote')
+    iters.times do |i|
+
+      if remoteLzContainsFile("job-#{@source_file_name}*.log", @landing_zone_path)
+        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+        found = true
+        break
+      else
+        sleep(intervalTime)
+      end
+    end
+  else
+    sleep(3) # waiting to poll job file removes race condition (windows-specific)
+    iters.times do |i|
+      if dirContainsBatchJobLog? @landing_zone_path
+        puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+        found = true
+        break
+      else
+        sleep(intervalTime)
+      end
+    end
+  end
+
+  if found
+    assert(false, "")
+  else
+    assert(true, "Batch log was never created")
   end
 
 end
@@ -1061,6 +1164,21 @@ When /^local zip file is moved to ingestion landing zone$/ do
   assert(true, "File Not Uploaded")
 end
 
+When /^an activemq instance "([^"]*)" running in "([^"]*)" and on jmx port "([^"]*)" stops$/ do |instance_name, instance_source, port|
+  runShellCommand("#{instance_source}/activemq-admin stop  --jmxurl service:jmx:rmi:///jndi/rmi://localhost:#{port}/jmxrmi #{instance_name}" )
+end
+
+When /^I navigate to the Ingestion Service HealthCheck page and submit login credentials "([^"]*)" "([^"]*)"$/ do |user, pass|
+   uri = URI('http://localhost:8000/ingestion-service/HealthCheck')
+   req = Net::HTTP::Get.new(uri.request_uri)
+   req.basic_auth user, pass
+   res = Net::HTTP.start(uri.hostname, uri.port) {|http|
+   http.request(req)
+   }
+   puts res.body
+   $healthCheckResult = res.body
+end
+
 ############################################################
 # STEPS: THEN
 ############################################################
@@ -1093,7 +1211,7 @@ Then /^I should see following map of entry counts in the corresponding collectio
 
   table.hashes.map do |row|
     @entity_collection = @db.collection(row["collectionName"])
-    @entity_count = @entity_collection.count().to_i
+    @entity_count = @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count().to_i
 
     if @entity_count.to_s != row["count"].to_s
       @result = "false"
@@ -1139,15 +1257,15 @@ Then /^I check to find if record is in collection:$/ do |table|
     @entity_collection = @db.collection(row["collectionName"])
 
     if row["searchType"] == "integer"
-      @entity_count = @entity_collection.find({row["searchParameter"] => row["searchValue"].to_i}).count().to_s
+      @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
     elsif row["searchType"] == "boolean"
         if row["searchValue"] == "false"
-            @entity_count = @entity_collection.find({row["searchParameter"] => false}).count().to_s
+            @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => false}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
         else
-            @entity_count = @entity_collection.find({row["searchParameter"] => true}).count().to_s
+            @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => true}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
         end
     else
-      @entity_count = @entity_collection.find({row["searchParameter"] => row["searchValue"]}).count().to_s
+      @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"]},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
     end
 
     puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"]
@@ -1551,6 +1669,25 @@ Then /^"([^"]*)" contains a reference to a "([^"]*)" where "([^"]*)" is "([^"]*)
   id = referred["_id"]
   references = findField(@record, referenceField)
   assert(references.include?(id), "the record #{@record} does not contain a reference to the #{collection} #{value}")
+end
+
+When /^zip file "(.*?)" is scp to ingestion landing zone$/ do |fileName|
+  @source_file_name = fileName
+  step "zip file is scp to ingestion landing zone"
+end
+
+When /^a batch job log for "(.*?)" file "(.*?)" has been created$/ do |landingZone, sourceFile|
+  @landing_zone_path=@ingestion_lz_identifer_map[landingZone]
+  @source_file_name=sourceFile
+  step "a batch job log has been created"
+end
+
+Then /^I restart the activemq instance "([^"]*)" running on "([^"]*)"$/ do |instance_name, instance_source|
+  Open3.popen2e("#{instance_source}/#{instance_name}/bin/#{instance_name}" )
+end
+
+Then /^I am informed that "(.*?)"$/ do |arg1|
+    assert($healthCheckResult.tr("\n","") == arg1, "Ingestion service is not running")
 end
 
 ############################################################

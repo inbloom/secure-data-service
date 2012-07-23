@@ -16,7 +16,6 @@
 
 package org.slc.sli.sif.reporting;
 
-import java.io.File;
 import java.util.Properties;
 
 import openadk.library.ADK;
@@ -28,15 +27,20 @@ import openadk.library.Publisher;
 import openadk.library.PublishingOptions;
 import openadk.library.Query;
 import openadk.library.SIFDataObject;
+import openadk.library.SIFVersion;
 import openadk.library.Zone;
 import openadk.library.student.StudentDTD;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 import org.slc.sli.sif.agent.SifAgent;
+import org.slc.sli.sif.zone.PublishZoneConfigurator;
 
+/**
+ * Test agent to trigger event reports
+ *
+ */
 public class EventReporter implements Publisher {
 
     static {
@@ -51,21 +55,16 @@ public class EventReporter implements Publisher {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ADKException {
         Logger logger = LoggerFactory.getLogger(EventReporter.class);
 
+        ADK.initialize();
+        ADK.debug = ADK.DBG_ALL;
+
         try {
-            FileSystemXmlApplicationContext context = new FileSystemXmlApplicationContext(
-                    "classpath:spring/applicationContext.xml");
-            context.registerShutdownHook();
+            SifAgent agent = createReporterAgent();
 
-            //SifAgent agent = context.getBean(SifAgent.class);
-
-            SifAgent agent = new SifAgent("PublisherAgent");
-            ADK.initialize();
-            ADK.debug = ADK.DBG_ALL;
-
-            agent.startAgentWithConfig(new File("src/main/resources/sif/agent-config.xml"));
+            agent.startAgent();
 
             if (args.length >= 2) {
                 String zoneId = args[EventReporter.ZONE_ID];
@@ -78,14 +77,30 @@ public class EventReporter implements Publisher {
             } else {
                 Zone zone = agent.getZoneFactory().getZone("TestZone");
                 EventReporter reporter = new EventReporter(zone);
-
                 reporter.reportEvent();
             }
         } catch (Exception e) {
             logger.error("Exception trying to report event", e);
         }
-        System.exit(0);
     }
+
+    private static SifAgent createReporterAgent() {
+        Properties agentProperties = new Properties();
+        agentProperties.put("adk.messaging.mode", "Push");
+        agentProperties.put("adk.messaging.transport", "http");
+        agentProperties.put("adk.messaging.pullFrequency", "30000");
+        agentProperties.put("adk.messaging.maxBufferSize", "32000");
+
+        Properties httpProperties = new Properties();
+        httpProperties.put("port", "25102");
+
+        Properties httpsProperties = new Properties();
+
+        return new SifAgent("test.publisher.agent", new PublishZoneConfigurator(),
+                agentProperties, httpProperties, httpsProperties, "TestZone",
+                "http://10.163.6.73:50002/TestZone", SIFVersion.SIF23);
+    }
+
 
     public static final int ZONE_ID = 0;
     public static final int MESSAGE_FILE = 1;

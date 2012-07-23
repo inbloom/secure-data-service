@@ -27,6 +27,7 @@ class ChangePasswordsControllerTest < ActionController::TestCase
         :new_pass => 'testabcd',
         :confirmation => 'testabcd'
     )
+    session[:roles] = "SLC Operator" # mock up role to be SLC Operator as allowed user
   end
 
   test "should get index" do
@@ -39,10 +40,15 @@ class ChangePasswordsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should create change_password" do
+  test "should create change_password allowed user" do
+    puts @change_password.attributes
     post :create, change_password: @change_password.attributes
     assert_response :success
   end
 
-
+  test "should create change_password forbidden" do
+    session[:roles] = nil
+    post :create, change_password: @change_password.attributes
+    assert_response 403 
+  end
 end

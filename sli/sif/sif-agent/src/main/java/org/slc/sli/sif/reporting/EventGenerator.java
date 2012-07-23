@@ -20,6 +20,9 @@ import java.util.Properties;
 
 import openadk.library.Event;
 
+/**
+ *  Event generator interface
+ */
 public interface EventGenerator {
 
     public static final String MESSAGE_FILE = "MESSAGE_FILE";

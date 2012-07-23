@@ -32,15 +32,21 @@ def reset_timeouts_to_default
 end
 
 Given /^I have an open web browser$/ do
-  @profile ||= Selenium::WebDriver::Firefox::Profile.new
-  @profile['network.http.prompt-temp-redirect'] = false
-
-  # if osx, use firefox background script
-  #if Selenium::WebDriver::Firefox::Binary.path['/Applications/Firefox.app'] != nil
-  #  Selenium::WebDriver::Firefox::Binary.path = 'test/features/utils/firefox_in_background.sh'
-  #end
-
-  @driver ||= Selenium::WebDriver.for :firefox, :profile => @profile
+  browser = PropLoader.getProps['browser'].downcase
+  if (browser == "ie")
+    @driver ||= Selenium::WebDriver.for :ie
+  elsif (browser == "chrome")
+    @driver ||= Selenium::WebDriver.for :chrome
+  else
+    @profile ||= Selenium::WebDriver::Firefox::Profile.new
+    @profile['network.http.prompt-temp-redirect'] = false
+    # if osx, use firefox background script
+    #if Selenium::WebDriver::Firefox::Binary.path['/Applications/Firefox.app'] != nil
+    #  Selenium::WebDriver::Firefox::Binary.path = 'test/features/utils/firefox_in_background.sh'
+    #end
+    @driver ||= Selenium::WebDriver.for :firefox, :profile => @profile
+  end
+  
   reset_timeouts_to_default
 end
 

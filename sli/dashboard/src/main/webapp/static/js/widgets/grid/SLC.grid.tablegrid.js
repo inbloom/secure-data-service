@@ -1,6 +1,22 @@
 /*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
  * SLC grid
- * The module contains SLC grid plugin and create grid method
+ * The module contains SLC grid plugin and grid creation method
  */
 /*global SLC $ jQuery*/
 
@@ -62,6 +78,17 @@ SLC.namespace('SLC.grid.tablegrid', (function () {
 			        options = $.extend(options, {colNames: colNames, colModel: colModel});
 			    }
 			    $(this).jqGrid(options);
+			    $(this).jqGrid('hideCol','rn');
+			    // Add css class for column header
+			    if (panelConfig.items) {
+					for (i = 0; i < panelConfig.items.length; i++) {
+						item = panelConfig.items[i];
+						if (item.style) {
+							$(this).jqGrid('setLabel',item.field, '', item.style);
+						}
+					}
+				}
+				
 			    if (groupHeaders.length > 0) {
 					$(this).jqGrid('setGroupHeaders', {
 						useColSpanStyle: true, 

@@ -119,7 +119,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         EntityDefinition staff = factory.makeEntity(EntityNames.STAFF, ResourceNames.STAFF).buildAndRegister(this);
         EntityDefinition student = factory.makeEntity(EntityNames.STUDENT, ResourceNames.STUDENTS).buildAndRegister(
                 this);
-        factory.makeEntity(EntityNames.STUDENT_SECTION_GRADEBOOK_ENTRY, ResourceNames.STUDENT_SECTION_GRADEBOOK_ENTRIES)
+        factory.makeEntity(EntityNames.STUDENT_GRADEBOOK_ENTRY, ResourceNames.STUDENT_GRADEBOOK_ENTRIES)
                 .buildAndRegister(this);
         EntityDefinition teacher = factory.makeEntity(EntityNames.TEACHER, ResourceNames.TEACHERS)
                 .storeAs(EntityNames.STAFF).buildAndRegister(this);

@@ -33,7 +33,6 @@ import javax.ws.rs.core.UriInfo;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.util.PATCH;
 
 /**
  * Basic resource implementing crud steps on an entity
@@ -165,6 +164,7 @@ public abstract class DefaultCrudResource extends DefaultCrudEndpoint {
      * @return Response with a NOT_CONTENT status code
      * @response.representation.204.mediaType HTTP headers with a Not-Content status code.
      */
+    /*
     @Override
     @PATCH
     @Path("{id}")
@@ -172,5 +172,6 @@ public abstract class DefaultCrudResource extends DefaultCrudEndpoint {
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
         return this.patch(resourceName, id, newEntityBody, headers, uriInfo);
     }
+    */
 
 }

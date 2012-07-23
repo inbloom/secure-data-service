@@ -155,6 +155,7 @@ class ApplicationController < ActionController::Base
     session[:adminRealm] = check["adminRealm"]
     session[:roles] = check["sliRoles"]
     session[:edOrg] = check["edOrg"]
+    session[:edOrgId] = check["edOrgId"]
     session[:external_id] = check["external_id"]
   end
 

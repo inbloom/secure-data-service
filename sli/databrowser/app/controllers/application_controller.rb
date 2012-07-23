@@ -1,4 +1,5 @@
 =begin
+#--
 
 Copyright 2012 Shared Learning Collaborative, LLC
 
@@ -19,12 +20,21 @@ limitations under the License.
 
 require "active_resource/base"
 require "oauth_helper"
-
+#
+# This is the standard base controller class that all others in the databrowser
+# (and Rails) inherits from. We take advantage and put some common
+# functionality here
+#
+# Namely we have a before_filter that will handle the basic oauth functionality
+# to ensure you have a valid API token
+#
+# We also catch most of the common ActiveResource exceptions and force them to 
+# display flash messages, clear your rails session, etc.
 class ApplicationController < ActionController::Base
   protect_from_forgery
   ActionController::Base.request_forgery_protection_token = 'state'
-
   before_filter :handle_oauth
+  
   rescue_from ActiveResource::ResourceNotFound, :with => :not_found
   
   rescue_from ActiveResource::UnauthorizedAccess do |exception|
@@ -62,6 +72,10 @@ class ApplicationController < ActionController::Base
     #redirect_to :back
   end
   
+  #This method is where OAuth will finish. Basically after you send your credentials to the Api
+  #it will redirect to this method to try and finish the OAuth process.
+  #
+  #From here we bounce you back internally to the page you originally wanted to see.
   def callback
     #TODO: disable redirects to other domains
     redirect_to session[:entry_url] unless session[:entry_url].include? '/callback'
@@ -87,6 +101,14 @@ class ApplicationController < ActionController::Base
     request.url
   end
 
+  #This method is critical.
+  #This method is a before_filter that gets run on every request to ensure that
+  #you have an OAuth token with the Api, and starts the process if you don't have
+  #one.
+  #
+  #After you've successfully logged in, it makes a call to system/session/check to
+  #get your name and display it in the header of the databrowser. It represents the
+  #first successful call to the Api.
   def handle_oauth
     SessionResource.access_token = nil
     oauth = session[:oauth]

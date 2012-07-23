@@ -69,7 +69,7 @@ public class SecurityEventBuilder {
                 }
             }
             
-            event.setTargetEdOrg("UnknownTragetEdOrg");
+            event.setTargetEdOrg("UnknownTargetEdOrg");
             if (requestUri != null) {
                 event.setActionUri(requestUri.getRequestUri().toString());
             }

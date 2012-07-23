@@ -19,6 +19,7 @@ Scenario Outline: Control the presence of links by specifying an accept type for
         | "application/vnd.slc+json;charset=utf-8" | "links"      |
 #       | "application/xml"                         |              |
 
+  @pause
 Scenario Outline: Confirm all known reference fields generate two valid links that are implemented and update-able
    Given format "application/vnd.slc+json;charset=utf-8"
      And referring collection <source entity type> exposed as <source expose name>
@@ -38,9 +39,10 @@ Scenario Outline: Confirm all known reference fields generate two valid links th
     Then I should receive a return code of 200
      And each entity's "entityType" should be <source entity type>
     When I navigate to GET "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
-     And I set the list <reference field> to "<INVALID REFERENCE>"
+    Then I should receive a return code of 200
+    When I set the list <reference field> to "<INVALID REFERENCE>"
      And I navigate to PUT "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
-    Then I should receive a return code of 400
+    Then I should receive a return code of 403
     When I set the list <reference field> to <new valid value>
      And I navigate to PUT "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
     Then I should receive a return code of 204
@@ -52,7 +54,7 @@ Scenario Outline: Confirm all known reference fields generate two valid links th
      And "entityType" should be <target entity type>
     Examples:
         | source entity type                      | source expose name                       | reference field                  | target entity type      | target expose name       | target link name           | source link name                            | testing ID                             | reference value                          | new valid value                                                                  |
-        | "session"                               | "sessions"                               | "gradingPeriodReference"         | "gradingPeriod"         | "gradingPeriods"         | "getGradingPeriod"         | "getSessions"                               | "c549e272-9a7b-4c02-aff7-b105ed76c904" | ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130"] | ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130", "ef72b883-90fa-40fa-afc2-4cb1ae17623b"] |
+        #| "session"                               | "sessions"                               | "gradingPeriodReference"         | "gradingPeriod"         | "gradingPeriods"         | "getGradingPeriod"         | "getSessions"                               | "c549e272-9a7b-4c02-aff7-b105ed76c904" | ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130"] | ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130", "ef72b883-90fa-40fa-afc2-4cb1ae17623b"] |
         | "reportCard"                            | "reportCards"                            | "studentCompetencyId"            | "studentCompetency"     | "studentCompetencies"    | "getStudentCompetency"     | "getReportCards"                            | "cf0ca1c6-a9db-4180-bf23-8276c4e2624c" | ["b57643e4-9acf-11e1-89a7-68a86d21d918"] | ["b57643e4-9acf-11e1-89a7-68a86d21d918", "3a2ea9f8-9acf-11e1-add5-68a86d21d918"] |
         | "section"                               | "sections"                               | "programReference"               | "program"               | "programs"               | "getProgram"               | "getSections"                               | "706ee3be-0dae-4e98-9525-f564e05aa388" | ["9b8cafdc-8fd5-11e1-86ec-0021701f543f"] | ["9b8cafdc-8fd5-11e1-86ec-0021701f543f", "f24e5725-c1e4-48db-9f62-381ab434c0ec"] |
         | "cohort"                                | "cohorts"                                | "programId"                      | "program"               | "programs"               | "getProgram"               | "getCohorts"                                | "b40926af-8fd5-11e1-86ec-0021701f543f" | ["9b8c3aab-8fd5-11e1-86ec-0021701f543f"] | ["9b8cafdc-8fd5-11e1-86ec-0021701f543f"] |

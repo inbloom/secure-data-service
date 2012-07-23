@@ -30,9 +30,10 @@ class AdminDelegationsController < ApplicationController
   # GET /admin_delegations.json
   def index
     admin_delegations = AdminDelegation.all
+    edOrgId = session[:edOrgId]
+    @edorgName = EducationOrganization.find(edOrgId).nameOfInstitution
     if admin_delegations == nil
       @admin_delegation = AdminDelegation.new
-      edOrgId = Check.get("")["edOrg"]
       @admin_delegation.localEdOrgId = edOrgId
     else
       @admin_delegation = admin_delegations[0]
@@ -77,7 +78,7 @@ class AdminDelegationsController < ApplicationController
   # PUT /admin_delegations/1
   # PUT /admin_delegations/1.json
   def update
-    @admin_delegation = AdminDelegation.all[0]
+    @admin_delegation = AdminDelegation.first
     @admin_delegation.id = "myEdOrg"
     params[:admin_delegation][:appApprovalEnabled] = boolean_fix(params[:admin_delegation][:appApprovalEnabled])
     params[:admin_delegation][:viewSecurityEventsEnabled] = boolean_fix(params[:admin_delegation][:viewSecurityEventsEnabled])

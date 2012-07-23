@@ -18,6 +18,7 @@
 package org.slc.sli.sandbox.idp.service;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -57,6 +58,28 @@ public class UserService {
 
     @Value("${sli.simple-idp.groupObjectClass}")
     private String groupObjectClass;
+
+    @Value("${sli.simple-idp.sliAdminRealmName}")
+    private String sliAdminRealmName;
+
+    private static final Map<String, String> LDAP_ROLE_MAPPING = new HashMap<String,String>();
+    static {
+        // Mapping from roles in LDAP which comply with requirements of POSIX systems
+        // to roles understood by the API
+        LDAP_ROLE_MAPPING.put("educator",              "Educator");
+        LDAP_ROLE_MAPPING.put("aggregate_viewer",      "Aggregate Viewer");
+        LDAP_ROLE_MAPPING.put("it_administrator",      "IT Administrator");
+        LDAP_ROLE_MAPPING.put("leader",                "Leader");
+        LDAP_ROLE_MAPPING.put("lea_administrator",     "LEA Administrator");
+        LDAP_ROLE_MAPPING.put("sea_administrator",     "SEA Administrator");
+        LDAP_ROLE_MAPPING.put("application_developer", "Application Developer");
+        LDAP_ROLE_MAPPING.put("slc_operator",          "SLC Operator");
+        LDAP_ROLE_MAPPING.put("realm_administrator",   "Realm Administrator");
+        LDAP_ROLE_MAPPING.put("ingestion_user",        "Ingestion User");
+        LDAP_ROLE_MAPPING.put("acceptance_test_user",  "Acceptance Test User");
+        LDAP_ROLE_MAPPING.put("sandbox_administrator", "Sandbox Administrator");
+        LDAP_ROLE_MAPPING.put("sandbox_slc_operator",  "Sandbox SLC Operator");
+    }
 
     public UserService() {
     }
@@ -150,7 +173,10 @@ public class UserService {
         AndFilter filter = new AndFilter();
         filter.and(new EqualsFilter("objectclass", userObjectClass)).and(new EqualsFilter(userSearchAttribute, userId));
         DistinguishedName dn = new DistinguishedName("ou=" + realm);
-        User user = (User) ldapTemplate.searchForObject(dn, filter.toString(), new PersonContextMapper());
+        PersonContextMapper pcm = new PersonContextMapper();
+        boolean needAdditionalAttributes=(realm != null && realm.equals(sliAdminRealmName));
+        pcm.setAddAttributes(needAdditionalAttributes);
+        User user = (User) ldapTemplate.searchForObject(dn, filter.toString(), pcm);
         user.userId = userId;
         return user;
     }
@@ -170,8 +196,59 @@ public class UserService {
                 new EqualsFilter(groupSearchAttribute, userId));
         @SuppressWarnings("unchecked")
         List<String> groups = ldapTemplate.search(dn, filter.toString(), new GroupContextMapper());
-        return groups;
+
+        // map the roles in LDAP which are better suited for Posix systems to
+        // the roles used by the API
+        List<String> result = new LinkedList<String>();
+        for (String group : groups) {
+            result.add(LDAP_ROLE_MAPPING.containsKey(group) ? LDAP_ROLE_MAPPING.get(group) : group);
+        }
+        return result;
     }
+
+    public void updateUser(String realm, User user, String resetKey, String password) {
+        LOG.info("Update User with resetKey");
+
+        user.attributes.put("resetKey", resetKey);
+
+        DirContextAdapter context =
+                        (DirContextAdapter) ldapTemplate.lookupContext(buildUserDN(realm, user.getAttributes().get("userName")));
+
+        mapUserToContext(context, user);
+        ldapTemplate.modifyAttributes(context);
+    }
+
+    private DistinguishedName buildUserDN(String realm, String uid) {
+    	DistinguishedName dn = new DistinguishedName("cn=" + uid + ",ou=people,ou=" + realm);
+    	return dn;
+    }
+
+    private void mapUserToContext(DirContextAdapter context, User user) {
+         context.setAttributeValues("objectclass", new String[] { "inetOrgPerson", "posixAccount", "top" });
+         context.setAttributeValue("givenName", user.getAttributes().get("givenName"));
+         context.setAttributeValue("sn", user.getAttributes().get("sn"));
+         context.setAttributeValue("uid", user.getAttributes().get("uid"));
+         context.setAttributeValue("uidNumber", user.getAttributes().get("uidNumber"));
+         context.setAttributeValue("gidNumber", user.getAttributes().get("gidNumber"));
+         context.setAttributeValue("cn", user.getAttributes().get("userName"));
+         context.setAttributeValue("mail", user.getAttributes().get("mail"));
+         context.setAttributeValue("homeDirectory", user.getAttributes().get("homeDirectory"));
+
+         context.setAttributeValue("gecos", user.getAttributes().get("resetKey"));
+         context.setAttributeValue("userPassword", user.getAttributes().get("userPassword"));
+
+         String description = "";
+         if (user.getAttributes().get("tenant") != null) {
+             description += "tenant=" + user.getAttributes().get("tenant");
+         }
+         if (user.getAttributes().get("edOrg") != null) {
+             description += ",edOrg=" + user.getAttributes().get("edOrg");
+         }
+         if(!"".equals(description)) {
+             context.setAttributeValue("description", "tenant=" + user.getAttributes().get("tenant") + "," + "edOrg=" + user.getAttributes().get("edOrg"));
+         }
+
+     }
 
     /**
      * LDAPTemplate mapper for getting attributes from the person context. Retrieves cn and
@@ -182,12 +259,36 @@ public class UserService {
      *
      */
     static class PersonContextMapper implements ContextMapper {
+    	boolean needAdditionalAttributes = false;
+
+    	public void setAddAttributes(boolean needAdditionalAttributes) {
+    		this.needAdditionalAttributes = needAdditionalAttributes;
+    	}
+
         @Override
         public Object mapFromContext(Object ctx) {
             DirContextAdapter context = (DirContextAdapter) ctx;
             User user = new User();
             Map<String, String> attributes = new HashMap<String, String>();
+
             attributes.put("userName", context.getStringAttribute("cn"));
+
+            if(needAdditionalAttributes){
+	            attributes.put("givenName", context.getStringAttribute("givenName"));
+	            attributes.put("sn", context.getStringAttribute("sn"));
+	            attributes.put("uid", context.getStringAttribute("uid"));
+	            attributes.put("uidNumber", context.getStringAttribute("uidNumber"));
+	            attributes.put("gidNumber", context.getStringAttribute("gidNumber"));
+	            attributes.put("homeDirectory", context.getStringAttribute("homeDirectory"));
+	            attributes.put("mail", context.getStringAttribute("mail"));
+
+	            String emailToken = context.getStringAttribute("displayName");
+	            if(emailToken==null||emailToken.trim().length()==0) {
+					emailToken="";
+				}
+	            attributes.put("emailToken", emailToken);
+        	}
+
             String description = context.getStringAttribute("description");
             if (description != null && description.length() > 0) {
                 String[] pairs;

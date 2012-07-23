@@ -103,10 +103,10 @@ And I was redirected to the "Simple" IDP Login page
 And I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
 Then I am redirected to the Application Registration Tool page
 And I clicked on the button Edit for the application "NewApp"
-And I have edited the field named "Image URL" to say ""
+And I have edited the field named "Image URL" to say "https://imageurl"
 And I have edited the field named "Description" to say "Kittens"
 When I clicked Save
-And I the field named "Application Icon Url" still says ""
+And I the field named "Application Icon Url" still says "https://imageurl"
 And I the field named "Description" still says "Kittens"
 
 Scenario: SLC Operator accepts application registration request
@@ -175,4 +175,6 @@ Scenario: App Developer registers an application in App Registration Tool in San
 	Then the application is registered
 		And I can see the client ID and shared secret
 		And the Registration Status field is Registered
+	When I click on the In Progress button
+	  Then I can see the ed-orgs I want to approve for my application
 

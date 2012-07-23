@@ -49,6 +49,7 @@ import org.jdom.input.DOMBuilder;
 import org.jdom.output.DOMOutputter;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.format.ISODateTimeFormat;
 import org.slc.sli.common.encrypt.security.saml2.SAML2Validator;
 import org.slc.sli.common.encrypt.security.saml2.XmlSignatureHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -237,7 +238,8 @@ public class SamlHelper {
         doc.getRootElement().getAttributes().add(new Attribute("ID", id));
         doc.getRootElement().getAttributes().add(new Attribute("Version", "2.0"));
         doc.getRootElement().getAttributes()
-                .add(new Attribute("IssueInstant", new DateTime(DateTimeZone.UTC).toString()));
+                .add(new Attribute("IssueInstant", 
+                        new DateTime(DateTimeZone.UTC).toString(ISODateTimeFormat.dateTimeNoMillis())));
         doc.getRootElement().getAttributes().add(new Attribute("Destination", destination));
         doc.getRootElement().getAttributes().add(new Attribute("ForceAuthn", "true"));
         doc.getRootElement().getAttributes().add(new Attribute("IsPassive", "false"));
@@ -306,7 +308,8 @@ public class SamlHelper {
         doc.getRootElement().getAttributes().add(new Attribute("ID", id));
         doc.getRootElement().getAttributes().add(new Attribute("Version", "2.0"));
         doc.getRootElement().getAttributes()
-                .add(new Attribute("IssueInstant", new DateTime(DateTimeZone.UTC).toString()));
+                .add(new Attribute("IssueInstant", 
+                        new DateTime(DateTimeZone.UTC).toString(ISODateTimeFormat.dateTimeNoMillis())));
         doc.getRootElement().getAttributes().add(new Attribute("Destination", destination));
         doc.getRootElement().getAttributes().add(new Attribute("ForceAuthn", String.valueOf(forceAuthn)));
         doc.getRootElement().getAttributes().add(new Attribute("IsPassive", "false"));
@@ -377,7 +380,8 @@ public class SamlHelper {
         doc.setRootElement(new Element("LogoutRequest", SAMLP_NS));
         doc.getRootElement().getAttributes().add(new Attribute("ID", id));
         doc.getRootElement().getAttributes()
-                .add(new Attribute("IssueInstant", new DateTime(DateTimeZone.UTC).toString()));
+                .add(new Attribute("IssueInstant", 
+                        new DateTime(DateTimeZone.UTC).toString(ISODateTimeFormat.dateTimeNoMillis())));
         doc.getRootElement().getAttributes().add(new Attribute("Version", "2.0"));
         doc.getRootElement().getAttributes().add(new Attribute("Destination", destination));
         
@@ -433,7 +437,7 @@ public class SamlHelper {
         doc.setRootElement(new Element("LogoutRequest", SAMLP_NS));
         doc.getRootElement().getAttributes().add(new Attribute("ID", id));
         doc.getRootElement().getAttributes()
-                .add(new Attribute("IssueInstant", new DateTime(DateTimeZone.UTC).toString()));
+                .add(new Attribute("IssueInstant", new DateTime(DateTimeZone.UTC).toString(ISODateTimeFormat.dateTimeNoMillis())));
         doc.getRootElement().getAttributes().add(new Attribute("Version", "2.0"));
         doc.getRootElement().getAttributes().add(new Attribute("Destination", destination));
         
@@ -484,7 +488,7 @@ public class SamlHelper {
      * 
      * @param node
      *            to convert
-     * @return string respresentation of the node
+     * @return string representation of the node
      * @throws TransformerException
      */
     private String nodeToXmlString(Node node) throws TransformerException {

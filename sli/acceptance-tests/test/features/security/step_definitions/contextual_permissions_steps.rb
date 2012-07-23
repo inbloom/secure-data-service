@@ -24,6 +24,7 @@ Transform /^the school "([^"]*)"$/ do |arg1|
   id = "eb4d7e1b-7bed-890a-d574-8da22127fd2d" if arg1 == "Fry High School"
   id = "eb4d7e1b-7bed-890a-d974-8da22127fd2d" if arg1 == "Watson Elementary School"
   id = "eb4d7e1b-7bed-890a-d5b4-8da22127fd2d" if arg1 == "Parker-Dust Middle School"
+  id = "46c2e439-f800-4aaf-901c-8cf3299658cc" if arg1 == "Parker Elementary School"
   id
 end
 

@@ -94,4 +94,16 @@ public class StudentSectionAssociationResource extends DefaultCrudResource {
         return super.read(ResourceNames.STUDENT_COMPETENCIES, ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID,
                 studentSectionAssociationId, headers, uriInfo);
     }
+
+    /**
+     * Returns the requested collection of resources that are associated with the specified resource.
+     */
+    @GET
+    @Path("{" + ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID + "}" + "/" + PathConstants.GRADES)
+    public Response getStudentGrades(
+            @PathParam(ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID) final String studentSectionAssociationId,
+            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+        return super.read(ResourceNames.GRADES, ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID,
+                studentSectionAssociationId, headers, uriInfo);
+    }
 }

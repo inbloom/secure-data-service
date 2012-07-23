@@ -13,8 +13,9 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<@includePanelModel panelId="populationWidget"/>
+<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/panels/SLC.population.js"></script>
 <#assign id = getDivId(panelConfig.id)>
+
 <div id="populationSelect">
     <div id="edorgDiv" class="menuBox">
         <h4> District </h4>
@@ -72,33 +73,15 @@
             </div>
         </div>
     </div>
-    <div id="filterDiv" class="menuBox">
-        <h4> Filter </h4>
-        <input type='hidden' value='' id ='filterSelect' />
+    <div id="dbrd_div_pw_go_btn" class="menuBox">
         <div class="btn-toolbar">
-            <div class="btn-group" id="filterSelectMenu">
-                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                    <span class='optionText'> </span>
-                    <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                </ul>
+            <div class="btn-group" id="sectionSelectMenu">
+               <button id="dbrd_btn_pw_go" class="btn" type="submit">Go</button>
             </div>
         </div>
     </div>
 </div>
-<div id="viewSelection">
-    <div id="viewDiv" class="menuBox">
-        <input type='hidden' value='' id ='viewSelect' />
-        <div class="btn-toolbar">
-            <div class="btn-group" id="viewSelectMenu">
-                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                    <span class='optionText'> </span>
-                    <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
+  <div class="ui-widget-no-border">
+    <table id="${id}"></table>
+    <div id="dsh_dv_error" class="hidden"></div>
+  </div>

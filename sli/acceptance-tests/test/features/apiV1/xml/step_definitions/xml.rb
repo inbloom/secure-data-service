@@ -57,35 +57,25 @@ end
 
 Given /^a valid XML document for a new school entity$/ do
   @result = <<-eos
-  <school>        
-        <schoolCategories>
-            <schoolCategories>Elementary School</schoolCategories>
-        </schoolCategories>
-        <gradesOffered>
-            <gradesOffered>Third grade</gradesOffered>
-            <gradesOffered>Fifth grade</gradesOffered>
-            <gradesOffered>Fourth grade</gradesOffered>
-            <gradesOffered>Sixth grade</gradesOffered>
-        </gradesOffered>
-        <organizationCategories>
-            <organizationCategories>School</organizationCategories>
-        </organizationCategories>
-        <address>
-            <address>
-                <addressType>Physical</addressType>
-                <streetNumberName>123 Main Street</streetNumberName>
-                <city>Lebanon</city>
-                <stateAbbreviation>KS</stateAbbreviation>
-                <postalCode>66952</postalCode>
-                <nameOfCounty>Smith County</nameOfCounty>
-            </address>
-        </address>        
+    <school xmlns:sli="urn:sli">        
+        <schoolCategories sli:member="true">Elementary School</schoolCategories>
+        <gradesOffered sli:member="true">Third grade</gradesOffered>
+        <gradesOffered sli:member="true">Fifth grade</gradesOffered>
+        <gradesOffered sli:member="true">Fourth grade</gradesOffered>
+        <gradesOffered sli:member="true">Sixth grade</gradesOffered>
+        <organizationCategories sli:member="true">School</organizationCategories>
+        <address sli:member="true">
+            <addressType>Physical</addressType>
+            <streetNumberName>123 Main Street</streetNumberName>
+            <city>Lebanon</city>
+            <stateAbbreviation>KS</stateAbbreviation>
+            <postalCode>66952</postalCode>
+            <nameOfCounty>Smith County</nameOfCounty>
+        </address>
         <stateOrganizationId>152901001</stateOrganizationId>
-        <telephone>
-            <telephone>
-                <institutionTelephoneNumberType>Main</institutionTelephoneNumberType>
-                <telephoneNumber>(785) 667-6006</telephoneNumber>
-            </telephone>
+        <telephone sli:member="true">
+            <institutionTelephoneNumberType>Main</institutionTelephoneNumberType>
+            <telephoneNumber>(785) 667-6006</telephoneNumber>
         </telephone>
         <nameOfInstitution>Apple Alternative Elementary School</nameOfInstitution>
     </school>
@@ -98,21 +88,14 @@ end
 
 When /^I change the name to "([^"]*)"$/ do |newName|
   @result = <<-eos
-<school>   
-    <schoolCategories>
-        <schoolCategories>Elementary School</schoolCategories>
-    </schoolCategories>
-    <gradesOffered>
-        <gradesOffered>Third grade</gradesOffered>
-        <gradesOffered>Fifth grade</gradesOffered>
-        <gradesOffered>Fourth grade</gradesOffered>
-        <gradesOffered>Sixth grade</gradesOffered>
-    </gradesOffered>
-    <organizationCategories>
-        <organizationCategories>School</organizationCategories>
-    </organizationCategories>
-    <address>
-        <address>
+  <school xmlns:sli="urn:sli">        
+        <schoolCategories sli:member="true">Elementary School</schoolCategories>
+        <gradesOffered sli:member="true">Third grade</gradesOffered>
+        <gradesOffered sli:member="true">Fifth grade</gradesOffered>
+        <gradesOffered sli:member="true">Fourth grade</gradesOffered>
+        <gradesOffered sli:member="true">Sixth grade</gradesOffered>
+        <organizationCategories sli:member="true">School</organizationCategories>
+        <address sli:member="true">
             <addressType>Physical</addressType>
             <streetNumberName>123 Main Street</streetNumberName>
             <city>Lebanon</city>
@@ -120,15 +103,11 @@ When /^I change the name to "([^"]*)"$/ do |newName|
             <postalCode>66952</postalCode>
             <nameOfCounty>Smith County</nameOfCounty>
         </address>
-    </address>    
-    <stateOrganizationId>152901001</stateOrganizationId>
-    <telephone>
-        <telephone>
+        <stateOrganizationId>152901001</stateOrganizationId>
+        <telephone sli:member="true">
             <institutionTelephoneNumberType>Main</institutionTelephoneNumberType>
             <telephoneNumber>(785) 667-6006</telephoneNumber>
         </telephone>
-    </telephone>
-    <parentEducationAgencyReference>b2c6e292-37b0-4148-bf75-c98a2fcc905f</parentEducationAgencyReference>
     <nameOfInstitution>#{newName}</nameOfInstitution>
 </school>
 eos
@@ -189,9 +168,15 @@ Then /^I should find "([^"]*)" under it$/ do |key|
 end
 
 Then /^I should find (\d+) "([^"]*)" under it$/ do |count, key|
-  assert(@node.elements["#{key}"] != nil, "Cannot find the element #{key}")
-  assert(@node.elements["#{key}"].size == convert(count), "Expected #{count}, received #{@node.elements["#{key}"].size}")
-  @node = @node.elements["#{key}"]
+  assert(@node.get_elements("#{key}") != nil, "Cannot find the element #{key}")
+  assert(@node.get_elements("#{key}").size == convert(count), "Expected #{count}, received #{@node.get_elements("#{key}").size}")
+  @node = @node.get_elements("#{key}")
+end
+
+Then /^I should find ([\d]*) "([^"]*)"$/ do |count, key|
+  assert(@result.get_elements("#{key}") != nil, "Cannot find #{key}")
+  assert(@result.get_elements("#{key}").size == convert(count), "Expected #{count}, received #{@result.get_elements("#{key}").size}")
+  @node = @result.get_elements("#{key}")
 end
 
 Then /^I should find ([\d]*) "([^"]*)" under "([^"]*)"$/ do |count, key, arg|

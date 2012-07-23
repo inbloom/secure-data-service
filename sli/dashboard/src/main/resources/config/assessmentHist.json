@@ -6,6 +6,9 @@
         entity: "studentAssessment",
         cacheKey: "studentAssessment"
     },
+    params: {
+        layout: ["student"]
+    },
     root : "assessments",
     items : [
         {id : "year", name : "Date", type : "FIELD", datatype : "string", field : "administrationDate", width : 90 },

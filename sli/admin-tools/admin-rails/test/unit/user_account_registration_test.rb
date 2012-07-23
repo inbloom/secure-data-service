@@ -40,7 +40,7 @@ class UserAccountRegistrationTest < ActiveSupport::TestCase
    end
    def test_invalid_email
    	user_account_registration=UserAccountRegistration.new(
-        :email=> 'test@test' ,
+        :email=> '..test@test' ,
         :firstName => 'test',
         :lastName => 'testLName',
         :password => 'secret',

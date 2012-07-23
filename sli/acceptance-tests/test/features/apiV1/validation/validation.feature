@@ -212,11 +212,11 @@ Scenario: Given a known school object, perform a PUT with a base school object t
 #    | school                       | schools                 | nameOfInstitution                | Validation Test School                     |                    |
 #    | section                      | sections                | populationServed                 | Migrant Students                           |                    |
 #    | session                      | sessions                | sessionName                      | Validation Test Spring 2012                |                    |
-    | staff                        | staff                   | staffUniqueStateId               | validationteststaffid                      | newteststaffid     |
+    | staff                        | staff                   | staffUniqueStateId               | WLVDSUSID00001                      | newteststaffid     |
 #    | student                      | students                | studentUniqueStateId             | 87654321                                   |                    |
 #    | studentAcademicRecord        | studentAcademicRecords  | cumulativeGradePointsEarned      | 99.0                                       |                    |
-#    | studentSectionGradebookEntry | studentGradebookEntries | diagnosticStatement              | Validation Test Diag. Stmt.                |                    |
-#    | teacher                      | teachers                | highestLevelOfEducationCompleted | No Degree                                  |                    |
+#    | studentGradebookEntry        | studentGradebookEntries | diagnosticStatement              | Validation Test Diag. Stmt.                |                    |
+    | teacher                      | teachers                | teacherUniqueStateId             | testing123                          | testing456         |
 #    | grade                        | grades                  | letterGradeEarned                | F--                                        |                    |
 #    | studentCompetency            | studentCompetencies     | diagnosticStatement              | Validation Test Diag. Stmt.                |                    |
 #    | gradingPeriod                | gradingPeriods          | beginDate                        | 1890-07-01                                 |                    |

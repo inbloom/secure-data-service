@@ -27,6 +27,7 @@ import java.util.Queue;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
@@ -50,6 +51,7 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeAggregator {
     private CallingApplicationInfoProvider clientInfo;
 
     @Autowired
+    @Qualifier("validationRepo")
     private Repository<Entity> repo;
 
     @Override
@@ -78,27 +80,20 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeAggregator {
     /**
      * Finds all the child ed orgs immediately under a SEA.
      *
-     * @param parentEdOrgStateId
-     *            - the stateOrganizationId of the SEA
+     * @param edOrgId
+     *            - the mongo ID of the SEA
      * @return
      */
-    public List<String> getChildEducationOrganizations(String parentEdOrgStateId) {
-        NeutralQuery stateQuery = new NeutralQuery();
+    public List<String> getChildEducationOrganizations(String edOrgId) {
         List<String> myEdOrgsIds = new ArrayList<String>();
-        stateQuery.addCriteria(new NeutralCriteria("stateOrganizationId", "=", parentEdOrgStateId));
-
-        Entity stateEdOrg = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, stateQuery);
-
-        if (stateEdOrg != null) {
+        if (edOrgId != null) {
             NeutralQuery childrenQuery = new NeutralQuery();
-            childrenQuery.addCriteria(new NeutralCriteria("parentEducationAgencyReference", "=", stateEdOrg
-                    .getEntityId()));
+            childrenQuery.addCriteria(new NeutralCriteria("parentEducationAgencyReference", "=", edOrgId));
 
             Iterable<Entity> myEdOrgs = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, childrenQuery);
 
             for (Entity cur : myEdOrgs) {
-                String stateOrgId = (String) cur.getBody().get("stateOrganizationId");
-                myEdOrgsIds.add(stateOrgId);
+                myEdOrgsIds.add(cur.getEntityId());
             }
         }
         return myEdOrgsIds;
@@ -151,8 +146,8 @@ public class EdOrgToChildEdOrgNodeFilter extends NodeAggregator {
             Entity appAuth = i.next();
             List<String> appIdArray = (List<String>) appAuth.getBody().get("appIds");
             if (!appIdArray.contains(appId)) {
-                NeutralQuery query = new NeutralQuery(new NeutralCriteria("stateOrganizationId",
-                        NeutralCriteria.OPERATOR_EQUAL, appAuth.getBody().get("authId")));
+                NeutralQuery query = new NeutralQuery(new NeutralCriteria("_id",
+                        NeutralCriteria.OPERATOR_EQUAL, appAuth.getBody().get("authId"), false));
                 Entity edorgEntity = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, query);
                 if (edorgEntity != null) {
                     blacklist.add(edorgEntity.getEntityId());

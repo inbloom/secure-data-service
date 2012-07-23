@@ -69,7 +69,7 @@ public class StudentParentAssociationGenerator {
         	prt.setRef(parentRef);
         	studentParentAssociation.setParentReference(prt);
         	
-        	Ref studentRef = new Ref (studentId);
+        	Ref studentRef = new Ref ("REF-" + studentId);
         	StudentReferenceType srt = new StudentReferenceType();
         	srt.setRef(studentRef);
         	studentParentAssociation.setStudentReference(srt);

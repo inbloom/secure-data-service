@@ -2,8 +2,9 @@ Feature:  Student Contact Info (live)
 As a teacher in a school district, I want to click on a student and be directed to their profile page that contains the student's contact info
 
 Background:
+
+Given that dashboard has been authorized for all ed orgs
 Given I have an open web browser
-Given the server is in "live" mode
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page

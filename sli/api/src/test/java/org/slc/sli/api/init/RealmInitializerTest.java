@@ -60,7 +60,7 @@ public class RealmInitializerTest {
         // verify that the code attempts to insert a new realm when no existing realm is present
         Mockito.when(mockRepo.findOne(Mockito.eq("realm"), Mockito.any(NeutralQuery.class))).thenReturn(null);
         final AtomicBoolean update = new AtomicBoolean(false);
-        Mockito.when(mockRepo.update(Mockito.anyString(), Mockito.any(Entity.class))).thenAnswer(new Answer<Boolean>() {
+        Mockito.when(mockRepo.create(Mockito.anyString(), Mockito.any(Map.class))).thenAnswer(new Answer<Boolean>() {
             
             @Override
             public Boolean answer(InvocationOnMock invocation) throws Throwable {

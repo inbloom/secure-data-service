@@ -359,7 +359,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                 sessions.put(record.getRecordId(), record);
             }
         }
-        
+
         String parentEducationAgency = getParentEdOrg(schoolId);
         if (parentEducationAgency != null) {
             sessions.putAll(getSessions(parentEducationAgency));
@@ -378,7 +378,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     private String getParentEdOrg(String schoolId) {
         Query schoolQuery = new Query().limit(1);
         schoolQuery.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
-        schoolQuery.addCriteria(Criteria.where("stateOrganizationId").is(schoolId));
+        schoolQuery.addCriteria(Criteria.where("body.stateOrganizationId").is(schoolId));
 
         Iterable<NeutralRecord> queriedSchool = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
                 SCHOOL, schoolQuery);

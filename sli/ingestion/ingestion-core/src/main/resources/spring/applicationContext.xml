@@ -27,14 +27,8 @@
   </bean>
 
 
-  <!-- ActiveMQ -->
-  <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
-    <property name="brokerURL"
-      value="tcp://${sli.ingestion.queue.workItem.host}:${sli.ingestion.queue.workItem.port}?keepAlive=true&amp;jms.prefetchPolicy.queuePrefetch=0" />
-  </bean>
-
-
   <!-- Main application context, contains all other contexts in /spring -->
+  <import resource="activemq-context.xml" />
   <import resource="smooks-context.xml" />
   <import resource="camel-context.xml" />
   <import resource="persistence-context.xml" />
@@ -63,8 +57,8 @@
     <property name="parentLandingZoneDir" value="${landingzone.inbounddir}" />
     <property name="tenantRecordResourcePaths">
       <list>
-        <value>classpath:tenants/tenant_IL.json</value>
-        <value>classpath:tenants/tenant_NY.json</value>
+        <value>classpath:tenants/tenant_Midgar.json</value>
+        <value>classpath:tenants/tenant_Hyrule.json</value>
       </list>
     </property>
   </bean>

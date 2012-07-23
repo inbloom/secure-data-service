@@ -10,7 +10,6 @@
                            http://www.springframework.org/schema/security/spring-security.xsd
     ">
 
-
      <bean id="ApplicationProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
          <property name="ignoreResourceNotFound" value="true" />
          <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
@@ -20,12 +19,10 @@
 
                  <!--  override specific properties for testing -->
                  <value>file:${sli.test.conf}</value>
+                 <value>classpath:api-test.properties</value>
              </list>
          </property>
      </bean>
-
-     <util:properties id="sliProperties" location="file:${sli.conf}"/>
-
 
     <bean id="testingAuthenticationProvider"
         class=" org.springframework.security.authentication.TestingAuthenticationProvider">
@@ -57,5 +54,19 @@
     <bean id="queryConverterCipher" class="org.slc.sli.dal.encrypt.InsecureCipher" />
 
     <import resource="classpath:/spring/validation.xml" />
+    
+    <bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+		<constructor-arg ref="contextSource" />
+	</bean>
+	<bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource">
+		<property name="url" value="ldap://ldap.slidev.org:389" />
+		<property name="base" value="ou=DevTest,dc=slidev,dc=org" />
+		<property name="userDn" value="cn=DevLDAP User, ou=People,dc=slidev,dc=org" />
+        <property name="password" value="Y;Gtf@w{" />
+        <property name="pooled" value="true" />
+        
+	</bean>
+	<bean
+		class="org.springframework.ldap.core.support.BaseLdapPathBeanPostProcessor" />
 </beans>
 

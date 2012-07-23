@@ -9,6 +9,7 @@
     <MediumOfInstruction>Independent study</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference ref="CO_1"/>
+    <LocationReference ref="LR_1"/>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Able School</StateOrganizationId>
@@ -464,4 +465,10 @@
       </EducationalOrgIdentity>
     </SchoolReference>
   </CourseOffering>
+  <LocationReference id="LR_1">
+	<LocationIdentity>
+		<ClassroomIdentificationCode>Sample Class</ClassroomIdentificationCode>
+		<StateOrganizationId>Sample School</StateOrganizationId>
+	</LocationIdentity>
+  </LocationReference>
 </InterchangeMasterSchedule>

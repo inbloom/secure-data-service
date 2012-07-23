@@ -18,6 +18,7 @@
         <sli.home>${project.parent.parent.basedir}</sli.home>
         <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
         <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>
+        <listening.port>1337</listening.port>
     </properties>
 
 
@@ -65,12 +66,23 @@
             <version>3.10</version>
         </dependency>
 
-		<dependency>
-		    <groupId>net.sf.dozer</groupId>
-		    <artifactId>dozer</artifactId>
-		    <version>5.3.2</version>
-		</dependency>  
-		
+        <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+            <version>5.3.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slc.sli</groupId>
+            <artifactId>client-api</artifactId>
+        </dependency>
+
     </dependencies>
 
 
@@ -95,11 +107,11 @@
                     <url>${tomcat.url}</url>
                     <username>${tomcat.username}</username>
                     <password>${tomcat.password}</password>
-                    <port>1337</port>
+                    <port>${listening.port}</port>
                     <systemProperties>
-	                    <sli.conf>${sli.conf}</sli.conf>
-	                    <sli.env>local</sli.env>
-	                    <sli.encryption.keyStore>${project.parent.basedir}/../data-access/dal/keyStore/localKeyStore.jks</sli.encryption.keyStore>
+                        <sli.conf>${sli.conf}</sli.conf>
+                        <sli.env>local</sli.env>
+                        <sli.encryption.keyStore>${project.parent.basedir}/../data-access/dal/keyStore/localKeyStore.jks</sli.encryption.keyStore>
                     </systemProperties>
                 </configuration>
             </plugin>
@@ -128,7 +140,7 @@
                     <connectors>
                         <connector
                             implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-                            <port>8000</port>
+                            <port>${listening.port}</port>
                             <maxIdleTime>60000</maxIdleTime>
                         </connector>
                     </connectors>

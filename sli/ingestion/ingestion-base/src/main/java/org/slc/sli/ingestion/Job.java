@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion;
 
 import java.util.List;
@@ -79,5 +78,12 @@ public interface Job {
      * @return
      */
     FaultsReport getFaultsReport();
+
+    /**
+     * Return the tenantId for this job.
+     *
+     * @return
+     */
+    String getTenantId();
 
 }

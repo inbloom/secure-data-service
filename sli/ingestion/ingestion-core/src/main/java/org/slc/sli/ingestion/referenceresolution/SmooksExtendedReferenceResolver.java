@@ -30,6 +30,7 @@ import org.milyn.SmooksException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler;
 
 /**
@@ -84,7 +85,7 @@ public class SmooksExtendedReferenceResolver implements ReferenceResolutionStrat
             convertedContent = stringWriter.toString();
 
         } catch (SmooksException se) {
-            LOG.error("Exception filtering idref xml through smooks", se);
+            LogUtil.error(LOG,"Exception filtering idref xml through smooks", se);
         }
         return convertedContent;
     }

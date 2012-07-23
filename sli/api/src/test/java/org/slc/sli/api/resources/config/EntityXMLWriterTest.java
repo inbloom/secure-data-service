@@ -17,6 +17,7 @@
 
 package org.slc.sli.api.resources.config;
 
+import org.codehaus.plexus.util.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,7 +33,13 @@ import org.slc.sli.api.representation.Home;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -59,7 +66,6 @@ public class EntityXMLWriterTest {
     @Test
     public void testEntityBody() throws IOException {
         EntityDefinition def = mock(EntityDefinition.class);
-        when(def.getResourceName()).thenReturn("TestResource");
         when(entityDefinitionStore.lookupByEntityType(anyString())).thenReturn(def);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -74,7 +80,7 @@ public class EntityXMLWriterTest {
         assertNotNull("Should not be null", out);
 
         String value = new String(out.toByteArray());
-        assertTrue("Should match", value.indexOf("<TestResource>") > 0);
+        assertTrue("Should match", value.indexOf("<TestEntity") > 0);
         assertTrue("Should match", value.indexOf("<id>") > 0);
         assertTrue("Should match", value.indexOf("<name>") > 0);
     }
@@ -82,7 +88,6 @@ public class EntityXMLWriterTest {
     @Test
     public void testEntityNullCollection() throws IOException {
         EntityDefinition def = mock(EntityDefinition.class);
-        when(def.getResourceName()).thenReturn("EntityResource");
         when(entityDefinitionStore.lookupByEntityType(anyString())).thenReturn(def);
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -96,7 +101,7 @@ public class EntityXMLWriterTest {
         assertNotNull("Should not be null", out);
 
         String value = new String(out.toByteArray());
-        assertTrue("Should match", value.indexOf("<EntityResource>") > 0);
+        assertTrue("Should match", value.indexOf("<Entity") > 0);
     }
 
     @Test
@@ -104,5 +109,42 @@ public class EntityXMLWriterTest {
         assertFalse(writer.isWriteable(ErrorResponse.class, null, null, null));
         assertFalse(writer.isWriteable(Home.class, null, null, null));
         assertTrue(writer.isWriteable(EntityResponse.class, null, null, null));
+    }
+
+
+    @Test
+    public void testHandleLists() throws IOException {
+        final EntityDefinition def = mock(EntityDefinition.class);
+        when(entityDefinitionStore.lookupByEntityType(anyString())).thenReturn(def);
+
+        final ByteArrayOutputStream out = new ByteArrayOutputStream();
+        final EntityBody body = new EntityBody();
+
+        final Map<String, Object> testMap = new HashMap<String, Object>();
+        testMap.put("k1", "v1");
+        testMap.put("k2", "v2");
+        body.put("mapKey", testMap);
+
+        final List<String> list = new ArrayList<String>();
+        list.add("test1");
+        list.add("test2");
+        list.add("test3");
+        body.put("listItem", list);
+
+        body.put("id", "1234");
+        body.put("name", "test name");
+
+        final EntityResponse response = new EntityResponse("TestEntity", Arrays.asList(body));
+
+        writer.writeTo(response, null, null, null, null, null, out);
+
+        assertNotNull("Should not be null", out);
+
+        String value = new String(out.toByteArray());
+        assertTrue("Should match", value.indexOf("<TestEntityList") > 0);
+        assertTrue("Should match", value.indexOf("<id>") > 0);
+        assertTrue("Should match", value.indexOf("<name>") > 0);
+        assertEquals(3, StringUtils.countMatches(value, "<listItem"));
+        assertEquals(1, StringUtils.countMatches(value, "<mapKey>"));
     }
 }

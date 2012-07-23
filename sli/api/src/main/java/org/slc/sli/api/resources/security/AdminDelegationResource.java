@@ -32,6 +32,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Component;
@@ -63,10 +64,11 @@ public class AdminDelegationResource {
     private EntityDefinitionStore store;
 
     @Autowired
+    @Qualifier("validationRepo")
     Repository<Entity> repo;
-
+    
     @Autowired
-    EdOrgToChildEdOrgNodeFilter edOrgNodeFilter;
+    DelegationUtil util;
 
     private EntityService service;
 
@@ -98,8 +100,7 @@ public class AdminDelegationResource {
 
             List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
             NeutralQuery query = new NeutralQuery();
-            query.addCriteria(new NeutralCriteria(LEA_ID, NeutralCriteria.CRITERIA_IN,
-                    edOrgNodeFilter.getChildEducationOrganizations(edOrg)));
+            query.addCriteria(new NeutralCriteria(LEA_ID, NeutralCriteria.CRITERIA_IN, util.getDelegateEdOrgs()));
             for (Entity entity : repo.findAll(RESOURCE_NAME, query)) {
                 entity.getBody().put("id", entity.getEntityId());
                 results.add(entity.getBody());
@@ -136,7 +137,7 @@ public class AdminDelegationResource {
         }
 
         //verifyBodyEdOrgMatchesPrincipalEdOrg
-        if (body == null || !body.containsKey(LEA_ID) || !body.get(LEA_ID).equals(SecurityUtil.getEdOrg())) {
+        if (body == null || !body.containsKey(LEA_ID) || !body.get(LEA_ID).equals(SecurityUtil.getEdOrgId())) {
             EntityBody response = new EntityBody();
             response.put("message", "Entity EdOrg must match principal's EdOrg when writing delegation record.");
             return Response.status(Status.BAD_REQUEST).entity(response).build();
@@ -179,13 +180,13 @@ public class AdminDelegationResource {
 
 
     private Entity getDelegationRecordForPrincipal() {
-        String edOrg = SecurityUtil.getEdOrg();
-        if (edOrg == null) {
+        String edOrgId = SecurityUtil.getEdOrgId();
+        if (edOrgId == null) {
             throw new InsufficientAuthenticationException("No edorg exists on principal.");
         }
 
         NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria(LEA_ID, "=", edOrg));
+        query.addCriteria(new NeutralCriteria(LEA_ID, "=", edOrgId));
         return repo.findOne(RESOURCE_NAME, query);
     }
 

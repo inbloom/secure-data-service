@@ -3,6 +3,8 @@
     xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
     attributeFormDefault="qualified">
 
+    <xs:include schemaLocation="SimpleTypes.xsd" />
+
     <xs:element name="application">
         <xs:complexType>
             <xs:annotation>
@@ -16,6 +18,9 @@
                     minOccurs="1" />
                     
                 <xs:element name="bootstrap" type="xs:boolean" minOccurs="0" />
+                <xs:element name="authorized_for_all_edorgs" type="xs:boolean" minOccurs="0" />
+                <xs:element name="allowed_for_all_edorgs" type="xs:boolean" minOccurs="0" />
+                <xs:element name="admin_visible" type="xs:boolean" minOccurs="0" />
                 <xs:element name="behavior" minOccurs="1">
                     <xs:simpleType>
                         <xs:restriction base="xs:string">
@@ -25,7 +30,7 @@
                         </xs:restriction>
                     </xs:simpleType>
                 </xs:element>
-                <xs:element name="redirect_uri" minOccurs="1">
+                <xs:element name="redirect_uri" minOccurs="0">
                     <xs:simpleType>
                         <xs:annotation>
                             <xs:appinfo>
@@ -42,7 +47,7 @@
                  <xs:element name="client_id" type="xs:string" minOccurs="1" />
                  <xs:element name="client_secret" type="xs:string" minOccurs="1" />
 
-                <xs:element name="application_url" minOccurs="1">
+                <xs:element name="application_url" minOccurs="0">
                     <xs:simpleType>
                         <xs:annotation>
                             <xs:appinfo>
@@ -96,14 +101,13 @@
                 <xs:element name="installed" type="xs:boolean" minOccurs="1" />
                 <xs:element name="vendor" type="xs:string" minOccurs="1" />
                 <xs:element name="registration" type="registration"
-                    minOccurs="0" />   
+                    minOccurs="0" />
                 <xs:element name="endpoints" type="endpoint" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element name="authorized_ed_orgs" minOccurs="0">
                     <xs:simpleType>
                         <xs:list itemType="xs:string"/>
                     </xs:simpleType>
                 </xs:element>
-                
             </xs:sequence>
         </xs:complexType>
     </xs:element>
