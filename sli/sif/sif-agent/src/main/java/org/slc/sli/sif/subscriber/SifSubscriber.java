@@ -51,10 +51,12 @@ public class SifSubscriber implements Subscriber {
 
     @Override
     public void onEvent(Event event, Zone zone, MessageInfo info) throws ADKException {
-        LOG.info("Received event:\n" + "\tEvent: " + event.getActionString() + "\n" + "\tZone: " + zone.getZoneId()
-                + "\n" + "\tInfo: " + info.getMessage());
+        SIFDataObject sdo = event.getData().readDataObject();
+        LOG.info("Received event:\n" + "\tEvent:      " + event.getActionString() + "\n" + "\tZone:       " + zone.getZoneId()
+                + "\n" + "\tObjectType: " + sdo.getObjectType()
+                + "\n" + "\tInfo:       " + info.getMessage());
 
-        inspectAndDestroyEvent(event);
+//        inspectAndDestroyEvent(event);
 
         // execute a call to the SDK
         String token = slcInterface.sessionCheck();

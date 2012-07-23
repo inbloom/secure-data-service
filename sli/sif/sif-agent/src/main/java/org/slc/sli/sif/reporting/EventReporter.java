@@ -22,6 +22,7 @@ import openadk.library.ADK;
 import openadk.library.ADKException;
 import openadk.library.DataObjectOutputStream;
 import openadk.library.Event;
+import openadk.library.EventAction;
 import openadk.library.MessageInfo;
 import openadk.library.Publisher;
 import openadk.library.PublishingOptions;
@@ -125,8 +126,38 @@ public class EventReporter implements Publisher {
 
     public void reportEvent() throws ADKException {
         Event event = generator.generateEvent(null);
+
+        java.util.Random rand = new java.util.Random();
+        int i = rand.nextInt();
+        openadk.library.student.SchoolInfo schoolInfo = org.slc.sli.sif.generator.SifEntityGenerator.generateTestSchoolInfo();
+
+//        event = new Event(schoolInfo, EventAction.ADD);
         if (zone.isConnected()) {
             zone.reportEvent(event);
+            zone.reportEvent(schoolInfo, EventAction.ADD);
+
+            while(true) {
+                try
+                {
+                    Thread.currentThread().sleep(30000);
+                    zone.reportEvent(schoolInfo, EventAction.DELETE);
+                    Thread.currentThread().sleep(30000);
+                    schoolInfo.setChanged();
+                    schoolInfo.setSchoolName(schoolInfo.getSchoolName()+i);
+//                    schoolInfo.getAddressList().setChanged();
+                    zone.reportEvent(schoolInfo, EventAction.ADD);
+
+
+
+                } catch (InterruptedException e)
+                {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+
+
+
         } else {
             LOG.error("Zone is not connected");
         }
