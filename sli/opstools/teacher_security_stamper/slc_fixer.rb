@@ -9,6 +9,7 @@ class SLCFixer
   attr_accessor :db, :log
 
   def initialize(db, logger = nil, grace_period = 2000)
+    @grace_period = grace_period
     @db = db
     @basic_options = {:timeout => false, :batch_size => 100}
     @log = logger || Logger.new(STDOUT)
@@ -25,7 +26,7 @@ class SLCFixer
     @teacher_ids = {}
     @studentId_to_teachers = {}
     @current_date = Date.today.to_s
-    @grace_date = (Date.today - grace_period).to_s
+    @grace_date = (Date.today - @grace_period).to_s
     @count = 0
 
     @threads = []
