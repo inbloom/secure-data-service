@@ -29,8 +29,8 @@ PROPS_FILE=$4
 BENCHMARK_BATCH_ID=${API_SESSION_TOKEN}_$(date "+%Y%m%d_%H%M%S")
 source $PROPS_FILE
 
-if [ ! -d /storage/logs ]; then
-  mkdir -p /storage/logs
+if [ ! -d /storage/logs/rc_performance ]; then
+  mkdir -p /storage/logs/rc_performance
 fi
 
 echo "nohup bundle exec ruby benchmarkRunner.rb -i $INPUT_FILE -t $API_SESSION_TOKEN -n $NUM_ITERATIONS -b $BENCHMARK_BATCH_ID >> /storage/logs/rc_performance/cron_${BENCHMARK_BATCH_ID}.log 2>&1 &"
