@@ -1,0 +1,39 @@
+#!/bin/bash
+#
+# Copyright 2012 Shared Learning Collaborative, LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+API_SESSION_TOKEN=$1
+INPUT_FILE=$2
+NUM_ITERATIONS=$3
+PROPS_FILE=$4
+
+# Examples
+#API_SESSION_TOKEN="cacd9227-5b14-4685-babe-31230476cf3b"
+#INPUT_FILE=/storage/perf_input/test1.txt
+#NUM_ITERATIONS=10
+#PROPS_FILE=../prop/bash_properties_rc2_token.prop
+
+BENCHMARK_BATCH_ID=${API_SESSION_TOKEN}_$(date "+%Y%m%d_%H%M%S")
+source $PROPS_FILE
+
+if [ ! -d /storage/logs ]; then
+  mkdir -p /storage/logs
+fi
+
+echo "nohup bundle exec ruby benchmarkRunner.rb -i $INPUT_FILE -t $API_SESSION_TOKEN -n $NUM_ITERATIONS -b $BENCHMARK_BATCH_ID >> /storage/logs/rc_performance/cron_${BENCHMARK_BATCH_ID}.log 2>&1 &"
+nohup bundle exec ruby benchmarkRunner.rb -i $INPUT_FILE -t $API_SESSION_TOKEN -n $NUM_ITERATIONS -b $BENCHMARK_BATCH_ID >> /storage/logs/rc_performance/cron_${BENCHMARK_BATCH_ID}.log 2>&1 &
+#nohup bundle exec ruby benchmarkRunner.rb -i $INPUT_FILE -t $API_SESSION_TOKEN -n $NUM_ITERATIONS -b $BENCHMARK_BATCH_ID 
+
