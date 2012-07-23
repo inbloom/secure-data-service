@@ -24,6 +24,8 @@ import static org.mockito.Mockito.when;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.ws.rs.core.UriInfo;
 
@@ -44,9 +46,9 @@ import org.slc.sli.domain.QueryParseException;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-public class UriInfoToNeutralQueryConverterTest {
+public class UriInfoToApiQueryConverterTest {
 
-    private static final UriInfoToNeutralQueryConverter QUERY_CONVERTER = new UriInfoToNeutralQueryConverter();
+    private static final UriInfoToApiQueryConverter QUERY_CONVERTER = new UriInfoToApiQueryConverter();
 
 
     private UriInfo uriInfo;
@@ -77,6 +79,17 @@ public class UriInfoToNeutralQueryConverterTest {
             String includeFields = "field1,field2";
             String excludeFields = "field3,field4";
             String sortBy = "field5";
+            String selectorString = ":(foo:(bar),foo2:(bar2:true),foo3:(bar3:false))";
+            Map<String, Object> fooMap = new HashMap<String, Object>();
+            fooMap.put("bar", true);
+            Map<String, Object> foo2Map = new HashMap<String, Object>();
+            foo2Map.put("bar2", true);
+            Map<String, Object> foo3Map = new HashMap<String, Object>();
+            foo3Map.put("bar3", false);
+            Map<String, Object> selectorMap = new HashMap<String, Object>();
+            selectorMap.put("foo", fooMap);
+            selectorMap.put("foo2", foo2Map);
+            selectorMap.put("foo3", foo3Map);
 
             String queryString = "";
             queryString += (ParameterConstants.OFFSET + "=" + offset);
@@ -91,25 +104,42 @@ public class UriInfoToNeutralQueryConverterTest {
             queryString += ("&");
             queryString += (ParameterConstants.SORT_ORDER + "=" + sortOrderString);
             queryString += ("&");
+            queryString += (ParameterConstants.SELECTOR + "=" + selectorString);
+            queryString += ("&");
             queryString += ("testKey" + "=" + "testValue");
 
             URI requestUri = new URI(URI_STRING + "?" + queryString);
 
             when(uriInfo.getRequestUri()).thenReturn(requestUri);
 
-            NeutralQuery neutralQuery = QUERY_CONVERTER.convert(uriInfo);
+            ApiQuery apiQuery = QUERY_CONVERTER.convert(uriInfo);
 
             // test that the value was stored in the proper variable
-            assertEquals(neutralQuery.getLimit(), limit);
-            assertEquals(neutralQuery.getOffset(), offset);
-            assertEquals(neutralQuery.getIncludeFields(), includeFields);
-            assertEquals(neutralQuery.getExcludeFields(), excludeFields);
-            assertEquals(neutralQuery.getSortBy(), sortBy);
-            assertEquals(neutralQuery.getSortOrder(), sortOrder);
-            assertEquals(neutralQuery.getCriteria().size(), 1);
+            assertEquals(apiQuery.getLimit(), limit);
+            assertEquals(apiQuery.getOffset(), offset);
+            assertEquals(apiQuery.getIncludeFields(), includeFields);
+            assertEquals(apiQuery.getExcludeFields(), excludeFields);
+            assertEquals(apiQuery.getSortBy(), sortBy);
+            assertEquals(apiQuery.getSortOrder(), sortOrder);
+            assertEquals(apiQuery.getSelector(), selectorMap);
+            assertEquals(apiQuery.getCriteria().size(), 1);
         } catch (URISyntaxException urise) {
             assertTrue(false);
         }
+    }
+
+    @Test(expected = QueryParseException.class)
+    public void testInvalidSelector() {
+        try {
+            String queryString = "selector=true";
+            URI requestUri = new URI(URI_STRING + "?" + queryString);
+            when(uriInfo.getRequestUri()).thenReturn(requestUri);
+            //when(uriInfo.getRequestUri().getQuery()).thenReturn(queryString);
+        } catch (URISyntaxException urise) {
+            assertTrue(false);
+        }
+
+        QUERY_CONVERTER.convert(uriInfo);
     }
 
     @Test(expected = QueryParseException.class)

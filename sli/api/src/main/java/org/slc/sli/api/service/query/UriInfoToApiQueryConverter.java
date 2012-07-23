@@ -17,11 +17,13 @@
 
 package org.slc.sli.api.service.query;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.ws.rs.core.UriInfo;
 
+import org.codehaus.jackson.JsonParseException;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -35,8 +37,10 @@ import org.slc.sli.domain.QueryParseException;
  * @author kmyers
  *
  */
-public class UriInfoToNeutralQueryConverter {
+public class UriInfoToApiQueryConverter {
 
+    private SelectionConverter selectionConverter = new Selector2MapOfMaps();
+    
     /**
      * Keywords that the API handles through specific bindings in a NeutralQuery.
      *
@@ -44,63 +48,71 @@ public class UriInfoToNeutralQueryConverter {
      *
      */
     protected interface NeutralCriteriaImplementation {
-        public void convert(NeutralQuery neutralQuery, Object value);
+        public void convert(ApiQuery apiQuery, Object value);
     }
 
     /* Criteria keywords and what to do with them when encountered */
     private Map<String, NeutralCriteriaImplementation> reservedQueryKeywordImplementations;
 
-    public UriInfoToNeutralQueryConverter() {
+    public UriInfoToApiQueryConverter() {
         reservedQueryKeywordImplementations = new HashMap<String, NeutralCriteriaImplementation>();
+
+        // selector
+        reservedQueryKeywordImplementations.put(ParameterConstants.SELECTOR, new NeutralCriteriaImplementation() {
+            @Override
+            public void convert(ApiQuery apiQuery, Object value) {
+                apiQuery.setSelector(selectionConverter.convert((String) value));
+            }
+        });
 
         // limit
         reservedQueryKeywordImplementations.put(ParameterConstants.LIMIT, new NeutralCriteriaImplementation() {
             @Override
-            public void convert(NeutralQuery neutralQuery, Object value) {
-                neutralQuery.setLimit(Integer.parseInt((String) value));
+            public void convert(ApiQuery apiQuery, Object value) {
+                apiQuery.setLimit(Integer.parseInt((String) value));
             }
         });
 
         // skip
         reservedQueryKeywordImplementations.put(ParameterConstants.OFFSET, new NeutralCriteriaImplementation() {
             @Override
-            public void convert(NeutralQuery neutralQuery, Object value) {
-                neutralQuery.setOffset(Integer.parseInt((String) value));
+            public void convert(ApiQuery apiQuery, Object value) {
+                apiQuery.setOffset(Integer.parseInt((String) value));
             }
         });
 
         // includeFields
         reservedQueryKeywordImplementations.put(ParameterConstants.INCLUDE_FIELDS, new NeutralCriteriaImplementation() {
             @Override
-            public void convert(NeutralQuery neutralQuery, Object value) {
-                neutralQuery.setIncludeFields((String) value);
+            public void convert(ApiQuery apiQuery, Object value) {
+                apiQuery.setIncludeFields((String) value);
             }
         });
 
         // excludeFields
         reservedQueryKeywordImplementations.put(ParameterConstants.EXCLUDE_FIELDS, new NeutralCriteriaImplementation() {
             @Override
-            public void convert(NeutralQuery neutralQuery, Object value) {
-                neutralQuery.setExcludeFields((String) value);
+            public void convert(ApiQuery apiQuery, Object value) {
+                apiQuery.setExcludeFields((String) value);
             }
         });
 
         // sortBy
         reservedQueryKeywordImplementations.put(ParameterConstants.SORT_BY, new NeutralCriteriaImplementation() {
             @Override
-            public void convert(NeutralQuery neutralQuery, Object value) {
-                neutralQuery.setSortBy((String) value);
+            public void convert(ApiQuery apiQuery, Object value) {
+                apiQuery.setSortBy((String) value);
             }
         });
 
         // sortOrder
         reservedQueryKeywordImplementations.put(ParameterConstants.SORT_ORDER, new NeutralCriteriaImplementation() {
             @Override
-            public void convert(NeutralQuery neutralQuery, Object value) {
+            public void convert(ApiQuery apiQuery, Object value) {
                 if (value.equals(ParameterConstants.SORT_DESCENDING)) {
-                    neutralQuery.setSortOrder(NeutralQuery.SortOrder.descending);
+                    apiQuery.setSortOrder(NeutralQuery.SortOrder.descending);
                 } else {
-                    neutralQuery.setSortOrder(NeutralQuery.SortOrder.ascending);
+                    apiQuery.setSortOrder(NeutralQuery.SortOrder.ascending);
                 }
             }
         });
@@ -110,12 +122,12 @@ public class UriInfoToNeutralQueryConverter {
      * Converts a & separated list of criteria into a neutral criteria object. Adds all
      * criteria to the provided neutralQuery.
      *
-     * @param neutralQuery
+     * @param apiQuery
      *            object to add criteria to
      * @return a non-null neutral query containing any specified criteria
      */
-    public NeutralQuery convert(NeutralQuery neutralQuery, UriInfo uriInfo) {
-        if (neutralQuery != null && uriInfo != null) {
+    public ApiQuery convert(ApiQuery apiQuery, UriInfo uriInfo) {
+        if (apiQuery != null && uriInfo != null) {
             String queryString = uriInfo.getRequestUri().getQuery();
             if (queryString != null) {
                 try {
@@ -126,20 +138,20 @@ public class UriInfoToNeutralQueryConverter {
                             if (!neutralCriteria.getKey().equals("full-entities")
                                     && (!ParameterConstants.OPTIONAL_FIELDS.equals(neutralCriteria.getKey()))
                                     && (!ParameterConstants.INCLUDE_CUSTOM.equals(neutralCriteria.getKey()))) {
-                                neutralQuery.addCriteria(neutralCriteria);
+                                apiQuery.addCriteria(neutralCriteria);
                             }
                         } else {
-                            nci.convert(neutralQuery, neutralCriteria.getValue());
+                            nci.convert(apiQuery, neutralCriteria.getValue());
                         }
                     }
                 } catch (RuntimeException re) {
                     error("error parsing query String {} {}", re.getMessage(), queryString);
                     throw new QueryParseException(re.getMessage(), queryString);
-                }
+                } 
             }
         }
 
-        return neutralQuery;
+        return apiQuery;
     }
 
     /**
@@ -148,7 +160,7 @@ public class UriInfoToNeutralQueryConverter {
      *
      * @return a neutral implementation of the query string
      */
-    public NeutralQuery convert(UriInfo uriInfo) {
-        return this.convert(new NeutralQuery(), uriInfo);
+    public ApiQuery convert(UriInfo uriInfo) {
+        return this.convert(new ApiQuery(), uriInfo);
     }
 }

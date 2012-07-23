@@ -17,6 +17,8 @@
 
 package org.slc.sli.api.service.query;
 
+import java.util.Map;
+
 import javax.ws.rs.core.UriInfo;
 
 import org.slc.sli.domain.NeutralCriteria;
@@ -31,9 +33,11 @@ import org.slc.sli.domain.NeutralQuery;
  */
 public class ApiQuery extends NeutralQuery {
 
-    private static final UriInfoToNeutralQueryConverter QUERY_CONVERTER = new UriInfoToNeutralQueryConverter();
+    private static final UriInfoToApiQueryConverter QUERY_CONVERTER = new UriInfoToApiQueryConverter();
 
     public static final int API_QUERY_DEFAULT_LIMIT = 50;
+    
+    private Map<String, Object> selector;
 
     /**
      * Constructor. Reads the query portion of the URI into a neutral query (this).
@@ -50,7 +54,7 @@ public class ApiQuery extends NeutralQuery {
     public ApiQuery() {
         this(null);
     }
-
+    
     @Override
     public String toString() {
         StringBuffer stringBuffer = new StringBuffer();
@@ -88,5 +92,13 @@ public class ApiQuery extends NeutralQuery {
         }
 
         return stringBuffer.toString();
+    }
+
+    public Map<String, Object> getSelector() {
+        return selector;
+    }
+
+    public void setSelector(Map<String, Object> selector) {
+        this.selector = selector;
     }
 }

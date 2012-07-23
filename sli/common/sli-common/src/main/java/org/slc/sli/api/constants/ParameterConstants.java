@@ -56,6 +56,11 @@ public class ParameterConstants {
     /**
      * Query parameter for fields to include.
      */
+    public static final String SELECTOR = "selector";
+
+    /**
+     * Query parameter for fields to include.
+     */
     public static final String INCLUDE_FIELDS = "includeFields";
 
     /**
