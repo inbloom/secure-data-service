@@ -1,4 +1,4 @@
-package zis;
+package org.slc.sli.sif.zis;
 
 import java.io.IOException;
 

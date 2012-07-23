@@ -21,6 +21,7 @@
    <modules>
       <module>open-adk-java/adk-library</module>
       <module>sif-agent</module>
+      <module>mock-zis</module>
    </modules>
 
    <dependencyManagement>
