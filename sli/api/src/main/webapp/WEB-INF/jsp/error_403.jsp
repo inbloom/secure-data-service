@@ -13,9 +13,9 @@
 
 <body>
         <div class="error-container">
-                <div class="error-header">HTTP Error 500 - Internal Server Error</div>
+                <div class="error-header">HTTP Error 403 - Forbidden</div>
                 <div class="error-content">
-                        <h3>We're sorry, an error occurred. The server was unable to process the request. Please check the request to make sure it is valid.</h3>
+                        <h3><c:out value="${requestScope['javax.servlet.error.message']}"/></h3>
                 </div>
         </div>
 </body>
