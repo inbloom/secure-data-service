@@ -64,6 +64,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private static final String TRANSFORMATION_LATCH = "transformationLatch";
     private static final String PERSISTENCE_LATCH = "persistenceLatch";
     private static final String STAGED_ENTITIES = "stagedEntities";
+    private static final int DUP_KEY_CODE = 11000;
 
     private MongoTemplate batchJobMongoTemplate;
 
@@ -138,7 +139,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
                 batchJobMongoTemplate.getCollection("tenantJobLock").insert(tenantLock, WriteConcern.SAFE);
                 return true;
             } catch (MongoException me) {
-                if (me.getCode() == 11000 /* dup key */) {
+                if (me.getCode() == DUP_KEY_CODE) {
                     LOG.debug("Cannot obtain lock for tenant: {}", tenantId);
                 } else {
                     throw me;
@@ -169,7 +170,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
 
     @Override
-    public boolean createTransformationWorkNoteCountdownLatch(String jobId, String recordType, int count) {
+    public boolean createTransformationLatch(String jobId, String recordType, int count) {
         try {
 
             BasicDBObject latchObject = new BasicDBObject();
@@ -180,7 +181,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
             batchJobMongoTemplate.getCollection(TRANSFORMATION_LATCH).insert(latchObject, WriteConcern.SAFE);
 
         } catch (MongoException me) {
-            if (me.getCode() == 11000 /* dup key */) {
+            if (me.getCode() == DUP_KEY_CODE) {
                 LOG.debug(me.getMessage());
             }
             return false;
@@ -189,25 +190,33 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
 
     @Override
-    public void createPersistanceWorkNoteCountdownLatch(List<Map<String, Object>> defaultPersistenceLatch, String jobId) {
-        BasicDBObject latchObject = new BasicDBObject();
-        latchObject.put("syncStage", MessageType.PERSIST_REQUEST.name());
-        latchObject.put("jobId", jobId);
-        latchObject.put("entities", defaultPersistenceLatch);
-        batchJobMongoTemplate.getCollection(PERSISTENCE_LATCH).insert(latchObject, WriteConcern.SAFE);
+    public boolean createPersistanceLatch(List<Map<String, Object>> defaultPersistenceLatch, String jobId) {
+        try {
+            BasicDBObject latchObject = new BasicDBObject();
+            latchObject.put("syncStage", MessageType.PERSIST_REQUEST.name());
+            latchObject.put("jobId", jobId);
+            latchObject.put("entities", defaultPersistenceLatch);
+            batchJobMongoTemplate.getCollection(PERSISTENCE_LATCH).insert(latchObject, WriteConcern.SAFE);
+        } catch (MongoException me) {
+            if (me.getCode() == DUP_KEY_CODE) {
+                LOG.debug(me.getMessage());
+            }
+            return false;
+        }
+        return true;
 
     }
 
     @Override
-    public boolean countDownWorkNoteLatch(String syncStage, String jobId, String recordType){
+    public boolean countDownLatch(String syncStage, String jobId, String recordType) {
         if (syncStage.equals(MessageType.DATA_TRANSFORMATION.name())) {
-            return countDownTransformationWorkNoteLatch(jobId, recordType);
+            return countDownTransformationLatch(jobId, recordType);
         } else {
-            return countDownPersistWorkNodeLatches(jobId, recordType);
+            return countDownPersistenceLatches(jobId, recordType);
         }
     }
 
-    private boolean countDownTransformationWorkNoteLatch(String jobId, String recordType) {
+    private boolean countDownTransformationLatch(String jobId, String recordType) {
 
         BasicDBObject query = new BasicDBObject();
         query.put("syncStage", MessageType.DATA_TRANSFORMATION.name());
@@ -223,7 +232,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
         return (Integer) latchObject.get("count") <= 0;
     }
 
-    private boolean countDownPersistWorkNodeLatches(String jobId, String recordType) {
+    private boolean countDownPersistenceLatches(String jobId, String recordType) {
 
         BasicDBObject query = new BasicDBObject();
         query.put("syncStage", MessageType.PERSIST_REQUEST.name());
@@ -250,7 +259,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
 
     @Override
-    public void setPersistenceWorkNoteLatchCount(String jobId, String collectionNameAsStaged, int size) {
+    public void setPersistenceLatchCount(String jobId, String collectionNameAsStaged, int size) {
         BasicDBObject query = new BasicDBObject();
         query.put("syncStage", MessageType.PERSIST_REQUEST.name());
         query.put("jobId", jobId);
@@ -293,7 +302,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
             batchJobMongoTemplate.getCollection(STAGED_ENTITIES).insert(entities);
         } catch (MongoException me) {
-            if (me.getCode() == 11000 /* dup key */) {
+            if (me.getCode() == DUP_KEY_CODE) {
                 LOG.debug(me.getMessage());
             }
         }
@@ -318,7 +327,6 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
 
     @SuppressWarnings("unchecked")
-    @Override
     public boolean removeStagedEntityForJob(String recordType, String jobId) {
 
         BasicDBObject query = new BasicDBObject();
@@ -342,10 +350,10 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
         DBCursor cursor;
 
-        if(syncStage.equals(MessageType.DATA_TRANSFORMATION)) {
-            cursor= batchJobMongoTemplate.getCollection(TRANSFORMATION_LATCH).find(ref);
+        if (syncStage.equals(MessageType.DATA_TRANSFORMATION)) {
+            cursor = batchJobMongoTemplate.getCollection(TRANSFORMATION_LATCH).find(ref);
         } else {
-            cursor= batchJobMongoTemplate.getCollection(PERSISTENCE_LATCH).find(ref);
+            cursor = batchJobMongoTemplate.getCollection(PERSISTENCE_LATCH).find(ref);
         }
 
 

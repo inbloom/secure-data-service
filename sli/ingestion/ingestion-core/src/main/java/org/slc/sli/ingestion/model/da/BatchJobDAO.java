@@ -87,13 +87,13 @@ public interface BatchJobDAO {
      *            Initial count for latch.
      * @return <code>True</code> if structure is created successfully. <code>False</code> otherwise.
      */
-    boolean createTransformationWorkNoteCountdownLatch(String jobId, String recordType, int count);
+    boolean createTransformationLatch(String jobId, String recordType, int count);
 
     /**
      * @param defaultPersistenceLatch
      * @param jobId
      */
-    void createPersistanceWorkNoteCountdownLatch(List<Map<String, Object>> defaultPersistenceLatch, String jobId);
+    boolean createPersistanceLatch(List<Map<String, Object>> defaultPersistenceLatch, String jobId);
 
     /**
      * Countdown 1 item from latch with given properties.
@@ -107,13 +107,11 @@ public interface BatchJobDAO {
      * @return <code>True</code> if latch reaches zero after this operation. <code>False</code>
      *         otherwise.
      */
-    boolean countDownWorkNoteLatch(String syncStage, String jobId, String recordType);
+    boolean countDownLatch(String syncStage, String jobId, String recordType);
 
-    void setPersistenceWorkNoteLatchCount(String jobId, String collectionNameAsStaged, int size);
+    void setPersistenceLatchCount(String jobId, String collectionNameAsStaged, int size);
 
     Set<IngestionStagedEntity> getStagedEntitiesForJob(String jobId);
-
-    boolean removeStagedEntityForJob(String recordType, String jobId);
 
     void setStagedEntitiesForJob(Set<IngestionStagedEntity> stagedEntities, String jobId);
 

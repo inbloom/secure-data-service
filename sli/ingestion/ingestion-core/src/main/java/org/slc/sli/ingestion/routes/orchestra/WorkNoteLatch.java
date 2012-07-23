@@ -46,7 +46,7 @@ public class WorkNoteLatch {
 
         String recordType = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
 
-        if (batchJobDAO.countDownWorkNoteLatch(messageType, workNote.getBatchJobId(), recordType)) {
+        if (batchJobDAO.countDownLatch(messageType, workNote.getBatchJobId(), recordType)) {
             exchange.getIn().setHeader("latchOpened", true);
 
         }

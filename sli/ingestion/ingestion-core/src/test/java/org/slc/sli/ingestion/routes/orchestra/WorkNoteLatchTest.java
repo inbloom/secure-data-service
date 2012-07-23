@@ -57,7 +57,7 @@ public class WorkNoteLatchTest {
 
     @Test
     public void testRecieve() throws Exception {
-        Mockito.when(mockBatchJobMongoDA.countDownWorkNoteLatch(Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(true);
+        Mockito.when(mockBatchJobMongoDA.countDownLatch(Mockito.anyString(), Mockito.anyString(), Mockito.anyString())).thenReturn(true);
 
         Exchange exchange = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);

@@ -31,7 +31,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.queues.MessageType;
 
 /**
  * WorkNote splitter to be used from camel
@@ -84,10 +83,10 @@ public class WorkNoteSplitter {
 
             List<WorkNote> workNotesForEntity = balancedTimestampSplitStrategy.splitForEntity(stagedEntity, jobId);
 
-            batchJobDAO.createTransformationWorkNoteCountdownLatch(jobId,
+            batchJobDAO.createTransformationLatch(jobId,
                     stagedEntity.getCollectionNameAsStaged(), workNotesForEntity.size());
 
-            Map<String, Object> entity = new HashMap<String, Object>() ;
+            Map<String, Object> entity = new HashMap<String, Object>();
             entity.put("count", 1);
             entity.put("type", stagedEntity.getCollectionNameAsStaged());
             defaultPersistenceLatch.add(entity);
@@ -95,7 +94,7 @@ public class WorkNoteSplitter {
             workNoteList.addAll(workNotesForEntity);
         }
 
-        batchJobDAO.createPersistanceWorkNoteCountdownLatch(defaultPersistenceLatch, jobId);
+        batchJobDAO.createPersistanceLatch(defaultPersistenceLatch, jobId);
 
         LOG.info("{} total WorkNotes created and ready for splitting for current tier.", workNoteList.size());
         return workNoteList;
@@ -110,7 +109,7 @@ public class WorkNoteSplitter {
 
         LOG.debug("Splitting out (pass-through) list of WorkNotes: {}", workNoteList);
         List<WorkNote> workNotesForEntity = balancedTimestampSplitStrategy.splitForEntity(stagedEntity, jobId);
-        batchJobDAO.setPersistenceWorkNoteLatchCount(jobId, stagedEntity.getCollectionNameAsStaged(), workNotesForEntity.size());
+        batchJobDAO.setPersistenceLatchCount(jobId, stagedEntity.getCollectionNameAsStaged(), workNotesForEntity.size());
 
         workNoteList.addAll(workNotesForEntity);
         return workNoteList;

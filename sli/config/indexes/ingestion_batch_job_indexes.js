@@ -21,5 +21,6 @@ db["error"].ensureIndex({"batchJobId":1,"severity":1});
 db["newBatchJob"].ensureIndex({"_id":1});
 db["newBatchJob"].ensureIndex({"_id":1, "stages.$.chunks.stageName":1});
 db["batchJobStage"].ensureIndex({"jobId":1, "stageName":1});
-db["workNoteLatch"].ensureIndex({"syncStage" : 1, "jobId" : 1, "recordType" : 1}, {unique : true});
+db["transformationLatch"].ensureIndex({"syncStage" : 1, "jobId" : 1, "recordType" : 1}, {unique : true});
+db["persistenceLatch"].ensureIndex({"syncStage" : 1, "jobId" : 1, "entities" : 1}, {unique : true});
 db["stagedEntities"].ensureIndex({"jobId" : 1}, {unique : true});
