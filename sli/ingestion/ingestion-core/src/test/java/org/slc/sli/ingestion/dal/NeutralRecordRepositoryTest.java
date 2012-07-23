@@ -42,12 +42,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.dal.repository.MongoTemplate2;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
@@ -65,7 +65,7 @@ public class NeutralRecordRepositoryTest {
     @Autowired
     private NeutralRecordRepository repository;
 
-    private MongoTemplate mockedMongoTemplate;
+    private MongoTemplate2 mockedMongoTemplate;
 
     private int recordId = 1000000;
 
@@ -73,7 +73,7 @@ public class NeutralRecordRepositoryTest {
     public void setup() {
 
         // Setup the mocked Mongo Template.
-        mockedMongoTemplate = mock(MongoTemplate.class);
+        mockedMongoTemplate = mock(MongoTemplate2.class);
         repository.setTemplate(mockedMongoTemplate);
     }
 
