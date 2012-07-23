@@ -9,8 +9,6 @@ import org.slc.sli.modeling.uml.ClassType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,12 +24,6 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
     @Autowired
     private ModelProvider modelProvider;
-    private Map<String, ClassType> types;
-
-    @PostConstruct
-    public void init() throws FileNotFoundException {
-        types = modelProvider.getClassTypes();
-    }
 
     @Override
     public void aggregate(Map<ClassType, Object> queryMap, Constraint constraint) {
@@ -87,9 +79,5 @@ public class DefaultSelectorDocument implements SelectorDocument {
         }
 
         return key;
-    }
-
-    protected Map<String, ClassType> getTypes() {
-        return types;
     }
 }

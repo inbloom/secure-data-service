@@ -51,16 +51,16 @@ public final class ModelProvider {
         return modelIndex.lookupByName(qName);
     }
 
-    public Map<String, ClassType> getClassTypes() {
-        return modelIndex.getClassTypes();
-    }
-
     public TagDefinition getTagDefinition(final Identifier id) {
         return modelIndex.getTagDefinition(id);
     }
 
     public Type getType(final Identifier id) {
         return modelIndex.getType(id);
+    }
+
+    public ClassType getType(final String typeName) {
+        return modelIndex.getClassTypes().get(typeName);
     }
 
     public boolean isAttribute(final ClassType type, final String attributeName) {
@@ -91,7 +91,6 @@ public final class ModelProvider {
             for (final AssociationEnd end : associationEnds) {
                 if (end.getName().equals(attr)) {
                     final String name = attr + "<=>" + StringUtils.uncapitalise(type.getName());
-                    //String name = type.getName();
                     return getType(name);
                 }
             }
@@ -124,9 +123,5 @@ public final class ModelProvider {
             error("Element {} was not found", qName);
             throw new ModelElementNotFoundException();
         }
-    }
-
-    public ClassType getType(final String typeName) {
-        return modelIndex.getClassTypes().get(typeName);
     }
 }

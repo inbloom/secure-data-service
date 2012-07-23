@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.xml.namespace.QName;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import static junit.framework.Assert.assertEquals;
@@ -26,6 +27,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * @author jstokes
@@ -57,22 +59,50 @@ public class ModelProviderTest {
 
         provider = new ModelProvider(mockIndex);
         provider.getAssociationEnds(mockIdentifier);
-
         verify(mockIndex).getAssociationEnds(mockIdentifier);
+
+        final QName qName = QName.valueOf("Student");
+        provider.lookupByName(qName);
+        verify(mockIndex).lookupByName(qName);
+
+        final Identifier testId = Identifier.fromString("test-id");
+
+        provider.getTagDefinition(testId);
+        verify(mockIndex).getTagDefinition(testId);
+
+        provider.getType(testId);
+        verify(mockIndex).getType(testId);
+
+        @SuppressWarnings("unchecked")
+        final Map<String, ClassType> mockClassTypes = mock(Map.class);
+        when(mockIndex.getClassTypes()).thenReturn(mockClassTypes);
+        provider.getType("test-name");
+        verify(mockIndex).getClassTypes();
+        verify(mockClassTypes).get("test-name");
     }
 
     @Test
-    public void testHowToUse() {
-        provider = new ModelProvider(TEST_XMI_LOC);
-        final Set<ModelElement> studentModelSet = provider.lookupByName(QName.valueOf("Student"));
-        assertNotNull(studentModelSet);
-        assertEquals(1, studentModelSet.size());
+    public void testIsAttribute() {
 
-        final ModelElement studentModel = studentModelSet.iterator().next();
-        assertNotNull(studentModel);
+    }
 
-        final List<AssociationEnd> studentAssociations = provider.getAssociationEnds(studentModel.getId());
-        assertNotNull(studentAssociations);
+    @Test
+    public void testIsAssociation() {
+
+    }
+    @Test
+    public void testIsInModel() {
+
+    }
+
+    @Test
+    public void testGetType() {
+
+    }
+
+    @Test
+    public void lookupSingleModelElement() {
+
     }
 
 }
