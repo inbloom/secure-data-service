@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentAssessment
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentAssessment.xsd">
+
+	<!-- I know what you are thinking.  Why is a kindergarten student taking the SAT, and acing it?  
+	     Keep in mind, this is River Tam we are talking about  -->
+	<StudentAssessment id="saa_id_1">
+		<AdministrationDate>2011-05-01</AdministrationDate>
+		<SerialNumber>0</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ScoreResults AssessmentReportingMethod="Scale score">
+			<Result>2400</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Percentile">
+			<Result>99.99</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>1233L</Result>
+		</ScoreResults>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>42</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentIdentificationCode
+					IdentificationSystem="Test Contractor">
+					<ID>SAT</ID>
+				</AssessmentIdentificationCode>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+
+	<StudentAssessment id="saa_id_2">
+		<AdministrationDate>2011-05-02</AdministrationDate>
+		<SerialNumber>0</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ScoreResults AssessmentReportingMethod="Scale score">
+			<Result>2400</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Percentile">
+			<Result>99.99</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>1233L</Result>
+		</ScoreResults>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>42</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+                <AssessmentTitle>SAT</AssessmentTitle>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+
+	<StudentAssessment id="saa_id_3">
+		<AdministrationDate>2011-05-01</AdministrationDate>
+		<SerialNumber>0</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ScoreResults AssessmentReportingMethod="Scale score">
+			<Result>230</Result>
+		</ScoreResults>
+		<PerformanceLevels>
+			<Description>2</Description>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>42</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentIdentificationCode
+					IdentificationSystem="Test Contractor">
+					<ID>K-BOY</ID>
+				</AssessmentIdentificationCode>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+
+	<StudentObjectiveAssessment id="soa1">
+		<ScoreResults AssessmentReportingMethod="Scale score">
+			<Result>800</Result>
+		</ScoreResults>
+        <StudentAssessmentReference ref="saa_id_1"/>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+			<ObjectiveAssessmentIdentificationCode>SAT-Math</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+	</StudentObjectiveAssessment>
+
+	<StudentObjectiveAssessment id="soa2">
+		<ScoreResults AssessmentReportingMethod="Scale score">
+			<Result>800</Result>
+		</ScoreResults>
+        <StudentAssessmentReference ref="saa_id_2"/>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+			<ObjectiveAssessmentIdentificationCode>SAT-Math</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+	</StudentObjectiveAssessment>
+
+	<StudentObjectiveAssessment id="soa3">
+		<ScoreResults AssessmentReportingMethod="Scale score">
+			<Result>800</Result>
+		</ScoreResults>
+        <StudentAssessmentReference ref="saa_id_1"/>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+			<ObjectiveAssessmentIdentificationCode>SAT-Writing</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+	</StudentObjectiveAssessment>
+
+	<StudentObjectiveAssessment id="soa4">
+		<ScoreResults AssessmentReportingMethod="Scale score">
+			<Result>800</Result>
+		</ScoreResults>
+        <StudentAssessmentReference ref="saa_id_2"/>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+			<ObjectiveAssessmentIdentificationCode>SAT-Writing</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+	</StudentObjectiveAssessment>
+
+	<StudentObjectiveAssessment id="soa5">
+		<ScoreResults AssessmentReportingMethod="Scale score">
+			<Result>800</Result>
+		</ScoreResults>
+        <StudentAssessmentReference ref="saa_id_1"/>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+			<ObjectiveAssessmentIdentificationCode>SAT-Critical Reading</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+	</StudentObjectiveAssessment>
+
+	<StudentObjectiveAssessment id="soa6">
+		<ScoreResults AssessmentReportingMethod="Scale score">
+			<Result>800</Result>
+		</ScoreResults>
+        <StudentAssessmentReference ref="saa_id_2"/>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+			<ObjectiveAssessmentIdentificationCode>SAT-Critical Reading</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+	</StudentObjectiveAssessment>
+
+	<StudentObjectiveAssessment id="soa7">
+		<ScoreResults AssessmentReportingMethod="Percentile">
+			<Result>99.99</Result>
+		</ScoreResults>
+        <StudentAssessmentReference ref="saa_id_1"/>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+			<ObjectiveAssessmentIdentificationCode>SAT-Math-Arithmetic</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+	</StudentObjectiveAssessment>
+
+	<StudentObjectiveAssessment id="soa8">
+		<ScoreResults AssessmentReportingMethod="Percentile">
+			<Result>99.99</Result>
+		</ScoreResults>
+        <StudentAssessmentReference ref="saa_id_1"/>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+			<ObjectiveAssessmentIdentificationCode>SAT-Math-Algebra</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+	</StudentObjectiveAssessment>
+
+	<StudentObjectiveAssessment id="soa9">
+		<ScoreResults AssessmentReportingMethod="Percentile">
+			<Result>99.99</Result>
+		</ScoreResults>
+        <StudentAssessmentReference ref="saa_id_1"/>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+			<ObjectiveAssessmentIdentificationCode>SAT-Math-Geometry</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+	</StudentObjectiveAssessment>
+
+	<StudentObjectiveAssessment id="soa10">
+		<ScoreResults AssessmentReportingMethod="Percentile">
+			<Result>99.99</Result>
+		</ScoreResults>
+        <StudentAssessmentReference ref="saa_id_2"/>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+			<ObjectiveAssessmentIdentificationCode>SAT-Math-Arithmetic</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+	</StudentObjectiveAssessment>
+
+	<StudentObjectiveAssessment id="soa11">
+		<ScoreResults AssessmentReportingMethod="Percentile">
+			<Result>99.99</Result>
+		</ScoreResults>
+        <StudentAssessmentReference ref="saa_id_2"/>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+			<ObjectiveAssessmentIdentificationCode>SAT-Math-Algebra</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+	</StudentObjectiveAssessment>
+
+	<StudentObjectiveAssessment id="soa12">
+		<ScoreResults AssessmentReportingMethod="Percentile">
+			<Result>99.99</Result>
+		</ScoreResults>
+        <StudentAssessmentReference ref="saa_id_2"/>
+		<ObjectiveAssessmentReference>
+			<ObjectiveAssessmentIdentity>
+			<ObjectiveAssessmentIdentificationCode>SAT-Math-Geometry</ObjectiveAssessmentIdentificationCode>
+			</ObjectiveAssessmentIdentity>
+		</ObjectiveAssessmentReference>
+	</StudentObjectiveAssessment>
+	
+<!-- 	<StudentAssessment id="saa_act_1"> 
+      <AdministrationDate>2011-05-01</AdministrationDate> 
+      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
+      <SerialNumber>5</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <SpecialAccommodations> 
+           <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation> 
+      </SpecialAccommodations> 
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <ScoreResults AssessmentReportingMethod="Scale score">
+          <Result>28</Result> 
+      </ScoreResults>  
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels><CodeValue>Math110</CodeValue></PerformanceLevels>
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>42</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
+                     <ID>ACT</ID> 
+                </AssessmentIdentificationCode> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment>
+
+   <StudentObjectiveAssessment id="SOA_ACT-Math-Pre-Algebral_1"> 
+       <ScoreResults AssessmentReportingMethod="Scale score"> 
+         <Result>9</Result> 
+       </ScoreResults>
+       <PerformanceLevels><CodeValue>Math110</CodeValue></PerformanceLevels>
+       <StudentAssessmentReference ref="saa_act_1"/> 
+       <ObjectiveAssessmentReference> 
+           <ObjectiveAssessmentIdentity> 
+               <ObjectiveAssessmentIdentificationCode>ACT-Math-Pre-Algebra</ObjectiveAssessmentIdentificationCode> 
+           </ObjectiveAssessmentIdentity> 
+       </ObjectiveAssessmentReference> 
+       
+   </StudentObjectiveAssessment> 
+
+   <StudentObjectiveAssessment id="SOA_ACT-Math-Plane-Geometry_1"> 
+       <ScoreResults AssessmentReportingMethod="Scale score"> 
+         <Result>14</Result> 
+       </ScoreResults> 
+       <StudentAssessmentReference ref="saa_act_1"/> 
+       <ObjectiveAssessmentReference> 
+           <ObjectiveAssessmentIdentity> 
+               <ObjectiveAssessmentIdentificationCode>ACT-Math-Plane-Geometry</ObjectiveAssessmentIdentificationCode> 
+           </ObjectiveAssessmentIdentity> 
+       </ObjectiveAssessmentReference> 
+   </StudentObjectiveAssessment>
+<!--originally been commented -->
+<!--    <StudentAssessmentItem id="SAI_1">
+   		<StudentObjectiveAssessmentReference ref="SOA_ACT-Math-Pre-Algebral_1"/>
+   		<AssessmentItemResult>True</AssessmentItemResult>
+   		<AssessmentResponse>False</AssessmentResponse>
+   		<RawScoreResult>5</RawScoreResult>
+   		<AssessmentItemReference>
+   			<AssessmentItemIdentity>
+   				<AssessmentItemIdentificationCode>AssessmentItem-2</AssessmentItemIdentificationCode>
+   			</AssessmentItemIdentity>
+   		</AssessmentItemReference>
+   </StudentAssessmentItem>
+   
+   <StudentAssessmentItem id="SAI_2">
+   		<StudentObjectiveAssessmentReference ref="SOA_ACT-Math-Plane-Geometry_1"/>
+   		<AssessmentItemResult>False</AssessmentItemResult>
+   		<AssessmentResponse>False</AssessmentResponse>
+   		<RawScoreResult>5</RawScoreResult>
+   		<AssessmentItemReference>
+   			<AssessmentItemIdentity>
+   				<AssessmentItemIdentificationCode>AssessmentItem-1</AssessmentItemIdentificationCode>
+   			</AssessmentItemIdentity>
+   		</AssessmentItemReference>
+   </StudentAssessmentItem>
+   
+   <StudentAssessmentItem id="SAI_3">
+   		<StudentObjectiveAssessmentReference ref="SOA_ACT-Math-Pre-Algebral_1"/>
+   		<AssessmentItemResult>True</AssessmentItemResult>
+   		<AssessmentResponse>True</AssessmentResponse>
+   		<RawScoreResult>5</RawScoreResult>
+   		<AssessmentItemReference>
+   			<AssessmentItemIdentity>
+   				<AssessmentItemIdentificationCode>AssessmentItem-3</AssessmentItemIdentificationCode>
+   			</AssessmentItemIdentity>
+   		</AssessmentItemReference>
+   </StudentAssessmentItem> -->
+<!--originally been commented -->
+
+ <!--   <StudentAssessmentItem>
+		<AssessmentResponse>True</AssessmentResponse>
+   		<AssessmentItemResult>Correct</AssessmentItemResult>
+   		<RawScoreResult>5</RawScoreResult>
+		<StudentAssessmentReference ref="saa_act_1" />
+   		<AssessmentItemReference>
+   			<AssessmentItemIdentity>
+   				<AssessmentItemIdentificationCode>AssessmentItem-4</AssessmentItemIdentificationCode>
+   			</AssessmentItemIdentity>
+   		</AssessmentItemReference>
+   </StudentAssessmentItem>
+   
+   <StudentAssessmentItem>
+		<AssessmentResponse>True</AssessmentResponse>
+   		<AssessmentItemResult>Correct</AssessmentItemResult>
+   		<RawScoreResult>5</RawScoreResult>
+		<StudentAssessmentReference ref="saa_act_1" />
+   		<AssessmentItemReference>
+   			<AssessmentItemIdentity>
+   				<AssessmentItemIdentificationCode>AssessmentItem-3</AssessmentItemIdentificationCode>
+   			</AssessmentItemIdentity>
+   		</AssessmentItemReference>
+   </StudentAssessmentItem>-->
+</InterchangeStudentAssessment>
