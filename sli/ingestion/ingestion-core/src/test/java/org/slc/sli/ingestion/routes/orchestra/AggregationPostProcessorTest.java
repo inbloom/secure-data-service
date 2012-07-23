@@ -69,8 +69,7 @@ public class AggregationPostProcessorTest {
         try {
             aggregationPostProcessor.process(preObject);
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+
         }
 
         Assert.assertEquals(workNote.getBatchJobId(), preObject.getIn().getBody(WorkNote.class).getBatchJobId());

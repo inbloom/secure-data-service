@@ -63,7 +63,7 @@ public class WorkNoteSplitterTest {
     public void setup() {
         MockitoAnnotations.initMocks(this);
     }
-/*
+
     @Test
     public void testSplitTransformationWorkNotes() {
         Exchange exchange = Mockito.mock(Exchange.class);
@@ -74,7 +74,7 @@ public class WorkNoteSplitterTest {
         Set<IngestionStagedEntity> set = new HashSet<IngestionStagedEntity>();
         set.add(IngestionStagedEntity.createFromRecordType("student"));
         Mockito.when(mockBatchJobMongoDA.getStagedEntitiesForJob("1")).thenReturn(set);
-        Mockito.when(mockBatchJobMongoDA.createWorkNoteCountdownLatch(MessageType.DATA_TRANSFORMATION.name(), "1", "student", 0)).thenReturn(true);
+        Mockito.when(mockBatchJobMongoDA.createTransformationLatch("1", "student", 0)).thenReturn(true);
 
         List<WorkNote> list = new ArrayList<WorkNote>();
         list.add(WorkNote.createBatchedWorkNote("", IngestionStagedEntity.createFromRecordType("student"), 0, 0, 0, 0));
@@ -84,7 +84,7 @@ public class WorkNoteSplitterTest {
 
         Assert.assertEquals(list, result);
         Mockito.verify(balancedTimestampSplitStrategy, Mockito.times(1)).splitForEntity(Mockito.any(IngestionStagedEntity.class), Mockito.anyString());
-        Mockito.verify(mockBatchJobMongoDA, Mockito.times(2)).createWorkNoteCountdownLatch(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyInt());
+        Mockito.verify(mockBatchJobMongoDA, Mockito.times(1)).createTransformationLatch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt());
     }
 
     @Test(expected = IllegalStateException.class)
@@ -112,8 +112,6 @@ public class WorkNoteSplitterTest {
 
         Mockito.when(message.getHeader("jobId")).thenReturn("1");
 
-        Mockito.when(mockBatchJobMongoDA.createWorkNoteCountdownLatch(MessageType.DATA_TRANSFORMATION.name(), "1", "student", 0)).thenReturn(true);
-
         List<WorkNote> list = new ArrayList<WorkNote>();
         list.add(WorkNote.createBatchedWorkNote("", IngestionStagedEntity.createFromRecordType("student"), 0, 0, 0, 0));
         Mockito.when(balancedTimestampSplitStrategy.splitForEntity(IngestionStagedEntity.createFromRecordType("student"), "1")).thenReturn(list);
@@ -122,7 +120,7 @@ public class WorkNoteSplitterTest {
 
         Assert.assertEquals(list, result);
         Mockito.verify(balancedTimestampSplitStrategy, Mockito.times(1)).splitForEntity(Mockito.any(IngestionStagedEntity.class), Mockito.anyString());
-        Mockito.verify(mockBatchJobMongoDA, Mockito.times(1)).setWorkNoteLatchCount(Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.anyInt());
+        Mockito.verify(mockBatchJobMongoDA, Mockito.times(1)).setPersistenceLatchCount(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt());
     }
-*/
+
 }
