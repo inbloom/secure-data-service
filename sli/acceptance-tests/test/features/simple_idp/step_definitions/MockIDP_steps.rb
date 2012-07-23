@@ -54,7 +54,7 @@ When /^I want to imitate the user "([^"]*)" who is a "([^"]*)"$/ do |arg1, arg2|
 end
 
 Then /^I should be redirected to the databrowser web page$/ do
-  assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Listing Home")}
+  assertWithWait("Failed to be directed to Databrowser's Home page, instead got #{@driver.page_source}")  {@driver.page_source.include?("Listing Home")}
 end
 
 Then /^I should see the name "([^"]*)" on the page$/ do |arg1|
