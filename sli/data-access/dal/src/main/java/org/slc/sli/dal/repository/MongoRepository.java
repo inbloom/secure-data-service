@@ -37,7 +37,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -147,7 +146,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         this.template = template;
     }
 
-    public MongoTemplate getTemplate() {
+    public MongoTemplate2 getTemplate() {
         return template;
     }
 
@@ -200,7 +199,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
      * @return Successfully inserted record.
      */
     public List<T> insert(List<T> records, String collectionName) {
-        template.insert(records, collectionName, new WriteConcern(2, 1000));
+        template.insert(records, collectionName, new WriteConcern(2));
         LOG.info("Insert {} records into collection: {}", new Object[] {records.size(), collectionName});
         return records;
     }
