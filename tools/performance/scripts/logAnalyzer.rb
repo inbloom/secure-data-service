@@ -197,8 +197,8 @@ end
 
 
 # TEST
-la = LogAnalyzer.new("/storage/logs/performance/rrogers_2012716_84129_349841_client.log", "5", "/tmp/test.csv") 
-la.analyzeClientLog
+#la = LogAnalyzer.new("/storage/logs/performance/rrogers_2012716_84129_349841_client.log", "5", "/tmp/test.csv") 
+#la.analyzeClientLog
 
 
 
