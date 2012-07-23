@@ -22,12 +22,16 @@ import openadk.library.MessageInfo;
 import openadk.library.SIFDataObject;
 import openadk.library.Subscriber;
 import openadk.library.Zone;
+import openadk.library.student.SchoolInfo;
+import openadk.library.student.LEAInfo;
 
+import org.codehaus.jackson.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.sif.domain.Sif2SliTransformer;
 import org.slc.sli.sif.slcinterface.SlcInterface;
 
 @Component
@@ -36,13 +40,22 @@ public class SifSubscriber implements Subscriber {
     private static final Logger LOG = LoggerFactory.getLogger(SifSubscriber.class);
 
     @Autowired
+    private Sif2SliTransformer xformer;
+
+    @Autowired
     private SlcInterface slcInterface;
 
     private void inspectAndDestroyEvent(Event e) {
         LOG.info("###########################################################################");
         try {
-            SIFDataObject dataObj = e.getData().readDataObject();
-            LOG.info(dataObj.toString());
+            SIFDataObject sdo = e.getData().readDataObject();
+            LOG.info("\n" + "\tObjectType: " + sdo.getObjectType());
+            
+            if (sdo instanceof SchoolInfo) {
+                JsonNode schoolNode = xformer.transform2json((SchoolInfo)sdo);
+                LOG.info(""+schoolNode.toString());
+            }
+            
         } catch (ADKException e1) {
             LOG.error("Error trying to inspect event", e1);
         }
@@ -51,12 +64,10 @@ public class SifSubscriber implements Subscriber {
 
     @Override
     public void onEvent(Event event, Zone zone, MessageInfo info) throws ADKException {
-        SIFDataObject sdo = event.getData().readDataObject();
         LOG.info("Received event:\n" + "\tEvent:      " + event.getActionString() + "\n" + "\tZone:       " + zone.getZoneId()
-                + "\n" + "\tObjectType: " + sdo.getObjectType()
                 + "\n" + "\tInfo:       " + info.getMessage());
 
-//        inspectAndDestroyEvent(event);
+        inspectAndDestroyEvent(event);
 
         // execute a call to the SDK
         String token = slcInterface.sessionCheck();
