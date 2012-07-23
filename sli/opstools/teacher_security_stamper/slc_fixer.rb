@@ -11,16 +11,8 @@ class SLCFixer
   def initialize(db, logger = nil, grace_period = 2000)
     @db = db
     @basic_options = {:timeout => false, :batch_size => 100}
-    @count = 0
     @log = logger || Logger.new(STDOUT)
     @log.level ||= Logger::WARN
-
-    @teacher_ids = {}
-
-    @studentId_to_teachers = {}
-
-    @current_date = Date.today.to_s
-    @grace_date = (Date.today - grace_period).to_s
   end
 
   def measure(lable, &block)
@@ -30,6 +22,11 @@ class SLCFixer
 
   def start
     time = Time.now
+    @teacher_ids = {}
+    @studentId_to_teachers = {}
+    @current_date = Date.today.to_s
+    @grace_date = (Date.today - grace_period).to_s
+    @count = 0
 
     @threads = []
 
