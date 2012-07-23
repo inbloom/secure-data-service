@@ -14,19 +14,17 @@
  * limitations under the License.
  */
 
+
 package org.slc.sli.domain;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBObject;
 
 import org.junit.Before;
@@ -41,7 +39,7 @@ public class MongoEntityTest {
 
     private UUIDGeneratorStrategy mockGeneratorStrategy;
 
-    private static final String FIXED_UUID = "2012wd-type1uuid"; // new UUID(42L, 5150L);
+    private static final String FIXED_UUID = "2012wd-type1uuid"; //new UUID(42L, 5150L);
 
     @Before
     public void init() {
@@ -85,26 +83,9 @@ public class MongoEntityTest {
 
         Map<String, Object> body = new HashMap<String, Object>();
         Map<String, Object> metaData = new HashMap<String, Object>();
-        MongoEntity entity = new MongoEntity("student", uuid, body, metaData, null);
+        MongoEntity entity = new MongoEntity("student", uuid, body, metaData);
 
         return entity;
-    }
-
-    @Test
-    public void testCreateAggregate() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-        Map<String, Object> body = new HashMap<String, Object>();
-        Map<String, Object> aggregate = new HashMap<String, Object>();
-        Map<String, Object> assessments = new HashMap<String, Object>();
-        Map<String, Object> mathTest = new HashMap<String, Object>();
-        Map<String, Object> highestEver = new HashMap<String, Object>();
-        highestEver.put("ScaleScore", "28.0");
-        mathTest.put("HighestEver", highestEver);
-        assessments.put("ACT", mathTest);
-        aggregate.put("assessments", assessments);
-        DBObject dbObject = new BasicDBObjectBuilder().add("_id", "42").add("body", body)
-                .add("aggregations", aggregate).get();
-        AggregateData data = MongoEntity.fromDBObject(dbObject).getAggregates();
-        assertEquals(Arrays.asList(new AggregateDatum("assessments", "HighestEver", "ACT", "ScaleScore", "28.0")), data.getAggregates());
     }
 
 }

@@ -109,10 +109,6 @@
     </subpackage>
   </subpackage>
 
-  <subpackage name="aggregation">
-    <allow pkg="org.slc.sli.aggregation"/>
-  </subpackage>
-
   <subpackage name="sandbox">
     <allow pkg="org.slc.sli.sandbox"/>
     <allow pkg="org.slc.sli.api.security"/>
