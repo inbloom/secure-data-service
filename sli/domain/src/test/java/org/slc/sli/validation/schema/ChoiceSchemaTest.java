@@ -188,18 +188,18 @@ public class ChoiceSchemaTest {
         List<ValidationError> errors = new ArrayList<ValidationError>();
         ArrayList<String> emptyList = new ArrayList<String>();
         assertTrue(!choice.validate("testField", emptyList, errors, null));
-        checkError(errors, "testField", emptyList, ErrorType.INVALID_DATATYPE, "Map");
+        checkError(errors, "testField", emptyList, ErrorType.INVALID_DATATYPE, "'Map'");
         
         errors.clear();
         Map<String, Object> bogusMap = createMap("aString", "abc");
         bogusMap.put("aLong", 1L);
         assertTrue(!choice.validate("testField", bogusMap, errors, null));
-        checkError(errors, "testField", bogusMap, ErrorType.INVALID_DATATYPE, "Single Entry");
+        checkError(errors, "testField", bogusMap, ErrorType.INVALID_DATATYPE, "'Single Entry'");
         
         errors.clear();
         Map<String, Object> bogusData = createMap("nonexistent", "abc");
         assertTrue(!choice.validate("testField", bogusData, errors, null));
-        checkError(errors, "testField", bogusData, ErrorType.INVALID_CHOICE_TYPE, "aString", "aLong", "aDouble");
+        checkError(errors, "testField", bogusData, ErrorType.INVALID_CHOICE_TYPE, "'aString'", "'aLong'", "'aDouble'");
         
         // same thing, but for list elements
         choice.setMaxOccurs(2);
@@ -207,18 +207,18 @@ public class ChoiceSchemaTest {
         ArrayList<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
         list.add(bogusMap);
         assertTrue(!choice.validate("testField", list, errors, null));
-        checkError(errors, "testField", list, ErrorType.INVALID_DATATYPE, "Single Entry");
+        checkError(errors, "testField", list, ErrorType.INVALID_DATATYPE, "'Single Entry'");
         
         errors.clear();
         Map<String, Object> aDatum = createMap("aString", "abc");
         assertTrue(!choice.validate("testField", aDatum, errors, null));
-        checkError(errors, "testField", aDatum, ErrorType.INVALID_DATATYPE, "List");
+        checkError(errors, "testField", aDatum, ErrorType.INVALID_DATATYPE, "'List'");
         
         errors.clear();
         list.clear();
         list.add(bogusData);
         assertTrue(!choice.validate("testField", list, errors, null));
-        checkError(errors, "testField", list, ErrorType.INVALID_CHOICE_TYPE, "aString", "aLong", "aDouble");
+        checkError(errors, "testField", list, ErrorType.INVALID_CHOICE_TYPE, "'aString'", "'aLong'", "'aDouble'");
         
         errors.clear();
         
@@ -230,7 +230,7 @@ public class ChoiceSchemaTest {
         ValidationError err = errors.get(0);
         assertEquals(fieldName, err.getFieldName());
         assertEquals(entity, err.getFieldValue());
-        assertEquals(expectedTypes, err.getExpectedTypes());
+        assertEquals(expectedTypes[0], err.getExpectedTypes()[0]);
         assertEquals(errorType, err.getType());
     }
     
