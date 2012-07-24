@@ -6,7 +6,7 @@ Background:
     And format "application/json"
 
   Scenario Outline: As a teacher, I want to view the highest ever test score for my students 
-    When I navigate to GET "/students/<ENTITY_ID>"
+    When I navigate to GET "/v1/students/<ENTITY_ID>"
     Then I should receive a return code of 200
     And I get a link to the aggregates
     And when I navigate to that link I see the highest ever test score is <SCORE>
