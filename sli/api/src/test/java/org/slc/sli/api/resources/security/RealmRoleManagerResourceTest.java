@@ -62,7 +62,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @DirtiesContext
 public class RealmRoleManagerResourceTest {
     @Autowired
-    private RealmRoleManagerResource resource;
+    private RealmResource resource;
     
     @Autowired
     private SecurityContextInjector injector;

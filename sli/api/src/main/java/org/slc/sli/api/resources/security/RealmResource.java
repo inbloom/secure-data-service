@@ -75,7 +75,7 @@ import org.slc.sli.domain.enums.Right;
 @Scope("request")
 @Path("/realm")
 @Produces({ Resource.JSON_MEDIA_TYPE + ";charset=utf-8" })
-public class RealmRoleManagerResource {
+public class RealmResource {
 
     private static final String UNKNOWN_SLI_REALM_NAME = "UnknownSLIRealmName";
     private static final String UNKNOWN_SLI_ROLE_NAME = "UnknownSLIRoleName";
@@ -91,7 +91,7 @@ public class RealmRoleManagerResource {
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
-
+    
     @Autowired
     private IdConverter idConverter;
 
@@ -155,7 +155,7 @@ public class RealmRoleManagerResource {
         updatedRealm.put("edOrg", SecurityUtil.getEdOrg());
 
         if (service.update(realmId, updatedRealm)) {
-            audit(securityEventBuilder.createSecurityEvent(RealmRoleManagerResource.class.getName(), uriInfo, "Realm ["
+            audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo, "Realm ["
                     + updatedRealm.get("name") + "] updated!"));
             logChanges(uriInfo, oldRealm, updatedRealm);
             return Response.status(Status.NO_CONTENT).build();
@@ -171,7 +171,7 @@ public class RealmRoleManagerResource {
         }
         EntityBody deletedRealm = service.get(realmId);
         service.delete(realmId);
-        audit(securityEventBuilder.createSecurityEvent(RealmRoleManagerResource.class.getName(), uriInfo, "Realm ["
+        audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo, "Realm ["
                 + deletedRealm.get("name") + "] deleted!"));
         return Response.status(Status.NO_CONTENT).build();
     }
@@ -210,7 +210,7 @@ public class RealmRoleManagerResource {
         newRealm.put("edOrg", SecurityUtil.getEdOrg());
 
         String id = service.create(newRealm);
-        audit(securityEventBuilder.createSecurityEvent(RealmRoleManagerResource.class.getName(), uriInfo, "Realm ["
+        audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo, "Realm ["
                 + newRealm.get("name") + "] created!"));
         logChanges(uriInfo, null, newRealm);
         String uri = uriToString(uriInfo) + "/" + id;
@@ -424,7 +424,7 @@ public class RealmRoleManagerResource {
             String clientRoleName = roleMap.getRight();
             String eventMessage = addedDeleted[added ? 0 : 1] + " role mapping between SLC:" + sliRoleName + " and "
                     + clientRoleName;
-            audit(securityEventBuilder.createSecurityEvent(RealmRoleManagerResource.class.getName(), uriInfo,
+            audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo,
                     eventMessage));
         }
     }

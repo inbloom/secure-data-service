@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
+    attributeFormDefault="qualified">
+
+    <xs:element name="CustomRole">
+        <xs:complexType>
+            <xs:annotation>
+                <xs:appinfo>
+                    <sli:SecuritySphere>Admin</sli:SecuritySphere>
+                </xs:appinfo>
+            </xs:annotation>
+            <xs:sequence>
+                <xs:element name="realmId" type="xs:string"
+                    minOccurs="0" />
+                <xs:element name="tenantId" type="xs:string"
+                    minOccurs="0" />
+                    
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+
+    <xs:complexType name="roles">
+        <xs:sequence>
+            <xs:element name="role" type="roleType"
+                minOccurs="0" maxOccurs="unbounded" />
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="roleType">
+        <xs:sequence>
+            <xs:element name="clientRoleName"
+                minOccurs="0" maxOccurs="unbounded">
+                <xs:simpleType>
+                        <xs:restriction base="xs:string">
+                            <xs:pattern value="([a-zA-Z0-9\-_ ])*" />
+                        </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+        <xs:attribute name="sliRoleName" type="xs:string"
+            use="required" />
+    </xs:complexType>
+
+
+</xs:schema>
+
