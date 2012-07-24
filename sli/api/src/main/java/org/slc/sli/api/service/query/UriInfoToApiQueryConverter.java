@@ -137,8 +137,9 @@ public class UriInfoToApiQueryConverter {
                         if (nci == null) {
                             if (!neutralCriteria.getKey().equals("full-entities")
                                     && (!ParameterConstants.OPTIONAL_FIELDS.equals(neutralCriteria.getKey()))
-                                    && (!ParameterConstants.INCLUDE_CUSTOM.equals(neutralCriteria.getKey()))) {
-                                apiQuery.addCriteria(neutralCriteria);
+                                    && (!ParameterConstants.INCLUDE_CUSTOM.equals(neutralCriteria.getKey()))
+                                    && (!ParameterConstants.INCLUDE_AGGREGATES.equals(neutralCriteria.getKey()))) {
+                                        apiQuery.addCriteria(neutralCriteria);
                             }
                         } else {
                             nci.convert(apiQuery, neutralCriteria.getValue());

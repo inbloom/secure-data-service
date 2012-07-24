@@ -139,7 +139,9 @@ public class Login {
             @RequestParam("SAMLRequest") String encodedSamlRequest,
             @RequestParam(value = "realm", required = false) String incomingRealm,
             @RequestParam(value = "impersonate_user", required = false) String impersonateUser,
-            @RequestParam(value = "selected_roles", required = false) List<String> roles, HttpSession httpSession,
+            @RequestParam(value = "selected_roles", required = false) List<String> roles, 
+            @RequestParam(value = "isForgotPasswordVisible", required = false ) boolean isForgotPasswordVisible, 
+            HttpSession httpSession,
             HttpServletRequest request) {
 
         String realm = incomingRealm;
@@ -187,6 +189,7 @@ public class Login {
             mav.addObject("msg", "Invalid User Name or password");
             mav.addObject("SAMLRequest", encodedSamlRequest);
             mav.addObject("realm", incomingRealm);
+            mav.addObject("isForgotPasswordVisible", isForgotPasswordVisible);
             if (doImpersonation) {
                 mav.addObject("is_sandbox", true);
                 mav.addObject("impersonate_user", impersonateUser);
@@ -218,14 +221,16 @@ public class Login {
         }
 
         if (doImpersonation) {
+            ModelAndView mav = new ModelAndView("login");
+            mav.addObject("SAMLRequest", encodedSamlRequest);
+            mav.addObject("realm", incomingRealm);
+            mav.addObject("is_sandbox", true);
+            mav.addObject("impersonate_user", impersonateUser);
+            mav.addObject("roles", roleService.getAvailableRoles());
+            mav.addObject("isForgotPasswordVisible", isForgotPasswordVisible);
+            
             if (roles == null || roles.size() == 0) {
-                ModelAndView mav = new ModelAndView("login");
                 mav.addObject("msg", ROLE_SELECT_MESSAGE);
-                mav.addObject("SAMLRequest", encodedSamlRequest);
-                mav.addObject("realm", incomingRealm);
-                mav.addObject("is_sandbox", true);
-                mav.addObject("impersonate_user", impersonateUser);
-                mav.addObject("roles", roleService.getAvailableRoles());
                 return mav;
             }
             user.setUserId(impersonateUser);
@@ -233,13 +238,7 @@ public class Login {
             // only send the tenant - no other values since this is impersonatation
             String tenant = user.getAttributes().get("tenant");
             if (tenant == null || tenant.length() == 0) {
-                ModelAndView mav = new ModelAndView("login");
                 mav.addObject("msg", "User account not properly configured for impersonation.");
-                mav.addObject("SAMLRequest", encodedSamlRequest);
-                mav.addObject("realm", incomingRealm);
-                mav.addObject("is_sandbox", true);
-                mav.addObject("impersonate_user", impersonateUser);
-                mav.addObject("roles", roleService.getAvailableRoles());
                 return mav;
             }
             user.getAttributes().clear();

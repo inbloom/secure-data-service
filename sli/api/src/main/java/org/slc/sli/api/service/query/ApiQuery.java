@@ -18,6 +18,7 @@
 package org.slc.sli.api.service.query;
 
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.ws.rs.core.UriInfo;
 
@@ -54,6 +55,31 @@ public class ApiQuery extends NeutralQuery {
     public ApiQuery() {
         this(null);
     }
+
+    protected String toSelectorString(Map<?, ?> map) {
+        StringBuffer selectorStringBuffer = new StringBuffer();
+        selectorStringBuffer.append(":(");
+        
+        boolean first = true;
+        for (Entry<?, ?> entry  : map.entrySet()) {
+            if (!first) {
+                selectorStringBuffer.append(",");
+            }
+            first = false;
+            selectorStringBuffer.append(entry.getKey().toString());
+            if (entry.getValue() instanceof Map) {
+                selectorStringBuffer.append(this.toSelectorString((Map<?, ?>) entry.getValue()));
+            } else if (entry.getValue() instanceof Boolean) {
+                Boolean b = (Boolean) entry.getValue();
+                if (b == false) {
+                    selectorStringBuffer.append(":false");
+                }
+            }
+        }
+        
+        selectorStringBuffer.append(")");
+        return selectorStringBuffer.toString();
+    }
     
     @Override
     public String toString() {
@@ -82,6 +108,11 @@ public class ApiQuery extends NeutralQuery {
         if (super.sortOrder != null) {
             stringBuffer.append("&sortOrder=");
             stringBuffer.append(super.sortOrder);
+        }
+        
+        if (this.selector != null) {
+            stringBuffer.append("&selector=");
+            stringBuffer.append(this.toSelectorString(this.selector));
         }
 
         for (NeutralCriteria neutralCriteria : super.queryCriteria) {

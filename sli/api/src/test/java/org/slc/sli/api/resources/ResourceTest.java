@@ -819,7 +819,7 @@ public class ResourceTest {
         return matcher.group(1);
     }
 
-    public UriInfo buildMockUriInfo(final String queryString) throws Exception {
+    public static UriInfo buildMockUriInfo(final String queryString) throws Exception {
         UriInfo mock = mock(UriInfo.class);
         when(mock.getAbsolutePathBuilder()).thenAnswer(new Answer<UriBuilder>() {
 
