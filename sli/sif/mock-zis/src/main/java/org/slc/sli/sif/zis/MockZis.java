@@ -117,7 +117,7 @@ public class MockZis {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             
             connection.setRequestMethod("POST");
-            connection.setRequestProperty("Content-Type", "text/xml");
+            connection.setRequestProperty("Content-Type", "application/xml;charset=utf-8");
             connection.setRequestProperty("Content-Length", "" + xmlMessage.length());
             
             connection.setDoOutput(true);
@@ -168,4 +168,13 @@ public class MockZis {
         System.out.println("Registered agent with callback " + agentCallbackUrl);
         agentCallbackUrls.add(agentCallbackUrl);
     }
+    
+    public void getAgentUrls(List<String> agentCallbackUrls) {
+        this.agentCallbackUrls = agentCallbackUrls;
+    }
+    
+    public List<String> getAgentUrls() {
+        return agentCallbackUrls;
+    }
+    
 }

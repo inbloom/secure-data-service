@@ -32,8 +32,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.sif.domain.slientity.SEAEntity;
 import org.slc.sli.sif.domain.slientity.SchoolEntity;
 import org.slc.sli.sif.domain.slientity.LEAEntity;
+import openadk.library.datamodel.SEAInfo;
 import org.slc.sli.sif.generator.SifEntityGenerator;
 
 
@@ -52,11 +54,13 @@ public class Sif2SliMapperTest
 
     private SchoolInfo schoolInfo;
     private LEAInfo leaInfo;
+    private SEAInfo seaInfo;
 
     @Before
     public void preMethodSetup() {
         schoolInfo = SifEntityGenerator.generateTestSchoolInfo();
         leaInfo = SifEntityGenerator.generateTestLEAInfo();
+        seaInfo = SifEntityGenerator.generateTestSEAInfo();
     }
 
     @Test
@@ -139,6 +143,16 @@ public class Sif2SliMapperTest
     @Test
     public void testLEAInfoMap() {
         LEAEntity entity = xformer.transform(leaInfo);
+        Assert.assertEquals("Expecting 2 telephone numbers", 2, entity.getTelephone().size());
+        Assert.assertEquals("Expecting 'Main' as the first phone type", "Main", entity.getTelephone().get(0).getInstitutionTelephoneNumberType());
+        Assert.assertEquals("Expecting '(312) 555-1234' as the first phone number", "(312) 555-1234", entity.getTelephone().get(0).getTelephoneNumber());
+        Assert.assertEquals("Expecting 'Main' as the first phone type", "Fax", entity.getTelephone().get(1).getInstitutionTelephoneNumberType());
+        Assert.assertEquals("Expecting '(312) 555-2364' as the first phone number", "(312) 555-2364", entity.getTelephone().get(1).getTelephoneNumber());
+    }
+
+    @Test
+    public void testSEAInfoMap() {
+        SEAEntity entity = xformer.transform(seaInfo);
         Assert.assertEquals("Expecting 2 telephone numbers", 2, entity.getTelephone().size());
         Assert.assertEquals("Expecting 'Main' as the first phone type", "Main", entity.getTelephone().get(0).getInstitutionTelephoneNumberType());
         Assert.assertEquals("Expecting '(312) 555-1234' as the first phone number", "(312) 555-1234", entity.getTelephone().get(0).getTelephoneNumber());
