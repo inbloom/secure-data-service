@@ -84,17 +84,17 @@ public final class ModelProvider {
         return false;
     }
 
-    public Type getType(final ClassType type, final String attr) {
+    public Type getType(final Type type, final String attr) {
         if (isAssociation(type, attr)) {
             return getAssociationType(type, attr);
         } else if (isAttribute(type, attr)) {
-            return getAttributeType(type, attr);
+            return getAttributeType((ClassType)type, attr);
         }
         return null;
     }
 
     private Type getAttributeType(final ClassType type, final String attr) {
-        final List<Attribute> attributes = ((ClassType)type).getAttributes();
+        final List<Attribute> attributes = type.getAttributes();
         for (final Attribute attribute : attributes) {
             if (attribute.getName().equals(attr)) {
                 return getType(attribute.getType());
@@ -103,7 +103,7 @@ public final class ModelProvider {
         return null;
     }
 
-    private Type getAssociationType(final ClassType type, final String attr) {
+    private Type getAssociationType(final Type type, final String attr) {
         final List<AssociationEnd> associationEnds = getAssociationEnds(type.getId());
         for (final AssociationEnd end : associationEnds) {
             if (end.getName().equals(attr)) {

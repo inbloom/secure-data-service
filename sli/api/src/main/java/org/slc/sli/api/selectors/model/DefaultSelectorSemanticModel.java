@@ -34,11 +34,11 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
             Object value = entry.getValue();
 
             if (Map.class.isInstance(value)) {
-                Type newType = modelProvider.getType((ClassType)type, entry.getKey());
+                Type newType = modelProvider.getType(type, entry.getKey());
 
                 if (newType != null && newType.isClassType()) {
                     Map<Type, Object> newMap = new HashMap<Type, Object>();
-                    parse((Map<String, Object>) value, (ClassType) newType, newMap);
+                    parse((Map<String, Object>) value, newType, newMap);
 
                     if (selectorsWithType.containsKey(type)) {
                         ((List<Object>) selectorsWithType.get(type)).add(newMap);
@@ -54,7 +54,7 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
             } else {
 
                 if (modelProvider.isAssociation(type, entry.getKey())) {
-                    Type r = modelProvider.getType((ClassType)type, entry.getKey());
+                    Type r = modelProvider.getType(type, entry.getKey());
                     if (r.isClassType()) type = (ClassType) r;
                 }
 
