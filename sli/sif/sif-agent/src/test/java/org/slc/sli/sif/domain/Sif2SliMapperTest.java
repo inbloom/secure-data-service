@@ -20,6 +20,7 @@ import java.io.IOException;
 
 import junit.framework.Assert;
 import openadk.library.student.SchoolInfo;
+import openadk.library.student.LEAInfo;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonProcessingException;
@@ -32,6 +33,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.sif.domain.slientity.SchoolEntity;
+import org.slc.sli.sif.domain.slientity.LEAEntity;
 import org.slc.sli.sif.generator.SifEntityGenerator;
 
 
@@ -49,10 +51,12 @@ public class Sif2SliMapperTest
     private Sif2SliTransformer xformer;
 
     private SchoolInfo schoolInfo;
+    private LEAInfo leaInfo;
 
     @Before
     public void preMethodSetup() {
         schoolInfo = SifEntityGenerator.generateTestSchoolInfo();
+        leaInfo = SifEntityGenerator.generateTestLEAInfo();
     }
 
     @Test
@@ -124,12 +128,22 @@ public class Sif2SliMapperTest
 
     @Test
     public void testSchoolInfoMap() {
-        SchoolEntity schoolEntity = xformer.transform(schoolInfo);
-        Assert.assertEquals("Expecting 2 telephone numbers", 2, schoolEntity.getTelephone().size());
-        Assert.assertEquals("Expecting 'Main' as the first phone type", "Main", schoolEntity.getTelephone().get(0).getInstitutionTelephoneNumberType());
-        Assert.assertEquals("Expecting '(312) 555-1234' as the first phone number", "(312) 555-1234", schoolEntity.getTelephone().get(0).getTelephoneNumber());
-        Assert.assertEquals("Expecting 'Main' as the first phone type", "Fax", schoolEntity.getTelephone().get(1).getInstitutionTelephoneNumberType());
-        Assert.assertEquals("Expecting '(312) 555-2364' as the first phone number", "(312) 555-2364", schoolEntity.getTelephone().get(1).getTelephoneNumber());
+        SchoolEntity entity = xformer.transform(schoolInfo);
+        Assert.assertEquals("Expecting 2 telephone numbers", 2, entity.getTelephone().size());
+        Assert.assertEquals("Expecting 'Main' as the first phone type", "Main", entity.getTelephone().get(0).getInstitutionTelephoneNumberType());
+        Assert.assertEquals("Expecting '(312) 555-1234' as the first phone number", "(312) 555-1234", entity.getTelephone().get(0).getTelephoneNumber());
+        Assert.assertEquals("Expecting 'Main' as the first phone type", "Fax", entity.getTelephone().get(1).getInstitutionTelephoneNumberType());
+        Assert.assertEquals("Expecting '(312) 555-2364' as the first phone number", "(312) 555-2364", entity.getTelephone().get(1).getTelephoneNumber());
+    }
+
+    @Test
+    public void testLEAInfoMap() {
+        LEAEntity entity = xformer.transform(leaInfo);
+        Assert.assertEquals("Expecting 2 telephone numbers", 2, entity.getTelephone().size());
+        Assert.assertEquals("Expecting 'Main' as the first phone type", "Main", entity.getTelephone().get(0).getInstitutionTelephoneNumberType());
+        Assert.assertEquals("Expecting '(312) 555-1234' as the first phone number", "(312) 555-1234", entity.getTelephone().get(0).getTelephoneNumber());
+        Assert.assertEquals("Expecting 'Main' as the first phone type", "Fax", entity.getTelephone().get(1).getInstitutionTelephoneNumberType());
+        Assert.assertEquals("Expecting '(312) 555-2364' as the first phone number", "(312) 555-2364", entity.getTelephone().get(1).getTelephoneNumber());
     }
 
 }

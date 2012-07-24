@@ -56,6 +56,11 @@ public class SifSubscriber implements Subscriber {
                 LOG.info(""+schoolNode.toString());
             }
             
+            if (sdo instanceof LEAInfo) {
+                JsonNode leaNode = xformer.transform2json((LEAInfo)sdo);
+                LOG.info(""+leaNode.toString());
+            }
+            
         } catch (ADKException e1) {
             LOG.error("Error trying to inspect event", e1);
         }
