@@ -25,6 +25,13 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.ldap.NameAlreadyBoundException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.ldap.LdapService;
@@ -33,12 +40,6 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.ldap.NameAlreadyBoundException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Component;
 
 /**
  * @author dliu
@@ -60,7 +61,7 @@ public class UserResource {
 
     @POST
     public final Response create(final User newUser, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        Response result = validateUserCreate(newUser);
+        Response result = validateUserCreate(newUser, SecurityUtil.getTenantId());
         if (result != null) {
             return result;
         }
@@ -79,7 +80,9 @@ public class UserResource {
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
 
-        Response result = validateAdminRights(SecurityUtil.getAllRights());
+        String tenant = SecurityUtil.getTenantId();
+
+        Response result = validateAdminRights(SecurityUtil.getAllRights(), tenant);
         if (result != null) {
             return result;
         }
@@ -103,7 +106,7 @@ public class UserResource {
 
     @PUT
     public final Response update(final User updateUser, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        Response result = validateUserUpdate(updateUser);
+        Response result = validateUserUpdate(updateUser, SecurityUtil.getTenantId());
         if (result != null) {
             return result;
         }
@@ -116,7 +119,7 @@ public class UserResource {
     @Path("{uid}")
     public final synchronized Response delete(@PathParam("uid") final String uid, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        Response result = validateUserDelete(uid);
+        Response result = validateUserDelete(uid, SecurityUtil.getTenantId());
         if (result != null) {
             return result;
         }
@@ -125,8 +128,8 @@ public class UserResource {
         return Response.status(Status.OK).build();
     }
 
-    private Response validateUserCreate(User user) {
-        Response result = validateAdminRights(SecurityUtil.getAllRights());
+    private Response validateUserCreate(User user, String tenant) {
+        Response result = validateAdminRights(SecurityUtil.getAllRights(), tenant);
         if (result != null) {
             return result;
         }
@@ -150,8 +153,8 @@ public class UserResource {
         return null;
     }
 
-    private Response validateUserUpdate(User user) {
-        Response result = validateAdminRights(SecurityUtil.getAllRights());
+    private Response validateUserUpdate(User user, String tenant) {
+        Response result = validateAdminRights(SecurityUtil.getAllRights(), tenant);
         if (result != null) {
             return result;
         }
@@ -180,8 +183,8 @@ public class UserResource {
         return null;
     }
 
-    private Response validateUserDelete(String uid) {
-        Response result = validateAdminRights(SecurityUtil.getAllRights());
+    private Response validateUserDelete(String uid, String tenant) {
+        Response result = validateAdminRights(SecurityUtil.getAllRights(), tenant);
         if (result != null) {
             return result;
         }
@@ -230,13 +233,20 @@ public class UserResource {
     }
 
     /**
-     * Check that the rights contains an admin right.
+     * Check that the rights contains an admin right. If tenant is null, then also verify the user has operator level rights.
      *
      * @param rights
      * @return null if success, response with error otherwise
      */
-    static Response validateAdminRights(Collection<GrantedAuthority> rights) {
-        if (!isAdministrator(rights)) {
+    Response validateAdminRights(Collection<GrantedAuthority> rights, String tenant) {
+        Collection<GrantedAuthority> rightSet = new HashSet<GrantedAuthority>(rights);
+        rightSet.retainAll(Arrays.asList(Right.ALL_ADMIN_CRUD_RIGHTS));
+        boolean nullTenant = (tenant == null && !(rights.contains(Right.CRUD_SANDBOX_SLC_OPERATOR) || rights
+                .contains(Right.CRUD_SLC_OPERATOR)));
+        if (nullTenant) {
+            error("Non-operator user {} has null tenant.  Giving up.", new Object[] { SecurityUtil.getUid() });
+        }
+        if (rightSet.isEmpty() || nullTenant) {
             EntityBody body = new EntityBody();
             body.put("response", "You are not authorized to access this resource.");
             return Response.status(Status.FORBIDDEN).entity(body).build();
@@ -347,18 +357,6 @@ public class UserResource {
     }
 
     /**
-     * Given a collection of rights, determine whether or not this user is an administrator.
-     *
-     * @param rights
-     * @return true if user is an administrator, false otherwise
-     */
-    private static boolean isAdministrator(final Collection<GrantedAuthority> rights) {
-        Collection<GrantedAuthority> rightSet = new HashSet<GrantedAuthority>(rights);
-        rightSet.retainAll(Arrays.asList(Right.ALL_ADMIN_CRUD_RIGHTS));
-        return !rightSet.isEmpty();
-    }
-
-    /**
      * Map Right to Groups (LDAP's equivalence of Role)
      *
      */
@@ -434,21 +432,21 @@ public class UserResource {
             return INSTANCE;
         }
     }
-    
+
     static final class RoleToGroupMapper {
         private static final RoleToGroupMapper INSTANCE = new RoleToGroupMapper();
-        
+
         public static RoleToGroupMapper getInstance() {
             return INSTANCE;
         }
-        
+
         private final Map<String, String> ROLETOGROUPMAP;
         private final Map<String, String> GROUPTOROLEMAP;
-        
+
         private RoleToGroupMapper() {
             ROLETOGROUPMAP = new HashMap<String, String>();
             GROUPTOROLEMAP = new HashMap<String, String>();
-            
+
             ROLETOGROUPMAP.put(RoleInitializer.SLC_OPERATOR, "SLC Operator");
             ROLETOGROUPMAP.put(RoleInitializer.REALM_ADMINISTRATOR, "Realm Administrator");
             ROLETOGROUPMAP.put(RoleInitializer.SEA_ADMINISTRATOR, "SEA Administrator");
@@ -457,7 +455,7 @@ public class UserResource {
             ROLETOGROUPMAP.put(RoleInitializer.INGESTION_USER, "ingestion_user");
             ROLETOGROUPMAP.put(RoleInitializer.SANDBOX_SLC_OPERATOR, "Sandbox SLC Operator");
             ROLETOGROUPMAP.put(RoleInitializer.SANDBOX_ADMINISTRATOR, "Sandbox Administrator");
-            
+
             GROUPTOROLEMAP.put("SLC Operator", RoleInitializer.SLC_OPERATOR);
             GROUPTOROLEMAP.put("Realm Administrator", RoleInitializer.REALM_ADMINISTRATOR);
             GROUPTOROLEMAP.put("SEA Administrator", RoleInitializer.SEA_ADMINISTRATOR);
@@ -467,36 +465,38 @@ public class UserResource {
             GROUPTOROLEMAP.put("Sandbox SLC Operator", RoleInitializer.SANDBOX_SLC_OPERATOR);
             GROUPTOROLEMAP.put("Sandbox Administrator", RoleInitializer.SANDBOX_ADMINISTRATOR);
         }
-        
+
         public Collection<String> mapRoleToGroups(Collection<String> roles) {
             Collection<String> groups = new ArrayList<String>();
             if (roles != null) {
                 for (String role : roles) {
-                    if (this.ROLETOGROUPMAP.containsKey(role))
+                    if (this.ROLETOGROUPMAP.containsKey(role)) {
                         groups.add(this.ROLETOGROUPMAP.get(role));
+                    }
                 }
             }
             return groups;
         }
-        
+
         public Collection<String> mapGroupToRoles(Collection<String> groups) {
             Collection<String> roles = new ArrayList<String>();
             if (groups != null) {
                 for (String group : groups) {
-                    if (this.GROUPTOROLEMAP.containsKey(group))
+                    if (this.GROUPTOROLEMAP.containsKey(group)) {
                         roles.add(this.GROUPTOROLEMAP.get(group));
+                    }
                 }
             }
             return roles;
         }
-        
+
         public String getRole(String group) {
             if (this.GROUPTOROLEMAP.containsKey(group)) {
                 return this.GROUPTOROLEMAP.get(group);
             }
             return null;
         }
-        
+
         public String getGroup(String role) {
             if (this.ROLETOGROUPMAP.containsKey(role)) {
                 return this.ROLETOGROUPMAP.get(role);
