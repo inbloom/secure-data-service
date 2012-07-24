@@ -3,38 +3,72 @@
     xmlns:sli="http://slc-sli/ed-org/0.1" elementFormDefault="qualified"
     attributeFormDefault="qualified">
 
-    <xs:element name="CustomRole">
+    <xs:include schemaLocation="SimpleTypes.xsd" />
+
+    <xs:element name="CustomRoles">
         <xs:complexType>
             <xs:annotation>
+                <xs:documentation>
+                    This entity represents role definitions for a specific user realm.
+                    These roles are used to give each user from the realm a specific set of security rights.
+                </xs:documentation>
                 <xs:appinfo>
                     <sli:SecuritySphere>Admin</sli:SecuritySphere>
                 </xs:appinfo>
             </xs:annotation>
             <xs:sequence>
-                <xs:element name="realmId" type="xs:string"
-                    minOccurs="0" />
-                <xs:element name="tenantId" type="xs:string"
-                    minOccurs="0" />
-               <xs:element name="roles" type="role" minOccurs="1" />
-                    
+                <xs:element name="realmId" type="reference" minOccurs="1" maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            Roles are specified per realm. This field is the realm reference for the set of roles.
+                        </xs:documentation>
+                        <xs:appinfo>
+                            <sli:ReferenceType>realm</sli:ReferenceType>
+                        </xs:appinfo>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="tenantId" type="xs:string" minOccurs="0" maxOccurs="1">
+                    <xs:annotation>
+                        <xs:documentation>
+                            The tenant name identifier. The tenant Id of the realm and roles.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="roles" type="role" minOccurs="0" maxOccurs="unbounded" />
+                <xs:element name="custom_rights" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+                    <xs:annotation>
+                        <xs:documentation>
+                            A non-default right that is specified for the realm. A realm can have many custom_rights.
+                        </xs:documentation>
+                    </xs:annotation>
+                </xs:element>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-
     <xs:complexType name="role">
         <xs:sequence>
-            <xs:element name="names" minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="name" minOccurs="1" maxOccurs="1">
+                <xs:annotation>
+                    <xs:documentation>
+                        The role name identifier. This name matches an LDAP role name attribute.
+                    </xs:documentation>
+                </xs:annotation>
                 <xs:simpleType>
                     <xs:restriction base="xs:string"/>
                 </xs:simpleType>
             </xs:element>
-                
+            <xs:element name="rights" minOccurs="1" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation>
+                        A right/permission the role grants. A role can have multiple rights.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string"/>
+                </xs:simpleType>
+            </xs:element>
         </xs:sequence>
     </xs:complexType>
-
-    
-
-
 </xs:schema>
 
