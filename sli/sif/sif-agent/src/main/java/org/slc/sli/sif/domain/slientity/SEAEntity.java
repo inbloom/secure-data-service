@@ -22,29 +22,29 @@ import java.util.List;
 import org.codehaus.jackson.JsonNode;
 
 /**
- * An SLI Entity corresponding to an educationOrganization of localEducationAgency type 
+ * An SLI Entity corresponding to an educationOrganization of stateEducationAgency type 
  * defined in SLI schema.
  * Each SLI Entity can be converted to a JSON Node ready for SLI operations.
  *
- * Note that some educationOrganization fields defined in SLI schema have no counterparts in SIF LEAInfo,
+ * Note that some educationOrganization fields defined in SLI schema have no counterparts in SIF SEAInfo,
  * and those fields have no get/setters defined here.
  *
  * @author slee
  *
  */
-public class LEAEntity extends GenericEntity
+public class SEAEntity extends GenericEntity
 {
     /**
      * _____mappingg_between_SIF_and_SLI_for_School_______________
      *
      * SLI domain                               SIF domain
      * -----------------------------------------------------------
-     * stateOrganizationId                      StateProvinceId
-     * nameOfInstitution                        LEAName
+     * stateOrganizationId                      RefId
+     * nameOfInstitution                        SEAName
      * organizationCategories [1..*]
      * address [1..*]                           AddressList
      * shortNameOfInstitution [0..1]
-     * webSite [0..1]                           LEAURL
+     * webSite [0..1]                           SEAURL
      * operationalStatus [0..1]                 OperationalStatus
      * agencyHierarchyName [0..1]
      * parentEducationAgencyReference [0..1]
@@ -82,14 +82,14 @@ public class LEAEntity extends GenericEntity
     /**
      *  Constructor
      */
-    public LEAEntity() {
+    public SEAEntity() {
         super();
         /*
-         * organizationCategories is mandatory but not counterpart in SIF LEAInfo
+         * organizationCategories is mandatory but not counterpart in SIF SEAInfo
          * So set it to localEducationAgency
          */
         this.organizationCategories = new ArrayList<String>(1);
-        organizationCategories.add("localEducationAgency");
+        organizationCategories.add("stateEducationAgency");
     }
 
     public List<String> getOrganizationCategories() {
