@@ -46,8 +46,8 @@ create_replicaSet() {
     local dbpath="$2"
     local rsname="$3"
 
-    mkdir -p $dbpath/$port/data/db
-    mongod --replSet $rsname --dbpath $dbpath/$port/data/db --port $port > $dbpath/logs/rs_$port.log &
+	mkdir -p $dbpath/data/$port/db
+    mongod --replSet $rsname --dbpath $dbpath/data/$port/db --port $port > $dbpath/logs/rs_$port.log &
     echo $! >> $dbpath/pids
     
     wait_for_mongo $port
@@ -57,8 +57,8 @@ create_mongod() {
     local port="$1"
     local dbpath="$2"
 
-    mkdir -p $dbpath/$port/data/db
-    mongod --shardsvr --dbpath $dbpath/$port/data/db --port $port > $dbpath/logs/mongod_$port.log &
+	mkdir -p $dbpath/data/$port/db
+    mongod --shardsvr --dbpath $dbpath/data/$port/db --port $port > $dbpath/logs/mongod_$port.log &
     echo $! >> $dbpath/pids
     
     wait_for_mongo $port
