@@ -120,6 +120,7 @@ public class MockRepo implements Repository<Entity> {
         repo.put("authSession", new LinkedHashMap<String, Entity>());
         repo.put("assessmentFamily", new LinkedHashMap<String, Entity>());
         repo.put("application", new LinkedHashMap<String, Entity>());
+        repo.put("applicationAuthorization", new LinkedHashMap<String, Entity>());
         repo.put("oauthSession", new LinkedHashMap<String, Entity>());
         repo.put("oauth_access_token", new LinkedHashMap<String, Entity>());
         repo.put(EntityNames.ATTENDANCE, new LinkedHashMap<String, Entity>());
@@ -199,6 +200,12 @@ public class MockRepo implements Repository<Entity> {
                     if (entityValue != null) {
                         if (entityValue.equals(criteria.getValue())) {
                             results2.put(idAndEntity.getKey(), idAndEntity.getValue());
+                        } else if (entityValue instanceof List) { //also need to handle = for array
+                            for (Object arrayElement : (List) entityValue) {
+                                if (arrayElement.equals(criteria.getValue())) {
+                                    results2.put(idAndEntity.getKey(), idAndEntity.getValue());
+                                }
+                            }
                         }
                     }
                 }
