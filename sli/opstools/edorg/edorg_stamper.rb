@@ -19,6 +19,8 @@ limitations under the License.
 
 require_relative 'slc_fixer'
 
+trap('HUP') {}
+
 if ARGV.count < 1
   puts "Usage: edorg_stamper <dbhost:port> <database> <terminates>"
   puts "\t dbhost - hostname for mongo"

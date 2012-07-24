@@ -224,18 +224,18 @@ public class ResourceUtil {
         if (defn != null) {
             links.add(getSelfLinkForEntity(uriInfo, id, defn));
             links.add(getCustomLink(uriInfo, id, defn));
-        }
 
-        links.addAll(getReferenceLinks(defn, entityBody, uriInfo));
+            links.addAll(getReferenceLinks(defn, entityBody, uriInfo));
 
-        if (defn instanceof AssociationDefinition) {
-            links.addAll(getLinksForAssociation(uriInfo, id, (AssociationDefinition) defn));
-        }
+            if (defn instanceof AssociationDefinition) {
+                links.addAll(getLinksForAssociation(uriInfo, id, (AssociationDefinition) defn));
+            }
 
-        links.addAll(getLinkedDefinitions(entityDefs, defn, uriInfo, id));
+            links.addAll(getLinkedDefinitions(entityDefs, defn, uriInfo, id));
 
-        if (areAggregatesPresent(defn, id)) {
-            links.add(getAggregateLink(uriInfo, id, defn));
+            if (areAggregatesPresent(defn, id)) {
+                links.add(getAggregateLink(uriInfo, id, defn));
+            }
         }
 
         return links;
