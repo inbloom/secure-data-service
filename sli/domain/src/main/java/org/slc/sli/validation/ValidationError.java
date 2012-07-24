@@ -46,15 +46,8 @@ public class ValidationError {
         this.type = type;
         this.fieldName = fieldName;
         this.fieldValue = fieldValue;
-        if (expectedTypes == null) {
-            this.expectedTypes = new String[] {};
-        } else {
-            String[] expectedTypesCopy = Arrays.copyOf(expectedTypes, expectedTypes.length);
-            for (int i = 0; i < expectedTypesCopy.length; i++) {
-                expectedTypesCopy[i]  = String.format("'%s'", expectedTypesCopy[i]);
-            }
-            this.expectedTypes = expectedTypesCopy;
-        }
+        this.expectedTypes = expectedTypes == null ? new String[] {} : Arrays.copyOf(expectedTypes,
+                expectedTypes.length);
     }
     
     public ErrorType getType() {

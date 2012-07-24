@@ -1,5 +1,6 @@
 package org.slc.sli.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,7 +14,8 @@ import java.util.Map.Entry;
  * @author nbrown
  *
  */
-public class AggregateData {
+public class AggregateData implements Serializable {
+    private static final long serialVersionUID = 1127693471079120104L;
     private final List<AggregateDatum> aggregates;
 
     public AggregateData() {
