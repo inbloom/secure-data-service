@@ -36,15 +36,15 @@
     <% if @users!=nil and @users.length>0%>
         <% @users.each do |user| %>
         <tr>
-        <td class="full_name"><%= user.firstName%> <%= user.lastName%></td>
-        <td class="email"><%= user.email%></td>
-        <td id="role">place holder</td>
+        <td class="full_name" id="<%= user.firstName%> <%= user.lastName%>_full_name" ><%= user.firstName%> <%= user.lastName%></td>
+        <td class="email" id="<%= user.firstName%> <%= user.lastName%>_email"><%= user.email%></td>
+        <td id="<%= user.firstName%> <%= user.lastName%>_role">place holder</td>
         <% if not APP_CONFIG['is_sandbox'] %>
             <td id="additional_role">more place holder</td>
             <td id="tenant">hold even more</td>
         <% end %>
-        <td id="edorg">myEdOrg</td>
-        <td id="date_created">Today</td>
+        <td id="<%= user.firstName%> <%= user.lastName%>_edorg">myEdOrg</td>
+        <td id="<%= user.firstName%> <%= user.lastName%>_date_created">Today</td>
 		<td>
 		    <%= form_for "" do |f| %>
             <%= f.hidden_field "email", :name=>"email", :value => user.email %>
