@@ -42,7 +42,7 @@ public class MongoEntity implements Entity, Serializable {
 
     private static final long serialVersionUID = -3661562228274704762L;
 
-    private Logger log = LoggerFactory.getLogger(MongoEntity.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MongoEntity.class);
 
     private final String type;
 
@@ -171,7 +171,7 @@ public class MongoEntity implements Entity, Serializable {
             if (uuidGeneratorStrategy != null) {
                 uid = uuidGeneratorStrategy.randomUUID();
             } else {
-                log.warn("Generating Type 4 UUID by default because the UUID generator strategy is null.  This will cause issues if this value is being used in a Mongo indexed field (like _id)");
+                LOG.warn("Generating Type 4 UUID by default because the UUID generator strategy is null.  This will cause issues if this value is being used in a Mongo indexed field (like _id)");
                 uid = UUID.randomUUID().toString();
             }
             entityId = uid.toString();
