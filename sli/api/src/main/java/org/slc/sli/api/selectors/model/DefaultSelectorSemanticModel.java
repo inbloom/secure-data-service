@@ -1,6 +1,7 @@
 package org.slc.sli.api.selectors.model;
 
 import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,11 +34,11 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
             Object value = entry.getValue();
 
             if (Map.class.isInstance(value)) {
-                ClassType newType = modelProvider.getType(type, entry.getKey());
+                Type newType = modelProvider.getType(type, entry.getKey());
 
-                if (newType != null) {
+                if (newType != null && newType.isClassType()) {
                     Map<ClassType, Object> newMap = new HashMap<ClassType, Object>();
-                    parse((Map<String, Object>) value, newType, newMap);
+                    parse((Map<String, Object>) value, (ClassType) newType, newMap);
 
                     if (selectorsWithType.containsKey(type)) {
                         ((List<Object>) selectorsWithType.get(type)).add(newMap);
@@ -53,7 +54,8 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
             } else {
 
                 if (modelProvider.isAssociation(type, entry.getKey())) {
-                    type = modelProvider.getType(type, entry.getKey());
+                    Type r = modelProvider.getType(type, entry.getKey());
+                    if (r.isClassType()) type = (ClassType) r;
                 }
 
                 //if (isInModel(type, entry.getKey())) {

@@ -3,13 +3,9 @@ package org.slc.sli.api.selectors.model;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.selectors.model.ModelElementNotFoundException;
-import org.slc.sli.api.selectors.model.ModelProvider;
-import org.slc.sli.modeling.uml.AssociationEnd;
-import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Identifier;
-import org.slc.sli.modeling.uml.ModelElement;
+import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -18,13 +14,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.xml.namespace.QName;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import static junit.framework.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -83,26 +76,35 @@ public class ModelProviderTest {
 
     @Test
     public void testIsAttribute() {
-
+        provider = new ModelProvider(TEST_XMI_LOC);
+        final ClassType student = provider.getType("Student");
+        assertTrue(provider.isAttribute(student, "name"));
+        assertTrue(!provider.isAttribute(student, "sectionAssociations"));
     }
 
     @Test
     public void testIsAssociation() {
-
-    }
-    @Test
-    public void testIsInModel() {
-
+        provider = new ModelProvider(TEST_XMI_LOC);
+        final ClassType student = provider.getType("Student");
+        assertTrue(provider.isAssociation(student, "sectionAssociations"));
+        assertTrue(!provider.isAssociation(student, "name"));
     }
 
     @Test
     public void testGetType() {
+        provider = new ModelProvider(TEST_XMI_LOC);
+        final ClassType student = provider.getType("Student");
 
+        final Type name = provider.getType(student, "name");
+        assertNotNull(name);
+        assertTrue(name.isClassType());
+        final ClassType nameClass = (ClassType) name;
+        assertTrue(nameClass.getAttributes().size() > 0);
+
+        final Type sectionAssociations = provider.getType(student, "sectionAssociations");
+        assertNotNull(sectionAssociations);
+        assertTrue(sectionAssociations.isClassType());
+        final ClassType sectionAssociationClass = (ClassType) sectionAssociations;
+        assertTrue(sectionAssociationClass.getAttributes().size() > 0);
     }
-
-    @Test
-    public void lookupSingleModelElement() {
-
-    }
-
 }

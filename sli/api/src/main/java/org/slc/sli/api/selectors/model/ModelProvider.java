@@ -1,7 +1,5 @@
 package org.slc.sli.api.selectors.model;
 
-import org.apache.commons.lang.StringUtils;
-import org.slc.sli.api.selectors.model.ModelElementNotFoundException;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
@@ -17,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import javax.xml.namespace.QName;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -65,7 +62,6 @@ public final class ModelProvider {
 
     public boolean isAttribute(final ClassType type, final String attributeName) {
         final List<Attribute> attributes = type.getAttributes();
-
         for (Attribute attribute : attributes) {
             if (attribute.getName().equals(attributeName)) {
                 return true;
@@ -74,34 +70,7 @@ public final class ModelProvider {
         return false;
     }
 
-    private boolean isInModel(final ClassType type, final String attr) {
-        final List<Attribute> attributes = type.getAttributes();
-
-        for (final Attribute attribute : attributes) {
-            if (attribute.getName().equals(attr)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public ClassType getType(final ClassType type, final String attr) {
-        if (type.isClassType()) {
-            final List<AssociationEnd> associationEnds = getAssociationEnds(type.getId());
-            for (final AssociationEnd end : associationEnds) {
-                if (end.getName().equals(attr)) {
-                    final String name = attr + "<=>" + StringUtils.uncapitalise(type.getName());
-                    return getType(name);
-                }
-            }
-        } else if (type.isAssociation()) {
-            final TagDefinition l = getTagDefinition(type.getId());
-            final Type r = getType(type.getRHS().getId());
-        }
-        return null;
-    }
-
-    public boolean isAssociation(ClassType type, String attribute) {
+    public boolean isAssociation(final ClassType type, final String attribute) {
         final List<AssociationEnd> associationEnds = getAssociationEnds(type.getId());
 
         for (final AssociationEnd end : associationEnds) {
@@ -112,16 +81,32 @@ public final class ModelProvider {
         return false;
     }
 
-    public ClassType lookupSingleModelElement(final QName qName)
-            throws ModelElementNotFoundException {
-        final Set<ModelElement> elementSet = lookupByName(qName);
-        if (elementSet.size() == 1) {
-            final ModelElement rVal = elementSet.iterator().next();
-            if (rVal instanceof ClassType) return (ClassType) rVal;
-            else throw new AssertionError();
-        } else {
-            error("Element {} was not found", qName);
-            throw new ModelElementNotFoundException();
+    public Type getType(final ClassType type, final String attr) {
+        if (isAssociation(type, attr)) {
+            return getAssociationType(type, attr);
+        } else if (isAttribute(type, attr)) {
+            return getAttributeType(type, attr);
         }
+        return null;
+    }
+
+    private Type getAttributeType(final ClassType type, final String attr) {
+        final List<Attribute> attributes = type.getAttributes();
+        for (Attribute attribute : attributes) {
+            if (attribute.getName().equals(attr)) {
+                return getType(attribute.getType());
+            }
+        }
+        return null;
+    }
+
+    private Type getAssociationType(final ClassType type, final String attr) {
+        final List<AssociationEnd> associationEnds = getAssociationEnds(type.getId());
+        for (final AssociationEnd end : associationEnds) {
+            if (end.getName().equals(attr)) {
+                return getType(end.getType());
+            }
+        }
+        return null;
     }
 }
