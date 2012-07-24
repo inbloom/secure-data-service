@@ -21,6 +21,10 @@ ingestion_destination_data_store: "../ingestion/ingestion-service/target/ingesti
 ingestion_service_url: "http://local.slidev.org:8000/ingestion-service"
 ingestion_healthcheck_suffix: "/HealthCheck"
 
+sif_db: "localhost"
+sif_database_name: "sli"
+sif_zis_address_trigger: "http://local.slidev.org:8087/mock-zis/trigger"
+
 DB_HOST: "localhost"
 api_database_name : "sli"
 
@@ -55,4 +59,4 @@ email_imap_registration_user_email: devldapuser@slidev.org
 email_imap_registration_pass: Y;Gtf@w{
 
 
-    
+
