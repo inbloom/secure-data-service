@@ -18,7 +18,6 @@
 package org.slc.sli.validation;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.slc.sli.domain.Entity;
 
