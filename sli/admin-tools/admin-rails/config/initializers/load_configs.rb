@@ -38,7 +38,7 @@ class MyTransitionActionConfig
     end
   end
 end
-ApprovalEngine.init(APP_LDAP_CLIENT, APP_EMAILER, MyTransitionActionConfig.new, APP_CONFIG["is_sandbox"],APP_CONFIG["auto_approve"])
+ApprovalEngine.init(APP_LDAP_CLIENT, APP_EMAILER, MyTransitionActionConfig.new, APP_CONFIG["is_sandbox"])
 
 # ruby-recaptcha vars
 RCC_PUB = APP_CONFIG['recaptcha_pub']
