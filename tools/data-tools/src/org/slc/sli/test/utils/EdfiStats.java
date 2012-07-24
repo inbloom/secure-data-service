@@ -46,7 +46,7 @@ public class EdfiStats {
 
         private char[] tagValue                           = new char[1000];
         private int tagValueLength                        = 0;
-        private Set<String> uniqueStudentSessions         = new HashSet<String>();
+        private Set<String> uniqueStudentSessions         = new HashSet<String>(10000);
         
         private String studentId                          = null;
         private String schoolId                           = null;
