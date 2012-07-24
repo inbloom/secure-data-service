@@ -18,46 +18,45 @@ var sli_collections = ["assessment","attendance","calendarDate","cohort","compet
 
 var sli_shards = ["kelvin", "constellation", "hood", "stargazer"]
 
-db.runCommand( { enablesharding : "sli" } );
+function preSplit(database_name, tenantId){
+    //make sure the database is sharded
+    db.runCommand( { enablesharding : database_name } );
 
-function preSplit(tenantId){
-    for (var i in sli_collections) {
-        var collection = "sli." + sli_collections[i];
+    var a_code = "a".charCodeAt(0)
+    var char_offset = Math.floor(26 / sli_shards.length)
 
-        //shard collection
+    for (var col_num in sli_collections) {
+        //calculate strings
+        var collection = database_name + "." + sli_collections[col_num];
+        var year = new Date().getFullYear()
+        var move_strings = []
+
+        //enable sharding on the collection
         db.runCommand({shardcollection:collection,
                        key:{"metaData.tenantId":1, "_id":1} });
 
-        //assume n = 4 shards
-        //split collection into n chunks
-        db.adminCommand({split:collection,
-                         middle:{"metaData.tenantId":tenantId, "_id":"2012f"}
-                        });
-        db.adminCommand({split:collection,
-                         middle:{"metaData.tenantId":tenantId, "_id":"2012m"}
-                        });
-        db.adminCommand({split:collection,
-                         middle:{"metaData.tenantId":tenantId, "_id":"2012r"}
-                        });
+        //calculate splits and add to the moves array
+        move_strings.push(year + "a")
+        for (var shard_num = 1; shard_num < sli_shards.length; shard_num++) {
+            var split_letter = String.fromCharCode(a_code + (char_offset * shard_num));
+            var split_string = year + split_letter;
+            move_strings.push(split_string)
 
-        //move the chunks to specific shards
-        db.adminCommand({moveChunk:collection,
-                         find:{"metaData.tenantId":tenantId, "_id":"2012a"},
-                         to:sli_shards[0]
-                        });
-        db.adminCommand({moveChunk:collection,
-                         find:{"metaData.tenantId":tenantId, "_id":"2012f"},
-                         to:sli_shards[1]
-                        });
-        db.adminCommand({moveChunk:collection,
-                         find:{"metaData.tenantId":tenantId, "_id":"2012m"},
-                         to:sli_shards[2]
-                        });
-        db.adminCommand({moveChunk:collection,
-                         find:{"metaData.tenantId":tenantId, "_id":"2012r"},
-                         to:sli_shards[3]
-                        });
+            //execute db command
+            db.adminCommand({split:collection,
+                             middle:{"metaData.tenantId":tenantId, "_id":split_string}
+                            });
+        }
+
+        //explicitly move chunks to each shard
+        for (i in move_strings) {
+            //execute db command
+            db.adminCommand({moveChunk:collection,
+                             find:{"metaData.tenantId":tenantId, "_id":move_strings[i]},
+                             to:sli_shards[i]
+                            });
+        }
     }
 }
 
-preSplit("MIDGAR")
+preSplit("sli", "Midgar")
