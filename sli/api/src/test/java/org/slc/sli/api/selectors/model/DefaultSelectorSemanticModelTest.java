@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -44,9 +44,9 @@ public class DefaultSelectorSemanticModelTest {
 
     @Test
     public void testSemanticParser() {
-        final ClassType type = provider.getType("Student");
+        final Type type = provider.getClassType("Student");
 
-        Map<ClassType, Object> selectorsWithType = defaultSelectorSemanticModel.parse(generateSelectorObjectMap(), type);
+        Map<Type, Object> selectorsWithType = defaultSelectorSemanticModel.parse(generateSelectorObjectMap(), type);
 
         assertTrue("Should have type", selectorsWithType.containsKey(type));
         assertTrue("Should be a list", selectorsWithType.get(type) instanceof List);

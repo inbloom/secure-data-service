@@ -23,21 +23,21 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
     private ModelProvider modelProvider;
 
     @Override
-    public Map<ClassType, Object> parse(Map<String, Object> selectors, ClassType type) {
-        Map<ClassType, Object> selectorsWithType = new HashMap<ClassType, Object>();
+    public Map<Type, Object> parse(Map<String, Object> selectors, Type type) {
+        Map<Type, Object> selectorsWithType = new HashMap<Type, Object>();
         parse(selectors, type, selectorsWithType);
         return selectorsWithType;
     }
 
-    private void parse(Map<String, Object> selectors, ClassType type, Map<ClassType, Object> selectorsWithType) {
+    private void parse(Map<String, Object> selectors, Type type, Map<Type, Object> selectorsWithType) {
         for (Map.Entry<String, Object> entry : selectors.entrySet()) {
             Object value = entry.getValue();
 
             if (Map.class.isInstance(value)) {
-                Type newType = modelProvider.getType(type, entry.getKey());
+                Type newType = modelProvider.getType((ClassType)type, entry.getKey());
 
                 if (newType != null && newType.isClassType()) {
-                    Map<ClassType, Object> newMap = new HashMap<ClassType, Object>();
+                    Map<Type, Object> newMap = new HashMap<Type, Object>();
                     parse((Map<String, Object>) value, (ClassType) newType, newMap);
 
                     if (selectorsWithType.containsKey(type)) {
@@ -54,7 +54,7 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
             } else {
 
                 if (modelProvider.isAssociation(type, entry.getKey())) {
-                    Type r = modelProvider.getType(type, entry.getKey());
+                    Type r = modelProvider.getType((ClassType)type, entry.getKey());
                     if (r.isClassType()) type = (ClassType) r;
                 }
 

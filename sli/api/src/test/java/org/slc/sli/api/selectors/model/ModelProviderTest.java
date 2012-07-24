@@ -69,7 +69,7 @@ public class ModelProviderTest {
         @SuppressWarnings("unchecked")
         final Map<String, ClassType> mockClassTypes = mock(Map.class);
         when(mockIndex.getClassTypes()).thenReturn(mockClassTypes);
-        provider.getType("test-name");
+        provider.getClassType("test-name");
         verify(mockIndex).getClassTypes();
         verify(mockClassTypes).get("test-name");
     }
@@ -77,7 +77,7 @@ public class ModelProviderTest {
     @Test
     public void testIsAttribute() {
         provider = new ModelProvider(TEST_XMI_LOC);
-        final ClassType student = provider.getType("Student");
+        final Type student = provider.getClassType("Student");
         assertTrue(provider.isAttribute(student, "name"));
         assertTrue(!provider.isAttribute(student, "sectionAssociations"));
     }
@@ -85,7 +85,7 @@ public class ModelProviderTest {
     @Test
     public void testIsAssociation() {
         provider = new ModelProvider(TEST_XMI_LOC);
-        final ClassType student = provider.getType("Student");
+        final Type student = provider.getClassType("Student");
         assertTrue(provider.isAssociation(student, "sectionAssociations"));
         assertTrue(!provider.isAssociation(student, "name"));
     }
@@ -93,7 +93,7 @@ public class ModelProviderTest {
     @Test
     public void testGetType() {
         provider = new ModelProvider(TEST_XMI_LOC);
-        final ClassType student = provider.getType("Student");
+        final ClassType student = provider.getClassType("Student");
 
         final Type name = provider.getType(student, "name");
         assertNotNull(name);

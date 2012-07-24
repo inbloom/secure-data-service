@@ -56,13 +56,15 @@ public final class ModelProvider {
         return modelIndex.getType(id);
     }
 
-    public ClassType getType(final String typeName) {
+    public ClassType getClassType(final String typeName) {
         return modelIndex.getClassTypes().get(typeName);
     }
 
-    public boolean isAttribute(final ClassType type, final String attributeName) {
-        final List<Attribute> attributes = type.getAttributes();
-        for (Attribute attribute : attributes) {
+    public boolean isAttribute(final Type type, final String attributeName) {
+        if (!type.isClassType()) return false;
+
+        final List<Attribute> attributes = ((ClassType)type).getAttributes();
+        for (final Attribute attribute : attributes) {
             if (attribute.getName().equals(attributeName)) {
                 return true;
             }
@@ -70,9 +72,10 @@ public final class ModelProvider {
         return false;
     }
 
-    public boolean isAssociation(final ClassType type, final String attribute) {
-        final List<AssociationEnd> associationEnds = getAssociationEnds(type.getId());
+    public boolean isAssociation(final Type type, final String attribute) {
+        if (!type.isClassType()) return false;
 
+        final List<AssociationEnd> associationEnds = getAssociationEnds(type.getId());
         for (final AssociationEnd end : associationEnds) {
             if (end.getName().equals(attribute)) {
                 return true;
@@ -91,8 +94,8 @@ public final class ModelProvider {
     }
 
     private Type getAttributeType(final ClassType type, final String attr) {
-        final List<Attribute> attributes = type.getAttributes();
-        for (Attribute attribute : attributes) {
+        final List<Attribute> attributes = ((ClassType)type).getAttributes();
+        for (final Attribute attribute : attributes) {
             if (attribute.getName().equals(attr)) {
                 return getType(attribute.getType());
             }
