@@ -10,7 +10,11 @@ if [ -z $2 ]; then
 else
   num_shards=$2
 fi
-
+if [ -z $3 ]; then
+  shard_hosts=1
+else
+  shard_hosts=$3
+fi
 
 sh $SLI_HOME/config/scripts/sharding/kill-shard.sh
 echo Shards killed.
@@ -18,7 +22,7 @@ echo Shards killed.
 sh $SLI_HOME/config/scripts/sharding/kill-mongo.sh 27011
 echo Mongo killed.
 
-sh $SLI_HOME/config/scripts/sharding/start-shard.sh $mongos_port $num_shards
+sh $SLI_HOME/config/scripts/sharding/start-shard.sh $mongos_port $num_shards $shard_hosts
 echo Shards started.
 
 sh $SLI_HOME/config/scripts/sharding/start-mongo.sh 27011
