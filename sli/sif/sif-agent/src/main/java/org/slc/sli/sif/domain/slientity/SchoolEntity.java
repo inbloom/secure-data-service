@@ -25,8 +25,8 @@ import org.codehaus.jackson.JsonNode;
  * An SLI Entity corresponding to a school defined in SLI schema.
  * Each SLI Entity can be converted to a JSON Node ready for SLI operations.
  *
- * Note that school fields defined in SLI schema have no counterparts in SIF SchoolInfo.
- * Those fields have no get/setters defined here.
+ * Note that some school fields defined in SLI schema have no counterparts in SIF SchoolInfo,
+ * and those fields have no get/setters defined here.
  *
  * @author slee
  *
