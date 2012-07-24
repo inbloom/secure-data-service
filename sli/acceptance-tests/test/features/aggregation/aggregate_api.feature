@@ -11,6 +11,8 @@ Background:
     And I get a link to "getAggregates"
     When I navigate to that link 
     Then I see the highest ever test score is <SCORE>
+    When I navigate to GET "/v1/students/<ENTITY_ID>?includeAggregates=true"
+    Then I see the embedded highest ever test score is <SCORE>
 
                 Examples:
                         | ENTITY_ID                                   | SCORE  |                        
