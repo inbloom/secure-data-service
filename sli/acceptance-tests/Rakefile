@@ -25,7 +25,7 @@ CERTAIN_TENANTS = ENV['CERTAIN_TENANTS'] ? true : false
 
 RUN_STAMPER = ENV['RUN_STAMPER'] ? true : false
 
-TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "Zork", "SLI", "T1", "T2", "T3", "mreynolds"]
+TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "Zork", "SLI", "T1", "T2", "T3", "mreynolds", "chaos@mokey.org", "fakedev@zork.net"]
 
 IS_WINDOWS = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
 
