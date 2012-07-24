@@ -41,6 +41,7 @@ import javax.ws.rs.core.UriInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
@@ -85,9 +86,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     @QueryParam(ParameterConstants.INCLUDE_CUSTOM)
     @DefaultValue(ParameterConstants.DEFAULT_INCLUDE_CUSTOM)
     protected String includeCustomEntityStr;
-
-    /* Critera you can override in sublcass */
-    protected NeutralCriteria extraCriteria;
 
     /* The maximum number of values allowed in a comma separated string */
     public static final int MAX_MULTIPLE_UUIDS = 100;
@@ -617,22 +615,14 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 List<EntityBody> results = new ArrayList<EntityBody>();
 
                 Iterable<EntityBody> entityBodies = null;
-                NeutralQuery query = new ApiQuery(uriInfo);
-                query = addTypeCriteria(entityDef, query);
-                if (extraCriteria != null) {
-                    query.addCriteria(extraCriteria);
-                }
+                final NeutralQuery query = new ApiQuery(uriInfo);
+                addTypeCriteria(entityDef, query);
+                addAdditionalCritera(query);
                 if (shouldReadAll()) {
                     entityBodies = SecurityUtil.sudoRun(new SecurityTask<Iterable<EntityBody>>() {
 
                         @Override
                         public Iterable<EntityBody> execute() {
-                            NeutralQuery query = new ApiQuery(uriInfo);
-                            query = addTypeCriteria(entityDef, query);
-                            if (extraCriteria != null) {
-                                query.addCriteria(extraCriteria);
-                            }
-                            // TODO Auto-generated method stub
                             return entityDef.getService().list(query);
                         }
                     });
@@ -652,8 +642,14 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), results)),
                         pagingHeaderTotalCount, uriInfo).build();
             }
+
         });
     }
+    
+    protected void addAdditionalCritera(NeutralQuery query) {
+        
+    }
+    
 
     protected boolean shouldReadAll() {
         return false;
