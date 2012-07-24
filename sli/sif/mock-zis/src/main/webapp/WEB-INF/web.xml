@@ -3,18 +3,27 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>MockZis Web Application</display-name>
-  
-  <servlet>
-        <servlet-name>MockZisServlet</servlet-name>
-        <servlet-class>
-            zis.MockZisServlet
-        </servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>MockZisServlet</servlet-name>
-        <url-pattern>/zis</url-pattern>
-    </servlet-mapping>
-  
+	<display-name>MockZis Web Application</display-name>
+
+	<listener>
+		<listener-class>
+			org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+
+	<servlet>
+		<servlet-name>MockZisRequestHandler</servlet-name>
+		<display-name>Mock ZIS</display-name>
+		<!-- <servlet-class> org.springframework.web.context.support.HttpRequestHandlerServlet 
+			</servlet-class> -->
+		<servlet-class>
+			org.springframework.web.context.support.HttpRequestHandlerServlet
+		</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>MockZisRequestHandler</servlet-name>
+		<url-pattern>/zis</url-pattern>
+	</servlet-mapping>
+
 </web-app>

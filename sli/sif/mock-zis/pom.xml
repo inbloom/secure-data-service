@@ -3,29 +3,23 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.slc.sli.sif</groupId>
+	<parent>
+		<groupId>org.slc.sli.sif</groupId>
+		<artifactId>sif</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
 
 	<artifactId>mock-zis</artifactId>
 
 	<packaging>war</packaging>
 
-	<version>0.0.1-SNAPSHOT</version>
-
-	<name>mock-zis Maven Webapp</name>
+	<name>Mock-Zis</name>
 
 	<dependencies>
 
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
 		</dependency>
 
 		<dependency>
@@ -34,10 +28,54 @@
 			<version>1.3.2</version>
 		</dependency>
 
+		<!-- Spring Context dependency -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+
+		<!-- Spring Security Web dependency -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+		</dependency>
+
+		<!-- Spring Beans dependency -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+		</dependency>
+
+		<!-- Spring Test dependency -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>openadk</groupId>
+			<artifactId>openadk-library</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
 		<finalName>mock-zis</finalName>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 
 		<plugins>
 			<plugin>
@@ -53,10 +91,8 @@
 						</connector>
 					</connectors>
 				</configuration>
-
 			</plugin>
 		</plugins>
-
 	</build>
 
 </project>
