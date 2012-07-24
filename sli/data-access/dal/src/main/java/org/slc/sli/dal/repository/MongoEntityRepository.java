@@ -17,9 +17,9 @@
 
 package org.slc.sli.dal.repository;
 
-import java.util.Map;
-import java.util.HashMap;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -115,7 +115,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     protected Entity getEncryptedRecord(Entity entity) {
         MongoEntity encryptedEntity = new MongoEntity(entity.getType(), entity.getEntityId(), entity.getBody(),
-                entity.getMetaData());
+                entity.getMetaData(), entity.getAggregates());
         encryptedEntity.encrypt(encrypt);
         return encryptedEntity;
     }

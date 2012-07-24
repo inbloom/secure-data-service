@@ -1,9 +1,10 @@
 package org.slc.sli.api.selectors.model;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -12,10 +13,10 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -31,21 +32,24 @@ import static org.junit.Assert.assertTrue;
 public class DefaultSelectorSemanticModelTest {
 
     @Autowired
-    DefaultSelectorSemanticModel defaultSelectorSemanticModel;
+    private DefaultSelectorSemanticModel defaultSelectorSemanticModel;
+    private ModelProvider provider;
+
+    final static String TEST_XMI_LOC = "/sliModel/test_SLI.xmi";
+
+    @Before
+    public void setup() {
+        provider = new ModelProvider(TEST_XMI_LOC);
+    }
 
     @Test
     public void testSemanticParser() {
-        ClassType type = defaultSelectorSemanticModel.getTypes().get("Student");
+        final Type type = provider.getClassType("Student");
+        final SemanticSelector selector = defaultSelectorSemanticModel.parse(generateSelectorObjectMap(), type);
 
-        Map<ClassType, Object> selectorsWithType = defaultSelectorSemanticModel.parse(generateSelectorObjectMap(), type);
-
-        assertTrue("Should have type", selectorsWithType.containsKey(type));
-        assertTrue("Should be a list", selectorsWithType.get(type) instanceof List);
-        assertEquals("Should have 3 elements", ((List<Object>) selectorsWithType.get(type)).size(), 3);
-
-        for (Map.Entry<ClassType, Object> e: selectorsWithType.entrySet())  {
-            System.out.println(e.getKey().getName() + " : " + e.getValue());
-        }
+        assertTrue("Should contain base type", selector.containsKey(type));
+        assertNotNull("Should have a list of attributes", selector.get(type));
+        assertEquals(3, selector.get(type).size());
     }
 
     public Map<String, Object> generateSelectorObjectMap() {
@@ -66,5 +70,4 @@ public class DefaultSelectorSemanticModelTest {
 
         return studentsAttrs;
     }
-
 }
