@@ -26,7 +26,6 @@ import com.mongodb.DBCollection;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +47,7 @@ public class MongoTrackingAspect {
     private ConcurrentMap<String, Pair<AtomicLong, AtomicLong>> stats = new ConcurrentHashMap<String, Pair<AtomicLong, AtomicLong>>();
     private static final long SLOW_QUERY_THRESHOLD = 50;  // ms
 
-    @Around("call(* org.springframework.data.mongodb.core.MongoTemplate.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test)")
+    //@Around("call(* org.springframework.data.mongodb.core.MongoTemplate.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test)")
     public Object track(ProceedingJoinPoint pjp) throws Throwable {
 
         MongoTemplate mt = (MongoTemplate) pjp.getTarget();
@@ -81,7 +80,7 @@ public class MongoTrackingAspect {
         return result;
     }
 
-    @Around("call(* com.mongodb.DBCollection.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test)")
+    //@Around("call(* com.mongodb.DBCollection.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test)")
     public Object trackDBCollection(ProceedingJoinPoint pjp) throws Throwable {
         long start = System.currentTimeMillis();
         Object result = pjp.proceed();

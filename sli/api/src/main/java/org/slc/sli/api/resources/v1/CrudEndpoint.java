@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.resources.v1;
 
 import javax.ws.rs.core.HttpHeaders;
@@ -22,18 +21,19 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.aggregation.AggregateListingResource;
 
 /**
  * The operations a CRUD endpoint should be able to perform (Create, Read, Update, Delete)
- * 
+ *
  * @author kmyers
- * 
+ *
  */
 public interface CrudEndpoint {
-    
+
     /**
      * Reads all entities from a specific location or collection.
-     * 
+     *
      * @param resourceName
      *            where the entity should be located
      * @param headers
@@ -43,10 +43,10 @@ public interface CrudEndpoint {
      * @return requested information or error status
      */
     public Response readAll(String resourceName, HttpHeaders headers, UriInfo uriInfo);
-    
+
     /**
      * Reads one or more entities from a specific location or collection.
-     * 
+     *
      * @param resourceName
      *            where the entity should be located
      * @param key
@@ -60,11 +60,11 @@ public interface CrudEndpoint {
      * @return requested information or error status
      */
     public Response read(String resourceName, String key, String value, HttpHeaders headers, UriInfo uriInfo);
-    
+
     /**
      * Searches "resourceName" for entries where "key" equals "value", then for each result
      * uses "idkey" field's value to query "resolutionResourceName" against the ID field.
-     * 
+     *
      * @param resourceName
      *            where the entity should be located
      * @param key
@@ -83,10 +83,10 @@ public interface CrudEndpoint {
      */
     public Response read(String resourceName, String key, String value, String idKey, String resolutionResourceName,
             HttpHeaders headers, UriInfo uriInfo);
-    
+
     /**
      * Reads one or more entities from a specific location or collection.
-     * 
+     *
      * @param resourceName
      *            where the entity should be located
      * @param idList
@@ -98,10 +98,10 @@ public interface CrudEndpoint {
      * @return requested information or error status
      */
     public Response read(String resourceName, String idList, HttpHeaders headers, UriInfo uriInfo);
-    
+
     /**
      * Creates a new entity in a specific location or collection.
-     * 
+     *
      * @param resourceName
      *            where the entity should be located
      * @param newEntityBody
@@ -113,10 +113,10 @@ public interface CrudEndpoint {
      * @return resulting status from request
      */
     public Response create(String resourceName, EntityBody newEntityBody, HttpHeaders headers, UriInfo uriInfo);
-    
+
     /**
      * Updates a given entity in a specific location or collection.
-     * 
+     *
      * @param resourceName
      *            where the entity should be located
      * @param id
@@ -131,10 +131,10 @@ public interface CrudEndpoint {
      */
     public Response update(String resourceName, String id, EntityBody newEntityBody, HttpHeaders headers,
             UriInfo uriInfo);
-    
+
     /**
      * Deletes a given entity from a specific location or collection.
-     * 
+     *
      * @param resourceName
      *            where the entity should be located
      * @param id
@@ -146,21 +146,21 @@ public interface CrudEndpoint {
      * @return resulting status from request
      */
     public Response delete(String resourceName, String id, HttpHeaders headers, UriInfo uriInfo);
-    
+
     /**
      * Returns a sub resource responsible for handling custom entity requests.
-     * 
+     *
      * @param id
      *            ID of object being deleted
      * @return a sub resource responsible for handling custom entity requests
      */
     public CustomEntityResource getCustomEntityResource(String id);
-    
+
     /**
      * Patches a given entity in a specific location or collection, which means that
      * less than the full entity body is passed in the request and only passed keys are
      * updated and the rest of the entity remains the same.
-     * 
+     *
      * @param resourceName
      *            where the entity should be located
      * @param id
@@ -173,6 +173,14 @@ public interface CrudEndpoint {
      *            URI information including path and query parameters
      * @return resulting status from request
      */
-    public Response patch(String resourceName, String id, EntityBody newEntityBody, HttpHeaders headers,
-            UriInfo uriInfo);
+    public Response patch(String resourceName, String id, EntityBody newEntityBody, HttpHeaders headers, UriInfo uriInfo);
+
+    /**
+     * Get aggregates and derived values for the given entity.
+     *
+     * @param id
+     *            the id of the entity
+     * @return the aggregated and derived values
+     */
+    public AggregateListingResource getAggregates(String id);
 }

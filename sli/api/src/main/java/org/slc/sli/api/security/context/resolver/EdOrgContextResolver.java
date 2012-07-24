@@ -44,15 +44,10 @@ public class EdOrgContextResolver implements EntityContextResolver {
     private AssociativeContextHelper helper;
 
     @Autowired
-    private EdOrgToChildEdOrgNodeFilter edOrgToChildEdOrgNodeFilter;
-
-    @Autowired
     private StaffEdOrgEdOrgIDNodeFilter staffEdOrgEdOrgIDNodeFilter;
 
     @Autowired
     private ResolveCreatorsEntitiesHelper creatorResolverHelper;
-
-    private String toEntity;
 
     @Autowired
     private SecurityCachingStrategy securityCachingStrategy;
@@ -69,9 +64,10 @@ public class EdOrgContextResolver implements EntityContextResolver {
     public List<String> findAccessible(Entity principal) {
         
         if (securityCachingStrategy.contains(EntityNames.STAFF)) {
+            //debug("USING EXISTING CACHE " + securityCachingStrategy);
             List<String> cachedIds = new ArrayList<String>();
             cachedIds.addAll(securityCachingStrategy.retrieve(EntityNames.STAFF));
-
+            //debug(cachedIds.toString());
             return cachedIds;
         }
 
@@ -79,8 +75,7 @@ public class EdOrgContextResolver implements EntityContextResolver {
         List<String> ids = helper.findEntitiesContainingReference(EntityNames.STAFF_ED_ORG_ASSOCIATION, "staffReference",
                 "educationOrganizationReference", Arrays.asList(principal.getEntityId()),
                 Arrays.asList((NodeFilter) staffEdOrgEdOrgIDNodeFilter));
-
-        ids.addAll(edOrgToChildEdOrgNodeFilter.addAssociatedIds(ids));
+        
         //get the created edorgs
         ids.addAll(creatorResolverHelper.getAllowedForCreator(EntityNames.EDUCATION_ORGANIZATION));
 

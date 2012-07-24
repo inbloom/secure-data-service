@@ -116,6 +116,7 @@ Given /^there is a "([^"]*)" production account request for vendor "([^"]*)"$/ d
 end
 
 Then /^I see one account with name "([^"]*)"$/ do |user_name|
+  puts "And i am looking to find the element with id username.", user_name
   user=@driver.find_element(:id,"username."+user_name)
   assert(user.text==user_name,"didnt find the account with name #{user_name}")
   @user_name=user_name
@@ -164,6 +165,7 @@ Given /^there is an approved sandbox account  for vendor "([^"]*)"$/ do |vendor|
        :gidnumber => "500",
        :emailAddress => @email
    }
+   puts "And my email is ", @email
   @ldap.create_user(user_info)
   sleep(1)
 end

@@ -34,6 +34,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.context.traversal.cache.SecurityCachingStrategy;
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 
@@ -76,7 +77,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
         if ("true".equals(apiPerformanceTracking)) {
             logApiDataToDb(request, response);
         }
-
+        TenantContext.setTenantId(null);
         printElapsed(request);
         expireCache();
 

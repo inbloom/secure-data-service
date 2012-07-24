@@ -1,2 +1,0 @@
-@tenantId=IL
-edfi-xml,StudentDiscipline,DisciplineIncident2.xml,9e505063344abe19b56f9894e6b8f331

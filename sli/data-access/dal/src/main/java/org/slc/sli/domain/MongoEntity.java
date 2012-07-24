@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.domain;
 
 import java.io.Serializable;
@@ -43,7 +42,7 @@ public class MongoEntity implements Entity, Serializable {
 
     private static final long serialVersionUID = -3661562228274704762L;
 
-    private Logger log = LoggerFactory.getLogger(MongoEntity.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MongoEntity.class);
 
     private final String type;
 
@@ -52,6 +51,7 @@ public class MongoEntity implements Entity, Serializable {
     private String padding;
     private Map<String, Object> body;
     private final Map<String, Object> metaData;
+    private final AggregateData aggregationData;
 
     /**
      * Default constructor for the MongoEntity class.
@@ -62,7 +62,7 @@ public class MongoEntity implements Entity, Serializable {
      *            Body of Mongo Entity.
      */
     public MongoEntity(String type, Map<String, Object> body) {
-        this(type, null, body, null);
+        this(type, null, body, null, new AggregateData());
     }
 
     /**
@@ -78,10 +78,20 @@ public class MongoEntity implements Entity, Serializable {
      *            Metadata of Mongo Entity.
      */
     public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData) {
-        this(type, id, body, metaData, 0);
+        this(type, id, body, metaData, new AggregateData(), 0);
+    }
+
+    public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
+            AggregateData aggregateData) {
+        this(type, id, body, metaData, aggregateData, 0);
     }
 
     public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData, int paddingLength) {
+        this(type, id, body, metaData, null, paddingLength);
+    }
+
+    public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
+            AggregateData aggregateData, int paddingLength) {
         this.type = type;
         this.entityId = id;
 
@@ -101,6 +111,8 @@ public class MongoEntity implements Entity, Serializable {
         } else {
             this.metaData = metaData;
         }
+
+        this.aggregationData = aggregateData == null ? new AggregateData() : aggregateData;
     }
 
     @Override
@@ -159,7 +171,7 @@ public class MongoEntity implements Entity, Serializable {
             if (uuidGeneratorStrategy != null) {
                 uid = uuidGeneratorStrategy.randomUUID();
             } else {
-                log.warn("Generating Type 4 UUID by default because the UUID generator strategy is null.  This will cause issues if this value is being used in a Mongo indexed field (like _id)");
+                LOG.warn("Generating Type 4 UUID by default because the UUID generator strategy is null.  This will cause issues if this value is being used in a Mongo indexed field (like _id)");
                 uid = UUID.randomUUID().toString();
             }
             entityId = uid.toString();
@@ -196,8 +208,9 @@ public class MongoEntity implements Entity, Serializable {
 
         Map<String, Object> metaData = (Map<String, Object>) dbObj.get("metaData");
         Map<String, Object> body = (Map<String, Object>) dbObj.get("body");
+        Map<String, Map<String, Map<String, Map<String, Object>>>> aggs = (Map<String, Map<String, Map<String, Map<String, Object>>>>) dbObj.get("aggregations");
 
-        return new MongoEntity(type, id, body, metaData);
+        return new MongoEntity(type, id, body, metaData, new AggregateData(aggs));
     }
 
     /**
@@ -217,4 +230,10 @@ public class MongoEntity implements Entity, Serializable {
     public Map<String, Object> getMetaData() {
         return metaData;
     }
+
+    @Override
+    public AggregateData getAggregates() {
+        return aggregationData;
+    }
+
 }

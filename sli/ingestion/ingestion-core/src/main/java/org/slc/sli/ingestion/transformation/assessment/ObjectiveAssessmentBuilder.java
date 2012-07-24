@@ -167,7 +167,7 @@ public class ObjectiveAssessmentBuilder {
                         }
                     }
                     objectiveAssessmentToReturn.put("objectiveAssessments", subObjectives);
-                    LOG.info("Found {} sub-objective assessments for objective assessment: {}", subObjectives.size(),
+                    LOG.debug("Found {} sub-objective assessments for objective assessment: {}", subObjectives.size(),
                             objectiveAssessmentRef);
                 } else {
                     LOG.debug("Objective assessment: {} has no sub-objectives (field is absent).",

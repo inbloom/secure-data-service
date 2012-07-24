@@ -19,7 +19,7 @@ limitations under the License.
 
 class App < SessionResource
   self.format = ActiveResource::Formats::JsonFormat
-  validates_presence_of [:description, :name, :vendor, :image_url, :administration_url], :message => "must not be blank"
+  validates_presence_of [:description, :name, :vendor], :message => "must not be blank"
   validates_format_of :version, :with => /^[A-Za-z0-9\.]{1,25}$/, :message => "must contain only alphanumeric characters and periods and be less than 25 characters long"
   validates_each :administration_url, :image_url do |record, attr, value|
     logger.debug {"Validating #{attr} => #{value}"}
@@ -33,12 +33,6 @@ class App < SessionResource
     not installed
   end
 
-  def self.all_but_admin
-    apps = App.all
-    apps.delete_if { |app| app.respond_to? :endpoints }
-    apps
-  end
-  
   def pending?
     self.registration.status == "PENDING" ? true : false
   end

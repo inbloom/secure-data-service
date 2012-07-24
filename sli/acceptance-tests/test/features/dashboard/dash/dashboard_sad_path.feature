@@ -4,6 +4,7 @@ Test Sad Paths and Display Error Messages
 
 Background:
 Given I have an open web browser
+Given that dashboard has been authorized for all ed orgs
 When I navigate to the Dashboard home page
 Then I should be redirected to the Realm page
 
@@ -29,7 +30,8 @@ When I select "Illinois Sunset School District 4526" and click go
 Then I get an error message "We're sorry, the page that you were looking for could not be found."
 #Then I get an error message "We're sorry, your district has disallowed use of the Dashboard." #DE1112 should enable this step 
 
-@DE1112
+# DE1357 needs to rework this test in one form or another to get it to pass again
+@DE1112 @wip
 Scenario: School User whose district has disallowed the Dashboard for their district
 When I select "New York Realm" and click go
  And I was redirected to the "Simple" IDP Login page

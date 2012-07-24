@@ -27,11 +27,6 @@
   </bean>
 
 
-  <!-- ActiveMQ -->
-<!--   <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
-    <property name="brokerURL" value="${sli.ingestion.queue.brokerUrl}" />
-  </bean> -->
-
   <!-- Main application context, contains all other contexts in /spring -->
   <import resource="activemq-context.xml" />
   <import resource="smooks-context.xml" />
@@ -83,7 +78,6 @@
     <property name="neutralRecordReadConverter" ref="neutralRecordReadConverter" />
   </bean>
 
-  <bean id="WorkNoteAggregator" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteAggregator" />
   <bean id="WorkNoteSplitter" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteSplitter" />
   <bean id="stagedEntityTypeDAO" class="org.slc.sli.ingestion.routes.orchestra.InMemoryStagedEntityTypeDAO" />
 
