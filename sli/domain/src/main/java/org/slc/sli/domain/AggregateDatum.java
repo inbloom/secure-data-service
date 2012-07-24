@@ -9,19 +9,19 @@ import java.io.Serializable;
  *
  */
 public class AggregateDatum implements Serializable {
-    private static final long serialVersionUID = -7819702144590094466L;
+    private static final long serialVersionUID = -2950228193252067690L;
     private final String type;
     private final String window;
     private final String name;
-    private final String methodology;
+    private final String method;
     private final Object value;
 
-    public AggregateDatum(String type, String window, String name, String methodology, Object value) {
+    public AggregateDatum(String type, String window, String name, String method, Object value) {
         super();
         this.type = type;
         this.window = window;
         this.name = name;
-        this.methodology = methodology;
+        this.method = method;
         this.value = value;
     }
 
@@ -37,8 +37,8 @@ public class AggregateDatum implements Serializable {
         return name;
     }
 
-    public String getMethodology() {
-        return methodology;
+    public String getMethod() {
+        return method;
     }
 
     public Object getValue() {
@@ -48,14 +48,14 @@ public class AggregateDatum implements Serializable {
     @Override
     public String toString() {
         return "AggregateDatum [type=" + type + ", window=" + window + ", name=" + name + ", methodology="
-                + methodology + ", value=" + value + "]";
+                + method + ", value=" + value + "]";
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((methodology == null) ? 0 : methodology.hashCode());
+        result = prime * result + ((method == null) ? 0 : method.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         result = prime * result + ((type == null) ? 0 : type.hashCode());
         result = prime * result + ((value == null) ? 0 : value.hashCode());
@@ -75,11 +75,11 @@ public class AggregateDatum implements Serializable {
             return false;
         }
         AggregateDatum other = (AggregateDatum) obj;
-        if (methodology == null) {
-            if (other.methodology != null) {
+        if (method == null) {
+            if (other.method != null) {
                 return false;
             }
-        } else if (!methodology.equals(other.methodology)) {
+        } else if (!method.equals(other.method)) {
             return false;
         }
         if (name == null) {
