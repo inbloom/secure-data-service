@@ -36,22 +36,23 @@ Then I will get an error message that "you don't have access to this page"
     |USER                 |PASSWORD                 |
     |sandboxdeveloper     |sandboxdeveloper1234     | 
     |sandboxingestionuser |sandboxingestionuser1234 |
- 
- @wip   
- @sandbox
+
+@wip 
+@sandbox
 Scenario Outline:  As a sandbox admin I am able to delete admin accounts in my tenancy on sandbox
+Given There is a sandbox user with "<USER_FULL_NAME>" and "<USER_ROLE>" in LDAP Server
 When I navigate to the sandbox user account management page
 Then I will be redirected to "Simple" login page
 When I submit the credentials "<USER>" "<PASSWORD>" for the "Simple" login page
 And I hit the sandbox user account management app list all users page
 Then I see a user with Full Name is "<USER_FULL_NAME>" in the table
-And the user "Role" is "<USER_ROLE>"
+#And the user "Role" is "<USER_ROLE>"
   
 When I click on "Delete" icon 
 Then I am asked to confirm the delete action
   
 When I confirm the delete action
-Then that user is removed from LDAP
+#Then that user is removed from LDAP
 And the user entry is removed from the table
    
     Examples:

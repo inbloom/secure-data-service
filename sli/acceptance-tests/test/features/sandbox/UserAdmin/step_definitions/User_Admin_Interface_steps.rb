@@ -70,6 +70,7 @@ Then /^I see a table with headings of "(.*?)" and "(.*?)" and "(.*?)" and "(.*?)
 end
 
 Then /^I see a user with Full Name is "(.*?)" in the table$/ do | fullName|
+ fullName = fullName.gsub("hostname",Socket.gethostname)
  fullName_element = @driver.find_element(:xpath,"//tr[td='#{fullName}']")
  assert(fullName_element!=nil,"can not find user with full name is #{fullName}")
   @userFullName = fullName
@@ -84,6 +85,68 @@ Then /^I will get an error message that "(.*?)"$/ do |message|
   assertText(message)
 end
 
+Given /^There is a sandbox user with "(.*?)" and "(.*?)" in LDAP Server$/ do |fullName, role|
+  @test_env = "sandbox"
+  firstName = fullName.split(" ")[0]
+  lastName = fullName.split(" ")[1].gsub("hostname",Socket.gethostname)
+  groups = Array.new
+  groups.push(role)
+  uid=firstName.downcase+"_"+lastName.downcase
+  new_user=build_user(uid,firstName,lastName,groups,"sandboxadministrator@slidev.org",nil)
+  
+  idpRealmLogin("sandboxoperator", nil)
+  sessionId = @sessionId
+  format = "application/json"
+  restHttpDelete("/users/#{new_user['uid']}", format, sessionId)
+  restHttpPost("/users", new_user.to_json, format, sessionId)
+  
+end
+
+When /^I click on "(.*?)" icon$/ do |buttonName|
+  @driver.find_element(:xpath, "//input[@value='#{buttonName}']").click
+end
+
+Then /^I am asked to confirm the delete action$/ do
+   #do nothing
+end
+
+When /^I confirm the delete action$/ do
+  begin
+    @driver.switch_to.alert.accept
+  rescue
+  end
+end
+
+Then /^that user is removed from LDAP$/ do
+ if @test_env == "sandbox"
+   idpRealmLogin("sandboxoperator", nil)
+  else
+  idpRealmLogin("operator", nil)
+  end
+  sessionId = @sessionId
+  format = "application/json"
+  restHttpGet("/users",format,sessionId)
+  notFound = true
+  result = JSON.parse(@res.body)
+  result.each do |user|
+  if user["fullName"] == @userFullName
+  notFound = false 
+  end
+  puts user["fullName"]
+  end
+  assert(notFound,"the user #{@userFullName} is not removed from LDAP") 
+end
+
+Then /^the user entry is removed from the table$/ do
+element =nil
+  begin
+   element = @driver.find_element(:xpath,"//tr[td='#{@userFullName}']")
+  rescue
+  end
+  assert(element==nil,"the user #{@userFullName} is not removed from the table")
+end
+
+
 def check_heading(heading_name)
 heading_element=@driver.find_element(:xpath, "//tr[th='#{heading_name}']")
 assert(heading_element!=nil,"can not find heading name #{heading_name}")
@@ -94,6 +157,30 @@ def assertText(text)
   body = @driver.find_element(:tag_name, "body")
   assert(body.text.include?(text), "Cannot find the text \"#{text}\"")
 end
+
+def build_user(uid,firstName, lastName,groups,tenant,edorg)
+new_user = {
+      "uid" => uid,
+      "groups" => groups,
+      "firstName" => firstName,
+      "lastName" => lastName,
+      "password" => "#{uid}1234",
+      "email" => "testuser@wgen.net",
+      "tenant" => tenant,
+      "edorg" => edorg,
+      "homeDir" => "/dev/null"
+  }
+  append_hostname(new_user)
+  
+  end
+  
+  def append_hostname(user )
+  oldUid = user["uid"]
+  newUid = oldUid+"_"+Socket.gethostname
+  user.merge!({"uid" => newUid})
+  return user
+end
+
 
 
 
