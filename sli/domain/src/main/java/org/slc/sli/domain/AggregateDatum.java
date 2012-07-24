@@ -1,12 +1,15 @@
 package org.slc.sli.domain;
 
+import java.io.Serializable;
+
 /**
  * A value in an aggregate
  *
  * @author nbrown
  *
  */
-public class AggregateDatum {
+public class AggregateDatum implements Serializable {
+    private static final long serialVersionUID = -7819702144590094466L;
     private final String type;
     private final String window;
     private final String name;

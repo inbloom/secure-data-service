@@ -132,6 +132,20 @@ def ensureBatchJobIndexes(db_connection)
   @collection.ensure_index([['jobId', 1], ['stageName', 1]])
   @collection.remove({ 'jobId' => " ", 'stageName' => " "  })
 
+  @collection = @db["transformationLatch"]
+  @collection.save({ '_id' => " " })
+  @collection.ensure_index([['syncStage', 1], ['jobId', 1], ['recordType' , 1]] , :unique => true)
+  @collection.remove({ '_id' => " " })
+
+  @collection = @db["persistenceLatch"]
+  @collection.save({ '_id' => " " })
+  @collection.ensure_index([['syncStage', 1], ['jobId', 1], ['entities' , 1]] , :unique => true)
+  @collection.remove({ '_id' => " " })
+
+  @collection = @db["stagedEntities"]
+  @collection.save({ '_id' => " " })
+  @collection.ensure_index([['jobId', 1]] , :unique => true)
+  @collection.remove({ '_id' => " " })
 end
 
 def initializeTenants()
@@ -1654,7 +1668,7 @@ def findField(object, field)
   end
   object
 end
-  
+
 Then /^the field "([^"]*)" is an array of size (\d+)$/ do |field, arrayCount|
   object = findField(@record, field)
   assert(object.length==Integer(arrayCount),"the field #{field}, #{object} is not an array of size #{arrayCount}")

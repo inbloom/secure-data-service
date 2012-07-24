@@ -7,16 +7,6 @@ task :onboardingTests => [:realmInit] do
   runTests("test/features/onboarding")
 end
 
-desc "Run Ondboarding / Provisioning acceptance tests"
-task :onboardingTests => [:provisioningTests] do
-    displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
-end
-
 desc "Run Sandbox Developer Provisioning acceptance tests"
 task :provisioningTests => [:importSandboxData, :realmInit] do
     runTests("test/features/sandbox/Provision/provisioning.feature")
