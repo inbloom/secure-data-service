@@ -75,10 +75,6 @@ public class ApplicationResource extends DefaultCrudEndpoint {
 
     @Autowired
     private EntityDefinitionStore store;
-
-    @Autowired
-    @Value("${sli.sandbox.autoRegisterApps}")
-    private boolean autoRegister;
     
     @Autowired
     @Value("${sli.sandbox.enabled}")
@@ -102,10 +98,6 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     
     //These fields can only be set during bootstrapping and can never be modified through the API
     private static final String[] PERMANENT_FIELDS = new String[] {"bootstrap", "authorized_for_all_edorgs", "allowed_for_all_edorgs", "admin_visible"};
-
-    public void setAutoRegister(boolean register) {
-        autoRegister = register;
-    }
 
     private boolean hasRight(Right required) {
         Collection<GrantedAuthority> rights = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
@@ -151,12 +143,8 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         newApp.put(CREATED_BY, principal.getExternalId());
 
         Map<String, Object> registration = new HashMap<String, Object>();
-        registration.put(STATUS, "PENDING");
-        if (autoRegister) {
-            registration.put(APPROVAL_DATE, System.currentTimeMillis());
-            registration.put(STATUS, "APPROVED");
-            registration.put(APPROVAL_DATE, System.currentTimeMillis());
-        }
+        registration.put(STATUS, "APPROVED");
+        registration.put(APPROVAL_DATE, System.currentTimeMillis());
         registration.put(REQUEST_DATE, System.currentTimeMillis());
         newApp.put(REGISTRATION, registration);
 
@@ -387,19 +375,19 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             }
 
 
-            if (autoRegister && app.containsKey(AUTHORIZED_ED_ORGS)) {
+            if (sandboxEnabled && app.containsKey(AUTHORIZED_ED_ORGS)) {
                 // Auto-approve whatever districts are selected.
                 List<String> edOrgs = (List) app.get(AUTHORIZED_ED_ORGS);
                 
                 //validate sandbox user isn't trying to authorize an edorg outside of their tenant
-                if (sandboxEnabled && !edOrgsBelongToTenant(edOrgs)) {
+                if (!edOrgsBelongToTenant(edOrgs)) {
                     EntityBody body = new EntityBody();
                     body.put("message", "Attempt to authorized edorg in sandbox outside of tenant.");
                     return Response.status(Status.BAD_REQUEST).entity(body).build();
                 }
 
                 service = store.lookupByResourceName(ApplicationAuthorizationResource.RESOURCE_NAME).getService();
-                iterateEdOrgs(uuid, edOrgs);
+                autoAuthorizeApp(uuid, edOrgs);
             }
         } else {
             EntityBody body = new EntityBody();
@@ -438,7 +426,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         return edOrgs.size() == edorgService.count(query);
     }
 
-    private void iterateEdOrgs(String uuid, List<String> edOrgIds) {
+    private void autoAuthorizeApp(String uuid, List<String> edOrgIds) {
         for (String edOrgId : edOrgIds) {
             NeutralQuery query = new NeutralQuery();
             query.addCriteria(new NeutralCriteria("authId", NeutralCriteria.OPERATOR_EQUAL, edOrgId));
