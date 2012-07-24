@@ -46,3 +46,6 @@ Scenario: Realm creation/editing should have validation
   And I should make the unique identifier not unique
   And I should click the "Save" button
   Then I should get 1 error
+  And I should make the display name not unique
+  And I should click the "Save" button
+  Then I should get 1 error
