@@ -12,11 +12,10 @@ else
   num_shards=$2
 fi
 if [ -z $3 ]; then
-  shard_hosts=1
+  num_per_shard=1
 else
-  shard_hosts=$3
+  num_per_shard=$3
 fi
-
 
 ulimit -n 10000
 
@@ -46,9 +45,11 @@ create_replicaSet() {
     local dbpath="$2"
     local rsname="$3"
 
-	mkdir -p $dbpath/data/$port/db
-    mongod --replSet $rsname --dbpath $dbpath/data/$port/db --port $port > $dbpath/logs/rs_$port.log &
+    mkdir -p $dbpath/$port/data/db
+    mongod --replSet $rsname --dbpath $dbpath/$port/data/db --port $port > $dbpath/logs/rs_$port.log &
     echo $! >> $dbpath/pids
+    
+    sleep 1s
     
     wait_for_mongo $port
 }
@@ -61,41 +62,44 @@ create_mongod() {
     mongod --shardsvr --dbpath $dbpath/data/$port/db --port $port > $dbpath/logs/mongod_$port.log &
     echo $! >> $dbpath/pids
     
+    sleep 1s
+    
     wait_for_mongo $port
 }
 
 create_shards() {
 	local i
     local port="$1"
-    local cnt="$2"
-    local shard=""
+    local hosts_per_shard="$2"
+    local rs_members="["
+    local shard="rs_$port/"
     
-    if [ $cnt -ne 1 ] ; then
-	    local rs_members="["
-	    shard="rs_$1/"
-	
-	    for ((i = 0; i < $cnt; i++))
-    	do
-			create_replicaSet $(($port + $i)) $M "rs_$1"
-			rs_members="$rs_members {\"_id\":$i, \"host\":\"localhost:$(($port + $i))\"}"
-			shard=$shard"localhost:$(($port + $i))"
-			if [ $i -lt $(($cnt - 1)) ] ; then
-				rs_members="$rs_members,"
-				shard="$shard,"
-			fi
-	    done
-
-	    rs_members="$rs_members ]";
-	    echo "Adding a replica set: $rs_members"
-    	mongo admin --port $1 --eval "'db.runCommand({\"replSetInitiate\" : {\"_id\" : \"rs_$1\", \"members\" : $rs_members }}); assert.eq( null, db.getLastError() );'"
-	else
-		create_mongod $port $M
+    if [ $hosts_per_shard -gt 1 ]; then
+        for ((i = 0; i < $hosts_per_shard; i++))
+        do
+		    create_replicaSet $(($port + $i)) $M "rs_$port"
+		    rs_members="$rs_members {\"_id\":$i, \"host\":\"localhost:$(($port + $i))\"}"
+		    shard=$shard"localhost:$(($port + $i))"
+		    if [ $i -ne $(($hosts_per_shard - 1)) ] ; then
+			    rs_members="$rs_members,"
+			    shard="$shard,"
+		    fi
+        done
+    
+        rs_members="$rs_members ]";
+    
+    	echo "Adding replica set: $rs_members"
+    	
+        mongo admin --port $port --eval "'db.runCommand({\"replSetInitiate\" : {\"_id\" : \"rs_$port\", \"members\" : $rs_members }}); assert.eq( null, db.getLastError() );'"
+    else
+    	create_mongod $port $M
 		shard="localhost:$port"
     fi
     
+    echo "Adding shard: $shard"
+    
     sleep 8s
     
-    echo "Adding shard: $shard"
 	mongo admin --port $mongos_port --eval "'db.runCommand({ addshard : \"$shard\" }); assert.eq( null, db.getLastError() );'"
 }
 
@@ -117,6 +121,7 @@ echo "mongos is running on port $mongos_port"
 echo "Starting up shard servers..."
 for ((i = 1; i <= $num_shards; i++))
 do
-    create_shards $((10000 + 100 * $i)) $shard_hosts
+    create_shards $((10000 + 100 * $i)) $num_per_shard
+    sleep 1s
 done
 
