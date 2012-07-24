@@ -184,6 +184,7 @@ db["attendance"].ensureIndex({"metaData.tenantId":1,"body.schoolId":1,"body.stud
 db["calendarDate"].ensureIndex({"metaData.tenantId":1,"body.date":1,"body.calendarEvent":1});
 db["cohort"].ensureIndex({"metaData.tenantId":1,"body.educationOrgId":1,"metaData.externalId":1});
 db["course"].ensureIndex({"metaData.tenantId":1,"metaData.externalId":1,"body.courseTitle":1,"body.schoolId":1});
+db["course"].ensureIndex({"metaData.tenantId":1,"body.courseCode.ID":1,"body.courseCode.identificationSystem":1});
 db["courseOffering"].ensureIndex({"metaData.tenantId":1,"body.sessionId":1,"body.localCourseCode":1});
 db["disciplineIncident"].ensureIndex({"metaData.tenantId":1,"body.incidentIdentifier":1,"body.schoolId":1});
 db["educationOrganization"].ensureIndex({"metaData.tenantId":1,"body.stateOrganizationId":1});
