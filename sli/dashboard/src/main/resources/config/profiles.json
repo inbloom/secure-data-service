@@ -1,9 +1,0 @@
-{
-  id : "profiles",
-  type : "PANEL",
-  name : "Profiles",
-  data :{
-    entity: "profiles",
-    cacheKey: "profiles"
-  }
-}

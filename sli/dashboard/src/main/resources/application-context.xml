@@ -81,11 +81,6 @@
         <property name="entityManager" ref="entityManager"/>
     </bean>
 
-    <bean id="dashboardBuilderManager" class="org.slc.sli.dashboard.manager.impl.DashboardBuilderManagerImpl">
-        <property name="apiClient" ref="apiClientRef"/>
-        <property name="configManager" ref="configManager"/>
-    </bean>
-
     <bean id="portalWSManager" class="org.slc.sli.dashboard.manager.impl.PortalWSManagerImpl">
         <property name="restClient" ref="restClient"/>
         <property name="portalHeaderUrl" value="${portal.header.url}" />

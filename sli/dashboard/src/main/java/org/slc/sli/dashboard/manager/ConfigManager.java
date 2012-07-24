@@ -55,15 +55,6 @@ public interface ConfigManager {
     public Collection<Config> getWidgetConfigs(String token, EdOrgKey userEdOrg);
 
     /**
-     * Get all available layout configs relevant for the user
-     *
-     * @param token - user token
-     * @param userEdOrg - user educational organization proxy
-     * @return collection of layout configs
-     */
-    public Collection<Config> getLayoutConfigs(String token);
-
-    /**
      * Get custom config for ed org
      *
      * @param token - user token
@@ -72,5 +63,7 @@ public interface ConfigManager {
      */
     public ConfigMap getCustomConfig(String token, EdOrgKey userEdOrg);
     void putCustomConfig(String token, EdOrgKey edOrgKey, ConfigMap configMap);
+
+    Collection<Config> getConfigsByAttribute(String token, EdOrgKey edOrgKey, String attr, String value);
 
 }
