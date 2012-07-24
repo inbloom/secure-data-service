@@ -221,7 +221,7 @@ Scenario: Given a known school object, perform a PUT with a base school object t
 #    | studentCompetency            | studentCompetencies     | diagnosticStatement              | Validation Test Diag. Stmt.                |                    |
 #    | gradingPeriod                | gradingPeriods          | beginDate                        | 1890-07-01                                 |                    |
 #    | reportCard                   | reportCards             | numberOfDaysAbsent               | 999                                        |                    |
-@test
+
   Scenario: Given an invalid enumeration type in an entity body, when I do a POST the error message should be clear and easy to read
     Given format "application/json"
     And a valid json document for student

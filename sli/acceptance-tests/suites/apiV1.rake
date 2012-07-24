@@ -333,3 +333,22 @@ end
 ############################################################
 # Security tests end
 ############################################################
+
+############################################################
+# Aggregation API tests start
+############################################################
+desc "Run Aggregation API Tests"
+task :aggregationAPI => [:realmInit, :importCompletedAggData] do
+  runTests("test/features/aggregation/aggregate_api.feature")
+end
+
+desc "Import completed aggregation data"
+task :importCompletedAggData => [:importSandboxData] do
+  data = Hash[
+    "student" => "completedAggregation/students.json",
+    "studentSchoolAssociation" => "completedAggregation/studentSchools.json",
+    "studentSectionAssociation" => "completedAggregation/studentSections.json"
+  ]
+  setMultipleFixtureFiles(data)
+end
+

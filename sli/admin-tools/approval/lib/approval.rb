@@ -83,9 +83,10 @@ module ApprovalEngine
     @@is_sandbox               = false
     @@email_secret             = ""
     @@roles                    = []
+    @@auto_approve             = nil
 
     # initialize the storage
-    def ApprovalEngine.init(storage, emailer, transition_action_config, is_sandbox)
+    def ApprovalEngine.init(storage, emailer, transition_action_config, is_sandbox, auto_approve=nil)
     #def ApprovalEngine.init(storage, emailer, is_sandbox)
         @@storage = storage
         @@transition_action_config = transition_action_config
@@ -93,6 +94,7 @@ module ApprovalEngine
         @@is_sandbox = is_sandbox
         @@email_secret = (0...32).map{rand(256).chr}.join
         @@roles = is_sandbox ? SANDBOX_ROLES : PRODUCTION_ROLES
+        @@auto_approve = auto_approve
     end
 
     # Update the status of a user.
@@ -159,7 +161,8 @@ module ApprovalEngine
         @@transition_action_config.transition(user) if @@transition_action_config
 
         # if this is a sandbox and the new status is pending then move to status approved
-        if @@is_sandbox && (user[:status] == STATE_PENDING)
+        
+        if ((@@auto_approve==nil && @@is_sandbox) || @@auto_approve) && (user[:status] == STATE_PENDING)
             change_user_status(email_address, ACTION_APPROVE)
         end
     end

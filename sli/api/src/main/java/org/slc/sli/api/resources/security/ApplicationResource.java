@@ -189,37 +189,28 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        Response resp = null;
-        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (hasRight(Right.DEV_APP_CRUD)) {
-            extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL,
-                    principal.getExternalId());
-            resp = super.readAll(offset, limit, headers, uriInfo);
-        } else if (!hasRight(Right.SLC_APP_APPROVE)) {
-            debug("ED-ORG of operator/admin {}", principal.getEdOrg());
-            extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
-                    principal.getEdOrgId());
-            resp = super.readAll(offset, limit, headers, uriInfo);
-
-            // also need the auto-allowed apps -- so in an ugly fashion, let's query those too and
-            // add it to the response
-            extraCriteria = new NeutralCriteria("allowed_for_all_edorgs", NeutralCriteria.OPERATOR_EQUAL, true);
-            Response bootstrap = super.readAll(offset, limit, headers, uriInfo);
-            Map entity = (Map) resp.getEntity();
-            List apps = (List) entity.get("application");
-            Map bsEntity = (Map) bootstrap.getEntity();
-            List bsApps = (List) bsEntity.get("application");
-            apps.addAll(bsApps);
-            // TODO: total count might not be accurate--currently seems correct though,
-            // which means the service doesn't take extraCriteria into account
-        } else {
-            resp = super.readAll(offset, limit, headers, uriInfo);
-        }
-  
+        Response resp = super.readAll(offset, limit, headers, uriInfo);
         filterSensitiveData((Map) resp.getEntity());
         return resp;
     }
+    
+    
+
+    @Override
+    protected void addAdditionalCritera(NeutralQuery query) {
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
+        if (hasRight(Right.DEV_APP_CRUD)) { //Developer sees all apps they own
+            query.addCriteria(new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId()));
+        } else if (!hasRight(Right.SLC_APP_APPROVE)) {  //realm admin, sees apps that they are either authorized or could be authorized
+            query.addCriteria(new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL, principal.getEdOrgId()));
+            NeutralQuery orQuery = new NeutralQuery(0);
+            orQuery.addCriteria(new NeutralCriteria("allowed_for_all_edorgs", NeutralCriteria.OPERATOR_EQUAL, true));
+            orQuery.addCriteria(new NeutralCriteria("authorized_for_all_edorgs", NeutralCriteria.OPERATOR_EQUAL, false));
+            query.addOrQuery(orQuery);
+        } //else - operator -- sees all apps
+    }
+
 
     /**
      * Looks up a specific application based on client ID, ie.
@@ -234,16 +225,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     @Path("{" + UUID + "}")
     public Response getApplication(@PathParam(UUID) String uuid, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        Response resp;
-        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (hasRight(Right.DEV_APP_CRUD)) {
-            extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId());
-        } else if (!hasRight(Right.SLC_APP_APPROVE)) {
-            debug("ED-ORG of operator/admin {}", principal.getEdOrg());
-            extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
-                    principal.getEdOrgId());
-        }
-        resp = super.read(uuid, headers, uriInfo);
+        Response resp = super.read(uuid, headers, uriInfo);
         filterSensitiveData((Map) resp.getEntity());
         return resp;
     }
@@ -268,7 +250,11 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             for (Object app : appList) {
                 Map appMap = (Map) app;
                 Map reg = (Map) appMap.get("registration");
-                if (!reg.get("status").equals("APPROVED")) {
+                //only see client id and secret if you're an app developer and it's approved
+                if (hasRight(Right.DEV_APP_CRUD) && !reg.get("status").equals("APPROVED")) {
+                    appMap.remove(CLIENT_ID);
+                    appMap.remove(CLIENT_SECRET);
+                } else if (!hasRight(Right.SLC_APP_APPROVE)) {  //or if your an operator
                     appMap.remove(CLIENT_ID);
                     appMap.remove(CLIENT_SECRET);
                 }
