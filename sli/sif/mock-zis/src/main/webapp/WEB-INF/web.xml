@@ -14,8 +14,14 @@
 	<servlet>
 		<servlet-name>MockZisRequestHandler</servlet-name>
 		<display-name>Mock ZIS</display-name>
-		<!-- <servlet-class> org.springframework.web.context.support.HttpRequestHandlerServlet 
-			</servlet-class> -->
+		<servlet-class>
+			org.springframework.web.context.support.HttpRequestHandlerServlet
+		</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>TriggerRequestHandler</servlet-name>
+		<display-name>Mock ZIS Trigger</display-name>
 		<servlet-class>
 			org.springframework.web.context.support.HttpRequestHandlerServlet
 		</servlet-class>
@@ -24,6 +30,11 @@
 	<servlet-mapping>
 		<servlet-name>MockZisRequestHandler</servlet-name>
 		<url-pattern>/zis</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>TriggerRequestHandler</servlet-name>
+		<url-pattern>/trigger</url-pattern>
 	</servlet-mapping>
 
 </web-app>

@@ -23,5 +23,7 @@
     </bean>
     
     <bean id= "MockZisRequestHandler" class="org.slc.sli.sif.zis.MockZisRequestHandler" />
+    
+    <bean id= "TriggerRequestHandler" class="org.slc.sli.sif.zis.TriggerRequestHandler" />
 
 </beans>

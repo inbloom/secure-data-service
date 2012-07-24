@@ -1,3 +1,5 @@
+package org.slc.sli.sif.zis;
+
 /*
  * Copyright 2012 Shared Learning Collaborative, LLC
  *
@@ -15,8 +17,6 @@
  */
 
 
-package org.slc.sli.sif.zis;
-
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -26,38 +26,37 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * Request Handler for mock zis endpoint.
- *
+ * Http request handler acts as a trigger
+ * for the mockZis to broadcast any POSTed messages.
+ * 
  * @author jtully
  *
  */
-public class MockZisRequestHandler extends AbstractRequestHandler {
-    
+public class TriggerRequestHandler extends AbstractRequestHandler {
+
     @Autowired
     private MockZis mockZis;
     
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
             throws ServletException, IOException {
-        System.out.println("GET MockZis");
+        System.out.println("GET Trigger");
         
         resp.setContentType("text/xml");
         
         writeResponseString(resp, mockZis.createAckString());
-    }
-    
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
-            throws ServletException, IOException {
-
-        //System.out.println("POST MockZIS");
         
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String xmlString = getRequestString(req);
         
-        mockZis.parseSIFMessage(xmlString);
+        System.out.println("POST Trigger with MESSAGE: \n" + xmlString);
         
-        //System.out.println(xmlString);
+        mockZis.broadcastMessage(xmlString);
         
         writeResponseString(resp, mockZis.createAckString());
     }
+    
 }

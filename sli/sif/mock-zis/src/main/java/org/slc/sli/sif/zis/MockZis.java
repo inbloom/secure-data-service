@@ -1,8 +1,28 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
 package org.slc.sli.sif.zis;
 
-import java.io.OutputStreamWriter;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +38,14 @@ import openadk.library.infra.SIF_Ack;
 import openadk.library.infra.SIF_Event;
 import openadk.library.infra.SIF_Register;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Component;
 
+/**
+ * MockZis, responsible for parsing incoming SIF messages and broadcasting messages.
+ * @author jtully
+ *
+ */
 @Component
 public class MockZis {
     private List<String> agentCallbackUrls = new ArrayList<String>();
@@ -28,41 +54,101 @@ public class MockZis {
         agentCallbackUrls.add(agentCallbackUrl);
     }
     
-    public void broadcastMessage(String xmlMessage) throws Exception {
-        xmlMessage = "<SIF_Ack>Jon Test</SIF_Ack>";
-        
-        System.out.println("\n\n\nbroadcasting to: http://localhost:8087/mock-zis/zis\n\n\n");
-        
-        postMessage(new URL("http://localhost:8087/mock-zis/zis"), xmlMessage);
-        
-        /*
-         * for (String callbackUrl : agentCallbackUrls) {
-         * System.out.println("broadcasting to: " + callbackUrl);
-         * URL url = new URL(callbackUrl);
-         * URLConnection conn = url.openConnection();
-         * conn.setDoOutput(true);
-         * OutputStreamWriter wr = new OutputStreamWriter(conn.getOutputStream());
-         * wr.write(xmlMessage);
-         * wr.flush();
-         * wr.close();
-         * }
+    /**
+     * Parse and process a SIF message.
+     */
+    public void parseSIFMessage(String sifString) {
+        try {
+            SIFParser parser = SIFParser.newInstance();
+            SIFElement sifElem = parser.parse(sifString);
+            
+            if (sifElem instanceof SIF_Register) {
+                System.out.println("sif register");
+                processRegisterMessage((SIF_Register) sifElem);
+            } else if (sifElem instanceof SIF_Event) {
+                System.out.println("sif event");
+                // TODO this is just for testing
+                //broadcastMessage(sifElementToString(sifElem));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public String sifElementToString(SIFElement sifElem) {
+        StringWriter sw = new StringWriter();
+        SIFWriter writer = new SIFWriter(sw);
+        writer.suppressNamespace(true);
+        writer.write(sifElem);
+        writer.flush();
+        writer.close();
+        return sw.toString();
+    }
+    
+    /**
+     * Broadcast an xml message to all registered agents.
+     */
+    public void broadcastMessage(String xmlMessage) {
+        /* test broadcast
+         * 
+         * xmlMessage = "<SIF_Ack>Jon Test</SIF_Ack>";
+         * 
+         * System.out.println("\n\n\nbroadcasting to: http://localhost:8087/mock-zis/zis\n\n\n");
+         * 
+         * postMessage(new URL("http://localhost:8087/mock-zis/zis"), xmlMessage);
          */
+        
+        for (String callbackUrl : agentCallbackUrls) {
+            System.out.println("broadcasting to: " + callbackUrl);
+            try {
+                postMessage(new URL(callbackUrl), xmlMessage);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+        
     }
     
     private void postMessage(URL url, String xmlMessage) {
+        DataOutputStream outStream = null;
+        DataInputStream inStream = null;
+        
         try {
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "text/xml");
-            connection.setDoOutput(true);
+            connection.setRequestProperty("Content-Length", "" + xmlMessage.length());
             
-            OutputStreamWriter wr = new OutputStreamWriter(connection.getOutputStream());
-            wr.write(xmlMessage);
-            wr.flush();
-            wr.close();
+            connection.setDoOutput(true);
+            connection.setDoInput(true);
+            
+            outStream = new DataOutputStream(connection.getOutputStream());
+            
+            // Send request
+            outStream.writeBytes(xmlMessage);
+            outStream.flush();
+            
+            // Get Response
+            inStream = new DataInputStream(connection.getInputStream());
+            StringWriter writer = new StringWriter();
+            IOUtils.copy(inStream, writer, "UTF-8");
+            String response = writer.toString();
+            System.out.println("response = " + response);
+            
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            try {
+                if (outStream != null) {
+                    outStream.close();
+                }
+                if (inStream != null) {
+                    inStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
     
@@ -77,36 +163,9 @@ public class MockZis {
         return sifElementToString(ack);
     }
     
-    public String sifElementToString(SIFElement sifElem) {
-        StringWriter sw = new StringWriter();
-        SIFWriter writer = new SIFWriter(sw);
-        writer.suppressNamespace(true);
-        writer.write(sifElem);
-        writer.flush();
-        writer.close();
-        return sw.toString();
-    }
-    
-    public void parseSIFMessage(String sifString) {
-        try {
-            SIFParser parser = SIFParser.newInstance();
-            SIFElement sifElem = parser.parse(sifString);
-            
-            if (sifElem instanceof SIF_Register) {
-                System.out.println("sif register");
-                processRegisterMessage((SIF_Register) sifElem);
-            } else if (sifElem instanceof SIF_Event) {
-                System.out.println("sif event");
-                // TODO this is just for testing
-                broadcastMessage(sifElementToString(sifElem));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
     private void processRegisterMessage(SIF_Register sifReg) {
         String agentCallbackUrl = sifReg.getSIF_Protocol().getSIF_URL();
+        System.out.println("Registered agent with callback " + agentCallbackUrl);
         agentCallbackUrls.add(agentCallbackUrl);
     }
 }
