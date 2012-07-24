@@ -13,10 +13,10 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -45,12 +45,11 @@ public class DefaultSelectorSemanticModelTest {
     @Test
     public void testSemanticParser() {
         final Type type = provider.getClassType("Student");
+        final SemanticSelector selector = defaultSelectorSemanticModel.parse(generateSelectorObjectMap(), type);
 
-        Map<Type, Object> selectorsWithType = defaultSelectorSemanticModel.parse(generateSelectorObjectMap(), type);
-
-        assertTrue("Should have type", selectorsWithType.containsKey(type));
-        assertTrue("Should be a list", selectorsWithType.get(type) instanceof List);
-        assertEquals("Should have 3 elements", ((List<Object>) selectorsWithType.get(type)).size(), 3);
+        assertTrue("Should contain base type", selector.containsKey(type));
+        assertNotNull("Should have a list of attributes", selector.get(type));
+        assertEquals(3, selector.get(type).size());
     }
 
     public Map<String, Object> generateSelectorObjectMap() {

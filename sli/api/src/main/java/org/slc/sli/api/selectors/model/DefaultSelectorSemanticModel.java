@@ -1,13 +1,9 @@
 package org.slc.sli.api.selectors.model;
 
-import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,59 +18,37 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
     @Autowired
     private ModelProvider modelProvider;
 
-    @Override
-    public Map<Type, Object> parse(Map<String, Object> selectors, Type type) {
-        Map<Type, Object> selectorsWithType = new HashMap<Type, Object>();
-        parse(selectors, type, selectorsWithType);
-        return selectorsWithType;
-    }
+    public SemanticSelector parse(final Map<String, Object> selectors, final Type type) {
+        if (type == null) throw new NullPointerException("type");
+        if (selectors == null) throw new NullPointerException("selectors");
 
-    private void parse(Map<String, Object> selectors, Type type, Map<Type, Object> selectorsWithType) {
-        for (Map.Entry<String, Object> entry : selectors.entrySet()) {
-            Object value = entry.getValue();
+        final SemanticSelector selector = new SemanticSelector();
+        for (final Map.Entry<String, Object> entry : selectors.entrySet()) {
+            final String key = entry.getKey();
+            final Object value = entry.getValue();
 
-            if (Map.class.isInstance(value)) {
-                Type newType = modelProvider.getType(type, entry.getKey());
-
-                if (newType != null && newType.isClassType()) {
-                    Map<Type, Object> newMap = new HashMap<Type, Object>();
-                    parse((Map<String, Object>) value, newType, newMap);
-
-                    if (selectorsWithType.containsKey(type)) {
-                        ((List<Object>) selectorsWithType.get(type)).add(newMap);
-                    } else {
-                        List<Object> attrs = new ArrayList<Object>();
-                        attrs.add(newMap);
-                        selectorsWithType.put(type, attrs);
-                    }
-
-                } else {
-                    throw new RuntimeException("Invalid Selectors " + entry.getKey());
+            if (modelProvider.isAssociation(type, key)) {
+                final Type keyType = modelProvider.getType(type, entry.getKey());
+                if (isMap(value)) {
+                    selector.addSelector(type, parse(toMap(value), keyType));
                 }
+            } else if (modelProvider.isAttribute(type, key)) {
+                selector.addSelector(type, key);
             } else {
-
-                if (modelProvider.isAssociation(type, entry.getKey())) {
-                    Type r = modelProvider.getType(type, entry.getKey());
-                    if (r.isClassType()) type = (ClassType) r;
-                }
-
-                //if (isInModel(type, entry.getKey())) {
-                //AttributeType attributeType = new AttributeType(entry.getKey(), type);
-                if (selectorsWithType.containsKey(type)) {
-                    ((List<Object>) selectorsWithType.get(type)).add(entry.getKey());
-                } else {
-                    List<Object> attrs = new ArrayList<Object>();
-                    attrs.add(entry.getKey());
-                    selectorsWithType.put(type, attrs);
-                }
-
-                //    selectorsWithType.put(type, value);
-                //} else {
-                //    throw new RuntimeException("Invalid Selectors " + entry.getKey());
-                //}
-
+                throw new AssertionError("Invalid Selectors " + entry.getKey());
             }
         }
+
+        return selector;
+    }
+
+    @SuppressWarnings("unchecked")
+    private Map<String, Object> toMap(Object obj) {
+        return (Map<String, Object>) obj;
+    }
+
+    private boolean isMap(final Object obj) {
+        return obj instanceof Map;
     }
 
 }

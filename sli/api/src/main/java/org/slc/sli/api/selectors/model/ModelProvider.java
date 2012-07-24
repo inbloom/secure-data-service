@@ -61,6 +61,8 @@ public final class ModelProvider {
     }
 
     public boolean isAttribute(final Type type, final String attributeName) {
+        if (type == null) throw new NullPointerException("type");
+        if (attributeName == null) throw new NullPointerException("attributeName");
         if (!type.isClassType()) return false;
 
         final List<Attribute> attributes = ((ClassType)type).getAttributes();
@@ -73,6 +75,8 @@ public final class ModelProvider {
     }
 
     public boolean isAssociation(final Type type, final String attribute) {
+        if (type == null) throw new NullPointerException("type");
+        if (attribute == null) throw new NullPointerException("attribute");
         if (!type.isClassType()) return false;
 
         final List<AssociationEnd> associationEnds = getAssociationEnds(type.getId());
