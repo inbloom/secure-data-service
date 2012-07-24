@@ -45,21 +45,31 @@ public class DefaultSelectorDocumentTest {
     }
 
     public Map<ClassType, Object> generateSelectorObjectMap() {
-        //Map<String, Object> schoolAttrs = new HashMap<String, Object>();
-        //schoolAttrs.put("nameOfInstitution", true);
+        ClassType studentType = defaultSelectorDocument.getTypes().get("Student");
+        ClassType studentSchoolAssocication = defaultSelectorDocument.getTypes().get("schoolAssociations<=>student");
+        ClassType studentSectionAssocication = defaultSelectorDocument.getTypes().get("sectionAssociations<=>student");
 
-        Map<String, Object> ssaAttrs = new HashMap<String, Object>();
-        ssaAttrs.put("entryGradeLevel", true);
-        ssaAttrs.put("entryDate", true);
-        //ssaAttrs.put("schoolId", schoolAttrs);
+        Map<ClassType, Object> ssaAttrs = new HashMap<ClassType, Object>();
+        List<Object> attributes = new ArrayList<Object>();
+        attributes.add("entryGradeLevel");
+        attributes.add("entryDate");
+        ssaAttrs.put(studentSchoolAssocication, attributes);
 
-        Map<String, Object> studentsAttrs = new HashMap<String, Object>();
-        studentsAttrs.put("name", true);
-        studentsAttrs.put("economicDisadvantaged", true);
-        //studentsAttrs.put("sectionAssociations", true);
-        studentsAttrs.put("schoolAssociations", ssaAttrs);
-        System.out.println(studentsAttrs);
 
-        return null;
+        Map<ClassType, Object> sectionAttrs = new HashMap<ClassType, Object>();
+        List<Object> attributes2 = new ArrayList<Object>();
+        attributes2.add("someField");
+        sectionAttrs.put(studentSectionAssocication, attributes2);
+
+
+        Map<ClassType, Object> studentsAttrs = new HashMap<ClassType, Object>();
+        List<Object> attributes1 = new ArrayList<Object>();
+        attributes1.add("name");
+        attributes1.add("economicDisadvantaged");
+        attributes1.add(ssaAttrs);
+        attributes1.add(sectionAttrs);
+        studentsAttrs.put(studentType, attributes1);
+
+        return studentsAttrs;
     }
 }
