@@ -12,6 +12,7 @@ else
   num_shards=$2
 fi
 
+ulimit -n 10000
 
 M=~/mongo/shard
 
@@ -34,19 +35,44 @@ wait_for_mongo() {
     echo "done!";
 }
 
-echo "Starting up shard servers..."
-for ((i=1; i<=$num_shards; i++))
-do
-  shard_port=$(( 10000 + $i ))
-  mkdir -p $M/data/db/$i
-  mongod --shardsvr --dbpath $M/data/db/$i --port $shard_port > $M/logs/shard$i.log &
-  echo $! >> $M/pids
+create_replicaSet() {
+    local port="$1"
+    local dbpath="$2"
+    local rsname="$3"
 
-  wait_for_mongo $shard_port
+    mkdir -p $dbpath/$port/data/db
+    #echo "mongod --replSet $rsname --dbpath $dbpath/$port/data/db --port $port > $dbpath/logs/rs_$port.log "
+    mongod --replSet $rsname --dbpath $dbpath/$port/data/db --port $port > $dbpath/logs/rs_$port.log &
+    echo $! >> $dbpath/pids
+    
+    wait_for_mongo $port
+}
 
-  mongo config --port $shard_port --eval 'db.settings.save({"_id":"chunksize", "value":1});'
-  echo "Shard $i up and running on port $shard_port"
-done
+set_replica_set() {
+	local i
+    local port="$1"
+    local rs_members="["
+    local shard="rs_$1/"
+    
+    for ((i = 0; i < 3; i++))
+    do
+		create_replicaSet $(($port + $i)) $M "rs_$1"
+		rs_members="$rs_members {\"_id\":$i, \"host\":\"localhost:$(($port + $i))\"}"
+		shard=$shard"localhost:$(($port + $i))"
+		if [ $i -ne 2 ] ; then
+			rs_members="$rs_members,"
+			shard="$shard,"
+		fi
+    done
+    
+    rs_members="$rs_members ]";
+    
+    mongo admin --port $1 --eval "'db.runCommand({\"replSetInitiate\" : {\"_id\" : \"rs_$1\", \"members\" : $rs_members }}); assert.eq( null, db.getLastError() );'"
+    
+    sleep 8s
+    
+	mongo admin --port $mongos_port --eval "'db.runCommand({ addshard : \"$shard\" }); assert.eq( null, db.getLastError() );'"
+}
 
 echo "Starting up config server..."
 mongod --configsvr --dbpath $M/data/db/config --port 20000 > $M/logs/configdb.log &
@@ -54,19 +80,18 @@ echo $! >> $M/pids
 
 wait_for_mongo 20000
 
-echo "Setting chunk size on config server..."
-mongo config --port 20000 --eval 'db.settings.save({"_id":"chunksize", "value":1});'
-
 echo "Starting up mongos router..."
-mongos --configdb localhost:20000 --port $mongos_port> $M/logs/mongos.log &
+mkdir -p $M/data/db/mongos
+mongos --configdb localhost:20000 --chunkSize 128 --port $mongos_port > $M/logs/mongos.log &
 echo $! >> $M/pids
 
 wait_for_mongo $mongos_port
 
-echo "Adding shards to cluster..."
-for ((i=1; i<=$num_shards; i++))
-do
-  shard_port=$(( 10000 + $i ))
-  mongo admin --port $mongos_port --eval 'db.runCommand( { addshard : "localhost:'$shard_port'" } )'
-done
 echo "mongos is running on port $mongos_port"
+
+echo "Starting up shard servers..."
+for ((i = 1; i <= $num_shards; i++))
+do
+    set_replica_set $((10000 + 100 * $i))
+done
+
