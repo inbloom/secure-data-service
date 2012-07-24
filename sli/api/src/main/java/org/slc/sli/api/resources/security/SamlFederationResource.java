@@ -24,6 +24,7 @@ import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
+import java.text.MessageFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -44,12 +45,14 @@ import javax.ws.rs.core.UriInfo;
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jdom.Document;
+import org.jdom.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 
@@ -164,7 +167,7 @@ public class SamlFederationResource {
 
             audit(event);
 
-            throw e;
+            generateSamlValidationError(e.getMessage());
         }
 
         String inResponseTo = doc.getRootElement().getAttributeValue("InResponseTo");
@@ -174,15 +177,15 @@ public class SamlFederationResource {
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(1);
         neutralQuery.addCriteria(new NeutralCriteria("idp.id", "=", issuer));
-        Entity realm = fetchOne("realm", neutralQuery);
+        Entity realm = repo.findOne("realm", neutralQuery);
 
         if (realm == null) {
-            throw new IllegalStateException("Failed to locate realm: " + issuer);
+            generateSamlValidationError("Invalid realm: " + issuer);
         }
-        org.jdom.Element assertion = doc.getRootElement().getChild("Assertion", SamlHelper.SAML_NS);
-        org.jdom.Element stmt = assertion.getChild("AttributeStatement", SamlHelper.SAML_NS);
+        Element assertion = doc.getRootElement().getChild("Assertion", SamlHelper.SAML_NS);
+        Element stmt = assertion.getChild("AttributeStatement", SamlHelper.SAML_NS);
 
-        org.jdom.Element conditions = assertion.getChild("Conditions", SamlHelper.SAML_NS);
+        Element conditions = assertion.getChild("Conditions", SamlHelper.SAML_NS);
 
         if (conditions != null) {
 
@@ -191,18 +194,18 @@ public class SamlFederationResource {
             String notOnOrAfter = conditions.getAttributeValue("NotOnOrAfter");
 
             if (!isTimeInRange(notBefore, notOnOrAfter)) {
-                throw new RuntimeException("SAML Conditions failed.  Current time not in range " + notBefore + " to " + notOnOrAfter + ".");
+                generateSamlValidationError("SAML Conditions failed.  Current time not in range " + notBefore + " to " + notOnOrAfter + ".");
             }
         }
 
         if (assertion.getChild("Subject", SamlHelper.SAML_NS) != null) {
-            org.jdom.Element subjConfirmationData = assertion.getChild("Subject", SamlHelper.SAML_NS)
+            Element subjConfirmationData = assertion.getChild("Subject", SamlHelper.SAML_NS)
                     .getChild("SubjectConfirmation", SamlHelper.SAML_NS)
                     .getChild("SubjectConfirmationData", SamlHelper.SAML_NS);
             String recipient = subjConfirmationData.getAttributeValue("Recipient");
 
             if (!uriInfo.getRequestUri().toString().equals(recipient)) {
-                throw new RuntimeException("SAML Recipient was invalid, was " + recipient);
+                generateSamlValidationError("SAML Recipient was invalid, was " + recipient);
             }
 
             //One or both of these can be null
@@ -210,10 +213,10 @@ public class SamlFederationResource {
             String notOnOrAfter = subjConfirmationData.getAttributeValue("NotOnOrAfter");
 
             if (!isTimeInRange(notBefore, notOnOrAfter)) {
-                throw new RuntimeException("SAML Subject failed.  Current time not in range " + notBefore + " to " + notOnOrAfter + ".");
+                generateSamlValidationError("SAML Subject failed.  Current time not in range " + notBefore + " to " + notOnOrAfter + ".");
             }
         } else {
-            throw new RuntimeException("SAML response is missing Subject.");
+            generateSamlValidationError("SAML response is missing Subject.");
         }
 
         List<org.jdom.Element> attributeNodes = stmt.getChildren("Attribute", SamlHelper.SAML_NS);
@@ -239,10 +242,8 @@ public class SamlFederationResource {
             // realm's tenantId is null
             tenant = samlTenant;
             if (tenant == null) {
-                error("No tenant found in either the realm or SAMLResponse. issuer: {}, inResponseTo: {}", issuer,
-                        inResponseTo);
-                throw new IllegalArgumentException("No tenant found in either the realm or SAMLResponse. issuer: "
-                        + issuer + ", inResponseTo: ");
+                generateSamlValidationError(
+                        MessageFormat.format("No tenant found in either the realm or SAMLResponse. issuer: {}, inResponseTo: {}", issuer,inResponseTo));
             }
         } else {
             Object temp = realm.getBody().get("admin");
@@ -274,19 +275,19 @@ public class SamlFederationResource {
         if ("-133".equals(principal.getEntity().getEntityId()) && !(Boolean) realm.getBody().get("admin")) {
             // if we couldn't find an Entity for the user and this isn't an admin realm, then we
             // have no valid user
-            throw new RuntimeException("Invalid user");
+            throw new AccessDeniedException("Invalid user.");
         }
 
         if (principal.getRoles() == null || principal.getRoles().isEmpty()) {
             debug("Attempted login by a user that did not include any roles in the SAML Assertion.");
-            throw new RuntimeException("Invalid user. No roles specified for user.");
+            throw new AccessDeniedException("Invalid user. No roles specified for user.");
         }
 
         principal.setSliRoles(roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
 
         if (principal.getSliRoles().isEmpty()) {
             debug("Attempted login by a user that included no roles in the SAML Assertion that mapped to any of the SLI roles.");
-            throw new RuntimeException("Invalid user. No valid role mappings exist for the roles specified in the SAML Assertion.");
+            throw new AccessDeniedException("Invalid user.  No valid role mappings exist for the roles specified in the SAML Assertion.");
         }
 
         if (samlTenant != null) {
@@ -341,6 +342,10 @@ public class SamlFederationResource {
                     .location(redirect).build();
         }
     }
+    private void generateSamlValidationError(String message) {
+        error(message);
+        throw new AccessDeniedException("Authorization could not be verified.");
+    }
 
     private String getUserNameFromEntity(Entity entity) {
         if (entity != null) {
@@ -365,15 +370,6 @@ public class SamlFederationResource {
         return null;
     }
 
-    private Entity fetchOne(String collection, NeutralQuery neutralQuery) {
-        Iterable<Entity> results = repo.findAll(collection, neutralQuery);
-
-        if (!results.iterator().hasNext()) {
-            throw new RuntimeException("Not found");
-        }
-
-        return results.iterator().next();
-    }
 
     /**
      * Get metadata describing saml federation.

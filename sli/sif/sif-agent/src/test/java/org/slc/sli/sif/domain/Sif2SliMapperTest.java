@@ -58,10 +58,10 @@ public class Sif2SliMapperTest
     @Test
     public void testSchoolInfoMap2json() throws JsonProcessingException, MappingException, IOException {
         JsonNode schoolNode = xformer.transform2json(schoolInfo);
-        Assert.assertEquals("Expecting 'IL-DAYBREAK' as stateOrganizationId",
-                "IL-DAYBREAK", schoolNode.get("stateOrganizationId").asText());
-        Assert.assertEquals("Expecting 'Daybreak School District 4529' as nameOfInstitution",
-                "Daybreak School District 4529", schoolNode.get("nameOfInstitution").asText());
+        Assert.assertEquals("Expecting 'Daybreak West High' as stateOrganizationId",
+                "Daybreak West High", schoolNode.get("stateOrganizationId").asText());
+        Assert.assertEquals("Expecting 'Daybreak West High' as nameOfInstitution",
+                "Daybreak West High", schoolNode.get("nameOfInstitution").asText());
         Assert.assertEquals("Expecting 'Closed' as operationalStatus",
                 "Closed", schoolNode.get("operationalStatus").asText());
         Assert.assertEquals("Expecting organizationCategories as an array",
@@ -112,8 +112,8 @@ public class Sif2SliMapperTest
                 "1 IBM way", schoolNode.get("address").get(0).get("streetNumberName").asText());
         Assert.assertEquals("Expecting 'Salt Lake City' as city in the first address node",
                 "Salt Lake City", schoolNode.get("address").get(0).get("city").asText());
-        Assert.assertEquals("Expecting 'UT' as stateAbbreviation in the first address node",
-                "UT", schoolNode.get("address").get(0).get("stateAbbreviation").asText());
+        Assert.assertEquals("Expecting 'IL' as stateAbbreviation in the first address node",
+                "IL", schoolNode.get("address").get(0).get("stateAbbreviation").asText());
         Assert.assertEquals("Expecting '84102' as postalCode in the first address node",
                 "84102", schoolNode.get("address").get(0).get("postalCode").asText());
         Assert.assertEquals("Expecting 'US' as countryCode in the first address node",

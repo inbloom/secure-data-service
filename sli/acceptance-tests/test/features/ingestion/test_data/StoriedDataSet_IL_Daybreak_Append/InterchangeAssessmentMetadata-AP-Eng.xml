@@ -1,0 +1,465 @@
+<InterchangeAssessmentMetadata
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+
+    <Assessment id="AP-1">
+        <AssessmentTitle>English Literature and Composition</AssessmentTitle>
+        <AssessmentIdentificationCode
+        IdentificationSystem="Test Contractor">
+            <ID>AP English Literature and Composition</ID>
+        </AssessmentIdentificationCode>
+        <AssessmentCategory>College entrance exam</AssessmentCategory>
+        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+        <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <Description>Extremely well qualified</Description>
+                <CodeValue>5</CodeValue>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
+        </AssessmentPerformanceLevel>
+        <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <Description>Well qualified</Description>
+                <CodeValue>4</CodeValue>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
+        </AssessmentPerformanceLevel>
+        <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <Description>Qualified</Description>
+                <CodeValue>3</CodeValue>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
+        </AssessmentPerformanceLevel>
+        <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <Description>Possibly qualified</Description>
+                <CodeValue>2</CodeValue>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
+        </AssessmentPerformanceLevel>
+        <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <Description>No recommendation</Description>
+                <CodeValue>1</CodeValue>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
+        </AssessmentPerformanceLevel>
+        <ContentStandard>Advanced Placement</ContentStandard>
+        <Version>1</Version>
+        <RevisionDate>2005-03-12</RevisionDate>
+        <AssessmentFamilyReference>
+            <AssessmentFamilyIdentity>
+                <AssessmentFamilyIdentificationCode
+                IdentificationSystem="Test Contractor">
+                    <ID>AP-Eng-and-Literature</ID>
+                </AssessmentFamilyIdentificationCode>
+            </AssessmentFamilyIdentity>
+        </AssessmentFamilyReference>
+    </Assessment>
+    <!-- ============================================== -->
+
+    <Assessment id="AP-2">
+        <AssessmentTitle>English Language and Composition</AssessmentTitle>
+        <AssessmentIdentificationCode
+        IdentificationSystem="Test Contractor">
+            <ID>AP English Language and Composition</ID>
+        </AssessmentIdentificationCode>
+        <AssessmentCategory>College entrance exam</AssessmentCategory>
+        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+        <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <Description>Extremely well qualified</Description>
+                <CodeValue>5</CodeValue>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
+        </AssessmentPerformanceLevel>
+        <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <Description>Well qualified</Description>
+                <CodeValue>4</CodeValue>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
+        </AssessmentPerformanceLevel>
+        <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <Description>Qualified</Description>
+                <CodeValue>3</CodeValue>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
+        </AssessmentPerformanceLevel>
+        <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <Description>Possibly qualified</Description>
+                <CodeValue>2</CodeValue>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
+        </AssessmentPerformanceLevel>
+        <AssessmentPerformanceLevel>
+            <PerformanceLevel>
+                <Description>No recommendation</Description>
+                <CodeValue>1</CodeValue>
+            </PerformanceLevel>
+            <AssessmentReportingMethod>Achievement/proficiency level</AssessmentReportingMethod>
+        </AssessmentPerformanceLevel>
+        <ContentStandard>Advanced Placement</ContentStandard>
+        <Version>1</Version>
+        <RevisionDate>2005-03-12</RevisionDate>
+        <AssessmentFamilyReference>
+            <AssessmentFamilyIdentity>
+                <AssessmentFamilyIdentificationCode
+                IdentificationSystem="Test Contractor">
+                    <ID>AP-Lang-and-Literature</ID>
+                </AssessmentFamilyIdentificationCode>
+            </AssessmentFamilyIdentity>
+        </AssessmentFamilyReference>
+    </Assessment>
+    
+    <!-- Assessment Family Section -->
+    
+    <AssessmentFamily id="AP">
+        <AssessmentFamilyTitle>AP</AssessmentFamilyTitle>
+        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>AP</ID>
+        </AssessmentFamilyIdentificationCode>
+    </AssessmentFamily>
+    
+    <AssessmentFamily id="AP-Eng">
+        <AssessmentFamilyTitle>AP Eng</AssessmentFamilyTitle>
+        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>AP Eng</ID>
+        </AssessmentFamilyIdentificationCode>
+        <AssessmentFamilyReference>
+            <AssessmentFamilyIdentity>
+                <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+                    <ID>AP</ID>
+                </AssessmentFamilyIdentificationCode>
+            </AssessmentFamilyIdentity>
+        </AssessmentFamilyReference>
+    </AssessmentFamily>
+    
+    <AssessmentFamily id="AP-Eng-and-Literature">
+        <AssessmentFamilyTitle>AP-Eng-and-Literature</AssessmentFamilyTitle>
+        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>AP-Eng-and-Literature</ID>
+        </AssessmentFamilyIdentificationCode>
+        <AssessmentFamilyReference>
+            <AssessmentFamilyIdentity>
+                <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+                    <ID>AP Eng</ID>
+                </AssessmentFamilyIdentificationCode>
+            </AssessmentFamilyIdentity>
+        </AssessmentFamilyReference>
+    </AssessmentFamily>
+    
+    <AssessmentFamily id="AP-Lang-and-Literature">
+        <AssessmentFamilyTitle>AP-Lang-and-Literature</AssessmentFamilyTitle>
+        <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+            <ID>AP-Lang-and-Literature</ID>
+        </AssessmentFamilyIdentificationCode>
+        <AssessmentFamilyReference>
+            <AssessmentFamilyIdentity>
+                <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+                    <ID>AP Eng</ID>
+                </AssessmentFamilyIdentificationCode>
+            </AssessmentFamilyIdentity>
+        </AssessmentFamilyReference>
+    </AssessmentFamily>
+    
+    <Assessment id="SAT-1">
+		<AssessmentTitle>SAT</AssessmentTitle>
+		<AssessmentIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>SAT</ID>
+		</AssessmentIdentificationCode>
+		<AssessmentCategory>College entrance exam</AssessmentCategory>
+		<GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+		<Version>1</Version>
+		<RevisionDate>2005-03-12</RevisionDate>
+		<MaxRawScore>2400</MaxRawScore>
+		<ObjectiveAssessmentReference ref="SatWriting"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="SatMath"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="SatCritRead"></ObjectiveAssessmentReference>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyIdentificationCode
+					IdentificationSystem="Test Contractor">
+					<ID>SAT</ID>
+				</AssessmentFamilyIdentificationCode>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</Assessment>
+	
+	<ObjectiveAssessment id="SatWriting">
+		<IdentificationCode>SAT-Writing</IdentificationCode>
+		<MaxRawScore>800</MaxRawScore>
+		<PercentOfAssessment>33</PercentOfAssessment>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="SatMath">
+		<IdentificationCode>SAT-Math</IdentificationCode>
+		<MaxRawScore>800</MaxRawScore>
+		<PercentOfAssessment>33</PercentOfAssessment>
+		<ObjectiveAssessmentReference ref="SatMathArithmetic"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="SatMathAlgebra"></ObjectiveAssessmentReference>
+		<ObjectiveAssessmentReference ref="SatMathGeometry"></ObjectiveAssessmentReference>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="SatMathArithmetic">
+		<IdentificationCode>SAT-Math-Arithmetic</IdentificationCode>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="SatMathAlgebra">
+		<IdentificationCode>SAT-Math-Algebra</IdentificationCode>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="SatMathGeometry">
+		<IdentificationCode>SAT-Math-Geometry</IdentificationCode>
+	</ObjectiveAssessment>
+
+	<ObjectiveAssessment id="SatCritRead">
+		<IdentificationCode>SAT-Critical Reading</IdentificationCode>
+		<MaxRawScore>800</MaxRawScore>
+		<PercentOfAssessment>33</PercentOfAssessment>
+	</ObjectiveAssessment>
+	
+	<AssessmentFamily id="SAT-Family">
+		<AssessmentFamilyTitle>SAT</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>SAT</ID>
+		</AssessmentFamilyIdentificationCode>
+	</AssessmentFamily>
+	
+	<Assessment id="READ2-Next-Kindergarten-1-BOY">
+		<AssessmentTitle>READ2-Next-Kindergarten BOY</AssessmentTitle>
+		<AssessmentIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>K-BOY</ID>
+		</AssessmentIdentificationCode>
+		<AssessmentCategory>Reading readiness test</AssessmentCategory>
+		<AcademicSubject>Reading</AcademicSubject>
+		<GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<Description>State Criteria</Description>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<MinimumScore>0</MinimumScore>
+			<MaximumScore>122</MaximumScore>
+		</AssessmentPerformanceLevel>
+		<ContentStandard>National Standard</ContentStandard>
+		<Version>1</Version>
+		<RevisionDate>2005-01-12</RevisionDate>
+		<MaxRawScore>122</MaxRawScore>
+		<AssessmentPeriod>
+			<CodeValue>BOY</CodeValue>
+		</AssessmentPeriod>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyIdentificationCode
+					IdentificationSystem="Test Contractor">
+					<ID>READ 2.0 Kindergarten</ID>
+				</AssessmentFamilyIdentificationCode>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</Assessment>
+
+	<Assessment id="READ2-Next-Kindergarten-1-MOY">
+		<AssessmentTitle>READ2-Next-Kindergarten MOY</AssessmentTitle>
+		<AssessmentIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>K-MOY</ID>
+		</AssessmentIdentificationCode>
+		<AssessmentCategory>Reading readiness test</AssessmentCategory>
+		<AcademicSubject>Reading</AcademicSubject>
+		<GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<Description>State Criteria</Description>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<MinimumScore>0</MinimumScore>
+			<MaximumScore>122</MaximumScore>
+		</AssessmentPerformanceLevel>
+		<ContentStandard>National Standard</ContentStandard>
+		<Version>1</Version>
+		<RevisionDate>2005-03-12</RevisionDate>
+		<MaxRawScore>122</MaxRawScore>
+		<AssessmentPeriod>
+			<CodeValue>MOY</CodeValue>
+		</AssessmentPeriod>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyIdentificationCode
+					IdentificationSystem="Test Contractor">
+					<ID>READ 2.0 Kindergarten</ID>
+				</AssessmentFamilyIdentificationCode>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</Assessment>
+
+	<Assessment id="READ2-Next-Kindergarten-1-EOY">
+		<AssessmentTitle>READ2-Next-Kindergarten EOY</AssessmentTitle>
+		<AssessmentIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>K-EOY</ID>
+		</AssessmentIdentificationCode>
+		<AssessmentCategory>Reading readiness test</AssessmentCategory>
+		<AcademicSubject>Reading</AcademicSubject>
+		<GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<Description>State Criteria</Description>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<MinimumScore>0</MinimumScore>
+			<MaximumScore>122</MaximumScore>
+		</AssessmentPerformanceLevel>
+		<ContentStandard>National Standard</ContentStandard>
+		<Version>1</Version>
+		<RevisionDate>2005-05-12</RevisionDate>
+		<MaxRawScore>122</MaxRawScore>
+		<AssessmentPeriod>
+			<CodeValue>EOY</CodeValue>
+		</AssessmentPeriod>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyIdentificationCode
+					IdentificationSystem="Test Contractor">
+					<ID>READ 2.0 Kindergarten</ID>
+				</AssessmentFamilyIdentificationCode>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</Assessment>
+
+	<AssessmentFamily id="DIEBLS">
+		<AssessmentFamilyTitle>READ2</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>Read2</ID>
+		</AssessmentFamilyIdentificationCode>
+	</AssessmentFamily>
+
+	<AssessmentFamily id="DIEBLS6th">
+		<AssessmentFamilyTitle>READ2 6th Edition</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>Read2 6th Edition</ID>
+		</AssessmentFamilyIdentificationCode>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyIdentificationCode
+					IdentificationSystem="Test Contractor">
+					<ID>Read2</ID>
+				</AssessmentFamilyIdentificationCode>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</AssessmentFamily>
+
+	<AssessmentFamily id="READ2Next">
+		<AssessmentFamilyTitle>READ 2.0</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>READ 2.0</ID>
+		</AssessmentFamilyIdentificationCode>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyIdentificationCode
+					IdentificationSystem="Test Contractor">
+					<ID>Read2</ID>
+				</AssessmentFamilyIdentificationCode>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</AssessmentFamily>
+
+	<AssessmentFamily id="READ2NextK">
+		<AssessmentFamilyTitle>READ 2.0 Kindergarten</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>READ 2.0 Kindergarten</ID>
+		</AssessmentFamilyIdentificationCode>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyIdentificationCode
+					IdentificationSystem="Test Contractor">
+					<ID>READ 2.0</ID>
+				</AssessmentFamilyIdentificationCode>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</AssessmentFamily>
+
+	<AssessmentFamily id="READ2Next1">
+		<AssessmentFamilyTitle>READ 2.0 Grade 1</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>READ 2.0 Grade 1</ID>
+		</AssessmentFamilyIdentificationCode>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyIdentificationCode
+					IdentificationSystem="Test Contractor">
+					<ID>READ 2.0</ID>
+				</AssessmentFamilyIdentificationCode>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</AssessmentFamily>
+
+	<AssessmentFamily id="READ2Next2">
+		<AssessmentFamilyTitle>READ 2.0 Grade 2</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>READ 2.0 Grade 2</ID>
+		</AssessmentFamilyIdentificationCode>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyIdentificationCode
+					IdentificationSystem="Test Contractor">
+					<ID>READ 2.0</ID>
+				</AssessmentFamilyIdentificationCode>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</AssessmentFamily>
+
+	<AssessmentFamily id="READ2Next3">
+		<AssessmentFamilyTitle>READ 2.0 Grade 3</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode
+			IdentificationSystem="Test Contractor">
+			<ID>READ 2.0 Grade 3</ID>
+		</AssessmentFamilyIdentificationCode>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyIdentificationCode
+					IdentificationSystem="Test Contractor">
+					<ID>READ 2.0</ID>
+				</AssessmentFamilyIdentificationCode>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</AssessmentFamily>
+
+	<AssessmentPeriodDescriptor id="apd_boy">
+		<CodeValue>BOY</CodeValue>
+		<Description>Assessment period at the beginning of the school year</Description>
+		<ShortDescription>Beginning of the Year assessment period</ShortDescription>
+		<BeginDate>2005-01-01</BeginDate>
+		<EndDate>2005-02-01</EndDate>
+	</AssessmentPeriodDescriptor>
+
+	<AssessmentPeriodDescriptor id="apd_moy">
+		<CodeValue>MOY</CodeValue>
+		<Description>Assessment period in the middle of the school year</Description>
+		<ShortDescription>Middle of the Year assessment period</ShortDescription>
+		<BeginDate>2005-02-01</BeginDate>
+		<EndDate>2005-05-01</EndDate>
+	</AssessmentPeriodDescriptor>
+
+	<AssessmentPeriodDescriptor id="apd_eoy">
+		<CodeValue>EOY</CodeValue>
+		<Description>Assessment period at the end of the school year</Description>
+		<ShortDescription>End of the Year assessment period</ShortDescription>
+		<BeginDate>2005-05-01</BeginDate>
+		<EndDate>2005-06-01</EndDate>
+	</AssessmentPeriodDescriptor>
+
+    
+</InterchangeAssessmentMetadata>
