@@ -1,4 +1,0 @@
-edfi-xml,EducationOrgCalendar,InterchangeEducationOrgCalendar.xml,abe8d3584517ae6d08f92c208660d51d
-edfi-xml,EducationOrganization,InterchangeEducationOrganization.xml,1adf67846e39e7589b7917c584a22b56
-edfi-xml,StudentParent,InterchangeStudent.xml,a1d32c4ec6f6a7209b29f02426b30331
-edfi-xml,StudentGrades,StudentTranscriptAssociation1.xml,ec7bbe7ce1e29ae2cdd44200e2c4d8a0

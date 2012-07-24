@@ -19,6 +19,7 @@ package org.slc.sli.ingestion.transformation;
 
 import java.util.Map;
 
+import org.slc.sli.domain.AggregateData;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -75,7 +76,7 @@ public class SimpleEntity implements Entity {
     public void setRecordNumber(long recordNumber) {
         this.recordNumber = recordNumber;
     }
-    
+
     @Override
     public String toString() {
         StringBuilder entity = new StringBuilder();
@@ -87,5 +88,10 @@ public class SimpleEntity implements Entity {
         entity.append("{record number: ").append(getRecordNumber()).append(" }");
         entity.append(" ]");
         return entity.toString();
+    }
+
+    @Override
+    public AggregateData getAggregates() {
+        return new AggregateData();
     }
 }
