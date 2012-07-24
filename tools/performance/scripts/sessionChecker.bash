@@ -32,7 +32,7 @@ fi
 header="Authorization: bearer $1"
 url="$2/api/rest/v1/system/session/check"
 
-command="curl --header '$header' -X POST $url"
+command="curl --header '$header' -X GET $url"
 
 eval $command
 
