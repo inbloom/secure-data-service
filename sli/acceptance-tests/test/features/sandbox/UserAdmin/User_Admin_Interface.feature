@@ -1,4 +1,3 @@
-@wip
 @RALLY_3350 @RALLY_3274
 Feature: Sandbox Account Management Interface
 
@@ -6,18 +5,17 @@ Background:
 Given I have an open web browser
 And LDAP server has been setup and running
 
-@wip
 @sandbox
 Scenario Outline:  As a sandbox admin I am able to read all admin accounts in my tenancy on sandbox
 When I navigate to the sandbox user account management page
 Then I will be redirected to "Simple" login page
 When I submit the credentials "<USER>" "<PASSWORD>" for the "Simple" login page
 And I hit the sandbox user account management app list all users page
-Then I see a table with headings of "Full Name" and "Email" and "EdOrg" and "Date Created" and "Actions"
-Then I see a user with "Full Name" is "<USER_FULL_NAME>" in the table
-Then the user "Email" is "<USER_EMAIL>"
-Then the user "Role" is "<USER_ROLE>"
-Then the user "EdOrg" is "<USER_EDORG>"
+Then I see a table with headings of "Full Name" and "Email" and "Role" and "EdOrg" and "Date Created" and "Actions"
+Then I see a user with Full Name is "<USER_FULL_NAME>" in the table
+Then the user "email" is "<USER_EMAIL>"
+#Then the user "role" is "<USER_ROLE>"
+#Then the user "edorg" is "<USER_EDORG>"
    
 
   Examples:
@@ -26,13 +24,12 @@ Then the user "EdOrg" is "<USER_EDORG>"
     |sandboxadministrator |sandboxadministrator1234 |Sandbox Developer    |sandboxdeveloper@slidev.org    |Application Developer  |sandboxadministrator@slidev.org  |                  |
     |sandboxadministrator |sandboxadministrator1234 |Sandbox IngestionUser|sandboxingestionuser@slidev.org|Ingestion User         |sandboxadministrator@slidev.org  |                  |
     
-@wip
 @sandbox
 Scenario Outline:  As a sandbox application developer/ingestion user I am not able to access user account management app
 When I navigate to the sandbox user account management page
 Then I will be redirected to "Simple" login page
 When I submit the credentials "<USER>" "<PASSWORD>" for the "Simple" login page
-Then I will get an error message that "I do not have access to this resource"
+Then I will get an error message that "you don't have access to this page"
    
 
   Examples:
@@ -47,7 +44,7 @@ When I navigate to the sandbox user account management page
 Then I will be redirected to "Simple" login page
 When I submit the credentials "<USER>" "<PASSWORD>" for the "Simple" login page
 And I hit the sandbox user account management app list all users page
-Then I see a user with "Full Name" is "<USER_FULL_NAME>" in the table
+Then I see a user with Full Name is "<USER_FULL_NAME>" in the table
 And the user "Role" is "<USER_ROLE>"
   
 When I click on "Delete" icon 
@@ -70,7 +67,7 @@ Given I navigate to the sandbox user account management page
 Then I will be redirected to "Simple" login page
 When I submit the credentials "<USER>" "<PASSWORD>" for the "Simple" login page
 And I hit the sandbox user account management app list all users page
-Then I see my "Full Name" is "<USER_FULL_NAME>" in the table
+Then I see my Full Name is "<USER_FULL_NAME>" in the table
 And the "delete" button is disabled
 
 @sandbox @wip 
