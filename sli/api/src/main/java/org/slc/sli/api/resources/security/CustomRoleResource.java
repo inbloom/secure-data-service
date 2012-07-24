@@ -2,6 +2,7 @@ package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.DELETE;
@@ -79,7 +80,7 @@ public class CustomRoleResource {
         customRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.OPERATOR_EQUAL, realm.getEntityId()));
         Entity customRole = repo.findOne("customRole", customRoleQuery);
         results.add(customRole.getBody());
-        return results;
+        return Response.ok(results).build();
     }
     
     @GET
