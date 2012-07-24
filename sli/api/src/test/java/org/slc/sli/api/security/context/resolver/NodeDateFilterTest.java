@@ -75,10 +75,12 @@ public class NodeDateFilterTest {
     @Test
     public void testIsFirstDateBeforeSecondDate() {
         assertTrue("Should be true", nodeFilter.isFirstDateBeforeSecondDate("2012-02-03", "2012-08-03"));
-        assertTrue("Should be true", nodeFilter.isFirstDateBeforeSecondDate("2012-02-03", ""));
-        
         assertFalse("Should be false", nodeFilter.isFirstDateBeforeSecondDate("2012-06-03", "2012-05-12"));
-        assertFalse("Should be false", nodeFilter.isFirstDateBeforeSecondDate("", "2012-05-12"));
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testEmptyDateString() {
+        nodeFilter.isFirstDateBeforeSecondDate("2012-02-03", "");
     }
     
     @Test(expected = IllegalArgumentException.class)

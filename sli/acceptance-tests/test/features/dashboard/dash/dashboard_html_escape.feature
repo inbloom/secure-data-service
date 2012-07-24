@@ -4,6 +4,7 @@ As a secrutiy officer, I want the output strings to be HTML escaped.
 
 Background:
 Given I have an open web browser
+Given that dashboard has been authorized for all ed orgs
 
 @RALLY_US200
 Scenario: Student Name Contains Special Character "<" and ">"

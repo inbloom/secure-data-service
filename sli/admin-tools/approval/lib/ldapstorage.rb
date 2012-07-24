@@ -78,6 +78,7 @@ class LDAPStorage
 
   # some fields are stored in the description field as
   # key/value pairs
+  # WARNING: Modifying these values will not work unless the unpacking logic in search_map_user_fields is also updated
   PACKED_ENTITY_FIELD_MAPPING = {
       :tenant => "tenant",
       :edorg  => "edOrg"
@@ -406,7 +407,18 @@ class LDAPStorage
       end
     end
   end
-
+  
+  # delete attribute for a user
+  def delete_user_attribute(email_address, attribute)
+    found_user = read_user(email_address)
+    if found_user
+      dn = get_DN(found_user[:cn])
+      Net::LDAP.open(@ldap_conf) do |ldap|
+        ldap.delete_attribute(dn, ENTITY_ATTR_MAPPING[attribute])
+      end
+    end
+  end
+  
   #############################################################################
   # PRIVATE methods
   #############################################################################
@@ -448,6 +460,8 @@ class LDAPStorage
 
         # unpack the fields that are stored in the description field
         desc = (entry[LDAP_DESCRIPTION_FIELD] ? entry[LDAP_DESCRIPTION_FIELD] : [])[0]
+        # handle packed fields deliminated by carriage return, newline, comma, or space
+        desc = desc.gsub(/tenant=([^\s,]+)[,\s]+/, "tenant=\\1\n") unless desc == nil
         unpacked_fields = if desc && (desc.strip != "")
                             mapping = desc.strip().split("\n").map {|x| x.strip}
                             mapping = mapping.map do |x|

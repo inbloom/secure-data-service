@@ -53,6 +53,11 @@
        <location>/WEB-INF/jsp/error_500.jsp</location>
     </error-page>
     
+    <error-page>
+       <error-code>403</error-code>
+       <location>/WEB-INF/jsp/error_403.jsp</location>
+    </error-page>
+    
    <context-param>
       <param-name>contextConfigLocation</param-name>
       <param-value>classpath:spring/applicationContext.xml</param-value>
