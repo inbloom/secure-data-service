@@ -221,3 +221,11 @@ Scenario: Given a known school object, perform a PUT with a base school object t
 #    | studentCompetency            | studentCompetencies     | diagnosticStatement              | Validation Test Diag. Stmt.                |                    |
 #    | gradingPeriod                | gradingPeriods          | beginDate                        | 1890-07-01                                 |                    |
 #    | reportCard                   | reportCards             | numberOfDaysAbsent               | 999                                        |                    |
+@test
+  Scenario: Given an invalid enumeration type in an entity body, when I do a POST the error message should be clear and easy to read
+    Given format "application/json"
+    And a valid json document for student
+    When I set the sex to InvalidValue
+    And I navigate to POST "/v1/students"
+    Then I should receive a return code of 400
+    And the error message should contain "expectedTypes=['Female', 'Male']"
