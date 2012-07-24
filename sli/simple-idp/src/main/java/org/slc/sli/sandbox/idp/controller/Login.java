@@ -154,7 +154,7 @@ public class Login {
         AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, incomingRealm);
 
         User user;
-        try {
+        try {            
             user = userService.authenticate(realm, userId, password);
 
             if(shouldForcePasswordChange(user, incomingRealm)){
