@@ -69,7 +69,7 @@ public class AggregationPostProcessorTest {
         try {
             aggregationPostProcessor.process(preObject);
         } catch (Exception e) {
-
+            Assert.fail();
         }
 
         Assert.assertEquals(workNote.getBatchJobId(), preObject.getIn().getBody(WorkNote.class).getBatchJobId());
