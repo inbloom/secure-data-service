@@ -17,6 +17,7 @@
 package org.slc.sli.sif.domain;
 
 import openadk.library.student.SchoolInfo;
+import openadk.library.student.LEAInfo;
 
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -25,6 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.sif.domain.sifentity.SchoolInfoEntity;
 import org.slc.sli.sif.domain.slientity.SchoolEntity;
+import org.slc.sli.sif.domain.sifentity.LEAInfoEntity;
+import org.slc.sli.sif.domain.slientity.LEAEntity;
 
 /**
  * Transformer for mapping entities from SIF domain to SLI domain.
@@ -67,6 +70,36 @@ public class Sif2SliTransformer
      */
     public SchoolEntity transform(SchoolInfoEntity schoolInfoEntity) {
         return this.dozerMapper.map(schoolInfoEntity, SchoolEntity.class);
+    }
+
+    /**
+     * Transform an SIF SchoolInfo into a corresponding SLI JsonNode ready for operations.
+     *
+     * @param SchoolInfo
+     * @return JsonNode
+     */
+    public JsonNode transform2json(LEAInfo leaInfo) {
+        return transform(leaInfo).json();
+    }
+
+    /**
+     * Transform an SIF SchoolInfo into an SLI SchoolEntity.
+     *
+     * @param SchoolInfo
+     * @return SchoolEntity
+     */
+    public LEAEntity transform(LEAInfo leaInfo) {
+        return this.dozerMapper.map(new LEAInfoEntity(leaInfo), LEAEntity.class);
+    }
+
+    /**
+     * Transform an SIF SchoolInfoEntity into an SLI SchoolEntity.
+     *
+     * @param SchoolInfoEntity
+     * @return SchoolEntity
+     */
+    public LEAEntity transform(LEAInfoEntity leaInfoEntity) {
+        return this.dozerMapper.map(leaInfoEntity, LEAEntity.class);
     }
 
 }

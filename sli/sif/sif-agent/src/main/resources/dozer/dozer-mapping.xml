@@ -49,4 +49,33 @@
         </field>
     </mapping>
  
+    <mapping>
+        <class-a>org.slc.sli.sif.domain.sifentity.LEAInfoEntity</class-a>
+        <class-b>org.slc.sli.sif.domain.slientity.LEAEntity</class-b>
+        <field>
+            <a>StateProvinceId</a>
+            <b>stateOrganizationId</b>
+        </field>
+        <field>
+            <a>LEAName</a>
+            <b>nameOfInstitution</b>
+        </field>
+        <field custom-converter-id="addressListConverter">
+            <a>AddressList</a>
+            <b>address</b>
+        </field>
+        <field>
+            <a>LEAURL</a>
+            <b>webSite</b>
+        </field>
+        <field>
+            <a>OperationalStatus</a>
+            <b>operationalStatus</b>
+        </field>
+        <field custom-converter-id="phoneNumberListConverter">
+            <a>PhoneNumberList</a>
+            <b>telephone</b>
+        </field>
+    </mapping>
+    
 </mappings>
