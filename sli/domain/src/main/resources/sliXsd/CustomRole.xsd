@@ -48,10 +48,10 @@
 
     <xs:complexType name="role">
         <xs:sequence>
-            <xs:element name="name" minOccurs="1" maxOccurs="1">
+            <xs:element name="names" minOccurs="1" maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation>
-                        The role name identifier. This name matches an LDAP role name attribute.
+                        A group of role name identifiers. Names will match an SAML or LDAP role name attribute.
                     </xs:documentation>
                 </xs:annotation>
                 <xs:simpleType>
