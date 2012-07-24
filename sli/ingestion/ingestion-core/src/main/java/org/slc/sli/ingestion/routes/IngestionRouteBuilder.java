@@ -36,6 +36,7 @@ import org.slc.sli.ingestion.processors.CommandProcessor;
 import org.slc.sli.ingestion.processors.ConcurrentEdFiProcessor;
 import org.slc.sli.ingestion.processors.ConcurrentXmlFileProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
+import org.slc.sli.ingestion.processors.DeleteProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.JobReportingProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
@@ -71,6 +72,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired
     PurgeProcessor purgeProcessor;
+
+    @Autowired
+    DeleteProcessor deleteProcessor;
 
     @Autowired(required = true)
     PersistenceProcessor persistenceProcessor;
@@ -306,6 +310,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .when(header("IngestionMessageType").isEqualTo(MessageType.PURGE.name()))
                 .log(LoggingLevel.INFO, "CamelRouting", "Purge command. Routing to PurgeProcessor.")
                 .process(purgeProcessor).to("direct:stop")
+
+                .when(header("IngestionMessageType").isEqualTo(MessageType.DELETE.name()))
+                .log(LoggingLevel.INFO, "CamelRouting", "Purge command. Routing to DeleteProcessor.")
+                .process(deleteProcessor).to("direct:stop")
 
                 .when(header("IngestionMessageType").isEqualTo(MessageType.CONTROL_FILE_PROCESSED.name()))
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to " + xmlProcessorMode + "XmlFileProcessor.")

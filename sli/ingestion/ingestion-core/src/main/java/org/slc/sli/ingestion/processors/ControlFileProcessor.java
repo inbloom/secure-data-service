@@ -182,6 +182,8 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         } else if (newJob.getProperty(AttributeType.PURGE.getName()) != null) {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.PURGE.name());
+        } else if (newJob.getProperty(AttributeType.DELETE.getName()) != null) {
+            exchange.getIn().setHeader("IngestionMessageType", MessageType.DELETE.name());
         } else {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.CONTROL_FILE_PROCESSED.name());
         }

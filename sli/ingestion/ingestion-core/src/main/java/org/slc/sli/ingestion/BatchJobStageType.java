@@ -29,6 +29,7 @@ public enum BatchJobStageType {
     CONTROL_FILE_PREPROCESSOR("ControlFilePreProcessor"),
     CONTROL_FILE_PROCESSOR("ControlFileProcessor"),
     PURGE_PROCESSOR("PurgeProcessor"),
+    DELETE_PROCESSOR("DeleteProcessor"),
     XML_FILE_PROCESSOR("XmlFileProcessor"),
     EDFI_PROCESSOR("EdFiProcessor"),
     MAESTRO_PROCESSOR("MaestroProcessor"),
