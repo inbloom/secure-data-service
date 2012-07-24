@@ -98,6 +98,9 @@ public class ParameterConstants {
     public static final String INCLUDE_CUSTOM = "includeCustom";
     public static final String DEFAULT_INCLUDE_CUSTOM = "false";
 
+    public static final String INCLUDE_AGGREGATES = "includeAggregates";
+    public static final String DEFAULT_INCLUDE_AGGS = "false";
+
     /**
      * Optional Fields
      */

@@ -1,5 +1,6 @@
 @RALLY_US0615
 @RALLY_US927
+ 
 Feature: Daily Attendance Ingestion Test
 
 Background: I have a landing zone route configured
@@ -12,13 +13,9 @@ Given I post "DailyAttendance.zip" file as the payload of the ingestion job
      | collectionName              |
      | student                     |
      | studentSchoolAssociation    |
-     | course                      |
-	 | courseOffering              |
      | educationOrganization       |
      | school                      |
-     | section                     |
      | session                     |
-     | studentSectionAssociation   |
      | attendance                  |
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
@@ -26,25 +23,20 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName              | count |
      | student                     | 94    |
      | studentSchoolAssociation    | 123   |
-     | course                      | 15    |
-	 | courseOffering              | 15    |
      | educationOrganization       | 8     |
      | school                      | 0     |
-     | section                     | 25    |
      | session                     | 8     |
-     | studentSectionAssociation   | 210   |
      | attendance                  | 38    |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                 | searchValue   |
-     | attendance                  | 38                  | body.schoolYearAttendance.schoolYear            | 2011-2012     |
-     | attendance                  | 35                  | body.schoolYearAttendance.attendanceEvent.event | Tardy         |
-     | attendance                  | 38                  | body.schoolYearAttendance.attendanceEvent.event | In Attendance |
+    | attendance                  | 38                  | body.schoolYearAttendance.schoolYear            | 2011-2012     |
+    | attendance                  | 3                  | body.schoolYearAttendance.attendanceEvent.event | Tardy         |
+    | attendance                  | 33                  | body.schoolYearAttendance.attendanceEvent.event | In Attendance |
      | attendance                  | 0                   | body.schoolYearAttendance.attendanceEvent.date  | 2011-09-01    |
      | attendance                  | 38                  | body.schoolYearAttendance.attendanceEvent.date  | 2011-11-10    |
-   
-   | studentSchoolAssociation     | 7                   | body.classOf                                     | 2011-2012    |
+     | studentSchoolAssociation     | 7                   | body.classOf                                     | 2011-2012    |
 
-  And I should see "Processed 549 records." in the resulting batch job file
+  And I should see "Processed 281 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "InterchangeStudent.xml records considered: 94" in the resulting batch job file
   And I should see "InterchangeStudent.xml records ingested successfully: 94" in the resulting batch job file
