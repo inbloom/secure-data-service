@@ -15,33 +15,25 @@
                     minOccurs="0" />
                 <xs:element name="tenantId" type="xs:string"
                     minOccurs="0" />
+               <xs:element name="roles" type="role" minOccurs="1" />
                     
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
 
-    <xs:complexType name="roles">
+    <xs:complexType name="role">
         <xs:sequence>
-            <xs:element name="role" type="roleType"
-                minOccurs="0" maxOccurs="unbounded" />
+            <xs:element name="names" minOccurs="0" maxOccurs="unbounded">
+                <xs:simpleType>
+                    <xs:restriction base="xs:string"/>
+                </xs:simpleType>
+            </xs:element>
+                
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="roleType">
-        <xs:sequence>
-            <xs:element name="clientRoleName"
-                minOccurs="0" maxOccurs="unbounded">
-                <xs:simpleType>
-                        <xs:restriction base="xs:string">
-                            <xs:pattern value="([a-zA-Z0-9\-_ ])*" />
-                        </xs:restriction>
-                </xs:simpleType>
-            </xs:element>
-        </xs:sequence>
-        <xs:attribute name="sliRoleName" type="xs:string"
-            use="required" />
-    </xs:complexType>
+    
 
 
 </xs:schema>
