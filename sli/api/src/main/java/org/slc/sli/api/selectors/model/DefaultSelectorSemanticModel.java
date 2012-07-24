@@ -1,12 +1,10 @@
 package org.slc.sli.api.selectors.model;
 
-import org.codehaus.plexus.util.StringUtils;
-import org.slc.sli.modeling.uml.*;
+import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,32 +18,27 @@ import java.util.Map;
  */
 @Component
 public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
+
     @Autowired
     private ModelProvider modelProvider;
-    private Map<String, ClassType> types;
-
-    @PostConstruct
-    public void init() throws FileNotFoundException {
-        types = modelProvider.getClassTypes();
-    }
 
     @Override
-    public Map<ClassType, Object> parse(Map<String, Object> selectors, ClassType type) {
-        Map<ClassType, Object> selectorsWithType = new HashMap<ClassType, Object>();
+    public Map<Type, Object> parse(Map<String, Object> selectors, Type type) {
+        Map<Type, Object> selectorsWithType = new HashMap<Type, Object>();
         parse(selectors, type, selectorsWithType);
         return selectorsWithType;
     }
 
-    private void parse(Map<String, Object> selectors, ClassType type, Map<ClassType, Object> selectorsWithType) {
+    private void parse(Map<String, Object> selectors, Type type, Map<Type, Object> selectorsWithType) {
         for (Map.Entry<String, Object> entry : selectors.entrySet()) {
             Object value = entry.getValue();
 
             if (Map.class.isInstance(value)) {
-                ClassType newType = getType(type, entry.getKey());
+                Type newType = modelProvider.getType((ClassType)type, entry.getKey());
 
-                if (newType != null) {
-                    Map<ClassType, Object> newMap = new HashMap<ClassType, Object>();
-                    parse((Map<String, Object>) value, newType, newMap);
+                if (newType != null && newType.isClassType()) {
+                    Map<Type, Object> newMap = new HashMap<Type, Object>();
+                    parse((Map<String, Object>) value, (ClassType) newType, newMap);
 
                     if (selectorsWithType.containsKey(type)) {
                         ((List<Object>) selectorsWithType.get(type)).add(newMap);
@@ -60,8 +53,9 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
                 }
             } else {
 
-                if (isAssociation(type, entry.getKey())) {
-                    type = getType(type, entry.getKey());
+                if (modelProvider.isAssociation(type, entry.getKey())) {
+                    Type r = modelProvider.getType((ClassType)type, entry.getKey());
+                    if (r.isClassType()) type = (ClassType) r;
                 }
 
                 //if (isInModel(type, entry.getKey())) {
@@ -81,59 +75,6 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
 
             }
         }
-
     }
 
-    private boolean isAttribute(ClassType type, String attribute) {
-        return false;
-    }
-
-    private boolean isAssociation(ClassType type, String attribute) {
-        List<AssociationEnd> associationEnds = modelProvider.getAssociationEnds(type.getId());
-
-        for (AssociationEnd end : associationEnds) {
-            if (end.getName().equals(attribute)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private boolean isInModel(ClassType type, String attr) {
-        List<Attribute> attributes = type.getAttributes();
-
-        for (Attribute attribute : attributes) {
-            if (attribute.getName().equals(attr)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private ClassType getType(ClassType type, String attr) {
-        if (type.isClassType()) {
-            List<AssociationEnd> associationEnds = modelProvider.getAssociationEnds(type.getId());
-
-            for (AssociationEnd end : associationEnds) {
-                if (end.getName().equals(attr)) {
-                    String name = attr + "<=>" + StringUtils.uncapitalise(type.getName());
-                    //String name = type.getName();
-                    ClassType newType = types.get(name);
-                    return newType;
-                }
-            }
-        } else if (type.isAssociation()) {
-            TagDefinition l = modelProvider.getTagDefinition(type.getId());
-            Type r = modelProvider.getType(type.getRHS().getId());
-            System.out.println(l + " " + r);
-        }
-
-        return null;
-    }
-
-    protected Map<String, ClassType> getTypes() {
-        return types;
-    }
 }

@@ -1,7 +1,7 @@
 package org.slc.sli.api.selectors.model;
 
-import org.slc.sli.api.selectors.model.ModelElementNotFoundException;
 import org.slc.sli.modeling.uml.AssociationEnd;
+import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Model;
@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import javax.xml.namespace.QName;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -28,8 +27,8 @@ public final class ModelProvider {
     private final ModelIndex modelIndex;
     private final static String DEFAULT_XMI_LOC = "/sliModel/SLI.xmi";
 
-    public ModelProvider(final String XMI_LOC) {
-        final Model model = XmiReader.readModel(getClass().getResourceAsStream(XMI_LOC));
+    public ModelProvider(final String xmiLoc) {
+        final Model model = XmiReader.readModel(getClass().getResourceAsStream(xmiLoc));
         modelIndex = new DefaultModelIndex(model);
     }
 
@@ -49,10 +48,6 @@ public final class ModelProvider {
         return modelIndex.lookupByName(qName);
     }
 
-    public Map<String, ClassType> getClassTypes() {
-        return modelIndex.getClassTypes();
-    }
-
     public TagDefinition getTagDefinition(final Identifier id) {
         return modelIndex.getTagDefinition(id);
     }
@@ -61,16 +56,60 @@ public final class ModelProvider {
         return modelIndex.getType(id);
     }
 
-    public ClassType lookupSingleModelElement(final QName qName)
-            throws ModelElementNotFoundException {
-        final Set<ModelElement> elementSet = lookupByName(qName);
-        if (elementSet.size() == 1) {
-            final ModelElement rVal = elementSet.iterator().next();
-            if (rVal instanceof ClassType) return (ClassType) rVal;
-            else throw new AssertionError();
-        } else {
-            error("Element {} was not found", qName);
-            throw new ModelElementNotFoundException();
+    public ClassType getClassType(final String typeName) {
+        return modelIndex.getClassTypes().get(typeName);
+    }
+
+    public boolean isAttribute(final Type type, final String attributeName) {
+        if (!type.isClassType()) return false;
+
+        final List<Attribute> attributes = ((ClassType)type).getAttributes();
+        for (final Attribute attribute : attributes) {
+            if (attribute.getName().equals(attributeName)) {
+                return true;
+            }
         }
+        return false;
+    }
+
+    public boolean isAssociation(final Type type, final String attribute) {
+        if (!type.isClassType()) return false;
+
+        final List<AssociationEnd> associationEnds = getAssociationEnds(type.getId());
+        for (final AssociationEnd end : associationEnds) {
+            if (end.getName().equals(attribute)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Type getType(final ClassType type, final String attr) {
+        if (isAssociation(type, attr)) {
+            return getAssociationType(type, attr);
+        } else if (isAttribute(type, attr)) {
+            return getAttributeType(type, attr);
+        }
+        return null;
+    }
+
+    private Type getAttributeType(final ClassType type, final String attr) {
+        final List<Attribute> attributes = ((ClassType)type).getAttributes();
+        for (final Attribute attribute : attributes) {
+            if (attribute.getName().equals(attr)) {
+                return getType(attribute.getType());
+            }
+        }
+        return null;
+    }
+
+    private Type getAssociationType(final ClassType type, final String attr) {
+        final List<AssociationEnd> associationEnds = getAssociationEnds(type.getId());
+        for (final AssociationEnd end : associationEnds) {
+            if (end.getName().equals(attr)) {
+                return getType(end.getType());
+            }
+        }
+        return null;
     }
 }
