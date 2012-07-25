@@ -29,4 +29,11 @@ public interface SifIdResolver {
      */
     public String getSLIGuid(String sifId);
 
+    /**
+     * Given a sif Zone, returns the sli guid of the corresponding SEA
+     * 
+     * @param sifZoneId
+     * @return The SLI guid of the SEA associated with the Zone, null if none exist
+     */
+    public String getZoneSEA(String sifZoneId);
 }

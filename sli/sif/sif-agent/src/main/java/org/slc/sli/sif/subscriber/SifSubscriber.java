@@ -88,7 +88,11 @@ public class SifSubscriber implements Subscriber {
 
             // Testing id map
             String sliGuid = sifIdResolver.getSLIGuid(sdo.getRefId());
-            LOG.info("received action: " + event.getAction().name() + " on " + sdo.getRefId() + "(sliID: " + (sliGuid == null ? " none " : sliGuid) + ")");
+            String seaGuid = sifIdResolver.getZoneSEA(zone.getZoneId());
+            LOG.info("received action: " + event.getAction().name() + " on " + 
+                sdo.getRefId() + "(sliID: " + (sliGuid == null ? " none " : sliGuid) + "," +
+                " seaId: " + (seaGuid == null ? " none " : seaGuid) + ")"
+            );
 
             switch(event.getAction()) {
             case ADD:
