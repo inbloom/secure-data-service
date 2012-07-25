@@ -21,11 +21,12 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.HttpRequestHandler;
 
 /**
@@ -36,16 +37,16 @@ import org.springframework.web.HttpRequestHandler;
  */
 public abstract class AbstractRequestHandler implements HttpRequestHandler {
     
+    static Logger log = LoggerFactory.getLogger(AbstractRequestHandler.class);
+    
     @Override
-    public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-            IOException {
+    public void handleRequest(HttpServletRequest request, HttpServletResponse response) {
         if (request.getMethod().equals("POST")) {
             doPost(request, response);
         }
     }
     
-    protected abstract void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
-            IOException;
+    protected abstract void doPost(HttpServletRequest req, HttpServletResponse resp);
     
     protected String getRequestString(HttpServletRequest req) {
         String result = "";
@@ -56,7 +57,7 @@ public abstract class AbstractRequestHandler implements HttpRequestHandler {
             IOUtils.copy(xml, writer, "UTF-8");
             result = writer.toString();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Exception reading request: ", e);
         }
         return result;
     }
@@ -71,7 +72,7 @@ public abstract class AbstractRequestHandler implements HttpRequestHandler {
             out.flush();
             
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("Exception writing response: ", e);
         } finally {
             if (out != null) {
                 out.close();
