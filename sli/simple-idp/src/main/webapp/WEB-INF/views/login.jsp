@@ -26,6 +26,13 @@
 	margin: 10px;
 	margin-top: 30px;
 }
+
+.tool-tip-link {
+	margin-left:140px;
+	color:rgb(0, 102, 153);
+	font-size:11px; 
+}
+
 </style>
 <link href="resources/bootstrap.css" rel="stylesheet"/>
 </head>
@@ -73,6 +80,7 @@
 			<form id="login_form" name="login_form" action="login" method="post" class="form-horizontal">
 				<input type="hidden" name="realm" value="${fn:escapeXml(realm)}"/>
 				<input type="hidden" name="SAMLRequest" value="${fn:escapeXml(SAMLRequest)}"/>
+				<input type="hidden" name="isForgotPasswordVisible" value="${fn:escapeXml(isForgotPasswordVisible)}"/>
 				<fieldset>
 					<div class="control-group">
 						<label for="user_id" class="control-label">User Name:</label>
@@ -82,6 +90,11 @@
 						<label for="password" class="control-label">Password:</label>
 						<input type="password" id="password" name="password" />
 					</div>
+					<c:if test="${isForgotPasswordVisible}">
+						<div class="control-group">
+							<a class="tool-tip-link" id="forgotPassword" name="forgotPassword" href="${fn:escapeXml(adminUrl)}/forgotPassword">Forgot your password?</a>
+						</div>
+					</c:if>
 					<c:if test="${is_sandbox}">
 					<div class="control-group">
 						<label for="impersonate_user" class="control-label">Login as User:</label>

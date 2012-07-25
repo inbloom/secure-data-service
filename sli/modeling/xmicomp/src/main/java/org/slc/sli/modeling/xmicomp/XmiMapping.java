@@ -19,18 +19,23 @@ public final class XmiMapping implements Comparable<XmiMapping> {
     private final XmiFeature lhs;
     private final XmiFeature rhs;
     private final XmiMappingStatus status;
+    private final String tracking;
     private final String comment;
     
-    public XmiMapping(final XmiFeature lhs, final XmiFeature rhs, final XmiMappingStatus status, final String comment) {
+    public XmiMapping(final XmiFeature lhs, final XmiFeature rhs, final XmiMappingStatus status, final String tracking, final String comment) {
         if (null == status) {
             throw new NullPointerException("status");
         }
         if (null == comment) {
             throw new NullPointerException("comment");
         }
+        if (null == tracking) {
+            throw new NullPointerException("tracking");
+        }
         this.lhs = lhs;
         this.rhs = rhs;
         this.status = status;
+        this.tracking = tracking;
         this.comment = comment;
     }
     
@@ -53,6 +58,10 @@ public final class XmiMapping implements Comparable<XmiMapping> {
     
     public String getComment() {
         return comment;
+    }
+    
+    public String getTracking() {
+        return tracking;
     }
     
     @Override

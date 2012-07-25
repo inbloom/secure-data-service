@@ -41,14 +41,9 @@ import java.util.TreeSet;
 
 import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
-import org.joda.time.MutableDateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 
 import org.slc.sli.dashboard.entity.Config;
 import org.slc.sli.dashboard.entity.GenericEntity;
@@ -57,6 +52,7 @@ import org.slc.sli.dashboard.entity.util.GenericEntityEnhancer;
 import org.slc.sli.dashboard.manager.ApiClientManager;
 import org.slc.sli.dashboard.manager.EntityManager;
 import org.slc.sli.dashboard.manager.PopulationManager;
+import org.slc.sli.dashboard.util.CacheableUserData;
 import org.slc.sli.dashboard.util.Constants;
 import org.slc.sli.dashboard.util.TimedLogic;
 
@@ -73,8 +69,6 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     private static final String ATTENDANCE_TARDY = "Tardy";
     private static final String ATTENDANCE_ABSENCE = "Absence";
-
-    private static final String STUDENT_CACHE = "user.student";
 
     private static final int DEFAULT_YEARS_BACK = 3;
     private static final int NO_LIMIT = -1;
@@ -148,7 +142,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
      * , java.lang.Object, org.slc.sli.dashboard.entity.Config.Data)
      */
     @Override
-    @Cacheable(value = Constants.CACHE_USER_PANEL_DATA)
+    @CacheableUserData
     public GenericEntity getListOfStudents(String token, Object sectionId, Config.Data config) {
 
         String id = (String) sectionId;

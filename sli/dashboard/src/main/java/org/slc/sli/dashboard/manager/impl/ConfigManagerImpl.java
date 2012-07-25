@@ -36,6 +36,7 @@ import org.slc.sli.dashboard.entity.ConfigMap;
 import org.slc.sli.dashboard.entity.EdOrgKey;
 import org.slc.sli.dashboard.manager.ApiClientManager;
 import org.slc.sli.dashboard.manager.ConfigManager;
+import org.slc.sli.dashboard.util.CacheableConfig;
 import org.slc.sli.dashboard.util.Constants;
 import org.slc.sli.dashboard.util.DashboardException;
 import org.slc.sli.dashboard.util.JsonConverter;
@@ -181,7 +182,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
     }
 
     @Override
-    @Cacheable(value = Constants.CACHE_USER_PANEL_CONFIG)
+    @CacheableConfig
     public Config getComponentConfig(String token, EdOrgKey edOrgKey, String componentId) {
         ConfigMap configMap = getCustomConfig(token, edOrgKey);
         Config customComponentConfig = null;
@@ -285,7 +286,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
      *            The education organization's custom configuration JSON.
      */
     @Override
-    @CacheEvict(value = Constants.CACHE_USER_CONFIG, allEntries = true)
+    @CacheEvict(value = Constants.CACHE_USER_PANEL_CONFIG, allEntries = true)
     public void putCustomConfig(String token, EdOrgKey edOrgKey, ConfigMap configMap) {
         getApiClient().putEdOrgCustomData(token, edOrgKey.getSliId(), configMap);
     }

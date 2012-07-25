@@ -20,6 +20,7 @@ package org.slc.sli.ingestion.handler;
 import java.io.File;
 import java.io.IOException;
 
+import org.apache.commons.compress.archivers.zip.UnsupportedZipFeatureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
@@ -49,8 +50,14 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
             File dir = ZipFileUtil.extract(zipFile);
             LOG.info("Extracted zip file to {}", dir.getAbsolutePath());
 
-            // find manifest (ctl file)
+            // Find manifest (ctl file)
             return ZipFileUtil.findCtlFile(dir);
+        } catch (UnsupportedZipFeatureException ex) {
+            // Unsupported compression method
+            String message = MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG18", zipFile.getName());
+            LOG.error(message, ex);
+            errorReport.error(message, this);
+
         } catch (IOException ex) {
 
             String message = MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG4", zipFile.getName());

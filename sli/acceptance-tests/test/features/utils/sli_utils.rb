@@ -123,7 +123,9 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "staff21_SEC" => "00000000-5555-5555-0001-500000000121",
                 "staff22_SEC" => "00000000-5555-5555-0001-500000000122",
                 "linda.kim_Zork" => "08e3cc74-4a5c-4a0e-b8ab-680ee11cc890",
-                "linda.kim_Chaos" => "160eb95e-173f-472a-8ed2-b973a4d775a3"}
+                "linda.kim_Chaos" => "160eb95e-173f-472a-8ed2-b973a4d775a3",
+                "cgrayadmin_IL" => "bd8987d4-75a2-ba63-8b53-424242424242",
+}
 
 def assert(bool, message = 'assertion failure')
   raise message unless bool
@@ -198,6 +200,16 @@ def restHttpGet(id, format = @format, sessionId = @sessionId)
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
+def restHttpGetAbs(url, format = @format, sessionId = @sessionId)
+  # Validate SessionId is not nil
+  assert(sessionId != nil, "Session ID passed into GET was nil")
+
+  urlHeader = makeHeaders('get',sessionId,format)
+  @res = RestClient.get(url, urlHeader){|response, request, result| response }
+
+  puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+end
+
 # Function restHttpPut
 # Inputs: (String) id = URL of the desired resource (ex. /students/fe3425e53-f23-f343-53cab3453)
 # Inputs: (Object) data = Data object of type @format that you want to update
@@ -240,6 +252,15 @@ def restHttpDelete(id, format = @format, sessionId = @sessionId)
 end
 
 def makeUrlAndHeaders(verb,id,sessionId,format)
+  headers = makeHeaders(verb, sessionId, format)
+
+  url = PropLoader.getProps['api_server_url']+"/api/rest"+id
+  puts(url, headers) if $SLI_DEBUG
+
+  return {:url => url, :headers => headers}
+end
+
+def makeHeaders(verb,sessionId,format)
   if(verb == 'put' || verb == 'post')
     headers = {:content_type => format}
   else
@@ -247,11 +268,7 @@ def makeUrlAndHeaders(verb,id,sessionId,format)
   end
 
   headers.store(:Authorization, "bearer "+sessionId)
-
-  url = PropLoader.getProps['api_server_url']+"/api/rest"+id
-  puts(url, headers) if $SLI_DEBUG
-
-  return {:url => url, :headers => headers}
+  return headers
 end
 
 ##############################################################################
@@ -405,7 +422,7 @@ module DataProvider
     return {
       "viewSecurityEventsEnabled" => false,
       "appApprovalEnabled" => false,
-      "localEdOrgId" => "IL-SUNSET"
+      "localEdOrgId" => "b2c6e292-37b0-4148-bf75-c98a2fcc905f"
       }
   end
 

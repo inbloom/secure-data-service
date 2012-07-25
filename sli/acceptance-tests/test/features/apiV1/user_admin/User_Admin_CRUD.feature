@@ -273,9 +273,11 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |Sandbox SLC Operator        |200 |      |           |
     |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |Sandbox Administrator       |200 |Midgar|IL-SUNSET  |
     |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |Ingestion User              |200 |Midgar|IL-SUNSET  |
+    |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |Application Developer       |200 |Midgar|IL-SUNSET  |
     |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Sandbox SLC Operator        |403 |      |           |
     |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Sandbox Administrator       |200 |Midgar|IL-SUNSET  |
     |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Ingestion User              |200 |Midgar|IL-SUNSET  |
+    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Application Developer       |200 |Midgar|IL-SUNSET  |
     |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Sandbox SLC Operator        |403 |      |           |
     |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Sandbox Administrator       |403 |Midgar|IL-SUNSET  |
     |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Application Developer       |403 |Midgar|IL-SUNSET  |

@@ -53,7 +53,7 @@ import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
 import org.slc.sli.api.security.service.SecurityCriteria;
 import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.AggregateData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -80,9 +80,6 @@ public class BasicService implements EntityService {
     private static final String CUSTOM_ENTITY_COLLECTION = "custom_entities";
     private static final String CUSTOM_ENTITY_CLIENT_ID = "clientId";
     private static final String CUSTOM_ENTITY_ENTITY_ID = "entityId";
-    private static final String METADATA = "metaData";
-    private static final String[] COLLECTIONED_EXCLUDED = { "tenant", "userSession", "realm", "userAccount", "roles", "application", "applicationAuthorization" };
-    private static final Set<String> NOT_BY_TENANT = new HashSet<String>(Arrays.asList(COLLECTIONED_EXCLUDED));
 
     private static final Set<String> TEACHER_STAMPED_ENTITIES = new HashSet<String>(Arrays.asList(
             EntityNames.ATTENDANCE,
@@ -138,9 +135,6 @@ public class BasicService implements EntityService {
 
     @Autowired
     private SchemaDataProvider provider;
-
-    @Autowired
-    private IdConverter idConverter;
 
     @Autowired
     private CallingApplicationInfoProvider clientInfo;
@@ -314,64 +308,24 @@ public class BasicService implements EntityService {
         return true;
     }
 
-    /**
-     * @param entity
-     * @param patchData
-     * @WIP This was the beginning of an attempt at doing full JSON patch
-     */
-    @SuppressWarnings({ "unchecked" })
-    private void patchEntity(Map<String, Object> patchData, Map<String, Object> entity) {
-        if (patchData == null) {
-            return;
-        }
-        for (Map.Entry<String, Object> patchEntry : patchData.entrySet()) {
-            Object fieldValue = entity.get(patchEntry.getKey());
-
-            if (fieldValue instanceof Map) {
-                //recurse
-                patchEntity((Map<String, Object>) patchEntry.getValue(), (Map<String, Object>) fieldValue);
-            } else if (fieldValue instanceof List) {
-                List<Object> list = (List<Object>) fieldValue;
-                for (int i = 0; i < list.size(); i++) {
-                    Object item = list.get(i);
-                    if (item instanceof Map) {
-                        patchEntity((Map<String, Object>) patchEntry.getValue(), (Map<String, Object>) fieldValue);
-                    } else if (item instanceof List) {
-                        error("Unexpected situation, List inside a List: {}", fieldValue);
-                        continue;
-                    } else {
-                        //patch the entry in the list...how to know which item is which if there are multiple?
-                        //list.set(i, newValue);
-                    }
-                }
-            } else if (fieldValue == null) {
-                //current entity doesn't have it set, so set it
-            } else {
-                //actually patch the exisiting field
-            }
-        }
-    }
-
     @Override
     public EntityBody get(String id) {
-        checkAccess(readRight, id);
-        // change to accommodate tenantId:
-        // findById does not support NeutralQuery and therefore cannot be used any more
-        // Entity entity = getRepo().findById(collectionName, id);
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.addCriteria(new NeutralCriteria("_id", "=", id));
+        return get(id, new NeutralQuery());
 
-        Entity entity = getRepo().findOne(collectionName, neutralQuery);
-
-        if (entity == null) {
-            info("Could not find {}", id);
-            throw new EntityNotFoundException(id);
-        }
-        return makeEntityBody(entity);
     }
 
     @Override
     public EntityBody get(String id, NeutralQuery neutralQuery) {
+        Entity entity = getEntity(id, neutralQuery);
+
+        if (entity == null) {
+            throw new EntityNotFoundException(id);
+        }
+
+        return makeEntityBody(entity);
+    }
+
+    private Entity getEntity(String id, NeutralQuery neutralQuery) {
         checkAccess(readRight, id);
         checkFieldAccess(neutralQuery);
 
@@ -381,12 +335,7 @@ public class BasicService implements EntityService {
         neutralQuery.addCriteria(new NeutralCriteria("_id", "=", id));
 
         Entity entity = repo.findOne(collectionName, neutralQuery);
-
-        if (entity == null) {
-            throw new EntityNotFoundException(id);
-        }
-
-        return makeEntityBody(entity);
+        return entity;
     }
 
 
@@ -513,7 +462,7 @@ public class BasicService implements EntityService {
         String clientId = getClientId();
 
 
-        debug("Reading custom entity: entity={}, entityId={}, clientId={}", new String[]{
+        debug("Reading custom entity: entity={}, entityId={}, clientId={}", new Object[]{
                 getEntityDefinition().getType(), id, clientId });
 
         NeutralQuery query = new NeutralQuery();
@@ -552,8 +501,8 @@ public class BasicService implements EntityService {
 
         boolean deleted = getRepo().delete(CUSTOM_ENTITY_COLLECTION, entity.getEntityId());
 
-        debug("Deleting custom entity: entity={}, entityId={}, clientId={}, deleted?={}", new String[]{
-                getEntityDefinition().getType(), id, clientId, String.valueOf(deleted) });
+        debug("Deleting custom entity: entity={}, entityId={}, clientId={}, deleted?={}", new Object[]{
+                getEntityDefinition().getType(), id, clientId, deleted });
     }
 
     /**
@@ -574,24 +523,23 @@ public class BasicService implements EntityService {
 
         if (entity != null && entity.getBody().equals(customEntity)) {
             debug("No change detected to custom entity, ignoring update: entity={}, entityId={}, clientId={}",
-                    new String[]{ getEntityDefinition().getType(), id, clientId });
+                    new Object[]{ getEntityDefinition().getType(), id, clientId });
             return;
         }
 
         EntityBody clonedEntity = new EntityBody(customEntity);
 
         if (entity != null) {
-            debug("Overwriting existing custom entity: entity={}, entityId={}, clientId={}", new String[]{
+            debug("Overwriting existing custom entity: entity={}, entityId={}, clientId={}", new Object[]{
                     getEntityDefinition().getType(), id, clientId });
             entity.getBody().clear();
             entity.getBody().putAll(clonedEntity);
             getRepo().update(CUSTOM_ENTITY_COLLECTION, entity);
         } else {
-            debug("Creating new custom entity: entity={}, entityId={}, clientId={}", new String[]{
+            debug("Creating new custom entity: entity={}, entityId={}, clientId={}", new Object[]{
                     getEntityDefinition().getType(), id, clientId });
             EntityBody metaData = new EntityBody();
 
-            Map<String, Object> metadata = new HashMap<String, Object>();
             SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             metaData.put(CUSTOM_ENTITY_CLIENT_ID, clientId);
             metaData.put(CUSTOM_ENTITY_ENTITY_ID, id);
@@ -611,9 +559,10 @@ public class BasicService implements EntityService {
             }
 
             debug("Field {} is referencing {}", fieldName, entityType);
+            @SuppressWarnings("unchecked")
             List<String> ids = value instanceof List ? (List<String>) value : Arrays.asList((String) value);
             String collectionName = definitionStore.lookupByEntityType(entityType).getStoredCollectionName();
-            SecurityCriteria securityCriteria = findAccessible(collectionName);
+            SecurityCriteria securityCriteria = findAccessible(entityType);
 
             NeutralQuery neutralQuery = new NeutralQuery();
             neutralQuery.setOffset(0);
@@ -868,7 +817,6 @@ public class BasicService implements EntityService {
      *
      * @param eb
      */
-    @SuppressWarnings("unchecked")
     private void filterFields(Map<String, Object> eb) {
         filterFields(eb, "");
         complexFilter(eb);
@@ -884,6 +832,7 @@ public class BasicService implements EntityService {
             final String telephone = "telephone";
             final String electronicMail = "electronicMail";
 
+            @SuppressWarnings("unchecked")
             List<Map<String, Object>> telephones = (List<Map<String, Object>>) eb.get(telephone);
             if (telephones != null) {
 
@@ -895,6 +844,7 @@ public class BasicService implements EntityService {
 
             }
 
+            @SuppressWarnings("unchecked")
             List<Map<String, Object>> emails = (List<Map<String, Object>>) eb.get(electronicMail);
             if (emails != null) {
 
@@ -1097,4 +1047,11 @@ public class BasicService implements EntityService {
     protected void setClientInfo(CallingApplicationInfoProvider clientInfo) {
         this.clientInfo = clientInfo;
     }
+
+    @Override
+    public AggregateData getAggregateData(String id) {
+        Entity entity = getEntity(id, new NeutralQuery());
+        return entity.getAggregates();
+    }
+
 }

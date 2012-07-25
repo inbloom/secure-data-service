@@ -17,44 +17,47 @@
 
 $(document).ready(function() {
 
-  // rsa key field interaction
-  $("#addKeyBtn").unbind("click");
-  $("#addKeyBtn").click(function() {
-    $("#rsaKeyField").toggle(250);
-    $("#rsaKeyField").find(':input').val('');
-      $("#rsa_validation_error_text").text('');
-    $("#key_arrow").toggleClass("icon-chevron-left icon-chevron-down");
-  });
-
-  // tool tips
-  $("#key_tooltip").qtip({
-      content: 'You can provide a public key that will be used to securely SFTP to your landing zone. Public keys must be encrypted using RFC 4716 format. <a href="http://www.ietf.org/rfc/rfc4716.txt" class="tooltip_link">More Information</a>',
-      position: {
-	  corner: { 
-	      tooltip: 'bottomMiddle',
-	      target: 'topMiddle'
-	  }
-      },
-      hide: { 
-	  fixed: true,
-	  when: {
-	      event: 'unfocus'
-	  }
-      },
-      style: { 
-	  border: {
-              width: 1,
-              radius: 5
-          },
-	  padding: 5,
-	  tip: true
-      }
-  });
-
-  // put out spinner for provision button
-  $("#provisionButton").click(function() {
-      $("#spinner").show();
-  });
+// !!! Commenting out RSA Key field UI temporarily !!!
+// 
+//  // rsa key field interaction
+//  $("#addKeyBtn").unbind("click");
+//  $("#addKeyBtn").click(function() {
+//    $("#rsaKeyField").toggle(250);
+//    $("#rsaKeyField").find(':input').val('');
+//      $("#rsa_validation_error_text").text('');
+//    $("#key_arrow").toggleClass("icon-chevron-left icon-chevron-down");
+//  });
+//
+//  // tool tips
+//  $("#key_tooltip").qtip({
+//      content: 'You can provide a public key that will be used to securely SFTP to your landing zone. Public keys must be encrypted using RFC 4716 format. <a href="http://www.ietf.org/rfc/rfc4716.txt" class="tooltip_link">More Information</a>',
+//      position: {
+//	  corner: { 
+//	      tooltip: 'bottomMiddle',
+//	      target: 'topMiddle'
+//	  }
+//      },
+//      hide: { 
+//	  fixed: true,
+//	  when: {
+//	      event: 'unfocus'
+//	  }
+//      },
+//      style: { 
+//	  border: {
+//              width: 1,
+//              radius: 5
+//          },
+//	  padding: 5,
+//	  tip: true
+//      }
+//  });
+//
+//  // put out spinner for provision button
+//  $("#provisionButton").click(function() {
+//      $("#spinner").show();
+//  });
+// !!! END Commenting out RSA Key field UI temporarily !!!
 
   if (is_sandbox) {
     var buttonEnableForCustom = function() {

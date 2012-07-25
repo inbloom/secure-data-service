@@ -1,5 +1,8 @@
 Feature: Population Widget <US435>
 
+Background:
+Given that dashboard has been authorized for all ed orgs
+	
 @RALLY_US200
 Scenario: Selecting classes on LOS
 Given I have an open web browser

@@ -32,6 +32,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -100,7 +101,7 @@ public class SamlFederationResourceTest {
         } catch (Exception e) {
             exception = e;
         }
-        Assert.assertTrue(exception instanceof IllegalArgumentException);
+        Assert.assertTrue(exception instanceof AccessDeniedException);
 
     }
 

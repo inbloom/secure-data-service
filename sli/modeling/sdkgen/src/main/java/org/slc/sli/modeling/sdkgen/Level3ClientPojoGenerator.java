@@ -424,9 +424,28 @@ public final class Level3ClientPojoGenerator {
             new ReturnStmt(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, baseType)).write(jsw);
         } else if (baseType.getTypeKind() == JavaTypeKind.ENUM) {
             if (type.getCollectionKind() == JavaCollectionKind.LIST) {
-                jsw.beginStmt().write("final ").writeType(baseType).write(" list = new ArrayList<")
-                        .write(baseType.getSimpleName()).write(">()").endStmt();
-                jsw.beginStmt().write("return list").endStmt();
+                JavaType javaType = new JavaType(baseType.getSimpleName(), baseType.getCollectionKind(),
+                        baseType.getTypeKind(), baseType.getBase());
+                final JavaType returnType = JavaType.collectionType(JavaCollectionKind.LIST, javaType);
+                final String rList = "rList";
+                final String elem = "elem";
+                jsw.writeAssignment(new JavaParam(rList, returnType, true),
+                        new NewInstanceExpr(JavaType.collectionType(JavaCollectionKind.ARRAY_LIST, javaType)));
+
+                jsw.write("for").parenL().writeParams(new JavaParam(elem, JavaType.JT_OBJECT, true));
+                jsw.write(":");
+                jsw.write(new CoerceToPojoTypeSnippet(FIELD_UNDERLYING, name, javaType)).parenR();
+                jsw.beginBlock();
+
+                jsw.write(new MethodCallExpr(
+                        new VarNameExpr(rList), "add",
+                        new MethodCallExpr(new VarNameExpr(baseType.getSimpleName()),
+                                "valueOfName",
+                                new VarNameExpr("Coercions.toString(elem)")))).endStmt();
+
+                jsw.endBlock();
+
+                jsw.write(new ReturnStmt(new VarNameExpr(rList)));
             } else {
                 jsw.beginStmt();
                 jsw.write("return ").write(baseType.getSimpleName()).write(".valueOfName");

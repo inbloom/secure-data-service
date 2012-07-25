@@ -28,17 +28,23 @@
 
 }
 </style>
+<link href="resources/bootstrap.css" rel="stylesheet"/>
 </head>
 
 <body>
 	<div class="error-container">
-
 		<div class="error-header">ERROR</div>
-
 		<div class="error-content">
-			<h3>We're sorry, an error occurred. Please try again.</h3>
+			<div class="panel-header">
+				<p/>
+				<c:if test="${errMessage!=null}">
+					<h3><c:out value="${errMessage}"/></h3>
+				</c:if>
+				<c:if test="${errMessage==null}">
+					<h3>We're sorry, an error occurred. Please try again.</h3>
+				</c:if>
+			</div>
 		</div>
-
 	</div>
 </body>
 </html>

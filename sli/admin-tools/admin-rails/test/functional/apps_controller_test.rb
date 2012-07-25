@@ -21,6 +21,7 @@ require 'test_helper'
 
 class AppsControllerTest < ActionController::TestCase
   setup do
+    session[:roles] = ["Application Developer"]
     @Apps = App.all
   end
 
@@ -61,10 +62,10 @@ class AppsControllerTest < ActionController::TestCase
     assert_response :success
   end
   
-  # test "should update App" do
-  #   put :update, id:@Apps[0].id, App: @app_fixtures["update"]
-  #   assert_redirected_to App_path(assigns(:App))
-  # end
+   test "should update App" do
+     put :update, id:@Apps[0].id, app: @app_fixtures["update"]
+     assert_redirected_to apps_path
+   end
 
   # test "should destroy App" do
   #   assert_difference('App.count', -1) do
