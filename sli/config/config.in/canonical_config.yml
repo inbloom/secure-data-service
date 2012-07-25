@@ -327,8 +327,8 @@ default:
         sli.sif-agent.zoneId: TestZone
         sli.sif-agent.zoneUrl: http://local.slidev.org:8087/mock-zis/zis
         # interim sif id reference resolution files
-        sli.sif-agent.idmap: /tmp/idmap.txt
-        sli.sif-agent.zonemap: /tmp/zonemap.txt
+        sli.sif-agent.idmap: target/sif-agent/WEB-INF/classes/default-idmap.csv
+        sli.sif-agent.zonemap: target/sif-agent/WEB-INF/classes/default-zonemap.csv
 
 acceptance-tests:
     api:
