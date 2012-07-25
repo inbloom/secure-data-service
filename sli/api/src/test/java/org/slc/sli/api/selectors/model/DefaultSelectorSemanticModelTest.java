@@ -53,8 +53,6 @@ public class DefaultSelectorSemanticModelTest {
         assertTrue("Should contain base type", selector.containsKey(student));
         assertNotNull("Should have a list of attributes", selector.get(student));
 
-        System.out.println(selector);
-
         final List<SelectorElement> studentList = selector.get(student);
         assertEquals(5, studentList.size());
         assertTrue(!studentList.contains(null));
