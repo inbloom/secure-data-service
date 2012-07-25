@@ -23,7 +23,6 @@ require 'pp'
 require 'rest-client'
 
 require_relative '../../../utils/sli_utils.rb'
-# require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
 
 ############################################################
 # ENVIRONMENT CONFIGURATION
@@ -78,7 +77,6 @@ end
 # STEPS: WHEN
 ############################################################
 
-
 When /^I POST a\(n\) "(.*?)" SIF message$/ do |identifier|
   message = getMessageForIdentifier(identifier)
   postMessage(message)
@@ -126,7 +124,7 @@ Then /^I should see following map of entry counts in the corresponding collectio
 end
 
 Then /^I check to find if record is in collection:$/ do |table|
-  @db   = @conn[INGESTION_DB_NAME]
+  @db   = @conn[SIF_DB_NAME]
 
   @result = "true"
 
