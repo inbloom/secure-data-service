@@ -1,0 +1,10 @@
+<div id="notice">
+	<%= notice %>
+</div>
+
+<h1>Custom Roles for <%= @realm.name %> </h1>
+
+<%= form_for(@realm, :url => {:controller => 'custom_roles', :action => 'update'}) do |f| %>
+  <%= render :partial => 'form', :locals => {:f => f} %>
+<% end %>
+
