@@ -1,6 +1,9 @@
 package org.slc.sli.api.selectors.model;
 
+import org.slc.sli.api.selectors.doc.SelectorQuery;
+import org.slc.sli.api.selectors.doc.SelectorQueryVisitor;
 import org.slc.sli.modeling.uml.Type;
+
 
 /**
  * @author jstokes
@@ -36,5 +39,10 @@ public class ComplexSelectorElement implements SelectorElement {
 
     public SemanticSelector getSelector() {
         return selector;
+    }
+
+    @Override
+    public SelectorQuery accept(SelectorQueryVisitor selectorQueryVisitor) {
+        return selectorQueryVisitor.visit(this);
     }
 }

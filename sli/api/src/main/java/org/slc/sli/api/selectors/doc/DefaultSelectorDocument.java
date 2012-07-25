@@ -1,8 +1,7 @@
 package org.slc.sli.api.selectors.doc;
 
 import org.codehaus.plexus.util.StringUtils;
-import org.slc.sli.api.selectors.model.ModelProvider;
-import org.slc.sli.api.selectors.model.SemanticSelector;
+import org.slc.sli.api.selectors.model.*;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.modeling.uml.AssociationEnd;
@@ -23,7 +22,7 @@ import java.util.Map;
  *
  */
 @Component
-public class DefaultSelectorDocument implements SelectorDocument, QueryVisitor {
+public class DefaultSelectorDocument implements SelectorDocument, SelectorQueryVisitor {
 
     @Autowired
     private ModelProvider modelProvider;
@@ -33,38 +32,38 @@ public class DefaultSelectorDocument implements SelectorDocument, QueryVisitor {
 
         if (queryMap == null) return;
 
-        Map<Type, QueryPlan> queries = buildQueryPlan(queryMap);
+        Map<Type, SelectorQueryPlan> queries = buildQueryPlan(queryMap);
 
         executeQueryPlan(queries, constraint);
     }
 
-    private Map<Type, QueryPlan> buildQueryPlan(SemanticSelector queryMap) {
-        Map<Type, QueryPlan> queries = new HashMap<Type, QueryPlan>();
+    private Map<Type, SelectorQueryPlan> buildQueryPlan(SemanticSelector queryMap) {
+        Map<Type, SelectorQueryPlan> queries = new HashMap<Type, SelectorQueryPlan>();
 
-        for (Map.Entry<Type, List<Object>> entry : queryMap.entrySet()) {
+        for (Map.Entry<Type, List<SelectorElement>> entry : queryMap.entrySet()) {
             Type type = entry.getKey();
-            List<Object> attributes = entry.getValue();
+            List<SelectorElement> attributes = entry.getValue();
 
-            Container container = handleAttributes(attributes);
+            SelectorQuery selectorQuery = handleAttributes(attributes);
 
-            if (!container.getQueries().isEmpty()) {
+            if (!selectorQuery.getQueries().isEmpty()) {
                 if (queries.containsKey(type)) {
-                    queries.get(type).getChildQueryPlans().addAll(container.getQueries());
+                    queries.get(type).getChildQueryPlans().addAll(selectorQuery.getQueries());
                 } else {
-                    QueryPlan plan = new QueryPlan();
-                    plan.getChildQueryPlans().addAll(container.getQueries());
+                    SelectorQueryPlan plan = new SelectorQueryPlan();
+                    plan.getChildQueryPlans().addAll(selectorQuery.getQueries());
 
                     queries.put(type, plan);
                 }
             }
 
-            NeutralQuery query = buildQuery(container.getIncludeFields());
+            NeutralQuery neutralQuery = buildQuery(selectorQuery.getIncludeFields());
 
             if (queries.containsKey(type)) {
-                queries.get(type).setQuery(query);
+                queries.get(type).setQuery(neutralQuery);
             } else {
-                QueryPlan plan = new QueryPlan();
-                plan.setQuery(query);
+                SelectorQueryPlan plan = new SelectorQueryPlan();
+                plan.setQuery(neutralQuery);
 
                 queries.put(type, plan);
             }
@@ -74,10 +73,10 @@ public class DefaultSelectorDocument implements SelectorDocument, QueryVisitor {
 
     }
 
-    protected void executeQueryPlan(Map<Type, QueryPlan> queryMap, final Constraint constraint) {
-        for (Map.Entry<Type, QueryPlan> entry : queryMap.entrySet()) {
+    protected void executeQueryPlan(Map<Type, SelectorQueryPlan> queryMap, final Constraint constraint) {
+        for (Map.Entry<Type, SelectorQueryPlan> entry : queryMap.entrySet()) {
             Type type = entry.getKey();
-            QueryPlan plan = entry.getValue();
+            SelectorQueryPlan plan = entry.getValue();
 
             List<String> ids;
 
@@ -90,7 +89,7 @@ public class DefaultSelectorDocument implements SelectorDocument, QueryVisitor {
             List<Object> childQueryPlans = plan.getChildQueryPlans();
 
             for (Object obj : childQueryPlans) {
-                executeQueryPlan((Map<Type, QueryPlan>) obj, previousConstraint);
+                executeQueryPlan((Map<Type, SelectorQueryPlan>) obj, previousConstraint);
             }
         }
     }
@@ -102,40 +101,17 @@ public class DefaultSelectorDocument implements SelectorDocument, QueryVisitor {
         return query;
     }
 
-    protected Container handleAttributes(List<Object> attributes) {
-        Container container = new Container();
+    protected SelectorQuery handleAttributes(List<SelectorElement> attributes) {
+        SelectorQuery selectorQuery = new SelectorQuery();
 
-        for (Object obj : attributes) {
-            if (obj instanceof QueryVisitable) {
-                Map<Type, QueryPlan> queries = ((QueryVisitable) obj).accept(this);
-                container.getQueries().add(queries);
-            } else if (String.class.isInstance(obj)) {
-                container.getIncludeFields().add((String) obj);
-            }
+        for (SelectorQueryVisitable visitableSelector : attributes) {
+            SelectorQuery newSelectorQuery = visitableSelector.accept(this);
+            //Map<Type, QueryPlan> queries = ((QueryVisitable) obj).accept(this);
+            selectorQuery.getQueries().addAll(newSelectorQuery.getQueries());
+            selectorQuery.getIncludeFields().addAll(newSelectorQuery.getIncludeFields());
         }
 
-        return container;
-    }
-
-    class Container {
-        private List<String> includeFields = new ArrayList<String>();
-        private List<Map<Type, QueryPlan>> queries = new ArrayList<Map<Type, QueryPlan>>();
-
-        public List<String> getIncludeFields() {
-            return includeFields;
-        }
-
-        public void setIncludeFields(List<String> includeFields) {
-            this.includeFields = includeFields;
-        }
-
-        public List<Map<Type, QueryPlan>> getQueries() {
-            return queries;
-        }
-
-        public void setQueries(List<Map<Type, QueryPlan>> queries) {
-            this.queries = queries;
-        }
+        return selectorQuery;
     }
 
     protected List<String> executeQuery(Type type, NeutralQuery query, final Constraint constraint) {
@@ -167,8 +143,32 @@ public class DefaultSelectorDocument implements SelectorDocument, QueryVisitor {
     }
 
     @Override
-    public Map<Type, QueryPlan> visit(SemanticSelector semanticSelector) {
-        return buildQueryPlan(semanticSelector);
+    public SelectorQuery visit(SemanticSelector semanticSelector) {
+        //return buildQueryPlan(semanticSelector);
+        return null;
+    }
+
+    @Override
+    public SelectorQuery visit(BooleanSelectorElement booleanSelectorElement) {
+        String attr = (String) booleanSelectorElement.getLHS();
+        SelectorQuery selectorQuery = new SelectorQuery();
+        selectorQuery.getIncludeFields().add(attr);
+        return selectorQuery;
+    }
+
+    @Override
+    public SelectorQuery visit(ComplexSelectorElement complexSelectorElement) {
+        Map<Type, SelectorQueryPlan> queries = buildQueryPlan(complexSelectorElement.getSelector());
+        SelectorQuery selectorQuery = new SelectorQuery();
+        selectorQuery.getQueries().add(queries);
+
+        return selectorQuery;
+    }
+
+    @Override
+    public SelectorQuery visit(IncludeAllSelectorElement includeAllSelectorElement) {
+        //TODO
+        return null;
     }
 
 }

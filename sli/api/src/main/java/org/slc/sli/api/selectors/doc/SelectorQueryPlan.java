@@ -15,7 +15,7 @@ import java.util.Map;
  * Time: 1:32 PM
  * To change this template use File | Settings | File Templates.
  */
-public class QueryPlan {
+public class SelectorQueryPlan {
     private ClassType type;
     private NeutralQuery query;
     private List<Object> childQueryPlans = new ArrayList<Object>();

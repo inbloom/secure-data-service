@@ -3,8 +3,7 @@ package org.slc.sli.api.selectors.doc;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.selectors.model.ModelProvider;
-import org.slc.sli.api.selectors.model.SemanticSelector;
+import org.slc.sli.api.selectors.model.*;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.modeling.uml.ClassType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,29 +56,29 @@ public class DefaultSelectorDocumentTest {
     }
 
     public SemanticSelector generateSelectorObjectMap() {
-        ClassType studentType =provider.getClassType("Student");
+        ClassType studentType = provider.getClassType("Student");
         ClassType studentSchoolAssocication = provider.getClassType("schoolAssociations<=>student");
         ClassType studentSectionAssocication = provider.getClassType("sectionAssociations<=>student");
 
         SemanticSelector ssaAttrs = new SemanticSelector();
-        List<Object> attributes = new ArrayList<Object>();
-        attributes.add("entryGradeLevel");
-        attributes.add("entryDate");
+        List<SelectorElement> attributes = new ArrayList<SelectorElement>();
+        attributes.add(new BooleanSelectorElement("entryGradeLevel", true));
+        attributes.add(new BooleanSelectorElement("entryDate", true));
         ssaAttrs.put(studentSchoolAssocication, attributes);
 
 
         SemanticSelector sectionAttrs = new SemanticSelector();
-        List<Object> attributes2 = new ArrayList<Object>();
-        attributes2.add("someField");
+        List<SelectorElement> attributes2 = new ArrayList<SelectorElement>();
+        attributes2.add(new BooleanSelectorElement("someField", true));
         sectionAttrs.put(studentSectionAssocication, attributes2);
 
 
         SemanticSelector studentsAttrs = new SemanticSelector();
-        List<Object> attributes1 = new ArrayList<Object>();
-        attributes1.add("name");
-        attributes1.add("economicDisadvantaged");
-        attributes1.add(ssaAttrs);
-        attributes1.add(sectionAttrs);
+        List<SelectorElement> attributes1 = new ArrayList<SelectorElement>();
+        attributes1.add(new BooleanSelectorElement("name", true));
+        attributes1.add(new BooleanSelectorElement("economicDisadvantaged", true));
+        attributes1.add(new ComplexSelectorElement(studentSchoolAssocication, ssaAttrs));
+        attributes1.add(new ComplexSelectorElement(studentSectionAssocication, sectionAttrs));
         studentsAttrs.put(studentType, attributes1);
 
         return studentsAttrs;
