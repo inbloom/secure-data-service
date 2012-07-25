@@ -33,6 +33,8 @@ SIF_DB = PropLoader.getProps['sif_db']
 SIF_ZIS_ADDRESS_TRIGGER = PropLoader.getProps['sif_zis_address_trigger']
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT"]
 
+BOOTSTRAPPED_GUIDS = ["2012rq-d60cae46-d66d-11e1-a5ad-406c8f06bd30", "2012kn-52435872-d66d-11e1-a5ad-406c8f06bd30", "2012lw-d6111b17-d66d-11e1-a5ad-406c8f06bd30"]
+
 ############################################################
 # STEPS: BEFORE
 ############################################################
@@ -51,7 +53,7 @@ end
 # STEPS: GIVEN
 ############################################################
 
-# TODO change to clean instead of remove
+# Doesn't remove entities where _id is in BOOTSTRAPPED_GUIDS
 Given /^the following collections are clean in datastore:$/ do |table|
   @conn = Mongo::Connection.new(SIF_DB)
 
@@ -61,16 +63,16 @@ Given /^the following collections are clean in datastore:$/ do |table|
 
   table.hashes.map do |row|
     @entity_collection = @db[row["collectionName"]]
-    @entity_collection.remove("metaData.tenantId" => {"$in" => TENANT_COLLECTION})
+    @entity_collection.remove("metaData.tenantId" => {"$in" => TENANT_COLLECTION}, "_id" => {"$nin" => BOOTSTRAPPED_GUIDS})
 
     puts "There are #{@entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count} records in collection " + row["collectionName"] + "."
 
-    if @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count.to_s != "0"
+    if @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}, "_id" => {"$nin" => BOOTSTRAPPED_GUIDS}).count.to_s != "0"
       @result = "false"
     end
   end
   createIndexesOnDb(@conn, SIF_DB_NAME)
-  assert(@result == "true", "Some collections were not cleared successfully.")
+  assert(@result == "true", "Some collections were not cleaned successfully.")
 end
 
 ############################################################
@@ -90,13 +92,11 @@ def getMessageForIdentifier(identifier)
 end
 
 def postMessage(message)
-  puts "POSTing message: #{message}"
-
+  # puts "POSTing message: #{message}"
   headers = {:content_type => @format}
   @res = RestClient.post(@postUri, message, headers){|response, request, result| response }
-  puts(@res.code,@res.body,@res.raw_headers)
-
-  pp @res
+  # puts(@res.code,@res.body,@res.raw_headers)
+  # pp @res
 end
 
 ############################################################
