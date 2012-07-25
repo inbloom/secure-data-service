@@ -1,4 +1,5 @@
 require 'test/unit'
+require 'eventbus' 
 
 class TestLdap < Test::Unit::TestCase
     def setup
