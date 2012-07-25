@@ -67,7 +67,7 @@ public class Sif2SliMapperTest
         seaInfo = SifEntityGenerator.generateTestSEAInfo();
     }
 
-//    @Test
+    @Test
     public void testSchoolInfoMap2json() throws JsonProcessingException, MappingException, IOException {
         JsonNode schoolNode = xformer.transform2json(schoolInfo);
         Assert.assertEquals("Expecting 'Daybreak West High' as stateOrganizationId",
@@ -142,19 +142,6 @@ public class Sif2SliMapperTest
         Assert.assertEquals("Expecting '(312) 555-1234' as the first phone number", "(312) 555-1234", entity.getTelephone().get(0).getTelephoneNumber());
         Assert.assertEquals("Expecting 'Main' as the first phone type", "Fax", entity.getTelephone().get(1).getInstitutionTelephoneNumberType());
         Assert.assertEquals("Expecting '(312) 555-2364' as the first phone number", "(312) 555-2364", entity.getTelephone().get(1).getTelephoneNumber());
-        
-//        Event event = new Event(schoolInfo, EventAction.ADD);
-//        try
-//        {
-//            SIFDataObject sdo = event.getData().readDataObject();
-//            entity = xformer.transform((SchoolInfo)sdo);
-//            entity.getData();
-//        } catch (ADKException e)
-//        {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//        entity.getData();
     }
 
     @Test
