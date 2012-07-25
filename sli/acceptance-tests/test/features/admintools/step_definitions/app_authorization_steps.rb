@@ -210,7 +210,7 @@ Then /^the Deny button next to it is enabled$/ do
   @inputs = @row.find_elements(:xpath, ".//td/form/input")
   @inputs.each do |input|
     if input.attribute(:value) == "Deny"
-      assert(input.attribute(:disabled) == "false", "Deny button should be enabled")
+      assert(input.attribute(:disabled) != "true", "Deny button should be enabled")
     end
   end
 end
@@ -239,7 +239,7 @@ Then /^the Approve button next to it is enabled$/ do
   @inputs = @row.find_elements(:xpath, ".//td/form/input")
   @inputs.each do |input|
     if input.attribute(:value) == "Approve"
-      assert(input.attribute(:disabled) == "false", "Approve button should be enabled")
+      assert(input.attribute(:disabled) != "true", "Approve button should be enabled")
     end
   end
 end

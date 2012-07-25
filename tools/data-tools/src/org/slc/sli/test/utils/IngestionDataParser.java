@@ -25,6 +25,7 @@ public class IngestionDataParser {
         try {
 
             for (Map.Entry<String, List<Pair<String, String>>> entry : interchanges.entrySet()) {
+                try{
                 String interchange = directory + entry.getKey();
                 FileReader in = new FileReader(interchange);
                 BufferedReader reader = new BufferedReader(in);
@@ -56,10 +57,14 @@ public class IngestionDataParser {
                 }
 
                 reader.close();
+                } catch(FileNotFoundException e)
+                {
+                    System.out.println(e.getMessage());
+                    //e.printStackTrace();
+                }
             }
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        }
+            catch (IOException e) {
             e.printStackTrace();
         }
         return interchangeRecordCount;
@@ -181,8 +186,7 @@ public class IngestionDataParser {
         return Pair.of(total, counts);
     }
 
-    public static Map<String, Long> mapEntityCounts(String directory, Map<String, Long> entityCounts, PrintStream log,
-            boolean verbose) {
+    public static Map<String, Long> mapEntityCounts(Map<String, Long> entityCounts) {
         Map<String, Long> counts = new HashMap<String, Long>();
 
         Map<String, List<String>> entityMappings = new HashMap<String, List<String>>();
@@ -211,7 +215,7 @@ public class IngestionDataParser {
         entityMappings.put("performanceLevelDescriptor", Arrays.asList("PerformanceLevelDescriptor"));
         entityMappings.put("program", Arrays.asList("Program"));
         entityMappings.put("reportCard", Arrays.asList("ReportCard"));
-        entityMappings.put("schoolSessionAssociation", Arrays.asList("Session"));
+        //entityMappings.put("schoolSessionAssociation", Arrays.asList("Session"));
         entityMappings.put("section", Arrays.asList("Section"));
         entityMappings.put("serviceDescriptor", Arrays.asList("ServiceDescriptor"));
         entityMappings.put("session", Arrays.asList("Session"));
@@ -252,8 +256,8 @@ public class IngestionDataParser {
             counts.put(collectionName, finalEntityCount);
         }
 
-        String studentEnrollmentFile = directory + "InterchangeStudentEnrollment.xml";
-        counts.put("attendance", findUniqueStudentSchoolPairs(studentEnrollmentFile, log, verbose));
+        //String studentEnrollmentFile = directory + "InterchangeStudentEnrollment.xml";
+        //counts.put("attendance", findUniqueStudentSchoolPairs(studentEnrollmentFile, log, verbose));
 
         return counts;
     }
@@ -299,13 +303,13 @@ public class IngestionDataParser {
                             memory.add(Pair.of(studentUniqueStateId, stateOrganizationId));
 
                             if (verbose) {
-                                log.println(" [info] Found student: " + studentUniqueStateId + " at school: "
-                                        + stateOrganizationId);
+                                //log.println(" [info] Found student: " + studentUniqueStateId + " at school: "
+                                  //      + stateOrganizationId);
                             }
                         } else {
                             if (verbose) {
-                                log.println(" [warn] Already encountered student: " + studentUniqueStateId
-                                        + " at school: " + stateOrganizationId);
+                                //log.println(" [warn] Already encountered student: " + studentUniqueStateId
+                                  //     + " at school: " + stateOrganizationId);
                             }
                             repeaters++;
                         }
@@ -327,7 +331,7 @@ public class IngestionDataParser {
         return uniquePairs;
     }
 
-    public static void write(String directory, Long total, Map<String, Long> counts, PrintStream log, boolean verbose) {
+    public static void write(String filename, Long total, Map<String, Long> counts) {
         List<String> notPersisted = new ArrayList<String>();
         notPersisted.add("assessmentItem");
         notPersisted.add("assessmentFamily");
@@ -348,15 +352,9 @@ public class IngestionDataParser {
         Collections.sort(persisted);
         Collections.sort(ignored);
 
-        String dataSetSize = parseDirectory(directory);
-        String expectedFile = directory + dataSetSize + "_expected.txt";
-
         try {
-            if (verbose) {
-                log.println(" [file] Writing to file: " + expectedFile);
-            }
 
-            FileWriter writer = new FileWriter(expectedFile);
+            FileWriter writer = new FileWriter(filename);
 
             writer.write(" # actual record count: " + String.valueOf(total) + eol);
             writer.write(" # entities not persisted:" + eol);
@@ -367,7 +365,7 @@ public class IngestionDataParser {
                 }
             }
 
-            writer.write(" \"" + dataSetSize + "\" => {" + eol);
+            writer.write(" \"" + "dataSetSize" + "\" => {" + eol);
             for (int i = 0; i < persisted.size(); i++) {
                 if (counts.containsKey(persisted.get(i))) {
                     writer.write("  \"" + persisted.get(i) + "\"=>" + String.valueOf(counts.get(persisted.get(i))));
@@ -380,9 +378,6 @@ public class IngestionDataParser {
             }
             writer.write(" }" + eol);
 
-            if (verbose) {
-                log.println(" [file] Closing file handle: " + expectedFile);
-            }
 
             writer.close();
         } catch (FileNotFoundException e) {
@@ -392,14 +387,7 @@ public class IngestionDataParser {
         }
     }
 
-    private static String parseDirectory(String directory) {
-        String[] splitByParen = directory.split("/");
-        return splitByParen[splitByParen.length - 1];
-    }
-
-    public static void main(String[] args) {
-        String directory = args[0];
-
+    public static void generateStats(String directory) {
         PrintStream print = System.out;
         boolean verbose = true;
         long start1 = System.currentTimeMillis();
@@ -408,11 +396,20 @@ public class IngestionDataParser {
         print.println(" [info] total record count for data: " + counts.getLeft());
         print.println(" [info] time taken: " + ((end1 - start1) / 1000) + " seconds.");
         print.println(" [info] writing _expected file...");
-
+               
         long start2 = System.currentTimeMillis();
-        write(directory, counts.getLeft(), mapEntityCounts(directory, counts.getRight(), print, verbose), print,
-                verbose);
+        Map<String, Long> sliCounts = mapEntityCounts(counts.getRight());
+        String studentEnrollmentFile = directory + "InterchangeStudentEnrollment.xml";
+        sliCounts.put("attendance", findUniqueStudentSchoolPairs(studentEnrollmentFile, print, verbose));
+        write(directory + "/" + "expected.rb", counts.getLeft(), sliCounts);
         long end2 = System.currentTimeMillis();
-        print.println(" [info] time taken: " + ((end2 - start2) / 1000) + " seconds.");
+                
+        print.println(" [info] time taken: " + ((end2 - start1) / 1000) + " seconds.");
+    }
+    
+    
+    public static void main(String args[]) {
+        String directory  = "C:\\Users\\ldalgado\\Desktop\\kounts\\DE1113_1.5M\\";
+        IngestionDataParser.generateStats(directory);
     }
 }

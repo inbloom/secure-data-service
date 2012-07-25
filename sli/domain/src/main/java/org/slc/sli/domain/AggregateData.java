@@ -1,5 +1,6 @@
 package org.slc.sli.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -13,7 +14,8 @@ import java.util.Map.Entry;
  * @author nbrown
  *
  */
-public class AggregateData {
+public class AggregateData implements Serializable {
+    private static final long serialVersionUID = 1127693471079120104L;
     private final List<AggregateDatum> aggregates;
 
     public AggregateData() {
@@ -51,7 +53,7 @@ public class AggregateData {
         List<AggregateDatum> aggs = new ArrayList<AggregateDatum>();
         for (AggregateDatum datum : aggregates) {
             if ((type == null || type.equals(datum.getType())) && (window == null || window.equals(datum.getWindow()))
-                    && (methodology == null || methodology.equals(datum.getMethodology()))
+                    && (methodology == null || methodology.equals(datum.getMethod()))
                     && (name == null || name.equals(datum.getName()))) {
                 aggs.add(datum);
             }
