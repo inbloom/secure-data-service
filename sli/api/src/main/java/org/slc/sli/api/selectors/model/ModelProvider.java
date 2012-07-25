@@ -3,6 +3,7 @@ package org.slc.sli.api.selectors.model;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.DataType;
 import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.ModelElement;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import javax.xml.namespace.QName;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**

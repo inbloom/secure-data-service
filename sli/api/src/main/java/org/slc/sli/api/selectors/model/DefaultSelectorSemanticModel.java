@@ -18,7 +18,7 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
     @Autowired
     private ModelProvider modelProvider;
 
-    public SemanticSelector parse(final Map<String, Object> selectors, final Type type) {
+    public SemanticSelector parse(final Map<String, Object> selectors, final Type type) throws SelectorParseException {
         if (type == null) throw new NullPointerException("type");
         if (selectors == null) throw new NullPointerException("selectors");
 
@@ -26,20 +26,29 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
         for (final Map.Entry<String, Object> entry : selectors.entrySet()) {
             final String key = entry.getKey();
             final Object value = entry.getValue();
-
-            if (modelProvider.isAssociation(type, key)) {
-                final Type keyType = modelProvider.getType(type, entry.getKey());
-                if (isMap(value)) {
-                    selector.addSelector(type, parse(toMap(value), keyType));
-                }
-            } else if (modelProvider.isAttribute(type, key)) {
-                selector.addSelector(type, key);
-            } else {
-                throw new AssertionError("Invalid Selectors " + entry.getKey());
-            }
+            addEntryToSelector(type, selector, key, value);
         }
-
         return selector;
+    }
+
+    private void addEntryToSelector(final Type type, final SemanticSelector selector, final String key, final Object value)
+            throws SelectorParseException {
+        final SelectorElement elem;
+        if (modelProvider.isAssociation(type, key)) {
+            final Type keyType = modelProvider.getType(type, key);
+            if (isMap(value)) {
+                elem = new ComplexSelectorElement(keyType, parse(toMap(value), keyType));
+            } else if (value.equals(SelectorElement.INCLUDE_ALL)) {
+                elem = new IncludeAllSelectorElement(keyType);
+            } else {
+                elem = new BooleanSelectorElement(keyType, Boolean.valueOf(value.toString()));
+            }
+        } else if (modelProvider.isAttribute(type, key)) {
+            elem = new BooleanSelectorElement(key, Boolean.valueOf(value.toString()));
+        } else {
+            throw new SelectorParseException("Invalid Selectors " + key);
+        }
+        selector.addSelector(type, elem);
     }
 
     @SuppressWarnings("unchecked")
@@ -50,5 +59,4 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
     private boolean isMap(final Object obj) {
         return obj instanceof Map;
     }
-
 }

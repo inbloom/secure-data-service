@@ -28,12 +28,12 @@ public class SemanticSelectorTest {
     @Test
     public void testAddSelector() {
         final Type testType = mock(Type.class);
-        final SemanticSelector embeddedSelector = new SemanticSelector();
-        selector.addSelector(testType, embeddedSelector);
+        final SelectorElement se = mock(SelectorElement.class);
+        selector.addSelector(testType, se);
         assertNotNull(selector.get(testType));
         assertEquals(1, selector.get(testType).size());
 
-        selector.addSelector(testType, "attribute");
+        selector.addSelector(testType, new BooleanSelectorElement(testType, true));
         assertEquals(2, selector.get(testType).size());
     }
 }
