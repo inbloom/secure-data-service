@@ -5,6 +5,7 @@ application, that will change the subset of information that is displayed.
 
 Background:
   Given I have an open web browser
+And that dashboard has been authorized for all ed orgs
 
  @RALLY_US200
 Scenario: Displaying simple StateTest reading and writing results for all students

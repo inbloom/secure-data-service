@@ -18,33 +18,22 @@
 
 package org.slc.sli.dal.repository;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.CommandResult;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.WriteConcern;
-import com.mongodb.WriteResult;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.index.IndexDefinition;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.util.Assert;
-
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.mongodb.CommandResult;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.index.IndexDefinition;
+import org.springframework.data.mongodb.core.query.Query;
+
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
@@ -90,7 +79,7 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
     @Override
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
         metaData = new HashMap<String, Object>();
-        Entity entity = (Entity)new MongoEntity(type, null, body, metaData, PADDING);
+        Entity entity = (Entity) new MongoEntity(type, null, body, metaData, PADDING);
         perfDbtemplate.insert(entity, collectionName);
         return entity;
     }
@@ -132,22 +121,22 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
 
     @Override
     public long count(String collectionName, NeutralQuery neutralQuery) {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return 0;  // To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public boolean update(String collection, Entity object) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return false;  // To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public boolean delete(String collectionName, String id) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return false;  // To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public void deleteAll(String collectionName) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        // To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
@@ -177,31 +166,31 @@ public class MongoPerfRepository<Entity> implements Repository<Entity> {
 
     @Override
     public boolean collectionExists(String collection) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return false;  // To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public void createCollection(String collection) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        // To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public void ensureIndex(IndexDefinition index, String collection) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        // To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public void setWriteConcern(String writeConcern) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        // To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public void setReferenceCheck(String referenceCheck) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        // To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public long count(String collectionName, Query query) {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return 0;  // To change body of implemented methods use File | Settings | File Templates.
     }
 }

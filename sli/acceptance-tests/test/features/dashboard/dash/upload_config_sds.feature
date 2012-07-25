@@ -4,6 +4,7 @@ As a admin, I'm able to upload view configuration
 
 Background:
 Given I have an open web browser
+Given that dashboard has been authorized for all ed orgs
 When I navigate to the Dashboard home page
 
 @integration @RALLY_US2276

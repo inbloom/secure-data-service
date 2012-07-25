@@ -72,6 +72,11 @@ Given /^"([^"]*)" is invalid "([^"]*)" user$/ do |arg1, arg2|
   #No code needed for this step
 end
 
+Then /^I am informed that authentication has failed$/ do
+  errorBox = @driver.find_element(:class, "error-message")
+  assert(errorBox != nil, webdriverDebugMessage(@driver,"Could not find error message div"))
+end
+
 Then /^I do not have access to the SLI Default Roles Admin Page$/ do
   @driver.get PropLoader.getProps['admintools_server_url']
   assert(@driver.page_source.index("Default SLI Roles") == nil, webdriverDebugMessage(@driver,"Navigated to the Admintools Role page with no credentials"))

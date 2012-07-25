@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeMasterSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 Interchange-MasterSchedule.xsd">
+
+	<CourseOffering>
+		<LocalCourseCode>3rd Grade Homeroom</LocalCourseCode>
+		<LocalCourseTitle>Government-4A</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+				<SessionName>Fall 2006 South Daybreak Elementary</SessionName>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>3rd Grade Homeroom</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+	<CourseOffering>
+		<LocalCourseCode>Government-4</LocalCourseCode>
+		<LocalCourseTitle>Government-4</LocalCourseTitle>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<SessionReference>
+			<SessionIdentity>
+				<StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+				<SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+				<SchoolYear>2010-2011</SchoolYear>
+				<Term>Fall Semester</Term>
+			</SessionIdentity>
+		</SessionReference>
+		<CourseReference>
+			<CourseIdentity>
+				<CourseCode IdentificationSystem="CSSC course code">
+					<ID>Government-4</ID>
+				</CourseCode>
+			</CourseIdentity>
+		</CourseReference>
+	</CourseOffering>
+
+
+</InterchangeMasterSchedule>

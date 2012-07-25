@@ -119,6 +119,7 @@ db["cohort"].ensureIndex({"metaData.tenantId":1,"body.educationOrgId":1,"metaDat
 db["cohort"].ensureIndex({"metaData.tenantId":1,"body.educationOrgId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["cohort"].ensureIndex({"metaData.tenantId":1,"body.educationOrgId":1,"metaData.teacherContext":1});
 db["cohort"].ensureIndex({"metaData.tenantId":1,"body.programId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
+db["course"].ensureIndex({"metaData.tenantId":1,"body.courseCode.ID":1,"body.courseCode.identificationSystem":1});
 db["course"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["course"].ensureIndex({"metaData.tenantId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["course"].ensureIndex({"metaData.tenantId":1,"metaData.teacherContext":1});

@@ -62,7 +62,6 @@ public class BatchJobAssembler {
      * @return BatchJob Assembled batch job
      */
     public Job assembleJob(ControlFileDescriptor fileDesc, String filename) {
-        // TODO DatabaseBatchJob job = DatabaseBatchJob.createBatchJob(filename);
         Job job = BatchJob.createDefault(filename);
 
         return populateJob(fileDesc, job);
@@ -81,8 +80,7 @@ public class BatchJobAssembler {
     public Job populateJob(ControlFileDescriptor fileDesc, Job job) {
         ControlFile controlFile = fileDesc.getFileItem();
 
-        // iterate over the configProperties and copy into the job
-        // TODO validate config properties are legit
+        // Iterate over the configProperties and copy into the job
         Enumeration<Object> e = controlFile.configProperties.keys();
         while (e.hasMoreElements()) {
             String key = (String) e.nextElement();

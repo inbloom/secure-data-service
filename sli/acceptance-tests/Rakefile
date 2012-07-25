@@ -25,7 +25,7 @@ CERTAIN_TENANTS = ENV['CERTAIN_TENANTS'] ? true : false
 
 RUN_STAMPER = ENV['RUN_STAMPER'] ? true : false
 
-TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "Zork", "SLI", "T1", "T2", "T3", "mreynolds"]
+TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "Zork", "SLI", "T1", "T2", "T3", "mreynolds", "chaos@mokey.org", "fakedev@zork.net"]
 
 IS_WINDOWS = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
 
@@ -182,7 +182,7 @@ def cleanseApps()
 
   @appColl.find.each do |row|
     if row['body']['bootstrap'] != true
-      @appColl.remove(row)
+      @appColl.remove(row, :safe => true)
     end
   end
 end
@@ -195,10 +195,10 @@ def cleanseTenantCollection()
 
   @tenantColl.find.each do |row|
     if TENANT_COLLECTION.include?(row['body']['tenantId'])
-      @tenantColl.remove(row)
+      @tenantColl.remove(row, :safe => true)
     end
     if row['body']['tenantId'].start_with?("devldapuser")
-      @tenantColl.remove(row)
+      @tenantColl.remove(row, :safe => true)
     end
   end
 end
@@ -209,11 +209,12 @@ def cleanseCollectionWithTenantID(collectionName, specificTenants)
   @conn = Mongo::Connection.new(DB_HOST)
   @db = @conn.db(DB_NAME)
   coll = @db.collection(collectionName)
+  
   #need a few if blocks for apps, app Auth, oauth tokens, realms
   if collectionName == "tenant"
     cleanseTenantCollection
   else
-    coll.remove("metaData.tenantId" => {"$in" => specificTenants})
+    coll.remove({"metaData.tenantId" => {"$in" => specificTenants}}, :safe => true)
   end
 end
 
@@ -221,11 +222,11 @@ def removeCollectionsCleanly(collectionName, specificTenants=nil)
   if specificTenants != nil
     cleanseCollectionWithTenantID(collectionName, specificTenants)
   else
-    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.#{collectionName}.remove({})\""
+    sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.#{collectionName}.remove({}); assert.eq(null, db.getLastError());\""
   end
   
-  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig')\""
-  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.getLastError()\""
+  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.adminCommand('flushRouterConfig'); assert.eq(null, db.getLastError());\""
+#  sh "#{MONGO_BIN}mongo #{DB_HOST}/#{DB_NAME} --quiet --eval \"db.getLastError()\""
 end
 
 # The admin realm and sandbox realm IDs are dynamically created during bootstrap,
@@ -376,7 +377,7 @@ end
 # 'raise' exception logic below.  Rake will exit immediately if you raise an exception
 # before all the tests complete and will show incomplete results
 desc "Run API/Security Acceptances Tests"
-task :apiAndSecurityTests => [:apiV1Tests, :securityTests, :onboardingTests, :apiMegaTests] do
+task :apiAndSecurityTests => [:apiV1Tests, :securityTests, :provisioningTests, :onboardingTests, :apiMegaTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -433,7 +434,8 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1BlacklistValidationTests,
                      :v1XMLTests,
                      :userAdminCrudTests,
-                     :v1CommaSeparatedListOrderTests] do
+                     :v1CommaSeparatedListOrderTests,
+                     :aggregationAPI] do
   displayFailureReport()
 end
 
@@ -460,7 +462,7 @@ task :apiSeleniumTests => [:adminToolsTests, :databrowserTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
-  else                                                   Wo
+  else
     raise "Tests have failed"
   end
 end
@@ -468,12 +470,6 @@ end
 desc "Run Reset and Change Password Selenium Tests"
 task :resetAndChangePasswordTests => [:realmInit] do
   runTests("test/features/admintools/reset_change_password.feature")
-  displayFailureReport()
-  if $SUCCESS
-    puts "Completed All Tests"
-  else
-    raise "Tests have failed"
-  end
 end
 
 desc "Run Admin-Tools Selenium Tests"
@@ -576,14 +572,19 @@ end
 # Ingestion tests start
 ############################################################
 desc "Run Ingestion Acceptances Tests"
-task :ingestionTests => [:loadDefaultIngestionTenants,:ingestionAcceptanceSdsTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,:ingestionCommonCoreTest,
-                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest,
-                         :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
-                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests, :ingestionStudentProgramAssociationTest,
-                         :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest,
-                         :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest, :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest,
-                         :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest, 
-                         :ingestionEmptyControlFileTest, :ingestionDryRunTest, :ingestionCourseOfferingTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest ] do
+#task :ingestionTests => [:loadDefaultIngestionTenants,:ingestionAcceptanceSdsTest, :ingestionSessionTest, :ingestionNegativeTests, :ingestionAttendanceTests,:ingestionCommonCoreTest,
+#                         :ingestionEncryptionTests, :ingestionAssessmentTests, :ingestionStudentParentsTests, :ingestionStudentTranscriptAssociationTests, :ingestionProgramTest, :ingestionCohortTest,
+#                         :ingestionidNamespaceTest, :ingestionGradebookEntryTests, :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
+#                         :ingestionAPAssessmentTests, :ingestionACTAssessmentTests, :ingestionStudentProgramAssociationTest,
+#                         :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, :ingestionStaffProgramAssociationTest, :ingestionStudentCohortAssociationTest,
+#                         :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest, :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest,
+#                         :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest, 
+#                         :ingestionEmptyControlFileTest, :ingestionDryRunTest, :ingestionCourseOfferingTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest ] do
+task :ingestionTests => [:loadDefaultIngestionTenants,:ingestionAcceptanceSdsTest, :ingestionNegativeTests,  :ingestionAttendanceTests, :ingestionCommonCoreTest, :ingestionEncryptionTests, 
+                         :ingestionidNamespaceTest,  :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
+                         :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests, 
+                         :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest, 
+                         :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest ] do
 
   displayFailureReport()
   if $SUCCESS
@@ -890,9 +891,6 @@ DB_HOST                This property selects which mongo instance to set the fix
 DB_NAME                This property selects which mongo db to set the fixture to (default: sli)
 api_server_url         This property selects which running instance of the API to run tests against (default: localhost)
 admintools_server_url  This property selects which running instance of the Admin Tools to run tests against (default: localhost)
-sli_idp_server_url     This property selects which running IDP should be used as the SLI IDP (default https://devapp1.slidev.org/sp)
-sea_idp_server_url     This property selects which running IDP should be used as a mock State IDP (default http://devopenam1.slidev.com:8080/idp1)
-lea_idp_server_url     This property selects which running IDP should be used as a mock District IDP (default http://devopenam1.slidev.com:8080/idp2)
 DEBUG                  This property tells the test code to display debug output in the console
 CUKE_EXPAND            This property tells cucumber to expand Scenario Outlines (for use in jenkins, default: not expand)
 OTHER_TAGS             This property allows you to run tests with debug tags, so pass a tag for this env var ie: @test

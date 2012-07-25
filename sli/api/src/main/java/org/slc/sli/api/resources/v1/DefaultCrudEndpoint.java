@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.resources.v1;
 
 import java.util.ArrayList;
@@ -39,8 +38,8 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
@@ -52,6 +51,7 @@ import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.representation.ErrorResponse;
+import org.slc.sli.api.resources.aggregation.AggregateListingResource;
 import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderFactory;
@@ -62,10 +62,9 @@ import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.common.util.logging.SecurityEvent;
-import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.AggregateData;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
 
 /**
  * Prototype new api end points and versioning base class
@@ -76,18 +75,20 @@ import org.slc.sli.domain.Repository;
  */
 @Component
 @Scope("request")
-@Consumes({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8", MediaType.APPLICATION_XML + ";charset=utf-8",
- MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON, MediaType.APPLICATION_XML })
-@Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8", MediaType.APPLICATION_XML + ";charset=utf-8",
-        HypermediaType.VENDOR_SLC_XML + ";charset=utf-8" })
+@Consumes({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8",
+        MediaType.APPLICATION_XML + ";charset=utf-8", MediaType.APPLICATION_JSON, HypermediaType.VENDOR_SLC_JSON,
+        MediaType.APPLICATION_XML })
+@Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8",
+        MediaType.APPLICATION_XML + ";charset=utf-8", HypermediaType.VENDOR_SLC_XML + ";charset=utf-8" })
 public class DefaultCrudEndpoint implements CrudEndpoint {
     /* Shared query parameters that are used by all endpoints */
     @QueryParam(ParameterConstants.INCLUDE_CUSTOM)
     @DefaultValue(ParameterConstants.DEFAULT_INCLUDE_CUSTOM)
-    protected String includeCustomEntityStr;
+    private String includeCustomEntityStr;
 
-    /* Critera you can override in sublcass */
-    protected NeutralCriteria extraCriteria;
+    @QueryParam(ParameterConstants.INCLUDE_AGGREGATES)
+    @DefaultValue(ParameterConstants.DEFAULT_INCLUDE_AGGS)
+    private String includeAggs;
 
     /* The maximum number of values allowed in a comma separated string */
     public static final int MAX_MULTIPLE_UUIDS = 100;
@@ -99,10 +100,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
     @Autowired
     private OptionalFieldAppenderFactory factory;
-
-    @Autowired
-    @Qualifier("validationRepo")
-    private Repository<Entity> repo;
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
@@ -154,7 +151,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 String id = entityDef.getService().create(newEntityBody);
 
                 String uri = ResourceUtil.getURI(uriInfo, PathConstants.V1,
-                            PathConstants.TEMP_MAP.get(entityDef.getResourceName()), id).toString();
+                        PathConstants.TEMP_MAP.get(entityDef.getResourceName()), id).toString();
                 return Response.status(Status.CREATED).header("Location", uri).build();
             }
         });
@@ -182,9 +179,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         return handle(resourceName, entityDefs, uriInfo, new ResourceLogic() {
             @Override
             public Response run(final EntityDefinition entityDef) {
-//                DE260 - Logging of possibly sensitive data
-//                LOGGER.debug("Attempting to read from {} where {} = {}",
-//                        new Object[] { entityDef.getStoredCollectionName(), key, value });
+                // DE260 - Logging of possibly sensitive data
+                // LOGGER.debug("Attempting to read from {} where {} = {}",
+                // new Object[] { entityDef.getStoredCollectionName(), key, value });
 
                 NeutralQuery neutralQuery = new ApiQuery(uriInfo);
                 List<String> valueList = Arrays.asList(value.split(","));
@@ -251,15 +248,15 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 // look up information on association
                 EntityDefinition endpointEntity = entityDefs.lookupByResourceName(resolutionResourceName);
                 String resource1 = entityDef.getStoredCollectionName();
-//                String resource2 = endpointEntity.getStoredCollectionName();
+                // String resource2 = endpointEntity.getStoredCollectionName();
 
-//                 DE260 - Logging of possibly sensitive data
-//                 write some information to debug
+                // DE260 - Logging of possibly sensitive data
+                // write some information to debug
                 // LOGGER.debug("Attempting to list from {} where {} = {}", new Object[] {
                 // resource1, key, value });
-//                LOGGER.debug("Then for each result, ");
-//                LOGGER.debug(" going to read from {} where \"_id\" = {}.{}",
-//                        new Object[] { resource2, resource1, idKey });
+                // LOGGER.debug("Then for each result, ");
+                // LOGGER.debug(" going to read from {} where \"_id\" = {}.{}",
+                // new Object[] { resource2, resource1, idKey });
 
                 NeutralQuery endpointNeutralQuery = new ApiQuery(uriInfo);
                 NeutralQuery associationNeutralQuery = createAssociationNeutralQuery(key, value, idKey);
@@ -306,7 +303,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                         result.put(
                                 ResourceConstants.LINKS,
                                 ResourceUtil.getLinks(entityDefs,
-                                entityDefs.lookupByResourceName(resolutionResourceName), result, uriInfo));
+                                        entityDefs.lookupByResourceName(resolutionResourceName), result, uriInfo));
                         finalResults.add(result);
                     }
 
@@ -350,9 +347,11 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     @Override
     public Response read(final String resourceName, final String idList, final HttpHeaders headers,
             final UriInfo uriInfo) {
+        // TODO this is way too long of a method, it needs to be cleaned up.
+        // remember, a method should always be small enough to fit in your head, meaning if you put
+        // your head up to the screen, the method is small enough to fit in its profile
         // /v1/entity/{id}
         return handle(resourceName, entityDefs, uriInfo, new ResourceLogic() {
-            @SuppressWarnings("unchecked")
             @Override
             public Response run(EntityDefinition entityDef) {
                 final int idLength = idList.split(",").length;
@@ -388,7 +387,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     entities = Arrays.asList(new EntityBody[] { entityDef.getService().get(idList, neutralQuery) });
                 } else {
 
-//                    System.out.println("Running list operation");
+                    // System.out.println("Running list operation");
 
                     entities = entityDef.getService().list(neutralQuery);
                 }
@@ -400,6 +399,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
                         // add the custom entity if it was requested
                         addCustomEntity(result, entityDef, uriInfo);
+
+                        // add the aggregates if they were requested
+                        addAggregates(result, entityDef, uriInfo);
                     }
                     finalResults.add(result);
                 }
@@ -421,7 +423,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
                     int finalResultsSize = finalResults.size();
 
-                    //loop if results quantity does not matched requested quantity
+                    // loop if results quantity does not matched requested quantity
                     for (int i = 0; finalResultsSize != idLength && i < idLength; i++) {
 
                         String checkedId = ids.get(i);
@@ -434,12 +436,13 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                             checkedIdMissing = true;
                         }
 
-                        //if a particular input ID is not present in the results at the appropriate spot
+                        // if a particular input ID is not present in the results at the appropriate
+                        // spot
                         if (checkedIdMissing) {
 
                             Map<String, Object> errorResult = new HashMap<String, Object>();
 
-                            //try individual lookup to capture specific error message (type)
+                            // try individual lookup to capture specific error message (type)
                             try {
                                 DefaultCrudEndpoint.this.read(resourceName, ids.get(i), headers, uriInfo);
                             } catch (EntityNotFoundException enfe) {
@@ -461,21 +464,22 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     }
                 }
 
-                //return is based on number of requested IDs
+                // return is based on number of requested IDs
                 switch (idLength) {
 
-                    //specific id requested
+                // specific id requested
                     case 1:
-                        return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), finalResults.get(0))),
-                                1, uriInfo).build();
+                        return addPagingHeaders(
+                                Response.ok(new EntityResponse(entityDef.getType(), finalResults.get(0))), 1, uriInfo)
+                                .build();
 
-                    //general listing requested
+                        // general listing requested
                     case 0:
                         long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), neutralQuery);
                         return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), finalResults)),
                                 pagingHeaderTotalCount, uriInfo).build();
 
-                    //multiple id's requested
+                        // multiple id's requested
                     default:
                         return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), finalResults)),
                                 idLength, uriInfo).build();
@@ -534,11 +538,11 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
                 entityDef.getService().update(id, copy);
 
-//                DE260 - Logging of possibly sensitive data
-//                LOGGER.debug("updating entity {}", copy);
+                // DE260 - Logging of possibly sensitive data
+                // LOGGER.debug("updating entity {}", copy);
 
-//                DE260 - Logging of possibly sensitive data
-//                LOGGER.debug("updating entity {}", copy);
+                // DE260 - Logging of possibly sensitive data
+                // LOGGER.debug("updating entity {}", copy);
                 return Response.status(Status.NO_CONTENT).build();
             }
         });
@@ -562,8 +566,8 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * @return resulting status from request
      */
     @Override
-    public Response patch(final String resourceName, final String id, final EntityBody newEntityBody, final HttpHeaders headers,
-            final UriInfo uriInfo) {
+    public Response patch(final String resourceName, final String id, final EntityBody newEntityBody,
+            final HttpHeaders headers, final UriInfo uriInfo) {
         return handle(resourceName, entityDefs, uriInfo, new ResourceLogic() {
             @Override
             public Response run(EntityDefinition entityDef) {
@@ -575,18 +579,17 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
                 return Response.status(Status.NO_CONTENT).build();
 
-
-
-//                List<EntityBody> finalResults = new ArrayList<EntityBody>();
-//                EntityBody blah = new EntityBody();
-//                blah.put("test", "Hello World");
-//                blah.put("id", id);
-//
-//                finalResults.add(blah);
-//
-//                long pagingHeaderTotalCount = 1;
-//                return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), finalResults.get(0))),
-//                        pagingHeaderTotalCount, uriInfo).build();
+                // List<EntityBody> finalResults = new ArrayList<EntityBody>();
+                // EntityBody blah = new EntityBody();
+                // blah.put("test", "Hello World");
+                // blah.put("id", id);
+                //
+                // finalResults.add(blah);
+                //
+                // long pagingHeaderTotalCount = 1;
+                // return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(),
+                // finalResults.get(0))),
+                // pagingHeaderTotalCount, uriInfo).build();
             }
         });
 
@@ -617,22 +620,14 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 List<EntityBody> results = new ArrayList<EntityBody>();
 
                 Iterable<EntityBody> entityBodies = null;
-                NeutralQuery query = new ApiQuery(uriInfo);
-                query = addTypeCriteria(entityDef, query);
-                if (extraCriteria != null) {
-                    query.addCriteria(extraCriteria);
-                }
+                final NeutralQuery query = new ApiQuery(uriInfo);
+                addTypeCriteria(entityDef, query);
+                addAdditionalCritera(query);
                 if (shouldReadAll()) {
                     entityBodies = SecurityUtil.sudoRun(new SecurityTask<Iterable<EntityBody>>() {
 
                         @Override
                         public Iterable<EntityBody> execute() {
-                            NeutralQuery query = new ApiQuery(uriInfo);
-                            query = addTypeCriteria(entityDef, query);
-                            if (extraCriteria != null) {
-                                query.addCriteria(extraCriteria);
-                            }
-                            // TODO Auto-generated method stub
                             return entityDef.getService().list(query);
                         }
                     });
@@ -645,15 +640,21 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     entityBody.put(ResourceConstants.LINKS,
                             ResourceUtil.getLinks(entityDefs, entityDef, entityBody, uriInfo));
 
-                 results.add(entityBody);
+                    results.add(entityBody);
                 }
 
                 long pagingHeaderTotalCount = getTotalCount(entityDef.getService(), query);
                 return addPagingHeaders(Response.ok(new EntityResponse(entityDef.getType(), results)),
                         pagingHeaderTotalCount, uriInfo).build();
             }
+
         });
     }
+    
+    protected void addAdditionalCritera(NeutralQuery query) {
+        
+    }
+    
 
     protected boolean shouldReadAll() {
         return false;
@@ -671,6 +672,15 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     public CustomEntityResource getCustomEntityResource(@PathParam("id") String id) {
         EntityDefinition entityDef = entityDefs.lookupByResourceName(resourceName);
         return new CustomEntityResource(id, entityDef);
+    }
+
+    @Path("{id}/" + PathConstants.AGGREGATES)
+    @Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })
+    @Override
+    public AggregateListingResource getAggregates(@PathParam("id") String id) {
+        EntityService service = entityDefs.lookupByResourceName(resourceName).getService();
+        AggregateData data = service.getAggregateData(id);
+        return new AggregateListingResource(data);
     }
 
     /* Utility methods */
@@ -711,6 +721,21 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     }
 
     /**
+     * Retrieve the custom entity for the given request if flag includeCustom is set to true.
+     *
+     */
+    private void addAggregates(EntityBody entityBody, final EntityDefinition entityDef, UriInfo uriInfo) {
+        boolean includeAggregates = "true".equals(includeAggs);
+        if (includeAggregates) {
+            String entityId = (String) entityBody.get("id");
+            AggregateData aggs = entityDef.getService().getAggregateData(entityId);
+            if (aggs != null) {
+                entityBody.put(ResourceConstants.AGGREGATE_TYPE, aggs.getAggregates());
+            }
+        }
+    }
+
+    /**
      * Handle preconditions and exceptions.
      */
     private Response handle(final String resourceName, final EntityDefinitionStore entityDefs, final UriInfo uriInfo,
@@ -724,16 +749,18 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         }
 
         // log if entity is restricted.
-//        if (entityDef.isRestrictedForLogging()) {
-//            if (securityEventBuilder != null) {
-//                SecurityEvent event = securityEventBuilder.createSecurityEvent(DefaultCrudEndpoint.class.toString(),
-//                        uriInfo, "restricted entity \"" + entityDef.getResourceName() + "\" is accessed.");
-//                audit(event);
-//            } else {
-//                warn("Cannot create security event, when restricted entity \"" + entityDef.getResourceName()
-//                        + "\" is accessed.");
-//            }
-//        }
+        // if (entityDef.isRestrictedForLogging()) {
+        // if (securityEventBuilder != null) {
+        // SecurityEvent event =
+        // securityEventBuilder.createSecurityEvent(DefaultCrudEndpoint.class.toString(),
+        // uriInfo, "restricted entity \"" + entityDef.getResourceName() + "\" is accessed.");
+        // audit(event);
+        // } else {
+        // warn("Cannot create security event, when restricted entity \"" +
+        // entityDef.getResourceName()
+        // + "\" is accessed.");
+        // }
+        // }
         logAccessToRestrictedEntity(uriInfo, entityDef);
 
         return logic.run(entityDef);
@@ -830,7 +857,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             String token = null;
             while (st.hasMoreTokens()) {
                 token = st.nextToken();
-                switch(index) {
+                switch (index) {
                     case 0:
                         appender = token;
                         break;
@@ -983,7 +1010,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         return this.update(resourceName, id, newEntityBody, headers, uriInfo);
     }
 
-
     /**
      * Patches a given entity in a specific location or collection, which means that
      * less than the full entity body is passed in the request and only passed keys are
@@ -1005,4 +1031,5 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     public Response patch(String id, EntityBody newEntityBody, HttpHeaders headers, UriInfo uriInfo) {
         return this.patch(resourceName, id, newEntityBody, headers, uriInfo);
     }
+
 }
