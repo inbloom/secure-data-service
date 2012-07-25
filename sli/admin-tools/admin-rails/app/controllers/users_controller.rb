@@ -23,11 +23,44 @@ class UsersController < ApplicationController
   def index
     @users = User.all
     @users.each do |user|
-    Rails.logger.debug "Users = #{user.firstName}"
-                         end
+    Rails.logger.debug "Users = #{user.uid}"
+    end
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @users }
+      #format.json { render json: @users }
+    end
+  end
+  
+  # DELETE /users/1
+  # DELETE /users/1.json
+  def destroy 
+    Rails.logger.debug "id = #{params[:id]}"
+    Rails.logger.debug "authorization token = #{User.headers["Authorization"]}"
+    
+    #User.delete(params[:id])
+    @users = User.all
+    @users.each do |user|
+      if user.uid == params[:id]
+        user.id = user.uid
+        user.destroy
+      end
+    end
+    
+    respond_to do |format|
+      #format.js
+      format.html { render "index"}
+      # format.html { redirect_to apps_url }
+      # format.json { head :ok }
+    end
+  end
+  
+  # GET /users/1/edit
+  # GET /users/1/edit.json
+  def edit
+    @users = User.all
+    respond_to do |format|
+      format.html # index.html.erb
+      #format.json { render json: @users }
     end
   end
 end

@@ -35,23 +35,20 @@
     <tbody>
     <% if @users!=nil and @users.length>0%>
         <% @users.each do |user| %>
-        <tr>
-        <td class="full_name" id="<%= user.firstName%> <%= user.lastName%>_full_name" ><%= user.firstName%> <%= user.lastName%></td>
-        <td class="email" id="<%= user.firstName%> <%= user.lastName%>_email"><%= user.email%></td>
-        <td id="<%= user.firstName%> <%= user.lastName%>_role">place holder</td>
+        <tr id='<%= user.uid%>'>
+        <td id="full_name"+<%= user.uid%>><%= user.firstName%> <%= user.lastName%></td>
+        <td id="email"+<%= user.uid%>><%= user.email%></td>
+        <td id="role"+<%= user.uid%>> <%= user.get_groups%></td>
         <% if not APP_CONFIG['is_sandbox'] %>
-            <td id="additional_role">more place holder</td>
-            <td id="tenant">hold even more</td>
+            <td id="additional_role"+<%= user.uid%>></td>
+            <td id="tenant"+<%= user.uid%>><%= user.tenant%></td>
         <% end %>
-        <td id="<%= user.firstName%> <%= user.lastName%>_edorg">myEdOrg</td>
-        <td id="<%= user.firstName%> <%= user.lastName%>_date_created">Today</td>
-		<td>
-		    <%= form_for "" do |f| %>
-            <%= f.hidden_field "email", :name=>"email", :value => user.email %>
-            <%= f.submit "Edit",:id=> "edit_button_"+user.firstName,:class => "btn" %>
-            <%= f.submit "Delete",:id=> "delete_button_"+user.firstName,
-                :confirm => "Do you really want to delete this user?", :class => "btn btn-danger"%> 
-            <% end %>
+        <td id="edorg"+<%= user.uid%>><%= user.edorg%></td>
+        <td id="date_created"+<%= user.uid%>><%= I18n.localize(user.get_create_time)%></td>
+		<td id="actions"+<%= user.uid%> class="actions">
+			<%= link_to "Edit", "/users", :class => "btn" %> | 
+            <%= link_to 'Delete', "/users/#{user.uid}", :class => "btn btn-danger", :remote => true,
+                :confirm => "Do you really want to delete this user?", :method => :delete %>
         </td>
         </tr>
         <% end %>

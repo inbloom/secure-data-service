@@ -19,8 +19,22 @@ limitations under the License.
 class User < SessionResource
   self.collection_name = "users"
   schema do
+    string  "uid"
     string  "firstName"
     string  "lastName"
     string  "email"
+    string  "tenant"
+    string  "edorg"
+    time "createTime", "modifyTime" 
+    string  "groups"
   end
+ 
+  def get_groups 
+    self.groups.sort!.join(", ")
+  end
+  
+  def get_create_time
+    Time.parse(self.createTime)
+  end
+  
 end
