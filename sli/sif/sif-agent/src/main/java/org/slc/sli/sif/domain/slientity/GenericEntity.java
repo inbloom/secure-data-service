@@ -46,20 +46,20 @@ public abstract class GenericEntity implements Entity
 
     }
 
-    /**
-     * Output this Entity as a JSON Node
-     */
-    public JsonNode json() {
-        return mapper.valueToTree(this);
-    }
-
-    /**
-     * Output this object as a JSON String
-     */
-    @Override
-    public String toString() {
-        return json().toString();
-    }
+//    /**
+//     * Output this Entity as a JSON Node
+//     */
+//    public JsonNode json() {
+//        return mapper.valueToTree(this);
+//    }
+//
+//    /**
+//     * Output this object as a JSON String
+//     */
+//    @Override
+//    public String toString() {
+//        return json().toString();
+//    }
 
     /**
      * Get the data associated with this entity. If the entity has no data, returns
