@@ -43,7 +43,7 @@ public class DefaultSelectorDocumentTest {
     }
 
     @Test
-    public void testQueryMap() {
+    public void testComplexSelector() {
         SemanticSelector selectorsWithType =  generateSelectorObjectMap();
 
         List<String> ids = new ArrayList<String>();
@@ -55,30 +55,63 @@ public class DefaultSelectorDocumentTest {
         defaultSelectorDocument.aggregate(selectorsWithType, constraint);
     }
 
-    public SemanticSelector generateSelectorObjectMap() {
-        ClassType studentType = provider.getClassType("Student");
-        ClassType studentSchoolAssocication = provider.getClassType("schoolAssociations<=>student");
-        ClassType studentSectionAssocication = provider.getClassType("sectionAssociations<=>student");
+    @Test
+    public void testIncludeAllSelector() {
+        SemanticSelector selectorsWithType =  generateIncludeAllSelectorObjectMap();
 
-        SemanticSelector ssaAttrs = new SemanticSelector();
+        List<String> ids = new ArrayList<String>();
+        ids.add("1234");
+        Constraint constraint = new Constraint();
+        constraint.setKey("id");
+        constraint.setValue(ids);
+
+        defaultSelectorDocument.aggregate(selectorsWithType, constraint);
+    }
+
+    public SemanticSelector generateIncludeAllSelectorObjectMap() {
+        ClassType studentType = provider.getClassType("Student");
+        ClassType studentSchoolAssocicationType = provider.getClassType("schoolAssociations<=>student");
+
+        SemanticSelector studentsAttrs = new SemanticSelector();
+        List<SelectorElement> attributes1 = new ArrayList<SelectorElement>();
+        attributes1.add(new BooleanSelectorElement("name", true));
+        attributes1.add(new BooleanSelectorElement("economicDisadvantaged", true));
+        attributes1.add(new IncludeAllSelectorElement(studentSchoolAssocicationType));
+        studentsAttrs.put(studentType, attributes1);
+
+        return studentsAttrs;
+    }
+
+    public SemanticSelector generateSelectorObjectMap() {
+        ClassType sectionType = provider.getClassType("Section");
+        ClassType studentType = provider.getClassType("Student");
+        ClassType studentSchoolAssocicationType = provider.getClassType("schoolAssociations<=>student");
+        ClassType studentSectionAssocicationType = provider.getClassType("sectionAssociations<=>student");
+
+        SemanticSelector studentSchoolAttrs = new SemanticSelector();
         List<SelectorElement> attributes = new ArrayList<SelectorElement>();
         attributes.add(new BooleanSelectorElement("entryGradeLevel", true));
         attributes.add(new BooleanSelectorElement("entryDate", true));
-        ssaAttrs.put(studentSchoolAssocication, attributes);
+        studentSchoolAttrs.put(studentSchoolAssocicationType, attributes);
 
 
         SemanticSelector sectionAttrs = new SemanticSelector();
+        List<SelectorElement> attributes3 = new ArrayList<SelectorElement>();
+        attributes3.add(new BooleanSelectorElement("sessionId", true));
+        sectionAttrs.put(sectionType, attributes3);
+
+        SemanticSelector studentSectionAttrs = new SemanticSelector();
         List<SelectorElement> attributes2 = new ArrayList<SelectorElement>();
-        attributes2.add(new BooleanSelectorElement("someField", true));
-        sectionAttrs.put(studentSectionAssocication, attributes2);
+        attributes2.add(new ComplexSelectorElement(sectionType, sectionAttrs));
+        studentSectionAttrs.put(studentSectionAssocicationType, attributes2);
 
 
         SemanticSelector studentsAttrs = new SemanticSelector();
         List<SelectorElement> attributes1 = new ArrayList<SelectorElement>();
         attributes1.add(new BooleanSelectorElement("name", true));
         attributes1.add(new BooleanSelectorElement("economicDisadvantaged", true));
-        attributes1.add(new ComplexSelectorElement(studentSchoolAssocication, ssaAttrs));
-        attributes1.add(new ComplexSelectorElement(studentSectionAssocication, sectionAttrs));
+        attributes1.add(new ComplexSelectorElement(studentSchoolAssocicationType, studentSchoolAttrs));
+        attributes1.add(new ComplexSelectorElement(studentSectionAssocicationType, studentSectionAttrs));
         studentsAttrs.put(studentType, attributes1);
 
         return studentsAttrs;

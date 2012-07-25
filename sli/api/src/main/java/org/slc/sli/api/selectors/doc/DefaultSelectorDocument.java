@@ -28,19 +28,19 @@ public class DefaultSelectorDocument implements SelectorDocument, SelectorQueryV
     private ModelProvider modelProvider;
 
     @Override
-    public void aggregate(SemanticSelector queryMap, Constraint constraint) {
+    public void aggregate(SemanticSelector semanticSelector, Constraint constraint) {
 
-        if (queryMap == null) return;
+        if (semanticSelector == null) return;
 
-        Map<Type, SelectorQueryPlan> queries = buildQueryPlan(queryMap);
+        Map<Type, SelectorQueryPlan> queries = buildQueryPlan(semanticSelector);
 
         executeQueryPlan(queries, constraint);
     }
 
-    private Map<Type, SelectorQueryPlan> buildQueryPlan(SemanticSelector queryMap) {
+    private Map<Type, SelectorQueryPlan> buildQueryPlan(SemanticSelector semanticSelector) {
         Map<Type, SelectorQueryPlan> queries = new HashMap<Type, SelectorQueryPlan>();
 
-        for (Map.Entry<Type, List<SelectorElement>> entry : queryMap.entrySet()) {
+        for (Map.Entry<Type, List<SelectorElement>> entry : semanticSelector.entrySet()) {
             Type type = entry.getKey();
             List<SelectorElement> attributes = entry.getValue();
 
@@ -57,7 +57,7 @@ public class DefaultSelectorDocument implements SelectorDocument, SelectorQueryV
                 }
             }
 
-            NeutralQuery neutralQuery = buildQuery(selectorQuery.getIncludeFields());
+            NeutralQuery neutralQuery = buildQuery(selectorQuery);
 
             if (queries.containsKey(type)) {
                 queries.get(type).setQuery(neutralQuery);
@@ -94,9 +94,15 @@ public class DefaultSelectorDocument implements SelectorDocument, SelectorQueryV
         }
     }
 
-    protected NeutralQuery buildQuery(List<String> includeFields) {
+    protected NeutralQuery buildQuery(SelectorQuery selectorQuery) {
         NeutralQuery query = new NeutralQuery();
-        query.setIncludeFields(StringUtils.join(includeFields.iterator(), ","));
+
+        if (!selectorQuery.getIncludeFields().isEmpty()) {
+            query.setIncludeFields(StringUtils.join(selectorQuery.getIncludeFields().iterator(), ","));
+        }
+        if (!selectorQuery.getExcludeFields().isEmpty()) {
+            query.setExcludeFields(StringUtils.join(selectorQuery.getExcludeFields().iterator(), ","));
+        }
 
         return query;
     }
@@ -106,9 +112,11 @@ public class DefaultSelectorDocument implements SelectorDocument, SelectorQueryV
 
         for (SelectorQueryVisitable visitableSelector : attributes) {
             SelectorQuery newSelectorQuery = visitableSelector.accept(this);
-            //Map<Type, QueryPlan> queries = ((QueryVisitable) obj).accept(this);
-            selectorQuery.getQueries().addAll(newSelectorQuery.getQueries());
-            selectorQuery.getIncludeFields().addAll(newSelectorQuery.getIncludeFields());
+
+            if (newSelectorQuery != null) {
+                selectorQuery.getQueries().addAll(newSelectorQuery.getQueries());
+                selectorQuery.getIncludeFields().addAll(newSelectorQuery.getIncludeFields());
+            }
         }
 
         return selectorQuery;
@@ -144,15 +152,24 @@ public class DefaultSelectorDocument implements SelectorDocument, SelectorQueryV
 
     @Override
     public SelectorQuery visit(SemanticSelector semanticSelector) {
-        //return buildQueryPlan(semanticSelector);
+        //TODO
         return null;
     }
 
     @Override
     public SelectorQuery visit(BooleanSelectorElement booleanSelectorElement) {
-        String attr = (String) booleanSelectorElement.getLHS();
         SelectorQuery selectorQuery = new SelectorQuery();
-        selectorQuery.getIncludeFields().add(attr);
+
+        if (booleanSelectorElement.isAttribute()) {
+            String attr = (String) booleanSelectorElement.getLHS();
+
+            if (booleanSelectorElement.getQualifier()) {
+                selectorQuery.getIncludeFields().add(attr);
+            } else {
+                selectorQuery.getExcludeFields().add(attr);
+            }
+        }
+
         return selectorQuery;
     }
 
@@ -167,8 +184,17 @@ public class DefaultSelectorDocument implements SelectorDocument, SelectorQueryV
 
     @Override
     public SelectorQuery visit(IncludeAllSelectorElement includeAllSelectorElement) {
-        //TODO
-        return null;
+        Type type = (Type) includeAllSelectorElement.getLHS();
+        Map<Type, SelectorQueryPlan> queries = new HashMap<Type, SelectorQueryPlan>();
+        SelectorQuery selectorQuery = new SelectorQuery();
+        SelectorQueryPlan plan = new SelectorQueryPlan();
+
+        plan.setQuery(new NeutralQuery());
+        queries.put(type, plan);
+
+        selectorQuery.getQueries().add(queries);
+
+        return selectorQuery;
     }
 
 }

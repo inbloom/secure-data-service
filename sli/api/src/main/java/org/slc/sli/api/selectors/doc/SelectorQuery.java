@@ -14,6 +14,7 @@ import java.util.Map;
  */
 public class SelectorQuery {
     private List<String> includeFields = new ArrayList<String>();
+    private List<String> excludeFields = new ArrayList<String>();
     private List<Map<Type, SelectorQueryPlan>> queries = new ArrayList<Map<Type, SelectorQueryPlan>>();
 
     public List<String> getIncludeFields() {
@@ -30,5 +31,13 @@ public class SelectorQuery {
 
     public void setQueries(List<Map<Type, SelectorQueryPlan>> queries) {
         this.queries = queries;
+    }
+
+    public List<String> getExcludeFields() {
+        return excludeFields;
+    }
+
+    public void setExcludeFields(List<String> excludeFields) {
+        this.excludeFields = excludeFields;
     }
 }
