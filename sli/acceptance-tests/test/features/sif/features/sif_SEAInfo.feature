@@ -1,6 +1,7 @@
 @RALLY_US3047
 Feature: SIF SEAInfo Test
 
+@wip
 Scenario: Post an SEAInfo message: Clean Database
 Given this is a new entity
 #And the following collections are clean in datastore:
@@ -16,7 +17,7 @@ When I POST a(n) "SEAInfo" SIF message
 #     | educationOrganization | 1                   | body.stateOrganizationId | Tatooine PS IV | string     |
 #     | educationOrganization | 0                   | body.stateOrganizationId | Hoth PS V      | string     |
 
-
+@wip
 Scenario: Post an LEAInfo message: Populated Database
 Given this is an update to an existing entity
 When I POST a(n) "SEAInfo" SIF message

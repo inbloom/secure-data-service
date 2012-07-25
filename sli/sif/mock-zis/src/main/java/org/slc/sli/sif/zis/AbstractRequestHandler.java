@@ -39,17 +39,12 @@ public abstract class AbstractRequestHandler implements HttpRequestHandler {
     @Override
     public void handleRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException,
             IOException {
-        if (request.getMethod().equals("GET")) {
-            doGet(request, response);
-        } else if (request.getMethod().equals("POST")) {
+        if (request.getMethod().equals("POST")) {
             doPost(request, response);
         }
     }
     
     protected abstract void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
-            IOException;
-    
-    protected abstract void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
             IOException;
     
     protected String getRequestString(HttpServletRequest req) {

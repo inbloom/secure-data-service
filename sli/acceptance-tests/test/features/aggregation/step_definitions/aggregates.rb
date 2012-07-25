@@ -1,7 +1,5 @@
 require 'mongo'
 require 'json'
-require_relative '../../utils/sli_utils.rb'
-require_relative '../../utils/common_stepdefs.rb'
 require_relative '../../ingestion/features/step_definitions/ingestion_steps.rb'
 
 
@@ -22,23 +20,3 @@ Then /^for the (.*?) with "(.*?)" set to "(.*?)", "(.*?)" is "(.*?)"$/ do |type,
         assert(e == testValue, "#{e} is not equal to #{testValue}")
 end
 
-Then /^I get a link to the aggregates$/ do
-  result = JSON.parse(@res.body)
-  assert(result != nil, "Result of JSON parsing is nil")
-  links = result["links"]
-  @link = nil
-  for l in links do
-          if l['rel'] == "getAggregates"
-                  @link = l["href"]
-          end
-  end
-  assert(@link != nil, "Link to aggregates not found")
-end
-
-Then /^when I navigate to that link I see the highest ever test score is "(.*?)"$/ do |score|
-  restHttpGetAbs(@link)
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res.body != nil, "Response body is nil")
-  aggs = JSON.parse(@res.body)
-  assert(aggs[0]["value"] == score, "Aggregate values are #{@res.body}")
-end

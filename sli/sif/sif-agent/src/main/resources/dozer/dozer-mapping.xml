@@ -15,6 +15,13 @@
             <a>StateProvinceId</a>
             <b>stateOrganizationId</b>
         </field>
+        <!--  
+        Below is a mapping reserved for reference mapping
+        <field>
+            <a>LEAInfoRefId</a>
+            <b>parentEducationAgencyReference</b>
+        </field>
+        -->
         <field>
             <a>SchoolName</a>
             <b>nameOfInstitution</b>
@@ -66,6 +73,35 @@
         </field>
         <field>
             <a>LEAURL</a>
+            <b>webSite</b>
+        </field>
+        <field>
+            <a>OperationalStatus</a>
+            <b>operationalStatus</b>
+        </field>
+        <field custom-converter-id="phoneNumberListConverter">
+            <a>PhoneNumberList</a>
+            <b>telephone</b>
+        </field>
+    </mapping>
+    
+    <mapping>
+        <class-a>org.slc.sli.sif.domain.sifentity.SEAInfoEntity</class-a>
+        <class-b>org.slc.sli.sif.domain.slientity.SEAEntity</class-b>
+        <field>
+            <a>RefId</a>
+            <b>stateOrganizationId</b>
+        </field>
+        <field>
+            <a>SEAName</a>
+            <b>nameOfInstitution</b>
+        </field>
+        <field custom-converter-id="addressListConverter">
+            <a>AddressList</a>
+            <b>address</b>
+        </field>
+        <field>
+            <a>SEAURL</a>
             <b>webSite</b>
         </field>
         <field>

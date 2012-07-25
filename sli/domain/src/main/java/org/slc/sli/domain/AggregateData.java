@@ -53,7 +53,7 @@ public class AggregateData implements Serializable {
         List<AggregateDatum> aggs = new ArrayList<AggregateDatum>();
         for (AggregateDatum datum : aggregates) {
             if ((type == null || type.equals(datum.getType())) && (window == null || window.equals(datum.getWindow()))
-                    && (methodology == null || methodology.equals(datum.getMethodology()))
+                    && (methodology == null || methodology.equals(datum.getMethod()))
                     && (name == null || name.equals(datum.getName()))) {
                 aggs.add(datum);
             }

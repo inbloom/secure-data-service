@@ -39,6 +39,9 @@ import openadk.library.infra.SIF_Event;
 import openadk.library.infra.SIF_Register;
 
 import org.apache.commons.io.IOUtils;
+
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -48,11 +51,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class MockZis {
-    private List<String> agentCallbackUrls = new ArrayList<String>();
     
-    public void addAgent(String agentCallbackUrl) {
-        agentCallbackUrls.add(agentCallbackUrl);
-    }
+    //static Logger log = LoggerFactory.getLogger(MockZis.class);
+    
+    private List<String> agentCallbackUrls = new ArrayList<String>();
     
     /**
      * Parse and process a SIF message.
@@ -75,7 +77,7 @@ public class MockZis {
         }
     }
     
-    public String sifElementToString(SIFElement sifElem) {
+    private String sifElementToString(SIFElement sifElem) {
         StringWriter sw = new StringWriter();
         SIFWriter writer = new SIFWriter(sw);
         writer.suppressNamespace(true);
@@ -155,6 +157,7 @@ public class MockZis {
     @PostConstruct
     public void setup() throws Exception {
         ADK.initialize();
+        //log.info("testing");
     }
     
     public String createAckString() {

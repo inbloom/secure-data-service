@@ -339,7 +339,7 @@ end
 ############################################################
 desc "Run Aggregation API Tests"
 task :aggregationAPI => [:realmInit, :importCompletedAggData] do
-  runTests("test/features/aggregation/aggregate_api.feature")
+  runTests("test/features/apiV1/aggregations/aggregate_api.feature")
 end
 
 desc "Import completed aggregation data"

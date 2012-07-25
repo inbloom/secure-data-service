@@ -2,11 +2,10 @@
 Feature: SIF SchoolInfo Test
 
 Scenario: Post a SchoolInfo message: Clean Database
-Given this is a new entity
-#And the following collections are clean in datastore:
-#     | collectionName        |
-#     | educationOrganization |
-When I POST a(n) "SchoolInfo" SIF message
+Given the following collections are clean in datastore:
+     | collectionName        |
+     | educationOrganization |
+When I POST a(n) "sifEvent_SchoolInfo_add" SIF message
 #And "10" seconds have elapsed
 #Then I should see following map of entry counts in the corresponding collections:
 #     | collectionName        | count |
@@ -18,8 +17,8 @@ When I POST a(n) "SchoolInfo" SIF message
 
 
 Scenario: Post a SchoolInfo message: Populated Database
-Given this is an update to an existing entity
-When I POST a(n) "SchoolInfo" SIF message
+# Given ???
+When I POST a(n) "sifEvent_SchoolInfo_change" SIF message
 #And "10" seconds have elapsed
 #Then I should see following map of entry counts in the corresponding collections:
 #     | collectionName        | count |

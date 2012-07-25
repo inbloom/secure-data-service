@@ -41,7 +41,6 @@ import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
 
 /**

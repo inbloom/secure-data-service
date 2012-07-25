@@ -36,17 +36,6 @@ public class TriggerRequestHandler extends AbstractRequestHandler {
 
     @Autowired
     private MockZis mockZis;
-    
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
-            throws ServletException, IOException {
-        System.out.println("GET Trigger");
-        
-        resp.setContentType("text/xml");
-        
-        writeResponseString(resp, mockZis.createAckString());
-        
-    }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

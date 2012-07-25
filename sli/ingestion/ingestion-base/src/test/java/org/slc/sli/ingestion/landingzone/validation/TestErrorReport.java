@@ -28,7 +28,7 @@ import org.slc.sli.ingestion.validation.ErrorReport;
 /**
  * Test ErrorReport. Records and logs each error message.
  *
- * @author Tom Shewchuk <tshewchuk@wgen.net>
+ * @author Tom Shewchuk
  *
  */
 public final class TestErrorReport implements ErrorReport {

@@ -17,8 +17,9 @@
 
 package org.slc.sli.ingestion.validation;
 
-import org.slc.sli.ingestion.FaultsReport;
 import org.slf4j.Logger;
+
+import org.slc.sli.ingestion.FaultsReport;
 
 /**
  * FaultReport implementation that gathers errors and also logs them to file.
@@ -28,6 +29,10 @@ import org.slf4j.Logger;
  */
 public class LoggingFaultReport extends FaultsReport {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
     private final Logger logger;
     private boolean hasErrors;
 
@@ -41,8 +46,9 @@ public class LoggingFaultReport extends FaultsReport {
         super.fatal(message, sender);
         logger.error(message);
 
-        if (!hasErrors)
+        if (!hasErrors) {
             hasErrors = true;
+        }
     }
 
     @Override
@@ -50,8 +56,9 @@ public class LoggingFaultReport extends FaultsReport {
         super.error(message, sender);
         logger.error(message);
 
-        if (!hasErrors)
+        if (!hasErrors) {
             hasErrors = true;
+        }
     }
 
     @Override
