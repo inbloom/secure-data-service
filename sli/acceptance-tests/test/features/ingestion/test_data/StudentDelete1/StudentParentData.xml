@@ -1,0 +1,35 @@
+<InterchangeStudentParent xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="Interchange-StudentParent.xsd">
+     <Parent>
+      <ParentUniqueStateId>5344776141</ParentUniqueStateId>
+      <Name>
+         <FirstName>Jill</FirstName>
+         <MiddleName>V.</MiddleName>
+         <LastSurname>Williams</LastSurname>
+      </Name>
+      <Sex>Female</Sex>
+      <Telephone TelephoneNumberType="Home">
+         <TelephoneNumber>5247023688</TelephoneNumber>
+      </Telephone>
+      <ElectronicMail EmailAddressType="Home/Personal">
+         <EmailAddress>Jill.Williams@sli-parents.org</EmailAddress>
+      </ElectronicMail>
+   </Parent>
+   <StudentParentAssociation>
+      <StudentReference>
+         <StudentIdentity>
+            <StudentUniqueStateId>530425896</StudentUniqueStateId>
+         </StudentIdentity>
+      </StudentReference>
+      <ParentReference>
+         <ParentIdentity>
+            <ParentUniqueStateId>5344776141</ParentUniqueStateId>
+         </ParentIdentity>
+      </ParentReference>
+      <Relation>Mother</Relation>
+      <LivesWith>true</LivesWith>
+      <PrimaryContactStatus>true</PrimaryContactStatus>
+      <EmergencyContactStatus>true</EmergencyContactStatus>
+      <ContactPriority>0</ContactPriority>
+   </StudentParentAssociation>
+</InterchangeStudentParent>
