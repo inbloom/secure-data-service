@@ -23,7 +23,7 @@ require 'pp'
 require 'rest-client'
 
 require_relative '../../../utils/sli_utils.rb'
-require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
+# require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
 
 ############################################################
 # ENVIRONMENT CONFIGURATION
@@ -32,6 +32,7 @@ require_relative '../../../ingestion/features/step_definitions/ingestion_steps.r
 SIF_DB_NAME = PropLoader.getProps['sif_database_name']
 SIF_DB = PropLoader.getProps['sif_db']
 SIF_ZIS_ADDRESS_TRIGGER = PropLoader.getProps['sif_zis_address_trigger']
+TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT"]
 
 ############################################################
 # STEPS: BEFORE
@@ -43,352 +44,7 @@ Before do
 
   @postUri = SIF_ZIS_ADDRESS_TRIGGER
   @format = 'application/xml;charset=utf-8'
-
-  # TODO change these to xml strings
-  # @newEntities = {
-    # 'SchoolInfo' => {
-      # 'id' => 'S1',
-      # 'name' => 'New School Name',
-      # 'address' => 'New School Address'
-    # },
-    # 'LEAInfo' => {
-      # 'id' => 'LEA1',
-      # 'name' => 'New LEA Name'
-    # },
-    # 'SEAInfo' => {
-      # 'id' => 'SEA1',
-      # 'name' => 'New SEA Name'
-    # }
-  # }
-
-  # @existingEntities = {
-    # 'SchoolInfo' => {
-      # 'id' => 'S1',
-      # 'name' => 'Updated School Name',
-      # 'address' => 'Updated School Address'
-    # },
-    # 'LEAInfo' => {
-      # 'id' => 'LEA1',
-      # 'name' => 'Updated LEA Name'
-    # },
-    # 'SEAInfo' => {
-      # 'id' => 'SEA1',
-      # 'name' => 'Updated SEA Name'
-    # }
-  # }
-
-  @newEntities = {
-    'SchoolInfo' => '
-<?xml version="1.0"?>
-<SIF_Message xmlns="http://www.sifinfo.org/infrastructure/2.x" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="2.3">
-  <SIF_Event>
-    <SIF_Header>
-      <SIF_MsgId>E89A2B2B571A402BAAE669568035987E</SIF_MsgId>
-      <SIF_Timestamp>2012-07-24T13:48:13-04:00</SIF_Timestamp>
-      <SIF_Security>
-        <SIF_SecureChannel>
-          <SIF_AuthenticationLevel>0</SIF_AuthenticationLevel>
-          <SIF_EncryptionLevel>0</SIF_EncryptionLevel>
-        </SIF_SecureChannel>
-      </SIF_Security>
-      <SIF_SourceId>test.publisher.agent</SIF_SourceId>
-      <SIF_Contexts>
-        <SIF_Context>SIF_Default</SIF_Context>
-      </SIF_Contexts>
-    </SIF_Header>
-    <SIF_ObjectData>
-      <SIF_EventObject ObjectName="SchoolInfo" Action="Add">
-        <SchoolInfo RefId="D3E34B359D75101A8C3D00AA001A1652">
-          <StateProvinceId>Daybreak West High</StateProvinceId>
-          <NCESId>421575003045</NCESId>
-          <SchoolName>Daybreak West High</SchoolName>
-          <LEAInfoRefId>73648462888624AA5294BC6380173276</LEAInfoRefId>
-          <SchoolType>2402</SchoolType>
-          <SchoolFocusList>
-            <SchoolFocus>Regular</SchoolFocus>
-          </SchoolFocusList>
-          <SchoolURL>http://IL-DAYBREAK.edu</SchoolURL>
-          <AddressList>
-            <Address Type="0123">
-              <Street>
-                <Line1>1 IBM Plaza</Line1>
-                <Line2>Suite 2000</Line2>
-                <Line3>Salt Lake City, IL 84102</Line3>
-                <StreetNumber>1</StreetNumber>
-                <StreetName>IBM way</StreetName>
-                <StreetType>Plaza</StreetType>
-                <ApartmentType>Suite</ApartmentType>
-                <ApartmentNumber>2000</ApartmentNumber>
-              </Street>
-              <City>Salt Lake City</City>
-              <StateProvince>IL</StateProvince>
-              <Country>US</Country>
-              <PostalCode>84102</PostalCode>
-            </Address>
-          </AddressList>
-          <PhoneNumberList>
-            <PhoneNumber Type="0096">
-              <Number>(312) 555-1234</Number>
-            </PhoneNumber>
-            <PhoneNumber Type="2364">
-              <Number>(312) 555-2364</Number>
-            </PhoneNumber>
-          </PhoneNumberList>
-          <GradeLevels>
-            <GradeLevel>
-              <Code>09</Code>
-            </GradeLevel>
-            <GradeLevel>
-              <Code>10</Code>
-            </GradeLevel>
-            <GradeLevel>
-              <Code>11</Code>
-            </GradeLevel>
-            <GradeLevel>
-              <Code>12</Code>
-            </GradeLevel>
-          </GradeLevels>
-          <OperationalStatus>0821</OperationalStatus>
-        </SchoolInfo>
-      </SIF_EventObject>
-    </SIF_ObjectData>
-  </SIF_Event>
-</SIF_Message>
-',
-    'LEAInfo' => '
-<?xml version="1.0"?>
-<SIF_Message xmlns="http://www.sifinfo.org/infrastructure/2.x" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="2.3">
-  <SIF_Event>
-    <SIF_Header>
-      <SIF_MsgId>E89A2B2B571A402BAAE669568035987E</SIF_MsgId>
-      <SIF_Timestamp>2012-07-24T13:48:13-04:00</SIF_Timestamp>
-      <SIF_Security>
-        <SIF_SecureChannel>
-          <SIF_AuthenticationLevel>0</SIF_AuthenticationLevel>
-          <SIF_EncryptionLevel>0</SIF_EncryptionLevel>
-        </SIF_SecureChannel>
-      </SIF_Security>
-      <SIF_SourceId>test.publisher.agent</SIF_SourceId>
-      <SIF_Contexts>
-        <SIF_Context>SIF_Default</SIF_Context>
-      </SIF_Contexts>
-    </SIF_Header>
-    <SIF_ObjectData>
-      <SIF_EventObject ObjectName="LEAInfo" Action="Add">
-        <LEAInfo RefId="73648462888624AA5294BC6380173276">
-          <StateProvinceId>Daybreak School District 4530</StateProvinceId>
-          <NCESId>4215750</NCESId>
-          <LEAName>Daybreak School District 4530</LEAName>
-          <LEAURL>http://IL-DAYBREAK.edu</LEAURL>
-          <EducationAgencyType>
-            <Code>1</Code>
-          </EducationAgencyType>
-          <PhoneNumberList>
-            <PhoneNumber Type="0096">
-              <Number>(312) 555-1234</Number>
-            </PhoneNumber>
-            <PhoneNumber Type="2364">
-              <Number>(312) 555-2364</Number>
-            </PhoneNumber>
-          </PhoneNumberList>
-          <AddressList>
-            <Address Type="0123">
-              <Street>
-                <Line1>1 IBM Plaza</Line1>
-                <Line2>Suite 2000</Line2>
-                <Line3>Salt Lake City, IL 84102</Line3>
-                <StreetNumber>1</StreetNumber>
-                <StreetName>IBM way</StreetName>
-                <StreetType>Plaza</StreetType>
-                <ApartmentType>Suite</ApartmentType>
-                <ApartmentNumber>2000</ApartmentNumber>
-              </Street>
-              <City>Salt Lake City</City>
-              <StateProvince>IL</StateProvince>
-              <Country>US</Country>
-              <PostalCode>84102</PostalCode>
-            </Address>
-          </AddressList>
-          <GradeLevels>
-            <GradeLevel>
-              <Code>09</Code>
-            </GradeLevel>
-            <GradeLevel>
-              <Code>10</Code>
-            </GradeLevel>
-            <GradeLevel>
-              <Code>11</Code>
-            </GradeLevel>
-            <GradeLevel>
-              <Code>12</Code>
-            </GradeLevel>
-          </GradeLevels>
-          <OperationalStatus>0821</OperationalStatus>
-        </LEAInfo>
-      </SIF_EventObject>
-    </SIF_ObjectData>
-  </SIF_Event>
-</SIF_Message>
-'
-  }
-
-  @existingEntities = {
-    'SchoolInfo' => '
-<?xml version="1.0"?>
-<SIF_Message xmlns="http://www.sifinfo.org/infrastructure/2.x" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="2.3">
-  <SIF_Event>
-    <SIF_Header>
-      <SIF_MsgId>E89A2B2B571A402BAAE669568035987E</SIF_MsgId>
-      <SIF_Timestamp>2012-07-24T13:48:13-04:00</SIF_Timestamp>
-      <SIF_Security>
-        <SIF_SecureChannel>
-          <SIF_AuthenticationLevel>0</SIF_AuthenticationLevel>
-          <SIF_EncryptionLevel>0</SIF_EncryptionLevel>
-        </SIF_SecureChannel>
-      </SIF_Security>
-      <SIF_SourceId>test.publisher.agent</SIF_SourceId>
-      <SIF_Contexts>
-        <SIF_Context>SIF_Default</SIF_Context>
-      </SIF_Contexts>
-    </SIF_Header>
-    <SIF_ObjectData>
-      <SIF_EventObject ObjectName="SchoolInfo" Action="Add">
-        <SchoolInfo RefId="D3E34B359D75101A8C3D00AA001A1652">
-          <StateProvinceId>Daybreak West High</StateProvinceId>
-          <NCESId>421575003045</NCESId>
-          <SchoolName>UPDATED Daybreak West High</SchoolName>
-          <LEAInfoRefId>73648462888624AA5294BC6380173276</LEAInfoRefId>
-          <SchoolType>2402</SchoolType>
-          <SchoolFocusList>
-            <SchoolFocus>Regular</SchoolFocus>
-          </SchoolFocusList>
-          <SchoolURL>http://IL-DAYBREAK.edu</SchoolURL>
-          <AddressList>
-            <Address Type="0123">
-              <Street>
-                <Line1>1 IBM Plaza</Line1>
-                <Line2>Suite 2000</Line2>
-                <Line3>Salt Lake City, IL 84102</Line3>
-                <StreetNumber>1</StreetNumber>
-                <StreetName>IBM way</StreetName>
-                <StreetType>Plaza</StreetType>
-                <ApartmentType>Suite</ApartmentType>
-                <ApartmentNumber>2000</ApartmentNumber>
-              </Street>
-              <City>Salt Lake City</City>
-              <StateProvince>IL</StateProvince>
-              <Country>US</Country>
-              <PostalCode>84102</PostalCode>
-            </Address>
-          </AddressList>
-          <PhoneNumberList>
-            <PhoneNumber Type="0096">
-              <Number>(312) 555-1234</Number>
-            </PhoneNumber>
-            <PhoneNumber Type="2364">
-              <Number>(312) 555-2364</Number>
-            </PhoneNumber>
-          </PhoneNumberList>
-          <GradeLevels>
-            <GradeLevel>
-              <Code>09</Code>
-            </GradeLevel>
-            <GradeLevel>
-              <Code>10</Code>
-            </GradeLevel>
-            <GradeLevel>
-              <Code>11</Code>
-            </GradeLevel>
-            <GradeLevel>
-              <Code>12</Code>
-            </GradeLevel>
-          </GradeLevels>
-          <OperationalStatus>0821</OperationalStatus>
-        </SchoolInfo>
-      </SIF_EventObject>
-    </SIF_ObjectData>
-  </SIF_Event>
-</SIF_Message>
-',
-    'LEAInfo' => '
-<?xml version="1.0"?>
-<SIF_Message xmlns="http://www.sifinfo.org/infrastructure/2.x" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="2.3">
-  <SIF_Event>
-    <SIF_Header>
-      <SIF_MsgId>E89A2B2B571A402BAAE669568035987E</SIF_MsgId>
-      <SIF_Timestamp>2012-07-24T13:48:13-04:00</SIF_Timestamp>
-      <SIF_Security>
-        <SIF_SecureChannel>
-          <SIF_AuthenticationLevel>0</SIF_AuthenticationLevel>
-          <SIF_EncryptionLevel>0</SIF_EncryptionLevel>
-        </SIF_SecureChannel>
-      </SIF_Security>
-      <SIF_SourceId>test.publisher.agent</SIF_SourceId>
-      <SIF_Contexts>
-        <SIF_Context>SIF_Default</SIF_Context>
-      </SIF_Contexts>
-    </SIF_Header>
-    <SIF_ObjectData>
-      <SIF_EventObject ObjectName="LEAInfo" Action="Add">
-        <LEAInfo RefId="73648462888624AA5294BC6380173276">
-          <StateProvinceId>Daybreak School District 4530</StateProvinceId>
-          <NCESId>4215750</NCESId>
-          <LEAName>UPDATED Daybreak School District 4530</LEAName>
-          <LEAURL>http://IL-DAYBREAK.edu</LEAURL>
-          <EducationAgencyType>
-            <Code>1</Code>
-          </EducationAgencyType>
-          <PhoneNumberList>
-            <PhoneNumber Type="0096">
-              <Number>(312) 555-1234</Number>
-            </PhoneNumber>
-            <PhoneNumber Type="2364">
-              <Number>(312) 555-2364</Number>
-            </PhoneNumber>
-          </PhoneNumberList>
-          <AddressList>
-            <Address Type="0123">
-              <Street>
-                <Line1>1 IBM Plaza</Line1>
-                <Line2>Suite 2000</Line2>
-                <Line3>Salt Lake City, IL 84102</Line3>
-                <StreetNumber>1</StreetNumber>
-                <StreetName>IBM way</StreetName>
-                <StreetType>Plaza</StreetType>
-                <ApartmentType>Suite</ApartmentType>
-                <ApartmentNumber>2000</ApartmentNumber>
-              </Street>
-              <City>Salt Lake City</City>
-              <StateProvince>IL</StateProvince>
-              <Country>US</Country>
-              <PostalCode>84102</PostalCode>
-            </Address>
-          </AddressList>
-          <GradeLevels>
-            <GradeLevel>
-              <Code>09</Code>
-            </GradeLevel>
-            <GradeLevel>
-              <Code>10</Code>
-            </GradeLevel>
-            <GradeLevel>
-              <Code>11</Code>
-            </GradeLevel>
-            <GradeLevel>
-              <Code>12</Code>
-            </GradeLevel>
-          </GradeLevels>
-          <OperationalStatus>0821</OperationalStatus>
-        </LEAInfo>
-      </SIF_EventObject>
-    </SIF_ObjectData>
-  </SIF_Event>
-</SIF_Message>
-'
-  }
-
-  # default
-  @entities = @newEntities
+  @local_file_store_path = File.dirname(__FILE__) + '/../../test_data/'
 end
 
 
@@ -396,17 +52,26 @@ end
 # STEPS: GIVEN
 ############################################################
 
-Given /^this is a new entity$/ do
-  @entities = @newEntities
-end
-
-Given /^this is an update to an existing entity$/ do
-  @entities = @existingEntities
-end
-
+# TODO change to clean instead of remove
 Given /^the following collections are clean in datastore:$/ do |table|
-  # table is a Cucumber::Ast::Table
-  pending # express the regexp above with the code you wish you had
+  @conn = Mongo::Connection.new(SIF_DB)
+
+  @db   = @conn[SIF_DB_NAME]
+
+  @result = "true"
+
+  table.hashes.map do |row|
+    @entity_collection = @db[row["collectionName"]]
+    @entity_collection.remove("metaData.tenantId" => {"$in" => TENANT_COLLECTION})
+
+    puts "There are #{@entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count} records in collection " + row["collectionName"] + "."
+
+    if @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count.to_s != "0"
+      @result = "false"
+    end
+  end
+  createIndexesOnDb(@conn, SIF_DB_NAME)
+  assert(@result == "true", "Some collections were not cleared successfully.")
 end
 
 ############################################################
@@ -414,11 +79,18 @@ end
 ############################################################
 
 
-When /^I POST a\(n\) "(.*?)" SIF message$/ do |messageType|
-  postMessage(@entities[messageType])
+When /^I POST a\(n\) "(.*?)" SIF message$/ do |identifier|
+  message = getMessageForIdentifier(identifier)
+  postMessage(message)
 end
 
-# TODO fill in the code here
+def getMessageForIdentifier(identifier)
+  file = File.open(@local_file_store_path + identifier + ".xml", "r")
+  message = file.read
+  file.close
+  return message
+end
+
 def postMessage(message)
   puts "POSTing message: #{message}"
 
@@ -432,6 +104,56 @@ end
 ############################################################
 # STEPS: THEN
 ############################################################
+
+Then /^I should see following map of entry counts in the corresponding collections:$/ do |table|
+
+  @result = "true"
+
+  table.hashes.map do |row|
+    @entity_collection = @db.collection(row["collectionName"])
+    @entity_count = @entity_collection.find("metaData.tenantId" => {"$in" => TENANT_COLLECTION}).count().to_i
+
+    if @entity_count.to_s != row["count"].to_s
+      @result = "false"
+      red = "\e[31m"
+      reset = "\e[0m"
+    end
+
+    puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection. Expected: " + row["count"].to_s+"#{reset}"
+  end
+
+  assert(@result == "true", "Some records didn't load successfully.")
+end
+
+Then /^I check to find if record is in collection:$/ do |table|
+  @db   = @conn[INGESTION_DB_NAME]
+
+  @result = "true"
+
+  table.hashes.map do |row|
+    @entity_collection = @db.collection(row["collectionName"])
+
+    if row["searchType"] == "integer"
+      @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+    elsif row["searchType"] == "boolean"
+        if row["searchValue"] == "false"
+            @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => false}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+        else
+            @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => true}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+        end
+    else
+      @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"]},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+    end
+
+    puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"]
+
+    if @entity_count.to_s != row["expectedRecordCount"].to_s
+      @result = "false"
+    end
+  end
+
+  assert(@result == "true", "Some records are not found in collection.")
+end
 
 ############################################################
 # STEPS: AFTER
