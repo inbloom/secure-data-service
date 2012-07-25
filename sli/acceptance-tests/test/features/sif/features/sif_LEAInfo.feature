@@ -1,11 +1,12 @@
 @RALLY_US3047
 Feature: SIF LEAInfo Test
 
-Scenario: Post an LEAInfo message: Clean Database
-Given the following collections are clean in datastore:
+Scenario: Post a LEAInfo message: Clean Database
+Given I want to POST a(n) "sifEvent_LEAInfo_add" SIF message
+And the following collections are clean in datastore:
      | collectionName        |
      | educationOrganization |
-When I POST a(n) "sifEvent_LEAInfo_add" SIF message
+When I POST the message to the ZIS
 #And "10" seconds have elapsed
 #Then I should see following map of entry counts in the corresponding collections:
 #     | collectionName        | count |
@@ -16,9 +17,9 @@ When I POST a(n) "sifEvent_LEAInfo_add" SIF message
 #     | educationOrganization | 0                   | body.stateOrganizationId | Hoth PS V      | string     |
 
 
-Scenario: Post an LEAInfo message: Populated Database
-# Given ???
-When I POST a(n) "sifEvent_LEAInfo_change" SIF message
+Scenario: Post a LEAInfo message: Populated Database
+Given I want to POST a(n) "sifEvent_LEAInfo_change" SIF message
+When I POST the message to the ZIS
 #And "10" seconds have elapsed
 #Then I should see following map of entry counts in the corresponding collections:
 #     | collectionName        | count |
