@@ -160,14 +160,14 @@ public class EventReporter implements Publisher {
                 zone.reportEvent(leaInfo, EventAction.ADD);
                 Thread.sleep(5000);
                 zone.reportEvent(schoolInfo, EventAction.ADD);
-//                Thread.sleep(5000);
-//                schoolInfo.setChanged();
-//                schoolInfo.setSchoolURL("http://www.IL-DAYBREAK.edu");
-//                zone.reportEvent(schoolInfo, EventAction.CHANGE);
-//                Thread.sleep(5000);
-//                zone.reportEvent(schoolInfo, EventAction.DELETE);
-//                Thread.sleep(5000);
-//                zone.reportEvent(leaInfo, EventAction.DELETE);
+                Thread.sleep(5000);
+                schoolInfo.setChanged();
+                schoolInfo.setSchoolURL("http://www.IL-DAYBREAK.edu");
+                zone.reportEvent(schoolInfo, EventAction.CHANGE);
+                Thread.sleep(5000);
+                zone.reportEvent(schoolInfo, EventAction.DELETE);
+                Thread.sleep(5000);
+                zone.reportEvent(leaInfo, EventAction.DELETE);
             } catch (InterruptedException e)
             {
                 e.printStackTrace();

@@ -189,22 +189,4 @@ public class SchoolEntity extends GenericEntity
         return this.address;
     }
 
-    @Override
-    public String getEntityType()
-    {
-        return "educationOrganization";
-    }
-
-    @Override
-    public String getId()
-    {
-        return null;
-    }
-
-    @Override
-    public List<Link> getLinks()
-    {
-        return null;
-    }
-
 }

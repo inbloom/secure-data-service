@@ -27,6 +27,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.sif.domain.sifentity.SEAInfoEntity;
 import org.slc.sli.sif.domain.sifentity.SchoolInfoEntity;
+import org.slc.sli.sif.domain.slientity.EntityAdapter;
+import org.slc.sli.sif.domain.slientity.GenericEntity;
 import org.slc.sli.sif.domain.slientity.SEAEntity;
 import org.slc.sli.sif.domain.slientity.SchoolEntity;
 import org.slc.sli.sif.domain.sifentity.LEAInfoEntity;
@@ -46,13 +48,35 @@ public class Sif2SliTransformer
     private Mapper dozerMapper;
 
     /**
+     * Transform an SIF SchoolInfo into a EntityAdapter ready for api client operations.
+     *
+     * @param genericEntity
+     * @param entityType
+     * @return EntityAdapter
+     */
+    public EntityAdapter transform(SchoolInfo schoolInfo) {
+        return new EntityAdapter(xform(schoolInfo), "school");
+    }
+
+    /**
+     * Transform an SIF SchoolInfo into a EntityAdapter ready for api client operations.
+     *
+     * @param genericEntity
+     * @param entityType
+     * @return EntityAdapter
+     */
+    public EntityAdapter transform(LEAInfo info) {
+        return new EntityAdapter(xform(info), "educationOrganization");
+    }
+
+    /**
      * Transform an SIF SchoolInfo into a corresponding SLI JsonNode ready for operations.
      *
      * @param SchoolInfo
      * @return JsonNode
      */
-    public JsonNode transform2json(SchoolInfo schoolInfo) {
-        return transform(schoolInfo).json();
+    public JsonNode transform2json(SchoolInfo info) {
+        return xform(info).json();
     }
 
     /**
@@ -61,7 +85,7 @@ public class Sif2SliTransformer
      * @param SchoolInfo
      * @return SchoolEntity
      */
-    public SchoolEntity transform(SchoolInfo schoolInfo) {
+    public SchoolEntity xform(SchoolInfo schoolInfo) {
         return this.dozerMapper.map(new SchoolInfoEntity(schoolInfo), SchoolEntity.class);
     }
 
@@ -82,7 +106,7 @@ public class Sif2SliTransformer
      * @return JsonNode
      */
     public JsonNode transform2json(LEAInfo leaInfo) {
-        return transform(leaInfo).json();
+        return xform(leaInfo).json();
     }
 
     /**
@@ -91,7 +115,7 @@ public class Sif2SliTransformer
      * @param SchoolInfo
      * @return SchoolEntity
      */
-    public LEAEntity transform(LEAInfo leaInfo) {
+    public LEAEntity xform(LEAInfo leaInfo) {
         return this.dozerMapper.map(new LEAInfoEntity(leaInfo), LEAEntity.class);
     }
 
@@ -112,7 +136,7 @@ public class Sif2SliTransformer
      * @return JsonNode
      */
     public JsonNode transform2json(SEAInfo seaInfo) {
-        return transform(seaInfo).json();
+        return xform(seaInfo).json();
     }
 
     /**
@@ -121,7 +145,7 @@ public class Sif2SliTransformer
      * @param SchoolInfo
      * @return SchoolEntity
      */
-    public SEAEntity transform(SEAInfo seaInfo) {
+    public SEAEntity xform(SEAInfo seaInfo) {
         return this.dozerMapper.map(new SEAInfoEntity(seaInfo), SEAEntity.class);
     }
 
