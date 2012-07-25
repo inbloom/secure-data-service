@@ -1,6 +1,5 @@
 package org.slc.sli.api.selectors.doc;
 
-import org.aspectj.weaver.World;
 import org.codehaus.plexus.util.StringUtils;
 import org.slc.sli.api.selectors.model.ModelProvider;
 import org.slc.sli.api.selectors.model.SemanticSelector;
@@ -24,7 +23,7 @@ import java.util.Map;
  *
  */
 @Component
-public class DefaultSelectorDocument implements SelectorDocument {
+public class DefaultSelectorDocument implements SelectorDocument, QueryVisitor {
 
     @Autowired
     private ModelProvider modelProvider;
@@ -43,22 +42,31 @@ public class DefaultSelectorDocument implements SelectorDocument {
         Map<Type, QueryPlan> queries = new HashMap<Type, QueryPlan>();
 
         for (Map.Entry<Type, List<Object>> entry : queryMap.entrySet()) {
+            Type type = entry.getKey();
+            List<Object> attributes = entry.getValue();
 
-            if (List.class.isInstance(entry.getValue())) {
-                Type type = entry.getKey();
-                List<Object> attributes = (List<Object>) entry.getValue();
-                List<String> includeFields = handleAttributes(type, attributes, queries);
+            Container container = handleAttributes(attributes);
 
-                NeutralQuery query = buildQuery(includeFields);
-
+            if (!container.getQueries().isEmpty()) {
                 if (queries.containsKey(type)) {
-                    queries.get(type).setQuery(query);
+                    queries.get(type).getChildQueryPlans().addAll(container.getQueries());
                 } else {
                     QueryPlan plan = new QueryPlan();
-                    plan.setQuery(query);
+                    plan.getChildQueryPlans().addAll(container.getQueries());
 
                     queries.put(type, plan);
                 }
+            }
+
+            NeutralQuery query = buildQuery(container.getIncludeFields());
+
+            if (queries.containsKey(type)) {
+                queries.get(type).setQuery(query);
+            } else {
+                QueryPlan plan = new QueryPlan();
+                plan.setQuery(query);
+
+                queries.put(type, plan);
             }
         }
 
@@ -94,26 +102,40 @@ public class DefaultSelectorDocument implements SelectorDocument {
         return query;
     }
 
-    protected List<String> handleAttributes(Type type, List<Object> attributes, Map<Type, QueryPlan> parentQueries) {
-        List<String> includeFields = new ArrayList<String>();
+    protected Container handleAttributes(List<Object> attributes) {
+        Container container = new Container();
+
         for (Object obj : attributes) {
-            if (String.class.isInstance(obj)) {
-                includeFields.add((String) obj);
-            } else if (Map.class.isInstance(obj)) {
-                Map<Type, QueryPlan> queries = buildQueryPlan((SemanticSelector) obj);
-
-                if (parentQueries.containsKey(type)) {
-                    parentQueries.get(type).getChildQueryPlans().add(queries);
-                } else {
-                    QueryPlan plan = new QueryPlan();
-                    plan.getChildQueryPlans().add(queries);
-
-                    parentQueries.put(type, plan);
-                }
+            if (obj instanceof QueryVisitable) {
+                Map<Type, QueryPlan> queries = ((QueryVisitable) obj).accept(this);
+                container.getQueries().add(queries);
+            } else if (String.class.isInstance(obj)) {
+                container.getIncludeFields().add((String) obj);
             }
         }
 
-        return includeFields;
+        return container;
+    }
+
+    class Container {
+        private List<String> includeFields = new ArrayList<String>();
+        private List<Map<Type, QueryPlan>> queries = new ArrayList<Map<Type, QueryPlan>>();
+
+        public List<String> getIncludeFields() {
+            return includeFields;
+        }
+
+        public void setIncludeFields(List<String> includeFields) {
+            this.includeFields = includeFields;
+        }
+
+        public List<Map<Type, QueryPlan>> getQueries() {
+            return queries;
+        }
+
+        public void setQueries(List<Map<Type, QueryPlan>> queries) {
+            this.queries = queries;
+        }
     }
 
     protected List<String> executeQuery(Type type, NeutralQuery query, final Constraint constraint) {
@@ -143,4 +165,10 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
         return key;
     }
+
+    @Override
+    public Map<Type, QueryPlan> visit(SemanticSelector semanticSelector) {
+        return buildQueryPlan(semanticSelector);
+    }
+
 }
