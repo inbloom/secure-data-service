@@ -17,6 +17,8 @@
 
 package org.slc.sli.sif.slcinterface;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 import javax.annotation.PostConstruct;
@@ -26,6 +28,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.client.Entity;
+import org.slc.sli.api.client.SLIClientException;
 import org.slc.sli.api.client.impl.BasicClient;
 import org.slc.sli.api.client.impl.BasicRESTClient;
 
@@ -69,5 +73,22 @@ public class SlcInterface {
             LOG.error("  " + e.getMessage(), e);
         }
         return "";
+    }
+    
+    public String create(final Entity e) {
+        try
+        {
+            return client.create(e);
+        } catch (IOException e1)
+        {
+            LOG.error("  " + e1.getMessage(), e1);
+        } catch (URISyntaxException e1)
+        {
+            LOG.error("  " + e1.getMessage(), e1);
+        } catch (SLIClientException e1)
+        {
+            LOG.error("  " + e1.getMessage(), e1);
+        }
+        return null;
     }
 }

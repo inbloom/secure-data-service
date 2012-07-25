@@ -18,6 +18,7 @@ package org.slc.sli.sif.subscriber;
 
 import openadk.library.ADKException;
 import openadk.library.Event;
+import openadk.library.EventAction;
 import openadk.library.MessageInfo;
 import openadk.library.SIFDataObject;
 import openadk.library.Subscriber;
@@ -45,12 +46,43 @@ public class SifSubscriber implements Subscriber {
     @Autowired
     private SlcInterface slcInterface;
 
-    private void inspectAndDestroyEvent(Event e) {
+    private SIFDataObject inspectAndDestroyEvent(Event e) {
+        SIFDataObject sdo = null;
         LOG.info("###########################################################################");
         try {
-            SIFDataObject sdo = e.getData().readDataObject();
+            sdo = e.getData().readDataObject();
             LOG.info("\n" + "\tObjectType: " + sdo.getObjectType());
-            
+            LOG.info(""+sdo.toString());
+        } catch (ADKException e1) {
+            LOG.error("Error trying to inspect event", e1);
+        }
+        LOG.info("###########################################################################");
+        return sdo;
+    }
+
+    @Override
+    public void onEvent(Event event, Zone zone, MessageInfo info) throws ADKException {
+        LOG.info("Received event:\n" + "\tEvent:      " + event.getActionString() + "\n" + "\tZone:       " + zone.getZoneId()
+                + "\n" + "\tInfo:       " + info.getMessage());
+
+        SIFDataObject sdo = inspectAndDestroyEvent(event);
+
+        // execute a call to the SDK
+        boolean tokenChecked = false;
+        String token = slcInterface.sessionCheck();
+        if (null != token && 0 < token.length()) {
+            tokenChecked = true;
+            LOG.info("Successfully executed session check with token " + token);
+        } else {
+            LOG.info("Session check failed");
+        }
+        
+        if (sdo!=null && tokenChecked && event.getAction()!=null) {
+            switch(event.getAction()) {
+            case ADD:
+            case CHANGE:
+            case DELETE:
+            }
             if (sdo instanceof SchoolInfo) {
                 JsonNode schoolNode = xformer.transform2json((SchoolInfo)sdo);
                 LOG.info(""+schoolNode.toString());
@@ -60,27 +92,11 @@ public class SifSubscriber implements Subscriber {
                 JsonNode leaNode = xformer.transform2json((LEAInfo)sdo);
                 LOG.info(""+leaNode.toString());
             }
-            
-        } catch (ADKException e1) {
-            LOG.error("Error trying to inspect event", e1);
         }
-        LOG.info("###########################################################################");
     }
-
-    @Override
-    public void onEvent(Event event, Zone zone, MessageInfo info) throws ADKException {
-        LOG.info("Received event:\n" + "\tEvent:      " + event.getActionString() + "\n" + "\tZone:       " + zone.getZoneId()
-                + "\n" + "\tInfo:       " + info.getMessage());
-
-        inspectAndDestroyEvent(event);
-
-        // execute a call to the SDK
-        String token = slcInterface.sessionCheck();
-        if (null != token && 0 < token.length()) {
-            LOG.info("Successfully executed session check with token " + token);
-        } else {
-            LOG.info("Session check failed");
-        }
+    
+    private void addEntity() {
+        
     }
 
 }
