@@ -19,6 +19,7 @@ package org.slc.sli.dashboard.manager.impl;
 
 import java.io.File;
 import java.io.FileReader;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
@@ -193,7 +194,6 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         return getConfigByPath(customComponentConfig, componentId);
     }
 
-
     @Override
     @Cacheable(value = Constants.CACHE_USER_WIDGET_CONFIG)
     public Collection<Config> getWidgetConfigs(String token, EdOrgKey edOrgKey) {
@@ -228,35 +228,61 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
 
     @Override
     //@Cacheable(value = Constants.CACHE_USER_WIDGET_CONFIG)
-    public Collection<Config> getConfigsByAttribute(String token, EdOrgKey edOrgKey, String attr, String value) {
+    public Collection<Config> getConfigsByAttribute(String token, EdOrgKey edOrgKey, Map<String, String> params) {
+
         // id to config map
-        Map<String, Config> widgets = new HashMap<String, Config>();
+        Map<String, Config> configs = new HashMap<String, Config>();
         Config config;
+
         // list files in driver dir
         File driverConfigDir = new File(this.driverConfigLocation);
-        File[] configs = driverConfigDir.listFiles();
-        if (configs == null) {
+        File[] driverConfigFiles = driverConfigDir.listFiles();
+        if (driverConfigFiles == null) {
             logger.error("Unable to read config directory");
             throw new DashboardException("Unable to read config directory!!!!");
         }
 
-        for (File f : driverConfigDir.listFiles()) {
+        for (File f : driverConfigFiles) {
             try {
                 config = loadConfig(f);
             } catch (Exception t) {
                 logger.error("Unable to read config " + f.getName() + ". Skipping file", t);
                 continue;
             }
-            // assemble widgets
-            Config.Type type = Config.Type.valueOf(value); // TODO: use reflection w/ attr param
-            if (config.getType() == type) {
-                widgets.put(config.getId(), config);
+
+            // check the config params. if they all match, add to the config map.
+            boolean match = true;
+            for (String paramName : params.keySet()) {
+
+                try {
+
+                    // use reflection to call the right config object method
+                    String methodName = "get" + Character.toUpperCase(paramName.charAt(0)) + paramName.substring(1);
+                    Method method = config.getClass().getDeclaredMethod (methodName, new Class[] {});
+                    Object ret = method.invoke(config, new Object[] {});
+
+                    // compare the result to the desired result
+                    if (!(ret.toString().equals(params.get(paramName)))) {
+                        match = false;
+                        break;
+                    }
+                } catch (Exception e) {
+                    match = false;
+                    logger.error("Error calling config method!");
+                }
+            }
+
+            // add to config map
+            if (match) {
+                configs.put(config.getId(), config);
             }
         }
-        for (String id : widgets.keySet()) {
-            widgets.put(id, getComponentConfig(token, edOrgKey, id));
+
+        // get custom configs
+        for (String id : configs.keySet()) {
+            configs.put(id, getComponentConfig(token, edOrgKey, id));
         }
-        return widgets.values();
+        return configs.values();
     }
 
     /**

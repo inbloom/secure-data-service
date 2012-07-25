@@ -18,6 +18,7 @@
 package org.slc.sli.dashboard.web.controller;
 
 import java.util.Collection;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -30,6 +31,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -126,17 +128,12 @@ public class ConfigController extends GenericLayoutController {
     /**
      * Controller for client side data pulls without id
      * /s/c/cfg?type=LAYOUT
-     * /s/c/cfg?params.profile=student
      */
     @RequestMapping(value = "/s/c/cfg", method = RequestMethod.GET)
-    @ResponseBody public Collection<Config> handleSearch(final HttpServletRequest request) {
-        String attribute = "type";
-        String value = "LAYOUT";
+    @ResponseBody public Collection<Config> handleSearch(@RequestParam Map<String, String> params,
+                                                         final HttpServletRequest request) {
 
-        // get configs by attribute
-        Collection<Config> configs = configManager.getConfigsByAttribute(SecurityUtil.getToken(), null, attribute, value);
-
-        return configs;
+        return configManager.getConfigsByAttribute(SecurityUtil.getToken(), null, params);
     }
 
 }

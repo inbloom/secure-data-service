@@ -18,6 +18,7 @@
 package org.slc.sli.dashboard.manager;
 
 import java.util.Collection;
+import java.util.Map;
 
 import org.slc.sli.dashboard.entity.Config;
 import org.slc.sli.dashboard.entity.ConfigMap;
@@ -64,6 +65,6 @@ public interface ConfigManager {
     public ConfigMap getCustomConfig(String token, EdOrgKey userEdOrg);
     void putCustomConfig(String token, EdOrgKey edOrgKey, ConfigMap configMap);
 
-    Collection<Config> getConfigsByAttribute(String token, EdOrgKey edOrgKey, String attr, String value);
+    Collection<Config> getConfigsByAttribute(String token, EdOrgKey edOrgKey, Map<String, String> params);
 
 }
