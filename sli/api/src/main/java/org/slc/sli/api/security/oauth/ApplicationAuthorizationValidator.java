@@ -70,11 +70,13 @@ public class ApplicationAuthorizationValidator {
     @SuppressWarnings("unchecked")
     public List<String> getAuthorizedApps(SLIPrincipal principal) {
         
+        boolean isHostedUser = SecurityUtil.isHostedUser(repo, principal);
+        
         //For hosted users (Developer, SLC Operator, SEA/LEA Administrator) they're not associated with a district
-        List<Entity> districts = SecurityUtil.isHostedUser(repo, principal) ? new ArrayList<Entity>() : findUsersDistricts(principal);
+        List<Entity> districts = isHostedUser ? new ArrayList<Entity>() : findUsersDistricts(principal);
         
         Set<String> bootstrapApps = getDefaultAllowedApps();
-        Set<String> results = getDefaultAuthorizedApps();
+        Set<String> results = isHostedUser ? new HashSet<String>() : getDefaultAuthorizedApps();
                 
         for (Entity district : districts) {
             debug("User is in district {}.", district.getEntityId());
@@ -100,6 +102,16 @@ public class ApplicationAuthorizationValidator {
                 
                 results.addAll(vendorAppsEnabledForEdorg);
             }
+        }
+        
+        if (isHostedUser) {
+            
+            NeutralQuery adminVisible = new NeutralQuery(0);
+            adminVisible.addCriteria(new NeutralCriteria("admin_visible", "=", true));
+            for (String id : repo.findAllIds("application", adminVisible)) {
+                results.add(id);
+            }
+            
         }
  
         return new ArrayList<String>(results);
@@ -139,10 +151,6 @@ public class ApplicationAuthorizationValidator {
         return toReturn;
     }
     
-    
-    private boolean isSandbox() {
-        return sandboxEnabled;
-    }
 
     /**
      * Looks up the user's LEA entity.

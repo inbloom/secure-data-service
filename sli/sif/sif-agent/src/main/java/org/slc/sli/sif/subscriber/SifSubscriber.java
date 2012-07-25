@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.sif.domain.Sif2SliTransformer;
+import org.slc.sli.sif.domain.slientity.EntityAdapter;
 import org.slc.sli.sif.domain.slientity.LEAEntity;
 import org.slc.sli.sif.domain.slientity.SchoolEntity;
 import org.slc.sli.sif.slcinterface.SifIdResolver;
@@ -87,7 +88,11 @@ public class SifSubscriber implements Subscriber {
 
             // Testing id map
             String sliGuid = sifIdResolver.getSLIGuid(sdo.getRefId());
-            LOG.info("received action: " + event.getAction().name() + " on " + sdo.getRefId() + "(sliID: " + (sliGuid == null ? " none " : sliGuid) + ")");
+            String seaGuid = sifIdResolver.getZoneSEA(zone.getZoneId());
+            LOG.info("received action: " + event.getAction().name() + " on " + 
+                sdo.getRefId() + "(sliID: " + (sliGuid == null ? " none " : sliGuid) + "," +
+                " seaId: " + (seaGuid == null ? " none " : seaGuid) + ")"
+            );
 
             switch(event.getAction()) {
             case ADD:
@@ -106,14 +111,19 @@ public class SifSubscriber implements Subscriber {
      }
     
     private void addEntity(SIFDataObject sdo) {
+        
         if (sdo instanceof SchoolInfo) {
-            SchoolEntity entity = xformer.transform((SchoolInfo)sdo);
-            LOG.info(""+entity.getData());
+            EntityAdapter entity = xformer.transform((SchoolInfo)sdo);
+            LOG.info("add SchoolInfo: \n\n\t@@@@@@@@@@@@@@@@@@\n"+entity.getData());
+            String result = slcInterface.create(entity);
+            LOG.info(result);
         }
         
         if (sdo instanceof LEAInfo) {
-            LEAEntity entity = xformer.transform((LEAInfo)sdo);
-            LOG.info(""+entity.getData());
+            EntityAdapter entity = xformer.transform((LEAInfo)sdo);
+            LOG.info("add LEAInfo: \n\n\t@@@@@@@@@@@@@@@@@@\n"+entity.getData());
+            String result = slcInterface.create(entity);
+            LOG.info(result);
         }
         
     }

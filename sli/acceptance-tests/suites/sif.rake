@@ -13,19 +13,19 @@ task :importSifSandboxData do
 end
 
 desc "Run SIF SchoolInfo Tests"
-task :sifSchoolInfoTest do
+task :sifSchoolInfoTest => [:realmInit] do
   Rake::Task["importSifSandboxData"].execute
   runTests("test/features/sif/features/sif_SchoolInfo.feature")
 end
 
 desc "Run SIF LEAInfo Tests"
-task :sifLEAInfoTest do
+task :sifLEAInfoTest => [:realmInit] do
   Rake::Task["importSifSandboxData"].execute
   runTests("test/features/sif/features/sif_LEAInfo.feature")
 end
 
 desc "Run SIF SEAInfo Tests"
-task :sifSEAInfoTest do
+task :sifSEAInfoTest => [:realmInit] do
   Rake::Task["importSifSandboxData"].execute
   runTests("test/features/sif/features/sif_SEAInfo.feature")
 end

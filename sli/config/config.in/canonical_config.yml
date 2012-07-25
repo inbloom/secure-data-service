@@ -325,9 +325,10 @@ default:
         sli.sif-agent.agentId: test.subscriber.agent
         sli.sif-agent.agentPort: 25100
         sli.sif-agent.zoneId: TestZone
-        sli.sif-agent.zoneUrl: http://10.163.6.73:50002/TestZone
-        # interim sif id reference file
-        sli.sif-agent.idmap: /tmp/idmap.txt
+        sli.sif-agent.zoneUrl: http://local.slidev.org:8087/mock-zis/zis
+        # interim sif id reference resolution files
+        sli.sif-agent.idmap: target/sif-agent/WEB-INF/classes/default-idmap.csv
+        sli.sif-agent.zonemap: target/sif-agent/WEB-INF/classes/default-zonemap.csv
 
 acceptance-tests:
     api:

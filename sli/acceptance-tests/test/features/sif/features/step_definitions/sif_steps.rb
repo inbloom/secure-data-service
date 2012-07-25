@@ -75,13 +75,8 @@ Given /^the following collections are clean in datastore:$/ do |table|
   assert(@result == "true", "Some collections were not cleaned successfully.")
 end
 
-############################################################
-# STEPS: WHEN
-############################################################
-
-When /^I POST a\(n\) "(.*?)" SIF message$/ do |identifier|
-  message = getMessageForIdentifier(identifier)
-  postMessage(message)
+When /^I want to POST a\(n\) "(.*?)" SIF message$/ do |identifier|
+  @message = getMessageForIdentifier(identifier)
 end
 
 def getMessageForIdentifier(identifier)
@@ -89,6 +84,14 @@ def getMessageForIdentifier(identifier)
   message = file.read
   file.close
   return message
+end
+
+############################################################
+# STEPS: WHEN
+############################################################
+
+When /^I POST the message to the ZIS$/ do
+  postMessage(@message)
 end
 
 def postMessage(message)
