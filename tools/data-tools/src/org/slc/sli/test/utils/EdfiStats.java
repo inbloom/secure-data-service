@@ -153,16 +153,22 @@ public class EdfiStats {
         
         PrintWriter js = new PrintWriter(
                 new FileOutputStream(dataDirectory + "/" + "jsExpected.js"));
-        js.println("//mongo localhost:27017/sli jsExpected.js");
+        js.println("//mongo localhost:27017/sli --eval 'var tenant=\"MegatronIL\";' jsExpected.js");
+        //http://stackoverflow.com/questions/2159678/paste-a-multi-line-java-string-in-eclipse
+        js.println("var criteria = {};\r\n" + 
+                "if( typeof tenant  != 'undefined' \r\n" + 
+                "       &&  tenant  != null \r\n" + 
+                "       &&  tenant.length > 0) \r\n" + 
+                "    criteria['metaData.tenantId']=tenant;");
         js.println("var entities ={");
         for(String entity: new TreeSet<String>(sliCounts.keySet())) {
-            js.println("'" + entity + "'" +  ":" + sliCounts.get(entity) + ",");
+            js.println("              '" + entity + "'" +  ":" + sliCounts.get(entity) + ",");
         }
         js.println("};");
-        //http://stackoverflow.com/questions/2159678/paste-a-multi-line-java-string-in-eclipse
+
         js.println("for(var entity in  entities){\r\n" + 
         		"    var expectedCount = entities[entity];\r\n" + 
-        		"    var mongoCount = db[entity].count();\r\n" + 
+        		"    var mongoCount = db[entity].find(criteria).count();\r\n" + 
         		"    if(expectedCount != mongoCount)\r\n" + 
         		"        print (\"                                  >\"  + entity + \"[\" + expectedCount + \"/\" + mongoCount + \"] Mismatch *\"); \r\n" + 
         		"    else\r\n" + 
@@ -187,7 +193,7 @@ public class EdfiStats {
     }
  
     public static void main(String argv[]) throws Exception{
-        String dataDirectory  = "C:\\Users\\ldalgado\\Desktop\\kounts\\DE1113_1.5M\\";
+        String dataDirectory  = "C:\\Users\\ldalgado\\Desktop\\TestPlan\\GalvatonSDS\\Medium";
         EdfiStats.generateStats(dataDirectory);        
     }
 }
