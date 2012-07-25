@@ -17,12 +17,11 @@ package org.slc.sli.sif.zis;
  */
 
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -34,14 +33,16 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class TriggerRequestHandler extends AbstractRequestHandler {
 
+    static Logger log = LoggerFactory.getLogger(TriggerRequestHandler.class);
+    
     @Autowired
     private MockZis mockZis;
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         String xmlString = getRequestString(req);
         
-        System.out.println("POST Trigger with MESSAGE: \n" + xmlString);
+        log.info("POST to Trigger with message: \n" + xmlString);
         
         mockZis.broadcastMessage(xmlString);
         

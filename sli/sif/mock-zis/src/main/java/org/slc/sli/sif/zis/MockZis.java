@@ -13,8 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package org.slc.sli.sif.zis;
 
 import java.io.DataInputStream;
@@ -35,13 +33,11 @@ import openadk.library.SIFParser;
 import openadk.library.SIFWriter;
 import openadk.library.impl.SIF_Message;
 import openadk.library.infra.SIF_Ack;
-import openadk.library.infra.SIF_Event;
 import openadk.library.infra.SIF_Register;
 
 import org.apache.commons.io.IOUtils;
-
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -52,7 +48,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class MockZis {
     
-    //static Logger log = LoggerFactory.getLogger(MockZis.class);
+    static Logger log = LoggerFactory.getLogger(MockZis.class);
     
     private List<String> agentCallbackUrls = new ArrayList<String>();
     
@@ -65,15 +61,10 @@ public class MockZis {
             SIFElement sifElem = parser.parse(sifString);
             
             if (sifElem instanceof SIF_Register) {
-                System.out.println("sif register");
                 processRegisterMessage((SIF_Register) sifElem);
-            } else if (sifElem instanceof SIF_Event) {
-                System.out.println("sif event");
-                // TODO this is just for testing
-                //broadcastMessage(sifElementToString(sifElem));
-            }
+            } 
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception parsing SIF message: ", e);
         }
     }
     
@@ -91,21 +82,12 @@ public class MockZis {
      * Broadcast an xml message to all registered agents.
      */
     public void broadcastMessage(String xmlMessage) {
-        /* test broadcast
-         * 
-         * xmlMessage = "<SIF_Ack>Jon Test</SIF_Ack>";
-         * 
-         * System.out.println("\n\n\nbroadcasting to: http://localhost:8087/mock-zis/zis\n\n\n");
-         * 
-         * postMessage(new URL("http://localhost:8087/mock-zis/zis"), xmlMessage);
-         */
-        
         for (String callbackUrl : agentCallbackUrls) {
-            System.out.println("broadcasting to: " + callbackUrl);
+            log.info("Broadcasting message to " + callbackUrl);
             try {
                 postMessage(new URL(callbackUrl), xmlMessage);
             } catch (MalformedURLException e) {
-                e.printStackTrace();
+                log.error("Agent callback URL error: ", e);
             }
         }
         
@@ -136,10 +118,10 @@ public class MockZis {
             StringWriter writer = new StringWriter();
             IOUtils.copy(inStream, writer, "UTF-8");
             String response = writer.toString();
-            System.out.println("response = " + response);
+            log.info("Response to agent POST: " + response);
             
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Error POSTing message: ", e);
         } finally {
             try {
                 if (outStream != null) {
@@ -149,7 +131,7 @@ public class MockZis {
                     inStream.close();
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error("Error closing streams: ", e);
             }
         }
     }
@@ -157,7 +139,6 @@ public class MockZis {
     @PostConstruct
     public void setup() throws Exception {
         ADK.initialize();
-        //log.info("testing");
     }
     
     public String createAckString() {
@@ -168,7 +149,7 @@ public class MockZis {
     
     private void processRegisterMessage(SIF_Register sifReg) {
         String agentCallbackUrl = sifReg.getSIF_Protocol().getSIF_URL();
-        System.out.println("Registered agent with callback " + agentCallbackUrl);
+        log.info("Registered agent with callback " + agentCallbackUrl);
         agentCallbackUrls.add(agentCallbackUrl);
     }
     
