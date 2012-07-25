@@ -301,6 +301,7 @@ task :realmInit => [:appInit] do
   #Preserve the bootstrap realm
   cleanseRealms()
   setFixture("realm", "realm_fixture.json", "test/data", false)
+  setFixture("customRole", "customRole_fixture.json", "test/data")
 end
 
 task :appDenialInit do
