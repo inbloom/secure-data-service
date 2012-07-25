@@ -22,9 +22,6 @@ class UsersController < ApplicationController
   # GET /users.json
   def index
     @users = User.all
-    @users.each do |user|
-    Rails.logger.debug "Users = #{user.uid}"
-    end
     respond_to do |format|
       format.html # index.html.erb
       #format.json { render json: @users }
@@ -34,10 +31,6 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy 
-    Rails.logger.debug "id = #{params[:id]}"
-    Rails.logger.debug "authorization token = #{User.headers["Authorization"]}"
-    
-    #User.delete(params[:id])
     @users = User.all
     @users.each do |user|
       if user.uid == params[:id]
