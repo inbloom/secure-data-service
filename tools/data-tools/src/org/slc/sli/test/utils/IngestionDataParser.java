@@ -221,8 +221,8 @@ public class IngestionDataParser {
         entityMappings.put("session", Arrays.asList("Session"));
         entityMappings.put("staff", Arrays.asList("Teacher", "Staff"));
         entityMappings.put("staffCohortAssociation", Arrays.asList("StaffCohortAssociation"));
-        entityMappings.put("staffEducationOrgAssignmentAssociation",
-                Arrays.asList("StaffEducationOrgAssignmentAssociation"));
+        //entityMappings.put("staffEducationOrgAssignmentAssociation",
+                //Arrays.asList("StaffEducationOrgAssignmentAssociation"));
         entityMappings.put("staffProgramAssociation", Arrays.asList("StaffProgramAssociation"));
         entityMappings.put("student", Arrays.asList("Student"));
         entityMappings.put("studentAcademicRecord", Arrays.asList("StudentAcademicRecord"));
