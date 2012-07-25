@@ -33,7 +33,7 @@ public class SemanticSelectorTest {
         assertNotNull(selector.get(testType));
         assertEquals(1, selector.get(testType).size());
 
-        selector.addSelector(testType, new BooleanSelectorElement(testType, true));
+        selector.addSelector(testType, mock(BooleanSelectorElement.class));
         assertEquals(2, selector.get(testType).size());
     }
 }

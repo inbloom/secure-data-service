@@ -1,6 +1,7 @@
 package org.slc.sli.api.selectors.model;
 
-import org.slc.sli.modeling.uml.Type;
+import org.slc.sli.modeling.uml.Attribute;
+import org.slc.sli.modeling.uml.ClassType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +19,7 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
     @Autowired
     private ModelProvider modelProvider;
 
-    public SemanticSelector parse(final Map<String, Object> selectors, final Type type) throws SelectorParseException {
+    public SemanticSelector parse(final Map<String, Object> selectors, final ClassType type) throws SelectorParseException {
         if (type == null) throw new NullPointerException("type");
         if (selectors == null) throw new NullPointerException("selectors");
 
@@ -31,11 +32,11 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
         return selector;
     }
 
-    private void addEntryToSelector(final Type type, final SemanticSelector selector, final String key, final Object value)
+    private void addEntryToSelector(final ClassType type, final SemanticSelector selector, final String key, final Object value)
             throws SelectorParseException {
         final SelectorElement elem;
         if (modelProvider.isAssociation(type, key)) {
-            final Type keyType = modelProvider.getType(type, key);
+            final ClassType keyType = modelProvider.getClassType(type, key);
             if (isMap(value)) {
                 elem = new ComplexSelectorElement(keyType, parse(toMap(value), keyType));
             } else if (value.equals(SelectorElement.INCLUDE_ALL)) {
@@ -44,7 +45,8 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
                 elem = new BooleanSelectorElement(keyType, Boolean.valueOf(value.toString()));
             }
         } else if (modelProvider.isAttribute(type, key)) {
-            elem = new BooleanSelectorElement(key, Boolean.valueOf(value.toString()));
+            final Attribute attribute = modelProvider.getAttributeType(type, key);
+            elem = new BooleanSelectorElement(attribute, Boolean.valueOf(value.toString()));
         } else {
             throw new SelectorParseException("Invalid Selectors " + key);
         }

@@ -2,31 +2,34 @@ package org.slc.sli.api.selectors.model;
 
 import org.slc.sli.api.selectors.doc.SelectorQuery;
 import org.slc.sli.api.selectors.doc.SelectorQueryVisitor;
-import org.slc.sli.modeling.uml.Type;
+import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.ModelElement;
 
 /**
  * @author jstokes
  */
 public class IncludeAllSelectorElement implements SelectorElement {
-    private final Type type;
+    private final ModelElement modelElement;
+    private final boolean typed;
 
-    public IncludeAllSelectorElement(final Type type) {
-        this.type = type;
+    public IncludeAllSelectorElement(final ModelElement modelElement) {
+        this.modelElement = modelElement;
+        this.typed = modelElement instanceof ClassType;
     }
 
     @Override
     public boolean isTyped() {
-        return true;
+        return typed;
     }
 
     @Override
     public boolean isAttribute() {
-        return false;
+        return !typed;
     }
 
     @Override
-    public Object getLHS() {
-        return type;
+    public ModelElement getLHS() {
+        return modelElement;
     }
 
     @Override
@@ -35,7 +38,7 @@ public class IncludeAllSelectorElement implements SelectorElement {
     }
 
     @Override
-    public SelectorQuery accept(SelectorQueryVisitor selectorQueryVisitor) {
+    public SelectorQuery accept(final SelectorQueryVisitor selectorQueryVisitor) {
         return selectorQueryVisitor.visit(this);
     }
 }

@@ -4,7 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.modeling.uml.Type;
+import org.slc.sli.modeling.uml.ClassType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -45,7 +45,7 @@ public class DefaultSelectorSemanticModelTest {
 
     @Test
     public void testSemanticParser() throws SelectorParseException {
-        final Type student = provider.getClassType("Student");
+        final ClassType student = provider.getClassType("Student");
         final SemanticSelector selector;
 
         selector = defaultSelectorSemanticModel.parse(generateSelectorObjectMap(), student);
@@ -60,7 +60,7 @@ public class DefaultSelectorSemanticModelTest {
 
     @Test(expected = SelectorParseException.class)
     public void testInvalidSelectors() throws SelectorParseException {
-        final Type student = provider.getClassType("Student");
+        final ClassType student = provider.getClassType("Student");
         final SemanticSelector selector =
                 defaultSelectorSemanticModel.parse(generateFaultySelectorObjectMap(), student);
     }
