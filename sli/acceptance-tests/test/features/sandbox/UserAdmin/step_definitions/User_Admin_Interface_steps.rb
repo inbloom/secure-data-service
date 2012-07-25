@@ -92,7 +92,7 @@ Given /^There is a sandbox user with "(.*?)" and "(.*?)" in LDAP Server$/ do |fu
   groups = Array.new
   groups.push(role)
   uid=firstName.downcase+"_"+lastName.downcase
-  new_user=build_user(uid,firstName,lastName,groups,"sandboxadministrator@slidev.org",nil)
+  new_user=build_user(uid,firstName,lastName,groups,"sandboxadministrator@slidev.org","")
   
   idpRealmLogin("sandboxoperator", nil)
   sessionId = @sessionId
@@ -145,6 +145,20 @@ element =nil
   end
   assert(element==nil,"the user #{@userFullName} is not removed from the table")
 end
+
+Then /^I see my Full Name is "(.*?)" in the table$/ do |fullName|
+  step "I see a user with Full Name is \"#{fullName}\" in the table"
+end
+
+Then /^the "(.*?)" button is disabled$/ do |buttonName|
+delete_button=nil
+  begin
+  delete_button = @driver.find_element(:xpath,"//input[@value='#{buttonName}' and @disabled = 'disabled']")
+  rescue
+  end
+  assert(delete_button!=nil,"the #{buttonName} button is not disabled")
+end
+
 
 
 def check_heading(heading_name)

@@ -61,15 +61,18 @@ And the user entry is removed from the table
     |sandboxadministrator |sandboxadministrator1234 |Sandbox Developer_hostname    |Application Developer          |
     |sandboxadministrator |sandboxadministrator1234 |Sandbox IngestionUser_hostname|Ingestion User                 |
 
-@wip
 @sandbox    
-Scenario: As a Sandbox admin I can not delete my account
+Scenario Outline: As a Sandbox admin I can not delete my account
 Given I navigate to the sandbox user account management page
 Then I will be redirected to "Simple" login page
 When I submit the credentials "<USER>" "<PASSWORD>" for the "Simple" login page
 And I hit the sandbox user account management app list all users page
 Then I see my Full Name is "<USER_FULL_NAME>" in the table
 And the "delete" button is disabled
+
+ Examples:
+    |USER                 |PASSWORD                 |USER_FULL_NAME                |USER_ROLE                      |
+    |sandboxadministrator |sandboxadministrator1234 |Sandbox Admin                 |Sandbox Administrator          |
 
 @sandbox @wip 
 Scenario: As a Sandbox admin I am able to create user accounts for my sandbox tenancy
