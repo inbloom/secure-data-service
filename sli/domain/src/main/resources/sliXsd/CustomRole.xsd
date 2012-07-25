@@ -5,7 +5,7 @@
 
     <xs:include schemaLocation="SimpleTypes.xsd" />
 
-    <xs:element name="CustomRoles">
+    <xs:element name="customRole">
         <xs:complexType>
             <xs:annotation>
                 <xs:documentation>

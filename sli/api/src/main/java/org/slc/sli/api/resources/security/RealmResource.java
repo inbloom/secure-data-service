@@ -318,7 +318,7 @@ public class RealmResource {
                     @Override
                     public Entity execute() {
                         return repo.findOne("realm", query);
-                    }});
+                    } });
 
         if (body != null) {
             debug("uniqueId: {}", body.getBody().get("uniqueIdentifier"));
