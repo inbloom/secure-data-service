@@ -76,7 +76,7 @@ public class BasicClient implements SLIClient {
     @Override
     public String create(final Entity e) throws IOException, URISyntaxException, SLIClientException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).build();
-        Response response = restClient.postRequest(url, mapper.writeValueAsString(e));
+        Response response = restClient.postRequest(url, mapper.writeValueAsString(e.getData()));
         checkResponse(response, Status.CREATED, "Could not created entity.");
 
         // extract the id of the newly created entity from the header.
