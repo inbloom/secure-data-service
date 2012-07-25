@@ -13,4 +13,5 @@ public interface SelectorElement extends SelectorQueryVisitable {
     public boolean isAttribute();
     public ModelElement getLHS();
     public Object getRHS();
+    public String getElementName();
 }

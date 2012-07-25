@@ -150,7 +150,7 @@ public class DefaultSelectorDocument implements SelectorDocument, SelectorQueryV
 
     @Override
     public SelectorQuery visit(BooleanSelectorElement booleanSelectorElement) {
-        String attr = (String) booleanSelectorElement.getLHS();
+        String attr = booleanSelectorElement.getElementName();
         SelectorQuery selectorQuery = new SelectorQuery();
         selectorQuery.getIncludeFields().add(attr);
         return selectorQuery;
