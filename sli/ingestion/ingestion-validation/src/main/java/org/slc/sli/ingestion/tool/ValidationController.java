@@ -20,6 +20,8 @@ package org.slc.sli.ingestion.tool;
 import java.io.File;
 import java.io.IOException;
 
+import org.slf4j.Logger;
+
 import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.handler.ZipFileHandler;
@@ -32,10 +34,9 @@ import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
 import org.slc.sli.ingestion.validation.ComplexValidator;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.LoggingErrorReport;
-import org.slf4j.Logger;
 
 /**
- * Validation Controller reads zip file or ctl file in a give directory and applies set of
+ * Validation Controller reads zip file or ctl file in a given directory and applies set of
  * pre-defined validators.
  *
  * @author mpatel
@@ -45,8 +46,7 @@ public class ValidationController {
     private ZipFileHandler zipFileHandler;
 
     private BatchJobAssembler batchJobAssembler;
-    
-    // private List<? extends Validator<IngestionFileEntry>> validators;
+
     private ComplexValidator<IngestionFileEntry> complexValidator;
 
     private static Logger logger = LoggerUtil.getLogger();
@@ -103,7 +103,7 @@ public class ValidationController {
             LocalFileSystemLandingZone lz = new LocalFileSystemLandingZone();
             lz.setDirectory(ctlFile.getAbsoluteFile().getParentFile());
             ControlFile cfile = ControlFile.parse(ctlFile);
-            
+
             ControlFileDescriptor cfd = new ControlFileDescriptor(cfile, lz);
 
             job = batchJobAssembler.assembleJob(cfd);
@@ -150,5 +150,5 @@ public class ValidationController {
     public void setComplexValidator(ComplexValidator<IngestionFileEntry> complexValidator) {
         this.complexValidator = complexValidator;
     }
-    
+
 }
