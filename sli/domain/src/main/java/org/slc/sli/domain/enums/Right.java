@@ -34,6 +34,9 @@ public enum Right implements GrantedAuthority {
     public static final GrantedAuthority[] SANDBOX_ADMIN_CRUD_RIGHTS = new Right[] {CRUD_SANDBOX_ADMIN, CRUD_SANDBOX_SLC_OPERATOR};
 
     public static final GrantedAuthority[] ALL_ADMIN_CRUD_RIGHTS = ArrayUtils.addAll(PROD_ADMIN_CRUD_RIGHTS, SANDBOX_ADMIN_CRUD_RIGHTS);
+    
+    public static final GrantedAuthority[] DEFAULT_RIGHTS = new Right[] { READ_GENERAL, WRITE_GENERAL, READ_RESTRICTED, WRITE_RESTRICTED, 
+        AGGREGATE_READ, AGGREGATE_WRITE };
 
     @Override
     public String getAuthority() {

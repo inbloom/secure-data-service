@@ -60,7 +60,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 @DirtiesContext
-public class RealmRoleManagerResourceTest {
+public class RealmResourceTest {
     @Autowired
     private RealmResource resource;
     

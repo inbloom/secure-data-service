@@ -167,7 +167,7 @@ public class RoleInitializer {
         return RoleBuilder
                 .makeRole(REALM_ADMINISTRATOR)
                 .addRights(
-                        new Right[] { Right.ADMIN_ACCESS, Right.READ_GENERAL, Right.CRUD_REALM_ROLES, Right.READ_PUBLIC })
+                        new Right[] { Right.ADMIN_ACCESS, Right.READ_GENERAL, Right.CRUD_REALM_ROLES, Right.READ_PUBLIC, Right.CRUD_ROLE})
                         .setAdmin(true).build();
     }
 
