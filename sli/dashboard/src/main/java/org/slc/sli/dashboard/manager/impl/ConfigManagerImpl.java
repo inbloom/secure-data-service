@@ -226,6 +226,39 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         return widgets.values();
     }
 
+    @Override
+    //@Cacheable(value = Constants.CACHE_USER_WIDGET_CONFIG)
+    public Collection<Config> getConfigsByAttribute(String token, EdOrgKey edOrgKey, String attr, String value) {
+        // id to config map
+        Map<String, Config> widgets = new HashMap<String, Config>();
+        Config config;
+        // list files in driver dir
+        File driverConfigDir = new File(this.driverConfigLocation);
+        File[] configs = driverConfigDir.listFiles();
+        if (configs == null) {
+            logger.error("Unable to read config directory");
+            throw new DashboardException("Unable to read config directory!!!!");
+        }
+
+        for (File f : driverConfigDir.listFiles()) {
+            try {
+                config = loadConfig(f);
+            } catch (Exception t) {
+                logger.error("Unable to read config " + f.getName() + ". Skipping file", t);
+                continue;
+            }
+            // assemble widgets
+            Config.Type type = Config.Type.valueOf(value); // TODO: use reflection w/ attr param
+            if (config.getType() == type) {
+                widgets.put(config.getId(), config);
+            }
+        }
+        for (String id : widgets.keySet()) {
+            widgets.put(id, getComponentConfig(token, edOrgKey, id));
+        }
+        return widgets.values();
+    }
+
     /**
      * Get the user's educational organization's custom configuration.
      *

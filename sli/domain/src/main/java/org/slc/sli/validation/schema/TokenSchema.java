@@ -85,7 +85,7 @@ public class TokenSchema extends NeutralSchema {
      */
     @Override
     protected boolean validate(String fieldName, Object entity, List<ValidationError> errors, Repository<Entity> repo) {
-        return addError(this.matchesToken(entity), fieldName, entity, getTokens(), ErrorType.ENUMERATION_MISMATCH,
+        return addError(this.matchesToken(entity), fieldName, entity, getQuotedTokens(), ErrorType.ENUMERATION_MISMATCH,
                 errors);
     }
 
@@ -105,5 +105,16 @@ public class TokenSchema extends NeutralSchema {
             return tokens.toArray(new String[0]);
         }
         return null;
+    }
+
+    protected String[] getQuotedTokens() {
+        // Wrap token in quotes so that the error message is more clear
+        String[] quotedTokens = this.getTokens();
+        if (quotedTokens != null) {
+            for (int i = 0; i < quotedTokens.length; i++) {
+                quotedTokens[i] = String.format("'%s'", quotedTokens[i]);
+            }
+        }
+        return quotedTokens;
     }
 }

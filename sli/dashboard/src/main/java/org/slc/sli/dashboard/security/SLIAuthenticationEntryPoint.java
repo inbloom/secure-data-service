@@ -18,6 +18,8 @@
 package org.slc.sli.dashboard.security;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -27,10 +29,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.exceptions.OAuthException;
@@ -50,6 +48,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 /**
  * Spring interceptor for calls that don't have a session
@@ -205,8 +207,16 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
                 // Loop through cookies to find dashboard cookie
                 for (Cookie c : cookies) {
                     if (c.getName().equals(DASHBOARD_COOKIE)) {
-
-                        JsonObject json = restClient.sessionCheck(c.getValue());
+                    	
+                    	//DE883. We need to decrypt the cookie value to authenticate the token.
+                    	String decryptedCookie = null;
+                    	try{
+                    		String s = URLDecoder.decode(c.getValue(), "UTF-8");
+                    		decryptedCookie = propDecryptor.getDecryptedStringFromCSByteString(s);
+                    	}catch (Exception e) {
+                    		LOG.error(e.getMessage());
+                    	}
+                        JsonObject json = restClient.sessionCheck(decryptedCookie);
 
                         // If user is not authenticated, expire the cookie, else set OAUTH_TOKEN to
                         // cookie value and continue
@@ -216,7 +226,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
                             LOG.info(LOG_MESSAGE_AUTH_EXPIRING_COOKIE, new Object[] { request.getRemoteAddr() });
                         } else {
                             cookieFound = true;
-                            session.setAttribute(OAUTH_TOKEN, c.getValue());
+                            session.setAttribute(OAUTH_TOKEN, decryptedCookie);
                             LOG.info(LOG_MESSAGE_AUTH_USING_COOKIE, new Object[] { request.getRemoteAddr() });
                         }
 
@@ -235,12 +245,22 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         // TODO: Remove custom header and use cookie when servlet-api is upgraded to 3.0
         // response.setHeader("Set-Cookie", DASHBOARD_COOKIE + "=" + (String) token +
         // ";path=/;domain=" + domain of the request + ";Secure;HttpOnly");
-
-        String headerString = DASHBOARD_COOKIE + "=" + token + ";path=/;domain=" + request.getServerName() + ";HttpOnly";
+    	String encryptedToken = null;
+    	String headerString = "";
+    	
+    	//DE883 Encrypt the cookie and save it in the header.
+    	try{
+        encryptedToken = propDecryptor.getEncryptedByteCSString(token);
+        headerString = DASHBOARD_COOKIE + "=" + URLEncoder.encode(encryptedToken, "UTF-8") + ";path=/;domain=" + request.getServerName() + ";HttpOnly";
 
         if (isSecureRequest(request)) {
             headerString = headerString + (";Secure");
         }
+        
+    	} catch (Exception e) {
+    		LOG.error(e.getMessage());
+    	}
+
 
         response.setHeader("Set-Cookie", headerString);
     }

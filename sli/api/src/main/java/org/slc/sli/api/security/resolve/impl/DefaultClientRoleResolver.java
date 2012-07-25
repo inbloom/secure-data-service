@@ -26,6 +26,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.resolve.ClientRoleResolver;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
@@ -53,24 +55,19 @@ public class DefaultClientRoleResolver implements ClientRoleResolver {
     public List<String> resolveRoles(final String realmId, List<String> clientRoleNames) {
         List<String> result = new ArrayList<String>();
 
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.setOffset(0);
-        neutralQuery.setLimit(1);
+        final NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.addCriteria(new NeutralCriteria("_id", "=", realmId));
         
-        Iterable<Entity> realms = null;
-        String tmpTenantId = TenantContext.getTenantId();
-        try {
-            TenantContext.setTenantId(null);
-            realms = repo.findAll("realm", neutralQuery);
-        } finally {
-            TenantContext.setTenantId(tmpTenantId);
-        }
+        Entity firstRealm = SecurityUtil.runWithAllTenants(new SecurityTask<Entity>() {
 
-        Map<String, Object> realm = null;
-        for (Entity firstRealm : realms) {
-            realm = firstRealm.getBody();
-        }
+            @Override
+            public Entity execute() {
+                return repo.findOne("realm", neutralQuery);
+            }
+        });
+            
+
+        Map<String, Object> realm = firstRealm.getBody();
         
         Map<String, List<Map<String, Object>>> mappings = null;
         

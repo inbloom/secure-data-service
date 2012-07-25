@@ -145,6 +145,7 @@ default:
         sli.ingestion.queue.maestro.host:
         sli.ingestion.queue.maestro.port:
         sli.ingestion.queue.maestro.queueURI: seda:IngestionMaestro
+        sli.ingestion.queue.maestro.consumerQueueURI: seda:IngestionMaestro
         sli.ingestion.queue.maestro.concurrentConsumers: 1
         sli.ingestion.queue.maestro.uriOptions:
         sli.ingestion.queue.maestro.keystore:
@@ -389,6 +390,7 @@ acceptance-tests:
         sli.ingestion.queue.maestro.host: devmq1.slidev.org
         sli.ingestion.queue.maestro.port: 5445
         sli.ingestion.queue.maestro.queueURI: activemq:queue:IngestionMaestro
+        sli.ingestion.queue.maestro.consumerQueueURI: txActivemq:queue:IngestionMaestro
         sli.ingestion.queue.maestro.concurrentConsumers: 1
         sli.ingestion.queue.maestro.uriOptions: '&transferExchange=true'
         sli.ingestion.queue.maestro.keystore: /opt/tomcat/ssl/tomcat.keystore
@@ -1052,6 +1054,7 @@ team:
         sli.ingestion.queue.maestro.host: localhost
         sli.ingestion.queue.maestro.port: 61616
         sli.ingestion.queue.maestro.queueURI: activemq:queue:ingestion.maestro
+        sli.ingestion.queue.maestro.consumerQueueURI: txActivemq:queue:ingestion.maestro
         sli.ingestion.queue.maestro.concurrentConsumers: 1
         sli.ingestion.queue.maestro.uriOptions: '&transferExchange=true'
         sli.ingestion.queue.maestro.keystore: /opt/tomcat/ssl/tomcat.keystore
@@ -1121,7 +1124,7 @@ team:
         sli.simple-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
         sli.simple-idp.cot: https://${sli.dev.subdomain}.slidev.org=https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post,http://local.slidev.org:8080=http://local.slidev.org:8080/api/rest/saml/sso/post
         sli.simple-idp.sandboxImpersonationEnabled: false
-
+        sli.simple-idp.ldap.base: dc=slidev,dc=org
         sli.sample.apiUrl: https://${sample.swap}.slidev.org/
         sli.sample.callbackUrl: https://${sample.swap}.slidev.org/sample/callback
         sli.sample.clientId: AT1k3PdHzX

@@ -11,6 +11,7 @@ Given I have an open web browser
     And I enter "rrogers1234" in the password text field
     And I click the IDP page Go button
   Then I should be redirected to the Data Browser home page
+  And that databrowser has been authorized for all ed orgs
 
 Scenario: Searching for a entities
   

@@ -1,6 +1,8 @@
 @wip
 @RALLY_US215
 Feature: State level traversal of data
+Background:
+  Given that databrowser has been authorized for all ed orgs
 
 Scenario: Leader traversing through the available state data in the Data Browser
 

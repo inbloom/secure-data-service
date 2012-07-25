@@ -200,6 +200,16 @@ def restHttpGet(id, format = @format, sessionId = @sessionId)
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
+def restHttpGetAbs(url, format = @format, sessionId = @sessionId)
+  # Validate SessionId is not nil
+  assert(sessionId != nil, "Session ID passed into GET was nil")
+
+  urlHeader = makeHeaders('get',sessionId,format)
+  @res = RestClient.get(url, urlHeader){|response, request, result| response }
+
+  puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+end
+
 # Function restHttpPut
 # Inputs: (String) id = URL of the desired resource (ex. /students/fe3425e53-f23-f343-53cab3453)
 # Inputs: (Object) data = Data object of type @format that you want to update
@@ -242,6 +252,15 @@ def restHttpDelete(id, format = @format, sessionId = @sessionId)
 end
 
 def makeUrlAndHeaders(verb,id,sessionId,format)
+  headers = makeHeaders(verb, sessionId, format)
+
+  url = PropLoader.getProps['api_server_url']+"/api/rest"+id
+  puts(url, headers) if $SLI_DEBUG
+
+  return {:url => url, :headers => headers}
+end
+
+def makeHeaders(verb,sessionId,format)
   if(verb == 'put' || verb == 'post')
     headers = {:content_type => format}
   else
@@ -249,11 +268,7 @@ def makeUrlAndHeaders(verb,id,sessionId,format)
   end
 
   headers.store(:Authorization, "bearer "+sessionId)
-
-  url = PropLoader.getProps['api_server_url']+"/api/rest"+id
-  puts(url, headers) if $SLI_DEBUG
-
-  return {:url => url, :headers => headers}
+  return headers
 end
 
 ##############################################################################
@@ -407,7 +422,7 @@ module DataProvider
     return {
       "viewSecurityEventsEnabled" => false,
       "appApprovalEnabled" => false,
-      "localEdOrgId" => "IL-SUNSET"
+      "localEdOrgId" => "b2c6e292-37b0-4148-bf75-c98a2fcc905f"
       }
   end
 

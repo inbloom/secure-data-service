@@ -1,3 +1,22 @@
+
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
 require 'rubygems'
 require 'mongo'
 require 'benchmark'
@@ -9,23 +28,11 @@ class SLCFixer
   attr_accessor :db, :log
 
   def initialize(db, logger = nil, grace_period = 2000)
+    @grace_period = grace_period
     @db = db
     @basic_options = {:timeout => false, :batch_size => 100}
-    @count = 0
     @log = logger || Logger.new(STDOUT)
     @log.level ||= Logger::WARN
-
-    @teacher_ids = {}
-    @db['staff'].find({type: "teacher"}, {fields: ['_id', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
-      cursor.each { |teacher|
-        @teacher_ids[teacher['_id']] = teacher['metaData']['tenantId']
-      }
-    }
-
-    @studentId_to_teachers = {}
-
-    @current_date = Date.today.to_s
-    @grace_date = (Date.today - grace_period).to_s
   end
 
   def measure(lable, &block)
@@ -35,8 +42,21 @@ class SLCFixer
 
   def start
     time = Time.now
+    @teacher_ids = {}
+    @studentId_to_teachers = {}
+    @current_date = Date.today.to_s
+    @grace_date = (Date.today - @grace_period).to_s
+    @count = 0
 
     @threads = []
+
+    # Needed to move this inside the start method from init, since in forever mode it woudl only init with the teachers currently in system
+    @db['staff'].find({type: "teacher"}, {fields: ['_id', 'metaData.tenantId']}.merge(@basic_options)) { |cursor|
+      cursor.each { |teacher|
+        @teacher_ids[teacher['_id']] = teacher['metaData']['tenantId']
+      }
+    }
+
     measure('students') {stamp_students}
     @threads << Thread.new {measure('sections') {stamp_sections}}
     @threads << Thread.new {measure('programs') {stamp_programs}}

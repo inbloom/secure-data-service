@@ -62,12 +62,22 @@ Then /^I select "([^"]*)" in the district dropdown$/ do |district|
 end
 
 Then /^I see the table for "([^"]*)"$/ do |district|
-  table = @driver.find_element(:id, "AuthorizedAppsTable_" + district)
+  select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:tag_name, "select"))
+  option = select.first_selected_option
+  assert(option.text == district, "We should have selected #{district}")
+  table = @driver.find_element(:id, "AuthorizedAppsTable_" + option.attribute("value"))
   assert(table.displayed?)
 end
 
 Then /^I do not see the table for "([^"]*)"$/ do |district|
-  table = @driver.find_element(:id, "AuthorizedAppsTable_" + district)
+  select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:tag_name, "select"))
+  option = select.first_selected_option
+  unselected = nil
+  select.options.each do |o| 
+    unselected = o if o.text == district
+  end
+  assert(option.text != district, "We should have selected #{district}")
+  table = @driver.find_element(:id, "AuthorizedAppsTable_" + unselected.attribute("value"))
   assert(!table.displayed?)
 end
 
