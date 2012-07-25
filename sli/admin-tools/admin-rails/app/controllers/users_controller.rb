@@ -27,7 +27,8 @@ class UsersController < ApplicationController
       #format.json { render json: @users }
     end
   end
-  
+ 
+ 
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy 
@@ -36,15 +37,12 @@ class UsersController < ApplicationController
       if user.uid == params[:id]
         user.id = user.uid
         user.destroy
-        @user_id = user.uid
+        @user_id = user.uid.gsub(/\./, "\\\\\\\\."); #escape dot in uid for javascript
       end
     end
     
     respond_to do |format|
       format.js
-      # format.html { render "index"}
-      # format.html { redirect_to apps_url }
-      # format.json { head :ok }
     end
   end
   
