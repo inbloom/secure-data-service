@@ -34,7 +34,8 @@ public class HighestEver extends Configured implements Tool {
 
     @Override
     public int run(String[] args) throws Exception {
-        String assmtIDCode = "Grade 7 2011 State Math";
+//        String assmtIDCode = "Grade 7 2011 State Math";
+        String assmtIDCode = "as110";
         String assmtId = getAssessmentId(assmtIDCode);
 
         MongoURI input = new MongoURI("mongodb://localhost/sli.studentAssessmentAssociation");
