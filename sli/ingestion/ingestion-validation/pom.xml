@@ -33,7 +33,7 @@
 
 	<properties>
 	  <maven.assembly.version>2.2-beta-5</maven.assembly.version>
-      <sli.home>${project.parent.parent.basedir}</sli.home>
+      <sli.home>${project.parent.basedir}</sli.home>
 	</properties>
 
 	<dependencies>
@@ -65,45 +65,22 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
-			<scope>test</scope>
+            <version>${spring.version}</version>
+
 		</dependency>
 
-		<dependency>
-			<groupId>junit-addons</groupId>
-			<artifactId>junit-addons</artifactId>
-			<version>1.4</version>
-			<scope>test</scope>
-		</dependency>
 
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
 
 	</dependencies>
 
 	<build>
+
 		<plugins>
-			<!-- Ignore/Execute plugin execution -->
-			<plugin>
-				<groupId>org.eclipse.m2e</groupId>
-				<artifactId>lifecycle-mapping</artifactId>
-				<configuration>
-					<lifecycleMappingMetadata>
-						<pluginExecutions>
-							<!-- copy-dependency plugin -->
-							<pluginExecution>
-								<pluginExecutionFilter>
-									<groupId>org.apache.maven.plugins</groupId>
-									<artifactId>maven-dependency-plugin</artifactId>
-									<goals>
-										<goal>copy-dependencies</goal>
-									</goals>
-								</pluginExecutionFilter>
-								<action>
-									<ignore />
-								</action>
-							</pluginExecution>
-						</pluginExecutions>
-					</lifecycleMappingMetadata>
-				</configuration>
-			</plugin>
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

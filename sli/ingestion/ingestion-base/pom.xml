@@ -35,7 +35,7 @@
 
     <!-- Integration (ETL) Framework Versions -->
     <aspectj.maven.version>1.4</aspectj.maven.version>
-    <sli.home>${project.parent.parent.basedir}</sli.home>
+    <sli.home>${project.parent.basedir}</sli.home>
 
   </properties>
 
@@ -46,12 +46,14 @@
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
+      <version>${commons.io.version}</version>
     </dependency>
 
     <!-- Apache Commons Codec dependency -->
     <dependency>
       <groupId>commons-codec</groupId>
       <artifactId>commons-codec</artifactId>
+      <version>${commons.codec.version}</version>
     </dependency>
 
 	    <!-- Apache Commons Codec dependency -->
@@ -72,44 +74,42 @@
     <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-core</artifactId>
+        <version>${spring.version}</version>
     </dependency>
 
     <!-- Spring Context dependency -->
     <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-context</artifactId>
+        <version>${spring.version}</version>
     </dependency>
     
     <!-- Spring Test dependency -->
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-test</artifactId>
-      <scope>test</scope>
+      <version>${spring.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>jcl-over-slf4j</artifactId>
       <version>${slf4j.version}</version>
-      <scope>runtime</scope>
     </dependency>
+
 
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-aop</artifactId>
+      <version>${spring.version}</version>
     </dependency>
 
     <dependency>
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils</artifactId>
+      <version>${commons.beanutils.version}</version>
     </dependency>
 
-    <dependency>
-      <groupId>junit-addons</groupId>
-      <artifactId>junit-addons</artifactId>
-      <version>1.4</version>
-      <scope>test</scope>
-    </dependency>
 
   </dependencies>
 
