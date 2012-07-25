@@ -414,12 +414,6 @@ public class JobReportingProcessor implements Processor {
     }
 
     private void missingBatchJobIdError(Exchange exchange) {
-        String batchJobId=exchange.getIn().getHeader("BatchJobId", String.class);
-        populateJobBriefFromStageCollection(batchJobId);
-        NewBatchJob job = batchJobDAO.findBatchJobById(batchJobId);
-        TenantContext.setTenantId(job.getTenantId());
-        writeErrorAndWarningReports(job);
-        
         exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
