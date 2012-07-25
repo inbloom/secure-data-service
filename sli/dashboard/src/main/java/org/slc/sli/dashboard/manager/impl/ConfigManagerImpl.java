@@ -32,7 +32,6 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 import org.slc.sli.dashboard.entity.Config;
-import org.slc.sli.dashboard.entity.Config.Type;
 import org.slc.sli.dashboard.entity.ConfigMap;
 import org.slc.sli.dashboard.entity.EdOrgKey;
 import org.slc.sli.dashboard.manager.ApiClientManager;
@@ -197,38 +196,14 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
     @Override
     @Cacheable(value = Constants.CACHE_USER_WIDGET_CONFIG)
     public Collection<Config> getWidgetConfigs(String token, EdOrgKey edOrgKey) {
-        // id to config map
-        Map<String, Config> widgets = new HashMap<String, Config>();
-        Config config;
-        // list files in driver dir
-        File driverConfigDir = new File(this.driverConfigLocation);
-        File[] configs = driverConfigDir.listFiles();
-        if (configs == null) {
-            logger.error("Unable to read config directory");
-            throw new DashboardException("Unable to read config directory!!!!");
-        }
 
-        for (File f : driverConfigDir.listFiles()) {
-            try {
-                config = loadConfig(f);
-            } catch (Exception t) {
-                logger.error("Unable to read config " + f.getName() + ". Skipping file", t);
-                continue;
-            }
-            // assemble widgets
-            if (config.getType() == Type.WIDGET) {
-                widgets.put(config.getId(), config);
-            }
-        }
-        for (String id : widgets.keySet()) {
-            widgets.put(id, getComponentConfig(token, edOrgKey, id));
-        }
-        return widgets.values();
+        Map<String, String> attrs = new HashMap<String, String>();
+        attrs.put("type", Config.Type.WIDGET.toString());
+        return getConfigsByAttribute(token, edOrgKey, attrs);
     }
 
     @Override
-    //@Cacheable(value = Constants.CACHE_USER_WIDGET_CONFIG)
-    public Collection<Config> getConfigsByAttribute(String token, EdOrgKey edOrgKey, Map<String, String> params) {
+    public Collection<Config> getConfigsByAttribute(String token, EdOrgKey edOrgKey, Map<String, String> attrs) {
 
         // id to config map
         Map<String, Config> configs = new HashMap<String, Config>();
@@ -252,17 +227,17 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
 
             // check the config params. if they all match, add to the config map.
             boolean match = true;
-            for (String paramName : params.keySet()) {
+            for (String attrName : attrs.keySet()) {
 
                 try {
 
                     // use reflection to call the right config object method
-                    String methodName = "get" + Character.toUpperCase(paramName.charAt(0)) + paramName.substring(1);
+                    String methodName = "get" + Character.toUpperCase(attrName.charAt(0)) + attrName.substring(1);
                     Method method = config.getClass().getDeclaredMethod (methodName, new Class[] {});
                     Object ret = method.invoke(config, new Object[] {});
 
                     // compare the result to the desired result
-                    if (!(ret.toString().equals(params.get(paramName)))) {
+                    if (!(ret.toString().equals(attrs.get(attrName)))) {
                         match = false;
                         break;
                     }
@@ -316,4 +291,23 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
     public void putCustomConfig(String token, EdOrgKey edOrgKey, ConfigMap configMap) {
         getApiClient().putEdOrgCustomData(token, edOrgKey.getSliId(), configMap);
     }
+
+    /**
+     * Save one custom configuration for an ed-org
+     *
+     */
+    @Override
+    @CacheEvict(value = Constants.CACHE_USER_PANEL_CONFIG, allEntries = true)
+    public void putCustomConfig(String token, EdOrgKey edOrgKey, Config config) {
+
+        // get current custom config map from api
+        ConfigMap configMap = getCustomConfig(token, edOrgKey);
+
+        // update with new config
+        ConfigMap newConfigMap = configMap.cloneWithNewConfig(config);
+
+        // write new config map
+        getApiClient().putEdOrgCustomData(token, edOrgKey.getSliId(), newConfigMap);
+    }
+
 }

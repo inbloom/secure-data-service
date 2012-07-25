@@ -133,7 +133,28 @@ public class ConfigController extends GenericLayoutController {
     @ResponseBody public Collection<Config> handleSearch(@RequestParam Map<String, String> params,
                                                          final HttpServletRequest request) {
 
-        return configManager.getConfigsByAttribute(SecurityUtil.getToken(), null, params);
+        String token = SecurityUtil.getToken();
+        return configManager.getConfigsByAttribute(token, userEdOrgManager.getUserEdOrg(token), params);
+    }
+
+    /**
+     * Save a layout config
+     *
+     * @param config
+     * @return
+     */
+    @RequestMapping(value = "/s/c/saveCfg", method = RequestMethod.POST)
+    @ResponseBody
+    public String saveLayoutConfig(@RequestBody Config config) {
+
+        try {
+            String token = SecurityUtil.getToken();
+            configManager.putCustomConfig(token, userEdOrgManager.getUserEdOrg(token), config);
+        } catch (RuntimeException re) {
+            logger.error("Error saving config", re);
+            return "Permission Denied";
+        }
+        return "Success";
     }
 
 }

@@ -18,6 +18,7 @@
 package org.slc.sli.dashboard.entity;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -54,5 +55,12 @@ public class ConfigMap implements Serializable {
 
     public boolean isEmpty() {
         return config == null || config.isEmpty();
+    }
+
+    public ConfigMap cloneWithNewConfig(Config newConfig) {
+        ConfigMap newMap = new ConfigMap();
+        newMap.config = new HashMap<String, Config>(this.getConfig());
+        newMap.config.put(newConfig.getId(), newConfig);
+        return newMap;
     }
 }

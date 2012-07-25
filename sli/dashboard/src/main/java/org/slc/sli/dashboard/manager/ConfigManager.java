@@ -63,8 +63,30 @@ public interface ConfigManager {
      * @return
      */
     public ConfigMap getCustomConfig(String token, EdOrgKey userEdOrg);
+
+    /**
+     * Save an entire set of configs for an ed-Org
+     * @param token
+     * @param edOrgKey
+     * @param configMap
+     */
     void putCustomConfig(String token, EdOrgKey edOrgKey, ConfigMap configMap);
 
-    Collection<Config> getConfigsByAttribute(String token, EdOrgKey edOrgKey, Map<String, String> params);
+    /**
+     * Update/save one component config for an ed-Org
+     * @param token
+     * @param edOrgKey
+     * @param config
+     */
+    void putCustomConfig(String token, EdOrgKey edOrgKey, Config config);
+
+    /**
+     * Get configs matching a set of attribute values
+     * @param token
+     * @param edOrgKey
+     * @param params
+     * @return
+     */
+    Collection<Config> getConfigsByAttribute(String token, EdOrgKey edOrgKey, Map<String, String> attrs);
 
 }
