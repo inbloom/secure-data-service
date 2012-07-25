@@ -33,6 +33,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.sif.domain.Sif2SliTransformer;
+import org.slc.sli.sif.domain.slientity.LEAEntity;
+import org.slc.sli.sif.domain.slientity.SchoolEntity;
 import org.slc.sli.sif.slcinterface.SlcInterface;
 
 @Component
@@ -80,22 +82,30 @@ public class SifSubscriber implements Subscriber {
         if (sdo!=null && tokenChecked && event.getAction()!=null) {
             switch(event.getAction()) {
             case ADD:
+                addEntity(sdo);
+                break;
             case CHANGE:
+                break;
             case DELETE:
-            }
-            if (sdo instanceof SchoolInfo) {
-                JsonNode schoolNode = xformer.transform2json((SchoolInfo)sdo);
-                LOG.info(""+schoolNode.toString());
-            }
-            
-            if (sdo instanceof LEAInfo) {
-                JsonNode leaNode = xformer.transform2json((LEAInfo)sdo);
-                LOG.info(""+leaNode.toString());
+                break;
+            case UNDEFINED:
+            default:
+                LOG.error("Wrong SIF Action.");
+                break;
             }
         }
     }
     
-    private void addEntity() {
+    private void addEntity(SIFDataObject sdo) {
+        if (sdo instanceof SchoolInfo) {
+            SchoolEntity entity = xformer.transform((SchoolInfo)sdo);
+            LOG.info(""+entity.getData());
+        }
+        
+        if (sdo instanceof LEAInfo) {
+            LEAEntity entity = xformer.transform((LEAInfo)sdo);
+            LOG.info(""+entity.getData());
+        }
         
     }
 

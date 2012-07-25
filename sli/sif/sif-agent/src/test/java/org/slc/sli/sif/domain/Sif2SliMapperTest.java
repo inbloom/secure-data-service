@@ -19,6 +19,10 @@ package org.slc.sli.sif.domain;
 import java.io.IOException;
 
 import junit.framework.Assert;
+import openadk.library.ADKException;
+import openadk.library.Event;
+import openadk.library.EventAction;
+import openadk.library.SIFDataObject;
 import openadk.library.student.SchoolInfo;
 import openadk.library.student.LEAInfo;
 
@@ -138,6 +142,19 @@ public class Sif2SliMapperTest
         Assert.assertEquals("Expecting '(312) 555-1234' as the first phone number", "(312) 555-1234", entity.getTelephone().get(0).getTelephoneNumber());
         Assert.assertEquals("Expecting 'Main' as the first phone type", "Fax", entity.getTelephone().get(1).getInstitutionTelephoneNumberType());
         Assert.assertEquals("Expecting '(312) 555-2364' as the first phone number", "(312) 555-2364", entity.getTelephone().get(1).getTelephoneNumber());
+        
+//        Event event = new Event(schoolInfo, EventAction.ADD);
+//        try
+//        {
+//            SIFDataObject sdo = event.getData().readDataObject();
+//            entity = xformer.transform((SchoolInfo)sdo);
+//            entity.getData();
+//        } catch (ADKException e)
+//        {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        entity.getData();
     }
 
     @Test
