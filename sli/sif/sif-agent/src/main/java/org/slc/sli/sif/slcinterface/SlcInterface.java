@@ -17,17 +17,24 @@
 
 package org.slc.sli.sif.slcinterface;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.ws.rs.MessageProcessingException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.client.Entity;
+import org.slc.sli.api.client.SLIClientException;
 import org.slc.sli.api.client.impl.BasicClient;
 import org.slc.sli.api.client.impl.BasicRESTClient;
+import org.slc.sli.api.client.util.Query;
 
 /**
  * Basic authentication example using the SLI SDK.
@@ -70,4 +77,29 @@ public class SlcInterface {
         }
         return "";
     }
+    
+    public String create(final Entity e) {
+        try
+        {
+            return client.create(e);
+        } catch (IOException e1)
+        {
+            LOG.error("  " + e1.getMessage(), e1);
+        } catch (URISyntaxException e1)
+        {
+            LOG.error("  " + e1.getMessage(), e1);
+        } catch (SLIClientException e1)
+        {
+            LOG.error("  " + e1.getMessage(), e1);
+        }
+        return null;
+    }
+    /**
+     * Pass-through interface
+     */
+    public void read(List<Entity> entities, final String type, final Query query) throws URISyntaxException,
+            MessageProcessingException, IOException, SLIClientException {
+        client.read(entities, type, null, query);
+    }
+
 }

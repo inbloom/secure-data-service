@@ -91,7 +91,7 @@ public class SifEntityGenerator
     public static LEAInfo generateTestLEAInfo() {
         LEAInfo info = new LEAInfo();
         info.setRefId("73648462888624AA5294BC6380173276");
-        info.setStateProvinceId("Daybreak School District 4530");
+        info.setStateProvinceId("IL-DAYBREAK");
         info.setNCESId("4215750");
         info.setLEAName("Daybreak School District 4530");
         

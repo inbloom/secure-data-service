@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.codehaus.jackson.JsonNode;
+import org.slc.sli.api.client.Link;
 
 /**
  * An SLI Entity corresponding to an educationOrganization of stateEducationAgency type 
@@ -144,20 +145,38 @@ public class SEAEntity extends GenericEntity
         return this.address;
     }
 
-    /**
-     * Output this Entity as a JSON Node
-     */
+//    /**
+//     * Output this Entity as a JSON Node
+//     */
+//    @Override
+//    public JsonNode json() {
+//        return mapper.valueToTree(this);
+//    }
+//
+//    /**
+//     * Output this object as a JSON String
+//     */
+//    @Override
+//    public String toString() {
+//        return json().toString();
+//    }
+//
     @Override
-    public JsonNode json() {
-        return mapper.valueToTree(this);
+    public String getEntityType()
+    {
+        return "educationOrganization";
     }
 
-    /**
-     * Output this object as a JSON String
-     */
     @Override
-    public String toString() {
-        return json().toString();
+    public String getId()
+    {
+        return null;
+    }
+
+    @Override
+    public List<Link> getLinks()
+    {
+        return null;
     }
 
 }

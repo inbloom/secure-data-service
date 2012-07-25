@@ -16,8 +16,17 @@
 
 package org.slc.sli.sif.domain.slientity;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
+import org.slc.sli.api.client.Entity;
 
 /**
  * An GenericEntity in the SLI domain.
@@ -26,7 +35,7 @@ import org.codehaus.jackson.map.ObjectMapper;
  * @author slee
  *
  */
-public abstract class GenericEntity
+public abstract class GenericEntity implements Entity
 {
     protected static ObjectMapper mapper = new ObjectMapper();
 
@@ -37,9 +46,41 @@ public abstract class GenericEntity
 
     }
 
-    /**
-     * Output this Entity as a JSON Node
-     */
-    abstract public JsonNode json();
+//    /**
+//     * Output this Entity as a JSON Node
+//     */
+//    public JsonNode json() {
+//        return mapper.valueToTree(this);
+//    }
+//
+//    /**
+//     * Output this object as a JSON String
+//     */
+//    @Override
+//    public String toString() {
+//        return json().toString();
+//    }
 
+    /**
+     * Get the data associated with this entity. If the entity has no data, returns
+     * an empty map. The key into this map is the property name. The values of this
+     * map can one of the following JSON types:
+     * 
+     * <ul>
+     * <li>List</li>
+     * <li>Map</li>
+     * <li>null</li>
+     * <li>Boolean</li>
+     * <li>Character</li>
+     * <li>Long</li>
+     * <li>Double</li>
+     * <li>String</li>
+     * </ul>
+     * 
+     * @return Map of data.
+     */
+    @Override
+    public Map<String, Object> getData() {
+        return mapper.convertValue(this, new TypeReference<Map<String, Object>>(){});
+    }
 }

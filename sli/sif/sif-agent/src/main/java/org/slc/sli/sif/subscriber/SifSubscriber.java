@@ -18,6 +18,7 @@ package org.slc.sli.sif.subscriber;
 
 import openadk.library.ADKException;
 import openadk.library.Event;
+import openadk.library.EventAction;
 import openadk.library.MessageInfo;
 import openadk.library.SIFDataObject;
 import openadk.library.Subscriber;
@@ -32,6 +33,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.sif.domain.Sif2SliTransformer;
+import org.slc.sli.sif.domain.slientity.LEAEntity;
+import org.slc.sli.sif.domain.slientity.SchoolEntity;
+import org.slc.sli.sif.slcinterface.SifIdResolver;
 import org.slc.sli.sif.slcinterface.SlcInterface;
 
 @Component
@@ -44,27 +48,22 @@ public class SifSubscriber implements Subscriber {
 
     @Autowired
     private SlcInterface slcInterface;
+    
+    @Autowired
+    SifIdResolver sifIdResolver;
 
-    private void inspectAndDestroyEvent(Event e) {
+    private SIFDataObject inspectAndDestroyEvent(Event e) {
+        SIFDataObject sdo = null;
         LOG.info("###########################################################################");
         try {
-            SIFDataObject sdo = e.getData().readDataObject();
+            sdo = e.getData().readDataObject();
             LOG.info("\n" + "\tObjectType: " + sdo.getObjectType());
-            
-            if (sdo instanceof SchoolInfo) {
-                JsonNode schoolNode = xformer.transform2json((SchoolInfo)sdo);
-                LOG.info(""+schoolNode.toString());
-            }
-            
-            if (sdo instanceof LEAInfo) {
-                JsonNode leaNode = xformer.transform2json((LEAInfo)sdo);
-                LOG.info(""+leaNode.toString());
-            }
-            
+            LOG.info(""+sdo.toString());
         } catch (ADKException e1) {
             LOG.error("Error trying to inspect event", e1);
         }
         LOG.info("###########################################################################");
+        return sdo;
     }
 
     @Override
@@ -72,15 +71,51 @@ public class SifSubscriber implements Subscriber {
         LOG.info("Received event:\n" + "\tEvent:      " + event.getActionString() + "\n" + "\tZone:       " + zone.getZoneId()
                 + "\n" + "\tInfo:       " + info.getMessage());
 
-        inspectAndDestroyEvent(event);
+        SIFDataObject sdo = inspectAndDestroyEvent(event);
 
         // execute a call to the SDK
+        boolean tokenChecked = false;
         String token = slcInterface.sessionCheck();
         if (null != token && 0 < token.length()) {
+            tokenChecked = true;
             LOG.info("Successfully executed session check with token " + token);
         } else {
             LOG.info("Session check failed");
         }
+        
+        if (sdo!=null && tokenChecked && event.getAction()!=null) {
+
+            // Testing id map
+            String sliGuid = sifIdResolver.getSLIGuid(sdo.getRefId());
+            LOG.info("received action: " + event.getAction().name() + " on " + sdo.getRefId() + "(sliID: " + (sliGuid == null ? " none " : sliGuid) + ")");
+
+            switch(event.getAction()) {
+            case ADD:
+                addEntity(sdo);
+                break;
+            case CHANGE:
+                break;
+            case DELETE:
+                break;
+            case UNDEFINED:
+            default:
+                LOG.error("Wrong SIF Action.");
+                break;
+            }
+        }
+     }
+    
+    private void addEntity(SIFDataObject sdo) {
+        if (sdo instanceof SchoolInfo) {
+            SchoolEntity entity = xformer.transform((SchoolInfo)sdo);
+            LOG.info(""+entity.getData());
+        }
+        
+        if (sdo instanceof LEAInfo) {
+            LEAEntity entity = xformer.transform((LEAInfo)sdo);
+            LOG.info(""+entity.getData());
+        }
+        
     }
 
 }
