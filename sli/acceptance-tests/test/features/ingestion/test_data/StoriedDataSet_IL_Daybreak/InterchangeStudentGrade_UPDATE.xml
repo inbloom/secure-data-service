@@ -77,7 +77,7 @@
 	<!-- StudentGradebookEntry objects for each kid and each GradebookEntry in linda.kim's class -->
 	<StudentGradebookEntry>
 		<DateFulfilled>2011-10-05</DateFulfilled>
-		<LetterGradeEarned>D</LetterGradeEarned>
+		<LetterGradeEarned>A</LetterGradeEarned>
 		<StudentSectionAssociationReference>
 			<StudentSectionAssociationIdentity>
 				<StudentIdentity>
