@@ -52,7 +52,7 @@ public class Sif2SliTransformer
      * @return JsonNode
      */
     public JsonNode transform2json(SchoolInfo schoolInfo) {
-        return null;//transform(schoolInfo).json();
+        return transform(schoolInfo).json();
     }
 
     /**
@@ -82,7 +82,7 @@ public class Sif2SliTransformer
      * @return JsonNode
      */
     public JsonNode transform2json(LEAInfo leaInfo) {
-        return null;//transform(leaInfo).json();
+        return transform(leaInfo).json();
     }
 
     /**
@@ -112,7 +112,7 @@ public class Sif2SliTransformer
      * @return JsonNode
      */
     public JsonNode transform2json(SEAInfo seaInfo) {
-        return null;//transform(seaInfo).json();
+        return transform(seaInfo).json();
     }
 
     /**

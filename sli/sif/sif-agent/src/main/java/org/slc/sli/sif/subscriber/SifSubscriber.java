@@ -106,13 +106,18 @@ public class SifSubscriber implements Subscriber {
      }
     
     private void addEntity(SIFDataObject sdo) {
+        
         if (sdo instanceof SchoolInfo) {
             SchoolEntity entity = xformer.transform((SchoolInfo)sdo);
+            LOG.info("addEntity: "+entity);
             LOG.info(""+entity.getData());
+            String result = slcInterface.create(entity);
+            LOG.info(result);
         }
         
         if (sdo instanceof LEAInfo) {
             LEAEntity entity = xformer.transform((LEAInfo)sdo);
+            LOG.info("addEntity: "+entity);
             LOG.info(""+entity.getData());
         }
         

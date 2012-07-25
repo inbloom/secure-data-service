@@ -38,6 +38,7 @@ import org.slc.sli.api.client.Entity;
 public abstract class GenericEntity implements Entity
 {
     protected static ObjectMapper mapper = new ObjectMapper();
+    private JsonNode jsonNode = null;
 
     /**
      *  Constructor
@@ -46,20 +47,22 @@ public abstract class GenericEntity implements Entity
 
     }
 
-//    /**
-//     * Output this Entity as a JSON Node
-//     */
-//    public JsonNode json() {
-//        return mapper.valueToTree(this);
-//    }
-//
-//    /**
-//     * Output this object as a JSON String
-//     */
-//    @Override
-//    public String toString() {
-//        return json().toString();
-//    }
+    /**
+     * Output this Entity as a JSON Node
+     */
+    public JsonNode json() {
+        if (this.jsonNode==null) 
+            this.jsonNode = mapper.valueToTree(this);
+        return this.jsonNode;
+    }
+
+    /**
+     * Output this object as a JSON String
+     */
+    @Override
+    public String toString() {
+        return json().toString();
+    }
 
     /**
      * Get the data associated with this entity. If the entity has no data, returns
@@ -81,6 +84,22 @@ public abstract class GenericEntity implements Entity
      */
     @Override
     public Map<String, Object> getData() {
-        return mapper.convertValue(this, new TypeReference<Map<String, Object>>(){});
+        try
+        {
+            if (this.jsonNode==null)
+                return null;
+            else 
+                return mapper.readValue(this.jsonNode, new TypeReference<Map<String, Object>>(){});
+        } catch (JsonParseException e)
+        {
+            e.printStackTrace();
+        } catch (JsonMappingException e)
+        {
+            e.printStackTrace();
+        } catch (IOException e)
+        {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -17,12 +17,11 @@
 
 package org.slc.sli.sif.zis;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -33,20 +32,19 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class MockZisRequestHandler extends AbstractRequestHandler {
     
+    static Logger log = LoggerFactory.getLogger(MockZisRequestHandler.class);
+    
     @Autowired
     private MockZis mockZis;
     
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) 
-            throws ServletException, IOException {
-
-        //System.out.println("POST MockZIS");
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         
         String xmlString = getRequestString(req);
         
-        mockZis.parseSIFMessage(xmlString);
+        log.info("POST MockZis message: " + xmlString);
         
-        //System.out.println(xmlString);
+        mockZis.parseSIFMessage(xmlString);
         
         writeResponseString(resp, mockZis.createAckString());
     }
