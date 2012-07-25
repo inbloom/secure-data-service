@@ -42,12 +42,13 @@ import org.springframework.context.MessageSource;
 import org.springframework.dao.DuplicateKeyException;
 
 /**
- * Handles the persisting of Entity objects
+ * Handles the deletion of Entity objects
  * 
  * @author dduran
  *         Modified by Thomas Shewchuk (PI3 US811)
  *         - 2/1/2010 Added record DB lookup and update capabilities, and support for association
  *         entities.
+ *         Modified by Dan Shaw (PI5 US3201) for deletion capabilities.
  * 
  */
 public class NeutralRecordEntityDeleteHandler extends AbstractIngestionHandler<NeutralRecordEntity, Entity> implements
@@ -91,8 +92,8 @@ public class NeutralRecordEntityDeleteHandler extends AbstractIngestionHandler<N
             delete(entity);
         } catch (EntityValidationException ex) {
             reportErrors(ex.getValidationErrors(), entity, errorReport);
-        } catch (DuplicateKeyException ex) {
-            reportErrors(ex.getRootCause().getMessage(), entity, errorReport);
+        } catch (Exception ex) {
+            reportErrors(ex.getMessage(), entity, errorReport);
         }
         return null;
     }

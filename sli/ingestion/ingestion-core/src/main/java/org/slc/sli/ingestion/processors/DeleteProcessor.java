@@ -45,7 +45,6 @@ import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.Translator;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.handler.NeutralRecordEntityDeleteHandler;
-import org.slc.sli.ingestion.handler.NeutralRecordEntityPersistHandler;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
