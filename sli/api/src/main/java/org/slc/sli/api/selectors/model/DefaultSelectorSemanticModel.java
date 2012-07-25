@@ -1,7 +1,7 @@
 package org.slc.sli.api.selectors.model;
 
-import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.ModelElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -35,22 +35,25 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
     private void addEntryToSelector(final ClassType type, final SemanticSelector selector, final String key, final Object value)
             throws SelectorParseException {
         final SelectorElement elem;
-        if (modelProvider.isAssociation(type, key)) {
-            final ClassType keyType = modelProvider.getClassType(type, key);
-            if (isMap(value)) {
-                elem = new ComplexSelectorElement(keyType, parse(toMap(value), keyType));
-            } else if (value.equals(SelectorElement.INCLUDE_ALL)) {
-                elem = new IncludeAllSelectorElement(keyType);
-            } else {
-                elem = new BooleanSelectorElement(keyType, Boolean.valueOf(value.toString()));
-            }
-        } else if (modelProvider.isAttribute(type, key)) {
-            final Attribute attribute = modelProvider.getAttributeType(type, key);
-            elem = new BooleanSelectorElement(attribute, Boolean.valueOf(value.toString()));
+        final ModelElement element = modelProvider.getModelElement(type, key);
+        final ClassType keyType = modelProvider.getClassType(type, key);
+
+        if (modelProvider.isAssociation(type, key) || modelProvider.isAttribute(type, key)) {
+            elem = parseEntry(value, element, keyType);
         } else {
             throw new SelectorParseException("Invalid Selectors " + key);
         }
         selector.addSelector(type, elem);
+    }
+
+    private SelectorElement parseEntry(Object value, ModelElement element, ClassType keyType) throws SelectorParseException {
+        if (isMap(value)) {
+            return new ComplexSelectorElement(element, parse(toMap(value), keyType));
+        } else if (value.equals(SelectorElement.INCLUDE_ALL)) {
+            return new IncludeAllSelectorElement(element);
+        } else {
+            return new BooleanSelectorElement(element, Boolean.valueOf(value.toString()));
+        }
     }
 
     @SuppressWarnings("unchecked")

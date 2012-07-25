@@ -53,6 +53,8 @@ public class DefaultSelectorSemanticModelTest {
         assertTrue("Should contain base type", selector.containsKey(student));
         assertNotNull("Should have a list of attributes", selector.get(student));
 
+        System.out.println(selector);
+
         final List<SelectorElement> studentList = selector.get(student);
         assertEquals(5, studentList.size());
         assertTrue(!studentList.contains(null));
@@ -80,8 +82,12 @@ public class DefaultSelectorSemanticModelTest {
         ssaAttrs.put("entryDate", true);
         ssaAttrs.put("school", schoolAttrs);
 
+        Map<String, Object> nameAttrs = new HashMap<String, Object>();
+        nameAttrs.put("firstName", true);
+        nameAttrs.put("lastSurname", false);
+
         Map<String, Object> studentsAttrs = new HashMap<String, Object>();
-        studentsAttrs.put("name", true);
+        studentsAttrs.put("name", nameAttrs);
         studentsAttrs.put("economicDisadvantaged", true);
         studentsAttrs.put("sectionAssociations", true);
         studentsAttrs.put("schoolAssociations", ssaAttrs);
