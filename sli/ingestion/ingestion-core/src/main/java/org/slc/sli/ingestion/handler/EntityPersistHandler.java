@@ -97,14 +97,15 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
         if (entity.getEntityId() != null) {
 
-            if (!entityRepository.update(newCollectionName, entity)) {
-                // TODO: exception should be replace with some logic.
-                throw new RuntimeException("Record was not updated properly.");
-            }
+//            if (!entityRepository.update(newCollectionName, entity)) {
+//                // TODO: exception should be replace with some logic.
+//                throw new RuntimeException("Record was not updated properly.");
+//            }
 
             return entity;
         } else {
-            return entityRepository.create(entity.getType(), entity.getBody(), entity.getMetaData(), newCollectionName);
+            return entity;
+//            return entityRepository.create(entity.getType(), entity.getBody(), entity.getMetaData(), newCollectionName);
         }
     }
 
