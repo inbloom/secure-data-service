@@ -35,6 +35,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.sif.domain.Sif2SliTransformer;
 import org.slc.sli.sif.domain.slientity.LEAEntity;
 import org.slc.sli.sif.domain.slientity.SchoolEntity;
+import org.slc.sli.sif.slcinterface.SifIdResolver;
 import org.slc.sli.sif.slcinterface.SlcInterface;
 
 @Component
@@ -47,6 +48,9 @@ public class SifSubscriber implements Subscriber {
 
     @Autowired
     private SlcInterface slcInterface;
+    
+    @Autowired
+    SifIdResolver sifIdResolver;
 
     private SIFDataObject inspectAndDestroyEvent(Event e) {
         SIFDataObject sdo = null;
@@ -80,6 +84,11 @@ public class SifSubscriber implements Subscriber {
         }
         
         if (sdo!=null && tokenChecked && event.getAction()!=null) {
+
+            // Testing id map
+            String sliGuid = sifIdResolver.getSLIGuid(sdo.getRefId());
+            LOG.info("received action: " + event.getAction().name() + " on " + sdo.getRefId() + "(sliID: " + (sliGuid == null ? " none " : sliGuid) + ")");
+
             switch(event.getAction()) {
             case ADD:
                 addEntity(sdo);
@@ -94,7 +103,7 @@ public class SifSubscriber implements Subscriber {
                 break;
             }
         }
-    }
+     }
     
     private void addEntity(SIFDataObject sdo) {
         if (sdo instanceof SchoolInfo) {
