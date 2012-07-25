@@ -11,5 +11,5 @@ import java.util.Map;
  *
  */
 public interface SelectorSemanticModel {
-    public SemanticSelector parse(Map<String, Object> selectors, Type type);
+    public SemanticSelector parse(Map<String, Object> selectors, Type type) throws SelectorParseException;
 }

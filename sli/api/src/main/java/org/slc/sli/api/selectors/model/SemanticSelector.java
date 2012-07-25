@@ -14,13 +14,13 @@ import java.util.Arrays;
 /**
  * @author jstokes
  */
-public class SemanticSelector extends HashMap<Type, List<Object>> implements QueryVisitable {
+public class SemanticSelector extends HashMap<Type, List<SelectorElement>> implements QueryVisitable {
 
-    public void addSelector(final Type type, final Object obj) {
+    public void addSelector(final Type type, final SelectorElement se) {
         if (this.containsKey(type)) {
-            this.get(type).add(obj);
+            this.get(type).add(se);
         } else {
-            this.put(type, new ArrayList<Object>(Arrays.asList(obj)));
+            this.put(type, new ArrayList<SelectorElement>(Arrays.asList(se)));
         }
     }
 
