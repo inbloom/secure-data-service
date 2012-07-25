@@ -1,6 +1,6 @@
 package org.slc.sli.api.selectors.model;
 
-import org.slc.sli.modeling.uml.Type;
+import org.slc.sli.modeling.uml.ClassType;
 
 import java.util.Map;
 
@@ -11,5 +11,5 @@ import java.util.Map;
  *
  */
 public interface SelectorSemanticModel {
-    public SemanticSelector parse(Map<String, Object> selectors, Type type) throws SelectorParseException;
+    public SemanticSelector parse(Map<String, Object> selectors, ClassType type) throws SelectorParseException;
 }

@@ -2,7 +2,9 @@ package org.slc.sli.api.selectors.model;
 
 import org.slc.sli.api.selectors.doc.SelectorQuery;
 import org.slc.sli.api.selectors.doc.SelectorQueryVisitor;
-import org.slc.sli.modeling.uml.Type;
+import org.slc.sli.modeling.uml.Attribute;
+import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.ModelElement;
 
 
 /**
@@ -10,34 +12,28 @@ import org.slc.sli.modeling.uml.Type;
  */
 public class BooleanSelectorElement implements SelectorElement {
     private final boolean qualifier;
-    private final Type type;
-    private final String attribute;
+    private final ModelElement modelElement;
+    private boolean typed;
 
-    public BooleanSelectorElement(final Type type, final boolean qualifier) {
+    public BooleanSelectorElement(final ModelElement modelElement, final boolean qualifier) {
         this.qualifier = qualifier;
-        this.type = type;
-        this.attribute = null;
-    }
-
-    public BooleanSelectorElement(final String attribute, final boolean qualifier) {
-        this.qualifier = qualifier;
-        this.attribute = attribute;
-        this.type = null;
+        this.modelElement = modelElement;
+        this.typed = modelElement instanceof ClassType;
     }
 
     @Override
     public boolean isTyped() {
-        return type != null;
+        return typed;
     }
 
     @Override
     public boolean isAttribute() {
-        return attribute != null;
+        return !typed;
     }
 
     @Override
-    public Object getLHS() {
-        return isTyped() ? type : attribute;
+    public ModelElement getLHS() {
+        return modelElement;
     }
 
     @Override
@@ -45,12 +41,22 @@ public class BooleanSelectorElement implements SelectorElement {
         return qualifier;
     }
 
+    @Override
+    public String getElementName() {
+        if (modelElement instanceof ClassType) {
+            return ((ClassType) modelElement).getName();
+        } else if (modelElement instanceof Attribute) {
+            return ((Attribute) modelElement).getName();
+        }
+        return null;
+    }
+
     public boolean getQualifier() {
         return qualifier;
     }
 
     @Override
-    public SelectorQuery accept(SelectorQueryVisitor selectorQueryVisitor) {
+    public SelectorQuery accept(final SelectorQueryVisitor selectorQueryVisitor) {
         return selectorQueryVisitor.visit(this);
     }
 }

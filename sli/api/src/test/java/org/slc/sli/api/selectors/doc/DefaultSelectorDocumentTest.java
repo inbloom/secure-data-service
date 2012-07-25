@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.slc.sli.api.selectors.model.*;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.ModelElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -14,9 +15,10 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Tests
@@ -72,10 +74,13 @@ public class DefaultSelectorDocumentTest {
         ClassType studentType = provider.getClassType("Student");
         ClassType studentSchoolAssocicationType = provider.getClassType("schoolAssociations<=>student");
 
+        ModelElement name = mock(ModelElement.class);
+        ModelElement economicDisadvantaged = mock(ModelElement.class);
+
         SemanticSelector studentsAttrs = new SemanticSelector();
         List<SelectorElement> attributes1 = new ArrayList<SelectorElement>();
-        attributes1.add(new BooleanSelectorElement("name", true));
-        attributes1.add(new BooleanSelectorElement("economicDisadvantaged", true));
+        attributes1.add(new BooleanSelectorElement(name, true));
+        attributes1.add(new BooleanSelectorElement(economicDisadvantaged, true));
         attributes1.add(new IncludeAllSelectorElement(studentSchoolAssocicationType));
         studentsAttrs.put(studentType, attributes1);
 
@@ -88,32 +93,42 @@ public class DefaultSelectorDocumentTest {
         ClassType studentSchoolAssocicationType = provider.getClassType("schoolAssociations<=>student");
         ClassType studentSectionAssocicationType = provider.getClassType("sectionAssociations<=>student");
 
+        ModelElement entryGradeLevel = mock(ModelElement.class);
+        ModelElement entryDate = mock(ModelElement.class);
+        ModelElement someField = mock(ModelElement.class);
+        ModelElement sessionId = mock(ModelElement.class);
+        ClassType name = mock(ClassType.class);
+        when(name.getName()).thenReturn("name");
+
+        ModelElement economicDisadvantaged = mock(ModelElement.class);
+
         SemanticSelector studentSchoolAttrs = new SemanticSelector();
         List<SelectorElement> attributes = new ArrayList<SelectorElement>();
-        attributes.add(new BooleanSelectorElement("entryGradeLevel", true));
-        attributes.add(new BooleanSelectorElement("entryDate", true));
+        attributes.add(new BooleanSelectorElement(entryGradeLevel, true));
+        attributes.add(new BooleanSelectorElement(entryDate, true));
         studentSchoolAttrs.put(studentSchoolAssocicationType, attributes);
-
 
         SemanticSelector sectionAttrs = new SemanticSelector();
         List<SelectorElement> attributes3 = new ArrayList<SelectorElement>();
-        attributes3.add(new BooleanSelectorElement("sessionId", true));
+        attributes3.add(new BooleanSelectorElement(sessionId, true));
         sectionAttrs.put(sectionType, attributes3);
 
         SemanticSelector studentSectionAttrs = new SemanticSelector();
         List<SelectorElement> attributes2 = new ArrayList<SelectorElement>();
         attributes2.add(new ComplexSelectorElement(sectionType, sectionAttrs));
         studentSectionAttrs.put(studentSectionAssocicationType, attributes2);
-
+        attributes2.add(new BooleanSelectorElement(someField, true));
+        sectionAttrs.put(studentSectionAssocicationType, attributes2);
 
         SemanticSelector studentsAttrs = new SemanticSelector();
         List<SelectorElement> attributes1 = new ArrayList<SelectorElement>();
-        attributes1.add(new BooleanSelectorElement("name", true));
-        attributes1.add(new BooleanSelectorElement("economicDisadvantaged", true));
+        attributes1.add(new BooleanSelectorElement(name, true));
+        attributes1.add(new BooleanSelectorElement(economicDisadvantaged, true));
         attributes1.add(new ComplexSelectorElement(studentSchoolAssocicationType, studentSchoolAttrs));
         attributes1.add(new ComplexSelectorElement(studentSectionAssocicationType, studentSectionAttrs));
         studentsAttrs.put(studentType, attributes1);
 
         return studentsAttrs;
     }
+
 }

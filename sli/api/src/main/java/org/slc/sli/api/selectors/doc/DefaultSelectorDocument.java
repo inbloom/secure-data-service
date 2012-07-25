@@ -161,7 +161,7 @@ public class DefaultSelectorDocument implements SelectorDocument, SelectorQueryV
         SelectorQuery selectorQuery = new SelectorQuery();
 
         if (booleanSelectorElement.isAttribute()) {
-            String attr = (String) booleanSelectorElement.getLHS();
+            String attr = booleanSelectorElement.getElementName();
 
             if (booleanSelectorElement.getQualifier()) {
                 selectorQuery.getIncludeFields().add(attr);

@@ -3,7 +3,6 @@ package org.slc.sli.api.selectors.model;
 import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
-import org.slc.sli.modeling.uml.DataType;
 import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.ModelElement;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Component;
 
 import javax.xml.namespace.QName;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 /**
@@ -62,12 +60,20 @@ public final class ModelProvider {
         return modelIndex.getClassTypes().get(typeName);
     }
 
-    public boolean isAttribute(final Type type, final String attributeName) {
+    public ClassType getClassType(final ClassType type, final String attr) {
+        if (isAssociation(type, attr)) {
+            return getAssociationType(type, attr);
+        } else if (isAttribute(type, attr)) {
+            return getEmbeddedClassType(type, attr);
+        }
+        return null;
+    }
+
+    public boolean isAttribute(final ClassType type, final String attributeName) {
         if (type == null) throw new NullPointerException("type");
         if (attributeName == null) throw new NullPointerException("attributeName");
-        if (!type.isClassType()) return false;
 
-        final List<Attribute> attributes = ((ClassType)type).getAttributes();
+        final List<Attribute> attributes = type.getAttributes();
         for (final Attribute attribute : attributes) {
             if (attribute.getName().equals(attributeName)) {
                 return true;
@@ -76,10 +82,9 @@ public final class ModelProvider {
         return false;
     }
 
-    public boolean isAssociation(final Type type, final String attribute) {
+    public boolean isAssociation(final ClassType type, final String attribute) {
         if (type == null) throw new NullPointerException("type");
         if (attribute == null) throw new NullPointerException("attribute");
-        if (!type.isClassType()) return false;
 
         final List<AssociationEnd> associationEnds = getAssociationEnds(type.getId());
         for (final AssociationEnd end : associationEnds) {
@@ -90,30 +95,35 @@ public final class ModelProvider {
         return false;
     }
 
-    public Type getType(final Type type, final String attr) {
-        if (isAssociation(type, attr)) {
-            return getAssociationType(type, attr);
-        } else if (isAttribute(type, attr)) {
-            return getAttributeType((ClassType)type, attr);
-        }
-        return null;
-    }
-
-    private Type getAttributeType(final ClassType type, final String attr) {
+    public Attribute getAttributeType(final ClassType type, final String attr) {
         final List<Attribute> attributes = type.getAttributes();
         for (final Attribute attribute : attributes) {
             if (attribute.getName().equals(attr)) {
-                return getType(attribute.getType());
+                return attribute;
             }
         }
         return null;
     }
 
-    private Type getAssociationType(final Type type, final String attr) {
+    private ClassType getEmbeddedClassType(final ClassType type, final String attr) {
+        final List<Attribute> attributes = type.getAttributes();
+        for (final Attribute attribute : attributes) {
+            if (attribute.getName().equals(attr)) {
+                final Type embeddedType = getType(attribute.getType());
+                if (embeddedType.isClassType()) return (ClassType) embeddedType;
+                else break;
+            }
+        }
+        return null;
+    }
+
+    private ClassType getAssociationType(final ClassType type, final String attr) {
         final List<AssociationEnd> associationEnds = getAssociationEnds(type.getId());
         for (final AssociationEnd end : associationEnds) {
             if (end.getName().equals(attr)) {
-                return getType(end.getType());
+                final Type matchType = getType(end.getType());
+                if (matchType.isClassType()) return (ClassType) matchType;
+                else break;
             }
         }
         return null;
