@@ -351,7 +351,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
         DBCursor cursor;
 
-        if (syncStage.equals(MessageType.DATA_TRANSFORMATION)) {
+        if (syncStage.equals(MessageType.DATA_TRANSFORMATION.name())) {
             cursor = batchJobMongoTemplate.getCollection(TRANSFORMATION_LATCH).find(ref);
         } else {
             cursor = batchJobMongoTemplate.getCollection(PERSISTENCE_LATCH).find(ref);
