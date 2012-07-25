@@ -59,4 +59,9 @@ public class BooleanSelectorElement implements SelectorElement {
     public SelectorQuery accept(final SelectorQueryVisitor selectorQueryVisitor) {
         return selectorQueryVisitor.visit(this);
     }
+
+    @Override
+    public String toString() {
+        return "{" + getElementName() + " : " + getQualifier() + "}";
+    }
 }

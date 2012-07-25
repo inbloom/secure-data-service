@@ -52,4 +52,9 @@ public class IncludeAllSelectorElement implements SelectorElement {
         }
         return null;
     }
+
+    @Override
+    public String toString() {
+        return "{" + getElementName() + " : " + "*" + "}";
+    }
 }
