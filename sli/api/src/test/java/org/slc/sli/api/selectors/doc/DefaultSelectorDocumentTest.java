@@ -5,8 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.selectors.model.*;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.modeling.uml.ClassType;
-import org.slc.sli.modeling.uml.ModelElement;
+import org.slc.sli.modeling.uml.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -74,8 +73,8 @@ public class DefaultSelectorDocumentTest {
         ClassType studentType = provider.getClassType("Student");
         ClassType studentSchoolAssocicationType = provider.getClassType("schoolAssociations<=>student");
 
-        ModelElement name = mock(ModelElement.class);
-        ModelElement economicDisadvantaged = mock(ModelElement.class);
+        Attribute name = getMockAttribute("name");
+        Attribute economicDisadvantaged = getMockAttribute("economicDisadvantaged");
 
         SemanticSelector studentsAttrs = new SemanticSelector();
         List<SelectorElement> attributes1 = new ArrayList<SelectorElement>();
@@ -93,14 +92,12 @@ public class DefaultSelectorDocumentTest {
         ClassType studentSchoolAssocicationType = provider.getClassType("schoolAssociations<=>student");
         ClassType studentSectionAssocicationType = provider.getClassType("sectionAssociations<=>student");
 
-        ModelElement entryGradeLevel = mock(ModelElement.class);
-        ModelElement entryDate = mock(ModelElement.class);
-        ModelElement someField = mock(ModelElement.class);
-        ModelElement sessionId = mock(ModelElement.class);
-        ClassType name = mock(ClassType.class);
-        when(name.getName()).thenReturn("name");
-
-        ModelElement economicDisadvantaged = mock(ModelElement.class);
+        Attribute entryGradeLevel = getMockAttribute("entryGradeLevel");
+        Attribute entryDate = getMockAttribute("entryDate");
+        Attribute someField = getMockAttribute("someField");
+        Attribute sessionId = getMockAttribute("sessionId");
+        Attribute name = getMockAttribute("name");
+        Attribute economicDisadvantaged = getMockAttribute("economicDisadvantaged");
 
         SemanticSelector studentSchoolAttrs = new SemanticSelector();
         List<SelectorElement> attributes = new ArrayList<SelectorElement>();
@@ -115,10 +112,9 @@ public class DefaultSelectorDocumentTest {
 
         SemanticSelector studentSectionAttrs = new SemanticSelector();
         List<SelectorElement> attributes2 = new ArrayList<SelectorElement>();
+        attributes2.add(new BooleanSelectorElement(someField, true));
         attributes2.add(new ComplexSelectorElement(sectionType, sectionAttrs));
         studentSectionAttrs.put(studentSectionAssocicationType, attributes2);
-        attributes2.add(new BooleanSelectorElement(someField, true));
-        sectionAttrs.put(studentSectionAssocicationType, attributes2);
 
         SemanticSelector studentsAttrs = new SemanticSelector();
         List<SelectorElement> attributes1 = new ArrayList<SelectorElement>();
@@ -129,6 +125,21 @@ public class DefaultSelectorDocumentTest {
         studentsAttrs.put(studentType, attributes1);
 
         return studentsAttrs;
+    }
+
+    private ClassType getMockClassType(String typeName) {
+        final Multiplicity multiplicity = new Multiplicity(new Range(Occurs.ZERO, Occurs.ONE));
+        final AssociationEnd end1 = new AssociationEnd(multiplicity, "end1", true, Identifier.random());
+        final AssociationEnd end2 = new AssociationEnd(multiplicity, "end2", true, Identifier.random());
+
+        return new ClassType(typeName, end1, end2);
+    }
+
+    private Attribute getMockAttribute(String attributeName) {
+        final Multiplicity multiplicity = new Multiplicity(new Range(Occurs.ZERO, Occurs.ONE));
+
+        return new Attribute(Identifier.random(), attributeName, Identifier.random(),
+                multiplicity, new ArrayList<TaggedValue>());
     }
 
 }
