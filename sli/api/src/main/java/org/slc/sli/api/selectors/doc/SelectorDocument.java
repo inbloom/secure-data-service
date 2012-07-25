@@ -1,5 +1,6 @@
 package org.slc.sli.api.selectors.doc;
 
+import org.slc.sli.api.selectors.model.SemanticSelector;
 import org.slc.sli.modeling.uml.ClassType;
 
 import java.util.Map;
@@ -12,6 +13,6 @@ import java.util.Map;
  */
 public interface SelectorDocument {
 
-    public void aggregate(Map<ClassType, Object> queryMap, Constraint constraint);
+    public void aggregate(SemanticSelector queryMap, Constraint constraint);
 
 }
