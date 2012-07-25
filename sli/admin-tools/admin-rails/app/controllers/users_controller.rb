@@ -43,12 +43,13 @@ class UsersController < ApplicationController
       if user.uid == params[:id]
         user.id = user.uid
         user.destroy
+        @user_id = user.uid
       end
     end
     
     respond_to do |format|
-      #format.js
-      format.html { render "index"}
+      format.js
+      # format.html { render "index"}
       # format.html { redirect_to apps_url }
       # format.json { head :ok }
     end
