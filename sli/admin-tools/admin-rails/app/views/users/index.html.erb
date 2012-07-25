@@ -36,19 +36,19 @@
     <% if @users!=nil and @users.length>0%>
         <% @users.each do |user| %>
         <tr id='<%= user.uid%>'>
-        <td id="full_name"+<%= user.uid%>><%= user.firstName%> <%= user.lastName%></td>
-        <td id="email"+<%= user.uid%>><%= user.email%></td>
-        <td id="role"+<%= user.uid%>> <%= user.get_groups%></td>
+        <td id="<%= user.firstName%> <%= user.lastName%>_full_name"><%= user.firstName%> <%= user.lastName%></td>
+        <td id="<%= user.firstName%> <%= user.lastName%>_email"><%= user.email%></td>
+        <td id="<%= user.firstName%> <%= user.lastName%>_role"> <%= user.get_groups%></td>
         <% if not APP_CONFIG['is_sandbox'] %>
             <td id="additional_role"+<%= user.uid%>></td>
             <td id="tenant"+<%= user.uid%>><%= user.tenant%></td>
         <% end %>
-        <td id="edorg"+<%= user.uid%>><%= user.edorg%></td>
-        <td id="date_created"+<%= user.uid%>><%= I18n.localize(user.get_create_time)%></td>
-		<td id="actions"+<%= user.uid%> class="actions">
-			<%= link_to "Edit", "/users", :class => "btn" %> | 
-            <%= link_to 'Delete', "/users/#{user.uid}", :class => "btn btn-danger", :remote => true,
-                :confirm => "Do you really want to delete this user?", :method => :delete %>
+        <td id="<%= user.firstName%> <%= user.lastName%>_edorg"><% if user.edorg!=nil%><%else%><%=user.edorg%><%end%></td>
+        <td id="<%= user.firstName%> <%= user.lastName%>_date_created"><%= I18n.localize(user.get_create_time)%></td>
+		<td id="<%= user.firstName%> <%= user.lastName%>_actions" class="actions">
+			<button id="<%= user.firstName%> <%= user.lastName%>_edit" type="button" class="btn" ><%= link_to_if true, "Edit", "/users" %></button> | 
+            <button id="<%= user.firstName%> <%= user.lastName%>_delete" type="button"  class="btn btn-danger" style="font-weight:normal;" <% if @loginUserId == user.uid%> disabled="disabled" <%end%> ><%= link_to_if @loginUserId !=user.uid, 'Delete', "/users/#{user.uid}", :remote => true,
+                :confirm => "Do you really want to delete this user?", :method => :delete %></button>
         </td>
         </tr>
         <% end %>

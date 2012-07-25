@@ -21,6 +21,8 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
+    check = Check.get ""
+    @loginUserId=check["external_id"]
     @users = User.all
     respond_to do |format|
       format.html # index.html.erb

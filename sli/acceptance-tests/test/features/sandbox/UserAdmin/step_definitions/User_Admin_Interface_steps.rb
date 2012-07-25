@@ -103,7 +103,7 @@ Given /^There is a sandbox user with "(.*?)" and "(.*?)" in LDAP Server$/ do |fu
 end
 
 When /^I click on "(.*?)" icon$/ do |buttonName|
-  @driver.find_element(:xpath, "//input[@value='#{buttonName}']").click
+  @driver.find_element(:xpath, "//button[@id='#{@userFullName}_#{buttonName}']/a").click
 end
 
 Then /^I am asked to confirm the delete action$/ do
@@ -115,6 +115,7 @@ When /^I confirm the delete action$/ do
     @driver.switch_to.alert.accept
   rescue
   end
+  sleep(1)
 end
 
 Then /^that user is removed from LDAP$/ do
@@ -152,10 +153,10 @@ end
 
 Then /^the "(.*?)" button is disabled$/ do |buttonName|
 delete_button=nil
-  begin
-  delete_button = @driver.find_element(:xpath,"//input[@value='#{buttonName}' and @disabled = 'disabled']")
-  rescue
-  end
+ # begin
+  delete_button = @driver.find_element(:xpath,"//button[@id='#{@userFullName}_#{buttonName}' and @disabled = 'disabled']")
+#  rescue
+ # end
   assert(delete_button!=nil,"the #{buttonName} button is not disabled")
 end
 
