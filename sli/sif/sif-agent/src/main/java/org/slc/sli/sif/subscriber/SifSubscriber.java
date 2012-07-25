@@ -87,7 +87,11 @@ public class SifSubscriber implements Subscriber {
 
             // Testing id map
             String sliGuid = sifIdResolver.getSLIGuid(sdo.getRefId());
-            LOG.info("received action: " + event.getAction().name() + " on " + sdo.getRefId() + "(sliID: " + (sliGuid == null ? " none " : sliGuid) + ")");
+            String seaGuid = sifIdResolver.getZoneSEA(zone.getZoneId());
+            LOG.info("received action: " + event.getAction().name() + " on " + 
+                sdo.getRefId() + "(sliID: " + (sliGuid == null ? " none " : sliGuid) + "," +
+                " seaId: " + (seaGuid == null ? " none " : seaGuid) + ")"
+            );
 
             switch(event.getAction()) {
             case ADD:
@@ -106,13 +110,18 @@ public class SifSubscriber implements Subscriber {
      }
     
     private void addEntity(SIFDataObject sdo) {
+        
         if (sdo instanceof SchoolInfo) {
             SchoolEntity entity = xformer.transform((SchoolInfo)sdo);
+            LOG.info("addEntity: "+entity);
             LOG.info(""+entity.getData());
+            String result = slcInterface.create(entity);
+            LOG.info(result);
         }
         
         if (sdo instanceof LEAInfo) {
             LEAEntity entity = xformer.transform((LEAInfo)sdo);
+            LOG.info("addEntity: "+entity);
             LOG.info(""+entity.getData());
         }
         

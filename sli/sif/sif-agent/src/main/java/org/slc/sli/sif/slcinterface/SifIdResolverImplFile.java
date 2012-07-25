@@ -52,6 +52,8 @@ public class SifIdResolverImplFile implements SifIdResolver {
 
     @Value("${sli.sif-agent.idmap}")
     private String idmap; // TODO: This is temporary; when we have a clear and approved sif id resolution strategy this can get swapped out
+    @Value("${sli.sif-agent.zonemap}")
+    private String zonemap; // TODO: This is temporary; when we have a clear and approved sif id resolution strategy this can get swapped out
 
     @Autowired
     private SlcInterface slcInterface;
@@ -59,39 +61,38 @@ public class SifIdResolverImplFile implements SifIdResolver {
     class SliId { 
         String type, id, field;
         SliId(String t, String i, String f) { type = t; id = i; field = f; }
+        public String toString() { return "type = " + type + " ; field = " + field + " ; value = " + id; }
     }
     
     private Map<String, SliId> sifToSliIdMap;
+    private Map<String, SliId> zoneIdToSliIdMap;
     
     @PostConstruct
     public void init() {
-        sifToSliIdMap = new HashMap<String, SliId> ();
-        try {
-            BufferedReader mapFileReader = new BufferedReader(new FileReader(new File(idmap)));
-            while (true) {
-                String line = mapFileReader.readLine();
-                if (line == null) { break; }
-                if (line.startsWith("#")) { continue; }
-                String [] entry = line.split(",");
-                if (entry.length != 4) { continue; }
-                String sifId = entry[0];
-                String sliValue = entry[1];
-                String sliType = entry[2];
-                String sliField = entry[3];
-                sifToSliIdMap.put(sifId, new SliId(sliType, sliValue, sliField));
-            }
-            mapFileReader.close();
-        } catch (IOException e) {
-            LOG.error("Error reading sif id resolver idMap file");
-        }
+        sifToSliIdMap = readIdMapFromFile(idmap);
+        zoneIdToSliIdMap = readIdMapFromFile(zonemap);
     }
     
     @Override
     public String getSLIGuid(String sifId) {
         // check if it is in the map
         if (!sifToSliIdMap.containsKey(sifId)) { return null; }
-        // dig up the SLI Id from the SLI database
         SliId sliId = sifToSliIdMap.get(sifId);
+        return digUpSliGuid(sliId);
+    }
+    @Override
+    public String getZoneSEA(String zoneId) {
+        // check if it is in the map
+        if (!zoneIdToSliIdMap.containsKey(zoneId)) { return null; }
+        SliId sliId = zoneIdToSliIdMap.get(zoneId);
+        return digUpSliGuid(sliId);
+    }
+    
+    //dig up the SLI Guid from the api given a SliId. 
+    // Returns null is none is found,. 
+    // throws runtime exception if more than one is found. 
+    private String digUpSliGuid(SliId sliId) {
+        // dig up the SLI Id from the SLI database
         String id = sliId.id;
         String type = sliId.type;
         String queryField = sliId.field;
@@ -110,8 +111,32 @@ public class SifIdResolverImplFile implements SifIdResolver {
         }
         if (retVal.size() == 0) { return null; };
         if (retVal.size() > 1) {
-            throw new RuntimeException ("  SIF Ref ID Resolution error: resolves to more than one entity: " + sifId);
+            throw new RuntimeException ("  SIF Ref ID Resolution error: resolves to more than one entity: " + sliId);
         }
         return retVal.get(0).getId();
+    }
+    
+    // init function helper
+    private Map<String, SliId> readIdMapFromFile(String filename) {
+        Map<String, SliId> retVal = new HashMap<String, SliId> ();
+        try {
+            BufferedReader mapFileReader = new BufferedReader(new FileReader(new File(filename)));
+            while (true) {
+                String line = mapFileReader.readLine();
+                if (line == null) { break; }
+                if (line.startsWith("#")) { continue; }
+                String [] entry = line.split(",");
+                if (entry.length != 4) { continue; }
+                String sifId = entry[0];
+                String sliValue = entry[1];
+                String sliType = entry[2];
+                String sliField = entry[3];
+                retVal.put(sifId, new SliId(sliType, sliValue, sliField));
+            }
+            mapFileReader.close();
+        } catch (IOException e) {
+            LOG.error("Error reading sif id resolver idMap file");
+        }
+        return retVal;
     }
 }

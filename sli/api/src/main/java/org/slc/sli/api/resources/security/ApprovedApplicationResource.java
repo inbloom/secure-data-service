@@ -140,13 +140,6 @@ public class ApprovedApplicationResource {
             return true;
         }
 
-        //make sure hosted SLI users can only see admin and portal
-        if (SecurityUtil.isHostedUser(repo, (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal())) {
-            Boolean adminVisible = (Boolean) result.get("admin_visible");
-            if (adminVisible == null || !adminVisible) {
-                return true;
-            }
-        }
         return false;
     }
 

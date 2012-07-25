@@ -145,22 +145,6 @@ public class LEAEntity extends GenericEntity
         return this.address;
     }
 
-//    /**
-//     * Output this Entity as a JSON Node
-//     */
-//    @Override
-//    public JsonNode json() {
-//        return mapper.valueToTree(this);
-//    }
-//
-//    /**
-//     * Output this object as a JSON String
-//     */
-//    @Override
-//    public String toString() {
-//        return json().toString();
-//    }
-//
     @Override
     public String getEntityType()
     {
