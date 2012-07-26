@@ -41,12 +41,12 @@
 	<%= f.label :optinal_role_1, "Optional Permissions" ,:class => "control-label" %>
 	<div class="controls">
 	<label class="checkbox">
-	<%= f.check_box :optional_role_1,{},"Application Developer" %>Application Developer
+	<%= f.check_box :optional_role_1,{:id => "application_developer_role"},"Application Developer" %>Application Developer
 	</label>
 	</div>
 	<div class="controls">
 	<label class="checkbox">
-	<%= f.check_box :optional_role_2,{},"Ingestion User" %>Ingestion User
+	<%= f.check_box :optional_role_2,{:id => "ingestion_user_role"},"Ingestion User" %>Ingestion User
 	</label>
 	</div>
 	
