@@ -59,7 +59,11 @@ public class ConfigMap implements Serializable {
 
     public ConfigMap cloneWithNewConfig(Config newConfig) {
         ConfigMap newMap = new ConfigMap();
-        newMap.config = new HashMap<String, Config>(this.getConfig());
+        if (this.getConfig() == null) {
+            newMap.config = new HashMap<String, Config>();
+        } else {
+            newMap.config = new HashMap<String, Config>(this.getConfig());
+        }
         newMap.config.put(newConfig.getId(), newConfig);
         return newMap;
     }
