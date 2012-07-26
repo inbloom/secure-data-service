@@ -51,7 +51,6 @@ public class SchoolProficiency extends Configured implements Tool {
         MongoConfigUtil.setCreateInputSplits(conf,  true);
         MongoConfigUtil.setShardChunkSplittingEnabled(conf, true);
         MongoConfigUtil.setSplitSize(conf,  2);
-
         Job job = new Job(conf, "SchoolProficiency");
         job.setJarByClass(getClass());
 

@@ -56,7 +56,6 @@ public class SchoolProficiencyMapper
     }
 
 
-    @SuppressWarnings("unchecked")
     @Override
     public void map(final String schoolId,
                     final BSONObject school,
@@ -75,41 +74,35 @@ public class SchoolProficiencyMapper
         }
 
         for (DBObject student : students) {
-            Map<String, Object> aggregations = (Map<String, Object>) student.get("aggregations");
             if (aggregations == null) {
                 continue;
             }
-            Map<String, Object> assessments = (Map<String, Object>) aggregations.get("assessments");
             if (assessments == null) {
                 continue;
             }
-            Map<String, Object> assessment = (Map<String, Object>) assessments.get(idCode);
             if (assessment == null) {
                 continue;
             }
-            Map<String, Object> highest = (Map<String, Object>) assessment.get("HighestEver");
             if (highest == null) {
                 continue;
-            }
             String score = (String) highest.get("ScaleScore");
-
             code.set("!");
             if (score != null) {
                 Double scaleScore = Double.valueOf(score);
 
-                // TODO -- these ranges should come from the assessment directly.
-                if (scaleScore >= 6 && scaleScore <= 14) {
-                    code.set("W");
-                } else if (scaleScore >= 15 && scaleScore <= 20) {
-                    code.set("B");
-                } else if (scaleScore >= 21 && scaleScore < 27) {
-                    code.set("S");
-                } else if (scaleScore >= 28 && scaleScore <= 33) {
-                    code.set("E");
-                }
-            } else {
-                code.set("-");
+            // TODO -- these ranges should come from the assessment directly.
+            if (scaleScore >= 6 && scaleScore <= 14) {
+                code.set("W");
+            } else if (scaleScore >= 15 && scaleScore <= 20) {
+                code.set("B");
+            } else if (scaleScore >= 21 && scaleScore < 27) {
+                code.set("S");
+            } else if (scaleScore >= 28 && scaleScore <= 33) {
+                code.set("E");
             }
+        } else {
+            code.set("-");
+        }
 
             context.write(new TenantAndID(schoolId, tenantId), code);
         }
