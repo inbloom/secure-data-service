@@ -121,10 +121,11 @@ public class BasicClient implements SLIClient {
         return getResource(sessionToken, entities, new URL(restClient.getBaseURL() + resourceUrl), entityClass);
      }
 
+    @Override
     public List<Entity> read(final String resourceUrl, Query query) throws URISyntaxException,
     MessageProcessingException, IOException, SLIClientException {
         List<Entity> entities = new ArrayList<Entity>();
-        URLBuilder url = new URLBuilder().addPath(resourceUrl);
+        URLBuilder url = URLBuilder.create(restClient.getBaseURL()).addPath(resourceUrl);
         Response response = getResource(entities, url.build(), query);
         checkResponse(response, Status.OK, "Unable to retrieve entity.");
         return entities;
@@ -133,7 +134,7 @@ public class BasicClient implements SLIClient {
     @Override
     public List<Entity> read(final String resourceUrl) throws URISyntaxException, MessageProcessingException,
             IOException, SLIClientException {
-        return read(resourceUrl, null);
+        return read(resourceUrl, BasicQuery.EMPTY_QUERY);
     }
 
     @Override
@@ -163,6 +164,7 @@ public class BasicClient implements SLIClient {
         return restClient.deleteRequest(sessionToken, new URL(restClient.getBaseURL() + resourceUrl));
     }
 
+    @Override
     public Response getResource(final List<Entity> entities, URL resourceURL, Query query) throws URISyntaxException,
             MessageProcessingException, IOException {
         entities.clear();

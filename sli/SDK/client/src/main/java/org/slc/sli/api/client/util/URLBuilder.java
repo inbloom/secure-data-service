@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.client.util;
 
 import java.io.UnsupportedEncodingException;
@@ -55,7 +54,9 @@ public final class URLBuilder {
      * @return Updated URLBuilder instance.
      */
     public URLBuilder addPath(final String path) {
-        addPathSeparaterIfNeeded();
+        if (!path.startsWith("/")) {
+            addPathSeparaterIfNeeded();
+        }
         url.append(path);
         return this;
     }

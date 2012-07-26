@@ -62,6 +62,13 @@ public interface RESTClient {
             throws OAuthException, MalformedURLException, URISyntaxException;
 
     /**
+     * Connect to the API with a pre authorized token
+     *
+     * @param sessionToken
+     */
+    public void connectWithToken(final String sessionToken);
+
+    /**
      * Disconnect from the IDP.
      */
     public abstract void disconnect();
