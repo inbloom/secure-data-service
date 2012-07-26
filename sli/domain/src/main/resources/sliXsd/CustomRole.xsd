@@ -35,7 +35,7 @@
                     </xs:annotation>
                 </xs:element>
                 <xs:element name="roles" type="role" minOccurs="0" maxOccurs="unbounded" />
-                <xs:element name="custom_rights" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="customRights" type="xs:string" minOccurs="0" maxOccurs="unbounded">
                     <xs:annotation>
                         <xs:documentation>
                             A non-default right that is specified for the realm. A realm can have many custom_rights.
