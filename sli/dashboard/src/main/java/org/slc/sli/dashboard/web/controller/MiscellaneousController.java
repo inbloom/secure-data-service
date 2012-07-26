@@ -17,6 +17,8 @@
 
 package org.slc.sli.dashboard.web.controller;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,19 +44,21 @@ public class MiscellaneousController {
 
     @RequestMapping(value = "/s/m/header", method = RequestMethod.GET)
     @ResponseBody
-    public String getHeader() {
+    public String getHeader(HttpServletResponse response) {
         boolean isAdmin = SecurityUtil.isAdmin();
         String header = portalWSManager.getHeader(isAdmin);
         if (header != null) {
             header = header.replace("[$USER_NAME$]", SecurityUtil.getUsername());
         }
+        response.setContentType("text/html");
         return header;
     }
 
     @RequestMapping(value = "/s/m/footer", method = RequestMethod.GET)
     @ResponseBody
-    public String getFooter() {
+    public String getFooter(HttpServletResponse response) {
         boolean isAdmin = SecurityUtil.isAdmin();
+        response.setContentType("text/html");
         return portalWSManager.getFooter(isAdmin);
     }
 
