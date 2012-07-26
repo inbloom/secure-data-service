@@ -1,5 +1,7 @@
 package org.slc.sli.api.service.query;
 
+import org.slc.sli.api.selectors.model.SelectorParseException;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -10,7 +12,7 @@ public class Selector2MapOfMaps implements SelectionConverter {
     public static final String SELECTOR_REGEX_STRING = ":\\((.*)\\)";
     public static final Pattern SELECTOR_PATTERN = Pattern.compile(SELECTOR_REGEX_STRING);
     
-    public Map<String, Object> convert(String selectorString) {
+    public Map<String, Object> convert(String selectorString) throws SelectorParseException {
         Map<String, Object> converted = new HashMap<String, Object>();
         
         Matcher matcher = SELECTOR_PATTERN.matcher(selectorString);
@@ -53,13 +55,13 @@ public class Selector2MapOfMaps implements SelectionConverter {
                 }
             }
         } else {
-            throw new RuntimeException("Invalid selector syntax");
+            throw new SelectorParseException("Invalid selector syntax");
         }
         
         return converted;
     }
     
-    protected static int getMatchingClosingParenIndex(String string, int openParenIndex) {
+    protected static int getMatchingClosingParenIndex(String string, int openParenIndex) throws SelectorParseException {
         int balance = 0;
         
         for (int i = openParenIndex; i < string.length(); i++) {
@@ -72,12 +74,12 @@ public class Selector2MapOfMaps implements SelectionConverter {
                     if (balance == 0) {
                         return i;
                     } else if (balance < 0) {
-                        throw new RuntimeException("Invalid parentheses");
+                        throw new SelectorParseException("Invalid parentheses");
                     }
             }
         }
         
-        throw new RuntimeException("Unbalanced parentheses");
+        throw new SelectorParseException("Unbalanced parentheses");
     }
     
     /**
@@ -87,9 +89,9 @@ public class Selector2MapOfMaps implements SelectionConverter {
      * @param value key, key:true, or key:false. key defaults to key:true
      * @param map map to add key and boolean value to
      */
-    private static void addValueToMap(String value, Map<String, Object> map) {
+    private static void addValueToMap(String value, Map<String, Object> map) throws SelectorParseException {
         if (value.isEmpty()) {
-            throw new RuntimeException("key/value cannot be empty string");
+            throw new SelectorParseException("key/value cannot be empty string");
         }
         
         int indexOfColon = value.indexOf(":");

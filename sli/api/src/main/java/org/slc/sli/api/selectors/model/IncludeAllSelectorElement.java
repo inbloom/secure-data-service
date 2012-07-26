@@ -7,6 +7,8 @@ import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.ModelElement;
 
 /**
+ * Implementation of a selector element that has a ModelElement => "*" structure
+ *
  * @author jstokes
  */
 public class IncludeAllSelectorElement implements SelectorElement {
