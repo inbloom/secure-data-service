@@ -124,6 +124,10 @@
     <bean id= "apiClientRef" class="org.slc.sli.dashboard.client.SDKAPIClient">
         <property name="sdkClient" ref="basicClient" />
         <property name="gracePeriod" value="${sli.security.gracePeriod}" />
+        <property name="apiServerURL" value="${api.server.url}" />
+        <property name="clientId" value="#{propertiesDecryptor.getDecryptedClientId()}" />
+        <property name="clientSecret" value="#{propertiesDecryptor.getDecryptedClientSecret()}" />
+        <property name="callbackURL" value="${oauth.redirect}" />
     </bean>
 
     <bean id="progressManager" class="org.slc.sli.dashboard.manager.impl.StudentProgressManagerImpl">
