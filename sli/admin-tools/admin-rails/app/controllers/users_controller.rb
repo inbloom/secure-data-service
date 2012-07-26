@@ -39,7 +39,8 @@ class UsersController < ApplicationController
       if user.uid == params[:id]
         user.id = user.uid
         user.destroy
-        @user_id = user.uid.gsub(/\./, "\\\\\\\\."); #escape dot in uid for javascript
+       @user_id = user.uid.gsub(/\@/,"\\\\\\\\@").gsub(/\./, "\\\\\\\\."); #escape dot in uid for javascript
+        logger.info("user id after escape is #{@user_id}")
       end
     end
     
@@ -53,12 +54,45 @@ class UsersController < ApplicationController
   def new
     check = Check.get ""
     @user = User.new
-     @edorgs = {"" => "", check["edOrg"] => 2} 
-     @roles ={"Sandbox Administrator" => 1, "Application Developer" => 2, "Ingestion User" => 3}
+     @edorgs = {"" => "", check["edOrg"] => check["edOrg"]} 
+     @sandbox_roles ={"Sandbox Administrator" => "Sandbox Administrator", "Application Developer" => "Application Developer", "Ingestion User" => "Ingestion User"}
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @user }
     end
+  end
+  
+  # POST /users
+  # POST /users.json
+  def create
+    check = Check.get ""
+    logger.info{"running create new user"}
+    groups = []
+    groups << params[:user][:primary_role]
+    groups << params[:user][:optional_role_1] if params[:user][:optional_role_1]!="0" && !groups.include?(params[:user][:optional_role_1])
+    groups << params[:user][:optional_role_2] if params[:user][:optional_role_2]!="0" && !groups.include?(params[:user][:optional_role_2])
+    params[:user][:firstName]= params[:user][:fullName].split(" ")[0]
+    params[:user][:lastName] = params[:user][:fullName].gsub(params[:user][:firstName],"").lstrip
+    
+    @user = User.new()
+
+    @user.firstName = params[:user][:firstName]
+    @user.lastName = params[:user][:lastName]
+    @user.email = params[:user][:email]
+    @user.tenant = check["tenantId"]
+    @user.edorg = params[:user][:edorg]
+    @user.uid = params[:user][:email]
+    @user.groups = groups
+    @user.homeDir = "/dev/null"
+    
+    logger.info("the new user is #{@user.to_json}")
+
+    @user.save
+    @users=User.all
+     respond_to do |format|
+        format.html { render "index"}
+     end
+    
   end
   
   # GET /users/1/edit

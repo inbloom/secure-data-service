@@ -29,24 +29,24 @@
 
 <fieldset>
 <div class = "control-group">
-	<%= f.label :groups, "Role" ,:class => "control-label" %>
+	<%= f.label :primary_role, "Role" ,:class => "control-label" %>
 	<div class="controls">
-	<%= f.select :groups, @roles,{},:include_blank => true %>
+	<%= f.select :primary_role, @sandbox_roles,{},:include_blank => true %>
 	</div>
 </div>
 </fieldset>
 
 <fieldset>
 <div class = "control-group">
-	<%= f.label :groups, "Optional Permissions" ,:class => "control-label" %>
+	<%= f.label :optinal_role_1, "Optional Permissions" ,:class => "control-label" %>
 	<div class="controls">
 	<label class="checkbox">
-	<%= f.check_box :groups,{},"application_developer" %>Application Developer
+	<%= f.check_box :optional_role_1,{},"Application Developer" %>Application Developer
 	</label>
 	</div>
 	<div class="controls">
 	<label class="checkbox">
-	<%= f.check_box :groups,{},"ingestion_user" %>Ingestion User
+	<%= f.check_box :optional_role_2,{},"Ingestion User" %>Ingestion User
 	</label>
 	</div>
 	

@@ -28,6 +28,10 @@ class User < SessionResource
     time "createTime", "modifyTime" 
     string  "groups"
     string  "fullName"
+    string  "primary_role"
+    string  "optional_role_1"
+    string  "optional_role_2"
+    string   "homeDir"
   end
  
   def get_groups 
