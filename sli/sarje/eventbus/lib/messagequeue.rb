@@ -4,7 +4,7 @@ require 'thread'
 
 module Eventbus
 
-  HASH = {
+  DEFAULT_STOMP_CONFIG = {
       :hosts => [
           {:login => "", :passcode => "", :host => "localhost", :port => 61613, :ssl => false}
       ],
@@ -20,21 +20,58 @@ module Eventbus
       :parse_timeout => 5,
   }
 
-  class Publisher
-    def initialize(queue_name)
-      @queue_name = queue_name
-      @client = Stomp::Client.new(HASH)
+  class MessagingService
+    def initialize(config = {})
+      config = {
+          :stomp_config => DEFAULT_STOMP_CONFIG,
+          :node_name => 'anonymous node',
+          :start_heartbeat => true
+      }.merge(config)
+      @publisher = Publisher.new(config[:publish_queue_name], config[:stomp_config])
+      Subscriber.new(config[:subscribe_queue_name], config[:stomp_config]) do |message|
+        yield message
+      end
+      if config[:start_heartbeat]
+        start_heartbeat(config[:node_name])
+      end
     end
 
     def publish(message)
-      @client.publish(@queue_name, message)
+      @publisher.publish(message)
+    end
+
+    private
+    def start_heartbeat(node_name)
+      Thread.new do
+        loop do
+          message = {
+              'event_type' => 'heartbeat',
+              'node_name' => node_name,
+              'hostname' => Socket.gethostname,
+              'timestamp' => Time.now.to_i.to_s
+          }
+          publish(message)
+          sleep 5
+        end
+      end
+    end
+  end
+
+  class Publisher
+    def initialize(queue_name, config)
+      @queue_name = queue_name
+      @client = Stomp::Client.new(config)
+    end
+
+    def publish(message)
+      @client.publish(@queue_name, message.to_json)
     end
   end
 
   class Subscriber
-    def initialize(queue_name)
+    def initialize(queue_name, config)
       Thread.new do
-        @client = Stomp::Client.new(HASH)
+        @client = Stomp::Client.new(config)
         @client.subscribe queue_name do |message|
           yield JSON.parse message.body
         end
@@ -45,49 +82,49 @@ module Eventbus
   end
 end
 
-queue_name = '/queue/oplog'
-
-subscriber_queue = Queue.new
-subscriber = Eventbus::Subscriber.new queue_name do |message|
-  subscriber_queue << message
-end
-
-Thread.new do
-  loop do
-    message = subscriber_queue.pop
-    if message["event_type"] == "heartbeat"
-      puts "received heartbeat #{message}"
-    else
-      puts "received regular message: #{message}"
-    end
-  end
-end
-
-sleep 2
-publisher_queue = Queue.new
-publisher = Eventbus::Publisher.new queue_name
-Thread.new do
-  loop do
-    message = publisher_queue.pop
-    puts "publishing message #{message}"
-    publisher.publish message
-  end
-end
-
-Thread.new do
-  counter = 0
-  loop do
-    counter = counter + 1
-    message = {
-        'event_type' => 'heartbeat',
-        'event_id' => counter,
-        'agent_id' => 'agent 1',
-        'hostname' => Socket.gethostname,
-        'timestamp' => Time.now.to_i.to_s
-    }.to_json
-    publisher_queue << message
-    sleep 5
-  end
-end
-
-sleep
+#agent_incoming = '/queue/agent'
+#listener_incoming = '/queue/listener'
+#
+#agent_config = {
+#    :node_name => 'agent',
+#    :publish_queue_name => listener_incoming,
+#    :subscribe_queue_name => agent_incoming
+#}
+#agent = Eventbus::MessagingService.new(agent_config) do |message|
+#  puts "agent received: #{message}"
+#end
+#
+#listener_config = {
+#    :node_name => 'listener',
+#    :publish_queue_name => agent_incoming,
+#    :subscribe_queue_name => listener_incoming,
+#    :start_heartbeat => false
+#}
+#listener = Eventbus::MessagingService.new(listener_config) do |message|
+#  puts "listener received: #{message}"
+#end
+#
+#Thread.new do
+#  loop do
+#    message = {
+#        'event_type' => 'oplog event',
+#        'hostname' => Socket.gethostname,
+#        'timestamp' => Time.now.to_i.to_s
+#    }
+#    agent.publish(message)
+#    sleep 5
+#  end
+#end
+#
+#Thread.new do
+#  loop do
+#    message = {
+#        'event_type' => 'subscription event',
+#        'hostname' => Socket.gethostname,
+#        'timestamp' => Time.now.to_i.to_s
+#    }
+#    listener.publish(message)
+#    sleep 5
+#  end
+#end
+#sleep
