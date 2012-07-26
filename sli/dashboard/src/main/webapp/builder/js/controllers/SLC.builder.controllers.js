@@ -26,9 +26,27 @@ function profileCtrl($scope, $routeParams, ProfilePage, dbSharedService, $http) 
 		return item.type === "TAB";
 	};
 
+	$scope.generatePageId = function () {
+		var pageNumMax = 0;
+		for(i=0; i<$scope.pages.length; i++) {
+			var id = $scope.pages[i].id;
+			if(id.indexOf("tab") === 0) {
+				var pageNumStr = id.substring(3);
+				if(pageNumStr.length > 0 && !isNaN(pageNumStr)) {
+					var pageNum = parseInt(pageNumStr);
+					if(pageNum > pageNumMax) {
+						pageNumMax = pageNum;
+					}
+				}
+			}
+		}
+		return "tab" + (pageNumMax + 1);
+	};
+	
 	$scope.savePage = function () {
 		if($scope.mode === "Add New") {
-			$scope.pages.push({name:$scope.pageText, items: $.parseJSON($scope.panelJSON), type:"TAB"});
+			var pageId = $scope.generatePageId();
+			$scope.pages.push({id:pageId, name:$scope.pageText, items: $.parseJSON($scope.panelJSON), type:"TAB"});
 		}
 		else if($scope.mode === "Edit") {
 			dbSharedService.page.name = $scope.pageText;
