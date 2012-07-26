@@ -52,6 +52,11 @@ When /^I navigate to the sandbox user account management page$/ do
   @driver.get samt_url
 end
 
+
+Then /^I am redirected to "(.*?)" page$/ do |pageTitle|
+  assertWithWait("Failed to navigate to the #{pageTitle} page")  {@driver.page_source.index("#{pageTitle}") != nil}
+end
+
 Then /^I will be redirected to "(.*?)" login page$/ do |idpType|
   step "I was redirected to the \"#{idpType}\" IDP Login page"
 end
@@ -74,6 +79,22 @@ Then /^I see a user with Full Name is "(.*?)" in the table$/ do | fullName|
  fullName_element = @driver.find_element(:xpath,"//tr[td='#{fullName}']")
  assert(fullName_element!=nil,"can not find user with full name is #{fullName}")
   @userFullName = fullName
+end
+
+Then /^I see "(.*?)" has "(.*?)" and "(.*?)" role$/ do |full_name, role1, role2|
+    roles=[ role1, role2 ]
+    roles.sort! { |a,b| a.downcase <=> b.downcase }
+    step "I see a user with Full Name is \"#{full_name}\" in the table"
+    roles_element = @driver.find_element(:id,"#{full_name}_role")
+    displayed_roles = roles_element.text().split(",")
+    displayed_roles.each do |str|
+        str.strip!
+    end
+    displayed_roles.sort! { |a,b| a.downcase <=> b.downcase }
+    assert(roles.size == displayed_roles.size, "roles size do not match")
+    for idx in 0 ... roles.size
+        assert(roles[idx] == displayed_roles[idx], "user roles do not match #{roles[idx]} #{displayed_roles[idx]}")
+    end
 end
 
 Then /^the user "(.*?)" is "(.*?)"$/ do |key, value|
@@ -106,6 +127,7 @@ When /^I click on "(.*?)" icon$/ do |buttonName|
   @driver.find_element(:xpath, "//button[@id='#{@userFullName}_#{buttonName}']/a").click
 end
 
+
 Then /^I am asked to confirm the delete action$/ do
    #do nothing
 end
@@ -115,7 +137,7 @@ When /^I confirm the delete action$/ do
     @driver.switch_to.alert.accept
   rescue
   end
-  sleep(1)
+  sleep(3)
 end
 
 Then /^that user is removed from LDAP$/ do
@@ -160,6 +182,47 @@ delete_button=nil
   assert(delete_button!=nil,"the #{buttonName} button is not disabled")
 end
 
+When /^I click on (.*?) button$/ do |buttonName|
+  @driver.find_element(:xpath, "//a[text()=#{buttonName}]").click
+end
+
+Given /^the testing user does not already exists in LDAP$/ do
+  idpRealmLogin("sandboxoperator", nil)
+  sessionId = @sessionId
+  format = "application/json"
+  restHttpDelete("/users/"+Socket.gethostname+"_testuser@testwgen.net", format, sessionId)
+end
+    
+When /^I have entered Full Name and Email into the required fields$/ do
+  @driver.find_element(:name, 'user[fullName]').send_keys "Sandbox AcceptanceTests"
+  @driver.find_element(:name, 'user[email]').send_keys Socket.gethostname+"_testuser@testwgen.net"
+end
+
+#And I can select "Application Developer" from a choice between a "Sandbox Administrator" and "Application Developer" and "Ingestion User" Role 
+Then /^I can select "(.*?)" from a choice between a (.*?), (.*?) and (.*?) Role$/ do |role, choice1, choice2, choice3| 
+    drop_down = @driver.find_element(:id, "user_primary_role")
+    drop_down.click
+    for i in [ choice1, choice2, choice3 ] do
+        option = drop_down.find_element(:xpath, ".//option[text()=#{i}]")
+        assert(option != nil)
+    end
+   
+    drop_down.send_keys "#{role}.chr" 
+    #option = dropDown.find_element(:xpath, ".//option[text()=#{role}]")
+    #option.send_keys "\r"
+end
+
+Then /^I can also check "(.*?)" Role$/ do |r|
+    @driver.find_element(:id, "#{r.downcase.gsub(" ", "_")}_role").click 
+end
+ 
+When /^I click (.*?) link$/ do |link|
+  @driver.find_element(:xpath, "//a[text()=#{link}]").click
+end 
+
+When /^I click "Save"$/ do
+  @driver.find_element(:name, "commit").click
+end
 
 
 def check_heading(heading_name)
@@ -187,9 +250,9 @@ new_user = {
   }
   append_hostname(new_user)
   
-  end
+end
   
-  def append_hostname(user )
+def append_hostname(user )
   oldUid = user["uid"]
   newUid = oldUid+"_"+Socket.gethostname
   user.merge!({"uid" => newUid})
