@@ -4,6 +4,8 @@ import org.slc.sli.api.selectors.doc.SelectorQueryVisitable;
 import org.slc.sli.modeling.uml.ModelElement;
 
 /**
+ * Represents a Selector element that has a left-hand side and a right-hand side
+ *
  * @author jstokes
  */
 public interface SelectorElement extends SelectorQueryVisitable {

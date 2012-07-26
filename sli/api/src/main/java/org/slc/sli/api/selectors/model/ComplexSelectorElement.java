@@ -8,6 +8,8 @@ import org.slc.sli.modeling.uml.ModelElement;
 
 
 /**
+ * Implementation of a selector element that has a ModelElement => SemanticSelector structure
+ *
  * @author jstokes
  */
 public class ComplexSelectorElement implements SelectorElement {

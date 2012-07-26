@@ -8,6 +8,8 @@ import org.slc.sli.modeling.uml.ModelElement;
 
 
 /**
+ * Implementation of a selector element that has a ModelElement => boolean structure
+ *
  * @author jstokes
  */
 public class BooleanSelectorElement implements SelectorElement {

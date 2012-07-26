@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 /**
+ * Convenience wrapper for Selectors that contain type information
  * @author jstokes
  */
 public class SemanticSelector extends HashMap<Type, List<SelectorElement>> implements SelectorQueryVisitable {
