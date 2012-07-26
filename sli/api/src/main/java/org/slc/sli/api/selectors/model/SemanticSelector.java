@@ -34,17 +34,12 @@ public class SemanticSelector extends HashMap<Type, List<SelectorElement>> imple
     public String toString() {
         final StringBuilder builder = new StringBuilder();
 
-        builder.append("{");
         for (final Map.Entry<Type, List<SelectorElement>> item : this.entrySet()) {
-            final Type key = item.getKey();
             final List<SelectorElement> elements = item.getValue();
-            builder.append(key.getName());
-            builder.append(" : ");
             builder.append("[");
             builder.append(StringUtils.join(elements, ','));
             builder.append("]");
         }
-        builder.append("}");
 
         return builder.toString();
     }
