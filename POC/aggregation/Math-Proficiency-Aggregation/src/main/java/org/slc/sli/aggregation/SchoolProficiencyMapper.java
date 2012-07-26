@@ -3,11 +3,14 @@ package org.slc.sli.aggregation;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
@@ -17,7 +20,7 @@ import org.apache.hadoop.mapreduce.Mapper;
 import org.bson.BSONObject;
 
 /**
- * Map ACT scores and aggregate them at the school level based on scale score.
+ * Map state math assessment scores and aggregate them at the school level based on scale score.
  *
  * The following buckets are defined:
  *
@@ -41,77 +44,77 @@ public class SchoolProficiencyMapper
     Mongo mongo = null;
     DB db = null;
     DBCollection ssa = null;
+    DBCollection studentColl = null;
 
     public SchoolProficiencyMapper() throws UnknownHostException, MongoException {
         mongo = new Mongo("localhost");
         db = mongo.getDB("sli");
         ssa = db.getCollection("studentSchoolAssociation");
+        studentColl = db.getCollection("student");
     }
 
 
-    @SuppressWarnings("unchecked")
     @Override
-    public void map(final String studentId,
-                    final BSONObject student,
+    public void map(final String schoolId,
+                    final BSONObject school,
                     final Context context)
             throws IOException, InterruptedException {
 
         String idCode = context.getConfiguration().get("AssessmentIdCode");
-        String edOrgId = getStudentEdOrgId(studentId.toString());
 
-        if (edOrgId == null) {
+        Set<DBObject> students = getStudentsForSchool(schoolId, idCode);
+
+        if (students.isEmpty()) {
             return;
         }
 
-        double scaleScore = 0.0;
-        boolean found = false;
+        for (DBObject student : students) {
+            String score = (String) student.get("aggregations.assessments." + idCode + ".HighestEver.ScaleScore");
 
-        // "aggregations" : { "assessments" : { "Grade 7 2011 State Math" : { "HighestEver" : { "ScaleScore" : "31.0" }
+            code.set("!");
+            if (score != null) {
+                Double scaleScore = Double.valueOf(score);
 
-        if (student.get("aggregations") != null) {
-            Map<String, Object> aggregations = (Map<String, Object>) student.get("aggregations");
-            if (aggregations.containsKey("assessments")) {
-                Map<String, Object> assessments = (Map<String, Object>) aggregations.get("assessments");
-                if (assessments.containsKey(idCode)) {
-                    Map<String, Object> assessment = (Map<String, Object>) assessments.get(idCode);
-                    if (assessment.containsKey("HighestEver")) {
-                        Map<String, Object> highest = (Map<String, Object>) assessment.get("HighestEver");
-                        if (highest.containsKey("ScaleScore")) {
-                            found = true;
-                            scaleScore = Double.parseDouble((String) highest.get("ScaleScore"));
-                        }
-                    }
+                // TODO -- these ranges should come from the assessment directly.
+                if (scaleScore >= 6 && scaleScore <= 14) {
+                    code.set("W");
+                } else if (scaleScore >= 15 && scaleScore <= 20) {
+                    code.set("B");
+                } else if (scaleScore >= 21 && scaleScore < 27) {
+                    code.set("S");
+                } else if (scaleScore >= 28 && scaleScore <= 33) {
+                    code.set("E");
                 }
+            } else {
+                code.set("-");
             }
-        }
 
-        code.set("!");
-        if (found) {
-            // TODO -- these ranges should come from the assessment directly.
-            if (scaleScore >= 6 && scaleScore <= 14) {
-                code.set("W");
-            } else if (scaleScore >= 15 && scaleScore <= 20) {
-                code.set("B");
-            } else if (scaleScore >= 21 && scaleScore < 27) {
-                code.set("S");
-            } else if (scaleScore >= 28 && scaleScore <= 33) {
-                code.set("E");
-            }
-        } else {
-            code.set("-");
+            edOrg.set(schoolId);
+            context.write(edOrg, code);
         }
-
-        edOrg.set(edOrgId);
-        context.write(edOrg, code);
     }
 
     @SuppressWarnings("unchecked")
-    protected String getStudentEdOrgId(String studentId) throws UnknownHostException {
-        DBObject ssaRecord = ssa.findOne(new BasicDBObject("body.studentId", studentId));
-        if (ssaRecord != null) {
-            String schoolId = (String) ((Map<String, Object>) ssaRecord.get("body")).get("schoolId");
-            return schoolId;
+    protected Set<DBObject> getStudentsForSchool(String schoolId, String assessmentId) {
+        Set<DBObject> students = new HashSet<DBObject>();
+
+        BasicDBObject ids = new BasicDBObject();
+        DBCursor c = ssa.find(new BasicDBObject("body.schoolId", schoolId));
+        while (c.hasNext()) {
+            DBObject ssaObject = c.next();
+            Map<String, Object> body = (Map<String, Object>) ssaObject.get("body");
+            String key = (String) body.get("studentId");
+            ids.put("studentId", key);
         }
-        return null;
+
+        DBObject fields = new BasicDBObject();
+        fields.put("aggregations.assessments." + assessmentId + ".HighestEver.ScaleScore", 1);
+
+        DBCursor studentCursor = studentColl.find(ids, fields);
+        while (studentCursor.hasNext()) {
+            students.add(studentCursor.next());
+        }
+
+        return students;
     }
 }

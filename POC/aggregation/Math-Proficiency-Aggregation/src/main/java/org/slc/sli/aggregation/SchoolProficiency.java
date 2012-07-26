@@ -29,7 +29,7 @@ public class SchoolProficiency extends Configured implements Tool {
     public int run(String[] args) throws Exception {
         String assmtIDCode = "Grade 7 2011 State Math";
 
-        MongoURI input = new MongoURI("mongodb://localhost/sli.student");
+        MongoURI input = new MongoURI("mongodb://localhost/sli.educationOrganization");
         MongoURI output = new MongoURI("mongodb://localhost/sli.educationOrganization");
 
         Configuration conf = getConf();
@@ -44,10 +44,8 @@ public class SchoolProficiency extends Configured implements Tool {
         conf.set(MongoAggFormatter.UPDATE_FIELD, "aggregations.assessments." + assmtIDCode + ".HighestEver.Aggregate");
 
         MongoConfigUtil.setInputURI(conf, input);
+        MongoConfigUtil.setQuery(conf, "{'type':'school'}");
         MongoConfigUtil.setOutputURI(conf, output);
-
-        MongoConfigUtil.setSplitSize(conf, 2);
-        MongoConfigUtil.setCreateInputSplits(conf,  true);
 
         Job job = new Job(conf, "SchoolProficiency");
         job.setJarByClass(getClass());
