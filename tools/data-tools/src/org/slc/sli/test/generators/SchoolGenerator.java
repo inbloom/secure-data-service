@@ -41,6 +41,7 @@ import org.slc.sli.test.edfi.entities.SchoolCategoryItemType;
 import org.slc.sli.test.edfi.entities.SchoolType;
 import org.slc.sli.test.edfi.entities.StateAbbreviationType;
 import org.slc.sli.test.edfi.entities.TitleIPartASchoolDesignationType;
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 public class SchoolGenerator {
 
@@ -288,15 +289,19 @@ public class SchoolGenerator {
 //
 //        school.setLocalEducationAgencyReference(leaRef);
 
-        Ref leaRef = new Ref(leaId);
-        EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
-        eort.setRef(leaRef);
-        school.setLocalEducationAgencyReference(eort);
+        if(MetaRelations.School_Ref)
+        {
+        	Ref leaRef = new Ref(leaId);
+        	EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
+        	eort.setRef(leaRef);
+        	school.setLocalEducationAgencyReference(eort);
+        
 
-        Ref programRef = new Ref(programId);
-        ProgramReferenceType prt = new ProgramReferenceType();
-        prt.setRef(programRef);
-        school.getProgramReference().add(prt);
+        	Ref programRef = new Ref(programId);
+        	ProgramReferenceType prt = new ProgramReferenceType();
+        	prt.setRef(programRef);
+        	school.getProgramReference().add(prt);
+        }
 
         return school;
     }
