@@ -27,32 +27,23 @@ function profileCtrl($scope, $routeParams, ProfilePage, dbSharedService, $http) 
 	};
 
 	$scope.savePage = function () {
-		if($scope.mode === "Add") {
+		if($scope.mode === "Add New") {
 			$scope.pages.push({name:$scope.pageText, items: $.parseJSON($scope.panelJSON), type:"TAB"});
 		}
 		else if($scope.mode === "Edit") {
 			dbSharedService.page.name = $scope.pageText;
 			dbSharedService.page.items = $.parseJSON($scope.panelJSON);
-
-			/*$.ajax({
-				type: "POST",
-				url: "/dashboard/s/c/saveCfg",
-				data: angular.toJson($scope.profile)
-			}).done(function() {
-					alert("success");
-			});*/
-			$http({
-				method: 'POST', 
-				url: '/dashboard/s/c/saveCfg',
-				data: angular.toJson($scope.profile)
-			}).success(function(data, status, headers, config) {
-				alert("success");
-			}).error(function(data, status, headers, config) {
-				console.log(config);
-				console.log("fail");
-			});
-
 		}
+
+		$http({
+			method: 'POST',
+			url: '/dashboard/s/c/saveCfg',
+			data: angular.toJson($scope.profile)
+		}).success(function(data, status, headers, config) {
+				console.log("success");
+			}).error(function(data, status, headers, config) {
+				console.log("fail");
+		});
 
 		$scope.pageText = '';
 		$('#myModal').modal('hide');
