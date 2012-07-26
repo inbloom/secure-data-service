@@ -13,6 +13,13 @@ angular.module('SLC.builder.profilePageService', ['ngResource']).
 		});
 	});
 
+/*angular.module('SLC.builder.profileSaveService', ['ngResource']).
+	factory('ProfileSave', function($resource){
+		return $resource('/dashboard/s/c/saveCfg', {}, {
+			save: {method:'POST', params:{$scope.profile}}
+		});
+	});*/
+
 angular.module('SLC.builder.headerService', ['ngResource']).
 	factory('Header', function($resource){
 		return $resource('/dashboard/s/m/header', {}, {

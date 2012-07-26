@@ -19,7 +19,7 @@ function profileListCtrl($scope, $routeParams, Profile, dbSharedService) {
 
 profileListCtrl.$inject = ['$scope', '$routeParams', 'Profile', 'dbSharedService'];
 
-function profileCtrl($scope, $routeParams, ProfilePage, dbSharedService) {
+function profileCtrl($scope, $routeParams, ProfilePage, dbSharedService, $http) {
 
 	ProfilePage.query({profilePageId: $routeParams.profileId}, function(profile) {
 		$scope.profile = profile[0];
@@ -31,13 +31,21 @@ function profileCtrl($scope, $routeParams, ProfilePage, dbSharedService) {
 		return item.type === "TAB";
 	};
 
-	$scope.savePage = function () {
+	$scope.savePage = function ($http) {
 		if($scope.mode === "Add") {
 			$scope.pages.push({name:$scope.pageText, items: angular.toJson($scope.panelJSON), type:"TAB"});
 		}
 		else if($scope.mode === "Edit") {
 			dbSharedService.page.name = $scope.pageText;
 			dbSharedService.page.items = angular.toJson($scope.panelJSON);
+			
+			$http({
+				method: 'POST', 
+				url: '/dashboard/s/c/saveCfg',
+				data: angular.toJson($scope.profile)
+			}).success(function(data, status, headers, config) {
+				alert("success");
+			});
 		}
 
 		$scope.pageText = '';
