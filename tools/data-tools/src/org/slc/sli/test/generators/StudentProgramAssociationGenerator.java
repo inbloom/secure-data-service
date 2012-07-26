@@ -21,8 +21,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
+
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.InterchangeStudentProgram;
+import org.slc.sli.test.edfi.entities.LearningStandard;
 import org.slc.sli.test.edfi.entities.ProgramIdentityType;
 import org.slc.sli.test.edfi.entities.ProgramReferenceType;
 import org.slc.sli.test.edfi.entities.ServiceDescriptorType;
@@ -32,6 +37,7 @@ import org.slc.sli.test.edfi.entities.StudentReferenceType;
 import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.edfi.entities.meta.SchoolMeta;
+import org.slc.sli.test.utils.InterchangeWriter;
 
 /**
  * Generates StudentProgramAssociation from ProgramMeta
@@ -53,17 +59,22 @@ public class StudentProgramAssociationGenerator {
      *
      * @return <code>List<StudentProgramAssociation></code>
      */
-    public static List<StudentProgramAssociation> generateLowFi(ProgramMeta programMeta) {
+    public static int generateLowFi(InterchangeWriter<InterchangeStudentProgram> iWriter, ProgramMeta programMeta) {
+    	int count =0;
         Set<String> studentIds = programMeta.studentIds;
         String programId = programMeta.id;
         String schoolId = programMeta.orgId;
 
-        List<StudentProgramAssociation> list = new ArrayList<StudentProgramAssociation>(studentIds.size());
-
         for (String studentId : studentIds) {
-            list.add(generateLowFi(studentId, programId, schoolId));
+        	StudentProgramAssociation retVal = generateLowFi(studentId, programId, schoolId);
+            
+            QName qName = new QName("http://ed-fi.org/0100", "StudentProgramAssociation");
+            JAXBElement<StudentProgramAssociation> jaxbElement = new JAXBElement<StudentProgramAssociation>(qName,StudentProgramAssociation.class, retVal);
+
+            iWriter.marshal(jaxbElement);
+            count++;
         }
-        return list;
+        return count;
     }
 
     /**
