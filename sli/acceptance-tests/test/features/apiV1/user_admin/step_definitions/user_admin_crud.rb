@@ -116,6 +116,14 @@ Then /^one of the accounts has "([^"]*)", "([^"]*)", "([^"]*)"$/ do |fullName, u
 
 end
 
+Then /^an account with "(.*?)", "(.*?)", "(.*?)" should not exist$/ do |fullName, uid, email|
+  @result.each do |user|
+    if fullName == user["fullName"] and uid == user["uid"] and email == user["email"]
+      assert(false, "User should not have existed: #{user}")
+    end
+  end
+end
+
 Given /^I have a tenant "(.*?)" and edorg "(.*?)"$/ do |tenant, edorg|
   @tenant = tenant
   @edorg = edorg
