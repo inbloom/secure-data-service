@@ -21,7 +21,13 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
+
+import org.slc.sli.test.edfi.entities.Assessment;
+import org.slc.sli.test.edfi.entities.ComplexObjectType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
+import org.slc.sli.test.edfi.entities.InterchangeStudentAssessment;
 import org.slc.sli.test.edfi.entities.Program;
 import org.slc.sli.test.edfi.entities.Course;
 import org.slc.sli.test.edfi.entities.EducationServiceCenter;
@@ -43,6 +49,7 @@ import org.slc.sli.test.generators.LocalEducationAgencyGenerator;
 import org.slc.sli.test.generators.ProgramGenerator;
 import org.slc.sli.test.generators.SchoolGenerator;
 import org.slc.sli.test.generators.StateEducationAgencyGenerator;
+import org.slc.sli.test.utils.InterchangeWriter;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 /**
@@ -77,16 +84,16 @@ public class InterchangeEdOrgGenerator {
      * @return
      * @throws Exception
      */
-    public static InterchangeEducationOrganization generate() throws Exception {
+    public static void generate(InterchangeWriter<InterchangeEducationOrganization> iWriter) throws Exception {
 
         
-        InterchangeEducationOrganization interchange = new InterchangeEducationOrganization();
-        List<Object> interchangeObjects = interchange
-                .getStateEducationAgencyOrEducationServiceCenterOrFeederSchoolAssociation();
+//        InterchangeEducationOrganization interchange = new InterchangeEducationOrganization();
+//        List<Object> interchangeObjects = interchange
+//                .getStateEducationAgencyOrEducationServiceCenterOrFeederSchoolAssociation();
 
-        addEntitiesToInterchange(interchangeObjects);
+        writeEntitiesToInterchange(iWriter);
 
-        return interchange;
+//        return interchange;
     }
 
     /**
@@ -95,21 +102,21 @@ public class InterchangeEdOrgGenerator {
      * @param interchangeObjects
      * @throws Exception
      */
-    private static void addEntitiesToInterchange(List<Object> interchangeObjects) throws Exception {
+    private static void writeEntitiesToInterchange(InterchangeWriter<InterchangeEducationOrganization> iWriter) throws Exception {
 
-        generateStateEducationAgencies(interchangeObjects, MetaRelations.SEA_MAP.values());
+        generateStateEducationAgencies(iWriter, MetaRelations.SEA_MAP.values());
 
-        generateEducationServiceCenters(interchangeObjects, MetaRelations.ESC_MAP.values());
+        generateEducationServiceCenters(iWriter, MetaRelations.ESC_MAP.values());
         
-        generateFeederSchoolAssociation(interchangeObjects, MetaRelations.SCHOOL_MAP.values());
+        generateFeederSchoolAssociation(iWriter, MetaRelations.SCHOOL_MAP.values());
         
-        generateLocalEducationAgencies(interchangeObjects, MetaRelations.LEA_MAP.values());
+        generateLocalEducationAgencies(iWriter, MetaRelations.LEA_MAP.values());
 
-        generateSchools(interchangeObjects, MetaRelations.SCHOOL_MAP.values());
+        generateSchools(iWriter, MetaRelations.SCHOOL_MAP.values());
 
-        generateCourses(interchangeObjects, MetaRelations.COURSE_MAP.values());
+        generateCourses(iWriter, MetaRelations.COURSE_MAP.values());
 
-        generatePrograms(interchangeObjects, MetaRelations.PROGRAM_MAP.values());
+        generatePrograms(iWriter, MetaRelations.PROGRAM_MAP.values());
 
     }
 
@@ -119,7 +126,7 @@ public class InterchangeEdOrgGenerator {
      * @param interchangeObjects
      * @param seaMetas
      */
-    private static void generateStateEducationAgencies(List<Object> interchangeObjects, Collection<SeaMeta> seaMetas) {
+    private static void generateStateEducationAgencies(InterchangeWriter<InterchangeEducationOrganization> iWriter, Collection<SeaMeta> seaMetas) {
         long startTime = System.currentTimeMillis();
 
         for (SeaMeta seaMeta : seaMetas) {
@@ -132,7 +139,9 @@ public class InterchangeEdOrgGenerator {
             	sea = StateEducationAgencyGenerator.generateLowFi(seaMeta.id, seaMeta);
             }
 
-            interchangeObjects.add(sea);
+            QName qName = new QName("http://ed-fi.org/0100", "StateEducationAgency");
+            JAXBElement<StateEducationAgency> jaxbElement = new JAXBElement<StateEducationAgency>(qName,StateEducationAgency.class,sea);
+            iWriter.marshal(jaxbElement);
         }
 
         System.out.println("generated " + seaMetas.size() + " StateEducationAgency objects in: "
@@ -145,7 +154,7 @@ public class InterchangeEdOrgGenerator {
      * @param interchangeObjects
      * @param escMetas
      */
-    private static void generateEducationServiceCenters(List<Object> interchangeObjects, Collection<ESCMeta> escMetas) {
+    private static void generateEducationServiceCenters(InterchangeWriter<InterchangeEducationOrganization> iWriter, Collection<ESCMeta> escMetas) {
         long startTime = System.currentTimeMillis();
 
         for (ESCMeta escMeta : escMetas) {
@@ -157,8 +166,10 @@ public class InterchangeEdOrgGenerator {
             } else {
                 esc = EducationAgencyGenerator.getEducationServiceCenter(escMeta.id, escMeta.seaId);
             }
-
-            interchangeObjects.add(esc);
+            
+            QName qName = new QName("http://ed-fi.org/0100", "EducationServiceCenter");
+            JAXBElement<EducationServiceCenter> jaxbElement = new JAXBElement<EducationServiceCenter>(qName,EducationServiceCenter.class,esc);
+            iWriter.marshal(jaxbElement);
         }
 
         System.out.println("generated " + escMetas.size() + " EducationServiceCenter objects in: "
@@ -171,7 +182,7 @@ public class InterchangeEdOrgGenerator {
      * @param interchangeObjects
      * @param seaMetas
      */
-    private static void generateFeederSchoolAssociation(List<Object> interchangeObjects, Collection<SchoolMeta> schools) {
+    private static void generateFeederSchoolAssociation(InterchangeWriter<InterchangeEducationOrganization> iWriter, Collection<SchoolMeta> schools) {
         long startTime = System.currentTimeMillis();
 
         List<SchoolMeta> schoolMetas = new LinkedList<SchoolMeta>(schools);
@@ -182,7 +193,10 @@ public class InterchangeEdOrgGenerator {
                 SchoolMeta receiverMeta = schoolMetas.get((i+ 1) % schoolCount);
                 FeederSchoolAssociation fsa = EducationAgencyGenerator.getFeederSchoolAssociation(receiverMeta, feederMeta);
                 fsa.setFeederRelationshipDescription("Feeder Relationship " +  i);
-                interchangeObjects.add(fsa);
+          
+                QName qName = new QName("http://ed-fi.org/0100", "FeederSchoolAssociation");
+                JAXBElement<FeederSchoolAssociation> jaxbElement = new JAXBElement<FeederSchoolAssociation>(qName,FeederSchoolAssociation.class,fsa);
+                iWriter.marshal(jaxbElement);
             }
         }
 
@@ -196,7 +210,7 @@ public class InterchangeEdOrgGenerator {
      * @param interchangeObjects
      * @param leaMetas
      */
-    private static void generateLocalEducationAgencies(List<Object> interchangeObjects, Collection<LeaMeta> leaMetas) {
+    private static void generateLocalEducationAgencies(InterchangeWriter<InterchangeEducationOrganization> iWriter, Collection<LeaMeta> leaMetas) {
         long startTime = System.currentTimeMillis();
 
         for (LeaMeta leaMeta : leaMetas) {
@@ -209,7 +223,9 @@ public class InterchangeEdOrgGenerator {
             	lea = LocalEducationAgencyGenerator.generateMedFi(leaMeta.id, leaMeta.seaId, leaMeta);
             }
 
-            interchangeObjects.add(lea);
+            QName qName = new QName("http://ed-fi.org/0100", "LocalEducationAgency");
+            JAXBElement<LocalEducationAgency> jaxbElement = new JAXBElement<LocalEducationAgency>(qName,LocalEducationAgency.class,lea);
+            iWriter.marshal(jaxbElement);
         }
 
         System.out.println("generated " + leaMetas.size() + " LocalEducationAgency objects in: "
@@ -222,7 +238,7 @@ public class InterchangeEdOrgGenerator {
      * @param interchangeObjects
      * @param schoolMetas
      */
-    private static void generateSchools(List<Object> interchangeObjects, Collection<SchoolMeta> schoolMetas) {
+    private static void generateSchools(InterchangeWriter<InterchangeEducationOrganization> iWriter, Collection<SchoolMeta> schoolMetas) {
         long startTime = System.currentTimeMillis();
 
         for (SchoolMeta schoolMeta : schoolMetas) {
@@ -235,7 +251,9 @@ public class InterchangeEdOrgGenerator {
                 school = SchoolGenerator.generateLowFi(schoolMeta.id, schoolMeta.leaId, schoolMeta.programId);
             }
 
-            interchangeObjects.add(school);
+            QName qName = new QName("http://ed-fi.org/0100", "School");
+            JAXBElement<School> jaxbElement = new JAXBElement<School>(qName,School.class,school);
+            iWriter.marshal(jaxbElement);
         }
 
         System.out.println("generated " + schoolMetas.size() + " School objects in: "
@@ -249,7 +267,7 @@ public class InterchangeEdOrgGenerator {
      * @param courseMetas
      * @throws Exception
      */
-    private static void generateCourses(List<Object> interchangeObjects, Collection<CourseMeta> courseMetas) throws Exception {
+    private static void generateCourses(InterchangeWriter<InterchangeEducationOrganization> iWriter, Collection<CourseMeta> courseMetas) throws Exception {
         long startTime = System.currentTimeMillis();
         for (CourseMeta courseMeta : courseMetas) {
 
@@ -265,7 +283,9 @@ public class InterchangeEdOrgGenerator {
 
             courseMeta.courseCodes.addAll(course.getCourseCode());
 
-            interchangeObjects.add(course);
+            QName qName = new QName("http://ed-fi.org/0100", "Course");
+            JAXBElement<Course> jaxbElement = new JAXBElement<Course>(qName,Course.class,course);
+            iWriter.marshal(jaxbElement);
         }
 
         System.out.println("generated " + courseMetas.size() + " Course objects in: "
@@ -278,7 +298,7 @@ public class InterchangeEdOrgGenerator {
      * @param interchangeObjects
      * @param programMetas
      */
-    private static void generatePrograms(List<Object> interchangeObjects, Collection<ProgramMeta> programMetas) {
+    private static void generatePrograms(InterchangeWriter<InterchangeEducationOrganization> iWriter, Collection<ProgramMeta> programMetas) {
         for (ProgramMeta programMeta : programMetas) {
 
             Program program;
@@ -288,8 +308,9 @@ public class InterchangeEdOrgGenerator {
             } else {
                 program = ProgramGenerator.generateLowFi(programMeta.id);
             }
-
-            interchangeObjects.add(program);
+            QName qName = new QName("http://ed-fi.org/0100", "Program");
+            JAXBElement<Program> jaxbElement = new JAXBElement<Program>(qName,Program.class,program);
+            iWriter.marshal(jaxbElement);
         }
     }
 }

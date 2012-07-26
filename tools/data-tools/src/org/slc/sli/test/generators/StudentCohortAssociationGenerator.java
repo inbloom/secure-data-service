@@ -24,13 +24,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
+
 import org.apache.log4j.Logger;
 import org.slc.sli.test.edfi.entities.CohortIdentityType;
 import org.slc.sli.test.edfi.entities.CohortReferenceType;
+import org.slc.sli.test.edfi.entities.InterchangeStudentCohort;
+import org.slc.sli.test.edfi.entities.StaffCohortAssociation;
 import org.slc.sli.test.edfi.entities.StudentCohortAssociation;
 import org.slc.sli.test.edfi.entities.StudentIdentityType;
 import org.slc.sli.test.edfi.entities.StudentReferenceType;
 import org.slc.sli.test.edfi.entities.meta.CohortMeta;
+import org.slc.sli.test.utils.InterchangeWriter;
 
 /**
  * Generates StudentCohortAssociation data
@@ -51,18 +57,23 @@ public class StudentCohortAssociationGenerator {
      * 
      * @return <code>List<StudentCohortAssociation></code>
      */
-    public static List<StudentCohortAssociation> generateLowFi(CohortMeta cohortMeta) {
+    public static int generateLowFi(InterchangeWriter<InterchangeStudentCohort> iWriter, CohortMeta cohortMeta) {
+    	int count=0;
         String cohortId = cohortMeta.id;
         String schoolId = cohortMeta.programMeta==null ? cohortMeta.schoolMeta.id : cohortMeta.programMeta.orgId;
         Set<String> studentIds = cohortMeta.studentIds;
         
-        List<StudentCohortAssociation> list = new ArrayList<StudentCohortAssociation>(studentIds.size());
         
         for (String studentId : studentIds) {
-            list.add(generateLowFi(cohortId, studentId, schoolId));
+        	StudentCohortAssociation retVal = generateLowFi(cohortId, studentId, schoolId);
+            QName qName = new QName("http://ed-fi.org/0100", "StudentCohortAssociation");
+            JAXBElement<StudentCohortAssociation> jaxbElement = new JAXBElement<StudentCohortAssociation>(qName,StudentCohortAssociation.class,retVal);
+            
+            iWriter.marshal(jaxbElement);
+            count++;
         }
 
-        return list;
+        return count;
     }
 
     /**

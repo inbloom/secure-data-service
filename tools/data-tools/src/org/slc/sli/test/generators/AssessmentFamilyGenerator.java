@@ -27,6 +27,8 @@ import org.slc.sli.test.edfi.entities.AssessmentIdentificationSystemType;
 import org.slc.sli.test.edfi.entities.ContentStandardType;
 import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.meta.AssessmentFamilyMeta;
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
+import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 public class AssessmentFamilyGenerator {
 
@@ -53,12 +55,13 @@ public class AssessmentFamilyGenerator {
             assessFamily.getAssessmentPeriods().add(
                     AssessmentPeriodDescriptorGenerator.getAssessmentPeriodDescriptorType(assessPeriodDescIdString));
         }
-
-        if (assessFamilyMeta.relatedAssessmentFamilyId != null) {
-            assessFamily
-                    .setAssessmentFamilyReference(getAssessmentFamilyReferenceType(assessFamilyMeta.relatedAssessmentFamilyId));
-        }
-
+        
+//        if(MetaRelations.AssessmentFamily_Ref) {
+        	if (assessFamilyMeta.relatedAssessmentFamilyId != null) {
+        		assessFamily
+        		.setAssessmentFamilyReference(getAssessmentFamilyReferenceType(assessFamilyMeta.relatedAssessmentFamilyId));
+        	}
+//        }
         return assessFamily;
     }
 

@@ -20,11 +20,15 @@ package org.slc.sli.test.generators.interchange;
 import java.util.Collection;
 import java.util.List;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
+
 import org.slc.sli.test.edfi.entities.InterchangeStaffAssociation;
 import org.slc.sli.test.edfi.entities.Staff;
 import org.slc.sli.test.edfi.entities.StaffEducationOrgAssignmentAssociation;
 import org.slc.sli.test.edfi.entities.StaffEducationOrgEmploymentAssociation;
 import org.slc.sli.test.edfi.entities.StaffProgramAssociation;
+import org.slc.sli.test.edfi.entities.StateEducationAgency;
 import org.slc.sli.test.edfi.entities.Teacher;
 import org.slc.sli.test.edfi.entities.TeacherSchoolAssociation;
 import org.slc.sli.test.edfi.entities.TeacherSectionAssociation;
@@ -39,6 +43,7 @@ import org.slc.sli.test.generators.StaffGenerator;
 import org.slc.sli.test.generators.TeacherGenerator;
 import org.slc.sli.test.generators.TeacherSchoolAssociationGenerator;
 import org.slc.sli.test.generators.TeacherSectionAssociationGenerator;
+import org.slc.sli.test.utils.InterchangeWriter;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 /**
@@ -56,15 +61,10 @@ public class InterchangeStaffAssociationGenerator {
      * @return
      * @throws Exception 
      */
-    public static InterchangeStaffAssociation generate() throws Exception {
+    public static void generate(InterchangeWriter<InterchangeStaffAssociation> iWriter) throws Exception {
 
-        InterchangeStaffAssociation interchange = new InterchangeStaffAssociation();
-        List<Object> interchangeObjects = interchange
-                .getStaffOrStaffEducationOrgEmploymentAssociationOrStaffEducationOrgAssignmentAssociation();
+        writeEntitiesToInterchange(iWriter);
 
-        addEntitiesToInterchange(interchangeObjects);
-
-        return interchange;
     }
 
     /**
@@ -73,22 +73,22 @@ public class InterchangeStaffAssociationGenerator {
      * @param interchangeObjects
      * @throws Exception 
      */
-    private static void addEntitiesToInterchange(List<Object> interchangeObjects) throws Exception {
+    private static void writeEntitiesToInterchange(InterchangeWriter<InterchangeStaffAssociation> iWriter) throws Exception {
 
-        generateTeachers(interchangeObjects, MetaRelations.TEACHER_MAP.values());
+        generateTeachers(iWriter, MetaRelations.TEACHER_MAP.values());
 
-        generateTeacherSchoolAssoc(interchangeObjects, MetaRelations.TEACHER_MAP.values());
+        generateTeacherSchoolAssoc(iWriter, MetaRelations.TEACHER_MAP.values());
 
-        generateTeacherSectionAssoc(interchangeObjects, MetaRelations.TEACHER_MAP.values());
+        generateTeacherSectionAssoc(iWriter, MetaRelations.TEACHER_MAP.values());
 
-        generateStaff(interchangeObjects, MetaRelations.STAFF_MAP.values());
+        generateStaff(iWriter, MetaRelations.STAFF_MAP.values());
 
         // TODO: remove when we support (post-alpha?)
         //generateStaffEdOrgEmploymentAssoc(interchangeObjects, MetaRelations.STAFF_MAP.values());
 
-        generateStaffEdOrgAssignmentAssoc(interchangeObjects, MetaRelations.STAFF_MAP.values());
+        generateStaffEdOrgAssignmentAssoc(iWriter, MetaRelations.STAFF_MAP.values());
 
-        generateStaffProgramAssoc(interchangeObjects, MetaRelations.PROGRAM_MAP.values());
+        generateStaffProgramAssoc(iWriter, MetaRelations.PROGRAM_MAP.values());
     }
 
     /**
@@ -98,7 +98,7 @@ public class InterchangeStaffAssociationGenerator {
      * @param teacherMetas
      * @throws Exception 
      */
-    private static void generateTeachers(List<Object> interchangeObjects, Collection<TeacherMeta> teacherMetas) throws Exception {
+    private static void generateTeachers(InterchangeWriter<InterchangeStaffAssociation> iWriter, Collection<TeacherMeta> teacherMetas) throws Exception {
         long startTime = System.currentTimeMillis();
         
         for (TeacherMeta teacherMeta : teacherMetas) {
@@ -112,14 +112,16 @@ public class InterchangeStaffAssociationGenerator {
             	teacher = TeacherGenerator.generateMediumFi(teacherMeta.id);
             }
 
-            interchangeObjects.add(teacher);
+            QName qName = new QName("http://ed-fi.org/0100", "Teacher");
+            JAXBElement<Teacher> jaxbElement = new JAXBElement<Teacher>(qName,Teacher.class,teacher);
+            iWriter.marshal(jaxbElement);
         }
 
         System.out.println("generated " + teacherMetas.size() + " Teacher objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
-    private static void generateTeacherSchoolAssoc(List<Object> interchangeObjects, Collection<TeacherMeta> teacherMetas) {
+    private static void generateTeacherSchoolAssoc(InterchangeWriter<InterchangeStaffAssociation> iWriter, Collection<TeacherMeta> teacherMetas) {
         long startTime = System.currentTimeMillis();
 
         int objGenCounter = 0;
@@ -134,7 +136,9 @@ public class InterchangeStaffAssociationGenerator {
                     teacherSchool = TeacherSchoolAssociationGenerator.generateLowFi(teacherMeta, schoolId);
                 }
 
-                interchangeObjects.add(teacherSchool);
+                QName qName = new QName("http://ed-fi.org/0100", "TeacherSchoolAssociation");
+                JAXBElement<TeacherSchoolAssociation> jaxbElement = new JAXBElement<TeacherSchoolAssociation>(qName,TeacherSchoolAssociation.class,teacherSchool);
+                iWriter.marshal(jaxbElement);
 
                 objGenCounter++;
             }
@@ -144,7 +148,7 @@ public class InterchangeStaffAssociationGenerator {
                 + (System.currentTimeMillis() - startTime));
     }
 
-    private static void generateTeacherSectionAssoc(List<Object> interchangeObjects,
+    private static void generateTeacherSectionAssoc(InterchangeWriter<InterchangeStaffAssociation> iWriter,
             Collection<TeacherMeta> teacherMetas) {
         long startTime = System.currentTimeMillis();
 
@@ -160,7 +164,9 @@ public class InterchangeStaffAssociationGenerator {
                     teacherSection = TeacherSectionAssociationGenerator.generateLowFi(teacherMeta, sectionId);
                 }
 
-                interchangeObjects.add(teacherSection);
+                QName qName = new QName("http://ed-fi.org/0100", "TeacherSectionAssociation");
+                JAXBElement<TeacherSectionAssociation> jaxbElement = new JAXBElement<TeacherSectionAssociation>(qName,TeacherSectionAssociation.class,teacherSection);
+                iWriter.marshal(jaxbElement);
 
                 objGenCounter++;
             }
@@ -177,7 +183,7 @@ public class InterchangeStaffAssociationGenerator {
      * @param teacherMetas
      * @throws Exception 
      */
-    private static void generateStaff(List<Object> interchangeObjects, Collection<StaffMeta> staffMetas) throws Exception {
+    private static void generateStaff(InterchangeWriter<InterchangeStaffAssociation> iWriter, Collection<StaffMeta> staffMetas) throws Exception {
         long startTime = System.currentTimeMillis();
 
         for (StaffMeta staffMeta : staffMetas) {
@@ -192,14 +198,16 @@ public class InterchangeStaffAssociationGenerator {
                 
             }
 
-            interchangeObjects.add(staff);
+            QName qName = new QName("http://ed-fi.org/0100", "Staff");
+            JAXBElement<Staff> jaxbElement = new JAXBElement<Staff>(qName,Staff.class,staff);
+            iWriter.marshal(jaxbElement);
         }
 
         System.out.println("generated " + staffMetas.size() + " Staff objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
-    private static void generateStaffEdOrgEmploymentAssoc(List<Object> interchangeObjects,
+    private static void generateStaffEdOrgEmploymentAssoc(InterchangeWriter<InterchangeStaffAssociation> iWriter,
             Collection<StaffMeta> staffMetas) {
         long startTime = System.currentTimeMillis();
 
@@ -213,14 +221,16 @@ public class InterchangeStaffAssociationGenerator {
                 staffEdOrgEmploymentAssoc = StaffEdOrgEmploymentAssociationGenerator.generateLowFi(staffMeta);
             }
 
-            interchangeObjects.add(staffEdOrgEmploymentAssoc);
+            QName qName = new QName("http://ed-fi.org/0100", "StaffEducationOrgEmploymentAssociation");
+            JAXBElement<StaffEducationOrgEmploymentAssociation> jaxbElement = new JAXBElement<StaffEducationOrgEmploymentAssociation>(qName,StaffEducationOrgEmploymentAssociation.class,staffEdOrgEmploymentAssoc);
+            iWriter.marshal(jaxbElement);
         }
 
         System.out.println("generated " + staffMetas.size() + " StaffEducationOrgEmploymentAssociation objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
-    private static void generateStaffEdOrgAssignmentAssoc(List<Object> interchangeObjects,
+    private static void generateStaffEdOrgAssignmentAssoc(InterchangeWriter<InterchangeStaffAssociation> iWriter,
             Collection<StaffMeta> staffMetas) {
         long startTime = System.currentTimeMillis();
 
@@ -234,7 +244,9 @@ public class InterchangeStaffAssociationGenerator {
                 staffEdOrgAssignmentAssoc = StaffEdOrgAssignmentAssociationGenerator.generateLowFi(staffMeta);
             }
 
-            interchangeObjects.add(staffEdOrgAssignmentAssoc);
+            QName qName = new QName("http://ed-fi.org/0100", "StaffEducationOrgAssignmentAssociation");
+            JAXBElement<StaffEducationOrgAssignmentAssociation> jaxbElement = new JAXBElement<StaffEducationOrgAssignmentAssociation>(qName,StaffEducationOrgAssignmentAssociation.class,staffEdOrgAssignmentAssoc);
+            iWriter.marshal(jaxbElement);
         }
 
         System.out.println("generated " + staffMetas.size() + " StaffEducationOrgAssignmentAssociation objects in: "
@@ -247,7 +259,7 @@ public class InterchangeStaffAssociationGenerator {
      * @param interchangeObjects
      * @param staffMetas
      */
-    private static void generateStaffProgramAssoc(List<Object> interchangeObjects,
+    private static void generateStaffProgramAssoc(InterchangeWriter<InterchangeStaffAssociation> iWriter,
             Collection<ProgramMeta> programMetas) {
         long startTime = System.currentTimeMillis();
         long count = 0;
@@ -261,7 +273,10 @@ public class InterchangeStaffAssociationGenerator {
                 staffProgramAssociation = StaffProgramAssociationGenerator.generateLowFi(programMeta);
             }
 
-            interchangeObjects.add(staffProgramAssociation);
+
+            QName qName = new QName("http://ed-fi.org/0100", "StaffProgramAssociation");
+            JAXBElement<StaffProgramAssociation> jaxbElement = new JAXBElement<StaffProgramAssociation>(qName,StaffProgramAssociation.class,staffProgramAssociation);
+            iWriter.marshal(jaxbElement);
             count++;
         }
         
