@@ -3,6 +3,8 @@
    "description":"${bootstrap.app.sif.description}",
    "version":"${bootstrap.app.sif.version}",
    "bootstrap": true,
+   "authorized_for_all_edorgs": ${bootstrap.app.admin.authorized_for_all_edorgs},
+   "allowed_for_all_edorgs": ${bootstrap.app.admin.allowed_for_all_edorgs},
    "image_url":"${bootstrap.app.sif.url}/static/images/sif_icon.jpg",
    "administration_url":"${bootstrap.app.sif.url}/service/config",
    "application_url":"${bootstrap.app.sif.url}",
