@@ -263,6 +263,8 @@ default:
         bootstrap.app.sif.token: e4e9d71c-d674-11e1-9ea4-f9fc6188709b
         bootstrap.app.sif.client_id: bZEkFldWJT
         bootstrap.app.sif.client_secret: F1b5Fy2nZq0qZJP6x3ci5onwr7XViBppOGqJTSNuz7K6eBQq
+        bootstrap.app.admin.authorized_for_all_edorgs: true
+        bootstrap.app.admin.allowed_for_all_edorgs: true
 
         bootstrap.app.vendor: SLC
 
@@ -866,6 +868,8 @@ local:
         bootstrap.app.sif.client_id: bZEkFldWJT
         bootstrap.app.sif.client_secret: F1b5Fy2nZq0qZJP6x3ci5onwr7XViBppOGqJTSNuz7K6eBQq
         bootstrap.app.sif.token: e4e9d71c-d674-11e1-9ea4-f9fc6188709b
+        bootstrap.app.admin.authorized_for_all_edorgs: true
+        bootstrap.app.admin.allowed_for_all_edorgs: true
 
     misc: &MISC-LOCAL
         <<: *MISC-DEFAULT
@@ -971,6 +975,8 @@ local-acceptance-tests:
         bootstrap.app.sif.token: e4e9d71c-d674-11e1-9ea4-f9fc6188709b
         bootstrap.app.sif.client_id: bZEkFldWJT
         bootstrap.app.sif.client_secret: F1b5Fy2nZq0qZJP6x3ci5onwr7XViBppOGqJTSNuz7K6eBQq
+        bootstrap.app.admin.authorized_for_all_edorgs: true
+        bootstrap.app.admin.allowed_for_all_edorgs: true
 
     misc:
         <<: *MISC-LOCAL
@@ -1116,6 +1122,8 @@ team:
         bootstrap.app.sif.token: e4e9d71c-d674-11e1-9ea4-f9fc6188709b
         bootstrap.app.sif.client_id: bZEkFldWJT
         bootstrap.app.sif.client_secret: F1b5Fy2nZq0qZJP6x3ci5onwr7XViBppOGqJTSNuz7K6eBQq
+        bootstrap.app.admin.authorized_for_all_edorgs: true
+        bootstrap.app.admin.allowed_for_all_edorgs: true
 
 
 
@@ -1296,6 +1304,8 @@ sandbox:
         bootstrap.app.sif.client_id: bZEkFldWJT
         bootstrap.app.sif.client_secret: F1b5Fy2nZq0qZJP6x3ci5onwr7XViBppOGqJTSNuz7K6eBQq
         bootstrap.app.sif.token: e4e9d71c-d674-11e1-9ea4-f9fc6188709b
+        bootstrap.app.admin.authorized_for_all_edorgs: true
+        bootstrap.app.admin.allowed_for_all_edorgs: true
 
     misc:
         <<: *MISC-TEAM

@@ -16,16 +16,8 @@
 
 package org.slc.sli.sif.domain.slientity;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
-import org.slc.sli.api.client.Entity;
 
 /**
  * An GenericEntity in the SLI domain.

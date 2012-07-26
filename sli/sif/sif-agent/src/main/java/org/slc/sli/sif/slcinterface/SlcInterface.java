@@ -18,6 +18,7 @@
 package org.slc.sli.sif.slcinterface;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
@@ -93,6 +94,25 @@ public class SlcInterface {
             LOG.error("  " + e1.getMessage(), e1);
         }
         return null;
+    }
+    
+    public boolean delete(final String entityType, final String entityId) {
+        boolean ok = false;
+        try
+        {
+            client.delete(entityType, entityId);
+            ok = true;
+        } catch (MalformedURLException e)
+        {
+            LOG.error("  " + e.getMessage(), e);
+        } catch (URISyntaxException e)
+        {
+            LOG.error("  " + e.getMessage(), e);
+        } catch (SLIClientException e)
+        {
+            LOG.error("  " + e.getMessage(), e);
+        }
+        return ok;
     }
     /**
      * Pass-through interface
