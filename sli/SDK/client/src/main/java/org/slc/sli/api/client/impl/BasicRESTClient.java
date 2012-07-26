@@ -159,11 +159,9 @@ public class BasicRESTClient implements RESTClient {
 
         if (obj.has("authenticated")) {
             JsonNode e = obj.get("authenticated");
-            if (e.getBooleanValue()) {
-                //e = obj.get("sessionId");
-                //sessionToken = e.asText();
-            } else
+            if (!e.getBooleanValue()) {
                 return "";
+            }
         }
 
         return sessionToken;

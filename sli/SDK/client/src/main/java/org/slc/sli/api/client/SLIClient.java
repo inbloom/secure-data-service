@@ -129,7 +129,7 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public abstract Response read(final String sessionToken, List entities, final String resourceUrl, Class entityClass)
+    public abstract Response read(final String sessionToken, List entities, final String resourceUrl, Class<?> entityClass)
             throws URISyntaxException, MessageProcessingException, IOException;
 
 
@@ -228,7 +228,7 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-     public abstract Response getResource(final String sessionToken, List entities, final URL restURL, Class entityClass)
+     public abstract Response getResource(final String sessionToken, List entities, final URL restURL, Class<?> entityClass)
              throws URISyntaxException, MessageProcessingException, IOException;
 
 
