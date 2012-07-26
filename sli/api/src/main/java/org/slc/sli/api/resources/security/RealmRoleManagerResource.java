@@ -328,12 +328,17 @@ public class RealmRoleManagerResource {
         }
 
         // Check for uniqueness of Display Name
-        NeutralQuery displayNameQuery = new NeutralQuery();
+        final NeutralQuery displayNameQuery = new NeutralQuery();
         displayNameQuery.addCriteria(new NeutralCriteria("name", "=", displayName));
         if (realmId != null) {
             displayNameQuery.addCriteria(new NeutralCriteria("_id", "!=", idConverter.toDatabaseId(realmId)));
         }
-        Entity entity = repo.findOne("realm", displayNameQuery);
+        Entity entity = SecurityUtil.runWithAllTenants(new SecurityTask<Entity>() {
+
+            @Override
+            public Entity execute() {
+                return repo.findOne("realm", displayNameQuery);
+            }});
 
         if (entity != null) {
             debug("name: {}", entity.getBody().get("name"));
