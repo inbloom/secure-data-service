@@ -1,8 +1,9 @@
 package org.slc.sli.api.selectors.doc;
 
-import org.slc.sli.api.selectors.model.SemanticSelector;
-import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.modeling.uml.Type;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,6 +14,6 @@ import java.util.Map;
  */
 public interface SelectorDocument {
 
-    public void aggregate(SemanticSelector queryMap, Constraint constraint);
+    public List<EntityBody> aggregate(Map<Type, SelectorQueryPlan> queryMap, final Constraint constraint);
 
 }

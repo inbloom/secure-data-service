@@ -95,6 +95,14 @@ public final class ModelProvider {
         return false;
     }
 
+    public Set<ModelElement> whereUsed(Identifier identifier) {
+        return modelIndex.whereUsed(identifier);
+    }
+
+    public ModelIndex getModelIndex() {
+        return modelIndex;
+    }
+
     public Attribute getAttributeType(final ClassType type, final String attr) {
         final List<Attribute> attributes = type.getAttributes();
         for (final Attribute attribute : attributes) {
