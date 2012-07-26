@@ -145,7 +145,7 @@ public class ConfigController extends GenericLayoutController {
      */
     @RequestMapping(value = "/s/c/saveCfg", method = RequestMethod.POST)
     @ResponseBody
-    public String saveLayoutConfig(@RequestBody Config config) {
+    public String saveLayoutConfig(@RequestBody @Valid Config config) {
 
         try {
             String token = SecurityUtil.getToken();

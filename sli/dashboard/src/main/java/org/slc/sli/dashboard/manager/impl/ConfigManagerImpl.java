@@ -302,6 +302,10 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
 
         // get current custom config map from api
         ConfigMap configMap = getCustomConfig(token, edOrgKey);
+        if (configMap == null) {
+            configMap = new ConfigMap();
+            configMap.setConfig(new HashMap<String, Config>());
+        }
 
         // update with new config
         ConfigMap newConfigMap = configMap.cloneWithNewConfig(config);
