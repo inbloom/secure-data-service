@@ -22,12 +22,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
+
 import org.slc.sli.test.edfi.entities.Assessment;
 import org.slc.sli.test.edfi.entities.AssessmentFamily;
 import org.slc.sli.test.edfi.entities.AssessmentItem;
 import org.slc.sli.test.edfi.entities.AssessmentPeriodDescriptor;
 import org.slc.sli.test.edfi.entities.ComplexObjectType;
 import org.slc.sli.test.edfi.entities.InterchangeAssessmentMetadata;
+import org.slc.sli.test.edfi.entities.InterchangeStudentAttendance;
 import org.slc.sli.test.edfi.entities.LearningObjective;
 import org.slc.sli.test.edfi.entities.LearningStandard;
 import org.slc.sli.test.edfi.entities.ObjectiveAssessment;
@@ -49,41 +53,42 @@ import org.slc.sli.test.generators.LearningObjectiveGenerator;
 import org.slc.sli.test.generators.LearningStandardGenerator;
 import org.slc.sli.test.generators.ObjectiveAssessmentGenerator;
 import org.slc.sli.test.generators.PerformanceLevelDescriptorGenerator;
+import org.slc.sli.test.utils.InterchangeWriter;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 public class InterchangeAssessmentMetadataGenerator {
 
-    public static InterchangeAssessmentMetadata generate() {
-        InterchangeAssessmentMetadata interchange = new InterchangeAssessmentMetadata();
-        List<ComplexObjectType> interchangeObjects = interchange
-                .getAssessmentFamilyOrAssessmentOrAssessmentPeriodDescriptor();
+    public static void generate(InterchangeWriter<InterchangeAssessmentMetadata> writer) {
+//        InterchangeAssessmentMetadata interchange = new InterchangeAssessmentMetadata();
+//        List<ComplexObjectType> interchangeObjects = interchange
+//                .getAssessmentFamilyOrAssessmentOrAssessmentPeriodDescriptor();
 
-        addEntitiesToInterchange(interchangeObjects);
+        writeEntitiesToInterchange(writer);
 
-        return interchange;
+//        return interchange;
     }
 
-    private static void addEntitiesToInterchange(List<ComplexObjectType> interchangeObjects) {
+    private static void writeEntitiesToInterchange(InterchangeWriter<InterchangeAssessmentMetadata> writer) {
 
-        generateLearningStandards(interchangeObjects, AssessmentMetaRelations.LEARN_STD_MAP.values());
+        generateLearningStandards(writer, AssessmentMetaRelations.LEARN_STD_MAP.values());
 
-        generateLearningObjectives(interchangeObjects, AssessmentMetaRelations.LEARNING_OBJECTIVE_MAP.values());
+        generateLearningObjectives(writer, AssessmentMetaRelations.LEARNING_OBJECTIVE_MAP.values());
 
-        generateAssessmentItems(interchangeObjects, AssessmentMetaRelations.ASSESSMENT_ITEM_MAP.values());
+        generateAssessmentItems(writer, AssessmentMetaRelations.ASSESSMENT_ITEM_MAP.values());
 
-        generatePerformanceLevelDescriptors(interchangeObjects, AssessmentMetaRelations.PERF_LEVEL_DESC_MAP.values());
+        generatePerformanceLevelDescriptors(writer, AssessmentMetaRelations.PERF_LEVEL_DESC_MAP.values());
 
-        Map<String, ObjectiveAssessment> objAssessMap = generateObjectiveAssessments(interchangeObjects,
+        Map<String, ObjectiveAssessment> objAssessMap = generateObjectiveAssessments(writer,
                 AssessmentMetaRelations.OBJECTIVE_ASSESSMENT_MAP.values());
 
-        generateAssessmentPeriodDescriptors(interchangeObjects, AssessmentMetaRelations.ASSESS_PERIOD_DESC_MAP.values());
+        generateAssessmentPeriodDescriptors(writer, AssessmentMetaRelations.ASSESS_PERIOD_DESC_MAP.values());
 
-        generateAssessmentFamilies(interchangeObjects, AssessmentMetaRelations.ASSESSMENT_FAMILY_MAP.values());
+        generateAssessmentFamilies(writer, AssessmentMetaRelations.ASSESSMENT_FAMILY_MAP.values());
 
-        generateAssessments(interchangeObjects, AssessmentMetaRelations.ASSESSMENT_MAP.values(), objAssessMap);
+        generateAssessments(writer, AssessmentMetaRelations.ASSESSMENT_MAP.values(), objAssessMap);
     }
 
-    private static void generateLearningStandards(List<ComplexObjectType> interchangeObjects,
+    private static void generateLearningStandards(InterchangeWriter<InterchangeAssessmentMetadata> writer,
             Collection<LearningStandardMeta> learningStandardMetas) {
         long startTime = System.currentTimeMillis();
 
@@ -95,15 +100,18 @@ public class InterchangeAssessmentMetadataGenerator {
             } else {
                 learningStandard = LearningStandardGenerator.generateLowFi(learningStandardMeta.id);
             }
+            
+            QName qName = new QName("http://ed-fi.org/0100", "LearningStandard");
+            JAXBElement<LearningStandard> jaxbElementLearningStandard = new JAXBElement<LearningStandard>(qName,LearningStandard.class,learningStandard);
 
-            interchangeObjects.add(learningStandard);
+            writer.marshal(jaxbElementLearningStandard);
         }
 
         System.out.println("generated " + learningStandardMetas.size() + " LearningStandard objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
-    private static void generateLearningObjectives(List<ComplexObjectType> interchangeObjects,
+    private static void generateLearningObjectives(InterchangeWriter<InterchangeAssessmentMetadata> writer,
             Collection<LearningObjectiveMeta> learningObjectiveMetas) {
         long startTime = System.currentTimeMillis();
 
@@ -116,14 +124,14 @@ public class InterchangeAssessmentMetadataGenerator {
                 learningObjective = LearningObjectiveGenerator.generateLowFi(learningObjectiveMeta);
             }
 
-            interchangeObjects.add(learningObjective);
+            writer.marshal(learningObjective);
         }
 
         System.out.println("generated " + learningObjectiveMetas.size() + " LearningObjective objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
-    private static void generateAssessmentItems(List<ComplexObjectType> interchangeObjects,
+    private static void generateAssessmentItems(InterchangeWriter<InterchangeAssessmentMetadata> writer,
             Collection<AssessmentItemMeta> assessmentItemMetas) {
         long startTime = System.currentTimeMillis();
 
@@ -136,14 +144,18 @@ public class InterchangeAssessmentMetadataGenerator {
                 assessmentItem = AssessmentItemGenerator.generateLowFi(assessmentItemMeta);
             }
 
-            interchangeObjects.add(assessmentItem);
+            QName qName = new QName("http://ed-fi.org/0100", "AssessmentItem");
+            JAXBElement<AssessmentItem> jaxbElementAssessmentItem = new JAXBElement<AssessmentItem>(qName,AssessmentItem.class,assessmentItem);
+
+            writer.marshal(jaxbElementAssessmentItem);
+           
         }
 
         System.out.println("generated " + assessmentItemMetas.size() + " AssessmentItem objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
-    private static void generatePerformanceLevelDescriptors(List<ComplexObjectType> interchangeObjects,
+    private static void generatePerformanceLevelDescriptors(InterchangeWriter<InterchangeAssessmentMetadata> writer,
             Collection<PerformanceLevelDescriptorMeta> perfLevelDescMetas) {
         long startTime = System.currentTimeMillis();
 
@@ -156,7 +168,11 @@ public class InterchangeAssessmentMetadataGenerator {
                 perfLevelDesc = PerformanceLevelDescriptorGenerator.generateLowFi(perfLevelDescMeta);
             }
 
-            interchangeObjects.add(perfLevelDesc);
+            QName qName = new QName("http://ed-fi.org/0100", "PerformanceLevelDescriptor");
+            JAXBElement<PerformanceLevelDescriptor> jaxbElementPerformanceLevelDescriptor = new JAXBElement<PerformanceLevelDescriptor>(qName,PerformanceLevelDescriptor.class,perfLevelDesc);
+
+            writer.marshal(jaxbElementPerformanceLevelDescriptor);
+          
         }
 
         System.out.println("generated " + perfLevelDescMetas.size() + " PerformanceLevelDescriptor objects in: "
@@ -164,7 +180,7 @@ public class InterchangeAssessmentMetadataGenerator {
     }
 
     private static Map<String, ObjectiveAssessment> generateObjectiveAssessments(
-            List<ComplexObjectType> interchangeObjects, Collection<ObjectiveAssessmentMeta> objAssessMetas) {
+    		InterchangeWriter<InterchangeAssessmentMetadata> writer, Collection<ObjectiveAssessmentMeta> objAssessMetas) {
         long startTime = System.currentTimeMillis();
 
         Map<String, ObjectiveAssessment> objAssessMap = new HashMap<String, ObjectiveAssessment>();
@@ -178,7 +194,13 @@ public class InterchangeAssessmentMetadataGenerator {
             }
 
             objAssessMap.put(objectiveAssessment.getId(), objectiveAssessment);
-            interchangeObjects.add(objectiveAssessment);
+            
+
+            QName qName = new QName("http://ed-fi.org/0100", "ObjectiveAssessment");
+            JAXBElement<ObjectiveAssessment> jaxbElementObjectiveAssessment = new JAXBElement<ObjectiveAssessment>(qName,ObjectiveAssessment.class,objectiveAssessment);
+
+            writer.marshal(jaxbElementObjectiveAssessment);
+     
         }
 
         System.out.println("generated " + objAssessMetas.size() + " ObjectiveAssessment objects in: "
@@ -186,7 +208,7 @@ public class InterchangeAssessmentMetadataGenerator {
         return objAssessMap;
     }
 
-    private static void generateAssessmentPeriodDescriptors(List<ComplexObjectType> interchangeObjects,
+    private static void generateAssessmentPeriodDescriptors(InterchangeWriter<InterchangeAssessmentMetadata> writer,
             Collection<AssessmentPeriodDescriptorMeta> assessPeriodDescMetas) {
         long startTime = System.currentTimeMillis();
 
@@ -199,14 +221,18 @@ public class InterchangeAssessmentMetadataGenerator {
                 assessPeriodDesc = AssessmentPeriodDescriptorGenerator.generateLowFi(assessPeriodDescMeta);
             }
 
-            interchangeObjects.add(assessPeriodDesc);
+            QName qName = new QName("http://ed-fi.org/0100", "AssessmentPeriodDescriptor");
+            JAXBElement<AssessmentPeriodDescriptor> jaxbElementAssessmentPeriodDescriptor = new JAXBElement<AssessmentPeriodDescriptor>(qName,AssessmentPeriodDescriptor.class,assessPeriodDesc);
+
+            writer.marshal(jaxbElementAssessmentPeriodDescriptor);
+    
         }
 
         System.out.println("generated " + assessPeriodDescMetas.size() + " AssessmentPeriodDescriptor objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
-    private static void generateAssessmentFamilies(List<ComplexObjectType> interchangeObjects,
+    private static void generateAssessmentFamilies(InterchangeWriter<InterchangeAssessmentMetadata> writer,
             Collection<AssessmentFamilyMeta> assessmentFamilyMetas) {
         long startTime = System.currentTimeMillis();
 
@@ -219,14 +245,19 @@ public class InterchangeAssessmentMetadataGenerator {
                 assessmentFamily = AssessmentFamilyGenerator.generateLowFi(assessmentFamilyMeta);
             }
 
-            interchangeObjects.add(assessmentFamily);
+
+            QName qName = new QName("http://ed-fi.org/0100", "AssessmentFamily");
+            JAXBElement<AssessmentFamily> jaxbElementAssessmentFamily = new JAXBElement<AssessmentFamily>(qName,AssessmentFamily.class,assessmentFamily);
+
+            writer.marshal(jaxbElementAssessmentFamily);
+           
         }
 
         System.out.println("generated " + assessmentFamilyMetas.size() + " AssessmentFamily objects in: "
                 + (System.currentTimeMillis() - startTime));
     }
 
-    private static void generateAssessments(List<ComplexObjectType> interchangeObjects,
+    private static void generateAssessments(InterchangeWriter<InterchangeAssessmentMetadata> writer,
             Collection<AssessmentMeta> assessmentMetas, Map<String, ObjectiveAssessment> objAssessMap) {
         long startTime = System.currentTimeMillis();
 
@@ -238,8 +269,12 @@ public class InterchangeAssessmentMetadataGenerator {
             } else {
                 assessment = AssessmentGenerator.generate(assessmentMeta, objAssessMap);
             }
+            QName qName = new QName("http://ed-fi.org/0100", "Assessment");
+            JAXBElement<Assessment> jaxbElementAssessment = new JAXBElement<Assessment>(qName,Assessment.class,assessment);
 
-            interchangeObjects.add(assessment);
+            writer.marshal(jaxbElementAssessment);
+
+ 
         }
 
         System.out.println("generated " + assessmentMetas.size() + " Assessment objects in: "
