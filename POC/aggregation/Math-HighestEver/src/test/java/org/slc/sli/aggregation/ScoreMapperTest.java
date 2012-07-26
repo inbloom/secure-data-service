@@ -9,13 +9,13 @@ import java.util.Arrays;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.DoubleWritable;
-import org.apache.hadoop.io.Text;
 import org.bson.BSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.slc.sli.aggregation.mapreduce.TenantAndID;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
@@ -41,7 +41,9 @@ public class ScoreMapperTest {
         BSONObject saa = BasicDBObjectBuilder.start("studentId", "student123").add("assessmentId", "ACT")
                 .add("scoreResults", Arrays.asList(percentile, scaleScore)).get();
         when(context.getConfiguration()).thenReturn(config);
-        mapper.map("student123", new BasicDBObject("body", saa), context);
-        verify(context).write(eq(new Text("student123")), eq(new DoubleWritable(42.0)));
+        BasicDBObject studentAssessment = new BasicDBObject("body", saa);
+        studentAssessment.put("metaData", new BasicDBObject("tenantId", "tenantId"));
+        mapper.map("student123", studentAssessment, context);
+        verify(context).write(eq(new TenantAndID("student123", "tenantId")), eq(new DoubleWritable(42.0)));
     }
 }

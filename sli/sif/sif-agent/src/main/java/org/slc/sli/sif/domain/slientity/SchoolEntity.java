@@ -19,14 +19,12 @@ package org.slc.sli.sif.domain.slientity;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.jackson.JsonNode;
-
 /**
  * An SLI Entity corresponding to a school defined in SLI schema.
  * Each SLI Entity can be converted to a JSON Node ready for SLI operations.
  *
- * Note that school fields defined in SLI schema have no counterparts in SIF SchoolInfo.
- * Those fields have no get/setters defined here.
+ * Note that some school fields defined in SLI schema have no counterparts in SIF SchoolInfo,
+ * and those fields have no get/setters defined here.
  *
  * @author slee
  *
@@ -186,22 +184,6 @@ public class SchoolEntity extends GenericEntity
 
     public List<Address> getAddress() {
         return this.address;
-    }
-
-    /**
-     * Output this Entity as a JSON Node
-     */
-    @Override
-    public JsonNode json() {
-        return mapper.valueToTree(this);
-    }
-
-    /**
-     * Output this object as a JSON String
-     */
-    @Override
-    public String toString() {
-        return json().toString();
     }
 
 }

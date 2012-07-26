@@ -85,9 +85,7 @@ public class LocalEducationAgencyGenerator {
                     escIdentityType.setStateOrganizationId(escId);
                     
                     EducationalOrgReferenceType escRef = new EducationalOrgReferenceType();
-                    escRef.setEducationalOrgIdentity(escIdentityType);
-                    
-                    localEducationAgency.setEducationServiceCenterReference(escRef);
+   
                 }
             }
         }
@@ -136,20 +134,23 @@ public class LocalEducationAgencyGenerator {
 //        	eortype.setRef(leaRef);
 //        	localEducationAgency.setLocalEducationAgencyReference(eortype);
         
+       if(MetaRelations.LocalEducationAgency_Ref)
+       {
         	Ref seaRef = new Ref(seaId);
         	EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
         	eort.setRef(seaRef);
         	localEducationAgency.setStateEducationAgencyReference(eort);
         	
         
-        for (String pid:leaMeta.programs.keySet()){
+           for (String pid:leaMeta.programs.keySet()){
         	
-     	   ProgramMeta pm = leaMeta.programs.get(pid); 
-     	   Ref programRef = new Ref(pm.id);
-     	   ProgramReferenceType prt = new ProgramReferenceType();
-     	   prt.setRef(programRef);
-     	  localEducationAgency.getProgramReference().add(prt);  	  
-        }
+        	   ProgramMeta pm = leaMeta.programs.get(pid); 
+        	   Ref programRef = new Ref(pm.id);
+        	   ProgramReferenceType prt = new ProgramReferenceType();
+        	   prt.setRef(programRef);
+        	   localEducationAgency.getProgramReference().add(prt);  	  
+           }
+       }
 
         return localEducationAgency;
     }

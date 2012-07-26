@@ -76,7 +76,7 @@ public class BasicClient implements SLIClient {
     @Override
     public String create(final Entity e) throws IOException, URISyntaxException, SLIClientException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).build();
-        Response response = restClient.postRequest(url, mapper.writeValueAsString(e));
+        Response response = restClient.postRequest(url, mapper.writeValueAsString(e.getData()));
         checkResponse(response, Status.CREATED, "Could not created entity.");
 
         // extract the id of the newly created entity from the header.
@@ -114,7 +114,7 @@ public class BasicClient implements SLIClient {
     }
 
     @Override
-    public Response read(final String sessionToken, List entities, final String resourceUrl, Class entityClass)
+    public Response read(final String sessionToken, List entities, final String resourceUrl, Class<?> entityClass)
             throws URISyntaxException, MessageProcessingException, IOException {
         entities.clear();
         return getResource(sessionToken, entities, new URL(restClient.getBaseURL() + resourceUrl), entityClass);
@@ -124,7 +124,7 @@ public class BasicClient implements SLIClient {
     public void update(final Entity e)
             throws URISyntaxException, MessageProcessingException, IOException, SLIClientException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
-        Response response = restClient.putRequest(url, mapper.writeValueAsString(e));
+        Response response = restClient.putRequest(url, mapper.writeValueAsString(e.getData()));
         checkResponse(response, Status.NO_CONTENT, "Unable to update entity.");
     }
 
@@ -184,7 +184,7 @@ public class BasicClient implements SLIClient {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Response getResource(final String sessionToken, List entities, URL restURL, Class entityClass)
+    public Response getResource(final String sessionToken, List entities, URL restURL, Class<?> entityClass)
             throws URISyntaxException, MessageProcessingException, IOException {
         entities.clear();
 

@@ -57,14 +57,14 @@ public class BatchJobAssemblerTest {
     @Test
     public void testAssembleJobValid() throws IOException {
 
-        // set up some valid entries
+        // Set up some valid entries
         ArrayList<IngestionFileEntry> entries = new ArrayList<IngestionFileEntry>();
         entries.add(new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION, "InterchangeStudent.xml", MD5
                 .calculate("InterchangeStudent.xml", getLandingZone())));
         entries.add(new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_ENROLLMENT,
                 "InterchangeEnrollment.xml", MD5.calculate("InterchangeEnrollment.xml", getLandingZone())));
 
-        // set up some valid properties
+        // Set up some valid properties
         Properties props = new Properties();
         props.setProperty("hello", "world");
 
@@ -76,42 +76,6 @@ public class BatchJobAssemblerTest {
         assertEquals("world", job.getProperty("hello"));
 
     }
-
-    /*
-     * @Test
-     * public void testAssembleJobWithErrors() throws IOException {
-     *
-     * // set up entries
-     * ArrayList<IngestionFileEntry> entries = new ArrayList<IngestionFileEntry>();
-     *
-     * // file name deliberately incorrect
-     * entries.add(new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT,
-     * "ZInterchangeStudent.xml",
-     * "1257ae55b836dc57d635f0733c115179"));
-     *
-     * // checksum deliberately incorrect
-     * entries.add(new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_ENROLLMENT,
-     * "InterchangeEnrollment.xml", "Zae81485112ff2e1a62bc06b35a131692"));
-     *
-     * // set up some valid properties
-     * Properties props = new Properties();
-     * props.setProperty("hello", "world");
-     *
-     * ControlFile ctlFile = new ControlFile(null, entries, props);
-     *
-     * Job job = jobAssembler.assembleJob(new ControlFileDescriptor(ctlFile, getLandingZone()));
-     *
-     *
-     * assertEquals(0, job.getFiles().size());
-     *
-     * assertEquals(fr.getFaults().get(0).getMessage(),
-     * MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG3", entries.get(0).getFileName()));
-     * assertEquals(fr.getFaults().get(1).getMessage(),
-     * MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG2", entries.get(1).getFileName()));
-     * assertEquals("world", job.getProperty("hello"));
-     *
-     * }
-     */
 
     public LandingZone getLandingZone() {
         return lz;

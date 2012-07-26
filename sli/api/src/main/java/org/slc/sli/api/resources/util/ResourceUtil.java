@@ -30,6 +30,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
@@ -223,26 +224,30 @@ public class ResourceUtil {
         if (defn != null) {
             links.add(getSelfLinkForEntity(uriInfo, id, defn));
             links.add(getCustomLink(uriInfo, id, defn));
-        }
 
-        links.addAll(getReferenceLinks(defn, entityBody, uriInfo));
+            links.addAll(getReferenceLinks(defn, entityBody, uriInfo));
 
-        if (defn instanceof AssociationDefinition) {
-            links.addAll(getLinksForAssociation(uriInfo, id, (AssociationDefinition) defn));
-        }
+            if (defn instanceof AssociationDefinition) {
+                links.addAll(getLinksForAssociation(uriInfo, id, (AssociationDefinition) defn));
+            }
 
-        links.addAll(getLinkedDefinitions(entityDefs, defn, uriInfo, id));
+            links.addAll(getLinkedDefinitions(entityDefs, defn, uriInfo, id));
 
-        if (areAggregatesPresent(defn, id)) {
-            links.add(getAggregateLink(uriInfo, id, defn));
+            if (areAggregatesPresent(defn, id)) {
+                links.add(getAggregateLink(uriInfo, id, defn));
+            }
         }
 
         return links;
     }
 
     private static boolean areAggregatesPresent(final EntityDefinition defn, String id) {
-        AggregateData aggregateData = defn.getService().getAggregateData(id);
-        return aggregateData != null && !aggregateData.getAggregates().isEmpty();
+        try {
+            AggregateData aggregateData = defn.getService().getAggregateData(id);
+            return aggregateData != null && !aggregateData.getAggregates().isEmpty();
+        } catch (AccessDeniedException e) {
+            return false;
+        }
     }
 
     private static List<EmbeddedLink> getLinkedDefinitions(final EntityDefinitionStore entityDefs,

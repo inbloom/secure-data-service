@@ -13,6 +13,7 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 import org.slc.sli.aggregation.mapreduce.MongoAggFormatter;
+import org.slc.sli.aggregation.mapreduce.TenantAndID;
 
 
 /**
@@ -58,7 +59,7 @@ public class SchoolProficiency extends Configured implements Tool {
         job.setMapperClass(SchoolProficiencyMapper.class);
         job.setReducerClass(SchoolProficiencyReducer.class);
 
-        job.setMapOutputKeyClass(Text.class);
+        job.setMapOutputKeyClass(TenantAndID.class);
         job.setMapOutputValueClass(Text.class);
 
         job.setOutputFormatClass(MongoAggFormatter.class);

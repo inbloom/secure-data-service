@@ -2,6 +2,15 @@ package org.slc.sli.aggregation;
 
 import java.net.UnknownHostException;
 
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.io.DoubleWritable;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.util.Tool;
+import org.apache.hadoop.util.ToolRunner;
+import org.slc.sli.aggregation.mapreduce.MongoAggFormatter;
+import org.slc.sli.aggregation.mapreduce.TenantAndID;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
@@ -10,16 +19,6 @@ import com.mongodb.Mongo;
 import com.mongodb.MongoURI;
 import com.mongodb.hadoop.MongoInputFormat;
 import com.mongodb.hadoop.util.MongoConfigUtil;
-
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.conf.Configured;
-import org.apache.hadoop.io.DoubleWritable;
-import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.Job;
-import org.apache.hadoop.util.Tool;
-import org.apache.hadoop.util.ToolRunner;
-
-import org.slc.sli.aggregation.mapreduce.MongoAggFormatter;
 
 
 /**
@@ -34,8 +33,7 @@ public class HighestEver extends Configured implements Tool {
 
     @Override
     public int run(String[] args) throws Exception {
-//        String assmtIDCode = "Grade 7 2011 State Math";
-        String assmtIDCode = "as110";
+        String assmtIDCode = args.length == 0 ? "Grade 7 2011 State Math" : args[0];
         String assmtId = getAssessmentId(assmtIDCode);
 
         MongoURI input = new MongoURI("mongodb://localhost/sli.studentAssessmentAssociation");
@@ -59,7 +57,7 @@ public class HighestEver extends Configured implements Tool {
 
         job.setInputFormatClass(MongoInputFormat.class);
 
-        job.setOutputKeyClass(Text.class);
+        job.setOutputKeyClass(TenantAndID.class);
         job.setOutputValueClass(DoubleWritable.class);
         job.setOutputFormatClass(MongoAggFormatter.class);
 

@@ -1,4 +1,5 @@
 require 'mongo'
+require 'json'
 require_relative '../../ingestion/features/step_definitions/ingestion_steps.rb'
 
 
@@ -18,3 +19,4 @@ Then /^for the (.*?) with "(.*?)" set to "(.*?)", "(.*?)" is "(.*?)"$/ do |type,
         end
         assert(e == testValue, "#{e} is not equal to #{testValue}")
 end
+

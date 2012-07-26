@@ -69,7 +69,6 @@ public class XsdValidatorTest {
     @Test
     public void testXmlNotExists() {
         IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION, "XsdValidation/NoFile.xml", "");
-        //ife.setFile(xmlFile.getFile());
         Assert.assertFalse(xsdValidator.isValid(ife, Mockito.mock(ErrorReport.class)));
     }
 
