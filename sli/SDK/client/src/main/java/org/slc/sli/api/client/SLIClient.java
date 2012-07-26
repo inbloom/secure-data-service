@@ -59,21 +59,22 @@ public interface SLIClient {
      */
     public abstract String create(final Entity e) throws IOException, URISyntaxException, SLIClientException;
 
-    /**
-     * Create operation
-     *
-     * @param sessionToken
-     *            Session token.
-     * @param resourceUrl
-     *            The ReST resource url suffix
-     * @param e
-     *            Entity to create
-     * @return Response to the create request.
-     * @throws MalformedURLException
-     * @throws URISyntaxException
-     */
-     public abstract Response create(final String sessionToken, final String resourceUrl, final Entity e)
-             throws IOException, URISyntaxException;
+     /**
+      * Create operation
+      *
+      * @param sessionToken
+      *            Session token.
+      * @param resourceUrl
+      *            The ReST resource url suffix
+      * @param e
+      *            Entity to create
+      * @return Response to the create request.
+      * @throws MalformedURLException
+      * @throws URISyntaxException
+      */
+     @Deprecated
+      public abstract Response create(final String sessionToken, final String resourceUrl, final Entity e)
+              throws IOException, URISyntaxException;
 
     /**
      * Read operation by ID.
@@ -129,6 +130,7 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
+    @Deprecated
     public abstract Response read(final String sessionToken, List entities, final String resourceUrl, Class<?> entityClass)
             throws URISyntaxException, MessageProcessingException, IOException;
 
@@ -159,6 +161,7 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
+    @Deprecated
      public abstract Response update(final String sessionToken, final String resourceUrl, final Entity e)
              throws IOException, URISyntaxException;
 
@@ -186,6 +189,7 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
+    @Deprecated
     public abstract Response deleteByToken(final String sessionToken, final String resourceUrl) throws MalformedURLException,
             URISyntaxException;
 
@@ -208,6 +212,7 @@ public interface SLIClient {
      * @throws IOException
      * @throws MessageProcessingException
      */
+    @Deprecated
     public abstract Response getResource(List<Entity> entities, URL resourceURL, Query query)
             throws URISyntaxException, MessageProcessingException, IOException;
 
@@ -228,6 +233,7 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
+    @Deprecated
      public abstract Response getResource(final String sessionToken, List entities, final URL restURL, Class<?> entityClass)
              throws URISyntaxException, MessageProcessingException, IOException;
 
