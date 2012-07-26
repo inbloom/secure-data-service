@@ -124,7 +124,7 @@ public class BasicClient implements SLIClient {
     public void update(final Entity e)
             throws URISyntaxException, MessageProcessingException, IOException, SLIClientException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
-        Response response = restClient.putRequest(url, mapper.writeValueAsString(e.getData()));
+        Response response = restClient.putRequest(url, mapper.writeValueAsString(e));
         checkResponse(response, Status.NO_CONTENT, "Unable to update entity.");
     }
 
