@@ -123,9 +123,6 @@ public class RealmInitializer {
     protected Map<String, Object> createAdminRealmBody() {
         Map<String, Object> body = createRealmBody(ADMIN_REALM_ID, adminRealmName, adminTenantId, "fakeab32-b493-999b-a6f3-sliedorg1234",
                 true, adminIdpId, adminRedirectEndpoint);
-        Map<String, Object> mappings = new HashMap<String, Object>();
-        mappings.put("role", getAdminMappings());
-        body.put("mappings", mappings);
         Map<String, Object> saml = new HashMap<String, Object>();
         saml.put("field", getAdminFields());
         body.put("saml", saml);
@@ -135,9 +132,6 @@ public class RealmInitializer {
     protected Map<String, Object> createSandboxRealmBody() {
         Map<String, Object> body = createRealmBody(sandboxUniqueId, sandboxRealmName, "", null, false, sandboxIdpId,
                 sandboxRedirectEndpoint);
-        Map<String, Object> mappings = new HashMap<String, Object>();
-        mappings.put("role", getSandboxMappings());
-        body.put("mappings", mappings);
         Map<String, Object> saml = new HashMap<String, Object>();
         saml.put("field", getSandboxFields());
         body.put("saml", saml);
@@ -177,24 +171,6 @@ public class RealmInitializer {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    private List getAdminMappings() {
-        List toReturn = new ArrayList();
-        toReturn.add(createRoleMapping(RoleInitializer.SLC_OPERATOR));
-        toReturn.add(createRoleMapping(RoleInitializer.APP_DEVELOPER));
-        toReturn.add(createRoleMapping(RoleInitializer.LEA_ADMINISTRATOR));
-        toReturn.add(createRoleMapping(RoleInitializer.IT_ADMINISTRATOR));
-        toReturn.add(createRoleMapping(RoleInitializer.EDUCATOR));
-        toReturn.add(createRoleMapping(RoleInitializer.AGGREGATE_VIEWER));
-        toReturn.add(createRoleMapping(RoleInitializer.LEADER));
-        toReturn.add(createRoleMapping(RoleInitializer.REALM_ADMINISTRATOR));
-        toReturn.add(createRoleMapping(RoleInitializer.SEA_ADMINISTRATOR));
-        toReturn.add(createRoleMapping(RoleInitializer.INGESTION_USER));
-        toReturn.add(createRoleMapping(RoleInitializer.SANDBOX_SLC_OPERATOR));
-        toReturn.add(createRoleMapping(RoleInitializer.SANDBOX_ADMINISTRATOR));
-        return toReturn;
-    }
-
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     private List getSandboxFields() {
         List toReturn = new ArrayList();
         toReturn.add(createField("roles", "(.+)"));
@@ -205,30 +181,11 @@ public class RealmInitializer {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    private List getSandboxMappings() {
-        List toReturn = new ArrayList();
-        toReturn.add(createRoleMapping(RoleInitializer.IT_ADMINISTRATOR));
-        toReturn.add(createRoleMapping(RoleInitializer.EDUCATOR));
-        toReturn.add(createRoleMapping(RoleInitializer.AGGREGATE_VIEWER));
-        toReturn.add(createRoleMapping(RoleInitializer.LEADER));
-        return toReturn;
-    }
-
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     private Map createField(String name, String transform) {
         Map toReturn = new HashMap();
         toReturn.put("clientName", name);
         toReturn.put("sliName", name);
         toReturn.put("transform", transform);
-        return toReturn;
-    }
-
-    private Map<String, Object> createRoleMapping(String role) {
-        Map<String, Object> toReturn = new HashMap<String, Object>();
-        List<String> roles = new ArrayList<String>();
-        roles.add(role);
-        toReturn.put("sliRoleName", role);
-        toReturn.put("clientRoleName", roles);
         return toReturn;
     }
 
