@@ -67,6 +67,7 @@ public class Sif2SliMapperTest
         seaInfo = SifEntityGenerator.generateTestSEAInfo();
     }
 
+    /*
     @Test
     public void testSchoolInfoMap2json() throws JsonProcessingException, MappingException, IOException {
         JsonNode schoolNode = xformer.transform2json(schoolInfo);
@@ -136,7 +137,8 @@ public class Sif2SliMapperTest
         
         System.err.println(schoolNode.toString());
     }
-
+*/
+    
 //    @Test
 //    public void testSchoolInfoMap() {
 //        SchoolEntity entity = xformer.transform(schoolInfo);
