@@ -5,11 +5,6 @@ function headerCtrl($scope, $routeParams, $http, Header) {
 	$http({method: 'GET', url: '/dashboard/s/m/header'}).
 		success(function(data, status, headers, config) {
 			$scope.header = data;
-		}).
-		error(function(data, status, headers, config) {
-			// called asynchronously if an error occurs
-			// or server returns response with status
-			// code outside of the <200, 400) range
 		});
 }
 
@@ -31,21 +26,32 @@ function profileCtrl($scope, $routeParams, ProfilePage, dbSharedService, $http) 
 		return item.type === "TAB";
 	};
 
-	$scope.savePage = function ($http) {
+	$scope.savePage = function () {
 		if($scope.mode === "Add") {
-			$scope.pages.push({name:$scope.pageText, items: angular.toJson($scope.panelJSON), type:"TAB"});
+			$scope.pages.push({name:$scope.pageText, items: $.parseJSON($scope.panelJSON), type:"TAB"});
 		}
 		else if($scope.mode === "Edit") {
 			dbSharedService.page.name = $scope.pageText;
-			dbSharedService.page.items = angular.toJson($scope.panelJSON);
-			
+			dbSharedService.page.items = $.parseJSON($scope.panelJSON);
+
+			/*$.ajax({
+				type: "POST",
+				url: "/dashboard/s/c/saveCfg",
+				data: angular.toJson($scope.profile)
+			}).done(function() {
+					alert("success");
+			});*/
 			$http({
 				method: 'POST', 
 				url: '/dashboard/s/c/saveCfg',
 				data: angular.toJson($scope.profile)
 			}).success(function(data, status, headers, config) {
 				alert("success");
+			}).error(function(data, status, headers, config) {
+				console.log(config);
+				console.log("fail");
 			});
+
 		}
 
 		$scope.pageText = '';
@@ -58,13 +64,13 @@ function profileCtrl($scope, $routeParams, ProfilePage, dbSharedService, $http) 
 
 	$scope.showDialog = function (mode) {
 		if(mode === "add") {
-			$scope.mode = "Add";
+			$scope.mode = "Add New";
 			$scope.pageText = '';
 			$scope.panelJSON = "[]";
 		}
 		else if(mode === "edit") {
 			$scope.mode = "Edit";
-			$scope.panelJSON = angular.toJson(dbSharedService.page.items, true);
+			$scope.panelJSON = angular.toJson(dbSharedService.page.items);
 			$scope.pageText = dbSharedService.page.name;
 		}
 		$('#myModal').modal('show');
@@ -72,14 +78,15 @@ function profileCtrl($scope, $routeParams, ProfilePage, dbSharedService, $http) 
 
 	$( "#tabs" ).tabs().find( ".ui-tabs-nav" ).sortable({ axis: "x" });
 }
-profileCtrl.$inject = ['$scope', '$routeParams', 'ProfilePage', 'dbSharedService'];
+profileCtrl.$inject = ['$scope', '$routeParams', 'ProfilePage', 'dbSharedService', '$http'];
 
 function editorCtrl($scope, dbSharedService) {
 
 	$scope.editPage = function () {
 		dbSharedService.page = $scope.page;
 		this.showDialog('edit');
-	}
+	};
+
 	$scope.removePage = function ($index) {
 		$scope.pages.splice($index, 1);
 	};
