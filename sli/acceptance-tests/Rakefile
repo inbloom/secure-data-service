@@ -473,7 +473,7 @@ task :resetAndChangePasswordTests => [:realmInit] do
 end
 
 desc "Run Admin-Tools Selenium Tests"
-task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests,:onboardingIntegrationTests,:provisionIntegrationTests,:tenantMetricsTests, :resetAndChangePasswordTests] do
+task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests,:onboardingIntegrationTests,:provisionIntegrationTests,:tenantMetricsTests, :resetAndChangePasswordTests,:userAdminTests] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/admintools")
   Rake::Task["importSandboxData"].execute
@@ -653,6 +653,19 @@ end
 
 ############################################################
 # Onboarding Integration Tests end
+############################################################
+
+############################################################
+# Super Admin Management Tools Tests begin
+############################################################
+desc "Run Super Admin Management Tools Tests"
+task :userAdminTests do
+runTests("test/features/sandbox/UserAdmin/User_Admin_Interface.feature")
+end
+
+
+###########################################################
+# Super Admin Management Tools Tests end
 ############################################################
 
 
