@@ -17,6 +17,10 @@ limitations under the License.
 =end
 
 class UsersController < ApplicationController
+  
+  SANDBOX_ADMINISTRATOR = "Sandbox Administrator"
+  APPLICATION_DEVELOPER = "Application Developer"
+  INGESTION_USER = "Ingestion User"
 
   # GET /users
   # GET /users.json
@@ -68,27 +72,12 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    check = Check.get ""
     logger.info{"running create new user"}
-    groups = []
-    groups << params[:user][:primary_role]
-    groups << params[:user][:optional_role_1] if params[:user][:optional_role_1]!="0" && !groups.include?(params[:user][:optional_role_1])
-    groups << params[:user][:optional_role_2] if params[:user][:optional_role_2]!="0" && !groups.include?(params[:user][:optional_role_2])
-    params[:user][:firstName]= params[:user][:fullName].split(" ")[0]
-    params[:user][:lastName] = params[:user][:fullName].gsub(params[:user][:firstName],"").lstrip
-    
     @user = User.new()
-
-    @user.firstName = params[:user][:firstName]
-    @user.lastName = params[:user][:lastName]
-    @user.email = params[:user][:email]
-    @user.tenant = check["tenantId"]
-    @user.edorg = params[:user][:edorg]
-    @user.uid = params[:user][:email]
-    @user.groups = groups
-    @user.homeDir = "/dev/null"
-    
+    create_update 
+    @user.uid = params[:user][:email]   
     logger.info("the new user is #{@user.to_json}")
+    
 
     @user.save
     
@@ -102,9 +91,88 @@ class UsersController < ApplicationController
   # GET /users/1/edit.json
   def edit
     @users = User.all
-    respond_to do |format|
-      format.html # index.html.erb
-      #format.json { render json: @users }
+    check = Check.get ""
+    @edorgs = {"" => "", check["edOrg"] => check["edOrg"]}
+   @sandbox_roles ={"Sandbox Administrator" => "Sandbox Administrator", "Application Developer" => "Application Developer", "Ingestion User" => "Ingestion User"} 
+   @users.each do |user|
+      if user.uid == params[:id]
+        @user = user
+        @user.id = user.uid
+        logger.info{"find updated user #{user.to_json}"}
+      end
+    
     end
+    
+     if @user.groups.include?(SANDBOX_ADMINISTRATOR)
+       @user.primary_role = SANDBOX_ADMINISTRATOR
+       if @user.groups.include?(APPLICATION_DEVELOPER)
+         @user.optional_role_1 = APPLICATION_DEVELOPER
+       end
+        if @user.groups.include?(INGESTION_USER)
+         @user.optional_role_2 = INGESTION_USER
+       end
+     elsif @user.groups.include?(APPLICATION_DEVELOPER)
+       @user.primary_role = APPLICATION_DEVELOPER
+        if @user.groups.include?(INGESTION_USER)
+         @user.optional_role_2 = INGESTION_USER
+        end
+     elsif @user.groups.include?(INGESTION_USER)
+       @user.primary_role = INGESTION_USER
+     end
+     
+     logger.info{"find updated user #{@user.to_json}"}
+    
+  #  respond_to do |format|
+      
+   #   format.html {render "users/edit"}
+      #format.json { render json: @users }
+  #  end
   end
+  
+  # PUT /users/1/
+  def update
+    
+    logger.info{"running the update user now"}
+    @users = User.all
+    @users.each do |user|
+      if user.uid = params[:id]
+        @user = user
+      end
+    end
+    create_update
+    
+    @user.createTime="2000-01-01"
+    @user.modifyTime="2000-01-01"
+    
+    logger.info{"the updated user is #{@user.to_json}"}
+    
+    @user.save
+
+     respond_to do |format|
+        format.html { redirect_to "/users", notice: 'Success! You have updated the user' }
+     end
+  end
+  
+  def create_update
+    check = Check.get ""
+    groups = []
+    groups << params[:user][:primary_role]
+    groups << params[:user][:optional_role_1] if params[:user][:optional_role_1]!="0" && !groups.include?(params[:user][:optional_role_1])
+    groups << params[:user][:optional_role_2] if params[:user][:optional_role_2]!="0" && !groups.include?(params[:user][:optional_role_2])
+    params[:user][:firstName]= params[:user][:fullName].split(" ")[0]
+    params[:user][:lastName] = params[:user][:fullName].gsub(params[:user][:firstName],"").lstrip
+    
+    @user.firstName = params[:user][:firstName]
+    @user.lastName = params[:user][:lastName]
+    @user.email = params[:user][:email]
+    @user.tenant = check["tenantId"]
+    @user.edorg = params[:user][:edorg]
+   
+    @user.groups = groups
+    @user.homeDir = "/dev/null"
+    return @user
+    
+  end
+  
+  
 end
