@@ -21,6 +21,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.security.resolve.ClientRoleResolver;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.roles.Role;
@@ -29,10 +34,6 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Component;
 
 /**
  *
@@ -47,16 +48,20 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
 
     @Autowired
     private RoleRightAccess roleRightAccess;
-    
+
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
-    
+
     @Override
     public Set<GrantedAuthority> resolveRoles(String realmId, List<String> roleNames) {
         Set<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
         if (roleNames != null) {
-            List<String> sliRoleNames = roleMapper.resolveRoles(realmId, roleNames);
+            List<String> sliRoleNames = roleNames;
+
+            if (!isAdminRealm(realmId)) {
+                sliRoleNames = roleMapper.resolveRoles(realmId, roleNames);
+            }
 
             for (String sliRoleName : sliRoleNames) {
                 Role role = findRole(sliRoleName);
@@ -71,9 +76,9 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
         }
         return auths;
     }
-    
+
     private boolean isAdminRealm(final String realmId) {
-        
+
          Entity entity = SecurityUtil.runWithAllTenants(new SecurityTask<Entity>() {
 
             @Override
@@ -85,7 +90,7 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
         Boolean admin = (Boolean) entity.getBody().get("admin");
         return admin != null ? admin : false;
     }
-    
+
     private Role findRole(final String roleName) {
         return SecurityUtil.sudoRun(new SecurityTask<Role>() {
 
@@ -94,7 +99,7 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
                 return roleRightAccess.getDefaultRole(roleName);
             }
         });
-        
+
     }
 
     public void setRoleRightAccess(RoleRightAccess roleRightAccess) {

@@ -46,6 +46,8 @@ public class RoleInitializer {
     public static final String AGGREGATE_VIEWER = "Aggregate Viewer";
     public static final String IT_ADMINISTRATOR = "IT Administrator";
     public static final String LEADER = "Leader";
+    public static final String ROLES = "roles";
+
     public static final String LEA_ADMINISTRATOR = "LEA Administrator";
     public static final String SEA_ADMINISTRATOR = "SEA Administrator";
     public static final String APP_DEVELOPER = "Application Developer";
@@ -54,7 +56,6 @@ public class RoleInitializer {
     public static final String INGESTION_USER = "Ingestion User";
     public static final String SANDBOX_SLC_OPERATOR = "Sandbox SLC Operator";
     public static final String SANDBOX_ADMINISTRATOR = "Sandbox Administrator";
-    public static final String ROLES = "roles";
 
     @Autowired
     @Qualifier("validationRepo")
@@ -77,14 +78,6 @@ public class RoleInitializer {
         boolean hasLeader = false;
         boolean hasIT = false;
         boolean hasAggregate = false;
-        boolean hasLEAAdmin = false;
-        boolean hasAppDeveloper = false;
-        boolean hasSLCOperator = false;
-        boolean hasRealmAdmin = false;
-        boolean hasSEAAdmin = false;
-        boolean hasIngestionUser = false;
-        boolean hasSandboxSLCOperator = false;
-        boolean hasSandboxAdministrator = false;
 
         for (Entity entity : subset) {
             Map<String, Object> body = entity.getBody();
@@ -96,20 +89,6 @@ public class RoleInitializer {
                 hasIT = true;
             } else if (body.get("name").equals(LEADER)) {
                 hasLeader = true;
-            } else if (body.get("name").equals(LEA_ADMINISTRATOR)) {
-                hasLEAAdmin = true;
-            } else if (body.get("name").equals(APP_DEVELOPER)) {
-                hasAppDeveloper = true;
-            } else if (body.get("name").equals(SLC_OPERATOR)) {
-                hasSLCOperator = true;
-            } else if (body.get("name").equals(REALM_ADMINISTRATOR)) {
-                hasRealmAdmin = true;
-            } else if (body.get("name").equals(SEA_ADMINISTRATOR)) {
-                hasSEAAdmin = true;
-            } else if (body.get("name").equals(SANDBOX_SLC_OPERATOR)) {
-                hasSandboxSLCOperator = true;
-            } else if (body.get("name").equals(SANDBOX_ADMINISTRATOR)) {
-                hasSandboxAdministrator = true;
             }
         }
         if (!hasAggregate) {
@@ -124,30 +103,6 @@ public class RoleInitializer {
         if (!hasEducator) {
             createdRoles.add(buildEducator());
         }
-        if (!hasLEAAdmin) {
-            createdRoles.add(buildLEAAdmin());
-        }
-        if (!hasAppDeveloper) {
-            createdRoles.add(buildAppDeveloper());
-        }
-        if (!hasSLCOperator) {
-            createdRoles.add(buildSLCOperator());
-        }
-        if (!hasRealmAdmin) {
-            createdRoles.add(buildRealmAdmin());
-        }
-        if (!hasSEAAdmin) {
-            createdRoles.add(buildSEAAdmin());
-        }
-        if (!hasIngestionUser) {
-            createdRoles.add(buildIngestionUser());
-        }
-        if (!hasSandboxSLCOperator) {
-            createdRoles.add(buildSandboxSLCOperator());
-        }
-        if (!hasSandboxAdministrator) {
-            createdRoles.add(buildSandboxAdmin());
-        }
 
         for (Role body : createdRoles) {
             repository.create(ROLES, body.getRoleAsEntityBody());
@@ -156,45 +111,10 @@ public class RoleInitializer {
 
     }
 
-    private Role buildIngestionUser() {
-        info("Building Ingestion User default role.");
-        return RoleBuilder.makeRole(INGESTION_USER).addRights(new Right[] { Right.INGEST_DATA, Right.ADMIN_ACCESS })
-                .setAdmin(true).build();
-    }
-
-    private Role buildRealmAdmin() {
-        info("Building Realm Administrator default role.");
-        return RoleBuilder
-                .makeRole(REALM_ADMINISTRATOR)
-                .addRights(
-                        new Right[] { Right.ADMIN_ACCESS, Right.READ_GENERAL, Right.CRUD_REALM_ROLES, Right.READ_PUBLIC, Right.CRUD_ROLE})
-                        .setAdmin(true).build();
-    }
-
     private Role buildAggregate() {
         info("Building Aggregate Viewer default role.");
         return RoleBuilder.makeRole(AGGREGATE_VIEWER)
                 .addRights(new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ }).build();
-    }
-
-    private Role buildSLCOperator() {
-        info("Building SLC Operator role.");
-        return RoleBuilder
-                .makeRole(SLC_OPERATOR)
-                .addRights(
-                        new Right[] { Right.ADMIN_ACCESS, Right.SLC_APP_APPROVE, Right.READ_GENERAL, Right.READ_PUBLIC,
-                                Right.CRUD_SLC_OPERATOR, Right.CRUD_SEA_ADMIN, Right.CRUD_LEA_ADMIN })
-                                .setAdmin(true).build();
-    }
-
-    // TODO why do developers have ADMIN_ACCESS? and READ_GENERAL?
-    private Role buildAppDeveloper() {
-        info("Building Application Developer default role.");
-        return RoleBuilder
-                .makeRole(APP_DEVELOPER)
-                .addRights(
-                        new Right[] { Right.ADMIN_ACCESS, Right.DEV_APP_CRUD, Right.READ_GENERAL, Right.READ_PUBLIC })
-                        .setAdmin(true).build();
     }
 
     private Role buildEducator() {
@@ -220,39 +140,6 @@ public class RoleInitializer {
                         new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL,
                                 Right.READ_RESTRICTED, Right.WRITE_GENERAL, Right.WRITE_RESTRICTED }).build();
     }
-
-    private Role buildLEAAdmin() {
-        info("Building LEA Administrator default role.");
-        return RoleBuilder
-                .makeRole(LEA_ADMINISTRATOR)
-                .addRights(
-                        new Right[] { Right.ADMIN_ACCESS, Right.EDORG_APP_AUTHZ, Right.READ_PUBLIC,
-                                Right.CRUD_LEA_ADMIN }).setAdmin(true).build();
-    }
-
-    private Role buildSEAAdmin() {
-        info("Building SEA Administrator default role.");
-        return RoleBuilder
-                .makeRole(SEA_ADMINISTRATOR)
-                .addRights(
-                        new Right[] { Right.ADMIN_ACCESS, Right.EDORG_DELEGATE, Right.READ_PUBLIC,
-                                Right.CRUD_SEA_ADMIN, Right.CRUD_LEA_ADMIN }).setAdmin(true).build();
-    }
-
-    private Role buildSandboxSLCOperator() {
-        info("Building Sandbox SLC Operator role.");
-        return RoleBuilder.makeRole(SANDBOX_SLC_OPERATOR)
-                .addRights(new Right[] { Right.ADMIN_ACCESS, Right.CRUD_SANDBOX_SLC_OPERATOR, Right.CRUD_SANDBOX_ADMIN })
-                .setAdmin(true).build();
-    }
-
-    private Role buildSandboxAdmin() {
-        info("Building Sandbox Administrator default role.");
-        return RoleBuilder.makeRole(SANDBOX_ADMINISTRATOR)
-                .addRights(new Right[] { Right.ADMIN_ACCESS, Right.CRUD_SANDBOX_ADMIN })
-                .setAdmin(true).build();
-    }
-
     public void setRepository(Repository repo) {
         repository = repo;
     }
