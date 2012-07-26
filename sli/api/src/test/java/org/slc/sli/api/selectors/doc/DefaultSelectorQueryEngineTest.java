@@ -99,12 +99,6 @@ public class DefaultSelectorQueryEngineTest {
         SemanticSelector selectorsWithType =  generateExcludeSelectorObjectMap();
         ClassType studentType = provider.getClassType("Student");
 
-        List<String> ids = new ArrayList<String>();
-        ids.add("1234");
-        Constraint constraint = new Constraint();
-        constraint.setKey("id");
-        constraint.setValue(ids);
-
         Map<Type, SelectorQueryPlan> queryPlan = defaultSelectorQueryEngine.assembleQueryPlan(selectorsWithType);
 
         assertNotNull("Should not be null", queryPlan);

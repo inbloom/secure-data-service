@@ -40,27 +40,24 @@ public class DefaultSelectorDocument implements SelectorDocument {
     @Override
     public List<EntityBody> aggregate(Map<Type, SelectorQueryPlan> queryMap, final Constraint constraint) {
 
-        ClassType type2 = modelProvider.getClassType("StudentSchoolAssociation");
-
-        NeutralSchema schema = repo.getSchema(StringUtils.uncapitalise(type2.getName()));
-        System.out.print(schema);
-
-        EntityDefinition def = getEntityDefinition(type2);
-
-        System.out.print(def);
-
-        executeQueryPlan(queryMap, constraint);
+        List<EntityBody> results = executeQueryPlan(queryMap, constraint, false);
+        System.out.print(results);
 
         return null;
 
-        //executeQueryPlan(queries, constraint);
     }
 
     protected EntityDefinition getEntityDefinition(Type type) {
         return entityDefs.lookupByEntityType(StringUtils.uncapitalise(type.getName()));
     }
 
-    protected void executeQueryPlan(Map<Type, SelectorQueryPlan> queryMap, final Constraint constraint) {
+    protected List<EntityBody> executeQueryPlan(Map<Type, SelectorQueryPlan> queryMap, List<EntityBody> results,
+                                                final Constraint constraint, final boolean inLine) {
+
+        if (results == null) {
+            results = new ArrayList<EntityBody>();
+        }
+
         for (Map.Entry<Type, SelectorQueryPlan> entry : queryMap.entrySet()) {
             Type type = entry.getKey();
             SelectorQueryPlan plan = entry.getValue();
@@ -68,47 +65,78 @@ public class DefaultSelectorDocument implements SelectorDocument {
             List<String> ids;
 
             Constraint previousConstraint = new Constraint();
-            previousConstraint.setKey(getKeyName(type));
+            previousConstraint.setKey(constraint.getKey());
             previousConstraint.setValue(constraint.getValue());
-            ids = executeQuery(type, plan.getQuery(), previousConstraint);
+            Iterable<EntityBody> entities = executeQuery(type, plan.getQuery(), previousConstraint, inLine);
+
+            EntityBody body = new EntityBody();
+            body.put(type.getName(), entities);
+            results.add(body);
+
+            System.out.println("Type : " + type.getName() + " " + entities);
+
+            ids = extractIds(entities, getKeyName(type));
             previousConstraint.setValue(ids);
 
             List<Object> childQueryPlans = plan.getChildQueryPlans();
 
             for (Object obj : childQueryPlans) {
-                executeQueryPlan((Map<Type, SelectorQueryPlan>) obj, previousConstraint);
+                previousConstraint.setKey(getAssociationKeyName(type));
+                List<EntityBody> list = executeQueryPlan((Map<Type, SelectorQueryPlan>) obj, results,
+                        previousConstraint, true);
+
+                EntityBody body1 = new EntityBody();
+                body1.put(type.getName(), list);
+
+                System.out.println("Type : " + type.getName() + " " + list);
             }
         }
+
+        return results;
     }
 
-    protected List<String> executeQuery(Type type, NeutralQuery query, final Constraint constraint) {
+
+
+    protected Iterable<EntityBody> executeQuery(Type type, NeutralQuery query, final Constraint constraint, final boolean inLine) {
         query.addCriteria(new NeutralCriteria(constraint.getKey(),
-                NeutralCriteria.CRITERIA_IN, constraint.getValue()));
+                NeutralCriteria.CRITERIA_IN, constraint.getValue(), inLine));
 
         Iterable<EntityBody> results = getEntityDefinition(type).getService().list(query);
 
-        System.out.println("Running Query : [" + type.getName() + "], " + query);
-
-        //TODO stubbing for now
-        List<String> result = new ArrayList<String>();
-        result.add(type.getName() + "_34");
-        result.add(type.getName() + "_56");
-
-        return result;
+        return results;
     }
 
     protected String getKeyName(Type type) {
-        String key = "id";
+        String key = "_id";
 
         ClassType classType = modelProvider.getClassType(type.getName());
 
         if (classType.isAssociation()) {
-            AssociationEnd end = classType.getRHS();
+            AssociationEnd end = classType.getLHS();
+            Type endType = modelProvider.getType(end.getType());
 
-            key = StringUtils.uncapitalise(end.getName()) + "Id";
+            key = StringUtils.uncapitalise(endType.getName()) + "Id";
         }
 
         return key;
+    }
+
+    protected String getAssociationKeyName(Type type) {
+        ClassType classType = modelProvider.getClassType(type.getName());
+
+        return StringUtils.uncapitalise(classType.getName()) + "Id";
+    }
+
+    protected List<String> extractIds(Iterable<EntityBody> entities, String key) {
+        List<String> ids = new ArrayList<String>();
+
+        key = key.equals("_id") ? "id" : key;
+
+        for (EntityBody body : entities) {
+            ids.add((String) body.get(key));
+        }
+
+        return ids;
     }
 
 
