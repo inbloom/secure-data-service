@@ -44,6 +44,7 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
+import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
@@ -75,6 +76,14 @@ public class CustomRoleResource {
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
 
+    public static final String RESOURCE_NAME = "customRole";
+    
+    public static final String ERROR_DUPLICATE_ROLE = "Cannot list duplicate roles";
+    public static final String ERROR_INVALID_REALM = "Cannot modify custom roles for that realm/tenant";
+    public static final String ERROR_INVALID_RIGHT = "Invalid right listed in custom role document";
+    public static final String ERROR_MULTIPLE_DOCS = "Cannot create multiple custom role documents per realm/tenant";
+    public static final String ERROR_FORBIDDEN = "User does not have access to requested role document";
+    
     @PostConstruct
     public void init() {
         EntityDefinition def = store.lookupByResourceName("customRole");
@@ -87,15 +96,10 @@ public class CustomRoleResource {
             return SecurityUtil.forbiddenResponse();
         }
         
-        NeutralQuery realmQuery = new NeutralQuery();
-        realmQuery.addCriteria(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getTenantId()));
-        realmQuery.addCriteria(new NeutralCriteria("edOrg", NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getEdOrg()));
-        Entity realm = repo.findOne("realm", realmQuery);
-        
-        
         List<Map> results = new ArrayList<Map>();
         NeutralQuery customRoleQuery = new NeutralQuery();
-        customRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.OPERATOR_EQUAL, realm.getEntityId()));
+        customRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.OPERATOR_EQUAL, getRealmId()));
+        customRoleQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getTenantId(), false));
         Entity customRole = repo.findOne("customRole", customRoleQuery);
         if (customRole != null) {
             results.add(customRole.getBody());
@@ -110,6 +114,9 @@ public class CustomRoleResource {
             return SecurityUtil.forbiddenResponse();
         }
         EntityBody customRole = service.get(id);
+        if (!customRole.get("tenantId").equals(SecurityUtil.getTenantId()) || !customRole.get("realmId").equals(getRealmId())) {
+            return Response.status(Status.FORBIDDEN).entity(ERROR_FORBIDDEN).build();
+        }
         return Response.ok(customRole).build();
     }
     
@@ -138,7 +145,7 @@ public class CustomRoleResource {
         existingCustomRoleQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getTenantId(), false));
         existingCustomRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.OPERATOR_EQUAL, realmId));
         if (repo.findOne("customRole", existingCustomRoleQuery) != null) {
-            return Response.status(Status.BAD_REQUEST).entity("Cannot create multiple custom role documents per realm/tenant").build(); 
+            return Response.status(Status.BAD_REQUEST).entity(ERROR_MULTIPLE_DOCS).build(); 
         }
         
         String id = service.create(newCustomRole);
@@ -206,7 +213,7 @@ public class CustomRoleResource {
                 try {
                     Right.valueOf(right);
                 } catch (IllegalArgumentException iae) {
-                    return Response.status(Status.BAD_REQUEST).entity("Invalid right listed in custom role document").build();
+                    return Response.status(Status.BAD_REQUEST).entity(ERROR_INVALID_RIGHT).build();
                 }
             }
             
@@ -222,7 +229,7 @@ public class CustomRoleResource {
             List<String> names = cur.get("names");
             for (String name : names) {
                 if (roleNames.contains(name)) {
-                    return Response.status(Status.BAD_REQUEST).entity("Cannot list duplicate roles").build();
+                    return Response.status(Status.BAD_REQUEST).entity(ERROR_DUPLICATE_ROLE).build();
                 } else {
                     roleNames.add(name);
                 }
@@ -234,14 +241,13 @@ public class CustomRoleResource {
     private Response validateValidRealm(EntityBody customRoleDoc) {
         String realmId = getRealmId();
         if (!realmId.equals(customRoleDoc.get("realmId"))) {
-            return Response.status(Status.BAD_REQUEST).entity("Cannot modify custom roles for that realm/tenant").build();
+            return Response.status(Status.BAD_REQUEST).entity(ERROR_INVALID_REALM).build();
         }
         return null;
     }
     
     private String getRealmId() {
         NeutralQuery realmQuery = new NeutralQuery();
-        realmQuery.addCriteria(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getTenantId()));
         realmQuery.addCriteria(new NeutralCriteria("edOrg", NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getEdOrg()));
         Entity realm = repo.findOne("realm", realmQuery);
         if (realm != null) {

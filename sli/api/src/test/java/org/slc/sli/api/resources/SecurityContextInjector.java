@@ -44,6 +44,7 @@ import org.springframework.stereotype.Component;
 public class SecurityContextInjector {
     public static final String ED_ORG_ID = "1111-1111-1111";
     private static final String DEFAULT_REALM_ID = "dc=slidev,dc=net";
+    public static final String TENANT_ID = "Midgar";
     
     @Autowired
     private RolesToRightsResolver resolver;
@@ -173,9 +174,10 @@ public class SecurityContextInjector {
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
         principal.setEdOrg("fake-ed-org");
         principal.setSliRoles(roles);
+        principal.setTenantId(TENANT_ID);
         setSecurityContext(principal);
         
-        Right[] rights = new Right[] { Right.READ_GENERAL, Right.CRUD_REALM_ROLES, Right.ADMIN_ACCESS };
+        Right[] rights = new Right[] {  Right.ADMIN_ACCESS, Right.READ_GENERAL, Right.CRUD_REALM_ROLES, Right.READ_PUBLIC, Right.CRUD_ROLE };
         PreAuthenticatedAuthenticationToken token = new PreAuthenticatedAuthenticationToken(SecurityContextHolder
                 .getContext().getAuthentication().getPrincipal(), SecurityContextHolder.getContext()
                 .getAuthentication().getCredentials(), Arrays.asList(rights));
