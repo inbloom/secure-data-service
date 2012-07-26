@@ -16,8 +16,10 @@
 
 package org.slc.sli.api.service.query;
 
+import org.slc.sli.api.selectors.model.SelectorParseException;
+
 import java.util.Map;
 
 public interface SelectionConverter {
-    public Map<String, Object> convert(String selectorString);
+    public Map<String, Object> convert(String selectorString) throws SelectorParseException;
 }

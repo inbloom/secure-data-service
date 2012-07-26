@@ -6,13 +6,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
+import org.slc.sli.api.selectors.model.SelectorParseException;
 
 public class Selector2MapOfMapsTest {
     
     private SelectionConverter selectionConverter = new Selector2MapOfMaps();
     
     @Test
-    public void testBasicWildcard() {
+    public void testBasicWildcard() throws SelectorParseException {
         Map<String, Object> expectedResult = new HashMap<String, Object>();
         expectedResult.put("*", true);
         Map<String, Object> convertResult = this.selectionConverter.convert(":( * )".replaceAll(" ", ""));
@@ -22,7 +23,7 @@ public class Selector2MapOfMapsTest {
     }
 
     @Test
-    public void testBasicString() {
+    public void testBasicString() throws SelectorParseException {
         Map<String, Object> expectedResult = new HashMap<String, Object>();
         expectedResult.put("name", true);
         expectedResult.put("sectionAssociations", true);
@@ -33,7 +34,7 @@ public class Selector2MapOfMapsTest {
     }
 
     @Test
-    public void testTwiceNestedString() {
+    public void testTwiceNestedString() throws SelectorParseException {
         Map<String, Object> convertResult = this.selectionConverter.convert(":( name, sectionAssociations : ( studentId , sectionId : ( * ) ) )".replaceAll(" ", ""));
 
         Map<String, Object> sectionIdMap = new HashMap<String, Object>();
@@ -52,7 +53,7 @@ public class Selector2MapOfMapsTest {
     }
     
     @Test
-    public void testExcludingFeaturesFromWildcardSelection() {
+    public void testExcludingFeaturesFromWildcardSelection() throws SelectorParseException {
         Map<String, Object> expectedResult = new HashMap<String, Object>();
         expectedResult.put("*", true);
         expectedResult.put("sequenceOfCourse", false);
@@ -64,7 +65,7 @@ public class Selector2MapOfMapsTest {
 
     
     @Test
-    public void yetAnotherTest() {
+    public void yetAnotherTest() throws SelectorParseException {
         String selectorString = ":(foo:(bar),foo2:(bar2:true),foo3:(bar3:false),foo4:(bar4:(*,foobar5:false)))";
         Map<String, Object> fooMap = new HashMap<String, Object>();
         fooMap.put("bar", true);
@@ -90,23 +91,23 @@ public class Selector2MapOfMapsTest {
         assertTrue(convertResult.equals(expectedResult));
     }
     
-    @Test(expected=RuntimeException.class)
-    public void testInvalidSyntax() {
+    @Test(expected=SelectorParseException.class)
+    public void testInvalidSyntax() throws SelectorParseException {
         this.selectionConverter.convert(":(");
     }
     
-    @Test(expected=RuntimeException.class)
-    public void testEmptyStrings() {
+    @Test(expected=SelectorParseException.class)
+    public void testEmptyStrings() throws SelectorParseException {
         this.selectionConverter.convert(":(,,)");
     }
 
-    @Test(expected=RuntimeException.class)
-    public void testUnbalancedParens() {
+    @Test(expected=SelectorParseException.class)
+    public void testUnbalancedParens() throws SelectorParseException {
         Selector2MapOfMaps.getMatchingClosingParenIndex("((", 0);
     }
 
-    @Test(expected=RuntimeException.class)
-    public void testUnbalancedParens2() {
+    @Test(expected=SelectorParseException.class)
+    public void testUnbalancedParens2() throws SelectorParseException {
         Selector2MapOfMaps.getMatchingClosingParenIndex(")", 0);
     }
     
