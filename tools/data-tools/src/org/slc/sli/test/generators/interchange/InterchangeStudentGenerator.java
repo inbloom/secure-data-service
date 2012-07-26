@@ -20,17 +20,11 @@ package org.slc.sli.test.generators.interchange;
 import java.util.Collection;
 import java.util.List;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.namespace.QName;
-
 import org.slc.sli.test.edfi.entities.InterchangeStudent;
-import org.slc.sli.test.edfi.entities.InterchangeStudentEnrollment;
 import org.slc.sli.test.edfi.entities.Student;
-import org.slc.sli.test.edfi.entities.StudentProgramAssociation;
 import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.generators.FastStudentGenerator;
-import org.slc.sli.test.utils.InterchangeWriter;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 /**
@@ -48,12 +42,14 @@ public class InterchangeStudentGenerator {
      *
      * @return
      */
-    public static void generate(InterchangeWriter<InterchangeStudent> iWriter) {
+    public static InterchangeStudent generate() {
 
+        InterchangeStudent interchange = new InterchangeStudent();
+        List<Student> interchangeObjects = interchange.getStudent();
 
+        addEntitiesToInterchange(interchangeObjects);
 
-        writeEntitiesToInterchange(iWriter);
-
+        return interchange;
     }
 
     /**
@@ -61,9 +57,9 @@ public class InterchangeStudentGenerator {
      *
      * @param interchangeObjects
      */
-    private static void writeEntitiesToInterchange(InterchangeWriter<InterchangeStudent> iWriter) {
+    private static void addEntitiesToInterchange(List<Student> interchangeObjects) {
 
-        generateStudents(iWriter, MetaRelations.STUDENT_MAP.values());
+        generateStudents(interchangeObjects, MetaRelations.STUDENT_MAP.values());
 
     }
 
@@ -73,7 +69,7 @@ public class InterchangeStudentGenerator {
      * @param interchangeObjects
      * @param studentMetas
      */
-    private static void generateStudents(InterchangeWriter<InterchangeStudent> iWriter, Collection<StudentMeta> studentMetas) {
+    private static void generateStudents(List<Student> interchangeObjects, Collection<StudentMeta> studentMetas) {
         long startTime = System.currentTimeMillis();
 
         for (StudentMeta studentMeta : studentMetas) {
@@ -86,10 +82,7 @@ public class InterchangeStudentGenerator {
                 student = FastStudentGenerator.generateLowFi(studentMeta.id);
             }
 
-            QName qName = new QName("http://ed-fi.org/0100", "Student");
-            JAXBElement<Student> jaxbElement = new JAXBElement<Student>(qName,Student.class, student);
-
-            iWriter.marshal(jaxbElement);
+            interchangeObjects.add(student);
 
         }
 

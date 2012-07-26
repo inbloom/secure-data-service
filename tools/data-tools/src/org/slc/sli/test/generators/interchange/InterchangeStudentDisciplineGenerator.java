@@ -21,13 +21,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.namespace.QName;
-
 import org.slc.sli.test.edfi.entities.DisciplineAction;
 import org.slc.sli.test.edfi.entities.DisciplineIncident;
 import org.slc.sli.test.edfi.entities.InterchangeStudentDiscipline;
-import org.slc.sli.test.edfi.entities.Program;
 import org.slc.sli.test.edfi.entities.StudentDisciplineIncidentAssociation;
 import org.slc.sli.test.edfi.entities.meta.DisciplineActionMeta;
 import org.slc.sli.test.edfi.entities.meta.DisciplineIncidentMeta;
@@ -35,7 +31,6 @@ import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.generators.DisciplineActionGenerator;
 import org.slc.sli.test.generators.DisciplineIncidentGenerator;
 import org.slc.sli.test.generators.StudentDisciplineAssociationGenerator;
-import org.slc.sli.test.utils.InterchangeWriter;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 /**
@@ -52,14 +47,17 @@ public class InterchangeStudentDisciplineGenerator {
      *
      * @return
      */
-    public static void generate(InterchangeWriter<InterchangeStudentDiscipline> iWriter) {
+    public static InterchangeStudentDiscipline generate() {
         long startTime = System.currentTimeMillis();
 
-        int total = writeEntitiesToInterchange(iWriter);
+        InterchangeStudentDiscipline interchange = new InterchangeStudentDiscipline();
+        List<Object> interchangeObjects = interchange.getDisciplineIncidentOrStudentDisciplineIncidentAssociationOrDisciplineAction();
 
-        System.out.println("generated " + total + " InterchangeStudentDiscipline entries in: "
+        addEntitiesToInterchange(interchangeObjects);
+
+        System.out.println("generated " + interchangeObjects.size() + " InterchangeStudentDiscipline entries in: "
                 + (System.currentTimeMillis() - startTime));
-
+        return interchange;
     }
 
     /**
@@ -67,13 +65,11 @@ public class InterchangeStudentDisciplineGenerator {
      *
      * @param interchangeObjects
      */
-    private static int writeEntitiesToInterchange(InterchangeWriter<InterchangeStudentDiscipline> iWriter) {
+    private static void addEntitiesToInterchange(List<Object> interchangeObjects) {
 
-    	int total=0;
-        total += generateDisciplineIncidentData(iWriter, MetaRelations.DISCIPLINE_INCIDENT_MAP.values());
-        total += generateStudentDisciplineIncidentAssociation(iWriter, MetaRelations.DISCIPLINE_INCIDENT_MAP.values());
-        total += generateDisciplineActionData(iWriter, MetaRelations.DISCIPLINE_ACTION_MAP.values());
-        return total;
+        generateDisciplineIncidentData(interchangeObjects, MetaRelations.DISCIPLINE_INCIDENT_MAP.values());
+        generateStudentDisciplineIncidentAssociation(interchangeObjects, MetaRelations.DISCIPLINE_INCIDENT_MAP.values());
+        generateDisciplineActionData(interchangeObjects, MetaRelations.DISCIPLINE_ACTION_MAP.values());
     }
 
     /**
@@ -83,9 +79,8 @@ public class InterchangeStudentDisciplineGenerator {
      * @param interchangeObjects
      * @param disciplineIncidentMetas
      */
-    private static int generateDisciplineIncidentData(InterchangeWriter<InterchangeStudentDiscipline> iWriter, Collection<DisciplineIncidentMeta> disciplineIncidentMetas) {
+    private static void generateDisciplineIncidentData(List<Object> interchangeObjects, Collection<DisciplineIncidentMeta> disciplineIncidentMetas) {
 
-    	int count=0;
         for (DisciplineIncidentMeta disciplineIncidentMeta : disciplineIncidentMetas) {
             DisciplineIncident retVal;
 
@@ -94,12 +89,8 @@ public class InterchangeStudentDisciplineGenerator {
             } else {
                 retVal = DisciplineIncidentGenerator.generateLowFi(disciplineIncidentMeta);
             }
-            QName qName = new QName("http://ed-fi.org/0100", "DisciplineIncident");
-            JAXBElement<DisciplineIncident> jaxbElement = new JAXBElement<DisciplineIncident>(qName,DisciplineIncident.class,retVal);
-            iWriter.marshal(jaxbElement);
-            count++;
+            interchangeObjects.add(retVal);
         }
-        return count;
         
     }
 
@@ -110,9 +101,8 @@ public class InterchangeStudentDisciplineGenerator {
      * @param interchangeObjects
      * @param disciplineActionMetas
      */
-    private static int generateDisciplineActionData(InterchangeWriter<InterchangeStudentDiscipline> iWriter, Collection<DisciplineActionMeta> disciplineActionMetas) {
+    private static void generateDisciplineActionData(List<Object> interchangeObjects, Collection<DisciplineActionMeta> disciplineActionMetas) {
 
-    	int count=0;
         for (DisciplineActionMeta disciplineActionMeta : disciplineActionMetas) {
             DisciplineAction retVal;
 
@@ -121,13 +111,9 @@ public class InterchangeStudentDisciplineGenerator {
             } else {
                 retVal = DisciplineActionGenerator.generateLowFi(disciplineActionMeta);
             }
-            QName qName = new QName("http://ed-fi.org/0100", "DisciplineAction");
-            JAXBElement<DisciplineAction> jaxbElement = new JAXBElement<DisciplineAction>(qName,DisciplineAction.class,retVal);
-            iWriter.marshal(jaxbElement);
-            count++;
-
+            interchangeObjects.add(retVal);
         }
-        return count;
+        
     }
 
     /**
@@ -137,9 +123,8 @@ public class InterchangeStudentDisciplineGenerator {
      * @param interchangeObjects
      * @param disciplineIncidentMetas
      */
-    private static int generateStudentDisciplineIncidentAssociation(InterchangeWriter<InterchangeStudentDiscipline> iWriter, Collection<DisciplineIncidentMeta> disciplineIncidentMetas) {
+    private static void generateStudentDisciplineIncidentAssociation(List<Object> interchangeObjects, Collection<DisciplineIncidentMeta> disciplineIncidentMetas) {
 
-    	int count=0;
         for (DisciplineIncidentMeta disciplineIncidentMeta : disciplineIncidentMetas) {
             
             List<StudentDisciplineIncidentAssociation> retVal;
@@ -147,11 +132,10 @@ public class InterchangeStudentDisciplineGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 retVal = new ArrayList<StudentDisciplineIncidentAssociation>(0);
             } else {
-                StudentDisciplineAssociationGenerator.generateLowFi(iWriter,disciplineIncidentMeta);
+                retVal = StudentDisciplineAssociationGenerator.generateLowFi(disciplineIncidentMeta);
             }
-            count++;
+            interchangeObjects.addAll(retVal);
         }
-        return count;
     }
     
 }

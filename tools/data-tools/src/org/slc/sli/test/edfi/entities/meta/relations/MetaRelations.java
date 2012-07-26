@@ -17,13 +17,9 @@
 
 package org.slc.sli.test.edfi.entities.meta.relations;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeMap;
@@ -57,84 +53,38 @@ public final class MetaRelations {
     public static final DataFidelityType DEFAULT_DATA_FIDELITY_TYPE = DataFidelityType.LOW_FI;
     
     // knobs to control number of entities to create
-    public static  int TOTAL_SEAS =1;
-    public static  int LEAS_PER_SEA =1;
-    public static  int STAFF_PER_SEA = 10;
-    public static  int SCHOOLS_PER_LEA = 5;
-    public static  int COURSES_PER_SCHOOL = 10;
-    public static  int SESSIONS_PER_SCHOOL = 2;
-    public static  int SECTIONS_PER_COURSE_SESSION = 3;
-    public static  int TEACHERS_PER_SCHOOL = 10;
-    public static  int STUDENTS_PER_SCHOOL = 100;
-    public static  int PROGRAMS_PER_SCHOOL = 2;
-    public static  int PROGRAMS_PER_SEA = 1;
-    public static  int STAFF_PER_PROGRAM = 8;
-    public static  int FREE_STANDING_COHORT_PER_SCHOOL = 2;
-    public static  int FREE_STANDING_COHORT_SIZE = 50;//--
-    public static  int STAFF_PER_FREE_STANDING_COHORT = 10;
-    public static  int INV_PROB_SECTION_HAS_PROGRAM = 1;
-    public static  int ASSESSMENTS_PER_STUDENT = 5;
-    public static  int ATTENDANCE_PER_STUDENT_SECTION = 2;//--
-    public static  int DISCPLINE_ACTIONS_PER_SCHOOL = 975;
-    public static  int DISCPLINE_INCIDENTS_PER_SCHOOL = 975;
-    public static  int INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT = 3000;
-    public static  int ESC_PER_SEA = 2;
-    public static  int PROGRAMS_PER_LEA=2;
-    public static  int NUM_STAFF_PER_DISCIPLINE_ACTION = 1;
-    public static  int FEEDER_RELATIONSHIPS = 2;
-    public static  int COURSES_PER_STUDENT = 15;
-    public static  int SECTIONS_PER_STUDENT = 5;
-    public static  int CALENDER_PER_SESSIONS = 2;
-    public static  int GRADINGPERIOD_PER_CALENDAR = 2;
-    public static  int GRADUATION_PLAN_PER_SCHOOL=1;
-    public static  int GRADING_PERIOD_PER_SESSIONS=2;
+    public static final int TOTAL_SEAS =1;
+    public static final int LEAS_PER_SEA =1;
+    public static final int STAFF_PER_SEA = 10;
+    public static final int SCHOOLS_PER_LEA = 5;
+    public static final int COURSES_PER_SCHOOL = 10;
+    public static final int SESSIONS_PER_SCHOOL = 2;
+    public static final int SECTIONS_PER_COURSE_SESSION = 3;
+    public static final int TEACHERS_PER_SCHOOL = 10;
+    public static final int STUDENTS_PER_SCHOOL = 100;
+    public static final int PROGRAMS_PER_SCHOOL = 2;
+    public static final int PROGRAMS_PER_SEA = 1;
+    public static final int STAFF_PER_PROGRAM = 8;
+    public static final int FREE_STANDING_COHORT_PER_SCHOOL = 2;
+    public static final int FREE_STANDING_COHORT_SIZE = 50;//--
+    public static final int STAFF_PER_FREE_STANDING_COHORT = 10;
+    public static final int INV_PROB_SECTION_HAS_PROGRAM = 1;
+    public static final int ASSESSMENTS_PER_STUDENT = 5;
+    public static final int ATTENDANCE_PER_STUDENT_SECTION = 2;//--
+    public static final int DISCPLINE_ACTIONS_PER_SCHOOL = 975;
+    public static final int DISCPLINE_INCIDENTS_PER_SCHOOL = 975;
+    public static final int INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT = 3000;
+    public static final int ESC_PER_SEA = 2;
+    public static final int PROGRAMS_PER_LEA=2;
+    public static final int NUM_STAFF_PER_DISCIPLINE_ACTION = 1;
+    public static final int FEEDER_RELATIONSHIPS = 2;
+    public static final int COURSES_PER_STUDENT = 15;
+    public static final int SECTIONS_PER_STUDENT = 5;
+    public static final int CALENDER_PER_SESSIONS = 2;
+    public static final int GRADINGPERIOD_PER_CALENDAR = 2;
+    public static final int GRADUATION_PLAN_PER_SCHOOL=1;
+    public static final int GRADING_PERIOD_PER_SESSIONS=2;
     
-    public static boolean AcademicWeek_Ref=false;
-    public static boolean AssessmentFamily_Ref=false;
-    public static boolean Assessment_Ref=false;
-    public static boolean AssessmentItem_Ref=false;
-    public static boolean AttendanceEvent_Ref=false;
-    public static boolean BehaviorDescriptor_Ref=false;
-    public static boolean Cohort_Ref=false;
-    public static boolean Course_Ref=false;
-    public static boolean CourseOffering_Ref=false;
-    public static boolean DisciplineAction_Ref=false;
-    public static boolean DisciplineDescriptor_Ref=false;
-    public static boolean Discipline_Ref=false;
-    public static boolean DisciplineIncident_Ref=false;
-    public static boolean EducationAgency_Ref=false;
-    public static boolean GradingPeriodIdentityType_Ref=false;
-    public static boolean GraduationPlan_Ref=false;
-    public static boolean LearningObjective_Ref=false;
-    public static boolean LearningStandard_Ref=false;
-    public static boolean LocalEducationAgency_Ref=false;
-    public static boolean ObjectiveAssessment_Ref=false;
-    public static boolean Parent_Ref=false;
-    public static boolean School_Ref=false;
-    public static boolean Section_Ref=false;
-    public static boolean Session_Ref=false;
-    public static boolean StaffCohortAssociation_Ref=false;
-    public static boolean StaffEdOrgAssignmentAssociation_Ref=false;
-    public static boolean StaffEdOrgEmploymentAssociation_Ref=false;
-    public static boolean StaffEducationOrgAssignmentAssociation_Ref=false;
-    public static boolean Staff_Ref=false;
-    public static boolean StaffProgramAssociation_Ref=false;
-    public static boolean StateEducationAgency_Ref=false;
-    public static boolean StudentAssessment_Ref=false;
-    public static boolean StudentAssessmentItem_Ref=false;
-    public static boolean StudentCohortAssociation_Ref=false;
-    public static boolean StudentCompetancyObjective_Ref=false;
-    public static boolean StudentDisciplineAssociation_Ref=false;
-    public static boolean Student_Ref=false;
-    public static boolean StudentGrade_Ref=false;
-    public static boolean StudentObjectiveAssessment_Ref=false;
-    public static boolean StudentParentAssociation_Ref=false;
-    public static boolean StudentProgramAssociation_Ref=false;
-    public static boolean StudentSchoolAssociation_Ref=false;
-    public static boolean StudentSectionAssociation_Ref=false;
-    public static boolean Teacher_Ref=false;
-    public static boolean TeacherSchoolAssociation_Ref=false;
-    public static boolean TeacherSectionAssociation_Ref=false;
 
      //publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
 
@@ -165,126 +115,11 @@ public final class MetaRelations {
     public static final String FIRST_TEACHER_ID = "lroslin";
     
     /**
-     * used to determine the output directory for generated interchange and control files
-     */
-    public static String rootOutputPath = "./data";
-    
-    static{
-        
-        Properties properties = new Properties();
-        InputStream fis = null;
-        
-        
-        try {
-              fis = new FileInputStream(".\\db-datagen-approach\\ref-configurations\\reference_config.properties");
-              properties.load(fis);
-              
-              
-        }
-        catch (IOException ie) {
-              
-        }
-        finally {
-              if (fis != null) {
-                     try {
-                            fis.close();
-                     }
-                     catch (Exception e) {
-                            
-                     }
-              }
-        }
-        
-        TOTAL_SEAS  = Integer.parseInt(properties.getProperty("TOTAL_SEAS"));
-        LEAS_PER_SEA = Integer.parseInt(properties.getProperty("LEAS_PER_SEA"));
-        STAFF_PER_SEA = Integer.parseInt(properties.getProperty("STAFF_PER_SEA"));
-        SCHOOLS_PER_LEA = Integer.parseInt(properties.getProperty("SCHOOLS_PER_LEA"));
-        COURSES_PER_SCHOOL = Integer.parseInt(properties.getProperty("COURSES_PER_SCHOOL")); 
-        SESSIONS_PER_SCHOOL = Integer.parseInt(properties.getProperty("SESSIONS_PER_SCHOOL")); 
-        SECTIONS_PER_COURSE_SESSION = Integer.parseInt(properties.getProperty("SECTIONS_PER_COURSE_SESSION"));
-        TEACHERS_PER_SCHOOL = Integer.parseInt(properties.getProperty("TEACHERS_PER_SCHOOL"));
-        STUDENTS_PER_SCHOOL = Integer.parseInt(properties.getProperty("STUDENTS_PER_SCHOOL"));
-        PROGRAMS_PER_SCHOOL = Integer.parseInt(properties.getProperty("PROGRAMS_PER_SCHOOL"));
-        PROGRAMS_PER_SEA = Integer.parseInt(properties.getProperty("PROGRAMS_PER_SEA"));
-        STAFF_PER_PROGRAM = Integer.parseInt(properties.getProperty("STAFF_PER_PROGRAM"));
-        FREE_STANDING_COHORT_PER_SCHOOL = Integer.parseInt(properties.getProperty("FREE_STANDING_COHORT_PER_SCHOOL"));
-        FREE_STANDING_COHORT_SIZE = Integer.parseInt(properties.getProperty("FREE_STANDING_COHORT_SIZE"));
-        STAFF_PER_FREE_STANDING_COHORT = Integer.parseInt(properties.getProperty("STAFF_PER_FREE_STANDING_COHORT"));
-        INV_PROB_SECTION_HAS_PROGRAM = Integer.parseInt(properties.getProperty("INV_PROB_SECTION_HAS_PROGRAM"));
-        ASSESSMENTS_PER_STUDENT = Integer.parseInt(properties.getProperty("ASSESSMENTS_PER_STUDENT"));
-        ATTENDANCE_PER_STUDENT_SECTION = Integer.parseInt(properties.getProperty("ATTENDANCE_PER_STUDENT_SECTION"));
-        DISCPLINE_ACTIONS_PER_SCHOOL = Integer.parseInt(properties.getProperty("DISCPLINE_ACTIONS_PER_SCHOOL"));
-        DISCPLINE_INCIDENTS_PER_SCHOOL = Integer.parseInt(properties.getProperty("DISCPLINE_INCIDENTS_PER_SCHOOL"));
-        INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT = Integer.parseInt(properties.getProperty("INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT"));
-        ESC_PER_SEA = Integer.parseInt(properties.getProperty("ESC_PER_SEA"));
-        PROGRAMS_PER_LEA = Integer.parseInt(properties.getProperty("PROGRAMS_PER_LEA"));
-        NUM_STAFF_PER_DISCIPLINE_ACTION = Integer.parseInt(properties.getProperty("NUM_STAFF_PER_DISCIPLINE_ACTION"));
-        FEEDER_RELATIONSHIPS = Integer.parseInt(properties.getProperty("FEEDER_RELATIONSHIPS"));
-        COURSES_PER_STUDENT = Integer.parseInt(properties.getProperty("COURSES_PER_STUDENT"));
-        SECTIONS_PER_STUDENT = Integer.parseInt(properties.getProperty("SECTIONS_PER_STUDENT"));
-        CALENDER_PER_SESSIONS= Integer.parseInt(properties.getProperty("CALENDER_PER_SESSIONS"));
-        GRADINGPERIOD_PER_CALENDAR = Integer.parseInt(properties.getProperty("GRADINGPERIOD_PER_CALENDAR"));
-        GRADUATION_PLAN_PER_SCHOOL = Integer.parseInt(properties.getProperty("GRADUATION_PLAN_PER_SCHOOL"));
-        GRADING_PERIOD_PER_SESSIONS = Integer.parseInt(properties.getProperty("GRADING_PERIOD_PER_SESSIONS")); 
-        
-        AcademicWeek_Ref=Boolean.parseBoolean(properties.getProperty("AcademicWeek_Ref"));
-        AssessmentFamily_Ref=Boolean.parseBoolean(properties.getProperty("AssessmentFamily_Ref"));
-        Assessment_Ref=Boolean.parseBoolean(properties.getProperty("Assessment_Ref"));
-        AssessmentItem_Ref=Boolean.parseBoolean(properties.getProperty("AssessmentItem_Ref"));
-        AttendanceEvent_Ref=Boolean.parseBoolean(properties.getProperty("AttendanceEvent_Ref"));
-        BehaviorDescriptor_Ref=Boolean.parseBoolean(properties.getProperty("BehaviorDescriptor_Ref"));
-        Cohort_Ref=Boolean.parseBoolean(properties.getProperty("Cohort_Ref")); ;
-        Course_Ref=Boolean.parseBoolean(properties.getProperty("Course_Ref"));
-        CourseOffering_Ref=Boolean.parseBoolean(properties.getProperty("CourseOffering_Ref"));
-        DisciplineAction_Ref=Boolean.parseBoolean(properties.getProperty("DisciplineAction_Ref"));
-        DisciplineDescriptor_Ref=Boolean.parseBoolean(properties.getProperty("DisciplineDescriptor_Ref"));
-        Discipline_Ref=Boolean.parseBoolean(properties.getProperty("Discipline_Ref"));
-        DisciplineIncident_Ref=Boolean.parseBoolean(properties.getProperty("DisciplineIncident_Ref"));
-        EducationAgency_Ref=Boolean.parseBoolean(properties.getProperty("EducationAgency_Ref"));
-        GradingPeriodIdentityType_Ref=Boolean.parseBoolean(properties.getProperty("GradingPeriodIdentityType_Ref"));
-        GraduationPlan_Ref=Boolean.parseBoolean(properties.getProperty("GraduationPlan_Ref"));
-        LearningObjective_Ref=Boolean.parseBoolean(properties.getProperty("LearningObjective_Ref"));
-        LearningStandard_Ref=Boolean.parseBoolean(properties.getProperty("LearningStandard_Ref"));
-        LocalEducationAgency_Ref=Boolean.parseBoolean(properties.getProperty("LocalEducationAgency_Ref"));
-        ObjectiveAssessment_Ref=Boolean.parseBoolean(properties.getProperty("ObjectiveAssessment_Ref"));
-        Parent_Ref=Boolean.parseBoolean(properties.getProperty("Parent_Ref"));
-        School_Ref=Boolean.parseBoolean(properties.getProperty("School_Ref"));
-        Section_Ref=Boolean.parseBoolean(properties.getProperty("Section_Ref"));
-        Session_Ref=Boolean.parseBoolean(properties.getProperty("Session_Ref"));
-        StaffCohortAssociation_Ref=Boolean.parseBoolean(properties.getProperty("StaffCohortAssociation_Ref"));
-        StaffEdOrgAssignmentAssociation_Ref=Boolean.parseBoolean(properties.getProperty("StaffEdOrgAssignmentAssociation_Ref"));
-        StaffEdOrgEmploymentAssociation_Ref=Boolean.parseBoolean(properties.getProperty("StaffEdOrgEmploymentAssociation_Ref"));
-        StaffEducationOrgAssignmentAssociation_Ref=Boolean.parseBoolean(properties.getProperty("StaffEducationOrgAssignmentAssociation_Ref"));
-        Staff_Ref=Boolean.parseBoolean(properties.getProperty("Staff_Ref"));
-        StaffProgramAssociation_Ref=Boolean.parseBoolean(properties.getProperty("StaffProgramAssociation_Ref"));
-        System.out.println("StateEducationAgency = "+properties.getProperty("StateEducationAgency_Ref"));
-        StateEducationAgency_Ref=Boolean.parseBoolean(properties.getProperty("StateEducationAgency_Ref"));
-        StudentAssessment_Ref=Boolean.parseBoolean(properties.getProperty("StudentAssessment_Ref"));
-        StudentAssessmentItem_Ref=Boolean.parseBoolean(properties.getProperty("StudentAssessmentItem_Ref"));
-        StudentCohortAssociation_Ref=Boolean.parseBoolean(properties.getProperty("StudentCohortAssociation_Ref"));
-        StudentCompetancyObjective_Ref=Boolean.parseBoolean(properties.getProperty("StudentCompetancyObjective_Ref"));
-        StudentDisciplineAssociation_Ref=Boolean.parseBoolean(properties.getProperty("StudentDisciplineAssociation_Ref"));
-        Student_Ref=Boolean.parseBoolean(properties.getProperty("Student_Ref"));
-        StudentGrade_Ref=Boolean.parseBoolean(properties.getProperty("StudentGrade_Ref"));
-        StudentObjectiveAssessment_Ref=Boolean.parseBoolean(properties.getProperty("StudentObjectiveAssessment_Ref"));
-        StudentParentAssociation_Ref=Boolean.parseBoolean(properties.getProperty("StudentParentAssociation_Ref"));
-        StudentProgramAssociation_Ref=Boolean.parseBoolean(properties.getProperty("StudentProgramAssociation_Ref"));
-        StudentSchoolAssociation_Ref=Boolean.parseBoolean(properties.getProperty("StudentSchoolAssociation_Ref"));
-        StudentSectionAssociation_Ref=Boolean.parseBoolean(properties.getProperty("StudentSectionAssociation_Ref"));
-        Teacher_Ref=Boolean.parseBoolean(properties.getProperty("Teacher_Ref"));
-        TeacherSchoolAssociation_Ref=Boolean.parseBoolean(properties.getProperty("TeacherSchoolAssociation_Ref"));
-        TeacherSectionAssociation_Ref=Boolean.parseBoolean(properties.getProperty("TeacherSectionAssociation_Ref"));
-        
-        rootOutputPath = properties.getProperty("rootOutputPath");
-    }
-    /**
      * Construct the meta relationships necessary for XML interchanges
      */
     public static void construct() {
         
         long startTime = System.currentTimeMillis();
-        
-//        loadConfigParameters();
         
         buildSeas();
         

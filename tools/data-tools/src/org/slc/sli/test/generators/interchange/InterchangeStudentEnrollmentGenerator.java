@@ -20,12 +20,8 @@ package org.slc.sli.test.generators.interchange;
 import java.util.Collection;
 import java.util.List;
 
-import javax.xml.bind.JAXBElement;
-import javax.xml.namespace.QName;
-
 import org.slc.sli.test.edfi.entities.GraduationPlan;
 import org.slc.sli.test.edfi.entities.InterchangeStudentEnrollment;
-import org.slc.sli.test.edfi.entities.LearningStandard;
 import org.slc.sli.test.edfi.entities.StudentSchoolAssociation;
 import org.slc.sli.test.edfi.entities.StudentSectionAssociation;
 import org.slc.sli.test.edfi.entities.meta.GraduationPlanMeta;
@@ -34,7 +30,6 @@ import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.generators.GraduationPlanGenerator;
 import org.slc.sli.test.generators.StudentSchoolAssociationGenerator;
 import org.slc.sli.test.generators.StudentSectionAssociationGenerator;
-import org.slc.sli.test.utils.InterchangeWriter;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 /**
@@ -51,25 +46,25 @@ public class InterchangeStudentEnrollmentGenerator {
      *
      * @return
      */
-    public static void generate(InterchangeWriter<InterchangeStudentEnrollment> iWriter) {
+    public static InterchangeStudentEnrollment generate() {
 
-//        InterchangeStudentEnrollment interchange = new InterchangeStudentEnrollment();
-//        List<Object> interchangeObjects = interchange
-//                .getStudentSchoolAssociationOrStudentSectionAssociationOrGraduationPlan();
+        InterchangeStudentEnrollment interchange = new InterchangeStudentEnrollment();
+        List<Object> interchangeObjects = interchange
+                .getStudentSchoolAssociationOrStudentSectionAssociationOrGraduationPlan();
 
-        writeEntitiesToInterchange(iWriter);
+        addEntitiesToInterchange(interchangeObjects);
 
-//        return interchange;
+        return interchange;
     }
 
     
-    private static void writeEntitiesToInterchange(InterchangeWriter<InterchangeStudentEnrollment> iWriter) {
+    private static void addEntitiesToInterchange(List<Object> interchangeObjects) {
 
-        generateStudentSchoolAssoc(iWriter, MetaRelations.STUDENT_MAP.values());
+        generateStudentSchoolAssoc(interchangeObjects, MetaRelations.STUDENT_MAP.values());
 
-        generateStudentSectionAssoc(iWriter, MetaRelations.STUDENT_MAP.values());
+        generateStudentSectionAssoc(interchangeObjects, MetaRelations.STUDENT_MAP.values());
         
-        generateGraduationPlan(iWriter, MetaRelations.GRADUATION_PLAN_MAP.values());
+        generateGraduationPlan(interchangeObjects, MetaRelations.GRADUATION_PLAN_MAP.values());
 
     }
 
@@ -78,7 +73,7 @@ public class InterchangeStudentEnrollmentGenerator {
      *
      * @param interchangeObjects
      */
-    private static void generateGraduationPlan(InterchangeWriter<InterchangeStudentEnrollment> iWriter, Collection<GraduationPlanMeta> graduationPlanMetas) {
+    private static void generateGraduationPlan(List<Object> interchangeObjects, Collection<GraduationPlanMeta> graduationPlanMetas) {
     	
 		long startTime = System.currentTimeMillis();
 
@@ -95,12 +90,7 @@ public class InterchangeStudentEnrollmentGenerator {
 						.generateLowFi(graduationPlanMeta.id);
 			}
 
-			 QName qName = new QName("http://ed-fi.org/0100", "GraduationPlan");
-	         JAXBElement<GraduationPlan> jaxbElement = new JAXBElement<GraduationPlan>(qName,GraduationPlan.class,graduationPlan);
-
-	         iWriter.marshal(jaxbElement);
-			
-//			interchangeObjects.add(graduationPlan);
+			interchangeObjects.add(graduationPlan);
 
 			objGenCounter++;
 		}
@@ -116,7 +106,7 @@ public class InterchangeStudentEnrollmentGenerator {
      * @param interchangeObjects
      */
     
-    private static void generateStudentSchoolAssoc(InterchangeWriter<InterchangeStudentEnrollment> iWriter, Collection<StudentMeta> studentMetas) {
+    private static void generateStudentSchoolAssoc(List<Object> interchangeObjects, Collection<StudentMeta> studentMetas) {
     	
         long startTime = System.currentTimeMillis();
 
@@ -132,11 +122,9 @@ public class InterchangeStudentEnrollmentGenerator {
                     studentSchool = StudentSchoolAssociationGenerator.generateLowFi(studentMeta.id, schoolId);
                 }
 
-             QName qName = new QName("http://ed-fi.org/0100", "StudentSchoolAssociation");
-   	         JAXBElement<StudentSchoolAssociation> jaxbElement = new JAXBElement<StudentSchoolAssociation>(qName,StudentSchoolAssociation.class,studentSchool);
+                interchangeObjects.add(studentSchool);
 
-   	         iWriter.marshal(jaxbElement);
-             objGenCounter++;
+                objGenCounter++;
             }
         }
 
@@ -149,7 +137,7 @@ public class InterchangeStudentEnrollmentGenerator {
      *
      * @param interchangeObjects
      */
-    private static void generateStudentSectionAssoc(InterchangeWriter<InterchangeStudentEnrollment> iWriter,
+    private static void generateStudentSectionAssoc(List<Object> interchangeObjects,
             Collection<StudentMeta> studentMetas) {
         long startTime = System.currentTimeMillis();
 
@@ -167,10 +155,7 @@ public class InterchangeStudentEnrollmentGenerator {
                             studentMeta.schoolIds.get(0), sectionId);
                 }
 
-                QName qName = new QName("http://ed-fi.org/0100", "StudentSectionAssociation");
-      	        JAXBElement<StudentSectionAssociation> jaxbElement = new JAXBElement<StudentSectionAssociation>(qName,StudentSectionAssociation.class,studentSection);
-
-      	        iWriter.marshal(jaxbElement);
+                interchangeObjects.add(studentSection);
 
                 objGenCounter++;
             }
