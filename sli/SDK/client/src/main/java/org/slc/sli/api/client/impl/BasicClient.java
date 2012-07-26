@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -118,6 +119,21 @@ public class BasicClient implements SLIClient {
             throws URISyntaxException, MessageProcessingException, IOException {
         entities.clear();
         return getResource(sessionToken, entities, new URL(restClient.getBaseURL() + resourceUrl), entityClass);
+     }
+
+    public List<Entity> read(final String resourceUrl, Query query) throws URISyntaxException,
+    MessageProcessingException, IOException, SLIClientException {
+        List<Entity> entities = new ArrayList<Entity>();
+        URLBuilder url = new URLBuilder().addPath(resourceUrl);
+        Response response = getResource(entities, url.build(), query);
+        checkResponse(response, Status.OK, "Unable to retrieve entity.");
+        return entities;
+    }
+
+    @Override
+    public List<Entity> read(final String resourceUrl) throws URISyntaxException, MessageProcessingException,
+            IOException, SLIClientException {
+        return read(resourceUrl, null);
     }
 
     @Override
@@ -147,7 +163,6 @@ public class BasicClient implements SLIClient {
         return restClient.deleteRequest(sessionToken, new URL(restClient.getBaseURL() + resourceUrl));
     }
 
-    @Override
     public Response getResource(final List<Entity> entities, URL resourceURL, Query query) throws URISyntaxException,
             MessageProcessingException, IOException {
         entities.clear();
