@@ -133,9 +133,10 @@ public class SifSubscriber implements Subscriber {
         //add guid to sifRefId2guidMap
         Map<String, String> entityRefId2guidMap = sifRefId2guidMap.get(entity.getEntityType());
         if (entityRefId2guidMap==null) {
-            entityRefId2guidMap = sifRefId2guidMap.put(entity.getEntityType(), new HashMap<String, String>());
+            sifRefId2guidMap.put(entity.getEntityType(), new HashMap<String, String>());
+            entityRefId2guidMap = sifRefId2guidMap.get(entity.getEntityType());
         }
-        if (guid!=null && guid.length()>0) {
+        if (guid!=null && guid.length()>0 && entityRefId2guidMap!=null) {
             entityRefId2guidMap.put(sdo.getRefId(), guid);
         }
         
@@ -160,7 +161,7 @@ public class SifSubscriber implements Subscriber {
                 deleted = slcInterface.delete(entity.getEntityType(), guid);
                 if (deleted) {
                     entityRefId2guidMap.remove(sdo.getRefId());
-                    LOG.info("delete "+entity.getEntityType());
+                    LOG.info(entity.getEntityType()+" with RefId="+sdo.getRefId()+" deleted");
                 }
             }
         }
@@ -169,6 +170,8 @@ public class SifSubscriber implements Subscriber {
         }       
     }    
     
+    //used to keep mapping between Entity Type and its sif RefId-to-guid map
+    //may need refactor for persistency consideration
     private Map<String, Map<String, String>> sifRefId2guidMap = new HashMap<String, Map<String, String>>();
 
 }
