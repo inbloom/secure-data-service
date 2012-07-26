@@ -55,9 +55,10 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "All records processed successfully." in the resulting batch job file
   And I should see "Processed 1 records." in the resulting batch job file
   And I should not see an error log file created
-  And I should see "StudentParentData.xml records considered: 1" in the resulting batch job file
-  And I should see "StudentParentData.xml records deleted successfully: 1" in the resulting batch job file
-  And I should see "StudentParentData.xml records failed: 0" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records considered: 1" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records deleted successfully: 1" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records attempted to be deleted, but not present: 0" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
 
 @Delete non-existent student
 Scenario: Post a zip file containing student parent interchange as a payload of the ingestion job: Populated Database
@@ -75,11 +76,12 @@ Then I should see following map of entry counts in the corresponding collections
      | parent                      | 1                   | body.parentUniqueStateId      | 5344776141      |
 
   And I should see "All records processed successfully." in the resulting batch job file
-  And I should see "Processed 4 records." in the resulting batch job file
+  And I should see "Processed 1 records." in the resulting batch job file
   And I should not see an error log file created
-  And I should see "StudentParentData.xml records considered: 4" in the resulting batch job file
-  And I should see "StudentParentData.xml records ingested successfully: 4" in the resulting batch job file
-  And I should see "StudentParentData.xml records failed: 0" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records considered: 1" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records deleted successfully: 0" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records attempted to be deleted, but not present: 1" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
 
 @Delete referenced student
 Scenario: Post a zip file containing student parent interchange as a payload of the ingestion job: Populated Database
@@ -97,9 +99,9 @@ Then I should see following map of entry counts in the corresponding collections
      | parent                      | 1                   | body.parentUniqueStateId      | 5344776141      |
 
   And I should see "All records processed successfully." in the resulting batch job file
-  And I should see "Processed 4 records." in the resulting batch job file
-  And I should not see an error log file created
-  And I should see "StudentParentData.xml records considered: 4" in the resulting batch job file
-  And I should see "StudentParentData.xml records ingested successfully: 4" in the resulting batch job file
-  And I should see "StudentParentData.xml records failed: 0" in the resulting batch job file
+  And I should see "Processed 1 records." in the resulting batch job file
+  And I should see "InterchangeStudent.xml records considered: 1" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records deleted successfully: 0" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records attempted to be deleted, but not present: 0" in the resulting batch job file
+  And I should see "InterchangeStudent.xml records failed: 1" in the resulting batch job file
 
