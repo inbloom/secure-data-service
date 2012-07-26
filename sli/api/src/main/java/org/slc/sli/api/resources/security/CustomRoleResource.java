@@ -47,9 +47,6 @@ import org.slc.sli.domain.enums.Right;
 public class CustomRoleResource {
     
     /*
-     * TODO:
-     * -Ensure that there can only be one of these per realm/tenant
-     * -Ensure that default roles can't be changed
      * -How much security logging do we need?
      */
     
@@ -115,12 +112,12 @@ public class CustomRoleResource {
         if (res != null) {
             return res;
         }
-        
-        String realmId = (String) newCustomRole.get("realmId");
-        if (!realmId.equals(getRealmId())) {
-           return Response.status(Status.BAD_REQUEST).entity("Cannot create custom roles for a realm you do not have access to").build(); 
+        res = validateValidRealm(newCustomRole);
+        if (res != null) {
+            return res;
         }
-        
+
+        String realmId = (String) newCustomRole.get("realmId");
         NeutralQuery existingCustomRoleQuery = new NeutralQuery();
         existingCustomRoleQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getTenantId(), false));
         existingCustomRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.OPERATOR_EQUAL, realmId));
@@ -151,6 +148,11 @@ public class CustomRoleResource {
         if (res != null) {
             return res;
         }
+        res = validateValidRealm(updated);
+        if (res != null) {
+            return res;
+        }
+
         
         EntityBody oldRealm = service.get(id);
         String oldRealmId = (String) oldRealm.get("realmId");
@@ -186,7 +188,7 @@ public class CustomRoleResource {
             List<String> rights = cur.get("rights");
             for (String right : rights) {
                 try {
-                    Right enumRight = Right.valueOf(right);
+                    Right.valueOf(right);
                 } catch (IllegalArgumentException iae) {
                     return Response.status(Status.BAD_REQUEST).entity("Invalid right listed in custom role document").build();
                 }
