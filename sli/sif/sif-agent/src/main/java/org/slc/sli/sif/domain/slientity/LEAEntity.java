@@ -19,9 +19,6 @@ package org.slc.sli.sif.domain.slientity;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.jackson.JsonNode;
-import org.slc.sli.api.client.Link;
-
 /**
  * An SLI Entity corresponding to an educationOrganization of localEducationAgency type 
  * defined in SLI schema.
