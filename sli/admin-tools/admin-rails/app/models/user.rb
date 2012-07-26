@@ -27,6 +27,7 @@ class User < SessionResource
     string  "edorg"
     time "createTime", "modifyTime" 
     string  "groups"
+    string  "fullName"
   end
  
   def get_groups 

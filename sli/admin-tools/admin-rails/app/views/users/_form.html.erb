@@ -1,0 +1,63 @@
+<%= form_for(user, :html => {:class => "form-horizontal"}) do |f| %>
+
+<fieldset>
+<div class = "control-group">
+	<%= f.label :fullName, "Full Name",:class => "control-label" %>
+	<div class="controls">
+	<%= f.text_field :fullName %>
+	</div>
+</div>
+</fieldset>
+
+<fieldset>
+<div class = "control-group">
+	<%= f.label :email, "Email",:class => "control-label" %>
+	<div class="controls">
+	<%= f.text_field :email %>
+	</div>
+</div>
+</fieldset>
+
+<fieldset>
+<div class = "control-group">
+	<%= f.label :edorg, "EdOrg" , :class => "control-label" %>
+	<div class="controls">
+	<%= f.select :edorg,  @edorgs, {},:include_blank => true %>
+	</div>
+</div>
+</fieldset>
+
+<fieldset>
+<div class = "control-group">
+	<%= f.label :groups, "Role" ,:class => "control-label" %>
+	<div class="controls">
+	<%= f.select :groups, @roles,{},:include_blank => true %>
+	</div>
+</div>
+</fieldset>
+
+<fieldset>
+<div class = "control-group">
+	<%= f.label :groups, "Optional Permissions" ,:class => "control-label" %>
+	<div class="controls">
+	<label class="checkbox">
+	<%= f.check_box :groups,{},"application_developer" %>Application Developer
+	</label>
+	</div>
+	<div class="controls">
+	<label class="checkbox">
+	<%= f.check_box :groups,{},"ingestion_user" %>Ingestion User
+	</label>
+	</div>
+	
+</div>
+</fieldset>
+
+<fieldset>
+<div class = "form-actions">
+	<%= f.submit "Save", :class => "btn btn-primary" %>
+	<%= link_to "Cancel", "/users",:class => "btn" %>
+</div>
+</fieldset>
+<% end %>
+

@@ -48,6 +48,19 @@ class UsersController < ApplicationController
     end
   end
   
+  # GET /apps/new
+  # GET /apps/new.json
+  def new
+    check = Check.get ""
+    @user = User.new
+     @edorgs = {"" => "", check["edOrg"] => 2} 
+     @roles ={"Sandbox Administrator" => 1, "Application Developer" => 2, "Ingestion User" => 3}
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @user }
+    end
+  end
+  
   # GET /users/1/edit
   # GET /users/1/edit.json
   def edit
