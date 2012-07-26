@@ -102,7 +102,7 @@ And I can also check "Ingestion User" Role
 
 When I click "Save"
 Then I am redirected to "Sandbox Account Management" page 
-#And a "Success" message is displayed 
+And a "Success! You have added a new user" message is displayed 
 And I see a user with Full Name is "Sandbox AcceptanceTests" in the table
 And I see "Sandbox AcceptanceTests" has "Application Developer" and "Ingestion User" role 
 
