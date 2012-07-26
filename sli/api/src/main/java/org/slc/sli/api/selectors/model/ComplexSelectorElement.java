@@ -59,4 +59,9 @@ public class ComplexSelectorElement implements SelectorElement {
     public SemanticSelector getSelector() {
         return selector;
     }
+
+    @Override
+    public String toString() {
+        return "{" + getElementName() + " : " + getSelector() + "}";
+    }
 }

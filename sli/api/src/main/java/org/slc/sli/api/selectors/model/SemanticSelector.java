@@ -1,5 +1,6 @@
 package org.slc.sli.api.selectors.model;
 
+import org.apache.commons.lang.StringUtils;
 import org.slc.sli.api.selectors.doc.SelectorQuery;
 import org.slc.sli.api.selectors.doc.SelectorQueryVisitable;
 import org.slc.sli.api.selectors.doc.SelectorQueryVisitor;
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 
 /**
  * @author jstokes
@@ -26,5 +28,24 @@ public class SemanticSelector extends HashMap<Type, List<SelectorElement>> imple
     @Override
     public SelectorQuery accept(SelectorQueryVisitor selectorQueryVisitor) {
         return selectorQueryVisitor.visit(this);
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder builder = new StringBuilder();
+
+        builder.append("{");
+        for (final Map.Entry<Type, List<SelectorElement>> item : this.entrySet()) {
+            final Type key = item.getKey();
+            final List<SelectorElement> elements = item.getValue();
+            builder.append(key.getName());
+            builder.append(" : ");
+            builder.append("[");
+            builder.append(StringUtils.join(elements, ','));
+            builder.append("]");
+        }
+        builder.append("}");
+
+        return builder.toString();
     }
 }

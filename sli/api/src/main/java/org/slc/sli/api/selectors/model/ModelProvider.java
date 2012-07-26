@@ -136,4 +136,14 @@ public final class ModelProvider {
         }
         return null;
     }
+
+    public ModelElement getModelElement(final ClassType type, final String key) {
+        if (isAssociation(type, key)) {
+            return getAssociationType(type, key);
+        } else if (isAttribute(type, key)) {
+            return getAttributeType(type, key);
+        }
+        return null;
+    }
 }
+
