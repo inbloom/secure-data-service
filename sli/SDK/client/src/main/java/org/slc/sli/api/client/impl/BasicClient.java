@@ -114,7 +114,7 @@ public class BasicClient implements SLIClient {
     }
 
     @Override
-    public Response read(final String sessionToken, List entities, final String resourceUrl, Class entityClass)
+    public Response read(final String sessionToken, List entities, final String resourceUrl, Class<?> entityClass)
             throws URISyntaxException, MessageProcessingException, IOException {
         entities.clear();
         return getResource(sessionToken, entities, new URL(restClient.getBaseURL() + resourceUrl), entityClass);
@@ -184,7 +184,7 @@ public class BasicClient implements SLIClient {
 
     @SuppressWarnings("unchecked")
     @Override
-    public Response getResource(final String sessionToken, List entities, URL restURL, Class entityClass)
+    public Response getResource(final String sessionToken, List entities, URL restURL, Class<?> entityClass)
             throws URISyntaxException, MessageProcessingException, IOException {
         entities.clear();
 

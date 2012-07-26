@@ -10,6 +10,11 @@ import javax.ws.rs.core.Response;
 
 import org.scribe.exceptions.OAuthException;
 
+/**
+ * Generic REST client. Provides the ability to connect to a ReSTful web service and make
+ * requests.
+ *
+ */
 public interface RESTClient {
 
     /**
