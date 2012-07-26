@@ -25,8 +25,8 @@ import openadk.library.MessageInfo;
 import openadk.library.SIFDataObject;
 import openadk.library.Subscriber;
 import openadk.library.Zone;
-import openadk.library.student.SchoolInfo;
 import openadk.library.student.LEAInfo;
+import openadk.library.student.SchoolInfo;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
