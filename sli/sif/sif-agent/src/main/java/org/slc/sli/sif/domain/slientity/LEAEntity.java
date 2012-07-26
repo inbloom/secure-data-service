@@ -90,7 +90,7 @@ public class LEAEntity extends GenericEntity
          * So set it to localEducationAgency
          */
         this.organizationCategories = new ArrayList<String>(1);
-        organizationCategories.add("localEducationAgency");
+        organizationCategories.add("Local Education Agency");
     }
 
     public List<String> getOrganizationCategories() {

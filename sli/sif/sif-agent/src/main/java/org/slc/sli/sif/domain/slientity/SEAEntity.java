@@ -90,7 +90,7 @@ public class SEAEntity extends GenericEntity
          * So set it to localEducationAgency
          */
         this.organizationCategories = new ArrayList<String>(1);
-        organizationCategories.add("stateEducationAgency");
+        organizationCategories.add("State Education Agency");
     }
 
     public List<String> getOrganizationCategories() {

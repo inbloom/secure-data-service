@@ -15,6 +15,7 @@ import com.mongodb.MongoException;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.bson.BSONObject;
+import org.slc.sli.aggregation.mapreduce.TenantAndID;
 
 /**
  * Map ACT scores and aggregate them at the school level based on scale score.
@@ -32,12 +33,11 @@ import org.bson.BSONObject;
  * @author asaarela
  */
 public class SchoolProficiencyMapper
-        extends Mapper<String, BSONObject, Text, Text> {
+        extends Mapper<String, BSONObject, TenantAndID, Text> {
 
     public static final String SCORE_TYPE = "ProficiencyCounts";
 
     Text code = new Text();
-    Text edOrg = new Text();
     Mongo mongo = null;
     DB db = null;
     DBCollection ssa = null;
@@ -57,7 +57,7 @@ public class SchoolProficiencyMapper
             throws IOException, InterruptedException {
 
         String idCode = context.getConfiguration().get("AssessmentIdCode");
-        String edOrgId = getStudentEdOrgId(studentId.toString());
+        TenantAndID edOrgId = getStudentEdOrgId(studentId.toString());
 
         if (edOrgId == null) {
             return;
@@ -101,16 +101,16 @@ public class SchoolProficiencyMapper
             code.set("-");
         }
 
-        edOrg.set(edOrgId);
-        context.write(edOrg, code);
+        context.write(edOrgId, code);
     }
 
     @SuppressWarnings("unchecked")
-    protected String getStudentEdOrgId(String studentId) throws UnknownHostException {
+    protected TenantAndID getStudentEdOrgId(String studentId) throws UnknownHostException {
         DBObject ssaRecord = ssa.findOne(new BasicDBObject("body.studentId", studentId));
         if (ssaRecord != null) {
             String schoolId = (String) ((Map<String, Object>) ssaRecord.get("body")).get("schoolId");
-            return schoolId;
+            String tenantId = (String) ((Map<String, Object>) ssaRecord.get("metaData")).get("tenantId");
+            return new TenantAndID(schoolId, tenantId);
         }
         return null;
     }

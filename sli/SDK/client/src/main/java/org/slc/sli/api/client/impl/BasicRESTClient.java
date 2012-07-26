@@ -162,11 +162,11 @@ public class BasicRESTClient implements RESTClient {
             if (e.getBooleanValue()) {
                 //e = obj.get("sessionId");
                 //sessionToken = e.asText();
-            } else
-                return "";
+                return sessionToken;
+            }
         }
 
-        return sessionToken;
+        return "";
     }
 
     /* (non-Javadoc)
