@@ -21,26 +21,22 @@ import java.util.Map;
 
 import openadk.library.ADKException;
 import openadk.library.Event;
-import openadk.library.EventAction;
 import openadk.library.MessageInfo;
 import openadk.library.SIFDataObject;
 import openadk.library.Subscriber;
 import openadk.library.Zone;
-import openadk.library.student.SchoolInfo;
 import openadk.library.student.LEAInfo;
+import openadk.library.student.SchoolInfo;
 
-import org.codehaus.jackson.JsonNode;
+import org.slc.sli.sif.domain.Sif2SliTransformer;
+import org.slc.sli.sif.domain.slientity.EntityAdapter;
+import org.slc.sli.sif.slcinterface.SifIdResolver;
+import org.slc.sli.sif.slcinterface.SlcInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.sif.domain.Sif2SliTransformer;
-import org.slc.sli.sif.domain.slientity.EntityAdapter;
-import org.slc.sli.sif.domain.slientity.LEAEntity;
-import org.slc.sli.sif.domain.slientity.SchoolEntity;
-import org.slc.sli.sif.slcinterface.SifIdResolver;
-import org.slc.sli.sif.slcinterface.SlcInterface;
+import org.slc.sli.api.client.Entity;;
 
 @Component
 public class SifSubscriber implements Subscriber {
