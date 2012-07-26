@@ -2,7 +2,7 @@
 <SIF_Message xmlns="http://www.sifinfo.org/infrastructure/2.x" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Version="2.3">
   <SIF_Event>
     <SIF_Header>
-      <SIF_MsgId>E89A2B2B571A402BAAE669568035987E</SIF_MsgId>
+      <SIF_MsgId>***SUB SIF MSG ID***</SIF_MsgId>
       <SIF_Timestamp>2012-07-24T13:48:13-04:00</SIF_Timestamp>
       <SIF_Security>
         <SIF_SecureChannel>

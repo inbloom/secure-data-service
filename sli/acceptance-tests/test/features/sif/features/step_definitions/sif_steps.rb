@@ -21,6 +21,7 @@ require 'rubygems'
 require 'mongo'
 require 'pp'
 require 'rest-client'
+require 'uuidtools'
 
 require_relative '../../../utils/sli_utils.rb'
 
@@ -83,6 +84,8 @@ def getMessageForIdentifier(identifier)
   file = File.open(@local_file_store_path + identifier + ".xml", "r")
   message = file.read
   file.close
+  uuid = UUIDTools::UUID.random_create
+  message = message.sub("***SUB SIF MSG ID***", uuid.to_s)
   return message
 end
 
@@ -100,6 +103,10 @@ def postMessage(message)
   @res = RestClient.post(@postUri, message, headers){|response, request, result| response }
   # puts(@res.code,@res.body,@res.raw_headers)
   # pp @res
+end
+
+When /^I wait for "([^"]*)" seconds$/ do |secs|
+  sleep(Integer(secs))
 end
 
 ############################################################

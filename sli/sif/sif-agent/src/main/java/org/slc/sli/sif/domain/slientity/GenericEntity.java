@@ -18,7 +18,6 @@ package org.slc.sli.sif.domain.slientity;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.JsonNode;
@@ -35,10 +34,9 @@ import org.slc.sli.api.client.Entity;
  * @author slee
  *
  */
-public abstract class GenericEntity implements Entity
+public abstract class GenericEntity
 {
     protected static ObjectMapper mapper = new ObjectMapper();
-    private JsonNode jsonNode = null;
 
     /**
      *  Constructor
@@ -51,9 +49,7 @@ public abstract class GenericEntity implements Entity
      * Output this Entity as a JSON Node
      */
     public JsonNode json() {
-        if (this.jsonNode==null) 
-            this.jsonNode = mapper.valueToTree(this);
-        return this.jsonNode;
+        return mapper.valueToTree(this);
     }
 
     /**
@@ -64,42 +60,4 @@ public abstract class GenericEntity implements Entity
         return json().toString();
     }
 
-    /**
-     * Get the data associated with this entity. If the entity has no data, returns
-     * an empty map. The key into this map is the property name. The values of this
-     * map can one of the following JSON types:
-     * 
-     * <ul>
-     * <li>List</li>
-     * <li>Map</li>
-     * <li>null</li>
-     * <li>Boolean</li>
-     * <li>Character</li>
-     * <li>Long</li>
-     * <li>Double</li>
-     * <li>String</li>
-     * </ul>
-     * 
-     * @return Map of data.
-     */
-    @Override
-    public Map<String, Object> getData() {
-        try
-        {
-            if (this.jsonNode==null)
-                return null;
-            else 
-                return mapper.readValue(this.jsonNode, new TypeReference<Map<String, Object>>(){});
-        } catch (JsonParseException e)
-        {
-            e.printStackTrace();
-        } catch (JsonMappingException e)
-        {
-            e.printStackTrace();
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        return null;
-    }
 }
