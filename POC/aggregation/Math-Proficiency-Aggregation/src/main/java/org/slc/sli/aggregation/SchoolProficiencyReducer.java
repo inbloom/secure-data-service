@@ -66,8 +66,8 @@ public class SchoolProficiencyReducer
             LongWritable w = (LongWritable) counts.get(key);
             w.set(w.get() + 1);
             counts.put(key,  w);
-        }
-        else {
+
+        } else {
             LongWritable w = new LongWritable();
             w.set(1);
             counts.put(key, w);

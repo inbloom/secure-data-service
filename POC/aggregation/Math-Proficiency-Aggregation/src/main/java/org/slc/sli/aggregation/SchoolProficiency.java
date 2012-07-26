@@ -47,6 +47,9 @@ public class SchoolProficiency extends Configured implements Tool {
         MongoConfigUtil.setQuery(conf, "{'type':'school'}");
         MongoConfigUtil.setOutputURI(conf, output);
 
+        MongoConfigUtil.setCreateInputSplits(conf,  true);
+        MongoConfigUtil.setShardChunkSplittingEnabled(conf, true);
+
         Job job = new Job(conf, "SchoolProficiency");
         job.setJarByClass(getClass());
 

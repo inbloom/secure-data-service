@@ -62,7 +62,7 @@ public class SchoolProficiencyMapper
 
         String idCode = context.getConfiguration().get("AssessmentIdCode");
 
-        Set<DBObject> students = getStudentsForSchool(schoolId, idCode);
+        Set<DBObject> students = getStudentsForSchool(school, idCode);
 
         if (students.isEmpty()) {
             return;
@@ -95,22 +95,32 @@ public class SchoolProficiencyMapper
     }
 
     @SuppressWarnings("unchecked")
-    protected Set<DBObject> getStudentsForSchool(String schoolId, String assessmentId) {
+    protected Set<DBObject> getStudentsForSchool(BSONObject school, String assessmentId) {
         Set<DBObject> students = new HashSet<DBObject>();
 
-        BasicDBObject ids = new BasicDBObject();
-        DBCursor c = ssa.find(new BasicDBObject("body.schoolId", schoolId));
+        BasicDBObject query = new BasicDBObject();
+
+        query.put("body.schoolId", school.get("body.schoolId"));
+        query.put("metaData.tenantId", school.get("metaData.tenantId"));
+
+        DBCursor c = ssa.find(query);
+        String[] ids = new String[c.count()];
+        int idx = 0;
         while (c.hasNext()) {
             DBObject ssaObject = c.next();
             Map<String, Object> body = (Map<String, Object>) ssaObject.get("body");
             String key = (String) body.get("studentId");
-            ids.put("studentId", key);
+            ids[idx++] = key;
         }
 
         DBObject fields = new BasicDBObject();
         fields.put("aggregations.assessments." + assessmentId + ".HighestEver.ScaleScore", 1);
 
-        DBCursor studentCursor = studentColl.find(ids, fields);
+        query = new BasicDBObject();
+        query.put("_id", new BasicDBObject("$in", ids));
+        query.put("metaData.tenantId", school.get("metaData.tenantId"));
+
+        DBCursor studentCursor = studentColl.find(query, fields);
         while (studentCursor.hasNext()) {
             students.add(studentCursor.next());
         }
