@@ -28,7 +28,7 @@ public class SchoolProficiency extends Configured implements Tool {
 
     @Override
     public int run(String[] args) throws Exception {
-        String assmtIDCode = "Grade 7 2011 State Math";
+        String assmtIDCode = args.length == 0 ? "Grade 7 2011 State Math" : args[0];
 
         MongoURI input = new MongoURI("mongodb://localhost/sli.educationOrganization");
         MongoURI output = new MongoURI("mongodb://localhost/sli.educationOrganization");
