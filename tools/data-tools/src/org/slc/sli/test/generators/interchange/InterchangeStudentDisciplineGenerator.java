@@ -94,9 +94,8 @@ public class InterchangeStudentDisciplineGenerator {
             } else {
                 retVal = DisciplineIncidentGenerator.generateLowFi(disciplineIncidentMeta);
             }
-            QName qName = new QName("http://ed-fi.org/0100", "DisciplineIncident");
-            JAXBElement<DisciplineIncident> jaxbElement = new JAXBElement<DisciplineIncident>(qName,DisciplineIncident.class,retVal);
-            iWriter.marshal(jaxbElement);
+
+            iWriter.marshal(retVal);
             count++;
         }
         return count;
@@ -121,9 +120,8 @@ public class InterchangeStudentDisciplineGenerator {
             } else {
                 retVal = DisciplineActionGenerator.generateLowFi(disciplineActionMeta);
             }
-            QName qName = new QName("http://ed-fi.org/0100", "DisciplineAction");
-            JAXBElement<DisciplineAction> jaxbElement = new JAXBElement<DisciplineAction>(qName,DisciplineAction.class,retVal);
-            iWriter.marshal(jaxbElement);
+
+            iWriter.marshal(retVal);
             count++;
 
         }

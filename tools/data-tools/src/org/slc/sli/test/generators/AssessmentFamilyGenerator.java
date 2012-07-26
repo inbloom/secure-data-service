@@ -56,12 +56,12 @@ public class AssessmentFamilyGenerator {
                     AssessmentPeriodDescriptorGenerator.getAssessmentPeriodDescriptorType(assessPeriodDescIdString));
         }
         
-//        if(MetaRelations.AssessmentFamily_Ref) {
-        	if (assessFamilyMeta.relatedAssessmentFamilyId != null) {
-        		assessFamily
-        		.setAssessmentFamilyReference(getAssessmentFamilyReferenceType(assessFamilyMeta.relatedAssessmentFamilyId));
-        	}
-//        }
+
+		if (assessFamilyMeta.relatedAssessmentFamilyId != null) {
+			assessFamily
+					.setAssessmentFamilyReference(getAssessmentFamilyReferenceType(assessFamilyMeta.relatedAssessmentFamilyId));
+		}
+
         return assessFamily;
     }
 
