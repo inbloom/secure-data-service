@@ -43,7 +43,7 @@
             <td id="additional_role"+<%= user.uid%>></td>
             <td id="tenant"+<%= user.uid%>><%= user.tenant%></td>
         <% end %>
-        <td id="<%= user.firstName%> <%= user.lastName%>_edorg"><% if user.edorg==nil%><%else%><%=user.edorg%><%end%></td>
+        <td id="<%= user.firstName%> <%= user.lastName%>_edorg"><% if user.edorg==nil|| user.edorg=="null"%><%else%><%=user.edorg%><%end%></td>
         <td id="<%= user.firstName%> <%= user.lastName%>_date_created"><%= I18n.localize(user.get_create_time)%></td>
 		<td id="<%= user.firstName%> <%= user.lastName%>_actions" class="actions">
 			<button id="<%= user.firstName%> <%= user.lastName%>_edit" type="button" class="btn" ><%= link_to_if true, "Edit", "/users" %></button> | 
