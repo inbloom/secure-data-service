@@ -201,6 +201,22 @@ public class CustomRoleResourceTest {
 
     }
     
+    @Test
+    public void testUpdateWithDuplicateRights() {
+        EntityBody body = getRoleDocWithDuplicateRights();
+        
+        body.put("customRights", Arrays.asList(new String[] {"Something", "Else"}));
+        mockGetRealmId();
+        String id = "old-id";
+        
+        Mockito.when(service.get(id)).thenReturn((EntityBody) body.clone());
+        
+        Mockito.when(service.update(id, body)).thenReturn(true);
+        Response res = resource.updateCustomRole(id, body);
+        Assert.assertEquals(400, res.getStatus());
+        Assert.assertEquals(CustomRoleResource.ERROR_DUPLICATE_RIGHTS, res.getEntity());
+    }
+    
     
     @Test
     public void testCreateWithDuplicateRoles() {
@@ -242,9 +258,22 @@ public class CustomRoleResourceTest {
     }
     
     @Test
+    public void testCreateWithDuplicateRights() {
+        EntityBody body = getRoleDocWithDuplicateRights();
+        
+        mockGetRealmId();
+        Mockito.when(service.create(body)).thenReturn("new-role-id");
+        
+        
+        Response res = resource.createCustomRole(body, null);
+        Assert.assertEquals(400, res.getStatus());
+        Assert.assertEquals(CustomRoleResource.ERROR_DUPLICATE_RIGHTS, res.getEntity());
+    }
+    
+    @Test
     public void testCreateDuplicate() {
         NeutralQuery existingCustomRoleQuery = new NeutralQuery();
-        existingCustomRoleQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, SecurityContextInjector.TENANT_ID, false));
+        existingCustomRoleQuery.addCriteria(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getTenantId()));
         existingCustomRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.OPERATOR_EQUAL, REALM_ID));
         
         Entity mockEntity = Mockito.mock(Entity.class);
@@ -305,6 +334,22 @@ public class CustomRoleResourceTest {
         roles.add(role2);
         body.put("roles", roles);
         return body;
+    }
+    
+    private EntityBody getRoleDocWithDuplicateRights() {
+        EntityBody body = getValidRoleDoc();
+        List<Map<String, List<String>>> roles = new ArrayList<Map<String, List<String>>>();
+        Map<String, List<String>> role1 = new HashMap<String, List<String>>();
+        role1.put("names", Arrays.asList(new String[]{ "Role1", "Role2"}));
+        role1.put("rights", Arrays.asList(new String[]{"WRITE_GENERAL", "WRITE_GENERAL"}));
+        Map<String, List<String>> role2 = new HashMap<String, List<String>>();
+        role2.put("names", Arrays.asList(new String[]{ "Role3", "Role1"}));
+        role2.put("rights", Arrays.asList(new String[]{"READ_GENERAL", "READ_RESTRICTED"}));
+        roles.add(role1);
+        roles.add(role2);
+        body.put("roles", roles);
+        return body;
+
     }
     
     private EntityBody getRoleDocWithInvalidRealm() {

@@ -44,7 +44,6 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
-import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
@@ -83,7 +82,8 @@ public class CustomRoleResource {
     public static final String ERROR_INVALID_RIGHT = "Invalid right listed in custom role document";
     public static final String ERROR_MULTIPLE_DOCS = "Cannot create multiple custom role documents per realm/tenant";
     public static final String ERROR_FORBIDDEN = "User does not have access to requested role document";
-    
+    public static final String ERROR_DUPLICATE_RIGHTS = "Cannot have the same right listed more than once in a role";
+            
     @PostConstruct
     public void init() {
         EntityDefinition def = store.lookupByResourceName("customRole");
@@ -142,7 +142,7 @@ public class CustomRoleResource {
 
         String realmId = (String) newCustomRole.get("realmId");
         NeutralQuery existingCustomRoleQuery = new NeutralQuery();
-        existingCustomRoleQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getTenantId(), false));
+        existingCustomRoleQuery.addCriteria(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getTenantId()));
         existingCustomRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.OPERATOR_EQUAL, realmId));
         if (repo.findOne("customRole", existingCustomRoleQuery) != null) {
             return Response.status(Status.BAD_REQUEST).entity(ERROR_MULTIPLE_DOCS).build(); 
@@ -209,11 +209,19 @@ public class CustomRoleResource {
         List<Map<String, List<String>>> roles = (List<Map<String, List<String>>>) customRoleDoc.get("roles");
         for (Map<String, List<String>> cur : roles) {
             List<String> rights = cur.get("rights");
-            for (String right : rights) {
+            Set<Right> rightsSet = new HashSet<Right>();
+            for (String rightName : rights) {
+                Right right = null;
                 try {
-                    Right.valueOf(right);
+                    right = Right.valueOf(rightName);
                 } catch (IllegalArgumentException iae) {
                     return Response.status(Status.BAD_REQUEST).entity(ERROR_INVALID_RIGHT).build();
+                }
+                
+                if (rightsSet.contains(right)) {
+                    return Response.status(Status.BAD_REQUEST).entity(ERROR_DUPLICATE_RIGHTS).build();
+                } else {
+                    rightsSet.add(right);
                 }
             }
             
