@@ -15,16 +15,15 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName        | expectedRecordCount | searchParameter          | searchValue        | searchType |
      | educationOrganization | 1                   | body.stateOrganizationId | Daybreak West High | string     |
      | educationOrganization | 1                   | body.stateOrganizationId | IL                 | string     |
-
-
-Scenario: Post a SchoolInfo message: Populated Database
 Given I want to POST a(n) "sifEvent_SchoolInfo_change" SIF message
 When I POST the message to the ZIS
-#And "10" seconds have elapsed
-#Then I should see following map of entry counts in the corresponding collections:
-#     | collectionName        | count |
-#     | educationOrganization | 4     |
-#   And I check to find if record is in collection:
-#     | collectionName        | expectedRecordCount | searchParameter          | searchValue    | searchType |
-#     | educationOrganization | 0                   | body.stateOrganizationId | Tatooine PS IV | string     |
-#     | educationOrganization | 1                   | body.stateOrganizationId | Hoth PS V      | string     |
+And I wait for "10" seconds
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName        | count |
+     | educationOrganization | 2     |
+   And I check to find if record is in collection:
+     | collectionName        | expectedRecordCount | searchParameter          | searchValue                | searchType |
+     | educationOrganization | 1                   | body.stateOrganizationId | IL                         | string     |
+     | educationOrganization | 1                   | body.stateOrganizationId | Daybreak West High         | string     |
+     | educationOrganization | 0                   | body.nameOfInstitution   | Daybreak West High         | string     |
+     | educationOrganization | 1                   | body.nameOfInstitution   | UPDATED Daybreak West High | string     |

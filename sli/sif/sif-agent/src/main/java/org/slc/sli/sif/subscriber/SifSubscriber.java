@@ -16,8 +16,13 @@
 
 package org.slc.sli.sif.subscriber;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.ws.rs.MessageProcessingException;
 
 import openadk.library.ADKException;
 import openadk.library.Event;
@@ -35,6 +40,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.client.Entity;
+import org.slc.sli.api.client.SLIClientException;
+import org.slc.sli.api.client.util.Query;
 import org.slc.sli.sif.domain.Sif2SliTransformer;
 import org.slc.sli.sif.domain.slientity.EntityAdapter;
 import org.slc.sli.sif.domain.slientity.LEAEntity;
@@ -46,6 +54,8 @@ import org.slc.sli.sif.slcinterface.SlcInterface;
 public class SifSubscriber implements Subscriber {
 
     private static final Logger LOG = LoggerFactory.getLogger(SifSubscriber.class);
+    
+    private static final String PARENT_EDORG_FIELD = "parentEducationAgencyReference";
 
     @Autowired
     private Sif2SliTransformer xformer;
@@ -102,6 +112,7 @@ public class SifSubscriber implements Subscriber {
                 addEntity(sdo);
                 break;
             case CHANGE:
+                changeEntity(sdo);
                 break;
             case DELETE:
                 deleteEntity(sdo);
@@ -174,4 +185,22 @@ public class SifSubscriber implements Subscriber {
     //may need refactor for persistency consideration
     private Map<String, Map<String, String>> sifRefId2guidMap = new HashMap<String, Map<String, String>>();
 
+    private void changeEntity(SIFDataObject sdo) {
+        Entity originalEntity = sifIdResolver.getSLIEntity(sdo.getRefId());
+        if (originalEntity == null) {
+            LOG.info(" Unable to map SIF object to SLI: " + sdo.getRefId());
+            return;
+        }
+        EntityAdapter entity = null;
+        if (sdo instanceof SchoolInfo) {
+            entity = xformer.transform((SchoolInfo) sdo);
+        }
+        if (sdo instanceof LEAInfo) {
+            entity = xformer.transform((LEAInfo)sdo);
+        }
+        entity.fillDataFromEntity(originalEntity);
+        
+        LOG.info("change SchoolInfo: \n\n\t@@@@@@@@@@@@@@@@@@\n"+entity.getData());
+        slcInterface.update(entity);
+    }
 }

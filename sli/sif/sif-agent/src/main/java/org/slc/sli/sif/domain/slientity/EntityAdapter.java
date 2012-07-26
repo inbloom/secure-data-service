@@ -17,9 +17,13 @@
 package org.slc.sli.sif.domain.slientity;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -41,6 +45,7 @@ public class EntityAdapter implements Entity
     private GenericEntity adaptedEntity = null;
     private String entityType = null;
     private String id = null;
+    private Map<String, Object> dataMap = new HashMap<String, Object>();
     
     /**
      *  Constructor
@@ -48,6 +53,19 @@ public class EntityAdapter implements Entity
     public EntityAdapter(GenericEntity adaptedEntity, String entityType) {
         this.adaptedEntity = adaptedEntity;
         this.entityType = entityType;
+        try
+        {
+            if (this.adaptedEntity!=null) {
+                dataMap = mapper.readValue(adaptedEntity.json(), new TypeReference<Map<String, Object>>(){});
+                clearNullValueKeys (dataMap);
+            }
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -79,24 +97,9 @@ public class EntityAdapter implements Entity
     @Override
     public Map<String, Object> getData()
     {
-        try
-        {
-            if (this.adaptedEntity==null)
-                return new HashMap<String, Object>();
-            else 
-                return mapper.readValue(adaptedEntity.json(), new TypeReference<Map<String, Object>>(){});
-        } catch (JsonParseException e)
-        {
-            e.printStackTrace();
-        } catch (JsonMappingException e)
-        {
-            e.printStackTrace();
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-        return new HashMap<String, Object>();
+        return dataMap;
     }
+    
 
     /**
      * Get the type name for this entity.
@@ -128,6 +131,11 @@ public class EntityAdapter implements Entity
         this.id = id;
     }
     
+    public void setEntityType(String t)
+    {
+        this.entityType = t;
+    }
+
     /**
      * Get a list of links for this entity. If the entity has no links, returns an empty list.
      * 
@@ -139,5 +147,68 @@ public class EntityAdapter implements Entity
         return null;
     }
 
+    /**
+     * Takes an entity and fills in the missing values from it recursively
+     * @param m
+     */
+    public void fillDataFromEntity(Entity e) {
+        setId(e.getId());
+        setEntityType(e.getEntityType());
+        fillMap(dataMap, e.getData());
+        dataMap.remove("links"); // Workaround: why is "links" included in an entity's data?!? 
+    }
+    
+    // applies map2 to map1 recursively
+    private void fillMap (Map map, Map u) {
+        for (Object k : u.keySet()) {
+            if (!map.containsKey(k)) {
+                map.put(k, u.get(k));
+            } else {
+                Object o1 = map.get(k);
+                Object o2 = u.get(k);
+                // recursive update collections
+                if (o1 instanceof Map && o2 instanceof Map) {
+                    fillMap((Map) o1, (Map) o2);
+                }
+            }
+        }
+    }
+    
+    // removes all keys from this map that has a null value. If some values are maps, 
+    // do it recursively
+    private void clearNullValueKeys(Map m) {
+        Set keySet = m.keySet();
+        Set keysToRemove = new HashSet();
+        for (Object k : keySet) {
+            if (isNullValue(m.get(k))) {
+                keysToRemove.add(k);
+            }
+        }
+        for (Object k : keysToRemove) {
+        	m.remove(k);
+        }
+    }
+    private void clearNullValueFromList(List l) {
+        ListIterator it = l.listIterator();
+        while (it.hasNext()) {
+            Object o = it.next();
+            if (isNullValue(o)) {
+                it.remove();
+            }
+        }
+    }
+    private boolean isNullValue (Object o) {
+        if (o == null) {
+            return true;
+        }
+        if (o instanceof Map) {
+            clearNullValueKeys((Map) o);
+            return ((Map)o).isEmpty();
+        } else if (o instanceof List) {
+            clearNullValueFromList((List) o);
+            return ((List)o).isEmpty();
+        }
+        return false;
+    }
 }
 
