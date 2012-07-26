@@ -224,6 +224,9 @@ When /^I click "Save"$/ do
   @driver.find_element(:name, "commit").click
 end
 
+Then /^a "(.*?)" message is displayed$/ do |message|
+    assertText(message)
+end
 
 def check_heading(heading_name)
 heading_element=@driver.find_element(:xpath, "//tr[th='#{heading_name}']")
