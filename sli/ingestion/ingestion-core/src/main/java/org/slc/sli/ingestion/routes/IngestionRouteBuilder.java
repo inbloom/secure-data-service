@@ -312,7 +312,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .process(purgeProcessor).to("direct:stop")
 
                 .when(header("IngestionMessageType").isEqualTo(MessageType.DELETE.name()))
-                .log(LoggingLevel.INFO, "CamelRouting", "Purge command. Routing to DeleteProcessor.")
+                .log(LoggingLevel.INFO, "CamelRouting", "Delete command. Routing to DeleteProcessor.")
                 .process(deleteProcessor).to("direct:stop")
 
                 .when(header("IngestionMessageType").isEqualTo(MessageType.CONTROL_FILE_PROCESSED.name()))

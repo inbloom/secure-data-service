@@ -67,6 +67,7 @@
 
   <bean id="edFiProcessor" class="org.slc.sli.ingestion.processors.EdFiProcessor" />
   <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler" />
+  <bean id="deleteSmooksFileHandler" class="org.slc.sli.ingestion.handler.DeleteSmooksFileHandler" />
 
   <bean id="deleteProcessor" class="org.slc.sli.ingestion.processors.DeleteProcessor">
     <property name="deleteHandler" ref="entityDeleteHandler" />

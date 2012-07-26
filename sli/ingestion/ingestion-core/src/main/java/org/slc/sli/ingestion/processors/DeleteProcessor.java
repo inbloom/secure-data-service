@@ -17,14 +17,32 @@
 
 package org.slc.sli.ingestion.processors;
 
-import java.util.HashMap;
-import java.util.Iterator;
+import java.io.File;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.Observable;
+import java.util.Observer;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slc.sli.dal.TenantContext;
+import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.FaultType;
+import org.slc.sli.ingestion.FaultsReport;
+import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.FileProcessStatus;
+import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.NeutralRecordEntity;
+import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.handler.DeleteSmooksFileHandler;
+import org.slc.sli.ingestion.handler.NeutralRecordEntityDeleteHandler;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.model.Error;
+import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.ResourceEntry;
+import org.slc.sli.ingestion.model.Stage;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,29 +50,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.MessageSourceAware;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.dal.TenantContext;
-import org.slc.sli.domain.EntityMetadataKey;
-import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.FaultType;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.NeutralRecordEntity;
-import org.slc.sli.ingestion.Translator;
-import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.handler.NeutralRecordEntityDeleteHandler;
-import org.slc.sli.ingestion.model.Error;
-import org.slc.sli.ingestion.model.NewBatchJob;
-import org.slc.sli.ingestion.model.Stage;
-import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.queues.MessageType;
-import org.slc.sli.ingestion.util.BatchJobUtils;
-import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
-import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
-import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slc.sli.ingestion.validation.ProxyErrorReport;
 
 /**
  * Performs selective delete of data in mongodb based on Ed-Fi XML file.
@@ -63,14 +59,10 @@ import org.slc.sli.ingestion.validation.ProxyErrorReport;
  *
  */
 @Component
-public class DeleteProcessor implements Processor, MessageSourceAware {
+public class DeleteProcessor implements Processor, MessageSourceAware, Observer {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.DELETE_PROCESSOR;
     private static Logger logger = LoggerFactory.getLogger(DeleteProcessor.class);
-
-    private static final String METADATA_BLOCK = "metaData";
-
-    private static final String TENANT_ID = "tenantId";
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -81,6 +73,9 @@ public class DeleteProcessor implements Processor, MessageSourceAware {
     private List<String> excludeCollections;
 
     private MessageSource messageSource;
+
+    @Autowired
+    private DeleteSmooksFileHandler deleteSmooksFileHandler;
 
     private NeutralRecordEntityDeleteHandler deleteHandler;
 
@@ -108,6 +103,7 @@ public class DeleteProcessor implements Processor, MessageSourceAware {
     @Override
     public void process(Exchange exchange) throws Exception {
 
+        deleteSmooksFileHandler.addObserver(this);
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
         String batchJobId = getBatchJobId(exchange);
@@ -117,31 +113,25 @@ public class DeleteProcessor implements Processor, MessageSourceAware {
             try {
                 newJob = batchJobDAO.findBatchJobById(batchJobId);
 
-                // TODO Process Ed-Fi, until then, hard-code a student to 
-                // delete
-                String resourceId = "";
-                
-                NeutralRecord neutralRecord = new NeutralRecord();
-                Map<String,Object> attributes = new HashMap<String,Object>();
-                attributes.put("studentUniqueStateId", "530425896");
-                neutralRecord.setRecordType("student");
-                neutralRecord.setAttributes(attributes);
-                neutralRecord.setLocalId("530425896");
-                NeutralRecordEntity nrEntity = new NeutralRecordEntity(neutralRecord);
-                nrEntity.setMetaDataField("tenantId", "Midgar");
-                nrEntity.setMetaDataField("externalId", "530425896");
+                TenantContext.setTenantId(newJob.getTenantId());
+                for (ResourceEntry resource : newJob.getResourceEntries()) {
+                    // TODO change the Abstract handler to work with ResourceEntry so we can avoid
+                    // this kludge here and elsewhere
+                    if (resource.getResourceFormat() != null
+                            && resource.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())) {
+                        FileFormat format = FileFormat.findByCode(resource.getResourceFormat());
+                        FileType type = FileType.findByNameAndFormat(resource.getResourceType(), format);
+                        IngestionFileEntry fe = new IngestionFileEntry(format, type, resource.getResourceId(),
+                                resource.getChecksum());
 
-                // TODO Set up this ErrorReport properly
-                ErrorReport errorReportForNrEntity = new DatabaseLoggingErrorReport(batchJobId, BATCH_JOB_STAGE,
-                        resourceId, batchJobDAO);
+                        fe.setFile(new File(resource.getResourceName()));
 
-                try {
-                    deleteHandler.handle(nrEntity, errorReportForNrEntity);
-                } catch (DataAccessResourceFailureException darfe) {
-                    logger.error("Exception processing record with deleteHandler", darfe);
+                        deleteSmooksFileHandler.handle(fe, fe.getErrorReport(), new FileProcessStatus());
+
+                    } else {
+                        logger.warn("Warning: The resource {} is not an EDFI format.", resource.getResourceName());
+                    }
                 }
-
-
             } catch (Exception exception) {
                 handleProcessingExceptions(exchange, batchJobId, exception);
             } finally {
@@ -156,15 +146,36 @@ public class DeleteProcessor implements Processor, MessageSourceAware {
         }
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public void update(Observable o, Object arg) {
+        List<NeutralRecordEntity> neutralRecordEntities = (List<NeutralRecordEntity>) arg;
+        if (neutralRecordEntities == null)
+            return;
+        // TODO Set up this ErrorReport properly
+//        ErrorReport errorReportForNrEntity = new DatabaseLoggingErrorReport(batchJobId, BATCH_JOB_STAGE,
+//                resourceId, batchJobDAO);
+
+        for (NeutralRecordEntity neutralRecordEntity : neutralRecordEntities) {
+
+            try {
+                deleteHandler.handle(neutralRecordEntity, new FaultsReport());
+            } catch (DataAccessResourceFailureException darfe) {
+                logger.error("Exception processing record with deleteHandler", darfe);
+            }
+
+        }
+    }
+
     public NeutralRecordEntityDeleteHandler getDeleteHandler() {
-		return deleteHandler;
-	}
+        return deleteHandler;
+    }
 
-	public void setDeleteHandler(NeutralRecordEntityDeleteHandler deleteHandler) {
-		this.deleteHandler = deleteHandler;
-	}
+    public void setDeleteHandler(NeutralRecordEntityDeleteHandler deleteHandler) {
+        this.deleteHandler = deleteHandler;
+    }
 
-	private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
+    private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         exchange.setProperty("delete.complete", "Errors encountered during delete process");

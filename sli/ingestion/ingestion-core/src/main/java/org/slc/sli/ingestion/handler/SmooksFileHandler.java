@@ -55,7 +55,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     private static final Logger LOG = LoggerFactory.getLogger(SmooksFileHandler.class);
 
     @Autowired
-    private SliSmooksFactory sliSmooksFactory;
+    protected SliSmooksFactory sliSmooksFactory;
 
     @Override
     protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport,
@@ -81,7 +81,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             FileProcessStatus fileProcessStatus) throws IOException, SAXException {
 
         // create instance of Smooks (with visitors already added)
-        Smooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport);
+        Smooks smooks = initializeSmooks(ingestionFileEntry, errorReport);
 
         InputStream inputStream = new BufferedInputStream(new FileInputStream(ingestionFileEntry.getFile()));
         try {
@@ -96,11 +96,8 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
                 SmooksEdFiVisitor visitAfter = (SmooksEdFiVisitor) visitAfters.getAllMappings().get(0)
                         .getContentHandler();
 
-                int recordsPersisted = visitAfter.getRecordsPerisisted();
-                fileProcessStatus.setTotalRecordCount(recordsPersisted);
-
-                LOG.info("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
-                        ingestionFileEntry.getFileName());
+                postSmookFileHandling(ingestionFileEntry, fileProcessStatus,
+                        visitAfter);
             } catch (Exception e) {
                 LOG.error("Error accessing visitor list in smooks", e);
             }
@@ -110,5 +107,19 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
         } finally {
             IOUtils.closeQuietly(inputStream);
         }
+    }
+
+    protected void postSmookFileHandling(IngestionFileEntry ingestionFileEntry,
+            FileProcessStatus fileProcessStatus, SmooksEdFiVisitor visitAfter) {
+        int recordsPersisted = visitAfter.getRecordsPerisisted();
+        fileProcessStatus.setTotalRecordCount(recordsPersisted);
+
+        LOG.info("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
+                ingestionFileEntry.getFileName());
+    }
+
+    protected Smooks initializeSmooks(IngestionFileEntry ingestionFileEntry,
+            ErrorReport errorReport) throws IOException, SAXException {
+        return sliSmooksFactory.createInstance(ingestionFileEntry, errorReport);
     }
 }

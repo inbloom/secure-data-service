@@ -42,8 +42,15 @@ public class SliSmooksFactory {
     private Map<FileType, SliSmooksConfig> sliSmooksConfigMap;
     private String beanId;
     private NeutralRecordMongoAccess nrMongoStagingWriter;
+    private boolean isDeleteProcess = false;
 
-    public Smooks createInstance(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport) 
+    public Smooks createInstance(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport, boolean isDeleteProcess)
+            throws IOException, SAXException {
+        this.isDeleteProcess = isDeleteProcess;
+        return createInstance(ingestionFileEntry, errorReport);
+    }
+
+    public Smooks createInstance(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport)
             throws IOException, SAXException {
 
         FileType fileType = ingestionFileEntry.getFileType();
@@ -70,7 +77,7 @@ public class SliSmooksFactory {
 
             // just one visitor instance that can be added with multiple target selectors
             Visitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance(beanId, batchJobId, errorReport,
-                    fe);
+                    fe, !isDeleteProcess);
 
             ((SmooksEdFiVisitor) smooksEdFiVisitor).setNrMongoStagingWriter(nrMongoStagingWriter);
             for (String targetSelector : targetSelectorList) {

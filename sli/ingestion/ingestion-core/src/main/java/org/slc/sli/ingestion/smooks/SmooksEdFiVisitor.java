@@ -64,6 +64,12 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     private Map<String, Integer> occurences;
     private Map<String, List<NeutralRecord>> queuedWrites;
     private int recordsPerisisted;
+    private boolean isPersistingEnabled = true;
+    private List<NeutralRecord> neutralRecords;
+
+    public List<NeutralRecord> getNeutralRecords() {
+        return neutralRecords;
+    }
 
     /**
      * Get records persisted to data store. If there are still queued writes waiting, flush the
@@ -76,7 +82,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         return recordsPerisisted;
     }
 
-    private SmooksEdFiVisitor(String beanId, String batchJobId, ErrorReport errorReport, IngestionFileEntry fe) {
+    private SmooksEdFiVisitor(String beanId, String batchJobId, ErrorReport errorReport, IngestionFileEntry fe, boolean enablePersiting) {
         this.beanId = beanId;
         this.batchJobId = batchJobId;
         this.errorReport = errorReport;
@@ -84,11 +90,18 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         this.occurences = new HashMap<String, Integer>();
         this.recordsPerisisted = 0;
         this.queuedWrites = new HashMap<String, List<NeutralRecord>>();
+        this.neutralRecords = new ArrayList<NeutralRecord>();
+        this.isPersistingEnabled = enablePersiting;
+    }
+
+    public static SmooksEdFiVisitor createInstance(String beanId, String batchJobId, ErrorReport errorReport,
+            IngestionFileEntry fe, boolean enablePersisting) {
+        return new SmooksEdFiVisitor(beanId, batchJobId, errorReport, fe, enablePersisting);
     }
 
     public static SmooksEdFiVisitor createInstance(String beanId, String batchJobId, ErrorReport errorReport,
             IngestionFileEntry fe) {
-        return new SmooksEdFiVisitor(beanId, batchJobId, errorReport, fe);
+        return new SmooksEdFiVisitor(beanId, batchJobId, errorReport, fe, true);
     }
 
     @Override
@@ -97,6 +110,9 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         Throwable terminationError = executionContext.getTerminationError();
         if (terminationError == null) {
             NeutralRecord neutralRecord = getProcessedNeutralRecord(executionContext);
+            neutralRecords.add(neutralRecord);
+            if (!isPersistingEnabled)
+                return;
             queueNeutralRecordForWriting(neutralRecord);
 
             if (recordsPerisisted % FLUSH_QUEUE_THRESHOLD == 0) {
