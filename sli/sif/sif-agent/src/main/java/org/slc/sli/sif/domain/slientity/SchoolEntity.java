@@ -19,9 +19,6 @@ package org.slc.sli.sif.domain.slientity;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.jackson.JsonNode;
-import org.slc.sli.api.client.Link;
-
 /**
  * An SLI Entity corresponding to a school defined in SLI schema.
  * Each SLI Entity can be converted to a JSON Node ready for SLI operations.
