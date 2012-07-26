@@ -31,9 +31,9 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 import org.slc.sli.dashboard.entity.Config;
+import org.slc.sli.dashboard.entity.Config.Type;
 import org.slc.sli.dashboard.entity.ConfigMap;
 import org.slc.sli.dashboard.entity.EdOrgKey;
-import org.slc.sli.dashboard.entity.Config.Type;
 import org.slc.sli.dashboard.manager.ApiClientManager;
 import org.slc.sli.dashboard.manager.ConfigManager;
 import org.slc.sli.dashboard.util.Constants;
@@ -216,6 +216,39 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
             }
             // assemble widgets
             if (config.getType() == Type.WIDGET) {
+                widgets.put(config.getId(), config);
+            }
+        }
+        for (String id : widgets.keySet()) {
+            widgets.put(id, getComponentConfig(token, edOrgKey, id));
+        }
+        return widgets.values();
+    }
+
+    @Override
+    //@Cacheable(value = Constants.CACHE_USER_WIDGET_CONFIG)
+    public Collection<Config> getConfigsByAttribute(String token, EdOrgKey edOrgKey, String attr, String value) {
+        // id to config map
+        Map<String, Config> widgets = new HashMap<String, Config>();
+        Config config;
+        // list files in driver dir
+        File driverConfigDir = new File(this.driverConfigLocation);
+        File[] configs = driverConfigDir.listFiles();
+        if (configs == null) {
+            logger.error("Unable to read config directory");
+            throw new DashboardException("Unable to read config directory!!!!");
+        }
+
+        for (File f : driverConfigDir.listFiles()) {
+            try {
+                config = loadConfig(f);
+            } catch (Exception t) {
+                logger.error("Unable to read config " + f.getName() + ". Skipping file", t);
+                continue;
+            }
+            // assemble widgets
+            Config.Type type = Config.Type.valueOf(value); // TODO: use reflection w/ attr param
+            if (config.getType() == type) {
                 widgets.put(config.getId(), config);
             }
         }
