@@ -25,6 +25,7 @@ import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.StudentIdentityType;
 import org.slc.sli.test.edfi.entities.StudentReferenceType;
 import org.slc.sli.test.edfi.entities.StudentSchoolAssociation;
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 
 
@@ -34,12 +35,14 @@ public class StudentSchoolAssociationGenerator {
 
     	StudentSchoolAssociation ssa = new StudentSchoolAssociation();
     	
-    	String graduationPlan = schoolId + "-gPlan0";
-    	Ref gPlan = new Ref(graduationPlan);
-    	ReferenceType refType = new ReferenceType();
-    	refType.setRef(gPlan);
-    	ssa.setGraduationPlanReference(refType);
-
+		if (MetaRelations.StudentSchoolAssociation_Ref) {
+			String graduationPlan = schoolId + "-gPlan0";
+			Ref gPlan = new Ref(graduationPlan);
+			ReferenceType refType = new ReferenceType();
+			refType.setRef(gPlan);
+			ssa.setGraduationPlanReference(refType);
+		}
+    	
         StudentIdentityType sit = new StudentIdentityType();
         sit.setStudentUniqueStateId(studentId);
         StudentReferenceType srt = new StudentReferenceType();
