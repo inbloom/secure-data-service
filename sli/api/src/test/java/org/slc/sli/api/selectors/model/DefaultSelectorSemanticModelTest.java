@@ -4,7 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.ModelElement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -47,15 +49,49 @@ public class DefaultSelectorSemanticModelTest {
     public void testSemanticParser() throws SelectorParseException {
         final ClassType student = provider.getClassType("Student");
         final SemanticSelector selector;
+        final ClassType section = provider.getClassType("Section");
+        final ClassType studentSectionAssociation = provider.getClassType("StudentSectionAssociation");
+        final Attribute name = provider.getAttributeType(student, "name");
+        final Attribute economicDisadvantaged = provider.getAttributeType(student, "economicDisadvantaged");
+        final ClassType studentSchoolAssociation = provider.getClassType("StudentSchoolAssociation");
+        final Attribute entryDate = provider.getAttributeType(studentSchoolAssociation, "entryDate");
 
         selector = defaultSelectorSemanticModel.parse(generateSelectorObjectMap(), student);
 
         assertTrue("Should contain base type", selector.containsKey(student));
         assertNotNull("Should have a list of attributes", selector.get(student));
+        assertEquals("Base type should have 1 selector", 1, selector.size());
 
         final List<SelectorElement> studentList = selector.get(student);
         assertEquals(5, studentList.size());
         assertTrue(!studentList.contains(null));
+
+
+        final Map<ModelElement, Object> selectorMap = mapify(studentList);
+        assertTrue(selectorMap.containsKey(section));
+        assertTrue(selectorMap.containsKey(studentSectionAssociation));
+        assertTrue(selectorMap.containsKey(name));
+        assertTrue(selectorMap.containsKey(economicDisadvantaged));
+        assertTrue(selectorMap.containsKey(studentSchoolAssociation));
+
+        assertEquals(SelectorElement.INCLUDE_ALL, selectorMap.get(section));
+        assertEquals(true, selectorMap.get(studentSectionAssociation));
+        assertTrue(selectorMap.get(name) instanceof SemanticSelector);
+        assertTrue(selectorMap.get(studentSchoolAssociation) instanceof SemanticSelector);
+
+        final SemanticSelector studentSchoolSelector = (SemanticSelector) selectorMap.get(studentSchoolAssociation);
+        final Map<ModelElement, Object> studentSchoolSelectorMap = mapify(studentSchoolSelector.get(studentSchoolAssociation));
+        assertEquals(true, studentSchoolSelectorMap.get(entryDate));
+    }
+
+    private Map<ModelElement, Object> mapify(final List<SelectorElement> studentList) {
+        final Map<ModelElement, Object> rVal = new HashMap<ModelElement, Object>();
+
+        for (final SelectorElement element : studentList) {
+            rVal.put(element.getLHS(), element.getRHS());
+        }
+
+        return rVal;
     }
 
     @Test(expected = SelectorParseException.class)
