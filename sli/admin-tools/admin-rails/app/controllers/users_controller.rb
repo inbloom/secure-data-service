@@ -39,13 +39,16 @@ class UsersController < ApplicationController
       if user.uid == params[:id]
         user.id = user.uid
         user.destroy
-       @user_id = user.uid.gsub(/\@/,"\\\\\\\\@").gsub(/\./, "\\\\\\\\."); #escape dot in uid for javascript
-        logger.info("user id after escape is #{@user_id}")
+        @users.delete(user)
+        
+     # @user_id = user.uid.gsub(/\@/,"\\\\\\\\@").gsub(/\./, "\\\\\\\\."); #escape dot in uid for javascript
+      #  logger.info("user id after escape is #{@user_id}")
       end
     end
     
     respond_to do |format|
-      format.js
+    #format.js
+    format.html {render "index"}
     end
   end
   
@@ -88,9 +91,9 @@ class UsersController < ApplicationController
     logger.info("the new user is #{@user.to_json}")
 
     @user.save
-    @users=User.all
+    
      respond_to do |format|
-        format.html { render "index"}
+        format.html { redirect_to "/users", notice: 'Success! You have added a new user' }
      end
     
   end
