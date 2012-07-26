@@ -51,6 +51,14 @@ public class EntityAdapter implements Entity
     }
 
     /**
+     *  Constructor
+     */
+    public EntityAdapter(GenericEntity adaptedEntity, String entityType, String id) {
+        this(adaptedEntity, entityType);
+        this.id = id;
+    }
+
+    /**
      * Get the data associated with this entity. If the entity has no data, returns
      * an empty map. The key into this map is the property name. The values of this
      * map can one of the following JSON types:

@@ -28,9 +28,9 @@ public class TriggerRequestHandlerTest {
     @Mock
     private MockZis mockZis;
     
-    private final static String MOCK_SIF_MESSAGE = "SIF_MESSAGE";
+    private static final String MOCK_SIF_MESSAGE = "SIF_MESSAGE";
     
-    private final static String MOCK_ACK = "ACK";
+    private static final String MOCK_ACK = "ACK";
     
     @Before
     public void setup() {
