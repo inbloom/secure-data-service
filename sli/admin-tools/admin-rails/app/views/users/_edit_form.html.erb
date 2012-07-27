@@ -1,19 +1,28 @@
-<%= form_for(user,:html => {:class => "form-horizontal" }) do |f| %>
+<%= form_for(@user,:html => {:class => "form-horizontal" }) do |f| %>
+
+<% if @user.errors.any? %>
+        <div class="alert alert-error">
+          There was an error processing your request. Please fix any highlighted fields below.
+          <% error = " error" %>
+        </div>
+    <% end %>
 
 <fieldset>
-<div class = "control-group">
+<div class = "control-group<%=error if @user.errors[:fullName].size>0%>">
 	<%= f.label :fullName, "Full Name",:class => "control-label" %>
 	<div class="controls">
-	<%= f.text_field :fullName %>
+	<label style="color:#B94A48;" >
+	<%= f.text_field :fullName %> <%=@user.errors[:fullName][0]%></label>
 	</div>
 </div>
 </fieldset>
 
 <fieldset>
-<div class = "control-group">
+<div class = "control-group<%=error if @user.errors[:email].size>0%>">
 	<%= f.label :email, "Email",:class => "control-label" %>
 	<div class="controls">
-	<%= f.text_field :email %>
+	<label style="color:#B94A48;" >
+	<%= f.text_field :email %> <%=@user.errors[:email][0]%></label>
 	</div>
 </div>
 </fieldset>

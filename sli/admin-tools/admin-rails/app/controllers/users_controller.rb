@@ -120,6 +120,7 @@ class UsersController < ApplicationController
     end
     
     set_roles
+    @user.errors.clear
      
      logger.info{"find updated user #{@user.to_json}"}
     
@@ -146,11 +147,25 @@ class UsersController < ApplicationController
     @user.modifyTime="2000-01-01"
     
     logger.info{"the updated user is #{@user.to_json}"}
-    
+    @user.errors.clear
+    logger.info{"the updated user validate is #{@user.valid?}"}
+    logger.info{"the updated user validation errors is #{@user.errors.to_json}"}
+    if @user.valid? == false
+      resend = true
+    else
     @user.save
+    end
 
      respond_to do |format|
+       if resend
+         @user.id = @user.uid
+         set_edorg_options
+         set_role_options
+         set_roles
+         format.html { render "edit"}
+       else
         format.html { redirect_to "/users", notice: 'Success! You have updated the user' }
+        end
      end
   end
   
@@ -163,6 +178,7 @@ class UsersController < ApplicationController
     params[:user][:firstName]= params[:user][:fullName].split(" ")[0]
     params[:user][:lastName] = params[:user][:fullName].gsub(params[:user][:firstName],"").lstrip if params[:user][:fullName] !=nil && params[:user][:fullName]!=""
     @user.fullName = params[:user][:fullName]
+    @user.fullName = nil if @user.fullName == ""
     @user.firstName = params[:user][:firstName]
     @user.lastName = params[:user][:lastName]
     @user.lastName = " " if @user.lastName==""
