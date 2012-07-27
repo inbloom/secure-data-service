@@ -21,7 +21,8 @@ class User < SessionResource
   include ActiveModel::Validations
   
   validates_presence_of :fullName, :email
-  validates :email, :email =>true
+  #validates :email,:email=>true
+  
   
   schema do
     string  "uid"

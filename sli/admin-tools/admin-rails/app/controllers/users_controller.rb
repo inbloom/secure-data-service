@@ -17,6 +17,8 @@ limitations under the License.
 =end
 
 class UsersController < ApplicationController
+
+ @@EXISTING_EMAIL_MSG = "An account with this email already exists"
   
   SANDBOX_ADMINISTRATOR = "Sandbox Administrator"
   APPLICATION_DEVELOPER = "Application Developer"
@@ -79,14 +81,14 @@ class UsersController < ApplicationController
     logger.info("the new user validation is #{@user.valid?}")
     logger.info("the new user validation error is #{@user.errors.to_json}")
     @user.errors.clear
-    if @user.valid? == false
+    if @user.valid? == false || validate_email==false
       resend = true
     else
     begin  
     @user.save
     rescue ActiveResource::ResourceConflict
       resend = true
-      @user.errors[:email] << "An account with this email already exists"
+      @user.errors[:email] << @@EXISTING_EMAIL_MSG
     end
     end
     
@@ -150,7 +152,7 @@ class UsersController < ApplicationController
     @user.errors.clear
     logger.info{"the updated user validate is #{@user.valid?}"}
     logger.info{"the updated user validation errors is #{@user.errors.to_json}"}
-    if @user.valid? == false
+    if @user.valid? == false || validate_email==false
       resend = true
     else
     @user.save
@@ -234,8 +236,17 @@ class UsersController < ApplicationController
     
   end
   
- 
-  
-  
+  def validate_email
+    # don't validate empty values here, otherwise we get duplicate error messages
+    valid=true
+    if not @user.email =~ /^[-a-z0-9_]+([\.]{0,1}[-a-z0-9_]+)*\@([a-z0-9]+([-]*[a-z0-9]+)*\.)*([a-z0-9]+([-]*[a-z0-9]+))+$/i
+      @user.errors[:email] << "Please enter a valid email address"
+      valid =false
+    elsif @user.email.length > 160
+      @user.errors[:email] << "Email address is too long"
+      valid=false
+      end
+      return valid
+      end
   
 end
