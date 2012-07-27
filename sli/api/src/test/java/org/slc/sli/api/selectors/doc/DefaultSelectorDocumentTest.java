@@ -26,6 +26,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -88,7 +91,7 @@ public class DefaultSelectorDocumentTest {
     }
 
     @Test
-    public void test() {
+    public void testComplexSelectorQueryPlan() {
 
         List<String> ids = new ArrayList<String>();
         ids.add(student1.getEntityId());
@@ -98,7 +101,27 @@ public class DefaultSelectorDocumentTest {
         constraint.setKey("_id");
         constraint.setValue(ids);
 
-        defaultSelectorDocument.aggregate(createQueryPlan(), constraint);
+        List<EntityBody> results = defaultSelectorDocument.aggregate(createQueryPlan(), constraint);
+        assertNotNull("Should not be null", results);
+        assertEquals("Should match", 2, results.size());
+
+        EntityBody student = results.get(0);
+        String studentId = (String) student.get("id");
+        assertTrue("Should be true", student.containsKey("StudentSectionAssociation"));
+
+        List<EntityBody> studentSectionAssociationList = (List<EntityBody>) student.get("StudentSectionAssociation");
+        assertEquals("Should match", 2, studentSectionAssociationList.size());
+
+        EntityBody studentSectionAssociation = studentSectionAssociationList.get(0);
+        String sectionId = (String) studentSectionAssociation.get("sectionId");
+        assertEquals("Should match", studentId, studentSectionAssociation.get("studentId"));
+        assertTrue("Should be true", studentSectionAssociation.containsKey("Section"));
+
+        List<EntityBody> sectionList = (List<EntityBody>) studentSectionAssociation.get("Section");
+        assertEquals("Should match", 1, sectionList.size());
+
+        EntityBody section = sectionList.get(0);
+        assertEquals("Should match", sectionId, section.get("id"));
     }
 
     private Map<Type, SelectorQueryPlan> createQueryPlan() {

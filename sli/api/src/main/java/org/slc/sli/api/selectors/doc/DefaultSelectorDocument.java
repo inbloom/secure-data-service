@@ -31,7 +31,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
     @Override
     public List<EntityBody> aggregate(Map<Type, SelectorQueryPlan> queryMap, final Constraint constraint) {
 
-        return executeQueryPlan(queryMap, constraint, new ArrayList<EntityBody>(), null, new Stack<Type>());
+        return executeQueryPlan(queryMap, constraint, new ArrayList<EntityBody>(), new Stack<Type>());
 
     }
 
@@ -39,47 +39,55 @@ public class DefaultSelectorDocument implements SelectorDocument {
         return entityDefs.lookupByEntityType(StringUtils.uncapitalise(type.getName()));
     }
 
-    //TODO take out previousType
     protected List<EntityBody> executeQueryPlan(Map<Type, SelectorQueryPlan> queryPlan, Constraint constraint,
-                                          List<EntityBody> previousEntities, Type previousType, Stack<Type> types) {
+                                          List<EntityBody> previousEntities, Stack<Type> types) {
         List<EntityBody> results = new ArrayList<EntityBody>();
 
         for (Map.Entry<Type, SelectorQueryPlan> entry : queryPlan.entrySet()) {
-            Type currrentType = entry.getKey();
+            Type currentType = entry.getKey();
             SelectorQueryPlan plan = entry.getValue();
+            Type previousType = !types.isEmpty()? types.peek() : null;
 
-            types.push(currrentType);
+            //add the current type
+            types.push(currentType);
 
             if (!previousEntities.isEmpty() && previousType != null) {
-                String key = getKey(currrentType, previousType);
+                String key = getKey(currentType, previousType);
                 constraint.setKey(key);
 
-                String extractKey = getExtractionKey(currrentType, previousType);
+                String extractKey = getExtractionKey(currentType, previousType);
                 List<String> ids = extractIds(previousEntities, extractKey);
                 constraint.setValue(ids);
             }
 
-            Iterable<EntityBody> entities = executeQuery(currrentType, plan.getQuery(), constraint, true);
+            Iterable<EntityBody> entities = executeQuery(currentType, plan.getQuery(), constraint, true);
             results.addAll((List<EntityBody>) entities);
 
             List<Object> childQueries = plan.getChildQueryPlans();
 
             for (Object obj : childQueries) {
-                List<EntityBody> list = executeQueryPlan((Map<Type, SelectorQueryPlan>) obj, constraint, (List<EntityBody>) entities, currrentType, types);
-                Type nextType = types.pop();
-                String extractionKey = getExtractionKey(nextType, currrentType);
-                String key = getKey(nextType, currrentType);
-                key = key.equals("_id") ? "id" : key;
+                List<EntityBody> list = executeQueryPlan((Map<Type, SelectorQueryPlan>) obj, constraint, (List<EntityBody>) entities, types);
 
-                //TODO need to extract this out
-                for (EntityBody body : results) {
-                    String id = (String) body.get(extractionKey);
-
-                    List<EntityBody> subList = getEntitySubList(list, key, id);
-                    body.put(nextType.getName(), subList);
-                }
-
+                //update the entity results
+                results = updateEntityList(results, list, types, currentType);
             }
+        }
+
+        return results;
+    }
+
+    protected List<EntityBody> updateEntityList(List<EntityBody> results, List<EntityBody> entityList,
+                                                Stack<Type> types, Type currentType) {
+        Type nextType = types.pop();
+        String extractionKey = getExtractionKey(nextType, currentType);
+        String key = getKey(nextType, currentType);
+        key = key.equals("_id") ? "id" : key;
+
+        for (EntityBody body : results) {
+            String id = (String) body.get(extractionKey);
+
+            List<EntityBody> subList = getEntitySubList(entityList, key, id);
+            body.put(nextType.getName(), subList);
         }
 
         return results;
