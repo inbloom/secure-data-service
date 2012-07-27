@@ -120,14 +120,30 @@
           </bean>
         </constructor-arg>
    </bean>
+
+	<bean id="clientFactory" class="org.slc.sli.api.client.impl.BasicClientFactory">
+		<constructor-arg index="0">
+			<bean class="java.net.URL">
+				<constructor-arg index="0" type="java.lang.String"
+					value="${api.server.url}" />
+			</bean>
+		</constructor-arg>
+		<constructor-arg index="1" type="java.lang.String"
+			value="#{propertiesDecryptor.getDecryptedClientId()}" />
+		<constructor-arg index="2" type="java.lang.String"
+			value="#{propertiesDecryptor.getDecryptedClientSecret()}" />
+		<constructor-arg index="3">
+			<bean class="java.net.URL">
+				<constructor-arg index="0" type="java.lang.String"
+					value="${oauth.redirect}" />
+			</bean>
+		</constructor-arg>
+	</bean>
     
     <bean id= "apiClientRef" class="org.slc.sli.dashboard.client.SDKAPIClient">
         <property name="sdkClient" ref="basicClient" />
+        <property name="clientFactory" ref="clientFactory" />
         <property name="gracePeriod" value="${sli.security.gracePeriod}" />
-        <property name="apiServerURL" value="${api.server.url}" />
-        <property name="clientId" value="#{propertiesDecryptor.getDecryptedClientId()}" />
-        <property name="clientSecret" value="#{propertiesDecryptor.getDecryptedClientSecret()}" />
-        <property name="callbackURL" value="${oauth.redirect}" />
     </bean>
 
     <bean id="progressManager" class="org.slc.sli.dashboard.manager.impl.StudentProgressManagerImpl">

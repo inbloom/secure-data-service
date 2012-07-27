@@ -20,7 +20,9 @@ import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -59,6 +61,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.SLIClient;
 import org.slc.sli.api.client.SLIClientException;
+import org.slc.sli.api.client.SLIClientFactory;
 import org.slc.sli.api.client.impl.BasicClient;
 import org.slc.sli.dashboard.client.SDKAPIClient;
 import org.slc.sli.dashboard.entity.Config;
@@ -110,10 +113,12 @@ public class SDKAPIClientTest {
 
     @Before
     public void setUp() throws Exception {
-        client = Mockito.spy(new SDKAPIClient());
+        client = new SDKAPIClient();
         mockSdk = mock(BasicClient.class);
-        Mockito.doReturn(mockSdk).when(client).getClient(Mockito.anyString());
+        SLIClientFactory factory = mock(SLIClientFactory.class);
+        when(factory.getClientWithSessionToken(anyString())).thenReturn(mockSdk);
         client.setSdkClient(mockSdk);
+        client.setClientFactory(factory);
         this.classLoader = Thread.currentThread().getContextClassLoader();
     }
 

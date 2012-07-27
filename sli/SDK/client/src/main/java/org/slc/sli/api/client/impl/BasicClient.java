@@ -125,8 +125,8 @@ public class BasicClient implements SLIClient {
     public List<Entity> read(final String resourceUrl, Query query) throws URISyntaxException,
     MessageProcessingException, IOException, SLIClientException {
         List<Entity> entities = new ArrayList<Entity>();
-        URLBuilder url = URLBuilder.create(restClient.getBaseURL()).addPath(resourceUrl);
-        Response response = getResource(entities, url.build(), query);
+        URL url = resourceUrl.startsWith(restClient.getBaseURL()) ? new URL(resourceUrl) : URLBuilder.create(restClient.getBaseURL()).addPath(resourceUrl).build();
+        Response response = getResource(entities, url, query);
         checkResponse(response, Status.OK, "Unable to retrieve entity.");
         return entities;
     }
