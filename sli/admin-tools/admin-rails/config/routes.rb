@@ -50,6 +50,7 @@ SLIAdmin::Application.routes.draw do
   resources :sessions
   resources :apps
   resources :realms
+  resources :custom_roles
   match '/apps/approve', :to => 'apps#approve'
   match '/apps/unregister', :to => 'apps#unregister'
 
