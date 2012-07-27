@@ -15,9 +15,9 @@
         </div>
     </div>
 </div>
-<div id="tabs">
-    <ul>
-        <li class="ui-state-default" ng-repeat="page in pages | filter:checkTab" ng-controller="editorCtrl" ng-mouseover="showUpdateSection(this)" ng-mouseleave="hideUpdateSection">
+<div id="tabs" maketab>
+    <ul ng-sortable="pages">
+        <li class="ui-state-default" id="{{page.id}}" ng-sortable-index="{{$index}}" ng-repeat="page in pages" ng-controller="editorCtrl" ng-mouseover="showUpdateSection(this)" ng-mouseleave="hideUpdateSection">
             <a class="view">{{page.name}}</a>
             <div class="updatePage hide">
                 <span href="#"><i class="icon-move"></i></span>
