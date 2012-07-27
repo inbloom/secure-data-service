@@ -58,7 +58,7 @@ public class Sif2SliMapperTest
     private LEAInfo leaInfo;
     private SEAInfo seaInfo;
 
-    /*
+
     @Before
     public void preMethodSetup() {
         schoolInfo = SifEntityGenerator.generateTestSchoolInfo();
@@ -68,7 +68,8 @@ public class Sif2SliMapperTest
 
     @Test
     public void testSchoolInfoMap2json() throws JsonProcessingException, MappingException, IOException {
-        JsonNode schoolNode = xformer.transform2json(schoolInfo);
+        SchoolEntity entity = mapper.convertValue(xformer.transform(schoolInfo), SchoolEntity.class);
+        JsonNode schoolNode = entity.json();
         Assert.assertEquals("Expecting 'Daybreak West High' as stateOrganizationId",
                 "Daybreak West High", schoolNode.get("stateOrganizationId").asText());
         Assert.assertEquals("Expecting 'Daybreak West High' as nameOfInstitution",
@@ -135,7 +136,7 @@ public class Sif2SliMapperTest
 
     @Test
     public void testSchoolInfoMap() {
-        SchoolEntity entity = mapper.convertValue(xformer.transform(schoolInfo).getData(), SchoolEntity.class);
+        SchoolEntity entity = mapper.convertValue(xformer.transform(schoolInfo), SchoolEntity.class);
         Assert.assertEquals("Expecting 2 telephone numbers", 2, entity.getTelephone().size());
         Assert.assertEquals("Expecting 'Main' as the first phone type", "Main", entity.getTelephone().get(0).getInstitutionTelephoneNumberType());
         Assert.assertEquals("Expecting '(312) 555-1234' as the first phone number", "(312) 555-1234", entity.getTelephone().get(0).getTelephoneNumber());
@@ -145,7 +146,7 @@ public class Sif2SliMapperTest
 
     @Test
     public void testLEAInfoMap() {
-        LEAEntity entity = mapper.convertValue(xformer.transform(leaInfo).getData(), LEAEntity.class);
+        LEAEntity entity = mapper.convertValue(xformer.transform(leaInfo), LEAEntity.class);
         Assert.assertEquals("Expecting 2 telephone numbers", 2, entity.getTelephone().size());
         Assert.assertEquals("Expecting 'Main' as the first phone type", "Main", entity.getTelephone().get(0).getInstitutionTelephoneNumberType());
         Assert.assertEquals("Expecting '(312) 555-1234' as the first phone number", "(312) 555-1234", entity.getTelephone().get(0).getTelephoneNumber());
@@ -155,7 +156,7 @@ public class Sif2SliMapperTest
 
     @Test
     public void testSEAInfoMap() {
-        SEAEntity entity = mapper.convertValue(xformer.transform(seaInfo).getData(), SEAEntity.class);
+        SEAEntity entity = mapper.convertValue(xformer.transform(seaInfo), SEAEntity.class);
         Assert.assertEquals("Expecting 2 telephone numbers", 2, entity.getTelephone().size());
         Assert.assertEquals("Expecting 'Main' as the first phone type", "Main", entity.getTelephone().get(0).getInstitutionTelephoneNumberType());
         Assert.assertEquals("Expecting '(312) 555-1234' as the first phone number", "(312) 555-1234", entity.getTelephone().get(0).getTelephoneNumber());
@@ -163,7 +164,4 @@ public class Sif2SliMapperTest
         Assert.assertEquals("Expecting '(312) 555-2364' as the first phone number", "(312) 555-2364", entity.getTelephone().get(1).getTelephoneNumber());
     }
 
-     */
-    @Test
-    public void bogus() { }
 }
