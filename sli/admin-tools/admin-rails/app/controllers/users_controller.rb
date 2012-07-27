@@ -60,7 +60,7 @@ class UsersController < ApplicationController
   def new
     check = Check.get ""
     @user = User.new
-     @edorgs = {"" => "", check["edOrg"] => check["edOrg"]} 
+     @edorgs = {"(optional)" => "", "" => "", check["edOrg"] => check["edOrg"]} 
      @sandbox_roles ={"Sandbox Administrator" => "Sandbox Administrator", "Application Developer" => "Application Developer", "Ingestion User" => "Ingestion User"}
     respond_to do |format|
       format.html # new.html.erb
@@ -91,7 +91,7 @@ class UsersController < ApplicationController
   def edit
     @users = User.all
     check = Check.get ""
-    @edorgs = {"" => "", check["edOrg"] => check["edOrg"]}
+    @edorgs = {"(optional)" => "", "" => "" ,check["edOrg"] => check["edOrg"]}
    @sandbox_roles ={"Sandbox Administrator" => "Sandbox Administrator", "Application Developer" => "Application Developer", "Ingestion User" => "Ingestion User"} 
    @users.each do |user|
       if user.uid == params[:id]
