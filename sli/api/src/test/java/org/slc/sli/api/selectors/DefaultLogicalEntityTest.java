@@ -7,6 +7,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.slc.sli.api.config.EntityDefinition;
+import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.selectors.doc.Constraint;
 import org.slc.sli.api.selectors.doc.SelectorDocument;
@@ -24,6 +26,7 @@ import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -47,6 +50,9 @@ public class DefaultLogicalEntityTest {
     @Mock
     private SelectorDocument selectorDocument;
 
+    @Mock
+    private EntityDefinitionStore entityDefinitionStore;
+
     @InjectMocks
     private LogicalEntity logicalEntity = new DefaultLogicalEntity();
 
@@ -57,6 +63,9 @@ public class DefaultLogicalEntityTest {
 
     @Test
     public void testCreateEntities() {
+        final EntityDefinition mockEntityDefinition = mock(EntityDefinition.class);
+        when(mockEntityDefinition.getType()).thenReturn("TEST");
+        when(entityDefinitionStore.lookupByResourceName(anyString())).thenReturn(mockEntityDefinition);
         @SuppressWarnings("unchecked")
         final Map<Type, SelectorQueryPlan> mockPlan = mock(Map.class);
         when(selectorQueryEngine.assembleQueryPlan(any(SemanticSelector.class))).thenReturn(mockPlan);
