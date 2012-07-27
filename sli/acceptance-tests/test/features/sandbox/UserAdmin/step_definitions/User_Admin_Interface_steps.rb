@@ -124,7 +124,7 @@ Given /^There is a sandbox user with "(.*?)" and "(.*?)" in LDAP Server$/ do |fu
 end
 
 When /^I click on "(.*?)" icon$/ do |buttonName|
-  @driver.find_element(:xpath, "//button[@id='#{@userFullName}_#{buttonName}']/a").click
+  @driver.find_element(:xpath, "//a[@id='#{@userFullName}_#{buttonName}']").click
 end
 
 
