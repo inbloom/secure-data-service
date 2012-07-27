@@ -109,18 +109,6 @@
             "SEA Administrator",
             "Application Developer"
             ]
-      },
-      {
-      "name":"Super Admin Account Management",
-         "description":"Manage SLI administrative users",
-         "url":"${bootstrap.app.admin.url}/users",
-         "roles":[
-            "SLC Operator",
-            "Sandbox SLC Operator",
-            "LEA Administrator",
-            "SEA Administrator",
-            "Sandbox Administrator"
-            ]
       }
    ]
 }
