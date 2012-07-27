@@ -3,6 +3,7 @@ Feature: Custom Role Mapping functions and Realm Listing functions
 As an administrator tool application, I should have access to API calls to perform CRUD operations to allow custom role mapping
 As any SLI application, I can access an API resource that only returns a list of realms, even while unauthenticated
 
+@wip
 Scenario Outline: Deny access to users not using SLI Adminstrator credentials
 
 	Given I am logged in using <Username> <Password> to realm "SLI"
@@ -13,6 +14,7 @@ Scenario Outline: Deny access to users not using SLI Adminstrator credentials
 	| "leader"        | "leader1234"        | "POST"    |
 	| "educator"      | "educator1234"      | "GET"     |
 	
+@wip
 Scenario Outline: Deny access to users using non-allowed methods
 
 	Given I am logged in using <Username> <Password> to realm "SLI"
@@ -23,7 +25,7 @@ Scenario Outline: Deny access to users using non-allowed methods
   | "leader"        | "leader1234"        | "PUT"     |
   | "administrator" | "administrator1234" | "DELETE"  |
 
-
+@wip
 Scenario: Deny access to users using SLI Administrator credentials from non-SLI realms
 
 	Given I am logged in using "badadmin" "badadmin1234" to realm "IL"
