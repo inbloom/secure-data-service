@@ -3,18 +3,79 @@
 <table id="custom_roles" class="table table-bordered table-striped">
   <thead>
     <tr>
-      <th>Custom Role Name</th>
+      <th style='width: 300px'>Roles</th>
       <th>Rights</th>
     </tr>
   </thead>
   <tbody>
-    <tr><td>Custom Name1</td><td>Read Restricted, Write Restricted, Read General, Write General, Read Public, Write Public</td></tr>
-    <tr><td>Custom Name1</td><td>Read Restricted, Write Restricted, Read General, Write General, Read Public, Write Public</td></tr>
-    <tr><td>Custom Name1</td><td>Read Restricted, Write Restricted, Read General, Write General, Read Public, Write Public</td></tr>
-    <tr><td>Custom Name1</td><td>Read Restricted, Write Restricted, Read General, Write General, Read Public, Write Public</td></tr>
+    <tr>
+      <td>
+        <input class="roleLabel" type="text" readonly="readonly" value="Educator"/>
+        <input class="roleLabel" type="text" readonly="readonly" value="MathTeacher"/>
+        <input class="roleLabel" type="text" readonly="readonly" value="Principal"/>
+        <input class="roleLabel" type="text" readonly="readonly" value="Janitor"/>
+      </td>
+      <td style="vvertical-align: middle; tttext-align: center">
+        <span class="label">Read Restricted</span>
+        <span class="label">Write General</span>
+        <span class="label">Read Public</span>
+      </td>
+     </tr>
   </tbody>
 </table>
 </div>
 </div>
+<div>
+  <a href="#" id="addRoleButton" class="btn">Add Role Group</a>
+</div>
 
-<div class="rowEditTool">Edit X</div>
+
+<div id="components">
+
+<div class="rowEditTool">
+  <div class="editButtons btn-group">
+    <a href="#" id="rowEditToolEditButton" class="btn btn-small">Edit</a>
+    <a href="#" id="rowEditToolDeleteButton" class="btn btn-small"><i class="icon-trash"></i></a>
+  </div>
+  <div class="saveButtons btn-group">
+    <a href="#" id="rowEditToolSaveButton" class="btn btn-small">Save</a>
+    <a href="#" id="rowEditToolCancelButton" class="btn btn-small">Cancel</a>
+  </div>
+</div>
+
+<span id="addRightUi">
+    <select id="combobox">
+      <option value="">Select one...</option>
+      <option value="Read Restricted">Read Restricted</option>
+      <option value="Write Restricted">Write Restricted</option>
+      <option value="Read General">Read General</option>
+      <option value="Write General">Write General</option>
+    </select>
+</span>
+
+
+<div id="addRoleUi" class="control-group">
+  <label class="control-label" for="appendedInputButton">Role Name:</label>
+  <div class="controls">
+    <div class="input-append">
+      <input class="span2" id="appendedInputButton" size="16" type="text"><button class="btn" type="button">Add</button>
+   </div>
+  </div>
+</div>
+
+<div id="editableRoleUi" class="control-group">
+  <div class="controls">
+    <div class="input-append">
+      <input id="appendedInputButton" type="text"><button class="btn" type="button">&times;</button>
+   </div>
+  </div>
+</div>
+
+
+<span id="labelUi" class="tagLabel btn-small">
+  Testing
+</span>
+
+<span id="buttonUi">
+    <input class="roleLabel" type="text" readonly="readonly" value="Principal"/>
+</span>

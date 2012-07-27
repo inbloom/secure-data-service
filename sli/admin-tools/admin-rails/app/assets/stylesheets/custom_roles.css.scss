@@ -1,8 +1,40 @@
 .rowEditTool {
         position: absolute;
-        background: #CCC;
         z-index: 10;
-        border-width: 1px;
         display: none;
 
+}
+
+#addRightUi {
+  display: none
+}
+
+#addRoleUi {
+  display: none
+}
+
+
+.saveButtons {
+  display: none
+}
+
+.tagButton {
+  padding: 5px;
+  margin: 3px;
+  font-weight: normal;
+  color: black;
+  background-color: #E6E6E6;
+  text-shadow: 0 0px 0px rgba(255, 255, 255, 0.75);
+  vertical-align: center;
+}
+
+.tagLabel {
+  padding: 5px;
+  margin: 3px;
+  font-weight: normal;
+  color: black;
+  #background-color: #E6E6E6;
+  background-color: transparent;
+  border-style: solid;
+  text-shadow: 0 0px 0px rgba(255, 255, 255, 0.75);
 }
