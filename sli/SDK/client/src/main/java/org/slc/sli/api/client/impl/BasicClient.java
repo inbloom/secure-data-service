@@ -169,6 +169,13 @@ public class BasicClient implements SLIClient {
     }
 
     @Override
+    public void delete(Entity e) throws MalformedURLException,
+            URISyntaxException, SLIClientException {
+        URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
+        checkResponse(restClient.deleteRequest(url), Status.NO_CONTENT, "Could not delete entity.");
+    }
+
+    @Override
     public Response update(final String sessionToken, final String resourceUrl, final Entity e) throws IOException,
             URISyntaxException {
         return restClient.putRequest(sessionToken, new URL(restClient.getBaseURL() + resourceUrl),
