@@ -2,5 +2,6 @@ source 'https://rubygems.org'
 
 # Specify your gem's dependencies in approval.gemspec
 gemspec
-gem "net-ldap"
+gem "net-ldap", '0.3.1'
 gem "rumbster"
+

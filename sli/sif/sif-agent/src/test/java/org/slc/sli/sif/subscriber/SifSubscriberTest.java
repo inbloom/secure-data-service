@@ -28,13 +28,10 @@ import openadk.library.Zone;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.sif.slcinterface.SlcInterface;
 
@@ -44,8 +41,8 @@ import org.slc.sli.sif.slcinterface.SlcInterface;
  * @author jtully
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath*:/spring/applicationContext.xml" })
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(locations = { "classpath*:/spring/applicationContext.xml" })
 public class SifSubscriberTest {
 
     @InjectMocks

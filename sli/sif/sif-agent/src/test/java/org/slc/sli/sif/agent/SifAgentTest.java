@@ -28,10 +28,7 @@ import openadk.library.Zone;
 import openadk.library.impl.Transport;
 
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.sif.zone.ZoneConfigurator;
 
@@ -41,8 +38,8 @@ import org.slc.sli.sif.zone.ZoneConfigurator;
  * @author jtully
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath*:/spring/applicationContext.xml" })
+//@RunWith(SpringJUnit4ClassRunner.class)
+//@ContextConfiguration(locations = { "classpath*:/spring/applicationContext.xml" })
 public class SifAgentTest
 {
     private SifAgent createSifAgent(ZoneConfigurator zoneConfig) {

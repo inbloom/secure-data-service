@@ -20,6 +20,7 @@ package org.slc.sli.test.generators;
 import java.util.Random;
 
 import org.slc.sli.test.edfi.entities.*;
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 public class StudentAssessmentItemGenerator {
     private boolean optional;
@@ -43,16 +44,18 @@ public class StudentAssessmentItemGenerator {
         if (optional) {
             sai.setRawScoreResult(random.nextInt(100));
 
-            //TODO: StudentTestAssessmentReference
-            if (studentTestAssessmentReference != null) {
-//                sai.setStudentTestAssessmentReference(studentTestAssessmentReference);
-                sai.setStudentAssessmentReference(studentTestAssessmentReference);
-            }
+		
+			// TODO: StudentTestAssessmentReference
+			if (studentTestAssessmentReference != null) {
+				// sai.setStudentTestAssessmentReference(studentTestAssessmentReference);
+				sai.setStudentAssessmentReference(studentTestAssessmentReference);
+			}
 
-            //TODO: StudentObjectiveAssessmentReference
-            if (studentObjectiveAssessmentReference != null) {
-                sai.setStudentObjectiveAssessmentReference(studentObjectiveAssessmentReference);
-            }
+			// TODO: StudentObjectiveAssessmentReference
+			if (studentObjectiveAssessmentReference != null) {
+				sai.setStudentObjectiveAssessmentReference(studentObjectiveAssessmentReference);
+			}
+		
         }
 
         return sai;

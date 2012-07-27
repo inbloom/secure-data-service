@@ -66,8 +66,8 @@ public class OnboardingResource {
     private TenantResource tenantResource;
 
     //Use this to check if we're in sandbox mode
-    @Value("${sli.simple-idp.sandboxImpersonationEnabled}")
-    protected boolean isSandboxImpersonationEnabled;
+    @Value("${sli.sandbox.enabled}")
+    protected boolean isSandboxEnabled;
 
     public static final String STATE_EDUCATION_AGENCY = "State Education Agency";
     public static final String STATE_EDORG_ID = "stateOrganizationId";
@@ -78,7 +78,7 @@ public class OnboardingResource {
     public static final String ADDRESS_STATE_ABRV = "stateAbbreviation";
     public static final String ADDRESS_POSTAL_CODE = "postalCode";
     public static final String CATEGORIES = "organizationCategories";  // 'State Education Agency'
-    
+
     private final String landingZoneServer;
 
 
@@ -101,7 +101,7 @@ public class OnboardingResource {
 
         // Ensure the user is an admin.
         Right requiredRight = Right.INGEST_DATA;
-        if (isSandboxImpersonationEnabled) {
+        if (isSandboxEnabled) {
             requiredRight = Right.ADMIN_ACCESS;
         }
 

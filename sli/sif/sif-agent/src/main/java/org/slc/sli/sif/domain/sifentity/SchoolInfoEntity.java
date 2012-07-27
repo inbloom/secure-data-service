@@ -74,6 +74,13 @@ public class SchoolInfoEntity extends GenericEntity
     }
 
     /**
+     *  Get LEAInfoRefId in an SIF SchoolInfoEntity.
+     */
+    public String getLEAInfoRefId() {
+        return this.schoolInfo.getLEAInfoRefId();
+    }
+
+    /**
      *  Get SchoolName in an SIF SchoolInfoEntity.
      */
     public String getSchoolName() {

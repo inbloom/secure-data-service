@@ -27,6 +27,7 @@ import org.slc.sli.test.edfi.entities.StaffIdentityType;
 import org.slc.sli.test.edfi.entities.StaffReferenceType;
 import org.slc.sli.test.edfi.entities.TeacherSectionAssociation;
 import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 public class TeacherSectionAssociationGenerator {
     private Random r = new Random();
@@ -76,15 +77,16 @@ public class TeacherSectionAssociationGenerator {
 //        edOrgIdCode.setIdentificationSystem(EducationOrgIdentificationSystemType.SCHOOL);
 //        sectionIdentity.getStateOrganizationIdOrEducationOrgIdentificationCode().add(edOrgIdCode);
 
-      SectionReferenceType sectionRef = new SectionReferenceType();
-      sectionRef.setSectionIdentity(sectionIdentity);
-      teacherSection.setSectionReference(sectionRef);
+		SectionReferenceType sectionRef = new SectionReferenceType();
+		sectionRef.setSectionIdentity(sectionIdentity);
+		teacherSection.setSectionReference(sectionRef);
         
-        Ref teacherRefer = new Ref(teacherMeta.id);
-        StaffReferenceType sRef = new StaffReferenceType();
-        sRef.setRef(teacherRefer);
-       teacherSection.setTeacherReference(sRef);
-                 
+		
+		Ref teacherRefer = new Ref(teacherMeta.id);
+		StaffReferenceType sRef = new StaffReferenceType();
+		sRef.setRef(teacherRefer);
+		teacherSection.setTeacherReference(sRef);
+		
         teacherSection.setClassroomPosition(ClassroomPositionType.TEACHER_OF_RECORD);
 
         return teacherSection;
