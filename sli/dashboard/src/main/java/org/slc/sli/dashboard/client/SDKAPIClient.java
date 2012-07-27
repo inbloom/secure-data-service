@@ -86,7 +86,6 @@ public class SDKAPIClient implements APIClient {
      * *****************************************************
      */
 
-
     public SLIClientFactory getClientFactory() {
         return clientFactory;
     }
@@ -187,8 +186,7 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public ConfigMap getEdOrgCustomData(String token, String id) {
-        GenericEntity ge = (GenericEntity) readCustomEntity(token, SDKConstants.EDORGS_ENTITY + id
-                + SDKConstants.CUSTOM_DATA, GenericEntity.class);
+        GenericEntity ge = readCustomEntity(token, SDKConstants.EDORGS_ENTITY + id + SDKConstants.CUSTOM_DATA);
         return JsonConverter.fromJson((String) ge.get("config"), ConfigMap.class);
     }
 
@@ -1034,13 +1032,12 @@ public class SDKAPIClient implements APIClient {
      * @return
      */
     @ExecutionTimeLogger.LogExecutionTime
-    protected Object readCustomEntity(String token, String url, Class entityClass) {
-        Object entity = null;
+    protected GenericEntity readCustomEntity(String token, String url) {
+        GenericEntity entity = null;
         try {
-            List<Object> entityList = new ArrayList<Object>();
-            getClient(token).read(token, entityList, url, entityClass);
+            List<Entity> entityList = getClient(token).read(url);
             if (entityList.size() > 0) {
-                entity = entityList.get(0);
+                entity = new GenericEntity(entityList.get(0));
             }
         } catch (Exception e) {
             LOGGER.error("Exception occurred during API read", e);
