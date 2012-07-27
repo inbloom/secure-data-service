@@ -28,7 +28,7 @@ class UsersController < ApplicationController
     get_login_id
     @users = User.all
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       #format.json { render json: @users }
     end
   end
@@ -174,10 +174,21 @@ class UsersController < ApplicationController
     
   end
   
+  # GET /users/1
+  # GET /users/1.json
+  def show
+     respond_to do |format|
+        format.html { redirect_to "/users" }
+     end
+     end
+  
   def get_login_id
     check = Check.get ""
     @loginUserId=check["external_id"]
   end
+  
+ 
+  
   
   
 end
