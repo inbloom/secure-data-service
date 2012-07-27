@@ -73,9 +73,21 @@ public class SchoolProficiencyMapper
 
         for (DBObject student : students) {
             Map<String, Object> aggregations = (Map<String, Object>) student.get("aggregations");
+            if (aggregations == null) {
+                continue;
+            }
             Map<String, Object> assessments = (Map<String, Object>) aggregations.get("assessments");
+            if (assessments == null) {
+                continue;
+            }
             Map<String, Object> assessment = (Map<String, Object>) assessments.get(idCode);
+            if (assessment == null) {
+                continue;
+            }
             Map<String, Object> highest = (Map<String, Object>) assessment.get("HighestEver");
+            if (highest == null) {
+                continue;
+            }
             String score = (String) highest.get("ScaleScore");
 
             code.set("!");

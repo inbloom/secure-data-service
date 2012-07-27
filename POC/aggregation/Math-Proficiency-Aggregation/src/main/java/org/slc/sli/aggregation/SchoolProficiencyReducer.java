@@ -1,11 +1,13 @@
 package org.slc.sli.aggregation;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
+
 import org.slc.sli.aggregation.mapreduce.TenantAndID;
 
 /**
@@ -58,6 +60,7 @@ public class SchoolProficiencyReducer
         for (Text result : pValues) {
             count(result);
         }
+        Logger.getLogger("SchoolProficiencyReducer").warning("writing reduce record to: " + pKey.toString());
         context.write(pKey, counts);
     }
 
