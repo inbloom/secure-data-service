@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.security.roles;
 
 import static org.mockito.Mockito.mock;
@@ -55,12 +54,12 @@ import org.slc.sli.domain.enums.Right;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-    DirtiesContextTestExecutionListener.class })
+@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 @DirtiesContext
 public class RolesToRightsTest {
 
-    @Autowired @InjectMocks
+    @Autowired
+    @InjectMocks
     private DefaultRolesToRightsResolver resolver;
     @Autowired
     private RoleRightAccess mockAccess;
@@ -79,7 +78,7 @@ public class RolesToRightsTest {
 
         resolver.setRoleRightAccess(mockAccess);
 
-        //wire up isAdminRealm
+        // wire up isAdminRealm
         Entity adminRealmEnt = Mockito.mock(Entity.class);
         Map realmData = new HashMap();
         realmData.put("admin", true);
@@ -98,18 +97,18 @@ public class RolesToRightsTest {
         when(mockAccess.getDefaultRole("doggie")).thenReturn(null);
         when(mockAccess.getDefaultRole("Pink")).thenReturn(null);
         when(mockAccess.getDefaultRole("Goo")).thenReturn(null);
+        when(mockAccess.findRoles(DEFAULT_TENANT_ID, DEFAULT_REALM_ID, Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR))).thenReturn(Arrays.asList(buildRole()));
+        when(mockAccess.findRoles(DEFAULT_TENANT_ID, DEFAULT_REALM_ID, Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR, "bad", "doggie"))).thenReturn(Arrays.asList(buildRole()));
     }
 
     private Role buildRole() {
         return RoleBuilder.makeRole(SecureRoleRightAccessImpl.EDUCATOR).addRight(Right.AGGREGATE_READ).build();
     }
 
-
     @Test
     public void testMappedRoles() throws Exception {
 
-        Set<GrantedAuthority> rights = resolver.resolveRoles(DEFAULT_TENANT_ID, DEFAULT_REALM_ID,
-                Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR));
+        Set<GrantedAuthority> rights = resolver.resolveRoles(DEFAULT_TENANT_ID, DEFAULT_REALM_ID, Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR));
         Assert.assertTrue(rights.size() > 0);
     }
 
@@ -121,8 +120,7 @@ public class RolesToRightsTest {
 
     @Test
     public void testMixedRoles() throws Exception {
-        Set<GrantedAuthority> authorities = resolver.resolveRoles(DEFAULT_TENANT_ID, DEFAULT_REALM_ID, Arrays.asList(
-                SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR, "bad", "doggie"));
+        Set<GrantedAuthority> authorities = resolver.resolveRoles(DEFAULT_TENANT_ID, DEFAULT_REALM_ID, Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR, "bad", "doggie"));
         Assert.assertTrue(authorities.size() > 0);
     }
 }
