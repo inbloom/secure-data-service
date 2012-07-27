@@ -60,8 +60,8 @@ class UsersController < ApplicationController
   def new
     check = Check.get ""
     @user = User.new
-     @edorgs = {"(optional)" => "", "" => "", check["edOrg"] => check["edOrg"]} 
-     @sandbox_roles ={"Sandbox Administrator" => "Sandbox Administrator", "Application Developer" => "Application Developer", "Ingestion User" => "Ingestion User"}
+   set_edorg_options
+   set_role_options
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @user }
@@ -76,12 +76,24 @@ class UsersController < ApplicationController
     create_update 
     @user.uid = params[:user][:email]   
     logger.info("the new user is #{@user.to_json}")
-    
-
+    logger.info("the new user validation is #{@user.valid?}")
+    logger.info("the new user validation error is #{@user.errors.to_json}")
+    @user.errors.clear
+    if @user.valid? == false
+      resend = true
+    else
     @user.save
+    end
     
      respond_to do |format|
-        format.html { redirect_to "/users", notice: 'Success! You have added a new user' }
+       if resend
+         set_edorg_options
+         set_role_options
+         set_roles
+         format.html {render "new"}
+       else
+        format.html { redirect_to "/users", notice: 'Success! You have added a new user' } 
+       end
      end
     
   end
@@ -91,8 +103,8 @@ class UsersController < ApplicationController
   def edit
     @users = User.all
     check = Check.get ""
-    @edorgs = {"(optional)" => "", "" => "" ,check["edOrg"] => check["edOrg"]}
-   @sandbox_roles ={"Sandbox Administrator" => "Sandbox Administrator", "Application Developer" => "Application Developer", "Ingestion User" => "Ingestion User"} 
+    set_edorg_options
+    set_role_options
    @users.each do |user|
       if user.uid == params[:id]
         @user = user
@@ -102,22 +114,7 @@ class UsersController < ApplicationController
     
     end
     
-     if @user.groups.include?(SANDBOX_ADMINISTRATOR)
-       @user.primary_role = SANDBOX_ADMINISTRATOR
-       if @user.groups.include?(APPLICATION_DEVELOPER)
-         @user.optional_role_1 = APPLICATION_DEVELOPER
-       end
-        if @user.groups.include?(INGESTION_USER)
-         @user.optional_role_2 = INGESTION_USER
-       end
-     elsif @user.groups.include?(APPLICATION_DEVELOPER)
-       @user.primary_role = APPLICATION_DEVELOPER
-        if @user.groups.include?(INGESTION_USER)
-         @user.optional_role_2 = INGESTION_USER
-        end
-     elsif @user.groups.include?(INGESTION_USER)
-       @user.primary_role = INGESTION_USER
-     end
+    set_roles
      
      logger.info{"find updated user #{@user.to_json}"}
     
@@ -159,8 +156,8 @@ class UsersController < ApplicationController
     groups << params[:user][:optional_role_1] if params[:user][:optional_role_1]!="0" && !groups.include?(params[:user][:optional_role_1])
     groups << params[:user][:optional_role_2] if params[:user][:optional_role_2]!="0" && !groups.include?(params[:user][:optional_role_2])
     params[:user][:firstName]= params[:user][:fullName].split(" ")[0]
-    params[:user][:lastName] = params[:user][:fullName].gsub(params[:user][:firstName],"").lstrip
-    
+    params[:user][:lastName] = params[:user][:fullName].gsub(params[:user][:firstName],"").lstrip if params[:user][:fullName] !=nil && params[:user][:fullName]!=""
+    @user.fullName = params[:user][:fullName]
     @user.firstName = params[:user][:firstName]
     @user.lastName = params[:user][:lastName]
     @user.lastName = " " if @user.lastName==""
@@ -185,6 +182,35 @@ class UsersController < ApplicationController
   def get_login_id
     check = Check.get ""
     @loginUserId=check["external_id"]
+  end
+  
+  def set_edorg_options
+    check = Check.get ""
+     @edorgs = {"(optional)" => "", "" => "" ,check["edOrg"] => check["edOrg"]}
+  end
+  
+  def set_role_options
+    @sandbox_roles ={"Sandbox Administrator" => "Sandbox Administrator", "Application Developer" => "Application Developer", "Ingestion User" => "Ingestion User"} 
+  end
+  
+  def set_roles
+    if @user.groups.include?(SANDBOX_ADMINISTRATOR)
+       @user.primary_role = SANDBOX_ADMINISTRATOR
+       if @user.groups.include?(APPLICATION_DEVELOPER)
+         @user.optional_role_1 = APPLICATION_DEVELOPER
+       end
+        if @user.groups.include?(INGESTION_USER)
+         @user.optional_role_2 = INGESTION_USER
+       end
+     elsif @user.groups.include?(APPLICATION_DEVELOPER)
+       @user.primary_role = APPLICATION_DEVELOPER
+        if @user.groups.include?(INGESTION_USER)
+         @user.optional_role_2 = INGESTION_USER
+        end
+     elsif @user.groups.include?(INGESTION_USER)
+       @user.primary_role = INGESTION_USER
+     end
+    
   end
   
  
