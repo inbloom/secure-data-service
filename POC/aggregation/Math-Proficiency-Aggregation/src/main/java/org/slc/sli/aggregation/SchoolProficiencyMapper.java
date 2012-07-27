@@ -111,7 +111,7 @@ public class SchoolProficiencyMapper
             Map<String, Object> metaData = (Map<String, Object>) school.get("metaData");
             String tenantId = (String) metaData.get("tenantId");
 
-            context.write(new TenantAndID(tenantId, schoolId), code);
+            context.write(new TenantAndID(schoolId, tenantId), code);
         }
     }
 
