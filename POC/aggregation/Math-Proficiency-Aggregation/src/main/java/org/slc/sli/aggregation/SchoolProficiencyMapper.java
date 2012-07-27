@@ -65,6 +65,9 @@ public class SchoolProficiencyMapper
 
         String idCode = context.getConfiguration().get("AssessmentIdCode");
 
+        Map<String, Object> metaData = (Map<String, Object>) school.get("metaData");
+        String tenantId = (String) metaData.get("tenantId");
+
         Set<DBObject> students = getStudentsForSchool(school, idCode);
 
         if (students.isEmpty()) {
@@ -107,9 +110,6 @@ public class SchoolProficiencyMapper
             } else {
                 code.set("-");
             }
-
-            Map<String, Object> metaData = (Map<String, Object>) school.get("metaData");
-            String tenantId = (String) metaData.get("tenantId");
 
             context.write(new TenantAndID(schoolId, tenantId), code);
         }

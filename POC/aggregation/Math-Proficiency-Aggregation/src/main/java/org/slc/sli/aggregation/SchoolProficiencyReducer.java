@@ -28,28 +28,7 @@ import org.slc.sli.aggregation.mapreduce.TenantAndID;
 public class SchoolProficiencyReducer
         extends Reducer<TenantAndID, Text, TenantAndID, MapWritable> {
 
-    static MapWritable counts = new MapWritable();
-
-    public SchoolProficiencyReducer() {
-        Text t = new Text();
-        t.set("W");
-        counts.put(t, new LongWritable());
-        t = new Text();
-        t.set("B");
-        counts.put(t, new LongWritable());
-        t = new Text();
-        t.set("S");
-        counts.put(t, new LongWritable());
-        t = new Text();
-        t.set("E");
-        counts.put(t, new LongWritable());
-        t = new Text();
-        t.set("!");
-        counts.put(t, new LongWritable());
-        t = new Text();
-        t.set("-");
-        counts.put(t, new LongWritable());
-    }
+    MapWritable counts = new MapWritable();
 
     @Override
     public void reduce(final TenantAndID pKey,
@@ -66,16 +45,30 @@ public class SchoolProficiencyReducer
 
     protected void count(Text key) {
         System.err.println(key.toString());
-        if (counts.containsKey(key)) {
-            LongWritable w = (LongWritable) counts.get(key);
-            w.set(w.get() + 1);
-            counts.put(key,  w);
+        LongWritable w = (LongWritable) counts.get(key);
+        w.set(w.get() + 1);
+        counts.put(key,  w);
+    }
 
-        } else {
-            LongWritable w = new LongWritable();
-            w.set(1);
-            counts.put(key, w);
-        }
+    public SchoolProficiencyReducer() {
+        Text t = new Text();
+        t.set("W");
+        counts.put(t, new LongWritable(0));
+        t = new Text();
+        t.set("B");
+        counts.put(t, new LongWritable(0));
+        t = new Text();
+        t.set("S");
+        counts.put(t, new LongWritable(0));
+        t = new Text();
+        t.set("E");
+        counts.put(t, new LongWritable(0));
+        t = new Text();
+        t.set("!");
+        counts.put(t, new LongWritable(0));
+        t = new Text();
+        t.set("-");
+        counts.put(t, new LongWritable(0));
     }
 
 }
