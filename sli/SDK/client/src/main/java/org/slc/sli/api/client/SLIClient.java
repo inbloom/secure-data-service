@@ -217,6 +217,18 @@ public interface SLIClient {
     /**
      * Delete operation
      *
+     * @param e
+     *            Entity to delete
+     * @return Response to the delete request.
+     *
+     * @throws MalformedURLException
+     * @throws URISyntaxException
+     */
+    public abstract void delete(Entity e) throws MalformedURLException, URISyntaxException, SLIClientException;
+
+    /**
+     * Delete operation
+     *
      * @param sessionToken
      *            Session token.
      * @param resourceUrl
