@@ -57,6 +57,7 @@ public class SchoolProficiency extends Configured implements Tool {
         job.setInputFormatClass(MongoInputFormat.class);
 
         job.setMapperClass(SchoolProficiencyMapper.class);
+        job.setCombinerClass(SchoolProficiencyReducer.class);
         job.setReducerClass(SchoolProficiencyReducer.class);
 
         job.setMapOutputKeyClass(TenantAndID.class);
