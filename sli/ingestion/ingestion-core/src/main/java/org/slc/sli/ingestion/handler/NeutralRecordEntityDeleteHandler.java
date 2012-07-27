@@ -55,6 +55,8 @@ public class NeutralRecordEntityDeleteHandler extends AbstractIngestionHandler<N
         InitializingBean {
 
     private static final String METADATA_BLOCK = "metaData";
+    private static final int RETURN_NOT_MATCHED = -1;
+    private static final int RETURN_MATCHED_OR_ERROR = -2;
 
     private Repository<Entity> entityRepository;
 
@@ -85,11 +87,11 @@ public class NeutralRecordEntityDeleteHandler extends AbstractIngestionHandler<N
         boolean matched = matchEntity(entity, errorReport);
 
         if (errorReport.hasErrors()) {
-            return null;
+            return new NeutralRecordEntity(null, RETURN_MATCHED_OR_ERROR);
         }
 
         if (!matched) {
-            return new NeutralRecordEntity(null, -1);
+            return new NeutralRecordEntity(null, RETURN_NOT_MATCHED);
         }
 
         try {
@@ -99,7 +101,7 @@ public class NeutralRecordEntityDeleteHandler extends AbstractIngestionHandler<N
         } catch (Exception ex) {
             reportErrors(ex.getMessage(), entity, errorReport);
         }
-        return null;
+        return new NeutralRecordEntity(null, RETURN_MATCHED_OR_ERROR);
     }
 
     /**

@@ -9,35 +9,50 @@
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
     <Sex>Female</Sex>
-    <EconomicDisadvantaged>false</EconomicDisadvantaged>
-    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
-    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race></Race>
-    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities></Section504Disabilities>
-    <DisplacementStatus></DisplacementStatus>
     <BirthData>
       <BirthDate>2006-07-02</BirthDate>
     </BirthData>
+    <Address AddressType="Home">
+      <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60057-1857</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+    </Address>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>312-608-2213</TelephoneNumber>
+    </Telephone>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <OldEthnicity>White, Not Of Hispanic Origin</OldEthnicity>
+    <Race>
+      <RacialCategory>White</RacialCategory>
+    </Race>
   </Student>
   <Student>
     <StudentUniqueStateId>814202099</StudentUniqueStateId>
     <Name>
       <FirstName>Yolanda</FirstName>
-      <MiddleName></MiddleName>
       <LastSurname>Campos</LastSurname>
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
     <Sex>Female</Sex>
-    <EconomicDisadvantaged>false</EconomicDisadvantaged>
-    <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
-    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race></Race>
-    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities></Section504Disabilities>
-    <DisplacementStatus></DisplacementStatus>
     <BirthData>
       <BirthDate>2002-03-25</BirthDate>
     </BirthData>
+    <Address AddressType="Home">
+      <StreetNumberName>1 Water Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60053-1532</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+    </Address>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>203-669-1860</TelephoneNumber>
+    </Telephone>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <OldEthnicity>White, Not Of Hispanic Origin</OldEthnicity>
+    <Race>
+      <RacialCategory>White</RacialCategory>
+    </Race>
   </Student>
 </InterchangeStudentParent>

@@ -85,7 +85,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     private static final String BATCH_JOB_ID = "batchJobId";
     private static final String CREATION_TIME = "creationTime";
 
-    private static final int intFalse = -1;
+    private static final int INT_FALSE = -1;
 
     private Map<String, EdFi2SLITransformer> transformers;
 
@@ -237,7 +237,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
                     // delete Neutral record with old pipeline
                     long failStat = deleteOldStyleNeutralRecord(neutralRecord, neutralRecord.getLocationInSourceFile(),
                             getTenantId(job), errorReportForCollection);
-                    if (failStat != intFalse) {
+                    if (failStat != INT_FALSE) {
                         numFailed += failStat;
                     } else {
                         currentMetric.setEntityNotPresentCount(currentMetric.getEntityNotPresentCount() + 1);
@@ -395,8 +395,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             numFailed++;
         }
 
-        if (entity.getNeutralRecord()==null && entity.getRecordNumberInFile()==-1) {
-            numFailed = intFalse;
+        if (entity.getNeutralRecord() == null && entity.getRecordNumberInFile() == INT_FALSE) {
+            numFailed = INT_FALSE;
         }
 
         return numFailed;
