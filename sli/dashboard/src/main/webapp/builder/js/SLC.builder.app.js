@@ -1,5 +1,5 @@
 /*global angular profileCtrl $*/
-angular.module('SLC.builder.app', ['SLC.builder.profilesService', 'SLC.builder.profilePageService', 'SLC.builder.headerService', 'SLC.builder.sharedService']).
+angular.module('SLC.builder.app', ['SLC.builder.sharedServices']).
 	config(['$routeProvider', function($routeProvider) {
 	$routeProvider.
 		when('/profiles/:profileId', {templateUrl: 'js/templates/profile.html', controller: profileCtrl}).
