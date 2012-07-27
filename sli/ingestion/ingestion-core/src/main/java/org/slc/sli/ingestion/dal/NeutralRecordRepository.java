@@ -209,4 +209,9 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
         LOG.debug(" create a record in collection {} with id {}", new Object[] { collectionName, getRecordId(record) });
         return record;
     }
+
+    @Override
+    public List<NeutralRecord> create(List<NeutralRecord> records, String collectionName) {
+        return insert(records, collectionName);
+    }
 }

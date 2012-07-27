@@ -17,8 +17,11 @@
 
 package org.slc.sli.ingestion.handler;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,6 +58,11 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     @Value("${sli.ingestion.referenceSchema.referenceCheckEnabled}")
     private String referenceCheckEnabled;
 
+    @Value("${sli.ingestion.persistance.batchSize}")
+    private String persistanceBatchSize;
+
+    private static ThreadLocal<ArrayList<SimpleEntity>> delayedCreateRecordStore = new ThreadLocal<ArrayList<SimpleEntity>>();
+
     @Override
     public void afterPropertiesSet() throws Exception {
         entityRepository.setWriteConcern(writeConcern);
@@ -88,14 +96,13 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
      */
     private Entity persist(SimpleEntity entity) throws EntityValidationException {
 
-        String oldCollectionName = entity.getType();
-        String newCollectionName = oldCollectionName;
-        if ((String) entity.getBody().get("collectionName") != null) {
-            newCollectionName = (String) entity.getBody().get("collectionName");
-            entity.getBody().remove("collectionName");
-        }
-
         if (entity.getEntityId() != null) {
+            String oldCollectionName = entity.getType();
+            String newCollectionName = oldCollectionName;
+            if ((String) entity.getBody().get("collectionName") != null) {
+                newCollectionName = (String) entity.getBody().get("collectionName");
+                entity.getBody().remove("collectionName");
+            }
 
             if (!entityRepository.update(newCollectionName, entity)) {
                 // TODO: exception should be replace with some logic.
@@ -104,9 +111,90 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
             return entity;
         } else {
-            return entityRepository.create(entity.getType(), entity.getBody(), entity.getMetaData(), newCollectionName);
+            batchedPersistDataToDb(entity);
+            return entity;
         }
     }
+
+
+    private void batchedPersistDataToDb(SimpleEntity entity) {
+        if (delayedCreateRecordStore.get() == null) {
+            delayedCreateRecordStore.set(new ArrayList<SimpleEntity>());
+        }
+
+        delayedCreateRecordStore.get().add(entity);
+
+        if (delayedCreateRecordStore.get().size() >= Integer.parseInt(persistanceBatchSize)) {
+            createDelayedRecordsBatch();
+        }
+    }
+
+    @Override
+    public void postProcessingCleanup() {
+        createDelayedRecordsBatch();
+    }
+
+    @SuppressWarnings("unchecked")
+    public void createDelayedRecordsBatch() {
+
+        if (delayedCreateRecordStore.get() == null) {
+            return;
+        }
+
+        HashMap<String, ArrayList<Entity>> recordsToInsert = new HashMap<String, ArrayList<Entity>>();
+
+        for (SimpleEntity entity : delayedCreateRecordStore.get()) {
+            String collectionName = entity.getType();
+            if ((String) entity.getBody().get("collectionName") != null) {
+                collectionName = (String) entity.getBody().get("collectionName");
+                entity.getBody().remove("collectionName");
+            }
+
+            if (recordsToInsert.containsKey(collectionName)) {
+
+                ArrayList<Entity> eList = recordsToInsert.get(collectionName);
+                eList.add(entity);
+
+                recordsToInsert.put(collectionName, eList);
+
+            } else {
+                ArrayList<Entity> eList = new ArrayList<Entity>();
+                eList.add(entity);
+
+                recordsToInsert.put(collectionName, eList);
+            }
+        }
+
+        for (Entry<String, ArrayList<Entity>> records : recordsToInsert.entrySet()) {
+            entityRepository.create(records.getValue(), records.getKey());
+        }
+
+        delayedCreateRecordStore.get().clear();
+
+    }
+
+    @SuppressWarnings("unchecked")
+    public void createDelayedRecords() {
+
+        if (delayedCreateRecordStore.get() == null) {
+            return;
+        }
+
+        for (SimpleEntity entity : delayedCreateRecordStore.get()) {
+            String oldCollectionName = entity.getType();
+            String newCollectionName = oldCollectionName;
+            if ((String) entity.getBody().get("collectionName") != null) {
+                newCollectionName = (String) entity.getBody().get("collectionName");
+                entity.getBody().remove("collectionName");
+            }
+
+            entityRepository.create(entity.getType(), entity.getBody(), entity.getMetaData(), newCollectionName);
+        }
+
+        delayedCreateRecordStore.get().clear();
+
+    }
+
 
     private void reportErrors(List<ValidationError> errors, SimpleEntity entity, ErrorReport errorReport) {
         for (ValidationError err : errors) {

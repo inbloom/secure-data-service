@@ -18,6 +18,9 @@
 
 package org.slc.sli.api.service;
 
+import java.util.List;
+import java.util.Map;
+
 import com.mongodb.CommandResult;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
@@ -30,9 +33,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
-import java.util.List;
-import java.util.Map;
-
 /**
  * Mock entity repository for testing purposes
  *
@@ -43,126 +43,132 @@ import java.util.Map;
 public class MockPerfRepo implements Repository<Entity> {
     @Override
     public Entity create(String type, Map<String, Object> body) {
-        return null;  
+        return null;
     }
 
     @Override
     public Entity create(String type, Map<String, Object> body, String collectionName) {
-        return null;  
+        return null;
     }
 
     @Override
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
-        return null;  
+        return null;
     }
 
     @Override
     public Entity findById(String collectionName, String id) {
-        return null;  
+        return null;
     }
 
     @Override
     public boolean exists(String collectionName, String id) {
-        return false;  
+        return false;
     }
 
     @Override
     public Entity findOne(String collectionName, NeutralQuery neutralQuery) {
-        return null;  
+        return null;
     }
 
     @Override
     public Iterable<Entity> findAll(String collectionName) {
-        return null;  
+        return null;
     }
 
     @Override
     public Iterable<Entity> findAll(String collectionName, NeutralQuery neutralQuery) {
-        return null;  
+        return null;
     }
 
     @Override
     public Iterable<Entity> findAllByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery) {
-        return null;  
+        return null;
     }
 
     @Override
     public Iterable<String> findAllIds(String collectionName, NeutralQuery neutralQuery) {
-        return null;  
+        return null;
     }
 
     @Override
     public long count(String collectionName, NeutralQuery neutralQuery) {
-        return 0;  
+        return 0;
     }
 
     @Override
     public boolean update(String collection, Entity object) {
-        return false;  
+        return false;
     }
 
     @Override
     public boolean delete(String collectionName, String id) {
-        return false;  
+        return false;
     }
 
     @Override
     public void deleteAll(String collectionName) {
-        
+
     }
 
     @Override
     public CommandResult execute(DBObject command) {
-        return null;  
+        return null;
     }
 
     @Override
     public DBCollection getCollection(String collectionName) {
-        return null;  
+        return null;
     }
 
     @Override
     public List<DBCollection> getCollections(boolean includeSystemCollections) {
-        return null;  
+        return null;
     }
 
     @Override
     public Iterable<Entity> findByPaths(String collectionName, Map<String, String> paths) {
-        return null;  
+        return null;
     }
 
     @Override
     public Iterable<Entity> findByQuery(String collectionName, Query query, int skip, int max) {
-        return null;  
+        return null;
     }
 
     @Override
     public boolean collectionExists(String collection) {
-        return false;  
+        return false;
     }
 
     @Override
     public void createCollection(String collection) {
-        
+
     }
 
     @Override
     public void ensureIndex(IndexDefinition index, String collection) {
-        
+
     }
 
     @Override
     public void setWriteConcern(String writeConcern) {
-        
+
     }
 
     @Override
     public void setReferenceCheck(String referenceCheck) {
-        
+
     }
 
     @Override
     public long count(String collectionName, Query query) {
-        return 0;  
+        return 0;
+    }
+
+    @Override
+    public List<Entity> create(List<Entity> records, String collectionName) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

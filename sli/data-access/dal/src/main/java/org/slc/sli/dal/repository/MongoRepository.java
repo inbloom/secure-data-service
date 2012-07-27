@@ -199,7 +199,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
      * @return Successfully inserted record.
      */
     public List<T> insert(List<T> records, String collectionName) {
-        template.insert(records, collectionName, new WriteConcern(2));
+        template.insert(records, collectionName);
         LOG.info("Insert {} records into collection: {}", new Object[] {records.size(), collectionName});
         return records;
     }

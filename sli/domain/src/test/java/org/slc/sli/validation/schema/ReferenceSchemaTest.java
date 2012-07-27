@@ -271,10 +271,17 @@ public class ReferenceSchemaTest {
             // TODO Auto-generated method stub
         }
 
+        @Override
         public List<DBCollection> getCollections(boolean includeSystemCollections) {
             // TODO Auto-generated method stub
             return null;
         }
-        
+
+        @Override
+        public List<Entity> create(List<Entity> records, String collectionName) {
+            // TODO Auto-generated method stub
+            return null;
+        }
+
     }
 }

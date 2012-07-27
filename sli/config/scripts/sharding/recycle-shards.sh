@@ -29,6 +29,8 @@ echo Shards started.
 sh $SLI_HOME/config/scripts/sharding/start-mongo.sh 27011
 echo Mongo started.
 
+sleep 5s
+
 mongo admin $SLI_HOME/config/shards/sli_shards.js
 mongo admin $SLI_HOME/config/shards/is_shards.js
 echo shards configured.

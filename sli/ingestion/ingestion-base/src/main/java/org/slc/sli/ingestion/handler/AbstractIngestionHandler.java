@@ -39,6 +39,9 @@ public abstract class AbstractIngestionHandler<T, O> implements Handler<T, O> {
 
     protected abstract O doHandling(T item, ErrorReport errorReport, FileProcessStatus fileProcessStatus);
 
+    public void postProcessingCleanup() {
+    }
+
     void pre(T item, ErrorReport errorReport) {
         if (preValidators != null) {
             for (Validator<T> validator : preValidators) {

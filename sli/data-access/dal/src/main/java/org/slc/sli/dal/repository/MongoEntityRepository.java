@@ -17,9 +17,10 @@
 
 package org.slc.sli.dal.repository;
 
-import java.util.Map;
-import java.util.HashMap;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -156,6 +157,11 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public void updateTimestamp(Entity entity) {
         Date now = DateTimeUtil.getNowInUTC();
         entity.getMetaData().put(EntityMetadataKey.UPDATED.getKey(), now);
+    }
+
+    @Override
+    public List<Entity> create(List<Entity> records, String collectionName) {
+        return insert(records, collectionName);
     }
 
 }

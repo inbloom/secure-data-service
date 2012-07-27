@@ -587,4 +587,10 @@ public class MockRepo implements Repository<Entity> {
         return null;
     }
 
+    @Override
+    public List<Entity> create(List<Entity> records, String collectionName) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

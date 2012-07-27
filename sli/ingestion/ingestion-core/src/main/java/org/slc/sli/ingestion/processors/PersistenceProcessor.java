@@ -16,6 +16,7 @@
 
 package org.slc.sli.ingestion.processors;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -24,6 +25,16 @@ import java.util.Set;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
@@ -51,15 +62,6 @@ import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
-import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
 
 /**
  * Ingestion Persistence Processor.
@@ -234,6 +236,22 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
             errorReportForCollection.fatal(fatalErrorMessage, PersistenceProcessor.class);
             LogUtil.error(LOG, "Exception when attempting to ingest NeutralRecords in: " + collectionNameAsStaged, e);
         } finally {
+
+
+            List<AbstractIngestionHandler<?, ?>> entityHandlerSet = new ArrayList(entityPersistHandlers.entrySet());
+            entityHandlerSet.add(defaultEntityPersistHandler);
+
+            for (AbstractIngestionHandler<?, ?> iterHandler : entityHandlerSet) {
+                try {
+                    LOG.info("POST PROCESSING CLEANUP FOR " + iterHandler.getClass());
+                    iterHandler.postProcessingCleanup();
+                } catch (Exception e) {
+                    String fatalErrorMessage = "Fatal problem saving records to database: \n" + "\tEntity\t"
+                            + collectionNameAsStaged + "\n";
+                    errorReportForCollection.fatal(fatalErrorMessage, PersistenceProcessor.class);
+                    LogUtil.error(LOG, "Exception when attempting to ingest NeutralRecords in: " + collectionNameAsStaged, e);
+                }
+            }
 
             Iterator<Metrics> it = perFileMetrics.values().iterator();
             while (it.hasNext()) {
