@@ -1,11 +1,11 @@
 package org.slc.sli.aggregation;
 
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.mapreduce.Reducer;
 
 import org.slc.sli.aggregation.mapreduce.TenantAndID;
@@ -26,9 +26,9 @@ import org.slc.sli.aggregation.mapreduce.TenantAndID;
  * @author asaarela
  */
 public class SchoolProficiencyReducer
-        extends Reducer<TenantAndID, MapWritable, TenantAndID, MapWritable> {
+        extends Reducer<TenantAndID, Text, TenantAndID, MapWritable> {
 
-    MapWritable counts = new MapWritable();
+    static MapWritable counts = new MapWritable();
 
     public SchoolProficiencyReducer() {
         Text t = new Text();
@@ -53,22 +53,29 @@ public class SchoolProficiencyReducer
 
     @Override
     public void reduce(final TenantAndID pKey,
-                       final Iterable<MapWritable> pValues,
+                       final Iterable<Text> pValues,
                        final Context context)
             throws IOException, InterruptedException {
 
-        for (MapWritable values : pValues) {
-            for (MapWritable.Entry<Writable, Writable> result : values.entrySet()) {
-                count((Text) result.getKey(), (LongWritable) result.getValue());
-            }
+        for (Text result : pValues) {
+            count(result);
         }
-        System.err.println(counts.toString());
+        Logger.getLogger("SchoolProficiencyReducer").warning("writing reduce record to: " + pKey.toString());
         context.write(pKey, counts);
     }
 
-    protected void count(Text key, LongWritable count) {
-        LongWritable w = (LongWritable) counts.get(key);
-        w.set(w.get() + count.get());
-        counts.put(key,  w);
+    protected void count(Text key) {
+        System.err.println(key.toString());
+        if (counts.containsKey(key)) {
+            LongWritable w = (LongWritable) counts.get(key);
+            w.set(w.get() + 1);
+            counts.put(key,  w);
+
+        } else {
+            LongWritable w = new LongWritable();
+            w.set(1);
+            counts.put(key, w);
+        }
     }
+
 }

@@ -8,20 +8,20 @@ import org.apache.hadoop.io.WritableComparable;
 
 /**
  * Writable for holding both a tenant and an id
- *
+ * 
  * @author nbrown
  *
  */
 public class TenantAndID implements WritableComparable<TenantAndID> {
     private String id;
     private String tenant;
-
+    
     public TenantAndID(String id, String tenant) {
         super();
         this.id = id;
         this.tenant = tenant;
     }
-
+    
     public TenantAndID() {
         this(null, null);
     }
@@ -38,9 +38,9 @@ public class TenantAndID implements WritableComparable<TenantAndID> {
     public void readFields(DataInput data) throws IOException {
         id = data.readLine();
         tenant = data.readLine();
-
+        
     }
-
+    
     @Override
     public void write(DataOutput data) throws IOException {
         data.writeBytes(getId() + "\n" + getTenant());
@@ -62,30 +62,23 @@ public class TenantAndID implements WritableComparable<TenantAndID> {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj) {
+        if (this == obj)
             return true;
-        }
-        if (obj == null) {
+        if (obj == null)
             return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if (getClass() != obj.getClass())
             return false;
-        }
         TenantAndID other = (TenantAndID) obj;
         if (id == null) {
-            if (other.id != null) {
+            if (other.id != null)
                 return false;
-            }
-        } else if (!id.equals(other.id)) {
+        } else if (!id.equals(other.id))
             return false;
-        }
         if (tenant == null) {
-            if (other.tenant != null) {
+            if (other.tenant != null)
                 return false;
-            }
-        } else if (!tenant.equals(other.tenant)) {
+        } else if (!tenant.equals(other.tenant))
             return false;
-        }
         return true;
     }
 
@@ -93,13 +86,6 @@ public class TenantAndID implements WritableComparable<TenantAndID> {
     public int compareTo(TenantAndID other) {
         return this.id.compareTo(other.id);
     }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setTenant(String tenantId) {
-        this.tenant = tenantId;
-    }
-
+    
+    
 }

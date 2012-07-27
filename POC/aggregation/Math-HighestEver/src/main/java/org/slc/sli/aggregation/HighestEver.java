@@ -46,7 +46,6 @@ public class HighestEver extends Configured implements Tool {
         MongoConfigUtil.setInputURI(conf, input);
         MongoConfigUtil.setCreateInputSplits(conf,  true);
         MongoConfigUtil.setShardChunkSplittingEnabled(conf, true);
-        MongoConfigUtil.setSplitSize(conf,  2);
 
         BasicDBObject query = new BasicDBObject();
         query.put("body.assessmentId", assmtId);
