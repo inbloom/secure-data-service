@@ -37,6 +37,9 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.slc.sli.api.selectors.DefaultLogicalEntity;
+import org.slc.sli.api.selectors.LogicalEntity;
+import org.slc.sli.api.selectors.doc.Constraint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
@@ -107,6 +110,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
+
+    @Autowired
+    private LogicalEntity logicalEntity;
 
     /**
      * Encapsulates each ReST method's logic to allow for less duplication of precondition and
@@ -192,19 +198,26 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 neutralQuery.addCriteria(new NeutralCriteria(key, "in", valueList));
                 neutralQuery = addTypeCriteria(entityDef, neutralQuery);
 
-                // a new list to store results
-                List<EntityBody> results = new ArrayList<EntityBody>();
+                final List<EntityBody> results;
+                final Map<String, Object> selector = getSelector(neutralQuery);
+
+                if (selector != null) {
+                    results = logicalEntity.createEntities(selector, new Constraint(key, valueList), resourceName);
+                } else {
+                    // a new list to store results
+                    results = new ArrayList<EntityBody>();
+                    for (EntityBody entityBody : entityDef.getService().list(neutralQuery)) {
+                        // add entity to resulting response
+                        results.add(entityBody);
+                    }
+                }
 
                 // list all entities matching query parameters and iterate over results
-                for (EntityBody entityBody : entityDef.getService().list(neutralQuery)) {
-                    entityBody.put(ResourceConstants.LINKS,
-                            ResourceUtil.getLinks(entityDefs, entityDef, entityBody, uriInfo));
-
+                for (EntityBody entityBody : results) {
+                    // list all entities matching query parameters and iterate over results
+                    entityBody.put(ResourceConstants.LINKS, ResourceUtil.getLinks(entityDefs, entityDef, entityBody, uriInfo));
                     // add the custom entity if it was requested
                     addCustomEntity(entityBody, entityDef, uriInfo);
-
-                    // add entity to resulting response
-                    results.add(entityBody);
                 }
 
                 if (results.isEmpty()) {
@@ -220,6 +233,14 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 }
             }
         });
+    }
+
+    private Map<String, Object> getSelector(final NeutralQuery neutralQuery) {
+        if (neutralQuery instanceof ApiQuery) {
+            return ((ApiQuery)neutralQuery).getSelector();
+        } else {
+            return null;
+        }
     }
 
     /**

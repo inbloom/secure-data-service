@@ -72,9 +72,7 @@ public class DefaultSelectorQueryEngineTest {
 
         List<String> ids = new ArrayList<String>();
         ids.add("1234");
-        Constraint constraint = new Constraint();
-        constraint.setKey("id");
-        constraint.setValue(ids);
+        Constraint constraint = new Constraint("id", ids);
 
         Map<Type, SelectorQueryPlan> queryPlan = defaultSelectorQueryEngine.assembleQueryPlan(selectorsWithType);
 

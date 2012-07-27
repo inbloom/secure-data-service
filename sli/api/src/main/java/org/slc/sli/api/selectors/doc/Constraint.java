@@ -10,6 +10,12 @@ public class Constraint {
     private String key;
     private Object value;
 
+    public Constraint() {  }
+
+    public Constraint(String key, Object value) {
+        this.key = key;
+        this.value = value;
+    }
 
     public String getKey() {
         return key;

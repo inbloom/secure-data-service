@@ -23,7 +23,7 @@ import java.util.Set;
  */
 
 @Component
-public final class ModelProvider {
+public class ModelProvider {
     private final ModelIndex modelIndex;
     private final static String DEFAULT_XMI_LOC = "/sliModel/SLI.xmi";
 
