@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.init;
 
 import static junit.framework.Assert.assertFalse;
@@ -55,6 +54,7 @@ public class RealmInitializerTest {
     }
     
     @Test
+    @SuppressWarnings("unchecked")
     public void testRealmNotExist() throws Exception {
         
         // verify that the code attempts to insert a new realm when no existing realm is present
@@ -69,7 +69,7 @@ public class RealmInitializerTest {
             }
             
         });
-        realmInit.init();
+        realmInit.bootstrap();
         assertTrue("Repo was updated with new realm", update.get());
     }
     
@@ -93,7 +93,7 @@ public class RealmInitializerTest {
             }
             
         });
-        realmInit.init();
+        realmInit.bootstrap();
         assertTrue("Existing realm was updated", update.get());
     }
     
@@ -116,7 +116,7 @@ public class RealmInitializerTest {
             }
             
         });
-        realmInit.init();
+        realmInit.bootstrap();
         assertFalse("Existing realm was not touched", update.get());
     }
     

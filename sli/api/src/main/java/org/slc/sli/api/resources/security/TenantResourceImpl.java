@@ -201,6 +201,8 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             newLandingZoneList.add(newLandingZone);
             newTenant.put(LZ, newLandingZoneList);
 
+            // TODO: when creating a tenant, initialize realm (if needed) and roles
+            
             return tenantService.create(newTenant);
         }
         // If more than exists, something is wrong

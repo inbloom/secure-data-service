@@ -24,15 +24,14 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * Class for bootstrapping the initial SLI realm that must always exist into mongo.
@@ -71,6 +70,9 @@ public class RealmInitializer {
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repository;
+    
+    @Autowired
+    private RoleInitializer roleInitializer;
 
     protected static final String REALM_RESOURCE = "realm";
 
@@ -78,15 +80,17 @@ public class RealmInitializer {
     protected static final String ADMIN_REALM_ID = "Shared Learning Infrastructure";
 
     @PostConstruct
-    @SuppressWarnings({ "rawtypes", "unchecked" })
-    public void init() {
+    public void bootstrap() {
         // boostrap the admin realm
         Entity existingAdminRealm = findRealm(ADMIN_REALM_ID);
         Map<String, Object> bootstrapAdminRealmBody = createAdminRealmBody();
         if (existingAdminRealm != null) {
+            info("Admin realm already exists --> updating if necessary.");
             updateRealmIfNecessary(existingAdminRealm, bootstrapAdminRealmBody);
         } else {
-            repository.create("realm", bootstrapAdminRealmBody);
+            info("Creating Admin realm.");
+            repository.create(REALM_RESOURCE, bootstrapAdminRealmBody);
+            roleInitializer.dropAndBuildRoles(adminTenantId, ADMIN_REALM_ID);
         }
 
         // if sandbox mode, bootstrap the sandbox realm
@@ -94,13 +98,16 @@ public class RealmInitializer {
             Entity existingSandboxRealm = findRealm(sandboxUniqueId);
             Map<String, Object> bootstrapSandboxRealmBody = createSandboxRealmBody();
             if (existingSandboxRealm != null) {
+                info("Sandbox realm already exists --> updating if necessary.");
                 updateRealmIfNecessary(existingSandboxRealm, bootstrapSandboxRealmBody);
             } else {
-                repository.create("realm", bootstrapSandboxRealmBody);
+                info("Creating Sandbox realm.");
+                repository.create(REALM_RESOURCE, bootstrapSandboxRealmBody);
+                //roleInitializer.dropAndBuildRoles(tenantId, sandboxUniqueId);
             }
         }
     }
-
+    
     /**
      * We only want to update the realm if it has changed.
      * It's a bad idea to drop the admin realm without checking
@@ -116,7 +123,13 @@ public class RealmInitializer {
         if (oldHash != newHash) {
             existingRealm.getBody().clear();
             existingRealm.getBody().putAll(newRealmBody);
-            repository.update(REALM_RESOURCE, existingRealm);
+            if (repository.update(REALM_RESOURCE, existingRealm)) {
+                info("Successfully updated realm: {}", new Object[] {newRealmBody.get("name")});
+            } else {
+                warn("Failed to update realm: {}", new Object[] {newRealmBody.get("name")});
+            }            
+        } else {
+            info("No need to update realm: {}", new Object[] {existingRealm.getBody().get("name")});
         }
     }
 
@@ -138,11 +151,19 @@ public class RealmInitializer {
         return body;
     }
 
-    protected Map<String, Object> createRealmBody(String unqiueId, String name, String tenantId, String edOrg,
+    public Map<String, Object> createRealmBody(String tenantId, String uniqueId, String realmName, String idpId, String redirectEndpoint) {
+        Map<String, Object> body = createRealmBody(uniqueId, realmName, tenantId, null, false, idpId, redirectEndpoint);
+        Map<String, Object> saml = new HashMap<String, Object>();
+        saml.put("field", getSandboxFields());
+        body.put("saml", saml);
+        return body;
+    }
+    
+    private Map<String, Object> createRealmBody(String uniqueId, String name, String tenantId, String edOrg,
             boolean admin, String idpId, String redirectEndpoint) {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("name", name);
-        body.put("uniqueIdentifier", unqiueId);
+        body.put("uniqueIdentifier", uniqueId);
         if (tenantId != null) {
             body.put("tenantId", tenantId);
         }
@@ -156,7 +177,6 @@ public class RealmInitializer {
         idp.put("redirectEndpoint", redirectEndpoint);
         body.put("idp", idp);
         return body;
-
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
@@ -195,9 +215,7 @@ public class RealmInitializer {
      * @return the realm entity, or null if not found
      */
     private Entity findRealm(String realmUniqueId) {
-        Entity realm = repository.findOne(REALM_RESOURCE, new NeutralQuery(new NeutralCriteria("uniqueIdentifier",
+        return repository.findOne(REALM_RESOURCE, new NeutralQuery(new NeutralCriteria("uniqueIdentifier",
                 NeutralCriteria.OPERATOR_EQUAL, realmUniqueId)));
-        return realm;
     }
-
 }
