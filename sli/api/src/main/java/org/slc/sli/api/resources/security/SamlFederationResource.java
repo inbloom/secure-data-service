@@ -56,7 +56,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.resolve.ClientRoleResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.saml.SamlAttributeTransformer;
 import org.slc.sli.api.security.saml.SamlHelper;
@@ -92,9 +91,6 @@ public class SamlFederationResource {
 
     @Autowired
     private OauthSessionManager sessionManager;
-
-    @Autowired
-    private ClientRoleResolver roleResolver;
 
     @Value("${sli.security.sp.issuerName}")
     private String metadataSpIssuerName;
@@ -282,7 +278,7 @@ public class SamlFederationResource {
             throw new RuntimeException("Invalid user. No roles specified for user.");
         }
 
-        principal.setSliRoles(roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
+        principal.setSliRoles(principal.getRoles());
 
         if (principal.getSliRoles().isEmpty()) {
             debug("Attempted login by a user that included no roles in the SAML Assertion that mapped to any of the SLI roles.");
@@ -292,7 +288,7 @@ public class SamlFederationResource {
         if (samlTenant != null) {
             principal.setTenantId(samlTenant);
         }
-        
+
         NeutralQuery idQuery = new NeutralQuery();
         idQuery.addCriteria(new NeutralCriteria("metaData.tenantId", "=", principal.getTenantId(), false));
         idQuery.addCriteria(new NeutralCriteria("stateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, principal.getEdOrg()));
