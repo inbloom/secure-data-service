@@ -119,24 +119,6 @@ public class RealmResourceTest {
         Assert.assertEquals(204, res.getStatus());
     }
     
-    @Test
-    public void testAddAdminClientRole() throws Exception {
-        try {
-            resource.updateRealm("-1", null, null);
-            assertFalse(false);
-        } catch (EntityNotFoundException e) {
-            assertTrue(true);
-        }
-        Map<String, Object> mappings = (Map<String, Object>) mapping.get("mappings");
-        List<Map<String, Object>> roles = new ArrayList<Map<String, Object>>();
-        Map<String, Object> role = new HashMap<String, Object>();
-        role.put("sliRoleName", RoleInitializer.REALM_ADMINISTRATOR);
-        role.put("clientRoleName", new ArrayList<String>(Arrays.asList("Waffle", "Copter")));
-        roles.add(role);
-        mappings.put("role", roles);
-        Response res = resource.updateRealm("1234", mapping, null);
-        Assert.assertEquals(Status.BAD_REQUEST.getStatusCode(), res.getStatus());
-    }
     
     @Test
     public void testGetMappingsFound() throws Exception {

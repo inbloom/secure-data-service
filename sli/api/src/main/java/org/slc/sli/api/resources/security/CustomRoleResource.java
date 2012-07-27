@@ -162,7 +162,8 @@ public class CustomRoleResource {
         existingCustomRoleQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL,
                 SecurityUtil.getTenantId(), false));
         existingCustomRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.OPERATOR_EQUAL, realmId));
-        if (repo.findOne("customRole", existingCustomRoleQuery) != null) {
+        Entity existingRoleDoc = repo.findOne(RESOURCE_NAME, existingCustomRoleQuery);
+        if (existingRoleDoc != null) {
             audit(securityEventBuilder.createSecurityEvent(CustomRoleResource.class.getName(), uriInfo,
                     "Failed to create custom role --> Already exists."));
             return Response.status(Status.BAD_REQUEST).entity(ERROR_MULTIPLE_DOCS).build();
