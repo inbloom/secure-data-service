@@ -103,7 +103,8 @@ public class CustomRoleResource {
         
         Entity customRole = repo.findOne("customRole", customRoleQuery);
         if (customRole != null) {
-            results.add(customRole.getBody());
+            EntityBody result = service.get(customRole.getEntityId());
+            results.add(result);
         }
         return Response.ok(results).build();
     }
