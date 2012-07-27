@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.service;
 
 import java.util.ArrayList;
@@ -65,8 +64,7 @@ import org.slc.sli.domain.enums.Right;
  * Implementation of EntityService that can be used for most entities.
  * <p/>
  * <p/>
- * It is very important this bean prototype scope, since one service is needed per
- * entity/association.
+ * It is very important this bean prototype scope, since one service is needed per entity/association.
  */
 @Scope("prototype")
 @Component("basicService")
@@ -84,43 +82,12 @@ public class BasicService implements EntityService {
     private static final String[] COLLECTIONED_EXCLUDED = { "tenant", "userSession", "realm", "userAccount", "roles", "application", "applicationAuthorization" };
     private static final Set<String> NOT_BY_TENANT = new HashSet<String>(Arrays.asList(COLLECTIONED_EXCLUDED));
 
-    private static final Set<String> TEACHER_STAMPED_ENTITIES = new HashSet<String>(Arrays.asList(
-            EntityNames.ATTENDANCE,
-            EntityNames.COHORT,
-            EntityNames.COURSE,
-            EntityNames.COURSE_OFFERING,
-            EntityNames.DISCIPLINE_ACTION,
-            EntityNames.DISCIPLINE_INCIDENT,
-            EntityNames.GRADE,
-            EntityNames.GRADEBOOK_ENTRY,
-            EntityNames.GRADING_PERIOD,
-            EntityNames.PARENT,
-            EntityNames.PROGRAM,
-            EntityNames.REPORT_CARD,
-            EntityNames.SCHOOL,
-            EntityNames.SECTION,
-            EntityNames.SECTION_ASSESSMENT_ASSOCIATION,
-            EntityNames.SESSION,
-            EntityNames.STAFF,
-            EntityNames.STAFF_COHORT_ASSOCIATION,
-            EntityNames.STAFF_ED_ORG_ASSOCIATION,
-            EntityNames.STAFF_PROGRAM_ASSOCIATION,
-            EntityNames.STUDENT,
-            EntityNames.STUDENT_ACADEMIC_RECORD,
-            EntityNames.STUDENT_ASSESSMENT_ASSOCIATION,
-            EntityNames.STUDENT_COHORT_ASSOCIATION,
-            EntityNames.STUDENT_COMPETENCY,
-            EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
-            EntityNames.STUDENT_PARENT_ASSOCIATION,
-            EntityNames.STUDENT_PROGRAM_ASSOCIATION,
-            EntityNames.STUDENT_SCHOOL_ASSOCIATION,
-            EntityNames.STUDENT_SECTION_ASSOCIATION,
-            EntityNames.STUDENT_GRADEBOOK_ENTRY,
-            EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION,
-            EntityNames.TEACHER,
-            EntityNames.TEACHER_SCHOOL_ASSOCIATION,
-            EntityNames.TEACHER_SECTION_ASSOCIATION
-    ));
+    private static final Set<String> TEACHER_STAMPED_ENTITIES = new HashSet<String>(Arrays.asList(EntityNames.ATTENDANCE, EntityNames.COHORT, EntityNames.COURSE, EntityNames.COURSE_OFFERING, EntityNames.DISCIPLINE_ACTION,
+            EntityNames.DISCIPLINE_INCIDENT, EntityNames.GRADE, EntityNames.GRADEBOOK_ENTRY, EntityNames.GRADING_PERIOD, EntityNames.PARENT, EntityNames.PROGRAM, EntityNames.REPORT_CARD, EntityNames.SCHOOL, EntityNames.SECTION,
+            EntityNames.SECTION_ASSESSMENT_ASSOCIATION, EntityNames.SESSION, EntityNames.STAFF, EntityNames.STAFF_COHORT_ASSOCIATION, EntityNames.STAFF_ED_ORG_ASSOCIATION, EntityNames.STAFF_PROGRAM_ASSOCIATION, EntityNames.STUDENT,
+            EntityNames.STUDENT_ACADEMIC_RECORD, EntityNames.STUDENT_ASSESSMENT_ASSOCIATION, EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.STUDENT_COMPETENCY, EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,
+            EntityNames.STUDENT_PARENT_ASSOCIATION, EntityNames.STUDENT_PROGRAM_ASSOCIATION, EntityNames.STUDENT_SCHOOL_ASSOCIATION, EntityNames.STUDENT_SECTION_ASSOCIATION, EntityNames.STUDENT_GRADEBOOK_ENTRY,
+            EntityNames.STUDENT_TRANSCRIPT_ASSOCIATION, EntityNames.TEACHER, EntityNames.TEACHER_SCHOOL_ASSOCIATION, EntityNames.TEACHER_SECTION_ASSOCIATION));
 
     private String collectionName;
     private List<Treatment> treatments;
@@ -248,11 +215,10 @@ public class BasicService implements EntityService {
             checkAccess(determineWriteAccess(content, ""), id);
         }
 
-
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("_id", "=", id));
         Entity entity = repo.findOne(collectionName, query);
-        //Entity entity = repo.findById(collectionName, id);
+        // Entity entity = repo.findById(collectionName, id);
         if (entity == null) {
             info("Could not find {}", id);
             throw new EntityNotFoundException(id);
@@ -282,7 +248,6 @@ public class BasicService implements EntityService {
             checkAccess(determineWriteAccess(content, ""), id);
         }
 
-
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("_id", "=", id));
         Entity entity = repo.findOne(collectionName, query);
@@ -298,16 +263,14 @@ public class BasicService implements EntityService {
             return false;
         }
 
-        //combine/merge new entity body with existing
+        // combine/merge new entity body with existing
         entity.getBody().putAll(sanitized);
-        //patchEntity(entity.getBody(), sanitized);
-
+        // patchEntity(entity.getBody(), sanitized);
 
         info("new body is {}", entity.getBody());
 
-        //don't check references until things are combined
+        // don't check references until things are combined
         checkReferences(new EntityBody(entity.getBody()));
-
 
         repo.update(collectionName, entity);
 
@@ -328,7 +291,7 @@ public class BasicService implements EntityService {
             Object fieldValue = entity.get(patchEntry.getKey());
 
             if (fieldValue instanceof Map) {
-                //recurse
+                // recurse
                 patchEntity((Map<String, Object>) patchEntry.getValue(), (Map<String, Object>) fieldValue);
             } else if (fieldValue instanceof List) {
                 List<Object> list = (List<Object>) fieldValue;
@@ -340,14 +303,14 @@ public class BasicService implements EntityService {
                         error("Unexpected situation, List inside a List: {}", fieldValue);
                         continue;
                     } else {
-                        //patch the entry in the list...how to know which item is which if there are multiple?
-                        //list.set(i, newValue);
+                        // patch the entry in the list...how to know which item is which if there are multiple?
+                        // list.set(i, newValue);
                     }
                 }
             } else if (fieldValue == null) {
-                //current entity doesn't have it set, so set it
+                // current entity doesn't have it set, so set it
             } else {
-                //actually patch the exisiting field
+                // actually patch the exisiting field
             }
         }
     }
@@ -389,9 +352,8 @@ public class BasicService implements EntityService {
         return makeEntityBody(entity);
     }
 
-
     private Iterable<EntityBody> noEntitiesFound(NeutralQuery neutralQuery) {
-        //this.addDefaultQueryParams(neutralQuery, collectionName);
+        // this.addDefaultQueryParams(neutralQuery, collectionName);
         if (makeEntityList(repo.findAll(collectionName, neutralQuery)).isEmpty()) {
             return new ArrayList<EntityBody>();
         } else {
@@ -414,7 +376,6 @@ public class BasicService implements EntityService {
         neutralQuery.setOffset(0);
         neutralQuery.setLimit(MAX_RESULT_SIZE);
 
-
         return get(ids, neutralQuery);
     }
 
@@ -426,7 +387,6 @@ public class BasicService implements EntityService {
 
         checkRights(readRight);
         checkFieldAccess(neutralQuery);
-
 
         SecurityCriteria securityCriteria = findAccessible(defn.getType());
 
@@ -445,9 +405,8 @@ public class BasicService implements EntityService {
 
             neutralQuery = securityCriteria.applySecurityCriteria(neutralQuery);
 
-            //add the ids requested
+            // add the ids requested
             neutralQuery.addCriteria(new NeutralCriteria("_id", "in", idList));
-
 
             Iterable<Entity> entities = repo.findAll(collectionName, neutralQuery);
 
@@ -512,14 +471,11 @@ public class BasicService implements EntityService {
 
         String clientId = getClientId();
 
-
-        debug("Reading custom entity: entity={}, entityId={}, clientId={}", new String[]{
-                getEntityDefinition().getType(), id, clientId });
+        debug("Reading custom entity: entity={}, entityId={}, clientId={}", new String[] { getEntityDefinition().getType(), id, clientId });
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_CLIENT_ID, "=", clientId, false));
         query.addCriteria(new NeutralCriteria("metaData." + CUSTOM_ENTITY_ENTITY_ID, "=", id, false));
-
 
         Entity entity = getRepo().findOne(CUSTOM_ENTITY_COLLECTION, query);
         if (entity != null) {
@@ -552,8 +508,7 @@ public class BasicService implements EntityService {
 
         boolean deleted = getRepo().delete(CUSTOM_ENTITY_COLLECTION, entity.getEntityId());
 
-        debug("Deleting custom entity: entity={}, entityId={}, clientId={}, deleted?={}", new String[]{
-                getEntityDefinition().getType(), id, clientId, String.valueOf(deleted) });
+        debug("Deleting custom entity: entity={}, entityId={}, clientId={}, deleted?={}", new String[] { getEntityDefinition().getType(), id, clientId, String.valueOf(deleted) });
     }
 
     /**
@@ -573,22 +528,19 @@ public class BasicService implements EntityService {
         Entity entity = getRepo().findOne(CUSTOM_ENTITY_COLLECTION, query);
 
         if (entity != null && entity.getBody().equals(customEntity)) {
-            debug("No change detected to custom entity, ignoring update: entity={}, entityId={}, clientId={}",
-                    new String[]{ getEntityDefinition().getType(), id, clientId });
+            debug("No change detected to custom entity, ignoring update: entity={}, entityId={}, clientId={}", new String[] { getEntityDefinition().getType(), id, clientId });
             return;
         }
 
         EntityBody clonedEntity = new EntityBody(customEntity);
 
         if (entity != null) {
-            debug("Overwriting existing custom entity: entity={}, entityId={}, clientId={}", new String[]{
-                    getEntityDefinition().getType(), id, clientId });
+            debug("Overwriting existing custom entity: entity={}, entityId={}, clientId={}", new String[] { getEntityDefinition().getType(), id, clientId });
             entity.getBody().clear();
             entity.getBody().putAll(clonedEntity);
             getRepo().update(CUSTOM_ENTITY_COLLECTION, entity);
         } else {
-            debug("Creating new custom entity: entity={}, entityId={}, clientId={}", new String[]{
-                    getEntityDefinition().getType(), id, clientId });
+            debug("Creating new custom entity: entity={}, entityId={}, clientId={}", new String[] { getEntityDefinition().getType(), id, clientId });
             EntityBody metaData = new EntityBody();
 
             Map<String, Object> metadata = new HashMap<String, Object>();
@@ -635,7 +587,6 @@ public class BasicService implements EntityService {
             }
         }
     }
-
 
     private String getClientId() {
         String clientId = clientInfo.getClientId();
@@ -704,8 +655,7 @@ public class BasicService implements EntityService {
                         deleteAttachedCustomEntities(idToBeDeleted);
                     }
                 } catch (AccessDeniedException ade) {
-                    debug("No {} have {}={}", new Object[]{ referencingEntity.getResourceName(), referenceField,
-                            sourceId });
+                    debug("No {} have {}={}", new Object[] { referencingEntity.getResourceName(), referenceField, sourceId });
                 }
             }
         }
@@ -724,10 +674,10 @@ public class BasicService implements EntityService {
      * Checks that Actor has the appropriate Rights and linkage to access given entity
      * Also checks for existence of the given entity
      *
-     * @param right    needed Right for action
+     * @param right needed Right for action
      * @param entityId id of the entity to access
      * @throws EntityNotFoundException if requested entity doesn't exist
-     * @throws AccessDeniedException   if actor doesn't have association path to given entity
+     * @throws AccessDeniedException if actor doesn't have association path to given entity
      */
     private void checkAccess(Right right, String entityId) {
 
@@ -747,7 +697,6 @@ public class BasicService implements EntityService {
             }
         }
     }
-
 
     /**
      * Checks to see if the entity id is allowed by security
@@ -827,7 +776,6 @@ public class BasicService implements EntityService {
 
         EntityContextResolver resolver = contextResolverStore.findResolver(type, toType);
 
-
         List<String> allowed = resolver.findAccessible(principal.getEntity());
 
         if (type != null && type.equals(EntityNames.STAFF)) {
@@ -854,14 +802,10 @@ public class BasicService implements EntityService {
         if (getAuths().contains(Right.FULL_ACCESS)) {
             return getAuths().contains(Right.FULL_ACCESS);
         } else {
-            return defn.getType().equals(EntityNames.LEARNING_OBJECTIVE)
-                    || defn.getType().equals(EntityNames.LEARNING_STANDARD)
-                    || defn.getType().equals(EntityNames.ASSESSMENT)
- || defn.getType().equals(EntityNames.SCHOOL)
+            return defn.getType().equals(EntityNames.LEARNING_OBJECTIVE) || defn.getType().equals(EntityNames.LEARNING_STANDARD) || defn.getType().equals(EntityNames.ASSESSMENT) || defn.getType().equals(EntityNames.SCHOOL)
                     || defn.getType().equals(EntityNames.EDUCATION_ORGANIZATION);
         }
     }
-
 
     /**
      * Removes fields user isn't entitled to see
@@ -909,7 +853,6 @@ public class BasicService implements EntityService {
         }
     }
 
-
     /**
      * Removes fields user isn't entitled to see
      *
@@ -931,8 +874,7 @@ public class BasicService implements EntityService {
                 Right neededRight = getNeededRight(fieldPath);
 
                 debug("Field {} requires {}", fieldPath, neededRight);
-                SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
-                        .getPrincipal();
+                SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
                 if (!auths.contains(neededRight) && !principal.getEntity().getEntityId().equals(eb.get("id"))) {
                     toRemove.add(fieldName);
                 } else if (value instanceof Map) {
@@ -977,8 +919,7 @@ public class BasicService implements EntityService {
 
         if (query != null) {
             // get the authorities
-            Collection<GrantedAuthority> auths = SecurityContextHolder.getContext().getAuthentication()
-                    .getAuthorities();
+            Collection<GrantedAuthority> auths = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
 
             if (!auths.contains(Right.FULL_ACCESS) && !auths.contains(Right.ANONYMOUS_ACCESS)) {
                 for (NeutralCriteria criteria : query.getCriteria()) {
@@ -1043,12 +984,11 @@ public class BasicService implements EntityService {
         metadata.put("isOrphaned", "true");
         metadata.put("createdBy", createdBy);
         metadata.put("tenantId", principal.getTenantId());
-        //add the edorgs for staff
+        // add the edorgs for staff
         createEdOrgMetaDataForStaff(principal, metadata);
 
         return metadata;
     }
-
 
     /**
      * Add the list of ed orgs a principal entity can see
@@ -1057,9 +997,9 @@ public class BasicService implements EntityService {
      * @param principal
      * @param metaData
      */
-    //DE-719 - need to check this one
+    // DE-719 - need to check this one
     private void createEdOrgMetaDataForStaff(SLIPrincipal principal, Map<String, Object> metaData) {
-        //get all the edorgs this principal can see
+        // get all the edorgs this principal can see
         List<String> edOrgIds = edOrgContextResolver.findAccessible(principal.getEntity());
 
         if (!edOrgIds.isEmpty()) {

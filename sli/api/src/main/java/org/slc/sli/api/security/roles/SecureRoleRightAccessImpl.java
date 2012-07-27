@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,7 +31,12 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -44,6 +50,9 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
     private EntityDefinitionStore store;
 
     private EntityService service;
+
+    @Resource(name = "validationRepo")
+    private Repository<Entity> repo;
 
     public static final String EDUCATOR = "Educator";
     public static final String LEADER = "Leader";
@@ -78,6 +87,58 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                 RoleBuilder.makeRole(SLC_OPERATOR).addRights(new Right[] { Right.ADMIN_ACCESS, Right.SLC_APP_APPROVE, Right.READ_GENERAL, Right.READ_PUBLIC, Right.CRUD_SLC_OPERATOR, Right.CRUD_SEA_ADMIN, Right.CRUD_LEA_ADMIN })
                         .setAdmin(true).build());
 
+    }
+
+    @Override
+    public List<Role> findAdminRoles(List<String> roleNames) {
+        List<Role> roles = new ArrayList<Role>();
+
+        for (String roleName : roleNames) {
+            if (adminRoles.containsKey(roleName)) {
+                roles.add(adminRoles.get(roleName));
+            }
+        }
+
+        return roles;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public List<Role> findRoles(String tenantId, String realmId, List<String> roleNames) {
+        List<Role> roles = new ArrayList<Role>();
+        if (roleNames != null) {
+
+            final NeutralQuery neutralQuery = new NeutralQuery();
+            neutralQuery.addCriteria(new NeutralCriteria("tenantId", "=", tenantId));
+            neutralQuery.addCriteria(new NeutralCriteria("realmId", "=", realmId));
+
+            Entity doc = SecurityUtil.runWithAllTenants(new SecurityTask<Entity>() {
+
+                @Override
+                public Entity execute() {
+                    return repo.findOne("customRole", neutralQuery);
+                }
+            });
+
+            Map<String, Object> roleDefs = doc.getBody();
+
+            if (roleDefs != null) {
+                List<Map<String, List<String>>> roleData = (List<Map<String, List<String>>>) roleDefs.get("roles");
+
+                for (Map<String, List<String>> role : roleData) {
+                    List<String> names = role.get("names");
+
+                    for (String roleName : names) {
+                        if (roleNames.contains(roleName)) {
+                            List<String> rights = role.get("rights");
+                            roles.add(RoleBuilder.makeRole(roleName).addGrantedAuthorities(rights).build());
+                        }
+                    }
+                }
+            }
+        }
+
+        return roles;
     }
 
     @Override
@@ -188,5 +249,4 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
     public Role getDefaultRole(String name) {
         return findRoleByName(name);
     }
-
 }
