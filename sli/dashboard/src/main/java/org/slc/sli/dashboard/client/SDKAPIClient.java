@@ -1173,7 +1173,7 @@ public class SDKAPIClient implements APIClient {
     @ExecutionTimeLogger.LogExecutionTime
     protected void createEntity(String token, String url, GenericEntity entity) {
         try {
-            sdkClient.create(token, url, entity);
+            getClient(token).create(entity, url);
         } catch (Exception e) {
             LOGGER.error("Exception occurred during API create", e);
         }

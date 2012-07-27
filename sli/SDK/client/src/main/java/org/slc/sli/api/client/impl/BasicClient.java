@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.client.impl;
 
 import java.io.IOException;
@@ -74,16 +73,32 @@ public class BasicClient implements SLIClient {
         this.restClient = restClient;
     }
 
+    /**
+     * @deprecated Use {@link #create(Entity,String)} instead
+     */
+    @Deprecated
     @Override
     public String create(final Entity e) throws IOException, URISyntaxException, SLIClientException {
-        URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).build();
+        return create(e, null);
+    }
+
+    @Override
+    public String create(final Entity e, String resourceUrl) throws IOException, URISyntaxException, SLIClientException {
+        URLBuilder builder = URLBuilder.create(restClient.getBaseURL());
+        if (resourceUrl == null) {
+            builder.entityType(e.getEntityType());
+        } else {
+            builder.addPath(resourceUrl);
+        }
+        URL url = builder.build();
         Response response = restClient.postRequest(url, mapper.writeValueAsString(e.getData()));
         checkResponse(response, Status.CREATED, "Could not created entity.");
 
         // extract the id of the newly created entity from the header.
         String location = response.getHeader("Location");
         return location.substring(location.lastIndexOf("/") + 1);
-        //  return restClient.postRequest(this.getToken(), url, mapper.writeValueAsString(e)); NOTE: added
+        // return restClient.postRequest(this.getToken(), url, mapper.writeValueAsString(e)); NOTE:
+        // added
     }
 
     @Override
@@ -119,13 +134,14 @@ public class BasicClient implements SLIClient {
             throws URISyntaxException, MessageProcessingException, IOException {
         entities.clear();
         return getResource(sessionToken, entities, new URL(restClient.getBaseURL() + resourceUrl), entityClass);
-     }
+    }
 
     @Override
     public List<Entity> read(final String resourceUrl, Query query) throws URISyntaxException,
-    MessageProcessingException, IOException, SLIClientException {
+            MessageProcessingException, IOException, SLIClientException {
         List<Entity> entities = new ArrayList<Entity>();
-        URL url = resourceUrl.startsWith(restClient.getBaseURL()) ? new URL(resourceUrl) : URLBuilder.create(restClient.getBaseURL()).addPath(resourceUrl).build();
+        URL url = resourceUrl.startsWith(restClient.getBaseURL()) ? new URL(resourceUrl) : URLBuilder
+                .create(restClient.getBaseURL()).addPath(resourceUrl).build();
         Response response = getResource(entities, url, query);
         checkResponse(response, Status.OK, "Unable to retrieve entity.");
         return entities;
@@ -138,29 +154,30 @@ public class BasicClient implements SLIClient {
     }
 
     @Override
-    public void update(final Entity e)
-            throws URISyntaxException, MessageProcessingException, IOException, SLIClientException {
+    public void update(final Entity e) throws URISyntaxException, MessageProcessingException, IOException,
+            SLIClientException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
         Response response = restClient.putRequest(url, mapper.writeValueAsString(e));
         checkResponse(response, Status.NO_CONTENT, "Unable to update entity.");
     }
 
     @Override
-    public void delete(final String entityType, final String entityId) throws MalformedURLException, URISyntaxException, SLIClientException {
+    public void delete(final String entityType, final String entityId) throws MalformedURLException,
+            URISyntaxException, SLIClientException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(entityType).id(entityId).build();
         checkResponse(restClient.deleteRequest(url), Status.NO_CONTENT, "Could not delete entity.");
     }
 
     @Override
-    public Response update(final String sessionToken, final String resourceUrl, final Entity e)
-            throws IOException, URISyntaxException {
+    public Response update(final String sessionToken, final String resourceUrl, final Entity e) throws IOException,
+            URISyntaxException {
         return restClient.putRequest(sessionToken, new URL(restClient.getBaseURL() + resourceUrl),
                 mapper.writeValueAsString(e));
     }
 
-
     @Override
-    public Response deleteByToken(final String sessionToken, final String resourceUrl) throws URISyntaxException, MalformedURLException {
+    public Response deleteByToken(final String sessionToken, final String resourceUrl) throws URISyntaxException,
+            MalformedURLException {
         return restClient.deleteRequest(sessionToken, new URL(restClient.getBaseURL() + resourceUrl));
     }
 
@@ -215,10 +232,10 @@ public class BasicClient implements SLIClient {
                     ArrayNode arrayNode = (ArrayNode) element;
                     for (int i = 0; i < arrayNode.size(); ++i) {
                         JsonNode jsonObject = arrayNode.get(i);
-                        Object entity =  mapper.readValue(jsonObject, entityClass);
+                        Object entity = mapper.readValue(jsonObject, entityClass);
                         entities.add(entity);
                     }
-                } else  if (element instanceof ObjectNode) {
+                } else if (element instanceof ObjectNode) {
                     Object entity = mapper.readValue(element, entityClass);
                     entities.add(entity);
                 } else {
@@ -278,7 +295,8 @@ public class BasicClient implements SLIClient {
      */
     private void checkResponse(Response response, Status status, String msg) throws SLIClientException {
         if (response.getStatus() != status.getStatusCode()) {
-           throw new SLIClientException(msg + "Receveived status code " + response.getStatus() + ". Expected " + status.getStatusCode() + ".");
+            throw new SLIClientException(msg + "Receveived status code " + response.getStatus() + ". Expected "
+                    + status.getStatusCode() + ".");
         }
     }
 }
