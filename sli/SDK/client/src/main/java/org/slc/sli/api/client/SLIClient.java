@@ -61,6 +61,19 @@ public interface SLIClient {
     /**
      * Create operation
      *
+     * @param e
+     *            Entity to create
+     * @param resourceUrl the url to post on
+     * @return Response to the update request.
+     *
+     * @throws URISyntaxException
+     * @throws IOException
+     */
+    public abstract String create(final Entity e, String resourceUrl) throws IOException, URISyntaxException, SLIClientException;
+
+    /**
+     * Create operation
+     *
      * @param sessionToken
      *            Session token.
      * @param resourceUrl
