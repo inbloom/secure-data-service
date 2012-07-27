@@ -121,8 +121,7 @@ public class CustomRoleResource {
             return SecurityUtil.forbiddenResponse();
         }
         EntityBody customRole = service.get(id);
-        if (!customRole.get("tenantId").equals(SecurityUtil.getTenantId())
-                || !customRole.get("realmId").equals(getRealmId())) {
+        if (!customRole.get("realmId").equals(getRealmId())) {
             audit(securityEventBuilder.createSecurityEvent(CustomRoleResource.class.getName(), uriInfo,
                     "Failed to read custom role with id: " + id + "  --> wrong tenant + realm combination."));
             return Response.status(Status.FORBIDDEN).entity(ERROR_FORBIDDEN).build();
