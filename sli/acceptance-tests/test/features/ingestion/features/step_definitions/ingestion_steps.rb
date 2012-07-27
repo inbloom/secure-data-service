@@ -1690,6 +1690,21 @@ Then /^I am informed that "(.*?)"$/ do |arg1|
     assert($healthCheckResult.tr("\n","") == arg1, "Ingestion service is not running")
 end
 
+Given /^I have checked the counts of the following collections:$/ do |table|
+  @excludedCollectionHash = {}
+  @db = @conn[INGESTION_DB_NAME]
+  table.hashes.map do |row|
+    @excludedCollectionHash[row["collectionName"]] = @db.collection(row["collectionName"]).count()
+  end
+end
+
+Then /^the following collections counts are the same:$/ do |table|
+  @db = @conn[INGESTION_DB_NAME]
+  table.hashes.map do |row|
+    assert(@excludedCollectionHash[row["collectionName"]] == @db.collection(row["collectionName"]).count(), "Tenant Purge has removed documents it should not have")
+  end
+end
+
 ############################################################
 # STEPS: BEFORE
 ############################################################
