@@ -74,27 +74,39 @@ And the "delete" button is disabled
     |USER                 |PASSWORD                 |USER_FULL_NAME                |USER_ROLE                      |
     |sandboxadministrator |sandboxadministrator1234 |Sandbox Admin                 |Sandbox Administrator          |
 
-@sandbox @wip 
-Scenario: As a Sandbox admin I am able to create user accounts for my sandbox tenancy
-When I access the User Management Page from the portal
-Then I am redirected to "Sandbox Account Management" page which has a table of all accounts for my tenancy
 
-When I click on "Add User"
-Then I am redirected to "Add a User" form
-And I can enter a Fullname
-And I can enter a Email
-And I can assign an EdOrg if the tenancy has one assigned
-And I can select "Application Developer" from a choice between a "Sandbox Administrator" and "Application Developer" and "Ingestion User" Role 
-And  I can select  "Ingestion User" Role 
+@sandbox 
+Scenario: As a Sandbox admin I can quit to create user accounts
+When I navigate to the sandbox user account management page
+And I submit the credentials "sandboxadministrator" "sandboxadministrator1234" for the "Simple" login page
+Then I am redirected to "Sandbox Account Management" page 
+Then I click on "Add User" button
+And I am redirected to "Add a User" page
+
+When I click "Cancel" link
+Then I am redirected to "Sandbox Account Management" page 
+
+@sandbox    
+Scenario: As a Sandbox admin I am able to create user accounts for my sandbox tenancy
+Given the testing user does not already exists in LDAP
+When I navigate to the sandbox user account management page
+And I submit the credentials "sandboxadministrator" "sandboxadministrator1234" for the "Simple" login page
+Then I am redirected to "Sandbox Account Management" page 
+Then I click on "Add User" button
+And I am redirected to "Add a User" page
+
+And I have entered Full Name and Email into the required fields
+And I can select "Application Developer" from a choice between a "Sandbox Administrator", "Application Developer" and "Ingestion User" Role 
+And I can also check "Ingestion User" Role 
+#And I can also check "Application Developer" Role 
 
 When I click "Save"
-Then I am redirected to the "User Account Management" Page
-And a "Success" message is displayed 
-And a new unique account has been created with this sandbox tenant_id and role of "Application Developer" and "Ingestion User"
-And an email to verify user email address is sent
+Then I am redirected to "Sandbox Account Management" page 
+And a "Success! You have added a new user" message is displayed 
+And I see a user with Full Name is "Sandbox AcceptanceTests" in the table
+And I see "Sandbox AcceptanceTests" has "Application Developer" and "Ingestion User" role 
 
-When I click "Cancel"
-Then I am redirected to the "User Account Management" Page
+#And an email to verify user email address is sent
 
 @sandbox @wip 
 Scenario: As a Sandbox admin I am able to edit user accounts for my sandbox tenancy
@@ -122,7 +134,4 @@ And the updated information is displayed in the table
 When I click "Cancel"
 Then I am redirected to the "User Account Management" Page
 And no changes are shown in the table
-
-
-   
   

@@ -87,5 +87,6 @@ SLIAdmin::Application.routes.draw do
 
   root :to => 'roles#index'
 
-  resources :users, :constraints => { :id => /[^\/]+/ }
+  resources :users , :constraints => { :id => /[^\/]+/ }
+  
 end
