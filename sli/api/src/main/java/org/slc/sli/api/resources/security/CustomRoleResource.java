@@ -98,8 +98,9 @@ public class CustomRoleResource {
         
         List<Map> results = new ArrayList<Map>();
         NeutralQuery customRoleQuery = new NeutralQuery();
-        customRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.OPERATOR_EQUAL, getRealmId()));
         customRoleQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getTenantId(), false));
+        customRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.OPERATOR_EQUAL, getRealmId()));
+        
         Entity customRole = repo.findOne("customRole", customRoleQuery);
         if (customRole != null) {
             results.add(customRole.getBody());
