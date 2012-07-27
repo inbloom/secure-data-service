@@ -202,20 +202,23 @@ public class SessionGenerator {
         EducationalOrgReferenceType schoolRef = new EducationalOrgReferenceType();
         schoolRef.setEducationalOrgIdentity(edOrgIdentityType);
         
-        for (String cal : calendarList) {
-        	Ref calRef = new Ref(cal);
-        	ReferenceType ref = new ReferenceType();
-        	ref.setRef(calRef);
-        	session.getCalendarDateReference().add(ref);
-        }
-
-        for (int i = 0; i < MetaRelations.GRADING_PERIOD_PER_SESSIONS; i++) {
+        
+		if (MetaRelations.Session_Ref) {
+			for (String cal : calendarList) {
+				Ref calRef = new Ref(cal);
+				ReferenceType ref = new ReferenceType();
+				ref.setRef(calRef);
+				session.getCalendarDateReference().add(ref);
+			}
+		}
+		for (int i = 0; i < MetaRelations.GRADING_PERIOD_PER_SESSIONS; i++) {
 			Ref gpRef = new Ref(calendarList.get(0) + "-" + i);
 			GradingPeriodReferenceType gprt = new GradingPeriodReferenceType();
 			gprt.setRef(gpRef);
 			session.getGradingPeriodReference().add(gprt);
 			session.setEducationOrganizationReference(schoolRef);
 		}
+		
         
         session.setEducationOrganizationReference(schoolRef);
         return session;

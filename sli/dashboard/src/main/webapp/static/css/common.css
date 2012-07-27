@@ -1348,3 +1348,17 @@ text-decoration: none;
 .hidden {
     display: none;
 }
+
+/* dashboard builder styles */
+
+.profileList { width: 240px; float: left; padding: 20px; }
+.profilePageWrapper { float: left; padding: 20px; }
+#txt_input { width: 350px; }
+
+#sortable li .remove { float: right; display: none; }
+
+#sortable li:hover .remove { display: block; }
+
+.dialogBox { display: none;}
+.dialogBox ul { margin: 0; padding: 0; list-style-type: none; }
+.dialogBox ul li { margin: 10px 0; }

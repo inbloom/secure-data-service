@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.client;
 
 import java.io.IOException;
@@ -62,6 +61,19 @@ public interface SLIClient {
     /**
      * Create operation
      *
+     * @param e
+     *            Entity to create
+     * @param resourceUrl the url to post on
+     * @return Response to the update request.
+     *
+     * @throws URISyntaxException
+     * @throws IOException
+     */
+    public abstract String create(final Entity e, String resourceUrl) throws IOException, URISyntaxException, SLIClientException;
+
+    /**
+     * Create operation
+     *
      * @param sessionToken
      *            Session token.
      * @param resourceUrl
@@ -72,8 +84,9 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-     public abstract Response create(final String sessionToken, final String resourceUrl, final Entity e)
-             throws IOException, URISyntaxException;
+    @Deprecated
+    public abstract Response create(final String sessionToken, final String resourceUrl, final Entity e)
+            throws IOException, URISyntaxException;
 
     /**
      * Read operation by ID.
@@ -111,8 +124,32 @@ public interface SLIClient {
      * @throws IOException
      * @throws MessageProcessingException
      */
-    public abstract void read(List<Entity> entities, final String type, final Query query)
-            throws URISyntaxException, MessageProcessingException, IOException, SLIClientException;
+    public abstract void read(List<Entity> entities, final String type, final Query query) throws URISyntaxException,
+            MessageProcessingException, IOException, SLIClientException;
+
+    /**
+     * Read operation
+     *
+     * @param resourceUrl
+     *            The ReST resource url suffix
+     * @return ClientResponse from the ReST call.
+     * @throws MalformedURLException
+     * @throws URISyntaxException
+     */
+    public abstract List<Entity> read(final String resourceUrl) throws URISyntaxException,
+            MessageProcessingException, IOException, SLIClientException;
+
+    /**
+     * Read operation
+     *
+     * @param resourceUrl
+     *            The ReST resource url suffix
+     * @return ClientResponse from the ReST call.
+     * @throws MalformedURLException
+     * @throws URISyntaxException
+     */
+    public abstract List<Entity> read(final String resourceUrl, Query query) throws URISyntaxException,
+            MessageProcessingException, IOException, SLIClientException;
 
     /**
      * Read operation
@@ -129,9 +166,9 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public abstract Response read(final String sessionToken, List entities, final String resourceUrl, Class entityClass)
-            throws URISyntaxException, MessageProcessingException, IOException;
-
+    @Deprecated
+    public abstract Response read(final String sessionToken, List entities, final String resourceUrl,
+            Class<?> entityClass) throws URISyntaxException, MessageProcessingException, IOException;
 
     /**
      * Update operation
@@ -144,7 +181,8 @@ public interface SLIClient {
      * @throws IOException
      * @throws MessageProcessingException
      */
-    public abstract void update(final Entity e) throws URISyntaxException, MessageProcessingException, IOException, SLIClientException;
+    public abstract void update(final Entity e) throws URISyntaxException, MessageProcessingException, IOException,
+            SLIClientException;
 
     /**
      * Update operation
@@ -159,9 +197,9 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-     public abstract Response update(final String sessionToken, final String resourceUrl, final Entity e)
-             throws IOException, URISyntaxException;
-
+    @Deprecated
+    public abstract Response update(final String sessionToken, final String resourceUrl, final Entity e)
+            throws IOException, URISyntaxException;
 
     /**
      * Delete operation
@@ -173,7 +211,8 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-    public abstract void delete(final String entityType, final String entityId) throws MalformedURLException, URISyntaxException, SLIClientException;
+    public abstract void delete(final String entityType, final String entityId) throws MalformedURLException,
+            URISyntaxException, SLIClientException;
 
     /**
      * Delete operation
@@ -186,6 +225,7 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
+    @Deprecated
     public abstract Response deleteByToken(final String sessionToken, final String resourceUrl) throws MalformedURLException,
             URISyntaxException;
 
@@ -208,6 +248,7 @@ public interface SLIClient {
      * @throws IOException
      * @throws MessageProcessingException
      */
+    @Deprecated
     public abstract Response getResource(List<Entity> entities, URL resourceURL, Query query)
             throws URISyntaxException, MessageProcessingException, IOException;
 
@@ -228,11 +269,11 @@ public interface SLIClient {
      * @throws MalformedURLException
      * @throws URISyntaxException
      */
-     public abstract Response getResource(final String sessionToken, List entities, final URL restURL, Class entityClass)
-             throws URISyntaxException, MessageProcessingException, IOException;
+    @Deprecated
+    public abstract Response getResource(final String sessionToken, List entities, final URL restURL,
+            Class<?> entityClass) throws URISyntaxException, MessageProcessingException, IOException;
 
-
-    //Deprecated
+    // Deprecated
     /**
      * Get the home resource for the authenticated user.
      *
@@ -244,7 +285,5 @@ public interface SLIClient {
      */
     public abstract Response getHomeResource(Entity home) throws URISyntaxException, MessageProcessingException,
             IOException;
-
-
 
 }

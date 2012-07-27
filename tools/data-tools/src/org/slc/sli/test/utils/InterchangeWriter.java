@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.test.utils;
 
 import java.io.BufferedOutputStream;
@@ -32,6 +31,8 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 import com.sun.xml.internal.txw2.output.IndentingXMLStreamWriter;
+
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 /**
@@ -61,7 +62,7 @@ public class InterchangeWriter<T> {
         
         interchangeStartTime = System.currentTimeMillis();
         interchangeName = interchange.getSimpleName();
-        xmlFilePath = StateEdFiXmlGenerator.rootOutputPath + "/" + interchangeName + ".xml";
+        xmlFilePath = MetaRelations.rootOutputPath + "/" + interchangeName + ".xml";
 
         System.out.println("Creating interchange " + interchangeName);
         try {

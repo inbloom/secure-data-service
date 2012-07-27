@@ -1,3 +1,0 @@
-	public GenericContentType(SIFVersion version, ElementDef studentrecordcontent) {
-		super( studentrecordcontent );
-	}

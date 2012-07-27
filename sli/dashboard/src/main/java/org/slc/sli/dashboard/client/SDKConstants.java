@@ -20,7 +20,9 @@ package org.slc.sli.dashboard.client;
 /**
  * Dashboard API url constants.
  *
+ *@deprecated use org.slc.sli.api.constants.PathConstants instead
  */
+@Deprecated
 public class SDKConstants {
 
     // SDK entities

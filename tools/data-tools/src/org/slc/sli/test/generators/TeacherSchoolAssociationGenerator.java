@@ -31,6 +31,7 @@ import org.slc.sli.test.edfi.entities.StaffIdentityType;
 import org.slc.sli.test.edfi.entities.StaffReferenceType;
 import org.slc.sli.test.edfi.entities.TeacherSchoolAssociation;
 import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 public class TeacherSchoolAssociationGenerator {
     public TeacherSchoolAssociation generate(String staffId, List<String> stateOrgIds) {
@@ -88,11 +89,12 @@ public class TeacherSchoolAssociationGenerator {
         teacherSchool.setTeacherReference(teacherRef);
         */
         
-        Ref teacherRefer = new Ref(teacherMeta.id);
-        StaffReferenceType teacherRef = new StaffReferenceType();
-        teacherRef.setRef(teacherRefer);
-        teacherSchool.setTeacherReference(teacherRef);
-        
+	
+		Ref teacherRefer = new Ref(teacherMeta.id);
+		StaffReferenceType teacherRef = new StaffReferenceType();
+		teacherRef.setRef(teacherRefer);
+		teacherSchool.setTeacherReference(teacherRef);
+
 
         teacherSchool.setProgramAssignment(ProgramAssignmentType.REGULAR_EDUCATION);
 
