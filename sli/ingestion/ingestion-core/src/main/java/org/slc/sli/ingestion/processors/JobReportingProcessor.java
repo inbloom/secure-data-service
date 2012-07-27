@@ -422,7 +422,7 @@ public class JobReportingProcessor implements Processor {
         } else {
             numPassed = numPassed - numNotPresent;
             writeInfoLine(jobReportWriter, id + " records deleted successfully: " + numPassed);
-            writeInfoLine(jobReportWriter, id + " records atttempted to be deleted, but not present: " + numNotPresent);
+            writeInfoLine(jobReportWriter, id + " records attempted to be deleted, but not present: " + numNotPresent);
         }
         writeInfoLine(jobReportWriter, id + " records failed: " + numFailed);
     }

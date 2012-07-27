@@ -5,7 +5,7 @@ Background: I have a landing zone route configured
 Given I am using local data store
   And I am using preconfigured Ingestion Landing Zone
 
-@Initial Ingestion of Data Set
+#Initial Ingestion of Data Set
 Scenario: Post a zip file containing student parent interchange as a payload of the ingestion job: Clean Database
 Given I post "StudentDelete1.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
@@ -36,7 +36,7 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "StudentParentData.xml records ingested successfully: 2" in the resulting batch job file
   And I should see "StudentParentData.xml records failed: 0" in the resulting batch job file
 
-@Delete unreferenced student
+#Delete unreferenced student
 Scenario: Post a zip file containing student parent interchange as a payload of the ingestion job: Populated Database
 Given I post "StudentDelete2.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
@@ -60,7 +60,7 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeStudent.xml records attempted to be deleted, but not present: 0" in the resulting batch job file
   And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
 
-@Delete non-existent student
+#Delete non-existent student
 Scenario: Post a zip file containing student parent interchange as a payload of the ingestion job: Populated Database
 Given I post "StudentDelete2.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
@@ -83,7 +83,8 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeStudent.xml records attempted to be deleted, but not present: 1" in the resulting batch job file
   And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
 
-@Delete referenced student
+#Delete referenced student
+@wip
 Scenario: Post a zip file containing student parent interchange as a payload of the ingestion job: Populated Database
 Given I post "StudentDelete3.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
