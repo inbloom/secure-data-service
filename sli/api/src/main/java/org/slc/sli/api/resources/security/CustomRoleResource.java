@@ -289,7 +289,7 @@ public class CustomRoleResource {
     private Response validateValidRealm(EntityBody customRoleDoc) {
         String realmId = getRealmId();
         if (!realmId.equals(customRoleDoc.get("realmId"))) {
-            return Response.status(Status.BAD_REQUEST).entity(ERROR_INVALID_REALM).build();
+            return Response.status(Status.FORBIDDEN).entity(ERROR_INVALID_REALM).build();
         }
         return null;
     }

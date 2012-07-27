@@ -137,19 +137,49 @@ When /^I add a role "([^"]*)" in group "([^"]*)"$/ do |role, group|
   groups = data["roles"]
   curGroup = groups.select {|group| group["groupTitle"] == group}
   if curGroup.nil? or curGroup.empty?
-    curGroup = {"groupTitle" => group, "names" => [role], "rights" => []}
+    curGroup = {"groupTitle" => group, "names" => [role], "rights" => ["READ_GENERAL"]}
     groups.push(curGroup)
   else
     groups.delete_if {|group| group["groupTitle"] == group}
     curGroup["names"].push(role)
     groups.push(curGroup)
   end
-  puts("CurGroup is now #{curGroup.inspect}")
   data["roles"] = groups
-  puts("And data is #{data.inspect}")
   dataFormatted = prepareData("application/json", data)
   restHttpPut("/customRoles/" + data["id"], dataFormatted, "application/json")
 
+end
+
+When /^I add a right "([^"]*)" in group "([^"]*)"$/ do |right, group|
+  restHttpGet("/customRoles")
+  assert(@res != nil, "Response from custom role request is nil")
+  data = JSON.parse(@res.body)[0]
+  groups = data["roles"]
+  curGroup = groups.select {|group| group["groupTitle"] == group}
+  if curGroup.nil? or curGroup.empty?
+    curGroup = {"groupTitle" => group, "names" => ["FAKE-NAME"], "rights" => [right]}
+    groups.push(curGroup)
+  else
+    groups.delete_if {|group| group["groupTitle"] == group}
+    curGroup["rights"].push(right)
+    groups.push(curGroup)
+  end
+  data["roles"] = groups
+  dataFormatted = prepareData("application/json", data)
+  restHttpPut("/customRoles/" + data["id"], dataFormatted, "application/json")
+
+end
+
+When /^I DELETE my custom role doc$/ do 
+  restHttpGet("/customRoles/")
+  assert(@res != nil, "Response from custom role request is nil")
+  data = JSON.parse(@res.body)[0]
+  restHttpDelete("/customRoles/" + data["id"])
+end
+
+
+Then /^I should receive a new ID for my new custom role doc$/ do
+  assert(@res.raw_headers["location"] != nil, "No ID was returned for created object")
 end
 
 
