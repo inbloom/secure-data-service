@@ -62,6 +62,9 @@ public class AgentManager {
         ADK.initialize();
         ADK.debug = ADK.DBG_ALL;
 
+        //1s sleep to wait for mockZis
+        Thread.sleep(1000);
+
         agent.startAgent();
 
         subscribeToZone();
