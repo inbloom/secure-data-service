@@ -7,6 +7,7 @@ import com.mongodb.hadoop.util.MongoConfigUtil;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.io.ArrayWritable;
+import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.util.Tool;
@@ -37,6 +38,7 @@ public class SchoolProficiency extends Configured implements Tool {
 
         // track the assessment ID
         conf.set("AssessmentIdCode", assmtIDCode);
+        conf.set("mapred.child.java.opts", "-Xmx2048m");
 
         // The value to aggregate
         conf.set(SchoolProficiencyMapper.SCORE_TYPE, "aggregations.assessments." + assmtIDCode + ".HighestEver");
@@ -50,6 +52,7 @@ public class SchoolProficiency extends Configured implements Tool {
 
         MongoConfigUtil.setCreateInputSplits(conf,  true);
         MongoConfigUtil.setShardChunkSplittingEnabled(conf, true);
+        MongoConfigUtil.setSplitSize(conf, 2);
 
         Job job = new Job(conf, "SchoolProficiency");
         job.setJarByClass(getClass());
@@ -61,7 +64,7 @@ public class SchoolProficiency extends Configured implements Tool {
         job.setReducerClass(SchoolProficiencyReducer.class);
 
         job.setMapOutputKeyClass(TenantAndID.class);
-        job.setMapOutputValueClass(Text.class);
+        job.setMapOutputValueClass(MapWritable.class);
 
         job.setOutputFormatClass(MongoAggFormatter.class);
         job.setOutputKeyClass(Text.class);

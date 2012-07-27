@@ -17,6 +17,8 @@ import org.slc.sli.aggregation.mapreduce.TenantAndID;
 public class ScoreMapper extends Mapper<String, BSONObject, TenantAndID, DoubleWritable> {
 
     public static final String SCORE_TYPE = "ScoreType";
+    DoubleWritable score = new DoubleWritable();
+    TenantAndID tenantAndId = new TenantAndID();
 
     @Override
     @SuppressWarnings("unchecked")
@@ -32,8 +34,13 @@ public class ScoreMapper extends Mapper<String, BSONObject, TenantAndID, DoubleW
         List<Map<String, Object>> scoreResults = (List<Map<String, Object>>) body.get("scoreResults");
         for (Map<String, Object> result: scoreResults) {
             String scoreString = (String) result.get("result");
-            double score = Double.parseDouble(scoreString);
-            context.write(new TenantAndID(studentId, tenant), new DoubleWritable(score));
+            double s = Double.parseDouble(scoreString);
+
+            tenantAndId.setId(studentId);
+            tenantAndId.setTenant(tenant);
+            score.set(s);
+
+            context.write(tenantAndId, score);
             return;
         }
     }

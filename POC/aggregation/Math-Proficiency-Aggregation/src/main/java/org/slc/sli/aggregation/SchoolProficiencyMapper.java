@@ -15,6 +15,8 @@ import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
 
+import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.MapWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.bson.BSONObject;
@@ -37,7 +39,7 @@ import org.slc.sli.aggregation.mapreduce.TenantAndID;
  * @author asaarela
  */
 public class SchoolProficiencyMapper
-        extends Mapper<String, BSONObject, TenantAndID, Text> {
+        extends Mapper<String, BSONObject, TenantAndID, MapWritable> {
 
     public static final String SCORE_TYPE = "ProficiencyCounts";
 
@@ -47,6 +49,13 @@ public class SchoolProficiencyMapper
     DB db = null;
     DBCollection ssa = null;
     DBCollection studentColl = null;
+    MapWritable val = new MapWritable();
+    TenantAndID tenantAndId = new TenantAndID();
+    LongWritable one = new LongWritable(1);
+    BasicDBObject query = new BasicDBObject();
+    Set<DBObject> students = new HashSet<DBObject>();
+    DBObject fields = new BasicDBObject();
+
 
     public SchoolProficiencyMapper() throws UnknownHostException, MongoException {
         mongo = new Mongo("localhost");
@@ -66,10 +75,12 @@ public class SchoolProficiencyMapper
         String idCode = context.getConfiguration().get("AssessmentIdCode");
 
         Set<DBObject> students = getStudentsForSchool(school, idCode);
-
         if (students.isEmpty()) {
             return;
         }
+
+        Map<String, Object> metaData = (Map<String, Object>) school.get("metaData");
+        String tenantId = (String) metaData.get("tenantId");
 
         for (DBObject student : students) {
             Map<String, Object> aggregations = (Map<String, Object>) student.get("aggregations");
@@ -108,18 +119,16 @@ public class SchoolProficiencyMapper
                 code.set("-");
             }
 
-            Map<String, Object> metaData = (Map<String, Object>) school.get("metaData");
-            String tenantId = (String) metaData.get("tenantId");
-
-            context.write(new TenantAndID(schoolId, tenantId), code);
+            val.clear();
+            val.put(code, one);
+            tenantAndId.setId(schoolId);
+            tenantAndId.setTenant(tenantId);
+            context.write(tenantAndId, val);
         }
     }
 
     @SuppressWarnings("unchecked")
     protected Set<DBObject> getStudentsForSchool(BSONObject school, String assessmentId) {
-        Set<DBObject> students = new HashSet<DBObject>();
-
-        BasicDBObject query = new BasicDBObject();
 
         String schoolId = (String) school.get("_id");
 
@@ -139,10 +148,9 @@ public class SchoolProficiencyMapper
             ids[idx++] = key;
         }
 
-        DBObject fields = new BasicDBObject();
         fields.put("aggregations.assessments." + assessmentId + ".HighestEver.ScaleScore", 1);
 
-        query = new BasicDBObject();
+        query.clear();
         query.put("_id", new BasicDBObject("$in", ids));
         query.put("metaData.tenantId", tenantId);
 
