@@ -1166,7 +1166,7 @@ public class SDKAPIClient implements APIClient {
     @ExecutionTimeLogger.LogExecutionTime
     protected void updateEntity(String token, String url, GenericEntity entity) {
         try {
-            getClient(token).update(token, url, entity);
+            getClient(token).update(entity);
         } catch (Exception e) {
             LOGGER.error("Exception occurred during API update", e);
         }
@@ -1181,9 +1181,9 @@ public class SDKAPIClient implements APIClient {
      * @return
      */
     @ExecutionTimeLogger.LogExecutionTime
-    protected void deleteEntity(String token, String url) {
+    protected void deleteEntity(String token, Entity entity) {
         try {
-            getClient(token).deleteByToken(token, url);
+            getClient(token).delete(entity);
         } catch (Exception e) {
             LOGGER.error("Exception occurred during API delete", e);
         }
