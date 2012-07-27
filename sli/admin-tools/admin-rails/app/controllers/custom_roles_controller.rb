@@ -30,22 +30,13 @@ class CustomRolesController < ApplicationController
     if realmToRedirectTo.nil?
       render_404
     else
-      redirect_to  :action => "edit", :id => realmToRedirectTo.id
+      redirect_to  :action => "show", :id => realmToRedirectTo.id
     end
   end
 
-  # # GET /realms/1
-  # # GET /realms/1.json
-   def show
-     @realm = Realm.find(params[:id])
-     respond_to do |format|
-       format.html # show.html.erb
-       format.json { render json: @realm }
-     end
-   end
 
-  # # GET /realms/1/edit
-   def edit
+  # # GET /realms/1/
+   def show
      @realm = Realm.find(params[:id])
      @sli_roles = get_roles
    end

@@ -106,7 +106,8 @@ public class CustomRoleResource {
         
         Entity customRole = repo.findOne("customRole", customRoleQuery);
         if (customRole != null) {
-            results.add(customRole.getBody());
+            EntityBody result = service.get(customRole.getEntityId());
+            results.add(result);
         }
         return Response.ok(results).build();
     }
@@ -159,8 +160,8 @@ public class CustomRoleResource {
         
         String realmId = (String) newCustomRole.get("realmId");
         NeutralQuery existingCustomRoleQuery = new NeutralQuery();
-        existingCustomRoleQuery.addCriteria(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL,
-                SecurityUtil.getTenantId()));
+        existingCustomRoleQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL,
+                SecurityUtil.getTenantId(), false));
         existingCustomRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.OPERATOR_EQUAL, realmId));
         if (repo.findOne("customRole", existingCustomRoleQuery) != null) {
             audit(securityEventBuilder.createSecurityEvent(CustomRoleResource.class.getName(), uriInfo,
