@@ -103,6 +103,10 @@ default:
         # Security Event capsize
         sli.ingestion.securityEvent.capSize:
 
+        # Health Check credentials
+        sli.ingestion.healthcheck.user: admin
+        sli.ingestion.healthcheck.pass: admin
+
   # Write concerns
 
         sli.ingestion.mongotemplate.writeConcern: SAFE
@@ -384,6 +388,10 @@ acceptance-tests:
         # Security Event capsize
         sli.ingestion.securityEvent.capSize:
 
+        # Health Check credentials
+        sli.ingestion.healthcheck.user: admin
+        sli.ingestion.healthcheck.pass: admin
+
     ingestion:
         <<: *INGESTION-DEFAULT
         # acceptance-tests/ingestion/queue.properties
@@ -480,6 +488,10 @@ ci:
         # Security Event capsize
         sli.ingestion.securityEvent.capSize:
 
+        # Health Check credentials
+        sli.ingestion.healthcheck.user: admin
+        sli.ingestion.healthcheck.pass: admin
+
     ingestion:
         <<: *INGESTION-DEFAULT
         # ci/ingestion/ingestion_conf.properties
@@ -565,6 +577,10 @@ dev:
 
         # Security Event capsize
         sli.ingestion.securityEvent.capSize:
+
+        # Health Check credentials
+        sli.ingestion.healthcheck.user: admin
+        sli.ingestion.healthcheck.pass: admin
 
     ingestion:
         <<: *INGESTION-DEFAULT
@@ -657,6 +673,10 @@ devjuggernauts:
         # Security Event capsize
         sli.ingestion.securityEvent.capSize:
 
+        # Health Check credentials
+        sli.ingestion.healthcheck.user: admin
+        sli.ingestion.healthcheck.pass: admin
+
     ingestion:
         <<: *INGESTION-DEFAULT
         # dev/ingestion/ingestion_conf.properties
@@ -745,6 +765,10 @@ devapp1:
         # Security Event capsize
         sli.ingestion.securityEvent.capSize:
 
+        # Health Check credentials
+        sli.ingestion.healthcheck.user: admin
+        sli.ingestion.healthcheck.pass: admin
+
     ingestion:
         <<: *INGESTION-DEFAULT
         # devapp1/ingestion/ingestion_conf.properties
@@ -829,6 +853,10 @@ local:
 
         # Security Event capsize
         sli.ingestion.securityEvent.capSize:
+
+        # Health Check credentials
+        sli.ingestion.healthcheck.user: admin
+        sli.ingestion.healthcheck.pass: admin
 
     ingestion: &INGESTION-LOCAL
         <<: *INGESTION-DEFAULT
@@ -1047,6 +1075,10 @@ team:
         # Security Event capsize
         sli.ingestion.securityEvent.capSize:
 
+        # Health Check credentials
+        sli.ingestion.healthcheck.user: admin
+        sli.ingestion.healthcheck.pass: admin
+
     ingestion: &INGESTION-TEAM
         <<: *INGESTION-DEFAULT
         # team/ingestion/ingestion_conf.properties
@@ -1178,6 +1210,10 @@ perf:
 
         # Security Event capsize
         sli.ingestion.securityEvent.capSize:
+
+        # Health Check credentials
+        sli.ingestion.healthcheck.user: admin
+        sli.ingestion.healthcheck.pass: admin
 
     ingestion:
         <<: *INGESTION-DEFAULT
