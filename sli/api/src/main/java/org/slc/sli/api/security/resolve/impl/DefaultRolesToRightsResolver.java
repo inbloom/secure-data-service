@@ -63,14 +63,12 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
         for (Role role : roles) {
             auths.addAll(role.getRights());
         }
-
         return auths;
     }
 
     private boolean isAdminRealm(final String realmId) {
 
         Entity entity = SecurityUtil.runWithAllTenants(new SecurityTask<Entity>() {
-
             @Override
             public Entity execute() {
                 return repo.findById("realm", realmId);
@@ -82,17 +80,6 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
             return admin != null ? admin : false;
         }
         return false;
-    }
-
-    private Role findRole(final String roleName) {
-        return SecurityUtil.sudoRun(new SecurityTask<Role>() {
-
-            @Override
-            public Role execute() {
-                return roleRightAccess.getDefaultRole(roleName);
-            }
-        });
-
     }
 
     public void setRoleRightAccess(RoleRightAccess roleRightAccess) {
