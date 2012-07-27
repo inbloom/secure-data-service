@@ -89,52 +89,12 @@ public final class MetaRelations {
     public static  int GRADUATION_PLAN_PER_SCHOOL=1;
     public static  int GRADING_PERIOD_PER_SESSIONS=2;
     
-    public static boolean AcademicWeek_Ref=false;
-    public static boolean AssessmentFamily_Ref=false;
-    public static boolean Assessment_Ref=false;
-    public static boolean AssessmentItem_Ref=false;
-    public static boolean AttendanceEvent_Ref=false;
-    public static boolean BehaviorDescriptor_Ref=false;
-    public static boolean Cohort_Ref=false;
-    public static boolean Course_Ref=false;
-    public static boolean CourseOffering_Ref=false;
-    public static boolean DisciplineAction_Ref=false;
-    public static boolean DisciplineDescriptor_Ref=false;
-    public static boolean Discipline_Ref=false;
-    public static boolean DisciplineIncident_Ref=false;
-    public static boolean EducationAgency_Ref=false;
-    public static boolean GradingPeriodIdentityType_Ref=false;
-    public static boolean GraduationPlan_Ref=false;
-    public static boolean LearningObjective_Ref=false;
-    public static boolean LearningStandard_Ref=false;
-    public static boolean LocalEducationAgency_Ref=false;
-    public static boolean ObjectiveAssessment_Ref=false;
-    public static boolean Parent_Ref=false;
     public static boolean School_Ref=false;
-    public static boolean Section_Ref=false;
-    public static boolean Session_Ref=false;
-    public static boolean StaffCohortAssociation_Ref=false;
-    public static boolean StaffEdOrgAssignmentAssociation_Ref=false;
-    public static boolean StaffEdOrgEmploymentAssociation_Ref=false;
-    public static boolean StaffEducationOrgAssignmentAssociation_Ref=false;
-    public static boolean Staff_Ref=false;
-    public static boolean StaffProgramAssociation_Ref=false;
+    public static boolean Session_Ref=false;  
     public static boolean StateEducationAgency_Ref=false;
-    public static boolean StudentAssessment_Ref=false;
-    public static boolean StudentAssessmentItem_Ref=false;
-    public static boolean StudentCohortAssociation_Ref=false;
-    public static boolean StudentCompetancyObjective_Ref=false;
-    public static boolean StudentDisciplineAssociation_Ref=false;
-    public static boolean Student_Ref=false;
-    public static boolean StudentGrade_Ref=false;
-    public static boolean StudentObjectiveAssessment_Ref=false;
-    public static boolean StudentParentAssociation_Ref=false;
-    public static boolean StudentProgramAssociation_Ref=false;
+    public static boolean LocalEducationAgency_Ref=false;
     public static boolean StudentSchoolAssociation_Ref=false;
-    public static boolean StudentSectionAssociation_Ref=false;
-    public static boolean Teacher_Ref=false;
-    public static boolean TeacherSchoolAssociation_Ref=false;
-    public static boolean TeacherSectionAssociation_Ref=false;
+    public static boolean Assessment_Ref=false;
 
      //publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
 
@@ -227,54 +187,24 @@ public final class MetaRelations {
         GRADUATION_PLAN_PER_SCHOOL = Integer.parseInt(properties.getProperty("GRADUATION_PLAN_PER_SCHOOL"));
         GRADING_PERIOD_PER_SESSIONS = Integer.parseInt(properties.getProperty("GRADING_PERIOD_PER_SESSIONS")); 
         
-        AcademicWeek_Ref=Boolean.parseBoolean(properties.getProperty("AcademicWeek_Ref"));
-        AssessmentFamily_Ref=Boolean.parseBoolean(properties.getProperty("AssessmentFamily_Ref"));
-        Assessment_Ref=Boolean.parseBoolean(properties.getProperty("Assessment_Ref"));
-        AssessmentItem_Ref=Boolean.parseBoolean(properties.getProperty("AssessmentItem_Ref"));
-        AttendanceEvent_Ref=Boolean.parseBoolean(properties.getProperty("AttendanceEvent_Ref"));
-        BehaviorDescriptor_Ref=Boolean.parseBoolean(properties.getProperty("BehaviorDescriptor_Ref"));
-        Cohort_Ref=Boolean.parseBoolean(properties.getProperty("Cohort_Ref")); ;
-        Course_Ref=Boolean.parseBoolean(properties.getProperty("Course_Ref"));
-        CourseOffering_Ref=Boolean.parseBoolean(properties.getProperty("CourseOffering_Ref"));
-        DisciplineAction_Ref=Boolean.parseBoolean(properties.getProperty("DisciplineAction_Ref"));
-        DisciplineDescriptor_Ref=Boolean.parseBoolean(properties.getProperty("DisciplineDescriptor_Ref"));
-        Discipline_Ref=Boolean.parseBoolean(properties.getProperty("Discipline_Ref"));
-        DisciplineIncident_Ref=Boolean.parseBoolean(properties.getProperty("DisciplineIncident_Ref"));
-        EducationAgency_Ref=Boolean.parseBoolean(properties.getProperty("EducationAgency_Ref"));
-        GradingPeriodIdentityType_Ref=Boolean.parseBoolean(properties.getProperty("GradingPeriodIdentityType_Ref"));
-        GraduationPlan_Ref=Boolean.parseBoolean(properties.getProperty("GraduationPlan_Ref"));
-        LearningObjective_Ref=Boolean.parseBoolean(properties.getProperty("LearningObjective_Ref"));
-        LearningStandard_Ref=Boolean.parseBoolean(properties.getProperty("LearningStandard_Ref"));
-        LocalEducationAgency_Ref=Boolean.parseBoolean(properties.getProperty("LocalEducationAgency_Ref"));
-        ObjectiveAssessment_Ref=Boolean.parseBoolean(properties.getProperty("ObjectiveAssessment_Ref"));
-        Parent_Ref=Boolean.parseBoolean(properties.getProperty("Parent_Ref"));
-        School_Ref=Boolean.parseBoolean(properties.getProperty("School_Ref"));
-        Section_Ref=Boolean.parseBoolean(properties.getProperty("Section_Ref"));
-        Session_Ref=Boolean.parseBoolean(properties.getProperty("Session_Ref"));
-        StaffCohortAssociation_Ref=Boolean.parseBoolean(properties.getProperty("StaffCohortAssociation_Ref"));
-        StaffEdOrgAssignmentAssociation_Ref=Boolean.parseBoolean(properties.getProperty("StaffEdOrgAssignmentAssociation_Ref"));
-        StaffEdOrgEmploymentAssociation_Ref=Boolean.parseBoolean(properties.getProperty("StaffEdOrgEmploymentAssociation_Ref"));
-        StaffEducationOrgAssignmentAssociation_Ref=Boolean.parseBoolean(properties.getProperty("StaffEducationOrgAssignmentAssociation_Ref"));
-        Staff_Ref=Boolean.parseBoolean(properties.getProperty("Staff_Ref"));
-        StaffProgramAssociation_Ref=Boolean.parseBoolean(properties.getProperty("StaffProgramAssociation_Ref"));
-        System.out.println("StateEducationAgency = "+properties.getProperty("StateEducationAgency_Ref"));
-        StateEducationAgency_Ref=Boolean.parseBoolean(properties.getProperty("StateEducationAgency_Ref"));
-        StudentAssessment_Ref=Boolean.parseBoolean(properties.getProperty("StudentAssessment_Ref"));
-        StudentAssessmentItem_Ref=Boolean.parseBoolean(properties.getProperty("StudentAssessmentItem_Ref"));
-        StudentCohortAssociation_Ref=Boolean.parseBoolean(properties.getProperty("StudentCohortAssociation_Ref"));
-        StudentCompetancyObjective_Ref=Boolean.parseBoolean(properties.getProperty("StudentCompetancyObjective_Ref"));
-        StudentDisciplineAssociation_Ref=Boolean.parseBoolean(properties.getProperty("StudentDisciplineAssociation_Ref"));
-        Student_Ref=Boolean.parseBoolean(properties.getProperty("Student_Ref"));
-        StudentGrade_Ref=Boolean.parseBoolean(properties.getProperty("StudentGrade_Ref"));
-        StudentObjectiveAssessment_Ref=Boolean.parseBoolean(properties.getProperty("StudentObjectiveAssessment_Ref"));
-        StudentParentAssociation_Ref=Boolean.parseBoolean(properties.getProperty("StudentParentAssociation_Ref"));
-        StudentProgramAssociation_Ref=Boolean.parseBoolean(properties.getProperty("StudentProgramAssociation_Ref"));
-        StudentSchoolAssociation_Ref=Boolean.parseBoolean(properties.getProperty("StudentSchoolAssociation_Ref"));
-        StudentSectionAssociation_Ref=Boolean.parseBoolean(properties.getProperty("StudentSectionAssociation_Ref"));
-        Teacher_Ref=Boolean.parseBoolean(properties.getProperty("Teacher_Ref"));
-        TeacherSchoolAssociation_Ref=Boolean.parseBoolean(properties.getProperty("TeacherSchoolAssociation_Ref"));
-        TeacherSectionAssociation_Ref=Boolean.parseBoolean(properties.getProperty("TeacherSectionAssociation_Ref"));
         
+		School_Ref = Boolean.parseBoolean(properties
+				.getProperty("School_Ref"));
+		Session_Ref = Boolean.parseBoolean(properties
+				.getProperty("Session_Ref"));
+		StateEducationAgency_Ref = Boolean.parseBoolean(properties
+				.getProperty("StateEducationAgency_Ref"));
+		LocalEducationAgency_Ref = Boolean.parseBoolean(properties
+				.getProperty("LocalEducationAgency_Ref"));
+
+		StudentSchoolAssociation_Ref = Boolean.parseBoolean(properties
+				.getProperty("StudentSchoolAssociation_Ref"));
+
+		Assessment_Ref = Boolean.parseBoolean(properties
+				.getProperty("StudentAssessmentItem_Ref"));
+	
+		
+		
         rootOutputPath = properties.getProperty("rootOutputPath");
     }
     /**
@@ -283,8 +213,6 @@ public final class MetaRelations {
     public static void construct() {
         
         long startTime = System.currentTimeMillis();
-        
-//        loadConfigParameters();
         
         buildSeas();
         

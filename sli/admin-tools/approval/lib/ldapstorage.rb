@@ -21,6 +21,7 @@ require 'rubygems'
 require 'net/ldap'
 require 'net/ldap/dn'
 require 'date'
+require 'duckpunch-netldap'
 
 class InvalidPasswordException < StandardError
 end
@@ -245,7 +246,13 @@ class LDAPStorage
   # returns array of extended user_info for all users or all users with given status
   # use constants in approval.rb
   def read_users(status=nil)
-    filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:status].to_s, status ? status : "*")
+    # if a filter is provided for the status then set it otherwise just search for people
+    # Note: The filter will not capture users that do not have their status set. 
+    if status 
+      filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:status].to_s, status ? status : "*")
+    else
+      filter = Net::LDAP::Filter.eq(:objectClass, "inetOrgPerson")
+    end
     return search_map_user_fields(filter)
   end
 

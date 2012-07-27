@@ -110,17 +110,17 @@ public class InterchangeEdOrgCalGenerator {
                     prevOrgId = orgId;
 				    gradingPeriod = gpg.getGradingPeriod(orgId, count);
 				    gradingPeriod.setId(gradingPeriodMeta.id);
+
 					ReferenceType calRef = new ReferenceType();
 					calRef.setRef(new Ref(calendarId));
 					gradingPeriod.getCalendarDateReference().add(calRef);
+				
 					count++;
 				}
 			}
 
-			 QName qName = new QName("http://ed-fi.org/0100", "GradingPeriod");
-	         JAXBElement<GradingPeriod> jaxbElement = new JAXBElement<GradingPeriod>(qName,GradingPeriod.class,gradingPeriod);
-	         iWriter.marshal(jaxbElement);
-//			interchangeObjects.add(gradingPeriod);
+	         iWriter.marshal(gradingPeriod);
+
 		}
 
 		System.out.println("generated " + gradingPeriodMetas.size()
@@ -143,9 +143,7 @@ public class InterchangeEdOrgCalGenerator {
             	 calendar = CalendarDateGenerator.getCalendarDate(calendarMeta.id, dateCount);
              }
 
-    		 QName qName = new QName("http://ed-fi.org/0100", "CalendarDate");
-	         JAXBElement<CalendarDate> jaxbElement = new JAXBElement<CalendarDate>(qName,CalendarDate.class,calendar);
-	         iWriter.marshal(jaxbElement);
+	         iWriter.marshal(calendar);
 //             interchangeObjects.add(calendar);
          }
          dateCount++;
@@ -176,9 +174,7 @@ public class InterchangeEdOrgCalGenerator {
             	//session = SessionGenerator.generateLowFi(sessionMeta.id, sessionMeta.schoolId, sessionMeta.calendarList, sessionMeta.gradingPeriodList);
             }
 
-            QName qName = new QName("http://ed-fi.org/0100", "Session");
-	        JAXBElement<Session> jaxbElement = new JAXBElement<Session>(qName,Session.class,session);
-	        iWriter.marshal(jaxbElement);
+	        iWriter.marshal(session);
 //            interchangeObjects.add(session);
         }
 

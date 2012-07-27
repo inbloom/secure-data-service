@@ -66,10 +66,9 @@ public class StudentCohortAssociationGenerator {
         
         for (String studentId : studentIds) {
         	StudentCohortAssociation retVal = generateLowFi(cohortId, studentId, schoolId);
-            QName qName = new QName("http://ed-fi.org/0100", "StudentCohortAssociation");
-            JAXBElement<StudentCohortAssociation> jaxbElement = new JAXBElement<StudentCohortAssociation>(qName,StudentCohortAssociation.class,retVal);
+
             
-            iWriter.marshal(jaxbElement);
+            iWriter.marshal(retVal);
             count++;
         }
 

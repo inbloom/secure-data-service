@@ -41,10 +41,6 @@ import java.util.TreeSet;
 
 import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
-import org.joda.time.MutableDateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -930,7 +926,8 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             try {
                 intYearsBack = Integer.parseInt(yearsBack);
             } catch (Exception e) {
-                log.error("params: value of yearsBack was not integer. ["+intYearsBack+"]. Using default value ["+DEFAULT_YEARS_BACK+"]");
+                log.error("params: value of yearsBack was not integer. [" + intYearsBack + "]. Using default value ["
+                        + DEFAULT_YEARS_BACK + "]");
                 intYearsBack = DEFAULT_YEARS_BACK;
             }
         }
@@ -1001,8 +998,8 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                     String schoolYear = (String) schoolYearAttendance.get(Constants.ATTR_SCHOOL_YEAR);
 
                     // if some reasons we cannot find currentSchoolYear, then display all histories
-                    //if intYearsBack is not set to NO_LIMIT (-1) and found currentSchoolYear,
-                    //then exam whether current loop is within user defined yearsBack
+                    // if intYearsBack is not set to NO_LIMIT (-1) and found currentSchoolYear,
+                    // then exam whether current loop is within user defined yearsBack
                     if (intYearsBack != NO_LIMIT && currentSchoolYear != 0) {
                         int targetYear = Integer.parseInt(schoolYear.substring(0, 4));
                         // if yearsBack is 1, it means current schoolYear.
@@ -1039,7 +1036,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                         }
                     }
                     // get target school year enrollment
-                    LinkedHashMap<String,Object> enrollment = enrollmentsIndex.get(schoolYear);
+                    LinkedHashMap<String, Object> enrollment = enrollmentsIndex.get(schoolYear);
                     GenericEntity currentTermAttendance = new GenericEntity();
 
                     // set school term
@@ -1336,12 +1333,11 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     };
 
-
     /**
      * Retrieves info required to create section profile.
      */
-	@Override
-	public GenericEntity getSectionForProfile(String token, Object sectionId, Config.Data config) {
-		return entityManager.getSectionForProfile(token, (String) sectionId);
-	}
+    @Override
+    public GenericEntity getSectionForProfile(String token, Object sectionId, Config.Data config) {
+        return entityManager.getSectionForProfile(token, (String) sectionId);
+    }
 }
