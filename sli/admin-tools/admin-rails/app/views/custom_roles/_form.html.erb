@@ -3,12 +3,14 @@
 <table id="custom_roles" class="table table-bordered table-striped">
   <thead>
     <tr>
+      <th style='width: 100px'>Group Name</th>
       <th style='width: 300px'>Roles</th>
       <th>Rights</th>
     </tr>
   </thead>
   <tbody>
     <tr>
+      <td><div>Educator</div></td>
       <td>
         <input class="roleLabel" type="text" readonly="readonly" value="Educator"/>
         <input class="roleLabel" type="text" readonly="readonly" value="MathTeacher"/>
@@ -16,9 +18,8 @@
         <input class="roleLabel" type="text" readonly="readonly" value="Janitor"/>
       </td>
       <td style="vvertical-align: middle; tttext-align: center">
-        <span class="label">Read Restricted</span>
-        <span class="label">Write General</span>
-        <span class="label">Read Public</span>
+        <!--input class="roleLabel" type="text" readonly="readonly" value="Read General"/>
+        <input class="roleLabel" type="text" readonly="readonly" value="Write General"/-->
       </td>
      </tr>
   </tbody>
@@ -26,7 +27,7 @@
 </div>
 </div>
 <div>
-  <a href="#" id="addRoleButton" class="btn">Add Role Group</a>
+  <a href="#" id="addGroupButton" class="btn">Add Role Group</a>
 </div>
 
 
@@ -44,21 +45,25 @@
 </div>
 
 <span id="addRightUi">
-    <select id="combobox">
-      <option value="">Select one...</option>
-      <option value="Read Restricted">Read Restricted</option>
-      <option value="Write Restricted">Write Restricted</option>
-      <option value="Read General">Read General</option>
-      <option value="Write General">Write General</option>
-    </select>
+    <div class="control-group">
+      <label class="control-label" for="addRightSelect">Right Name:</label>
+      <div class="controls">
+        <div class="input-append">
+        <select id="addRightSelect">
+        <option value="none">Choose one...</option>
+        </select>
+        <button class="btn" type="button">Add Right</button>
+        </div>
+      </div>
+    </div>
 </span>
 
 
 <div id="addRoleUi" class="control-group">
-  <label class="control-label" for="appendedInputButton">Role Name:</label>
+  <label class="control-label" for="addRoleInput">Role Name:</label>
   <div class="controls">
     <div class="input-append">
-      <input class="span2" id="appendedInputButton" size="16" type="text"><button class="btn" type="button">Add</button>
+      <input size="16" type="text" id="addRoleInput"><button class="btn" type="button">Add</button>
    </div>
   </div>
 </div>
@@ -66,16 +71,16 @@
 <div id="editableRoleUi" class="control-group">
   <div class="controls">
     <div class="input-append">
-      <input id="appendedInputButton" type="text"><button class="btn" type="button">&times;</button>
+      <input type="text"><button class="btn" type="button">&times;</button>
    </div>
   </div>
 </div>
 
 
-<span id="labelUi" class="tagLabel btn-small">
-  Testing
+<span id="labelUi">
+    <input class="roleLabel" type="text" readonly="readonly" value="bar"/>
 </span>
 
 <span id="buttonUi">
-    <input class="roleLabel" type="text" readonly="readonly" value="Principal"/>
+    <input class="roleLabel" type="text" readonly="readonly" value="foo"/>
 </span>
