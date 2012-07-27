@@ -17,7 +17,7 @@
 package org.slc.sli.dashboard.client;
 
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.URISyntaxException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,14 +35,14 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.commons.lang.StringUtils;
+import org.scribe.exceptions.OAuthException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.Link;
 import org.slc.sli.api.client.SLIClient;
-import org.slc.sli.api.client.impl.BasicClient;
-import org.slc.sli.api.client.impl.BasicRESTClient;
+import org.slc.sli.api.client.SLIClientFactory;
 import org.slc.sli.dashboard.entity.ConfigMap;
 import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.entity.util.GenericEntityComparator;
@@ -64,13 +64,10 @@ public class SDKAPIClient implements APIClient {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SDKAPIClient.class);
 
-    private String apiServerURL;
-    private String clientId;
-    private String clientSecret;
-    private String callbackURL;
-
     @Deprecated
     private SLIClient sdkClient;
+
+    private SLIClientFactory clientFactory;
 
     private String gracePeriod;
 
@@ -111,6 +108,14 @@ public class SDKAPIClient implements APIClient {
         return sdkClient;
     }
 
+    public SLIClientFactory getClientFactory() {
+        return clientFactory;
+    }
+
+    public void setClientFactory(SLIClientFactory clientFactory) {
+        this.clientFactory = clientFactory;
+    }
+
     /**
      * Set the SLI configured grace period for historical access
      *
@@ -128,38 +133,6 @@ public class SDKAPIClient implements APIClient {
     // @Override
     public String getGracePeriod() {
         return this.gracePeriod;
-    }
-
-    public String getApiServerURL() {
-        return apiServerURL;
-    }
-
-    public void setApiServerURL(String apiServerURL) {
-        this.apiServerURL = apiServerURL;
-    }
-
-    public String getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
-    }
-
-    public String getClientSecret() {
-        return clientSecret;
-    }
-
-    public void setClientSecret(String clientSecret) {
-        this.clientSecret = clientSecret;
-    }
-
-    public String getCallbackURL() {
-        return callbackURL;
-    }
-
-    public void setCallbackURL(String callbackURL) {
-        this.callbackURL = callbackURL;
     }
 
     /**
@@ -1674,21 +1647,8 @@ public class SDKAPIClient implements APIClient {
         return query.toString();
     }
 
-    public SLIClient getClient(String sessionToken) {
-        URL callBack, apiServer;
-        try {
-            apiServer = new URL(apiServerURL);
-        } catch (MalformedURLException e1) {
-            return null;
-        }
-        try {
-            callBack = new URL(callbackURL);
-        } catch (MalformedURLException e) {
-            callBack = null;
-        }
-        BasicRESTClient restClient = new BasicRESTClient(apiServer, clientId, clientSecret, callBack);
-        restClient.connectWithToken(sessionToken);
-        return new BasicClient(restClient);
+    public SLIClient getClient(String sessionToken) throws OAuthException, MalformedURLException, URISyntaxException {
+        return clientFactory.getClientWithSessionToken(sessionToken);
     }
 
 }
