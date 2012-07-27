@@ -47,19 +47,20 @@ public class HealthCheckController {
     @ResponseBody
     public Heart getNodeInformation(@PathVariable String name) {
         Heart heart;
-        if (hearts.containsKey(name)) {
-            heart = hearts.get(name);
-        } else {
-            heart = new Heart(name);
-            hearts.put(name, heart);
-        }
-
         if (name.equals("Ingestion")) {
+            if (hearts.containsKey(name)) {
+                heart = hearts.get(name);
+            } else {
+                heart = new Heart(name);
+                hearts.put(name, heart);
+            }
             ingestionHealthCheck.updateLastActivity();
             heart.setStartTime(ingestionHealthCheck.getStartTime());
             heart.setLastActivity(ingestionHealthCheck.getLastActivity());
             heart.setLastActivityTime(ingestionHealthCheck.getLastActivityTime());
             heart.setVersion(ingestionHealthCheck.getVersion());
+        } else {
+            return null;
         }
 
         return heart;
