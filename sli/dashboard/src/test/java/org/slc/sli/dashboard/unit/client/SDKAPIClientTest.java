@@ -117,7 +117,6 @@ public class SDKAPIClientTest {
         mockSdk = mock(BasicClient.class);
         SLIClientFactory factory = mock(SLIClientFactory.class);
         when(factory.getClientWithSessionToken(anyString())).thenReturn(mockSdk);
-        client.setSdkClient(mockSdk);
         client.setClientFactory(factory);
         this.classLoader = Thread.currentThread().getContextClassLoader();
     }
@@ -375,7 +374,9 @@ public class SDKAPIClientTest {
                 return null;
             }
         };
-        client.setSdkClient(mockSdk);
+        SLIClientFactory factory = mock(SLIClientFactory.class);
+        when(factory.getClientWithSessionToken(anyString())).thenReturn(mockSdk);
+        client.setClientFactory(factory);
 
         SecurityContextHolder.getContext().setAuthentication(new Authentication() {
             @Override
