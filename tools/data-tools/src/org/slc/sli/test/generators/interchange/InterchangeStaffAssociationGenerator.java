@@ -112,9 +112,8 @@ public class InterchangeStaffAssociationGenerator {
             	teacher = TeacherGenerator.generateMediumFi(teacherMeta.id);
             }
 
-            QName qName = new QName("http://ed-fi.org/0100", "Teacher");
-            JAXBElement<Teacher> jaxbElement = new JAXBElement<Teacher>(qName,Teacher.class,teacher);
-            iWriter.marshal(jaxbElement);
+ 
+            iWriter.marshal(teacher);
         }
 
         System.out.println("generated " + teacherMetas.size() + " Teacher objects in: "
@@ -136,9 +135,7 @@ public class InterchangeStaffAssociationGenerator {
                     teacherSchool = TeacherSchoolAssociationGenerator.generateLowFi(teacherMeta, schoolId);
                 }
 
-                QName qName = new QName("http://ed-fi.org/0100", "TeacherSchoolAssociation");
-                JAXBElement<TeacherSchoolAssociation> jaxbElement = new JAXBElement<TeacherSchoolAssociation>(qName,TeacherSchoolAssociation.class,teacherSchool);
-                iWriter.marshal(jaxbElement);
+                iWriter.marshal(teacherSchool);
 
                 objGenCounter++;
             }
@@ -164,9 +161,7 @@ public class InterchangeStaffAssociationGenerator {
                     teacherSection = TeacherSectionAssociationGenerator.generateLowFi(teacherMeta, sectionId);
                 }
 
-                QName qName = new QName("http://ed-fi.org/0100", "TeacherSectionAssociation");
-                JAXBElement<TeacherSectionAssociation> jaxbElement = new JAXBElement<TeacherSectionAssociation>(qName,TeacherSectionAssociation.class,teacherSection);
-                iWriter.marshal(jaxbElement);
+                iWriter.marshal(teacherSection);
 
                 objGenCounter++;
             }
@@ -198,9 +193,8 @@ public class InterchangeStaffAssociationGenerator {
                 
             }
 
-            QName qName = new QName("http://ed-fi.org/0100", "Staff");
-            JAXBElement<Staff> jaxbElement = new JAXBElement<Staff>(qName,Staff.class,staff);
-            iWriter.marshal(jaxbElement);
+
+            iWriter.marshal(staff);
         }
 
         System.out.println("generated " + staffMetas.size() + " Staff objects in: "
@@ -221,9 +215,8 @@ public class InterchangeStaffAssociationGenerator {
                 staffEdOrgEmploymentAssoc = StaffEdOrgEmploymentAssociationGenerator.generateLowFi(staffMeta);
             }
 
-            QName qName = new QName("http://ed-fi.org/0100", "StaffEducationOrgEmploymentAssociation");
-            JAXBElement<StaffEducationOrgEmploymentAssociation> jaxbElement = new JAXBElement<StaffEducationOrgEmploymentAssociation>(qName,StaffEducationOrgEmploymentAssociation.class,staffEdOrgEmploymentAssoc);
-            iWriter.marshal(jaxbElement);
+    
+            iWriter.marshal(staffEdOrgEmploymentAssoc);
         }
 
         System.out.println("generated " + staffMetas.size() + " StaffEducationOrgEmploymentAssociation objects in: "
@@ -244,9 +237,8 @@ public class InterchangeStaffAssociationGenerator {
                 staffEdOrgAssignmentAssoc = StaffEdOrgAssignmentAssociationGenerator.generateLowFi(staffMeta);
             }
 
-            QName qName = new QName("http://ed-fi.org/0100", "StaffEducationOrgAssignmentAssociation");
-            JAXBElement<StaffEducationOrgAssignmentAssociation> jaxbElement = new JAXBElement<StaffEducationOrgAssignmentAssociation>(qName,StaffEducationOrgAssignmentAssociation.class,staffEdOrgAssignmentAssoc);
-            iWriter.marshal(jaxbElement);
+           
+            iWriter.marshal(staffEdOrgAssignmentAssoc);
         }
 
         System.out.println("generated " + staffMetas.size() + " StaffEducationOrgAssignmentAssociation objects in: "
@@ -273,10 +265,7 @@ public class InterchangeStaffAssociationGenerator {
                 staffProgramAssociation = StaffProgramAssociationGenerator.generateLowFi(programMeta);
             }
 
-
-            QName qName = new QName("http://ed-fi.org/0100", "StaffProgramAssociation");
-            JAXBElement<StaffProgramAssociation> jaxbElement = new JAXBElement<StaffProgramAssociation>(qName,StaffProgramAssociation.class,staffProgramAssociation);
-            iWriter.marshal(jaxbElement);
+            iWriter.marshal(staffProgramAssociation);
             count++;
         }
         

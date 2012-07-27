@@ -122,10 +122,9 @@ public class InterchangeStudentParentGenerator {
 				}
             }
 
-            QName qName = new QName("http://ed-fi.org/0100", "Student");
-            JAXBElement<Student> jaxbElement = new JAXBElement<Student>(qName,Student.class,student);
+
             
-            iWriter.marshal(jaxbElement);
+            iWriter.marshal(student);
 
         }
 
@@ -157,10 +156,9 @@ public class InterchangeStudentParentGenerator {
             	parent = ParentGenerator.generateMediumFi(parentMeta.id, parentMeta.isMale);
             }
 
-            QName qName = new QName("http://ed-fi.org/0100", "Parent");
-            JAXBElement<Parent> jaxbElement = new JAXBElement<Parent>(qName,Parent.class,parent);
+
             
-            iWriter.marshal(jaxbElement);
+            iWriter.marshal(parent);
         }
 
         System.out.println("generated " + parentMetas.size() + " Parent objects in: "
@@ -189,10 +187,9 @@ public class InterchangeStudentParentGenerator {
                 else {
                     studentParent = StudentParentAssociationGenerator.generateLowFi(studentParentAssociationMeta.parentIds,studentParentAssociationMeta.isMale, studentParentAssociationMeta.studentIds);
                 }
-                QName qName = new QName("http://ed-fi.org/0100", "StudentParentAssociation");
-                JAXBElement<StudentParentAssociation> jaxbElement = new JAXBElement<StudentParentAssociation>(qName,StudentParentAssociation.class,studentParent);
+
                 
-                iWriter.marshal(jaxbElement);
+                iWriter.marshal(studentParent);
 
                 objGenCounter++;
 

@@ -95,10 +95,8 @@ public class InterchangeStudentEnrollmentGenerator {
 						.generateLowFi(graduationPlanMeta.id);
 			}
 
-			 QName qName = new QName("http://ed-fi.org/0100", "GraduationPlan");
-	         JAXBElement<GraduationPlan> jaxbElement = new JAXBElement<GraduationPlan>(qName,GraduationPlan.class,graduationPlan);
 
-	         iWriter.marshal(jaxbElement);
+	         iWriter.marshal(graduationPlan);
 			
 //			interchangeObjects.add(graduationPlan);
 
@@ -132,10 +130,9 @@ public class InterchangeStudentEnrollmentGenerator {
                     studentSchool = StudentSchoolAssociationGenerator.generateLowFi(studentMeta.id, schoolId);
                 }
 
-             QName qName = new QName("http://ed-fi.org/0100", "StudentSchoolAssociation");
-   	         JAXBElement<StudentSchoolAssociation> jaxbElement = new JAXBElement<StudentSchoolAssociation>(qName,StudentSchoolAssociation.class,studentSchool);
 
-   	         iWriter.marshal(jaxbElement);
+
+   	         iWriter.marshal(studentSchool);
              objGenCounter++;
             }
         }
@@ -167,10 +164,9 @@ public class InterchangeStudentEnrollmentGenerator {
                             studentMeta.schoolIds.get(0), sectionId);
                 }
 
-                QName qName = new QName("http://ed-fi.org/0100", "StudentSectionAssociation");
-      	        JAXBElement<StudentSectionAssociation> jaxbElement = new JAXBElement<StudentSectionAssociation>(qName,StudentSectionAssociation.class,studentSection);
 
-      	        iWriter.marshal(jaxbElement);
+
+      	        iWriter.marshal(studentSection);
 
                 objGenCounter++;
             }

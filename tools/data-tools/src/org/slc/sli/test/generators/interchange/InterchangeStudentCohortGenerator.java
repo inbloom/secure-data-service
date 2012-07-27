@@ -98,10 +98,8 @@ public class InterchangeStudentCohortGenerator {
                 retVal = CohortGenerator.generateLowFi(cohortMeta);
             }
             
-            QName qName = new QName("http://ed-fi.org/0100", "Cohort");
-            JAXBElement<Cohort> jaxbElement = new JAXBElement<Cohort>(qName,Cohort.class,retVal);
             
-            iWriter.marshal(jaxbElement);
+            iWriter.marshal(retVal);
             count++;
         }
         return count;
@@ -127,10 +125,8 @@ public class InterchangeStudentCohortGenerator {
                 retVal = StaffCohortAssociationGenerator.generateLowFi(cohortMeta);
             }
             
-            QName qName = new QName("http://ed-fi.org/0100", "StaffCohortAssociation");
-            JAXBElement<StaffCohortAssociation> jaxbElement = new JAXBElement<StaffCohortAssociation>(qName,StaffCohortAssociation.class,retVal);
             
-            iWriter.marshal(jaxbElement);
+            iWriter.marshal(retVal);
             count++;
         }
         return count;

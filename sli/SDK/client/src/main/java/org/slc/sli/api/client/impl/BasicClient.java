@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -76,7 +77,7 @@ public class BasicClient implements SLIClient {
     @Override
     public String create(final Entity e) throws IOException, URISyntaxException, SLIClientException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).build();
-        Response response = restClient.postRequest(url, mapper.writeValueAsString(e));
+        Response response = restClient.postRequest(url, mapper.writeValueAsString(e.getData()));
         checkResponse(response, Status.CREATED, "Could not created entity.");
 
         // extract the id of the newly created entity from the header.
@@ -118,6 +119,22 @@ public class BasicClient implements SLIClient {
             throws URISyntaxException, MessageProcessingException, IOException {
         entities.clear();
         return getResource(sessionToken, entities, new URL(restClient.getBaseURL() + resourceUrl), entityClass);
+     }
+
+    @Override
+    public List<Entity> read(final String resourceUrl, Query query) throws URISyntaxException,
+    MessageProcessingException, IOException, SLIClientException {
+        List<Entity> entities = new ArrayList<Entity>();
+        URL url = resourceUrl.startsWith(restClient.getBaseURL()) ? new URL(resourceUrl) : URLBuilder.create(restClient.getBaseURL()).addPath(resourceUrl).build();
+        Response response = getResource(entities, url, query);
+        checkResponse(response, Status.OK, "Unable to retrieve entity.");
+        return entities;
+    }
+
+    @Override
+    public List<Entity> read(final String resourceUrl) throws URISyntaxException, MessageProcessingException,
+            IOException, SLIClientException {
+        return read(resourceUrl, BasicQuery.EMPTY_QUERY);
     }
 
     @Override

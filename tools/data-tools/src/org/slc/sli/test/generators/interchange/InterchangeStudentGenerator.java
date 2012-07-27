@@ -86,10 +86,8 @@ public class InterchangeStudentGenerator {
                 student = FastStudentGenerator.generateLowFi(studentMeta.id);
             }
 
-            QName qName = new QName("http://ed-fi.org/0100", "Student");
-            JAXBElement<Student> jaxbElement = new JAXBElement<Student>(qName,Student.class, student);
 
-            iWriter.marshal(jaxbElement);
+            iWriter.marshal(student);
 
         }
 
