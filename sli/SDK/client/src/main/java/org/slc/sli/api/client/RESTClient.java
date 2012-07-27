@@ -52,14 +52,19 @@ public interface RESTClient {
     /**
      * Connect to the IDP and redirect to the callback URL.
      *
-     * @param requestCode
+     * @param authorizationCode
      *            Authorization request code returned by oauth to the callbackURL.
-     * @param authorizationToken
-     *            for the authenticated user, or null if the request failed.
      * @return Response containing the status code, headers, and body values.
      */
     public abstract Response connect(final String authorizationCode)
             throws OAuthException, MalformedURLException, URISyntaxException;
+
+    /**
+     * Connect to the API with a pre authorized token
+     *
+     * @param sessionToken
+     */
+    public void connectWithToken(final String sessionToken);
 
     /**
      * Disconnect from the IDP.
