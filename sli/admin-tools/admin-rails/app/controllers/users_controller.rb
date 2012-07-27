@@ -82,7 +82,12 @@ class UsersController < ApplicationController
     if @user.valid? == false
       resend = true
     else
+    begin  
     @user.save
+    rescue ActiveResource::ResourceConflict
+      resend = true
+      @user.errors[:email] << "An account with this email already exists"
+    end
     end
     
      respond_to do |format|
