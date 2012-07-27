@@ -124,8 +124,10 @@ Then /^I should make the unique identifier not unique$/ do
 end
 
 Then /^I should make the display name not unique$/ do
+  @driver.find_element(:name, 'realm[uniqueIdentifier]').clear
+  @driver.find_element(:name, 'realm[uniqueIdentifier]').send_keys "Brand New Realm"
   @driver.find_element(:name, 'realm[name]').clear
-  @driver.find_element(:name, 'realm[name]').send_keys "IL-Daybreak"
+  @driver.find_element(:name, 'realm[name]').send_keys "Illinois Daybreak School District 4529"
 end
 
 Then /^I should get (\d+) error$/ do |arg1|

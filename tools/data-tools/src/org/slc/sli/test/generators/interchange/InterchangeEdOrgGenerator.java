@@ -138,10 +138,7 @@ public class InterchangeEdOrgGenerator {
             } else {
             	sea = StateEducationAgencyGenerator.generateLowFi(seaMeta.id, seaMeta);
             }
-
-            QName qName = new QName("http://ed-fi.org/0100", "StateEducationAgency");
-            JAXBElement<StateEducationAgency> jaxbElement = new JAXBElement<StateEducationAgency>(qName,StateEducationAgency.class,sea);
-            iWriter.marshal(jaxbElement);
+            iWriter.marshal(sea);
         }
 
         System.out.println("generated " + seaMetas.size() + " StateEducationAgency objects in: "
@@ -167,9 +164,7 @@ public class InterchangeEdOrgGenerator {
                 esc = EducationAgencyGenerator.getEducationServiceCenter(escMeta.id, escMeta.seaId);
             }
             
-            QName qName = new QName("http://ed-fi.org/0100", "EducationServiceCenter");
-            JAXBElement<EducationServiceCenter> jaxbElement = new JAXBElement<EducationServiceCenter>(qName,EducationServiceCenter.class,esc);
-            iWriter.marshal(jaxbElement);
+            iWriter.marshal(esc);
         }
 
         System.out.println("generated " + escMetas.size() + " EducationServiceCenter objects in: "
@@ -194,9 +189,7 @@ public class InterchangeEdOrgGenerator {
                 FeederSchoolAssociation fsa = EducationAgencyGenerator.getFeederSchoolAssociation(receiverMeta, feederMeta);
                 fsa.setFeederRelationshipDescription("Feeder Relationship " +  i);
           
-                QName qName = new QName("http://ed-fi.org/0100", "FeederSchoolAssociation");
-                JAXBElement<FeederSchoolAssociation> jaxbElement = new JAXBElement<FeederSchoolAssociation>(qName,FeederSchoolAssociation.class,fsa);
-                iWriter.marshal(jaxbElement);
+                iWriter.marshal(fsa);
             }
         }
 
@@ -223,9 +216,7 @@ public class InterchangeEdOrgGenerator {
             	lea = LocalEducationAgencyGenerator.generateMedFi(leaMeta.id, leaMeta.seaId, leaMeta);
             }
 
-            QName qName = new QName("http://ed-fi.org/0100", "LocalEducationAgency");
-            JAXBElement<LocalEducationAgency> jaxbElement = new JAXBElement<LocalEducationAgency>(qName,LocalEducationAgency.class,lea);
-            iWriter.marshal(jaxbElement);
+            iWriter.marshal(lea);
         }
 
         System.out.println("generated " + leaMetas.size() + " LocalEducationAgency objects in: "
@@ -251,9 +242,8 @@ public class InterchangeEdOrgGenerator {
                 school = SchoolGenerator.generateLowFi(schoolMeta.id, schoolMeta.leaId, schoolMeta.programId);
             }
 
-            QName qName = new QName("http://ed-fi.org/0100", "School");
-            JAXBElement<School> jaxbElement = new JAXBElement<School>(qName,School.class,school);
-            iWriter.marshal(jaxbElement);
+
+            iWriter.marshal(school);
         }
 
         System.out.println("generated " + schoolMetas.size() + " School objects in: "
@@ -283,9 +273,8 @@ public class InterchangeEdOrgGenerator {
 
             courseMeta.courseCodes.addAll(course.getCourseCode());
 
-            QName qName = new QName("http://ed-fi.org/0100", "Course");
-            JAXBElement<Course> jaxbElement = new JAXBElement<Course>(qName,Course.class,course);
-            iWriter.marshal(jaxbElement);
+            
+            iWriter.marshal(course);
         }
 
         System.out.println("generated " + courseMetas.size() + " Course objects in: "
@@ -308,9 +297,8 @@ public class InterchangeEdOrgGenerator {
             } else {
                 program = ProgramGenerator.generateLowFi(programMeta.id);
             }
-            QName qName = new QName("http://ed-fi.org/0100", "Program");
-            JAXBElement<Program> jaxbElement = new JAXBElement<Program>(qName,Program.class,program);
-            iWriter.marshal(jaxbElement);
+  
+            iWriter.marshal(program);
         }
     }
 }

@@ -100,11 +100,8 @@ public class InterchangeAssessmentMetadataGenerator {
             } else {
                 learningStandard = LearningStandardGenerator.generateLowFi(learningStandardMeta.id);
             }
-            
-            QName qName = new QName("http://ed-fi.org/0100", "LearningStandard");
-            JAXBElement<LearningStandard> jaxbElementLearningStandard = new JAXBElement<LearningStandard>(qName,LearningStandard.class,learningStandard);
 
-            writer.marshal(jaxbElementLearningStandard);
+            writer.marshal(learningStandard);
         }
 
         System.out.println("generated " + learningStandardMetas.size() + " LearningStandard objects in: "
@@ -144,10 +141,9 @@ public class InterchangeAssessmentMetadataGenerator {
                 assessmentItem = AssessmentItemGenerator.generateLowFi(assessmentItemMeta);
             }
 
-            QName qName = new QName("http://ed-fi.org/0100", "AssessmentItem");
-            JAXBElement<AssessmentItem> jaxbElementAssessmentItem = new JAXBElement<AssessmentItem>(qName,AssessmentItem.class,assessmentItem);
+           
 
-            writer.marshal(jaxbElementAssessmentItem);
+            writer.marshal(assessmentItem);
            
         }
 
@@ -168,10 +164,9 @@ public class InterchangeAssessmentMetadataGenerator {
                 perfLevelDesc = PerformanceLevelDescriptorGenerator.generateLowFi(perfLevelDescMeta);
             }
 
-            QName qName = new QName("http://ed-fi.org/0100", "PerformanceLevelDescriptor");
-            JAXBElement<PerformanceLevelDescriptor> jaxbElementPerformanceLevelDescriptor = new JAXBElement<PerformanceLevelDescriptor>(qName,PerformanceLevelDescriptor.class,perfLevelDesc);
+           
 
-            writer.marshal(jaxbElementPerformanceLevelDescriptor);
+            writer.marshal(perfLevelDesc);
           
         }
 
@@ -194,12 +189,8 @@ public class InterchangeAssessmentMetadataGenerator {
             }
 
             objAssessMap.put(objectiveAssessment.getId(), objectiveAssessment);
-            
 
-            QName qName = new QName("http://ed-fi.org/0100", "ObjectiveAssessment");
-            JAXBElement<ObjectiveAssessment> jaxbElementObjectiveAssessment = new JAXBElement<ObjectiveAssessment>(qName,ObjectiveAssessment.class,objectiveAssessment);
-
-            writer.marshal(jaxbElementObjectiveAssessment);
+            writer.marshal(objectiveAssessment);
      
         }
 
@@ -220,11 +211,7 @@ public class InterchangeAssessmentMetadataGenerator {
             } else {
                 assessPeriodDesc = AssessmentPeriodDescriptorGenerator.generateLowFi(assessPeriodDescMeta);
             }
-
-            QName qName = new QName("http://ed-fi.org/0100", "AssessmentPeriodDescriptor");
-            JAXBElement<AssessmentPeriodDescriptor> jaxbElementAssessmentPeriodDescriptor = new JAXBElement<AssessmentPeriodDescriptor>(qName,AssessmentPeriodDescriptor.class,assessPeriodDesc);
-
-            writer.marshal(jaxbElementAssessmentPeriodDescriptor);
+            writer.marshal(assessPeriodDesc);
     
         }
 
@@ -246,10 +233,8 @@ public class InterchangeAssessmentMetadataGenerator {
             }
 
 
-            QName qName = new QName("http://ed-fi.org/0100", "AssessmentFamily");
-            JAXBElement<AssessmentFamily> jaxbElementAssessmentFamily = new JAXBElement<AssessmentFamily>(qName,AssessmentFamily.class,assessmentFamily);
-
-            writer.marshal(jaxbElementAssessmentFamily);
+         
+            writer.marshal(assessmentFamily);
            
         }
 
@@ -269,10 +254,9 @@ public class InterchangeAssessmentMetadataGenerator {
             } else {
                 assessment = AssessmentGenerator.generate(assessmentMeta, objAssessMap);
             }
-            QName qName = new QName("http://ed-fi.org/0100", "Assessment");
-            JAXBElement<Assessment> jaxbElementAssessment = new JAXBElement<Assessment>(qName,Assessment.class,assessment);
+ 
 
-            writer.marshal(jaxbElementAssessment);
+            writer.marshal(assessment);
 
  
         }
