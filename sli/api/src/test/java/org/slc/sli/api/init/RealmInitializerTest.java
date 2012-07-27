@@ -44,13 +44,17 @@ public class RealmInitializerTest {
     @InjectMocks
     private RealmInitializer realmInit;
     
+    private RoleInitializer roleInitializer;
+    
     @Mock
     private Repository<Entity> mockRepo;
     
     @Before
     public void setUp() throws Exception {
         realmInit = new RealmInitializer();
+        roleInitializer = Mockito.mock(RoleInitializer.class);
         MockitoAnnotations.initMocks(this);
+        realmInit.setRoleInitializer(roleInitializer);
     }
     
     @Test
