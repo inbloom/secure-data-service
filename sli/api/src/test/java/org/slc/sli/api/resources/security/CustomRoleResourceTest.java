@@ -36,15 +36,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
-import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.api.util.SecurityUtil;
@@ -52,6 +46,12 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 /**
  * Unit tests for CustomRoleResource
@@ -75,10 +75,13 @@ public class CustomRoleResourceTest {
     @Autowired
     private SecurityContextInjector injector;
 
+    UriInfo uriInfo;
+    
     @Before
-    public void setUp() {
+    public void setUp() throws Exception {
         injector.setRealmAdminContext();
         MockitoAnnotations.initMocks(this);
+        uriInfo = ResourceTestUtil.buildMockUriInfo(null);
     }
 
     @Test
@@ -103,7 +106,7 @@ public class CustomRoleResourceTest {
         
         body.put("roles", new ArrayList<Map<String, List<String>>>());
         Mockito.when(service.update(id, body)).thenReturn(true);
-        Response res = resource.updateCustomRole(id, body);
+        Response res = resource.updateCustomRole(id, body, uriInfo);
         Assert.assertEquals(204, res.getStatus());
     }
     
@@ -124,7 +127,7 @@ public class CustomRoleResourceTest {
         customRoleQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getTenantId(), false));
         Mockito.when(repo.findOne("customRole", customRoleQuery)).thenReturn(mockEntity);
 
-        Response res = resource.readAll();
+        Response res = resource.readAll(uriInfo);
         Assert.assertEquals(200, res.getStatus());
         Assert.assertEquals(Arrays.asList(body), res.getEntity());
 
@@ -137,7 +140,7 @@ public class CustomRoleResourceTest {
         
         Mockito.when(service.get(id)).thenReturn((EntityBody) body.clone());
         mockGetRealmId();
-        Response res = resource.read(id);
+        Response res = resource.read(id, uriInfo);
         Assert.assertEquals(200, res.getStatus());
         Assert.assertEquals(body, res.getEntity());
 
@@ -149,7 +152,7 @@ public class CustomRoleResourceTest {
         EntityBody body = getValidRoleDoc();
         body.put("tenantId", "BAD-TENANT");
         Mockito.when(service.get(inaccessibleId)).thenReturn(body);
-        Response res = resource.read(inaccessibleId);
+        Response res = resource.read(inaccessibleId, uriInfo);
         Assert.assertEquals(403, res.getStatus());
         Assert.assertEquals(CustomRoleResource.ERROR_FORBIDDEN, res.getEntity());
     }
@@ -164,7 +167,7 @@ public class CustomRoleResourceTest {
         Mockito.when(service.get(id)).thenReturn((EntityBody) body.clone());
         
         Mockito.when(service.update(id, body)).thenReturn(true);
-        Response res = resource.updateCustomRole(id, body);
+        Response res = resource.updateCustomRole(id, body, uriInfo);
         Assert.assertEquals(400, res.getStatus());
         Assert.assertEquals(CustomRoleResource.ERROR_DUPLICATE_ROLE, res.getEntity());
     }
@@ -179,7 +182,7 @@ public class CustomRoleResourceTest {
         Mockito.when(service.get(id)).thenReturn((EntityBody) body.clone());
         
         Mockito.when(service.update(id, body)).thenReturn(true);
-        Response res = resource.updateCustomRole(id, body);
+        Response res = resource.updateCustomRole(id, body, uriInfo);
         Assert.assertEquals(400, res.getStatus());
         Assert.assertEquals(CustomRoleResource.ERROR_INVALID_RIGHT, res.getEntity());
 
@@ -195,7 +198,7 @@ public class CustomRoleResourceTest {
         Mockito.when(service.get(id)).thenReturn((EntityBody) body.clone());
         
         Mockito.when(service.update(id, body)).thenReturn(true);
-        Response res = resource.updateCustomRole(id, body);
+        Response res = resource.updateCustomRole(id, body, uriInfo);
         Assert.assertEquals(400, res.getStatus());
         Assert.assertEquals(CustomRoleResource.ERROR_INVALID_REALM, res.getEntity());
 
@@ -212,7 +215,7 @@ public class CustomRoleResourceTest {
         Mockito.when(service.get(id)).thenReturn((EntityBody) body.clone());
         
         Mockito.when(service.update(id, body)).thenReturn(true);
-        Response res = resource.updateCustomRole(id, body);
+        Response res = resource.updateCustomRole(id, body, uriInfo);
         Assert.assertEquals(400, res.getStatus());
         Assert.assertEquals(CustomRoleResource.ERROR_DUPLICATE_RIGHTS, res.getEntity());
     }

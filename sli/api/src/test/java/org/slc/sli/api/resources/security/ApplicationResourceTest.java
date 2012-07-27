@@ -134,6 +134,7 @@ public class ApplicationResourceTest {
         assertFalse("approval date not set", reg.containsKey(APPROVAL_DATE));
     }
     
+    @SuppressWarnings("rawtypes")
     @Test
     public void testGoodCreateWithSandbox() {
         EntityBody app = getNewApp();
@@ -254,7 +255,8 @@ public class ApplicationResourceTest {
         Response resp = resource.getApplications(0, 50, headers, uriInfo);
         assertEquals(STATUS_FOUND, resp.getStatus());
         EntityResponse entityResponse = (EntityResponse) resp.getEntity();
-        List<EntityBody> bodies = (List) entityResponse.getEntity();
+        @SuppressWarnings("unchecked")
+        List<EntityBody> bodies = (List<EntityBody>) entityResponse.getEntity();
         assertTrue(bodies.size() >= 1);
     }
     
@@ -269,7 +271,8 @@ public class ApplicationResourceTest {
         Response resp = resource.getApplications(0, 50, headers, uriInfo);
         assertEquals(STATUS_FOUND, resp.getStatus());
         EntityResponse entityResponse = (EntityResponse) resp.getEntity();
-        List<EntityBody> bodies = (List) entityResponse.getEntity();
+        @SuppressWarnings("unchecked")
+        List<EntityBody> bodies = (List<EntityBody>) entityResponse.getEntity();
         assertTrue(bodies.size() == 1);
         assertTrue(bodies.get(0).get("id").equals(uuid));
     }
@@ -289,7 +292,8 @@ public class ApplicationResourceTest {
         Response resp = resource.getApplications(0, 50, headers, uriInfo);
         assertEquals(STATUS_FOUND, resp.getStatus());
         EntityResponse entityResponse = (EntityResponse) resp.getEntity();
-        List<EntityBody> bodies = (List) entityResponse.getEntity();
+        @SuppressWarnings("unchecked")
+        List<EntityBody> bodies = (List<EntityBody>) entityResponse.getEntity();
         assertTrue(bodies.size() == 0);
     }
     
@@ -308,7 +312,8 @@ public class ApplicationResourceTest {
         Response resp = resource.getApplications(0, 50, headers, uriInfo);
         assertEquals(STATUS_FOUND, resp.getStatus());
         EntityResponse entityResponse = (EntityResponse) resp.getEntity();
-        List<EntityBody> bodies = (List) entityResponse.getEntity();
+        @SuppressWarnings("unchecked")
+        List<EntityBody> bodies = (List<EntityBody>) entityResponse.getEntity();
         assertTrue("expected entity response to contain 1 entity, received " + bodies.size(),bodies.size() == 1);
     }
     
@@ -328,6 +333,7 @@ public class ApplicationResourceTest {
 
 
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void testUpdate() {
         EntityBody app = getNewApp();
@@ -367,6 +373,7 @@ public class ApplicationResourceTest {
         return parseIdFromLocation(created);
     }
     
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Test
     public void testUpdateRegistrationAsDeveloper() {
         EntityBody app = getNewApp();
