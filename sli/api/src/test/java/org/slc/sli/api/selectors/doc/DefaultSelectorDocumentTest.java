@@ -70,12 +70,16 @@ public class DefaultSelectorDocumentTest {
 
         Entity section1 = repo.create("section", createSectionEntity("Math 1"));
         Entity section2 = repo.create("section", createSectionEntity("English 1"));
+        Entity section3 = repo.create("section", createSectionEntity("English 2"));
 
         repo.create("studentSectionAssociation", createStudentSectionAssociationEntity(student1.getEntityId(),
                 section1.getEntityId()));
 
         repo.create("studentSectionAssociation", createStudentSectionAssociationEntity(student2.getEntityId(),
                 section2.getEntityId()));
+
+        repo.create("studentSectionAssociation", createStudentSectionAssociationEntity(student1.getEntityId(),
+                section3.getEntityId()));
     }
 
     @After
@@ -88,6 +92,7 @@ public class DefaultSelectorDocumentTest {
 
         List<String> ids = new ArrayList<String>();
         ids.add(student1.getEntityId());
+        ids.add(student2.getEntityId());
 
         Constraint constraint = new Constraint();
         constraint.setKey("_id");
@@ -105,14 +110,14 @@ public class DefaultSelectorDocumentTest {
     }
 
     private SelectorQueryPlan getSelectorQueryPlan() {
-        SelectorQueryPlan plan = mock(SelectorQueryPlan.class);
+        SelectorQueryPlan plan = new SelectorQueryPlan();
         NeutralQuery query = new NeutralQuery();
         query.setIncludeFields("name");
 
         List<Object> childQueries = getChildQueries();
 
-        when(plan.getQuery()).thenReturn(query);
-        when(plan.getChildQueryPlans()).thenReturn(childQueries);
+        plan.setQuery(query);
+        plan.getChildQueryPlans().addAll(childQueries);
 
         return plan;
     }
@@ -123,11 +128,31 @@ public class DefaultSelectorDocumentTest {
         NeutralQuery query = new NeutralQuery();
         query.setIncludeFields("sectionId");
 
-        SelectorQueryPlan plan = mock(SelectorQueryPlan.class);
-        when(plan.getQuery()).thenReturn(query);
+        List<Object> childQueries = getLevel3ChildQueries();
+
+        SelectorQueryPlan plan = new SelectorQueryPlan();
+        plan.setQuery(query);
+        plan.getChildQueryPlans().addAll(childQueries);
 
         Map<Type, SelectorQueryPlan> map = new HashMap<Type, SelectorQueryPlan>();
         map.put(provider.getClassType("StudentSectionAssociation"), plan);
+
+        list.add(map);
+
+        return list;
+    }
+
+    private List<Object> getLevel3ChildQueries() {
+        List<Object> list = new ArrayList<Object>();
+
+        NeutralQuery query = new NeutralQuery();
+        query.setIncludeFields("sectionName");
+
+        SelectorQueryPlan plan = new SelectorQueryPlan();
+        plan.setQuery(query);
+
+        Map<Type, SelectorQueryPlan> map = new HashMap<Type, SelectorQueryPlan>();
+        map.put(provider.getClassType("Section"), plan);
 
         list.add(map);
 

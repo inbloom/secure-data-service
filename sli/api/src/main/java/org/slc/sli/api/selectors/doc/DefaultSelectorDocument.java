@@ -8,16 +8,10 @@ import org.slc.sli.api.selectors.model.*;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.modeling.uml.*;
-import org.slc.sli.validation.SchemaRepository;
-import org.slc.sli.validation.schema.NeutralSchema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Default implementation of a selector document
@@ -32,18 +26,12 @@ public class DefaultSelectorDocument implements SelectorDocument {
     private ModelProvider modelProvider;
 
     @Autowired
-    private SchemaRepository repo;
-
-    @Autowired
     private EntityDefinitionStore entityDefs;
 
     @Override
     public List<EntityBody> aggregate(Map<Type, SelectorQueryPlan> queryMap, final Constraint constraint) {
 
-        List<EntityBody> results = executeQueryPlan(queryMap, constraint, false);
-        System.out.print(results);
-
-        return null;
+        return executeQueryPlan(queryMap, constraint, new ArrayList<EntityBody>(), null, new Stack<Type>());
 
     }
 
@@ -51,50 +39,79 @@ public class DefaultSelectorDocument implements SelectorDocument {
         return entityDefs.lookupByEntityType(StringUtils.uncapitalise(type.getName()));
     }
 
-    protected List<EntityBody> executeQueryPlan(Map<Type, SelectorQueryPlan> queryMap, List<EntityBody> results,
-                                                final Constraint constraint, final boolean inLine) {
+    //TODO take out previousType
+    protected List<EntityBody> executeQueryPlan(Map<Type, SelectorQueryPlan> queryPlan, Constraint constraint,
+                                          List<EntityBody> previousEntities, Type previousType, Stack<Type> types) {
+        List<EntityBody> results = new ArrayList<EntityBody>();
 
-        if (results == null) {
-            results = new ArrayList<EntityBody>();
-        }
-
-        for (Map.Entry<Type, SelectorQueryPlan> entry : queryMap.entrySet()) {
-            Type type = entry.getKey();
+        for (Map.Entry<Type, SelectorQueryPlan> entry : queryPlan.entrySet()) {
+            Type currrentType = entry.getKey();
             SelectorQueryPlan plan = entry.getValue();
 
-            List<String> ids;
+            types.push(currrentType);
 
-            Constraint previousConstraint = new Constraint();
-            previousConstraint.setKey(constraint.getKey());
-            previousConstraint.setValue(constraint.getValue());
-            Iterable<EntityBody> entities = executeQuery(type, plan.getQuery(), previousConstraint, inLine);
+            if (!previousEntities.isEmpty() && previousType != null) {
+                String key = getKey(currrentType, previousType);
+                constraint.setKey(key);
 
-            EntityBody body = new EntityBody();
-            body.put(type.getName(), entities);
-            results.add(body);
+                String extractKey = getExtractionKey(currrentType, previousType);
+                List<String> ids = extractIds(previousEntities, extractKey);
+                constraint.setValue(ids);
+            }
 
-            System.out.println("Type : " + type.getName() + " " + entities);
+            Iterable<EntityBody> entities = executeQuery(currrentType, plan.getQuery(), constraint, true);
+            results.addAll((List<EntityBody>) entities);
 
-            ids = extractIds(entities, getKeyName(type));
-            previousConstraint.setValue(ids);
+            List<Object> childQueries = plan.getChildQueryPlans();
 
-            List<Object> childQueryPlans = plan.getChildQueryPlans();
+            for (Object obj : childQueries) {
+                List<EntityBody> list = executeQueryPlan((Map<Type, SelectorQueryPlan>) obj, constraint, (List<EntityBody>) entities, currrentType, types);
+                Type nextType = types.pop();
+                String extractionKey = getExtractionKey(nextType, currrentType);
+                String key = getKey(nextType, currrentType);
+                key = key.equals("_id") ? "id" : key;
 
-            for (Object obj : childQueryPlans) {
-                previousConstraint.setKey(getAssociationKeyName(type));
-                List<EntityBody> list = executeQueryPlan((Map<Type, SelectorQueryPlan>) obj, results,
-                        previousConstraint, true);
+                //TODO need to extract this out
+                for (EntityBody body : results) {
+                    String id = (String) body.get(extractionKey);
 
-                EntityBody body1 = new EntityBody();
-                body1.put(type.getName(), list);
+                    List<EntityBody> subList = getEntitySubList(list, key, id);
+                    body.put(nextType.getName(), subList);
+                }
 
-                System.out.println("Type : " + type.getName() + " " + list);
             }
         }
 
         return results;
     }
 
+    protected String getExtractionKey(Type currentType, Type previousType) {
+        String key = "id";
+        ClassType currentClassType = modelProvider.getClassType(currentType.getName());
+        ClassType previousClassType = modelProvider.getClassType(previousType.getName());
+
+        if (previousClassType.isClassType() && currentClassType.isAssociation()) {
+            key = "id";
+        } else if (previousClassType.isAssociation() && currentClassType.isClassType()) {
+            key = StringUtils.uncapitalise(currentClassType.getName()) + "Id";
+        }
+
+        return key;
+    }
+
+    protected String getKey(Type currentType, Type previousType) {
+        String key = "id";
+        ClassType currentClassType = modelProvider.getClassType(currentType.getName());
+        ClassType previousClassType = modelProvider.getClassType(previousType.getName());
+
+        if (previousClassType.isClassType() && currentClassType.isAssociation()) {
+            key = StringUtils.uncapitalise(previousClassType.getName()) + "Id";
+        } else if (previousClassType.isAssociation() && currentClassType.isClassType()) {
+            key = "_id";
+        }
+
+        return key;
+    }
 
 
     protected Iterable<EntityBody> executeQuery(Type type, NeutralQuery query, final Constraint constraint, final boolean inLine) {
@@ -106,26 +123,6 @@ public class DefaultSelectorDocument implements SelectorDocument {
         return results;
     }
 
-    protected String getKeyName(Type type) {
-        String key = "_id";
-
-        ClassType classType = modelProvider.getClassType(type.getName());
-
-        if (classType.isAssociation()) {
-            AssociationEnd end = classType.getLHS();
-            Type endType = modelProvider.getType(end.getType());
-
-            key = StringUtils.uncapitalise(endType.getName()) + "Id";
-        }
-
-        return key;
-    }
-
-    protected String getAssociationKeyName(Type type) {
-        ClassType classType = modelProvider.getClassType(type.getName());
-
-        return StringUtils.uncapitalise(classType.getName()) + "Id";
-    }
 
     protected List<String> extractIds(Iterable<EntityBody> entities, String key) {
         List<String> ids = new ArrayList<String>();
@@ -140,5 +137,20 @@ public class DefaultSelectorDocument implements SelectorDocument {
     }
 
 
+    public List<EntityBody> getEntitySubList(List<EntityBody> list, String field, String value) {
+        List<EntityBody> results = new ArrayList<EntityBody>();
+
+        if (list == null || field == null || value == null) {
+            return results;
+        }
+
+        for (EntityBody e : list) {
+            if (value.equals(e.get(field))) {
+                results.add(e);
+            }
+        }
+
+        return results;
+    }
 
 }
