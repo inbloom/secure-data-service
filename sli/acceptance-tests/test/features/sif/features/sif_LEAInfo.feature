@@ -27,3 +27,15 @@ Then I should see following map of entry counts in the corresponding collections
      | educationOrganization | 1                   | body.stateOrganizationId | Daybreak School District 4530         | string     |
      | educationOrganization | 0                   | body.nameOfInstitution   | Daybreak School District 4530         | string     |
      | educationOrganization | 1                   | body.nameOfInstitution   | UPDATED Daybreak School District 4530 | string     |
+     | educationOrganization | 1                   | body.address.city        | Salt Lake City                        | string     |
+Given I want to POST a(n) "sifEvent_LEAInfo_change2" SIF message
+When I POST the message to the ZIS
+And I wait for "10" seconds
+Then I should see following map of entry counts in the corresponding collections:
+     | collectionName        | count |
+     | educationOrganization | 2     |
+   And I check to find if record is in collection:
+     | collectionName        | expectedRecordCount | searchParameter          | searchValue         | searchType |
+     | educationOrganization | 1                   | body.address.addressType | Physical            | string     |
+     | educationOrganization | 1                   | body.address.city        | Springfield         | string     |
+     | educationOrganization | 0                   | body.address.city        | Salt Lake City      | string     |
