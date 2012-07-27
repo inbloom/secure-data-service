@@ -25,8 +25,7 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    check = Check.get ""
-    @loginUserId=check["external_id"]
+    get_login_id
     @users = User.all
     respond_to do |format|
       format.html # index.html.erb
@@ -49,7 +48,7 @@ class UsersController < ApplicationController
       #  logger.info("user id after escape is #{@user_id}")
       end
     end
-    
+    get_login_id
     respond_to do |format|
     #format.js
     format.html {render "index"}
@@ -164,6 +163,7 @@ class UsersController < ApplicationController
     
     @user.firstName = params[:user][:firstName]
     @user.lastName = params[:user][:lastName]
+    @user.lastName = " " if @user.lastName==""
     @user.email = params[:user][:email]
     @user.tenant = check["tenantId"]
     @user.edorg = params[:user][:edorg]
@@ -172,6 +172,11 @@ class UsersController < ApplicationController
     @user.homeDir = "/dev/null"
     return @user
     
+  end
+  
+  def get_login_id
+    check = Check.get ""
+    @loginUserId=check["external_id"]
   end
   
   
