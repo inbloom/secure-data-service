@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.dashboard.entity;
 
 import java.util.ArrayList;
@@ -37,13 +36,26 @@ import org.slc.sli.dashboard.util.Constants;
 public class GenericEntity extends LinkedHashMap<String, Object> implements Entity {
 
     private static final long serialVersionUID = -1398693068211322783L;
+    private final String entityType;
 
     public GenericEntity() {
         super();
+        this.entityType = null;
     }
 
     public GenericEntity(Map<String, Object> map) {
         super(map);
+        this.entityType = null;
+    }
+
+    public GenericEntity(Map<String, Object> map, String entityType) {
+        super(map);
+        this.entityType = entityType;
+    }
+
+    public GenericEntity(Entity copyFrom) {
+        super(copyFrom.getData());
+        this.entityType = copyFrom.getEntityType();
     }
 
     @Override
@@ -96,7 +108,7 @@ public class GenericEntity extends LinkedHashMap<String, Object> implements Enti
     // Entity Interface for SDK Integration
     @Override
     public String getEntityType() {
-        return null;
+        return entityType;
     }
 
     @Override
