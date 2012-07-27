@@ -32,7 +32,7 @@ public class Selector2MapOfMaps implements SelectionConverter {
                     } else if (indexOfComma == -1) {
                         String key = data.substring(0, indexOfParen - 1);
                         String value = data.substring(indexOfParen - 1);
-                        converted.put(key, convert(value));
+                        converted.put(key.replaceAll(" ", ""), convert(value));
                         data = "";
                     } else if (indexOfParen == -1) {
                         String value = data.substring(0, indexOfComma);
@@ -46,7 +46,7 @@ public class Selector2MapOfMaps implements SelectionConverter {
                         int endOfSubMap = getMatchingClosingParenIndex(data, indexOfParen);
                         String key = data.substring(0, indexOfParen - 1);
                         String value = data.substring(indexOfParen - 1, endOfSubMap + 1);
-                        converted.put(key, convert(value));
+                        converted.put(key.replaceAll(" ", ""), convert(value));
                         data = data.substring(endOfSubMap + 1);
                         if (data.startsWith(",")) {
                             data = data.substring(1);
@@ -97,11 +97,11 @@ public class Selector2MapOfMaps implements SelectionConverter {
         int indexOfColon = value.indexOf(":");
         
         if(indexOfColon != -1) {
-            String key = value.substring(0, indexOfColon);
+            String key = value.substring(0, indexOfColon).replaceAll(" ", "");
             boolean keyValue = Boolean.parseBoolean(value.substring(indexOfColon + 1));
             map.put(key, keyValue);
         } else {
-            map.put(value, true);
+            map.put(value.replaceAll(" ", ""), true);
         }
     }
     

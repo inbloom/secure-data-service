@@ -36,10 +36,13 @@ public class DefaultLogicalEntity implements LogicalEntity {
 
     public List<EntityBody> createEntities(final Map<String, Object> selector, final Constraint constraint,
                                                   final String classType) {
+
         if (selector == null) throw new NullPointerException("selector");
         if (constraint == null) throw new NullPointerException("constraint");
 
-        final ClassType entityType = provider.getClassType(classType);
+        // TODO FIXME TODO FIXME TODO FIXME TODO FIXME TODO FIXME TODO FIXME
+        final ClassType entityType = provider.getClassType("Student");
+
         final SemanticSelector semanticSelector = selectorSemanticModel.parse(selector, entityType);
         final Map<Type, SelectorQueryPlan> selectorQuery = selectorQueryEngine.assembleQueryPlan(semanticSelector);
 

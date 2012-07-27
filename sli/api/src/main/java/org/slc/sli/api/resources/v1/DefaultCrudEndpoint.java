@@ -405,19 +405,19 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 neutralQuery.setOffset(0);
 
                 // final/resulting information
-                List<EntityBody> finalResults = new ArrayList<EntityBody>();
+                List<EntityBody> finalResults;
+                final Map<String, Object> selector = getSelector(neutralQuery);
 
-                Iterable<EntityBody> entities;
-                if (idLength == 1) {
-                    entities = Arrays.asList(new EntityBody[] { entityDef.getService().get(idList, neutralQuery) });
+                if (selector != null) {
+                    finalResults = logicalEntity.createEntities(selector, new Constraint("id", idList), resourceName);
                 } else {
-
-                    // System.out.println("Running list operation");
-
-                    entities = entityDef.getService().list(neutralQuery);
+                    finalResults = new ArrayList<EntityBody>();
+                    for (EntityBody entityBody : entityDef.getService().list(neutralQuery)) {
+                        finalResults.add(entityBody);
+                    }
                 }
 
-                for (EntityBody result : entities) {
+                for (EntityBody result : finalResults) {
                     if (result != null) {
                         result.put(ResourceConstants.LINKS,
                                 ResourceUtil.getLinks(entityDefs, entityDef, result, uriInfo));
@@ -428,7 +428,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                         // add the aggregates if they were requested
                         addAggregates(result, entityDef, uriInfo);
                     }
-                    finalResults.add(result);
                 }
 
                 finalResults = appendOptionalFields(uriInfo, finalResults, DefaultCrudEndpoint.this.resourceName);
