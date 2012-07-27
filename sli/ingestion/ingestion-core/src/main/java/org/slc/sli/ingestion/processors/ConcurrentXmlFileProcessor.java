@@ -82,6 +82,9 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
         if (exchange.getIn().getHeader(AttributeType.NO_ID_REF.name()) != null) {
             LOG.info("Skipping id ref resolution (specified by @no-id-ref in control file).");
             skipXmlFile(workNote, exchange);
+        } else if (exchange.getIn().getHeader(AttributeType.DELETE.name()) != null) {
+            LOG.info("Skipping id ref resolution (specified by @delete in control file).");
+            skipXmlFile(workNote, exchange);
         } else {
             LOG.info("Entering concurrent id ref resolution.");
             processXmlFile(workNote, exchange);

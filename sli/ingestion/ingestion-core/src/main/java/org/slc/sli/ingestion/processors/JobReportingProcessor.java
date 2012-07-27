@@ -55,6 +55,7 @@ import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
+import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.model.Error;
@@ -98,15 +99,19 @@ public class JobReportingProcessor implements Processor {
     @Override
     public void process(Exchange exchange) {
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+        boolean ingest = true;
 
         if (workNote == null || workNote.getBatchJobId() == null) {
             missingBatchJobIdError(exchange);
         } else {
-            processJobReporting(exchange, workNote);
+            if (exchange.getIn().getHeader(AttributeType.DELETE.name()) != null) {
+                ingest = false;
+            }
+            processJobReporting(exchange, workNote, ingest);
         }
     }
 
-    private void processJobReporting(Exchange exchange, WorkNote workNote) {
+    private void processJobReporting(Exchange exchange, WorkNote workNote, boolean ingest) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
         String batchJobId = workNote.getBatchJobId();
@@ -119,7 +124,7 @@ public class JobReportingProcessor implements Processor {
 
             boolean hasErrors = writeErrorAndWarningReports(job);
 
-            writeBatchJobReportFile(exchange, job, hasErrors);
+            writeBatchJobReportFile(exchange, job, ingest, hasErrors);
 
         } catch (Exception e) {
             LOG.error("Exception encountered in JobReportingProcessor. ", e);
@@ -186,7 +191,7 @@ public class JobReportingProcessor implements Processor {
         }
     }
 
-    private void writeBatchJobReportFile(Exchange exchange, NewBatchJob job, boolean hasErrors) {
+    private void writeBatchJobReportFile(Exchange exchange, NewBatchJob job, boolean ingest, boolean hasErrors) {
 
         PrintWriter jobReportWriter = null;
         FileLock lock = null;
@@ -201,7 +206,7 @@ public class JobReportingProcessor implements Processor {
 
             writeInfoLine(jobReportWriter, "jobId: " + job.getId());
 
-            long recordsProcessed = writeBatchJobPersistenceMetrics(job, jobReportWriter);
+            long recordsProcessed = writeBatchJobPersistenceMetrics(job, jobReportWriter, ingest);
 
             writeBatchJobProperties(job, jobReportWriter);
 
@@ -323,7 +328,7 @@ public class JobReportingProcessor implements Processor {
         return writer;
     }
 
-    private long writeBatchJobPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
+    private long writeBatchJobPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter, boolean ingest) {
         long totalProcessed = 0;
 
         // TODO group counts by externallyUploadedResourceId
@@ -349,8 +354,10 @@ public class JobReportingProcessor implements Processor {
                     temp.setResourceId(combinedMetricsMap.get(m.getResourceId()).getResourceId());
                     temp.setRecordCount(combinedMetricsMap.get(m.getResourceId()).getRecordCount());
                     temp.setErrorCount(combinedMetricsMap.get(m.getResourceId()).getErrorCount());
+                    temp.setEntityNotPresentCount(combinedMetricsMap.get(m.getResourceId()).getEntityNotPresentCount());
 
                     temp.setErrorCount(temp.getErrorCount() + m.getErrorCount());
+                    temp.setEntityNotPresentCount(temp.getEntityNotPresentCount() + m.getEntityNotPresentCount());
                     temp.setRecordCount(temp.getRecordCount() + m.getRecordCount());
 
                     combinedMetricsMap.put(m.getResourceId(), temp);
@@ -358,7 +365,7 @@ public class JobReportingProcessor implements Processor {
                 } else {
                     // adding metrics to the map
                     combinedMetricsMap.put(m.getResourceId(),
-                            new Metrics(m.getResourceId(), m.getRecordCount(), m.getErrorCount()));
+                            new Metrics(m.getResourceId(), m.getRecordCount(), m.getErrorCount(), m.getEntityNotPresentCount()));
                 }
 
             }
@@ -374,7 +381,8 @@ public class JobReportingProcessor implements Processor {
                 continue;
             }
 
-            logResourceMetric(resourceEntry, metric.getRecordCount(), metric.getErrorCount(), jobReportWriter);
+            logResourceMetric(resourceEntry, metric.getRecordCount(), metric.getErrorCount(), metric.getEntityNotPresentCount(),
+                    jobReportWriter, ingest);
 
             totalProcessed += metric.getRecordCount();
 
@@ -383,25 +391,25 @@ public class JobReportingProcessor implements Processor {
             resourceEntry.setErrorCount(metric.getErrorCount());
         }
 
-        writeZeroCountPersistenceMetrics(job, jobReportWriter);
+        writeZeroCountPersistenceMetrics(job, jobReportWriter,  ingest);
 
         return totalProcessed;
     }
 
-    private void writeZeroCountPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
+    private void writeZeroCountPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter, boolean ingest) {
         // write out 0 count metrics for the input files
 
         for (ResourceEntry resourceEntry : job.getResourceEntries()) {
             if (resourceEntry.getResourceFormat() != null
                     && resourceEntry.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())
                     && resourceEntry.getRecordCount() == 0 && resourceEntry.getErrorCount() == 0) {
-                logResourceMetric(resourceEntry, 0, 0, jobReportWriter);
+                logResourceMetric(resourceEntry, 0, 0, 0, jobReportWriter, ingest);
             }
         }
     }
 
-    private void logResourceMetric(ResourceEntry resourceEntry, long numProcessed, long numFailed,
-            PrintWriter jobReportWriter) {
+    private void logResourceMetric(ResourceEntry resourceEntry, long numProcessed, long numFailed, long numNotPresent,
+            PrintWriter jobReportWriter, boolean ingest) {
         String id = "[file] " + resourceEntry.getExternallyUploadedResourceId();
         writeInfoLine(jobReportWriter,
                 id + " (" + resourceEntry.getResourceFormat() + "/" + resourceEntry.getResourceType() + ")");
@@ -409,7 +417,13 @@ public class JobReportingProcessor implements Processor {
         long numPassed = numProcessed - numFailed;
 
         writeInfoLine(jobReportWriter, id + " records considered: " + numProcessed);
-        writeInfoLine(jobReportWriter, id + " records ingested successfully: " + numPassed);
+        if (ingest) {
+            writeInfoLine(jobReportWriter, id + " records ingested successfully: " + numPassed);
+        } else {
+            numPassed = numPassed - numNotPresent;
+            writeInfoLine(jobReportWriter, id + " records deleted successfully: " + numPassed);
+            writeInfoLine(jobReportWriter, id + " records atttempted to be deleted, but not present: " + numNotPresent);
+        }
         writeInfoLine(jobReportWriter, id + " records failed: " + numFailed);
     }
 

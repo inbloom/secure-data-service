@@ -24,6 +24,16 @@ import java.util.Set;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.MessageSourceAware;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
@@ -37,7 +47,9 @@ import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordReadConverter;
 import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
+import org.slc.sli.ingestion.handler.NeutralRecordEntityDeleteHandler;
 import org.slc.sli.ingestion.handler.NeutralRecordEntityPersistHandler;
+import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -51,15 +63,6 @@ import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
-import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
 
 /**
  * Ingestion Persistence Processor.
@@ -82,6 +85,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     private static final String BATCH_JOB_ID = "batchJobId";
     private static final String CREATION_TIME = "creationTime";
 
+    private static final int intFalse = -1;
+
     private Map<String, EdFi2SLITransformer> transformers;
 
     private EdFi2SLITransformer defaultEdFi2SLITransformer;
@@ -93,6 +98,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     private AbstractIngestionHandler<SimpleEntity, Entity> defaultEntityPersistHandler;
 
     private NeutralRecordEntityPersistHandler obsoletePersistHandler;
+
+    private NeutralRecordEntityDeleteHandler obsoleteDeleteHandler;
 
     @Autowired
     private NeutralRecordReadConverter neutralRecordReadConverter;
@@ -114,11 +121,17 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
     @Override
     public void process(Exchange exchange) {
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+        boolean ingest = true;
 
         if (workNote == null || workNote.getBatchJobId() == null) {
             handleNoBatchJobIdInExchange(exchange);
         } else {
-            processPersistence(workNote, exchange);
+
+            if (exchange.getIn().getHeader(AttributeType.DELETE.name()) != null) {
+                ingest = false;
+            }
+
+            processPersistence(workNote, exchange, ingest);
         }
     }
 
@@ -130,7 +143,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
      * @param exchange
      *            camel exchange.
      */
-    private void processPersistence(WorkNote workNote, Exchange exchange) {
+    private void processPersistence(WorkNote workNote, Exchange exchange, boolean ingest) {
         Stage stage = initializeStage(workNote);
 
         String batchJobId = workNote.getBatchJobId();
@@ -141,7 +154,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
             LOG.debug("processing persistence: {}", newJob);
 
-            processWorkNote(workNote, newJob, stage);
+            processWorkNote(workNote, newJob, stage, ingest);
 
         } catch (Exception exception) {
             handleProcessingExceptions(exception, exchange, batchJobId);
@@ -179,7 +192,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
      * @param stage
      *            persistence stage.
      */
-    private void processWorkNote(WorkNote workNote, Job job, Stage stage) {
+    private void processWorkNote(WorkNote workNote, Job job, Stage stage, boolean ingest) {
         boolean persistedFlag = false;
 
         String collectionNameAsStaged = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
@@ -204,20 +217,33 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
                 Metrics currentMetric = getOrCreateMetric(perFileMetrics, neutralRecord, workNote);
 
-                // process NeutralRecord with old or new pipeline
-                if (entityPipelineType == EntityPipelineType.OLD) {
+                if (ingest) {
+                    // ingest NeutralRecord with old or new pipeline
+                    if (entityPipelineType == EntityPipelineType.OLD) {
 
-                    numFailed += processOldStyleNeutralRecord(neutralRecord, neutralRecord.getLocationInSourceFile(),
+                        numFailed += processOldStyleNeutralRecord(neutralRecord, neutralRecord.getLocationInSourceFile(),
+                                getTenantId(job), errorReportForCollection);
+                        persistedFlag = true;
+
+                    } else if (entityPipelineType == EntityPipelineType.NEW_PLAIN
+                            || entityPipelineType == EntityPipelineType.NEW_TRANSFORMED) {
+
+                        numFailed += processTransformableNeutralRecord(neutralRecord, getTenantId(job),
+                                errorReportForCollection);
+
+                        persistedFlag = true;
+                    }
+                } else {
+                    // delete Neutral record with old pipeline
+                    long failStat = deleteOldStyleNeutralRecord(neutralRecord, neutralRecord.getLocationInSourceFile(),
                             getTenantId(job), errorReportForCollection);
+                    if (failStat != intFalse) {
+                        numFailed += failStat;
+                    } else {
+                        currentMetric.setEntityNotPresentCount(currentMetric.getEntityNotPresentCount() + 1);
+                    }
                     persistedFlag = true;
 
-                } else if (entityPipelineType == EntityPipelineType.NEW_PLAIN
-                        || entityPipelineType == EntityPipelineType.NEW_TRANSFORMED) {
-
-                    numFailed += processTransformableNeutralRecord(neutralRecord, getTenantId(job),
-                            errorReportForCollection);
-
-                    persistedFlag = true;
                 }
 
                 if (persistedFlag) {
@@ -329,6 +355,48 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
         if (errorReportForNrEntity.hasErrors()) {
             numFailed++;
+        }
+
+        return numFailed;
+    }
+
+    /**
+     * Invoked if the neutral record is of type $$type$$ (no transformation occurred).
+     *
+     * @param neutralRecord
+     *            neutral record as it was initially ingested.
+     * @param recordNumber
+     *            count when neutral record was encountered in incoming interchange.
+     * @param tenantId
+     *            tenant of the neutral record.
+     * @param errorReportForCollection
+     *            error report.
+     * @return
+     */
+    private long deleteOldStyleNeutralRecord(NeutralRecord neutralRecord, long recordNumber, String tenantId,
+            ErrorReport errorReportForCollection) {
+        long numFailed = 0;
+
+        LOG.debug("deleting neutral record of type: {}", neutralRecord.getRecordType());
+
+        NeutralRecordEntity nrEntity = Translator.mapToEntity(neutralRecord, recordNumber);
+        nrEntity.setMetaDataField(EntityMetadataKey.TENANT_ID.getKey(), tenantId);
+
+        ErrorReport errorReportForNrEntity = new ProxyErrorReport(errorReportForCollection);
+
+        NeutralRecordEntity entity =  null;
+        try {
+            entity = (NeutralRecordEntity) obsoleteDeleteHandler.handle(nrEntity, errorReportForNrEntity);
+        } catch (DataAccessResourceFailureException darfe) {
+            LOG.error("Exception processing record with obsoleteDeleteHandler", darfe);
+        }
+
+        if (errorReportForNrEntity.hasErrors()) {
+            numFailed++;
+        }
+
+        if (entity.getNeutralRecord()==null && entity.getRecordNumberInFile()==-1) {
+            numFailed = intFalse;
         }
 
         return numFailed;
@@ -517,6 +585,14 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
 
     public void setNeutralRecordReadConverter(NeutralRecordReadConverter neutralRecordReadConverter) {
         this.neutralRecordReadConverter = neutralRecordReadConverter;
+    }
+
+    public NeutralRecordEntityDeleteHandler getObsoleteDeleteHandler() {
+        return obsoleteDeleteHandler;
+    }
+
+    public void setObsoleteDeleteHandler(NeutralRecordEntityDeleteHandler obsoleteDeleteHandler) {
+        this.obsoleteDeleteHandler = obsoleteDeleteHandler;
     }
 
     public Iterable<NeutralRecord> queryBatchFromDb(String collectionName, String jobId, WorkNote workNote) {

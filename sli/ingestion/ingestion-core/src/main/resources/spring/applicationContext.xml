@@ -75,6 +75,7 @@
     <property name="defaultEntityPersistHandler" ref="entityPersistHandler" />
     <property name="entityPersistTypeMap" ref="entityPersistTypeMap" />
     <property name="obsoletePersistHandler" ref="obsoleteEntityPersistHandler" />
+    <property name="obsoleteDeleteHandler" ref="obsoleteEntityDeleteHandler" />
     <property name="neutralRecordReadConverter" ref="neutralRecordReadConverter" />
   </bean>
 

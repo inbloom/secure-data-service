@@ -21,6 +21,11 @@ import java.io.File;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Fault;
@@ -39,10 +44,6 @@ import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Processes a XML file
@@ -72,6 +73,9 @@ public class XmlFileProcessor implements Processor {
 
         if (exchange.getIn().getHeader(AttributeType.NO_ID_REF.name()) != null) {
             LOG.info("Skipping id ref resolution (specified by @no-id-ref in control file).");
+            skipXmlFile(workNote, exchange);
+        } else if (exchange.getIn().getHeader(AttributeType.DELETE.name()) != null) {
+            LOG.info("Skipping id ref resolution (specified by @delete in control file).");
             skipXmlFile(workNote, exchange);
         } else {
             LOG.info("Entering concurrent id ref resolution.");

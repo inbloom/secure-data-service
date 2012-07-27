@@ -24,6 +24,7 @@ package org.slc.sli.ingestion.landingzone;
  */
 public enum AttributeType {
     PURGE("purge"),
+    DELETE("delete"),
     DRYRUN("dry-run"),
     NO_ID_REF("no-id-ref");
 
