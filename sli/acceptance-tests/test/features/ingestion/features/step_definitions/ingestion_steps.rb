@@ -24,6 +24,7 @@ require 'socket'
 require 'net/sftp'
 require 'net/http'
 
+require 'json'
 require_relative '../../../utils/sli_utils.rb'
 
 ############################################################
@@ -39,6 +40,7 @@ INGESTION_MODE = PropLoader.getProps['ingestion_mode']
 INGESTION_DESTINATION_DATA_STORE = PropLoader.getProps['ingestion_destination_data_store']
 INGESTION_USERNAME = PropLoader.getProps['ingestion_username']
 INGESTION_REMOTE_LZ_PATH = PropLoader.getProps['ingestion_remote_lz_path']
+INGESTION_HEALTHCHECK_URL = PropLoader.getProps['ingestion_healthcheck_url']
 
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT"]
 
@@ -1066,7 +1068,7 @@ When /^an activemq instance "([^"]*)" running in "([^"]*)" and on jmx port "([^"
 end
 
 When /^I navigate to the Ingestion Service HealthCheck page and submit login credentials "([^"]*)" "([^"]*)"$/ do |user, pass|
-   uri = URI('http://localhost:8000/ingestion-service/HealthCheck')
+   uri = URI(INGESTION_HEALTHCHECK_URL)
    req = Net::HTTP::Get.new(uri.request_uri)
    req.basic_auth user, pass
    res = Net::HTTP.start(uri.hostname, uri.port) {|http|
@@ -1583,8 +1585,36 @@ Then /^I restart the activemq instance "([^"]*)" running on "([^"]*)"$/ do |inst
   Open3.popen2e("#{instance_source}/#{instance_name}/bin/#{instance_name}" )
 end
 
-Then /^I am informed that "(.*?)"$/ do |arg1|
-    assert($healthCheckResult.tr("\n","") == arg1, "Ingestion service is not running")
+Then /^I receive a JSON response$/ do
+  @result = JSON.parse($healthCheckResult)
+  assert(@result != nil, "Result of JSON parsing is nil")
+end
+
+Then /^the response should include (.*?)$/ do |json_values|
+  valueArr = json_values.split(", ")
+  for val in valueArr
+    assert(@result.has_key?(val), "Values missing")
+  end
+end
+
+Then /^the value of "(.*?)" should be "(.*?)"$/ do |json_variable, json_value|
+  puts @result
+  assert(@result[json_variable] == json_value)
+end
+
+Given /^I have checked the counts of the following collections:$/ do |table|
+  @excludedCollectionHash = {}
+  @db = @conn[INGESTION_DB_NAME]
+  table.hashes.map do |row|
+    @excludedCollectionHash[row["collectionName"]] = @db.collection(row["collectionName"]).count()
+  end
+end
+
+Then /^the following collections counts are the same:$/ do |table|
+  @db = @conn[INGESTION_DB_NAME]
+  table.hashes.map do |row|
+    assert(@excludedCollectionHash[row["collectionName"]] == @db.collection(row["collectionName"]).count(), "Tenant Purge has removed documents it should not have")
+  end
 end
 
 ############################################################

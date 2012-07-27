@@ -64,9 +64,6 @@ public class SDKAPIClient implements APIClient {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SDKAPIClient.class);
 
-    @Deprecated
-    private SLIClient sdkClient;
-
     private SLIClientFactory clientFactory;
 
     private String gracePeriod;
@@ -89,24 +86,6 @@ public class SDKAPIClient implements APIClient {
      * *****************************************************
      */
 
-    /**
-     * Set the SDK client
-     *
-     * @param sdkClient
-     */
-    public void setSdkClient(SLIClient sdkClient) {
-        this.sdkClient = sdkClient;
-    }
-
-    /**
-     * Get the SDK client
-     *
-     * @return
-     */
-    @Override
-    public SLIClient getSdkClient() {
-        return sdkClient;
-    }
 
     public SLIClientFactory getClientFactory() {
         return clientFactory;
@@ -1059,7 +1038,7 @@ public class SDKAPIClient implements APIClient {
         Object entity = null;
         try {
             List<Object> entityList = new ArrayList<Object>();
-            sdkClient.read(token, entityList, url, entityClass);
+            getClient(token).read(token, entityList, url, entityClass);
             if (entityList.size() > 0) {
                 entity = entityList.get(0);
             }
@@ -1119,7 +1098,7 @@ public class SDKAPIClient implements APIClient {
         List<GenericEntity> entityList = new ArrayList<GenericEntity>();
 
         try {
-            sdkClient.read(token, entityList, url, GenericEntity.class);
+            getClient(token).read(token, entityList, url, GenericEntity.class);
         } catch (Exception e) {
             LOGGER.error("Exception occurred during API read", e);
         }
@@ -1190,7 +1169,7 @@ public class SDKAPIClient implements APIClient {
     @ExecutionTimeLogger.LogExecutionTime
     protected void updateEntity(String token, String url, GenericEntity entity) {
         try {
-            sdkClient.update(token, url, entity);
+            getClient(token).update(token, url, entity);
         } catch (Exception e) {
             LOGGER.error("Exception occurred during API update", e);
         }
@@ -1207,7 +1186,7 @@ public class SDKAPIClient implements APIClient {
     @ExecutionTimeLogger.LogExecutionTime
     protected void deleteEntity(String token, String url) {
         try {
-            sdkClient.deleteByToken(token, url);
+            getClient(token).deleteByToken(token, url);
         } catch (Exception e) {
             LOGGER.error("Exception occurred during API delete", e);
         }
