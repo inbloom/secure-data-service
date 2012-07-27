@@ -42,7 +42,6 @@ public class SchoolProficiencyMapper
     public static final String SCORE_TYPE = "ProficiencyCounts";
 
     Text code = new Text();
-    Text edOrg = new Text();
     Mongo mongo = null;
     DB db = null;
     DBCollection ssa = null;
@@ -56,6 +55,7 @@ public class SchoolProficiencyMapper
     }
 
 
+    @SuppressWarnings("unchecked")
     @Override
     public void map(final String schoolId,
                     final BSONObject school,
@@ -105,7 +105,7 @@ public class SchoolProficiencyMapper
         }
 
             context.write(new TenantAndID(schoolId, tenantId), code);
-        }
+    }
     }
 
     @SuppressWarnings("unchecked")
