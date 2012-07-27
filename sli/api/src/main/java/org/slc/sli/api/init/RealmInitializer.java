@@ -218,4 +218,8 @@ public class RealmInitializer {
         return repository.findOne(REALM_RESOURCE, new NeutralQuery(new NeutralCriteria("uniqueIdentifier",
                 NeutralCriteria.OPERATOR_EQUAL, realmUniqueId)));
     }
+    
+    protected void setRoleInitializer(RoleInitializer roleInitializer) {
+        this.roleInitializer = roleInitializer;
+    }
 }

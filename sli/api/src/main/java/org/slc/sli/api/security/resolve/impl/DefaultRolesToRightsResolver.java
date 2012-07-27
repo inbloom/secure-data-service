@@ -77,8 +77,11 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
             }
         });
 
-        Boolean admin = (Boolean) entity.getBody().get("admin");
-        return admin != null ? admin : false;
+        if (entity != null && entity.getBody() != null) {
+            Boolean admin = (Boolean) entity.getBody().get("admin");
+            return admin != null ? admin : false;
+        }
+        return false;
     }
 
     private Role findRole(final String roleName) {

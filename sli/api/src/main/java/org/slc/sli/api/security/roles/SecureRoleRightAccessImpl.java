@@ -120,24 +120,25 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                 }
             });
 
-            Map<String, Object> roleDefs = doc.getBody();
+            if (doc != null) {
+                Map<String, Object> roleDefs = doc.getBody();
 
-            if (roleDefs != null) {
-                List<Map<String, List<String>>> roleData = (List<Map<String, List<String>>>) roleDefs.get("roles");
+                if (roleDefs != null) {
+                    List<Map<String, List<String>>> roleData = (List<Map<String, List<String>>>) roleDefs.get("roles");
 
-                for (Map<String, List<String>> role : roleData) {
-                    List<String> names = role.get("names");
+                    for (Map<String, List<String>> role : roleData) {
+                        List<String> names = role.get("names");
 
-                    for (String roleName : names) {
-                        if (roleNames.contains(roleName)) {
-                            List<String> rights = role.get("rights");
-                            roles.add(RoleBuilder.makeRole(roleName).addGrantedAuthorities(rights).build());
+                        for (String roleName : names) {
+                            if (roleNames.contains(roleName)) {
+                                List<String> rights = role.get("rights");
+                                roles.add(RoleBuilder.makeRole(roleName).addGrantedAuthorities(rights).build());
+                            }
                         }
                     }
                 }
             }
         }
-
         return roles;
     }
 
