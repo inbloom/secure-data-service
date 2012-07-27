@@ -74,6 +74,7 @@ public class SchoolProficiencyMapper
 
         String idCode = context.getConfiguration().get("AssessmentIdCode");
 
+        students.clear();
         Set<DBObject> students = getStudentsForSchool(school, idCode);
         if (students.isEmpty()) {
             return;
@@ -139,6 +140,10 @@ public class SchoolProficiencyMapper
         query.put("metaData.tenantId", tenantId);
 
         DBCursor c = ssa.find(query);
+        if (!c.hasNext()) {
+            return students;
+        }
+
         String[] ids = new String[c.count()];
         int idx = 0;
         while (c.hasNext()) {
