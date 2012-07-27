@@ -39,10 +39,10 @@ public class SchoolProficiency extends Configured implements Tool {
         conf.set("AssessmentIdCode", assmtIDCode);
 
         // The value to aggregate
-        conf.set(SchoolProficiencyMapper.SCORE_TYPE, "aggregations.assessments." + assmtIDCode + ".HighestEver.Aggregate");
+        conf.set(SchoolProficiencyMapper.SCORE_TYPE, "aggregations.assessments." + assmtIDCode + ".HighestEver");
 
         // Where to store the resulting aggregate.
-        conf.set(MongoAggFormatter.UPDATE_FIELD, "aggregations.assessments." + assmtIDCode + ".HighestEver.Aggregate");
+        conf.set(MongoAggFormatter.UPDATE_FIELD, "aggregations.assessments." + assmtIDCode + ".HighestEver");
 
         MongoConfigUtil.setInputURI(conf, input);
         MongoConfigUtil.setQuery(conf, "{'type':'school'}");

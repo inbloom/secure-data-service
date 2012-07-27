@@ -19,6 +19,8 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.bson.BSONObject;
 
+import org.slc.sli.aggregation.mapreduce.TenantAndID;
+
 /**
  * Map state math assessment scores and aggregate them at the school level based on scale score.
  *
@@ -35,7 +37,7 @@ import org.bson.BSONObject;
  * @author asaarela
  */
 public class SchoolProficiencyMapper
-        extends Mapper<String, BSONObject, Text, Text> {
+        extends Mapper<String, BSONObject, TenantAndID, Text> {
 
     public static final String SCORE_TYPE = "ProficiencyCounts";
 
@@ -54,6 +56,7 @@ public class SchoolProficiencyMapper
     }
 
 
+    @SuppressWarnings("unchecked")
     @Override
     public void map(final String schoolId,
                     final BSONObject school,
@@ -69,7 +72,11 @@ public class SchoolProficiencyMapper
         }
 
         for (DBObject student : students) {
-            String score = (String) student.get("aggregations.assessments." + idCode + ".HighestEver.ScaleScore");
+            Map<String, Object> aggregations = (Map<String, Object>) student.get("aggregations");
+            Map<String, Object> assessments = (Map<String, Object>) aggregations.get("assessments");
+            Map<String, Object> assessment = (Map<String, Object>) assessments.get(idCode);
+            Map<String, Object> highest = (Map<String, Object>) assessment.get("HighestEver");
+            String score = (String) highest.get("ScaleScore");
 
             code.set("!");
             if (score != null) {
@@ -89,8 +96,10 @@ public class SchoolProficiencyMapper
                 code.set("-");
             }
 
-            edOrg.set(schoolId);
-            context.write(edOrg, code);
+            Map<String, Object> metaData = (Map<String, Object>) school.get("metaData");
+            String tenantId = (String) metaData.get("tenantId");
+
+            context.write(new TenantAndID(tenantId, schoolId), code);
         }
     }
 
@@ -100,8 +109,13 @@ public class SchoolProficiencyMapper
 
         BasicDBObject query = new BasicDBObject();
 
-        query.put("body.schoolId", school.get("body.schoolId"));
-        query.put("metaData.tenantId", school.get("metaData.tenantId"));
+        String schoolId = (String) school.get("_id");
+
+        Map<String, Object> metaData = (Map<String, Object>) school.get("metaData");
+        String tenantId = (String) metaData.get("tenantId");
+
+        query.put("body.schoolId", schoolId);
+        query.put("metaData.tenantId", tenantId);
 
         DBCursor c = ssa.find(query);
         String[] ids = new String[c.count()];
@@ -118,7 +132,7 @@ public class SchoolProficiencyMapper
 
         query = new BasicDBObject();
         query.put("_id", new BasicDBObject("$in", ids));
-        query.put("metaData.tenantId", school.get("metaData.tenantId"));
+        query.put("metaData.tenantId", tenantId);
 
         DBCursor studentCursor = studentColl.find(query, fields);
         while (studentCursor.hasNext()) {
