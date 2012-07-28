@@ -23,6 +23,24 @@ class UsersController < ApplicationController
   SANDBOX_ADMINISTRATOR = "Sandbox Administrator"
   APPLICATION_DEVELOPER = "Application Developer"
   INGESTION_USER = "Ingestion User"
+  SANDBOX_ALLOWED_ROLES = ["Sandbox Administrator"]
+  PRODUCTION_ALLOWED_ROLES = ["SLC Operator", "SEA Administrator", "LEA Administrator"]
+  
+  before_filter :check_rights
+  
+  def check_rights
+  if APP_CONFIG['is_sandbox']
+  allowed_roles =SANDBOX_ALLOWED_ROLES
+  else
+  allowed_roles = PRODUCTION_ALLOWED_ROLES
+  end
+  overlap_roles = allowed_roles & session[:roles]
+  if not overlap_roles.length>0
+  render_403
+  end
+  
+  
+  end
 
   # GET /users
   # GET /users.json
