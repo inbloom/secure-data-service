@@ -75,8 +75,8 @@ class UsersController < ApplicationController
     end
   end
   
-  # GET /apps/new
-  # GET /apps/new.json
+  # GET /users/new
+  # GET /users/new.json
   def new
     check = Check.get ""
     @user = User.new
