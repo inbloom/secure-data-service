@@ -97,20 +97,6 @@ public interface RESTClient {
     public abstract Response getRequest(final URL url) throws MalformedURLException, URISyntaxException;
 
     /**
-     * Make a synchronous GET request to a REST service.
-     *
-     * @param sessionToken
-     *            Session token.
-     * @param url
-     *            full URL to the request.
-     * @return ClientResponse containing the status code and return values.
-     * @throws MalformedURLException
-     * @throws URISyntaxException
-     */
-    public abstract Response getRequest(final String sessionToken, final URL url) throws MalformedURLException,
-            URISyntaxException;
-
-    /**
      * Make a synchronous GET request to a REST service. The request includes additional header
      * information.
      *
@@ -128,25 +114,6 @@ public interface RESTClient {
 
 
     /**
-     * Make a synchronous GET request to a REST service. The request includes additional header
-     * information.
-     *
-     * @param sessionToken
-     *            Session token.
-     *
-     * @param url
-     *
-     * @param URL
-     *            Fully qualified URL to the ReSTful resource.
-     * @param headers
-     *            key / value pairs of the headers to attach to the request.
-     * @return ClientResponse containing the status code and return value(s).
-     * @throws URISyntaxException
-     */
-    public abstract Response getRequestWithHeaders(final String sessionToken, final URL url,
-            final Map<String, Object> headers) throws URISyntaxException;
-
-    /**
      * Synchronously post a new entity to the REST service. This corresponds to a create operation.
      *
      * @param url
@@ -159,22 +126,6 @@ public interface RESTClient {
      */
     public abstract Response postRequest(final URL url, final String json) throws URISyntaxException,
             MalformedURLException;
-
-    /**
-     * Synchronously post a new entity to the REST service. This corresponds to a create operation.
-     *
-     * @param sessionToken
-     *            Session token.
-     * @param url
-     *            Fully qualified URL to the ReSTful resource.
-     * @param json
-     *            Json entity to post.
-     * @return ClientResponse containing the status code and return value(s).
-     * @throws URISyntaxException
-     * @throws MalformedURLException
-     */
-    public abstract Response postRequest(final String sessionToken, final URL url, final String json)
-            throws URISyntaxException, MalformedURLException;
 
     /**
      * Synchronously post a new entity to the REST service. This request includes additional header
@@ -195,26 +146,6 @@ public interface RESTClient {
             throws URISyntaxException, MalformedURLException;
 
     /**
-     * Synchronously post a new entity to the REST service. This request includes additional header
-     * information.
-     *
-     * @param sessionToken
-     *            Session token.
-     * @param url
-     *            Fully qualified URL to the ReSTful resource.
-     * @param json
-     *            JSON to post.
-     * @param headers
-     *            key / value pairs of the headers to attach to the request. A key can map
-     *            to multiple values.
-     * @return ClientResponse containing the status code and return value(s).
-     * @throws URISyntaxException
-     * @throws MalformedURLException
-     */
-    public abstract Response postRequestWithHeaders(final String sessionToken, final URL url, final String json,
-            final Map<String, Object> headers) throws URISyntaxException, MalformedURLException;
-
-    /**
      * Synchronous Put request to the REST service. This corresponds to an update operation.
      *
      * @param url
@@ -227,23 +158,6 @@ public interface RESTClient {
      */
     public abstract Response putRequest(final URL url, final String json) throws MalformedURLException,
             URISyntaxException;
-
-    /**
-     * Synchronous Put request to the REST service. This corresponds to an update operation.
-     *
-     * @param sessionToken
-     *            Session token.
-     *
-     * @param url
-     *            Fully qualified URL to the ReSTful resource.
-     * @param json
-     *            JSON of the entity to PUT.
-     * @return ClientResponse containing the status code and return value(s).
-     * @throws MalformedURLException
-     * @throws URISyntaxException
-     */
-    public abstract Response putRequest(final String sessionToken, final URL url, final String json)
-            throws MalformedURLException, URISyntaxException;
 
     /**
      * Synchronous Put request to the REST service. This corresponds to an update operation.
@@ -264,26 +178,6 @@ public interface RESTClient {
             throws MalformedURLException, URISyntaxException;
 
     /**
-     * Synchronous Put request to the REST service. This corresponds to an update operation.
-     * This request includes additional header information.
-     *
-     * @param sessionToken
-     *            Session token.
-     * @param url
-     *            Fully qualified URL to the ReSTful resource.
-     * @param json
-     *            JSON of the entity to PUT.
-     * @param headers
-     *            key / value pairs of the headers to attach to the request. A key can map
-     *            to multiple values.
-     * @return ClientResponse containing the status code and return value(s).
-     * @throws MalformedURLException
-     * @throws URISyntaxException
-     */
-    public abstract Response putRequestWithHeaders(final String sessionToken, final URL url, final String json,
-            final Map<String, Object> headers) throws MalformedURLException, URISyntaxException;
-
-    /**
      * Synchronously delete an existing entity using the REST service.
      *
      * @param url
@@ -293,20 +187,6 @@ public interface RESTClient {
      * @throws URISyntaxException
      */
     public abstract Response deleteRequest(final URL url) throws MalformedURLException, URISyntaxException;
-
-    /**
-     * Synchronously delete an existing entity using the REST service.
-     *
-     * @param sessionToken
-     *            Session token.
-     * @param url
-     *            Fully qualified URL to the ReSTful resource.
-     * @return ClientResponse containing the status code and return value(s).
-     * @throws MalformedURLException
-     * @throws URISyntaxException
-     */
-    public abstract Response deleteRequest(final String sessionToken, final URL url) throws MalformedURLException,
-            URISyntaxException;
 
     /**
      * Synchronously delete an existing entity using the REST service. This request includes
@@ -324,26 +204,6 @@ public interface RESTClient {
      */
     public abstract Response deleteRequestWithHeaders(final URL url, final Map<String, Object> headers)
             throws MalformedURLException, URISyntaxException;
-
-    /**
-     * Synchronously delete an existing entity using the REST service. This request includes
-     * additional header
-     * information.
-     *
-     * @param sessionToken
-     *            Session token.
-     *
-     * @param url
-     *            Fully qualified URL to the ReSTful resource.
-     * @param headers
-     *            key / value pairs of the headers to attach to the request. A key can map
-     *            to multiple values.
-     * @return ClientResponse containing the status code and return value(s).
-     * @throws MalformedURLException
-     * @throws URISyntaxException
-     */
-    public abstract Response deleteRequestWithHeaders(final String sessionToken, final URL url,
-            final Map<String, Object> headers) throws MalformedURLException, URISyntaxException;
 
     /**
      * Get the base URL for all SLI API ReSTful service calls.
