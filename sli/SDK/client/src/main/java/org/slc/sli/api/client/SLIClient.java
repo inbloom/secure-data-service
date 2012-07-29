@@ -19,7 +19,6 @@ package org.slc.sli.api.client;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.List;
 
 import javax.ws.rs.MessageProcessingException;
@@ -70,23 +69,6 @@ public interface SLIClient {
      * @throws IOException
      */
     public abstract String create(final Entity e, String resourceUrl) throws IOException, URISyntaxException, SLIClientException;
-
-    /**
-     * Create operation
-     *
-     * @param sessionToken
-     *            Session token.
-     * @param resourceUrl
-     *            The ReST resource url suffix
-     * @param e
-     *            Entity to create
-     * @return Response to the create request.
-     * @throws MalformedURLException
-     * @throws URISyntaxException
-     */
-    @Deprecated
-    public abstract Response create(final String sessionToken, final String resourceUrl, final Entity e)
-            throws IOException, URISyntaxException;
 
     /**
      * Read operation by ID.
@@ -152,25 +134,6 @@ public interface SLIClient {
             MessageProcessingException, IOException, SLIClientException;
 
     /**
-     * Read operation
-     *
-     * @param sessionToken
-     *            Session token.
-     * @param entities
-     *            Entities returned by the API.
-     * @param resourceUrl
-     *            The ReST resource url suffix
-     * @param entityClass
-     *            Entity class.
-     * @return ClientResponse from the ReST call.
-     * @throws MalformedURLException
-     * @throws URISyntaxException
-     */
-    @Deprecated
-    public abstract Response read(final String sessionToken, List entities, final String resourceUrl,
-            Class<?> entityClass) throws URISyntaxException, MessageProcessingException, IOException;
-
-    /**
      * Update operation
      *
      * @param e
@@ -184,24 +147,7 @@ public interface SLIClient {
     public abstract void update(final Entity e) throws URISyntaxException, MessageProcessingException, IOException,
             SLIClientException;
 
-    /**
-     * Update operation
-     *
-     * @param sessionToken
-     *            Session token.
-     * @param resourceUrl
-     *            The ReST resource url suffix
-     * @param e
-     *            Entity to update.
-     * @return Response to the update request.
-     * @throws MalformedURLException
-     * @throws URISyntaxException
-     */
-    @Deprecated
-    public abstract Response update(final String sessionToken, final String resourceUrl, final Entity e)
-            throws IOException, URISyntaxException;
-
-    /**
+     /**
      * Delete operation
      *
      * @param e
@@ -227,63 +173,11 @@ public interface SLIClient {
     public abstract void delete(Entity e) throws MalformedURLException, URISyntaxException, SLIClientException;
 
     /**
-     * Delete operation
+     * Get a RESTClient for more low level operations
      *
-     * @param sessionToken
-     *            Session token.
-     * @param resourceUrl
-     *            The ReST resource url suffix
-     * @return Response to the delete request.
-     * @throws MalformedURLException
-     * @throws URISyntaxException
+     * @return
      */
-    @Deprecated
-    public abstract Response deleteByToken(final String sessionToken, final String resourceUrl) throws MalformedURLException,
-            URISyntaxException;
-
     public abstract RESTClient getRESTClient();
-
-    //Deprecated
-    /**
-     * Perform a get operation against a generic resource. This is useful when following links
-     * returned by other resources, for example.
-     *
-     * @param entities
-     *            Entities returned by the API in response to this request.
-     * @param resourceURL
-     *            URL to get
-     * @param query
-     *            Query to append to the resource.
-     * @return ClientResponse from the ReST call.
-     *
-     * @throws URISyntaxException
-     * @throws IOException
-     * @throws MessageProcessingException
-     */
-    @Deprecated
-    public abstract Response getResource(List<Entity> entities, URL resourceURL, Query query)
-            throws URISyntaxException, MessageProcessingException, IOException;
-
-    //Deprecated
-    /**
-     * Perform a get operation against a generic resource. This is useful when following links
-     * returned by other resources, for example.
-     *
-     * @param sessionToken
-     *            Session token.
-     * @param entities
-     *            Entities returned by the API in response to this request.
-     * @param restURL
-     *            ReST URL to get
-     * @param entityClass
-     *            Entity class.
-     * @return ClientResponse from the ReST call.
-     * @throws MalformedURLException
-     * @throws URISyntaxException
-     */
-    @Deprecated
-    public abstract Response getResource(final String sessionToken, List entities, final URL restURL,
-            Class<?> entityClass) throws URISyntaxException, MessageProcessingException, IOException;
 
     // Deprecated
     /**
