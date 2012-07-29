@@ -115,6 +115,8 @@ public class DefaultSelectorDocumentTest {
         EntityBody student = results.get(0);
         String studentId = (String) student.get("id");
         assertTrue("Should be true", student.containsKey("StudentSectionAssociation"));
+        assertTrue("Should be true", student.containsKey("name"));
+        assertEquals("Should match", 3, student.keySet().size());
 
         List<EntityBody> studentSectionAssociationList = (List<EntityBody>) student.get("StudentSectionAssociation");
         assertEquals("Should match", 2, studentSectionAssociationList.size());
@@ -123,12 +125,16 @@ public class DefaultSelectorDocumentTest {
         String sectionId = (String) studentSectionAssociation.get("sectionId");
         assertEquals("Should match", studentId, studentSectionAssociation.get("studentId"));
         assertTrue("Should be true", studentSectionAssociation.containsKey("Section"));
+        assertTrue("Should be true", studentSectionAssociation.containsKey("sectionId"));
+        assertEquals("Should match", 4, studentSectionAssociation.keySet().size());
 
         List<EntityBody> sectionList = (List<EntityBody>) studentSectionAssociation.get("Section");
         assertEquals("Should match", 1, sectionList.size());
 
         EntityBody section = sectionList.get(0);
         assertEquals("Should match", sectionId, section.get("id"));
+        assertTrue("Should be true", section.containsKey("sectionName"));
+        assertEquals("Should match", 2, section.keySet().size());
     }
 
     @Test
@@ -148,14 +154,13 @@ public class DefaultSelectorDocumentTest {
         assertEquals("Should match", 2, results.size());
 
         EntityBody section = results.get(0);
-        String sessionId = (String) section.get("sessionId");
         assertTrue("Should be true", section.containsKey("Session"));
 
         List<EntityBody> sessionList = (List<EntityBody>) section.get("Session");
         assertEquals("Should match", 1, sessionList.size());
 
         EntityBody session = sessionList.get(0);
-        assertEquals("Should match", sessionId, session.get("id"));
+        assertTrue("Should be true", session.containsKey("sessionName"));
     }
 
     private Map<Type, SelectorQueryPlan> createQueryPlan(String type, SelectorQueryPlan queryPlan) {
@@ -169,11 +174,11 @@ public class DefaultSelectorDocumentTest {
     private SelectorQueryPlan getSelectorQueryPlan() {
         SelectorQueryPlan plan = new SelectorQueryPlan();
         NeutralQuery query = new NeutralQuery();
-        query.setIncludeFields("name");
 
         List<Object> childQueries = getChildQueries();
 
         plan.setQuery(query);
+        plan.getIncludeFields().add("name");
         plan.getChildQueryPlans().addAll(childQueries);
 
         return plan;
@@ -183,12 +188,12 @@ public class DefaultSelectorDocumentTest {
         List<Object> list = new ArrayList<Object>();
 
         NeutralQuery query = new NeutralQuery();
-        query.setIncludeFields("sectionId");
 
         List<Object> childQueries = getLevel3ChildQueries();
 
         SelectorQueryPlan plan = new SelectorQueryPlan();
         plan.setQuery(query);
+        plan.getIncludeFields().add("sectionId");
         plan.getChildQueryPlans().addAll(childQueries);
 
         Map<Type, SelectorQueryPlan> map = new HashMap<Type, SelectorQueryPlan>();
@@ -203,10 +208,10 @@ public class DefaultSelectorDocumentTest {
         List<Object> list = new ArrayList<Object>();
 
         NeutralQuery query = new NeutralQuery();
-        query.setIncludeFields("sectionName");
 
         SelectorQueryPlan plan = new SelectorQueryPlan();
         plan.setQuery(query);
+        plan.getIncludeFields().add("sectionName");
 
         Map<Type, SelectorQueryPlan> map = new HashMap<Type, SelectorQueryPlan>();
         map.put(provider.getClassType("Section"), plan);
@@ -232,10 +237,10 @@ public class DefaultSelectorDocumentTest {
         List<Object> list = new ArrayList<Object>();
 
         NeutralQuery query = new NeutralQuery();
-        query.setIncludeFields("sessionName");
 
         SelectorQueryPlan plan = new SelectorQueryPlan();
         plan.setQuery(query);
+        plan.getIncludeFields().add("sessionName");
 
         Map<Type, SelectorQueryPlan> map = new HashMap<Type, SelectorQueryPlan>();
         map.put(provider.getClassType("Session"), plan);

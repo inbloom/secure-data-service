@@ -55,6 +55,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
             if (!previousEntities.isEmpty() && previousType != null) {
                 String key = getKey(currentType, previousType);
                 constraint.setKey(key);
+                plan.getIncludeFields().add(key);
 
                 String extractKey = getExtractionKey(currentType, previousType);
                 List<String> ids = extractIds(previousEntities, extractKey);
@@ -70,19 +71,56 @@ public class DefaultSelectorDocument implements SelectorDocument {
                 List<EntityBody> list = executeQueryPlan((Map<Type, SelectorQueryPlan>) obj, constraint, (List<EntityBody>) entities, types);
 
                 //update the entity results
-                results = updateEntityList(results, list, types, currentType);
+                results = updateEntityList(plan, results, list, types, currentType);
             }
+
+            results = filterFields(results, plan);
         }
 
         return results;
     }
 
-    protected List<EntityBody> updateEntityList(List<EntityBody> results, List<EntityBody> entityList,
+    protected List<EntityBody> filterFields(List<EntityBody> results, SelectorQueryPlan plan) {
+        List<EntityBody> ret = new ArrayList<EntityBody>();
+
+        if (!plan.getExcludeFields().isEmpty()) {
+            for (EntityBody body : results) {
+                EntityBody newBody = new EntityBody();
+
+                for (String key : body.keySet()) {
+                    if (!plan.getExcludeFields().contains(key) && body.containsKey(key)) {
+                        newBody.put(key, body.get(key));
+                    }
+                }
+                newBody.put("id", body.get("id"));
+                ret.add(newBody);
+            }
+        } else if (!plan.getIncludeFields().isEmpty()) {
+            for (EntityBody body : results) {
+                EntityBody newBody = new EntityBody();
+
+                for (String include : plan.getIncludeFields()) {
+                    if (body.containsKey(include)) {
+                        newBody.put(include, body.get(include));
+                    }
+                }
+                newBody.put("id", body.get("id"));
+                ret.add(newBody);
+            }
+        }
+
+        return ret;
+    }
+
+    protected List<EntityBody> updateEntityList(SelectorQueryPlan plan, List<EntityBody> results, List<EntityBody> entityList,
                                                 Stack<Type> types, Type currentType) {
         Type nextType = types.pop();
         String extractionKey = getExtractionKey(nextType, currentType);
         String key = getKey(nextType, currentType);
         key = key.equals("_id") ? "id" : key;
+
+        //make sure we save the field we just added
+        plan.getIncludeFields().add(nextType.getName());
 
         for (EntityBody body : results) {
             String id = (String) body.get(extractionKey);

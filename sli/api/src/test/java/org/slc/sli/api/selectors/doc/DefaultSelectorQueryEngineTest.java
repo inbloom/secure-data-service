@@ -60,8 +60,8 @@ public class DefaultSelectorQueryEngineTest {
         assertNotNull("Should not be null", plan.getQuery());
         assertEquals("Should match", 2, plan.getChildQueryPlans().size());
 
-        NeutralQuery query = plan.getQuery();
-        assertEquals("Should match", "name,economicDisadvantaged", query.getIncludeFields());
+        //NeutralQuery query = plan.getQuery();
+        assertEquals("Should match", 2, plan.getIncludeFields().size());
     }
 
     @Test
@@ -69,10 +69,6 @@ public class DefaultSelectorQueryEngineTest {
         SemanticSelector selectorsWithType =  generateIncludeAllSelectorObjectMap();
         ClassType studentType = provider.getClassType("Student");
         ClassType studentSchoolAssocicationType = provider.getClassType("schoolAssociations<=>student");
-
-        List<String> ids = new ArrayList<String>();
-        ids.add("1234");
-        Constraint constraint = new Constraint("id", ids);
 
         Map<Type, SelectorQueryPlan> queryPlan = defaultSelectorQueryEngine.assembleQueryPlan(selectorsWithType);
 

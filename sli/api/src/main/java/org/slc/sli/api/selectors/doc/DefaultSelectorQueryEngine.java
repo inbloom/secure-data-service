@@ -48,9 +48,13 @@ public class DefaultSelectorQueryEngine implements SelectorQueryEngine, Selector
 
             if (queries.containsKey(type)) {
                 queries.get(type).setQuery(neutralQuery);
+                queries.get(type).getIncludeFields().addAll(selectorQuery.getIncludeFields());
+                queries.get(type).getExcludeFields().addAll(selectorQuery.getExcludeFields());
             } else {
                 SelectorQueryPlan plan = new SelectorQueryPlan();
                 plan.setQuery(neutralQuery);
+                plan.getIncludeFields().addAll(selectorQuery.getIncludeFields());
+                plan.getExcludeFields().addAll(selectorQuery.getExcludeFields());
 
                 queries.put(type, plan);
             }
@@ -63,12 +67,12 @@ public class DefaultSelectorQueryEngine implements SelectorQueryEngine, Selector
     protected NeutralQuery buildQuery(SelectorQuery selectorQuery) {
         NeutralQuery query = new NeutralQuery();
 
-        if (!selectorQuery.getIncludeFields().isEmpty()) {
-            query.setIncludeFields(StringUtils.join(selectorQuery.getIncludeFields().iterator(), ","));
-        }
-        if (!selectorQuery.getExcludeFields().isEmpty()) {
-            query.setExcludeFields(StringUtils.join(selectorQuery.getExcludeFields().iterator(), ","));
-        }
+//        if (!selectorQuery.getIncludeFields().isEmpty()) {
+//            query.setIncludeFields(StringUtils.join(selectorQuery.getIncludeFields().iterator(), ","));
+//        }
+//        if (!selectorQuery.getExcludeFields().isEmpty()) {
+//            query.setExcludeFields(StringUtils.join(selectorQuery.getExcludeFields().iterator(), ","));
+//        }
 
         return query;
     }
