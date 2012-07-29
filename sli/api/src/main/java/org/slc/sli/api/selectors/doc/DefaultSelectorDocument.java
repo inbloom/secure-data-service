@@ -39,6 +39,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
         return entityDefs.lookupByEntityType(StringUtils.uncapitalise(type.getName()));
     }
 
+
     protected List<EntityBody> executeQueryPlan(Map<Type, SelectorQueryPlan> queryPlan, Constraint constraint,
                                           List<EntityBody> previousEntities, Stack<Type> types) {
         List<EntityBody> results = new ArrayList<EntityBody>();
@@ -93,6 +94,12 @@ public class DefaultSelectorDocument implements SelectorDocument {
         return results;
     }
 
+    protected String getExposeName(Type type) {
+        EntityDefinition def = getEntityDefinition(type);
+
+        return def.getResourceName();
+    }
+
     protected String getExtractionKey(Type currentType, Type previousType) {
         String key = "id";
         ClassType currentClassType = modelProvider.getClassType(currentType.getName());
@@ -102,13 +109,15 @@ public class DefaultSelectorDocument implements SelectorDocument {
             key = "id";
         } else if (previousClassType.isAssociation() && currentClassType.isClassType()) {
             key = StringUtils.uncapitalise(currentClassType.getName()) + "Id";
+        } else if (previousClassType.isClassType() && currentClassType.isClassType()) {
+            key = StringUtils.uncapitalise(currentClassType.getName()) + "Id";
         }
 
         return key;
     }
 
     protected String getKey(Type currentType, Type previousType) {
-        String key = "id";
+        String key = "_id";
         ClassType currentClassType = modelProvider.getClassType(currentType.getName());
         ClassType previousClassType = modelProvider.getClassType(previousType.getName());
 

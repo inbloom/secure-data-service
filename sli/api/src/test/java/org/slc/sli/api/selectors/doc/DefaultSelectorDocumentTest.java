@@ -59,7 +59,9 @@ public class DefaultSelectorDocumentTest {
 
     private Entity student1;
     private Entity student2;
-
+    private Entity section1;
+    private Entity section2;
+    private Entity section3;
 
     @Before
     public void setup() {
@@ -71,9 +73,13 @@ public class DefaultSelectorDocumentTest {
         student1 = repo.create("student", createStudentEntity("1234"));
         student2 = repo.create("student", createStudentEntity("5678"));
 
-        Entity section1 = repo.create("section", createSectionEntity("Math 1"));
-        Entity section2 = repo.create("section", createSectionEntity("English 1"));
-        Entity section3 = repo.create("section", createSectionEntity("English 2"));
+        Entity session1 = repo.create("session", createSessionEntity("Fall 2011"));
+        Entity session2 = repo.create("session", createSessionEntity("Spring 2011"));
+        Entity session3 = repo.create("session", createSessionEntity("Fall 2012"));
+
+        section1 = repo.create("section", createSectionEntity("Math 1", session1.getEntityId()));
+        section2 = repo.create("section", createSectionEntity("English 1", session2.getEntityId()));
+        section3 = repo.create("section", createSectionEntity("English 2", session3.getEntityId()));
 
         repo.create("studentSectionAssociation", createStudentSectionAssociationEntity(student1.getEntityId(),
                 section1.getEntityId()));
@@ -101,7 +107,8 @@ public class DefaultSelectorDocumentTest {
         constraint.setKey("_id");
         constraint.setValue(ids);
 
-        List<EntityBody> results = defaultSelectorDocument.aggregate(createQueryPlan(), constraint);
+        List<EntityBody> results = defaultSelectorDocument.aggregate(createQueryPlan("Student",
+                getSelectorQueryPlan()), constraint);
         assertNotNull("Should not be null", results);
         assertEquals("Should match", 2, results.size());
 
@@ -124,10 +131,37 @@ public class DefaultSelectorDocumentTest {
         assertEquals("Should match", sectionId, section.get("id"));
     }
 
-    private Map<Type, SelectorQueryPlan> createQueryPlan() {
+    @Test
+    public void testDirectReferenceQueryPlan() {
+        List<String> ids = new ArrayList<String>();
+        ids.add(section1.getEntityId());
+        ids.add(section2.getEntityId());
+
+        Constraint constraint = new Constraint();
+        constraint.setKey("_id");
+        constraint.setValue(ids);
+
+        List<EntityBody> results = defaultSelectorDocument.aggregate(createQueryPlan("Section",
+                getDirectRefQueryPlan()), constraint);
+
+        assertNotNull("Should not be null", results);
+        assertEquals("Should match", 2, results.size());
+
+        EntityBody section = results.get(0);
+        String sessionId = (String) section.get("sessionId");
+        assertTrue("Should be true", section.containsKey("Session"));
+
+        List<EntityBody> sessionList = (List<EntityBody>) section.get("Session");
+        assertEquals("Should match", 1, sessionList.size());
+
+        EntityBody session = sessionList.get(0);
+        assertEquals("Should match", sessionId, session.get("id"));
+    }
+
+    private Map<Type, SelectorQueryPlan> createQueryPlan(String type, SelectorQueryPlan queryPlan) {
         Map<Type, SelectorQueryPlan> result = new HashMap<Type, SelectorQueryPlan>();
 
-        result.put(provider.getClassType("Student"), getSelectorQueryPlan());
+        result.put(provider.getClassType(type), queryPlan);
 
         return result;
     }
@@ -182,6 +216,35 @@ public class DefaultSelectorDocumentTest {
         return list;
     }
 
+    private SelectorQueryPlan getDirectRefQueryPlan() {
+        SelectorQueryPlan plan = new SelectorQueryPlan();
+        NeutralQuery query = new NeutralQuery();
+
+        List<Object> childQueries = getDirectRefChildQueries();
+
+        plan.setQuery(query);
+        plan.getChildQueryPlans().addAll(childQueries);
+
+        return plan;
+    }
+
+    private List<Object> getDirectRefChildQueries() {
+        List<Object> list = new ArrayList<Object>();
+
+        NeutralQuery query = new NeutralQuery();
+        query.setIncludeFields("sessionName");
+
+        SelectorQueryPlan plan = new SelectorQueryPlan();
+        plan.setQuery(query);
+
+        Map<Type, SelectorQueryPlan> map = new HashMap<Type, SelectorQueryPlan>();
+        map.put(provider.getClassType("Session"), plan);
+
+        list.add(map);
+
+        return list;
+    }
+
     private EntityBody createStudentEntity(String studentUniqueStateId) {
         EntityBody entity = new EntityBody();
         entity.put("name", "somename");
@@ -190,10 +253,11 @@ public class DefaultSelectorDocumentTest {
         return entity;
     }
 
-    private EntityBody createSectionEntity(String sectionName) {
+    private EntityBody createSectionEntity(String sectionName, String sessionId) {
         EntityBody entity = new EntityBody();
         entity.put("field", 1);
         entity.put("sectionName", sectionName);
+        entity.put("sessionId", sessionId);
 
         return entity;
     }
@@ -202,6 +266,14 @@ public class DefaultSelectorDocumentTest {
         EntityBody entity = new EntityBody();
         entity.put("studentId", studentId);
         entity.put("sectionId", sectionId);
+
+        return entity;
+    }
+
+    private EntityBody createSessionEntity(String sessionName) {
+        EntityBody entity = new EntityBody();
+        entity.put("field", 1);
+        entity.put("sessionName", sessionName);
 
         return entity;
     }
