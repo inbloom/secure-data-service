@@ -26,6 +26,7 @@ class UsersController < ApplicationController
   SLC_OPERATOR = "SLC Operator"
   SEA_ADMINISTRATOR = "SEA Administrator"
   LEA_ADMINISTRATOR = "LEA Administrator"
+  REALM_ADMINISTRATOR ="Realm Administrator"
   SANDBOX_ALLOWED_ROLES = [SANDBOX_ADMINISTRATOR]
   PRODUCTION_ALLOWED_ROLES = [SLC_OPERATOR, SEA_ADMINISTRATOR, LEA_ADMINISTRATOR]
   
@@ -209,7 +210,11 @@ class UsersController < ApplicationController
     @user.lastName = params[:user][:lastName]
     @user.lastName = " " if @user.lastName==""
     @user.email = params[:user][:email]
+    if APP_CONFIG['is_sandbox'] ||  !is_operator?
     @user.tenant = check["tenantId"]
+    else
+      @user.tenant = params[:user][:tenant]
+    end
     @user.edorg = params[:user][:edorg]
    
     @user.groups = groups
@@ -231,16 +236,31 @@ class UsersController < ApplicationController
     @loginUserId=check["external_id"]
   end
   
+  def is_login_operator
+    @is_operator = is_operator?
+  end
+  
   def set_edorg_options
     check = Check.get ""
      @edorgs = {"(optional)" => "", "" => "" ,check["edOrg"] => check["edOrg"]}
   end
   
   def set_role_options
+    if APP_CONFIG['is_sandbox']
     @sandbox_roles ={SANDBOX_ADMINISTRATOR => SANDBOX_ADMINISTRATOR, APPLICATION_DEVELOPER => APPLICATION_DEVELOPER, INGESTION_USER => INGESTION_USER } 
+    elsif is_operator?
+    @production_roles={SLC_OPERATOR => SLC_OPERATOR, SEA_ADMINISTRATOR => SEA_ADMINISTRATOR, LEA_ADMINISTRATOR => LEA_ADMINISTRATOR, INGESTION_USER => INGESTION_USER, REALM_ADMINISTRATOR => REALM_ADMINISTRATOR }
+    
+    elsif is_sea_admin?
+       @production_roles={SEA_ADMINISTRATOR => SEA_ADMINISTRATOR, LEA_ADMINISTRATOR => LEA_ADMINISTRATOR, INGESTION_USER => INGESTION_USER, REALM_ADMINISTRATOR => REALM_ADMINISTRATOR }
+     elsif is_lea_admin?
+       @production_roles={LEA_ADMINISTRATOR => LEA_ADMINISTRATOR, INGESTION_USER => INGESTION_USER, REALM_ADMINISTRATOR => REALM_ADMINISTRATOR }
+
+    end 
   end
   
   def set_roles
+    if APP_CONFIG['is_sandbox']
     if @user.groups.include?(SANDBOX_ADMINISTRATOR)
        @user.primary_role = SANDBOX_ADMINISTRATOR
        if @user.groups.include?(APPLICATION_DEVELOPER)
@@ -257,6 +277,42 @@ class UsersController < ApplicationController
      elsif @user.groups.include?(INGESTION_USER)
        @user.primary_role = INGESTION_USER
      end
+     else
+       overlap_group = @user.groups & [SLC_OPERATOR, SEA_ADMINISTRATOR, LEA_ADMINISTRATOR]
+       if overlap_group.length == 0 && @user.groups.include?(INGESTION_USER)
+         @user.primary_role = INGESTION_USER
+         if@user.groups.include?(REALM_ADMINISTRATOR)
+           @user.optional_role_2 = REALM_ADMINISTRATOR
+         end
+        elsif overlap_group.length == 0 && @user.groups.include?(REALM_ADMINISTRATOR)
+          @user.primary_role = REALM_ADMINISTRATOR
+        elsif overlap_group.length == 1 && @user.groups.include?(SLC_OPERATOR)
+          @user.primary_role = SLC_OPERATOR
+           if@user.groups.include?(INGESTION_USER)
+           @user.optional_role_1 = INGESTION_USER
+           end
+          if@user.groups.include?(REALM_ADMINISTRATOR)
+           @user.optional_role_2 = REALM_ADMINISTRATOR
+           end
+         elsif overlap_group.length == 1 && @user.groups.include?(SEA_ADMINISTRATOR)
+          @user.primary_role = SEA_ADMINISTRATOR
+           if@user.groups.include?(INGESTION_USER)
+           @user.optional_role_1 = INGESTION_USER
+           end
+          if@user.groups.include?(REALM_ADMINISTRATOR)
+           @user.optional_role_2 = REALM_ADMINISTRATOR
+           end
+          elsif overlap_group.length == 1 && @user.groups.include?(LEA_ADMINISTRATOR)
+          @user.primary_role = LEA_ADMINISTRATOR
+           if@user.groups.include?(INGESTION_USER)
+           @user.optional_role_1 = INGESTION_USER
+           end
+          if@user.groups.include?(REALM_ADMINISTRATOR)
+           @user.optional_role_2 = REALM_ADMINISTRATOR
+           end
+          
+       end
+       end
     
   end
   
