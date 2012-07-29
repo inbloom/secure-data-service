@@ -51,13 +51,15 @@
 	<div class="controls">
 	<label class="checkbox">
 	<% @role1_checked = true if user.optional_role_1=="Application Developer" %>
-	<%= f.check_box :optional_role_1,{:id=> "application_developer_role",:checked => @role1_checked},"Application Developer" %>Application Developer
+	<% @role1_disabled = true if user.primary_role == "Application Developer"%>
+	<%= f.check_box :optional_role_1,{:id=> "application_developer_role",:checked => @role1_checked,:disabled=>@role1_disabled},"Application Developer" %>Application Developer
 	</label>
 	</div>
 	<div class="controls">
 	<label class="checkbox">
 		<% @role2_checked = true if user.optional_role_2=="Ingestion User" %>
-	<%= f.check_box :optional_role_2,{:id=>"ingestion_user_role",:checked => @role2_checked},"Ingestion User" %>Ingestion User
+		<% @role2_disabled = true if user.primary_role == "Ingestion User"%>
+	<%= f.check_box :optional_role_2,{:id=>"ingestion_user_role",:checked => @role2_checked,:disabled=>@role2_disabled},"Ingestion User" %>Ingestion User
 	</label>
 	</div>
 	
