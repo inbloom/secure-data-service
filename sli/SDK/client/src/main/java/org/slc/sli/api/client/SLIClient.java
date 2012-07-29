@@ -50,10 +50,12 @@ public interface SLIClient {
      *
      * @param e
      *            Entity to create
-     * @return Response to the update request.
+     * @return The id of the created entity
      *
      * @throws URISyntaxException
      * @throws IOException
+     * @throws SLIClientException
+     *             thrown if the back end API was not able to process the create
      */
     public abstract String create(final Entity e) throws IOException, URISyntaxException, SLIClientException;
 
@@ -62,13 +64,17 @@ public interface SLIClient {
      *
      * @param e
      *            Entity to create
-     * @param resourceUrl the url to post on
-     * @return Response to the update request.
+     * @param resourceUrl
+     *            the url to post on
+     * @return The id of the created entity
      *
      * @throws URISyntaxException
      * @throws IOException
+     * @throws SLIClientException
+     *             thrown if the back end API was not able to process the create
      */
-    public abstract String create(final Entity e, String resourceUrl) throws IOException, URISyntaxException, SLIClientException;
+    public abstract String create(final Entity e, String resourceUrl) throws IOException, URISyntaxException,
+            SLIClientException;
 
     /**
      * Read operation by ID.
@@ -81,12 +87,12 @@ public interface SLIClient {
      *            The ID of the entity to read.
      * @param query
      *            Query parameters.
-     * @return ClientResponse from the ReST call.
      *
      * @throws URISyntaxException
      * @throws IOException
      * @throws MessageProcessingException
      * @throws SLIClientException
+     *             thrown if the back end API was not able to process the read
      */
     public abstract void read(List<Entity> entities, final String type, final String id, final Query query)
             throws URISyntaxException, MessageProcessingException, IOException, SLIClientException;
@@ -100,11 +106,12 @@ public interface SLIClient {
      *            The type of entity
      * @param query
      *            Query parameters.
-     * @return ClientResponse from the ReST call.
      *
      * @throws URISyntaxException
      * @throws IOException
      * @throws MessageProcessingException
+     * @throws SLIClientException
+     *             thrown if the back end API was not able to process the read
      */
     public abstract void read(List<Entity> entities, final String type, final Query query) throws URISyntaxException,
             MessageProcessingException, IOException, SLIClientException;
@@ -113,22 +120,28 @@ public interface SLIClient {
      * Read operation
      *
      * @param resourceUrl
-     *            The ReST resource url suffix
-     * @return ClientResponse from the ReST call.
+     *            The ReST resource url or url suffix
+     * @return The entities that were read
      * @throws MalformedURLException
      * @throws URISyntaxException
+     * @throws SLIClientException
+     *             thrown if the back end API was not able to process the read
      */
-    public abstract List<Entity> read(final String resourceUrl) throws URISyntaxException,
-            MessageProcessingException, IOException, SLIClientException;
+    public abstract List<Entity> read(final String resourceUrl) throws URISyntaxException, MessageProcessingException,
+            IOException, SLIClientException;
 
     /**
      * Read operation
      *
      * @param resourceUrl
-     *            The ReST resource url suffix
-     * @return ClientResponse from the ReST call.
+     *            The ReST resource url or url suffix
+     * @param query
+     *            Query parameters.
+     * @return The entities that were read
      * @throws MalformedURLException
      * @throws URISyntaxException
+     * @throws SLIClientException
+     *             thrown if the back end API was not able to process the read
      */
     public abstract List<Entity> read(final String resourceUrl, Query query) throws URISyntaxException,
             MessageProcessingException, IOException, SLIClientException;
@@ -138,24 +151,27 @@ public interface SLIClient {
      *
      * @param e
      *            Entity to update.
-     * @return Response to the update request.
      *
      * @throws URISyntaxException
      * @throws IOException
      * @throws MessageProcessingException
+     * @throws SLIClientException
+     *             thrown if the back end API was not able to process the update
      */
     public abstract void update(final Entity e) throws URISyntaxException, MessageProcessingException, IOException,
             SLIClientException;
 
-     /**
+    /**
      * Delete operation
      *
-     * @param e
-     *            Entity to delete
-     * @return Response to the delete request.
-     *
+     * @param entityType
+     *            the type of the entity
+     * @param entityId
+     *            the id of the entity
      * @throws MalformedURLException
      * @throws URISyntaxException
+     * @throws SLIClientException
+     *             thrown if the back end API was not able to process the update
      */
     public abstract void delete(final String entityType, final String entityId) throws MalformedURLException,
             URISyntaxException, SLIClientException;
@@ -165,10 +181,11 @@ public interface SLIClient {
      *
      * @param e
      *            Entity to delete
-     * @return Response to the delete request.
      *
      * @throws MalformedURLException
      * @throws URISyntaxException
+     * @throws SLIClientException
+     *             thrown if the back end API was not able to process the update
      */
     public abstract void delete(Entity e) throws MalformedURLException, URISyntaxException, SLIClientException;
 

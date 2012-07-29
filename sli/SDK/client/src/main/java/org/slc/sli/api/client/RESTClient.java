@@ -40,21 +40,12 @@ public interface RESTClient {
      * If the code is invalid, an exception is thrown.
      *
      * @requestCode Code provided to the callbackURL by the IDP.
-     * @param authorizationToken
-     *         Authorization token for the authenticated user, or null if authentication fails.
+     * @param authorizationCode
+     *            Authorization request code returned by oauth to the callbackURL.
      * @return HTTP Response to the request.
      * @throws OAuthException
      * @throws MalformedURLException
      * @throws URISyntaxException
-     */
-
-
-    /**
-     * Connect to the IDP and redirect to the callback URL.
-     *
-     * @param authorizationCode
-     *            Authorization request code returned by oauth to the callbackURL.
-     * @return Response containing the status code, headers, and body values.
      */
     public abstract Response connect(final String authorizationCode)
             throws OAuthException, MalformedURLException, URISyntaxException;
@@ -62,7 +53,7 @@ public interface RESTClient {
     /**
      * Connect to the API with a pre authorized token
      *
-     * @param sessionToken
+     * @param sessionToken authorized session token
      */
     public void connectWithToken(final String sessionToken);
 
@@ -77,8 +68,6 @@ public interface RESTClient {
      *
      * @param token
      *            SAML token or null.
-     * @param redirectUrl
-     *            The redirect URL after a successful authentication - set by the Security API.
      * @return String containing the authentication token.
      * @throws URISyntaxException
      * @throws IOException
@@ -101,8 +90,6 @@ public interface RESTClient {
      * information.
      *
      * @param url
-     *
-     * @param URL
      *            Fully qualified URL to the ReSTful resource.
      * @param headers
      *            key / value pairs of the headers to attach to the request.
