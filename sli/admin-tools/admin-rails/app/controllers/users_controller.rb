@@ -23,8 +23,11 @@ class UsersController < ApplicationController
   SANDBOX_ADMINISTRATOR = "Sandbox Administrator"
   APPLICATION_DEVELOPER = "Application Developer"
   INGESTION_USER = "Ingestion User"
-  SANDBOX_ALLOWED_ROLES = ["Sandbox Administrator"]
-  PRODUCTION_ALLOWED_ROLES = ["SLC Operator", "SEA Administrator", "LEA Administrator"]
+  SLC_OPERATOR = "SLC Operator"
+  SEA_ADMINISTRATOR = "SEA Administrator"
+  LEA_ADMINISTRATOR = "LEA Administrator"
+  SANDBOX_ALLOWED_ROLES = [SANDBOX_ADMINISTRATOR]
+  PRODUCTION_ALLOWED_ROLES = [SLC_OPERATOR, SEA_ADMINISTRATOR, LEA_ADMINISTRATOR]
   
   before_filter :check_rights
   
@@ -71,7 +74,8 @@ class UsersController < ApplicationController
     get_login_id
     respond_to do |format|
     #format.js
-    format.html {render "index"}
+    flash[:notice]="Success! You have deleted the user"
+    format.html {render "index" }
     end
   end
   
@@ -117,7 +121,8 @@ class UsersController < ApplicationController
          set_roles
          format.html {render "new"}
        else
-        format.html { redirect_to "/users", notice: 'Success! You have added a new user' } 
+         flash[:notice]= 'Success! You have added a new user'
+        format.html { redirect_to "/users" } 
        end
      end
     
@@ -184,7 +189,8 @@ class UsersController < ApplicationController
          set_roles
          format.html { render "edit"}
        else
-        format.html { redirect_to "/users", notice: 'Success! You have updated the user' }
+         flash[:notice]='Success! You have updated the user'
+        format.html { redirect_to "/users" }
         end
      end
   end
@@ -231,7 +237,7 @@ class UsersController < ApplicationController
   end
   
   def set_role_options
-    @sandbox_roles ={"Sandbox Administrator" => "Sandbox Administrator", "Application Developer" => "Application Developer", "Ingestion User" => "Ingestion User"} 
+    @sandbox_roles ={SANDBOX_ADMINISTRATOR => SANDBOX_ADMINISTRATOR, APPLICATION_DEVELOPER => APPLICATION_DEVELOPER, INGESTION_USER => INGESTION_USER } 
   end
   
   def set_roles

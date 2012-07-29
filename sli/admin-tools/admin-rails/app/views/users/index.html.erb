@@ -13,8 +13,9 @@
     <%= text_field_tag :search, params[:search] %>
     <%= submit_tag "Search", :name => nil %>
   </p>
-  
-<p id="notice"><%= notice %></p>
+<% if flash[:notice]%>  
+<p id="notice"><%= flash[:notice] %></p>
+<%end%>
 
 <table id="Users_Management_Table" class="table table-striped">
   <thead>
