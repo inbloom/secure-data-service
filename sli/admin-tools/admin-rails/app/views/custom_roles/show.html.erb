@@ -8,5 +8,5 @@
 <div class="page-header">
 <h1>Custom Roles for <%= @custom_roles.realm_name %> </h1>
 </div>
-<%= render :partial => 'form', :locals => {:roles => @custom_roles} %>
+<%= render :partial => 'form', :locals => {:roles => @custom_roles, :default_roles => @default_roles} %>
 </div>

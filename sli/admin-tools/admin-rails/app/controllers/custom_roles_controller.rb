@@ -37,6 +37,7 @@ class CustomRolesController < ApplicationController
   # # GET /realms/1/
    def show
      @custom_roles = CustomRole.find(params[:id])
+     @default_roles = CustomRole.defaults()
    end
 
   # # PUT /realms/1
@@ -47,7 +48,6 @@ class CustomRolesController < ApplicationController
        errorMsg = ""
        begin
          @custom_roles.roles = params[:json]
-puts params[:json]
          success =  @custom_roles.save()
        rescue ActiveResource::BadRequest => error
          errorMsg = error.response.body

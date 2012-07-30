@@ -3,7 +3,7 @@ editRowIndex = -1 #last row that was clicked on
 defaultRights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "AGGREGATE_WRITE"]
 
 jQuery ->
-  populateTable()
+  populateTable(roles)
 
   $("#custom_roles tr:gt(0)").mouseenter -> rowMouseEnter($(@))
 
@@ -47,10 +47,16 @@ jQuery ->
     newRow = $("<tr><td><div></div></td><td></td><td></td></tr>")
     $("#custom_roles tbody").append(newRow)
     newRow.mouseenter -> rowMouseEnter(newRow)
-    lastRow = $("#custom_roles tbody").children().index(newRow) + 1
+    lastRow = newRow.parent().children().index(newRow) + 1
     editRowIndex = lastRow
     drawEditBox(newRow)
     editRow(lastRow)
+
+  #Wire up reset to defaults
+  $("#resetToDefaultsButton").click ->
+    if (confirm("Resetting to defaults will delete any existing role mappings and cannot be undone.  Are you sure you want to reset?"))
+      populateTable(default_roles)
+      saveData(getJsonData())
 
   $("#addRoleUi button").click ->
     td = $("#custom_roles tr:eq(" + editRowIndex + ") td:eq(1)")
@@ -76,7 +82,7 @@ drawEditBox = (row) ->
   xPos = row.position().left + row.width()
   yPos = row.position().top
   $(".rowEditTool").show()
-  $(".rowEditTool").height(row.height())
+  #$(".rowEditTool").height(row.height())
   $(".rowEditTool").offset({top: yPos, left: xPos})
 
 createLabel = (type, name) ->
@@ -155,8 +161,7 @@ wrapInputWithDeleteButton = (input, type) ->
 
 editRowStop = () ->
   $("#addGroupButton").removeClass("disabled")
-  $(".editButtons").show()
-  $(".saveButtons").hide()
+  $("#rowEditToolSaveButton").addClass("disabled") #disable until we get ajax success
 
   #Move the components back to their original location
   $("#addRoleUi").hide()
@@ -180,13 +185,17 @@ editRowStop = () ->
   editRowIndex = -1
 
 saveData = (json) ->
+  #Remove any errors from the last save
+  $(".error").remove()
   $.ajax UPDATE_URL,
     type: 'PUT'
     contentType: 'application/json'
     data: JSON.stringify({json})
     dataType: 'json'
     success: (data, status, xhr) ->
-      console.log("success", data, status, xhr)
+      $("#rowEditToolSaveButton").removeClass("disabled")
+      $(".editButtons").show()
+      $(".saveButtons").hide()
     error: (data, status, xhr) ->
       console.log("error", data, status, xhr)
       window.location.reload(true);
@@ -224,8 +233,9 @@ getAllRoles = () ->
       roles.push($(@).text())
   return roles
 
-populateTable = () ->
-  for role in roles
+populateTable = (data) ->
+  $("#custom_roles tbody").children().remove()
+  for role in data 
     newRow = $("<tr><td><div></div></td><td></td><td></td></tr>")
     newRow.mouseenter -> rowMouseEnter(newRow)
     $("#custom_roles tbody").append(newRow)
