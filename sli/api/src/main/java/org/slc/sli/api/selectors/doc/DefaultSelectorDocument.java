@@ -62,6 +62,9 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
                 String extractKey = getExtractionKey(currentType, previousType);
                 List<String> ids = extractIds(previousEntities, extractKey);
+
+                //if (ids == null) return results;
+
                 constraint.setValue(ids);
             }
 
@@ -149,7 +152,10 @@ public class DefaultSelectorDocument implements SelectorDocument {
             String id = (String) body.get(extractionKey);
 
             List<EntityBody> subList = getEntitySubList(entityList, key, id);
-            body.put(exposeName, subList);
+
+            if (!subList.isEmpty()) {
+                body.put(exposeName, subList);
+            }
         }
 
         return results;
@@ -208,7 +214,9 @@ public class DefaultSelectorDocument implements SelectorDocument {
         key = key.equals("_id") ? "id" : key;
 
         for (EntityBody body : entities) {
-            ids.add((String) body.get(key));
+            if (body.containsKey(key)) {
+                ids.add((String) body.get(key));
+            }
         }
 
         return ids;
