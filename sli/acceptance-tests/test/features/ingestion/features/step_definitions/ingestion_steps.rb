@@ -1157,7 +1157,9 @@ Then /^I check to find if record is in collection:$/ do |table|
 
     if row["searchType"] == "integer"
       @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-    elsif row["searchType"] == "boolean"
+    elsif row["searchType"] == "double"
+      @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_d}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+ elsif row["searchType"] == "boolean"
         if row["searchValue"] == "false"
             @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => false}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
         else
