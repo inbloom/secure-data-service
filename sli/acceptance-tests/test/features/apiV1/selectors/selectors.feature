@@ -35,6 +35,7 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     | electronicMail                |
     | schoolFoodServicesEligibility |
     | telephone                     |
+    | displacementStatus            |
     | id                            |
     | entityType                    |
     | links                         |
@@ -67,18 +68,21 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     | schoolId                   |
     | gradeLevel                 |
     And in "studentSectionAssociations" I should see the following fields:
-    | sectionId |
-    | studentId |
-    | id        |
+    | sectionId  |
+    | studentId  |
+    | id         |
+    | entityType |
 
     Given selector "(name,sectionAssociations:(sectionId)"
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 200
     And in "studentSectionAssociations" I should see the following fields only:
-    | sectionId |
+    | sectionId  |
+    | id         |
+    | entityType |
 
   Scenario: Applying selector to exclude fields
-    Given selector "(*,sex:false,ohortYears:false)"
+    Given selector "(*,sex:false,cohortYears:false)"
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 200
     And in the response body I should see the following fields only:
@@ -103,10 +107,10 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     | electronicMail                |
     | schoolFoodServicesEligibility |
     | telephone                     |
+    | displacementStatus            |
     | id                            |
     | entityType                    |
     | links                         |
     | schoolId                      |
     | gradeLevel                    |
-    | entityType                    |
 
