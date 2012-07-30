@@ -6,7 +6,10 @@ user1:
     edorg: "test"
     email: "testuser@testwgen.net"
     createTime: "2012-07-28 14:57:03-0400"
-    groups: ["Sandbox Administrator","Ingestion User","Application Developer"]
+    groups:
+      - "Sandbox Administrator"
+      - "Ingestion User"
+      - "Application Developer"
     homeDir: "/dev/null"
     id: "testuser@testwgen.net"
     tenant: "sandboxadministrator@slidev.org"
@@ -18,7 +21,10 @@ new_user:
     edorg: "test"
     email: "testusernew@testwgen.net"
     createTime: "2012-07-28 14:57:03-0400"
-    groups: ["Sandbox Administrator","Application Developer","Ingestion User"]
+    groups:
+      - Sandbox Administrator
+      - Ingestion User
+      - Application Developer    
     primary_role: "Sandbox Administrator"
     optional_role_1: "Application Developer"
     optional_role_2: "Ingestion User"
@@ -34,7 +40,9 @@ update_user:
     edorg: "test"
     email: "testuserupdate@testwgen.net"
     createTime: "2012-07-28 14:57:03-0400"
-    groups: ["Sandbox Administrator","Ingestion User"]
+    groups:
+      - Sandbox Administrator
+      - Ingestion User
     primary_role: "Sandbox Administrator"
     optional_role_2: "Ingestion User"
     homeDir: "/dev/null"
