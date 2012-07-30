@@ -14,8 +14,7 @@
     <%= submit_tag "Search", :name => nil %>
   </p>
   
-<p id="error_notice"><%= @error_notice %></p>
-<p id="success_notice"><%= @success_notice %></p>
+<p id="notice"><%= notice %></p>
 
 <table id="Users_Management_Table" class="table table-striped">
   <thead>
@@ -35,20 +34,24 @@
     <tbody>
     <% if @users!=nil and @users.length>0%>
         <% @users.each do |user| %>
+        <%@elementIdPrefix= user.firstName+" "+user.lastName%>
         <tr id='<%= user.uid%>'>
-        <td id="<%= user.firstName%> <%= user.lastName%>_full_name"><%= user.firstName%> <%= user.lastName%></td>
-        <td id="<%= user.firstName%> <%= user.lastName%>_email"><%= user.email%></td>
-        <td id="<%= user.firstName%> <%= user.lastName%>_role"> <%= user.get_groups%></td>
+        <td id="<%= @elementIdPrefix%>_full_name"><%= user.firstName%> <%= user.lastName%></td>
+        <td id="<%= @elementIdPrefix%>_email"><%= user.email%></td>
+        <td id="<%= @elementIdPrefix%>_role"> <%= user.get_groups%></td>
         <% if not APP_CONFIG['is_sandbox'] %>
             <td id="additional_role"+<%= user.uid%>></td>
             <td id="tenant"+<%= user.uid%>><%= user.tenant%></td>
         <% end %>
-        <td id="<%= user.firstName%> <%= user.lastName%>_edorg"><% if user.edorg!=nil%><%else%><%=user.edorg%><%end%></td>
-        <td id="<%= user.firstName%> <%= user.lastName%>_date_created"><%= I18n.localize(user.get_create_time)%></td>
-		<td id="<%= user.firstName%> <%= user.lastName%>_actions" class="actions">
-			<button id="<%= user.firstName%> <%= user.lastName%>_edit" type="button" class="btn" ><%= link_to_if true, "Edit", "/users" %></button> | 
-            <button id="<%= user.firstName%> <%= user.lastName%>_delete" type="button"  class="btn btn-danger" <% if @loginUserId == user.uid%> disabled="disabled" <%end%> ><%= link_to_if @loginUserId !=user.uid, 'Delete', "/users/#{user.uid}", :remote => true,
-                :confirm => "Do you really want to delete this user?", :method => :delete,:style=>'color:white;' %></button>
+        <td id="<%= @elementIdPrefix%>_edorg"><% if user.edorg==nil|| user.edorg=="null"%><%else%><%=user.edorg%><%end%></td>
+        <td id="<%= @elementIdPrefix%>_date_created"><%= I18n.localize(user.get_create_time)%></td>
+		<td id="<%= @elementIdPrefix%>_actions" class="actions">
+<%@deleteButtonId = @elementIdPrefix + "_delete"%>
+			<%= link_to "Edit", "/users/#{user.uid}/edit", :method=> :get ,:class=>"btn" %> |
+           <% if @loginUserId !=user.uid %> <%= link_to 'Delete', "/users/#{user.uid}",
+                :confirm => "Do you really want to delete this user?", :method => :delete,:style=>'color:white;' ,:class=>"btn btn-danger",:id => @deleteButtonId %>
+                <% else %>
+                <button id="<%= @elementIdPrefix%>_delete" type="button" class= "btn btn-danger" disabled="disabled">Delete</button><%end%>
         </td>
         </tr>
         <% end %>
@@ -58,6 +61,4 @@
 
 <br/>
 
-<%= form_for "" do |f| %>
-<%= f.submit "Add User", :id => "adduser", :class => "btn btn-primary"%>
-<% end %>
+<%= link_to "Add User", "/users/new", :class => "btn btn-primary"%>

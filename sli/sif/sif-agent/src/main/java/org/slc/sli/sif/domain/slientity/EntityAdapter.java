@@ -25,6 +25,7 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.Link;
 
@@ -37,11 +38,11 @@ import org.slc.sli.api.client.Link;
  */
 public class EntityAdapter implements Entity
 {
-    protected static ObjectMapper mapper = new ObjectMapper();
+    protected static final ObjectMapper mapper = new ObjectMapper();
     private GenericEntity adaptedEntity = null;
     private String entityType = null;
     private String id = null;
-    
+
     /**
      *  Constructor
      */
@@ -62,7 +63,7 @@ public class EntityAdapter implements Entity
      * Get the data associated with this entity. If the entity has no data, returns
      * an empty map. The key into this map is the property name. The values of this
      * map can one of the following JSON types:
-     * 
+     *
      * <ul>
      * <li>List</li>
      * <li>Map</li>
@@ -73,7 +74,7 @@ public class EntityAdapter implements Entity
      * <li>Double</li>
      * <li>String</li>
      * </ul>
-     * 
+     *
      * @return Map of data.
      */
     @Override
@@ -81,10 +82,11 @@ public class EntityAdapter implements Entity
     {
         try
         {
-            if (this.adaptedEntity==null)
+            if (this.adaptedEntity==null) {
                 return new HashMap<String, Object>();
-            else 
+            } else {
                 return mapper.readValue(adaptedEntity.json(), new TypeReference<Map<String, Object>>(){});
+            }
         } catch (JsonParseException e)
         {
             e.printStackTrace();
@@ -100,9 +102,9 @@ public class EntityAdapter implements Entity
 
     /**
      * Get the type name for this entity.
-     * 
+     *
      * @return EntityType for this entity
-     * 
+     *
      * @see org.slc.sli.api.client.constants.EntityNames for a list of available names.
      */
     @Override
@@ -114,7 +116,7 @@ public class EntityAdapter implements Entity
     /**
      * Get the ID for the entity. Each entity in the system has a unique identifier
      * assigned to it.
-     * 
+     *
      * @return id String
      */
     @Override
@@ -127,10 +129,10 @@ public class EntityAdapter implements Entity
     {
         this.id = id;
     }
-    
+
     /**
      * Get a list of links for this entity. If the entity has no links, returns an empty list.
-     * 
+     *
      * @return a List of links.
      */
     @Override
