@@ -4,19 +4,13 @@ require 'thread'
 
 module Eventbus
     class JobScheduler
-        def initialize(listener)
-            config = {
-                "mongo_host"                => "127.0.0.1",
-                "mongo_port"                => 27017,
-                "mongo_db"                  => "eventbus",
-                "mongo_coll_scheduled_jobs" => "jobdefinitions"
-            }
-
+        def initialize(config)
             # connect to mongo and wrap the lister 
-            @mongo_conn          = Mongo::Connection.new(config["mongo_host"], config["mongo_port"])
-            @db                  = mongo_conn.db(config["mongo_db"])
-            @coll_scheduled_jobs = config["mongo_coll_schedule_jobs"]
-            @listener            = listener 
+            @mongo_conn          = Mongo::Connection.new(config[:mongo_host], config[:mongo_port])
+            @db                  = @mongo_conn.db(config[:mongo_db])
+            @coll_scheduled_jobs = config[:mongo_job_collection]
+            @listener            = config[:listener]
+            @jobrunner           = config[:jobrunner]
             @event_job_map       = {}
 
             # start the poller and the event dispatcher 
@@ -24,6 +18,11 @@ module Eventbus
             @threads << start_poller 
             @threads << start_event_dispatcher
         end 
+
+        # blocks until all internal threads terminate
+        def join
+            @threads.each { |aThread|  aThread.join }
+        end
 
         # ######################################################################
         # Private 
@@ -82,7 +81,10 @@ module Eventbus
         end 
 
         def schedule_job(job)
-            puts "Running job on Hadoop: #{job}"
+            all_jobs = @jobrunner.running
+            if !all_jobs.find_index(job[:jobname])
+                @jobrunner.schedule(job)
+            end
         end 
 
     end # class JobScheduler 
