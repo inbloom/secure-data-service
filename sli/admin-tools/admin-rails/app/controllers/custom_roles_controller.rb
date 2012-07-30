@@ -26,7 +26,6 @@ class CustomRolesController < ApplicationController
     userRealm = get_user_realm
     realmToRedirectTo = GeneralRealmHelper.get_realm_to_redirect_to(userRealm)
     puts CustomRole.find(:first)
-#    redirect_to  :action => "show", :id => CustomRole.find(:one,  :params => { :realmId => realmToRedirectTo.id }).id
     logger.debug("Redirecting to #{realmToRedirectTo}")
     if realmToRedirectTo.nil?
       render_404
@@ -44,58 +43,30 @@ class CustomRolesController < ApplicationController
 
   # # PUT /realms/1
    def update
-     @realm = Realm.find(params[:id])
-     params[:realm] = {} if params[:realm] == nil
-     params[:realm][:mappings] = params[:mappings] if params[:mappings] != nil
+     @custom_roles = CustomRole.find(params[:id])
      respond_to do |format|
        success = false
        errorMsg = ""
        begin
-         success =  @realm.update_attributes(params[:realm])
+         @custom_roles.roles = params[:json]
+
+         # Stupid active resource renaming my attributes
+         @custom_roles.customRights = []
+         @custom_roles.attributes.delete(:custom_rights)
+         success =  @custom_roles.save()
        rescue ActiveResource::BadRequest => error
          errorMsg = error.response.body
          logger.debug("Error: #{errorMsg}")
        end
 
        if success
-         format.html { redirect_to edit_realm_management_path, notice: 'Realm was successfully updated.' }
-         format.json { render json: @realm, status: :created, location: @realm }
+         format.json { render json: @custom_roles, status: :created, location: @custom_roles }
        else
          format.json { render json: errorMsg, status: :unprocessable_entity }
        end
 	
      end
    end
-
-   # POST /roles
-  # POST /roles.json
-  def create
-     logger.debug("Creating a new realm")
-     @realm = Realm.new(params[:realm])
-     @realm.edOrg = session[:edOrg]
-     logger.debug{"Creating realm #{@realm}"}
-     respond_to do |format|
-       if @realm.save
-         format.html { redirect_to realm_management_index_path, notice: 'Realm was successfully created.' }
-         format.json { render json: @realm, status: :created, location: @realm }
-       else
-         format.html { render action: "new" }
-         format.json { render json: @realm.errors, status: :unprocessable_entity }
-       end
-     end
-  end
-
-  # DELETE /realms/1
-  # DELETE /realms/1.json
-  def destroy
-    @realm = Realm.find(params[:id])
-    @realm.destroy
-
-    respond_to do |format|
-      format.html { redirect_to new_realm_management_path, notice: "Realm was successfully deleted." }
-      format.json { head :ok }
-    end
-  end
 
 private
 
