@@ -23,6 +23,7 @@ public class Selector2MapOfMaps implements SelectionConverter {
             
             for (int i=0; i<groups; i++) {
                 String data = matcher.group(i+1);
+                System.out.println(data);
                 while(data.isEmpty() == false) {
                     int indexOfComma = data.indexOf(",");
                     int indexOfParen = data.indexOf("(");
@@ -32,7 +33,7 @@ public class Selector2MapOfMaps implements SelectionConverter {
                     } else if (indexOfComma == -1) {
                         String key = data.substring(0, indexOfParen - 1);
                         String value = data.substring(indexOfParen - 1);
-                        converted.put(key.replaceAll(" ", ""), convert(value));
+                        addKeyValueToMap(key.replaceAll(" ", ""), convert(value), converted);
                         data = "";
                     } else if (indexOfParen == -1) {
                         String value = data.substring(0, indexOfComma);
@@ -46,7 +47,7 @@ public class Selector2MapOfMaps implements SelectionConverter {
                         int endOfSubMap = getMatchingClosingParenIndex(data, indexOfParen);
                         String key = data.substring(0, indexOfParen - 1);
                         String value = data.substring(indexOfParen - 1, endOfSubMap + 1);
-                        converted.put(key.replaceAll(" ", ""), convert(value));
+                        addKeyValueToMap(key.replaceAll(" ", ""), convert(value), converted);
                         data = data.substring(endOfSubMap + 1);
                         if (data.startsWith(",")) {
                             data = data.substring(1);
@@ -82,6 +83,18 @@ public class Selector2MapOfMaps implements SelectionConverter {
         throw new SelectorParseException("Unbalanced parentheses");
     }
     
+    private static void addKeyValueToMap(String key, Object value, Map<String, Object> map) throws SelectorParseException {
+        if (key.contains("(") || key.contains(")")) {
+            throw new SelectorParseException("Parentheses in key");
+        } else if (key.isEmpty()) {
+            throw new SelectorParseException("Key was empty string");
+        } else if (map == null) {
+            throw new SelectorParseException("Cannot add value to mapping");
+        }
+        
+        map.put(key, value);
+    }
+    
     /**
      * Checks the value to see if it contains both a key and a value and then
      * adds the determined key and value to the map.
@@ -99,9 +112,9 @@ public class Selector2MapOfMaps implements SelectionConverter {
         if(indexOfColon != -1) {
             String key = value.substring(0, indexOfColon).replaceAll(" ", "");
             boolean keyValue = Boolean.parseBoolean(value.substring(indexOfColon + 1));
-            map.put(key, keyValue);
+            addKeyValueToMap(key, keyValue, map);
         } else {
-            map.put(value.replaceAll(" ", ""), true);
+            addKeyValueToMap(value, true, map);
         }
     }
     

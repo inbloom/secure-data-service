@@ -62,10 +62,9 @@ public class Selector2MapOfMapsTest {
         assertTrue(convertResult != null);
         assertTrue(convertResult.equals(expectedResult));
     }
-
     
     @Test
-    public void yetAnotherTest() throws SelectorParseException {
+    public void veryNestedTest() throws SelectorParseException {
         String selectorString = ":(foo:(bar),foo2:(bar2:true),foo3:(bar3:false),foo4:(bar4:(*,foobar5:false)))";
         Map<String, Object> fooMap = new HashMap<String, Object>();
         fooMap.put("bar", true);
@@ -110,6 +109,18 @@ public class Selector2MapOfMapsTest {
     public void testUnbalancedParens2() throws SelectorParseException {
         Selector2MapOfMaps.getMatchingClosingParenIndex(")", 0);
     }
-    
+
+    @Test(expected=SelectorParseException.class)
+    public void testUnbalancedParens3() throws SelectorParseException {
+        String selectorString = ":(name,sectionAssociations)";
+        String unbalancedString = selectorString + ")"; //append an unbalanced paren
+        this.selectionConverter.convert(unbalancedString); //should throw exception
+    }
+
+    @Test(expected=SelectorParseException.class)
+    public void testEmptyStringForKey() throws SelectorParseException {
+        String selectorString = ":(:(test))";
+        this.selectionConverter.convert(selectorString); //should throw exception
+    }
     
 }
