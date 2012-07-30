@@ -3,52 +3,45 @@ package org.slc.sli.api.resources.security;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.ldap.NameAlreadyBoundException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.ldap.LdapService;
 import org.slc.sli.api.ldap.User;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import org.slc.sli.api.service.SuperAdminService;
+import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
 import org.slc.sli.domain.enums.Right;
 
 /**
+ * Resource for CRUDing Super Admin users (users that exist within the SLC realm).
+ *
  * @author dliu
  *
  */
@@ -70,14 +63,16 @@ public class UserResource {
     private boolean enableSamt;
 
     @Autowired
-    @Qualifier("validationRepo")
-    private Repository<Entity> repo;
+    private SuperAdminService adminService;
+
+    @Autowired
+    private SecurityUtilProxy secUtil;
 
 
     @POST
-    public final Response create(final User newUser, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+    public final Response create(final User newUser) {
         assertEnabled();
-        Response result = validateUserCreate(newUser, SecurityUtil.getTenantId());
+        Response result = validateUserCreate(newUser, secUtil.getTenantId());
         if (result != null) {
             return result;
         }
@@ -91,27 +86,24 @@ public class UserResource {
     }
 
     @GET
-    public final Response readAll(
-            @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+    public final Response readAll() {
 
         assertEnabled();
-        String tenant = SecurityUtil.getTenantId();
+        String tenant = secUtil.getTenantId();
 
-        Response result = validateAdminRights(SecurityUtil.getAllRights(), tenant);
+        Response result = validateAdminRights(secUtil.getAllRights(), tenant);
         if (result != null) {
             return result;
         }
 
         Collection<String> edorgs = null;
-        if (SecurityUtil.hasRole(RoleInitializer.LEA_ADMINISTRATOR)) {
+        if (secUtil.hasRole(RoleInitializer.LEA_ADMINISTRATOR)) {
             edorgs = new ArrayList<String>();
-            edorgs.add(SecurityUtil.getEdOrg());
+            edorgs.add(secUtil.getEdOrg());
         }
 
         Collection<User> users = ldapService.findUsersByGroups(realm,
-                RightToGroupMapper.getInstance().getGroups(SecurityUtil.getAllRights()), SecurityUtil.getTenantId(),
+                RightToGroupMapper.getInstance().getGroups(secUtil.getAllRights()), secUtil.getTenantId(),
                 edorgs);
         if (users != null && users.size() > 0) {
             for (User user : users) {
@@ -122,9 +114,9 @@ public class UserResource {
     }
 
     @PUT
-    public final Response update(final User updateUser, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
+    public final Response update(final User updateUser) {
         assertEnabled();
-        Response result = validateUserUpdate(updateUser, SecurityUtil.getTenantId());
+        Response result = validateUserUpdate(updateUser, secUtil.getTenantId());
         if (result != null) {
             return result;
         }
@@ -135,16 +127,45 @@ public class UserResource {
 
     @DELETE
     @Path("{uid}")
-    public final synchronized Response delete(@PathParam("uid") final String uid, @Context HttpHeaders headers,
-            @Context final UriInfo uriInfo) {
+    public final Response delete(@PathParam("uid") final String uid) {
         assertEnabled();
-        Response result = validateUserDelete(uid, SecurityUtil.getTenantId());
+        Response result = validateUserDelete(uid, secUtil.getTenantId());
         if (result != null) {
             return result;
         }
 
         ldapService.removeUser(realm, uid);
-        return Response.status(Status.OK).build();
+        return Response.status(Status.NO_CONTENT).build();
+    }
+
+    /**
+     * Finds and returns teh stateOrganizationId for all Ed-Orgs the Admin user has access to.
+     * For an SEA Admin, this would be all Ed-Orgs in a tenant.
+     * For an LEA Admin, this would be their current Ed-Org or lower in the hierarchy.
+     */
+    @GET
+    @Path("edorgs")
+    public final Response getEdOrgs() {
+        assertEnabled();
+
+        String tenant = secUtil.getTenantId();
+
+        Response result = validateAdminRights(secUtil.getAllRights(), tenant);
+        if (result != null) {
+            return result;
+        }
+
+        if (tenant == null) {
+            List<String> edorgs = new LinkedList<String>();
+            return Response.status(Status.OK).entity(edorgs).build();
+        }
+
+        String restrictByEdOrg = this.isLeaAdmin() ? secUtil.getEdOrg() : null;
+        ArrayList<String> edOrgs = new ArrayList<String>(adminService.getAllowedEdOrgs(tenant, restrictByEdOrg));
+        // Sort the edorgs so our response is stable and not super annoying to end users.
+        Collections.sort(edOrgs);
+
+        return Response.status(Status.OK).entity(edOrgs).build();
     }
 
     private void assertEnabled() {
@@ -154,7 +175,7 @@ public class UserResource {
     }
 
     private Response validateUserCreate(User user, String tenant) {
-        Response result = validateAdminRights(SecurityUtil.getAllRights(), tenant);
+        Response result = validateAdminRights(secUtil.getAllRights(), tenant);
         if (result != null) {
             return result;
         }
@@ -179,7 +200,7 @@ public class UserResource {
     }
 
     private Response validateUserUpdate(User user, String tenant) {
-        Response result = validateAdminRights(SecurityUtil.getAllRights(), tenant);
+        Response result = validateAdminRights(secUtil.getAllRights(), tenant);
         if (result != null) {
             return result;
         }
@@ -209,7 +230,7 @@ public class UserResource {
     }
 
     private Response validateUserDelete(String uid, String tenant) {
-        Response result = validateAdminRights(SecurityUtil.getAllRights(), tenant);
+        Response result = validateAdminRights(secUtil.getAllRights(), tenant);
         if (result != null) {
             return result;
         }
@@ -235,8 +256,8 @@ public class UserResource {
     }
 
     private Response validateCannotUpdateOwnsRoles(User user) {
-        if (user.getUid().equals(SecurityUtil.getUid())) {
-            User currentUser = ldapService.getUser(realm, SecurityUtil.getUid());
+        if (user.getUid().equals(secUtil.getUid())) {
+            User currentUser = ldapService.getUser(realm, secUtil.getUid());
             if (!currentUser.getGroups().containsAll(RoleToGroupMapper.getInstance().mapRoleToGroups(user.getGroups()))
                     || !RoleToGroupMapper.getInstance().mapRoleToGroups(user.getGroups())
                             .containsAll(currentUser.getGroups())) {
@@ -249,7 +270,7 @@ public class UserResource {
     }
 
     private Response validateCannotOperateOnSelf(String uid) {
-        if (uid.equals(SecurityUtil.getUid())) {
+        if (uid.equals(secUtil.getUid())) {
             EntityBody body = new EntityBody();
             body.put("response", "not allowed execute this operation on self");
             return Response.status(Status.FORBIDDEN).entity(body).build();
@@ -269,7 +290,8 @@ public class UserResource {
         boolean nullTenant = (tenant == null && !(rights.contains(Right.CRUD_SANDBOX_SLC_OPERATOR) || rights
                 .contains(Right.CRUD_SLC_OPERATOR)));
         if (nullTenant) {
-            error("Non-operator user {} has null tenant.  Giving up.", new Object[] { SecurityUtil.getUid() });
+            error("Non-operator user {} has null tenant.  Giving up.", new Object[] { secUtil.getUid() });
+            throw new RuntimeException("Non-operator user " + secUtil.getUid() + " has null tenant.  Giving up.");
         }
         if (rightSet.isEmpty() || nullTenant) {
             EntityBody body = new EntityBody();
@@ -306,7 +328,7 @@ public class UserResource {
                 return composeBadDataResponse("Required tenant info is missing");
             }
             // if SB Admin creates another SB Admin, then tenant must match existing tenant
-            if (SecurityUtil.getTenantId() != null && !SecurityUtil.getTenantId().equals(user.getTenant())) {
+            if (secUtil.getTenantId() != null && !secUtil.getTenantId().equals(user.getTenant())) {
                 return composeBadDataResponse("Tenant does not match logged in user's tenant");
             }
         } else if (user.getGroups().contains(RoleInitializer.SEA_ADMINISTRATOR)) {
@@ -315,7 +337,7 @@ public class UserResource {
                 return composeBadDataResponse("Required tenant/edorg info is missing");
             }
             // if SEA creates SEA, tenant must match
-            if (SecurityUtil.getTenantId() != null && !SecurityUtil.getTenantId().equals(user.getTenant())) {
+            if (secUtil.getTenantId() != null && !secUtil.getTenantId().equals(user.getTenant())) {
                 return composeBadDataResponse("Tenant does not match logged in user's tenant");
             }
         } else if (user.getGroups().contains(RoleInitializer.LEA_ADMINISTRATOR)) {
@@ -324,15 +346,15 @@ public class UserResource {
                 return composeBadDataResponse("Required tenant/edorg info is missing");
             }
             // if SEA or LEA creates LEA, tenant must match
-            if (SecurityUtil.getTenantId() != null && !SecurityUtil.getTenantId().equals(user.getTenant())) {
+            if (secUtil.getTenantId() != null && !secUtil.getTenantId().equals(user.getTenant())) {
                 return composeBadDataResponse("Tenant does not match logged in user's tenant");
             }
             // LEA's Ed-Org must already exist in the tenant
             String restrictByEdorg = null;
             if (isLeaAdmin()) {
-                restrictByEdorg = SecurityUtil.getEdOrg();
+                restrictByEdorg = secUtil.getEdOrg();
             }
-            Set<String> allowedEdorgs = getAllowedEdOrgsForLEA(user.getTenant(), restrictByEdorg);
+            Set<String> allowedEdorgs = adminService.getAllowedEdOrgs(user.getTenant(), restrictByEdorg);
             if (!allowedEdorgs.contains(user.getEdorg())) {
                 return composeBadDataResponse("Invalid edorg");
             }
@@ -340,23 +362,22 @@ public class UserResource {
             if (user.getTenant() == null) {
                 return composeBadDataResponse("Required tenant info is missing");
             }
-            if (SecurityUtil.getTenantId() != null && !SecurityUtil.getTenantId().equals(user.getTenant())) {
+            if (secUtil.getTenantId() != null && !secUtil.getTenantId().equals(user.getTenant())) {
                 return composeBadDataResponse("Tenant does not match logged in user's tenant");
             }
             // if prod mode
-            if (SecurityUtil.hasRight(Right.CRUD_LEA_ADMIN) || SecurityUtil.hasRight(Right.CRUD_SEA_ADMIN)
-                    || SecurityUtil.hasRight(Right.CRUD_SLC_OPERATOR)) {
+            if (secUtil.hasRight(Right.CRUD_LEA_ADMIN) || secUtil.hasRight(Right.CRUD_SEA_ADMIN)
+                    || secUtil.hasRight(Right.CRUD_SLC_OPERATOR)) {
                 // Ed-Org must already exist in the tenant
                 String restrictByEdorg = null;
                 if (isLeaAdmin()) {
-                    restrictByEdorg = SecurityUtil.getEdOrg();
+                    restrictByEdorg = secUtil.getEdOrg();
                 }
-                Set<String> allowedEdorgs = getAllowedEdOrgsForLEA(user.getTenant(), restrictByEdorg);
+                Set<String> allowedEdorgs = adminService.getAllowedEdOrgs(user.getTenant(), restrictByEdorg);
                 if (!allowedEdorgs.contains(user.getEdorg())) {
                     return composeBadDataResponse("Invalid edorg");
                 }
             }
-            // if
         }
         return null;
     }
@@ -365,38 +386,7 @@ public class UserResource {
      * Determines if current logged in user an LEA Admin.
      */
     private boolean isLeaAdmin() {
-        // assumption: If the user is able to create LEAs, but not SEAs and OPs, then he is a LEA.
-        // note: This is silly.
-        Collection<String> roles = RoleToGroupMapper.getInstance().mapGroupToRoles(getGroupsAllowed());
-        return roles.contains(RoleInitializer.LEA_ADMINISTRATOR) && !roles.contains(RoleInitializer.SEA_ADMINISTRATOR)
-                && !roles.contains(RoleInitializer.SLC_OPERATOR);
-    }
-
-    /**
-     * Returns a list of possible ed-orgs.
-     * @param tenant Tenant in which the ed-orgs reside.
-     * @param edOrg if provided, list will be restricted to that ed-org or lower.
-     */
-    private Set<String> getAllowedEdOrgsForLEA(String tenant, String edOrg) {
-        NeutralQuery query = new NeutralQuery();
-
-        if (SecurityUtil.getTenantId() == null && tenant != null) {
-            query.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, tenant, false));
-        }
-
-        if (edOrg != null) {
-            NeutralQuery currentEdOrgQuery = new NeutralQuery(new NeutralCriteria("stateOrganizationId",
-                    NeutralCriteria.OPERATOR_EQUAL, edOrg));
-            Entity usersEdOrg = this.repo.findOne(EntityNames.EDUCATION_ORGANIZATION, currentEdOrgQuery);
-            query.addCriteria(new NeutralCriteria("metaData.edOrgs", NeutralCriteria.OPERATOR_EQUAL, usersEdOrg
-                    .getEntityId(), false));
-        }
-
-        Set<String> edOrgIds = new HashSet<String>();
-        for (Entity e : this.repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
-            edOrgIds.add((String) e.getBody().get("stateOrganizationId"));
-        }
-        return edOrgIds;
+        return secUtil.hasRole(RoleInitializer.LEA_ADMINISTRATOR);
     }
 
     private static final String[] ADMIN_ROLES = new String[] { RoleInitializer.LEA_ADMINISTRATOR,
@@ -425,7 +415,7 @@ public class UserResource {
     }
 
     private Collection<String> getGroupsAllowed() {
-        return RightToGroupMapper.getInstance().getGroups(SecurityUtil.getAllRights());
+        return RightToGroupMapper.getInstance().getGroups(secUtil.getAllRights());
     }
 
     /**
@@ -577,4 +567,16 @@ public class UserResource {
         }
     }
 
+
+    public void setSecurityUtilProxy(SecurityUtilProxy proxy) {
+        this.secUtil = proxy;
+    }
+
+    public void setRealm(String realm) {
+        this.realm = realm;
+    }
+
+    public void setEnableSamt(boolean enableSamt) {
+        this.enableSamt = enableSamt;
+    }
 }
