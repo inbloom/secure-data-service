@@ -76,6 +76,14 @@ end
 
 When /^I create a new role <Role> to the group <Group> that allows <User> to access the API$/ do |table|
   # table is a Cucumber::Ast::Table
+  table.hashes.each do |hash|
+    step "I edit the group #{hash["Group"]}"
+    step "I add the role #{hash["Role"]} to the group #{hash["Group"]}"
+    step "I hit the save button"
+    #TODO add stuff to validate the new role is in the group
+    step "the user #{hash["User"]} can now access the API with rights #{hash["Role"]}"
+  end
+
   pending # express the regexp above with the code you wish you had
 end
 
@@ -89,6 +97,14 @@ end
 
 When /^I remove the role <Role> from the group <Group> that denies <User> access to the API$/ do |table|
   # table is a Cucumber::Ast::Table
+  table.hashes.each do |hash|
+    step "I edit the group #{hash["Group"]}"
+    step "I remove the role #{hash["Role"]} from the group #{hash["Group"]}"
+    step "I hit the save button"
+    #TODO add stuff to validate the new role is in the group
+    step "the user #{hash["User"]} can no longer access the API with rights #{hash["Role"]}"
+  end
+  
   pending # express the regexp above with the code you wish you had
 end
 
