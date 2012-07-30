@@ -42,6 +42,7 @@ import org.slf4j.LoggerFactory;
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.Link;
 import org.slc.sli.api.client.SLIClient;
+import org.slc.sli.api.client.SLIClientException;
 import org.slc.sli.api.client.SLIClientFactory;
 import org.slc.sli.dashboard.entity.ConfigMap;
 import org.slc.sli.dashboard.entity.GenericEntity;
@@ -85,7 +86,6 @@ public class SDKAPIClient implements APIClient {
      * API Client Interface Methods
      * *****************************************************
      */
-
 
     public SLIClientFactory getClientFactory() {
         return clientFactory;
@@ -163,19 +163,18 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public String getId(String token) {
-        String id = null;
 
         GenericEntity homeEntity = this.getHome(token);
 
         if (homeEntity != null) {
             for (Link linkMap : homeEntity.getLinks()) {
                 if (linkMap.getLinkName().equals(Constants.ATTR_SELF)) {
-                    id = parseId(linkMap.getResourceURL().getPath());
+                    return parseId(linkMap.getResourceURL().getPath());
                 }
             }
         }
 
-        return id;
+        return null;
     }
 
     /**
@@ -187,8 +186,7 @@ public class SDKAPIClient implements APIClient {
      */
     @Override
     public ConfigMap getEdOrgCustomData(String token, String id) {
-        GenericEntity ge = (GenericEntity) readCustomEntity(token, SDKConstants.EDORGS_ENTITY + id
-                + SDKConstants.CUSTOM_DATA, GenericEntity.class);
+        GenericEntity ge = readCustomEntity(token, SDKConstants.EDORGS_ENTITY + id + SDKConstants.CUSTOM_DATA);
         return JsonConverter.fromJson((String) ge.get("config"), ConfigMap.class);
     }
 
@@ -1034,14 +1032,15 @@ public class SDKAPIClient implements APIClient {
      * @return
      */
     @ExecutionTimeLogger.LogExecutionTime
-    protected Object readCustomEntity(String token, String url, Class entityClass) {
-        Object entity = null;
+    protected GenericEntity readCustomEntity(String token, String url) {
+        GenericEntity entity = null;
         try {
-            List<Object> entityList = new ArrayList<Object>();
-            getClient(token).read(token, entityList, url, entityClass);
+            List<Entity> entityList = getClient(token).read(url);
             if (entityList.size() > 0) {
-                entity = entityList.get(0);
+                entity = new GenericEntity(entityList.get(0));
             }
+        } catch (SLIClientException e) {
+            return null;
         } catch (Exception e) {
             LOGGER.error("Exception occurred during API read", e);
         }
@@ -1062,7 +1061,8 @@ public class SDKAPIClient implements APIClient {
         try {
             List<Entity> entityList = getClient(token).read(url);
             if (entityList.size() > 0) {
-                entity = new GenericEntity(entityList.get(0).getData());
+                Entity theEntity = entityList.get(0);
+                entity = new GenericEntity(theEntity);
             }
         } catch (Exception e) {
             LOGGER.error("Exception occurred during API read", e);
@@ -1095,14 +1095,35 @@ public class SDKAPIClient implements APIClient {
      */
     @ExecutionTimeLogger.LogExecutionTime
     protected List<GenericEntity> readEntityList(String token, String url) {
-        List<GenericEntity> entityList = new ArrayList<GenericEntity>();
-
+        List<GenericEntity> genericEntities = new ArrayList<GenericEntity>();
         try {
-            getClient(token).read(token, entityList, url, GenericEntity.class);
+            List<Entity> entityList = getClient(token).read(url);
+            for (Entity entity : entityList) {
+                GenericEntity genericEntity = new GenericEntity(entity);
+                genericEntity.put("links", mappifyLinks(entity.getLinks()));
+                genericEntities.add(genericEntity);
+            }
+        } catch (SLIClientException e) {
+            return Collections.EMPTY_LIST;
         } catch (Exception e) {
             LOGGER.error("Exception occurred during API read", e);
         }
-        return entityList;
+        return genericEntities;
+    }
+
+    private List<Map<String, String>> mappifyLinks(List<Link> realLinks) {
+        // somewhere some code is dying because the links in the SDK are being returned as Link
+        // objects and not maps. I don't feel like digging through acres of code to find it, so I'm
+        // putting in this hack
+        List<Map<String, String>> mapLinks = new ArrayList<Map<String, String>>();
+        if (realLinks != null) {
+            for (Link link : realLinks) {
+                Map<String, String> mapLink = new HashMap<String, String>();
+                mapLink.put("rel", link.getLinkName());
+                mapLink.put("href", link.getResourceURL().toString());
+            }
+        }
+        return mapLinks;
     }
 
     /**
@@ -1169,7 +1190,7 @@ public class SDKAPIClient implements APIClient {
     @ExecutionTimeLogger.LogExecutionTime
     protected void updateEntity(String token, String url, GenericEntity entity) {
         try {
-            getClient(token).update(token, url, entity);
+            getClient(token).update(entity);
         } catch (Exception e) {
             LOGGER.error("Exception occurred during API update", e);
         }
@@ -1184,9 +1205,9 @@ public class SDKAPIClient implements APIClient {
      * @return
      */
     @ExecutionTimeLogger.LogExecutionTime
-    protected void deleteEntity(String token, String url) {
+    protected void deleteEntity(String token, Entity entity) {
         try {
-            getClient(token).deleteByToken(token, url);
+            getClient(token).delete(entity);
         } catch (Exception e) {
             LOGGER.error("Exception occurred during API delete", e);
         }
