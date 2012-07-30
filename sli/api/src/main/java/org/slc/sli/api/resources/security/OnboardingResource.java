@@ -169,7 +169,7 @@ public class OnboardingResource {
         }
 
         try {
-            LandingZoneInfo landingZone = tenantResource.createLandingZone(tenantId, orgId);
+            LandingZoneInfo landingZone = tenantResource.createLandingZone(tenantId, orgId, isSandboxEnabled);
 
             Map<String, String> returnObject = new HashMap<String, String>();
             returnObject.put("landingZone", landingZone.getLandingZonePath());
