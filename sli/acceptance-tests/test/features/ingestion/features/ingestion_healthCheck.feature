@@ -7,6 +7,7 @@ Background: I have a landing zone route configured
 Given I am using local data store
     And I am using preconfigured Ingestion Landing Zone
 
+@wip
 Scenario: Startup HealthCheck
   When I navigate to the Ingestion Service HealthCheck page and submit login credentials "admin" "admin"
   And the following collections are empty in batch job datastore:
@@ -16,6 +17,7 @@ Scenario: Startup HealthCheck
   And the response should include version, startTime, lastActivity, lastActivityTime, heartBeats
   And the value of "lastActivity" should be "StartUp"
 
+@wip
 Scenario: HealthCheck after Ingestion
   Given I post "Session1.zip" file as the payload of the ingestion job
   When zip file is scp to ingestion landing zone
