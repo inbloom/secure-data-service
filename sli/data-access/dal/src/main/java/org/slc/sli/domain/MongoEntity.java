@@ -98,7 +98,7 @@ public class MongoEntity implements Entity, Serializable {
         if (paddingLength > 0) {
             char[] charArray = new char[paddingLength];
             Arrays.fill(charArray, ' ');
-            this.padding = new String(charArray);
+            this.padding = String.copyValueOf(charArray);
         }
 
         if (body == null) {
