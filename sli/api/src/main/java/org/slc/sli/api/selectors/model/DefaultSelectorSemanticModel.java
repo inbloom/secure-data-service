@@ -38,7 +38,9 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
         final ModelElement element = modelProvider.getModelElement(type, key);
         final ClassType keyType = modelProvider.getClassType(type, key);
 
-        if (modelProvider.isAssociation(type, key) || modelProvider.isAttribute(type, key)) {
+        if (key.equals(SelectorElement.INCLUDE_ALL)) {
+            elem = new IncludeAllSelectorElement(type);
+        } else if (modelProvider.isAssociation(type, key) || modelProvider.isAttribute(type, key)) {
             elem = parseEntry(value, element, keyType);
         } else {
             throw new SelectorParseException("Invalid Selectors " + key);
@@ -49,8 +51,6 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
     private SelectorElement parseEntry(Object value, ModelElement element, ClassType keyType) throws SelectorParseException {
         if (isMap(value)) {
             return new ComplexSelectorElement(element, parse(toMap(value), keyType));
-        } else if (value.equals(SelectorElement.INCLUDE_ALL)) {
-            return new IncludeAllSelectorElement(element);
         } else {
             return new BooleanSelectorElement(element, Boolean.valueOf(value.toString()));
         }
