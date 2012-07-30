@@ -108,13 +108,7 @@ end
 
 Given /^There is a sandbox user with "(.*?)" and "(.*?)" in LDAP Server$/ do |fullName, role|
   @test_env = "sandbox"
-  firstName = fullName.split(" ")[0]
-  lastName = fullName.split(" ")[1].gsub("hostname",Socket.gethostname)
-  groups = Array.new
-  groups.push(role)
-  uid=firstName.downcase+"_"+lastName.downcase
-  new_user=build_user(uid,firstName,lastName,groups,"sandboxadministrator@slidev.org","")
-  
+  new_user = create_new_user(fullName, role) 
   idpRealmLogin("sandboxoperator", nil)
   sessionId = @sessionId
   format = "application/json"
@@ -122,6 +116,111 @@ Given /^There is a sandbox user with "(.*?)" and "(.*?)" in LDAP Server$/ do |fu
   restHttpPost("/users", new_user.to_json, format, sessionId)
   
 end
+
+Given /^There is a sandbox user with "(.*?)", "(.*?)", "(.*?)", and "(.*?)" in LDAP Server$/ do |full_name, role, addition_roles, email|
+  @test_env = "sandbox"
+  new_user=create_new_user(full_name, role, addition_roles)
+  new_user['email']=email.gsub("hostname", Socket.gethostname)
+  new_user['uid']=new_user['email']
+
+  idpRealmLogin("sandboxoperator", nil)
+  sessionId = @sessionId
+  format = "application/json"
+
+  restHttpDelete("/users/#{new_user['uid']}", format, sessionId)
+  restHttpPost("/users", new_user.to_json, format, sessionId)
+  @user_full_name="#{new_user['firstName']} #{new_user['lastName']}"
+  @user_unique_id=new_user['uid']
+end
+
+When /^I click the "(.*?)" link for "(.*?)"$/ do |button_name, user_name|
+  user_name=user_name.gsub("hostname", Socket.gethostname)
+  @driver.find_element(:xpath, "//button[@id='#{user_name}_#{button_name}']/a").click
+end 
+
+Then /^the (.*?) field is prefilled with "(.*?)"$/ do |field_name, value|
+  field=getField(field_name)
+  value=value.gsub("hostname", Socket.gethostname) 
+  assert(field.attribute("value") == "#{value}", "#{value} do not match what's displayed #{field.attribute("value")}")
+end
+
+Then /^the Role combobox is populated with (.*?)$/ do |primary_role|
+  drop_down = @driver.find_element(:id, "user_primary_role")
+  option = drop_down.find_element(:xpath, ".//option[text()=#{primary_role}]")
+  assert(option.attribute("selected")=="true", "#{primary_role} does not match what's expected: #{option.text()}")
+end
+
+Then /^the Role checkbox is checked with "(.*?)"$/ do |additional_role| 
+  roles = additional_role.split(",")
+  roles.each do |str|
+    str.strip!
+  end
+  checkboxes=@driver.find_elements(:xpath, "//form/fieldset/div/div/label/input[@type=\"checkbox\"]")
+  checkboxes.each do |checkbox|
+    value = checkbox.attribute("value")
+    if checkbox.attribute("checked")
+      assert((roles.include? value), "Checkbox #{value} should not be checked!") 
+    else 
+      assert((roles.include? value) == false, "Checkbox #{value} should be checked!")
+    end
+  end
+end
+
+Then /^I can update the (.*?) field to "(.*?)"$/ do |field_name, new_value|
+  field=getField(field_name)
+  field.clear
+  value=localize(new_value)
+  field.send_keys value 
+  if field_name == "\"Full Name\"" 
+    @user_full_name=value
+  end
+end 
+
+Then /^the user has "(.*?)" updated to "(.*?)"$/ do |table_header, new_value| 
+  value=localize(new_value);
+  tr=@driver.find_element(:id, @user_unique_id)
+  td=tr.find_element(:id, "#{@user_full_name}_#{table_header.downcase.gsub(" ", "_")}")
+  assert(td.text()==value, "#{table_header} not updated! Expecting: #{new_value}, got: #{td.text()}")
+end
+
+Then /^the user still has (.*?) as (.*?)$/ do |table_header, new_value|
+    step "the user has #{table_header} updated to #{new_value.gsub("hostname_", "")}"
+end 
+
+Then /^I can change the Role from the dropdown to (.*?)$/ do |primary_role|
+    step "I can select #{primary_role} from a choice between a \"Ingestion User\", \"Application Developer\" and \"Sandbox Administrator\" Role"
+end
+
+Then /^I can add additional Role "(.*?)"$/ do |optional_role|
+  checkboxes=@driver.find_elements(:xpath, "//form/fieldset/div/div/label/input[@type=\"checkbox\"]")
+  checkboxes.each do |checkbox|
+    value = checkbox.attribute("value")
+    if optional_role == value && checkbox.attribute("checked") != "true"
+        sleep 1
+        checkbox.click
+    end
+    if optional_role != value && checkbox.attribute("checked") == "true"
+        sleep 1
+        checkbox.click
+    end
+  end
+end
+
+Then /^the user now has roles "(.*?)" and "(.*?)"$/ do |role1, role2| 
+  roles = [ role1, role2 ]
+  roles.sort!
+  tr=@driver.find_element(:id, @user_unique_id)
+  td=tr.find_element(:id, "#{@user_full_name}_role")
+  displayed = td.text().split(",")
+  displayed.each do |str|
+    str.strip!
+  end
+  displayed.sort!
+  assert(roles.size == displayed.size, "roles size do not match")
+  for idx in 0 ... roles.size
+    assert(roles[idx] == displayed[idx], "user roles do not match #{roles[idx]} #{displayed[idx]}")
+  end
+end 
 
 When /^I click on "(.*?)" icon$/ do |buttonName|
   @driver.find_element(:xpath, "//button[@id='#{@userFullName}_#{buttonName}']/a").click
@@ -198,7 +297,6 @@ When /^I have entered Full Name and Email into the required fields$/ do
   @driver.find_element(:name, 'user[email]').send_keys Socket.gethostname+"_testuser@testwgen.net"
 end
 
-#And I can select "Application Developer" from a choice between a "Sandbox Administrator" and "Application Developer" and "Ingestion User" Role 
 Then /^I can select "(.*?)" from a choice between a (.*?), (.*?) and (.*?) Role$/ do |role, choice1, choice2, choice3| 
     drop_down = @driver.find_element(:id, "user_primary_role")
     drop_down.click
@@ -220,7 +318,7 @@ When /^I click (.*?) link$/ do |link|
   @driver.find_element(:xpath, "//a[text()=#{link}]").click
 end 
 
-When /^I click "Save"$/ do
+When /^I click button "(.*?)"$/ do |not_in_use|
   @driver.find_element(:name, "commit").click
 end
 
@@ -262,6 +360,29 @@ def append_hostname(user )
   return user
 end
 
+def localize(value) 
+  value=Socket.gethostname+"_"+value
+end
 
+def getField(field_name) 
+  label=@driver.find_element(:xpath, "//label[text()=#{field_name}]")
+  id=label.attribute("for")
+  field=@driver.find_element(:id, "#{id}")
+end
 
+def create_new_user(fullName, role, addition_roles=nil)
+  firstName = fullName.split(" ")[0]
+  lastName = fullName.split(" ")[1].gsub("hostname",Socket.gethostname)
+  groups = Array.new
+  groups.push(role)
+  if addition_roles != nil 
+    more_roles = addition_roles.split(",")
+    more_roles.each do |str|
+        groups.push(str.strip)
+    end
+  end
+     
+  uid=firstName.downcase+"_"+lastName.downcase
+  new_user=build_user(uid,firstName,lastName,groups,"sandboxadministrator@slidev.org","")
+end
 
