@@ -13,11 +13,11 @@ And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
 
-Scenario: Reset to default role to right mapping
-When I click on the Reset Mapping button
-And I got a warning message saying "Are you sure you want to reset the mappings to factory defaults? This will remove any custom defined roles!"
-When I click 'OK' on the warning message
-Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
+#Scenario: Reset to default role to right mapping
+#When I click on the Reset Mapping button
+#And I got a warning message saying "Are you sure you want to reset the mappings to factory defaults? This will remove any custom defined roles!"
+#When I click 'OK' on the warning message
+#Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
 
 Scenario: Create new group
 When I click on the Add Group button
