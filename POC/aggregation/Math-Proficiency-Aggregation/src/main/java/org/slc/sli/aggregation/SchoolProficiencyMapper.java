@@ -109,8 +109,8 @@ public class SchoolProficiencyMapper
             } else {
                 code.set("-");
             }
+            context.write(new TenantAndID(schoolId, tenantId), code);
         }
-        context.write(new TenantAndID(schoolId, tenantId), code);
     }
 
     @SuppressWarnings("unchecked")
@@ -138,7 +138,7 @@ public class SchoolProficiencyMapper
         }
 
         DBObject fields = new BasicDBObject();
-        fields.put("aggregations.assessments." + assessmentId + ".HighestEver.ScaleScore", 1);
+        fields.put("calculatedValues.assessments." + assessmentId + ".HighestEver.ScaleScore", 1);
 
         query = new BasicDBObject();
         query.put("_id", new BasicDBObject("$in", ids));
