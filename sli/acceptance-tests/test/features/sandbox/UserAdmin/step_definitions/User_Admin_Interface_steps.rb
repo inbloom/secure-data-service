@@ -135,7 +135,7 @@ end
 
 When /^I click the "(.*?)" link for "(.*?)"$/ do |button_name, user_name|
   user_name=user_name.gsub("hostname", Socket.gethostname)
-  @driver.find_element(:xpath, "//button[@id='#{user_name}_#{button_name}']/a").click
+  @driver.find_element(:xpath, "//a[@id='#{user_name}_#{button_name}']").click
 end 
 
 Then /^the (.*?) field is prefilled with "(.*?)"$/ do |field_name, value|
@@ -196,11 +196,11 @@ Then /^I can add additional Role "(.*?)"$/ do |optional_role|
   checkboxes.each do |checkbox|
     value = checkbox.attribute("value")
     if optional_role == value && checkbox.attribute("checked") != "true"
-        sleep 1
+        sleep 1 
         checkbox.click
     end
     if optional_role != value && checkbox.attribute("checked") == "true"
-        sleep 1
+        sleep 1 
         checkbox.click
     end
   end

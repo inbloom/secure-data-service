@@ -125,9 +125,9 @@ Then I am redirected to "Sandbox Account Management" page
 And the user still has "Email" as "<USER_EMAIL>" 
  
     Examples:
-    |USER_FULL_NAME          |USER_ROLE               |USER_EMAIL                  |USER_ADDITIONAL_ROLES   |NEW_EMAIL      |
-    |Sandbox Admin_hostname  |Sandbox Administrator   |hostname_testuser@wgen.net  |Ingestion User          |random@1.net   |
-    |Sandbox Dev_hostname    |Application Developer   |hostname_devuser@wgen.net   |                        |random@2.net   |
+    |USER_FULL_NAME              |USER_ROLE               |USER_EMAIL                  |USER_ADDITIONAL_ROLES   |NEW_EMAIL      |
+    |Sandbox EditAdmin_hostname  |Sandbox Administrator   |hostname_testuser@wgen.net  |Ingestion User          |random@1.net   |
+    |Sandbox EditDev_hostname    |Application Developer   |hostname_devuser@wgen.net   |                        |random@2.net   |
 
 @sandbox 
 Scenario Outline: As a Sandbox admin I am able to edit user accounts for my sandbox tenancy
@@ -156,6 +156,5 @@ And the user has "Email" updated to "<NEW_EMAIL>"
 And the user now has roles "Ingestion User" and "Application Developer"
 
     Examples:
-    |USER_FULL_NAME          |USER_ROLE               |USER_EMAIL                  |USER_ADDITIONAL_ROLES   |NEW_NAME       |NEW_EMAIL      |
-    |Sandbox Admin_hostname  |Sandbox Administrator   |hostname_testuser@wgen.net  |Ingestion User          |Some Random    |random@1.net   |
-    |Sandbox Dev_hostname    |Application Developer   |hostname_devuser@wgen.net   |                        |Random Number2 |random@2.net   |
+    |USER_FULL_NAME              |USER_ROLE               |USER_EMAIL                  |USER_ADDITIONAL_ROLES   |NEW_NAME       |NEW_EMAIL      |
+    |Sandbox EditAdmin_hostname  |Sandbox Administrator   |hostname_testuser@wgen.net  |Ingestion User          |Some Random    |random@1.net   |
