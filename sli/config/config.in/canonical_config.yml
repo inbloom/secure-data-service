@@ -1176,7 +1176,7 @@ team:
         sli.sample.clientId: AT1k3PdHzX
         sli.sample.clientSecret: Ok2iofHvnmguadgdfgdrrdgddgfdgfZNNgVfYQaBYcAa3iXQ
         
-        sli.sif-agent.zoneUrl: http://local.slidev.org:8080/mock-zis/zis
+        sli.sif-agent.zoneUrl: https://local.slidev.org:8080/mock-zis/zis
 
 perf:
     data-access:
