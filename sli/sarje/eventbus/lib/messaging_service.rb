@@ -4,35 +4,36 @@ require 'thread'
 
 module Eventbus
 
-  DEFAULT_STOMP_CONFIG = {
-      :hosts => [
-          {:login => "", :passcode => "", :host => "localhost", :port => 61613, :ssl => false}
-      ],
-      :initial_reconnect_delay => 0.01,
-      :max_reconnect_delay => 30.0,
-      :use_exponential_back_off => true,
-      :back_off_multiplier => 2,
-      :max_reconnect_attempts => 0,
-      :randomize => false,
-      :backup => false,
-      :timeout => -1,
-      :connect_headers => {},
-      :parse_timeout => 5,
-  }
-
   class MessagingService
     def initialize(config = {})
-      config = {
-          :stomp_config => DEFAULT_STOMP_CONFIG,
+      @config = {
           :node_name => 'anonymous node',
           :start_heartbeat => true
       }.merge(config)
-      @publisher = Publisher.new(config[:publish_queue_name], config[:stomp_config])
-      Subscriber.new(config[:subscribe_queue_name], config[:stomp_config]) do |message|
+
+      host = {:login => "", :passcode => "", :host => "localhost", :port => 61613, :ssl => false}
+      if config[:subscribe_queue_name].start_with?('/topic/')
+        host[:headers] = {'client-id' => config[:node_name]}
+      end
+      @config[:stomp_config] = {
+          :hosts => [host],
+          :initial_reconnect_delay => 0.01,
+          :max_reconnect_delay => 30.0,
+          :use_exponential_back_off => true,
+          :back_off_multiplier => 2,
+          :max_reconnect_attempts => 0,
+          :randomize => false,
+          :backup => false,
+          :timeout => -1,
+          :connect_headers => {},
+          :parse_timeout => 5,
+      }
+      @publisher = Publisher.new(@config[:publish_queue_name], @config[:stomp_config])
+      Subscriber.new(@config[:subscribe_queue_name], @config[:stomp_config]) do |message|
         yield message
       end
-      if config[:start_heartbeat]
-        start_heartbeat(config[:node_name])
+      if @config[:start_heartbeat]
+        start_heartbeat(@config[:node_name])
       end
     end
 
@@ -71,12 +72,21 @@ module Eventbus
   class Subscriber
     def initialize(queue_name, config)
       Thread.new do
-        @client = Stomp::Client.new(config)
-        @client.subscribe queue_name do |message|
-          yield JSON.parse message.body
+        if queue_name.start_with?('/topic/')
+          client = Stomp::Connection.open(config)
+          client.subscribe queue_name, {"activemq.subscriptionName" => config[:hosts][0][:headers]['client-id']}
+          while true
+            message = client.receive
+            yield JSON.parse message.body
+          end
+        else
+          client = Stomp::Client.new(config)
+          client.subscribe queue_name do |message|
+            yield JSON.parse message.body
+          end
         end
-        @client.join
-        @client.close
+        client.join
+        client.close
       end
     end
   end

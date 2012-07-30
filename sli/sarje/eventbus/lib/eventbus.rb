@@ -1,5 +1,5 @@
 require "eventbus/version"
-require "messagequeue"
+require "messaging_service"
 require "jobscheduler"
 require "oplogagent"
 
