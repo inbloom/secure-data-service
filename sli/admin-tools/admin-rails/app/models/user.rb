@@ -18,12 +18,6 @@ limitations under the License.
 
 class User < SessionResource
   self.collection_name = "users"
-  include ActiveModel::Validations
-  
-  validates_presence_of :fullName, :email
-  #validates :email,:email=>true
-  
-  
   schema do
     string  "uid"
     string  "firstName"
