@@ -2,5 +2,30 @@
   xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentParent.xsd">
   <Student>
     <StudentUniqueStateId>530425896</StudentUniqueStateId>
+    <Name>
+      <FirstName>Rhonda</FirstName>
+      <MiddleName>Shannon</MiddleName>
+      <LastSurname>Delgado</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Female</Sex>
+    <BirthData>
+      <BirthDate>2006-07-02</BirthDate>
+    </BirthData>
+    <Address AddressType="Home">
+      <StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60057-1857</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+    </Address>
+    <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>312-608-2213</TelephoneNumber>
+    </Telephone>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <OldEthnicity>White, Not Of Hispanic Origin</OldEthnicity>
+    <Race>
+      <RacialCategory>White</RacialCategory>
+    </Race>
   </Student>
 </InterchangeStudentParent>

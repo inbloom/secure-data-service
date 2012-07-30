@@ -99,19 +99,15 @@ public class JobReportingProcessor implements Processor {
     @Override
     public void process(Exchange exchange) {
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
-        boolean ingest = true;
 
         if (workNote == null || workNote.getBatchJobId() == null) {
             missingBatchJobIdError(exchange);
         } else {
-            if (exchange.getIn().getHeader(AttributeType.DELETE.name()) != null) {
-                ingest = false;
-            }
-            processJobReporting(exchange, workNote, ingest);
+            processJobReporting(exchange, workNote);
         }
     }
 
-    private void processJobReporting(Exchange exchange, WorkNote workNote, boolean ingest) {
+    private void processJobReporting(Exchange exchange, WorkNote workNote) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE);
 
         String batchJobId = workNote.getBatchJobId();
@@ -124,7 +120,7 @@ public class JobReportingProcessor implements Processor {
 
             boolean hasErrors = writeErrorAndWarningReports(job);
 
-            writeBatchJobReportFile(exchange, job, ingest, hasErrors);
+            writeBatchJobReportFile(exchange, job, hasErrors);
 
         } catch (Exception e) {
             LOG.error("Exception encountered in JobReportingProcessor. ", e);
@@ -191,7 +187,7 @@ public class JobReportingProcessor implements Processor {
         }
     }
 
-    private void writeBatchJobReportFile(Exchange exchange, NewBatchJob job, boolean ingest, boolean hasErrors) {
+    private void writeBatchJobReportFile(Exchange exchange, NewBatchJob job, boolean hasErrors) {
 
         PrintWriter jobReportWriter = null;
         FileLock lock = null;
@@ -203,6 +199,11 @@ public class JobReportingProcessor implements Processor {
             channel = outputStream.getChannel();
             lock = channel.lock();
             jobReportWriter = new PrintWriter(outputStream, true);
+
+            boolean ingest = true;
+            if (exchange.getIn().getHeader(AttributeType.DELETE.name()) != null) {
+                ingest = false;
+            }
 
             writeInfoLine(jobReportWriter, "jobId: " + job.getId());
 

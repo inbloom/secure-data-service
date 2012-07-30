@@ -1,2 +1,2 @@
 edfi-xml,StudentParent,InterchangeStudent.xml,cde9f443358d0294c2f80ef7ca127aed
-edfi-xml,StudentParent,StudentParentData.xml,9c1abf22548d1843a6e1c69c194b513f
+edfi-xml,StudentParent,StudentParentData.xml,ce975698e86450a27a33223812d39a99

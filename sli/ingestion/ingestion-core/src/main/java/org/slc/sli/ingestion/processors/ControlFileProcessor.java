@@ -197,7 +197,7 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
             LOG.debug("Matched @delete tag from control file parsing.");
             exchange.getIn().setHeader(AttributeType.DELETE.getName(), true);
         } else {
-            LOG.debug("Did not match @dry-run tag in control file.");
+            LOG.debug("Did not match @delete tag in control file.");
         }
 
         if (newJob.getProperty(AttributeType.NO_ID_REF.getName()) != null) {

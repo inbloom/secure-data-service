@@ -124,7 +124,6 @@ public class NeutralRecordEntityDeleteHandler extends AbstractIngestionHandler<N
         if (entity.getEntityId() != null) {
 
             if (!entityRepository.delete(collectionName, entity.getEntityId())) {
-                // TODO: exception should be replace with some logic.
                 throw new RuntimeException("Record was not deleted properly.");
             }
         }
@@ -133,7 +132,7 @@ public class NeutralRecordEntityDeleteHandler extends AbstractIngestionHandler<N
     private void reportErrors(List<ValidationError> errors, NeutralRecordEntity entity, ErrorReport errorReport) {
         for (ValidationError err : errors) {
 
-            String message = "ERROR: There has been a data validation error when delete an entity" + "\n"
+            String message = "ERROR: There has been a data validation error when deleting an entity" + "\n"
                     + "       Error      " + err.getType().name() + "\n" + "       Entity     " + entity.getType()
                     + "\n" + "       Instance   " + entity.getRecordNumberInFile() + "\n" + "       Field      "
                     + err.getFieldName() + "\n" + "       Value      " + err.getFieldValue() + "\n"
