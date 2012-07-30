@@ -112,6 +112,11 @@
     <property name="template" ref="mongoTemplate" />
   </bean>
 
+  <bean id = "ingestionHealthCheck" class="org.slc.sli.ingestion.IngestionHealthCheck">
+    <property name="batchJobMongoDA" ref="batchJobMongoDA" />
+    <property name="version" value="${sli.ingestion.version}" />
+  </bean>
+
   <context:component-scan base-package="org.slc.sli.ingestion.tenant" />
 
 </beans>

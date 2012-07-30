@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.sandbox.idp.controller;
 
 import static org.junit.Assert.assertEquals;
@@ -50,7 +49,6 @@ import org.springframework.web.servlet.ModelAndView;
 /**
  * Unit tests
  */
-// @RunWith(MockitoJUnitRunner.class)
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/applicationContext-test.xml" })
 public class LoginTest {
@@ -155,7 +153,7 @@ public class LoginTest {
         
         SamlAssertion samlResponse = new SamlAssertion("redirect_uri", "SAMLResponse");
         Mockito.when(loginService.buildAssertion("userId", roles, attributes, reqInfo)).thenReturn(samlResponse);
-        ModelAndView mov = loginController.login("userId", "password", "SAMLRequest", "SLIAdmin", null, null,
+        ModelAndView mov = loginController.login("userId", "password", "SAMLRequest", "SLIAdmin", null, null, false,
                 httpSession, null);
         
         assertEquals("SAMLResponse", ((SamlAssertion) mov.getModel().get("samlAssertion")).getSamlResponse());
@@ -183,11 +181,31 @@ public class LoginTest {
         SamlAssertion samlResponse = new SamlAssertion("redirect_uri", "SAMLResponse");
         Mockito.when(loginService.buildAssertion("userId", roles, attributes, reqInfo)).thenReturn(samlResponse);
         
-        ModelAndView mov = loginController.login("userId", "password", "SAMLRequest", "realm", null, null, httpSession,
-                null);
+        ModelAndView mov = loginController.login("userId", "password", "SAMLRequest", "realm", null, null, false,
+                httpSession, null);
         
         assertEquals("SAMLResponse", ((SamlAssertion) mov.getModel().get("samlAssertion")).getSamlResponse());
         assertEquals("post", mov.getViewName());
+    }
+    
+    @Test
+    public void testBadLogin() throws AuthenticationException {
+        loginController.setSandboxImpersonationEnabled(false);
+        Request reqInfo = Mockito.mock(Request.class);
+        Mockito.when(reqInfo.getRealm()).thenReturn("realm");
+        Mockito.when(authRequestService.processRequest("SAMLRequest", "realm")).thenReturn(reqInfo);
+        
+        @SuppressWarnings("unchecked")
+        Map<String, String> attributes = Mockito.mock(HashMap.class);
+        Mockito.when(attributes.get("userName")).thenReturn("Test Name");
+        Mockito.when(attributes.get("emailToken")).thenReturn("mockToken");
+        
+        Mockito.when(userService.authenticate("realm", "userId", "password")).thenThrow(
+                new AuthenticationException("Invalid User Name or password"));
+        
+        ModelAndView mov = loginController.login("userId", "password", "SAMLRequest", "realm", null, null, false,
+                httpSession, null);
+        assertEquals("Invalid User Name or password", (String) mov.getModel().get("msg"));
     }
     
     @Test
@@ -213,7 +231,7 @@ public class LoginTest {
         SamlAssertion samlResponse = new SamlAssertion("redirect_uri", "SAMLResponse");
         Mockito.when(loginService.buildAssertion("impersonate", roles, attributes, reqInfo)).thenReturn(samlResponse);
         
-        ModelAndView mov = loginController.login("userId", "password", "SAMLRequest", "", "impersonate", roles,
+        ModelAndView mov = loginController.login("userId", "password", "SAMLRequest", "", "impersonate", roles, false,
                 httpSession, null);
         Mockito.verify(attributes, Mockito.times(1)).clear();
         Mockito.verify(attributes, Mockito.times(1)).put("tenant", "myTenant");
@@ -242,10 +260,10 @@ public class LoginTest {
         List<RoleService.Role> defaultRoles = new ArrayList<RoleService.Role>();
         defaultRoles.add(new RoleService.Role("roleName"));
         Mockito.when(roleService.getAvailableRoles()).thenReturn(defaultRoles);
-        SamlAssertion samlResponse = new SamlAssertion("redirect_uri", "SAMLResponse"); 
+        SamlAssertion samlResponse = new SamlAssertion("redirect_uri", "SAMLResponse");
         Mockito.when(loginService.buildAssertion("impersonate", roles, attributes, reqInfo)).thenReturn(samlResponse);
         
-        ModelAndView mov = loginController.login("userId", "password", "SAMLRequest", "", "impersonate", roles,
+        ModelAndView mov = loginController.login("userId", "password", "SAMLRequest", "", "impersonate", roles, false,
                 httpSession, null);
         
         assertEquals("SAMLRequest", mov.getModel().get("SAMLRequest"));
@@ -277,10 +295,10 @@ public class LoginTest {
         SamlAssertion samlResponse = new SamlAssertion("redirect_uri", "SAMLResponse");
         Mockito.when(loginService.buildAssertion("impersonate", roles, attributes, reqInfo)).thenReturn(samlResponse);
         
-        ModelAndView mov = loginController.login("userId", "password", "SAMLRequest", "", "impersonate", roles,
+        ModelAndView mov = loginController.login("userId", "password", "SAMLRequest", "", "impersonate", roles, false,
                 httpSession, null);
         
-        assertEquals(mov.getModel().get("msg"), loginController.ROLE_SELECT_MESSAGE);
+        assertEquals(mov.getModel().get("msg"), Login.ROLE_SELECT_MESSAGE);
         assertEquals("SAMLRequest", mov.getModel().get("SAMLRequest"));
         assertEquals("", mov.getModel().get("realm"));
         assertEquals("login", mov.getViewName());
@@ -307,7 +325,7 @@ public class LoginTest {
         SamlAssertion samlResponse = new SamlAssertion("redirect_uri", "SAMLResponse");
         Mockito.when(loginService.buildAssertion("userId", roles, attributes, reqInfo)).thenReturn(samlResponse);
         
-        ModelAndView mov = loginController.login("userId", "password", "SAMLRequest", "SLIAdmin", null, null,
+        ModelAndView mov = loginController.login("userId", "password", "SAMLRequest", "SLIAdmin", null, null, false,
                 httpSession, null);
         
         assertEquals("SAMLResponse", ((SamlAssertion) mov.getModel().get("samlAssertion")).getSamlResponse());

@@ -116,6 +116,14 @@ Then /^one of the accounts has "([^"]*)", "([^"]*)", "([^"]*)"$/ do |fullName, u
 
 end
 
+Then /^an account with "(.*?)", "(.*?)", "(.*?)" should not exist$/ do |fullName, uid, email|
+  @result.each do |user|
+    if fullName == user["fullName"] and uid == user["uid"] and email == user["email"]
+      assert(false, "User should not have existed: #{user}")
+    end
+  end
+end
+
 Given /^I have a tenant "(.*?)" and edorg "(.*?)"$/ do |tenant, edorg|
   @tenant = tenant
   @edorg = edorg
@@ -145,6 +153,26 @@ end
 
 Then /^I should receive a return code "(.*?)"$/ do |return_code|
   assert_equal(return_code.to_i, @response_code)
+end
+
+Then /^I (should|should not) see SAMT on my list of allowed apps$/ do |should|
+  restHttpGet("/userapps?is_admin=true")
+  @res.should_not == nil
+  @res.code.should == 200
+  @res.body.should_not == nil
+  
+  apps = JSON.parse(@res.body)
+  admin = apps.find { |app| app["name"] == "Admin Apps" }
+  if should == "should"
+    admin.should_not == nil
+    samt = admin["endpoints"].find { |ep| ep["name"] == "Super Admin Account Management" }
+    samt.should_not == nil
+  else
+    if admin != nil
+      samt = admin["endpoints"].find { |ep| ep["name"] == "Super Admin Account Management" }
+      samt.should == nil
+    end
+  end
 end
 
 def get_user(uid)

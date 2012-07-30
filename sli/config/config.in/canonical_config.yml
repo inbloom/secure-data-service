@@ -28,6 +28,9 @@ default:
 
         # Defines the domain where the api session cookie is dropped
         sli.api.cookieDomain: .slidev.org
+        
+        # Feature flag for Super Admin management resource.  When false or not set, then SAMT api resource will be disabled.
+        sli.feature.enableSamt: true
 
         # Sandbox settings
         sli.sandbox.enabled: false
@@ -100,6 +103,10 @@ default:
         # Security Event capsize
         sli.ingestion.securityEvent.capSize:
 
+        # Health Check credentials
+        sli.ingestion.healthcheck.user: admin
+        sli.ingestion.healthcheck.pass: admin
+
   # Write concerns
 
         sli.ingestion.mongotemplate.writeConcern: SAFE
@@ -145,6 +152,7 @@ default:
         sli.ingestion.queue.maestro.host:
         sli.ingestion.queue.maestro.port:
         sli.ingestion.queue.maestro.queueURI: seda:IngestionMaestro
+        sli.ingestion.queue.maestro.consumerQueueURI: seda:IngestionMaestro
         sli.ingestion.queue.maestro.concurrentConsumers: 1
         sli.ingestion.queue.maestro.uriOptions:
         sli.ingestion.queue.maestro.keystore:
@@ -232,7 +240,7 @@ default:
 
 
     app: &APPS-DEFAULT
-        bootstrap.app.keys: admin,databrowser,dashboard
+        bootstrap.app.keys: admin,databrowser,dashboard,sif
         bootstrap.app.admin.template: applications/admin.json
         bootstrap.app.admin.name: Admin Apps
         bootstrap.app.admin.description: The SLC Administration Application allows you to change a variety of system settings.
@@ -259,9 +267,13 @@ default:
         bootstrap.app.sif.apiUrl: http://local.slidev.org:8080/
         bootstrap.app.sif.callbackUrl: http://local.slidev.org:8081/
         bootstrap.app.sif.guid: 2ad39ff1-65f8-4a16-8912-b49872f1ee97
-        bootstrap.app.sif.token: 9f58b6dc-0880-4e2a-a65f-3aa8b5201fbd
+        bootstrap.app.sif.token: e4e9d71c-d674-11e1-9ea4-f9fc6188709b
         bootstrap.app.sif.client_id: bZEkFldWJT
         bootstrap.app.sif.client_secret: F1b5Fy2nZq0qZJP6x3ci5onwr7XViBppOGqJTSNuz7K6eBQq
+        bootstrap.app.sif.authorized_for_all_edorgs: true
+        bootstrap.app.sif.allowed_for_all_edorgs: true
+        bootstrap.app.admin.authorized_for_all_edorgs: true
+        bootstrap.app.admin.allowed_for_all_edorgs: true
 
         bootstrap.app.vendor: SLC
 
@@ -324,7 +336,10 @@ default:
         sli.sif-agent.agentId: test.subscriber.agent
         sli.sif-agent.agentPort: 25100
         sli.sif-agent.zoneId: TestZone
-        sli.sif-agent.zoneUrl: http://10.163.6.73:50002/TestZone
+        sli.sif-agent.zoneUrl: http://local.slidev.org:8087/mock-zis/zis
+        # interim sif id reference resolution files
+        sli.sif-agent.idmap: target/sif-agent/WEB-INF/classes/default-idmap.csv
+        sli.sif-agent.zonemap: target/sif-agent/WEB-INF/classes/default-zonemap.csv
 
 acceptance-tests:
     api:
@@ -373,6 +388,10 @@ acceptance-tests:
         # Security Event capsize
         sli.ingestion.securityEvent.capSize:
 
+        # Health Check credentials
+        sli.ingestion.healthcheck.user: admin
+        sli.ingestion.healthcheck.pass: admin
+
     ingestion:
         <<: *INGESTION-DEFAULT
         # acceptance-tests/ingestion/queue.properties
@@ -389,6 +408,7 @@ acceptance-tests:
         sli.ingestion.queue.maestro.host: devmq1.slidev.org
         sli.ingestion.queue.maestro.port: 5445
         sli.ingestion.queue.maestro.queueURI: activemq:queue:IngestionMaestro
+        sli.ingestion.queue.maestro.consumerQueueURI: txActivemq:queue:IngestionMaestro
         sli.ingestion.queue.maestro.concurrentConsumers: 1
         sli.ingestion.queue.maestro.uriOptions: '&transferExchange=true'
         sli.ingestion.queue.maestro.keystore: /opt/tomcat/ssl/tomcat.keystore
@@ -467,6 +487,10 @@ ci:
 
         # Security Event capsize
         sli.ingestion.securityEvent.capSize:
+
+        # Health Check credentials
+        sli.ingestion.healthcheck.user: admin
+        sli.ingestion.healthcheck.pass: admin
 
     ingestion:
         <<: *INGESTION-DEFAULT
@@ -553,6 +577,10 @@ dev:
 
         # Security Event capsize
         sli.ingestion.securityEvent.capSize:
+
+        # Health Check credentials
+        sli.ingestion.healthcheck.user: admin
+        sli.ingestion.healthcheck.pass: admin
 
     ingestion:
         <<: *INGESTION-DEFAULT
@@ -645,6 +673,10 @@ devjuggernauts:
         # Security Event capsize
         sli.ingestion.securityEvent.capSize:
 
+        # Health Check credentials
+        sli.ingestion.healthcheck.user: admin
+        sli.ingestion.healthcheck.pass: admin
+
     ingestion:
         <<: *INGESTION-DEFAULT
         # dev/ingestion/ingestion_conf.properties
@@ -733,6 +765,10 @@ devapp1:
         # Security Event capsize
         sli.ingestion.securityEvent.capSize:
 
+        # Health Check credentials
+        sli.ingestion.healthcheck.user: admin
+        sli.ingestion.healthcheck.pass: admin
+
     ingestion:
         <<: *INGESTION-DEFAULT
         # devapp1/ingestion/ingestion_conf.properties
@@ -818,6 +854,10 @@ local:
         # Security Event capsize
         sli.ingestion.securityEvent.capSize:
 
+        # Health Check credentials
+        sli.ingestion.healthcheck.user: admin
+        sli.ingestion.healthcheck.pass: admin
+
     ingestion: &INGESTION-LOCAL
         <<: *INGESTION-DEFAULT
         landingzone.inbounddir: target/ingestion/lz/inbound
@@ -860,7 +900,9 @@ local:
         bootstrap.app.sif.url: http://local.slidev.org:1338/
         bootstrap.app.sif.client_id: bZEkFldWJT
         bootstrap.app.sif.client_secret: F1b5Fy2nZq0qZJP6x3ci5onwr7XViBppOGqJTSNuz7K6eBQq
-        bootstrap.app.sif.token: 9f58b6dc-0880-4e2a-a65f-3aa8b5201fbd
+        bootstrap.app.sif.token: e4e9d71c-d674-11e1-9ea4-f9fc6188709b
+        bootstrap.app.admin.authorized_for_all_edorgs: true
+        bootstrap.app.admin.allowed_for_all_edorgs: true
 
     misc: &MISC-LOCAL
         <<: *MISC-DEFAULT
@@ -945,7 +987,7 @@ local-acceptance-tests:
 
     apps:
         <<: *APPS-LOCAL
-        bootstrap.app.keys: admin,databrowser,dashboard
+        bootstrap.app.keys: admin,databrowser,dashboard,sif
 
         bootstrap.app.admin.url: http://local.slidev.org:2000
         bootstrap.app.admin.client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
@@ -963,9 +1005,11 @@ local-acceptance-tests:
         bootstrap.app.sif.apiUrl: http://local.slidev.org:8080/
         bootstrap.app.sif.callbackUrl: http://local.slidev.org:8081/
         bootstrap.app.sif.guid: 2ad39ff1-65f8-4a16-8912-b49872f1ee97
-        bootstrap.app.sif.token: 9f58b6dc-0880-4e2a-a65f-3aa8b5201fbd
+        bootstrap.app.sif.token: e4e9d71c-d674-11e1-9ea4-f9fc6188709b
         bootstrap.app.sif.client_id: bZEkFldWJT
         bootstrap.app.sif.client_secret: F1b5Fy2nZq0qZJP6x3ci5onwr7XViBppOGqJTSNuz7K6eBQq
+        bootstrap.app.admin.authorized_for_all_edorgs: true
+        bootstrap.app.admin.allowed_for_all_edorgs: true
 
     misc:
         <<: *MISC-LOCAL
@@ -1031,6 +1075,10 @@ team:
         # Security Event capsize
         sli.ingestion.securityEvent.capSize:
 
+        # Health Check credentials
+        sli.ingestion.healthcheck.user: admin
+        sli.ingestion.healthcheck.pass: admin
+
     ingestion: &INGESTION-TEAM
         <<: *INGESTION-DEFAULT
         # team/ingestion/ingestion_conf.properties
@@ -1052,6 +1100,7 @@ team:
         sli.ingestion.queue.maestro.host: localhost
         sli.ingestion.queue.maestro.port: 61616
         sli.ingestion.queue.maestro.queueURI: activemq:queue:ingestion.maestro
+        sli.ingestion.queue.maestro.consumerQueueURI: txActivemq:queue:ingestion.maestro
         sli.ingestion.queue.maestro.concurrentConsumers: 1
         sli.ingestion.queue.maestro.uriOptions: '&transferExchange=true'
         sli.ingestion.queue.maestro.keystore: /opt/tomcat/ssl/tomcat.keystore
@@ -1107,9 +1156,11 @@ team:
         bootstrap.app.sif.apiUrl: http://local.slidev.org:8080/
         bootstrap.app.sif.callbackUrl: http://local.slidev.org:8081/
         bootstrap.app.sif.guid: 2ad39ff1-65f8-4a16-8912-b49872f1ee97
-        bootstrap.app.sif.token: 9f58b6dc-0880-4e2a-a65f-3aa8b5201fbd
+        bootstrap.app.sif.token: e4e9d71c-d674-11e1-9ea4-f9fc6188709b
         bootstrap.app.sif.client_id: bZEkFldWJT
         bootstrap.app.sif.client_secret: F1b5Fy2nZq0qZJP6x3ci5onwr7XViBppOGqJTSNuz7K6eBQq
+        bootstrap.app.admin.authorized_for_all_edorgs: true
+        bootstrap.app.admin.allowed_for_all_edorgs: true
 
 
 
@@ -1159,6 +1210,10 @@ perf:
 
         # Security Event capsize
         sli.ingestion.securityEvent.capSize:
+
+        # Health Check credentials
+        sli.ingestion.healthcheck.user: admin
+        sli.ingestion.healthcheck.pass: admin
 
     ingestion:
         <<: *INGESTION-DEFAULT
@@ -1274,7 +1329,7 @@ sandbox:
         <<: *DATA-ACCESS-TEAM
     apps:
         <<: *APPS-DEFAULT
-        bootstrap.app.keys: admin,databrowser,dashboard
+        bootstrap.app.keys: admin,databrowser,dashboard,sif
         bootstrap.app.admin.url: https://${sli.dev.subdomain}.slidev.org:2001
         bootstrap.app.admin.client_id: OY6Nnukmn6
         bootstrap.app.admin.client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
@@ -1289,7 +1344,9 @@ sandbox:
         bootstrap.app.sif.url: http://${sli.dev.subdomain}.slidev.org:1338/
         bootstrap.app.sif.client_id: bZEkFldWJT
         bootstrap.app.sif.client_secret: F1b5Fy2nZq0qZJP6x3ci5onwr7XViBppOGqJTSNuz7K6eBQq
-        bootstrap.app.sif.token: 9f58b6dc-0880-4e2a-a65f-3aa8b5201fbd
+        bootstrap.app.sif.token: e4e9d71c-d674-11e1-9ea4-f9fc6188709b
+        bootstrap.app.admin.authorized_for_all_edorgs: true
+        bootstrap.app.admin.allowed_for_all_edorgs: true
 
     misc:
         <<: *MISC-TEAM
