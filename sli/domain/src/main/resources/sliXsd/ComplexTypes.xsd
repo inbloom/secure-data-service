@@ -1083,19 +1083,25 @@
 					</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="institutionId" type="institutionId"
+			<xs:element name="institutionId" type="reference"
 				minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The ID of the postsecondary institution.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="studentId" type="xs:string">
+			<xs:element name="studentId" type="reference">
 				<xs:annotation>
 					<xs:documentation>
 						The student associated with the postsecondary
 						event.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>student</sli:ReferenceType>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>

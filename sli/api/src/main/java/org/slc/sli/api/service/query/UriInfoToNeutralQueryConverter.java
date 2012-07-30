@@ -126,7 +126,7 @@ public class UriInfoToNeutralQueryConverter {
                             if (!neutralCriteria.getKey().equals("full-entities")
                                     && (!ParameterConstants.OPTIONAL_FIELDS.equals(neutralCriteria.getKey()))
                                     && (!ParameterConstants.INCLUDE_CUSTOM.equals(neutralCriteria.getKey()))
-                                    && (!ParameterConstants.INCLUDE_AGGREGATES.equals(neutralCriteria.getKey()))) {
+                                    && (!ParameterConstants.INCLUDE_CALCULATED.equals(neutralCriteria.getKey()))) {
                                 neutralQuery.addCriteria(neutralCriteria);
                             }
                         } else {

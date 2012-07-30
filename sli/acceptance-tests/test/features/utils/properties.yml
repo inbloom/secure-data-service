@@ -18,8 +18,11 @@ ingestion_username: "ingestion"
 ingestion_remote_lz_path: "/home/ingestion/"
 ingestion_mode: "local"
 ingestion_destination_data_store: "../ingestion/ingestion-service/target/ingestion/logs/"
-ingestion_service_url: "http://local.slidev.org:8000/ingestion-service"
-ingestion_healthcheck_suffix: "/HealthCheck"
+ingestion_healthcheck_url: "http://local.slidev.org:8000/ingestion-service/healthcheck/Ingestion"
+
+sif_db: "localhost"
+sif_database_name: "sli"
+sif_zis_address_trigger: "http://local.slidev.org:8087/mock-zis/trigger"
 
 DB_HOST: "localhost"
 api_database_name : "sli"
@@ -42,6 +45,7 @@ user_registration_app_production_url: "http://local.slidev.org:3001"
 user_registration_app_sandbox_url: "http://local.slidev.org:3001"
 user_registration_app_host_url: "slcedu.org"
 registration_app_suffix: "/registration"
+samt_app_suffix: "/users"
 validation_base_suffix: "/user_account_validation"
 user_registration_email: devldapuser@slidev.org
 user_registration_pass: test1234
@@ -55,4 +59,4 @@ email_imap_registration_user_email: devldapuser@slidev.org
 email_imap_registration_pass: Y;Gtf@w{
 
 
-    
+

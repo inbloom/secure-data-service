@@ -247,6 +247,7 @@ module("SLC.util get methods", {
 		deepEqual(typeof SLC.util.getElementHeight("#test"), 'number', 'SLC.util getElementHeight method should return a number');
 	});
 
+
 module("SLC.util setDropDownOptions & selectDropDownOption methods", {
 	setup: function () {
 		$("body").append("<div id='schoolSelectMenu' class='btn-group'><a href='#' data-toggle='dropdown' id='schoolSelectButton' class='btn dropdown-toggle'><span class='optionText'>Daybreak School District 4529</span><span class='caret'></span></a><ul class='dropdown-menu'></ul></div>");

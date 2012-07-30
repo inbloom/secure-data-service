@@ -22,6 +22,12 @@ public class User {
     private String tenant;
     private String edorg;
     private String homeDir;
+    private String fullName;
+    
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
     private Date createTime;
     private Date modifyTime;
 

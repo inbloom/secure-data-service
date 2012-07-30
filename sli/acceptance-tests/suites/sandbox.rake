@@ -60,6 +60,20 @@ end
 # Onboarding tests end
 ############################################################
 
+############################################################
+# Super Admin Management Tools Tests begin
+############################################################
+desc "Run Super Admin Management Tools Tests"
+task :userAdminSandboxTests do
+@tags = ["~@wip", "@sandbox"]
+runTests("test/features/sandbox/UserAdmin/User_Admin_Interface.feature")
+end
+
+
+###########################################################
+# Super Admin Management Tools Tests end
+############################################################
+
 ###########################################################
 # Provisioning tests start
 ############################################################

@@ -1,0 +1,67 @@
+<%= form_for(user,:html => {:class => "form-horizontal" }) do |f| %>
+
+<fieldset>
+<div class = "control-group">
+	<%= f.label :fullName, "Full Name",:class => "control-label" %>
+	<div class="controls">
+	<%= f.text_field :fullName %>
+	</div>
+</div>
+</fieldset>
+
+<fieldset>
+<div class = "control-group">
+	<%= f.label :email, "Email",:class => "control-label" %>
+	<div class="controls">
+	<%= f.text_field :email %>
+	</div>
+</div>
+</fieldset>
+
+<fieldset>
+<div class = "control-group">
+	<%= f.label :edorg, "EdOrg" , :class => "control-label" %>
+	<div class="controls">
+	<%= f.select :edorg,  @edorgs, {},:include_blank => true %>
+	</div>
+</div>
+</fieldset>
+
+<fieldset>
+<div class = "control-group">
+	<%= f.label :primary_role, "Role" ,:class => "control-label" %>
+	<div class="controls">
+	<%= f.select :primary_role, @sandbox_roles,{},:selected => user.primary_role %>
+	</div>
+</div>
+</fieldset>
+
+<fieldset>
+<div class = "control-group">
+	<%= f.label :optinal_role_1, "Optional Permissions" ,:class => "control-label" %>
+	<div class="controls">
+	<label class="checkbox">
+		<% @role1_checked = true if user.optional_role_1=="Application Developer" %>
+	<%= f.check_box :optional_role_1,{:checked => @role1_checked },"Application Developer" %>Application Developer
+	</label>
+	</div>
+	<div class="controls">
+	<label class="checkbox">
+		<% @role2_checked = true if user.optional_role_2=="Ingestion User" %>
+	<%= f.check_box :optional_role_2,{:checked => @role2_checked },"Ingestion User" %>Ingestion User
+	</label>
+	</div>
+	
+</div>
+</fieldset>
+
+<fieldset>
+<div class = "form-actions">
+	<%= f.submit "Update", :class => "btn btn-primary" %>
+	<%= link_to "Cancel", "/users",:class => "btn" %>
+</div>
+</fieldset>
+<% end %>
+
+
+

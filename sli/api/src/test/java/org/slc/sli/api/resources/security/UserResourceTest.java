@@ -9,11 +9,12 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import org.junit.Test;
+import org.springframework.security.core.GrantedAuthority;
+
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.resources.security.UserResource.RightToGroupMapper;
 import org.slc.sli.api.resources.security.UserResource.RoleToGroupMapper;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.security.core.GrantedAuthority;
 
 /**
  * Unit tests for user resource.
@@ -31,12 +32,14 @@ public class UserResourceTest {
 
     @Test
     public void testValidateAdminRights() {
-        assertNotNull(UserResource.validateAdminRights(Arrays.asList(EMPTY_RIGHT)));
-        assertNotNull(UserResource.validateAdminRights(Arrays.asList(NO_ADMIN_RIGHT)));
-        assertNull(UserResource.validateAdminRights(Arrays.asList(ONE_ADMIN_RIGHT_ONLY)));
-        assertNull(UserResource.validateAdminRights(Arrays.asList(ONE_ADMIN_RIGHT_WITH_OTHERS)));
-        assertNull(UserResource.validateAdminRights(Arrays.asList(TWO_ADMIN_RIGHTS_ONLY)));
-        assertNull(UserResource.validateAdminRights(Arrays.asList(TWO_ADMIN_RIGHTS_WITH_OTHERS)));
+        UserResource resource = new UserResource();
+        assertNotNull(resource.validateAdminRights(Arrays.asList(EMPTY_RIGHT), "tenant"));
+        assertNotNull(resource.validateAdminRights(Arrays.asList(NO_ADMIN_RIGHT), "tenant"));
+        assertNull(resource.validateAdminRights(Arrays.asList(ONE_ADMIN_RIGHT_ONLY), "tenant"));
+        assertNull(resource.validateAdminRights(Arrays.asList(ONE_ADMIN_RIGHT_WITH_OTHERS), "tenant"));
+        assertNull(resource.validateAdminRights(Arrays.asList(TWO_ADMIN_RIGHTS_ONLY), "tenant"));
+        assertNull(resource.validateAdminRights(Arrays.asList(TWO_ADMIN_RIGHTS_WITH_OTHERS), "tenant"));
+        assertNotNull(resource.validateAdminRights(Arrays.asList(ONE_ADMIN_RIGHT_ONLY), null));
     }
 
     @Test

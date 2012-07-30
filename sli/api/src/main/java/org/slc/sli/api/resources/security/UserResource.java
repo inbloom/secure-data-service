@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -25,6 +26,15 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.ldap.NameAlreadyBoundException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.ldap.LdapService;
@@ -32,13 +42,11 @@ import org.slc.sli.api.ldap.User;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.ldap.NameAlreadyBoundException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Component;
 
 /**
  * @author dliu
@@ -58,9 +66,18 @@ public class UserResource {
     @Value("${sli.simple-idp.sliAdminRealmName}")
     private String realm;
 
+    @Value("${sli.feature.enableSamt:false}")
+    private boolean enableSamt;
+
+    @Autowired
+    @Qualifier("validationRepo")
+    private Repository<Entity> repo;
+
+
     @POST
     public final Response create(final User newUser, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        Response result = validateUserCreate(newUser);
+        assertEnabled();
+        Response result = validateUserCreate(newUser, SecurityUtil.getTenantId());
         if (result != null) {
             return result;
         }
@@ -79,7 +96,10 @@ public class UserResource {
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
 
-        Response result = validateAdminRights(SecurityUtil.getAllRights());
+        assertEnabled();
+        String tenant = SecurityUtil.getTenantId();
+
+        Response result = validateAdminRights(SecurityUtil.getAllRights(), tenant);
         if (result != null) {
             return result;
         }
@@ -103,7 +123,8 @@ public class UserResource {
 
     @PUT
     public final Response update(final User updateUser, @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        Response result = validateUserUpdate(updateUser);
+        assertEnabled();
+        Response result = validateUserUpdate(updateUser, SecurityUtil.getTenantId());
         if (result != null) {
             return result;
         }
@@ -116,7 +137,8 @@ public class UserResource {
     @Path("{uid}")
     public final synchronized Response delete(@PathParam("uid") final String uid, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        Response result = validateUserDelete(uid);
+        assertEnabled();
+        Response result = validateUserDelete(uid, SecurityUtil.getTenantId());
         if (result != null) {
             return result;
         }
@@ -125,8 +147,14 @@ public class UserResource {
         return Response.status(Status.OK).build();
     }
 
-    private Response validateUserCreate(User user) {
-        Response result = validateAdminRights(SecurityUtil.getAllRights());
+    private void assertEnabled() {
+        if (!enableSamt) {
+            throw new RuntimeException("This feature is currently disabled via configuration.");
+        }
+    }
+
+    private Response validateUserCreate(User user, String tenant) {
+        Response result = validateAdminRights(SecurityUtil.getAllRights(), tenant);
         if (result != null) {
             return result;
         }
@@ -150,8 +178,8 @@ public class UserResource {
         return null;
     }
 
-    private Response validateUserUpdate(User user) {
-        Response result = validateAdminRights(SecurityUtil.getAllRights());
+    private Response validateUserUpdate(User user, String tenant) {
+        Response result = validateAdminRights(SecurityUtil.getAllRights(), tenant);
         if (result != null) {
             return result;
         }
@@ -180,8 +208,8 @@ public class UserResource {
         return null;
     }
 
-    private Response validateUserDelete(String uid) {
-        Response result = validateAdminRights(SecurityUtil.getAllRights());
+    private Response validateUserDelete(String uid, String tenant) {
+        Response result = validateAdminRights(SecurityUtil.getAllRights(), tenant);
         if (result != null) {
             return result;
         }
@@ -230,18 +258,31 @@ public class UserResource {
     }
 
     /**
-     * Check that the rights contains an admin right.
+     * Check that the rights contains an admin right. If tenant is null, then also verify the user has operator level rights.
      *
      * @param rights
      * @return null if success, response with error otherwise
      */
-    static Response validateAdminRights(Collection<GrantedAuthority> rights) {
-        if (!isAdministrator(rights)) {
+    Response validateAdminRights(Collection<GrantedAuthority> rights, String tenant) {
+        Collection<GrantedAuthority> rightSet = new HashSet<GrantedAuthority>(rights);
+        rightSet.retainAll(Arrays.asList(Right.ALL_ADMIN_CRUD_RIGHTS));
+        boolean nullTenant = (tenant == null && !(rights.contains(Right.CRUD_SANDBOX_SLC_OPERATOR) || rights
+                .contains(Right.CRUD_SLC_OPERATOR)));
+        if (nullTenant) {
+            error("Non-operator user {} has null tenant.  Giving up.", new Object[] { SecurityUtil.getUid() });
+        }
+        if (rightSet.isEmpty() || nullTenant) {
             EntityBody body = new EntityBody();
             body.put("response", "You are not authorized to access this resource.");
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
         return null;
+    }
+
+    private static Response composeBadDataResponse(String reason) {
+        EntityBody body = new EntityBody();
+        body.put("response", reason);
+        return Response.status(Status.BAD_REQUEST).entity(body).build();
     }
 
     private Response validateTenantAndEdorg(Collection<String> groupsAllowed, User user) {
@@ -253,68 +294,109 @@ public class UserResource {
             user.setEdorg(null);
         }
 
-        // Production
-        if (user.getGroups().contains(RoleInitializer.SLC_OPERATOR)) {
+        if (user.getGroups().contains(RoleInitializer.SLC_OPERATOR)
+                || user.getGroups().contains(RoleInitializer.SANDBOX_SLC_OPERATOR)) {
+            // tenant and edorg should be null for SLC OP
             if (user.getTenant() != null || user.getEdorg() != null) {
-                EntityBody body = new EntityBody();
-                body.put("response", "SLC Operator can not have tenant/edorg");
-                return Response.status(Status.BAD_REQUEST).entity(body).build();
+                return composeBadDataResponse("SLC Operator can not have tenant/edorg");
             }
-        } else if (groupsAllowed.contains(RoleInitializer.SLC_OPERATOR)) {
-            if (user.getTenant() == null || user.getEdorg() == null) {
-                EntityBody body = new EntityBody();
-                body.put("response", "Required tenant/edorg info is missing");
-                return Response.status(Status.BAD_REQUEST).entity(body).build();
-            }
-        } else if (groupsAllowed.contains(RoleInitializer.SEA_ADMINISTRATOR)) {
-            if (user.getTenant() == null || user.getEdorg() == null) {
-                EntityBody body = new EntityBody();
-                body.put("response", "Required tenant/edorg info is missing");
-                return Response.status(Status.BAD_REQUEST).entity(body).build();
-            } else if (!user.getTenant().equals(SecurityUtil.getTenantId())) {
-                EntityBody body = new EntityBody();
-                body.put("response", "tenant info mismatch");
-                return Response.status(Status.BAD_REQUEST).entity(body).build();
-            }
-        } else if (groupsAllowed.contains(RoleInitializer.LEA_ADMINISTRATOR)) {
-            if (user.getTenant() == null || user.getEdorg() == null) {
-                EntityBody body = new EntityBody();
-                body.put("response", "Required tenant/edorg info is missing");
-                return Response.status(Status.BAD_REQUEST).entity(body).build();
-            } else if (!user.getTenant().equals(SecurityUtil.getTenantId())
-                    || !user.getEdorg().equals(SecurityUtil.getEdOrg())) {
-                EntityBody body = new EntityBody();
-                body.put("response", "tenant/edorg info mismatch");
-                return Response.status(Status.BAD_REQUEST).entity(body).build();
-            }
-        }
-
-        // Sandbox
-        if (user.getGroups().contains(RoleInitializer.SANDBOX_SLC_OPERATOR)) {
-            if (user.getTenant() != null || user.getEdorg() != null) {
-                EntityBody body = new EntityBody();
-                body.put("response", "Sandbox SLC Operator can not have tenant/edorg");
-                return Response.status(Status.BAD_REQUEST).entity(body).build();
-            }
-        } else if (groupsAllowed.contains(RoleInitializer.SANDBOX_SLC_OPERATOR)) {
+        } else if (user.getGroups().contains(RoleInitializer.SANDBOX_ADMINISTRATOR)) {
+            // tenant should not be null of SB Admin
             if (user.getTenant() == null) {
-                EntityBody body = new EntityBody();
-                body.put("response", "Required tenant info is missing");
-                return Response.status(Status.BAD_REQUEST).entity(body).build();
+                return composeBadDataResponse("Required tenant info is missing");
             }
-        } else if (groupsAllowed.contains(RoleInitializer.SANDBOX_ADMINISTRATOR)) {
+            // if SB Admin creates another SB Admin, then tenant must match existing tenant
+            if (SecurityUtil.getTenantId() != null && !SecurityUtil.getTenantId().equals(user.getTenant())) {
+                return composeBadDataResponse("Tenant does not match logged in user's tenant");
+            }
+        } else if (user.getGroups().contains(RoleInitializer.SEA_ADMINISTRATOR)) {
+            // tenant and edorg should not be null for SEA
+            if (user.getTenant() == null || user.getEdorg() == null) {
+                return composeBadDataResponse("Required tenant/edorg info is missing");
+            }
+            // if SEA creates SEA, tenant must match
+            if (SecurityUtil.getTenantId() != null && !SecurityUtil.getTenantId().equals(user.getTenant())) {
+                return composeBadDataResponse("Tenant does not match logged in user's tenant");
+            }
+        } else if (user.getGroups().contains(RoleInitializer.LEA_ADMINISTRATOR)) {
+            // tenant and edorg should not be null for LEA
+            if (user.getTenant() == null || user.getEdorg() == null) {
+                return composeBadDataResponse("Required tenant/edorg info is missing");
+            }
+            // if SEA or LEA creates LEA, tenant must match
+            if (SecurityUtil.getTenantId() != null && !SecurityUtil.getTenantId().equals(user.getTenant())) {
+                return composeBadDataResponse("Tenant does not match logged in user's tenant");
+            }
+            // LEA's Ed-Org must already exist in the tenant
+            String restrictByEdorg = null;
+            if (isLeaAdmin()) {
+                restrictByEdorg = SecurityUtil.getEdOrg();
+            }
+            Set<String> allowedEdorgs = getAllowedEdOrgsForLEA(user.getTenant(), restrictByEdorg);
+            if (!allowedEdorgs.contains(user.getEdorg())) {
+                return composeBadDataResponse("Invalid edorg");
+            }
+        } else {
             if (user.getTenant() == null) {
-                EntityBody body = new EntityBody();
-                body.put("response", "Required tenant info is missing");
-                return Response.status(Status.BAD_REQUEST).entity(body).build();
-            } else if (!user.getTenant().equals(SecurityUtil.getTenantId())) {
-                EntityBody body = new EntityBody();
-                body.put("response", "tenant info mismatch");
-                return Response.status(Status.BAD_REQUEST).entity(body).build();
+                return composeBadDataResponse("Required tenant info is missing");
             }
+            if (SecurityUtil.getTenantId() != null && !SecurityUtil.getTenantId().equals(user.getTenant())) {
+                return composeBadDataResponse("Tenant does not match logged in user's tenant");
+            }
+            // if prod mode
+            if (SecurityUtil.hasRight(Right.CRUD_LEA_ADMIN) || SecurityUtil.hasRight(Right.CRUD_SEA_ADMIN)
+                    || SecurityUtil.hasRight(Right.CRUD_SLC_OPERATOR)) {
+                // Ed-Org must already exist in the tenant
+                String restrictByEdorg = null;
+                if (isLeaAdmin()) {
+                    restrictByEdorg = SecurityUtil.getEdOrg();
+                }
+                Set<String> allowedEdorgs = getAllowedEdOrgsForLEA(user.getTenant(), restrictByEdorg);
+                if (!allowedEdorgs.contains(user.getEdorg())) {
+                    return composeBadDataResponse("Invalid edorg");
+                }
+            }
+            // if
         }
-
         return null;
+    }
+
+    /*
+     * Determines if current logged in user an LEA Admin.
+     */
+    private boolean isLeaAdmin() {
+        // assumption: If the user is able to create LEAs, but not SEAs and OPs, then he is a LEA.
+        // note: This is silly.
+        Collection<String> roles = RoleToGroupMapper.getInstance().mapGroupToRoles(getGroupsAllowed());
+        return roles.contains(RoleInitializer.LEA_ADMINISTRATOR) && !roles.contains(RoleInitializer.SEA_ADMINISTRATOR)
+                && !roles.contains(RoleInitializer.SLC_OPERATOR);
+    }
+
+    /**
+     * Returns a list of possible ed-orgs.
+     * @param tenant Tenant in which the ed-orgs reside.
+     * @param edOrg if provided, list will be restricted to that ed-org or lower.
+     */
+    private Set<String> getAllowedEdOrgsForLEA(String tenant, String edOrg) {
+        NeutralQuery query = new NeutralQuery();
+
+        if (SecurityUtil.getTenantId() == null && tenant != null) {
+            query.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, tenant, false));
+        }
+
+        if (edOrg != null) {
+            NeutralQuery currentEdOrgQuery = new NeutralQuery(new NeutralCriteria("stateOrganizationId",
+                    NeutralCriteria.OPERATOR_EQUAL, edOrg));
+            Entity usersEdOrg = this.repo.findOne(EntityNames.EDUCATION_ORGANIZATION, currentEdOrgQuery);
+            query.addCriteria(new NeutralCriteria("metaData.edOrgs", NeutralCriteria.OPERATOR_EQUAL, usersEdOrg
+                    .getEntityId(), false));
+        }
+
+        Set<String> edOrgIds = new HashSet<String>();
+        for (Entity e : this.repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
+            edOrgIds.add((String) e.getBody().get("stateOrganizationId"));
+        }
+        return edOrgIds;
     }
 
     private static final String[] ADMIN_ROLES = new String[] { RoleInitializer.LEA_ADMINISTRATOR,
@@ -344,18 +426,6 @@ public class UserResource {
 
     private Collection<String> getGroupsAllowed() {
         return RightToGroupMapper.getInstance().getGroups(SecurityUtil.getAllRights());
-    }
-
-    /**
-     * Given a collection of rights, determine whether or not this user is an administrator.
-     *
-     * @param rights
-     * @return true if user is an administrator, false otherwise
-     */
-    private static boolean isAdministrator(final Collection<GrantedAuthority> rights) {
-        Collection<GrantedAuthority> rightSet = new HashSet<GrantedAuthority>(rights);
-        rightSet.retainAll(Arrays.asList(Right.ALL_ADMIN_CRUD_RIGHTS));
-        return !rightSet.isEmpty();
     }
 
     /**
@@ -434,21 +504,21 @@ public class UserResource {
             return INSTANCE;
         }
     }
-    
+
     static final class RoleToGroupMapper {
         private static final RoleToGroupMapper INSTANCE = new RoleToGroupMapper();
-        
+
         public static RoleToGroupMapper getInstance() {
             return INSTANCE;
         }
-        
+
         private final Map<String, String> ROLETOGROUPMAP;
         private final Map<String, String> GROUPTOROLEMAP;
-        
+
         private RoleToGroupMapper() {
             ROLETOGROUPMAP = new HashMap<String, String>();
             GROUPTOROLEMAP = new HashMap<String, String>();
-            
+
             ROLETOGROUPMAP.put(RoleInitializer.SLC_OPERATOR, "SLC Operator");
             ROLETOGROUPMAP.put(RoleInitializer.REALM_ADMINISTRATOR, "Realm Administrator");
             ROLETOGROUPMAP.put(RoleInitializer.SEA_ADMINISTRATOR, "SEA Administrator");
@@ -457,7 +527,7 @@ public class UserResource {
             ROLETOGROUPMAP.put(RoleInitializer.INGESTION_USER, "ingestion_user");
             ROLETOGROUPMAP.put(RoleInitializer.SANDBOX_SLC_OPERATOR, "Sandbox SLC Operator");
             ROLETOGROUPMAP.put(RoleInitializer.SANDBOX_ADMINISTRATOR, "Sandbox Administrator");
-            
+
             GROUPTOROLEMAP.put("SLC Operator", RoleInitializer.SLC_OPERATOR);
             GROUPTOROLEMAP.put("Realm Administrator", RoleInitializer.REALM_ADMINISTRATOR);
             GROUPTOROLEMAP.put("SEA Administrator", RoleInitializer.SEA_ADMINISTRATOR);
@@ -467,36 +537,38 @@ public class UserResource {
             GROUPTOROLEMAP.put("Sandbox SLC Operator", RoleInitializer.SANDBOX_SLC_OPERATOR);
             GROUPTOROLEMAP.put("Sandbox Administrator", RoleInitializer.SANDBOX_ADMINISTRATOR);
         }
-        
+
         public Collection<String> mapRoleToGroups(Collection<String> roles) {
             Collection<String> groups = new ArrayList<String>();
             if (roles != null) {
                 for (String role : roles) {
-                    if (this.ROLETOGROUPMAP.containsKey(role))
+                    if (this.ROLETOGROUPMAP.containsKey(role)) {
                         groups.add(this.ROLETOGROUPMAP.get(role));
+                    }
                 }
             }
             return groups;
         }
-        
+
         public Collection<String> mapGroupToRoles(Collection<String> groups) {
             Collection<String> roles = new ArrayList<String>();
             if (groups != null) {
                 for (String group : groups) {
-                    if (this.GROUPTOROLEMAP.containsKey(group))
+                    if (this.GROUPTOROLEMAP.containsKey(group)) {
                         roles.add(this.GROUPTOROLEMAP.get(group));
+                    }
                 }
             }
             return roles;
         }
-        
+
         public String getRole(String group) {
             if (this.GROUPTOROLEMAP.containsKey(group)) {
                 return this.GROUPTOROLEMAP.get(group);
             }
             return null;
         }
-        
+
         public String getGroup(String role) {
             if (this.ROLETOGROUPMAP.containsKey(role)) {
                 return this.ROLETOGROUPMAP.get(role);

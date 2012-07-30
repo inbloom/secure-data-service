@@ -20,7 +20,7 @@ package org.slc.sli.ingestion;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slc.sli.domain.AggregateData;
+import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -151,7 +151,7 @@ public class NeutralRecordEntity implements Entity {
     }
 
     @Override
-    public AggregateData getAggregates() {
-        return new AggregateData();
+    public CalculatedData getAggregates() {
+        return new CalculatedData();
     }
 }

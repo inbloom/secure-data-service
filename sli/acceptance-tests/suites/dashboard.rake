@@ -183,6 +183,13 @@ task :dashboardSmokeTests do
   runTests("test/features/dashboard/dash/smoked_dashboard.feature")
 end
 
+
+desc "Run dashboard qunit tests"
+task :dashboardQunitTests do
+  runTests("test/features/dashboard/dash/qunit_tests.feature")
+end
+
+
 ############################################################
 # Dashboard tests end
 ############################################################
