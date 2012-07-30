@@ -74,17 +74,23 @@ public class SchoolProficiencyMapper
         }
 
         for (DBObject student : students) {
+            Map<String, Object> aggregations = (Map<String, Object>) student.get("aggregations");
             if (aggregations == null) {
                 continue;
             }
+            Map<String, Object> assessments = (Map<String, Object>) aggregations.get("assessments");
             if (assessments == null) {
                 continue;
             }
+            Map<String, Object> assessment = (Map<String, Object>) assessments.get(idCode);
             if (assessment == null) {
                 continue;
             }
+            Map<String, Object> highest = (Map<String, Object>) assessment.get("HighestEver");
             if (highest == null) {
                 continue;
+            }
+
             String score = (String) highest.get("ScaleScore");
             code.set("!");
             if (score != null) {
@@ -100,12 +106,11 @@ public class SchoolProficiencyMapper
             } else if (scaleScore >= 28 && scaleScore <= 33) {
                 code.set("E");
             }
-        } else {
-            code.set("-");
+            } else {
+                code.set("-");
+            }
         }
-
-            context.write(new TenantAndID(schoolId, tenantId), code);
-    }
+        context.write(new TenantAndID(schoolId, tenantId), code);
     }
 
     @SuppressWarnings("unchecked")

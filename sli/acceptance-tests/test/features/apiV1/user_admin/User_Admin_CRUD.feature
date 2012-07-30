@@ -14,8 +14,10 @@ Feature: As an admin I can create admin accounts for tenancies I administer
 		|iladmin    	|iladmin1234    		|SEA Administrator      |SLI        | should  	|
 		|sunsetadmin	|sunsetadmin1234		|LEA Administrator      |SLI        | should  	|
 		|sandboxoperator|sandboxoperator1234	|Sandbox SLC Operator	|SLI		| should  	|
+		|sandboxadministrator|sandboxadministrator1234|Sandbox Administrator|SLI	| should	|
 		|ingestionuser  |ingestionuser1234		|Ingestion User			|SLI		| should not|
 		|sunsetrealmadmin|sunsetrealmadmin1234	|Realm Administrator	|SLI		| should not|
+		|sandboxdeveloper|sandboxdeveloper1234	|Application Developer	|SLI		| should not|
 		
 	
   @wip
