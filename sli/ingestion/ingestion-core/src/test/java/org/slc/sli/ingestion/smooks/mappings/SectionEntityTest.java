@@ -82,7 +82,7 @@ public class SectionEntityTest {
             }
 
             @Override
-            public CalculatedData getAggregates() {
+            public CalculatedData getCalculatedValues() {
                 // TODO Auto-generated method stub
                 return null;
             }

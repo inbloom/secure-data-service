@@ -74,7 +74,7 @@ public class SchoolProficiencyMapper
         }
 
         for (DBObject student : students) {
-            Map<String, Object> aggregations = (Map<String, Object>) student.get("aggregations");
+            Map<String, Object> aggregations = (Map<String, Object>) student.get("calculatedValues");
             if (aggregations == null) {
                 continue;
             }

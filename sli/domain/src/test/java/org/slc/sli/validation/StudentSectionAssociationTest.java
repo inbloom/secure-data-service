@@ -87,7 +87,7 @@ public class StudentSectionAssociationTest {
             }
 
             @Override
-            public CalculatedData getAggregates() {
+            public CalculatedData getCalculatedValues() {
                 return null;
             }
         };

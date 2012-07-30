@@ -678,7 +678,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     @Override
     public AggregateListingResource getAggregates(@PathParam("id") String id) {
         EntityService service = entityDefs.lookupByResourceName(resourceName).getService();
-        CalculatedData data = service.getAggregateData(id);
+        CalculatedData data = service.getCalculatedValues(id);
         return new AggregateListingResource(data);
     }
 
@@ -727,9 +727,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         boolean includeAggregates = "true".equals(includeComputed);
         if (includeAggregates) {
             String entityId = (String) entityBody.get("id");
-            CalculatedData aggs = entityDef.getService().getAggregateData(entityId);
+            CalculatedData aggs = entityDef.getService().getCalculatedValues(entityId);
             if (aggs != null) {
-                entityBody.put(ResourceConstants.CALCULATED_VALUE_TYPE, aggs.getAggregates());
+                entityBody.put(ResourceConstants.CALCULATED_VALUE_TYPE, aggs.getCalculatedValues());
             }
         }
     }

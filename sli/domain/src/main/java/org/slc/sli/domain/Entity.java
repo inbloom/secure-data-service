@@ -49,9 +49,9 @@ public interface Entity {
     public Map<String, Object> getMetaData();
 
     /**
-     * Get the aggregate data
+     * Get the calculated values
      *
      * @return
      */
-    public CalculatedData getAggregates();
+    public CalculatedData getCalculatedValues();
 }

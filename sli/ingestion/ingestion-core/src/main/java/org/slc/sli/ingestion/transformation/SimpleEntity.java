@@ -91,7 +91,7 @@ public class SimpleEntity implements Entity {
     }
 
     @Override
-    public CalculatedData getAggregates() {
+    public CalculatedData getCalculatedValues() {
         return new CalculatedData();
     }
 }
