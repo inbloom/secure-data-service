@@ -3,6 +3,7 @@ package org.slc.sli.api.selectors.doc;
 import org.codehaus.plexus.util.StringUtils;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.selectors.model.*;
 import org.slc.sli.domain.NeutralCriteria;
@@ -61,6 +62,9 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
                 String extractKey = getExtractionKey(currentType, previousType);
                 List<String> ids = extractIds(previousEntities, extractKey);
+
+                //if (ids == null) return results;
+
                 constraint.setValue(ids);
             }
 
@@ -138,16 +142,20 @@ public class DefaultSelectorDocument implements SelectorDocument {
         Type nextType = types.pop();
         String extractionKey = getExtractionKey(nextType, currentType);
         String key = getKey(nextType, currentType);
+        String exposeName = getExposeName(nextType);
         key = key.equals("_id") ? "id" : key;
 
         //make sure we save the field we just added
-        plan.getParseFields().add(nextType.getName());
+        plan.getParseFields().add(exposeName);
 
         for (EntityBody body : results) {
             String id = (String) body.get(extractionKey);
 
             List<EntityBody> subList = getEntitySubList(entityList, key, id);
-            body.put(nextType.getName(), subList);
+
+            if (!subList.isEmpty()) {
+                body.put(exposeName, subList);
+            }
         }
 
         return results;
@@ -156,7 +164,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
     protected String getExposeName(Type type) {
         EntityDefinition def = getEntityDefinition(type);
 
-        return def.getResourceName();
+        return PathConstants.TEMP_MAP.get(def.getResourceName());
     }
 
     protected String getExtractionKey(Type currentType, Type previousType) {
@@ -206,7 +214,9 @@ public class DefaultSelectorDocument implements SelectorDocument {
         key = key.equals("_id") ? "id" : key;
 
         for (EntityBody body : entities) {
-            ids.add((String) body.get(key));
+            if (body.containsKey(key)) {
+                ids.add((String) body.get(key));
+            }
         }
 
         return ids;

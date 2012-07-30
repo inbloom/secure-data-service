@@ -114,21 +114,21 @@ public class DefaultSelectorDocumentTest {
 
         EntityBody student = results.get(0);
         String studentId = (String) student.get("id");
-        assertTrue("Should be true", student.containsKey("StudentSectionAssociation"));
+        assertTrue("Should be true", student.containsKey("studentSectionAssociations"));
         assertTrue("Should be true", student.containsKey("name"));
         assertEquals("Should match", 4, student.keySet().size());
 
-        List<EntityBody> studentSectionAssociationList = (List<EntityBody>) student.get("StudentSectionAssociation");
+        List<EntityBody> studentSectionAssociationList = (List<EntityBody>) student.get("studentSectionAssociations");
         assertEquals("Should match", 2, studentSectionAssociationList.size());
 
         EntityBody studentSectionAssociation = studentSectionAssociationList.get(0);
         String sectionId = (String) studentSectionAssociation.get("sectionId");
         assertEquals("Should match", studentId, studentSectionAssociation.get("studentId"));
-        assertTrue("Should be true", studentSectionAssociation.containsKey("Section"));
+        assertTrue("Should be true", studentSectionAssociation.containsKey("sections"));
         assertTrue("Should be true", studentSectionAssociation.containsKey("sectionId"));
         assertEquals("Should match", 5, studentSectionAssociation.keySet().size());
 
-        List<EntityBody> sectionList = (List<EntityBody>) studentSectionAssociation.get("Section");
+        List<EntityBody> sectionList = (List<EntityBody>) studentSectionAssociation.get("sections");
         assertEquals("Should match", 1, sectionList.size());
 
         EntityBody section = sectionList.get(0);
@@ -154,9 +154,9 @@ public class DefaultSelectorDocumentTest {
         assertEquals("Should match", 2, results.size());
 
         EntityBody section = results.get(0);
-        assertTrue("Should be true", section.containsKey("Session"));
+        assertTrue("Should be true", section.containsKey("sessions"));
 
-        List<EntityBody> sessionList = (List<EntityBody>) section.get("Session");
+        List<EntityBody> sessionList = (List<EntityBody>) section.get("sessions");
         assertEquals("Should match", 1, sessionList.size());
 
         EntityBody session = sessionList.get(0);
