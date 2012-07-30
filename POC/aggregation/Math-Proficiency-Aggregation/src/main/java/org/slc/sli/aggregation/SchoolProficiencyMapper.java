@@ -3,11 +3,14 @@ package org.slc.sli.aggregation;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.Mongo;
 import com.mongodb.MongoException;
@@ -15,10 +18,11 @@ import com.mongodb.MongoException;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.bson.BSONObject;
+
 import org.slc.sli.aggregation.mapreduce.TenantAndID;
 
 /**
- * Map ACT scores and aggregate them at the school level based on scale score.
+ * Map state math assessment scores and aggregate them at the school level based on scale score.
  *
  * The following buckets are defined:
  *
@@ -41,52 +45,51 @@ public class SchoolProficiencyMapper
     Mongo mongo = null;
     DB db = null;
     DBCollection ssa = null;
+    DBCollection studentColl = null;
 
     public SchoolProficiencyMapper() throws UnknownHostException, MongoException {
         mongo = new Mongo("localhost");
         db = mongo.getDB("sli");
         ssa = db.getCollection("studentSchoolAssociation");
+        studentColl = db.getCollection("student");
     }
 
 
     @SuppressWarnings("unchecked")
     @Override
-    public void map(final String studentId,
-                    final BSONObject student,
+    public void map(final String schoolId,
+                    final BSONObject school,
                     final Context context)
             throws IOException, InterruptedException {
 
         String idCode = context.getConfiguration().get("AssessmentIdCode");
-        TenantAndID edOrgId = getStudentEdOrgId(studentId.toString());
 
-        if (edOrgId == null) {
+        Map<String, Object> metaData = (Map<String, Object>) school.get("metaData");
+        String tenantId = (String) metaData.get("tenantId");
+
+        Set<DBObject> students = getStudentsForSchool(school, idCode);
+
+        if (students.isEmpty()) {
             return;
         }
 
-        double scaleScore = 0.0;
-        boolean found = false;
-
-        // "aggregations" : { "assessments" : { "Grade 7 2011 State Math" : { "HighestEver" : { "ScaleScore" : "31.0" }
-
-        if (student.get("aggregations") != null) {
-            Map<String, Object> aggregations = (Map<String, Object>) student.get("aggregations");
-            if (aggregations.containsKey("assessments")) {
-                Map<String, Object> assessments = (Map<String, Object>) aggregations.get("assessments");
-                if (assessments.containsKey(idCode)) {
-                    Map<String, Object> assessment = (Map<String, Object>) assessments.get(idCode);
-                    if (assessment.containsKey("HighestEver")) {
-                        Map<String, Object> highest = (Map<String, Object>) assessment.get("HighestEver");
-                        if (highest.containsKey("ScaleScore")) {
-                            found = true;
-                            scaleScore = Double.parseDouble((String) highest.get("ScaleScore"));
-                        }
-                    }
-                }
+        for (DBObject student : students) {
+            if (aggregations == null) {
+                continue;
             }
-        }
+            if (assessments == null) {
+                continue;
+            }
+            if (assessment == null) {
+                continue;
+            }
+            if (highest == null) {
+                continue;
+            String score = (String) highest.get("ScaleScore");
+            code.set("!");
+            if (score != null) {
+                Double scaleScore = Double.valueOf(score);
 
-        code.set("!");
-        if (found) {
             // TODO -- these ranges should come from the assessment directly.
             if (scaleScore >= 6 && scaleScore <= 14) {
                 code.set("W");
@@ -101,17 +104,46 @@ public class SchoolProficiencyMapper
             code.set("-");
         }
 
-        context.write(edOrgId, code);
+            context.write(new TenantAndID(schoolId, tenantId), code);
+    }
     }
 
     @SuppressWarnings("unchecked")
-    protected TenantAndID getStudentEdOrgId(String studentId) throws UnknownHostException {
-        DBObject ssaRecord = ssa.findOne(new BasicDBObject("body.studentId", studentId));
-        if (ssaRecord != null) {
-            String schoolId = (String) ((Map<String, Object>) ssaRecord.get("body")).get("schoolId");
-            String tenantId = (String) ((Map<String, Object>) ssaRecord.get("metaData")).get("tenantId");
-            return new TenantAndID(schoolId, tenantId);
+    protected Set<DBObject> getStudentsForSchool(BSONObject school, String assessmentId) {
+        Set<DBObject> students = new HashSet<DBObject>();
+
+        BasicDBObject query = new BasicDBObject();
+
+        String schoolId = (String) school.get("_id");
+
+        Map<String, Object> metaData = (Map<String, Object>) school.get("metaData");
+        String tenantId = (String) metaData.get("tenantId");
+
+        query.put("body.schoolId", schoolId);
+        query.put("metaData.tenantId", tenantId);
+
+        DBCursor c = ssa.find(query);
+        String[] ids = new String[c.count()];
+        int idx = 0;
+        while (c.hasNext()) {
+            DBObject ssaObject = c.next();
+            Map<String, Object> body = (Map<String, Object>) ssaObject.get("body");
+            String key = (String) body.get("studentId");
+            ids[idx++] = key;
         }
-        return null;
+
+        DBObject fields = new BasicDBObject();
+        fields.put("aggregations.assessments." + assessmentId + ".HighestEver.ScaleScore", 1);
+
+        query = new BasicDBObject();
+        query.put("_id", new BasicDBObject("$in", ids));
+        query.put("metaData.tenantId", tenantId);
+
+        DBCursor studentCursor = studentColl.find(query, fields);
+        while (studentCursor.hasNext()) {
+            students.add(studentCursor.next());
+        }
+
+        return students;
     }
 }

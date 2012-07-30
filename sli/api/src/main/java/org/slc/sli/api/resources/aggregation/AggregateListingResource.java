@@ -21,8 +21,8 @@ import javax.ws.rs.GET;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
-import org.slc.sli.domain.AggregateData;
-import org.slc.sli.domain.AggregateDatum;
+import org.slc.sli.domain.CalculatedData;
+import org.slc.sli.domain.CalculatedDatum;
 
 /**
  * Resource for displaying aggregate listings
@@ -32,9 +32,9 @@ import org.slc.sli.domain.AggregateDatum;
  */
 public class AggregateListingResource {
 
-    private final AggregateData data;
+    private final CalculatedData data;
 
-    public AggregateListingResource(AggregateData data) {
+    public AggregateListingResource(CalculatedData data) {
         super();
         this.data = data;
     }
@@ -51,7 +51,7 @@ public class AggregateListingResource {
     @GET
     public Response getAggregates(@QueryParam("type") String type, @QueryParam("window") String window,
             @QueryParam("method") String methodology, @QueryParam("name") String name) {
-        List<AggregateDatum> aggs = data.getAggregates(type, window, methodology, name);
+        List<CalculatedDatum> aggs = data.getCalculatedValues(type, window, methodology, name);
         return Response.ok(aggs).build();
     }
 
