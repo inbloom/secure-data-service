@@ -57,7 +57,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
             if (!previousEntities.isEmpty() && previousType != null) {
                 String key = getKey(currentType, previousType);
                 constraint.setKey(key);
-                plan.getIncludeFields().add(key);
+                plan.getParseFields().add(key);
 
                 String extractKey = getExtractionKey(currentType, previousType);
                 List<String> ids = extractIds(previousEntities, extractKey);
@@ -96,7 +96,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
                     }
                 }
 
-                returnList.add(addDefaults(body, newBody));
+                returnList.add(addDefaultsAndParseFields(plan, body, newBody));
             }
         } else if (!plan.getIncludeFields().isEmpty()) {
             returnList.clear();
@@ -109,18 +109,24 @@ public class DefaultSelectorDocument implements SelectorDocument {
                     }
                 }
 
-                returnList.add(addDefaults(body, newBody));
+                returnList.add(addDefaultsAndParseFields(plan, body, newBody));
             }
         }
 
         return returnList;
     }
 
-    protected EntityBody  addDefaults(EntityBody body, EntityBody newBody) {
+    protected EntityBody addDefaultsAndParseFields(SelectorQueryPlan plan, EntityBody body, EntityBody newBody) {
 
         for (String defaultString : defaults) {
             if (body.containsKey(defaultString)) {
                 newBody.put(defaultString, body.get(defaultString));
+            }
+        }
+
+        for (String parseField : plan.getParseFields()) {
+            if (body.containsKey(parseField)) {
+                newBody.put(parseField, body.get(parseField));
             }
         }
 
@@ -135,7 +141,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
         key = key.equals("_id") ? "id" : key;
 
         //make sure we save the field we just added
-        plan.getIncludeFields().add(nextType.getName());
+        plan.getParseFields().add(nextType.getName());
 
         for (EntityBody body : results) {
             String id = (String) body.get(extractionKey);

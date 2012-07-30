@@ -409,7 +409,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 final Map<String, Object> selector = getSelector(neutralQuery);
 
                 if (selector != null) {
-                    finalResults = logicalEntity.createEntities(selector, new Constraint("id", idList), resourceName);
+                    finalResults = logicalEntity.createEntities(selector, new Constraint("_id", idList), resourceName);
                 } else {
                     finalResults = new ArrayList<EntityBody>();
                     for (EntityBody entityBody : entityDef.getService().list(neutralQuery)) {

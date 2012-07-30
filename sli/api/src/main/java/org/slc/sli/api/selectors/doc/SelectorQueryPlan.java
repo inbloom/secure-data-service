@@ -18,6 +18,7 @@ import java.util.Map;
 public class SelectorQueryPlan {
     private ClassType type;
     private NeutralQuery query;
+    private List<String> parseFields = new ArrayList<String>();
     private List<String> includeFields = new ArrayList<String>();
     private List<String> excludeFields = new ArrayList<String>();
     private List<Object> childQueryPlans = new ArrayList<Object>();
@@ -60,5 +61,13 @@ public class SelectorQueryPlan {
 
     public void setExcludeFields(List<String> excludeFields) {
         this.excludeFields = excludeFields;
+    }
+
+    public List<String> getParseFields() {
+        return parseFields;
+    }
+
+    public void setParseFields(List<String> parseFields) {
+        this.parseFields = parseFields;
     }
 }

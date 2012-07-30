@@ -116,7 +116,7 @@ public class DefaultSelectorDocumentTest {
         String studentId = (String) student.get("id");
         assertTrue("Should be true", student.containsKey("StudentSectionAssociation"));
         assertTrue("Should be true", student.containsKey("name"));
-        assertEquals("Should match", 3, student.keySet().size());
+        assertEquals("Should match", 4, student.keySet().size());
 
         List<EntityBody> studentSectionAssociationList = (List<EntityBody>) student.get("StudentSectionAssociation");
         assertEquals("Should match", 2, studentSectionAssociationList.size());
@@ -126,7 +126,7 @@ public class DefaultSelectorDocumentTest {
         assertEquals("Should match", studentId, studentSectionAssociation.get("studentId"));
         assertTrue("Should be true", studentSectionAssociation.containsKey("Section"));
         assertTrue("Should be true", studentSectionAssociation.containsKey("sectionId"));
-        assertEquals("Should match", 4, studentSectionAssociation.keySet().size());
+        assertEquals("Should match", 5, studentSectionAssociation.keySet().size());
 
         List<EntityBody> sectionList = (List<EntityBody>) studentSectionAssociation.get("Section");
         assertEquals("Should match", 1, sectionList.size());
@@ -134,7 +134,7 @@ public class DefaultSelectorDocumentTest {
         EntityBody section = sectionList.get(0);
         assertEquals("Should match", sectionId, section.get("id"));
         assertTrue("Should be true", section.containsKey("sectionName"));
-        assertEquals("Should match", 2, section.keySet().size());
+        assertEquals("Should match", 3, section.keySet().size());
     }
 
     @Test

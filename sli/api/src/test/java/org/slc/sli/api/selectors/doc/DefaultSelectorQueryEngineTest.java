@@ -105,6 +105,31 @@ public class DefaultSelectorQueryEngineTest {
         assertEquals("Should match", 1, plan.getChildQueryPlans().size());
     }
 
+    @Test
+    public void test() {
+        SemanticSelector selectorsWithType =  generateAssociationSelectorMap();
+
+        Map<Type, SelectorQueryPlan> queryPlan = defaultSelectorQueryEngine.assembleQueryPlan(selectorsWithType);
+
+        assertNotNull("Should not be null", queryPlan);
+
+    }
+
+    public SemanticSelector generateAssociationSelectorMap() {
+        ClassType studentType = provider.getClassType("Student");
+
+        Attribute name = getMockAttribute("name");
+        ClassType sectionAssociations = getMockClassType("sectionAssociations");
+
+        SemanticSelector studentsAttrs = new SemanticSelector();
+        List<SelectorElement> attributes1 = new ArrayList<SelectorElement>();
+        attributes1.add(new BooleanSelectorElement(name, true));
+        attributes1.add(new BooleanSelectorElement(sectionAssociations, true));
+        studentsAttrs.put(studentType, attributes1);
+
+        return studentsAttrs;
+    }
+
     public SemanticSelector generateIncludeAllSelectorObjectMap() {
         ClassType studentType = provider.getClassType("Student");
         ClassType studentSchoolAssocicationType = provider.getClassType("schoolAssociations<=>student");

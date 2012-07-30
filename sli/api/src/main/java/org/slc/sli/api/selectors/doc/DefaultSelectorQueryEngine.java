@@ -3,9 +3,13 @@ package org.slc.sli.api.selectors.doc;
 import org.codehaus.plexus.util.StringUtils;
 import org.slc.sli.api.selectors.model.*;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.TagDefinition;
 import org.slc.sli.modeling.uml.Type;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.xml.namespace.QName;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +22,9 @@ import java.util.Map;
  */
 @Component
 public class DefaultSelectorQueryEngine implements SelectorQueryEngine, SelectorQueryVisitor {
+
+    @Autowired
+    private ModelProvider modelProvider;
 
     @Override
     public Map<Type, SelectorQueryPlan> assembleQueryPlan(SemanticSelector semanticSelector) {
@@ -101,15 +108,24 @@ public class DefaultSelectorQueryEngine implements SelectorQueryEngine, Selector
     @Override
     public SelectorQuery visit(BooleanSelectorElement booleanSelectorElement) {
         SelectorQuery selectorQuery = new SelectorQuery();
+        String attr = booleanSelectorElement.getElementName();
 
         if (booleanSelectorElement.isAttribute()) {
-            String attr = booleanSelectorElement.getElementName();
-
             if (booleanSelectorElement.getQualifier()) {
                 selectorQuery.getIncludeFields().add(attr);
             } else {
                 selectorQuery.getExcludeFields().add(attr);
             }
+        } else {
+            ClassType type = (ClassType) booleanSelectorElement.getLHS();
+
+            Map<Type, SelectorQueryPlan> queries = new HashMap<Type, SelectorQueryPlan>();
+            SelectorQueryPlan plan = new SelectorQueryPlan();
+
+            plan.setQuery(new NeutralQuery());
+            queries.put(type, plan);
+
+            selectorQuery.getQueries().add(queries);
         }
 
         return selectorQuery;
