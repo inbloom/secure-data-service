@@ -1,15 +1,12 @@
 package org.slc.sli.api.selectors.doc;
 
-import org.codehaus.plexus.util.StringUtils;
 import org.slc.sli.api.selectors.model.*;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.modeling.uml.ClassType;
-import org.slc.sli.modeling.uml.TagDefinition;
 import org.slc.sli.modeling.uml.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.xml.namespace.QName;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
