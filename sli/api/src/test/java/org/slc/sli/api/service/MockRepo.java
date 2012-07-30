@@ -39,6 +39,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.domain.AggregateData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -120,6 +121,7 @@ public class MockRepo implements Repository<Entity> {
         repo.put("authSession", new LinkedHashMap<String, Entity>());
         repo.put("assessmentFamily", new LinkedHashMap<String, Entity>());
         repo.put("application", new LinkedHashMap<String, Entity>());
+        repo.put("applicationAuthorization", new LinkedHashMap<String, Entity>());
         repo.put("oauthSession", new LinkedHashMap<String, Entity>());
         repo.put("oauth_access_token", new LinkedHashMap<String, Entity>());
         repo.put(EntityNames.ATTENDANCE, new LinkedHashMap<String, Entity>());
@@ -199,6 +201,12 @@ public class MockRepo implements Repository<Entity> {
                     if (entityValue != null) {
                         if (entityValue.equals(criteria.getValue())) {
                             results2.put(idAndEntity.getKey(), idAndEntity.getValue());
+                        } else if (entityValue instanceof List) { //also need to handle = for array
+                            for (Object arrayElement : (List) entityValue) {
+                                if (arrayElement.equals(criteria.getValue())) {
+                                    results2.put(idAndEntity.getKey(), idAndEntity.getValue());
+                                }
+                            }
                         }
                     }
                 }
@@ -406,6 +414,11 @@ public class MockRepo implements Repository<Entity> {
                 public String getType() {
                     return "realm";
                 }
+
+                @Override
+                public AggregateData getAggregates() {
+                    return null;
+                }
             };
         } else {
             Iterator<Entity> iter = this.findAll(entityType, neutralQuery).iterator();
@@ -450,6 +463,11 @@ public class MockRepo implements Repository<Entity> {
             @Override
             public String getType() {
                 return type;
+            }
+
+            @Override
+            public AggregateData getAggregates() {
+                return null;
             }
         };
 
@@ -522,6 +540,11 @@ public class MockRepo implements Repository<Entity> {
             @Override
             public String getType() {
                 return type;
+            }
+
+            @Override
+            public AggregateData getAggregates() {
+                return null;
             }
         };
 

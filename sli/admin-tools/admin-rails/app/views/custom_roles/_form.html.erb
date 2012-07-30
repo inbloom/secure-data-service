@@ -1,3 +1,7 @@
+<script>
+var roles = <%= roles.roles.to_json.html_safe %>;
+var UPDATE_URL = '<%= url_for(:action=>"update") %>'
+</script>
 <div class="row">
 <div class="span11">
 <table id="custom_roles" class="table table-bordered table-striped">
@@ -9,38 +13,27 @@
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td><div>Educator</div></td>
-      <td>
-        <input class="roleLabel" type="text" readonly="readonly" value="Educator"/>
-        <input class="roleLabel" type="text" readonly="readonly" value="MathTeacher"/>
-        <input class="roleLabel" type="text" readonly="readonly" value="Principal"/>
-        <input class="roleLabel" type="text" readonly="readonly" value="Janitor"/>
-      </td>
-      <td style="vvertical-align: middle; tttext-align: center">
-        <!--input class="roleLabel" type="text" readonly="readonly" value="Read General"/>
-        <input class="roleLabel" type="text" readonly="readonly" value="Write General"/-->
-      </td>
-     </tr>
   </tbody>
 </table>
-</div>
-</div>
+
 <div>
   <a href="#" id="addGroupButton" class="btn">Add Role Group</a>
 </div>
+
+</div> <!-- span11 -->
+</div> <!-- row -->
 
 
 <div id="components">
 
 <div class="rowEditTool">
   <div class="editButtons btn-group">
-    <a href="#" id="rowEditToolEditButton" class="btn btn-small">Edit</a>
-    <a href="#" id="rowEditToolDeleteButton" class="btn btn-small"><i class="icon-trash"></i></a>
+    <button id="rowEditToolEditButton" class="btn btn-small">Edit</button>
+    <button id="rowEditToolDeleteButton" class="btn btn-small"><i class="icon-trash"></i></button>
   </div>
   <div class="saveButtons btn-group">
-    <a href="#" id="rowEditToolSaveButton" class="btn btn-small">Save</a>
-    <a href="#" id="rowEditToolCancelButton" class="btn btn-small">Cancel</a>
+    <button id="rowEditToolSaveButton" class="btn btn-small">Save</button>
+    <button id="rowEditToolCancelButton" class="btn btn-small">Cancel</button>
   </div>
 </div>
 
@@ -76,11 +69,7 @@
   </div>
 </div>
 
+<div id="labelUi">
+  <span class="btn btn-small customLabel roleLabel">foo</span>
+</div>
 
-<span id="labelUi">
-    <input class="roleLabel" type="text" readonly="readonly" value="bar"/>
-</span>
-
-<span id="buttonUi">
-    <input class="roleLabel" type="text" readonly="readonly" value="foo"/>
-</span>

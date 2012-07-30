@@ -129,20 +129,7 @@ public class ApprovedApplicationResourceTest {
         SecurityContextHolder.clearContext();
         resource.getApplications("");
     }
-    
-    @Test
-    public void testAdminUser() {
-        Mockito.when(appValidator.getAuthorizedApps(Mockito.any(SLIPrincipal.class))).thenReturn(
-                Arrays.asList("adminAppId", "userAppId", "disabledAppId"));
         
-        setupAuth(Right.ADMIN_ACCESS, Arrays.asList("LEA Administrator"));
-        Response resp = resource.getApplications("");
-        List<EntityBody> ents = (List<EntityBody>) resp.getEntity();
-        assertTrue(isInEntityList(adminApp, ents));
-        assertFalse(isInEntityList(userApp, ents));
-        assertFalse(isInEntityList(installedApp, ents));
-    }
-    
     private boolean isInEntityList(EntityBody app, List<EntityBody> ents) {
         for (EntityBody ent : ents) {
             if (app.get("name").equals(ent.get("name"))) {

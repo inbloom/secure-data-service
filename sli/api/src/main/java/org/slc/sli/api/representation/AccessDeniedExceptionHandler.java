@@ -17,7 +17,12 @@
 
 package org.slc.sli.api.representation;
 
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.ext.ExceptionMapper;
@@ -45,9 +50,27 @@ public class AccessDeniedExceptionHandler implements ExceptionMapper<AccessDenie
 
     @Context
     UriInfo uriInfo;
+    
+    @Context
+    private HttpHeaders headers;
+    
+    @Context
+    private HttpServletResponse response;
 
     @Override
     public Response toResponse(AccessDeniedException e) {
+        
+        //There are a few jax-rs resources that generate HTML content, and we want the
+        //default web-container error handler pages to get used in those cases.
+        if (headers.getAcceptableMediaTypes().contains(MediaType.TEXT_HTML_TYPE)) {
+            try {
+                response.sendError(403, e.getMessage());
+                return null;    //the error page handles the response, so no need to return a response
+            } catch (IOException ex) {
+                error("Error displaying error page", ex);
+            }
+        }
+        
         Response.Status errorStatus = Response.Status.FORBIDDEN;
         warn("Access has been denied to user: {}", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         warn("Cause: {}", e.getMessage());

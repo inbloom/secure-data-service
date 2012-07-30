@@ -21,6 +21,7 @@ require 'rubygems'
 require 'net/ldap'
 require 'net/ldap/dn'
 require 'date'
+require 'duckpunch-netldap'
 
 class InvalidPasswordException < StandardError
 end
@@ -78,6 +79,7 @@ class LDAPStorage
 
   # some fields are stored in the description field as
   # key/value pairs
+  # WARNING: Modifying these values will not work unless the unpacking logic in search_map_user_fields is also updated
   PACKED_ENTITY_FIELD_MAPPING = {
       :tenant => "tenant",
       :edorg  => "edOrg"
@@ -244,7 +246,13 @@ class LDAPStorage
   # returns array of extended user_info for all users or all users with given status
   # use constants in approval.rb
   def read_users(status=nil)
-    filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:status].to_s, status ? status : "*")
+    # if a filter is provided for the status then set it otherwise just search for people
+    # Note: The filter will not capture users that do not have their status set. 
+    if status 
+      filter = Net::LDAP::Filter.eq(ENTITY_ATTR_MAPPING[:status].to_s, status ? status : "*")
+    else
+      filter = Net::LDAP::Filter.eq(:objectClass, "inetOrgPerson")
+    end
     return search_map_user_fields(filter)
   end
 
@@ -459,6 +467,8 @@ class LDAPStorage
 
         # unpack the fields that are stored in the description field
         desc = (entry[LDAP_DESCRIPTION_FIELD] ? entry[LDAP_DESCRIPTION_FIELD] : [])[0]
+        # handle packed fields deliminated by carriage return, newline, comma, or space
+        desc = desc.gsub(/tenant=([^\s,]+)[,\s]+/, "tenant=\\1\n") unless desc == nil
         unpacked_fields = if desc && (desc.strip != "")
                             mapping = desc.strip().split("\n").map {|x| x.strip}
                             mapping = mapping.map do |x|

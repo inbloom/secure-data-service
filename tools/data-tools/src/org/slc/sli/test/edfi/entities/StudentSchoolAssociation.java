@@ -28,6 +28,7 @@ package org.slc.sli.test.edfi.entities;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlSchemaType;
 import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.CollapsedStringAdapter;
@@ -83,6 +84,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
     "educationalPlans",
     "graduationPlanReference"
 })
+@XmlRootElement(name = "StudentSchoolAssociation")
 public class StudentSchoolAssociation {
 
     @XmlElement(name = "StudentReference", required = true)

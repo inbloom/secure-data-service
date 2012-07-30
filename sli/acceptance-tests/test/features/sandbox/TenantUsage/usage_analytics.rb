@@ -25,10 +25,11 @@ Then /^I see the total number of tenants as "(.*?)" at the bottom of the page$/ 
   collection_count = summary.find_element(:class_name, "tenant_metrics_collection_count")
 end
 
-Then /^I see the total data size is approximately "(.*?)"$/ do |data_size|
+Then /^I see the total data size is greater than "(.*?)"$/ do |data_size|
   summary = @driver.find_element(:class_name, "metrics_summary")
   size = summary.find_element(:class_name, "tenant_metrics_data_size").text
-  assert_in_delta(data_size.to_f, size.to_f, delta(data_size.to_f.abs))
+  # assert_in_delta(data_size.to_f, size.to_f, delta(data_size.to_f.abs))
+  assert(size.to_f > data_size.to_f, "Expected size greater than #{data_size}, received #{size}")
 end
 
 Then /^I see the total entity count is "(.*?)"$/ do |entity_count|
@@ -37,7 +38,7 @@ Then /^I see the total entity count is "(.*?)"$/ do |entity_count|
   assert_equal(entity_count, count)
 end
 
-Then /^I see a row for tenantId <Tenant_id> with entity count <Count>, approximate size <Size>$/ do |table|
+Then /^I see a row for tenantId <Tenant_id> with entity count <Count>, greater than size <Size>$/ do |table|
   # table is a Cucumber::Ast::Table
   table.hashes.each do |hash|
      tenantId = hash["Tenant_id"]
@@ -47,7 +48,7 @@ Then /^I see a row for tenantId <Tenant_id> with entity count <Count>, approxima
      step "there is a row with tenantId \"" + tenantId + "\""
      step "I am displayed a column for mongo usage and number of records"
      step "the row for \"" + tenantId + "\" displays entity count \"" + count + "\""
-     step "the row for \"" + tenantId + "\" displays size is approximately \"" + size + "\""
+     step "the row for \"" + tenantId + "\" displays size is greater than \"" + size + "\""
   end
 end
 
@@ -86,10 +87,11 @@ Then /^the row for "([^"]*)" displays entity count "(\d+)"$/ do |tenantId, count
 
 end
 
-Then /^the row for "(.*?)" displays size is approximately "(.*?)"$/ do |tenantId, size|
+Then /^the row for "(.*?)" displays size is greater than "(.*?)"$/ do |tenantId, size|
     assert_not_nil(@tenant_data, "Metrics for this tenant not found.")
     data = @tenant_data.find_element(:class_name, "tenant_metrics_data_size")
-    assert_in_delta(size.to_f, data.text.to_f, delta(size.to_f.abs))
+    # assert_in_delta(size.to_f, data.text.to_f, delta(size.to_f.abs))
+    assert(data.text.to_f > size.to_f, "Expected size greater than #{size}, received #{data.text}")
 end
 
 When /^I click on the <Tenant_id> link$/ do |table|
@@ -107,7 +109,7 @@ Then /^I see a list of <Collection_Count> collections$/ do
   assert_equal(convert(@hash["Collection_Count"]), @rows.size - 2)
 end
 
-Then /^I see a row for collection <Collection> with entity count <CRecords>, approximate size <CSize>$/ do
+Then /^I see a row for collection <Collection> with entity count <CRecords>, greater than size <CSize>$/ do
   @tranHistTable = @driver.find_element(:id, "tenant-metrics-table")
   rows = @tranHistTable.find_elements(:tag_name, "tr")
 
@@ -123,7 +125,8 @@ Then /^I see a row for collection <Collection> with entity count <CRecords>, app
             assert_equal(@hash["CRecords"], row_count.text, "Wrong collection record count.")
 
             row_size = row.find_element(:class_name, "tenant_metrics_data_size")
-            assert_in_delta(@hash["CSize"], row_size.text.to_f, delta(row_size.text.to_f))
+            # assert_in_delta(@hash["CSize"], row_size.text.to_f, delta(row_size.text.to_f))
+            assert(row_size.text.to_f > @hash["CSize"].to_f, "Expected size greater than #{@hash['CSize']}, received #{row_size.text}")
             break
          end
      rescue
@@ -134,10 +137,11 @@ Then /^I see a row for collection <Collection> with entity count <CRecords>, app
   assert(f, "Did not find the expected collection: " + @hash["Collection"])
 end
 
-Then /^I see the total for the tenant is count <TCount>, approximate size <TSize>$/ do
+Then /^I see the total for the tenant is count <TCount>, greater than size <TSize>$/ do
   summary = @driver.find_element(:class_name, "metrics_summary")
   size = summary.find_element(:class_name, "tenant_metrics_data_size").text
-  assert_in_delta(@hash["TSize"].to_f, size.to_f, delta(size.to_f.abs))
+  # assert_in_delta(@hash["TSize"].to_f, size.to_f, delta(size.to_f.abs))
+  assert(size.to_f > @hash["TSize"].to_f, "Expected size greater than #{@hash['TSize']}, received #{size}")
 
   count = summary.find_element(:class_name, "tenant_metrics_entity_count").text
   assert_equal(@hash["TCount"], count)

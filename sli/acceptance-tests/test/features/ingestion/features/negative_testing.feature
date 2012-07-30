@@ -37,7 +37,7 @@ Scenario: Post a zip file where the first record has an incorrect enum for an at
   And I should see "     Instance   1" in the resulting error log file
   And I should see "     Field      sex" in the resulting error log file
   And I should see "     Value      Boy" in the resulting error log file
-  And I should see "     Expected   [Female, Male]" in the resulting error log file
+  And I should see "     Expected   ['Female', 'Male']" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "student.xml records considered: 2" in the resulting batch job file
   And I should see "student.xml records ingested successfully: 1" in the resulting batch job file

@@ -1,8 +1,10 @@
-lastRow = -1
-editRowIndex = -1
-defaultRights = ["Read Restricted", "Write Restricted", "Read General", "Write General"]
+lastRow = -1 #last highlighted row
+editRowIndex = -1 #last row that was clicked on
+defaultRights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "AGGREGATE_WRITE"]
 
 jQuery ->
+  populateTable()
+
   $("#custom_roles tr:gt(0)").mouseenter -> rowMouseEnter($(@))
 
   $("#custom_roles tr").mouseleave ->
@@ -14,8 +16,16 @@ jQuery ->
 
   $("#rowEditToolEditButton").click ->
     if (editRowIndex < 0)
-      console.log("lastROw", lastRow)
       editRow(lastRow)
+
+  $("#rowEditToolCancelButton").click ->
+      window.location.reload(true);
+
+  $("#rowEditToolDeleteButton").click ->
+    if (confirm("Do you really want to delete the role group"))
+      $("#custom_roles tr:eq(" + lastRow + ")").remove()
+      $(".rowEditTool").hide()
+      saveData(getJsonData())
 
   $("#rowEditToolSaveButton").click ->
     if (editRowIndex > -1)
@@ -26,7 +36,7 @@ jQuery ->
     if (option.val() == 'none')
       return
     text = option.text()
-    right = createRightButton(text)
+    right = createLabel('right', text)
     right = wrapInputWithDeleteButton(right, "span")
     $("#addRightUi").parent().append(right)
     $("#addRightUi").parent().append(" ")
@@ -38,7 +48,6 @@ jQuery ->
     $("#custom_roles tbody").append(newRow)
     newRow.mouseenter -> rowMouseEnter(newRow)
     lastRow = $("#custom_roles tbody").children().index(newRow) + 1
-    console.log("Set last row", lastRow)
     editRowIndex = lastRow
     drawEditBox(newRow)
     editRow(lastRow)
@@ -46,12 +55,16 @@ jQuery ->
   $("#addRoleUi button").click ->
     td = $("#custom_roles tr:eq(" + editRowIndex + ") td:eq(1)")
     roleName = $("#addRoleUi input").val().trim()
+    if (roleName == "")
+      return
+
     #Check for duplicates
     if (getAllRoles().indexOf(roleName) > -1)
       return alert("The role name " + roleName + " is already used.")
-    div = createRightButton(roleName)
+    div = createLabel('role', roleName)
     div = wrapInputWithDeleteButton(div, "div")
-    td.append(div)
+    div.wrap("<div/>")
+    td.append(div.parent())
     $("#addRoleUi input").val("")
   
 rowMouseEnter = (row) ->   
@@ -59,25 +72,20 @@ rowMouseEnter = (row) ->
     drawEditBox(row)
 
 drawEditBox = (row) ->
-  lastRow = row.parent().children().index(row) + 1 #track the index of the currently highlighted row
+  lastRow = row.parent().children().index(row) + 1
   xPos = row.position().left + row.width()
   yPos = row.position().top
   $(".rowEditTool").show()
   $(".rowEditTool").height(row.height())
   $(".rowEditTool").offset({top: yPos, left: xPos})
 
-createRightButton = (name) ->
-  button = $('#buttonUi').clone();
-  button.find("input").attr('value', name)
-  return button.children()
-
-createRightLabel = (name) ->
-  label = $('#labelUi').clone();
-  label.find("input").attr('value', name)
+createLabel = (type, name) ->
+  label = $('#labelUi').clone()
+  label.find("span").text(name)
+  label.children().addClass(type)
   return label.children()
 
 editRow = (rowNum) ->
-  console.log("Edit row", rowNum)
   $("#addGroupButton").addClass("disabled")
   $(".editButtons").hide()
   $(".saveButtons").show()
@@ -86,6 +94,9 @@ editRow = (rowNum) ->
   populateRightComboBox()
   $("#custom_roles tr:eq(" + rowNum + ") td:eq(2)").prepend($("#addRightUi"))
   $("#addRightUi").fadeIn()
+
+  #Give it a nice glow
+  $("#custom_roles tr:eq(" + rowNum + ") td").addClass("highlight")
 
   #Add role name field
   td = $("#custom_roles tr:eq(" + rowNum + ") td:eq(1)")
@@ -112,21 +123,35 @@ populateRightComboBox = () ->
     if ($(@).val() != "none")
       $(@).remove()
 
-  for index, right of defaultRights
+  for right in defaultRights
     if (curRights.indexOf(right) < 0)
       $("#addRightUi select").append($("<option></option>").val(right).text(right))
 
 
 wrapInputWithDeleteButton = (input, type) ->
-  input.wrap($('<' + type  + '>').addClass("input-append"))
-  input.parent().wrap('<' + type + ' class="controls"/>') 
-  input.parent().parent().wrap($('<' + type + ' class="control-group"/>').css('white-space', 'nowrap'))
+  div = $('<span>').addClass("input-append")
   button = $("<button class='btn'>&times;</button>")
+  div.append(button)
   button.click ->
-    button.parent().parent().parent().remove()
-    populateRightComboBox()
-  input.parent().append(button)
-  return input.parent().parent().parent()
+    label = button.parent().parent().find('.editable')
+    if label.hasClass('right')
+      rights = getRights(editRowIndex)
+      if rights.length <= 1
+        return alert("Role group must contain at least one right.")
+
+    if label.hasClass('role')
+      roles = getRoles(editRowIndex)
+      if roles.length <= 1
+        return alert("Role group must contain at least one role.")
+      
+    button.parent().parent().fadeOut -> 
+      $(this).remove()
+      populateRightComboBox()
+  
+  input.addClass("editable")
+  input.wrap("<" + type + "/>").parent().css("white-space", "nowrap")
+  input.parent().append(div)
+  return input.parent()
 
 editRowStop = () ->
   $("#addGroupButton").removeClass("disabled")
@@ -139,17 +164,32 @@ editRowStop = () ->
   $("#addRightUi").hide()
   $("#components").append($("#addRightUi"))
   td = $("#custom_roles tr:eq(" + editRowIndex + ") td")
+  td.removeClass("highlight")
     
   #Replace input with delete buttons back to normal inputs
-  td.find(".control-group").each ->
-    $(@).replaceWith(createRightLabel($(@).find("input").val()))
+  td.find(".role ").each ->
+    $(@).parent().replaceWith(createLabel('role', $(@).text()))
+  td.find(".right").each ->
+    $(@).parent().replaceWith(createLabel('right', $(@).text()))
 
   #Replace editable group name with normal div
   input = $("#custom_roles tr:eq(" + editRowIndex + ") td:eq(0) input")
   div = $("<div/>").text(input.val())
   input.replaceWith(div)
-  console.log(getJsonData()) 
+  saveData(getJsonData()) 
   editRowIndex = -1
+
+saveData = (json) ->
+  $.ajax UPDATE_URL,
+    type: 'PUT'
+    contentType: 'application/json'
+    data: JSON.stringify({json})
+    dataType: 'json'
+    success: (data, status, xhr) ->
+      console.log("success", data, status, xhr)
+    error: (data, status, xhr) ->
+      console.log("error", data, status, xhr)
+      window.location.reload(true);
 
 
 getJsonData = () ->
@@ -157,24 +197,46 @@ getJsonData = () ->
   $("#custom_roles tr:gt(0)").each ->
     groupName = $(@).find("td:eq(0) div").text()
     roles = []
-    $(@).find("td:eq(1) input").each ->
-      roles.push($(@).val())
+    $(@).find("td:eq(1) .customLabel").each ->
+      roles.push($(@).text())
     rights = []
-    $(@).find("td:eq(2) input").each ->
-      rights.push($(@).val())
-    data.push({"groupName": groupName, "roles": roles, "rights": rights})
+    $(@).find("td:eq(2) .customLabel").each ->
+      rights.push($(@).text())
+    data.push({"groupTitle": groupName, "names": roles, "rights": rights})
   return data
 
 getRights = (row) ->
     rights = []
-    $("#custom_roles tr:eq(" + row + ")").find("td:eq(2) input").each ->
-      rights.push($(@).val())
+    $("#custom_roles tr:eq(" + row + ")").find("td:eq(2) .customLabel").each ->
+      rights.push($(@).text())
     return rights
+
+getRoles = (row) ->
+    roles = []
+    $("#custom_roles tr:eq(" + row + ")").find("td:eq(1) .customLabel").each ->
+      roles.push($(@).text())
+    return roles
 
 getAllRoles = () ->
   roles = []
   $("#custom_roles tr:gt(0)").each ->
-    $(@).find("td:eq(1) input[readonly]").each ->
-      roles.push($(@).val())
+    $(@).find("td:eq(1) .customLabel").each ->
+      roles.push($(@).text())
   return roles
 
+populateTable = () ->
+  for role in roles
+    newRow = $("<tr><td><div></div></td><td></td><td></td></tr>")
+    newRow.mouseenter -> rowMouseEnter(newRow)
+    $("#custom_roles tbody").append(newRow)
+
+    newRow.find("td:eq(0)").append($("<div></div>").text(role.groupTitle))
+
+    for name in role.names
+      div = $('<div/>')
+      div.append(createLabel('role', name))
+      newRow.find("td:eq(1)").append(div)
+
+    for right in role.rights
+      newRow.find("td:eq(2)").append(createLabel('right', right))
+      newRow.find("td:eq(2)").append(" ")

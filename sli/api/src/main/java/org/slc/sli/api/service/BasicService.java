@@ -52,7 +52,7 @@ import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
 import org.slc.sli.api.security.service.SecurityCriteria;
 import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.AggregateData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -78,9 +78,6 @@ public class BasicService implements EntityService {
     private static final String CUSTOM_ENTITY_COLLECTION = "custom_entities";
     private static final String CUSTOM_ENTITY_CLIENT_ID = "clientId";
     private static final String CUSTOM_ENTITY_ENTITY_ID = "entityId";
-    private static final String METADATA = "metaData";
-    private static final String[] COLLECTIONED_EXCLUDED = { "tenant", "userSession", "realm", "userAccount", "roles", "application", "applicationAuthorization" };
-    private static final Set<String> NOT_BY_TENANT = new HashSet<String>(Arrays.asList(COLLECTIONED_EXCLUDED));
 
     private static final Set<String> TEACHER_STAMPED_ENTITIES = new HashSet<String>(Arrays.asList(EntityNames.ATTENDANCE, EntityNames.COHORT, EntityNames.COURSE, EntityNames.COURSE_OFFERING, EntityNames.DISCIPLINE_ACTION,
             EntityNames.DISCIPLINE_INCIDENT, EntityNames.GRADE, EntityNames.GRADEBOOK_ENTRY, EntityNames.GRADING_PERIOD, EntityNames.PARENT, EntityNames.PROGRAM, EntityNames.REPORT_CARD, EntityNames.SCHOOL, EntityNames.SECTION,
@@ -105,9 +102,6 @@ public class BasicService implements EntityService {
 
     @Autowired
     private SchemaDataProvider provider;
-
-    @Autowired
-    private IdConverter idConverter;
 
     @Autowired
     private CallingApplicationInfoProvider clientInfo;
@@ -317,24 +311,22 @@ public class BasicService implements EntityService {
 
     @Override
     public EntityBody get(String id) {
-        checkAccess(readRight, id);
-        // change to accommodate tenantId:
-        // findById does not support NeutralQuery and therefore cannot be used any more
-        // Entity entity = getRepo().findById(collectionName, id);
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.addCriteria(new NeutralCriteria("_id", "=", id));
+        return get(id, new NeutralQuery());
 
-        Entity entity = getRepo().findOne(collectionName, neutralQuery);
-
-        if (entity == null) {
-            info("Could not find {}", id);
-            throw new EntityNotFoundException(id);
-        }
-        return makeEntityBody(entity);
     }
 
     @Override
     public EntityBody get(String id, NeutralQuery neutralQuery) {
+        Entity entity = getEntity(id, neutralQuery);
+
+        if (entity == null) {
+            throw new EntityNotFoundException(id);
+        }
+
+        return makeEntityBody(entity);
+    }
+
+    private Entity getEntity(String id, NeutralQuery neutralQuery) {
         checkAccess(readRight, id);
         checkFieldAccess(neutralQuery);
 
@@ -344,12 +336,7 @@ public class BasicService implements EntityService {
         neutralQuery.addCriteria(new NeutralCriteria("_id", "=", id));
 
         Entity entity = repo.findOne(collectionName, neutralQuery);
-
-        if (entity == null) {
-            throw new EntityNotFoundException(id);
-        }
-
-        return makeEntityBody(entity);
+        return entity;
     }
 
     private Iterable<EntityBody> noEntitiesFound(NeutralQuery neutralQuery) {
@@ -543,7 +530,6 @@ public class BasicService implements EntityService {
             debug("Creating new custom entity: entity={}, entityId={}, clientId={}", new String[] { getEntityDefinition().getType(), id, clientId });
             EntityBody metaData = new EntityBody();
 
-            Map<String, Object> metadata = new HashMap<String, Object>();
             SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             metaData.put(CUSTOM_ENTITY_CLIENT_ID, clientId);
             metaData.put(CUSTOM_ENTITY_ENTITY_ID, id);
@@ -563,6 +549,7 @@ public class BasicService implements EntityService {
             }
 
             debug("Field {} is referencing {}", fieldName, entityType);
+            @SuppressWarnings("unchecked")
             List<String> ids = value instanceof List ? (List<String>) value : Arrays.asList((String) value);
             String collectionName = definitionStore.lookupByEntityType(entityType).getStoredCollectionName();
             SecurityCriteria securityCriteria = findAccessible(entityType);
@@ -812,7 +799,6 @@ public class BasicService implements EntityService {
      *
      * @param eb
      */
-    @SuppressWarnings("unchecked")
     private void filterFields(Map<String, Object> eb) {
         filterFields(eb, "");
         complexFilter(eb);
@@ -828,6 +814,7 @@ public class BasicService implements EntityService {
             final String telephone = "telephone";
             final String electronicMail = "electronicMail";
 
+            @SuppressWarnings("unchecked")
             List<Map<String, Object>> telephones = (List<Map<String, Object>>) eb.get(telephone);
             if (telephones != null) {
 
@@ -839,6 +826,7 @@ public class BasicService implements EntityService {
 
             }
 
+            @SuppressWarnings("unchecked")
             List<Map<String, Object>> emails = (List<Map<String, Object>>) eb.get(electronicMail);
             if (emails != null) {
 
@@ -1037,4 +1025,11 @@ public class BasicService implements EntityService {
     protected void setClientInfo(CallingApplicationInfoProvider clientInfo) {
         this.clientInfo = clientInfo;
     }
+
+    @Override
+    public AggregateData getAggregateData(String id) {
+        Entity entity = getEntity(id, new NeutralQuery());
+        return entity.getAggregates();
+    }
+
 }

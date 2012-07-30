@@ -50,10 +50,10 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
             File dir = ZipFileUtil.extract(zipFile);
             LOG.info("Extracted zip file to {}", dir.getAbsolutePath());
 
-            // find manifest (ctl file)
+            // Find manifest (ctl file)
             return ZipFileUtil.findCtlFile(dir);
         } catch (UnsupportedZipFeatureException ex) {
-            //Unsupported compression method
+            // Unsupported compression method
             String message = MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG18", zipFile.getName());
             LOG.error(message, ex);
             errorReport.error(message, this);

@@ -56,7 +56,7 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "bigbro_IL" => "4cf7a5d4-37a1-ca00-8b13-b5f95131ac85",
                 "sunsetrealmadmin_SLI" => "d9af321c-5fa8-4287-af3d-98e7b5f9d999",
                 "fakerealmadmin_SLI" => "aa391d1c-99a8-4287-af3d-481516234242",
-                "anotherfakerealmadmin_SLI" => "910bcfad-5fa8-4287-af3d-98e7b5f9e786", 
+                "anotherfakerealmadmin_SLI" => "910bcfad-5fa8-4287-af3d-98e7b5f9e786",
                 "sunsetadmin_SLI" => "4aea375c-0e5d-456a-8b89-23bc03aa5ea2",
                 "badadmin_IL" => "5cf7a5d4-57a1-c100-8b13-b5f95131ac85",
                 "sampleUser_IL" => "e88cb5c1-771d-46ac-a207-e88cb7c1771d",
@@ -125,6 +125,7 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "linda.kim_Zork" => "08e3cc74-4a5c-4a0e-b8ab-680ee11cc890",
                 "linda.kim_Chaos" => "160eb95e-173f-472a-8ed2-b973a4d775a3",
                 "cgrayadmin_IL" => "bd8987d4-75a2-ba63-8b53-424242424242",
+                "jstevenson_SIF" => "e4e9d71c-d674-11e1-9ea4-f9fc6188709b",
 }
 
 def assert(bool, message = 'assertion failure')
@@ -200,6 +201,16 @@ def restHttpGet(id, format = @format, sessionId = @sessionId)
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
+def restHttpGetAbs(url, format = @format, sessionId = @sessionId)
+  # Validate SessionId is not nil
+  assert(sessionId != nil, "Session ID passed into GET was nil")
+
+  urlHeader = makeHeaders('get',sessionId,format)
+  @res = RestClient.get(url, urlHeader){|response, request, result| response }
+
+  puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+end
+
 # Function restHttpPut
 # Inputs: (String) id = URL of the desired resource (ex. /students/fe3425e53-f23-f343-53cab3453)
 # Inputs: (Object) data = Data object of type @format that you want to update
@@ -242,13 +253,7 @@ def restHttpDelete(id, format = @format, sessionId = @sessionId)
 end
 
 def makeUrlAndHeaders(verb,id,sessionId,format)
-  if(verb == 'put' || verb == 'post')
-    headers = {:content_type => format}
-  else
-    headers = {:accept => format}
-  end
-
-  headers.store(:Authorization, "bearer "+sessionId)
+  headers = makeHeaders(verb, sessionId, format)
 
   url = PropLoader.getProps['api_server_url']+"/api/rest"+id
   puts(url, headers) if $SLI_DEBUG
@@ -256,19 +261,152 @@ def makeUrlAndHeaders(verb,id,sessionId,format)
   return {:url => url, :headers => headers}
 end
 
+def makeHeaders(verb,sessionId,format)
+  if(verb == 'put' || verb == 'post')
+    headers = {:content_type => format}
+  else
+    headers = {:accept => format}
+  end
+
+  headers.store(:Authorization, "bearer "+sessionId)
+  return headers
+end
+
+##############################################################################
+##############################################################################
+###### Indexing ##############################################################
+
+def createIndexesOnDb(db_connection,db_name)
+
+  @db = db_connection[db_name]
+  ensureIndexes(@db)
+
+end
+
+def ensureIndexes(db)
+
+  @collection = @db["assessment"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["attendance"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["course"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["educationOrganization"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["gradebookEntry"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["parent"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["school"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["section"]
+  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'courseId' => " "}} )
+  @collection.ensure_index([ ['body.schoolId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([ ['body.courseId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'courseId' => " "}} )
+
+  @collection = @db["session"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["staff"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["staffEducationOrganizationAssociation"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["student"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["studentAssessmentAssociation"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["studentParentAssociation"]
+  @collection.save( {'metaData' => {'tenantId' => " "}, 'body' => {'parentId' => " ", 'studentId' => " "}} )
+  @collection.ensure_index([ ['body.parentId', 1], ['body.studentId', 1], ['metaData.externalId', 1]])
+  @collection.remove( {'metaData' => {'tenantId' => " "}, 'body' => {'parentId' => " ", 'studentId' => " "}} )
+
+  @collection = @db["studentSchoolAssociation"]
+  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'studentId' => " "}} )
+  @collection.ensure_index([ ['body.schoolId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'studentId' => " "}} )
+
+  @collection = @db["studentSectionAssociation"]
+  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'sectionId' => " ", 'studentId' => " "}} )
+  @collection.ensure_index([ ['body.sectionId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['body.sectionId', 1]])
+  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'sectionId' => " ", 'studentId' => " "}} )
+
+  @collection = @db["studentGradebookEntry"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["studentTranscriptAssociation"]
+  @collection.save( {'metaData' => {'tenantId' => " "}, 'body' => {'courseId' => " ", 'studentId' => " "}} )
+  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['body.courseId', 1]])
+  @collection.remove( {'metaData' => {'tenantId' => " "}, 'body' => {'courseId' => " ", 'studentId' => " "}} )
+
+  @collection = @db["teacher"]
+  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
+  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
+
+  @collection = @db["teacherSectionAssociation"]
+  @collection.save( {'metaData' => {'tenantId' => " "}, 'body' => {'teacherId' => " ", 'sectionId' => " "}} )
+  @collection.ensure_index([ ['body.teacherId', 1], ['metaData.tenantId', 1], ['body.sectionId', 1]])
+  @collection.remove( {'metaData' => {'tenantId' => " "}, 'body' => {'teacherId' => " ", 'sectionId' => " "}} )
+
+end
+
+
 ##############################################################################
 ##############################################################################
 ###### After hook(s) #########################################################
 
-After do |scenario| 
+After do |scenario|
   Cucumber.wants_to_quit = true if scenario.failed? and !ENV['FAILSLOW']
 end
 
 Around('@LDAP_Reset_developer-email') do |scenario, block|
   block.call
   if scenario.failed?
-    ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
-                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
+    ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'],
+                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'],
                           PropLoader.getProps['ldap_admin_pass'])
     ldap.update_user_info({:email=> "developer-email@slidev.org", :password=>"test1234"})
   end
@@ -391,7 +529,7 @@ module DataProvider
       "customRights" => ["RIGHT_TO_REMAIN_SILENT", "INALIENABLE_RIGHT"]
     }
   end
-  
+
   def self.getValidAppData()
     return {
       "installed" => false,
@@ -405,11 +543,11 @@ module DataProvider
       "application_url" => "https://slidev.org/image",
       "registration" => {},
       "version" => "3.14",
-      "vendor" => "Acme", 
+      "vendor" => "Acme",
       "authorized_ed_orgs" => []
     }
   end
-  
+
   def self.getValidAdminDelegationData()
     return {
       "viewSecurityEventsEnabled" => false,
@@ -465,7 +603,7 @@ end
 module EntityProvider
 
   def self.verify_entities_match(expected, response)
-    if expected.is_a?(Hash) 
+    if expected.is_a?(Hash)
       expected.each { |key, value| verify_entities_match(value, response[key]) }
     elsif expected.is_a?(Array)
       assert( expected.size == response.size )

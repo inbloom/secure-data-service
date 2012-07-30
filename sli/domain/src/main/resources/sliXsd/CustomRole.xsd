@@ -31,7 +31,7 @@
                 <xs:element name="customRights" type="xs:string" minOccurs="0" maxOccurs="unbounded">
                     <xs:annotation>
                         <xs:documentation>
-                            A non-default right that is specified for the realm. A realm can have many custom_rights.
+                            A non-default right that is specified for the realm. A realm can have many custom rights.
                         </xs:documentation>
                     </xs:annotation>
                 </xs:element>
@@ -41,7 +41,7 @@
 
     <xs:complexType name="role">
         <xs:sequence>
-            <xs:element name="groupTitle" type="xs:string" minOccurs="0" maxOccurs="1">
+            <xs:element name="groupTitle" type="xs:string" minOccurs="1" maxOccurs="1">
                 <xs:annotation>
                     <xs:documentation>
                         The name of this group of roles. 
