@@ -4,20 +4,19 @@
 @RALLY_US2669
 @wip
 Feature: Custom Role Mapping Tool
-
 As an SEA/LEA  Admin, I would like to have the Complex Role Mapping admin tool, so that I can map lists of SEA/LEA Directory roles to their associated SLI Access Rights.
 
 Background:
 Given I have an open web browser
-When I navigate to the Complex-Configurable Role Mapping Page
+When I navigate to the Custom Role Mapping Page
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
 
 Scenario: Reset to default role to right mapping
 When I click on the Reset Mapping button
-And I got warning message saying 'Are you sure you want to reset the mappings to factory defaults? This will remove any custom defined roles!'
-When I click 'OK'
+And I got a warning message saying "Are you sure you want to reset the mappings to factory defaults? This will remove any custom defined roles!"
+When I click 'OK' on the warning message
 Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
 
 Scenario: Create new group
