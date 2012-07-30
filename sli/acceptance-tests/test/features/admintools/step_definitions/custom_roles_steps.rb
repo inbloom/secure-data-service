@@ -22,6 +22,18 @@ require 'json'
 require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 
+Transform /rights "(.*?)"/ do |arg1|
+  # Default rights for SLI Default roles  
+  rights = ["READ_GENERAL", "AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "Educator"
+  rights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "IT Administrator"
+  rights = ["READ_GENERAL", "READ_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "Leader"
+  rights = ["AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "Aggregate Viewer"
+  # Custom right sets for test roles
+  rights = ["READ_GENERAL"] if arg1 == "Read General"
+  rights = ["READ_GENERAL"] if arg1 == "Read and Write General"
+  rights
+end
+
 When /^I navigate to the Custom Role Mapping Page$/ do
   @driver.get PropLoader.getProps['admintools_server_url']+"/custom_roles"
 end
@@ -88,7 +100,23 @@ When /^I create a new role <Role> to the group <Group> that allows <User> to acc
 end
 
 Then /^the user "(.*?)" can access the API with rights "(.*?)"$/ do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
+  # Login and get a session ID
+  idpRealmLogin(arg1, arg1+"1234", "IL")
+  assert(@sessionId != nil, "Session returned was nil")
+  
+  # Make a call to Session debug and look that we are authenticated
+  restHttpGet("/system/session/debug", "application/json")
+  assert(@res != nil, "Response from rest-client GET is nil")
+  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Result of JSON parsing is nil")
+
+  # Validate the user has expected rights
+  assert(result["authentication"]["authenticated"] == true, "User "+arg1+" did not successfully authenticate to SLI")
+  assert(result["authentication"]["authorities"].size == arg2.size, "User "+arg1+" was granted #{result["authentication"]["authorities"].size} permissions but expected #{arg2.size}")
+  arg2.each do |right|
+    assert(result["authentication"]["authorities"].include?(right), "User "+arg1+" was not granted #{right} permissions")
+  end
 end
 
 When /^I remove the right "(.*?)" from the group "(.*?)"$/ do |arg1, arg2|
