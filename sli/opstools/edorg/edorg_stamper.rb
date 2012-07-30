@@ -16,10 +16,12 @@ limitations under the License.
 
 =end
 
-
+require 'rbconfig'
 require_relative 'slc_fixer'
 
-trap('HUP') {}
+is_windows = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
+
+trap('HUP') {} unless is_windows
 
 if ARGV.count < 1
   puts "Usage: edorg_stamper <dbhost:port> <database> <terminates>"

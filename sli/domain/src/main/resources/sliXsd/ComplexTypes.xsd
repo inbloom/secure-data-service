@@ -1088,10 +1088,10 @@
 				<xs:annotation>
 					<xs:documentation>The ID of the postsecondary institution.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
+					</xs:appinfo>
 				</xs:annotation>
-				<xs:appinfo>
-					<sli:ReferenceType>educationOrganization</sli:ReferenceType>
-				</xs:appinfo>
 			</xs:element>
 			<xs:element name="studentId" type="reference">
 				<xs:annotation>

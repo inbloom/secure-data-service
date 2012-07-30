@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.dashboard.unit.client;
 
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -35,6 +36,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+
+import javax.ws.rs.MessageProcessingException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -57,6 +60,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.SLIClient;
+import org.slc.sli.api.client.SLIClientException;
+import org.slc.sli.api.client.SLIClientFactory;
 import org.slc.sli.api.client.impl.BasicClient;
 import org.slc.sli.dashboard.client.SDKAPIClient;
 import org.slc.sli.dashboard.entity.Config;
@@ -110,7 +115,9 @@ public class SDKAPIClientTest {
     public void setUp() throws Exception {
         client = new SDKAPIClient();
         mockSdk = mock(BasicClient.class);
-        client.setSdkClient(mockSdk);
+        SLIClientFactory factory = mock(SLIClientFactory.class);
+        when(factory.getClientWithSessionToken(anyString())).thenReturn(mockSdk);
+        client.setClientFactory(factory);
         this.classLoader = Thread.currentThread().getContextClassLoader();
     }
 
@@ -120,68 +127,71 @@ public class SDKAPIClientTest {
         mockSdk = null;
     }
 
-   /* @Test
-    public void testGetEdOrgCustomData() throws Exception {
+    /*
+     * @Test
+     * public void testGetEdOrgCustomData() throws Exception {
+     *
+     * String token = "token";
+     * String id = "id";
+     * String componentId = "component_1";
+     * String componentName = "Component 1";
+     * String componentType = "LAYOUT";
+     *
+     * SdkClientReadAnswer sdkClientReadAnswer = new SdkClientReadAnswer(CUSTOM_CONFIG_JSON);
+     * Mockito.doAnswer(sdkClientReadAnswer).when(mockSdk)
+     * .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(),
+     * Mockito.any(Class.class));
+     *
+     * ConfigMap configMap = client.getEdOrgCustomData(token, id);
+     *
+     * assertNotNull(configMap);
+     * assertEquals(1, configMap.size());
+     * assertEquals(componentId, configMap.getComponentConfig(componentId).getId());
+     * assertEquals(componentName, configMap.getComponentConfig(componentId).getName());
+     * assertEquals(componentType, configMap.getComponentConfig(componentId).getType().name());
+     *
+     * }
+     */
 
-        String token = "token";
-        String id = "id";
-        String componentId = "component_1";
-        String componentName = "Component 1";
-        String componentType = "LAYOUT";
-
-        SdkClientReadAnswer sdkClientReadAnswer = new SdkClientReadAnswer(CUSTOM_CONFIG_JSON);
-        Mockito.doAnswer(sdkClientReadAnswer).when(mockSdk)
-                .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
-
-        ConfigMap configMap = client.getEdOrgCustomData(token, id);
-
-        assertNotNull(configMap);
-        assertEquals(1, configMap.size());
-        assertEquals(componentId, configMap.getComponentConfig(componentId).getId());
-        assertEquals(componentName, configMap.getComponentConfig(componentId).getName());
-        assertEquals(componentType, configMap.getComponentConfig(componentId).getType().name());
-
-    }*/
-
-    /*@Test
-    public void testPutEdOrgCustomData() throws Exception {
-
-        String token = "token";
-        String id = "id";
-        String componentId = "component_1";
-        String componentName = "Component 1";
-        String componentType = "LAYOUT";
-
-        Gson gson = new GsonBuilder().create();
-        ConfigMap configMap = gson.fromJson(CUSTOM_CONFIG_JSON, ConfigMap.class);
-
-        SdkClientCreateAnswer sdkClientCreateAnswer = new SdkClientCreateAnswer();
-        Mockito.doAnswer(sdkClientCreateAnswer).when(mockSdk)
-                .create(Mockito.anyString(), Mockito.anyString(), Mockito.any(Entity.class));
-
-        client.putEdOrgCustomData(token, id, configMap);
-
-        ConfigMap verifyConfigMap = sdkClientCreateAnswer.getConfigMap();
-
-        assertNotNull(verifyConfigMap);
-        assertEquals(1, verifyConfigMap.size());
-        assertEquals(componentId, verifyConfigMap.getComponentConfig(componentId).getId());
-        assertEquals(componentName, verifyConfigMap.getComponentConfig(componentId).getName());
-        assertEquals(componentType, verifyConfigMap.getComponentConfig(componentId).getType().name());
-
-    }*/
+    /*
+     * @Test
+     * public void testPutEdOrgCustomData() throws Exception {
+     *
+     * String token = "token";
+     * String id = "id";
+     * String componentId = "component_1";
+     * String componentName = "Component 1";
+     * String componentType = "LAYOUT";
+     *
+     * Gson gson = new GsonBuilder().create();
+     * ConfigMap configMap = gson.fromJson(CUSTOM_CONFIG_JSON, ConfigMap.class);
+     *
+     * SdkClientCreateAnswer sdkClientCreateAnswer = new SdkClientCreateAnswer();
+     * Mockito.doAnswer(sdkClientCreateAnswer).when(mockSdk)
+     * .create(Mockito.anyString(), Mockito.anyString(), Mockito.any(Entity.class));
+     *
+     * client.putEdOrgCustomData(token, id, configMap);
+     *
+     * ConfigMap verifyConfigMap = sdkClientCreateAnswer.getConfigMap();
+     *
+     * assertNotNull(verifyConfigMap);
+     * assertEquals(1, verifyConfigMap.size());
+     * assertEquals(componentId, verifyConfigMap.getComponentConfig(componentId).getId());
+     * assertEquals(componentName, verifyConfigMap.getComponentConfig(componentId).getName());
+     * assertEquals(componentType,
+     * verifyConfigMap.getComponentConfig(componentId).getType().name());
+     *
+     * }
+     */
 
     @Test
-    public void testGetStudent() throws URISyntaxException, IOException {
+    public void testGetStudent() throws URISyntaxException, IOException, MessageProcessingException, SLIClientException {
         String token = "token";
         String key = "uid";
         String studentId = "541397175";
 
         String filename = getFilename(MOCK_DATA_DIRECTORY + "common/" + MOCK_STUDENTS_FILE);
-        SdkClientReadAnswerFromFile sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, studentId,
-                key);
-        Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+        Mockito.when(mockSdk.read(Mockito.anyString())).thenReturn(fromFileWithValue(filename, studentId, key));
 
         GenericEntity studentEntity = client.getStudent(token, studentId);
 
@@ -201,16 +211,15 @@ public class SDKAPIClientTest {
     }
 
     @Test
-    public void testGetStudentsForSection() throws URISyntaxException, IOException  {
+    public void testGetStudentsForSection() throws URISyntaxException, IOException, MessageProcessingException,
+            SLIClientException {
         String token = "token";
         String key = "sectionId";
 
         // lookup of valid section
         String value = "1";
         String filename = getFilename(MOCK_DATA_DIRECTORY + "common/" + MOCK_SECTIONS_FILE);
-        SdkClientReadAnswerFromFile sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, value, key);
-        Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+        when(mockSdk.read(anyString())).thenReturn(fromFileWithValue(filename, value, key));
 
         List<GenericEntity> students = client.getStudentsForSection(token, value);
 
@@ -225,16 +234,15 @@ public class SDKAPIClientTest {
 
         // lookup of invalid section
         value = "3124";
-        sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, value, key);
-        Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+        when(mockSdk.read(anyString())).thenReturn(fromFileWithValue(filename, value, key));
 
         students = client.getStudentsForSection(token, value);
         assertEquals(0, students.size());
     }
 
     @Test
-    public void testGetStudentsWithSearch() throws URISyntaxException, IOException  {
+    public void testGetStudentsWithSearch() throws URISyntaxException, IOException, MessageProcessingException,
+            SLIClientException {
         String token = "token";
         String filename = getFilename(MOCK_DATA_DIRECTORY + "common/" + MOCK_STUDENTS_FILE);
 
@@ -243,9 +251,7 @@ public class SDKAPIClientTest {
         String lastName = "";
         String[] searchStr = { firstName, lastName };
 
-        SdkClientReadAnswerFromFile sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, searchStr);
-        Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+        when(mockSdk.read(anyString())).thenReturn(fromFileWithSearch(filename, searchStr));
 
         List<GenericEntity> students = client.getStudentsWithSearch(token, firstName, lastName);
 
@@ -259,9 +265,7 @@ public class SDKAPIClientTest {
         searchStr[0] = firstName;
         searchStr[1] = lastName;
 
-        sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, searchStr);
-        Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+        when(mockSdk.read(anyString())).thenReturn(fromFileWithSearch(filename, searchStr));
 
         students = client.getStudentsWithSearch(token, firstName, lastName);
 
@@ -275,9 +279,7 @@ public class SDKAPIClientTest {
         searchStr[0] = firstName;
         searchStr[1] = lastName;
 
-        sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, searchStr);
-        Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+        when(mockSdk.read(anyString())).thenReturn(fromFileWithSearch(filename, searchStr));
 
         students = client.getStudentsWithSearch(token, firstName, lastName);
 
@@ -288,16 +290,14 @@ public class SDKAPIClientTest {
     }
 
     @Test
-    public void testGetAssessmentsForStudent() throws URISyntaxException, IOException  {
+    public void testGetAssessmentsForStudent() throws URISyntaxException, IOException, MessageProcessingException,
+            SLIClientException {
         String token = "token";
         String key = "studentId";
         String studentId = "288598192";
 
         String filename = getFilename(MOCK_DATA_DIRECTORY + "common/" + MOCK_ASSESSMENTS_FILE);
-        SdkClientReadAnswerFromFile sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, studentId,
-                key);
-        Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+        when(mockSdk.read(anyString())).thenReturn(fromFileWithValue(filename, studentId, key));
 
         List<GenericEntity> assessments = client.getAssessmentsForStudent(token, studentId);
 
@@ -315,7 +315,7 @@ public class SDKAPIClientTest {
         assertEquals(count, 6);
     }
 
-    public void testGetAssessment() throws URISyntaxException, IOException  {
+    public void testGetAssessment() throws URISyntaxException, IOException {
         // this test is not implemented because the underlying method is not called by anything at
         // this time
     }
@@ -326,16 +326,13 @@ public class SDKAPIClientTest {
     }
 
     @Test
-    public void testGetSchool() throws URISyntaxException, IOException  {
+    public void testGetSchool() throws URISyntaxException, IOException, MessageProcessingException, SLIClientException {
         String token = "token";
         String key = "schoolId";
         String schoolId = "Illinois PS145";
 
         String filename = getFilename(MOCK_DATA_DIRECTORY + "common/" + MOCK_SCHOOL_FILE);
-        SdkClientReadAnswerFromFile sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, schoolId,
-                key);
-        Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+        Mockito.when(mockSdk.read(Mockito.anyString())).thenReturn(fromFileWithValue(filename, schoolId, key));
 
         GenericEntity schoolEntity = client.getSchool(token, schoolId);
 
@@ -344,13 +341,13 @@ public class SDKAPIClientTest {
         assertEquals(schoolEntity.getString(key), schoolId);
     }
 
-    public void testGetSchoolsWithParams() throws URISyntaxException, IOException  {
+    public void testGetSchoolsWithParams() throws URISyntaxException, IOException {
         // this test is not implemented because the underlying method is not called by anything at
         // this time
     }
 
     @Test
-    public void testGetSchools() throws URISyntaxException, IOException    {
+    public void testGetSchools() throws URISyntaxException, IOException, MessageProcessingException, SLIClientException {
         SDKAPIClient client = new SDKAPIClient() {
             @Override
             public String getId(String token) {
@@ -367,7 +364,9 @@ public class SDKAPIClientTest {
                 return null;
             }
         };
-        client.setSdkClient(mockSdk);
+        SLIClientFactory factory = mock(SLIClientFactory.class);
+        when(factory.getClientWithSessionToken(anyString())).thenReturn(mockSdk);
+        client.setClientFactory(factory);
 
         SecurityContextHolder.getContext().setAuthentication(new Authentication() {
             @Override
@@ -411,10 +410,7 @@ public class SDKAPIClientTest {
         List<String> schoolIds = Arrays.asList(idArr);
 
         String filename = getFilename(MOCK_DATA_DIRECTORY + "common/" + MOCK_SCHOOL_FILE);
-        SdkClientReadAnswerFromFile sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, schoolIds,
-                key);
-             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+        when(mockSdk.read(anyString())).thenReturn(fromFileWithIDList(filename, schoolIds, key));
 
         List<GenericEntity> schoolList = client.getSchools(token, schoolIds);
 
@@ -427,7 +423,7 @@ public class SDKAPIClientTest {
     }
 
     @Test
-    public void testGetSession() throws URISyntaxException, IOException   {
+    public void testGetSession() throws URISyntaxException, IOException, MessageProcessingException, SLIClientException {
         String token = "token";
         String key = "sessionId";
 
@@ -435,8 +431,7 @@ public class SDKAPIClientTest {
         String value = "123456789";
         String filename = getFilename(MOCK_DATA_DIRECTORY + "common/" + MOCK_SESSIONS_FILE);
         SdkClientReadAnswerFromFile sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, value, key);
-             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+        Mockito.when(mockSdk.read(Mockito.anyString())).thenReturn(fromFileWithValue(filename, value, key));
 
         GenericEntity entity = client.getSession(token, value);
 
@@ -447,24 +442,22 @@ public class SDKAPIClientTest {
         // lookup of invalid session
         value = "3124";
         sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, value, key);
-             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+        Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk).read(Mockito.anyString());
         entity = client.getSession(token, value);
 
         assertNull(entity);
     }
 
     @Test
-    public void testGetSessions() throws URISyntaxException, IOException   {
+    public void testGetSessions() throws URISyntaxException, IOException, MessageProcessingException,
+            SLIClientException {
         String token = "token";
         String filename = getFilename(MOCK_DATA_DIRECTORY + "common/" + MOCK_SESSIONS_FILE);
 
         // note that this test currently does not test for optional parameters because they are
         // never used by any call at this time
 
-        SdkClientReadAnswerFromFile sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename);
-             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+        when(mockSdk.read(anyString())).thenReturn(fromFile(filename));
         List<GenericEntity> sessions = client.getSessions(token, null);
 
         assertNotNull(sessions);
@@ -477,16 +470,15 @@ public class SDKAPIClientTest {
     }
 
     @Test
-    public void testGetSessionsForYear() throws URISyntaxException, IOException   {
+    public void testGetSessionsForYear() throws URISyntaxException, IOException, MessageProcessingException,
+            SLIClientException {
         String token = "token";
         String key = "schoolYear";
         String value = "2011";
         String filename = getFilename(MOCK_DATA_DIRECTORY + "common/" + MOCK_SESSIONS_FILE);
 
         // 2 sessions expected
-        SdkClientReadAnswerFromFile sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, value, key);
-             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+        when(mockSdk.read(Mockito.anyString())).thenReturn(fromFileWithValue(filename, value, key));
 
         List<GenericEntity> sessions = client.getSessionsForYear(token, value);
 
@@ -498,9 +490,7 @@ public class SDKAPIClientTest {
 
         // no sessions expected
         value = "2005";
-        sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, value, key);
-             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+        when(mockSdk.read(Mockito.anyString())).thenReturn(fromFileWithValue(filename, value, key));
         sessions = client.getSessionsForYear(token, value);
 
         assertNotNull(sessions);
@@ -508,16 +498,15 @@ public class SDKAPIClientTest {
     }
 
     @Test
-    public void testGetSections() throws URISyntaxException, IOException   {
+    public void testGetSections() throws URISyntaxException, IOException, MessageProcessingException,
+            SLIClientException {
         String token = "token";
         String filename = getFilename(MOCK_DATA_DIRECTORY + "common/" + MOCK_SECTIONS_FILE);
 
         // note that this test currently does not test for optional parameters because they are
         // never used by any call at this time
 
-        SdkClientReadAnswerFromFile sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename);
-             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+        when(mockSdk.read(Mockito.anyString())).thenReturn(fromFile(filename));
         List<GenericEntity> sections = client.getSections(token, null);
 
         assertNotNull(sections);
@@ -525,7 +514,8 @@ public class SDKAPIClientTest {
     }
 
     @Test
-    public void testGetSectionsForStudent() throws URISyntaxException, IOException   {
+    public void testGetSectionsForStudent() throws URISyntaxException, IOException, MessageProcessingException,
+            SLIClientException {
         String token = "token";
         String key = "studentUIDs";
         String filename = getFilename(MOCK_DATA_DIRECTORY + "common/" + MOCK_SECTIONS_FILE);
@@ -535,9 +525,7 @@ public class SDKAPIClientTest {
 
         // testing with a student id present in two sections
         String value = "288598192";
-        SdkClientReadAnswerFromFile sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, value, key);
-             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+        when(mockSdk.read(Mockito.anyString())).thenReturn(fromFileWithValue(filename, value, key));
         List<GenericEntity> sections = client.getSectionsForStudent(token, value, null);
 
         assertNotNull(sections);
@@ -545,9 +533,7 @@ public class SDKAPIClientTest {
 
         // testing with a student id not present in any sections
         value = "288598193";
-        sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, value, key);
-             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+        when(mockSdk.read(Mockito.anyString())).thenReturn(fromFileWithValue(filename, value, key));
         sections = client.getSectionsForStudent(token, value, null);
 
         assertNotNull(sections);
@@ -555,7 +541,8 @@ public class SDKAPIClientTest {
     }
 
     @Test
-    public void testGetSectionsForTeacher() throws URISyntaxException, IOException   {
+    public void testGetSectionsForTeacher() throws URISyntaxException, IOException, MessageProcessingException,
+            SLIClientException {
         String token = "token";
         String key = "teacherId";
         String filename = getFilename(MOCK_DATA_DIRECTORY + "common/" + MOCK_SECTIONS_FILE);
@@ -565,9 +552,7 @@ public class SDKAPIClientTest {
 
         // testing with a teacher id present in a single section
         String value = "12399";
-        SdkClientReadAnswerFromFile sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, value, key);
-             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+        when(mockSdk.read(Mockito.anyString())).thenReturn(fromFileWithValue(filename, value, key));
         List<GenericEntity> sections = client.getSectionsForTeacher(token, value, null);
 
         assertNotNull(sections);
@@ -575,16 +560,14 @@ public class SDKAPIClientTest {
 
         // testing with a teacher id not present in any sections
         value = "28859";
-        sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, value, key);
-             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+        when(mockSdk.read(Mockito.anyString())).thenReturn(fromFileWithValue(filename, value, key));
         sections = client.getSectionsForTeacher(token, value, null);
 
         assertNotNull(sections);
         assertEquals(0, sections.size());
     }
 
-    public void testGetSectionsNonEducator() throws URISyntaxException, IOException  {
+    public void testGetSectionsNonEducator() throws URISyntaxException, IOException {
         // this test is not implemented because the underlying method does not appear to be used
         // even though it is potentially called in getSchools
     }
@@ -594,7 +577,7 @@ public class SDKAPIClientTest {
         // this time
     }
 
-    public void testGetSectionHomeForStudent() throws URISyntaxException, IOException   {
+    public void testGetSectionHomeForStudent() throws URISyntaxException, IOException {
         // this test is not implemented because the mock json data does not conform to the proper
         // format
         // once it is updated, this test can be implemented
@@ -618,7 +601,7 @@ public class SDKAPIClientTest {
     }
 
     @Test
-    public void testGetSection() throws URISyntaxException, IOException   {
+    public void testGetSection() throws URISyntaxException, IOException, MessageProcessingException, SLIClientException {
         String token = "token";
         String key = "sectionId";
 
@@ -626,8 +609,7 @@ public class SDKAPIClientTest {
         String value = "1";
         String filename = getFilename(MOCK_DATA_DIRECTORY + "common/" + MOCK_SECTIONS_FILE);
         SdkClientReadAnswerFromFile sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, value, key);
-             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+        Mockito.when(mockSdk.read(Mockito.anyString())).thenReturn(fromFileWithValue(filename, value, key));
 
         GenericEntity entity = client.getSection(token, value);
 
@@ -638,8 +620,7 @@ public class SDKAPIClientTest {
         // lookup of invalid section
         value = "3124";
         sdkClientReadAnswerFromFile = new SdkClientReadAnswerFromFile(filename, value, key);
-             Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk)
-                     .read(Mockito.anyString(), Mockito.any(List.class), Mockito.anyString(), Mockito.any(Class.class));
+        Mockito.doAnswer(sdkClientReadAnswerFromFile).when(mockSdk).read(Mockito.anyString());
         entity = client.getSection(token, value);
 
         assertNull(entity);
@@ -706,7 +687,7 @@ public class SDKAPIClientTest {
     private static class SdkClientReadAnswerFromFile implements Answer {
 
         private String json;
-        private List<GenericEntity> genericEntities;
+        private List<Entity> genericEntities;
         private List entityList;
         private String url;
         private String id;
@@ -741,13 +722,17 @@ public class SDKAPIClientTest {
 
         @Override
         public Object answer(InvocationOnMock invocation) throws Throwable {
+            return getMatchingEntities(invocation);
+        }
+
+        private Object getMatchingEntities(InvocationOnMock invocation) {
             entityList = (List) invocation.getArguments()[1];
 
             if (key != null && id != null) {
                 url = (String) invocation.getArguments()[2];
-                List<GenericEntity> genericEntities = getGenericEntities();
-                for (GenericEntity ge : genericEntities) {
-                    Object entity = ge.get(key);
+                List<Entity> genericEntities = getGenericEntities();
+                for (Entity ge : genericEntities) {
+                    Object entity = ((GenericEntity) ge).get(key);
                     // entity can be a single value or an ArrayList of values
                     if (entity instanceof ArrayList) {
                         if (((ArrayList) entity).contains(id)) {
@@ -759,18 +744,19 @@ public class SDKAPIClientTest {
                 }
             } else if (searchStr != null) {
                 url = (String) invocation.getArguments()[2];
-                List<GenericEntity> genericEntities = getGenericEntities();
-                for (GenericEntity ge : genericEntities) {
-                    if ((searchStr[0].equals("") || ge.getString("firstName").equals(searchStr[0]))
-                            && (searchStr[1].equals("") || ge.getString("lastName").equals(searchStr[1]))) {
+                List<Entity> genericEntities = getGenericEntities();
+                for (Entity ge : genericEntities) {
+                    if ((searchStr[0].equals("") || ((GenericEntity) ge).getString("firstName").equals(searchStr[0]))
+                            && (searchStr[1].equals("") || ((GenericEntity) ge).getString("lastName").equals(
+                                    searchStr[1]))) {
                         entityList.add(ge);
                     }
                 }
             } else if (idList != null && key != null) {
                 url = (String) invocation.getArguments()[2];
-                List<GenericEntity> genericEntities = getGenericEntities();
-                for (GenericEntity ge : genericEntities) {
-                    if (idList.contains(ge.getString(key))) {
+                List<Entity> genericEntities = getGenericEntities();
+                for (Entity ge : genericEntities) {
+                    if (idList.contains(((GenericEntity) ge).getString(key))) {
                         entityList.add(ge);
                     }
                 }
@@ -788,56 +774,95 @@ public class SDKAPIClientTest {
             return entityList;
         }
 
-        public List<GenericEntity> getGenericEntities() {
+        public List<Entity> getGenericEntities() {
             return genericEntities;
         }
 
-        /**
-         * Retrieves an entity list from the specified file
-         * and instantiates from its JSON representation
-         *
-         * @param filePath
-         *            - the file path to persist the view component XML string representation
-         * @return entityList
-         *         - the generic entity list
-         */
-        private List<GenericEntity> fromFile(String filePath) {
-            List<GenericEntity> entityList = new ArrayList<GenericEntity>();
-            BufferedReader reader = null;
-
-            try {
-                // Read JSON file
-                reader = new BufferedReader(new FileReader(filePath));
-                StringBuffer jsonBuffer = new StringBuffer();
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    jsonBuffer.append(line);
-                }
-                json = jsonBuffer.toString();
-
-                // Parse JSON
-                Gson gson = new Gson();
-                List<Map> maps = gson.fromJson(getJson(), new ArrayList<Map>().getClass());
-                for (Map<String, Object> map : maps) {
-                    entityList.add(new GenericEntity(map));
-                }
-            } catch (IOException e) {
-                log.error(e.getMessage());
-            } catch (NullPointerException e) {
-                log.error(e.getMessage());
-            } catch (Exception e) {
-                log.error(e.getMessage());
-            } finally {
-                try {
-                    if (reader != null) {
-                        reader.close();
-                    }
-                } catch (Exception e) {
-                    log.error(e.getMessage());
-                }
-            }
-            return entityList;
-        }
     }
 
+    /**
+     * Retrieves an entity list from the specified file
+     * and instantiates from its JSON representation
+     *
+     * @param filePath
+     *            - the file path to persist the view component XML string representation
+     * @return entityList
+     *         - the generic entity list
+     */
+    private static List<Entity> fromFile(String filePath) {
+        List<Entity> entityList = new ArrayList<Entity>();
+        BufferedReader reader = null;
+
+        try {
+            // Read JSON file
+            reader = new BufferedReader(new FileReader(filePath));
+            StringBuffer jsonBuffer = new StringBuffer();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                jsonBuffer.append(line);
+            }
+
+            // Parse JSON
+            Gson gson = new Gson();
+            List<Map> maps = gson.fromJson(jsonBuffer.toString(), new ArrayList<Map>().getClass());
+            for (Map<String, Object> map : maps) {
+                entityList.add(new GenericEntity(map));
+            }
+        } catch (IOException e) {
+            log.error(e.getMessage());
+        } catch (NullPointerException e) {
+            log.error(e.getMessage());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (Exception e) {
+                log.error(e.getMessage());
+            }
+        }
+        return entityList;
+    }
+
+    private static List<Entity> fromFileWithValue(String filename, String value, String key) {
+        List<Entity> allEntities = fromFile(filename);
+        List<Entity> matchingEntities = new ArrayList<Entity>();
+        for (Entity e : allEntities) {
+            Object entity = ((GenericEntity) e).get(key);
+            // entity can be a single value or an ArrayList of values
+            if (entity instanceof ArrayList) {
+                if (((ArrayList<?>) entity).contains(value)) {
+                    matchingEntities.add(e);
+                }
+            } else if (entity.equals(value)) {
+                matchingEntities.add(e);
+            }
+        }
+        return matchingEntities;
+    }
+
+    private static List<Entity> fromFileWithSearch(String filename, String[] searchStr) {
+        List<Entity> allEntities = fromFile(filename);
+        List<Entity> matchingEntities = new ArrayList<Entity>();
+        for (Entity ge : allEntities) {
+            if ((searchStr[0].equals("") || ((GenericEntity) ge).getString("firstName").equals(searchStr[0]))
+                    && (searchStr[1].equals("") || ((GenericEntity) ge).getString("lastName").equals(searchStr[1]))) {
+                matchingEntities.add(ge);
+            }
+        }
+        return matchingEntities;
+    }
+
+    private static List<Entity> fromFileWithIDList(String filename, List<String> idList, String key) {
+        List<Entity> allEntities = fromFile(filename);
+        List<Entity> matchingEntities = new ArrayList<Entity>();
+        for (Entity ge : allEntities) {
+            if (idList.contains(((GenericEntity) ge).getString(key))) {
+                matchingEntities.add(ge);
+            }
+        }
+        return matchingEntities;
+    }
 }

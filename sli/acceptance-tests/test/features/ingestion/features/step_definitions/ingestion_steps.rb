@@ -24,6 +24,7 @@ require 'socket'
 require 'net/sftp'
 require 'net/http'
 
+require 'json'
 require_relative '../../../utils/sli_utils.rb'
 
 ############################################################
@@ -39,6 +40,7 @@ INGESTION_MODE = PropLoader.getProps['ingestion_mode']
 INGESTION_DESTINATION_DATA_STORE = PropLoader.getProps['ingestion_destination_data_store']
 INGESTION_USERNAME = PropLoader.getProps['ingestion_username']
 INGESTION_REMOTE_LZ_PATH = PropLoader.getProps['ingestion_remote_lz_path']
+INGESTION_HEALTHCHECK_URL = PropLoader.getProps['ingestion_healthcheck_url']
 
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT"]
 
@@ -224,86 +226,86 @@ end
 ############################################################
 
 def remoteLzCopy(srcPath, destPath)
-	Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
-		puts "attempting to remote copy " + srcPath + " to " + destPath
-		sftp.upload(srcPath, destPath)
+    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+        puts "attempting to remote copy " + srcPath + " to " + destPath
+        sftp.upload(srcPath, destPath)
     end
 end
 
 def clearRemoteLz(landingZone)
 
-	puts "clear landing zone " + landingZone
+    puts "clear landing zone " + landingZone
 
-	Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
-		sftp.dir.foreach(landingZone) do |entry|
-			next if entry.name == '.' or entry.name == '..'
+    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+        sftp.dir.foreach(landingZone) do |entry|
+            next if entry.name == '.' or entry.name == '..'
 
-			entryPath = File.join(landingZone, entry.name)
+            entryPath = File.join(landingZone, entry.name)
 
-			if !sftp.stat!(entryPath).directory?
-				sftp.remove!(entryPath)
-			end
-		end
-	end
+            if !sftp.stat!(entryPath).directory?
+                sftp.remove!(entryPath)
+            end
+        end
+    end
 end
 
 def remoteLzContainsFile(pattern, landingZone)
-	puts "remoteLzContainsFiles(" + pattern + " , " + landingZone + ")"
+    puts "remoteLzContainsFiles(" + pattern + " , " + landingZone + ")"
 
-	Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
-		sftp.dir.glob(landingZone, pattern) do |entry|
-			return true
-		end
-	end
-	return false
+    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+        sftp.dir.glob(landingZone, pattern) do |entry|
+            return true
+        end
+    end
+    return false
 end
 
 def remoteLzContainsFiles(pattern, targetNum , landingZone)
-	puts "remoteLzContainsFiles(" + pattern + ", " + targetNum + " , " + landingZone + ")"
+    puts "remoteLzContainsFiles(" + pattern + ", " + targetNum + " , " + landingZone + ")"
 
-	count = 0
-	Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
-		sftp.dir.glob(landingZone, pattern) do |entry|
-			count += 1
-			if count >= targetNum
-				return true
-			end
-		end
-	end
-	return false
+    count = 0
+    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+        sftp.dir.glob(landingZone, pattern) do |entry|
+            count += 1
+            if count >= targetNum
+                return true
+            end
+        end
+    end
+    return false
 end
 
 def remoteFileContainsMessage(prefix, message, landingZone)
 
-	puts "remoteFileContainsMessage prefix " + prefix + ", message " + message + ", landingZone " + landingZone
-	Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
-		sftp.dir.glob(landingZone, prefix + "*") do |entry|
-			entryPath = File.join(landingZone, entry.name)
-			puts "found file " + entryPath
+    puts "remoteFileContainsMessage prefix " + prefix + ", message " + message + ", landingZone " + landingZone
+    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+        sftp.dir.glob(landingZone, prefix + "*") do |entry|
+            entryPath = File.join(landingZone, entry.name)
+            puts "found file " + entryPath
 
-			#download file contents to a string
-			file_contents = sftp.download!(entryPath)
+            #download file contents to a string
+            file_contents = sftp.download!(entryPath)
 
-			#check file contents for message
-			if (file_contents.rindex(message) != nil)
-				puts "Found message " + message
-				return true
-			end
-		end
-	end
-	return false
+            #check file contents for message
+            if (file_contents.rindex(message) != nil)
+                puts "Found message " + message
+                return true
+            end
+        end
+    end
+    return false
 end
 
 def createRemoteDirectory(dirPath)
-	puts "attempting to create dir: " + dirPath
+    puts "attempting to create dir: " + dirPath
 
-	Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
-		begin
-			sftp.mkdir!(dirPath)
-		rescue
-			puts "directory exists"
-		end
-	end
+    Net::SFTP.start(LZ_SERVER_URL, INGESTION_USERNAME, :password => @password) do |sftp|
+        begin
+            sftp.mkdir!(dirPath)
+        rescue
+            puts "directory exists"
+        end
+    end
 
 end
 
@@ -476,9 +478,9 @@ def processZipWithFolder(file_name)
       end
       payload_file = entries[2]
       if payload_file == "MissingXmlFile.xml"
-	puts "DEBUG: An xml file in control file is missing .."
+    puts "DEBUG: An xml file in control file is missing .."
         new_ctl_file.puts entries.join ","
-	next
+    next
       end
       md5 = Digest::MD5.file(zip_dir + payload_file).hexdigest;
       if entries[3] != md5.to_s
@@ -565,123 +567,6 @@ Given /^the following collections are empty in batch job datastore:$/ do |table|
   end
   ensureBatchJobIndexes(@conn)
   assert(@result == "true", "Some collections were not cleared successfully.")
-end
-
-def createIndexesOnDb(db_connection,db_name)
-
-  @db = db_connection[db_name]
-  ensureIndexes(@db)
-
-end
-
-def ensureIndexes(db)
-
-  @collection = @db["assessment"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-
-  @collection = @db["attendance"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-
-  @collection = @db["course"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-
-  @collection = @db["educationOrganization"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-
-  @collection = @db["gradebookEntry"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-
-  @collection = @db["parent"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-
-  @collection = @db["school"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-
-  @collection = @db["section"]
-  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'courseId' => " "}} )
-  @collection.ensure_index([ ['body.schoolId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.ensure_index([ ['body.courseId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'courseId' => " "}} )
-
-  @collection = @db["session"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-
-  @collection = @db["staff"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-
-  @collection = @db["staffEducationOrganizationAssociation"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-
-  @collection = @db["student"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-
-  @collection = @db["studentAssessmentAssociation"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-
-  @collection = @db["studentParentAssociation"]
-  @collection.save( {'metaData' => {'tenantId' => " "}, 'body' => {'parentId' => " ", 'studentId' => " "}} )
-  @collection.ensure_index([ ['body.parentId', 1], ['body.studentId', 1], ['metaData.externalId', 1]])
-  @collection.remove( {'metaData' => {'tenantId' => " "}, 'body' => {'parentId' => " ", 'studentId' => " "}} )
-
-  @collection = @db["studentSchoolAssociation"]
-  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'studentId' => " "}} )
-  @collection.ensure_index([ ['body.schoolId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'schoolId' => " ", 'studentId' => " "}} )
-
-  @collection = @db["studentSectionAssociation"]
-  @collection.save( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'sectionId' => " ", 'studentId' => " "}} )
-  @collection.ensure_index([ ['body.sectionId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['body.sectionId', 1]])
-  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove( {'metaData' => {'externalId' => " ", 'tenantId' => " "}, 'body' => {'sectionId' => " ", 'studentId' => " "}} )
-
-  @collection = @db["studentGradebookEntry"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-
-  @collection = @db["studentTranscriptAssociation"]
-  @collection.save( {'metaData' => {'tenantId' => " "}, 'body' => {'courseId' => " ", 'studentId' => " "}} )
-  @collection.ensure_index([ ['body.studentId', 1], ['metaData.tenantId', 1], ['body.courseId', 1]])
-  @collection.remove( {'metaData' => {'tenantId' => " "}, 'body' => {'courseId' => " ", 'studentId' => " "}} )
-
-  @collection = @db["teacher"]
-  @collection.save({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-  @collection.ensure_index([['metaData.tenantId', 1], ['metaData.externalId', 1]])
-  @collection.remove({ 'metaData' => {'externalId' => " ", 'tenantId' => " "} })
-
-  @collection = @db["teacherSectionAssociation"]
-  @collection.save( {'metaData' => {'tenantId' => " "}, 'body' => {'teacherId' => " ", 'sectionId' => " "}} )
-  @collection.ensure_index([ ['body.teacherId', 1], ['metaData.tenantId', 1], ['body.sectionId', 1]])
-  @collection.remove( {'metaData' => {'tenantId' => " "}, 'body' => {'teacherId' => " ", 'sectionId' => " "}} )
-
 end
 
 Given /^I add a new tenant for "([^"]*)"$/ do |lz_key|
@@ -1183,7 +1068,7 @@ When /^an activemq instance "([^"]*)" running in "([^"]*)" and on jmx port "([^"
 end
 
 When /^I navigate to the Ingestion Service HealthCheck page and submit login credentials "([^"]*)" "([^"]*)"$/ do |user, pass|
-   uri = URI('http://localhost:8000/ingestion-service/HealthCheck')
+   uri = URI(INGESTION_HEALTHCHECK_URL)
    req = Net::HTTP::Get.new(uri.request_uri)
    req.basic_auth user, pass
    res = Net::HTTP.start(uri.hostname, uri.port) {|http|
@@ -1700,8 +1585,36 @@ Then /^I restart the activemq instance "([^"]*)" running on "([^"]*)"$/ do |inst
   Open3.popen2e("#{instance_source}/#{instance_name}/bin/#{instance_name}" )
 end
 
-Then /^I am informed that "(.*?)"$/ do |arg1|
-    assert($healthCheckResult.tr("\n","") == arg1, "Ingestion service is not running")
+Then /^I receive a JSON response$/ do
+  @result = JSON.parse($healthCheckResult)
+  assert(@result != nil, "Result of JSON parsing is nil")
+end
+
+Then /^the response should include (.*?)$/ do |json_values|
+  valueArr = json_values.split(", ")
+  for val in valueArr
+    assert(@result.has_key?(val), "Values missing")
+  end
+end
+
+Then /^the value of "(.*?)" should be "(.*?)"$/ do |json_variable, json_value|
+  puts @result
+  assert(@result[json_variable] == json_value)
+end
+
+Given /^I have checked the counts of the following collections:$/ do |table|
+  @excludedCollectionHash = {}
+  @db = @conn[INGESTION_DB_NAME]
+  table.hashes.map do |row|
+    @excludedCollectionHash[row["collectionName"]] = @db.collection(row["collectionName"]).count()
+  end
+end
+
+Then /^the following collections counts are the same:$/ do |table|
+  @db = @conn[INGESTION_DB_NAME]
+  table.hashes.map do |row|
+    assert(@excludedCollectionHash[row["collectionName"]] == @db.collection(row["collectionName"]).count(), "Tenant Purge has removed documents it should not have")
+  end
 end
 
 ############################################################

@@ -131,9 +131,9 @@ public class JobReportingProcessor implements Processor {
                 batchJobDAO.releaseTenantLockForJob(job.getTenantId(), job.getId());
                 batchJobDAO.cleanUpWorkNoteLatchAndStagedEntites(job.getId());
                 broadcastFlushStats(exchange, workNote);
+                cleanUpLZ(job);
             }
 
-            cleanUpLZ(job);
 
             cleanupStagingDatabase(workNote);
         }
@@ -476,7 +476,9 @@ public class JobReportingProcessor implements Processor {
         event.setActionUri("writeLine");
         event.setAppId("Ingestion");
         event.setOrigin("");
-        event.setExecutedOn(ipAddr[0] + "." + ipAddr[1] + "." + ipAddr[2] + "." + ipAddr[3]);
+        if (ipAddr != null) {
+            event.setExecutedOn(ipAddr[0] + "." + ipAddr[1] + "." + ipAddr[2] + "." + ipAddr[3]);
+        }
         event.setCredential("");
         event.setUserOrigin("");
         event.setTimeStamp(new Date());
