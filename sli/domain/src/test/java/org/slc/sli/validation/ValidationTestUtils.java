@@ -56,7 +56,7 @@ public class ValidationTestUtils {
             }
 
             @Override
-            public CalculatedData getAggregates() {
+            public CalculatedData getCalculatedValues() {
                 return null;
             }
         };

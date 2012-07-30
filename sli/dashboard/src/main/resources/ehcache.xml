@@ -23,11 +23,13 @@
 
     <cache name="user.panel.data" eternal="false" overflowToDisk="false"><sizeOfPolicy maxDepth="100000"/></cache>
 
-    <cache name="user.custom.config" eternal="false" overflowToDisk="false"><sizeOfPolicy maxDepth="100000"/></cache>
+    <cache name="user.custom.config" eternal="false" overflowToDisk="false"><sizeOfPolicy maxDepth="100000"/>
+    </cache>
 
     <cache name="user.config.widget" eternal="false" overflowToDisk="false"><sizeOfPolicy maxDepth="100000"/></cache>
 
-    <cache name="user.panel.config" eternal="false" overflowToDisk="false" />
+    <cache name="user.panel.config" eternal="false" overflowToDisk="false" >
+    </cache>
 
     <cache name="portal.data" eternal="false" overflowToDisk="false" />
 

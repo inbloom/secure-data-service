@@ -61,7 +61,7 @@ public class CalculatedData implements Serializable {
         this.calculatedValues = Collections.unmodifiableList(datums);
     }
 
-    public List<CalculatedDatum> getAggregates() {
+    public List<CalculatedDatum> getCalculatedValues() {
         return calculatedValues;
     }
 
