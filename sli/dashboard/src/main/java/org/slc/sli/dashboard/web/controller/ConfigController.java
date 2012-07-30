@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import com.google.gson.GsonBuilder;
@@ -131,10 +132,29 @@ public class ConfigController extends GenericLayoutController {
      */
     @RequestMapping(value = "/s/c/cfg", method = RequestMethod.GET)
     @ResponseBody public Collection<Config> handleSearch(@RequestParam Map<String, String> params,
-                                                         final HttpServletRequest request) {
+                                                         final HttpServletRequest request,
+                                                         HttpServletResponse response) {
 
         String token = SecurityUtil.getToken();
-        return configManager.getConfigsByAttribute(token, userEdOrgManager.getUserEdOrg(token), params);
+        GenericEntity staffEntity = userEdOrgManager.getStaffInfo(token);
+
+        // check user is an admin at an LEA
+        Boolean isAdmin = SecurityUtil.isAdmin();
+        if (isAdmin != null && isAdmin.booleanValue()) {
+            Boolean localEducationAgency = (Boolean) staffEntity.get(Constants.LOCAL_EDUCATION_AGENCY);
+
+            if (localEducationAgency != null && localEducationAgency.booleanValue()) {
+
+                return configManager.getConfigsByAttribute(token, userEdOrgManager.getUserEdOrg(token), params);
+            } else {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return null;
+            }
+        } else {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return null;
+        }
+
     }
 
     /**
