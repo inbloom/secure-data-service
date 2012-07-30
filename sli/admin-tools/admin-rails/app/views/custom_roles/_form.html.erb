@@ -1,5 +1,6 @@
 <script>
 var roles = <%= roles.roles.to_json.html_safe %>;
+var default_roles = <%= default_roles.to_json.html_safe %>;
 var UPDATE_URL = '<%= url_for(:action=>"update") %>'
 </script>
 <div class="row">
@@ -7,8 +8,8 @@ var UPDATE_URL = '<%= url_for(:action=>"update") %>'
 <table id="custom_roles" class="table table-bordered table-striped">
   <thead>
     <tr>
-      <th style='width: 100px'>Group Name</th>
-      <th style='width: 300px'>Roles</th>
+      <th style='width: 150px'>Group Name</th>
+      <th style='width: 200px'>Roles</th>
       <th>Rights</th>
     </tr>
   </thead>
@@ -17,7 +18,8 @@ var UPDATE_URL = '<%= url_for(:action=>"update") %>'
 </table>
 
 <div>
-  <a href="#" id="addGroupButton" class="btn">Add Role Group</a>
+  <button href="#" id="addGroupButton" class="btn">Add Role Group</button>
+  <button href="#" id="resetToDefaultsButton" class="btn">Reset To Defaults</button>
 </div>
 
 </div> <!-- span11 -->
