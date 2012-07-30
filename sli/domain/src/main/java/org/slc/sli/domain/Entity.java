@@ -53,5 +53,5 @@ public interface Entity {
      *
      * @return
      */
-    public AggregateData getAggregates();
+    public CalculatedData getAggregates();
 }
