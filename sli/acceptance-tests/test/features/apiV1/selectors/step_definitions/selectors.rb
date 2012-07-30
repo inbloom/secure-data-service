@@ -47,33 +47,40 @@ end
 
 Then /^in the response body I should see the following fields:$/ do |table|
   table.cells_rows.each do |field|
-    assert(@result.has_key?(field.value(0)), "Response does not contain the field #{field}")
+    assert(@result.has_key?(field.value(0)), "Response does not contain the field #{field}\nFields return: #{@result.keys}")
   end
 end
 
 Then /^in the response body I should see the following fields only:$/ do |table|
   num_of_fields = table.cells_rows.size
   assert(@result.keys.size == num_of_fields,
-         "Number of fields returned doesn't match: received #{@result.keys.size}, expected #{num_of_fields}'")
+         "Number of fields returned doesn't match: received #{@result.keys.size}, expected #{num_of_fields}\nFields return: #{@result.keys}")
   table.cells_rows.each do |field|
-    assert(@result.has_key?(field.value(0)), "Response does not contain the field #{field}")
+    assert(@result.has_key?(field.value(0)),
+           "Response does not contain the field #{field}\nFields return: #{@result.keys}")
   end
 end
 
 Then /^in "([^\"]*)" I should see the following fields:$/ do |key, table|
   assert(@result.has_key?(key), "Response does not contain #{key}")
-  table.cells_rows.each do |field|
-    assert(@result["#{key}"].has_key?(field.value(0)), "#{key} does not contain the field #{field}")
+  @result["#{key}"].each do |row|
+    table.cells_rows.each do |field|
+      assert(row.has_key?(field.value(0)),
+             "#{key} does not contain the field #{field}\nFields return: #{row.keys}")
+    end
   end
 end
 
 Then /^in "([^\"]*)" I should see the following fields only:$/ do |key, table|
   assert(@result.has_key?(key), "Response does not contain #{key}")
-  num_of_fields = table.cells_rows.size
-  assert(@result["#{key}"].keys.size == num_of_fields,
-         "Number of fields returned doesn't match: received #{@result["#{key}"].keys.size}, expected #{num_of_fields}'")
-  table.cells_rows.each do |field|
-    assert(@result["#{key}"].has_key?(field.value(0)), "#{key} does not contain the field #{field}")
+  @result["#{key}"].each do |row|
+    num_of_fields = table.cells_rows.size
+    assert(row.keys.size == num_of_fields,
+           "Number of fields returned doesn't match: received #{row.keys.size}, expected #{num_of_fields}\nFields return: #{row.keys}")
+    table.cells_rows.each do |field|
+      assert(row.has_key?(field.value(0)),
+             "#{key} does not contain the field #{field}\nFields return: #{row.keys}")
+    end
   end
 end
 

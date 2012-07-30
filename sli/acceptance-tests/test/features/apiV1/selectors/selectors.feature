@@ -37,35 +37,48 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     | telephone                     |
     | id                            |
     | entityType                    |
+    | links                         |
+    | schoolId                      |
+    | gradeLevel                    |
 
-    Given selector "(name, sex, birthData)"
+    Given selector "(name,sex,birthData)"
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 200
     And in the response body I should see the following fields only:
-    | sex       |
-    | name      |
-    | birthData |
+    | sex        |
+    | name       |
+    | birthData  |
+    | id         |
+    | entityType |
+    | links      |
+    | schoolId   |
+    | gradeLevel |
 
   Scenario: Applying selectors on nested fields
-    Given selector "(name, sectionAssociations:(*))"
+    Given selector "(name,sectionAssociations:(*))"
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 200
     And in the response body I should see the following fields only:
-    | name                |
-    | sectionAssociations |
-    And in "sectionAssociations" I should see the following fields:
+    | name                       |
+    | studentSectionAssociations |
+    | id                         |
+    | entityType                 |
+    | links                      |
+    | schoolId                   |
+    | gradeLevel                 |
+    And in "studentSectionAssociations" I should see the following fields:
     | sectionId |
     | studentId |
     | id        |
 
-    Given selector "(name, sectionAssociations:(sectionId)"
+    Given selector "(name,sectionAssociations:(sectionId)"
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 200
-    And in "sectionAssociations" I should see the following fields only:
+    And in "studentSectionAssociations" I should see the following fields only:
     | sectionId |
 
   Scenario: Applying selector to exclude fields
-    Given selector "(*, sex:false, cohortYears:false)"
+    Given selector "(*,sex:false,ohortYears:false)"
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 200
     And in the response body I should see the following fields only:
@@ -91,5 +104,9 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     | schoolFoodServicesEligibility |
     | telephone                     |
     | id                            |
+    | entityType                    |
+    | links                         |
+    | schoolId                      |
+    | gradeLevel                    |
     | entityType                    |
 
