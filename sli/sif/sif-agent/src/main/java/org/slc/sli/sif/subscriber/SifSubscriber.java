@@ -16,7 +16,6 @@
 
 package org.slc.sli.sif.subscriber;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import openadk.library.ADKException;
@@ -88,15 +87,6 @@ public class SifSubscriber implements Subscriber {
         }
         
         if (sdo!=null && tokenChecked && event.getAction()!=null) {
-
-            // Testing id map
-            String sliGuid = sifIdResolver.getSLIGuid(sdo.getRefId());
-            String seaGuid = sifIdResolver.getZoneSEA(zone.getZoneId());
-            LOG.info("received action: " + event.getAction().name() + " on " + 
-                sdo.getRefId() + "(sliID: " + (sliGuid == null ? " none " : sliGuid) + "," +
-                " seaId: " + (seaGuid == null ? " none " : seaGuid) + ")"
-            );
-
             switch(event.getAction()) {
             case ADD:
                 addEntity(sdo);
@@ -132,10 +122,6 @@ public class SifSubscriber implements Subscriber {
         }
         
     }
-    
-    //used to keep mapping between Entity Type and its sif RefId-to-guid map
-    //may need refactor for persistency consideration
-    private Map<String, Map<String, String>> sifRefId2guidMap = new HashMap<String, Map<String, String>>();
 
     private void changeEntity(SIFDataObject sdo) {
         Entity entity = sifIdResolver.getSLIEntity(sdo.getRefId());
@@ -160,8 +146,9 @@ public class SifSubscriber implements Subscriber {
 
     ///-======================== HELPER UTILs ======
     /**
-     * Takes an entity and fills in the missing values from it recursively
-     * @param m
+     * Applies the values from map u to the keys in map m, recursively
+     * @param map: the map to be updated
+     * @param u:   the map containing the updates
      */
     // applies map2 to map1 recursively
     private static void updateMap (Map map, Map u) {

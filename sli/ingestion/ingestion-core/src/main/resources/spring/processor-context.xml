@@ -13,7 +13,6 @@
         <value>system.profile</value>
         <value>system.users</value>
         <value>tenant</value>
-        <value>userAccount</value>
         <value>applicationAuthorization</value>
         <value>realm</value>
         <value>application</value>
