@@ -7,7 +7,24 @@ require 'time'
 
 puts "Starting agent !"
 
-client = Stomp::Client.new("", "", "localhost", 61613)
+hash = {
+    :hosts => [
+        {:login => "", :passcode => "", :host => "localhost", :port => 61613, :ssl => false}
+    ],
+    # These are the default parameters, don't need to be set
+    :initial_reconnect_delay => 0.01,
+    :max_reconnect_delay => 30.0,
+    :use_exponential_back_off => true,
+    :back_off_multiplier => 2,
+    :max_reconnect_attempts => 0,
+    :randomize => false,
+    :backup => false,
+    :timeout => -1,
+    :connect_headers => {},
+    :parse_timeout => 5,
+}
+
+client = Stomp::Client.new(hash)
 
 # This needs to be the replica sets - cannot talk to mongos?
 

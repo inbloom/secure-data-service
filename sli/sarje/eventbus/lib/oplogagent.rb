@@ -116,7 +116,7 @@ module Eventbus
       agent_config = {
           :node_name => Socket.gethostname,
           :publish_queue_name => "/queue/listener",
-          :subscribe_queue_name => "/queue/#{Socket.gethostname}/agent"
+          :subscribe_queue_name => "/topic/#{Socket.gethostname}/agent"
       }
 
       messaging_service = Eventbus::MessagingService.new(agent_config) do |incoming_configuration_message|
