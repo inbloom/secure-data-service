@@ -14,6 +14,7 @@
 @RALLY_DE85
 @RALLY_DE87
 @RALLY_DE621
+@RALLY_US3122
 @RALLY_US3202
 Feature: Acceptance Storied Data Ingestion Test
 
@@ -830,3 +831,38 @@ Then I should see following map of entry counts in the corresponding collections
         | reportCard                  | 2     |
         | courseOffering              | 103   |
         | studentAcademicRecord       | 117   |
+
+		
+Scenario: Post a zip file containing new entities and deltas for existing entities. Validate updates and inserts.
+	Given I should see following map of entry counts in the corresponding collections:
+        | collectionName              | count |
+        | gradebookEntry              | 12    |
+        | studentGradebookEntry       | 315   |
+        | studentCompetency           | 59    |
+        | grade                       | 4     |
+        | reportCard                  | 2     |
+	And I check to find if record is in collection:
+        | collectionName              | expectedRecordCount | searchParameter                | searchValue             | searchType           |
+        | gradebookEntry              | 0                   | body.dateAssigned              | 2011-09-27              | string               |
+        | studentGradebookEntry       | 0                   | body.letterGradeEarned         | Q                       | string               |
+        | studentCompetency           | 0                   | body.competencyLevel.codeValue | 99                      | string               |
+        | grade                       | 0                   | body.letterGradeEarned         | U                       | string               |
+        | reportCard                  | 0                   | body.gpaGivenGradingPeriod     | 1.1                     | double               |
+	When I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+	And I post "StoriedDataSet_IL_Daybreak_Deltas.zip" file as the payload of the ingestion job
+	And zip file is scp to ingestion landing zone
+	And a batch job log has been created
+	Then I should see following map of entry counts in the corresponding collections:
+        | collectionName              | count |
+        | gradebookEntry              | 12    |
+        | studentGradebookEntry       | 315   |
+        | studentCompetency           | 59    |
+        | grade                       | 4     |
+        | reportCard                  | 2     |
+	And I check to find if record is in collection:
+        | collectionName              | expectedRecordCount | searchParameter                | searchValue             | searchType           |
+        | gradebookEntry              | 1                   | body.dateAssigned              | 2011-09-27              | string               |
+        | studentGradebookEntry       | 1                   | body.letterGradeEarned         | Q                       | string               |
+        | studentCompetency           | 1                   | body.competencyLevel.codeValue | 99                      | string               |
+        | grade                       | 1                   | body.letterGradeEarned         | U                       | string               |
+        | reportCard                  | 1                   | body.gpaGivenGradingPeriod     | 1.1                     | double               |
