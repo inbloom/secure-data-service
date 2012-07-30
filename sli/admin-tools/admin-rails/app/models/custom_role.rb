@@ -22,6 +22,10 @@ class CustomRole < SessionResource
   self.site = "#{APP_CONFIG['api_base']}"
   self.collection_name = "customRoles"
 
+  def realm_name
+    Realm.find(self.realmId).name
+  end
+
 end
 
 

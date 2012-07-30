@@ -1,8 +1,6 @@
 <script>
-<%
- puts roles.inspect
-%>
 var roles = <%= roles.roles.to_json.html_safe %>;
+var UPDATE_URL = '<%= url_for(:action=>"update") %>'
 </script>
 <div class="row">
 <div class="span11">
@@ -15,16 +13,6 @@ var roles = <%= roles.roles.to_json.html_safe %>;
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td><div>Educator</div></td>
-      <td>
-        <div><span class="btn btn-small customLabel roleLabel">Educator</span></div>
-        <div><span class="btn btn-small customLabel roleLabel">MathTeacher</span></div>
-        <div><span class="btn btn-small customLabel roleLabel">Janitor</span></div>
-      </td>
-      <td>
-      </td>
-     </tr>
   </tbody>
 </table>
 </div>
@@ -83,13 +71,3 @@ var roles = <%= roles.roles.to_json.html_safe %>;
   <span class="btn btn-small customLabel roleLabel">foo</span>
 </div>
 
-<!--
-<span id="labelUi">
-    <input class="roleLabel" type="text" readonly="readonly" value="bar"/>
-</span>
--->
-<!--
-<span id="buttonUi">
-    <input class="roleLabel" type="text" readonly="readonly" value="foo"/>
-</span>
--->

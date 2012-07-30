@@ -1,6 +1,6 @@
-lastRow = -1
-editRowIndex = -1
-defaultRights = ["Read Restricted", "Write Restricted", "Read General", "Write General"]
+lastRow = -1 #last highlighted row
+editRowIndex = -1 #last row that was clicked on
+defaultRights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "AGGREGATE_WRITE"]
 
 jQuery ->
   populateTable()
@@ -17,6 +17,10 @@ jQuery ->
   $("#rowEditToolEditButton").click ->
     if (editRowIndex < 0)
       editRow(lastRow)
+
+  $("#rowEditToolDeleteButton").click ->
+    if (confirm("Do you really want to delete the role group"))
+      $("#custom_roles tr:eq(" + lastRow + ")").remove()
 
   $("#rowEditToolSaveButton").click ->
     if (editRowIndex > -1)
@@ -48,12 +52,14 @@ jQuery ->
     roleName = $("#addRoleUi input").val().trim()
     if (roleName == "")
       return
+
     #Check for duplicates
     if (getAllRoles().indexOf(roleName) > -1)
       return alert("The role name " + roleName + " is already used.")
     div = createRightLabel(roleName)
     div = wrapInputWithDeleteButton(div, "div")
-    td.append(div)
+    div.wrap("<div/>")
+    td.append(div.parent())
     $("#addRoleUi input").val("")
   
 rowMouseEnter = (row) ->   
@@ -61,7 +67,7 @@ rowMouseEnter = (row) ->
     drawEditBox(row)
 
 drawEditBox = (row) ->
-  lastRow = row.parent().children().index(row) + 1 #track the index of the currently highlighted row
+  lastRow = row.parent().children().index(row) + 1
   xPos = row.position().left + row.width()
   yPos = row.position().top
   $(".rowEditTool").show()
@@ -117,12 +123,12 @@ populateRightComboBox = () ->
 
 
 wrapInputWithDeleteButton = (input, type) ->
-  console.log("Wrapping", input)
   div = $('<span>').addClass("input-append")
   button = $("<button class='btn'>&times;</button>")
   div.append(button)
   button.click ->
-    button.parent().parent().remove()
+    button.parent().parent().fadeOut -> 
+      $(this).remove()
     populateRightComboBox()
   
   input.addClass("editable")
@@ -141,6 +147,7 @@ editRowStop = () ->
   $("#addRightUi").hide()
   $("#components").append($("#addRightUi"))
   td = $("#custom_roles tr:eq(" + editRowIndex + ") td")
+  td.removeClass("highlight")
     
   #Replace input with delete buttons back to normal inputs
   td.find(".editable").each ->
@@ -150,8 +157,21 @@ editRowStop = () ->
   input = $("#custom_roles tr:eq(" + editRowIndex + ") td:eq(0) input")
   div = $("<div/>").text(input.val())
   input.replaceWith(div)
-  console.log(getJsonData()) 
+  saveData(getJsonData()) 
   editRowIndex = -1
+
+saveData = (json) ->
+  console.log("Saving", json)
+  $.ajax '/',
+    url: UPDATE_URL
+    type: 'PUT'
+    contentType: 'application/json'
+    data: JSON.stringify({json})
+    dataType: 'json'
+    success: (data, status, xhr) ->
+      console.log("success", data, status, xhr)
+    error: (data, status, xhr) ->
+      console.log("error", data, status, xhr)
 
 
 getJsonData = () ->
@@ -159,11 +179,11 @@ getJsonData = () ->
   $("#custom_roles tr:gt(0)").each ->
     groupName = $(@).find("td:eq(0) div").text()
     roles = []
-    $(@).find("td:eq(1) input").each ->
-      roles.push($(@).val())
+    $(@).find("td:eq(1) span").each ->
+      roles.push($(@).text())
     rights = []
-    $(@).find("td:eq(2) input").each ->
-      rights.push($(@).val())
+    $(@).find("td:eq(2) span").each ->
+      rights.push($(@).text())
     data.push({"groupName": groupName, "roles": roles, "rights": rights})
   return data
 

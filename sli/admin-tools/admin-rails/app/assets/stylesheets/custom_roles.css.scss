@@ -42,6 +42,11 @@
   margin-right: 0px;
 }
 
+#rowEditToolEditButton {
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+}
+
 .customLabel:hover {
   background-color: #D6D6D6;
 }
@@ -59,26 +64,27 @@
 
 tr td:first-child.highlight {
   box-shadow: 0 0 5px rgba(0, 0, 255, 1);
-  -webkit-box-shadow: 0 0 5px rgba(0, 0, 255, 1); 
+ -webkit-box-shadow: 0 0 5px rgba(0, 0, 255, 1); 
   -moz-box-shadow: 0 0 5px rgba(0, 0, 255, 1);
   border-style: solid;
   border-color:  rgba(0,0,255, 0.8); 
-  border-width: 0 1 1 1;
+  border-width: 1px 0px 1px 1px;
 }
 
 tr td:last-child.highlight {
   box-shadow: 0 0 5px rgba(0, 0, 255, 1);
   -webkit-box-shadow: 0 0 5px rgba(0, 0, 255, 1); 
   -moz-box-shadow: 0 0 5px rgba(0, 0, 255, 1);
-  border-right:1px solid rgba(0,0,255, 0.8); 
-  border-top:1px solid rgba(0,0,255, 0.8); 
-  border-bottom:1px solid rgba(0,0,255, 0.8); 
+  border-style: solid;
+  border-color:  rgba(0,0,255, 0.8); 
+  border-width: 1px 1px 1px 0px;
 }
 
-tr td.hiighlight {
+tr td.highlight:not(:first-child):not(:last-child) {
   box-shadow: 0 0 5px rgba(0, 0, 255, 1);
   -webkit-box-shadow: 0 0 5px rgba(0, 0, 255, 1); 
   -moz-box-shadow: 0 0 5px rgba(0, 0, 255, 1);
-  border-top:1px solid rgba(0,0,255, 0.8); 
-  border-bottom:1px solid rgba(0,0,255, 0.8); 
+  border-style: solid;
+  border-color:  rgba(0,0,255, 0.8); 
+  border-width: 1px 0px 1px 0px;
 }
