@@ -41,8 +41,6 @@ local:
         oauth.redirect: http://local.slidev.org:8081/portal/c/portal/login
         log.path: /opt/logs
         log.level: INFO
-        sli.google_analytics.id: UA-31836571-1
-        sli.domain: slidev.org
 
 devlycans:
     portal:
@@ -55,8 +53,18 @@ devlycans:
         oauth.redirect: https://devlycans.slidev.org/portal/c/portal/login
         log.path: /opt/portal
         log.level: INFO
-        sli.google_analytics.id: UA-31838086-1
-        sli.domain: slidev.org
+        
+testlr1:
+    portal:
+        <<: *PORTAL-DEFAULT
+        api.server.url: https://nxslave3.slidev.org/
+        security.server.url: https://nxslave3.slidev.org/
+        oauth.encryption: true
+        oauth.client.id: 29D567708B17F13906B7B8C21B42585C
+        oauth.client.secret: AD56A5FF88A29119E5F8AEA4B4CA82DC4A487032E5C8214BA131977D09CF461CA8605A163C034004E1CB0A15EB1055B957A2D2D65D536975E960723B26A2E6B1
+        oauth.redirect: https://testlr1.slidev.org/portal/c/portal/login
+        log.path: /opt/portal
+        log.level: INFO
 
 portal:
     portal:
@@ -69,8 +77,6 @@ portal:
         oauth.redirect: https://portal.slidev.org/portal/c/portal/login
         log.path: /opt/tomcat/logs/
         log.level: INFO
-        sli.google_analytics.id: UA-31838086-1
-        sli.domain: slidev.org
         
 demo:
     portal:
@@ -83,6 +89,27 @@ demo:
         oauth.redirect: https://demo.slidev.org/portal/c/portal/login
         log.path: /opt/tomcat/logs/
         log.level: INFO
-        sli.google_analytics.id: UA-31838086-1
-        sli.domain: slidev.org
 
+devlr1:
+    portal:
+        <<: *PORTAL-DEFAULT
+        api.server.url: https://devjuggernauts.slidev.org/
+        security.server.url: https://devjuggernauts.slidev.org/
+        oauth.encryption: false
+        oauth.client.id: 59A4mQxYZX
+        oauth.client.secret: GJ88DM59A9KgEHfwgnjvciTNW3b6xHtvsJqPggerDQ9yKVse
+        oauth.redirect: https://lbportal.slidev.org/portal/c/portal/login
+        log.path: /var/log/tomcat/
+        log.level: INFO
+        
+devlr2:
+    portal:
+        <<: *PORTAL-DEFAULT
+        api.server.url: https://devjuggernauts.slidev.org/
+        security.server.url: https://devjuggernauts.slidev.org/
+        oauth.encryption: false
+        oauth.client.id: 59A4mQxYZX
+        oauth.client.secret: GJ88DM59A9KgEHfwgnjvciTNW3b6xHtvsJqPggerDQ9yKVse
+        oauth.redirect: https://lbportal.slidev.org/portal/c/portal/login
+        log.path: /opt/tomcat/logs/
+        log.level: INFO
