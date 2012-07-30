@@ -37,6 +37,7 @@ import javax.ws.rs.core.UriInfo;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
+import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.security.SecurityEventBuilder;
@@ -69,6 +70,9 @@ public class CustomRoleResource {
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
     
+    @Autowired
+    private RoleInitializer roleInitializer;
+    
     private EntityService service;
     
     @Autowired
@@ -96,6 +100,12 @@ public class CustomRoleResource {
             audit(securityEventBuilder.createSecurityEvent(CustomRoleResource.class.getName(), uriInfo,
                     "Failed to read custom roles --> insufficient permissions."));
             return SecurityUtil.forbiddenResponse();
+        }
+        
+        String defaultsOnly = uriInfo.getQueryParameters().getFirst("defaultsOnly");
+        
+        if (defaultsOnly != null && Boolean.valueOf(defaultsOnly).booleanValue()) {
+            return Response.ok(roleInitializer.getDefaultRoles()).build();
         }
         
         List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
