@@ -18,10 +18,19 @@
     <SIF_ObjectData>
       <SIF_EventObject ObjectName="LEAInfo" Action="Change">
         <LEAInfo RefId="73648462888624AA5294BC6380173276">
-          <StateProvinceId>Daybreak School District 4530</StateProvinceId>
-          <NCESId>4215750</NCESId>
-          <LEAName>UPDATED Daybreak School District 4530</LEAName>
-          <OperationalStatus>0821</OperationalStatus>
+          <AddressList>
+            <Address Type="0765">
+              <Street>
+                <Line1>1 IBM Plaza</Line1>
+                <StreetNumber>1</StreetNumber>
+                <StreetName>Main St.</StreetName>
+              </Street>
+              <StateProvince>IL</StateProvince>
+              <Country>US</Country>
+              <PostalCode>84102</PostalCode>
+              <City>Springfield</City>
+            </Address>
+          </AddressList>
         </LEAInfo>
       </SIF_EventObject>
     </SIF_ObjectData>

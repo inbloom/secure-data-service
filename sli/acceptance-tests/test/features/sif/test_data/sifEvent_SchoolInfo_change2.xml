@@ -16,13 +16,19 @@
       </SIF_Contexts>
     </SIF_Header>
     <SIF_ObjectData>
-      <SIF_EventObject ObjectName="LEAInfo" Action="Change">
-        <LEAInfo RefId="73648462888624AA5294BC6380173276">
-          <StateProvinceId>Daybreak School District 4530</StateProvinceId>
-          <NCESId>4215750</NCESId>
-          <LEAName>UPDATED Daybreak School District 4530</LEAName>
-          <OperationalStatus>0821</OperationalStatus>
-        </LEAInfo>
+      <SIF_EventObject ObjectName="SchoolInfo" Action="Change">
+        <SchoolInfo RefId="D3E34B359D75101A8C3D00AA001A1652">
+          <StateProvinceId>Daybreak West High</StateProvinceId>
+          <SchoolName>UPDATED Daybreak West High</SchoolName>
+          <GradeLevels>
+            <GradeLevel>
+              <Code>07</Code>
+            </GradeLevel>
+            <GradeLevel>
+              <Code>08</Code>
+            </GradeLevel>
+          </GradeLevels>
+        </SchoolInfo>
       </SIF_EventObject>
     </SIF_ObjectData>
   </SIF_Event>

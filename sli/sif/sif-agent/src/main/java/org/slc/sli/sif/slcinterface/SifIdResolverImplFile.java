@@ -81,6 +81,13 @@ public class SifIdResolverImplFile implements SifIdResolver {
         return digUpSliGuid(sliId);
     }
     @Override
+    public Entity getSLIEntity(String sifId) {
+        // check if it is in the map
+        if (!sifToSliIdMap.containsKey(sifId)) { return null; }
+        SliId sliId = sifToSliIdMap.get(sifId);
+        return digUpSliEntity(sliId);
+    }
+    @Override
     public String getZoneSEA(String zoneId) {
         // check if it is in the map
         if (!zoneIdToSliIdMap.containsKey(zoneId)) { return null; }
@@ -89,9 +96,14 @@ public class SifIdResolverImplFile implements SifIdResolver {
     }
     
     //dig up the SLI Guid from the api given a SliId. 
+    private String digUpSliGuid(SliId sliId) {
+        Entity e = digUpSliEntity(sliId);
+        return e == null ? null : e.getId();
+    }
+    //dig up the SLI Entity from the api given a SliId. 
     // Returns null is none is found,. 
     // throws runtime exception if more than one is found. 
-    private String digUpSliGuid(SliId sliId) {
+    private Entity digUpSliEntity(SliId sliId) {
         // dig up the SLI Id from the SLI database
         String id = sliId.id;
         String type = sliId.type;
@@ -113,7 +125,7 @@ public class SifIdResolverImplFile implements SifIdResolver {
         if (retVal.size() > 1) {
             throw new RuntimeException ("  SIF Ref ID Resolution error: resolves to more than one entity: " + sliId);
         }
-        return retVal.get(0).getId();
+        return retVal.get(0);
     }
     
     // init function helper
