@@ -12,10 +12,11 @@ module Eventbus
             @listener            = config[:listener]
             @jobrunner           = config[:jobrunner]
             @event_job_map       = {}
+            @poll_interval       = config[:poll_interval]
 
             # start the poller and the event dispatcher 
             @threads = [] 
-            @threads << start_poller 
+            @threads << start_poller(10)
             @threads << start_event_dispatcher
         end 
 
@@ -30,20 +31,21 @@ module Eventbus
         private
 
         # Starts the poller that retrieves events from mongo db. 
-        def start_poller(poll_intervall)
+        def start_poller(poll_interval)
             Thread.new do 
-                while true
+                loop { 
                     # fetch the event types from from mongo and subscribe to them 
-                    @listener.subscribe(get_evented_jobs)
+                    events = get_evented_jobs
+                    @listener.subscribe(events)
 
                     # sleep for the poll interval
                     sleep(poll_interval)
-                end 
+                }
             end 
         end
 
         # Listen to events and dispatch them 
-        def start_event_eventdispatcher
+        def start_event_dispatcher
             # setup a queue to gather events and run them on haddoop 
             queue = Queue.new
 
@@ -55,14 +57,14 @@ module Eventbus
 
             # start the thread to process the events 
             Thread.new do
-                while true
+                loop {
                     event = queue.deq
 
                     # look up the event in the current events table and trigger the job if necessary 
                     if @event_job_map.key?(event[:event_type])
                         schedule_job(@event_job_map[event[:event_type]])
                     end 
-                end 
+                }
             end
         end
 

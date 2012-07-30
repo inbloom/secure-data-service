@@ -1,50 +1,6 @@
 require 'test/unit'
 require 'eventbus' 
-
-class MockMQListener 
-    def initialize(n_events)
-        @receive_block = nil 
-        @events = nil 
-        @finished = false 
-        @event_thread = Thread.new do 
-            for i in 1..n_events 
-                rb = @receive_block 
-                ev = @events 
-                if rb && ev
-                    rb.call(ev[rand(ev.length)])
-                end 
-                sleep(0.1)
-            end 
-            @finished = true 
-        end 
-    end 
-
-    def subscribe(events)
-        @events = events
-    end 
-
-    def receive(&block)
-        @receiver_func = block 
-    end 
-
-    def done
-        @finished 
-    end 
-end
-
-class EventCountingJobRunner 
-    def initialize
-        @total = 0 
-    end 
-
-    def running
-        return [] 
-    end 
-
-    def schedule(job)
-        @total += 1 
-    end 
-end 
+require 'time'
 
 class TestJobScheduler < Test::Unit::TestCase
     JOB_COLLECTION = "jobdefinitions"
@@ -52,7 +8,8 @@ class TestJobScheduler < Test::Unit::TestCase
       :mongo_host           => "127.0.0.1",
       :mongo_port           => 27017,
       :mongo_db             => "eventbus",
-      :mongo_job_collection => "eb_jobs"
+      :mongo_job_collection => "jobs"
+      :poll_interval        => 5
     }
 
     # the directory where this test lives
@@ -67,14 +24,24 @@ class TestJobScheduler < Test::Unit::TestCase
     end
 
     def test_scheduler 
-        listener = MockMQListener.new(100)
-        @active_config[:listener] = listener 
-        @active_config[:jobrunner] = EventCountingJobRunner.new
+        # number of events and the delay between events being fired 
+        nevents = 100 
+        delay   = 0.1
+
+        # add mock listener that emits events and jobrunner that counts scheduled jobs
+        listener = MockMQListener.new(nevents, delay)
+        jobrunner = EventCountingJobRunner.new
+        @active_config[:listener] = listener
+        @active_config[:jobrunner] = jobrunner
+        @active_config[:poll_interval] = 100    
         @scheduler = Eventbus::JobScheduler.new(@active_config)
 
-        while !listener.done
-            sleep(0.1)
+        # wait until all events have fired 
+        start = Time.now 
+        while (!listener.done) && ((Time.now - start) < (nevents * 1.1 * delay))
+            sleep(delay)
         end
+        assert jobrunner.total == nevents, "No all events were successfully dispatched."
     end 
 
     private 
@@ -95,3 +62,51 @@ class TestJobScheduler < Test::Unit::TestCase
         end
     end
 end
+
+class MockMQListener 
+    attr_reader :done
+    def initialize(n_events, delay)
+        @receive_block = nil 
+        @events = nil 
+        @done = false 
+        @event_thread = Thread.new do 
+            sleep(2)
+            for i in 1..n_events 
+                rb = @receive_block 
+                ev = @events 
+                if rb && ev
+                    rb.call(ev[rand(ev.length)])
+                end 
+                sleep(delay)
+            end 
+            @done = true 
+        end 
+    end 
+
+    def subscribe(events)
+        @events = events
+        puts "Got Subscription for #{@events.length}"
+    end 
+
+    def receive(&block)
+        @receive_block = block 
+    end 
+end
+
+class EventCountingJobRunner 
+    attr_reader :total 
+
+    def initialize
+        @total = 0 
+    end 
+
+    def running
+        return [] 
+    end 
+
+    def schedule(job)
+        @total += 1 
+    end 
+end 
+
+
