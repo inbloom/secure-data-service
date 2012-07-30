@@ -1,3 +1,9 @@
+<script>
+<%
+ puts roles.inspect
+%>
+var roles = <%= roles.roles.to_json.html_safe %>;
+</script>
 <div class="row">
 <div class="span11">
 <table id="custom_roles" class="table table-bordered table-striped">
@@ -12,14 +18,11 @@
     <tr>
       <td><div>Educator</div></td>
       <td>
-        <input class="roleLabel" type="text" readonly="readonly" value="Educator"/>
-        <input class="roleLabel" type="text" readonly="readonly" value="MathTeacher"/>
-        <input class="roleLabel" type="text" readonly="readonly" value="Principal"/>
-        <input class="roleLabel" type="text" readonly="readonly" value="Janitor"/>
+        <div><span class="btn btn-small customLabel roleLabel">Educator</span></div>
+        <div><span class="btn btn-small customLabel roleLabel">MathTeacher</span></div>
+        <div><span class="btn btn-small customLabel roleLabel">Janitor</span></div>
       </td>
-      <td style="vvertical-align: middle; tttext-align: center">
-        <!--input class="roleLabel" type="text" readonly="readonly" value="Read General"/>
-        <input class="roleLabel" type="text" readonly="readonly" value="Write General"/-->
+      <td>
       </td>
      </tr>
   </tbody>
@@ -76,11 +79,17 @@
   </div>
 </div>
 
+<div id="labelUi">
+  <span class="btn btn-small customLabel roleLabel">foo</span>
+</div>
 
+<!--
 <span id="labelUi">
     <input class="roleLabel" type="text" readonly="readonly" value="bar"/>
 </span>
-
+-->
+<!--
 <span id="buttonUi">
     <input class="roleLabel" type="text" readonly="readonly" value="foo"/>
 </span>
+-->

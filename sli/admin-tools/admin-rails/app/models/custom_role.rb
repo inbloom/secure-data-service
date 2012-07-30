@@ -20,7 +20,7 @@ limitations under the License.
 class CustomRole < SessionResource
   self.format = ActiveResource::Formats::JsonFormat
   self.site = "#{APP_CONFIG['api_base']}"
-  self.collection_name = "customRole"
+  self.collection_name = "customRoles"
 
 end
 
