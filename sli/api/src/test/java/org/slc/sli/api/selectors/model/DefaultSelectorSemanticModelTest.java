@@ -73,8 +73,13 @@ public class DefaultSelectorSemanticModelTest {
         assertTrue(selectorMap.containsKey(name));
         assertTrue(selectorMap.containsKey(economicDisadvantaged));
         assertTrue(selectorMap.containsKey(studentSchoolAssociation));
+        @SuppressWarnings("unchecked")
+        final SemanticSelector sectionSelector = (SemanticSelector) selectorMap.get(section);
+        final List<SelectorElement> sectionSelectorElements = (List<SelectorElement>) sectionSelector.get(section);
 
-        assertEquals(SelectorElement.INCLUDE_ALL, selectorMap.get(section));
+        assertEquals(1, sectionSelectorElements.size());
+        assertTrue(sectionSelectorElements.get(0) instanceof IncludeAllSelectorElement);
+
         assertEquals(true, selectorMap.get(studentSectionAssociation));
         assertTrue(selectorMap.get(name) instanceof SemanticSelector);
         assertTrue(selectorMap.get(studentSchoolAssociation) instanceof SemanticSelector);
@@ -94,6 +99,19 @@ public class DefaultSelectorSemanticModelTest {
         return rVal;
     }
 
+    @Test
+    public void testIncludeAll() {
+        final Map<String, Object> selector = new HashMap<String, Object>();
+
+        final Map<String, Object> sectionAssocs = new HashMap<String, Object>();
+        sectionAssocs.put("*", true);
+        sectionAssocs.put("beginDate", false);
+        selector.put("sectionAssociations", sectionAssocs);
+
+        final ClassType student = provider.getClassType("Student");
+        final SemanticSelector semanticSelector = defaultSelectorSemanticModel.parse(selector, student);
+    }
+
     @Test(expected = SelectorParseException.class)
     public void testInvalidSelectors() throws SelectorParseException {
         final ClassType student = provider.getClassType("Student");
@@ -108,24 +126,27 @@ public class DefaultSelectorSemanticModelTest {
     }
 
     public Map<String, Object> generateSelectorObjectMap() {
-        Map<String, Object> schoolAttrs = new HashMap<String, Object>();
+        final Map<String, Object> schoolAttrs = new HashMap<String, Object>();
         schoolAttrs.put("schoolType", true);
 
-        Map<String, Object> ssaAttrs = new HashMap<String, Object>();
+        final Map<String, Object> ssaAttrs = new HashMap<String, Object>();
         ssaAttrs.put("entryGradeLevel", true);
         ssaAttrs.put("entryDate", true);
         ssaAttrs.put("school", schoolAttrs);
 
-        Map<String, Object> nameAttrs = new HashMap<String, Object>();
+        final Map<String, Object> nameAttrs = new HashMap<String, Object>();
         nameAttrs.put("firstName", true);
         nameAttrs.put("lastSurname", false);
 
-        Map<String, Object> studentsAttrs = new HashMap<String, Object>();
+        final Map<String, Object> studentsAttrs = new HashMap<String, Object>();
         studentsAttrs.put("name", nameAttrs);
         studentsAttrs.put("economicDisadvantaged", true);
         studentsAttrs.put("sectionAssociations", true);
         studentsAttrs.put("schoolAssociations", ssaAttrs);
-        studentsAttrs.put("sections", "*");
+
+        final Map<String, Object> sectionAttributes = new HashMap<String, Object>();
+        sectionAttributes.put("*", true);
+        studentsAttrs.put("sections", sectionAttributes);
 
         return studentsAttrs;
     }
