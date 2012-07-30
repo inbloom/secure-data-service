@@ -2,7 +2,7 @@
     <% if APP_CONFIG['is_sandbox'] %>
         <h1>Sandbox Account Management</h1>
     <% else %>
-        <h1>User Management</h1>
+        <h1>Admin Account Management</h1>
     <% end %>
 </div>
 <p></p>
@@ -13,8 +13,9 @@
     <%= text_field_tag :search, params[:search] %>
     <%= submit_tag "Search", :name => nil %>
   </p>
-  
-<p id="notice"><%= notice %></p>
+<% if flash[:notice]%>  
+<p id="notice"><%= flash[:notice] %></p>
+<%end%>
 
 <table id="Users_Management_Table" class="table table-striped">
   <thead>
@@ -23,7 +24,6 @@
         <th id="email">Email</th>
         <th id="role">Role</th>
         <% if not APP_CONFIG['is_sandbox'] %>
-            <th id="additional_role">Additional Role</th>
             <th id="tenant">Tenant</th>
         <% end %>
         <th id="edorg">EdOrg</th>
@@ -38,10 +38,9 @@
         <tr id='<%= user.uid%>'>
         <td id="<%= @elementIdPrefix%>_full_name"><%= user.firstName%> <%= user.lastName%></td>
         <td id="<%= @elementIdPrefix%>_email"><%= user.email%></td>
-        <td id="<%= @elementIdPrefix%>_role"> <%= user.get_groups%></td>
+        <td id="<%= @elementIdPrefix%>_role"><%= user.get_groups%></td>
         <% if not APP_CONFIG['is_sandbox'] %>
-            <td id="additional_role"+<%= user.uid%>></td>
-            <td id="tenant"+<%= user.uid%>><%= user.tenant%></td>
+            <td id="<%= @elementIdPrefix%>_tenant"><%= user.tenant%></td>
         <% end %>
         <td id="<%= @elementIdPrefix%>_edorg"><% if user.edorg==nil|| user.edorg=="null"%><%else%><%=user.edorg%><%end%></td>
         <td id="<%= @elementIdPrefix%>_date_created"><%= I18n.localize(user.get_create_time)%></td>
