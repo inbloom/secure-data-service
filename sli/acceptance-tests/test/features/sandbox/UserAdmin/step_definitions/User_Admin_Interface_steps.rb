@@ -32,21 +32,6 @@ Before do
 end
 
 
-
-Given /^LDAP server has been setup and running$/ do
-  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
-                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
-                          PropLoader.getProps['ldap_admin_pass'])
-  @email_sender_name= "Administrator"
-  @email_sender_address= "noreply@slidev.org"
-  @email_conf = {
-    :host =>  PropLoader.getProps['email_smtp_host'],
-    :port => PropLoader.getProps['email_smtp_port'],
-    :sender_name => @email_sender_name,
-    :sender_email_addr => @email_sender_address
-  }
-end
-
 When /^I navigate to the sandbox user account management page$/ do
   samt_url = PropLoader.getProps['admintools_server_url']+PropLoader.getProps['samt_app_suffix']
   @driver.get samt_url
@@ -194,7 +179,7 @@ Then /^the user still has (.*?) as (.*?)$/ do |table_header, new_value|
 end 
 
 Then /^I can change the Role from the dropdown to (.*?)$/ do |primary_role|
-    step "I can select #{primary_role} from a choice between a \"Ingestion User\", \"Application Developer\" and \"Sandbox Administrator\" Role"
+    step "I can select #{primary_role} from a choice between \"Ingestion User, Application Developer, Sandbox Administrator\" Role"
 end
 
 Then /^I can add additional Role "(.*?)"$/ do |optional_role|
@@ -304,11 +289,12 @@ When /^I have entered Full Name and Email into the required fields$/ do
   @driver.find_element(:name, 'user[email]').send_keys Socket.gethostname+"_testuser@testwgen.net"
 end
 
-Then /^I can select "(.*?)" from a choice between a (.*?), (.*?) and (.*?) Role$/ do |role, choice1, choice2, choice3| 
+Then /^I can select "(.*?)" from a choice between "(.*?)" Role$/ do |role, choices| 
     drop_down = @driver.find_element(:id, "user_primary_role")
     drop_down.click
-    for i in [ choice1, choice2, choice3 ] do
-        option = drop_down.find_element(:xpath, ".//option[text()=#{i}]")
+    for i in choices.split(",")  do
+        i.strip!
+        option = drop_down.find_element(:xpath, ".//option[text()=\"#{i}\"]")
         assert(option != nil)
     end
    
