@@ -90,6 +90,7 @@ public class DefaultSelectorQueryEngine implements SelectorQueryEngine, Selector
             if (newSelectorQuery != null) {
                 selectorQuery.getQueries().addAll(newSelectorQuery.getQueries());
                 selectorQuery.getIncludeFields().addAll(newSelectorQuery.getIncludeFields());
+                selectorQuery.getExcludeFields().addAll(newSelectorQuery.getExcludeFields());
             }
         }
 
