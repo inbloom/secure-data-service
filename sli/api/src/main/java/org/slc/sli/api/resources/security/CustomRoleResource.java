@@ -102,11 +102,13 @@ public class CustomRoleResource {
             return SecurityUtil.forbiddenResponse();
         }
         
-        String defaultsOnly = uriInfo.getQueryParameters().getFirst("defaultsOnly");
-        
-        if (defaultsOnly != null && Boolean.valueOf(defaultsOnly).booleanValue()) {
-            return Response.ok(roleInitializer.getDefaultRoles()).build();
-        }
+        if (uriInfo.getQueryParameters() != null) {
+            String defaultsOnly = uriInfo.getQueryParameters().getFirst("defaultsOnly");
+            
+            if (defaultsOnly != null && Boolean.valueOf(defaultsOnly).booleanValue()) {
+                return Response.ok(roleInitializer.getDefaultRoles()).build();
+            }
+        }            
         
         List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
         NeutralQuery customRoleQuery = new NeutralQuery();
