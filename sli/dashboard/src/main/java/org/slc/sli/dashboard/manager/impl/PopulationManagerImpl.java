@@ -973,10 +973,10 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
         // get attendance for the student
         List<GenericEntity> attendanceList = this.getStudentAttendance(token, studentId, null, null);
-        for (LinkedHashMap<String, Object> targetAttendance : attendanceList) {
+        for (Map<String, Object> targetAttendance : attendanceList) {
 
             // get schoolYearAttendance
-            List<LinkedHashMap<String, Object>> schoolYearAttendances = (List<LinkedHashMap<String, Object>>) targetAttendance
+            List<Map<String, Object>> schoolYearAttendances = (List<Map<String, Object>>) targetAttendance
                     .get(Constants.ATTR_ATTENDANCE_SCHOOLYEAR_ATTENDANCE);
             if (schoolYearAttendances != null) {
 
@@ -985,7 +985,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                         String.class);
                 Collections.sort(schoolYearAttendances, Collections.reverseOrder(comparator));
 
-                for (LinkedHashMap<String, Object> schoolYearAttendance : schoolYearAttendances) {
+                for (Map<String, Object> schoolYearAttendance : schoolYearAttendances) {
                     int inAttendanceCount = 0;
                     int absenceCount = 0;
                     int excusedAbsenceCount = 0;
@@ -1015,7 +1015,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
                     // count each attendance event
                     if (attendanceEvents != null) {
-                        for (LinkedHashMap<String, Object> attendanceEvent : attendanceEvents) {
+                        for (Map<String, Object> attendanceEvent : attendanceEvents) {
                             String event = (String) attendanceEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
                             if (event != null) {
                                 totalCount++;
@@ -1045,7 +1045,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                     String nameOfInstitution = "";
                     // get school name from enrollment
                     if (enrollment != null) {
-                        LinkedHashMap<String, Object> school = (LinkedHashMap<String, Object>) enrollment
+                        Map<String, Object> school = (Map<String, Object>) enrollment
                                 .get(Constants.ATTR_SCHOOL);
                         if (school != null) {
                             nameOfInstitution = (String) school.get(Constants.ATTR_NAME_OF_INST);

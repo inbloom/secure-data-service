@@ -28,7 +28,7 @@ import org.codehaus.jackson.map.ObjectMapper;
  */
 public abstract class GenericEntity
 {
-    protected static ObjectMapper mapper = new ObjectMapper();
+    protected static final ObjectMapper mapper = new ObjectMapper();
 
     /**
      *  Constructor

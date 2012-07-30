@@ -165,7 +165,7 @@ public class BasicRESTClient implements RESTClient {
     public String sessionCheck(final String token) throws URISyntaxException, IOException {
         logger.info("Session check URL = " + SESSION_CHECK_PREFIX);
         URL url = new URL(apiServerUri + "/" + SESSION_CHECK_PREFIX);
-        Response response = getRequest(token, url);
+        Response response = getRequest(url);
         String jsonText = response.readEntity(String.class);
         ObjectMapper mapper = new ObjectMapper();
         JsonNode obj = mapper.readTree(jsonText);
@@ -187,19 +187,7 @@ public class BasicRESTClient implements RESTClient {
      */
     @Override
     public Response getRequest(final URL url) throws MalformedURLException, URISyntaxException {
-        return getRequest(this.sessionToken, url);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.slc.sli.api.client.impl.IRESTClient#getRequest(java.lang.String, java.net.URL)
-     */
-
-    @Override
-    public Response getRequest(final String sessionToken, final URL url) throws MalformedURLException,
-            URISyntaxException {
-        return getRequestWithHeaders(sessionToken, url, null);
+        return getRequestWithHeaders(url, null);
     }
 
     /*
@@ -208,10 +196,16 @@ public class BasicRESTClient implements RESTClient {
      * @see org.slc.sli.api.client.impl.IRESTClient#getRequestWithHeaders(java.net.URL,
      * java.util.Map)
      */
-
     @Override
     public Response getRequestWithHeaders(final URL url, final Map<String, Object> headers) throws URISyntaxException {
-        return this.getRequestWithHeaders(this.sessionToken, url, headers);
+        if (sessionToken == null) {
+            logger.log(Level.SEVERE, String.format("Token is null in call to RESTClient for url: %s", url.toString()));
+            return null;
+        }
+        Invocation.Builder builder = client.target(url.toURI()).request(MediaType.APPLICATION_JSON);
+        builder = getCommonRequestBuilder(sessionToken, builder, headers);
+        Invocation i = builder.buildGet();
+        return i.invoke();
     }
 
     /*
@@ -227,43 +221,11 @@ public class BasicRESTClient implements RESTClient {
     /*
      * (non-Javadoc)
      *
-     * @see org.slc.sli.api.client.impl.IRESTClient#getRequestWithHeaders(java.lang.String,
-     * java.net.URL, java.util.Map)
-     */
-    @Override
-    public Response getRequestWithHeaders(final String sessionToken, final URL url, final Map<String, Object> headers)
-            throws URISyntaxException {
-        if (sessionToken == null) {
-            logger.log(Level.SEVERE, String.format("Token is null in call to RESTClient for url: %s", url.toString()));
-            return null;
-        }
-        Invocation.Builder builder = client.target(url.toURI()).request(MediaType.APPLICATION_JSON);
-        builder = getCommonRequestBuilder(sessionToken, builder, headers);
-        Invocation i = builder.buildGet();
-        return i.invoke();
-    }
-
-    /*
-     * (non-Javadoc)
-     *
      * @see org.slc.sli.api.client.impl.IRESTClient#postRequest(java.net.URL, java.lang.String)
      */
     @Override
     public Response postRequest(final URL url, final String json) throws URISyntaxException, MalformedURLException {
-        return postRequest(this.sessionToken, url, json);
-
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.slc.sli.api.client.impl.IRESTClient#postRequest(java.lang.String, java.net.URL,
-     * java.lang.String)
-     */
-    @Override
-    public Response postRequest(final String sessionToken, final URL url, final String json) throws URISyntaxException,
-            MalformedURLException {
-        return postRequestWithHeaders(sessionToken, url, json, null);
+        return postRequestWithHeaders(url, json, null);
     }
 
     /*
@@ -275,18 +237,6 @@ public class BasicRESTClient implements RESTClient {
     @Override
     public Response postRequestWithHeaders(final URL url, final String json, final Map<String, Object> headers)
             throws URISyntaxException, MalformedURLException {
-        return postRequestWithHeaders(this.sessionToken, url, json, headers);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.slc.sli.api.client.impl.IRESTClient#postRequestWithHeaders(java.lang.String,
-     * java.net.URL, java.lang.String, java.util.Map)
-     */
-    @Override
-    public Response postRequestWithHeaders(final String sessionToken, final URL url, final String json,
-            final Map<String, Object> headers) throws URISyntaxException, MalformedURLException {
         if (sessionToken == null) {
             logger.log(Level.SEVERE, String.format("Token is null in call to RESTClient for url: %s", url.toString()));
             return null;
@@ -296,7 +246,6 @@ public class BasicRESTClient implements RESTClient {
         builder = getCommonRequestBuilder(sessionToken, builder, headers);
         Invocation i = builder.buildPost(javax.ws.rs.client.Entity.entity(json, MediaType.APPLICATION_JSON));
         return i.invoke();
-
     }
 
     /*
@@ -306,20 +255,7 @@ public class BasicRESTClient implements RESTClient {
      */
     @Override
     public Response putRequest(final URL url, final String json) throws MalformedURLException, URISyntaxException {
-        return putRequest(this.sessionToken, url, json);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.slc.sli.api.client.impl.IRESTClient#putRequest(java.lang.String, java.net.URL,
-     * java.lang.String)
-     */
-    @Override
-    public Response putRequest(final String sessionToken, final URL url, final String json)
-
-    throws MalformedURLException, URISyntaxException {
-        return putRequestWithHeaders(sessionToken, url, json, null);
+        return putRequestWithHeaders(url, json, null);
     }
 
     /*
@@ -330,22 +266,7 @@ public class BasicRESTClient implements RESTClient {
      */
     @Override
     public Response putRequestWithHeaders(final URL url, final String json, final Map<String, Object> headers)
-
-    throws MalformedURLException, URISyntaxException {
-        return putRequestWithHeaders(this.sessionToken, url, json, headers);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.slc.sli.api.client.impl.IRESTClient#putRequestWithHeaders(java.lang.String,
-     * java.net.URL, java.lang.String, java.util.Map)
-     */
-
-    @Override
-    public Response putRequestWithHeaders(final String sessionToken, final URL url, final String json,
-            final Map<String, Object> headers) throws MalformedURLException, URISyntaxException {
-
+            throws MalformedURLException, URISyntaxException {
         if (sessionToken == null) {
             logger.log(Level.SEVERE, String.format("Token is null in call to RESTClient for url: %s", url.toString()));
             return null;
@@ -356,7 +277,6 @@ public class BasicRESTClient implements RESTClient {
         Invocation i = builder.buildPut(javax.ws.rs.client.Entity.entity(json, MediaType.APPLICATION_JSON));
 
         return i.invoke();
-
     }
 
     /*
@@ -366,18 +286,7 @@ public class BasicRESTClient implements RESTClient {
      */
     @Override
     public Response deleteRequest(final URL url) throws MalformedURLException, URISyntaxException {
-        return deleteRequest(this.sessionToken, url);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.slc.sli.api.client.impl.IRESTClient#deleteRequest(java.lang.String, java.net.URL)
-     */
-    @Override
-    public Response deleteRequest(final String sessionToken, final URL url) throws MalformedURLException,
-            URISyntaxException {
-        return deleteRequestWithHeaders(sessionToken, url, null);
+        return deleteRequestWithHeaders(url, null);
     }
 
     /*
@@ -386,32 +295,17 @@ public class BasicRESTClient implements RESTClient {
      * @see org.slc.sli.api.client.impl.IRESTClient#deleteRequestWithHeaders(java.net.URL,
      * java.util.Map)
      */
-
     @Override
     public Response deleteRequestWithHeaders(final URL url, final Map<String, Object> headers)
-            throws MalformedURLException, URISyntaxException {
-        return deleteRequestWithHeaders(this.sessionToken, url, headers);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
-     * @see org.slc.sli.api.client.impl.IRESTClient#deleteRequestWithHeaders(java.lang.String,
-     * java.net.URL, java.util.Map)
-     */
-    @Override
-    public Response deleteRequestWithHeaders(final String sessionToken, final URL url, final Map<String, Object> headers)
             throws MalformedURLException, URISyntaxException {
         if (sessionToken == null) {
             logger.log(Level.SEVERE, String.format("Token is null in call to RESTClient for url: %s", url.toString()));
             return null;
         }
-
         Invocation.Builder builder = client.target(url.toURI()).request(MediaType.APPLICATION_JSON);
         builder = getCommonRequestBuilder(sessionToken, builder, headers);
         Invocation i = builder.buildDelete();
         return i.invoke();
-
     }
 
     /*
