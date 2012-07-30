@@ -1,4 +1,7 @@
 <script>
+<%
+puts roles.inspect
+%>
 var roles = <%= roles.roles.to_json.html_safe %>;
 var UPDATE_URL = '<%= url_for(:action=>"update") %>'
 </script>

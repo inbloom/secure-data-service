@@ -21,6 +21,8 @@ jQuery ->
   $("#rowEditToolDeleteButton").click ->
     if (confirm("Do you really want to delete the role group"))
       $("#custom_roles tr:eq(" + lastRow + ")").remove()
+      $(".rowEditTool").hide()
+      saveData(getJsonData())
 
   $("#rowEditToolSaveButton").click ->
     if (editRowIndex > -1)
@@ -162,8 +164,7 @@ editRowStop = () ->
 
 saveData = (json) ->
   console.log("Saving", json)
-  $.ajax '/',
-    url: UPDATE_URL
+  $.ajax UPDATE_URL,
     type: 'PUT'
     contentType: 'application/json'
     data: JSON.stringify({json})
@@ -184,7 +185,7 @@ getJsonData = () ->
     rights = []
     $(@).find("td:eq(2) span").each ->
       rights.push($(@).text())
-    data.push({"groupName": groupName, "roles": roles, "rights": rights})
+    data.push({"groupTitle": groupName, "names": roles, "rights": rights})
   return data
 
 getRights = (row) ->
@@ -206,7 +207,7 @@ populateTable = () ->
     newRow.mouseenter -> rowMouseEnter(newRow)
     $("#custom_roles tbody").append(newRow)
 
-    newRow.find("td:eq(0)").append("<div>unknown</div>")
+    newRow.find("td:eq(0)").append($("<div></div>").text(role.groupTitle))
 
     for name in role.names
       div = $('<div/>')
