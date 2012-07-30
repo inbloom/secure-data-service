@@ -106,10 +106,10 @@ public class CustomizationAssemblyFactoryImpl implements CustomizationAssemblyFa
             Config.Condition condition = config.getCondition();
             Object[] values = condition.getValue();
             // for simplicity always treat as an array
-            List<GenericEntity> listOfEntitites = (parentConfig != null && parentConfig.getRoot() != null) ? entity.getList(parentConfig.getRoot()) : Arrays.asList(entity);
+            List<GenericEntity> listOfEntities = (parentConfig != null && parentConfig.getRoot() != null) ? entity.getList(parentConfig.getRoot()) : Arrays.asList(entity);
             Object childEntity;
             // condition is equivalent to exists in the list
-            for (GenericEntity oneEntity : listOfEntitites) {
+            for (GenericEntity oneEntity : listOfEntities) {
                 childEntity = getValue(oneEntity, condition.getField());
                 // if null and value is null, it's allowed, otherwise it's not
                 if (childEntity == null) {
