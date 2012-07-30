@@ -47,6 +47,11 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ParameterConstants;
@@ -59,10 +64,6 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  *
@@ -87,6 +88,9 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
 
     @Value("${sli.tenant.ingestionServers}")
     private String ingestionServers;
+
+    @Value("${bootstrap.sandbox.realm.uniqueId}")
+    private String sandboxUniqueId;
 
     private List<String> ingestionServerList;
 
@@ -211,7 +215,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
                 EntityDefinition realmDefinition = store.lookupByEntityType("realm");
                 EntityService realmService = realmDefinition.getService();
                 NeutralQuery sandboxQuery = new NeutralQuery(1);
-                query.addCriteria(new NeutralCriteria("", "=", ""));
+                query.addCriteria(new NeutralCriteria("uniqueIdentifier", "=", sandboxUniqueId)); 
                 List<String> entities = iterableToList(realmService.listIds(sandboxQuery));
                 String realmId = entities.get(0);
                 roleInitializer.dropAndBuildRoles(tenantId, realmId);
