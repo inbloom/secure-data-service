@@ -12,8 +12,8 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.slc.sli.domain.AggregateData;
-import org.slc.sli.domain.AggregateDatum;
+import org.slc.sli.domain.CalculatedData;
+import org.slc.sli.domain.CalculatedDatum;
 
 /**
  * @author nbrown
@@ -40,7 +40,7 @@ public class AggregateListingResourceTest {
         mathClass.put("LastSemester", lastSemester);
         attendance.put("MathClass", mathClass);
         aggregateMap.put("attendance", attendance);
-        AggregateData data = new AggregateData(aggregateMap);
+        CalculatedData data = new CalculatedData(aggregateMap);
         resource = new AggregateListingResource(data);
 
     }
@@ -52,8 +52,8 @@ public class AggregateListingResourceTest {
      */
     @Test
     public void testGetAvailableAggregates() {
-        assertEquals(Arrays.asList(new AggregateDatum("assessments", "HighestEver", "ACT", "ScaleScore", "28.0"),
-                new AggregateDatum("attendance", "LastSemester", "MathClass", "PercentInClass", "90%")), resource
+        assertEquals(Arrays.asList(new CalculatedDatum("assessments", "HighestEver", "ACT", "ScaleScore", "28.0"),
+                new CalculatedDatum("attendance", "LastSemester", "MathClass", "PercentInClass", "90%")), resource
                 .getAggregates(null, null, null, null).getEntity());
     }
 
