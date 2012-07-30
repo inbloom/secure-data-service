@@ -100,6 +100,15 @@ public class RoleInitializer {
         return groups.size();
     }
     
+    public List<Map<String, Object>> getDefaultRoles() {
+        List<Map<String, Object>> groups = new ArrayList<Map<String, Object>>();
+        groups.add(buildRoleGroup(buildAggregate()));
+        groups.add(buildRoleGroup(buildLeader()));
+        groups.add(buildRoleGroup(buildIT()));
+        groups.add(buildRoleGroup(buildEducator()));
+        return groups;
+    }
+    
     private Map<String, Object> buildRoleGroup(Role role) {
         Map<String, Object> group = new HashMap<String, Object>();
         group.put("groupTitle", role.getName());
