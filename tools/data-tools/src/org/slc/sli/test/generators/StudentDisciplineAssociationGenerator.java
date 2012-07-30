@@ -22,14 +22,20 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
+
+import org.slc.sli.test.edfi.entities.DisciplineAction;
 import org.slc.sli.test.edfi.entities.DisciplineIncident;
 import org.slc.sli.test.edfi.entities.DisciplineIncidentReferenceType;
+import org.slc.sli.test.edfi.entities.InterchangeStudentDiscipline;
 import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.StudentDisciplineIncidentAssociation;
 import org.slc.sli.test.edfi.entities.StudentIdentityType;
 import org.slc.sli.test.edfi.entities.StudentParticipationCodeType;
 import org.slc.sli.test.edfi.entities.StudentReferenceType;
 import org.slc.sli.test.edfi.entities.meta.DisciplineIncidentMeta;
+import org.slc.sli.test.utils.InterchangeWriter;
 
 /**
 * Generates StudentDisciplineIncidentAssociation data
@@ -46,17 +52,22 @@ public class StudentDisciplineAssociationGenerator {
      * 
      * @return <code>List<StudentDisciplineIncidentAssociation></code>
      */
-    public static List<StudentDisciplineIncidentAssociation> generateLowFi(DisciplineIncidentMeta meta) {
+//    public static List<StudentDisciplineIncidentAssociation> generateLowFi(DisciplineIncidentMeta meta) {
+	 public static void generateLowFi(InterchangeWriter<InterchangeStudentDiscipline> iWriter, DisciplineIncidentMeta meta) {
         String disciplineIncidentId = meta.id;
         Collection<String> studentIds = meta.studentIds;
         
-        List<StudentDisciplineIncidentAssociation> list = new ArrayList<StudentDisciplineIncidentAssociation>(studentIds.size());
+//        List<StudentDisciplineIncidentAssociation> list = new ArrayList<StudentDisciplineIncidentAssociation>(studentIds.size());
         
         for (String studentId : studentIds) {
-            list.add(generateLowFi(studentId, disciplineIncidentId));
+//            list.add(generateLowFi(studentId, disciplineIncidentId));
+        	StudentDisciplineIncidentAssociation retVal = generateLowFi(studentId, disciplineIncidentId);
+        	QName qName = new QName("http://ed-fi.org/0100", "StudentDisciplineIncidentAssociation");
+            JAXBElement<StudentDisciplineIncidentAssociation> jaxbElement = new JAXBElement<StudentDisciplineIncidentAssociation>(qName,StudentDisciplineIncidentAssociation.class,retVal);
+            iWriter.marshal(jaxbElement);
         }
 
-        return list;
+//        return list;
     }
 
     /**

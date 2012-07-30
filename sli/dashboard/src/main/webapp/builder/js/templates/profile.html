@@ -1,0 +1,61 @@
+<h3>Modify: {{profile.name}}</h3>
+<div class="sectionProfile">
+    <div class="sectionInfo">
+        <div class="col1 column">
+            <div class="tabular">
+                <table>
+                    <tr>
+                        <td><strong>{{profile.name}}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Some text will display here.</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="tabs" maketab>
+    <ul ng-sortable="pages">
+        <li class="ui-state-default" id="{{page.id}}" ng-sortable-index="{{$index}}" ng-repeat="page in pages" ng-controller="editorCtrl" ng-mouseover="showUpdateSection(this)" ng-mouseleave="hideUpdateSection">
+            <a class="view">{{page.name}}</a>
+            <div class="updatePage hide">
+                <span href="#"><i class="icon-move"></i></span>
+                <span href="#" ng-click="editPage()"><i class="icon-edit"></i></span>
+                <span href="#" ng-click="removePage()"><i class="icon-trash"></i></span>
+            </div>
+        </li>
+        <li class="addPageSection">
+            <button class="btn btn-primary" data-toggle="modal" ng-click="showDialog('add')" >+</button>
+        </li>
+    </ul>
+</div>
+<div class="modal hide fade" id="myModal">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3>{{mode}} Page</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <fieldset>
+                <div class="control-group">
+                    <label for="input01" class="control-label">Title</label>
+                    <div class="controls">
+                        <input type="text" id="input01" class="input-medium" ng-model="pageText" >
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="input01" class="control-label">Panel JSON</label>
+                    <div class="controls">
+                        <textarea rows="3" id="textarea" class="input-xlarge" ng-model="panelJSON"></textarea>
+                    </div>
+                </div>
+
+            </fieldset>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a class="btn" data-dismiss="modal">Cancel</a>
+        <a class="btn btn-primary" ng-click="savePage()">Save</a>
+    </div>
+</div>

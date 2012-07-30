@@ -22,7 +22,7 @@ import org.apache.hadoop.mapreduce.TaskAttemptContext;
  * @param <K>
  * @param <V>
  */
-public class MongoAggWriter<K, V> extends MongoRecordWriter<K, V> {
+public class MongoAggWriter<V> extends MongoRecordWriter<TenantAndID, V> {
 
     private final DBCollection output;
     private final String keyField;
@@ -36,12 +36,14 @@ public class MongoAggWriter<K, V> extends MongoRecordWriter<K, V> {
     }
 
     @Override
-    public void write(K key, V value) throws IOException {
+    public void write(TenantAndID key, V value) throws IOException {
         output.findAndModify(makeDBKey(key), makeModifier(value));
     }
 
-    private DBObject makeDBKey(K key) {
-        return new BasicDBObject(keyField, key.toString());
+    private DBObject makeDBKey(TenantAndID key) {
+        BasicDBObject dbKey = new BasicDBObject(keyField, key.getId());
+        dbKey.put("metaData.tenantId", key.getTenant());
+        return dbKey;
     }
 
     private DBObject makeModifier(V obj) {

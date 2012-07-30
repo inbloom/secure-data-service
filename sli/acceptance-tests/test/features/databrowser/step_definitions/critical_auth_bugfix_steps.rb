@@ -32,6 +32,10 @@ Then /^I should see a message that I am forbidden$/ do
   assertWithWait("Could not find Not Authorized in page title")  {@driver.page_source.index("error")!= nil}
 end
 
+Then /^I should see a message that I am an invalid user$/ do
+  assertWithWait("Could not find Invalid Username or password in page title")  {@driver.page_source.index("error")!= nil}
+end
+
 When /^I have a _tla cookie set to an expired session$/ do
 
     #Need to be at a page in the domain before we can set a cookie.  Should take us to a 404 page within the db

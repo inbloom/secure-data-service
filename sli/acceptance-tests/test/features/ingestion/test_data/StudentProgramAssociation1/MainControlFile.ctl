@@ -1,3 +1,0 @@
-edfi-xml,EducationOrganization,Program1.xml,f63f9e391960c58407fec1335bfc65a0
-edfi-xml,StudentParent,Student1.xml,2808348fc76fc5781968ee9852bb0671
-edfi-xml,StudentProgram,StudentProgramAssociation1.xml,d1c2f9152a98b8353b2cd7d0474cf75b

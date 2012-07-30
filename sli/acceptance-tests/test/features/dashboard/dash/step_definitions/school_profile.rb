@@ -18,6 +18,8 @@ limitations under the License.
 Then /^I view the School Profile/ do
   @schoolInfo = viewInfoPanel("schoolProfile", "schoolInfo")
   verifyPageTitle("SLC - School Profile")
+  #Assume first tab is Subjects and Courses
+  @currentTab = getTab("Subjects and Courses")
 end
 
 Then /^the school name is "(.*?)"$/ do |expectedSchoolName|
@@ -96,7 +98,7 @@ def findAndClickOnTreeGrid(name, isSection = false)
 end
 
 def readTreeGrid()
-  trs = getGrid(@driver)
+  trs = getGrid(@currentTab)
   @currentVisibleTreeNodes = []
   trs.each do |tr|
     # Look for elements that dont have style set, without style, it means it's visible

@@ -92,7 +92,7 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
         } catch (EntityValidationException ex) {
             reportErrors(ex.getValidationErrors(), entity, errorReport);
         } catch (DuplicateKeyException ex) {
-            reportErrors(ex.getRootCause().getMessage(), entity, errorReport);
+            reportWarnings(ex.getRootCause().getMessage(), entity, errorReport);
         }
         return null;
     }
@@ -153,6 +153,21 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
         String assembledMessage = MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG1",
                 entity.getType(), errorMessage);
         errorReport.error(assembledMessage, this);
+    }
+    
+    /**
+     * Generic warning reporting function.
+     *
+     * @param warningMessage
+     *            Warning message reported by entity.
+     * @param entity
+     *            Entity reporting warning.
+     * @param errorReport
+     *            Reference to error report to log warning message in.
+     */
+    private void reportWarnings(String warningMessage, NeutralRecordEntity entity, ErrorReport errorReport) {
+        String assembledMessage = "Entity (" + entity.getType() + ") reports warning: " + warningMessage;
+        errorReport.warning(assembledMessage, this);
     }
     
     /**

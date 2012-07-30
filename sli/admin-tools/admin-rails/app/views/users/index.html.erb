@@ -1,0 +1,64 @@
+<div class="page-header">
+    <% if APP_CONFIG['is_sandbox'] %>
+        <h1>Sandbox Account Management</h1>
+    <% else %>
+        <h1>Admin Account Management</h1>
+    <% end %>
+</div>
+<p></p>
+<h4>Manage users that have access to your <% if APP_CONFIG['is_sandbox'] %>Sandbox<% else %>Production<% end %> environment.</h4>
+<p>&nbsp;</p>
+
+  <p id="Search_Box">
+    <%= text_field_tag :search, params[:search] %>
+    <%= submit_tag "Search", :name => nil %>
+  </p>
+<% if flash[:notice]%>  
+<p id="notice"><%= flash[:notice] %></p>
+<%end%>
+
+<table id="Users_Management_Table" class="table table-striped">
+  <thead>
+    <tr>
+        <th id="full_name">Full Name</th>
+        <th id="email">Email</th>
+        <th id="role">Role</th>
+        <% if not APP_CONFIG['is_sandbox'] %>
+            <th id="tenant">Tenant</th>
+        <% end %>
+        <th id="edorg">EdOrg</th>
+        <th id="date_created">Date Created</th>
+        <th id="Actions">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% if @users!=nil and @users.length>0%>
+        <% @users.each do |user| %>
+        <%@elementIdPrefix= user.firstName+" "+user.lastName%>
+        <tr id='<%= user.uid%>'>
+        <td id="<%= @elementIdPrefix%>_full_name"><%= user.firstName%> <%= user.lastName%></td>
+        <td id="<%= @elementIdPrefix%>_email"><%= user.email%></td>
+        <td id="<%= @elementIdPrefix%>_role"><%= user.get_groups%></td>
+        <% if not APP_CONFIG['is_sandbox'] %>
+            <td id="<%= @elementIdPrefix%>_tenant"><%= user.tenant%></td>
+        <% end %>
+        <td id="<%= @elementIdPrefix%>_edorg"><% if user.edorg==nil|| user.edorg=="null"%><%else%><%=user.edorg%><%end%></td>
+        <td id="<%= @elementIdPrefix%>_date_created"><%= I18n.localize(user.get_create_time)%></td>
+		<td id="<%= @elementIdPrefix%>_actions" class="actions">
+<%@deleteButtonId = @elementIdPrefix + "_delete"%>
+<%@editButtonId = @elementIdPrefix + "_edit"%>
+			<%= link_to "Edit", "/users/#{user.uid}/edit", :method=> :get ,:class=>"btn", :id => @editButtonId %> |
+           <% if @loginUserId !=user.uid %> <%= link_to 'Delete', "/users/#{user.uid}",
+                :confirm => "Do you really want to delete this user?", :method => :delete,:style=>'color:white;' ,:class=>"btn btn-danger",:id => @deleteButtonId %>
+                <% else %>
+                <button id="<%= @elementIdPrefix%>_delete" type="button" class= "btn btn-danger" disabled="disabled">Delete</button><%end%>
+        </td>
+        </tr>
+        <% end %>
+    <% end %>
+    </tbody>
+</table>
+
+<br/>
+
+<%= link_to "Add User", "/users/new", :class => "btn btn-primary"%>
