@@ -25,7 +25,6 @@ class CustomRolesController < ApplicationController
   def index
     userRealm = get_user_realm
     realmToRedirectTo = GeneralRealmHelper.get_realm_to_redirect_to(userRealm)
-    puts CustomRole.find(:first)
     logger.debug("Redirecting to #{realmToRedirectTo}")
     if realmToRedirectTo.nil?
       render_404
@@ -38,7 +37,6 @@ class CustomRolesController < ApplicationController
   # # GET /realms/1/
    def show
      @custom_roles = CustomRole.find(params[:id])
-     @sli_roles = get_roles
    end
 
   # # PUT /realms/1
@@ -49,10 +47,7 @@ class CustomRolesController < ApplicationController
        errorMsg = ""
        begin
          @custom_roles.roles = params[:json]
-
-         # Stupid active resource renaming my attributes
-         @custom_roles.customRights = []
-         @custom_roles.attributes.delete(:custom_rights)
+puts params[:json]
          success =  @custom_roles.save()
        rescue ActiveResource::BadRequest => error
          errorMsg = error.response.body
@@ -62,6 +57,8 @@ class CustomRolesController < ApplicationController
        if success
          format.json { render json: @custom_roles, status: :created, location: @custom_roles }
        else
+         #errorJson = JSON.parse(errorMsg)
+         flash[:error] = errorMsg
          format.json { render json: errorMsg, status: :unprocessable_entity }
        end
 	
@@ -69,17 +66,6 @@ class CustomRolesController < ApplicationController
    end
 
 private
-
-  # Uses the /role api to get the list of roles
-  def get_roles()
-    roles = Role.all
-
-    toReturn = []
-    roles.each do |role|
-      toReturn.push role.name unless role.admin
-    end
-    toReturn
-  end
 
   def get_user_realm
     return session[:edOrg]

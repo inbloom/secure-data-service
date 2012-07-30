@@ -1,7 +1,4 @@
 <script>
-<%
-puts roles.inspect
-%>
 var roles = <%= roles.roles.to_json.html_safe %>;
 var UPDATE_URL = '<%= url_for(:action=>"update") %>'
 </script>
@@ -18,11 +15,13 @@ var UPDATE_URL = '<%= url_for(:action=>"update") %>'
   <tbody>
   </tbody>
 </table>
-</div>
-</div>
+
 <div>
   <a href="#" id="addGroupButton" class="btn">Add Role Group</a>
 </div>
+
+</div> <!-- span11 -->
+</div> <!-- row -->
 
 
 <div id="components">
