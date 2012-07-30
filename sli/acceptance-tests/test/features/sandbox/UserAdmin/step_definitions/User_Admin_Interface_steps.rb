@@ -173,8 +173,14 @@ Then /^I can update the (.*?) field to "(.*?)"$/ do |field_name, new_value|
   field.send_keys value 
   if field_name == "\"Full Name\"" 
     @user_full_name=value
+    @userFullName=value
   end
 end 
+
+Then /^I can delete text in (.*?) field$/ do |field_name|
+  field=getField(field_name)
+  field.clear
+end
 
 Then /^the user has "(.*?)" updated to "(.*?)"$/ do |table_header, new_value| 
   value=localize(new_value);
@@ -223,6 +229,7 @@ Then /^the user now has roles "(.*?)" and "(.*?)"$/ do |role1, role2|
 end 
 
 When /^I click on "(.*?)" icon$/ do |buttonName|
+  puts "click on #{@userFullName}_#{buttonName}"
   @driver.find_element(:xpath, "//a[@id='#{@userFullName}_#{buttonName}']").click
 end
 
