@@ -85,8 +85,10 @@ class UsersController < ApplicationController
   def new
     check = Check.get ""
     @user = User.new
+    @is_operator = is_operator?
    set_edorg_options
    set_role_options
+   get_login_tenant
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @user }
@@ -120,6 +122,8 @@ class UsersController < ApplicationController
          set_edorg_options
          set_role_options
          set_roles
+         get_login_tenant
+         @is_operator = is_operator?
          format.html {render "new"}
        else
          flash[:notice]= 'Success! You have added a new user'
@@ -136,6 +140,7 @@ class UsersController < ApplicationController
     check = Check.get ""
     set_edorg_options
     set_role_options
+    @is_operator = is_operator?
    @users.each do |user|
       if user.uid == params[:id]
         @user = user
@@ -147,6 +152,7 @@ class UsersController < ApplicationController
     
     set_roles
     @user.errors.clear
+    @user.edorg = "" if @user.edorg==nil || @user.edorg == "null"
      
      logger.info{"find updated user #{@user.to_json}"}
     
@@ -188,6 +194,7 @@ class UsersController < ApplicationController
          set_edorg_options
          set_role_options
          set_roles
+         @is_operator = is_operator?
          format.html { render "edit"}
        else
          flash[:notice]='Success! You have updated the user'
@@ -236,8 +243,9 @@ class UsersController < ApplicationController
     @loginUserId=check["external_id"]
   end
   
-  def is_login_operator
-    @is_operator = is_operator?
+  def get_login_tenant
+    check = Check.get""
+    @loginUserTenant = check["tenantId"]
   end
   
   def set_edorg_options
