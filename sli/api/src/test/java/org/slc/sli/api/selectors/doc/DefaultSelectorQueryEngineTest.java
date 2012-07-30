@@ -1,11 +1,11 @@
 package org.slc.sli.api.selectors.doc;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.selectors.model.*;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.modeling.uml.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
@@ -18,9 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static junit.framework.Assert.assertNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
 
 /**
  * Tests
@@ -118,6 +119,46 @@ public class DefaultSelectorQueryEngineTest {
         assertNotNull("Should not be null", plan);
         assertNotNull("Should not be null", plan.getQuery());
         assertEquals("Should match", 1, plan.getChildQueryPlans().size());
+    }
+
+    @Test
+    @Ignore("TODO")
+    public void testSkipAssociation() {
+        final SemanticSelector selector = generateSkipAssociationSelectorMap();
+        final ClassType studentType = provider.getClassType("Student");
+        final ClassType studentSectionType = provider.getClassType("StudentSectionAssociation");
+
+        final Map<Type, SelectorQueryPlan> queryPlan = defaultSelectorQueryEngine.assembleQueryPlan(selector);
+        assertNotNull(queryPlan);
+
+        final SelectorQueryPlan plan = queryPlan.get(studentType);
+
+        final List<Object> childPlans = plan.getChildQueryPlans();
+        // One query to studentSectionAssociations
+        assertEquals(1, childPlans.size());
+
+        @SuppressWarnings("unchecked")
+        final Map<Type, SelectorQueryPlan> studentSectionPlanMap = (Map<Type, SelectorQueryPlan>) childPlans.get(0);
+        assertNotNull(studentSectionPlanMap);
+        final SelectorQueryPlan studentSectionPlan = studentSectionPlanMap.get(studentSectionType);
+        assertNotNull(studentSectionPlan);
+
+        // One query to sections
+        assertEquals(1, studentSectionPlan.getChildQueryPlans().size());
+    }
+
+    private SemanticSelector generateSkipAssociationSelectorMap() {
+        final ClassType studentType = provider.getClassType("Student");
+        final Attribute name = getMockAttribute("name");
+        final ClassType sectionType = provider.getClassType("Section");
+
+        final SemanticSelector studentAttrs = new SemanticSelector();
+        final List<SelectorElement> attrs = new ArrayList<SelectorElement>();
+        attrs.add(new BooleanSelectorElement(name, true));
+        attrs.add(new BooleanSelectorElement(sectionType, true));
+        studentAttrs.put(studentType, attrs);
+
+        return studentAttrs;
     }
 
     public SemanticSelector generateAssociationSelectorMap() {
