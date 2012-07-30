@@ -46,7 +46,8 @@
         <td id="<%= @elementIdPrefix%>_date_created"><%= I18n.localize(user.get_create_time)%></td>
 		<td id="<%= @elementIdPrefix%>_actions" class="actions">
 <%@deleteButtonId = @elementIdPrefix + "_delete"%>
-			<%= link_to "Edit", "/users/#{user.uid}/edit", :method=> :get ,:class=>"btn" %> |
+<%@editButtonId = @elementIdPrefix + "_edit"%>
+			<%= link_to "Edit", "/users/#{user.uid}/edit", :method=> :get ,:class=>"btn", :id => @editButtonId %> |
            <% if @loginUserId !=user.uid %> <%= link_to 'Delete', "/users/#{user.uid}",
                 :confirm => "Do you really want to delete this user?", :method => :delete,:style=>'color:white;' ,:class=>"btn btn-danger",:id => @deleteButtonId %>
                 <% else %>
