@@ -16,15 +16,12 @@
 
 package org.slc.sli.sif.domain;
 
+import openadk.library.datamodel.SEAInfo;
+import openadk.library.student.LEAInfo;
 import openadk.library.student.SchoolInfo;
 
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.dozer.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.slc.sli.sif.domain.sifentity.SchoolInfoEntity;
-import org.slc.sli.sif.domain.slientity.SchoolEntity;
+import org.slc.sli.sif.domain.slientity.EntityAdapter;
 
 /**
  * Transformer for mapping entities from SIF domain to SLI domain.
@@ -32,12 +29,34 @@ import org.slc.sli.sif.domain.slientity.SchoolEntity;
  * @author slee
  *
  */
-public class Sif2SliTransformer
+public interface Sif2SliTransformer
 {
-    protected static ObjectMapper mapper = new ObjectMapper();
+    /**
+     * Transform an SIF SchoolInfo into a EntityAdapter ready for api client operations.
+     *
+     * @param genericEntity
+     * @param entityType
+     * @return EntityAdapter
+     */
+    public EntityAdapter transform(SchoolInfo schoolInfo);
 
-    @Autowired
-    private Mapper dozerMapper;
+    /**
+     * Transform an SIF LEAInfo into a EntityAdapter ready for api client operations.
+     *
+     * @param genericEntity
+     * @param entityType
+     * @return EntityAdapter
+     */
+    public EntityAdapter transform(LEAInfo info);
+
+    /**
+     * Transform an SIF SEAInfo into a EntityAdapter ready for api client operations.
+     *
+     * @param genericEntity
+     * @param entityType
+     * @return EntityAdapter
+     */
+    public EntityAdapter transform(SEAInfo info);
 
     /**
      * Transform an SIF SchoolInfo into a corresponding SLI JsonNode ready for operations.
@@ -45,28 +64,22 @@ public class Sif2SliTransformer
      * @param SchoolInfo
      * @return JsonNode
      */
-    public JsonNode transform2json(SchoolInfo schoolInfo) {
-        return transform(schoolInfo).json();
-    }
+    public JsonNode transform2json(SchoolInfo info);
 
     /**
-     * Transform an SIF SchoolInfo into an SLI SchoolEntity.
+     * Transform an SIF SchoolInfo into a corresponding SLI JsonNode ready for operations.
      *
      * @param SchoolInfo
-     * @return SchoolEntity
+     * @return JsonNode
      */
-    public SchoolEntity transform(SchoolInfo schoolInfo) {
-        return this.dozerMapper.map(new SchoolInfoEntity(schoolInfo), SchoolEntity.class);
-    }
+    public JsonNode transform2json(LEAInfo leaInfo);
 
     /**
-     * Transform an SIF SchoolInfoEntity into an SLI SchoolEntity.
+     * Transform an SIF SchoolInfo into a corresponding SLI JsonNode ready for operations.
      *
-     * @param SchoolInfoEntity
-     * @return SchoolEntity
+     * @param SchoolInfo
+     * @return JsonNode
      */
-    public SchoolEntity transform(SchoolInfoEntity schoolInfoEntity) {
-        return this.dozerMapper.map(schoolInfoEntity, SchoolEntity.class);
-    }
+    public JsonNode transform2json(SEAInfo seaInfo);
 
 }

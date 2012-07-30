@@ -25,7 +25,7 @@ import java.util.List;
 import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
- * Velidation Report callback based on Faults collection.
+ * Validation Report callback based on Faults collection.
  *
  * @author okrook
  *
@@ -65,8 +65,9 @@ public class FaultsReport implements Serializable, ErrorReport {
     @Override
     public boolean hasErrors() {
         for (Fault f : faults) {
-            if (f.isError())
+            if (f.isError()) {
                 return true;
+            }
         }
         return false;
     }

@@ -17,6 +17,7 @@ common: &common
 
 sandbox: &sandbox
     is_sandbox: true
+    auto_approve: true
     maximum_user_count: 500
     app_dev_documentation_link: http://dev.slcedu.org/getting-started/sandbox
     sample_data_url: http://dev.slcedu.org
@@ -52,6 +53,7 @@ development:
     redirect_uri: http://local.slidev.org:3001/callback
     ldap_base: ou=LocalNew,ou=DevTest,dc=slidev,dc=org
     is_sandbox: false
+    auto_approve: false
     email_replace_uri: http://local.slidev.org:3001
     portal_url: https://rcportal.slidev.org/portal
     rsa_key_dir: /var/tmp/.sftp/authorized_keys
@@ -67,6 +69,7 @@ local-acceptance-tests:
     redirect_uri: http://local.slidev.org:3001/callback
     ldap_base: ou=SLIAdmin,dc=slidev,dc=org
     is_sandbox: false
+    auto_approve: false
     email_replace_uri: http://local.slidev.org:2000
     portal_url: https://rcportal.slidev.org/portal
     rsa_key_dir: /var/tmp/.sftp/authorized_keys
@@ -98,6 +101,7 @@ team:
     ldap_base: ou=SLIAdmin,dc=slidev,dc=org
     email_replace_uri: https://ci.slidev.org:2001
     is_sandbox: false
+    auto_approve: false
     portal_url: https://rcportal.slidev.org/portal
     rsa_key_dir: /ingestion/.sftp/authorized_keys
     tmp_dir: /tmp 
@@ -124,6 +128,7 @@ test:
     api_base: https://devapp1.slidev.org/api/rest
     ldap_base: ou=DevTest,dc=slidev,dc=org
     is_sandbox: false
+    auto_approve: false
     email_replace_uri: http://local.slidev.org:3001
     portal_url: https://rcportal.slidev.org/portal
     rsa_key_dir: /var/tmp/.sftp/authorized_keys
@@ -140,6 +145,7 @@ production:
     ldap_base: ou=SLIAdmin,dc=slidev,dc=org
     email_replace_uri: https://ci.slidev.org:2001
     is_sandbox: false
+    auto_approve: false
     portal_url: https://rcportal.slidev.org/portal
     rsa_key_dir: /ingestion/.sftp/authorized_keys
     tmp_dir: /tmp 

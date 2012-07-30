@@ -39,7 +39,7 @@ import org.slc.sli.ingestion.landingzone.validation.TestErrorReport;
 
 /**
  *
- * @author Thomas Shewchuk (tshewchuk@wgen.net)
+ * @author Thomas Shewchuk
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -62,27 +62,22 @@ public class XsdErrorHandlerTest {
     @Test
     public void testWarning() {
         // Test receiving a SAX warning.
-        //xsdErrorHandler.setIsValid(true);
         when(mockedSAXParseException.getMessage()).thenReturn("SAXParseException warning");
         xsdErrorHandler.warning(mockedSAXParseException);
         assertTrue(errorReport.hasErrors());
-        //assertTrue(xsdErrorHandler.isValid());
     }
 
     @Test
     public void testError() {
         // Test receiving a SAX error.
-        //xsdErrorHandler.setIsValid(true);
         when(mockedSAXParseException.getMessage()).thenReturn("SAXParseException error");
         xsdErrorHandler.error(mockedSAXParseException);
         assertTrue(errorReport.hasErrors());
-        //assertFalse(xsdErrorHandler.isValid());
     }
 
     @Test
     public void testFatalError() throws SAXException {
         // Test receiving a SAX fatal error.
-        //xsdErrorHandler.setIsValid(true);
         when(mockedSAXParseException.getMessage()).thenReturn("SAXParseException fatal error");
         try {
             xsdErrorHandler.fatalError(mockedSAXParseException);
@@ -91,7 +86,6 @@ public class XsdErrorHandlerTest {
             assertNotNull(e);
         }
         assertTrue(errorReport.hasErrors());
-        //assertFalse(xsdErrorHandler.isValid());
     }
 
     @Test

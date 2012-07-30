@@ -100,7 +100,7 @@ Then /^a new account is created in ([^"]*) LDAP with login name "([^"]*)" and th
   roles_arr = roles.strip.split(",").map {|x| x.strip }
   assert(@ldap.read_user(@userinfo[:email])[:email] == login_name, "User #{@userinfo[:email]} is not created in LDAP")
   puts "ROLES:   #{@ldap.get_user_groups(@userinfo[:email])}"
-  assert(@ldap.get_user_groups(@userinfo[:email]).sort == roles_arr.sort, "User #{@userinfo[:email]} is does not have roles #{roles_arr}")
+  assert((roles_arr - @ldap.get_user_groups(@userinfo[:email])).empty? , "User #{@userinfo[:email]} is does not have roles #{roles_arr}")
 end
 
 Then /^an email is sent to the requestor with a link to the application registration tool$/ do

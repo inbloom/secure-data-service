@@ -87,8 +87,7 @@ public class LogUtilTest {
             String logContents = baos.toString(); // e.g. ISO-8859-1
 
             // Verify the presence of the logged exception message based upon the configuration
-            // property
-            // value.
+            // property value.
             if (LogUtil.isIncludeExceptionMessage()) {
                 // Verify log file DOES contain exception local message.
                 if (!logContents.contains("java.rmi.AccessException: *** EXCEPTION MESSAGE THREE!!! ***")

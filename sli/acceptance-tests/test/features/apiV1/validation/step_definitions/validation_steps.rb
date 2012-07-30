@@ -238,6 +238,9 @@ Then /^I should receive only (\d+) record$/ do |count|
   steps "Then a collection of size #{convert(count)}"
 end
 
+Then /^the error message should contain "([^\"]*)"$/ do |string|
+  assert(@res.body.to_s.include?(string), "Response does not contain the specified string")
+end
 
 # Entity data for POST and PUT validation
 $validationTestData = {

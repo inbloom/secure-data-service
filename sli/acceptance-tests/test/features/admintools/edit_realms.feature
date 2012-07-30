@@ -1,3 +1,4 @@
+@derp
 Feature: Edit Realms Page
   As a realm admin I want to be able to create, edit, and delete realms
   
@@ -44,5 +45,8 @@ Scenario: Realm creation/editing should have validation
   And I should click the "Save" button
   Then I should not see any errors
   And I should make the unique identifier not unique
+  And I should click the "Save" button
+  Then I should get 1 error
+  And I should make the display name not unique
   And I should click the "Save" button
   Then I should get 1 error

@@ -64,4 +64,6 @@ public interface ConfigManager {
     public ConfigMap getCustomConfig(String token, EdOrgKey userEdOrg);
     void putCustomConfig(String token, EdOrgKey edOrgKey, ConfigMap configMap);
 
+    Collection<Config> getConfigsByAttribute(String token, EdOrgKey edOrgKey, String attr, String value);
+
 }
