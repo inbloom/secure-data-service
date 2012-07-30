@@ -19,7 +19,7 @@ package org.slc.sli.api.service;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.domain.AggregateData;
+import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.NeutralQuery;
 
 /**
@@ -189,6 +189,6 @@ public interface EntityService {
      * @param id the id of the entity to get aggregate information for
      * @return the map of aggregates
      */
-    public AggregateData getAggregateData(String id);
+    public CalculatedData getAggregateData(String id);
 
 }

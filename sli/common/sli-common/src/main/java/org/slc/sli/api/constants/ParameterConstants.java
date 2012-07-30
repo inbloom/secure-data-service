@@ -98,8 +98,8 @@ public class ParameterConstants {
     public static final String INCLUDE_CUSTOM = "includeCustom";
     public static final String DEFAULT_INCLUDE_CUSTOM = "false";
 
-    public static final String INCLUDE_AGGREGATES = "includeAggregates";
-    public static final String DEFAULT_INCLUDE_AGGS = "false";
+    public static final String INCLUDE_CALCULATED = "includeCalculatedValues";
+    public static final String DEFAULT_INCLUDE_CALCULATED = "false";
 
     /**
      * Optional Fields
@@ -160,7 +160,7 @@ public class ParameterConstants {
     public static final String STAFF_COHORT_ASSOCIATION_ID = "staffCohortAssociationId";
     public static final String USER_ACCOUNT_ID = "userAccountId";
     public static final String GRADE_ID = "gradeId";
-    public static final String _ID = "_id";
+    public static final String ID = "_id";
     public static final String END_DATE = "endDate";
     public static final String STUDENT_RECORD_ACCESS = "studentRecordAccess";
 }

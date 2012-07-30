@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @author nbrown
  *
  */
-public class AggregateDatum implements Serializable {
+public class CalculatedDatum implements Serializable {
     private static final long serialVersionUID = -2950228193252067690L;
     private final String type;
     private final String window;
@@ -16,7 +16,7 @@ public class AggregateDatum implements Serializable {
     private final String method;
     private final Object value;
 
-    public AggregateDatum(String type, String window, String name, String method, Object value) {
+    public CalculatedDatum(String type, String window, String name, String method, Object value) {
         super();
         this.type = type;
         this.window = window;
@@ -74,7 +74,7 @@ public class AggregateDatum implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        AggregateDatum other = (AggregateDatum) obj;
+        CalculatedDatum other = (CalculatedDatum) obj;
         if (method == null) {
             if (other.method != null) {
                 return false;

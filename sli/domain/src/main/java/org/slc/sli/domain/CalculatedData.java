@@ -14,20 +14,20 @@ import java.util.Map.Entry;
  * @author nbrown
  *
  */
-public class AggregateData implements Serializable {
+public class CalculatedData implements Serializable {
     private static final long serialVersionUID = 1127693471079120104L;
-    private final List<AggregateDatum> aggregates;
+    private final List<CalculatedDatum> calculatedValues;
 
-    public AggregateData() {
+    public CalculatedData() {
         this(new HashMap<String, Map<String, Map<String, Map<String, Object>>>>());
     }
 
     //types are fun!
-    public AggregateData(Map<String, Map<String, Map<String, Map<String, Object>>>> aggregateData) {
+    public CalculatedData(Map<String, Map<String, Map<String, Map<String, Object>>>> calculatedValues) {
         super();
-        List<AggregateDatum> datums = new ArrayList<AggregateDatum>();
-        if (aggregateData != null) {
-            for (Entry<String, Map<String, Map<String, Map<String, Object>>>> typeEntry : aggregateData.entrySet()) {
+        List<CalculatedDatum> datums = new ArrayList<CalculatedDatum>();
+        if (calculatedValues != null) {
+            for (Entry<String, Map<String, Map<String, Map<String, Object>>>> typeEntry : calculatedValues.entrySet()) {
                 String type = typeEntry.getKey();
                 for (Entry<String, Map<String, Map<String, Object>>> nameEntry : typeEntry.getValue().entrySet()) {
                     String name = nameEntry.getKey();
@@ -36,22 +36,22 @@ public class AggregateData implements Serializable {
                         for (Entry<String, Object> valueEntry : windowEntry.getValue().entrySet()) {
                             String method = valueEntry.getKey();
                             Object value = valueEntry.getValue();
-                            datums.add(new AggregateDatum(type, window, name, method, value));
+                            datums.add(new CalculatedDatum(type, window, name, method, value));
                         }
                     }
                 }
             }
         }
-        this.aggregates = Collections.unmodifiableList(datums);
+        this.calculatedValues = Collections.unmodifiableList(datums);
     }
 
-    public List<AggregateDatum> getAggregates() {
-        return aggregates;
+    public List<CalculatedDatum> getAggregates() {
+        return calculatedValues;
     }
 
-    public List<AggregateDatum> getAggregates(String type, String window, String methodology, String name) {
-        List<AggregateDatum> aggs = new ArrayList<AggregateDatum>();
-        for (AggregateDatum datum : aggregates) {
+    public List<CalculatedDatum> getCalculatedValues(String type, String window, String methodology, String name) {
+        List<CalculatedDatum> aggs = new ArrayList<CalculatedDatum>();
+        for (CalculatedDatum datum : calculatedValues) {
             if ((type == null || type.equals(datum.getType())) && (window == null || window.equals(datum.getWindow()))
                     && (methodology == null || methodology.equals(datum.getMethod()))
                     && (name == null || name.equals(datum.getName()))) {
