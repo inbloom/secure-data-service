@@ -9,7 +9,18 @@
 }*/
 
 function profileListCtrl($scope, Profile) {
-	$scope.profiles = Profile.query();
+	
+	$scope.profiles = [];
+	Profile.query(function(profiles) {
+		
+		// exclude search profiles
+		for (i = 0; i < profiles.length; i++) {
+			var profile = profiles[i];
+    		if(!(profile.id.match(/search/i))) {
+	    	    $scope.profiles.push(profile);
+    		}
+		}
+	});
 }
 
 profileListCtrl.$inject = ['$scope', 'Profile'];
