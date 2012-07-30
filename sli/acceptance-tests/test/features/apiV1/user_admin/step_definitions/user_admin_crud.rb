@@ -155,6 +155,26 @@ Then /^I should receive a return code "(.*?)"$/ do |return_code|
   assert_equal(return_code.to_i, @response_code)
 end
 
+Then /^I (should|should not) see SAMT on my list of allowed apps$/ do |should|
+  restHttpGet("/userapps?is_admin=true")
+  @res.should_not == nil
+  @res.code.should == 200
+  @res.body.should_not == nil
+  
+  apps = JSON.parse(@res.body)
+  admin = apps.find { |app| app["name"] == "Admin Apps" }
+  if should == "should"
+    admin.should_not == nil
+    samt = admin["endpoints"].find { |ep| ep["name"] == "Super Admin Account Management" }
+    samt.should_not == nil
+  else
+    if admin != nil
+      samt = admin["endpoints"].find { |ep| ep["name"] == "Super Admin Account Management" }
+      samt.should == nil
+    end
+  end
+end
+
 def get_user(uid)
 =begin
 @result.each { |user|

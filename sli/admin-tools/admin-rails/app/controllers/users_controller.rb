@@ -17,19 +17,42 @@ limitations under the License.
 =end
 
 class UsersController < ApplicationController
+
+ @@EXISTING_EMAIL_MSG = "An account with this email already exists"
   
   SANDBOX_ADMINISTRATOR = "Sandbox Administrator"
   APPLICATION_DEVELOPER = "Application Developer"
   INGESTION_USER = "Ingestion User"
+  SLC_OPERATOR = "SLC Operator"
+  SEA_ADMINISTRATOR = "SEA Administrator"
+  LEA_ADMINISTRATOR = "LEA Administrator"
+  REALM_ADMINISTRATOR ="Realm Administrator"
+  SANDBOX_ALLOWED_ROLES = [SANDBOX_ADMINISTRATOR]
+  PRODUCTION_ALLOWED_ROLES = [SLC_OPERATOR, SEA_ADMINISTRATOR, LEA_ADMINISTRATOR]
+  
+  before_filter :check_rights
+  
+  def check_rights
+  if APP_CONFIG['is_sandbox']
+  allowed_roles =SANDBOX_ALLOWED_ROLES
+  else
+  allowed_roles = PRODUCTION_ALLOWED_ROLES
+  end
+  overlap_roles = allowed_roles & session[:roles]
+  if not overlap_roles.length>0
+  render_403
+  end
+  
+  
+  end
 
   # GET /users
   # GET /users.json
   def index
-    check = Check.get ""
-    @loginUserId=check["external_id"]
+    get_login_id
     @users = User.all
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       #format.json { render json: @users }
     end
   end
@@ -49,20 +72,23 @@ class UsersController < ApplicationController
       #  logger.info("user id after escape is #{@user_id}")
       end
     end
-    
+    get_login_id
     respond_to do |format|
     #format.js
-    format.html {render "index"}
+    flash[:notice]="Success! You have deleted the user"
+    format.html {render "index" }
     end
   end
   
-  # GET /apps/new
-  # GET /apps/new.json
+  # GET /users/new
+  # GET /users/new.json
   def new
     check = Check.get ""
     @user = User.new
-     @edorgs = {"" => "", check["edOrg"] => check["edOrg"]} 
-     @sandbox_roles ={"Sandbox Administrator" => "Sandbox Administrator", "Application Developer" => "Application Developer", "Ingestion User" => "Ingestion User"}
+    @is_operator = is_operator?
+   set_edorg_options
+   set_role_options
+   get_login_tenant
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @user }
@@ -77,12 +103,32 @@ class UsersController < ApplicationController
     create_update 
     @user.uid = params[:user][:email]   
     logger.info("the new user is #{@user.to_json}")
-    
-
+    logger.info("the new user validation is #{@user.valid?}")
+    logger.info("the new user validation error is #{@user.errors.to_json}")
+    @user.errors.clear
+    if @user.valid? == false || validate_email==false
+      resend = true
+    else
+    begin  
     @user.save
+    rescue ActiveResource::ResourceConflict
+      resend = true
+      @user.errors[:email] << @@EXISTING_EMAIL_MSG
+    end
+    end
     
      respond_to do |format|
-        format.html { redirect_to "/users", notice: 'Success! You have added a new user' }
+       if resend
+         set_edorg_options
+         set_role_options
+         set_roles
+         get_login_tenant
+         @is_operator = is_operator?
+         format.html {render "new"}
+       else
+         flash[:notice]= 'Success! You have added a new user'
+        format.html { redirect_to "/users" } 
+       end
      end
     
   end
@@ -92,8 +138,9 @@ class UsersController < ApplicationController
   def edit
     @users = User.all
     check = Check.get ""
-    @edorgs = {"" => "", check["edOrg"] => check["edOrg"]}
-   @sandbox_roles ={"Sandbox Administrator" => "Sandbox Administrator", "Application Developer" => "Application Developer", "Ingestion User" => "Ingestion User"} 
+    set_edorg_options
+    set_role_options
+    @is_operator = is_operator?
    @users.each do |user|
       if user.uid == params[:id]
         @user = user
@@ -103,22 +150,9 @@ class UsersController < ApplicationController
     
     end
     
-     if @user.groups.include?(SANDBOX_ADMINISTRATOR)
-       @user.primary_role = SANDBOX_ADMINISTRATOR
-       if @user.groups.include?(APPLICATION_DEVELOPER)
-         @user.optional_role_1 = APPLICATION_DEVELOPER
-       end
-        if @user.groups.include?(INGESTION_USER)
-         @user.optional_role_2 = INGESTION_USER
-       end
-     elsif @user.groups.include?(APPLICATION_DEVELOPER)
-       @user.primary_role = APPLICATION_DEVELOPER
-        if @user.groups.include?(INGESTION_USER)
-         @user.optional_role_2 = INGESTION_USER
-        end
-     elsif @user.groups.include?(INGESTION_USER)
-       @user.primary_role = INGESTION_USER
-     end
+    set_roles
+    @user.errors.clear
+    @user.edorg = "" if @user.edorg==nil || @user.edorg == "null"
      
      logger.info{"find updated user #{@user.to_json}"}
     
@@ -145,11 +179,27 @@ class UsersController < ApplicationController
     @user.modifyTime="2000-01-01"
     
     logger.info{"the updated user is #{@user.to_json}"}
-    
+    @user.errors.clear
+    logger.info{"the updated user validate is #{@user.valid?}"}
+    logger.info{"the updated user validation errors is #{@user.errors.to_json}"}
+    if @user.valid? == false || validate_email==false
+      resend = true
+    else
     @user.save
+    end
 
      respond_to do |format|
-        format.html { redirect_to "/users", notice: 'Success! You have updated the user' }
+       if resend
+         @user.id = @user.uid
+         set_edorg_options
+         set_role_options
+         set_roles
+         @is_operator = is_operator?
+         format.html { render "edit"}
+       else
+         flash[:notice]='Success! You have updated the user'
+        format.html { redirect_to "/users" }
+        end
      end
   end
   
@@ -160,12 +210,18 @@ class UsersController < ApplicationController
     groups << params[:user][:optional_role_1] if params[:user][:optional_role_1]!="0" && !groups.include?(params[:user][:optional_role_1])
     groups << params[:user][:optional_role_2] if params[:user][:optional_role_2]!="0" && !groups.include?(params[:user][:optional_role_2])
     params[:user][:firstName]= params[:user][:fullName].split(" ")[0]
-    params[:user][:lastName] = params[:user][:fullName].gsub(params[:user][:firstName],"").lstrip
-    
+    params[:user][:lastName] = params[:user][:fullName].gsub(params[:user][:firstName],"").lstrip if params[:user][:fullName] !=nil && params[:user][:fullName]!=""
+    @user.fullName = params[:user][:fullName]
+    @user.fullName = nil if @user.fullName == ""
     @user.firstName = params[:user][:firstName]
     @user.lastName = params[:user][:lastName]
+    @user.lastName = " " if @user.lastName==""
     @user.email = params[:user][:email]
+    if APP_CONFIG['is_sandbox'] ||  !is_operator?
     @user.tenant = check["tenantId"]
+    else
+      @user.tenant = params[:user][:tenant]
+    end
     @user.edorg = params[:user][:edorg]
    
     @user.groups = groups
@@ -174,5 +230,111 @@ class UsersController < ApplicationController
     
   end
   
+  # GET /users/1
+  # GET /users/1.json
+  def show
+     respond_to do |format|
+        format.html { redirect_to "/users" }
+     end
+     end
+  
+  def get_login_id
+    check = Check.get ""
+    @loginUserId=check["external_id"]
+  end
+  
+  def get_login_tenant
+    check = Check.get""
+    @loginUserTenant = check["tenantId"]
+  end
+  
+  def set_edorg_options
+    check = Check.get ""
+     @edorgs = {"(optional)" => "", "" => "" ,check["edOrg"] => check["edOrg"]}
+  end
+  
+  def set_role_options
+    if APP_CONFIG['is_sandbox']
+    @sandbox_roles ={SANDBOX_ADMINISTRATOR => SANDBOX_ADMINISTRATOR, APPLICATION_DEVELOPER => APPLICATION_DEVELOPER, INGESTION_USER => INGESTION_USER } 
+    elsif is_operator?
+    @production_roles={SLC_OPERATOR => SLC_OPERATOR, SEA_ADMINISTRATOR => SEA_ADMINISTRATOR, LEA_ADMINISTRATOR => LEA_ADMINISTRATOR, INGESTION_USER => INGESTION_USER, REALM_ADMINISTRATOR => REALM_ADMINISTRATOR }
+    
+    elsif is_sea_admin?
+       @production_roles={SEA_ADMINISTRATOR => SEA_ADMINISTRATOR, LEA_ADMINISTRATOR => LEA_ADMINISTRATOR, INGESTION_USER => INGESTION_USER, REALM_ADMINISTRATOR => REALM_ADMINISTRATOR }
+     elsif is_lea_admin?
+       @production_roles={LEA_ADMINISTRATOR => LEA_ADMINISTRATOR, INGESTION_USER => INGESTION_USER, REALM_ADMINISTRATOR => REALM_ADMINISTRATOR }
+
+    end 
+  end
+  
+  def set_roles
+    if APP_CONFIG['is_sandbox']
+    if @user.groups.include?(SANDBOX_ADMINISTRATOR)
+       @user.primary_role = SANDBOX_ADMINISTRATOR
+       if @user.groups.include?(APPLICATION_DEVELOPER)
+         @user.optional_role_1 = APPLICATION_DEVELOPER
+       end
+        if @user.groups.include?(INGESTION_USER)
+         @user.optional_role_2 = INGESTION_USER
+       end
+     elsif @user.groups.include?(APPLICATION_DEVELOPER)
+       @user.primary_role = APPLICATION_DEVELOPER
+        if @user.groups.include?(INGESTION_USER)
+         @user.optional_role_2 = INGESTION_USER
+        end
+     elsif @user.groups.include?(INGESTION_USER)
+       @user.primary_role = INGESTION_USER
+     end
+     else
+       overlap_group = @user.groups & [SLC_OPERATOR, SEA_ADMINISTRATOR, LEA_ADMINISTRATOR]
+       if overlap_group.length == 0 && @user.groups.include?(INGESTION_USER)
+         @user.primary_role = INGESTION_USER
+         if@user.groups.include?(REALM_ADMINISTRATOR)
+           @user.optional_role_2 = REALM_ADMINISTRATOR
+         end
+        elsif overlap_group.length == 0 && @user.groups.include?(REALM_ADMINISTRATOR)
+          @user.primary_role = REALM_ADMINISTRATOR
+        elsif overlap_group.length == 1 && @user.groups.include?(SLC_OPERATOR)
+          @user.primary_role = SLC_OPERATOR
+           if@user.groups.include?(INGESTION_USER)
+           @user.optional_role_1 = INGESTION_USER
+           end
+          if@user.groups.include?(REALM_ADMINISTRATOR)
+           @user.optional_role_2 = REALM_ADMINISTRATOR
+           end
+         elsif overlap_group.length == 1 && @user.groups.include?(SEA_ADMINISTRATOR)
+          @user.primary_role = SEA_ADMINISTRATOR
+           if@user.groups.include?(INGESTION_USER)
+           @user.optional_role_1 = INGESTION_USER
+           end
+          if@user.groups.include?(REALM_ADMINISTRATOR)
+           @user.optional_role_2 = REALM_ADMINISTRATOR
+           end
+          elsif overlap_group.length == 1 && @user.groups.include?(LEA_ADMINISTRATOR)
+          @user.primary_role = LEA_ADMINISTRATOR
+           if@user.groups.include?(INGESTION_USER)
+           @user.optional_role_1 = INGESTION_USER
+           end
+          if@user.groups.include?(REALM_ADMINISTRATOR)
+           @user.optional_role_2 = REALM_ADMINISTRATOR
+           end
+          
+       end
+       end
+    
+  end
+  
+  def validate_email
+    # don't validate empty values here, otherwise we get duplicate error messages
+    valid=true
+    if not @user.email =~ /^[-a-z0-9_]+([\.]{0,1}[-a-z0-9_]+)*\@([a-z0-9]+([-]*[a-z0-9]+)*\.)*([a-z0-9]+([-]*[a-z0-9]+))+$/i
+      @user.errors[:email] << "Please enter a valid email address"
+      valid =false
+    elsif @user.email.length > 160
+      @user.errors[:email] << "Email address is too long"
+      valid=false
+      end
+      return valid
+      end
   
 end

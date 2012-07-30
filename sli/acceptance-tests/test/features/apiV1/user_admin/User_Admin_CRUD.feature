@@ -2,7 +2,24 @@
 Feature: As an admin I can create admin accounts for tenancies I administer
 
   Background: none
-
+	
+	@production @wip
+	Scenario Outline: SLC Operator, SEA Administrator, LEA Administrator, Sandbox SLC Operator, and Sandbox Administrator have access the Super Administrator Management Tool
+	Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
+	And I have a role "<ADMIN_ROLE>"
+	Then I <SHOULD> see SAMT on my list of allowed apps
+	Examples:
+		|USER       	|PASSWORD       		|ADMIN_ROLE             |REALM      |SHOULD   	|
+		|operator   	|operator1234   		|SLC Operator           |SLI        | should  	|
+		|iladmin    	|iladmin1234    		|SEA Administrator      |SLI        | should  	|
+		|sunsetadmin	|sunsetadmin1234		|LEA Administrator      |SLI        | should  	|
+		|sandboxoperator|sandboxoperator1234	|Sandbox SLC Operator	|SLI		| should  	|
+		|sandboxadministrator|sandboxadministrator1234|Sandbox Administrator|SLI	| should	|
+		|ingestionuser  |ingestionuser1234		|Ingestion User			|SLI		| should not|
+		|sunsetrealmadmin|sunsetrealmadmin1234	|Realm Administrator	|SLI		| should not|
+		|sandboxdeveloper|sandboxdeveloper1234	|Application Developer	|SLI		| should not|
+		
+	
   @wip
   @production
   Scenario Outline: As a admin I am able to read all Tenants

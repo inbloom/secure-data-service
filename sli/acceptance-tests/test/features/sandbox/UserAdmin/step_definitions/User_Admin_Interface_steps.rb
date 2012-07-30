@@ -223,7 +223,7 @@ Then /^the user now has roles "(.*?)" and "(.*?)"$/ do |role1, role2|
 end 
 
 When /^I click on "(.*?)" icon$/ do |buttonName|
-  @driver.find_element(:xpath, "//button[@id='#{@userFullName}_#{buttonName}']/a").click
+  @driver.find_element(:xpath, "//a[@id='#{@userFullName}_#{buttonName}']").click
 end
 
 
