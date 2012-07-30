@@ -17,15 +17,12 @@
 
 package org.slc.sli.api.service.query;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.ws.rs.core.UriInfo;
 
-import org.codehaus.jackson.JsonParseException;
 import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.api.selectors.model.SelectorParseException;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;

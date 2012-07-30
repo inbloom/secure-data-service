@@ -4,9 +4,22 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.selectors.model.*;
+import org.slc.sli.api.selectors.model.BooleanSelectorElement;
+import org.slc.sli.api.selectors.model.ComplexSelectorElement;
+import org.slc.sli.api.selectors.model.IncludeAllSelectorElement;
+import org.slc.sli.api.selectors.model.ModelProvider;
+import org.slc.sli.api.selectors.model.SelectorElement;
+import org.slc.sli.api.selectors.model.SemanticSelector;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.modeling.uml.*;
+import org.slc.sli.modeling.uml.AssociationEnd;
+import org.slc.sli.modeling.uml.Attribute;
+import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.Identifier;
+import org.slc.sli.modeling.uml.Multiplicity;
+import org.slc.sli.modeling.uml.Occurs;
+import org.slc.sli.modeling.uml.Range;
+import org.slc.sli.modeling.uml.TaggedValue;
+import org.slc.sli.modeling.uml.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -40,7 +53,7 @@ public class DefaultSelectorQueryEngineTest {
 
     private ModelProvider provider;
 
-    final static String TEST_XMI_LOC = "/sliModel/test_SLI.xmi";
+    static final String TEST_XMI_LOC = "/sliModel/test_SLI.xmi";
 
     @Before
     public void setup() {
@@ -80,6 +93,7 @@ public class DefaultSelectorQueryEngineTest {
         assertNotNull("Should not be null", plan.getQuery());
         assertEquals("Should match", 1, plan.getChildQueryPlans().size());
 
+        @SuppressWarnings("unchecked")
         Map<Type, SelectorQueryPlan> childQueries = (Map<Type, SelectorQueryPlan>) plan.getChildQueryPlans().get(0);
         SelectorQueryPlan schoolAsscPlan = childQueries.get(studentSchoolAssocicationType);
         assertNotNull("Should not be null", schoolAsscPlan);

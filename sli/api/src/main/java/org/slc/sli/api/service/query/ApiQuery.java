@@ -71,7 +71,7 @@ public class ApiQuery extends NeutralQuery {
                 selectorStringBuffer.append(this.toSelectorString((Map<?, ?>) entry.getValue()));
             } else if (entry.getValue() instanceof Boolean) {
                 Boolean b = (Boolean) entry.getValue();
-                if (b == false) {
+                if (!b) {
                     selectorStringBuffer.append(":false");
                 }
             }

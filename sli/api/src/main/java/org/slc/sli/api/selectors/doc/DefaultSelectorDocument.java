@@ -5,14 +5,20 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.selectors.model.*;
+import org.slc.sli.api.selectors.model.ModelProvider;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.modeling.uml.*;
+import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Stack;
+
 
 /**
  * Default implementation of a selector document
@@ -50,7 +56,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
         for (Map.Entry<Type, SelectorQueryPlan> entry : queryPlan.entrySet()) {
             Type currentType = entry.getKey();
             SelectorQueryPlan plan = entry.getValue();
-            Type previousType = !types.isEmpty()? types.peek() : null;
+            Type previousType = !types.isEmpty() ? types.peek() : null;
 
             //add the current type
             types.push(currentType);

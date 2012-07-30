@@ -34,7 +34,7 @@ public class ModelProviderTest {
     @Autowired
     private ModelProvider provider; // class under test
 
-    final static String TEST_XMI_LOC = "/sliModel/test_SLI.xmi";
+    private static final String TEST_XMI_LOC = "/sliModel/test_SLI.xmi";
 
     @Before
     public void setup() {

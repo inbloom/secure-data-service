@@ -38,7 +38,7 @@ public class DefaultSelectorSemanticModelTest {
     private DefaultSelectorSemanticModel defaultSelectorSemanticModel;
     private ModelProvider provider;
 
-    final static String TEST_XMI_LOC = "/sliModel/test_SLI.xmi";
+    private static final String TEST_XMI_LOC = "/sliModel/test_SLI.xmi";
 
     @Before
     public void setup() {

@@ -4,16 +4,11 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.modeling.uml.ClassType;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
- * Created with IntelliJ IDEA.
- * User: srupasinghe
- * Date: 7/24/12
- * Time: 1:32 PM
- * To change this template use File | Settings | File Templates.
+ * SelectorQueryPlan
+ * @author srupasinghe
  */
 public class SelectorQueryPlan {
     private ClassType type;

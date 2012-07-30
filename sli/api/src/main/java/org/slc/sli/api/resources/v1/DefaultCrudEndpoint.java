@@ -37,7 +37,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.slc.sli.api.selectors.DefaultLogicalEntity;
 import org.slc.sli.api.selectors.LogicalEntity;
 import org.slc.sli.api.selectors.doc.Constraint;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -232,7 +231,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
     private Map<String, Object> getSelector(final NeutralQuery neutralQuery) {
         if (neutralQuery instanceof ApiQuery) {
-            return ((ApiQuery)neutralQuery).getSelector();
+            return ((ApiQuery) neutralQuery).getSelector();
         } else {
             return null;
         }

@@ -7,6 +7,10 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Selector2MapOfMaps
+ * @author kmyers
+ */
 public class Selector2MapOfMaps implements SelectionConverter {
     
     public static final String SELECTOR_REGEX_STRING = ":\\((.*)\\)";
@@ -21,9 +25,9 @@ public class Selector2MapOfMaps implements SelectionConverter {
             
             int groups = matcher.groupCount();
             
-            for (int i=0; i<groups; i++) {
-                String data = matcher.group(i+1);
-                while(data.isEmpty() == false) {
+            for (int i = 0; i < groups; i++) {
+                String data = matcher.group(i + 1);
+                while (!data.isEmpty()) {
                     int indexOfComma = data.indexOf(",");
                     int indexOfParen = data.indexOf("(");
                     if (indexOfComma == -1 && indexOfParen == -1) {
@@ -94,7 +98,7 @@ public class Selector2MapOfMaps implements SelectionConverter {
         Boolean value = true;
         
         //if the key has a colon in it, it contains a value after the colon
-        if(keyWithOptionalValue.contains(":")) {
+        if (keyWithOptionalValue.contains(":")) {
             int indexOfColon = keyWithOptionalValue.indexOf(":");
             key = keyWithOptionalValue.substring(0, indexOfColon);
             String booleanAsString = keyWithOptionalValue.substring(indexOfColon + 1);
@@ -115,7 +119,7 @@ public class Selector2MapOfMaps implements SelectionConverter {
             throw new SelectorParseException("Cannot use null in a selection's value. Only true/false/map");
         } else if (map == null) {
             throw new SelectorParseException("Cannot add value to null mapping");
-        }else if (key.contains("(") || key.contains(")")) {
+        } else if (key.contains("(") || key.contains(")")) {
             throw new SelectorParseException("Cannot use parentheses in keys");
         } else if (key.isEmpty()) {
             throw new SelectorParseException("Cannot use empty string as a key");

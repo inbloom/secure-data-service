@@ -6,13 +6,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.selectors.model.*;
+import org.slc.sli.api.selectors.model.ModelProvider;
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.modeling.uml.*;
+import org.slc.sli.modeling.uml.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
@@ -29,8 +28,6 @@ import java.util.Map;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Tests
@@ -55,7 +52,7 @@ public class DefaultSelectorDocumentTest {
     @Autowired
     private MockRepo repo;
 
-    final static String TEST_XMI_LOC = "/sliModel/test_SLI.xmi";
+    static final String TEST_XMI_LOC = "/sliModel/test_SLI.xmi";
 
     private Entity student1;
     private Entity student2;
@@ -118,6 +115,7 @@ public class DefaultSelectorDocumentTest {
         assertTrue("Should be true", student.containsKey("name"));
         assertEquals("Should match", 4, student.keySet().size());
 
+        @SuppressWarnings("unchecked")
         List<EntityBody> studentSectionAssociationList = (List<EntityBody>) student.get("studentSectionAssociations");
         assertEquals("Should match", 2, studentSectionAssociationList.size());
 
@@ -128,6 +126,7 @@ public class DefaultSelectorDocumentTest {
         assertTrue("Should be true", studentSectionAssociation.containsKey("sectionId"));
         assertEquals("Should match", 5, studentSectionAssociation.keySet().size());
 
+        @SuppressWarnings("unchecked")
         List<EntityBody> sectionList = (List<EntityBody>) studentSectionAssociation.get("sections");
         assertEquals("Should match", 1, sectionList.size());
 
@@ -156,6 +155,7 @@ public class DefaultSelectorDocumentTest {
         EntityBody section = results.get(0);
         assertTrue("Should be true", section.containsKey("sessions"));
 
+        @SuppressWarnings("unchecked")
         List<EntityBody> sessionList = (List<EntityBody>) section.get("sessions");
         assertEquals("Should match", 1, sessionList.size());
 

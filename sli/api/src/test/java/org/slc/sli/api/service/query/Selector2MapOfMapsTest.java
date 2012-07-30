@@ -90,40 +90,40 @@ public class Selector2MapOfMapsTest {
         assertTrue(convertResult.equals(expectedResult));
     }
     
-    @Test(expected=SelectorParseException.class)
+    @Test(expected = SelectorParseException.class)
     public void testInvalidSyntax() throws SelectorParseException {
         this.selectionConverter.convert(":(");
     }
     
-    @Test(expected=SelectorParseException.class)
+    @Test(expected = SelectorParseException.class)
     public void testEmptyStrings() throws SelectorParseException {
         this.selectionConverter.convert(":(,,)");
     }
 
-    @Test(expected=SelectorParseException.class)
+    @Test(expected = SelectorParseException.class)
     public void testUnbalancedParens() throws SelectorParseException {
         Selector2MapOfMaps.getMatchingClosingParenIndex("((", 0);
     }
 
-    @Test(expected=SelectorParseException.class)
+    @Test(expected = SelectorParseException.class)
     public void testUnbalancedParens2() throws SelectorParseException {
         Selector2MapOfMaps.getMatchingClosingParenIndex(")", 0);
     }
 
-    @Test(expected=SelectorParseException.class)
+    @Test(expected = SelectorParseException.class)
     public void testUnbalancedParens3() throws SelectorParseException {
         String selectorString = ":(name,sectionAssociations)";
         String unbalancedString = selectorString + ")"; //append an unbalanced paren
         this.selectionConverter.convert(unbalancedString);
     }
 
-    @Test(expected=SelectorParseException.class)
+    @Test(expected = SelectorParseException.class)
     public void testEmptyStringForKey() throws SelectorParseException {
         String selectorString = ":(:(test))";
         this.selectionConverter.convert(selectorString);
     }
 
-    @Test(expected=SelectorParseException.class)
+    @Test(expected = SelectorParseException.class)
     public void testNonTrueFalseValueParsing() throws SelectorParseException {
         String selectorString = ":(someField:tru)"; //some guy spelled "true" wrong
         this.selectionConverter.convert(selectorString);
