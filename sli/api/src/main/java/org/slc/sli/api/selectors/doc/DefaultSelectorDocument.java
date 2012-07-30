@@ -28,6 +28,8 @@ public class DefaultSelectorDocument implements SelectorDocument {
     @Autowired
     private EntityDefinitionStore entityDefs;
 
+    private List<String> defaults = Arrays.asList("id", "entityType", "metaData");
+
     @Override
     public List<EntityBody> aggregate(Map<Type, SelectorQueryPlan> queryMap, final Constraint constraint) {
 
@@ -81,9 +83,10 @@ public class DefaultSelectorDocument implements SelectorDocument {
     }
 
     protected List<EntityBody> filterFields(List<EntityBody> results, SelectorQueryPlan plan) {
-        List<EntityBody> ret = new ArrayList<EntityBody>();
+        List<EntityBody> returnList = new ArrayList<EntityBody>(results);
 
         if (!plan.getExcludeFields().isEmpty()) {
+            returnList.clear();
             for (EntityBody body : results) {
                 EntityBody newBody = new EntityBody();
 
@@ -92,10 +95,11 @@ public class DefaultSelectorDocument implements SelectorDocument {
                         newBody.put(key, body.get(key));
                     }
                 }
-                newBody.put("id", body.get("id"));
-                ret.add(newBody);
+
+                returnList.add(addDefaults(body, newBody));
             }
         } else if (!plan.getIncludeFields().isEmpty()) {
+            returnList.clear();
             for (EntityBody body : results) {
                 EntityBody newBody = new EntityBody();
 
@@ -104,12 +108,23 @@ public class DefaultSelectorDocument implements SelectorDocument {
                         newBody.put(include, body.get(include));
                     }
                 }
-                newBody.put("id", body.get("id"));
-                ret.add(newBody);
+
+                returnList.add(addDefaults(body, newBody));
             }
         }
 
-        return ret;
+        return returnList;
+    }
+
+    protected EntityBody  addDefaults(EntityBody body, EntityBody newBody) {
+
+        for (String defaultString : defaults) {
+            if (body.containsKey(defaultString)) {
+                newBody.put(defaultString, body.get(defaultString));
+            }
+        }
+
+        return newBody;
     }
 
     protected List<EntityBody> updateEntityList(SelectorQueryPlan plan, List<EntityBody> results, List<EntityBody> entityList,
