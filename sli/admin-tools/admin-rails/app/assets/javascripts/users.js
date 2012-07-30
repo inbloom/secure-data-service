@@ -35,6 +35,33 @@ $(document).ready(function() {
           }
         });
     
+  } else {
+	  $("#user_primary_role").change(function() {
+	        if($("#user_primary_role option:selected").attr("value")== "SLC Operator") {
+	        	 $("#ingestion_user_role").attr("disabled", "disabled").attr("checked",false);
+	        	 $("#realm_administrator_role").attr("disabled", "disabled").attr("checked",false);
+	        	 $("#user_tenant").attr("disabled", "disabled").val("");
+	        	 $("#user_edorg").attr("disabled", "disabled").val("");
+	        	
+	          }
+	          else if($("#user_primary_role option:selected").attr("value")== "SEA Administrator" || $("#user_primary_role option:selected").attr("value")== "LEA Administrator") {
+	        	     $("#ingestion_user_role").removeAttr("disabled")
+		        	 $("#realm_administrator_role").removeAttr("disabled")
+		        	 $("#user_tenant").removeAttr("disabled");
+		        	 $("#user_edorg").removeAttr("disabled");
+		        	
+	          } else if($("#user_primary_role option:selected").attr("value")== "Ingestion User"){
+	        	  $("#ingestion_user_role").attr("disabled","disabled").attr("checked",false);
+	        	  $("#realm_administrator_role").removeAttr("disabled")
+		          $("#user_tenant").removeAttr("disabled");
+		          $("#user_edorg").removeAttr("disabled");
+	          } else if($("#user_primary_role option:selected").attr("value")== "Realm Administrator"){
+	        	  $("#realm_administrator_role").attr("disabled","disabled").attr("checked",false);
+	        	  $("#ingestion_user_role").removeAttr("disabled")
+		          $("#user_tenant").removeAttr("disabled");
+		          $("#user_edorg").removeAttr("disabled");
+	          }
+	        });
   };
 
 })

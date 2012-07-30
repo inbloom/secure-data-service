@@ -250,7 +250,7 @@ class UsersController < ApplicationController
   
   def set_edorg_options
     check = Check.get ""
-     @edorgs = {"(optional)" => "", "" => "" ,check["edOrg"] => check["edOrg"]}
+     @edorgs = {check["edOrg"] => check["edOrg"]}
   end
   
   def set_role_options
