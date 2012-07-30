@@ -23,31 +23,30 @@ public class Selector2MapOfMaps implements SelectionConverter {
             
             for (int i=0; i<groups; i++) {
                 String data = matcher.group(i+1);
-                System.out.println(data);
                 while(data.isEmpty() == false) {
                     int indexOfComma = data.indexOf(",");
                     int indexOfParen = data.indexOf("(");
                     if (indexOfComma == -1 && indexOfParen == -1) {
-                        addValueToMap(data, converted);
+                        parseKeyAndAddValueToMap(data, converted);
                         data = "";
                     } else if (indexOfComma == -1) {
                         String key = data.substring(0, indexOfParen - 1);
                         String value = data.substring(indexOfParen - 1);
-                        addKeyValueToMap(key.replaceAll(" ", ""), convert(value), converted);
+                        addKeyValueToMap(key, convert(value), converted);
                         data = "";
                     } else if (indexOfParen == -1) {
                         String value = data.substring(0, indexOfComma);
-                        addValueToMap(value, converted);
+                        parseKeyAndAddValueToMap(value, converted);
                         data = data.substring(indexOfComma + 1);
                     } else if (indexOfComma < indexOfParen) {
                         String value = data.substring(0, indexOfComma);
-                        addValueToMap(value, converted);
+                        parseKeyAndAddValueToMap(value, converted);
                         data = data.substring(indexOfComma + 1);
                     } else {
                         int endOfSubMap = getMatchingClosingParenIndex(data, indexOfParen);
                         String key = data.substring(0, indexOfParen - 1);
                         String value = data.substring(indexOfParen - 1, endOfSubMap + 1);
-                        addKeyValueToMap(key.replaceAll(" ", ""), convert(value), converted);
+                        addKeyValueToMap(key, convert(value), converted);
                         data = data.substring(endOfSubMap + 1);
                         if (data.startsWith(",")) {
                             data = data.substring(1);
@@ -83,39 +82,46 @@ public class Selector2MapOfMaps implements SelectionConverter {
         throw new SelectorParseException("Unbalanced parentheses");
     }
     
-    private static void addKeyValueToMap(String key, Object value, Map<String, Object> map) throws SelectorParseException {
-        if (key.contains("(") || key.contains(")")) {
-            throw new SelectorParseException("Parentheses in key");
-        } else if (key.isEmpty()) {
-            throw new SelectorParseException("Key was empty string");
-        } else if (map == null) {
-            throw new SelectorParseException("Cannot add value to mapping");
-        }
-        
-        map.put(key, value);
-    }
-    
     /**
      * Checks the value to see if it contains both a key and a value and then
      * adds the determined key and value to the map.
      * 
-     * @param value key, key:true, or key:false. key defaults to key:true
+     * @param keyWithOptionalValue key, key:true, or key:false. key defaults to key:true
      * @param map map to add key and boolean value to
      */
-    private static void addValueToMap(String value, Map<String, Object> map) throws SelectorParseException {
-        if (value.isEmpty()) {
-            throw new SelectorParseException("key/value cannot be empty string");
+    private static void parseKeyAndAddValueToMap(String keyWithOptionalValue, Map<String, Object> map) throws SelectorParseException {
+        String key = keyWithOptionalValue;
+        Boolean value = true;
+        
+        //if the key has a colon in it, it contains a value after the colon
+        if(keyWithOptionalValue.contains(":")) {
+            int indexOfColon = keyWithOptionalValue.indexOf(":");
+            key = keyWithOptionalValue.substring(0, indexOfColon);
+            String booleanAsString = keyWithOptionalValue.substring(indexOfColon + 1);
+            if (booleanAsString.toLowerCase().equals("false")) {
+                value = false;
+            } else if (!booleanAsString.toLowerCase().equals("true")) {
+                throw new SelectorParseException("Invalid boolean value: " + booleanAsString);
+            }
         }
         
-        int indexOfColon = value.indexOf(":");
+        addKeyValueToMap(key, value, map);
+    }
+
+    private static void addKeyValueToMap(String key, Object value, Map<String, Object> map) throws SelectorParseException {
+        if (key == null) {
+            throw new SelectorParseException("Cannot select null key");
+        } else if (value == null) {
+            throw new SelectorParseException("Cannot use null in a selection's value. Only true/false/map");
+        } else if (map == null) {
+            throw new SelectorParseException("Cannot add value to null mapping");
+        }else if (key.contains("(") || key.contains(")")) {
+            throw new SelectorParseException("Cannot use parentheses in keys");
+        } else if (key.isEmpty()) {
+            throw new SelectorParseException("Cannot use empty string as a key");
+        } 
         
-        if(indexOfColon != -1) {
-            String key = value.substring(0, indexOfColon).replaceAll(" ", "");
-            boolean keyValue = Boolean.parseBoolean(value.substring(indexOfColon + 1));
-            addKeyValueToMap(key, keyValue, map);
-        } else {
-            addKeyValueToMap(value, true, map);
-        }
+        map.put(key, value);
     }
     
 }
