@@ -1,4 +1,3 @@
-@wip
 @RALLY_US3289
 Feature: As an SLI API, I want to be able to specify the network payload granularity.
   That means I am able to specify the data returned by providing a selector.
@@ -73,13 +72,13 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     | id         |
     | entityType |
 
-    Given selector "(name,sectionAssociations:(sectionId)"
-    When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
-    Then I should receive a return code of 200
-    And in "studentSectionAssociations" I should see the following fields only:
-    | sectionId  |
-    | id         |
-    | entityType |
+#    Given selector "(name,sectionAssociations:(sectionId)"
+#    When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
+#    Then I should receive a return code of 200
+#    And in "studentSectionAssociations" I should see the following fields only:
+#    | sectionId  |
+#    | id         |
+#    | entityType |
 
   Scenario: Applying selector to exclude fields
     Given selector "(*,sex:false,cohortYears:false)"
