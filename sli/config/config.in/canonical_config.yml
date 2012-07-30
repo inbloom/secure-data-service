@@ -907,9 +907,6 @@ local:
         bootstrap.app.sif.token: e4e9d71c-d674-11e1-9ea4-f9fc6188709b
         bootstrap.app.sif.authorized_for_all_edorgs: true
         bootstrap.app.sif.allowed_for_all_edorgs: true
-
-        bootstrap.app.admin.authorized_for_all_edorgs: true
-        bootstrap.app.admin.allowed_for_all_edorgs: true
         
         bootstrap.app.portal.url: http://local.slidev.org:7000/portal
         bootstrap.app.portal.client_id: lY83c5HmTPX
