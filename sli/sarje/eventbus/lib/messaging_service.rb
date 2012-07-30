@@ -29,9 +29,6 @@ module Eventbus
           :parse_timeout => 5,
       }
       @publisher = Publisher.new(@config[:publish_queue_name], @config[:stomp_config])
-      Subscriber.new(@config[:subscribe_queue_name], @config[:stomp_config]) do |message|
-        yield message
-      end
       if @config[:start_heartbeat]
         start_heartbeat(@config[:node_name])
       end
@@ -39,6 +36,12 @@ module Eventbus
 
     def publish(message)
       @publisher.publish(message)
+    end
+
+    def subscribe
+      Subscriber.new(@config[:subscribe_queue_name], @config[:stomp_config]) do |message|
+        yield message
+      end
     end
 
     private

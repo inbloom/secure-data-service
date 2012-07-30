@@ -20,7 +20,8 @@ class TestMessagingService < Test::Unit::TestCase
         :start_heartbeat => false
     }
     agent_received_messages = []
-    agent = Eventbus::MessagingService.new(agent_config) do |message|
+    agent = Eventbus::MessagingService.new(agent_config)
+    agent.subscribe do |message|
       agent_received_messages << message
     end
 
@@ -31,7 +32,8 @@ class TestMessagingService < Test::Unit::TestCase
         :start_heartbeat => false
     }
     listener_received_messages = []
-    listener = Eventbus::MessagingService.new(listener_config) do |message|
+    listener = Eventbus::MessagingService.new(listener_config)
+    listener.subscribe do |message|
       listener_received_messages << message
     end
 
@@ -81,7 +83,8 @@ class TestMessagingService < Test::Unit::TestCase
         :start_heartbeat => false
     }
     agent_received_messages = []
-    Eventbus::MessagingService.new(agent_config) do |message|
+    agent = Eventbus::MessagingService.new(agent_config)
+    agent.subscribe do |message|
       agent_received_messages << message
     end
 
@@ -92,7 +95,8 @@ class TestMessagingService < Test::Unit::TestCase
         :start_heartbeat => false
     }
     agent2_received_messages = []
-    Eventbus::MessagingService.new(agent2_config) do |message|
+    agent2 = Eventbus::MessagingService.new(agent2_config)
+    agent2.subscribe do |message|
       agent2_received_messages << message
     end
 
@@ -103,7 +107,8 @@ class TestMessagingService < Test::Unit::TestCase
         :start_heartbeat => false
     }
     listener_received_messages = []
-    listener = Eventbus::MessagingService.new(listener_config) do |message|
+    listener = Eventbus::MessagingService.new(listener_config)
+    listener.subscribe do |message|
       listener_received_messages << message
     end
 
@@ -139,7 +144,8 @@ class TestMessagingService < Test::Unit::TestCase
         :start_heartbeat => false
     }
     agent_received_messages = []
-    Eventbus::MessagingService.new(agent_config) do |message|
+    agent = Eventbus::MessagingService.new(agent_config)
+    agent.subscribe do |message|
       agent_received_messages << message
     end
 
@@ -150,7 +156,8 @@ class TestMessagingService < Test::Unit::TestCase
         :start_heartbeat => false
     }
     agent2_received_messages = []
-    Eventbus::MessagingService.new(agent2_config) do |message|
+    agent2 = Eventbus::MessagingService.new(agent2_config)
+    agent2.subscribe do |message|
       agent2_received_messages << message
     end
 
@@ -161,7 +168,8 @@ class TestMessagingService < Test::Unit::TestCase
         :start_heartbeat => false
     }
     listener_received_messages = []
-    listener = Eventbus::MessagingService.new(listener_config) do |message|
+    listener = Eventbus::MessagingService.new(listener_config)
+    listener.subscribe do |message|
       listener_received_messages << message
     end
 
