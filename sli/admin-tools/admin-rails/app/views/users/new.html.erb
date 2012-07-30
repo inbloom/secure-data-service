@@ -5,7 +5,7 @@
 <h4><%if APP_CONFIG['is_sandbox']%>Add users to your sandbox account<%else%>Manage users that have access to your Production environment<%end%></h4>
 <p>&nbsp;</p>
 <%if APP_CONFIG['is_sandbox']%>
-<%= render :partial => 'form', :locals => {:user => @user} %>
+<%= render :partial => 'form_sandbox', :locals => {:user => @user} %>
 <%else%>
 <%= render :partial => 'form_prod', :locals => {:user => @user} %>
 <%end%>
