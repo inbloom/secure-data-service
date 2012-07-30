@@ -156,11 +156,22 @@ end
 
 When /^I edit the rights for the group <Group> to include the duplicate right <Right>$/ do |table|
   # table is a Cucumber::Ast::Table
+  table.hashes.each do |hash|
+    step "I edit the group #{hash["Group"]}"
+    # Check that the duplicate right is not an available choice in the dropdown
+    group = @driver.find_elements(:xpath, "//tr/td[text()='#{hash["Group"]}']/..")
+    select = Selenium::WebDriver::Support::Select.new(group.find_element(:tag_name, "select"))
+    select.options.each do |option|
+      assert(option.text != hash["Right"], "Duplicate Right detected! Right: #{hash["Right"]}")
+    end
+    # Hit cancel to return to known state
+    step "I click the cancel button"
+  end
   pending # express the regexp above with the code you wish you had
 end
 
 Then /^I cannot find the right in the dropdown$/ do
-  pending # express the regexp above with the code you wish you had
+  # Dummy step, validation is done in WHEN step, this step just used to make the Gherkin read happy
 end
 
 When /^I edit the roles for the group <Group> to include the duplicate role <Role>$/ do |table|
