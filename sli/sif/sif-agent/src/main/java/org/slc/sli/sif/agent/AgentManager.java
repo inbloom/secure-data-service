@@ -19,6 +19,9 @@ package org.slc.sli.sif.agent;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -57,26 +60,54 @@ public class AgentManager {
 
     private static final Logger LOG = LoggerFactory.getLogger(SifAgent.class);
 
+    /**
+     * Schedules the delayed setup of the agent.  This is delayed so the the zone connect
+     * will only happen after this(and every other) webapp has been completely initialized.
+     * @throws Exception
+     */
     @PostConstruct
+    public void postConstruct() throws Exception {
+
+        final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+        Runnable run = new Runnable() {
+
+            @Override
+            public void run() {
+                try {
+                    setup();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        };
+
+        scheduler.schedule(run, 5, TimeUnit.SECONDS);
+
+    }
+
+    /**
+     * Initializes the ADK, the agent, and the zone subscription
+     * @throws Exception
+     */
     public void setup() throws Exception {
         ADK.initialize();
         ADK.debug = ADK.DBG_ALL;
-
-        //1s sleep to wait for mockZis
-        Thread.sleep(1000);
-
         agent.startAgent();
-
         subscribeToZone();
     }
 
+    /**
+     * Unregisters the agent from the zone
+     * @throws ADKException
+     */
     @PreDestroy
     public void cleanup() throws ADKException {
         agent.shutdown(ADKFlags.PROV_NONE);
     }
 
     /**
-     * Create a subscriber and add it to the configured zone
+     * Creates a subscriber and adds it to the configured zone
      */
     private void subscribeToZone() throws ADKException {
         Map<String, ElementDef> studentDtdMap = new HashMap<String, ElementDef>();
