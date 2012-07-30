@@ -120,7 +120,8 @@ public class CustomRoleResourceTest {
         mockGetRealmId();
         
         Entity mockEntity = Mockito.mock(Entity.class);
-        Mockito.when(mockEntity.getBody()).thenReturn((Map<String, Object>) body.clone());
+        Mockito.when(mockEntity.getEntityId()).thenReturn("mock-id");
+        Mockito.when(service.get("mock-id")).thenReturn(body);
         
         NeutralQuery customRoleQuery = new NeutralQuery();
         customRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.OPERATOR_EQUAL, REALM_ID));
@@ -199,7 +200,7 @@ public class CustomRoleResourceTest {
         
         Mockito.when(service.update(id, body)).thenReturn(true);
         Response res = resource.updateCustomRole(id, body, uriInfo);
-        Assert.assertEquals(400, res.getStatus());
+        Assert.assertEquals(403, res.getStatus());
         Assert.assertEquals(CustomRoleResource.ERROR_INVALID_REALM, res.getEntity());
 
     }
@@ -256,7 +257,7 @@ public class CustomRoleResourceTest {
         
         
         Response res = resource.createCustomRole(body, null);
-        Assert.assertEquals(400, res.getStatus());
+        Assert.assertEquals(403, res.getStatus());
         Assert.assertEquals(CustomRoleResource.ERROR_INVALID_REALM, res.getEntity());
     }
     
@@ -276,13 +277,14 @@ public class CustomRoleResourceTest {
     @Test
     public void testCreateDuplicate() {
         NeutralQuery existingCustomRoleQuery = new NeutralQuery();
-        existingCustomRoleQuery.addCriteria(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getTenantId()));
+        existingCustomRoleQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getTenantId(), false));
         existingCustomRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.OPERATOR_EQUAL, REALM_ID));
         
         Entity mockEntity = Mockito.mock(Entity.class);
+        Mockito.when(mockEntity.getEntityId()).thenReturn("fake-id");
         Mockito.when(repo.findOne(CustomRoleResource.RESOURCE_NAME, existingCustomRoleQuery)).thenReturn(mockEntity);
         mockGetRealmId();
-        
+
         Response res = resource.createCustomRole(getValidRoleDoc(), null);
         Assert.assertEquals(400, res.getStatus());
         Assert.assertEquals(CustomRoleResource.ERROR_MULTIPLE_DOCS, res.getEntity());

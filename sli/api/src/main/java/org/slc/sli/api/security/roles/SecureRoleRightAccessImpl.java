@@ -148,7 +148,7 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
         
         if (roleNames != null) {
             final NeutralQuery neutralQuery = new NeutralQuery();
-            neutralQuery.addCriteria(new NeutralCriteria("tenantId", "=", tenantId));
+            neutralQuery.addCriteria(new NeutralCriteria("metaData.tenantId", "=", tenantId, false));
             neutralQuery.addCriteria(new NeutralCriteria("realmId", "=", realmId));
             
             Entity doc = SecurityUtil.runWithAllTenants(new SecurityTask<Entity>() {

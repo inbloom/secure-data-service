@@ -70,24 +70,18 @@ Scenario: Deny creation of a new custom role doc when one already exists for thi
   When I POST a new custom role document with realm "Fake Realm"
   Then I should receive a return code of 400
 
-	
-@wip
-Scenario: Deny mappings from non-SLI Default roles to custom roles
-
-	Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
-	When I add a mapping between non-existent role "Governator" and custom role "blah" for realm "Fake Realm"
-	Then I should receive a return code of 400
-
-@wip
-Scenario: Deny mapping the same custom role to the default role twice
-
-  Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
-  When I add a mapping between default role "Aggregate Viewer" and custom role "Observer" for realm "Fake Realm"
+Scenario: Delete a custom role doc
+Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
+  When I DELETE my custom role doc
   Then I should receive a return code of 204
-  When I add a mapping between default role "Aggregate Viewer" and custom role "Observer" for realm "Fake Realm"
-  Then I should receive a return code of 400
-  
-@workin-it
+
+Scenario: Create a custom role doc
+  Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
+  When I POST a new custom role document with realm "Fake Realm"
+    Then I should receive a return code of 201
+     And I should receive a new ID for my new custom role doc
+
+		
 Scenario: Deny the same role being listed in two different groups
 
   Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
@@ -98,12 +92,23 @@ Scenario: Deny the same role being listed in two different groups
 
 
 Scenario: Deny the same role being listed twice in one group
+  Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
+  When I add a role "Bar" in group "Educator"
+  Then I should receive a return code of 204
+  When I add a role "Bar" in group "Educator"
+  Then I should receive a return code of 400
 
 	
 Scenario: Deny a right being listed twice in one group
+  Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
+  When I add a right "WRITE_GENERAL" in group "Educator"
+  Then I should receive a return code of 204
+  When I add a right "WRITE_GENERAL" in group "Educator"
+  Then I should receive a return code of 400
 
-Scenario: Deny creating a new role document when one already exists for that realm/tenant
 
 Scenario: Deny creating a new role with a realm I do not have access to
-
+  Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
+  When I POST a new custom role document with realm "IL-Sunset"
+  Then I should receive a return code of 403
 	
