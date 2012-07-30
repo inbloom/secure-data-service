@@ -41,7 +41,7 @@
 
     <xs:complexType name="role">
         <xs:sequence>
-            <xs:element name="groupTitle" type="xs:string" minOccurs="0" maxOccurs="1">
+            <xs:element name="groupTitle" type="xs:string" minOccurs="1" maxOccurs="1">
                 <xs:annotation>
                     <xs:documentation>
                         The name of this group of roles. 
