@@ -109,7 +109,7 @@ end
 Then /^I check to find if default roles were created for the tenant$/ do
   @conn             = Mongo::Connection.new('localhost', 27017)
   @db               = @conn['sli']
-  @roles_collection = @db.collection('roles')
+  @roles_collection = @db.collection('customRole')
   
   @result = "true"
   @roles_collection.find.each do |row|
