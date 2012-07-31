@@ -79,4 +79,31 @@
 		</dependency>
 	</dependencies>
 	<artifactId>tools</artifactId>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.1</version>
+                <executions>
+                    <execution>
+                        <id>wadl-comparator</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>org.slc.sli.modeling.tools.wadlComparator.WadlComparator</mainClass>
+                            <arguments>
+                                <argument>${sli.home}/domain/src/main/resources/sliModel/SLI.wadl</argument>
+                                <argument>${sli.home}/api/target/doc/application.wadl</argument>
+                                <argument>${sli.home}/modeling/tools/target/wadl-compare-report.txt</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 </project>
