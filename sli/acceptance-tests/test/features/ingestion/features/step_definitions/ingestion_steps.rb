@@ -23,7 +23,9 @@ require 'fileutils'
 require 'socket'
 require 'net/sftp'
 require 'net/http'
+require 'rest-client'
 
+require 'json'
 require_relative '../../../utils/sli_utils.rb'
 
 ############################################################
@@ -39,6 +41,7 @@ INGESTION_MODE = PropLoader.getProps['ingestion_mode']
 INGESTION_DESTINATION_DATA_STORE = PropLoader.getProps['ingestion_destination_data_store']
 INGESTION_USERNAME = PropLoader.getProps['ingestion_username']
 INGESTION_REMOTE_LZ_PATH = PropLoader.getProps['ingestion_remote_lz_path']
+INGESTION_HEALTHCHECK_URL = PropLoader.getProps['ingestion_healthcheck_url']
 
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT"]
 
@@ -497,6 +500,56 @@ def processZipWithFolder(file_name)
 
   return file_name
 end
+
+Then /^I post "(.*?)" control file for concurent processing$/ do |file_name|
+   copyFilesInDir file_name
+end
+
+
+def copyFilesInDir(file_name)
+
+  path_name = file_name[0..-5]
+  puts "path_name = " + path_name
+
+  file_name = file_name.split('/')[-1] if file_name.include? '/'
+  puts "file_name = " + file_name
+
+  @source_path = @local_file_store_path + path_name + "/" + file_name
+  @destination_path = @landing_zone_path + file_name
+
+  assert(@destination_path != nil, "Destination path was nil")
+  assert(@source_path != nil, "Source path was nil")
+
+  FileUtils.cp @source_path, @destination_path
+
+  src_dir = @local_file_store_path + path_name + "/"
+
+  # copy files specified by each line in the ctl file, to landing zone
+  File.open(src_dir + file_name, "r") do |ctl_file|
+    ctl_file.each_line do |line|
+      if line.chomp.length == 0
+      next
+      end
+      entries = line.chomp.split ","
+      if entries.length < 3
+        puts "DEBUG:  less than 3 elements on the control file line.  Passing it through untouched: " + line
+      next
+      end
+      payload_file = entries[2]
+      puts "controlFileEntry: " + payload_file
+      FileUtils.cp src_dir+"/"+payload_file , @landing_zone_path
+
+      if payload_file == "MissingXmlFile.xml"
+        puts "DEBUG: An xml file in control file is missing .."
+        next
+      end
+    end
+  end
+
+end
+
+
+
 
 
 Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_name|
@@ -1066,12 +1119,13 @@ When /^an activemq instance "([^"]*)" running in "([^"]*)" and on jmx port "([^"
 end
 
 When /^I navigate to the Ingestion Service HealthCheck page and submit login credentials "([^"]*)" "([^"]*)"$/ do |user, pass|
-   uri = URI('http://localhost:8000/ingestion-service/HealthCheck')
-   req = Net::HTTP::Get.new(uri.request_uri)
-   req.basic_auth user, pass
-   res = Net::HTTP.start(uri.hostname, uri.port) {|http|
-   http.request(req)
-   }
+   #uri = URI(INGESTION_HEALTHCHECK_URL)
+   #req = Net::HTTP::Get.new(uri.request_uri)
+   #req.basic_auth user, pass
+   #res = Net::HTTP.start(uri.hostname, uri.port) {|http|
+   #http.request(req)
+   #}
+   res = RestClient::Request.new(:method => :get, :url => INGESTION_HEALTHCHECK_URL, :user => user, :password => pass).execute
    puts res.body
    $healthCheckResult = res.body
 end
@@ -1155,7 +1209,9 @@ Then /^I check to find if record is in collection:$/ do |table|
 
     if row["searchType"] == "integer"
       @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-    elsif row["searchType"] == "boolean"
+    elsif row["searchType"] == "double"
+      @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_f}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
+ elsif row["searchType"] == "boolean"
         if row["searchValue"] == "false"
             @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => false}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
         else
@@ -1389,6 +1445,11 @@ Then /^I should see "([^"]*)" in the resulting batch job file for "([^"]*)"$/ do
   parallelCheckForContentInFileGivenPrefix(message, prefix, lz)
 end
 
+Then /^I should see "(.*?)" in the resulting error log file for "([^"]*)"$/ do |message, load_file|
+    prefix = "error."+load_file
+    checkForContentInFileGivenPrefix(message, prefix)
+end
+
 Then /^I should see "([^"]*)" in the resulting error log file$/ do |message|
     prefix = "error."
     checkForContentInFileGivenPrefix(message, prefix)
@@ -1583,8 +1644,40 @@ Then /^I restart the activemq instance "([^"]*)" running on "([^"]*)"$/ do |inst
   Open3.popen2e("#{instance_source}/#{instance_name}/bin/#{instance_name}" )
 end
 
-Then /^I am informed that "(.*?)"$/ do |arg1|
-    assert($healthCheckResult.tr("\n","") == arg1, "Ingestion service is not running")
+Then /^I receive a JSON response$/ do
+  @result = JSON.parse($healthCheckResult)
+  assert(@result != nil, "Result of JSON parsing is nil")
+end
+
+Then /^the response should include (.*?)$/ do |json_values|
+  valueArr = json_values.split(", ")
+  for val in valueArr
+    assert(@result.has_key?(val), "Values missing")
+  end
+end
+
+Then /^the value of "(.*?)" should be "(.*?)"$/ do |json_variable, json_value|
+  puts @result
+  assert(@result[json_variable] == json_value)
+end
+
+Given /^I have checked the counts of the following collections:$/ do |table|
+  @excludedCollectionHash = {}
+  @db = @conn[INGESTION_DB_NAME]
+  table.hashes.map do |row|
+    @excludedCollectionHash[row["collectionName"]] = @db.collection(row["collectionName"]).count()
+  end
+end
+
+Then /^the following collections counts are the same:$/ do |table|
+  @db = @conn[INGESTION_DB_NAME]
+  table.hashes.map do |row|
+    if row["collectionName"] == "securityEvent"
+      assert(@excludedCollectionHash[row["collectionName"]] <= @db.collection(row["collectionName"]).count(), "Tenant Purge has removed documents it should not have from the following collection: #{row["collectionName"]}")
+    else
+      assert(@excludedCollectionHash[row["collectionName"]] == @db.collection(row["collectionName"]).count(), "Tenant Purge has removed documents it should not have from the following collection: #{row["collectionName"]}")
+    end
+  end
 end
 
 ############################################################

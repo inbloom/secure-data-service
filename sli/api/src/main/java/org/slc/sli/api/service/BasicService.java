@@ -53,7 +53,7 @@ import org.slc.sli.api.security.context.resolver.EntityContextResolver;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
 import org.slc.sli.api.security.service.SecurityCriteria;
 import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.domain.AggregateData;
+import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -1049,9 +1049,9 @@ public class BasicService implements EntityService {
     }
 
     @Override
-    public AggregateData getAggregateData(String id) {
+    public CalculatedData getCalculatedValues(String id) {
         Entity entity = getEntity(id, new NeutralQuery());
-        return entity.getAggregates();
+        return entity.getCalculatedValues();
     }
 
 }

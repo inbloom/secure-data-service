@@ -246,7 +246,7 @@ module("SLC.util get methods", {
 		ok(typeof SLC.util.getElementHeight === 'function', 'SLC.util getElementHeight method should be function');
 		deepEqual(typeof SLC.util.getElementHeight("#test"), 'number', 'SLC.util getElementHeight method should return a number');
 	});
-	
+
 
 module("SLC.util setDropDownOptions & selectDropDownOption methods", {
 	setup: function () {

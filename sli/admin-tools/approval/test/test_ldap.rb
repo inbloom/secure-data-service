@@ -43,7 +43,8 @@ class TestLdap < Test::Unit::TestCase
     :gidnumber    => '123',
     :tenant       => 'testtenant',
     :edorg        => 'testedorg',
-    :emailAddress => Jd_email
+    :emailAddress => Jd_email,
+    :resetKey     => ""
   }
 
   # Note: Socket.gethostname is used to ensure uniqueness when testers are 
@@ -55,7 +56,7 @@ class TestLdap < Test::Unit::TestCase
 
   Ldap_generated_keys = [:created, :updated]
   All_keys = [:first, :last, :email, :password, :vendor, :emailtoken,
-    :status, :homedir, :uidnumber, :gidnumber, :tenant, :edorg, :cn, :emailAddress]
+    :status, :homedir, :uidnumber, :gidnumber, :tenant, :edorg, :cn, :emailAddress, :resetKey]
 
   Email1 = "dog_cat_hamster_platypus_elephant"
   Email2 = "mouse_snake_lion_cat_horse"
@@ -64,11 +65,11 @@ class TestLdap < Test::Unit::TestCase
   Email5 = "pig_cat_cow_porcupine"
 
   def setup
-    @ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=LocalNew,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
+    @ldap = LDAPStorage.new("ldap.slidev.org", 389, "ou=Local,ou=DevTest,dc=slidev,dc=org", "cn=DevLDAP User, ou=People,dc=slidev,dc=org", "Y;Gtf@w{")
     @password_policy = false 
 
-    # @ldap = LDAPStorage.new("rcldap01.slidev.org", 636, "ou=DevTest,dc=slidev,dc=org", "cn=admin,dc=slidev,dc=org", "Y;Gtf@w{")
-    # @password_policy = true 
+    #@ldap = LDAPStorage.new("rcldap01.slidev.org", 636, "ou=DevTest,dc=slidev,dc=org", "cn=admin,dc=slidev,dc=org", "Y;Gtf@w{")
+    #@password_policy = true 
 
     @ldap.delete_user(Jd_email)
     @ldap.delete_user(Td_email)
@@ -418,7 +419,9 @@ class TestLdap < Test::Unit::TestCase
     #@ldap.delete_user(test_user_info[:email])
   end 
 
-
+  def test_user_count
+    assert_nothing_raised { @ldap.read_users().length }
+  end 
 
 end
 

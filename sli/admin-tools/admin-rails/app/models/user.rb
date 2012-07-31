@@ -18,6 +18,13 @@ limitations under the License.
 
 class User < SessionResource
   self.collection_name = "users"
+  include ActiveModel::Validations
+  
+  validates_presence_of :fullName, :email
+  
+  #validates :email,:email=>true
+  
+  
   schema do
     string  "uid"
     string  "firstName"
@@ -27,6 +34,11 @@ class User < SessionResource
     string  "edorg"
     time "createTime", "modifyTime" 
     string  "groups"
+    string  "fullName"
+    string  "primary_role"
+    string  "optional_role_1"
+    string  "optional_role_2"
+    string   "homeDir"
   end
  
   def get_groups 

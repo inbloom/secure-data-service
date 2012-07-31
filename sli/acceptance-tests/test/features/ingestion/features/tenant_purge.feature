@@ -39,13 +39,28 @@ And I should not see an error log file created
 
  Scenario: Post a zip file containing purge configuration
  Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
+ And I have checked the counts of the following collections:
+     |collectionName|
+     | application  |
+     | realm        |
+     | tenant       |
+     | roles        |
+     | securityEvent |
    And I post "TenantPurge.zip" file as the payload of the ingestion job
  When zip file is scp to ingestion landing zone
   And a batch job log has been created
  Then I should see following map of entry counts in the corresponding collections:
       | collectionName              | count |
       | student                     | 72    |
+   And the following collections counts are the same:
+     |collectionName|
+     | application  |
+     | realm        |
+     | tenant       |
+     | roles        |
+     | securityEvent |
    And I check to find if record is in collection:
-     | collectionName   | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | student          | 0                   | metaData.tenantId           | Hyrule                  | string               |
+     | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
+     | student                  | 0                   | metaData.tenantId           | Hyrule                  | string               |
+     | applicationAuthorization | 0                   | metaData.tenantId           | Hyrule                  | string               |
  And I should not see an error log file created

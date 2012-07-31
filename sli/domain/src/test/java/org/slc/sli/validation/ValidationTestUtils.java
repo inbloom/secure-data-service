@@ -20,7 +20,7 @@ package org.slc.sli.validation;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slc.sli.domain.AggregateData;
+import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 
 
@@ -56,7 +56,7 @@ public class ValidationTestUtils {
             }
 
             @Override
-            public AggregateData getAggregates() {
+            public CalculatedData getCalculatedValues() {
                 return null;
             }
         };

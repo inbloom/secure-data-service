@@ -72,7 +72,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         } catch (EntityValidationException ex) {
             reportErrors(ex.getValidationErrors(), entity, errorReport);
         } catch (DuplicateKeyException ex) {
-            reportErrors(ex.getRootCause().getMessage(), entity, errorReport);
+            reportWarnings(ex.getRootCause().getMessage(), entity, errorReport);
         }
         return null;
     }
@@ -135,6 +135,21 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         errorReport.error(assembledMessage, this);
     }
 
+    /**
+     * Generic warning reporting function.
+     *
+     * @param warningMessage
+     *            Warning message reported by entity.
+     * @param entity
+     *            Entity reporting warning.
+     * @param errorReport
+     *            Reference to error report to log warning message in.
+     */
+    private void reportWarnings(String warningMessage, SimpleEntity entity, ErrorReport errorReport) {
+        String assembledMessage = "Entity (" + entity.getType() + ") reports warning: " + warningMessage;
+        errorReport.warning(assembledMessage, this);
+    }
+    
     protected String getFailureMessage(String code, Object... args) {
         return MessageSourceHelper.getMessage(messageSource, code, args);
     }

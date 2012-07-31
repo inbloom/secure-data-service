@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.client.util;
 
 import java.io.UnsupportedEncodingException;
@@ -55,7 +54,9 @@ public final class URLBuilder {
      * @return Updated URLBuilder instance.
      */
     public URLBuilder addPath(final String path) {
-        addPathSeparaterIfNeeded();
+        if (!path.startsWith("/")) {
+            addPathSeparaterIfNeeded();
+        }
         url.append(path);
         return this;
     }
@@ -119,13 +120,14 @@ public final class URLBuilder {
      */
     public URLBuilder query(final Query query) {
 
-        Map<String, Object> params = query.getParameters();
-        if (params != null) {
-            for (Map.Entry<String, Object> entry : params.entrySet()) {
-                addQueryParameter(entry.getKey(), entry.getValue());
+        if (query != null) {
+            Map<String, Object> params = query.getParameters();
+            if (params != null) {
+                for (Map.Entry<String, Object> entry : params.entrySet()) {
+                    addQueryParameter(entry.getKey(), entry.getValue());
+                }
             }
         }
-
         return this;
     }
 

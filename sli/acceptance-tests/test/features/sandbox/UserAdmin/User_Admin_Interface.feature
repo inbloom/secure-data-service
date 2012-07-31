@@ -5,7 +5,7 @@ Background:
 Given I have an open web browser
 And LDAP server has been setup and running
 
-@sandbox
+@sandbox 
 Scenario Outline:  As a sandbox admin I am able to read all admin accounts in my tenancy on sandbox
 When I navigate to the sandbox user account management page
 Then I will be redirected to "Simple" login page
@@ -46,7 +46,7 @@ Then I will be redirected to "Simple" login page
 When I submit the credentials "<USER>" "<PASSWORD>" for the "Simple" login page
 And I hit the sandbox user account management app list all users page
 Then I see a user with Full Name is "<USER_FULL_NAME>" in the table
-#And the user "Role" is "<USER_ROLE>"
+And the user "role" is "<USER_ROLE>"
   
 When I click on "delete" icon 
 Then I am asked to confirm the delete action
@@ -74,55 +74,121 @@ And the "delete" button is disabled
     |USER                 |PASSWORD                 |USER_FULL_NAME                |USER_ROLE                      |
     |sandboxadministrator |sandboxadministrator1234 |Sandbox Admin                 |Sandbox Administrator          |
 
-@sandbox @wip 
+
+@sandbox 
+Scenario: As a Sandbox admin I can quit to create user accounts
+When I navigate to the sandbox user account management page
+And I submit the credentials "sandboxadministrator" "sandboxadministrator1234" for the "Simple" login page
+Then I am redirected to "Sandbox Account Management" page 
+Then I click on "Add User" button
+And I am redirected to "Add a User" page
+
+When I click "Cancel" link
+Then I am redirected to "Sandbox Account Management" page 
+
+@sandbox    
 Scenario: As a Sandbox admin I am able to create user accounts for my sandbox tenancy
-When I access the User Management Page from the portal
-Then I am redirected to "Sandbox Account Management" page which has a table of all accounts for my tenancy
+Given the testing user does not already exists in LDAP
+When I navigate to the sandbox user account management page
+And I submit the credentials "sandboxadministrator" "sandboxadministrator1234" for the "Simple" login page
+Then I am redirected to "Sandbox Account Management" page 
+Then I click on "Add User" button
+And I am redirected to "Add a User" page
 
-When I click on "Add User"
-Then I am redirected to "Add a User" form
-And I can enter a Fullname
-And I can enter a Email
-And I can assign an EdOrg if the tenancy has one assigned
-And I can select "Application Developer" from a choice between a "Sandbox Administrator" and "Application Developer" and "Ingestion User" Role 
-And  I can select  "Ingestion User" Role 
+And I have entered Full Name and Email into the required fields
+And I can select "Application Developer" from a choice between a "Sandbox Administrator", "Application Developer" and "Ingestion User" Role 
+And I can also check "Ingestion User" Role 
 
-When I click "Save"
-Then I am redirected to the "User Account Management" Page
-And a "Success" message is displayed 
-And a new unique account has been created with this sandbox tenant_id and role of "Application Developer" and "Ingestion User"
-And an email to verify user email address is sent
+When I click button "Save"
+Then I am redirected to "Sandbox Account Management" page 
+And a "Success! You have added a new user" message is displayed 
+And I see a user with Full Name is "Sandbox AcceptanceTests" in the table
+And I see "Sandbox AcceptanceTests" has "Application Developer" and "Ingestion User" role 
 
-When I click "Cancel"
-Then I am redirected to the "User Account Management" Page
+#Unhappy path: I can't add the same user again
+Then I click on "Add User" button
+And I am redirected to "Add a User" page
 
-@sandbox @wip 
-Scenario: As a Sandbox admin I am able to edit user accounts for my sandbox tenancy
-When I access the User Management Page from the portal
-Then I am redirected to "Sandbox Account Management" page which has a table of all accounts for my tenancy
+And I have entered Full Name and Email into the required fields
+And I can select "Application Developer" from a choice between a "Sandbox Administrator", "Application Developer" and "Ingestion User" Role 
+And I can also check "Ingestion User" Role 
 
-When I hover over a row which is not my name
-Then I am shown the option to "Edit" user
+When I click button "Save"
+And a "An account with this email already exists" message is displayed 
 
-When I click on "Edit" link
-Then I am redirected to "Add a User" form
-And the title is "Edit a User"
-And the Fullname is prefilled
-And the Email is prefilled
-And the EdOrg is selected
-And the Role is selected
+#And an email to verify user email address is sent
 
-When I update the email address
-And I update the Role
-And I click "Save"
-Then I am redirected to the "User Account Management" Page
-And a "Success" message is displayed 
-And the updated information is displayed in the table
+@sandbox
+Scenario: Unhappy path: As a sandbox admin I can't add an user if I do not fill out all information
+Given the testing user does not already exists in LDAP
+When I navigate to the sandbox user account management page
+And I submit the credentials "sandboxadministrator" "sandboxadministrator1234" for the "Simple" login page
+Then I am redirected to "Sandbox Account Management" page 
+Then I click on "Add User" button
+And I am redirected to "Add a User" page
 
-When I click "Cancel"
-Then I am redirected to the "User Account Management" Page
-And no changes are shown in the table
+When I click button "Save"
+And a "There was an error processing your request. Please fix any highlighted fields below." message is displayed 
 
+@sandbox 
+Scenario Outline: As a Sandbox admin I can cancel editing user accounts and no changes will be made
+Given There is a sandbox user with "<USER_FULL_NAME>", "<USER_ROLE>", "<USER_ADDITIONAL_ROLES>", and "<USER_EMAIL>" in LDAP Server
+When I navigate to the sandbox user account management page
+And I submit the credentials "sandboxadministrator" "sandboxadministrator1234" for the "Simple" login page
+Then I am redirected to "Sandbox Account Management" page 
+#
+When I click the "edit" link for "<USER_FULL_NAME>"
+Then I am redirected to "Update a User" page
+And the "Email" field is prefilled with "<USER_EMAIL>"
+#Those values will be localized by the acceptance tests 
+And I can update the "Email" field to "<NEW_EMAIL>"
 
-   
-  
+When I click "Cancel" link
+Then I am redirected to "Sandbox Account Management" page 
+And the user still has "Email" as "<USER_EMAIL>" 
+ 
+    Examples:
+    |USER_FULL_NAME              |USER_ROLE               |USER_EMAIL                  |USER_ADDITIONAL_ROLES   |NEW_EMAIL      |
+    |Sandbox EditAdmin_hostname  |Sandbox Administrator   |hostname_testuser@wgen.net  |Ingestion User          |random@1.net   |
+
+@sandbox 
+Scenario Outline: As a Sandbox admin I am able to edit user accounts for my sandbox tenancy
+Given There is a sandbox user with "<USER_FULL_NAME>", "<USER_ROLE>", "<USER_ADDITIONAL_ROLES>", and "<USER_EMAIL>" in LDAP Server
+When I navigate to the sandbox user account management page
+And I submit the credentials "sandboxadministrator" "sandboxadministrator1234" for the "Simple" login page
+Then I am redirected to "Sandbox Account Management" page 
+#
+When I click the "edit" link for "<USER_FULL_NAME>"
+Then I am redirected to "Update a User" page
+And the "Full Name" field is prefilled with "<USER_FULL_NAME>"
+And the "Email" field is prefilled with "<USER_EMAIL>"
+##And the EdOrg is selected
+And the Role combobox is populated with "<USER_ROLE>" 
+And the Role checkbox is checked with "<USER_ADDITIONAL_ROLES>" 
+#Those values will be localized by the acceptance tests 
+
+#unhappy path: update with empty field
+Then I can delete text in "Full Name" field 
+Then I can delete text in "Email" field 
+And I click button "Update"
+And a "can't be blank" message is displayed 
+
+Then I can update the "Full Name" field to "<NEW_NAME>"
+And I can update the "Email" field to "<NEW_EMAIL>"
+And I can change the Role from the dropdown to "Ingestion User"
+And I can add additional Role "Application Developer"
+And I click button "Update"
+Then I am redirected to "Sandbox Account Management" page 
+And a "Success! You have updated the user" message is displayed 
+And the user has "Full Name" updated to "<NEW_NAME>" 
+And the user has "Email" updated to "<NEW_EMAIL>" 
+And the user now has roles "Ingestion User" and "Application Developer"
+
+#clean up
+Then I click on "delete" icon 
+Then I am asked to confirm the delete action
+And I confirm the delete action
+
+    Examples:
+    |USER_FULL_NAME              |USER_ROLE               |USER_EMAIL                  |USER_ADDITIONAL_ROLES   |NEW_NAME       |NEW_EMAIL      |
+    |Sandbox EditAdmin_hostname  |Sandbox Administrator   |hostname_testuser@wgen.net  |Ingestion User          |Some Random    |random@1.net   |
