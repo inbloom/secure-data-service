@@ -346,6 +346,7 @@ end
 ############################################################
 desc "Run Aggregation API Tests"
 task :aggregationAPI => [:realmInit, :importCompletedAggData] do
+  runTests("test/features/apiV1/aggregations/calcValues_api.feature")
   runTests("test/features/apiV1/aggregations/aggregate_api.feature")
 end
 
@@ -354,7 +355,8 @@ task :importCompletedAggData => [:importSandboxData] do
   data = Hash[
     "student" => "completedAggregation/students.json",
     "studentSchoolAssociation" => "completedAggregation/studentSchools.json",
-    "studentSectionAssociation" => "completedAggregation/studentSections.json"
+    "studentSectionAssociation" => "completedAggregation/studentSections.json",
+    "educationOrganization" => "completedAggregation/educationOrganization.json"
   ]
   setMultipleFixtureFiles(data)
 end
