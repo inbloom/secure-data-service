@@ -110,6 +110,9 @@
 								</c:forEach>
 							</select>
 							<p class="help-block">Select one or more roles using Ctrl/Apple+Click</p>
+                            <label for='customRoles'>Custom Role(s):</label>
+                            <input type="text" id="customRoles" name="customRoles" />
+                            <p class="help-block">Custom roles should be comma separated</p>
 						</div>
 					</div>
 					</c:if>

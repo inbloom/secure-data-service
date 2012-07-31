@@ -17,16 +17,16 @@
 
 package org.slc.sli.sandbox.idp.controller;
 
-import java.security.SecureRandom;
-import java.sql.Timestamp;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
+import org.slc.sli.common.util.logging.LogLevelType;
+import org.slc.sli.common.util.logging.LoggingUtils;
+import org.slc.sli.common.util.logging.SecurityEvent;
+import org.slc.sli.sandbox.idp.service.AuthRequestService;
+import org.slc.sli.sandbox.idp.service.AuthenticationException;
+import org.slc.sli.sandbox.idp.service.RoleService;
+import org.slc.sli.sandbox.idp.service.SamlAssertionService;
+import org.slc.sli.sandbox.idp.service.SamlAssertionService.SamlAssertion;
+import org.slc.sli.sandbox.idp.service.UserService;
+import org.slc.sli.sandbox.idp.service.UserService.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,16 +40,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import org.slc.sli.common.util.logging.LogLevelType;
-import org.slc.sli.common.util.logging.LoggingUtils;
-import org.slc.sli.common.util.logging.SecurityEvent;
-import org.slc.sli.sandbox.idp.service.AuthRequestService;
-import org.slc.sli.sandbox.idp.service.AuthenticationException;
-import org.slc.sli.sandbox.idp.service.RoleService;
-import org.slc.sli.sandbox.idp.service.SamlAssertionService;
-import org.slc.sli.sandbox.idp.service.SamlAssertionService.SamlAssertion;
-import org.slc.sli.sandbox.idp.service.UserService;
-import org.slc.sli.sandbox.idp.service.UserService.User;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import java.security.SecureRandom;
+import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -135,12 +134,15 @@ public class Login {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public ModelAndView login(@RequestParam("user_id") String userId, @RequestParam("password") String password,
+    public ModelAndView login(
+            @RequestParam("user_id") String userId,
+            @RequestParam("password") String password,
             @RequestParam("SAMLRequest") String encodedSamlRequest,
             @RequestParam(value = "realm", required = false) String incomingRealm,
             @RequestParam(value = "impersonate_user", required = false) String impersonateUser,
             @RequestParam(value = "selected_roles", required = false) List<String> roles, 
             @RequestParam(value = "isForgotPasswordVisible", required = false ) boolean isForgotPasswordVisible, 
+            @RequestParam(value = "customRoles", required = false) String customRoles,
             HttpSession httpSession,
             HttpServletRequest request) {
 
@@ -221,6 +223,15 @@ public class Login {
         }
 
         if (doImpersonation) {
+            if (customRoles != null) {
+                List customRolesList = Arrays.asList(customRoles.trim().split("\\s*,\\s*"));
+                if(roles != null) {
+                    roles.addAll(customRolesList);
+                } else {
+                    roles = customRolesList;
+                }
+            }
+
             ModelAndView mav = new ModelAndView("login");
             mav.addObject("SAMLRequest", encodedSamlRequest);
             mav.addObject("realm", incomingRealm);
