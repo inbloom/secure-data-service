@@ -137,3 +137,9 @@ Then /^I should see following map of entry counts in the corresponding collectio
 
   assert(@result == "true", "Some records didn't load successfully.")
 end
+
+Then /^I will get an error message that "(.*?)"$/ do |message|
+  @explicitWait.until{@driver.find_element(:tag_name,"body")}
+  body = @driver.find_element(:tag_name, "body")
+  assert(body.text.include?(message), "Cannot find the text \"#{message}\"")
+end
