@@ -658,7 +658,7 @@ end
 # Super Admin Management Tools Tests begin
 ############################################################
 desc "Run Super Admin Management Tools Tests"
-task :userAdminTests do
+task :userAdminTests => [:importSandboxData] do
 #runTests("test/features/sandbox/UserAdmin/User_Admin_Interface.feature")
 runTests("test/features/admintools/SAMT_Account_Management_Interface.feature")
 end
