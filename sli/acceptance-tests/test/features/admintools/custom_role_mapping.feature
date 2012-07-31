@@ -17,6 +17,7 @@ When I click on the Reset Mapping button
 And I got a warning message saying "Are you sure you want to reset the mappings to factory defaults? This will remove any custom defined roles!"
 When I click 'OK' on the warning message
 Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
+
 @derp
 Scenario: Create new group
 When I click on the Add Group button
@@ -28,6 +29,7 @@ And I hit the save button
 Then the group "New Custom" contains the roles "Dummy"
 And the group "New Custom" contains the rights "Read General"
 
+@derp
 Scenario: Add role to existing group
 When I create a new role <Role> to the group <Group> that allows <User> to access the API
 | Group              | Role        | User      |
