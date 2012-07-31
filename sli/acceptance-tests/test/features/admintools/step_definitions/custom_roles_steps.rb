@@ -189,5 +189,6 @@ Then /^I am informed that "([^"]*)"$/ do |arg1|
 end
 
 When /^I click the cancel button$/ do
-  pending # express the regexp above with the code you wish you had
+  btn = @driver.find_element(:id, "rowEditToolCancelButton")
+  btn.click
 end
