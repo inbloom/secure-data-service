@@ -176,6 +176,12 @@ final class IndexingVisitor implements Visitor {
             attribute.accept(this);
             record(attribute.getId(), classType, whereUsed);
         }
+
+        if (classType.isAssociation()) {
+            record(classType.getLHS().getId(), classType, whereUsed);
+            record(classType.getRHS().getId(), classType, whereUsed);
+        }
+
         visitTaggedValues(classType, this);
     }
     

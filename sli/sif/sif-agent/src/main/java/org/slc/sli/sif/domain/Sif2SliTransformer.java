@@ -20,8 +20,7 @@ import openadk.library.datamodel.SEAInfo;
 import openadk.library.student.LEAInfo;
 import openadk.library.student.SchoolInfo;
 
-import org.codehaus.jackson.JsonNode;
-import org.slc.sli.sif.domain.slientity.EntityAdapter;
+import java.util.Map;
 
 /**
  * Transformer for mapping entities from SIF domain to SLI domain.
@@ -32,54 +31,18 @@ import org.slc.sli.sif.domain.slientity.EntityAdapter;
 public interface Sif2SliTransformer
 {
     /**
-     * Transform an SIF SchoolInfo into a EntityAdapter ready for api client operations.
-     *
-     * @param genericEntity
-     * @param entityType
-     * @return EntityAdapter
+     * Transform an SIF SchoolInfo into a the body of the corresponding SLI entity
      */
-    public EntityAdapter transform(SchoolInfo schoolInfo);
+    public Map<String, Object> transform(SchoolInfo schoolInfo);
 
     /**
-     * Transform an SIF LEAInfo into a EntityAdapter ready for api client operations.
-     *
-     * @param genericEntity
-     * @param entityType
-     * @return EntityAdapter
+     * Transform an SIF LEAInfo into a the body of the corresponding SLI entity
      */
-    public EntityAdapter transform(LEAInfo info);
+    public Map<String, Object>  transform(LEAInfo info);
 
     /**
-     * Transform an SIF SEAInfo into a EntityAdapter ready for api client operations.
-     *
-     * @param genericEntity
-     * @param entityType
-     * @return EntityAdapter
+     * Transform an SIF SEAInfo into a the body of the corresponding SLI entity
      */
-    public EntityAdapter transform(SEAInfo info);
-
-    /**
-     * Transform an SIF SchoolInfo into a corresponding SLI JsonNode ready for operations.
-     *
-     * @param SchoolInfo
-     * @return JsonNode
-     */
-    public JsonNode transform2json(SchoolInfo info);
-
-    /**
-     * Transform an SIF SchoolInfo into a corresponding SLI JsonNode ready for operations.
-     *
-     * @param SchoolInfo
-     * @return JsonNode
-     */
-    public JsonNode transform2json(LEAInfo leaInfo);
-
-    /**
-     * Transform an SIF SchoolInfo into a corresponding SLI JsonNode ready for operations.
-     *
-     * @param SchoolInfo
-     * @return JsonNode
-     */
-    public JsonNode transform2json(SEAInfo seaInfo);
+    public Map<String, Object>  transform(SEAInfo info);
 
 }

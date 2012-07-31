@@ -23,31 +23,45 @@ end
 Then /^I see the embedded highest ever test score is "(.*?)"$/ do |score|
   assert(@res != nil, "Response from rest-client GET is nil")
   assert(@res.body != nil, "Response body is nil")
-  aggs = JSON.parse(@res.body)["aggregates"]
-  assert(aggs[0]["value"] == score, "Aggregate values are #{@res.body}")
+  aggs = JSON.parse(@res.body)["calculatedValues"]
+  assert(aggs[0]["value"] == score, "Calculated values are #{@res.body}")
 end
 
-Then /^I navigate to a student with many aggregates$/ do
+Then /^I navigate to a student with many calculated values$/ do
     step "I navigate to GET \"/v1/students/2012xb-1b3369e7-d511-11e1-b0fd-0811960672a8\""
 end
 
-When /^I see (\d+) aggregates$/ do |n|
+When /^I see (\d+) calculated values$/ do |n|
   assert(@res != nil, "Response from rest-client GET is nil")
   assert(@res.body != nil, "Response body is nil")
   aggs = JSON.parse(@res.body)
-  assert(aggs.count == n.to_i, "found #{aggs.count} aggregates, expected #{n}")
+  assert(aggs.count == n.to_i, "found #{aggs.count} calculated values, expected #{n}")
 end
 
 When /^I navigate to that link and filter by "(.*?)"$/ do |params|
   restHttpGetAbs(@link + "?" + params)
 end
 
-When /^each aggregate's (.*?) is "(.*?)"$/ do |name, value|
+When /^each calculated value's (.*?) is "(.*?)"$/ do |name, value|
   assert(@res != nil, "Response from rest-client GET is nil")
   assert(@res.body != nil, "Response body is nil")
   aggs = JSON.parse(@res.body)
   for agg in aggs do
-          assert(agg[name] == value, "incorrect #{name} for aggregate #{agg}, expected #{value}")
+          assert(agg[name] == value, "incorrect #{name} for calculated value #{agg}, expected #{value}")
   end
 end
 
+
+Then /^I see the proficiency count for (.*?) is (\d+)$/ do |level, count|
+  assert(@res != nil, "Response from rest-client GET is nil")
+  assert(@res.body != nil, "Response body is nil")
+  aggs = JSON.parse(@res.body)
+  assert(aggs[0]["values"][level] == count, "Aggregate values are #{@res.body}")
+end
+
+Then /^I see the embedded proficiency count for (.*?) is (\d+)$/ do |level, count|
+  assert(@res != nil, "Response from rest-client GET is nil")
+  assert(@res.body != nil, "Response body is nil")
+  aggs = JSON.parse(@res.body)["aggregates"]
+  assert(aggs[0]["values"][level] == count, "Aggregate values are #{@res.body}")
+end

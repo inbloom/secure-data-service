@@ -24,6 +24,8 @@ import static org.mockito.Mockito.when;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.core.UriInfo;
 
@@ -61,8 +63,22 @@ public class ApiQueryTest {
     }
 
     @Test
-    public void testToString() {
-        assertTrue(new ApiQuery(null).toString() != null);
+    public void testToString() throws URISyntaxException {
+
+        String queryString = "selector=:(field1,link1:(*,field2:false))";
+        
+        //the selector gets parsed and stored in a map so there's no concept of ordering
+        List<String> equivalentStrings = new ArrayList<String>();
+        equivalentStrings.add("offset=0&limit=50&selector=:(field1,link1:(*,field2:false))");
+        equivalentStrings.add("offset=0&limit=50&selector=:(field1,link1:(field2:false,*))");
+        equivalentStrings.add("offset=0&limit=50&selector=:(link1:(*,field2:false),field1)");
+        equivalentStrings.add("offset=0&limit=50&selector=:(link1:(field2:false,*),field1)");
+        
+        URI requestUri = new URI(URI_STRING + "?" + queryString);
+        when(uriInfo.getRequestUri()).thenReturn(requestUri);
+        ApiQuery apiQuery = new ApiQuery(uriInfo);
+        
+        assertTrue(equivalentStrings.contains(apiQuery.toString()));
     }
 
     @Test

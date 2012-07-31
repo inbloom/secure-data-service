@@ -6,7 +6,7 @@
             "fieldPath": "body.schoolId",
             "ref":
             {
-                "collectionName": "educationOrganization",
+                "entityType": "educationOrganization",
                 "choiceOfFields":
                 [
                     [

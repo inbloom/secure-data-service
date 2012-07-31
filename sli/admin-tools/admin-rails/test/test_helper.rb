@@ -50,6 +50,7 @@ class ActiveSupport::TestCase
     @ed_org_fixtures = load_fixture("education_organization")
     @account_managements_fixtures=load_fixture("account_managements")
     @admin_delegations_fixtures = load_fixture("admin_delegations")
+    @user_fixtures = load_fixture("users")
 
     ActiveResource::HttpMock.respond_to do |mock|
       mock.get "/api/rest/admin/roles", {"Accept" => "application/json"}, [@role_fixtures["admin"], @role_fixtures["educator"]].to_json
@@ -96,6 +97,13 @@ class ActiveSupport::TestCase
 
       #change password
       mock.get "/api/rest/change_passwords", {"Accept"=>"application/json"}, [].to_json
+      
+      # users
+      mock.get "/api/rest/users",{"Accept"=>"application/json"}, [@user_fixtures['user1']].to_json
+      mock.delete "/api/rest/users/testuser@testwgen.net", {"Accept"=>"application/json"}, nil,200
+      mock.post "/api/rest/users", {"Content-Type"=>"application/json"}, @user_fixtures['new_user'].to_json,201
+      mock.put "/api/rest/users/testuser@testwgen.net", {"Content-Type"=>"application/json"}, @user_fixtures['update_user'].to_json,204
+      
     end
   end
 

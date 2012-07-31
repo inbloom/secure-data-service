@@ -102,9 +102,9 @@ public class MongoEntityTest {
         assessments.put("ACT", mathTest);
         aggregate.put("assessments", assessments);
         DBObject dbObject = new BasicDBObjectBuilder().add("_id", "42").add("body", body)
-                .add("aggregations", aggregate).get();
-        AggregateData data = MongoEntity.fromDBObject(dbObject).getAggregates();
-        assertEquals(Arrays.asList(new AggregateDatum("assessments", "HighestEver", "ACT", "ScaleScore", "28.0")), data.getAggregates());
+                .add("calculatedValues", aggregate).get();
+        CalculatedData data = MongoEntity.fromDBObject(dbObject).getCalculatedValues();
+        assertEquals(Arrays.asList(new CalculatedDatum("assessments", "HighestEver", "ACT", "ScaleScore", "28.0")), data.getCalculatedValues());
     }
 
 }

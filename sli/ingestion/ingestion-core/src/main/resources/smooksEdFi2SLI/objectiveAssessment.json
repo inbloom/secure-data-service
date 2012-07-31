@@ -6,7 +6,7 @@
     "references" : [{
         "fieldPath" : "body.learningObjectives",
         "ref" : {
-            "collectionName" : "learningObjective",
+            "entityType" : "learningObjective",
             "isRefList" : true,
             "refObjectPath" : "body.learningObjectives",
             "optional" : true,

@@ -22,7 +22,7 @@ Given I am a valid IT Administrator "administrator" from the "SLI" hosted direct
 When I hit the Application Registration Tool URL
 And I was redirected to the "Simple" IDP Login page
 And I submit the credentials "administrator" "administrator1234" for the "Simple" login page
-Then the api should generate a 500 error
+Then I will get an error message that "you don't have access to this page"
 
 Scenario: Register a new application
 

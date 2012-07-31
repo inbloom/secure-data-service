@@ -6,7 +6,7 @@
                     "fieldPath" : "body.grades",
                     "ref" :
                     {
-                        "collectionName" : "grade",
+                        "entityType" : "grade",
                         "isRefList" : true,
                         "refObjectPath" : "body.grades",
                         "choiceOfFields" :
@@ -27,7 +27,7 @@
                     "fieldPath" : "body.studentId",
                     "ref" :
                     {
-                        "collectionName" : "student",
+                        "entityType" : "student",
                         "choiceOfFields" :
                                 [
                                     [
@@ -46,7 +46,7 @@
                     "fieldPath" : "body.studentCompetencyReference",
                     "ref" :
                     {
-                        "collectionName" : "studentCompetency",
+                        "entityType" : "studentCompetency",
                         "isRefList" : true,
                         "refObjectPath" : "body.studentCompetencyReference",
                         "choiceOfFields" :

@@ -51,6 +51,9 @@ import org.slc.sli.ingestion.cache.CacheProvider;
 import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.ingestion.validation.ProxyErrorReport;
+import org.slc.sli.validation.SchemaRepository;
+import org.slc.sli.validation.schema.NeutralSchema;
+import org.slc.sli.validation.schema.AppInfo;
 
 /**
  * Internal ID resolver.
@@ -79,6 +82,9 @@ public class IdNormalizer {
     @Autowired
     private EntityConfigFactory entityConfigurations;
 
+    @Autowired
+    private SchemaRepository schemaRepository;
+
     public void resolveInternalIds(Entity entity, String tenantId, EntityConfig entityConfig, ErrorReport errorReport) {
 
         if (entityConfig == null) {
@@ -93,13 +99,19 @@ public class IdNormalizer {
         }
 
         String resolvedReferences = "";
-        String collectionName = null;
+        String collectionName = "";
 
         try {
             for (RefDef reference : entityConfig.getReferences()) {
 
                 int numRefInstances = getNumRefInstances(entity, reference.getRef());
-                collectionName = reference.getRef().getCollectionName();
+                NeutralSchema schema = schemaRepository.getSchema(reference.getRef().getEntityType());
+                if (schema != null) {
+                    AppInfo appInfo = schema.getAppInfo();
+                    if (appInfo != null) {
+                        collectionName = appInfo.getCollectionType();
+                    }
+                }
 
                 resolvedReferences += "       collectionName = " + collectionName;
 
@@ -253,8 +265,17 @@ public class IdNormalizer {
 
         if (ids.size() == 0) {
 
+            String collectionName = "";
+            NeutralSchema schema = schemaRepository.getSchema(refConfig.getEntityType());
+            if (schema != null) {
+                AppInfo appInfo = schema.getAppInfo();
+                if (appInfo != null) {
+                    collectionName = appInfo.getCollectionType();
+                }
+            }
+
             String errorMessage = "ERROR: Failed to resolve a reference" + "\n" + "       Entity " + entity.getType()
-                    + ": Reference to " + refConfig.getCollectionName() + " unresolved" + "\n";
+                    + ": Reference to " + collectionName + " unresolved" + "\n";
 
             if (resolvedReferences != null && !resolvedReferences.equals("")) {
                 errorMessage += "     The failure can be identified with the following reference information: " + "\n"
@@ -301,7 +322,14 @@ public class IdNormalizer {
         ProxyErrorReport proxyErrorReport = new ProxyErrorReport(errorReport);
 
         ArrayList<Query> queryOrList = new ArrayList<Query>();
-        String collection = refConfig.getCollectionName();
+        String collection = "";
+        NeutralSchema schema = schemaRepository.getSchema(refConfig.getEntityType());
+        if (schema != null) {
+            AppInfo appInfo = schema.getAppInfo();
+            if (appInfo != null) {
+                collection = appInfo.getCollectionType();
+            }
+        }
 
         try {
             // if the reference is a list of references loop over all elements adding an 'or' query
@@ -435,13 +463,6 @@ public class IdNormalizer {
         // combine the queries with or (must be done this way because Query.or overrides itself)
         Query filter = new Query();
         filter.or(queryOrList.toArray(new Query[queryOrList.size()]));
-
-        if (collection.equals("stateEducationAgency") || collection.equals("localEducationAgency")
-                || collection.equals("school")) {
-            collection = "educationOrganization";
-        } else if (collection.equals("teacher")) {
-            collection = "staff";
-        }
 
         List<String> ids = checkInCache(collection, tenantId, filter);
 

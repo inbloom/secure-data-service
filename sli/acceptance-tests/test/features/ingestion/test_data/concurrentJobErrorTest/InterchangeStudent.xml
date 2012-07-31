@@ -1,0 +1,297 @@
+<?xml version="1.0"?>
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentParent.xsd">
+
+  	<!--  Rebecca Braverman's 1st graders -->
+    <Student>
+        <StudentUniqueStateId>110000000</StudentUniqueStateId>
+        <Name>
+            <FirstName>Rhonda</FirstName>
+            <MiddleName>Shannon</MiddleName>
+            <LastSurname>Delgado</LastSurname>
+            <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2005-07-02</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>3655 Brighton 2nd Lane</StreetNumberName>
+            <ApartmentRoomSuiteNumber>APT 4221</ApartmentRoomSuiteNumber>
+            <BuildingSiteNumber>351</BuildingSiteNumber>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60908-1028</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Address AddressType="Work">
+            <StreetNumberName>9857 Kingsborough 2nd Walk</StreetNumberName>
+            <City>Seattle</City>
+            <StateAbbreviation>WA</StateAbbreviation>
+            <PostalCode>98115</PostalCode>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <ElectronicMail EmailAddressType="Other">
+            <EmailAddress>Bennie.C@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail EmailAddressType="Organization">
+            <EmailAddress>B.Cimmino@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail EmailAddressType="Home/Personal">
+            <EmailAddress>Bennie.Cimmino@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+	<Student>
+    <StudentUniqueStateId>42</StudentUniqueStateId>
+    <Name>
+      <FirstName>River</FirstName>
+      <LastSurname>Tam</LastSurname>
+    </Name>
+    <Sex>Female</Sex>
+    <BirthData>
+      <BirthDate>2006-07-02</BirthDate>
+    </BirthData>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race/>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Section504Disabilities/>
+  </Student>
+  
+  <Student>
+        <StudentUniqueStateId>100000003</StudentUniqueStateId>
+        <Name>
+            <FirstName>Bennie</FirstName>
+            <LastSurname>Cimmino</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <BirthData>
+            <BirthDate>2005-07-02</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>3655 Brighton 2nd Lane</StreetNumberName>
+            <ApartmentRoomSuiteNumber>APT 4221</ApartmentRoomSuiteNumber>
+            <BuildingSiteNumber>351</BuildingSiteNumber>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60908-1028</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            
+        </Address>
+        <Address AddressType="Work">
+            <StreetNumberName>9857 Kingsborough 2nd Walk</StreetNumberName>
+            <City>Toronto</City>
+            <StateAbbreviation>WA</StateAbbreviation>
+            <PostalCode>60908-1028</PostalCode>
+        </Address>
+        <ElectronicMail EmailAddressType="Other">
+            <EmailAddress>Bennie.C@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail EmailAddressType="Organization">
+            <EmailAddress>B.Cimmino@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail EmailAddressType="Home/Personal">
+            <EmailAddress>Bennie.Cimmino@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+	
+  	<Parent>
+      <ParentUniqueStateId>0427588721</ParentUniqueStateId>
+      <Name>
+         <FirstName>Karen</FirstName>
+         <MiddleName>T.</MiddleName>
+         <LastSurname>Smith</LastSurname>
+      </Name>
+      <Sex>Female</Sex>
+      <Telephone TelephoneNumberType="Home">
+         <TelephoneNumber>4024353610</TelephoneNumber>
+      </Telephone>
+      <ElectronicMail EmailAddressType="Home/Personal">
+         <EmailAddress>Karen.Smith@sli-parents.org</EmailAddress>
+      </ElectronicMail>
+   </Parent>
+   <Parent>
+      <ParentUniqueStateId>3152281864</ParentUniqueStateId>
+      <Name>
+         <FirstName>Robert</FirstName>
+         <MiddleName>A.</MiddleName>
+         <LastSurname>Wilson</LastSurname>
+      </Name>
+      <Sex>Male</Sex>
+      <Telephone TelephoneNumberType="Home">
+         <TelephoneNumber>2013087781</TelephoneNumber>
+      </Telephone>
+      <ElectronicMail EmailAddressType="Home/Personal">
+         <EmailAddress>Robert.Wilson@sli-parents.org</EmailAddress>
+      </ElectronicMail>
+   </Parent>
+   <Parent>
+      <ParentUniqueStateId>2521899635</ParentUniqueStateId>
+      <Name>
+         <FirstName>Mary</FirstName>
+         <MiddleName>N.</MiddleName>
+         <LastSurname>Smith</LastSurname>
+      </Name>
+      <Sex>Female</Sex>
+      <Telephone TelephoneNumberType="Home">
+         <TelephoneNumber>1247178809</TelephoneNumber>
+      </Telephone>
+      <ElectronicMail EmailAddressType="Home/Personal">
+         <EmailAddress>Mary.Smith@sli-parents.org</EmailAddress>
+      </ElectronicMail>
+   </Parent>
+
+    <Parent>
+        <ParentUniqueStateId>9870036500</ParentUniqueStateId>
+        <Name>
+            <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+            <FirstName>Richard</FirstName>
+            <LastSurname>Lê</LastSurname>
+        </Name>
+        <Sex>Male</Sex>
+        <Address>
+            <StreetNumberName>23 Rue Lecourbe</StreetNumberName>
+            <City>Paris</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>75229</PostalCode>
+            <NameOfCounty>France</NameOfCounty>
+        </Address>
+        <Telephone>
+            <TelephoneNumber>+33 (1) 45.23.35.48.12</TelephoneNumber>
+        </Telephone>
+    </Parent>
+
+
+    <Parent>
+        <ParentUniqueStateId>6473283635</ParentUniqueStateId>
+        <Name>
+            <PersonalTitlePrefix>Dr</PersonalTitlePrefix>
+            <FirstName>Ti</FirstName>
+            <LastSurname>Troung</LastSurname>
+        </Name>
+        <Sex>Female</Sex>
+        <Address>
+            <StreetNumberName>34 Northshore Ave</StreetNumberName>
+            <ApartmentRoomSuiteNumber>Apt 9B</ApartmentRoomSuiteNumber>
+            <City>Daybreak</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>75229</PostalCode>
+        </Address>
+		<Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>3095550000</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Other">
+            <TelephoneNumber>3095555341</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Home/Personal">
+            <EmailAddress>ti.troung@gmail.com</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail EmailAddressType="Work">
+            <EmailAddress>ti.troung@unicef.org</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail>
+            <EmailAddress>ti.troung@yahoo.com</EmailAddress>
+        </ElectronicMail>
+ 
+    </Parent>
+
+
+   <StudentParentAssociation>
+      <StudentReference>
+         <StudentIdentity>
+            <StudentUniqueStateId>000000001</StudentUniqueStateId>
+         </StudentIdentity>
+      </StudentReference>
+      <ParentReference>
+         <ParentIdentity>
+            <ParentUniqueStateId>3152281864</ParentUniqueStateId>
+         </ParentIdentity>
+      </ParentReference>
+      <Relation>Mother</Relation>
+      <LivesWith>true</LivesWith>
+      <PrimaryContactStatus>true</PrimaryContactStatus>
+      <EmergencyContactStatus>true</EmergencyContactStatus>
+      <ContactPriority>0</ContactPriority>
+   </StudentParentAssociation>
+   <StudentParentAssociation>
+      <StudentReference>
+         <StudentIdentity>
+            <StudentUniqueStateId>100000002</StudentUniqueStateId>
+         </StudentIdentity>
+      </StudentReference>
+      <ParentReference>
+         <ParentIdentity>
+            <ParentUniqueStateId>2521899635</ParentUniqueStateId>
+         </ParentIdentity>
+      </ParentReference>
+      <Relation>Mother</Relation>
+      <LivesWith>true</LivesWith>
+      <PrimaryContactStatus>false</PrimaryContactStatus>
+      <EmergencyContactStatus>true</EmergencyContactStatus>
+      <ContactPriority>1</ContactPriority>
+   </StudentParentAssociation>
+
+   <StudentParentAssociation>
+      <StudentReference>
+         <StudentIdentity>
+            <StudentUniqueStateId>100000000</StudentUniqueStateId>
+         </StudentIdentity>
+      </StudentReference>
+      <ParentReference>
+         <ParentIdentity>
+            <ParentUniqueStateId>0427588721</ParentUniqueStateId>
+         </ParentIdentity>
+      </ParentReference>
+      <Relation>Mother</Relation>
+      <LivesWith>true</LivesWith>
+      <PrimaryContactStatus>false</PrimaryContactStatus>
+      <EmergencyContactStatus>true</EmergencyContactStatus>
+      <ContactPriority>1</ContactPriority>
+   </StudentParentAssociation>
+
+
+    <StudentParentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ParentReference>
+            <ParentIdentity>
+                <ParentUniqueStateId>6473283635</ParentUniqueStateId>
+            </ParentIdentity>
+        </ParentReference>
+        <Relation>Mother</Relation>
+        <LivesWith>true</LivesWith>
+        <EmergencyContactStatus>true</EmergencyContactStatus>
+        <ContactPriority>1</ContactPriority>
+    </StudentParentAssociation>
+    <StudentParentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>100000017</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ParentReference>
+            <ParentIdentity>
+                <ParentUniqueStateId>9870036500</ParentUniqueStateId>
+            </ParentIdentity>
+        </ParentReference>
+        <Relation>Father</Relation>
+        <LivesWith>false</LivesWith>
+        <EmergencyContactStatus>false</EmergencyContactStatus>
+        <ContactRestrictions>NO CONTACT ALLOWED</ContactRestrictions>
+    </StudentParentAssociation>
+</InterchangeStudentParent>
