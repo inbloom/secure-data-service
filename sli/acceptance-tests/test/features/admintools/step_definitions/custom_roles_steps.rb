@@ -71,9 +71,11 @@ Then /^a new group is created titled "([^"]*)"$/ do |title|
   @driver.find_element(:xpath, "//td[text()='#{title}']")
 end
 
-Then /^the group "([^"]*)" contains the (roles "[^"]*")$/ do |title, arg2|
+Then /^the group "([^"]*)" contains the (roles "[^"]*")$/ do |title, roles|
+  foo = @driver.find_element(:xpath, "//div[text()='New Custom']")
   group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
-  arg2.each do |role|
+  puts("The group is #{group.text}")
+  roles.each do |role|
     group.find_elements(:xpath, "//span[text()='#{role}']")
   end
 end
@@ -97,6 +99,7 @@ When /^I add the right "([^"]*)" to the group "([^"]*)"$/ do |right, group|
   select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, "addRightSelect"))
   puts("The select is #{@driver.find_element(:id, "addRightSelect").text}")
   select.select_by(:text, right)
+  @driver.find_element(:id, "addRightButton").click
 end
 
 When /^I add the role "([^"]*)" to the group "([^"]*)"$/ do |arg1, arg2|
