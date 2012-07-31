@@ -41,7 +41,7 @@ public class HighestEver extends Configured implements Tool {
 
         Configuration conf = getConf();
         conf.set(ScoreMapper.SCORE_TYPE, "Scale score");
-        conf.set(MongoAggFormatter.UPDATE_FIELD, "aggregations.assessments." + assmtIDCode + ".HighestEver.ScaleScore");
+        conf.set(MongoAggFormatter.UPDATE_FIELD, "calculatedValues.assessments." + assmtIDCode + ".HighestEver.ScaleScore");
 
         MongoConfigUtil.setInputURI(conf, input);
         MongoConfigUtil.setCreateInputSplits(conf,  true);

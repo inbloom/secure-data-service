@@ -37,6 +37,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.slc.sli.api.selectors.LogicalEntity;
+import org.slc.sli.api.selectors.doc.Constraint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
@@ -102,6 +104,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
+
+    @Autowired
+    private LogicalEntity logicalEntity;
 
     /**
      * Encapsulates each ReST method's logic to allow for less duplication of precondition and
@@ -187,7 +192,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 neutralQuery.addCriteria(new NeutralCriteria(key, "in", valueList));
                 neutralQuery = addTypeCriteria(entityDef, neutralQuery);
 
-                // a new list to store results
+                    // a new list to store results
                 List<EntityBody> results = new ArrayList<EntityBody>();
 
                 // list all entities matching query parameters and iterate over results
@@ -215,6 +220,14 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 }
             }
         });
+    }
+
+    private Map<String, Object> getSelector(final NeutralQuery neutralQuery) {
+        if (neutralQuery instanceof ApiQuery) {
+            return ((ApiQuery) neutralQuery).getSelector();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -379,19 +392,19 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 neutralQuery.setOffset(0);
 
                 // final/resulting information
-                List<EntityBody> finalResults = new ArrayList<EntityBody>();
+                List<EntityBody> finalResults;
+                final Map<String, Object> selector = getSelector(neutralQuery);
 
-                Iterable<EntityBody> entities;
-                if (idLength == 1) {
-                    entities = Arrays.asList(new EntityBody[] { entityDef.getService().get(idList, neutralQuery) });
+                if (selector != null) {
+                    finalResults = logicalEntity.createEntities(selector, new Constraint("_id", idList), resourceName);
                 } else {
-
-                    // System.out.println("Running list operation");
-
-                    entities = entityDef.getService().list(neutralQuery);
+                    finalResults = new ArrayList<EntityBody>();
+                    for (EntityBody entityBody : entityDef.getService().list(neutralQuery)) {
+                        finalResults.add(entityBody);
+                    }
                 }
 
-                for (EntityBody result : entities) {
+                for (EntityBody result : finalResults) {
                     if (result != null) {
                         result.put(ResourceConstants.LINKS,
                                 ResourceUtil.getLinks(entityDefs, entityDef, result, uriInfo));
@@ -402,7 +415,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                         // add the computedValues if they were requested
                         addComputedValues(result, entityDef, uriInfo);
                     }
-                    finalResults.add(result);
                 }
 
                 finalResults = appendOptionalFields(uriInfo, finalResults, DefaultCrudEndpoint.this.resourceName);
@@ -678,7 +690,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     @Override
     public AggregateListingResource getAggregates(@PathParam("id") String id) {
         EntityService service = entityDefs.lookupByResourceName(resourceName).getService();
-        CalculatedData data = service.getAggregateData(id);
+        CalculatedData data = service.getCalculatedValues(id);
         return new AggregateListingResource(data);
     }
 
@@ -727,9 +739,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         boolean includeAggregates = "true".equals(includeComputed);
         if (includeAggregates) {
             String entityId = (String) entityBody.get("id");
-            CalculatedData aggs = entityDef.getService().getAggregateData(entityId);
+            CalculatedData aggs = entityDef.getService().getCalculatedValues(entityId);
             if (aggs != null) {
-                entityBody.put(ResourceConstants.CALCULATED_VALUE_TYPE, aggs.getAggregates());
+                entityBody.put(ResourceConstants.CALCULATED_VALUE_TYPE, aggs.getCalculatedValues());
             }
         }
     }

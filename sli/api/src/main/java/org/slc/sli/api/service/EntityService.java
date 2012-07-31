@@ -189,6 +189,6 @@ public interface EntityService {
      * @param id the id of the entity to get aggregate information for
      * @return the map of aggregates
      */
-    public CalculatedData getAggregateData(String id);
+    public CalculatedData getCalculatedValues(String id);
 
 }

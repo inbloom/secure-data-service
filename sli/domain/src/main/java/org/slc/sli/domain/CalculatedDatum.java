@@ -63,8 +63,8 @@ public class CalculatedDatum implements Serializable {
 
     @Override
     public String toString() {
-        return "AggregateDatum [type=" + type + ", window=" + window + ", name=" + name + ", methodology="
-                + method + ", value=" + value + "]";
+        return "CalculatedDatum [type=" + type + ", window=" + window + ", name=" + name + ", methodology=" + method
+                + ", value=" + value + "]";
     }
 
     @Override
