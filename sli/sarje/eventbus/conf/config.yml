@@ -13,4 +13,24 @@ listener:
     mongo_poll_interval: 20
 
     amq_host: 
-    amq_port: 
+    amq_port:
+     
+agent:
+    mongo_host: localhost
+    mongo_port: 27017
+    mongo_db: local
+    mongo_oplog_collection: oplog.rs
+
+    # in seconds
+    mongo_connection_retry: 5
+
+    mongo_ignore_initial_read: true
+
+    # in seconds
+    throttle_polling_period: 5
+
+    start_heartbeat: true
+    start_node_detector: false
+
+    publish_queue_name: /queue/listener
+    subscribe_queue_name: /topic/agent
