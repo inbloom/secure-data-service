@@ -196,27 +196,24 @@ And the "delete" button is disabled
     |slcoperator          |slcoperator1234          |SLC Operator                  |SLC Operator        |
 
 
-#Scenario: As a LEA Administrator I can edit limited fields on my  account
-#Given I have a account as a "LEA Administrator"
-#And I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
-#Then I am redirected to "Admin Account Management" page 
-#
-#When I hover over a row has my name
-#Then I am shown the option to "Edit" user
-#
-#When I click on "Edit" link
-#Then I am redirected to "Add a User" form
-#And the title is "Edit a User"
-#And I can update email address
-#And I can update the Fullname 
-#And I cannot update any other field 
-#
-#When I click "Save"
-#Then I am redirected to the "User Account Management" Page
-#And a "Success" message is displayed 
-#And the updated information is displayed in the table
-#
-#When I click "Cancel"
-#Then I am redirected to the "User Account Management" Page
-#And no changes are shown in the table
-#
+@wip
+Scenario: As a LEA Administrator I can edit limited fields on my  account
+Given I have a account as a "LEA Administrator"
+When I navigate to the User Management Page 
+And I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
+Then I am redirected to "Admin Account Management" page which has a table of all accounts for my tenancy
+
+When I click the "edit" link for "Sunset Admin"
+Then I am redirected to "Update a User" page
+And I can update email address
+And I can update the Fullname 
+And I cannot update any other field 
+
+When I click "Save"
+Then I am redirected to the "Admin Account Management" Page
+And a "Success" message is displayed 
+And the updated information is displayed in the table
+
+When I click "Cancel"
+Then I am redirected to the "Admin Account Management" Page
+And no changes are shown in the table
