@@ -33,7 +33,6 @@ And I can update the "Email" field to "prodtestuser@testwgen.net"
 And I can select "SEA Administrator" from a choice between "SLC Operator, SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
 And I can also check "Realm Administrator" Role 
 And I can update the "Tenant" field to "IL1212"
-And I can update the "Tenant" field to "IL1212"
 And I can update the "EdOrg" field to "IL-DAYBREAK"
 
 When I click button "Save"
@@ -70,12 +69,10 @@ And There is no textbox for "Tenant"
 Then I can update the "Full Name" field to "Superadmin AcceptanceTest"
 And I can update the "Email" field to "prodtestuser@testwgen.net"
 And I can select "SEA Administrator" from a choice between "SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
-And I do not see "SLC Operator" Role
 And I can also check "Realm Administrator" Role 
 And I can also check "Ingestion User" Role 
 
 Then I can select "LEA Administrator" from a choice between "SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
-#TODO
 And I can change the EdOrg dropdown to "IL-DAYBREAK"
 
 When I click button "Save"
@@ -92,24 +89,24 @@ Scenario: As a LEA Admin I can only create certain roles
 Given I have a valid account as a LEA Administrator
 Given the prod testing user does not already exists in LDAP
 When I navigate to the User Management Page 
-And I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
+And I submit the credentials "daybreaknorealmadmin" "daybreaknorealmadmin1234" for the "Simple" login page
 Then I am redirected to "Admin Account Management" page 
 Then I click on "Add User" button
 And I am redirected to "Add a User" page
+
 Then I can update the "Full Name" field to "Superadmin AcceptanceTest"
 And I can update the "Email" field to "prodtestuser@testwgen.net"
 #Then the only options in the "Role" drop-down are "LEA Administrator", "Ingestion User", "Realm Administrator"
-Then I can select "LEA Administrator" from a choice between "LEA Administrator, Ingestion User, Realm Administrator" Role
+Then I can select "Ingestion User" from a choice between "LEA Administrator, Ingestion User, Realm Administrator" Role
 And I can also check "Realm Administrator" Role 
 And I can also check "Ingestion User" Role 
-#TODO
-#And I enter an EdOrg as "IL-DAYBREAK"
+And I can change the EdOrg dropdown to "IL-DAYBREAK"
 
 When I click button "Save"
 Then I am redirected to "Admin Account Management" page 
 And a "Success" message is displayed 
-And the new user has Roles as "LEA Administrator, Realm Administrator, Ingestion User"
-And the new user has the same "Tenant" field as "Sunset Admin" has
+And the new user has Roles as "Realm Administrator, Ingestion User"
+And the new user has the same "Tenant" field as "DaybreakNoRealmAdmin Test" has
 #And an email to verify user email address is sent
 
 Scenario Outline: As a SLC Operator I can cancel editing an account
@@ -130,6 +127,7 @@ Then I am redirected to "Admin Account Management" page
     Examples:
     |USER_FULL_NAME              |USER_ROLE           |USER_EMAIL                      |USER_ADDITIONAL_ROLES   |NEW_NAME       |NEW_EMAIL      |
     |Prod EditAdmin_hostname     |SEA Administrator   |hostname_prodtestuser@wgen.net  |Realm Administrator     |Some Random    |random@1.net   |
+
 
 Scenario Outline: As a SLC Operator I can edit an account
 Given There is a user with "<USER_FULL_NAME>", "<USER_ROLE>", "<USER_ADDITIONAL_ROLES>", and "<USER_EMAIL>" in LDAP Server

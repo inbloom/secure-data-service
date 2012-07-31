@@ -315,6 +315,9 @@ Then /^I can select "(.*?)" from a choice between "(.*?)" Role$/ do |role, choic
         option = drop_down.find_element(:xpath, ".//option[text()=\"#{i}\"]")
         assert(option != nil)
     end
+
+    options = drop_down.find_elements(:xpath, ".//option")
+    assert(options.size == choices.split(",").size, "Only has #{options.size} choices, but requirement has #{choices.split(",").size} chioces") 
    
     select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, "user_primary_role"))
     select.select_by(:text, role)
