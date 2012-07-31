@@ -6,7 +6,7 @@
             "fieldPath" : "body.studentId",
             "ref" :
             {
-                "collectionName" : "student",
+                "entityType" : "student",
                 "choiceOfFields" :
                 [
                     [
@@ -25,7 +25,7 @@
             "fieldPath" : "body.sessionId",
             "ref" :
             {
-                "collectionName" : "session",
+                "entityType" : "session",
                 "choiceOfFields" :
                 [
                     [

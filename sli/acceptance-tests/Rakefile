@@ -276,15 +276,17 @@ def swap_app_ids()
   to_swap.each do |app|
     puts "Swapping IDs for #{app['app_name']}"
     app_ent = apps.find_one({"body.name" => app['app_name']})
-    app_id = app_ent['_id']
-    update_count = 0
-    app_auths.find("body.appIds" =>  app['placeholder']).each do |row|
-      app_ids = row['body']['appIds']
-      app_ids[app_ids.index(app['placeholder'])] = app_id
-      app_auths.update({"_id" => row["_id"]}, {"$set" => {"body.appIds" => app_ids}})
-      update_count = update_count + 1
+    if app_ent
+      app_id = app_ent['_id']
+      update_count = 0
+      app_auths.find("body.appIds" =>  app['placeholder']).each do |row|
+        app_ids = row['body']['appIds']
+        app_ids[app_ids.index(app['placeholder'])] = app_id
+        app_auths.update({"_id" => row["_id"]}, {"$set" => {"body.appIds" => app_ids}})
+        update_count = update_count + 1
+      end
+      puts "\tUpdate #{update_count} entries"
     end
-    puts "\tUpdate #{update_count} entries"
   end
 end
 
@@ -527,7 +529,8 @@ task :dashboardTests => [:dashboardPopWidgetTests,
                          :dashboardStudentContactInfoLiveTests,
                          :dashboardStudentGradebookEntryTests,
                          :dashboardHTMLEscapeTests,
-						 :dashboardQunitTests] do
+                         :dashboardTeacherProfileTests,
+                         :dashboardQunitTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"

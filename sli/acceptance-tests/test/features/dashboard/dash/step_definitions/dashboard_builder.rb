@@ -5,7 +5,7 @@ end
 
 When /^I click on "(.*?)" Profile Builder$/ do |profileName|
   name = "SLC - " + profileName + " Profile"
-  profile_list = @driver.find_element(:class, "profile_list").find_element(:link_text, name)
+  profile_list = @explicitWait.until{@driver.find_element(:class, "profile_list").find_element(:link_text, name)}
   profile_list.click
   
   @explicitWait.until{@driver.find_element(:class,"profilePageWrapper").text.downcase.include? profileName.downcase}

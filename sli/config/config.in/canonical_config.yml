@@ -263,6 +263,9 @@ default:
         bootstrap.app.portal.description: The SLC Portal application is the primary access portal.
         bootstrap.app.portal.version: 0.0
         bootstrap.app.portal.template: applications/portal.json
+        bootstrap.app.portal.url: http://local.slidev.org:7000/portal
+        bootstrap.app.portal.client_id: lY83c5HmTPX
+        bootstrap.app.portal.client_secret: ghjZfyAXi7qwejklcxziuohiueqjknfdsip9cxzhiu13mnsX
         bootstrap.app.portal.authorized_for_all_edorgs: true
         bootstrap.app.portal.allowed_for_all_edorgs: true
         bootstrap.app.sif.name: SIF Agent
@@ -1170,7 +1173,9 @@ team:
         bootstrap.app.sif.authorized_for_all_edorgs: true
         bootstrap.app.sif.allowed_for_all_edorgs: true
 
-
+        bootstrap.app.portal.url: http://local.slidev.org:7000/portal
+        bootstrap.app.portal.client_id: lY83c5HmTPX
+        bootstrap.app.portal.client_secret: ghjZfyAXi7qwejklcxziuohiueqjknfdsip9cxzhiu13mnsX
 
     misc: &MISC-TEAM
         <<: *MISC-DEFAULT

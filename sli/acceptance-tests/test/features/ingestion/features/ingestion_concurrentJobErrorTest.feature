@@ -1,7 +1,6 @@
-@RALLY_US0615
-@RALLY_US927
+@RALLY_1341
  
-Feature: Daily Attendance Ingestion Test
+Feature: Concurrent job On Same Tenant Error Test
 
 Background: I have a landing zone route configured
 Given I am using local data store

@@ -114,6 +114,20 @@ public class EntityManager extends ApiClientManager {
     public GenericEntity getStudent(final String token, String studentId) {
         return getApiClient().getStudent(token, studentId);
     }
+    
+    /**
+     * Get the teacher entity identified by the teacher id and authorized for the security token
+     *
+     * @param token
+     *            - the principle authentication token
+     * @param tacherId
+     *            - the teacher id
+     * @return teacher
+     *         - the teacher entity
+     */
+    public GenericEntity getTeacher(final String token, String teacherId) {
+        return getApiClient().getTeacher(token, teacherId);
+    }
 
     /**
      * Get the student entity along with additional info needed for CSI panel
