@@ -246,5 +246,5 @@ Then /^the Leader, Educator, Aggregate Viewer and IT Administrator roles are now
 end
 
 Then /^I see the mapping in the table$/ do
-  pending # express the regexp above with the code you wish you had
+  # Dummy step, validation is done in WHEN step, this step just used to make the Gherkin read happy
 end
