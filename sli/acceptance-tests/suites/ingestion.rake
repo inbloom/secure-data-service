@@ -164,6 +164,11 @@ task :ingestionHealthCheckTest do
   runTests("test/features/ingestion/features/ingestion_healthCheck.feature")
 end
 
+desc "Run Ingestion Concurrent Jon Error Message Testing"
+task :ingestionConcurrentJobErrorTest do
+  runTests("test/features/ingestion/features/ingestion_concurrentJobErrorTest.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################

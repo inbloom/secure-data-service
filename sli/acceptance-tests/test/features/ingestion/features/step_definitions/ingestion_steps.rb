@@ -501,6 +501,56 @@ def processZipWithFolder(file_name)
   return file_name
 end
 
+Then /^I post "(.*?)" control file for concurent processing$/ do |file_name|
+   copyFilesInDir file_name
+end
+
+
+def copyFilesInDir(file_name)
+
+  path_name = file_name[0..-5]
+  puts "path_name = " + path_name
+
+  file_name = file_name.split('/')[-1] if file_name.include? '/'
+  puts "file_name = " + file_name
+
+  @source_path = @local_file_store_path + path_name + "/" + file_name
+  @destination_path = @landing_zone_path + file_name
+
+  assert(@destination_path != nil, "Destination path was nil")
+  assert(@source_path != nil, "Source path was nil")
+
+  FileUtils.cp @source_path, @destination_path
+
+  src_dir = @local_file_store_path + path_name + "/"
+
+  # copy files specified by each line in the ctl file, to landing zone
+  File.open(src_dir + file_name, "r") do |ctl_file|
+    ctl_file.each_line do |line|
+      if line.chomp.length == 0
+      next
+      end
+      entries = line.chomp.split ","
+      if entries.length < 3
+        puts "DEBUG:  less than 3 elements on the control file line.  Passing it through untouched: " + line
+      next
+      end
+      payload_file = entries[2]
+      puts "controlFileEntry: " + payload_file
+      FileUtils.cp src_dir+"/"+payload_file , @landing_zone_path
+
+      if payload_file == "MissingXmlFile.xml"
+        puts "DEBUG: An xml file in control file is missing .."
+        next
+      end
+    end
+  end
+
+end
+
+
+
+
 
 Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_name|
  @source_file_name = processPayloadFile file_name
@@ -1393,6 +1443,11 @@ Then /^I should see "([^"]*)" in the resulting batch job file for "([^"]*)"$/ do
   file = @file_lz_map[lz_key]
   prefix = "job-" + file + "-"
   parallelCheckForContentInFileGivenPrefix(message, prefix, lz)
+end
+
+Then /^I should see "(.*?)" in the resulting error log file for "([^"]*)"$/ do |message, load_file|
+    prefix = "error."+load_file
+    checkForContentInFileGivenPrefix(message, prefix)
 end
 
 Then /^I should see "([^"]*)" in the resulting error log file$/ do |message|
