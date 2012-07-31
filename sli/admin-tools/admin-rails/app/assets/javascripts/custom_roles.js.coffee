@@ -212,6 +212,7 @@ saveData = (json) ->
       $("#rowEditToolSaveButton").removeAttr('disabled')
       $(".editButtons").show()
       $(".saveButtons").hide()
+      window.location.reload(true);
     error: (data, status, xhr) ->
       console.log("error", data, status, xhr)
       window.location.reload(true);
