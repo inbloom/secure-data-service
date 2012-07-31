@@ -106,6 +106,34 @@ describe Stamper::StudentStamper do
       teachers.size.should eql 1
       teachers.should include @staff
     end
+    it "should find teachers through a valid cohort" do
+      @db['studentCohortAssociation'].insert({"body"=> {"studentId" => @student, "cohortId" => @cohort}, "metaData" => {"tenantId" => "test"}})
+      @db['teacherCohortAssociation'].insert({"body"=> {"teacherId" => @staff, "cohortId" => @cohort}, "metaData" => {"tenantId" => "test"}})
+      teachers = @stamper.get_teachers
+      teachers.size.should eql 1
+      teachers.should include @staff
+    end
+    it "should not find teachers through an expired student cohort association" do
+      @db['studentCohortAssociation'].insert({"body"=> {"studentId" => @student, "cohortId" => @cohort, "endDate" => @expired_date}, "metaData" => {"tenantId" => "test"}})
+      @db['teacherCohortAssociation'].insert({"body"=> {"teacherId" => @staff, "cohortId" => @cohort}, "metaData" => {"tenantId" => "test"}})
+      teachers = @stamper.get_teachers
+      teachers.size.should eql 0
+      teachers.should_not include @staff
+    end
+    it "should not find teachers through an expired teacher cohort association" do
+      @db['studentCohortAssociation'].insert({"body"=> {"studentId" => @student, "cohortId" => @cohort}, "metaData" => {"tenantId" => "test"}})
+      @db['teacherCohortAssociation'].insert({"body"=> {"teacherId" => @staff, "cohortId" => @cohort, "endDate" => @expired_date}, "metaData" => {"tenantId" => "test"}})
+      teachers = @stamper.get_teachers
+      teachers.size.should eql 0
+      teachers.should_not include @staff
+    end
+    it "should find teachers through associations within the date" do
+      @db['studentCohortAssociation'].insert({"body"=> {"studentId" => @student, "cohortId" => @cohort, "endDate" => @valid_date}, "metaData" => {"tenantId" => "test"}})
+      @db['teacherCohortAssociation'].insert({"body"=> {"teacherId" => @staff, "cohortId" => @cohort, "endDate" => @valid_date}, "metaData" => {"tenantId" => "test"}})
+      teachers = @stamper.get_teachers
+      teachers.size.should eql 1
+      teachers.should include @staff
+    end
   end
   describe "#wrap_up" do
     it "should raise a 'Not implemented exception'" do
