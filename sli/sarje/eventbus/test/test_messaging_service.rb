@@ -212,4 +212,53 @@ class TestMessagingService < Test::Unit::TestCase
 
     assert_equal(subscription_event_message_count, agent_received_messages.size + agent2_received_messages.size)
   end
+
+  def test_heartbeat
+    agent_incoming = '/topic/agent'
+    listener_incoming = '/queue/listener'
+
+    agent_config = {
+        :node_name => 'agent',
+        :publish_queue_name => listener_incoming,
+        :subscribe_queue_name => agent_incoming
+    }
+    agent_received_messages = []
+    agent = Eventbus::MessagingService.new(agent_config)
+    agent.subscribe do |message|
+      agent_received_messages << message
+    end
+
+    agent2_config = {
+        :node_name => 'agent2',
+        :publish_queue_name => listener_incoming,
+        :subscribe_queue_name => agent_incoming
+    }
+    agent2_received_messages = []
+    agent2 = Eventbus::MessagingService.new(agent2_config)
+    agent2.subscribe do |message|
+      agent2_received_messages << message
+    end
+
+    listener_config = {
+        :node_name => 'listener',
+        :publish_queue_name => agent_incoming,
+        :subscribe_queue_name => listener_incoming,
+        :start_heartbeat => false,
+        :start_node_detector => true
+    }
+    listener_received_messages = []
+    listener = Eventbus::MessagingService.new(listener_config)
+    listener.subscribe do |message|
+      listener_received_messages << message
+    end
+
+    Thread.new do
+      loop do
+        sleep 5
+        puts "Detected nodes = #{listener.get_detected_nodes.to_a}"
+      end
+    end
+
+    sleep 100
+  end
 end

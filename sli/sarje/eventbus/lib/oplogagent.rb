@@ -135,7 +135,6 @@ module Eventbus
   class OpLogAgent
     def initialize(config = {})
       config = {
-          :node_name => Socket.gethostname,
           :publish_queue_name => "/queue/listener",
           :subscribe_queue_name => "/topic/agent"
       }.merge(config)

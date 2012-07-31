@@ -25,8 +25,9 @@ module Eventbus
   class MessagingService
     def initialize(config = {})
       @config = {
-          :node_name => 'anonymous node',
-          :start_heartbeat => true
+          :node_name => Socket.gethostname,
+          :start_heartbeat => true,
+          :start_node_detector => false
       }.merge(config)
 
       host = {:login => "", :passcode => "", :host => "localhost", :port => 61613, :ssl => false}
@@ -50,6 +51,11 @@ module Eventbus
       if @config[:start_heartbeat]
         start_heartbeat(@config[:node_name])
       end
+      if @config[:start_node_detector]
+        @heartbeat_queue = Queue.new
+        @detected_nodes_lock = Mutex.new
+        start_node_detector
+      end
     end
 
     def publish(message)
@@ -58,11 +64,50 @@ module Eventbus
 
     def subscribe
       Subscriber.new(@config[:subscribe_queue_name], @config[:stomp_config]) do |message|
-        yield message
+        if(message['event_type'] == 'heartbeat')
+          @heartbeat_queue << message
+        else
+          yield message
+        end
+      end
+    end
+
+    def start_node_detector
+      Thread.new do
+        loop do
+          sleep 60
+          detected_nodes = Set.new
+          begin
+            loop do
+              heartbeat_message = @heartbeat_queue.pop(true)
+              detected_nodes << heartbeat_message['node_name']
+            end
+          rescue
+            # no more oplog in oplog queue
+          end
+          set_detected_nodes(detected_nodes)
+        end
+      end
+    end
+
+    def get_detected_nodes
+      if @config[:start_node_detector]
+        detected_nodes = []
+        @detected_nodes_lock.synchronize {
+          detected_nodes = @detected_nodes
+        }
+        detected_nodes
       end
     end
 
     private
+
+    def set_detected_nodes(detected_nodes)
+      @detected_nodes_lock.synchronize {
+        @detected_nodes = detected_nodes
+      }
+    end
+
     def start_heartbeat(node_name)
       Thread.new do
         loop do
