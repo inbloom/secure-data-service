@@ -220,35 +220,35 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
         for (File f : driverConfigFiles) {
             try {
                 config = loadConfig(f);
-            } catch (Exception t) {
-                logger.error("Unable to read config " + f.getName() + ". Skipping file", t);
+            } catch (Exception e) {
+                logger.error("Unable to read config " + f.getName() + ". Skipping file", e);
                 continue;
             }
 
             // check the config params. if they all match, add to the config map.
-            boolean match = true;
+            boolean matchAll = true;
             for (String attrName : attrs.keySet()) {
-
+                String methodName = "";
                 try {
 
                     // use reflection to call the right config object method
-                    String methodName = "get" + Character.toUpperCase(attrName.charAt(0)) + attrName.substring(1);
+                    methodName = "get" + Character.toUpperCase(attrName.charAt(0)) + attrName.substring(1);
                     Method method = config.getClass().getDeclaredMethod (methodName, new Class[] {});
                     Object ret = method.invoke(config, new Object[] {});
 
                     // compare the result to the desired result
                     if (!(ret.toString().equals(attrs.get(attrName)))) {
-                        match = false;
+                        matchAll = false;
                         break;
                     }
                 } catch (Exception e) {
-                    match = false;
-                    logger.error("Error calling config method!");
+                    matchAll = false;
+                    logger.error("Error calling config method: " + methodName);
                 }
             }
 
             // add to config map
-            if (match) {
+            if (matchAll) {
                 configs.put(config.getId(), config);
             }
         }
