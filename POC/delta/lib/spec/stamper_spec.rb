@@ -99,7 +99,7 @@ describe Stamper::StudentStamper do
       teachers.size.should eql 0
       teachers.should_not include @staff
     end
-    it "should find teachers through associations within the date" do
+    it "should find teachers through section associations within the date" do
       @db['studentSectionAssociation'].insert({"body"=> {"studentId" => @student, "sectionId" => @section, "endDate" => @valid_date}, "metaData" => {"tenantId" => "test"}})
       @db['teacherSectionAssociation'].insert({"body"=> {"teacherId" => @staff, "sectionId" => @section, "endDate" => @valid_date}, "metaData" => {"tenantId" => "test"}})
       teachers = @stamper.get_teachers
@@ -108,31 +108,66 @@ describe Stamper::StudentStamper do
     end
     it "should find teachers through a valid cohort" do
       @db['studentCohortAssociation'].insert({"body"=> {"studentId" => @student, "cohortId" => @cohort}, "metaData" => {"tenantId" => "test"}})
-      @db['teacherCohortAssociation'].insert({"body"=> {"teacherId" => @staff, "cohortId" => @cohort}, "metaData" => {"tenantId" => "test"}})
+      @db['staffCohortAssociation'].insert({"body"=> {"staffId" => [@staff], "cohortId" => @cohort, "studentRecordAccess" => true}, "metaData" => {"tenantId" => "test"}})
       teachers = @stamper.get_teachers
       teachers.size.should eql 1
       teachers.should include @staff
     end
     it "should not find teachers through an expired student cohort association" do
       @db['studentCohortAssociation'].insert({"body"=> {"studentId" => @student, "cohortId" => @cohort, "endDate" => @expired_date}, "metaData" => {"tenantId" => "test"}})
-      @db['teacherCohortAssociation'].insert({"body"=> {"teacherId" => @staff, "cohortId" => @cohort}, "metaData" => {"tenantId" => "test"}})
+      @db['staffCohortAssociation'].insert({"body"=> {"staffId" => [@staff], "cohortId" => @cohort, "studentRecordAccess" => true}, "metaData" => {"tenantId" => "test"}})
       teachers = @stamper.get_teachers
       teachers.size.should eql 0
       teachers.should_not include @staff
     end
     it "should not find teachers through an expired teacher cohort association" do
       @db['studentCohortAssociation'].insert({"body"=> {"studentId" => @student, "cohortId" => @cohort}, "metaData" => {"tenantId" => "test"}})
-      @db['teacherCohortAssociation'].insert({"body"=> {"teacherId" => @staff, "cohortId" => @cohort, "endDate" => @expired_date}, "metaData" => {"tenantId" => "test"}})
+      @db['staffCohortAssociation'].insert({"body"=> {"staffId" => [@staff], "cohortId" => @cohort, "endDate" => @expired_date, "studentRecordAccess" => true}, "metaData" => {"tenantId" => "test"}})
       teachers = @stamper.get_teachers
       teachers.size.should eql 0
       teachers.should_not include @staff
     end
-    it "should find teachers through associations within the date" do
-      @db['studentCohortAssociation'].insert({"body"=> {"studentId" => @student, "cohortId" => @cohort, "endDate" => @valid_date}, "metaData" => {"tenantId" => "test"}})
-      @db['teacherCohortAssociation'].insert({"body"=> {"teacherId" => @staff, "cohortId" => @cohort, "endDate" => @valid_date}, "metaData" => {"tenantId" => "test"}})
+    it "should find teachers through cohort associations within the date" do
+      @db['studentCohortAssociation'].insert({"body"=> {"studentId" => @student, "cohortId" => @cohort, "endDate" => (Date.today + @stamper.grace_period).to_time.utc.to_s}, "metaData" => {"tenantId" => "test"}})
+      @db['staffCohortAssociation'].insert({"body"=> {"staffId" => [@staff], "cohortId" => @cohort, "endDate" => (Date.today + @stamper.grace_period).to_time.utc.to_s, "studentRecordAccess" => true}, "metaData" => {"tenantId" => "test"}})
       teachers = @stamper.get_teachers
       teachers.size.should eql 1
       teachers.should include @staff
+    end
+    it "should find teachers through a valid program" do
+      @db['studentProgramAssociation'].insert({"body"=> {"studentId" => @student, "programId" => @program}, "metaData" => {"tenantId" => "test"}})
+      @db['staffProgramAssociation'].insert({"body"=> {"staffId" => [@staff], "programId" => @program, "studentRecordAccess" => true}, "metaData" => {"tenantId" => "test"}})
+      teachers = @stamper.get_teachers
+      teachers.size.should eql 1
+      teachers.should include @staff
+    end
+    it "should not find teachers through an expired student program association" do
+      @db['studentProgramAssociation'].insert({"body"=> {"studentId" => @student, "programId" => @program, "endDate" => @expired_date}, "metaData" => {"tenantId" => "test"}})
+      @db['staffProgramAssociation'].insert({"body"=> {"staffId" => [@staff], "programId" => @program, "studentRecordAccess" => true}, "metaData" => {"tenantId" => "test"}})
+      teachers = @stamper.get_teachers
+      teachers.size.should eql 0
+      teachers.should_not include @staff
+    end
+    it "should not find teachers through an expired teacher program association" do
+      @db['studentProgramAssociation'].insert({"body"=> {"studentId" => @student, "programId" => @program}, "metaData" => {"tenantId" => "test"}})
+      @db['staffProgramAssociation'].insert({"body"=> {"staffId" => [@staff], "programId" => @program, "endDate" => @expired_date, "studentRecordAccess" => true}, "metaData" => {"tenantId" => "test"}})
+      teachers = @stamper.get_teachers
+      teachers.size.should eql 0
+      teachers.should_not include @staff
+    end
+    it "should find teachers through program associations within the date" do
+      @db['studentProgramAssociation'].insert({"body"=> {"studentId" => @student, "programId" => @program, "endDate" => (Date.today + @stamper.grace_period).to_time.utc.to_s}, "metaData" => {"tenantId" => "test"}})
+      @db['staffProgramAssociation'].insert({"body"=> {"staffId" => [@staff], "programId" => @program, "endDate" => (Date.today + @stamper.grace_period).to_time.utc.to_s, "studentRecordAccess" => true}, "metaData" => {"tenantId" => "test"}})
+      teachers = @stamper.get_teachers
+      teachers.size.should eql 1
+      teachers.should include @staff
+    end
+    it "should not find teachers through program associations within the date but access is false" do
+      @db['studentProgramAssociation'].insert({"body"=> {"studentId" => @student, "programId" => @program, "endDate" => (Date.today + @stamper.grace_period).to_time.utc.to_s}, "metaData" => {"tenantId" => "test"}})
+      @db['staffProgramAssociation'].insert({"body"=> {"staffId" => [@staff], "programId" => @program, "endDate" => (Date.today + @stamper.grace_period).to_time.utc.to_s, "studentRecordAccess" => false}, "metaData" => {"tenantId" => "test"}})
+      teachers = @stamper.get_teachers
+      teachers.size.should eql 0
+      teachers.should_not include @staff
     end
   end
   describe "#wrap_up" do

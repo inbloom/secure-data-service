@@ -22,9 +22,7 @@ module Stamper
         @db['staffCohortAssociation'].find({'metaData.tenantId' => @tenant, 'body.cohortId'=> stu_assoc['body']['cohortId'], 'body.studentRecordAccess'=> true, '$or'=> [ {'body.endDate'=> {'$exists'=> false}}, {'body.endDate'=> {'$gte'=> @current_date}} ] }, @basic_options) { |staff_assoc_cursor|
           staff_assoc_cursor.each { |staff_assoc|
             staff_assoc['body']['staffId'].each { |id|
-              if @teacher_ids.has_key? id
                 teachers.push staff_assoc['body']['staffId']
-              end
             }
           }
         }
@@ -40,9 +38,7 @@ module Stamper
         @db['staffProgramAssociation'].find({'metaData.tenantId' => @tenant, 'body.programId'=> {'$in'=> [stu_assoc['body']['programId']]}, 'body.studentRecordAccess'=> true, '$or'=> [ {'body.endDate'=> {'$exists'=> false}}, {'body.endDate'=> {'$gte'=> @current_date}} ] }, @basic_options) { |staff_assoc_cursor|
           staff_assoc_cursor.each { |staff_assoc|
             staff_assoc['body']['staffId'].each { |id|
-              if @teacher_ids.has_key? id
                 teachers.push staff_assoc['body']['staffId']
-              end
             }
           }
         }
@@ -89,12 +85,16 @@ module Stamper
     return
   end
   def stamp_id(updateHash)
-    @db[self.class::COLLECTION].update({"_id" => @id, "metaData.tenantId" => @tenant}, updateHash)
+    begin
+      @db[self.class::COLLECTION].update({"_id" => @id, "metaData.tenantId" => @tenant}, updateHash)
+    rescue Exception do |e|
+      @log.error {"Error in stamp_id: #{e.message}"}
+    end
   end
   class BaseStamper
     include Stamper
     COLLECTION = "UNDEFINED"
-    attr_accessor :db, :tenant, :log, :id, :grace_period
+    attr_accessor :db, :tenant, :log, :id, :grace_period, :should_wrap_up
     # We have a number of important things that happen in the initialzer
     # First, we set the database object that has the open connection to mongo
     # Then we set the tenant that we will stamp on
@@ -103,8 +103,10 @@ module Stamper
     # level
     def initialize(db, id, tenant, grace_period = 2000, logger = nil)
       @id = id
+      @should_wrap_up = true
       @grace_period = grace_period
       @grace_date = (Date.today - grace_period).to_s
+      @current_date = Date.today.to_s
       @tenant = tenant
       @basic_options = {:timeout => false, :batch_size => 100}
       @db = db
@@ -122,7 +124,7 @@ module Stamper
 
       stamp_id({"metaData.edOrgs" => edorgs})
       stamp_id({"metaData.teacherContext" => teachers})
-      wrap_up
+      wrap_up if @should_wrap_up
     end
     def get_edorgs
       raise "Not implemented"
@@ -155,9 +157,5 @@ module Stamper
       teachers << find_teachers_for_student_through_program
       teachers.flatten.uniq
     end
-
-    def wrap_up
-    end
-    private
   end
 end
