@@ -195,7 +195,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         for (String id : tenantService.listIds(query)) {
             existingIds.add(id);
         }
-        
+                
         // If no tenant already exists, create one
         if (existingIds.size() == 0) {
             EntityBody newTenant = new EntityBody();
@@ -216,8 +216,8 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
                 EntityService realmService = realmDefinition.getService();
                 NeutralQuery sandboxQuery = new NeutralQuery(1);
                 query.addCriteria(new NeutralCriteria("uniqueIdentifier", "=", sandboxUniqueId)); 
-                List<String> entities = iterableToList(realmService.listIds(sandboxQuery));
-                String realmId = entities.get(0);
+                String realmId = iterableToList(realmService.listIds(sandboxQuery)).get(0);
+                info("Initializing default roles for tenant: {} and realm: {}", new Object[] {tenantId, realmId});
                 roleInitializer.dropAndBuildRoles(tenantId, realmId);
             }
             
@@ -270,8 +270,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         allLandingZones.add(newLandingZone);
 
         existingBody.put(LZ, new ArrayList(allLandingZones));
-        tenantService.update(existingTenantId, existingBody);
-
+        tenantService.update(existingTenantId, existingBody);        
         return existingTenantId;
     }
     
