@@ -45,19 +45,17 @@ Then I see the mapping in the table
 And That user can now access the API
 
 Scenario: Add rights to group
-When I add the right "READ_PUBLIC" to the group "New Custom"
-Then the group "New Custom" contains the rights "Read General"
 And the user "custom" can access the API with rights "Read General"
-When I add the right "Write General" to the group "New Custom"
+When I add the right "WRITE_GENERAL" to the group "New Custom"
 Then the group "New Custom" contains the rights "Read and Write General"
 And the user "custom" can access the API with rights "Read and Write General"
 
 Scenario: Remove rights from group
-When I remove the right "Write General" from the group "New Custom"
+When I remove the right "WRITE_GENERAL" from the group "New Custom"
 And I hit the save button
 Then the group "New Custom" contains the rights "Read General"
 And the user "custom" can access the API with rights "Read General"
-When I remove the right "Read General" from the group "New Custom"
+When I remove the right "READ_GENERAL" from the group "New Custom"
 And I hit the save button
 Then I am informed that I must have at least one role and right in the group
 And the user "custom" can access the API with rights "Read General"
@@ -105,7 +103,7 @@ And I add the role "Teacher" to the group "Educator"
 And I click the cancel button
 Then the group "New Custom" contains the rights "Read General Public and Aggregate"
 And the group "New Custom" contains the roles "Educator"
-
+@wip
 Scenario: Name validation for role and group names
 #This requirement is questionable?  Redone to just make sure input is sanitized?
 Given Something 
