@@ -110,6 +110,7 @@ editRow = (rowNum) ->
   input = $("<input type='text'/>").val(groupName.text().trim())
   if (groupName.text().trim() == "")
     input.attr("placeholder", "Enter group name")
+    input.attr("id", "groupName")
   groupName.replaceWith(input)
    
   #Add delete button to each role name

@@ -30,7 +30,7 @@ Transform /rights "(.*?)"/ do |arg1|
   rights = ["AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "Aggregate Viewer"
   # Custom right sets for test roles
   rights = ["READ_GENERAL"] if arg1 == "Read General"
-  rights = ["READ_GENERAL"] if arg1 == "Read and Write General"
+  rights = ["READ_GENERAL", "WRITE_GENERAL"] if arg1 == "Read and Write General"
   rights
 end
 
@@ -55,15 +55,16 @@ When /^I click on the Add Group button$/ do
   btn.click
 end
 
-When /^I type the name "([^"]*)" in the Group name textbox$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+When /^I type the name "([^"]*)" in the Group name textbox$/ do |title|
+  input = @driver.find_element(:id, "groupName")
+  input.send_keys(title)
 end
 
-Then /^a new group is created titled "([^"]*)"$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+Then /^a new group is created titled "([^"]*)"$/ do |title|
+  @driver.find_element(:xpath, "//td[text()='#{title}']")
 end
 
-Then /^the group "([^"]*)" contains the roles "([^"]*)"$/ do |arg1, arg2|
+Then /^the group "([^"]*)" contains the roles "([^"]*)"$/ do |title, arg2|
   pending # express the regexp above with the code you wish you had
 end
 
@@ -77,7 +78,7 @@ When /^I hit the save button$/ do
 end
 
 Then /^I am informed that I must have at least one role and right in the group$/ do
-  pending # express the regexp above with the code you wish you had
+  assertWithWait("Could not find an error message complaining about the role and right missing")  { @driver.find_element(:class, "error alert alert-error").text.include?("Validation") }
 end
 
 When /^I add the right "([^"]*)" to the group "([^"]*)"$/ do |arg1, arg2|
@@ -122,7 +123,7 @@ Then /^the user "([^"]*)" can access the API with (rights "[^"]*")$/ do |arg1, a
 end
 
 When /^I remove the right "([^"]*)" from the group "([^"]*)"$/ do |arg1, arg2|
-  step "I edit the group #{arg2}"
+  step "I edit the group \"#{arg2}\""
   # Find the thing you want to delete
   @driver.find_element(:xpath, "//div[text()='#{arg1}']/../button").click
 end
@@ -142,8 +143,16 @@ Then /^That user can no longer access the API$/ do
   # Dummy step, validation is done in WHEN step, this step just used to make the Gherkin read happy
 end
 
+Then /^That user can now access the API$/ do
+  # Dummy step, validation is done in WHEN step, this step just used to make the Gherkin read happy
+end
+
+Then /^I no longer see that mapping in the table$/ do
+  # Dummy step, validation is done in WHEN step, this step just used to make the Gherkin read happy
+end
+
 When /^I remove the role "([^"]*)" from the group "([^"]*)"$/ do |arg1, arg2|
-  step "I edit the group #{arg2}"
+  step "I edit the group \"#{arg2}\""
   # Find the thing you want to delete
   @driver.find_element(:xpath, "//div[text()='#{arg1}']/../button").click
 end
@@ -203,3 +212,24 @@ When /^I click the cancel button$/ do
   btn = @driver.find_element(:id, "rowEditToolCancelButton")
   btn.click
 end
+
+When /^I click on the Reset Mapping button$/ do
+  @driver.find_element(:id, "resetToDefaultsButton").click
+end
+
+Then /^the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves$/ do
+  wait = Selenium::WebDriver::Wait.new(:timeout => 1)
+  begin # Catch the exception from the wait... I'd rather get my detailed error messages than generic ones from WebDriver
+    wait.until { @driver.execute_script("return document.getElementById(\"mTable\").childNodes.length;") == 4 }
+  rescue
+  end
+
+  temp = @driver.find_elements(:xpath, "//td[text()='Roles']")
+  puts("Temp is #{temp.inspect}")
+  # Seach for two occurances of each of the default roles as elements of <td>s, one being client role other being default role 
+  ["Educator","Leader","Aggregate Viewer","IT Administrator"].each do |role|
+    results = @driver.find_elements(:xpath, "//td[text()='#{role}']")
+    assert(results.size == 2, webdriverDebugMessage(@driver,"Found unexpected occurences of roles "+role+", expected 2 found "+results.size.to_s))
+  end
+end
+
