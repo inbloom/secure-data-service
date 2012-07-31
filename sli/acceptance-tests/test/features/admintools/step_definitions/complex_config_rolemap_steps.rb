@@ -101,8 +101,8 @@ Given /^I have navigated to my Complex\-Configurable Role Mapping Page$/ do
 end
 
 When /^I click on the Reset Mapping button$/ do
-  assertWithWait("Failed to find the Reset to Defaults buttonon the Complex Configurable viewing page")  {@driver.find_element(:id, "resetButton")}
-  @driver.find_element(:id, "resetButton").click
+  assertWithWait("Failed to find the Reset to Defaults buttonon the Complex Configurable viewing page")  {@driver.find_element(:id, "resetToDefaultsButton")}
+  @driver.find_element(:id, "resetToDefaultsButton").click
 end
 
 Then /^I got warning message saying 'Are you sure you want to reset the role mappings\?'$/ do
@@ -120,10 +120,12 @@ Then /^the Leader, Educator, Aggregate Viewer and IT Administrator roles are now
   rescue
   end
 
+  temp = @driver.find_elements(:xpath, "//td[text()='Roles']")
+  puts("Temp is #{temp.inspect}")
   # Seach for two occurances of each of the default roles as elements of <td>s, one being client role other being default role 
   ["Educator","Leader","Aggregate Viewer","IT Administrator"].each do |role|
     results = @driver.find_elements(:xpath, "//td[text()='#{role}']")
-    assert(results.size == 2, webdriverDebugMessage(@driver,"Found more than expected occurances of "+role+", expected 2 found "+results.size.to_s))
+    assert(results.size == 2, webdriverDebugMessage(@driver,"Found unexpected occurences of roles "+role+", expected 2 found "+results.size.to_s))
   end
 end
 
