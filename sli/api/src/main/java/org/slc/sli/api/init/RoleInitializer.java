@@ -49,7 +49,7 @@ public class RoleInitializer {
     public static final String AGGREGATE_VIEWER = "Aggregate Viewer";
     public static final String IT_ADMINISTRATOR = "IT Administrator";
     public static final String LEADER = "Leader";
-    public static final String ROLES = "roles";
+    public static final String ROLES = "customRole";
     
     public static final String LEA_ADMINISTRATOR = "LEA Administrator";
     public static final String SEA_ADMINISTRATOR = "SEA Administrator";
@@ -85,18 +85,13 @@ public class RoleInitializer {
     
     public int buildRoles(String realmId) {
         Map<String, Object> rolesBody = new HashMap<String, Object>();
+        List<Map<String, Object>> groups = getDefaultRoles();
         rolesBody.put("realmId", realmId);
-        
-        List<Map<String, Object>> groups = new ArrayList<Map<String, Object>>();
-        groups.add(buildRoleGroup(buildAggregate()));
-        groups.add(buildRoleGroup(buildLeader()));
-        groups.add(buildRoleGroup(buildIT()));
-        groups.add(buildRoleGroup(buildEducator()));
         rolesBody.put("roles", groups);
         rolesBody.put("customRights", new ArrayList<String>());
         
-        repository.create(ROLES, rolesBody);        
-        info("Successfully built roles for realm: {}", new Object[] {realmId});
+        Entity entity = repository.create(ROLES, rolesBody);        
+        info("Successfully built roles for realm: {} (entity id: {})", new Object[] {realmId, entity.getEntityId()});
         return groups.size();
     }
     
