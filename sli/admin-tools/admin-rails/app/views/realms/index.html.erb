@@ -1,0 +1,18 @@
+<h1>Listing realms</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @realms.each do |realm| %>
+	<tr>
+    <td><%= realm.state %></td>
+    <td><%= link_to 'Show', realm %></td>
+    <td><%= link_to 'Edit', edit_realm_path(realm) %></td>
+	</tr>
+<% end %>
+
+
