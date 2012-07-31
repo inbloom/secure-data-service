@@ -195,6 +195,16 @@ And the "delete" button is disabled
     |USER                 |PASSWORD                 |USER_FULL_NAME                |USER_ROLE           |
     |slcoperator          |slcoperator1234          |SLC Operator                  |SLC Operator        |
 
+Scenario Outline: As a LEA Administrator I can not edit my account
+When I navigate to the User Management Page 
+Then I will be redirected to "Simple" login page
+When I submit the credentials "<USER>" "<PASSWORD>" for the "Simple" login page
+Then I see my Full Name is "<USER_FULL_NAME>" in the table
+And the "edit" button is disabled
+
+ Examples:
+    |USER                 |PASSWORD                 | USER_FULL_NAME |
+    |sunsetadmin          |sunsetadmin1234          | Sunset Admin   |
 
 @wip
 Scenario: As a LEA Administrator I can edit limited fields on my  account
