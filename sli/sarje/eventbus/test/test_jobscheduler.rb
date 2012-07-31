@@ -8,7 +8,7 @@ class TestJobScheduler < Test::Unit::TestCase
       :mongo_host           => "127.0.0.1",
       :mongo_port           => 27017,
       :mongo_db             => "eventbus",
-      :mongo_job_collection => "jobs"
+      :mongo_job_collection => "jobs",
       :poll_interval        => 5
     }
 
@@ -38,10 +38,10 @@ class TestJobScheduler < Test::Unit::TestCase
 
         # wait until all events have fired 
         start = Time.now 
-        while (!listener.done) && ((Time.now - start) < (nevents * 1.1 * delay))
-            sleep(delay)
+        while (!listener.done) && ((Time.now - start) < (nevents * 2 * delay))
+            sleep(0.1)
         end
-        assert jobrunner.total == nevents, "No all events were successfully dispatched."
+        assert jobrunner.total == nevents, "Not all events were successfully dispatched. #{jobrunner.total}"
     end 
 
     private 
@@ -85,7 +85,6 @@ class MockMQListener
 
     def subscribe(events)
         @events = events
-        puts "Got Subscription for #{@events.length}"
     end 
 
     def receive(&block)
