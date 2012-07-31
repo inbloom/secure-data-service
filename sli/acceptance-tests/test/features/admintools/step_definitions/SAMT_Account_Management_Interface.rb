@@ -112,7 +112,6 @@ Then /^the new user has the same "(.*?)" field as "(.*?)" has$/ do |field_name, 
   step "the user has \"#{field_name}\" updated to \"#{td.text()}\""
 end
 
-
 Then /^the new user has Roles as (.*?)$/ do |roles|
   @user_unique_id=@user_email
   step "the user has Roles as #{roles}"
@@ -121,4 +120,60 @@ end
 Then /^the (.*?) field is prefilled$/ do |field_name|
   field=getField(field_name)
   assert("#{field.attribute("value")}" != "", "#{field_name} is empty!") 
+end
+
+Given /^I have a account as a "LEA Administrator"$/ do 
+end
+
+Then /^I am redirected to "(.*?)" page which has a table of all accounts for my tenancy$/ do |pageTitle|
+  assertWithWait("Failed to navigate to the #{pageTitle} page")  {@driver.page_source.index("#{pageTitle}") != nil}
+  assertWithWait("Failed to find the table of accounts") {@driver.find_element(:id => "Users_Management_Table") != nil}
+end
+
+When /^I submit the credentials for a "LEA Administrator" for the "Simple" login page$/ do 
+  step "I submit the credentials \"daybreaknorealmadmin\" \"daybreaknorealmadmin1234\" for the \"Simple\" login page"
+end
+
+When /^I hover over a row has my name$/ do
+          pending # express the regexp above with the code you wish you had
+end
+
+Then /^I am shown the option to "(.*?)" user$/ do |arg1|
+          pending # express the regexp above with the code you wish you had
+end
+
+Then /^I am redirected to "(.*?)" form$/ do |arg1|
+          pending # express the regexp above with the code you wish you had
+end
+
+Then /^the title is "(.*?)"$/ do |arg1|
+          pending # express the regexp above with the code you wish you had
+end
+
+Then /^I can update email address$/ do
+          pending # express the regexp above with the code you wish you had
+end
+
+Then /^I can update the Fullname$/ do
+          pending # express the regexp above with the code you wish you had
+end
+
+Then /^I cannot update any other field$/ do
+          pending # express the regexp above with the code you wish you had
+end
+
+When /^I click "(.*?)"$/ do |arg1|
+          pending # express the regexp above with the code you wish you had
+end
+
+Then /^I am redirected to the "(.*?)" Page$/ do |arg1|
+          pending # express the regexp above with the code you wish you had
+end
+
+Then /^the updated information is displayed in the table$/ do
+          pending # express the regexp above with the code you wish you had
+end
+
+Then /^no changes are shown in the table$/ do
+          pending # express the regexp above with the code you wish you had
 end

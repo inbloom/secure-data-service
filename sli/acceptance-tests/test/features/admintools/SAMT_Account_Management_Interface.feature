@@ -223,5 +223,3 @@ And the updated information is displayed in the table
 When I click "Cancel"
 Then I am redirected to the "Admin Account Management" Page
 And no changes are shown in the table
-
->>>>>>> uncomment out and @wip test
