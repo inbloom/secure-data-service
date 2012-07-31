@@ -27,3 +27,6 @@
     margin: 20px;
     padding: 20px;
 }
+
+.formError { display: none; }
+.error .formError { display: block; color: #b94a48; }

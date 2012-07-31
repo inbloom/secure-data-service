@@ -91,30 +91,27 @@ function profileCtrl($scope, $routeParams, ProfilePage, dbSharedService) {
 	});
 
 	$scope.savePage = function () {
-		var page = dbSharedService.getPage();
+		try {
+			var page = dbSharedService.getPage();
 
-		if($scope.mode === "Add New") {
-			var pageId = $scope.generatePageId();
-			try {
-			    $scope.pages.push({id:pageId, name:$scope.pageText, items: $.parseJSON($scope.panelJSON), type:"TAB"});
-			} catch(e) {
-				alert("JSON parse error");
+			if($scope.mode === "Add New") {
+				var pageId = $scope.generatePageId();
+				$scope.pages.push({id:pageId, name:$scope.pageText, items: $.parseJSON($scope.panelJSON), type:"TAB"});
 			}
-		}
-		else if($scope.mode === "Edit") {
-			page.name = $scope.pageText;
-			try {
-			    page.items = $.parseJSON($scope.panelJSON);
-			} catch(e) {
-				alert("JSON parse error");
+			else if($scope.mode === "Edit") {
+				page.name = $scope.pageText;
+				page.items = $.parseJSON($scope.panelJSON);
+				dbSharedService.setPage(page);
 			}
-			dbSharedService.setPage(page);
+
+			$scope.saveProfile();
+
+			$scope.pageText = '';
+			$('#myModal').modal('hide');
+			
+		} catch(e) {
+			$("#textarea").closest(".control-group").addClass("error");
 		}
-
-		$scope.saveProfile();
-
-		$scope.pageText = '';
-		$('#myModal').modal('hide');
 	}, function(error) {
 		
 		if (error.status === 401) {
@@ -132,6 +129,7 @@ function profileCtrl($scope, $routeParams, ProfilePage, dbSharedService) {
 	};
 
 	$scope.showDialog = function (mode) {
+		$("#textarea").closest(".control-group").removeClass("error");
 		if(mode === "add") {
 			$scope.mode = "Add New";
 			$scope.pageText = '';
