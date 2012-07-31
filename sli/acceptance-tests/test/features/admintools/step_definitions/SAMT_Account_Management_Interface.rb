@@ -130,42 +130,14 @@ Then /^I am redirected to "(.*?)" page which has a table of all accounts for my 
   assertWithWait("Failed to find the table of accounts") {@driver.find_element(:id => "Users_Management_Table") != nil}
 end
 
-When /^I click on "Edit" link for my user$/ do |arg1|
-          pending # express the regexp above with the code you wish you had
-end
-
-Then /^I am redirected to "(.*?)" form$/ do |arg1|
-          pending # express the regexp above with the code you wish you had
-end
-
-Then /^the title is "(.*?)"$/ do |arg1|
-          pending # express the regexp above with the code you wish you had
-end
-
 Then /^I can update email address$/ do
-          pending # express the regexp above with the code you wish you had
+  step "I can update the \"Email\" field to \"sunsetadmin2@slcedu.org\""
 end
 
 Then /^I can update the Fullname$/ do
-          pending # express the regexp above with the code you wish you had
+  step "I can update the \"Email\" field to \"Sunset Admin 2\""
 end
 
 Then /^I cannot update any other field$/ do
-          pending # express the regexp above with the code you wish you had
-end
-
-When /^I click "(.*?)"$/ do |arg1|
-          pending # express the regexp above with the code you wish you had
-end
-
-Then /^I am redirected to the "(.*?)" Page$/ do |arg1|
-          pending # express the regexp above with the code you wish you had
-end
-
-Then /^the updated information is displayed in the table$/ do
-          pending # express the regexp above with the code you wish you had
-end
-
-Then /^no changes are shown in the table$/ do
           pending # express the regexp above with the code you wish you had
 end

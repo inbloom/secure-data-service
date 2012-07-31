@@ -205,15 +205,21 @@ Then I am redirected to "Admin Account Management" page which has a table of all
 
 When I click the "edit" link for "Sunset Admin"
 Then I am redirected to "Update a User" page
-And I can update email address
-And I can update the Fullname 
-And I cannot update any other field 
+And I can update the "Email" field to "sunsetadmin2@slcedu.org"
+Then I can update the "Full Name" field to "Sunset Admin 2"
+#And I cannot update any other field 
 
-When I click "Save"
-Then I am redirected to the "Admin Account Management" Page
-And a "Success" message is displayed 
-And the updated information is displayed in the table
+And I click button "Update"
+Then I am redirected to "Admin Account Management" page 
+And a "Success! You have updated the user" message is displayed 
+And the user has "Full Name" updated to "Sunset Admin 2"
+And the user has "Email" updated to "sunsetadmin2@slcedu.org"
 
-When I click "Cancel"
-Then I am redirected to the "Admin Account Management" Page
-And no changes are shown in the table
+When I click the "edit" link for "Sunset Admin 2"
+Then I am redirected to "Update a User" page
+And I can update the "Email" field to "sunsetadmin3@slcedu.org"
+Then I can update the "Full Name" field to "Sunset Admin 3"
+Then I click "Cancel"
+Then I am redirected to "Admin Account Management" page 
+And the user still has "Email" as "sunsetadmin2@slcedu.org"
+And the user still has "Full Name" as "Sunset Admin 2"
