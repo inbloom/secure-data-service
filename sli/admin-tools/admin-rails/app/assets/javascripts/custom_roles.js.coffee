@@ -35,6 +35,7 @@ jQuery ->
     $("#addRightUi").parent().append(right)
     $("#addRightUi").parent().append(" ")
     populateRightComboBox()
+    enableSaveButtonIfPossible()
 
   #Wire up Add Role button
   $("#addGroupButton").click ->
@@ -45,6 +46,8 @@ jQuery ->
     editRowIndex = lastRow
     drawEditBox(newRow)
     editRow(lastRow)
+    # Disable the save button until they've added a role and right
+    $("#rowEditToolSaveButton").addClass("disabled") #disable until we get ajax success
 
   #Wire up reset to defaults
   $("#resetToDefaultsButton").click ->
@@ -66,10 +69,18 @@ jQuery ->
     div.wrap("<div/>")
     td.append(div.parent())
     $("#addRoleUi input").val("")
+    enableSaveButtonIfPossible()
   
 rowMouseEnter = (row) ->   
   if (editRowIndex < 0)
     drawEditBox(row)
+
+enableSaveButtonIfPossible = ()  ->
+  roles = getRoles(editRowIndex)  
+  rights = getRights(editRowIndex)  
+  if roles.length > 0 && rights.length > 0
+    $("#rowEditToolSaveButton").removeClass("disabled")
+    
 
 drawEditBox = (row) ->
   lastRow = row.parent().children().index(row) + 1
