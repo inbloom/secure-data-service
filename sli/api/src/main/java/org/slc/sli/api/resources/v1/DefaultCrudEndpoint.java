@@ -33,6 +33,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
@@ -194,11 +195,15 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
                     // a new list to store results
                 List<EntityBody> results = new ArrayList<EntityBody>();
+                
+                boolean userRequestsLinks = userAcceptedMediaTypeRequestsLinks(headers);
 
                 // list all entities matching query parameters and iterate over results
                 for (EntityBody entityBody : entityDef.getService().list(neutralQuery)) {
-                    entityBody.put(ResourceConstants.LINKS,
-                            ResourceUtil.getLinks(entityDefs, entityDef, entityBody, uriInfo));
+                    
+                    if (userRequestsLinks) {
+                        addLinks(entityBody, entityDef, headers, uriInfo);
+                    }
 
                     // add the custom entity if it was requested
                     addCustomEntity(entityBody, entityDef, uriInfo);
@@ -304,6 +309,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 if (!ids.isEmpty()) {
                     endpointNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
                     endpointNeutralQuery = addTypeCriteria(endpointEntity, endpointNeutralQuery);
+                    boolean userRequestsLinks = userAcceptedMediaTypeRequestsLinks(headers);
                     for (EntityBody result : endpointEntity.getService().list(endpointNeutralQuery)) {
                         if (associations.get(result.get("id")) != null) {
                             // direct self reference dont need to include association in reponse
@@ -311,11 +317,11 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                                 result.put(resource1, associations.get(result.get("id")));
                             }
                         }
-
-                        result.put(
-                                ResourceConstants.LINKS,
-                                ResourceUtil.getLinks(entityDefs,
-                                        entityDefs.lookupByResourceName(resolutionResourceName), result, uriInfo));
+                        
+                        if (userRequestsLinks) {
+                            addLinks(result, entityDefs.lookupByResourceName(resolutionResourceName), headers, uriInfo);
+                        }
+                        
                         finalResults.add(result);
                     }
 
@@ -342,7 +348,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
             }
         });
     }
-
+    
     /**
      * Reads one or more entities from a specific location or collection.
      *
@@ -403,12 +409,16 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                         finalResults.add(entityBody);
                     }
                 }
+                
+                boolean userRequestsLinks = userAcceptedMediaTypeRequestsLinks(headers);
 
                 for (EntityBody result : finalResults) {
                     if (result != null) {
-                        result.put(ResourceConstants.LINKS,
-                                ResourceUtil.getLinks(entityDefs, entityDef, result, uriInfo));
-
+                        
+                        if (userRequestsLinks) {
+                            addLinks(result, entityDef, headers, uriInfo);
+                        }
+                        
                         // add the custom entity if it was requested
                         addCustomEntity(result, entityDef, uriInfo);
 
@@ -645,12 +655,15 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 } else {
                     entityBodies = entityDef.getService().list(query);
                 }
+                
+                boolean userRequestsLinks = userAcceptedMediaTypeRequestsLinks(headers);
+                
                 for (EntityBody entityBody : entityBodies) {
 
-                    // if links should be included then put them in the entity body
-                    entityBody.put(ResourceConstants.LINKS,
-                            ResourceUtil.getLinks(entityDefs, entityDef, entityBody, uriInfo));
-
+                    if (userRequestsLinks) {
+                        addLinks(entityBody, entityDef, headers, uriInfo);
+                    }
+                    
                     results.add(entityBody);
                 }
 
@@ -661,6 +674,34 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
         });
     }
+    
+    private static List<String> mediaTypesWithLinks = new ArrayList<String>();
+    static {
+        mediaTypesWithLinks.add(HypermediaType.VENDOR_SLC_XML);
+        mediaTypesWithLinks.add(HypermediaType.VENDOR_SLC_JSON);
+    }
+    
+    protected boolean userAcceptedMediaTypeRequestsLinks(HttpHeaders headers) {
+        
+        if (headers != null) {
+            for (MediaType mediaType : headers.getAcceptableMediaTypes()) {
+                if (mediaTypesWithLinks.contains(mediaType.toString())) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+
+    protected void addLinks(EntityBody result, EntityDefinition entityDef, HttpHeaders headers, UriInfo uriInfo) {
+
+        if (result != null && entityDef != null && headers != null) {
+            result.put(ResourceConstants.LINKS,
+                    ResourceUtil.getLinks(entityDefs, entityDef, result, uriInfo));
+        }
+    }
+
 
     protected void addAdditionalCritera(NeutralQuery query) {
 
