@@ -23,6 +23,7 @@ require 'fileutils'
 require 'socket'
 require 'net/sftp'
 require 'net/http'
+require 'rest-client'
 
 require 'json'
 require_relative '../../../utils/sli_utils.rb'
@@ -1068,12 +1069,13 @@ When /^an activemq instance "([^"]*)" running in "([^"]*)" and on jmx port "([^"
 end
 
 When /^I navigate to the Ingestion Service HealthCheck page and submit login credentials "([^"]*)" "([^"]*)"$/ do |user, pass|
-   uri = URI(INGESTION_HEALTHCHECK_URL)
-   req = Net::HTTP::Get.new(uri.request_uri)
-   req.basic_auth user, pass
-   res = Net::HTTP.start(uri.hostname, uri.port) {|http|
-   http.request(req)
-   }
+   #uri = URI(INGESTION_HEALTHCHECK_URL)
+   #req = Net::HTTP::Get.new(uri.request_uri)
+   #req.basic_auth user, pass
+   #res = Net::HTTP.start(uri.hostname, uri.port) {|http|
+   #http.request(req)
+   #}
+   res = RestClient::Request.new(:method => :get, :url => INGESTION_HEALTHCHECK_URL, :user => user, :password => pass).execute
    puts res.body
    $healthCheckResult = res.body
 end

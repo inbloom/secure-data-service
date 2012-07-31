@@ -416,7 +416,7 @@ public class MockRepo implements Repository<Entity> {
                 }
 
                 @Override
-                public CalculatedData getAggregates() {
+                public CalculatedData getCalculatedValues() {
                     return null;
                 }
             };
@@ -466,7 +466,7 @@ public class MockRepo implements Repository<Entity> {
             }
 
             @Override
-            public CalculatedData getAggregates() {
+            public CalculatedData getCalculatedValues() {
                 return null;
             }
         };
@@ -543,7 +543,7 @@ public class MockRepo implements Repository<Entity> {
             }
 
             @Override
-            public CalculatedData getAggregates() {
+            public CalculatedData getCalculatedValues() {
                 return null;
             }
         };

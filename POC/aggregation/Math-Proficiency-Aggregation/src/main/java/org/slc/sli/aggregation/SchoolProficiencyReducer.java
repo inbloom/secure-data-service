@@ -46,8 +46,10 @@ public class SchoolProficiencyReducer
     protected void count(Text key) {
         System.err.println(key.toString());
         LongWritable w = (LongWritable) counts.get(key);
-        w.set(w.get() + 1);
-        counts.put(key,  w);
+        if (w != null) {
+            w.set(w.get() + 1);
+            counts.put(key, w);
+        }
     }
 
     public SchoolProficiencyReducer() {

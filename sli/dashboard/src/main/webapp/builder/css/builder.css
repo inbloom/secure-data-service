@@ -1,0 +1,21 @@
+/* dashboard builder styles */
+.ui-dialog-titlebar { font-size: 16px; border-bottom: solid 1px #c2ccd1; margin-bottom: 20px; }
+.ui-dialog-titlebar-close { visibility: hidden; }
+.profileList { width: 150px; float: left; padding: 20px; }
+.profilePageWrapper { float: left; padding: 20px; }
+.sectionProfile { margin: 20px 0; }
+.profile_list { list-style-type: none; padding: 0; margin: 0;}
+.profile_list a {  color: #000000; text-decoration: none; }
+.profile_list a:hover { text-decoration: underline; }
+.ui-tabs .ui-tabs-nav li { top: 0; }
+.ui-tabs .ui-tabs-nav li:hover { background: #fff; border: solid 2px #000; border-bottom: 0 none;}
+.ui-tabs .ui-tabs-nav li a { height: 25px; width: 100px; padding: 8px; white-space: normal; line-height: 15px;}
+.ui-tabs .ui-tabs-nav li div { height: 26px; padding: 8px; white-space: normal; width: 100px; }
+.ui-tabs .ui-tabs-nav li div span { cursor: pointer; padding: 8px; }
+.ui-tabs .ui-tabs-nav li.addPageSection { top: 12px; margin-left: 5px; }
+.ui-tabs .ui-tabs-nav li.addPageSection:hover { top: 12px; border: none;}
+.addPageSection .btn { padding: 6px 14px; }
+#txt_input { width: 350px; }
+.dialogBox { display: none;}
+.dialogBox ul { margin: 0; padding: 0; list-style-type: none; }
+.dialogBox ul li { margin: 10px 0; }

@@ -435,7 +435,8 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1XMLTests,
                      :userAdminCrudTests,
                      :v1CommaSeparatedListOrderTests,
-                     :aggregationAPI] do
+                     :aggregationAPI,
+                     :v1SelectorTests] do
   displayFailureReport()
 end
 
@@ -556,7 +557,8 @@ task :dashboardSdsTests => [:dashboardSdsUploadConfigTests,
                          :dashboardStudentSearchTests,
                          :dashboardSdsTranscriptPanelTests,
                          :dashboardAssessmentTests,
-                         :dashboardSectionProfileTests] do
+                         :dashboardSectionProfileTests,
+                         :dashboardSdsDashboardBuilderTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"

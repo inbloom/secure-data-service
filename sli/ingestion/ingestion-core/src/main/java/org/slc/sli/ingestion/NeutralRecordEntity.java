@@ -151,7 +151,7 @@ public class NeutralRecordEntity implements Entity {
     }
 
     @Override
-    public CalculatedData getAggregates() {
+    public CalculatedData getCalculatedValues() {
         return new CalculatedData();
     }
 }

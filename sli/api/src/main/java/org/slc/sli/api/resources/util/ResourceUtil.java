@@ -243,8 +243,8 @@ public class ResourceUtil {
 
     private static boolean areAggregatesPresent(final EntityDefinition defn, String id) {
         try {
-            CalculatedData aggregateData = defn.getService().getAggregateData(id);
-            return aggregateData != null && !aggregateData.getAggregates().isEmpty();
+            CalculatedData aggregateData = defn.getService().getCalculatedValues(id);
+            return aggregateData != null && !aggregateData.getCalculatedValues().isEmpty();
         } catch (AccessDeniedException e) {
             return false;
         }

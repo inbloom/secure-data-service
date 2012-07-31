@@ -12,6 +12,13 @@ task :apiV1AssociationTests => [:realmInit] do
   runTests("test/features/apiV1/associations/links/assoc_links.feature")
 end
 
+desc "Run V1 Selectors Tests"
+task :v1SelectorTests => [:realmInit] do
+  # Import the data once, none of these tests edit the data
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/selectors/selectors.feature")
+end
+
 desc "Run V1 check for duplicate links"
 task :apiV1DuplicateLinkTest => [:realmInit] do
   # Import the data once, none of these tests edit the data
@@ -339,6 +346,7 @@ end
 ############################################################
 desc "Run Aggregation API Tests"
 task :aggregationAPI => [:realmInit, :importCompletedAggData] do
+  runTests("test/features/apiV1/aggregations/calcValues_api.feature")
   runTests("test/features/apiV1/aggregations/aggregate_api.feature")
 end
 
@@ -347,7 +355,8 @@ task :importCompletedAggData => [:importSandboxData] do
   data = Hash[
     "student" => "completedAggregation/students.json",
     "studentSchoolAssociation" => "completedAggregation/studentSchools.json",
-    "studentSectionAssociation" => "completedAggregation/studentSections.json"
+    "studentSectionAssociation" => "completedAggregation/studentSections.json",
+    "educationOrganization" => "completedAggregation/educationOrganization.json"
   ]
   setMultipleFixtureFiles(data)
 end
