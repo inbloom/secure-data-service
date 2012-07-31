@@ -19,50 +19,19 @@ limitations under the License.
 =end
 
 
-testdir = File.dirname(__FILE__)
-$LOAD_PATH << testdir + "/../lib"
-require 'approval'
+localdir = File.dirname(__FILE__)
+$LOAD_PATH << localdir + "/../lib"
+require 'eventbus'
 require 'yaml'
-
-
-LDAP_WO_CONSTANTS = {
-    :loginShell           =>  "/sbin/nologin"
-}
-RO_LDAP_ATTR_MAPPING = {
-    :createTimestamp => :created,
-    :modifyTimestamp => :updated,
-    :cn              => :cn
-}
-LDAP_DESCRIPTION_FIELD = :description
-LDAP_ATTR_MAPPING = {
-    :givenname            => :first,
-    :sn                   => :last,
-    :uid                  => :email,
-    :userPassword         => :password,
-    :o                    => :vendor,
-    :displayName          => :emailtoken,
-    :destinationIndicator => :status,
-    :homeDirectory        => :homedir,
-    :uidNumber            => :uidnumber,
-    :gidNumber            => :gidnumber,
-    :mail                 => :emailAddress
-}
-COMBINED_LDAP_ATTR_MAPPING = LDAP_ATTR_MAPPING.merge(RO_LDAP_ATTR_MAPPING)
 
 if __FILE__ == $0
     unless ARGV.length == 2
-        puts "Usage: " + $0 + " config.yml environment account_name "
+        puts "Usage: " + $0 + " config.yml environment "
         exit(1)
     end
     
     config = YAML::load( File.open( ARGV[0] ) )[ARGV[1]]
-    puts "BASE: #{config['ldap_base']}"
-    ldap = LDAPStorage.new(config['ldap_host'], config['ldap_port'], config['ldap_base'], config['ldap_user'], config['ldap_pass'])
 
-    users = ldap.read_users
-    puts "-------------------------------"
-    users.each do |u|
-        puts u[:email]
-    end 
-    puts "FOUND #{users.length}"
+    # set up the oplog agent 
+    
 end
