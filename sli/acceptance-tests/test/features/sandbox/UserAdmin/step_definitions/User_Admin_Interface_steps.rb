@@ -132,7 +132,7 @@ end
 Then /^the Role combobox is populated with (.*?)$/ do |primary_role|
   drop_down = @driver.find_element(:id, "user_primary_role")
   option = drop_down.find_element(:xpath, ".//option[text()=#{primary_role}]")
-  assert(option.attribute("selected")=="true", "#{primary_role} does not match what's expected: #{option.text()}")
+  assert(option.attribute("selected")=="true", "#{primary_role} does not match what's expected}")
 end
 
 Then /^the Role checkbox is checked with "(.*?)"$/ do |additional_role| 
@@ -309,16 +309,15 @@ end
 
 Then /^I can select "(.*?)" from a choice between "(.*?)" Role$/ do |role, choices| 
     drop_down = @driver.find_element(:id, "user_primary_role")
-    drop_down.click
+    #drop_down.click
     for i in choices.split(",")  do
         i.strip!
         option = drop_down.find_element(:xpath, ".//option[text()=\"#{i}\"]")
         assert(option != nil)
     end
    
-    drop_down.send_keys "#{role}.chr\r" 
-    #option = dropDown.find_element(:xpath, ".//option[text()=#{role}]")
-    #option.send_keys "\r"
+    select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, "user_primary_role"))
+    select.select_by(:text, role)
 end
 
 Then /^I can also check "(.*?)" Role$/ do |r|

@@ -40,6 +40,28 @@ Given /^I have a valid account as a SEA Administrator$/ do
   #do nothing, guaranteed by configuration
 end
 
+Given /^I have a valid account as a LEA Administrator$/ do
+  #do nothing, guaranteed by configuration
+end 
+
+Given /^There is a user with "(.*?)", "(.*?)", "(.*?)", and "(.*?)" in LDAP Server$/ do |full_name, role, addition_roles, email|
+  new_user=create_new_user(full_name, role, addition_roles)
+  new_user['email']=email.gsub("hostname", Socket.gethostname)
+  new_user['uid']=new_user['email']
+  new_user['tenant']="Midgar"
+  new_user['edorg']="IL-DAYBREAK"
+
+  idpRealmLogin("operator", nil)
+  sessionId = @sessionId
+  format = "application/json"
+
+  restHttpDelete("/users/#{new_user['uid']}", format, sessionId)
+  restHttpPost("/users", new_user.to_json, format, sessionId)
+  puts "user created in ldap"
+  @user_full_name="#{new_user['firstName']} #{new_user['lastName']}"
+  @user_unique_id=new_user['uid']
+end
+
 When /^I navigate to the User Management Page$/ do
   step "I navigate to the sandbox user account management page"
 end
@@ -79,19 +101,71 @@ Then /^I do not see (.*?) Role$/ do |role|
 end
 
 Then /^I can change the EdOrg dropdown to "(.*?)"$/ do |selection| 
-    drop_down = @driver.find_element(:id, "user_edorg")
-    drop_down.click
-    options = drop_down.find_elements(:xpath, ".//option");
-    options.each do |option|
-        if option.text() == "#{selection}"
-            option.click
-            drop_down.send_keys "\r"
-        end
-    end
-    drop_down.send_keys "\r"
+    drop_down = Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, "user_edorg"))
+    drop_down.select_by(:text, selection)
 end 
 
 
+Then /^the new user has the same "(.*?)" field as "(.*?)" has$/ do |field_name, match_user| 
+  @user_unique_id=@user_email
+  td=@driver.find_element(:id, "#{match_user}_#{field_name.downcase.gsub(" ", "_")}")
+  step "the user has \"#{field_name}\" updated to \"#{td.text()}\""
+end
 
+Then /^the new user has Roles as (.*?)$/ do |roles|
+  @user_unique_id=@user_email
+  step "the user has Roles as #{roles}"
+end 
 
+Then /^the (.*?) field is prefilled$/ do |field_name|
+  field=getField(field_name)
+  assert("#{field.attribute("value")}" != "", "#{field_name} is empty!") 
+end
 
+Given /^I have a account as a "LEA Administrator"$/ do 
+end
+
+Then /^I am redirected to "(.*?)" page which has a table of all accounts for my tenancy$/ do |pageTitle|
+  assertWithWait("Failed to navigate to the #{pageTitle} page")  {@driver.page_source.index("#{pageTitle}") != nil}
+  assertWithWait("Failed to find the table of accounts") {@driver.find_element(:id => "Users_Management_Table") != nil}
+end
+
+When /^I click on "Edit" link for my user$/ do |arg1|
+          pending # express the regexp above with the code you wish you had
+end
+
+Then /^I am redirected to "(.*?)" form$/ do |arg1|
+          pending # express the regexp above with the code you wish you had
+end
+
+Then /^the title is "(.*?)"$/ do |arg1|
+          pending # express the regexp above with the code you wish you had
+end
+
+Then /^I can update email address$/ do
+          pending # express the regexp above with the code you wish you had
+end
+
+Then /^I can update the Fullname$/ do
+          pending # express the regexp above with the code you wish you had
+end
+
+Then /^I cannot update any other field$/ do
+          pending # express the regexp above with the code you wish you had
+end
+
+When /^I click "(.*?)"$/ do |arg1|
+          pending # express the regexp above with the code you wish you had
+end
+
+Then /^I am redirected to the "(.*?)" Page$/ do |arg1|
+          pending # express the regexp above with the code you wish you had
+end
+
+Then /^the updated information is displayed in the table$/ do
+          pending # express the regexp above with the code you wish you had
+end
+
+Then /^no changes are shown in the table$/ do
+          pending # express the regexp above with the code you wish you had
+end

@@ -53,7 +53,7 @@ Then I am redirected to "Admin Account Management" page
 Then I click on "Add User" button
 And I am redirected to "Add a User" page
 
-Then I can select "SLC Administrator" from a choice between "SLC Operator, SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
+Then I can select "SLC Operator" from a choice between "SLC Operator, SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
 And the "Tenant" textbox is disabled 
 
 
@@ -75,105 +75,147 @@ And I can also check "Realm Administrator" Role
 And I can also check "Ingestion User" Role 
 
 Then I can select "LEA Administrator" from a choice between "SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
+#TODO
 And I can change the EdOrg dropdown to "IL-DAYBREAK"
 
 When I click button "Save"
 Then I am redirected to "Admin Account Management" page 
 And a "Success" message is displayed 
 
-And the user has Roles as "LEA Administrator, Realm Administrator, Ingestion User"
-#And the new user has the same "Tenant" field as "IL Admin" has
-#And a new unique account has been created with the same tenant_id and "Ed-Org" as "IL-DAYBREAK" and "Role" as "LEA Administrator" and "Realm  Adminstrator" and "Ingestion User"
+And the new user has "EdOrg" updated to "IL-DAYBREAK" 
+And the new user has Roles as "LEA Administrator, Realm Administrator, Ingestion User"
+And the new user has the same "Tenant" field as "IL Admin" has
 #And an email to verify user email address is sent
 #
 #
-#Scenario: As a LEA Admin I can only create certain roles
-#Given I have a valid account as a LEA Administrator
-#When I go to "Add a User" form 
+Scenario: As a LEA Admin I can only create certain roles
+Given I have a valid account as a LEA Administrator
+Given the prod testing user does not already exists in LDAP
+When I navigate to the User Management Page 
+And I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
+Then I am redirected to "Admin Account Management" page 
+Then I click on "Add User" button
+And I am redirected to "Add a User" page
+Then I can update the "Full Name" field to "Superadmin AcceptanceTest"
+And I can update the "Email" field to "prodtestuser@testwgen.net"
 #Then the only options in the "Role" drop-down are "LEA Administrator", "Ingestion User", "Realm Administrator"
-#And  I can select either or both optional roles of "Ingestion User"  "Realm Administrator"
-#
-#When I select role "Ingestion User"
-#And  I select both "Realm Administrator" and "Ingestion User"
+Then I can select "LEA Administrator" from a choice between "LEA Administrator, Ingestion User, Realm Administrator" Role
+And I can also check "Realm Administrator" Role 
+And I can also check "Ingestion User" Role 
+#TODO
 #And I enter an EdOrg as "IL-DAYBREAK"
-#And I click "Save"
-#Then I am redirected to the "User Account Management" Page
-#And a "Success" message is displayed 
-#And a new unique account has been created with the same tenant_id and "Ed-Org" as "IL-DAYBREAK" and "Role" as "SEA Administrator" and "Realm  Adminstrator" and "Ingestion User"
+
+When I click button "Save"
+Then I am redirected to "Admin Account Management" page 
+And a "Success" message is displayed 
+And the new user has Roles as "LEA Administrator, Realm Administrator, Ingestion User"
+And the new user has the same "Tenant" field as "Sunset Admin" has
 #And an email to verify user email address is sent
-#
-#	
-#Scenario: As a SLC Operator I can edit an account
-#When I access the User Management Page from the portal
-#Then I am redirected to "User Account Management" page which has a table of all accounts for my tenancy
-#
-#When I hover over a row which is not my name
-#Then I am shown the option to "Edit" user
-#
-#When I click on "Edit" link
-#Then I am redirected to "Add a User" form
-#And the title is "Edit a User"
-#And the Fullname is prefilled
-#And the Email is prefilled
-#And the EdOrg is prefilled
-#And the tenant is prefilled
-#And the Role is selected
-#
-#When I update the email address
-#And I update the Role to "LEA Administrator"
-#And I click "Save"
-#Then I am redirected to the "User Account Management" Page
-#And a "Success" message is displayed 
-#And the updated information is displayed in the table
-#
-#When I click "Cancel"
-#Then I am redirected to the "User Account Management" Page
-#And no changes are shown in the table
-#
-#Scenario: As a SLC Operator I can delete an account
-#When I access the User Management Page from the portal
-#Then I am redirected to "User Account Management" page which has a table of all accounts for my tenancy
-#
-#When I hover over a row which is not my name
-#Then I am shown the option to "Delete" user
-#
-#When I click on "Delete" icon
-#Then I am asked to confirm the delete action
-#
-#When I confirm the delete action
-#Then that user is removed from LDAP
-#And the user entry is removed from the table
-#
-#
-#Scenario: As a Admin I cannot delete an account
-#When I access the User Management Page from the portal
-#Then I am redirected to "User Account Management" page which has a table of all accounts for my tenancy
-#
-#When I hover over a row which has my name
-#Then I am not shown the option to "Delete"
-#
-#
-#Scenario: As a LEA Administrator I can edit limited fields on my  account
-#Given I have a account as a "LEA Administrator"
-#When I access the User Management Page from the portal 
-#Then I am redirected to "User Account Management" page which has a table of all accounts for my tenancy
-#
-#When I hover over a row has my name
-#Then I am shown the option to "Edit" user
-#
-#When I click on "Edit" link
-#Then I am redirected to "Add a User" form
-#And the title is "Edit a User"
-#And I can update email address
-#And I can update the Fullname 
-#And I cannot update any other field 
-#
-#When I click "Save"
-#Then I am redirected to the "User Account Management" Page
-#And a "Success" message is displayed 
-#And the updated information is displayed in the table
-#
-#When I click "Cancel"
-#Then I am redirected to the "User Account Management" Page
-#And no changes are shown in the table
-#
+
+Scenario Outline: As a SLC Operator I can cancel editing an account
+Given There is a user with "<USER_FULL_NAME>", "<USER_ROLE>", "<USER_ADDITIONAL_ROLES>", and "<USER_EMAIL>" in LDAP Server
+When I navigate to the User Management Page 
+And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
+Then I am redirected to "Admin Account Management" page 
+
+When I click the "edit" link for "<USER_FULL_NAME>"
+Then I am redirected to "Update a User" page
+And the "Full Name" field is prefilled with "<USER_FULL_NAME>"
+And the "Email" field is prefilled with "<USER_EMAIL>"
+And the "EdOrg" field is prefilled
+	
+When I click "Cancel" link
+Then I am redirected to "Admin Account Management" page 
+
+    Examples:
+    |USER_FULL_NAME              |USER_ROLE           |USER_EMAIL                      |USER_ADDITIONAL_ROLES   |NEW_NAME       |NEW_EMAIL      |
+    |Prod EditAdmin_hostname     |SEA Administrator   |hostname_prodtestuser@wgen.net  |Realm Administrator     |Some Random    |random@1.net   |
+
+Scenario Outline: As a SLC Operator I can edit an account
+Given There is a user with "<USER_FULL_NAME>", "<USER_ROLE>", "<USER_ADDITIONAL_ROLES>", and "<USER_EMAIL>" in LDAP Server
+When I navigate to the User Management Page 
+And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
+Then I am redirected to "Admin Account Management" page 
+
+When I click the "edit" link for "<USER_FULL_NAME>"
+Then I am redirected to "Update a User" page
+And the "Full Name" field is prefilled with "<USER_FULL_NAME>"
+And the "Email" field is prefilled with "<USER_EMAIL>"
+And the "EdOrg" field is prefilled
+And the "Tenant" field is prefilled
+And the Role combobox is populated with "<USER_ROLE>" 
+And the Role checkbox is checked with "<USER_ADDITIONAL_ROLES>" 
+
+#unhappy path: update with empty field
+Then I can delete text in "Full Name" field 
+Then I can delete text in "Email" field 
+And I click button "Update"
+And a "can't be blank" message is displayed 
+
+Then I can update the "Full Name" field to "<NEW_NAME>"
+And I can update the "Email" field to "<NEW_EMAIL>"
+And I can also check "Ingestion User" Role 
+
+#And I can change the Role from the dropdown to "LEA Administrator"
+And I click button "Update"
+Then I am redirected to "Admin Account Management" page 
+And a "Success" message is displayed 
+
+And the user has "Full Name" updated to "<NEW_NAME>" 
+And the user has "Email" updated to "<NEW_EMAIL>" 
+And the user has Roles as "SEA Administrator, Realm Administrator, Ingestion User"
+
+    Examples:
+    |USER_FULL_NAME              |USER_ROLE           |USER_EMAIL                      |USER_ADDITIONAL_ROLES   |NEW_NAME       |NEW_EMAIL      |
+    |Prod EditAdmin_hostname     |SEA Administrator   |hostname_prodtestuser@wgen.net  |Realm Administrator     |Some Random    |random@1.net   |
+
+Scenario Outline: As a SLC Operator I can delete an account
+Given There is a user with "<USER_FULL_NAME>", "<USER_ROLE>", "<USER_ADDITIONAL_ROLES>", and "<USER_EMAIL>" in LDAP Server
+When I navigate to the User Management Page 
+And I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
+Then I see a user with Full Name is "<USER_FULL_NAME>" in the table
+And the user "role" is "<USER_ROLE>"
+When I click on "delete" icon 
+Then I am asked to confirm the delete action
+  
+When I confirm the delete action
+Then that user is removed from LDAP
+
+    Examples:
+    |USER_FULL_NAME              |USER_ROLE           |USER_EMAIL                      |USER_ADDITIONAL_ROLES   |NEW_NAME       |NEW_EMAIL      |
+    |Prod EditAdmin_hostname     |SEA Administrator   |hostname_prodtestuser@wgen.net  |                        |Some Random    |random@1.net   |
+
+
+Scenario Outline: As an admin I can not delete my account
+When I navigate to the User Management Page 
+Then I will be redirected to "Simple" login page
+When I submit the credentials "<USER>" "<PASSWORD>" for the "Simple" login page
+Then I see my Full Name is "<USER_FULL_NAME>" in the table
+And the "delete" button is disabled
+
+ Examples:
+    |USER                 |PASSWORD                 |USER_FULL_NAME                |USER_ROLE           |
+    |slcoperator          |slcoperator1234          |SLC Operator                  |SLC Operator        |
+
+
+@wip
+Scenario: As a LEA Administrator I can edit limited fields on my  account
+Given I have a account as a "LEA Administrator"
+When I navigate to the User Management Page 
+And I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
+Then I am redirected to "Admin Account Management" page which has a table of all accounts for my tenancy
+
+When I click the "edit" link for "Sunset Admin"
+Then I am redirected to "Update a User" page
+And I can update email address
+And I can update the Fullname 
+And I cannot update any other field 
+
+When I click "Save"
+Then I am redirected to the "Admin Account Management" Page
+And a "Success" message is displayed 
+And the updated information is displayed in the table
+
+When I click "Cancel"
+Then I am redirected to the "Admin Account Management" Page
+And no changes are shown in the table
