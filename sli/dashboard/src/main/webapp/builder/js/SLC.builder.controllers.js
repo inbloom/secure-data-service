@@ -35,7 +35,7 @@ function profileListCtrl($scope, Profiles) {
 	$scope.profiles = [];
 	Profiles.query(function(profiles) {
 
-		// exclude search profiles
+		// Search profile are not user configurable so we are skipping that profile
 		for (i = 0; i < profiles.length; i++) {
 			var profile = profiles[i];
 			if(!(profile.id.match(/search/i))) {
@@ -138,7 +138,7 @@ function profileCtrl($scope, $routeParams, Profile, dbSharedService) {
 
 		    configs.mode = "";
 		    dbSharedService.setModalConfig(configs);
-		    
+
 		} catch(e) {
 			$("#content_json").closest(".control-group").addClass("error");
 		}

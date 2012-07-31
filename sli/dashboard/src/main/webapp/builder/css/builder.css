@@ -20,6 +20,14 @@ html, body {
     padding-left: 0;
     padding-top: 14px;
 }
+
+/* header styles needs to be updated in portal */
+#sli_banner { height: 28px !important; min-height: 28px !important; }
+.sli_logo_main, .sli_header_right { margin: 0 !important; line-height: 28px; }
+.sli_logo_main a { padding: 0 2px; }
+#simplemodal-overlay { background-color: #000; }
+
+
 .banner-label {
     color: #D8D8D8;
     font-family: Arial,Helvetica,sans-serif;
