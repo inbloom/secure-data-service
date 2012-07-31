@@ -7,6 +7,17 @@ require 'eventbus'
 
 module Eventbus
   class OpLogReader
+    def initialize(config = {})
+      @config = {
+          :mongo_host => 'localhost',
+          :mongo_port => 27017,
+          :mongo_db => 'local',
+          :mongo_oplog_collection =>'oplog.rs',
+          :mongo_connection_retry => 5,
+          :mongo_ignore_initial_read => true
+      }.merge(config)
+    end
+
     def read_oplogs
       @thread ||= Thread.new do
         connect_to_mongo_oplog
@@ -28,20 +39,31 @@ module Eventbus
 
     def connect_to_mongo_oplog
       begin
-        db = Mongo::Connection.new("localhost", 27017).db("local")
-        coll = db['oplog.rs']
+        db = Mongo::Connection.new(@config[:mongo_host], @config[:mongo_port]).db(@config[:mongo_db])
+        coll = db[@config[:mongo_oplog_collection]]
         @cursor = Mongo::Cursor.new(coll, :timeout => false, :tailable => true)
+        if(@config[:mongo_ignore_initial_read])
+          counter = 0
+          while @cursor.has_next?
+            @cursor.next_document
+            counter = counter + 1
+          end
+          puts "ignore initial read counter = #{counter}"
+        end
       rescue Exception => e
         puts "exception occurred when connecting to mongo for oplog: #{e}"
         puts "retrying connection in 5 seconds"
-        sleep 5
+        sleep @config[:mongo_connection_retry]
         retry
       end
     end
   end
 
   class OpLogThrottler
-    def initialize
+    def initialize(config = {})
+      @config = {
+          :throttle_polling_period => 5
+      }.merge(config)
       @oplog_queue = Queue.new
       @collection_filter_lock = Mutex.new
       set_collection_filter([])
@@ -49,20 +71,8 @@ module Eventbus
 
     def run
       Thread.new do
-        sleep 5
-        counter = 0
-        begin
-          loop do
-            @oplog_queue.pop(true)
-            counter = counter + 1
-          end
-        rescue
-          # no more oplog in oplog queue
-        end
-        puts "ignore first oplog reading: #{counter} oplogs detected"
-
         loop do
-          sleep 5
+          sleep @config[:throttle_polling_period]
           collection_changed = Set.new
           begin
             loop do
@@ -105,21 +115,21 @@ module Eventbus
   end
 
   class OpLogAgent
-    def initialize
-      oplog_throttler = Eventbus::OpLogThrottler.new
-      oplog_reader = OpLogReader.new
+    def initialize(config = {})
+      config = {
+          :node_name => Socket.gethostname,
+          :publish_queue_name => "/queue/listener",
+          :subscribe_queue_name => "/topic/agent"
+      }.merge(config)
+
+      oplog_throttler = Eventbus::OpLogThrottler.new(config)
+      oplog_reader = OpLogReader.new(config)
 
       oplog_reader.read_oplogs do |incoming_oplog_message|
         oplog_throttler.push(incoming_oplog_message)
       end
 
-      agent_config = {
-          :node_name => Socket.gethostname,
-          :publish_queue_name => "/queue/listener",
-          :subscribe_queue_name => "/topic/agent"
-      }
-
-      messaging_service = Eventbus::MessagingService.new(agent_config) do |incoming_configuration_message|
+      messaging_service = Eventbus::MessagingService.new(config) do |incoming_configuration_message|
         collection_filter = incoming_configuration_message['collection_filter']
         if(collection_filter != nil)
           oplog_throttler.set_collection_filter(collection_filter)

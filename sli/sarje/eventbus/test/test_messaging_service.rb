@@ -8,7 +8,9 @@ class TestMessagingService < Test::Unit::TestCase
   def setup
   end
 
-  # Note: you must have MQ service running locally for this test to work
+  # Note: you must have MQ service running locally for these tests to work
+
+
   def test_messaging
     agent_incoming = '/topic/agent'
     listener_incoming = '/queue/listener'

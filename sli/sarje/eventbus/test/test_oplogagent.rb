@@ -55,35 +55,35 @@ class TestOpLogAgent < Test::Unit::TestCase
     assert_equal(1, (collection_received & good_collections).size)
   end
 
-  #def test_oplog_agent
-  #  Eventbus::OpLogAgent.new
-  #
-  #  def connect_to_mongo
-  #    begin
-  #      @conn = Mongo::Connection.new
-  #      @db   = @conn['sample-db']
-  #      @coll = @db['test']
-  #      @coll.remove
-  #    rescue
-  #      puts "Cannot connect to mongo"
-  #      sleep 1
-  #      retry
-  #    end
-  #  end
-  #
-  #  Thread.new do
-  #    connect_to_mongo
-  #    100.times do |i|
-  #      begin
-  #        @coll.insert({'a' => i+1})
-  #        sleep 1
-  #      rescue Exception => e
-  #        puts e
-  #        connect_to_mongo
-  #      end
-  #    end
-  #  end
-  #
-  #  sleep
-  #end
+  def test_oplog_agent
+    Eventbus::OpLogAgent.new
+
+    def connect_to_mongo
+      begin
+        @conn = Mongo::Connection.new
+        @db   = @conn['sample-db']
+        @coll = @db['test']
+        @coll.remove
+      rescue
+        puts "Cannot connect to mongo"
+        sleep 1
+        retry
+      end
+    end
+
+    Thread.new do
+      connect_to_mongo
+      100.times do |i|
+        begin
+          @coll.insert({'a' => i+1})
+          sleep 1
+        rescue Exception => e
+          puts e
+          connect_to_mongo
+        end
+      end
+    end
+
+    sleep 100
+  end
 end
