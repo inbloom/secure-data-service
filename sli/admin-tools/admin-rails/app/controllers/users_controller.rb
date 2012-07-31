@@ -106,15 +106,17 @@ class UsersController < ApplicationController
     logger.info("the new user validation is #{@user.valid?}")
     logger.info("the new user validation error is #{@user.errors.to_json}")
     @user.errors.clear
-    if @user.valid? == false || validate_email==false
-      resend = true
-    else
+    if @user.valid? == false || validate_email==false || validate_tenant_edorg==false
+      validate_tenant_edorg
+     resend = true 
+     else
     begin  
     @user.save
     rescue ActiveResource::ResourceConflict
       resend = true
       @user.errors[:email] << @@EXISTING_EMAIL_MSG
     end
+    
     end
     
      respond_to do |format|
@@ -182,10 +184,11 @@ class UsersController < ApplicationController
     @user.errors.clear
     logger.info{"the updated user validate is #{@user.valid?}"}
     logger.info{"the updated user validation errors is #{@user.errors.to_json}"}
-    if @user.valid? == false || validate_email==false
-      resend = true
-    else
-    @user.save
+    if @user.valid? == false || validate_email==false || validate_tenant_edorg==false
+      validate_tenant_edorg
+     resend = true 
+     else
+      @user.save
     end
 
      respond_to do |format|
@@ -249,9 +252,39 @@ class UsersController < ApplicationController
   end
   
   def set_edorg_options
+    if is_sea_admin? || is_lea_admin?
     check = Check.get ""
-     @edorgs = {"(optional)" => "", "" => "" ,check["edOrg"] => check["edOrg"]}
+    login_user_edorg_name = check['edOrg']
+    @edorgs={check['edOrg']=> check ['edOrg']}
+    if login_user_edorg_name !=nil
+    current_edorgs = EducationOrganization.find(:all, :params => {"stateOrganizationId" => login_user_edorg_name})
+    end
+      while current_edorgs !=nil && current_edorgs.length>0
+        
+        child_edorgs=[]
+        current_edorgs.each do |edorg|
+          edorgs = EducationOrganization.find(:all, :params => {"parentEducationAgencyReference" => edorg.id } )
+           if edorgs!=nil && edorgs.length>0
+             edorgs.each do |temp_edorg|
+               if temp_edorg.organizationCategories.index("State Education Agency") != nil || temp_edorg.organizationCategories.index("Local Education Agency")!=nil
+                 child_edorgs.push temp_edorg
+               end
+             end
+           end
+         end
+      if child_edorgs !=nil && child_edorgs.length>0
+        child_edorgs.each do |child_edorg|
+         @edorgs.merge!({child_edorg.stateOrganizationId => child_edorg.stateOrganizationId}) 
+         logger.info("add education organization #{child_edorg.stateOrganizationId} to select options")
+        end
+      end
+      current_edorgs = child_edorgs
+     end
+    
+     logger.info("the edorg options are #{@edorgs.to_json}")
+     end
   end
+  
   
   def set_role_options
     if APP_CONFIG['is_sandbox']
@@ -335,6 +368,20 @@ class UsersController < ApplicationController
       valid=false
       end
       return valid
+      end
+      
+      def validate_tenant_edorg
+        valid =true
+        if (is_operator? && !@user.groups.include?("SLC Operator")) && (@user.edorg==nil || @user.edorg=="")
+          @user.errors[:edorg] << "can't be blank"
+          valid=false
+        end
+        
+        if (is_operator? && !@user.groups.include?("SLC Operator")) && (@user.tenant == nil || @user.tenant=="")
+          @user.errors[:tenant] << "can't be blank"
+          valid=false
+        end
+        return valid
       end
   
 end

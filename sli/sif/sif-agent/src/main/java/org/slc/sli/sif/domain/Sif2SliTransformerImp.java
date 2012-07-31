@@ -16,32 +16,32 @@
 
 package org.slc.sli.sif.domain;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.Set;
+
 import openadk.library.datamodel.SEAInfo;
 import openadk.library.student.LEAInfo;
 import openadk.library.student.SchoolInfo;
 
-import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.dozer.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.sif.domain.sifentity.LEAInfoEntity;
 import org.slc.sli.sif.domain.sifentity.SEAInfoEntity;
 import org.slc.sli.sif.domain.sifentity.SchoolInfoEntity;
 import org.slc.sli.sif.domain.slientity.LEAEntity;
 import org.slc.sli.sif.domain.slientity.SEAEntity;
 import org.slc.sli.sif.domain.slientity.SchoolEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.codehaus.jackson.type.TypeReference;
-
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Transformer for mapping entities from SIF domain to SLI domain.
@@ -52,7 +52,7 @@ import java.util.Set;
 @Component
 public class Sif2SliTransformerImp implements Sif2SliTransformer
 {
-    protected static ObjectMapper mapper = new ObjectMapper();
+    protected static final ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
     private Mapper dozerMapper;
@@ -108,10 +108,10 @@ public class Sif2SliTransformerImp implements Sif2SliTransformer
         }
         return new HashMap<String, Object>();
     }
-    
+
     //============ private helper
-    
-    // removes all keys from this map that has a null value. If some values are maps, 
+
+    // removes all keys from this map that has a null value. If some values are maps,
     // do it recursively
     private static void clearNullValueKeys(Map m) {
         Set keySet = m.keySet();

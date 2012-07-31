@@ -23,7 +23,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -50,7 +52,7 @@ public class MockZis {
     
     static Logger log = LoggerFactory.getLogger(MockZis.class);
     
-    private List<String> agentCallbackUrls = new ArrayList<String>();
+    private Set<String> agentCallbackUrls = new HashSet<String>();
     
     /**
      * Parse and process a SIF message.
@@ -153,11 +155,11 @@ public class MockZis {
         agentCallbackUrls.add(agentCallbackUrl);
     }
     
-    public void getAgentUrls(List<String> agentCallbackUrls) {
+    public void getAgentUrls(Set<String> agentCallbackUrls) {
         this.agentCallbackUrls = agentCallbackUrls;
     }
     
-    public List<String> getAgentUrls() {
+    public Set<String> getAgentUrls() {
         return agentCallbackUrls;
     }
     
