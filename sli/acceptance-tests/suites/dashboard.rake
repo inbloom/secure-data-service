@@ -87,6 +87,11 @@ task :dashboardHTMLEscapeTests do
   runTests("test/features/dashboard/dash/dashboard_html_escape.feature")
 end
 
+desc "Run dashboard teacher profile test"
+task :dashboardTeacherProfileTests do
+  runTests("test/features/dashboard/dash/teacher_profile.feature")
+end
+
 desc "Dashboard Sad Path Test Suite"
 task :dashboardSadPathTestSuite => [:ingestionDashboardSadPathTest,
                                     :realmInitNoPeople,
