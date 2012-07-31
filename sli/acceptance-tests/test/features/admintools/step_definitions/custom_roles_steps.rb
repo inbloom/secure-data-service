@@ -86,8 +86,7 @@ Then /^the group "([^"]*)" contains the (rights "[^"]*")$/ do |arg1, arg2|
 end
 
 When /^I hit the save button$/ do
-  btn = @driver.find_element(:id, "rowEditToolSaveButton")
-  btn.click
+  @driver.find_element(:id, "rowEditToolSaveButton").click
 end
 
 Then /^I am informed that I must have at least one role and right in the group$/ do
@@ -243,4 +242,8 @@ end
 
 Then /^I see the mapping in the table$/ do
   # Dummy step, validation is done in WHEN step, this step just used to make the Gherkin read happy
+end
+
+Then /^the save button is disabled$/ do
+  assert(!@driver.find_element(:id, "rowEditToolSaveButton").enabled?, "Save button should be disabled")
 end
