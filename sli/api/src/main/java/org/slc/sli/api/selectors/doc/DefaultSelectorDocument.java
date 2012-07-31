@@ -8,14 +8,16 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.selectors.model.ModelProvider;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.ClassType;
-import org.slc.sli.modeling.uml.ModelElement;
 import org.slc.sli.modeling.uml.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.Stack;
 
 
 /**
