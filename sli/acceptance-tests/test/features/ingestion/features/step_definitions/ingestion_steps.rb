@@ -1672,7 +1672,11 @@ end
 Then /^the following collections counts are the same:$/ do |table|
   @db = @conn[INGESTION_DB_NAME]
   table.hashes.map do |row|
-    assert(@excludedCollectionHash[row["collectionName"]] == @db.collection(row["collectionName"]).count(), "Tenant Purge has removed documents it should not have")
+    if row["collectionName"] == "securityEvent"
+      assert(@excludedCollectionHash[row["collectionName"]] <= @db.collection(row["collectionName"]).count(), "Tenant Purge has removed documents it should not have from the following collection: #{row["collectionName"]}")
+    else
+      assert(@excludedCollectionHash[row["collectionName"]] == @db.collection(row["collectionName"]).count(), "Tenant Purge has removed documents it should not have from the following collection: #{row["collectionName"]}")
+    end
   end
 end
 
