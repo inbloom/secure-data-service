@@ -31,7 +31,14 @@ Transform /rights "(.*?)"/ do |arg1|
   # Custom right sets for test roles
   rights = ["READ_GENERAL"] if arg1 == "Read General"
   rights = ["READ_GENERAL", "WRITE_GENERAL"] if arg1 == "Read and Write General"
+  rights = [] if arg1 == "none"
   rights
+end
+
+Transform /roles "(.*?)"/ do |arg1|
+  roles = ["Dummy"] if arg1 == "Dummy"
+  roles = [] if arg1 == "none"
+  roles
 end
 
 When /^I navigate to the Custom Role Mapping Page$/ do
@@ -64,12 +71,18 @@ Then /^a new group is created titled "([^"]*)"$/ do |title|
   @driver.find_element(:xpath, "//td[text()='#{title}']")
 end
 
-Then /^the group "([^"]*)" contains the roles "([^"]*)"$/ do |title, arg2|
-  pending # express the regexp above with the code you wish you had
+Then /^the group "([^"]*)" contains the (roles "[^"]*")$/ do |title, arg2|
+  group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
+  arg2.each do |role|
+    group.find_elements(:xpath, "//span[text()='#{role}']")
+  end
 end
 
-Then /^the group "([^"]*)" contains the rights "([^"]*)"$/ do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
+Then /^the group "([^"]*)" contains the (rights "[^"]*")$/ do |arg1, arg2|
+  group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
+  arg2.each do |right|
+    group.find_elements(:xpath, "//span[text()='#{right}']")
+  end
 end
 
 When /^I hit the save button$/ do
@@ -78,15 +91,17 @@ When /^I hit the save button$/ do
 end
 
 Then /^I am informed that I must have at least one role and right in the group$/ do
-  assertWithWait("Could not find an error message complaining about the role and right missing")  { @driver.find_element(:class, "error alert alert-error").text.include?("Validation") }
+  assertWithWait("Could not find an error message complaining about the role and right missing")  { @driver.find_element(:class, "alert-error").text.include?("Validation") }
 end
 
 When /^I add the right "([^"]*)" to the group "([^"]*)"$/ do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
+  select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, "addRightSelect"))
+  select.select_by(:text, arg1)
 end
 
 When /^I add the role "([^"]*)" to the group "([^"]*)"$/ do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
+  @driver.find_element(:id, "addRoleInput").send_keys arg1
+  @driver.find_element(:xpath, "//button[text()='Add']").click
 end
 
 When /^I create a new role <Role> to the group <Group> that allows <User> to access the API$/ do |table|
@@ -98,8 +113,6 @@ When /^I create a new role <Role> to the group <Group> that allows <User> to acc
     #TODO add stuff to validate the new role is in the group
     step "the user #{hash["User"]} can now access the API with rights #{hash["Role"]}"
   end
-
-  pending # express the regexp above with the code you wish you had
 end
 
 Then /^the user "([^"]*)" can access the API with (rights "[^"]*")$/ do |arg1, arg2|
