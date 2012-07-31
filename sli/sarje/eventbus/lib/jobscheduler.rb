@@ -30,7 +30,7 @@ module Eventbus
             @listener            = config[:listener]
             @jobrunner           = config[:jobrunner]
             @event_job_map       = {}
-            @poll_interval       = config[:poll_interval]
+            @poll_interval       = config[:mongo_poll_interval]
 
             # start the poller and the event dispatcher 
             @threads = [] 

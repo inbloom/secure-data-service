@@ -51,7 +51,7 @@ class TestJobScheduler < Test::Unit::TestCase
         jobrunner = EventCountingJobRunner.new
         @active_config[:listener] = listener
         @active_config[:jobrunner] = jobrunner
-        @active_config[:poll_interval] = 100    
+        @active_config[:mongo_poll_interval] = 100
         @scheduler = Eventbus::JobScheduler.new(@active_config)
 
         # wait until all events have fired 
