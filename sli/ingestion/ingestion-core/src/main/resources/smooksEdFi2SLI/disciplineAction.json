@@ -6,7 +6,7 @@
         "fieldPath" : "body.staffId",
         "ref" :
         {
-            "collectionName" : "staff",
+            "entityType" : "staff",
             "isRefList" : true,
             "refObjectPath" : "body.staffReference",
             "choiceOfFields" :
@@ -27,7 +27,7 @@
         "fieldPath" : "body.studentId",
         "ref" :
         {
-            "collectionName" : "student",
+            "entityType" : "student",
             "isRefList" : true,
             "refObjectPath" : "body.studentReference",
             "choiceOfFields" :
@@ -48,7 +48,7 @@
         "fieldPath" : "body.disciplineIncidentId",
         "ref" :
         {
-            "collectionName" : "disciplineIncident",
+            "entityType" : "disciplineIncident",
             "isRefList" : true,
             "refObjectPath" : "body.disciplineIncidentReference",
             "choiceOfFields" :
@@ -67,7 +67,7 @@
                         [
                 {"ref" :
                     {
-                                    "collectionName" : "educationOrganization",
+                                    "entityType" : "educationOrganization",
                                     "choiceOfFields" :
                         [
                         [
@@ -92,7 +92,7 @@
         "fieldPath" : "body.responsibilitySchoolId",
         "ref" :
         {
-            "collectionName" : "school",
+            "entityType" : "school",
             "choiceOfFields" :
             [
                 [
@@ -111,7 +111,7 @@
         "fieldPath" : "body.assignmentSchoolId",
         "ref" :
         {
-            "collectionName" : "school",
+            "entityType" : "school",
             "optional" : "true",
             "choiceOfFields" :
             [
