@@ -3,7 +3,7 @@ Feature: As an admin I can create admin accounts for tenancies I administer
 
   Background: none
 	
-	@production @wip
+	@production
 	Scenario Outline: SLC Operator, SEA Administrator, LEA Administrator, Sandbox SLC Operator, and Sandbox Administrator have access the Super Administrator Management Tool
 	Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
 	And I have a role "<ADMIN_ROLE>"
@@ -14,8 +14,10 @@ Feature: As an admin I can create admin accounts for tenancies I administer
 		|iladmin    	|iladmin1234    		|SEA Administrator      |SLI        | should  	|
 		|sunsetadmin	|sunsetadmin1234		|LEA Administrator      |SLI        | should  	|
 		|sandboxoperator|sandboxoperator1234	|Sandbox SLC Operator	|SLI		| should  	|
+		|sandboxadministrator|sandboxadministrator1234|Sandbox Administrator|SLI	| should	|
 		|ingestionuser  |ingestionuser1234		|Ingestion User			|SLI		| should not|
 		|sunsetrealmadmin|sunsetrealmadmin1234	|Realm Administrator	|SLI		| should not|
+		|sandboxdeveloper|sandboxdeveloper1234	|Application Developer	|SLI		| should not|
 		
 	
   @wip
@@ -294,21 +296,21 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
 
   Examples:
     |USER              |PASSWORD            |ADMIN_ROLE             |ADMIN_REALM                  |WANTED_ADMIN_ROLE           |CODE|TENANT|ED_ORG     |
-    |operator          |operator1234        |SLC Operator           |SLI                          |SLC Operator                |200 |      |           |
-    |operator          |operator1234        |SLC Operator           |SLI                          |SEA Administrator           |200 |test  |test       |
-    |operator          |operator1234        |SLC Operator           |SLI                          |LEA Administrator           |200 |Midgar|IL-SUNSET  |
-    |operator          |operator1234        |SLC Operator           |SLI                          |Realm Administrator         |200 |Midgar|IL-SUNSET  |
-    |operator          |operator1234        |SLC Operator           |SLI                          |Ingestion User              |200 |Midgar|IL-SUNSET  |
+    |operator          |operator1234        |SLC Operator           |SLI                          |SLC Operator                |204 |      |           |
+    |operator          |operator1234        |SLC Operator           |SLI                          |SEA Administrator           |204 |test  |test       |
+    |operator          |operator1234        |SLC Operator           |SLI                          |LEA Administrator           |204 |Midgar|IL-SUNSET  |
+    |operator          |operator1234        |SLC Operator           |SLI                          |Realm Administrator         |204 |Midgar|IL-SUNSET  |
+    |operator          |operator1234        |SLC Operator           |SLI                          |Ingestion User              |204 |Midgar|IL-SUNSET  |
     |iladmin           |iladmin1234         |SEA Administrator      |SLI                          |SLC Operator                |403 |      |           |
-    |iladmin           |iladmin1234         |SEA Administrator      |SLI                          |SEA Administrator           |200 |Midgar|IL-SUNSET  |
-    |iladmin           |iladmin1234         |SEA Administrator      |SLI                          |LEA Administrator           |200 |Midgar|IL-SUNSET  |
-    |iladmin           |iladmin1234         |SEA Administrator      |SLI                          |Realm Administrator         |200 |Midgar|IL-SUNSET  |
-    |iladmin           |iladmin1234         |SEA Administrator      |SLI                          |Ingestion User              |200 |Midgar|IL-SUNSET  |
+    |iladmin           |iladmin1234         |SEA Administrator      |SLI                          |SEA Administrator           |204 |Midgar|IL-SUNSET  |
+    |iladmin           |iladmin1234         |SEA Administrator      |SLI                          |LEA Administrator           |204 |Midgar|IL-SUNSET  |
+    |iladmin           |iladmin1234         |SEA Administrator      |SLI                          |Realm Administrator         |204 |Midgar|IL-SUNSET  |
+    |iladmin           |iladmin1234         |SEA Administrator      |SLI                          |Ingestion User              |204 |Midgar|IL-SUNSET  |
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |SLC Operator                |403 |      |           |
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |SEA Administrator           |403 |Midgar|IL-SUNSET  |
-    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |LEA Administrator           |200 |Midgar|IL-SUNSET  |
-    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |Realm Administrator         |200 |Midgar|IL-SUNSET  |
-    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |Ingestion User              |200 |Midgar|IL-SUNSET  |
+    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |LEA Administrator           |204 |Midgar|IL-SUNSET  |
+    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |Realm Administrator         |204 |Midgar|IL-SUNSET  |
+    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |Ingestion User              |204 |Midgar|IL-SUNSET  |
     |sunsetrealmadmin  |sunsetrealmadmin1234|Realm Administrator    |SLI                          |SLC Operator                |403 |      |           |
     |sunsetrealmadmin  |sunsetrealmadmin1234|Realm Administrator    |SLI                          |SEA Administrator           |403 |Midgar|IL-SUNSET  |
     |sunsetrealmadmin  |sunsetrealmadmin1234|Realm Administrator    |SLI                          |LEA Administrator           |403 |Midgar|IL-SUNSET  |
@@ -331,14 +333,14 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
 
   Examples:
     |USER                 |PASSWORD                 |ADMIN_ROLE             |ADMIN_REALM                  |WANTED_ADMIN_ROLE           |CODE|TENANT|ED_ORG     |
-    |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |Sandbox SLC Operator        |200 |      |           |
-    |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |Sandbox Administrator       |200 |Midgar|IL-SUNSET  |
-    |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |Ingestion User              |200 |Midgar|IL-SUNSET  |
-    |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |Application Developer       |200 |Midgar|IL-SUNSET  |
+    |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |Sandbox SLC Operator        |204 |      |           |
+    |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |Sandbox Administrator       |204 |Midgar|IL-SUNSET  |
+    |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |Ingestion User              |204 |Midgar|IL-SUNSET  |
+    |sandboxoperator      |sandboxoperator1234      |Sandbox SLC Operator   |SLI                          |Application Developer       |204 |Midgar|IL-SUNSET  |
     |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Sandbox SLC Operator        |403 |      |           |
-    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Sandbox Administrator       |200 |Midgar|IL-SUNSET  |
-    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Ingestion User              |200 |Midgar|IL-SUNSET  |
-    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Application Developer       |200 |Midgar|IL-SUNSET  |
+    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Sandbox Administrator       |204 |Midgar|IL-SUNSET  |
+    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Ingestion User              |204 |Midgar|IL-SUNSET  |
+    |sandboxadministrator |sandboxadministrator1234 |Sandbox Administrator  |SLI                          |Application Developer       |204 |Midgar|IL-SUNSET  |
     |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Sandbox SLC Operator        |403 |      |           |
     |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Sandbox Administrator       |403 |Midgar|IL-SUNSET  |
     |sandboxdeveloper     |sandboxdeveloper1234     |Application Developer  |SLI                          |Application Developer       |403 |Midgar|IL-SUNSET  |

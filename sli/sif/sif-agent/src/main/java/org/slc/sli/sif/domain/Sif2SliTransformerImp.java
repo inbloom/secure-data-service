@@ -16,22 +16,32 @@
 
 package org.slc.sli.sif.domain;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.Set;
+
 import openadk.library.datamodel.SEAInfo;
 import openadk.library.student.LEAInfo;
 import openadk.library.student.SchoolInfo;
 
-import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.dozer.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.sif.domain.sifentity.LEAInfoEntity;
 import org.slc.sli.sif.domain.sifentity.SEAInfoEntity;
 import org.slc.sli.sif.domain.sifentity.SchoolInfoEntity;
-import org.slc.sli.sif.domain.slientity.EntityAdapter;
 import org.slc.sli.sif.domain.slientity.LEAEntity;
 import org.slc.sli.sif.domain.slientity.SEAEntity;
 import org.slc.sli.sif.domain.slientity.SchoolEntity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Transformer for mapping entities from SIF domain to SLI domain.
@@ -42,133 +52,100 @@ import org.springframework.stereotype.Component;
 @Component
 public class Sif2SliTransformerImp implements Sif2SliTransformer
 {
-    protected static ObjectMapper mapper = new ObjectMapper();
+    protected static final ObjectMapper mapper = new ObjectMapper();
 
     @Autowired
     private Mapper dozerMapper;
 
-    /**
-     * Transform an SIF SchoolInfo into a EntityAdapter ready for api client operations.
-     *
-     * @param genericEntity
-     * @param entityType
-     * @return EntityAdapter
-     */
-    public EntityAdapter transform(SchoolInfo schoolInfo) {
-        return new EntityAdapter(xform(schoolInfo), "school");
+    @Override
+    public Map<String, Object> transform(SchoolInfo schoolInfo) {
+        try
+        {
+            SchoolEntity e = this.dozerMapper.map(new SchoolInfoEntity(schoolInfo), SchoolEntity.class);
+            Map<String, Object> body = mapper.readValue(e.json(), new TypeReference<Map<String, Object>>(){});
+            clearNullValueKeys (body);
+            return body;
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new HashMap<String, Object>();
     }
 
-    /**
-     * Transform an SIF LEAInfo into a EntityAdapter ready for api client operations.
-     *
-     * @param genericEntity
-     * @param entityType
-     * @return EntityAdapter
-     */
-    public EntityAdapter transform(LEAInfo info) {
-        return new EntityAdapter(xform(info), "educationOrganization");
+    @Override
+    public Map<String, Object> transform(LEAInfo leaInfo) {
+        try {
+            LEAEntity e = this.dozerMapper.map(new LEAInfoEntity(leaInfo), LEAEntity.class);
+            Map<String, Object> body = mapper.readValue(e.json(), new TypeReference<Map<String, Object>>(){});
+            clearNullValueKeys (body);
+            return body;
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new HashMap<String, Object>();
     }
 
-    /**
-     * Transform an SIF SEAInfo into a EntityAdapter ready for api client operations.
-     *
-     * @param genericEntity
-     * @param entityType
-     * @return EntityAdapter
-     */
-    public EntityAdapter transform(SEAInfo info) {
-        return new EntityAdapter(xform(info), "educationOrganization");
+    @Override
+    public Map<String, Object> transform(SEAInfo seaInfo) {
+        try {
+            SEAEntity e = this.dozerMapper.map(new SEAInfoEntity(seaInfo), SEAEntity.class);
+            Map<String, Object> body = mapper.readValue(e.json(), new TypeReference<Map<String, Object>>(){});
+            clearNullValueKeys (body);
+            return body;
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new HashMap<String, Object>();
     }
 
-    /**
-     * Transform an SIF SchoolInfo into a corresponding SLI JsonNode ready for operations.
-     *
-     * @param SchoolInfo
-     * @return JsonNode
-     */
-    public JsonNode transform2json(SchoolInfo info) {
-        return xform(info).json();
-    }
+    //============ private helper
 
-    /**
-     * Transform an SIF SchoolInfo into an SLI SchoolEntity.
-     *
-     * @param SchoolInfo
-     * @return SchoolEntity
-     */
-    public SchoolEntity xform(SchoolInfo schoolInfo) {
-        return this.dozerMapper.map(new SchoolInfoEntity(schoolInfo), SchoolEntity.class);
+    // removes all keys from this map that has a null value. If some values are maps,
+    // do it recursively
+    private static void clearNullValueKeys(Map m) {
+        Set keySet = m.keySet();
+        Set keysToRemove = new HashSet();
+        for (Object k : keySet) {
+            if (isNullValue(m.get(k))) {
+                keysToRemove.add(k);
+            }
+        }
+        for (Object k : keysToRemove) {
+            m.remove(k);
+        }
     }
-
-    /**
-     * Transform an SIF SchoolInfoEntity into an SLI SchoolEntity.
-     *
-     * @param SchoolInfoEntity
-     * @return SchoolEntity
-     */
-    public SchoolEntity transform(SchoolInfoEntity schoolInfoEntity) {
-        return this.dozerMapper.map(schoolInfoEntity, SchoolEntity.class);
+    private static void clearNullValueFromList(List l) {
+        ListIterator it = l.listIterator();
+        while (it.hasNext()) {
+            Object o = it.next();
+            if (isNullValue(o)) {
+                it.remove();
+            }
+        }
     }
-
-    /**
-     * Transform an SIF SchoolInfo into a corresponding SLI JsonNode ready for operations.
-     *
-     * @param SchoolInfo
-     * @return JsonNode
-     */
-    public JsonNode transform2json(LEAInfo leaInfo) {
-        return xform(leaInfo).json();
+    private static boolean isNullValue (Object o) {
+        if (o == null) {
+            return true;
+        }
+        if (o instanceof Map) {
+            clearNullValueKeys((Map) o);
+            return ((Map)o).isEmpty();
+        } else if (o instanceof List) {
+            clearNullValueFromList((List) o);
+            return ((List)o).isEmpty();
+        }
+        return false;
     }
-
-    /**
-     * Transform an SIF SchoolInfo into an SLI SchoolEntity.
-     *
-     * @param SchoolInfo
-     * @return SchoolEntity
-     */
-    public LEAEntity xform(LEAInfo leaInfo) {
-        return this.dozerMapper.map(new LEAInfoEntity(leaInfo), LEAEntity.class);
-    }
-
-    /**
-     * Transform an SIF SchoolInfoEntity into an SLI SchoolEntity.
-     *
-     * @param SchoolInfoEntity
-     * @return SchoolEntity
-     */
-    public LEAEntity transform(LEAInfoEntity leaInfoEntity) {
-        return this.dozerMapper.map(leaInfoEntity, LEAEntity.class);
-    }
-
-    /**
-     * Transform an SIF SchoolInfo into a corresponding SLI JsonNode ready for operations.
-     *
-     * @param SchoolInfo
-     * @return JsonNode
-     */
-    public JsonNode transform2json(SEAInfo seaInfo) {
-        return xform(seaInfo).json();
-    }
-
-    /**
-     * Transform an SIF SchoolInfo into an SLI SchoolEntity.
-     *
-     * @param SchoolInfo
-     * @return SchoolEntity
-     */
-    public SEAEntity xform(SEAInfo seaInfo) {
-        return this.dozerMapper.map(new SEAInfoEntity(seaInfo), SEAEntity.class);
-    }
-
-    /**
-     * Transform an SIF SchoolInfoEntity into an SLI SchoolEntity.
-     *
-     * @param SchoolInfoEntity
-     * @return SchoolEntity
-     */
-    public LEAEntity transform(SEAInfoEntity seaInfoEntity) {
-        return this.dozerMapper.map(seaInfoEntity, LEAEntity.class);
-    }
-
 }
 

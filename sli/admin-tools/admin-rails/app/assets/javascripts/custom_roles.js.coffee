@@ -3,6 +3,9 @@ editRowIndex = -1 #last row that was clicked on
 defaultRights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "AGGREGATE_WRITE"]
 
 jQuery ->
+  unless initCustomRoleScripts?
+    return
+
   populateTable(roles)
 
   $(".rowEditTool").mouseenter ->
@@ -48,6 +51,8 @@ jQuery ->
     editRow(lastRow)
     # Disable the save button until they've added a role and right
     $("#rowEditToolSaveButton").addClass("disabled") #disable until we get ajax success
+    $("#rowEditToolSaveButton").attr('disabled', 'disabled')
+    
 
   #Wire up reset to defaults
   $("#resetToDefaultsButton").click ->
@@ -80,6 +85,7 @@ enableSaveButtonIfPossible = ()  ->
   rights = getRights(editRowIndex)  
   if roles.length > 0 && rights.length > 0
     $("#rowEditToolSaveButton").removeClass("disabled")
+    $("#rowEditToolSaveButton").removeAttr('disabled')
     
 
 drawEditBox = (row) ->
@@ -98,6 +104,7 @@ createLabel = (type, name) ->
 
 editRow = (rowNum) ->
   $("#addGroupButton").addClass("disabled")
+  $("#addGroupButton").attr('disabled', 'disabled')
   $(".editButtons").hide()
   $(".saveButtons").show()
   editRowIndex = rowNum
@@ -167,7 +174,9 @@ wrapInputWithDeleteButton = (input, type) ->
 
 editRowStop = () ->
   $("#addGroupButton").removeClass("disabled")
+  $("#addGroupButton").removeAttr('disabled')
   $("#rowEditToolSaveButton").addClass("disabled") #disable until we get ajax success
+  $("#rowEditToolSaveButton").attr('disabled', 'disabled')
 
   #Move the components back to their original location
   $("#addRoleUi").hide()
@@ -200,6 +209,7 @@ saveData = (json) ->
     dataType: 'json'
     success: (data, status, xhr) ->
       $("#rowEditToolSaveButton").removeClass("disabled")
+      $("#rowEditToolSaveButton").removeAttr('disabled')
       $(".editButtons").show()
       $(".saveButtons").hide()
     error: (data, status, xhr) ->

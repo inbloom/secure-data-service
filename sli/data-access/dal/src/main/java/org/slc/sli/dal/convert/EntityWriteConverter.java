@@ -50,7 +50,7 @@ public class EntityWriteConverter implements Converter<Entity, DBObject> {
         if (e instanceof MongoEntity) {
             me = (MongoEntity) e;
         } else {
-            me = new MongoEntity(e.getType(), e.getEntityId(), e.getBody(), e.getMetaData(), e.getAggregates());
+            me = new MongoEntity(e.getType(), e.getEntityId(), e.getBody(), e.getMetaData(), e.getCalculatedValues());
         }
         if (encrypt != null) {
             me.encrypt(encrypt);

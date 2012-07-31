@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
@@ -40,6 +41,9 @@ import org.slc.sli.ingestion.transformation.normalization.IdNormalizer;
 import org.slc.sli.ingestion.transformation.normalization.RefDef;
 import org.slc.sli.ingestion.validation.DummyErrorReport;
 import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.validation.SchemaRepository;
+import org.slc.sli.validation.schema.NeutralSchema;
+import org.slc.sli.validation.schema.AppInfo;
 
 /**
  * EdFi to SLI data transformation
@@ -58,6 +62,9 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     private EntityConfigFactory entityConfigurations;
 
     private Repository<Entity> entityRepository;
+
+    @Autowired
+    private SchemaRepository schemaRepository;
 
     @Override
     public List<SimpleEntity> handle(NeutralRecord item) {
@@ -111,9 +118,18 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
         ComplexRefDef ref = entityConfig.getComplexReference();
         if (ref != null) {
+            String collectionName = "";
+            NeutralSchema schema = schemaRepository.getSchema(ref.getEntityType());
+            if (schema != null) {
+                AppInfo appInfo = schema.getAppInfo();
+                if (appInfo != null) {
+                    collectionName = appInfo.getCollectionType();
+                }
+            }
+
             idNormalizer
                     .resolveReferenceWithComplexArray(entity, item.getSourceId(), ref.getValueSource(),
-                            ref.getFieldPath(), ref.getCollectionName(), ref.getPath(), ref.getComplexFieldNames(),
+                            ref.getFieldPath(), collectionName, ref.getPath(), ref.getComplexFieldNames(),
                             errorReport);
         }
 
@@ -140,14 +156,14 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             return;
         }
 
-        String collection = null;
-        if (entity.getType().equals("stateEducationAgency") || entity.getType().equals("localEducationAgency")
-                || entity.getType().equals("school")) {
-            collection = "educationOrganization";
-        } else if (entity.getType().equals("teacher")) {
-            collection = "staff";
-        } else {
-            collection = entity.getType();
+
+        String collection = "";
+        NeutralSchema schema = schemaRepository.getSchema(entity.getType());
+        if (schema != null) {
+            AppInfo appInfo = schema.getAppInfo();
+            if (appInfo != null) {
+                collection = appInfo.getCollectionType();
+            }
         }
 
         @SuppressWarnings("deprecation")
@@ -186,7 +202,16 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             if (entityConfig.getReferences() != null && entityConfig.getReferences().size() > 0) {
                 errorMessage += "     The following collections are referenced by the key fields:" + "\n";
                 for (RefDef refDef : entityConfig.getReferences()) {
-                    errorMessage += "       collection = " + refDef.getRef().getCollectionName() + "\n";
+                    String collectionName = "";
+                    NeutralSchema schema = schemaRepository.getSchema(refDef.getRef().getEntityType());
+                    if (schema != null) {
+                        AppInfo appInfo = schema.getAppInfo();
+                        if (appInfo != null) {
+                            collectionName = appInfo.getCollectionType();
+                        }
+                    }
+
+                    errorMessage += "       collection = " + collectionName + "\n";
                 }
             }
         }

@@ -19,6 +19,8 @@ package org.slc.sli.sif.agent;
 import java.util.Properties;
 
 import junit.framework.Assert;
+import openadk.library.ADK;
+import openadk.library.ADKException;
 import openadk.library.Agent;
 import openadk.library.AgentProperties;
 import openadk.library.SIFVersion;
@@ -43,6 +45,11 @@ import org.slc.sli.sif.zone.ZoneConfigurator;
 public class SifAgentTest
 {
     private SifAgent createSifAgent(ZoneConfigurator zoneConfig) {
+        try {
+            ADK.initialize();
+        } catch (ADKException e) {
+            e.printStackTrace();
+        }
         Properties agentProperties = new Properties();
         agentProperties.put("adk.messaging.mode", "Push");
         agentProperties.put("adk.messaging.transport", "http");
