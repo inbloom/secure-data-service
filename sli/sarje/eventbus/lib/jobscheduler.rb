@@ -1,29 +1,47 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
 require 'mongo'
 require 'json'
 require 'thread'
 
 module Eventbus
     class JobScheduler
-        def initialize(listener)
-            config = {
-                "mongo_host"                => "127.0.0.1",
-                "mongo_port"                => 27017,
-                "mongo_db"                  => "eventbus",
-                "mongo_coll_scheduled_jobs" => "jobdefinitions"
-            }
-
+        def initialize(config)
             # connect to mongo and wrap the lister 
-            @mongo_conn          = Mongo::Connection.new(config["mongo_host"], config["mongo_port"])
-            @db                  = mongo_conn.db(config["mongo_db"])
-            @coll_scheduled_jobs = config["mongo_coll_schedule_jobs"]
-            @listener            = listener 
+            @mongo_conn          = Mongo::Connection.new(config[:mongo_host], config[:mongo_port])
+            @db                  = @mongo_conn.db(config[:mongo_db])
+            @coll_scheduled_jobs = config[:mongo_job_collection]
+            @listener            = config[:listener]
+            @jobrunner           = config[:jobrunner]
             @event_job_map       = {}
+            @poll_interval       = config[:poll_interval]
 
             # start the poller and the event dispatcher 
             @threads = [] 
-            @threads << start_poller 
+            @threads << start_poller(10)
             @threads << start_event_dispatcher
         end 
+
+        # blocks until all internal threads terminate
+        def join
+            @threads.each { |aThread|  aThread.join }
+        end
 
         # ######################################################################
         # Private 
@@ -31,20 +49,21 @@ module Eventbus
         private
 
         # Starts the poller that retrieves events from mongo db. 
-        def start_poller(poll_intervall)
+        def start_poller(poll_interval)
             Thread.new do 
-                while true
+                loop { 
                     # fetch the event types from from mongo and subscribe to them 
-                    @listener.subscribe(get_evented_jobs)
+                    events = get_evented_jobs
+                    @listener.subscribe(events)
 
                     # sleep for the poll interval
                     sleep(poll_interval)
-                end 
+                }
             end 
         end
 
         # Listen to events and dispatch them 
-        def start_event_eventdispatcher
+        def start_event_dispatcher
             # setup a queue to gather events and run them on haddoop 
             queue = Queue.new
 
@@ -56,14 +75,14 @@ module Eventbus
 
             # start the thread to process the events 
             Thread.new do
-                while true
+                loop {
                     event = queue.deq
 
                     # look up the event in the current events table and trigger the job if necessary 
                     if @event_job_map.key?(event[:event_type])
                         schedule_job(@event_job_map[event[:event_type]])
                     end 
-                end 
+                }
             end
         end
 
@@ -82,7 +101,10 @@ module Eventbus
         end 
 
         def schedule_job(job)
-            puts "Running job on Hadoop: #{job}"
+            all_jobs = @jobrunner.running
+            if !all_jobs.find_index(job[:jobname])
+                @jobrunner.schedule(job)
+            end
         end 
 
     end # class JobScheduler 
