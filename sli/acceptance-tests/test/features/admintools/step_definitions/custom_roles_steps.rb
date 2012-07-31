@@ -72,17 +72,15 @@ Then /^a new group is created titled "([^"]*)"$/ do |title|
 end
 
 Then /^the group "([^"]*)" contains the (roles "[^"]*")$/ do |title, roles|
-  foo = @driver.find_element(:xpath, "//div[text()='New Custom']")
   group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
-  puts("The group is #{group.text}")
   roles.each do |role|
     group.find_elements(:xpath, "//span[text()='#{role}']")
   end
 end
 
-Then /^the group "([^"]*)" contains the (rights "[^"]*")$/ do |arg1, arg2|
+Then /^the group "([^"]*)" contains the (rights "[^"]*")$/ do |title, rights|
   group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
-  arg2.each do |right|
+  rights.each do |right|
     group.find_elements(:xpath, "//span[text()='#{right}']")
   end
 end
