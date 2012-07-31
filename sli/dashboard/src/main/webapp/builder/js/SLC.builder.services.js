@@ -27,7 +27,7 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 		function saveDataSource(profileData) {
 			$http({
 				method: 'POST',
-				url: '/dashboard/s/c/saveCfg',
+				url: '/dashboard/s/c/cfg',
 				data: profileData
 			}).success(function() {
 				console.log("success");

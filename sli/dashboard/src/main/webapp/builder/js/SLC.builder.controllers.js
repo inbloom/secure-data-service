@@ -13,7 +13,7 @@ function profileListCtrl($scope, Profile) {
 	$scope.profiles = [];
 	Profile.query(function(profiles) {
 		
-		// exclude search profiles
+		// exclude search profiles. not user-configurable.
 		for (i = 0; i < profiles.length; i++) {
 			var profile = profiles[i];
     		if(!(profile.id.match(/search/i))) {

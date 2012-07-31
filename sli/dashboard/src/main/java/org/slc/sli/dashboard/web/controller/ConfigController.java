@@ -127,29 +127,24 @@ public class ConfigController extends GenericLayoutController {
     }
 
     /**
-     * Controller for client side data pulls without id
-     * /s/c/cfg?type=LAYOUT
+     * Controller for client side data pulls without id.
+     * The 'params' parameter contains a map of url query parameters. The parameters are matched
+     * to the attributes in the JSON config files.
+     *
+     * e.g. /s/c/cfg?type=LAYOUT&id=school
      */
     @RequestMapping(value = "/s/c/cfg", method = RequestMethod.GET)
-    @ResponseBody public Collection<Config> handleSearch(@RequestParam Map<String, String> params,
+    @ResponseBody public Collection<Config> handleConfigSearch(@RequestParam Map<String, String> params,
                                                          final HttpServletRequest request,
                                                          HttpServletResponse response) {
 
         String token = SecurityUtil.getToken();
-        GenericEntity staffEntity = userEdOrgManager.getStaffInfo(token);
 
         // check user is an admin at an LEA
         Boolean isAdmin = SecurityUtil.isAdmin();
+
         if (isAdmin != null && isAdmin.booleanValue()) {
-            Boolean localEducationAgency = (Boolean) staffEntity.get(Constants.LOCAL_EDUCATION_AGENCY);
-
-            if (localEducationAgency != null && localEducationAgency.booleanValue()) {
-
-                return configManager.getConfigsByAttribute(token, userEdOrgManager.getUserEdOrg(token), params);
-            } else {
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                return null;
-            }
+            return configManager.getConfigsByAttribute(token, userEdOrgManager.getUserEdOrg(token), params);
         } else {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return null;
@@ -163,7 +158,7 @@ public class ConfigController extends GenericLayoutController {
      * @param config
      * @return
      */
-    @RequestMapping(value = "/s/c/saveCfg", method = RequestMethod.POST)
+    @RequestMapping(value = "/s/c/cfg", method = RequestMethod.POST)
     @ResponseBody
     public String saveLayoutConfig(@RequestBody @Valid Config config) {
 
