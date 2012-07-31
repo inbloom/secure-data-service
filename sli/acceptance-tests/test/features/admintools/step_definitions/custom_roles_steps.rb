@@ -212,3 +212,24 @@ When /^I click the cancel button$/ do
   btn = @driver.find_element(:id, "rowEditToolCancelButton")
   btn.click
 end
+
+When /^I click on the Reset Mapping button$/ do
+  @driver.find_element(:id, "resetToDefaultsButton").click
+end
+
+Then /^the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves$/ do
+  wait = Selenium::WebDriver::Wait.new(:timeout => 1)
+  begin # Catch the exception from the wait... I'd rather get my detailed error messages than generic ones from WebDriver
+    wait.until { @driver.execute_script("return document.getElementById(\"mTable\").childNodes.length;") == 4 }
+  rescue
+  end
+
+  temp = @driver.find_elements(:xpath, "//td[text()='Roles']")
+  puts("Temp is #{temp.inspect}")
+  # Seach for two occurances of each of the default roles as elements of <td>s, one being client role other being default role 
+  ["Educator","Leader","Aggregate Viewer","IT Administrator"].each do |role|
+    results = @driver.find_elements(:xpath, "//td[text()='#{role}']")
+    assert(results.size == 2, webdriverDebugMessage(@driver,"Found unexpected occurences of roles "+role+", expected 2 found "+results.size.to_s))
+  end
+end
+
