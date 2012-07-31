@@ -42,6 +42,14 @@ function profileListCtrl($scope, Profiles) {
 				$scope.profiles.push(profile);
 			}
 		}
+	}, function(error) {
+		$(".errorMessage").removeClass("hide");
+		
+		if (error.status === 401) {
+			$scope.errorMessage = "Access Denied: Unauthorized user";
+		} else {
+			$scope.errorMessage = "Error";
+		}
 	});
 }
 
@@ -66,6 +74,14 @@ function profileCtrl($scope, $routeParams, Profile, dbSharedService) {
 			}
 		}
 		$scope.id = $scope.profile.id;
+	}, function(error) {
+		$(".errorMessage").removeClass("hide");
+		
+		if (error.status === 401) {
+			$scope.errorMessage = "Access Denied: Unauthorized user";
+		} else {
+			$scope.errorMessage = "Error";
+		}
 	});
 
 	$scope.generatePageId = function () {
@@ -98,29 +114,34 @@ function profileCtrl($scope, $routeParams, Profile, dbSharedService) {
 
 	$scope.saveProfile = function () {
 
-		var configs = dbSharedService.getModalConfig(),
-			page = dbSharedService.getPage();
+		try {
+		    var configs = dbSharedService.getModalConfig(),
+			    page = dbSharedService.getPage();
 
-		if(configs.mode === "add") {
-			var pageId = $scope.generatePageId();
-			$scope.pages.push({id:pageId, name:configs.pageTitle, items: $.parseJSON(configs.contentJSON), type:"TAB"});
+		    if(configs.mode === "add") {
+		    	var pageId = $scope.generatePageId();
+		    	$scope.pages.push({id:pageId, name:configs.pageTitle, items: $.parseJSON(configs.contentJSON), type:"TAB"});
+		    }
+		    else if(configs.mode === "edit") {
+		    	page.name = configs.pageTitle;
+		    	page.items = $.parseJSON(configs.contentJSON);
+
+		    	dbSharedService.setPage(page);
+		    }
+
+		    $.modal.close();
+
+		    $scope.profile.items = [];
+		    $scope.profileItemArray = $scope.panels.concat($scope.pages);
+		    $scope.profile.items = $scope.profileItemArray;
+		    dbSharedService.saveDataSource(angular.toJson($scope.profile)); // Save profile to the server
+
+		    configs.mode = "";
+		    dbSharedService.setModalConfig(configs);
+		    
+		} catch(e) {
+			$("#content_json").closest(".control-group").addClass("error");
 		}
-		else if(configs.mode === "edit") {
-			page.name = configs.pageTitle;
-			page.items = $.parseJSON(configs.contentJSON);
-
-			dbSharedService.setPage(page);
-		}
-
-		$.modal.close();
-
-		$scope.profile.items = [];
-		$scope.profileItemArray = $scope.panels.concat($scope.pages);
-		$scope.profile.items = $scope.profileItemArray;
-		dbSharedService.saveDataSource(angular.toJson($scope.profile)); // Save profile to the server
-
-		configs.mode = "";
-		dbSharedService.setModalConfig(configs);
 	};
 
 	$scope.removePagefromProfile = function () {
@@ -137,7 +158,8 @@ function profileCtrl($scope, $routeParams, Profile, dbSharedService) {
 
 	$scope.addDialog = function () {
 		var modalConfig = {};
-
+		$("#content_json").closest(".control-group").removeClass("error");
+		
 		modalConfig.mode = "add";
 		modalConfig.modalTitle = "Add New Page";
 		modalConfig.pageTitle = '';
@@ -150,7 +172,8 @@ function profileCtrl($scope, $routeParams, Profile, dbSharedService) {
 	$scope.editDialog = function () {
 		var page = dbSharedService.getPage(),
 			modalConfig = {};
-
+		$("#content_json").closest(".control-group").removeClass("error");
+		
 		modalConfig.mode = "edit";
 		modalConfig.modalTitle = "Edit Page";
 		modalConfig.contentJSON = angular.toJson(page.items);
