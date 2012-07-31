@@ -154,11 +154,18 @@ end
 Then /^I can update the (.*?) field to "(.*?)"$/ do |field_name, new_value|
   field=getField(field_name)
   field.clear
-  value=localize(new_value)
+  if field_name == "\"Tenant\"" or field_name == "\"EdOrg\""  #don't localize tenant and edorg value
+    value = new_value
+  else
+    value=localize(new_value)
+  end
   field.send_keys value 
   if field_name == "\"Full Name\"" 
     @user_full_name=value
     @userFullName=value
+  end
+  if field_name == "\"Email\"" 
+    @user_email=value
   end
 end 
 
@@ -168,7 +175,11 @@ Then /^I can delete text in (.*?) field$/ do |field_name|
 end
 
 Then /^the user has "(.*?)" updated to "(.*?)"$/ do |table_header, new_value| 
-  value=localize(new_value);
+  if table_header == "Tenant" or table_header == "EdOrg" #don't localize tenant and edorg value
+    value = new_value
+  else 
+    value=localize(new_value);
+  end
   tr=@driver.find_element(:id, @user_unique_id)
   td=tr.find_element(:id, "#{@user_full_name}_#{table_header.downcase.gsub(" ", "_")}")
   assert(td.text()==value, "#{table_header} not updated! Expecting: #{new_value}, got: #{td.text()}")
@@ -197,9 +208,12 @@ Then /^I can add additional Role "(.*?)"$/ do |optional_role|
   end
 end
 
-Then /^the user now has roles "(.*?)" and "(.*?)"$/ do |role1, role2| 
-  roles = [ role1, role2 ]
-  roles.sort!
+Then /^the user has Roles as "(.*?)"$/ do |roles|
+  roles_list = roles.split(",")
+  roles_list.each do |role|
+    role.strip!
+  end
+  roles_list.sort!
   tr=@driver.find_element(:id, @user_unique_id)
   td=tr.find_element(:id, "#{@user_full_name}_role")
   displayed = td.text().split(",")
@@ -207,10 +221,14 @@ Then /^the user now has roles "(.*?)" and "(.*?)"$/ do |role1, role2|
     str.strip!
   end
   displayed.sort!
-  assert(roles.size == displayed.size, "roles size do not match")
-  for idx in 0 ... roles.size
-    assert(roles[idx] == displayed[idx], "user roles do not match #{roles[idx]} #{displayed[idx]}")
+  assert(roles_list.size == displayed.size, "roles size do not match #{roles_list.size} #{displayed.size}")
+  for idx in 0 ... roles_list.size
+    assert(roles_list[idx] == displayed[idx], "user roles do not match #{roles_list[idx]} #{displayed[idx]}")
   end
+end 
+
+Then /^the user now has roles "(.*?)" and "(.*?)"$/ do |role1, role2| 
+    step "the user has Roles as \"#{role1}, #{role2}\""
 end 
 
 When /^I click on "(.*?)" icon$/ do |buttonName|
@@ -298,7 +316,7 @@ Then /^I can select "(.*?)" from a choice between "(.*?)" Role$/ do |role, choic
         assert(option != nil)
     end
    
-    drop_down.send_keys "#{role}.chr" 
+    drop_down.send_keys "#{role}.chr\r" 
     #option = dropDown.find_element(:xpath, ".//option[text()=#{role}]")
     #option.send_keys "\r"
 end
