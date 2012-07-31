@@ -33,7 +33,6 @@ And I can update the "Email" field to "prodtestuser@testwgen.net"
 And I can select "SEA Administrator" from a choice between "SLC Operator, SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
 And I can also check "Realm Administrator" Role 
 And I can update the "Tenant" field to "IL1212"
-And I can update the "Tenant" field to "IL1212"
 And I can update the "EdOrg" field to "IL-DAYBREAK"
 
 When I click button "Save"
@@ -70,12 +69,10 @@ And There is no textbox for "Tenant"
 Then I can update the "Full Name" field to "Superadmin AcceptanceTest"
 And I can update the "Email" field to "prodtestuser@testwgen.net"
 And I can select "SEA Administrator" from a choice between "SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
-And I do not see "SLC Operator" Role
 And I can also check "Realm Administrator" Role 
 And I can also check "Ingestion User" Role 
 
 Then I can select "LEA Administrator" from a choice between "SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
-#TODO
 And I can change the EdOrg dropdown to "IL-DAYBREAK"
 
 When I click button "Save"
@@ -92,24 +89,24 @@ Scenario: As a LEA Admin I can only create certain roles
 Given I have a valid account as a LEA Administrator
 Given the prod testing user does not already exists in LDAP
 When I navigate to the User Management Page 
-And I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
+And I submit the credentials "daybreaknorealmadmin" "daybreaknorealmadmin1234" for the "Simple" login page
 Then I am redirected to "Admin Account Management" page 
 Then I click on "Add User" button
 And I am redirected to "Add a User" page
+
 Then I can update the "Full Name" field to "Superadmin AcceptanceTest"
 And I can update the "Email" field to "prodtestuser@testwgen.net"
 #Then the only options in the "Role" drop-down are "LEA Administrator", "Ingestion User", "Realm Administrator"
-Then I can select "LEA Administrator" from a choice between "LEA Administrator, Ingestion User, Realm Administrator" Role
+Then I can select "Ingestion User" from a choice between "LEA Administrator, Ingestion User, Realm Administrator" Role
 And I can also check "Realm Administrator" Role 
 And I can also check "Ingestion User" Role 
-#TODO
-#And I enter an EdOrg as "IL-DAYBREAK"
+And I can change the EdOrg dropdown to "IL-DAYBREAK"
 
 When I click button "Save"
 Then I am redirected to "Admin Account Management" page 
 And a "Success" message is displayed 
-And the new user has Roles as "LEA Administrator, Realm Administrator, Ingestion User"
-And the new user has the same "Tenant" field as "Sunset Admin" has
+And the new user has Roles as "Realm Administrator, Ingestion User"
+And the new user has the same "Tenant" field as "DaybreakNoRealmAdmin Test" has
 #And an email to verify user email address is sent
 
 Scenario Outline: As a SLC Operator I can cancel editing an account
@@ -130,6 +127,7 @@ Then I am redirected to "Admin Account Management" page
     Examples:
     |USER_FULL_NAME              |USER_ROLE           |USER_EMAIL                      |USER_ADDITIONAL_ROLES   |NEW_NAME       |NEW_EMAIL      |
     |Prod EditAdmin_hostname     |SEA Administrator   |hostname_prodtestuser@wgen.net  |Realm Administrator     |Some Random    |random@1.net   |
+
 
 Scenario Outline: As a SLC Operator I can edit an account
 Given There is a user with "<USER_FULL_NAME>", "<USER_ROLE>", "<USER_ADDITIONAL_ROLES>", and "<USER_EMAIL>" in LDAP Server
@@ -197,6 +195,16 @@ And the "delete" button is disabled
     |USER                 |PASSWORD                 |USER_FULL_NAME                |USER_ROLE           |
     |slcoperator          |slcoperator1234          |SLC Operator                  |SLC Operator        |
 
+Scenario Outline: As a LEA Administrator I can not edit my account
+When I navigate to the User Management Page 
+Then I will be redirected to "Simple" login page
+When I submit the credentials "<USER>" "<PASSWORD>" for the "Simple" login page
+Then I see my Full Name is "<USER_FULL_NAME>" in the table
+And the "edit" button is disabled
+
+ Examples:
+    |USER                 |PASSWORD                 | USER_FULL_NAME |
+    |sunsetadmin          |sunsetadmin1234          | Sunset Admin   |
 
 @wip
 Scenario: As a LEA Administrator I can edit limited fields on my  account
@@ -207,15 +215,21 @@ Then I am redirected to "Admin Account Management" page which has a table of all
 
 When I click the "edit" link for "Sunset Admin"
 Then I am redirected to "Update a User" page
-And I can update email address
-And I can update the Fullname 
-And I cannot update any other field 
+And I can update the "Email" field to "sunsetadmin2@slcedu.org"
+Then I can update the "Full Name" field to "Sunset Admin 2"
+#And I cannot update any other field 
 
-When I click "Save"
-Then I am redirected to the "Admin Account Management" Page
-And a "Success" message is displayed 
-And the updated information is displayed in the table
+And I click button "Update"
+Then I am redirected to "Admin Account Management" page 
+And a "Success! You have updated the user" message is displayed 
+And the user has "Full Name" updated to "Sunset Admin 2"
+And the user has "Email" updated to "sunsetadmin2@slcedu.org"
 
-When I click "Cancel"
-Then I am redirected to the "Admin Account Management" Page
-And no changes are shown in the table
+When I click the "edit" link for "Sunset Admin 2"
+Then I am redirected to "Update a User" page
+And I can update the "Email" field to "sunsetadmin3@slcedu.org"
+Then I can update the "Full Name" field to "Sunset Admin 3"
+Then I click "Cancel"
+Then I am redirected to "Admin Account Management" page 
+And the user still has "Email" as "sunsetadmin2@slcedu.org"
+And the user still has "Full Name" as "Sunset Admin 2"

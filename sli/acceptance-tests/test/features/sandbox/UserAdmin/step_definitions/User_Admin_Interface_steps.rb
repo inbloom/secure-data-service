@@ -291,7 +291,7 @@ delete_button=nil
   assert(delete_button!=nil,"the #{buttonName} button is not disabled")
 end
 
-When /^I click on (.*?) button$/ do |buttonName|
+When /^I click on (".*?") button$/ do |buttonName|
   @driver.find_element(:xpath, "//a[text()=#{buttonName}]").click
 end
 
@@ -315,6 +315,9 @@ Then /^I can select "(.*?)" from a choice between "(.*?)" Role$/ do |role, choic
         option = drop_down.find_element(:xpath, ".//option[text()=\"#{i}\"]")
         assert(option != nil)
     end
+
+    options = drop_down.find_elements(:xpath, ".//option")
+    assert(options.size == choices.split(",").size, "Only has #{options.size} choices, but requirement has #{choices.split(",").size} chioces") 
    
     select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, "user_primary_role"))
     select.select_by(:text, role)
@@ -324,7 +327,7 @@ Then /^I can also check "(.*?)" Role$/ do |r|
     @driver.find_element(:id, "#{r.downcase.gsub(" ", "_")}_role").click 
 end
  
-When /^I click (.*?) link$/ do |link|
+When /^I click (".*?") link$/ do |link|
   @driver.find_element(:xpath, "//a[text()=#{link}]").click
 end 
 
