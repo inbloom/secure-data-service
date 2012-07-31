@@ -141,18 +141,19 @@ Then /^That user can no longer access the API$/ do
 end
 
 When /^I remove the role "([^"]*)" from the group "([^"]*)"$/ do |arg1, arg2|
-  pending # express the regexp above with the code you wish you had
+  step "I edit the group #{arg2}"
+  
 end
 
 When /^I remove the group "([^"]*)"$/ do |arg1|
-  @driver.find_element(:xpath, "//tr/td[text()='#{arg1}']").click
+  @driver.find_element(:xpath, "//div[text()='#{arg1}']").click
   @driver.find_element(:id, "rowEditToolDeleteButton").click
   @driver.switch_to.alert.accept
 end
 
 Then /^the group "([^"]*)" no longer appears on the page$/ do |arg1|
   lower_timeout_for_same_page_validation
-  groups = @driver.find_elements(:xpath, "//tr/td[text()='#{arg1}']")
+  groups = @driver.find_elements(:xpath, "//div[text()='#{arg1}']")
   assert(groups.size == 0, "Found group named #{arg1} on page")
   reset_timeouts_to_default
 end
@@ -162,7 +163,7 @@ When /^I edit the rights for the group <Group> to include the duplicate right <R
   table.hashes.each do |hash|
     step "I edit the group #{hash["Group"]}"
     # Check that the duplicate right is not an available choice in the dropdown
-    group = @driver.find_elements(:xpath, "//tr/td[text()='#{hash["Group"]}']/..")
+    group = @driver.find_elements(:xpath, "//div[text()='#{hash["Group"]}']/..")
     select = Selenium::WebDriver::Support::Select.new(group.find_element(:tag_name, "select"))
     select.options.each do |option|
       assert(option.text != hash["Right"], "Duplicate Right detected! Right: #{hash["Right"]}")
