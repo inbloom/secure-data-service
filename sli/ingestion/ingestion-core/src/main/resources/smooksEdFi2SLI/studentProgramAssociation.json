@@ -5,7 +5,7 @@
         "fieldPath" : "body.studentId",
         "ref" :
         {
-	        "collectionName" : "student",
+	        "entityType" : "student",
 	        "choiceOfFields" :
 	        [
 	            [
@@ -24,7 +24,7 @@
         "fieldPath" : "body.programId",
         "ref" :
         {
-	        "collectionName" : "program",
+	        "entityType" : "program",
 	        "choiceOfFields" :
 	        [
 	            [
@@ -43,7 +43,7 @@
         "fieldPath" : "body.educationOrganizationId",
         "ref" :
         {
-	        "collectionName" : "educationOrganization",
+	        "entityType" : "educationOrganization",
 	        "choiceOfFields" :
 	        [
 	            [

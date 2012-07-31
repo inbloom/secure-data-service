@@ -6,7 +6,7 @@
             "fieldPath" : "body.educationOrgId",
             "ref" :
             {
-                "collectionName" : "educationOrganization",
+                "entityType" : "educationOrganization",
                 "choiceOfFields" :
                 [
                     [
@@ -26,7 +26,7 @@
             "fieldPath" : "body.programId",
             "ref" :
             {
-                "collectionName" : "program",
+                "entityType" : "program",
                 "isRefList" : true,
                 "refObjectPath" : "body.programReferences",
                 "choiceOfFields" :

@@ -35,6 +35,7 @@
 
 <http create-session="never" auto-config="false" use-expressions="true" entry-point-ref="entryPoint">
     <intercept-url pattern="/static/**" filters="none"/>
+    <intercept-url pattern="/builder/**" filters="none"/>
     <intercept-url pattern="/" access="hasAnyRole('Educator', 'IT Administrator', 'Leader', 'Aggregate Viewer')"/>
     <intercept-url pattern="/service/**" access="hasAnyRole('Educator', 'IT Administrator', 'Leader', 'Aggregate Viewer')"/>
     <intercept-url pattern="/s/**" access="hasAnyRole('Educator', 'IT Administrator', 'Leader', 'Aggregate Viewer')"/>

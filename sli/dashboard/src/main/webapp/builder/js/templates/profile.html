@@ -1,0 +1,62 @@
+<h3>Modify: {{profile.name}}</h3>
+<div class="sectionProfile">
+    <div class="sectionInfo">
+        <div class="col1 column">
+            <div class="tabular">
+                <table>
+                    <tr>
+                        <td><strong>{{profile.name}}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Some text will display here.</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="tabs" ng-tabs>
+    <ul ng-sortable="pages">
+        <li class="ui-state-default" id="{{page.id}}" ng-sortable-index="{{$index}}" ng-repeat="page in pages" ng-controller="pageCtrl" ng-mouseover="showUpdateSection(this)" ng-mouseleave="hideUpdateSection">
+            <a class="view">{{page.name}}</a>
+            <div class="updatePage hide">
+                <span href="#"><i class="icon-move"></i></span>
+                <span href="#" ng-click="editPage()"><i class="icon-edit"></i></span>
+                <span href="#" ng-click="removePage()"><i class="icon-trash"></i></span>
+            </div>
+        </li>
+        <li class="addPageSection">
+            <button class="btn btn-primary" data-toggle="modal" ng-click="addDialog()" >+</button>
+        </li>
+    </ul>
+</div>
+<div class="modal hide" id="pageModal" ng-controller="editorCtrl" >
+    <div class="modal-header">
+        <button type="button" class="close simplemodal-close" data-dismiss="modal">×</button>
+        <h3>{{modalTitle}} Page</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <fieldset>
+                <div class="control-group">
+                    <label for="pageTitle" class="control-label">Title</label>
+                    <div class="controls">
+                        <input type="text" id="pageTitle" class="input-medium" ng-model="pageTitle" >
+                        <div class="formError">Invalid title</div>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="content_json" class="control-label">Content JSON</label>
+                    <div class="controls">
+                        <textarea rows="3" id="content_json" class="input-xlarge" ng-model="panelJSON"></textarea>
+                        <div class="formError">Invalid JSON</div>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <a class="btn simplemodal-close" data-dismiss="modal">Cancel</a>
+        <a class="btn btn-primary" ng-click="savePage()">Save</a>
+    </div>
+</div>

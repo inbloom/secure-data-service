@@ -61,7 +61,7 @@ public class BasicClient implements SLIClient {
     private RESTClient restClient;
 
     // Entity (de-)serialization (from) to Json.
-    ObjectMapper mapper = new ObjectMapper();
+    private ObjectMapper mapper = new ObjectMapper();
 
     /**
      * Construct a new BasicClient instance, using the JSON message converter.
@@ -73,10 +73,11 @@ public class BasicClient implements SLIClient {
         this.restClient = restClient;
     }
 
-    /**
-     * @deprecated Use {@link #create(Entity,String)} instead
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.slc.sli.api.client.SLIClient#create(org.slc.sli.api.client.Entity)
      */
-    @Deprecated
     @Override
     public String create(final Entity e) throws IOException, URISyntaxException, SLIClientException {
         return create(e, null);
@@ -85,12 +86,17 @@ public class BasicClient implements SLIClient {
     @Override
     public String create(final Entity e, String resourceUrl) throws IOException, URISyntaxException, SLIClientException {
         URLBuilder builder = URLBuilder.create(restClient.getBaseURL());
-        if (resourceUrl == null) {
-            builder.entityType(e.getEntityType());
+        URL url;
+        if (resourceUrl != null && resourceUrl.startsWith(restClient.getBaseURL().toString())) {
+            url = new URL(resourceUrl);
         } else {
-            builder.addPath(resourceUrl);
+            if (resourceUrl == null) {
+                builder.entityType(e.getEntityType());
+            } else if (!resourceUrl.startsWith(restClient.getBaseURL().toString())) {
+                builder.addPath(resourceUrl);
+            }
+            url = builder.build();
         }
-        URL url = builder.build();
         Response response = restClient.postRequest(url, mapper.writeValueAsString(e.getData()));
         checkResponse(response, Status.CREATED, "Could not created entity.");
 
@@ -121,7 +127,6 @@ public class BasicClient implements SLIClient {
         Response response = getResource(entities, builder.build(), query);
         checkResponse(response, Status.OK, "Unable to retrieve entity.");
     }
-
 
     @Override
     public List<Entity> read(final String resourceUrl, Query query) throws URISyntaxException,
@@ -156,8 +161,7 @@ public class BasicClient implements SLIClient {
     }
 
     @Override
-    public void delete(Entity e) throws MalformedURLException,
-            URISyntaxException, SLIClientException {
+    public void delete(Entity e) throws MalformedURLException, URISyntaxException, SLIClientException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
         checkResponse(restClient.deleteRequest(url), Status.NO_CONTENT, "Could not delete entity.");
     }

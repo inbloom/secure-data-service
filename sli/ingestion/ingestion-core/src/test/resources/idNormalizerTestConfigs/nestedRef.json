@@ -4,7 +4,7 @@
         "fieldPath" : "body.parentId",
         "ref" :
         { 
-            "collectionName" : "parentCollection",
+            "entityType" : "parentCollection",
             "choiceOfFields" :
             [
                 [
@@ -21,7 +21,7 @@
                         [{
                             "ref" :
                             {
-                                "collectionName" : "childCollection",
+                                "entityType" : "childCollection",
                                 "choiceOfFields":
                                 [[{
                                       "path" : "body.childField",

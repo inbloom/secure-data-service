@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
@@ -116,8 +115,10 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
         } catch (Exception exception) {
             handleProcessingExceptions(exchange, batchJobId, exception);
         } finally {
-            BatchJobUtils.stopStageAndAddToJob(stage, newJob);
-            batchJobDAO.saveBatchJob(newJob);
+            if (newJob != null) {
+                BatchJobUtils.stopStageAndAddToJob(stage, newJob);
+                batchJobDAO.saveBatchJob(newJob);
+            }
         }
     }
 

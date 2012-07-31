@@ -51,7 +51,7 @@ public class MongoEntity implements Entity, Serializable {
     private String padding;
     private Map<String, Object> body;
     private final Map<String, Object> metaData;
-    private final AggregateData aggregationData;
+    private final CalculatedData calculatedData;
 
     /**
      * Default constructor for the MongoEntity class.
@@ -62,7 +62,7 @@ public class MongoEntity implements Entity, Serializable {
      *            Body of Mongo Entity.
      */
     public MongoEntity(String type, Map<String, Object> body) {
-        this(type, null, body, null, new AggregateData());
+        this(type, null, body, null, new CalculatedData());
     }
 
     /**
@@ -78,12 +78,12 @@ public class MongoEntity implements Entity, Serializable {
      *            Metadata of Mongo Entity.
      */
     public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData) {
-        this(type, id, body, metaData, new AggregateData(), 0);
+        this(type, id, body, metaData, new CalculatedData(), 0);
     }
 
     public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
-            AggregateData aggregateData) {
-        this(type, id, body, metaData, aggregateData, 0);
+            CalculatedData calculatedData) {
+        this(type, id, body, metaData, calculatedData, 0);
     }
 
     public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData, int paddingLength) {
@@ -91,7 +91,7 @@ public class MongoEntity implements Entity, Serializable {
     }
 
     public MongoEntity(String type, String id, Map<String, Object> body, Map<String, Object> metaData,
-            AggregateData aggregateData, int paddingLength) {
+            CalculatedData calculatedData, int paddingLength) {
         this.type = type;
         this.entityId = id;
 
@@ -112,7 +112,7 @@ public class MongoEntity implements Entity, Serializable {
             this.metaData = metaData;
         }
 
-        this.aggregationData = aggregateData == null ? new AggregateData() : aggregateData;
+        this.calculatedData = calculatedData == null ? new CalculatedData() : calculatedData;
     }
 
     @Override
@@ -208,9 +208,10 @@ public class MongoEntity implements Entity, Serializable {
 
         Map<String, Object> metaData = (Map<String, Object>) dbObj.get("metaData");
         Map<String, Object> body = (Map<String, Object>) dbObj.get("body");
-        Map<String, Map<String, Map<String, Map<String, Object>>>> aggs = (Map<String, Map<String, Map<String, Map<String, Object>>>>) dbObj.get("aggregations");
+        Map<String, Map<String, Map<String, Map<String, Object>>>> cvals = (Map<String, Map<String, Map<String, Map<String, Object>>>>) dbObj
+                .get("calculatedValues");
 
-        return new MongoEntity(type, id, body, metaData, new AggregateData(aggs));
+        return new MongoEntity(type, id, body, metaData, new CalculatedData(cvals));
     }
 
     /**
@@ -232,8 +233,8 @@ public class MongoEntity implements Entity, Serializable {
     }
 
     @Override
-    public AggregateData getAggregates() {
-        return aggregationData;
+    public CalculatedData getCalculatedValues() {
+        return calculatedData;
     }
 
 }

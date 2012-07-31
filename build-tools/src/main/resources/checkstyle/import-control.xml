@@ -20,6 +20,7 @@
   <allow pkg="org.slc.sli.domain"/>
   <allow pkg="org.slc.sli.sif"/>
   <allow pkg="openadk.library"/>
+  <allow pkg="org.slc.sli.modeling"/>
 
   <subpackage name="dal">
     <allow pkg="org.slc.sli.dal"/>

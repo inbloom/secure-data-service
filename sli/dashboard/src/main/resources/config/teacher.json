@@ -1,0 +1,13 @@
+{
+	id: "teacher",
+	name: "SLC - Teacher Profile",
+	type: "LAYOUT",
+	data :{
+		entity: "teacherInfo",
+		cacheKey: "teacherInfo"
+	},
+	items: [
+		{ id: "teacherInfo", type: "PANEL"},
+		{ id: "sectionsTab", name: "Sections", type: "TAB", items: [{id: "teachingSections", type: "GRID"}]}
+	]
+}
