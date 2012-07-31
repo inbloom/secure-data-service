@@ -202,12 +202,11 @@ And the "delete" button is disabled
 Scenario: As a LEA Administrator I can edit limited fields on my  account
 Given I have a account as a "LEA Administrator"
 When I navigate to the User Management Page 
-And I submit the credentials "daybreaknorealmadmin" "daybreaknorealmadmin1234" for the "Simple" login page
+And I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 Then I am redirected to "Admin Account Management" page which has a table of all accounts for my tenancy
 
-When I click on "Edit" link for my user
-Then I am redirected to "Add a User" form
-And the title is "Edit a User"
+When I click the "edit" link for "Sunset Admin"
+Then I am redirected to "Update a User" page
 And I can update email address
 And I can update the Fullname 
 And I cannot update any other field 

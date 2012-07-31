@@ -130,15 +130,7 @@ Then /^I am redirected to "(.*?)" page which has a table of all accounts for my 
   assertWithWait("Failed to find the table of accounts") {@driver.find_element(:id => "Users_Management_Table") != nil}
 end
 
-When /^I submit the credentials for a "LEA Administrator" for the "Simple" login page$/ do 
-  step "I submit the credentials \"daybreaknorealmadmin\" \"daybreaknorealmadmin1234\" for the \"Simple\" login page"
-end
-
-When /^I hover over a row has my name$/ do
-          pending # express the regexp above with the code you wish you had
-end
-
-Then /^I am shown the option to "(.*?)" user$/ do |arg1|
+When /^I click on "Edit" link for my user$/ do |arg1|
           pending # express the regexp above with the code you wish you had
 end
 
