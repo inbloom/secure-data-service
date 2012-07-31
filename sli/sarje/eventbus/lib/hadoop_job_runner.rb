@@ -78,5 +78,6 @@ Thread.new do
   end
 end
 
-execute_job MATH_HIGHEST_EVER
+runner = HadoopJobRunner.new
+runner.execute_job MATH_HIGHEST_EVER
 sleep
