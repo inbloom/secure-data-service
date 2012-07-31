@@ -205,10 +205,7 @@ When I navigate to the User Management Page
 And I submit the credentials "daybreaknorealmadmin" "daybreaknorealmadmin1234" for the "Simple" login page
 Then I am redirected to "Admin Account Management" page which has a table of all accounts for my tenancy
 
-When I hover over a row has my name
-Then I am shown the option to "Edit" user
-
-When I click on "Edit" link
+When I click on "Edit" link for my user
 Then I am redirected to "Add a User" form
 And the title is "Edit a User"
 And I can update email address
