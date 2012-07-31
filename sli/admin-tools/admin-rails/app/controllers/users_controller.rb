@@ -115,6 +115,10 @@ class UsersController < ApplicationController
     rescue ActiveResource::ResourceConflict
       resend = true
       @user.errors[:email] << @@EXISTING_EMAIL_MSG
+     rescue ActiveResource::BadRequest
+     resend =true
+     @user.errors[:tenant] << "tenant and edorg mismatch"
+     @user.errors[:edorg] << "tenant and edorg mismatch"
     end
     
     end
@@ -188,7 +192,13 @@ class UsersController < ApplicationController
       validate_tenant_edorg
      resend = true 
      else
+     begin
       @user.save
+     rescue ActiveResource::BadRequest
+     resend =true
+     @user.errors[:tenant] << "tenant and edorg mismatch"
+     @user.errors[:edorg] << "tenant and edorg mismatch"
+     end
     end
 
      respond_to do |format|
