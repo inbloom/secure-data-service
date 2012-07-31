@@ -18,16 +18,16 @@ When I click on the Reset Mapping button
 And I got a warning message saying "Are you sure you want to reset the mappings to factory defaults? This will remove any custom defined roles!"
 When I click 'OK' on the warning message
 Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
-
+@derp
 Scenario: Create new group
 When I click on the Add Group button
 And I type the name "New Custom" in the Group name textbox
-Then a new group is created titled "New Custom"
-And the group "New Custom" contains the roles "none"
-And the group "New Custom" contains the rights "none"
+#Then a new group is created titled "New Custom"
+#And the group "New Custom" contains the roles "none"
+#And the group "New Custom" contains the rights "none"
 When I hit the save button
 Then I am informed that I must have at least one role and right in the group
-When I add the right "Read General" to the group "New Custom"
+When I add the right "READ_GENERAL" to the group "New Custom"
 And I add the role "Dummy" to the group "New Custom"
 And I hit the save button
 Then the group "New Custom" contains the roles "Dummy"
@@ -45,7 +45,7 @@ Then I see the mapping in the table
 And That user can now access the API
 
 Scenario: Add rights to group
-When I add the right "Read General" to the group "New Custom"
+When I add the right "READ_PUBLIC" to the group "New Custom"
 Then the group "New Custom" contains the rights "Read General"
 And the user "custom" can access the API with rights "Read General"
 When I add the right "Write General" to the group "New Custom"
