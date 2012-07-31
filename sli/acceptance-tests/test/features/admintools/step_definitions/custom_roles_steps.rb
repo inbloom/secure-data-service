@@ -111,7 +111,7 @@ When /^I create a new role <Role> to the group <Group> that allows <User> to acc
     step "I add the role #{hash["Role"]} to the group #{hash["Group"]}"
     step "I hit the save button"
     #TODO add stuff to validate the new role is in the group
-    step "the user #{hash["User"]} can now access the API with rights #{hash["Role"]}"
+    step "the user #{hash["User"]} can access the API with rights #{hash["Role"]}"
   end
 end
 
@@ -237,12 +237,14 @@ Then /^the Leader, Educator, Aggregate Viewer and IT Administrator roles are now
   rescue
   end
 
-  temp = @driver.find_elements(:xpath, "//td[text()='Roles']")
-  puts("Temp is #{temp.inspect}")
   # Seach for two occurances of each of the default roles as elements of <td>s, one being client role other being default role 
   ["Educator","Leader","Aggregate Viewer","IT Administrator"].each do |role|
-    results = @driver.find_elements(:xpath, "//td[text()='#{role}']")
-    assert(results.size == 2, webdriverDebugMessage(@driver,"Found unexpected occurences of roles "+role+", expected 2 found "+results.size.to_s))
+    results = @driver.find_elements(:xpath, "//td/div[text()='#{role}']")
+    moreResults = @driver.find_elements(:xpath, "//td/div/span[text()='#{role}']")
+    assert(results.size + moreResults.size == 2, webdriverDebugMessage(@driver,"Found unexpected occurences of role "+role+", expected 2 found "+results.size.to_s))
   end
 end
 
+Then /^I see the mapping in the table$/ do
+  pending # express the regexp above with the code you wish you had
+end
