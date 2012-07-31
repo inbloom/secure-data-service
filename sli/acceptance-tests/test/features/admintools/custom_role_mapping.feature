@@ -34,7 +34,7 @@ Then the group "New Custom" contains the roles "Dummy"
 And the group "New Custom" contains the rights "Read General"
 
 Scenario: Add role to existing group
-When I create a new role "<Role>" to the group "<Group>" that allows "<User>" to access the API
+When I create a new role <Role> to the group <Group> that allows <User> to access the API
 | Group              | Role        | User      |
 | "Educator"         | "Teacher"   | "teacher" |
 | "Leader"           | "Principal" | "prince"  |
@@ -63,7 +63,7 @@ Then I am informed that I must have at least one role and right in the group
 And the user "custom" can access the API with rights "Read General"
 
 Scenario: Remove role from group
-When I remove the role "<Role>" from the group "<Group>" that denies "<User>" access to the API
+When I remove the role <Role> from the group <Group> that denies <User> access to the API
 | Group              | Role        | User      |
 | "Educator"         | "Teacher"   | "teacher" |
 | "Leader"           | "Principal" | "prince"  |
@@ -84,7 +84,7 @@ And I hit the save button
 Then the group "New Custom" no longer appears on the page
 
 Scenario: Cannot add duplicate rights within a group
-When I edit the rights for the group "<Group>" to include the duplicate right "<Right>"
+When I edit the rights for the group <Group> to include the duplicate right <Right>
 | Right             | Group              |
 | "Read General"    | "Educator"         |
 | "Write General"   | "IT Administrator" |
@@ -92,7 +92,7 @@ When I edit the rights for the group "<Group>" to include the duplicate right "<
 Then I cannot find the right in the dropdown
 
 Scenario: Cannot add duplicate roles
-When I edit the roles for the group "<Group>" to include the duplicate role "<Role>"
+When I edit the roles for the group <Group> to include the duplicate role <Role>
 | Role               | Group              |
 | "Educator"         | "Educator"         |
 | "Educator"         | "IT Administrator" |
