@@ -44,6 +44,7 @@ import org.slc.sli.api.client.Link;
 import org.slc.sli.api.client.SLIClient;
 import org.slc.sli.api.client.SLIClientException;
 import org.slc.sli.api.client.SLIClientFactory;
+import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.dashboard.entity.ConfigMap;
 import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.entity.util.GenericEntityComparator;
@@ -760,14 +761,24 @@ public class SDKAPIClient implements APIClient {
 
     /**
      * Get a teacher identified by id
-     *
+     * 
      * @param token
      * @param id
      * @return
      */
     @Override
     public GenericEntity getTeacher(String token, String id) {
-        return this.readEntity(token, SDKConstants.TEACHERS_ENTITY + id, id);
+        // get Teacher information
+        GenericEntity teacher = this.readEntity(token, "/" + PathConstants.TEACHERS + "/" + id, id);
+        // get Teacher teaching sections
+        List<GenericEntity> sections = this.readEntityList(token, "/" + PathConstants.TEACHERS + "/" + id + "/"
+                + PathConstants.TEACHER_SECTION_ASSOCIATIONS + "/" + PathConstants.SECTIONS, id);
+        if (sections != null && !sections.isEmpty()) {
+            GenericEntityComparator sectionComparator = new GenericEntityComparator("uniqueSectionCode", String.class);
+            Collections.sort(sections, sectionComparator);
+            teacher.put("sections", sections);
+        }
+        return teacher;
     }
 
     /**
@@ -1121,6 +1132,7 @@ public class SDKAPIClient implements APIClient {
                 Map<String, String> mapLink = new HashMap<String, String>();
                 mapLink.put("rel", link.getLinkName());
                 mapLink.put("href", link.getResourceURL().toString());
+                mapLinks.add(mapLink);
             }
         }
         return mapLinks;

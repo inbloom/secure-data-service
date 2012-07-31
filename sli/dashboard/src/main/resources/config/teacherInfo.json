@@ -1,0 +1,9 @@
+{
+	id: "teacherInfo",
+	name: "SLC - Teacher Profile",
+	type: "PANEL",
+	data :{
+		entity: "teacherInfo",
+		cacheKey: "teacherInfo"
+	} 
+}
