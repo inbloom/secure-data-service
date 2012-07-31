@@ -237,6 +237,7 @@ def swap_realm_ids()
   @db = @conn.db(DB_NAME)
   realm_col = @db.collection('realm')
   user_sessions = @db.collection('userSession')
+  custom_roles = @db.collection('customRole')
   to_swap = [
         {"unique_realm_id" => "Shared Learning Infrastructure", "placeholder" => "ADMIN_REALM_ID_PLACEHOLDER"},
         {"unique_realm_id" => "SandboxIDP", "placeholder" => "SANDBOX_REALM_ID_PLACEHOLDER"},
@@ -254,6 +255,14 @@ def swap_realm_ids()
         update_count = update_count + 1
       end
       puts "\tUpdated #{update_count} user sessions"
+
+      update_count = 0
+      custom_roles.find({"body.realmId" => realm['placeholder']}).each do |row|
+        custom_roles.update({"_id" => row["_id"]}, {"$set" => {"body.realmId" => realm_id}}) 
+        update_count = update_count + 1
+      end
+      puts "\tUpdated #{update_count} custom roles."
+
     else
       puts "Skipping realm ID swap for #{realm['unique_realm_id']}"
     end
@@ -304,6 +313,7 @@ task :realmInit => [:appInit] do
   cleanseRealms()
   setFixture("realm", "realm_fixture.json", "test/data", false)
   setFixture("customRole", "customRole_fixture.json", "test/data")
+  swap_realm_ids()
 end
 
 task :appDenialInit do
@@ -321,7 +331,6 @@ task :appInit do
 
   setFixture("applicationAuthorization", "applicationAuthorization_fixture.json")
   setFixture("userSession", "oauth_authentication_tokens.json")
-  swap_realm_ids()
   swap_app_ids()
 end
 
