@@ -48,7 +48,7 @@ function profileListCtrl($scope, Profiles) {
 		if (error.status === 401) {
 			$scope.errorMessage = "Access Denied: Unauthorized user";
 		} else {
-			$scope.errorMessage = "Error";
+			$scope.errorMessage = "Server Error";
 		}
 	});
 }
@@ -80,7 +80,7 @@ function profileCtrl($scope, $routeParams, Profile, dbSharedService) {
 		if (error.status === 401) {
 			$scope.errorMessage = "Access Denied: Unauthorized user";
 		} else {
-			$scope.errorMessage = "Error";
+			$scope.errorMessage = "Server Error";
 		}
 	});
 
@@ -114,10 +114,15 @@ function profileCtrl($scope, $routeParams, Profile, dbSharedService) {
 
 	$scope.saveProfile = function () {
 
-		try {
-		    var configs = dbSharedService.getModalConfig(),
-			    page = dbSharedService.getPage();
+		var configs = dbSharedService.getModalConfig(),
+		    page = dbSharedService.getPage();
 
+		if((configs.mode === "add" || configs.mode === "edit") && configs.pageTitle.length === 0) {
+			$("#pageTitle").closest(".control-group").addClass("error");
+			return;
+		}
+		
+		try {
 		    if(configs.mode === "add") {
 		    	var pageId = $scope.generatePageId();
 		    	$scope.pages.push({id:pageId, name:configs.pageTitle, items: $.parseJSON(configs.contentJSON), type:"TAB"});
@@ -125,23 +130,22 @@ function profileCtrl($scope, $routeParams, Profile, dbSharedService) {
 		    else if(configs.mode === "edit") {
 		    	page.name = configs.pageTitle;
 		    	page.items = $.parseJSON(configs.contentJSON);
-
 		    	dbSharedService.setPage(page);
 		    }
-
-		    $.modal.close();
-
-		    $scope.profile.items = [];
-		    $scope.profileItemArray = $scope.panels.concat($scope.pages);
-		    $scope.profile.items = $scope.profileItemArray;
-		    dbSharedService.saveDataSource(angular.toJson($scope.profile)); // Save profile to the server
-
-		    configs.mode = "";
-		    dbSharedService.setModalConfig(configs);
-		    
 		} catch(e) {
 			$("#content_json").closest(".control-group").addClass("error");
+			return;
 		}
+		
+		$.modal.close();
+
+		$scope.profile.items = [];
+		$scope.profileItemArray = $scope.panels.concat($scope.pages);
+		$scope.profile.items = $scope.profileItemArray;
+		dbSharedService.saveDataSource(angular.toJson($scope.profile)); // Save profile to the server
+
+		configs.mode = "";
+		dbSharedService.setModalConfig(configs);
 	};
 
 	$scope.removePagefromProfile = function () {
@@ -158,6 +162,7 @@ function profileCtrl($scope, $routeParams, Profile, dbSharedService) {
 
 	$scope.addDialog = function () {
 		var modalConfig = {};
+		$("#pageTitle").closest(".control-group").removeClass("error");
 		$("#content_json").closest(".control-group").removeClass("error");
 		
 		modalConfig.mode = "add";

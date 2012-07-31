@@ -67,6 +67,7 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 				console.log("success");
 			}).error(function() {
 				console.log("fail");
+				alert("Server Error");
 			});
 		}
 
