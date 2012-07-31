@@ -192,26 +192,19 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 neutralQuery.addCriteria(new NeutralCriteria(key, "in", valueList));
                 neutralQuery = addTypeCriteria(entityDef, neutralQuery);
 
-                final List<EntityBody> results;
-                final Map<String, Object> selector = getSelector(neutralQuery);
-
-                if (selector != null) {
-                    results = logicalEntity.createEntities(selector, new Constraint(key, valueList), resourceName);
-                } else {
                     // a new list to store results
-                    results = new ArrayList<EntityBody>();
-                    for (EntityBody entityBody : entityDef.getService().list(neutralQuery)) {
-                        // add entity to resulting response
-                        results.add(entityBody);
-                    }
-                }
+                List<EntityBody> results = new ArrayList<EntityBody>();
 
                 // list all entities matching query parameters and iterate over results
-                for (EntityBody entityBody : results) {
-                    // list all entities matching query parameters and iterate over results
-                    entityBody.put(ResourceConstants.LINKS, ResourceUtil.getLinks(entityDefs, entityDef, entityBody, uriInfo));
+                for (EntityBody entityBody : entityDef.getService().list(neutralQuery)) {
+                    entityBody.put(ResourceConstants.LINKS,
+                            ResourceUtil.getLinks(entityDefs, entityDef, entityBody, uriInfo));
+
                     // add the custom entity if it was requested
                     addCustomEntity(entityBody, entityDef, uriInfo);
+
+                    // add entity to resulting response
+                    results.add(entityBody);
                 }
 
                 if (results.isEmpty()) {
