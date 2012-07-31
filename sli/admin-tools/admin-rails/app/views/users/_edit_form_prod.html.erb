@@ -57,6 +57,7 @@
 </div>
 </fieldset>
 
+<%if @is_operator%>
 <fieldset>
 <div class = "control-group<%=error if @user.errors[:tenant].size>0%>">
 	<%= f.label :tenant, "Tenant",:class => "control-label" %>
@@ -71,7 +72,10 @@
 	</div>
 </div>
 </fieldset>
+<%else%>
+<%end%>
 
+<%if @is_operator%>
 <fieldset>
 <div class = "control-group<%=error if @user.errors[:edorg].size>0%>">
 	<%= f.label :edorg, "EdOrg",:class => "control-label" %>
@@ -86,6 +90,16 @@
 	</div>
 </div>
 </fieldset>
+<%else%>
+<fieldset>
+<div class = "control-group">
+	<%= f.label :edorg, "EdOrg" , :class => "control-label" %>
+	<div class="controls">
+	<%= f.select :edorg,  @edorgs, {},:include_blank => true %>
+	</div>
+</div>
+</fieldset>
+<%end%>
 
 <fieldset>
 <div class = "form-actions">
