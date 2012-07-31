@@ -134,8 +134,6 @@ When /^I remove the role <Role> from the group <Group> that denies <User> access
     #TODO add stuff to validate the role has been removed from the group
     step "the user #{hash["User"]} can no longer access the API with rights #{hash["Role"]}"
   end
-  
-  pending # express the regexp above with the code you wish you had
 end
 
 Then /^That user can no longer access the API$/ do
@@ -147,11 +145,16 @@ When /^I remove the role "([^"]*)" from the group "([^"]*)"$/ do |arg1, arg2|
 end
 
 When /^I remove the group "([^"]*)"$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+  @driver.find_element(:xpath, "//tr/td[text()='#{arg1}']").click
+  @driver.find_element(:id, "rowEditToolDeleteButton").click
+  @driver.switch_to.alert.accept
 end
 
 Then /^the group "([^"]*)" no longer appears on the page$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+  lower_timeout_for_same_page_validation
+  groups = @driver.find_elements(:xpath, "//tr/td[text()='#{arg1}']")
+  assert(groups.size == 0, "Found group named #{arg1} on page")
+  reset_timeouts_to_default
 end
 
 When /^I edit the rights for the group <Group> to include the duplicate right <Right>$/ do |table|
@@ -167,7 +170,6 @@ When /^I edit the rights for the group <Group> to include the duplicate right <R
     # Hit cancel to return to known state
     step "I click the cancel button"
   end
-  pending # express the regexp above with the code you wish you had
 end
 
 Then /^I cannot find the right in the dropdown$/ do
@@ -185,7 +187,7 @@ When /^I edit the roles for the group <Group> to include the duplicate role <Rol
 end
 
 Then /^I am informed that "([^"]*)"$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+  # Dummy step, validation is done in WHEN step, this step just used to make the Gherkin read happy
 end
 
 When /^I click the cancel button$/ do
