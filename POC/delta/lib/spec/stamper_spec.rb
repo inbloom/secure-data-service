@@ -29,8 +29,16 @@ describe Stamper::BaseStamper do
 end
 describe Stamper::StudentStamper do
   before(:each) do
-    @db = Mongo::Connection.new('localhost', 27017)['delta_spec']
-    @stamper = Stamper::StudentStamper.new(@db, nil, nil)
+    @students = []
+    @connection = Mongo::Connection.new('localhost', 27017)
+    @db = @connection['delta_spec']
+    @student = @db['student'].insert({"body" => {"name" => "Student 1"},"metaData" => {"tenantId" => "test"}})
+    @stamper = Stamper::StudentStamper.new(@db, @student, 'test')
+    @expired_date = (Date.today - (@stamper.grace_period + 1)).to_time.utc.to_s
+    @valid_date = (Date.today - (@stamper.grace_period - 1)).to_time.utc.to_s
+  end
+  after(:each) do
+    @connection.drop_database 'delta_spec'
   end
   describe "#stamp" do
     it "should raise a 'Not implemented exception'" do
@@ -38,13 +46,65 @@ describe Stamper::StudentStamper do
     end
   end
   describe "#get_edorgs" do
-    it "should raise a 'Not implemented exception'" do
-      expect {@stamper.get_edorgs}.to raise_error "Not implemented"
+    before(:each) do
+      @school = @db['educationOrganization'].insert({"body" => {"name" => "TestSchool"}, "metaData" => {"tenantId" => "test"}})
+    end
+    it "should find edorgs for valid studentSchoolAssociations" do
+      @db['studentSchoolAssociation'].insert({"body" => {"schoolId" => @school, "studentId" => @student}, "metaData" => {"tenantId" => "test"}})
+      edorgs = @stamper.get_edorgs
+      edorgs.size.should eql 1
+      edorgs.should include @school
+    end
+    it "should find edorgs for multiple studentSchoolAssociations" do
+      school = @db['educationOrganization'].insert({"body" => {"name" => "TestSchool 1"}, "metaData" => {"tenantId" => "test"}})
+      @db['studentSchoolAssociation'].insert({"body" => {"schoolId" => @school, "studentId" => @student}, "metaData" => {"tenantId" => "test"}})
+      @db['studentSchoolAssociation'].insert({"body" => {"schoolId" => school, "studentId" => @student}, "metaData" => {"tenantId" => "test"}})
+      edorgs = @stamper.get_edorgs
+      edorgs.size.should eql 2
+      edorgs.should include @school
+      edorgs.should include school
+    end
+    it "should respect end dates " do
+      @db['studentSchoolAssociation'].insert({"body" => {"schoolId" => @school, "studentId" => @student, "exitWithdrawDate" => @expired_date}, "metaData" => {"tenantId" => "test"}})
+      edorgs = @stamper.get_edorgs
+      edorgs.size.should eql 0
+      edorgs.should_not include @school
     end
   end
   describe "#get_teachers" do
-    it "should raise a 'Not implemented exception'" do
-      expect {@stamper.get_teachers}.to raise_error "Not implemented"
+    before(:each) do
+      @section = @db['section'].insert({"body" => {"name" => "A section"}, "metaData" => {"tenantId" => "test"}})
+      @cohort = @db['cohort'].insert({"body" => {"name" => "A cohort"}, "metaData" => {"tenantId" => "test"}})
+      @program = @db['program'].insert({"body" => {"name" => "A program"}, "metaData" => {"tenantId" => "test"}})
+      @staff = @db['staff'].insert({"body" => {"name" => "A staff"}, "metaData" => {"tenantId" => "test"}})
+    end
+    it "should find teachers through a valid section" do
+      @db['studentSectionAssociation'].insert({"body"=> {"studentId" => @student, "sectionId" => @section}, "metaData" => {"tenantId" => "test"}})
+      @db['teacherSectionAssociation'].insert({"body"=> {"teacherId" => @staff, "sectionId" => @section}, "metaData" => {"tenantId" => "test"}})
+      teachers = @stamper.get_teachers
+      teachers.size.should eql 1
+      teachers.should include @staff
+    end
+    it "should not find teachers through an expired student section association" do
+      @db['studentSectionAssociation'].insert({"body"=> {"studentId" => @student, "sectionId" => @section, "endDate" => @expired_date}, "metaData" => {"tenantId" => "test"}})
+      @db['teacherSectionAssociation'].insert({"body"=> {"teacherId" => @staff, "sectionId" => @section}, "metaData" => {"tenantId" => "test"}})
+      teachers = @stamper.get_teachers
+      teachers.size.should eql 0
+      teachers.should_not include @staff
+    end
+    it "should not find teachers through an expired teacher section association" do
+      @db['studentSectionAssociation'].insert({"body"=> {"studentId" => @student, "sectionId" => @section}, "metaData" => {"tenantId" => "test"}})
+      @db['teacherSectionAssociation'].insert({"body"=> {"teacherId" => @staff, "sectionId" => @section, "endDate" => @expired_date}, "metaData" => {"tenantId" => "test"}})
+      teachers = @stamper.get_teachers
+      teachers.size.should eql 0
+      teachers.should_not include @staff
+    end
+    it "should find teachers through associations within the date" do
+      @db['studentSectionAssociation'].insert({"body"=> {"studentId" => @student, "sectionId" => @section, "endDate" => @valid_date}, "metaData" => {"tenantId" => "test"}})
+      @db['teacherSectionAssociation'].insert({"body"=> {"teacherId" => @staff, "sectionId" => @section, "endDate" => @valid_date}, "metaData" => {"tenantId" => "test"}})
+      teachers = @stamper.get_teachers
+      teachers.size.should eql 1
+      teachers.should include @staff
     end
   end
   describe "#wrap_up" do
