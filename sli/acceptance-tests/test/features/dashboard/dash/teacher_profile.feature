@@ -25,5 +25,5 @@ And I see the following current sections:
 |8th Grade English - Sec 6   |
 |Mrs. Kim's Homeroom          |
 |Spartans Softball Team       |
-And I click on "8th Grade English - Sec 6"
+And I click to see section "8th Grade English - Sec 6"
 Then I see a list of 25 students

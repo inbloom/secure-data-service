@@ -38,7 +38,7 @@ Then /^I see the following current sections:$/ do |table|
   checkGridEntries(panel, table, mapping)
 end
 
-Then /^I click on "(.*?)"$/ do |sectionName|
+Then /^I click to see section "(.*?)"$/ do |sectionName|
   all_trs = getGrid(@currentTab)
   section = nil
   all_trs.each do |tr|
