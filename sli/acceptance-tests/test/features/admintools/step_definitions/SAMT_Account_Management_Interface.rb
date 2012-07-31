@@ -101,16 +101,8 @@ Then /^I do not see (.*?) Role$/ do |role|
 end
 
 Then /^I can change the EdOrg dropdown to "(.*?)"$/ do |selection| 
-    drop_down = @driver.find_element(:id, "user_edorg")
-    drop_down.click
-    options = drop_down.find_elements(:xpath, ".//option");
-    options.each do |option|
-        if option.text() == "#{selection}"
-            option.click
-            drop_down.send_keys "\r"
-        end
-    end
-    drop_down.send_keys "\r"
+    drop_down = Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, "user_edorg"))
+    drop_down.select_by(:text, selection)
 end 
 
 

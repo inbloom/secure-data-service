@@ -53,7 +53,7 @@ Then I am redirected to "Admin Account Management" page
 Then I click on "Add User" button
 And I am redirected to "Add a User" page
 
-Then I can select "SLC Administrator" from a choice between "SLC Operator, SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
+Then I can select "SLC Operator" from a choice between "SLC Operator, SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
 And the "Tenant" textbox is disabled 
 
 
@@ -76,13 +76,13 @@ And I can also check "Ingestion User" Role
 
 Then I can select "LEA Administrator" from a choice between "SEA Administrator, LEA Administrator, Ingestion User, Realm Administrator" Role
 #TODO
-#And I can change the EdOrg dropdown to "IL-DAYBREAK"
+And I can change the EdOrg dropdown to "IL-DAYBREAK"
 
 When I click button "Save"
 Then I am redirected to "Admin Account Management" page 
 And a "Success" message is displayed 
 
-#And the new user has "EdOrg" updated to "IL-DAYBREAK" 
+And the new user has "EdOrg" updated to "IL-DAYBREAK" 
 And the new user has Roles as "LEA Administrator, Realm Administrator, Ingestion User"
 And the new user has the same "Tenant" field as "IL Admin" has
 #And an email to verify user email address is sent
