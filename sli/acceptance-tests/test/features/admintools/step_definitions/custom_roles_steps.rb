@@ -78,7 +78,7 @@ When /^I hit the save button$/ do
 end
 
 Then /^I am informed that I must have at least one role and right in the group$/ do
-  pending # express the regexp above with the code you wish you had
+  assertWithWait("Could not find an error message complaining about the role and right missing")  { @driver.find_element(:class, "error alert alert-error").text.include?("Validation") }
 end
 
 When /^I add the right "([^"]*)" to the group "([^"]*)"$/ do |arg1, arg2|
