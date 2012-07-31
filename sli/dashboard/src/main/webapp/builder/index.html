@@ -11,10 +11,12 @@
 <body ng-app="SLC.builder.app">
   <!--<div ng-controller="headerCtrl" ng-bind="header"></div>-->
 
-  </div>
-  <div role="main">
-    <div class="profileList" ng-controller="profileListCtrl">
+  <div role="main" ng-controller="profileListCtrl">
+  
+    <div class="errorMessage hide" ng-bind="errorMessage"></div>
+    <div class="profileList">
         <h4>Profiles</h4>
+
         <ul class="profile_list">
             <li ng-repeat="profile in profiles">
                 <a href="#/profiles/{{profile.id}}">{{profile.name}}</a>

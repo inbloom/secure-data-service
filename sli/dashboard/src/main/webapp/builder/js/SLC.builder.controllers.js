@@ -8,7 +8,7 @@
 		});
 }*/
 
-function profileListCtrl($scope, Profile) {
+function profileListCtrl($scope, $rootScope, Profile) {
 	
 	$scope.profiles = [];
 	Profile.query(function(profiles) {
@@ -20,10 +20,18 @@ function profileListCtrl($scope, Profile) {
 	    	    $scope.profiles.push(profile);
     		}
 		}
+	}, function(error) {
+		$(".errorMessage").removeClass("hide");
+		
+		if (error.status === 401) {
+			$scope.errorMessage = "Access Denied: Unauthorized user";
+		} else {
+			$scope.errorMessage = "Error";
+		}
 	});
 }
 
-profileListCtrl.$inject = ['$scope', 'Profile'];
+profileListCtrl.$inject = ['$scope', '$rootScope', 'Profile'];
 
 function profileCtrl($scope, $routeParams, ProfilePage, dbSharedService) {
 
@@ -42,6 +50,14 @@ function profileCtrl($scope, $routeParams, ProfilePage, dbSharedService) {
 			}
 		}
 		$scope.id = $scope.profile.id;
+	}, function(error) {
+		$(".errorMessage").removeClass("hide");
+		
+		if (error.status === 401) {
+			$scope.errorMessage = "Access Denied: Unauthorized user";
+		} else {
+			$scope.errorMessage = "Error";
+		}
 	});
 
 	$scope.checkTab = function (item) {
@@ -79,12 +95,19 @@ function profileCtrl($scope, $routeParams, ProfilePage, dbSharedService) {
 
 		if($scope.mode === "Add New") {
 			var pageId = $scope.generatePageId();
-			$scope.pages.push({id:pageId, name:$scope.pageText, items: $.parseJSON($scope.panelJSON), type:"TAB"});
+			try {
+			    $scope.pages.push({id:pageId, name:$scope.pageText, items: $.parseJSON($scope.panelJSON), type:"TAB"});
+			} catch(e) {
+				alert("JSON parse error");
+			}
 		}
 		else if($scope.mode === "Edit") {
 			page.name = $scope.pageText;
-			page.items = $.parseJSON($scope.panelJSON);
-
+			try {
+			    page.items = $.parseJSON($scope.panelJSON);
+			} catch(e) {
+				alert("JSON parse error");
+			}
 			dbSharedService.setPage(page);
 		}
 
@@ -92,6 +115,13 @@ function profileCtrl($scope, $routeParams, ProfilePage, dbSharedService) {
 
 		$scope.pageText = '';
 		$('#myModal').modal('hide');
+	}, function(error) {
+		
+		if (error.status === 401) {
+			alert("Unauthorized");
+		} else {
+			alert("Error");
+		}
 	};
 
 	$scope.saveProfile = function () {

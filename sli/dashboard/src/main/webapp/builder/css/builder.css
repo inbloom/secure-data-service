@@ -19,3 +19,11 @@
 .dialogBox { display: none;}
 .dialogBox ul { margin: 0; padding: 0; list-style-type: none; }
 .dialogBox ul li { margin: 10px 0; }
+
+.errorMessage {
+	   border: 1px solid #FF0000;
+    color: #FF0000;
+    font-weight: bold;
+    margin: 20px;
+    padding: 20px;
+}

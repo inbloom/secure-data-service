@@ -140,7 +140,7 @@ public class ConfigController extends GenericLayoutController {
 
         String token = SecurityUtil.getToken();
 
-        // check user is an admin at an LEA
+        // check user is an admin
         Boolean isAdmin = SecurityUtil.isAdmin();
 
         if (isAdmin != null && isAdmin.booleanValue()) {
