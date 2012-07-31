@@ -9,28 +9,26 @@
   <link rel="stylesheet" href="css/builder.css">
 </head>
 <body ng-app="SLC.builder.app">
-  <!--<div ng-controller="headerCtrl" ng-bind="header"></div>-->
+<div class="wrapper">
+    <div ng-controller="headerCtrl" id="header"></div>
+    <div role="main" ng-controller="profileListCtrl">
+        <div class="errorMessage hide" ng-bind="errorMessage"></div>
+        <div class="profileList">
+            <h4>Profiles</h4>
 
-  <div role="main" ng-controller="profileListCtrl">
-  
-    <div class="errorMessage hide" ng-bind="errorMessage"></div>
-    <div class="profileList">
-        <h4>Profiles</h4>
-
-        <ul class="profile_list">
-            <li ng-repeat="profile in profiles">
-                <a href="#/profiles/{{profile.id}}">{{profile.name}}</a>
-            </li>
-        </ul>
+            <ul class="profile_list">
+                <li ng-repeat="profile in profiles">
+                    <a href="#/profiles/{{profile.id}}">{{profile.name}}</a>
+                </li>
+            </ul>
+        </div>
+        <div class="profilePageWrapper" ng-view></div>
     </div>
-
-    <div class="profilePageWrapper" ng-view></div>
-
-  </div>
+</div>
+<div ng-controller="footerCtrl" id="footer"></div>
 
   <script src="../static/js/libs/jquery-1.7.2.min.js" sync></script>
   <script src="../static/js/libs/jquery-ui/js/jquery-ui-1.8.18.custom.min.js" sync></script>
-  <script src="../static/js/libs/bootstrap.min.js" sync></script>
   <script src="../static/js/libs/angular-1.0.1.min.js" sync></script>
   <script src="../static/js/libs/angular-resource.min.js" sync></script>
   <script src="js/SLC.builder.app.js" sync></script>
