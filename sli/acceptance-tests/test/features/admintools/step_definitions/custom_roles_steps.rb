@@ -176,7 +176,12 @@ end
 
 When /^I edit the roles for the group <Group> to include the duplicate role <Role>$/ do |table|
   # table is a Cucumber::Ast::Table
-  pending # express the regexp above with the code you wish you had
+  table.hashes.each do |hash|
+    step "I edit the group #{hash["Group"]}"
+    step "I add the role #{hash["Role"]} to the group #{hash["Group"]}"
+    @driver.switch_to.alert.accept
+    step "I click the cancel button"
+  end
 end
 
 Then /^I am informed that "([^"]*)"$/ do |arg1|
@@ -184,10 +189,6 @@ Then /^I am informed that "([^"]*)"$/ do |arg1|
 end
 
 When /^I click the cancel button$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-When /^I edit the group "([^"]*)"$/ do |arg1, table|
-  # table is a Cucumber::Ast::Table
-  pending # express the regexp above with the code you wish you had
+  btn = @driver.find_element(:id, "rowEditToolCancelButton")
+  btn.click
 end
