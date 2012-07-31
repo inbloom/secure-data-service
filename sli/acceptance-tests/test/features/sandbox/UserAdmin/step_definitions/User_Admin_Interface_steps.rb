@@ -291,7 +291,7 @@ delete_button=nil
   assert(delete_button!=nil,"the #{buttonName} button is not disabled")
 end
 
-When /^I click on (.*?) button$/ do |buttonName|
+When /^I click on (".*?") button$/ do |buttonName|
   @driver.find_element(:xpath, "//a[text()=#{buttonName}]").click
 end
 
@@ -327,7 +327,7 @@ Then /^I can also check "(.*?)" Role$/ do |r|
     @driver.find_element(:id, "#{r.downcase.gsub(" ", "_")}_role").click 
 end
  
-When /^I click (.*?) link$/ do |link|
+When /^I click (".*?") link$/ do |link|
   @driver.find_element(:xpath, "//a[text()=#{link}]").click
 end 
 
