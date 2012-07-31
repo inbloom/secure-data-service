@@ -1,0 +1,77 @@
+<script>
+var roles = <%= roles.roles.to_json.html_safe %>;
+var default_roles = <%= default_roles.to_json.html_safe %>;
+var UPDATE_URL = '<%= url_for(:action=>"update") %>'
+</script>
+<div class="row">
+<div class="span11">
+<table id="custom_roles" class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th style='width: 150px'>Group Name</th>
+      <th style='width: 200px'>Roles</th>
+      <th>Rights</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+
+<div>
+  <button href="#" id="addGroupButton" class="btn">Add Role Group</button>
+  <button href="#" id="resetToDefaultsButton" class="btn">Reset To Defaults</button>
+</div>
+
+</div> <!-- span11 -->
+</div> <!-- row -->
+
+
+<div id="components">
+
+<div class="rowEditTool">
+  <div class="editButtons btn-group">
+    <button id="rowEditToolEditButton" class="btn btn-small">Edit</button>
+    <button id="rowEditToolDeleteButton" class="btn btn-small"><i class="icon-trash"></i></button>
+  </div>
+  <div class="saveButtons btn-group">
+    <button id="rowEditToolSaveButton" class="btn btn-small">Save</button>
+    <button id="rowEditToolCancelButton" class="btn btn-small">Cancel</button>
+  </div>
+</div>
+
+<span id="addRightUi">
+    <div class="control-group">
+      <label class="control-label" for="addRightSelect">Right Name:</label>
+      <div class="controls">
+        <div class="input-append">
+        <select id="addRightSelect">
+        <option value="none">Choose one...</option>
+        </select>
+        <button class="btn" type="button">Add Right</button>
+        </div>
+      </div>
+    </div>
+</span>
+
+
+<div id="addRoleUi" class="control-group">
+  <label class="control-label" for="addRoleInput">Role Name:</label>
+  <div class="controls">
+    <div class="input-append">
+      <input size="16" type="text" id="addRoleInput"><button class="btn" type="button">Add</button>
+   </div>
+  </div>
+</div>
+
+<div id="editableRoleUi" class="control-group">
+  <div class="controls">
+    <div class="input-append">
+      <input type="text"><button class="btn" type="button">&times;</button>
+   </div>
+  </div>
+</div>
+
+<div id="labelUi">
+  <span class="btn btn-small customLabel roleLabel">foo</span>
+</div>
+

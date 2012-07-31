@@ -82,20 +82,16 @@ When /^I GET a specific (realm "[^"]*")$/ do |arg1|
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
-When /^I PUT to change the (realm "[^"]*") to add a mapping between default role "([^"]*)" to role "([^"]*)"$/ do |arg1, arg2, arg3|
-  restHttpGet("/realm/" + arg1)
+When /^I PUT to change the (realm "[^"]*") to change field "([^"]*)" to "([^"]*)"$/ do |realmId, fieldName, fieldValue|
+  restHttpGet("/realm/" + realmId)
   assert(@res != nil, "Response from rest-client GET is nil")
   data = JSON.parse(@res.body)
- 
-  data["mappings"]["role"].each do |role|
-    if role["sliRoleName"] == arg2
-      role["clientRoleName"].push arg3
-    end
-  end
+  # put(data) if $DEBUG
+  data[fieldName] = fieldValue
   
   dataFormatted = prepareData("application/json", data)
   
-  restHttpPut("/realm/" + arg1, dataFormatted, "application/json")
+  restHttpPut("/realm/" + realmId, dataFormatted, "application/json")
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
@@ -121,3 +117,69 @@ end
 When /^I add a mapping between default role "([^"]*)" and custom role "([^"]*)" for realm "([^"]*)"$/ do |arg1, arg2, arg3|
   step "I PUT to change the realm \"#{arg3}\" to add a mapping between default role \"#{arg1}\" to role \"#{arg2}\""
 end
+
+When /^I POST a new custom role document with (realm "[^"]*")$/ do |realm|
+  data = DataProvider.getValidCustomRoleData()
+  data["realmId"] = realm
+  dataFormatted = prepareData("application/json", data)
+  restHttpPost("/customRoles", dataFormatted, "application/json")
+  assert(@res != nil, "Response from rest-client POST is nil")
+end
+
+Then /^I should receive a new ID for my new custom role document$/ do
+  assert(@res.raw_headers["location"] != nil, "No ID was returned for created object")
+end
+
+When /^I add a role "([^"]*)" in group "([^"]*)"$/ do |role, group|
+  restHttpGet("/customRoles")
+  assert(@res != nil, "Response from custom role request is nil")
+  data = JSON.parse(@res.body)[0]
+  groups = data["roles"]
+  curGroup = groups.select {|group| group["groupTitle"] == group}
+  if curGroup.nil? or curGroup.empty?
+    curGroup = {"groupTitle" => group, "names" => [role], "rights" => ["READ_GENERAL"]}
+    groups.push(curGroup)
+  else
+    groups.delete_if {|group| group["groupTitle"] == group}
+    curGroup["names"].push(role)
+    groups.push(curGroup)
+  end
+  data["roles"] = groups
+  dataFormatted = prepareData("application/json", data)
+  restHttpPut("/customRoles/" + data["id"], dataFormatted, "application/json")
+
+end
+
+When /^I add a right "([^"]*)" in group "([^"]*)"$/ do |right, group|
+  restHttpGet("/customRoles")
+  assert(@res != nil, "Response from custom role request is nil")
+  data = JSON.parse(@res.body)[0]
+  groups = data["roles"]
+  curGroup = groups.select {|group| group["groupTitle"] == group}
+  if curGroup.nil? or curGroup.empty?
+    curGroup = {"groupTitle" => group, "names" => ["FAKE-NAME"], "rights" => [right]}
+    groups.push(curGroup)
+  else
+    groups.delete_if {|group| group["groupTitle"] == group}
+    curGroup["rights"].push(right)
+    groups.push(curGroup)
+  end
+  data["roles"] = groups
+  dataFormatted = prepareData("application/json", data)
+  restHttpPut("/customRoles/" + data["id"], dataFormatted, "application/json")
+
+end
+
+When /^I DELETE my custom role doc$/ do 
+  restHttpGet("/customRoles/")
+  assert(@res != nil, "Response from custom role request is nil")
+  data = JSON.parse(@res.body)[0]
+  restHttpDelete("/customRoles/" + data["id"])
+end
+
+
+Then /^I should receive a new ID for my new custom role doc$/ do
+  assert(@res.raw_headers["location"] != nil, "No ID was returned for created object")
+end
+
+

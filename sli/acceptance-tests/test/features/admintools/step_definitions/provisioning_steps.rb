@@ -20,6 +20,7 @@ limitations under the License.
 require "selenium-webdriver"
 require "json"
 require 'approval'
+require 'mongo'
 
 require_relative "../../utils/sli_utils.rb"
 require_relative "../../utils/selenium_common.rb"
@@ -28,7 +29,6 @@ require "date"
 SAMPLE_DATA_SET1_CHOICE = "ed_org_STANDARD-SEA"
 SAMPLE_DATA_SET2_CHOICE = "ed_org_IL-SUNSET"
 CUSTOM_DATA_SET_CHOICE = "custom"
-
 
 Given /^LDAP and email server has been setup and running$/ do
   @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
@@ -104,6 +104,20 @@ end
 
 Then /^I get the success message$/ do
   assertWithWait("No success message") {@driver.find_element(:id, "successMessage") != nil}
+end
+
+Then /^I check to find if default roles were created for the tenant$/ do
+  @conn             = Mongo::Connection.new('localhost', 27017)
+  @db               = @conn['sli']
+  @roles_collection = @db.collection('roles')
+  
+  @result = "true"
+  @roles_collection.find.each do |row|
+    if row['metaData']['tenantId'] == 'Macro Corp'
+      @result = "false" unless @row['body']['roles'].size == 4        
+    end
+  end
+  assert(@result == "true", "Failed to initialize default roles correctly.")
 end
 
 Given /^there is a sandbox account in ldap for vendor "([^"]*)"$/ do |vendor|

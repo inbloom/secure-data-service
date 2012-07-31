@@ -24,6 +24,9 @@ import java.util.List;
  */
 public interface RoleRightAccess {
 
+    public List<Role> findAdminRoles(List<String> roleNames);
+    public List<Role> findRoles(String tenantId, String realmId, List<String> names);
+
     /**
      * Returns a role that was found with the name specified.
      *

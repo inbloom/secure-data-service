@@ -261,6 +261,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         addDefinition(roles);
         addDefinition(factory.makeEntity("realm").storeAs("realm").build());
         addDefinition(factory.makeEntity("authSession").build());
+        addDefinition(factory.makeEntity("customRole").storeAs("customRole").build());
 
         // Adding the application collection
         addDefinition(factory.makeEntity("application").storeAs("application").build());

@@ -334,7 +334,7 @@ public class TenantResourceTest {
     private String createLandingZone(EntityBody entity) {
         Object response = null;
         try {
-            response = tenantResource.createLandingZone(entity);
+            response = tenantResource.createLandingZone(entity, false);
         } catch (TenantResourceCreationException e) {
             e.printStackTrace();
         }

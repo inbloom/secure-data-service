@@ -17,5 +17,23 @@ limitations under the License.
 =end
 
 
-module RealmsHelper
+class CustomRole < SessionResource
+  self.format = ActiveResource::Formats::JsonFormat
+  self.site = "#{APP_CONFIG['api_base']}"
+  self.collection_name = "customRoles"
+
+  def realm_name
+    Realm.find(self.realmId).name
+  end
+
+  def self.defaults
+    defs = Array.new
+    self.find(:all, :params => {"defaultsOnly" => true}).each do |role|
+      defs.push({:groupTitle => role.groupTitle, :names => role.names, :rights => role.rights})
+    end
+    return defs
+  end
+
 end
+
+

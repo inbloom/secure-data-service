@@ -53,16 +53,16 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 /**
- * Simple test for ClientRoleManagerResource
+ * Simple test for RealmResource
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 @DirtiesContext
-public class RealmRoleManagerResourceTest {
+public class RealmResourceTest {
     @Autowired
-    private RealmRoleManagerResource resource;
+    private RealmResource resource;
     
     @Autowired
     private SecurityContextInjector injector;
@@ -109,45 +109,27 @@ public class RealmRoleManagerResourceTest {
     public void testAddClientRole() throws Exception {
         try {
             
-            resource.updateClientRole("-1", null, null);
+            resource.updateRealm("-1", null, null);
             assertFalse(false);
         } catch (EntityNotFoundException e) {
             assertTrue(true);
         }
         UriInfo uriInfo = null;
-        Response res = resource.updateClientRole("1234", mapping, uriInfo);
+        Response res = resource.updateRealm("1234", mapping, uriInfo);
         Assert.assertEquals(204, res.getStatus());
     }
     
-    @Test
-    public void testAddAdminClientRole() throws Exception {
-        try {
-            resource.updateClientRole("-1", null, null);
-            assertFalse(false);
-        } catch (EntityNotFoundException e) {
-            assertTrue(true);
-        }
-        Map<String, Object> mappings = (Map<String, Object>) mapping.get("mappings");
-        List<Map<String, Object>> roles = new ArrayList<Map<String, Object>>();
-        Map<String, Object> role = new HashMap<String, Object>();
-        role.put("sliRoleName", RoleInitializer.REALM_ADMINISTRATOR);
-        role.put("clientRoleName", new ArrayList<String>(Arrays.asList("Waffle", "Copter")));
-        roles.add(role);
-        mappings.put("role", roles);
-        Response res = resource.updateClientRole("1234", mapping, null);
-        Assert.assertEquals(Status.BAD_REQUEST.getStatusCode(), res.getStatus());
-    }
     
     @Test
     public void testGetMappingsFound() throws Exception {
-        Response res = resource.getMappings("1234");
+        Response res = resource.readRealm("1234");
         Assert.assertEquals(Response.Status.OK.getStatusCode(), res.getStatus());
         Assert.assertNotNull(res.getEntity());
     }
     
     @Test
     public void testGetMappingsNotFound() throws Exception {
-        Response res = resource.getMappings("-1");
+        Response res = resource.readRealm("-1");
         Assert.assertEquals(Response.Status.OK.getStatusCode(), res.getStatus());
         Assert.assertNull(res.getEntity());
     }
@@ -157,7 +139,7 @@ public class RealmRoleManagerResourceTest {
         EntityBody temp = new EntityBody();
         temp.put("foo", "foo");
         UriInfo uriInfo = null;
-        Response res = resource.updateClientRole("other-realm", temp, uriInfo);
+        Response res = resource.updateRealm("other-realm", temp, uriInfo);
         Assert.assertEquals(403, res.getStatus());
     }
 }
