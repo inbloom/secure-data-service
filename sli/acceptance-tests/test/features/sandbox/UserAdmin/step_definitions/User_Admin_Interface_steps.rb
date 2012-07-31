@@ -132,7 +132,7 @@ end
 Then /^the Role combobox is populated with (.*?)$/ do |primary_role|
   drop_down = @driver.find_element(:id, "user_primary_role")
   option = drop_down.find_element(:xpath, ".//option[text()=#{primary_role}]")
-  assert(option.attribute("selected")=="true", "#{primary_role} does not match what's expected: #{option.text()}")
+  assert(option.attribute("selected")=="true", "#{primary_role} does not match what's expected}")
 end
 
 Then /^the Role checkbox is checked with "(.*?)"$/ do |additional_role| 

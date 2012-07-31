@@ -40,6 +40,28 @@ Given /^I have a valid account as a SEA Administrator$/ do
   #do nothing, guaranteed by configuration
 end
 
+Given /^I have a valid account as a LEA Administrator$/ do
+  #do nothing, guaranteed by configuration
+end 
+
+Given /^There is a user with "(.*?)", "(.*?)", "(.*?)", and "(.*?)" in LDAP Server$/ do |full_name, role, addition_roles, email|
+  new_user=create_new_user(full_name, role, addition_roles)
+  new_user['email']=email.gsub("hostname", Socket.gethostname)
+  new_user['uid']=new_user['email']
+  new_user['tenant']="Midgar"
+  new_user['edorg']="IL-DAYBREAK"
+
+  idpRealmLogin("operator", nil)
+  sessionId = @sessionId
+  format = "application/json"
+
+  restHttpDelete("/users/#{new_user['uid']}", format, sessionId)
+  restHttpPost("/users", new_user.to_json, format, sessionId)
+  puts "user created in ldap"
+  @user_full_name="#{new_user['firstName']} #{new_user['lastName']}"
+  @user_unique_id=new_user['uid']
+end
+
 When /^I navigate to the User Management Page$/ do
   step "I navigate to the sandbox user account management page"
 end
@@ -92,6 +114,19 @@ Then /^I can change the EdOrg dropdown to "(.*?)"$/ do |selection|
 end 
 
 
+Then /^the new user has the same "(.*?)" field as "(.*?)" has$/ do |field_name, match_user| 
+  @user_unique_id=@user_email
+  td=@driver.find_element(:id, "#{match_user}_#{field_name.downcase.gsub(" ", "_")}")
+  step "the user has \"#{field_name}\" updated to \"#{td.text()}\""
+end
 
 
+Then /^the new user has Roles as (.*?)$/ do |roles|
+  @user_unique_id=@user_email
+  step "the user has Roles as #{roles}"
+end 
 
+Then /^the (.*?) field is prefilled$/ do |field_name|
+  field=getField(field_name)
+  assert("#{field.attribute("value")}" != "", "#{field_name} is empty!") 
+end
