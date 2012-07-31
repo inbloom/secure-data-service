@@ -30,7 +30,7 @@ Transform /rights "(.*?)"/ do |arg1|
   rights = ["AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "Aggregate Viewer"
   # Custom right sets for test roles
   rights = ["READ_GENERAL"] if arg1 == "Read General"
-  rights = ["READ_GENERAL"] if arg1 == "Read and Write General"
+  rights = ["READ_GENERAL", "WRITE_GENERAL"] if arg1 == "Read and Write General"
   rights
 end
 
@@ -55,15 +55,16 @@ When /^I click on the Add Group button$/ do
   btn.click
 end
 
-When /^I type the name "([^"]*)" in the Group name textbox$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+When /^I type the name "([^"]*)" in the Group name textbox$/ do |title|
+  input = @driver.find_element(:id, "groupName")
+  input.send_keys(title)
 end
 
-Then /^a new group is created titled "([^"]*)"$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+Then /^a new group is created titled "([^"]*)"$/ do |title|
+  @driver.find_element(:xpath, "//td[text()='#{title}']")
 end
 
-Then /^the group "([^"]*)" contains the roles "([^"]*)"$/ do |arg1, arg2|
+Then /^the group "([^"]*)" contains the roles "([^"]*)"$/ do |title, arg2|
   pending # express the regexp above with the code you wish you had
 end
 
