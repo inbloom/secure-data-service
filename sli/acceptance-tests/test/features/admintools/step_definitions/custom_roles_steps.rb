@@ -86,17 +86,17 @@ Then /^the group "([^"]*)" contains the (rights "[^"]*")$/ do |arg1, arg2|
 end
 
 When /^I hit the save button$/ do
-  btn = @driver.find_element(:id, "rowEditToolSaveButton")
-  btn.click
+  @driver.find_element(:id, "rowEditToolSaveButton").click
 end
 
 Then /^I am informed that I must have at least one role and right in the group$/ do
   assertWithWait("Could not find an error message complaining about the role and right missing")  { @driver.find_element(:class, "alert-error").text.include?("Validation") }
 end
 
-When /^I add the right "([^"]*)" to the group "([^"]*)"$/ do |arg1, arg2|
+When /^I add the right "([^"]*)" to the group "([^"]*)"$/ do |right, group|
   select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, "addRightSelect"))
-  select.select_by(:text, arg1)
+  puts("The select is #{@driver.find_element(:id, "addRightSelect").text}")
+  select.select_by(:text, right)
 end
 
 When /^I add the role "([^"]*)" to the group "([^"]*)"$/ do |arg1, arg2|
@@ -129,6 +129,7 @@ Then /^the user "([^"]*)" can access the API with (rights "[^"]*")$/ do |arg1, a
 
   # Validate the user has expected rights
   assert(result["authentication"]["authenticated"] == true, "User "+arg1+" did not successfully authenticate to SLI")
+  puts("#{arg2}")
   assert(result["authentication"]["authorities"].size == arg2.size, "User "+arg1+" was granted #{result["authentication"]["authorities"].size} permissions but expected #{arg2.size}")
   arg2.each do |right|
     assert(result["authentication"]["authorities"].include?(right), "User "+arg1+" was not granted #{right} permissions")
@@ -231,12 +232,6 @@ When /^I click on the Reset Mapping button$/ do
 end
 
 Then /^the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves$/ do
-  wait = Selenium::WebDriver::Wait.new(:timeout => 1)
-  begin # Catch the exception from the wait... I'd rather get my detailed error messages than generic ones from WebDriver
-    wait.until { @driver.execute_script("return document.getElementById(\"mTable\").childNodes.length;") == 4 }
-  rescue
-  end
-
   # Seach for two occurances of each of the default roles as elements of <td>s, one being client role other being default role 
   ["Educator","Leader","Aggregate Viewer","IT Administrator"].each do |role|
     results = @driver.find_elements(:xpath, "//td/div[text()='#{role}']")
@@ -247,4 +242,8 @@ end
 
 Then /^I see the mapping in the table$/ do
   # Dummy step, validation is done in WHEN step, this step just used to make the Gherkin read happy
+end
+
+Then /^the save button is disabled$/ do
+  assert(!@driver.find_element(:id, "rowEditToolSaveButton").enabled?, "Save button should be disabled")
 end

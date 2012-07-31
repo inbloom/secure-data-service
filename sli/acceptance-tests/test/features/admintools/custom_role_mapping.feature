@@ -22,12 +22,8 @@ Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now o
 Scenario: Create new group
 When I click on the Add Group button
 And I type the name "New Custom" in the Group name textbox
-#Then a new group is created titled "New Custom"
-#And the group "New Custom" contains the roles "none"
-#And the group "New Custom" contains the rights "none"
-When I hit the save button
-Then I am informed that I must have at least one role and right in the group
-When I add the right "READ_GENERAL" to the group "New Custom"
+Then the save button is disabled
+When I add the right "READ_GENERAL" to the group "New Custom"   
 And I add the role "Dummy" to the group "New Custom"
 And I hit the save button
 Then the group "New Custom" contains the roles "Dummy"
