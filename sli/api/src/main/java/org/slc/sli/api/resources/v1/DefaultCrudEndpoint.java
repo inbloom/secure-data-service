@@ -37,8 +37,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.slc.sli.api.selectors.LogicalEntity;
-import org.slc.sli.api.selectors.doc.Constraint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
@@ -57,6 +55,8 @@ import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderFactory;
 import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.selectors.LogicalEntity;
+import org.slc.sli.api.selectors.doc.Constraint;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.query.ApiQuery;
@@ -739,7 +739,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         boolean includeAggregates = "true".equals(includeComputed);
         if (includeAggregates) {
             String entityId = (String) entityBody.get("id");
-            CalculatedData aggs = entityDef.getService().getCalculatedValues(entityId);
+            CalculatedData<String> aggs = entityDef.getService().getCalculatedValues(entityId);
             if (aggs != null) {
                 entityBody.put(ResourceConstants.CALCULATED_VALUE_TYPE, aggs.getCalculatedValues());
             }

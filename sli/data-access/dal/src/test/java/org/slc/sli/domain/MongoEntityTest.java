@@ -85,11 +85,12 @@ public class MongoEntityTest {
 
         Map<String, Object> body = new HashMap<String, Object>();
         Map<String, Object> metaData = new HashMap<String, Object>();
-        MongoEntity entity = new MongoEntity("student", uuid, body, metaData, null);
+        MongoEntity entity = new MongoEntity("student", uuid, body, metaData, null, null);
 
         return entity;
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testCreateAggregate() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
         Map<String, Object> body = new HashMap<String, Object>();
@@ -103,8 +104,8 @@ public class MongoEntityTest {
         aggregate.put("assessments", assessments);
         DBObject dbObject = new BasicDBObjectBuilder().add("_id", "42").add("body", body)
                 .add("calculatedValues", aggregate).get();
-        CalculatedData data = MongoEntity.fromDBObject(dbObject).getCalculatedValues();
-        assertEquals(Arrays.asList(new CalculatedDatum("assessments", "HighestEver", "ACT", "ScaleScore", "28.0")), data.getCalculatedValues());
+        CalculatedData<String> data = MongoEntity.fromDBObject(dbObject).getCalculatedValues();
+        assertEquals(Arrays.asList(new CalculatedDatum<String>("assessments", "HighestEver", "ACT", "ScaleScore", "28.0")), data.getCalculatedValues());
     }
 
 }
