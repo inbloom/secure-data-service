@@ -34,7 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.domain.AggregateData;
+import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
@@ -82,7 +82,7 @@ public class SectionEntityTest {
             }
 
             @Override
-            public AggregateData getAggregates() {
+            public CalculatedData getCalculatedValues() {
                 // TODO Auto-generated method stub
                 return null;
             }

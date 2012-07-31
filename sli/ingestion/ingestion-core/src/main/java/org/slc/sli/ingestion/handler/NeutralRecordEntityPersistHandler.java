@@ -40,6 +40,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DuplicateKeyException;
+import org.slc.sli.validation.SchemaRepository;
+import org.slc.sli.validation.schema.NeutralSchema;
+import org.slc.sli.validation.schema.AppInfo;
 
 /**
  * Handles the persisting of Entity objects
@@ -61,7 +64,10 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
     
     @Autowired
     private InternalIdNormalizer internalIdNormalizer;
-    
+
+    @Autowired
+    private SchemaRepository schemaRepository;
+
     @Value("${sli.ingestion.mongotemplate.writeConcern}")
     private String writeConcern;
     
@@ -92,7 +98,7 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
         } catch (EntityValidationException ex) {
             reportErrors(ex.getValidationErrors(), entity, errorReport);
         } catch (DuplicateKeyException ex) {
-            reportErrors(ex.getRootCause().getMessage(), entity, errorReport);
+            reportWarnings(ex.getRootCause().getMessage(), entity, errorReport);
         }
         return null;
     }
@@ -107,13 +113,16 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
      *             Validation Exception
      */
     private Entity persist(Entity entity) throws EntityValidationException {
-        
-        String collectionName = entity.getType();
-        if ((String) entity.getBody().get("collectionName") != null) {
-            collectionName = (String) entity.getBody().get("collectionName");
-            entity.getBody().remove("collectionName");
+
+        String collectionName = "";
+        NeutralSchema schema = schemaRepository.getSchema(entity.getType());
+        if (schema != null) {
+            AppInfo appInfo = schema.getAppInfo();
+            if (appInfo != null) {
+                collectionName = appInfo.getCollectionType();
+            }
         }
-        
+
         if (entity.getEntityId() != null) {
             
             if (!entityRepository.update(collectionName, entity)) {
@@ -153,6 +162,21 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
         String assembledMessage = MessageSourceHelper.getMessage(messageSource, "PERSISTPROC_ERR_MSG1",
                 entity.getType(), errorMessage);
         errorReport.error(assembledMessage, this);
+    }
+    
+    /**
+     * Generic warning reporting function.
+     *
+     * @param warningMessage
+     *            Warning message reported by entity.
+     * @param entity
+     *            Entity reporting warning.
+     * @param errorReport
+     *            Reference to error report to log warning message in.
+     */
+    private void reportWarnings(String warningMessage, NeutralRecordEntity entity, ErrorReport errorReport) {
+        String assembledMessage = "Entity (" + entity.getType() + ") reports warning: " + warningMessage;
+        errorReport.warning(assembledMessage, this);
     }
     
     /**
@@ -256,15 +280,16 @@ public class NeutralRecordEntityPersistHandler extends AbstractIngestionHandler<
         if (matchFilter.isEmpty()) {
             return;
         }
-        
-        String collectionName = entity.getType();
-        
-        if (collectionName.equals("teacher")) {
-            collectionName = "staff";
-        } else if (collectionName.equals("school")) {
-            collectionName = "educationOrganization";
+
+        String collectionName = "";
+        NeutralSchema schema = schemaRepository.getSchema(entity.getType());
+        if (schema != null) {
+            AppInfo appInfo = schema.getAppInfo();
+            if (appInfo != null) {
+                collectionName = appInfo.getCollectionType();
+            }
         }
-        
+
         Iterable<Entity> match = entityRepository.findAllByPaths(collectionName, matchFilter, new NeutralQuery());
         if (match != null && match.iterator().hasNext()) {
             // Entity exists in data store.

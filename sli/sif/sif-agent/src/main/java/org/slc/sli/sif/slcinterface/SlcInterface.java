@@ -114,6 +114,22 @@ public class SlcInterface {
         }
         return ok;
     }
+
+    public void update(final Entity e) {
+        try
+        {
+            client.update(e);
+        } catch (IOException e1)
+        {
+            LOG.error("  " + e1.getMessage(), e1);
+        } catch (URISyntaxException e1)
+        {
+            LOG.error("  " + e1.getMessage(), e1);
+        } catch (SLIClientException e1)
+        {
+            LOG.error("  " + e1.getMessage(), e1);
+        }
+    }
     /**
      * Pass-through interface
      */

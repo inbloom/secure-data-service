@@ -6,7 +6,7 @@
     [{
         "fieldPath" : "body.assessmentId","ref" :
         {
-            "collectionName" : "assessment",
+            "entityType" : "assessment",
             "choiceOfFields" :
             [
                 [
@@ -59,7 +59,7 @@
     {
         "fieldPath" : "body.studentId","ref" :
         {
-            "collectionName" : "student",
+            "entityType" : "student",
             "choiceOfFields" :
             [
                 [

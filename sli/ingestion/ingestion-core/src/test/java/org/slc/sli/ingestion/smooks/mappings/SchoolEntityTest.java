@@ -143,7 +143,6 @@ public class SchoolEntityTest {
         // mock repository will simulate "finding" the referenced educationOrganization
         Mockito.when(mockRepository.exists("educationOrganization", "LEA123")).thenReturn(true);
         Map<String, Object> attributes = neutralRecord.getAttributes();
-        attributes.remove("collectionName");
         EntityTestUtils.mapValidation(attributes, "school", validator);
     }
 

@@ -88,6 +88,9 @@ public class LEAInfoEntity extends GenericEntity
      *
      */
     public String getOperationalStatus() {
+        if (this.leaInfo.getOperationalStatus() == null) {
+            return null;
+        }
         return SchoolMappings.toSliOperationalStatus(this.leaInfo.getOperationalStatus());
     }
 
