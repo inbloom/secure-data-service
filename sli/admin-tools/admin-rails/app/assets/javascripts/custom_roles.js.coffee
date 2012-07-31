@@ -3,6 +3,9 @@ editRowIndex = -1 #last row that was clicked on
 defaultRights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "AGGREGATE_WRITE"]
 
 jQuery ->
+  unless initCustomRoleScripts?
+    return
+
   populateTable(roles)
 
   $(".rowEditTool").mouseenter ->
