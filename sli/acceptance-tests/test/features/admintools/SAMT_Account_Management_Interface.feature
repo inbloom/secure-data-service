@@ -201,8 +201,9 @@ And the "delete" button is disabled
 @wip
 Scenario: As a LEA Administrator I can edit limited fields on my  account
 Given I have a account as a "LEA Administrator"
-When I access the User Management Page from the portal 
-Then I am redirected to "User Account Management" page which has a table of all accounts for my tenancy
+When I navigate to the User Management Page 
+And I submit the credentials "daybreaknorealmadmin" "daybreaknorealmadmin1234" for the "Simple" login page
+Then I am redirected to "Admin Account Management" page which has a table of all accounts for my tenancy
 
 When I hover over a row has my name
 Then I am shown the option to "Edit" user
@@ -215,12 +216,12 @@ And I can update the Fullname
 And I cannot update any other field 
 
 When I click "Save"
-Then I am redirected to the "User Account Management" Page
+Then I am redirected to the "Admin Account Management" Page
 And a "Success" message is displayed 
 And the updated information is displayed in the table
 
 When I click "Cancel"
-Then I am redirected to the "User Account Management" Page
+Then I am redirected to the "Admin Account Management" Page
 And no changes are shown in the table
 
 >>>>>>> uncomment out and @wip test
