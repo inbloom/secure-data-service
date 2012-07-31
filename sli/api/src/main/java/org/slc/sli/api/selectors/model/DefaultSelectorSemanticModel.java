@@ -35,6 +35,7 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
     @Autowired
     private ModelProvider modelProvider;
 
+
     public SemanticSelector parse(final Map<String, Object> selectors, final ClassType type) throws SelectorParseException {
         if (type == null) throw new NullPointerException("type");
         if (selectors == null) throw new NullPointerException("selectors");
@@ -79,5 +80,9 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
 
     private boolean isMap(final Object obj) {
         return obj instanceof Map;
+    }
+
+    protected void setModelProvider(final ModelProvider provider) {
+        this.modelProvider = provider;
     }
 }

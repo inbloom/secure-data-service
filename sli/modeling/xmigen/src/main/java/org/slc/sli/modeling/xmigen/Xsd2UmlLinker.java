@@ -74,7 +74,7 @@ final class Xsd2UmlLinker {
         if (plugin.isAssociationEnd(classType, attribute, host)) {
             final AssociationEnd associationEnd = toAssociationEnd(classType, attribute, plugin, host, classTypeMap);
             associationEnds.put(associationEnd.getName(), associationEnd);
-            return null;
+            return attribute;
         } else {
             return attribute;
         }
@@ -273,13 +273,13 @@ final class Xsd2UmlLinker {
         } else if (name.endsWith(SUFFIX_IDS)) {
             return name.substring(0, name.length() - SUFFIX_IDS.length());
         } else if (name.endsWith(SUFFIX_REFERENCE)) {
-            reportIllegalSuffix(classType, attribute);
+//            reportIllegalSuffix(classType, attribute);
             return name.substring(0, name.length() - SUFFIX_REFERENCE.length());
         } else if (name.endsWith(SUFFIX_REFERENCES)) {
-            reportIllegalSuffix(classType, attribute);
+//            reportIllegalSuffix(classType, attribute);
             return name.substring(0, name.length() - SUFFIX_REFERENCES.length());
         } else {
-            reportIllegalSuffix(classType, attribute);
+//            reportIllegalSuffix(classType, attribute);
             return name;
         }
     }

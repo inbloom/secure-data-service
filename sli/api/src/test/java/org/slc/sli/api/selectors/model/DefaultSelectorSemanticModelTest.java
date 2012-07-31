@@ -43,6 +43,7 @@ public class DefaultSelectorSemanticModelTest {
     @Before
     public void setup() {
         provider = new ModelProvider(TEST_XMI_LOC);
+        defaultSelectorSemanticModel.setModelProvider(provider);
     }
 
     @Test
