@@ -122,7 +122,7 @@ Then /^the user "([^"]*)" can access the API with (rights "[^"]*")$/ do |arg1, a
 end
 
 When /^I remove the right "([^"]*)" from the group "([^"]*)"$/ do |arg1, arg2|
-  step "I edit the group #{arg2}"
+  step "I edit the group \"#{arg2}\""
   # Find the thing you want to delete
   @driver.find_element(:xpath, "//div[text()='#{arg1}']/../button").click
 end
@@ -142,8 +142,16 @@ Then /^That user can no longer access the API$/ do
   # Dummy step, validation is done in WHEN step, this step just used to make the Gherkin read happy
 end
 
+Then /^That user can now access the API$/ do
+  # Dummy step, validation is done in WHEN step, this step just used to make the Gherkin read happy
+end
+
+Then /^I no longer see that mapping in the table$/ do
+  # Dummy step, validation is done in WHEN step, this step just used to make the Gherkin read happy
+end
+
 When /^I remove the role "([^"]*)" from the group "([^"]*)"$/ do |arg1, arg2|
-  step "I edit the group #{arg2}"
+  step "I edit the group \"#{arg2}\""
   # Find the thing you want to delete
   @driver.find_element(:xpath, "//div[text()='#{arg1}']/../button").click
 end
