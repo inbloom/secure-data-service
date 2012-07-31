@@ -70,29 +70,40 @@ public class RoleInitializer {
     }
     
     private void dropRoles(String tenantId, String realmId) {
-        NeutralQuery query = new NeutralQuery(0);
-        query.addCriteria(new NeutralCriteria("metaData.tenantId", "=", tenantId, false));
-        query.addCriteria(new NeutralCriteria("realmId", "=", realmId));
-        
-        Entity entity = repository.findOne(ROLES, query);
-        if (entity != null) {
-            repository.delete(ROLES, entity.getEntityId());
-            info("Successfully dropped roles from realm: {}", new Object[] {realmId});
+        if (tenantId != null) {
+            if (realmId != null) {
+                NeutralQuery query = new NeutralQuery(0);
+                query.addCriteria(new NeutralCriteria("metaData.tenantId", "=", tenantId, false));
+                query.addCriteria(new NeutralCriteria("realmId", "=", realmId));
+                
+                Entity entity = repository.findOne(ROLES, query);
+                if (entity != null) {
+                    repository.delete(ROLES, entity.getEntityId());
+                    info("Successfully dropped roles from realm: {}", new Object[] { realmId });
+                } else {
+                    info("No roles exist to drop for realm: {}", new Object[] { realmId });
+                }
+            } else {
+                warn("Null realm id --> not dropping roles.");
+            }
         } else {
-            info("No roles exist to drop for realm: {}", new Object[] {realmId});
+            warn("Null tenant id --> not dropping roles.");
         }
     }
     
     public int buildRoles(String realmId) {
-        Map<String, Object> rolesBody = new HashMap<String, Object>();
-        List<Map<String, Object>> groups = getDefaultRoles();
-        rolesBody.put("realmId", realmId);
-        rolesBody.put("roles", groups);
-        rolesBody.put("customRights", new ArrayList<String>());
-        
-        Entity entity = repository.create(ROLES, rolesBody);        
-        info("Successfully built roles for realm: {} (entity id: {})", new Object[] {realmId, entity.getEntityId()});
-        return groups.size();
+        if (realmId != null) {
+            info("Building roles for realm: {}", new Object[] { realmId });
+            Map<String, Object> rolesBody = new HashMap<String, Object>();
+            List<Map<String, Object>> groups = getDefaultRoles();
+            rolesBody.put("realmId", realmId);
+            rolesBody.put("roles", groups);
+            rolesBody.put("customRights", new ArrayList<String>());
+            return groups.size();
+        } else {
+            warn("Null realm id --> not building roles.");
+        }
+        return 0;
     }
     
     public List<Map<String, Object>> getDefaultRoles() {
@@ -152,5 +163,5 @@ public class RoleInitializer {
     
     public void setRepository(Repository<Entity> repository) {
         this.repository = repository;
-    }    
+    }
 }
