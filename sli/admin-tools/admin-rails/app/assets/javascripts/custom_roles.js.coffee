@@ -5,12 +5,6 @@ defaultRights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_REST
 jQuery ->
   populateTable(roles)
 
-  $("#custom_roles tr:gt(0)").mouseenter -> rowMouseEnter($(@))
-
-  $("#custom_roles tr").mouseleave ->
-    if (editRowIndex < 0)
-      $(".rowEditTool").hide()
-
   $(".rowEditTool").mouseenter ->
     $(".rowEditTool").show()
 
@@ -251,3 +245,10 @@ populateTable = (data) ->
     for right in role.rights
       newRow.find("td:eq(2)").append(createLabel('right', right))
       newRow.find("td:eq(2)").append(" ")
+
+  $("#custom_roles tr:gt(0)").mouseenter -> rowMouseEnter($(@))
+
+  $("#custom_roles tr").mouseleave ->
+    if (editRowIndex < 0)
+      $(".rowEditTool").hide()
+
