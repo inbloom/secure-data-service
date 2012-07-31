@@ -37,6 +37,7 @@ class TestMessagingService < Test::Unit::TestCase
         :node_name => 'agent',
         :publish_queue_name => listener_incoming,
         :subscribe_queue_name => agent_incoming,
+        :messaging_host => 'devparallax.slidev.org',
         :start_heartbeat => false
     }
     agent_received_messages = []
@@ -49,6 +50,7 @@ class TestMessagingService < Test::Unit::TestCase
         :node_name => 'listener',
         :publish_queue_name => agent_incoming,
         :subscribe_queue_name => listener_incoming,
+        :messaging_host => 'devparallax.slidev.org',
         :start_heartbeat => false
     }
     listener_received_messages = []
@@ -217,10 +219,30 @@ class TestMessagingService < Test::Unit::TestCase
     agent_incoming = '/topic/agent'
     listener_incoming = '/queue/listener'
 
+    listener_config = {
+        :node_name => 'listener',
+        :publish_queue_name => agent_incoming,
+        :subscribe_queue_name => listener_incoming,
+        :start_heartbeat => false,
+        :start_node_detector => true,
+        :heartbeat_detector_period => 2
+    }
+    listener_received_messages = []
+    listener = Eventbus::MessagingService.new(listener_config)
+    listener.subscribe do |message|
+      listener_received_messages << message
+    end
+
+    2.times do
+      sleep 2
+      assert_equal(0, listener.get_detected_nodes.to_a.size)
+    end
+
     agent_config = {
         :node_name => 'agent',
         :publish_queue_name => listener_incoming,
-        :subscribe_queue_name => agent_incoming
+        :subscribe_queue_name => agent_incoming,
+        :heartbeat_period => 1
     }
     agent_received_messages = []
     agent = Eventbus::MessagingService.new(agent_config)
@@ -231,7 +253,8 @@ class TestMessagingService < Test::Unit::TestCase
     agent2_config = {
         :node_name => 'agent2',
         :publish_queue_name => listener_incoming,
-        :subscribe_queue_name => agent_incoming
+        :subscribe_queue_name => agent_incoming,
+        :heartbeat_period => 1
     }
     agent2_received_messages = []
     agent2 = Eventbus::MessagingService.new(agent2_config)
@@ -239,26 +262,9 @@ class TestMessagingService < Test::Unit::TestCase
       agent2_received_messages << message
     end
 
-    listener_config = {
-        :node_name => 'listener',
-        :publish_queue_name => agent_incoming,
-        :subscribe_queue_name => listener_incoming,
-        :start_heartbeat => false,
-        :start_node_detector => true
-    }
-    listener_received_messages = []
-    listener = Eventbus::MessagingService.new(listener_config)
-    listener.subscribe do |message|
-      listener_received_messages << message
+    2.times do
+      sleep 2
+      assert_equal(2, listener.get_detected_nodes.size)
     end
-
-    Thread.new do
-      loop do
-        sleep 5
-        puts "Detected nodes = #{listener.get_detected_nodes.to_a}"
-      end
-    end
-
-    sleep 100
   end
 end

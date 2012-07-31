@@ -70,7 +70,7 @@ module Eventbus
         end
       rescue Exception => e
         puts "exception occurred when connecting to mongo for oplog: #{e}"
-        puts "retrying connection in 5 seconds"
+        puts "retrying connection in #{@config[:mongo_connection_retry]} seconds"
         sleep @config[:mongo_connection_retry]
         retry
       end
@@ -146,7 +146,9 @@ module Eventbus
         oplog_throttler.push(incoming_oplog_message)
       end
 
-      messaging_service = Eventbus::MessagingService.new(config) do |incoming_configuration_message|
+      messaging_service = Eventbus::MessagingService.new(config)
+
+      messaging_service.subscribe do |incoming_configuration_message|
         collection_filter = incoming_configuration_message['collection_filter']
         if(collection_filter != nil)
           oplog_throttler.set_collection_filter(collection_filter)
