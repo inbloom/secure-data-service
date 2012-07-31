@@ -163,6 +163,30 @@ public class DefaultSelectorDocumentTest {
         assertTrue("Should be true", session.containsKey("sessionName"));
     }
 
+    @Test
+    public void testAssociationSkipQueryPlan() {
+        List<String> ids = new ArrayList<String>();
+        ids.add(student1.getEntityId());
+        ids.add(student2.getEntityId());
+
+        Constraint constraint = new Constraint();
+        constraint.setKey("_id");
+        constraint.setValue(ids);
+
+        List<EntityBody> results = defaultSelectorDocument.aggregate(createQueryPlan("Student",
+                getAssociationSkipPlan()), constraint);
+
+        assertNotNull("Should not be null", results);
+        assertEquals("Should match", 2, results.size());
+
+        EntityBody student = results.get(0);
+        assertTrue("Should be true", student.containsKey("sections"));
+
+        @SuppressWarnings("unchecked")
+        List<EntityBody> sectionsList = (List<EntityBody>) student.get("sections");
+        assertEquals("Should match", 2, sectionsList.size());
+    }
+
     private Map<Type, SelectorQueryPlan> createQueryPlan(String type, SelectorQueryPlan queryPlan) {
         Map<Type, SelectorQueryPlan> result = new HashMap<Type, SelectorQueryPlan>();
 
@@ -244,6 +268,34 @@ public class DefaultSelectorDocumentTest {
 
         Map<Type, SelectorQueryPlan> map = new HashMap<Type, SelectorQueryPlan>();
         map.put(provider.getClassType("Session"), plan);
+
+        list.add(map);
+
+        return list;
+    }
+
+    private SelectorQueryPlan getAssociationSkipPlan() {
+        SelectorQueryPlan plan = new SelectorQueryPlan();
+        NeutralQuery query = new NeutralQuery();
+
+        List<Object> childQueries = getAssociationSkipChildQuery();
+
+        plan.setQuery(query);
+        plan.getChildQueryPlans().addAll(childQueries);
+
+        return plan;
+    }
+
+    private List<Object> getAssociationSkipChildQuery() {
+        List<Object> list = new ArrayList<Object>();
+
+        NeutralQuery query = new NeutralQuery();
+
+        SelectorQueryPlan plan = new SelectorQueryPlan();
+        plan.setQuery(query);
+
+        Map<Type, SelectorQueryPlan> map = new HashMap<Type, SelectorQueryPlan>();
+        map.put(provider.getClassType("Section"), plan);
 
         list.add(map);
 

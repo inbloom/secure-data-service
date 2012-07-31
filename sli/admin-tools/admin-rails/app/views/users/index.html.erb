@@ -9,10 +9,6 @@
 <h4>Manage users that have access to your <% if APP_CONFIG['is_sandbox'] %>Sandbox<% else %>Production<% end %> environment.</h4>
 <p>&nbsp;</p>
 
-  <p id="Search_Box">
-    <%= text_field_tag :search, params[:search] %>
-    <%= submit_tag "Search", :name => nil %>
-  </p>
 <% if flash[:notice]%>  
 <p id="notice"><%= flash[:notice] %></p>
 <%end%>

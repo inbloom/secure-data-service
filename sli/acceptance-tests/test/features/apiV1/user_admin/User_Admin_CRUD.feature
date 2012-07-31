@@ -3,7 +3,7 @@ Feature: As an admin I can create admin accounts for tenancies I administer
 
   Background: none
 	
-	@production @wip
+	@production
 	Scenario Outline: SLC Operator, SEA Administrator, LEA Administrator, Sandbox SLC Operator, and Sandbox Administrator have access the Super Administrator Management Tool
 	Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
 	And I have a role "<ADMIN_ROLE>"
