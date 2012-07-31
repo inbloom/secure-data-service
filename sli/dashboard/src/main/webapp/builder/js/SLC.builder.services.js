@@ -46,7 +46,27 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 
 		function showModal(modalId, modalCfg) {
 			setModalConfig(modalCfg);
-			$(modalId).modal('show');
+			$(modalId).modal({onOpen: function (dialog) {
+				dialog.overlay.fadeIn('fast', function () {
+					dialog.data.hide();
+					dialog.container.fadeIn('fast', function () {
+						dialog.data.slideDown('fast');
+					});
+				});
+			}});
+			$rootScope.$broadcast("modalDisplayed");
+		}
+
+		function closeModal(modalId) {
+			$(modalId).modal({onClose: function (dialog) {
+				dialog.data.fadeOut('fast', function () {
+					dialog.container.hide('fast', function () {
+						dialog.overlay.slideUp('fast', function () {
+							$.modal.close();
+						});
+					});
+				});
+			}});
 			$rootScope.$broadcast("modalDisplayed");
 		}
 
@@ -76,6 +96,7 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 			setPage: setPage,
 			saveDataSource: saveDataSource,
 			showModal: showModal,
+			closeModal: closeModal,
 			getModalConfig: getModalConfig,
 			setModalConfig: setModalConfig
 		};
