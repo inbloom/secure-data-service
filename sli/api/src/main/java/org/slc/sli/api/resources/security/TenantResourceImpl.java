@@ -61,6 +61,7 @@ import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.enums.Right;
@@ -213,10 +214,20 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             // when creating a tenant, initialize default roles (if in sandbox mode)
             if (isSandbox) {
                 EntityDefinition realmDefinition = store.lookupByEntityType("realm");
-                EntityService realmService = realmDefinition.getService();
-                NeutralQuery sandboxQuery = new NeutralQuery(1);
-                query.addCriteria(new NeutralCriteria("uniqueIdentifier", "=", sandboxUniqueId)); 
-                String realmId = iterableToList(realmService.listIds(sandboxQuery)).get(0);
+                final EntityService realmService = realmDefinition.getService();
+                final NeutralQuery sandboxQuery = new NeutralQuery(1);
+                query.addCriteria(new NeutralCriteria("uniqueIdentifier", "=", sandboxUniqueId));
+                String realmId = SecurityUtil.runWithAllTenants(new SecurityTask<String>() {
+
+                    @Override
+                    public String execute() {
+                        // TODO Auto-generated method stub
+                        return iterableToList(realmService.listIds(sandboxQuery)).get(0);
+                    }
+                    
+                    
+                });
+                
                 info("Initializing default roles for tenant: {} and realm: {}", new Object[] {tenantId, realmId});
                 roleInitializer.dropAndBuildRoles(tenantId, realmId);
             }
