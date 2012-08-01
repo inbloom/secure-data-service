@@ -34,7 +34,7 @@ jQuery ->
       return
     text = option.text()
     right = createLabel('right', text)
-    right = wrapInputWithDeleteButton(right, "span")
+    right = wrapInputWithDeleteButton(right, "span", text)
     $("#addRightUi").parent().append(right)
     $("#addRightUi").parent().append(" ")
     populateRightComboBox()
@@ -70,7 +70,7 @@ jQuery ->
     if (getAllRoles().indexOf(roleName) > -1)
       return alert("The role name " + roleName + " is already used.")
     div = createLabel('role', roleName)
-    div = wrapInputWithDeleteButton(div, "div")
+    div = wrapInputWithDeleteButton(div, "div", roleName)
     div.wrap("<div/>")
     td.append(div.parent())
     $("#addRoleUi input").val("")
@@ -125,15 +125,15 @@ editRow = (rowNum) ->
 
   #Turn group name into input
   groupName = $("#custom_roles tr:eq(" + rowNum + ") td:eq(0) div")
-  input = $("<input type='text'/>").val(groupName.text().trim())
+  input = $("<input type='text' id='editInput' />").val(groupName.text().trim())
   if (groupName.text().trim() == "")
     input.attr("placeholder", "Enter group name")
     input.attr("id", "groupName")
   groupName.replaceWith(input)
    
   #Add delete button to each role name
-  $("#custom_roles tr:eq(" + rowNum + ") td:eq(1) .roleLabel").each -> wrapInputWithDeleteButton($(@), "div")
-  $("#custom_roles tr:eq(" + rowNum + ") td:eq(2) .roleLabel").each -> wrapInputWithDeleteButton($(@), "span")
+  $("#custom_roles tr:eq(" + rowNum + ") td:eq(1) .roleLabel").each -> wrapInputWithDeleteButton($(@), "div", groupName)
+  $("#custom_roles tr:eq(" + rowNum + ") td:eq(2) .roleLabel").each -> wrapInputWithDeleteButton($(@), "span", groupName)
 
 populateRightComboBox = () ->
   #Add right combobox - only add rights that haven't already been used
@@ -147,9 +147,9 @@ populateRightComboBox = () ->
       $("#addRightUi select").append($("<option></option>").val(right).text(right))
 
 
-wrapInputWithDeleteButton = (input, type) ->
+wrapInputWithDeleteButton = (input, type, name) ->
   div = $('<span>').addClass("input-append")
-  button = $("<button class='btn'>&times;</button>")
+  button = $("<button class='btn' id='DELETE_" + input.text() + "' >&times;</button>")
   div.append(button)
   button.click ->
     label = button.parent().parent().find('.editable')
