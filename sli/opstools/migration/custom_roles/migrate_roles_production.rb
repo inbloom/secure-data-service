@@ -48,7 +48,7 @@ connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 10, :pool_ti
   @log.info "migrating realm #{realm['_id']} #{realm['body']['name']}"
   role = { 
     body: {
-      realmId: realm['body']['uniqueIdentifier'], 
+      realmId: realm['body']['_id'], 
       tenantId: realm['body']['tenantId'], 
       roles: [], 
       customRights: [] 
