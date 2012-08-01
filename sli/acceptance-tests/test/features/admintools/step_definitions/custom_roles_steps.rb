@@ -113,9 +113,8 @@ When /^I create a new role <Role> to the group <Group> that allows <User> to acc
     step "I edit the group #{hash["Group"]}"
     step "I add the role #{hash["Role"]} to the group #{hash["Group"]}"
     step "I hit the save button"
-    # Wait for the group to reload and the new role mapped
-    @driver.find_element(:xpath, "//div[text()='#{hash["Group"]}']")
-    @driver.find_element(:xpath, "//span[text()='#{hash["Role"]}']")
+    #TODO add stuff to validate the new role is in the group
+    sleep(5)
     step "the user #{hash["User"]} can access the API with rights #{hash["Group"]}"
   end
 end
@@ -144,7 +143,7 @@ end
 When /^I remove the right "([^"]*)" from the group "([^"]*)"$/ do |arg1, arg2|
   step "I edit the group \"#{arg2}\""
   # Find the thing you want to delete
-  @driver.find_element(:xpath, "//div[text()='#{arg1}']/../button").click
+  @driver.find_element(:xpath, "//span[text()='#{arg1}']/..//button").click
 end
 
 When /^I remove the role <Role> from the group <Group> that denies <User> access to the API$/ do |table|
