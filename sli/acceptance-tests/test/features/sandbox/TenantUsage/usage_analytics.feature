@@ -4,6 +4,7 @@ Feature: Sandbox usage analytics
 Background:
   Given I have an open web browser
 
+@wip
 Scenario: As a SLC Operator I can determine how many tenants are using the sandbox environment,
 the total mongo entity count and data size (in Kb) for all sandbox tenants, and mongo entity
 count and data size (in Kb) for each sandbox tenant.
