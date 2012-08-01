@@ -32,21 +32,6 @@ Before do
 end
 
 
-
-Given /^LDAP server has been setup and running$/ do
-  @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
-                          PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
-                          PropLoader.getProps['ldap_admin_pass'])
-  @email_sender_name= "Administrator"
-  @email_sender_address= "noreply@slidev.org"
-  @email_conf = {
-    :host =>  PropLoader.getProps['email_smtp_host'],
-    :port => PropLoader.getProps['email_smtp_port'],
-    :sender_name => @email_sender_name,
-    :sender_email_addr => @email_sender_address
-  }
-end
-
 When /^I navigate to the sandbox user account management page$/ do
   samt_url = PropLoader.getProps['admintools_server_url']+PropLoader.getProps['samt_app_suffix']
   @driver.get samt_url
@@ -147,7 +132,7 @@ end
 Then /^the Role combobox is populated with (.*?)$/ do |primary_role|
   drop_down = @driver.find_element(:id, "user_primary_role")
   option = drop_down.find_element(:xpath, ".//option[text()=#{primary_role}]")
-  assert(option.attribute("selected")=="true", "#{primary_role} does not match what's expected: #{option.text()}")
+  assert(option.attribute("selected")=="true", "#{primary_role} does not match what's expected}")
 end
 
 Then /^the Role checkbox is checked with "(.*?)"$/ do |additional_role| 
@@ -169,11 +154,18 @@ end
 Then /^I can update the (.*?) field to "(.*?)"$/ do |field_name, new_value|
   field=getField(field_name)
   field.clear
-  value=localize(new_value)
+  if field_name == "\"Tenant\"" or field_name == "\"EdOrg\""  #don't localize tenant and edorg value
+    value = new_value
+  else
+    value=localize(new_value)
+  end
   field.send_keys value 
   if field_name == "\"Full Name\"" 
     @user_full_name=value
     @userFullName=value
+  end
+  if field_name == "\"Email\"" 
+    @user_email=value
   end
 end 
 
@@ -183,7 +175,11 @@ Then /^I can delete text in (.*?) field$/ do |field_name|
 end
 
 Then /^the user has "(.*?)" updated to "(.*?)"$/ do |table_header, new_value| 
-  value=localize(new_value);
+  if table_header == "Tenant" or table_header == "EdOrg" #don't localize tenant and edorg value
+    value = new_value
+  else 
+    value=localize(new_value);
+  end
   tr=@driver.find_element(:id, @user_unique_id)
   td=tr.find_element(:id, "#{@user_full_name}_#{table_header.downcase.gsub(" ", "_")}")
   assert(td.text()==value, "#{table_header} not updated! Expecting: #{new_value}, got: #{td.text()}")
@@ -194,7 +190,7 @@ Then /^the user still has (.*?) as (.*?)$/ do |table_header, new_value|
 end 
 
 Then /^I can change the Role from the dropdown to (.*?)$/ do |primary_role|
-    step "I can select #{primary_role} from a choice between a \"Ingestion User\", \"Application Developer\" and \"Sandbox Administrator\" Role"
+    step "I can select #{primary_role} from a choice between \"Ingestion User, Application Developer, Sandbox Administrator\" Role"
 end
 
 Then /^I can add additional Role "(.*?)"$/ do |optional_role|
@@ -212,9 +208,12 @@ Then /^I can add additional Role "(.*?)"$/ do |optional_role|
   end
 end
 
-Then /^the user now has roles "(.*?)" and "(.*?)"$/ do |role1, role2| 
-  roles = [ role1, role2 ]
-  roles.sort!
+Then /^the user has Roles as "(.*?)"$/ do |roles|
+  roles_list = roles.split(",")
+  roles_list.each do |role|
+    role.strip!
+  end
+  roles_list.sort!
   tr=@driver.find_element(:id, @user_unique_id)
   td=tr.find_element(:id, "#{@user_full_name}_role")
   displayed = td.text().split(",")
@@ -222,10 +221,14 @@ Then /^the user now has roles "(.*?)" and "(.*?)"$/ do |role1, role2|
     str.strip!
   end
   displayed.sort!
-  assert(roles.size == displayed.size, "roles size do not match")
-  for idx in 0 ... roles.size
-    assert(roles[idx] == displayed[idx], "user roles do not match #{roles[idx]} #{displayed[idx]}")
+  assert(roles_list.size == displayed.size, "roles size do not match #{roles_list.size} #{displayed.size}")
+  for idx in 0 ... roles_list.size
+    assert(roles_list[idx] == displayed[idx], "user roles do not match #{roles_list[idx]} #{displayed[idx]}")
   end
+end 
+
+Then /^the user now has roles "(.*?)" and "(.*?)"$/ do |role1, role2| 
+    step "the user has Roles as \"#{role1}, #{role2}\""
 end 
 
 When /^I click on "(.*?)" icon$/ do |buttonName|
@@ -288,7 +291,7 @@ delete_button=nil
   assert(delete_button!=nil,"the #{buttonName} button is not disabled")
 end
 
-When /^I click on (.*?) button$/ do |buttonName|
+When /^I click on (".*?") button$/ do |buttonName|
   @driver.find_element(:xpath, "//a[text()=#{buttonName}]").click
 end
 
@@ -304,24 +307,27 @@ When /^I have entered Full Name and Email into the required fields$/ do
   @driver.find_element(:name, 'user[email]').send_keys Socket.gethostname+"_testuser@testwgen.net"
 end
 
-Then /^I can select "(.*?)" from a choice between a (.*?), (.*?) and (.*?) Role$/ do |role, choice1, choice2, choice3| 
+Then /^I can select "(.*?)" from a choice between "(.*?)" Role$/ do |role, choices| 
     drop_down = @driver.find_element(:id, "user_primary_role")
-    drop_down.click
-    for i in [ choice1, choice2, choice3 ] do
-        option = drop_down.find_element(:xpath, ".//option[text()=#{i}]")
+    #drop_down.click
+    for i in choices.split(",")  do
+        i.strip!
+        option = drop_down.find_element(:xpath, ".//option[text()=\"#{i}\"]")
         assert(option != nil)
     end
+
+    options = drop_down.find_elements(:xpath, ".//option")
+    assert(options.size == choices.split(",").size, "Only has #{options.size} choices, but requirement has #{choices.split(",").size} chioces") 
    
-    drop_down.send_keys "#{role}.chr" 
-    #option = dropDown.find_element(:xpath, ".//option[text()=#{role}]")
-    #option.send_keys "\r"
+    select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, "user_primary_role"))
+    select.select_by(:text, role)
 end
 
 Then /^I can also check "(.*?)" Role$/ do |r|
     @driver.find_element(:id, "#{r.downcase.gsub(" ", "_")}_role").click 
 end
  
-When /^I click (.*?) link$/ do |link|
+When /^I click (".*?") link$/ do |link|
   @driver.find_element(:xpath, "//a[text()=#{link}]").click
 end 
 

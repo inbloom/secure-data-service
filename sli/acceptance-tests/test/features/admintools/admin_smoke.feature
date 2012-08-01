@@ -74,14 +74,14 @@ And the Deny button next to it is enabled
 
 Scenario: Realm administrator operations
 Given I am a valid realm administrator
-When I authenticate on the Complex-Configurable Role Mapping tool
-And I see pre-existing mappings
-When I click on the Reset Mapping button
-And I got warning message saying 'Are you sure you want to reset the role mappings?'
-When I click 'OK'
-Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
-And I no longer see the pre-existing mappings
-When I hit the realm editing URL
+When I authenticate on the realm editing tool
+#And I see pre-existing mappings
+#When I click on the Reset Mapping button
+#And I got warning message saying 'Are you sure you want to reset the role mappings?'
+#When I click 'OK'
+#Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
+#And I no longer see the pre-existing mappings
+#When I hit the realm editing URL
 And I should see that I am on the "Illinois Sunset School District 4526" edit page
 And I should enter "Smoke" into the Display Name field
 And I should click the "Save" button

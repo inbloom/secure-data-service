@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.Link;
 import org.slc.sli.api.client.impl.transform.GenericEntityDeserializer;
@@ -30,20 +31,20 @@ import org.slc.sli.api.client.impl.transform.GenericEntitySerializer;
 /**
  * Generic implementation of the Entity interface. This is implements the Entity interface
  * in the most generic way possible.
- * 
+ *
  * @author asaarela
  */
 @JsonSerialize(using = GenericEntitySerializer.class, include = JsonSerialize.Inclusion.NON_NULL)
 @JsonDeserialize(using = GenericEntityDeserializer.class)
 public class GenericEntity implements Entity {
-    
+
     private final String type;
-    
+
     private final Map<String, Object> data;
-    
+
     /**
      * Construct a new generic entity.
-     * 
+     *
      * @param type
      *            Entity type for this entity.
      * @param body
@@ -55,7 +56,7 @@ public class GenericEntity implements Entity {
         this.type = type;
         this.data = data;
     }
-    
+
     @Override
     public String getId() {
         if (data.containsKey(ENTITY_ID_KEY)) {
@@ -63,24 +64,68 @@ public class GenericEntity implements Entity {
         }
         return null;
     }
-    
+
     @Override
     public Map<String, Object> getData() {
         return data;
     }
-    
+
     @SuppressWarnings("unchecked")
     @Override
     public List<Link> getLinks() {
-        
+
         if (data.containsKey(LINKS_KEY)) {
             return (List<Link>) data.get(LINKS_KEY);
         }
         return null;
     }
-    
+
     @Override
     public String getEntityType() {
         return type;
     }
+
+    @Override
+    public String toString() {
+        return "GenericEntity [type=" + type + ", data=" + data + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((data == null) ? 0 : data.hashCode());
+        result = prime * result + ((type == null) ? 0 : type.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        GenericEntity other = (GenericEntity) obj;
+        if (data == null) {
+            if (other.data != null) {
+                return false;
+            }
+        } else if (!data.equals(other.data)) {
+            return false;
+        }
+        if (type == null) {
+            if (other.type != null) {
+                return false;
+            }
+        } else if (!type.equals(other.type)) {
+            return false;
+        }
+        return true;
+    }
+
 }

@@ -71,7 +71,7 @@ Then /^all of the input fields should be blank$/ do
 end
 
 Then /^I should hit the role mapping page$/ do
-  @url = PropLoader.getProps['admintools_server_url'] + "/realms"
+  @url = PropLoader.getProps['admintools_server_url'] + "/custom_roles"
   @driver.get @url
 end
 

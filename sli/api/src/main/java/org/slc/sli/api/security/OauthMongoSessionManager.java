@@ -215,7 +215,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         
         // Make sure the user's district has authorized the use of this application
         SLIPrincipal principal = jsoner.convertValue(session.getBody().get("principal"), SLIPrincipal.class);
-        principal.setEntity(locator.locate((String) principal.getTenantId(), principal.getExternalId()).getEntity());
+        principal.setEntity(locator.locate(principal.getTenantId(), principal.getExternalId()).getEntity());
         TenantContext.setTenantId(principal.getTenantId());
         
         List<String> authorizedAppIds = appValidator.getAuthorizedApps(principal);
@@ -273,15 +273,11 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                                 Field approved = ClientToken.class.getDeclaredField("approved");
                                 approved.setAccessible(true);
                                 approved.set(token, true);
-                                
-                                SLIPrincipal principal = jsoner.convertValue(sessionEntity.getBody().get("principal"),
-                                        SLIPrincipal.class);
-                                principal.setEntity(locator.locate(principal.getTenantId(), principal.getExternalId())
-                                        .getEntity());
-                                Collection<GrantedAuthority> authorities = resolveAuthorities(principal.getRealm(),
-                                        principal.getRoles());
-                                PreAuthenticatedAuthenticationToken userToken = new PreAuthenticatedAuthenticationToken(
-                                        principal, accessToken, authorities);
+
+                                SLIPrincipal principal = jsoner.convertValue(sessionEntity.getBody().get("principal"), SLIPrincipal.class);
+                                principal.setEntity(locator.locate(principal.getTenantId(), principal.getExternalId()).getEntity());
+                                Collection<GrantedAuthority> authorities = resolveAuthorities(principal.getTenantId(), principal.getRealm(), principal.getRoles());
+                                PreAuthenticatedAuthenticationToken userToken = new PreAuthenticatedAuthenticationToken(principal, accessToken, authorities);
                                 userToken.setAuthenticated(true);
                                 auth = new OAuth2Authentication(token, userToken);
                                 
@@ -342,9 +338,9 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         
         return deleted;
     }
-    
-    private Collection<GrantedAuthority> resolveAuthorities(final String realm, final List<String> roleNames) {
-        return resolver.resolveRoles(realm, roleNames);
+
+    private Collection<GrantedAuthority> resolveAuthorities(String tenantId, final String realm, final List<String> roleNames) {
+        return resolver.resolveRoles(tenantId, realm, roleNames);
     }
     
     private OAuth2Authentication createAnonymousAuth() {

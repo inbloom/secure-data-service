@@ -19,13 +19,15 @@ package org.slc.sli.api.init;
 
 import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
 
 /**
@@ -37,16 +39,17 @@ public class RoleInitializerTest {
     private Repository<Entity> mockRepo;
 
     @Before
+    @SuppressWarnings("unchecked")
     public void setUp() throws Exception {
         mockRepo = mock(Repository.class);
+        Mockito.when(mockRepo.create(Mockito.anyString(), Mockito.any(Map.class))).thenReturn(new MongoEntity("entity", new HashMap<String, Object>()));
         roleInitializer = new RoleInitializer();
         roleInitializer.setRepository(mockRepo);
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void testAllRolesCreated() throws Exception {
-        when(mockRepo.findAll("roles")).thenReturn(new ArrayList<Entity>());
-
-        assertTrue(roleInitializer.buildRoles() == 12);
+        assertTrue(roleInitializer.buildRoles("myRealmId") == 4);
     }
 }
