@@ -17,6 +17,7 @@ When I click on the Reset Mapping button
 And I got a warning message saying "Are you sure you want to reset the mappings to factory defaults? This will remove any custom defined roles!"
 When I click 'OK' on the warning message
 Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
+
 @derp
 Scenario: Create new group
 When I click on the Add Group button
@@ -28,27 +29,34 @@ And I hit the save button
 Then the group "New Custom" contains the roles "Dummy"
 And the group "New Custom" contains the rights "Read General"
 
+@derp
 Scenario: Add role to existing group
 When I create a new role <Role> to the group <Group> that allows <User> to access the API
 | Group              | Role        | User      |
-| "Educator"         | "Teacher"   | "teacher" |
-| "Leader"           | "Principal" | "prince"  |
-| "IT Administrator" | "Admin"     | "root"    |
-| "Aggregate Viewer" | "Observer"  | "bigbro"  |
+#| "Educator"         | "Teacher"   | "teacher" |
+#| "Leader"           | "Principal" | "prince"  |
+#| "IT Administrator" | "Admin"     | "root"    |
+#| "Aggregate Viewer" | "Observer"  | "bigbro"  |
 | "New Custom"       | "Custom"    | "custom"  |
 Then I see the mapping in the table
 And That user can now access the API
 
+@derp
 Scenario: Add rights to group
 And the user "custom" can access the API with rights "Read General"
+And I edit the group "New Custom"
 When I add the right "WRITE_GENERAL" to the group "New Custom"
+And I hit the save button
 Then the group "New Custom" contains the rights "Read and Write General"
+And I wait for 5 seconds
 And the user "custom" can access the API with rights "Read and Write General"
 
+@derp
 Scenario: Remove rights from group
 When I remove the right "WRITE_GENERAL" from the group "New Custom"
 And I hit the save button
 Then the group "New Custom" contains the rights "Read General"
+And I wait for 5 seconds
 And the user "custom" can access the API with rights "Read General"
 When I remove the right "READ_GENERAL" from the group "New Custom"
 And I hit the save button
@@ -98,6 +106,7 @@ And I add the role "Teacher" to the group "Educator"
 And I click the cancel button
 Then the group "New Custom" contains the rights "Read General Public and Aggregate"
 And the group "New Custom" contains the roles "Educator"
+
 @wip
 Scenario: Name validation for role and group names
 #This requirement is questionable?  Redone to just make sure input is sanitized?
