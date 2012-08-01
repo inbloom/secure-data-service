@@ -22,16 +22,16 @@ jQuery ->
   $("#addGroupButton").click ->
     newRow = $("<tr><td><div></div></td><td></td><td></td><td></td></tr>")
     $("#custom_roles tbody").append(newRow)
-    editRow(newRow)
+
+    newRow.find("td:eq(3)").append($("#rowEditTool").clone().children())
+
     # Disable the save button until they've added a role and right
-    $("#rowEditToolSaveButton").addClass("disabled") #disable until we get ajax success
-    $("#rowEditToolSaveButton").attr('disabled', 'disabled')
+    newRow.find(".rowEditToolSaveButton").addClass("disabled") #disable until we get ajax success
+    newRow.find(".rowEditToolSaveButton").attr('disabled', 'disabled')
+    editRow(newRow)
 
     #Add row edit tool
-    newRow.find("td:eq(3)").append($("#rowEditTool").clone().children())
     wireEditButtons(newRow)
-    newRow.find(".saveButtons").show()
-    newRow.find(".editButtons").hide()
     
 
   #Wire up reset to defaults
@@ -61,17 +61,9 @@ enableSaveButtonIfPossible = (tr)  ->
   roles = getRoles(tr)  
   rights = getRights(tr)  
   if roles.length > 0 && rights.length > 0
-    $("#rowEditToolSaveButton").removeClass("disabled")
-    $("#rowEditToolSaveButton").removeAttr('disabled')
+    tr.find(".rowEditToolSaveButton").removeClass("disabled")
+    tr.find(".rowEditToolSaveButton").removeAttr('disabled')
     
-
-drawEditBox = (row) ->
-  lastRow = row.parent().children().index(row) + 1
-  xPos = row.position().left + row.width()
-  yPos = row.position().top
-  $(".rowEditTool").css('visibility', 'visible')
-  #$(".rowEditTool").height(row.height())
-  $(".rowEditTool").offset({top: yPos, left: xPos})
 
 createLabel = (type, name) ->
   label = $('#labelUi').clone()
@@ -80,6 +72,13 @@ createLabel = (type, name) ->
   return label.children()
 
 editRow = (tr) ->
+  
+  #hide all the other edit buttons
+  curRowButtons = tr.find(".rowButtons")
+  tr.parent().find(".rowButtons").each ->
+    if $(@) != curRowButtons
+      $(@).hide()
+ 
   $("#addGroupButton").addClass("disabled")
   $("#addGroupButton").attr('disabled', 'disabled')
   tr.find(".saveButtons").show()
@@ -152,6 +151,11 @@ wrapInputWithDeleteButton = (input, type, name) ->
   return input.parent()
 
 editRowStop = (tr) ->
+  
+  #Reshow all the row buttons
+  #tr.parent().find(".rowButtons").each ->
+  #  $(@).show()
+
   $("#addGroupButton").removeClass("disabled")
   $("#addGroupButton").removeAttr('disabled')
   $("#rowEditToolSaveButton").addClass("disabled") #disable until we get ajax success
