@@ -13,7 +13,6 @@ count and data size (in Kb) for each sandbox tenant.
     When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
         Then I see a list of "3" tenants
         And I see the total number of tenants as "3" at the bottom of the page
-        And I see the total data size is approximately "600"
         And I see the total entity count is "597"
         And I see a row for tenantId <Tenant_id> with entity count <Count>, approximate size <Size>
     | Tenant_id | Count |  Size |
