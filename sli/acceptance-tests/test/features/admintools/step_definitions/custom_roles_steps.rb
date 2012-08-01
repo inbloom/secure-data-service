@@ -82,7 +82,8 @@ end
 Then /^the group "([^"]*)" contains the (rights "[^"]*")$/ do |title, rights|
   group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
   rights.each do |right|
-    group.find_elements(:xpath, "//span[text()='#{right}']")
+    temp = group.find_elements(:xpath, "//span[text()='#{right}']")
+    puts("Temp is #{temp.inspect}")
   end
 end
 
@@ -249,4 +250,8 @@ end
 
 Then /^the save button is disabled$/ do
   assert(!@driver.find_element(:id, "rowEditToolSaveButton").enabled?, "Save button should be disabled")
+end
+
+Then /^I wait for 5 seconds$/ do
+  sleep(5)
 end

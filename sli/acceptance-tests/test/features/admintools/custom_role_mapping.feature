@@ -18,7 +18,7 @@ And I got a warning message saying "Are you sure you want to reset the mappings 
 When I click 'OK' on the warning message
 Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
 
-@derp
+
 Scenario: Create new group
 When I click on the Add Group button
 And I type the name "New Custom" in the Group name textbox
@@ -29,7 +29,6 @@ And I hit the save button
 Then the group "New Custom" contains the roles "Dummy"
 And the group "New Custom" contains the rights "Read General"
 
-@derp
 Scenario: Add role to existing group
 When I create a new role <Role> to the group <Group> that allows <User> to access the API
 | Group              | Role        | User      |
@@ -43,10 +42,14 @@ And That user can now access the API
 
 Scenario: Add rights to group
 And the user "custom" can access the API with rights "Read General"
+And I edit the group "New Custom"
 When I add the right "WRITE_GENERAL" to the group "New Custom"
+And I hit the save button
 Then the group "New Custom" contains the rights "Read and Write General"
+And I wait for 5 seconds
 And the user "custom" can access the API with rights "Read and Write General"
 
+@derp
 Scenario: Remove rights from group
 When I remove the right "WRITE_GENERAL" from the group "New Custom"
 And I hit the save button
