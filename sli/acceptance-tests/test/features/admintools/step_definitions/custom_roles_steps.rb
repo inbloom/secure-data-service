@@ -28,7 +28,7 @@ Transform /rights "(.*?)"/ do |arg1|
   rights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "IT Administrator"
   rights = ["READ_GENERAL", "READ_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "Leader"
   rights = ["AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "Aggregate Viewer"
-  rights = ["READ_GENERAL"] if arg1 == "Custom"
+  rights = ["READ_GENERAL"] if arg1 == "New Custom"
   # Custom right sets for test roles
   rights = ["READ_GENERAL"] if arg1 == "Read General"
   rights = ["READ_GENERAL", "WRITE_GENERAL"] if arg1 == "Read and Write General"
@@ -112,8 +112,9 @@ When /^I create a new role <Role> to the group <Group> that allows <User> to acc
     step "I edit the group #{hash["Group"]}"
     step "I add the role #{hash["Role"]} to the group #{hash["Group"]}"
     step "I hit the save button"
-    #TODO add stuff to validate the new role is in the group
-    sleep(5)
+    # Wait for the group to reload and the new role mapped
+    @driver.find_element(:xpath, "//div[text()='#{hash["Group"]}']")
+    @driver.find_element(:xpath, "//span[text()='#{hash["Role"]}']")
     step "the user #{hash["User"]} can access the API with rights #{hash["Group"]}"
   end
 end

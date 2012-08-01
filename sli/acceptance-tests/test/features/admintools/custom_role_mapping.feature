@@ -11,15 +11,13 @@ When I navigate to the Custom Role Mapping Page
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
-
+@derp
 Scenario: Reset to default role to right mapping
 When I click on the Reset Mapping button
 And I got a warning message saying "Are you sure you want to reset the mappings to factory defaults? This will remove any custom defined roles!"
 When I click 'OK' on the warning message
 Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
-
-@derp
-Scenario: Create new group
+#Scenario: Create new group
 When I click on the Add Group button
 And I type the name "New Custom" in the Group name textbox
 Then the save button is disabled
@@ -28,9 +26,7 @@ And I add the role "Dummy" to the group "New Custom"
 And I hit the save button
 Then the group "New Custom" contains the roles "Dummy"
 And the group "New Custom" contains the rights "Read General"
-
-@derp
-Scenario: Add role to existing group
+#Scenario: Add role to existing group
 When I create a new role <Role> to the group <Group> that allows <User> to access the API
 | Group              | Role        | User      |
 | "Educator"         | "Teacher"   | "teacher" |
