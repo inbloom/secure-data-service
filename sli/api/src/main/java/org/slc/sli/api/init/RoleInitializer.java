@@ -99,6 +99,7 @@ public class RoleInitializer {
             rolesBody.put("realmId", realmId);
             rolesBody.put("roles", groups);
             rolesBody.put("customRights", new ArrayList<String>());
+            repository.create(ROLES, rolesBody);
             return groups.size();
         } else {
             warn("Null realm id --> not building roles.");
