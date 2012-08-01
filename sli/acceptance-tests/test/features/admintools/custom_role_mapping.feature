@@ -2,7 +2,6 @@
 @RALLY_US174
 @RALLY_US3331
 @RALLY_US2669
-@wip
 Feature: Custom Role Mapping Tool
 As an SEA/LEA  Admin, I would like to have the Complex Role Mapping admin tool, so that I can map lists of SEA/LEA Directory roles to their associated SLI Access Rights.
 
@@ -18,16 +17,12 @@ When I click on the Reset Mapping button
 And I got a warning message saying "Are you sure you want to reset the mappings to factory defaults? This will remove any custom defined roles!"
 When I click 'OK' on the warning message
 Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
-@derp
+
 Scenario: Create new group
 When I click on the Add Group button
 And I type the name "New Custom" in the Group name textbox
-#Then a new group is created titled "New Custom"
-#And the group "New Custom" contains the roles "none"
-#And the group "New Custom" contains the rights "none"
-When I hit the save button
-Then I am informed that I must have at least one role and right in the group
-When I add the right "READ_GENERAL" to the group "New Custom"
+#Then the save button is disabled
+When I add the right "READ_GENERAL" to the group "New Custom"   
 And I add the role "Dummy" to the group "New Custom"
 And I hit the save button
 Then the group "New Custom" contains the roles "Dummy"
@@ -45,20 +40,24 @@ Then I see the mapping in the table
 And That user can now access the API
 
 Scenario: Add rights to group
-When I add the right "READ_PUBLIC" to the group "New Custom"
-Then the group "New Custom" contains the rights "Read General"
 And the user "custom" can access the API with rights "Read General"
-When I add the right "Write General" to the group "New Custom"
+And I edit the group "New Custom"
+When I add the right "WRITE_GENERAL" to the group "New Custom"
+And I hit the save button
 Then the group "New Custom" contains the rights "Read and Write General"
+And I wait for 5 seconds
 And the user "custom" can access the API with rights "Read and Write General"
 
 Scenario: Remove rights from group
-When I remove the right "Write General" from the group "New Custom"
+When I edit the group "New Custom"
+When I remove the right "WRITE_GENERAL" from the group "New Custom"
 And I hit the save button
 Then the group "New Custom" contains the rights "Read General"
+And I wait for 5 seconds
 And the user "custom" can access the API with rights "Read General"
-When I remove the right "Read General" from the group "New Custom"
-And I hit the save button
+When I edit the group "New Custom"
+When I remove the right "READ_GENERAL" from the group "New Custom"
+#And I hit the save button
 Then I am informed that I must have at least one role and right in the group
 And the user "custom" can access the API with rights "Read General"
 
@@ -74,13 +73,14 @@ Then I no longer see that mapping in the table
 And That user can no longer access the API
 
 Scenario: Cannot remove last role in group
+When I edit the group "New Custom"
 When I remove the role "Dummy" from the group "New Custom"
-And I hit the save button
+#And I hit the save button
 Then I am informed that I must have at least one role and right in the group
 
 Scenario: Remove group
 When I remove the group "New Custom"
-And I hit the save button
+#And I hit the save button
 Then the group "New Custom" no longer appears on the page
 
 Scenario: Cannot add duplicate rights within a group
@@ -99,13 +99,16 @@ When I edit the roles for the group <Group> to include the duplicate role <Role>
 | "Aggregate Viewer" | "Leader"           |
 Then I am informed that "Role names must be unique across all groups"
 
+
 Scenario: Cancel button discards any unsaved changes for a group
-When I add the right "Write General" to the group "Educator"
+When I edit the group "Educator"
+When I add the right "WRITE_GENERAL" to the group "Educator"
 And I add the role "Teacher" to the group "Educator"
 And I click the cancel button
-Then the group "New Custom" contains the rights "Read General Public and Aggregate"
-And the group "New Custom" contains the roles "Educator"
+Then the group "Educator" contains the rights "Read General Public and Aggregate"
+And the group "Educator" contains the roles "Educator"
 
+@wip
 Scenario: Name validation for role and group names
 #This requirement is questionable?  Redone to just make sure input is sanitized?
 Given Something 
