@@ -32,12 +32,14 @@ Transform /rights "(.*?)"/ do |arg1|
   # Custom right sets for test roles
   rights = ["READ_GENERAL"] if arg1 == "Read General"
   rights = ["READ_GENERAL", "WRITE_GENERAL"] if arg1 == "Read and Write General"
+  rights = ["READ_GENERAL", "READ_PUBLIC", "READ_AGGREGATE"] if arg1 == "Read General Public and Aggregate"
   rights = [] if arg1 == "none"
   rights
 end
 
 Transform /roles "(.*?)"/ do |arg1|
   roles = ["Dummy"] if arg1 == "Dummy"
+  roles = ["Educator"] if arg1 == "Educator"
   roles = [] if arg1 == "none"
   roles
 end
@@ -162,8 +164,9 @@ When /^I remove the role <Role> from the group <Group> that denies <User> access
     step "I edit the group #{hash["Group"]}"
     step "I remove the role #{hash["Role"]} from the group #{hash["Group"]}"
     step "I hit the save button"
+    sleep(5)
     #TODO add stuff to validate the role has been removed from the group
-    step "the user #{hash["User"]} can no longer access the API with rights #{hash["Role"]}"
+    step "the user #{hash["User"]} can access the API with rights \"none\""
   end
 end
 
@@ -197,8 +200,11 @@ When /^I edit the group "([^"]*)"$/ do |arg1|
 end
 
 When /^I remove the group "([^"]*)"$/ do |arg1|
-  @driver.find_element(:xpath, "//div[text()='#{arg1}']").click
-  @driver.find_element(:id, "rowEditToolDeleteButton").click
+  row = @driver.find_element(:xpath, "//div[text()='#{arg1}']/../..")
+  row.find_element(:class, "rowEditToolDeleteButton").click
+
+  # @driver.find_element(:xpath, "//div[text()='#{arg1}']").click
+  # @driver.find_element(:id, "rowEditToolDeleteButton").click
   @driver.switch_to.alert.accept
 end
 
@@ -214,13 +220,16 @@ When /^I edit the rights for the group <Group> to include the duplicate right <R
   table.hashes.each do |hash|
     step "I edit the group #{hash["Group"]}"
     # Check that the duplicate right is not an available choice in the dropdown
-    group = @driver.find_elements(:xpath, "//div[text()='#{hash["Group"]}']/../..")
-    select = Selenium::WebDriver::Support::Select.new(group.find_element(:tag_name, "select"))
+    # group = @driver.find_elements(:xpath, "//div[text()='#{hash["Group"]}']/../..")
+    select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, "addRightSelect"))
+    # select = Selenium::WebDriver::Support::Select.new(group.find_element(:tag_name, "select"))
     select.options.each do |option|
       assert(option.text != hash["Right"], "Duplicate Right detected! Right: #{hash["Right"]}")
     end
     # Hit cancel to return to known state
+    puts("Current right is #{hash['Right']} and group is #{hash['Group']}")
     step "I click the cancel button"
+    sleep(5)
   end
 end
 
@@ -243,8 +252,9 @@ Then /^I am informed that "([^"]*)"$/ do |arg1|
 end
 
 When /^I click the cancel button$/ do
-  btn = @driver.find_element(:id, "rowEditToolCancelButton")
-  btn.click
+  row = @driver.find_element(:xpath, "//td/input/../..")
+  button = row.find_element(:class, "rowEditToolCancelButton")
+  button.click
 end
 
 When /^I click on the Reset Mapping button$/ do
