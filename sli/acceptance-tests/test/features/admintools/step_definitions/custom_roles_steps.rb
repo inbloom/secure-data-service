@@ -113,8 +113,9 @@ When /^I create a new role <Role> to the group <Group> that allows <User> to acc
     step "I edit the group #{hash["Group"]}"
     step "I add the role #{hash["Role"]} to the group #{hash["Group"]}"
     step "I hit the save button"
-    #TODO add stuff to validate the new role is in the group
-    sleep(5)
+    # Wait for the group to reload and the new role mapped
+    @driver.find_element(:xpath, "//div[text()='#{hash["Group"]}']")
+    @driver.find_element(:xpath, "//span[text()='#{hash["Role"]}']")
     step "the user #{hash["User"]} can access the API with rights #{hash["Group"]}"
   end
 end
