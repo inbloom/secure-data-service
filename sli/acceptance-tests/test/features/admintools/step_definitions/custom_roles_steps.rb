@@ -83,12 +83,16 @@ Then /^the group "([^"]*)" contains the (rights "[^"]*")$/ do |title, rights|
   group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
   rights.each do |right|
     temp = group.find_elements(:xpath, "//span[text()='#{right}']")
-    puts("Temp is #{temp.inspect}")
   end
 end
 
 When /^I hit the save button$/ do
-  @driver.find_element(:id, "rowEditToolSaveButton").click
+  saveButtons = @driver.find_elements(:class, "rowEditToolSaveButton")
+  saveButtons.each do |save|
+    if save.displayed?
+      save.click
+    end
+  end
 end
 
 Then /^I am informed that I must have at least one role and right in the group$/ do
@@ -145,6 +149,7 @@ When /^I remove the right "([^"]*)" from the group "([^"]*)"$/ do |arg1, arg2|
   # Find the thing you want to delete
   # group = @driver.find_element(:xpath, "//input[@id='editInput']/..")
   # group.find_element(:xpath, "//span[text()='#{arg1}']/../span[@class='input-append']/button").click
+  
   @driver.find_element(:id, "DELETE_" + arg1).click
 end
 
@@ -178,8 +183,11 @@ When /^I remove the role "([^"]*)" from the group "([^"]*)"$/ do |arg1, arg2|
 end
 
 When /^I edit the group "([^"]*)"$/ do |arg1|
-  @driver.find_element(:xpath, "//div[text()='#{arg1}']").click
-  @driver.find_element(:id, "rowEditToolEditButton").click
+  row = @driver.find_element(:xpath, "//div[text()='#{arg1}']/../..")
+  row.find_element(:class, "rowEditToolEditButton").click
+
+  # @driver.find_element(:xpath, "//div[text()='#{arg1}']").click
+  # @driver.find_element(:id, "rowEditToolEditButton").click
 end
 
 When /^I remove the group "([^"]*)"$/ do |arg1|
@@ -251,9 +259,9 @@ Then /^I see the mapping in the table$/ do
 end
 
 Then /^the save button is disabled$/ do
-  assert(!@driver.find_element(:id, "rowEditToolSaveButton").enabled?, "Save button should be disabled")
+  assert(!@driver.find_element(:class, "rowEditToolSaveButton").enabled?, "Save button should be disabled")
 end
 
 Then /^I wait for 5 seconds$/ do
-  sleep(5)
+  sleep(10)
 end

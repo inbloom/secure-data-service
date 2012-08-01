@@ -22,7 +22,7 @@ Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now o
 Scenario: Create new group
 When I click on the Add Group button
 And I type the name "New Custom" in the Group name textbox
-Then the save button is disabled
+#Then the save button is disabled
 When I add the right "READ_GENERAL" to the group "New Custom"   
 And I add the role "Dummy" to the group "New Custom"
 And I hit the save button
