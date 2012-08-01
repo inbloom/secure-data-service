@@ -1,8 +1,7 @@
-.rowEditTool {
-        position: absolute;
-        z-index: 10;
-        visibility: hidden
+.rowButtons {
+  min-width: 100px;
 }
+
 
 #addRightUi {
   display: none
@@ -41,16 +40,6 @@
   margin-right: 0px;
 }
 
-#rowEditToolEditButton {
-  border-bottom-left-radius: 0px;
-  border-top-left-radius: 0px;
-}
-
-#rowEditToolSaveButton {
-  border-bottom-left-radius: 0px;
-  border-top-left-radius: 0px;
-}
-
 .customLabel:hover {
   background-color: #D6D6D6;
 }
@@ -65,6 +54,11 @@
 .saveButtons {
   display: none
 }
+
+#rowEditTool {
+  display: none
+}
+
 
 tr td:first-child.highlight {
   box-shadow: 0 0 5px rgba(0, 0, 255, 1);

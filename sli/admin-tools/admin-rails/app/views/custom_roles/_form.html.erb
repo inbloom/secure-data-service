@@ -11,6 +11,7 @@ var UPDATE_URL = '<%= url_for(:action=>"update") %>'
       <th style='width: 150px'>Group Name</th>
       <th style='width: 200px'>Roles</th>
       <th>Rights</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -28,14 +29,14 @@ var UPDATE_URL = '<%= url_for(:action=>"update") %>'
 
 <div id="components">
 
-<div class="rowEditTool">
-  <div class="editButtons btn-group">
-    <button id="rowEditToolEditButton" class="btn btn-small">Edit</button>
-    <button id="rowEditToolDeleteButton" class="btn btn-small"><i class="icon-trash"></i></button>
-  </div>
-  <div class="saveButtons btn-group">
-    <button id="rowEditToolSaveButton" class="btn btn-small">Save</button>
-    <button id="rowEditToolCancelButton" class="btn btn-small">Cancel</button>
+<div id="rowEditTool">
+    <div class="rowButtons btn-group editButtons">
+      <button class="rowEditToolEditButton btn btn-small">Edit</button>
+      <button class="rowEditToolDeleteButton btn btn-small"><i class="icon-trash"></i></button>
+    </div>
+  <div class="rowButtons btn-group saveButtons">
+    <button class="rowEditToolSaveButton btn btn-small">Save</button>
+    <button class="rowEditToolCancelButton btn btn-small">Cancel</button>
   </div>
 </div>
 
