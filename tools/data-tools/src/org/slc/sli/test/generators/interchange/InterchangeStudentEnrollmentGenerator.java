@@ -69,7 +69,10 @@ public class InterchangeStudentEnrollmentGenerator {
 
         generateStudentSectionAssoc(iWriter, MetaRelations.STUDENT_MAP.values());
         
-        generateGraduationPlan(iWriter, MetaRelations.GRADUATION_PLAN_MAP.values());
+		if (MetaRelations.StudentSchoolAssociation_Ref) {
+			generateGraduationPlan(iWriter,
+					MetaRelations.GRADUATION_PLAN_MAP.values());
+		}
 
     }
 

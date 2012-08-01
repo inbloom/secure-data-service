@@ -41,7 +41,7 @@ public class StudentSchoolAssociationGenerator {
 			ReferenceType refType = new ReferenceType();
 			refType.setRef(gPlan);
 			ssa.setGraduationPlanReference(refType);
-		}
+		} 
     	
         StudentIdentityType sit = new StudentIdentityType();
         sit.setStudentUniqueStateId(studentId);
