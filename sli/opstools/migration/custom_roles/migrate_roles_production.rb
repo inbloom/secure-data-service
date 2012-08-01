@@ -20,6 +20,7 @@ limitations under the License.
 require 'rubygems'
 require 'mongo'
 require 'logger'
+require 'SecureRandom'
 
 if ARGV.count < 1
   puts "Usage: <dbhost:port> <database>"
@@ -32,10 +33,19 @@ end
 
 database = (ARGV[1].nil? ? 'sli' : ARGV[1])
 hp = ARGV[0].split(":")
+class PKFactory
+  def create_pk(row)
+    return row if row[:_id]
+    row.delete(:_id)      # in case it exists but the value is nil
+    row['_id'] ||= SecureRandom.uuid
+    row
+  end
+end
 connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 10, :pool_timeout => 25, :safe => {:wtimeout => 500})
 
 @log = Logger.new(STDOUT)
-@db = connection[database]
+@db = connection.db(database, :pk => PKFactory.new)
+
 
 @sli_role_to_rights = {}
 @db[:roles].find({}).each { |role|
@@ -48,7 +58,7 @@ connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 10, :pool_ti
   @log.info "migrating realm #{realm['_id']} #{realm['body']['name']}"
   role = { 
     body: {
-      realmId: realm['body']['_id'], 
+      realmId: realm['_id'], 
       tenantId: realm['body']['tenantId'], 
       roles: [], 
       customRights: [] 
@@ -65,7 +75,7 @@ connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 10, :pool_ti
     }
   end
 
-  @db[:customRoles].save(role) unless realm['body']['uniqueIdentifier'] == "Shared Learning Infrastructure"
+  @db[:customRole].save(role) unless realm['body']['uniqueIdentifier'] == "Shared Learning Infrastructure"
   @log.info "created customRole: #{role}"
 
   realm['body'].delete('mappings')
