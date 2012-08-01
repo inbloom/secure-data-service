@@ -9,7 +9,7 @@ jQuery ->
   populateTable(roles)
 
   $(".rowEditTool").mouseenter ->
-    $(".rowEditTool").show()
+    $(".rowEditTool").css('visibility', 'visible')
 
   $("#rowEditToolEditButton").click ->
     if (editRowIndex < 0)
@@ -21,7 +21,7 @@ jQuery ->
   $("#rowEditToolDeleteButton").click ->
     if (confirm("Do you really want to delete the role group"))
       $("#custom_roles tr:eq(" + lastRow + ")").remove()
-      $(".rowEditTool").hide()
+      $(".rowEditTool").css('visibility', 'hidden')
       saveData(getJsonData())
 
   $("#rowEditToolSaveButton").click ->
@@ -92,7 +92,7 @@ drawEditBox = (row) ->
   lastRow = row.parent().children().index(row) + 1
   xPos = row.position().left + row.width()
   yPos = row.position().top
-  $(".rowEditTool").show()
+  $(".rowEditTool").css('visibility', 'visible')
   #$(".rowEditTool").height(row.height())
   $(".rowEditTool").offset({top: yPos, left: xPos})
 
@@ -105,7 +105,7 @@ createLabel = (type, name) ->
 editRow = (rowNum) ->
   $("#addGroupButton").addClass("disabled")
   $("#addGroupButton").attr('disabled', 'disabled')
-  $(".editButtons").hide()
+  $(".editButtons").css('visibility', 'hidden')
   $(".saveButtons").show()
   editRowIndex = rowNum
 
@@ -210,7 +210,7 @@ saveData = (json) ->
     success: (data, status, xhr) ->
       $("#rowEditToolSaveButton").removeClass("disabled")
       $("#rowEditToolSaveButton").removeAttr('disabled')
-      $(".editButtons").show()
+      $(".editButtons").css('visibility', 'visibile')
       $(".saveButtons").hide()
       window.location.reload(true);
     error: (data, status, xhr) ->
@@ -272,5 +272,5 @@ populateTable = (data) ->
 
   $("#custom_roles tr").mouseleave ->
     if (editRowIndex < 0)
-      $(".rowEditTool").hide()
+      $(".rowEditTool").css('visibility', 'hidden')
 
