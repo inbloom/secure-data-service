@@ -65,7 +65,7 @@ connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 10, :pool_ti
     }
   end
 
-  @db[:customRoles].save(role)
+  @db[:customRoles].save(role) unless realm['body']['uniqueIdentifier'] == "Shared Learning Infrastructure"
   @log.info "created customRole: #{role}"
 
   realm['body'].delete('mappings')
