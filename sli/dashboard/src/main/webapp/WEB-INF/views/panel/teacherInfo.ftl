@@ -17,6 +17,6 @@
 
 <div class="teacherProfile">
 <div id="teacherProfile_colMain" class="colMain">
-	<h1>${panelData.name.firstName}<#if panelData.name.middleName?? &&  panelData.name.middleName != ""> ${panelData.name.middleName}</#if> ${panelData.name.lastSurname}
+	<h1>${panelData.name.firstName}<#if panelData.name.middleName?? &&  panelData.name.middleName != ""> ${panelData.name.middleName}</#if> ${panelData.name.lastSurname}</h1>
 </div>
 </div>
