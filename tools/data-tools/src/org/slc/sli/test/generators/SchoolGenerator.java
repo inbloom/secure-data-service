@@ -299,9 +299,18 @@ public class SchoolGenerator {
 
         	Ref programRef = new Ref(programId);
         	ProgramReferenceType prt = new ProgramReferenceType();
-        	prt.setRef(programRef);
-        	school.getProgramReference().add(prt);
-        }
+			prt.setRef(programRef);
+			school.getProgramReference().add(prt);
+			
+		} else {
+			EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
+			edOrgIdentityType.setStateOrganizationId(leaId);
+
+			EducationalOrgReferenceType leaRef = new EducationalOrgReferenceType();
+			leaRef.setEducationalOrgIdentity(edOrgIdentityType);
+
+			school.setLocalEducationAgencyReference(leaRef);
+		}
 
         return school;
     }

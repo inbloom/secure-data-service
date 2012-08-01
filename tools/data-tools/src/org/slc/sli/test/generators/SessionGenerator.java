@@ -26,6 +26,7 @@ import org.slc.sli.test.edfi.entities.EducationOrgIdentificationCode;
 import org.slc.sli.test.edfi.entities.EducationOrgIdentificationSystemType;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
 import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
+import org.slc.sli.test.edfi.entities.GradingPeriod;
 import org.slc.sli.test.edfi.entities.GradingPeriodIdentityType;
 import org.slc.sli.test.edfi.entities.GradingPeriodReferenceType;
 import org.slc.sli.test.edfi.entities.GradingPeriodType;
@@ -210,16 +211,31 @@ public class SessionGenerator {
 				ref.setRef(calRef);
 				session.getCalendarDateReference().add(ref);
 			}
-		}
+		} 
+			
 		for (int i = 0; i < MetaRelations.GRADING_PERIOD_PER_SESSIONS; i++) {
-			Ref gpRef = new Ref(calendarList.get(0) + "-" + i);
-			GradingPeriodReferenceType gprt = new GradingPeriodReferenceType();
-			gprt.setRef(gpRef);
-			session.getGradingPeriodReference().add(gprt);
-			session.setEducationOrganizationReference(schoolRef);
+//		for (int i = 0; i < 1; i++) {
+			if (MetaRelations.Session_Ref) {
+				Ref gpRef = new Ref(calendarList.get(0) + "-" + i);
+				GradingPeriodReferenceType gprt = new GradingPeriodReferenceType();
+				gprt.setRef(gpRef);
+				session.getGradingPeriodReference().add(gprt);
+			} else {
+				GradingPeriodIdentityType gpit = new GradingPeriodIdentityType();
+				gpit.getStateOrganizationIdOrEducationOrgIdentificationCode().add((Object) schoolId);
+				gpit.setSchoolYear("2011-2012");
+				if (i == 0) {
+					gpit.setGradingPeriod(GradingPeriodType.FIRST_NINE_WEEKS);
+				} else {
+					gpit.setGradingPeriod(GradingPeriodType.FIRST_SIX_WEEKS);
+				}
+				GradingPeriodReferenceType gprt = new GradingPeriodReferenceType();
+				gprt.setGradingPeriodIdentity(gpit);
+				session.getGradingPeriodReference().add(gprt);
+			
+			}
 		}
 		
-        
         session.setEducationOrganizationReference(schoolRef);
         return session;
     }
