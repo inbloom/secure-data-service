@@ -263,5 +263,5 @@ Then /^the save button is disabled$/ do
 end
 
 Then /^I wait for 5 seconds$/ do
-  sleep(10)
+  sleep(5)
 end
