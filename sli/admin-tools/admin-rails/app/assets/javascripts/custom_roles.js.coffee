@@ -12,7 +12,7 @@ jQuery ->
       return
     text = option.text()
     right = createLabel('right', text)
-    right = wrapInputWithDeleteButton(right, "span")
+    right = wrapInputWithDeleteButton(right, "span", text)
     $("#addRightUi").parent().append(right)
     $("#addRightUi").parent().append(" ")
     populateRightComboBox($(@).parents("tr"))
@@ -51,7 +51,7 @@ jQuery ->
     if (getAllRoles().indexOf(roleName) > -1)
       return alert("The role name " + roleName + " is already used.")
     div = createLabel('role', roleName)
-    div = wrapInputWithDeleteButton(div, "div")
+    div = wrapInputWithDeleteButton(div, "div", roleName)
     div.wrap("<div/>")
     td.append(div.parent())
     $("#addRoleUi input").val("")
@@ -101,15 +101,16 @@ editRow = (tr) ->
 
   #Turn group name into input
   groupName = tr.find("td:eq(0) div")
-  input = $("<input type='text'/>").val(groupName.text().trim())
+  input = $("<input type='text' id='editInput' />").val(groupName.text().trim())
+
   if (groupName.text().trim() == "")
     input.attr("placeholder", "Enter group name")
     input.attr("id", "groupName")
   groupName.replaceWith(input)
    
   #Add delete button to each role name
-  tr.find("td:eq(1) .roleLabel").each -> wrapInputWithDeleteButton($(@), "div")
-  tr.find("td:eq(2) .roleLabel").each -> wrapInputWithDeleteButton($(@), "span")
+  tr.find("td:eq(1) .roleLabel").each -> wrapInputWithDeleteButton($(@), "div", groupName)
+  tr.find("td:eq(2) .roleLabel").each -> wrapInputWithDeleteButton($(@), "span", groupName)
 
 populateRightComboBox = (tr) ->
   console.log(tr)
@@ -124,9 +125,9 @@ populateRightComboBox = (tr) ->
       $("#addRightUi select").append($("<option></option>").val(right).text(right))
 
 
-wrapInputWithDeleteButton = (input, type) ->
+wrapInputWithDeleteButton = (input, type, name) ->
   div = $('<span>').addClass("input-append")
-  button = $("<button class='btn'>&times;</button>")
+  button = $("<button class='btn' id='DELETE_" + input.text() + "' >&times;</button>")
   div.append(button)
   button.click ->
     label = button.parent().parent().find('.editable')

@@ -143,7 +143,9 @@ end
 When /^I remove the right "([^"]*)" from the group "([^"]*)"$/ do |arg1, arg2|
   step "I edit the group \"#{arg2}\""
   # Find the thing you want to delete
-  @driver.find_element(:xpath, "//span[text()='#{arg1}']/..//button").click
+  # group = @driver.find_element(:xpath, "//input[@id='editInput']/..")
+  # group.find_element(:xpath, "//span[text()='#{arg1}']/../span[@class='input-append']/button").click
+  @driver.find_element(:id, "DELETE_" + arg1).click
 end
 
 When /^I remove the role <Role> from the group <Group> that denies <User> access to the API$/ do |table|
