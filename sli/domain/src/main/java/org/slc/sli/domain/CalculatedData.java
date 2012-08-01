@@ -39,7 +39,7 @@ public class CalculatedData<T> implements Serializable {
         this(new HashMap<String, Map<String, Map<String, Map<String, T>>>>());
     }
 
-    //types are fun!
+    // types are fun!
     public CalculatedData(Map<String, Map<String, Map<String, Map<String, T>>>> calculatedValues) {
         super();
         List<CalculatedDatum<T>> datums = new ArrayList<CalculatedDatum<T>>();
@@ -62,6 +62,26 @@ public class CalculatedData<T> implements Serializable {
         this.calculatedValues = Collections.unmodifiableList(datums);
     }
 
+    // types are fun!
+    public CalculatedData(Map<String, Map<String, Map<String, T>>> calculatedValues, String method) {
+        super();
+        List<CalculatedDatum<T>> datums = new ArrayList<CalculatedDatum<T>>();
+        if (calculatedValues != null) {
+            for (Entry<String, Map<String, Map<String, T>>> typeEntry : calculatedValues.entrySet()) {
+                String type = typeEntry.getKey();
+                for (Entry<String, Map<String, T>> nameEntry : typeEntry.getValue().entrySet()) {
+                    String name = nameEntry.getKey();
+                    for (Entry<String, T> windowEntry : nameEntry.getValue().entrySet()) {
+                        String window = windowEntry.getKey();
+                        T value = windowEntry.getValue();
+                        datums.add(new CalculatedDatum<T>(type, window, name, method, value));
+                    }
+                }
+            }
+        }
+        this.calculatedValues = Collections.unmodifiableList(datums);
+    }
+
     public List<CalculatedDatum<T>> getCalculatedValues() {
         return calculatedValues;
     }
@@ -77,6 +97,5 @@ public class CalculatedData<T> implements Serializable {
         }
         return aggs;
     }
-
 
 }

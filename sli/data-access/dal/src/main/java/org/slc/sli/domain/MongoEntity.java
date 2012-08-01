@@ -216,10 +216,10 @@ public class MongoEntity implements Entity, Serializable {
         Map<String, Object> body = (Map<String, Object>) dbObj.get("body");
         Map<String, Map<String, Map<String, Map<String, String>>>> cvals = (Map<String, Map<String, Map<String, Map<String, String>>>>) dbObj
                 .get("calculatedValues");
-        Map<String, Map<String, Map<String, Map<String, Map<String, Integer>>>>> aggs = (Map<String, Map<String, Map<String, Map<String, Map<String, Integer>>>>>) dbObj
-                .get("aggregates");
+        Map<String, Map<String, Map<String, Map<String, Integer>>>> aggs = (Map<String, Map<String, Map<String, Map<String, Integer>>>>) dbObj
+                .get("aggregations");
 
-        return new MongoEntity(type, id, body, metaData, new CalculatedData<String>(cvals), new CalculatedData<Map<String, Integer>>(aggs));
+        return new MongoEntity(type, id, body, metaData, new CalculatedData<String>(cvals), new CalculatedData<Map<String, Integer>>(aggs, "aggregate"));
     }
 
     /**
