@@ -33,6 +33,7 @@ import org.slc.sli.test.edfi.entities.GradeLevelType;
 import org.slc.sli.test.edfi.entities.GradeLevelsType;
 import org.slc.sli.test.edfi.entities.MagnetSpecialProgramEmphasisSchoolType;
 import org.slc.sli.test.edfi.entities.OperationalStatusType;
+import org.slc.sli.test.edfi.entities.ProgramIdentityType;
 import org.slc.sli.test.edfi.entities.ProgramReferenceType;
 import org.slc.sli.test.edfi.entities.Ref;
 import org.slc.sli.test.edfi.entities.School;
@@ -41,6 +42,7 @@ import org.slc.sli.test.edfi.entities.SchoolCategoryItemType;
 import org.slc.sli.test.edfi.entities.SchoolType;
 import org.slc.sli.test.edfi.entities.StateAbbreviationType;
 import org.slc.sli.test.edfi.entities.TitleIPartASchoolDesignationType;
+import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 public class SchoolGenerator {
@@ -296,7 +298,6 @@ public class SchoolGenerator {
         	eort.setRef(leaRef);
         	school.setLocalEducationAgencyReference(eort);
         
-
         	Ref programRef = new Ref(programId);
         	ProgramReferenceType prt = new ProgramReferenceType();
 			prt.setRef(programRef);
@@ -310,6 +311,13 @@ public class SchoolGenerator {
 			leaRef.setEducationalOrgIdentity(edOrgIdentityType);
 
 			school.setLocalEducationAgencyReference(leaRef);
+			
+			
+			ProgramIdentityType pit = new ProgramIdentityType();
+			pit.setProgramId(programId);
+			ProgramReferenceType prt = new ProgramReferenceType();
+			prt.setProgramIdentity(pit);
+			school.getProgramReference().add(prt);
 		}
 
         return school;

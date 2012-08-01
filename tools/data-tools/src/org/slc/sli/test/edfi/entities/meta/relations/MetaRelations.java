@@ -94,7 +94,6 @@ public final class MetaRelations {
     public static boolean StateEducationAgency_Ref=false;
     public static boolean LocalEducationAgency_Ref=false;
     public static boolean StudentSchoolAssociation_Ref=false;
-    public static boolean Assessment_Ref=false;
     public static boolean StudentParentAssociation_Ref=false;
     public static boolean TeacherSectionAssociation_Ref=false;
     public static boolean TeacherSchoolAssociation_Ref=false;
@@ -206,8 +205,7 @@ public final class MetaRelations {
 		StudentSchoolAssociation_Ref = Boolean.parseBoolean(properties
 				.getProperty("StudentSchoolAssociation_Ref"));
 
-		Assessment_Ref = Boolean.parseBoolean(properties
-				.getProperty("StudentAssessmentItem_Ref"));
+	
 		StudentParentAssociation_Ref = Boolean.parseBoolean(properties
 				.getProperty("StudentParentAssociation_Ref"));
 		TeacherSectionAssociation_Ref = Boolean.parseBoolean(properties
