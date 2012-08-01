@@ -21,5 +21,34 @@ require "messaging_service"
 require "jobscheduler"
 
 module Eventbus
-    
+
+    module MessagingBase 
+        Topic_Subscribe = '/topic/agent'
+        Topic_Heartbeat = '/queue/listener'
+    end 
+
+    class OplogListener
+        include MessagingBase 
+
+        def initialize
+            config = {
+            :node_name => 'listener',
+            :publish_queue_name => Topic_Subscribe,
+            :subscribe_queue_name => Topic_Heartbeat,
+            :start_heartbeat => false
+            }
+            @messaging = MessagingService.new(config)
+        end
+
+        def subscribe(events)
+            @messaging.publish(events)
+        end 
+
+        def receive(&block)
+            # store  a reference to the subscriber that's returned by subscribe
+            # this might not be necessary, since a thread internally should store it in a
+            # closure, just to be on the safe side 
+            @msg_receiver = @messaging.subscribe(&block)
+        end 
+    end
 end

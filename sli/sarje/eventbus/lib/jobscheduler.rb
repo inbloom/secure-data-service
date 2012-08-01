@@ -101,7 +101,7 @@ module Eventbus
         end 
 
         def schedule_job(job)
-            all_jobs = @jobrunner.running
+            all_jobs = @jobrunner.running_jobs
             if !all_jobs.find_index(job[:jobname])
                 @jobrunner.schedule(job)
             end

@@ -133,16 +133,20 @@ module Eventbus
   end
 
   class OpLogAgent
+    attr_reader :threads
+
     def initialize(config = {})
       config = {
           :publish_queue_name => "/queue/listener",
           :subscribe_queue_name => "/topic/agent"
       }.merge(config)
 
+      @threads = []
+
       oplog_throttler = Eventbus::OpLogThrottler.new(config)
       oplog_reader = OpLogReader.new(config)
 
-      oplog_reader.read_oplogs do |incoming_oplog_message|
+      @threads << oplog_reader.read_oplogs do |incoming_oplog_message|
         oplog_throttler.push(incoming_oplog_message)
       end
 
@@ -153,7 +157,7 @@ module Eventbus
         end
       end
 
-      oplog_throttler.run do |message|
+      @threads << oplog_throttler.run do |message|
         messaging_service.publish(message)
       end
     end

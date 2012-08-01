@@ -117,7 +117,7 @@ class EventCountingJobRunner
         @total = 0 
     end 
 
-    def running
+    def running_jobs
         return [] 
     end 
 

@@ -246,6 +246,7 @@ class TestMessagingService < Test::Unit::TestCase
         :start_heartbeat => false,
         :start_node_detector => true
     }
+    require 'ruby-debug'; debugger
     listener_received_messages = []
     listener = Eventbus::MessagingService.new(listener_config)
     listener.subscribe do |message|

@@ -24,6 +24,17 @@ MATH_HIGHEST_EVER = "#{SLI_HOME}/POC/aggregation/Math-HighestEver/target/Math-Hi
 HADOOP_EXEC = "#{HADOOP_HOME}/bin/hadoop"
 
 class HadoopJobRunner
+
+  # implemented because JobScheduler expects it 
+  def running_jobs
+    list_jobs 
+  end
+
+  # implemented because JobScheduler expects it 
+  def schedule(job)
+    execute_job(job)
+  end
+
   def execute_job(job)
     Thread.new do
       command = "#{HADOOP_EXEC} jar #{job}"
@@ -64,20 +75,20 @@ class HadoopJobRunner
   end
 end
 
-Thread.new do
-  loop do
-    sleep 5
-    if(list_jobs.size == 0)
-      puts "No hadoop job found"
-    else
-      list_jobs.each do |job|
-        print_job(job)
-      end
-    end
+# Thread.new do
+#   loop do
+#     sleep 5
+#     if(list_jobs.size == 0)
+#       puts "No hadoop job found"
+#     else
+#       list_jobs.each do |job|
+#         print_job(job)
+#       end
+#     end
 
-  end
-end
+#   end
+# end
 
-runner = HadoopJobRunner.new
-runner.execute_job MATH_HIGHEST_EVER
-sleep
+# runner = HadoopJobRunner.new
+# runner.execute_job MATH_HIGHEST_EVER
+# sleep

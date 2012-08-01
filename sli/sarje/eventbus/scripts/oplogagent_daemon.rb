@@ -32,6 +32,8 @@ if __FILE__ == $0
     
     config = YAML::load( File.open( ARGV[0] ) )[ARGV[1]]
 
-    # set up the oplog agent 
-    
+    # set up the oplog agent and keep waiting indefinitely until the threads terminate 
+    oplog_agent = EventBus::OpLogAgent.new 
+    threads = oplog_agent.threads 
+    theads.each { |aThread| aThread.join }
 end
