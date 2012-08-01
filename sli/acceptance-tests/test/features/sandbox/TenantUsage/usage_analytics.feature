@@ -21,7 +21,7 @@ count and data size (in Kb) for each sandbox tenant.
     |    T2   |  49 | 100 |
     |    T3   | 533 | 500 |
 
-
+@wip
 Scenario: As a SLC Operator I can determine mongo entity count and data size (in Kb) for each collection for a single tenant
     Given I go to the "Tenant Usage Admin Tool"
         Then I was redirected to the "Simple" IDP Login page
