@@ -33,10 +33,10 @@ And the group "New Custom" contains the rights "Read General"
 Scenario: Add role to existing group
 When I create a new role <Role> to the group <Group> that allows <User> to access the API
 | Group              | Role        | User      |
-#| "Educator"         | "Teacher"   | "teacher" |
-#| "Leader"           | "Principal" | "prince"  |
-#| "IT Administrator" | "Admin"     | "root"    |
-#| "Aggregate Viewer" | "Observer"  | "bigbro"  |
+| "Educator"         | "Teacher"   | "teacher" |
+| "Leader"           | "Principal" | "prince"  |
+| "IT Administrator" | "Admin"     | "root"    |
+| "Aggregate Viewer" | "Observer"  | "bigbro"  |
 | "New Custom"       | "Custom"    | "custom"  |
 Then I see the mapping in the table
 And That user can now access the API
@@ -53,16 +53,19 @@ And the user "custom" can access the API with rights "Read and Write General"
 
 @derp
 Scenario: Remove rights from group
+When I edit the group "New Custom"
 When I remove the right "WRITE_GENERAL" from the group "New Custom"
 And I hit the save button
 Then the group "New Custom" contains the rights "Read General"
 And I wait for 5 seconds
 And the user "custom" can access the API with rights "Read General"
+When I edit the group "New Custom"
 When I remove the right "READ_GENERAL" from the group "New Custom"
 #And I hit the save button
 Then I am informed that I must have at least one role and right in the group
 And the user "custom" can access the API with rights "Read General"
 
+@derp
 Scenario: Remove role from group
 When I remove the role <Role> from the group <Group> that denies <User> access to the API
 | Group              | Role        | User      |
