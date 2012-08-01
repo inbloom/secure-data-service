@@ -55,7 +55,6 @@
     <jb:value property="magnetSpecialProgramEmphasisSchool" data="School/MagnetSpecialProgramEmphasisSchool" />
     <jb:value property="administrativeFundingControl" data="School/AdministrativeFundingControl" />
     <jb:value property="parentEducationAgencyReference" data="School/LocalEducationAgencyReference/EducationalOrgIdentity/StateOrganizationId" />
-    <jb:expression property="collectionName">'educationOrganization'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="educationOrgIdentificationCodeTypeArray" class="java.util.ArrayList" createOnElement="InterchangeEducationOrganization/School">
@@ -150,7 +149,6 @@
     <jb:value property="operationalStatus" data="StateEducationAgency/OperationalStatus" />
     <jb:wiring property="accountabilityRatings" beanIdRef="stateEducationAgency_accountabilityRatingsTypeArray" />
     <jb:wiring property="programReference" beanIdRef="stateEducationAgency_programReferenceTypeArray" />
-    <jb:expression property="collectionName">'educationOrganization'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="stateEducationAgency_educationOrgIdentificationCodeTypeArray" class="java.util.ArrayList"
@@ -256,7 +254,6 @@
     <jb:wiring property="programReference" beanIdRef="localEducationOrganization_programReferenceTypeArray" />
     <jb:value property="parentEducationAgencyReference"
       data="LocalEducationAgency/StateEducationAgencyReference/EducationalOrgIdentity/StateOrganizationId" />
-    <jb:expression property="collectionName">'educationOrganization'</jb:expression>
     <jb:value property="LEACategory" data="LocalEducationAgency/LEACategory" />
     <jb:value property="charterStatus" data="LocalEducationAgency/CharterStatus" />
     <jb:value property="localEducationAgencyReference"
@@ -385,7 +382,6 @@
     <jb:value property="loginId" data="LoginId" />
     <jb:value property="teacherUniqueStateId" data="TeacherUniqueStateId" />
     <jb:value property="highlyQualifiedTeacher" data="HighlyQualifiedTeacher" decoder="Boolean" />
-    <jb:expression property="collectionName">'staff'</jb:expression>
   </jb:bean>
 
   <jb:bean beanId="staffIdentificationCodeTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStaffAssociation/Teacher">

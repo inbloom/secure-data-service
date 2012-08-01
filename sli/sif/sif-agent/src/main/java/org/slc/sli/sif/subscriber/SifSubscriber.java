@@ -16,29 +16,26 @@
 
 package org.slc.sli.sif.subscriber;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import openadk.library.ADKException;
 import openadk.library.Event;
-import openadk.library.EventAction;
 import openadk.library.MessageInfo;
 import openadk.library.SIFDataObject;
 import openadk.library.Subscriber;
 import openadk.library.Zone;
-import openadk.library.student.SchoolInfo;
 import openadk.library.student.LEAInfo;
+import openadk.library.student.SchoolInfo;
 
-import org.codehaus.jackson.JsonNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.client.Entity;
+import org.slc.sli.api.client.impl.GenericEntity;
+import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.sif.domain.Sif2SliTransformer;
-import org.slc.sli.sif.domain.slientity.EntityAdapter;
-import org.slc.sli.sif.domain.slientity.LEAEntity;
-import org.slc.sli.sif.domain.slientity.SchoolEntity;
 import org.slc.sli.sif.slcinterface.SifIdResolver;
 import org.slc.sli.sif.slcinterface.SlcInterface;
 
@@ -46,6 +43,8 @@ import org.slc.sli.sif.slcinterface.SlcInterface;
 public class SifSubscriber implements Subscriber {
 
     private static final Logger LOG = LoggerFactory.getLogger(SifSubscriber.class);
+    
+    private static final String PARENT_EDORG_FIELD = "parentEducationAgencyReference";
 
     @Autowired
     private Sif2SliTransformer xformer;
@@ -88,23 +87,12 @@ public class SifSubscriber implements Subscriber {
         }
         
         if (sdo!=null && tokenChecked && event.getAction()!=null) {
-
-            // Testing id map
-            String sliGuid = sifIdResolver.getSLIGuid(sdo.getRefId());
-            String seaGuid = sifIdResolver.getZoneSEA(zone.getZoneId());
-            LOG.info("received action: " + event.getAction().name() + " on " + 
-                sdo.getRefId() + "(sliID: " + (sliGuid == null ? " none " : sliGuid) + "," +
-                " seaId: " + (seaGuid == null ? " none " : seaGuid) + ")"
-            );
-
             switch(event.getAction()) {
             case ADD:
                 addEntity(sdo);
                 break;
             case CHANGE:
-                break;
-            case DELETE:
-                deleteEntity(sdo);
+                changeEntity(sdo);
                 break;
             case UNDEFINED:
             default:
@@ -116,62 +104,67 @@ public class SifSubscriber implements Subscriber {
     
     private void addEntity(SIFDataObject sdo) { 
         String guid = null;
-        EntityAdapter entity = null;
+        Map<String, Object> body = null;
+        String entityType = null;
         if (sdo instanceof SchoolInfo) {
-            entity = xformer.transform((SchoolInfo)sdo);
-        }        
-        if (sdo instanceof LEAInfo) {
-            entity = xformer.transform((LEAInfo)sdo);
+            body = xformer.transform((SchoolInfo)sdo);
+            entityType = ResourceNames.SCHOOLS;
+        } else if (sdo instanceof LEAInfo) {
+            body = xformer.transform((LEAInfo)sdo);
+            entityType = ResourceNames.EDUCATION_ORGANIZATIONS;
+        } else {
+            LOG.info("Unsupported SIF Entity");
         }
         
-        if (entity!=null) {
-            LOG.info("add "+entity.getEntityType()+": \n\n\t@@@@@@@@@@@@@@@@@@\n"+entity.getData());
+        if (body!=null) {
+            GenericEntity entity = new GenericEntity(entityType, body);
             guid = slcInterface.create(entity);
-            LOG.info("Received guid="+guid);
-        }
-        
-        //add guid to sifRefId2guidMap
-        Map<String, String> entityRefId2guidMap = sifRefId2guidMap.get(entity.getEntityType());
-        if (entityRefId2guidMap==null) {
-            sifRefId2guidMap.put(entity.getEntityType(), new HashMap<String, String>());
-            entityRefId2guidMap = sifRefId2guidMap.get(entity.getEntityType());
-        }
-        if (guid!=null && guid.length()>0 && entityRefId2guidMap!=null) {
-            entityRefId2guidMap.put(sdo.getRefId(), guid);
         }
         
     }
-    
-    private void deleteEntity(SIFDataObject sdo) { 
-        EntityAdapter entity = null;
-        if (sdo instanceof SchoolInfo) {
-            entity = xformer.transform((SchoolInfo)sdo);
-        }        
-        if (sdo instanceof LEAInfo) {
-            entity = xformer.transform((LEAInfo)sdo);
+
+    private void changeEntity(SIFDataObject sdo) {
+        Entity entity = sifIdResolver.getSLIEntity(sdo.getRefId());
+        if (entity == null) {
+            LOG.info(" Unable to map SIF object to SLI: " + sdo.getRefId());
+            return;
         }
-        
-        //get guid from sifRefId2guidMap
-        boolean deleted = false;
-        Map<String, String> entityRefId2guidMap = sifRefId2guidMap.get(entity.getEntityType());
-        if (entityRefId2guidMap!=null) {
-            String guid = entityRefId2guidMap.get(sdo.getRefId());
-            if (guid!=null) {
-                LOG.info("delete "+entity.getEntityType());
-                deleted = slcInterface.delete(entity.getEntityType(), guid);
-                if (deleted) {
-                    entityRefId2guidMap.remove(sdo.getRefId());
-                    LOG.info(entity.getEntityType()+" with RefId="+sdo.getRefId()+" deleted");
+        Map<String, Object> updateBody = null;
+        String entityType = null;
+        if (sdo instanceof SchoolInfo) {
+            updateBody = xformer.transform((SchoolInfo) sdo);
+        }
+        if (sdo instanceof LEAInfo) {
+            updateBody = xformer.transform((LEAInfo)sdo);
+        }
+        updateMap(entity.getData(), updateBody);
+        slcInterface.update(entity);
+    }
+
+
+
+
+    ///-======================== HELPER UTILs ======
+    /**
+     * Applies the values from map u to the keys in map m, recursively
+     * @param map: the map to be updated
+     * @param u:   the map containing the updates
+     */
+    // applies map2 to map1 recursively
+    private static void updateMap (Map map, Map u) {
+        for (Object k : u.keySet()) {
+            if (!map.containsKey(k)) {
+                map.put(k, u.get(k));
+            } else {
+                Object o1 = map.get(k);
+                Object o2 = u.get(k);
+                // recursive update collections
+                if (o1 instanceof Map && o2 instanceof Map) {
+                	updateMap((Map) o1, (Map) o2);
+                } else {
+                    map.put(k,  o2);
                 }
             }
         }
-        if (!deleted) {
-            LOG.error("deleting "+entity.getEntityType());
-        }       
-    }    
-    
-    //used to keep mapping between Entity Type and its sif RefId-to-guid map
-    //may need refactor for persistency consideration
-    private Map<String, Map<String, String>> sifRefId2guidMap = new HashMap<String, Map<String, String>>();
-
+    }
 }

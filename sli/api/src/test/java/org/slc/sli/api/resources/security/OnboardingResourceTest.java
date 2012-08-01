@@ -43,6 +43,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -135,7 +136,7 @@ public class OnboardingResourceTest {
         // Entity tenantEntity = Mockito.mock(Entity.class);
         // when(tenantEntity.getBody()).thenReturn(tenantBody);
         try {
-            when(mockTenantResource.createLandingZone("12345", "TestOrg")).thenReturn(landingZone);
+            when(mockTenantResource.createLandingZone(Mockito.eq("12345"), Mockito.eq("TestOrg"), Mockito.anyBoolean())).thenReturn(landingZone);
         } catch (TenantResourceCreationException e) {
             Assert.fail(e.getMessage());
         }

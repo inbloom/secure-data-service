@@ -9,6 +9,12 @@ task :adminRightsTests do
   runTests("test/features/admintools/sli_admin_authorization.feature")
 end
 
+desc "Run Admin Tool Smoke Tests"
+task :adminWebTests do 
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/admintools")
+end
+
 desc "Run IDP Authentication Selenium Tests"
 task :idpAuthTests => [:realmInit] do
   runTests("test/features/databrowser/idp_authentication.feature")

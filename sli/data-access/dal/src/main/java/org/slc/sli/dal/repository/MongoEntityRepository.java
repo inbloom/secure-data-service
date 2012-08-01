@@ -115,7 +115,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     protected Entity getEncryptedRecord(Entity entity) {
         MongoEntity encryptedEntity = new MongoEntity(entity.getType(), entity.getEntityId(), entity.getBody(),
-                entity.getMetaData(), entity.getAggregates());
+                entity.getMetaData(), entity.getCalculatedValues());
         encryptedEntity.encrypt(encrypt);
         return encryptedEntity;
     }

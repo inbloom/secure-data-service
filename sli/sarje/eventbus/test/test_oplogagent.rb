@@ -74,8 +74,12 @@ class TestOpLogAgent < Test::Unit::TestCase
   end
 
   def test_oplog_agent
-    Eventbus::OpLogAgent.new
+    config = {
+        :messaging_host => "devparallax.slidev.org"
+    }
+    Eventbus::OpLogAgent.new(config)
 
+    puts "oplog agent created"
     def connect_to_mongo
       begin
         @conn = Mongo::Connection.new
@@ -91,7 +95,7 @@ class TestOpLogAgent < Test::Unit::TestCase
 
     Thread.new do
       connect_to_mongo
-      100.times do |i|
+      10.times do |i|
         begin
           @coll.insert({'a' => i+1})
           sleep 1
@@ -102,6 +106,6 @@ class TestOpLogAgent < Test::Unit::TestCase
       end
     end
 
-    sleep 100
+    sleep 10
   end
 end

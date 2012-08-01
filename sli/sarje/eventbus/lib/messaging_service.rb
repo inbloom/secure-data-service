@@ -27,10 +27,17 @@ module Eventbus
       @config = {
           :node_name => Socket.gethostname,
           :start_heartbeat => true,
-          :start_node_detector => false
+          :start_node_detector => false,
+          :messaging_host => "localhost",
+          :messaging_port => 61613,
+          :messaging_login => "",
+          :messaging_passcode => "",
+          :messaging_ssl => false,
+          :heartbeat_period => 5,
+          :heartbeat_detector_period => 10
       }.merge(config)
 
-      host = {:login => "", :passcode => "", :host => "localhost", :port => 61613, :ssl => false}
+      host = {:login => @config[:messaging_login], :passcode => @config[:messaging_passcode], :host => @config[:messaging_host], :port => @config[:messaging_port], :ssl => @config[:messaging_ssl]}
       if config[:subscribe_queue_name].start_with?('/topic/')
         host[:headers] = {'client-id' => config[:node_name]}
       end
@@ -45,7 +52,7 @@ module Eventbus
           :backup => false,
           :timeout => -1,
           :connect_headers => {},
-          :parse_timeout => 5,
+          :parse_timeout => 5
       }
       @publisher = Publisher.new(@config[:publish_queue_name], @config[:stomp_config])
       if @config[:start_heartbeat]
@@ -64,7 +71,7 @@ module Eventbus
 
     def subscribe
       Subscriber.new(@config[:subscribe_queue_name], @config[:stomp_config]) do |message|
-        if(message['event_type'] == 'heartbeat')
+        if(@config[:start_node_detector] && message['event_type'] == 'heartbeat')
           @heartbeat_queue << message
         else
           yield message
@@ -73,9 +80,10 @@ module Eventbus
     end
 
     def start_node_detector
+      puts "starting node detector for node <#{@config[:node_name]}>"
       Thread.new do
         loop do
-          sleep 60
+          sleep @config[:heartbeat_detector_period]
           detected_nodes = Set.new
           begin
             loop do
@@ -109,6 +117,7 @@ module Eventbus
     end
 
     def start_heartbeat(node_name)
+      puts "starting heartbeat for node #{@config[:node_name]}"
       Thread.new do
         loop do
           message = {
@@ -118,7 +127,7 @@ module Eventbus
               'timestamp' => Time.now.to_i.to_s
           }
           publish(message)
-          sleep 5
+          sleep @config[:heartbeat_period]
         end
       end
     end
@@ -127,11 +136,13 @@ module Eventbus
   class Publisher
     def initialize(queue_name, config)
       @queue_name = queue_name
-      @client = Stomp::Client.new(config)
+      @config = config
+      #@client = Stomp::Client.new(config)
     end
 
     def publish(message)
-      @client.publish(@queue_name, message.to_json)
+      client = Stomp::Client.new(@config)
+      client.publish(@queue_name, message.to_json)
     end
   end
 
@@ -141,11 +152,13 @@ module Eventbus
         if queue_name.start_with?('/topic/')
           client = Stomp::Connection.open(config)
           client.subscribe queue_name, {"activemq.subscriptionName" => config[:hosts][0][:headers]['client-id']}
+          puts "subscribing to topic #{queue_name}"
           while true
             message = client.receive
             yield JSON.parse message.body
           end
         else
+          puts "subscribing to queue #{queue_name}"
           client = Stomp::Client.new(config)
           client.subscribe queue_name do |message|
             yield JSON.parse message.body

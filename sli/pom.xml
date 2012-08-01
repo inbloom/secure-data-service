@@ -191,6 +191,7 @@
 	</profiles>
 
 	<modules>
+		<module>modeling</module>
         <module>SDK</module>
 		<module>common</module>
 		<module>domain</module>

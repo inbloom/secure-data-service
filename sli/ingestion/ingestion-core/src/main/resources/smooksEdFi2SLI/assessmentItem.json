@@ -4,7 +4,7 @@
     "references" : [{
         "fieldPath" : "body.learningStandards",
         "ref" : {
-            "collectionName" : "learningStandard",
+            "entityType" : "learningStandard",
             "isRefList" : true,
             "refObjectPath" : "body.learningStandards",
             "optional" : true,

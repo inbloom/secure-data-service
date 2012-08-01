@@ -34,3 +34,5 @@ agent:
 
     publish_queue_name: /queue/listener
     subscribe_queue_name: /topic/agent
+
+    messaging_host: devparallax.slidev.org

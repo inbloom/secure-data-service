@@ -259,6 +259,7 @@ db["program"].ensureIndex({"metaData.tenantId":1,"metaData.teacherContext":1});
 db["program"].ensureIndex({"metaData.tenantId":1,"_id":1,"metaData.edOrgs":1});
 db["program"].ensureIndex({"metaData.tenantId":1,"_id":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["program"].ensureIndex({"metaData.tenantId":1,"_id":1,"metaData.teacherContext":1});
+db["program"].ensureIndex({"metaData.tenantId":1,"body.programId":1});
 db["reportCard"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["reportCard"].ensureIndex({"metaData.tenantId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["reportCard"].ensureIndex({"metaData.tenantId":1,"metaData.teacherContext":1});

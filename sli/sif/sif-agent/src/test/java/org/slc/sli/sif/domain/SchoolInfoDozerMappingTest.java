@@ -17,6 +17,8 @@
 package org.slc.sli.sif.domain;
 
 import junit.framework.Assert;
+import openadk.library.ADK;
+import openadk.library.ADKException;
 
 import org.dozer.Mapper;
 import org.junit.Before;
@@ -38,8 +40,7 @@ import org.slc.sli.sif.generator.SifEntityGenerator;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:/spring/applicationContext.xml" })
-public class SchoolInfoDozerMappingTest
-{
+public class SchoolInfoDozerMappingTest {
     @Autowired
     private Mapper dozerMapper;
 
@@ -47,6 +48,12 @@ public class SchoolInfoDozerMappingTest
 
     @Before
     public void preMethodSetup() {
+        try {
+            ADK.initialize();
+        } catch (ADKException e) {
+            e.printStackTrace();
+        }
+
         schoolInfoEntity = new SchoolInfoEntity(SifEntityGenerator.generateTestSchoolInfo());
     }
 
@@ -54,10 +61,14 @@ public class SchoolInfoDozerMappingTest
     public void testSchoolInfoMapping() {
         SchoolEntity schoolEntity = this.dozerMapper.map(schoolInfoEntity, SchoolEntity.class);
         Assert.assertEquals("Expecting 2 telephone numbers", 2, schoolEntity.getTelephone().size());
-        Assert.assertEquals("Expecting 'Main' as the first phone type", "Main", schoolEntity.getTelephone().get(0).getInstitutionTelephoneNumberType());
-        Assert.assertEquals("Expecting '(312) 555-1234' as the first phone number", "(312) 555-1234", schoolEntity.getTelephone().get(0).getTelephoneNumber());
-        Assert.assertEquals("Expecting 'Main' as the first phone type", "Fax", schoolEntity.getTelephone().get(1).getInstitutionTelephoneNumberType());
-        Assert.assertEquals("Expecting '(312) 555-2364' as the first phone number", "(312) 555-2364", schoolEntity.getTelephone().get(1).getTelephoneNumber());
+        Assert.assertEquals("Expecting 'Main' as the first phone type", "Main", schoolEntity.getTelephone().get(0)
+                .getInstitutionTelephoneNumberType());
+        Assert.assertEquals("Expecting '(312) 555-1234' as the first phone number", "(312) 555-1234", schoolEntity
+                .getTelephone().get(0).getTelephoneNumber());
+        Assert.assertEquals("Expecting 'Main' as the first phone type", "Fax", schoolEntity.getTelephone().get(1)
+                .getInstitutionTelephoneNumberType());
+        Assert.assertEquals("Expecting '(312) 555-2364' as the first phone number", "(312) 555-2364", schoolEntity
+                .getTelephone().get(1).getTelephoneNumber());
     }
 
 }

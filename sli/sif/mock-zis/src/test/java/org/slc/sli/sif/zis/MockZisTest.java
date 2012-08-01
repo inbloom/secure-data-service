@@ -3,6 +3,7 @@ package org.slc.sli.sif.zis;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.List;
+import java.util.Set;
 
 import openadk.library.ADKException;
 import openadk.library.SIFElement;
@@ -57,11 +58,11 @@ public class MockZisTest {
         mockZis.parseSIFMessage(sifString);
         
         //check that the correct URL has been added to the
-        List<String> agentUrls = mockZis.getAgentUrls();
+        Set<String> agentUrls = mockZis.getAgentUrls();
         
         Assert.assertEquals("Should register one agent", 1, agentUrls.size());
         Assert.assertEquals("Registered agent URL incorrect", 
-                "http://10.81.1.35:25101/zone/TestZone/", agentUrls.get(0));
+                "http://10.81.1.35:25101/zone/TestZone/", agentUrls.iterator().next());
     }
     
     //TODO mock the HTTP POST here

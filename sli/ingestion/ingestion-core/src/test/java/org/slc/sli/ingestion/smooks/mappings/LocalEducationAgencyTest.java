@@ -127,8 +127,6 @@ public class LocalEducationAgencyTest {
 
         NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
                 EDFI_XML);
-
-        neutralRecord.getAttributes().remove("collectionName");
         
         // mock repository will simulate "finding" the referenced educationOrganization
         Mockito.when(mockRepository.exists("educationOrganization", "SEA123")).thenReturn(true);

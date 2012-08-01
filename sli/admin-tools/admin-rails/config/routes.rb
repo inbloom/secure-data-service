@@ -50,14 +50,9 @@ SLIAdmin::Application.routes.draw do
   resources :sessions
   resources :apps
   resources :realms
+  resources :custom_roles
   match '/apps/approve', :to => 'apps#approve'
   match '/apps/unregister', :to => 'apps#unregister'
-
-  resources :realms do
-    member do
-      put :update
-    end
-  end
 
   get 'developer_approval/does_user_exist/:id', :to => 'developer_approval#does_user_exist'
   get 'change_passwords', :to => 'change_passwords#new'

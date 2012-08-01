@@ -42,7 +42,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.resolve.ClientRoleResolver;
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleRightAccess;
 import org.slc.sli.api.util.SecurityUtil;
@@ -60,9 +59,6 @@ public class SecuritySessionResource {
 
     @Autowired
     private RoleRightAccess roleAccessor;
-
-    @Autowired
-    private ClientRoleResolver roleResolver;
 
     @Autowired
     private OauthSessionManager sessionManager;
@@ -117,7 +113,7 @@ public class SecuritySessionResource {
         }
 
         SLIPrincipal principal = (SLIPrincipal) auth.getPrincipal();
-        principal.setSliRoles(roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
+        principal.setSliRoles(principal.getRoles());
         return SecurityContextHolder.getContext();
     }
 
@@ -143,8 +139,8 @@ public class SecuritySessionResource {
             sessionDetails.put("realm", principal.getRealm());
             sessionDetails.put("edOrg", principal.getEdOrg());
             sessionDetails.put("edOrgId", principal.getEdOrgId());
-            
-            sessionDetails.put("sliRoles", roleResolver.resolveRoles(principal.getRealm(), principal.getRoles()));
+
+            sessionDetails.put("sliRoles", principal.getRoles());
             sessionDetails.put("tenantId", principal.getTenantId());
             sessionDetails.put("external_id", principal.getExternalId());
             sessionDetails.put("email", getUserEmail(principal));
@@ -165,13 +161,13 @@ public class SecuritySessionResource {
 
         return sessionDetails;
     }
-    
+
     private String getUserEmail(SLIPrincipal principal) {
         // Admin users are special cases.
         if (principal.getEntity().getBody().isEmpty()) {
             return principal.getExternalId();
         }
-        Map<String, Object> body = (Map) principal.getEntity().getBody();
+        Map<String, Object> body = principal.getEntity().getBody();
         if (!body.containsKey("electronicMail")) {
             return "";
         }
@@ -180,25 +176,29 @@ public class SecuritySessionResource {
             Map<String, String> email = (Map) emails.get(0);
             return email.get("emailAddress");
         }
-        
+
         String address = getEmailAddressByType(emails, "Work");
-        if (address.length() != 0)
+        if (address.length() != 0) {
             return address;
-        
+        }
+
         address = getEmailAddressByType(emails, "Organization");
-        if (address.length() != 0)
+        if (address.length() != 0) {
             return address;
-        
+        }
+
         address = getEmailAddressByType(emails, "Other");
-        if (address.length() != 0)
+        if (address.length() != 0) {
             return address;
-        
+        }
+
         address = getEmailAddressByType(emails, "Home/Personal");
-        if (address.length() != 0)
+        if (address.length() != 0) {
             return address;
+        }
         return "";
     }
-    
+
     private String getEmailAddressByType(List emails, String checkedType) {
         for (Object baseEmail : emails) {
             Map<String, String> email = (Map) baseEmail;

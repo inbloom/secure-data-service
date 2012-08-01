@@ -276,15 +276,17 @@ def swap_app_ids()
   to_swap.each do |app|
     puts "Swapping IDs for #{app['app_name']}"
     app_ent = apps.find_one({"body.name" => app['app_name']})
-    app_id = app_ent['_id']
-    update_count = 0
-    app_auths.find("body.appIds" =>  app['placeholder']).each do |row|
-      app_ids = row['body']['appIds']
-      app_ids[app_ids.index(app['placeholder'])] = app_id
-      app_auths.update({"_id" => row["_id"]}, {"$set" => {"body.appIds" => app_ids}})
-      update_count = update_count + 1
+    if app_ent
+      app_id = app_ent['_id']
+      update_count = 0
+      app_auths.find("body.appIds" =>  app['placeholder']).each do |row|
+        app_ids = row['body']['appIds']
+        app_ids[app_ids.index(app['placeholder'])] = app_id
+        app_auths.update({"_id" => row["_id"]}, {"$set" => {"body.appIds" => app_ids}})
+        update_count = update_count + 1
+      end
+      puts "\tUpdate #{update_count} entries"
     end
-    puts "\tUpdate #{update_count} entries"
   end
 end
 
@@ -301,6 +303,7 @@ task :realmInit => [:appInit] do
   #Preserve the bootstrap realm
   cleanseRealms()
   setFixture("realm", "realm_fixture.json", "test/data", false)
+  setFixture("customRole", "customRole_fixture.json", "test/data")
 end
 
 task :appDenialInit do
@@ -435,7 +438,8 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1XMLTests,
                      :userAdminCrudTests,
                      :v1CommaSeparatedListOrderTests,
-                     :aggregationAPI] do
+                     :aggregationAPI,
+                     :v1SelectorTests] do
   displayFailureReport()
 end
 
@@ -473,9 +477,7 @@ task :resetAndChangePasswordTests => [:realmInit] do
 end
 
 desc "Run Admin-Tools Selenium Tests"
-task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests,:onboardingIntegrationTests,:provisionIntegrationTests,:tenantMetricsTests, :resetAndChangePasswordTests,:userAdminTests] do
-  Rake::Task["importSandboxData"].execute
-  runTests("test/features/admintools")
+task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests,:onboardingIntegrationTests,:provisionIntegrationTests,:tenantMetricsTests, :resetAndChangePasswordTests,:sandboxUserAdminTests, :adminWebTests] do
   Rake::Task["importSandboxData"].execute
   displayFailureReport()
   if $SUCCESS
@@ -526,7 +528,8 @@ task :dashboardTests => [:dashboardPopWidgetTests,
                          :dashboardStudentContactInfoLiveTests,
                          :dashboardStudentGradebookEntryTests,
                          :dashboardHTMLEscapeTests,
-						 :dashboardQunitTests] do
+                         :dashboardTeacherProfileTests,
+                         :dashboardQunitTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -556,7 +559,8 @@ task :dashboardSdsTests => [:dashboardSdsUploadConfigTests,
                          :dashboardStudentSearchTests,
                          :dashboardSdsTranscriptPanelTests,
                          :dashboardAssessmentTests,
-                         :dashboardSectionProfileTests] do
+                         :dashboardSectionProfileTests,
+                         :dashboardSdsDashboardBuilderTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -659,9 +663,15 @@ end
 # Super Admin Management Tools Tests begin
 ############################################################
 desc "Run Super Admin Management Tools Tests"
-task :userAdminTests do
+task :userAdminTests => [:importSandboxData] do
+#runTests("test/features/sandbox/UserAdmin/User_Admin_Interface.feature")
+runTests("test/features/admintools/SAMT_Account_Management_Interface.feature")
+end
+task :sandboxUserAdminTests do
+@tags ||= ["~@wip", "@sandbox"]
 runTests("test/features/sandbox/UserAdmin/User_Admin_Interface.feature")
 end
+
 
 
 ###########################################################

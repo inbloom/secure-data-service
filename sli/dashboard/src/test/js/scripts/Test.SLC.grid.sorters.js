@@ -12,9 +12,17 @@ module("SLC.grid.sorters");
 		ok(typeof SLC.grid.sorters.Enum === 'function', 'SLC.grid.sorters Enum method should be function');
 	});
 	
+	var params = {
+		"fieldName": "StateTestWriting",
+		"name": "StateTest Writing",
+		"sortField": "assessments.StateTest Writing.Scale score",
+		"valueField": "Scale score"
+	};
+	
 	test('Test ProxyInt method', function () {
 		ok(SLC.grid.sorters.ProxyInt !== undefined, 'SLC.grid.sorters ProxyInt method should be defined');
 		ok(typeof SLC.grid.sorters.ProxyInt === 'function', 'SLC.grid.sorters ProxyInt method should be function');
+		equal(typeof SLC.grid.sorters.ProxyInt(params), "function");
 	});
 	
 	test('Test LetterGrade method', function () {

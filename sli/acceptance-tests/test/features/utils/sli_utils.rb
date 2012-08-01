@@ -519,7 +519,14 @@ module DataProvider
        "saml" => {"field" => []},
        "name" => "a_new_realm",
        "edOrg" => "ba987125-a8ed-eafd-bf75-c98a2fcc3dfg",
-       "mappings"=> {"role"=>[{"sliRoleName"=>"Educator","clientRoleName"=>["Math teacher","Sci Teacher","Enforcer of Conformity"]},{"sliRoleName"=>"Leader","clientRoleName"=>["Fearless Leader","Imperator","First Consul"]}]}
+    }
+  end
+  
+  def self.getValidCustomRoleData() 
+    return {
+      "realmId" => "",
+      "roles" => [{"groupTitle" => "Educator", "names" => ["Educator", "Math Teacher", "English Teacher"], "rights" => ["READ_GENERAL", "WRITE_GENERAL"]}],
+      "customRights" => ["RIGHT_TO_REMAIN_SILENT", "INALIENABLE_RIGHT"]
     }
   end
 

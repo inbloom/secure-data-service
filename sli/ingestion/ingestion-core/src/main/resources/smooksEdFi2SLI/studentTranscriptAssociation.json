@@ -3,7 +3,7 @@
     "complexReference" :
     {
         "fieldPath" : "body.courseId",
-        "collectionName" : "course",
+        "entityType" : "course",
         "path" : "body.courseCode",
         "valueSource" : "body.courseCode",
         "complexFieldNames" : ["ID","identificationSystem","assigningOrganizationCode"]
@@ -12,7 +12,7 @@
 	[{ 
         "fieldPath" : "body.studentAcademicRecordId","ref" :
         {
-	        "collectionName" : "studentAcademicRecord",
+	        "entityType" : "studentAcademicRecord",
 	        "choiceOfFields" :
 	        [
 	            [

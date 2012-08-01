@@ -18,8 +18,10 @@
 package org.slc.sli.dashboard.web.controller;
 
 import java.util.Collection;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import com.google.gson.GsonBuilder;
@@ -30,6 +32,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -124,19 +127,49 @@ public class ConfigController extends GenericLayoutController {
     }
 
     /**
-     * Controller for client side data pulls without id
-     * /s/c/cfg?type=LAYOUT
-     * /s/c/cfg?params.profile=student
+     * Controller for client side data pulls without id.
+     * The 'params' parameter contains a map of url query parameters. The parameters are matched
+     * to the attributes in the JSON config files.
+     *
+     * e.g. /s/c/cfg?type=LAYOUT&id=school
      */
     @RequestMapping(value = "/s/c/cfg", method = RequestMethod.GET)
-    @ResponseBody public Collection<Config> handleSearch(final HttpServletRequest request) {
-        String attribute = "type";
-        String value = "LAYOUT";
+    @ResponseBody public Collection<Config> handleConfigSearch(@RequestParam Map<String, String> params,
+                                                         final HttpServletRequest request,
+                                                         HttpServletResponse response) {
 
-        // get configs by attribute
-        Collection<Config> configs = configManager.getConfigsByAttribute(SecurityUtil.getToken(), null, attribute, value);
+        String token = SecurityUtil.getToken();
 
-        return configs;
+        // check user is an admin
+        Boolean isAdmin = SecurityUtil.isAdmin();
+
+        if (isAdmin != null && isAdmin.booleanValue()) {
+            return configManager.getConfigsByAttribute(token, userEdOrgManager.getUserEdOrg(token), params);
+        } else {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return null;
+        }
+
+    }
+
+    /**
+     * Save a layout config
+     *
+     * @param config
+     * @return
+     */
+    @RequestMapping(value = "/s/c/cfg", method = RequestMethod.POST)
+    @ResponseBody
+    public String saveLayoutConfig(@RequestBody @Valid Config config) {
+
+        try {
+            String token = SecurityUtil.getToken();
+            configManager.putCustomConfig(token, userEdOrgManager.getUserEdOrg(token), config);
+        } catch (RuntimeException re) {
+            logger.error("Error saving config", re);
+            return "Permission Denied";
+        }
+        return "Success";
     }
 
 }

@@ -30,8 +30,6 @@ import java.util.Set;
 import java.util.TreeSet;
 import java.util.Vector;
 
-import org.springframework.cache.annotation.Cacheable;
-
 import org.slc.sli.dashboard.entity.Config.Data;
 import org.slc.sli.dashboard.entity.EdOrgKey;
 import org.slc.sli.dashboard.entity.GenericEntity;
@@ -39,6 +37,7 @@ import org.slc.sli.dashboard.entity.util.GenericEntityComparator;
 import org.slc.sli.dashboard.entity.util.GenericEntityEnhancer;
 import org.slc.sli.dashboard.manager.ApiClientManager;
 import org.slc.sli.dashboard.manager.UserEdOrgManager;
+import org.slc.sli.dashboard.util.CacheableUserData;
 import org.slc.sli.dashboard.util.Constants;
 import org.slc.sli.dashboard.util.DashboardException;
 import org.slc.sli.dashboard.util.SecurityUtil;
@@ -72,7 +71,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
      * @return District name
      */
     @Override
-    @Cacheable(value = Constants.CACHE_USER_PANEL_DATA)
+    @CacheableUserData
     public EdOrgKey getUserEdOrg(String token) {
         GenericEntity edOrg = null;
 
@@ -286,7 +285,7 @@ public class UserEdOrgManagerImpl extends ApiClientManager implements UserEdOrgM
      * Signature is pre-defined by the architect.
      */
     @Override
-    @Cacheable(value = Constants.CACHE_USER_PANEL_DATA)
+    @CacheableUserData
     public GenericEntity getUserInstHierarchy(String token, Object key, Data config) {
 
         List<GenericEntity> entities = getUserInstHierarchy(token);

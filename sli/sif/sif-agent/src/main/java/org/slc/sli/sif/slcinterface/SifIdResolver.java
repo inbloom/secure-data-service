@@ -16,6 +16,8 @@
 
 package org.slc.sli.sif.slcinterface;
 
+import org.slc.sli.api.client.Entity;
+
 /**
  * Mapping between SIF id and SLI ids. File implementation
  */
@@ -28,6 +30,15 @@ public interface SifIdResolver {
      * @return The SLI guid if the entity exists in SLI, null otherwise
      */
     public String getSLIGuid(String sifId);
+
+    
+    /**
+     * Given a sif reference id, returns corresponding sli entity
+     * 
+     * @param sifId
+     * @return The SLI entity if the entity exists in SLI, null otherwise
+     */
+    public Entity getSLIEntity(String sifId);
 
     /**
      * Given a sif Zone, returns the sli guid of the corresponding SEA

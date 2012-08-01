@@ -83,6 +83,16 @@ public interface PopulationManager {
     public abstract GenericEntity getStudent(String token, String studentId);
 
     /**
+     * Get teacher entity
+     *
+     * @param token
+     * @param teacherId 
+     * @return
+     */
+    
+    @EntityMapping("teacherInfo")
+    public abstract GenericEntity getTeacher(String token, Object studentId, Config.Data config);
+    /**
      * Get enriched student entity
      *
      * @param token
