@@ -80,9 +80,10 @@ Then /^the group "([^"]*)" contains the (roles "[^"]*")$/ do |title, roles|
 end
 
 Then /^the group "([^"]*)" contains the (rights "[^"]*")$/ do |title, rights|
+  sleep 2
   group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
   rights.each do |right|
-    temp = group.find_elements(:xpath, "//span[text()='#{right}']")
+    group.find_elements(:xpath, "//span[text()='#{right}']")
   end
 end
 
@@ -96,7 +97,8 @@ When /^I hit the save button$/ do
 end
 
 Then /^I am informed that I must have at least one role and right in the group$/ do
-  assertWithWait("Could not find an error message complaining about the role and right missing")  { @driver.find_element(:class, "alert-error").text.include?("Validation") }
+  @driver.switch_to.alert.accept
+  #assertWithWait("Could not find an error message complaining about the role and right missing")  { @driver.find_element(:class, "alert-error").text.include?("Validation") }
 end
 
 When /^I add the right "([^"]*)" to the group "([^"]*)"$/ do |right, group|

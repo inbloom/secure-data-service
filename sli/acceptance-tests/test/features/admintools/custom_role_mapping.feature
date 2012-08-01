@@ -59,7 +59,7 @@ Then the group "New Custom" contains the rights "Read General"
 And I wait for 5 seconds
 And the user "custom" can access the API with rights "Read General"
 When I remove the right "READ_GENERAL" from the group "New Custom"
-And I hit the save button
+#And I hit the save button
 Then I am informed that I must have at least one role and right in the group
 And the user "custom" can access the API with rights "Read General"
 
