@@ -6,8 +6,10 @@ desc "Import SIF Sandbox Test Data"
 task :importSifSandboxData do
   testHash = Hash[
     "staff" => "sif/sif_bootstrap_staff_fixture.json",
-    "educationOrganization" => "sif/sif_bootstrap_SEA_fixture.json",
-    "staffEducationOrganizationAssociation" => "sif/sif_bootstrap_staffSEAAssociation_fixture.json"
+    "educationOrganization" => "sif/sif_bootstrap_edorg_fixture.json",
+    "staffEducationOrganizationAssociation" => "sif/sif_bootstrap_staffSEAAssociation_fixture.json",
+    "student" => "sif/sif_bootstrap_student_fixture.json",
+    "studentSchoolAssociation" => "sif/sif_bootstrap_studentSchoolAssociation_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end
