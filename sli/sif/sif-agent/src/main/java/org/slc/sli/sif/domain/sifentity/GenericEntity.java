@@ -24,12 +24,12 @@ import openadk.library.SIFElement;
  * @author slee
  *
  */
-public class GenericEntity
-{
+public class GenericEntity {
     private SIFElement sifElement;
+
     /**
-     *  Constructor
-     */
+    * Constructor
+    */
     public GenericEntity(SIFElement sifElement) {
         this.sifElement = sifElement;
     }

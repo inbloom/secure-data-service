@@ -29,8 +29,7 @@ import java.util.List;
  * @author slee
  *
  */
-public class SchoolEntity extends GenericEntity
-{
+public class SchoolEntity extends GenericEntity {
     /**
      * _____mappingg_between_SIF_and_SLI_for_School_______________
      *

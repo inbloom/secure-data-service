@@ -33,13 +33,13 @@ import org.dozer.DozerConverter;
 public class GradeLevelsConverter extends DozerConverter<GradeLevels, List<String>>
 {
     public GradeLevelsConverter() {
-        super(GradeLevels.class, (Class<List<String>>)new ArrayList<String>().getClass());
+        super(GradeLevels.class, (Class<List<String>>) new ArrayList<String>().getClass());
     }
 
     @Override
     public List<String> convertTo(GradeLevels source, List<String> destination)
     {
-        if (source==null) {
+        if (source == null) {
             return null;
         }
         GradeLevel[] gradeLevels = source.getGradeLevels();
