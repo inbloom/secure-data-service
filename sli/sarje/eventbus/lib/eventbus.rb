@@ -24,33 +24,54 @@ require "hadoop_job_runner"
 
 module Eventbus
 
-    module MessagingBase 
-        Topic_Subscribe = '/topic/agent'
-        Topic_Heartbeat = '/queue/listener'
+    module EventPubSubBase 
+        # the AMQ heartbeat topic 
+        HEART_BEAT_ADDRESS = "/topic/heartbeat"
+
+        # return the AMQ topic string for subscribing 
+        def subscription_address(event_type)
+            "/topic/#{event_type}_subscribe"
+        end 
+
+        # return the AMQ queue string for pubsub of events 
+        def events_address(event_type)
+            "/queue/#{event_type}_events"
+        end 
     end 
 
-    class OplogListener
-        include MessagingBase 
+    class EventSubscriber
+        include EventPubSubBase 
 
-        def initialize
+        def initialize(event_type)
             config = {
-            :node_name => 'listener',
+            :node_name => 'eventsubscriber',
             :publish_queue_name => Topic_Subscribe,
             :subscribe_queue_name => Topic_Heartbeat,
             :start_heartbeat => false
             }
             @messaging = MessagingService.new(config)
+            @subscribe_channel = @messaging.get_publisher(subscription_address)
+            @events_channel    = @messaging.get_subscriber(events_address)
+            @heartbeat_channel = @messaging.get_subscriber(HEART_BEAT_ADDRESS)
+
+            # set up the heartbeat listener 
+            @current_publishers = {}
+            @heartbeat_channel.handle_message do |message|
+                @current_publishers[message["id"]] = message["events"]
+            end 
         end
 
+        # Given a list of event this will subscribe to the 
         def subscribe(events)
-            @messaging.publish(events)
+            @subscribe_channel.publish(events)
         end 
 
-        def receive(&block)
-            # store  a reference to the subscriber that's returned by subscribe
-            # this might not be necessary, since a thread internally should store it in a
-            # closure, just to be on the safe side 
-            @msg_receiver = @messaging.subscribe(&block)
+        def set_event_handler(&block)
+            @events_channel.handle_message(&block)
         end 
+
+        def get_publishers
+            @current_publishers
+        end
     end
 end

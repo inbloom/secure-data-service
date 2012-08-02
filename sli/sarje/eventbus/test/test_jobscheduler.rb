@@ -39,6 +39,7 @@ class TestJobScheduler < Test::Unit::TestCase
         # Set up the fixtures in Mongo 
         removeDatabase
         setFixture(CONFIG[:mongo_job_collection], TEST_DIR + 'data/eb_jobs.json')
+        puts x
     end
 
     def test_scheduler 
