@@ -14,7 +14,7 @@ import org.slc.sli.sif.domain.slientity.GenericEntity;
 public interface TranslationTask<A extends SIFDataObject, B extends GenericEntity> {
     /*
      *
-     * Transform an SIF SchoolInfo into an SLI entity
+     * Transform a SIF SifDataObject into an SLI entity
      */
      public B translate(A sifObject);
 }

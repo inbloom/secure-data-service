@@ -26,7 +26,6 @@ import openadk.library.student.LEAInfo;
 import openadk.library.student.SchoolInfo;
 
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.dozer.MappingException;
 import org.junit.Before;
@@ -73,7 +72,7 @@ public class Sif2SliMapperTest {
     }
 
     @Test
-    public void testSchoolInfoMap2json() throws JsonProcessingException, MappingException, IOException {
+    public void testSchoolInfoMap2json() throws MappingException, IOException {
         SchoolEntity entity = mapper.convertValue(xformer.transform(schoolInfo), SchoolEntity.class);
         JsonNode schoolNode = entity.json();
         Assert.assertEquals("Expecting 'Daybreak West High' as stateOrganizationId", "Daybreak West High", schoolNode

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * An SLI Entity corresponding to an educationOrganization of localEducationAgency type 
+ * An SLI Entity corresponding to an educationOrganization of localEducationAgency type
  * defined in SLI schema.
  * Each SLI Entity can be converted to a JSON Node ready for SLI operations.
  *
@@ -30,8 +30,7 @@ import java.util.List;
  * @author slee
  *
  */
-public class LEAEntity extends GenericEntity
-{
+public class LEAEntity extends GenericEntity {
     /**
      * _____mappingg_between_SIF_and_SLI_for_School_______________
      *

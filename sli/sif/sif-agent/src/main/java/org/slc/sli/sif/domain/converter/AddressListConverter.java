@@ -31,36 +31,36 @@ import org.slc.sli.sif.domain.slientity.Address;
  * @author slee
  *
  */
-public class AddressListConverter extends DozerConverter<AddressList, List<Address>>
-{
+public class AddressListConverter extends
+        DozerConverter<AddressList, List<Address>> {
     public AddressListConverter() {
-        super(AddressList.class, (Class<List<Address>>)new ArrayList<Address>().getClass());
+        super(AddressList.class, (Class<List<Address>>) new ArrayList<Address>().getClass());
     }
 
     @Override
-    public List<Address> convertTo(AddressList source, List<Address> destination)
-    {
-        if (source==null) {
+    public List<Address> convertTo(AddressList source, List<Address> destination) {
+        if (source == null) {
             return null;
         }
         openadk.library.common.Address[] addresses = source.getAddresses();
         List<Address> list = new ArrayList<Address>(addresses.length);
         for (openadk.library.common.Address address : addresses) {
             Address sliAddr = new Address();
-            sliAddr.setStreetNumberName(address.getStreet().getStreetNumber()+" "+address.getStreet().getStreetName());
+            sliAddr.setStreetNumberName(address.getStreet().getStreetNumber()
+                    + " " + address.getStreet().getStreetName());
             sliAddr.setCity(address.getCity());
             sliAddr.setCountryCode(address.getCountry());
             sliAddr.setPostalCode(address.getPostalCode());
             sliAddr.setStateAbbreviation(address.getStateProvince());
-            sliAddr.setAddressType(SchoolMappings.toSliAddressType(address.getType()));
+            sliAddr.setAddressType(SchoolMappings.toSliAddressType(address
+                    .getType()));
             list.add(sliAddr);
         }
         return list;
     }
 
     @Override
-    public AddressList convertFrom(List<Address> source, AddressList destination)
-    {
+    public AddressList convertFrom(List<Address> source, AddressList destination) {
         return null;
     }
 

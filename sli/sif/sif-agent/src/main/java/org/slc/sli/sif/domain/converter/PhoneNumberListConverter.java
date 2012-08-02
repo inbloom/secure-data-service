@@ -35,14 +35,13 @@ import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
 public class PhoneNumberListConverter extends DozerConverter<PhoneNumberList, List<InstitutionTelephone>>
 {
     public PhoneNumberListConverter() {
-        super(PhoneNumberList.class, (Class<List<InstitutionTelephone>>)new ArrayList<InstitutionTelephone>().getClass());
+        super(PhoneNumberList.class, (Class<List<InstitutionTelephone>>) new ArrayList<InstitutionTelephone>().getClass());
     }
 
     @Override
     public List<InstitutionTelephone> convertTo(PhoneNumberList source,
-            List<InstitutionTelephone> destination)
-    {
-        if (source==null) {
+            List<InstitutionTelephone> destination) {
+        if (source == null) {
             return null;
         }
         PhoneNumber[] phoneNumbers = source.getPhoneNumbers();
@@ -58,8 +57,7 @@ public class PhoneNumberListConverter extends DozerConverter<PhoneNumberList, Li
 
     @Override
     public PhoneNumberList convertFrom(List<InstitutionTelephone> source,
-            PhoneNumberList destination)
-    {
+            PhoneNumberList destination) {
         return null;
     }
 

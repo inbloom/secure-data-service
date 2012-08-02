@@ -20,33 +20,32 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
- * An GenericEntity in the SLI domain.
- * Each SLI Entity can be converted to a JSON Node ready for SLI operations.
+ * An GenericEntity in the SLI domain. Each SLI Entity can be converted to a
+ * JSON Node ready for SLI operations.
  *
  * @author slee
  *
  */
-public abstract class GenericEntity
-{
+public abstract class GenericEntity {
     protected static final ObjectMapper mapper = new ObjectMapper();
 
     /**
-     *  Constructor
-     */
+    * Constructor
+    */
     public GenericEntity() {
 
     }
 
     /**
-     * Output this Entity as a JSON Node
-     */
+    * Output this Entity as a JSON Node
+    */
     public JsonNode json() {
         return mapper.valueToTree(this);
     }
 
     /**
-     * Output this object as a JSON String
-     */
+    * Output this object as a JSON String
+    */
     @Override
     public String toString() {
         return json().toString();
