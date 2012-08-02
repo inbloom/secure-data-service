@@ -23,14 +23,14 @@ require 'json'
 def printStats(stats)
   stats=Hash[stats.sort {|a,b| b[1]["time"]<=>a[1]["time"]}]
   stats.each do |name,stat|
-    if stat["time"]>1000 # ignore entries less than 1 seconds
+    if stat["time"]>0 # ignore entries less than provide ms
       printf "\e[32m%-65s\e[0m \e[31m%11d\e[0m \e[35m%11d sec\e[0m \e[34m%5d ms\e[0m\n",name,stat["calls"],stat["time"]/1000, stat["time"]/stat["calls"]
     end
   end
   printf "%55s\n","***"
 end
 
-connection = Mongo::Connection.new("nxmongo5.slidev.org", 27017)
+connection = Mongo::Connection.new("localhost", 27017)
 db = connection.db("ingestion_batch_job")
 coll = db.collection("newBatchJob")
 
@@ -149,18 +149,17 @@ readTime=0
 
 if !job["executionStats"].nil?
   job["executionStats"].each do |hostName,value|
-    nodeType = "pit"
-    if hostName=="nxmaestro"
-      nodeType = "maestro"
-    end
 
     value.each do |functionName,innerValue|
       pieces=functionName.split("#")
+      dbName = pieces[0]
+      functionCall = pieces[1]
+      collectionName = pieces[2]
 
-      if pieces[1] != "getCollection"
+      if functionCall != "getCollection"
 
-        if pieces[0] == "sli"
-          if pieces[1].include? "update" or pieces[1].include? "insert"
+        if dbName == "sli"
+          if functionCall.include? "update" or functionCall.include? "insert"
             writeCount+=innerValue["left"]
             writeTime+=innerValue["right"]
           else
@@ -169,20 +168,20 @@ if !job["executionStats"].nil?
           end
         end
         
-        functionName = pieces[0]+"."+pieces[1]
+        functionName = dbName+"."+functionCall
 
-        dbs[pieces[0]]={"calls"=>0,"time"=>0} unless dbs[pieces[0]]
+        dbs[dbName]={"calls"=>0,"time"=>0} unless dbs[dbName]
         functions[functionName]={"calls"=>0,"time"=>0} unless functions[functionName]
-        collections[pieces[2]]={"calls"=>0,"time"=>0} unless collections[pieces[2]]
+        collections[collectionName]={"calls"=>0,"time"=>0} unless collections[collectionName]
 
-        dbs[pieces[0]]["calls"]+=innerValue["left"]
-        dbs[pieces[0]]["time"]+=innerValue["right"]
+        dbs[dbName]["calls"]+=innerValue["left"]
+        dbs[dbName]["time"]+=innerValue["right"]
 
         functions[functionName]["calls"]+=innerValue["left"]
         functions[functionName]["time"]+=innerValue["right"]
 
-        collections[pieces[2]]["calls"]+=innerValue["left"]
-        collections[pieces[2]]["time"]+=innerValue["right"]
+        collections[collectionName]["calls"]+=innerValue["left"]
+        collections[collectionName]["time"]+=innerValue["right"]
       end
     end
   end
