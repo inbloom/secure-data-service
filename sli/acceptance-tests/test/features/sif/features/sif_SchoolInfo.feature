@@ -11,7 +11,7 @@ When I POST the message to the ZIS
 And I wait for "10" seconds
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName        | count |
-     | educationOrganization | 3     |
+     | educationOrganization | 5     |
    And I check to find if record is in collection:
      | collectionName        | expectedRecordCount | searchParameter          | searchValue                   | searchType |
      | educationOrganization | 1                   | body.stateOrganizationId | Daybreak West High            | string     |
@@ -27,7 +27,7 @@ When I POST the message to the ZIS
 And I wait for "10" seconds
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName        | count |
-     | educationOrganization | 3     |
+     | educationOrganization | 5     |
    And I check to find if record is in collection:
      | collectionName        | expectedRecordCount | searchParameter          | searchValue                | searchType |
      | educationOrganization | 1                   | body.stateOrganizationId | IL                         | string     |
@@ -44,7 +44,7 @@ When I POST the message to the ZIS
 And I wait for "10" seconds
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName        | count |
-     | educationOrganization | 3   |
+     | educationOrganization | 5   |
    And I check to find if record is in collection:
      | collectionName        | expectedRecordCount | searchParameter          | searchValue             | searchType |
      | educationOrganization | 1                   | body.gradesOffered       | Eighth grade            | string     |
@@ -64,7 +64,7 @@ When I POST the message to the ZIS
 And I wait for "10" seconds
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName        | count |
-     | educationOrganization | 2     |
+     | educationOrganization | 4     |
    And I check to find if record is in collection:
      | collectionName        | expectedRecordCount | searchParameter          | searchValue                   | searchType |
      | educationOrganization | 0                   | body.stateOrganizationId | Daybreak West High            | string     |
@@ -81,7 +81,7 @@ When I POST the message to the ZIS
 And I wait for "10" seconds
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName        | count |
-     | educationOrganization | 2     |
+     | educationOrganization | 4     |
    And I check to find if record is in collection:
      | collectionName        | expectedRecordCount | searchParameter          | searchValue                   | searchType |
      | educationOrganization | 0                   | body.stateOrganizationId | Daybreak West High            | string     |

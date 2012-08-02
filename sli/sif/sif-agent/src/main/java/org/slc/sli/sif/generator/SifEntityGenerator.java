@@ -26,19 +26,21 @@ import openadk.library.common.PhoneNumberList;
 import openadk.library.common.PhoneNumberType;
 import openadk.library.common.StatePrCode;
 import openadk.library.common.Street;
+import openadk.library.datamodel.SEAInfo;
 import openadk.library.student.EducationAgencyTypeCode;
+import openadk.library.student.LEAInfo;
 import openadk.library.student.OperationalStatus;
 import openadk.library.student.SchoolFocus;
 import openadk.library.student.SchoolFocusList;
 import openadk.library.student.SchoolFocusType;
 import openadk.library.student.SchoolInfo;
 import openadk.library.student.SchoolLevelType;
-import openadk.library.student.LEAInfo;
-import openadk.library.datamodel.SEAInfo;
 
+/**
+ * Sif entity generator
+ */
+public class SifEntityGenerator {
 
-public class SifEntityGenerator
-{
     public static SchoolInfo generateTestSchoolInfo() {
         SchoolInfo info = new SchoolInfo();
         info.setRefId("D3E34B359D75101A8C3D00AA001A1652");
@@ -46,7 +48,7 @@ public class SifEntityGenerator
         info.setNCESId("421575003045");
         info.setSchoolName("Daybreak West High");
         info.setLEAInfoRefId("73648462888624AA5294BC6380173276");
-        
+
         SchoolFocusList schoolFocusList = new SchoolFocusList();
         schoolFocusList.add(new SchoolFocus(SchoolFocusType.REGULAR));
         info.setSchoolFocusList(schoolFocusList);
@@ -87,14 +89,14 @@ public class SifEntityGenerator
         info.setPhoneNumberList(phoneNumberList);
         return info;
     }
-    
+
     public static LEAInfo generateTestLEAInfo() {
         LEAInfo info = new LEAInfo();
         info.setRefId("73648462888624AA5294BC6380173276");
         info.setStateProvinceId("IL-DAYBREAK");
         info.setNCESId("4215750");
         info.setLEAName("Daybreak School District 4530");
-        
+
         info.setLEAURL("http://IL-DAYBREAK.edu");
         info.setEducationAgencyType(EducationAgencyTypeCode.REG_DISTRICT);
         info.setOperationalStatus(OperationalStatus.SCHOOL_CLOSED);
@@ -136,7 +138,7 @@ public class SifEntityGenerator
     public static SEAInfo generateTestSEAInfo() {
         SEAInfo info = new SEAInfo();
         info.setRefId("D3E34B359D75101A8C3D00AA001A1652");
-        info.setSEAName("Illinois State Board of Education");        
+        info.setSEAName("Illinois State Board of Education");
         info.setSEAURL("http://IL.edu");
 
         Address address = new Address();

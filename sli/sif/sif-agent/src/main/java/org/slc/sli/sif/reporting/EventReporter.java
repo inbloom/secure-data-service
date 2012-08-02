@@ -30,9 +30,9 @@ import openadk.library.Query;
 import openadk.library.SIFDataObject;
 import openadk.library.SIFVersion;
 import openadk.library.Zone;
-import openadk.library.student.StudentDTD;
-import openadk.library.student.SchoolInfo;
 import openadk.library.student.LEAInfo;
+import openadk.library.student.SchoolInfo;
+import openadk.library.student.StudentDTD;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,11 +49,11 @@ public class EventReporter implements Publisher {
     static {
         // Simple workaround to get logging paths set up correctly when run from the command line
         String catalinaHome = System.getProperty("catalina.home");
-        if( catalinaHome == null ){
+        if (catalinaHome == null) {
             System.setProperty("catalina.home", "target");
         }
         String sliConf = System.getProperty("sli.conf");
-        if( sliConf == null ){
+        if (sliConf == null) {
             System.setProperty("sli.conf", "../../config/properties/sli.properties");
         }
     }
@@ -76,10 +76,11 @@ public class EventReporter implements Publisher {
                 EventReporter reporter = new EventReporter(zone);
 
                 reporter.setEventGenerator(new CustomEventGenerator());
-                if (reportSchoolLeaInfo) 
+                if (reportSchoolLeaInfo) {
                     reporter.reportSchoolLeaInfoEvents();
+                }
             } else if (args.length == 2) {
-                SifAgent agent = createReporterAgent("test.publisher.agent", 
+                SifAgent agent = createReporterAgent("test.publisher.agent",
                                                      "http://10.163.6.73:50002/TestZone");
                 agent.startAgent();
                 String zoneId = args[EventReporter.ZONE_ID];
@@ -90,7 +91,7 @@ public class EventReporter implements Publisher {
                 reporter.setEventGenerator(new CustomEventGenerator());
                 reporter.reportEvent(messageFile);
             } else {
-                SifAgent agent = createReporterAgent("test.publisher.agent", 
+                SifAgent agent = createReporterAgent("test.publisher.agent",
                                                      "http://10.163.6.73:50002/TestZone");
                 agent.startAgent();
                 Zone zone = agent.getZoneFactory().getZone("TestZone");
@@ -155,8 +156,7 @@ public class EventReporter implements Publisher {
         LEAInfo leaInfo = org.slc.sli.sif.generator.SifEntityGenerator.generateTestLEAInfo();
 
         if (zone.isConnected()) {
-            try
-            {
+            try {
                 zone.reportEvent(leaInfo, EventAction.ADD);
                 Thread.sleep(5000);
                 zone.reportEvent(schoolInfo, EventAction.ADD);
@@ -168,8 +168,7 @@ public class EventReporter implements Publisher {
                 zone.reportEvent(schoolInfo, EventAction.DELETE);
                 Thread.sleep(5000);
                 zone.reportEvent(leaInfo, EventAction.DELETE);
-            } catch (InterruptedException e)
-            {
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         } else {

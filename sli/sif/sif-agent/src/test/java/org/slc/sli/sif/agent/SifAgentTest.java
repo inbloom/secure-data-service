@@ -42,8 +42,7 @@ import org.slc.sli.sif.zone.ZoneConfigurator;
  */
 //@RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration(locations = { "classpath*:/spring/applicationContext.xml" })
-public class SifAgentTest
-{
+public class SifAgentTest {
     private SifAgent createSifAgent(ZoneConfigurator zoneConfig) {
         try {
             ADK.initialize();

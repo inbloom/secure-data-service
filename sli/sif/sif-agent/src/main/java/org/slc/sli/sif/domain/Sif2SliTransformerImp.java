@@ -50,20 +50,21 @@ import org.slc.sli.sif.domain.slientity.SchoolEntity;
  *
  */
 @Component
-public class Sif2SliTransformerImp implements Sif2SliTransformer
-{
-    protected static final ObjectMapper mapper = new ObjectMapper();
+public class Sif2SliTransformerImp implements Sif2SliTransformer {
+    protected static final ObjectMapper MAPPER = new ObjectMapper();
 
     @Autowired
     private Mapper dozerMapper;
 
     @Override
     public Map<String, Object> transform(SchoolInfo schoolInfo) {
-        try
-        {
-            SchoolEntity e = this.dozerMapper.map(new SchoolInfoEntity(schoolInfo), SchoolEntity.class);
-            Map<String, Object> body = mapper.readValue(e.json(), new TypeReference<Map<String, Object>>(){});
-            clearNullValueKeys (body);
+        try {
+            SchoolEntity e = this.dozerMapper.map(new SchoolInfoEntity(
+                    schoolInfo), SchoolEntity.class);
+            Map<String, Object> body = MAPPER.readValue(e.json(),
+                    new TypeReference<Map<String, Object>>() {
+                    });
+            clearNullValueKeys(body);
             return body;
         } catch (JsonParseException e) {
             e.printStackTrace();
@@ -78,9 +79,12 @@ public class Sif2SliTransformerImp implements Sif2SliTransformer
     @Override
     public Map<String, Object> transform(LEAInfo leaInfo) {
         try {
-            LEAEntity e = this.dozerMapper.map(new LEAInfoEntity(leaInfo), LEAEntity.class);
-            Map<String, Object> body = mapper.readValue(e.json(), new TypeReference<Map<String, Object>>(){});
-            clearNullValueKeys (body);
+            LEAEntity e = this.dozerMapper.map(new LEAInfoEntity(leaInfo),
+                    LEAEntity.class);
+            Map<String, Object> body = MAPPER.readValue(e.json(),
+                    new TypeReference<Map<String, Object>>() {
+                    });
+            clearNullValueKeys(body);
             return body;
         } catch (JsonParseException e) {
             e.printStackTrace();
@@ -95,9 +99,12 @@ public class Sif2SliTransformerImp implements Sif2SliTransformer
     @Override
     public Map<String, Object> transform(SEAInfo seaInfo) {
         try {
-            SEAEntity e = this.dozerMapper.map(new SEAInfoEntity(seaInfo), SEAEntity.class);
-            Map<String, Object> body = mapper.readValue(e.json(), new TypeReference<Map<String, Object>>(){});
-            clearNullValueKeys (body);
+            SEAEntity e = this.dozerMapper.map(new SEAInfoEntity(seaInfo),
+                    SEAEntity.class);
+            Map<String, Object> body = MAPPER.readValue(e.json(),
+                    new TypeReference<Map<String, Object>>() {
+                    });
+            clearNullValueKeys(body);
             return body;
         } catch (JsonParseException e) {
             e.printStackTrace();
@@ -109,9 +116,10 @@ public class Sif2SliTransformerImp implements Sif2SliTransformer
         return new HashMap<String, Object>();
     }
 
-    //============ private helper
+    // ============ private helper
 
-    // removes all keys from this map that has a null value. If some values are maps,
+    // removes all keys from this map that has a null value. If some values are
+    // maps,
     // do it recursively
     private static void clearNullValueKeys(Map m) {
         Set keySet = m.keySet();
@@ -125,6 +133,7 @@ public class Sif2SliTransformerImp implements Sif2SliTransformer
             m.remove(k);
         }
     }
+
     private static void clearNullValueFromList(List l) {
         ListIterator it = l.listIterator();
         while (it.hasNext()) {
@@ -134,18 +143,18 @@ public class Sif2SliTransformerImp implements Sif2SliTransformer
             }
         }
     }
-    private static boolean isNullValue (Object o) {
+
+    private static boolean isNullValue(Object o) {
         if (o == null) {
             return true;
         }
         if (o instanceof Map) {
             clearNullValueKeys((Map) o);
-            return ((Map)o).isEmpty();
+            return ((Map) o).isEmpty();
         } else if (o instanceof List) {
             clearNullValueFromList((List) o);
-            return ((List)o).isEmpty();
+            return ((List) o).isEmpty();
         }
         return false;
     }
 }
-
