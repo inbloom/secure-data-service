@@ -36,6 +36,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.ingestion.Fault;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
@@ -82,6 +83,8 @@ public class SmooksCallable implements Callable<Boolean> {
     }
 
     public boolean runSmooksFuture() {
+        TenantContext.setJobId(newBatchJob.getId());
+
         LOG.info("Starting SmooksCallable for: " + fe.getFileName());
         Metrics metrics = Metrics.newInstance(fe.getFileName());
         stage.addMetrics(metrics);
@@ -95,6 +98,8 @@ public class SmooksCallable implements Callable<Boolean> {
         int errorCount = processMetrics(metrics, fileProcessStatus);
 
         LOG.info("Finished SmooksCallable for: " + fe.getFileName());
+
+        TenantContext.setJobId(null);
         return (errorCount > 0);
     }
 
