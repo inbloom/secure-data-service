@@ -119,7 +119,7 @@ public class SifSubscriber implements Subscriber {
             GenericEntity entity = new GenericEntity(entityType, body);
             String guid = slcInterface.create(entity);
             if (guid != null) {
-                sifIdResolver.addIdMapping(sdo.getRefId(), entityType, guid, "_id");
+                sifIdResolver.putSliGuid(sdo.getRefId(), entityType, guid);
             }
         }
 
