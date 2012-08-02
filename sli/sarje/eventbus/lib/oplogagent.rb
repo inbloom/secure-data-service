@@ -75,6 +75,10 @@ module Eventbus
         retry
       end
     end
+
+    def shutdown
+      @thread.kill if !@thread.nil?
+    end
   end
 
   class OpLogThrottler
@@ -88,7 +92,7 @@ module Eventbus
     end
 
     def run
-      Thread.new do
+      @throttler_thread ||= Thread.new do
         loop do
           sleep @config[:throttle_polling_period]
           collection_changed = Set.new
@@ -130,6 +134,10 @@ module Eventbus
       }
       collection_filter
     end
+
+    def shutdown
+      @throttler_thread.kill if !@throttler_thread.nil?
+    end
   end
 
   class OpLogAgent
@@ -143,25 +151,31 @@ module Eventbus
 
       @threads = []
 
-      oplog_throttler = Eventbus::OpLogThrottler.new(config)
-      oplog_reader = OpLogReader.new(config)
+      @oplog_throttler = Eventbus::OpLogThrottler.new(config)
+      @oplog_reader = OpLogReader.new(config)
 
-      @threads << oplog_reader.read_oplogs do |incoming_oplog_message|
-        oplog_throttler.push(incoming_oplog_message)
+      @threads << @oplog_reader.read_oplogs do |incoming_oplog_message|
+        @oplog_throttler.push(incoming_oplog_message)
       end
 
-      messaging_service = Eventbus::MessagingService.new(config)
+      @messaging_service = Eventbus::MessagingService.new(config)
 
-      messaging_service.subscribe do |incoming_configuration_message|
+      @messaging_service.subscribe do |incoming_configuration_message|
         collection_filter = incoming_configuration_message['collection_filter']
         if(collection_filter != nil)
           oplog_throttler.set_collection_filter(collection_filter)
         end
       end
 
-      @threads << oplog_throttler.run do |message|
-        messaging_service.publish(message)
+      @threads << @oplog_throttler.run do |message|
+        @messaging_service.publish(message)
       end
+    end
+
+    def shutdown
+      @oplog_throttler.shutdown
+      @oplog_reader.shutdown
+      @messaging_service.shutdown
     end
   end
 end

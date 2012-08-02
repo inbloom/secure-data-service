@@ -37,7 +37,14 @@ module Eventbus
           :heartbeat_detector_period => 10
       }.merge(config)
 
-      host = {:login => @config[:messaging_login], :passcode => @config[:messaging_passcode], :host => @config[:messaging_host], :port => @config[:messaging_port], :ssl => @config[:messaging_ssl]}
+      host = {
+          :login => @config[:messaging_login],
+          :passcode => @config[:messaging_passcode],
+          :host => @config[:messaging_host],
+          :port => @config[:messaging_port],
+          :ssl => @config[:messaging_ssl]
+      }
+
       if config[:subscribe_queue_name].start_with?('/topic/')
         host[:headers] = {'client-id' => config[:node_name]}
       end
@@ -70,10 +77,12 @@ module Eventbus
     end
 
     def subscribe
-      Subscriber.new(@config[:subscribe_queue_name], @config[:stomp_config]) do |message|
+      @subscriber ||= Subscriber.new(@config[:subscribe_queue_name], @config[:stomp_config]) do |message|
         if(@config[:start_node_detector] && message['event_type'] == 'heartbeat')
+          puts "#{@config[:node_name]} received a heartbeat from #{message['node_name']}"
           @heartbeat_queue << message
         else
+          puts "#{@config[:node_name]} received a message"
           yield message
         end
       end
@@ -81,7 +90,7 @@ module Eventbus
 
     def start_node_detector
       puts "starting node detector for node <#{@config[:node_name]}>"
-      Thread.new do
+      @node_detector_thread ||= Thread.new do
         loop do
           sleep @config[:heartbeat_detector_period]
           detected_nodes = Set.new
@@ -108,6 +117,18 @@ module Eventbus
       end
     end
 
+    def shutdown
+      if !@subscriber.nil?
+        @subscriber.kill_subscription_listener
+      end
+      if !@node_detector_thread.nil?
+        @node_detector_thread.kill
+      end
+      if !@heartbeat_thread.nil?
+        @heartbeat_thread.kill
+      end
+    end
+
     private
 
     def set_detected_nodes(detected_nodes)
@@ -117,8 +138,8 @@ module Eventbus
     end
 
     def start_heartbeat(node_name)
-      puts "starting heartbeat for node #{@config[:node_name]}"
-      Thread.new do
+      puts "starting heartbeat for node #{node_name}"
+      @heartbeat_thread ||= Thread.new do
         loop do
           message = {
               'event_type' => 'heartbeat',
@@ -137,7 +158,6 @@ module Eventbus
     def initialize(queue_name, config)
       @queue_name = queue_name
       @config = config
-      #@client = Stomp::Client.new(config)
     end
 
     def publish(message)
@@ -148,72 +168,37 @@ module Eventbus
 
   class Subscriber
     def initialize(queue_name, config)
-      Thread.new do
-        if queue_name.start_with?('/topic/')
-          client = Stomp::Connection.open(config)
-          client.subscribe queue_name, {"activemq.subscriptionName" => config[:hosts][0][:headers]['client-id']}
-          # puts "subscribing to topic #{queue_name}"
+      @queue_name = queue_name
+      @thread ||= Thread.new do
+        if @queue_name.start_with?('/topic/')
+          @header = {"activemq.subscriptionName" => config[:hosts][0][:headers]['client-id']}
+          @client = Stomp::Connection.open(config)
+          @client.subscribe @queue_name, @header
+          puts "subscribing to topic #{@queue_name}"
           while true
-            message = client.receive
+            message = @client.receive
             yield JSON.parse message.body
           end
         else
-          # puts "subscribing to queue #{queue_name}"
-          client = Stomp::Client.new(config)
-          client.subscribe queue_name do |message|
+          puts "subscribing to queue #{@queue_name}"
+          @client = Stomp::Client.new(config)
+          @client.subscribe @queue_name do |message|
             yield JSON.parse message.body
           end
         end
-        client.join
-        client.close
+        @client.join
+        @client.close
+      end
+    end
+
+    def kill_subscription_listener
+      if @client.is_a?(Stomp::Client)
+        @client.unsubscribe @queue_name
+        @client.close
+      else
+        @client.unsubscribe @queue_name, @header
+        @client.disconnect
       end
     end
   end
 end
-
-#agent_incoming = '/queue/agent'
-#listener_incoming = '/queue/listener'
-#
-#agent_config = {
-#    :node_name => 'agent',
-#    :publish_queue_name => listener_incoming,
-#    :subscribe_queue_name => agent_incoming
-#}
-#agent = Eventbus::MessagingService.new(agent_config) do |message|
-#  puts "agent received: #{message}"
-#end
-#
-#listener_config = {
-#    :node_name => 'listener',
-#    :publish_queue_name => agent_incoming,
-#    :subscribe_queue_name => listener_incoming,
-#    :start_heartbeat => false
-#}
-#listener = Eventbus::MessagingService.new(listener_config) do |message|
-#  puts "listener received: #{message}"
-#end
-#
-#Thread.new do
-#  loop do
-#    message = {
-#        'event_type' => 'oplog event',
-#        'hostname' => Socket.gethostname,
-#        'timestamp' => Time.now.to_i.to_s
-#    }
-#    agent.publish(message)
-#    sleep 5
-#  end
-#end
-#
-#Thread.new do
-#  loop do
-#    message = {
-#        'event_type' => 'subscription event',
-#        'hostname' => Socket.gethostname,
-#        'timestamp' => Time.now.to_i.to_s
-#    }
-#    listener.publish(message)
-#    sleep 5
-#  end
-#end
-#sleep
