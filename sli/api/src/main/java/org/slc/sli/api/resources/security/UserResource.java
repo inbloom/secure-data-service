@@ -91,6 +91,7 @@ public class UserResource {
         assertEnabled();
         String tenant = secUtil.getTenantId();
         String edorg = secUtil.getEdOrg();
+        String myUid = secUtil.getUid();
 
         Response result = validateAdminRights(secUtil.getAllRights(), tenant);
         if (result != null) {
@@ -113,9 +114,11 @@ public class UserResource {
         if (users != null && users.size() > 0) {
             for (User user : users) {
                 user.setGroups((List<String>) (RoleToGroupMapper.getInstance().mapGroupToRoles(user.getGroups())));
-                if (!(isLea && isUserLeaAdmin(user) && user.getEdorg().equals(edorg))) {
+                if (myUid.equals(user.getUid())
+                        || !(isLea && isUserLeaAdmin(user) && user.getEdorg().equals(edorg))) {
                     filteredUsers.add(user);
                 }
+
             }
         }
 
@@ -313,9 +316,17 @@ public class UserResource {
     }
 
     private static Response composeBadDataResponse(String reason) {
+        return composeResponse(reason, Status.BAD_REQUEST);
+    }
+
+    private static Response composeForbiddenResponse(String reason) {
+        return composeResponse(reason, Status.FORBIDDEN);
+    }
+
+    private static Response composeResponse(String reason, Status status) {
         EntityBody body = new EntityBody();
         body.put("response", reason);
-        return Response.status(Status.BAD_REQUEST).entity(body).build();
+        return Response.status(status).entity(body).build();
     }
 
     private Response validateTenantAndEdorg(Collection<String> groupsAllowed, User user) {
@@ -364,9 +375,13 @@ public class UserResource {
             String restrictByEdorg = null;
             if (isLeaAdmin()) {
                 restrictByEdorg = secUtil.getEdOrg();
+                //restrict peer level LEA
+                if(restrictByEdorg.equals(user.getEdorg())) {
+                    return composeForbiddenResponse("Can not operate on peer level LEA");
+                }
             }
             Set<String> allowedEdorgs = adminService.getAllowedEdOrgs(user.getTenant(), restrictByEdorg);
-            if (!allowedEdorgs.contains(user.getEdorg()) || secUtil.getEdOrg().equals(user.getEdorg())) {
+            if (!allowedEdorgs.contains(user.getEdorg())) {
                 return composeBadDataResponse("Invalid edorg");
             }
         } else {
