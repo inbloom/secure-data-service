@@ -528,6 +528,12 @@ public class UserResource {
         }
     }
 
+    /**
+     * Mappers for Roles to Groups
+     *
+     * @author nbrown
+     *
+     */
     static final class RoleToGroupMapper {
         private static final RoleToGroupMapper INSTANCE = new RoleToGroupMapper();
 
@@ -535,38 +541,38 @@ public class UserResource {
             return INSTANCE;
         }
 
-        private final Map<String, String> ROLETOGROUPMAP;
-        private final Map<String, String> GROUPTOROLEMAP;
+        private final Map<String, String> roleToGroupMap;
+        private final Map<String, String> groupToRoleMap;
 
         private RoleToGroupMapper() {
-            ROLETOGROUPMAP = new HashMap<String, String>();
-            GROUPTOROLEMAP = new HashMap<String, String>();
+            roleToGroupMap = new HashMap<String, String>();
+            groupToRoleMap = new HashMap<String, String>();
 
-            ROLETOGROUPMAP.put(RoleInitializer.SLC_OPERATOR, "SLC Operator");
-            ROLETOGROUPMAP.put(RoleInitializer.REALM_ADMINISTRATOR, "Realm Administrator");
-            ROLETOGROUPMAP.put(RoleInitializer.SEA_ADMINISTRATOR, "SEA Administrator");
-            ROLETOGROUPMAP.put(RoleInitializer.LEA_ADMINISTRATOR, "LEA Administrator");
-            ROLETOGROUPMAP.put(RoleInitializer.APP_DEVELOPER, "application_developer");
-            ROLETOGROUPMAP.put(RoleInitializer.INGESTION_USER, "ingestion_user");
-            ROLETOGROUPMAP.put(RoleInitializer.SANDBOX_SLC_OPERATOR, "Sandbox SLC Operator");
-            ROLETOGROUPMAP.put(RoleInitializer.SANDBOX_ADMINISTRATOR, "Sandbox Administrator");
+            roleToGroupMap.put(RoleInitializer.SLC_OPERATOR, "SLC Operator");
+            roleToGroupMap.put(RoleInitializer.REALM_ADMINISTRATOR, "Realm Administrator");
+            roleToGroupMap.put(RoleInitializer.SEA_ADMINISTRATOR, "SEA Administrator");
+            roleToGroupMap.put(RoleInitializer.LEA_ADMINISTRATOR, "LEA Administrator");
+            roleToGroupMap.put(RoleInitializer.APP_DEVELOPER, "application_developer");
+            roleToGroupMap.put(RoleInitializer.INGESTION_USER, "ingestion_user");
+            roleToGroupMap.put(RoleInitializer.SANDBOX_SLC_OPERATOR, "Sandbox SLC Operator");
+            roleToGroupMap.put(RoleInitializer.SANDBOX_ADMINISTRATOR, "Sandbox Administrator");
 
-            GROUPTOROLEMAP.put("SLC Operator", RoleInitializer.SLC_OPERATOR);
-            GROUPTOROLEMAP.put("Realm Administrator", RoleInitializer.REALM_ADMINISTRATOR);
-            GROUPTOROLEMAP.put("SEA Administrator", RoleInitializer.SEA_ADMINISTRATOR);
-            GROUPTOROLEMAP.put("LEA Administrator", RoleInitializer.LEA_ADMINISTRATOR);
-            GROUPTOROLEMAP.put("application_developer", RoleInitializer.APP_DEVELOPER);
-            GROUPTOROLEMAP.put("ingestion_user", RoleInitializer.INGESTION_USER);
-            GROUPTOROLEMAP.put("Sandbox SLC Operator", RoleInitializer.SANDBOX_SLC_OPERATOR);
-            GROUPTOROLEMAP.put("Sandbox Administrator", RoleInitializer.SANDBOX_ADMINISTRATOR);
+            groupToRoleMap.put("SLC Operator", RoleInitializer.SLC_OPERATOR);
+            groupToRoleMap.put("Realm Administrator", RoleInitializer.REALM_ADMINISTRATOR);
+            groupToRoleMap.put("SEA Administrator", RoleInitializer.SEA_ADMINISTRATOR);
+            groupToRoleMap.put("LEA Administrator", RoleInitializer.LEA_ADMINISTRATOR);
+            groupToRoleMap.put("application_developer", RoleInitializer.APP_DEVELOPER);
+            groupToRoleMap.put("ingestion_user", RoleInitializer.INGESTION_USER);
+            groupToRoleMap.put("Sandbox SLC Operator", RoleInitializer.SANDBOX_SLC_OPERATOR);
+            groupToRoleMap.put("Sandbox Administrator", RoleInitializer.SANDBOX_ADMINISTRATOR);
         }
 
         public Collection<String> mapRoleToGroups(Collection<String> roles) {
             Collection<String> groups = new ArrayList<String>();
             if (roles != null) {
                 for (String role : roles) {
-                    if (this.ROLETOGROUPMAP.containsKey(role)) {
-                        groups.add(this.ROLETOGROUPMAP.get(role));
+                    if (this.roleToGroupMap.containsKey(role)) {
+                        groups.add(this.roleToGroupMap.get(role));
                     }
                 }
             }
@@ -577,8 +583,8 @@ public class UserResource {
             Collection<String> roles = new ArrayList<String>();
             if (groups != null) {
                 for (String group : groups) {
-                    if (this.GROUPTOROLEMAP.containsKey(group)) {
-                        roles.add(this.GROUPTOROLEMAP.get(group));
+                    if (this.groupToRoleMap.containsKey(group)) {
+                        roles.add(this.groupToRoleMap.get(group));
                     }
                 }
             }
@@ -586,15 +592,15 @@ public class UserResource {
         }
 
         public String getRole(String group) {
-            if (this.GROUPTOROLEMAP.containsKey(group)) {
-                return this.GROUPTOROLEMAP.get(group);
+            if (this.groupToRoleMap.containsKey(group)) {
+                return this.groupToRoleMap.get(group);
             }
             return null;
         }
 
         public String getGroup(String role) {
-            if (this.ROLETOGROUPMAP.containsKey(role)) {
-                return this.ROLETOGROUPMAP.get(role);
+            if (this.roleToGroupMap.containsKey(role)) {
+                return this.roleToGroupMap.get(role);
             }
             return null;
         }

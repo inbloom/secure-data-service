@@ -93,8 +93,8 @@ public class UserResourceTest {
 
         // cannot create without CRUD_SLC_OPERATOR
         rights.remove(Right.CRUD_SLC_OPERATOR);
-        Mockito.when(secUtil.getTenantId()).thenReturn(TENANT);// need a tenant without
-                                                               // CRUD_SLC_OPERATOR.
+        Mockito.when(secUtil.getTenantId()).thenReturn(TENANT); // need a tenant without
+                                                                // CRUD_SLC_OPERATOR.
         res = resource.create(newUser);
         Assert.assertNotNull(res);
         Assert.assertEquals(403, res.getStatus());
@@ -251,7 +251,7 @@ public class UserResourceTest {
             assertNull(resource.validateAdminRights(Arrays.asList(ONE_ADMIN_RIGHT_ONLY), null));
             Assert.fail("expected exception");
         } catch (RuntimeException e) {
-            // sweet
+            Assert.assertTrue("sweet", true);
         }
     }
 
