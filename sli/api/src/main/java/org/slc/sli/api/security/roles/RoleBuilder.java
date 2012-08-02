@@ -57,6 +57,17 @@ public final class RoleBuilder {
         return this;
     }
 
+    public RoleBuilder addGrantedAuthorities(List<String> auths) {
+        for (String rightName : auths) {
+            try {
+                role.addRight(Right.valueOf(rightName));
+            } catch (IllegalArgumentException e) {
+                warn("No such right: {}",rightName);
+            }
+        }
+        return this;
+    }
+
     public RoleBuilder addRight(String right) {
         role.addRight(Right.valueOf(right));
         return this;
@@ -68,7 +79,7 @@ public final class RoleBuilder {
         }
         return this;
     }
-    
+
     public RoleBuilder setAdmin(boolean admin) {
         role.setAdmin(admin);
         return this;

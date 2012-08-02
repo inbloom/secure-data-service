@@ -21,6 +21,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.springframework.security.core.GrantedAuthority;
+
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.domain.enums.Right;
 
@@ -29,7 +32,7 @@ import org.slc.sli.domain.enums.Right;
  */
 public class Role {
     private String name;
-    private Set<Right> rights = new HashSet<Right>();
+    private Set<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
     private String id = "";
     private boolean admin = false;
 
@@ -57,18 +60,26 @@ public class Role {
         return rights.contains(right);
     }
 
-    public Set<Right> getRights() {
+    public Set<GrantedAuthority> getRights() {
         return rights;
     }
+    
+    public Set<String> getRightsAsStrings() {
+        Set<String> strings = new HashSet<String>();
+        for (GrantedAuthority authority : rights) {
+            strings.add(authority.getAuthority());
+        }
+        return strings;
+    }
 
-    public void addRight(Right right) {
+    public void addRight(GrantedAuthority right) {
         rights.add(right);
     }
-    
+
     public void setAdmin(boolean admin) {
         this.admin = admin;
     }
-    
+
     /**
      * Determines whether this is an admin role, which means it's
      * only applicable to user of the SLI IDP.
@@ -86,7 +97,7 @@ public class Role {
         EntityBody body = new EntityBody();
         body.put("name", getName());
         List<String> rightStrings = new ArrayList<String>();
-        for (Right right : rights) {
+        for (GrantedAuthority right : rights) {
             rightStrings.add(right.toString());
         }
         body.put("rights", rightStrings);

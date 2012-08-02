@@ -14,14 +14,18 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.security.resolve.impl;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.slc.sli.api.security.resolve.ClientRoleResolver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleRightAccess;
@@ -29,10 +33,6 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Component;
 
 /**
  *
@@ -43,65 +43,46 @@ import org.springframework.stereotype.Component;
 public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
 
     @Autowired
-    private ClientRoleResolver roleMapper;
-
-    @Autowired
     private RoleRightAccess roleRightAccess;
-    
+
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
-    
-    @Override
-    public Set<GrantedAuthority> resolveRoles(String realmId, List<String> roleNames) {
-        Set<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
-        if (roleNames != null) {
-            List<String> sliRoleNames = roleMapper.resolveRoles(realmId, roleNames);
 
-            for (String sliRoleName : sliRoleNames) {
-                Role role = findRole(sliRoleName);
-                if (role != null) {
-                    if (role.isAdmin() && !isAdminRealm(realmId)) {
-                        debug("Ignoring {} because {} is not admin realm.", role.getName(), realmId);
-                        continue;
-                    }
-                    auths.addAll(role.getRights());
-                }
-            }
+    @Override
+    public Set<GrantedAuthority> resolveRoles(String tenantId, String realmId, List<String> roleNames) {
+        Set<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
+        List<Role> roles = new ArrayList<Role>();
+
+        if (isAdminRealm(realmId)) {
+            roles.addAll(roleRightAccess.findAdminRoles(roleNames));
+        } else {
+            roles.addAll(roleRightAccess.findRoles(tenantId, realmId, roleNames));
+        }
+
+        for (Role role : roles) {
+            auths.addAll(role.getRights());
         }
         return auths;
     }
-    
-    private boolean isAdminRealm(final String realmId) {
-        
-         Entity entity = SecurityUtil.runWithAllTenants(new SecurityTask<Entity>() {
 
+    private boolean isAdminRealm(final String realmId) {
+
+        Entity entity = SecurityUtil.runWithAllTenants(new SecurityTask<Entity>() {
             @Override
             public Entity execute() {
                 return repo.findById("realm", realmId);
             }
         });
 
-        Boolean admin = (Boolean) entity.getBody().get("admin");
-        return admin != null ? admin : false;
-    }
-    
-    private Role findRole(final String roleName) {
-        return SecurityUtil.sudoRun(new SecurityTask<Role>() {
-
-            @Override
-            public Role execute() {
-                return roleRightAccess.getDefaultRole(roleName);
-            }
-        });
-        
+        if (entity != null && entity.getBody() != null) {
+            Boolean admin = (Boolean) entity.getBody().get("admin");
+            return admin != null ? admin : false;
+        }
+        return false;
     }
 
     public void setRoleRightAccess(RoleRightAccess roleRightAccess) {
         this.roleRightAccess = roleRightAccess;
-    }
-
-    public void setRoleMapper(ClientRoleResolver roleMapper) {
-        this.roleMapper = roleMapper;
     }
 }

@@ -21,7 +21,7 @@ import org.slc.sli.domain.CalculatedDatum;
  */
 public class AggregateListingResourceTest {
 
-    private AggregateListingResource resource;
+    private CalculatedValueListingResource resource;
 
     @Before
     public void setup() {
@@ -41,13 +41,13 @@ public class AggregateListingResourceTest {
         attendance.put("MathClass", mathClass);
         aggregateMap.put("attendance", attendance);
         CalculatedData data = new CalculatedData(aggregateMap);
-        resource = new AggregateListingResource(data);
+        resource = new CalculatedValueListingResource(data);
 
     }
 
     /**
      * Test method for
-     * {@link org.slc.sli.api.resources.aggregation.AggregateListingResource#getAvailableAggregates()}
+     * {@link org.slc.sli.api.resources.aggregation.CalculatedValueListingResource#getAvailableAggregates()}
      * .
      */
     @Test

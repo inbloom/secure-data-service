@@ -82,8 +82,12 @@ public class SectionEntityTest {
             }
 
             @Override
-            public CalculatedData getCalculatedValues() {
-                // TODO Auto-generated method stub
+            public CalculatedData<String> getCalculatedValues() {
+                return null;
+            }
+
+            @Override
+            public CalculatedData<Map<String, Integer>> getAggregates() {
                 return null;
             }
         };

@@ -17,26 +17,25 @@
 
 package org.slc.sli.api.jersey;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-
 import com.sun.jersey.api.uri.UriTemplate;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerResponse;
 import com.sun.jersey.spi.container.ContainerResponseFilter;
-
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormatterBuilder;
+import org.joda.time.format.DateTimeFormatter;
+import org.slc.sli.api.security.context.traversal.cache.SecurityCachingStrategy;
+import org.slc.sli.dal.TenantContext;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.validation.schema.DateTimeSchema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.security.context.traversal.cache.SecurityCachingStrategy;
-import org.slc.sli.dal.TenantContext;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
+import java.util.HashMap;
 
 
 /**
@@ -51,8 +50,8 @@ import org.slc.sli.domain.Repository;
 public class PostProcessFilter implements ContainerResponseFilter {
 
     private static final int LONG_REQUEST = 1000;
-    private DateFormat timeFormatter = new SimpleDateFormat("HH:mm:ss.SSSZ");
-    private DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+   private DateTimeFormatter dateFormatter = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd").toFormatter();
+   private  DateTimeFormatter timeFormatter = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss.SSSZ").toFormatter();
 
     @Autowired
     private SecurityCachingStrategy securityCachingStrategy;
@@ -116,9 +115,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
         UriTemplate threePartUri = new UriTemplate(serverUrl + "{resource}/{id}/{association}");
         UriTemplate twoPartUri = new UriTemplate(serverUrl + "{resource}/{id}");
         UriTemplate readAllUri = new UriTemplate(serverUrl + "{resource}");
-//        System.out.print(serverUrl + "{resource}/{id}");
         HashMap<String, String> uri = new HashMap<String, String>();
-       // MultiMap<String,String> quaryParams;
         boolean logIntoDb = true;
         if (!fourPartUri.match(requestURL , uri)) {
             if (!threePartUri.match(requestURL , uri)) {
@@ -147,13 +144,16 @@ public class PostProcessFilter implements ContainerResponseFilter {
             body.put("buildNumber", buildTag);
             body.put("id", uri.get("id"));
             body.put("parameters", request.getQueryParameters());
-            body.put("Date", dateFormatter.format(System.currentTimeMillis()));
-            body.put("startTime", timeFormatter.format(new Date(startTime)));
-            body.put("endTime", timeFormatter.format(new Date(System.currentTimeMillis())));
+            body.put("Date", dateFormatter.print(new DateTime(System.currentTimeMillis())));
+            body.put("startTime",timeFormatter.print(new DateTime(startTime)));
+            body.put("endTime", timeFormatter.print(new DateTime(System.currentTimeMillis())));
             body.put("responseTime", String.valueOf(elapsed));
             perfRepo.create("apiResponse", body, "apiResponse");
         }
 
+    }
+ private DateTime getDateTime(String dateTime) throws IllegalArgumentException {
+        return DateTime.parse(dateTime, new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd").toFormatter());
     }
 
 }

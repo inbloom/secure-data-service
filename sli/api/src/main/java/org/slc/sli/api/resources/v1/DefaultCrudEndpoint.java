@@ -37,8 +37,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.slc.sli.api.selectors.LogicalEntity;
-import org.slc.sli.api.selectors.doc.Constraint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
@@ -52,11 +50,13 @@ import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.representation.ErrorResponse;
-import org.slc.sli.api.resources.aggregation.AggregateListingResource;
+import org.slc.sli.api.resources.aggregation.CalculatedValueListingResource;
 import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderFactory;
 import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.selectors.LogicalEntity;
+import org.slc.sli.api.selectors.doc.Constraint;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.query.ApiQuery;
@@ -89,7 +89,11 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
     @QueryParam(ParameterConstants.INCLUDE_CALCULATED)
     @DefaultValue(ParameterConstants.DEFAULT_INCLUDE_CALCULATED)
-    private String includeComputed;
+    private String includeCalculated;
+
+    @QueryParam(ParameterConstants.INCLUDE_AGGREGATES)
+    @DefaultValue(ParameterConstants.DEFAULT_INCLUDE_AGGREGATES)
+    private String includeAggregates;
 
     /* The maximum number of values allowed in a comma separated string */
     public static final int MAX_MULTIPLE_UUIDS = 100;
@@ -413,7 +417,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                         addCustomEntity(result, entityDef, uriInfo);
 
                         // add the computedValues if they were requested
-                        addComputedValues(result, entityDef, uriInfo);
+                        addCalculatedValues(result, entityDef);
+
+                        // add the aggregates if they were requested
+                        addAggregates(result, entityDef);
                     }
                 }
 
@@ -688,10 +695,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     @Path("{id}/" + PathConstants.AGGREGATES)
     @Produces({ MediaType.APPLICATION_JSON + ";charset=utf-8", HypermediaType.VENDOR_SLC_JSON + ";charset=utf-8" })
     @Override
-    public AggregateListingResource getAggregates(@PathParam("id") String id) {
+    public CalculatedValueListingResource getCalculatedValueListings(@PathParam("id") String id) {
         EntityService service = entityDefs.lookupByResourceName(resourceName).getService();
-        CalculatedData data = service.getCalculatedValues(id);
-        return new AggregateListingResource(data);
+        CalculatedData<String> data = service.getCalculatedValues(id);
+        return new CalculatedValueListingResource(data);
     }
 
     /* Utility methods */
@@ -735,13 +742,28 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * Retrieve the custom entity for the given request if flag includeCustom is set to true.
      *
      */
-    private void addComputedValues(EntityBody entityBody, final EntityDefinition entityDef, UriInfo uriInfo) {
-        boolean includeAggregates = "true".equals(includeComputed);
-        if (includeAggregates) {
+    protected void addCalculatedValues(EntityBody entityBody, final EntityDefinition entityDef) {
+        boolean includeCalculatedValues = "true".equals(includeCalculated);
+        if (includeCalculatedValues) {
             String entityId = (String) entityBody.get("id");
-            CalculatedData aggs = entityDef.getService().getCalculatedValues(entityId);
-            if (aggs != null) {
-                entityBody.put(ResourceConstants.CALCULATED_VALUE_TYPE, aggs.getCalculatedValues());
+            CalculatedData<String> calculatedValues = entityDef.getService().getCalculatedValues(entityId);
+            if (calculatedValues != null) {
+                entityBody.put(ResourceConstants.CALCULATED_VALUE_TYPE, calculatedValues.getCalculatedValues());
+            }
+        }
+    }
+
+    /**
+     * Retrieve the custom entity for the given request if flag includeCustom is set to true.
+     *
+     */
+    protected void addAggregates(EntityBody entityBody, final EntityDefinition entityDef) {
+        boolean includeAggregateValues = entityDef.supportsAggregates() && "true".equals(includeAggregates);
+        if (includeAggregateValues) {
+            String entityId = (String) entityBody.get("id");
+            CalculatedData<Map<String, Integer>> aggregates = entityDef.getService().getAggregates(entityId);
+            if (aggregates != null) {
+                entityBody.put(ResourceConstants.AGGREGATE_VALUE_TYPE, aggregates.getCalculatedValues());
             }
         }
     }
@@ -1041,6 +1063,30 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      */
     public Response patch(String id, EntityBody newEntityBody, HttpHeaders headers, UriInfo uriInfo) {
         return this.patch(resourceName, id, newEntityBody, headers, uriInfo);
+    }
+
+    protected String getIncludeCustomEntityStr() {
+        return includeCustomEntityStr;
+    }
+
+    protected void setIncludeCustomEntityStr(String includeCustomEntityStr) {
+        this.includeCustomEntityStr = includeCustomEntityStr;
+    }
+
+    protected String getIncludeCalculated() {
+        return includeCalculated;
+    }
+
+    protected void setIncludeCalculated(String includeCalculated) {
+        this.includeCalculated = includeCalculated;
+    }
+
+    protected String getIncludeAggregates() {
+        return includeAggregates;
+    }
+
+    protected void setIncludeAggregates(String includeAggregates) {
+        this.includeAggregates = includeAggregates;
     }
 
 }

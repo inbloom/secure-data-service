@@ -5,7 +5,7 @@
                 {
                     "fieldPath" : "body.calendarDateReference",
                     "ref" : {
-                        "collectionName" : "calendarDate",
+                        "entityType" : "calendarDate",
                         "isRefList" : true,
                         "refObjectPath" : "body.calendarDateReference",
                         "choiceOfFields" :
@@ -32,7 +32,7 @@
                 {
                     "fieldPath" : "body.gradingPeriodIdentity.schoolId",
                     "ref" : {
-                        "collectionName" : "educationOrganization",
+                        "entityType" : "educationOrganization",
                         "choiceOfFields" :
                                 [
                                     [

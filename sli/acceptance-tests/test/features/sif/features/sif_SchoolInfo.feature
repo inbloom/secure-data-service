@@ -7,10 +7,10 @@ And the following collections are clean in datastore:
      | collectionName        |
      | educationOrganization |
 When I POST the message to the ZIS
-And I wait for "30" seconds
+And I wait for "10" seconds
 Given I want to POST a(n) "sifEvent_SchoolInfo_add" SIF message
 When I POST the message to the ZIS
-And I wait for "30" seconds
+And I wait for "10" seconds
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName        | count |
      | educationOrganization | 3     |
@@ -21,7 +21,7 @@ Then I should see following map of entry counts in the corresponding collections
      | educationOrganization | 1                   | body.stateOrganizationId | IL                            | string     |
 Given I want to POST a(n) "sifEvent_SchoolInfo_change" SIF message
 When I POST the message to the ZIS
-And I wait for "30" seconds
+And I wait for "10" seconds
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName        | count |
      | educationOrganization | 3     |
@@ -33,10 +33,10 @@ Then I should see following map of entry counts in the corresponding collections
      | educationOrganization | 1                   | body.nameOfInstitution   | UPDATED Daybreak West High | string     |
 Given I want to POST a(n) "sifEvent_SchoolInfo_change2" SIF message
 When I POST the message to the ZIS
-And I wait for "30" seconds
+And I wait for "10" seconds
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName        | count |
-     | educationOrganization | 3     |
+     | educationOrganization | 3   |
    And I check to find if record is in collection:
      | collectionName        | expectedRecordCount | searchParameter          | searchValue             | searchType |
      | educationOrganization | 1                   | body.gradesOffered       | Eighth grade            | string     |

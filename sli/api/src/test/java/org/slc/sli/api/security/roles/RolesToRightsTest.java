@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.security.roles;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -32,12 +31,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.slc.sli.api.security.resolve.ClientRoleResolver;
 import org.slc.sli.api.security.resolve.impl.DefaultRolesToRightsResolver;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,88 +49,81 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 /**
  * Tests default role to rights resolution pipeline
- *
+ * 
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-    DirtiesContextTestExecutionListener.class })
+        DirtiesContextTestExecutionListener.class })
 @DirtiesContext
 public class RolesToRightsTest {
-
-    @Autowired @InjectMocks
+    
+    @Autowired
+    @InjectMocks
     private DefaultRolesToRightsResolver resolver;
-    @Autowired
+    
+    @Mock
     private RoleRightAccess mockAccess;
-    @Autowired
-    private ClientRoleResolver mockRoleManager;
     
     @Mock
     Repository<Entity> repo;
     
+    private static final String DEFAULT_TENANT_ID = "huzzah";
     private static final String DEFAULT_REALM_ID = "dc=slidev,dc=net";
     private static final String ADMIN_REALM_ID = "adminRealmId";
     
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
-        mockAccess = mock(RoleRightAccess.class);
-        mockRoleManager = mock(ClientRoleResolver.class);
-
-        resolver.setRoleRightAccess(mockAccess);
-        resolver.setRoleMapper(mockRoleManager);
         
-        //wire up isAdminRealm
-        Entity adminRealmEnt = Mockito.mock(Entity.class);
-        Map realmData = new HashMap();
-        realmData.put("admin", true);
-        Mockito.when(adminRealmEnt.getBody()).thenReturn(realmData);
-        when(repo.findById("realm", ADMIN_REALM_ID)).thenReturn(adminRealmEnt);
+        Map<String, Object> adminRealmBody = new HashMap<String, Object>();
+        adminRealmBody.put("admin", true);
+        Entity adminRealmEntity = new MongoEntity("realm", adminRealmBody);
         
-        Entity userRealmEnt = Mockito.mock(Entity.class);
-        realmData = new HashMap();
-        realmData.put("admin", false);
-        Mockito.when(userRealmEnt.getBody()).thenReturn(realmData);
-        when(repo.findById("realm", DEFAULT_REALM_ID)).thenReturn(userRealmEnt);
-
+        Map<String, Object> userRealmBody = new HashMap<String, Object>();
+        userRealmBody.put("admin", false);
+        Entity userRealmEntity = new MongoEntity("realm", userRealmBody);
+        
+        when(repo.findById("realm", ADMIN_REALM_ID)).thenReturn(adminRealmEntity);
+        when(repo.findById("realm", DEFAULT_REALM_ID)).thenReturn(userRealmEntity);
+        
         when(
-                mockRoleManager.resolveRoles(DEFAULT_REALM_ID,
+                mockAccess.findRoles(DEFAULT_TENANT_ID, DEFAULT_REALM_ID,
                         Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR)))
-                        .thenReturn(Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR));
+                .thenReturn(Arrays.asList(buildRole()));
+        
+        when(mockAccess.findRoles(DEFAULT_TENANT_ID, DEFAULT_REALM_ID, Arrays.asList("Pink", "Goo"))).thenReturn(
+                new ArrayList<Role>());
+        
         when(
-                mockRoleManager.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR,
-                        SecureRoleRightAccessImpl.AGGREGATOR, "bad", "doggie"))).thenReturn(
-                                Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR));
-        when(mockAccess.getDefaultRole(SecureRoleRightAccessImpl.EDUCATOR)).thenReturn(buildRole());
-        when(mockAccess.getDefaultRole(SecureRoleRightAccessImpl.AGGREGATOR)).thenReturn(buildRole());
-        when(mockAccess.getDefaultRole("bad")).thenReturn(null);
-        when(mockAccess.getDefaultRole("doggie")).thenReturn(null);
-        when(mockAccess.getDefaultRole("Pink")).thenReturn(null);
-        when(mockAccess.getDefaultRole("Goo")).thenReturn(null);
+                mockAccess.findRoles(DEFAULT_TENANT_ID, DEFAULT_REALM_ID, Arrays.asList(
+                        SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR, "bad", "doggie")))
+                .thenReturn(Arrays.asList(buildRole()));
+        
+        resolver.setRoleRightAccess(mockAccess);
     }
-
+    
     private Role buildRole() {
         return RoleBuilder.makeRole(SecureRoleRightAccessImpl.EDUCATOR).addRight(Right.AGGREGATE_READ).build();
     }
     
-
     @Test
     public void testMappedRoles() throws Exception {
-
-        Set<GrantedAuthority> rights = resolver.resolveRoles(DEFAULT_REALM_ID,
+        Set<GrantedAuthority> rights = resolver.resolveRoles(DEFAULT_TENANT_ID, DEFAULT_REALM_ID,
                 Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR));
         Assert.assertTrue(rights.size() > 0);
     }
-
+    
     @Test
     public void testBadRoles() throws Exception {
-        Set<GrantedAuthority> authorities = resolver.resolveRoles(DEFAULT_REALM_ID, Arrays.asList("Pink", "Goo"));
+        Set<GrantedAuthority> authorities = resolver.resolveRoles(DEFAULT_TENANT_ID, DEFAULT_REALM_ID,
+                Arrays.asList("Pink", "Goo"));
         Assert.assertTrue("Authorities must be empty", authorities.size() == 0);
     }
     
     @Test
     public void testMixedRoles() throws Exception {
-        Set<GrantedAuthority> authorities = resolver.resolveRoles(DEFAULT_REALM_ID, Arrays.asList(
+        Set<GrantedAuthority> authorities = resolver.resolveRoles(DEFAULT_TENANT_ID, DEFAULT_REALM_ID, Arrays.asList(
                 SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR, "bad", "doggie"));
         Assert.assertTrue(authorities.size() > 0);
     }

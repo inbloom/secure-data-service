@@ -27,7 +27,7 @@ import javax.ws.rs.core.Response;
  */
 public interface TenantResource {
     
-    LandingZoneInfo createLandingZone(String tenantId, String edOrgId) throws TenantResourceCreationException;
+    LandingZoneInfo createLandingZone(String tenantId, String edOrgId, boolean isSandbox) throws TenantResourceCreationException;
     
     /**
      * Small data object to return multiple typesafe fields from createLandingZone

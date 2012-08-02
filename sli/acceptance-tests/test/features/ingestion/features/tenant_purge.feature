@@ -43,8 +43,10 @@ And I should not see an error log file created
      |collectionName|
      | application  |
      | realm        |
-     | applicationAuthorization |
      | tenant       |
+     | roles        |
+     | securityEvent |
+     | customRole   |
    And I post "TenantPurge.zip" file as the payload of the ingestion job
  When zip file is scp to ingestion landing zone
   And a batch job log has been created
@@ -55,9 +57,12 @@ And I should not see an error log file created
      |collectionName|
      | application  |
      | realm        |
-     | applicationAuthorization |
      | tenant       |
+     | roles        |
+     | securityEvent |
+     | customRole   |
    And I check to find if record is in collection:
-     | collectionName   | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | student          | 0                   | metaData.tenantId           | Hyrule                  | string               |
+     | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
+     | student                  | 0                   | metaData.tenantId           | Hyrule                  | string               |
+     | applicationAuthorization | 0                   | metaData.tenantId           | Hyrule                  | string               |
  And I should not see an error log file created

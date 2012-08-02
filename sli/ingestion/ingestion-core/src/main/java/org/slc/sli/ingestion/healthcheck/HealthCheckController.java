@@ -40,28 +40,24 @@ public class HealthCheckController {
 
     Map<String, Heart> hearts = new HashMap<String, Heart>();
 
+    Heart heart;
+
     @Autowired
     IngestionHealthCheck ingestionHealthCheck;
 
-    @RequestMapping(value = "/{name}", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public Heart getNodeInformation(@PathVariable String name) {
-        Heart heart;
-        if (name.equals("Ingestion")) {
-            if (hearts.containsKey(name)) {
-                heart = hearts.get(name);
-            } else {
-                heart = new Heart(name);
-                hearts.put(name, heart);
-            }
-            ingestionHealthCheck.updateLastActivity();
-            heart.setStartTime(ingestionHealthCheck.getStartTime());
-            heart.setLastActivity(ingestionHealthCheck.getLastActivity());
-            heart.setLastActivityTime(ingestionHealthCheck.getLastActivityTime());
-            heart.setVersion(ingestionHealthCheck.getVersion());
-        } else {
-            return null;
+    public Heart getNodeInformation() {
+
+        if (heart == null) {
+            heart = new Heart("Ingestion");
         }
+
+        ingestionHealthCheck.updateLastActivity();
+        heart.setStartTime(ingestionHealthCheck.getStartTime());
+        heart.setLastActivity(ingestionHealthCheck.getLastActivity());
+        heart.setLastActivityTime(ingestionHealthCheck.getLastActivityTime());
+        heart.setVersion(ingestionHealthCheck.getVersion());
 
         return heart;
     }
