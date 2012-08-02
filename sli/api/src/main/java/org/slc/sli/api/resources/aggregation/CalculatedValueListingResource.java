@@ -30,11 +30,11 @@ import org.slc.sli.domain.CalculatedDatum;
  * @author nbrown
  *
  */
-public class AggregateListingResource {
+public class CalculatedValueListingResource {
 
-    private final CalculatedData data;
+    private final CalculatedData<String> data;
 
-    public AggregateListingResource(CalculatedData data) {
+    public CalculatedValueListingResource(CalculatedData<String> data) {
         super();
         this.data = data;
     }
@@ -51,7 +51,7 @@ public class AggregateListingResource {
     @GET
     public Response getAggregates(@QueryParam("type") String type, @QueryParam("window") String window,
             @QueryParam("method") String methodology, @QueryParam("name") String name) {
-        List<CalculatedDatum> aggs = data.getCalculatedValues(type, window, methodology, name);
+        List<CalculatedDatum<String>> aggs = data.getCalculatedValues(type, window, methodology, name);
         return Response.ok(aggs).build();
     }
 

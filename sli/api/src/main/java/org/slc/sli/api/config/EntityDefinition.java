@@ -48,13 +48,15 @@ public class EntityDefinition {
     private static Repository<Entity> defaultRepo;
     private NeutralSchema schema;
     private LinkedHashMap<String, ReferenceSchema> referenceFields; //all fields on this entity that reference other entities
+    private final boolean supportsAggregates;
 
-    protected EntityDefinition(String type, String resourceName, String collectionName, EntityService service) {
+    protected EntityDefinition(String type, String resourceName, String collectionName, EntityService service, boolean supportsAggregates) {
         this.type = type;
         this.resourceName = resourceName;
         this.collectionName = collectionName;
         this.service = service;
         this.referencingEntities = new LinkedList<EntityDefinition>();
+        this.supportsAggregates = supportsAggregates;
     }
 
     /**
@@ -171,4 +173,12 @@ public class EntityDefinition {
         return defaultRepo;
     }
 
+    /**
+     * Whether or not the entity definition supports aggregates
+     *
+     * @return
+     */
+    public boolean supportsAggregates() {
+        return supportsAggregates;
+    }
 }

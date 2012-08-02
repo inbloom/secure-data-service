@@ -56,10 +56,15 @@ public class ValidationTestUtils {
             }
 
             @Override
-            public CalculatedData getCalculatedValues() {
+            public CalculatedData<String> getCalculatedValues() {
                 return null;
             }
-        };
+
+            @Override
+            public CalculatedData<Map<String, Integer>> getAggregates() {
+                return null;
+            }
+       };
     }
 
 }

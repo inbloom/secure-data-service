@@ -16,7 +16,6 @@ package org.slc.sli.sif.zis;
  * limitations under the License.
  */
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -29,15 +28,15 @@ import org.springframework.beans.factory.annotation.Autowired;
  * for the mockZis to broadcast any POSTed messages.
  * 
  * @author jtully
- *
+ * 
  */
 public class TriggerRequestHandler extends AbstractRequestHandler {
-
+    
     static Logger log = LoggerFactory.getLogger(TriggerRequestHandler.class);
     
     @Autowired
     private MockZis mockZis;
-
+    
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         String xmlString = getRequestString(req);
