@@ -55,6 +55,7 @@ import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderFactory;
 import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.selectors.DefaultSelectorRepository;
 import org.slc.sli.api.selectors.LogicalEntity;
 import org.slc.sli.api.selectors.doc.Constraint;
 import org.slc.sli.api.service.EntityNotFoundException;
@@ -95,6 +96,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     @DefaultValue(ParameterConstants.DEFAULT_INCLUDE_AGGREGATES)
     private String includeAggregates;
 
+    /* General default. Used when a more specific default selector is not available. */
+    public static final Map<String, Object> DEFAULT_SELECTOR = new HashMap<String, Object>();
+    
     /* The maximum number of values allowed in a comma separated string */
     public static final int MAX_MULTIPLE_UUIDS = 100;
 
@@ -111,7 +115,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
     @Autowired
     private LogicalEntity logicalEntity;
-
+    
+    @Autowired
+    private DefaultSelectorRepository defaultSelectorRepository;
+    
     /**
      * Encapsulates each ReST method's logic to allow for less duplication of precondition and
      * exception handling code.
@@ -1088,5 +1095,22 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     protected void setIncludeAggregates(String includeAggregates) {
         this.includeAggregates = includeAggregates;
     }
-
+    
+    protected void setDefaultSelectorRepository(DefaultSelectorRepository defaultSelectorRepository) {
+        this.defaultSelectorRepository = defaultSelectorRepository;
+    }
+    
+    protected Map<String, Object> getDefaultSelector(String type) {
+        if (this.defaultSelectorRepository == null) {
+            return DEFAULT_SELECTOR;
+        } else {
+            Map<String, Object> defaultSelectorForType = this.defaultSelectorRepository.getDefaultSelector(type);
+            
+            if (defaultSelectorForType == null) {
+                return DEFAULT_SELECTOR;
+            } else {
+                return defaultSelectorForType;
+            }
+        }
+    }
 }
