@@ -355,7 +355,7 @@ public class UserResource {
                 restrictByEdorg = secUtil.getEdOrg();
             }
             Set<String> allowedEdorgs = adminService.getAllowedEdOrgs(user.getTenant(), restrictByEdorg);
-            if (!allowedEdorgs.contains(user.getEdorg())) {
+            if (!allowedEdorgs.contains(user.getEdorg()) || secUtil.getEdOrg().equals(user.getEdorg())) {
                 return composeBadDataResponse("Invalid edorg");
             }
         } else {
