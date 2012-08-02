@@ -52,6 +52,7 @@ ul.menu_n a {
 .ui-dialog-titlebar-close { visibility: hidden; }
 .profileList { width: 150px; float: left; padding: 20px; clear: both;}
 .profilePageWrapper { padding: 20px; margin-left: 170px; }
+.profilePageWrapper ul { clear: none !imporatant; height: 44px; }
 .profilePageWrapper h3 { background: #ccc; padding-left: 10px; margin-bottom: 20px; }
 .sectionProfile { margin: 20px 0; }
 .profile_list { list-style-type: none; padding: 0; margin: 0;}
