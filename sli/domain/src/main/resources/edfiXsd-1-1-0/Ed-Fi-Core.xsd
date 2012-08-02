@@ -1392,9 +1392,9 @@ web. </xs:documentation>
 							<xs:documentation>Staff member associated with the intervention.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="EducationOrganizationReference" type="EducationOrganizationReferenceType" maxOccurs="unbounded">
+					<xs:element name="EducationOrganizationReference" type="EducationOrganizationReferenceType">
 						<xs:annotation>
-							<xs:documentation>This association denotes the Education Organization with which the intervention implementation is associated.</xs:documentation>
+							<xs:documentation>This association denotes the Education Organization with which is sponsoring the intervention implementation.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
@@ -1408,26 +1408,11 @@ web. </xs:documentation>
 		<xs:complexContent>
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
-					<xs:choice maxOccurs="unbounded">
+					<xs:element name="EducationContentReference" type="EducationContentReferenceType" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>Resources related to or used in this intervention. This includes any documentation around the intervention prescription itself. Since an intervention prescription is intended to be a published intervention, an intervention prescription ought to have at least one such resource.</xs:documentation>
 						</xs:annotation>
-						<xs:element name="URI" type="URI">
-							<xs:annotation>
-								<xs:documentation>The URI (typical a URL) pointing to an education content item</xs:documentation>
-							</xs:annotation>
-						</xs:element>
-						<xs:element name="LearningResourceMetadataURI">
-							<xs:annotation>
-								<xs:documentation>The URI (typical a URL) pointing to the metadata in a LRMI metadata repository, which describes an education content item</xs:documentation>
-							</xs:annotation>
-						</xs:element>
-						<xs:element name="EducationContentReference" type="EducationContentReferenceType">
-							<xs:annotation>
-								<xs:documentation>The EducationContentReference pointing to an education content item</xs:documentation>
-							</xs:annotation>
-						</xs:element>
-					</xs:choice>
+					</xs:element>
 					<xs:element name="InterventionClass" type="InterventionClassType">
 						<xs:annotation>
 							<xs:documentation>The way in which an intervention is used: curriculum, supplement, or practice.</xs:documentation>
@@ -1535,7 +1520,7 @@ web. </xs:documentation>
 							<xs:documentation>The Identifier for the specific learning objective in the context of a standard (e.g., 111.15.3.1.A)</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="ContentStandard" type="ContentStandardType">
+					<xs:element name="ContentStandard" type="ContentStandardType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>A reference to the type of content standard e.g., state, national, etc.)</xs:documentation>
 						</xs:annotation>
@@ -1661,6 +1646,11 @@ web. </xs:documentation>
 					<xs:element name="PrerequisiteLearningStandardReference" type="LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded">
 						<xs:annotation>
 							<xs:documentation>The unique identifier of a prerequisite Learning Standard Item, a competency needed prior to learning this one. (Some items may have no prerequisites others may have one or more prerequisites. This should only be used to represent the immediate predecessors in a competency-based pathway, i.e. not prerequisites of prerequisites.)</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="LearningStandardReference" type="LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>A reference to sub learning standards, to support the data model suggested by CEDS v2.0.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 				</xs:sequence>
@@ -2342,6 +2332,11 @@ Special education students
 					<xs:element name="AvailableCredit" type="Credits" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The amount of credit available to a student who successfully meets the objectives of the course. Available credits are measured in Carnegie units, A course meeting every day for one period of the school day over the span of a school year offers one Carnegie unit.  See publication: U.S. Department of Education, NCES, 2007-341, Secondary School Course Classification System: School Codes for the Exchange of Data (SCED).</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="SectionCharacteristics" type="DescriptorReferenceType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>Reflects important characteristics of the section, such as whether or not attendance is taken and the section is graded.</xs:documentation>
 						</xs:annotation>
 					</xs:element>
 					<xs:element name="CourseOfferingReference" type="CourseOfferingReferenceType">
@@ -3280,7 +3275,7 @@ Met standard
 		<xs:complexContent>
 			<xs:extension base="DescriptorType">
 				<xs:sequence>
-					<xs:element name="DiagnosisMap" type="DiagnosisMapType"/>
+					<xs:element name="DiagnosisMap" type="DiagnosisMapType" minOccurs="0"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -3409,20 +3404,28 @@ Met standard
 			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="ReasonExitedSpecialEducationDescriptor">
+	<xs:complexType name="ReasonExitedDescriptor">
 		<xs:annotation>
-			<xs:documentation>This descriptor defines reason the student exited the special education program.</xs:documentation>
+			<xs:documentation>This descriptor defines reason the student exited the a program.</xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="DescriptorType"/>
+			<xs:extension base="DescriptorType">
+				<xs:sequence>
+					<xs:element name="ReasonExitedMap" type="ReasonExitedMapType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
-	<xs:complexType name="ResidencyStatus">
+	<xs:complexType name="ResidencyStatusDescriptor">
 		<xs:annotation>
 			<xs:documentation>An indication of the location of a persons legal residence relative to (within or outside) the boundaries of the public school attended and its administrative unit. </xs:documentation>
 		</xs:annotation>
 		<xs:complexContent>
-			<xs:extension base="DescriptorType"/>
+			<xs:extension base="DescriptorType">
+				<xs:sequence>
+					<xs:element name="ResidencyStatusMap" type="ResidencyStatusMapType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
 		</xs:complexContent>
 	</xs:complexType>
 	<xs:complexType name="SchoolFoodServiceEligibilityDescriptor">
@@ -3433,6 +3436,34 @@ Met standard
 			<xs:extension base="DescriptorType">
 				<xs:sequence>
 					<xs:element name="SchoolFoodServiceEligibilityMap" type="SchoolFoodServicesEligibilityMapType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SectionCharacteristicsDescriptor">
+		<xs:annotation>
+			<xs:documentation>This descriptor defines characteristics of a section, such as whether attendance is taken and the section is graded.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="DescriptorType">
+				<xs:sequence>
+					<xs:element name="SectionCharacteristicsMap" type="SectionCharacteristicsMapType" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ServiceDescriptor">
+		<xs:annotation>
+			<xs:documentation>This descriptor defines the services provided an education organization to populations of students associated with a program.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="DescriptorType">
+				<xs:sequence>
+					<xs:element name="ServiceCategory" type="ServiceCategory" minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>A classification of the behavior for reporting types.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -3457,22 +3488,6 @@ Met standard
 			<xs:extension base="DescriptorType">
 				<xs:sequence>
 					<xs:element name="StaffClassificationMap" type="StaffClassificationMapType" minOccurs="0"/>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>
-	<xs:complexType name="ServiceDescriptor">
-		<xs:annotation>
-			<xs:documentation>This descriptor defines the services provided an education organization to populations of students associated with a program.</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="DescriptorType">
-				<xs:sequence>
-					<xs:element name="ServiceCategory" type="ServiceCategory" minOccurs="0">
-						<xs:annotation>
-							<xs:documentation>A classification of the behavior for reporting types.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -3515,6 +3530,33 @@ Met standard
 			<xs:element name="EndDate" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The date on which the EdOrg left this network.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="EducationOrganizationInterventionPrescriptionAssociation">
+		<xs:annotation>
+			<xs:documentation>This association indicates interventions made available by an Education Organization. Often times, a district-level EdOrg purchases a set of InterventionPrescriptions and makes them available to its schools for use on-demand.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="EducationOrganizationReference" type="EducationOrganizationReferenceType">
+				<xs:annotation>
+					<xs:documentation>The educational organization, often times a district, which is making the InterventionPrescription available to its hierarchy. In some cases, it may be an EducationOrganizationNetwork instead of a district.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="InterventionPrescriptionReference" type="InterventionPrescriptionReferenceType">
+				<xs:annotation>
+					<xs:documentation>The InterventionPrescription being made available by the EdOrg.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="BeginDate" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The begin date of the period during which the InterventionPrescription is available.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="EndDate" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>The end date of the period during which the InterventionPrescription is available.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
@@ -3735,6 +3777,11 @@ Volunteer/no contract
 					<xs:documentation>The month, day, and year on which the student was removed as  part of the cohort.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
+			<xs:element name="SectionReference" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The cohort representing the subdivision of students within one or more sections. For example, a group of students may be given additional instruction and tracked as a cohort.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="StudentCTEProgramAssociation">
@@ -3894,7 +3941,7 @@ Father, Mother, Step Father, Step Mother, Foster Father, Foster Mother, Guardian
 					<xs:documentation>The month, day, and year on which the student exited the program or stopped receiving services.</xs:documentation>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="ReasonExited" type="ReasonExitedType" minOccurs="0">
+			<xs:element name="ReasonExited" type="DescriptorReferenceType" minOccurs="0">
 				<xs:annotation>
 					<xs:documentation>The reason the child left the program within a school or district.</xs:documentation>
 				</xs:annotation>
@@ -4039,7 +4086,7 @@ Other</xs:documentation>
 							<xs:documentation>Indicator of the eligibility of the student to receive special education services according to the Individuals with Disabilities Education Act (IDEA).</xs:documentation>
 						</xs:annotation>
 					</xs:element>
-					<xs:element name="SpecialEducationSetting" minOccurs="0">
+					<xs:element name="SpecialEducationSetting" type="DescriptorReferenceType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>The major instructional setting (more than 50 percent of a student's special education program).</xs:documentation>
 						</xs:annotation>
@@ -4816,7 +4863,7 @@ Second grade
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">
 				<xs:sequence>
-					<xs:element name="EducationContentIdentity" type="EducationContentIdentityType">
+					<xs:element name="EducationContentIdentity" type="EducationContentIdentityType" minOccurs="0">
 						<xs:annotation>
 							<xs:documentation>Encapsulate the attributes that can be used to lookup the education content.</xs:documentation>
 						</xs:annotation>
@@ -4829,7 +4876,7 @@ Second grade
 		<xs:annotation>
 			<xs:documentation>Encapsulate the attributes that can be used to lookup the education content by unique identification.</xs:documentation>
 		</xs:annotation>
-		<xs:choice maxOccurs="2">
+		<xs:choice maxOccurs="3">
 			<xs:sequence>
 				<xs:annotation>
 					<xs:documentation>Encapsulate the attributes that can be used to lookup the education content by unique identification.</xs:documentation>
@@ -4844,34 +4891,12 @@ Second grade
 				<xs:annotation>
 					<xs:documentation>Encapsulate the attributes that can be used to lookup the education content by non-unique search.</xs:documentation>
 				</xs:annotation>
-				<xs:element name="Author" type="xs:string" minOccurs="0">
+				<xs:element name="LearningResourceMetadata" type="LearningResourceMetadata">
 					<xs:annotation>
-						<xs:documentation>The individual credited with the creation of the resource.</xs:documentation>
+						<xs:documentation>The Learning Resource Metadata Initiative (LRMI) is a project co-led by the Association of Educational Publishers and Creative Commons to create a standard metadata framework for 
+tagging educational resources on the 
+web. </xs:documentation>
 					</xs:annotation>
-				</xs:element>
-				<xs:element name="AdditionalAuthorsIndicator" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>Indicates whether there are additional un-named authors. In a research report, this is often marked by the abbreviation "et al".</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="Publisher" type="xs:string" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>The organization credited with publishing the resource.</xs:documentation>
-					</xs:annotation>
-				</xs:element>
-				<xs:element name="ContentClass" minOccurs="0">
-					<xs:annotation>
-						<xs:documentation>The predominate type or kind characterizing the learning resource.</xs:documentation>
-					</xs:annotation>
-					<xs:simpleType>
-						<xs:restriction base="xs:token">
-							<xs:enumeration value="Presentation"/>
-							<xs:enumeration value="Education Research"/>
-							<xs:enumeration value="Vendor Intervention Offering"/>
-							<xs:enumeration value="Written Activity"/>
-							<xs:enumeration value="Video"/>
-						</xs:restriction>
-					</xs:simpleType>
 				</xs:element>
 				<xs:element name="ShortDescription" minOccurs="0">
 					<xs:annotation>
@@ -4883,18 +4908,13 @@ Second grade
 						<xs:documentation>The version identifier for the content.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:choice minOccurs="0">
-					<xs:element name="PublicationDate" type="xs:date">
-						<xs:annotation>
-							<xs:documentation>The date on which this content was first published.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="PublicationYear" type="xs:gYear">
-						<xs:annotation>
-							<xs:documentation>The year at which this content was first published.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:choice>
+			</xs:sequence>
+			<xs:sequence>
+				<xs:element name="URI" type="URI">
+					<xs:annotation>
+						<xs:documentation>The URI (typical a URL) pointing to an education content item</xs:documentation>
+					</xs:annotation>
+				</xs:element>
 			</xs:sequence>
 		</xs:choice>
 	</xs:complexType>
@@ -6544,7 +6564,7 @@ would be entered as 20/272/G/1.00/1 of 1</xs:documentation>
 			<xs:documentation>The total credits required in subject to graduate.  Only those courses identified as a high school course requirement are eligible to meet subject credit requirements.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="SubjectArea" type="AcademicSubjectDescriptor">
+			<xs:element name="SubjectArea" type="DescriptorReferenceType">
 				<xs:annotation>
 					<xs:documentation>The intended major subject area of the graduation requirement.</xs:documentation>
 				</xs:annotation>
@@ -6589,28 +6609,6 @@ would be entered as 20/272/G/1.00/1 of 1</xs:documentation>
 		</xs:annotation>
 		<xs:restriction base="xs:decimal"/>
 	</xs:simpleType>
-	<xs:complexType name="DerivativeWorkSource">
-		<xs:annotation>
-			<xs:documentation>The EducationContentReference or URL pointing to the source from which this content item was derived</xs:documentation>
-		</xs:annotation>
-		<xs:choice>
-			<xs:element name="URI" type="URI">
-				<xs:annotation>
-					<xs:documentation>The URI (typical a URL) pointing to the source from which this content item was derived</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="LearningResourceMetadataURI">
-				<xs:annotation>
-					<xs:documentation>The URI (typical a URL) pointing to the metadata in a LRMI metadata repository, which describes the source from which this content item was derived</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="EducationContentReference" type="EducationContentReferenceType">
-				<xs:annotation>
-					<xs:documentation>The EducationContentReference pointing to the source from which this content item was derived</xs:documentation>
-				</xs:annotation>
-			</xs:element>
-		</xs:choice>
-	</xs:complexType>
 	<xs:complexType name="Disability">
 		<xs:annotation>
 			<xs:documentation>This type represents an impairment of body structure or function, a limitation in activities, or a restriction in participation, as ordered by severity of impairment.</xs:documentation>
@@ -6879,7 +6877,7 @@ web.</xs:documentation>
 						<xs:documentation>The URL where the owner specifies permissions for using the resource.</xs:documentation>
 					</xs:annotation>
 				</xs:element>
-				<xs:element name="DerivativeWorkSource" type="DerivativeWorkSource" minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="DerivativeWorkSource" type="EducationContentReferenceType" minOccurs="0" maxOccurs="unbounded">
 					<xs:annotation>
 						<xs:documentation>A reference or URL pointing to education content from which this education content was derived.</xs:documentation>
 					</xs:annotation>
@@ -9381,7 +9379,7 @@ Commended
 			<xs:enumeration value="Wife"/>
 		</xs:restriction>
 	</xs:simpleType>
-	<xs:simpleType name="ReasonExitedType">
+	<xs:simpleType name="ReasonExitedMapType">
 		<xs:annotation>
 			<xs:documentation>The reason the child left the program within a school or district.</xs:documentation>
 		</xs:annotation>
@@ -9467,6 +9465,15 @@ LEP Exempt
 			<xs:enumeration value="Staff"/>
 			<xs:enumeration value="Student"/>
 			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="ResidencyStatusMapType">
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Resident of administrative unit and usual school attendance area"/>
+			<xs:enumeration value="Resident of administrative unit, but of other school attendance area"/>
+			<xs:enumeration value="Resident of this state, but not of this administrative unit"/>
+			<xs:enumeration value="Resident of an administrative unit that crosses state boundaries"/>
+			<xs:enumeration value="Resident of another state"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="ResponseIndicatorType">
@@ -9641,6 +9648,15 @@ Second retest
 			<xs:enumeration value="Motor Impairment"/>
 			<xs:enumeration value="Sensory Impairment"/>
 			<xs:enumeration value="Other"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="SectionCharacteristicsMapType">
+		<xs:annotation>
+			<xs:documentation>Enumeration items for Section Characteristics</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="Attendance Tracked"/>
+			<xs:enumeration value="Graded Credit Available"/>
 		</xs:restriction>
 	</xs:simpleType>
 	<xs:simpleType name="SeparationReasonType">

@@ -23,8 +23,6 @@ Scenario: Realm Administrator deleting a existing realm
    And I should receive a notice that the realm was successfully "deleted"
    And I should see that I am on the new realm page
    And all of the input fields should be blank
-   And I should hit the role mapping page
-   And I should see that the page doesn't exist
    
 
 Scenario: Realm Administrator creating a new realm

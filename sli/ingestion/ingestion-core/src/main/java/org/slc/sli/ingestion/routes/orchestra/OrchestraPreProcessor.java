@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.ingestion.EdfiEntity;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.WorkNote;
@@ -55,6 +56,8 @@ public class OrchestraPreProcessor implements Processor {
 
         String jobId = workNote.getBatchJobId();
         exchange.getIn().setHeader("jobId", jobId);
+
+        TenantContext.setJobId(jobId);
 
         LOG.info("Looking up staged entities for batch job: {}", jobId);
 

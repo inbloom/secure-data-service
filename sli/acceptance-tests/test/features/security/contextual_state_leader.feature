@@ -21,13 +21,13 @@ Given I am logged in using <Username> <Password> to realm <Realm>
 And I have a Role attribute that equals <Role>
 And my "state" is <State>
 When I try to access the data for <Data> in another "state" from the API
-Then I should receive a return code of 404
+Then I should receive a return code of <Code>
 Examples:
-	|Username  |Password      |Realm|Role      |State|Data|
-	|"jbarrera"|"jbarrera1234"|"NY" |"Leader"  |"NY" |"Students in South Daybreak Elementary"|
-	|"ckoch"   |"ckoch1234"   |"IL" |"Leader"  |"IL" |"Dale Reiss"|
-	|"jpratt"  |"jpratt1234"  |"NY" |"IT Admin"|"NY" |"Teachers in South Daybreak Elementary"|
-	|"rrogers" |"rrogers1234" |"IL" |"IT Admin"|"IL" |"Malcolm Haehn NY"|
+	|Username  |Password      |Realm|Role      |State|Data                                   |Code|
+	|"jbarrera"|"jbarrera1234"|"NY" |"Leader"  |"NY" |"Students in South Daybreak Elementary"|200 |
+	|"ckoch"   |"ckoch1234"   |"IL" |"Leader"  |"IL" |"Dale Reiss"                           |404 |
+	|"jpratt"  |"jpratt1234"  |"NY" |"IT Admin"|"NY" |"Teachers in South Daybreak Elementary"|200 |
+	|"rrogers" |"rrogers1234" |"IL" |"IT Admin"|"IL" |"Malcolm Haehn NY"                     |404 |
 
 Scenario Outline: Staff listing teachers they have context to
 
