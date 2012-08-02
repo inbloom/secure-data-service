@@ -152,13 +152,13 @@ module Eventbus
         if queue_name.start_with?('/topic/')
           client = Stomp::Connection.open(config)
           client.subscribe queue_name, {"activemq.subscriptionName" => config[:hosts][0][:headers]['client-id']}
-          puts "subscribing to topic #{queue_name}"
+          # puts "subscribing to topic #{queue_name}"
           while true
             message = client.receive
             yield JSON.parse message.body
           end
         else
-          puts "subscribing to queue #{queue_name}"
+          # puts "subscribing to queue #{queue_name}"
           client = Stomp::Client.new(config)
           client.subscribe queue_name do |message|
             yield JSON.parse message.body
