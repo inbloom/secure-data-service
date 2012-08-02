@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.slc.sli.test.edfi.entities.CalendarDateIdentityType;
+import org.slc.sli.test.edfi.entities.CalendarDateReferenceType;
 import org.slc.sli.test.edfi.entities.EducationOrgIdentificationCode;
 import org.slc.sli.test.edfi.entities.EducationOrgIdentificationSystemType;
 import org.slc.sli.test.edfi.entities.EducationalOrgIdentityType;
@@ -211,7 +213,15 @@ public class SessionGenerator {
 				ref.setRef(calRef);
 				session.getCalendarDateReference().add(ref);
 			}
-		} 
+		} else {
+			for (String cal : calendarList) {
+				CalendarDateIdentityType cit = new CalendarDateIdentityType();
+				cit.setDate(cal);
+				CalendarDateReferenceType crf = new CalendarDateReferenceType();
+				crf.setCalendarDateIdentity(cit);
+				session.getCalendarDateReference().add(crf);
+			}
+		}
 			
 		for (int i = 0; i < MetaRelations.GRADING_PERIOD_PER_SESSIONS; i++) {
 //		for (int i = 0; i < 1; i++) {

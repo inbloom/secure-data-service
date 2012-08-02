@@ -146,7 +146,7 @@ public final class MetaRelations {
               
         }
         catch (IOException ie) {
-              
+              ie.printStackTrace();
         }
         finally {
               if (fis != null) {
@@ -154,7 +154,7 @@ public final class MetaRelations {
                             fis.close();
                      }
                      catch (Exception e) {
-                            
+                    	 e.printStackTrace();   
                      }
               }
         }
