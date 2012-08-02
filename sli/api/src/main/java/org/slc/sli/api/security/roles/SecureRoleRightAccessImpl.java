@@ -17,6 +17,7 @@
 package org.slc.sli.api.security.roles;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,6 +37,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -48,6 +50,9 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
     @Autowired
     private EntityDefinitionStore store;
     
+    @Value("${sli.sandbox.enabled}")
+    protected boolean isSandboxEnabled;
+
     private EntityService service;
     
     @Resource(name = "validationRepo")
@@ -107,13 +112,21 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                         .addRights(
                                 new Right[] { Right.ADMIN_ACCESS, Right.READ_GENERAL, Right.CRUD_REALM_ROLES,
                                         Right.READ_PUBLIC, Right.CRUD_ROLE }).setAdmin(true).build());
+        
+        Right[] appDevRights = null;
+        if (isSandboxEnabled) {
+            appDevRights = new Right[] { Right.ADMIN_ACCESS, Right.DEV_APP_CRUD, Right.READ_GENERAL,
+                            Right.READ_PUBLIC, Right.CRUD_ROLE};
+        } else {
+            appDevRights = new Right[] { Right.ADMIN_ACCESS, Right.DEV_APP_CRUD, Right.READ_GENERAL,
+                    Right.READ_PUBLIC};
+        }
         adminRoles.put(
                 APP_DEVELOPER,
                 RoleBuilder
                         .makeRole(APP_DEVELOPER)
-                        .addRights(
-                                new Right[] { Right.ADMIN_ACCESS, Right.DEV_APP_CRUD, Right.READ_GENERAL,
-                                        Right.READ_PUBLIC }).setAdmin(true).build());
+                        .addRights(appDevRights).setAdmin(true).build());
+        
         adminRoles.put(INGESTION_USER,
                 RoleBuilder.makeRole(INGESTION_USER).addRights(new Right[] { Right.INGEST_DATA, Right.ADMIN_ACCESS })
                         .setAdmin(true).build());

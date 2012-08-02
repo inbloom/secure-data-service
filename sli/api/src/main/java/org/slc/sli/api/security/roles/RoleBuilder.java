@@ -62,7 +62,7 @@ public final class RoleBuilder {
             try {
                 role.addRight(Right.valueOf(rightName));
             } catch (IllegalArgumentException e) {
-                warn("No such right: {}",rightName);
+                warn("No such right: {}", rightName);
             }
         }
         return this;
