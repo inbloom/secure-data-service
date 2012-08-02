@@ -1680,6 +1680,19 @@ Then /^the following collections counts are the same:$/ do |table|
   end
 end
 
+Then /^application "(.*?)" has "(.*?)" authorized edorgs$/ do |arg1, arg2|
+  @db = @conn[INGESTION_DB_NAME]
+  appColl = @db.collection("application")
+  
+  application = appColl.find({"_id" => arg1})
+  
+  application.each do |app|
+    numEdorg = app['body']['authorized_ed_orgs'].size
+    assert(arg2.to_i == numEdorg, "there should be #{arg2} authorized edorgs, but found #{numEdorg}")
+  end
+  
+end
+
 ############################################################
 # STEPS: BEFORE
 ############################################################
