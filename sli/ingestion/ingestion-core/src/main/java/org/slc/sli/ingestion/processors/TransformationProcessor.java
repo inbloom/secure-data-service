@@ -18,6 +18,11 @@ package org.slc.sli.ingestion.processors;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -35,10 +40,6 @@ import org.slc.sli.ingestion.transformation.TransformationFactory;
 import org.slc.sli.ingestion.transformation.Transmogrifier;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Camel processor for transformation of data.
@@ -87,6 +88,7 @@ public class TransformationProcessor implements Processor {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
 
             TenantContext.setTenantId(newJob.getTenantId());
+            TenantContext.setJobId(batchJobId);
 
             addMetricsToStage(workNote, stage, batchJobId);
 

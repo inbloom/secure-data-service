@@ -17,12 +17,12 @@
 
 package org.slc.sli.ingestion.handler;
 
-import static org.mockito.Mockito.any;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.eq;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -229,6 +229,7 @@ public class EntityPersistHandlerTest {
         String message = "ERROR: There has been a data validation error when saving an entity\n"
                         + "       Error      REQUIRED_FIELD_MISSING\n"
                         + "       Entity     student\n"
+                        + "       Instance   0\n"
                         + "       Field      field\n"
                         + "       Value      null\n"
                         + "       Expected   [String]\n";
@@ -359,8 +360,9 @@ public class EntityPersistHandlerTest {
     public SimpleEntity createStudentEntity(boolean setId) {
         SimpleEntity entity = new SimpleEntity();
 
-        if (setId)
+        if (setId) {
             entity.setEntityId(STUDENT_ID);
+        }
         entity.setType("student");
         Map<String, Object> field = new HashMap<String, Object>();
         field.put("studentUniqueStateId", STUDENT_ID);
@@ -394,8 +396,9 @@ public class EntityPersistHandlerTest {
     public SimpleEntity createStudentSchoolAssociationEntity(String studentId, boolean setId) {
         SimpleEntity entity = new SimpleEntity();
 
-        if (setId)
+        if (setId) {
             entity.setEntityId(studentId);
+        }
 
         entity.setType("studentSchoolAssociation");
         Map<String, Object> localParentIds = new HashMap<String, Object>();
@@ -415,8 +418,9 @@ public class EntityPersistHandlerTest {
     public SimpleEntity createTeacherSchoolAssociationEntity(String teacherId, boolean setId) {
         // Create neutral record for entity.
         SimpleEntity entity = new SimpleEntity();
-        if (setId)
+        if (setId) {
             entity.setEntityId(teacherId);
+        }
         entity.setType("teacherSchoolAssociation");
         Map<String, Object> field = new HashMap<String, Object>();
         field.put("teacherId", teacherId);

@@ -43,7 +43,6 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
   setup do
-    @role_fixtures = load_fixture("roles")
     @realm_fixtures = load_fixture("realms")
     @app_fixtures = load_fixture("apps")
     @appauth_fixtures = load_fixture("application_authorizations")
@@ -53,10 +52,6 @@ class ActiveSupport::TestCase
     @user_fixtures = load_fixture("users")
 
     ActiveResource::HttpMock.respond_to do |mock|
-      mock.get "/api/rest/admin/roles", {"Accept" => "application/json"}, [@role_fixtures["admin"], @role_fixtures["educator"]].to_json
-      mock.get "/api/rest/admin/roles/0", {"Accept" => "application/json"}, @role_fixtures["admin"].to_json
-      mock.get "/api/rest/admin/roles/1", {"Accept" => "application/json"}, @role_fixtures["educator"].to_json
-      mock.get "/api/rest/admin/roles/-123", {"Accept" => "application/json"}, nil, 404
       #Realms
       mock.get "/api/rest/realm", {"Accept" => "application/json"}, [@realm_fixtures['one'], @realm_fixtures['two']].to_json
       mock.get "/api/rest/realm?realm.idp.id=http%3A%2F%2Fslidev.org", {"Accept" => "application/json"}, [@realm_fixtures['one']].to_json
