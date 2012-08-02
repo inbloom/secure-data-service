@@ -117,6 +117,8 @@ def ensurePopupLoaded()
   @explicitWait.until {(style = @driver.find_element(:id, "pageModal").attribute('style').strip)  == "display: block;" }
 end
 
-def ensurePopupUnloaded()
-  @explicitWait.until {(style = @driver.find_element(:id, "pageModal").attribute('class').strip) == "modal hide ng-scope"}
+def ensurePopupUnloaded() 
+   @driver.manage.timeouts.implicit_wait = 2
+   @explicitWait.until{(@driver.find_elements(:id, "simplemodal-overlay").length) == 0}
+   @driver.manage.timeouts.implicit_wait = 10
 end
