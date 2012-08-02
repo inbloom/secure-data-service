@@ -22,6 +22,7 @@ require 'mongo'
 require 'pp'
 require 'rest-client'
 require 'uuidtools'
+require 'fileutils'
 
 require_relative '../../../utils/sli_utils.rb'
 
@@ -35,6 +36,7 @@ SIF_ZIS_ADDRESS_TRIGGER = PropLoader.getProps['sif_zis_address_trigger']
 TENANT_COLLECTION = ["Midgar", "Hyrule", "Security", "Other", "", "TENANT"]
 
 BOOTSTRAPPED_GUIDS = ["2012rq-d60cae46-d66d-11e1-a5ad-406c8f06bd30", "2012kn-52435872-d66d-11e1-a5ad-406c8f06bd30", "2012lw-d6111b17-d66d-11e1-a5ad-406c8f06bd30"]
+MONGO_BIN = ENV['MONGO_HOME'] ? ENV['MONGO_HOME']+"/bin/" : ""
 
 ############################################################
 # STEPS: BEFORE
@@ -42,7 +44,7 @@ BOOTSTRAPPED_GUIDS = ["2012rq-d60cae46-d66d-11e1-a5ad-406c8f06bd30", "2012kn-524
 
 Before do
   @conn = Mongo::Connection.new(SIF_DB)
-  @mdb = @conn.db(SIF_DB_NAME)
+  @db = @conn.db(SIF_DB_NAME)
 
   @postUri = SIF_ZIS_ADDRESS_TRIGGER
   @format = 'application/xml;charset=utf-8'
@@ -55,11 +57,7 @@ end
 ############################################################
 
 # Doesn't remove entities where _id is in BOOTSTRAPPED_GUIDS
-Given /^the following collections are clean in datastore:$/ do |table|
-  @conn = Mongo::Connection.new(SIF_DB)
-
-  @db   = @conn[SIF_DB_NAME]
-
+Given /^the following collections are clean and bootstrapped in datastore:$/ do |table|
   @result = "true"
 
   table.hashes.map do |row|
@@ -76,7 +74,7 @@ Given /^the following collections are clean in datastore:$/ do |table|
   assert(@result == "true", "Some collections were not cleaned successfully.")
 end
 
-When /^I want to POST a\(n\) "(.*?)" SIF message$/ do |identifier|
+Given /^I want to POST a\(n\) "(.*?)" SIF message$/ do |identifier|
   @message = getMessageForIdentifier(identifier)
 end
 
@@ -87,6 +85,15 @@ def getMessageForIdentifier(identifier)
   uuid = UUIDTools::UUID.random_create
   message = message.sub("***SUB SIF MSG ID***", uuid.to_s)
   return message
+end
+
+Given /^the fixture data "(.*?)" has been imported into collection "(.*?)"$/ do |identifier, collection|
+  setFixture(collection, "#{identifier}.json", "test/data/sif")
+end
+
+def setFixture(collectionName, fixtureFileName, fixtureFilePath="test/data/sif")
+  success = system("#{MONGO_BIN}mongoimport -d #{SIF_DB_NAME} -c #{collectionName} -h #{SIF_DB} --file #{fixtureFilePath}/#{fixtureFileName}")
+  assert(success, "Exited with code: #{$?.exitstatus}, please confirm that mongo binaries are on your PATH")
 end
 
 ############################################################
@@ -134,8 +141,6 @@ Then /^I should see following map of entry counts in the corresponding collectio
 end
 
 Then /^I check to find if record is in collection:$/ do |table|
-  @db   = @conn[SIF_DB_NAME]
-
   @result = "true"
 
   table.hashes.map do |row|
