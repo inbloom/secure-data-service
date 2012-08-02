@@ -169,7 +169,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    protected String createLandingZone(String tenantId, String edOrgId, String desc, List<String> userNames, boolean isSandbox)
+    protected String createLandingZone(final String tenantId, String edOrgId, String desc, List<String> userNames, boolean isSandbox)
             throws TenantResourceCreationException {
         EntityService tenantService = store.lookupByResourceName(RESOURCE_NAME).getService();
 
@@ -217,19 +217,15 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
                 final EntityService realmService = realmDefinition.getService();
                 final NeutralQuery sandboxQuery = new NeutralQuery(1);
                 query.addCriteria(new NeutralCriteria("uniqueIdentifier", "=", sandboxUniqueId));
-                String realmId = SecurityUtil.runWithAllTenants(new SecurityTask<String>() {
-
+                SecurityUtil.runWithAllTenants(new SecurityTask<Boolean>() {
                     @Override
-                    public String execute() {
-                        // TODO Auto-generated method stub
-                        return iterableToList(realmService.listIds(sandboxQuery)).get(0);
-                    }
-                    
-                    
+                    public Boolean execute() {
+                        String realmId = iterableToList(realmService.listIds(sandboxQuery)).get(0);
+                        info("Initializing default roles for tenant: {} and realm: {}", new Object[] {tenantId, realmId});
+                        roleInitializer.dropAndBuildRoles(tenantId, realmId);
+                        return realmId != null;
+                    }                    
                 });
-                
-                info("Initializing default roles for tenant: {} and realm: {}", new Object[] {tenantId, realmId});
-                roleInitializer.dropAndBuildRoles(tenantId, realmId);
             }
             
             return tenantService.create(newTenant);

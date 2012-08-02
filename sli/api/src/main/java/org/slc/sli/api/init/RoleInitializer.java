@@ -32,7 +32,6 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 /**
@@ -120,13 +119,13 @@ public class RoleInitializer {
         Map<String, Object> group = new HashMap<String, Object>();
         group.put("groupTitle", role.getName());
         group.put("names", Arrays.asList(role.getName()));
-        group.put("rights", iterableToList(role.getRights()));
+        group.put("rights", iterableToList(role.getRightsAsStrings()));
         return group;
     }
     
-    private List<GrantedAuthority> iterableToList(Set<GrantedAuthority> original) {
-        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
-        for (GrantedAuthority authority : original) {
+    private List<String> iterableToList(Set<String> original) {
+        List<String> list = new ArrayList<String>();
+        for (String authority : original) {
             list.add(authority);
         }
         return list;

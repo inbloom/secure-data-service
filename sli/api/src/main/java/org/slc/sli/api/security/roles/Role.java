@@ -63,6 +63,14 @@ public class Role {
     public Set<GrantedAuthority> getRights() {
         return rights;
     }
+    
+    public Set<String> getRightsAsStrings() {
+        Set<String> strings = new HashSet<String>();
+        for (GrantedAuthority authority : rights) {
+            strings.add(authority.getAuthority());
+        }
+        return strings;
+    }
 
     public void addRight(GrantedAuthority right) {
         rights.add(right);
