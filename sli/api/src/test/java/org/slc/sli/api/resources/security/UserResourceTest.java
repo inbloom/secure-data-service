@@ -169,6 +169,7 @@ public class UserResourceTest {
         Collection<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
         rights.addAll(Arrays.asList(Right.CRUD_SLC_OPERATOR, Right.CRUD_SEA_ADMIN, Right.CRUD_LEA_ADMIN));
         Mockito.when(secUtil.getAllRights()).thenReturn(rights);
+        Mockito.when(secUtil.getUid()).thenReturn("myUid");
         Mockito.when(secUtil.hasRole(RoleInitializer.LEA_ADMINISTRATOR)).thenReturn(false);
 
         List<User> users = Arrays.asList(new User(), new User());
