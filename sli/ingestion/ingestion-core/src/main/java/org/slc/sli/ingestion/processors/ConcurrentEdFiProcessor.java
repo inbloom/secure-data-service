@@ -85,7 +85,9 @@ public class ConcurrentEdFiProcessor implements Processor {
         NewBatchJob newJob = null;
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
+
             TenantContext.setTenantId(newJob.getTenantId());
+            TenantContext.setJobId(batchJobId);
 
             List<IngestionFileEntry> fileEntryList = extractFileEntryList(batchJobId, newJob);
             List<FutureTask<Boolean>> smooksFutureTaskList = processFilesInFuture(fileEntryList, newJob, stage);
