@@ -46,7 +46,8 @@
         <property name="suffix" value=".ftl"/>
 	<property name="contentType" value="text/html;charset=UTF-8"/>
     </bean>
-
+    
+    <mvc:resources mapping="/builder/**" location="/builder/"/>
 
     <bean class="org.slc.sli.dashboard.util.DashboardExceptionResolver">
         <property name="exceptionMappings">
