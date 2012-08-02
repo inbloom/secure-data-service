@@ -126,7 +126,7 @@ Then I am redirected to "Admin Account Management" page
 
     Examples:
     |USER_FULL_NAME              |USER_ROLE           |USER_EMAIL                      |USER_ADDITIONAL_ROLES   |NEW_NAME       |NEW_EMAIL      |
-    |Prod EditAdmin_hostname     |SEA Administrator   |hostname_prodtestuser@wgen.net  |Realm Administrator     |Some Random    |random@1.net   |
+    |Prod EditAdmin_hostname     |SEA Administrator   |hostname_prodtestuser@testwgen.net  |Realm Administrator     |Some Random    |random@1.net   |
 
 
 Scenario Outline: As a SLC Operator I can edit an account
@@ -165,7 +165,7 @@ And the user has Roles as "SEA Administrator, Realm Administrator, Ingestion Use
 
     Examples:
     |USER_FULL_NAME              |USER_ROLE           |USER_EMAIL                      |USER_ADDITIONAL_ROLES   |NEW_NAME       |NEW_EMAIL      |
-    |Prod EditAdmin_hostname     |SEA Administrator   |hostname_prodtestuser@wgen.net  |Realm Administrator     |Some Random    |random@1.net   |
+    |Prod EditAdmin_hostname     |SEA Administrator   |hostname_prodtestuser@testwgen.net  |Realm Administrator     |Some Random    |random@1.net   |
 
 Scenario Outline: As a SLC Operator I can delete an account
 Given There is a user with "<USER_FULL_NAME>", "<USER_ROLE>", "<USER_ADDITIONAL_ROLES>", and "<USER_EMAIL>" in LDAP Server
@@ -181,7 +181,7 @@ Then that user is removed from LDAP
 
     Examples:
     |USER_FULL_NAME              |USER_ROLE           |USER_EMAIL                      |USER_ADDITIONAL_ROLES   |NEW_NAME       |NEW_EMAIL      |
-    |Prod EditAdmin_hostname     |SEA Administrator   |hostname_prodtestuser@wgen.net  |                        |Some Random    |random@1.net   |
+    |Prod EditAdmin_hostname     |SEA Administrator   |hostname_prodtestuser@testwgen.net  |                        |Some Random    |random@1.net   |
 
 
 Scenario Outline: As an admin I can not delete my account
