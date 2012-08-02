@@ -23,14 +23,7 @@ class CustomRolesController < ApplicationController
   # GET /realms
   # GET /realms.json
   def index
-    userRealm = get_user_realm
-    realmToRedirectTo = GeneralRealmHelper.get_realm_to_redirect_to(userRealm)
-    logger.debug("Redirecting to #{realmToRedirectTo}")
-    if realmToRedirectTo.nil?
-      render_404
-    else
-      redirect_to  :action => "show", :id => CustomRole.find(:first).id
-    end
+    redirect_to  :action => "show", :id => CustomRole.find(:first).id
   end
 
 

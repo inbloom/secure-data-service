@@ -50,6 +50,7 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -66,6 +67,13 @@ public class CustomRoleResource {
     
     @Autowired
     private EntityDefinitionStore store;
+    
+    
+    @Value("${sli.sandbox.enabled}")
+    protected boolean isSandboxEnabled;
+
+    @Value("${bootstrap.sandbox.realm.uniqueId}")
+    private String sandboxUniqueId;
     
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
@@ -112,8 +120,6 @@ public class CustomRoleResource {
         
         List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
         NeutralQuery customRoleQuery = new NeutralQuery();
-        customRoleQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL,
-                SecurityUtil.getTenantId(), false));
         customRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.OPERATOR_EQUAL, getRealmId()));
         
         Entity customRole = repo.findOne("customRole", customRoleQuery);
@@ -308,7 +314,11 @@ public class CustomRoleResource {
     
     private String getRealmId() {
         NeutralQuery realmQuery = new NeutralQuery();
-        realmQuery.addCriteria(new NeutralCriteria("edOrg", NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getEdOrg()));
+        if (isSandboxEnabled) {
+            realmQuery.addCriteria(new NeutralCriteria("uniqueIdentifier", NeutralCriteria.OPERATOR_EQUAL, sandboxUniqueId));
+        } else {
+            realmQuery.addCriteria(new NeutralCriteria("edOrg", NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getEdOrg()));
+        }
         Entity realm = repo.findOne("realm", realmQuery);
         if (realm != null) {
             return realm.getEntityId();
