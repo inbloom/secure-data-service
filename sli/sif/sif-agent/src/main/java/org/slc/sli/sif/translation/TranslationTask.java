@@ -11,10 +11,11 @@ import org.slc.sli.sif.domain.slientity.GenericEntity;
  * @author jtully
  *
  */
-public interface TranslationTask {
+public interface TranslationTask<A extends SIFDataObject, B extends GenericEntity> {
     /*
      *
      * Transform an SIF SchoolInfo into an SLI entity
      */
-     public GenericEntity translate(SIFDataObject schoolInfo);
+     public B translate(A sifObject);
 }
+
