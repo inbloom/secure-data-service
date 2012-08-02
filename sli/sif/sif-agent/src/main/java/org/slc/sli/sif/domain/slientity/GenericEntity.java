@@ -27,7 +27,7 @@ import org.codehaus.jackson.map.ObjectMapper;
  *
  */
 public abstract class GenericEntity {
-    protected static final ObjectMapper mapper = new ObjectMapper();
+    protected static final ObjectMapper MAPPER = new ObjectMapper();
 
     /**
     * Constructor
@@ -40,7 +40,7 @@ public abstract class GenericEntity {
     * Output this Entity as a JSON Node
     */
     public JsonNode json() {
-        return mapper.valueToTree(this);
+        return MAPPER.valueToTree(this);
     }
 
     /**

@@ -51,7 +51,7 @@ import org.slc.sli.sif.domain.slientity.SchoolEntity;
  */
 @Component
 public class Sif2SliTransformerImp implements Sif2SliTransformer {
-    protected static final ObjectMapper mapper = new ObjectMapper();
+    protected static final ObjectMapper MAPPER = new ObjectMapper();
 
     @Autowired
     private Mapper dozerMapper;
@@ -61,7 +61,7 @@ public class Sif2SliTransformerImp implements Sif2SliTransformer {
         try {
             SchoolEntity e = this.dozerMapper.map(new SchoolInfoEntity(
                     schoolInfo), SchoolEntity.class);
-            Map<String, Object> body = mapper.readValue(e.json(),
+            Map<String, Object> body = MAPPER.readValue(e.json(),
                     new TypeReference<Map<String, Object>>() {
                     });
             clearNullValueKeys(body);
@@ -81,7 +81,7 @@ public class Sif2SliTransformerImp implements Sif2SliTransformer {
         try {
             LEAEntity e = this.dozerMapper.map(new LEAInfoEntity(leaInfo),
                     LEAEntity.class);
-            Map<String, Object> body = mapper.readValue(e.json(),
+            Map<String, Object> body = MAPPER.readValue(e.json(),
                     new TypeReference<Map<String, Object>>() {
                     });
             clearNullValueKeys(body);
@@ -101,7 +101,7 @@ public class Sif2SliTransformerImp implements Sif2SliTransformer {
         try {
             SEAEntity e = this.dozerMapper.map(new SEAInfoEntity(seaInfo),
                     SEAEntity.class);
-            Map<String, Object> body = mapper.readValue(e.json(),
+            Map<String, Object> body = MAPPER.readValue(e.json(),
                     new TypeReference<Map<String, Object>>() {
                     });
             clearNullValueKeys(body);
