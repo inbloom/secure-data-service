@@ -16,4 +16,57 @@
     </Address>
   </StateEducationAgency>
 
+  <LocalEducationAgency>
+    <StateOrganizationId>IL-BOOTSTRAP</StateOrganizationId>
+    <NameOfInstitution>Bootstrap School District</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>Local Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+    <LEACategory>Independent</LEACategory>
+    <StateEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </StateEducationAgencyReference>
+  </LocalEducationAgency>
+
+  <School>
+    <StateOrganizationId>BOOTSTRAP-SCH</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>Flying Dutchman School</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>Flying Dutchman School of Nautical Studies</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>School</OrganizationCategory>
+    </OrganizationCategories>
+    <Address AddressType="Physical">
+      <StreetNumberName>20 Rue Rotterdam</StreetNumberName>
+      <City>Miami</City>
+      <StateAbbreviation>FL</StateAbbreviation>
+      <PostalCode>83923</PostalCode>
+      <NameOfCounty>Dade</NameOfCounty>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(917)-555-0212</TelephoneNumber>
+    </Telephone>
+    <GradesOffered>
+      <GradeLevel>Tenth grade</GradeLevel>
+      <GradeLevel>Eleventh grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>High School</SchoolCategory>
+    </SchoolCategories>
+    <LocalEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-BOOTSTRAP</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </LocalEducationAgencyReference>
+  </School>
+
 </InterchangeEducationOrganization>
