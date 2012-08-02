@@ -19,6 +19,7 @@ limitations under the License.
 
 require 'rubygems'
 require 'mongo'
+require 'json'
 require 'pp'
 require 'rest-client'
 require 'uuidtools'
@@ -144,19 +145,9 @@ Then /^I check to find if record is in collection:$/ do |table|
   @result = "true"
 
   table.hashes.map do |row|
-    @entity_collection = @db.collection(row["collectionName"])
-
-    if row["searchType"] == "integer"
-      @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-    elsif row["searchType"] == "boolean"
-        if row["searchValue"] == "false"
-            @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => false}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-        else
-            @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => true}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-        end
-    else
-      @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"]},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).count().to_s
-    end
+    entities = getEntitiesForParameters(row)
+    @entity_count = 0
+    @entity_count = entities.size unless entities.nil?
 
     puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"]
 
@@ -166,6 +157,48 @@ Then /^I check to find if record is in collection:$/ do |table|
   end
 
   assert(@result == "true", "Some records are not found in collection.")
+end
+
+def getEntitiesForParameters(row)
+  @entity_collection = @db.collection(row["collectionName"])
+
+  if row["searchType"] == "integer"
+      @entities = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_i}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).to_a
+  elsif row["searchType"] == "boolean"
+    if row["searchValue"] == "false"
+      @entities = @entity_collection.find({"$and" => [{row["searchParameter"] => false}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).to_a
+    else
+      @entities = @entity_collection.find({"$and" => [{row["searchParameter"] => true}, {"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).to_a
+    end
+  else
+    @entities = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"]},{"metaData.tenantId" => {"$in" => TENANT_COLLECTION}}]}).to_a
+  end
+
+end
+
+Then /^I check that the record contains all of the expected values:$/ do |table|
+  table.hashes.map do |row|
+    identifier = row["expectedValuesFile"]
+    entities = getEntitiesForParameters(row)
+
+    assert(!entities.nil?, "Received nil entities for search parameters")
+    assert(entities.size == 1, "Expected one entity, received #{entities.size}")
+
+    entity = entities[0];
+
+    file = File.open(@local_file_store_path + identifier + ".json", "r")
+    expectedJson = file.read
+    file.close
+
+    expectedMap = JSON.parse(expectedJson)
+    expectedMap.each do |key, expected|
+      actual = entity[key]
+      assert(expected == actual, "Values don't match expected for key: #{key}")
+    end
+
+    # must match at this point
+    puts "Row matches values in " + identifier + ".json"
+  end
 end
 
 ############################################################
