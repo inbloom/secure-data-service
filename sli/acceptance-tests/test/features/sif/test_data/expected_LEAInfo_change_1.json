@@ -1,0 +1,32 @@
+{
+  "body" : {
+    "organizationCategories" : [
+      "Local Education Agency"
+    ],
+    "webSite" : "http://IL-DAYBREAK.edu",
+    "address" : [
+      {
+        "streetNumberName" : "1 IBM way",
+        "postalCode" : "84102",
+        "stateAbbreviation" : "IL",
+        "countryCode" : "US",
+        "addressType" : "Mailing",
+        "city" : "Salt Lake City"
+      }
+    ],
+    "stateOrganizationId" : "Daybreak School District 4530",
+    "telephone" : [
+      {
+        "institutionTelephoneNumberType" : "Main",
+        "telephoneNumber" : "(312) 555-1234"
+      },
+      {
+        "institutionTelephoneNumberType" : "Fax",
+        "telephoneNumber" : "(312) 555-2364"
+      }
+    ],
+    "operationalStatus" : "Closed",
+    "nameOfInstitution" : "UPDATED Daybreak School District 4530"
+  },
+  "type" : "educationOrganization"
+}
