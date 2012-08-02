@@ -90,6 +90,7 @@ public class UserResource {
 
         assertEnabled();
         String tenant = secUtil.getTenantId();
+        String edorg = secUtil.getEdOrg();
 
         Response result = validateAdminRights(secUtil.getAllRights(), tenant);
         if (result != null) {
@@ -99,18 +100,26 @@ public class UserResource {
         Collection<String> edorgs = null;
         if (secUtil.hasRole(RoleInitializer.LEA_ADMINISTRATOR)) {
             edorgs = new ArrayList<String>();
-            edorgs.add(secUtil.getEdOrg());
+            edorgs.addAll(adminService.getAllowedEdOrgs(tenant, edorg));
         }
 
         Collection<User> users = ldapService.findUsersByGroups(realm,
                 RightToGroupMapper.getInstance().getGroups(secUtil.getAllRights()), secUtil.getTenantId(),
                 edorgs);
+
+        //filtering peer LEAs
+        Collection<User> filteredUsers = new LinkedList<User>();
+        boolean isLea = isLeaAdmin();
         if (users != null && users.size() > 0) {
             for (User user : users) {
                 user.setGroups((List<String>) (RoleToGroupMapper.getInstance().mapGroupToRoles(user.getGroups())));
+                if (!(isLea && isUserLeaAdmin(user) && user.getEdorg().equals(edorg))) {
+                    filteredUsers.add(user);
+                }
             }
         }
-        return Response.status(Status.OK).entity(users).build();
+
+        return Response.status(Status.OK).entity(filteredUsers).build();
     }
 
     @PUT
@@ -200,23 +209,8 @@ public class UserResource {
     }
 
     private Response validateUserUpdate(User user, String tenant) {
-        Response result = validateAdminRights(secUtil.getAllRights(), tenant);
-        if (result != null) {
-            return result;
-        }
-
-        result = validateUserGroupsAllowed(RoleToGroupMapper.getInstance().mapGroupToRoles(getGroupsAllowed()),
-                user.getGroups());
-        if (result != null) {
-            return result;
-        }
-
-        result = validateAtMostOneAdminRole(user.getGroups());
-        if (result != null) {
-            return result;
-        }
-
-        result = validateTenantAndEdorg(RoleToGroupMapper.getInstance().mapGroupToRoles(getGroupsAllowed()), user);
+        //create and update shared the same validators
+        Response result = validateUserCreate(user, tenant);
         if (result != null) {
             return result;
         }
@@ -250,6 +244,23 @@ public class UserResource {
         result = validateCannotOperateOnSelf(uid);
         if (result != null) {
             return result;
+        }
+
+        result = validateCannotOperateOnPeerLEA(userToDelete, secUtil.getEdOrg());
+        if(result != null) {
+            return result;
+        }
+
+        return null;
+    }
+
+    private Response validateCannotOperateOnPeerLEA(User userToDelete, String adminEdOrg) {
+        if(isLeaAdmin() && isUserLeaAdmin(userToDelete)) {
+            if (userToDelete.getEdorg() != null && userToDelete.getEdorg().equals(adminEdOrg)) {
+                EntityBody body = new EntityBody();
+                body.put("response", "not allowed to execute this operation on peer admin users");
+                return Response.status(Status.FORBIDDEN).entity(body).build();
+            }
         }
 
         return null;
@@ -387,6 +398,13 @@ public class UserResource {
      */
     private boolean isLeaAdmin() {
         return secUtil.hasRole(RoleInitializer.LEA_ADMINISTRATOR);
+    }
+
+    /*
+     * Determines if the specified user has LEA permission
+     */
+    private boolean isUserLeaAdmin(User user) {
+        return user.getGroups().contains(RoleInitializer.LEA_ADMINISTRATOR);
     }
 
     private static final String[] ADMIN_ROLES = new String[] { RoleInitializer.LEA_ADMINISTRATOR,
