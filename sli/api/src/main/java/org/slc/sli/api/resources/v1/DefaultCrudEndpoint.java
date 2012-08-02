@@ -742,7 +742,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * Retrieve the custom entity for the given request if flag includeCustom is set to true.
      *
      */
-    private void addCalculatedValues(EntityBody entityBody, final EntityDefinition entityDef) {
+    protected void addCalculatedValues(EntityBody entityBody, final EntityDefinition entityDef) {
         boolean includeCalculatedValues = "true".equals(includeCalculated);
         if (includeCalculatedValues) {
             String entityId = (String) entityBody.get("id");
@@ -757,7 +757,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      * Retrieve the custom entity for the given request if flag includeCustom is set to true.
      *
      */
-    private void addAggregates(EntityBody entityBody, final EntityDefinition entityDef) {
+    protected void addAggregates(EntityBody entityBody, final EntityDefinition entityDef) {
         boolean includeAggregateValues = entityDef.supportsAggregates() && "true".equals(includeAggregates);
         if (includeAggregateValues) {
             String entityId = (String) entityBody.get("id");
@@ -1063,6 +1063,30 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
      */
     public Response patch(String id, EntityBody newEntityBody, HttpHeaders headers, UriInfo uriInfo) {
         return this.patch(resourceName, id, newEntityBody, headers, uriInfo);
+    }
+
+    protected String getIncludeCustomEntityStr() {
+        return includeCustomEntityStr;
+    }
+
+    protected void setIncludeCustomEntityStr(String includeCustomEntityStr) {
+        this.includeCustomEntityStr = includeCustomEntityStr;
+    }
+
+    protected String getIncludeCalculated() {
+        return includeCalculated;
+    }
+
+    protected void setIncludeCalculated(String includeCalculated) {
+        this.includeCalculated = includeCalculated;
+    }
+
+    protected String getIncludeAggregates() {
+        return includeAggregates;
+    }
+
+    protected void setIncludeAggregates(String includeAggregates) {
+        this.includeAggregates = includeAggregates;
     }
 
 }
