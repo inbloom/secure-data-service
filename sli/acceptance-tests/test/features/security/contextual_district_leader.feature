@@ -25,7 +25,7 @@ Then I should receive a return code of <Code>
 Examples:
 	|Username    |Password        |Realm|Role      |District     |Data                                   | Code|
 	|"eengland"  |"eengland1234"  |"NY" |"Leader"  |"NY-Dusk"    |"Students in Parker Elementary"        | 403 |
-	|"eengland"  |"eengland1234"  |"NY" |"Leader"  |"NY-Dusk"    |"Students in South Daybreak Elementary"| 404 |
+	|"eengland"  |"eengland1234"  |"NY" |"Leader"  |"NY-Dusk"    |"Students in South Daybreak Elementary"| 200 |
 	|"sbantu"    |"sbantu1234"    |"IL" |"Leader"  |"IL-Daybreak"|"Mark Anthony"                         | 403 |
 	|"llogan"    |"llogan1234"    |"IL" |"Leader"  |"IL-Sunset"  |"Matt Sollars"                         | 403 |
 	|"jcarlyle"  |"jcarlyle1234"  |"NY" |"IT Admin"|"NY-Parker"  |"Teachers in Dawn Elementary"          | 403 |
