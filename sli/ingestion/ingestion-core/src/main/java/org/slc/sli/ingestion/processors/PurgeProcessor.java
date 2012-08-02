@@ -19,6 +19,7 @@ package org.slc.sli.ingestion.processors;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Set;
 
 import org.apache.camel.Exchange;
@@ -34,6 +35,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.dal.TenantContext;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
@@ -156,11 +158,42 @@ public class PurgeProcessor implements Processor, MessageSourceAware {
             if (isExcludedCollection(collectionName)) {
                 continue;
             }
-            mongoTemplate.remove(searchTenantId, collectionName);
+            if (collectionName.equalsIgnoreCase("educationOrganization")) {
+                cleanApplicationEdOrgs(searchTenantId);
+                mongoTemplate.remove(searchTenantId, collectionName);
+            } else {
+                mongoTemplate.remove(searchTenantId, collectionName);
+            }
         }
         exchange.setProperty("purge.complete", "Purge process completed successfully.");
         logger.info("Purge process complete.");
 
+    }
+    
+    private void cleanApplicationEdOrgs(Query searchTenantId) {
+        List<Entity> edorgs = mongoTemplate.find(searchTenantId, Entity.class, "educationOrganization");
+        List<Entity> apps = mongoTemplate.findAll(Entity.class, "application");
+        List<String> edorgids = new ArrayList();
+        for (Entity edorg : edorgs) {
+            edorgids.add(edorg.getEntityId());
+        }
+        
+        List<String> authedEdorgs;
+        for (Entity app : apps) {
+            authedEdorgs = (List<String>) app.getBody().get("authorized_ed_orgs");
+            if (authedEdorgs == null) {
+                continue;
+            }
+            
+            for (String id : edorgids) {
+                if (authedEdorgs.contains(id)) {
+                    authedEdorgs.remove(id);
+                }
+            }
+
+            app.getBody().put("authorized_ed_orgs", authedEdorgs);
+            mongoTemplate.save(app, "application");
+        }
     }
 
     private boolean isExcludedCollection(String collectionName) {
