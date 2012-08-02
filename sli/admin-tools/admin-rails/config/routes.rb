@@ -46,11 +46,11 @@ SLIAdmin::Application.routes.draw do
 
   get "sessions/new"
 
-  resources :roles
   resources :sessions
   resources :apps
   resources :realms
   resources :custom_roles
+  resources :home
   match '/apps/approve', :to => 'apps#approve'
   match '/apps/unregister', :to => 'apps#unregister'
 
@@ -80,7 +80,7 @@ SLIAdmin::Application.routes.draw do
   match "/resetPassword" => "forgot_passwords#update", :via => :get
   match "/resetPassword/new" => "forgot_passwords#new", :via => :get
 
-  root :to => 'roles#index'
+  root :to => 'home#index'
 
   resources :users , :constraints => { :id => /[^\/]+/ }
   
