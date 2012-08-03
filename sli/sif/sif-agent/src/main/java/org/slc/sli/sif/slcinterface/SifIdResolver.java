@@ -48,5 +48,13 @@ public interface SifIdResolver {
      */
     public String getZoneSea(String sifZoneId);
 
-    public void addIdMapping(String sifId, String sliType, String sliId, String sliField);
+    /**
+     * Given a sif reference id and the guid and type of the corresponding entity, 
+     * saves the association
+     * 
+     * @param sifId
+     * @param sliType
+     * @param sliId
+     */
+    public void putSliGuid(String sifId, String sliType, String sliId);
 }

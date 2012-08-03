@@ -20,7 +20,6 @@ import openadk.library.common.AddressType;
 import openadk.library.common.GradeLevelCode;
 import openadk.library.common.PhoneNumberType;
 import openadk.library.student.OperationalStatus;
-import openadk.library.student.SchoolFocusType;
 import openadk.library.student.SchoolLevelType;
 
 /**
@@ -69,27 +68,27 @@ public class SchoolMappings {
         return "Other";
     }
 
-    public static String toSliSchoolType(String schoolFocusType) {
-        if (SchoolFocusType.ALTERNATIVE.getValue().equals(schoolFocusType)) {
-            return "Alternative";
-        }
-        if (SchoolFocusType.CHARTER.getValue().equals(schoolFocusType)) {
-            return "JJAEP";
-        }
-        if (SchoolFocusType.MAGNET.getValue().equals(schoolFocusType)) {
-            return "DAEP";
-        }
-        if (SchoolFocusType.REGULAR.getValue().equals(schoolFocusType)) {
-            return "Regular";
-        }
-        if (SchoolFocusType.SPECIALED.getValue().equals(schoolFocusType)) {
-            return "Special Education";
-        }
-        if (SchoolFocusType.VOCATIONAL.getValue().equals(schoolFocusType)) {
-            return "Vocational";
-        }
-        return "Not Supported";
-    }
+//    public static String toSliSchoolType(String schoolFocusType) {
+//        if (SchoolFocusType.ALTERNATIVE.getValue().equals(schoolFocusType)) {
+//            return "Alternative";
+//        }
+//        if (SchoolFocusType.CHARTER.getValue().equals(schoolFocusType)) {
+//            return "JJAEP";
+//        }
+//        if (SchoolFocusType.MAGNET.getValue().equals(schoolFocusType)) {
+//            return "DAEP";
+//        }
+//        if (SchoolFocusType.REGULAR.getValue().equals(schoolFocusType)) {
+//            return "Regular";
+//        }
+//        if (SchoolFocusType.SPECIALED.getValue().equals(schoolFocusType)) {
+//            return "Special Education";
+//        }
+//        if (SchoolFocusType.VOCATIONAL.getValue().equals(schoolFocusType)) {
+//            return "Vocational";
+//        }
+//        return "Not Supported";
+//    }
 
     public static String toSliOperationalStatus(String operationalStatus) {
         if (OperationalStatus.SCHOOL_CLOSED.getValue()

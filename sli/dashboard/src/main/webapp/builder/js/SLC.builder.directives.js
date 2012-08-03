@@ -20,9 +20,21 @@
 /*global angular $*/
 
 angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
-	.directive('ngTabs',function($rootScope) {
+	.directive("ngHeader", function () {
+		return {
+			restrict: 'E',
+			templateUrl: "js/templates/header.html"
+		};
+	})
+	.directive('ngTabs', function($rootScope) {
 		return function($rootScope, elm) {
 			elm.tabs();
+		};
+	})
+	.directive('ngModal', function() {
+		return {
+			restrict: 'E',
+			templateUrl: "js/templates/modal.html"
 		};
 	})
 	.directive("ngSortable", function($rootScope){
@@ -34,6 +46,7 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 					update: function() {
 						var model = scope.$eval(attrs.ngSortable);
 						$rootScope.newPageArray = [];
+
 						// loop through items in new order
 						linkElement.children().each(function(index) {
 							var item = $(this);

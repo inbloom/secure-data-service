@@ -125,17 +125,8 @@ public class JobReportingProcessor implements Processor {
             LOG.error("Exception encountered in JobReportingProcessor. ", e);
         } finally {
 
-            if (job != null) {
-                BatchJobUtils.completeStageAndJob(stage, job);
-                batchJobDAO.saveBatchJob(job);
-                batchJobDAO.releaseTenantLockForJob(job.getTenantId(), job.getId());
-                batchJobDAO.cleanUpWorkNoteLatchAndStagedEntites(job.getId());
-                broadcastFlushStats(exchange, workNote);
-                cleanUpLZ(job);
-            }
+            performJobCleanup(exchange, workNote, stage, job);
 
-
-            cleanupStagingDatabase(workNote);
         }
     }
 
@@ -455,6 +446,21 @@ public class JobReportingProcessor implements Processor {
                 LOG.error("unable to close FileChannel.", e);
             }
         }
+    }
+
+    private void performJobCleanup(Exchange exchange, WorkNote workNote, Stage stage, NewBatchJob job) {
+        if (job != null) {
+            BatchJobUtils.completeStageAndJob(stage, job);
+            batchJobDAO.saveBatchJob(job);
+            batchJobDAO.releaseTenantLockForJob(job.getTenantId(), job.getId());
+            batchJobDAO.cleanUpWorkNoteLatchAndStagedEntites(job.getId());
+            broadcastFlushStats(exchange, workNote);
+            cleanUpLZ(job);
+        }
+
+        cleanupStagingDatabase(workNote);
+
+        TenantContext.setJobId(null);
     }
 
     private void writeSecurityLog(LogLevelType messageType, String message) {

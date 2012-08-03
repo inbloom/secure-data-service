@@ -16,8 +16,19 @@
 
 package org.slc.sli.sif.domain.slientity;
 
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
+import java.util.Set;
+
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 
 /**
  * An GenericEntity in the SLI domain. Each SLI Entity can be converted to a
@@ -37,6 +48,16 @@ public abstract class GenericEntity {
     }
 
     /**
+    * Output body of this Entity
+    */
+    public Map<String, Object> body() {
+        Map<String, Object> body = MAPPER.convertValue(this,
+                new TypeReference<Map<String, Object>>() {});
+        clearNullValueKeys(body);
+        return body;
+    }
+
+    /**
     * Output this Entity as a JSON Node
     */
     public JsonNode json() {
@@ -51,4 +72,45 @@ public abstract class GenericEntity {
         return json().toString();
     }
 
+    // ============ private helper
+
+    // removes all keys from this map that has a null value. If some values are
+    // maps,
+    // do it recursively
+    private static void clearNullValueKeys(Map m) {
+        Set keySet = m.keySet();
+        Set keysToRemove = new HashSet();
+        for (Object k : keySet) {
+            if (isNullValue(m.get(k))) {
+                keysToRemove.add(k);
+            }
+        }
+        for (Object k : keysToRemove) {
+            m.remove(k);
+        }
+    }
+
+    private static void clearNullValueFromList(List l) {
+        ListIterator it = l.listIterator();
+        while (it.hasNext()) {
+            Object o = it.next();
+            if (isNullValue(o)) {
+                it.remove();
+            }
+        }
+    }
+
+    private static boolean isNullValue(Object o) {
+        if (o == null) {
+            return true;
+        }
+        if (o instanceof Map) {
+            clearNullValueKeys((Map) o);
+            return ((Map) o).isEmpty();
+        } else if (o instanceof List) {
+            clearNullValueFromList((List) o);
+            return ((List) o).isEmpty();
+        }
+        return false;
+    }
 }

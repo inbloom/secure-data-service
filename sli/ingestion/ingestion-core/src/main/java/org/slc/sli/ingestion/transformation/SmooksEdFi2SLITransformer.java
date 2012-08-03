@@ -30,9 +30,10 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.milyn.Smooks;
 import org.milyn.payload.JavaResult;
 import org.milyn.payload.StringSource;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.validation.ErrorReport;
-import org.springframework.stereotype.Component;
 
 /**
  * EdFi to SLI transformer based on Smooks
@@ -60,14 +61,19 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
             SimpleEntity entity = new SimpleEntity();
             entity.setType(type);
             entity.setBody(body);
-            
+
+            Integer recordNumber = item.getLocationInSourceFile();
+            if (recordNumber != null) {
+                entity.setRecordNumber(recordNumber.longValue());
+            }
+
             String externalId = (String) item.getLocalId();
             if (externalId != null) {
                 Map<String, Object> meta = new HashMap<String, Object>();
                 meta.put("externalId", externalId);
                 entity.setMetaData(meta);
             }
-            
+
             return Arrays.asList(entity);
         }
 

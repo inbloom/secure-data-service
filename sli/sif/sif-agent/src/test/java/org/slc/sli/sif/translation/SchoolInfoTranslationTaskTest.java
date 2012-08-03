@@ -45,7 +45,7 @@ public class SchoolInfoTranslationTaskTest {
 
     @Test
     public void testNotNull(){
-        SchoolEntity result = translator.translate(new SchoolInfo());
+        List<SchoolEntity> result = translator.translate(new SchoolInfo());
         Assert.assertNotNull("Result was null",result);
     }
 
@@ -59,10 +59,12 @@ public class SchoolInfoTranslationTaskTest {
         String schoolName = "schoolName";
         info.setSchoolName(schoolName);
 
-        SchoolEntity result = translator.translate(info);
+        List<SchoolEntity> result = translator.translate(info);
+        Assert.assertEquals(1, result.size());
+        SchoolEntity entity = result.get(0);
 
-        Assert.assertEquals(stateOrgId, result.getStateOrganizationId());
-        Assert.assertEquals(schoolName, result.getNameOfInstitution());
+        Assert.assertEquals(stateOrgId, entity.getStateOrganizationId());
+        Assert.assertEquals(schoolName, entity.getNameOfInstitution());
     }
 
     @Test
@@ -76,10 +78,12 @@ public class SchoolInfoTranslationTaskTest {
 
         Mockito.when(mockAddressConverter.convertTo(Mockito.eq(addressList), Mockito.any(List.class))).thenReturn(address);
 
-        SchoolEntity result = translator.translate(info);
+        List<SchoolEntity> result = translator.translate(info);
+        Assert.assertEquals(1, result.size());
+        SchoolEntity entity = result.get(0);
 
         Mockito.verify(mockAddressConverter).convertTo(Mockito.eq(addressList), Mockito.any(List.class));
-        Assert.assertEquals(address, result.getAddress());
+        Assert.assertEquals(address, entity.getAddress());
 
     }
 
@@ -91,10 +95,12 @@ public class SchoolInfoTranslationTaskTest {
 
         Mockito.when(mockSchoolFocusConverter.convert(focusList)).thenReturn("schoolType");
 
-        SchoolEntity result = translator.translate(info);
+        List<SchoolEntity> result = translator.translate(info);
+        Assert.assertEquals(1, result.size());
+        SchoolEntity entity = result.get(0);
 
         Mockito.verify(mockSchoolFocusConverter).convert(Mockito.eq(focusList));
-        Assert.assertEquals("schoolType", result.getSchoolType());
+        Assert.assertEquals("schoolType", entity.getSchoolType());
     }
 
 
