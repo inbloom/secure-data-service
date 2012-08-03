@@ -114,7 +114,7 @@ Given /^There is a sandbox user with "(.*?)", "(.*?)", "(.*?)", and "(.*?)" in L
 
   restHttpDelete("/users/#{new_user['uid']}", format, sessionId)
   restHttpPost("/users", new_user.to_json, format, sessionId)
-  @user_full_name="#{new_user['firstName']} #{new_user['lastName']}"
+  @user_full_name=new_user['fullName']
   @user_unique_id=new_user['uid']
 end
 
@@ -350,12 +350,11 @@ def assertText(text)
   assert(body.text.include?(text), "Cannot find the text \"#{text}\"")
 end
 
-def build_user(uid,firstName, lastName,groups,tenant,edorg)
+def build_user(uid,fullName,groups,tenant,edorg)
 new_user = {
       "uid" => uid,
       "groups" => groups,
-      "firstName" => firstName,
-      "lastName" => lastName,
+      "fullName" => fullName,
       "password" => "#{uid}1234",
       "email" => "testuser@wgen.net",
       "tenant" => tenant,
@@ -384,8 +383,7 @@ def getField(field_name)
 end
 
 def create_new_user(fullName, role, addition_roles=nil)
-  firstName = fullName.split(" ")[0]
-  lastName = fullName.split(" ")[1].gsub("hostname",Socket.gethostname)
+  localizedFullName = fullName.gsub("hostname",Socket.gethostname)
   groups = Array.new
   groups.push(role)
   if addition_roles != nil 
@@ -395,7 +393,7 @@ def create_new_user(fullName, role, addition_roles=nil)
     end
   end
      
-  uid=firstName.downcase+"_"+lastName.downcase
-  new_user=build_user(uid,firstName,lastName,groups,"sandboxadministrator@slidev.org","")
+  uid=fullName.downcase
+  new_user=build_user(uid,fullName,groups,"sandboxadministrator@slidev.org","")
 end
 

@@ -54,8 +54,8 @@ public class LdapServiceImplTest {
         assertTrue(slcoperator.getEmail().equals("slcoperator@slidev.org"));
         assertTrue(slcoperator.getUid().equals("slcoperator"));
         assertNotNull(slcoperator.getHomeDir());
-        assertNotNull(slcoperator.getFirstName());
-        assertNotNull(slcoperator.getLastName());
+        assertNotNull(slcoperator.parseFirstName());
+        assertNotNull(slcoperator.parseLastName());
         assertNotNull(slcoperator.getFullName());
         assertNull(slcoperator.getTenant());
         assertNull(slcoperator.getEdorg());
@@ -104,8 +104,8 @@ public class LdapServiceImplTest {
         assertTrue(newUser.getGroups().contains("LEA Administrator"));
         assertEquals(uid, newUser.getUid());
         assertEquals("testemail@slidev.org", newUser.getEmail());
-        assertEquals("testFirst", newUser.getFirstName());
-        assertEquals("testLast", newUser.getLastName());
+        assertEquals("testFirst", newUser.parseFirstName());
+        assertEquals("testLast", newUser.parseLastName());
         assertEquals("/dev/null", newUser.getHomeDir());
         assertEquals("testTenant", newUser.getTenant());
         assertEquals("testEdorg", newUser.getEdorg());
@@ -122,8 +122,8 @@ public class LdapServiceImplTest {
         assertTrue(updatedUser.getGroups().contains("Realm Administrator"));
         assertEquals(uid, updatedUser.getUid());
         assertEquals("testemailupdate@slidev.org", updatedUser.getEmail());
-        assertEquals("testFirstUpdate", updatedUser.getFirstName());
-        assertEquals("testLastUpdate", updatedUser.getLastName());
+        assertEquals("testFirstUpdate", updatedUser.parseFirstName());
+        assertEquals("testLastUpdate", updatedUser.parseLastName());
         assertEquals("/dev/null/update", updatedUser.getHomeDir());
         assertEquals("testTenantUpdate", updatedUser.getTenant());
         assertEquals("testEdorgUpdate", updatedUser.getEdorg());

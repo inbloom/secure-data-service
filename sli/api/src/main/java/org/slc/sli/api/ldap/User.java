@@ -67,11 +67,11 @@ public class User {
         }
     }
 
-    public String getFirstName() {
+    public String parseFirstName() {
         return fullName.split(" ")[0];
     }
 
-    public String getLastName() {
+    public String parseLastName() {
         String[] split = fullName.split(" ", 2);
         if (split.length == 2) {
             return split[1];
