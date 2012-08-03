@@ -20,9 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import openadk.library.student.LEAInfo;
+import openadk.library.student.OperationalStatus;
 
+import org.slc.sli.sif.domain.converter.AddressListConverter;
+import org.slc.sli.sif.domain.converter.OperationalStatusConverter;
+import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
 import org.slc.sli.sif.domain.slientity.LEAEntity;
 import org.slc.sli.sif.domain.slientity.SliEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * An implementation for translation of a SIF LEAInfo
@@ -34,6 +39,14 @@ import org.slc.sli.sif.domain.slientity.SliEntity;
 public class LEAInfoTranslationTask<A extends LEAInfo, B extends LEAEntity> 
                         extends AbstractTranslationTask<LEAInfo>
 {
+    @Autowired
+    OperationalStatusConverter operationalStatusConverter;
+
+    @Autowired
+    PhoneNumberListConverter phoneNumberListConverter;
+
+    @Autowired
+    AddressListConverter addressListConverter;
 
     public LEAInfoTranslationTask()
     {
@@ -41,10 +54,16 @@ public class LEAInfoTranslationTask<A extends LEAInfo, B extends LEAEntity>
     }
 
     @Override
-    public List<SliEntity> doTranslate(LEAInfo sifData)
+    public List<SliEntity> doTranslate(LEAInfo leaInfo)
     {
         LEAEntity e = new LEAEntity();
         //covert properties
+        e.setStateOrganizationId(leaInfo.getStateProvinceId());
+        e.setWebSite(leaInfo.getLEAURL());
+        e.setNameOfInstitution(leaInfo.getLEAName());
+        e.setOperationalStatus(operationalStatusConverter.convert(OperationalStatus.wrap(leaInfo.getOperationalStatus())));
+        e.setAddress(addressListConverter.convertTo(leaInfo.getAddressList(),null));
+        e.setTelephone(phoneNumberListConverter.convert(leaInfo.getPhoneNumberList()));
       
         List<SliEntity> list = new ArrayList<SliEntity>(1);
         list.add(e);        
