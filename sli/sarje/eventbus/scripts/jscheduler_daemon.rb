@@ -38,7 +38,7 @@ if __FILE__ == $0
     # and plug them into an Jobscheduler
     listener = Eventbus::EventSubscriber.new("oplog")
     jobrunner = Eventbus::HadoopJobRunner.new 
-    active_config = config.update(:listener => listener, 
+    active_config = config.update(:messaging_service => listener,
                                   :jobrunner => jobrunner)
     scheduler = Eventbus::JobScheduler.new(active_config)
     scheduler.join

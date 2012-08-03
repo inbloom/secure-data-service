@@ -16,30 +16,31 @@ limitations under the License.
 
 =end
 
+testdir = File.dirname(__FILE__)
+$LOAD_PATH << testdir + "/../lib"
+
 require 'test/unit'
 require 'eventbus' 
 require 'time'
+require 'systemu'
 
 class TestJobScheduler < Test::Unit::TestCase
-    JOB_COLLECTION = "jobdefinitions"
-    CONFIG = {
-      :mongo_host           => "127.0.0.1",
-      :mongo_port           => 27017,
-      :mongo_db             => "eventbus",
-      :mongo_job_collection => "jobs",
-      :poll_interval        => 5
-    }
 
     # the directory where this test lives
     TEST_DIR = File.dirname(__FILE__) + "/"
 
     def setup
-        @active_config = CONFIG.clone 
-
+        mongo_helper = Eventbus::MongoHelper.new
         # Set up the fixtures in Mongo 
-        removeDatabase
-        setFixture(CONFIG[:mongo_job_collection], TEST_DIR + 'data/eb_jobs.json')
-        puts x
+        mongo_helper.removeDatabase
+        mongo_helper.setFixture(CONFIG[:mongo_job_collection], TEST_DIR + 'data/test.json')
+    end
+
+    def test_job_reader
+      job_reader = Eventbus::JobReader.new(CONFIG)
+      jobs, event_job_map = job_reader.get_jobs
+      assert(1, jobs.size)
+      assert(1, event_job_map.size)
     end
 
     def test_scheduler 
@@ -50,7 +51,7 @@ class TestJobScheduler < Test::Unit::TestCase
         # add mock listener that emits events and jobrunner that counts scheduled jobs
         listener = MockMQListener.new(nevents, delay)
         jobrunner = EventCountingJobRunner.new
-        @active_config[:listener] = listener
+        @active_config[:messaging_service] = listener
         @active_config[:jobrunner] = jobrunner
         @active_config[:mongo_poll_interval] = 100
         @scheduler = Eventbus::JobScheduler.new(@active_config)
@@ -63,23 +64,7 @@ class TestJobScheduler < Test::Unit::TestCase
         assert jobrunner.total == nevents, "Not all events were successfully dispatched. #{jobrunner.total}"
     end 
 
-    private 
-
-    # remove the entire database 
-    def removeDatabase
-        connection_str = "#{@active_config[:mongo_host]}:#{@active_config[:mongo_port]}/#{@active_config[:mongo_db]}"
-        cmd = "mongo --eval \"db.dropDatabase()\" #{connection_str} "
-        sh cmd 
-    end 
-
-    # Load a fixture file into the mongodb 
-    def setFixture(collectionName, fixtureFilePath, dropExistingCollection=true)
-        dropOption = (dropExistingCollection) ? "--drop":""
-        cmd = "mongoimport #{dropOption} -d #{@active_config[:mongo_db]} -c #{collectionName} -h #{@active_config[:mongo_host]} --file #{fixtureFilePath}"
-        sh cmd do |success, exit_code|
-            assert success, "Failure loading fixture data #{fixtureFilePath}: #{exit_code.exitstatus}"
-        end
-    end
+    private
 end
 
 class MockMQListener 

@@ -21,6 +21,7 @@ require 'messaging_service2'
 require 'jobscheduler'
 require 'oplogagent'
 require 'hadoop_job_runner'
+require "mongo_helper"
 require 'set'
 
 module Eventbus

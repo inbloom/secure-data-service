@@ -78,11 +78,11 @@ module Eventbus
 
     def subscribe
       @subscriber ||= Subscriber.new(@config[:subscribe_queue_name], @config[:stomp_config]) do |message|
-        if(@config[:start_node_detector] && message['event_type'] == 'heartbeat')
+        if(@config[:start_node_detector] && message.instance_of?(Hash) && message['event_type'] == 'heartbeat')
           puts "#{@config[:node_name]} received a heartbeat from #{message['node_name']}"
           @heartbeat_queue << message
         else
-          puts "#{@config[:node_name]} received a message"
+          puts "#{@config[:node_name]} received a message: #{message}"
           yield message
         end
       end
