@@ -98,6 +98,9 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
     /* General default. Used when a more specific default selector is not available. */
     public static final Map<String, Object> DEFAULT_SELECTOR = new HashMap<String, Object>();
+    static {
+        DEFAULT_SELECTOR.put("$", true);
+    }
     
     /* The maximum number of values allowed in a comma separated string */
     public static final int MAX_MULTIPLE_UUIDS = 100;
