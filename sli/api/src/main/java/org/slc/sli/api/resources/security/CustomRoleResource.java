@@ -35,6 +35,12 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.init.RoleInitializer;
@@ -43,16 +49,12 @@ import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  * CRUD resource for custom roles.
@@ -313,13 +315,23 @@ public class CustomRoleResource {
     }
     
     private String getRealmId() {
-        NeutralQuery realmQuery = new NeutralQuery();
+        Entity realm = null;
         if (isSandboxEnabled) {
-            realmQuery.addCriteria(new NeutralCriteria("uniqueIdentifier", NeutralCriteria.OPERATOR_EQUAL, sandboxUniqueId));
+            realm = SecurityUtil.runWithAllTenants(new SecurityTask<Entity>() {
+
+                @Override
+                public Entity execute() {
+                    NeutralQuery realmQuery = new NeutralQuery();
+                    realmQuery.addCriteria(new NeutralCriteria("uniqueIdentifier", NeutralCriteria.OPERATOR_EQUAL, sandboxUniqueId));
+                    return repo.findOne("realm", realmQuery);
+                }
+                
+            });
         } else {
+            NeutralQuery realmQuery = new NeutralQuery();
             realmQuery.addCriteria(new NeutralCriteria("edOrg", NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getEdOrg()));
+            realm = repo.findOne("realm", realmQuery);
         }
-        Entity realm = repo.findOne("realm", realmQuery);
         if (realm != null) {
             return realm.getEntityId();
         }
