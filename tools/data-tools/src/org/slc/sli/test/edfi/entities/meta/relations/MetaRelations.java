@@ -17,6 +17,7 @@
 
 package org.slc.sli.test.edfi.entities.meta.relations;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,11 +51,10 @@ import org.slc.sli.test.edfi.entities.meta.StudentAssessmentMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentParentAssociationMeta;
 import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
+import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 public final class MetaRelations {
-    
-    // default fidelity of data generation
-    public static final DataFidelityType DEFAULT_DATA_FIDELITY_TYPE = DataFidelityType.LOW_FI;
+
     
     // knobs to control number of entities to create
     public static  int TOTAL_SEAS =1;
@@ -128,10 +128,11 @@ public final class MetaRelations {
     public static final String SEA_PREFIX = "CAP";
     public static final String FIRST_TEACHER_ID = "lroslin";
     
+//    public static String propertyPath = ".\\db-datagen-approach\\ref-configurations\\reference_config.properties";
     /**
      * used to determine the output directory for generated interchange and control files
      */
-    public static String rootOutputPath = "./data";
+//    public static String rootOutputPath = "./data";
     
     static{
         
@@ -141,7 +142,8 @@ public final class MetaRelations {
         
         try {
 
-        	 fis = new FileInputStream(".\\db-datagen-approach\\ref-configurations\\reference_config.properties");
+        	  System.out.println("Config properties file: " + StateEdFiXmlGenerator.propertyPath);
+        	  fis = new FileInputStream(StateEdFiXmlGenerator.propertyPath);
 
               properties.load(fis);
               
@@ -235,7 +237,13 @@ public final class MetaRelations {
 		GradingPeriod_Ref = Boolean.parseBoolean(properties
 				.getProperty("GradingPeriod_Ref"));
 		
-        rootOutputPath = properties.getProperty("rootOutputPath");
+		if(properties.getProperty("fidelityOfData") != null) {
+			StateEdFiXmlGenerator.fidelityOfData = properties
+				.getProperty("fidelityOfData");
+		}
+		
+		 System.out.println("will use " + StateEdFiXmlGenerator.fidelityOfData + " fidelity data generators.");
+        
     }
     /**
      * Construct the meta relationships necessary for XML interchanges

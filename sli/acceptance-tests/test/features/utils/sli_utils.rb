@@ -18,6 +18,7 @@ limitations under the License.
 
 
 require File.expand_path('../common_stepdefs.rb', __FILE__)
+require File.expand_path('../rakefile_common.rb', __FILE__)
 require 'rubygems'
 require 'bundler/setup'
 
@@ -484,92 +485,12 @@ end
 ########################################################################
 ########################################################################
 
-def allLeaAllowDashboard()
-  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'])
-  db = conn[PropLoader.getProps['api_database_name']]
-  appColl = db.collection("application")
-  dashboardId = appColl.find_one({"body.name" => "SLC Dashboards"})["_id"]
-  puts("The dashboard id is #{dashboardId}") if ENV['DEBUG']
-  
-  appAuthColl = db.collection("applicationAuthorization")
-  edOrgColl = db.collection("educationOrganization")
-
-  neededEdOrgs = edOrgColl.find({"body.organizationCategories" => ["Local Education Agency"]})
-  neededEdOrgs.each do |edOrg|
-    puts("Currently on edOrg #{edOrg.inspect}") if ENV['DEBUG']
-    edOrgId = edOrg["_id"]
-    edOrgTenant = edOrg["metaData"]["tenantId"]
-    existingAppAuth = appAuthColl.find_one({"body.authId" => edOrgId})
-    if existingAppAuth == nil 
-      newAppAuth = {"_id" => "2012ls-#{SecureRandom.uuid}", "body" => {"authType" => "EDUCATION_ORGANIZATION", "authId" => edOrgId, "appIds" => [dashboardId]}, "metaData" => {"tenantId" => edOrgTenant}}
-      puts("About to insert #{newAppAuth.inspect}") if ENV['DEBUG']
-      appAuthColl.insert(newAppAuth)
-    elsif !(existingAppAuth["body"]["appIds"].include?(dashboardId))
-      existingAppAuth["body"]["appIds"].push(dashboardId)
-      puts("About to update #{existingAppAuth.inspect}") if ENV['DEBUG']
-      appAuthColl.update({"body.authId" => edOrgId}, existingAppAuth)
-    else
-      puts("App already approved for district #{edOrgId}, skipping") if ENV['DEBUG']
-    end
-  end
-end
-
-def allLeaAllowDatabrowser()
-  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'])
-  db = conn[PropLoader.getProps['api_database_name']]
-  appColl = db.collection("application")
-  databrowserId = appColl.find_one({"body.name" => "SLC Data Browser"})["_id"]
-  puts("The databrowser id is #{databrowserId}") if ENV['DEBUG']
-  
-  appAuthColl = db.collection("applicationAuthorization")
-  edOrgColl = db.collection("educationOrganization")
-  
-  neededEdOrgs = edOrgColl.find({"body.organizationCategories" => ["Local Education Agency"]})
-  neededEdOrgs.each do |edOrg|
-    puts("Currently on edOrg #{edOrg.inspect}") if ENV['DEBUG']
-    edOrgId = edOrg["_id"]
-    edOrgTenant = edOrg["metaData"]["tenantId"]
-    existingAppAuth = appAuthColl.find_one({"body.authId" => edOrgId})
-    if existingAppAuth == nil 
-      newAppAuth = {"_id" => "2012ls-#{SecureRandom.uuid}", "body" => {"authType" => "EDUCATION_ORGANIZATION", "authId" => edOrgId, "appIds" => [databrowserId]}, "metaData" => {"tenantId" => edOrgTenant}}
-      puts("About to insert #{newAppAuth.inspect}") if ENV['DEBUG']
-      appAuthColl.insert(newAppAuth)
-    elsif !(existingAppAuth["body"]["appIds"].include?(databrowserId))
-      existingAppAuth["body"]["appIds"].push(databrowserId)
-      puts("About to update #{existingAppAuth.inspect}") if ENV['DEBUG']
-      appAuthColl.update({"body.authId" => edOrgId}, existingAppAuth)
-    else
-      puts("App already approved for district #{edOrgId}, skipping") if ENV['DEBUG']
-    end
-  end
-end
-
 def runShellCommand(command)
   `#{command}`
 end
 
 ########################################################################
 ########################################################################
-# Property Loader class
-
-class PropLoader
-  @@yml = YAML.load_file(File.join(File.dirname(__FILE__),'properties.yml'))
-  @@modified=false
-
-  def self.getProps
-    self.updateHash() unless @@modified
-    return @@yml
-  end
-
-  private
-
-  def self.updateHash()
-    @@yml.each do |key, value|
-      @@yml[key] = ENV[key] if ENV[key]
-    end
-    @@modified=true
-  end
-end
 
 module DataProvider
   def self.getValidRealmData()
