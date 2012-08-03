@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -185,6 +186,82 @@ public class DefaultSelectorDocumentTest {
         @SuppressWarnings("unchecked")
         List<EntityBody> sectionsList = (List<EntityBody>) student.get("sections");
         assertEquals("Should match", 2, sectionsList.size());
+    }
+
+    @Test
+    public void testFilterFields() {
+        SelectorQueryPlan plan = new SelectorQueryPlan();
+        List<EntityBody> results = createResults();
+
+        plan.getIncludeFields().add("field1");
+        List<EntityBody> out = defaultSelectorDocument.filterFields(results, plan);
+
+        assertEquals("Should match", 1, out.size());
+
+        EntityBody body = out.get(0);
+        assertTrue("Should be true", body.containsKey("field1"));
+        assertFalse("Should be false", body.containsKey("field2"));
+        assertFalse("Should be false", body.containsKey("field3"));
+
+        plan.getIncludeFields().clear();
+        plan.getIncludeFields().add("field1");
+        plan.getIncludeFields().add("field2");
+        out = defaultSelectorDocument.filterFields(results, plan);
+
+        assertEquals("Should match", 1, out.size());
+
+        body = out.get(0);
+        assertTrue("Should be true", body.containsKey("field1"));
+        assertTrue("Should be true", body.containsKey("field2"));
+        assertFalse("Should be false", body.containsKey("field3"));
+
+        plan.getIncludeFields().clear();
+        plan.getExcludeFields().add("field1");
+        out = defaultSelectorDocument.filterFields(results, plan);
+
+        assertEquals("Should match", 1, out.size());
+
+        body = out.get(0);
+        assertFalse("Should be false", body.containsKey("field1"));
+        assertFalse("Should be false", body.containsKey("field2"));
+        assertFalse("Should be false", body.containsKey("field3"));
+
+        plan.getIncludeFields().clear();
+        plan.getExcludeFields().clear();
+        plan.getExcludeFields().add("field1");
+        plan.getIncludeFields().add("field1");
+        out = defaultSelectorDocument.filterFields(results, plan);
+
+        assertEquals("Should match", 1, out.size());
+
+        body = out.get(0);
+        assertFalse("Should be false", body.containsKey("field1"));
+        assertFalse("Should be false", body.containsKey("field2"));
+        assertFalse("Should be false", body.containsKey("field3"));
+
+        plan.getIncludeFields().clear();
+        plan.getExcludeFields().clear();
+        out = defaultSelectorDocument.filterFields(results, plan);
+
+        assertEquals("Should match", 1, out.size());
+
+        body = out.get(0);
+        assertFalse("Should be false", body.containsKey("field1"));
+        assertFalse("Should be false", body.containsKey("field2"));
+        assertFalse("Should be false", body.containsKey("field3"));
+    }
+
+    private List<EntityBody> createResults() {
+        List<EntityBody> results = new ArrayList<EntityBody>();
+        EntityBody body = new EntityBody();
+
+        body.put("field1", "value1");
+        body.put("field2", "value2");
+        body.put("field3", "value3");
+
+        results.add(body);
+
+        return results;
     }
 
     private Map<Type, SelectorQueryPlan> createQueryPlan(String type, SelectorQueryPlan queryPlan) {

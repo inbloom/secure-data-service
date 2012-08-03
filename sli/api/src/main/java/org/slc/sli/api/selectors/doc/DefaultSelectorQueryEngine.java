@@ -76,13 +76,6 @@ public class DefaultSelectorQueryEngine implements SelectorQueryEngine, Selector
     protected NeutralQuery buildQuery(SelectorQuery selectorQuery) {
         NeutralQuery query = new NeutralQuery();
 
-//        if (!selectorQuery.getIncludeFields().isEmpty()) {
-//            query.setIncludeFields(StringUtils.join(selectorQuery.getIncludeFields().iterator(), ","));
-//        }
-//        if (!selectorQuery.getExcludeFields().isEmpty()) {
-//            query.setExcludeFields(StringUtils.join(selectorQuery.getExcludeFields().iterator(), ","));
-//        }
-
         return query;
     }
 
