@@ -15,8 +15,6 @@ public class User {
 
     private String uid;
     private List<String> groups;
-    private String firstName;
-    private String lastName;
     private String password;
     private String email;
     private String tenant;
@@ -24,11 +22,11 @@ public class User {
     private String homeDir;
     private String fullName;
     private String cn;
-    
+
     public String getCn() {
         return cn;
     }
-    
+
     public void setCn(String cn) {
         this.cn = cn;
     }
@@ -70,19 +68,16 @@ public class User {
     }
 
     public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+        return fullName.split(" ")[0];
     }
 
     public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+        String[] split = fullName.split(" ", 2);
+        if (split.length == 2) {
+            return split[1];
+        } else {
+            return null;
+        }
     }
 
     public String getPassword() {
@@ -126,16 +121,11 @@ public class User {
     }
 
     public void setFullName(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+        this.fullName = firstName + (" ".equals(lastName) ? "" : " " + lastName);
     }
 
     public String getFullName() {
-        if (firstName != null && lastName != null && !firstName.equals("") && !lastName.equals("")) {
-            return this.firstName + " " + this.lastName;
-        } else {
-            return "";
-        }
+        return this.fullName;
     }
 
     public void setCreateTime(Date createTime) {
@@ -182,9 +172,9 @@ public class User {
 
     @Override
     public String toString() {
-        return "User [uid=" + uid + ", groups=" + groups + ", firstName=" + firstName + ", lastName=" + lastName
-                + ", password=" + password + ", email=" + email + ", tenant=" + tenant + ", edorg=" + edorg
-                + ", homeDir=" + homeDir + ", createTime=" + createTime + ", modifyTime=" + modifyTime + "]";
+        return "User [uid=" + uid + ", groups=" + groups + ", fullName=" + fullName + ", password=" + password
+                + ", email=" + email + ", tenant=" + tenant + ", edorg=" + edorg + ", homeDir=" + homeDir
+                + ", createTime=" + createTime + ", modifyTime=" + modifyTime + "]";
     }
 
 }

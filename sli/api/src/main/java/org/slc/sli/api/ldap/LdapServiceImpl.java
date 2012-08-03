@@ -90,8 +90,9 @@ public class LdapServiceImpl implements LdapService {
     public void removeUser(String realm, String uid) {
         Collection<Group> groups = getUserGroups(realm, uid);
         User oldUser = getUser(realm, uid);
-        if (oldUser != null)
-        ldapTemplate.unbind(buildUserDN(realm, oldUser.getCn()));
+        if (oldUser != null) {
+            ldapTemplate.unbind(buildUserDN(realm, oldUser.getCn()));
+        }
         if (groups != null && groups.size() > 0) {
 
             for (Group group : groups) {
@@ -120,8 +121,9 @@ public class LdapServiceImpl implements LdapService {
     @Override
     public boolean updateUser(String realm, User user) {
         User oldUser = getUser(realm, user.getUid());
-        if (oldUser == null)
+        if (oldUser == null) {
             return false;
+        }
         Collection<Group> oldGroups = getUserGroups(realm, user.getUid());
         DirContextAdapter context = (DirContextAdapter) ldapTemplate.lookupContext(buildUserDN(realm, oldUser.getCn()));
         mapUserToContext(context, user);
@@ -186,8 +188,8 @@ public class LdapServiceImpl implements LdapService {
             }
             filter.and(orFilter);
             DistinguishedName dn = new DistinguishedName("ou=" + realm);
-            users = (ldapTemplate.search(dn, filter.toString(), SearchControls.SUBTREE_SCOPE,
-                    new String[] { "*", CREATE_TIMESTAMP, MODIFY_TIMESTAMP }, new UserContextMapper()));
+            users = (ldapTemplate.search(dn, filter.toString(), SearchControls.SUBTREE_SCOPE, new String[] { "*",
+                    CREATE_TIMESTAMP, MODIFY_TIMESTAMP }, new UserContextMapper()));
             for (User user : users) {
                 user.setGroups(uidToGroupsMap.get(user.getUid()));
             }
@@ -221,7 +223,8 @@ public class LdapServiceImpl implements LdapService {
     }
 
     @Override
-    public Collection<User> findUsersByGroups(String realm, Collection<String> groupNames, String tenant, Collection<String> edorgs) {
+    public Collection<User> findUsersByGroups(String realm, Collection<String> groupNames, String tenant,
+            Collection<String> edorgs) {
         return filterByEdorgs(filterByTenant(findUsersByGroups(realm, groupNames), tenant), edorgs);
     }
 
@@ -286,7 +289,8 @@ public class LdapServiceImpl implements LdapService {
     private void mapUserToContext(DirContextAdapter context, User user) {
         context.setAttributeValues("objectclass", new String[] { "inetOrgPerson", "posixAccount", "top" });
         context.setAttributeValue("givenName", user.getFirstName());
-        context.setAttributeValue("sn", user.getLastName());
+        String surName = user.getLastName();
+        context.setAttributeValue("sn", surName == null ? " " : surName);
         context.setAttributeValue("uid", user.getUid());
         context.setAttributeValue("uidNumber", USER_ID_NUMBER);
         context.setAttributeValue("gidNumber", GROUP_ID_NUMBER);

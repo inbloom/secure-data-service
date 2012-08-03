@@ -137,8 +137,7 @@ public class LdapServiceImplTest {
 
     private User buildTestUser() throws UnknownHostException {
         User testUser = new User();
-        testUser.setFirstName("testFirst");
-        testUser.setLastName("testLast");
+        testUser.setFullName("testFirst", "testLast");
         testUser.setUid("testUid_" + InetAddress.getLocalHost().getHostName());
         testUser.setEdorg("testEdorg");
         testUser.setTenant("testTenant");
@@ -155,8 +154,7 @@ public class LdapServiceImplTest {
         user.setTenant("testTenantUpdate");
         user.setEmail("testemailupdate@slidev.org");
         user.setHomeDir("/dev/null/update");
-        user.setFirstName("testFirstUpdate");
-        user.setLastName("testLastUpdate");
+        user.setFullName("testFirstUpdate", "testLastUpdate");
         user.removeGroup("SLC Operator");
         user.removeGroup("SEA Administrator");
         user.addGroup("Realm Administrator");

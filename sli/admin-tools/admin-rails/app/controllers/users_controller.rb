@@ -220,13 +220,8 @@ class UsersController < ApplicationController
     groups << params[:user][:primary_role]
     groups << params[:user][:optional_role_1] if params[:user][:optional_role_1]!="0" && !groups.include?(params[:user][:optional_role_1])
     groups << params[:user][:optional_role_2] if params[:user][:optional_role_2]!="0" && !groups.include?(params[:user][:optional_role_2])
-    params[:user][:firstName]= params[:user][:fullName].split(" ")[0]
-    params[:user][:lastName] = params[:user][:fullName].gsub(params[:user][:firstName],"").lstrip if params[:user][:fullName] !=nil && params[:user][:fullName]!=""
     @user.fullName = params[:user][:fullName]
     @user.fullName = nil if @user.fullName == ""
-    @user.firstName = params[:user][:firstName]
-    @user.lastName = params[:user][:lastName]
-    @user.lastName = " " if @user.lastName==""
     @user.email = params[:user][:email]
     if APP_CONFIG['is_sandbox'] ||  !is_operator?
     @user.tenant = check["tenantId"]
