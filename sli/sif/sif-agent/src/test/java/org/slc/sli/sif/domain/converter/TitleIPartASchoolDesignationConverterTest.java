@@ -38,7 +38,7 @@ public class TitleIPartASchoolDesignationConverterTest {
 
     @Test
     public void testTargeted() {
-        test(Title1Status.TARGETED, TitleIPartASchoolDesignation.TARGETED);
+        test(Title1Status.TARGETED, TitleIPartASchoolDesignation.PART_A_TARGETED);
     }
 
     private void test(Title1Status status, TitleIPartASchoolDesignation expected) {
