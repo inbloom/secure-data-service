@@ -22,8 +22,13 @@ import java.util.Map;
 
 import openadk.library.SIFDataObject;
 
+<<<<<<< HEAD
 import org.slc.sli.sif.domain.slientity.SliEntity;
+=======
+>>>>>>> 163007e9f83d82ad6f81d20ce63882359a7ebd84
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.sif.domain.slientity.SliEntity;
 
 
 @Component
@@ -31,19 +36,24 @@ public class Translator<T extends SIFDataObject>
 {
     @SuppressWarnings("rawtypes")
     private Map<String, TranslationTask> translationTaskMap;
-    
+
     @SuppressWarnings("unchecked")
     public List<SliEntity> translate(final T sdo) {
         @SuppressWarnings("rawtypes")
         final TranslationTask task = getTranslationTask(sdo);
-        return task==null ? new ArrayList<SliEntity>() : task.translate(sdo);
+        try {
+            return task==null ? new ArrayList<SliEntity>() : task.translate(sdo);
+        } catch (SifTranslationException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @SuppressWarnings("rawtypes")
     public TranslationTask getTranslationTask(final T  sdo) {
         return sdo==null ? null : translationTaskMap.get(sdo.tag());
     }
-    
+
     @SuppressWarnings("rawtypes")
     public Map<String, TranslationTask> getTranslationTaskMap() {
         return translationTaskMap;

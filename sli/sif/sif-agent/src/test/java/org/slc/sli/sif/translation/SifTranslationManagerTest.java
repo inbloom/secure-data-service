@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 
 import org.slc.sli.sif.domain.slientity.SliEntity;
 
+@SuppressWarnings("rawtypes")
 public class SifTranslationManagerTest {
     SifTranslationManager sifTranslationManager;
 
@@ -36,7 +37,7 @@ public class SifTranslationManagerTest {
     final private String typeBString = "entityB";
 
     @Before
-    public void setup() {
+    public void setup() throws SifTranslationException {
         typeA = Mockito.mock(ElementDef.class);
         typeB = Mockito.mock(ElementDef.class);
         Mockito.when(typeA.toString()).thenReturn(typeAString);
@@ -100,5 +101,15 @@ public class SifTranslationManagerTest {
         Assert.assertEquals("Should translate to two sli entities", 2, sliEntities.size());
         Assert.assertEquals("First translated entity not of correct", sliX, sliEntities.get(0));
         Assert.assertEquals("First translated entity not of correct", sliY, sliEntities.get(1));
+    }
+
+    @Test
+    public void shouldHandleSifTranslationExceptions() {
+        try {
+            Mockito.when(mockTranslationBtoZ.translate(Mockito.eq(sifB))).thenThrow(new SifTranslationException("test throw"));
+            sifTranslationManager.translate(sifA);
+        } catch (SifTranslationException e) {
+            Assert.assertTrue("SifTranslationException should be handled", false);
+        }
     }
 }

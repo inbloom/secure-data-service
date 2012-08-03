@@ -21,44 +21,58 @@ import java.util.List;
 
 import openadk.library.common.PhoneNumber;
 import openadk.library.common.PhoneNumberList;
-
-import org.dozer.DozerConverter;
+import openadk.library.common.PhoneNumberType;
 
 import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
 
 /**
- * A customized Dozer converter to convert SIF PhoneNumberList to SLI telephone list.
+ * A customized converter to convert SIF PhoneNumberList to SLI telephone list.
  *
  * @author slee
  *
  */
-public class PhoneNumberListConverter extends DozerConverter<PhoneNumberList, List<InstitutionTelephone>>
-{
-    public PhoneNumberListConverter() {
-        super(PhoneNumberList.class, (Class<List<InstitutionTelephone>>) new ArrayList<InstitutionTelephone>().getClass());
-    }
+public class PhoneNumberListConverter {
 
-    @Override
-    public List<InstitutionTelephone> convertTo(PhoneNumberList source,
-            List<InstitutionTelephone> destination) {
-        if (source == null) {
+    /**
+     * Converts the SIF PhoneNumberList into an SLI telephone list
+     * @param phoneNumberList
+     * @return
+     */
+    public List<InstitutionTelephone> convert(PhoneNumberList phoneNumberList){
+        if (phoneNumberList == null) {
             return null;
         }
-        PhoneNumber[] phoneNumbers = source.getPhoneNumbers();
+
+        return toSliTelephoneList(phoneNumberList.getPhoneNumbers());
+    }
+
+    private List<InstitutionTelephone> toSliTelephoneList(PhoneNumber[] phoneNumbers) {
         List<InstitutionTelephone> list = new ArrayList<InstitutionTelephone>(phoneNumbers.length);
         for (PhoneNumber phoneNumber : phoneNumbers) {
             InstitutionTelephone phone = new InstitutionTelephone();
             phone.setTelephoneNumber(phoneNumber.getNumber());
-            phone.setInstitutionTelephoneNumberType(SchoolMappings.toSliInstitutionTelephoneNumberType(phoneNumber.getType()));
+
+            String mappedType = toSliInstitutionTelephoneNumberType(phoneNumber.getType());
+            phone.setInstitutionTelephoneNumberType(mappedType);
             list.add(phone);
         }
         return list;
     }
 
-    @Override
-    public PhoneNumberList convertFrom(List<InstitutionTelephone> source,
-            PhoneNumberList destination) {
-        return null;
+    private String toSliInstitutionTelephoneNumberType(String phoneNumberType) {
+        if (PhoneNumberType.ANSWERING_SERVICE.getValue()
+                .equals(phoneNumberType)) {
+            return "Administrative";
+        }
+        if (PhoneNumberType.FAX.getValue().equals(phoneNumberType)) {
+            return "Fax";
+        }
+        if (PhoneNumberType.PRIMARY.getValue().equals(phoneNumberType)) {
+            return "Main";
+        }
+        if (PhoneNumberType.VOICE_MAIL.getValue().equals(phoneNumberType)) {
+            return "Attendance";
+        }
+        return "Other";
     }
-
 }
