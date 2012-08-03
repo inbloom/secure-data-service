@@ -66,7 +66,7 @@ public class SchoolInfoTranslationTask<A extends SchoolInfo, B extends SchoolEnt
         result.setOrganizationCategories(organizationCategories);
 
         result.setWebSite(schoolInfo.getSchoolURL());
-        result.setGradesOffered(gradeLevelsConverter.convertTo(schoolInfo.getGradeLevels()));
+        result.setGradesOffered(gradeLevelsConverter.convert(schoolInfo.getGradeLevels()));
         result.setSchoolCategories(schoolTypeConverter.convert(schoolInfo.getSchoolType()));
         result.setTelephone(phoneNumberListConverter.convert(schoolInfo.getPhoneNumberList()));
 
