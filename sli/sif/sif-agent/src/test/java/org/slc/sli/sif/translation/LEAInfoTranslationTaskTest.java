@@ -65,40 +65,14 @@ public class LEAInfoTranslationTaskTest
     }
 
     @Test
-    public void testNotNull() {
+    public void testNotNull() throws SifTranslationException {
         List<LEAEntity> result = translator.translate(new LEAInfo());
         Assert.assertNotNull("Result was null", result);
         Assert.assertEquals(1, result.size());
     }
 
-//    @Test
-    public void testBasicFields() {
-          SchoolInfo info = new SchoolInfo();
-    
-          String stateOrgId = "stateOrgId";
-          info.setStateProvinceId(stateOrgId);
-    
-          String schoolName = "schoolName";
-          info.setSchoolName(schoolName);
-    
-          String schoolUrl = "schoolUrl";
-          info.setSchoolURL(schoolUrl);
-    
-          info.setTitle1Status(Title1Status.SCHOOLWIDE);
-    
-          List<LEAEntity> result = translator.translate(info);
-          Assert.assertEquals(1, result.size());
-          LEAEntity entity = result.get(0);
-    
-          Assert.assertEquals(stateOrgId, entity.getStateOrganizationId());
-          Assert.assertEquals(schoolName, entity.getNameOfInstitution());
-          Assert.assertEquals(schoolUrl, entity.getWebSite());
-          Assert.assertEquals("School", entity.getOrganizationCategories().get(0));
-          Assert.assertEquals(schoolUrl, entity.getWebSite());
-      }
-
     @Test
-    public void testPhoneNumbers() {
+    public void testPhoneNumbers() throws SifTranslationException {
         PhoneNumberList phoneNumberList = new PhoneNumberList();
         LEAInfo info = new LEAInfo();
         info.setPhoneNumberList(phoneNumberList);
