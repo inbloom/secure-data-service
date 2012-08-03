@@ -14,24 +14,22 @@
  * limitations under the License.
  */
 
-package org.slc.sli.sif.translation;
-
-import java.util.List;
-
-import openadk.library.SIFDataObject;
-
-import org.slc.sli.sif.domain.slientity.SliEntity;
+package org.slc.sli.sif.translation.converter;
 
 /**
- * Interface for translation of all or part of a SIFDataObject
- * to an SLI entity.
+ * An generic interafce for converting form source <A> to destination <B>.
+ * 
  *
- * @author jtully
+ * @author slee
  *
  */
-public interface TranslationTask<A extends SIFDataObject, B extends SliEntity> {
-    /*
-     * Transform a SIF SifDataObject into an SLI entity
+public interface Converter<A, B>
+{
+    /**
+     * Convert source <A> to destination <B>
+     * 
+     * @param source
+     * @return B
      */
-     public List<B> translate(final A sifData) throws SifTranslationException;
+    public B convert(A source);
 }

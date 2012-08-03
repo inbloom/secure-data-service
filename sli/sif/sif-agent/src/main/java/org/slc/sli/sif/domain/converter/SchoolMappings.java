@@ -18,8 +18,6 @@ package org.slc.sli.sif.domain.converter;
 
 import openadk.library.common.AddressType;
 import openadk.library.common.GradeLevelCode;
-import openadk.library.common.PhoneNumberType;
-import openadk.library.student.OperationalStatus;
 import openadk.library.student.SchoolLevelType;
 
 /**
@@ -50,24 +48,24 @@ public class SchoolMappings {
         return "Other";
     }
 
-    @Deprecated
-    public static String toSliInstitutionTelephoneNumberType(
-            String phoneNumberType) {
-        if (PhoneNumberType.ANSWERING_SERVICE.getValue()
-                .equals(phoneNumberType)) {
-            return "Administrative";
-        }
-        if (PhoneNumberType.FAX.getValue().equals(phoneNumberType)) {
-            return "Fax";
-        }
-        if (PhoneNumberType.PRIMARY.getValue().equals(phoneNumberType)) {
-            return "Main";
-        }
-        if (PhoneNumberType.VOICE_MAIL.getValue().equals(phoneNumberType)) {
-            return "Attendance";
-        }
-        return "Other";
-    }
+//    @Deprecated
+//    public static String toSliInstitutionTelephoneNumberType(
+//            String phoneNumberType) {
+//        if (PhoneNumberType.ANSWERING_SERVICE.getValue()
+//                .equals(phoneNumberType)) {
+//            return "Administrative";
+//        }
+//        if (PhoneNumberType.FAX.getValue().equals(phoneNumberType)) {
+//            return "Fax";
+//        }
+//        if (PhoneNumberType.PRIMARY.getValue().equals(phoneNumberType)) {
+//            return "Main";
+//        }
+//        if (PhoneNumberType.VOICE_MAIL.getValue().equals(phoneNumberType)) {
+//            return "Attendance";
+//        }
+//        return "Other";
+//    }
 
 //    public static String toSliSchoolType(String schoolFocusType) {
 //        if (SchoolFocusType.ALTERNATIVE.getValue().equals(schoolFocusType)) {
@@ -91,32 +89,32 @@ public class SchoolMappings {
 //        return "Not Supported";
 //    }
 
-    @Deprecated
-    public static String toSliOperationalStatus(String operationalStatus) {
-        if (OperationalStatus.SCHOOL_CLOSED.getValue()
-                .equals(operationalStatus)) {
-            return "Closed";
-        }
-        if (OperationalStatus.SCHOOL_FUTURE.getValue()
-                .equals(operationalStatus)) {
-            return "Future";
-        }
-        if (OperationalStatus.SCHOOL_INACTIVE.getValue().equals(
-                operationalStatus)) {
-            return "Inactive";
-        }
-        if (OperationalStatus.SCHOOL_NEW.getValue().equals(operationalStatus)) {
-            return "New";
-        }
-        if (OperationalStatus.SCHOOL_OPEN.getValue().equals(operationalStatus)) {
-            return "Reopened";
-        }
-        if (OperationalStatus.CHANGED_BOUNDARY.getValue().equals(
-                operationalStatus)) {
-            return "Changed Agency";
-        }
-        return "Not Supported";
-    }
+//    @Deprecated
+//    public static String toSliOperationalStatus(String operationalStatus) {
+//        if (OperationalStatus.SCHOOL_CLOSED.getValue()
+//                .equals(operationalStatus)) {
+//            return "Closed";
+//        }
+//        if (OperationalStatus.SCHOOL_FUTURE.getValue()
+//                .equals(operationalStatus)) {
+//            return "Future";
+//        }
+//        if (OperationalStatus.SCHOOL_INACTIVE.getValue().equals(
+//                operationalStatus)) {
+//            return "Inactive";
+//        }
+//        if (OperationalStatus.SCHOOL_NEW.getValue().equals(operationalStatus)) {
+//            return "New";
+//        }
+//        if (OperationalStatus.SCHOOL_OPEN.getValue().equals(operationalStatus)) {
+//            return "Reopened";
+//        }
+//        if (OperationalStatus.CHANGED_BOUNDARY.getValue().equals(
+//                operationalStatus)) {
+//            return "Changed Agency";
+//        }
+//        return "Not Supported";
+//    }
 
     public static String toSliSchoolCategory(String schoolType) {
         if (SchoolLevelType._0031_1304_ELEMENTARY.getValue().equals(schoolType)) {
