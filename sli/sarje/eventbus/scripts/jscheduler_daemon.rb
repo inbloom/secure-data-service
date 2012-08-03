@@ -25,11 +25,14 @@ require 'yaml'
 
 if __FILE__ == $0
     unless ARGV.length == 2
-        puts "Usage: " + $0 + " config.yml environment "
+        puts "Usage: " + $0 + " config.yml profile "
         exit(1)
     end
     
     config = YAML::load( File.open( ARGV[0] ) )[ARGV[1]]
+
+    # make the config symbol based
+    config.keys().each { |k| config[k.to_sym] = config.delete(k) }
 
     # create instances of the queue listener and the job runner and 
     # and plug them into an Jobscheduler
