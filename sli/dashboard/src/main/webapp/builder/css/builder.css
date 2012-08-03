@@ -52,7 +52,8 @@ ul.menu_n a {
 .ui-dialog-titlebar-close { visibility: hidden; }
 .profileList { width: 150px; float: left; padding: 20px; clear: both;}
 .profilePageWrapper { padding: 20px; margin-left: 170px; }
-.profilePageWrapper h3 { background: #ccc; padding-left: 10px; }
+.profilePageWrapper ul { clear: none !imporatant; height: 44px; }
+.profilePageWrapper h3 { background: #ccc; padding-left: 10px; margin-bottom: 20px; }
 .sectionProfile { margin: 20px 0; }
 .profile_list { list-style-type: none; padding: 0; margin: 0;}
 .profile_list a {  color: #000000; text-decoration: none; }
@@ -64,30 +65,19 @@ ul.menu_n a {
 .ui-tabs .ui-tabs-nav li div span { cursor: pointer; padding: 8px; }
 .ui-tabs .ui-tabs-nav li.addPageSection { top: 12px; margin-left: 5px; }
 .ui-tabs .ui-tabs-nav li.addPageSection:hover { top: 12px; border: none;}
+
+.pageName { display: block; }
+.updatePage { display: none; }
+.tabHover .pageName { display: none; }
+.tabHover .updatePage { display: block; }
+
 .addPageSection .btn { padding: 6px 14px; }
 #txt_input { width: 350px; }
 .dialogBox { display: none;}
 .dialogBox ul { margin: 0; padding: 0; list-style-type: none; }
 .dialogBox ul li { margin: 10px 0; }
-
-.errorMessage {
-	   border: 1px solid #FF0000;
-    color: #FF0000;
-    font-weight: bold;
-    margin: 20px;
-    padding: 20px;
-}
-
+.errorMessage { border: 1px solid #FF0000; color: #FF0000; font-weight: bold; margin: 20px; padding: 20px; }
 .formError { display: none; }
 .error .formError { display: block; color: #b94a48; }
-#footer { bottom: auto !important;
-    clear: both;
-    height: 20px;
-    position: absolute !important; width: 100%;
-}
-
-
-#sli_footer .sli_footer_wrap {
-    border-top: 2px solid #000000 !important;
-    padding-bottom: 5px;
-}
+#footer { bottom: auto !important; clear: both; height: 20px; position: absolute !important; width: 100%; }
+#sli_footer .sli_footer_wrap { border-top: 2px solid #000000 !important; padding-bottom: 5px; }

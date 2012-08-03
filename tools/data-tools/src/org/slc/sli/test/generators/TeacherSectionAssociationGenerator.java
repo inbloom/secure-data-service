@@ -81,12 +81,17 @@ public class TeacherSectionAssociationGenerator {
 		sectionRef.setSectionIdentity(sectionIdentity);
 		teacherSection.setSectionReference(sectionRef);
         
-		
-		Ref teacherRefer = new Ref(teacherMeta.id);
-		StaffReferenceType sRef = new StaffReferenceType();
-		sRef.setRef(teacherRefer);
-		teacherSection.setTeacherReference(sRef);
-		
+		if (MetaRelations.TeacherSectionAssociation_Ref) {
+			Ref teacherRefer = new Ref(teacherMeta.id);
+			StaffReferenceType sRef = new StaffReferenceType();
+			sRef.setRef(teacherRefer);
+			teacherSection.setTeacherReference(sRef);
+		} else {
+			StaffReferenceType teacherRef = new StaffReferenceType();
+			teacherRef.setStaffIdentity(staffIdentity);
+
+			teacherSection.setTeacherReference(teacherRef);
+		}
         teacherSection.setClassroomPosition(ClassroomPositionType.TEACHER_OF_RECORD);
 
         return teacherSection;
