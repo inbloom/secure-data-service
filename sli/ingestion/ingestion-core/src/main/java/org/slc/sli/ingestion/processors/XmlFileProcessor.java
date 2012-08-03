@@ -14,13 +14,17 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.dal.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Fault;
@@ -39,10 +43,6 @@ import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Processes a XML file
@@ -97,7 +97,9 @@ public class XmlFileProcessor implements Processor {
 
         String batchJobId = workNote.getBatchJobId();
         NewBatchJob newJob = batchJobDAO.findBatchJobById(batchJobId);
+
         TenantContext.setTenantId(newJob.getTenantId());
+        TenantContext.setJobId(batchJobId);
 
         try {
             boolean hasErrors = false;

@@ -105,6 +105,7 @@ end
 desc "Run Tenant Purge Test"
 task :ingestionTenantPurgeTests do
   Rake::Task["realmInit"].invoke
+  Rake::Task["importSandboxData"].invoke
   runTests("test/features/ingestion/features/tenant_purge.feature")
 end
 

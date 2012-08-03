@@ -1,33 +1,17 @@
-require 'mongo'
-require 'securerandom'
+=begin
 
-API_DB = PropLoader.getProps['DB_HOST']
-API_DB_NAME = PropLoader.getProps['api_database_name']
+Copyright 2012 Shared Learning Collaborative, LLC
 
-Given /^that dashboard has been authorized for all ed orgs$/ do
-  conn = Mongo::Connection.new(API_DB)
-  db = conn[API_DB_NAME]
-  appColl = db.collection("application")
-  dashboardId = appColl.find_one({"body.name" => "SLC Dashboards"})["_id"]
-  puts("The dashboard id is #{dashboardId}") if ENV['DEBUG']
-  
-  appAuthColl = db.collection("applicationAuthorization")
-  edOrgColl = db.collection("educationOrganization")
-  
-  neededEdOrgs = edOrgColl.find({"body.organizationCategories" => ["Local Education Agency"]})
-  neededEdOrgs.each do |edOrg|
-    puts("Currently on edOrg #{edOrg.inspect}") if ENV['DEBUG']
-    edOrgId = edOrg["_id"]
-    edOrgTenant = edOrg["metaData"]["tenantId"]
-    existingAppAuth = appAuthColl.find_one({"body.authId" => edOrgId})
-    if existingAppAuth == nil 
-      newAppAuth = {"_id" => "2012ls-#{SecureRandom.uuid}", "body" => {"authType" => "EDUCATION_ORGANIZATION", "authId" => edOrgId, "appIds" => [dashboardId]}, "metaData" => {"tenantId" => edOrgTenant}}
-      puts("About to insert #{newAppAuth.inspect}") if ENV['DEBUG']
-      appAuthColl.insert(newAppAuth)
-    else
-      existingAppAuth["body"]["appIds"].push(dashboardId)
-      puts("About to update #{existingAppAuth.inspect}") if ENV['DEBUG']
-      appAuthColl.update({"body.authId" => edOrgId}, existingAppAuth)
-    end
-    end
-end
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
