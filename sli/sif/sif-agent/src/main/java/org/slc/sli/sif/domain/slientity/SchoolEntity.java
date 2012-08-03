@@ -16,7 +16,6 @@
 
 package org.slc.sli.sif.domain.slientity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -65,7 +64,6 @@ public class SchoolEntity extends GenericEntity {
     private String webSite;
     private String operationalStatus;
     private List<String> gradesOffered;
-    private String schoolCategory;
     private List<String> schoolCategories;
     private List<InstitutionTelephone> telephone;
 
@@ -99,12 +97,10 @@ public class SchoolEntity extends GenericEntity {
      */
     public SchoolEntity() {
         super();
-        /*
-         * organizationCategories is mandatory but not counterpart in SIF SchoolInfo
-         * So set it to School
-         */
-        this.organizationCategories = new ArrayList<String>(1);
-        organizationCategories.add("School");
+    }
+
+    public void setOrganizationCategories(List<String> categories){
+        this.organizationCategories = categories;
     }
 
     public List<String> getOrganizationCategories() {
@@ -159,10 +155,8 @@ public class SchoolEntity extends GenericEntity {
         return this.gradesOffered;
     }
 
-    public void setSchoolCategory(String schoolCategory) {
-        this.schoolCategory = schoolCategory;
-        this.schoolCategories = new ArrayList<String>(1);
-        schoolCategories.add(schoolCategory);
+    public void setSchoolCategories(List<String> schoolCategories) {
+        this.schoolCategories = schoolCategories;
     }
 
     public List<String> getSchoolCategories() {
