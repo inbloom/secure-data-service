@@ -30,7 +30,7 @@ public class TitleIPartASchoolDesignationConverter {
             return TitleIPartASchoolDesignation.PART_A_SCHOOLWIDE;
         }
         else if( Title1Status.TARGETED.valueEquals(status.getValue())){
-            return TitleIPartASchoolDesignation.TARGETED;
+            return TitleIPartASchoolDesignation.PART_A_TARGETED;
         }
 
         return null;
