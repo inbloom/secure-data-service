@@ -36,7 +36,7 @@ public class StudentGradeRelations {
     public static List<String>  studentCompetencyObjectives     = new LinkedList<String>();
     public static List<String>   competencyLevelDescriptors     = new LinkedList<String>();
      
-    public static final int COMPETENCY_LEVEL_DESCRIPTOR           = 2;
+    public static int COMPETENCY_LEVEL_DESCRIPTOR           = 2;
     
     //For every Student
     //    There is one SAR Per Session(SAR is the summary of the Student's performance for that Session) 
@@ -47,14 +47,14 @@ public class StudentGradeRelations {
     //    A ReportCard has StudentCompetencies
     //        A StudentCompetency has LearningObjective|StudentCompetencyObjective and CompetencyLevelDescriptor 
             
-    public static final int REPORT_CARDS                              = 1;  
+    public static int REPORT_CARDS                              = 1;  
     
-    public static final int LEARNING_OBJECTIVES_PER_REPORT            = 1;       
-    public static final int STUDENT_COMPETENCY_OBJECTIVE_PER_REPORT   = 1;
+    public static int LEARNING_OBJECTIVES_PER_REPORT            = 1;       
+    public static int STUDENT_COMPETENCY_OBJECTIVE_PER_REPORT   = 1;
     
-    public static final int GRADEBOOK_ENTRIES                         = 1;
-    public static final int LEARNING_OBJECTIVES_PER_GRADEBOOKENTRY    = 1;
-    public static final int INV_PROBABILITY_STUDENT_HAS_GRADEBOOKENTRY = 43;
+    public static int GRADEBOOK_ENTRIES                         = 1;
+    public static int LEARNING_OBJECTIVES_PER_GRADEBOOKENTRY    = 1;
+    public static int INV_PROBABILITY_STUDENT_HAS_GRADEBOOKENTRY = 43;
     
     public static final LearningStandard LEARNING_STANDARD            = LearningStandardGenerator.generateLowFi("LearningStandardCode");
     public static final LearningStandardReferenceType LEARNING_STANDARD_REF        

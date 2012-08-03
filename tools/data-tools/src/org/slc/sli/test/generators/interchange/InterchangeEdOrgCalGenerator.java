@@ -25,6 +25,8 @@ import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 
 import org.slc.sli.test.edfi.entities.CalendarDate;
+import org.slc.sli.test.edfi.entities.CalendarDateIdentityType;
+import org.slc.sli.test.edfi.entities.CalendarDateReferenceType;
 import org.slc.sli.test.edfi.entities.ComplexObjectType;
 import org.slc.sli.test.edfi.entities.GradingPeriod;
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrgCalendar;
@@ -110,10 +112,19 @@ public class InterchangeEdOrgCalGenerator {
                     prevOrgId = orgId;
 				    gradingPeriod = gpg.getGradingPeriod(orgId, count);
 				    gradingPeriod.setId(gradingPeriodMeta.id);
-
-					ReferenceType calRef = new ReferenceType();
-					calRef.setRef(new Ref(calendarId));
-					gradingPeriod.getCalendarDateReference().add(calRef);
+				    
+					if (MetaRelations.GradingPeriod_Ref) {
+						ReferenceType calRef = new ReferenceType();
+						calRef.setRef(new Ref(calendarId));
+						gradingPeriod.getCalendarDateReference().add(calRef);
+					} else {
+						CalendarDateReferenceType calRef = new CalendarDateReferenceType();
+						CalendarDateIdentityType cit = new CalendarDateIdentityType();
+						cit.getStateOrganizationIdOrEducationOrgIdentificationCode().add((Object) new String("CAP0-D1-HSch1-ses1-1"));
+						cit.setDate("2011-01-01");
+						calRef.setCalendarDateIdentity(cit);
+						gradingPeriod.getCalendarDateReference().add(calRef);
+					}
 				
 					count++;
 				}
