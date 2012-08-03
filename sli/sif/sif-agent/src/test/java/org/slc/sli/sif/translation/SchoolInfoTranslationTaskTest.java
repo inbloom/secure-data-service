@@ -173,13 +173,13 @@ public class SchoolInfoTranslationTaskTest {
 
         List<InstitutionTelephone> telephones = new ArrayList<InstitutionTelephone>();
 
-        Mockito.when(mockPhoneNumberListConverter.convertTo(phoneNumberList)).thenReturn(telephones);
+        Mockito.when(mockPhoneNumberListConverter.convert(phoneNumberList)).thenReturn(telephones);
 
         List<SchoolEntity> result = translator.translate(info);
         Assert.assertEquals(1, result.size());
         SchoolEntity entity = result.get(0);
 
-        Mockito.verify(mockPhoneNumberListConverter).convertTo(phoneNumberList);
+        Mockito.verify(mockPhoneNumberListConverter).convert(phoneNumberList);
         Assert.assertEquals(telephones, entity.getTelephone());
     }
 

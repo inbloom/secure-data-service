@@ -16,13 +16,11 @@
 
 package org.slc.sli.sif.translation;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import openadk.library.SIFDataObject;
 
-import org.slc.sli.sif.domain.slientity.SliEntity;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.sif.domain.slientity.SliEntity;
@@ -36,9 +34,10 @@ public class Translator<T extends SIFDataObject>
 
     @SuppressWarnings("unchecked")
     public List<SliEntity> translate(final T sdo) {
-        @SuppressWarnings("rawtypes")
-        final TranslationTask task = getTranslationTask(sdo);
-        return task==null ? new ArrayList<SliEntity>() : task.translate(sdo);
+//        @SuppressWarnings("rawtypes")
+//        final TranslationTask task = getTranslationTask(sdo);
+//        return task==null ? new ArrayList<SliEntity>() : task.translate(sdo);
+        return null;
     }
 
     @SuppressWarnings("rawtypes")

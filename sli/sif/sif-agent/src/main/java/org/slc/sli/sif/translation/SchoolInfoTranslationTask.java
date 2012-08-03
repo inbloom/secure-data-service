@@ -21,17 +21,15 @@ import java.util.List;
 
 import openadk.library.student.SchoolInfo;
 
-import org.slc.sli.sif.domain.converter.AddressListConverter;
-import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
-import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
-import org.slc.sli.sif.domain.converter.SchoolFocusConverter;
-import org.slc.sli.sif.domain.converter.SchoolTypeConverter;
-import org.slc.sli.sif.domain.slientity.Address;
-import org.slc.sli.sif.domain.slientity.SchoolEntity;
-import org.slc.sli.sif.domain.slientity.SliEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class SchoolInfoTranslationTask<A extends SchoolInfo, B extends SchoolEntity> 
+import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
+import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
+import org.slc.sli.sif.domain.converter.SchoolTypeConverter;
+import org.slc.sli.sif.domain.slientity.SchoolEntity;
+import org.slc.sli.sif.domain.slientity.SliEntity;
+
+public class SchoolInfoTranslationTask<A extends SchoolInfo, B extends SchoolEntity>
                         extends AbstractTranslationTask<SchoolInfo>
 {
 
@@ -42,7 +40,7 @@ public class SchoolInfoTranslationTask<A extends SchoolInfo, B extends SchoolEnt
 //    SchoolFocusConverter schoolFocusConverter;
 
     @Autowired
-    
+
     GradeLevelsConverter gradeLevelsConverter;
 
     @Autowired
@@ -59,7 +57,7 @@ public class SchoolInfoTranslationTask<A extends SchoolInfo, B extends SchoolEnt
     @Override
     public List<SliEntity> doTranslate(SchoolInfo sifData)
     {
-        SchoolInfo schoolInfo = (SchoolInfo)sifData;
+        SchoolInfo schoolInfo = sifData;
         SchoolEntity result = new SchoolEntity();
 
         // organizationCategories is mandatory but not counterpart in SIF SchoolInfo
@@ -70,7 +68,7 @@ public class SchoolInfoTranslationTask<A extends SchoolInfo, B extends SchoolEnt
         result.setWebSite(schoolInfo.getSchoolURL());
         result.setGradesOffered(gradeLevelsConverter.convertTo(schoolInfo.getGradeLevels()));
         result.setSchoolCategories(schoolTypeConverter.convert(schoolInfo.getSchoolType()));
-        result.setTelephone(phoneNumberListConverter.convertTo(schoolInfo.getPhoneNumberList()));
+        result.setTelephone(phoneNumberListConverter.convert(schoolInfo.getPhoneNumberList()));
 
         List<SliEntity> list = new ArrayList<SliEntity>(1);
         list.add(result);

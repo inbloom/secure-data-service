@@ -104,7 +104,7 @@ public class SifTranslationManagerTest {
     }
 
     @Test
-    public void shouldHandleSifTranslationExceptions() {
+    public void shouldHandleSifTranslationExceptions() throws SifTranslationException {
         Mockito.when(mockTranslationBtoZ.translate(Mockito.eq(sifB))).thenThrow(new SifTranslationException("test throw"));
         sifTranslationManager.translate(sifA);
     }
