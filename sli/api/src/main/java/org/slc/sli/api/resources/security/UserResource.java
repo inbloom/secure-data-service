@@ -235,6 +235,11 @@ public class UserResource {
             return result;
         }
 
+        result = validateCannotOperateOnPeerLEA(user, secUtil.getEdOrg());
+        if(result != null) {
+            return result;
+        }
+
         return null;
     }
 
@@ -278,9 +283,9 @@ public class UserResource {
         return null;
     }
 
-    private Response validateCannotOperateOnPeerLEA(User userToDelete, String adminEdOrg) {
-        if (isLeaAdmin() && isUserLeaAdmin(userToDelete)) {
-            if (userToDelete.getEdorg() != null && userToDelete.getEdorg().equals(adminEdOrg)) {
+    private Response validateCannotOperateOnPeerLEA(User userToModify, String adminEdOrg) {
+        if(isLeaAdmin() && isUserLeaAdmin(userToModify)) {
+            if (userToModify.getEdorg() != null && userToModify.getEdorg().equals(adminEdOrg)) {
                 EntityBody body = new EntityBody();
                 body.put("response", "not allowed to execute this operation on peer admin users");
                 return Response.status(Status.FORBIDDEN).entity(body).build();

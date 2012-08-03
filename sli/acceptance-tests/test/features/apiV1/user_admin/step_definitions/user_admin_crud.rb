@@ -180,6 +180,37 @@ Then /^I (should|should not) see SAMT on my list of allowed apps$/ do |should|
   end
 end
 
+Given /^there is another LEA with "(.*?)" in my "(.*?)" and "(.*?)"$/ do |full_name, tenant, edorg|
+  uid=full_name.gsub(" ", "_")
+  groups = Array.new
+  groups.push("LEA Administrator")
+  @given_user=build_user(uid, groups, tenant, edorg)
+
+  idpRealmLogin("operator", nil)
+  sessionId = @sessionId
+  format = "application/json"
+
+  restHttpDelete("/users/#{@given_user['uid']}", format, sessionId)
+  restHttpPost("/users", @given_user.to_json, format, sessionId)
+end         
+    
+Then /^I think I am the only LEA in my EdOrg "(.*?)"$/ do |edorg| 
+  @result.each do |other|
+    if (other['groups'].index("LEA Administrator") != nil) 
+      if (other['edorg'] == edorg) 
+        assert(other['uid'] == @user, "@user is not the only LEA in EdOrg #{edorg}, #{other['uid']} is also LEA")
+      end
+    end 
+  end
+
+  #clean up 
+  idpRealmLogin("operator", nil)
+  sessionId = @sessionId
+  format = "application/json"
+  restHttpDelete("/users/#{@given_user['uid']}", format, sessionId)
+end 
+
+
 def get_user(uid)
 =begin
 @result.each { |user|
