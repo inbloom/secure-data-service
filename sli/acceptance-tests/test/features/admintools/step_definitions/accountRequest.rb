@@ -109,12 +109,12 @@ end
 ###############################################################################
 
 Then /^my password is shown as a series of dots$/ do
-  assert(@driver.find_element(:xpath, "//input[contains(
-    translate(@id, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'password')
-    ]").attribute("type") == "password")
-  assert(@driver.find_element(:xpath, "//input[contains(
-    translate(@id, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'confirmation')
-    ]").attribute("type") == "password")
+  assertWithWait("Password field is not masked") { 
+    @driver.find_element(:xpath, "//input[contains(translate(@id, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'password')]").attribute("type") == "password" 
+  }
+  assertWithWait("Confirmation field is not masked") { 
+    @driver.find_element(:xpath, "//input[contains(translate(@id, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'confirmation')]").attribute("type") == "password" 
+  }
 end
 
 Then /^a captcha form is shown$/ do
@@ -135,7 +135,7 @@ Then /^my field entries are validated$/ do
 end
 
 Then /^I am redirected to a page with terms and conditions$/ do
-  assert(@driver.current_url.include?("#{@baseUrl}/eula"))
+  assertWithWait("Was not redirected to #{@baseUrl}/eula") { @driver.current_url.include?("#{@baseUrl}/eula") }
   assertText("Terms and Conditions")
 end
 
@@ -144,7 +144,9 @@ Then /^I receive an error that the account already exists$/ do
 end
 
 Then /^I am redirected to the hosting website$/ do
-  assert(@driver.current_url.include?(PropLoader.getProps['user_registration_app_host_url']))
+  assertWithWait("Was not redirected to #{PropLoader.getProps['user_registration_app_host_url']}") { 
+    @driver.current_url.include?(PropLoader.getProps['user_registration_app_host_url'])
+  }
 end
 
 Then /^I am directed to an acknowledgement page.$/ do
