@@ -1,5 +1,6 @@
 package org.sli.orient.importer.importers;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.mongodb.DB;
@@ -9,7 +10,7 @@ import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.Vertex;
 
 public class BaseImporter implements Importer {
-    private static Logger logger = Logger.getLogger("BaseImporter");
+    protected static Logger logger = Logger.getLogger("Orient-Importer");
     protected DB mongo;
     protected Graph graph;
     
@@ -21,18 +22,23 @@ public class BaseImporter implements Importer {
     public void importCollection() {
     }
 
-    protected boolean vertexExists(String id) {
+    protected final boolean vertexExists(String id) {
         boolean hasVertex = false;
         for (Vertex v : graph.getVertices("mongoid", id)) {
             hasVertex = true;
         }
         return hasVertex;
     }
-    protected void extractBasicNode(String collectionName) {
+    
+    protected final void extractBasicNode(String collectionName) {
+        logger.log(Level.INFO, "Building basic node for type: " + collectionName);
         DBCursor cursor = mongo.getCollection(collectionName).find();
         while (cursor.hasNext()) {
             DBObject item = cursor.next();
             Vertex v = graph.addVertex(null);
+            logger.log(Level.INFO, "Adding vertex for {0}#{1} \t {2}",
+                    new String[] { collectionName, (String) item.get("_id"), v.getId().toString() });
+
             v.setProperty("mongoid", item.get("id"));
         }
     }

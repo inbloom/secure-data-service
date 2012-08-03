@@ -7,6 +7,7 @@ public class SectionImporter extends BaseImporter {
     
     public SectionImporter(DB mongo, Graph graph) {
         super(mongo, graph);
+
     }
     
     /*
