@@ -20,13 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import openadk.library.student.SchoolInfo;
+import openadk.library.student.SchoolLevelType;
 import openadk.library.student.Title1Status;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
-import org.slc.sli.sif.domain.converter.SchoolTypeConverter;
+import org.slc.sli.sif.domain.converter.SchoolLevelTypeConverter;
 import org.slc.sli.sif.domain.converter.TitleIPartASchoolDesignationConverter;
 import org.slc.sli.sif.domain.slientity.SchoolEntity;
 import org.slc.sli.sif.domain.slientity.SliEntity;
@@ -45,7 +46,7 @@ public class SchoolInfoTranslationTask<A extends SchoolInfo, B extends SchoolEnt
     GradeLevelsConverter gradeLevelsConverter;
 
     @Autowired
-    SchoolTypeConverter schoolTypeConverter;
+    SchoolLevelTypeConverter schoolTypeConverter;
 
     @Autowired
     TitleIPartASchoolDesignationConverter titleIPartASchoolDesignationConverter;
@@ -70,7 +71,7 @@ public class SchoolInfoTranslationTask<A extends SchoolInfo, B extends SchoolEnt
 
         result.setWebSite(schoolInfo.getSchoolURL());
         result.setGradesOffered(gradeLevelsConverter.convert(schoolInfo.getGradeLevels()));
-        result.setSchoolCategories(schoolTypeConverter.convert(schoolInfo.getSchoolType()));
+        result.setSchoolCategories(schoolTypeConverter.convertAsList(SchoolLevelType.wrap(schoolInfo.getSchoolType())));
         result.setTelephone(phoneNumberListConverter.convert(schoolInfo.getPhoneNumberList()));
 
         TitleIPartASchoolDesignation schoolType = titleIPartASchoolDesignationConverter.convert(Title1Status.wrap(schoolInfo.getTitle1Status()));
