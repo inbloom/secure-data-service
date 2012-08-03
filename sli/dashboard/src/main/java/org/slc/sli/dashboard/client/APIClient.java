@@ -439,6 +439,15 @@ public interface APIClient {
     public GenericEntity getTeacherForSection(String token, String sectionId);
 
     /**
+     * Get a list of teachers for a specific school
+     *
+     * @param token
+     * @param schoolId
+     * @return
+     */
+    public List<GenericEntity> getTeachersForSchool(String schoolId, String token);
+
+    /**
      * Returns a list of student grade book entries for a given student and params
      *
      */
