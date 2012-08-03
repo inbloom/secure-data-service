@@ -1,6 +1,5 @@
 package org.sli.orient.importer.importers;
 
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.mongodb.DB;
@@ -11,7 +10,6 @@ import com.tinkerpop.blueprints.Vertex;
 
 public class BaseImporter implements Importer {
     private static Logger logger = Logger.getLogger("BaseImporter");
-    protected String collectionName;
     protected DB mongo;
     protected Graph graph;
     
@@ -21,9 +19,15 @@ public class BaseImporter implements Importer {
     }
     
     public void importCollection() {
-        logger.log(Level.WARNING, "importCollection not implemented");
     }
 
+    protected boolean vertexExists(String id) {
+        boolean hasVertex = false;
+        for (Vertex v : graph.getVertices("mongoid", id)) {
+            hasVertex = true;
+        }
+        return hasVertex;
+    }
     protected void extractBasicNode(String collectionName) {
         DBCursor cursor = mongo.getCollection(collectionName).find();
         while (cursor.hasNext()) {
