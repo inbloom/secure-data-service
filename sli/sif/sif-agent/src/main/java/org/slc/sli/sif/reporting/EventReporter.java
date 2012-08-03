@@ -30,9 +30,12 @@ import openadk.library.Query;
 import openadk.library.SIFDataObject;
 import openadk.library.SIFVersion;
 import openadk.library.Zone;
+import openadk.library.common.CommonDTD;
+import openadk.library.common.StudentLEARelationship;
 import openadk.library.student.LEAInfo;
 import openadk.library.student.SchoolInfo;
 import openadk.library.student.StudentDTD;
+import openadk.library.student.StudentSchoolEnrollment;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -135,6 +138,8 @@ public class EventReporter implements Publisher {
         this.zone.setPublisher(this, StudentDTD.SCHOOLINFO, new PublishingOptions(true));
         this.zone.setPublisher(this, StudentDTD.LEAINFO, new PublishingOptions(true));
         this.zone.setPublisher(this, StudentDTD.STUDENTPERSONAL, new PublishingOptions(true));
+        this.zone.setPublisher(this, StudentDTD.STUDENTSCHOOLENROLLMENT, new PublishingOptions(true));
+        this.zone.setPublisher(this, CommonDTD.STUDENTLEARELATIONSHIP, new PublishingOptions(true));
         generator = new HCStudentPersonalGenerator();
     }
 
@@ -154,6 +159,8 @@ public class EventReporter implements Publisher {
     public void reportSchoolLeaInfoEvents() throws ADKException {
         SchoolInfo schoolInfo = org.slc.sli.sif.generator.SifEntityGenerator.generateTestSchoolInfo();
         LEAInfo leaInfo = org.slc.sli.sif.generator.SifEntityGenerator.generateTestLEAInfo();
+        StudentSchoolEnrollment studentSchoolEnrollment = org.slc.sli.sif.generator.SifEntityGenerator.generateTestStudentSchoolEnrollment();
+        StudentLEARelationship studentLEARelationship = org.slc.sli.sif.generator.SifEntityGenerator.generateTestStudentLEARelationship();
 
         if (zone.isConnected()) {
             try {
@@ -161,9 +168,17 @@ public class EventReporter implements Publisher {
                 Thread.sleep(5000);
                 zone.reportEvent(schoolInfo, EventAction.ADD);
                 Thread.sleep(5000);
+                zone.reportEvent(studentSchoolEnrollment, EventAction.ADD);
+                Thread.sleep(5000);
+                zone.reportEvent(studentLEARelationship, EventAction.ADD);
+                Thread.sleep(5000);
                 schoolInfo.setChanged();
                 schoolInfo.setSchoolURL("http://www.IL-DAYBREAK.edu");
                 zone.reportEvent(schoolInfo, EventAction.CHANGE);
+                Thread.sleep(5000);
+                zone.reportEvent(studentLEARelationship, EventAction.DELETE);
+                Thread.sleep(5000);
+                zone.reportEvent(studentSchoolEnrollment, EventAction.DELETE);
                 Thread.sleep(5000);
                 zone.reportEvent(schoolInfo, EventAction.DELETE);
                 Thread.sleep(5000);
