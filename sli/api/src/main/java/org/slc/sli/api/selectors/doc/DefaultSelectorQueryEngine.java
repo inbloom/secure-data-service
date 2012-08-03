@@ -20,6 +20,7 @@ import org.slc.sli.api.selectors.model.elem.BooleanSelectorElement;
 import org.slc.sli.api.selectors.model.elem.ComplexSelectorElement;
 import org.slc.sli.api.selectors.model.elem.IncludeAllSelectorElement;
 import org.slc.sli.api.selectors.model.ModelProvider;
+import org.slc.sli.api.selectors.model.elem.IncludeDefaultSelectorElement;
 import org.slc.sli.api.selectors.model.elem.IncludeXSDSelectorElement;
 import org.slc.sli.api.selectors.model.elem.SelectorElement;
 import org.slc.sli.api.selectors.model.SemanticSelector;
@@ -177,6 +178,11 @@ public class DefaultSelectorQueryEngine implements SelectorQueryEngine, Selector
 
     @Override
     public SelectorQuery visit(IncludeXSDSelectorElement includeXSDSelectorElement) {
+        throw new UnsupportedOperationException("TODO");
+    }
+
+    @Override
+    public SelectorQuery visit(IncludeDefaultSelectorElement includeDefaultSelectorElement) {
         throw new UnsupportedOperationException("TODO");
     }
 }

@@ -32,6 +32,8 @@ public interface SelectorElement extends SelectorQueryVisitable {
 
     public static final String INCLUDE_XSD = "$";
 
+    public static final String INCLUDE_DEFAULT = ".";
+
     /**
      *
      * @return true if <code>SelectorElement</code> is typed, false if otherwise

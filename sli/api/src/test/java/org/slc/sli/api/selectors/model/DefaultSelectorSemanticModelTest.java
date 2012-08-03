@@ -19,6 +19,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.selectors.model.elem.IncludeAllSelectorElement;
+import org.slc.sli.api.selectors.model.elem.IncludeDefaultSelectorElement;
 import org.slc.sli.api.selectors.model.elem.IncludeXSDSelectorElement;
 import org.slc.sli.api.selectors.model.elem.SelectorElement;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -151,9 +152,18 @@ public class DefaultSelectorSemanticModelTest {
         assertTrue(elementList.get(0) instanceof IncludeXSDSelectorElement);
     }
 
+
     @Test
     public void testDefault() {
+        final Map<String, Object> studentAttrs = new HashMap<String, Object>();
+        studentAttrs.put(".", true);
 
+        final ClassType student = provider.getClassType("Student");
+        final SemanticSelector semanticSelector = defaultSelectorSemanticModel.parse(studentAttrs, student);
+
+        final List<SelectorElement> elementList = semanticSelector.get(student);
+        assertEquals(1, elementList.size());
+        assertTrue(elementList.get(0) instanceof IncludeDefaultSelectorElement);
     }
 
     public Map<String, Object> generateFaultySelectorObjectMap() {

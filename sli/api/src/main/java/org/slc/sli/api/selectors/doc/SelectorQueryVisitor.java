@@ -21,6 +21,7 @@ import org.slc.sli.api.selectors.model.elem.BooleanSelectorElement;
 import org.slc.sli.api.selectors.model.elem.ComplexSelectorElement;
 import org.slc.sli.api.selectors.model.elem.IncludeAllSelectorElement;
 import org.slc.sli.api.selectors.model.SemanticSelector;
+import org.slc.sli.api.selectors.model.elem.IncludeDefaultSelectorElement;
 import org.slc.sli.api.selectors.model.elem.IncludeXSDSelectorElement;
 
 /**
@@ -41,4 +42,5 @@ public interface SelectorQueryVisitor {
 
     public SelectorQuery visit(IncludeXSDSelectorElement includeXSDSelectorElement);
 
+    public SelectorQuery visit(IncludeDefaultSelectorElement includeDefaultSelectorElement);
 }

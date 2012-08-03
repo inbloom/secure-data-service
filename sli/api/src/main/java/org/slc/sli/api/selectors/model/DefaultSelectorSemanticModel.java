@@ -19,6 +19,7 @@ package org.slc.sli.api.selectors.model;
 import org.slc.sli.api.selectors.model.elem.BooleanSelectorElement;
 import org.slc.sli.api.selectors.model.elem.ComplexSelectorElement;
 import org.slc.sli.api.selectors.model.elem.IncludeAllSelectorElement;
+import org.slc.sli.api.selectors.model.elem.IncludeDefaultSelectorElement;
 import org.slc.sli.api.selectors.model.elem.IncludeXSDSelectorElement;
 import org.slc.sli.api.selectors.model.elem.SelectorElement;
 import org.slc.sli.modeling.uml.ClassType;
@@ -63,6 +64,8 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
             elem = new IncludeAllSelectorElement(type);
         } else if (key.equals(SelectorElement.INCLUDE_XSD)) {
             elem = new IncludeXSDSelectorElement(type);
+        } else if (key.equals(SelectorElement.INCLUDE_DEFAULT)) {
+            elem = new IncludeDefaultSelectorElement(type);
         } else if (modelProvider.isAssociation(type, key) || modelProvider.isAttribute(type, key)) {
             elem = parseEntry(value, element, keyType);
         } else {
