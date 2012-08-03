@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+
+    <context:annotation-config />
+    <context:component-scan base-package="org.slc.sli.sif" />
+
+    <bean id="translator" class="org.slc.sli.sif.translation.Translator">
+        <property name="translationTaskMap" ref="translationTaskMap"/>
+    </bean>
+
+    <!-- define TranslationTask for translationTaskMap -->
+    <bean id="SchoolInfoTranslationTask" class="org.slc.sli.sif.translation.SchoolInfoTranslationTask">
+    	<!-- converter properties -->
+    </bean>
+    
+  	<util:map id="translationTaskMap" key-type="java.lang.String" value-type="org.slc.sli.sif.translation.TranslationTask">
+    	<entry key="SchoolInfo">
+      		<ref local="SchoolInfoTranslationTask" />
+    	</entry>
+  	</util:map>
+
+	<!-- custom converter -->
+</beans>

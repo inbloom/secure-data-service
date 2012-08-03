@@ -16,23 +16,33 @@
 
 package org.slc.sli.sif.translation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import openadk.library.SIFDataObject;
+import openadk.library.student.SchoolInfo;
 
 import org.slc.sli.sif.domain.slientity.GenericEntity;
+import org.slc.sli.sif.domain.slientity.SchoolEntity;
+import org.springframework.stereotype.Component;
 
-/**
- * Interface for translation of all or part of a SIFDataObject
- * to an SLI entity.
- *
- * @author jtully
- *
- */
-public interface TranslationTask<T extends SIFDataObject> {
-    /*
-     *
-     * Transform a SIF SifDataObject into an SLI entity
-     */
-     public List<GenericEntity> translate(final T sifData);
+@Component
+public class SchoolInfoTranslationTask<T extends SchoolInfo> implements TranslationTask
+{
+
+    @Override
+    public List<GenericEntity> translate(SIFDataObject sifData)
+    {
+        //Hey, I translate only SchoolInfo
+        if (!(sifData instanceof SchoolInfo)) 
+            return new ArrayList<GenericEntity>();
+        
+        SchoolEntity e = new SchoolEntity();
+        //covert properties
+        
+        List<GenericEntity> list = new ArrayList<GenericEntity>(1);
+        list.add(e);        
+        return list;
+    }
+
 }

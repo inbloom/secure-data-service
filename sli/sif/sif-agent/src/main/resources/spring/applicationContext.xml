@@ -23,6 +23,7 @@
     </bean>
     
     <import resource="agent-config.xml" />
+    <import resource="translation-config.xml" />
 
 	<!-- custom converter -->
   	<bean id="GradeLevelsConverter" class="org.slc.sli.sif.domain.converter.GradeLevelsConverter"/>
@@ -38,16 +39,6 @@
 	        	<entry key="addressListConverter" value-ref="AddressListConverter"/> 
 	      	</map> 
     	</property>   
-<!--        <property name="eventListeners">-->
-<!--            <list>-->
-<!--                <bean class="org.dozer.listeners.EventListener"/>-->
-<!--            </list>-->
-<!--        </property>-->
-<!--        <property name="factories">-->
-<!--            <map>-->
-<!--                <entry key="id" value-ref="bean-factory-ref"/>-->
-<!--            </map>-->
-<!--        </property>-->
     </bean>
     
 </beans>

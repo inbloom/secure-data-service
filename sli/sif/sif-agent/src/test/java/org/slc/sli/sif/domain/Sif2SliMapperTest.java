@@ -69,6 +69,9 @@ public class Sif2SliMapperTest {
         schoolInfo = SifEntityGenerator.generateTestSchoolInfo();
         leaInfo = SifEntityGenerator.generateTestLEAInfo();
         seaInfo = SifEntityGenerator.generateTestSEAInfo();
+        System.err.println(schoolInfo.tag());
+        System.err.println(leaInfo.tag());
+//        System.err.println(seaInfo);
     }
 
     @Test
