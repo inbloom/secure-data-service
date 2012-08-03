@@ -157,55 +157,62 @@ public class DefaultSelectorDocument implements SelectorDocument {
         return (List<EntityBody>) executeQuery(currentType, new NeutralQuery(), constraint, true);
     }
 
-    protected List<EntityBody> filterFields(List<EntityBody> results, SelectorQueryPlan plan) {
-        List<EntityBody> returnList = new ArrayList<EntityBody>(results);
+    protected boolean isDefaultOrParse(String key, SelectorQueryPlan plan) {
+        return defaults.contains(key) || plan.getParseFields().contains(key);
+    }
 
-        if (!plan.getExcludeFields().isEmpty()) {
-            returnList.clear();
-            for (EntityBody body : results) {
-                EntityBody newBody = new EntityBody();
+    protected List<EntityBody> filterExcludeFields(List<EntityBody> results, SelectorQueryPlan plan) {
 
-                for (String key : body.keySet()) {
-                    if (!plan.getExcludeFields().contains(key) && body.containsKey(key)) {
-                        newBody.put(key, body.get(key));
-                    }
+        for (EntityBody body : results) {
+            for (String exclude : plan.getExcludeFields()) {
+                if (!isDefaultOrParse(exclude, plan)) {
+                    body.remove(exclude);
                 }
-
-                returnList.add(addDefaultsAndParseFields(plan, body, newBody));
-            }
-        } else if (!plan.getIncludeFields().isEmpty()) {
-            returnList.clear();
-            for (EntityBody body : results) {
-                EntityBody newBody = new EntityBody();
-
-                for (String include : plan.getIncludeFields()) {
-                    if (body.containsKey(include)) {
-                        newBody.put(include, body.get(include));
-                    }
-                }
-
-                returnList.add(addDefaultsAndParseFields(plan, body, newBody));
             }
         }
 
-        return returnList;
+        return results;
     }
 
-    protected EntityBody addDefaultsAndParseFields(SelectorQueryPlan plan, EntityBody body, EntityBody newBody) {
+    protected List<EntityBody> filterIncludeFields(List<EntityBody> results, SelectorQueryPlan plan) {
+        List<EntityBody> filteredList = new ArrayList<EntityBody>();
+
+        for (EntityBody body : results) {
+            EntityBody filtered = new EntityBody();
+            for (String include : plan.getIncludeFields()) {
+                if (body.containsKey(include)) {
+                    filtered.put(include, body.get(include));
+                }
+            }
+            filteredList.add(addDefaultsAndParseFields(plan, body, filtered));
+        }
+
+
+        return  filteredList;
+    }
+
+    protected List<EntityBody> filterFields(List<EntityBody> results, SelectorQueryPlan plan) {
+        results = filterExcludeFields(results, plan);
+        results = filterIncludeFields(results, plan);
+
+        return results;
+    }
+
+    protected EntityBody addDefaultsAndParseFields(SelectorQueryPlan plan, EntityBody body, EntityBody filteredBody) {
 
         for (String defaultString : defaults) {
             if (body.containsKey(defaultString)) {
-                newBody.put(defaultString, body.get(defaultString));
+                filteredBody.put(defaultString, body.get(defaultString));
             }
         }
 
         for (String parseField : plan.getParseFields()) {
             if (body.containsKey(parseField)) {
-                newBody.put(parseField, body.get(parseField));
+                filteredBody.put(parseField, body.get(parseField));
             }
         }
 
-        return newBody;
+        return filteredBody;
     }
 
     protected List<EntityBody> updateEntityList(SelectorQueryPlan plan, List<EntityBody> results, List<EntityBody> entityList,
