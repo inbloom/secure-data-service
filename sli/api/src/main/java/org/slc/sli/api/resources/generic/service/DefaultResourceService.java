@@ -10,11 +10,9 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: srupasinghe
- * Date: 8/2/12
- * Time: 2:23 PM
- * To change this template use File | Settings | File Templates.
+ * Default implementation of the resource service.
+ *
+ * @author srupasinghe
  */
 
 @Component

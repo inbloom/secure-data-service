@@ -21,12 +21,11 @@ import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: srupasinghe
- * Date: 8/1/12
- * Time: 9:18 PM
- * To change this template use File | Settings | File Templates.
+ * Dynamic resource to handle one and two part resources
+ *
+ * @author srupasinghe
  */
+
 @Component
 @Scope("request")
 public class GenericResource {
