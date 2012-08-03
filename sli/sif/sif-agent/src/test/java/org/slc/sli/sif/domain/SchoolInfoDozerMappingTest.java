@@ -22,6 +22,7 @@ import openadk.library.ADKException;
 
 import org.dozer.Mapper;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +39,10 @@ import org.slc.sli.sif.generator.SifEntityGenerator;
  * @author slee
  *
  */
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath*:/spring/applicationContext.xml" })
+@Ignore
 public class SchoolInfoDozerMappingTest {
     @Autowired
     private Mapper dozerMapper;
