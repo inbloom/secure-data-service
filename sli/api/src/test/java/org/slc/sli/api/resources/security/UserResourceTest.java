@@ -190,6 +190,9 @@ public class UserResourceTest {
         User newUser = new User();
         newUser.setGroups(Arrays.asList(RoleInitializer.SLC_OPERATOR));
         newUser.setUid(UUID2);
+        newUser.setFullName("Robb", "Stark");
+        newUser.setEmail("robbstark@winterfell.gov");
+        newUser.setUid("robbstark");
         Response res = resource.update(newUser);
         Mockito.verify(ldap).updateUser(REALM, newUser);
         Assert.assertNotNull(res);
