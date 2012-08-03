@@ -107,6 +107,8 @@ default:
         sli.ingestion.healthcheck.user: admin
         sli.ingestion.healthcheck.pass: admin
 
+        sli.mongo.tracking: false
+
   # Write concerns
 
         sli.ingestion.mongotemplate.writeConcern: SAFE
@@ -139,7 +141,7 @@ default:
         sli.ingestion.queue.workItem.port:
         sli.ingestion.queue.workItem.secondaryhost:
         sli.ingestion.queue.workItem.secondaryport:
-        sli.ingestion.queue.options: keepAlive=true&jms.prefetchPolicy.queuePrefetch=0
+        sli.ingestion.queue.options: keepAlive=true&jms.prefetchPolicy.queuePrefetch=0&wireFormat.maxInactivityDurationInitalDelay=60000
         sli.ingestion.queue.brokerUrl: tcp://${sli.ingestion.queue.workItem.host}:${sli.ingestion.queue.workItem.port}?${sli.ingestion.queue.options}
         sli.ingestion.queue.maxConnections: 25
         sli.ingestion.queue.maximumActive: 500
@@ -1051,7 +1053,7 @@ team:
         bootstrap.sandbox.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.sandbox.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.app.conf: ${sli.conf}
-        sli.api.performance.tracking: false
+        sli.api.performance.tracking: true
     data-access: &DATA-ACCESS-TEAM
         <<: *DATA-ACCESS-DEFAULT
         # team/data-access/db.properties

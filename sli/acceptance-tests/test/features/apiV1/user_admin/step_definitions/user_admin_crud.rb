@@ -73,7 +73,9 @@ Given /^I navigate to "(.*?)" "(.*?)"$/ do |action, link|
  # puts @new_update_user
   @append_host=true
   if action == "POST"
-    restHttpDelete(link+"/"+@new_update_user["uid"])
+    if @new_update_user["uid"] != nil
+      restHttpDelete(link+"/"+@new_update_user["uid"])
+    end
     restHttpPost(link,@new_update_user.to_json)
     sleep(1)
   elsif action=="PUT"
@@ -212,8 +214,10 @@ end
 
 def append_hostname(user )
   oldUid = user["uid"]
-  newUid = oldUid+"_"+Socket.gethostname
-  user.merge!({"uid" => newUid})
+  if (oldUid != nil)
+    newUid = oldUid+"_"+Socket.gethostname
+    user.merge!({"uid" => newUid})
+  end
   return user
 end
 

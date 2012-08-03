@@ -90,8 +90,7 @@ public class LdapServiceImpl implements LdapService {
     public void removeUser(String realm, String uid) {
         Collection<Group> groups = getUserGroups(realm, uid);
         User oldUser = getUser(realm, uid);
-        if (oldUser == null)
-            return;
+        if (oldUser != null)
         ldapTemplate.unbind(buildUserDN(realm, oldUser.getCn()));
         if (groups != null && groups.size() > 0) {
 
