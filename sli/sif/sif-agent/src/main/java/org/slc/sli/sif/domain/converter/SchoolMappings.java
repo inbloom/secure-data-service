@@ -50,6 +50,7 @@ public class SchoolMappings {
         return "Other";
     }
 
+    @Deprecated
     public static String toSliInstitutionTelephoneNumberType(
             String phoneNumberType) {
         if (PhoneNumberType.ANSWERING_SERVICE.getValue()
@@ -90,6 +91,7 @@ public class SchoolMappings {
 //        return "Not Supported";
 //    }
 
+    @Deprecated
     public static String toSliOperationalStatus(String operationalStatus) {
         if (OperationalStatus.SCHOOL_CLOSED.getValue()
                 .equals(operationalStatus)) {
