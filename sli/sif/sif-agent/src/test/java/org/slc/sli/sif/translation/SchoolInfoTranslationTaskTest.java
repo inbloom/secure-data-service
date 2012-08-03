@@ -25,7 +25,7 @@ import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
 import org.slc.sli.sif.domain.converter.SchoolFocusConverter;
-import org.slc.sli.sif.domain.converter.SchoolTypeConverter;
+import org.slc.sli.sif.domain.converter.SchoolLevelTypeConverter;
 import org.slc.sli.sif.domain.slientity.Address;
 import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
 import org.slc.sli.sif.domain.slientity.SchoolEntity;
@@ -45,7 +45,7 @@ public class SchoolInfoTranslationTaskTest {
     GradeLevelsConverter mockGradeLevelsConverter;
 
     @Mock
-    SchoolTypeConverter mockSchoolTypeConverter;
+    SchoolLevelTypeConverter mockSchoolTypeConverter;
 
     @Mock
     PhoneNumberListConverter mockPhoneNumberListConverter;
@@ -155,13 +155,13 @@ public class SchoolInfoTranslationTaskTest {
 
         List<String> schoolTypes = new ArrayList<String>();
 
-        Mockito.when(mockSchoolTypeConverter.convert(SchoolLevelType.ELEMENTARY.getValue())).thenReturn(schoolTypes);
+        Mockito.when(mockSchoolTypeConverter.convertAsList(SchoolLevelType.ELEMENTARY)).thenReturn(schoolTypes);
 
         List<SchoolEntity> result = translator.translate(info);
         Assert.assertEquals(1, result.size());
         SchoolEntity entity = result.get(0);
 
-        Mockito.verify(mockSchoolTypeConverter).convert(SchoolLevelType.ELEMENTARY.getValue());
+        Mockito.verify(mockSchoolTypeConverter).convertAsList(SchoolLevelType.ELEMENTARY);
         Assert.assertEquals(schoolTypes, entity.getSchoolCategories());
     }
 
