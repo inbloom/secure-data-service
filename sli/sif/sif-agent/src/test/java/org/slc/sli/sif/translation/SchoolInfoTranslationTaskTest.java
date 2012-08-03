@@ -43,13 +43,13 @@ public class SchoolInfoTranslationTaskTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test
+//    @Test
     public void testNotNull(){
         List<SchoolEntity> result = translator.translate(new SchoolInfo());
         Assert.assertNotNull("Result was null",result);
     }
 
-    @Test
+//    @Test
     public void testBasicFields(){
         SchoolInfo info = new SchoolInfo();
 
@@ -67,7 +67,7 @@ public class SchoolInfoTranslationTaskTest {
         Assert.assertEquals(schoolName, entity.getNameOfInstitution());
     }
 
-    @Test
+//    @Test
     public void testAddressList(){
 
         AddressList addressList = new AddressList();
@@ -87,7 +87,7 @@ public class SchoolInfoTranslationTaskTest {
 
     }
 
-    @Test
+//    @Test
     public void testSchoolFocus(){
         SchoolFocusList focusList = new SchoolFocusList();
         SchoolInfo info = new SchoolInfo();

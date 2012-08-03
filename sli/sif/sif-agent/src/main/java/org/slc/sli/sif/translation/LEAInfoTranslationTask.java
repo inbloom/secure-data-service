@@ -16,22 +16,39 @@
 
 package org.slc.sli.sif.translation;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import openadk.library.SIFDataObject;
+import openadk.library.student.LEAInfo;
 
+import org.slc.sli.sif.domain.slientity.LEAEntity;
 import org.slc.sli.sif.domain.slientity.SliEntity;
 
 /**
- * Interface for translation of all or part of a SIFDataObject
- * to an SLI entity.
+ * An implementation for translation of a SIF LEAInfo
+ * to an SLI LEAEntity.
  *
- * @author jtully
+ * @author slee
  *
  */
-public interface TranslationTask<A extends SIFDataObject, B extends SliEntity> {
-    /*
-     * Transform a SIF SifDataObject into an SLI entity
-     */
-     public List<B> translate(final A sifData);
+public class LEAInfoTranslationTask<A extends LEAInfo, B extends LEAEntity> 
+                        extends AbstractTranslationTask<LEAInfo>
+{
+
+    public LEAInfoTranslationTask()
+    {
+        super(LEAInfo.class);
+    }
+
+    @Override
+    public List<SliEntity> doTranslate(LEAInfo sifData)
+    {
+        LEAEntity e = new LEAEntity();
+        //covert properties
+      
+        List<SliEntity> list = new ArrayList<SliEntity>(1);
+        list.add(e);        
+        return list;
+    }
+
 }
