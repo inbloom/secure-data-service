@@ -17,10 +17,11 @@
 package org.slc.sli.api.selectors.doc;
 
 
-import org.slc.sli.api.selectors.model.BooleanSelectorElement;
-import org.slc.sli.api.selectors.model.ComplexSelectorElement;
-import org.slc.sli.api.selectors.model.IncludeAllSelectorElement;
+import org.slc.sli.api.selectors.model.elem.BooleanSelectorElement;
+import org.slc.sli.api.selectors.model.elem.ComplexSelectorElement;
+import org.slc.sli.api.selectors.model.elem.IncludeAllSelectorElement;
 import org.slc.sli.api.selectors.model.SemanticSelector;
+import org.slc.sli.api.selectors.model.elem.IncludeXSDSelectorElement;
 
 /**
  * Visitor for building queries
@@ -37,5 +38,7 @@ public interface SelectorQueryVisitor {
     public SelectorQuery visit(ComplexSelectorElement complexSelectorElement);
 
     public SelectorQuery visit(IncludeAllSelectorElement includeAllSelectorElement);
+
+    public SelectorQuery visit(IncludeXSDSelectorElement includeXSDSelectorElement);
 
 }

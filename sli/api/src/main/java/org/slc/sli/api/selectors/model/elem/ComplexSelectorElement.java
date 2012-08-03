@@ -14,25 +14,29 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.selectors.model;
+package org.slc.sli.api.selectors.model.elem;
 
 import org.slc.sli.api.selectors.doc.SelectorQuery;
 import org.slc.sli.api.selectors.doc.SelectorQueryVisitor;
+import org.slc.sli.api.selectors.model.SemanticSelector;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.ModelElement;
 
+
 /**
- * Implementation of a selector element that has a ModelElement => "*" structure
+ * Implementation of a selector element that has a ModelElement => SemanticSelector structure
  *
  * @author jstokes
  */
-public class IncludeAllSelectorElement implements SelectorElement {
+public class ComplexSelectorElement implements SelectorElement {
+    private final SemanticSelector selector;
     private final ModelElement modelElement;
     private final boolean typed;
 
-    public IncludeAllSelectorElement(final ModelElement modelElement) {
+    public ComplexSelectorElement(final ModelElement modelElement, final SemanticSelector selector) {
         this.modelElement = modelElement;
+        this.selector = selector;
         this.typed = modelElement instanceof ClassType;
     }
 
@@ -53,7 +57,7 @@ public class IncludeAllSelectorElement implements SelectorElement {
 
     @Override
     public Object getRHS() {
-        return SelectorElement.INCLUDE_ALL;
+        return selector;
     }
 
     @Override
@@ -71,8 +75,12 @@ public class IncludeAllSelectorElement implements SelectorElement {
         return null;
     }
 
+    public SemanticSelector getSelector() {
+        return selector;
+    }
+
     @Override
     public String toString() {
-        return "*";
+        return "{" + getElementName() + " : " + getSelector() + "}";
     }
 }

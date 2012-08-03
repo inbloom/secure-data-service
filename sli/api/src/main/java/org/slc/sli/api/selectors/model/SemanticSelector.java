@@ -20,6 +20,7 @@ import org.apache.commons.lang.StringUtils;
 import org.slc.sli.api.selectors.doc.SelectorQuery;
 import org.slc.sli.api.selectors.doc.SelectorQueryVisitable;
 import org.slc.sli.api.selectors.doc.SelectorQueryVisitor;
+import org.slc.sli.api.selectors.model.elem.SelectorElement;
 import org.slc.sli.modeling.uml.Type;
 
 import java.util.HashMap;

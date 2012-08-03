@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.api.selectors.model;
+package org.slc.sli.api.selectors.model.elem;
 
 import org.slc.sli.api.selectors.doc.SelectorQuery;
 import org.slc.sli.api.selectors.doc.SelectorQueryVisitor;
