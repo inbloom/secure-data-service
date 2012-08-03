@@ -170,6 +170,7 @@ module Eventbus
     def initialize(queue_name, config)
       @queue_name = queue_name
       @thread ||= Thread.new do
+        @client = nil
         if @queue_name.start_with?('/topic/')
           @header = {"activemq.subscriptionName" => config[:hosts][0][:headers]['client-id']}
           @client = Stomp::Connection.open(config)

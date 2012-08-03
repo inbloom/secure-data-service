@@ -26,86 +26,119 @@ class TestOpLogAgent < Test::Unit::TestCase
   def setup
   end
 
-  def test_oplog_throttler
-    throttler = Eventbus::OpLogThrottler.new
-    doc1 = {"ns" => "initial"}
-    doc2 = {"ns" => "darth.vader"}
-    doc3 = {"ns" => "william.adama"}
-    doc4 = {"ns" => "wario"}
-    doc5 = {"ns" => "optimus.prime"}
-    10.times do
-      throttler.push(doc1)
-    end
-    evil_collections = ["darth.vader", "wario"]
-    good_collections = ["optimus.prime", "power.rangers"]
-    throttler.set_collection_filter(evil_collections)
+  def test_oplog_reader
+    threads = []
 
-    collection_received = Set.new
-    throttler.run do |events|
-      events["collections"].each do |collection|
-        collection_received << collection
+    oplog_reader = Eventbus::OpLogReader.new
+    oplog_queue = Queue.new
+
+    conn = Mongo::Connection.new
+    db   = conn['sample-db']
+    coll = db['test']
+    coll.remove
+
+    threads << Thread.new do
+      oplog_reader.handle_oplogs do |oplog|
+        oplog_queue << oplog
       end
     end
-    sleep 10
-    100.times do
-      throttler.push(doc1)
-      throttler.push(doc2)
-      throttler.push(doc3)
-      throttler.push(doc4)
-      throttler.push(doc5)
-    end
-    sleep 10
-    assert_equal(2, collection_received.size)
-    assert_equal(2, (collection_received & evil_collections).size)
+    sleep 1 # wait for initial reading to clear
 
-    throttler.set_collection_filter(good_collections)
-    collection_received = Set.new
-    sleep 10
-    100.times do
-      throttler.push(doc1)
-      throttler.push(doc2)
-      throttler.push(doc3)
-      throttler.push(doc4)
-      throttler.push(doc5)
+    10.times do |i|
+      coll.insert({'a' => i+1})
     end
-    sleep 10
-    assert_equal(1, collection_received.size)
-    assert_equal(1, (collection_received & good_collections).size)
+    sleep 1 # wait for oplog to queue up
+
+    assert_equal(10, oplog_queue.size)
+
+    threads.each do |thread|
+      thread.kill
+    end
   end
 
-  def test_oplog_agent
-    config = {
-        :messaging_host => "devparallax.slidev.org"
-    }
-    Eventbus::OpLogAgent.new(config)
+  def test_oplog_throttler
+    threads = []
 
-    puts "oplog agent created"
-    def connect_to_mongo
-      begin
-        @conn = Mongo::Connection.new
-        @db   = @conn['sample-db']
-        @coll = @db['test']
-        @coll.remove
-      rescue
-        puts "Cannot connect to mongo"
-        sleep 1
-        retry
+    throttler = Eventbus::OpLogThrottler.new(1)
+    oplog1 = {"ts"=>"seconds: 1344000397", increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"gummy.bear", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
+    oplog2 = {"ts"=>"seconds: 1344000397", increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"darth.vader", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
+    oplog3 = {"ts"=>"seconds: 1344000397", increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"philip.j.fry", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
+    oplog4 = {"ts"=>"seconds: 1344000397", increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"waluigi", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
+    oplog5 = {"ts"=>"seconds: 1344000397", increment: 1, "h"=>3960979106658223967, "op"=>"i", "ns"=>"optimus.prime", "o"=>{"_id"=>BSON::ObjectId('501bd18d2a63f618d2000002'), "a"=>2}}
+    oplogs = [oplog1, oplog2, oplog3, oplog4, oplog5]
+
+    subscription_event1 = {
+        "eventId" => "1",
+        "triggers" => [{"op"=>"i", "ns"=>"darth.vader"}, {"op"=>"u", "ns"=>"philip.j.fry"}]
+    }
+    subscription_event2 = {
+        "eventId" => "2",
+        "triggers" => [{"op"=>"u", "ns"=>"waluigi"}, {"op"=>"i", "ns"=>"jon.snow"}]
+    }
+    subscription_event3 = {
+        "eventId" => "3",
+        "triggers" => [{"ns"=>"optimus.prime"}]
+    }
+
+    # check that no event is received before oplog messages get sent
+    event_received = Set.new
+    threads << Thread.new do
+      throttler.handle_events do |events|
+        events.each do |event|
+          event_received << event
+        end
       end
     end
+    sleep 2
+    assert_equal(0, event_received.size)
 
-    Thread.new do
-      connect_to_mongo
-      10.times do |i|
-        begin
-          @coll.insert({'a' => i+1})
-          sleep 1
-        rescue Exception => e
-          puts e
-          connect_to_mongo
+    def push_oplogs(oplogs, throttler)
+      5.times do
+        oplogs.each do |oplog|
+          throttler.push(oplog)
         end
       end
     end
 
-    sleep 10
+    # check for subscription 1 & 2
+    throttler.set_subscription_events([subscription_event1, subscription_event2])
+    push_oplogs(oplogs, throttler)
+    sleep 2
+    assert_equal(1, event_received.size)
+    assert(event_received.include?("1"))
+
+    #check for subscription 1 & 3
+    throttler.set_subscription_events([subscription_event1, subscription_event3])
+    event_received = Set.new
+    push_oplogs(oplogs, throttler)
+    sleep 2
+    assert_equal(2, event_received.size)
+    assert(event_received.include?("1"))
+    assert(event_received.include?("3"))
+
+    #check for subscription 2 & 3
+    throttler.set_subscription_events([subscription_event2, subscription_event3])
+    event_received = Set.new
+    push_oplogs(oplogs, throttler)
+    sleep 2
+    assert_equal(1, event_received.size)
+    assert(event_received.include?("3"))
+
+    #check for empty subscription
+    throttler.set_subscription_events([])
+    event_received = Set.new
+    push_oplogs(oplogs, throttler)
+    sleep 2
+    assert_equal(0, event_received.size)
+
+    #check for nil subscription
+    throttler.set_subscription_events(nil)
+    push_oplogs(oplogs, throttler)
+    sleep 2
+    assert_equal(0, event_received.size)
+
+    threads.each do |thread|
+      thread.kill
+    end
   end
 end

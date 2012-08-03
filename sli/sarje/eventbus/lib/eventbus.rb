@@ -56,7 +56,7 @@ module Eventbus
 
             # set up the heartbeat listener 
             @current_publishers = {}
-            @heartbeat_channel.handle_message do |message|
+            @heartbeat_channel.handle_events do |message|
                 @current_publishers[message["id"]] = message["events"]
             end 
         end
@@ -67,7 +67,7 @@ module Eventbus
         end 
 
         def set_event_handler(&block)
-            @events_channel.handle_message(&block)
+            @events_channel.handle_events(&block)
         end 
 
         def get_publishers

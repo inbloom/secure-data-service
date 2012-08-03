@@ -36,82 +36,81 @@ module Eventbus
       }.merge(config)
     end
 
-    def read_oplogs
-      @thread ||= Thread.new do
-        connect_to_mongo_oplog
-        loop do
-          while not @cursor.closed?
-            begin
-              if doc = @cursor.next_document
-                # only care about insert, update, delete
-                yield doc if ["i", "u", "d"].include?(doc["op"])
-              end
-            rescue Exception => e
-              puts e
-              connect_to_mongo_oplog
+    # read_oplogs blocks on cursor tail read
+    def handle_oplogs
+      loop do
+        cursor = get_oplog_mongo_cursor
+        while not cursor.closed?
+          begin
+            if doc = cursor.next_document
+              yield doc
             end
+          rescue Exception => e
+            puts e
+            cursor = get_oplog_mongo_cursor
           end
         end
       end
     end
 
-    def connect_to_mongo_oplog
+    def get_oplog_mongo_cursor
       begin
         db = Mongo::Connection.new(@config[:mongo_host], @config[:mongo_port]).db(@config[:mongo_db])
         coll = db[@config[:mongo_oplog_collection]]
-        @cursor = Mongo::Cursor.new(coll, :timeout => false, :tailable => true)
+        cursor = Mongo::Cursor.new(coll, :timeout => false, :tailable => true)
         if(@config[:mongo_ignore_initial_read])
-          counter = 0
-          while @cursor.has_next?
-            @cursor.next_document
-            counter = counter + 1
+          while cursor.has_next?
+            cursor.next_document
           end
-          puts "ignore initial read counter = #{counter}"
         end
       rescue Exception => e
         puts "exception occurred when connecting to mongo for oplog: #{e}"
-        puts "retrying connection in #{@config[:mongo_connection_retry]} seconds"
+        puts "reconnection attempt in #{@config[:mongo_connection_retry]} seconds"
         sleep @config[:mongo_connection_retry]
         retry
       end
-    end
-
-    def shutdown
-      @thread.kill if !@thread.nil?
+      return cursor
     end
   end
 
   class OpLogThrottler
-    def initialize(config = {})
-      @config = {
-          :throttle_polling_period => 5
-      }.merge(config)
+    def initialize(throttle_polling_period = 5)
+      @throttle_polling_period = throttle_polling_period
       @oplog_queue = Queue.new
-      @collection_filter_lock = Mutex.new
-      set_collection_filter([])
+      @subscription_events_lock = Mutex.new
+      set_subscription_events([])
     end
 
-    def run
-      @throttler_thread ||= Thread.new do
-        loop do
-          sleep @config[:throttle_polling_period]
-          collection_changed = Set.new
-          begin
-            loop do
-              message = @oplog_queue.pop(true)
-              collection_changed << message["ns"]
-            end
-          rescue
-            # no more oplog in oplog queue
+    def handle_events
+      loop do
+        sleep @throttle_polling_period
+        messages_to_process = []
+        begin
+          loop do
+            messages_to_process << @oplog_queue.pop(true)
           end
-          puts "collection changed = #{collection_changed.to_a}"
-          collection_filter = get_collection_filter
-          collection_changed = collection_filter & collection_changed.to_a
-          if(collection_changed != nil && collection_changed != [])
-            message = {
-                "collections" => collection_changed
-            }
-            yield message
+        rescue
+          # no more oplog in oplog queue
+        end
+
+        if !messages_to_process.empty?
+          event_ids = []
+          subscription_events = get_subscription_events
+          subscription_events.each do |subscription_event|
+            event_added = false
+            messages_to_process.each do |message_to_process|
+              break if event_added
+              subscription_event['triggers'].each do |trigger|
+                if message_to_process == message_to_process.merge(trigger)
+                  event_ids << subscription_event['eventId']
+                  event_added = true
+                  break
+                end
+              end
+            end
+          end
+          if(!event_ids.empty?)
+            yield event_ids
           end
         end
       end
@@ -121,22 +120,16 @@ module Eventbus
       @oplog_queue.push(oplog)
     end
 
-    def set_collection_filter(collection_filter)
-      @collection_filter_lock.synchronize {
-        @collection_filter = collection_filter
+    def set_subscription_events(subscription_events)
+      @subscription_events_lock.synchronize {
+        @subscription_events = subscription_events if subscription_events != nil
       }
     end
 
-    def get_collection_filter()
-      collection_filter = []
-      @collection_filter_lock.synchronize {
-        collection_filter = @collection_filter
+    def get_subscription_events()
+      @subscription_events_lock.synchronize {
+        return @subscription_events
       }
-      collection_filter
-    end
-
-    def shutdown
-      @throttler_thread.kill if !@throttler_thread.nil?
     end
   end
 
@@ -151,30 +144,35 @@ module Eventbus
 
       @threads = []
 
-      @oplog_throttler = Eventbus::OpLogThrottler.new(config)
+      @oplog_throttler = Eventbus::OpLogThrottler.new
       @oplog_reader = OpLogReader.new(config)
 
-      @threads << @oplog_reader.read_oplogs do |incoming_oplog_message|
-        @oplog_throttler.push(incoming_oplog_message)
+      @threads << Thread.new do
+        @oplog_reader.handle_oplogs do |incoming_oplog_message|
+          @oplog_throttler.push(incoming_oplog_message)
+        end
       end
 
       @messaging_service = Eventbus::MessagingService.new(config)
 
       @messaging_service.subscribe do |incoming_configuration_message|
-        collection_filter = incoming_configuration_message['collection_filter']
+        collection_filter = incoming_configuration_message['trigger']
         if(collection_filter != nil)
-          oplog_throttler.set_collection_filter(collection_filter)
+          @oplog_throttler.set_subscription_events(collection_filter)
         end
       end
 
-      @threads << @oplog_throttler.run do |message|
-        @messaging_service.publish(message)
+      @threads << Thread.new do
+        @oplog_throttler.handle_events do |message|
+          @messaging_service.publish(message)
+        end
       end
     end
 
     def shutdown
-      @oplog_throttler.shutdown
-      @oplog_reader.shutdown
+      @threads.each do |thread|
+        thread.kill
+      end
       @messaging_service.shutdown
     end
   end
