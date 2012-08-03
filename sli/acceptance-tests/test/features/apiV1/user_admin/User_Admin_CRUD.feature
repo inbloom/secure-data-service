@@ -237,6 +237,9 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
 # app_dev, ingestion_user must have tenant for user with sandbox roles
 	|sandboxoperator   |sandboxoperator1234 |Sandbox SLC Operator   |SLI      |Application Developer|POST     |400 |200       |Application Developer4 |Application_Developer4|applicationdeveloper@slidev.org|            | |   |
 	|sandboxoperator   |sandboxoperator1234 |Sandbox SLC Operator   |SLI      |Ingestion User       |POST     |400 |200       |Ingestion User4 |Ingestion_User4|ingestionuser@slidev.org|            | |   |
+    |operator          |operator1234        |SLC Operator           |SLI      |SLC Operator        |POST      |400 |200      |              |No_Name    |noname@test.com      |               |      |           |
+    |operator          |operator1234        |SLC Operator           |SLI      |SLC Operator        |POST      |400 |200      |No User_Name  |           |nousername@test.com  |               |      |           |
+    |operator          |operator1234        |SLC Operator           |SLI      |SLC Operator        |POST      |400 |200      |No Mail       |No_Mail    |                     |               |      |           |
 
 
   #sandbox
