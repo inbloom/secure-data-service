@@ -17,7 +17,7 @@ limitations under the License.
 =end
 
 require "eventbus/version"
-require "messaging_service"
+require "messaging_service2"
 require "jobscheduler"
 require "oplogagent"
 require "hadoop_job_runner"
@@ -44,10 +44,10 @@ module Eventbus
 
         def initialize(event_type)
             config = {
-            :node_name => 'eventsubscriber',
-            :publish_queue_name => Topic_Subscribe,
-            :subscribe_queue_name => Topic_Heartbeat,
-            :start_heartbeat => false
+            :node_name => 'eventsubscriber'
+            # :publish_queue_name => Topic_Subscribe,
+            # :subscribe_queue_name => Topic_Heartbeat,
+            # :start_heartbeat => false
             }
             @messaging = MessagingService.new(config)
             @subscribe_channel = @messaging.get_publisher(subscription_address)
