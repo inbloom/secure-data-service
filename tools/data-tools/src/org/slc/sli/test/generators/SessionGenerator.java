@@ -216,9 +216,12 @@ public class SessionGenerator {
 		} else {
 			for (String cal : calendarList) {
 				CalendarDateIdentityType cit = new CalendarDateIdentityType();
-				cit.setDate(cal);
+				cit.setDate("2011-01-01");
+				cit.getStateOrganizationIdOrEducationOrgIdentificationCode().add((Object) new String("CAP0-D1-HSch1-ses1-1"));
 				CalendarDateReferenceType crf = new CalendarDateReferenceType();
 				crf.setCalendarDateIdentity(cit);
+				
+				
 				session.getCalendarDateReference().add(crf);
 			}
 		}
