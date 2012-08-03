@@ -43,8 +43,7 @@ module Eventbus
         while not cursor.closed?
           begin
             if doc = cursor.next_document
-              # only care about insert, update, delete
-              yield doc if ["i", "u", "d"].include?(doc["op"])
+              yield doc
             end
           rescue Exception => e
             puts e
@@ -82,26 +81,37 @@ module Eventbus
       set_subscription_events([])
     end
 
-    def handle_message
+    def handle_events
       loop do
         sleep @throttle_polling_period
-        messages_to_process = Set.new
+        messages_to_process = []
         begin
           loop do
-            message = @oplog_queue.pop(true)
-            messages_to_process << message["ns"]
+            messages_to_process << @oplog_queue.pop(true)
           end
         rescue
           # no more oplog in oplog queue
         end
-        puts "collection changed = #{messages_to_process.to_a}"
-        collection_filter = get_subscription_events
-        messages_to_process = collection_filter & messages_to_process.to_a
-        if(messages_to_process != nil && messages_to_process != [])
-          message = {
-              "collections" => messages_to_process
-          }
-          yield message
+
+        if !messages_to_process.empty?
+          event_ids = []
+          subscription_events = get_subscription_events
+          subscription_events.each do |subscription_event|
+            event_added = false
+            messages_to_process.each do |message_to_process|
+              break if event_added
+              subscription_event['triggers'].each do |trigger|
+                if message_to_process == message_to_process.merge(trigger)
+                  event_ids << subscription_event['eventId']
+                  event_added = true
+                  break
+                end
+              end
+            end
+          end
+          if(!event_ids.empty?)
+            yield event_ids
+          end
         end
       end
     end
@@ -112,16 +122,14 @@ module Eventbus
 
     def set_subscription_events(subscription_events)
       @subscription_events_lock.synchronize {
-        @subscription_events = subscription_events
+        @subscription_events = subscription_events if subscription_events != nil
       }
     end
 
     def get_subscription_events()
-      collection_filter = nil
       @subscription_events_lock.synchronize {
-        collection_filter = @subscription_events
+        return @subscription_events
       }
-      collection_filter
     end
   end
 
@@ -141,7 +149,6 @@ module Eventbus
 
       @threads << Thread.new do
         @oplog_reader.handle_oplogs do |incoming_oplog_message|
-          puts incoming_oplog_message
           @oplog_throttler.push(incoming_oplog_message)
         end
       end
@@ -156,7 +163,7 @@ module Eventbus
       end
 
       @threads << Thread.new do
-        @oplog_throttler.handle_message do |message|
+        @oplog_throttler.handle_events do |message|
           @messaging_service.publish(message)
         end
       end
