@@ -34,6 +34,8 @@ public interface SelectorElement extends SelectorQueryVisitable {
 
     public static final String INCLUDE_DEFAULT = ".";
 
+    public static final String EMPTY = "";
+
     /**
      *
      * @return true if <code>SelectorElement</code> is typed, false if otherwise

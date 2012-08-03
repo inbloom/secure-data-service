@@ -18,6 +18,7 @@ package org.slc.sli.api.selectors.model;
 
 import org.slc.sli.api.selectors.model.elem.BooleanSelectorElement;
 import org.slc.sli.api.selectors.model.elem.ComplexSelectorElement;
+import org.slc.sli.api.selectors.model.elem.EmptySelectorElement;
 import org.slc.sli.api.selectors.model.elem.IncludeAllSelectorElement;
 import org.slc.sli.api.selectors.model.elem.IncludeDefaultSelectorElement;
 import org.slc.sli.api.selectors.model.elem.IncludeXSDSelectorElement;
@@ -46,6 +47,10 @@ public class DefaultSelectorSemanticModel implements SelectorSemanticModel {
         if (selectors == null) throw new NullPointerException("selectors");
 
         final SemanticSelector selector = new SemanticSelector();
+        if (selectors.isEmpty()) {
+            selector.addSelector(type, new EmptySelectorElement(type));
+        }
+
         for (final Map.Entry<String, Object> entry : selectors.entrySet()) {
             final String key = entry.getKey();
             final Object value = entry.getValue();

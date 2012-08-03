@@ -33,7 +33,7 @@ public class BooleanSelectorElement extends AbstractSelectorElement implements S
     public BooleanSelectorElement(final ModelElement modelElement, final boolean qualifier) {
         this.qualifier = qualifier;
         super.setElement(modelElement);
-        super.setTyped(modelElement instanceof  ClassType);
+        super.setTyped(modelElement instanceof ClassType);
     }
 
     @Override
