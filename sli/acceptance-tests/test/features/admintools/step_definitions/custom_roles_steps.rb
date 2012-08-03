@@ -30,6 +30,7 @@ Transform /rights "(.*?)"/ do |arg1|
   rights = ["AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "Aggregate Viewer"
   rights = ["READ_GENERAL"] if arg1 == "New Custom"
   # Custom right sets for test roles
+  rights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "AGGREGATE_WRITE"] if arg1 == "all defaults"
   rights = ["READ_GENERAL"] if arg1 == "Read General"
   rights = ["READ_GENERAL", "WRITE_GENERAL"] if arg1 == "Read and Write General"
   rights = ["READ_GENERAL", "READ_PUBLIC", "READ_AGGREGATE"] if arg1 == "Read General Public and Aggregate"
@@ -123,13 +124,13 @@ When /^I create a new role <Role> to the group <Group> that allows <User> to acc
     step "I hit the save button"
     #TODO add stuff to validate the new role is in the group
     sleep(5)
-    step "the user #{hash["User"]} can access the API with rights #{hash["Group"]}"
+    step "the user #{hash["User"]} in tenant \"IL\" can access the API with rights #{hash["Group"]}"
   end
 end
 
-Then /^the user "([^"]*)" can access the API with (rights "[^"]*")$/ do |arg1, arg2|
+Then /^the user "([^"]*)" in tenant "([^"]*)" can access the API with (rights "[^"]*")$/ do |user, tenant, rights|
   # Login and get a session ID
-  idpRealmLogin(arg1, arg1+"1234", "IL")
+  idpRealmLogin(user, user+"1234", tenant)
   assert(@sessionId != nil, "Session returned was nil")
   
   # Make a call to Session debug and look that we are authenticated
@@ -139,12 +140,11 @@ Then /^the user "([^"]*)" can access the API with (rights "[^"]*")$/ do |arg1, a
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
 
-  puts("Arg2 #{arg2}")
   # Validate the user has expected rights
-  assert(result["authentication"]["authenticated"] == true, "User "+arg1+" did not successfully authenticate to SLI")
-  assert(result["authentication"]["authorities"].size == arg2.size, "User "+arg1+" was granted #{result["authentication"]["authorities"].size} permissions but expected #{arg2.size}")
-  arg2.each do |right|
-    assert(result["authentication"]["authorities"].include?(right), "User "+arg1+" was not granted #{right} permissions")
+  assert(result["authentication"]["authenticated"] == true, "User "+user+" did not successfully authenticate to SLI")
+  assert(result["authentication"]["authorities"].size == rights.size, "User "+user+" was granted #{result["authentication"]["authorities"].size} permissions but expected #{rights.size}")
+  rights.each do |right|
+    assert(result["authentication"]["authorities"].include?(right), "User "+user+" was not granted #{right} permissions")
   end
 end
 
@@ -166,7 +166,7 @@ When /^I remove the role <Role> from the group <Group> that denies <User> access
     step "I hit the save button"
     sleep(5)
     #TODO add stuff to validate the role has been removed from the group
-    step "the user #{hash["User"]} can access the API with rights \"none\""
+    step "the user #{hash["User"]} in tenant \"IL\" can access the API with rights \"none\""
   end
 end
 
