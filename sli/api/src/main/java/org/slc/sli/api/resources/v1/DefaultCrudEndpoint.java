@@ -99,7 +99,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     /* General default. Used when a more specific default selector is not available. */
     public static final Map<String, Object> DEFAULT_SELECTOR = new HashMap<String, Object>();
     static {
-        DEFAULT_SELECTOR.put("$", true);
+        DEFAULT_SELECTOR.put("*", true);
     }
     
     /* The maximum number of values allowed in a comma separated string */
@@ -236,13 +236,20 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         });
     }
 
-    private Map<String, Object> getSelector(final NeutralQuery neutralQuery) {
+    private Map<String, Object> getSelector(String type, final NeutralQuery neutralQuery) {
+        Map<String, Object> selector = null;
+        
         if (neutralQuery instanceof ApiQuery) {
-            return ((ApiQuery) neutralQuery).getSelector();
+            selector = ((ApiQuery) neutralQuery).getSelector();
+        }
+        
+        if (selector == null) {
+            return null;//this.getDefaultSelector(type);
         } else {
-            return null;
+            return selector;
         }
     }
+
 
     /**
      * Searches "resourceName" for entries where "key" equals "value", then for each result
@@ -407,7 +414,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
                 // final/resulting information
                 List<EntityBody> finalResults;
-                final Map<String, Object> selector = getSelector(neutralQuery);
+                final Map<String, Object> selector = getSelector(entityDef.getType(), neutralQuery);
 
                 if (selector != null) {
                     finalResults = logicalEntity.createEntities(selector, new Constraint("_id", idList), resourceName);
@@ -660,7 +667,13 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                         }
                     });
                 } else {
-                    entityBodies = entityDef.getService().list(query);
+                    final Map<String, Object> selector = getSelector(entityDef.getType(), query);
+
+                    if (selector != null) {
+                        entityBodies = logicalEntity.createEntities(selector, new Constraint(), resourceName);
+                    } else {
+                        entityBodies = entityDef.getService().list(query);
+                    }
                 }
                 for (EntityBody entityBody : entityBodies) {
 
