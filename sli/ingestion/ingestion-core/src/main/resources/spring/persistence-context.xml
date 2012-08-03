@@ -40,7 +40,6 @@
     <value>staffEducationOrganizationAssociation</value>
     <value>studentCompetencyObjective</value>
     <value>studentParentAssociation</value>
-    <value>studentSectionAssociation</value>
     <value>teacher</value>
   </util:set>
 
@@ -72,6 +71,7 @@
     <value>studentDisciplineIncidentAssociation</value>
     <value>studentProgramAssociation</value>
     <value>studentSchoolAssociation</value>
+    <value>studentSectionAssociation</value>
     <value>studentGradebookEntry</value>
     <value>teacherSchoolAssociation</value>
     <value>teacherSectionAssociation</value>
