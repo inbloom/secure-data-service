@@ -180,6 +180,9 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         } else {
             job = createNewBatchJob(cf);
         }
+
+        TenantContext.setJobId(job.getId());
+
         return job;
     }
 

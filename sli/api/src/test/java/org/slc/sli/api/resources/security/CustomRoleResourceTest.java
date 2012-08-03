@@ -125,7 +125,6 @@ public class CustomRoleResourceTest {
         
         NeutralQuery customRoleQuery = new NeutralQuery();
         customRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.OPERATOR_EQUAL, REALM_ID));
-        customRoleQuery.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getTenantId(), false));
         Mockito.when(repo.findOne("customRole", customRoleQuery)).thenReturn(mockEntity);
 
         Response res = resource.readAll(uriInfo);
