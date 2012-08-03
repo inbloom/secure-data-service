@@ -7,7 +7,7 @@
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.5.xsd">
 
 	<context:annotation-config />
-	<context:component-scan base-package="org.slc.sli.sif" />
+	<context:component-scan base-package="org.slc.sli.sif.translation" />
 
 	<!-- define TranslationTask for translationTaskMap -->
 	<bean id="SchoolInfoTranslationTaskList" class="java.util.ArrayList">
