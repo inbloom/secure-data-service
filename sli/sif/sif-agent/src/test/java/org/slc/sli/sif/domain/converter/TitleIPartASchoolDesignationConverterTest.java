@@ -18,27 +18,31 @@ package org.slc.sli.sif.domain.converter;
 import junit.framework.Assert;
 import openadk.library.student.Title1Status;
 
+import org.junit.Test;
+
+import org.slc.sli.sif.domain.slientity.TitleIPartASchoolDesignation;
+
 public class TitleIPartASchoolDesignationConverterTest {
 
     private TitleIPartASchoolDesignationConverter converter = new TitleIPartASchoolDesignationConverter();
 
-    // @Test
-    // public void testNA() {
-    // test(Title1Status.NA, TitleIPartASchoolDesignation.NOT_DESIGNATED.getText());
-    // }
-    //
-    // @Test
-    // public void testSchoolwide() {
-    // test(Title1Status.SCHOOLWIDE, TitleIPartASchoolDesignation.PART_A_SCHOOLWIDE.getText());
-    // }
-    //
-    // @Test
-    // public void testTargeted() {
-    // test(Title1Status.TARGETED, TitleIPartASchoolDesignation.TARGETED.getText());
-    // }
+    @Test
+    public void testNA() {
+        test(Title1Status.NA, TitleIPartASchoolDesignation.NOT_DESIGNATED);
+    }
 
-    private void test(Title1Status status, String expected) {
-        String result = converter.convert(Title1Status.NA);
+    @Test
+    public void testSchoolwide() {
+        test(Title1Status.SCHOOLWIDE, TitleIPartASchoolDesignation.PART_A_SCHOOLWIDE);
+    }
+
+    @Test
+    public void testTargeted() {
+        test(Title1Status.TARGETED, TitleIPartASchoolDesignation.PART_A_TARGETED);
+    }
+
+    private void test(Title1Status status, TitleIPartASchoolDesignation expected) {
+        TitleIPartASchoolDesignation result = converter.convert(status);
         Assert.assertEquals(expected, result);
     }
 }

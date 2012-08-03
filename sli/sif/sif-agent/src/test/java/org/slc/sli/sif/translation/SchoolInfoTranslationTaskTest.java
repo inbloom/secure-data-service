@@ -26,9 +26,11 @@ import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
 import org.slc.sli.sif.domain.converter.SchoolFocusConverter;
 import org.slc.sli.sif.domain.converter.SchoolLevelTypeConverter;
+import org.slc.sli.sif.domain.converter.TitleIPartASchoolDesignationConverter;
 import org.slc.sli.sif.domain.slientity.Address;
 import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
 import org.slc.sli.sif.domain.slientity.SchoolEntity;
+import org.slc.sli.sif.domain.slientity.TitleIPartASchoolDesignation;
 
 public class SchoolInfoTranslationTaskTest {
 
@@ -48,6 +50,9 @@ public class SchoolInfoTranslationTaskTest {
     SchoolLevelTypeConverter mockSchoolTypeConverter;
 
     @Mock
+    TitleIPartASchoolDesignationConverter mockTitleIPartASchoolDesignationConverter;
+
+    @Mock
     PhoneNumberListConverter mockPhoneNumberListConverter;
 
     @Before
@@ -60,14 +65,14 @@ public class SchoolInfoTranslationTaskTest {
         MockitoAnnotations.initMocks(this);
     }
 
-//    @Test
-    public void testNotNull() {
+    @Test
+    public void testNotNull() throws SifTranslationException{
         List<SchoolEntity> result = translator.translate(new SchoolInfo());
         Assert.assertNotNull("Result was null", result);
     }
 
-//    @Test
-    public void testBasicFields() {
+    // @Test
+    public void testBasicFields() throws SifTranslationException{
         SchoolInfo info = new SchoolInfo();
 
         String stateOrgId = "stateOrgId";
@@ -93,8 +98,8 @@ public class SchoolInfoTranslationTaskTest {
 
     }
 
-//    @Test
-    public void testAddressList() {
+    // @Test
+    public void testAddressList() throws SifTranslationException{
 
         AddressList addressList = new AddressList();
         SchoolInfo info = new SchoolInfo();
@@ -114,8 +119,8 @@ public class SchoolInfoTranslationTaskTest {
 
     }
 
-//    @Test
-    public void testSchoolFocus() {
+    //@Test
+    public void testSchoolFocus() throws SifTranslationException{
         SchoolFocusList focusList = new SchoolFocusList();
         SchoolInfo info = new SchoolInfo();
         info.setSchoolFocusList(focusList);
@@ -131,7 +136,7 @@ public class SchoolInfoTranslationTaskTest {
     }
 
     @Test
-    public void testGradeLevels() {
+    public void testGradeLevels() throws SifTranslationException {
         GradeLevels sifGradeLevels = new GradeLevels();
         SchoolInfo info = new SchoolInfo();
         info.setGradeLevels(sifGradeLevels);
@@ -149,7 +154,7 @@ public class SchoolInfoTranslationTaskTest {
     }
 
     @Test
-    public void testSchoolTypes() {
+    public void testSchoolTypes() throws SifTranslationException {
         SchoolInfo info = new SchoolInfo();
         info.setSchoolType(SchoolLevelType.ELEMENTARY);
 
@@ -166,7 +171,7 @@ public class SchoolInfoTranslationTaskTest {
     }
 
     @Test
-    public void testPhoneNumbers() {
+    public void testPhoneNumbers() throws SifTranslationException {
         PhoneNumberList phoneNumberList = new PhoneNumberList();
         SchoolInfo info = new SchoolInfo();
         info.setPhoneNumberList(phoneNumberList);
@@ -181,6 +186,22 @@ public class SchoolInfoTranslationTaskTest {
 
         Mockito.verify(mockPhoneNumberListConverter).convert(phoneNumberList);
         Assert.assertEquals(telephones, entity.getTelephone());
+    }
+
+    @Test
+    public void testTitleIDesignation() throws SifTranslationException {
+        SchoolInfo info = new SchoolInfo();
+        info.setTitle1Status(Title1Status.SCHOOLWIDE);
+
+        Mockito.when(mockTitleIPartASchoolDesignationConverter.convert(Title1Status.SCHOOLWIDE)).thenReturn(
+                TitleIPartASchoolDesignation.PART_A_SCHOOLWIDE);
+
+        List<SchoolEntity> result = translator.translate(info);
+        Assert.assertEquals(1, result.size());
+        SchoolEntity entity = result.get(0);
+
+        Mockito.verify(mockTitleIPartASchoolDesignationConverter).convert(Title1Status.SCHOOLWIDE);
+        Assert.assertEquals(TitleIPartASchoolDesignation.PART_A_SCHOOLWIDE.getText(), entity.getSchoolType());
     }
 
 }

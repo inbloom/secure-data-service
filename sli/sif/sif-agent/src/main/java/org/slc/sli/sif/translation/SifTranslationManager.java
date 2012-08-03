@@ -53,11 +53,10 @@ public class SifTranslationManager {
 
         for (TranslationTask translationTask : translationTasks ) {
 
-            // TODO: put the error handling/logging in the right place
             try {
                 entities.addAll(translationTask.translate(sifData));
             } catch (SifTranslationException e) {
-                e.printStackTrace();
+                LOG.error("Sif translation exception: ", e);
             }
         }
 

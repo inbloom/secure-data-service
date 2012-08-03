@@ -16,12 +16,12 @@
 
 package org.slc.sli.sif.translation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import openadk.library.SIFDataObject;
 
 import org.apache.commons.lang.ClassUtils;
+
 import org.slc.sli.sif.domain.slientity.SliEntity;
 
 /**
@@ -48,14 +48,14 @@ public abstract class AbstractTranslationTask<T extends SIFDataObject> implement
 
 
     @Override
-    public List<SliEntity> translate(SIFDataObject sifData)
+    public List<SliEntity> translate(SIFDataObject sifData) throws SifTranslationException
     {
         Class<?> wrappedSifClass = ClassUtils.primitiveToWrapper(sifData.getClass());
-        
-        if (sifPrototype.equals(wrappedSifClass)) {
-            return doTranslate((T)sifData);
+
+        if (!sifPrototype.equals(wrappedSifClass)) {
+            throw new SifTranslationException("Unsupported SIF data type");
         }
-        return new ArrayList<SliEntity>();
+        return doTranslate((T)sifData);
     }
 
     abstract public List<SliEntity> doTranslate(T sifData);
