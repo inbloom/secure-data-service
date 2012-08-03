@@ -53,6 +53,7 @@ import org.slc.sli.test.generators.interchange.InterchangeStudentGradeGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentParentGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentProgramGenerator;
 import org.slc.sli.test.utils.DataUtils;
+import org.slc.sli.test.utils.EdfiStats;
 import org.slc.sli.test.utils.InterchangeWriter;
 import org.slc.sli.test.utils.JaxbUtils;
 import org.slc.sli.test.utils.ValidateSchema;
@@ -96,12 +97,12 @@ public class StateEdFiXmlGenerator {
         generateAndMarshalInterchanges();
         
         ValidateSchema.check(MetaRelations.rootOutputPath);
+        
+        EdfiStats.generateStats(MetaRelations.rootOutputPath);
     
     }
 
-    public void loadReferenceConfig() {
-    	
-    }
+
     
     private static void processProgramArguments(String[] args) {
 
@@ -186,12 +187,12 @@ public class StateEdFiXmlGenerator {
      * @throws Exception
      */
     private static void masterSchedule() throws Exception {
-    	  InterchangeWriter<InterchangeStaffAssociation> iWriter = 
-                  new InterchangeWriter<InterchangeStaffAssociation>(InterchangeStaffAssociation.class);
-          InterchangeStaffAssociationGenerator.generate(iWriter);
+    	  InterchangeWriter<InterchangeMasterSchedule> iWriter = 
+                  new InterchangeWriter<InterchangeMasterSchedule>(InterchangeMasterSchedule.class);
+          InterchangeMasterScheduleGenerator.generate(iWriter);
           iWriter.close();
 
-          DataUtils.writeControlFile(MetaRelations.rootOutputPath + "/MainControlFile.ctl", "masterSchedule", iWriter.getXmlFilePath());
+          DataUtils.writeControlFile(MetaRelations.rootOutputPath + "/MainControlFile.ctl", "MasterSchedule", iWriter.getXmlFilePath());
     }
 
     /**
@@ -206,7 +207,7 @@ public class StateEdFiXmlGenerator {
         InterchangeStaffAssociationGenerator.generate(iWriter);
         iWriter.close();
 
-        DataUtils.writeControlFile(MetaRelations.rootOutputPath + "/MainControlFile.ctl", "staffAssociation", iWriter.getXmlFilePath());
+        DataUtils.writeControlFile(MetaRelations.rootOutputPath + "/MainControlFile.ctl", "StaffAssociation", iWriter.getXmlFilePath());
     }
 
     /**
@@ -222,7 +223,7 @@ public class StateEdFiXmlGenerator {
         InterchangeStudentParentGenerator.generate(iWriter);
         iWriter.close();
 
-        DataUtils.writeControlFile(MetaRelations.rootOutputPath + "/MainControlFile.ctl", "studentParent", iWriter.getXmlFilePath());
+        DataUtils.writeControlFile(MetaRelations.rootOutputPath + "/MainControlFile.ctl", "StudentParent", iWriter.getXmlFilePath());
 
     }
 

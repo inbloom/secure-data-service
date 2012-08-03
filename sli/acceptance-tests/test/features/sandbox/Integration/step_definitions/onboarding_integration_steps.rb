@@ -66,7 +66,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   #placeholder for provision and app registration link, need to be updated to check real link
   id = "landing_zone"                                     if human_readable_id == "URL_TO_PROVISIONING_APPLICATION"
   id = "apps"                                             if human_readable_id == "URL_TO_APPLICATION_REGISTRATION"
-  id = "roles"                                            if human_readable_id == "URL_TO_ADMIN_APP"
+  id = "home"                                             if human_readable_id == "URL_TO_ADMIN_APP"
   id = "portal"                                           if human_readable_id == "URL_TO_PORTAL"
 
   id = "account_managements" if human_readable_id == "ACCOUNT_MANAGEMENT_APP"
