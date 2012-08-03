@@ -3,12 +3,14 @@
   xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:context="http://www.springframework.org/schema/context"
   xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mongo="http://www.springframework.org/schema/data/mongo"
   xmlns:util="http://www.springframework.org/schema/util"
+  xmlns:aop="http://www.springframework.org/schema/aop"
   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
-        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
   default-autowire="byName">
 
   <!-- SHARED CONFIG -->
@@ -62,7 +64,7 @@
    <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.AesCipher">
    </bean>
 
-  <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+  <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" depends-on="mongoTrackingAspect">
     <constructor-arg ref="mongoDbFactory" />
     <constructor-arg ref="mappingConverter" />
     <property name="slaveOk" value="false" />
@@ -72,7 +74,7 @@
     -->
   </bean>
 
-    <bean id="mongoPerfDbTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+    <bean id="mongoPerfDbTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" depends-on="mongoTrackingAspect">
         <constructor-arg ref="mongoPerfDbFactory" />
         <constructor-arg ref="mappingPerfDbConverter" />
         <property name="slaveOk" value="false" />
@@ -80,6 +82,13 @@
 
   <bean id="mongoIdConverter" class="org.slc.sli.dal.convert.MongoIdConverter" />
 
+  <bean id="mongoTrackingAspect" class="org.slc.sli.dal.aspect.MongoTrackingAspect" 
+       factory-method="aspectOf">
+      <property name="enabledConfig" value="${sli.enableMongoTracking}" />
+  </bean>
+   
+ 
+  
   <bean id="mongoEntityRepository" name="validationRepo"
     class="org.slc.sli.dal.repository.MongoEntityRepository">
     <property name="template" ref="mongoTemplate" />
@@ -92,4 +101,6 @@
     </bean>
   <import resource="classpath:/spring/validation.xml" />
   <context:component-scan base-package="org.slc.sli.dal" />
+    
+  
 </beans>

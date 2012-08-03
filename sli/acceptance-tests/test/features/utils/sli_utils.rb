@@ -495,7 +495,7 @@ def allLeaAllowDashboard()
   
   appAuthColl = db.collection("applicationAuthorization")
   edOrgColl = db.collection("educationOrganization")
-  
+
   neededEdOrgs = edOrgColl.find({"body.organizationCategories" => ["Local Education Agency"]})
   neededEdOrgs.each do |edOrg|
     puts("Currently on edOrg #{edOrg.inspect}") if ENV['DEBUG']
@@ -506,10 +506,12 @@ def allLeaAllowDashboard()
       newAppAuth = {"_id" => "2012ls-#{SecureRandom.uuid}", "body" => {"authType" => "EDUCATION_ORGANIZATION", "authId" => edOrgId, "appIds" => [dashboardId]}, "metaData" => {"tenantId" => edOrgTenant}}
       puts("About to insert #{newAppAuth.inspect}") if ENV['DEBUG']
       appAuthColl.insert(newAppAuth)
-    else
+    elsif !(existingAppAuth["body"]["appIds"].include?(dashboardId))
       existingAppAuth["body"]["appIds"].push(dashboardId)
       puts("About to update #{existingAppAuth.inspect}") if ENV['DEBUG']
       appAuthColl.update({"body.authId" => edOrgId}, existingAppAuth)
+    else
+      puts("App already approved for district #{edOrgId}, skipping") if ENV['DEBUG']
     end
   end
 end
@@ -534,10 +536,12 @@ def allLeaAllowDatabrowser()
       newAppAuth = {"_id" => "2012ls-#{SecureRandom.uuid}", "body" => {"authType" => "EDUCATION_ORGANIZATION", "authId" => edOrgId, "appIds" => [databrowserId]}, "metaData" => {"tenantId" => edOrgTenant}}
       puts("About to insert #{newAppAuth.inspect}") if ENV['DEBUG']
       appAuthColl.insert(newAppAuth)
-    else
+    elsif !(existingAppAuth["body"]["appIds"].include?(databrowserId))
       existingAppAuth["body"]["appIds"].push(databrowserId)
       puts("About to update #{existingAppAuth.inspect}") if ENV['DEBUG']
       appAuthColl.update({"body.authId" => edOrgId}, existingAppAuth)
+    else
+      puts("App already approved for district #{edOrgId}, skipping") if ENV['DEBUG']
     end
   end
 end
