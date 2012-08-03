@@ -54,7 +54,7 @@ Feature: As an SLI application, I want to be able to apply optional fields to st
 
     # Transcript
     And inside "transcript"
-    And I should find "2" "studentSectionAssociations" in it
+    And I should find "1" "studentSectionAssociations" in it
     And I should find one with the property "id" having the value "<STUDENT SECTION ASSOC ID>"
     When I go into the item with the property "id" having the value "<STUDENT SECTION ASSOC ID>"
     Then I should find "sections" expanded in it

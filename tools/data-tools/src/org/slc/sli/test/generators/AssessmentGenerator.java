@@ -102,17 +102,18 @@ public class AssessmentGenerator {
             // TODO: this is only modeled as XML ReferenceType... (AssessmentItem is post-alpha?)
         }
 
-        if(MetaRelations.Assessment_Ref)
-        {
-        // ObjectiveAssessmentReference
-        for (String objAssessmentIdString : assessmentMeta.objectiveAssessmentIds) {
-            if (objAssessMap.get(objAssessmentIdString) != null) {
-                ReferenceType objAssessRef = new ReferenceType();
-                objAssessRef.setRef(objAssessMap.get(objAssessmentIdString));
-                assessment.getObjectiveAssessmentReference().add(objAssessRef);
-            }
-        }
-        }
+
+			// ObjectiveAssessmentReference
+			for (String objAssessmentIdString : assessmentMeta.objectiveAssessmentIds) {
+				if (objAssessMap.get(objAssessmentIdString) != null) {
+					ReferenceType objAssessRef = new ReferenceType();
+					objAssessRef
+							.setRef(objAssessMap.get(objAssessmentIdString));
+					assessment.getObjectiveAssessmentReference().add(
+							objAssessRef);
+				}
+			}
+		
 
         // AssessmentFamilyReference
         if (assessmentMeta.assessmentFamilyId != null) {

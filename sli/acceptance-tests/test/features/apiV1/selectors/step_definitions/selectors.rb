@@ -26,6 +26,8 @@ require_relative '../../entities/common.rb'
 Transform /^<(.+)>$/ do |template|
   id = template
   id = "74cf790e-84c4-4322-84b8-fca7206f1085" if template == "MARVIN MILLER STUDENT ID"
+  id = "5738d251-dd0b-4734-9ea6-417ac9320a15" if template == "MATT SOLLARS STUDENT ID"
+  id = "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b" if template == "CARMEN ORTIZ STUDENT ID"
   id
 end
 
@@ -46,41 +48,77 @@ end
 ###############################################################################
 
 Then /^in the response body I should see the following fields:$/ do |table|
-  table.cells_rows.each do |field|
-    assert(@result.has_key?(field.value(0)), "Response does not contain the field #{field}\nFields return: #{@result.keys}")
-  end
+  check_contains_fields(@result, table)
 end
 
 Then /^in the response body I should see the following fields only:$/ do |table|
-  num_of_fields = table.cells_rows.size
-  assert(@result.keys.size == num_of_fields,
-         "Number of fields returned doesn't match: received #{@result.keys.size}, expected #{num_of_fields}\nFields return: #{@result.keys}")
-  table.cells_rows.each do |field|
-    assert(@result.has_key?(field.value(0)),
-           "Response does not contain the field #{field}\nFields return: #{@result.keys}")
+  check_number_of_fields(@result, table)
+  check_contains_fields(@result, table)
+end
+
+Then /^in the response body for all entities I should see the following fields only:$/ do |table|
+  @result.each do |entity|
+    check_number_of_fields(entity, table)
+    check_contains_fields(entity, table)
   end
 end
 
 Then /^in "([^\"]*)" I should see the following fields:$/ do |key, table|
-  assert(@result.has_key?(key), "Response does not contain #{key}")
-  @result["#{key}"].each do |row|
-    table.cells_rows.each do |field|
-      assert(row.has_key?(field.value(0)),
-             "#{key} does not contain the field #{field}\nFields return: #{row.keys}")
-    end
+  @entities_to_check = []
+  get_hash_recursively(@result, key)
+  @entities_to_check.flatten.each do |entity|
+    check_contains_fields(entity, table)
   end
 end
 
 Then /^in "([^\"]*)" I should see the following fields only:$/ do |key, table|
-  assert(@result.has_key?(key), "Response does not contain #{key}")
-  @result["#{key}"].each do |row|
-    num_of_fields = table.cells_rows.size
-    assert(row.keys.size == num_of_fields,
-           "Number of fields returned doesn't match: received #{row.keys.size}, expected #{num_of_fields}\nFields return: #{row.keys}")
-    table.cells_rows.each do |field|
-      assert(row.has_key?(field.value(0)),
-             "#{key} does not contain the field #{field}\nFields return: #{row.keys}")
-    end
+  @entities_to_check = []
+  get_hash_recursively(@result, key)
+  @entities_to_check.flatten.each do |entity|
+    check_number_of_fields(entity, table)
+    check_contains_fields(entity, table)
   end
 end
 
+Then /^I should be informed that the selector is invalid$/ do
+  assert(@result.to_s.downcase.include?("valid selector"), "'Invalid selector' message is not found in response")
+end
+
+###############################################################################
+# DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF DEF
+###############################################################################
+
+private
+
+def check_contains_fields(body, table)
+  table.cells_rows.each do |field|
+    assert(body.has_key?(field.value(0)), "Response does not contain the field #{field.value(0)}\nFields return: #{body.keys}")
+  end
+end
+
+def check_number_of_fields(body, table)
+  num_of_fields = table.cells_rows.size
+  assert(body.keys.size == num_of_fields,
+         "Number of fields returned doesn't match: received #{body.keys.size}, expected #{num_of_fields}\nFields return: #{body.keys}")
+end
+
+def get_hash_recursively(body, key)
+  keys = key.split("=>")
+  if body.is_a?(Hash)
+    assert(body.has_key?(keys[0]), "Response does not contain #{keys[0]}")
+    if keys.size > 1
+      get_hash_recursively(body["#{keys[0]}"], keys.drop(1).join("=>"))
+    else
+      @entities_to_check << body["#{keys[0]}"]
+    end
+  elsif body.is_a?(Array)
+    body.each do |b|
+      assert(b.has_key?(keys[0]), "Response does not contain #{keys[0]}")
+      if keys.size > 1
+        get_hash_recursively(b["#{keys[0]}"], keys.drop(1).join("=>"))
+      else
+        @entities_to_check << b["#{keys[0]}"]
+      end
+    end
+  end
+end

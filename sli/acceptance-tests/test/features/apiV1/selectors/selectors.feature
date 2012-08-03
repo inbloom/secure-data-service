@@ -71,14 +71,63 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     | studentId  |
     | id         |
     | entityType |
+    Given selector "(name,sectionAssociations:(section))"
+    When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
+    Then I should receive a return code of 200
+    And in the response body I should see the following fields only:
+    | name                       |
+    | studentSectionAssociations |
+    | id                         |
+    | entityType                 |
+    | links                      |
+    | schoolId                   |
+    | gradeLevel                 |
+    And in "studentSectionAssociations" I should see the following fields:
+    | id         |
+    | entityType |
+    | sections   |
+    And in "studentSectionAssociations=>sections" I should see the following fields:
+    | availableCredit        |
+    | courseOfferingId       |
+    | educationalEnvironment |
+    | mediumOfInstruction    |
+    | populationServed       |
+    | programReference       |
+    | schoolId               |
+    | sequenceOfCourse       |
+    | sessionId              |
+    | uniqueSectionCode      |
+    | id                     |
+    | entityType             |
 
-#    Given selector "(name,sectionAssociations:(sectionId)"
-#    When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
-#    Then I should receive a return code of 200
-#    And in "studentSectionAssociations" I should see the following fields only:
-#    | sectionId  |
-#    | id         |
-#    | entityType |
+  Scenario: Applying selectors on 1, 3 and 4 part URIs
+    Given selector "(name)"
+    When I navigate to GET "/v1/students"
+    Then I should receive a return code of 200
+    And in the response body for all entities I should see the following fields only:
+    | name                       |
+    | id                         |
+    | entityType                 |
+    | links                      |
+    | schoolId                   |
+    | gradeLevel                 |
+    Given selector "(section)"
+    When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>/studentSectionAssociations"
+    Then I should receive a return code of 200
+    And in the response body for all entities I should see the following fields only:
+    | id                         |
+    | entityType                 |
+    | links                      |
+    | sections                   |
+    Given selector "(sequenceOfCourse)"
+    When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>/studentSectionAssociations/sections"
+    Then I should receive a return code of 200
+    And in the response body for all entities I should see the following fields only:
+    | name                       |
+    | id                         |
+    | entityType                 |
+    | links                      |
+    | sequenceOfCourse           |
 
   Scenario: Applying selector to exclude fields
     Given selector "(*,sex:false,cohortYears:false)"
@@ -112,4 +161,20 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     | links                         |
     | schoolId                      |
     | gradeLevel                    |
+
+  Scenario: Sad path - '$' as selector field
+    Given selector "($)"
+    When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
+    Then I should receive a return code of 400
+    And I should be informed that the selector is invalid
+    Given selector "(name,sectionAssociations:($))"
+    When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
+    Then I should receive a return code of 400
+    And I should be informed that the selector is invalid
+
+  Scenario: Sad path - ID's as selector field
+    Given selector "(sectionAssociations:(sectionId))"
+    When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
+    Then I should receive a return code of 400
+    And I should be informed that the selector is invalid
 

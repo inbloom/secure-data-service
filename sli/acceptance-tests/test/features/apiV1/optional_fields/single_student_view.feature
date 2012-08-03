@@ -58,7 +58,7 @@ Feature: As an SLI application, I want to be able to view more student data in a
 
   # Transcript
     And inside "transcript"
-    And I should find "2" "studentSectionAssociations" in it
+    And I should find "1" "studentSectionAssociations" in it
     And I should find one with the property "id" having the value "<STUDENT SECTION ASSOC ID>"
     When I go into the item with the property "id" having the value "<STUDENT SECTION ASSOC ID>"
     Then I should see "id" is "<STUDENT SECTION ASSOC ID>" in it

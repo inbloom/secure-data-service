@@ -23,7 +23,16 @@ public class User {
     private String edorg;
     private String homeDir;
     private String fullName;
+    private String cn;
     
+    public String getCn() {
+        return cn;
+    }
+    
+    public void setCn(String cn) {
+        this.cn = cn;
+    }
+
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
@@ -173,18 +182,9 @@ public class User {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("uid = ").append(uid).append("\n");
-        sb.append("first name = ").append(firstName).append("\n");
-        sb.append("last name = ").append(lastName).append("\n");
-        sb.append("groups = ").append(printGroup(groups)).append("\n");
-        sb.append("email = ").append(email).append("\n");
-        sb.append("tenant = ").append(tenant).append("\n");
-        sb.append("edorg = ").append(edorg).append("\n");
-        sb.append("home dir = ").append(homeDir).append("\n");
-        sb.append("create time = ").append(getCreateTime()).append("\n");
-        sb.append("modify time = ").append(getModifyTime()).append("\n");
-
-        return sb.toString();
+        return "User [uid=" + uid + ", groups=" + groups + ", firstName=" + firstName + ", lastName=" + lastName
+                + ", password=" + password + ", email=" + email + ", tenant=" + tenant + ", edorg=" + edorg
+                + ", homeDir=" + homeDir + ", createTime=" + createTime + ", modifyTime=" + modifyTime + "]";
     }
+
 }

@@ -1,8 +1,27 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.slc.sli.api.selectors.model;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.selectors.model.elem.IncludeAllSelectorElement;
+import org.slc.sli.api.selectors.model.elem.IncludeDefaultSelectorElement;
+import org.slc.sli.api.selectors.model.elem.IncludeXSDSelectorElement;
+import org.slc.sli.api.selectors.model.elem.SelectorElement;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
@@ -25,7 +44,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Tests
  *
- * @author srupasinghe
+ * @author jstokes
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -43,6 +62,7 @@ public class DefaultSelectorSemanticModelTest {
     @Before
     public void setup() {
         provider = new ModelProvider(TEST_XMI_LOC);
+        defaultSelectorSemanticModel.setModelProvider(provider);
     }
 
     @Test
@@ -117,6 +137,33 @@ public class DefaultSelectorSemanticModelTest {
         final ClassType student = provider.getClassType("Student");
         final SemanticSelector selector =
                 defaultSelectorSemanticModel.parse(generateFaultySelectorObjectMap(), student);
+    }
+
+    @Test
+    public void testDefaultXSD() {
+        final Map<String, Object> studentAttrs = new HashMap<String, Object>();
+        studentAttrs.put("$", true);
+
+        final ClassType student = provider.getClassType("Student");
+        final SemanticSelector semanticSelector = defaultSelectorSemanticModel.parse(studentAttrs, student);
+
+        final List<SelectorElement> elementList = semanticSelector.get(student);
+        assertEquals(1, elementList.size());
+        assertTrue(elementList.get(0) instanceof IncludeXSDSelectorElement);
+    }
+
+
+    @Test
+    public void testDefault() {
+        final Map<String, Object> studentAttrs = new HashMap<String, Object>();
+        studentAttrs.put(".", true);
+
+        final ClassType student = provider.getClassType("Student");
+        final SemanticSelector semanticSelector = defaultSelectorSemanticModel.parse(studentAttrs, student);
+
+        final List<SelectorElement> elementList = semanticSelector.get(student);
+        assertEquals(1, elementList.size());
+        assertTrue(elementList.get(0) instanceof IncludeDefaultSelectorElement);
     }
 
     public Map<String, Object> generateFaultySelectorObjectMap() {

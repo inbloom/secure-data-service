@@ -16,15 +16,10 @@
 
 package org.slc.sli.api.security.resolve.impl;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.roles.Role;
@@ -33,6 +28,10 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
 
 /**
  *
@@ -52,17 +51,12 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
     @Override
     public Set<GrantedAuthority> resolveRoles(String tenantId, String realmId, List<String> roleNames) {
         Set<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
-        List<Role> roles = new ArrayList<Role>();
 
-        if (isAdminRealm(realmId)) {
-            roles.addAll(roleRightAccess.findAdminRoles(roleNames));
-        } else {
-            roles.addAll(roleRightAccess.findRoles(tenantId, realmId, roleNames));
-        }
-
+        Collection<Role> roles = mapRoles(tenantId, realmId, roleNames);
         for (Role role : roles) {
             auths.addAll(role.getRights());
         }
+        debug("Final auth list {}", auths);
         return auths;
     }
 
@@ -82,7 +76,20 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
         return false;
     }
 
-    public void setRoleRightAccess(RoleRightAccess roleRightAccess) {
-        this.roleRightAccess = roleRightAccess;
+
+    @Override
+    public Set<Role> mapRoles(String tenantId, String realmId,
+            List<String> roleNames) {
+        Set<Role> roles = new HashSet<Role>();
+
+        if (isAdminRealm(realmId)) {
+            roles.addAll(roleRightAccess.findAdminRoles(roleNames));
+            debug("Mapped admin roles {} to {}.", roleNames, roles);
+        } else {
+            roles.addAll(roleRightAccess.findRoles(tenantId, realmId, roleNames));
+            debug("Mapped user roles {} to {}.", roleNames, roles);
+        }
+        return roles;
     }
+
 }
