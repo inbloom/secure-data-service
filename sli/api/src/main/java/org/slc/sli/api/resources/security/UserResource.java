@@ -68,7 +68,6 @@ public class UserResource {
     @Autowired
     private SecurityUtilProxy secUtil;
 
-
     @POST
     public final Response create(final User newUser) {
         assertEnabled();
@@ -105,17 +104,16 @@ public class UserResource {
         }
 
         Collection<User> users = ldapService.findUsersByGroups(realm,
-                RightToGroupMapper.getInstance().getGroups(secUtil.getAllRights()), secUtil.getTenantId(),
-                edorgs);
+                RightToGroupMapper.getInstance().getGroups(secUtil.getAllRights()), secUtil.getTenantId(), edorgs);
 
-        //filtering peer LEAs
+        // filtering peer LEAs
         Collection<User> filteredUsers = new LinkedList<User>();
         boolean isLea = isLeaAdmin();
+
         if (users != null && users.size() > 0) {
             for (User user : users) {
                 user.setGroups((List<String>) (RoleToGroupMapper.getInstance().mapGroupToRoles(user.getGroups())));
-                if (myUid.equals(user.getUid())
-                        || !(isLea && isUserLeaAdmin(user) && user.getEdorg().equals(edorg))) {
+                if (myUid.equals(user.getUid()) || !(isLea && isUserLeaAdmin(user) && user.getEdorg().equals(edorg))) {
                     filteredUsers.add(user);
                 }
 
@@ -208,11 +206,25 @@ public class UserResource {
             return result;
         }
 
+        if (user.getEmail() == null) {
+            return badRequest("No email address");
+        } else if (user.getFirstName() == null) {
+            return badRequest("No first name");
+        } else if (user.getLastName() == null) {
+            return badRequest("No last name");
+        } else if (user.getUid() == null) {
+            return badRequest("No uid");
+        }
+
         return null;
     }
 
+    private Response badRequest(String message) {
+        return Response.status(Status.BAD_REQUEST).entity(message).build();
+    }
+
     private Response validateUserUpdate(User user, String tenant) {
-        //create and update shared the same validators
+        // create and update shared the same validators
         Response result = validateUserCreate(user, tenant);
         if (result != null) {
             return result;
@@ -250,7 +262,7 @@ public class UserResource {
         }
 
         result = validateCannotOperateOnPeerLEA(userToDelete, secUtil.getEdOrg());
-        if(result != null) {
+        if (result != null) {
             return result;
         }
 
@@ -258,7 +270,7 @@ public class UserResource {
     }
 
     private Response validateCannotOperateOnPeerLEA(User userToDelete, String adminEdOrg) {
-        if(isLeaAdmin() && isUserLeaAdmin(userToDelete)) {
+        if (isLeaAdmin() && isUserLeaAdmin(userToDelete)) {
             if (userToDelete.getEdorg() != null && userToDelete.getEdorg().equals(adminEdOrg)) {
                 EntityBody body = new EntityBody();
                 body.put("response", "not allowed to execute this operation on peer admin users");
@@ -293,7 +305,8 @@ public class UserResource {
     }
 
     /**
-     * Check that the rights contains an admin right. If tenant is null, then also verify the user has operator level rights.
+     * Check that the rights contains an admin right. If tenant is null, then also verify the user
+     * has operator level rights.
      *
      * @param rights
      * @return null if success, response with error otherwise
@@ -375,8 +388,8 @@ public class UserResource {
             String restrictByEdorg = null;
             if (isLeaAdmin()) {
                 restrictByEdorg = secUtil.getEdOrg();
-                //restrict peer level LEA
-                if(restrictByEdorg.equals(user.getEdorg())) {
+                // restrict peer level LEA
+                if (restrictByEdorg.equals(user.getEdorg())) {
                     return composeForbiddenResponse("Can not operate on peer level LEA");
                 }
             }
@@ -605,7 +618,6 @@ public class UserResource {
             return null;
         }
     }
-
 
     public void setSecurityUtilProxy(SecurityUtilProxy proxy) {
         this.secUtil = proxy;
