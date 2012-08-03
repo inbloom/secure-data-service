@@ -9,44 +9,15 @@ import org.slc.sli.modeling.uml.ModelElement;
 /**
  * @author jstokes
  */
-public class IncludeDefaultSelectorElement implements SelectorElement {
-    private final ModelElement modelElement;
-    private final boolean typed;
-
+public class IncludeDefaultSelectorElement extends AbstractSelectorElement implements SelectorElement {
     public IncludeDefaultSelectorElement(final ModelElement modelElement) {
-        this.modelElement = modelElement;
-        this.typed = modelElement instanceof ClassType;
-    }
-
-
-    @Override
-    public boolean isTyped() {
-        return typed;
-    }
-
-    @Override
-    public boolean isAttribute() {
-        return !typed;
-    }
-
-    @Override
-    public ModelElement getLHS() {
-        return modelElement;
+        super.setElement(modelElement);
+        super.setTyped(modelElement instanceof ClassType);
     }
 
     @Override
     public Object getRHS() {
         return SelectorElement.INCLUDE_DEFAULT;
-    }
-
-    @Override
-    public String getElementName() {
-        if (modelElement instanceof ClassType) {
-            return ((ClassType) modelElement).getName();
-        } else if (modelElement instanceof Attribute) {
-            return ((Attribute) modelElement).getName();
-        }
-        return null;
     }
 
     @Override
