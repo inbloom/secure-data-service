@@ -1,5 +1,10 @@
 <%= form_for(user, :html => {:class => "form-horizontal"}) do |f| %>
 
+<script type="text/javascript" charset="utf-8">
+  var is_lea = <%= @is_lea%> 
+  var my_edorg = '<%= @login_user_edorg_name -%>'
+</script>
+
 <% if @user.errors.any? %>
         <div class="alert alert-error">
           There was an error processing your request. Please fix any highlighted fields below.
@@ -95,7 +100,7 @@
 <div class = "control-group">
 	<%= f.label :edorg, "EdOrg" , :class => "control-label" %>
 	<div class="controls">
-	<%= f.select :edorg,  @edorgs, {},:include_blank => true %>
+	<%= f.select :edorg,  @edorgs, {:disabled => "#{@login_user_edorg_name}"}, :include_blank => true %>
 	</div>
 </div>
 </fieldset>
