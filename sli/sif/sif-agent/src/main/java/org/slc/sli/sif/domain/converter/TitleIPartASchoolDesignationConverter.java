@@ -21,16 +21,16 @@ import org.slc.sli.sif.domain.slientity.TitleIPartASchoolDesignation;
 
 public class TitleIPartASchoolDesignationConverter {
 
-    public String convert(Title1Status status){
+    public TitleIPartASchoolDesignation convert(Title1Status status){
 
         if( Title1Status.NA.valueEquals(status.getValue())){
-            return TitleIPartASchoolDesignation.NOT_DESIGNATED.getText();
+            return TitleIPartASchoolDesignation.NOT_DESIGNATED;
         }
         else if( Title1Status.SCHOOLWIDE.valueEquals(status.getValue())){
-            return TitleIPartASchoolDesignation.PART_A_SCHOOLWIDE.getText();
+            return TitleIPartASchoolDesignation.PART_A_SCHOOLWIDE;
         }
         else if( Title1Status.TARGETED.valueEquals(status.getValue())){
-            return TitleIPartASchoolDesignation.TARGETED.getText();
+            return TitleIPartASchoolDesignation.PART_A_TARGETED;
         }
 
         return null;
