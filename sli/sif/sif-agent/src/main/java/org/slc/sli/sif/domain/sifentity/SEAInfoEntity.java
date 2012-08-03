@@ -20,8 +20,6 @@ import openadk.library.common.AddressList;
 import openadk.library.common.PhoneNumberList;
 import openadk.library.datamodel.SEAInfo;
 
-import org.slc.sli.sif.domain.converter.SchoolMappings;
-
 /**
  * An SIF Entity corresponding to an SIF SEAInfo. Used by dozer to map SEAInfo
  * into an SLI LEAEntity.
@@ -90,13 +88,11 @@ public class SEAInfoEntity extends SifEntity {
     }
 
     /**
-    * Get OperationalStatus in an SIF SEAInfoEntity. Using a value mapping
-    * method.
+    * Get OperationalStatus in an SIF SEAInfoEntity.
     *
     */
     public String getOperationalStatus() {
-        return SchoolMappings.toSliOperationalStatus(this.seaInfo
-                .getOperationalStatus());
+        return this.seaInfo.getOperationalStatus();
     }
 
     /**
