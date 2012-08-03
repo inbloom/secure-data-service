@@ -85,26 +85,51 @@ public class MongoEntityTest {
 
         Map<String, Object> body = new HashMap<String, Object>();
         Map<String, Object> metaData = new HashMap<String, Object>();
-        MongoEntity entity = new MongoEntity("student", uuid, body, metaData, null);
+        MongoEntity entity = new MongoEntity("student", uuid, body, metaData, null, null);
 
         return entity;
     }
 
+    @SuppressWarnings("unchecked")
     @Test
-    public void testCreateAggregate() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+    public void testCreateCalculatedValue() throws IllegalAccessException, InvocationTargetException,
+            NoSuchMethodException {
         Map<String, Object> body = new HashMap<String, Object>();
-        Map<String, Object> aggregate = new HashMap<String, Object>();
+        Map<String, Object> calcValue = new HashMap<String, Object>();
         Map<String, Object> assessments = new HashMap<String, Object>();
         Map<String, Object> mathTest = new HashMap<String, Object>();
         Map<String, Object> highestEver = new HashMap<String, Object>();
         highestEver.put("ScaleScore", "28.0");
         mathTest.put("HighestEver", highestEver);
         assessments.put("ACT", mathTest);
+        calcValue.put("assessments", assessments);
+        DBObject dbObject = new BasicDBObjectBuilder().add("_id", "42").add("body", body)
+                .add("calculatedValues", calcValue).get();
+        CalculatedData<String> data = MongoEntity.fromDBObject(dbObject).getCalculatedValues();
+        assertEquals(
+                Arrays.asList(new CalculatedDatum<String>("assessments", "HighestEver", "ACT", "ScaleScore", "28.0")),
+                data.getCalculatedValues());
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testCreateAggregate() {
+        Map<String, Object> body = new HashMap<String, Object>();
+        Map<String, Object> aggregate = new HashMap<String, Object>();
+        Map<String, Object> assessments = new HashMap<String, Object>();
+        Map<String, Object> mathTest = new HashMap<String, Object>();
+        Map<String, Integer> highestEver = new HashMap<String, Integer>();
+        highestEver.put("E", 15);
+        highestEver.put("2", 20);
+        mathTest.put("HighestEver", highestEver);
+        assessments.put("ACT", mathTest);
         aggregate.put("assessments", assessments);
         DBObject dbObject = new BasicDBObjectBuilder().add("_id", "42").add("body", body)
-                .add("calculatedValues", aggregate).get();
-        CalculatedData data = MongoEntity.fromDBObject(dbObject).getCalculatedValues();
-        assertEquals(Arrays.asList(new CalculatedDatum("assessments", "HighestEver", "ACT", "ScaleScore", "28.0")), data.getCalculatedValues());
+                .add("aggregations", aggregate).get();
+        CalculatedData<Map<String, Integer>> data = MongoEntity.fromDBObject(dbObject).getAggregates();
+        assertEquals(Arrays.asList(new CalculatedDatum<Map<String, Integer>>("assessments", "HighestEver", "ACT",
+                "aggregate", highestEver)), data.getCalculatedValues());
+
     }
 
 }

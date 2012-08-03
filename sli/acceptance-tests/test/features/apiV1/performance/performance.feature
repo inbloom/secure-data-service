@@ -17,3 +17,6 @@ Scenario Outline: Check API performance for a staff
     | /educationOrganizations | 1000         | 1200            |
     | /programs               | 1000         | 1200            |
     | /cohorts                | 1000         | 1200            |
+    | /students               | 1000         | 1200            |
+    | /schools                | 1000         | 1200            |
+    | /sections               | 1000         | 1200            |

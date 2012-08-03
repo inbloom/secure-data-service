@@ -6,7 +6,7 @@
             "fieldPath" : "body.studentSectionAssociationId",
             "ref" :
             {
-                "collectionName" : "studentSectionAssociation",
+                "entityType" : "studentSectionAssociation",
                 "choiceOfFields" :
                 [
                     [
@@ -16,7 +16,7 @@
                             [{
                                  "ref":
                                  {
-                                     "collectionName" : "student",
+                                     "entityType" : "student",
                                      "choiceOfFields" :
                                       [
                                           [
@@ -38,7 +38,7 @@
                              [{
                                  "ref":
                                  {
-                                     "collectionName" : "section",
+                                     "entityType" : "section",
                                      "choiceOfFields" :
                                       [
                                           [{

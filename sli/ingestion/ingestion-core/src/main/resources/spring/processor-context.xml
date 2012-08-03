@@ -17,6 +17,7 @@
         <value>realm</value>
         <value>application</value>
         <value>roles</value>
+        <value>customRole</value>
     </util:list>
 
     <bean id="purgeProcessor" class="org.slc.sli.ingestion.processors.PurgeProcessor">

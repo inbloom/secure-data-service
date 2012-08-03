@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DuplicateKeyException;
@@ -32,7 +33,10 @@ import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
+import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.ValidationError;
+import org.slc.sli.validation.schema.AppInfo;
+import org.slc.sli.validation.schema.NeutralSchema;
 
 /**
  * Handles the persisting of Entity objects
@@ -54,6 +58,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
     @Value("${sli.ingestion.referenceSchema.referenceCheckEnabled}")
     private String referenceCheckEnabled;
+
+    @Autowired
+    private SchemaRepository schemaRepository;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -88,23 +95,25 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
      */
     private Entity persist(SimpleEntity entity) throws EntityValidationException {
 
-        String oldCollectionName = entity.getType();
-        String newCollectionName = oldCollectionName;
-        if ((String) entity.getBody().get("collectionName") != null) {
-            newCollectionName = (String) entity.getBody().get("collectionName");
-            entity.getBody().remove("collectionName");
+        String collectionName = "";
+        NeutralSchema schema = schemaRepository.getSchema(entity.getType());
+        if (schema != null) {
+            AppInfo appInfo = schema.getAppInfo();
+            if (appInfo != null) {
+                collectionName = appInfo.getCollectionType();
+            }
         }
 
         if (entity.getEntityId() != null) {
 
-            if (!entityRepository.update(newCollectionName, entity)) {
+            if (!entityRepository.update(collectionName, entity)) {
                 // TODO: exception should be replace with some logic.
                 throw new RuntimeException("Record was not updated properly.");
             }
 
             return entity;
         } else {
-            return entityRepository.create(entity.getType(), entity.getBody(), entity.getMetaData(), newCollectionName);
+            return entityRepository.create(entity.getType(), entity.getBody(), entity.getMetaData(), collectionName);
         }
     }
 
@@ -113,6 +122,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
             String message = "ERROR: There has been a data validation error when saving an entity" + "\n"
                     + "       Error      " + err.getType().name() + "\n" + "       Entity     " + entity.getType()
+                    + "\n"  + "       Instance   " + entity.getRecordNumber()
                     + "\n" + "       Field      " + err.getFieldName() + "\n" + "       Value      "
                     + err.getFieldValue() + "\n" + "       Expected   " + Arrays.toString(err.getExpectedTypes())
                     + "\n";
@@ -149,7 +159,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         String assembledMessage = "Entity (" + entity.getType() + ") reports warning: " + warningMessage;
         errorReport.warning(assembledMessage, this);
     }
-    
+
     protected String getFailureMessage(String code, Object... args) {
         return MessageSourceHelper.getMessage(messageSource, code, args);
     }

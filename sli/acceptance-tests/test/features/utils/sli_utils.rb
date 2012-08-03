@@ -51,6 +51,7 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "teacher_IL" => "4cf7a5d4-37a1-ca77-8b13-b5f95131ac85",
                 "prince_IL" => "4cf7a5d4-37a1-ca88-8b13-b5f95131ac85",
                 "root_IL" => "4cf7a5d4-37a1-ca99-8b13-b5f95131ac85",
+                "custom_IL" => "20de11c7-56b3-4d8b-bfaa-b61bc5be7671",
                 "developer_SLI" => "26c4b55b-5fa8-4287-af3d-98e7b5f98232",
                 "operator_SLI" => "a8cf184b-9c7e-4253-9f45-ed4e9f4f596c",
                 "bigbro_IL" => "4cf7a5d4-37a1-ca00-8b13-b5f95131ac85",
@@ -89,9 +90,9 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "agillespie_IL" => "ba09eeb3-a50a-4278-b363-22074168421d",
                 "wgoodman_IL" => "8c950c56-74f3-4e5d-a02c-d09497fddb1d",
                 "ingestionuser_SLI" => "3b22ab4c-1de4-ac99-8b89-23bc03aaa812",
-                 "sandboxoperator_SLI" => "a8cf185b-9c8e-4254-9f46-ed4e9f4f597c",
-                 "sandboxadministrator_SLI" => "a8cf186b-9c8e-4253-9f46-ed4e9f4f598c",
-                 "sandboxdeveloper_SLI" => "a1cf186b-9c8e-4252-9f46-ed4e9f4f597c",
+                "sandboxoperator_SLI" => "a8cf185b-9c8e-4254-9f46-ed4e9f4f597c",
+                "sandboxadministrator_SLI" => "a8cf186b-9c8e-4253-9f46-ed4e9f4f598c",
+                "sandboxdeveloper_SLI" => "a1cf186b-9c8e-4252-9f46-ed4e9f4f597c",
                 "iladmin_SLI" => "9abf3111-0e5d-456a-8b89-004815162342",
                 "stweed_IL" => "2cf7a5d4-75a2-ba63-8b53-b5f95131de48",
                 "teach1_SEC" => "00000000-5555-5555-0001-500000000001",
@@ -483,6 +484,62 @@ end
 ########################################################################
 ########################################################################
 
+def allLeaAllowDashboard()
+  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'])
+  db = conn[PropLoader.getProps['api_database_name']]
+  appColl = db.collection("application")
+  dashboardId = appColl.find_one({"body.name" => "SLC Dashboards"})["_id"]
+  puts("The dashboard id is #{dashboardId}") if ENV['DEBUG']
+  
+  appAuthColl = db.collection("applicationAuthorization")
+  edOrgColl = db.collection("educationOrganization")
+  
+  neededEdOrgs = edOrgColl.find({"body.organizationCategories" => ["Local Education Agency"]})
+  neededEdOrgs.each do |edOrg|
+    puts("Currently on edOrg #{edOrg.inspect}") if ENV['DEBUG']
+    edOrgId = edOrg["_id"]
+    edOrgTenant = edOrg["metaData"]["tenantId"]
+    existingAppAuth = appAuthColl.find_one({"body.authId" => edOrgId})
+    if existingAppAuth == nil 
+      newAppAuth = {"_id" => "2012ls-#{SecureRandom.uuid}", "body" => {"authType" => "EDUCATION_ORGANIZATION", "authId" => edOrgId, "appIds" => [dashboardId]}, "metaData" => {"tenantId" => edOrgTenant}}
+      puts("About to insert #{newAppAuth.inspect}") if ENV['DEBUG']
+      appAuthColl.insert(newAppAuth)
+    else
+      existingAppAuth["body"]["appIds"].push(dashboardId)
+      puts("About to update #{existingAppAuth.inspect}") if ENV['DEBUG']
+      appAuthColl.update({"body.authId" => edOrgId}, existingAppAuth)
+    end
+  end
+end
+
+def allLeaAllowDatabrowser()
+  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'])
+  db = conn[PropLoader.getProps['api_database_name']]
+  appColl = db.collection("application")
+  databrowserId = appColl.find_one({"body.name" => "SLC Data Browser"})["_id"]
+  puts("The databrowser id is #{databrowserId}") if ENV['DEBUG']
+  
+  appAuthColl = db.collection("applicationAuthorization")
+  edOrgColl = db.collection("educationOrganization")
+  
+  neededEdOrgs = edOrgColl.find({"body.organizationCategories" => ["Local Education Agency"]})
+  neededEdOrgs.each do |edOrg|
+    puts("Currently on edOrg #{edOrg.inspect}") if ENV['DEBUG']
+    edOrgId = edOrg["_id"]
+    edOrgTenant = edOrg["metaData"]["tenantId"]
+    existingAppAuth = appAuthColl.find_one({"body.authId" => edOrgId})
+    if existingAppAuth == nil 
+      newAppAuth = {"_id" => "2012ls-#{SecureRandom.uuid}", "body" => {"authType" => "EDUCATION_ORGANIZATION", "authId" => edOrgId, "appIds" => [databrowserId]}, "metaData" => {"tenantId" => edOrgTenant}}
+      puts("About to insert #{newAppAuth.inspect}") if ENV['DEBUG']
+      appAuthColl.insert(newAppAuth)
+    else
+      existingAppAuth["body"]["appIds"].push(databrowserId)
+      puts("About to update #{existingAppAuth.inspect}") if ENV['DEBUG']
+      appAuthColl.update({"body.authId" => edOrgId}, existingAppAuth)
+    end
+  end
+end
+
 def runShellCommand(command)
   `#{command}`
 end
@@ -519,7 +576,14 @@ module DataProvider
        "saml" => {"field" => []},
        "name" => "a_new_realm",
        "edOrg" => "ba987125-a8ed-eafd-bf75-c98a2fcc3dfg",
-       "mappings"=> {"role"=>[{"sliRoleName"=>"Educator","clientRoleName"=>["Math teacher","Sci Teacher","Enforcer of Conformity"]},{"sliRoleName"=>"Leader","clientRoleName"=>["Fearless Leader","Imperator","First Consul"]}]}
+    }
+  end
+  
+  def self.getValidCustomRoleData() 
+    return {
+      "realmId" => "",
+      "roles" => [{"groupTitle" => "Educator", "names" => ["Educator", "Math Teacher", "English Teacher"], "rights" => ["READ_GENERAL", "WRITE_GENERAL"]}],
+      "customRights" => ["RIGHT_TO_REMAIN_SILENT", "INALIENABLE_RIGHT"]
     }
   end
 

@@ -22,17 +22,18 @@ import java.io.Serializable;
  * A value in an aggregate
  *
  * @author nbrown
+ * @param <T>
  *
  */
-public class CalculatedDatum implements Serializable {
+public class CalculatedDatum<T> implements Serializable {
     private static final long serialVersionUID = -2950228193252067690L;
     private final String type;
     private final String window;
     private final String name;
     private final String method;
-    private final Object value;
+    private final T value;
 
-    public CalculatedDatum(String type, String window, String name, String method, Object value) {
+    public CalculatedDatum(String type, String window, String name, String method, T value) {
         super();
         this.type = type;
         this.window = window;
@@ -90,7 +91,7 @@ public class CalculatedDatum implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        CalculatedDatum other = (CalculatedDatum) obj;
+        CalculatedDatum<?> other = (CalculatedDatum<?>) obj;
         if (method == null) {
             if (other.method != null) {
                 return false;

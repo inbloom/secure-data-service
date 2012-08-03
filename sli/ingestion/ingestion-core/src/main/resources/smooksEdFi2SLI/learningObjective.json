@@ -5,7 +5,7 @@
         "fieldPath" : "body.parentLearningObjective",
         "ref" :
         {
-	        "collectionName" : "learningObjective",
+	        "entityType" : "learningObjective",
 	        "optional" : true,
 	        "choiceOfFields" :
 	        [
@@ -32,7 +32,7 @@
             "fieldPath" : "body.learningStandards",
             "ref" :
             {
-                "collectionName" : "learningStandard",
+                "entityType" : "learningStandard",
                 "isRefList" : true,
                 "refObjectPath" : "localParentIds.childLearningStandards",
                 "choiceOfFields" :

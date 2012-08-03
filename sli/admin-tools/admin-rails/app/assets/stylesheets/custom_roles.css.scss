@@ -1,0 +1,84 @@
+
+#addRightUi {
+  display: none
+}
+
+#addRoleUi {
+  display: none
+}
+
+#labelUi {
+  display: none
+}
+
+#buttonUi {
+  display: none
+}
+
+#editableRoleUi {
+  display: none
+}
+
+.customLabel {
+  font-size: 12px;
+  min-width: 120px;
+  background-image: none;
+  background-color: #D6D6D6;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-right: 5px;
+  cursor: default;
+}
+
+.editable {
+  border-bottom-right-radius: 0px;
+  border-top-right-radius: 0px;
+  margin-right: 0px;
+}
+
+.customLabel:hover {
+  background-color: #D6D6D6;
+}
+
+.customLabel:active {
+  background-image: none;
+  background-color: #D6D6D6;
+  box-shadow: none;
+}
+
+
+.saveButtons {
+  display: none
+}
+
+#rowEditTool {
+  display: none
+}
+
+
+tr td:first-child.highlight {
+  box-shadow: 0 0 5px rgba(0, 0, 255, 1);
+ -webkit-box-shadow: 0 0 5px rgba(0, 0, 255, 1); 
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 255, 1);
+  border-style: solid;
+  border-color:  rgba(0,0,255, 0.8); 
+  border-width: 1px 0px 1px 1px;
+}
+
+tr td:last-child.highlight {
+  box-shadow: 0 0 5px rgba(0, 0, 255, 1);
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 255, 1); 
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 255, 1);
+  border-style: solid;
+  border-color:  rgba(0,0,255, 0.8); 
+  border-width: 1px 1px 1px 0px;
+}
+
+tr td.highlight:not(:first-child):not(:last-child) {
+  box-shadow: 0 0 5px rgba(0, 0, 255, 1);
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 255, 1); 
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 255, 1);
+  border-style: solid;
+  border-color:  rgba(0,0,255, 0.8); 
+  border-width: 1px 0px 1px 0px;
+}

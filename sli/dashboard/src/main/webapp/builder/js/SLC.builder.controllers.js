@@ -1,33 +1,59 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+/*
+ * SLC Dashboard Builder Controller
+ */
 /*global angular $ alert*/
 
-/*function headerCtrl($scope, $http, Header) {
-	//$scope.header = Header.query();
-	$http({method: 'GET', url: '/dashboard/s/m/header'}).
-		success(function(data, status, headers, config) {
-			$scope.header = data;
-		});
-}*/
+// Header Controller
+function headerCtrl() {
+	$("#header").load("/dashboard/s/m/header");
+}
 
-function profileListCtrl($scope, Profile) {
-	
+// Footer Controller
+function footerCtrl() {
+	$("#footer").load("/dashboard/s/m/footer");
+}
+
+// Profile List Controller
+function profileListCtrl($scope, Profiles, dbSharedService) {
+	var i;
 	$scope.profiles = [];
-	Profile.query(function(profiles) {
-		
-		// exclude search profiles
+	Profiles.query(function(profiles) {
+
+		// Search profile are not user configurable so we are skipping that profile
 		for (i = 0; i < profiles.length; i++) {
 			var profile = profiles[i];
-    		if(!(profile.id.match(/search/i))) {
-	    	    $scope.profiles.push(profile);
-    		}
+			if(!(profile.id.match(/search/i))) {
+				$scope.profiles.push(profile);
+			}
 		}
+	}, function(error) {
+		dbSharedService.showError(error);
 	});
 }
 
-profileListCtrl.$inject = ['$scope', 'Profile'];
+profileListCtrl.$inject = ['$scope', 'Profiles', 'dbSharedService'];
 
-function profileCtrl($scope, $routeParams, ProfilePage, dbSharedService) {
 
-	ProfilePage.query({profilePageId: $routeParams.profileId}, function(profile) {
+// Profile Controller
+function profileCtrl($scope, $routeParams, Profile, dbSharedService) {
+
+	Profile.query({profilePageId: $routeParams.profileId}, function(profile) {
 		var i;
 
 		$scope.profile = profile[0];
@@ -42,56 +68,44 @@ function profileCtrl($scope, $routeParams, ProfilePage, dbSharedService) {
 			}
 		}
 		$scope.id = $scope.profile.id;
+	}, function(error) {
+		dbSharedService.showError(error);
 	});
-
-	$scope.checkTab = function (item) {
-		return item.type === "TAB";
-	};
-
-	$scope.generatePageId = function () {
-		var pageNumMax = 0,
-			id,
-			pageNumStr,
-			pageNum,
-			i;
-		for (i = 0; i < $scope.pages.length; i++) {
-			id = $scope.pages[i].id;
-			if(id.indexOf("tab") === 0) {
-				pageNumStr = id.substring(3);
-				if (pageNumStr.length > 0 && !isNaN(pageNumStr)) {
-					pageNum = parseInt(pageNumStr, 10);
-					if (pageNum > pageNumMax) {
-						pageNumMax = pageNum;
-					}
-				}
-			}
-		}
-		return "tab" + (pageNumMax + 1);
-	};
 
 	$scope.$on("tabChanged", function () {
-		$scope.pages = $scope.newArray;
+		$scope.pages = [];
+		$scope.pages = $scope.newPageArray;
 		$scope.saveProfile();
 	});
 
-	$scope.savePage = function () {
-		var page = dbSharedService.getPage();
+	$scope.savePage= function () {
+		var configs = dbSharedService.getModalConfig(),
+			page = dbSharedService.getPage();
 
-		if($scope.mode === "Add New") {
-			var pageId = $scope.generatePageId();
-			$scope.pages.push({id:pageId, name:$scope.pageText, items: $.parseJSON($scope.panelJSON), type:"TAB"});
+		if (configs.pageTitle.length === 0) {
+			$("#pageTitle").closest(".control-group").addClass("error");
+			return;
 		}
-		else if($scope.mode === "Edit") {
-			page.name = $scope.pageText;
-			page.items = $.parseJSON($scope.panelJSON);
-
-			dbSharedService.setPage(page);
+		
+		try {
+			if (configs.id === "") {
+				var pageId = dbSharedService.generatePageId($scope.pages);
+				$scope.pages.push({id:pageId, name:configs.pageTitle, items: $.parseJSON(configs.contentJSON), type:"TAB"});
+			}
+			else {
+				page.name = configs.pageTitle;
+				page.items = $.parseJSON(configs.contentJSON);
+				dbSharedService.setPage(page);
+			}
+		} catch (e) {
+			$("#content_json").closest(".control-group").addClass("error");
+			return;
 		}
-
+		
+		$.modal.close();
 		$scope.saveProfile();
-
-		$scope.pageText = '';
-		$('#myModal').modal('hide');
+		configs.mode = "";
+		dbSharedService.setModalConfig(configs);
 	};
 
 	$scope.saveProfile = function () {
@@ -101,54 +115,76 @@ function profileCtrl($scope, $routeParams, ProfilePage, dbSharedService) {
 		dbSharedService.saveDataSource(angular.toJson($scope.profile)); // Save profile to the server
 	};
 
-	$scope.showDialog = function (mode) {
-		if(mode === "add") {
-			$scope.mode = "Add New";
-			$scope.pageText = '';
-			$scope.panelJSON = "[]";
-		}
-		else if(mode === "edit") {
-			var page = dbSharedService.getPage();
-			$scope.mode = "Edit";
-			$scope.panelJSON = angular.toJson(page.items);
-			$scope.pageText = page.name;
-		}
-		$('#myModal').modal('show');
+	$scope.removePagefromProfile = function (index) {
+		$scope.pages.splice(index, 1);
+		$scope.saveProfile();
+	};
+
+	$scope.addDialog = function () {
+		dbSharedService.showModal("#pageModal", {mode: "add", id: "", modalTitle: "Add New Page", contentJSON: "[]", pageTitle: ""});
+	};
+
+	$scope.editDialog = function () {
+		var page = dbSharedService.getPage();
+
+		dbSharedService.showModal("#pageModal", {mode: "edit", id: angular.toJson(page.id), modalTitle: "Edit Page",
+		contentJSON: angular.toJson(page.items), pageTitle: page.name});
 	};
 }
-profileCtrl.$inject = ['$scope', '$routeParams', 'ProfilePage', 'dbSharedService', '$http'];
+profileCtrl.$inject = ['$scope', '$routeParams', 'Profile', 'dbSharedService'];
 
-function editorCtrl($scope, dbSharedService) {
+
+// Page Controller
+function pageCtrl($scope, dbSharedService) {
+
+	$scope.status = "";
 
 	$scope.editPage = function () {
 		dbSharedService.setPage($scope.page);
-		this.showDialog('edit');
+		this.editDialog();
 	};
 
 	$scope.removePage = function () {
-		/*$scope.pages.splice($index, 1);
-		$scope.saveProfile();*/
-
-		var i;
-		for (i = 0; i < $scope.pages.length; i++) {
-			if ($scope.page.id === $scope.pages[i].id) {
-				$scope.pages.splice(i, 1);
-				$scope.saveProfile();
-				return false;
-			}
-		}
-
+		this.removePagefromProfile($scope.$index);
 	};
 
-	$(function () {
-		$("#tabs ul li").hover(function(){
-			$(this).find(".view").addClass("hide");
-			$(this).find("div").removeClass("hide");
-		}, function(){
-			$(this).find(".view").removeClass("hide");
-			$(this).find("div").addClass("hide");
-		});
+	$scope.showUpdateSection = function (page) {
+		page.status = "tabHover";
+	};
+
+	$scope.hideUpdateSection = function (page) {
+		page.status = "";
+	};
+}
+
+pageCtrl.$inject = ['$scope', 'dbSharedService'];
+
+
+// Editor Controller
+function editorCtrl($scope, dbSharedService) {
+
+	$scope.$on("modalDisplayed", function () {
+		var configs = dbSharedService.getModalConfig();
+
+		$("#pageTitle").focus();
+		$("#pageModal h3").html(configs.modalTitle);
+		$("#pageTitle").val(configs.pageTitle);
+		$("#content_json").val(configs.contentJSON);
+
+
 	});
+
+	$scope.save = function () {
+		var configs = {};
+
+		configs.pageTitle = $("#pageTitle").val();
+		configs.contentJSON = $("#content_json").val();
+
+		dbSharedService.setModalConfig(configs);
+
+		this.savePage();
+	};
+
 }
 
 editorCtrl.$inject = ['$scope', 'dbSharedService'];

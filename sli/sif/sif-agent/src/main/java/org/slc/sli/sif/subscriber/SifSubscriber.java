@@ -41,41 +41,41 @@ import org.slc.sli.sif.slcinterface.SlcInterface;
 
 @Component
 public class SifSubscriber implements Subscriber {
-
+    
     private static final Logger LOG = LoggerFactory.getLogger(SifSubscriber.class);
     
     private static final String PARENT_EDORG_FIELD = "parentEducationAgencyReference";
-
+    
     @Autowired
     private Sif2SliTransformer xformer;
-
+    
     @Autowired
     private SlcInterface slcInterface;
     
     @Autowired
     SifIdResolver sifIdResolver;
-
+    
     private SIFDataObject inspectAndDestroyEvent(Event e) {
         SIFDataObject sdo = null;
         LOG.info("###########################################################################");
         try {
             sdo = e.getData().readDataObject();
             LOG.info("\n" + "\tObjectType: " + sdo.getObjectType());
-            LOG.info(""+sdo.toString());
+            LOG.info("" + sdo.toString());
         } catch (ADKException e1) {
             LOG.error("Error trying to inspect event", e1);
         }
         LOG.info("###########################################################################");
         return sdo;
     }
-
+    
     @Override
     public void onEvent(Event event, Zone zone, MessageInfo info) throws ADKException {
-        LOG.info("Received event:\n" + "\tEvent:      " + event.getActionString() + "\n" + "\tZone:       " + zone.getZoneId()
-                + "\n" + "\tInfo:       " + info.getMessage());
-
+        LOG.info("Received event:\n" + "\tEvent:      " + event.getActionString() + "\n" + "\tZone:       "
+                + zone.getZoneId() + "\n" + "\tInfo:       " + info.getMessage());
+        
         SIFDataObject sdo = inspectAndDestroyEvent(event);
-
+        
         // execute a call to the SDK
         boolean tokenChecked = false;
         String token = slcInterface.sessionCheck();
@@ -86,43 +86,43 @@ public class SifSubscriber implements Subscriber {
             LOG.info("Session check failed");
         }
         
-        if (sdo!=null && tokenChecked && event.getAction()!=null) {
-            switch(event.getAction()) {
-            case ADD:
-                addEntity(sdo);
-                break;
-            case CHANGE:
-                changeEntity(sdo);
-                break;
-            case UNDEFINED:
-            default:
-                LOG.error("Wrong SIF Action.");
-                break;
+        if (sdo != null && tokenChecked && event.getAction() != null) {
+            switch (event.getAction()) {
+                case ADD:
+                    addEntity(sdo);
+                    break;
+                case CHANGE:
+                    changeEntity(sdo);
+                    break;
+                case UNDEFINED:
+                default:
+                    LOG.error("Wrong SIF Action.");
+                    break;
             }
         }
-     }
+    }
     
-    private void addEntity(SIFDataObject sdo) { 
+    private void addEntity(SIFDataObject sdo) {
         String guid = null;
         Map<String, Object> body = null;
         String entityType = null;
         if (sdo instanceof SchoolInfo) {
-            body = xformer.transform((SchoolInfo)sdo);
+            body = xformer.transform((SchoolInfo) sdo);
             entityType = ResourceNames.SCHOOLS;
         } else if (sdo instanceof LEAInfo) {
-            body = xformer.transform((LEAInfo)sdo);
+            body = xformer.transform((LEAInfo) sdo);
             entityType = ResourceNames.EDUCATION_ORGANIZATIONS;
         } else {
             LOG.info("Unsupported SIF Entity");
         }
         
-        if (body!=null) {
+        if (body != null) {
             GenericEntity entity = new GenericEntity(entityType, body);
             guid = slcInterface.create(entity);
         }
         
     }
-
+    
     private void changeEntity(SIFDataObject sdo) {
         Entity entity = sifIdResolver.getSLIEntity(sdo.getRefId());
         if (entity == null) {
@@ -135,23 +135,23 @@ public class SifSubscriber implements Subscriber {
             updateBody = xformer.transform((SchoolInfo) sdo);
         }
         if (sdo instanceof LEAInfo) {
-            updateBody = xformer.transform((LEAInfo)sdo);
+            updateBody = xformer.transform((LEAInfo) sdo);
         }
         updateMap(entity.getData(), updateBody);
         slcInterface.update(entity);
     }
-
-
-
-
-    ///-======================== HELPER UTILs ======
+    
+    // /-======================== HELPER UTILs ======
     /**
      * Applies the values from map u to the keys in map m, recursively
-     * @param map: the map to be updated
-     * @param u:   the map containing the updates
+     * 
+     * @param map
+     *            : the map to be updated
+     * @param u
+     *            : the map containing the updates
      */
     // applies map2 to map1 recursively
-    private static void updateMap (Map map, Map u) {
+    private static void updateMap(Map map, Map u) {
         for (Object k : u.keySet()) {
             if (!map.containsKey(k)) {
                 map.put(k, u.get(k));
@@ -160,9 +160,9 @@ public class SifSubscriber implements Subscriber {
                 Object o2 = u.get(k);
                 // recursive update collections
                 if (o1 instanceof Map && o2 instanceof Map) {
-                	updateMap((Map) o1, (Map) o2);
+                    updateMap((Map) o1, (Map) o2);
                 } else {
-                    map.put(k,  o2);
+                    map.put(k, o2);
                 }
             }
         }

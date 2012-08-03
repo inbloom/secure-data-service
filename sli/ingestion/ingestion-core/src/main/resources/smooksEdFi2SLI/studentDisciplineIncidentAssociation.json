@@ -5,7 +5,7 @@
         "fieldPath" : "body.studentId",
         "ref" :
         {
-	        "collectionName" : "student",
+	        "entityType" : "student",
 	        "choiceOfFields" :
 	        [
 	            [
@@ -24,7 +24,7 @@
         "fieldPath" : "body.disciplineIncidentId",
         "ref" :
         {
-            "collectionName" : "disciplineIncident",
+            "entityType" : "disciplineIncident",
             "choiceOfFields" :
             [
                 [

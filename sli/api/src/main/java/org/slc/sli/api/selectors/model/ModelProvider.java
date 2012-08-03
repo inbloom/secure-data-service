@@ -161,5 +161,29 @@ public class ModelProvider {
         }
         return null;
     }
+
+    public Type getConnectingEntityType(Type currentType, Type previousType) {
+        List<AssociationEnd> ends = getAssociationEnds(previousType.getId());
+
+        for (AssociationEnd first : ends) {
+            Type firstType = getType(first.getType());
+            ClassType firstClassType = getClassType(firstType.getName());
+
+            if (firstClassType.isAssociation()) {
+                List<AssociationEnd> secondLevel = getAssociationEnds(firstType.getId());
+
+                for (AssociationEnd second : secondLevel) {
+                    Type secondType = getType(second.getType());
+                    ClassType secondClassType = getClassType(secondType.getName());
+
+                    if (secondClassType.isClassType() && secondType.equals(currentType)) {
+                        return firstType;
+                    }
+                }
+            }
+        }
+
+        return null;
+    }
 }
 

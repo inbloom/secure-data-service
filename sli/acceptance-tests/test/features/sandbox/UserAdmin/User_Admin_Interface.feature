@@ -96,7 +96,7 @@ Then I click on "Add User" button
 And I am redirected to "Add a User" page
 
 And I have entered Full Name and Email into the required fields
-And I can select "Application Developer" from a choice between a "Sandbox Administrator", "Application Developer" and "Ingestion User" Role 
+And I can select "Application Developer" from a choice between "Sandbox Administrator, Application Developer, Ingestion User" Role 
 And I can also check "Ingestion User" Role 
 
 When I click button "Save"
@@ -110,7 +110,7 @@ Then I click on "Add User" button
 And I am redirected to "Add a User" page
 
 And I have entered Full Name and Email into the required fields
-And I can select "Application Developer" from a choice between a "Sandbox Administrator", "Application Developer" and "Ingestion User" Role 
+And I can select "Application Developer" from a choice between "Sandbox Administrator, Application Developer, Ingestion User" Role 
 And I can also check "Ingestion User" Role 
 
 When I click button "Save"

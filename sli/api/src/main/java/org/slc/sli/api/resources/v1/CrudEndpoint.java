@@ -21,7 +21,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.aggregation.AggregateListingResource;
+import org.slc.sli.api.resources.aggregation.CalculatedValueListingResource;
 
 /**
  * The operations a CRUD endpoint should be able to perform (Create, Read, Update, Delete)
@@ -182,5 +182,5 @@ public interface CrudEndpoint {
      *            the id of the entity
      * @return the aggregated and derived values
      */
-    public AggregateListingResource getAggregates(String id);
+    public CalculatedValueListingResource getCalculatedValueListings(String id);
 }

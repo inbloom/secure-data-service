@@ -26,18 +26,18 @@ import java.util.List;
  *
  */
 public class Ref {
-    private String collectionName;
+    private String entityType;
     private List<List<Field>> choiceOfFields;
     private boolean isRefList = false;
     private String refObjectPath;
     private boolean optional = false;
 
-    public String getCollectionName() {
-        return collectionName;
+    public String getEntityType() {
+        return entityType;
     }
 
-    public void setCollectionName(String collectionName) {
-        this.collectionName = collectionName;
+    public void setEntityType(String entityType) {
+        this.entityType = entityType;
     }
 
     public List<List<Field>> getChoiceOfFields() {
@@ -74,7 +74,7 @@ public class Ref {
 
     @Override
     public String toString() {
-        return "Ref [collectionName=" + collectionName + ", choiceOfFields=" + choiceOfFields + ", isRefList="
+        return "Ref [entityType=" + entityType + ", choiceOfFields=" + choiceOfFields + ", isRefList="
                 + isRefList + ", refObjectPath=" + refObjectPath + ", optional=" + optional + "]";
     }
 

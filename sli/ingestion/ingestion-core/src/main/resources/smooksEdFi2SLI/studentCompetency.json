@@ -6,7 +6,7 @@
             "fieldPath" : "body.learningObjectiveId",
             "ref" :
             {
-                "collectionName" : "learningObjective",
+                "entityType" : "learningObjective",
                 "optional" : true,
                 "choiceOfFields" :
                 [
@@ -26,7 +26,7 @@
             "fieldPath" : "body.studentCompetencyObjectiveId",
             "ref" :
             {
-                "collectionName" : "studentCompetencyObjective",
+                "entityType" : "studentCompetencyObjective",
                 "optional" : true,
                 "choiceOfFields" :
                 [
@@ -46,7 +46,7 @@
             "fieldPath" : "body.studentSectionAssociationId",
             "ref" :
             {
-                "collectionName" : "studentSectionAssociation",
+                "entityType" : "studentSectionAssociation",
                 "choiceOfFields" :
                 [
                     [
@@ -56,7 +56,7 @@
                             [{
                                  "ref":
                                  {
-                                     "collectionName" : "student",
+                                     "entityType" : "student",
                                      "choiceOfFields" :
                                       [
                                           [
@@ -78,7 +78,7 @@
                              [{
                                  "ref":
                                  {
-                                     "collectionName" : "section",
+                                     "entityType" : "section",
                                      "choiceOfFields" :
                                       [
                                           [{
