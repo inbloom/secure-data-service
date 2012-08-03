@@ -93,8 +93,12 @@ public final class MetaRelations {
     public static boolean Session_Ref=false;  
     public static boolean StateEducationAgency_Ref=false;
     public static boolean LocalEducationAgency_Ref=false;
-    public static boolean StudentSchoolAssociation_Ref=false;
-    public static boolean Assessment_Ref=false;
+    public static boolean StudentParentAssociation_Ref=false;
+    public static boolean TeacherSectionAssociation_Ref=false;
+    public static boolean TeacherSchoolAssociation_Ref=false;
+    public static boolean StaffProgramAssociation_Ref=false;
+    public static boolean StaffEducationOrgAssignment_Ref=false;
+    public static boolean GradingPeriod_Ref=false;
 
      //publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
 
@@ -136,13 +140,14 @@ public final class MetaRelations {
         
         
         try {
-              fis = new FileInputStream(".\\db-datagen-approach\\ref-configurations\\reference_config.properties");
+//              fis = new FileInputStream(".\\db-datagen-approach\\ref-configurations\\reference_config.properties");
+        	 fis = new FileInputStream("reference_config.properties");
               properties.load(fis);
               
               
         }
         catch (IOException ie) {
-              
+              ie.printStackTrace();
         }
         finally {
               if (fis != null) {
@@ -150,7 +155,7 @@ public final class MetaRelations {
                             fis.close();
                      }
                      catch (Exception e) {
-                            
+                    	 e.printStackTrace();   
                      }
               }
         }
@@ -197,13 +202,19 @@ public final class MetaRelations {
 		LocalEducationAgency_Ref = Boolean.parseBoolean(properties
 				.getProperty("LocalEducationAgency_Ref"));
 
-		StudentSchoolAssociation_Ref = Boolean.parseBoolean(properties
-				.getProperty("StudentSchoolAssociation_Ref"));
-
-		Assessment_Ref = Boolean.parseBoolean(properties
-				.getProperty("StudentAssessmentItem_Ref"));
 	
-		
+		StudentParentAssociation_Ref = Boolean.parseBoolean(properties
+				.getProperty("StudentParentAssociation_Ref"));
+		TeacherSectionAssociation_Ref = Boolean.parseBoolean(properties
+				.getProperty("TeacherSectionAssociation_Ref"));
+		TeacherSchoolAssociation_Ref = Boolean.parseBoolean(properties
+				.getProperty("TeacherSchoolAssociation_Ref"));
+		StaffProgramAssociation_Ref =  Boolean.parseBoolean(properties
+				.getProperty("StaffProgramAssociation_Ref"));
+		StaffEducationOrgAssignment_Ref = Boolean.parseBoolean(properties
+				.getProperty("StaffEducationOrgAssignment_Ref"));
+		GradingPeriod_Ref = Boolean.parseBoolean(properties
+				.getProperty("GradingPeriod_Ref"));
 		
         rootOutputPath = properties.getProperty("rootOutputPath");
     }
