@@ -65,7 +65,7 @@ public class SchoolInfoTranslationTaskTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    // @Test
+    @Test
     public void testNotNull() {
         List<SchoolEntity> result = translator.translate(new SchoolInfo());
         Assert.assertNotNull("Result was null", result);
