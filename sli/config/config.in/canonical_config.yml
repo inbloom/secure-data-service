@@ -139,7 +139,7 @@ default:
         sli.ingestion.queue.workItem.port:
         sli.ingestion.queue.workItem.secondaryhost:
         sli.ingestion.queue.workItem.secondaryport:
-        sli.ingestion.queue.options: keepAlive=true&jms.prefetchPolicy.queuePrefetch=0
+        sli.ingestion.queue.options: keepAlive=true&jms.prefetchPolicy.queuePrefetch=0&wireFormat.maxInactivityDurationInitalDelay=60000
         sli.ingestion.queue.brokerUrl: tcp://${sli.ingestion.queue.workItem.host}:${sli.ingestion.queue.workItem.port}?${sli.ingestion.queue.options}
         sli.ingestion.queue.maxConnections: 25
         sli.ingestion.queue.maximumActive: 500
