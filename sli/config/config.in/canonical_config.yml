@@ -107,7 +107,7 @@ default:
         sli.ingestion.healthcheck.user: admin
         sli.ingestion.healthcheck.pass: admin
 
-        sli.enableMongoTracking: false
+        sli.mongo.tracking: false
 
   # Write concerns
 
