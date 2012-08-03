@@ -21,9 +21,10 @@ import java.util.List;
 
 import openadk.library.ADK;
 import openadk.library.ADKException;
+import openadk.library.common.AddressList;
 import openadk.library.common.PhoneNumberList;
-import openadk.library.common.PhoneNumberType;
 import openadk.library.student.LEAInfo;
+import openadk.library.student.OperationalStatus;
 import openadk.library.student.SchoolInfo;
 import openadk.library.student.Title1Status;
 
@@ -37,8 +38,10 @@ import org.mockito.MockitoAnnotations;
 import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.OperationalStatusConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
+import org.slc.sli.sif.domain.slientity.Address;
 import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
 import org.slc.sli.sif.domain.slientity.LEAEntity;
+import org.slc.sli.sif.domain.slientity.SchoolEntity;
 
 public class LEAInfoTranslationTaskTest
 {
@@ -72,6 +75,61 @@ public class LEAInfoTranslationTaskTest
     }
 
     @Test
+    public void testBasicFields() throws SifTranslationException {
+        LEAInfo info = new LEAInfo();
+
+        String stateOrgId = "stateOrgId";
+        info.setStateProvinceId(stateOrgId);
+
+        String name = "LEAName";
+        info.setLEAName(name);
+
+        String url = "LEAURL";
+        info.setLEAURL(url);
+
+        List<LEAEntity> result = translator.translate(info);
+        Assert.assertEquals(1, result.size());
+        LEAEntity entity = result.get(0);
+
+        Assert.assertEquals(stateOrgId, entity.getStateOrganizationId());
+        Assert.assertEquals(name, entity.getNameOfInstitution());
+        Assert.assertEquals(url, entity.getWebSite());
+    }
+
+     @Test
+    public void testAddressList() throws SifTranslationException {
+        AddressList addressList = new AddressList();
+        LEAInfo info = new LEAInfo();
+        info.setAddressList(addressList);
+
+        List<Address> address = new ArrayList<Address>();
+
+        Mockito.when(mockAddressConverter.convertTo(Mockito.eq(addressList), Mockito.any(List.class))).thenReturn(
+                address);
+
+        List<LEAEntity> result = translator.translate(info);
+        Assert.assertEquals(1, result.size());
+        LEAEntity entity = result.get(0);
+
+        Mockito.verify(mockAddressConverter).convertTo(Mockito.eq(addressList), Mockito.any(List.class));
+        Assert.assertEquals(address, entity.getAddress());
+
+    }
+     
+    @Test
+    public void testOperationalStatus() throws SifTranslationException {
+        LEAInfo info = new LEAInfo();
+        info.setOperationalStatus(OperationalStatus.AGENCY_CLOSED);
+        Mockito.when(operationalStatusConverter.convert(OperationalStatus.wrap(info.getOperationalStatus()))).thenReturn("Closed");
+        List<LEAEntity> result = translator.translate(info);
+        Assert.assertEquals(1, result.size());
+        LEAEntity entity = result.get(0);
+
+        Mockito.verify(operationalStatusConverter).convert(OperationalStatus.wrap(info.getOperationalStatus()));
+        Assert.assertEquals("Closed", entity.getOperationalStatus());
+    }
+    
+    @Test
     public void testPhoneNumbers() throws SifTranslationException {
         PhoneNumberList phoneNumberList = new PhoneNumberList();
         LEAInfo info = new LEAInfo();
@@ -88,6 +146,5 @@ public class LEAInfoTranslationTaskTest
         Mockito.verify(mockPhoneNumberListConverter).convert(phoneNumberList);
         Assert.assertEquals(telephones, entity.getTelephone());
     }
-
 
 }
