@@ -36,7 +36,7 @@ if __FILE__ == $0
 
     # create instances of the queue listener and the job runner and 
     # and plug them into an Jobscheduler
-    listener = Eventbus::OplogListener.new 
+    listener = Eventbus::EventSubscriber.new("oplog")
     jobrunner = Eventbus::HadoopJobRunner.new 
     active_config = config.update(:listener => listener, 
                                   :jobrunner => jobrunner)

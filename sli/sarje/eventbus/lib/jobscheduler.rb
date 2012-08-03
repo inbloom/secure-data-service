@@ -69,7 +69,7 @@ module Eventbus
 
             # listen to events. Note: This will hook into a thread in the listener 
             # the provided block is expected to be non-blocking. 
-            @listener.receive do |event| 
+            @listener.handle_event do |event| 
                 queue << event 
             end 
 
