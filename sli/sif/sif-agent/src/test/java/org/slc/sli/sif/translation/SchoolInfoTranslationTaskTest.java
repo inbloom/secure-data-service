@@ -66,13 +66,13 @@ public class SchoolInfoTranslationTaskTest {
     }
 
     @Test
-    public void testNotNull() {
+    public void testNotNull() throws SifTranslationException{
         List<SchoolEntity> result = translator.translate(new SchoolInfo());
         Assert.assertNotNull("Result was null", result);
     }
 
     // @Test
-    public void testBasicFields() {
+    public void testBasicFields() throws SifTranslationException{
         SchoolInfo info = new SchoolInfo();
 
         String stateOrgId = "stateOrgId";
@@ -99,7 +99,7 @@ public class SchoolInfoTranslationTaskTest {
     }
 
     // @Test
-    public void testAddressList() {
+    public void testAddressList() throws SifTranslationException{
 
         AddressList addressList = new AddressList();
         SchoolInfo info = new SchoolInfo();
@@ -119,8 +119,8 @@ public class SchoolInfoTranslationTaskTest {
 
     }
 
-    // @Test
-    public void testSchoolFocus() {
+    //@Test
+    public void testSchoolFocus() throws SifTranslationException{
         SchoolFocusList focusList = new SchoolFocusList();
         SchoolInfo info = new SchoolInfo();
         info.setSchoolFocusList(focusList);
@@ -136,7 +136,7 @@ public class SchoolInfoTranslationTaskTest {
     }
 
     @Test
-    public void testGradeLevels() {
+    public void testGradeLevels() throws SifTranslationException {
         GradeLevels sifGradeLevels = new GradeLevels();
         SchoolInfo info = new SchoolInfo();
         info.setGradeLevels(sifGradeLevels);
@@ -154,7 +154,7 @@ public class SchoolInfoTranslationTaskTest {
     }
 
     @Test
-    public void testSchoolTypes() {
+    public void testSchoolTypes() throws SifTranslationException {
         SchoolInfo info = new SchoolInfo();
         info.setSchoolType(SchoolLevelType.ELEMENTARY);
 
@@ -171,7 +171,7 @@ public class SchoolInfoTranslationTaskTest {
     }
 
     @Test
-    public void testPhoneNumbers() {
+    public void testPhoneNumbers() throws SifTranslationException {
         PhoneNumberList phoneNumberList = new PhoneNumberList();
         SchoolInfo info = new SchoolInfo();
         info.setPhoneNumberList(phoneNumberList);
