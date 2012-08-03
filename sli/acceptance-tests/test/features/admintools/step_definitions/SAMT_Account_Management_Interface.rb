@@ -32,6 +32,11 @@ Before do
   @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])
 end
 
+After do
+step "the prod testing user does not already exists in LDAP"
+end
+
+
 Given /^I already have a SLC Operator account$/ do
   #do nothing, guaranteed by configuration
 end

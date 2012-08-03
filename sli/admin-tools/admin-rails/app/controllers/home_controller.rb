@@ -16,8 +16,12 @@ limitations under the License.
 
 =end
 
+class HomeController < ApplicationController
 
-require 'test_helper'
+  def index
+    respond_to do |format|
+      format.html # index.html.erb
+    end
+  end
 
-class RolesHelperTest < ActionView::TestCase
 end

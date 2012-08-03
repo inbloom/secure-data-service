@@ -8,7 +8,6 @@ Given that dashboard has been authorized for all ed orgs
 When I navigate to the Dashboard home page
 
 @integration @RALLY_US2276
-@wip
 Scenario: Add a Page
 When I select "Illinois Daybreak School District 4529" and click go
  And I was redirected to the "Simple" IDP Login page

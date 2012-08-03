@@ -103,7 +103,7 @@ def hoverOverPage(pageName, mode)
 end
 
 def saveDashboardBuilder()
-  save = @driver.find_element(:class, "modal-footer").find_element(:link_text, "Save")
+  save = @driver.find_element(:class, "modal-footer").find_elements(:tag_name, "button")[1]
   # Scroll the browser to the button's co-ords
   yLocation = save.location.y.to_s
   xLocation = save.location.x.to_s
@@ -117,6 +117,8 @@ def ensurePopupLoaded()
   @explicitWait.until {(style = @driver.find_element(:id, "pageModal").attribute('style').strip)  == "display: block;" }
 end
 
-def ensurePopupUnloaded()
-  @explicitWait.until {(style = @driver.find_element(:id, "pageModal").attribute('class').strip) == "modal hide ng-scope"}
+def ensurePopupUnloaded() 
+   @driver.manage.timeouts.implicit_wait = 2
+   @explicitWait.until{(@driver.find_elements(:id, "simplemodal-overlay").length) == 0}
+   @driver.manage.timeouts.implicit_wait = 10
 end

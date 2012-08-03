@@ -23,7 +23,16 @@ public class User {
     private String edorg;
     private String homeDir;
     private String fullName;
+    private String cn;
     
+    public String getCn() {
+        return cn;
+    }
+    
+    public void setCn(String cn) {
+        this.cn = cn;
+    }
+
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }

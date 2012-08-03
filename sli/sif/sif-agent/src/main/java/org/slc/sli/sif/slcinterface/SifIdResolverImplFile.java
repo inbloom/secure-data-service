@@ -36,6 +36,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.impl.BasicQuery;
 import org.slc.sli.api.client.util.Query;
+import org.slc.sli.api.client.constants.v1.ParameterConstants;
 
 /**
  * Mapping between SIF id and SLI ids. File implementation
@@ -175,9 +176,16 @@ public class SifIdResolverImplFile implements SifIdResolver {
         return retVal;
     }
 
+    /**
+     * Implements putSliGuid(). Does not persist. 
+     * 
+     * @param sifId
+     * @param sliType
+     * @param sliId
+     */
     @Override
-    public void addIdMapping(String sifId, String sliType, String sliId, String sliField) {
-        SliId id = new SliId(sliType, sliId, sliField);
+    public void putSliGuid(String sifId, String sliType, String sliId) {
+        SliId id = new SliId(sliType, sliId, ParameterConstants.ID);
         sifToSliIdMap.put(sifId, id);
     }
 }

@@ -204,9 +204,6 @@ public class RealmResource {
     @Path("{realmId}")
     public Response readRealm(@PathParam("realmId") String realmId) {
         SecurityUtil.ensureAuthenticated();
-        if (!SecurityUtil.hasRight(Right.CRUD_REALM_ROLES)) {
-            return SecurityUtil.forbiddenResponse();
-        }
         EntityBody result = service.get(realmId);
         return Response.ok(result).build();
     }
@@ -214,9 +211,6 @@ public class RealmResource {
     @GET
     public Response getRealms(@QueryParam("realm") @DefaultValue("") String realm, @Context UriInfo info) {
         SecurityUtil.ensureAuthenticated();
-        if (!SecurityUtil.hasRight(Right.CRUD_REALM_ROLES)) {
-            return SecurityUtil.forbiddenResponse();
-        }
 
         NeutralQuery neutralQuery = new NeutralQuery();
         neutralQuery.setOffset(0);

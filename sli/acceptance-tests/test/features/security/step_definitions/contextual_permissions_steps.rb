@@ -199,7 +199,7 @@ end
 
 Then /^I receive a JSON response that includes the (list of sections that "[^"]*" teaches)$/ do |arg1|
   if arg1.empty?
-    assert(@res.code == 404, "Return code was not expected: "+@res.code.to_s+" but expected 404")
+    assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
   else
     assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
     result = JSON.parse(@res.body)

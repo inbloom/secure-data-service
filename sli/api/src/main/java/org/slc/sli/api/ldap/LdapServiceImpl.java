@@ -89,7 +89,10 @@ public class LdapServiceImpl implements LdapService {
     @Override
     public void removeUser(String realm, String uid) {
         Collection<Group> groups = getUserGroups(realm, uid);
-        ldapTemplate.unbind(buildUserDN(realm, uid));
+        User oldUser = getUser(realm, uid);
+        if (oldUser == null)
+            return;
+        ldapTemplate.unbind(buildUserDN(realm, oldUser.getCn()));
         if (groups != null && groups.size() > 0) {
 
             for (Group group : groups) {
@@ -101,6 +104,7 @@ public class LdapServiceImpl implements LdapService {
 
     @Override
     public String createUser(String realm, User user) throws NameAlreadyBoundException {
+        user.setCn(user.getUid());
         ldapTemplate.bind(createUserContext(realm, user));
         List<String> groupNames = user.getGroups();
         if (groupNames != null && groupNames.size() > 0) {
@@ -116,8 +120,11 @@ public class LdapServiceImpl implements LdapService {
 
     @Override
     public boolean updateUser(String realm, User user) {
+        User oldUser = getUser(realm, user.getUid());
+        if (oldUser == null)
+            return false;
         Collection<Group> oldGroups = getUserGroups(realm, user.getUid());
-        DirContextAdapter context = (DirContextAdapter) ldapTemplate.lookupContext(buildUserDN(realm, user.getUid()));
+        DirContextAdapter context = (DirContextAdapter) ldapTemplate.lookupContext(buildUserDN(realm, oldUser.getCn()));
         mapUserToContext(context, user);
         ldapTemplate.modifyAttributes(context);
         Collection<String> newGroupNames = user.getGroups();
@@ -259,15 +266,16 @@ public class LdapServiceImpl implements LdapService {
 
         DirContextAdapter context = new DirContextAdapter(buildUserDN(realm, user));
         mapUserToContext(context, user);
+        context.setAttributeValue("cn", user.getCn());
         return context;
     }
 
     private DistinguishedName buildUserDN(String realm, User user) {
-        return buildUserDN(realm, user.getUid());
+        return buildUserDN(realm, user.getCn());
     }
 
-    private DistinguishedName buildUserDN(String realm, String uid) {
-        DistinguishedName dn = new DistinguishedName("cn=" + uid + ",ou=people,ou=" + realm);
+    private DistinguishedName buildUserDN(String realm, String cn) {
+        DistinguishedName dn = new DistinguishedName("cn=" + cn + ",ou=people,ou=" + realm);
         return dn;
     }
 
@@ -283,7 +291,6 @@ public class LdapServiceImpl implements LdapService {
         context.setAttributeValue("uid", user.getUid());
         context.setAttributeValue("uidNumber", USER_ID_NUMBER);
         context.setAttributeValue("gidNumber", GROUP_ID_NUMBER);
-        context.setAttributeValue("cn", user.getUid());
         context.setAttributeValue("mail", user.getEmail());
         context.setAttributeValue("homeDirectory", user.getHomeDir());
         String description = "";

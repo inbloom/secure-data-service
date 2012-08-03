@@ -16,7 +16,8 @@ limitations under the License.
 
 =end
 
-
+require 'mongo'
+require 'securerandom'
 require 'rumbster'
 require 'message_observers'
 
@@ -157,3 +158,10 @@ Then /^I navigate to that link$/ do
   restHttpGetAbs(@link)
 end
 
+Given /^that dashboard has been authorized for all ed orgs$/ do
+  allLeaAllowDashboard
+end
+
+Given /^that databrowser has been authorized for all ed orgs$/ do
+  allLeaAllowDatabrowser
+end
