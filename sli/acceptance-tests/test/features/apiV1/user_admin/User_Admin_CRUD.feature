@@ -51,7 +51,7 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |Application_Developer  |IL-DAYBREAK                  |DEFAULT              |401 |                 |
 
   @wip
-  Scenario Outline: As a admin I am able to read all Ed-Orgs in a tenancy
+  Scenario Outline: As a admin I am able to read all Ed-Orgs at my level or below me in a tenancy
     Given I have a "<ADMIN_ROLE>"
     When I am authenticated on "<ADMIN_REALM>"
     And I navigate to GET "/users"
@@ -67,7 +67,7 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |Ingestion_Administrator|IL-DAYBREAK                  |401 |IL             |IL-DAYBREAK   |
 
   @production
-  Scenario Outline:  As an administrator I can read all admin accounts in my tenancy
+  Scenario Outline:  As an administrator I can read all admin accounts in my tenancy if I am a SLC operator or a SEA.  If I am LEA, I can read myself and realm/ingestion users. 
     
     Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
     And I have a role "<ADMIN_ROLE>"
@@ -95,6 +95,18 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |sunsetadmin|sunsetadmin1234|LEA Administrator      |SLI        |Ingestion User              |200 |1 or more|Sunset IngestionUser|sunsetingestionuser          |sunsetingestionuser@slidev.org|
     |sunsetrealmadmin|sunsetrealmadmin1234 |Realm Administrator     |SLI        |                |403 |         |                |                                  |                            |
     |ingestionuser   |ingestionuser1234    |Ingestion User          |SLI        |                |403 |         |                |                                  |                            |
+
+  @production 
+  Scenario Outline:  As an LEA administrator, I can only see myself and not other LEAs in my EdOrg
+
+    Given there is another LEA with "<Full_Name>" in my "<TENANT>" and "<EDORG>"
+      And I have logged in to realm "<REALM>" using "<USERNAME>" "<PASSWORD>"
+      When I navigate to GET "/users"
+      Then I think I am the only LEA in my EdOrg "<EDORG>"
+
+  Examples:
+    |USERNAME      |PASSWORD          |REALM      |Number   |TENANT     |EDORG       |Full_Name        |
+    |sunsetadmin   |sunsetadmin1234   |SLI        |1        |Midgar     |IL-SUNSET   |LEA testadmin    |
 
 
   #sandbox
