@@ -19,18 +19,18 @@ package org.slc.sli.sif.domain.sifentity;
 import openadk.library.SIFElement;
 
 /**
- * An GenericEntity in the SIF domain, which has a corresponding SIFDataObject.
+ * A GenericEntity in the SIF domain, which has a corresponding SIFDataObject.
  *
  * @author slee
  *
  */
-public class GenericEntity {
+public class SifEntity {
     private SIFElement sifElement;
 
     /**
     * Constructor
     */
-    public GenericEntity(SIFElement sifElement) {
+    public SifEntity(SIFElement sifElement) {
         this.sifElement = sifElement;
     }
 }

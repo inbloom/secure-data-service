@@ -20,8 +20,6 @@ import openadk.library.common.AddressList;
 import openadk.library.common.PhoneNumberList;
 import openadk.library.student.LEAInfo;
 
-import org.slc.sli.sif.domain.converter.SchoolMappings;
-
 /**
  * An SIF Entity corresponding to an SIF LEAInfo. Used by dozer to map LEAInfo
  * into an SLI LEAEntity.
@@ -57,7 +55,7 @@ import org.slc.sli.sif.domain.converter.SchoolMappings;
  * @author slee
  *
  */
-public class LEAInfoEntity extends GenericEntity {
+public class LEAInfoEntity extends SifEntity {
     private LEAInfo leaInfo;
 
     /**
@@ -90,16 +88,11 @@ public class LEAInfoEntity extends GenericEntity {
     }
 
     /**
-    * Get OperationalStatus in an SIF LEAInfoEntity. Using a value mapping
-    * method.
+    * Get OperationalStatus in an SIF LEAInfoEntity.
     *
     */
     public String getOperationalStatus() {
-        if (this.leaInfo.getOperationalStatus() == null) {
-            return null;
-        }
-        return SchoolMappings.toSliOperationalStatus(this.leaInfo
-                .getOperationalStatus());
+        return this.leaInfo.getOperationalStatus();
     }
 
     /**

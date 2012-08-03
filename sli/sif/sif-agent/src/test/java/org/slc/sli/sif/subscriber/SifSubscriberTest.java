@@ -49,8 +49,6 @@ import org.slc.sli.sif.slcinterface.SlcInterface;
  * @author jtully
  *
  */
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(locations = { "classpath*:/spring/applicationContext.xml" })
 public class SifSubscriberTest {
 
     @InjectMocks

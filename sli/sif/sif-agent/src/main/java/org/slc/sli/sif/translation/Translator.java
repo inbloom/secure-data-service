@@ -22,8 +22,10 @@ import java.util.Map;
 
 import openadk.library.SIFDataObject;
 
-import org.slc.sli.sif.domain.slientity.GenericEntity;
+import org.slc.sli.sif.domain.slientity.SliEntity;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.sif.domain.slientity.SliEntity;
 
 
 @Component
@@ -31,19 +33,19 @@ public class Translator<T extends SIFDataObject>
 {
     @SuppressWarnings("rawtypes")
     private Map<String, TranslationTask> translationTaskMap;
-    
+
     @SuppressWarnings("unchecked")
-    public List<GenericEntity> translate(final T sdo) {
+    public List<SliEntity> translate(final T sdo) {
         @SuppressWarnings("rawtypes")
         final TranslationTask task = getTranslationTask(sdo);
-        return task==null ? new ArrayList<GenericEntity>() : task.translate(sdo);
+        return task==null ? new ArrayList<SliEntity>() : task.translate(sdo);
     }
 
     @SuppressWarnings("rawtypes")
     public TranslationTask getTranslationTask(final T  sdo) {
         return sdo==null ? null : translationTaskMap.get(sdo.tag());
     }
-    
+
     @SuppressWarnings("rawtypes")
     public Map<String, TranslationTask> getTranslationTaskMap() {
         return translationTaskMap;

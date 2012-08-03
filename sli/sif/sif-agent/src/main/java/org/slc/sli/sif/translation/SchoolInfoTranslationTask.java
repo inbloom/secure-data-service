@@ -19,11 +19,7 @@ package org.slc.sli.sif.translation;
 import java.util.ArrayList;
 import java.util.List;
 
-import openadk.library.SIFDataObject;
 import openadk.library.student.SchoolInfo;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
@@ -32,18 +28,21 @@ import org.slc.sli.sif.domain.converter.SchoolFocusConverter;
 import org.slc.sli.sif.domain.converter.SchoolTypeConverter;
 import org.slc.sli.sif.domain.slientity.Address;
 import org.slc.sli.sif.domain.slientity.SchoolEntity;
+import org.slc.sli.sif.domain.slientity.SliEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 
-@Component
-public class SchoolInfoTranslationTask implements TranslationTask<SchoolEntity>
+public class SchoolInfoTranslationTask<A extends SchoolInfo, B extends SchoolEntity> 
+                        extends AbstractTranslationTask<SchoolInfo>
 {
 
-    @Autowired
-    AddressListConverter addressListConverter;
+//    @Autowired
+//    AddressListConverter addressListConverter;
+//
+//    @Autowired
+//    SchoolFocusConverter schoolFocusConverter;
 
     @Autowired
-    SchoolFocusConverter schoolFocusConverter;
-
-    @Autowired
+    
     GradeLevelsConverter gradeLevelsConverter;
 
     @Autowired
@@ -52,16 +51,15 @@ public class SchoolInfoTranslationTask implements TranslationTask<SchoolEntity>
     @Autowired
     PhoneNumberListConverter phoneNumberListConverter;
 
+    public SchoolInfoTranslationTask()
+{
+        super(SchoolInfo.class);
+    }
+
     @Override
-    public List<SchoolEntity> translate(SIFDataObject sifData)
+    public List<SliEntity> doTranslate(SchoolInfo sifData)
     {
-        //Hey, I translate only SchoolInfo
-        if (!(sifData instanceof SchoolInfo)) {
-            return new ArrayList<SchoolEntity>();
-        }
-
         SchoolInfo schoolInfo = (SchoolInfo)sifData;
-
         SchoolEntity result = new SchoolEntity();
 
         // organizationCategories is mandatory but not counterpart in SIF SchoolInfo
@@ -69,16 +67,12 @@ public class SchoolInfoTranslationTask implements TranslationTask<SchoolEntity>
         organizationCategories.add("School");
         result.setOrganizationCategories(organizationCategories);
 
-        result.setStateOrganizationId(schoolInfo.getStateProvinceId());
-        result.setNameOfInstitution(schoolInfo.getSchoolName());
-        result.setAddress(addressListConverter.convertTo(schoolInfo.getAddressList(), new ArrayList<Address>()));
-        result.setSchoolType(schoolFocusConverter.convert(schoolInfo.getSchoolFocusList()));
         result.setWebSite(schoolInfo.getSchoolURL());
         result.setGradesOffered(gradeLevelsConverter.convertTo(schoolInfo.getGradeLevels()));
         result.setSchoolCategories(schoolTypeConverter.convert(schoolInfo.getSchoolType()));
         result.setTelephone(phoneNumberListConverter.convertTo(schoolInfo.getPhoneNumberList()));
 
-        List<SchoolEntity> list = new ArrayList<SchoolEntity>(1);
+        List<SliEntity> list = new ArrayList<SliEntity>(1);
         list.add(result);
         return list;
     }

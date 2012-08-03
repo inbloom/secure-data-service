@@ -63,7 +63,7 @@ import org.slc.sli.sif.domain.converter.SchoolMappings;
  * @author slee
  *
  */
-public class SchoolInfoEntity extends GenericEntity {
+public class SchoolInfoEntity extends SifEntity {
     private SchoolInfo schoolInfo;
 
     /**
@@ -112,16 +112,11 @@ public class SchoolInfoEntity extends GenericEntity {
     }
 
     /**
-    * Get OperationalStatus in an SIF SchoolInfoEntity. Using a value mapping
-    * method.
+    * Get OperationalStatus in an SIF SchoolInfoEntity.
     *
     */
     public String getOperationalStatus() {
-        if (this.schoolInfo.getOperationalStatus() == null) {
-            return null;
-        }
-        return SchoolMappings.toSliOperationalStatus(this.schoolInfo
-                .getOperationalStatus());
+        return this.schoolInfo.getOperationalStatus();
     }
 
     /**

@@ -44,8 +44,6 @@ import org.slc.sli.sif.subscriber.SifSubscriber;
  * @author jtully
  *
  */
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(locations = { "classpath*:/spring/applicationContext.xml" })
 public class AgentManagerTest {
     @InjectMocks
     AgentManager agentManager;
