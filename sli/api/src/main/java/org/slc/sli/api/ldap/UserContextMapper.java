@@ -41,6 +41,7 @@ public class UserContextMapper implements ContextMapper {
         // TODO figure out consistent ways to set user password with either plain text or MD5 hash
         // user.setPassword(context.getStringAttribute("userPassword"));
         user.setPassword("**********");
+        user.setCn(context.getStringAttribute("cn"));
 
         String description = context.getStringAttribute("description");
         if (description != null && description.length() > 0) {

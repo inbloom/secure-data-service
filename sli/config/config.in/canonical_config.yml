@@ -232,10 +232,10 @@ default:
         # independent here will allow us to use the same application-context for
         # the internal version as well as the external version.
         # (only used in dashboard)
-        #dashboard.encryption.keyStorePass: changeit
-        #dashboard.encryption.dalKeyAlias: dalKey
-        #dashboard.encryption.dalKeyPass: changeit
-        #dashboard.encryption.keyStore: ../data-access/dal/keyStore/ciKeyStore.jks
+        dashboard.encryption.keyStorePass: changeit
+        dashboard.encryption.dalKeyAlias: dalKey
+        dashboard.encryption.dalKeyPass: changeit
+        dashboard.encryption.keyStore: ../data-access/dal/keyStore/ciKeyStore.jks
 
 
 
