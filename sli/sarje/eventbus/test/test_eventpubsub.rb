@@ -25,32 +25,51 @@ class TestEventPubSub < Test::Unit::TestCase
     EVENT_TYPE = "testevent"
 
     def setup 
-        @queue_config = {
+        @queue_config = {}
 
-        }
+        @event_subscriptions = [
+            {"id" => "event_1", "details" => { "trigger" => "trigger_1" }},
+            {"id" => "event_2", "details" => { "trigger" => "trigger_2" }},
+            {"id" => "event_3", "details" => { "trigger" => "trigger_3" }},
+            {"id" => "event_4", "details" => { "trigger" => "trigger_4" }},
+            {"id" => "event_5", "details" => { "trigger" => "trigger_5" }}
+        ]
+        @event_ids = @event_subscriptions.map { |e| e['id'] } 
     end 
 
     def test_eventpubsub
         # set up two agents and a subscriber 
-        test_publisher_1 = TestAgent.new (FIRE_N_EVENTS, "agent_1", EVENT_TYPE, @queue_config)
-        test_publisher_2 = TestAgent.new (FIRE_N_EVENTS, "agent_2", EVENT_TYPE, @queue_config)
-        event_subscriber = Eventbus::EventSubscriber.new (EVENT_TYPE)
+        test_publisher_1 = TestAgent.new(FIRE_N_EVENTS, "agent_1", EVENT_TYPE)
+        test_publisher_2 = TestAgent.new(FIRE_N_EVENTS, "agent_2", EVENT_TYPE)
+        event_subscriber = Eventbus::EventSubscriber.new(EVENT_TYPE)
 
         # set up the event handler 
         fired_events = {} 
         fired_events.default=(0)
-        event_subscriber.handleEvent do |event|
-            id = event[:id]
-            fired_events[id] = fired_events[id] + 1
+        event_subscriber.handle_event do |event|
+            eid = event['id']
+            fired_events[eid] = fired_events[eid] + 1
         end
 
         # subscribe to the given list of events 
         event_subscriber.subscribe(@event_subscriptions)
 
+        # wait until I have publishers for all events 
+        agents_up = false 
+        while !agents_up
+            all_publishers = event_subscriber.get_publishers
+            agents_up = true 
+            all_publishers.each do |node_id, events|
+                agents_up &&= (Set.new(events).length == @event_subscriptions.length)
+            end 
+            #puts "AGENTS: #{all_publishers}\nAGENTS_UP: #{agents_up}\n----------------------------------"
+            sleep(0.5)
+        end
+
         # fire the events for both agents and wait until they are done 
         threads = []
-        threads << test_publisher_1.fire_events 
-        threads << test_publisher_2.fire_events 
+        threads << test_publisher_1.send_events
+        threads << test_publisher_2.send_events
         threads.each { |aThread| aThread.join }
 
         # waiting for all events to arrive 
@@ -59,29 +78,33 @@ class TestEventPubSub < Test::Unit::TestCase
         # make sure that all the agents are online and they publish all events 
         all_publishers = event_subscriber.get_publishers
         assert all_publishers.length == 2, "Expected 2 event publishers, but got #{all_publishers.length}."
-        event_subscriber.publishers.each do |a_publisher|
-            assert a_publisher[:events].sort() == @event_ids.sort, "Publisher #{a_publisher[:pubid]} does not publish all events"
+        all_publishers.each do |node_id, events|
+            assert events.sort == @event_ids.sort, "Publisher #{node_id} does not publish all events."  
         end 
 
         # make sure that each event was fired the correct number of times 
         fired_events.each do |k,v| 
-            assert v == FIRE_N_EVENTS, "Event #{k} was not fired #{FIRE_N_EVENTS} times."
+            assert v == FIRE_N_EVENTS * 2, "Event #{k} was not fired #{2 * FIRE_N_EVENTS} but #{v} times."
         end
     end 
 end 
 
 class TestAgent 
-    def initialize(fire_n_events, id, event_type, mq_config) 
+    def initialize(fire_n_events, id, event_type) 
         @fire_n_events = fire_n_events 
-        @e_publisher = Eventbus::EventPublisher.new (id, event_type, queue_config)
+        @e_publisher = Eventbus::EventPublisher.new(id, event_type)
 
         # setup the subscription handler on the publisher side 
+        @tem_lock = Mutex.new 
         @trigger_event_map = {}
-        @e_publisher.handleSubscription do | event_subs |
+        @e_publisher.handle_subscriptions do | event_subs |
+
             will_provide = [] 
             event_subs.each do |e_sub|
-                @trigger_event_map[e_sub[:details][:trigger]] = e[:id]
-                will_provide << e[:id]
+                @tem_lock.synchronize { 
+                    @trigger_event_map[e_sub['details']['trigger']] = e_sub['id']
+                }
+                will_provide << e_sub['id']
             end
             # pass the list of subscriptions back to the EventPublisher 
             will_provide
@@ -92,10 +115,16 @@ class TestAgent
         # fire each event the given number of times 
         Thread.new do 
             @fire_n_events.times do 
-                trigger_event_map.each do |trigger, event_id|
-                    @e_publisher.fire(event_id)
-                end
-                sleep(0.1)
+                @tem_lock.synchronize { 
+                    @trigger_event_map.each do |trigger, event_id|
+                        msg = {
+                            'id' => event_id, 
+                            'data' => trigger 
+                        }
+                        @e_publisher.fire_event(msg)
+                    end
+                }
+                sleep(0.5)
             end
         end 
     end 

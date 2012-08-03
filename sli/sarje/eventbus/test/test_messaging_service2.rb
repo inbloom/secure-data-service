@@ -24,37 +24,69 @@ require 'test/unit'
 require 'eventbus'
 
 class TestMessagingService < Test::Unit::TestCase
-  TEST_TOPIC = "/topic/test_topic"
-  def setup
-  end
+    TEST_TOPIC = "/topic/test_topic"
+    TEST_QUEUE = "/queue/test_queue"
 
-  def test_topic
-    config = {
-      :node_name => 'eventsubscriber',
-    }
-    messaging = Eventbus::MessagingService.new(config)
-
-    pub = messaging.get_publisher(TEST_TOPIC)
-    sub_1 = messaging.get_subscriber(TEST_TOPIC)
-    sub_2 = messaging.get_subscriber(TEST_TOPIC)
-
-    sub_1.handle_message do |msg| 
-      puts "Sub 1111: #{msg}"
-    end 
-
-    sub_2.handle_message do |msg| 
-      puts "Sub 2222: #{msg}"
-    end 
-
-    sleep(3)
-    10.times do 
-      msg = {
-        "timestamp" => Time.now.to_i
+    def test_topic
+      config = {
+        :node_name => 'eventsubscriber',
       }
-      pub.publish(msg)
-      sleep(1)
-    end 
+      messaging = Eventbus::MessagingService.new(config)
 
-    sleep(10)
-  end
+      pub = messaging.get_publisher(TEST_TOPIC)
+      sub_1 = messaging.get_subscriber(TEST_TOPIC)
+      sub_2 = messaging.get_subscriber(TEST_TOPIC)
+
+      sub_1.handle_message do |msg| 
+        puts "Sub 1111: #{msg}"
+      end 
+
+      sub_2.handle_message do |msg| 
+        puts "Sub 2222: #{msg}"
+      end 
+
+      sleep(3)
+      10.times do 
+        msg = {
+          "timestamp" => Time.now.to_i
+        }
+        pub.publish(msg)
+        sleep(1)
+      end 
+
+      sleep(5)
+    end
+
+    def test_queue
+      config = {
+        :node_name => 'eventsubscriber',
+      }
+      messaging = Eventbus::MessagingService.new(config)
+      pub = messaging.get_publisher(TEST_QUEUE)
+      sub_1 = messaging.get_subscriber(TEST_QUEUE)
+      sub_2 = messaging.get_subscriber(TEST_QUEUE)
+
+      sub_1.handle_message do |msg| 
+        puts "Sub 1111: #{msg}"
+      end 
+
+      sub_2.handle_message do |msg| 
+        puts "Sub 2222: #{msg}"
+      end 
+
+      sleep(3)
+      counter = 0 
+      10.times do 
+        counter += 1
+        msg = {
+          "count" => counter, 
+          "timestamp" => Time.now.to_i
+        }
+        pub.publish(msg)
+        sleep(1)
+      end 
+
+      sleep(5)
+
+    end
 end

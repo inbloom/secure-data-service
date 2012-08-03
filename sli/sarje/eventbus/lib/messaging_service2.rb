@@ -25,7 +25,6 @@ module Eventbus
   class MessagingService
     def initialize(config = {})
       @config = {
-          :node_name => Socket.gethostname,
           :messaging_host => "localhost",
           :messaging_port => 61613,
           :messaging_login => "",
