@@ -201,7 +201,7 @@ class UsersController < ApplicationController
      rescue ActiveResource::BadRequest
      resend =true
      @user.errors[:tenant] << "tenant and edorg mismatch"
-     @user.errors[:edorg] << "tenant and edorg mismatch"
+     @user.errors[:edorg] << "Pleaes check EdOrg selection"
      end
     end
 
@@ -212,6 +212,7 @@ class UsersController < ApplicationController
          set_role_options
          set_roles
          @is_operator = is_operator?
+         @is_lea = is_lea_admin?
          format.html { render "edit"}
        else
          flash[:notice]='Success! You have updated the user'
