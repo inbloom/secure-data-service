@@ -140,8 +140,9 @@ public final class MetaRelations {
         
         
         try {
-//              fis = new FileInputStream(".\\db-datagen-approach\\ref-configurations\\reference_config.properties");
+
         	 fis = new FileInputStream("reference_config.properties");
+
               properties.load(fis);
               
               
