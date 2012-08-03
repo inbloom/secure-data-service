@@ -114,15 +114,10 @@ module EntitiesHelper
   def display_entity (entity)
     html ||= ""
     if entity.is_a?(Hash)
-      entity.each do |key, value|
-        html << "<dt><b>#{t(key)}:</b></dt>"
-        if key == 'links' || key == 'link'
-          html << "<dd>#{build_links(value)}</dd>"
-        else
-          html << "<dd>#{display_entity(value)}</dd>"
-        end
-      end
-
+      entity.each { |key, value|
+        val_text = (key == 'links' || key == 'link') ? build_links(value) : display_entity(value)
+        html << "<span class='key'>#{t(key)}:</span><div class='value'>#{val_text}&nbsp;</div>"
+      }
     elsif entity.is_a?(Array)
       entity.each { |item| html << display_entity(item) }
     else
