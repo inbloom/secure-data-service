@@ -85,7 +85,6 @@ public class PhoneNumberListConverterTest extends ADKTest {
         }
     }
 
-
     private PhoneNumberList getPhoneNumberList() {
         PhoneNumberList phoneNumberList = new PhoneNumberList();
 
@@ -124,5 +123,4 @@ public class PhoneNumberListConverterTest extends ADKTest {
          }
          Assert.assertEquals(expectedType, it.getInstitutionTelephoneNumberType());
     }
-
 }

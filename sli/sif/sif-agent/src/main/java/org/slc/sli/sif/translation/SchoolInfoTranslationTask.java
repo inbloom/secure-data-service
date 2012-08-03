@@ -21,14 +21,15 @@ import java.util.List;
 
 import openadk.library.student.SchoolInfo;
 
-import org.slc.sli.sif.domain.converter.AddressListConverter;
-import org.slc.sli.sif.domain.converter.SchoolFocusConverter;
-import org.slc.sli.sif.domain.slientity.Address;
-import org.slc.sli.sif.domain.slientity.SchoolEntity;
-import org.slc.sli.sif.domain.slientity.SliEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class SchoolInfoTranslationTask<A extends SchoolInfo, B extends SchoolEntity> 
+import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
+import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
+import org.slc.sli.sif.domain.converter.SchoolTypeConverter;
+import org.slc.sli.sif.domain.slientity.SchoolEntity;
+import org.slc.sli.sif.domain.slientity.SliEntity;
+
+public class SchoolInfoTranslationTask<A extends SchoolInfo, B extends SchoolEntity>
                         extends AbstractTranslationTask<SchoolInfo>
 {
 
@@ -38,21 +39,36 @@ public class SchoolInfoTranslationTask<A extends SchoolInfo, B extends SchoolEnt
 //    @Autowired
 //    SchoolFocusConverter schoolFocusConverter;
 
+    @Autowired
+
+    GradeLevelsConverter gradeLevelsConverter;
+
+    @Autowired
+    SchoolTypeConverter schoolTypeConverter;
+
+    @Autowired
+    PhoneNumberListConverter phoneNumberListConverter;
+
     public SchoolInfoTranslationTask()
-    {
+{
         super(SchoolInfo.class);
     }
 
     @Override
     public List<SliEntity> doTranslate(SchoolInfo sifData)
     {
-        SchoolInfo schoolInfo = (SchoolInfo)sifData;
+        SchoolInfo schoolInfo = sifData;
         SchoolEntity result = new SchoolEntity();
-//        result.setStateOrganizationId(schoolInfo.getStateProvinceId());
-//        result.setNameOfInstitution(schoolInfo.getSchoolName());
-//        result.setAddress(addressListConverter.convertTo(schoolInfo.getAddressList(), new ArrayList<Address>()));
-//        result.setSchoolType(schoolFocusConverter.convert(schoolInfo.getSchoolFocusList()));
 
+        // organizationCategories is mandatory but not counterpart in SIF SchoolInfo
+        List<String> organizationCategories = new ArrayList<String>();
+        organizationCategories.add("School");
+        result.setOrganizationCategories(organizationCategories);
+
+        result.setWebSite(schoolInfo.getSchoolURL());
+        result.setGradesOffered(gradeLevelsConverter.convert(schoolInfo.getGradeLevels()));
+        result.setSchoolCategories(schoolTypeConverter.convert(schoolInfo.getSchoolType()));
+        result.setTelephone(phoneNumberListConverter.convert(schoolInfo.getPhoneNumberList()));
 
         List<SliEntity> list = new ArrayList<SliEntity>(1);
         list.add(result);
