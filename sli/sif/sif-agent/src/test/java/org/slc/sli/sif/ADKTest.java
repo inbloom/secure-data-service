@@ -13,26 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package org.slc.sli.sif;
 
-package org.slc.sli.sif.translation;
+import openadk.library.ADK;
+import openadk.library.ADKException;
 
-import java.util.List;
+import org.junit.Before;
 
-import openadk.library.SIFDataObject;
-
-import org.slc.sli.sif.domain.slientity.GenericEntity;
-
-/**
- * Interface for translation of all or part of a SIFDataObject
- * to an SLI entity.
- *
- * @author jtully
- *
- */
-public interface TranslationTask<T extends GenericEntity> {
-    /*
-     *
-     * Transform a SIF SifDataObject into an SLI entity
-     */
-     public List<T> translate(final SIFDataObject sifData);
+public abstract class ADKTest {
+    @Before
+    public void setup(){
+        try {
+            ADK.initialize();
+        } catch (ADKException e) {
+            e.printStackTrace();
+        }
+    }
 }

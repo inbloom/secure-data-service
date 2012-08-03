@@ -22,26 +22,43 @@ import java.util.List;
 import openadk.library.SIFDataObject;
 import openadk.library.student.SchoolInfo;
 
-import org.slc.sli.sif.domain.slientity.GenericEntity;
-import org.slc.sli.sif.domain.slientity.SchoolEntity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.sif.domain.converter.AddressListConverter;
+import org.slc.sli.sif.domain.converter.SchoolFocusConverter;
+import org.slc.sli.sif.domain.slientity.Address;
+import org.slc.sli.sif.domain.slientity.SchoolEntity;
+
 @Component
-public class SchoolInfoTranslationTask<T extends SchoolInfo> implements TranslationTask
+public class SchoolInfoTranslationTask implements TranslationTask<SchoolEntity>
 {
 
+    @Autowired
+    AddressListConverter addressListConverter;
+
+    @Autowired
+    SchoolFocusConverter schoolFocusConverter;
+
     @Override
-    public List<GenericEntity> translate(SIFDataObject sifData)
+    public List<SchoolEntity> translate(SIFDataObject sifData)
     {
         //Hey, I translate only SchoolInfo
-        if (!(sifData instanceof SchoolInfo)) 
-            return new ArrayList<GenericEntity>();
-        
-        SchoolEntity e = new SchoolEntity();
-        //covert properties
-        
-        List<GenericEntity> list = new ArrayList<GenericEntity>(1);
-        list.add(e);        
+        if (!(sifData instanceof SchoolInfo)) {
+            return new ArrayList<SchoolEntity>();
+        }
+
+        SchoolInfo schoolInfo = (SchoolInfo)sifData;
+
+        SchoolEntity result = new SchoolEntity();
+        result.setStateOrganizationId(schoolInfo.getStateProvinceId());
+        result.setNameOfInstitution(schoolInfo.getSchoolName());
+        result.setAddress(addressListConverter.convertTo(schoolInfo.getAddressList(), new ArrayList<Address>()));
+        result.setSchoolType(schoolFocusConverter.convert(schoolInfo.getSchoolFocusList()));
+
+
+        List<SchoolEntity> list = new ArrayList<SchoolEntity>(1);
+        list.add(result);
         return list;
     }
 

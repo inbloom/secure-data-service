@@ -19,7 +19,6 @@ package org.slc.sli.sif.domain.sifentity;
 import openadk.library.common.AddressList;
 import openadk.library.common.GradeLevels;
 import openadk.library.common.PhoneNumberList;
-import openadk.library.student.SchoolFocus;
 import openadk.library.student.SchoolInfo;
 
 import org.slc.sli.sif.domain.converter.SchoolMappings;
@@ -102,13 +101,7 @@ public class SchoolInfoEntity extends GenericEntity {
     *
     */
     public String getSchoolFocusType() {
-        if (this.schoolInfo.getSchoolFocusList() == null
-                || this.schoolInfo.getSchoolFocusList().isEmpty()) {
-            return null;
-        }
-        SchoolFocus[] schoolFocus = this.schoolInfo.getSchoolFocusList()
-                .getSchoolFocuses();
-        return SchoolMappings.toSliSchoolType(schoolFocus[0].getValue());
+        return "";
     }
 
     /**
