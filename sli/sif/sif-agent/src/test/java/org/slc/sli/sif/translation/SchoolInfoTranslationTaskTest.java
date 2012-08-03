@@ -138,13 +138,13 @@ public class SchoolInfoTranslationTaskTest {
 
         List<String> convertedGrades = new ArrayList<String>();
 
-        Mockito.when(mockGradeLevelsConverter.convertTo(sifGradeLevels)).thenReturn(convertedGrades);
+        Mockito.when(mockGradeLevelsConverter.convert(sifGradeLevels)).thenReturn(convertedGrades);
 
         List<SchoolEntity> result = translator.translate(info);
         Assert.assertEquals(1, result.size());
         SchoolEntity entity = result.get(0);
 
-        Mockito.verify(mockGradeLevelsConverter).convertTo(Mockito.eq(sifGradeLevels));
+        Mockito.verify(mockGradeLevelsConverter).convert(Mockito.eq(sifGradeLevels));
         Assert.assertEquals(convertedGrades, entity.getGradesOffered());
     }
 

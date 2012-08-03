@@ -20,41 +20,89 @@ import java.util.ArrayList;
 import java.util.List;
 
 import openadk.library.common.GradeLevel;
+import openadk.library.common.GradeLevelCode;
 import openadk.library.common.GradeLevels;
 
-import org.dozer.DozerConverter;
-
 /**
- * A customized Dozer converter to convert SIF GradeLevels to SLI gradesOffered.
+ * A customized converter to convert SIF GradeLevels to SLI gradesOffered.
  *
  * @author slee
  *
  */
-public class GradeLevelsConverter extends DozerConverter<GradeLevels, List<String>>
-{
-    public GradeLevelsConverter() {
-        super(GradeLevels.class, (Class<List<String>>) new ArrayList<String>().getClass());
-    }
+public class GradeLevelsConverter {
 
-    @Override
-    public List<String> convertTo(GradeLevels source, List<String> destination)
-    {
+    public List<String> convert(GradeLevels source) {
         if (source == null) {
             return null;
         }
-        GradeLevel[] gradeLevels = source.getGradeLevels();
+
+        return toSliGradeList(source.getGradeLevels());
+    }
+
+    private List<String> toSliGradeList(GradeLevel[] gradeLevels) {
         List<String> list = new ArrayList<String>(gradeLevels.length);
         for (GradeLevel gradeLevel : gradeLevels) {
-            list.add(SchoolMappings.toSliGrade(gradeLevel.getCode()));
+            list.add(toSliGrade(gradeLevel.getCode()));
         }
         return list;
     }
 
-    @Override
-    public GradeLevels convertFrom(List<String> source, GradeLevels destination)
-    {
-        return null;
+    private String toSliGrade(String gradeCode) {
+        if (GradeLevelCode._01.getValue().equals(gradeCode)) {
+            return "First grade";
+        }
+        if (GradeLevelCode._02.getValue().equals(gradeCode)) {
+            return "Second grade";
+        }
+        if (GradeLevelCode._03.getValue().equals(gradeCode)) {
+            return "Third grade";
+        }
+        if (GradeLevelCode._04.getValue().equals(gradeCode)) {
+            return "Fourth grade";
+        }
+        if (GradeLevelCode._05.getValue().equals(gradeCode)) {
+            return "Fifth grade";
+        }
+        if (GradeLevelCode._06.getValue().equals(gradeCode)) {
+            return "Sixth grade";
+        }
+        if (GradeLevelCode._07.getValue().equals(gradeCode)) {
+            return "Seventh grade";
+        }
+        if (GradeLevelCode._08.getValue().equals(gradeCode)) {
+            return "Eighth grade";
+        }
+        if (GradeLevelCode._09.getValue().equals(gradeCode)) {
+            return "Ninth grade";
+        }
+        if (GradeLevelCode._10.getValue().equals(gradeCode)) {
+            return "Tenth grade";
+        }
+        if (GradeLevelCode._11.getValue().equals(gradeCode)) {
+            return "Eleventh grade";
+        }
+        if (GradeLevelCode._12.getValue().equals(gradeCode)) {
+            return "Twelfth grade";
+        }
+        if (GradeLevelCode.KG.getValue().equals(gradeCode)) {
+            return "Kindergarten";
+        }
+        if (GradeLevelCode.UN.getValue().equals(gradeCode)) {
+            return "Ungraded";
+        }
+        if (GradeLevelCode.PG.getValue().equals(gradeCode)) {
+            return "Preschool/Prekindergarten";
+        }
+        if (GradeLevelCode.PK.getValue().equals(gradeCode)) {
+            return "Adult Education";
+        }
+        if (GradeLevelCode.OTHER.getValue().equals(gradeCode)) {
+            return "Other";
+        }
+        if (GradeLevelCode.UNKNOWN.getValue().equals(gradeCode)) {
+            return "Not Available";
+        }
+        return "Not Available";
     }
-
 }
 
