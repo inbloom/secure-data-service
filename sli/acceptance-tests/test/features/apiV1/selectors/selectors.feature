@@ -87,18 +87,18 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     | entityType |
     | sections   |
     And in "studentSectionAssociations=>sections" I should see the following fields:
-    | availableCredit      |
-    | courseOfferingId     |
-    | educationEnvironment |
-    | mediumOfInstruction  |
-    | populationServed     |
-    | programReference     |
-    | schoolId             |
-    | sequenceOfCourse     |
-    | sessionId            |
-    | uniqueSectionCode    |
-    | id                   |
-    | entityType           |
+    | availableCredit        |
+    | courseOfferingId       |
+    | educationalEnvironment |
+    | mediumOfInstruction    |
+    | populationServed       |
+    | programReference       |
+    | schoolId               |
+    | sequenceOfCourse       |
+    | sessionId              |
+    | uniqueSectionCode      |
+    | id                     |
+    | entityType             |
 
   Scenario: Applying selectors on 1, 3 and 4 part URIs
     Given selector "(name)"

@@ -48,38 +48,40 @@ end
 ###############################################################################
 
 Then /^in the response body I should see the following fields:$/ do |table|
-  check_contains_keys(@result, table)
+  check_contains_fields(@result, table)
 end
 
 Then /^in the response body I should see the following fields only:$/ do |table|
   check_number_of_fields(@result, table)
-  check_contains_keys(@result, table)
+  check_contains_fields(@result, table)
 end
 
 Then /^in the response body for all entities I should see the following fields only:$/ do |table|
   @result.each do |entity|
     check_number_of_fields(entity, table)
-    check_contains_keys(entity, table)
+    check_contains_fields(entity, table)
   end
 end
 
 Then /^in "([^\"]*)" I should see the following fields:$/ do |key, table|
-  assert(@result.has_key?(key), "Response does not contain #{key}")
-  @result["#{key}"].each do |entity|
-    check_contains_keys(entity, table)
+  @entities_to_check = []
+  get_hash_recursively(@result, key)
+  @entities_to_check.flatten.each do |entity|
+    check_contains_fields(entity, table)
   end
 end
 
 Then /^in "([^\"]*)" I should see the following fields only:$/ do |key, table|
-  assert(@result.has_key?(key), "Response does not contain #{key}")
-  @result["#{key}"].each do |entity|
+  @entities_to_check = []
+  get_hash_recursively(@result, key)
+  @entities_to_check.flatten.each do |entity|
     check_number_of_fields(entity, table)
-    check_contains_keys(entity, table)
+    check_contains_fields(entity, table)
   end
 end
 
 Then /^I should be informed that the selector is invalid$/ do
-  assert(@result.to_s.downcase.include?("invalid selector"), "'Invalid selector' message is not found in response")
+  assert(@result.to_s.downcase.include?("valid selector"), "'Invalid selector' message is not found in response")
 end
 
 ###############################################################################
@@ -88,7 +90,7 @@ end
 
 private
 
-def check_contains_keys(body, table)
+def check_contains_fields(body, table)
   table.cells_rows.each do |field|
     assert(body.has_key?(field.value(0)), "Response does not contain the field #{field.value(0)}\nFields return: #{body.keys}")
   end
@@ -98,4 +100,25 @@ def check_number_of_fields(body, table)
   num_of_fields = table.cells_rows.size
   assert(body.keys.size == num_of_fields,
          "Number of fields returned doesn't match: received #{body.keys.size}, expected #{num_of_fields}\nFields return: #{body.keys}")
+end
+
+def get_hash_recursively(body, key)
+  keys = key.split("=>")
+  if body.is_a?(Hash)
+    assert(body.has_key?(keys[0]), "Response does not contain #{keys[0]}")
+    if keys.size > 1
+      get_hash_recursively(body["#{keys[0]}"], keys.drop(1).join("=>"))
+    else
+      @entities_to_check << body["#{keys[0]}"]
+    end
+  elsif body.is_a?(Array)
+    body.each do |b|
+      assert(b.has_key?(keys[0]), "Response does not contain #{keys[0]}")
+      if keys.size > 1
+        get_hash_recursively(b["#{keys[0]}"], keys.drop(1).join("=>"))
+      else
+        @entities_to_check << b["#{keys[0]}"]
+      end
+    end
+  end
 end
