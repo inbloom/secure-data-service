@@ -23,3 +23,6 @@ i {color: #AAA;}
 .flash-notice a { border: 1px solid #26722D; color: #26722D; }
 .flash-error a { border: 1px solid #900; color: #900; }
 .flash-notice a:hover, .flash-error a:hover { color: #333; border: 1px solid #333; }
+div#entities { padding-left: 3em; }
+div.value { padding-left: 3em; font-size: 14px; }
+span.key { font-size: 16px; }

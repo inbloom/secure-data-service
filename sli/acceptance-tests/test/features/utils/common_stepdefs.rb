@@ -159,9 +159,9 @@ Then /^I navigate to that link$/ do
 end
 
 Given /^that dashboard has been authorized for all ed orgs$/ do
-  allLeaAllowDashboard
+  allLeaAllowApp("SLC Dashboards")
 end
 
 Given /^that databrowser has been authorized for all ed orgs$/ do
-  allLeaAllowDatabrowser
+  allLeaAllowApp("SLC Data Browser")
 end
