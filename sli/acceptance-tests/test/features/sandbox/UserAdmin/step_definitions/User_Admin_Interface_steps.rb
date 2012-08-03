@@ -97,8 +97,9 @@ Given /^There is a sandbox user with "(.*?)" and "(.*?)" in LDAP Server$/ do |fu
   idpRealmLogin("sandboxoperator", nil)
   sessionId = @sessionId
   format = "application/json"
+  puts new_user
   restHttpDelete("/users/#{new_user['uid']}", format, sessionId)
-  restHttpPost("/users", new_user.to_json, format, sessionId)
+  puts restHttpPost("/users", new_user.to_json, format, sessionId)
   
 end
 
@@ -393,7 +394,7 @@ def create_new_user(fullName, role, addition_roles=nil)
     end
   end
      
-  uid=fullName.downcase
-  new_user=build_user(uid,fullName,groups,"sandboxadministrator@slidev.org","")
+  uid=localizedFullName.split(" ")[-1].downcase
+  new_user=build_user(uid,localizedFullName,groups,"sandboxadministrator@slidev.org","")
 end
 
