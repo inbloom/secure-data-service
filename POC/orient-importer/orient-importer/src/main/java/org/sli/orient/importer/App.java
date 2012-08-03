@@ -8,7 +8,11 @@ import com.mongodb.MongoException;
 import com.tinkerpop.blueprints.Graph;
 import com.tinkerpop.blueprints.impls.orient.OrientGraph;
 
+import org.sli.orient.importer.importers.BaseImporter;
 import org.sli.orient.importer.importers.EdOrgImporter;
+import org.sli.orient.importer.importers.SectionImporter;
+import org.sli.orient.importer.importers.TeacherImporter;
+import org.sli.orient.importer.importers.TeacherSchoolEdgeImporter;
 
 /**
  * Hello world!
@@ -30,8 +34,18 @@ public class App
             e.printStackTrace();
         }
         DB db = m.getDB("sli");
-        EdOrgImporter importer = new EdOrgImporter(db, g);
+        BaseImporter importer = new EdOrgImporter(db, g);
         importer.importCollection();
+
+        importer = new SectionImporter(db, g);
+        importer.importCollection();
+        
+        importer = new TeacherImporter(db, g);
+        importer.importCollection();
+        
+        importer = new TeacherSchoolEdgeImporter(db, g);
+        importer.importCollection();
+
         g.shutdown();
     }
 }
