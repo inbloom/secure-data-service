@@ -26,9 +26,11 @@ import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
 import org.slc.sli.sif.domain.converter.SchoolFocusConverter;
 import org.slc.sli.sif.domain.converter.SchoolTypeConverter;
+import org.slc.sli.sif.domain.converter.TitleIPartASchoolDesignationConverter;
 import org.slc.sli.sif.domain.slientity.Address;
 import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
 import org.slc.sli.sif.domain.slientity.SchoolEntity;
+import org.slc.sli.sif.domain.slientity.TitleIPartASchoolDesignation;
 
 public class SchoolInfoTranslationTaskTest {
 
@@ -46,6 +48,9 @@ public class SchoolInfoTranslationTaskTest {
 
     @Mock
     SchoolTypeConverter mockSchoolTypeConverter;
+
+    @Mock
+    TitleIPartASchoolDesignationConverter mockTitleIPartASchoolDesignationConverter;
 
     @Mock
     PhoneNumberListConverter mockPhoneNumberListConverter;
@@ -66,7 +71,7 @@ public class SchoolInfoTranslationTaskTest {
         Assert.assertNotNull("Result was null", result);
     }
 
-//    @Test
+    // @Test
     public void testBasicFields() throws SifTranslationException{
         SchoolInfo info = new SchoolInfo();
 
@@ -93,7 +98,7 @@ public class SchoolInfoTranslationTaskTest {
 
     }
 
-//    @Test
+    // @Test
     public void testAddressList() throws SifTranslationException{
 
         AddressList addressList = new AddressList();
@@ -181,6 +186,22 @@ public class SchoolInfoTranslationTaskTest {
 
         Mockito.verify(mockPhoneNumberListConverter).convert(phoneNumberList);
         Assert.assertEquals(telephones, entity.getTelephone());
+    }
+
+    @Test
+    public void testTitleIDesignation() {
+        SchoolInfo info = new SchoolInfo();
+        info.setTitle1Status(Title1Status.SCHOOLWIDE);
+
+        Mockito.when(mockTitleIPartASchoolDesignationConverter.convert(Title1Status.SCHOOLWIDE)).thenReturn(
+                TitleIPartASchoolDesignation.PART_A_SCHOOLWIDE);
+
+        List<SchoolEntity> result = translator.translate(info);
+        Assert.assertEquals(1, result.size());
+        SchoolEntity entity = result.get(0);
+
+        Mockito.verify(mockTitleIPartASchoolDesignationConverter).convert(Title1Status.SCHOOLWIDE);
+        Assert.assertEquals(TitleIPartASchoolDesignation.PART_A_SCHOOLWIDE.getText(), entity.getSchoolType());
     }
 
 }
