@@ -38,12 +38,14 @@ class TestOpLogAgent < Test::Unit::TestCase
     end
     evil_collections = ["darth.vader", "wario"]
     good_collections = ["optimus.prime", "power.rangers"]
-    throttler.set_collection_filter(evil_collections)
+    throttler.set_subscription_events(evil_collections)
 
     collection_received = Set.new
-    throttler.run do |events|
-      events["collections"].each do |collection|
-        collection_received << collection
+    Thread.new do
+      throttler.handle_message do |events|
+        events["collections"].each do |collection|
+          collection_received << collection
+        end
       end
     end
     sleep 10
@@ -58,7 +60,7 @@ class TestOpLogAgent < Test::Unit::TestCase
     assert_equal(2, collection_received.size)
     assert_equal(2, (collection_received & evil_collections).size)
 
-    throttler.set_collection_filter(good_collections)
+    throttler.set_subscription_events(good_collections)
     collection_received = Set.new
     sleep 10
     100.times do

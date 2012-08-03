@@ -29,11 +29,11 @@ if __FILE__ == $0
         puts "Usage: " + $0 + " config.yml environment "
         exit(1)
     end
-    
+
     config = YAML::load( File.open( ARGV[0] ) )[ARGV[1]]
 
     # set up the oplog agent and keep waiting indefinitely until the threads terminate 
-    oplog_agent = EventBus::OpLogAgent.new 
+    oplog_agent = Eventbus::OpLogAgent.new
     threads = oplog_agent.threads 
-    theads.each { |aThread| aThread.join }
+    threads.each { |aThread| aThread.join }
 end
