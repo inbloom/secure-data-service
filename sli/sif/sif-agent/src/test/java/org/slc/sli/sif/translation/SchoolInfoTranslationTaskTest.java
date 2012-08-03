@@ -189,7 +189,7 @@ public class SchoolInfoTranslationTaskTest {
     }
 
     @Test
-    public void testTitleIDesignation() {
+    public void testTitleIDesignation() throws SifTranslationException {
         SchoolInfo info = new SchoolInfo();
         info.setTitle1Status(Title1Status.SCHOOLWIDE);
 
