@@ -14,6 +14,9 @@ listener:
 
     amq_host: 
     amq_port:
+
+    publish_queue_name: /topic/agent
+    subscribe_queue_name: /queue/listener
      
 agent:
     mongo_host: localhost

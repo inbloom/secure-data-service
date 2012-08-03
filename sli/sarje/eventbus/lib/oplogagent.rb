@@ -110,6 +110,7 @@ module Eventbus
             end
           end
           if(!event_ids.empty?)
+            puts "events to send to listener: #{event_ids}"
             yield event_ids
           end
         end
@@ -156,9 +157,8 @@ module Eventbus
       @messaging_service = Eventbus::MessagingService.new(config)
 
       @messaging_service.subscribe do |incoming_configuration_message|
-        collection_filter = incoming_configuration_message['trigger']
-        if(collection_filter != nil)
-          @oplog_throttler.set_subscription_events(collection_filter)
+        if(incoming_configuration_message != nil)
+          @oplog_throttler.set_subscription_events(incoming_configuration_message)
         end
       end
 
