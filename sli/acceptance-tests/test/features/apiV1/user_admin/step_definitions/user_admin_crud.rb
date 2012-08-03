@@ -73,11 +73,15 @@ Given /^I navigate to "(.*?)" "(.*?)"$/ do |action, link|
  # puts @new_update_user
   @append_host=true
   if action == "POST"
-    restHttpDelete(link+"/"+@new_update_user["uid"])
+    if @new_update_user["uid"] != nil
+      restHttpDelete(link+"/"+@new_update_user["uid"])
+    end
     restHttpPost(link,@new_update_user.to_json)
+    sleep(1)
   elsif action=="PUT"
     restHttpDelete(link+"/"+@new_update_user["uid"])
     restHttpPost(link,@new_update_user.to_json)
+    sleep(1)
     restHttpPut(link,@new_update_user.to_json)
   end
 
@@ -142,6 +146,7 @@ When /^I navigate to DELETE  "(.*?)" in environment "(.*?)"$/ do |wanted_admin_r
   format = "application/json"
   restHttpDelete("/users/#{new_user['uid']}", format, sessionId)
   restHttpPost("/users", new_user.to_json, format, sessionId)
+  sleep(1)
 
   idpRealmLogin(@user, nil)
   sessionIdTestAdmin = @sessionId
@@ -209,8 +214,10 @@ end
 
 def append_hostname(user )
   oldUid = user["uid"]
-  newUid = oldUid+"_"+Socket.gethostname
-  user.merge!({"uid" => newUid})
+  if (oldUid != nil)
+    newUid = oldUid+"_"+Socket.gethostname
+    user.merge!({"uid" => newUid})
+  end
   return user
 end
 

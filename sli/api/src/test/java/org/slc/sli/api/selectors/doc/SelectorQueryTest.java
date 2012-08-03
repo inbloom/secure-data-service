@@ -13,57 +13,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.api.selectors.model;
+package org.slc.sli.api.selectors.doc;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.selectors.doc.SelectorQueryVisitor;
 import org.slc.sli.modeling.uml.Type;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 
 /**
  * @author jstokes
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-public class SemanticSelectorTest {
-    private SemanticSelector selector;
+public class SelectorQueryTest {
+
+    private SelectorQuery query; // class under test
 
     @Before
     public void setup() {
-        selector = new SemanticSelector();
+        query = new SelectorQuery();
     }
 
     @Test
-    public void testAddSelector() {
-        final Type testType = mock(Type.class);
-        final SelectorElement se = mock(SelectorElement.class);
-        selector.addSelector(testType, se);
-        assertNotNull(selector.get(testType));
-        assertEquals(1, selector.get(testType).size());
-
-        selector.addSelector(testType, mock(BooleanSelectorElement.class));
-        assertEquals(2, selector.get(testType).size());
+    public void testGetSetIncludeFields() {
+        final List<String> includeFields = new ArrayList<String>(Arrays.asList("1", "2", "3"));
+        query.setIncludeFields(includeFields);
+        assertEquals(includeFields, query.getIncludeFields());
     }
 
     @Test
-    public void testToString() {
-        assertTrue(selector.toString().isEmpty());
+    public void testGetSetExcludeFields() {
+        final List<String> excludeFields = new ArrayList<String>(Arrays.asList("1", "2", "3"));
+        query.setExcludeFields(excludeFields);
+        assertEquals(excludeFields, query.getExcludeFields());
     }
 
     @Test
-    public void testVisitor() {
-        final SelectorQueryVisitor visitor = mock(SelectorQueryVisitor.class);
-        selector.accept(visitor);
-        verify(visitor).visit(selector);
+    public void testGetSetQueries() {
+        @SuppressWarnings("unchecked")
+        final List<Map<Type, SelectorQueryPlan>> mockList = mock(List.class);
+
+        query.setQueries(mockList);
+        assertEquals(mockList, query.getQueries());
     }
 }

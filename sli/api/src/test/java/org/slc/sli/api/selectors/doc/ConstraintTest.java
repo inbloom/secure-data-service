@@ -13,22 +13,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.api.selectors.model;
+package org.slc.sli.api.selectors.doc;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author jstokes
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-public class SelectorParseExceptionTest {
+public class ConstraintTest {
 
-    @Test(expected = SelectorParseException.class)
-    public void testCanThrow() throws SelectorParseException {
-        throw new SelectorParseException("some message");
+    private Constraint constraint;
+
+    @Before
+    public void setup() {
+        constraint = new Constraint();
+    }
+
+    @Test
+    public void testGetSetKey() {
+        constraint.setKey("test");
+        assertEquals("test", constraint.getKey());
+    }
+
+    @Test
+    public void testGetSetValue() {
+        constraint.setValue("test");
+        assertEquals("test", constraint.getValue());
     }
 }

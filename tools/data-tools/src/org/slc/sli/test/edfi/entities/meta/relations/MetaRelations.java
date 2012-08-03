@@ -141,7 +141,7 @@ public final class MetaRelations {
         
         try {
 
-        	 fis = new FileInputStream("reference_config.properties");
+        	 fis = new FileInputStream(".\\db-datagen-approach\\ref-configurations\\reference_config.properties");
 
               properties.load(fis);
               
@@ -193,6 +193,24 @@ public final class MetaRelations {
         GRADUATION_PLAN_PER_SCHOOL = Integer.parseInt(properties.getProperty("GRADUATION_PLAN_PER_SCHOOL"));
         GRADING_PERIOD_PER_SESSIONS = Integer.parseInt(properties.getProperty("GRADING_PERIOD_PER_SESSIONS")); 
         
+        StudentGradeRelations.COMPETENCY_LEVEL_DESCRIPTOR= Integer.parseInt(properties.getProperty("COMPETENCY_LEVEL_DESCRIPTOR"));
+        StudentGradeRelations.REPORT_CARDS= Integer.parseInt(properties.getProperty("REPORT_CARDS"));
+        StudentGradeRelations.LEARNING_OBJECTIVES_PER_REPORT= Integer.parseInt(properties.getProperty("LEARNING_OBJECTIVES_PER_REPORT"));
+        StudentGradeRelations.STUDENT_COMPETENCY_OBJECTIVE_PER_REPORT= Integer.parseInt(properties.getProperty("STUDENT_COMPETENCY_OBJECTIVE_PER_REPORT"));
+        StudentGradeRelations.GRADEBOOK_ENTRIES= Integer.parseInt(properties.getProperty("GRADEBOOK_ENTRIES"));
+        StudentGradeRelations.LEARNING_OBJECTIVES_PER_GRADEBOOKENTRY= Integer.parseInt(properties.getProperty("LEARNING_OBJECTIVES_PER_GRADEBOOKENTRY"));
+        StudentGradeRelations.INV_PROBABILITY_STUDENT_HAS_GRADEBOOKENTRY= Integer.parseInt(properties.getProperty("INV_PROBABILITY_STUDENT_HAS_GRADEBOOKENTRY"));
+       
+        
+        AssessmentMetaRelations.ASSESSMENTS= Integer.parseInt(properties.getProperty("ASSESSMENTS"));
+        AssessmentMetaRelations.OBJ_ASSESS_PER_DEPENDANT= Integer.parseInt(properties.getProperty("OBJ_ASSESS_PER_DEPENDANT"));
+        AssessmentMetaRelations.LEARN_OBJ_PER_OBJ_ASSES= Integer.parseInt(properties.getProperty("LEARN_OBJ_PER_OBJ_ASSES"));
+        AssessmentMetaRelations.ASSESS_ITEM_PER_DEPENDANT= Integer.parseInt(properties.getProperty("ASSESS_ITEM_PER_DEPENDANT"));
+        AssessmentMetaRelations.LEARN_STANDARD_PER_DEPENDANT= Integer.parseInt(properties.getProperty("LEARN_STANDARD_PER_DEPENDANT"));
+        AssessmentMetaRelations.PERF_LEVEL_DESC_PER_DEPENDANT= Integer.parseInt(properties.getProperty("PERF_LEVEL_DESC_PER_DEPENDANT"));
+        AssessmentMetaRelations.ASSESS_PERIOD_DESC_PER_ASSESS_FAMILY= Integer.parseInt(properties.getProperty("ASSESS_PERIOD_DESC_PER_ASSESS_FAMILY"));
+        AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT= Double.parseDouble(properties.getProperty("INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT"));
+        AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM= Double.parseDouble(properties.getProperty("INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM"));
         
 		School_Ref = Boolean.parseBoolean(properties
 				.getProperty("School_Ref"));
