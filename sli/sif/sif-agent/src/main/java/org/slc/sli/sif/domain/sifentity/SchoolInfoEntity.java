@@ -112,16 +112,11 @@ public class SchoolInfoEntity extends SifEntity {
     }
 
     /**
-    * Get OperationalStatus in an SIF SchoolInfoEntity. Using a value mapping
-    * method.
+    * Get OperationalStatus in an SIF SchoolInfoEntity.
     *
     */
     public String getOperationalStatus() {
-        if (this.schoolInfo.getOperationalStatus() == null) {
-            return null;
-        }
-        return SchoolMappings.toSliOperationalStatus(this.schoolInfo
-                .getOperationalStatus());
+        return this.schoolInfo.getOperationalStatus();
     }
 
     /**
