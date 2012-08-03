@@ -57,7 +57,7 @@ import org.slc.sli.sif.domain.converter.SchoolMappings;
  * @author slee
  *
  */
-public class LEAInfoEntity extends GenericEntity {
+public class LEAInfoEntity extends SifEntity {
     private LEAInfo leaInfo;
 
     /**

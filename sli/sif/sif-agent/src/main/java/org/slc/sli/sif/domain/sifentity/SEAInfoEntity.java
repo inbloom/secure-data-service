@@ -57,7 +57,7 @@ import org.slc.sli.sif.domain.converter.SchoolMappings;
  * @author slee
  *
  */
-public class SEAInfoEntity extends GenericEntity {
+public class SEAInfoEntity extends SifEntity {
     private SEAInfo seaInfo;
 
     /**

@@ -30,7 +30,7 @@ import java.util.List;
  * @author slee
  *
  */
-public class SEAEntity extends GenericEntity {
+public class SEAEntity extends SliEntity {
     /**
      * _____mappingg_between_SIF_and_SLI_for_School_______________
      *
@@ -139,6 +139,11 @@ public class SEAEntity extends GenericEntity {
 
     public List<Address> getAddress() {
         return this.address;
+    }
+
+    @Override
+    public String getEntityType() {
+        return "SEA";
     }
 
 }

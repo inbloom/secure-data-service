@@ -64,7 +64,7 @@ import org.slc.sli.sif.domain.converter.SchoolMappings;
  * @author slee
  *
  */
-public class SchoolInfoEntity extends GenericEntity {
+public class SchoolInfoEntity extends SifEntity {
     private SchoolInfo schoolInfo;
 
     /**

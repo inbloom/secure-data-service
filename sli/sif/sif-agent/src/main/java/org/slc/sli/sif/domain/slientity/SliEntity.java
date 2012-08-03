@@ -16,8 +16,6 @@
 
 package org.slc.sli.sif.domain.slientity;
 
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
@@ -25,10 +23,10 @@ import java.util.Map;
 import java.util.Set;
 
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+
+//import org.slc.sli.api.client.impl.GenericEntity;
 
 /**
  * An GenericEntity in the SLI domain. Each SLI Entity can be converted to a
@@ -37,36 +35,48 @@ import org.codehaus.jackson.type.TypeReference;
  * @author slee
  *
  */
-public abstract class GenericEntity {
+public abstract class SliEntity {
     protected static final ObjectMapper MAPPER = new ObjectMapper();
 
     /**
-    * Constructor
-    */
-    public GenericEntity() {
+     * Constructor
+     */
+    public SliEntity() {
 
     }
 
     /**
-    * Output body of this Entity
-    */
+     * Get the SLI entity type name
+     */
+    public abstract String getEntityType();
+
+    /**
+     * Output body of this Entity
+     */
+    //public GenericEntity getGenericEntity() {
+    //    return new GenericEntity(getEntityType(), body());
+    //}
+
+    /**
+     * Output body of this Entity
+     */
     public Map<String, Object> body() {
-        Map<String, Object> body = MAPPER.convertValue(this,
-                new TypeReference<Map<String, Object>>() {});
+        Map<String, Object> body = MAPPER.convertValue(this, new TypeReference<Map<String, Object>>() {
+        });
         clearNullValueKeys(body);
         return body;
     }
 
     /**
-    * Output this Entity as a JSON Node
-    */
+     * Output this Entity as a JSON Node
+     */
     public JsonNode json() {
         return MAPPER.valueToTree(this);
     }
 
     /**
-    * Output this object as a JSON String
-    */
+     * Output this object as a JSON String
+     */
     @Override
     public String toString() {
         return json().toString();

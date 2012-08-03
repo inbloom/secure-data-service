@@ -20,7 +20,7 @@ import java.util.List;
 
 import openadk.library.SIFDataObject;
 
-import org.slc.sli.sif.domain.slientity.GenericEntity;
+import org.slc.sli.sif.domain.slientity.SliEntity;
 
 /**
  * Interface for translation of all or part of a SIFDataObject
@@ -29,10 +29,9 @@ import org.slc.sli.sif.domain.slientity.GenericEntity;
  * @author jtully
  *
  */
-public interface TranslationTask<T extends SIFDataObject> {
+public interface TranslationTask<T extends SliEntity> {
     /*
-     *
      * Transform a SIF SifDataObject into an SLI entity
      */
-     public List<GenericEntity> translate(final T sifData);
+     public List<T> translate(SIFDataObject sifData);
 }
