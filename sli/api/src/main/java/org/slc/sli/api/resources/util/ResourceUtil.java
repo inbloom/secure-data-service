@@ -45,7 +45,7 @@ import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EmbeddedLink;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.domain.AggregateData;
+import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.validation.schema.ReferenceSchema;
 
 /**
@@ -150,7 +150,7 @@ public class ResourceUtil {
 
     public static EmbeddedLink getAggregateLink(final UriInfo uriInfo, final String entityId,
             final EntityDefinition defn) {
-        return new EmbeddedLink(ResourceConstants.AGGREGATE_REL, ResourceConstants.AGGREGATE_TYPE, getURI(uriInfo,
+        return new EmbeddedLink(ResourceConstants.CALCULATED_VALUE_REL, ResourceConstants.CALCULATED_VALUE_TYPE, getURI(uriInfo,
                 PathConstants.V1, PathConstants.TEMP_MAP.get(defn.getResourceName()), entityId,
                 PathConstants.AGGREGATES).toString());
     }
@@ -243,8 +243,8 @@ public class ResourceUtil {
 
     private static boolean areAggregatesPresent(final EntityDefinition defn, String id) {
         try {
-            AggregateData aggregateData = defn.getService().getAggregateData(id);
-            return aggregateData != null && !aggregateData.getAggregates().isEmpty();
+            CalculatedData aggregateData = defn.getService().getCalculatedValues(id);
+            return aggregateData != null && !aggregateData.getCalculatedValues().isEmpty();
         } catch (AccessDeniedException e) {
             return false;
         }

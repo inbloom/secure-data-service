@@ -6,7 +6,7 @@
             "fieldPath" : "body.programReference",
             "ref" :
             {
-                "collectionName" : "program",
+                "entityType" : "program",
                 "isRefList" : true,
                 "refObjectPath" : "body.programReference",
                 "choiceOfFields" :

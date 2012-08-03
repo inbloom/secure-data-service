@@ -41,14 +41,9 @@ import java.util.TreeSet;
 
 import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
-import org.joda.time.MutableDateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 
 import org.slc.sli.dashboard.entity.Config;
 import org.slc.sli.dashboard.entity.GenericEntity;
@@ -57,6 +52,7 @@ import org.slc.sli.dashboard.entity.util.GenericEntityEnhancer;
 import org.slc.sli.dashboard.manager.ApiClientManager;
 import org.slc.sli.dashboard.manager.EntityManager;
 import org.slc.sli.dashboard.manager.PopulationManager;
+import org.slc.sli.dashboard.util.CacheableUserData;
 import org.slc.sli.dashboard.util.Constants;
 import org.slc.sli.dashboard.util.TimedLogic;
 
@@ -73,8 +69,6 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     private static final String ATTENDANCE_TARDY = "Tardy";
     private static final String ATTENDANCE_ABSENCE = "Absence";
-
-    private static final String STUDENT_CACHE = "user.student";
 
     private static final int DEFAULT_YEARS_BACK = 3;
     private static final int NO_LIMIT = -1;
@@ -148,7 +142,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
      * , java.lang.Object, org.slc.sli.dashboard.entity.Config.Data)
      */
     @Override
-    @Cacheable(value = Constants.CACHE_USER_PANEL_DATA)
+    @CacheableUserData
     public GenericEntity getListOfStudents(String token, Object sectionId, Config.Data config) {
 
         String id = (String) sectionId;
@@ -902,6 +896,11 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     public GenericEntity getStudent(String token, String studentId) {
         return entityManager.getStudent(token, studentId);
     }
+    
+    @Override
+    public GenericEntity getTeacher(String token, Object teacherId, Config.Data config) {
+        return getApiClient().getTeacher(token, (String) teacherId);
+    }
 
     /*
      * (non-Javadoc)
@@ -930,7 +929,8 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             try {
                 intYearsBack = Integer.parseInt(yearsBack);
             } catch (Exception e) {
-                log.error("params: value of yearsBack was not integer. ["+intYearsBack+"]. Using default value ["+DEFAULT_YEARS_BACK+"]");
+                log.error("params: value of yearsBack was not integer. [" + intYearsBack + "]. Using default value ["
+                        + DEFAULT_YEARS_BACK + "]");
                 intYearsBack = DEFAULT_YEARS_BACK;
             }
         }
@@ -976,10 +976,10 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
         // get attendance for the student
         List<GenericEntity> attendanceList = this.getStudentAttendance(token, studentId, null, null);
-        for (LinkedHashMap<String, Object> targetAttendance : attendanceList) {
+        for (Map<String, Object> targetAttendance : attendanceList) {
 
             // get schoolYearAttendance
-            List<LinkedHashMap<String, Object>> schoolYearAttendances = (List<LinkedHashMap<String, Object>>) targetAttendance
+            List<Map<String, Object>> schoolYearAttendances = (List<Map<String, Object>>) targetAttendance
                     .get(Constants.ATTR_ATTENDANCE_SCHOOLYEAR_ATTENDANCE);
             if (schoolYearAttendances != null) {
 
@@ -988,7 +988,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                         String.class);
                 Collections.sort(schoolYearAttendances, Collections.reverseOrder(comparator));
 
-                for (LinkedHashMap<String, Object> schoolYearAttendance : schoolYearAttendances) {
+                for (Map<String, Object> schoolYearAttendance : schoolYearAttendances) {
                     int inAttendanceCount = 0;
                     int absenceCount = 0;
                     int excusedAbsenceCount = 0;
@@ -1001,8 +1001,8 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                     String schoolYear = (String) schoolYearAttendance.get(Constants.ATTR_SCHOOL_YEAR);
 
                     // if some reasons we cannot find currentSchoolYear, then display all histories
-                    //if intYearsBack is not set to NO_LIMIT (-1) and found currentSchoolYear,
-                    //then exam whether current loop is within user defined yearsBack
+                    // if intYearsBack is not set to NO_LIMIT (-1) and found currentSchoolYear,
+                    // then exam whether current loop is within user defined yearsBack
                     if (intYearsBack != NO_LIMIT && currentSchoolYear != 0) {
                         int targetYear = Integer.parseInt(schoolYear.substring(0, 4));
                         // if yearsBack is 1, it means current schoolYear.
@@ -1018,7 +1018,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
                     // count each attendance event
                     if (attendanceEvents != null) {
-                        for (LinkedHashMap<String, Object> attendanceEvent : attendanceEvents) {
+                        for (Map<String, Object> attendanceEvent : attendanceEvents) {
                             String event = (String) attendanceEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
                             if (event != null) {
                                 totalCount++;
@@ -1039,7 +1039,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                         }
                     }
                     // get target school year enrollment
-                    LinkedHashMap<String,Object> enrollment = enrollmentsIndex.get(schoolYear);
+                    LinkedHashMap<String, Object> enrollment = enrollmentsIndex.get(schoolYear);
                     GenericEntity currentTermAttendance = new GenericEntity();
 
                     // set school term
@@ -1048,7 +1048,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                     String nameOfInstitution = "";
                     // get school name from enrollment
                     if (enrollment != null) {
-                        LinkedHashMap<String, Object> school = (LinkedHashMap<String, Object>) enrollment
+                        Map<String, Object> school = (Map<String, Object>) enrollment
                                 .get(Constants.ATTR_SCHOOL);
                         if (school != null) {
                             nameOfInstitution = (String) school.get(Constants.ATTR_NAME_OF_INST);
@@ -1336,12 +1336,11 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
 
     };
 
-
     /**
      * Retrieves info required to create section profile.
      */
-	@Override
-	public GenericEntity getSectionForProfile(String token, Object sectionId, Config.Data config) {
-		return entityManager.getSectionForProfile(token, (String) sectionId);
-	}
+    @Override
+    public GenericEntity getSectionForProfile(String token, Object sectionId, Config.Data config) {
+        return entityManager.getSectionForProfile(token, (String) sectionId);
+    }
 }

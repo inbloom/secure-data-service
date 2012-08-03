@@ -16,15 +16,11 @@
 
 package org.slc.sli.sif.domain;
 
+import openadk.library.datamodel.SEAInfo;
+import openadk.library.student.LEAInfo;
 import openadk.library.student.SchoolInfo;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.dozer.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.slc.sli.sif.domain.sifentity.SchoolInfoEntity;
-import org.slc.sli.sif.domain.slientity.SchoolEntity;
+import java.util.Map;
 
 /**
  * Transformer for mapping entities from SIF domain to SLI domain.
@@ -32,41 +28,21 @@ import org.slc.sli.sif.domain.slientity.SchoolEntity;
  * @author slee
  *
  */
-public class Sif2SliTransformer
+public interface Sif2SliTransformer
 {
-    protected static ObjectMapper mapper = new ObjectMapper();
-
-    @Autowired
-    private Mapper dozerMapper;
+    /**
+     * Transform an SIF SchoolInfo into a the body of the corresponding SLI entity
+     */
+    public Map<String, Object> transform(SchoolInfo schoolInfo);
 
     /**
-     * Transform an SIF SchoolInfo into a corresponding SLI JsonNode ready for operations.
-     *
-     * @param SchoolInfo
-     * @return JsonNode
+     * Transform an SIF LEAInfo into a the body of the corresponding SLI entity
      */
-    public JsonNode transform2json(SchoolInfo schoolInfo) {
-        return transform(schoolInfo).json();
-    }
+    public Map<String, Object>  transform(LEAInfo info);
 
     /**
-     * Transform an SIF SchoolInfo into an SLI SchoolEntity.
-     *
-     * @param SchoolInfo
-     * @return SchoolEntity
+     * Transform an SIF SEAInfo into a the body of the corresponding SLI entity
      */
-    public SchoolEntity transform(SchoolInfo schoolInfo) {
-        return this.dozerMapper.map(new SchoolInfoEntity(schoolInfo), SchoolEntity.class);
-    }
-
-    /**
-     * Transform an SIF SchoolInfoEntity into an SLI SchoolEntity.
-     *
-     * @param SchoolInfoEntity
-     * @return SchoolEntity
-     */
-    public SchoolEntity transform(SchoolInfoEntity schoolInfoEntity) {
-        return this.dozerMapper.map(schoolInfoEntity, SchoolEntity.class);
-    }
+    public Map<String, Object>  transform(SEAInfo info);
 
 }

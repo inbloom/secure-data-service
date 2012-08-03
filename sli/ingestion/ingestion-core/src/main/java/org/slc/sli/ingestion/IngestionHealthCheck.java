@@ -1,37 +1,95 @@
+/*
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package org.slc.sli.ingestion;
 
-import javax.annotation.PostConstruct;
+import java.lang.management.ManagementFactory;
+import java.lang.management.RuntimeMXBean;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
-import org.springframework.stereotype.Component;
+import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 
-import com.yammer.metrics.HealthChecks;
-import com.yammer.metrics.core.HealthCheck;
 
-@Component
-public class IngestionHealthCheck extends HealthCheck {
 
-    public IngestionHealthCheck() {
-        super("Ingestion");
+/**
+ * Ingestion Health Check.
+ *
+ * @author unavani
+ *
+ */
+public class IngestionHealthCheck {
+
+    private BatchJobMongoDA batchJobMongoDA;
+    private NewBatchJob newBatchJob;
+    private String version;
+
+    public String getVersion() {
+        return version;
     }
 
-    @Override
-    public Result check() throws Exception {
-        return Result.healthy();
-        //UN: Technically, we can have it check various attributes here.
-        //		like MongoDB connection, Files in process in Camel Routing, etc.
-        //		For now, we will just return healthy if the service is
-        //		running/responsive.
-//        if (true) {
-//            System.out.println("checked");
-//            return Result.healthy();
-//        } else {
-//            return Result.unhealthy("Cannot connect to " );
-//        }
+    public void setVersion(String version) {
+        this.version = version;
     }
 
-    @PostConstruct
-    public void init()
-    {
-        HealthChecks.register(this);
+    public BatchJobMongoDA getBatchJobMongoDA() {
+        return batchJobMongoDA;
     }
+
+    public void setBatchJobMongoDA(BatchJobMongoDA batchJobMongoDA) {
+        this.batchJobMongoDA = batchJobMongoDA;
+    }
+
+    public void updateLastActivity() {
+        this.newBatchJob = batchJobMongoDA.findLatestBatchJob();
+    }
+
+    public String getStartTime() {
+        //Start Time
+        RuntimeMXBean bean = ManagementFactory.getRuntimeMXBean();
+        long startTimeLong = bean.getStartTime();
+        return convertEpochTimeToDateTime(startTimeLong);
+    }
+
+    public String getLastActivity() {
+        if (this.newBatchJob == null) {
+            return "StartUp";
+        } else {
+            return newBatchJob.getId();
+        }
+    }
+
+    public String getLastActivityTime() {
+        if (this.newBatchJob == null) {
+            return getStartTime();
+        } else {
+            DateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+            if (this.newBatchJob.getStatus().equals("CompletedSuccessfully")
+                    || this.newBatchJob.getStatus().equals("CompletedWithErrors")) {
+                return format.format(this.newBatchJob.getJobStopTimestamp());
+            } else {
+                return format.format(this.newBatchJob.getJobStartTimestamp());
+            }
+        }
+    }
+
+    private String convertEpochTimeToDateTime(long epochTime) {
+        DateFormat format = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
+        return format.format(epochTime);
+    }
+
 }

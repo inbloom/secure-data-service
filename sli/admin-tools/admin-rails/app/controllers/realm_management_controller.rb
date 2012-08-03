@@ -71,6 +71,7 @@ class RealmManagementController < ApplicationController
         flash[:notice] = 'Realm was successfully created.'
       rescue ActiveResource::BadRequest => error
         @realm.errors.add(:uniqueIdentifier, "must be unique") if error.response.body.include? "unique"
+        @realm.errors.add(:name, "must be unique") if error.response.body.include? "display"
       end
       if success
         @realm = Realm.find(@realm.id)
@@ -88,8 +89,7 @@ class RealmManagementController < ApplicationController
   def update
    @realm = Realm.find(params[:id])
    params[:realm] = {} if params[:realm] == nil
-   params[:realm][:mappings] = params[:mappings] if params[:mappings] != nil
-  
+
    respond_to do |format|
      success = false
      begin
@@ -97,6 +97,7 @@ class RealmManagementController < ApplicationController
        success = true if @realm.valid? and @realm.idp.valid?
      rescue ActiveResource::BadRequest => error
        @realm.errors.add(:uniqueIdentifier, "must be unique") if error.response.body.include? "unique"
+       @realm.errors.add(:name, "must be unique") if error.response.body.include? "display"
      end
      if success
        format.html { redirect_to edit_realm_management_path(@realm), notice: 'Realm was successfully updated.' }

@@ -50,6 +50,4 @@
 <!--        </property>-->
     </bean>
     
-    <bean id="Sif2SliTransformer" class="org.slc.sli.sif.domain.Sif2SliTransformer"/>
-
 </beans>

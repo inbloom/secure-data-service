@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slc.sli.domain.AggregateData;
+import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -38,7 +37,7 @@ public class NeutralRecordEntity implements Entity {
     private String entityId;  // Added 2/2/2012 by Thomas Shewchuk
 
     public NeutralRecordEntity() {
-         this(null, 0);
+        this(null, 0);
     }
 
     public NeutralRecordEntity(NeutralRecord neutralRecord) {
@@ -151,7 +150,12 @@ public class NeutralRecordEntity implements Entity {
     }
 
     @Override
-    public AggregateData getAggregates() {
-        return new AggregateData();
+    public CalculatedData<String> getCalculatedValues() {
+        return new CalculatedData<String>();
+    }
+
+    @Override
+    public CalculatedData<Map<String, Integer>> getAggregates() {
+        return new CalculatedData<Map<String, Integer>>();
     }
 }

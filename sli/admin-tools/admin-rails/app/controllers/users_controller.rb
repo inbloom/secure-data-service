@@ -32,19 +32,7 @@ class UsersController < ApplicationController
 
   before_filter :check_rights
   
-  def check_rights
-  if APP_CONFIG['is_sandbox']
-  allowed_roles =SANDBOX_ALLOWED_ROLES
-  else
-  allowed_roles = PRODUCTION_ALLOWED_ROLES
-  end
-  overlap_roles = allowed_roles & session[:roles]
-  if not overlap_roles.length>0
-  render_403
-  end
   
-  
-  end
 
   # GET /users
   # GET /users.json
@@ -221,6 +209,16 @@ class UsersController < ApplicationController
      end
   end
   
+  # GET /users/1
+  # GET /users/1.json
+  def show
+     respond_to do |format|
+        format.html { redirect_to "/users" }
+     end
+     end
+     
+   private
+  
   def create_update
     check = Check.get ""
     groups = []
@@ -248,13 +246,6 @@ class UsersController < ApplicationController
     
   end
   
-  # GET /users/1
-  # GET /users/1.json
-  def show
-     respond_to do |format|
-        format.html { redirect_to "/users" }
-     end
-     end
   
   def get_login_id
     check = Check.get ""
@@ -373,7 +364,6 @@ class UsersController < ApplicationController
   end
   
   def validate_email
-    # don't validate empty values here, otherwise we get duplicate error messages
     valid=true
     if not @user.email =~ /^[-a-z0-9_]+([\.]{0,1}[-a-z0-9_]+)*\@([a-z0-9]+([-]*[a-z0-9]+)*\.)*([a-z0-9]+([-]*[a-z0-9]+))+$/i
       @user.errors[:email] << "Please enter a valid email address"
@@ -398,5 +388,19 @@ class UsersController < ApplicationController
         end
         return valid
       end
+      
+  def check_rights
+  if APP_CONFIG['is_sandbox']
+  allowed_roles =SANDBOX_ALLOWED_ROLES
+  else
+  allowed_roles = PRODUCTION_ALLOWED_ROLES
+  end
+  overlap_roles = allowed_roles & session[:roles]
+  if not overlap_roles.length>0
+  render_403
+  end
+  
+  
+  end
   
 end

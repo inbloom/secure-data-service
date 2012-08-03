@@ -29,6 +29,7 @@ import org.slc.sli.test.edfi.entities.meta.SectionMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.generators.CourseOfferingGenerator;
 import org.slc.sli.test.generators.SectionGenerator;
+import org.slc.sli.test.utils.InterchangeWriter;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 /**
@@ -46,14 +47,14 @@ public class InterchangeMasterScheduleGenerator {
      *
      * @return
      */
-    public static InterchangeMasterSchedule generate() {
+    public static void generate(InterchangeWriter<InterchangeMasterSchedule> iWriter) {
 
-        InterchangeMasterSchedule interchange = new InterchangeMasterSchedule();
-        List<ComplexObjectType> interchangeObjects = interchange.getCourseOfferingOrSectionOrBellSchedule();
+//        InterchangeMasterSchedule interchange = new InterchangeMasterSchedule();
+//        List<ComplexObjectType> interchangeObjects = interchange.getCourseOfferingOrSectionOrBellSchedule();
 
-        addEntitiesToInterchange(interchangeObjects);
+        writeEntitiesToInterchange(iWriter);
 
-        return interchange;
+//        return interchange;
     }
 
     /**
@@ -61,14 +62,14 @@ public class InterchangeMasterScheduleGenerator {
      *
      * @param interchangeObjects
      */
-    private static void addEntitiesToInterchange(List<ComplexObjectType> interchangeObjects) {
+    private static void writeEntitiesToInterchange(InterchangeWriter<InterchangeMasterSchedule> iWriter) {
 
-        generateCourseOffering(interchangeObjects, MetaRelations.COURSEOFFERING_MAP.values());
-        generateSections(interchangeObjects, MetaRelations.SECTION_MAP.values());
+        generateCourseOffering(iWriter, MetaRelations.COURSEOFFERING_MAP.values());
+        generateSections(iWriter, MetaRelations.SECTION_MAP.values());
 
     }
 
-    private static void generateCourseOffering(List<ComplexObjectType> interchangeObjects,
+    private static void generateCourseOffering(InterchangeWriter<InterchangeMasterSchedule> iWriter,
             Collection<CourseOfferingMeta> courseOfferingMetas) {
         long startTime = System.currentTimeMillis();
 
@@ -79,7 +80,8 @@ public class InterchangeMasterScheduleGenerator {
             } else {
                 courseOffering = CourseOfferingGenerator.generateLowFi(courseOfferingMeta);
             }
-            interchangeObjects.add(courseOffering);
+//            interchangeObjects.add(courseOffering);
+            iWriter.marshal(courseOffering);
         }
         System.out.println("Generated " + courseOfferingMetas.size() + " CourseOfferings in: "
                 + (System.currentTimeMillis() - startTime));
@@ -91,7 +93,7 @@ public class InterchangeMasterScheduleGenerator {
      * @param interchangeObjects
      * @param sectionMetas
      */
-    private static void generateSections(List<ComplexObjectType> interchangeObjects,
+    private static void generateSections(InterchangeWriter<InterchangeMasterSchedule> iWriter,
             Collection<SectionMeta> sectionMetas) {
         long startTime = System.currentTimeMillis();
 
@@ -106,7 +108,8 @@ public class InterchangeMasterScheduleGenerator {
                         sectionMeta.sessionId);
             }
 
-            interchangeObjects.add(section);
+//            interchangeObjects.add(section);
+            iWriter.marshal(section);
         }
 
         System.out.println("generated " + sectionMetas.size() + " Section objects in: "

@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
@@ -34,6 +33,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
@@ -109,6 +109,9 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
 
+            TenantContext.setTenantId(newJob.getTenantId());
+            TenantContext.setJobId(batchJobId);
+
             List<FutureTask<Boolean>> futureResolutions = resolveFilesInFuture(newJob);
             boolean hasErrors = aggregateFutureResults(futureResolutions);
 
@@ -116,8 +119,10 @@ public class ConcurrentXmlFileProcessor implements Processor, ApplicationContext
         } catch (Exception exception) {
             handleProcessingExceptions(exchange, batchJobId, exception);
         } finally {
-            BatchJobUtils.stopStageAndAddToJob(stage, newJob);
-            batchJobDAO.saveBatchJob(newJob);
+            if (newJob != null) {
+                BatchJobUtils.stopStageAndAddToJob(stage, newJob);
+                batchJobDAO.saveBatchJob(newJob);
+            }
         }
     }
 

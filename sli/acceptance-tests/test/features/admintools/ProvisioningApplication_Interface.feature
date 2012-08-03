@@ -24,6 +24,7 @@ Then I can select between the the high level ed-org of the sample data sets or e
 When I select the first sample data set
 And I click the Provision button
 Then I get the success message
+Then I check to find if default roles were created for the tenant
 
 Scenario: As a Admin I cannot provision my landing zone twice
 Given there is a production account in ldap for vendor "Macro Corp"
@@ -35,6 +36,7 @@ Then I get the success message
 When I go to the provisioning application
 And I click the Provision button
 Then I get a already provisioned message
+Then I check to find if default roles were created for the tenant
 
 ##  !!! Commenting out RSA Key field UI temporarily !!!
 # Scenario: As a Admin I can provision my landing zone if I send correct rsa key

@@ -34,7 +34,7 @@ import org.springframework.test.annotation.ExpectedException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.domain.AggregateData;
+import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -108,7 +108,12 @@ public class SectionValidationTest {
             }
 
             @Override
-            public AggregateData getAggregates() {
+            public CalculatedData<String> getCalculatedValues() {
+                return null;
+            }
+
+            @Override
+            public CalculatedData<Map<String, Integer>> getAggregates() {
                 return null;
             }
         };

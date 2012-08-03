@@ -14,12 +14,11 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.transformation;
 
 import java.util.Map;
 
-import org.slc.sli.domain.AggregateData;
+import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -91,7 +90,12 @@ public class SimpleEntity implements Entity {
     }
 
     @Override
-    public AggregateData getAggregates() {
-        return new AggregateData();
+    public CalculatedData<String> getCalculatedValues() {
+        return new CalculatedData<String>();
+    }
+
+    @Override
+    public CalculatedData<Map<String, Integer>> getAggregates() {
+        return new CalculatedData<Map<String, Integer>>();
     }
 }

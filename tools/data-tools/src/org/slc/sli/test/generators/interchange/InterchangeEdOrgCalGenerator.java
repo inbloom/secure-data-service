@@ -21,13 +21,19 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.namespace.QName;
+
 import org.slc.sli.test.edfi.entities.CalendarDate;
+import org.slc.sli.test.edfi.entities.CalendarDateIdentityType;
+import org.slc.sli.test.edfi.entities.CalendarDateReferenceType;
 import org.slc.sli.test.edfi.entities.ComplexObjectType;
 import org.slc.sli.test.edfi.entities.GradingPeriod;
 import org.slc.sli.test.edfi.entities.InterchangeEducationOrgCalendar;
 import org.slc.sli.test.edfi.entities.Ref;
 import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.Session;
+import org.slc.sli.test.edfi.entities.StateEducationAgency;
 import org.slc.sli.test.edfi.entities.meta.CalendarMeta;
 import org.slc.sli.test.edfi.entities.meta.GradingPeriodMeta;
 import org.slc.sli.test.edfi.entities.meta.SessionMeta;
@@ -35,6 +41,7 @@ import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 import org.slc.sli.test.generators.CalendarDateGenerator;
 import org.slc.sli.test.generators.GradingPeriodGenerator;
 import org.slc.sli.test.generators.SessionGenerator;
+import org.slc.sli.test.utils.InterchangeWriter;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 /**
@@ -55,14 +62,14 @@ public class InterchangeEdOrgCalGenerator {
      *
      * @return
      */
-    public static InterchangeEducationOrgCalendar generate() {
+    public static void generate(InterchangeWriter<InterchangeEducationOrgCalendar> iWriter) {
 
-        InterchangeEducationOrgCalendar interchange = new InterchangeEducationOrgCalendar();
-        List<ComplexObjectType> interchangeObjects = interchange.getSessionOrGradingPeriodOrCalendarDate();
+//        InterchangeEducationOrgCalendar interchange = new InterchangeEducationOrgCalendar();
+//        List<ComplexObjectType> interchangeObjects = interchange.getSessionOrGradingPeriodOrCalendarDate();
 
-        addEntitiesToInterchange(interchangeObjects);
+        writeEntitiesToInterchange(iWriter);
 
-        return interchange;
+//        return interchange;
     }
 
     /**
@@ -70,19 +77,19 @@ public class InterchangeEdOrgCalGenerator {
      *
      * @param interchangeObjects
      */
-    private static void addEntitiesToInterchange(List<ComplexObjectType> interchangeObjects) {
+    private static void writeEntitiesToInterchange(InterchangeWriter<InterchangeEducationOrgCalendar> iWriter) {
 
-        generateSessions(interchangeObjects, MetaRelations.SESSION_MAP.values());
+        generateSessions(iWriter, MetaRelations.SESSION_MAP.values());
         
-        generateGradingPeriod(interchangeObjects, MetaRelations.GRADINGPERIOD_MAP.values());
+        generateGradingPeriod(iWriter, MetaRelations.GRADINGPERIOD_MAP.values());
         
-        generateCalendar(interchangeObjects, MetaRelations.CALENDAR_MAP.values());
+        generateCalendar(iWriter, MetaRelations.CALENDAR_MAP.values());
 
     }
     
     
 	private static void generateGradingPeriod(
-			List<ComplexObjectType> interchangeObjects,
+			InterchangeWriter<InterchangeEducationOrgCalendar> iWriter,
 			Collection<GradingPeriodMeta> gradingPeriodMetas) {
 		long startTime = System.currentTimeMillis();
 		
@@ -105,14 +112,26 @@ public class InterchangeEdOrgCalGenerator {
                     prevOrgId = orgId;
 				    gradingPeriod = gpg.getGradingPeriod(orgId, count);
 				    gradingPeriod.setId(gradingPeriodMeta.id);
-					ReferenceType calRef = new ReferenceType();
-					calRef.setRef(new Ref(calendarId));
-					gradingPeriod.getCalendarDateReference().add(calRef);
+				    
+					if (MetaRelations.GradingPeriod_Ref) {
+						ReferenceType calRef = new ReferenceType();
+						calRef.setRef(new Ref(calendarId));
+						gradingPeriod.getCalendarDateReference().add(calRef);
+					} else {
+						CalendarDateReferenceType calRef = new CalendarDateReferenceType();
+						CalendarDateIdentityType cit = new CalendarDateIdentityType();
+						cit.getStateOrganizationIdOrEducationOrgIdentificationCode().add((Object) new String("CAP0-D1-HSch1-ses1-1"));
+						cit.setDate("2011-01-01");
+						calRef.setCalendarDateIdentity(cit);
+						gradingPeriod.getCalendarDateReference().add(calRef);
+					}
+				
 					count++;
 				}
 			}
 
-			interchangeObjects.add(gradingPeriod);
+	         iWriter.marshal(gradingPeriod);
+
 		}
 
 		System.out.println("generated " + gradingPeriodMetas.size()
@@ -120,7 +139,7 @@ public class InterchangeEdOrgCalGenerator {
 				+ (System.currentTimeMillis() - startTime));
 	}
 
-	private static void generateCalendar(List<ComplexObjectType> interchangeObjects, Collection<CalendarMeta> calendarMetas) {
+	private static void generateCalendar(InterchangeWriter<InterchangeEducationOrgCalendar> iWriter, Collection<CalendarMeta> calendarMetas) {
     	
     	 long startTime = System.currentTimeMillis();
     	 int dateCount = 0;
@@ -135,7 +154,8 @@ public class InterchangeEdOrgCalGenerator {
             	 calendar = CalendarDateGenerator.getCalendarDate(calendarMeta.id, dateCount);
              }
 
-             interchangeObjects.add(calendar);
+	         iWriter.marshal(calendar);
+//             interchangeObjects.add(calendar);
          }
          dateCount++;
 
@@ -150,7 +170,7 @@ public class InterchangeEdOrgCalGenerator {
      * @param interchangeObjects
      * @param seaMetas
      */
-    private static void generateSessions(List<ComplexObjectType> interchangeObjects,
+    private static void generateSessions(InterchangeWriter<InterchangeEducationOrgCalendar> iWriter,
             Collection<SessionMeta> sessionMetas) {
         long startTime = System.currentTimeMillis();
 
@@ -165,7 +185,8 @@ public class InterchangeEdOrgCalGenerator {
             	//session = SessionGenerator.generateLowFi(sessionMeta.id, sessionMeta.schoolId, sessionMeta.calendarList, sessionMeta.gradingPeriodList);
             }
 
-            interchangeObjects.add(session);
+	        iWriter.marshal(session);
+//            interchangeObjects.add(session);
         }
 
         System.out.println("generated " + sessionMetas.size() + " Session objects in: "

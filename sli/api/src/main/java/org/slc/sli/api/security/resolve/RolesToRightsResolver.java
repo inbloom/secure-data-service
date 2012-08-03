@@ -14,19 +14,36 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.security.resolve;
 
 import java.util.List;
 import java.util.Set;
 
+import org.slc.sli.api.security.roles.Role;
 import org.springframework.security.core.GrantedAuthority;
 
 /**
- * 
+ *
  * @author dkornishev
- * 
+ *
  */
 public interface RolesToRightsResolver {
-    public Set<GrantedAuthority> resolveRoles(String realmId, List<String> roleNames);
+    
+    /**
+     * Map roles to sli roles
+     * @param tenantId
+     * @param realmId
+     * @param roleNames
+     * @return
+     */
+    public Set<Role> mapRoles(String tenantId, String realmId, List<String> roleNames);
+    
+    /**
+     * Resolve roles to rights
+     * @param tenantId
+     * @param realmId
+     * @param roleNames
+     * @return
+     */
+    public Set<GrantedAuthority> resolveRoles(String tenantId, String realmId, List<String> roleNames);
 }
