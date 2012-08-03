@@ -39,10 +39,9 @@ When /^in Tab ID "([^"]*)", there is "([^"]*)" Panels$/ do |tabId, panelCount|
 end
 
 Then /^in "([^"]*)" tab, there are "([^"]*)" Panels$/ do |tabName, panelCount|
-  tabId = getTabIndex(tabName)
-  element = @driver.find_element(:id, tabId)
-  tabs = element.find_elements(:class, "panel")
-  assert(tabs.length == panelCount.to_i, "Actual # of Panels: " + tabs.length.to_s)
+  tab = getTab(tabName)
+  actualPanels = tab.find_elements(:class, "panel")
+  assert(actualPanels.length == panelCount.to_i, "Actual # of Panels: " + actualPanels.length.to_s)
 end
 
 When /^Tab has a title named "([^"]*)"$/ do |tabTitle|
@@ -53,6 +52,16 @@ When /^I click on "([^"]*)" Tab$/ do |tabName|
   tab = getTabIndex(tabName)
   searchPattern = "a[href*='" + tab + "']"
   @driver.find_element(:css, searchPattern).click()
+  @currentTab = getTab(tabName)
+end
+
+When /^I see the following tab order "(.*?)"$/ do |pages|
+  checkPageOrder(pages)
+end
+
+def getTab(tabName)
+  tabIndex = getTabIndex(tabName)
+  return @driver.find_element(:id, tabIndex)
 end
 
 # Given a tabname, find the tab ID index to know which tab to read from
@@ -97,4 +106,16 @@ def getPanel(tabName, panelName)
     end
   end
   assert(false, "Panel name: " + panelName + " is not found in tab: " + tabName)
+end
+
+def checkPageOrder(expectedPages, extraTabsToIgnore = 0)
+  expected = expectedPages.split(';')  
+  actual = @driver.find_element(:id, "tabs").find_elements(:tag_name, "li") 
+  assert(expected.length == actual.length - extraTabsToIgnore.to_i , "size of pages are not equal Actual: " + (actual.length - extraTabsToIgnore.to_i).to_s + " Expected: " + expected.length.to_s )
+  for index in 0..actual.length - 1 - extraTabsToIgnore.to_i  
+    page = actual[index]
+    pageText = page.find_element(:tag_name,"a").text
+    puts pageText
+    assert((pageText.include? expected[index]), "Order is incorrect. Expected #{expected[index]} Actual #{pageText}")
+  end
 end

@@ -6,7 +6,7 @@
            "fieldPath" : "body.gradingPeriodReference",
             "ref" :
             {
-                "collectionName" : "gradingPeriod",
+                "entityType" : "gradingPeriod",
                 "isRefList" : true,
                 "refObjectPath" : "body.gradingPeriodReference",
                 "choiceOfFields" :
@@ -32,7 +32,7 @@
                             [{
                                 "ref" :
                                 {
-                                   "collectionName" : "educationOrganization",
+                                   "entityType" : "educationOrganization",
                                    "choiceOfFields" :
                                    [
                                        [
@@ -56,7 +56,7 @@
             "fieldPath" : "body.schoolId",
             "ref" :
             {
-                "collectionName" : "school",
+                "entityType" : "school",
                 "choiceOfFields" :
                 [
                     [

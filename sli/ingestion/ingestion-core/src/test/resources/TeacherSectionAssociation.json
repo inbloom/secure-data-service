@@ -1,7 +1,7 @@
 {"keyFields" : ["metaData.externalId" , "metaData.localId", "body.studentId"] ,
 "references" : [{
     "fieldPath" : "body.teacherId","ref" :
-                                         { "collectionName" : "Teacher",
+                                         { "entityType" : "Teacher",
                                            "choiceOfFields" :
                                            [
                                              [
@@ -15,7 +15,7 @@
 
        } ,
        { "fieldPath" : "body.sectionId" , "ref" :
-                                         { "collectionName" : "Section" ,
+                                         { "entityType" : "Section" ,
                                            "choiceOfFields" :
                                            [
                                              [
@@ -25,7 +25,7 @@
                                                {"path" : "body.schoolId" ,
                                                 "values" : [{"valueSource" : "" ,
                                                            "ref" :
-                                                           { "collectionName" : "School" ,
+                                                           { "entityType" : "School" ,
                                                              "choiceOfFields" :
                                                              [
                                                               [
@@ -53,7 +53,7 @@
                                                {"path" : "body.schoolId" ,
                                                 "values" : [{"valueSource" : "" ,
                                                            "ref" :
-                                                           { "collectionName" : "School" ,
+                                                           { "entityType" : "School" ,
                                                              "choiceOfFields" :
                                                              [
                                                               [
@@ -79,7 +79,7 @@
                                                {"path" : "body.courseId" ,
                                                 "values" : [{"valueSource" : "" ,
                                                            "ref" :
-                                                           { "collectionName" : "Course" ,
+                                                           { "entityType" : "Course" ,
                                                              "choiceOfFields" :
                                                              [
                                                               [
@@ -109,7 +109,7 @@
                                                {"path" : "body.sessionId" ,
                                                 "values" : [{"valueSource" : "",
                                                            "ref" :
-                                                            { "collectionName" : "Session" ,
+                                                            { "entityType" : "Session" ,
                                                               "choiceOfFields" :
                                                               [
                                                                [

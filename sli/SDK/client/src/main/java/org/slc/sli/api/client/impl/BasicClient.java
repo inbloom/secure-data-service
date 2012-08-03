@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.client.impl;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -61,7 +61,7 @@ public class BasicClient implements SLIClient {
     private RESTClient restClient;
 
     // Entity (de-)serialization (from) to Json.
-    ObjectMapper mapper = new ObjectMapper();
+    private ObjectMapper mapper = new ObjectMapper();
 
     /**
      * Construct a new BasicClient instance, using the JSON message converter.
@@ -73,23 +73,38 @@ public class BasicClient implements SLIClient {
         this.restClient = restClient;
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.slc.sli.api.client.SLIClient#create(org.slc.sli.api.client.Entity)
+     */
     @Override
     public String create(final Entity e) throws IOException, URISyntaxException, SLIClientException {
-        URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).build();
-        Response response = restClient.postRequest(url, mapper.writeValueAsString(e));
+        return create(e, null);
+    }
+
+    @Override
+    public String create(final Entity e, String resourceUrl) throws IOException, URISyntaxException, SLIClientException {
+        URLBuilder builder = URLBuilder.create(restClient.getBaseURL());
+        URL url;
+        if (resourceUrl != null && resourceUrl.startsWith(restClient.getBaseURL().toString())) {
+            url = new URL(resourceUrl);
+        } else {
+            if (resourceUrl == null) {
+                builder.entityType(e.getEntityType());
+            } else if (!resourceUrl.startsWith(restClient.getBaseURL().toString())) {
+                builder.addPath(resourceUrl);
+            }
+            url = builder.build();
+        }
+        Response response = restClient.postRequest(url, mapper.writeValueAsString(e.getData()));
         checkResponse(response, Status.CREATED, "Could not created entity.");
 
         // extract the id of the newly created entity from the header.
         String location = response.getHeader("Location");
         return location.substring(location.lastIndexOf("/") + 1);
-        //  return restClient.postRequest(this.getToken(), url, mapper.writeValueAsString(e)); NOTE: added
-    }
-
-    @Override
-    public Response create(final String sessionToken, final String resourceUrl, final Entity e)
-            throws URISyntaxException, IOException {
-        return restClient.postRequest(sessionToken, new URL(restClient.getBaseURL() + resourceUrl),
-                mapper.writeValueAsString(e));
+        // return restClient.postRequest(this.getToken(), url, mapper.writeValueAsString(e)); NOTE:
+        // added
     }
 
     @Override
@@ -114,40 +129,43 @@ public class BasicClient implements SLIClient {
     }
 
     @Override
-    public Response read(final String sessionToken, List entities, final String resourceUrl, Class entityClass)
-            throws URISyntaxException, MessageProcessingException, IOException {
-        entities.clear();
-        return getResource(sessionToken, entities, new URL(restClient.getBaseURL() + resourceUrl), entityClass);
+    public List<Entity> read(final String resourceUrl, Query query) throws URISyntaxException,
+            MessageProcessingException, IOException, SLIClientException {
+        List<Entity> entities = new ArrayList<Entity>();
+        URL url = resourceUrl.startsWith(restClient.getBaseURL()) ? new URL(resourceUrl) : URLBuilder
+                .create(restClient.getBaseURL()).addPath(resourceUrl).build();
+        Response response = getResource(entities, url, query);
+        checkResponse(response, Status.OK, "Unable to retrieve entity.");
+        return entities;
     }
 
     @Override
-    public void update(final Entity e)
-            throws URISyntaxException, MessageProcessingException, IOException, SLIClientException {
+    public List<Entity> read(final String resourceUrl) throws URISyntaxException, MessageProcessingException,
+            IOException, SLIClientException {
+        return read(resourceUrl, BasicQuery.EMPTY_QUERY);
+    }
+
+    @Override
+    public void update(final Entity e) throws URISyntaxException, MessageProcessingException, IOException,
+            SLIClientException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
         Response response = restClient.putRequest(url, mapper.writeValueAsString(e));
         checkResponse(response, Status.NO_CONTENT, "Unable to update entity.");
     }
 
     @Override
-    public void delete(final String entityType, final String entityId) throws MalformedURLException, URISyntaxException, SLIClientException {
+    public void delete(final String entityType, final String entityId) throws MalformedURLException,
+            URISyntaxException, SLIClientException {
         URL url = URLBuilder.create(restClient.getBaseURL()).entityType(entityType).id(entityId).build();
         checkResponse(restClient.deleteRequest(url), Status.NO_CONTENT, "Could not delete entity.");
     }
 
     @Override
-    public Response update(final String sessionToken, final String resourceUrl, final Entity e)
-            throws IOException, URISyntaxException {
-        return restClient.putRequest(sessionToken, new URL(restClient.getBaseURL() + resourceUrl),
-                mapper.writeValueAsString(e));
+    public void delete(Entity e) throws MalformedURLException, URISyntaxException, SLIClientException {
+        URL url = URLBuilder.create(restClient.getBaseURL()).entityType(e.getEntityType()).id(e.getId()).build();
+        checkResponse(restClient.deleteRequest(url), Status.NO_CONTENT, "Could not delete entity.");
     }
 
-
-    @Override
-    public Response deleteByToken(final String sessionToken, final String resourceUrl) throws URISyntaxException, MalformedURLException {
-        return restClient.deleteRequest(sessionToken, new URL(restClient.getBaseURL() + resourceUrl));
-    }
-
-    @Override
     public Response getResource(final List<Entity> entities, URL resourceURL, Query query) throws URISyntaxException,
             MessageProcessingException, IOException {
         entities.clear();
@@ -165,44 +183,6 @@ public class BasicClient implements SLIClient {
                     entities.addAll(tmp);
                 } else if (element instanceof ObjectNode) {
                     Entity entity = mapper.readValue(element, GenericEntity.class);
-                    entities.add(entity);
-                } else {
-                    // not what was expected....
-                    ResponseBuilder builder = Response.fromResponse(response);
-                    builder.status(Response.Status.INTERNAL_SERVER_ERROR);
-                    return builder.build();
-                }
-            } catch (JsonParseException e) {
-                // invalid Json, or non-Json response?
-                ResponseBuilder builder = Response.fromResponse(response);
-                builder.status(Response.Status.INTERNAL_SERVER_ERROR);
-                return builder.build();
-            }
-        }
-        return response;
-    }
-
-    @SuppressWarnings("unchecked")
-    @Override
-    public Response getResource(final String sessionToken, List entities, URL restURL, Class entityClass)
-            throws URISyntaxException, MessageProcessingException, IOException {
-        entities.clear();
-
-        Response response = restClient.getRequest(sessionToken, restURL);
-        if (response.getStatus() == Response.Status.OK.getStatusCode()) {
-
-            try {
-                JsonNode element = mapper.readValue(response.readEntity(String.class), JsonNode.class);
-
-                if (element.isArray()) {
-                    ArrayNode arrayNode = (ArrayNode) element;
-                    for (int i = 0; i < arrayNode.size(); ++i) {
-                        JsonNode jsonObject = arrayNode.get(i);
-                        Object entity =  mapper.readValue(jsonObject, entityClass);
-                        entities.add(entity);
-                    }
-                } else  if (element instanceof ObjectNode) {
-                    Object entity = mapper.readValue(element, entityClass);
                     entities.add(entity);
                 } else {
                     // not what was expected....
@@ -261,7 +241,8 @@ public class BasicClient implements SLIClient {
      */
     private void checkResponse(Response response, Status status, String msg) throws SLIClientException {
         if (response.getStatus() != status.getStatusCode()) {
-           throw new SLIClientException(msg + "Receveived status code " + response.getStatus() + ". Expected " + status.getStatusCode() + ".");
+            throw new SLIClientException(msg + "Receveived status code " + response.getStatus() + ". Expected "
+                    + status.getStatusCode() + ".");
         }
     }
 }

@@ -31,17 +31,17 @@
         <mongo-hadoop-core.version>1.0.0</mongo-hadoop-core.version>
         <mongo-java.version>2.8.0</mongo-java.version>
 
-		<maven.compiler.version>2.3.2</maven.compiler.version>
-		<maven.jar.version>2.3.2</maven.jar.version>
-		<maven.checkstyle.version>2.8</maven.checkstyle.version>
-		<maven.findbugs.version>2.3.2</maven.findbugs.version>
-		<maven.eclipse.version>2.8</maven.eclipse.version>
-		<maven.release.version>2.2</maven.release.version>
+        <maven.compiler.version>2.3.2</maven.compiler.version>
+        <maven.jar.version>2.3.2</maven.jar.version>
+        <maven.checkstyle.version>2.8</maven.checkstyle.version>
+        <maven.findbugs.version>2.3.2</maven.findbugs.version>
+        <maven.eclipse.version>2.8</maven.eclipse.version>
+        <maven.release.version>2.2</maven.release.version>
 
-		<!-- Signing Artifacts -->
-		<sli.sign.keystore>${project.parent.basedir}/../../sli/data-access/dal/keyStore/localKeyStore.jks</sli.sign.keystore>
-		<sli.sign.storepass>dalKey</sli.sign.storepass>
-	</properties>
+        <!-- Signing Artifacts -->
+        <sli.sign.keystore>${project.parent.basedir}/../../sli/data-access/dal/keyStore/localKeyStore.jks</sli.sign.keystore>
+        <sli.sign.storepass>dalKey</sli.sign.storepass>
+    </properties>
 
 
     <modules>
@@ -88,7 +88,6 @@
                 <groupId>org.apache.hadoop</groupId>
                 <artifactId>hadoop-core</artifactId>
                 <version>${hadoop-core.version}</version>
-                <scope>compile</scope>
             </dependency>
 
             <dependency>

@@ -59,9 +59,9 @@ public class UserContextMapper implements ContextMapper {
                 if (pairArray.length == 2) {
                     String key = pairArray[0].trim();
                     String value = pairArray[1].trim();
-                    if (key.equals("tenant")) {
+                    if (key.toLowerCase().indexOf("tenant") >= 0) {
                         user.setTenant(value);
-                    } else if (key.equals("edOrg")) {
+                    } else if (key.toLowerCase().indexOf("edorg") >= 0) {
                         user.setEdorg(value);
                     }
                 }

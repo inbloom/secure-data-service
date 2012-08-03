@@ -53,13 +53,13 @@ Given I post "SmallSampleDataSet.zip" file as the payload of the ingestion job
      | studentProgramAssociation                 |
      | studentSchoolAssociation                  |
      | studentSectionAssociation                 |
-     | studentSectionGradebookEntry              |
+     | studentGradebookEntry                     |
      | studentTranscriptAssociation              |
      | teacher                                   |
      | teacherSchoolAssociation                  |
      | teacherSectionAssociation                 |
 When zip file is scp to ingestion landing zone
-When "160" seconds have elapsed
+When "90" seconds have elapsed
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | assessment                               |                 19|
@@ -105,7 +105,7 @@ Then I should see following map of entry counts in the corresponding collections
      | studentProgramAssociation                |                  6|
      | studentSchoolAssociation                 |                167|
      | studentSectionAssociation                |                297|
-     | studentSectionGradebookEntry             |                315|
+     | studentGradebookEntry                    |                315|
      | studentTranscriptAssociation             |                196|
      | teacherSchoolAssociation                 |                  3|
      | teacherSectionAssociation                |                 11|

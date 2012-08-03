@@ -14,12 +14,12 @@ import com.mongodb.hadoop.util.MongoConfigUtil;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.io.DoubleWritable;
-import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 import org.slc.sli.aggregation.mapreduce.MongoAggFormatter;
+import org.slc.sli.aggregation.mapreduce.TenantAndID;
 
 
 /**
@@ -34,20 +34,31 @@ public class HighestEver extends Configured implements Tool {
 
     @Override
     public int run(String[] args) throws Exception {
-        String assmtIDCode = "Grade 7 2011 State Math";
+        String assmtIDCode = args.length == 0 ? "Grade 7 2011 State Math" : args[0];
         String assmtId = getAssessmentId(assmtIDCode);
 
         MongoURI input = new MongoURI("mongodb://localhost/sli.studentAssessmentAssociation");
 
         Configuration conf = getConf();
         conf.set(ScoreMapper.SCORE_TYPE, "Scale score");
-        conf.set(MongoAggFormatter.UPDATE_FIELD, "aggregations.assessments." + assmtIDCode + ".HighestEver.ScaleScore");
+        conf.set(MongoAggFormatter.UPDATE_FIELD, "calculatedValues.assessments." + assmtIDCode + ".HighestEver.ScaleScore");
 
         MongoConfigUtil.setInputURI(conf, input);
-        MongoConfigUtil.setQuery(conf, new BasicDBObject("body.assessmentId", assmtId));
-        MongoConfigUtil.setOutputURI(conf, "mongodb://localhost/sli.student");
-        MongoConfigUtil.setSplitSize(conf, 2);
         MongoConfigUtil.setCreateInputSplits(conf,  true);
+        MongoConfigUtil.setShardChunkSplittingEnabled(conf, true);
+
+        BasicDBObject query = new BasicDBObject();
+        query.put("body.assessmentId", assmtId);
+        query.put("body.scoreResults.assessmentReportingMethod", "Scale score");
+
+        BasicDBObject fields = new BasicDBObject();
+        fields.put("body.studentId", 1);
+        fields.put("body.scoreResults.result", 1);
+        fields.put("metaData.tenantId", 1);
+
+        MongoConfigUtil.setQuery(conf, query);
+        MongoConfigUtil.setFields(conf, fields);
+        MongoConfigUtil.setOutputURI(conf, "mongodb://localhost/sli.student");
 
         Job job = new Job(conf, "HighestEver");
         job.setJarByClass(HighestEver.class);
@@ -58,7 +69,7 @@ public class HighestEver extends Configured implements Tool {
 
         job.setInputFormatClass(MongoInputFormat.class);
 
-        job.setOutputKeyClass(Text.class);
+        job.setOutputKeyClass(TenantAndID.class);
         job.setOutputValueClass(DoubleWritable.class);
         job.setOutputFormatClass(MongoAggFormatter.class);
 

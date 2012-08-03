@@ -6,7 +6,7 @@
          "fieldPath":"body.schoolId",
          "ref":
          {
-            "collectionName":"school",
+            "entityType":"school",
             "choiceOfFields":
             [
                [
@@ -25,7 +25,7 @@
          "fieldPath":"body.sessionId",
          "ref":
          {
-            "collectionName":"session",
+            "entityType":"session",
             "choiceOfFields":
             [
                [
@@ -57,7 +57,7 @@
                         {
                            "ref":
                            {
-                              "collectionName":"school",
+                              "entityType":"school",
                               "choiceOfFields":
                               [
                                  [
@@ -82,7 +82,7 @@
           "fieldPath" : "body.courseOfferingId",
           "ref" : 
           {
-              "collectionName" : "courseOffering",
+              "entityType" : "courseOffering",
               "choiceOfFields" :
               [
                   [
@@ -99,7 +99,7 @@
                           [{
                                "ref" :
                                {
-                                   "collectionName" : "session",
+                                   "entityType" : "session",
                                    "choiceOfFields" :
                                    [[
                                         {
@@ -108,7 +108,7 @@
                                             [{
                                                  "ref" :
                                                  {
-                                                     "collectionName" : "educationOrganization",
+                                                     "entityType" : "educationOrganization",
                                                      "choiceOfFields" :
                                                      [[
                                                           {

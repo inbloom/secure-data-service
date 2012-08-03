@@ -29,6 +29,7 @@ import org.slc.sli.test.edfi.entities.EducationalOrgReferenceType;
 import org.slc.sli.test.edfi.entities.LEACategoryType;
 import org.slc.sli.test.edfi.entities.LocalEducationAgency;
 import org.slc.sli.test.edfi.entities.OperationalStatusType;
+import org.slc.sli.test.edfi.entities.ProgramIdentityType;
 import org.slc.sli.test.edfi.entities.ProgramReferenceType;
 import org.slc.sli.test.edfi.entities.Ref;
 import org.slc.sli.test.edfi.entities.meta.LeaMeta;
@@ -65,10 +66,12 @@ public class LocalEducationAgencyGenerator {
         EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
         edOrgIdentityType.setStateOrganizationId(seaId);
 
-        EducationalOrgReferenceType seaRef = new EducationalOrgReferenceType();
-        seaRef.setEducationalOrgIdentity(edOrgIdentityType);
 
-        localEducationAgency.setStateEducationAgencyReference(seaRef);
+		EducationalOrgReferenceType seaRef = new EducationalOrgReferenceType();
+		seaRef.setEducationalOrgIdentity(edOrgIdentityType);
+
+		localEducationAgency.setStateEducationAgencyReference(seaRef);
+
 
         //associate this lea with a esCenter. A SEA can have multiple esCenters.
         SeaMeta seaMeta = MetaRelations.SEA_MAP.get(seaId);
@@ -85,9 +88,7 @@ public class LocalEducationAgencyGenerator {
                     escIdentityType.setStateOrganizationId(escId);
                     
                     EducationalOrgReferenceType escRef = new EducationalOrgReferenceType();
-                    escRef.setEducationalOrgIdentity(escIdentityType);
-                    
-                    localEducationAgency.setEducationServiceCenterReference(escRef);
+   
                 }
             }
         }
@@ -136,21 +137,40 @@ public class LocalEducationAgencyGenerator {
 //        	eortype.setRef(leaRef);
 //        	localEducationAgency.setLocalEducationAgencyReference(eortype);
         
+       if(MetaRelations.LocalEducationAgency_Ref)
+       {
         	Ref seaRef = new Ref(seaId);
         	EducationalOrgReferenceType eort = new EducationalOrgReferenceType();
         	eort.setRef(seaRef);
         	localEducationAgency.setStateEducationAgencyReference(eort);
         	
         
-        for (String pid:leaMeta.programs.keySet()){
+           for (String pid:leaMeta.programs.keySet()){
         	
-     	   ProgramMeta pm = leaMeta.programs.get(pid); 
-     	   Ref programRef = new Ref(pm.id);
-     	   ProgramReferenceType prt = new ProgramReferenceType();
-     	   prt.setRef(programRef);
-     	  localEducationAgency.getProgramReference().add(prt);  	  
-        }
+        	   ProgramMeta pm = leaMeta.programs.get(pid); 
+        	   Ref programRef = new Ref(pm.id);
+        	   ProgramReferenceType prt = new ProgramReferenceType();
+        	   prt.setRef(programRef);
+        	   localEducationAgency.getProgramReference().add(prt);  	  
+           }
+		} else {
+			EducationalOrgIdentityType edOrgIdentityType = new EducationalOrgIdentityType();
+			edOrgIdentityType.setStateOrganizationId(seaId);
 
+			EducationalOrgReferenceType seaRef = new EducationalOrgReferenceType();
+			seaRef.setEducationalOrgIdentity(edOrgIdentityType);
+			localEducationAgency.setStateEducationAgencyReference(seaRef);
+
+			for (String pid : leaMeta.programs.keySet()) {
+
+				ProgramMeta pm = leaMeta.programs.get(pid);
+				ProgramIdentityType pit = new ProgramIdentityType();
+				pit.setProgramId(pm.id);
+				ProgramReferenceType prt = new ProgramReferenceType();
+				prt.setProgramIdentity(pit);
+				localEducationAgency.getProgramReference().add(prt);
+			}
+		}
         return localEducationAgency;
     }
     

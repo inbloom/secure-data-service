@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.resources.v1;
 
 import static org.junit.Assert.assertEquals;
@@ -70,6 +69,8 @@ import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderFactory;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.CalculatedData;
+import org.slc.sli.domain.CalculatedDatum;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
@@ -382,6 +383,57 @@ public class DefaultCrudEndPointTest {
         query = crudEndPoint.addTypeCriteria(null, query);
         List<NeutralCriteria> criteriaList = query.getCriteria();
         assertEquals("Should match", 0, criteriaList.size());
+    }
+
+    @Test
+    public void testIncludeAggregates() {
+        EntityDefinitionStore mockStore = mock(EntityDefinitionStore.class);
+        EntityDefinition mockSchoolDef = mock(EntityDefinition.class);
+        EntityDefinition mockStudentDef = mock(EntityDefinition.class);
+        EntityService mockService = mock(EntityService.class);
+        when(mockStore.lookupByResourceName("school")).thenReturn(mockSchoolDef);
+        when(mockStore.lookupByResourceName("student")).thenReturn(mockStudentDef);
+        when(mockSchoolDef.supportsAggregates()).thenReturn(true);
+        when(mockSchoolDef.getService()).thenReturn(mockService);
+        when(mockStudentDef.getService()).thenReturn(mockService);
+        Map<String, Map<String, Map<String, Map<String, Integer>>>> aggregates = new HashMap<String, Map<String, Map<String, Map<String, Integer>>>>();
+        Map<String, Map<String, Map<String, Integer>>> assessments = new HashMap<String, Map<String, Map<String, Integer>>>();
+        Map<String, Map<String, Integer>> mathTest = new HashMap<String, Map<String, Integer>>();
+        Map<String, Integer> highestEver = new HashMap<String, Integer>();
+        highestEver.put("E", 15);
+        highestEver.put("2", 20);
+        mathTest.put("HighestEver", highestEver);
+        assessments.put("ACT", mathTest);
+        aggregates.put("assessments", assessments);
+        CalculatedData<Map<String, Integer>> aggregate = new CalculatedData<Map<String, Integer>>(aggregates,
+                "aggreate");
+        when(mockService.getAggregates("42")).thenReturn(aggregate);
+        when(mockService.list(any(NeutralQuery.class))).thenReturn(Arrays.asList(new EntityBody()));
+        DefaultCrudEndpoint schoolResource = new DefaultCrudEndpoint(mockStore, "school");
+        schoolResource.setIncludeAggregates("true");
+        EntityBody body = new EntityBody();
+        body.put("id", "42");
+        schoolResource.addAggregates(body, mockSchoolDef);
+        assertEquals(aggregate.getCalculatedValues(), pullAggregate(body));
+        schoolResource.setIncludeAggregates("false");
+        body = new EntityBody();
+        body.put("id", "42");
+        schoolResource.addAggregates(body, mockSchoolDef);
+        assertEquals(null, pullAggregate(body));
+        DefaultCrudEndpoint studentResource = new DefaultCrudEndpoint(mockStore, "student");
+        studentResource.setIncludeAggregates("true");
+        body = new EntityBody();
+        body.put("id", "42");
+        studentResource.addAggregates(body, mockStudentDef);
+        assertEquals(null, pullAggregate(body));
+    }
+
+
+
+    @SuppressWarnings("unchecked")
+    private List<CalculatedDatum<Map<String, Integer>>> pullAggregate(EntityBody result) {
+        Object aggregateResult = result.get("aggregates");
+        return (List<CalculatedDatum<Map<String, Integer>>>) aggregateResult;
     }
 
     private String getIDList(String resource) {

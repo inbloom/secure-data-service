@@ -1,0 +1,18 @@
+<h3>Modify: {{profile.name}}</h3>
+<div id="tabs" ng-tabs>
+    <ul ng-sortable="pages">
+        <li class="ui-state-default {{status}}" id="{{page.id}}" ng-controller="pageCtrl" ng-sortable-index="{{$index}}" ng-repeat="page in pages" ng-mouseover="showUpdateSection(this)" ng-mouseleave="hideUpdateSection(this)">
+            <a class="pageName">{{page.name}}</a>
+            <div class="updatePage">
+                <span href="#"><i class="icon-move"></i></span>
+                <span href="#" ng-click="editPage()"><i class="icon-edit"></i></span>
+                <span href="#" ng-click="removePage()"><i class="icon-trash"></i></span>
+            </div>
+        </li>
+        <li class="addPageSection">
+            <button class="btn btn-primary" data-toggle="modal" ng-click="addDialog()" >+</button>
+        </li>
+    </ul>
+</div>
+
+<ng-modal></ng-modal>

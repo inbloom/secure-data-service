@@ -39,7 +39,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.domain.AggregateData;
+import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -416,7 +416,12 @@ public class MockRepo implements Repository<Entity> {
                 }
 
                 @Override
-                public AggregateData getAggregates() {
+                public CalculatedData<String> getCalculatedValues() {
+                    return null;
+                }
+
+                @Override
+                public CalculatedData<Map<String, Integer>> getAggregates() {
                     return null;
                 }
             };
@@ -466,7 +471,12 @@ public class MockRepo implements Repository<Entity> {
             }
 
             @Override
-            public AggregateData getAggregates() {
+            public CalculatedData<String> getCalculatedValues() {
+                return null;
+            }
+
+            @Override
+            public CalculatedData<Map<String, Integer>> getAggregates() {
                 return null;
             }
         };
@@ -543,7 +553,12 @@ public class MockRepo implements Repository<Entity> {
             }
 
             @Override
-            public AggregateData getAggregates() {
+            public CalculatedData<String> getCalculatedValues() {
+                return null;
+            }
+
+            @Override
+            public CalculatedData<Map<String, Integer>> getAggregates() {
                 return null;
             }
         };

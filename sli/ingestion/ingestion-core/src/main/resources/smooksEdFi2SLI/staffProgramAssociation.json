@@ -5,7 +5,7 @@
         "fieldPath" : "body.staffId",
         "ref" :
         {
-	        "collectionName" : "staff",
+	        "entityType" : "staff",
 	        "isRefList" : true,
     		"refObjectPath" : "body.staffReference",
 	        "choiceOfFields" :
@@ -26,7 +26,7 @@
         "fieldPath" : "body.programId",
         "ref" :
         {
-	        "collectionName" : "program",
+	        "entityType" : "program",
 	        "isRefList" : true,
     		"refObjectPath" : "body.programReference",
 	        "choiceOfFields" :

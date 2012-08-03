@@ -19,7 +19,6 @@ package org.slc.sli.api.security.roles;
 
 import java.util.List;
 
-import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -57,6 +56,17 @@ public final class RoleBuilder {
         return this;
     }
 
+    public RoleBuilder addGrantedAuthorities(List<String> auths) {
+        for (String rightName : auths) {
+            try {
+                role.addRight(Right.valueOf(rightName));
+            } catch (IllegalArgumentException e) {
+                warn("No such right: {}", rightName);
+            }
+        }
+        return this;
+    }
+
     public RoleBuilder addRight(String right) {
         role.addRight(Right.valueOf(right));
         return this;
@@ -68,38 +78,14 @@ public final class RoleBuilder {
         }
         return this;
     }
-    
+
     public RoleBuilder setAdmin(boolean admin) {
         role.setAdmin(admin);
         return this;
-    }
-
-    public EntityBody buildEntityBody() {
-        return role.getRoleAsEntityBody();
     }
 
     public Role build() {
         return role;
     }
 
-    public void addRight(Object right) {
-        if (right instanceof String) {
-            addRight(Right.valueOf((String) right));
-        }
-    }
-
-
-    @SuppressWarnings("unchecked")
-    public static RoleBuilder makeRole(EntityBody entityBody) {
-        RoleBuilder resultRole = new RoleBuilder((String) entityBody.get("name"));
-        resultRole.addRights((List<String>) entityBody.get("rights"));
-        resultRole.setAdmin((Boolean) entityBody.get("admin"));
-        return resultRole;
-
-    }
-
-    public RoleBuilder addId(String id) {
-        role.setId(id);
-        return this;
-    }
 }

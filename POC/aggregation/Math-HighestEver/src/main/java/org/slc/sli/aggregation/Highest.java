@@ -3,8 +3,8 @@ package org.slc.sli.aggregation;
 import java.io.IOException;
 
 import org.apache.hadoop.io.DoubleWritable;
-import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
+import org.slc.sli.aggregation.mapreduce.TenantAndID;
 
 /**
  * Reducer to get the highest value
@@ -12,10 +12,10 @@ import org.apache.hadoop.mapreduce.Reducer;
  * @author nbrown
  *
  */
-public class Highest extends Reducer<Text, DoubleWritable, Text, DoubleWritable> {
+public class Highest extends Reducer<TenantAndID, DoubleWritable, TenantAndID, DoubleWritable> {
 
     @Override
-    protected void reduce(Text id, Iterable<DoubleWritable> scoreResults, Context context)
+    protected void reduce(TenantAndID id, Iterable<DoubleWritable> scoreResults, Context context)
             throws IOException, InterruptedException {
         Double highest = null;
         for (DoubleWritable scoreResult: scoreResults) {

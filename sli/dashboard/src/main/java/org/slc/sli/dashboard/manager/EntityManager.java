@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.dashboard.manager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.dashboard.client.SDKConstants;
 import org.slc.sli.dashboard.entity.GenericEntity;
@@ -29,9 +32,6 @@ import org.slc.sli.dashboard.entity.util.GenericEntityEnhancer;
 import org.slc.sli.dashboard.entity.util.ParentsSorter;
 import org.slc.sli.dashboard.util.Constants;
 import org.slc.sli.dashboard.util.DashboardException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 /**
  * EntityManager which engages with the API client to build "logical" entity graphs to be leveraged
@@ -60,18 +60,18 @@ public class EntityManager extends ApiClientManager {
      * @param schoolIds
      *            - the school id list
      * @return schoolList
-     *           - the school entity list
+     *         - the school entity list
      */
     public List<GenericEntity> getSchools(final String token, List<String> schoolIds) {
         return getApiClient().getSchools(token, schoolIds);
     }
 
     /**
-<<<<<<< HEAD
+     * <<<<<<< HEAD
      * Get a single student entity with optional fields embedded.
-=======
+     * =======
      * Returns a single student entity with optional fields embedded.
->>>>>>> master
+     * >>>>>>> master
      *
      * @param token
      *            - authentication token
@@ -95,7 +95,7 @@ public class EntityManager extends ApiClientManager {
      * @param studentIds
      *            - the student id list
      * @return studentList
-     *            - the student entity list
+     *         - the student entity list
      */
     public List<GenericEntity> getStudents(final String token, String sectionId) {
         return getApiClient().getStudentsForSection(token, sectionId);
@@ -114,6 +114,20 @@ public class EntityManager extends ApiClientManager {
     public GenericEntity getStudent(final String token, String studentId) {
         return getApiClient().getStudent(token, studentId);
     }
+    
+    /**
+     * Get the teacher entity identified by the teacher id and authorized for the security token
+     *
+     * @param token
+     *            - the principle authentication token
+     * @param tacherId
+     *            - the teacher id
+     * @return teacher
+     *         - the teacher entity
+     */
+    public GenericEntity getTeacher(final String token, String teacherId) {
+        return getApiClient().getTeacher(token, teacherId);
+    }
 
     /**
      * Get the student entity along with additional info needed for CSI panel
@@ -123,7 +137,7 @@ public class EntityManager extends ApiClientManager {
      * @param studentId
      *            - the student id
      * @return student
-     *            - the student entity
+     *         - the student entity
      */
     public GenericEntity getStudentForCSIPanel(final String token, String studentId) {
         GenericEntity student = getStudent(token, studentId);
@@ -153,7 +167,7 @@ public class EntityManager extends ApiClientManager {
 
         List<GenericEntity> parents = getApiClient().getParentsForStudent(token, studentId, null);
 
-        //sort parent Contact if there are more than 2.
+        // sort parent Contact if there are more than 2.
         if (parents != null && parents.size() > 1) {
             ParentsSorter.sort(parents);
         }
@@ -237,7 +251,6 @@ public class EntityManager extends ApiClientManager {
         return getApiClient().getEntity(token, type, id, params);
     }
 
-
     /**
      * Returns a list of students, which match the search parameters
      *
@@ -268,20 +281,21 @@ public class EntityManager extends ApiClientManager {
 
         return entities.get(0);
     }
-    
-    
+
     /**
-     * Retrieve section, and populate with additional data for teacher and course, required for section profile panel
+     * Retrieve section, and populate with additional data for teacher and course, required for
+     * section profile panel
+     *
      * @param token
      * @param sectionId
      * @return
      */
     public GenericEntity getSectionForProfile(String token, String sectionId) {
-    	GenericEntity section =  getApiClient().getSection(token, sectionId);
-    	
-    	
-    	//Retrieve teacher of record for the section, and add the teacher's name to the section entity.
-    	GenericEntity teacher = getApiClient().getTeacherForSection(token, section.getString(Constants.ATTR_ID));
+        GenericEntity section = getApiClient().getSection(token, sectionId);
+
+        // Retrieve teacher of record for the section, and add the teacher's name to the section
+        // entity.
+        GenericEntity teacher = getApiClient().getTeacherForSection(token, section.getString(Constants.ATTR_ID));
         if (teacher != null) {
             @SuppressWarnings("unchecked")
             Map<String, Object> teacherName = (Map<String, Object>) teacher.get(Constants.ATTR_NAME);
@@ -289,21 +303,21 @@ public class EntityManager extends ApiClientManager {
                 section.put(Constants.ATTR_TEACHER_NAME, teacherName);
             }
         }
-    	
-    
-       List<GenericEntity> sections = new ArrayList<GenericEntity>();
-       sections.add(section);
-       
-       //Retrieve courses for the section, and add the course name and subject area to the section entity.
-       List<GenericEntity> courses = getApiClient().getCourseSectionMappings(sections, token);
 
-       if (courses != null && courses.size() > 0) {
-    	   GenericEntity course = courses.get(0);
-    	   section.put(Constants.ATTR_COURSE_TITLE, course.get(Constants.ATTR_COURSE_TITLE));
-    	   section.put(Constants.ATTR_SUBJECTAREA, course.get(Constants.ATTR_SUBJECTAREA));
-       }
-       
+        List<GenericEntity> sections = new ArrayList<GenericEntity>();
+        sections.add(section);
+
+        // Retrieve courses for the section, and add the course name and subject area to the section
+        // entity.
+        List<GenericEntity> courses = getApiClient().getCourseSectionMappings(sections, token);
+
+        if (courses != null && courses.size() > 0) {
+            GenericEntity course = courses.get(0);
+            section.put(Constants.ATTR_COURSE_TITLE, course.get(Constants.ATTR_COURSE_TITLE));
+            section.put(Constants.ATTR_SUBJECTAREA, course.get(Constants.ATTR_SUBJECTAREA));
+        }
+
         return section;
     }
-    
+
 }

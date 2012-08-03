@@ -20,18 +20,6 @@ limitations under the License.
 include GeneralRealmHelper
 
 class RealmsController < ApplicationController
-  # GET /realms
-  # GET /realms.json
-  def index
-    userRealm = get_user_realm
-    realmToRedirectTo = GeneralRealmHelper.get_realm_to_redirect_to(userRealm)
-    logger.debug("Redirecting to #{realmToRedirectTo}")
-    if realmToRedirectTo.nil?
-      render_404
-    else
-      redirect_to realmToRedirectTo
-    end
-  end
 
   # # GET /realms/1
   # # GET /realms/1.json
@@ -49,32 +37,6 @@ class RealmsController < ApplicationController
      @sli_roles = get_roles
    end
 
-  # # PUT /realms/1
-   def update
-     @realm = Realm.find(params[:id])
-     params[:realm] = {} if params[:realm] == nil
-     params[:realm][:mappings] = params[:mappings] if params[:mappings] != nil
-     respond_to do |format|
-       success = false
-       errorMsg = ""
-       begin
-         success =  @realm.update_attributes(params[:realm])
-       rescue ActiveResource::BadRequest => error
-         errorMsg = error.response.body
-         logger.debug("Error: #{errorMsg}")
-       end
-
-       if success
-         format.html { redirect_to edit_realm_management_path, notice: 'Realm was successfully updated.' }
-         format.json { render json: @realm, status: :created, location: @realm }
-       else
-         format.json { render json: errorMsg, status: :unprocessable_entity }
-       end
-	
-     end
-   end
-
-   # POST /roles
   # POST /roles.json
   def create
      logger.debug("Creating a new realm")

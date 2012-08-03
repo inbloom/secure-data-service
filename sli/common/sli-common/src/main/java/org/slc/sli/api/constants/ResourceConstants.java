@@ -32,8 +32,11 @@ public class ResourceConstants {
     public static final String CUSTOM = "custom";
     public static final String LINKS = "links";
 
-    public static final String AGGREGATE_REL = "getAggregates";
-    public static final String AGGREGATE_TYPE = "aggregates";
+    public static final String CALCULATED_VALUE_REL = "getCalculatedValues";
+    public static final String CALCULATED_VALUE_TYPE = "calculatedValues";
+
+    public static final String AGGREGATE_VALUE_REL = "getAggregates";
+    public static final String AGGREGATE_VALUE_TYPE = "aggregates";
 
     public static final String QUERY_PARAM_GRADE = "grade";
     public static final String QUERY_PARAM_SUBJECT = "subject";

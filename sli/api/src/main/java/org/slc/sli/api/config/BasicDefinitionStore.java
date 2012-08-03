@@ -101,7 +101,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
                 .buildAndRegister(this);
         factory.makeEntity(EntityNames.ATTENDANCE, ResourceNames.ATTENDANCES).buildAndRegister(this);
         //factory.makeEntity(EntityNames.BELL_SCHEDULE, ResourceNames.BELL_SCHEDULES).buildAndRegister(this);
-        EntityDefinition cohort = factory.makeEntity(EntityNames.COHORT, ResourceNames.COHORTS).buildAndRegister(this);
+        EntityDefinition cohort = factory.makeEntity(EntityNames.COHORT, ResourceNames.COHORTS).supportsAggregates().buildAndRegister(this);
         EntityDefinition course = factory.makeEntity(EntityNames.COURSE, ResourceNames.COURSES).buildAndRegister(this);
         EntityDefinition disciplineIncident = factory.makeEntity(EntityNames.DISCIPLINE_INCIDENT,
                 ResourceNames.DISCIPLINE_INCIDENTS).buildAndRegister(this);
@@ -111,10 +111,10 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         factory.makeEntity(EntityNames.GRADEBOOK_ENTRY, ResourceNames.GRADEBOOK_ENTRIES).buildAndRegister(this);
         EntityDefinition program = factory.makeEntity(EntityNames.PROGRAM, ResourceNames.PROGRAMS).buildAndRegister(this);
         EntityDefinition school = factory.makeEntity(EntityNames.SCHOOL, ResourceNames.SCHOOLS)
-                .storeAs(EntityNames.EDUCATION_ORGANIZATION).buildAndRegister(this);
-        EntityDefinition section = factory.makeEntity(EntityNames.SECTION, ResourceNames.SECTIONS).buildAndRegister(
+                .storeAs(EntityNames.EDUCATION_ORGANIZATION).supportsAggregates().buildAndRegister(this);
+        EntityDefinition section = factory.makeEntity(EntityNames.SECTION, ResourceNames.SECTIONS).supportsAggregates().buildAndRegister(
                 this);
-        EntityDefinition session = factory.makeEntity(EntityNames.SESSION, ResourceNames.SESSIONS).buildAndRegister(
+        EntityDefinition session = factory.makeEntity(EntityNames.SESSION, ResourceNames.SESSIONS).supportsAggregates().buildAndRegister(
                 this);
         EntityDefinition staff = factory.makeEntity(EntityNames.STAFF, ResourceNames.STAFF).buildAndRegister(this);
         EntityDefinition student = factory.makeEntity(EntityNames.STUDENT, ResourceNames.STUDENTS).buildAndRegister(
@@ -261,6 +261,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         addDefinition(roles);
         addDefinition(factory.makeEntity("realm").storeAs("realm").build());
         addDefinition(factory.makeEntity("authSession").build());
+        addDefinition(factory.makeEntity("customRole").storeAs("customRole").build());
 
         // Adding the application collection
         addDefinition(factory.makeEntity("application").storeAs("application").build());

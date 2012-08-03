@@ -1,0 +1,83 @@
+/* dashboard builder styles */
+html, body {
+    height: 100%;
+}
+.modal { position: relative; }
+.wrapper {
+    height: auto !important;
+    margin-bottom: -30px;
+    min-height: 100%;
+    width: 100%;
+}
+#banner {
+    border-bottom: 2px solid #000000;
+    height: 28px;
+    line-height: 28px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 0;
+    padding-bottom: 12px;
+    padding-left: 0;
+    padding-top: 14px;
+}
+
+/* header styles needs to be updated in portal */
+#sli_banner { height: 28px !important; min-height: 28px !important; }
+.sli_logo_main, .sli_header_right { margin: 0 !important; line-height: 28px; }
+.sli_logo_main a { padding: 0 2px; }
+#simplemodal-overlay { background-color: #000; }
+
+
+.banner-label {
+    color: #D8D8D8;
+    font-family: Arial,Helvetica,sans-serif;
+    font-size: 36px;
+    font-weight: normal;
+}
+.student-search-form {
+    float: right;
+    margin: 0;
+}
+
+ul.menu_n a {
+    border: none;
+    box-shadow: none;
+    border-radius: 0;
+    position: relative;
+    top: 0;
+    left: 0;
+    width: auto;
+}
+.ui-dialog-titlebar { font-size: 16px; border-bottom: solid 1px #c2ccd1; margin-bottom: 20px; }
+.ui-dialog-titlebar-close { visibility: hidden; }
+.profileList { width: 150px; float: left; padding: 20px; clear: both;}
+.profilePageWrapper { padding: 20px; margin-left: 170px; }
+.profilePageWrapper ul { clear: none !imporatant; height: 44px; }
+.profilePageWrapper h3 { background: #ccc; padding-left: 10px; margin-bottom: 20px; }
+.sectionProfile { margin: 20px 0; }
+.profile_list { list-style-type: none; padding: 0; margin: 0;}
+.profile_list a {  color: #000000; text-decoration: none; }
+.profile_list a:hover { text-decoration: underline; }
+.ui-tabs .ui-tabs-nav li { top: 0; }
+.ui-tabs .ui-tabs-nav li:hover { background: #fff; border: solid 2px #000; border-bottom: 0 none;}
+.ui-tabs .ui-tabs-nav li a { height: 25px; width: 100px; padding: 8px; white-space: normal; line-height: 15px;}
+.ui-tabs .ui-tabs-nav li div { height: 26px; padding: 8px; white-space: normal; width: 100px; }
+.ui-tabs .ui-tabs-nav li div span { cursor: pointer; padding: 8px; }
+.ui-tabs .ui-tabs-nav li.addPageSection { top: 12px; margin-left: 5px; }
+.ui-tabs .ui-tabs-nav li.addPageSection:hover { top: 12px; border: none;}
+
+.pageName { display: block; }
+.updatePage { display: none; }
+.tabHover .pageName { display: none; }
+.tabHover .updatePage { display: block; }
+
+.addPageSection .btn { padding: 6px 14px; }
+#txt_input { width: 350px; }
+.dialogBox { display: none;}
+.dialogBox ul { margin: 0; padding: 0; list-style-type: none; }
+.dialogBox ul li { margin: 10px 0; }
+.errorMessage { border: 1px solid #FF0000; color: #FF0000; font-weight: bold; margin: 20px; padding: 20px; }
+.formError { display: none; }
+.error .formError { display: block; color: #b94a48; }
+#footer { bottom: auto !important; clear: both; height: 20px; position: absolute !important; width: 100%; }
+#sli_footer .sli_footer_wrap { border-top: 2px solid #000000 !important; padding-bottom: 5px; }

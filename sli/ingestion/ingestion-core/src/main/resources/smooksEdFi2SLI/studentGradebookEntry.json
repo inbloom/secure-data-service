@@ -4,7 +4,7 @@
 	[{
         "fieldPath" : "body.sectionId","ref" :
         {
-	        "collectionName" : "section",
+	        "entityType" : "section",
 	        "choiceOfFields" :
 	        [
 	            [
@@ -22,7 +22,7 @@
     {
         "fieldPath" : "body.studentId","ref" :
         {
-	        "collectionName" : "student",
+	        "entityType" : "student",
 	        "choiceOfFields" :
 	        [
 	            [
@@ -40,7 +40,7 @@
     {
        "fieldPath" : "body.gradebookEntryId","ref" :
         {
-            "collectionName" : "gradebookEntry",
+            "entityType" : "gradebookEntry",
             "choiceOfFields" :
             [
                 [
@@ -64,7 +64,7 @@
                         [{
                             "ref" :
                             { 
-                                "collectionName" : "section" ,
+                                "entityType" : "section" ,
                                 "choiceOfFields" :
                                 [
                                     [

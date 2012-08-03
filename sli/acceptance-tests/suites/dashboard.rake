@@ -87,6 +87,11 @@ task :dashboardHTMLEscapeTests do
   runTests("test/features/dashboard/dash/dashboard_html_escape.feature")
 end
 
+desc "Run dashboard teacher profile test"
+task :dashboardTeacherProfileTests do
+  runTests("test/features/dashboard/dash/teacher_profile.feature")
+end
+
 desc "Dashboard Sad Path Test Suite"
 task :dashboardSadPathTestSuite => [:ingestionDashboardSadPathTest,
                                     :realmInitNoPeople,
@@ -172,11 +177,23 @@ task :dashboardStudentGradebookEntryTests do
   runTests("test/features/dashboard/students/StudentGradebookEntry.feature")
 end
 
+desc "Run dashboard builder tests"
+task :dashboardSdsDashboardBuilderTests do
+  runTests("test/features/dashboard/dash/dashboard_builder.feature")
+end
+
 desc "Run Dashboard Smoke Tests - Assumes Daybreak SDS previously ingested"
 task :dashboardSmokeTests do
   @tags = ["~@wip", "@smoke", "~@sandbox"]
   runTests("test/features/dashboard/dash/smoked_dashboard.feature")
 end
+
+
+desc "Run dashboard qunit tests"
+task :dashboardQunitTests do
+  runTests("test/features/dashboard/dash/qunit_tests.feature")
+end
+
 
 ############################################################
 # Dashboard tests end

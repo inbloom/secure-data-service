@@ -14,7 +14,6 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 
-=end
 
 
 require 'test_helper'
@@ -101,3 +100,4 @@ Nb28W0C5u7TvZrWgWTPbR6sZ2lK1dsmaXa+dsPWwHnvBPEGImThe/nyqIvpyIGXvlMd+4I
   end
 
 end
+=end

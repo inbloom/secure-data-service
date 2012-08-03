@@ -1,0 +1,64 @@
+{
+    "keyFields" : ["body.sectionId", "body.studentId"],
+	"references" :
+	[{
+        "fieldPath" : "body.sectionId",
+        "ref" :
+        {
+	        "entityType" : "section",
+	        "choiceOfFields" :
+	        [
+	            [
+		            {
+		           	    "path" : "body.uniqueSectionCode",
+		                "values" :
+		                [{
+			                "valueSource" : "body.sectionReference.sectionIdentity.uniqueSectionCode"
+		                }]
+		            },
+		            {
+	                    "path" : "body.schoolId",
+	                    "values" :
+	                    [{
+	                        "ref":
+                             {
+                                 "entityType" : "school",
+                                 "choiceOfFields" :
+                                  [
+                                      [
+                                          {
+                                              "path" : "body.stateOrganizationId",
+                                              "values" :
+                                               [{
+                                                    "valueSource" : "body.sectionReference.sectionIdentity.stateOrganizationId"
+                                               }]
+                                          }
+                                      ]
+                                  ]
+                             }
+	                    }]
+	                }
+	            ]
+	        ]
+        }
+    },
+    {
+        "fieldPath" : "body.studentId",
+        "ref" :
+        {
+	        "entityType" : "student",
+	        "choiceOfFields" :
+	        [
+	            [
+		            {
+		           	    "path" : "body.studentUniqueStateId",
+		                "values" :
+		                [{
+			                "valueSource" : "body.studentReference.studentIdentity.studentUniqueStateId"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    }]
+}

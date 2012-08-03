@@ -111,7 +111,7 @@ public class EntityWriteConverterTest {
         meta.put("meta1", "field1");
         meta.put("meta2", "field2");
 
-        MongoEntity e = new MongoEntity("collection", UUID.randomUUID().toString(), body, meta, null);
+        MongoEntity e = new MongoEntity("collection", UUID.randomUUID().toString(), body, meta);
 
         DBObject d = converter.convert(e);
         Assert.assertNotNull(d);
