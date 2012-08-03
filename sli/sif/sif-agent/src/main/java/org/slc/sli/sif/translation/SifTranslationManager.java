@@ -52,7 +52,12 @@ public class SifTranslationManager {
         }
 
         for (TranslationTask translationTask : translationTasks ) {
-            entities.addAll(translationTask.translate(sifData));
+
+            try {
+                entities.addAll(translationTask.translate(sifData));
+            } catch (SifTranslationException e) {
+                LOG.error("Sif translation exception: ", e);
+            }
         }
 
         return entities;

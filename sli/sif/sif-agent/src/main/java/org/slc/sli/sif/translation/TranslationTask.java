@@ -33,5 +33,5 @@ public interface TranslationTask<T extends SliEntity> {
     /*
      * Transform a SIF SifDataObject into an SLI entity
      */
-     public List<T> translate(final SIFDataObject sifData);
+     public List<T> translate(final SIFDataObject sifData) throws SifTranslationException;
 }
