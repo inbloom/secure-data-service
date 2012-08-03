@@ -53,6 +53,7 @@ import org.slc.sli.test.generators.interchange.InterchangeStudentGradeGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentParentGenerator;
 import org.slc.sli.test.generators.interchange.InterchangeStudentProgramGenerator;
 import org.slc.sli.test.utils.DataUtils;
+import org.slc.sli.test.utils.EdfiStats;
 import org.slc.sli.test.utils.InterchangeWriter;
 import org.slc.sli.test.utils.JaxbUtils;
 import org.slc.sli.test.utils.ValidateSchema;
@@ -96,6 +97,8 @@ public class StateEdFiXmlGenerator {
         generateAndMarshalInterchanges();
         
         ValidateSchema.check(MetaRelations.rootOutputPath);
+        
+        EdfiStats.generateStats(MetaRelations.rootOutputPath);
     
     }
 
