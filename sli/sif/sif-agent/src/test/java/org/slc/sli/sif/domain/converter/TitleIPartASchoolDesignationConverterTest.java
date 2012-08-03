@@ -28,21 +28,21 @@ public class TitleIPartASchoolDesignationConverterTest {
 
     @Test
     public void testNA() {
-        test(Title1Status.NA, TitleIPartASchoolDesignation.NOT_DESIGNATED.getText());
+        test(Title1Status.NA, TitleIPartASchoolDesignation.NOT_DESIGNATED);
     }
 
     @Test
     public void testSchoolwide() {
-        test(Title1Status.SCHOOLWIDE, TitleIPartASchoolDesignation.PART_A_SCHOOLWIDE.getText());
+        test(Title1Status.SCHOOLWIDE, TitleIPartASchoolDesignation.PART_A_SCHOOLWIDE);
     }
 
     @Test
     public void testTargeted() {
-        test(Title1Status.TARGETED, TitleIPartASchoolDesignation.TARGETED.getText());
+        test(Title1Status.TARGETED, TitleIPartASchoolDesignation.TARGETED);
     }
 
-    private void test(Title1Status status, String expected) {
-        String result = converter.convert(status);
+    private void test(Title1Status status, TitleIPartASchoolDesignation expected) {
+        TitleIPartASchoolDesignation result = converter.convert(status);
         Assert.assertEquals(expected, result);
     }
 }
