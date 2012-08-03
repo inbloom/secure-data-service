@@ -11,6 +11,30 @@ import org.slc.sli.api.selectors.model.SelectorParseException;
 public class Selector2MapOfMapsTest {
     
     private SelectionConverter selectionConverter = new Selector2MapOfMaps();
+
+    @Test(expected=SelectorParseException.class)
+    public void testDollarSignThrowsExceptionWhenNotExpected() {
+        this.selectionConverter.convert(":($)");
+    }
+
+    @Test(expected=SelectorParseException.class)
+    public void testNestedDollarSignThrowsExceptionWhenNotExpected() {
+        this.selectionConverter.convert(":(foo:($))");
+    }
+    
+
+    @Test
+    public void testDollarSignDoesNotThrowExceptionWhenExpected() {
+        SelectionConverter mySelectionConverter = new Selector2MapOfMaps(false);
+        Map<String, Object> expectedResult = new HashMap<String, Object>();
+        expectedResult.put("$", true);
+        
+        Map<String, Object> convertResult = mySelectionConverter.convert(":($)");
+
+        assertTrue(convertResult != null);
+        assertTrue(convertResult.equals(expectedResult));
+    }
+    
     
     @Test
     public void testBasicWildcard() throws SelectorParseException {

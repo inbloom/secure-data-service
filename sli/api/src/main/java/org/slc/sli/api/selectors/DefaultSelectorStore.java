@@ -56,7 +56,7 @@ public class DefaultSelectorStore implements DefaultSelectorRepository {
         
         String fileAsString = IOUtils.toString(super.getClass().getResourceAsStream(filename));
         
-        SelectionConverter selectionConverter = new Selector2MapOfMaps();
+        SelectionConverter selectionConverter = new Selector2MapOfMaps(false);
         
         Map<String, Map<String, Object>> retVal = new HashMap<String, Map<String, Object>>();
         
