@@ -38,7 +38,7 @@ import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.sif.domain.Sif2SliTransformer;
 import org.slc.sli.sif.slcinterface.SifIdResolver;
 import org.slc.sli.sif.slcinterface.SlcInterface;
-import org.slc.sli.sif.translation.Translator;
+import org.slc.sli.sif.translation.SifTranslationManager;
 
 /**
  * Sif Subscriber implementation
@@ -49,9 +49,9 @@ public class SifSubscriber implements Subscriber {
     private static final Logger LOG = LoggerFactory.getLogger(SifSubscriber.class);
 
     private static final String PARENT_EDORG_FIELD = "parentEducationAgencyReference";
-    
+
     @Autowired
-    private Translator translator;
+    private SifTranslationManager translationManager;
 
     @Autowired
     private Sif2SliTransformer xformer;

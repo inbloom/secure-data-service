@@ -11,7 +11,6 @@ import openadk.library.student.SchoolInfo;
 
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -44,13 +43,13 @@ public class SchoolInfoTranslationTaskTest {
     }
 
 //    @Test
-    public void testNotNull(){
+    public void testNotNull() throws SifTranslationException{
         List<SchoolEntity> result = translator.translate(new SchoolInfo());
         Assert.assertNotNull("Result was null",result);
     }
 
 //    @Test
-    public void testBasicFields(){
+    public void testBasicFields() throws SifTranslationException{
         SchoolInfo info = new SchoolInfo();
 
         String stateOrgId = "stateOrgId";
@@ -68,7 +67,7 @@ public class SchoolInfoTranslationTaskTest {
     }
 
 //    @Test
-    public void testAddressList(){
+    public void testAddressList() throws SifTranslationException{
 
         AddressList addressList = new AddressList();
         SchoolInfo info = new SchoolInfo();
@@ -88,7 +87,7 @@ public class SchoolInfoTranslationTaskTest {
     }
 
 //    @Test
-    public void testSchoolFocus(){
+    public void testSchoolFocus() throws SifTranslationException{
         SchoolFocusList focusList = new SchoolFocusList();
         SchoolInfo info = new SchoolInfo();
         info.setSchoolFocusList(focusList);
