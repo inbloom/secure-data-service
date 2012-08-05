@@ -19,6 +19,7 @@ package org.slc.sli.api.selectors.doc;
 import org.codehaus.plexus.util.StringUtils;
 import org.slc.sli.api.selectors.model.elem.BooleanSelectorElement;
 import org.slc.sli.api.selectors.model.elem.ComplexSelectorElement;
+import org.slc.sli.api.selectors.model.elem.EmptySelectorElement;
 import org.slc.sli.api.selectors.model.elem.IncludeAllSelectorElement;
 import org.slc.sli.api.selectors.model.ModelProvider;
 import org.slc.sli.api.selectors.model.elem.IncludeDefaultSelectorElement;
@@ -191,9 +192,15 @@ public class DefaultSelectorQueryEngine implements SelectorQueryEngine, Selector
         throw new UnsupportedOperationException("TODO");
     }
 
+    @Override
+    public SelectorQuery visit(EmptySelectorElement emptySelectorElement) {
+        throw new UnsupportedOperationException("TODO");
+    }
+
     protected Set<String> getXSDElements(Type type) {
         NeutralSchema schema = schemaRepository.getSchema(StringUtils.uncapitalise(type.getName()));
 
         return schema.getFields().keySet();
     }
+
 }

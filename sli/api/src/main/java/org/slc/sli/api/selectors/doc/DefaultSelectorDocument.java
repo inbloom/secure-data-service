@@ -290,8 +290,11 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
 
     protected Iterable<EntityBody> executeQuery(Type type, NeutralQuery query, final Constraint constraint, final boolean inLine) {
-        query.addCriteria(new NeutralCriteria(constraint.getKey(),
-                NeutralCriteria.CRITERIA_IN, constraint.getValue(), inLine));
+        if (constraint.getKey() != null && constraint.getValue() != null) {
+            query.addCriteria(new NeutralCriteria(constraint.getKey(),
+                    NeutralCriteria.CRITERIA_IN, constraint.getValue(), inLine));
+        }
+        
 
         Iterable<EntityBody> results = getEntityDefinition(type).getService().list(query);
 

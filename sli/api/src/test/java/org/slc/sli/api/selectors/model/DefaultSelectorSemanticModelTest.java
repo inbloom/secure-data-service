@@ -18,6 +18,8 @@ package org.slc.sli.api.selectors.model;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.selectors.model.elem.ComplexSelectorElement;
+import org.slc.sli.api.selectors.model.elem.EmptySelectorElement;
 import org.slc.sli.api.selectors.model.elem.IncludeAllSelectorElement;
 import org.slc.sli.api.selectors.model.elem.IncludeDefaultSelectorElement;
 import org.slc.sli.api.selectors.model.elem.IncludeXSDSelectorElement;
@@ -164,6 +166,35 @@ public class DefaultSelectorSemanticModelTest {
         final List<SelectorElement> elementList = semanticSelector.get(student);
         assertEquals(1, elementList.size());
         assertTrue(elementList.get(0) instanceof IncludeDefaultSelectorElement);
+
+        final Map<String, Object> embedded = new HashMap<String, Object>();
+        final Map<String, Object> sectionAttrs = new HashMap<String, Object>();
+        sectionAttrs.put(".", true);
+        embedded.put("sections", sectionAttrs);
+
+        final SemanticSelector embeddedSelector = defaultSelectorSemanticModel.parse(embedded, student);
+        assertEquals(1, embeddedSelector.get(student).size());
+        final SelectorElement embeddedElement = embeddedSelector.get(student).get(0);
+        assertTrue(embeddedElement instanceof ComplexSelectorElement);
+        assertEquals(1, ((ComplexSelectorElement) embeddedElement).getSelector().size());
+    }
+
+    @Test
+    public void testEmptySelectors() {
+        final Map<String, Object> studentAttrs = new HashMap<String, Object>();
+
+        final ClassType student = provider.getClassType("Student");
+        final SemanticSelector semanticSelector = defaultSelectorSemanticModel.parse(studentAttrs, student);
+        assertEquals(1, semanticSelector.get(student).size());
+        assertTrue(semanticSelector.get(student).get(0) instanceof EmptySelectorElement);
+
+        final Map<String, Object> embeddedEmpty = new HashMap<String, Object>();
+        embeddedEmpty.put("sections", new HashMap<String, Object>());
+        final SemanticSelector emptySelector = defaultSelectorSemanticModel.parse(embeddedEmpty, student);
+        assertEquals(1, semanticSelector.get(student).size());
+
+        final ClassType section = provider.getClassType("Section");
+        assertEquals(section, emptySelector.get(student).get(0).getLHS());
     }
 
     public Map<String, Object> generateFaultySelectorObjectMap() {
