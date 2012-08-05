@@ -17,6 +17,7 @@
 package org.slc.sli.api.selectors.doc;
 
 import org.codehaus.plexus.util.StringUtils;
+import org.slc.sli.api.selectors.DefaultSelectorRepository;
 import org.slc.sli.api.selectors.model.elem.BooleanSelectorElement;
 import org.slc.sli.api.selectors.model.elem.ComplexSelectorElement;
 import org.slc.sli.api.selectors.model.elem.EmptySelectorElement;
@@ -54,6 +55,9 @@ public class DefaultSelectorQueryEngine implements SelectorQueryEngine, Selector
 
     @Autowired
     private SchemaRepository schemaRepository;
+
+    @Autowired
+    private DefaultSelectorRepository defaultSelectorRepository;
 
     @Override
     public Map<Type, SelectorQueryPlan> assembleQueryPlan(SemanticSelector semanticSelector) {
@@ -165,6 +169,7 @@ public class DefaultSelectorQueryEngine implements SelectorQueryEngine, Selector
 
     @Override
     public SelectorQuery visit(IncludeAllSelectorElement includeAllSelectorElement) {
+        //TODO
         Type type = (Type) includeAllSelectorElement.getLHS();
         Map<Type, SelectorQueryPlan> queries = new HashMap<Type, SelectorQueryPlan>();
         SelectorQuery selectorQuery = new SelectorQuery();
@@ -189,7 +194,14 @@ public class DefaultSelectorQueryEngine implements SelectorQueryEngine, Selector
 
     @Override
     public SelectorQuery visit(IncludeDefaultSelectorElement includeDefaultSelectorElement) {
-        throw new UnsupportedOperationException("TODO");
+        Type type = (Type) includeDefaultSelectorElement.getLHS();
+        SemanticSelector selector = defaultSelectorRepository.getDefaultSelector(type.getName());
+        Map<Type, SelectorQueryPlan> queries = buildQueryPlan(selector);
+
+        SelectorQuery selectorQuery = new SelectorQuery();
+        selectorQuery.getQueries().add(queries);
+
+        return selectorQuery;
     }
 
     @Override

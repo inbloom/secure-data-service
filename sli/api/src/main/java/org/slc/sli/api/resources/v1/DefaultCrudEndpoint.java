@@ -99,7 +99,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     /* General default. Used when a more specific default selector is not available. */
     public static final Map<String, Object> DEFAULT_SELECTOR = new HashMap<String, Object>();
     static {
-        DEFAULT_SELECTOR.put("*", true);
+        DEFAULT_SELECTOR.put(".", true);
     }
     
     /* The maximum number of values allowed in a comma separated string */
@@ -1109,16 +1109,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     }
     
     protected Map<String, Object> getDefaultSelector(String type) {
-        if (this.defaultSelectorRepository == null) {
-            return DEFAULT_SELECTOR;
-        } else {
-            Map<String, Object> defaultSelectorForType = this.defaultSelectorRepository.getDefaultSelector(type);
-            
-            if (defaultSelectorForType == null) {
-                return DEFAULT_SELECTOR;
-            } else {
-                return defaultSelectorForType;
-            }
-        }
+        return DEFAULT_SELECTOR;
     }
 }

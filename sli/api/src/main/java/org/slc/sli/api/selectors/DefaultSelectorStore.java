@@ -12,10 +12,17 @@ import org.codehaus.jackson.node.ArrayNode;
 
 
 import org.apache.commons.io.IOUtils;
+import org.slc.sli.api.selectors.model.ModelProvider;
 import org.slc.sli.api.selectors.model.SelectorParseException;
+import org.slc.sli.api.selectors.model.SelectorSemanticModel;
+import org.slc.sli.api.selectors.model.SemanticSelector;
 import org.slc.sli.api.service.query.SelectionConverter;
 import org.slc.sli.api.service.query.Selector2MapOfMaps;
+import org.slc.sli.modeling.uml.ClassType;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 
 @Component
 public class DefaultSelectorStore implements DefaultSelectorRepository {
@@ -24,23 +31,20 @@ public class DefaultSelectorStore implements DefaultSelectorRepository {
     public static final String DEFAULT_SELECTOR_VALUE_KEY = "selector";
     public static final String DEFAULT_SELECTOR_RESOURCE_FILENAME = "/config/defaultSelectors.json";
     
-    private Map<String, Map<String, Object>> defaultSelectors;
+    private Map<String, SemanticSelector> defaultSelectors;
+
+    @Autowired
+    private SelectorSemanticModel selectorSemanticModel;
+
+    @Autowired
+    private ModelProvider modelProvider;
     
     public DefaultSelectorStore() {
-        this(DEFAULT_SELECTOR_RESOURCE_FILENAME);
     }
-    
-    public DefaultSelectorStore(String defaultSelectorResourceLocation) {
-        try {
-            this.defaultSelectors = readDefaultSelectorsFromFile(defaultSelectorResourceLocation);
-            return;
-        } catch (IOException ioe) {
-            warn("Default selectors failed to parse: " + ioe.getMessage());
-        } catch (NullPointerException npe) {
-            warn("Default selectors failed to parse: " + npe.getMessage());
-        }
-        
-        this.defaultSelectors = new HashMap<String, Map<String, Object>>();
+
+    @PostConstruct
+    protected void init() throws IOException {
+        this.defaultSelectors = readDefaultSelectorsFromFile(DEFAULT_SELECTOR_RESOURCE_FILENAME);
     }
     
     /**
@@ -52,13 +56,13 @@ public class DefaultSelectorStore implements DefaultSelectorRepository {
      * @throws IOException 
      * @throws SelectorParseException
      */
-    protected Map<String, Map<String, Object>> readDefaultSelectorsFromFile(String filename) throws IOException, SelectorParseException {
+    protected Map<String, SemanticSelector> readDefaultSelectorsFromFile(String filename) throws IOException, SelectorParseException {
         
         String fileAsString = IOUtils.toString(super.getClass().getResourceAsStream(filename));
         
         SelectionConverter selectionConverter = new Selector2MapOfMaps(false);
         
-        Map<String, Map<String, Object>> retVal = new HashMap<String, Map<String, Object>>();
+        Map<String, SemanticSelector> retVal = new HashMap<String, SemanticSelector>();
         
         ObjectMapper mapper = new ObjectMapper();
         JsonNode element = mapper.readValue(fileAsString, JsonNode.class);
@@ -70,7 +74,11 @@ public class DefaultSelectorStore implements DefaultSelectorRepository {
                 try {
                     String type = jsonNode.get(DEFAULT_SELECTOR_TYPE_KEY).getTextValue();
                     String selectorString = jsonNode.get(DEFAULT_SELECTOR_VALUE_KEY).getTextValue();
-                    retVal.put(type, selectionConverter.convert(selectorString));
+
+                    ClassType classType = modelProvider.getClassType(type);
+                    SemanticSelector semanticSelector = selectorSemanticModel.parse(selectionConverter.convert(selectorString), classType);
+
+                    retVal.put(type, semanticSelector);
                 } catch (NullPointerException npe) {
                     warn("Default selector entry missing 'type' or 'selector' field(s): " + jsonNode.toString());
                 } catch (SelectorParseException spe) {
@@ -81,9 +89,11 @@ public class DefaultSelectorStore implements DefaultSelectorRepository {
         
         return retVal;
     }
+
+
     
     @Override
-    public Map<String, Object> getDefaultSelector(String type) {
+    public SemanticSelector getDefaultSelector(String type) {
         return this.defaultSelectors.get(type);
     }
 

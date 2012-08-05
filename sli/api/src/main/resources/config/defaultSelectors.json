@@ -6,5 +6,9 @@
 	{
 		"type" : "specificType2",
 		"selector" : ":(*)"
-	}
+	},
+    {
+        "type" : "Student",
+        "selector" : ":($,sectionAssociations,schoolAssociations)"
+    }
 ]
