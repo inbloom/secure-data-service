@@ -16,6 +16,7 @@
 
 package org.slc.sli.api.selectors.doc;
 
+import org.codehaus.plexus.util.StringUtils;
 import org.slc.sli.api.selectors.model.elem.BooleanSelectorElement;
 import org.slc.sli.api.selectors.model.elem.ComplexSelectorElement;
 import org.slc.sli.api.selectors.model.elem.IncludeAllSelectorElement;
@@ -27,12 +28,16 @@ import org.slc.sli.api.selectors.model.SemanticSelector;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Type;
+import org.slc.sli.validation.NeutralSchemaRepositoryProvider;
+import org.slc.sli.validation.SchemaRepository;
+import org.slc.sli.validation.schema.NeutralSchema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Default query engine
@@ -45,6 +50,9 @@ public class DefaultSelectorQueryEngine implements SelectorQueryEngine, Selector
 
     @Autowired
     private ModelProvider modelProvider;
+
+    @Autowired
+    private SchemaRepository schemaRepository;
 
     @Override
     public Map<Type, SelectorQueryPlan> assembleQueryPlan(SemanticSelector semanticSelector) {
@@ -171,11 +179,21 @@ public class DefaultSelectorQueryEngine implements SelectorQueryEngine, Selector
 
     @Override
     public SelectorQuery visit(IncludeXSDSelectorElement includeXSDSelectorElement) {
-        throw new UnsupportedOperationException("TODO");
+        Type type = (Type) includeXSDSelectorElement.getLHS();
+        SelectorQuery selectorQuery = new SelectorQuery();
+        selectorQuery.getIncludeFields().addAll(getXSDElements(type));
+
+        return selectorQuery;
     }
 
     @Override
     public SelectorQuery visit(IncludeDefaultSelectorElement includeDefaultSelectorElement) {
         throw new UnsupportedOperationException("TODO");
+    }
+
+    protected Set<String> getXSDElements(Type type) {
+        NeutralSchema schema = schemaRepository.getSchema(StringUtils.uncapitalise(type.getName()));
+
+        return schema.getFields().keySet();
     }
 }

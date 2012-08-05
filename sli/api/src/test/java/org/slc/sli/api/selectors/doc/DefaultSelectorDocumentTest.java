@@ -267,6 +267,23 @@ public class DefaultSelectorDocumentTest {
         assertFalse("Should be false", body.containsKey("field3"));
     }
 
+    @Test
+    public void testIncludeXSDSelector() {
+        List<String> ids = new ArrayList<String>();
+        ids.add(student1.getEntityId());
+        ids.add(student2.getEntityId());
+
+        Constraint constraint = new Constraint();
+        constraint.setKey("_id");
+        constraint.setValue(ids);
+
+        List<EntityBody> results = defaultSelectorDocument.aggregate(createQueryPlan("Student",
+                getIncludeXSDPlan()), constraint);
+
+        assertNotNull("Should not be null", results);
+        assertEquals("Should match", 2, results.size());
+    }
+
     private List<EntityBody> createResults() {
         List<EntityBody> results = new ArrayList<EntityBody>();
         EntityBody body = new EntityBody();
@@ -393,6 +410,15 @@ public class DefaultSelectorDocumentTest {
         list.add(map);
 
         return list;
+    }
+
+    private SelectorQueryPlan getIncludeXSDPlan() {
+        SelectorQueryPlan plan = new SelectorQueryPlan();
+        NeutralQuery query = new NeutralQuery();
+
+        plan.setQuery(query);
+
+        return plan;
     }
 
     private EntityBody createStudentEntity(String studentUniqueStateId) {
