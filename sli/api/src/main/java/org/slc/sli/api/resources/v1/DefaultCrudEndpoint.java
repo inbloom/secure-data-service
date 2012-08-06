@@ -229,17 +229,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         });
     }
 
-    private Map<String, Object> getSelector(final NeutralQuery neutralQuery) {
-        Map<String, Object> selector = null;
-        
-        if (neutralQuery instanceof ApiQuery) {
-            selector = ((ApiQuery) neutralQuery).getSelector();
-        }
-
-        return selector;
-    }
-
-
     /**
      * Searches "resourceName" for entries where "key" equals "value", then for each result
      * uses "idkey" field's value to query "resolutionResourceName" against the ID field.
@@ -394,17 +383,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 apiQuery.setOffset(0);
 
                 // final/resulting information
-                List<EntityBody> finalResults;
-                final Map<String, Object> selector = getSelector(apiQuery);
-
-                if (selector != null) {
-                    finalResults = logicalEntity.createEntities(selector, new Constraint("_id", idList), resourceName);
-                } else {
-                    finalResults = new ArrayList<EntityBody>();
-                    for (EntityBody entityBody : entityDef.getService().list(apiQuery)) {
-                        finalResults.add(entityBody);
-                    }
-                }
+                List<EntityBody> finalResults= logicalEntity.createEntities(apiQuery.getSelector(), new Constraint("_id", idList), resourceName);
 
                 for (EntityBody result : finalResults) {
                     if (result != null) {
@@ -648,13 +627,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                         }
                     });
                 } else {
-                    final Map<String, Object> selector = getSelector(apiQuery);
-
-                    if (selector != null) {
-                        entityBodies = logicalEntity.createEntities(selector, new Constraint(), resourceName);
-                    } else {
-                        entityBodies = entityDef.getService().list(apiQuery);
-                    }
+                    entityBodies = logicalEntity.createEntities(apiQuery.getSelector(), new Constraint(), resourceName);
                 }
                 for (EntityBody entityBody : entityBodies) {
 
