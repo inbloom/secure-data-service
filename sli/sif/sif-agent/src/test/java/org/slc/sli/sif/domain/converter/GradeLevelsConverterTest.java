@@ -36,7 +36,7 @@ public class GradeLevelsConverterTest extends ADKTest {
 
     @Test
     public void testNullObject(){
-        List<String> result = converter.convert(null);
+        List<String> result = converter.convert((GradeLevels)null);
         Assert.assertNull("Grade levels list should be null", result);
     }
 

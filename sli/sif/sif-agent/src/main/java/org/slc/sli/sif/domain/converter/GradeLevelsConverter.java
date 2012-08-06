@@ -92,10 +92,17 @@ public class GradeLevelsConverter {
         return toSliGradeList(source.getGradeLevels());
     }
 
+    public String convert(GradeLevel source) {
+        if (source == null) {
+            return null;
+        }
+        return toSliGrade(GradeLevelCode.wrap(source.getCode()));
+    }
+
     private List<String> toSliGradeList(GradeLevel[] gradeLevels) {
         List<String> list = new ArrayList<String>(gradeLevels.length);
         for (GradeLevel gradeLevel : gradeLevels) {
-            list.add(toSliGrade(GradeLevelCode.wrap(gradeLevel.getCode())));
+            list.add(convert(gradeLevel));
         }
         return list;
     }
