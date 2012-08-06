@@ -17,7 +17,7 @@
 
 $(document).ready(function() {
 
-  if (is_lea && $("#user_primary_role option:selected").attr("value")== "LEA Administrator")  {
+  if (!self_editing && is_lea && $("#user_primary_role option:selected").attr("value")== "LEA Administrator")  {
     $("#user_edorg option[value=\"" +my_edorg+ "\"]").attr("disabled", "disabled").text("");
   }
 

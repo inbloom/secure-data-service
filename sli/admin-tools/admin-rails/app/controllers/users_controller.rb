@@ -134,6 +134,7 @@ class UsersController < ApplicationController
   def edit
     @users = User.all
     check = Check.get ""
+    get_login_id
     set_edorg_options
     set_role_options
     @is_operator = is_operator?

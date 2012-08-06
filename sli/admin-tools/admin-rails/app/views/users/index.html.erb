@@ -43,10 +43,13 @@
 		<td id="<%= @elementIdPrefix%>_actions" class="actions">
 <%@deleteButtonId = @elementIdPrefix + "_delete"%>
 <%@editButtonId = @elementIdPrefix + "_edit"%>
-           <% if @loginUserId !=user.uid %> <%= link_to "Edit", "/users/#{user.uid}/edit", :method=> :get ,:class=>"btn", :id => @editButtonId %> <%= link_to 'Delete', "/users/#{user.uid}",
-                :confirm => "Do you really want to delete this user?", :method => :delete,:style=>'color:white;' ,:class=>"btn btn-danger",:id => @deleteButtonId %>
-                <% else %>
-                <button id="<%= @elementIdPrefix%>_edit" type="button" class= "btn" disabled="disabled">Edit</button> <button id="<%= @elementIdPrefix%>_delete" type="button" class= "btn btn-danger" disabled="disabled">Delete</button><%end%>
+                <%= link_to "Edit", "/users/#{user.uid}/edit", :method=> :get ,:class=>"btn", :id => @editButtonId %> 
+            <% if @loginUserId == user.uid %> 
+                <button id="<%= @elementIdPrefix%>_delete" type="button" class= "btn btn-danger" disabled="disabled">Delete</button>
+            <%else%>
+                <%= link_to 'Delete', "/users/#{user.uid}",
+                    :confirm => "Do you really want to delete this user?", :method => :delete,:style=>'color:white;' ,:class=>"btn btn-danger",:id => @deleteButtonId%>
+            <%end%> 
         </td>
         </tr>
         <% end %>
