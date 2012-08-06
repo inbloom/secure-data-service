@@ -179,7 +179,7 @@ public class DefaultSelectorQueryEngine implements SelectorQueryEngine, Selector
 
     @Override
     public SelectorQueryPlan visit(EmptySelectorElement emptySelectorElement) {
-        throw new UnsupportedOperationException("TODO");
+        return new SelectorQueryPlan();
     }
 
     protected Set<String> getXSDElements(Type type) {
