@@ -17,7 +17,9 @@
 package org.slc.sli.sif.domain.converter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import openadk.library.common.GradeLevel;
 import openadk.library.common.GradeLevelCode;
@@ -35,6 +37,28 @@ import org.springframework.stereotype.Component;
 @Component
 public class GradeLevelsConverter {
 
+    private static final Map<GradeLevelCode, String> GRADE_LEVEL_CODE_MAP = new HashMap<GradeLevelCode, String>();
+    static {
+        GRADE_LEVEL_CODE_MAP.put(GradeLevelCode._01, "First grade");
+        GRADE_LEVEL_CODE_MAP.put(GradeLevelCode._02, "Second grade");
+        GRADE_LEVEL_CODE_MAP.put(GradeLevelCode._03, "Third grade");
+        GRADE_LEVEL_CODE_MAP.put(GradeLevelCode._04, "Fourth grade");
+        GRADE_LEVEL_CODE_MAP.put(GradeLevelCode._05, "Fifth grade");
+        GRADE_LEVEL_CODE_MAP.put(GradeLevelCode._06, "Sixth grade");
+        GRADE_LEVEL_CODE_MAP.put(GradeLevelCode._07, "Seventh grade");
+        GRADE_LEVEL_CODE_MAP.put(GradeLevelCode._08, "Eighth grade");
+        GRADE_LEVEL_CODE_MAP.put(GradeLevelCode._09, "Ninth grade");
+        GRADE_LEVEL_CODE_MAP.put(GradeLevelCode._10, "Tenth grade");
+        GRADE_LEVEL_CODE_MAP.put(GradeLevelCode._11, "Eleventh grade");
+        GRADE_LEVEL_CODE_MAP.put(GradeLevelCode._12, "Twelfth grade");
+        GRADE_LEVEL_CODE_MAP.put(GradeLevelCode.KG, "Kindergarten");
+        GRADE_LEVEL_CODE_MAP.put(GradeLevelCode.OTHER, "Other");
+        GRADE_LEVEL_CODE_MAP.put(GradeLevelCode.PG, "Preschool/Prekindergarten");
+        GRADE_LEVEL_CODE_MAP.put(GradeLevelCode.PK, "Adult Education");
+        GRADE_LEVEL_CODE_MAP.put(GradeLevelCode.UN, "Ungraded");
+        GRADE_LEVEL_CODE_MAP.put(GradeLevelCode.UNKNOWN, "Not Available");
+    }
+
     public List<String> convert(GradeLevels source) {
         if (source == null) {
             return null;
@@ -46,67 +70,14 @@ public class GradeLevelsConverter {
     private List<String> toSliGradeList(GradeLevel[] gradeLevels) {
         List<String> list = new ArrayList<String>(gradeLevels.length);
         for (GradeLevel gradeLevel : gradeLevels) {
-            list.add(toSliGrade(gradeLevel.getCode()));
+            list.add(toSliGrade(GradeLevelCode.wrap(gradeLevel.getCode())));
         }
         return list;
     }
 
-    private String toSliGrade(String gradeCode) {
-        if (GradeLevelCode._01.getValue().equals(gradeCode)) {
-            return "First grade";
-        }
-        if (GradeLevelCode._02.getValue().equals(gradeCode)) {
-            return "Second grade";
-        }
-        if (GradeLevelCode._03.getValue().equals(gradeCode)) {
-            return "Third grade";
-        }
-        if (GradeLevelCode._04.getValue().equals(gradeCode)) {
-            return "Fourth grade";
-        }
-        if (GradeLevelCode._05.getValue().equals(gradeCode)) {
-            return "Fifth grade";
-        }
-        if (GradeLevelCode._06.getValue().equals(gradeCode)) {
-            return "Sixth grade";
-        }
-        if (GradeLevelCode._07.getValue().equals(gradeCode)) {
-            return "Seventh grade";
-        }
-        if (GradeLevelCode._08.getValue().equals(gradeCode)) {
-            return "Eighth grade";
-        }
-        if (GradeLevelCode._09.getValue().equals(gradeCode)) {
-            return "Ninth grade";
-        }
-        if (GradeLevelCode._10.getValue().equals(gradeCode)) {
-            return "Tenth grade";
-        }
-        if (GradeLevelCode._11.getValue().equals(gradeCode)) {
-            return "Eleventh grade";
-        }
-        if (GradeLevelCode._12.getValue().equals(gradeCode)) {
-            return "Twelfth grade";
-        }
-        if (GradeLevelCode.KG.getValue().equals(gradeCode)) {
-            return "Kindergarten";
-        }
-        if (GradeLevelCode.UN.getValue().equals(gradeCode)) {
-            return "Ungraded";
-        }
-        if (GradeLevelCode.PG.getValue().equals(gradeCode)) {
-            return "Preschool/Prekindergarten";
-        }
-        if (GradeLevelCode.PK.getValue().equals(gradeCode)) {
-            return "Adult Education";
-        }
-        if (GradeLevelCode.OTHER.getValue().equals(gradeCode)) {
-            return "Other";
-        }
-        if (GradeLevelCode.UNKNOWN.getValue().equals(gradeCode)) {
-            return "Not Available";
-        }
-        return "Not Available";
+    private String toSliGrade(GradeLevelCode gradeCode) {
+        String mapping = GRADE_LEVEL_CODE_MAP.get(gradeCode);
+        return mapping == null ? "Not Available" : mapping;
     }
 }
 
