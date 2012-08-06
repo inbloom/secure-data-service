@@ -543,7 +543,6 @@ task :dashboardTests => [:dashboardPopWidgetTests,
                          :dashboardStudentContactInfoLiveTests,
                          :dashboardStudentGradebookEntryTests,
                          :dashboardHTMLEscapeTests,
-                         :dashboardTeacherProfileTests,
                          :dashboardQunitTests] do
   displayFailureReport()
   if $SUCCESS
@@ -574,7 +573,8 @@ task :dashboardSdsTests => [:dashboardSdsUploadConfigTests,
                          :dashboardStudentSearchTests,
                          :dashboardSdsTranscriptPanelTests,
                          :dashboardAssessmentTests,
-                         :dashboardSectionProfileTests,
+                         :dashboardSdsSectionProfileTests,
+                         :dashboardSdsTeacherProfileTests,
                          :dashboardSdsDashboardBuilderTests] do
   displayFailureReport()
   if $SUCCESS
