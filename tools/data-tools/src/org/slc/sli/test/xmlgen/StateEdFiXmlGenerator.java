@@ -74,7 +74,7 @@ public class StateEdFiXmlGenerator {
      */
     //public static String fidelityOfData = "medium";
     public static String fidelityOfData = "low";
-    public static String propertyPath = "./db-datagen-approach/ref-configurations/config.properties";
+    public static String propertyPath = "config.properties";
     
     /**
      * used to determine the output directory for generated interchange and control files
@@ -116,14 +116,14 @@ public class StateEdFiXmlGenerator {
 //        
 //      	propertyPath = args[0];
         
-        if (args.length >0 && "low".equals(args[0]) && "medium".equals(args[0])) {
+        if (args.length >0 && !"low".equals(args[0]) && !"medium".equals(args[0]) && !"high".equals(args[0])) {
         	propertyPath = args[0];
         }
         else if (args.length >0 && ("low".equals(args[0]) || "medium".equals(args[0]))) {
         	fidelityOfData = args[0];
         }
         
-        if (args.length >1 && "low".equals(args[1]) && "medium".equals(args[1])) {
+        if (args.length >1 && ! "low".equals(args[1]) && !"medium".equals(args[1]) && !"high".equals(args[0])) {
         	rootOutputPath = args[1];
         }
         else if (args.length >1 && ("low".equals(args[1]) || "medium".equals(args[1]))) {
