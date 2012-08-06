@@ -31,11 +31,6 @@ module Eventbus
       list_jobs 
     end
 
-    # implemented because JobScheduler expects it 
-    def schedule(job)
-      execute_job(job)
-    end
-
     def execute_job(job)
       Thread.new do
         command = "#{HADOOP_EXEC} jar #{job}"

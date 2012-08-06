@@ -59,6 +59,7 @@ module Eventbus
         coll = db[@config[:mongo_oplog_collection]]
         cursor = Mongo::Cursor.new(coll, :timeout => false, :tailable => true)
         if(@config[:mongo_ignore_initial_read])
+          puts "ignoring initial readings"
           while cursor.has_next?
             cursor.next_document
           end
@@ -138,11 +139,7 @@ module Eventbus
     attr_reader :threads
 
     def initialize(config = {})
-      config = {
-          :publish_queue_name => "/queue/listener",
-          :subscribe_queue_name => "/topic/agent"
-      }.merge(config)
-
+      @event_subscriber = config[:event_subscriber]
       @threads = []
 
       @oplog_throttler = Eventbus::OpLogThrottler.new
@@ -154,17 +151,16 @@ module Eventbus
         end
       end
 
-      @messaging_service = Eventbus::MessagingService.new(config)
-
-      @messaging_service.subscribe do |incoming_configuration_message|
-        if(incoming_configuration_message != nil)
-          @oplog_throttler.set_subscription_events(incoming_configuration_message)
+      @event_subscriber.handle_subscriptions do |subscriptions|
+        puts "received subscription #{subscriptions}"
+        if(subscriptions != nil)
+          @oplog_throttler.set_subscription_events(subscriptions)
         end
       end
 
       @threads << Thread.new do
-        @oplog_throttler.handle_events do |message|
-          @messaging_service.publish(message)
+        @oplog_throttler.handle_events do |event|
+          @event_subscriber.fire_event(event)
         end
       end
     end
@@ -173,7 +169,7 @@ module Eventbus
       @threads.each do |thread|
         thread.kill
       end
-      @messaging_service.shutdown
+      @event_subscriber.shutdown
     end
   end
 end

@@ -29,27 +29,32 @@ class TestOpLogAgent < Test::Unit::TestCase
   def test_oplog_reader
     threads = []
 
-    oplog_reader = Eventbus::OpLogReader.new
+    oplog_reader = Eventbus::OpLogReader.new({:mongo_ignore_initial_read => true})
     oplog_queue = Queue.new
+
+    threads << Thread.new do
+      oplog_reader.handle_oplogs do |oplog|
+        puts oplog
+        oplog_queue << oplog
+      end
+    end
 
     conn = Mongo::Connection.new
     db   = conn['sample-db']
     coll = db['test']
     coll.remove
 
-    threads << Thread.new do
-      oplog_reader.handle_oplogs do |oplog|
-        oplog_queue << oplog
-      end
-    end
-    sleep 1 # wait for initial reading to clear
+    sleep 5 # wait for initial reading to clear
 
-    10.times do |i|
+    oplog_count = 5
+    threads << Thread.new do oplog_count.times do |i|
+      puts "inserting #{i}"
       coll.insert({'a' => i+1})
     end
-    sleep 1 # wait for oplog to queue up
+    end
+    sleep 2 # wait for oplog to queue up
 
-    assert_equal(10, oplog_queue.size)
+    assert_equal(oplog_count, oplog_queue.size)
 
     threads.each do |thread|
       thread.kill

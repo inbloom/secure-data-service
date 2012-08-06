@@ -64,7 +64,7 @@ module Eventbus
 
     def get_subscriber(q_name)
       Subscriber.new(q_name, @config[:stomp_config])
-    end 
+    end
   end
 
   class Publisher

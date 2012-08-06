@@ -75,12 +75,12 @@ module Eventbus
     class JobScheduler
         def initialize(config)
             # connect to mongo and wrap the lister
-            @messaging_service   = config[:messaging_service]
+            @event_subscriber    = config[:event_subscriber]
             @jobrunner           = config[:jobrunner]
             @event_job_map       = {}
             @poll_interval       = config[:mongo_poll_interval]
 
-            job_runner = Eventbus::EventJobMapper.new
+            event_job_mapper = Eventbus::EventJobMapper.new
 
             @threads = []
 
@@ -90,8 +90,8 @@ module Eventbus
               loop do
                 jobs, event_job_map = job_reader.get_jobs
                 puts "publishing #{jobs}"
-                @messaging_service.publish(jobs)
-                job_runner.set_event_job_map(event_job_map)
+                @event_subscriber.observe_events(jobs)
+                event_job_mapper.set_event_job_map(event_job_map)
                 sleep @poll_interval
               end
             end
@@ -99,7 +99,7 @@ module Eventbus
             # subscribe to events and enqueues them
             event_ids_queue = Queue.new
             @threads << Thread.new do
-              @messaging_service.subscribe do |event_ids|
+              @event_subscriber.handle_event do |event_ids|
                 event_ids_queue << event_ids
               end
             end
@@ -108,8 +108,9 @@ module Eventbus
             @threads << Thread.new do
               loop do
                 event_ids = event_ids_queue.deq
-                job_runner.handle_jobs(event_ids) do |job|
+                event_job_mapper.handle_jobs(event_ids) do |job|
                   puts "running job #{job}"
+                  @jobrunner.execute_job(job)
                 end
               end
             end

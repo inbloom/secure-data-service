@@ -16,6 +16,9 @@ limitations under the License.
 
 =end
 
+testdir = File.dirname(__FILE__)
+$LOAD_PATH << testdir + "/../lib"
+
 require 'test/unit'
 require 'eventbus'
 require 'time'
@@ -52,7 +55,7 @@ class TestEventPubSub < Test::Unit::TestCase
         end
 
         # subscribe to the given list of events 
-        event_subscriber.subscribe(@event_subscriptions)
+        event_subscriber.observe_events(@event_subscriptions)
 
         # wait until I have publishers for all events 
         agents_up = false 

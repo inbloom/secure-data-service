@@ -32,8 +32,13 @@ if __FILE__ == $0
 
     config = YAML::load( File.open( ARGV[0] ) )[ARGV[1]]
 
-    # set up the oplog agent and keep waiting indefinitely until the threads terminate 
-    oplog_agent = Eventbus::OpLogAgent.new
+    # make the config symbol based
+    config.keys().each { |k| config[k.to_sym] = config.delete(k) }
+
+    # set up the oplog agent and keep waiting indefinitely until the threads terminate
+    agent = Eventbus::EventPublisher.new(config[:node_id], 'oplog')
+    config.update(:event_subscriber => agent)
+    oplog_agent = Eventbus::OpLogAgent.new(config)
     threads = oplog_agent.threads 
     threads.each { |aThread| aThread.join }
 end

@@ -61,20 +61,21 @@ module Eventbus
             # :start_heartbeat => false
             }
             @messaging = MessagingService.new(config)
-            @subscribe_channel = @messaging.get_publisher(subscription_address(event_type))
-            @events_channel    = @messaging.get_subscriber(events_address(event_type))
-            @heartbeat_channel = @messaging.get_subscriber(HEART_BEAT_ADDRESS)
+            @subscription_channel = @messaging.get_publisher(subscription_address(event_type))
+            @events_channel       = @messaging.get_subscriber(events_address(event_type))
+            @heartbeat_channel    = @messaging.get_subscriber(HEART_BEAT_ADDRESS)
 
             # set up the heartbeat listener 
             @current_publishers = {}
             @heartbeat_channel.handle_message do |message|
+              puts "received heartbeat from #{message[HB_NODE_ID]}"
                 @current_publishers[message[HB_NODE_ID]] = message[HB_EVENTS]
             end 
         end
 
         # Given a list of event this will subscribe to the 
-        def subscribe(events)
-            @subscribe_channel.publish(events)
+        def observe_events(events)
+            @subscription_channel.publish(events)
         end 
 
         def handle_event(&block)
@@ -89,22 +90,24 @@ module Eventbus
     class EventPublisher
         include EventPubSubBase 
 
-        def initialize(node_id, event_type)
-            heartbeat_period = 5 
+        def initialize(node_id, event_type, config = {})
+            @config = {
+                :heartbeat_period => 5
+            }.merge(config)
 
-            @messaging = MessagingService.new
-            @subscribe_channel = @messaging.get_subscriber(subscription_address(event_type))
+            @messaging = MessagingService.new(@config)
+            @subscription_channel = @messaging.get_subscriber(subscription_address(event_type))
             @events_channel    = @messaging.get_publisher(events_address(event_type))
             @heartbeat_channel = @messaging.get_publisher(HEART_BEAT_ADDRESS)
 
             @subscribed_event_ids = []
             @sub_e_ids_lock = Mutex.new
 
-            start_heartbeat(node_id, heartbeat_period)
+            start_heartbeat(node_id, @config[:heartbeat_period])
         end 
 
         def handle_subscriptions
-            @subscribe_channel.handle_message do | event_subs |
+            @subscription_channel.handle_message do | event_subs |
                 handled_subs = yield event_subs 
                 e = if !handled_subs
                         event_subs.map { |x| e['id'] }
@@ -136,6 +139,7 @@ module Eventbus
                         'timestamp' => Time.now.to_i.to_s,
                         'events'    => events_list 
                     }
+                    puts "publishing heartbeat"
                     @heartbeat_channel.publish(message)
                     sleep(heartbeat_period)
                 end 

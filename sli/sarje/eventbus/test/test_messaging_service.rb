@@ -59,8 +59,8 @@ class TestMessagingService < Test::Unit::TestCase
       end 
       sleep(3)
 
-      assert sub_counter_1 == n_messages, "Subscriber 1 did not receive #{n_messages} messages."
-      assert sub_counter_2 == n_messages, "Subscriber 2 did not receive #{n_messages} messages."
+      assert_equal sub_counter_1, n_messages
+      assert_equal sub_counter_2, n_messages
     end
 
     def test_queue
@@ -96,7 +96,7 @@ class TestMessagingService < Test::Unit::TestCase
       end 
 
       sleep(3)
-      assert (sub_counter_1 + sub_counter_2) == n_messages, "Did not receive all #{n_messages} messages. Instead got #{sub_counter_1 + sub_counter_2}."
+      assert_equal (sub_counter_1 + sub_counter_2),  n_messages
 
     end
 end

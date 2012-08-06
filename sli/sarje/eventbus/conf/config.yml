@@ -19,6 +19,7 @@ listener:
     subscribe_queue_name: /queue/listener
      
 agent:
+    node_id: agent
     mongo_host: localhost
     mongo_port: 27017
     mongo_db: local
