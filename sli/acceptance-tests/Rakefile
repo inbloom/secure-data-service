@@ -687,6 +687,13 @@ task :sandboxUserAdminTests do
 runTests("test/features/sandbox/UserAdmin/User_Admin_Interface.feature")
 end
 
+task :sandboxSamtEmailNotificationTests do
+@tags ||= ["~@wip", "@sandbox"]
+runTests("test/features/sandbox/UserAdmin/samt_email_notification.feature")
+end
+
+
+
 
 
 ###########################################################
