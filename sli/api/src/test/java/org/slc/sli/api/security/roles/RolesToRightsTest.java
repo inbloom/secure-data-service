@@ -100,7 +100,6 @@ public class RolesToRightsTest {
                         SecureRoleRightAccessImpl.EDUCATOR, SecureRoleRightAccessImpl.AGGREGATOR, "bad", "doggie")))
                 .thenReturn(Arrays.asList(buildRole()));
         
-        resolver.setRoleRightAccess(mockAccess);
     }
     
     private Role buildRole() {
