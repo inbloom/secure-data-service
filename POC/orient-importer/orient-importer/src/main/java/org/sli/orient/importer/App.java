@@ -1,6 +1,8 @@
 package org.sli.orient.importer;
 
 import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.mongodb.DB;
 import com.mongodb.Mongo;
@@ -29,10 +31,13 @@ import org.sli.orient.importer.importers.TeacherSectionEdgeImporter;
  */
 public class App 
 {
+    private static Logger log = Logger.getLogger("Orient-Importer");
+    private static int count = 0;
+    private static long totalTime = 0;
     public static void main( String[] args )
     {
         Mongo m = null;
-        Graph g = new OrientGraph("local:~/Documents/orient");
+        Graph g = new OrientGraph("local:graph/");
         // Clear the graph first.
         try {
             m = new Mongo("127.0.0.1", 27017);
@@ -45,45 +50,60 @@ public class App
         }
         DB db = m.getDB("sli");
         BaseImporter importer = new EdOrgImporter(db, g);
-        importer.importCollection();
+        benchmarkStamp(importer);
 
         importer = new SectionImporter(db, g);
-        importer.importCollection();
+        benchmarkStamp(importer);
         
         importer = new CohortImporter(db, g);
-        importer.importCollection();
+        benchmarkStamp(importer);
         
         importer = new ProgramImporter(db, g);
-        importer.importCollection();
+        benchmarkStamp(importer);
         
         importer = new StudentImporter(db, g);
-        importer.importCollection();
+        benchmarkStamp(importer);
 
         importer = new TeacherImporter(db, g);
-        importer.importCollection();
+        benchmarkStamp(importer);
         
         importer = new TeacherSchoolEdgeImporter(db, g);
-        importer.importCollection();
+        benchmarkStamp(importer);
         
         importer = new StudentProgramEdgeImporter(db, g);
-        importer.importCollection();
+        benchmarkStamp(importer);
         
         importer = new StudentCohortEdgeImporter(db, g);
-        importer.importCollection();
+        benchmarkStamp(importer);
         
         importer = new StudentSectionEdgeImporter(db, g);
-        importer.importCollection();
+        benchmarkStamp(importer);
         
         importer = new StaffProgramEdgeImporter(db, g);
-        importer.importCollection();
+        benchmarkStamp(importer);
         
         importer = new StaffCohortEdgeImporter(db, g);
-        importer.importCollection();
+        benchmarkStamp(importer);
         
         importer = new TeacherSectionEdgeImporter(db, g);
-        importer.importCollection();
+        benchmarkStamp(importer);
 
+        
+        if (totalTime > 0 && count > 0) {
+            
+            log.log(Level.INFO, "\t Average importing time: {0}", "" + totalTime / count);
+        }
         g.shutdown();
         m.close();
+    }
+    
+    private static void benchmarkStamp(BaseImporter stamper) {
+
+        long startTime = System.currentTimeMillis();
+        stamper.importCollection();
+        long endTime = System.currentTimeMillis() - startTime;
+        log.log(Level.INFO, "Imported {0} in {1}", new String[] { stamper.getClass().getName(), "" + endTime });
+        totalTime += endTime;
+        count++;
     }
 }

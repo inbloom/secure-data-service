@@ -31,15 +31,23 @@ public class BaseImporter implements Importer {
     }
     
     protected final void extractBasicNode(String collectionName) {
+        int count = 0;
+        long startTime = System.currentTimeMillis();
         logger.log(Level.INFO, "Building basic node for type: " + collectionName);
         DBCursor cursor = mongo.getCollection(collectionName).find();
+        long recordCount = mongo.getCollection(collectionName).count();
         while (cursor.hasNext()) {
             DBObject item = cursor.next();
             Vertex v = graph.addVertex(null);
-            logger.log(Level.INFO, "Adding vertex for {0}#{1} \t {2}",
+            logger.log(Level.FINE, "Adding vertex for {0}#{1} \t {2}",
                     new String[] { collectionName, (String) item.get("_id"), v.getId().toString() });
 
             v.setProperty("mongoid", item.get("id"));
+            count++;
+            if (count % 200 == 0) {
+                logger.log(Level.FINE, "Importing {0} @ {1}", new String[] { collectionName, "" + count });
+            }
         }
+        logger.log(Level.INFO, "\t RPms: {0}", recordCount / (System.currentTimeMillis() - startTime));
     }
 }
