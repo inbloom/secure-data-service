@@ -23,9 +23,9 @@ When /^I add a Page named "(.*?)"$/ do |pageName|
   setPageName(pageName) 
   
   uploadText = "[{\"id\":\"sectionList\",\"parentId\":\"sectionList\",\"name\":null,\"type\":\"TREE\",\"condition\":null,\"data\":null,\"items\":null,\"root\":null,\"description\":null,\"field\":null,\"value\":null,\"width\":null,\"datatype\":null,\"color\":null,\"style\":null,\"formatter\":null,\"sorter\":null,\"align\":null,\"params\":null}]"
-  @driver.find_element(:id, "textarea").send_keys(:backspace)
-  @driver.find_element(:id, "textarea").send_keys(:backspace)
-  @driver.find_element(:id, "textarea").send_keys(uploadText)
+  @driver.find_element(:id, "content_json").send_keys(:backspace)
+  @driver.find_element(:id, "content_json").send_keys(:backspace)
+  @driver.find_element(:id, "content_json").send_keys(uploadText)
   saveDashboardBuilder()
 end
 
@@ -103,7 +103,7 @@ def hoverOverPage(pageName, mode)
 end
 
 def saveDashboardBuilder()
-  save = @driver.find_element(:class, "modal-footer").find_element(:link_text, "Save")
+  save = @driver.find_element(:class, "modal-footer").find_elements(:tag_name, "button")[1]
   # Scroll the browser to the button's co-ords
   yLocation = save.location.y.to_s
   xLocation = save.location.x.to_s
@@ -114,9 +114,11 @@ def saveDashboardBuilder()
 end
 
 def ensurePopupLoaded()
-  @explicitWait.until {(style = @driver.find_element(:id, "myModal").attribute('style').strip)  == "display: block;" }
+  @explicitWait.until {(style = @driver.find_element(:id, "pageModal").attribute('style').strip)  == "display: block;" }
 end
 
-def ensurePopupUnloaded()
-  @explicitWait.until {(style = @driver.find_element(:id, "myModal").attribute('style').strip) == "display: none;"}
+def ensurePopupUnloaded() 
+   @driver.manage.timeouts.implicit_wait = 2
+   @explicitWait.until{(@driver.find_elements(:id, "simplemodal-overlay").length) == 0}
+   @driver.manage.timeouts.implicit_wait = 10
 end

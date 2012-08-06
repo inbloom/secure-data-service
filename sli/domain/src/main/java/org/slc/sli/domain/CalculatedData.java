@@ -28,31 +28,32 @@ import java.util.Map.Entry;
  * Data for Caclulated values
  *
  * @author nbrown
+ * @param <T>
  *
  */
-public class CalculatedData implements Serializable {
+public class CalculatedData<T> implements Serializable {
     private static final long serialVersionUID = 1127693471079120104L;
-    private final List<CalculatedDatum> calculatedValues;
+    private final List<CalculatedDatum<T>> calculatedValues;
 
     public CalculatedData() {
-        this(new HashMap<String, Map<String, Map<String, Map<String, Object>>>>());
+        this(new HashMap<String, Map<String, Map<String, Map<String, T>>>>());
     }
 
-    //types are fun!
-    public CalculatedData(Map<String, Map<String, Map<String, Map<String, Object>>>> calculatedValues) {
+    // types are fun!
+    public CalculatedData(Map<String, Map<String, Map<String, Map<String, T>>>> calculatedValues) {
         super();
-        List<CalculatedDatum> datums = new ArrayList<CalculatedDatum>();
+        List<CalculatedDatum<T>> datums = new ArrayList<CalculatedDatum<T>>();
         if (calculatedValues != null) {
-            for (Entry<String, Map<String, Map<String, Map<String, Object>>>> typeEntry : calculatedValues.entrySet()) {
+            for (Entry<String, Map<String, Map<String, Map<String, T>>>> typeEntry : calculatedValues.entrySet()) {
                 String type = typeEntry.getKey();
-                for (Entry<String, Map<String, Map<String, Object>>> nameEntry : typeEntry.getValue().entrySet()) {
+                for (Entry<String, Map<String, Map<String, T>>> nameEntry : typeEntry.getValue().entrySet()) {
                     String name = nameEntry.getKey();
-                    for (Entry<String, Map<String, Object>> windowEntry : nameEntry.getValue().entrySet()) {
+                    for (Entry<String, Map<String, T>> windowEntry : nameEntry.getValue().entrySet()) {
                         String window = windowEntry.getKey();
-                        for (Entry<String, Object> valueEntry : windowEntry.getValue().entrySet()) {
+                        for (Entry<String, T> valueEntry : windowEntry.getValue().entrySet()) {
                             String method = valueEntry.getKey();
-                            Object value = valueEntry.getValue();
-                            datums.add(new CalculatedDatum(type, window, name, method, value));
+                            T value = valueEntry.getValue();
+                            datums.add(new CalculatedDatum<T>(type, window, name, method, value));
                         }
                     }
                 }
@@ -61,13 +62,33 @@ public class CalculatedData implements Serializable {
         this.calculatedValues = Collections.unmodifiableList(datums);
     }
 
-    public List<CalculatedDatum> getCalculatedValues() {
+    // types are fun!
+    public CalculatedData(Map<String, Map<String, Map<String, T>>> calculatedValues, String method) {
+        super();
+        List<CalculatedDatum<T>> datums = new ArrayList<CalculatedDatum<T>>();
+        if (calculatedValues != null) {
+            for (Entry<String, Map<String, Map<String, T>>> typeEntry : calculatedValues.entrySet()) {
+                String type = typeEntry.getKey();
+                for (Entry<String, Map<String, T>> nameEntry : typeEntry.getValue().entrySet()) {
+                    String name = nameEntry.getKey();
+                    for (Entry<String, T> windowEntry : nameEntry.getValue().entrySet()) {
+                        String window = windowEntry.getKey();
+                        T value = windowEntry.getValue();
+                        datums.add(new CalculatedDatum<T>(type, window, name, method, value));
+                    }
+                }
+            }
+        }
+        this.calculatedValues = Collections.unmodifiableList(datums);
+    }
+
+    public List<CalculatedDatum<T>> getCalculatedValues() {
         return calculatedValues;
     }
 
-    public List<CalculatedDatum> getCalculatedValues(String type, String window, String methodology, String name) {
-        List<CalculatedDatum> aggs = new ArrayList<CalculatedDatum>();
-        for (CalculatedDatum datum : calculatedValues) {
+    public List<CalculatedDatum<T>> getCalculatedValues(String type, String window, String methodology, String name) {
+        List<CalculatedDatum<T>> aggs = new ArrayList<CalculatedDatum<T>>();
+        for (CalculatedDatum<T> datum : calculatedValues) {
             if ((type == null || type.equals(datum.getType())) && (window == null || window.equals(datum.getWindow()))
                     && (methodology == null || methodology.equals(datum.getMethod()))
                     && (name == null || name.equals(datum.getName()))) {
@@ -76,6 +97,5 @@ public class CalculatedData implements Serializable {
         }
         return aggs;
     }
-
 
 }

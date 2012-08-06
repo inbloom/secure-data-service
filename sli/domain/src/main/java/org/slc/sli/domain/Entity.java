@@ -53,5 +53,12 @@ public interface Entity {
      *
      * @return
      */
-    public CalculatedData getCalculatedValues();
+    public CalculatedData<String> getCalculatedValues();
+
+    /**
+     * Get the aggregates
+     *
+     * @return
+     */
+    public CalculatedData<Map<String, Integer>> getAggregates();
 }

@@ -17,15 +17,11 @@
 
 package org.slc.sli.api.security.roles;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
-import org.springframework.security.core.GrantedAuthority;
-
-import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.security.core.GrantedAuthority;
 
 /**
  * A simple class to encapsulate a role
@@ -33,16 +29,7 @@ import org.slc.sli.domain.enums.Right;
 public class Role {
     private String name;
     private Set<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
-    private String id = "";
     private boolean admin = false;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public Role(String name) {
         this.name = name;
@@ -63,6 +50,14 @@ public class Role {
     public Set<GrantedAuthority> getRights() {
         return rights;
     }
+    
+    public Set<String> getRightsAsStrings() {
+        Set<String> strings = new HashSet<String>();
+        for (GrantedAuthority authority : rights) {
+            strings.add(authority.getAuthority());
+        }
+        return strings;
+    }
 
     public void addRight(GrantedAuthority right) {
         rights.add(right);
@@ -81,19 +76,7 @@ public class Role {
         return admin;
     }
 
-    public String getSpringRoleName() {
-        return "ROLE_" + getName().toUpperCase().replace(' ', '_');
-    }
-
-    public EntityBody getRoleAsEntityBody() {
-        EntityBody body = new EntityBody();
-        body.put("name", getName());
-        List<String> rightStrings = new ArrayList<String>();
-        for (GrantedAuthority right : rights) {
-            rightStrings.add(right.toString());
-        }
-        body.put("rights", rightStrings);
-        body.put("admin", admin);
-        return body;
+    public String toString() {
+        return name;
     }
 }

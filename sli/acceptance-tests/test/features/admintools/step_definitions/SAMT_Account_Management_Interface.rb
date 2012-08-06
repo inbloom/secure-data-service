@@ -32,6 +32,11 @@ Before do
   @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])
 end
 
+After do
+step "the prod testing user does not already exists in LDAP"
+end
+
+
 Given /^I already have a SLC Operator account$/ do
   #do nothing, guaranteed by configuration
 end
@@ -45,7 +50,7 @@ Given /^I have a valid account as a LEA Administrator$/ do
 end 
 
 Given /^There is a user with "(.*?)", "(.*?)", "(.*?)", and "(.*?)" in LDAP Server$/ do |full_name, role, addition_roles, email|
-  new_user=create_new_user(full_name, role, addition_roles)
+  new_user=create_new_user(full_name.gsub("hostname", Socket.gethostname), role, addition_roles)
   new_user['email']=email.gsub("hostname", Socket.gethostname)
   new_user['uid']=new_user['email']
   new_user['tenant']="Midgar"
@@ -58,7 +63,7 @@ Given /^There is a user with "(.*?)", "(.*?)", "(.*?)", and "(.*?)" in LDAP Serv
   restHttpDelete("/users/#{new_user['uid']}", format, sessionId)
   restHttpPost("/users", new_user.to_json, format, sessionId)
   puts "user created in ldap"
-  @user_full_name="#{new_user['firstName']} #{new_user['lastName']}"
+  @user_full_name=new_user['fullName']
   @user_unique_id=new_user['uid']
 end
 

@@ -21,6 +21,7 @@ import org.apache.camel.Handler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 
@@ -44,9 +45,12 @@ public class WorkNoteLatch {
 
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
 
+        TenantContext.setJobId(workNote.getBatchJobId());
+
         String recordType = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
 
         if (batchJobDAO.countDownLatch(messageType, workNote.getBatchJobId(), recordType)) {
+
             exchange.getIn().setHeader("latchOpened", true);
 
         }

@@ -70,14 +70,11 @@ public class RealmInitializer {
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repository;
-    
-    @Autowired
-    private RoleInitializer roleInitializer;
 
     protected static final String REALM_RESOURCE = "realm";
 
     //This is what we use to look up the existing admin realm.  If this changes, we might end up with extra realms
-    protected static final String ADMIN_REALM_ID = "Shared Learning Infrastructure";
+    public static final String ADMIN_REALM_ID = "Shared Learning Infrastructure";
 
     @PostConstruct
     public void bootstrap() {
@@ -90,7 +87,6 @@ public class RealmInitializer {
         } else {
             info("Creating Admin realm.");
             repository.create(REALM_RESOURCE, bootstrapAdminRealmBody);
-            roleInitializer.dropAndBuildRoles(adminTenantId, ADMIN_REALM_ID);
         }
 
         // if sandbox mode, bootstrap the sandbox realm
@@ -103,7 +99,6 @@ public class RealmInitializer {
             } else {
                 info("Creating Sandbox realm.");
                 repository.create(REALM_RESOURCE, bootstrapSandboxRealmBody);
-                //roleInitializer.dropAndBuildRoles(tenantId, sandboxUniqueId);
             }
         }
     }
@@ -217,9 +212,5 @@ public class RealmInitializer {
     private Entity findRealm(String realmUniqueId) {
         return repository.findOne(REALM_RESOURCE, new NeutralQuery(new NeutralCriteria("uniqueIdentifier",
                 NeutralCriteria.OPERATOR_EQUAL, realmUniqueId)));
-    }
-    
-    protected void setRoleInitializer(RoleInitializer roleInitializer) {
-        this.roleInitializer = roleInitializer;
     }
 }

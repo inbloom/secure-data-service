@@ -28,15 +28,19 @@ Transform /rights "(.*?)"/ do |arg1|
   rights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "IT Administrator"
   rights = ["READ_GENERAL", "READ_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "Leader"
   rights = ["AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "Aggregate Viewer"
+  rights = ["READ_GENERAL"] if arg1 == "New Custom"
   # Custom right sets for test roles
+  rights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC", "AGGREGATE_WRITE"] if arg1 == "all defaults"
   rights = ["READ_GENERAL"] if arg1 == "Read General"
   rights = ["READ_GENERAL", "WRITE_GENERAL"] if arg1 == "Read and Write General"
+  rights = ["READ_GENERAL", "READ_PUBLIC", "READ_AGGREGATE"] if arg1 == "Read General Public and Aggregate"
   rights = [] if arg1 == "none"
   rights
 end
 
 Transform /roles "(.*?)"/ do |arg1|
   roles = ["Dummy"] if arg1 == "Dummy"
+  roles = ["Educator"] if arg1 == "Educator"
   roles = [] if arg1 == "none"
   roles
 end
@@ -71,32 +75,41 @@ Then /^a new group is created titled "([^"]*)"$/ do |title|
   @driver.find_element(:xpath, "//td[text()='#{title}']")
 end
 
-Then /^the group "([^"]*)" contains the (roles "[^"]*")$/ do |title, arg2|
+Then /^the group "([^"]*)" contains the (roles "[^"]*")$/ do |title, roles|
   group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
-  arg2.each do |role|
+  roles.each do |role|
     group.find_elements(:xpath, "//span[text()='#{role}']")
   end
 end
 
-Then /^the group "([^"]*)" contains the (rights "[^"]*")$/ do |arg1, arg2|
+Then /^the group "([^"]*)" contains the (rights "[^"]*")$/ do |title, rights|
+  sleep 2
   group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
-  arg2.each do |right|
+  rights.each do |right|
     group.find_elements(:xpath, "//span[text()='#{right}']")
   end
 end
 
 When /^I hit the save button$/ do
-  btn = @driver.find_element(:id, "rowEditToolSaveButton")
-  btn.click
+  saveButtons = @driver.find_elements(:class, "rowEditToolSaveButton")
+  saveButtons.each do |save|
+    if save.displayed?
+      save.click
+      break
+    end
+  end
 end
 
 Then /^I am informed that I must have at least one role and right in the group$/ do
-  assertWithWait("Could not find an error message complaining about the role and right missing")  { @driver.find_element(:class, "alert-error").text.include?("Validation") }
+  @driver.switch_to.alert.accept
+  #assertWithWait("Could not find an error message complaining about the role and right missing")  { @driver.find_element(:class, "alert-error").text.include?("Validation") }
 end
 
-When /^I add the right "([^"]*)" to the group "([^"]*)"$/ do |arg1, arg2|
+When /^I add the right "([^"]*)" to the group "([^"]*)"$/ do |right, group|
   select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, "addRightSelect"))
-  select.select_by(:text, arg1)
+  puts("The select is #{@driver.find_element(:id, "addRightSelect").text}")
+  select.select_by(:text, right)
+  @driver.find_element(:id, "addRightButton").click
 end
 
 When /^I add the role "([^"]*)" to the group "([^"]*)"$/ do |arg1, arg2|
@@ -111,13 +124,14 @@ When /^I create a new role <Role> to the group <Group> that allows <User> to acc
     step "I add the role #{hash["Role"]} to the group #{hash["Group"]}"
     step "I hit the save button"
     #TODO add stuff to validate the new role is in the group
-    step "the user #{hash["User"]} can now access the API with rights #{hash["Role"]}"
+    sleep(5)
+    step "the user #{hash["User"]} in tenant \"IL\" can access the API with rights #{hash["Group"]}"
   end
 end
 
-Then /^the user "([^"]*)" can access the API with (rights "[^"]*")$/ do |arg1, arg2|
+Then /^the user "([^"]*)" in tenant "([^"]*)" can access the API with (rights "[^"]*")$/ do |user, tenant, rights|
   # Login and get a session ID
-  idpRealmLogin(arg1, arg1+"1234", "IL")
+  idpRealmLogin(user, user+"1234", tenant)
   assert(@sessionId != nil, "Session returned was nil")
   
   # Make a call to Session debug and look that we are authenticated
@@ -128,17 +142,21 @@ Then /^the user "([^"]*)" can access the API with (rights "[^"]*")$/ do |arg1, a
   assert(result != nil, "Result of JSON parsing is nil")
 
   # Validate the user has expected rights
-  assert(result["authentication"]["authenticated"] == true, "User "+arg1+" did not successfully authenticate to SLI")
-  assert(result["authentication"]["authorities"].size == arg2.size, "User "+arg1+" was granted #{result["authentication"]["authorities"].size} permissions but expected #{arg2.size}")
-  arg2.each do |right|
-    assert(result["authentication"]["authorities"].include?(right), "User "+arg1+" was not granted #{right} permissions")
+  assert(result["authentication"]["authenticated"] == true, "User "+user+" did not successfully authenticate to SLI")
+  assert(result["authentication"]["authorities"].size == rights.size, "User "+user+" was granted #{result["authentication"]["authorities"].size} permissions but expected #{rights.size}")
+  rights.each do |right|
+    assert(result["authentication"]["authorities"].include?(right), "User "+user+" was not granted #{right} permissions")
   end
 end
 
 When /^I remove the right "([^"]*)" from the group "([^"]*)"$/ do |arg1, arg2|
-  step "I edit the group \"#{arg2}\""
+  # step "I edit the group \"#{arg2}\""
   # Find the thing you want to delete
-  @driver.find_element(:xpath, "//div[text()='#{arg1}']/../button").click
+  # group = @driver.find_element(:xpath, "//input[@id='editInput']/..")
+  # group.find_element(:xpath, "//span[text()='#{arg1}']/../span[@class='input-append']/button").click
+  
+  @driver.find_element(:id, "DELETE_" + arg1).click
+  sleep(5)
 end
 
 When /^I remove the role <Role> from the group <Group> that denies <User> access to the API$/ do |table|
@@ -147,8 +165,9 @@ When /^I remove the role <Role> from the group <Group> that denies <User> access
     step "I edit the group #{hash["Group"]}"
     step "I remove the role #{hash["Role"]} from the group #{hash["Group"]}"
     step "I hit the save button"
+    sleep(5)
     #TODO add stuff to validate the role has been removed from the group
-    step "the user #{hash["User"]} can no longer access the API with rights #{hash["Role"]}"
+    step "the user #{hash["User"]} in tenant \"IL\" can access the API with rights \"none\""
   end
 end
 
@@ -165,19 +184,28 @@ Then /^I no longer see that mapping in the table$/ do
 end
 
 When /^I remove the role "([^"]*)" from the group "([^"]*)"$/ do |arg1, arg2|
-  step "I edit the group \"#{arg2}\""
+  # step "I edit the group \"#{arg2}\""
   # Find the thing you want to delete
-  @driver.find_element(:xpath, "//div[text()='#{arg1}']/../button").click
+  # @driver.find_element(:xpath, "//div[text()='#{arg1}']/../button").click
+  @driver.find_element(:id, "DELETE_" + arg1).click
+  sleep(5)
+
 end
 
 When /^I edit the group "([^"]*)"$/ do |arg1|
-  @driver.find_element(:xpath, "//div[text()='#{arg1}']").click
-  @driver.find_element(:id, "rowEditToolEditButton").click
+  row = @driver.find_element(:xpath, "//div[text()='#{arg1}']/../..")
+  row.find_element(:class, "rowEditToolEditButton").click
+
+  # @driver.find_element(:xpath, "//div[text()='#{arg1}']").click
+  # @driver.find_element(:id, "rowEditToolEditButton").click
 end
 
 When /^I remove the group "([^"]*)"$/ do |arg1|
-  @driver.find_element(:xpath, "//div[text()='#{arg1}']").click
-  @driver.find_element(:id, "rowEditToolDeleteButton").click
+  row = @driver.find_element(:xpath, "//div[text()='#{arg1}']/../..")
+  row.find_element(:class, "rowEditToolDeleteButton").click
+
+  # @driver.find_element(:xpath, "//div[text()='#{arg1}']").click
+  # @driver.find_element(:id, "rowEditToolDeleteButton").click
   @driver.switch_to.alert.accept
 end
 
@@ -193,13 +221,16 @@ When /^I edit the rights for the group <Group> to include the duplicate right <R
   table.hashes.each do |hash|
     step "I edit the group #{hash["Group"]}"
     # Check that the duplicate right is not an available choice in the dropdown
-    group = @driver.find_elements(:xpath, "//div[text()='#{hash["Group"]}']/../..")
-    select = Selenium::WebDriver::Support::Select.new(group.find_element(:tag_name, "select"))
+    # group = @driver.find_elements(:xpath, "//div[text()='#{hash["Group"]}']/../..")
+    select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, "addRightSelect"))
+    # select = Selenium::WebDriver::Support::Select.new(group.find_element(:tag_name, "select"))
     select.options.each do |option|
       assert(option.text != hash["Right"], "Duplicate Right detected! Right: #{hash["Right"]}")
     end
     # Hit cancel to return to known state
+    puts("Current right is #{hash['Right']} and group is #{hash['Group']}")
     step "I click the cancel button"
+    sleep(5)
   end
 end
 
@@ -222,8 +253,9 @@ Then /^I am informed that "([^"]*)"$/ do |arg1|
 end
 
 When /^I click the cancel button$/ do
-  btn = @driver.find_element(:id, "rowEditToolCancelButton")
-  btn.click
+  row = @driver.find_element(:xpath, "//td/input/../..")
+  button = row.find_element(:class, "rowEditToolCancelButton")
+  button.click
 end
 
 When /^I click on the Reset Mapping button$/ do
@@ -231,18 +263,22 @@ When /^I click on the Reset Mapping button$/ do
 end
 
 Then /^the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves$/ do
-  wait = Selenium::WebDriver::Wait.new(:timeout => 1)
-  begin # Catch the exception from the wait... I'd rather get my detailed error messages than generic ones from WebDriver
-    wait.until { @driver.execute_script("return document.getElementById(\"mTable\").childNodes.length;") == 4 }
-  rescue
-  end
-
-  temp = @driver.find_elements(:xpath, "//td[text()='Roles']")
-  puts("Temp is #{temp.inspect}")
   # Seach for two occurances of each of the default roles as elements of <td>s, one being client role other being default role 
   ["Educator","Leader","Aggregate Viewer","IT Administrator"].each do |role|
-    results = @driver.find_elements(:xpath, "//td[text()='#{role}']")
-    assert(results.size == 2, webdriverDebugMessage(@driver,"Found unexpected occurences of roles "+role+", expected 2 found "+results.size.to_s))
+    results = @driver.find_elements(:xpath, "//td/div[text()='#{role}']")
+    moreResults = @driver.find_elements(:xpath, "//td/div/span[text()='#{role}']")
+    assert(results.size + moreResults.size == 2, webdriverDebugMessage(@driver,"Found unexpected occurences of role "+role+", expected 2 found "+results.size.to_s))
   end
 end
 
+Then /^I see the mapping in the table$/ do
+  # Dummy step, validation is done in WHEN step, this step just used to make the Gherkin read happy
+end
+
+Then /^the save button is disabled$/ do
+  assert(!@driver.find_element(:class, "rowEditToolSaveButton").enabled?, "Save button should be disabled")
+end
+
+Then /^I wait for 5 seconds$/ do
+  sleep(5)
+end

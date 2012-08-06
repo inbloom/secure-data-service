@@ -32,7 +32,6 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
 /**
@@ -64,30 +63,25 @@ public class RoleInitializer {
     @Qualifier("validationRepo")
     private Repository<Entity> repository;
     
-    public void dropAndBuildRoles(String tenantId, String realmId) {
-        dropRoles(tenantId, realmId);
+    public void dropAndBuildRoles(String realmId) {
+        dropRoles(realmId);
         buildRoles(realmId);
     }
     
-    private void dropRoles(String tenantId, String realmId) {
-        if (tenantId != null) {
-            if (realmId != null) {
-                NeutralQuery query = new NeutralQuery(0);
-                query.addCriteria(new NeutralCriteria("metaData.tenantId", "=", tenantId, false));
-                query.addCriteria(new NeutralCriteria("realmId", "=", realmId));
-                
-                Entity entity = repository.findOne(ROLES, query);
-                if (entity != null) {
-                    repository.delete(ROLES, entity.getEntityId());
-                    info("Successfully dropped roles from realm: {}", new Object[] { realmId });
-                } else {
-                    info("No roles exist to drop for realm: {}", new Object[] { realmId });
-                }
+    private void dropRoles(String realmId) {
+        if (realmId != null) {
+            NeutralQuery query = new NeutralQuery(0);
+            query.addCriteria(new NeutralCriteria("realmId", "=", realmId));
+            
+            Entity entity = repository.findOne(ROLES, query);
+            if (entity != null) {
+                repository.delete(ROLES, entity.getEntityId());
+                info("Successfully dropped roles from realm: {}", new Object[] { realmId });
             } else {
-                warn("Null realm id --> not dropping roles.");
+                info("No roles exist to drop for realm: {}", new Object[] { realmId });
             }
         } else {
-            warn("Null tenant id --> not dropping roles.");
+            warn("Null realm id --> not dropping roles.");
         }
     }
     
@@ -99,6 +93,7 @@ public class RoleInitializer {
             rolesBody.put("realmId", realmId);
             rolesBody.put("roles", groups);
             rolesBody.put("customRights", new ArrayList<String>());
+            repository.create(ROLES, rolesBody);
             return groups.size();
         } else {
             warn("Null realm id --> not building roles.");
@@ -119,13 +114,13 @@ public class RoleInitializer {
         Map<String, Object> group = new HashMap<String, Object>();
         group.put("groupTitle", role.getName());
         group.put("names", Arrays.asList(role.getName()));
-        group.put("rights", iterableToList(role.getRights()));
+        group.put("rights", iterableToList(role.getRightsAsStrings()));
         return group;
     }
     
-    private List<GrantedAuthority> iterableToList(Set<GrantedAuthority> original) {
-        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
-        for (GrantedAuthority authority : original) {
+    private List<String> iterableToList(Set<String> original) {
+        List<String> list = new ArrayList<String>();
+        for (String authority : original) {
             list.add(authority);
         }
         return list;

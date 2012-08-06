@@ -1027,9 +1027,15 @@ public class BasicService implements EntityService {
     }
 
     @Override
-    public CalculatedData getCalculatedValues(String id) {
+    public CalculatedData<String> getCalculatedValues(String id) {
         Entity entity = getEntity(id, new NeutralQuery());
         return entity.getCalculatedValues();
+    }
+
+    @Override
+    public CalculatedData<Map<String, Integer>> getAggregates(String id) {
+        Entity entity = getEntity(id, new NeutralQuery());
+        return entity.getAggregates();
     }
 
 }

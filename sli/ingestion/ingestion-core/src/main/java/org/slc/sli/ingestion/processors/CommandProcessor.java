@@ -35,6 +35,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.dal.aspect.MongoTrackingAspect;
 import org.slc.sli.ingestion.cache.CacheProvider;
 
@@ -70,7 +71,7 @@ public class CommandProcessor {
             cacheProvider.flush();
 
             // don't do this while aspect is disabled.
-            // dumpMongoTracking(chunks);
+            dumpMongoTracking(chunks);
 
         } else {
             LOG.error("Unsupported command");
@@ -79,19 +80,24 @@ public class CommandProcessor {
 
     private void dumpMongoTracking(String[] chunks) throws UnknownHostException {
         String batchId = chunks[1];
+
+        TenantContext.setJobId(batchId);
+
         Map<String, Pair<AtomicLong, AtomicLong>> stats = MongoTrackingAspect.aspectOf().getStats();
 
-        String hostName = InetAddress.getLocalHost().getHostName();
-        hostName = hostName.replaceAll("\\.", "#");
-        Update update = new Update();
-        update.set("executionStats." + hostName, stats);
+        if (stats != null) {
+            String hostName = InetAddress.getLocalHost().getHostName();
+            hostName = hostName.replaceAll("\\.", "#");
+            Update update = new Update();
+            update.set("executionStats." + hostName, stats);
 
-        LOG.info("Dumping runtime stats to db for job {}", batchId);
-        LOG.info(stats.toString());
+            LOG.info("Dumping runtime stats to db for job {}", batchId);
+            LOG.info(stats.toString());
 
-        mongo.updateFirst(new Query(Criteria.where(BATCH_JOB_ID).is(batchId)), update, "newBatchJob");
-        MongoTrackingAspect.aspectOf().reset();
-        LOG.info("Runtime stats are now cleared.");
+            mongo.updateFirst(new Query(Criteria.where(BATCH_JOB_ID).is(batchId)), update, "newBatchJob");
+            MongoTrackingAspect.aspectOf().reset();
+            LOG.info("Runtime stats are now cleared.");
+        }
     }
 
 }

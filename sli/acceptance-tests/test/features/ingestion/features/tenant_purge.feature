@@ -46,6 +46,8 @@ And I should not see an error log file created
      | tenant       |
      | roles        |
      | securityEvent |
+     | customRole   |
+   And application "d0b2ded4-89a9-db4a-8f80-aaece6fda529" has "13" authorized edorgs
    And I post "TenantPurge.zip" file as the payload of the ingestion job
  When zip file is scp to ingestion landing zone
   And a batch job log has been created
@@ -59,6 +61,8 @@ And I should not see an error log file created
      | tenant       |
      | roles        |
      | securityEvent |
+     | customRole   |
+   And application "d0b2ded4-89a9-db4a-8f80-aaece6fda529" has "10" authorized edorgs
    And I check to find if record is in collection:
      | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
      | student                  | 0                   | metaData.tenantId           | Hyrule                  | string               |

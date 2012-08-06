@@ -18,6 +18,7 @@ limitations under the License.
 
 
 require File.expand_path('../common_stepdefs.rb', __FILE__)
+require File.expand_path('../rakefile_common.rb', __FILE__)
 require 'rubygems'
 require 'bundler/setup'
 
@@ -51,6 +52,7 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "teacher_IL" => "4cf7a5d4-37a1-ca77-8b13-b5f95131ac85",
                 "prince_IL" => "4cf7a5d4-37a1-ca88-8b13-b5f95131ac85",
                 "root_IL" => "4cf7a5d4-37a1-ca99-8b13-b5f95131ac85",
+                "custom_IL" => "20de11c7-56b3-4d8b-bfaa-b61bc5be7671",
                 "developer_SLI" => "26c4b55b-5fa8-4287-af3d-98e7b5f98232",
                 "operator_SLI" => "a8cf184b-9c7e-4253-9f45-ed4e9f4f596c",
                 "bigbro_IL" => "4cf7a5d4-37a1-ca00-8b13-b5f95131ac85",
@@ -89,9 +91,10 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "agillespie_IL" => "ba09eeb3-a50a-4278-b363-22074168421d",
                 "wgoodman_IL" => "8c950c56-74f3-4e5d-a02c-d09497fddb1d",
                 "ingestionuser_SLI" => "3b22ab4c-1de4-ac99-8b89-23bc03aaa812",
-                 "sandboxoperator_SLI" => "a8cf185b-9c8e-4254-9f46-ed4e9f4f597c",
-                 "sandboxadministrator_SLI" => "a8cf186b-9c8e-4253-9f46-ed4e9f4f598c",
-                 "sandboxdeveloper_SLI" => "a1cf186b-9c8e-4252-9f46-ed4e9f4f597c",
+                "sandboxoperator_SLI" => "a8cf185b-9c8e-4254-9f46-ed4e9f4f597c",
+                "sandboxadministrator_SLI" => "a8cf186b-9c8e-4253-9f46-ed4e9f4f598c",
+                "sandboxdeveloper_SLI" => "a1cf186b-9c8e-4252-9f46-ed4e9f4f597c",
+                "anothersandboxdeveloper_SLI" => "be71e33e-00f5-442a-a0c7-3dc5c63a8a02",
                 "iladmin_SLI" => "9abf3111-0e5d-456a-8b89-004815162342",
                 "stweed_IL" => "2cf7a5d4-75a2-ba63-8b53-b5f95131de48",
                 "teach1_SEC" => "00000000-5555-5555-0001-500000000001",
@@ -126,6 +129,8 @@ $SESSION_MAP = {"demo_SLI" => "e88cb6d1-771d-46ac-a207-2e58d7f12196",
                 "linda.kim_Chaos" => "160eb95e-173f-472a-8ed2-b973a4d775a3",
                 "cgrayadmin_IL" => "bd8987d4-75a2-ba63-8b53-424242424242",
                 "jstevenson_SIF" => "e4e9d71c-d674-11e1-9ea4-f9fc6188709b",
+                "linda.kim_developer-email" => "d0c34964-4a5c-4a0e-b8ab-1fd1a6801888",
+                "linda.kim_sandboxadministrator" => "9a87321a-8534-4a0e-b8ab-981ab8716233"
 }
 
 def assert(bool, message = 'assertion failure')
@@ -489,26 +494,6 @@ end
 
 ########################################################################
 ########################################################################
-# Property Loader class
-
-class PropLoader
-  @@yml = YAML.load_file(File.join(File.dirname(__FILE__),'properties.yml'))
-  @@modified=false
-
-  def self.getProps
-    self.updateHash() unless @@modified
-    return @@yml
-  end
-
-  private
-
-  def self.updateHash()
-    @@yml.each do |key, value|
-      @@yml[key] = ENV[key] if ENV[key]
-    end
-    @@modified=true
-  end
-end
 
 module DataProvider
   def self.getValidRealmData()
