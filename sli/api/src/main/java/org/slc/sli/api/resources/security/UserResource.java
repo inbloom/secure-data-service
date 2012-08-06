@@ -23,6 +23,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.ldap.NameAlreadyBoundException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.ldap.LdapService;
 import org.slc.sli.api.ldap.User;
@@ -31,12 +38,6 @@ import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.service.SuperAdminService;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.ldap.NameAlreadyBoundException;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.stereotype.Component;
 
 /**
  * Resource for CRUDing Super Admin users (users that exist within the SLC realm).
@@ -230,7 +231,7 @@ public class UserResource {
             return result;
         }
 
-        result = validateCannotUpdateOwnsRoles(user);
+        result = validateLEACannotUpdateOwnsRolesTenancyEdorg(user);
         if (result != null) {
             return result;
         }
@@ -259,7 +260,7 @@ public class UserResource {
             body.put("response", "user with uid=" + uid + " does not exist");
             return Response.status(Status.NOT_FOUND).entity(body).build();
         }
-        
+
         // allow the slc operator to remove the user even the user has no groups
         if (secUtil.hasRole(RoleInitializer.SLC_OPERATOR) && userToDelete.getGroups() == null) {
             result = null;
@@ -284,7 +285,9 @@ public class UserResource {
     }
 
     private Response validateCannotOperateOnPeerLEA(User userToModify, String adminEdOrg) {
-        if(isLeaAdmin() && isUserLeaAdmin(userToModify)) {
+        if (isLeaAdmin() && isUserLeaAdmin(userToModify)
+                && !userToModify.getUid().equals(secUtil.getUid())) { //only blocking peer LEA
+
             if (userToModify.getEdorg() != null && userToModify.getEdorg().equals(adminEdOrg)) {
                 EntityBody body = new EntityBody();
                 body.put("response", "not allowed to execute this operation on peer admin users");
@@ -295,17 +298,33 @@ public class UserResource {
         return null;
     }
 
-    private Response validateCannotUpdateOwnsRoles(User user) {
-        if (user.getUid().equals(secUtil.getUid())) {
+    private Response validateLEACannotUpdateOwnsRolesTenancyEdorg(User user) {
+
+        if (isLeaAdmin() && user.getUid().equals(secUtil.getUid())) {
             User currentUser = ldapService.getUser(realm, secUtil.getUid());
+
+            String error = null;
             if (!currentUser.getGroups().containsAll(RoleToGroupMapper.getInstance().mapRoleToGroups(user.getGroups()))
                     || !RoleToGroupMapper.getInstance().mapRoleToGroups(user.getGroups())
                             .containsAll(currentUser.getGroups())) {
+                error = "cannot update own roles";
+            }
+
+            if (!currentUser.getTenant().equals(user.getTenant())) {
+                error = "cannot update own tenancy";
+            }
+
+            if (!currentUser.getEdorg().equals(user.getEdorg())) {
+                error = "cannot update own edorg";
+            }
+
+            if (error != null) {
                 EntityBody body = new EntityBody();
-                body.put("response", "cannot update own roles");
+                body.put("response", error);
                 return Response.status(Status.FORBIDDEN).entity(body).build();
             }
         }
+
         return null;
     }
 
