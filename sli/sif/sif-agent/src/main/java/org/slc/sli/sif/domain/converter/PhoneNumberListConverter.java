@@ -23,6 +23,8 @@ import openadk.library.common.PhoneNumber;
 import openadk.library.common.PhoneNumberList;
 import openadk.library.common.PhoneNumberType;
 
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
 
 /**
@@ -31,6 +33,8 @@ import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
  * @author slee
  *
  */
+
+@Component
 public class PhoneNumberListConverter {
 
     /**

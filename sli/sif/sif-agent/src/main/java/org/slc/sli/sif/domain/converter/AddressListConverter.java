@@ -25,6 +25,8 @@ import openadk.library.common.AddressList;
 import openadk.library.common.AddressType;
 import openadk.library.common.Street;
 
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.sif.domain.slientity.Address;
 
 /**
@@ -33,6 +35,8 @@ import org.slc.sli.sif.domain.slientity.Address;
  * @author slee
  *
  */
+
+@Component
 public class AddressListConverter {
 
     private static final Map<AddressType, String> ADDRESS_TYPE_MAP = new HashMap<AddressType, String>();

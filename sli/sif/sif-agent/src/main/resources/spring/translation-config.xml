@@ -28,6 +28,8 @@
 	<bean id="translationManager" class="org.slc.sli.sif.translation.SifTranslationManager">
 		<property name="translationMap" ref="translationMap" />
 	</bean>
+    
+    <bean id="SchoolInfoTranslationTask" class="org.slc.sli.sif.translation.SchoolInfoTranslationTask" />
 
 	<!-- custom converter -->
 </beans>

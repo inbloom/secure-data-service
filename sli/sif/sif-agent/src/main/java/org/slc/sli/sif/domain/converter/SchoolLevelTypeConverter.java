@@ -20,10 +20,14 @@ import java.util.List;
 
 import openadk.library.student.SchoolLevelType;
 
+import org.springframework.stereotype.Component;
+
 /**
  * A customized converter to convert SIF SchoolLevelType to SLI school category
  *
  */
+
+@Component
 public class SchoolLevelTypeConverter {
 
     public String convert(SchoolLevelType schoolLevelType) {
