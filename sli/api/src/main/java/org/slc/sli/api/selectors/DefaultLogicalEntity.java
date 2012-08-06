@@ -27,6 +27,7 @@ import org.slc.sli.api.selectors.doc.SelectorQueryPlan;
 import org.slc.sli.api.selectors.model.ModelProvider;
 import org.slc.sli.api.selectors.model.SelectorSemanticModel;
 import org.slc.sli.api.selectors.model.SemanticSelector;
+import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Type;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,10 +58,10 @@ public class DefaultLogicalEntity implements LogicalEntity {
     @Autowired
     private EntityDefinitionStore entityDefinitionStore;
 
-    public List<EntityBody> createEntities(final Map<String, Object> selector, final Constraint constraint,
+    public List<EntityBody> getEntities(final ApiQuery apiQuery, final Constraint constraint,
                                                   final String resourceName) {
 
-        if (selector == null) throw new NullPointerException("selector");
+        if (apiQuery == null) throw new NullPointerException("apiQuery");
         if (constraint == null) throw new NullPointerException("constraint");
 
         final EntityDefinition typeDef = entityDefinitionStore.lookupByResourceName(resourceName);
@@ -69,7 +70,7 @@ public class DefaultLogicalEntity implements LogicalEntity {
         // and API are not in sync
         final ClassType entityType = provider.getClassType(StringUtils.capitalize(typeDef.getType()));
 
-        final SemanticSelector semanticSelector = selectorSemanticModel.parse(selector, entityType);
+        final SemanticSelector semanticSelector = selectorSemanticModel.parse(apiQuery.getSelector(), entityType);
         final SelectorQuery selectorQuery = selectorQueryEngine.assembleQueryPlan(semanticSelector);
 
         return selectorDocument.aggregate(selectorQuery, constraint);

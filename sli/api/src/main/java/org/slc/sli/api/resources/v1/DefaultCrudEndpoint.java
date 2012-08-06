@@ -203,7 +203,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 
 
                 // list all entities matching query parameters and iterate over results
-                for (EntityBody entityBody : logicalEntity.createEntities(apiQuery.getSelector(), new Constraint(key, valueList), entityDef.getResourceName())) {
+                for (EntityBody entityBody : logicalEntity.getEntities(apiQuery, new Constraint(key, valueList), entityDef.getResourceName())) {
                     entityBody.put(ResourceConstants.LINKS,
                             ResourceUtil.getLinks(entityDefs, entityDef, entityBody, uriInfo));
 
@@ -304,7 +304,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     endpointNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
                     endpointNeutralQuery = addTypeCriteria(endpointEntity, endpointNeutralQuery);
                     
-                    for (EntityBody result : logicalEntity.createEntities(endpointNeutralQuery.getSelector(), new Constraint("_id", ids), resolutionResourceName)) {
+                    for (EntityBody result : logicalEntity.getEntities(endpointNeutralQuery, new Constraint("_id", ids), resolutionResourceName)) {
                         if (associations.get(result.get("id")) != null) {
                             // direct self reference don't need to include association in response
                             if (!endpointEntity.getResourceName().equals(entityDef.getResourceName())) {
@@ -384,7 +384,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 apiQuery.setOffset(0);
 
                 // final/resulting information
-                List<EntityBody> finalResults= logicalEntity.createEntities(apiQuery.getSelector(), new Constraint("_id", idList), resourceName);
+                List<EntityBody> finalResults= logicalEntity.getEntities(apiQuery, new Constraint("_id", idList), resourceName);
 
                 for (EntityBody result : finalResults) {
                     if (result != null) {
@@ -628,7 +628,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                         }
                     });
                 } else {
-                    entityBodies = logicalEntity.createEntities(apiQuery.getSelector(), new Constraint(), resourceName);
+                    entityBodies = logicalEntity.getEntities(apiQuery, new Constraint(), resourceName);
                 }
                 for (EntityBody entityBody : entityBodies) {
 
