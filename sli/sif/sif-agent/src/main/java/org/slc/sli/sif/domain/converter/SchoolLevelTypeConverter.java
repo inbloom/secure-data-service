@@ -16,7 +16,9 @@
 package org.slc.sli.sif.domain.converter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import openadk.library.student.SchoolLevelType;
 
@@ -30,6 +32,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class SchoolLevelTypeConverter {
 
+    private static final Map<SchoolLevelType, String> SCHOOL_LEVEL_TYPE_MAP = new HashMap<SchoolLevelType, String>();
+    static {
+        SCHOOL_LEVEL_TYPE_MAP.put(SchoolLevelType._0031_1304_ELEMENTARY, "Elementary School");
+        SCHOOL_LEVEL_TYPE_MAP.put(SchoolLevelType._0031_0013_ADULT, "Adult School");
+        SCHOOL_LEVEL_TYPE_MAP.put(SchoolLevelType._0031_0789_PRE_KINDERGARTEN, "Preschool/early childhood");
+        SCHOOL_LEVEL_TYPE_MAP.put(SchoolLevelType._0031_1302_ALL_LEVELS, "Ungraded");
+        SCHOOL_LEVEL_TYPE_MAP.put(SchoolLevelType._0031_1981_PRESCHOOL, "Infant/toddler School");
+        SCHOOL_LEVEL_TYPE_MAP.put(SchoolLevelType._0031_2397_PRIMARY, "Primary School");
+        SCHOOL_LEVEL_TYPE_MAP.put(SchoolLevelType._0031_2399_INTERMEDIATE, "Intermediate School");
+        SCHOOL_LEVEL_TYPE_MAP.put(SchoolLevelType._0031_2400_MIDDLE, "Middle School");
+        SCHOOL_LEVEL_TYPE_MAP.put(SchoolLevelType._0031_2401_JUNIOR, "Junior High School");
+        SCHOOL_LEVEL_TYPE_MAP.put(SchoolLevelType._0031_2402_HIGH_SCHOOL, "High School");
+        SCHOOL_LEVEL_TYPE_MAP.put(SchoolLevelType._0031_2403_SECONDARY, "SecondarySchool");
+    }
+
+    private static final String UNGRADED = "Ungraded";
+
     public String convert(SchoolLevelType schoolLevelType) {
         if (schoolLevelType == null) {
             return null;
@@ -38,7 +57,7 @@ public class SchoolLevelTypeConverter {
         return toSliSchoolCategory(schoolLevelType);
     }
 
-    public List<String> convertAsList(SchoolLevelType schoolLevelType){
+    public List<String> convertAsList(SchoolLevelType schoolLevelType) {
         if (schoolLevelType == null) {
             return null;
         }
@@ -49,40 +68,12 @@ public class SchoolLevelTypeConverter {
     }
 
     private String toSliSchoolCategory(SchoolLevelType schoolLevelType) {
-        if (SchoolLevelType._0031_1304_ELEMENTARY.equals(schoolLevelType)) {
-            return "Elementary School";
+
+        String category = SCHOOL_LEVEL_TYPE_MAP.get(schoolLevelType);
+        if (category != null) {
+            return category;
         }
-        if (SchoolLevelType._0031_0013_ADULT.equals(schoolLevelType)) {
-            return "Adult School";
-        }
-        if (SchoolLevelType._0031_0789_PRE_KINDERGARTEN.equals(schoolLevelType)) {
-            return "Preschool/early childhood";
-        }
-        if (SchoolLevelType._0031_1302_ALL_LEVELS.equals(schoolLevelType)) {
-            return "Ungraded";
-        }
-        if (SchoolLevelType._0031_1981_PRESCHOOL.equals(schoolLevelType)) {
-            return "Infant/toddler School";
-        }
-        if (SchoolLevelType._0031_2397_PRIMARY.equals(schoolLevelType)) {
-            return "Primary School";
-        }
-        if (SchoolLevelType._0031_2399_INTERMEDIATE.equals(schoolLevelType)) {
-            return "Intermediate School";
-        }
-        if (SchoolLevelType._0031_2400_MIDDLE.equals(schoolLevelType)) {
-            return "Middle School";
-        }
-        if (SchoolLevelType._0031_2401_JUNIOR.equals(schoolLevelType)) {
-            return "Junior High School";
-        }
-        if (SchoolLevelType._0031_2402_HIGH_SCHOOL.equals(schoolLevelType)) {
-            return "High School";
-        }
-        if (SchoolLevelType._0031_2403_SECONDARY.equals(schoolLevelType)) {
-            return "SecondarySchool";
-        }
-        return "Ungraded";
+        return UNGRADED;
     }
 
 }
