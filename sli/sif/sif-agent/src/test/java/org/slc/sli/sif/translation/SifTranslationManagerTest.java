@@ -73,11 +73,11 @@ public class SifTranslationManagerTest {
 
         sifTranslationManager.setTranslationMap(translationMap);
 
-        List<SliEntity> sliXList = new ArrayList();
+        List<SliEntity> sliXList = new ArrayList<SliEntity>();
         sliXList.add(sliX);
-        List<SliEntity> sliYList = new ArrayList();
+        List<SliEntity> sliYList = new ArrayList<SliEntity>();
         sliYList.add(sliY);
-        List<SliEntity> sliZList = new ArrayList();
+        List<SliEntity> sliZList = new ArrayList<SliEntity>();
         sliZList.add(sliZ);
 
         //mock translator results

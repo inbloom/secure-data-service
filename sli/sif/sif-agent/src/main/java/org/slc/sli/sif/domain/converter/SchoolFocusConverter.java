@@ -23,9 +23,12 @@ import openadk.library.student.SchoolFocus;
 import openadk.library.student.SchoolFocusList;
 import openadk.library.student.SchoolFocusType;
 
+import org.springframework.stereotype.Component;
+
 /**
  * Converter for SchoolFocus to school type
  */
+@Component
 public class SchoolFocusConverter {
 
 
