@@ -306,10 +306,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     endpointNeutralQuery = addTypeCriteria(endpointEntity, endpointNeutralQuery);
                     List<EntityBody> entityBodyList = null;
                     try {
-                        entityBodyList = logicalEntity.createEntities(endpointNeutralQuery.getSelector(), new Constraint("_id", ids), resolutionResourceName));
+                        entityBodyList = logicalEntity.createEntities(endpointNeutralQuery.getSelector(), new Constraint("_id", ids), resolutionResourceName);
                     }
                     catch (UnsupportedSelectorException e) {
-                        entityBodyList
+                        entityBodyList = (List<EntityBody>)endpointEntity.getService().list(endpointNeutralQuery);
                     }
                     
                     for (EntityBody result : entityBodyList) {
@@ -392,7 +392,13 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 apiQuery.setOffset(0);
 
                 // final/resulting information
-                List<EntityBody> finalResults= logicalEntity.createEntities(apiQuery.getSelector(), new Constraint("_id", idList), resourceName);
+                List<EntityBody> finalResults= null;
+                try {
+                    finalResults = logicalEntity.createEntities(apiQuery.getSelector(), new Constraint("_id", idList), resourceName);
+                }
+                catch (UnsupportedSelectorException e) {
+                    finalResults = (List<EntityBody>)endpointEntity.getService().list(apiQuery);
+                }
 
                 for (EntityBody result : finalResults) {
                     if (result != null) {
