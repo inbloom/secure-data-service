@@ -77,10 +77,10 @@ public class GradeLevelsConverterTest extends ADKTest {
         map.put(GradeLevelCode._11, "Eleventh grade");
         map.put(GradeLevelCode._12, "Twelfth grade");
         map.put(GradeLevelCode.KG, "Kindergarten");
-        map.put(GradeLevelCode.UN, "Ungraded");
-        map.put(GradeLevelCode.PG, "Preschool/Prekindergarten");
-        map.put(GradeLevelCode.PK, "Adult Education");
         map.put(GradeLevelCode.OTHER, "Other");
+        map.put(GradeLevelCode.PG, "Postsecondary");
+        map.put(GradeLevelCode.PK, "Preschool/Prekindergarten");
+        map.put(GradeLevelCode.UN, "Ungraded");
         map.put(GradeLevelCode.UNKNOWN, "Not Available");
 
         GradeLevels list = getGradeLevels();
@@ -99,24 +99,9 @@ public class GradeLevelsConverterTest extends ADKTest {
     private GradeLevels getGradeLevels() {
         GradeLevels gradeLevels = new GradeLevels();
 
-        gradeLevels.add(getGradeLevel(GradeLevelCode._01));
-        gradeLevels.add(getGradeLevel(GradeLevelCode._02));
-        gradeLevels.add(getGradeLevel(GradeLevelCode._03));
-        gradeLevels.add(getGradeLevel(GradeLevelCode._04));
-        gradeLevels.add(getGradeLevel(GradeLevelCode._05));
-        gradeLevels.add(getGradeLevel(GradeLevelCode._06));
-        gradeLevels.add(getGradeLevel(GradeLevelCode._07));
-        gradeLevels.add(getGradeLevel(GradeLevelCode._08));
-        gradeLevels.add(getGradeLevel(GradeLevelCode._09));
-        gradeLevels.add(getGradeLevel(GradeLevelCode._10));
-        gradeLevels.add(getGradeLevel(GradeLevelCode._11));
-        gradeLevels.add(getGradeLevel(GradeLevelCode._12));
-        gradeLevels.add(getGradeLevel(GradeLevelCode.KG));
-        gradeLevels.add(getGradeLevel(GradeLevelCode.UN));
-        gradeLevels.add(getGradeLevel(GradeLevelCode.PG));
-        gradeLevels.add(getGradeLevel(GradeLevelCode.PK));
-        gradeLevels.add(getGradeLevel(GradeLevelCode.OTHER));
-        gradeLevels.add(getGradeLevel(GradeLevelCode.UNKNOWN));
+        for (GradeLevelCode code : map.keySet()) {
+            gradeLevels.add(getGradeLevel(code));
+        }
 
         gradeLevels.add(getGradeLevel(GradeLevelCode.wrap("something else")));
 
