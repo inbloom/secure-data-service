@@ -55,7 +55,6 @@ import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.NeutralQuery.SortOrder;
 
 /**
@@ -182,23 +181,23 @@ public class SecurityEventResource extends DefaultCrudEndpoint {
                             "Invalid resource path: " + RESOURCE_NAME)).build();
         }
 
-        NeutralQuery neutralQuery = new ApiQuery(uriInfo);
-        neutralQuery = addTypeCriteria(entityDef, neutralQuery);
-        neutralQuery.setLimit(limit);
-        neutralQuery.setOffset(offset);
+        ApiQuery apiQuery = new ApiQuery(uriInfo);
+        apiQuery = addTypeCriteria(entityDef, apiQuery);
+        apiQuery.setLimit(limit);
+        apiQuery.setOffset(offset);
 
         // by default the result is sorted by time stamp, the newer event comes earlier
-        neutralQuery.setSortBy("timeStamp");
-        neutralQuery.setSortOrder(SortOrder.descending);
+        apiQuery.setSortBy("timeStamp");
+        apiQuery.setSortOrder(SortOrder.descending);
 
         // only retrieve watched apps
-        neutralQuery.addCriteria(new NeutralCriteria("appId", NeutralCriteria.CRITERIA_IN, WATCHED_APP));
+        apiQuery.addCriteria(new NeutralCriteria("appId", NeutralCriteria.CRITERIA_IN, WATCHED_APP));
 
         if (role.equals(RoleInitializer.SEA_ADMINISTRATOR) || role.equals(RoleInitializer.LEA_ADMINISTRATOR)) {
 
             // set EdOrg filter
             List<String> targetEdOrgs = Arrays.asList(principal.getEdOrg().split(","));
-            neutralQuery.addCriteria(new NeutralCriteria("targetEdOrg", NeutralCriteria.CRITERIA_IN, targetEdOrgs));
+            apiQuery.addCriteria(new NeutralCriteria("targetEdOrg", NeutralCriteria.CRITERIA_IN, targetEdOrgs));
 
             // set role filter
             List<String> roles = null;
@@ -209,7 +208,7 @@ public class SecurityEventResource extends DefaultCrudEndpoint {
             }
 
             if (roles != null) {
-                neutralQuery.addCriteria(new NeutralCriteria("roles", NeutralCriteria.CRITERIA_IN, roles));
+                apiQuery.addCriteria(new NeutralCriteria("roles", NeutralCriteria.CRITERIA_IN, roles));
             }
         }
 
@@ -217,7 +216,7 @@ public class SecurityEventResource extends DefaultCrudEndpoint {
         List<EntityBody> results = new ArrayList<EntityBody>();
 
         // list all entities matching query parameters and iterate over results
-        for (EntityBody entityBody : entityDef.getService().list(neutralQuery)) {
+        for (EntityBody entityBody : entityDef.getService().list(apiQuery)) {
             entityBody.put(ResourceConstants.LINKS, ResourceUtil.getLinks(entityDefs, entityDef, entityBody, uriInfo));
 
             // add entity to resulting response
