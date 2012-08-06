@@ -53,7 +53,7 @@ import org.springframework.stereotype.Component;
 public class UserResource {
 
     @Autowired
-    LdapService ldapService;
+    private LdapService ldapService;
 
     @Value("${sli.simple-idp.sliAdminRealmName}")
     private String realm;
@@ -208,10 +208,8 @@ public class UserResource {
 
         if (user.getEmail() == null) {
             return badRequest("No email address");
-        } else if (user.getFirstName() == null) {
-            return badRequest("No first name");
-        } else if (user.getLastName() == null) {
-            return badRequest("No last name");
+        } else if (user.getFullName() == null) {
+            return badRequest("No name");
         } else if (user.getUid() == null) {
             return badRequest("No uid");
         }
@@ -232,6 +230,11 @@ public class UserResource {
 
         result = validateCannotUpdateOwnsRoles(user);
         if (result != null) {
+            return result;
+        }
+
+        result = validateCannotOperateOnPeerLEA(user, secUtil.getEdOrg());
+        if(result != null) {
             return result;
         }
 
@@ -278,9 +281,9 @@ public class UserResource {
         return null;
     }
 
-    private Response validateCannotOperateOnPeerLEA(User userToDelete, String adminEdOrg) {
-        if (isLeaAdmin() && isUserLeaAdmin(userToDelete)) {
-            if (userToDelete.getEdorg() != null && userToDelete.getEdorg().equals(adminEdOrg)) {
+    private Response validateCannotOperateOnPeerLEA(User userToModify, String adminEdOrg) {
+        if(isLeaAdmin() && isUserLeaAdmin(userToModify)) {
+            if (userToModify.getEdorg() != null && userToModify.getEdorg().equals(adminEdOrg)) {
                 EntityBody body = new EntityBody();
                 body.put("response", "not allowed to execute this operation on peer admin users");
                 return Response.status(Status.FORBIDDEN).entity(body).build();

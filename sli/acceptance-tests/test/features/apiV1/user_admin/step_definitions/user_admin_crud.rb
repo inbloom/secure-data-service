@@ -48,9 +48,7 @@ Given /^the new\/update user has$/ do
 end
 
 Given /^"(.*?)" is "(.*?)"$/ do |key, value|
-  if key == "fullName" && value!= ""
-    @new_update_user.merge!({"firstName" => value.split(" ")[0], "lastName" => value.split(" ")[1]})
-  elsif key!="role" && key!="additional_role"&&value!=""
+  if key!="role" && key!="additional_role"&&value!=""
     @new_update_user.merge!({key => value})
   elsif key=="role" && value!=""
     @new_update_user.merge!({"groups" => [value]})
@@ -180,6 +178,37 @@ Then /^I (should|should not) see SAMT on my list of allowed apps$/ do |should|
   end
 end
 
+Given /^there is another LEA with "(.*?)" in my "(.*?)" and "(.*?)"$/ do |full_name, tenant, edorg|
+  uid=full_name.gsub(" ", "_")
+  groups = Array.new
+  groups.push("LEA Administrator")
+  @given_user=build_user(uid, groups, tenant, edorg)
+
+  idpRealmLogin("operator", nil)
+  sessionId = @sessionId
+  format = "application/json"
+
+  restHttpDelete("/users/#{@given_user['uid']}", format, sessionId)
+  restHttpPost("/users", @given_user.to_json, format, sessionId)
+end         
+    
+Then /^I think I am the only LEA in my EdOrg "(.*?)"$/ do |edorg| 
+  @result.each do |other|
+    if (other['groups'].index("LEA Administrator") != nil) 
+      if (other['edorg'] == edorg) 
+        assert(other['uid'] == @user, "@user is not the only LEA in EdOrg #{edorg}, #{other['uid']} is also LEA")
+      end
+    end 
+  end
+
+  #clean up 
+  idpRealmLogin("operator", nil)
+  sessionId = @sessionId
+  format = "application/json"
+  restHttpDelete("/users/#{@given_user['uid']}", format, sessionId)
+end 
+
+
 def get_user(uid)
 =begin
 @result.each { |user|
@@ -202,7 +231,7 @@ def print_administrator_comma_separated
   @result.each { |user|
     if((administrators & user['groups']).length > 0)
       user['groups'].each { |group|
-        out << "#{user['uid']},#{group},#{user['firstName']},#{user['lastName']},#{user['email']},#{user['tenant']},#{user['edorg']}\n"
+        out << "#{user['uid']},#{group},#{user['fullName']},#{user['email']},#{user['tenant']},#{user['edorg']}\n"
       }
     end
   }
@@ -229,8 +258,7 @@ def build_user(uid, groups, tenant, edorg)
   new_user = {
       "uid" => uid,
       "groups" => groups,
-      "firstName" => "Test",
-      "lastName" => "User",
+      "fullName" => "Test User",
       "password" => "#{uid}1234",
       "email" => "testuser@wgen.net",
       "tenant" => tenant,
