@@ -214,7 +214,7 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             
             //In sandbox a user doesn't create a realm, so this is the only opportunity to create the custom roles
             if (isSandbox) {
-                roleInitializer.dropAndBuildRoles(realmHelper.getAssociatedRealmId());
+                roleInitializer.dropAndBuildRoles(realmHelper.getSandboxRealmId());
             }
             return tenantService.create(newTenant);
         }
