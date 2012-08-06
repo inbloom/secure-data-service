@@ -48,7 +48,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import org.slc.sli.api.selectors.model.SemanticSelector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -69,6 +68,7 @@ import org.slc.sli.api.resources.v1.entity.StudentResource;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderFactory;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.CalculatedDatum;
@@ -217,7 +217,6 @@ public class DefaultCrudEndPointTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void testDelete() {
         for (String resource : resourceList) {
             // create one entity
@@ -349,7 +348,7 @@ public class DefaultCrudEndPointTest {
     @Test
     public void testAddTypeCriteria() {
         EntityDefinition def = entityDefs.lookupByResourceName(ResourceNames.TEACHERS);
-        NeutralQuery query = new NeutralQuery();
+        ApiQuery query = new ApiQuery();
 
         query = crudEndPoint.addTypeCriteria(def, query);
 
@@ -365,7 +364,7 @@ public class DefaultCrudEndPointTest {
     @Test
     public void testAddTypeCriteriaNoChange() {
         EntityDefinition def = entityDefs.lookupByResourceName(ResourceNames.STAFF);
-        NeutralQuery query = new NeutralQuery();
+        ApiQuery query = new ApiQuery();
 
         query = crudEndPoint.addTypeCriteria(def, query);
 
@@ -375,12 +374,12 @@ public class DefaultCrudEndPointTest {
 
     @Test
     public void testAddTypeCriteriaNullValues() {
-        EntityDefinition def = entityDefs.lookupByResourceName(ResourceNames.STAFF);
-        NeutralQuery query = null;
+        //EntityDefinition def = entityDefs.lookupByResourceName(ResourceNames.STAFF);
+        ApiQuery query = null;
 
         assertNull("Should be null", crudEndPoint.addTypeCriteria(null, null));
 
-        query = new NeutralQuery();
+        query = new ApiQuery();
         query = crudEndPoint.addTypeCriteria(null, query);
         List<NeutralCriteria> criteriaList = query.getCriteria();
         assertEquals("Should match", 0, criteriaList.size());
