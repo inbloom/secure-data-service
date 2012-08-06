@@ -142,7 +142,7 @@ public class LEAEntity extends SliEntity {
     }
 
     @Override
-    public String getEntityType() {
+    public String entityType() {
         return "LEA";
     }
 

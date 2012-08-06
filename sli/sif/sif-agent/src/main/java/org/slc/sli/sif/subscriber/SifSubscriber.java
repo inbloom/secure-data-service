@@ -28,6 +28,7 @@ import openadk.library.Zone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.sif.domain.slientity.SliEntity;
@@ -38,6 +39,7 @@ import org.slc.sli.sif.translation.SifTranslationManager;
 /**
  * Sif Subscriber implementation
  */
+@Component
 public class SifSubscriber implements Subscriber {
 
     private static final Logger LOG = LoggerFactory.getLogger(SifSubscriber.class);
@@ -99,9 +101,9 @@ public class SifSubscriber implements Subscriber {
 
     private void addEntities(SIFDataObject sifData) {
         for (SliEntity sliEntity : translationManager.translate(sifData)) {
-            String guid = slcInterface.create(sliEntity.getGenericEntity());
+            String guid = slcInterface.create(sliEntity.createGenericEntity());
             if (guid != null) {
-                sifIdResolver.putSliGuid(sifData.getRefId(), sliEntity.getEntityType(), guid);
+                sifIdResolver.putSliGuid(sifData.getRefId(), sliEntity.entityType(), guid);
             }
         }
     }
@@ -115,7 +117,7 @@ public class SifSubscriber implements Subscriber {
             return;
         }
         for (SliEntity sliEntity : translationManager.translate(sifData)) {
-            updateMap(matchedEntity.getData(), sliEntity.body());
+            updateMap(matchedEntity.getData(), sliEntity.createBody());
             slcInterface.update(matchedEntity);
         }
     }
