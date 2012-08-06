@@ -239,7 +239,7 @@ SLC.namespace('SLC.util', (function () {
 				$("#"+name + "SelectMenu").find(".optionText").html($(this).find("a").html());
 				$("#"+name + "Select").val($(this).find("#selectionValue").val());
 				$(this).addClass("selected");
-				callback();
+				callback($("#"+name + "Select"));
 			});
 		  
 			$("#"+name + "SelectMenu .selected").click();

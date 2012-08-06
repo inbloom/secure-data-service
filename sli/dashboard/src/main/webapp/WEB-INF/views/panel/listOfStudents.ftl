@@ -14,41 +14,43 @@
   limitations under the License.
 -->
  <#assign id = getDivId(panelConfig.id)>
+<div id="LOS${id}">
+     <div id="listOfStudents">
+       <div class="viewDiv menuBox">
+            <h4> View </h4>
+            <input type='hidden' value='' class='viewSelect' />
+            <div class="btn-toolbar">
+                <div class="btn-group viewSelectMenu">
+                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                        <span class='optionText'> </span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="filterDiv menuBox">
+            <h4> Filter </h4>
+            <input type='hidden' value='' class='filterSelect' />
+            <div class="btn-toolbar">
+                <div class="btn-group filterSelectMenu">
+                    <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                        <span class='optionText'> </span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
 
- <div id="listOfStudents">
-   <div id="viewDiv" class="menuBox">
-        <h4> View </h4>
-        <input type='hidden' value='' id ='viewSelect' /> 
-        <div class="btn-toolbar">
-            <div class="btn-group" id="viewSelectMenu">
-                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                    <span class='optionText'> </span>
-                    <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                </ul>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
-    <div id="filterDiv" class="menuBox">
-        <h4> Filter </h4>
-        <input type='hidden' value='' id ='filterSelect' /> 
-        <div class="btn-toolbar">
-            <div class="btn-group" id="filterSelectMenu">
-                <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                    <span class='optionText'> </span>
-                    <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu">
-                </ul>
-            </div>
-        </div>
+     <div class="ui-widget-no-border">
+        <table id="${id}"></table>
     </div>
+    <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/panels/SLC.studentList.js"></script>
+    <script type="text/javascript">
+        SLC.studentList1.create('${id}');
+    </script>
 </div>
- <div class="ui-widget-no-border">
-    <table id="${id}"></table>
-</div>
-<script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/panels/SLC.studentList.js"></script>
-<script type="text/javascript">
-    SLC.util.setTableId('${id}');
-</script>
