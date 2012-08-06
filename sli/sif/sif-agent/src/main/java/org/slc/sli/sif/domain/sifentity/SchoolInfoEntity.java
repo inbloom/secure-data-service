@@ -21,8 +21,6 @@ import openadk.library.common.GradeLevels;
 import openadk.library.common.PhoneNumberList;
 import openadk.library.student.SchoolInfo;
 
-import org.slc.sli.sif.domain.converter.SchoolMappings;
-
 /**
  * An SIF Entity corresponding to an SIF SchoolInfo. Used by dozer to map
  * SchoolInfo into an SLI SchoolEntity.
@@ -124,11 +122,7 @@ public class SchoolInfoEntity extends SifEntity {
     *
     */
     public String getSchoolType() {
-        if (this.schoolInfo.getSchoolType() == null) {
-            return null;
-        }
-        return SchoolMappings.toSliSchoolCategory(this.schoolInfo
-                .getSchoolType());
+        return this.schoolInfo.getSchoolType();
     }
 
     /**
