@@ -32,9 +32,19 @@ import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
 /**
  * A customized converter to convert SIF PhoneNumberList to SLI telephone list.
  *
+ * SLI values:
+ *	Main
+ *	Administrative
+ *	HealthClinic
+ *	Attendance
+ *	Other
+ *	Fax
+ *
  * @author slee
  *
  */
+
+
 
 @Component
 public class PhoneNumberListConverter {
@@ -42,7 +52,7 @@ public class PhoneNumberListConverter {
     private static final Map<PhoneNumberType, String> PHONE_NUMBER_TYPE_MAP = new HashMap<PhoneNumberType, String>();
     static {
         PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.ALT, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.ANSWERING_SERVICE, "Administrative");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.ANSWERING_SERVICE, "Other");
         PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.APPOINTMENT, "Other");
         PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.BEEPER, "Other");
         PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.FAX, "Fax");
@@ -54,7 +64,7 @@ public class PhoneNumberListConverter {
         PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_APPT_NUMBER, "Other");
         PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_BEEPER, "Other");
         PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_EXT, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_HOME_FAX, "Other");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_HOME_FAX, "Fax");
         PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_HOME_PHONE, "Other");
         PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_NIGHT_PHONE, "Other");
         PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_OTHER_RES_FAX, "Other");
@@ -66,10 +76,10 @@ public class PhoneNumberListConverter {
         PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_VOICEMAIL, "Other");
         PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_WORK_CELL, "Other");
         PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_WORK_FAX, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_WORK_PHONE, "");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_WORK_PHONE, "Other");
         PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.TELEMAIL, "Other");
         PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.TELEX, "Other");
-        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.VOICE_MAIL, "Attendance");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.VOICE_MAIL, "Other");
     }
 
     /**

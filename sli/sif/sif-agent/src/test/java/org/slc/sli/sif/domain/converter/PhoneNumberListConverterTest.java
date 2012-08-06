@@ -16,7 +16,6 @@
 
 package org.slc.sli.sif.domain.converter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +35,6 @@ public class PhoneNumberListConverterTest extends ADKTest {
     private final PhoneNumberListConverter converter = new PhoneNumberListConverter();
     private int counter = 0;
     private Map<PhoneNumberType, String> map = new HashMap<PhoneNumberType, String>();
-    private List<PhoneNumberType> phoneNumberTypes = new ArrayList<PhoneNumberType>();
 
     @Test
     public void testNullObject(){
@@ -70,7 +68,7 @@ public class PhoneNumberListConverterTest extends ADKTest {
     public void testMappings(){
         map.clear();
         map.put(PhoneNumberType.ALT, "Other");
-        map.put(PhoneNumberType.ANSWERING_SERVICE, "Administrative");
+        map.put(PhoneNumberType.ANSWERING_SERVICE, "Other");
         map.put(PhoneNumberType.APPOINTMENT, "Other");
         map.put(PhoneNumberType.BEEPER, "Other");
         map.put(PhoneNumberType.FAX, "Fax");
@@ -82,7 +80,7 @@ public class PhoneNumberListConverterTest extends ADKTest {
         map.put(PhoneNumberType.SIF1x_APPT_NUMBER, "Other");
         map.put(PhoneNumberType.SIF1x_BEEPER, "Other");
         map.put(PhoneNumberType.SIF1x_EXT, "Other");
-        map.put(PhoneNumberType.SIF1x_HOME_FAX, "Other");
+        map.put(PhoneNumberType.SIF1x_HOME_FAX, "Fax");
         map.put(PhoneNumberType.SIF1x_HOME_PHONE, "Other");
         map.put(PhoneNumberType.SIF1x_NIGHT_PHONE, "Other");
         map.put(PhoneNumberType.SIF1x_OTHER_RES_FAX, "Other");
@@ -94,12 +92,10 @@ public class PhoneNumberListConverterTest extends ADKTest {
         map.put(PhoneNumberType.SIF1x_VOICEMAIL, "Other");
         map.put(PhoneNumberType.SIF1x_WORK_CELL, "Other");
         map.put(PhoneNumberType.SIF1x_WORK_FAX, "Other");
-        map.put(PhoneNumberType.SIF1x_WORK_PHONE, "");
+        map.put(PhoneNumberType.SIF1x_WORK_PHONE, "Other");
         map.put(PhoneNumberType.TELEMAIL, "Other");
         map.put(PhoneNumberType.TELEX, "Other");
-        map.put(PhoneNumberType.VOICE_MAIL, "Attendance");
-
-        phoneNumberTypes.addAll(map.keySet());
+        map.put(PhoneNumberType.VOICE_MAIL, "Other");
 
         PhoneNumberList list = getPhoneNumberList();
         List<InstitutionTelephone> results = converter.convert(list);
@@ -117,7 +113,7 @@ public class PhoneNumberListConverterTest extends ADKTest {
     private PhoneNumberList getPhoneNumberList() {
         PhoneNumberList phoneNumberList = new PhoneNumberList();
 
-        for (PhoneNumberType type : phoneNumberTypes) {
+        for (PhoneNumberType type : map.keySet()) {
             phoneNumberList.add(getPhoneNumber(type));
         }
         phoneNumberList.add(getPhoneNumber(PhoneNumberType.wrap("something else")));

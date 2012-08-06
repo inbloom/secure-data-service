@@ -16,6 +16,9 @@
 
 package org.slc.sli.sif.domain.converter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import junit.framework.Assert;
 import openadk.library.student.OperationalStatus;
 
@@ -26,6 +29,7 @@ import org.slc.sli.sif.ADKTest;
 public class OperationalStatusConverterTest extends ADKTest {
 
     private final OperationalStatusConverter converter = new OperationalStatusConverter();
+    private final Map<OperationalStatus, String> map = new HashMap<OperationalStatus, String>();
 
     @Test
     public void testNull() {
@@ -41,50 +45,28 @@ public class OperationalStatusConverterTest extends ADKTest {
     }
 
     @Test
-    public void testSchoolClosed(){
-        testStatus(OperationalStatus.SCHOOL_CLOSED, "Closed");
+    public void testMappings(){
+        map.clear();
+        map.put(OperationalStatus.AGENCY_CHANGED, "Changed Agency");
+        map.put(OperationalStatus.AGENCY_CLOSED, "Closed");
+        map.put(OperationalStatus.AGENCY_FUTURE, "Future");
+        map.put(OperationalStatus.AGENCY_INACTIVE, "Inactive");
+        map.put(OperationalStatus.AGENCY_NEW, "New");
+        map.put(OperationalStatus.AGENCY_OPEN, "Active");
+        map.put(OperationalStatus.CHANGED_BOUNDARY, null);
+        map.put(OperationalStatus.SCHOOL_CLOSED, "Closed");
+        map.put(OperationalStatus.SCHOOL_FUTURE, "Future");
+        map.put(OperationalStatus.SCHOOL_INACTIVE, "Inactive");
+        map.put(OperationalStatus.SCHOOL_NEW, "New");
+        map.put(OperationalStatus.SCHOOL_OPEN, "Active");
+
+        for (OperationalStatus status : map.keySet()) {
+            String expected = map.get(status);
+            String result = converter.convert(status);
+            Assert.assertEquals(expected, result);
+        }
+
+        String result = converter.convert(OperationalStatus.wrap("something else"));
+        Assert.assertNull(result);
     }
-
-    @Test
-    public void testSchoolFuture(){
-        testStatus(OperationalStatus.SCHOOL_FUTURE, "Future");
-    }
-
-    @Test
-    public void testSchoolInactive(){
-        testStatus(OperationalStatus.SCHOOL_INACTIVE, "Inactive");
-    }
-
-    @Test
-    public void testSchoolNew(){
-        testStatus(OperationalStatus.SCHOOL_NEW, "New");
-    }
-
-    @Test
-    public void testSchoolOpen(){
-        testStatus(OperationalStatus.SCHOOL_OPEN, "Reopened");
-    }
-
-    @Test
-    public void testChangedBoundary(){
-        testStatus(OperationalStatus.CHANGED_BOUNDARY, "Changed Agency");
-    }
-
-    @Test
-    public void testNotSupported(){
-        testStatus(OperationalStatus.AGENCY_CHANGED, "Not Supported");
-        testStatus(OperationalStatus.AGENCY_CLOSED, "Not Supported");
-        testStatus(OperationalStatus.AGENCY_FUTURE, "Not Supported");
-        testStatus(OperationalStatus.AGENCY_INACTIVE, "Not Supported");
-        testStatus(OperationalStatus.AGENCY_NEW, "Not Supported");
-        testStatus(OperationalStatus.AGENCY_OPEN, "Not Supported");
-
-        testStatus(OperationalStatus.wrap("something else"), "Not Supported");
-    }
-
-    private void testStatus(OperationalStatus status, String expected){
-        String result = converter.convert(status);
-        Assert.assertEquals(expected, result);
-    }
-
 }
