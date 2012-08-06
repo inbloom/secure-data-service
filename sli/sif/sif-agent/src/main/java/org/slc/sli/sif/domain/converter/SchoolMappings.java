@@ -18,6 +18,8 @@ package org.slc.sli.sif.domain.converter;
 
 import openadk.library.student.SchoolLevelType;
 
+import org.springframework.stereotype.Component;
+
 /**
  * An utility to convert from SIF values to SLI values for mapped SchoolInfo
  * fields.
@@ -25,6 +27,7 @@ import openadk.library.student.SchoolLevelType;
  * @author slee
  *
  */
+@Component
 public class SchoolMappings {
 //
 //    public static String toSliAddressType(String addressType) {

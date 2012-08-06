@@ -66,13 +66,13 @@ public class SchoolInfoTranslationTaskTest {
     }
 
     @Test
-    public void testNotNull() throws SifTranslationException{
+    public void testNotNull() throws SifTranslationException {
         List<SchoolEntity> result = translator.translate(new SchoolInfo());
         Assert.assertNotNull("Result was null", result);
     }
 
-    // @Test
-    public void testBasicFields() throws SifTranslationException{
+    @Test
+    public void testBasicFields() throws SifTranslationException {
         SchoolInfo info = new SchoolInfo();
 
         String stateOrgId = "stateOrgId";
@@ -98,8 +98,8 @@ public class SchoolInfoTranslationTaskTest {
 
     }
 
-    // @Test
-    public void testAddressList() throws SifTranslationException{
+    @Test
+    public void testAddressList() throws SifTranslationException {
 
         AddressList addressList = new AddressList();
         SchoolInfo info = new SchoolInfo();
@@ -119,8 +119,8 @@ public class SchoolInfoTranslationTaskTest {
 
     }
 
-    //@Test
-    public void testSchoolFocus() throws SifTranslationException{
+    @Test
+    public void testSchoolFocus() throws SifTranslationException {
         SchoolFocusList focusList = new SchoolFocusList();
         SchoolInfo info = new SchoolInfo();
         info.setSchoolFocusList(focusList);

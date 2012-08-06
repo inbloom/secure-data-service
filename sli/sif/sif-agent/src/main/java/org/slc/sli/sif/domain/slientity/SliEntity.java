@@ -26,6 +26,8 @@ import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
+import org.slc.sli.api.client.impl.GenericEntity;
+
 //import org.slc.sli.api.client.impl.GenericEntity;
 
 /**
@@ -53,9 +55,9 @@ public abstract class SliEntity {
     /**
      * Output body of this Entity
      */
-    //public GenericEntity getGenericEntity() {
-    //    return new GenericEntity(getEntityType(), body());
-    //}
+    public GenericEntity getGenericEntity() {
+        return new GenericEntity(getEntityType(), body());
+    }
 
     /**
      * Output body of this Entity

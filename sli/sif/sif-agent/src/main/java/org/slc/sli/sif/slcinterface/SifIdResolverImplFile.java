@@ -31,17 +31,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.client.Entity;
+import org.slc.sli.api.client.constants.v1.ParameterConstants;
 import org.slc.sli.api.client.impl.BasicQuery;
 import org.slc.sli.api.client.util.Query;
-import org.slc.sli.api.client.constants.v1.ParameterConstants;
 
 /**
  * Mapping between SIF id and SLI ids. File implementation
  */
-@Component
 public class SifIdResolverImplFile implements SifIdResolver {
 
     private static final Logger LOG = LoggerFactory.getLogger(SifIdResolverImplFile.class);
@@ -177,8 +175,8 @@ public class SifIdResolverImplFile implements SifIdResolver {
     }
 
     /**
-     * Implements putSliGuid(). Does not persist. 
-     * 
+     * Implements putSliGuid(). Does not persist.
+     *
      * @param sifId
      * @param sliType
      * @param sliId

@@ -35,7 +35,6 @@ import org.slc.sli.sif.domain.slientity.Address;
  * @author slee
  *
  */
-
 @Component
 public class AddressListConverter {
 

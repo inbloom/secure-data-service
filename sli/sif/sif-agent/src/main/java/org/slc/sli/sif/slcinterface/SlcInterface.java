@@ -28,7 +28,6 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.SLIClientException;
@@ -39,7 +38,6 @@ import org.slc.sli.api.client.util.Query;
 /**
  * Basic authentication example using the SLI SDK.
  */
-@Component
 public class SlcInterface {
 
     private static final Logger LOG = LoggerFactory.getLogger(SlcInterface.class);
