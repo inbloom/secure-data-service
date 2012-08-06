@@ -41,6 +41,7 @@ public class UserContextMapper implements ContextMapper {
         // user.setPassword(context.getStringAttribute("userPassword"));
         user.setPassword("**********");
         user.setCn(context.getStringAttribute("cn"));
+        user.setStatus(User.Status.getFromString(context.getStringAttribute("destinationindicator")));
 
         String description = context.getStringAttribute("description");
         if (description != null && description.length() > 0) {
