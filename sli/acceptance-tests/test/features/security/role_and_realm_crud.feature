@@ -112,25 +112,25 @@ Scenario: Deny creating a new role with a realm I do not have access to
   When I POST a new custom role document with realm "IL-Sunset"
   Then I should receive a return code of 403
   
-  @sandboxy
+  @sandbox
   Scenario: Sandbox developer creating a custom role doc
   Given I am logged in using "anothersandboxdeveloper" "anothersandboxdeveloper1234" to realm "SLI" 
   When I POST a new custom role document with realm "Sandbox"
   Then I should receive a return code of 201
 
-  @sandboxy
+  @sandbox
   Scenario: Sandbox developer creating a duplicate custom role doc
   Given I am logged in using "anothersandboxdeveloper" "anothersandboxdeveloper" to realm "SLI" 
   When I POST a new custom role document with realm "Sandbox"
   Then I should receive a return code of 400
 
-@sandboxy
+@sandbox
 Scenario: Delete a sandbox custom role doc
   Given I am logged in using "sandboxdeveloper" "sandboxdeveloper1234" to realm "SLI" 
   When I DELETE my custom role doc
   Then I should receive a return code of 204
 
-@sandboxy
+@sandbox
 Scenario: Sandbox developer confirming that his data was not affected by delete
  Given I am logged in using "anothersandboxdeveloper" "anothersandboxdeveloper1234" to realm "SLI" 
 When I GET my custom role doc
