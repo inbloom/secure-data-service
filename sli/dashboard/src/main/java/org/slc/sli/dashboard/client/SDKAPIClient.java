@@ -816,8 +816,8 @@ public class SDKAPIClient implements APIClient {
     @Override
     public List<GenericEntity> getTeachersForSchool(String token, String schoolId) {
     	List<GenericEntity> teachers = this.readEntityList(token,
-                SDKConstants.SCHOOLS_ENTITY + schoolId + SDKConstants.TEACHER_SCHOOL_ASSOC
-                        + SDKConstants.TEACHERS_ENTITY, schoolId);
+    			PathConstants.SCHOOLS + "/" + schoolId + "/" + PathConstants.TEACHER_SCHOOL_ASSOCIATIONS
+    			+ "/" + PathConstants.TEACHERS, schoolId);
 
         return teachers;
     }
