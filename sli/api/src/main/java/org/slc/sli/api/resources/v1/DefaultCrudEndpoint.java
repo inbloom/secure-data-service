@@ -303,14 +303,10 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 if (!ids.isEmpty()) {
                     endpointNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
                     endpointNeutralQuery = addTypeCriteria(endpointEntity, endpointNeutralQuery);
-                    final Map<String, Object> selector = getSelector(endpointNeutralQuery);
-
-                if (selector != null) {
-                    finalResults = logicalEntity.createEntities(selector, new Constraint("_id",ids ), resolutionResourceName);
-                } else {
-                    for (EntityBody result : endpointEntity.getService().list(endpointNeutralQuery)) {
+                    
+                    for (EntityBody result : logicalEntity.createEntities(endpointNeutralQuery.getSelector(), new Constraint("_id", ids), resolutionResourceName)) {
                         if (associations.get(result.get("id")) != null) {
-                            // direct self reference dont need to include association in reponse
+                            // direct self reference don't need to include association in response
                             if (!endpointEntity.getResourceName().equals(entityDef.getResourceName())) {
                                 result.put(resource1, associations.get(result.get("id")));
                             }
@@ -322,7 +318,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                                         entityDefs.lookupByResourceName(resolutionResourceName), result, uriInfo));
                         finalResults.add(result);
                     }
-                }
 
                     finalResults = appendOptionalFields(uriInfo, finalResults, DefaultCrudEndpoint.this.resourceName);
                 }
