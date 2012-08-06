@@ -62,6 +62,9 @@ public class UserResource {
     @Value("${sli.feature.enableSamt:false}")
     private boolean enableSamt;
 
+    @Value("${sli.sandbox.enabled")
+    private boolean sandboxEnabled;
+
     @Autowired
     private SuperAdminService adminService;
 
@@ -76,6 +79,11 @@ public class UserResource {
             return result;
         }
         newUser.setGroups((List<String>) (RoleToGroupMapper.getInstance().mapRoleToGroups(newUser.getGroups())));
+        if (!sandboxEnabled) {
+            // only sandbox mode needs to go to submitted state before EULA acceptance
+            // production can go to approved
+            newUser.setStatus(User.Status.APPROVED);
+        }
         try {
             ldapService.createUser(realm, newUser);
         } catch (NameAlreadyBoundException e) {
