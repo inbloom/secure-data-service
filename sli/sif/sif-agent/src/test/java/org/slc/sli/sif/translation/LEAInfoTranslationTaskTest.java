@@ -25,8 +25,6 @@ import openadk.library.common.AddressList;
 import openadk.library.common.PhoneNumberList;
 import openadk.library.student.LEAInfo;
 import openadk.library.student.OperationalStatus;
-import openadk.library.student.SchoolInfo;
-import openadk.library.student.Title1Status;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -35,13 +33,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
 import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.OperationalStatusConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
 import org.slc.sli.sif.domain.slientity.Address;
 import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
 import org.slc.sli.sif.domain.slientity.LEAEntity;
-import org.slc.sli.sif.domain.slientity.SchoolEntity;
 
 public class LEAInfoTranslationTaskTest
 {
@@ -104,18 +102,18 @@ public class LEAInfoTranslationTaskTest
 
         List<Address> address = new ArrayList<Address>();
 
-        Mockito.when(mockAddressConverter.convertTo(Mockito.eq(addressList), Mockito.any(List.class))).thenReturn(
+        Mockito.when(mockAddressConverter.convert(Mockito.eq(addressList))).thenReturn(
                 address);
 
         List<LEAEntity> result = translator.translate(info);
         Assert.assertEquals(1, result.size());
         LEAEntity entity = result.get(0);
 
-        Mockito.verify(mockAddressConverter).convertTo(Mockito.eq(addressList), Mockito.any(List.class));
+        Mockito.verify(mockAddressConverter).convert(Mockito.eq(addressList));
         Assert.assertEquals(address, entity.getAddress());
 
     }
-     
+
     @Test
     public void testOperationalStatus() throws SifTranslationException {
         LEAInfo info = new LEAInfo();
@@ -128,7 +126,7 @@ public class LEAInfoTranslationTaskTest
         Mockito.verify(operationalStatusConverter).convert(OperationalStatus.wrap(info.getOperationalStatus()));
         Assert.assertEquals("Closed", entity.getOperationalStatus());
     }
-    
+
     @Test
     public void testPhoneNumbers() throws SifTranslationException {
         PhoneNumberList phoneNumberList = new PhoneNumberList();

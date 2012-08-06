@@ -16,7 +16,6 @@
 
 package org.slc.sli.sif.domain.converter;
 
-import openadk.library.common.AddressType;
 import openadk.library.student.SchoolLevelType;
 
 /**
@@ -27,25 +26,25 @@ import openadk.library.student.SchoolLevelType;
  *
  */
 public class SchoolMappings {
-
-    public static String toSliAddressType(String addressType) {
-        if (AddressType.MAILING.getValue().equals(addressType)) {
-            return "Mailing";
-        }
-        if (AddressType.PHYSICAL_LOCATION.getValue().equals(addressType)) {
-            return "Physical";
-        }
-        if (AddressType.SHIPPING.getValue().equals(addressType)) {
-            return "Billing";
-        }
-        if (AddressType.OTHER_HOME.getValue().equals(addressType)) {
-            return "Home";
-        }
-        if (AddressType.OTHER_ORGANIZATION.getValue().equals(addressType)) {
-            return "Other";
-        }
-        return "Other";
-    }
+//
+//    public static String toSliAddressType(String addressType) {
+//        if (AddressType.MAILING.getValue().equals(addressType)) {
+//            return "Mailing";
+//        }
+//        if (AddressType.PHYSICAL_LOCATION.getValue().equals(addressType)) {
+//            return "Physical";
+//        }
+//        if (AddressType.SHIPPING.getValue().equals(addressType)) {
+//            return "Billing";
+//        }
+//        if (AddressType.OTHER_HOME.getValue().equals(addressType)) {
+//            return "Home";
+//        }
+//        if (AddressType.OTHER_ORGANIZATION.getValue().equals(addressType)) {
+//            return "Other";
+//        }
+//        return "Other";
+//    }
 
 //    @Deprecated
 //    public static String toSliInstitutionTelephoneNumberType(

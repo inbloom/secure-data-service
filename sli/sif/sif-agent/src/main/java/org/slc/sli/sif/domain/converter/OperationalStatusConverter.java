@@ -16,6 +16,9 @@
 
 package org.slc.sli.sif.domain.converter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import openadk.library.student.OperationalStatus;
 
 import org.springframework.stereotype.Component;
@@ -27,6 +30,22 @@ import org.springframework.stereotype.Component;
 @Component
 public class OperationalStatusConverter {
 
+    private static final Map<OperationalStatus, String> OPERATIONAL_STATUS_MAP = new HashMap<OperationalStatus, String>();
+    static {
+        OPERATIONAL_STATUS_MAP.put(OperationalStatus.AGENCY_CHANGED, "Not Supported");
+        OPERATIONAL_STATUS_MAP.put(OperationalStatus.AGENCY_CLOSED, "Not Supported");
+        OPERATIONAL_STATUS_MAP.put(OperationalStatus.AGENCY_FUTURE, "Not Supported");
+        OPERATIONAL_STATUS_MAP.put(OperationalStatus.AGENCY_INACTIVE, "Not Supported");
+        OPERATIONAL_STATUS_MAP.put(OperationalStatus.AGENCY_NEW, "Not Supported");
+        OPERATIONAL_STATUS_MAP.put(OperationalStatus.AGENCY_OPEN, "Not Supported");
+        OPERATIONAL_STATUS_MAP.put(OperationalStatus.CHANGED_BOUNDARY, "Changed Agency");
+        OPERATIONAL_STATUS_MAP.put(OperationalStatus.SCHOOL_CLOSED, "Closed");
+        OPERATIONAL_STATUS_MAP.put(OperationalStatus.SCHOOL_FUTURE, "Future");
+        OPERATIONAL_STATUS_MAP.put(OperationalStatus.SCHOOL_INACTIVE, "Inactive");
+        OPERATIONAL_STATUS_MAP.put(OperationalStatus.SCHOOL_NEW, "New");
+        OPERATIONAL_STATUS_MAP.put(OperationalStatus.SCHOOL_OPEN, "Reopened");
+    }
+
     /**
      * Converts the SIF OperationalStatus into an SLI operationalStatus
      * @param operationalStatus
@@ -37,29 +56,11 @@ public class OperationalStatusConverter {
             return null;
         }
 
-        return toSliOperationalStatus(operationalStatus.getValue());
+        return toSliOperationalStatus(OperationalStatus.wrap(operationalStatus.getValue()));
     }
 
-    private String toSliOperationalStatus(String operationalStatus) {
-        if (OperationalStatus.SCHOOL_CLOSED.getValue().equals(operationalStatus)) {
-            return "Closed";
-        }
-        if (OperationalStatus.SCHOOL_FUTURE.getValue().equals(operationalStatus)) {
-            return "Future";
-        }
-        if (OperationalStatus.SCHOOL_INACTIVE.getValue().equals(operationalStatus)) {
-            return "Inactive";
-        }
-        if (OperationalStatus.SCHOOL_NEW.getValue().equals(operationalStatus)) {
-            return "New";
-        }
-        if (OperationalStatus.SCHOOL_OPEN.getValue().equals(operationalStatus)) {
-            return "Reopened";
-        }
-        if (OperationalStatus.CHANGED_BOUNDARY.getValue().equals(operationalStatus)) {
-            return "Changed Agency";
-        }
-
-        return "Not Supported";
+    private String toSliOperationalStatus(OperationalStatus operationalStatus) {
+        String mapped = OPERATIONAL_STATUS_MAP.get(operationalStatus);
+        return mapped == null ? "Not Supported" : mapped;
     }
 }
