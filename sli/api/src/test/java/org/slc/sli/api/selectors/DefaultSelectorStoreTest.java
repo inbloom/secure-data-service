@@ -85,7 +85,21 @@ public class DefaultSelectorStoreTest {
     }
     
     @Test
-    public void assertGracefulHandlingOfInvalidDefaultSelectorFile1() {
+    public void assertGracefulHandlingOfInvalidTypeDefaultSelector() {
         assertNull("Should be null", defaultSelectorRepository.getSelector("type1"));
+    }
+
+    @Test
+    public void assertGracefulHandlingOfMissingDefaultSelector() {
+        final ClassType schoolType = provider.getClassType("School");
+
+        SemanticSelector schoolSelector = defaultSelectorRepository.getSelector("School");
+        assertNotNull("Should not be null", schoolSelector);
+
+        List<SelectorElement> elements = schoolSelector.get(schoolType);
+        assertEquals("Should match", 1, elements.size());
+
+        SelectorElement element = elements.get(0);
+        assertTrue("Should be true", element instanceof IncludeXSDSelectorElement);
     }
 }
