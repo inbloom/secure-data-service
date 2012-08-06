@@ -10,5 +10,9 @@
     {
         "type" : "Student",
         "selector" : ":($,sectionAssociations,schoolAssociations)"
+    },
+    {
+        "type" : "StudentSectionAssociation",
+        "selector" : ":($)"
     }
 ]
