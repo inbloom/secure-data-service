@@ -38,6 +38,11 @@ public class DefaultSelectorStore implements SelectorRepository {
 
     @Autowired
     private ModelProvider modelProvider;
+
+    public static final Map<String, Object> FALLBACK_SELECTOR = new HashMap<String, Object>();
+    static {
+        FALLBACK_SELECTOR.put("$", true);
+    }
     
     public DefaultSelectorStore() {
     }
@@ -90,11 +95,19 @@ public class DefaultSelectorStore implements SelectorRepository {
         return retVal;
     }
 
+    protected SemanticSelector getFallBackSelector(String type) {
+        ClassType classType = modelProvider.getClassType(type);
 
+        if (classType != null) {
+            return selectorSemanticModel.parse(FALLBACK_SELECTOR, classType);
+        }
+
+        return null;
+    }
     
     @Override
     public SemanticSelector getSelector(String type) {
-        return this.defaultSelectors.get(type);
+        return defaultSelectors.containsKey(type) ? defaultSelectors.get(type) : getFallBackSelector(type);
     }
 
 }

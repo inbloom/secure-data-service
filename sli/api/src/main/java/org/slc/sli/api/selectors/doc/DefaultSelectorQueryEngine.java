@@ -35,6 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -118,11 +119,10 @@ public class DefaultSelectorQueryEngine implements SelectorQueryEngine, Selector
             }
         } else {
             ClassType type = (ClassType) booleanSelectorElement.getLHS();
-            SelectorQuery childQuery = new SelectorQuery();
+            SemanticSelector defaultSelectorForType = defaultSelectorRepository.getSelector(type.getName());
+            SelectorQuery defaultQueryForType = buildQueryPlan(defaultSelectorForType);
 
-            childQuery.put(type, new SelectorQueryPlan());
-
-            plan.getChildQueryPlans().add(childQuery);
+            plan.getChildQueryPlans().add(defaultQueryForType);
         }
 
         return plan;

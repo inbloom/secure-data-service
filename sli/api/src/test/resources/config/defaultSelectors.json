@@ -1,10 +1,14 @@
 [
 	{
-		"type" : "type1",
-		"selector" : ":(*)"
+		"type" : "StudentSectionAssociation",
+		"selector" : ":($)"
 	},
 	{
-		"type" : "type2",
-		"selector" : ":(someField:true)"
-	}
+		"type" : "Section",
+		"selector" : ":(sequenceOfCourse)"
+	},
+    {
+        "type" : "Student",
+        "selector" : ":($,sectionAssociations)"
+    }
 ]
