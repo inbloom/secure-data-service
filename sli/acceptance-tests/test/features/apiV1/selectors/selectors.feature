@@ -3,14 +3,14 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
   That means I am able to specify the data returned by providing a selector.
 
   Background: Logged in as an IT admin: Rick Rogers
-    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+    Given I am logged in using "jstevenson" "jstevenson1234" to realm "IL"
     And format "application/json"
 
-  Scenario: Applying selectors on base level fields
+  Scenario: Applying pre-defined selectors
     Given selector "(*)"
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 200
-    And in the response body I should see the following fields:
+    And in the response body I should see the following fields only:
     | sex                           |
     | studentCharacteristics        |
     | economicDisadvantaged         |
@@ -40,7 +40,43 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     | links                         |
     | schoolId                      |
     | gradeLevel                    |
+    Given selector "(.)"
+    When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
+    Then I should receive a return code of 200
+    And in the response body I should see the following fields only:
+    | sex                           |
+    | studentCharacteristics        |
+    | economicDisadvantaged         |
+    | hispanicLatinoEthnicity       |
+    | disabilities                  |
+    | cohortYears                   |
+    | section504Disabilities        |
+    | race                          |
+    | programParticipations         |
+    | languages                     |
+    | studentUniqueStateId          |
+    | name                          |
+    | birthData                     |
+    | otherName                     |
+    | studentIndicators             |
+    | homeLanguages                 |
+    | learningStyles                |
+    | limitedEnglishProficiency     |
+    | studentIdentificationCode     |
+    | address                       |
+    | electronicMail                |
+    | schoolFoodServicesEligibility |
+    | telephone                     |
+    | displacementStatus            |
+    | id                            |
+    | entityType                    |
+    | links                         |
+    | schoolId                      |
+    | gradeLevel                    |
+    | studentSchoolAssociations     |
+    | studentSectionAssociations    |
 
+  Scenario: Applying selectors on base level fields
     Given selector "(name,sex,birthData)"
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 200
@@ -66,12 +102,12 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     | links                      |
     | schoolId                   |
     | gradeLevel                 |
-    And in "studentSectionAssociations" I should see the following fields:
+    And in "studentSectionAssociations" I should see the following fields only:
     | sectionId  |
     | studentId  |
     | id         |
     | entityType |
-    Given selector "(name,sectionAssociations:(section))"
+    Given selector "(name,sectionAssociations:(section:(*)))"
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 200
     And in the response body I should see the following fields only:
@@ -82,11 +118,12 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     | links                      |
     | schoolId                   |
     | gradeLevel                 |
-    And in "studentSectionAssociations" I should see the following fields:
+    And in "studentSectionAssociations" I should see the following fields only:
     | id         |
     | entityType |
     | sections   |
-    And in "studentSectionAssociations=>sections" I should see the following fields:
+    | studentId  |
+    And in "studentSectionAssociations=>sections" I should see the following fields only:
     | availableCredit        |
     | courseOfferingId       |
     | educationalEnvironment |
@@ -172,9 +209,17 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     Then I should receive a return code of 400
     And I should be informed that the selector is invalid
 
-  Scenario: Sad path - ID's as selector field
+  Scenario: Sad path - ID as selector field
     Given selector "(sectionAssociations:(sectionId))"
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
     Then I should receive a return code of 400
     And I should be informed that the selector is invalid
+
+  Scenario: Sad path - empty selector
+    Given selector "()"
+    When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
+    Then I should receive a return code of 200
+    Given selector "(name,sectionAssociation:())"
+    When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
+    Then I should receive a return code of 200
 
