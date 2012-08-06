@@ -61,13 +61,11 @@ module Eventbus
         }
       end
 
-      def handle_jobs(event_ids)
+      def handle_job(event_id)
         event_job_map = get_event_job_map
         # look up the event in the current events table and trigger the job if necessary
-        event_ids.each do |event_id|
-          if event_job_map.key?(event_id)
-            yield event_job_map[event_id]
-          end
+        if event_job_map.key?(event_id)
+          yield event_job_map[event_id]
         end
       end
     end
@@ -97,21 +95,40 @@ module Eventbus
             end
 
             # subscribe to events and enqueues them
-            event_ids_queue = Queue.new
+            event_id_with_timestamp_queue = Queue.new
             @threads << Thread.new do
               @event_subscriber.handle_event do |event_ids|
-                event_ids_queue << event_ids
+                event_ids.each do |event_id|
+                  puts "received event #{event_id}"
+                  event_id_with_timestamp_queue << {:event_id => event_id, :time_received => Time.now.to_i}
+                end
               end
             end
 
             # process the Event IDs in the queue and then run the corresponding jobs
             @threads << Thread.new do
+              event_id_last_job_execution = {}
               loop do
-                event_ids = event_ids_queue.deq
-                event_job_mapper.handle_jobs(event_ids) do |job|
+                event_id_with_timestamp = event_id_with_timestamp_queue.deq
+                last_job_execution = event_id_last_job_execution[event_id_with_timestamp[:event_id]]
+                if(last_job_execution && last_job_execution > event_id_with_timestamp[:time_received])
+                  puts "job #{event_id_with_timestamp} already ran"
+                  next
+                else
+                  event_id_last_job_execution[event_id_with_timestamp[:event_id]] = Time.now.to_i
+                end
+                event_job_mapper.handle_job(event_id_with_timestamp[:event_id]) do |job|
                   puts "running job #{job}"
                   @jobrunner.execute_job(job)
                 end
+              end
+            end
+
+            @threads << Thread.new do
+              loop do
+                sleep 10
+                jobs = @jobrunner.list_jobs
+                puts "hadoop jobs size = #{jobs.size}"
               end
             end
         end

@@ -10,3 +10,15 @@ end
 
 task :default =>  'test'
 
+namespace :test do
+
+  desc 'Measures test coverage'
+  task :coverage do
+    rm_f "coverage"
+    rm_f "coverage.data"
+    rcov = "rcov --aggregate coverage.data --text-summary -Ilib"
+    system("#{rcov} --html test/test_*.rb")
+  end
+
+end
+

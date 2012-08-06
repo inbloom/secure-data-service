@@ -1,1 +1,1 @@
-{"eventId": "oplog:math_highest_ever", "triggers": [{"ns": "sli.studentAssessmentAssociation"}, {"ns": "sli.studentSchoolAssociation"}, {"ns": "sli.studentSectionAssociation"}]}
+{"eventId": "oplog:math_highest_ever", "triggers": [{"ns": "sli.studentAssessmentAssociation"}, {"ns": "sli.studentSchoolAssociation"}, {"ns": "sli.studentSectionAssociation"}], "jar": "/POC/aggregation/Math-HighestEver/target/Math-HighestEver-1.0-SNAPSHOT-job.jar"}

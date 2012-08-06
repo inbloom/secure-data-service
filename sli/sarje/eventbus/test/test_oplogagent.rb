@@ -23,6 +23,7 @@ require 'eventbus'
 require 'test/unit'
 
 class TestOpLogAgent < Test::Unit::TestCase
+
   def setup
   end
 
@@ -44,13 +45,14 @@ class TestOpLogAgent < Test::Unit::TestCase
     coll = db['test']
     coll.remove
 
-    sleep 5 # wait for initial reading to clear
+    sleep 10 # wait for initial reading to clear
 
     oplog_count = 5
-    threads << Thread.new do oplog_count.times do |i|
-      puts "inserting #{i}"
-      coll.insert({'a' => i+1})
-    end
+    threads << Thread.new do
+      oplog_count.times do |i|
+        puts "inserting #{i}"
+        coll.insert({'a' => i+1})
+      end
     end
     sleep 2 # wait for oplog to queue up
 

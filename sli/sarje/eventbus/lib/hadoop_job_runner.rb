@@ -28,16 +28,14 @@ module Eventbus
 
     # implemented because JobScheduler expects it 
     def running_jobs
-      list_jobs 
+      list_jobs
     end
 
     def execute_job(job)
-      Thread.new do
-        command = "#{HADOOP_EXEC} jar #{job}"
-        puts "running '#{command}'"
-        status, stdout, stderr = systemu command
-        puts "finished '#{command}'"
-      end
+      command = "#{HADOOP_EXEC} jar #{SLI_HOME}#{job['jar']}"
+      puts "running '#{command}'"
+      status, stdout, stderr = systemu command
+      puts "finished '#{command}', status = #{status}"
     end
 
     def list_jobs

@@ -53,6 +53,23 @@ class TestJobScheduler < Test::Unit::TestCase
       assert_equal(1, event_job_map.size)
     end
 
+  def test_event_job_mapper
+    job_reader = Eventbus::JobReader.new(CONFIG)
+    event_job_mapper = Eventbus::EventJobMapper.new
+    jobs, event_job_map = job_reader.get_jobs
+    event_job_mapper.set_event_job_map(event_job_map)
+    count = 100
+
+    dispatched_events = 0
+    count.times do
+      event_job_mapper.handle_job(jobs[rand(jobs.size)]['eventId']) do |job|
+        dispatched_events += 1
+      end
+    end
+    assert_equal(count, dispatched_events)
+  end
+
+  # TODO: fix this test
     #def test_scheduler
     #
     #
