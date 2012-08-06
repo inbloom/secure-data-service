@@ -1,6 +1,7 @@
 package org.sli.orient.importer.importers;
 
 import java.util.Map;
+import java.util.logging.Level;
 
 import com.mongodb.DB;
 import com.mongodb.DBCursor;
@@ -23,16 +24,22 @@ public class TeacherSchoolEdgeImporter extends BaseImporter {
     @Override
     public void importCollection() {
         DBCursor cursor = mongo.getCollection("teacherSchoolAssociation").find();
+        long collectionCount = mongo.getCollection("teacherSchoolAssociation").count();
+        long count = 0;
         while (cursor.hasNext()) {
             DBObject tsa = cursor.next();
             Map<String, Object> body = (Map) tsa.get("body");
             String endDate = body.containsKey("endDate") ? (String) body.get("endDate") : "";
-            for (Vertex teacher : graph.getVertices("id", body.get("teacherId"))) {
-                for (Vertex school : graph.getVertices("id", body.get("schoolId"))) {
+            for (Vertex teacher : graph.getVertices("mongoid", body.get("teacherId"))) {
+                for (Vertex school : graph.getVertices("mongoid", body.get("schoolId"))) {
                     Edge e = graph.addEdge(null, teacher, school, "teacherSchoolAssociation");
                     e.setProperty("endDate", endDate);
                 }
             }
+            if (count % 200 == 0) {
+                logger.log(Level.INFO, "{0}/{1}", new String[] { "" + count, "" + collectionCount });
+            }
+            count++;
         }
     }
     

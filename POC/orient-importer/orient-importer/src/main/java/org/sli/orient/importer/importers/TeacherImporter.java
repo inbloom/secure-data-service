@@ -14,6 +14,7 @@ public class TeacherImporter extends BaseImporter {
     public void importCollection() {
         DBObject query = new BasicDBObject();
         query.put("type", "teacher");
+        query.markAsPartialObject();
         DBCursor cursor = mongo.getCollection("staff").find(query);
         while (cursor.hasNext()) {
             DBObject teacher = cursor.next();
