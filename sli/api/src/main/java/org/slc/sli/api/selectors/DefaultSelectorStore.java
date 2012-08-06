@@ -24,8 +24,8 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 
-@Component
-public class DefaultSelectorStore implements DefaultSelectorRepository {
+@Component("defaultSelectorRepository")
+public class DefaultSelectorStore implements SelectorRepository {
     
     public static final String DEFAULT_SELECTOR_TYPE_KEY = "type";
     public static final String DEFAULT_SELECTOR_VALUE_KEY = "selector";
@@ -93,7 +93,7 @@ public class DefaultSelectorStore implements DefaultSelectorRepository {
 
     
     @Override
-    public SemanticSelector getDefaultSelector(String type) {
+    public SemanticSelector getSelector(String type) {
         return this.defaultSelectors.get(type);
     }
 

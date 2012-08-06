@@ -48,6 +48,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
+import org.slc.sli.api.selectors.model.SemanticSelector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -66,7 +67,6 @@ import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.v1.entity.StudentResource;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderFactory;
-import org.slc.sli.api.selectors.DefaultSelectorRepository;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
@@ -115,40 +115,6 @@ public class DefaultCrudEndPointTest {
 
         // expand this list
         resourceList.add(ResourceNames.SCHOOLS);
-    }
-    
-    @Test
-    public void testExpectedResultsForDefaultSelectorLookups() {
-        final Map<String, Object> type1SelectorExpectedResults = new HashMap<String, Object>();
-        type1SelectorExpectedResults.put("*", true);
-        final Map<String, Object> type2SelectorExpectedResults = new HashMap<String, Object>();
-        type2SelectorExpectedResults.put("someField", true);
-        
-        
-        crudEndPoint.setDefaultSelectorRepository(new DefaultSelectorRepository() {
-            
-            @Override
-            public Map<String, Object> getDefaultSelector(String type) {
-                if (type.equals("type1")) {
-                    return type1SelectorExpectedResults;
-                } else if (type.equals("type2")) {
-                    return type2SelectorExpectedResults;
-                } else {
-                    return null;
-                }
-            }
-            
-        });
-        
-        
-        assertEquals(type1SelectorExpectedResults, crudEndPoint.getDefaultSelector("type1"));
-        assertEquals(type2SelectorExpectedResults, crudEndPoint.getDefaultSelector("type2"));
-        assertEquals(DefaultCrudEndpoint.DEFAULT_SELECTOR, crudEndPoint.getDefaultSelector("type3"));
-        
-        crudEndPoint.setDefaultSelectorRepository(null);
-        assertEquals(DefaultCrudEndpoint.DEFAULT_SELECTOR, crudEndPoint.getDefaultSelector("type1"));
-        assertEquals(DefaultCrudEndpoint.DEFAULT_SELECTOR, crudEndPoint.getDefaultSelector("type2"));
-        assertEquals(DefaultCrudEndpoint.DEFAULT_SELECTOR, crudEndPoint.getDefaultSelector("type3"));
     }
 
     public Map<String, Object> createTestEntity() {

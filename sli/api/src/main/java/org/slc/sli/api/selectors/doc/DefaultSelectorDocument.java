@@ -54,9 +54,9 @@ public class DefaultSelectorDocument implements SelectorDocument {
     private List<String> defaults = Arrays.asList("id", "entityType", "metaData");
 
     @Override
-    public List<EntityBody> aggregate(Map<Type, SelectorQueryPlan> queryMap, final Constraint constraint) {
+    public List<EntityBody> aggregate(SelectorQuery selectorQuery, final Constraint constraint) {
 
-        return executeQueryPlan(queryMap, constraint, new ArrayList<EntityBody>(), new Stack<Type>());
+        return executeQueryPlan(selectorQuery, constraint, new ArrayList<EntityBody>(), new Stack<Type>());
 
     }
 
@@ -65,11 +65,11 @@ public class DefaultSelectorDocument implements SelectorDocument {
     }
 
 
-    protected List<EntityBody> executeQueryPlan(Map<Type, SelectorQueryPlan> queryPlan, Constraint constraint,
+    protected List<EntityBody> executeQueryPlan(SelectorQuery selectorQuery, Constraint constraint,
                                           List<EntityBody> previousEntities, Stack<Type> types) {
         List<EntityBody> results = new ArrayList<EntityBody>();
 
-        for (Map.Entry<Type, SelectorQueryPlan> entry : queryPlan.entrySet()) {
+        for (Map.Entry<Type, SelectorQueryPlan> entry : selectorQuery.entrySet()) {
             List<EntityBody> connectingEntities = new ArrayList<EntityBody>();
             Type connectingType = null;
             Type currentType = entry.getKey();
@@ -108,7 +108,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
             List<Object> childQueries = plan.getChildQueryPlans();
 
             for (Object obj : childQueries) {
-                List<EntityBody> list = executeQueryPlan((Map<Type, SelectorQueryPlan>) obj, constraint, (List<EntityBody>) entities, types);
+                List<EntityBody> list = executeQueryPlan((SelectorQuery) obj, constraint, (List<EntityBody>) entities, types);
 
                 //update the entity results
                 results = updateEntityList(plan, results, list, types, currentType);

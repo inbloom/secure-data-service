@@ -17,7 +17,7 @@
 package org.slc.sli.api.selectors.model;
 
 import org.apache.commons.lang.StringUtils;
-import org.slc.sli.api.selectors.doc.SelectorQuery;
+import org.slc.sli.api.selectors.doc.SelectorQueryPlan;
 import org.slc.sli.api.selectors.doc.SelectorQueryVisitable;
 import org.slc.sli.api.selectors.doc.SelectorQueryVisitor;
 import org.slc.sli.api.selectors.model.elem.SelectorElement;
@@ -44,7 +44,7 @@ public class SemanticSelector extends HashMap<Type, List<SelectorElement>> imple
     }
 
     @Override
-    public SelectorQuery accept(SelectorQueryVisitor selectorQueryVisitor) {
+    public SelectorQueryPlan accept(SelectorQueryVisitor selectorQueryVisitor) {
         return selectorQueryVisitor.visit(this);
     }
 

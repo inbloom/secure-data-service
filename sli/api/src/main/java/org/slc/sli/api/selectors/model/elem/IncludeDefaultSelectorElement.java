@@ -1,6 +1,6 @@
 package org.slc.sli.api.selectors.model.elem;
 
-import org.slc.sli.api.selectors.doc.SelectorQuery;
+import org.slc.sli.api.selectors.doc.SelectorQueryPlan;
 import org.slc.sli.api.selectors.doc.SelectorQueryVisitor;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.ModelElement;
@@ -20,7 +20,7 @@ public class IncludeDefaultSelectorElement extends AbstractSelectorElement imple
     }
 
     @Override
-    public SelectorQuery accept(SelectorQueryVisitor selectorQueryVisitor) {
+    public SelectorQueryPlan accept(SelectorQueryVisitor selectorQueryVisitor) {
         return selectorQueryVisitor.visit(this);
     }
 

@@ -33,17 +33,17 @@ import org.slc.sli.api.selectors.model.elem.IncludeXSDSelectorElement;
  */
 public interface SelectorQueryVisitor {
 
-    public SelectorQuery visit(SemanticSelector semanticSelector);
+    public SelectorQueryPlan visit(SemanticSelector semanticSelector);
 
-    public SelectorQuery visit(BooleanSelectorElement booleanSelectorElement);
+    public SelectorQueryPlan visit(BooleanSelectorElement booleanSelectorElement);
 
-    public SelectorQuery visit(ComplexSelectorElement complexSelectorElement);
+    public SelectorQueryPlan visit(ComplexSelectorElement complexSelectorElement);
 
-    public SelectorQuery visit(IncludeAllSelectorElement includeAllSelectorElement);
+    public SelectorQueryPlan visit(IncludeAllSelectorElement includeAllSelectorElement);
 
-    public SelectorQuery visit(IncludeXSDSelectorElement includeXSDSelectorElement);
+    public SelectorQueryPlan visit(IncludeXSDSelectorElement includeXSDSelectorElement);
 
-    public SelectorQuery visit(IncludeDefaultSelectorElement includeDefaultSelectorElement);
+    public SelectorQueryPlan visit(IncludeDefaultSelectorElement includeDefaultSelectorElement);
 
-    public SelectorQuery visit(EmptySelectorElement emptySelectorElement);
+    public SelectorQueryPlan visit(EmptySelectorElement emptySelectorElement);
 }

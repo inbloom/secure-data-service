@@ -55,7 +55,6 @@ import org.slc.sli.api.resources.util.ResourceUtil;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppender;
 import org.slc.sli.api.resources.v1.view.OptionalFieldAppenderFactory;
 import org.slc.sli.api.security.SecurityEventBuilder;
-import org.slc.sli.api.selectors.DefaultSelectorRepository;
 import org.slc.sli.api.selectors.LogicalEntity;
 import org.slc.sli.api.selectors.doc.Constraint;
 import org.slc.sli.api.service.EntityNotFoundException;
@@ -96,12 +95,6 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
     @DefaultValue(ParameterConstants.DEFAULT_INCLUDE_AGGREGATES)
     private String includeAggregates;
 
-    /* General default. Used when a more specific default selector is not available. */
-    public static final Map<String, Object> DEFAULT_SELECTOR = new HashMap<String, Object>();
-    static {
-        DEFAULT_SELECTOR.put(".", true);
-    }
-    
     /* The maximum number of values allowed in a comma separated string */
     public static final int MAX_MULTIPLE_UUIDS = 100;
 
@@ -118,10 +111,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
     @Autowired
     private LogicalEntity logicalEntity;
-    
-    @Autowired
-    private DefaultSelectorRepository defaultSelectorRepository;
-    
+
     /**
      * Encapsulates each ReST method's logic to allow for less duplication of precondition and
      * exception handling code.
@@ -236,18 +226,14 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
         });
     }
 
-    private Map<String, Object> getSelector(String type, final NeutralQuery neutralQuery) {
+    private Map<String, Object> getSelector(final NeutralQuery neutralQuery) {
         Map<String, Object> selector = null;
         
         if (neutralQuery instanceof ApiQuery) {
             selector = ((ApiQuery) neutralQuery).getSelector();
         }
-        
-        if (selector == null) {
-            return null;//this.getDefaultSelector(type);
-        } else {
-            return selector;
-        }
+
+        return selector;
     }
 
 
@@ -406,7 +392,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
                 // final/resulting information
                 List<EntityBody> finalResults;
-                final Map<String, Object> selector = getSelector(entityDef.getType(), neutralQuery);
+                final Map<String, Object> selector = getSelector(neutralQuery);
 
                 if (selector != null) {
                     finalResults = logicalEntity.createEntities(selector, new Constraint("_id", idList), resourceName);
@@ -659,7 +645,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                         }
                     });
                 } else {
-                    final Map<String, Object> selector = getSelector(entityDef.getType(), query);
+                    final Map<String, Object> selector = getSelector(query);
 
                     if (selector != null) {
                         entityBodies = logicalEntity.createEntities(selector, new Constraint(), resourceName);
@@ -1102,13 +1088,5 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
     protected void setIncludeAggregates(String includeAggregates) {
         this.includeAggregates = includeAggregates;
-    }
-    
-    protected void setDefaultSelectorRepository(DefaultSelectorRepository defaultSelectorRepository) {
-        this.defaultSelectorRepository = defaultSelectorRepository;
-    }
-    
-    protected Map<String, Object> getDefaultSelector(String type) {
-        return DEFAULT_SELECTOR;
     }
 }

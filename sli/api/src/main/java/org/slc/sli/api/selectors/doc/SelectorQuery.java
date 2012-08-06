@@ -16,9 +16,11 @@
 
 package org.slc.sli.api.selectors.doc;
 
+import org.slc.sli.api.selectors.model.elem.SelectorElement;
 import org.slc.sli.modeling.uml.Type;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,32 +30,32 @@ import java.util.Map;
  * @author srupasinghe
  *
  */
-public class SelectorQuery {
-    private List<String> includeFields = new ArrayList<String>();
-    private List<String> excludeFields = new ArrayList<String>();
-    private List<Map<Type, SelectorQueryPlan>> queries = new ArrayList<Map<Type, SelectorQueryPlan>>();
-
-    public List<String> getIncludeFields() {
-        return includeFields;
-    }
-
-    public void setIncludeFields(List<String> includeFields) {
-        this.includeFields = includeFields;
-    }
-
-    public List<Map<Type, SelectorQueryPlan>> getQueries() {
-        return queries;
-    }
-
-    public void setQueries(List<Map<Type, SelectorQueryPlan>> queries) {
-        this.queries = queries;
-    }
-
-    public List<String> getExcludeFields() {
-        return excludeFields;
-    }
-
-    public void setExcludeFields(List<String> excludeFields) {
-        this.excludeFields = excludeFields;
-    }
+public class SelectorQuery extends HashMap<Type, SelectorQueryPlan> {
+//    private List<String> includeFields = new ArrayList<String>();
+//    private List<String> excludeFields = new ArrayList<String>();
+//    private List<Map<Type, SelectorQueryPlan>> queries = new ArrayList<Map<Type, SelectorQueryPlan>>();
+//
+//    public List<String> getIncludeFields() {
+//        return includeFields;
+//    }
+//
+//    public void setIncludeFields(List<String> includeFields) {
+//        this.includeFields = includeFields;
+//    }
+//
+//    public List<Map<Type, SelectorQueryPlan>> getQueries() {
+//        return queries;
+//    }
+//
+//    public void setQueries(List<Map<Type, SelectorQueryPlan>> queries) {
+//        this.queries = queries;
+//    }
+//
+//    public List<String> getExcludeFields() {
+//        return excludeFields;
+//    }
+//
+//    public void setExcludeFields(List<String> excludeFields) {
+//        this.excludeFields = excludeFields;
+//    }
 }

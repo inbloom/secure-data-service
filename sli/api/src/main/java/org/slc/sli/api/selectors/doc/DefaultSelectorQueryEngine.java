@@ -17,7 +17,7 @@
 package org.slc.sli.api.selectors.doc;
 
 import org.codehaus.plexus.util.StringUtils;
-import org.slc.sli.api.selectors.DefaultSelectorRepository;
+import org.slc.sli.api.selectors.SelectorRepository;
 import org.slc.sli.api.selectors.model.elem.BooleanSelectorElement;
 import org.slc.sli.api.selectors.model.elem.ComplexSelectorElement;
 import org.slc.sli.api.selectors.model.elem.EmptySelectorElement;
@@ -27,16 +27,14 @@ import org.slc.sli.api.selectors.model.elem.IncludeDefaultSelectorElement;
 import org.slc.sli.api.selectors.model.elem.IncludeXSDSelectorElement;
 import org.slc.sli.api.selectors.model.elem.SelectorElement;
 import org.slc.sli.api.selectors.model.SemanticSelector;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Type;
-import org.slc.sli.validation.NeutralSchemaRepositoryProvider;
 import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.NeutralSchema;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -57,155 +55,124 @@ public class DefaultSelectorQueryEngine implements SelectorQueryEngine, Selector
     private SchemaRepository schemaRepository;
 
     @Autowired
-    private DefaultSelectorRepository defaultSelectorRepository;
+    @Qualifier("defaultSelectorRepository")
+    private SelectorRepository defaultSelectorRepository;
+
+    @Autowired
+    @Qualifier("includeAllRepository")
+    private SelectorRepository includeAllSelectorRespository;
 
     @Override
-    public Map<Type, SelectorQueryPlan> assembleQueryPlan(SemanticSelector semanticSelector) {
+    public SelectorQuery assembleQueryPlan(SemanticSelector semanticSelector) {
         return buildQueryPlan(semanticSelector);
     }
 
-    protected Map<Type, SelectorQueryPlan> buildQueryPlan(SemanticSelector semanticSelector) {
-        Map<Type, SelectorQueryPlan> queries = new HashMap<Type, SelectorQueryPlan>();
+    protected SelectorQuery buildQueryPlan(SemanticSelector semanticSelector) {
+        SelectorQuery queries = new SelectorQuery();
 
         for (Map.Entry<Type, List<SelectorElement>> entry : semanticSelector.entrySet()) {
             Type type = entry.getKey();
             List<SelectorElement> attributes = entry.getValue();
 
-            SelectorQuery selectorQuery = handleAttributes(attributes);
+            SelectorQueryPlan selectorQueryPlan = handleAttributes(attributes);
 
-            if (!selectorQuery.getQueries().isEmpty()) {
-                if (queries.containsKey(type)) {
-                    queries.get(type).getChildQueryPlans().addAll(selectorQuery.getQueries());
-                } else {
-                    SelectorQueryPlan plan = new SelectorQueryPlan();
-                    plan.getChildQueryPlans().addAll(selectorQuery.getQueries());
-
-                    queries.put(type, plan);
-                }
-            }
-
-            NeutralQuery neutralQuery = buildQuery(selectorQuery);
-
-            if (queries.containsKey(type)) {
-                queries.get(type).setQuery(neutralQuery);
-                queries.get(type).getIncludeFields().addAll(selectorQuery.getIncludeFields());
-                queries.get(type).getExcludeFields().addAll(selectorQuery.getExcludeFields());
-            } else {
-                SelectorQueryPlan plan = new SelectorQueryPlan();
-                plan.setQuery(neutralQuery);
-                plan.getIncludeFields().addAll(selectorQuery.getIncludeFields());
-                plan.getExcludeFields().addAll(selectorQuery.getExcludeFields());
-
-                queries.put(type, plan);
-            }
+            queries.put(type, selectorQueryPlan);
         }
 
         return queries;
 
     }
 
-    protected NeutralQuery buildQuery(SelectorQuery selectorQuery) {
-        NeutralQuery query = new NeutralQuery();
-
-        return query;
-    }
-
-    protected SelectorQuery handleAttributes(List<SelectorElement> attributes) {
-        SelectorQuery selectorQuery = new SelectorQuery();
+    protected SelectorQueryPlan handleAttributes(List<SelectorElement> attributes) {
+        SelectorQueryPlan mainPlan = new SelectorQueryPlan();
 
         for (SelectorQueryVisitable visitableSelector : attributes) {
-            SelectorQuery newSelectorQuery = visitableSelector.accept(this);
+            SelectorQueryPlan plan = visitableSelector.accept(this);
 
-            if (newSelectorQuery != null) {
-                selectorQuery.getQueries().addAll(newSelectorQuery.getQueries());
-                selectorQuery.getIncludeFields().addAll(newSelectorQuery.getIncludeFields());
-                selectorQuery.getExcludeFields().addAll(newSelectorQuery.getExcludeFields());
+            if (plan != null) {
+                mainPlan.getChildQueryPlans().addAll(plan.getChildQueryPlans());
+                mainPlan.getIncludeFields().addAll(plan.getIncludeFields());
+                mainPlan.getExcludeFields().addAll(plan.getExcludeFields());
             }
         }
 
-        return selectorQuery;
+        return mainPlan;
     }
 
     @Override
-    public SelectorQuery visit(SemanticSelector semanticSelector) {
+    public SelectorQueryPlan visit(SemanticSelector semanticSelector) {
         //TODO
         return null;
     }
 
     @Override
-    public SelectorQuery visit(BooleanSelectorElement booleanSelectorElement) {
-        SelectorQuery selectorQuery = new SelectorQuery();
+    public SelectorQueryPlan visit(BooleanSelectorElement booleanSelectorElement) {
+        SelectorQueryPlan plan = new SelectorQueryPlan();
         String attr = booleanSelectorElement.getElementName();
 
         if (booleanSelectorElement.isAttribute()) {
             if (booleanSelectorElement.getQualifier()) {
-                selectorQuery.getIncludeFields().add(attr);
+                plan.getIncludeFields().add(attr);
             } else {
-                selectorQuery.getExcludeFields().add(attr);
+                plan.getExcludeFields().add(attr);
             }
         } else {
             ClassType type = (ClassType) booleanSelectorElement.getLHS();
+            SelectorQuery childQuery = new SelectorQuery();
 
-            Map<Type, SelectorQueryPlan> queries = new HashMap<Type, SelectorQueryPlan>();
-            SelectorQueryPlan plan = new SelectorQueryPlan();
+            childQuery.put(type, new SelectorQueryPlan());
 
-            plan.setQuery(new NeutralQuery());
-            queries.put(type, plan);
-
-            selectorQuery.getQueries().add(queries);
+            plan.getChildQueryPlans().add(childQuery);
         }
 
-        return selectorQuery;
+        return plan;
     }
 
     @Override
-    public SelectorQuery visit(ComplexSelectorElement complexSelectorElement) {
-        Map<Type, SelectorQueryPlan> queries = buildQueryPlan(complexSelectorElement.getSelector());
-        SelectorQuery selectorQuery = new SelectorQuery();
-        selectorQuery.getQueries().add(queries);
+    public SelectorQueryPlan visit(ComplexSelectorElement complexSelectorElement) {
+        SelectorQuery queries = buildQueryPlan(complexSelectorElement.getSelector());
+        SelectorQueryPlan plan =  new SelectorQueryPlan();
+        plan.getChildQueryPlans().add(queries);
 
-        return selectorQuery;
+        return plan;
     }
 
     @Override
-    public SelectorQuery visit(IncludeAllSelectorElement includeAllSelectorElement) {
-        //TODO
+    public SelectorQueryPlan visit(IncludeAllSelectorElement includeAllSelectorElement) {
         Type type = (Type) includeAllSelectorElement.getLHS();
-        Map<Type, SelectorQueryPlan> queries = new HashMap<Type, SelectorQueryPlan>();
-        SelectorQuery selectorQuery = new SelectorQuery();
-        SelectorQueryPlan plan = new SelectorQueryPlan();
 
-        plan.setQuery(new NeutralQuery());
-        queries.put(type, plan);
+        SemanticSelector selector = includeAllSelectorRespository.getSelector(type.getName());
+        SelectorQuery queries = buildQueryPlan(selector);
 
-        selectorQuery.getQueries().add(queries);
+        SelectorQueryPlan plan = queries.get(type);
 
-        return selectorQuery;
+        return plan;
     }
 
     @Override
-    public SelectorQuery visit(IncludeXSDSelectorElement includeXSDSelectorElement) {
+    public SelectorQueryPlan visit(IncludeXSDSelectorElement includeXSDSelectorElement) {
         Type type = (Type) includeXSDSelectorElement.getLHS();
-        SelectorQuery selectorQuery = new SelectorQuery();
-        selectorQuery.getIncludeFields().addAll(getXSDElements(type));
 
-        return selectorQuery;
+        SelectorQueryPlan plan = new SelectorQueryPlan();
+        plan.getIncludeFields().addAll(getXSDElements(type));
+
+        return plan;
     }
 
     @Override
-    public SelectorQuery visit(IncludeDefaultSelectorElement includeDefaultSelectorElement) {
+    public SelectorQueryPlan visit(IncludeDefaultSelectorElement includeDefaultSelectorElement) {
         Type type = (Type) includeDefaultSelectorElement.getLHS();
-        SemanticSelector selector = defaultSelectorRepository.getDefaultSelector(type.getName());
-        Map<Type, SelectorQueryPlan> queries = buildQueryPlan(selector);
 
-        SelectorQuery selectorQuery = new SelectorQuery();
-        selectorQuery.getQueries().add(queries);
+        SemanticSelector selector = defaultSelectorRepository.getSelector(type.getName());
+        SelectorQuery queries = buildQueryPlan(selector);
 
-        return selectorQuery;
+        SelectorQueryPlan plan = queries.get(type);
+
+        return plan;
     }
 
     @Override
-    public SelectorQuery visit(EmptySelectorElement emptySelectorElement) {
+    public SelectorQueryPlan visit(EmptySelectorElement emptySelectorElement) {
         throw new UnsupportedOperationException("TODO");
     }
 

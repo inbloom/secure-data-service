@@ -16,7 +16,7 @@
 
 package org.slc.sli.api.selectors.model.elem;
 
-import org.slc.sli.api.selectors.doc.SelectorQuery;
+import org.slc.sli.api.selectors.doc.SelectorQueryPlan;
 import org.slc.sli.api.selectors.doc.SelectorQueryVisitor;
 import org.slc.sli.api.selectors.model.SemanticSelector;
 import org.slc.sli.modeling.uml.ClassType;
@@ -43,7 +43,7 @@ public class ComplexSelectorElement extends AbstractSelectorElement implements S
     }
 
     @Override
-    public SelectorQuery accept(final SelectorQueryVisitor selectorQueryVisitor) {
+    public SelectorQueryPlan accept(final SelectorQueryVisitor selectorQueryVisitor) {
         return selectorQueryVisitor.visit(this);
     }
 

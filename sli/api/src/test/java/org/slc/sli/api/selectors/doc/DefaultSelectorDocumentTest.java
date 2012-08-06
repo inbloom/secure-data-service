@@ -297,8 +297,8 @@ public class DefaultSelectorDocumentTest {
         return results;
     }
 
-    private Map<Type, SelectorQueryPlan> createQueryPlan(String type, SelectorQueryPlan queryPlan) {
-        Map<Type, SelectorQueryPlan> result = new HashMap<Type, SelectorQueryPlan>();
+    private SelectorQuery createQueryPlan(String type, SelectorQueryPlan queryPlan) {
+        SelectorQuery result = new SelectorQuery();
 
         result.put(provider.getClassType(type), queryPlan);
 
@@ -330,7 +330,7 @@ public class DefaultSelectorDocumentTest {
         plan.getIncludeFields().add("sectionId");
         plan.getChildQueryPlans().addAll(childQueries);
 
-        Map<Type, SelectorQueryPlan> map = new HashMap<Type, SelectorQueryPlan>();
+        SelectorQuery map = new SelectorQuery();
         map.put(provider.getClassType("StudentSectionAssociation"), plan);
 
         list.add(map);
@@ -347,7 +347,7 @@ public class DefaultSelectorDocumentTest {
         plan.setQuery(query);
         plan.getIncludeFields().add("sectionName");
 
-        Map<Type, SelectorQueryPlan> map = new HashMap<Type, SelectorQueryPlan>();
+        SelectorQuery map = new SelectorQuery();
         map.put(provider.getClassType("Section"), plan);
 
         list.add(map);
@@ -376,7 +376,7 @@ public class DefaultSelectorDocumentTest {
         plan.setQuery(query);
         plan.getIncludeFields().add("sessionName");
 
-        Map<Type, SelectorQueryPlan> map = new HashMap<Type, SelectorQueryPlan>();
+        SelectorQuery map = new SelectorQuery();
         map.put(provider.getClassType("Session"), plan);
 
         list.add(map);
@@ -404,7 +404,7 @@ public class DefaultSelectorDocumentTest {
         SelectorQueryPlan plan = new SelectorQueryPlan();
         plan.setQuery(query);
 
-        Map<Type, SelectorQueryPlan> map = new HashMap<Type, SelectorQueryPlan>();
+        SelectorQuery map = new SelectorQuery();
         map.put(provider.getClassType("Section"), plan);
 
         list.add(map);

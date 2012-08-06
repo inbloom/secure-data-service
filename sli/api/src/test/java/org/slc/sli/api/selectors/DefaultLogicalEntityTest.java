@@ -27,17 +27,15 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.selectors.doc.Constraint;
 import org.slc.sli.api.selectors.doc.SelectorDocument;
+import org.slc.sli.api.selectors.doc.SelectorQuery;
 import org.slc.sli.api.selectors.doc.SelectorQueryEngine;
-import org.slc.sli.api.selectors.doc.SelectorQueryPlan;
 import org.slc.sli.api.selectors.model.ModelProvider;
 import org.slc.sli.api.selectors.model.SelectorSemanticModel;
 import org.slc.sli.api.selectors.model.SemanticSelector;
-import org.slc.sli.modeling.uml.Type;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
@@ -82,7 +80,7 @@ public class DefaultLogicalEntityTest {
         when(mockEntityDefinition.getType()).thenReturn("TEST");
         when(entityDefinitionStore.lookupByResourceName(anyString())).thenReturn(mockEntityDefinition);
         @SuppressWarnings("unchecked")
-        final Map<Type, SelectorQueryPlan> mockPlan = mock(Map.class);
+        final SelectorQuery mockPlan = mock(SelectorQuery.class);
         when(selectorQueryEngine.assembleQueryPlan(any(SemanticSelector.class))).thenReturn(mockPlan);
 
         final Constraint mockConstraint = mock(Constraint.class);

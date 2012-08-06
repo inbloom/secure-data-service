@@ -21,6 +21,7 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.selectors.doc.Constraint;
 import org.slc.sli.api.selectors.doc.SelectorDocument;
+import org.slc.sli.api.selectors.doc.SelectorQuery;
 import org.slc.sli.api.selectors.doc.SelectorQueryEngine;
 import org.slc.sli.api.selectors.doc.SelectorQueryPlan;
 import org.slc.sli.api.selectors.model.ModelProvider;
@@ -69,7 +70,7 @@ public class DefaultLogicalEntity implements LogicalEntity {
         final ClassType entityType = provider.getClassType(StringUtils.capitalize(typeDef.getType()));
 
         final SemanticSelector semanticSelector = selectorSemanticModel.parse(selector, entityType);
-        final Map<Type, SelectorQueryPlan> selectorQuery = selectorQueryEngine.assembleQueryPlan(semanticSelector);
+        final SelectorQuery selectorQuery = selectorQueryEngine.assembleQueryPlan(semanticSelector);
 
         return selectorDocument.aggregate(selectorQuery, constraint);
     }

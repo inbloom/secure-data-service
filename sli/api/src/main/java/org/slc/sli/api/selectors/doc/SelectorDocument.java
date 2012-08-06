@@ -30,6 +30,6 @@ import java.util.Map;
  */
 public interface SelectorDocument {
 
-    public List<EntityBody> aggregate(Map<Type, SelectorQueryPlan> queryMap, final Constraint constraint);
+    public List<EntityBody> aggregate(SelectorQuery selectorQuery, final Constraint constraint);
 
 }

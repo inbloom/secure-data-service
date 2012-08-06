@@ -17,6 +17,7 @@
 
 package org.slc.sli.api.service.query;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -38,7 +39,13 @@ public class ApiQuery extends NeutralQuery {
 
     public static final int API_QUERY_DEFAULT_LIMIT = 50;
     
-    private Map<String, Object> selector;
+    private Map<String, Object> selector = null;
+
+    /* General default. Used when a more specific default selector is not available. */
+    public static final Map<String, Object> DEFAULT_SELECTOR = new HashMap<String, Object>();
+    static {
+        DEFAULT_SELECTOR.put(".", true);
+    }
 
     /**
      * Constructor. Reads the query portion of the URI into a neutral query (this).
@@ -126,7 +133,7 @@ public class ApiQuery extends NeutralQuery {
     }
 
     public Map<String, Object> getSelector() {
-        return selector;
+        return (selector != null) ? selector : null;
     }
 
     public void setSelector(Map<String, Object> selector) {

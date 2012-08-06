@@ -29,5 +29,5 @@ import java.util.Map;
  */
 public interface SelectorQueryEngine {
 
-    public Map<Type, SelectorQueryPlan> assembleQueryPlan(SemanticSelector semanticSelector);
+    public SelectorQuery assembleQueryPlan(SemanticSelector semanticSelector);
 }
