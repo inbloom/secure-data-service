@@ -37,24 +37,30 @@ class TestMessagingService < Test::Unit::TestCase
       sub_1 = messaging.get_subscriber(TEST_TOPIC)
       sub_2 = messaging.get_subscriber(TEST_TOPIC)
 
+      sub_counter_1 = 0
       sub_1.handle_message do |msg| 
-        puts "Sub 1111: #{msg}"
+        sub_counter_1 += 1
       end 
 
+      sub_counter_2 = 0
       sub_2.handle_message do |msg| 
-        puts "Sub 2222: #{msg}"
+        sub_counter_2 += 1
       end 
+
+      n_messages = 10 
 
       sleep(3)
-      10.times do 
+      n_messages.times do 
         msg = {
           "timestamp" => Time.now.to_i
         }
         pub.publish(msg)
         sleep(1)
       end 
+      sleep(3)
 
-      sleep(5)
+      assert sub_counter_1 == n_messages, "Subscriber 1 did not receive #{n_messages} messages."
+      assert sub_counter_2 == n_messages, "Subscriber 2 did not receive #{n_messages} messages."
     end
 
     def test_queue
@@ -66,27 +72,31 @@ class TestMessagingService < Test::Unit::TestCase
       sub_1 = messaging.get_subscriber(TEST_QUEUE)
       sub_2 = messaging.get_subscriber(TEST_QUEUE)
 
+      sub_counter_1 = 0
       sub_1.handle_message do |msg| 
-        puts "Sub 1111: #{msg}"
+        sub_counter_1 += 1
       end 
 
+      sub_counter_2 = 0
       sub_2.handle_message do |msg| 
-        puts "Sub 2222: #{msg}"
+        sub_counter_2 += 1 
       end 
 
       sleep(3)
+      n_messages = 10 
       counter = 0 
-      10.times do 
+      n_messages.times do 
         counter += 1
         msg = {
           "count" => counter, 
           "timestamp" => Time.now.to_i
         }
         pub.publish(msg)
-        sleep(1)
+        sleep(0.5)
       end 
 
-      sleep(5)
+      sleep(3)
+      assert (sub_counter_1 + sub_counter_2) == n_messages, "Did not receive all #{n_messages} messages. Instead got #{sub_counter_1 + sub_counter_2}."
 
     end
 end
