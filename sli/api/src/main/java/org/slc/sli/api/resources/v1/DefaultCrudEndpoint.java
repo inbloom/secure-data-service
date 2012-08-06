@@ -37,6 +37,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
+import org.slc.sli.api.selectors.UnsupportedSelectorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
@@ -303,8 +304,15 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 if (!ids.isEmpty()) {
                     endpointNeutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
                     endpointNeutralQuery = addTypeCriteria(endpointEntity, endpointNeutralQuery);
+                    List<EntityBody> entityBodyList = null;
+                    try {
+                        entityBodyList = logicalEntity.createEntities(endpointNeutralQuery.getSelector(), new Constraint("_id", ids), resolutionResourceName));
+                    }
+                    catch (UnsupportedSelectorException e) {
+                        entityBodyList
+                    }
                     
-                    for (EntityBody result : logicalEntity.createEntities(endpointNeutralQuery.getSelector(), new Constraint("_id", ids), resolutionResourceName)) {
+                    for (EntityBody result : entityBodyList) {
                         if (associations.get(result.get("id")) != null) {
                             // direct self reference don't need to include association in response
                             if (!endpointEntity.getResourceName().equals(entityDef.getResourceName())) {

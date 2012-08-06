@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -57,6 +58,12 @@ public class DefaultLogicalEntity implements LogicalEntity {
     @Autowired
     private EntityDefinitionStore entityDefinitionStore;
 
+    private static final List<String> UNSUPPORTED_RESOURCE_LIST = new ArrayList<String>();
+    static {
+        UNSUPPORTED_RESOURCE_LIST.add("application");
+        UNSUPPORTED_RESOURCE_LIST.add("tenant");
+    }
+
     public List<EntityBody> createEntities(final Map<String, Object> selector, final Constraint constraint,
                                                   final String resourceName) {
 
@@ -69,10 +76,14 @@ public class DefaultLogicalEntity implements LogicalEntity {
         // and API are not in sync
         final ClassType entityType = provider.getClassType(StringUtils.capitalize(typeDef.getType()));
 
+        if(typeDef.getType().isEmpty() && !UNSUPPORTED_RESOURCE_LIST.contains(resourceName))
+            throw new UnsupportedSelectorException("Selector is not supported yet for this resource");
+
         final SemanticSelector semanticSelector = selectorSemanticModel.parse(selector, entityType);
         final SelectorQuery selectorQuery = selectorQueryEngine.assembleQueryPlan(semanticSelector);
 
         return selectorDocument.aggregate(selectorQuery, constraint);
     }
+
 }
 
