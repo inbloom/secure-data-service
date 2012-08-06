@@ -2,7 +2,6 @@
 @RALLY_US174
 @RALLY_US3331
 @RALLY_US2669
-@derpy
 Feature: Custom Role Mapping Tool
 As an SEA/LEA  Admin, I would like to have the Complex Role Mapping admin tool, so that I can map lists of SEA/LEA Directory roles to their associated SLI Access Rights.
 
