@@ -19,6 +19,7 @@ package org.slc.sli.sif.translation;
 import java.util.ArrayList;
 import java.util.List;
 
+import openadk.library.student.OperationalStatus;
 import openadk.library.student.SchoolInfo;
 import openadk.library.student.SchoolLevelType;
 import openadk.library.student.Title1Status;
@@ -28,6 +29,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
+import org.slc.sli.sif.domain.converter.OperationalStatusConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
 import org.slc.sli.sif.domain.converter.SchoolFocusConverter;
 import org.slc.sli.sif.domain.converter.SchoolLevelTypeConverter;
@@ -48,6 +50,9 @@ public class SchoolInfoTranslationTask<A extends SchoolInfo, B extends SchoolEnt
 
     @Autowired
     GradeLevelsConverter gradeLevelsConverter;
+
+    @Autowired
+    OperationalStatusConverter operationalStatusConverter;
 
     @Autowired
     SchoolLevelTypeConverter schoolTypeConverter;
@@ -74,6 +79,7 @@ public class SchoolInfoTranslationTask<A extends SchoolInfo, B extends SchoolEnt
 
         result.setStateOrganizationId(schoolInfo.getStateProvinceId());
         result.setNameOfInstitution(schoolInfo.getSchoolName());
+        result.setOperationalStatus(operationalStatusConverter.convert(OperationalStatus.wrap(schoolInfo.getOperationalStatus())));
         result.setAddress(addressListConverter.convert(schoolInfo.getAddressList()));
         result.setSchoolType(schoolFocusConverter.convert(schoolInfo.getSchoolFocusList()));
         result.setWebSite(schoolInfo.getSchoolURL());

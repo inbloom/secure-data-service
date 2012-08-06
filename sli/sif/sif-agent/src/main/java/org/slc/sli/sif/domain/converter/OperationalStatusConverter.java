@@ -62,7 +62,8 @@ public class OperationalStatusConverter {
      * @return
      */
     public String convert(OperationalStatus operationalStatus){
-        if (operationalStatus == null || operationalStatus.getValue().isEmpty()) {
+        if (operationalStatus == null || operationalStatus.getValue() == null ||
+                operationalStatus.getValue().isEmpty()) {
             return null;
         }
 
