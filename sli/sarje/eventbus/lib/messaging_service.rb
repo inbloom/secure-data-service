@@ -25,19 +25,14 @@ module Eventbus
   class MessagingService
     def initialize(config = {})
       @config = {
-          :node_name => Socket.gethostname,
-          :start_heartbeat => true,
-          :start_node_detector => false,
           :messaging_host => "localhost",
           :messaging_port => 61613,
           :messaging_login => "",
           :messaging_passcode => "",
           :messaging_ssl => false,
-          :heartbeat_period => 5,
-          :heartbeat_detector_period => 10
       }.merge(config)
 
-      host = {
+      @host = {
           :login => @config[:messaging_login],
           :passcode => @config[:messaging_passcode],
           :host => @config[:messaging_host],
@@ -45,11 +40,11 @@ module Eventbus
           :ssl => @config[:messaging_ssl]
       }
 
-      if config[:subscribe_queue_name].start_with?('/topic/')
-        host[:headers] = {'client-id' => config[:node_name]}
-      end
+      # if config[:subscribe_queue_name].start_with?('/topic/')
+      #   host[:headers] = {'client-id' => config[:node_name]}
+      # end
       @config[:stomp_config] = {
-          :hosts => [host],
+          :hosts => [@host],
           :initial_reconnect_delay => 0.01,
           :max_reconnect_delay => 30.0,
           :use_exponential_back_off => true,
@@ -61,138 +56,51 @@ module Eventbus
           :connect_headers => {},
           :parse_timeout => 5
       }
-      @publisher = Publisher.new(@config[:publish_queue_name], @config[:stomp_config])
-      if @config[:start_heartbeat]
-        start_heartbeat(@config[:node_name])
-      end
-      if @config[:start_node_detector]
-        @heartbeat_queue = Queue.new
-        @detected_nodes_lock = Mutex.new
-        start_node_detector
-      end
     end
 
-    def publish(message)
-      @publisher.publish(message)
+    def get_publisher(q_name)
+      Publisher.new(q_name, @config[:stomp_config])
     end
 
-    def subscribe
-      @subscriber ||= Subscriber.new(@config[:subscribe_queue_name], @config[:stomp_config]) do |message|
-        if(@config[:start_node_detector] && message.instance_of?(Hash) && message['event_type'] == 'heartbeat')
-          puts "#{@config[:node_name]} received a heartbeat from #{message['node_name']}"
-          @heartbeat_queue << message
-        else
-          puts "#{@config[:node_name]} received a message: #{message}"
-          yield message
-        end
-      end
-    end
-
-    def start_node_detector
-      puts "starting node detector for node <#{@config[:node_name]}>"
-      @node_detector_thread ||= Thread.new do
-        loop do
-          sleep @config[:heartbeat_detector_period]
-          detected_nodes = Set.new
-          begin
-            loop do
-              heartbeat_message = @heartbeat_queue.pop(true)
-              detected_nodes << heartbeat_message['node_name']
-            end
-          rescue
-            # no more oplog in oplog queue
-          end
-          set_detected_nodes(detected_nodes)
-        end
-      end
-    end
-
-    def get_detected_nodes
-      if @config[:start_node_detector]
-        detected_nodes = []
-        @detected_nodes_lock.synchronize {
-          detected_nodes = @detected_nodes
-        }
-        detected_nodes
-      end
-    end
-
-    def shutdown
-      if !@subscriber.nil?
-        @subscriber.kill_subscription_listener
-      end
-      if !@node_detector_thread.nil?
-        @node_detector_thread.kill
-      end
-      if !@heartbeat_thread.nil?
-        @heartbeat_thread.kill
-      end
-    end
-
-    private
-
-    def set_detected_nodes(detected_nodes)
-      @detected_nodes_lock.synchronize {
-        @detected_nodes = detected_nodes
-      }
-    end
-
-    def start_heartbeat(node_name)
-      puts "starting heartbeat for node #{node_name}"
-      @heartbeat_thread ||= Thread.new do
-        loop do
-          message = {
-              'event_type' => 'heartbeat',
-              'node_name' => node_name,
-              'hostname' => Socket.gethostname,
-              'timestamp' => Time.now.to_i.to_s
-          }
-          publish(message)
-          sleep @config[:heartbeat_period]
-        end
-      end
-    end
+    def get_subscriber(q_name)
+      Subscriber.new(q_name, @config[:stomp_config])
+    end 
   end
 
   class Publisher
     def initialize(queue_name, config)
       @queue_name = queue_name
       @config = config
+      @client = Stomp::Client.new(@config)
     end
 
     def publish(message)
-      client = Stomp::Client.new(@config)
-      client.publish(@queue_name, message.to_json)
+      @client.publish(@queue_name, message.to_json)
     end
   end
 
   class Subscriber
     def initialize(queue_name, config)
+      # NOTE: Topics are considered realtime notifications that will be repeated over
+      # time, while as queues are durable and follow the producer/consumer model. 
+      # We will not include the client id in the header of the message queue but 
+      # instead add it on the applicatio level 
+          # @header = {"activemq.subscriptionName" => config[:hosts][0][:headers]['client-id']}
+          # @client = Stomp::Connection.open(config)
+          # @client.subscribe @queue_name, @header
+
       @queue_name = queue_name
-      @thread ||= Thread.new do
-        @client = nil
-        if @queue_name.start_with?('/topic/')
-          @header = {"activemq.subscriptionName" => config[:hosts][0][:headers]['client-id']}
-          @client = Stomp::Connection.open(config)
-          @client.subscribe @queue_name, @header
-          puts "subscribing to topic #{@queue_name}"
-          while true
-            message = @client.receive
-            yield JSON.parse message.body
-          end
-        else
-          puts "subscribing to queue #{@queue_name}"
-          @client = Stomp::Client.new(config)
-          @client.subscribe @queue_name do |message|
-            yield JSON.parse message.body
-          end
-        end
-        @client.join
-        @client.close
+      # @is_topic = @queue_name.start_with?('/topic/')
+      @client = Stomp::Client.new(config)
+    end
+
+    def handle_message
+      @client.subscribe(@queue_name) do |msg| 
+        yield JSON.parse msg.body
       end
     end
 
-    def kill_subscription_listener
+    def close
       if @client.is_a?(Stomp::Client)
         @client.unsubscribe @queue_name
         @client.close
