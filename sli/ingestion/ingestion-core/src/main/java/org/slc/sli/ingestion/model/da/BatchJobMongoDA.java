@@ -85,7 +85,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
 
     @Override
-    public void saveBatchJobStageSeparatelly(String batchJobId, Stage stage) {
+    public void saveBatchJobStage(String batchJobId, Stage stage) {
         stage.setJobId(batchJobId);
         batchJobMongoTemplate.save(stage, BATCHJOB_STAGE_SEPARATE_COLLECTION);
     }

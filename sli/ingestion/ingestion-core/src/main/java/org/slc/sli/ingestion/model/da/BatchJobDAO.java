@@ -50,7 +50,7 @@ public interface BatchJobDAO {
 
     void saveError(Error error);
 
-    void saveBatchJobStageSeparatelly(String batchJobId, Stage stage);
+    void saveBatchJobStage(String batchJobId, Stage stage);
 
     List<Stage> getBatchStagesStoredSeperatelly(String batchJobId);
 
