@@ -51,6 +51,6 @@
     </div>
     <script type="text/javascript" src="${CONTEXT_ROOT_PATH}/static/js/panels/SLC.studentList.js"></script>
     <script type="text/javascript">
-        SLC.studentList1.create('${id}');
+        SLC.studentList.create('${id}');
     </script>
 </div>

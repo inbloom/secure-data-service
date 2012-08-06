@@ -20,7 +20,7 @@
  */
 /*global SLC $ */
 
-SLC.namespace('SLC.studentList1', (function () {
+SLC.namespace('SLC.studentList', (function () {
 
 	var studentLists = {};
 
@@ -32,8 +32,7 @@ SLC.namespace('SLC.studentList1', (function () {
 			wrapper = "LOS"+tableId,
 			view = wrapper+" .view",
 			filter = wrapper+" .filter",
-			viewSelect = "#"+view+"Select",
-			filterSelect = "#"+filter+"Select";
+			viewSelect = "#"+view+"Select";
 
 		function printStudentList() {
 			var panelConfig = SLC.dataProxy.getConfig(listOfStudents),
