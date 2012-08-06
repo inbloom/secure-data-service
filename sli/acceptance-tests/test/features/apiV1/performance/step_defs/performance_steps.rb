@@ -56,13 +56,17 @@ Before do
 
   @props['API_FORMAT'] = 'application/vnd.slc+json'
   @props['API_SERVER'] = 'localhost'
-  @props['API_SERVER_INSTANCE'] = 'https://local.slidev.org/api/rest/v1'
+
+  # allows you to override locally
+  @props['API_SERVER_INSTANCE'] = 'https://local.slidev.org/api/rest/v1' if @props['API_SERVER_INSTANCE'].nil?
 
   # this prop will likely be the only one overridden from the env
   @props['API_LOG_ORIGINAL'] = '/storage/logs/apicall.log' if @props['API_LOG_ORIGINAL'].nil?
 
   @props['API_LOG_SEARCH_PATTERN'] = 'APICall|finished in'
   @props['API_LOG_SEARCH_MARKER'] = 'START API RECORDING'
+
+  @props['LOG_ANALYSIS_MODE'] = 'api' if @props['LOG_ANALYSIS_MODE'].nil?
 end
 
 ###############################################################################
