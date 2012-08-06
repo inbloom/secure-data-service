@@ -93,11 +93,15 @@ end
 
 #Given a tabName and panelName, return the panel
 #Note: exact panelName is not required
-def getPanel(tabName, panelName)
-  tabIndex = getTabIndex(tabName)
-  tab = @driver.find_element(:id, tabIndex)
-  checkPanelNameExists(tab, panelName)
+# if panelName is nil, return the first panel
+def getPanel(tabName, panelName = nil)
+  tab = getTab(tabName)
   panelsInTab = tab.find_elements(:class, "panel")
+  if (panelName != nil)
+    checkPanelNameExists(tab, panelName)
+  else
+    return panelsInTab[0]
+  end
   
   panelsInTab.each do |panel|
     panelHeader = panel.find_element(:class, "panel-header")
