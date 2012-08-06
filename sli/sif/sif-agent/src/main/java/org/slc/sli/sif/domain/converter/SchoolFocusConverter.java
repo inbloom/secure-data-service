@@ -16,6 +16,9 @@
 
 package org.slc.sli.sif.domain.converter;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import openadk.library.student.SchoolFocus;
 import openadk.library.student.SchoolFocusList;
 import openadk.library.student.SchoolFocusType;
@@ -24,6 +27,19 @@ import openadk.library.student.SchoolFocusType;
  * Converter for SchoolFocus to school type
  */
 public class SchoolFocusConverter {
+
+
+    private static final Map<String, String> SCHOOL_FOCUS_MAP = new HashMap<String, String>();
+    static {
+        SCHOOL_FOCUS_MAP.put(SchoolFocusType.ALTERNATIVE.getValue(), "Alternative");
+        SCHOOL_FOCUS_MAP.put(SchoolFocusType.CHARTER.getValue(), "JJAEP");
+        SCHOOL_FOCUS_MAP.put(SchoolFocusType.MAGNET.getValue(), "DAEP");
+        SCHOOL_FOCUS_MAP.put(SchoolFocusType.REGULAR.getValue(), "Regular");
+        SCHOOL_FOCUS_MAP.put(SchoolFocusType.SPECIALED.getValue(), "Special Education");
+        SCHOOL_FOCUS_MAP.put(SchoolFocusType.VOCATIONAL.getValue(), "Vocational");
+    }
+
+    private static final String NOT_SUPPORTED = "Not Supported";
 
     /**
      * Converts the first school focus into a school type
@@ -36,28 +52,11 @@ public class SchoolFocusConverter {
             return null;
         }
         SchoolFocus[] schoolFocus = schoolFocusList.getSchoolFocuses();
-        return toSliSchoolType(schoolFocus[0].getValue());
+        String result = SCHOOL_FOCUS_MAP.get(schoolFocus[0].getValue());
+        if( result != null ){
+            return result;
+        }
+        return NOT_SUPPORTED;
     }
 
-    private String toSliSchoolType(String schoolFocusType) {
-        if (SchoolFocusType.ALTERNATIVE.getValue().equals(schoolFocusType)) {
-            return "Alternative";
-        }
-        if (SchoolFocusType.CHARTER.getValue().equals(schoolFocusType)) {
-            return "JJAEP";
-        }
-        if (SchoolFocusType.MAGNET.getValue().equals(schoolFocusType)) {
-            return "DAEP";
-        }
-        if (SchoolFocusType.REGULAR.getValue().equals(schoolFocusType)) {
-            return "Regular";
-        }
-        if (SchoolFocusType.SPECIALED.getValue().equals(schoolFocusType)) {
-            return "Special Education";
-        }
-        if (SchoolFocusType.VOCATIONAL.getValue().equals(schoolFocusType)) {
-            return "Vocational";
-        }
-        return "Not Supported";
-    }
 }
