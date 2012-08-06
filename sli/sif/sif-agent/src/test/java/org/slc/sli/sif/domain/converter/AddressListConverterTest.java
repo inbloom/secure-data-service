@@ -74,22 +74,22 @@ public class AddressListConverterTest extends ADKTest {
         map.clear();
         map.put(AddressType._0369_CAMPUS, "Other");
         map.put(AddressType._0369_EMPLOYER, "Other");
-        map.put(AddressType._0369_EMPLOYMENT, "Other");
-        map.put(AddressType._0369_MAILING, "Other");
+        map.put(AddressType._0369_EMPLOYMENT, "Work");
+        map.put(AddressType._0369_MAILING, "Mailing");
         map.put(AddressType._0369_ORGANIZATION, "Other");
         map.put(AddressType._0369_OTHER, "Other");
         map.put(AddressType._0369_PERMANENT, "Other");
         map.put(AddressType.EMPLOYERS, "Other");
-        map.put(AddressType.EMPLOYMENT, "Other");
+        map.put(AddressType.EMPLOYMENT, "Work");
         map.put(AddressType.MAILING, "Mailing");
         map.put(AddressType.OTHER_HOME, "Home");
         map.put(AddressType.OTHER_ORGANIZATION, "Other");
         map.put(AddressType.PHYSICAL_LOCATION, "Physical");
-        map.put(AddressType.SHIPPING, "Billing");
+        map.put(AddressType.SHIPPING, "Other");
         map.put(AddressType.SIF15_CAMPUS, "Other");
         map.put(AddressType.SIF15_EMPLOYER, "Other");
-        map.put(AddressType.SIF15_EMPLOYMENT, "Other");
-        map.put(AddressType.SIF15_MAILING, "Other");
+        map.put(AddressType.SIF15_EMPLOYMENT, "Work");
+        map.put(AddressType.SIF15_MAILING, "Mailing");
         map.put(AddressType.SIF15_ORGANIZATION, "Other");
         map.put(AddressType.SIF15_OTHER, "Other");
         map.put(AddressType.SIF15_PERMANENT, "Other");
@@ -102,7 +102,7 @@ public class AddressListConverterTest extends ADKTest {
         // Come up with SIF addresses, add to list, convert
         AddressList originalList = new AddressList();
         // Add addresses...
-        for (int i = 0; i < 25; i++) {
+        for (int i = 0; i < addressTypes.size(); i++) {
             openadk.library.common.Address address = getAddress(i);
             originalList.add(address);
         }
