@@ -48,6 +48,6 @@ public class BaseImporter implements Importer {
                 logger.log(Level.FINE, "Importing {0} @ {1}", new String[] { collectionName, "" + count });
             }
         }
-        logger.log(Level.INFO, "\t RPms: {0}", recordCount / (System.currentTimeMillis() - startTime));
+        logger.log(Level.INFO, "\t RPS: {0}", (recordCount / (System.currentTimeMillis() - startTime)) * 1000);
     }
 }
