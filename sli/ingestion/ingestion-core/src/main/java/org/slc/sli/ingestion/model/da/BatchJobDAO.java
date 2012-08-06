@@ -52,7 +52,7 @@ public interface BatchJobDAO {
 
     void saveBatchJobStage(String batchJobId, Stage stage);
 
-    List<Stage> getBatchStagesStoredSeperatelly(String batchJobId);
+    List<Stage> getBatchJobStages(String batchJobId);
 
     /**
      * Try to acquire a lock on the provided tenant, on behalf of the provided job id.
