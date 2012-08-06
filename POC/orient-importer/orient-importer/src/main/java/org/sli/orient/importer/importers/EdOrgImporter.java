@@ -3,6 +3,7 @@ package org.sli.orient.importer.importers;
 import java.util.Map;
 import java.util.logging.Level;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
@@ -13,6 +14,9 @@ public class EdOrgImporter extends BaseImporter {
     
     private static final String EDUCATION_ORGANIZATION = "educationOrganization";
     private static final String EDUCATION_ORGANIZATION_ASSOCIATION = "educationOrganizationAssociation";
+    private static final String STATE_EDUCATION_AGENCY = "stateEducationAgency";
+    private static final String LOCAL_EDUCATION_AGENCY = "localEducationAgency";
+    private static final String SCHOOL = "school";
     
     public EdOrgImporter(DB m, Graph g) {
         super(m, g);
@@ -24,13 +28,25 @@ public class EdOrgImporter extends BaseImporter {
      */
     @Override
     public void importCollection() {
-        DBCursor cursor = mongo.getCollection(EDUCATION_ORGANIZATION).find();
+        importEducationOrganizations(STATE_EDUCATION_AGENCY);
+        importEducationOrganizations(LOCAL_EDUCATION_AGENCY);
+        importEducationOrganizations(SCHOOL);
+    }
+    
+    public void importEducationOrganizations(String type) {
+        logger.log(Level.INFO, "Importing education organizations into graph: " + type);
+        
+        DBObject query = new BasicDBObject();
+        query.put("type", type);
+        
+        DBCursor cursor = mongo.getCollection(EDUCATION_ORGANIZATION).find(query);
+        cursor.batchSize(BATCH_SIZE);
         while (cursor.hasNext()) {
             DBObject edOrg = cursor.next();
             String currentEdOrgId = (String) edOrg.get("_id");
             
             Vertex v = graph.addVertex(null);
-            logger.log(Level.INFO, "Adding vertex for {0}#{1} \t {2}", new String[] { EDUCATION_ORGANIZATION,
+            logger.log(Level.INFO, "Adding vertex for {0}#{1} \t {2}", new String[] { type,
                     currentEdOrgId, v.getId().toString() });
             
             v.setProperty("mongoid", currentEdOrgId);
@@ -48,4 +64,5 @@ public class EdOrgImporter extends BaseImporter {
             }
         }
     }
+
 }
