@@ -23,16 +23,9 @@ class CustomRolesController < ApplicationController
   # GET /realms
   # GET /realms.json
   def index
-    userRealm = session[:edOrg]
-    realmToRedirectTo = GeneralRealmHelper.get_realm_to_redirect_to(userRealm)
     custom_roles = CustomRole.find(:all)
-    custom_roles.each do |role|
-      if role.realmId == realmToRedirectTo.id
-        redirect_to  :action => "show", :id => role.id
-        return
-      end
-    end
-    
+    redirect_to  :action => "show", :id => custom_roles[0].id
+
   end
 
 
