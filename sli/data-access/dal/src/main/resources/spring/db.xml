@@ -84,11 +84,8 @@
 
   <bean id="mongoTrackingAspect" class="org.slc.sli.dal.aspect.MongoTrackingAspect" 
        factory-method="aspectOf">
-      <property name="enabledConfig" value="${sli.mongo.tracking}" />
   </bean>
-   
- 
-  
+
   <bean id="mongoEntityRepository" name="validationRepo"
     class="org.slc.sli.dal.repository.MongoEntityRepository">
     <property name="template" ref="mongoTemplate" />
@@ -101,6 +98,5 @@
     </bean>
   <import resource="classpath:/spring/validation.xml" />
   <context:component-scan base-package="org.slc.sli.dal" />
-    
-  
+
 </beans>

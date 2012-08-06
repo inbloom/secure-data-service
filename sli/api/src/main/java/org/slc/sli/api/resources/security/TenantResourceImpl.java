@@ -59,6 +59,7 @@ import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
@@ -89,9 +90,9 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
 
     @Value("${sli.tenant.ingestionServers}")
     private String ingestionServers;
-
-    @Value("${bootstrap.sandbox.realm.uniqueId}")
-    private String sandboxUniqueId;
+    
+    @Autowired
+    private RealmHelper realmHelper;
 
     private List<String> ingestionServerList;
 
@@ -210,24 +211,11 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
             List<Map<String, Object>> newLandingZoneList = new ArrayList<Map<String, Object>>();
             newLandingZoneList.add(newLandingZone);
             newTenant.put(LZ, newLandingZoneList);
-
-            // when creating a tenant, initialize default roles (if in sandbox mode)
-            if (isSandbox) {
-                EntityDefinition realmDefinition = store.lookupByEntityType("realm");
-                final EntityService realmService = realmDefinition.getService();
-                final NeutralQuery sandboxQuery = new NeutralQuery(1);
-                query.addCriteria(new NeutralCriteria("uniqueIdentifier", "=", sandboxUniqueId));
-                SecurityUtil.runWithAllTenants(new SecurityTask<Boolean>() {
-                    @Override
-                    public Boolean execute() {
-                        String realmId = iterableToList(realmService.listIds(sandboxQuery)).get(0);
-                        info("Initializing default roles for tenant: {} and realm: {}", new Object[] {tenantId, realmId});
-                        roleInitializer.dropAndBuildRoles(tenantId, realmId);
-                        return realmId != null;
-                    }                    
-                });
-            }
             
+            //In sandbox a user doesn't create a realm, so this is the only opportunity to create the custom roles
+            if (isSandbox) {
+                roleInitializer.dropAndBuildRoles(realmHelper.getAssociatedRealmId());
+            }
             return tenantService.create(newTenant);
         }
         // If more than exists, something is wrong
@@ -281,18 +269,6 @@ public class TenantResourceImpl extends DefaultCrudEndpoint implements TenantRes
         return existingTenantId;
     }
     
-    private List<String> iterableToList(Iterable<String> original) {
-        List<String> transformed = new ArrayList<String>();
-        for (String entity : original) {
-            transformed.add(entity);
-        }
-        return transformed;
-    }
-
-/*    private String randomIngestionServer() {
-        return ingestionServerList[random.nextInt(ingestionServerList.length)];
-    }*/
-
     /**
      * TODO: add javadoc
      *
