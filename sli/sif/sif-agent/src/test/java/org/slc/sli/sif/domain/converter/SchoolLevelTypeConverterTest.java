@@ -45,47 +45,52 @@ public class SchoolLevelTypeConverterTest extends ADKTest {
     public void testEmpty() {
         SchoolLevelType type = SchoolLevelType.wrap("");
         String result = converter.convert(type);
-        Assert.assertEquals("Ungraded", result);
+        Assert.assertNull( result);
     }
 
     @Test
     public void testListEmpty() {
         SchoolLevelType type = SchoolLevelType.wrap("");
         List<String> result = converter.convertAsList(type);
-        Assert.assertEquals(1, result.size());
-        Assert.assertEquals("Ungraded", result.get(0));
+        Assert.assertEquals(0, result.size());
     }
 
     @Test
     public void testMapped(){
         testAll(SchoolLevelType._0031_0013_ADULT, "Adult School");
         testAll(SchoolLevelType._0031_0789_PRE_KINDERGARTEN, "Preschool/early childhood");
-        testAll(SchoolLevelType._0031_1302_ALL_LEVELS, "Ungraded");
+        testAll(SchoolLevelType._0031_1302_ALL_LEVELS, "All Levels");
         testAll(SchoolLevelType._0031_1304_ELEMENTARY, "Elementary School");
-        testAll(SchoolLevelType._0031_1981_PRESCHOOL, "Infant/toddler School");
+        testAll(SchoolLevelType._0031_1981_PRESCHOOL, "Preschool/early childhood");
         testAll(SchoolLevelType._0031_2397_PRIMARY, "Primary School");
         testAll(SchoolLevelType._0031_2399_INTERMEDIATE, "Intermediate School");
         testAll(SchoolLevelType._0031_2400_MIDDLE, "Middle School");
+        testAll(SchoolLevelType.MIDDLE, "Middle School");
         testAll(SchoolLevelType._0031_2401_JUNIOR, "Junior High School");
+        testAll(SchoolLevelType.JUNIOR, "Junior High School");
         testAll(SchoolLevelType._0031_2402_HIGH_SCHOOL, "High School");
+        testAll(SchoolLevelType.HIGH, "High School");
         testAll(SchoolLevelType._0031_2403_SECONDARY, "SecondarySchool");
+        testAll(SchoolLevelType._0031_0787_INFANTS_TODDLERS, "Infant/toddler School");
+        testAll(SchoolLevelType.ELEMENTARY, "Elementary School");
     }
 
     @Test
-    public void testDefault(){
-        testAll(SchoolLevelType._0031_0787_INFANTS_TODDLERS, "Ungraded");
-        testAll(SchoolLevelType.ELEMENTARY, "Ungraded");
-        testAll(SchoolLevelType.HIGH, "Ungraded");
-        testAll(SchoolLevelType.INSTITUTION, "Ungraded");
-        testAll(SchoolLevelType.JUNIOR, "Ungraded");
-        testAll(SchoolLevelType.MIDDLE, "Ungraded");
-        testAll(SchoolLevelType.ZZ, "Ungraded");
-        testAll(SchoolLevelType.wrap("something else"), "Ungraded");
+    public void testUnmapped(){
+        testUnmapped(SchoolLevelType.INSTITUTION);
+        testUnmapped(SchoolLevelType.ZZ);
+        testUnmapped(SchoolLevelType.wrap("something else"));
     }
 
     private void testAll(SchoolLevelType type, String expected) {
         testCategory(type, expected);
         testCategoryList(type, expected);
+    }
+
+    private void testUnmapped(SchoolLevelType type) {
+        testCategory(type, null);
+        List<String> result = converter.convertAsList(type);
+        Assert.assertEquals(0, result.size());
     }
 
     private void testCategory(SchoolLevelType type, String expected){
