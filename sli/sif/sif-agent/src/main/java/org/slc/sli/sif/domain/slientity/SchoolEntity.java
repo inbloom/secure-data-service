@@ -180,7 +180,7 @@ public class SchoolEntity extends SliEntity {
     }
 
     @Override
-    public String getEntityType() {
+    public String entityType() {
         return "School";
     }
 

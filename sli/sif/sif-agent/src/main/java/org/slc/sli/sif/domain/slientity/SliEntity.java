@@ -16,6 +16,7 @@
 
 package org.slc.sli.sif.domain.slientity;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
@@ -23,12 +24,14 @@ import java.util.Map;
 import java.util.Set;
 
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.slc.sli.api.client.impl.GenericEntity;
-
-//import org.slc.sli.api.client.impl.GenericEntity;
 
 /**
  * An GenericEntity in the SLI domain. Each SLI Entity can be converted to a
@@ -40,6 +43,8 @@ import org.slc.sli.api.client.impl.GenericEntity;
 public abstract class SliEntity {
     protected static final ObjectMapper MAPPER = new ObjectMapper();
 
+    protected static final Logger LOG = LoggerFactory.getLogger(SliEntity.class);
+
     /**
      * Constructor
      */
@@ -50,22 +55,34 @@ public abstract class SliEntity {
     /**
      * Get the SLI entity type name
      */
-    public abstract String getEntityType();
+    public abstract String entityType();
 
     /**
      * Output body of this Entity
      */
-    public GenericEntity getGenericEntity() {
-        return new GenericEntity(getEntityType(), body());
+    public GenericEntity createGenericEntity() {
+        GenericEntity entity = new GenericEntity(entityType(), createBody());
+        return entity;
     }
 
     /**
      * Output body of this Entity
      */
-    public Map<String, Object> body() {
-        Map<String, Object> body = MAPPER.convertValue(this, new TypeReference<Map<String, Object>>() {
-        });
-        clearNullValueKeys(body);
+    public Map<String, Object> createBody() {
+        Map<String, Object> body = null;
+        try {
+            body = MAPPER.
+                    readValue(this.json(), new TypeReference<Map<String, Object>>() {
+            });
+            clearNullValueKeys(body);
+        } catch (JsonParseException e) {
+            LOG.error("Entity map conversion error: ", e);
+        } catch (JsonMappingException e) {
+            LOG.error("Entity map conversion error: ", e);
+        } catch (IOException e) {
+            LOG.error("Entity map conversion error: ", e);
+        }
+
         return body;
     }
 

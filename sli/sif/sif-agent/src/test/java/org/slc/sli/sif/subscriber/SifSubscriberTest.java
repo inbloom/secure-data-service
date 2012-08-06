@@ -122,7 +122,7 @@ public class SifSubscriberTest {
         List<SliEntity> mockSliEntities = new ArrayList<SliEntity>();
         mockSliEntities.add(mockSliEntity);
         GenericEntity mockGenericEntity = Mockito.mock(GenericEntity.class);
-        Mockito.when(mockSliEntity.getGenericEntity()).thenReturn(mockGenericEntity);
+        Mockito.when(mockSliEntity.createGenericEntity()).thenReturn(mockGenericEntity);
 
         Mockito.when(mockTranslationManager.translate(mockSchoolInfo)).thenReturn(mockSliEntities);
         Mockito.when(mockSchoolInfo.getRefId()).thenReturn("1234");
@@ -154,7 +154,7 @@ public class SifSubscriberTest {
         List<SliEntity> mockSliEntities = new ArrayList<SliEntity>();
         mockSliEntities.add(mockSliEntity);
         Map<String, Object> mockBody = new HashMap<String, Object>();
-        Mockito.when(mockSliEntity.body()).thenReturn(mockBody);
+        Mockito.when(mockSliEntity.createBody()).thenReturn(mockBody);
 
         Mockito.when(mockTranslationManager.translate(mockSchoolInfo)).thenReturn(mockSliEntities);
         Mockito.when(mockSchoolInfo.getRefId()).thenReturn("1234");
