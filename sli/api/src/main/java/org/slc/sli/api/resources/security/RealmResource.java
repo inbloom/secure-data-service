@@ -160,6 +160,7 @@ public class RealmResource {
         }
         EntityBody deletedRealm = service.get(realmId);
         service.delete(realmId);
+        roleInitializer.dropRoles(realmId);
         audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo, "Realm ["
                 + deletedRealm.get("name") + "] deleted!"));
         return Response.status(Status.NO_CONTENT).build();
@@ -191,7 +192,7 @@ public class RealmResource {
         String id = service.create(newRealm);
         
         //Also create custom roles
-        roleInitializer.dropAndBuildRoles(realmHelper.getAssociatedRealmId());
+        roleInitializer.dropAndBuildRoles(id);
         
         audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo, "Realm ["
                 + newRealm.get("name") + "] created!"));
