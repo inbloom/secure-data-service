@@ -103,7 +103,13 @@ end
 
 def selectDropdownOption(selectFieldId, optionToSelect)
   puts "dropDownId = " + selectFieldId
-  select = @explicitWait.until{@driver.find_element(:id, selectFieldId)}
+  select = nil
+  # Special case for view selector and filter, as they're a class
+  if (selectFieldId == "viewSelectMenu" || selectFieldId == "filterSelectMenu")
+    select = @explicitWait.until{@driver.find_element(:css, "div[class*='#{selectFieldId}']")}
+  else
+    select = @explicitWait.until{@driver.find_element(:id, selectFieldId)}
+  end
   select.find_element(:tag_name,"a").click
   all_options = select.find_element(:class_name, "dropdown-menu").find_elements(:tag_name, "li")
   optionFound = false
