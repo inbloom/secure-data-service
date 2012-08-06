@@ -22,7 +22,7 @@ public class User {
     private String homeDir;
     private String fullName;
     private String cn;
-    private Status status;
+    private Status status = Status.SUBMITTED;
 
     public String getCn() {
         return cn;
@@ -193,7 +193,8 @@ public class User {
      *
      */
     public enum Status {
-        SUBMITTED("submitted"), EULA_ACCEPTED("eual-accepted");
+        SUBMITTED("submitted"), EULA_ACCEPTED("eual-accepted"), PENDING("pending"), REJECTED("rejected"), APPROVED(
+                "approved"), DISABLED("disabled");
         private final String statusString;
 
         private Status(String statusString) {
