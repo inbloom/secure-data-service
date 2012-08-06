@@ -2,6 +2,7 @@
 @RALLY_US174
 @RALLY_US3331
 @RALLY_US2669
+@derpy
 Feature: Custom Role Mapping Tool
 As an SEA/LEA  Admin, I would like to have the Complex Role Mapping admin tool, so that I can map lists of SEA/LEA Directory roles to their associated SLI Access Rights.
 
@@ -49,13 +50,13 @@ And That user can now access the API
 Scenario: Add rights to group
 When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
 Then I have navigated to my Custom Role Mapping Page
-And the user "custom" can access the API with rights "Read General"
+And the user "custom" in tenant "IL" can access the API with rights "Read General"
 And I edit the group "New Custom"
 When I add the right "WRITE_GENERAL" to the group "New Custom"
 And I hit the save button
 Then the group "New Custom" contains the rights "Read and Write General"
 And I wait for 5 seconds
-And the user "custom" can access the API with rights "Read and Write General"
+And the user "custom" in tenant "IL" can access the API with rights "Read and Write General"
 
 @production
 Scenario: Remove rights from group
@@ -66,12 +67,12 @@ When I remove the right "WRITE_GENERAL" from the group "New Custom"
 And I hit the save button
 Then the group "New Custom" contains the rights "Read General"
 And I wait for 5 seconds
-And the user "custom" can access the API with rights "Read General"
+And the user "custom" in tenant "IL" can access the API with rights "Read General"
 When I edit the group "New Custom"
 When I remove the right "READ_GENERAL" from the group "New Custom"
 #And I hit the save button
 Then I am informed that I must have at least one role and right in the group
-And the user "custom" can access the API with rights "Read General"
+And the user "custom" in tenant "IL" can access the API with rights "Read General"
 
 @production
 Scenario: Remove role from group
