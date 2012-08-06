@@ -106,7 +106,7 @@ public class DefaultSelectorQueryEngineTest {
         assertNotNull("Should not be null", plan);
         assertNotNull("Should not be null", plan.getQuery());
         assertFalse("Should be false", plan.getIncludeFields().isEmpty());
-        assertTrue("Should be true", plan.getChildQueryPlans().isEmpty());
+        assertFalse("Should be false", plan.getChildQueryPlans().isEmpty());
         assertTrue("Should be true", plan.getExcludeFields().isEmpty());
     }
 
@@ -124,7 +124,7 @@ public class DefaultSelectorQueryEngineTest {
         assertNotNull("Should not be null", plan.getQuery());
         assertFalse("Should be false", plan.getIncludeFields().isEmpty());
         assertFalse("Should be false", plan.getExcludeFields().isEmpty());
-        assertTrue("Should be true", plan.getChildQueryPlans().isEmpty());
+        assertFalse("Should be false", plan.getChildQueryPlans().isEmpty());
     }
 
     @Test
@@ -250,11 +250,10 @@ public class DefaultSelectorQueryEngineTest {
 
     public SemanticSelector generateIncludeAllSelectorObjectMap() {
         ClassType studentType = provider.getClassType("Student");
-        ClassType studentSchoolAssocicationType = provider.getClassType("StudentSchoolAssociation");
 
         SemanticSelector studentsAttrs = new SemanticSelector();
         List<SelectorElement> attributes1 = new ArrayList<SelectorElement>();
-        attributes1.add(new IncludeAllSelectorElement(studentSchoolAssocicationType));
+        attributes1.add(new IncludeAllSelectorElement(studentType));
         studentsAttrs.put(studentType, attributes1);
 
         return studentsAttrs;

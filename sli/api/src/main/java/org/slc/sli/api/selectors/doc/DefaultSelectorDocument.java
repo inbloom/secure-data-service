@@ -27,8 +27,10 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Type;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -167,6 +169,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
             for (String exclude : plan.getExcludeFields()) {
                 if (!isDefaultOrParse(exclude, plan)) {
                     body.remove(exclude);
+                    body.remove(getExposeName(modelProvider.getClassType(exclude)));
                 }
             }
         }
@@ -192,8 +195,8 @@ public class DefaultSelectorDocument implements SelectorDocument {
     }
 
     protected List<EntityBody> filterFields(List<EntityBody> results, SelectorQueryPlan plan) {
-        results = filterExcludeFields(results, plan);
         results = filterIncludeFields(results, plan);
+        results = filterExcludeFields(results, plan);
 
         return results;
     }
@@ -233,16 +236,18 @@ public class DefaultSelectorDocument implements SelectorDocument {
         String exposeName = getExposeName(nextType);
         key = key.equals("_id") ? "id" : key;
 
-        //make sure we save the field we just added
-        plan.getParseFields().add(exposeName);
+        if (exposeName != null) {
+            //make sure we save the field we just added
+            plan.getParseFields().add(exposeName);
 
-        for (EntityBody body : results) {
-            String id = (String) body.get(extractionKey);
+            for (EntityBody body : results) {
+                String id = (String) body.get(extractionKey);
 
-            List<EntityBody> subList = getEntitySubList(entityList, key, id);
+                List<EntityBody> subList = getEntitySubList(entityList, key, id);
 
-            if (!subList.isEmpty()) {
-                body.put(exposeName, subList);
+                if (!subList.isEmpty()) {
+                    body.put(exposeName, subList);
+                }
             }
         }
 
@@ -250,9 +255,11 @@ public class DefaultSelectorDocument implements SelectorDocument {
     }
 
     protected String getExposeName(Type type) {
-        EntityDefinition def = getEntityDefinition(type);
+        if (type == null) return null;
 
-        return PathConstants.TEMP_MAP.get(def.getResourceName());
+        EntityDefinition definition = getEntityDefinition(type);
+
+        return (definition != null) ? PathConstants.TEMP_MAP.get(definition.getResourceName()) : null;
     }
 
     protected String getExtractionKey(Type currentType, Type previousType) {
@@ -290,13 +297,24 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
 
     protected Iterable<EntityBody> executeQuery(Type type, NeutralQuery query, final Constraint constraint, final boolean inLine) {
+        Iterable<EntityBody> results = Collections.EMPTY_LIST;
+
         if (constraint.getKey() != null && constraint.getValue() != null) {
             query.addCriteria(new NeutralCriteria(constraint.getKey(),
                     NeutralCriteria.CRITERIA_IN, constraint.getValue(), inLine));
         }
-        
 
-        Iterable<EntityBody> results = getEntityDefinition(type).getService().list(query);
+        try {
+            EntityDefinition definition = getEntityDefinition(type);
+
+            if (definition != null) {
+                results = getEntityDefinition(type).getService().list(query);
+            }
+        } catch (AccessDeniedException ade) {
+            //users might not have access to all associations.
+            //If this happens catch the AccessDeniedException and move along.
+            warn("Selectors : Access denied to type[" + type + "]");
+        }
 
         return results;
     }

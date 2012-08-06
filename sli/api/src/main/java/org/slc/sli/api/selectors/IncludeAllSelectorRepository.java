@@ -22,6 +22,7 @@ import org.slc.sli.api.selectors.model.SelectorSemanticModel;
 import org.slc.sli.api.selectors.model.SemanticSelector;
 import org.slc.sli.api.service.query.SelectionConverter;
 import org.slc.sli.api.service.query.Selector2MapOfMaps;
+import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Type;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,12 +68,12 @@ public class IncludeAllSelectorRepository implements SelectorRepository {
 
     protected String constructSelectorString(Type type) {
         List<String> features = new ArrayList<String>();
-//        List<AssociationEnd> ends = modelProvider.getAssociationEnds(type.getId());
+        List<AssociationEnd> ends = modelProvider.getAssociationEnds(type.getId());
 
         features.add("$");
-//        for (AssociationEnd end : ends) {
-//            features.add(end.getName());
-//        }
+        for (AssociationEnd end : ends) {
+            features.add(end.getName());
+        }
 
         return ":(" + StringUtils.join(features, ",") + ")";
     }

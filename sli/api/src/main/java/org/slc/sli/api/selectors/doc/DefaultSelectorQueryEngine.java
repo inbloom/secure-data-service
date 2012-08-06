@@ -35,7 +35,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -119,10 +121,14 @@ public class DefaultSelectorQueryEngine implements SelectorQueryEngine, Selector
             }
         } else {
             ClassType type = (ClassType) booleanSelectorElement.getLHS();
-            SemanticSelector defaultSelectorForType = defaultSelectorRepository.getSelector(type.getName());
-            SelectorQuery defaultQueryForType = buildQueryPlan(defaultSelectorForType);
+            if (booleanSelectorElement.getQualifier()) {
+                SemanticSelector defaultSelectorForType = defaultSelectorRepository.getSelector(type.getName());
+                SelectorQuery defaultQueryForType = buildQueryPlan(defaultSelectorForType);
 
-            plan.getChildQueryPlans().add(defaultQueryForType);
+                plan.getChildQueryPlans().add(defaultQueryForType);
+            } else {
+                plan.getExcludeFields().add(type.getName());
+            }
         }
 
         return plan;
@@ -179,7 +185,7 @@ public class DefaultSelectorQueryEngine implements SelectorQueryEngine, Selector
     protected Set<String> getXSDElements(Type type) {
         NeutralSchema schema = schemaRepository.getSchema(StringUtils.uncapitalise(type.getName()));
 
-        return schema.getFields().keySet();
+        return (schema != null) ? schema.getFields().keySet() : Collections.EMPTY_SET;
     }
 
 }
