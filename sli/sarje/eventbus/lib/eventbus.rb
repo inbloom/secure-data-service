@@ -129,7 +129,7 @@ module Eventbus
         def start_heartbeat(node_id, heartbeat_period)
             @heartbeat_thread = Thread.new do
                 loop do
-                    events_list = ["NOTHING"] 
+                    events_list = [] 
                     @sub_e_ids_lock.synchronize {
                         events_list = @subscribed_event_ids
                     }
