@@ -75,7 +75,7 @@ SLIAdmin::Application.routes.draw do
   match "/changePassword" => "change_passwords#new", :via => :get
   match "/forgotPassword" => "forgot_passwords#index", :via => :get
   match "/forgot_passwords" => "forgot_passwords#index", :via => :get
-  match "/forgotPassword/notify" => "forgot_passwords#show", :via => :get
+  match "/forgotPassword/notify" => "forgot_passwords#show", :via => :get, :as => "forgot_password_notify"
   match "/resetPassword" => "forgot_passwords#update", :via => :get
   match "/resetPassword/new" => "forgot_passwords#new", :via => :get
 
