@@ -43,27 +43,4 @@ public class SelectorQueryTest {
     public void setup() {
         query = new SelectorQuery();
     }
-
-    @Test
-    public void testGetSetIncludeFields() {
-        final List<String> includeFields = new ArrayList<String>(Arrays.asList("1", "2", "3"));
-//        query.setIncludeFields(includeFields);
-//        assertEquals(includeFields, query.getIncludeFields());
-    }
-
-    @Test
-    public void testGetSetExcludeFields() {
-        final List<String> excludeFields = new ArrayList<String>(Arrays.asList("1", "2", "3"));
-//        query.setExcludeFields(excludeFields);
-//        assertEquals(excludeFields, query.getExcludeFields());
-    }
-
-    @Test
-    public void testGetSetQueries() {
-        @SuppressWarnings("unchecked")
-        final List<Map<Type, SelectorQueryPlan>> mockList = mock(List.class);
-
-//        query.setQueries(mockList);
-//        assertEquals(mockList, query.getQueries());
-    }
 }

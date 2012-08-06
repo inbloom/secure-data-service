@@ -94,11 +94,9 @@ public class DefaultSelectorQueryEngineTest {
     }
 
     @Test
-    @Ignore("TODO")
     public void testIncludeAllSelector() {
         SemanticSelector selectorsWithType =  generateIncludeAllSelectorObjectMap();
         ClassType studentType = provider.getClassType("Student");
-        ClassType studentSchoolAssocicationType = provider.getClassType("schoolAssociations<=>student");
 
         Map<Type, SelectorQueryPlan> queryPlan = defaultSelectorQueryEngine.assembleQueryPlan(selectorsWithType);
 
@@ -107,21 +105,13 @@ public class DefaultSelectorQueryEngineTest {
         SelectorQueryPlan plan = queryPlan.get(studentType);
         assertNotNull("Should not be null", plan);
         assertNotNull("Should not be null", plan.getQuery());
-        assertEquals("Should match", 1, plan.getChildQueryPlans().size());
-
-        @SuppressWarnings("unchecked")
-        Map<Type, SelectorQueryPlan> childQueries = (Map<Type, SelectorQueryPlan>) plan.getChildQueryPlans().get(0);
-        SelectorQueryPlan schoolAsscPlan = childQueries.get(studentSchoolAssocicationType);
-        assertNotNull("Should not be null", schoolAsscPlan);
-        assertNotNull("Should not be null", schoolAsscPlan.getQuery());
-        assertNull("Should be null", schoolAsscPlan.getQuery().getIncludeFields());
-        assertNull("Should be null", schoolAsscPlan.getQuery().getExcludeFields());
+        assertFalse("Should be false", plan.getIncludeFields().isEmpty());
+        assertTrue("Should be true", plan.getChildQueryPlans().isEmpty());
+        assertTrue("Should be true", plan.getExcludeFields().isEmpty());
     }
 
     @Test
-    @Ignore("TODO")
     public void testExcludeSelector() {
-        //TODO
         SemanticSelector selectorsWithType =  generateExcludeSelectorObjectMap();
         ClassType studentType = provider.getClassType("Student");
 
@@ -132,9 +122,9 @@ public class DefaultSelectorQueryEngineTest {
         SelectorQueryPlan plan = queryPlan.get(studentType);
         assertNotNull("Should not be null", plan);
         assertNotNull("Should not be null", plan.getQuery());
-        assertNull("Should be null", plan.getQuery().getIncludeFields());
-        assertNull("Should be null", plan.getQuery().getExcludeFields());
-        assertEquals("Should match", 1, plan.getChildQueryPlans().size());
+        assertFalse("Should be false", plan.getIncludeFields().isEmpty());
+        assertFalse("Should be false", plan.getExcludeFields().isEmpty());
+        assertTrue("Should be true", plan.getChildQueryPlans().isEmpty());
     }
 
     @Test
@@ -175,12 +165,22 @@ public class DefaultSelectorQueryEngineTest {
     }
 
     @Test
-    @Ignore("TODO")
     public void testDefaultSelector() {
+        final ClassType studentType = provider.getClassType("Student");
+        final ClassType studentSectionAssociationType = provider.getClassType("StudentSectionAssociation");
         final SemanticSelector selector = generateDefaultSelectorMap();
 
         final Map<Type, SelectorQueryPlan> queryPlan = defaultSelectorQueryEngine.assembleQueryPlan(selector);
         assertNotNull(queryPlan);
+
+        SelectorQueryPlan plan = queryPlan.get(studentType);
+        assertFalse("Should be false", plan.getIncludeFields().isEmpty());
+        assertTrue("Should be true", plan.getExcludeFields().isEmpty());
+        assertFalse("Should be false", plan.getChildQueryPlans().isEmpty());
+
+        SelectorQuery childQuery = (SelectorQuery) plan.getChildQueryPlans().get(0);
+        SelectorQueryPlan childPlan = childQuery.get(studentSectionAssociationType);
+        assertNotNull("Should not be null", childPlan.getQuery());
     }
 
     @Test
@@ -250,15 +250,10 @@ public class DefaultSelectorQueryEngineTest {
 
     public SemanticSelector generateIncludeAllSelectorObjectMap() {
         ClassType studentType = provider.getClassType("Student");
-        ClassType studentSchoolAssocicationType = provider.getClassType("schoolAssociations<=>student");
-
-        Attribute name = getMockAttribute("name");
-        Attribute economicDisadvantaged = getMockAttribute("economicDisadvantaged");
+        ClassType studentSchoolAssocicationType = provider.getClassType("StudentSchoolAssociation");
 
         SemanticSelector studentsAttrs = new SemanticSelector();
         List<SelectorElement> attributes1 = new ArrayList<SelectorElement>();
-        attributes1.add(new BooleanSelectorElement(name, true));
-        attributes1.add(new BooleanSelectorElement(economicDisadvantaged, true));
         attributes1.add(new IncludeAllSelectorElement(studentSchoolAssocicationType));
         studentsAttrs.put(studentType, attributes1);
 
