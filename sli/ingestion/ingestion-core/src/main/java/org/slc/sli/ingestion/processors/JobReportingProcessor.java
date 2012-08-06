@@ -145,11 +145,12 @@ public class JobReportingProcessor implements Processor {
                 Stage stageBrief = stageBriefMap.get(stageChunk.getStageName());
 
                 if (stageBrief != null) {
-
-                    if (stageBrief.getStartTimestamp().getTime() > stageChunk.getStartTimestamp().getTime()) {
+                    if (stageBrief.getStartTimestamp() != null
+                            && stageBrief.getStartTimestamp().getTime() > stageChunk.getStartTimestamp().getTime()) {
                         stageBrief.setStartTimestamp(stageChunk.getStartTimestamp());
                     }
-                    if (stageBrief.getStopTimestamp().getTime() < stageChunk.getStopTimestamp().getTime()) {
+                    if (stageBrief.getStopTimestamp() != null
+                            && stageBrief.getStopTimestamp().getTime() < stageChunk.getStopTimestamp().getTime()) {
                         stageBrief.setStopTimestamp(stageChunk.getStopTimestamp());
                     }
                     stageBrief.setElapsedTime(stageBrief.getElapsedTime() + stageChunk.getElapsedTime());
