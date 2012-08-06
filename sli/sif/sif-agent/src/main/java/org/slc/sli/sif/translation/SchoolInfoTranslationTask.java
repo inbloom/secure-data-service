@@ -25,10 +25,13 @@ import openadk.library.student.Title1Status;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
+import org.slc.sli.sif.domain.converter.SchoolFocusConverter;
 import org.slc.sli.sif.domain.converter.SchoolLevelTypeConverter;
 import org.slc.sli.sif.domain.converter.TitleIPartASchoolDesignationConverter;
+import org.slc.sli.sif.domain.slientity.Address;
 import org.slc.sli.sif.domain.slientity.SchoolEntity;
 import org.slc.sli.sif.domain.slientity.SliEntity;
 import org.slc.sli.sif.domain.slientity.TitleIPartASchoolDesignation;
@@ -36,11 +39,11 @@ import org.slc.sli.sif.domain.slientity.TitleIPartASchoolDesignation;
 public class SchoolInfoTranslationTask<A extends SchoolInfo, B extends SchoolEntity> extends
         AbstractTranslationTask<SchoolInfo> {
 
-    // @Autowired
-    // AddressListConverter addressListConverter;
-    //
-    // @Autowired
-    // SchoolFocusConverter schoolFocusConverter;
+    @Autowired
+    AddressListConverter addressListConverter;
+
+    @Autowired
+    SchoolFocusConverter schoolFocusConverter;
 
     @Autowired
     GradeLevelsConverter gradeLevelsConverter;
@@ -59,8 +62,7 @@ public class SchoolInfoTranslationTask<A extends SchoolInfo, B extends SchoolEnt
     }
 
     @Override
-    public List<SliEntity> doTranslate(SchoolInfo sifData)
-    {
+    public List<SliEntity> doTranslate(SchoolInfo sifData) {
         SchoolInfo schoolInfo = sifData;
         SchoolEntity result = new SchoolEntity();
 
@@ -69,13 +71,18 @@ public class SchoolInfoTranslationTask<A extends SchoolInfo, B extends SchoolEnt
         organizationCategories.add("School");
         result.setOrganizationCategories(organizationCategories);
 
+        result.setStateOrganizationId(schoolInfo.getStateProvinceId());
+        result.setNameOfInstitution(schoolInfo.getSchoolName());
+        result.setAddress(addressListConverter.convertTo(schoolInfo.getAddressList(), new ArrayList<Address>()));
+        result.setSchoolType(schoolFocusConverter.convert(schoolInfo.getSchoolFocusList()));
         result.setWebSite(schoolInfo.getSchoolURL());
         result.setGradesOffered(gradeLevelsConverter.convert(schoolInfo.getGradeLevels()));
         result.setSchoolCategories(schoolTypeConverter.convertAsList(SchoolLevelType.wrap(schoolInfo.getSchoolType())));
         result.setTelephone(phoneNumberListConverter.convert(schoolInfo.getPhoneNumberList()));
 
-        TitleIPartASchoolDesignation schoolType = titleIPartASchoolDesignationConverter.convert(Title1Status.wrap(schoolInfo.getTitle1Status()));
-        if (schoolType != null){
+        TitleIPartASchoolDesignation schoolType = titleIPartASchoolDesignationConverter.convert(Title1Status
+                .wrap(schoolInfo.getTitle1Status()));
+        if (schoolType != null) {
             result.setSchoolType(schoolType.getText());
         }
 
