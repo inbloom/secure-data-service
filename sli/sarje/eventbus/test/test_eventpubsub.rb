@@ -31,13 +31,13 @@ class TestEventPubSub < Test::Unit::TestCase
         @queue_config = {}
 
         @event_subscriptions = [
-            {"id" => "event_1", "details" => { "trigger" => "trigger_1" }},
-            {"id" => "event_2", "details" => { "trigger" => "trigger_2" }},
-            {"id" => "event_3", "details" => { "trigger" => "trigger_3" }},
-            {"id" => "event_4", "details" => { "trigger" => "trigger_4" }},
-            {"id" => "event_5", "details" => { "trigger" => "trigger_5" }}
+            {"eventId" => "event_1", "details" => { "trigger" => "trigger_1" }},
+            {"eventId" => "event_2", "details" => { "trigger" => "trigger_2" }},
+            {"eventId" => "event_3", "details" => { "trigger" => "trigger_3" }},
+            {"eventId" => "event_4", "details" => { "trigger" => "trigger_4" }},
+            {"eventId" => "event_5", "details" => { "trigger" => "trigger_5" }}
         ]
-        @event_ids = @event_subscriptions.map { |e| e['id'] } 
+        @event_ids = @event_subscriptions.map { |e| e["eventId"] } 
     end 
 
     def test_eventpubsub
@@ -50,7 +50,7 @@ class TestEventPubSub < Test::Unit::TestCase
         fired_events = {} 
         fired_events.default=(0)
         event_subscriber.handle_event do |event|
-            eid = event['id']
+            eid = event['eventId']
             fired_events[eid] = fired_events[eid] + 1
         end
 
@@ -105,9 +105,9 @@ class TestAgent
             will_provide = [] 
             event_subs.each do |e_sub|
                 @tem_lock.synchronize { 
-                    @trigger_event_map[e_sub['details']['trigger']] = e_sub['id']
+                    @trigger_event_map[e_sub['details']['trigger']] = e_sub['eventId']
                 }
-                will_provide << e_sub['id']
+                will_provide << e_sub['eventId']
             end
             # pass the list of subscriptions back to the EventPublisher 
             will_provide
@@ -121,7 +121,7 @@ class TestAgent
                 @tem_lock.synchronize { 
                     @trigger_event_map.each do |trigger, event_id|
                         msg = {
-                            'id' => event_id, 
+                            'eventId' => event_id, 
                             'data' => trigger 
                         }
                         @e_publisher.fire_event(msg)

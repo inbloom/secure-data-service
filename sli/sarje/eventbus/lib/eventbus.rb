@@ -41,7 +41,7 @@ module Eventbus
         end 
 
         # fields in all event messages 
-        EVENT_ID = "id"
+        EVENT_ID = "eventId"
 
         # heartbeat field names 
         HB_NODE_ID   = 'node_id'
@@ -110,7 +110,7 @@ module Eventbus
             @subscription_channel.handle_message do | event_subs |
                 handled_subs = yield event_subs 
                 e = if !handled_subs
-                        event_subs.map { |x| e['id'] }
+                        event_subs.map { |x| e[EVENT_ID] }
                     else
                         handled_subs 
                     end
@@ -129,7 +129,7 @@ module Eventbus
         def start_heartbeat(node_id, heartbeat_period)
             @heartbeat_thread = Thread.new do
                 loop do
-                    events_list = ["NOTHING"] 
+                    events_list = [] 
                     @sub_e_ids_lock.synchronize {
                         events_list = @subscribed_event_ids
                     }
