@@ -35,7 +35,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.impl.GenericEntity;
 import org.slc.sli.api.constants.ResourceNames;
-import org.slc.sli.sif.domain.Sif2SliTransformer;
 import org.slc.sli.sif.slcinterface.SifIdResolver;
 import org.slc.sli.sif.slcinterface.SlcInterface;
 import org.slc.sli.sif.translation.SifTranslationManager;
@@ -52,9 +51,6 @@ public class SifSubscriber implements Subscriber {
 
     @Autowired
     private SifTranslationManager translationManager;
-
-    @Autowired
-    private Sif2SliTransformer xformer;
 
     @Autowired
     private SlcInterface slcInterface;
@@ -110,10 +106,10 @@ public class SifSubscriber implements Subscriber {
         Map<String, Object> body = null;
         String entityType = null;
         if (sdo instanceof SchoolInfo) {
-            body = xformer.transform((SchoolInfo) sdo);
+//            body = xformer.transform((SchoolInfo) sdo);
             entityType = ResourceNames.SCHOOLS;
         } else if (sdo instanceof LEAInfo) {
-            body = xformer.transform((LEAInfo) sdo);
+//            body = xformer.transform((LEAInfo) sdo);
             entityType = ResourceNames.EDUCATION_ORGANIZATIONS;
         } else {
             LOG.info("Unsupported SIF Entity");
@@ -137,10 +133,10 @@ public class SifSubscriber implements Subscriber {
         }
         Map<String, Object> updateBody = null;
         if (sdo instanceof SchoolInfo) {
-            updateBody = xformer.transform((SchoolInfo) sdo);
+//            updateBody = xformer.transform((SchoolInfo) sdo);
         }
         if (sdo instanceof LEAInfo) {
-            updateBody = xformer.transform((LEAInfo) sdo);
+//            updateBody = xformer.transform((LEAInfo) sdo);
         }
         updateMap(entity.getData(), updateBody);
         slcInterface.update(entity);

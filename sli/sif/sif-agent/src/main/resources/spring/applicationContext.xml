@@ -30,6 +30,7 @@
   	<bean id="PhoneNumberListConverter" class="org.slc.sli.sif.domain.converter.PhoneNumberListConverter"/>
   	<bean id="AddressListConverter" class="org.slc.sli.sif.domain.converter.AddressListConverter"/>
   	
+    <!-- 
 	<bean id="dozerBeanMapperFactory" class="org.dozer.spring.DozerBeanMapperFactoryBean">
     	<property name="mappingFiles" value="classpath*:/dozer/*dozer-mapping.xml" />
 		<property name="customConvertersWithId"> 
@@ -40,5 +41,6 @@
 	      	</map> 
     	</property>   
     </bean>
+     -->
     
 </beans>

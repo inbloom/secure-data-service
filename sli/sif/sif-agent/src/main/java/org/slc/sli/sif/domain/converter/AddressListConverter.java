@@ -21,6 +21,8 @@ import java.util.List;
 
 import openadk.library.common.AddressList;
 
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.sif.domain.slientity.Address;
 
 /**
@@ -29,6 +31,8 @@ import org.slc.sli.sif.domain.slientity.Address;
  * @author slee
  *
  */
+
+@Component
 public class AddressListConverter {
 
     public List<Address> convertTo(AddressList source) {

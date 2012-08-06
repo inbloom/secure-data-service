@@ -18,9 +18,13 @@ package org.slc.sli.sif.domain.converter;
 
 import openadk.library.student.OperationalStatus;
 
+import org.springframework.stereotype.Component;
+
 /**
  * Converter for SIF OperationalStatus to SLI operationStatus
  */
+
+@Component
 public class OperationalStatusConverter {
 
     /**

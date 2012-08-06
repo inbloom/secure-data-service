@@ -17,8 +17,12 @@ package org.slc.sli.sif.domain.converter;
 
 import openadk.library.student.Title1Status;
 
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.sif.domain.slientity.TitleIPartASchoolDesignation;
 
+
+@Component
 public class TitleIPartASchoolDesignationConverter {
 
     public TitleIPartASchoolDesignation convert(Title1Status status){

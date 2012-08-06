@@ -23,12 +23,16 @@ import openadk.library.common.GradeLevel;
 import openadk.library.common.GradeLevelCode;
 import openadk.library.common.GradeLevels;
 
+import org.springframework.stereotype.Component;
+
 /**
  * A customized converter to convert SIF GradeLevels to SLI gradesOffered.
  *
  * @author slee
  *
  */
+
+@Component
 public class GradeLevelsConverter {
 
     public List<String> convert(GradeLevels source) {
