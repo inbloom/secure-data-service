@@ -10,7 +10,6 @@
     <property name="username"     value="ldalgado"/>
     <property name="password"     value="$?Changed123"/>
 	<property name="path"         value="/metroplex/testDataGeneration/demo/20120803/"/>
-    <property name="path"         value="/metroplex/testDataGeneration/demo/20120803/"/>
 
 
 	    	

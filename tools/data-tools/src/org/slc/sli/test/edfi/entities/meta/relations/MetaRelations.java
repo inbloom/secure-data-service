@@ -54,7 +54,6 @@ import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 public final class MetaRelations {
-
     
     // knobs to control number of entities to create
     public static  int TOTAL_SEAS =1;
@@ -150,7 +149,8 @@ public final class MetaRelations {
               
         }
         catch (IOException ie) {
-              ie.printStackTrace();
+        	System.out.println("Can not find the specified properties file, or the specified file is wrong! please try again!");
+            ie.printStackTrace();
         }
         finally {
               if (fis != null) {
@@ -158,91 +158,99 @@ public final class MetaRelations {
                             fis.close();
                      }
                      catch (Exception e) {
+                    	 System.out.println("The config properties file can not be closed!");
                     	 e.printStackTrace();   
                      }
               }
         }
+        try {
+        TOTAL_SEAS  = Integer.parseInt(properties.getProperty("TOTAL_SEAS").trim());
+        LEAS_PER_SEA = Integer.parseInt(properties.getProperty("LEAS_PER_SEA").trim());
+        STAFF_PER_SEA = Integer.parseInt(properties.getProperty("STAFF_PER_SEA").trim());
+        SCHOOLS_PER_LEA = Integer.parseInt(properties.getProperty("SCHOOLS_PER_LEA").trim());
+        COURSES_PER_SCHOOL = Integer.parseInt(properties.getProperty("COURSES_PER_SCHOOL").trim()); 
+        SESSIONS_PER_SCHOOL = Integer.parseInt(properties.getProperty("SESSIONS_PER_SCHOOL").trim()); 
+        SECTIONS_PER_COURSE_SESSION = Integer.parseInt(properties.getProperty("SECTIONS_PER_COURSE_SESSION").trim());
+        TEACHERS_PER_SCHOOL = Integer.parseInt(properties.getProperty("TEACHERS_PER_SCHOOL").trim());
+        STUDENTS_PER_SCHOOL = Integer.parseInt(properties.getProperty("STUDENTS_PER_SCHOOL").trim());
+        PROGRAMS_PER_SCHOOL = Integer.parseInt(properties.getProperty("PROGRAMS_PER_SCHOOL").trim());
+        PROGRAMS_PER_SEA = Integer.parseInt(properties.getProperty("PROGRAMS_PER_SEA").trim());
+        STAFF_PER_PROGRAM = Integer.parseInt(properties.getProperty("STAFF_PER_PROGRAM").trim());
+        FREE_STANDING_COHORT_PER_SCHOOL = Integer.parseInt(properties.getProperty("FREE_STANDING_COHORT_PER_SCHOOL").trim());
+        FREE_STANDING_COHORT_SIZE = Integer.parseInt(properties.getProperty("FREE_STANDING_COHORT_SIZE").trim());
+        STAFF_PER_FREE_STANDING_COHORT = Integer.parseInt(properties.getProperty("STAFF_PER_FREE_STANDING_COHORT").trim());
+        INV_PROB_SECTION_HAS_PROGRAM = Integer.parseInt(properties.getProperty("INV_PROB_SECTION_HAS_PROGRAM").trim());
+        ASSESSMENTS_PER_STUDENT = Integer.parseInt(properties.getProperty("ASSESSMENTS_PER_STUDENT").trim());
+        ATTENDANCE_PER_STUDENT_SECTION = Integer.parseInt(properties.getProperty("ATTENDANCE_PER_STUDENT_SECTION").trim());
+        DISCPLINE_ACTIONS_PER_SCHOOL = Integer.parseInt(properties.getProperty("DISCPLINE_ACTIONS_PER_SCHOOL").trim());
+        DISCPLINE_INCIDENTS_PER_SCHOOL = Integer.parseInt(properties.getProperty("DISCPLINE_INCIDENTS_PER_SCHOOL").trim());
+        INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT = Integer.parseInt(properties.getProperty("INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT").trim());
+        ESC_PER_SEA = Integer.parseInt(properties.getProperty("ESC_PER_SEA").trim());
+        PROGRAMS_PER_LEA = Integer.parseInt(properties.getProperty("PROGRAMS_PER_LEA").trim());
+        NUM_STAFF_PER_DISCIPLINE_ACTION = Integer.parseInt(properties.getProperty("NUM_STAFF_PER_DISCIPLINE_ACTION").trim());
+        FEEDER_RELATIONSHIPS = Integer.parseInt(properties.getProperty("FEEDER_RELATIONSHIPS").trim());
+        COURSES_PER_STUDENT = Integer.parseInt(properties.getProperty("COURSES_PER_STUDENT").trim());
+        SECTIONS_PER_STUDENT = Integer.parseInt(properties.getProperty("SECTIONS_PER_STUDENT").trim());
+        CALENDER_PER_SESSIONS= Integer.parseInt(properties.getProperty("CALENDER_PER_SESSIONS").trim());
+        GRADINGPERIOD_PER_CALENDAR = Integer.parseInt(properties.getProperty("GRADINGPERIOD_PER_CALENDAR").trim());
+        GRADUATION_PLAN_PER_SCHOOL = Integer.parseInt(properties.getProperty("GRADUATION_PLAN_PER_SCHOOL").trim());
+        GRADING_PERIOD_PER_SESSIONS = Integer.parseInt(properties.getProperty("GRADING_PERIOD_PER_SESSIONS").trim()); 
         
-        TOTAL_SEAS  = Integer.parseInt(properties.getProperty("TOTAL_SEAS"));
-        LEAS_PER_SEA = Integer.parseInt(properties.getProperty("LEAS_PER_SEA"));
-        STAFF_PER_SEA = Integer.parseInt(properties.getProperty("STAFF_PER_SEA"));
-        SCHOOLS_PER_LEA = Integer.parseInt(properties.getProperty("SCHOOLS_PER_LEA"));
-        COURSES_PER_SCHOOL = Integer.parseInt(properties.getProperty("COURSES_PER_SCHOOL")); 
-        SESSIONS_PER_SCHOOL = Integer.parseInt(properties.getProperty("SESSIONS_PER_SCHOOL")); 
-        SECTIONS_PER_COURSE_SESSION = Integer.parseInt(properties.getProperty("SECTIONS_PER_COURSE_SESSION"));
-        TEACHERS_PER_SCHOOL = Integer.parseInt(properties.getProperty("TEACHERS_PER_SCHOOL"));
-        STUDENTS_PER_SCHOOL = Integer.parseInt(properties.getProperty("STUDENTS_PER_SCHOOL"));
-        PROGRAMS_PER_SCHOOL = Integer.parseInt(properties.getProperty("PROGRAMS_PER_SCHOOL"));
-        PROGRAMS_PER_SEA = Integer.parseInt(properties.getProperty("PROGRAMS_PER_SEA"));
-        STAFF_PER_PROGRAM = Integer.parseInt(properties.getProperty("STAFF_PER_PROGRAM"));
-        FREE_STANDING_COHORT_PER_SCHOOL = Integer.parseInt(properties.getProperty("FREE_STANDING_COHORT_PER_SCHOOL"));
-        FREE_STANDING_COHORT_SIZE = Integer.parseInt(properties.getProperty("FREE_STANDING_COHORT_SIZE"));
-        STAFF_PER_FREE_STANDING_COHORT = Integer.parseInt(properties.getProperty("STAFF_PER_FREE_STANDING_COHORT"));
-        INV_PROB_SECTION_HAS_PROGRAM = Integer.parseInt(properties.getProperty("INV_PROB_SECTION_HAS_PROGRAM"));
-        ASSESSMENTS_PER_STUDENT = Integer.parseInt(properties.getProperty("ASSESSMENTS_PER_STUDENT"));
-        ATTENDANCE_PER_STUDENT_SECTION = Integer.parseInt(properties.getProperty("ATTENDANCE_PER_STUDENT_SECTION"));
-        DISCPLINE_ACTIONS_PER_SCHOOL = Integer.parseInt(properties.getProperty("DISCPLINE_ACTIONS_PER_SCHOOL"));
-        DISCPLINE_INCIDENTS_PER_SCHOOL = Integer.parseInt(properties.getProperty("DISCPLINE_INCIDENTS_PER_SCHOOL"));
-        INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT = Integer.parseInt(properties.getProperty("INV_PROB_STUDENT_IN_DISCPLINE_INCIDENT"));
-        ESC_PER_SEA = Integer.parseInt(properties.getProperty("ESC_PER_SEA"));
-        PROGRAMS_PER_LEA = Integer.parseInt(properties.getProperty("PROGRAMS_PER_LEA"));
-        NUM_STAFF_PER_DISCIPLINE_ACTION = Integer.parseInt(properties.getProperty("NUM_STAFF_PER_DISCIPLINE_ACTION"));
-        FEEDER_RELATIONSHIPS = Integer.parseInt(properties.getProperty("FEEDER_RELATIONSHIPS"));
-        COURSES_PER_STUDENT = Integer.parseInt(properties.getProperty("COURSES_PER_STUDENT"));
-        SECTIONS_PER_STUDENT = Integer.parseInt(properties.getProperty("SECTIONS_PER_STUDENT"));
-        CALENDER_PER_SESSIONS= Integer.parseInt(properties.getProperty("CALENDER_PER_SESSIONS"));
-        GRADINGPERIOD_PER_CALENDAR = Integer.parseInt(properties.getProperty("GRADINGPERIOD_PER_CALENDAR"));
-        GRADUATION_PLAN_PER_SCHOOL = Integer.parseInt(properties.getProperty("GRADUATION_PLAN_PER_SCHOOL"));
-        GRADING_PERIOD_PER_SESSIONS = Integer.parseInt(properties.getProperty("GRADING_PERIOD_PER_SESSIONS")); 
-        
-        StudentGradeRelations.COMPETENCY_LEVEL_DESCRIPTOR= Integer.parseInt(properties.getProperty("COMPETENCY_LEVEL_DESCRIPTOR"));
-        StudentGradeRelations.REPORT_CARDS= Integer.parseInt(properties.getProperty("REPORT_CARDS"));
-        StudentGradeRelations.LEARNING_OBJECTIVES_PER_REPORT= Integer.parseInt(properties.getProperty("LEARNING_OBJECTIVES_PER_REPORT"));
-        StudentGradeRelations.STUDENT_COMPETENCY_OBJECTIVE_PER_REPORT= Integer.parseInt(properties.getProperty("STUDENT_COMPETENCY_OBJECTIVE_PER_REPORT"));
-        StudentGradeRelations.GRADEBOOK_ENTRIES= Integer.parseInt(properties.getProperty("GRADEBOOK_ENTRIES"));
-        StudentGradeRelations.LEARNING_OBJECTIVES_PER_GRADEBOOKENTRY= Integer.parseInt(properties.getProperty("LEARNING_OBJECTIVES_PER_GRADEBOOKENTRY"));
-        StudentGradeRelations.INV_PROBABILITY_STUDENT_HAS_GRADEBOOKENTRY= Integer.parseInt(properties.getProperty("INV_PROBABILITY_STUDENT_HAS_GRADEBOOKENTRY"));
+        StudentGradeRelations.COMPETENCY_LEVEL_DESCRIPTOR= Integer.parseInt(properties.getProperty("COMPETENCY_LEVEL_DESCRIPTOR").trim());
+        StudentGradeRelations.REPORT_CARDS= Integer.parseInt(properties.getProperty("REPORT_CARDS").trim());
+        StudentGradeRelations.LEARNING_OBJECTIVES_PER_REPORT= Integer.parseInt(properties.getProperty("LEARNING_OBJECTIVES_PER_REPORT").trim());
+        StudentGradeRelations.STUDENT_COMPETENCY_OBJECTIVE_PER_REPORT= Integer.parseInt(properties.getProperty("STUDENT_COMPETENCY_OBJECTIVE_PER_REPORT").trim());
+        StudentGradeRelations.GRADEBOOK_ENTRIES= Integer.parseInt(properties.getProperty("GRADEBOOK_ENTRIES").trim());
+        StudentGradeRelations.LEARNING_OBJECTIVES_PER_GRADEBOOKENTRY= Integer.parseInt(properties.getProperty("LEARNING_OBJECTIVES_PER_GRADEBOOKENTRY").trim());
+        StudentGradeRelations.INV_PROBABILITY_STUDENT_HAS_GRADEBOOKENTRY= Integer.parseInt(properties.getProperty("INV_PROBABILITY_STUDENT_HAS_GRADEBOOKENTRY").trim());
        
         
-        AssessmentMetaRelations.ASSESSMENTS= Integer.parseInt(properties.getProperty("ASSESSMENTS"));
-        AssessmentMetaRelations.OBJ_ASSESS_PER_DEPENDANT= Integer.parseInt(properties.getProperty("OBJ_ASSESS_PER_DEPENDANT"));
-        AssessmentMetaRelations.LEARN_OBJ_PER_OBJ_ASSES= Integer.parseInt(properties.getProperty("LEARN_OBJ_PER_OBJ_ASSES"));
-        AssessmentMetaRelations.ASSESS_ITEM_PER_DEPENDANT= Integer.parseInt(properties.getProperty("ASSESS_ITEM_PER_DEPENDANT"));
-        AssessmentMetaRelations.LEARN_STANDARD_PER_DEPENDANT= Integer.parseInt(properties.getProperty("LEARN_STANDARD_PER_DEPENDANT"));
-        AssessmentMetaRelations.PERF_LEVEL_DESC_PER_DEPENDANT= Integer.parseInt(properties.getProperty("PERF_LEVEL_DESC_PER_DEPENDANT"));
-        AssessmentMetaRelations.ASSESS_PERIOD_DESC_PER_ASSESS_FAMILY= Integer.parseInt(properties.getProperty("ASSESS_PERIOD_DESC_PER_ASSESS_FAMILY"));
-        AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT= Double.parseDouble(properties.getProperty("INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT"));
-        AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM= Double.parseDouble(properties.getProperty("INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM"));
+        AssessmentMetaRelations.ASSESSMENTS= Integer.parseInt(properties.getProperty("ASSESSMENTS").trim());
+        AssessmentMetaRelations.OBJ_ASSESS_PER_DEPENDANT= Integer.parseInt(properties.getProperty("OBJ_ASSESS_PER_DEPENDANT").trim());
+        AssessmentMetaRelations.LEARN_OBJ_PER_OBJ_ASSES= Integer.parseInt(properties.getProperty("LEARN_OBJ_PER_OBJ_ASSES").trim());
+        AssessmentMetaRelations.ASSESS_ITEM_PER_DEPENDANT= Integer.parseInt(properties.getProperty("ASSESS_ITEM_PER_DEPENDANT").trim());
+        AssessmentMetaRelations.LEARN_STANDARD_PER_DEPENDANT= Integer.parseInt(properties.getProperty("LEARN_STANDARD_PER_DEPENDANT").trim());
+        AssessmentMetaRelations.PERF_LEVEL_DESC_PER_DEPENDANT= Integer.parseInt(properties.getProperty("PERF_LEVEL_DESC_PER_DEPENDANT").trim());
+        AssessmentMetaRelations.ASSESS_PERIOD_DESC_PER_ASSESS_FAMILY= Integer.parseInt(properties.getProperty("ASSESS_PERIOD_DESC_PER_ASSESS_FAMILY").trim());
+        AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT= Double.parseDouble(properties.getProperty("INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT").trim());
+        AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM= Double.parseDouble(properties.getProperty("INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM").trim());
         
-		School_Ref = Boolean.parseBoolean(properties
-				.getProperty("School_Ref"));
+ 
+    	School_Ref = Boolean.parseBoolean(properties
+				.getProperty("School_Ref").trim());
 		Session_Ref = Boolean.parseBoolean(properties
-				.getProperty("Session_Ref"));
+				.getProperty("Session_Ref").trim());
 		StateEducationAgency_Ref = Boolean.parseBoolean(properties
-				.getProperty("StateEducationAgency_Ref"));
+				.getProperty("StateEducationAgency_Ref").trim());
 		LocalEducationAgency_Ref = Boolean.parseBoolean(properties
-				.getProperty("LocalEducationAgency_Ref"));
-
+				.getProperty("LocalEducationAgency_Ref").trim());
 	
 		StudentParentAssociation_Ref = Boolean.parseBoolean(properties
-				.getProperty("StudentParentAssociation_Ref"));
+				.getProperty("StudentParentAssociation_Ref").trim());
 		TeacherSectionAssociation_Ref = Boolean.parseBoolean(properties
-				.getProperty("TeacherSectionAssociation_Ref"));
+				.getProperty("TeacherSectionAssociation_Ref").trim());
 		TeacherSchoolAssociation_Ref = Boolean.parseBoolean(properties
-				.getProperty("TeacherSchoolAssociation_Ref"));
+				.getProperty("TeacherSchoolAssociation_Ref").trim());
 		StaffProgramAssociation_Ref =  Boolean.parseBoolean(properties
-				.getProperty("StaffProgramAssociation_Ref"));
+				.getProperty("StaffProgramAssociation_Ref").trim());
 		StaffEducationOrgAssignment_Ref = Boolean.parseBoolean(properties
-				.getProperty("StaffEducationOrgAssignment_Ref"));
+				.getProperty("StaffEducationOrgAssignment_Ref").trim());
 		GradingPeriod_Ref = Boolean.parseBoolean(properties
-				.getProperty("GradingPeriod_Ref"));
+				.getProperty("GradingPeriod_Ref").trim());
 		
-		if(properties.getProperty("fidelityOfData") != null) {
+		String fidelity = properties.getProperty("fidelityOfData");
+		if(properties.getProperty("fidelityOfData").equals("low") ||properties.getProperty("fidelityOfData").equals("medium")) {
+			
 			StateEdFiXmlGenerator.fidelityOfData = properties
-				.getProperty("fidelityOfData");
+				.getProperty("fidelityOfData").trim();
 		}
 		
 		 System.out.println("will use " + StateEdFiXmlGenerator.fidelityOfData + " fidelity data generators.");
+        }catch(Exception e)
+        {
+        	System.out.println("Can not find the attributes in the properties file");
+        	e.printStackTrace();
+        }
         
     }
     /**

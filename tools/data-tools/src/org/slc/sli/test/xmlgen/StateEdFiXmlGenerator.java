@@ -74,7 +74,7 @@ public class StateEdFiXmlGenerator {
      */
     //public static String fidelityOfData = "medium";
     public static String fidelityOfData = "low";
-    public static String propertyPath = "reference_config.properties";
+    public static String propertyPath = "config.properties";
     
     /**
      * used to determine the output directory for generated interchange and control files
@@ -116,12 +116,18 @@ public class StateEdFiXmlGenerator {
 //        
 //      	propertyPath = args[0];
         
-        if (args.length >0 ) {
+        if (args.length >0 && !"low".equals(args[0]) && !"medium".equals(args[0]) && !"high".equals(args[0])) {
         	propertyPath = args[0];
         }
+        else if (args.length >0 && ("low".equals(args[0]) || "medium".equals(args[0]))) {
+        	fidelityOfData = args[0];
+        }
         
-        if (args.length >1 ) {
+        if (args.length >1 && ! "low".equals(args[1]) && !"medium".equals(args[1]) && !"high".equals(args[0])) {
         	rootOutputPath = args[1];
+        }
+        else if (args.length >1 && ("low".equals(args[1]) || "medium".equals(args[1]))) {
+        	fidelityOfData = args[1];
         }
         
         if (new File(rootOutputPath).mkdirs()) {
@@ -129,12 +135,9 @@ public class StateEdFiXmlGenerator {
         }
         System.out.println("root output path: " + rootOutputPath);
         
-         if (args.length > 2 && ("low".equals(args[2]) || "medium".equals(args[2]))) {
+        if (args.length > 2 && ("low".equals(args[2]) || "medium".equals(args[2]))) {
                fidelityOfData = args[2];
-          }
-		
-
-
+        }
   
     }
 
