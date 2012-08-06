@@ -107,14 +107,14 @@ public class SchoolInfoTranslationTaskTest {
 
         List<Address> address = new ArrayList<Address>();
 
-        Mockito.when(mockAddressConverter.convertTo(Mockito.eq(addressList), Mockito.any(List.class))).thenReturn(
+        Mockito.when(mockAddressConverter.convert(Mockito.eq(addressList))).thenReturn(
                 address);
 
         List<SchoolEntity> result = translator.translate(info);
         Assert.assertEquals(1, result.size());
         SchoolEntity entity = result.get(0);
 
-        Mockito.verify(mockAddressConverter).convertTo(Mockito.eq(addressList), Mockito.any(List.class));
+        Mockito.verify(mockAddressConverter).convert(Mockito.eq(addressList));
         Assert.assertEquals(address, entity.getAddress());
 
     }
