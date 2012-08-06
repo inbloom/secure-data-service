@@ -39,6 +39,10 @@ class UsersController < ApplicationController
   def index
     get_login_id
     @users = User.all
+    @is_operator = is_operator?
+    @is_lea = is_lea_admin?
+    check = Check.get ""
+    @login_user_edorg_name = check['edOrg']
     respond_to do |format|
       format.html
       #format.json { render json: @users }

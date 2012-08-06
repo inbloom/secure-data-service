@@ -422,7 +422,7 @@ public class UserResource {
             if (isLeaAdmin()) {
                 restrictByEdorg = secUtil.getEdOrg();
                 // restrict peer level LEA
-                if (restrictByEdorg.equals(user.getEdorg())) {
+                if (restrictByEdorg.equals(user.getEdorg()) && !user.getUid().equals(secUtil.getUid())) {
                     return composeForbiddenResponse("Can not operate on peer level LEA");
                 }
             }

@@ -33,15 +33,12 @@
 </div>
 </fieldset>
 
+<div id="roles_edorg_block">
 <fieldset>
 <div class = "control-group">
 	<%= f.label :primary_role, "Role" ,:class => "control-label" %>
 	<div class="controls">
-    <% if @loginUserId == user.uid && @is_lea %> 
-	    <%= f.select :primary_role, @production_roles,{},:selected => user.primary_role, :disabled => true%>
-    <% else %>
-	    <%= f.select :primary_role, @production_roles,{},:selected => user.primary_role %>
-    <%end%>
+	<%= f.select :primary_role, @production_roles,{},:selected => user.primary_role %>
 	</div>
 </div>
 </fieldset>
@@ -106,17 +103,13 @@
 	<%= f.label :edorg, "EdOrg" , :class => "control-label" %>
 	<div class="controls">
 	<label style="color:#B94A48;" >
-	<% if @loginUserId == user.uid and @is_lea
-		@disable_edorg = true
-		else 
-		@disable_edorg = false 
-		end %>	
-	<%= f.select :edorg,  @edorgs, {},:include_blank => true, :disabled => @disable_edorg %> <%=@user.errors[:edorg][0]%></label>
+	<%= f.select :edorg,  @edorgs, {},:include_blank => true%> <%=@user.errors[:edorg][0]%></label>
 	</div>
 </div>
 </fieldset>
 <%end%>
 
+</div> <!-- roles and edorgs --> 
 <fieldset>
 <div class = "form-actions">
 	<%= f.submit "Update", :class => "btn btn-primary" %>
