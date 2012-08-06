@@ -95,6 +95,7 @@ When /^I hit the save button$/ do
   saveButtons.each do |save|
     if save.displayed?
       save.click
+      break
     end
   end
 end
