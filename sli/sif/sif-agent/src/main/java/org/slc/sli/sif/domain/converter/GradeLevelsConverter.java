@@ -30,10 +30,34 @@ import org.springframework.stereotype.Component;
 /**
  * A customized converter to convert SIF GradeLevels to SLI gradesOffered.
  *
+ * SLI values:
+ *	Adult Education
+ *	Early Education
+ *	Eighth grade
+ *	Eleventh grade
+ *	Fifth grade
+ *	First grade
+ *	Fourth grade
+ *	Grade 13
+ *	Infant/toddler
+ *	Kindergarten
+ *	Ninth grade
+ *	Other
+ *	Postsecondary
+ *	Preschool/Prekindergarten
+ *	Second grade
+ *	Seventh grade
+ *	Sixth grade
+ *	Tenth grade
+ *	Third grade
+ *	Transitional Kindergarten
+ *	Twelfth grade
+ *	Ungraded
+ *	Not Available
+ *
  * @author slee
  *
  */
-
 @Component
 public class GradeLevelsConverter {
 
@@ -53,8 +77,9 @@ public class GradeLevelsConverter {
         GRADE_LEVEL_CODE_MAP.put(GradeLevelCode._12, "Twelfth grade");
         GRADE_LEVEL_CODE_MAP.put(GradeLevelCode.KG, "Kindergarten");
         GRADE_LEVEL_CODE_MAP.put(GradeLevelCode.OTHER, "Other");
-        GRADE_LEVEL_CODE_MAP.put(GradeLevelCode.PG, "Preschool/Prekindergarten");
-        GRADE_LEVEL_CODE_MAP.put(GradeLevelCode.PK, "Adult Education");
+        // SIF defines PG as Postgraduate/Adult, could be SLI Postsecondary or Adult Education
+        GRADE_LEVEL_CODE_MAP.put(GradeLevelCode.PG, "Postsecondary");
+        GRADE_LEVEL_CODE_MAP.put(GradeLevelCode.PK, "Preschool/Prekindergarten");
         GRADE_LEVEL_CODE_MAP.put(GradeLevelCode.UN, "Ungraded");
         GRADE_LEVEL_CODE_MAP.put(GradeLevelCode.UNKNOWN, "Not Available");
     }

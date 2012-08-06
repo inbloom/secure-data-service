@@ -221,7 +221,6 @@ public class SessionGenerator {
 				CalendarDateReferenceType crf = new CalendarDateReferenceType();
 				crf.setCalendarDateIdentity(cit);
 				
-				
 				session.getCalendarDateReference().add(crf);
 			}
 		}
@@ -245,7 +244,6 @@ public class SessionGenerator {
 				GradingPeriodReferenceType gprt = new GradingPeriodReferenceType();
 				gprt.setGradingPeriodIdentity(gpit);
 				session.getGradingPeriodReference().add(gprt);
-			
 			}
 		}
 		

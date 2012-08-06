@@ -32,6 +32,15 @@ import org.slc.sli.sif.domain.slientity.Address;
 /**
  * A custom converter to convert SIF AddressList to SLI Address list.
  *
+ * Valid SLI values:
+ * 	Home
+ * 	Physical
+ * 	Billing
+ * 	Mailing
+ * 	Other
+ * 	Temporary
+ * 	Work
+ *
  * @author slee
  *
  */
@@ -42,22 +51,22 @@ public class AddressListConverter {
     static {
         ADDRESS_TYPE_MAP.put(AddressType._0369_CAMPUS, "Other");
         ADDRESS_TYPE_MAP.put(AddressType._0369_EMPLOYER, "Other");
-        ADDRESS_TYPE_MAP.put(AddressType._0369_EMPLOYMENT, "Other");
-        ADDRESS_TYPE_MAP.put(AddressType._0369_MAILING, "Other");
+        ADDRESS_TYPE_MAP.put(AddressType._0369_EMPLOYMENT, "Work");
+        ADDRESS_TYPE_MAP.put(AddressType._0369_MAILING, "Mailing");
         ADDRESS_TYPE_MAP.put(AddressType._0369_ORGANIZATION, "Other");
         ADDRESS_TYPE_MAP.put(AddressType._0369_OTHER, "Other");
         ADDRESS_TYPE_MAP.put(AddressType._0369_PERMANENT, "Other");
         ADDRESS_TYPE_MAP.put(AddressType.EMPLOYERS, "Other");
-        ADDRESS_TYPE_MAP.put(AddressType.EMPLOYMENT, "Other");
+        ADDRESS_TYPE_MAP.put(AddressType.EMPLOYMENT, "Work");
         ADDRESS_TYPE_MAP.put(AddressType.MAILING, "Mailing");
         ADDRESS_TYPE_MAP.put(AddressType.OTHER_HOME, "Home");
         ADDRESS_TYPE_MAP.put(AddressType.OTHER_ORGANIZATION, "Other");
         ADDRESS_TYPE_MAP.put(AddressType.PHYSICAL_LOCATION, "Physical");
-        ADDRESS_TYPE_MAP.put(AddressType.SHIPPING, "Billing");
+        ADDRESS_TYPE_MAP.put(AddressType.SHIPPING, "Other");
         ADDRESS_TYPE_MAP.put(AddressType.SIF15_CAMPUS, "Other");
         ADDRESS_TYPE_MAP.put(AddressType.SIF15_EMPLOYER, "Other");
-        ADDRESS_TYPE_MAP.put(AddressType.SIF15_EMPLOYMENT, "Other");
-        ADDRESS_TYPE_MAP.put(AddressType.SIF15_MAILING, "Other");
+        ADDRESS_TYPE_MAP.put(AddressType.SIF15_EMPLOYMENT, "Work");
+        ADDRESS_TYPE_MAP.put(AddressType.SIF15_MAILING, "Mailing");
         ADDRESS_TYPE_MAP.put(AddressType.SIF15_ORGANIZATION, "Other");
         ADDRESS_TYPE_MAP.put(AddressType.SIF15_OTHER, "Other");
         ADDRESS_TYPE_MAP.put(AddressType.SIF15_PERMANENT, "Other");
