@@ -19,27 +19,22 @@ limitations under the License.
 module Eventbus
   require 'systemu'
 
-  SLI_HOME = "/Users/joechung/gitrepo/sli"
-  HADOOP_HOME = "/usr/local/hadoop"
-  MATH_HIGHEST_EVER = "#{SLI_HOME}/POC/aggregation/Math-HighestEver/target/Math-HighestEver-1.0-SNAPSHOT-job.jar"
-  HADOOP_EXEC = "#{HADOOP_HOME}/bin/hadoop"
-
   class HadoopJobRunner
-
-    # implemented because JobScheduler expects it 
-    def running_jobs
-      list_jobs
+    def initialize(config = {})
+      @sli_home = config[:sli_home]
+      @hadoop_home = config[:hadoop_home]
+      @hadoop_exec = "#{@hadoop_home}/bin/hadoop"
     end
 
     def execute_job(job)
-      command = "#{HADOOP_EXEC} jar #{SLI_HOME}#{job['jar']}"
+      command = "#{@hadoop_exec} jar #{@sli_home}#{job['jar']}"
       puts "running '#{command}'"
       status, stdout, stderr = systemu command
       puts "finished '#{command}', status = #{status}"
     end
 
     def list_jobs
-      status, stdout, stderr = systemu "#{HADOOP_EXEC} job -list"
+      status, stdout, stderr = systemu "#{@hadoop_exec} job -list"
       lines = stdout.split(/\n/)
 
       jobs = []
@@ -69,21 +64,3 @@ module Eventbus
     end
   end
 end
-
-# Thread.new do
-#   loop do
-#     sleep 5
-#     if(list_jobs.size == 0)
-#       puts "No hadoop job found"
-#     else
-#       list_jobs.each do |job|
-#         print_job(job)
-#       end
-#     end
-
-#   end
-# end
-
-# runner = HadoopJobRunner.new
-# runner.execute_job MATH_HIGHEST_EVER
-# sleep

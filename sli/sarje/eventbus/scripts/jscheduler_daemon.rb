@@ -24,22 +24,25 @@ require 'eventbus'
 require 'yaml'
 
 if __FILE__ == $0
-    unless ARGV.length == 2
-        puts "Usage: " + $0 + " config.yml profile "
-        exit(1)
-    end
-    
-    config = YAML::load( File.open( ARGV[0] ) )[ARGV[1]]
+  unless ARGV.length == 4
+    puts "Usage: " + $0 + " config.yml profile sli_home hadoop_home"
+    exit(1)
+  end
 
-    # make the config symbol based
-    config.keys().each { |k| config[k.to_sym] = config.delete(k) }
+  config = YAML::load( File.open( ARGV[0] ) )[ARGV[1]]
+  sli_home = ARGV[2]
+  hadoop_home = ARGV[3]
 
-    # create instances of the queue listener and the job runner and 
-    # and plug them into an Jobscheduler
-    listener = Eventbus::EventSubscriber.new("oplog")
-    jobrunner = Eventbus::HadoopJobRunner.new 
-    active_config = config.update(:event_subscriber => listener,
-                                  :jobrunner => jobrunner)
-    scheduler = Eventbus::JobScheduler.new(active_config)
-    scheduler.join
+  # make the config symbol based
+  config.keys().each { |k| config[k.to_sym] = config.delete(k) }
+
+  # create instances of the queue listener and the job runner and
+  # and plug them into an Jobscheduler
+  listener = Eventbus::EventSubscriber.new("oplog")
+  jobrunner = Eventbus::HadoopJobRunner.new({:sli_home => sli_home, :hadoop_home => hadoop_home})
+  active_config = config.update(:event_subscriber => listener,
+                                :jobrunner => jobrunner)
+
+  scheduler = Eventbus::JobScheduler.new(active_config)
+  scheduler.join
 end
