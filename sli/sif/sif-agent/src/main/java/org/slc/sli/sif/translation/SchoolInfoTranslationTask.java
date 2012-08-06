@@ -31,7 +31,6 @@ import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
 import org.slc.sli.sif.domain.converter.SchoolFocusConverter;
 import org.slc.sli.sif.domain.converter.SchoolLevelTypeConverter;
 import org.slc.sli.sif.domain.converter.TitleIPartASchoolDesignationConverter;
-import org.slc.sli.sif.domain.slientity.Address;
 import org.slc.sli.sif.domain.slientity.SchoolEntity;
 import org.slc.sli.sif.domain.slientity.SliEntity;
 import org.slc.sli.sif.domain.slientity.TitleIPartASchoolDesignation;
@@ -73,7 +72,7 @@ public class SchoolInfoTranslationTask<A extends SchoolInfo, B extends SchoolEnt
 
         result.setStateOrganizationId(schoolInfo.getStateProvinceId());
         result.setNameOfInstitution(schoolInfo.getSchoolName());
-        result.setAddress(addressListConverter.convertTo(schoolInfo.getAddressList(), new ArrayList<Address>()));
+        result.setAddress(addressListConverter.convert(schoolInfo.getAddressList()));
         result.setSchoolType(schoolFocusConverter.convert(schoolInfo.getSchoolFocusList()));
         result.setWebSite(schoolInfo.getSchoolURL());
         result.setGradesOffered(gradeLevelsConverter.convert(schoolInfo.getGradeLevels()));
