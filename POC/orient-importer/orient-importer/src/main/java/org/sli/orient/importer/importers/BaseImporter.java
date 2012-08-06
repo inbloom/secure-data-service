@@ -14,6 +14,8 @@ public class BaseImporter implements Importer {
     protected DB mongo;
     protected Graph graph;
     
+    protected static final Integer BATCH_SIZE = 1000;
+    
     public BaseImporter(DB mongo, Graph graph) {
         this.graph = graph;
         this.mongo = mongo;
@@ -24,7 +26,7 @@ public class BaseImporter implements Importer {
 
     protected final boolean vertexExists(String id) {
         boolean hasVertex = false;
-        for (Vertex v : graph.getVertices("mongoid", id)) {
+        for (@SuppressWarnings("unused") Vertex v : graph.getVertices("mongoid", id)) {
             hasVertex = true;
         }
         return hasVertex;
