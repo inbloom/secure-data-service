@@ -10,6 +10,10 @@
     <context:annotation-config />
     <context:component-scan base-package="org.slc.sli.sif" />
 
+    <bean id="slcInterface" class="org.slc.sli.sif.slcinterface.SlcInterface"/>
+    
+    <bean id="sifIdResolverImplFile" class="org.slc.sli.sif.slcinterface.SifIdResolverImplFile"/>
+
     <!-- Environment config -->
     <bean id="commonProperties"
         class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">

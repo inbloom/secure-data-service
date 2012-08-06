@@ -38,7 +38,6 @@ import openadk.library.student.StudentDTD;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.sif.subscriber.SifSubscriber;
 
@@ -46,7 +45,6 @@ import org.slc.sli.sif.subscriber.SifSubscriber;
  * Manages a SIFAgent and its SifSubscriber
  *
  */
-@Component
 public class AgentManager {
 
     private SifAgent agent;

@@ -32,7 +32,6 @@ public class SifTranslationManager {
 
     private static final Logger LOG = LoggerFactory.getLogger(SifTranslationManager.class);
 
-
     private Map<String, List<TranslationTask>> translationMap;
 
     public void setTranslationMap(Map<String, List<TranslationTask>> translationMap) {

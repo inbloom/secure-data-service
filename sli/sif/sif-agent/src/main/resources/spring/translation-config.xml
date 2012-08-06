@@ -8,12 +8,15 @@
 
 	<context:annotation-config />
 	<context:component-scan base-package="org.slc.sli.sif.translation" />
+	<context:component-scan base-package="org.slc.sli.sif.domain" />
+	
+    <bean id="schoolInfoTranslationTask" class="org.slc.sli.sif.translation.SchoolInfoTranslationTask" />
 
 	<!-- define TranslationTask for translationTaskMap -->
 	<bean id="SchoolInfoTranslationTaskList" class="java.util.ArrayList">
 		<constructor-arg>
 			<list>
-				<ref local="SchoolInfoTranslationTask" />
+				<ref local="schoolInfoTranslationTask" />
 			</list>
 		</constructor-arg>
 	</bean>
