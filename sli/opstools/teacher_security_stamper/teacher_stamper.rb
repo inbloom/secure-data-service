@@ -1,5 +1,29 @@
+
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
 require File.dirname(__FILE__) + '/slc_fixer'
 # require_relative 'slc_fixer'
+require 'rbconfig'
+
+is_windows = (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/)
+
+trap('HUP') {} unless is_windows
 
 if ARGV.count < 1
   puts "Usage: teacher_stamper <dbhost:port> <database> <terminates>"
@@ -13,21 +37,28 @@ else
   terminates = (ARGV[2].nil? ? false : true)
   database = (ARGV[1].nil? ? 'sli' : ARGV[1])
   hp = ARGV[0].split(":")
-  connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 10, :pool_timeout => 25, :safe => {:wtimeout => 500})
   log = Logger.new(STDOUT)
   log.level = Logger::WARN
-  db = connection[database]
-  fixer = SLCFixer.new(db, log)
   if terminates
     while true
       begin
+        connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 10, :pool_timeout => 25, :safe => {:wtimeout => 500})
+        db = connection[database]
+        fixer = SLCFixer.new(db, log)
         fixer.start
+        connection.close
       rescue Exception => e  
-        log.error "#{e}"
+        log.error "EXCEPTION #{e}"
+        connection.close
+        sleep 5
       end
     end
   else
+    connection = Mongo::Connection.new(hp[0], hp[1].to_i, :pool_size => 10, :pool_timeout => 25, :safe => {:wtimeout => 500})
+    db = connection[database]
+    fixer = SLCFixer.new(db, log)
     fixer.start
+    connection.close
   end
 end
 

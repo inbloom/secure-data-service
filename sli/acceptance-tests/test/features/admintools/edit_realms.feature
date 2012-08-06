@@ -1,3 +1,4 @@
+
 Feature: Edit Realms Page
   As a realm admin I want to be able to create, edit, and delete realms
   
@@ -22,8 +23,6 @@ Scenario: Realm Administrator deleting a existing realm
    And I should receive a notice that the realm was successfully "deleted"
    And I should see that I am on the new realm page
    And all of the input fields should be blank
-   And I should hit the role mapping page
-   And I should see that the page doesn't exist
    
 
 Scenario: Realm Administrator creating a new realm
@@ -44,5 +43,8 @@ Scenario: Realm creation/editing should have validation
   And I should click the "Save" button
   Then I should not see any errors
   And I should make the unique identifier not unique
+  And I should click the "Save" button
+  Then I should get 1 error
+  And I should make the display name not unique
   And I should click the "Save" button
   Then I should get 1 error

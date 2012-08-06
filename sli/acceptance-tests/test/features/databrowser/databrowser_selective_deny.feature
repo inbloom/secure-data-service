@@ -1,6 +1,10 @@
 @RALLY_US215
 Feature: User sees information in databrowser for certain districts
 
+
+	Background:
+  Given that databrowser has been authorized for all ed orgs
+
 Scenario: An Educator in Daybreak and Sunset sees the Daybreak data and the Sunset data
     Given I have an open web browser
     And I navigated to the Data Browser Home URL

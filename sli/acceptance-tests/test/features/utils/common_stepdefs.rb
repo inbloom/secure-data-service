@@ -16,7 +16,8 @@ limitations under the License.
 
 =end
 
-
+require 'mongo'
+require 'securerandom'
 require 'rumbster'
 require 'message_observers'
 
@@ -140,3 +141,27 @@ Given /^I have a "([^"]*)" SMTP\/Email server configured$/ do |live_or_mock|
   @email_conf[:sender_email_addr] = sender_email_address
 end
 
+Then /^I get a link to "(.*?)"$/ do |linkName|
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Result of JSON parsing is nil")
+  links = result["links"]
+  @link = nil
+  for l in links do
+          if l['rel'] == linkName
+                  @link = l["href"]
+          end
+  end
+  assert(@link != nil, "Link to aggregates not found")
+end
+
+Then /^I navigate to that link$/ do
+  restHttpGetAbs(@link)
+end
+
+Given /^that dashboard has been authorized for all ed orgs$/ do
+  allLeaAllowApp("SLC Dashboards")
+end
+
+Given /^that databrowser has been authorized for all ed orgs$/ do
+  allLeaAllowApp("SLC Data Browser")
+end

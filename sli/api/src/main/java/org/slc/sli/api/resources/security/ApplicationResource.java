@@ -39,6 +39,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.GrantedAuthority;
@@ -55,8 +56,10 @@ import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.oauth.TokenGenerator;
 import org.slc.sli.api.service.EntityService;
+import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -85,6 +88,10 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     private boolean sandboxEnabled;
 
     private EntityService service;
+    
+    @Autowired
+    @Qualifier("validationRepo")
+    private Repository<Entity> repo;
 
     private static final int CLIENT_ID_LENGTH = 10;
     private static final int CLIENT_SECRET_LENGTH = 48;
@@ -189,37 +196,43 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             @QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
             @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
             @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        Response resp = null;
-        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (hasRight(Right.DEV_APP_CRUD)) {
-            extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL,
-                    principal.getExternalId());
-            resp = super.readAll(offset, limit, headers, uriInfo);
-        } else if (!hasRight(Right.SLC_APP_APPROVE)) {
-            debug("ED-ORG of operator/admin {}", principal.getEdOrg());
-            extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
-                    principal.getEdOrg());
-            resp = super.readAll(offset, limit, headers, uriInfo);
-
-            // also need the auto-allowed apps -- so in an ugly fashion, let's query those too and
-            // add it to the response
-            extraCriteria = new NeutralCriteria("allowed_for_all_edorgs", NeutralCriteria.OPERATOR_EQUAL, true);
-            Response bootstrap = super.readAll(offset, limit, headers, uriInfo);
-            Map entity = (Map) resp.getEntity();
-            List apps = (List) entity.get("application");
-            Map bsEntity = (Map) bootstrap.getEntity();
-            List bsApps = (List) bsEntity.get("application");
-            apps.addAll(bsApps);
-            // TODO: total count might not be accurate--currently seems correct though,
-            // which means the service doesn't take extraCriteria into account
-        } else {
-            resp = super.readAll(offset, limit, headers, uriInfo);
-        }
-  
+        Response resp = super.readAll(offset, limit, headers, uriInfo);
         filterSensitiveData((Map) resp.getEntity());
         return resp;
     }
+    
+    
+
+    @Override
+    protected void addAdditionalCritera(NeutralQuery query) {
+        
+
+        
+        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (hasRight(Right.DEV_APP_CRUD)) { //Developer sees all apps they own
+            query.addCriteria(new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId()));
+        } else if (!hasRight(Right.SLC_APP_APPROVE)) {  //realm admin, sees apps that they are either authorized or could be authorized
+            
+            //know this is ugly, but having trouble getting or queries to work
+            List<String> idList = new ArrayList<String>();
+            NeutralQuery newQuery = new NeutralQuery(new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL, principal.getEdOrgId()));
+            Iterable<String> ids = repo.findAllIds("application", newQuery);
+            for (String id : ids) {
+                idList.add(id);
+            }
+            
+            newQuery = new NeutralQuery(0);
+            newQuery.addCriteria(new NeutralCriteria("allowed_for_all_edorgs", NeutralCriteria.OPERATOR_EQUAL, true));
+            newQuery.addCriteria(new NeutralCriteria("authorized_for_all_edorgs", NeutralCriteria.OPERATOR_EQUAL, false));
+            
+            ids = repo.findAllIds("application", newQuery);
+            for (String id : ids) {
+                idList.add(id);
+            }
+            query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, idList));
+        } //else - operator -- sees all apps
+    }
+
 
     /**
      * Looks up a specific application based on client ID, ie.
@@ -234,16 +247,7 @@ public class ApplicationResource extends DefaultCrudEndpoint {
     @Path("{" + UUID + "}")
     public Response getApplication(@PathParam(UUID) String uuid, @Context HttpHeaders headers,
             @Context final UriInfo uriInfo) {
-        Response resp;
-        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (hasRight(Right.DEV_APP_CRUD)) {
-            extraCriteria = new NeutralCriteria(CREATED_BY, NeutralCriteria.OPERATOR_EQUAL, principal.getExternalId());
-        } else if (!hasRight(Right.SLC_APP_APPROVE)) {
-            debug("ED-ORG of operator/admin {}", principal.getEdOrg());
-            extraCriteria = new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL,
-                    principal.getEdOrg());
-        }
-        resp = super.read(uuid, headers, uriInfo);
+        Response resp = super.read(uuid, headers, uriInfo);
         filterSensitiveData((Map) resp.getEntity());
         return resp;
     }
@@ -268,7 +272,13 @@ public class ApplicationResource extends DefaultCrudEndpoint {
             for (Object app : appList) {
                 Map appMap = (Map) app;
                 Map reg = (Map) appMap.get("registration");
-                if (!reg.get("status").equals("APPROVED")) {
+                //only see client id and secret if you're an app developer and it's approved
+                if (hasRight(Right.DEV_APP_CRUD)) {
+                    if (!reg.get("status").equals("APPROVED")) {
+                        appMap.remove(CLIENT_ID);
+                        appMap.remove(CLIENT_SECRET);
+                    }
+                } else if (!hasRight(Right.SLC_APP_APPROVE)) {  //or if your an operator
                     appMap.remove(CLIENT_ID);
                     appMap.remove(CLIENT_SECRET);
                 }
@@ -431,34 +441,24 @@ public class ApplicationResource extends DefaultCrudEndpoint {
         String sandboxTenant = principal.getExternalId();
         EntityService edorgService = store.lookupByResourceName(ResourceNames.EDUCATION_ORGANIZATIONS).getService();
 
-        for (String edOrgId : edOrgs) {
 
-            EntityBody entity = edorgService.list(new NeutralQuery(new NeutralCriteria("stateOrganizationId", "=", edOrgId))).iterator().next();
-            if (entity != null && entity.containsKey("metaData")) {
-                @SuppressWarnings("rawtypes")
-                Map metaData = (Map) entity.get("metaData");
-                if (!sandboxTenant.equals(metaData.get("tenantId"))) {
-                    debug("EdOrg {} does not belong to tenant {}.", edOrgId, sandboxTenant);
-                    return false;
-                }
-            } else {
-                debug("Did not find metadata for {}", edOrgId);
-            }
-        }
-        return true;
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria("metaData.tenantId", NeutralCriteria.OPERATOR_EQUAL, sandboxTenant, false));
+        query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, edOrgs, false));
+        return edOrgs.size() == edorgService.count(query);
     }
 
-    private void iterateEdOrgs(String uuid, List<String> edOrgs) {
-        for (String edOrg : edOrgs) {
+    private void iterateEdOrgs(String uuid, List<String> edOrgIds) {
+        for (String edOrgId : edOrgIds) {
             NeutralQuery query = new NeutralQuery();
-            query.addCriteria(new NeutralCriteria("authId", NeutralCriteria.OPERATOR_EQUAL, edOrg));
+            query.addCriteria(new NeutralCriteria("authId", NeutralCriteria.OPERATOR_EQUAL, edOrgId));
             Iterable<EntityBody> auths = service.list(query);
             long count = service.count(query);
             if (count == 0) {
                 debug("No application authorization exists. Creating one.");
                 EntityBody body = new EntityBody();
                 body.put("authType", "EDUCATION_ORGANIZATION");
-                body.put("authId", edOrg);
+                body.put("authId", edOrgId);
                 body.put("appIds", new ArrayList());
                 service.create(body);
                 auths = service.list(query);

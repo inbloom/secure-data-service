@@ -7,6 +7,7 @@ that are displayed.
 
     Background:
         Given I have an open web browser
+And that dashboard has been authorized for all ed orgs
 
 @RALLY_US145
     Scenario: Check user has multiple filters available

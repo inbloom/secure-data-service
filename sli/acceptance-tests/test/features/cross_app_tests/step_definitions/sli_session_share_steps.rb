@@ -16,7 +16,6 @@ limitations under the License.
 
 =end
 
-
 require 'selenium-webdriver'
 
 require_relative '../../utils/sli_utils.rb'

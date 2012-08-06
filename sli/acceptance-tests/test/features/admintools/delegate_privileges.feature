@@ -51,12 +51,12 @@ Scenario: State Administrator gets access to app approval for one district
    And I am redirected to the Admin Application Authorization Tool
   Then I see the list of all available apps on SLI
   And I see a dropdown box listing both districts
-  And I select "IL-SUNSET" in the district dropdown
-  And I see the table for "IL-SUNSET"
-  And I do not see the table for "IL-DAYBREAK"
-  And I select "IL-DAYBREAK" in the district dropdown  
-  And I see the table for "IL-DAYBREAK"
-  And I do not see the table for "IL-SUNSET"
+  And I select "Sunset School District 4526" in the district dropdown
+  And I see the table for "Sunset School District 4526"
+  And I do not see the table for "Daybreak School District 4529"
+  And I select "Daybreak School District 4529" in the district dropdown  
+  And I see the table for "Daybreak School District 4529"
+  And I do not see the table for "Sunset School District 4526"
   And I see an application "Testing App" in the table
   And in Status it says "Not Approved"
   And I click on the "Approve" button next to it

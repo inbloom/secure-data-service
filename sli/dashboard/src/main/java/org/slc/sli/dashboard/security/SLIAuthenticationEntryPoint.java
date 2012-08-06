@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.dashboard.security;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -37,9 +38,6 @@ import org.scribe.exceptions.OAuthException;
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
-import org.slc.sli.dashboard.client.APIClient;
-import org.slc.sli.dashboard.client.RESTClient;
-import org.slc.sli.dashboard.util.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,6 +48,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.dashboard.client.APIClient;
+import org.slc.sli.dashboard.client.RESTClient;
+import org.slc.sli.dashboard.util.Constants;
 
 /**
  * Spring interceptor for calls that don't have a session
@@ -206,7 +208,15 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
                 for (Cookie c : cookies) {
                     if (c.getName().equals(DASHBOARD_COOKIE)) {
 
-                        JsonObject json = restClient.sessionCheck(c.getValue());
+                        // DE883. We need to decrypt the cookie value to authenticate the token.
+                        String decryptedCookie = null;
+                        try {
+                            String s = URLDecoder.decode(c.getValue(), "UTF-8");
+                            decryptedCookie = propDecryptor.getDecryptedStringFromCSByteString(s);
+                        } catch (Exception e) {
+                            LOG.error(e.getMessage());
+                        }
+                        JsonObject json = restClient.sessionCheck(decryptedCookie);
 
                         // If user is not authenticated, expire the cookie, else set OAUTH_TOKEN to
                         // cookie value and continue
@@ -216,7 +226,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
                             LOG.info(LOG_MESSAGE_AUTH_EXPIRING_COOKIE, new Object[] { request.getRemoteAddr() });
                         } else {
                             cookieFound = true;
-                            session.setAttribute(OAUTH_TOKEN, c.getValue());
+                            session.setAttribute(OAUTH_TOKEN, decryptedCookie);
                             LOG.info(LOG_MESSAGE_AUTH_USING_COOKIE, new Object[] { request.getRemoteAddr() });
                         }
 
@@ -235,17 +245,28 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         // TODO: Remove custom header and use cookie when servlet-api is upgraded to 3.0
         // response.setHeader("Set-Cookie", DASHBOARD_COOKIE + "=" + (String) token +
         // ";path=/;domain=" + domain of the request + ";Secure;HttpOnly");
+        String encryptedToken = null;
+        String headerString = "";
 
-        String headerString = DASHBOARD_COOKIE + "=" + token + ";path=/;domain=" + request.getServerName() + ";HttpOnly";
+        // DE883 Encrypt the cookie and save it in the header.
+        try {
+            encryptedToken = propDecryptor.getEncryptedByteCSString(token);
+            headerString = DASHBOARD_COOKIE + "=" + URLEncoder.encode(encryptedToken, "UTF-8") + ";path=/;domain="
+                    + request.getServerName() + ";HttpOnly";
 
-        if (isSecureRequest(request)) {
-            headerString = headerString + (";Secure");
+            if (isSecureRequest(request)) {
+                headerString = headerString + (";Secure");
+            }
+
+        } catch (Exception e) {
+            LOG.error(e.getMessage());
         }
 
         response.setHeader("Set-Cookie", headerString);
     }
 
-    private void initiatingAuthentication(HttpServletRequest request, HttpServletResponse response, HttpSession session, OAuthService service) throws IOException {
+    private void initiatingAuthentication(HttpServletRequest request, HttpServletResponse response,
+            HttpSession session, OAuthService service) throws IOException {
 
         LOG.info(LOG_MESSAGE_AUTH_INITIATING, new Object[] { request.getRemoteAddr() });
 
@@ -256,7 +277,8 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         response.sendRedirect(authUrl);
     }
 
-    private void verifyingAuthentication(HttpServletRequest request, HttpServletResponse response, HttpSession session, OAuthService service) throws IOException {
+    private void verifyingAuthentication(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+            OAuthService service) throws IOException {
 
         LOG.info(LOG_MESSAGE_AUTH_VERIFYING, new Object[] { request.getRemoteAddr() });
 
@@ -271,7 +293,8 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         }
     }
 
-    private void completeAuthentication(HttpServletRequest request, HttpServletResponse response, HttpSession session, Object token, boolean cookieFound) throws ServletException, IOException {
+    private void completeAuthentication(HttpServletRequest request, HttpServletResponse response, HttpSession session,
+            Object token, boolean cookieFound) throws ServletException, IOException {
 
         // Complete Spring security integration
         SLIPrincipal principal = completeSpringAuthentication((String) token);
@@ -286,8 +309,7 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
             RequestDispatcher dispatcher = request.getRequestDispatcher(request.getServletPath());
             dispatcher.forward(request, response);
         } else {
-            LOG.info(LOG_MESSAGE_AUTH_REDIRECTING,
-                    new Object[] { principal.getName(), request.getRemoteAddr() });
+            LOG.info(LOG_MESSAGE_AUTH_REDIRECTING, new Object[] { principal.getName(), request.getRemoteAddr() });
             response.sendRedirect(request.getRequestURI());
         }
     }
@@ -356,18 +378,18 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
         return null;
     }
 
-
     /**
-     * @param request - request to be determined
+     * @param request
+     *            - request to be determined
      * @return if the ENV is non-local ( this is due to local jetty server does not
-     * handle secure protocol ) and the protocol is HTTPS, return true.
-     * Otherwise, return false.
+     *         handle secure protocol ) and the protocol is HTTPS, return true.
+     *         Otherwise, return false.
      */
     static boolean isSecureRequest(HttpServletRequest request) {
 
         String serverName = request.getServerName();
-        boolean isSecureEnvironment =
-                (!serverName.substring(0, serverName.indexOf(".")).equals(NONSECURE_ENVIRONMENT_NAME));
+        boolean isSecureEnvironment = (!serverName.substring(0, serverName.indexOf(".")).equals(
+                NONSECURE_ENVIRONMENT_NAME));
 
         return (request.isSecure() && isSecureEnvironment);
     }

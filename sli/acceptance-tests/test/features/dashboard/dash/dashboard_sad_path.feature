@@ -4,6 +4,7 @@ Test Sad Paths and Display Error Messages
 
 Background:
 Given I have an open web browser
+Given that dashboard has been authorized for all ed orgs
 When I navigate to the Dashboard home page
 Then I should be redirected to the Realm page
 
@@ -31,6 +32,7 @@ Then I get an error message "We're sorry, the page that you were looking for cou
 
 @DE1112
 Scenario: School User whose district has disallowed the Dashboard for their district
+Given the district "NY-Dusk" has dissallowed use of the dashboard
 When I select "New York Realm" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "agibbs" "agibbs1234" for the "Simple" login page

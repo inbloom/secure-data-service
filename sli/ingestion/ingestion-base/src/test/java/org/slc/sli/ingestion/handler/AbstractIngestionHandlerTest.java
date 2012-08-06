@@ -42,6 +42,7 @@ public class AbstractIngestionHandlerTest {
 
     AbstractIngestionHandler<Object, Object> handler;
 
+    @SuppressWarnings("unchecked")
     @Test
     public void handleTest() {
         handler = Mockito.mock(AbstractIngestionHandler.class);

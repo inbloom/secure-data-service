@@ -135,7 +135,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
             setExchangeHeaders(exchange, newBatchJob, errorReport);
 
-            setExchangeBody(exchange, controlFileDescriptor, errorReport, batchJobId);
+            setExchangeBody(exchange, controlFileDescriptor, errorReport, newBatchJob.getId());
 
         } catch (SubmissionLevelException exception) {
             String id = "null";
@@ -180,6 +180,9 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         } else {
             job = createNewBatchJob(cf);
         }
+
+        TenantContext.setJobId(job.getId());
+
         return job;
     }
 

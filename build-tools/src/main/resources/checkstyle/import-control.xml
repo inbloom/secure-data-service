@@ -20,6 +20,7 @@
   <allow pkg="org.slc.sli.domain"/>
   <allow pkg="org.slc.sli.sif"/>
   <allow pkg="openadk.library"/>
+  <allow pkg="org.slc.sli.modeling"/>
 
   <subpackage name="dal">
     <allow pkg="org.slc.sli.dal"/>
@@ -107,6 +108,10 @@
       <allow pkg="org.slc.sli.dashboard.web"/>
       <allow pkg="net.sf.ehcache"/>
     </subpackage>
+  </subpackage>
+
+  <subpackage name="aggregation">
+    <allow pkg="org.slc.sli.aggregation"/>
   </subpackage>
 
   <subpackage name="sandbox">

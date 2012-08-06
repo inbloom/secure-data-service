@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.client.util;
 
 import java.io.UnsupportedEncodingException;
@@ -36,7 +35,7 @@ public final class URLBuilder {
 
     /**
      * Start building a new URL with the provided base location.
-     * 
+     *
      * @param baseUrl
      *            - base URL of the ReSTful API.
      * @return URLBuilder instance
@@ -49,20 +48,22 @@ public final class URLBuilder {
 
     /**
      * Append a path fragment to the current URL path.
-     * 
+     *
      * @param path
      *            URL fragment to add.
      * @return Updated URLBuilder instance.
      */
     public URLBuilder addPath(final String path) {
-        addPathSeparaterIfNeeded();
+        if (!path.startsWith("/")) {
+            addPathSeparaterIfNeeded();
+        }
         url.append(path);
         return this;
     }
 
     /**
      * Append a path element for accessing the provided entity type.
-     * 
+     *
      * @param type
      *            Entity type of interest.
      * @return Updated URLBuilder instance.
@@ -82,7 +83,7 @@ public final class URLBuilder {
 
     /**
      * Append an entity id to the path
-     * 
+     *
      * @param id
      *            Entity ID
      * @return Updated URLBuilder instance.
@@ -94,7 +95,7 @@ public final class URLBuilder {
 
     /**
      * Append a collection of entity ids to the path
-     * 
+     *
      * @param ids
      *            a collection of Entity IDs
      * @return Updated URLBuilder instance.
@@ -113,25 +114,26 @@ public final class URLBuilder {
 
     /**
      * Apply the given query to the URL.
-     * 
+     *
      * @param query
      * @return Updated URLBuilder instance.
      */
     public URLBuilder query(final Query query) {
 
-        Map<String, Object> params = query.getParameters();
-        if (params != null) {
-            for (Map.Entry<String, Object> entry : params.entrySet()) {
-                addQueryParameter(entry.getKey(), entry.getValue());
+        if (query != null) {
+            Map<String, Object> params = query.getParameters();
+            if (params != null) {
+                for (Map.Entry<String, Object> entry : params.entrySet()) {
+                    addQueryParameter(entry.getKey(), entry.getValue());
+                }
             }
         }
-
         return this;
     }
 
     /**
      * Builds the URL.
-     * 
+     *
      * @return URL represented by the values set in this builder.
      * @throws MalformedURLException
      *             if the URL is not valid.
@@ -143,7 +145,7 @@ public final class URLBuilder {
 
     /**
      * Add a URL Query parameter to the URL.
-     * 
+     *
      * @param key
      *            query parameter name
      * @param value
@@ -161,7 +163,7 @@ public final class URLBuilder {
         }
         url.append(key).append("=");
         try {
-            url.append(URLEncoder.encode(value.toString(), ENCODING));
+            url.append(URLEncoder.encode(value.toString(), ENCODING).replace("+", "%20"));
         } catch (UnsupportedEncodingException e) {
             url.append(value);
         }

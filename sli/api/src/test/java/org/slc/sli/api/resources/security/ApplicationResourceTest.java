@@ -17,31 +17,8 @@
 
 package org.slc.sli.api.resources.security;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-import static org.slc.sli.api.resources.security.ApplicationResource.APPROVAL_DATE;
-import static org.slc.sli.api.resources.security.ApplicationResource.CLIENT_ID;
-import static org.slc.sli.api.resources.security.ApplicationResource.CLIENT_SECRET;
-import static org.slc.sli.api.resources.security.ApplicationResource.REGISTRATION;
-import static org.slc.sli.api.resources.security.ApplicationResource.REQUEST_DATE;
-import static org.slc.sli.api.resources.security.ApplicationResource.RESOURCE_NAME;
-import static org.slc.sli.api.resources.security.ApplicationResource.STATUS;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
-import javax.ws.rs.core.UriInfo;
-
+import com.sun.jersey.api.uri.UriBuilderImpl;
+import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -65,8 +42,29 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import com.sun.jersey.api.uri.UriBuilderImpl;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+import javax.ws.rs.core.UriInfo;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.slc.sli.api.resources.security.ApplicationResource.APPROVAL_DATE;
+import static org.slc.sli.api.resources.security.ApplicationResource.CLIENT_ID;
+import static org.slc.sli.api.resources.security.ApplicationResource.CLIENT_SECRET;
+import static org.slc.sli.api.resources.security.ApplicationResource.REGISTRATION;
+import static org.slc.sli.api.resources.security.ApplicationResource.REQUEST_DATE;
+import static org.slc.sli.api.resources.security.ApplicationResource.RESOURCE_NAME;
+import static org.slc.sli.api.resources.security.ApplicationResource.STATUS;
 
 /**
  *
@@ -136,6 +134,7 @@ public class ApplicationResourceTest {
         assertFalse("approval date not set", reg.containsKey(APPROVAL_DATE));
     }
     
+    @SuppressWarnings("rawtypes")
     @Test
     public void testGoodCreateWithSandbox() {
         EntityBody app = getNewApp();
@@ -256,7 +255,8 @@ public class ApplicationResourceTest {
         Response resp = resource.getApplications(0, 50, headers, uriInfo);
         assertEquals(STATUS_FOUND, resp.getStatus());
         EntityResponse entityResponse = (EntityResponse) resp.getEntity();
-        List<EntityBody> bodies = (List) entityResponse.getEntity();
+        @SuppressWarnings("unchecked")
+        List<EntityBody> bodies = (List<EntityBody>) entityResponse.getEntity();
         assertTrue(bodies.size() >= 1);
     }
     
@@ -271,7 +271,8 @@ public class ApplicationResourceTest {
         Response resp = resource.getApplications(0, 50, headers, uriInfo);
         assertEquals(STATUS_FOUND, resp.getStatus());
         EntityResponse entityResponse = (EntityResponse) resp.getEntity();
-        List<EntityBody> bodies = (List) entityResponse.getEntity();
+        @SuppressWarnings("unchecked")
+        List<EntityBody> bodies = (List<EntityBody>) entityResponse.getEntity();
         assertTrue(bodies.size() == 1);
         assertTrue(bodies.get(0).get("id").equals(uuid));
     }
@@ -291,7 +292,8 @@ public class ApplicationResourceTest {
         Response resp = resource.getApplications(0, 50, headers, uriInfo);
         assertEquals(STATUS_FOUND, resp.getStatus());
         EntityResponse entityResponse = (EntityResponse) resp.getEntity();
-        List<EntityBody> bodies = (List) entityResponse.getEntity();
+        @SuppressWarnings("unchecked")
+        List<EntityBody> bodies = (List<EntityBody>) entityResponse.getEntity();
         assertTrue(bodies.size() == 0);
     }
     
@@ -310,8 +312,9 @@ public class ApplicationResourceTest {
         Response resp = resource.getApplications(0, 50, headers, uriInfo);
         assertEquals(STATUS_FOUND, resp.getStatus());
         EntityResponse entityResponse = (EntityResponse) resp.getEntity();
-        List<EntityBody> bodies = (List) entityResponse.getEntity();
-        assertTrue(bodies.size() == 1);
+        @SuppressWarnings("unchecked")
+        List<EntityBody> bodies = (List<EntityBody>) entityResponse.getEntity();
+        assertTrue("expected entity response to contain 1 entity, received " + bodies.size(),bodies.size() == 1);
     }
     
     @Test
@@ -330,6 +333,7 @@ public class ApplicationResourceTest {
 
 
 
+    @SuppressWarnings({ "unchecked", "rawtypes" })
     @Test
     public void testUpdate() {
         EntityBody app = getNewApp();
@@ -369,6 +373,7 @@ public class ApplicationResourceTest {
         return parseIdFromLocation(created);
     }
     
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Test
     public void testUpdateRegistrationAsDeveloper() {
         EntityBody app = getNewApp();

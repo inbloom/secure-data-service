@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.domain;
 
 import java.util.Map;
@@ -47,6 +46,19 @@ public interface Entity {
     /**
      * Returns the metaData.
      */
-     public Map<String, Object> getMetaData();
-    
+    public Map<String, Object> getMetaData();
+
+    /**
+     * Get the calculated values
+     *
+     * @return
+     */
+    public CalculatedData<String> getCalculatedValues();
+
+    /**
+     * Get the aggregates
+     *
+     * @return
+     */
+    public CalculatedData<Map<String, Integer>> getAggregates();
 }

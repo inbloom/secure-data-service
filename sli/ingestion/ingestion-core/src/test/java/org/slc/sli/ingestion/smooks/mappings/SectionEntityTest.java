@@ -34,6 +34,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
@@ -78,6 +79,16 @@ public class SectionEntityTest {
             @Override
             public Map<String, Object> getBody() {
                 return new HashMap<String, Object>();
+            }
+
+            @Override
+            public CalculatedData<String> getCalculatedValues() {
+                return null;
+            }
+
+            @Override
+            public CalculatedData<Map<String, Integer>> getAggregates() {
+                return null;
             }
         };
     }

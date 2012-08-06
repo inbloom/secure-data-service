@@ -125,16 +125,8 @@ public class JobReportingProcessor implements Processor {
             LOG.error("Exception encountered in JobReportingProcessor. ", e);
         } finally {
 
-            if (job != null) {
-                BatchJobUtils.completeStageAndJob(stage, job);
-                batchJobDAO.saveBatchJob(job);
-                batchJobDAO.releaseTenantLockForJob(job.getTenantId(), job.getId());
-                broadcastFlushStats(exchange, workNote);
-            }
+            performJobCleanup(exchange, workNote, stage, job);
 
-            cleanUpLZ(job);
-
-            cleanupStagingDatabase(workNote);
         }
     }
 
@@ -456,6 +448,21 @@ public class JobReportingProcessor implements Processor {
         }
     }
 
+    private void performJobCleanup(Exchange exchange, WorkNote workNote, Stage stage, NewBatchJob job) {
+        if (job != null) {
+            BatchJobUtils.completeStageAndJob(stage, job);
+            batchJobDAO.saveBatchJob(job);
+            batchJobDAO.releaseTenantLockForJob(job.getTenantId(), job.getId());
+            batchJobDAO.cleanUpWorkNoteLatchAndStagedEntites(job.getId());
+            broadcastFlushStats(exchange, workNote);
+            cleanUpLZ(job);
+        }
+
+        cleanupStagingDatabase(workNote);
+
+        TenantContext.setJobId(null);
+    }
+
     private void writeSecurityLog(LogLevelType messageType, String message) {
         byte[] ipAddr = null;
         try {
@@ -475,7 +482,9 @@ public class JobReportingProcessor implements Processor {
         event.setActionUri("writeLine");
         event.setAppId("Ingestion");
         event.setOrigin("");
-        event.setExecutedOn(ipAddr[0] + "." + ipAddr[1] + "." + ipAddr[2] + "." + ipAddr[3]);
+        if (ipAddr != null) {
+            event.setExecutedOn(ipAddr[0] + "." + ipAddr[1] + "." + ipAddr[2] + "." + ipAddr[3]);
+        }
         event.setCredential("");
         event.setUserOrigin("");
         event.setTimeStamp(new Date());

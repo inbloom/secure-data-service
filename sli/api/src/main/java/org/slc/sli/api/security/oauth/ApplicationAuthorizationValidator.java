@@ -70,25 +70,26 @@ public class ApplicationAuthorizationValidator {
     @SuppressWarnings("unchecked")
     public List<String> getAuthorizedApps(SLIPrincipal principal) {
         
+        boolean isHostedUser = SecurityUtil.isHostedUser(repo, principal);
+        
         //For hosted users (Developer, SLC Operator, SEA/LEA Administrator) they're not associated with a district
-        List<Entity> districts = SecurityUtil.isHostedUser(repo, principal) ? new ArrayList<Entity>() : findUsersDistricts(principal);
+        List<Entity> districts = isHostedUser ? new ArrayList<Entity>() : findUsersDistricts(principal);
         
         Set<String> bootstrapApps = getDefaultAllowedApps();
-        Set<String> results = getDefaultAuthorizedApps();
+        Set<String> results = isHostedUser ? new HashSet<String>() : getDefaultAuthorizedApps();
                 
         for (Entity district : districts) {
             debug("User is in district {}.", district.getEntityId());
 
             NeutralQuery query = new NeutralQuery();
-            query.addCriteria(new NeutralCriteria("authId", "=", district.getBody().get("stateOrganizationId")));
+            query.addCriteria(new NeutralCriteria("authId", "=", district.getEntityId()));
             query.addCriteria(new NeutralCriteria("authType", "=", "EDUCATION_ORGANIZATION"));
             Entity authorizedApps = repo.findOne("applicationAuthorization", query);
 
             if (authorizedApps != null) {
                 
                 NeutralQuery districtQuery = new NeutralQuery(0);
-                districtQuery.addCriteria(new NeutralCriteria("authorized_ed_orgs", "=", district.getBody().get(
-                        "stateOrganizationId")));
+                districtQuery.addCriteria(new NeutralCriteria("authorized_ed_orgs", "=", district.getEntityId()));
                 
                 Set<String> vendorAppsEnabledForEdorg = new HashSet<String>(bootstrapApps); //bootstrap apps automatically added
                 
@@ -101,6 +102,16 @@ public class ApplicationAuthorizationValidator {
                 
                 results.addAll(vendorAppsEnabledForEdorg);
             }
+        }
+        
+        if (isHostedUser) {
+            
+            NeutralQuery adminVisible = new NeutralQuery(0);
+            adminVisible.addCriteria(new NeutralCriteria("admin_visible", "=", true));
+            for (String id : repo.findAllIds("application", adminVisible)) {
+                results.add(id);
+            }
+            
         }
  
         return new ArrayList<String>(results);
@@ -140,10 +151,6 @@ public class ApplicationAuthorizationValidator {
         return toReturn;
     }
     
-    
-    private boolean isSandbox() {
-        return sandboxEnabled;
-    }
 
     /**
      * Looks up the user's LEA entity.
@@ -159,11 +166,11 @@ public class ApplicationAuthorizationValidator {
     private List<Entity> findUsersDistricts(SLIPrincipal principal) {
         List<Entity> toReturn = new ArrayList<Entity>();
         
-        List<String> leaIds = helper.getLEAs(principal.getEntity());
+        List<String> leaIds = helper.getDistricts(principal.getEntity());
         
         NeutralQuery query = new NeutralQuery(0);
         query.addCriteria(new NeutralCriteria("_id", "in", leaIds, false));
-        for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION)) {
+        for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
             toReturn.add(entity);
         }
        

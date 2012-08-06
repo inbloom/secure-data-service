@@ -33,12 +33,6 @@ class App < SessionResource
     not installed
   end
 
-  def self.all_but_admin
-    apps = App.all
-    apps.delete_if { |app| app.respond_to? :endpoints }
-    apps
-  end
-  
   def pending?
     self.registration.status == "PENDING" ? true : false
   end

@@ -107,25 +107,25 @@ public final class JavaFeature {
     public boolean isOptional() {
         final Multiplicity multiplicity = feature.getMultiplicity();
         final Range range = multiplicity.getRange();
-        return (range.getLower() == Occurs.ZERO & range.getUpper() == Occurs.ONE);
+        return (range.getLower() == Occurs.ZERO && range.getUpper() == Occurs.ONE);
     }
 
     public boolean isRequired() {
         final Multiplicity multiplicity = feature.getMultiplicity();
         final Range range = multiplicity.getRange();
-        return (range.getLower() == Occurs.ONE & range.getUpper() == Occurs.ONE);
+        return (range.getLower() == Occurs.ONE && range.getUpper() == Occurs.ONE);
     }
 
     public boolean isZeroOrMore() {
         final Multiplicity multiplicity = feature.getMultiplicity();
         final Range range = multiplicity.getRange();
-        return (range.getLower() == Occurs.ZERO & range.getUpper() == Occurs.UNBOUNDED);
+        return (range.getLower() == Occurs.ZERO && range.getUpper() == Occurs.UNBOUNDED);
     }
 
     public boolean isOneOrMore() {
         final Multiplicity multiplicity = feature.getMultiplicity();
         final Range range = multiplicity.getRange();
-        return (range.getLower() == Occurs.ONE & range.getUpper() == Occurs.UNBOUNDED);
+        return (range.getLower() == Occurs.ONE && range.getUpper() == Occurs.UNBOUNDED);
     }
 
     public boolean isAttribute() {

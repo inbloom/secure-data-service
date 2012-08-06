@@ -2,6 +2,11 @@
 Feature: Applications sharing SLI Sessions
 As a user of SLI, I want to have my session shared across SLI Apps
 
+Background:
+
+Given that dashboard has been authorized for all ed orgs
+ And that databrowser has been authorized for all ed orgs
+ 
 Scenario: Session sharring between Databrowser & Dashboard
 
 	Given I have an open web browser

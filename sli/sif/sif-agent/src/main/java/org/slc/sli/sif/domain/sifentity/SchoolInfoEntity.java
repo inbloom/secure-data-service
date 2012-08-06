@@ -74,6 +74,13 @@ public class SchoolInfoEntity extends GenericEntity
     }
 
     /**
+     *  Get LEAInfoRefId in an SIF SchoolInfoEntity.
+     */
+    public String getLEAInfoRefId() {
+        return this.schoolInfo.getLEAInfoRefId();
+    }
+
+    /**
      *  Get SchoolName in an SIF SchoolInfoEntity.
      */
     public String getSchoolName() {
@@ -86,6 +93,9 @@ public class SchoolInfoEntity extends GenericEntity
      *
      */
     public String getSchoolFocusType() {
+        if (this.schoolInfo.getSchoolFocusList() == null || this.schoolInfo.getSchoolFocusList().isEmpty()) {
+            return null;
+        }
         SchoolFocus[] schoolFocus = this.schoolInfo.getSchoolFocusList().getSchoolFocuses();
         return SchoolMappings.toSliSchoolType(schoolFocus[0].getValue());
     }
@@ -103,6 +113,9 @@ public class SchoolInfoEntity extends GenericEntity
      *
      */
     public String getOperationalStatus() {
+        if (this.schoolInfo.getOperationalStatus() == null) {
+            return null;
+        }
         return SchoolMappings.toSliOperationalStatus(this.schoolInfo.getOperationalStatus());
     }
 
@@ -112,6 +125,9 @@ public class SchoolInfoEntity extends GenericEntity
      *
      */
     public String getSchoolType() {
+        if (this.schoolInfo.getSchoolType() == null) {
+            return null;
+        }
         return SchoolMappings.toSliSchoolCategory(this.schoolInfo.getSchoolType());
     }
 

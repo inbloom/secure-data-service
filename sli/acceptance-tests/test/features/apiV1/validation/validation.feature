@@ -157,7 +157,7 @@ Scenario: Given a known school object, perform a PUT with a base school object t
     When I navigate to GET "/v1/schools/<'Previous School' ID>/teacherSchoolAssociations"
     Then I should receive a return code of 404
     When I navigate to GET "/v1/schools/<'Previous School' ID>/teacherSchoolAssociations/teachers"
-    Then I should receive a return code of 404
+    Then I should receive a return code of 200
 
   Scenario: Given an invalid id, when I try to GET a target endpoint through 4-part URL, I should receive a 404
     Given format "application/json"
@@ -166,7 +166,7 @@ Scenario: Given a known school object, perform a PUT with a base school object t
     Then I should receive a return code of 200
     And a collection of size 1
     When I navigate to GET "/v1/sections/<'Invalid Section' ID>/studentSectionAssociations/students"
-    Then I should receive a return code of 404
+    Then I should receive a return code of 200
 
   Scenario Outline: Given a valid JSON document for an entity, when I POST it multiple times I should only find one record
     Given format "application/json"
@@ -221,3 +221,11 @@ Scenario: Given a known school object, perform a PUT with a base school object t
 #    | studentCompetency            | studentCompetencies     | diagnosticStatement              | Validation Test Diag. Stmt.                |                    |
 #    | gradingPeriod                | gradingPeriods          | beginDate                        | 1890-07-01                                 |                    |
 #    | reportCard                   | reportCards             | numberOfDaysAbsent               | 999                                        |                    |
+
+  Scenario: Given an invalid enumeration type in an entity body, when I do a POST the error message should be clear and easy to read
+    Given format "application/json"
+    And a valid json document for student
+    When I set the sex to InvalidValue
+    And I navigate to POST "/v1/students"
+    Then I should receive a return code of 400
+    And the error message should contain "expectedTypes=['Female', 'Male']"

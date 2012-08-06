@@ -56,7 +56,7 @@
   </mongo:mapping-converter>
 
 
-  <bean id="neutralRecordMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+  <bean id="neutralRecordMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" depends-on="mongoTrackingAspect">
     <constructor-arg type="org.springframework.data.mongodb.MongoDbFactory" ref="mongoDbStagingFactory" />
     <constructor-arg type="org.springframework.data.mongodb.core.convert.MongoConverter" ref="neutralRecordMappingConverter" />
   </bean>
@@ -89,7 +89,7 @@
     </mongo:custom-converters>
   </mongo:mapping-converter>
 
-  <bean id="batchJobMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+  <bean id="batchJobMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" depends-on="mongoTrackingAspect">
     <constructor-arg type="org.springframework.data.mongodb.MongoDbFactory" ref="mongoDbBatchJobFactory" />
     <constructor-arg type="org.springframework.data.mongodb.core.convert.MongoConverter" ref="ErrorMappingConverter" />
     <property name="writeConcern">
@@ -104,12 +104,17 @@
   <mongo:db-factory id="mongoDbTenantFactory" dbname="${sli.mongodb.database}" host="${sli.mongodb.host}"
     port="${sli.mongodb.port}" />
 
-  <bean id="tenantMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+  <bean id="tenantMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" depends-on="mongoTrackingAspect">
     <constructor-arg type="org.springframework.data.mongodb.MongoDbFactory" ref="mongoDbTenantFactory" />
   </bean>
 
   <bean class="org.slc.sli.aspect.LoggerCarrierAspect" factory-method="aspectOf">
     <property name="template" ref="mongoTemplate" />
+  </bean>
+
+  <bean id = "ingestionHealthCheck" class="org.slc.sli.ingestion.IngestionHealthCheck">
+    <property name="batchJobMongoDA" ref="batchJobMongoDA" />
+    <property name="version" value="${sli.ingestion.version}" />
   </bean>
 
   <context:component-scan base-package="org.slc.sli.ingestion.tenant" />

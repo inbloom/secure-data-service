@@ -71,7 +71,7 @@ Then /^all of the input fields should be blank$/ do
 end
 
 Then /^I should hit the role mapping page$/ do
-  @url = PropLoader.getProps['admintools_server_url'] + "/realms"
+  @url = PropLoader.getProps['admintools_server_url'] + "/custom_roles"
   @driver.get @url
 end
 
@@ -121,6 +121,13 @@ end
 Then /^I should make the unique identifier not unique$/ do
   @driver.find_element(:name, 'realm[uniqueIdentifier]').clear
   @driver.find_element(:name, 'realm[uniqueIdentifier]').send_keys "Shared Learning Infrastructure"
+end
+
+Then /^I should make the display name not unique$/ do
+  @driver.find_element(:name, 'realm[uniqueIdentifier]').clear
+  @driver.find_element(:name, 'realm[uniqueIdentifier]').send_keys "Brand New Realm"
+  @driver.find_element(:name, 'realm[name]').clear
+  @driver.find_element(:name, 'realm[name]').send_keys "Illinois Daybreak School District 4529"
 end
 
 Then /^I should get (\d+) error$/ do |arg1|

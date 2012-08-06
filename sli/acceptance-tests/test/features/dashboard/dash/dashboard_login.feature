@@ -5,6 +5,7 @@ on SLI, so I could use the Dashboard application.
 
 Background:
 Given I have an open web browser
+Given that dashboard has been authorized for all ed orgs
 
  @RALLY_US200
 Scenario: Valid user login

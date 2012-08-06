@@ -23,6 +23,8 @@ import java.util.HashMap;
 
 import javax.ws.rs.core.Response;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
@@ -31,9 +33,11 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.dal.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
@@ -46,19 +50,27 @@ import org.slc.sli.domain.enums.Right;
  */
 public class SecurityUtil {
 
+    private static final Logger LOG = LoggerFactory.getLogger(SecurityUtil.class);
+
     private static final Authentication FULL_ACCESS_AUTH;
     public static final String SYSTEM_ENTITY = "system_entity";
 
     private static ThreadLocal<Authentication> cachedAuth = new ThreadLocal<Authentication>();
+    private static ThreadLocal<String> tenantContext = new ThreadLocal<String>();
+    private static ThreadLocal<Boolean> inSudo = new ThreadLocal<Boolean>(); //use to detect nested sudos
+    private static ThreadLocal<Boolean> inTenantBlock = new ThreadLocal<Boolean>(); //use to detect nested tenant blocks
 
     static {
         SLIPrincipal system = new SLIPrincipal("SYSTEM");
         system.setEntity(new MongoEntity(SYSTEM_ENTITY, new HashMap<String, Object>()));
-
         FULL_ACCESS_AUTH = new PreAuthenticatedAuthenticationToken(system, "API", Arrays.asList(Right.FULL_ACCESS));
     }
 
     public static <T> T sudoRun(SecurityTask<T> task) {
+        if (inSudo.get() != null && inSudo.get()) {
+            throw new RuntimeException("Cannot sudo inside a sudo block");
+        }
+        inSudo.set(true);
         T toReturn = null;
 
         cachedAuth.set(SecurityContextHolder.getContext().getAuthentication());
@@ -68,6 +80,29 @@ public class SecurityUtil {
             toReturn = task.execute();
         } finally {
             SecurityContextHolder.getContext().setAuthentication(cachedAuth.get());
+            cachedAuth.remove();
+            inSudo.set(false);
+        }
+
+        return toReturn;
+    }
+
+    public static <T> T runWithAllTenants(SecurityTask<T> task) {
+        if (inTenantBlock.get() != null && inTenantBlock.get()) {
+            throw new RuntimeException("Cannot nest tenant blocks");
+        }
+        inTenantBlock.set(true);
+        T toReturn = null;
+
+        tenantContext.set(TenantContext.getTenantId());
+
+        try {
+            TenantContext.setTenantId(null);
+            toReturn = task.execute();
+        } finally {
+            TenantContext.setTenantId(tenantContext.get());
+            tenantContext.remove();
+            inTenantBlock.set(false);
         }
 
         return toReturn;
@@ -132,6 +167,24 @@ public class SecurityUtil {
         return null;
     }
 
+    public static String getEdOrgId() {
+        SLIPrincipal principal = getSLIPrincipal();
+        if (principal != null) {
+            return principal.getEdOrgId();
+        }
+        return null;
+    }
+
+    public static SLIPrincipal getSLIPrincipal() {
+        SLIPrincipal principal = null;
+        SecurityContext context = SecurityContextHolder.getContext();
+        if (context.getAuthentication() != null) {
+            principal = (SLIPrincipal) context.getAuthentication().getPrincipal();
+            return principal;
+        }
+        return null;
+    }
+
     public static Response forbiddenResponse() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -169,14 +222,54 @@ public class SecurityUtil {
      *
      * @return true if the user is hosted, false otherwise
      */
-    public static boolean isHostedUser(Repository<Entity> repo, SLIPrincipal principal) {
-        String realmId = principal.getRealm();
+    public static boolean isHostedUser(final Repository<Entity> repo, SLIPrincipal principal) {
+        final String realmId = principal.getRealm();
 
-        Entity entity = repo.findById("realm", realmId);
+        Entity entity = runWithAllTenants(new SecurityTask<Entity>() {
+
+            @Override
+            public Entity execute() {
+                return repo.findById("realm", realmId);
+            }});
+
+
         if (entity != null) {
             Boolean admin = (Boolean) entity.getBody().get("admin");
             return admin != null ? admin : false;
+        } else {
+            throw new RuntimeException("Could not find realm " + realmId);
         }
-        return false;
+    }
+
+    /**
+     * Encapsulates the SecurityUtil static methods, enabling them to be mocked out for testing.
+     * Add more as you need them.
+     */
+    @Component
+    public static class SecurityUtilProxy {
+
+        public String getTenantId() {
+            return SecurityUtil.getTenantId();
+        }
+
+        public String getEdOrg() {
+            return SecurityUtil.getEdOrg();
+        }
+
+        public Collection<GrantedAuthority> getAllRights() {
+            return SecurityUtil.getAllRights();
+        }
+
+        public boolean hasRight(Right right) {
+            return SecurityUtil.hasRight(right);
+        }
+
+        public boolean hasRole(String role) {
+            return SecurityUtil.hasRole(role);
+        }
+
+        public String getUid() {
+            return SecurityUtil.getUid();
+        }
     }
 }
