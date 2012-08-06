@@ -54,7 +54,6 @@ import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
 import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 public final class MetaRelations {
-
     
     // knobs to control number of entities to create
     public static  int TOTAL_SEAS =1;
@@ -150,7 +149,8 @@ public final class MetaRelations {
               
         }
         catch (IOException ie) {
-              ie.printStackTrace();
+        	System.out.println("Can not find the specified properties file, or the specified file is wrong! please try again!");
+            ie.printStackTrace();
         }
         finally {
               if (fis != null) {
@@ -158,12 +158,13 @@ public final class MetaRelations {
                             fis.close();
                      }
                      catch (Exception e) {
+                    	 System.out.println("The config properties file can not be closed!");
                     	 e.printStackTrace();   
                      }
               }
         }
-      
-        TOTAL_SEAS  = Integer.parseInt(properties.getProperty("TOTAL_SEAS").trim().trim());
+        try {
+        TOTAL_SEAS  = Integer.parseInt(properties.getProperty("TOTAL_SEAS").trim());
         LEAS_PER_SEA = Integer.parseInt(properties.getProperty("LEAS_PER_SEA").trim());
         STAFF_PER_SEA = Integer.parseInt(properties.getProperty("STAFF_PER_SEA").trim());
         SCHOOLS_PER_LEA = Integer.parseInt(properties.getProperty("SCHOOLS_PER_LEA").trim());
@@ -214,6 +215,7 @@ public final class MetaRelations {
         AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT= Double.parseDouble(properties.getProperty("INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT").trim());
         AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM= Double.parseDouble(properties.getProperty("INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM").trim());
         
+ 
     	School_Ref = Boolean.parseBoolean(properties
 				.getProperty("School_Ref").trim());
 		Session_Ref = Boolean.parseBoolean(properties
@@ -222,7 +224,6 @@ public final class MetaRelations {
 				.getProperty("StateEducationAgency_Ref").trim());
 		LocalEducationAgency_Ref = Boolean.parseBoolean(properties
 				.getProperty("LocalEducationAgency_Ref").trim());
-
 	
 		StudentParentAssociation_Ref = Boolean.parseBoolean(properties
 				.getProperty("StudentParentAssociation_Ref").trim());
@@ -237,12 +238,19 @@ public final class MetaRelations {
 		GradingPeriod_Ref = Boolean.parseBoolean(properties
 				.getProperty("GradingPeriod_Ref").trim());
 		
-		if(properties.getProperty("fidelityOfData") =="low"||properties.getProperty("fidelityOfData") =="medium") {
+		String fidelity = properties.getProperty("fidelityOfData");
+		if(properties.getProperty("fidelityOfData").equals("low") ||properties.getProperty("fidelityOfData").equals("medium")) {
+			
 			StateEdFiXmlGenerator.fidelityOfData = properties
 				.getProperty("fidelityOfData").trim();
 		}
 		
 		 System.out.println("will use " + StateEdFiXmlGenerator.fidelityOfData + " fidelity data generators.");
+        }catch(Exception e)
+        {
+        	System.out.println("Can not find the attributes in the properties file");
+        	e.printStackTrace();
+        }
         
     }
     /**
