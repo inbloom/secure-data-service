@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.client.Entity;
+import org.slc.sli.api.client.impl.GenericEntity;
 import org.slc.sli.sif.domain.slientity.SliEntity;
 import org.slc.sli.sif.slcinterface.SifIdResolver;
 import org.slc.sli.sif.slcinterface.SlcInterface;
@@ -101,7 +102,8 @@ public class SifSubscriber implements Subscriber {
 
     private void addEntities(SIFDataObject sifData) {
         for (SliEntity sliEntity : translationManager.translate(sifData)) {
-            String guid = slcInterface.create(sliEntity.createGenericEntity());
+            GenericEntity entity = sliEntity.createGenericEntity();
+            String guid = slcInterface.create(entity);
             if (guid != null) {
                 sifIdResolver.putSliGuid(sifData.getRefId(), sliEntity.entityType(), guid);
             }

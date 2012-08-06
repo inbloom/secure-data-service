@@ -9,8 +9,8 @@
 	<context:annotation-config />
 	<context:component-scan base-package="org.slc.sli.sif.translation" />
 	<context:component-scan base-package="org.slc.sli.sif.domain" />
-	
-    <bean id="schoolInfoTranslationTask" class="org.slc.sli.sif.translation.SchoolInfoTranslationTask" />
+
+	<bean id="schoolInfoTranslationTask" class="org.slc.sli.sif.translation.SchoolInfoTranslationTask" />
 
 	<!-- define TranslationTask for translationTaskMap -->
 	<bean id="SchoolInfoTranslationTaskList" class="java.util.ArrayList">
@@ -21,18 +21,29 @@
 		</constructor-arg>
 	</bean>
 
+	<bean id="leaInfoTranslationTask" class="org.slc.sli.sif.translation.LEAInfoTranslationTask" />
+
+	<!-- define TranslationTask for translationTaskMap -->
+	<bean id="LEAInfoTranslationTaskList" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<ref local="leaInfoTranslationTask" />
+			</list>
+		</constructor-arg>
+	</bean>
+
 	<util:map id="translationMap" key-type="java.lang.String"
 		value-type="org.slc.sli.sif.translation.TranslationTask">
 		<entry key="SchoolInfo">
 			<ref bean="SchoolInfoTranslationTaskList" />
+		</entry>
+		<entry key="LEAInfo">
+			<ref bean="LEAInfoTranslationTaskList" />
 		</entry>
 	</util:map>
 
 	<bean id="translationManager" class="org.slc.sli.sif.translation.SifTranslationManager">
 		<property name="translationMap" ref="translationMap" />
 	</bean>
-    
-    <bean id="SchoolInfoTranslationTask" class="org.slc.sli.sif.translation.SchoolInfoTranslationTask" />
-
-	<!-- custom converter -->
+	
 </beans>
