@@ -130,7 +130,7 @@ public class LdapServiceImplTest {
         assertEquals("/dev/null/update", updatedUser.getHomeDir());
         assertEquals("testTenantUpdate", updatedUser.getTenant());
         assertEquals("testEdorgUpdate", updatedUser.getEdorg());
-        assertEquals(Status.EULA_ACCEPTED, updatedUser.getStatus());
+        assertEquals(Status.APPROVED, updatedUser.getStatus());
 
         // test delete
         ldapService.removeUser("local", uid);
@@ -162,7 +162,7 @@ public class LdapServiceImplTest {
         user.removeGroup("SLC Operator");
         user.removeGroup("SEA Administrator");
         user.addGroup("Realm Administrator");
-        user.setStatus(User.Status.EULA_ACCEPTED);
+        user.setStatus(User.Status.APPROVED);
     }
 
 }

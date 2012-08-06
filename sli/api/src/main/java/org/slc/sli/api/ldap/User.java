@@ -193,8 +193,7 @@ public class User {
      *
      */
     public enum Status {
-        SUBMITTED("submitted"), EULA_ACCEPTED("eual-accepted"), PENDING("pending"), REJECTED("rejected"), APPROVED(
-                "approved"), DISABLED("disabled");
+        SUBMITTED("submitted"), APPROVED("approved");
         private final String statusString;
 
         private Status(String statusString) {
