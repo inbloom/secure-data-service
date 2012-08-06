@@ -30,9 +30,9 @@
     <tbody>
     <% if @users!=nil and @users.length>0%>
         <% @users.each do |user| %>
-        <%@elementIdPrefix= user.firstName+" "+user.lastName%>
+        <%@elementIdPrefix= user.fullName %>
         <tr id='<%= user.uid%>'>
-        <td id="<%= @elementIdPrefix%>_full_name"><%= user.firstName%> <%= user.lastName%></td>
+        <td id="<%= @elementIdPrefix%>_full_name"><%= user.fullName%></td>
         <td id="<%= @elementIdPrefix%>_email"><%= user.email%></td>
         <td id="<%= @elementIdPrefix%>_role"><%= user.get_groups%></td>
         <% if not APP_CONFIG['is_sandbox'] %>

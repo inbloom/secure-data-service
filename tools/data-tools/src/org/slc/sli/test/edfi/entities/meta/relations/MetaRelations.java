@@ -17,6 +17,7 @@
 
 package org.slc.sli.test.edfi.entities.meta.relations;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,11 +51,10 @@ import org.slc.sli.test.edfi.entities.meta.StudentAssessmentMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentMeta;
 import org.slc.sli.test.edfi.entities.meta.StudentParentAssociationMeta;
 import org.slc.sli.test.edfi.entities.meta.TeacherMeta;
+import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 public final class MetaRelations {
-    
-    // default fidelity of data generation
-    public static final DataFidelityType DEFAULT_DATA_FIDELITY_TYPE = DataFidelityType.LOW_FI;
+
     
     // knobs to control number of entities to create
     public static  int TOTAL_SEAS =1;
@@ -93,8 +93,12 @@ public final class MetaRelations {
     public static boolean Session_Ref=false;  
     public static boolean StateEducationAgency_Ref=false;
     public static boolean LocalEducationAgency_Ref=false;
-    public static boolean StudentSchoolAssociation_Ref=false;
-    public static boolean Assessment_Ref=false;
+    public static boolean StudentParentAssociation_Ref=false;
+    public static boolean TeacherSectionAssociation_Ref=false;
+    public static boolean TeacherSchoolAssociation_Ref=false;
+    public static boolean StaffProgramAssociation_Ref=false;
+    public static boolean StaffEducationOrgAssignment_Ref=false;
+    public static boolean GradingPeriod_Ref=false;
 
      //publicly accessible structures for the "meta-skeleton" entities populated by "buildFromSea()"
 
@@ -124,10 +128,11 @@ public final class MetaRelations {
     public static final String SEA_PREFIX = "CAP";
     public static final String FIRST_TEACHER_ID = "lroslin";
     
+//    public static String propertyPath = ".\\db-datagen-approach\\ref-configurations\\reference_config.properties";
     /**
      * used to determine the output directory for generated interchange and control files
      */
-    public static String rootOutputPath = "./data";
+//    public static String rootOutputPath = "./data";
     
     static{
         
@@ -136,13 +141,16 @@ public final class MetaRelations {
         
         
         try {
-              fis = new FileInputStream(".\\db-datagen-approach\\ref-configurations\\reference_config.properties");
+
+        	  System.out.println("Config properties file: " + StateEdFiXmlGenerator.propertyPath);
+        	  fis = new FileInputStream(StateEdFiXmlGenerator.propertyPath);
+
               properties.load(fis);
               
               
         }
         catch (IOException ie) {
-              
+              ie.printStackTrace();
         }
         finally {
               if (fis != null) {
@@ -150,7 +158,7 @@ public final class MetaRelations {
                             fis.close();
                      }
                      catch (Exception e) {
-                            
+                    	 e.printStackTrace();   
                      }
               }
         }
@@ -187,6 +195,24 @@ public final class MetaRelations {
         GRADUATION_PLAN_PER_SCHOOL = Integer.parseInt(properties.getProperty("GRADUATION_PLAN_PER_SCHOOL"));
         GRADING_PERIOD_PER_SESSIONS = Integer.parseInt(properties.getProperty("GRADING_PERIOD_PER_SESSIONS")); 
         
+        StudentGradeRelations.COMPETENCY_LEVEL_DESCRIPTOR= Integer.parseInt(properties.getProperty("COMPETENCY_LEVEL_DESCRIPTOR"));
+        StudentGradeRelations.REPORT_CARDS= Integer.parseInt(properties.getProperty("REPORT_CARDS"));
+        StudentGradeRelations.LEARNING_OBJECTIVES_PER_REPORT= Integer.parseInt(properties.getProperty("LEARNING_OBJECTIVES_PER_REPORT"));
+        StudentGradeRelations.STUDENT_COMPETENCY_OBJECTIVE_PER_REPORT= Integer.parseInt(properties.getProperty("STUDENT_COMPETENCY_OBJECTIVE_PER_REPORT"));
+        StudentGradeRelations.GRADEBOOK_ENTRIES= Integer.parseInt(properties.getProperty("GRADEBOOK_ENTRIES"));
+        StudentGradeRelations.LEARNING_OBJECTIVES_PER_GRADEBOOKENTRY= Integer.parseInt(properties.getProperty("LEARNING_OBJECTIVES_PER_GRADEBOOKENTRY"));
+        StudentGradeRelations.INV_PROBABILITY_STUDENT_HAS_GRADEBOOKENTRY= Integer.parseInt(properties.getProperty("INV_PROBABILITY_STUDENT_HAS_GRADEBOOKENTRY"));
+       
+        
+        AssessmentMetaRelations.ASSESSMENTS= Integer.parseInt(properties.getProperty("ASSESSMENTS"));
+        AssessmentMetaRelations.OBJ_ASSESS_PER_DEPENDANT= Integer.parseInt(properties.getProperty("OBJ_ASSESS_PER_DEPENDANT"));
+        AssessmentMetaRelations.LEARN_OBJ_PER_OBJ_ASSES= Integer.parseInt(properties.getProperty("LEARN_OBJ_PER_OBJ_ASSES"));
+        AssessmentMetaRelations.ASSESS_ITEM_PER_DEPENDANT= Integer.parseInt(properties.getProperty("ASSESS_ITEM_PER_DEPENDANT"));
+        AssessmentMetaRelations.LEARN_STANDARD_PER_DEPENDANT= Integer.parseInt(properties.getProperty("LEARN_STANDARD_PER_DEPENDANT"));
+        AssessmentMetaRelations.PERF_LEVEL_DESC_PER_DEPENDANT= Integer.parseInt(properties.getProperty("PERF_LEVEL_DESC_PER_DEPENDANT"));
+        AssessmentMetaRelations.ASSESS_PERIOD_DESC_PER_ASSESS_FAMILY= Integer.parseInt(properties.getProperty("ASSESS_PERIOD_DESC_PER_ASSESS_FAMILY"));
+        AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT= Double.parseDouble(properties.getProperty("INV_PROBABILITY_STUDENTASSESSMENT_HAS_OBJECTIVEASSESSMENT"));
+        AssessmentMetaRelations.INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM= Double.parseDouble(properties.getProperty("INV_PROBABILITY_STUDENTASSESSMENT_HAS_STUDENTASSESSMENTITEM"));
         
 		School_Ref = Boolean.parseBoolean(properties
 				.getProperty("School_Ref"));
@@ -197,15 +223,27 @@ public final class MetaRelations {
 		LocalEducationAgency_Ref = Boolean.parseBoolean(properties
 				.getProperty("LocalEducationAgency_Ref"));
 
-		StudentSchoolAssociation_Ref = Boolean.parseBoolean(properties
-				.getProperty("StudentSchoolAssociation_Ref"));
-
-		Assessment_Ref = Boolean.parseBoolean(properties
-				.getProperty("StudentAssessmentItem_Ref"));
 	
+		StudentParentAssociation_Ref = Boolean.parseBoolean(properties
+				.getProperty("StudentParentAssociation_Ref"));
+		TeacherSectionAssociation_Ref = Boolean.parseBoolean(properties
+				.getProperty("TeacherSectionAssociation_Ref"));
+		TeacherSchoolAssociation_Ref = Boolean.parseBoolean(properties
+				.getProperty("TeacherSchoolAssociation_Ref"));
+		StaffProgramAssociation_Ref =  Boolean.parseBoolean(properties
+				.getProperty("StaffProgramAssociation_Ref"));
+		StaffEducationOrgAssignment_Ref = Boolean.parseBoolean(properties
+				.getProperty("StaffEducationOrgAssignment_Ref"));
+		GradingPeriod_Ref = Boolean.parseBoolean(properties
+				.getProperty("GradingPeriod_Ref"));
 		
+		if(properties.getProperty("fidelityOfData") != null) {
+			StateEdFiXmlGenerator.fidelityOfData = properties
+				.getProperty("fidelityOfData");
+		}
 		
-        rootOutputPath = properties.getProperty("rootOutputPath");
+		 System.out.println("will use " + StateEdFiXmlGenerator.fidelityOfData + " fidelity data generators.");
+        
     }
     /**
      * Construct the meta relationships necessary for XML interchanges

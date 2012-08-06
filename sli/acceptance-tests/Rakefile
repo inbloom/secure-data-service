@@ -334,6 +334,12 @@ task :appInit do
   swap_app_ids()
 end
 
+task :addBootstrapAppAuths do
+  require_relative 'test/features/utils/rakefile_common.rb'
+  allLeaAllowApp("SLC Dashboards")
+  allLeaAllowApp("SLC Data Browser")
+end
+
 task :loadDefaultIngestionTenants do
   #jshort - must fix with some profile swap
   #setFixture("tenant", "defaultIngestionTenant_fixture.json", "test/data")

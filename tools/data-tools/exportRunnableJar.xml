@@ -6,11 +6,14 @@
                                <!--  Home Entries – Add external JARs. -->
 <project default="create_run_jar" name="Create Runnable Jar for Project ExportTools with Jar-in-Jar Loader">
 
-    <property name="host"         value="devmegatron.slidev.org"/>
+    <property name="host"         value="galvatron.slidev.org"/>
     <property name="username"     value="ldalgado"/>
-    <property name="password"     value="secret"/>
-    <property name="path"         value="/home/ldalgado/TDG/bin/"/>
+    <property name="password"     value="$?Changed123"/>
+	<property name="path"         value="/metroplex/testDataGeneration/demo/20120803/"/>
+    <property name="path"         value="/metroplex/testDataGeneration/demo/20120803/"/>
 
+
+	    	
     <target name="create_run_jar">
         <jar destfile="TestDataGeneration.jar">
             <manifest>
@@ -33,17 +36,20 @@
         
         <scp file="TestDataGeneration.jar" todir="${username}:${password}@${host}:${path}" trust="true"/>
         <scp file="start.sh" todir="${username}:${password}@${host}:${path}" trust="true"/>
+    	<scp file="db-datagen-approach/ref-configurations/reference_config.properties" todir="${username}:${password}@${host}:${path}" trust="true"/>
         <scp todir="${username}:${password}@${host}:${path}" trust="true">
           <fileset dir=".">
               <include name = "database/**"></include>
           </fileset>
         </scp>
         <sshexec host="${host}" username="${username}" password="${password}" 
-        command="mkdir -p ${path}../../sli/domain/src/main/resources/edfiXsd/"
+        command="mkdir -p ${path}/../../sli/domain/src/main/resources/edfiXsd/"
         trust = "true"/>
         
         <scp todir="${username}:${password}@${host}:${path}/../../sli/domain/src/main/resources/edfiXsd/" trust="true">
                   <fileset dir="../../sli/domain/src/main/resources/edfiXsd/" />
         </scp>
+    	    	        
+        <scp file = "reference_config.properties" todir="${username}:${password}@${host}:${path}/" trust="true"/>
     </target>
 </project>

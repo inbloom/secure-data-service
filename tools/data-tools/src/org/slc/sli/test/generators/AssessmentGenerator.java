@@ -37,14 +37,15 @@ import org.slc.sli.test.edfi.entities.ReferenceType;
 import org.slc.sli.test.edfi.entities.SectionReferenceType;
 import org.slc.sli.test.edfi.entities.meta.AssessmentMeta;
 import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
+import org.slc.sli.test.xmlgen.StateEdFiXmlGenerator;
 
 public class AssessmentGenerator {
 
     public static Assessment generate(AssessmentMeta assessmentMeta, Map<String, ObjectiveAssessment> objAssessMap) {
-        return generate(MetaRelations.DEFAULT_DATA_FIDELITY_TYPE, assessmentMeta, objAssessMap);
+        return generate(StateEdFiXmlGenerator.fidelityOfData, assessmentMeta, objAssessMap);
     }
     
-    public static Assessment generate(DataFidelityType fidelity, AssessmentMeta assessmentMeta, Map<String, ObjectiveAssessment> objAssessMap) {
+    public static Assessment generate(String fidelity, AssessmentMeta assessmentMeta, Map<String, ObjectiveAssessment> objAssessMap) {
         Assessment assessment = new Assessment();
 
         populateRequiredFields(fidelity, assessmentMeta, objAssessMap, assessment);
@@ -52,7 +53,7 @@ public class AssessmentGenerator {
         return assessment;
     }
 
-    private static void populateRequiredFields(DataFidelityType fidelity, AssessmentMeta assessmentMeta,
+    private static void populateRequiredFields(String fidelity, AssessmentMeta assessmentMeta,
             Map<String, ObjectiveAssessment> objAssessMap, Assessment assessment) {
         assessment.setAssessmentTitle(assessmentMeta.id + "Title");
 
@@ -102,17 +103,18 @@ public class AssessmentGenerator {
             // TODO: this is only modeled as XML ReferenceType... (AssessmentItem is post-alpha?)
         }
 
-        if(MetaRelations.Assessment_Ref)
-        {
-        // ObjectiveAssessmentReference
-        for (String objAssessmentIdString : assessmentMeta.objectiveAssessmentIds) {
-            if (objAssessMap.get(objAssessmentIdString) != null) {
-                ReferenceType objAssessRef = new ReferenceType();
-                objAssessRef.setRef(objAssessMap.get(objAssessmentIdString));
-                assessment.getObjectiveAssessmentReference().add(objAssessRef);
-            }
-        }
-        }
+
+			// ObjectiveAssessmentReference
+			for (String objAssessmentIdString : assessmentMeta.objectiveAssessmentIds) {
+				if (objAssessMap.get(objAssessmentIdString) != null) {
+					ReferenceType objAssessRef = new ReferenceType();
+					objAssessRef
+							.setRef(objAssessMap.get(objAssessmentIdString));
+					assessment.getObjectiveAssessmentReference().add(
+							objAssessRef);
+				}
+			}
+		
 
         // AssessmentFamilyReference
         if (assessmentMeta.assessmentFamilyId != null) {
