@@ -78,23 +78,17 @@ maestroProcessingTime=0
 job["stages"].each do |stage|
   if stage["stageName"] == "TransformationProcessor" or stage["stageName"] == "PersistenceProcessor"
 
-    stage["chunks"].each do |chunk|
-      pitProcessingStartTime=chunk["startTimestamp"].to_i unless chunk["startTimestamp"].to_i>pitProcessingStartTime
-    end
+    pitProcessingStartTime=stage["startTimestamp"].to_i unless stage["startTimestamp"].to_i>pitProcessingStartTime
     
-    # Updated Pit Magic    
+    # collect stage data from batchJobStage collection
     colStage = db.collection("batchJobStage")
     countOfStages = colStage.find({"jobId" => id, "stageName" => stage["stageName"]}).count.to_s
     puts "Found " + countOfStages + " " + stage["stageName"] + " stage entries in batchJobStage collection"
     
-    stageEntries = colStage.find({"jobId" => id, "stageName" => stage["stageName"]}).batch_size( 100 )
+    stageEntries = colStage.find({"jobId" => id, "stageName" => stage["stageName"]}).batch_size(1000)
+
     stageEntries.each do |entry|
-      
-      #puts entry
-      
       if entry["metrics"].length > 0
-        
-        #puts entry["metrics"]
 
         entry["metrics"].each do |metric|
           pitElapsedPerResource[metric["resourceId"]]=0 unless pitElapsedPerResource[metric["resourceId"]]
@@ -103,29 +97,21 @@ job["stages"].each do |stage|
           rcPerResource[metric["resourceId"]]=0 unless rcPerResource[metric["resourceId"]]
           rcPerResource[metric["resourceId"]]+=metric["recordCount"] unless metric.nil? or metric["recordCount"].nil?
           
-          #puts stage["stageName"] + "   -----   " + metric["recordCount"].to_s
-          
           rcStage[stage["stageName"]] += metric["recordCount"].to_i
         end
-        
       end
     end
     
-    #puts stage["stageName"] + "   -----   " + rcStage[stage["stageName"]].to_s
-    #rcStage[stage["stageName"]] = 0
-    
   elsif stage["stageName"]=="JobReportingProcessor"
     # Job reporting
-    jobProcessingEndTime = stage["chunks"][0]["stopTimestamp"].to_i
+    jobProcessingEndTime = stage["stopTimestamp"].to_i
   else
     # Maestro processing nodes - currently single threaded so add all stage time
-    maestroProcessingTime += stage["chunks"][0]["elapsedTime"].to_i
+    maestroProcessingTime += stage["elapsedTime"].to_i
 
     # Record counts for Maestro processing nodes
-    stage["chunks"].each do |chunk|
-      chunk["metrics"].each do |metric|
-        rcStage[stage["stageName"]]+=metric["recordCount"]
-      end
+    stage["metrics"].each do |metric|
+      rcStage[stage["stageName"]]+=metric["recordCount"]
     end
   end
 end
