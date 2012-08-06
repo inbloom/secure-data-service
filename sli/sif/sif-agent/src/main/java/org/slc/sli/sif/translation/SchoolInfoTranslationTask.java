@@ -24,6 +24,7 @@ import openadk.library.student.SchoolLevelType;
 import openadk.library.student.Title1Status;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
@@ -35,6 +36,7 @@ import org.slc.sli.sif.domain.slientity.SchoolEntity;
 import org.slc.sli.sif.domain.slientity.SliEntity;
 import org.slc.sli.sif.domain.slientity.TitleIPartASchoolDesignation;
 
+@Component
 public class SchoolInfoTranslationTask<A extends SchoolInfo, B extends SchoolEntity> extends
         AbstractTranslationTask<SchoolInfo> {
 

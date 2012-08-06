@@ -23,6 +23,7 @@ import openadk.library.student.LEAInfo;
 import openadk.library.student.OperationalStatus;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.OperationalStatusConverter;
@@ -37,6 +38,7 @@ import org.slc.sli.sif.domain.slientity.SliEntity;
  * @author slee
  *
  */
+@Component
 public class LEAInfoTranslationTask<A extends LEAInfo, B extends LEAEntity>
                         extends AbstractTranslationTask<LEAInfo>
 {
