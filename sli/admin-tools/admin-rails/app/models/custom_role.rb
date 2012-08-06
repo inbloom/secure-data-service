@@ -23,7 +23,10 @@ class CustomRole < SessionResource
   self.collection_name = "customRoles"
 
   def realm_name
-    Realm.find(self.realmId).name
+    begin
+      Realm.find(self.realmId).name
+    rescue
+    end
   end
 
   def self.defaults
