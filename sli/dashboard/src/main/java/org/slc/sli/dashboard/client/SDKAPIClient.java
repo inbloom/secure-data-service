@@ -807,6 +807,22 @@ public class SDKAPIClient implements APIClient {
     }
 
     /**
+     * Get a list of teachers for a specific school
+     *
+     * @param token
+     * @param schoolId
+     * @return
+     */
+    @Override
+    public List<GenericEntity> getTeachersForSchool(String token, String schoolId) {
+    	List<GenericEntity> teachers = this.readEntityList(token,
+    			PathConstants.SCHOOLS + "/" + schoolId + "/" + PathConstants.TEACHER_SCHOOL_ASSOCIATIONS
+    			+ "/" + PathConstants.TEACHERS, schoolId);
+
+        return teachers;
+    }
+    
+    /**
      * Get a list of parents for the given student id
      *
      * @param token

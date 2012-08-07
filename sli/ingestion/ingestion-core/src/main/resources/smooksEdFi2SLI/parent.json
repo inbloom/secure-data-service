@@ -1,4 +1,5 @@
 {
+  "keyFields" : ["body.parentUniqueStateId"],
   "piiFields" : {
                    "name" : {"middleName" : true, "generationCodeSuffix" : true, "verification" : true, "lastSurname" : true, "personalTitlePrefix" : true, "firstName" : true, "maidenName" : true},
                   "otherName" : {"middleName" : true, "generationCodeSuffix" : true, "lastSurname" : true, "personalTitlePrefix" : true, "firstName" : true, "otherNameType" : true},
