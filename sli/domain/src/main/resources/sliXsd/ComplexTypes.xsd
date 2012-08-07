@@ -5951,6 +5951,7 @@
 				some or all students.
 			</xs:documentation>
 			<xs:appinfo>
+                <sli:CollectionType>graduationPlan</sli:CollectionType>
 				<sli:applyNaturalKeys>false</sli:applyNaturalKeys>
 			</xs:appinfo>
 		</xs:annotation>

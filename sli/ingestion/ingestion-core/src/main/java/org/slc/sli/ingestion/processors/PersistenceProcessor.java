@@ -151,7 +151,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         } finally {
             if (newJob != null) {
                 BatchJobUtils.stopStageAndAddToJob(stage, newJob);
-                batchJobDAO.saveBatchJobStageSeparatelly(batchJobId, stage);
+                batchJobDAO.saveBatchJobStage(batchJobId, stage);
             }
         }
     }

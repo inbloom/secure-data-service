@@ -43,8 +43,10 @@ Then I should see following map of entry counts in the corresponding batch job d
   | newBatchJob    | 1                   | stages.5.status                  | finished                             | string     |
   | newBatchJob    | 1                   | stages.6.stageName               | TransformationProcessor              | string     |
   | newBatchJob    | 1                   | stages.6.status                  | finished                             | string     |
-  | newBatchJob    | 1                   | stages.7.stageName               | JobReportingProcessor                | string     |
+  | newBatchJob    | 1                   | stages.7.stageName               | WorkNoteSplitter                     | string     |
   | newBatchJob    | 1                   | stages.7.status                  | finished                             | string     |
+  | newBatchJob    | 1                   | stages.8.stageName               | JobReportingProcessor                | string     |
+  | newBatchJob    | 1                   | stages.8.status                  | finished                             | string     |
   #resources
   | newBatchJob    | 1                   | resourceEntries.0.resourceId     | BatchJob.zip                         | string     |
   | newBatchJob    | 1                   | resourceEntries.0.resourceFormat | zip-file                             | string     |
