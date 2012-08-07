@@ -76,16 +76,13 @@ import org.slc.sli.ingestion.validation.ProxyErrorReport;
 @Component
 public class PersistenceProcessor implements Processor, MessageSourceAware {
 
-    public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.PERSISTENCE_PROCESSOR;
-
     private static final Logger LOG = LoggerFactory.getLogger(PersistenceProcessor.class);
 
+    public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.PERSISTENCE_PROCESSOR;
     private static final String BATCH_JOB_ID = "batchJobId";
     private static final String CREATION_TIME = "creationTime";
 
-    private Map<String, EdFi2SLITransformer> transformers;
-
-    private EdFi2SLITransformer defaultEdFi2SLITransformer;
+    private EdFi2SLITransformer transformer;
 
     private Map<String, Set<String>> entityPersistTypeMap;
 
@@ -151,7 +148,7 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         } finally {
             if (newJob != null) {
                 BatchJobUtils.stopStageAndAddToJob(stage, newJob);
-                batchJobDAO.saveBatchJobStageSeparatelly(batchJobId, stage);
+                batchJobDAO.saveBatchJobStage(batchJobId, stage);
             }
         }
     }
@@ -269,8 +266,6 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         // must set tenantId here, it is used by upcoming transformer.
         neutralRecord.setSourceId(tenantId);
 
-        EdFi2SLITransformer transformer = findTransformer(neutralRecord.getRecordType());
-
         List<SimpleEntity> xformedEntities = transformer.handle(neutralRecord, errorReportForCollection);
 
         if (xformedEntities.isEmpty()) {
@@ -374,28 +369,11 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
      */
     private AbstractIngestionHandler<SimpleEntity, Entity> findHandler(String type) {
         if (entityPersistHandlers.containsKey(type)) {
-            LOG.debug("Found special transformer for entity of type: {}", type);
+            LOG.debug("Found special entity persist handler for entity of type: {}", type);
             return entityPersistHandlers.get(type);
         } else {
-            LOG.debug("Using default transformer for entity of type: {}", type);
+            LOG.debug("Using default entity persist handler for entity of type: {}", type);
             return defaultEntityPersistHandler;
-        }
-    }
-
-    /**
-     * Checks to see if there is a special ed-fi to sli transformer for the specified neutral
-     * record entity type. If no special transformer is specified, then the default transformer is
-     * used.
-     *
-     * @param type
-     *            neutral record entity type.
-     * @return ed-fi to sli transformer.
-     */
-    private EdFi2SLITransformer findTransformer(String type) {
-        if (transformers.containsKey(type)) {
-            return transformers.get(type);
-        } else {
-            return defaultEdFi2SLITransformer;
         }
     }
 
@@ -501,12 +479,8 @@ public class PersistenceProcessor implements Processor, MessageSourceAware {
         this.entityPersistTypeMap = entityPersistTypeMap;
     }
 
-    public void setTransformers(Map<String, EdFi2SLITransformer> transformers) {
-        this.transformers = transformers;
-    }
-
-    public void setDefaultEdFi2SLITransformer(EdFi2SLITransformer defaultEdFi2SLITransformer) {
-        this.defaultEdFi2SLITransformer = defaultEdFi2SLITransformer;
+    public void setTransformer(EdFi2SLITransformer transformer) {
+        this.transformer = transformer;
     }
 
     public void setDefaultEntityPersistHandler(

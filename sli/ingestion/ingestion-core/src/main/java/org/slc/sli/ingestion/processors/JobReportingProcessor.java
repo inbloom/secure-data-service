@@ -133,39 +133,41 @@ public class JobReportingProcessor implements Processor {
     private void populateJobBriefFromStageCollection(String jobId) {
         NewBatchJob job = batchJobDAO.findBatchJobById(jobId);
 
-        Map<String, Stage> processedStage = new HashMap<String, Stage>();
+        Map<String, Stage> stageBriefMap = new HashMap<String, Stage>();
 
         if (job != null) {
-            List<Stage> stages = batchJobDAO.getBatchStagesStoredSeperatelly(jobId);
+            List<Stage> stages = batchJobDAO.getBatchJobStages(jobId);
             Iterator<Stage> it = stages.iterator();
-            Stage tempStage;
 
             while (it.hasNext()) {
-                tempStage = it.next();
+                Stage stageChunk = it.next();
 
-                if (!processedStage.containsKey(tempStage.getStageName())) {
+                Stage stageBrief = stageBriefMap.get(stageChunk.getStageName());
 
-                    Stage st = new Stage(tempStage.getStageName(), tempStage.getStatus(),
-                            tempStage.getStartTimestamp(), tempStage.getStopTimestamp(), null);
-                    st.setJobId(tempStage.getJobId());
-                    st.setElapsedTime(tempStage.getElapsedTime());
-                    st.setProcessingInformation("");
+                if (stageBrief != null) {
+                    if (stageBrief.getStartTimestamp() != null
+                            && stageBrief.getStartTimestamp().getTime() > stageChunk.getStartTimestamp().getTime()) {
+                        stageBrief.setStartTimestamp(stageChunk.getStartTimestamp());
+                    }
+                    if (stageBrief.getStopTimestamp() != null
+                            && stageBrief.getStopTimestamp().getTime() < stageChunk.getStopTimestamp().getTime()) {
+                        stageBrief.setStopTimestamp(stageChunk.getStopTimestamp());
+                    }
+                    stageBrief.setElapsedTime(stageBrief.getElapsedTime() + stageChunk.getElapsedTime());
 
-                    processedStage.put(st.getStageName(), st);
                 } else {
-                    Stage temp = processedStage.get(tempStage.getStageName());
 
-                    if (temp.getStartTimestamp().getTime() > tempStage.getStartTimestamp().getTime()) {
-                        temp.setStartTimestamp(tempStage.getStartTimestamp());
-                    }
-                    if (temp.getStopTimestamp().getTime() < tempStage.getStopTimestamp().getTime()) {
-                        temp.setStopTimestamp(tempStage.getStopTimestamp());
-                    }
-                    temp.setElapsedTime(temp.getElapsedTime() + tempStage.getElapsedTime());
+                    stageBrief = new Stage(stageChunk.getStageName(), stageChunk.getStatus(),
+                            stageChunk.getStartTimestamp(), stageChunk.getStopTimestamp(), null);
+                    stageBrief.setJobId(stageChunk.getJobId());
+                    stageBrief.setElapsedTime(stageChunk.getElapsedTime());
+                    stageBrief.setProcessingInformation("");
+
+                    stageBriefMap.put(stageChunk.getStageName(), stageBrief);
                 }
             }
 
-            Iterator<Entry<String, Stage>> iter = processedStage.entrySet().iterator();
+            Iterator<Entry<String, Stage>> iter = stageBriefMap.entrySet().iterator();
             while (iter.hasNext()) {
                 Entry<String, Stage> temp = iter.next();
                 job.addStage(temp.getValue());
@@ -319,7 +321,7 @@ public class JobReportingProcessor implements Processor {
 
         // TODO group counts by externallyUploadedResourceId
 
-        List<Stage> stages = batchJobDAO.getBatchStagesStoredSeperatelly(job.getId());
+        List<Stage> stages = batchJobDAO.getBatchJobStages(job.getId());
         Iterator<Stage> it = stages.iterator();
 
         Stage stage;

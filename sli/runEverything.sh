@@ -21,3 +21,9 @@ cd $DIR/admin-tools; bundle exec rails server  > $LOGDIR/adminConsole.log 2>&1 &
 
 echo Starting Simple IDP
 cd $DIR/simple-idp; mvn jetty:run   > $LOGDIR/simpleIdpConsole.log 2>&1 &
+
+echo Starting MockZIS
+cd $DIR/sif/mock-zis; mvn jetty:run > $LOGDIR/mockZisConsole.log 2>&1 &
+
+echo Starting Sif Agent
+cd $DIR/sif/sif-agent; mvn tomcat:run > $LOGDIR/sifAgentConsole.log 2>&1 &

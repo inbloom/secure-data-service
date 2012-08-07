@@ -27,10 +27,13 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.slc.sli.dal.TenantContext;
+import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
+
+import org.slc.sli.dal.TenantContext;
 
 /**
  * Tracks calls to mongo template and mongo driver
@@ -47,10 +50,27 @@ public class MongoTrackingAspect {
 
     private static final long SLOW_QUERY_THRESHOLD = 50;  // ms
 
+    private static boolean enabled = false;
+
+    @Value("${sli.mongo.tracking}")
+    public void setEnabledConfig(String enabledConfig) {
+        setEnabled(enabledConfig);
+    }
+
+    @SuppressWarnings("boxing")
+    private static void setEnabled(String enabledConfig) {
+        enabled = Boolean.valueOf(enabledConfig);
+    }
+
+    @Pointcut("if()")
+    public static boolean isEnabled(){
+        return enabled;
+    }
+
     // Map<jobId, Map<(db,function,collection), (opCount,totalElapsedMs)>>
     private ConcurrentMap<String, ConcurrentMap<String, Pair<AtomicLong, AtomicLong>>> stats = new ConcurrentHashMap<String, ConcurrentMap<String, Pair<AtomicLong, AtomicLong>>>();
 
-    @Around("call(* org.springframework.data.mongodb.core.MongoTemplate.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test)")
+    @Around("call(* org.springframework.data.mongodb.core.MongoTemplate.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test) && isEnabled()")
     public Object track(ProceedingJoinPoint pjp) throws Throwable {
 
         MongoTemplate mt = (MongoTemplate) pjp.getTarget();
@@ -60,7 +80,7 @@ public class MongoTrackingAspect {
         return proceedAndTrack(pjp, mt.getDb().getName(), pjp.getSignature().getName(), collection);
     }
 
-    @Around("call(* com.mongodb.DBCollection.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test)")
+    @Around("call(* com.mongodb.DBCollection.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test) && isEnabled()")
     public Object trackDBCollection(ProceedingJoinPoint pjp) throws Throwable {
 
         DBCollection col = (DBCollection) pjp.getTarget();
@@ -141,6 +161,7 @@ public class MongoTrackingAspect {
         if (jobId != null) {
             this.stats.put(jobId, new ConcurrentHashMap<String, Pair<AtomicLong, AtomicLong>>());
         }
+        LOG.info("Mongo tracking stats are now cleared for job {}.", jobId);
     }
 
 }

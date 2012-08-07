@@ -7,7 +7,7 @@ task :dashboardPopWidgetTests do
 end
 
 desc "Run Dashboard section profile tests Tests"
-task :dashboardSectionProfileTests do
+task :dashboardSdsSectionProfileTests do
   runTests("test/features/dashboard/dash/section_profile.feature")
 end
 
@@ -88,7 +88,7 @@ task :dashboardHTMLEscapeTests do
 end
 
 desc "Run dashboard teacher profile test"
-task :dashboardTeacherProfileTests do
+task :dashboardSdsTeacherProfileTests do
   runTests("test/features/dashboard/dash/teacher_profile.feature")
 end
 

@@ -51,7 +51,7 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |Application_Developer  |IL-DAYBREAK                  |DEFAULT              |401 |                 |
 
   @wip
-  Scenario Outline: As a admin I am able to read all Ed-Orgs in a tenancy
+  Scenario Outline: As a admin I am able to read all Ed-Orgs at my level or below me in a tenancy
     Given I have a "<ADMIN_ROLE>"
     When I am authenticated on "<ADMIN_REALM>"
     And I navigate to GET "/users"
@@ -67,7 +67,7 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |Ingestion_Administrator|IL-DAYBREAK                  |401 |IL             |IL-DAYBREAK   |
 
   @production
-  Scenario Outline:  As an administrator I can read all admin accounts in my tenancy
+  Scenario Outline:  As an administrator I can read all admin accounts in my tenancy if I am a SLC operator or a SEA.  If I am LEA, I can read myself and realm/ingestion users. 
     
     Given I have logged in to realm "<REALM>" using "<USER>" "<PASSWORD>"
     And I have a role "<ADMIN_ROLE>"
@@ -95,6 +95,18 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |sunsetadmin|sunsetadmin1234|LEA Administrator      |SLI        |Ingestion User              |200 |1 or more|Sunset IngestionUser|sunsetingestionuser          |sunsetingestionuser@slidev.org|
     |sunsetrealmadmin|sunsetrealmadmin1234 |Realm Administrator     |SLI        |                |403 |         |                |                                  |                            |
     |ingestionuser   |ingestionuser1234    |Ingestion User          |SLI        |                |403 |         |                |                                  |                            |
+
+  @production 
+  Scenario Outline:  As an LEA administrator, I can only see myself and not other LEAs in my EdOrg
+
+    Given there is another LEA with "<Full_Name>" in my "<TENANT>" and "<EDORG>"
+      And I have logged in to realm "<REALM>" using "<USERNAME>" "<PASSWORD>"
+      When I navigate to GET "/users"
+      Then I think I am the only LEA in my EdOrg "<EDORG>"
+
+  Examples:
+    |USERNAME      |PASSWORD          |REALM      |Number   |TENANT     |EDORG       |Full_Name        |
+    |sunsetadmin   |sunsetadmin1234   |SLI        |1        |Midgar     |IL-SUNSET   |LEA testadmin    |
 
 
   #sandbox
@@ -154,7 +166,6 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |iladmin           |iladmin1234         |SEA Administrator      |SLI      |Ingestion User      |POST      |201 |200      |1 or more|Ingestion User3 |Ingestion_User3 |Ingestion_User@test.com|    |Midgar| IL-SUNSET|
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |SLC Operator        |POST      |403 |200      |0        |SLC Operator4   |SLC_Operator4   |SLC_Operator@test.com|               |      |           | 
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |SEA Administrator   |POST      |403 |200      |0        |SEA Administrator4 |SEA_Administrator4 |SEA_Administrator@test.com|    |Midgar| IL|
-    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |LEA Administrator   |POST      |201 |200      |1 or more|LEA Administrator4 |LEA_Administrator4 |LEA_Administrator@test.com|Realm Administrator   |Midgar| IL-SUNSET|
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |Realm Administrator |POST      |201 |200      |1 or more|Realm Administrator4 |Realm_Administrator4 |Realm_Administrator@test.com|Ingestion User    |Midgar| IL-SUNSET|
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |Ingestion User      |POST      |201 |200      |1 or more|Ingestion User4 |Ingestion_User4 |Ingestion_User@test.com|    |Midgar| IL-SUNSET|
     |sunsetrealmadmin  |sunsetrealmadmin1234 |Realm Administrator   |SLI      |SLC Operator        |POST      |403 |403      |0        |SLC Operator5 |SLC_Operator5     |SLC_Operator@test.com|               |      |           |
@@ -179,7 +190,6 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |iladmin           |iladmin1234         |SEA Administrator      |SLI      |Ingestion User      |PUT      |204 |200      |1 or more|Ingestion User8 |Ingestion_User8 |Ingestion_User@test.com|    |Midgar| IL-SUNSET|
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |SLC Operator        |PUT      |403 |200      |0        |SLC Operator9   |SLC_Operator9   |SLC_Operator@test.com|               |      |           | 
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |SEA Administrator   |PUT      |403 |200      |0        |SEA Administrator9 |SEA_Administrator9 |SEA_Administrator@test.com|    |Midgar| IL|
-    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |LEA Administrator   |PUT      |204 |200      |1 or more|LEA Administrator9 |LEA_Administrator9 |LEA_Administrator@test.com|Realm Administrator   |Midgar| IL-SUNSET|
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |Realm Administrator |PUT      |204 |200      |1 or more|Realm Administrator9 |Realm_Administrator9 |Realm_Administrator@test.com|Ingestion User    |Midgar| IL-SUNSET|
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |Ingestion User      |PUT      |204 |200      |1 or more|Ingestion User9 |Ingestion_User9 |Ingestion_User@test.com|    |Midgar| IL-SUNSET|
     |sunsetrealmadmin  |sunsetrealmadmin1234 |Realm Administrator   |SLI      |SLC Operator        |PUT      |403 |403      |0        |SLC Operator10 |SLC_Operator10     |SLC_Operator@test.com|               |      |           |
@@ -192,6 +202,8 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |ingestionuser     |ingestionuser1234    |Ingestion User        |SLI      |LEA Administrator   |PUT      |403 |403      |0        |LEA Administrator11 |LEA_Administrator11 |LEA_Administrator@test.com|    |Midgar| IL|
     |ingestionuser     |ingestionuser1234    |Ingestion User        |SLI      |Realm Administrator |PUT      |403 |403      |0        |Realm Administrator11 |Realm_Administrator11 |Realm_Administrator@test.com|    |Midgar| IL-SUNSET|
     |ingestionuser     |ingestionuser1234    |Ingestion User        |SLI      |Ingestion User      |PUT      |403 |403      |0        |Ingestion User11 |Ingestion_User11 |Ingestion_User@test.com|    |Midgar| IL-SUNSET| 
+    |operator          |operator1234        |SLC Operator           |SLI      |SLC Operator        |POST     |201 |200      |1 or more|Homer J Simpson |homerSimpson      |homersimpson@test.com|               |      |           |
+    |operator          |operator1234        |SLC Operator           |SLI      |SLC Operator        |POST     |201 |200      |1 or more|Homer           |homerThePoet      |homerpoet@test.com|               |      |           |
 
 
 @production
@@ -225,6 +237,8 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
 # sea creates a sea, lea outside their tenant
 	|iladmin           |iladmin1234         |SEA Administrator      |SLI      |SEA Administrator   |POST      |400 |200       |SEA Administrator14	|SEA_Administrator14 	|SEA_Administrator@test.com| |Hyrule|  |
 	|iladmin           |iladmin1234         |SEA Administrator      |SLI      |LEA Administrator   |POST      |400 |200       |LEA Administrator16	|LEA_Administrator16 	|LEA_Administrator@test.com| |Hyrule|  |
+# lea can't create peer lea even in same ed-org
+	|sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |LEA Administrator   |POST      |403 |200       |LEA Administrator18  |LEA_Administrator18  |LEA_Administrator@test.com|Realm Administrator |Midgar| IL-SUNSET  |
 # lea creates a lea in a different part of the ed-org hierarchy
 	|sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI      |LEA Administrator   |POST      |400 |200       |LEA Administrator15  |LEA_Administrator15  |LEA_Administrator@test.com|Realm Administrator |Midgar| IL-DAYBREAK|
 # operator creates a lea with ed-org in different tenant.
@@ -237,6 +251,9 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
 # app_dev, ingestion_user must have tenant for user with sandbox roles
 	|sandboxoperator   |sandboxoperator1234 |Sandbox SLC Operator   |SLI      |Application Developer|POST     |400 |200       |Application Developer4 |Application_Developer4|applicationdeveloper@slidev.org|            | |   |
 	|sandboxoperator   |sandboxoperator1234 |Sandbox SLC Operator   |SLI      |Ingestion User       |POST     |400 |200       |Ingestion User4 |Ingestion_User4|ingestionuser@slidev.org|            | |   |
+    |operator          |operator1234        |SLC Operator           |SLI      |SLC Operator        |POST      |400 |200      |              |No_Name    |noname@test.com      |               |      |           |
+    |operator          |operator1234        |SLC Operator           |SLI      |SLC Operator        |POST      |400 |200      |No User_Name  |           |nousername@test.com  |               |      |           |
+    |operator          |operator1234        |SLC Operator           |SLI      |SLC Operator        |POST      |400 |200      |No Mail       |No_Mail    |                     |               |      |           |
 
 
   #sandbox
@@ -308,7 +325,7 @@ Scenario Outline:  As a admin I am able to create/update admin accounts in my te
     |iladmin           |iladmin1234         |SEA Administrator      |SLI                          |Ingestion User              |204 |Midgar|IL-SUNSET  |
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |SLC Operator                |403 |      |           |
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |SEA Administrator           |403 |Midgar|IL-SUNSET  |
-    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |LEA Administrator           |204 |Midgar|IL-SUNSET  |
+    |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |LEA Administrator           |403 |Midgar|IL-SUNSET  |
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |Realm Administrator         |204 |Midgar|IL-SUNSET  |
     |sunsetadmin       |sunsetadmin1234     |LEA Administrator      |SLI                          |Ingestion User              |204 |Midgar|IL-SUNSET  |
     |sunsetrealmadmin  |sunsetrealmadmin1234|Realm Administrator    |SLI                          |SLC Operator                |403 |      |           |

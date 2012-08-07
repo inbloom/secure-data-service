@@ -29,28 +29,20 @@ class UsersController < ApplicationController
   REALM_ADMINISTRATOR ="Realm Administrator"
   SANDBOX_ALLOWED_ROLES = [SANDBOX_ADMINISTRATOR]
   PRODUCTION_ALLOWED_ROLES = [SLC_OPERATOR, SEA_ADMINISTRATOR, LEA_ADMINISTRATOR]
-  
+
   before_filter :check_rights
   
-  def check_rights
-  if APP_CONFIG['is_sandbox']
-  allowed_roles =SANDBOX_ALLOWED_ROLES
-  else
-  allowed_roles = PRODUCTION_ALLOWED_ROLES
-  end
-  overlap_roles = allowed_roles & session[:roles]
-  if not overlap_roles.length>0
-  render_403
-  end
   
-  
-  end
 
   # GET /users
   # GET /users.json
   def index
     get_login_id
     @users = User.all
+    @is_operator = is_operator?
+    @is_lea = is_lea_admin?
+    check = Check.get ""
+    @login_user_edorg_name = check['edOrg']
     respond_to do |format|
       format.html
       #format.json { render json: @users }
@@ -86,6 +78,7 @@ class UsersController < ApplicationController
     check = Check.get ""
     @user = User.new
     @is_operator = is_operator?
+    @is_lea = is_lea_admin?
    set_edorg_options
    set_role_options
    get_login_tenant
@@ -121,6 +114,19 @@ class UsersController < ApplicationController
      @user.errors[:edorg] << "tenant and edorg mismatch"
     end
     
+   
+    
+    end
+    
+    if resend==nil ||resend==false
+    begin
+   reset_password_link = "#{APP_CONFIG['email_replace_uri']}/forgot_passwords"
+   ApplicationMailer.samt_verify_email(@user.email,@user.fullName.split(" ")[0],@user.groups,reset_password_link).deliver
+
+   rescue =>e
+     logger.error "Could not send email to #{@user.email}."
+     @email_error_message = "Could not send notification email to #{@user.email}"
+   end
     end
     
      respond_to do |format|
@@ -130,9 +136,11 @@ class UsersController < ApplicationController
          set_roles
          get_login_tenant
          @is_operator = is_operator?
+         @is_lea = is_lea_admin?
+         @user.errors[:edorg] << "tenant and edorg mismatch"
          format.html {render "new"}
        else
-         flash[:notice]= 'Success! You have added a new user'
+        flash[:notice]= ( @email_error_message==nil ? 'Success! You have added a new user' : 'Success! You have added a new user\n'+@email_error_message)
         format.html { redirect_to "/users" } 
        end
      end
@@ -144,9 +152,11 @@ class UsersController < ApplicationController
   def edit
     @users = User.all
     check = Check.get ""
+    get_login_id
     set_edorg_options
     set_role_options
     @is_operator = is_operator?
+    @is_lea = is_lea_admin?
    @users.each do |user|
       if user.uid == params[:id]
         @user = user
@@ -173,6 +183,7 @@ class UsersController < ApplicationController
   def update
     
     logger.info{"running the update user now"}
+    @is_lea = is_lea_admin?
     @users = User.all
     @users.each do |user|
       if user.uid = params[:id]
@@ -190,15 +201,15 @@ class UsersController < ApplicationController
     logger.info{"the updated user validation errors is #{@user.errors.to_json}"}
     if @user.valid? == false || validate_email==false || validate_tenant_edorg==false
       validate_tenant_edorg
-     resend = true 
-     else
-     begin
-      @user.save
-     rescue ActiveResource::BadRequest
-     resend =true
-     @user.errors[:tenant] << "tenant and edorg mismatch"
-     @user.errors[:edorg] << "tenant and edorg mismatch"
-     end
+      resend = true
+    else
+      begin
+        @user.save
+      rescue ActiveResource::BadRequest
+        resend =true
+        @user.errors[:tenant] << "tenant and edorg mismatch"
+        @user.errors[:edorg] << "Please check EdOrg selection"
+      end
     end
 
      respond_to do |format|
@@ -208,6 +219,7 @@ class UsersController < ApplicationController
          set_role_options
          set_roles
          @is_operator = is_operator?
+         @is_lea = is_lea_admin?
          format.html { render "edit"}
        else
          flash[:notice]='Success! You have updated the user'
@@ -216,19 +228,24 @@ class UsersController < ApplicationController
      end
   end
   
+  # GET /users/1
+  # GET /users/1.json
+  def show
+     respond_to do |format|
+        format.html { redirect_to "/users" }
+     end
+     end
+     
+   private
+  
   def create_update
     check = Check.get ""
     groups = []
     groups << params[:user][:primary_role]
     groups << params[:user][:optional_role_1] if params[:user][:optional_role_1]!="0" && !groups.include?(params[:user][:optional_role_1])
     groups << params[:user][:optional_role_2] if params[:user][:optional_role_2]!="0" && !groups.include?(params[:user][:optional_role_2])
-    params[:user][:firstName]= params[:user][:fullName].split(" ")[0]
-    params[:user][:lastName] = params[:user][:fullName].gsub(params[:user][:firstName],"").lstrip if params[:user][:fullName] !=nil && params[:user][:fullName]!=""
     @user.fullName = params[:user][:fullName]
     @user.fullName = nil if @user.fullName == ""
-    @user.firstName = params[:user][:firstName]
-    @user.lastName = params[:user][:lastName]
-    @user.lastName = " " if @user.lastName==""
     @user.email = params[:user][:email]
     if APP_CONFIG['is_sandbox'] ||  !is_operator?
     @user.tenant = check["tenantId"]
@@ -243,13 +260,6 @@ class UsersController < ApplicationController
     
   end
   
-  # GET /users/1
-  # GET /users/1.json
-  def show
-     respond_to do |format|
-        format.html { redirect_to "/users" }
-     end
-     end
   
   def get_login_id
     check = Check.get ""
@@ -264,10 +274,10 @@ class UsersController < ApplicationController
   def set_edorg_options
     if is_sea_admin? || is_lea_admin?
     check = Check.get ""
-    login_user_edorg_name = check['edOrg']
+    @login_user_edorg_name = check['edOrg']
     @edorgs={check['edOrg']=> check ['edOrg']}
-    if login_user_edorg_name !=nil
-    current_edorgs = EducationOrganization.find(:all, :params => {"stateOrganizationId" => login_user_edorg_name})
+    if @login_user_edorg_name !=nil
+    current_edorgs = EducationOrganization.find(:all, :params => {"stateOrganizationId" => @login_user_edorg_name})
     end
       while current_edorgs !=nil && current_edorgs.length>0
         
@@ -304,7 +314,7 @@ class UsersController < ApplicationController
     
     elsif is_sea_admin?
        @production_roles={SEA_ADMINISTRATOR => SEA_ADMINISTRATOR, LEA_ADMINISTRATOR => LEA_ADMINISTRATOR, INGESTION_USER => INGESTION_USER, REALM_ADMINISTRATOR => REALM_ADMINISTRATOR }
-     elsif is_lea_admin?
+    elsif is_lea_admin?
        @production_roles={LEA_ADMINISTRATOR => LEA_ADMINISTRATOR, INGESTION_USER => INGESTION_USER, REALM_ADMINISTRATOR => REALM_ADMINISTRATOR }
 
     end 
@@ -368,7 +378,6 @@ class UsersController < ApplicationController
   end
   
   def validate_email
-    # don't validate empty values here, otherwise we get duplicate error messages
     valid=true
     if not @user.email =~ /^[-a-z0-9_]+([\.]{0,1}[-a-z0-9_]+)*\@([a-z0-9]+([-]*[a-z0-9]+)*\.)*([a-z0-9]+([-]*[a-z0-9]+))+$/i
       @user.errors[:email] << "Please enter a valid email address"
@@ -393,5 +402,19 @@ class UsersController < ApplicationController
         end
         return valid
       end
+      
+  def check_rights
+  if APP_CONFIG['is_sandbox']
+  allowed_roles =SANDBOX_ALLOWED_ROLES
+  else
+  allowed_roles = PRODUCTION_ALLOWED_ROLES
+  end
+  overlap_roles = allowed_roles & session[:roles]
+  if not overlap_roles.length>0
+  render_403
+  end
+  
+  
+  end
   
 end

@@ -16,6 +16,7 @@
 
 package org.slc.sli.sif.agent;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +39,7 @@ import openadk.library.student.StudentDTD;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
 
 import org.slc.sli.sif.subscriber.SifSubscriber;
 
@@ -46,13 +47,18 @@ import org.slc.sli.sif.subscriber.SifSubscriber;
  * Manages a SIFAgent and its SifSubscriber
  *
  */
-@Component
 public class AgentManager {
 
     private SifAgent agent;
 
     @Autowired
     private SifSubscriber subscriber;
+
+    @Value("${log.path}")
+    private String logPath;
+
+    @Value("${sli.sif-agent.adk.logFile}")
+    private String adkLogFile;
 
     private String subscriberZoneName;
 
@@ -91,6 +97,8 @@ public class AgentManager {
      * @throws Exception
      */
     public void setup() throws Exception {
+        // set the adk.log.file property, which is used in ADK.initialize()
+        System.setProperty("adk.log.file", logPath + File.separator + adkLogFile);
         ADK.initialize();
         ADK.debug = ADK.DBG_ALL;
         agent.startAgent();
@@ -157,4 +165,21 @@ public class AgentManager {
     public SifAgent getAgent() {
         return this.agent;
     }
+
+    public String getLogPath() {
+        return logPath;
+    }
+
+    public void setLogPath(String logPath) {
+        this.logPath = logPath;
+    }
+
+    public String getAdkLogFile() {
+        return adkLogFile;
+    }
+
+    public void setAdkLogFile(String adkLogFile) {
+        this.adkLogFile = adkLogFile;
+    }
+
 }

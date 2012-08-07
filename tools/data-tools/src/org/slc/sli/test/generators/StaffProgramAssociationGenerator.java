@@ -28,6 +28,7 @@ import org.slc.sli.test.edfi.entities.StaffIdentityType;
 import org.slc.sli.test.edfi.entities.StaffProgramAssociation;
 import org.slc.sli.test.edfi.entities.StaffReferenceType;
 import org.slc.sli.test.edfi.entities.meta.ProgramMeta;
+import org.slc.sli.test.edfi.entities.meta.relations.MetaRelations;
 
 
 /**
@@ -60,13 +61,24 @@ public class StaffProgramAssociationGenerator {
         
         // construct and add the staff references
         List<StaffReferenceType> staffReferences = staffProgram.getStaffReference();
-        for (String staffId : staffIds) {
-            StaffIdentityType sit = new StaffIdentityType();
-            sit.setStaffUniqueStateId(staffId);
-            StaffReferenceType srt = new StaffReferenceType();
-            srt.setRef(new Ref(staffId));
-            staffReferences.add(srt);
-        }
+		if (MetaRelations.StaffProgramAssociation_Ref) {
+			for (String staffId : staffIds) {
+				StaffIdentityType sit = new StaffIdentityType();
+				sit.setStaffUniqueStateId(staffId);
+				StaffReferenceType srt = new StaffReferenceType();
+				srt.setRef(new Ref(staffId));
+				staffReferences.add(srt);
+			}
+		} else {
+			for (String staffId : staffIds) {
+				StaffIdentityType sit = new StaffIdentityType();
+				sit.setStaffUniqueStateId(staffId);
+				StaffReferenceType srt = new StaffReferenceType();
+				srt.setStaffIdentity(sit);
+//				srt.setRef(new Ref(staffId));
+				staffReferences.add(srt);
+			}
+		}
 
         // construct and add the program reference       
         ProgramIdentityType pi = new ProgramIdentityType();
