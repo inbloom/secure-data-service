@@ -88,26 +88,6 @@ public class EntryTypeConverter {
         ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1840,
                 "Original entry into a United States school from a foreign country with an interruption in schooling");
         ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_9999, "Other");
-        // Student has attended a non-Public School or Home Education Program in or out of state this year, but is
-        // entering a Public School in this state for the first time this school year ("D03")
-        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode.ENTRY_D03, "Other");
-        //  Student was received from another Attendance Reporting Unit in the same School ("D04")
-        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode.ENTRY_D04, "Re-entry from the same school with no interruption of schooling");
-        // Student was received from a School in the same District ("D05")
-        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode.ENTRY_D05, "Transfer from a public school in the same local education agency");
-        // Student was received from another Public School outside the District either in or out of state ("D06")
-        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode.ENTRY_D06, "Other");
-        // Student was received from a non-Public School either in or out of the District or has returned after having
-        // been enrolled in a Home Education Program; the student must have been enrolled previously in a Public School
-        // this year ("D07")
-        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode.ENTRY_D07, "Other");
-        // Student unexpectedly re-entered the same school after withdrawing or being discharged ("D08")
-        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode.ENTRY_D08, "Other");
-        // Student has not entered any school in this or any other state this school year ("D22")
-        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode.ENTRY_D22, "Original entry into a United States school");
-        // Previously attended out-of-state public school this year, but is entering a public school in this state for
-        // the first time this school year ("D23")
-        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode.ENTRY_D23, "Other");
     }
 
     public String convert(EntryType entryType) {
