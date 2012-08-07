@@ -7,6 +7,7 @@ Feature: Reset and Change Password
   Background:
     Given I have an open web browser
 
+@LDAP_Reset_developer-email
  Scenario: SLI Developer Reset Password
 
     Given I am a SLI Developer "developer-email@slidev.org" from the "SLI" hosted directory
@@ -64,6 +65,7 @@ Feature: Reset and Change Password
     Then I click on "submitChangePasswordButton"
     Then I check for message  "Your password has been successfully modified."
 
+@LDAP_Reset_sunsetadmin
   Scenario: Force Change Password
     
     Given I am a SLC Admin "sunsetadmin" from the "SLI" hosted directory logging in for the first time
