@@ -29,7 +29,7 @@ public class StudentProgramEdgeImporter extends BaseImporter {
             Map<String, Object> body = (Map) spa.get("body");
             for (Vertex student : graph.getVertices("mongoid", body.get("studentId"))) {
                 for (Vertex program : graph.getVertices("mongoid", body.get("programId"))) {
-                    Edge e = graph.addEdge(null, program, student, "studentProgramAssociation");
+                    Edge e = graph.addEdge(null, program, student, "studentProgram");
                     e.setProperty("mongoid", spa.get("_id"));
                     // This may not be safe.
                     e.setProperty("endDate", body.get("endDate"));

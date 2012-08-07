@@ -1,0 +1,8 @@
+Aug 7, 2012 9:47:16 AM org.sli.orient.importer.App main
+INFO: Verticies removed...
+Aug 7, 2012 9:47:16 AM org.sli.orient.importer.App main
+INFO: Edges removed...
+Aug 7, 2012 9:47:20 AM org.sli.orient.importer.App benchmarkStamp
+INFO: Starting to import org.sli.orient.importer.importers.TeacherSectionEdgeImporter
+Aug 7, 2012 9:47:20 AM org.sli.orient.importer.importers.TeacherSectionEdgeImporter importCollection
+INFO: Looking for teacherId 2012wl-f126bd7d-cfba-11e1-a172-024224a39f1b
