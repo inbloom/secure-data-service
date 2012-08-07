@@ -242,8 +242,8 @@ public class AssociationResourcesCrudTest {
         Response response = null;
         try {
             Class cls = Class.forName(classToTest);
-            Constructor ct = cls.getConstructor(LogicalEntity.class);
-            Object instance = ct.newInstance(logicalEntity);
+            Constructor ct = cls.getConstructor(.class);
+            Object instance = ct.newInstance(entityDefs);
             Method method = cls.getMethod(methodName, paramTypes);
             response = (Response) method.invoke(instance, args);
         } catch (ClassNotFoundException e) {
