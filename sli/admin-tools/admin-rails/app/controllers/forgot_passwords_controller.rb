@@ -104,9 +104,6 @@ class ForgotPasswordsController < ApplicationController
   end
 
   def new_account
-    @forgot_password = NewAccountPassword.new
-    @forgot_password.token = params[:key]
-    render action: => 'update'
   end
 
   def token_still_valid
