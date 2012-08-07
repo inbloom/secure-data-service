@@ -43,7 +43,7 @@ function profileListCtrl($scope, Profiles, dbSharedService) {
 			}
 		}
 	}, function(error) {
-		dbSharedService.showError(error);
+		dbSharedService.showError(error.status, null);
 	});
 }
 
@@ -69,7 +69,7 @@ function profileCtrl($scope, $routeParams, Profile, dbSharedService) {
 		}
 		$scope.id = $scope.profile.id;
 	}, function(error) {
-		dbSharedService.showError(error);
+		dbSharedService.showError(error.status, null);
 	});
 
 	$scope.$on("tabChanged", function () {

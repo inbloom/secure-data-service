@@ -127,7 +127,7 @@ Scenario: Deny creating a new role with a realm I do not have access to
 @sandbox
 Scenario: Delete a sandbox custom role doc
   Given I am logged in using "sandboxdeveloper" "sandboxdeveloper1234" to realm "SLI" 
-  When I PUT a new group "Foo" with role "Foo" and right "READ_GENERAL"
+  When I DELETE my custom role doc
   Then I should receive a return code of 204
 
 @sandbox
