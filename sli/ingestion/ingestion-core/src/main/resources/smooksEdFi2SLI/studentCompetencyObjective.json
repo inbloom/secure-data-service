@@ -1,3 +1,25 @@
 {
-    "keyFields" : ["metaData.externalId"]
+    "keyFields" : [ "body.studentCompetencyObjectiveId"],
+    "references" : 
+    [
+        {
+        "fieldPath" : "body.educationOrganizationId",
+        "ref" :
+        {
+            "entityType" : "educationOrganization",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.stateOrganizationId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.educationOrganizationReference.educationalOrgIdentity.stateOrganizationId"
+                        }]
+                    }
+                ]
+            ]
+        }
+    }
+    ]
 }
