@@ -216,11 +216,13 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
             // if api has config
             if (configMap != null && !configMap.isEmpty()) {
                 Config edOrgComponentConfig = configMap.getComponentConfig(componentId);
-                if(customComponentConfig == null) {
-                    customComponentConfig = edOrgComponentConfig;
-                } else {
-                    //edOrgComponentConfig overwrites customComponentConfig
-                    customComponentConfig = edOrgComponentConfig.overWrite(customComponentConfig);
+                if(edOrgComponentConfig != null) {
+                    if(customComponentConfig == null) {
+                        customComponentConfig = edOrgComponentConfig;
+                    } else {
+                        //edOrgComponentConfig overwrites customComponentConfig
+                        customComponentConfig = edOrgComponentConfig.overWrite(customComponentConfig);
+                    }
                 }
             }
         }
