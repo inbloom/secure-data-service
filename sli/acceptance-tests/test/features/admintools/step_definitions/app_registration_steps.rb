@@ -214,6 +214,14 @@ Then /^the client ID and shared secret fields are Pending$/ do
   assert(client_id == 'Pending', "Expected 'Pending', got #{client_id}")
 end
 
+Then /^the client ID and shared secret fields are present$/ do
+  @driver.find_element(:xpath, "//tbody/tr[1]/td[1]").click
+  client_id = @driver.find_element(:xpath, '//tbody/tr[2]/td/dl/dd[1]').text
+  puts client_id
+  assert(client_id != '', "Expected non empty client Id, got #{client_id}")
+  assert(client_id != 'Pending', "Expected non 'Pending' client Id, got #{client_id}")
+end
+
 Then /^the Registration Status field is Pending$/ do
   td = @driver.find_element(:xpath, "//tbody/tr[1]/td[4]")
   assert(td.text == 'Pending', "Expected 'Pending', got #{td.text}")

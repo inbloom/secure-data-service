@@ -109,6 +109,19 @@ class UsersController < ApplicationController
      @user.errors[:edorg] << "tenant and edorg mismatch"
     end
     
+   
+    
+    end
+    
+    if resend==nil ||resend==false
+    begin
+   reset_password_link = "#{APP_CONFIG['email_replace_uri']}/forgot_passwords"
+   ApplicationMailer.samt_verify_email(@user.email,@user.fullName.split(" ")[0],@user.groups,reset_password_link).deliver
+
+   rescue =>e
+     logger.error "Could not send email to #{@user.email}."
+     @email_error_message = "Could not send notification email to #{@user.email}"
+   end
     end
     
      respond_to do |format|
@@ -120,7 +133,7 @@ class UsersController < ApplicationController
          @is_operator = is_operator?
          format.html {render "new"}
        else
-         flash[:notice]= 'Success! You have added a new user'
+        flash[:notice]= ( @email_error_message==nil ? 'Success! You have added a new user' : 'Success! You have added a new user\n'+@email_error_message)
         format.html { redirect_to "/users" } 
        end
      end
