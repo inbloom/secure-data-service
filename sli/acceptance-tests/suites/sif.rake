@@ -3,6 +3,15 @@
 ############################################################
 
 desc "Import SIF Sandbox Test Data"
+task :importSifSandboxData do
+  Rake::Task["importSifBootstrapData"].execute
+  setFixture("educationOrganization", "sif/sif_lea_fixture.json", "test/data", false)
+  setFixture("educationOrganization", "sif/sif_educationOrganization_fixture.json", "test/data", false)
+  setFixture("studentSchoolAssociation", "sif/sif_studentSchoolAssociation_fixture.json", "test/data", true)
+  setFixture("student", "sif/sif_student_fixture.json", "test/data", true)
+end
+
+desc "Import SIF Bootstrap Test Data"
 task :importSifBootstrapData do
   testHash = Hash[
     "staff" => "sif/sif_bootstrap_staff_fixture.json",
