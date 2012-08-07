@@ -39,6 +39,7 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.resources.v1.DefaultCrudResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -145,96 +146,7 @@ public class DisciplineIncidentResourceTest {
         entity.put("studentParticipationCode", "Perpetrator");
         return entity;
     }
-
-    @Test
-    public void testCreate() {
-        Response response = disciplineIncidentResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
-        assertEquals("Status code should be 201", Status.CREATED.getStatusCode(), response.getStatus());
-
-        String id = ResourceTestUtil.parseIdFromLocation(response);
-        assertNotNull("ID should not be null", id);
-    }
-
-    @Test
-    public void testRead() {
-        //create one entity
-        Response createResponse = disciplineIncidentResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
-        String id = ResourceTestUtil.parseIdFromLocation(createResponse);
-        Response response = disciplineIncidentResource.read(id, httpHeaders, uriInfo);
-
-        Object responseEntityObj = null;
-
-        if (response.getEntity() instanceof EntityResponse) {
-            EntityResponse resp = (EntityResponse) response.getEntity();
-            responseEntityObj = resp.getEntity();
-        } else {
-            fail("Should always return EntityResponse: " + response);
-        }
-
-        if (responseEntityObj instanceof EntityBody) {
-            assertNotNull(responseEntityObj);
-        } else if (responseEntityObj instanceof List<?>) {
-            @SuppressWarnings("unchecked")
-            List<EntityBody> results = (List<EntityBody>) responseEntityObj;
-            assertTrue("Should have one entity", results.size() == 1);
-        } else {
-            fail("Response entity not recognized: " + response);
-        }
-    }
-
-    @Test(expected = EntityNotFoundException.class)
-    public void testDelete() {
-        //create one entity
-        Response createResponse = disciplineIncidentResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
-        String id = ResourceTestUtil.parseIdFromLocation(createResponse);
-
-        //delete it
-        Response response = disciplineIncidentResource.delete(id, httpHeaders, uriInfo);
-        assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
-
-        @SuppressWarnings("unused")
-        Response getResponse = disciplineIncidentResource.read(id, httpHeaders, uriInfo);
-    }
-
-    @Test
-    public void testUpdate() {
-        //create one entity
-        Response createResponse = disciplineIncidentResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
-        String id = ResourceTestUtil.parseIdFromLocation(createResponse);
-
-        //update it
-        Response response = disciplineIncidentResource.update(id, new EntityBody(createTestUpdateEntity()), httpHeaders, uriInfo);
-        assertEquals("Status code should be NO_CONTENT", Status.NO_CONTENT.getStatusCode(), response.getStatus());
-
-        //try to get it
-        Response getResponse = disciplineIncidentResource.read(id, httpHeaders, uriInfo);
-        assertEquals("Status code should be OK", Status.OK.getStatusCode(), getResponse.getStatus());
-        EntityResponse entityResponse = (EntityResponse) getResponse.getEntity();
-        EntityBody body = (EntityBody) entityResponse.getEntity();
-        assertNotNull("Should return an entity", body);
-        assertEquals(incidentDate + " should be " + updatedIncidentDate, updatedIncidentDate, body.get(incidentDate));
-        assertEquals(incidentTime + " should be " + updatedIncidentTime, updatedIncidentTime, body.get(incidentTime));
-        assertNotNull("Should include links", body.get(ResourceConstants.LINKS));
-    }
-
-    @Test
-    public void testReadAll() {
-        //create two entities
-        disciplineIncidentResource.create(new EntityBody(createTestEntity()), httpHeaders, uriInfo);
-        disciplineIncidentResource.create(new EntityBody(createTestSecondaryEntity()), httpHeaders, uriInfo);
-
-        //read everything
-        Response response = disciplineIncidentResource.readAll(0, 100, httpHeaders, uriInfo);
-        assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
-
-        @SuppressWarnings("unchecked")
-        EntityResponse entityResponse = (EntityResponse) response.getEntity();
-        List<EntityBody> results = (List<EntityBody>) entityResponse.getEntity();
-        assertNotNull("Should return entities", results);
-        assertTrue("Should have at least two entities", results.size() >= 2);
-    }
-
-    @Test
+   @Test
     public void testReadCommaSeparatedResources() {
         Response response = disciplineIncidentResource.read(getIDList(ResourceNames.DISCIPLINE_INCIDENTS), httpHeaders, uriInfo);
         assertEquals("Status code should be 200", Status.OK.getStatusCode(), response.getStatus());

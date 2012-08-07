@@ -30,6 +30,7 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
+import org.slc.sli.api.resources.v1.DefaultCrudResource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -56,7 +57,7 @@ import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 @Path(PathConstants.V1 + "/" + PathConstants.COHORTS)
 @Component
 @Scope("request")
-public class CohortResource extends DefaultCrudEndpoint {
+public class CohortResource extends DefaultCrudResource {
 
     public static final String COHORT_IDENTIFIER = "cohortIdentifier";
     public static final String COHORT_DESCRIPTION = "cohortDescription";
@@ -70,26 +71,7 @@ public class CohortResource extends DefaultCrudEndpoint {
         super(entityDefs, ResourceNames.COHORTS);
     }
 
-    /**
-     * Returns the requested collection of resource representations.
-     */
-    @Override
-    @GET
-    public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.readAll(offset, limit, headers, uriInfo);
-    }
 
-    /**
-     * Creates a new resource using the given resource data.
-     */
-    @Override
-    @POST
-    public Response create(final EntityBody newEntityBody,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.create(newEntityBody, headers, uriInfo);
-    }
 
     /**
      * Returns the specified resource representation(s).

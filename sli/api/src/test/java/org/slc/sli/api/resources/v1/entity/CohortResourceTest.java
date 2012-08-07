@@ -28,6 +28,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
+import org.slc.sli.api.resources.v1.DefaultCrudResource;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.resources.v1.association.StaffCohortAssociationResource;
 import org.slc.sli.api.resources.v1.association.StudentCohortAssociationResource;
