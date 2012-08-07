@@ -29,7 +29,7 @@ public class StaffProgramEdgeImporter extends BaseImporter {
                     List<String> cohortIds = (List) body.get("programId");
                     for (String cohortId : cohortIds)
                         for (Vertex program : graph.getVertices("mongoid", cohortId)) {
-                            Edge e = graph.addEdge(null, program, staff, "staffProgramAssociation");
+                            Edge e = graph.addEdge(null, program, staff, "staffProgram");
                             e.setProperty("mongoid", spa.get("_id"));
                             // This may not be safe.
                             e.setProperty("endDate", body.containsKey("endDate") ? body.get("endDate") : "");

@@ -33,7 +33,7 @@ public class StudentSectionEdgeImporter extends BaseImporter {
             String sectionId = (String) body.get("sectionId");
             for (Vertex student : graph.getVertices("mongoid", studentId)) {
                 for (Vertex section : graph.getVertices("mongoid", sectionId)) {
-                    Edge e = graph.addEdge(null, section, student, "studentSectionAssociation");
+                    Edge e = graph.addEdge(null, section, student, "studentSection");
                     e.setProperty("mongoid", spa.get("_id"));
 
                     if (body.containsKey("endDate")) {

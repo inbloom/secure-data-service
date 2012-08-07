@@ -32,7 +32,7 @@ public class TeacherSchoolEdgeImporter extends BaseImporter {
             String endDate = body.containsKey("endDate") ? (String) body.get("endDate") : "";
             for (Vertex teacher : graph.getVertices("mongoid", body.get("teacherId"))) {
                 for (Vertex school : graph.getVertices("mongoid", body.get("schoolId"))) {
-                    Edge e = graph.addEdge(null, teacher, school, "teacherSchoolAssociation");
+                    Edge e = graph.addEdge(null, teacher, school, "teacherSchool");
                     e.setProperty("endDate", endDate);
                 }
             }
