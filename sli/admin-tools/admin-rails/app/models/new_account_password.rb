@@ -17,7 +17,7 @@ limitations under the License.
 =end
 
 class NewAccountPassword
-  include ForgotPassword
+#  include ForgotPassword
 
-  validates :eula, :presence => true
+#  validates :eula, :presence => true
 end
