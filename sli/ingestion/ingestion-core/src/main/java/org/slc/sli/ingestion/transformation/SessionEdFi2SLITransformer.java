@@ -46,7 +46,7 @@ public class SessionEdFi2SLITransformer extends SmooksEdFi2SLITransformer {
      */
 
     @Override
-    public void matchEntity(SimpleEntity entity, ErrorReport errorReport) {
+    protected void matchEntity(SimpleEntity entity, ErrorReport errorReport) {
 
     /* This code is identical to EdFiSLITransformer. We will remove this as the schoolSessionAssociat is removed */
 
