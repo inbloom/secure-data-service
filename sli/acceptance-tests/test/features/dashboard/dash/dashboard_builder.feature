@@ -58,7 +58,7 @@ When I select "Illinois Daybreak School District 4529" and click go
 When I navigate to the Dashboard Builder page
 And I click on "School" Profile Builder
 And I see the following page order "Subjects and Courses;Teachers;School Tab" in the builder
-#drag and drop not working on jenkins
+#TODO : drag and drop not working on jenkins
 #And I move Page "School Tab" to become Page Number "0"
 #When I navigate to the Dashboard home page
 #When I select ed org "Daybreak School District 4529"
@@ -68,8 +68,9 @@ And I see the following page order "Subjects and Courses;Teachers;School Tab" in
 #When I navigate to the Dashboard Builder page
 #And I click on "School" Profile Builder
 #And I see the following page order "School Tab;Subjects and Courses" in the builder
+#end of TODO
 And I delete Page "School Tab"
-And I see the following page order "Subjects and Courses" in the builder
+And I see the following page order "Subjects and Courses;Teachers" in the builder
 #And I click on "Section" Profile Builder
 #And I delete Page "LOS 2"
 #And I see the following page order "List of Students" in the builder
