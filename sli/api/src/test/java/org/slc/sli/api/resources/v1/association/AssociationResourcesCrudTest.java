@@ -52,7 +52,7 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
+import org.springframework.test.util.ReflectionTestUtils;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.representation.EntityBody;
@@ -61,6 +61,8 @@ import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+
+
 
 /**
  * Unit tests for v1 association resources CRUD methods
@@ -88,6 +90,7 @@ public class AssociationResourcesCrudTest {
 
     private UriInfo uriInfo;
     private HttpHeaders httpHeaders;
+
 
     @Before
     public void setup() throws Exception {
@@ -245,6 +248,7 @@ public class AssociationResourcesCrudTest {
             Constructor ct = cls.getConstructor(EntityDefinitionStore.class);
             Object instance = ct.newInstance(entityDefs);
             Method method = cls.getMethod(methodName, paramTypes);
+           ReflectionTestUtils.setField(instance,"logicalEntity",logicalEntity);
             response = (Response) method.invoke(instance, args);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -260,7 +264,6 @@ public class AssociationResourcesCrudTest {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             if (methodName.equals("read")) {
-                e.printStackTrace();
                 throw new EntityNotFoundException();
             } else {
                 e.printStackTrace();
