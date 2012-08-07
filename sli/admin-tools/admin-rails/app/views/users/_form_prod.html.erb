@@ -98,10 +98,11 @@
 </fieldset>
 <%else%>
 <fieldset>
-<div class = "control-group">
+<div class = "control-group<%=error if @user.errors[:edorg].size>0%>">
 	<%= f.label :edorg, "EdOrg" , :class => "control-label" %>
 	<div class="controls">
-	<%= f.select :edorg,  @edorgs, {}, :include_blank => true %>
+	<label style="color:#B94A48;" >
+	<%= f.select :edorg,  @edorgs, {}, :include_blank => true %> <%=@user.errors[:edorg][0]%></label>
 	</div>
 </div>
 </fieldset>

@@ -124,6 +124,7 @@ class UsersController < ApplicationController
          get_login_tenant
          @is_operator = is_operator?
          @is_lea = is_lea_admin?
+         @user.errors[:edorg] << "tenant and edorg mismatch"
          format.html {render "new"}
        else
          flash[:notice]= 'Success! You have added a new user'
@@ -207,6 +208,7 @@ class UsersController < ApplicationController
          @is_operator = is_operator?
          @is_lea = is_lea_admin?
          format.html { render "edit"}
+         @user.errors[:edorg] << "Pleaes check EdOrg selection"
        else
          flash[:notice]='Success! You have updated the user'
         format.html { redirect_to "/users" }
