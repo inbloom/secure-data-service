@@ -84,8 +84,9 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 				data: profileData
 			}).success(function() {
 				console.log("success");
-			}).error(function() {
+			}).error(function(data, status, headers, config) {
 				console.log("fail");
+				showError(status, null);
 			});
 		}
 
@@ -112,13 +113,19 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 			return tabIdPrefix + (pageNumMax + 1);
 		}
 
-		function showError(error) {
+		function showError(errorStatus, errorMsg) {
+			
+			if (errorStatus === 0) {
+				location.reload();
+				return;
+			}
+			
 			$(".errorMessage").removeClass("hide");
 			$("#banner").addClass("hide");
 			$(".profileList").addClass("hide");
 			$(".profilePageWrapper").addClass("hide");
 
-			if (error.status === 401) {
+			if (errorStatus === 401) {
 				$(".errorMessage").html("Access Denied: Unauthorized user");
 			} else {
 				$(".errorMessage").html("Server Error");
