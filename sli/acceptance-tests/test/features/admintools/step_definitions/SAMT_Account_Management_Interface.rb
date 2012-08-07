@@ -194,7 +194,7 @@ end
 
 Then /^I do not see any other LEA admin from (.*?) besides me$/ do |edorg|
   my_name="#{@user_info[:first]} #{@user_info[:last]}"
-  my_edorg="#{@user_info[:first]} #{@user_info[:last]}"
+  my_edorg="#{@user_info[:edorg]}"
   found_myself=false
   table=@driver.find_element(:id, "Users_Management_Table")
   table.find_elements(:xpath, ".//tbody/tr").each do |tr|
