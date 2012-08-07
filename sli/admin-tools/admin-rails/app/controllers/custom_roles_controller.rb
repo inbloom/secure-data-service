@@ -23,7 +23,9 @@ class CustomRolesController < ApplicationController
   # GET /realms
   # GET /realms.json
   def index
-    redirect_to  :action => "show", :id => CustomRole.find(:first).id
+    custom_roles = CustomRole.find(:all)
+    redirect_to  :action => "show", :id => custom_roles[0].id
+
   end
 
 

@@ -143,9 +143,9 @@ public class UserResourceTest {
         userWithNoMail.setGroups(Arrays.asList(RoleInitializer.SEA_ADMINISTRATOR));
         userWithNoMail.setEdorg(EDORG1);
         userWithNoMail.setTenant(TENANT);
-        userWithNoMail.setFullName("John", "Snow");
-        userWithNoMail.setUid("jsnow");
-        userWithNoMail.setPassword("jsn0w");
+        userWithNoMail.setFullName("Mance", "Rayder");
+        userWithNoMail.setUid("mrayder");
+        userWithNoMail.setPassword("fr33folk");
         Response response = resource.create(userWithNoMail);
         assertEquals(400, response.getStatus());
         assertEquals("No email address", response.getEntity());
@@ -164,6 +164,22 @@ public class UserResourceTest {
         userWithNoName.setPassword("k1ndlyman");
         userWithNoName.setEmail("kindlyman@bravos.org");
         assertEquals(400, resource.create(userWithNoName).getStatus());
+    }
+
+    @Test
+    public void testNoLastName() {
+        Collection<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
+        rights.addAll(Arrays.asList(Right.CRUD_SLC_OPERATOR, Right.CRUD_SEA_ADMIN, Right.CRUD_LEA_ADMIN));
+        Mockito.when(secUtil.getAllRights()).thenReturn(rights);
+        User userWithNoSurname = new User();
+        userWithNoSurname.setGroups(Arrays.asList(RoleInitializer.SEA_ADMINISTRATOR));
+        userWithNoSurname.setEdorg(EDORG1);
+        userWithNoSurname.setTenant(TENANT);
+        userWithNoSurname.setFullName("Jon");
+        userWithNoSurname.setUid("jsnow");
+        userWithNoSurname.setPassword("jsn0w");
+        userWithNoSurname.setEmail("jsnown@thewall.org");
+        assertEquals(201, resource.create(userWithNoSurname).getStatus());
     }
 
     @Test

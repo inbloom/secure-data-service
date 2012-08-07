@@ -202,6 +202,8 @@ Feature: As an admin I can create admin accounts for tenancies I administer
     |ingestionuser     |ingestionuser1234    |Ingestion User        |SLI      |LEA Administrator   |PUT      |403 |403      |0        |LEA Administrator11 |LEA_Administrator11 |LEA_Administrator@test.com|    |Midgar| IL|
     |ingestionuser     |ingestionuser1234    |Ingestion User        |SLI      |Realm Administrator |PUT      |403 |403      |0        |Realm Administrator11 |Realm_Administrator11 |Realm_Administrator@test.com|    |Midgar| IL-SUNSET|
     |ingestionuser     |ingestionuser1234    |Ingestion User        |SLI      |Ingestion User      |PUT      |403 |403      |0        |Ingestion User11 |Ingestion_User11 |Ingestion_User@test.com|    |Midgar| IL-SUNSET| 
+    |operator          |operator1234        |SLC Operator           |SLI      |SLC Operator        |POST     |201 |200      |1 or more|Homer J Simpson |homerSimpson      |homersimpson@test.com|               |      |           |
+    |operator          |operator1234        |SLC Operator           |SLI      |SLC Operator        |POST     |201 |200      |1 or more|Homer           |homerThePoet      |homerpoet@test.com|               |      |           |
 
 
 @production

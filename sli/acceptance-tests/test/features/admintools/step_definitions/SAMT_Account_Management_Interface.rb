@@ -50,7 +50,7 @@ Given /^I have a valid account as a LEA Administrator$/ do
 end 
 
 Given /^There is a user with "(.*?)", "(.*?)", "(.*?)", and "(.*?)" in LDAP Server$/ do |full_name, role, addition_roles, email|
-  new_user=create_new_user(full_name, role, addition_roles)
+  new_user=create_new_user(full_name.gsub("hostname", Socket.gethostname), role, addition_roles)
   new_user['email']=email.gsub("hostname", Socket.gethostname)
   new_user['uid']=new_user['email']
   new_user['tenant']="Midgar"

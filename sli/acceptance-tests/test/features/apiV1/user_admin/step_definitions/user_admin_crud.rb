@@ -48,9 +48,7 @@ Given /^the new\/update user has$/ do
 end
 
 Given /^"(.*?)" is "(.*?)"$/ do |key, value|
-  if key == "fullName" && value!= ""
-    @new_update_user.merge!({"firstName" => value.split(" ")[0], "lastName" => value.split(" ")[1]})
-  elsif key!="role" && key!="additional_role"&&value!=""
+  if key!="role" && key!="additional_role"&&value!=""
     @new_update_user.merge!({key => value})
   elsif key=="role" && value!=""
     @new_update_user.merge!({"groups" => [value]})
@@ -233,7 +231,7 @@ def print_administrator_comma_separated
   @result.each { |user|
     if((administrators & user['groups']).length > 0)
       user['groups'].each { |group|
-        out << "#{user['uid']},#{group},#{user['firstName']},#{user['lastName']},#{user['email']},#{user['tenant']},#{user['edorg']}\n"
+        out << "#{user['uid']},#{group},#{user['fullName']},#{user['email']},#{user['tenant']},#{user['edorg']}\n"
       }
     end
   }
@@ -260,8 +258,7 @@ def build_user(uid, groups, tenant, edorg)
   new_user = {
       "uid" => uid,
       "groups" => groups,
-      "firstName" => "Test",
-      "lastName" => "User",
+      "fullName" => "Test User",
       "password" => "#{uid}1234",
       "email" => "testuser@wgen.net",
       "tenant" => tenant,

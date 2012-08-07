@@ -241,6 +241,7 @@ db["learningObjective"].ensureIndex({"metaData.tenantId":1,"body.learningStandar
 db["learningObjective"].ensureIndex({"metaData.tenantId":1,"body.parentLearningObjective":1,"metaData.edOrgs":1});
 db["learningObjective"].ensureIndex({"metaData.tenantId":1,"body.parentLearningObjective":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["learningObjective"].ensureIndex({"metaData.tenantId":1,"body.parentLearningObjective":1,"metaData.teacherContext":1});
+db["learningStandard"].ensureIndex({"body.learningStandardId.identificationCode":1});
 db["learningStandard"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["learningStandard"].ensureIndex({"metaData.tenantId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["learningStandard"].ensureIndex({"metaData.tenantId":1,"metaData.teacherContext":1});
@@ -248,6 +249,7 @@ db["learningStandard"].ensureIndex({"metaData.tenantId":1,"_id":1,"metaData.edOr
 db["learningStandard"].ensureIndex({"metaData.tenantId":1,"_id":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["learningStandard"].ensureIndex({"metaData.tenantId":1,"_id":1,"metaData.teacherContext":1});
 db["parent"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
+db["parent"].ensureIndex({"metaData.tenantId":1,"body.parentUniqueStateId":1});
 db["parent"].ensureIndex({"metaData.tenantId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["parent"].ensureIndex({"metaData.tenantId":1,"metaData.teacherContext":1});
 db["parent"].ensureIndex({"metaData.tenantId":1,"_id":1,"metaData.edOrgs":1});
@@ -325,6 +327,7 @@ db["staff"].ensureIndex({"metaData.tenantId":1,"metaData.teacherContext":1});
 db["staff"].ensureIndex({"metaData.tenantId":1,"_id":1,"metaData.edOrgs":1});
 db["staff"].ensureIndex({"metaData.tenantId":1,"_id":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["staff"].ensureIndex({"metaData.tenantId":1,"_id":1,"metaData.teacherContext":1});
+db["staff"].ensureIndex({"body.staffUniqueStateId":1});
 db["staffCohortAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["staffCohortAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["staffCohortAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.teacherContext":1});

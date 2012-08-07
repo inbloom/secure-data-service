@@ -54,7 +54,7 @@ import org.slc.sli.domain.enums.Right;
 public class UserResource {
 
     @Autowired
-    LdapService ldapService;
+    private LdapService ldapService;
 
     @Value("${sli.simple-idp.sliAdminRealmName}")
     private String realm;
@@ -209,10 +209,8 @@ public class UserResource {
 
         if (user.getEmail() == null) {
             return badRequest("No email address");
-        } else if (user.getFirstName() == null) {
-            return badRequest("No first name");
-        } else if (user.getLastName() == null) {
-            return badRequest("No last name");
+        } else if (user.getFullName() == null) {
+            return badRequest("No name");
         } else if (user.getUid() == null) {
             return badRequest("No uid");
         }

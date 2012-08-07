@@ -9,8 +9,10 @@
     <property name="host"         value="galvatron.slidev.org"/>
     <property name="username"     value="ldalgado"/>
     <property name="password"     value="$?Changed123"/>
-    <property name="path"         value="/metroplex/testDataGeneration/demo/20120803/"/>
+	<property name="path"         value="/metroplex/testDataGeneration/demo/20120803/"/>
 
+
+	    	
     <target name="create_run_jar">
         <jar destfile="TestDataGeneration.jar">
             <manifest>
@@ -33,6 +35,7 @@
         
         <scp file="TestDataGeneration.jar" todir="${username}:${password}@${host}:${path}" trust="true"/>
         <scp file="start.sh" todir="${username}:${password}@${host}:${path}" trust="true"/>
+    	<scp file="db-datagen-approach/ref-configurations/reference_config.properties" todir="${username}:${password}@${host}:${path}" trust="true"/>
         <scp todir="${username}:${password}@${host}:${path}" trust="true">
           <fileset dir=".">
               <include name = "database/**"></include>

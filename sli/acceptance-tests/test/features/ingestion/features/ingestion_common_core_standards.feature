@@ -1,4 +1,5 @@
 @RALLY_US2507
+@RALLY_US3200
 Feature: Common Core Standard Ingestion
 
 Background: I have a landing zone route configured
@@ -48,14 +49,14 @@ Then I should see following map of entry counts in the corresponding collections
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                | searchValue    |
      | learningObjective           | 9                   | body.objective                                 | Geometry       |
-     | learningObjective           | 1                   | body.objective                                 | Circles | 
+     | learningObjective           | 1                   | body.objective                                 | Circles |
      | learningObjective           | 1                   | body.objective                                 | Vector And Matrix Quantities|
      | learningObjective           | 22                   | body.objectiveGradeLevel                       | Ninth grade               |
      | learningStandard            | 1                   | body.description                               | Read, write, and compare decimals to thousandths. |
      | learningStandard            | 1                   | body.description                               | Prove that all circles are similar. |
      | learningStandard            | 1                   | body.learningStandardId.identificationCode     | BE6257FC08DA4AA896C87FC4A19F6520|
      | learningStandard            | 36                  | body.gradeLevel                                | Eighth grade                                |
-     | learningStandard            | 509                  | body.subjectArea                               | Mathematics    |             
+     | learningStandard            | 509                  | body.subjectArea                               | Mathematics    |
      | learningStandard            | 509                  | body.contentStandard                           | State Standard    |
 
   And I should see "Processed 574 records." in the resulting batch job file

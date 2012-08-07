@@ -30,6 +30,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 import org.slc.sli.dal.TenantContext;
@@ -49,18 +50,16 @@ public class MongoTrackingAspect {
 
     private static final long SLOW_QUERY_THRESHOLD = 50;  // ms
 
-    //Spring doesn't set static fields,
-    //but if pointcut has to be static
-    private String enabledConfig;
     private static boolean enabled = false;
 
-    public String getEnabledConfig() {
-        return enabledConfig;
+    @Value("${sli.mongo.tracking}")
+    public void setEnabledConfig(String enabledConfig) {
+        setEnabled(enabledConfig);
     }
 
-    public void setEnabledConfig(String enabledConfig) {
-        this.enabledConfig = enabledConfig;
-        enabled = enabledConfig.equals("true");
+    @SuppressWarnings("boxing")
+    private static void setEnabled(String enabledConfig) {
+        enabled = Boolean.valueOf(enabledConfig);
     }
 
     @Pointcut("if()")

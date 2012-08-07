@@ -67,11 +67,7 @@ public class EntityManager extends ApiClientManager {
     }
 
     /**
-     * <<<<<<< HEAD
      * Get a single student entity with optional fields embedded.
-     * =======
-     * Returns a single student entity with optional fields embedded.
-     * >>>>>>> master
      *
      * @param token
      *            - authentication token
