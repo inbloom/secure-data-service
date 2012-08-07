@@ -237,7 +237,7 @@ public class UserResource {
             return result;
         }
 
-        result = validateCannotUpdateOwnsRoles(user);
+        result = validateLEACannotUpdateOwnsRolesTenancyEdorg(user);
         if (result != null) {
             return result;
         }
@@ -291,7 +291,9 @@ public class UserResource {
     }
 
     private Response validateCannotOperateOnPeerLEA(User userToModify, String adminEdOrg) {
-        if (isLeaAdmin() && isUserLeaAdmin(userToModify)) {
+        if (isLeaAdmin() && isUserLeaAdmin(userToModify)
+                && !userToModify.getUid().equals(secUtil.getUid())) { //only blocking peer LEA
+
             if (userToModify.getEdorg() != null && userToModify.getEdorg().equals(adminEdOrg)) {
                 EntityBody body = new EntityBody();
                 body.put("response", "not allowed to execute this operation on peer admin users");
@@ -302,17 +304,33 @@ public class UserResource {
         return null;
     }
 
-    private Response validateCannotUpdateOwnsRoles(User user) {
-        if (user.getUid().equals(secUtil.getUid())) {
+    private Response validateLEACannotUpdateOwnsRolesTenancyEdorg(User user) {
+
+        if (isLeaAdmin() && user.getUid().equals(secUtil.getUid())) {
             User currentUser = ldapService.getUser(realm, secUtil.getUid());
+
+            String error = null;
             if (!currentUser.getGroups().containsAll(RoleToGroupMapper.getInstance().mapRoleToGroups(user.getGroups()))
                     || !RoleToGroupMapper.getInstance().mapRoleToGroups(user.getGroups())
                             .containsAll(currentUser.getGroups())) {
+                error = "cannot update own roles";
+            }
+
+            if (!currentUser.getTenant().equals(user.getTenant())) {
+                error = "cannot update own tenancy";
+            }
+
+            if (!currentUser.getEdorg().equals(user.getEdorg())) {
+                error = "cannot update own edorg";
+            }
+
+            if (error != null) {
                 EntityBody body = new EntityBody();
-                body.put("response", "cannot update own roles");
+                body.put("response", error);
                 return Response.status(Status.FORBIDDEN).entity(body).build();
             }
         }
+
         return null;
     }
 
@@ -410,7 +428,7 @@ public class UserResource {
             if (isLeaAdmin()) {
                 restrictByEdorg = secUtil.getEdOrg();
                 // restrict peer level LEA
-                if (restrictByEdorg.equals(user.getEdorg())) {
+                if (restrictByEdorg.equals(user.getEdorg()) && !user.getUid().equals(secUtil.getUid())) {
                     return composeForbiddenResponse("Can not operate on peer level LEA");
                 }
             }
