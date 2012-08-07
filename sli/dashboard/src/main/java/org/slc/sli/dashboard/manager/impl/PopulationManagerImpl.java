@@ -46,6 +46,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.dashboard.entity.Config;
+import org.slc.sli.dashboard.entity.Config.Data;
 import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.entity.util.GenericEntityComparator;
 import org.slc.sli.dashboard.entity.util.GenericEntityEnhancer;
@@ -1360,4 +1361,49 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     public GenericEntity getSectionForProfile(String token, Object sectionId, Config.Data config) {
         return entityManager.getSectionForProfile(token, (String) sectionId);
     }
+
+    
+    /**
+     * Retrieves attendance in a sorted order, and packages as GenericEntity.
+     */
+	@Override
+	public GenericEntity getStudentAttendanceForCalendar(String token,
+			Object studentId, Data config) {
+		List<GenericEntity> attendanceList = getStudentAttendance(token, (String)studentId, null, null);
+		GenericEntity temp = attendanceList.get(0);
+		List<Map> schoolYearAttendance = (List<Map>)temp.get("schoolYearAttendance");
+		Map<String, Object> temp2 = (Map<String, Object>)schoolYearAttendance.get(0);
+		
+		List<Map> attList = (List)temp2.get("attendanceEvent");
+		final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Comparator<Map> c = new Comparator() {
+
+			@Override
+			public int compare(Object arg0, Object arg1) {
+				Map<String, String> map1, map2;
+				
+				if((arg0 instanceof Map) && (arg1 instanceof Map)) {
+					map1 = (Map<String, String>) arg0;
+					map2 = (Map<String, String>) arg1;
+				} else {
+					return -1;
+				}
+
+				Date date1, date2;
+				try {
+					date1 = sdf.parse((String)map1.get("date"));
+					date2 = sdf.parse((String)map2.get("date"));
+					return date1.compareTo(date2);
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					return 0;
+				}
+			}
+		};
+
+		GenericEntity ge = new GenericEntity();
+		Collections.sort(attList, c);
+		ge.put("attendanceList", attList);
+		return ge;
+	}
 }

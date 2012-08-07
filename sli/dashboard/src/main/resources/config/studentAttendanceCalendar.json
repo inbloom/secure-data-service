@@ -1,0 +1,9 @@
+{
+  id : "studentAttendanceCalendar",
+  name: "SLC - Student Attendance Calendar",
+  type : "PANEL",
+  data :{
+    entity: "studentAttendanceCalendar",
+    cacheKey: "studentAttendanceCalendar"
+  }
+}
