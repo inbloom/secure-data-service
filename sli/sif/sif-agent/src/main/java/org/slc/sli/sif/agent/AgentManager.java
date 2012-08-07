@@ -57,9 +57,6 @@ public class AgentManager {
     @Value("${log.path}")
     private String logPath;
 
-    @Value("${sli.conf}")
-    private String conf;
-
     @Value("${sli.sif-agent.adk.logFile}")
     private String adkLogFile;
 

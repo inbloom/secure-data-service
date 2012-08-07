@@ -62,7 +62,7 @@ public class HCStudentPersonalGenerator implements EventGenerator {
         studentPersonal.setGraduationDate("1982");
         Demographics demographics = new Demographics();
         Calendar calendar = Calendar.getInstance();
-        calendar.set(1981, 12, 20);
+        calendar.set(1981, 11, 20);
         demographics.setBirthDate(calendar);
         demographics.setCitizenshipStatus(CitizenshipStatus.USCITIZEN);
         demographics.setCountryOfBirth(CountryCode.US);

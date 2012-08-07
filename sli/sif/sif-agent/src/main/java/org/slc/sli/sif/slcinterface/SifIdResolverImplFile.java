@@ -57,7 +57,7 @@ public class SifIdResolverImplFile implements SifIdResolver {
     /**
      * Helper class
      */
-    class SliId {
+    static class SliId {
         String type, id, field;
 
         SliId(String t, String i, String f) {
