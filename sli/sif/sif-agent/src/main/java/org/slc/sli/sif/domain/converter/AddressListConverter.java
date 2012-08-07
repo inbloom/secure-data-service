@@ -33,13 +33,13 @@ import org.slc.sli.sif.domain.slientity.Address;
  * A custom converter to convert SIF AddressList to SLI Address list.
  *
  * Valid SLI values:
- * 	Home
- * 	Physical
- * 	Billing
- * 	Mailing
- * 	Other
- * 	Temporary
- * 	Work
+ * Home
+ * Physical
+ * Billing
+ * Mailing
+ * Other
+ * Temporary
+ * Work
  *
  * @author slee
  *
@@ -86,8 +86,7 @@ public class AddressListConverter {
             Address sliAddr = new Address();
             Street street = address.getStreet();
             if (street != null) {
-                sliAddr.setStreetNumberName(street.getStreetNumber() + " "
-                    + street.getStreetName());
+                sliAddr.setStreetNumberName(street.getStreetNumber() + " " + street.getStreetName());
             }
             sliAddr.setCity(address.getCity());
             sliAddr.setCountryCode(address.getCountry());

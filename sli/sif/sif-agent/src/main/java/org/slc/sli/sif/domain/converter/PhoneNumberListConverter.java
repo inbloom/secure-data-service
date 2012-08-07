@@ -33,19 +33,16 @@ import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
  * A customized converter to convert SIF PhoneNumberList to SLI telephone list.
  *
  * SLI values:
- *	Main
- *	Administrative
- *	HealthClinic
- *	Attendance
- *	Other
- *	Fax
+ * Main
+ * Administrative
+ * HealthClinic
+ * Attendance
+ * Other
+ * Fax
  *
  * @author slee
  *
  */
-
-
-
 @Component
 public class PhoneNumberListConverter {
 
@@ -84,10 +81,11 @@ public class PhoneNumberListConverter {
 
     /**
      * Converts the SIF PhoneNumberList into an SLI telephone list
+     *
      * @param phoneNumberList
      * @return
      */
-    public List<InstitutionTelephone> convert(PhoneNumberList phoneNumberList){
+    public List<InstitutionTelephone> convert(PhoneNumberList phoneNumberList) {
         if (phoneNumberList == null) {
             return null;
         }

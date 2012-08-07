@@ -20,9 +20,12 @@ import openadk.library.ADKException;
 
 import org.junit.Before;
 
+/**
+ * ADK test.
+ */
 public abstract class ADKTest {
     @Before
-    public void setup(){
+    public void setup() {
         try {
             ADK.initialize();
         } catch (ADKException e) {

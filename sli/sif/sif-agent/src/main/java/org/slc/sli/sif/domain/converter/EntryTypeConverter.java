@@ -19,8 +19,8 @@ package org.slc.sli.sif.domain.converter;
 import java.util.HashMap;
 import java.util.Map;
 
-import openadk.library.common.EntryTypeCode;
 import openadk.library.common.EntryType;
+import openadk.library.common.EntryTypeCode;
 
 import org.springframework.stereotype.Component;
 
@@ -28,34 +28,46 @@ import org.springframework.stereotype.Component;
  * A customized converter to convert SIF EntryType to SLI EntryType enumeration.
  *
  */
-
 @Component
 public class EntryTypeConverter {
 
     private static final Map<EntryTypeCode, String> ENTRY_TYPE_CODE_MAP = new HashMap<EntryTypeCode, String>();
     static {
-        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1821, "Transfer from a public school in the same local education agency");
-        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1822, "Transfer from a public school in a different local education agency in the same state");
+        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1821,
+                "Transfer from a public school in the same local education agency");
+        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1822,
+                "Transfer from a public school in a different local education agency in the same state");
         ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1823, "Transfer from a public school in a different state");
-        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1824, "Transfer from a private, non-religiously-affiliated school in the same local education agency");
-        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1825, "Transfer from a private, non-religiously-affiliated school in a different local education agency in the same state");
-        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1826, "Transfer from a private, non-religiously-affiliated school in a different state");
-        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1827, "Transfer from a private, religiously-affiliated school in the same local education agency");
-        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1828, "Transfer from a private, religiously-affiliated school in a different local education agency in the same state");
-        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1829, "Transfer from a private, religiously-affiliated school in a different state");
+        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1824,
+                "Transfer from a private, non-religiously-affiliated school in the same local education agency");
+        ENTRY_TYPE_CODE_MAP
+                .put(EntryTypeCode._0619_1825,
+                        "Transfer from a private, non-religiously-affiliated school in a different local education agency in the same state");
+        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1826,
+                "Transfer from a private, non-religiously-affiliated school in a different state");
+        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1827,
+                "Transfer from a private, religiously-affiliated school in the same local education agency");
+        ENTRY_TYPE_CODE_MAP
+                .put(EntryTypeCode._0619_1828,
+                        "Transfer from a private, religiously-affiliated school in a different local education agency in the same state");
+        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1829,
+                "Transfer from a private, religiously-affiliated school in a different state");
         ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1830, "Transfer from a school outside of the country");
         ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1831, "Transfer from an institution");
         ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1832, "Transfer from a charter school");
         ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1833, "Transfer from home schooling");
-        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1835, "Re-entry from the same school with no interruption of schooling");
+        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1835,
+                "Re-entry from the same school with no interruption of schooling");
         ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1836, "Re-entry after a voluntary withdrawal");
         ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1837, "Re-entry after an involuntary withdrawal");
         ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1838, "Original entry into a United States school");
-        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1839, "Original entry into a United States school from a foreign country with no interruption in schooling");
-        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1840, "Original entry into a United States school from a foreign country with an interruption in schooling");
+        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1839,
+                "Original entry into a United States school from a foreign country with no interruption in schooling");
+        ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_1840,
+                "Original entry into a United States school from a foreign country with an interruption in schooling");
         ENTRY_TYPE_CODE_MAP.put(EntryTypeCode._0619_9999, "Other");
     }
-    
+
     public String convert(EntryType entryType) {
         if (entryType == null) {
             return null;
@@ -68,4 +80,3 @@ public class EntryTypeConverter {
         return mapping == null ? "Other" : mapping;
     }
 }
-

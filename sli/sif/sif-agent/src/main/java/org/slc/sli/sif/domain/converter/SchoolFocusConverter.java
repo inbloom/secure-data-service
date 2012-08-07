@@ -31,7 +31,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class SchoolFocusConverter {
 
-
     private static final Map<String, String> SCHOOL_FOCUS_MAP = new HashMap<String, String>();
     static {
         SCHOOL_FOCUS_MAP.put(SchoolFocusType.ALTERNATIVE.getValue(), "Alternative");
@@ -46,17 +45,18 @@ public class SchoolFocusConverter {
 
     /**
      * Converts the first school focus into a school type
+     *
      * @param schoolFocusList
      * @return
      */
-    public String convert(SchoolFocusList schoolFocusList){
+    public String convert(SchoolFocusList schoolFocusList) {
 
-        if( schoolFocusList == null || schoolFocusList.getSchoolFocuses().length == 0 ){
+        if (schoolFocusList == null || schoolFocusList.getSchoolFocuses().length == 0) {
             return null;
         }
         SchoolFocus[] schoolFocus = schoolFocusList.getSchoolFocuses();
         String result = SCHOOL_FOCUS_MAP.get(schoolFocus[0].getValue());
-        if( result != null ){
+        if (result != null) {
             return result;
         }
         return NOT_SUPPORTED;

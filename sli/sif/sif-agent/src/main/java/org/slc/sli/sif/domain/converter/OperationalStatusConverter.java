@@ -27,15 +27,15 @@ import org.springframework.stereotype.Component;
  * Converter for SIF OperationalStatus to SLI operationStatus
  *
  * SLI values:
- *	Active
- *	Added
- *	Changed Agency
- *	Closed
- *	Continuing
- *	Future
- *	Inactive
- *	New
- *	Reopened
+ * Active
+ * Added
+ * Changed Agency
+ * Closed
+ * Continuing
+ * Future
+ * Inactive
+ * New
+ * Reopened
  */
 @Component
 public class OperationalStatusConverter {
@@ -58,12 +58,12 @@ public class OperationalStatusConverter {
 
     /**
      * Converts the SIF OperationalStatus into an SLI operationalStatus
+     *
      * @param operationalStatus
      * @return
      */
-    public String convert(OperationalStatus operationalStatus){
-        if (operationalStatus == null || operationalStatus.getValue() == null ||
-                operationalStatus.getValue().isEmpty()) {
+    public String convert(OperationalStatus operationalStatus) {
+        if (operationalStatus == null || operationalStatus.getValue() == null || operationalStatus.getValue().isEmpty()) {
             return null;
         }
 

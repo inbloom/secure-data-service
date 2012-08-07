@@ -25,6 +25,9 @@ import org.junit.Test;
 
 import org.slc.sli.sif.ADKTest;
 
+/**
+ * SchoolLevelTypeConverter unit tests
+ */
 public class SchoolLevelTypeConverterTest extends ADKTest {
 
     private final SchoolLevelTypeConverter converter = new SchoolLevelTypeConverter();
@@ -45,7 +48,7 @@ public class SchoolLevelTypeConverterTest extends ADKTest {
     public void testEmpty() {
         SchoolLevelType type = SchoolLevelType.wrap("");
         String result = converter.convert(type);
-        Assert.assertNull( result);
+        Assert.assertNull(result);
     }
 
     @Test
@@ -56,7 +59,7 @@ public class SchoolLevelTypeConverterTest extends ADKTest {
     }
 
     @Test
-    public void testMapped(){
+    public void testMapped() {
         testAll(SchoolLevelType._0031_0013_ADULT, "Adult School");
         testAll(SchoolLevelType._0031_0789_PRE_KINDERGARTEN, "Preschool/early childhood");
         testAll(SchoolLevelType._0031_1302_ALL_LEVELS, "All Levels");
@@ -76,7 +79,7 @@ public class SchoolLevelTypeConverterTest extends ADKTest {
     }
 
     @Test
-    public void testUnmapped(){
+    public void testUnmapped() {
         testUnmapped(SchoolLevelType.INSTITUTION);
         testUnmapped(SchoolLevelType.ZZ);
         testUnmapped(SchoolLevelType.wrap("something else"));
@@ -93,12 +96,12 @@ public class SchoolLevelTypeConverterTest extends ADKTest {
         Assert.assertEquals(0, result.size());
     }
 
-    private void testCategory(SchoolLevelType type, String expected){
+    private void testCategory(SchoolLevelType type, String expected) {
         String result = converter.convert(type);
         Assert.assertEquals(expected, result);
     }
 
-    private void testCategoryList(SchoolLevelType type, String expected){
+    private void testCategoryList(SchoolLevelType type, String expected) {
         List<String> result = converter.convertAsList(type);
         Assert.assertEquals(1, result.size());
         Assert.assertEquals(expected, result.get(0));

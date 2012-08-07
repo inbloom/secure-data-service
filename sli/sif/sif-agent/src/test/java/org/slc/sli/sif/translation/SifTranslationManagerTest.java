@@ -31,6 +31,11 @@ import org.mockito.Mockito;
 
 import org.slc.sli.sif.domain.slientity.SliEntity;
 
+/**
+ *
+ * SifTranslationManager unit tests
+ *
+ */
 @SuppressWarnings("rawtypes")
 public class SifTranslationManagerTest {
     SifTranslationManager sifTranslationManager;
@@ -49,8 +54,8 @@ public class SifTranslationManagerTest {
     ElementDef typeA;
     ElementDef typeB;
 
-    final private String typeAString = "entityA";
-    final private String typeBString = "entityB";
+    private final String typeAString = "entityA";
+    private final String typeBString = "entityB";
 
     @Before
     public void setup() throws SifTranslationException {
@@ -80,8 +85,7 @@ public class SifTranslationManagerTest {
         List<TranslationTask> listB = new ArrayList<TranslationTask>();
         listB.add(mockTranslationBtoZ);
 
-        Map<String, List<TranslationTask>> translationMap =
-                new HashMap<String, List<TranslationTask>>();
+        Map<String, List<TranslationTask>> translationMap = new HashMap<String, List<TranslationTask>>();
         translationMap.put(typeAString, listA);
         translationMap.put(typeBString, listB);
 
@@ -96,7 +100,7 @@ public class SifTranslationManagerTest {
         List<SliEntity> sliZList = new ArrayList<SliEntity>();
         sliZList.add(sliZ);
 
-        //mock translator results
+        // mock translator results
         Mockito.when(mockTranslationAtoX.translate(Mockito.eq(sifA))).thenReturn(sliXList);
         Mockito.when(mockTranslationAtoY.translate(Mockito.eq(sifA))).thenReturn(sliYList);
         Mockito.when(mockTranslationBtoZ.translate(Mockito.eq(sifB))).thenReturn(sliZList);
@@ -121,7 +125,8 @@ public class SifTranslationManagerTest {
 
     @Test
     public void shouldHandleSifTranslationExceptions() throws SifTranslationException {
-        Mockito.when(mockTranslationBtoZ.translate(Mockito.eq(sifB))).thenThrow(new SifTranslationException("test throw"));
+        Mockito.when(mockTranslationBtoZ.translate(Mockito.eq(sifB))).thenThrow(
+                new SifTranslationException("test throw"));
         sifTranslationManager.translate(sifA);
     }
 }

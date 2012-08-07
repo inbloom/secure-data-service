@@ -25,65 +25,72 @@ import org.junit.Test;
 
 import org.slc.sli.sif.ADKTest;
 
+/**
+ * SchoolFocusConverter unit tests
+ */
 public class SchoolFocusConverterTest extends ADKTest {
 
     private final SchoolFocusConverter converter = new SchoolFocusConverter();
 
     @Test
-    public void testNullList(){
+    public void testNullList() {
         String result = converter.convert(null);
         Assert.assertNull("school type should be null", result);
     }
 
     @Test
-    public void testEmptyList(){
+    public void testEmptyList() {
         SchoolFocusList list = new SchoolFocusList();
         String result = converter.convert(list);
         Assert.assertNull("school type should be null", result);
     }
 
     @Test
-    public void testEmptySchoolFocus(){
+    public void testEmptySchoolFocus() {
         SchoolFocusList list = new SchoolFocusList(new SchoolFocus());
         String result = converter.convert(list);
         Assert.assertEquals("Not Supported", result);
     }
 
     @Test
-    public void testAlternative(){
-        testType(SchoolFocusType.ALTERNATIVE,"Alternative");
-    }
-    @Test
-    public void testCharter(){
-        testType(SchoolFocusType.CHARTER,"JJAEP");
-    }
-    @Test
-    public void testMagnet(){
-        testType(SchoolFocusType.MAGNET,"DAEP");
-    }
-    @Test
-    public void testRegular(){
-        testType(SchoolFocusType.REGULAR,"Regular");
-    }
-    @Test
-    public void testSpecialEd(){
-        testType(SchoolFocusType.SPECIALED,"Special Education");
-    }
-    @Test
-    public void testVocational(){
-        testType(SchoolFocusType.VOCATIONAL,"Vocational");
-    }
-    @Test
-    public void testNotSupported(){
-        testType(SchoolFocusType.wrap("not supported"),"Not Supported");
+    public void testAlternative() {
+        testType(SchoolFocusType.ALTERNATIVE, "Alternative");
     }
 
+    @Test
+    public void testCharter() {
+        testType(SchoolFocusType.CHARTER, "JJAEP");
+    }
 
-    private void testType(SchoolFocusType type, String expected){
+    @Test
+    public void testMagnet() {
+        testType(SchoolFocusType.MAGNET, "DAEP");
+    }
+
+    @Test
+    public void testRegular() {
+        testType(SchoolFocusType.REGULAR, "Regular");
+    }
+
+    @Test
+    public void testSpecialEd() {
+        testType(SchoolFocusType.SPECIALED, "Special Education");
+    }
+
+    @Test
+    public void testVocational() {
+        testType(SchoolFocusType.VOCATIONAL, "Vocational");
+    }
+
+    @Test
+    public void testNotSupported() {
+        testType(SchoolFocusType.wrap("not supported"), "Not Supported");
+    }
+
+    private void testType(SchoolFocusType type, String expected) {
         SchoolFocusList list = new SchoolFocusList(new SchoolFocus(type));
         String result = converter.convert(list);
         Assert.assertEquals(expected, result);
     }
-
 
 }

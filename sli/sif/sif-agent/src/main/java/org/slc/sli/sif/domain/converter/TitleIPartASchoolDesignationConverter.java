@@ -21,19 +21,19 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.sif.domain.slientity.TitleIPartASchoolDesignation;
 
-
+/**
+ * Coverter for TitleIPartASchoolDesignation
+ */
 @Component
 public class TitleIPartASchoolDesignationConverter {
 
-    public TitleIPartASchoolDesignation convert(Title1Status status){
+    public TitleIPartASchoolDesignation convert(Title1Status status) {
 
-        if( Title1Status.NA.valueEquals(status.getValue())){
+        if (Title1Status.NA.valueEquals(status.getValue())) {
             return TitleIPartASchoolDesignation.NOT_DESIGNATED;
-        }
-        else if( Title1Status.SCHOOLWIDE.valueEquals(status.getValue())){
+        } else if (Title1Status.SCHOOLWIDE.valueEquals(status.getValue())) {
             return TitleIPartASchoolDesignation.PART_A_SCHOOLWIDE;
-        }
-        else if( Title1Status.TARGETED.valueEquals(status.getValue())){
+        } else if (Title1Status.TARGETED.valueEquals(status.getValue())) {
             return TitleIPartASchoolDesignation.PART_A_TARGETED;
         }
 

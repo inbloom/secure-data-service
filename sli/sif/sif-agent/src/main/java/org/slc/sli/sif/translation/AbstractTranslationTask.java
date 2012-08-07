@@ -30,33 +30,34 @@ import org.slc.sli.sif.domain.slientity.SliEntity;
  *
  * @author slee
  *
+ * @param <T>, the SIF type being translated
+ * @param <E>, the SLI return type
  */
-
-public abstract class AbstractTranslationTask<T extends SIFDataObject, E extends SliEntity> implements TranslationTask<E>
-{
+public abstract class AbstractTranslationTask<T extends SIFDataObject, E extends SliEntity> implements
+        TranslationTask<E> {
     private Class<T> sifPrototype;
 
     /**
      * Defines two types, which will take part conversion.
      *
-     * @param prototypeA type source
-     * @param prototypeB type destination
+     * @param prototypeA
+     *            type source
+     * @param prototypeB
+     *            type destination
      */
     public AbstractTranslationTask(Class<T> sifPrototype) {
         this.sifPrototype = sifPrototype;
     }
 
-
     @Override
-    public List<E> translate(SIFDataObject sifData) throws SifTranslationException
-    {
+    public List<E> translate(SIFDataObject sifData) throws SifTranslationException {
         Class<?> wrappedSifClass = ClassUtils.primitiveToWrapper(sifData.getClass());
 
         if (!sifPrototype.equals(wrappedSifClass)) {
             throw new SifTranslationException("Unsupported SIF data type");
         }
-        return doTranslate((T)sifData);
+        return doTranslate((T) sifData);
     }
 
-    abstract public List<E> doTranslate(T sifData);
+    public abstract List<E> doTranslate(T sifData);
 }

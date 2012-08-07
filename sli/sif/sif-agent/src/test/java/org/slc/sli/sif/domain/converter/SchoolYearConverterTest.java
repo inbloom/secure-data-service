@@ -22,18 +22,21 @@ import org.junit.Test;
 
 import org.slc.sli.sif.ADKTest;
 
+/**
+ * SchoolYearConverter unit tests
+ */
 public class SchoolYearConverterTest extends ADKTest {
 
     private final SchoolYearConverter converter = new SchoolYearConverter();
 
     @Test
-    public void testNullList(){
+    public void testNullList() {
         String result = converter.convert(null);
         Assert.assertNull("school year should be null", result);
     }
 
     @Test
-    public void test(){
+    public void test() {
         Assert.assertEquals(converter.convert(2011), "2011-2012");
         Assert.assertEquals(converter.convert(2013), "2013-2014");
     }
