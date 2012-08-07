@@ -28,6 +28,7 @@ import org.slc.sli.api.selectors.model.ModelProvider;
 import org.slc.sli.api.selectors.model.SelectorSemanticModel;
 import org.slc.sli.api.selectors.model.SemanticSelector;
 import org.slc.sli.api.service.query.ApiQuery;
+import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Type;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +74,10 @@ public class DefaultLogicalEntity implements LogicalEntity {
         final SemanticSelector semanticSelector = selectorSemanticModel.parse(apiQuery.getSelector(), entityType);
         final SelectorQuery selectorQuery = selectorQueryEngine.assembleQueryPlan(semanticSelector);
 
-        return selectorDocument.aggregate(selectorQuery, constraint);
+        constraint.getCriteria().addAll(apiQuery.getCriteria());
+
+        return selectorDocument.aggregate(selectorQuery, apiQuery);
     }
+
 }
 

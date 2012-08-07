@@ -26,6 +26,7 @@ import org.slc.sli.api.selectors.model.ModelProvider;
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -111,9 +112,8 @@ public class DefaultSelectorDocumentTest {
         ids.add(student1.getEntityId());
         ids.add(student2.getEntityId());
 
-        Constraint constraint = new Constraint();
-        constraint.setKey("_id");
-        constraint.setValue(ids);
+        NeutralQuery constraint = new NeutralQuery();
+        constraint.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
 
         List<EntityBody> results = defaultSelectorDocument.aggregate(createQueryPlan("Student",
                 getSelectorQueryPlan()), constraint);
@@ -153,9 +153,8 @@ public class DefaultSelectorDocumentTest {
         ids.add(section1.getEntityId());
         ids.add(section2.getEntityId());
 
-        Constraint constraint = new Constraint();
-        constraint.setKey("_id");
-        constraint.setValue(ids);
+        NeutralQuery constraint = new NeutralQuery();
+        constraint.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
 
         List<EntityBody> results = defaultSelectorDocument.aggregate(createQueryPlan("Section",
                 getDirectRefQueryPlan()), constraint);
@@ -180,9 +179,8 @@ public class DefaultSelectorDocumentTest {
         ids.add(student1.getEntityId());
         ids.add(student2.getEntityId());
 
-        Constraint constraint = new Constraint();
-        constraint.setKey("_id");
-        constraint.setValue(ids);
+        NeutralQuery constraint = new NeutralQuery();
+        constraint.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
 
         List<EntityBody> results = defaultSelectorDocument.aggregate(createQueryPlan("Student",
                 getAssociationSkipPlan()), constraint);
@@ -266,9 +264,8 @@ public class DefaultSelectorDocumentTest {
         List<String> ids = new ArrayList<String>();
         ids.add(student1.getEntityId());
 
-        Constraint constraint = new Constraint();
-        constraint.setKey("_id");
-        constraint.setValue(ids);
+        NeutralQuery constraint = new NeutralQuery();
+        constraint.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
 
         List<EntityBody> results = defaultSelectorDocument.aggregate(createQueryPlan("Student",
                 getIncludeXSDPlan()), constraint);
@@ -286,9 +283,8 @@ public class DefaultSelectorDocumentTest {
         List<String> ids = new ArrayList<String>();
         ids.add(student1.getEntityId());
 
-        Constraint constraint = new Constraint();
-        constraint.setKey("_id");
-        constraint.setValue(ids);
+        NeutralQuery constraint = new NeutralQuery();
+        constraint.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, ids));
 
         List<EntityBody> results = defaultSelectorDocument.aggregate(createQueryPlan("Student",
                 getEmptyPlan()), constraint);
