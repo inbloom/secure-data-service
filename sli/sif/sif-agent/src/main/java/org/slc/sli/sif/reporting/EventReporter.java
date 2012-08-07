@@ -83,8 +83,7 @@ public class EventReporter implements Publisher {
                     reporter.reportSchoolLeaInfoEvents();
                 }
             } else if (args.length == 2) {
-                SifAgent agent = createReporterAgent("test.publisher.agent",
-                                                     "http://10.163.6.73:50002/TestZone");
+                SifAgent agent = createReporterAgent("test.publisher.agent", "http://10.163.6.73:50002/TestZone");
                 agent.startAgent();
                 String zoneId = args[EventReporter.ZONE_ID];
                 String messageFile = args[EventReporter.MESSAGE_FILE];
@@ -94,8 +93,7 @@ public class EventReporter implements Publisher {
                 reporter.setEventGenerator(new CustomEventGenerator());
                 reporter.reportEvent(messageFile);
             } else {
-                SifAgent agent = createReporterAgent("test.publisher.agent",
-                                                     "http://10.163.6.73:50002/TestZone");
+                SifAgent agent = createReporterAgent("test.publisher.agent", "http://10.163.6.73:50002/TestZone");
                 agent.startAgent();
                 Zone zone = agent.getZoneFactory().getZone("TestZone");
                 EventReporter reporter = new EventReporter(zone);
@@ -118,11 +116,9 @@ public class EventReporter implements Publisher {
 
         Properties httpsProperties = new Properties();
 
-        return new SifAgent(agentId, new PublishZoneConfigurator(),
-                agentProperties, httpProperties, httpsProperties, "TestZone",
-                zoneUrl, SIFVersion.SIF23);
+        return new SifAgent(agentId, new PublishZoneConfigurator(), agentProperties, httpProperties, httpsProperties,
+                "TestZone", zoneUrl, SIFVersion.SIF23);
     }
-
 
     public static final int ZONE_ID = 0;
     public static final int MESSAGE_FILE = 1;
@@ -134,7 +130,7 @@ public class EventReporter implements Publisher {
 
     public EventReporter(Zone zone) throws Exception {
         this.zone = zone;
-        //this.zone.setPublisher(this);
+        // this.zone.setPublisher(this);
         this.zone.setPublisher(this, StudentDTD.SCHOOLINFO, new PublishingOptions(true));
         this.zone.setPublisher(this, StudentDTD.LEAINFO, new PublishingOptions(true));
         this.zone.setPublisher(this, StudentDTD.STUDENTPERSONAL, new PublishingOptions(true));
@@ -159,8 +155,10 @@ public class EventReporter implements Publisher {
     public void reportSchoolLeaInfoEvents() throws ADKException {
         SchoolInfo schoolInfo = org.slc.sli.sif.generator.SifEntityGenerator.generateTestSchoolInfo();
         LEAInfo leaInfo = org.slc.sli.sif.generator.SifEntityGenerator.generateTestLEAInfo();
-        StudentSchoolEnrollment studentSchoolEnrollment = org.slc.sli.sif.generator.SifEntityGenerator.generateTestStudentSchoolEnrollment();
-        StudentLEARelationship studentLEARelationship = org.slc.sli.sif.generator.SifEntityGenerator.generateTestStudentLEARelationship();
+        StudentSchoolEnrollment studentSchoolEnrollment = org.slc.sli.sif.generator.SifEntityGenerator
+                .generateTestStudentSchoolEnrollment();
+        StudentLEARelationship studentLEARelationship = org.slc.sli.sif.generator.SifEntityGenerator
+                .generateTestStudentLEARelationship();
 
         if (zone.isConnected()) {
             try {
@@ -203,12 +201,9 @@ public class EventReporter implements Publisher {
     }
 
     @Override
-    public void onRequest(DataObjectOutputStream out, Query query, Zone zone,
-            MessageInfo info) throws ADKException {
-        LOG.info("Received request to publish data:\n"
-                + "\tQuery:\n" + query.toXML() + "\n"
-                + "\tZone: " + zone.getZoneId() + "\n"
-                + "\tInfo: " + info.getMessage());
+    public void onRequest(DataObjectOutputStream out, Query query, Zone zone, MessageInfo info) throws ADKException {
+        LOG.info("Received request to publish data:\n" + "\tQuery:\n" + query.toXML() + "\n" + "\tZone: "
+                + zone.getZoneId() + "\n" + "\tInfo: " + info.getMessage());
     }
 
     @SuppressWarnings("unused")

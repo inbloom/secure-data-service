@@ -15,6 +15,9 @@
  */
 package org.slc.sli.sif.domain.slientity;
 
+/**
+ * TitleIPartASchoolDesignation enumeration
+ */
 public enum TitleIPartASchoolDesignation {
 
     NOT_DESIGNATED("Not designated as a Title I Part A school"), PART_A_SCHOOLWIDE(

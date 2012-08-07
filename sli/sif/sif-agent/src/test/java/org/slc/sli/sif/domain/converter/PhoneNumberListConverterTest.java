@@ -30,6 +30,9 @@ import org.junit.Test;
 import org.slc.sli.sif.ADKTest;
 import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
 
+/**
+ * PhoneNumberListConverter unit tests
+ */
 public class PhoneNumberListConverterTest extends ADKTest {
 
     private final PhoneNumberListConverter converter = new PhoneNumberListConverter();
@@ -37,13 +40,13 @@ public class PhoneNumberListConverterTest extends ADKTest {
     private Map<PhoneNumberType, String> map = new HashMap<PhoneNumberType, String>();
 
     @Test
-    public void testNullObject(){
+    public void testNullObject() {
         List<InstitutionTelephone> result = converter.convert(null);
         Assert.assertNull("Telephone list should be null", result);
     }
 
     @Test
-    public void testEmptyList(){
+    public void testEmptyList() {
         PhoneNumberList list = new PhoneNumberList();
         list.setPhoneNumbers(new PhoneNumber[0]);
         List<InstitutionTelephone> result = converter.convert(list);
@@ -51,7 +54,7 @@ public class PhoneNumberListConverterTest extends ADKTest {
     }
 
     @Test
-    public void testEmptyPhoneNumber(){
+    public void testEmptyPhoneNumber() {
         PhoneNumberList list = new PhoneNumberList();
         PhoneNumber original = new PhoneNumber();
         list.add(original);
@@ -65,7 +68,7 @@ public class PhoneNumberListConverterTest extends ADKTest {
     }
 
     @Test
-    public void testMappings(){
+    public void testMappings() {
         map.clear();
         map.put(PhoneNumberType.ALT, "Other");
         map.put(PhoneNumberType.ANSWERING_SERVICE, "Other");
@@ -128,14 +131,14 @@ public class PhoneNumberListConverterTest extends ADKTest {
         return phoneNumber;
     }
 
-    private void testMapping(PhoneNumber original, InstitutionTelephone it){
+    private void testMapping(PhoneNumber original, InstitutionTelephone it) {
         Assert.assertEquals(it.getTelephoneNumber(), original.getNumber());
 
-         String expectedType = "Other";
-         PhoneNumberType originalType = PhoneNumberType.wrap(original.getType());
-         if (map.containsKey(originalType)) {
-             expectedType = map.get(originalType);
-         }
-         Assert.assertEquals(expectedType, it.getInstitutionTelephoneNumberType());
+        String expectedType = "Other";
+        PhoneNumberType originalType = PhoneNumberType.wrap(original.getType());
+        if (map.containsKey(originalType)) {
+            expectedType = map.get(originalType);
+        }
+        Assert.assertEquals(expectedType, it.getInstitutionTelephoneNumberType());
     }
 }

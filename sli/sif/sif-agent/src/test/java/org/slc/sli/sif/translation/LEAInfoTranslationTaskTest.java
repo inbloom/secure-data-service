@@ -41,8 +41,12 @@ import org.slc.sli.sif.domain.slientity.Address;
 import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
 import org.slc.sli.sif.domain.slientity.LEAEntity;
 
-public class LEAInfoTranslationTaskTest
-{
+/**
+ *
+ * LEAInfoTranslationTask unit tests
+ *
+ */
+public class LEAInfoTranslationTaskTest {
     @InjectMocks
     private final LEAInfoTranslationTask translator = new LEAInfoTranslationTask();
 

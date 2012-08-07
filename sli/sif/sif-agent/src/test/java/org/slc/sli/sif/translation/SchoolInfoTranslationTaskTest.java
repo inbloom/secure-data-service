@@ -50,6 +50,11 @@ import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
 import org.slc.sli.sif.domain.slientity.SchoolEntity;
 import org.slc.sli.sif.domain.slientity.TitleIPartASchoolDesignation;
 
+/**
+ *
+ * SchoolInfoTranslationTask unit tests
+ *
+ */
 public class SchoolInfoTranslationTaskTest {
 
     @InjectMocks
@@ -128,8 +133,7 @@ public class SchoolInfoTranslationTaskTest {
 
         List<Address> address = new ArrayList<Address>();
 
-        Mockito.when(mockAddressConverter.convert(Mockito.eq(addressList))).thenReturn(
-                address);
+        Mockito.when(mockAddressConverter.convert(Mockito.eq(addressList))).thenReturn(address);
 
         List<SchoolEntity> result = translator.translate(info);
         Assert.assertEquals(1, result.size());
@@ -229,7 +233,8 @@ public class SchoolInfoTranslationTaskTest {
     public void testOperationalStatus() throws SifTranslationException {
         SchoolInfo info = new SchoolInfo();
         info.setOperationalStatus(OperationalStatus.AGENCY_CLOSED);
-        Mockito.when(mockOperationalStatusConverter.convert(OperationalStatus.wrap(info.getOperationalStatus()))).thenReturn("Closed");
+        Mockito.when(mockOperationalStatusConverter.convert(OperationalStatus.wrap(info.getOperationalStatus())))
+                .thenReturn("Closed");
         List<SchoolEntity> result = translator.translate(info);
         Assert.assertEquals(1, result.size());
         SchoolEntity entity = result.get(0);
