@@ -56,6 +56,14 @@ public class EntryTypeConverterTest extends ADKTest {
         Assert.assertEquals(converter.convert(getEntryType(EntryTypeCode._0619_1839)), "Original entry into a United States school from a foreign country with no interruption in schooling");
         Assert.assertEquals(converter.convert(getEntryType(EntryTypeCode._0619_1840)), "Original entry into a United States school from a foreign country with an interruption in schooling");
         Assert.assertEquals(converter.convert(getEntryType(EntryTypeCode._0619_9999)), "Other");
+        Assert.assertEquals(converter.convert(getEntryType(EntryTypeCode.ENTRY_D03)), "Other");
+        Assert.assertEquals(converter.convert(getEntryType(EntryTypeCode.ENTRY_D04)), "Re-entry from the same school with no interruption of schooling");
+        Assert.assertEquals(converter.convert(getEntryType(EntryTypeCode.ENTRY_D05)), "Transfer from a public school in the same local education agency");
+        Assert.assertEquals(converter.convert(getEntryType(EntryTypeCode.ENTRY_D06)), "Other");
+        Assert.assertEquals(converter.convert(getEntryType(EntryTypeCode.ENTRY_D07)), "Other");
+        Assert.assertEquals(converter.convert(getEntryType(EntryTypeCode.ENTRY_D08)), "Other");
+        Assert.assertEquals(converter.convert(getEntryType(EntryTypeCode.ENTRY_D22)), "Original entry into a United States school");
+        Assert.assertEquals(converter.convert(getEntryType(EntryTypeCode.ENTRY_D23)), "Other");
     }
 
     private EntryType getEntryType(EntryTypeCode code) {
