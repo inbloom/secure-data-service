@@ -416,7 +416,7 @@ end
 
 
 desc "Run all sandbox tests"
-task :sandboxTests => [:simpleIdpSandboxTests, :apiSandboxTests, :adminSandboxTests] do
+task :sandboxTests => [:realmInit, :simpleIdpSandboxTests, :apiSandboxTests, :adminSandboxTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -494,6 +494,7 @@ end
 desc "Run Admin-Tools Selenium Tests"
 task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests,:onboardingIntegrationTests,:provisionIntegrationTests,:tenantMetricsTests, :resetAndChangePasswordTests,:sandboxUserAdminTests, :adminWebTests] do
   Rake::Task["importSandboxData"].execute
+  Rake::Task["realmInit"].execute
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -543,7 +544,6 @@ task :dashboardTests => [:dashboardPopWidgetTests,
                          :dashboardStudentContactInfoLiveTests,
                          :dashboardStudentGradebookEntryTests,
                          :dashboardHTMLEscapeTests,
-                         :dashboardTeacherProfileTests,
                          :dashboardQunitTests] do
   displayFailureReport()
   if $SUCCESS
@@ -574,7 +574,8 @@ task :dashboardSdsTests => [:dashboardSdsUploadConfigTests,
                          :dashboardStudentSearchTests,
                          :dashboardSdsTranscriptPanelTests,
                          :dashboardAssessmentTests,
-                         :dashboardSectionProfileTests,
+                         :dashboardSdsSectionProfileTests,
+                         :dashboardSdsTeacherProfileTests,
                          :dashboardSdsDashboardBuilderTests] do
   displayFailureReport()
   if $SUCCESS

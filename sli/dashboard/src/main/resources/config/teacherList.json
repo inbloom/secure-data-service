@@ -1,0 +1,13 @@
+{
+	id: "teacherList",
+	name: "",
+	type: "GRID",
+	data :{
+		entity: "teacherList",
+		cacheKey: "teacherList"
+	},
+	root: 'teachers',
+	items: [
+		{id: "Teacher", name: "Teacher", type: "FIELD", datatype: "string", field: "name.fullName", width: 200, formatter:restLink, params: {link:'teacher', target:"_self"}}
+	]
+}

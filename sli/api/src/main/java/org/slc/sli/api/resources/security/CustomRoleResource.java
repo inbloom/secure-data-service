@@ -41,6 +41,7 @@ import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.Resource;
 import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
@@ -72,8 +73,6 @@ public class CustomRoleResource {
     @Value("${sli.sandbox.enabled}")
     protected boolean isSandboxEnabled;
 
-    @Value("${bootstrap.sandbox.realm.uniqueId}")
-    private String sandboxUniqueId;
     
     @Autowired
     private SecurityEventBuilder securityEventBuilder;
@@ -82,6 +81,9 @@ public class CustomRoleResource {
     private RoleInitializer roleInitializer;
     
     private EntityService service;
+    
+    @Autowired
+    private RealmHelper realmHelper;
     
     @Autowired
     @Qualifier("validationRepo")
@@ -120,7 +122,7 @@ public class CustomRoleResource {
         
         List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
         NeutralQuery customRoleQuery = new NeutralQuery();
-        customRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.OPERATOR_EQUAL, getRealmId()));
+        customRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.OPERATOR_EQUAL, realmHelper.getAssociatedRealmId()));
         
         Entity customRole = repo.findOne("customRole", customRoleQuery);
         if (customRole != null) {
@@ -139,7 +141,7 @@ public class CustomRoleResource {
             return SecurityUtil.forbiddenResponse();
         }
         EntityBody customRole = service.get(id);
-        if (!customRole.get("realmId").equals(getRealmId())) {
+        if (!customRole.get("realmId").equals(realmHelper.getAssociatedRealmId())) {
             audit(securityEventBuilder.createSecurityEvent(CustomRoleResource.class.getName(), uriInfo,
                     "Failed to read custom role with id: " + id + "  --> wrong tenant + realm combination."));
             return Response.status(Status.FORBIDDEN).entity(ERROR_FORBIDDEN).build();
@@ -305,24 +307,12 @@ public class CustomRoleResource {
     }
     
     private Response validateValidRealm(EntityBody customRoleDoc) {
-        String realmId = getRealmId();
+        String realmId = realmHelper.getAssociatedRealmId();
         if (!realmId.equals(customRoleDoc.get("realmId"))) {
             return Response.status(Status.FORBIDDEN).entity(ERROR_INVALID_REALM).build();
         }
         return null;
     }
     
-    private String getRealmId() {
-        NeutralQuery realmQuery = new NeutralQuery();
-        if (isSandboxEnabled) {
-            realmQuery.addCriteria(new NeutralCriteria("uniqueIdentifier", NeutralCriteria.OPERATOR_EQUAL, sandboxUniqueId));
-        } else {
-            realmQuery.addCriteria(new NeutralCriteria("edOrg", NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getEdOrg()));
-        }
-        Entity realm = repo.findOne("realm", realmQuery);
-        if (realm != null) {
-            return realm.getEntityId();
-        }
-        return null;
-    }
+
 }

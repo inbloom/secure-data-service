@@ -1,0 +1,26 @@
+<% if APP_CONFIG["is_sandbox"] %>
+Hello <%= @firstName  %>,
+
+An administrator has initiated an account with roles of <%=@groups.join(", ")%> for you for the Shared Learning Collaborative.
+
+Please follow the link below to verify your email address and create your password:
+<%=@reset_password_link%>
+
+After you create your password, you'll receive a welcome email with further information.
+
+Thank you,
+The Shared Learning Collaborative
+
+<% else %>
+Hello <%= @firstName  %>,
+
+An administrator has initiated an account with roles of <%=@groups.join(", ")%> for you for the Shared Learning Collaborative Sandbox. 
+
+Please follow the link below to verify your email address and create your password:
+<%=@reset_password_link%>
+
+After you create your password, you'll receive a welcome email with further information.
+
+Thank you,
+The Shared Learning Collaborative
+<% end %>
