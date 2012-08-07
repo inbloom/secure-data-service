@@ -16,6 +16,7 @@
 @RALLY_DE621
 @RALLY_US3122
 @RALLY_US3202
+@RALLY_US3200
 Feature: Acceptance Storied Data Ingestion Test
 
 Background: I have a landing zone route configured
@@ -156,6 +157,8 @@ Then I should see following map of entry counts in the corresponding collections
        | studentAssessmentAssociation | 24                 | body.studentAssessmentItems.assessmentItemResult              | Correct             | string |
        | studentAssessmentAssociation | 10                 | body.studentAssessmentItems.assessmentResponse                | False               | string |
        | studentAssessmentAssociation | 10                 | body.studentAssessmentItems.assessmentItemResult              | Incorrect           | string |
+       | studentParentAssociation     | 3                  | body.contactPriority                                          | 1                   | integer|
+       | studentParentAssociation     | 2                  | body.contactRestrictions                                      | NO CONTACT ALLOWED  | string |
     And I should see "Processed 4148 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file

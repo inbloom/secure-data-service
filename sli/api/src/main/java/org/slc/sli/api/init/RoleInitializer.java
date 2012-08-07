@@ -68,21 +68,18 @@ public class RoleInitializer {
         buildRoles(realmId);
     }
     
-    private void dropRoles(String realmId) {
-        if (realmId != null) {
-            NeutralQuery query = new NeutralQuery(0);
-            query.addCriteria(new NeutralCriteria("realmId", "=", realmId));
-            
-            Entity entity = repository.findOne(ROLES, query);
-            if (entity != null) {
-                repository.delete(ROLES, entity.getEntityId());
-                info("Successfully dropped roles from realm: {}", new Object[] { realmId });
-            } else {
-                info("No roles exist to drop for realm: {}", new Object[] { realmId });
-            }
+    public void dropRoles(String realmId) {
+        NeutralQuery query = new NeutralQuery(0);
+        query.addCriteria(new NeutralCriteria("realmId", "=", realmId));
+        
+        Entity entity = repository.findOne(ROLES, query);
+        if (entity != null) {
+            repository.delete(ROLES, entity.getEntityId());
+            info("Successfully dropped roles from realm: {}", new Object[] { realmId });
         } else {
-            warn("Null realm id --> not dropping roles.");
+            info("No roles exist to drop for realm: {}", new Object[] { realmId });
         }
+
     }
     
     public int buildRoles(String realmId) {

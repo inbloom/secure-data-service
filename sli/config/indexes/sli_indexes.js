@@ -249,6 +249,7 @@ db["learningStandard"].ensureIndex({"metaData.tenantId":1,"_id":1,"metaData.edOr
 db["learningStandard"].ensureIndex({"metaData.tenantId":1,"_id":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["learningStandard"].ensureIndex({"metaData.tenantId":1,"_id":1,"metaData.teacherContext":1});
 db["parent"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
+db["parent"].ensureIndex({"metaData.tenantId":1,"body.parentUniqueStateId":1});
 db["parent"].ensureIndex({"metaData.tenantId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["parent"].ensureIndex({"metaData.tenantId":1,"metaData.teacherContext":1});
 db["parent"].ensureIndex({"metaData.tenantId":1,"_id":1,"metaData.edOrgs":1});
