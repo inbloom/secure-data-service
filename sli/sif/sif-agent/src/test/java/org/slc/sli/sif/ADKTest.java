@@ -15,6 +15,8 @@
  */
 package org.slc.sli.sif;
 
+import java.io.File;
+
 import openadk.library.ADK;
 import openadk.library.ADKException;
 
@@ -24,9 +26,15 @@ import org.junit.Before;
  * ADK test.
  */
 public abstract class ADKTest {
+
+    public static final String ADK_LOG_DIR = "target" + File.separator + "logs";
+    public static final String ADK_LOG_FILE = "sif-openadk.log";
+    public static final String ADK_LOG_PATH = ADK_LOG_DIR + File.separator + ADK_LOG_FILE;
+
     @Before
     public void setup() {
         try {
+            System.setProperty("adk.log.file", ADK_LOG_PATH);
             ADK.initialize();
         } catch (ADKException e) {
             e.printStackTrace();

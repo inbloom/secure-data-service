@@ -27,6 +27,28 @@ import org.springframework.stereotype.Component;
 /**
  * A customized converter to convert SIF EntryType to SLI EntryType enumeration.
  *
+ * SLI values:
+ *     Transfer from a public school in the same local education agency
+ *     Transfer from a public school in a different local education agency in the same state
+ *     Transfer from a public school in a different state
+ *     Transfer from a private, non-religiously-affiliated school in the same local education agency
+ *     Transfer from a private, non-religiously-affiliated school in a different local education agency in the same state
+ *     Transfer from a private, non-religiously-affiliated school in a different state
+ *     Transfer from a private, religiously-affiliated school in the same local education agency
+ *     Transfer from a private, religiously-affiliated school in a different local education agency in the same state
+ *     Transfer from a private, religiously-affiliated school in a different state
+ *     Transfer from a school outside of the country
+ *     Transfer from an institution
+ *     Transfer from a charter school
+ *     Transfer from home schooling
+ *     Re-entry from the same school with no interruption of schooling
+ *     Re-entry after a voluntary withdrawal
+ *     Re-entry after an involuntary withdrawal
+ *     Original entry into a United States school
+ *     Original entry into a United States school from a foreign country with no interruption in schooling
+ *     Original entry into a United States school from a foreign country with an interruption in schooling
+ *     Next year school
+ *     Other
  */
 @Component
 public class EntryTypeConverter {
