@@ -201,15 +201,15 @@ class UsersController < ApplicationController
     logger.info{"the updated user validation errors is #{@user.errors.to_json}"}
     if @user.valid? == false || validate_email==false || validate_tenant_edorg==false
       validate_tenant_edorg
-     resend = true 
-     else
-     begin
-      @user.save
-     rescue ActiveResource::BadRequest
-     resend =true
-     @user.errors[:tenant] << "tenant and edorg mismatch"
-     @user.errors[:edorg] << "Please check EdOrg selection"
-     end
+      resend = true
+    else
+      begin
+        @user.save
+      rescue ActiveResource::BadRequest
+        resend =true
+        @user.errors[:tenant] << "tenant and edorg mismatch"
+        @user.errors[:edorg] << "Please check EdOrg selection"
+      end
     end
 
      respond_to do |format|
@@ -221,7 +221,6 @@ class UsersController < ApplicationController
          @is_operator = is_operator?
          @is_lea = is_lea_admin?
          format.html { render "edit"}
-         @user.errors[:edorg] << "Please check EdOrg selection"
        else
          flash[:notice]='Success! You have updated the user'
         format.html { redirect_to "/users" }
