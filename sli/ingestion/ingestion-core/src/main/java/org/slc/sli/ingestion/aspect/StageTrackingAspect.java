@@ -62,6 +62,12 @@ public class StageTrackingAspect {
         return proceedAndTrackCall(pjp);
     }
 
+    @Around("call(* org.slc.sli.ingestion.xml.idref.IdRefResolutionHandler.process(..)) && !within(org..*Test)")
+    public Object trackIdRefResolutionHandler(ProceedingJoinPoint pjp) throws Throwable {
+
+        return proceedAndTrackCall(pjp);
+    }
+
     private Object proceedAndTrackCall(ProceedingJoinPoint pjp) throws Throwable {
 
         long start = System.currentTimeMillis();
