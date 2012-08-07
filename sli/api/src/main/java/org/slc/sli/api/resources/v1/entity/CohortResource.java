@@ -71,43 +71,7 @@ public class CohortResource extends DefaultCrudResource {
         super(entityDefs, ResourceNames.COHORTS);
     }
 
-
-
-    /**
-     * Returns the specified resource representation(s).
-     */
-    @Override
-    @GET
-    @Path("{" + COHORT_IDENTIFIER + "}")
-    public Response read(@PathParam(COHORT_IDENTIFIER) final String cohortId,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(cohortId, headers, uriInfo);
-    }
-
-    /**
-     * Deletes the specified resource.
-     */
-    @Override
-    @DELETE
-    @Path("{" + COHORT_IDENTIFIER + "}")
-    public Response delete(@PathParam(COHORT_IDENTIFIER) final String cohortId,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.delete(cohortId, headers, uriInfo);
-    }
-
-    /**
-     * Updates the specified resource using the given resource data.
-     */
-    @Override
-    @PUT
-    @Path("{" + COHORT_IDENTIFIER + "}")
-    public Response update(@PathParam(COHORT_IDENTIFIER) final String cohortId,
-            final EntityBody newEntityBody,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.update(cohortId, newEntityBody, headers, uriInfo);
-    }
-
-    /**
+   /**
      * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET

@@ -63,38 +63,4 @@ public class DisciplineActionResource extends DefaultCrudResource {
         super(entityDefs, ResourceNames.DISCIPLINE_ACTIONS);
     }
 
-    /**
-     * Returns the specified resource representation(s).
-     */
-    @Override
-    @GET
-    @Path("{" + ParameterConstants.DISCIPLINE_ACTION_ID + "}")
-    public Response read(@PathParam(ParameterConstants.DISCIPLINE_ACTION_ID) final String disciplineActionId,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(disciplineActionId, headers, uriInfo);
-    }
-
-    /**
-     * Deletes the specified resource.
-     */
-    @Override
-    @DELETE
-    @Path("{" + ParameterConstants.DISCIPLINE_ACTION_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.DISCIPLINE_ACTION_ID) final String disciplineActionId,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.delete(disciplineActionId, headers, uriInfo);
-    }
-
-    /**
-     * Updates the specified resource using the given resource data.
-
-     */
-    @Override
-    @PUT
-    @Path("{" + ParameterConstants.DISCIPLINE_ACTION_ID + "}")
-    public Response update(@PathParam(ParameterConstants.DISCIPLINE_ACTION_ID) final String disciplineActionId,
-            final EntityBody newEntityBody,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.update(disciplineActionId, newEntityBody, headers, uriInfo);
-    }
 }

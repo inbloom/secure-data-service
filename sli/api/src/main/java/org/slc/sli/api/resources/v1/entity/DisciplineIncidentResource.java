@@ -65,41 +65,6 @@ public class DisciplineIncidentResource extends DefaultCrudResource {
     }
 
     /**
-     * Returns the specified resource representation(s).
-     */
-    @Override
-    @GET
-    @Path("{" + ParameterConstants.DISCIPLINE_INCIDENT_ID + "}")
-    public Response read(@PathParam(ParameterConstants.DISCIPLINE_INCIDENT_ID) final String disciplineIncidentId,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(disciplineIncidentId, headers, uriInfo);
-    }
-
-    /**
-     * Deletes the specified resource.
-     */
-    @Override
-    @DELETE
-    @Path("{" + ParameterConstants.DISCIPLINE_INCIDENT_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.DISCIPLINE_INCIDENT_ID) final String disciplineIncidentId,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.delete(disciplineIncidentId, headers, uriInfo);
-    }
-
-    /**
-     * Updates the specified resource using the given resource data.
-     */
-    @Override
-    @PUT
-    @Path("{" + ParameterConstants.DISCIPLINE_INCIDENT_ID + "}")
-    public Response update(@PathParam(ParameterConstants.DISCIPLINE_INCIDENT_ID) final String disciplineIncidentId,
-            final EntityBody newEntityBody,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.update(disciplineIncidentId, newEntityBody, headers, uriInfo);
-    }
-
-
-    /**
      * Returns the requested collection of resources that are associated with the specified resource.
      */
     @GET
