@@ -7,7 +7,8 @@ public enum ResourceTemplate {
     ONE_PART("/generic/{resource}"),
     TWO_PART("/generic/{resource}/{id}"),
     THREE_PART("/generic/{endpoint}/{id}/{resource}"),
-    FOUR_PART("/generic/{endpoint}/{id}/{association}/{resource}");
+    FOUR_PART("/generic/{endpoint}/{id}/{association}/{resource}"),
+    CUSTOM("/generic/{resource}/{id}/custom");
 
     private final String template;
 

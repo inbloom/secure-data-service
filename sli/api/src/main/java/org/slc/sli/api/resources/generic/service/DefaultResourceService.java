@@ -33,7 +33,14 @@ public class DefaultResourceService implements ResourceService {
         return (List<EntityBody>) definition.getService().list(new NeutralQuery());
     }
 
-    protected EntityDefinition getEntityDefinition(String resource) {
+    @Override
+    public String postEntity(String resource, EntityBody entity) {
+        EntityDefinition definition = getEntityDefinition(resource);
+
+        return definition.getService().create(entity);  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public EntityDefinition getEntityDefinition(String resource) {
         return entityDefinitionStore.lookupByResourceName(resource);
     }
 }

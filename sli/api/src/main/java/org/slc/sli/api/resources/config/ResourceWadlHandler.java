@@ -1,5 +1,6 @@
 package org.slc.sli.api.resources.config;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.slc.sli.modeling.rest.Application;
 import org.slc.sli.modeling.rest.Method;
 import org.slc.sli.modeling.rest.Resource;
@@ -20,13 +21,13 @@ import java.util.Stack;
  *
  */
 public class ResourceWadlHandler implements WadlHandler {
-    private Map<Integer, List<String>> resourceEnds = new HashMap<Integer, List<String>>();
+    private Map<Integer, List<Pair<String, String>>> resourceEnds = new HashMap<Integer, List<Pair<String, String>>>();
 
     private void computeURI(final Resource resource, final Resources resources, final Application app,
                                           final Stack<Resource> ancestors) {
         final List<String> steps = WadlHelper.toSteps(resource, ancestors);
 
-        if (steps.contains("custom")) return;
+        if (steps.contains("custom") || steps.contains("aggregates")) return;
 
         final StringBuilder sb = new StringBuilder();
         boolean first = true;
@@ -43,15 +44,17 @@ public class ResourceWadlHandler implements WadlHandler {
             }
         }
 
-        addURI(steps.size()-1, sb.toString());
+        addURI(steps.size()-1, sb.toString(), resource.getResourceClass());
     }
 
-    private void addURI(int key, String uri) {
+    private void addURI(int key, String uri, String resourceClass) {
+        Pair<String, String> pair = Pair.of(uri, resourceClass);
+
         if (resourceEnds.containsKey(key)) {
-            resourceEnds.get(key).add(uri);
+            resourceEnds.get(key).add(pair);
         } else {
-            List<String> list = new ArrayList<String>();
-            list.add(uri);
+            List<Pair<String, String>> list = new ArrayList<Pair<String, String>>();
+            list.add(pair);
             resourceEnds.put(key, list);
         }
     }
@@ -85,12 +88,8 @@ public class ResourceWadlHandler implements WadlHandler {
     }
 
 
-    public Map<Integer, List<String>> getResourceEnds() {
+    public Map<Integer, List<Pair<String, String>>> getResourceEnds() {
         return resourceEnds;
-    }
-
-    public void setResourceEnds(Map<Integer, List<String>> resourceEnds) {
-        this.resourceEnds = resourceEnds;
     }
 }
 

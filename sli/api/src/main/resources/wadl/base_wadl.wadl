@@ -9,16 +9,16 @@
     ]]></ns2:doc>
   <ns2:grammars/>
   <ns2:resources base="http://www.sli.slc.org/api/rest">
-    <ns2:resource path="v1/reportCards">
+    <ns2:resource path="v1/reportCards" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
       <ns2:doc><![CDATA[Represents the definition of a report card resource. A report card is an educational entity that
  represents the collection of student grades for courses taken during a grading period.
 
  For detailed information, see the schema for $$ReportCard$$ resources.]]></ns2:doc>
-      <ns2:resource path="{id}"/>
+      <ns2:resource path="{id}" resourceClass="org.slc.sli.api.resources.generic.GenericResource"/>
       <ns2:resource path="{id}/custom"/>
       <ns2:resource path="{id}/aggregates"/>
     </ns2:resource>
-    <ns2:resource path="v1/sections">
+    <ns2:resource path="v1/sections" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
       <ns2:doc><![CDATA[Represents the definition of a section resource. A section is an educational entity that
  represents a setting in which organized instruction of course content is provided to one
  or more students for a given period of time. See $$Course$$ resource for details.
@@ -32,11 +32,11 @@
       <ns2:resource path="{id}/studentSectionAssociations/students"/>
       <ns2:resource path="{id}/teacherSectionAssociations"/>
       <ns2:resource path="{id}/teacherSectionAssociations/teachers"/>
-      <ns2:resource path="{id}"/>
+      <ns2:resource path="{id}" resourceClass="org.slc.sli.api.resources.generic.GenericResource"/>
       <ns2:resource path="{id}/custom"/>
       <ns2:resource path="{id}/aggregates"/>
     </ns2:resource>
-    <ns2:resource path="v1/studentProgramAssociations">
+    <ns2:resource path="v1/studentProgramAssociations" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
       <ns2:doc><![CDATA[Represents the association between a $$Student$$ and a $$Program$$.
 
  For more information, see the schema for $$StudentProgramAssociation$$ resources.]]></ns2:doc>
@@ -47,7 +47,7 @@
       <ns2:resource path="{id}/custom"/>
       <ns2:resource path="{id}/aggregates"/>
     </ns2:resource>
-    <ns2:resource path="v1/courses">
+    <ns2:resource path="v1/courses" resourceClass="org.slc.sli.api.resources.generic.GenericResource">
       <ns2:doc><![CDATA[Represents the organization of subject matter and related learning experiences provided
  for the instruction of students on a regular or systematic basis.
 
@@ -60,7 +60,7 @@
       <ns2:resource path="{id}/courseTranscripts/students"/>
       <ns2:resource path="{id}/studentParentAssociations"/>
       <ns2:resource path="{id}/studentParentAssociations/students"/>
-      <ns2:resource path="{id}"/>
+      <ns2:resource path="{id}" resourceClass="org.slc.sli.api.resources.generic.GenericResource"/>
       <ns2:resource path="{id}/custom"/>
       <ns2:resource path="{id}/aggregates"/>
     </ns2:resource>
