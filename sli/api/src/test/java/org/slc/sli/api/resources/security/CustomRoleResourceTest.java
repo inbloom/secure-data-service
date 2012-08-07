@@ -39,6 +39,7 @@ import org.mockito.MockitoAnnotations;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.resources.util.ResourceTestUtil;
+import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.api.util.SecurityUtil;
@@ -68,6 +69,8 @@ public class CustomRoleResourceTest {
     @Autowired
     @InjectMocks private CustomRoleResource resource;
     
+    @Mock RealmHelper realmHelper;
+    
     @Mock EntityService service;
 
     @Mock Repository<Entity> repo;
@@ -82,6 +85,7 @@ public class CustomRoleResourceTest {
         injector.setRealmAdminContext();
         MockitoAnnotations.initMocks(this);
         uriInfo = ResourceTestUtil.buildMockUriInfo(null);
+        Mockito.when(realmHelper.getAssociatedRealmId()).thenReturn(REALM_ID);
     }
 
     @Test
@@ -150,7 +154,7 @@ public class CustomRoleResourceTest {
     public void testReadInaccessible() {
         String inaccessibleId = "inaccessible-id";
         EntityBody body = getValidRoleDoc();
-        body.put("tenantId", "BAD-TENANT");
+        body.put("realmId", "BAD-REALM");
         Mockito.when(service.get(inaccessibleId)).thenReturn(body);
         Response res = resource.read(inaccessibleId, uriInfo);
         Assert.assertEquals(403, res.getStatus());

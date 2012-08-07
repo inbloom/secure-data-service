@@ -141,7 +141,7 @@ public class JobReportingProcessorTest {
 
         // set mocked BatchJobMongoDA in jobReportingProcessor
         Mockito.when(mockedBatchJobDAO.findBatchJobById(Matchers.eq(BATCHJOBID))).thenReturn(mockedJob);
-        Mockito.when(mockedBatchJobDAO.getBatchStagesStoredSeperatelly(Matchers.eq(BATCHJOBID))).thenReturn(mockStages);
+        Mockito.when(mockedBatchJobDAO.getBatchJobStages(Matchers.eq(BATCHJOBID))).thenReturn(mockStages);
         Mockito.when(mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), Matchers.anyInt())).thenReturn(
                 fakeErrorIterable);
 

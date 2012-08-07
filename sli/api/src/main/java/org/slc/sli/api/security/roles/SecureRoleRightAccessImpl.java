@@ -24,12 +24,6 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
-import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
@@ -37,6 +31,8 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * A basic implementation of RoleRightAccess
@@ -45,13 +41,9 @@ import org.slc.sli.domain.enums.Right;
  */
 @Component
 public class SecureRoleRightAccessImpl implements RoleRightAccess {
-    @Autowired
-    private EntityDefinitionStore store;
-    
+
     @Value("${sli.sandbox.enabled}")
     protected boolean isSandboxEnabled;
-    
-    private EntityService service;
     
     @Resource(name = "validationRepo")
     private Repository<Entity> repo;

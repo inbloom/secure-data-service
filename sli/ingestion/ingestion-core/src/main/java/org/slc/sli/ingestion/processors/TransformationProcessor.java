@@ -99,7 +99,7 @@ public class TransformationProcessor implements Processor {
         } finally {
             if (newJob != null) {
                 BatchJobUtils.stopStageChunkAndAddToJob(stage, newJob);
-                batchJobDAO.saveBatchJobStageSeparatelly(batchJobId, stage);
+                batchJobDAO.saveBatchJobStage(batchJobId, stage);
             }
         }
     }
