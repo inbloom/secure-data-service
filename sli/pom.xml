@@ -842,6 +842,13 @@
                 <configuration>
                     <XnoInline>true</XnoInline>
                     <complianceLevel>1.6</complianceLevel>
+					<lifecycleMappingMetadata>
+						<pluginExecutions>
+							<pluginExecution>
+								<action><ignore /></action>
+							</pluginExecution>
+						</pluginExecutions>
+					</lifecycleMappingMetadata>
                 </configuration>
                 <executions>
                     <execution>

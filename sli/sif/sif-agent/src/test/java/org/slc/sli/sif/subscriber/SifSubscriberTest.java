@@ -17,7 +17,9 @@
 
 package org.slc.sli.sif.subscriber;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.Assert;
@@ -33,18 +35,16 @@ import openadk.library.student.SchoolInfo;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
 import org.slc.sli.api.client.impl.GenericEntity;
-import org.slc.sli.api.constants.ResourceNames;
-import org.slc.sli.sif.domain.Sif2SliTransformer;
-import org.slc.sli.sif.domain.slientity.SchoolEntity;
-import org.slc.sli.sif.generator.SifEntityGenerator;
+import org.slc.sli.sif.domain.slientity.SliEntity;
 import org.slc.sli.sif.slcinterface.SifIdResolver;
 import org.slc.sli.sif.slcinterface.SlcInterface;
+import org.slc.sli.sif.translation.SifTranslationManager;
 
 /**
  * JUnit tests for SifSubscriber
@@ -52,8 +52,6 @@ import org.slc.sli.sif.slcinterface.SlcInterface;
  * @author jtully
  *
  */
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(locations = { "classpath*:/spring/applicationContext.xml" })
 public class SifSubscriberTest {
 
     @InjectMocks
@@ -63,7 +61,7 @@ public class SifSubscriberTest {
     private SlcInterface mockSlcInterface;
 
     @Mock
-    private Sif2SliTransformer xformer;
+    private SifTranslationManager mockTranslationManager;
 
     @Mock
     private SifIdResolver sifIdResolver;
@@ -101,7 +99,7 @@ public class SifSubscriberTest {
 
         //verify that the SDK sessionCheck call is made
         Mockito.verify(mockSlcInterface, Mockito.times(1)).sessionCheck();
-        
+
     }
 
     @Test
@@ -111,7 +109,7 @@ public class SifSubscriberTest {
         MessageInfo mockInfo = Mockito.mock(MessageInfo.class);
         DataObjectInputStream mockDataObjectInputStream = Mockito.mock(DataObjectInputStream.class);
         SchoolInfo mockSchoolInfo = Mockito.mock(SchoolInfo.class);
-        
+
         Mockito.when(mockEvent.getActionString()).thenReturn("Add");
         Mockito.when(mockEvent.getAction()).thenReturn(EventAction.ADD);
         Mockito.when(mockZone.getZoneId()).thenReturn("zoneId");
@@ -120,11 +118,16 @@ public class SifSubscriberTest {
         Mockito.when(mockDataObjectInputStream.readDataObject()).thenReturn(mockSchoolInfo);
         Mockito.when(mockSchoolInfo.toString()).thenReturn("SchoolInfo");
 
-        Map<String, Object> mockBody = new HashMap<String, Object>();
-        Mockito.when(xformer.transform(mockSchoolInfo)).thenReturn(mockBody);
+        SliEntity mockSliEntity = Mockito.mock(SliEntity.class);
+        List<SliEntity> mockSliEntities = new ArrayList<SliEntity>();
+        mockSliEntities.add(mockSliEntity);
+        GenericEntity mockGenericEntity = Mockito.mock(GenericEntity.class);
+        Mockito.when(mockSliEntity.createGenericEntity()).thenReturn(mockGenericEntity);
+
+        Mockito.when(mockTranslationManager.translate(mockSchoolInfo)).thenReturn(mockSliEntities);
         Mockito.when(mockSchoolInfo.getRefId()).thenReturn("1234");
         Mockito.when(mockSlcInterface.create(Mockito.any(GenericEntity.class))).thenReturn("5678");
-        
+
         subscriber.onEvent(mockEvent, mockZone, mockInfo);
 
         //verify that the SDK create call is made
@@ -138,7 +141,7 @@ public class SifSubscriberTest {
         MessageInfo mockInfo = Mockito.mock(MessageInfo.class);
         DataObjectInputStream mockDataObjectInputStream = Mockito.mock(DataObjectInputStream.class);
         SchoolInfo mockSchoolInfo = Mockito.mock(SchoolInfo.class);
-        
+
         Mockito.when(mockEvent.getActionString()).thenReturn("Change");
         Mockito.when(mockEvent.getAction()).thenReturn(EventAction.CHANGE);
         Mockito.when(mockZone.getZoneId()).thenReturn("zoneId");
@@ -147,16 +150,21 @@ public class SifSubscriberTest {
         Mockito.when(mockDataObjectInputStream.readDataObject()).thenReturn(mockSchoolInfo);
         Mockito.when(mockSchoolInfo.toString()).thenReturn("SchoolInfo");
 
+        SliEntity mockSliEntity = Mockito.mock(SliEntity.class);
+        List<SliEntity> mockSliEntities = new ArrayList<SliEntity>();
+        mockSliEntities.add(mockSliEntity);
         Map<String, Object> mockBody = new HashMap<String, Object>();
-        Mockito.when(xformer.transform(mockSchoolInfo)).thenReturn(mockBody);
-        Mockito.when(mockSchoolInfo.getRefId()).thenReturn("1234");        
+        Mockito.when(mockSliEntity.createBody()).thenReturn(mockBody);
+
+        Mockito.when(mockTranslationManager.translate(mockSchoolInfo)).thenReturn(mockSliEntities);
+        Mockito.when(mockSchoolInfo.getRefId()).thenReturn("1234");
         GenericEntity mockEntity = new GenericEntity(Mockito.any(String.class), mockBody);
-        Mockito.when(sifIdResolver.getSLIEntity("1234")).thenReturn(mockEntity);
-        
+        Mockito.when(sifIdResolver.getSliEntity("1234")).thenReturn(mockEntity);
+
         subscriber.onEvent(mockEvent, mockZone, mockInfo);
 
         //verify that the SDK create call is made
         Mockito.verify(mockSlcInterface, Mockito.times(1)).update(mockEntity);
     }
-    
+
 }

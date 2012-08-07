@@ -71,5 +71,4 @@ public class CustomEventGenerator implements EventGenerator {
 
         return event;
     }
-
 }
