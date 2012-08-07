@@ -20,8 +20,8 @@ And I can select "Application Developer" from a choice between "Sandbox Administ
 And I can also check "Ingestion User" Role 
 
 When I click button "Save"
-Then I am redirected to "Sandbox Account Management" page 
-And a "Success! You have added a new user" message is displayed
+#Then I am redirected to "Sandbox Account Management" page 
+Then a "Success! You have added a new user" message is displayed
 And a verify email notification is sent to user
 
 @production
@@ -41,8 +41,8 @@ And I can update the "Tenant" field to "IL1212"
 And I can update the "EdOrg" field to "IL-DAYBREAK"
 
 When I click button "Save"
-Then I am redirected to "Admin Account Management" page
-And a "Success" message is displayed 
+#Then I am redirected to "Admin Account Management" page
+Then a "Success" message is displayed 
 And a verify email notification is sent to user
 
 @wip
