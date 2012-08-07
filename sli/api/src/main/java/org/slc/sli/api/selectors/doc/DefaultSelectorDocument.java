@@ -56,7 +56,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
     private List<String> defaults = Arrays.asList("id", "entityType", "metaData");
 
     @Override
-    public List<EntityBody> aggregate(SelectorQuery selectorQuery, final Constraint constraint) {
+    public List<EntityBody> aggregate(SelectorQuery selectorQuery, final NeutralQuery constraint) {
 
         return executeQueryPlan(selectorQuery, constraint, new ArrayList<EntityBody>(), new Stack<Type>());
 
@@ -67,7 +67,7 @@ public class DefaultSelectorDocument implements SelectorDocument {
     }
 
 
-    protected List<EntityBody> executeQueryPlan(SelectorQuery selectorQuery, Constraint constraint,
+    protected List<EntityBody> executeQueryPlan(SelectorQuery selectorQuery, NeutralQuery constraint,
                                           List<EntityBody> previousEntities, Stack<Type> types) {
         List<EntityBody> results = new ArrayList<EntityBody>();
 
@@ -80,7 +80,6 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
             if (!previousEntities.isEmpty() && previousType != null) {
                 String key = getKey(currentType, previousType);
-                constraint.setKey(key);
                 plan.getParseFields().add(key);
 
                 String extractKey = getExtractionKey(currentType, previousType);
@@ -92,19 +91,18 @@ public class DefaultSelectorDocument implements SelectorDocument {
                     if (connectingType != null) {
                         types.push(connectingType);
 
-                        connectingEntities = getConnectingEntities(connectingType, previousType,
-                                toList(constraint.getValue()));
+                        connectingEntities = getConnectingEntities(connectingType, previousType, constraint);
                         ids = getConnectingIds(connectingEntities, currentType, connectingType);
                     }
                 }
 
-                constraint.setValue(ids);
+                constraint = constructConstrainQuery(key, ids);
             }
 
             //add the current type
             types.push(currentType);
 
-            Iterable<EntityBody> entities = executeQuery(currentType, plan.getQuery(), constraint, true);
+            Iterable<EntityBody> entities = executeQuery(currentType, constraint);
             results.addAll((List<EntityBody>) entities);
 
             List<Object> childQueries = plan.getChildQueryPlans();
@@ -121,6 +119,13 @@ public class DefaultSelectorDocument implements SelectorDocument {
         }
 
         return results;
+    }
+
+    protected NeutralQuery constructConstrainQuery(String key, List<String> ids) {
+        NeutralQuery constraint = new NeutralQuery();
+        constraint.addCriteria(new NeutralCriteria(key, NeutralCriteria.CRITERIA_IN, ids));
+
+        return constraint;
     }
 
     protected List<EntityBody> updateConnectingEntities(List<EntityBody> results, List<EntityBody> connectingEntities, Type connectingType, Type currentType, Type previousType) {
@@ -152,11 +157,14 @@ public class DefaultSelectorDocument implements SelectorDocument {
         return extractIds(entities, extractKey);
     }
 
-    protected List<EntityBody> getConnectingEntities(Type currentType, Type previousType, List<String> ids) {
+    protected List<EntityBody> getConnectingEntities(Type currentType, Type previousType, NeutralQuery constraint) {
         String key = getKey(currentType, previousType);
-        Constraint constraint = new Constraint(key, ids);
 
-        return (List<EntityBody>) executeQuery(currentType, new NeutralQuery(), constraint, true);
+        for (NeutralCriteria criteria : constraint.getCriteria()) {
+            criteria.setKey(key);
+        }
+
+        return (List<EntityBody>) executeQuery(currentType, constraint);
     }
 
     protected boolean isDefaultOrParse(String key, SelectorQueryPlan plan) {
@@ -296,24 +304,24 @@ public class DefaultSelectorDocument implements SelectorDocument {
     }
 
 
-    protected Iterable<EntityBody> executeQuery(Type type, NeutralQuery query, final Constraint constraint, final boolean inLine) {
+    protected Iterable<EntityBody> executeQuery(Type type, final NeutralQuery constraint) {
         Iterable<EntityBody> results = Collections.EMPTY_LIST;
 
-        if (constraint.getKey() != null && constraint.getValue() != null) {
-            query.addCriteria(new NeutralCriteria(constraint.getKey(),
-                    NeutralCriteria.CRITERIA_IN, constraint.getValue(), inLine));
-        }
-
         try {
-            EntityDefinition definition = getEntityDefinition(type);
+            try {
+                EntityDefinition definition = getEntityDefinition(type);
 
-            if (definition != null) {
-                results = getEntityDefinition(type).getService().list(query);
+                if (definition != null) {
+                    results = getEntityDefinition(type).getService().list(constraint);
+                }
+            } catch (AccessDeniedException ade) {
+                //users might not have access to all associations.
+                //If this happens catch the AccessDeniedException and move along.
+                warn("Selectors : Access denied to type[" + type + "]");
             }
-        } catch (AccessDeniedException ade) {
-            //users might not have access to all associations.
-            //If this happens catch the AccessDeniedException and move along.
-            warn("Selectors : Access denied to type[" + type + "]");
+        } finally {
+            constraint.setLimit(0);
+            constraint.setOffset(0);
         }
 
         return results;
@@ -350,14 +358,4 @@ public class DefaultSelectorDocument implements SelectorDocument {
 
         return results;
     }
-
-    protected List<String> toList(Object obj) {
-        if (String.class.isInstance(obj)) {
-            return Arrays.asList((String)obj);
-        }
-
-        return (List<String>) obj;
-    }
-
-
 }

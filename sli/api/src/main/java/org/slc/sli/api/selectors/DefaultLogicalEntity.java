@@ -28,6 +28,7 @@ import org.slc.sli.api.selectors.model.ModelProvider;
 import org.slc.sli.api.selectors.model.SelectorSemanticModel;
 import org.slc.sli.api.selectors.model.SemanticSelector;
 import org.slc.sli.api.service.query.ApiQuery;
+import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Type;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,13 +77,15 @@ public class DefaultLogicalEntity implements LogicalEntity {
         // This is ugly - we have to capitalize here because our model
         // and API are not in sync
         final ClassType entityType = provider.getClassType(StringUtils.capitalize(typeDef.getType()));
-        if(UNSUPPORTED_RESOURCE_LIST.contains(resourceName))
+
+        if (UNSUPPORTED_RESOURCE_LIST.contains(resourceName)) {
             throw new UnsupportedSelectorException("Selector is not supported yet for this resource");
+        }
 
         final SemanticSelector semanticSelector = selectorSemanticModel.parse(apiQuery.getSelector(), entityType);
         final SelectorQuery selectorQuery = selectorQueryEngine.assembleQueryPlan(semanticSelector);
 
-        return selectorDocument.aggregate(selectorQuery, constraint);
+        return selectorDocument.aggregate(selectorQuery, apiQuery);
     }
 
 }
