@@ -26,6 +26,9 @@ import org.junit.Test;
 
 import org.slc.sli.sif.ADKTest;
 
+/**
+ * OperationalStatusConverter unit tests
+ */
 public class OperationalStatusConverterTest extends ADKTest {
 
     private final OperationalStatusConverter converter = new OperationalStatusConverter();
@@ -45,7 +48,7 @@ public class OperationalStatusConverterTest extends ADKTest {
     }
 
     @Test
-    public void testMappings(){
+    public void testMappings() {
         map.clear();
         map.put(OperationalStatus.AGENCY_CHANGED, "Changed Agency");
         map.put(OperationalStatus.AGENCY_CLOSED, "Closed");

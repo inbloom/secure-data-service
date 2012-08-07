@@ -22,6 +22,9 @@ import org.junit.Test;
 
 import org.slc.sli.sif.domain.slientity.TitleIPartASchoolDesignation;
 
+/**
+ * TitleIPartASchoolDesignationConverter unit tests.
+ */
 public class TitleIPartASchoolDesignationConverterTest {
 
     private TitleIPartASchoolDesignationConverter converter = new TitleIPartASchoolDesignationConverter();

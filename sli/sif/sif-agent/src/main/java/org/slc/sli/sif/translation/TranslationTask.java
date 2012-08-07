@@ -23,11 +23,13 @@ import openadk.library.SIFDataObject;
 import org.slc.sli.sif.domain.slientity.SliEntity;
 
 /**
+ *
  * Interface for translation of all or part of a SIFDataObject
  * to an SLI entity.
  *
  * @author jtully
  *
+ * @param <T>, the SliEntity type that is returned.
  */
 public interface TranslationTask<T extends SliEntity> {
     /*

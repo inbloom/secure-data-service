@@ -37,6 +37,9 @@ import org.slc.sli.sif.domain.converter.TitleIPartASchoolDesignationConverter;
 import org.slc.sli.sif.domain.slientity.SchoolEntity;
 import org.slc.sli.sif.domain.slientity.TitleIPartASchoolDesignation;
 
+/**
+ * Translates a SIF schoolInfo into a SLI school entity
+ */
 @Component
 public class SchoolInfoTranslationTask extends AbstractTranslationTask<SchoolInfo, SchoolEntity> {
 

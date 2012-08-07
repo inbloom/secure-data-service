@@ -16,8 +16,8 @@
 
 package org.slc.sli.sif.generator;
 
-import java.util.GregorianCalendar;
 import java.math.BigDecimal;
+import java.util.GregorianCalendar;
 
 import openadk.library.common.Address;
 import openadk.library.common.AddressList;
@@ -54,13 +54,13 @@ import openadk.library.student.TimeFrame;
  */
 public class SifEntityGenerator {
 
-	public static final String TEST_SCHOOLINFO_REFID = "D3E34B359D75101A8C3D00AA001A1652";
-	public static final String TEST_LEAINFO_REFID = "73648462888624AA5294BC6380173276";
-	public static final String TEST_SEAINFO_REFID = "73648462888624AA5294BC6380173276";
-	public static final String TEST_STUDENTPERSONAL_REFID = "D3E34B359D75101A8C3D00AA001A1652";
-	public static final String TEST_STUDENTSCHOOLENROLLMENT_REFID = "A8C3D3E34B359D75101D00AA001A1652";
-	public static final String TEST_STUDENTLEARELATIONSHIP_REFID = "98C3D3224B35AA75101D00AA201B1652";
-	
+    public static final String TEST_SCHOOLINFO_REFID = "D3E34B359D75101A8C3D00AA001A1652";
+    public static final String TEST_LEAINFO_REFID = "73648462888624AA5294BC6380173276";
+    public static final String TEST_SEAINFO_REFID = "73648462888624AA5294BC6380173276";
+    public static final String TEST_STUDENTPERSONAL_REFID = "D3E34B359D75101A8C3D00AA001A1652";
+    public static final String TEST_STUDENTSCHOOLENROLLMENT_REFID = "A8C3D3E34B359D75101D00AA001A1652";
+    public static final String TEST_STUDENTLEARELATIONSHIP_REFID = "98C3D3224B35AA75101D00AA201B1652";
+
     public static SchoolInfo generateTestSchoolInfo() {
         SchoolInfo info = new SchoolInfo();
         info.setRefId(TEST_SCHOOLINFO_REFID);
@@ -189,50 +189,49 @@ public class SifEntityGenerator {
     }
 
     public static StudentSchoolEnrollment generateTestStudentSchoolEnrollment() {
-    	StudentSchoolEnrollment retVal = new StudentSchoolEnrollment();
-    	retVal.setRefId(TEST_STUDENTSCHOOLENROLLMENT_REFID);
-    	retVal.setSchoolInfoRefId(TEST_SCHOOLINFO_REFID);
-    	retVal.setStudentPersonalRefId(TEST_STUDENTPERSONAL_REFID);
-    	retVal.setMembershipType(MembershipType.HOME);
-    	retVal.setTimeFrame(TimeFrame.CURRENT);
-    	retVal.setSchoolYear(2012);
-    	
-    	retVal.setEntryDate(new GregorianCalendar(2012, 8, 16));
-    	retVal.setEntryType(EntryTypeCode._0619_1838);
-    	retVal.setGradeLevel(GradeLevelCode._10);
-    	retVal.setFTE(new BigDecimal(1.00));
-    	retVal.setFTPTStatus(FTPTStatus.FULLTIME);
-    	
-    	ResidencyStatus rs = new ResidencyStatus();
-    	rs.setCode(PublicSchoolResidenceStatus._0598_1653);
-    	retVal.setResidencyStatus(rs);
-    	retVal.setNonResidentAttendReason(NonResidentAttendRationale.VOCATIONAL);
-    	
-    	return retVal;
+        StudentSchoolEnrollment retVal = new StudentSchoolEnrollment();
+        retVal.setRefId(TEST_STUDENTSCHOOLENROLLMENT_REFID);
+        retVal.setSchoolInfoRefId(TEST_SCHOOLINFO_REFID);
+        retVal.setStudentPersonalRefId(TEST_STUDENTPERSONAL_REFID);
+        retVal.setMembershipType(MembershipType.HOME);
+        retVal.setTimeFrame(TimeFrame.CURRENT);
+        retVal.setSchoolYear(2012);
+
+        retVal.setEntryDate(new GregorianCalendar(2012, 8, 16));
+        retVal.setEntryType(EntryTypeCode._0619_1838);
+        retVal.setGradeLevel(GradeLevelCode._10);
+        retVal.setFTE(new BigDecimal(1.00));
+        retVal.setFTPTStatus(FTPTStatus.FULLTIME);
+
+        ResidencyStatus rs = new ResidencyStatus();
+        rs.setCode(PublicSchoolResidenceStatus._0598_1653);
+        retVal.setResidencyStatus(rs);
+        retVal.setNonResidentAttendReason(NonResidentAttendRationale.VOCATIONAL);
+
+        return retVal;
     }
-    
+
     public static StudentLEARelationship generateTestStudentLEARelationship() {
-    	StudentLEARelationship retVal = new StudentLEARelationship();
-    	retVal.setRefId(TEST_STUDENTLEARELATIONSHIP_REFID);
-    	retVal.setStudentPersonalRefId(TEST_STUDENTPERSONAL_REFID);
-    	retVal.setLEAInfoRefId(TEST_LEAINFO_REFID);
-    	retVal.setSchoolYear(2012);
-    	
-    	retVal.setMembershipType(MembershipType.HOME);
-    	OrganizationRelationshipType ort = new OrganizationRelationshipType();
-    	ResidencyStatus rs = new ResidencyStatus();
-    	rs.setCode(PublicSchoolResidenceStatus.RESIDENT);
-    	ort.setResidencyStatus(rs);
-    	ort.setProvidingInstruction(true);
-    	ort.setProvidingServices(true);
-    	ort.setFinanciallyResponsible(true);
-    	retVal.setLEARelationshipType(ort);
-    	
-    	retVal.setEntryDate(new GregorianCalendar(2012, 8, 16));
-    	retVal.setEntryType(EntryTypeCode._0619_1838);
-    	retVal.setGradeLevel(GradeLevelCode._10);
-    	
-    	return retVal;
+        StudentLEARelationship retVal = new StudentLEARelationship();
+        retVal.setRefId(TEST_STUDENTLEARELATIONSHIP_REFID);
+        retVal.setStudentPersonalRefId(TEST_STUDENTPERSONAL_REFID);
+        retVal.setLEAInfoRefId(TEST_LEAINFO_REFID);
+        retVal.setSchoolYear(2012);
+
+        retVal.setMembershipType(MembershipType.HOME);
+        OrganizationRelationshipType ort = new OrganizationRelationshipType();
+        ResidencyStatus rs = new ResidencyStatus();
+        rs.setCode(PublicSchoolResidenceStatus.RESIDENT);
+        ort.setResidencyStatus(rs);
+        ort.setProvidingInstruction(true);
+        ort.setProvidingServices(true);
+        ort.setFinanciallyResponsible(true);
+        retVal.setLEARelationshipType(ort);
+
+        retVal.setEntryDate(new GregorianCalendar(2012, 8, 16));
+        retVal.setEntryType(EntryTypeCode._0619_1838);
+        retVal.setGradeLevel(GradeLevelCode._10);
+
+        return retVal;
     }
 }
-

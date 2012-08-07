@@ -20,55 +20,121 @@ import java.util.List;
 
 /**
  * Represents the student school association in SLI datamodel
+ *
  * @author syau
  *
  */
 public class StudentSchoolAssociationEntity extends SliEntity {
 
     // mandatory fields
-    String _studentId;
-    String _schoolId;
-    String _entryDate;
-    String _entryGradeLevel;
-    
+    String studentId;
+    String schoolId;
+    String entryDate;
+    String entryGradeLevel;
+
     // optional fields
-    String _schoolYear; 
-    String _entryType;
-    boolean _repeatGradeIndicator;
-    String _classOf;
-    boolean _schoolChoiceTransfer;
-    String _exitWithdrawDate;
-    String _exitWithdrawType;
-    List<String> _educationalPlans;
+    String schoolYear;
+    String entryType;
+    boolean repeatGradeIndicator;
+    String classOf;
+    boolean schoolChoiceTransfer;
+    String exitWithdrawDate;
+    String exitWithdrawType;
+    List<String> educationalPlans;
+
     // GraduationPlan _graduationPlan; <-- not supported in SIF
-    
+
     @Override
     public String entityType() {
         return "studentSchoolAssociation";
     }
 
     // accessors
-    public String getStudentId() { return  _studentId; }
-    public String getSchoolId() { return  _schoolId; }
-    public String getEntryDate() { return  _entryDate; }
-    public String getEntryGradeLevel() { return  _entryGradeLevel; }
-    public String getSchoolYear() { return  _schoolYear; }
-    public String getEntryType() { return  _entryType; }
-    public boolean getRepeatGradeIndicator() { return  _repeatGradeIndicator; }
-    public String getClassOf() { return  _classOf; }
-    public boolean getSchoolChoiceTransfer() { return  _schoolChoiceTransfer; }
-    public String getExitWithdrawDate() { return  _exitWithdrawDate; }
-    public String getExitWithdrawType() { return  _exitWithdrawType; }
-    public List<String> getEducationalPlans() { return _educationalPlans; }
-    
-    public void setStudentId(String s) { _studentId = s; } 
-    public void setSchoolId(String s) { _schoolId = s; }
-    public void setEntryDate(String s) { _entryDate = s; }
-    public void setEntryGradeLevel(String s) {  _entryGradeLevel = s; }
-    public void setSchoolYear(String s) {  _schoolYear = s; }
-    public void setEntryType(String s) { _entryType = s; }
-    public void setClassOf(String s) { _classOf = s; }
-    public void setExitWithdrawDate(String s) { _exitWithdrawDate = s; }
-    public void setExitWithdrawType(String s) { _exitWithdrawType = s; }
-    public void setEducationalPlans(List<String> l) { _educationalPlans = l; }
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public String getSchoolId() {
+        return schoolId;
+    }
+
+    public String getEntryDate() {
+        return entryDate;
+    }
+
+    public String getEntryGradeLevel() {
+        return entryGradeLevel;
+    }
+
+    public String getSchoolYear() {
+        return schoolYear;
+    }
+
+    public String getEntryType() {
+        return entryType;
+    }
+
+    public boolean getRepeatGradeIndicator() {
+        return repeatGradeIndicator;
+    }
+
+    public String getClassOf() {
+        return classOf;
+    }
+
+    public boolean getSchoolChoiceTransfer() {
+        return schoolChoiceTransfer;
+    }
+
+    public String getExitWithdrawDate() {
+        return exitWithdrawDate;
+    }
+
+    public String getExitWithdrawType() {
+        return exitWithdrawType;
+    }
+
+    public List<String> getEducationalPlans() {
+        return educationalPlans;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
+
+    public void setSchoolId(String schoolId) {
+        this.schoolId = schoolId;
+    }
+
+    public void setEntryDate(String entryDate) {
+        this.entryDate = entryDate;
+    }
+
+    public void setEntryGradeLevel(String entryGradeLevel) {
+        this.entryGradeLevel = entryGradeLevel;
+    }
+
+    public void setSchoolYear(String schoolYear) {
+        this.schoolYear = schoolYear;
+    }
+
+    public void setEntryType(String entryType) {
+        this.entryType = entryType;
+    }
+
+    public void setClassOf(String classOf) {
+        this.classOf = classOf;
+    }
+
+    public void setExitWithdrawDate(String exitWithdrawDate) {
+        this.exitWithdrawDate = exitWithdrawDate;
+    }
+
+    public void setExitWithdrawType(String exitWithdrawType) {
+        this.exitWithdrawType = exitWithdrawType;
+    }
+
+    public void setEducationalPlans(List<String> educationalPlans) {
+        this.educationalPlans = educationalPlans;
+    }
 }
