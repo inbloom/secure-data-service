@@ -35,7 +35,6 @@
     <value>competencyLevelDescriptor</value>
     <value>staff</value>
     <value>staffEducationOrganizationAssociation</value>
-    <value>studentCompetencyObjective</value>
   </util:set>
 
   <!-- collections that should be persisted using the new pipeline but no transformation has been performed -->
@@ -66,6 +65,7 @@
     <value>studentAcademicRecord</value>
     <value>studentCohortAssociation</value>
     <value>studentCompetency</value>
+    <value>studentCompetencyObjective</value>
     <value>studentDisciplineIncidentAssociation</value>
     <value>studentParentAssociation</value>
     <value>studentProgramAssociation</value>

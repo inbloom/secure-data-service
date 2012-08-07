@@ -3629,25 +3629,25 @@
     createOnElement="InterchangeStudentGrade/StudentCompetencyObjective">
     <jb:expression property="recordType">'studentCompetencyObjective'</jb:expression>
     <jb:value property="localId" data="StudentCompetencyObjective/StudentCompetencyObjectiveId" />
-    <jb:wiring property="localParentIds" beanIdRef="StudentCompetencyObjectiveParentIds" />
     <jb:wiring property="attributes" beanIdRef="StudentCompetencyObjectiveAttributes" />
-  </jb:bean>
-
-  <jb:bean beanId="StudentCompetencyObjectiveParentIds" class="java.util.HashMap"
-    createOnElement="InterchangeStudentGrade/StudentCompetencyObjective">
-    <jb:wiring property="educationOrganization" beanIdRef="StudentCompetencyObjective_EdOrgReference" />
   </jb:bean>
 
   <jb:bean beanId="StudentCompetencyObjectiveAttributes" class="java.util.HashMap"
     createOnElement="InterchangeStudentGrade/StudentCompetencyObjective">
+    <jb:value property="studentCompetencyObjectiveId" data="StudentCompetencyObjective/StudentCompetencyObjectiveId" />
+    <jb:wiring property="educationOrganizationReference" beanIdRef="StudentCompetencyObjective_EdOrgReference" />
     <jb:value property="objective" data="StudentCompetencyObjective/Objective" />
     <jb:value property="description" data="StudentCompetencyObjective/Description" />
     <jb:value property="objectiveGradeLevel" data="StudentCompetencyObjective/ObjectiveGradeLevel" />
   </jb:bean>
 
-  <jb:bean beanId="StudentCompetencyObjective_EdOrgReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentCompetencyObjective">
-    <jb:value property="EducationOrganization#body.stateOrganizationId" data="StudentCompetencyObjective/EducationOrganizationReference/EducationalOrgIdentity/StateOrganizationId" />
-    <jb:wiring property="EducationOrganization#educationOrgIdentificationCode" beanIdRef="StudentCompetencyObjective_EdOrgidentificationCodeList" />
+   <jb:bean beanId="StudentCompetencyObjective_EdOrgReference" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentCompetencyObjective">
+    <jb:wiring property="educationalOrgIdentity" beanIdRef="StudentCompetencyObjective_EdOrgIdentity" />
+  </jb:bean>
+  
+  <jb:bean beanId="StudentCompetencyObjective_EdOrgIdentity" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentCompetencyObjective">
+    <jb:value property="stateOrganizationId" data="StudentCompetencyObjective/EducationOrganizationReference/EducationalOrgIdentity/StateOrganizationId" />
+    <jb:wiring property="educationOrgIdentificationCode" beanIdRef="StudentCompetencyObjective_EdOrgidentificationCodeList" />
   </jb:bean>
 
   <jb:bean beanId="StudentCompetencyObjective_EdOrgidentificationCodeList" class="java.util.ArrayList" createOnElement="InterchangeStudentGrade/StudentCompetencyObjective">
@@ -3655,8 +3655,8 @@
   </jb:bean>
 
   <jb:bean beanId="StudentCompetencyObjective_EdOrgidentificationCode" class="java.util.HashMap" createOnElement="InterchangeStudentGrade/StudentCompetencyObjective/EducationOrganizationReference/EducationalOrgIdentity/EducationOrgIdentificationCode">
-    <jb:value property="EducationOrganization#body.educationOrgIdentificationCode.ID" data="StudentCompetencyObjective/EducationOrganizationReference/EducationalOrgIdentity/EducationOrgIdentificationCode/ID" />
-    <jb:value property="EducationOrganization#body.educationOrgIdentificationCode.identificationSystem" data="StudentCompetencyObjective/EducationOrganizationReference/EducationalOrgIdentity/EducationOrgIdentificationCode/@IdentificationSystem" />
+    <jb:value property="ID" data="StudentCompetencyObjective/EducationOrganizationReference/EducationalOrgIdentity/EducationOrgIdentificationCode/ID" />
+    <jb:value property="identificationSystem" data="StudentCompetencyObjective/EducationOrganizationReference/EducationalOrgIdentity/EducationOrgIdentificationCode/@IdentificationSystem" />
   </jb:bean>
   <!-- End StudentCompetencyObjective mapping -->
 
