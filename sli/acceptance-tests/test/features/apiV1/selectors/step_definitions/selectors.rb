@@ -40,33 +40,19 @@ Given /^selector "(\([^\"]*\))"$/ do |selector|
 end
 
 ###############################################################################
-# WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN
-###############################################################################
-
-###############################################################################
 # THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ###############################################################################
 
-Then /^in the response body I should see the following fields:$/ do |table|
-  check_contains_fields(@result, table)
-end
-
 Then /^in the response body I should see the following fields only:$/ do |table|
+  remove_fields_from_body(@result, ["schoolId", "gradeLevel"])
   check_number_of_fields(@result, table)
   check_contains_fields(@result, table)
 end
 
 Then /^in the response body for all entities I should see the following fields only:$/ do |table|
   @result.each do |entity|
+    remove_fields_from_body(entity, ["schoolId", "gradeLevel"])
     check_number_of_fields(entity, table)
-    check_contains_fields(entity, table)
-  end
-end
-
-Then /^in "([^\"]*)" I should see the following fields:$/ do |key, table|
-  @entities_to_check = []
-  get_hash_recursively(@result, key)
-  @entities_to_check.flatten.each do |entity|
     check_contains_fields(entity, table)
   end
 end
@@ -89,6 +75,12 @@ end
 ###############################################################################
 
 private
+
+def remove_fields_from_body(body, fields)
+  fields.each do |field|
+    body.delete(field)
+  end
+end
 
 def check_contains_fields(body, table)
   table.cells_rows.each do |field|

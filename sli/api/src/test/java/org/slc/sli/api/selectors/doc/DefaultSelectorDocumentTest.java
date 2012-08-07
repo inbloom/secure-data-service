@@ -27,7 +27,6 @@ import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.modeling.uml.Type;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
@@ -37,14 +36,9 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static junit.framework.Assert.assertFalse;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Tests
@@ -271,7 +265,6 @@ public class DefaultSelectorDocumentTest {
     public void testIncludeXSDSelector() {
         List<String> ids = new ArrayList<String>();
         ids.add(student1.getEntityId());
-        ids.add(student2.getEntityId());
 
         Constraint constraint = new Constraint();
         constraint.setKey("_id");
@@ -281,7 +274,31 @@ public class DefaultSelectorDocumentTest {
                 getIncludeXSDPlan()), constraint);
 
         assertNotNull("Should not be null", results);
-        assertEquals("Should match", 2, results.size());
+        assertEquals("Should match", 1, results.size());
+
+        EntityBody body = results.get(0);
+        assertEquals("Should match", 3, body.keySet().size());
+        assertTrue("Should be true", body.containsKey("name"));
+    }
+
+    @Test
+    public void testEmptySelector() {
+        List<String> ids = new ArrayList<String>();
+        ids.add(student1.getEntityId());
+
+        Constraint constraint = new Constraint();
+        constraint.setKey("_id");
+        constraint.setValue(ids);
+
+        List<EntityBody> results = defaultSelectorDocument.aggregate(createQueryPlan("Student",
+                getEmptyPlan()), constraint);
+
+        assertNotNull("Should not be null", results);
+        assertNotNull("Should not be null", results);
+        assertEquals("Should match", 1, results.size());
+
+        EntityBody body = results.get(0);
+        assertEquals("Should match", 2, body.keySet().size());
     }
 
     private List<EntityBody> createResults() {
@@ -417,8 +434,13 @@ public class DefaultSelectorDocumentTest {
         NeutralQuery query = new NeutralQuery();
 
         plan.setQuery(query);
+        plan.getIncludeFields().add("name");
 
         return plan;
+    }
+
+    private SelectorQueryPlan getEmptyPlan() {
+        return new SelectorQueryPlan();
     }
 
     private EntityBody createStudentEntity(String studentUniqueStateId) {

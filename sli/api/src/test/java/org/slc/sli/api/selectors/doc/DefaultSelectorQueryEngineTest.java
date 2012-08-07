@@ -21,6 +21,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.selectors.model.elem.BooleanSelectorElement;
 import org.slc.sli.api.selectors.model.elem.ComplexSelectorElement;
+import org.slc.sli.api.selectors.model.elem.EmptySelectorElement;
 import org.slc.sli.api.selectors.model.elem.IncludeAllSelectorElement;
 import org.slc.sli.api.selectors.model.ModelProvider;
 import org.slc.sli.api.selectors.model.elem.IncludeDefaultSelectorElement;
@@ -197,12 +198,38 @@ public class DefaultSelectorQueryEngineTest {
         assertTrue("should be true", plan.getChildQueryPlans().isEmpty());
     }
 
+    @Test
+    public void testEmptySelector() {
+        final ClassType studentType = provider.getClassType("Student");
+        final SemanticSelector selector = generateEmptySelectorMap();
+
+        final Map<Type, SelectorQueryPlan> queryPlan = defaultSelectorQueryEngine.assembleQueryPlan(selector);
+        assertNotNull(queryPlan);
+
+        SelectorQueryPlan plan = queryPlan.get(studentType);
+        assertTrue("should be true", plan.getIncludeFields().isEmpty());
+        assertTrue("should be true", plan.getExcludeFields().isEmpty());
+        assertTrue("should be true", plan.getChildQueryPlans().isEmpty());
+        assertNotNull("Should not be null", plan.getQuery());
+    }
+
     private SemanticSelector generateXSDSelectorMap() {
         final ClassType studentType = provider.getClassType("Student");
 
         final SemanticSelector studentAttrs = new SemanticSelector();
         final List<SelectorElement> attrs = new ArrayList<SelectorElement>();
         attrs.add(new IncludeXSDSelectorElement(studentType));
+        studentAttrs.put(studentType, attrs);
+
+        return studentAttrs;
+    }
+
+    private SemanticSelector generateEmptySelectorMap() {
+        final ClassType studentType = provider.getClassType("Student");
+
+        final SemanticSelector studentAttrs = new SemanticSelector();
+        final List<SelectorElement> attrs = new ArrayList<SelectorElement>();
+        attrs.add(new EmptySelectorElement(studentType));
         studentAttrs.put(studentType, attrs);
 
         return studentAttrs;
