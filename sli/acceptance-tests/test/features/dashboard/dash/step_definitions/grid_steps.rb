@@ -102,6 +102,19 @@ def getHeaderCellBasedOnId(ths, attribute)
   end
 end
 
+def clickOnRow(expectedItemToClickOn)
+  all_trs = getGrid(@currentTab)
+  link = nil
+  all_trs.each do |tr|
+    if tr.attribute("innerHTML").to_s.include?(expectedItemToClickOn)
+      link = tr.find_element(:link_text, expectedItemToClickOn)
+      break
+    end
+  end  
+  assert(link != nil, "#{expectedItemToClickOn} was not found")
+  link.click
+end
+
 #Checks against entries in a grid
 #use <empty> for empty cells
 def checkGridEntries(panel, table, mapping, isExactRowsMatch = true, gridNumber = 1)
