@@ -115,6 +115,8 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 
 		function showError(errorStatus, errorMsg) {
 			
+			// when the user session times out, the ajax request returns with
+			// error status 0. when that happens, reload the page, forcing re-login
 			if (errorStatus === 0) {
 				location.reload();
 				return;
