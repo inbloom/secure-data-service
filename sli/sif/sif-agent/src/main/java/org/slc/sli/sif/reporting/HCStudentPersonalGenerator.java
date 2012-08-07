@@ -38,6 +38,9 @@ import openadk.library.common.Street;
 import openadk.library.student.StudentAddressList;
 import openadk.library.student.StudentPersonal;
 
+/**
+ * Hard-coded StudentPersonal generator
+ */
 public class HCStudentPersonalGenerator implements EventGenerator {
 
     @Override

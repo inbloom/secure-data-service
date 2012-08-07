@@ -20,93 +20,96 @@ import openadk.library.common.AddressList;
 import openadk.library.common.PhoneNumberList;
 import openadk.library.datamodel.SEAInfo;
 
-import org.slc.sli.sif.domain.converter.SchoolMappings;
-
 /**
- * An SIF Entity corresponding to an SIF SEAInfo. Used by dozer to map SEAInfo into an SLI LEAEntity.
+ * An SIF Entity corresponding to an SIF SEAInfo. Used by dozer to map SEAInfo
+ * into an SLI LEAEntity.
  *
- * Note: Not all fields of SIF SEAInfo have SLI counterparts. Only those fields which have a valid
- * SLI counterpart have a getter defined here.
+ * Note: Not all fields of SIF SEAInfo have SLI counterparts. Only those fields
+ * which have a valid SLI counterpart have a getter defined here.
  *
  * Three mapping strategies are used when mapping those fields:
  * <ol>
- * <li>Direct value mapping where each SIF field value is mapped to the same SLI value. These include
- * <ol><li><code>StateProvinceId</code></li>
- *     <li><code>LEAName</code></li>
- *     <li><code>LEAURL</code></li></ol>
- * </li>
- *
- * <li>Simple value mapping where each SIF field value is mapped to a correnponding SLI value. These include
- * <ol><li><code>OperationalStatus</code></li></ol>
- * </li>
- *
- * <li>Complex value mapping where each SIF field value is mapped via a customized Dozer converter. These include
- *     <li><code>PhoneNumberList</code></li>
- *     <li><code>AddressList</code></li></ol>
- * </li>
+ * <li>Direct value mapping where each SIF field value is mapped to the same SLI
+ * value. These include
+ * <ol>
+ * <li><code>StateProvinceId</code></li>
+ * <li><code>LEAName</code></li>
+ * <li><code>LEAURL</code></li>
  * </ol>
+ * </li>
+ *
+ * <li>Simple value mapping where each SIF field value is mapped to a
+ * correnponding SLI value. These include
+ * <ol>
+ * <li><code>OperationalStatus</code></li>
+ * </ol>
+ * </li>
+ *
+ * <li>Complex value mapping where each SIF field value is mapped via a
+ * customized Dozer converter. These include
+ * <li><code>PhoneNumberList</code></li>
+ * <li><code>AddressList</code></li>
+ * </ol>
+ * </li> </ol>
  *
  * @author slee
  *
  */
-public class SEAInfoEntity extends GenericEntity
-{
+public class SEAInfoEntity extends SifEntity {
     private SEAInfo seaInfo;
 
     /**
-     *  Constructor
-     */
+    * Constructor
+    */
     public SEAInfoEntity(SEAInfo seaInfo) {
-        super( seaInfo );
+        super(seaInfo);
         this.seaInfo = seaInfo;
     }
 
     /**
-     *  Get StateProvinceId in an SIF LEAInfoEntity.
-     */
+    * Get StateProvinceId in an SIF LEAInfoEntity.
+    */
     public String getRefId() {
         return this.seaInfo.getRefId();
     }
 
     /**
-     *  Get SEAName in an SIF LEAInfoEntity.
-     */
+    * Get SEAName in an SIF LEAInfoEntity.
+    */
     public String getSEAName() {
         return this.seaInfo.getSEAName();
     }
 
     /**
-     *  Get SEAURL in an SIF SEAInfoEntity.
-     */
+    * Get SEAURL in an SIF SEAInfoEntity.
+    */
     public String getSEAURL() {
         return this.seaInfo.getSEAURL();
     }
 
     /**
-     *  Get OperationalStatus in an SIF SEAInfoEntity.
-     *  Using a value mapping method.
-     *
-     */
+    * Get OperationalStatus in an SIF SEAInfoEntity.
+    *
+    */
     public String getOperationalStatus() {
-        return SchoolMappings.toSliOperationalStatus(this.seaInfo.getOperationalStatus());
+        return this.seaInfo.getOperationalStatus();
     }
 
     /**
-     *  Get PhoneNumberList in an SIF SEAInfoEntity.
-     *  Using a customized Dozer converter.
-     *
-     */
+    * Get PhoneNumberList in an SIF SEAInfoEntity. Using a customized Dozer
+    * converter.
+    *
+    */
     public PhoneNumberList getPhoneNumberList() {
         return this.seaInfo.getPhoneNumberList();
     }
 
     /**
-     *  Get AddressList in an SIF SEAInfoEntity.
-     *  Using a customized Dozer converter.
-     *
-     */
+    * Get AddressList in an SIF SEAInfoEntity. Using a customized Dozer
+    * converter.
+    *
+    */
     public AddressList getAddressList() {
         return this.seaInfo.getAddressList();
     }
 }
-

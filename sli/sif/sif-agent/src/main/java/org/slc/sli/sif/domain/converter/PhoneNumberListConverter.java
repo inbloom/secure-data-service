@@ -17,50 +17,97 @@
 package org.slc.sli.sif.domain.converter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import openadk.library.common.PhoneNumber;
 import openadk.library.common.PhoneNumberList;
+import openadk.library.common.PhoneNumberType;
 
-import org.dozer.DozerConverter;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.sif.domain.slientity.InstitutionTelephone;
 
 /**
- * A customized Dozer converter to convert SIF PhoneNumberList to SLI telephone list.
+ * A customized converter to convert SIF PhoneNumberList to SLI telephone list.
+ *
+ * SLI values:
+ * Main
+ * Administrative
+ * HealthClinic
+ * Attendance
+ * Other
+ * Fax
  *
  * @author slee
  *
  */
-public class PhoneNumberListConverter extends DozerConverter<PhoneNumberList, List<InstitutionTelephone>>
-{
-    public PhoneNumberListConverter() {
-        super(PhoneNumberList.class, (Class<List<InstitutionTelephone>>)new ArrayList<InstitutionTelephone>().getClass());
+@Component
+public class PhoneNumberListConverter {
+
+    private static final Map<PhoneNumberType, String> PHONE_NUMBER_TYPE_MAP = new HashMap<PhoneNumberType, String>();
+    static {
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.ALT, "Other");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.ANSWERING_SERVICE, "Other");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.APPOINTMENT, "Other");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.BEEPER, "Other");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.FAX, "Fax");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.INSTANT_MESSAGING, "Other");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.MEDIA_CONFERENCE, "Other");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.PRIMARY, "Main");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_ALT, "Other");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_ANSWERING_SERVICE, "Other");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_APPT_NUMBER, "Other");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_BEEPER, "Other");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_EXT, "Other");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_HOME_FAX, "Fax");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_HOME_PHONE, "Other");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_NIGHT_PHONE, "Other");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_OTHER_RES_FAX, "Other");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_OTHER_RES_PHONE, "Other");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_PERSONAL_CELL, "Other");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_PERSONAL_PHONE, "Other");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_TELEMAIL, "Other");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_TELEX, "Other");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_VOICEMAIL, "Other");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_WORK_CELL, "Other");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_WORK_FAX, "Other");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.SIF1x_WORK_PHONE, "Other");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.TELEMAIL, "Other");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.TELEX, "Other");
+        PHONE_NUMBER_TYPE_MAP.put(PhoneNumberType.VOICE_MAIL, "Other");
     }
 
-    @Override
-    public List<InstitutionTelephone> convertTo(PhoneNumberList source,
-            List<InstitutionTelephone> destination)
-    {
-        if (source==null) {
+    /**
+     * Converts the SIF PhoneNumberList into an SLI telephone list
+     *
+     * @param phoneNumberList
+     * @return
+     */
+    public List<InstitutionTelephone> convert(PhoneNumberList phoneNumberList) {
+        if (phoneNumberList == null) {
             return null;
         }
-        PhoneNumber[] phoneNumbers = source.getPhoneNumbers();
+
+        return toSliTelephoneList(phoneNumberList.getPhoneNumbers());
+    }
+
+    private List<InstitutionTelephone> toSliTelephoneList(PhoneNumber[] phoneNumbers) {
         List<InstitutionTelephone> list = new ArrayList<InstitutionTelephone>(phoneNumbers.length);
         for (PhoneNumber phoneNumber : phoneNumbers) {
             InstitutionTelephone phone = new InstitutionTelephone();
             phone.setTelephoneNumber(phoneNumber.getNumber());
-            phone.setInstitutionTelephoneNumberType(SchoolMappings.toSliInstitutionTelephoneNumberType(phoneNumber.getType()));
+
+            String mappedType = toSliInstitutionTelephoneNumberType(PhoneNumberType.wrap(phoneNumber.getType()));
+            phone.setInstitutionTelephoneNumberType(mappedType);
             list.add(phone);
         }
         return list;
     }
 
-    @Override
-    public PhoneNumberList convertFrom(List<InstitutionTelephone> source,
-            PhoneNumberList destination)
-    {
-        return null;
+    private String toSliInstitutionTelephoneNumberType(PhoneNumberType phoneNumberType) {
+        String mapped = PHONE_NUMBER_TYPE_MAP.get(phoneNumberType);
+        return mapped == null ? "Other" : mapped;
     }
-
 }
