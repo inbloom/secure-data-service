@@ -10,16 +10,20 @@
     </ns2:method>
   </merge>
 
+  <!-- Add read -->
+  <merge type="node" action="add" xpath="//ns2:resource/ns2:resource">
+    <ns2:method id="read" name="GET">
+      <ns2:doc>Returns the specified resource representation(s).</ns2:doc>
+    </ns2:method>
+  </merge>
+
   <!-- Add verbs to /entity/{id} -->
   <merge type="node" action="add" xpath="//ns2:resource/ns2:resource[@path='{id}']">
     <ns2:method id="delete" name="DELETE">
       <ns2:doc>Deletes the specified resource.</ns2:doc>
     </ns2:method>
-    <ns2:method id="read" name="GET">
-      <ns2:doc>Returns the specified resource representation(s).</ns2:doc>
-    </ns2:method>
     <ns2:method id="update" name="PUT">
-      <ns2:doc>Updates the specified resource using the given resource data. </ns2:doc>
+      <ns2:doc>Updates the specified resource using the given resource data.</ns2:doc>
     </ns2:method>
   </merge>
 </merges>
