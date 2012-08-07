@@ -494,6 +494,7 @@ end
 desc "Run Admin-Tools Selenium Tests"
 task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests,:onboardingIntegrationTests,:provisionIntegrationTests,:tenantMetricsTests, :resetAndChangePasswordTests,:sandboxUserAdminTests, :adminWebTests] do
   Rake::Task["importSandboxData"].execute
+  Rake::Task["realmInit"].execute
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
