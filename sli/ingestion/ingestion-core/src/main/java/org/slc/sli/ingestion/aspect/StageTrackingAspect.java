@@ -50,6 +50,12 @@ public class StageTrackingAspect {
         return proceedAndTrackCall(pjp);
     }
 
+    @Around("call(protected void org.slc.sli.ingestion.transformation.EdFi2SLITransformer+.matchEntity(..)) && !within(org..*Test)")
+    public Object trackMatchEntity(ProceedingJoinPoint pjp) throws Throwable {
+
+        return proceedAndTrackCall(pjp);
+    }
+
     private Object proceedAndTrackCall(ProceedingJoinPoint pjp) throws Throwable {
 
         long start = System.currentTimeMillis();
