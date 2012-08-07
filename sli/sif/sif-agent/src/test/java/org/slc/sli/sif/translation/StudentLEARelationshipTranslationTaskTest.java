@@ -95,7 +95,6 @@ public class StudentLEARelationshipTranslationTaskTest
         slr.setLEAInfoRefId("LEAInfoRefID");
         slr.setSchoolYear(Integer.valueOf(2001));
         slr.setEntryDate(new GregorianCalendar(2004, Calendar.FEBRUARY, 29));
-//        slr.setGradeLevel(GradeLevelCode._01);
         slr.setExitDate(new GregorianCalendar(2012, Calendar.DECEMBER, 29));
 
         Mockito.when(mockSifIdResolver.getSliGuid("studentRefID")).thenReturn("SLI_StudentGUID");
