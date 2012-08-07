@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<merges xmlns:ns2="http://wadl.dev.java.net/2009/02">
+  <!-- add media types to POST/PUT -->
+  <merge type="node" action="add" xpath="//ns2:method[@name='POST' or @name='PUT']">
+    <ns2:request>
+      <ns2:representation mediaType="application/json; charset=utf-8"/>
+      <ns2:representation mediaType="application/vnd.slc+json; charset=utf-8"/>
+      <ns2:representation mediaType="application/xml; charset=utf-8"/>
+      <ns2:representation mediaType="application/vnd.slc+xml; charset=utf-8"/>
+    </ns2:request>
+    <ns2:response>
+      <ns2:representation mediaType="*/*"/>
+    </ns2:response>
+  </merge>
+
+  <!-- add media types to DELETE -->
+  <merge type="node" action="add" xpath="//ns2:method[@name='DELETE']">
+    <ns2:response>
+      <ns2:representation mediaType="*/*"/>
+    </ns2:response>
+  </merge>
+
+  <!-- add media types to GET -->
+  <merge type="node" action="add" xpath="//ns2:method[@name='GET']">
+    <ns2:request />
+    <ns2:response>
+      <ns2:representation mediaType="application/json; charset=utf-8"/>
+      <ns2:representation mediaType="application/vnd.slc+json; charset=utf-8"/>
+      <ns2:representation mediaType="application/xml; charset=utf-8"/>
+      <ns2:representation mediaType="application/vnd.slc+xml; charset=utf-8"/>
+    </ns2:response>
+  </merge>
+</merges>
