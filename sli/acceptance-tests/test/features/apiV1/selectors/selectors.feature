@@ -41,7 +41,6 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     | studentParentAssociations             |
     | studentSchoolAssociations             |
     | studentSectionAssociations            |
-    | schools                               |
     | id                                    |
     | entityType                            |
     | links                                 |
@@ -138,6 +137,8 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     | courseOfferings            |
     | sessions                   |
     | schools                    |
+    | teachers                   |
+    | students                   |
     | id                         |
     | entityType                 |
 
@@ -215,6 +216,7 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     And in "studentSectionAssociations" I should see the following fields only:
     | id         |
     | entityType |
+    | studentId  |
 
   Scenario: Sad path - '$' as selector field
     Given selector "($)"
@@ -232,6 +234,7 @@ Feature: As an SLI API, I want to be able to specify the network payload granula
     Then I should receive a return code of 400
     And I should be informed that the selector is invalid
 
+  @wip
   Scenario: Sad path - include and exclude a field at the same time
     Given selector "(.,sex:true,sex:false)"
     When I navigate to GET "/v1/students/<MARVIN MILLER STUDENT ID>"
