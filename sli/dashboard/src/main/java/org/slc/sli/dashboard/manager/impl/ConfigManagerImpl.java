@@ -220,7 +220,7 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
                     customComponentConfig = edOrgComponentConfig;
                 } else {
                     //edOrgComponentConfig overwrites customComponentConfig
-                    customComponentConfig = customComponentConfig.overWrite(edOrgComponentConfig);
+                    customComponentConfig = edOrgComponentConfig.overWrite(customComponentConfig);
                 }
             }
         }
