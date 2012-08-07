@@ -18,6 +18,7 @@ limitations under the License.
 
 
 require 'json'
+require 'mongo'
 
 require_relative '../../utils/sli_utils.rb'
 
@@ -25,7 +26,13 @@ Transform /^realm "([^"]*)"$/ do |arg1|
   id = "e5c12cb0-1bad-4606-a936-097b30bd47fe" if arg1 == "IL-Sunset"
   id = "4cfcbe8d-832d-40f2-a9ba-0a6f1daf3741" if arg1 == "Fake Realm"
   id = "45b03fa0-1bad-4606-a936-09ab71af37fe" if arg1 == "Another Fake Realm"
-  id = "45b01db0-1bed-6dd7-a936-09ab31bd37fe" if arg1 == "Sandbox"
+  if arg1 == "Sandbox"
+    conn = Mongo::Connection.new('localhost')
+    db = conn.db('sli')
+    coll = db.collection('realm')
+    sandboxRealm = coll.find_one({"body.uniqueIdentifier" => "SandboxIDP"})
+    id = sandboxRealm["_id"]
+  end
   id
 end
 

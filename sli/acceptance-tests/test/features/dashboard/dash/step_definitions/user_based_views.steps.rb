@@ -42,11 +42,11 @@ end
 
 Then /^I should have a dropdown selector named "([^"]*)"$/ do |elem|
   elem += "Menu"
-  @selector = @explicitWait.until{@driver.find_element(:id, elem)}
+  @selector = @explicitWait.until{@driver.find_element(:css, "div[class*='#{elem}']")}
 end
 
 Then /^I should have a selectable view named "([^"]*)"$/ do |view_name|
-  @selector = @explicitWait.until{@driver.find_element(:id, "viewSelectMenu")}
+  @selector = @explicitWait.until{@driver.find_element(:css, "div[class*='viewSelectMenu']")}
   spans = get_all_elements
   assert(spans.length > 0, "No views found")
   found = false
@@ -61,7 +61,7 @@ Then /^I should have a selectable view named "([^"]*)"$/ do |view_name|
 end
 
 Then /^I should only see one view named "([^"]*)"$/ do |view_name|
-  @selector = @explicitWait.until{@driver.find_element(:id, "viewSelectMenu")}
+  @selector = @explicitWait.until{@driver.find_element(:css, "div[class*='viewSelectMenu']")}
   span = get_all_elements
   assert(span.length == 1, "Found more than 1 view")
   span[0].should include view_name
