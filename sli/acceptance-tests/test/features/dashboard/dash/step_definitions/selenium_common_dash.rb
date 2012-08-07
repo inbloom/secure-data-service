@@ -103,7 +103,13 @@ end
 
 def selectDropdownOption(selectFieldId, optionToSelect)
   puts "dropDownId = " + selectFieldId
-  select = @explicitWait.until{@driver.find_element(:id, selectFieldId)}
+  select = nil
+  # Special case for view selector and filter, as they're a class
+  if (selectFieldId == "viewSelectMenu" || selectFieldId == "filterSelectMenu")
+    select = @explicitWait.until{@driver.find_element(:css, "div[class*='#{selectFieldId}']")}
+  else
+    select = @explicitWait.until{@driver.find_element(:id, selectFieldId)}
+  end
   select.find_element(:tag_name,"a").click
   all_options = select.find_element(:class_name, "dropdown-menu").find_elements(:tag_name, "li")
   optionFound = false
@@ -120,8 +126,13 @@ end
 # TODO: add this paramteres (tableRef, by), also may want to add TR class
 def countTableRows()
   @explicitWait.until{@driver.find_element(:class, "ui-jqgrid-bdiv")}
-  tableRows = @driver.find_elements(:css, "tr[class*='ui-widget-content']")
-  puts "# of TR = " +  @driver.find_elements(:css, "tr").length.to_s + ", table rows = " + tableRows.length.to_s
+  # we'll read from current tab if present
+  source = @driver
+  if (@currentTab != nil)
+    source = @currentTab
+  end
+  tableRows = source.find_elements(:css, "tr[class*='ui-widget-content']")
+  #puts "# of TR = " +  source.find_elements(:css, "tr").length.to_s + ", table rows = " + tableRows.length.to_s
   return tableRows.length
 end
 

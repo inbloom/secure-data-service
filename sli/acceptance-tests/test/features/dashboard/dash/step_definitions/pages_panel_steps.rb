@@ -20,13 +20,13 @@ limitations under the License.
 require 'selenium-webdriver'
 
 And /^there are "([^"]*)" Tabs$/ do |tabCount|
-  allTabs = @driver.find_element(:id, "tabs")
+  allTabs = @driver.find_element(:id, "tabs").find_element(:tag_name, "ul")
   tab = allTabs.find_elements(:tag_name, "li")
   assert(tabCount.to_i == tab.length, "Actual Tab Count: " + tab.length.to_s)
 end
 
 Given /^Tab "([^"]*)" is titled "([^"]*)"$/ do |tabIndex, tabTitle|
-  allTabs = @driver.find_element(:id, "tabs")
+  allTabs = @driver.find_element(:id, "tabs").find_element(:tag_name, "ul")
   tab = allTabs.find_elements(:tag_name, "li")
   title = tab[tabIndex.to_i-1].find_element(:tag_name, "a")
   assert(title.text == tabTitle, "Actual Title: " + title.text)
@@ -66,7 +66,7 @@ end
 
 # Given a tabname, find the tab ID index to know which tab to read from
 def getTabIndex(tabName)
-  allTabs = @driver.find_element(:id, "tabs")
+  allTabs = @driver.find_element(:id, "tabs").find_element(:tag_name, "ul")
   links = allTabs.find_elements(:tag_name, "a")
   found = nil
   tabIndex = nil
@@ -114,7 +114,7 @@ end
 
 def checkPageOrder(expectedPages, extraTabsToIgnore = 0)
   expected = expectedPages.split(';')  
-  actual = @driver.find_element(:id, "tabs").find_elements(:tag_name, "li") 
+  actual = @driver.find_element(:id, "tabs").find_element(:tag_name, "ul").find_elements(:tag_name, "li") 
   assert(expected.length == actual.length - extraTabsToIgnore.to_i , "size of pages are not equal Actual: " + (actual.length - extraTabsToIgnore.to_i).to_s + " Expected: " + expected.length.to_s )
   for index in 0..actual.length - 1 - extraTabsToIgnore.to_i  
     page = actual[index]
