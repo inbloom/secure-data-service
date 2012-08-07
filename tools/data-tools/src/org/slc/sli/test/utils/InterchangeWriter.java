@@ -62,7 +62,7 @@ public class InterchangeWriter<T> {
         
         interchangeStartTime = System.currentTimeMillis();
         interchangeName = interchange.getSimpleName();
-        xmlFilePath = MetaRelations.rootOutputPath + "/" + interchangeName + ".xml";
+        xmlFilePath = StateEdFiXmlGenerator.rootOutputPath + "/" + interchangeName + ".xml";
 
         System.out.println("Creating interchange " + interchangeName);
         try {

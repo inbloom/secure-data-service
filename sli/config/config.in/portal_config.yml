@@ -113,3 +113,16 @@ devlr2:
         portal.oauth.redirect: https://lbportal.slidev.org/portal/c/portal/login
         log.path: /opt/tomcat/logs/
         log.level: INFO
+        
+team:
+    portal:
+        <<: *PORTAL-DEFAULT
+        api.server.url: https://${sli.dev.subdomain}.slidev.org/
+        security.server.url: https://${sli.dev.subdomain}.slidev.org/
+        portal.oauth.encryption: false
+        portal.oauth.client.id: lY83c5HmTPX
+        portal.oauth.client.secret: ghjZfyAXi7qwejklcxziuohiueqjknfdsip9cxzhiu13mnsX
+        portal.oauth.redirect: https://${sli.dev.subdomain}.slidev.org/portal/c/portal/login
+        log.path: /opt/portal
+        log.level: INFO
+  

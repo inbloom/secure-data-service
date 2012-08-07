@@ -91,13 +91,13 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentGradebookEntry.xml" />
       </bean>
     </entry>
-    
-    <entry key="session">      
-      <bean class="org.milyn.Smooks">        
-        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/session.xml" />      
-      </bean>    
-    </entry>    
-    
+
+    <entry key="session">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/session.xml" />
+      </bean>
+    </entry>
+
     <entry key="courseOffering">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/courseOffering.xml" />
@@ -112,6 +112,16 @@
     <entry key="section">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/section.xml" />
+      </bean>
+    </entry>
+    <entry key="studentSectionAssociation">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentSectionAssociation.xml" />
+      </bean>
+    </entry>
+    <entry key="studentParentAssociation">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentParentAssociation.xml" />
       </bean>
     </entry>
   </util:map>
@@ -138,7 +148,7 @@
   <bean id="entityConfigurationsFactory" class="org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory">
     <property name="searchPath" value="classpath:smooksEdFi2SLI/" />
   </bean>
- 
+
 
 </beans>
 

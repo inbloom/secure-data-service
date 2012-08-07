@@ -30,9 +30,9 @@ When I select "Illinois Sunset School District 4526" and click go
 Then I get an error message "We're sorry, the page that you were looking for could not be found."
 #Then I get an error message "We're sorry, your district has disallowed use of the Dashboard." #DE1112 should enable this step 
 
-# DE1357 needs to rework this test in one form or another to get it to pass again
-@DE1112 @wip
+@DE1112
 Scenario: School User whose district has disallowed the Dashboard for their district
+Given the district "NY-Dusk" has dissallowed use of the dashboard
 When I select "New York Realm" and click go
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "agibbs" "agibbs1234" for the "Simple" login page

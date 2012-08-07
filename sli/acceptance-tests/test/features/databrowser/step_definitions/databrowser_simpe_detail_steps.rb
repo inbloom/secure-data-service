@@ -139,7 +139,7 @@ When /^I click on the "([^"]*)" of any of the associating entities$/ do |arg1|
 end
 
 Then /^I am redirected to a page that page lists all of the "([^"]*)" entity's fields$/ do |arg1|
-  assertWithWait("Failed to find entity details")  {@driver.find_element(:xpath, "//dd[text()='#{arg1}']")}
+  assertWithWait("Failed to find entity details")  {@driver.find_element(:xpath, "//div[text()='#{arg1}']")}
 end
 
 Then /^I am redirected to the particular associations Simple View$/ do
@@ -151,7 +151,7 @@ Then /^I am redirected to the particular entity Detail View$/ do
   assertWithWait("Failed to find table of associations")  {@driver.find_elements(:id, "simple-table").size == 0}
   
   # Then make sure you can see specific details of the entity
-  assertWithWait("Failed to find entity details")  {@driver.find_element(:xpath, "//dd[text()='Detention']")}
+  assertWithWait("Failed to find entity details")  {@driver.find_element(:xpath, "//div[text()='Detention']")}
 end
 
 When /^I click on any of the entity IDs$/ do

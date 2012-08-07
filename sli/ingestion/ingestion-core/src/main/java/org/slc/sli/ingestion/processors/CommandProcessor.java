@@ -85,17 +85,19 @@ public class CommandProcessor {
 
         Map<String, Pair<AtomicLong, AtomicLong>> stats = MongoTrackingAspect.aspectOf().getStats();
 
-        String hostName = InetAddress.getLocalHost().getHostName();
-        hostName = hostName.replaceAll("\\.", "#");
-        Update update = new Update();
-        update.set("executionStats." + hostName, stats);
+        if (stats != null) {
+            String hostName = InetAddress.getLocalHost().getHostName();
+            hostName = hostName.replaceAll("\\.", "#");
+            Update update = new Update();
+            update.set("executionStats." + hostName, stats);
 
-        LOG.info("Dumping runtime stats to db for job {}", batchId);
-        LOG.info(stats.toString());
+            LOG.info("Dumping runtime stats to db for job {}", batchId);
+            LOG.info(stats.toString());
 
-        mongo.updateFirst(new Query(Criteria.where(BATCH_JOB_ID).is(batchId)), update, "newBatchJob");
-        MongoTrackingAspect.aspectOf().reset();
-        LOG.info("Runtime stats are now cleared.");
+            mongo.updateFirst(new Query(Criteria.where(BATCH_JOB_ID).is(batchId)), update, "newBatchJob");
+            MongoTrackingAspect.aspectOf().reset();
+            LOG.info("Runtime stats are now cleared.");
+        }
     }
 
 }

@@ -50,11 +50,11 @@ Given /^I have a valid account as a LEA Administrator$/ do
 end 
 
 Given /^There is a user with "(.*?)", "(.*?)", "(.*?)", and "(.*?)" in LDAP Server$/ do |full_name, role, addition_roles, email|
-  new_user=create_new_user(full_name, role, addition_roles)
+  new_user=create_new_user(full_name.gsub("hostname", Socket.gethostname), role, addition_roles)
   new_user['email']=email.gsub("hostname", Socket.gethostname)
   new_user['uid']=new_user['email']
   new_user['tenant']="Midgar"
-  new_user['edorg']="IL-DAYBREAK"
+  new_user['edorg']="IL-SUNSET"
 
   idpRealmLogin("operator", nil)
   sessionId = @sessionId
@@ -62,9 +62,48 @@ Given /^There is a user with "(.*?)", "(.*?)", "(.*?)", and "(.*?)" in LDAP Serv
 
   restHttpDelete("/users/#{new_user['uid']}", format, sessionId)
   restHttpPost("/users", new_user.to_json, format, sessionId)
-  puts "user created in ldap"
   @user_full_name="#{new_user['firstName']} #{new_user['lastName']}"
   @user_unique_id=new_user['uid']
+end
+
+Given /^there is a production "(.*?)" with tenancy "(.*?)" and in "(.*?)"$/ do |role, tenant, edorg|
+  @sandboxMode=false
+  ApprovalEngine.init(@ldap,Emailer.new(@email_conf),nil,false)
+  @email = "#{Socket.gethostname}_prodtestuser2@testwgen.net"
+
+  if ApprovalEngine.user_exists?(@email)
+     ApprovalEngine.remove_user(@email)
+  end
+  sleep(1)
+
+  @user_info = {
+       :first => "SAMT",
+       :last => "Test",
+       :email => @email,
+       :emailAddress => @email,
+       :password => "test1234",
+       :emailtoken => "token",
+       :status => "submitted",
+       :homedir => "/dev/null",
+       :uidnumber => "500",
+       :gidnumber => "500",
+       :tenant => "#{tenant}",
+       :edorg => "#{edorg}"
+  }
+ 
+  ApprovalEngine.add_disabled_user(@user_info)
+  ApprovalEngine.change_user_status(@email, ApprovalEngine::ACTION_ACCEPT_EULA)
+  @user_info = ApprovalEngine.get_user(@email)
+  ApprovalEngine.verify_email(@user_info[:emailtoken])
+
+
+  @ldap.add_user_group(@email, role)
+
+end
+
+Then /^I can navigate to the User Management Page with that production user$/ do
+  step "I navigate to the sandbox user account management page"
+  step "I submit the credentials \"#{@user_info[:email]}\" \"test1234\" for the \"Simple\" login page"
 end
 
 When /^I navigate to the User Management Page$/ do
@@ -76,6 +115,7 @@ Given /^the prod testing user does not already exists in LDAP$/ do
   sessionId = @sessionId
   format = "application/json"
   restHttpDelete("/users/"+Socket.gethostname+"_prodtestuser@testwgen.net", format, sessionId)
+  restHttpDelete("/users/"+Socket.gethostname+"_prodtestuser2@testwgen.net", format, sessionId)
 end
 
 
@@ -103,6 +143,11 @@ Then /^I do not see (.*?) Role$/ do |role|
   drop_down = @driver.find_element(:id, "user_primary_role")
   option = drop_down.find_elements(:xpath, ".//option[text()=#{role}]")
   assert(option.size==0, "Should not see #{role} from the Roles drop down menu")
+end
+
+Then /^I do not see Role selection nor EdOrg dropdown menu$/ do 
+  roles_edorg_block = @driver.find_element(:id, "roles_edorg_block")
+  assert(roles_edorg_block.displayed? == false, "role and edorg block is visible")
 end
 
 Then /^I can change the EdOrg dropdown to "(.*?)"$/ do |selection| 
@@ -145,4 +190,43 @@ end
 
 Then /^I cannot update any other field$/ do
           pending # express the regexp above with the code you wish you had
+end
+
+Then /^I do not see any other LEA admin from (.*?) besides me$/ do |edorg|
+  my_name="#{@user_info[:first]} #{@user_info[:last]}"
+  my_edorg="#{@user_info[:first]} #{@user_info[:last]}"
+  found_myself=false
+  table=@driver.find_element(:id, "Users_Management_Table")
+  table.find_elements(:xpath, ".//tbody/tr").each do |tr|
+    full_name = tr.find_elements(:xpath, ".//td")[0].text()
+    roles = tr.find_element(:id, "#{full_name}_role").text()
+    edorg = tr.find_element(:id, "#{full_name}_edorg").text()
+    if(roles.rindex("LEA Administrator") != nil) 
+        if(full_name == my_name) 
+            found_myself = true
+        end 
+        assert(my_edorg != edorg || full_name == my_name, "I see other LEA besides me #{full_name}") 
+    end 
+  end
+
+  assert(found_myself, "I didn't show up on the LEA list")
+end
+
+
+Then /^any other LEA admin belongs to "(.*?)"$/ do |edorgs| 
+  my_name="#{@user_info[:first]} #{@user_info[:last]}"
+  sub_edorgs = edorgs.split(",")
+  sub_edorgs.each do |sub|
+    sub.strip!
+  end
+      
+  table=@driver.find_element(:id, "Users_Management_Table")
+  table.find_elements(:xpath, ".//tbody/tr").each do |tr|
+    full_name = tr.find_elements(:xpath, ".//td")[0].text()
+    roles = tr.find_element(:id, "#{full_name}_role").text()
+    edorg = [tr.find_element(:id, "#{full_name}_edorg").text()]
+    if(roles.rindex("LEA Administrator") != nil and my_name != full_name) 
+        assert((sub_edorgs & edorg).size==1, " other LEA #{full_name} besides me in #{edorg[0]}") 
+    end 
+  end
 end

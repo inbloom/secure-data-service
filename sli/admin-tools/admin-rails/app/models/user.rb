@@ -27,8 +27,6 @@ class User < SessionResource
   
   schema do
     string  "uid"
-    string  "firstName"
-    string  "lastName"
     string  "email"
     string  "tenant"
     string  "edorg"
