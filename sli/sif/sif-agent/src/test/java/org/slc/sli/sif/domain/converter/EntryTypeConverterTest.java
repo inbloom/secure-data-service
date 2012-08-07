@@ -24,18 +24,21 @@ import org.junit.Test;
 
 import org.slc.sli.sif.ADKTest;
 
+/**
+ * Test class for EntryTypeConverter
+ */
 public class EntryTypeConverterTest extends ADKTest {
 
     private final EntryTypeConverter converter = new EntryTypeConverter();
 
     @Test
-    public void testNullObject(){
+    public void testNullObject() {
         String result = converter.convert(null);
         Assert.assertNull("Entry Type should be null", result);
     }
 
     @Test
-    public void testMappings(){
+    public void testMappings() {
         Assert.assertEquals(converter.convert(getEntryType(EntryTypeCode._0619_1821)), "Transfer from a public school in the same local education agency");
         Assert.assertEquals(converter.convert(getEntryType(EntryTypeCode._0619_1822)), "Transfer from a public school in a different local education agency in the same state");
         Assert.assertEquals(converter.convert(getEntryType(EntryTypeCode._0619_1823)), "Transfer from a public school in a different state");
@@ -63,6 +66,5 @@ public class EntryTypeConverterTest extends ADKTest {
         et.setCode(code);
         return et;
     }
-
 
 }
