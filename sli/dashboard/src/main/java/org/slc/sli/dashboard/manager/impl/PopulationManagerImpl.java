@@ -902,6 +902,23 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         return getApiClient().getTeacher(token, (String) teacherId);
     }
 
+    @Override
+    public GenericEntity getTeachersForSchool(String token, Object schoolId, Config.Data config) {
+    	List<GenericEntity> teachers = getApiClient().getTeachersForSchool(token, (String) schoolId);
+    	
+    	if (teachers != null) {
+            for (GenericEntity teacher : teachers) {
+            	addFullName(teacher);
+            }
+    	}
+
+        GenericEntity result = new GenericEntity();
+
+        result.put(Constants.ATTR_TEACHERS, teachers);
+        
+    	return result;
+    }
+    
     /*
      * (non-Javadoc)
      *

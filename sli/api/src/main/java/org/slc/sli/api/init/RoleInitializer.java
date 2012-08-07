@@ -63,31 +63,23 @@ public class RoleInitializer {
     @Qualifier("validationRepo")
     private Repository<Entity> repository;
     
-    public void dropAndBuildRoles(String tenantId, String realmId) {
-        dropRoles(tenantId, realmId);
+    public void dropAndBuildRoles(String realmId) {
+        dropRoles(realmId);
         buildRoles(realmId);
     }
     
-    private void dropRoles(String tenantId, String realmId) {
-        if (tenantId != null) {
-            if (realmId != null) {
-                NeutralQuery query = new NeutralQuery(0);
-                query.addCriteria(new NeutralCriteria("metaData.tenantId", "=", tenantId, false));
-                query.addCriteria(new NeutralCriteria("realmId", "=", realmId));
-                
-                Entity entity = repository.findOne(ROLES, query);
-                if (entity != null) {
-                    repository.delete(ROLES, entity.getEntityId());
-                    info("Successfully dropped roles from realm: {}", new Object[] { realmId });
-                } else {
-                    info("No roles exist to drop for realm: {}", new Object[] { realmId });
-                }
-            } else {
-                warn("Null realm id --> not dropping roles.");
-            }
+    public void dropRoles(String realmId) {
+        NeutralQuery query = new NeutralQuery(0);
+        query.addCriteria(new NeutralCriteria("realmId", "=", realmId));
+        
+        Entity entity = repository.findOne(ROLES, query);
+        if (entity != null) {
+            repository.delete(ROLES, entity.getEntityId());
+            info("Successfully dropped roles from realm: {}", new Object[] { realmId });
         } else {
-            warn("Null tenant id --> not dropping roles.");
+            info("No roles exist to drop for realm: {}", new Object[] { realmId });
         }
+
     }
     
     public int buildRoles(String realmId) {
