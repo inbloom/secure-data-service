@@ -1,0 +1,43 @@
+{
+    "keyFields" : ["body.studentId","body.parentId"],
+    "references" :
+    [{
+        "fieldPath" : "body.studentId",
+        "ref" :
+        {
+	        "entityType" : "student",
+	        "choiceOfFields" :
+	        [
+	            [
+		            {
+		           	    "path" : "body.studentUniqueStateId",
+		                "values" :
+		                [{
+			                "valueSource" : "body.studentReference.studentIdentity.studentUniqueStateId"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    },
+    {
+        "fieldPath" : "body.parentId",
+        "ref" :
+        {
+            "entityType" : "parent",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.parentUniqueStateId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.parentReference.parentIdentity.parentUniqueStateId"
+                        }]
+                    }
+                ]
+            ]
+        }
+    }]
+}
+
