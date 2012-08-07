@@ -16,8 +16,8 @@
 
 package org.slc.sli.sif.translation;
 
-import java.util.List;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import openadk.library.ADK;
 import openadk.library.ADKException;
@@ -39,14 +39,13 @@ import org.slc.sli.sif.domain.converter.ExitTypeConverter;
 import org.slc.sli.sif.domain.converter.GradeLevelsConverter;
 import org.slc.sli.sif.domain.converter.SchoolYearConverter;
 import org.slc.sli.sif.domain.slientity.StudentSchoolAssociationEntity;
-import org.slc.sli.sif.domain.slientity.SliEntity;
 import org.slc.sli.sif.slcinterface.SifIdResolver;
 
 public class StudentSchoolEnrollmentTranslationTaskTest
 {
     @InjectMocks
     private final StudentSchoolEnrollmentTranslationTask translator = new StudentSchoolEnrollmentTranslationTask();
-    
+
     @Mock
     SifIdResolver mockSifIdResolver;
 
@@ -67,7 +66,7 @@ public class StudentSchoolEnrollmentTranslationTaskTest
 
     @Test
     public void testNotNull() throws SifTranslationException {
-        List<SliEntity> result = translator.translate(new StudentSchoolEnrollment());
+        List<StudentSchoolAssociationEntity> result = translator.translate(new StudentSchoolEnrollment());
         Assert.assertNotNull("Result was null", result);
         Assert.assertEquals(1, result.size());
     }
@@ -88,9 +87,9 @@ public class StudentSchoolEnrollmentTranslationTaskTest
         Mockito.when(mockSifIdResolver.getSliGuid("studentRefID")).thenReturn("SLI_StudentGUID");
         Mockito.when(mockSifIdResolver.getSliGuid("schoolInfoRefID")).thenReturn("SLI_SchoolGUID");
 
-        List<SliEntity> result = translator.translate(sse);
+        List<StudentSchoolAssociationEntity> result = translator.translate(sse);
         Assert.assertEquals(1, result.size());
-        StudentSchoolAssociationEntity entity = (StudentSchoolAssociationEntity) result.get(0);
+        StudentSchoolAssociationEntity entity = result.get(0);
     }
 
 }

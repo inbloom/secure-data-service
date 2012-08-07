@@ -35,12 +35,10 @@ import org.slc.sli.sif.domain.converter.SchoolFocusConverter;
 import org.slc.sli.sif.domain.converter.SchoolLevelTypeConverter;
 import org.slc.sli.sif.domain.converter.TitleIPartASchoolDesignationConverter;
 import org.slc.sli.sif.domain.slientity.SchoolEntity;
-import org.slc.sli.sif.domain.slientity.SliEntity;
 import org.slc.sli.sif.domain.slientity.TitleIPartASchoolDesignation;
 
 @Component
-public class SchoolInfoTranslationTask<A extends SchoolInfo, B extends SchoolEntity> extends
-        AbstractTranslationTask<SchoolInfo> {
+public class SchoolInfoTranslationTask extends AbstractTranslationTask<SchoolInfo, SchoolEntity> {
 
     @Autowired
     AddressListConverter addressListConverter;
@@ -68,7 +66,7 @@ public class SchoolInfoTranslationTask<A extends SchoolInfo, B extends SchoolEnt
     }
 
     @Override
-    public List<SliEntity> doTranslate(SchoolInfo sifData) {
+    public List<SchoolEntity> doTranslate(SchoolInfo sifData) {
         SchoolInfo schoolInfo = sifData;
         SchoolEntity result = new SchoolEntity();
 
@@ -79,7 +77,8 @@ public class SchoolInfoTranslationTask<A extends SchoolInfo, B extends SchoolEnt
 
         result.setStateOrganizationId(schoolInfo.getStateProvinceId());
         result.setNameOfInstitution(schoolInfo.getSchoolName());
-        result.setOperationalStatus(operationalStatusConverter.convert(OperationalStatus.wrap(schoolInfo.getOperationalStatus())));
+        result.setOperationalStatus(operationalStatusConverter.convert(OperationalStatus.wrap(schoolInfo
+                .getOperationalStatus())));
         result.setAddress(addressListConverter.convert(schoolInfo.getAddressList()));
         result.setSchoolType(schoolFocusConverter.convert(schoolInfo.getSchoolFocusList()));
         result.setWebSite(schoolInfo.getSchoolURL());
@@ -93,7 +92,7 @@ public class SchoolInfoTranslationTask<A extends SchoolInfo, B extends SchoolEnt
             result.setSchoolType(schoolType.getText());
         }
 
-        List<SliEntity> list = new ArrayList<SliEntity>(1);
+        List<SchoolEntity> list = new ArrayList<SchoolEntity>(1);
         list.add(result);
         return list;
     }

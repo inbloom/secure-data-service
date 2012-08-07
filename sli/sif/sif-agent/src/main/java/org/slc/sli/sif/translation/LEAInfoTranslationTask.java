@@ -29,7 +29,6 @@ import org.slc.sli.sif.domain.converter.AddressListConverter;
 import org.slc.sli.sif.domain.converter.OperationalStatusConverter;
 import org.slc.sli.sif.domain.converter.PhoneNumberListConverter;
 import org.slc.sli.sif.domain.slientity.LEAEntity;
-import org.slc.sli.sif.domain.slientity.SliEntity;
 
 /**
  * An implementation for translation of a SIF LEAInfo
@@ -39,9 +38,7 @@ import org.slc.sli.sif.domain.slientity.SliEntity;
  *
  */
 @Component
-public class LEAInfoTranslationTask<A extends LEAInfo, B extends LEAEntity>
-                        extends AbstractTranslationTask<LEAInfo>
-{
+public class LEAInfoTranslationTask extends AbstractTranslationTask<LEAInfo, LEAEntity> {
     @Autowired
     OperationalStatusConverter operationalStatusConverter;
 
@@ -51,16 +48,14 @@ public class LEAInfoTranslationTask<A extends LEAInfo, B extends LEAEntity>
     @Autowired
     AddressListConverter addressListConverter;
 
-    public LEAInfoTranslationTask()
-    {
+    public LEAInfoTranslationTask() {
         super(LEAInfo.class);
     }
 
     @Override
-    public List<SliEntity> doTranslate(LEAInfo leaInfo)
-    {
+    public List<LEAEntity> doTranslate(LEAInfo leaInfo) {
         LEAEntity e = new LEAEntity();
-        //covert properties
+        // covert properties
         e.setStateOrganizationId(leaInfo.getStateProvinceId());
         e.setWebSite(leaInfo.getLEAURL());
         e.setNameOfInstitution(leaInfo.getLEAName());
@@ -68,7 +63,7 @@ public class LEAInfoTranslationTask<A extends LEAInfo, B extends LEAEntity>
         e.setAddress(addressListConverter.convert(leaInfo.getAddressList()));
         e.setTelephone(phoneNumberListConverter.convert(leaInfo.getPhoneNumberList()));
 
-        List<SliEntity> list = new ArrayList<SliEntity>(1);
+        List<LEAEntity> list = new ArrayList<LEAEntity>(1);
         list.add(e);
         return list;
     }

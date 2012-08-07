@@ -32,7 +32,7 @@ import org.slc.sli.sif.domain.slientity.SliEntity;
  *
  */
 
-public abstract class AbstractTranslationTask<T extends SIFDataObject> implements TranslationTask<SIFDataObject, SliEntity>
+public abstract class AbstractTranslationTask<T extends SIFDataObject, E extends SliEntity> implements TranslationTask<E>
 {
     private Class<T> sifPrototype;
 
@@ -48,7 +48,7 @@ public abstract class AbstractTranslationTask<T extends SIFDataObject> implement
 
 
     @Override
-    public List<SliEntity> translate(SIFDataObject sifData) throws SifTranslationException
+    public List<E> translate(SIFDataObject sifData) throws SifTranslationException
     {
         Class<?> wrappedSifClass = ClassUtils.primitiveToWrapper(sifData.getClass());
 
@@ -58,5 +58,5 @@ public abstract class AbstractTranslationTask<T extends SIFDataObject> implement
         return doTranslate((T)sifData);
     }
 
-    abstract public List<SliEntity> doTranslate(T sifData);
+    abstract public List<E> doTranslate(T sifData);
 }
