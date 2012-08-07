@@ -15,10 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-Then /^I go to Teacher Profile$/ do
-  # this is temporary until we have a link to teacher profile
-  url = getBaseUrl() + "/s/l/teacher/8e2dbe38-273a-477c-95d0-bc8c47701103"
-  @driver.get url
+When /^I look at Teacher Profile$/ do
   @teacherInfo = viewInfoPanel("teacherProfile")
   verifyPageTitle("SLC - Teacher Profile")
   #Assume first tab is Sections
@@ -39,14 +36,20 @@ Then /^I see the following current sections:$/ do |table|
 end
 
 Then /^I click to see section "(.*?)"$/ do |sectionName|
-  all_trs = getGrid(@currentTab)
-  section = nil
-  all_trs.each do |tr|
-    if tr.attribute("innerHTML").to_s.include?(sectionName)
-      section = tr.find_element(:link_text, sectionName)
-      break
-    end
-  end  
-  assert(section!=nil, "Section #{sectionName} was not found")
-  section.click
+  clickOnRow(sectionName)
+end
+
+######### List of Teachers #################
+
+When /^I see the following teachers:$/ do |table|
+  panel = getPanel("Teachers")
+  #headers
+  mapping = {
+    "Teachers" => "fullName"
+  }   
+  checkGridEntries(panel, table, mapping)
+end
+
+When /^I click on teacher "(.*?)"$/ do |teacherName|
+  clickOnRow(teacherName)
 end

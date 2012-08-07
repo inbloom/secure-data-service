@@ -157,6 +157,7 @@ class ApplicationController < ActionController::Base
     session[:edOrg] = check["edOrg"]
     session[:edOrgId] = check["edOrgId"]
     session[:external_id] = check["external_id"]
+    session[:tenant_id] = get_tenant()
   end
 
 end

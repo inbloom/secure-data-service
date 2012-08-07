@@ -273,9 +273,11 @@ public class ApplicationResource extends DefaultCrudEndpoint {
                 Map appMap = (Map) app;
                 Map reg = (Map) appMap.get("registration");
                 //only see client id and secret if you're an app developer and it's approved
-                if (hasRight(Right.DEV_APP_CRUD) && !reg.get("status").equals("APPROVED")) {
-                    appMap.remove(CLIENT_ID);
-                    appMap.remove(CLIENT_SECRET);
+                if (hasRight(Right.DEV_APP_CRUD)) {
+                    if (!reg.get("status").equals("APPROVED")) {
+                        appMap.remove(CLIENT_ID);
+                        appMap.remove(CLIENT_SECRET);
+                    }
                 } else if (!hasRight(Right.SLC_APP_APPROVE)) {  //or if your an operator
                     appMap.remove(CLIENT_ID);
                     appMap.remove(CLIENT_SECRET);

@@ -54,7 +54,7 @@ import org.slc.sli.domain.enums.Right;
 public class UserResource {
 
     @Autowired
-    LdapService ldapService;
+    private LdapService ldapService;
 
     @Value("${sli.simple-idp.sliAdminRealmName}")
     private String realm;
@@ -139,6 +139,7 @@ public class UserResource {
     @Path("{uid}")
     public final Response delete(@PathParam("uid") final String uid) {
         assertEnabled();
+
         Response result = validateUserDelete(uid, secUtil.getTenantId());
         if (result != null) {
             return result;
@@ -208,10 +209,8 @@ public class UserResource {
 
         if (user.getEmail() == null) {
             return badRequest("No email address");
-        } else if (user.getFirstName() == null) {
-            return badRequest("No first name");
-        } else if (user.getLastName() == null) {
-            return badRequest("No last name");
+        } else if (user.getFullName() == null) {
+            return badRequest("No name");
         } else if (user.getUid() == null) {
             return badRequest("No uid");
         }
@@ -230,8 +229,13 @@ public class UserResource {
             return result;
         }
 
-        result = validateCannotUpdateOwnsRoles(user);
+        result = validateLEACannotUpdateOwnsRolesTenancyEdorg(user);
         if (result != null) {
+            return result;
+        }
+
+        result = validateCannotOperateOnPeerLEA(user, secUtil.getEdOrg());
+        if(result != null) {
             return result;
         }
 
@@ -246,12 +250,21 @@ public class UserResource {
 
         User userToDelete = ldapService.getUser(realm, uid);
         if (userToDelete == null) {
+            // remove the user from group even user doesnt exist for slc operator
+            if (secUtil.hasRole(RoleInitializer.SLC_OPERATOR)) {
+                ldapService.removeUser(realm, uid);
+            }
             EntityBody body = new EntityBody();
             body.put("response", "user with uid=" + uid + " does not exist");
             return Response.status(Status.NOT_FOUND).entity(body).build();
         }
 
-        result = validateUserGroupsAllowed(getGroupsAllowed(), userToDelete.getGroups());
+        // allow the slc operator to remove the user even the user has no groups
+        if (secUtil.hasRole(RoleInitializer.SLC_OPERATOR) && userToDelete.getGroups() == null) {
+            result = null;
+        } else {
+            result = validateUserGroupsAllowed(getGroupsAllowed(), userToDelete.getGroups());
+        }
         if (result != null) {
             return result;
         }
@@ -269,9 +282,11 @@ public class UserResource {
         return null;
     }
 
-    private Response validateCannotOperateOnPeerLEA(User userToDelete, String adminEdOrg) {
-        if (isLeaAdmin() && isUserLeaAdmin(userToDelete)) {
-            if (userToDelete.getEdorg() != null && userToDelete.getEdorg().equals(adminEdOrg)) {
+    private Response validateCannotOperateOnPeerLEA(User userToModify, String adminEdOrg) {
+        if (isLeaAdmin() && isUserLeaAdmin(userToModify)
+                && !userToModify.getUid().equals(secUtil.getUid())) { //only blocking peer LEA
+
+            if (userToModify.getEdorg() != null && userToModify.getEdorg().equals(adminEdOrg)) {
                 EntityBody body = new EntityBody();
                 body.put("response", "not allowed to execute this operation on peer admin users");
                 return Response.status(Status.FORBIDDEN).entity(body).build();
@@ -281,17 +296,33 @@ public class UserResource {
         return null;
     }
 
-    private Response validateCannotUpdateOwnsRoles(User user) {
-        if (user.getUid().equals(secUtil.getUid())) {
+    private Response validateLEACannotUpdateOwnsRolesTenancyEdorg(User user) {
+
+        if (isLeaAdmin() && user.getUid().equals(secUtil.getUid())) {
             User currentUser = ldapService.getUser(realm, secUtil.getUid());
+
+            String error = null;
             if (!currentUser.getGroups().containsAll(RoleToGroupMapper.getInstance().mapRoleToGroups(user.getGroups()))
                     || !RoleToGroupMapper.getInstance().mapRoleToGroups(user.getGroups())
                             .containsAll(currentUser.getGroups())) {
+                error = "cannot update own roles";
+            }
+
+            if (!currentUser.getTenant().equals(user.getTenant())) {
+                error = "cannot update own tenancy";
+            }
+
+            if (!currentUser.getEdorg().equals(user.getEdorg())) {
+                error = "cannot update own edorg";
+            }
+
+            if (error != null) {
                 EntityBody body = new EntityBody();
-                body.put("response", "cannot update own roles");
+                body.put("response", error);
                 return Response.status(Status.FORBIDDEN).entity(body).build();
             }
         }
+
         return null;
     }
 
@@ -389,7 +420,7 @@ public class UserResource {
             if (isLeaAdmin()) {
                 restrictByEdorg = secUtil.getEdOrg();
                 // restrict peer level LEA
-                if (restrictByEdorg.equals(user.getEdorg())) {
+                if (restrictByEdorg.equals(user.getEdorg()) && !user.getUid().equals(secUtil.getUid())) {
                     return composeForbiddenResponse("Can not operate on peer level LEA");
                 }
             }

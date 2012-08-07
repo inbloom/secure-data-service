@@ -97,8 +97,9 @@ Given /^There is a sandbox user with "(.*?)" and "(.*?)" in LDAP Server$/ do |fu
   idpRealmLogin("sandboxoperator", nil)
   sessionId = @sessionId
   format = "application/json"
+  puts new_user
   restHttpDelete("/users/#{new_user['uid']}", format, sessionId)
-  restHttpPost("/users", new_user.to_json, format, sessionId)
+  puts restHttpPost("/users", new_user.to_json, format, sessionId)
   
 end
 
@@ -114,13 +115,13 @@ Given /^There is a sandbox user with "(.*?)", "(.*?)", "(.*?)", and "(.*?)" in L
 
   restHttpDelete("/users/#{new_user['uid']}", format, sessionId)
   restHttpPost("/users", new_user.to_json, format, sessionId)
-  @user_full_name="#{new_user['firstName']} #{new_user['lastName']}"
+  @user_full_name=new_user['fullName']
   @user_unique_id=new_user['uid']
 end
 
 When /^I click the "(.*?)" link for "(.*?)"$/ do |button_name, user_name|
-  user_name=user_name.gsub("hostname", Socket.gethostname)
-  @driver.find_element(:xpath, "//a[@id='#{user_name}_#{button_name}']").click
+  @user_full_name=user_name.gsub("hostname", Socket.gethostname)
+  @driver.find_element(:xpath, "//a[@id='#{@user_full_name}_#{button_name}']").click
 end 
 
 Then /^the (.*?) field is prefilled with "(.*?)"$/ do |field_name, value|
@@ -180,8 +181,8 @@ Then /^the user has "(.*?)" updated to "(.*?)"$/ do |table_header, new_value|
   else 
     value=localize(new_value);
   end
-  tr=@driver.find_element(:id, @user_unique_id)
-  td=tr.find_element(:id, "#{@user_full_name}_#{table_header.downcase.gsub(" ", "_")}")
+  #tr=@driver.find_element(:id, @user_unique_id)
+  td=@driver.find_element(:id, "#{@user_full_name}_#{table_header.downcase.gsub(" ", "_")}")
   assert(td.text()==value, "#{table_header} not updated! Expecting: #{new_value}, got: #{td.text()}")
 end
 
@@ -350,12 +351,11 @@ def assertText(text)
   assert(body.text.include?(text), "Cannot find the text \"#{text}\"")
 end
 
-def build_user(uid,firstName, lastName,groups,tenant,edorg)
+def build_user(uid,fullName,groups,tenant,edorg)
 new_user = {
       "uid" => uid,
       "groups" => groups,
-      "firstName" => firstName,
-      "lastName" => lastName,
+      "fullName" => fullName,
       "password" => "#{uid}1234",
       "email" => "testuser@wgen.net",
       "tenant" => tenant,
@@ -384,8 +384,7 @@ def getField(field_name)
 end
 
 def create_new_user(fullName, role, addition_roles=nil)
-  firstName = fullName.split(" ")[0]
-  lastName = fullName.split(" ")[1].gsub("hostname",Socket.gethostname)
+  localizedFullName = fullName.gsub("hostname",Socket.gethostname)
   groups = Array.new
   groups.push(role)
   if addition_roles != nil 
@@ -395,7 +394,7 @@ def create_new_user(fullName, role, addition_roles=nil)
     end
   end
      
-  uid=firstName.downcase+"_"+lastName.downcase
-  new_user=build_user(uid,firstName,lastName,groups,"sandboxadministrator@slidev.org","")
+  uid=localizedFullName.split(" ")[-1].downcase
+  new_user=build_user(uid,localizedFullName,groups,"sandboxadministrator@slidev.org","")
 end
 
