@@ -32,6 +32,7 @@ import org.slc.sli.api.selectors.doc.SelectorQueryEngine;
 import org.slc.sli.api.selectors.model.ModelProvider;
 import org.slc.sli.api.selectors.model.SelectorSemanticModel;
 import org.slc.sli.api.selectors.model.SemanticSelector;
+import org.slc.sli.api.service.query.ApiQuery;
 import org.springframework.test.context.ContextConfiguration;
 
 import java.util.HashMap;
@@ -66,6 +67,9 @@ public class DefaultLogicalEntityTest {
     @Mock
     private EntityDefinitionStore entityDefinitionStore;
 
+    @Mock
+    private ApiQuery apiQuery;
+
     @InjectMocks
     private LogicalEntity logicalEntity = new DefaultLogicalEntity();
 
@@ -89,7 +93,7 @@ public class DefaultLogicalEntityTest {
         when(selectorDocument.aggregate(mockPlan, mockConstraint)).thenReturn(mockEntityList);
 
         final List<EntityBody> entityList =
-                logicalEntity.createEntities(new HashMap<String, Object>(), mockConstraint, "TEST");
+                logicalEntity.getEntities(apiQuery, mockConstraint, "TEST");
 
         assertEquals(mockEntityList, entityList);
     }

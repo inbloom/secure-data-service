@@ -201,7 +201,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 List<EntityBody> results = new ArrayList<EntityBody>();
                 List<EntityBody> entityBodyList = null;
                 try {
-                    entityBodyList = logicalEntity.createEntities(apiQuery.getSelector(), new Constraint(key, valueList), entityDef.getResourceName());
+                    entityBodyList = logicalEntity.getEntities(apiQuery, new Constraint(key, valueList), entityDef.getResourceName());
                 }
                 catch (UnsupportedSelectorException e) {
                     entityBodyList = (List<EntityBody>)entityDef.getService().list(apiQuery);
@@ -210,11 +210,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 
 
                 // list all entities matching query parameters and iterate over results
-<<<<<<< HEAD
                 for (EntityBody entityBody : entityBodyList) {
-=======
-                for (EntityBody entityBody : logicalEntity.getEntities(apiQuery, new Constraint(key, valueList), entityDef.getResourceName())) {
->>>>>>> 2abf6e45fa0a9b0ccf6dbdbc564f695e3f54c0db
                     entityBody.put(ResourceConstants.LINKS,
                             ResourceUtil.getLinks(entityDefs, entityDef, entityBody, uriInfo));
 
@@ -316,17 +312,13 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     endpointNeutralQuery = addTypeCriteria(endpointEntity, endpointNeutralQuery);
                     List<EntityBody> entityBodyList = null;
                     try {
-                        entityBodyList = logicalEntity.createEntities(endpointNeutralQuery.getSelector(), new Constraint("_id", ids), resolutionResourceName);
+                        entityBodyList = logicalEntity.getEntities(endpointNeutralQuery, new Constraint("_id", ids), resolutionResourceName);
                     }
                     catch (UnsupportedSelectorException e) {
                         entityBodyList = (List<EntityBody>)endpointEntity.getService().list(endpointNeutralQuery);
                     }
                     
-<<<<<<< HEAD
                     for (EntityBody result : entityBodyList) {
-=======
-                    for (EntityBody result : logicalEntity.getEntities(endpointNeutralQuery, new Constraint("_id", ids), resolutionResourceName)) {
->>>>>>> 2abf6e45fa0a9b0ccf6dbdbc564f695e3f54c0db
                         if (associations.get(result.get("id")) != null) {
                             // direct self reference don't need to include association in response
                             if (!endpointEntity.getResourceName().equals(entityDef.getResourceName())) {
@@ -406,17 +398,13 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                 apiQuery.setOffset(0);
 
                 // final/resulting information
-<<<<<<< HEAD
                 List<EntityBody> finalResults= null;
                 try {
-                    finalResults = logicalEntity.createEntities(apiQuery.getSelector(), new Constraint("_id", idList), resourceName);
+                    finalResults = logicalEntity.getEntities(apiQuery, new Constraint("_id", idList), resourceName);
                 }
                 catch (UnsupportedSelectorException e) {
                     finalResults = (List<EntityBody>)entityDef.getService().list(apiQuery);
                 }
-=======
-                List<EntityBody> finalResults= logicalEntity.getEntities(apiQuery, new Constraint("_id", idList), resourceName);
->>>>>>> 2abf6e45fa0a9b0ccf6dbdbc564f695e3f54c0db
 
                 for (EntityBody result : finalResults) {
                     if (result != null) {
@@ -661,7 +649,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     });
                 } else {
                     try {
-                        entityBodies = logicalEntity.createEntities(apiQuery.getSelector(), new Constraint(), resourceName);
+                        entityBodies = logicalEntity.getEntities(apiQuery, new Constraint(), resourceName);
                     }
                     catch (UnsupportedSelectorException e) {
                         entityBodies = entityDef.getService().list(apiQuery);
