@@ -21,8 +21,11 @@ import java.io.File;
 import java.io.FileReader;
 import java.lang.reflect.Method;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
@@ -34,6 +37,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.slc.sli.dashboard.entity.Config;
 import org.slc.sli.dashboard.entity.ConfigMap;
 import org.slc.sli.dashboard.entity.EdOrgKey;
+import org.slc.sli.dashboard.entity.GenericEntity;
 import org.slc.sli.dashboard.manager.ApiClientManager;
 import org.slc.sli.dashboard.manager.ConfigManager;
 import org.slc.sli.dashboard.util.CacheableConfig;
@@ -184,11 +188,41 @@ public class ConfigManagerImpl extends ApiClientManager implements ConfigManager
     @Override
     @CacheableConfig
     public Config getComponentConfig(String token, EdOrgKey edOrgKey, String componentId) {
-        ConfigMap configMap = getCustomConfig(token, edOrgKey);
         Config customComponentConfig = null;
-        // if api has config, use it, otherwise, try local config
-        if (configMap != null && !configMap.isEmpty()) {
-            customComponentConfig = configMap.getComponentConfig(componentId);
+        GenericEntity edOrg = null;
+        GenericEntity parentEdOrg = null;
+        EdOrgKey parentEdOrgKey = null;
+        String id = edOrgKey.getSliId();
+        List<EdOrgKey> edOrgKeys = new ArrayList<EdOrgKey>();
+        edOrgKeys.add(edOrgKey);
+        
+        //keep reading EdOrg until it hits the top.
+        do {
+            edOrg = getApiClient().getEducationalOrganization(token, id);
+            if(edOrg != null) {
+                parentEdOrg = getApiClient().getParentEducationalOrganization(token, edOrg);
+                if(parentEdOrg != null) {
+                    id = parentEdOrg.getId();
+                    parentEdOrgKey = new EdOrgKey(id);
+                    edOrgKeys.add(parentEdOrgKey);
+                }
+            } else { //if edOrg is null, it means no parent edOrg either.
+                parentEdOrg = null;
+            }
+        }while(parentEdOrg != null);
+        
+        for(EdOrgKey key:edOrgKeys) {
+            ConfigMap configMap = getCustomConfig(token, key);
+            // if api has config
+            if (configMap != null && !configMap.isEmpty()) {
+                Config edOrgComponentConfig = configMap.getComponentConfig(componentId);
+                if(customComponentConfig == null) {
+                    customComponentConfig = edOrgComponentConfig;
+                } else {
+                    //edOrgComponentConfig overwrites customComponentConfig
+                    customComponentConfig = customComponentConfig.overWrite(edOrgComponentConfig);
+                }
+            }
         }
         return getConfigByPath(customComponentConfig, componentId);
     }
