@@ -242,7 +242,7 @@ public class AssociationResourcesCrudTest {
         Response response = null;
         try {
             Class cls = Class.forName(classToTest);
-            Constructor ct = cls.getConstructor(.class);
+            Constructor ct = cls.getConstructor(EntityDefinitionStore.class);
             Object instance = ct.newInstance(entityDefs);
             Method method = cls.getMethod(methodName, paramTypes);
             response = (Response) method.invoke(instance, args);
