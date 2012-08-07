@@ -45,6 +45,7 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.selectors.LogicalEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -78,6 +79,9 @@ public class AssociationResourcesCrudTest {
 
     @Autowired
     EntityDefinitionStore entityDefs;
+
+    @Autowired
+    private LogicalEntity logicalEntity;
 
     @Autowired
     private SecurityContextInjector injector;
@@ -154,6 +158,7 @@ public class AssociationResourcesCrudTest {
             String resourceName = classToTest.replace(packageName + ".", "");
             getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName)));
             getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestSecondaryEntity(resourceName)));
+            System.out.print("Resource Name" +resourceName);
             Response response = getReadAllResponse(classToTest);
             assertNotNull("Response is null", response);
             assertEquals("Status code should be OK", Status.OK.getStatusCode(), response.getStatus());
@@ -204,6 +209,7 @@ public class AssociationResourcesCrudTest {
 
     private Response getDeleteResponse(String classToTest) {
         String resourceName = classToTest.replace(packageName + ".", "");
+
         String id = ResourceTestUtil.parseIdFromLocation(getCreateResponse(classToTest, new EntityBody(ResourceTestUtil.createTestEntity(resourceName))));
 
         @SuppressWarnings("rawtypes")
@@ -254,6 +260,7 @@ public class AssociationResourcesCrudTest {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             if (methodName.equals("read")) {
+                e.printStackTrace();
                 throw new EntityNotFoundException();
             } else {
                 e.printStackTrace();

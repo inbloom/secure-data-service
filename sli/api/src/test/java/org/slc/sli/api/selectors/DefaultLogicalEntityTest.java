@@ -67,6 +67,9 @@ public class DefaultLogicalEntityTest {
     @Mock
     private EntityDefinitionStore entityDefinitionStore;
 
+    @Mock
+    private ApiQuery apiQuery;
+
     @InjectMocks
     private LogicalEntity logicalEntity = new DefaultLogicalEntity();
 
