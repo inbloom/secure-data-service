@@ -46,12 +46,14 @@ import com.sun.jersey.core.util.MultivaluedMapImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.selectors.LogicalEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ResourceConstants;
@@ -90,6 +92,9 @@ public class EntityResourcesCrudTest {
 
     @Autowired
     private SecurityContextInjector injector;
+
+    @Autowired
+    private  LogicalEntity logicalEntity;
 
     private UriInfo uriInfo;
     private HttpHeaders httpHeaders;
@@ -265,6 +270,7 @@ public class EntityResourcesCrudTest {
             Constructor ct = cls.getConstructor(EntityDefinitionStore.class);
             Object instance = ct.newInstance(entityDefs);
             Method method = cls.getMethod(methodName, paramTypes);
+            ReflectionTestUtils.setField(instance,"logicalEntity",logicalEntity);
             response = (Response) method.invoke(instance, args);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

@@ -131,7 +131,8 @@ public class AssociationResourcesCrudTest {
             Object responseEntityObj = response.getEntity();
             assertNotNull("Should return an entity", responseEntityObj);
             EntityResponse entityResponse = (EntityResponse) responseEntityObj;
-            EntityBody body = (EntityBody) entityResponse.getEntity();
+            EntityBody body = (EntityBody)entityResponse.getEntity();
+            System.out.print(body);
             assertEquals("field1 should be 1", body.get("field1"), "1");
             assertEquals("field2 should be 2", body.get("field2"), 2);
         }
