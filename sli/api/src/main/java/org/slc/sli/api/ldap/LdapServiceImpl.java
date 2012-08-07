@@ -108,7 +108,6 @@ public class LdapServiceImpl implements LdapService {
         ldapTemplate.bind(createUserContext(realm, user));
         List<String> groupNames = user.getGroups();
         if (groupNames != null && groupNames.size() > 0) {
-
             for (String groupName : groupNames) {
                 Group group = getGroup(realm, groupName);
                 group.addMemberUid(user.getUid());
@@ -265,7 +264,6 @@ public class LdapServiceImpl implements LdapService {
     }
 
     private DirContextAdapter createUserContext(String realm, User user) {
-
         DirContextAdapter context = new DirContextAdapter(buildUserDN(realm, user));
         mapUserToContext(context, user);
         context.setAttributeValue("cn", user.getCn());
@@ -296,6 +294,7 @@ public class LdapServiceImpl implements LdapService {
         context.setAttributeValue("gidNumber", GROUP_ID_NUMBER);
         context.setAttributeValue("mail", user.getEmail());
         context.setAttributeValue("homeDirectory", user.getHomeDir());
+        context.setAttributeValue("destinationindicator", user.getStatus().getStatusString());
         String description = "";
         if (user.getTenant() != null) {
             description += "tenant=" + user.getTenant();

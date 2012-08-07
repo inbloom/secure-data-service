@@ -26,6 +26,17 @@ require 'date'
 class ForgotPasswordsController < ApplicationController
   
   skip_filter :handle_oauth
+  before_filter :get_user, :only => [:new_account, :update]
+  before_filter :token_still_valid, :only => [:new_account, :update]
+  
+  def get_user
+    @user = APP_LDAP_CLIENT.read_user_resetkey(params[:key])
+    if !@user
+      flash[:error] = "Unable to verify user. Please contact the SLC"
+      redirect_to forgot_password_notify_path
+    end
+  end
+
   # GET /forgot_passwords
   # GET /forgot_passwords.json
   def index
@@ -82,38 +93,34 @@ class ForgotPasswordsController < ApplicationController
     end
   end
 
-  # PUT /forgot_passwords/1
-  # PUT /forgot_passwords/1.json
   def update
     @forgot_password = ForgotPassword.new
     key = params[:key]
     @forgot_password.token = key
     respond_to do |format|
-      user = APP_LDAP_CLIENT.read_user_resetkey(key)
-      if (!!user)
-        resetKey = user[:resetKey]
-        currentTimestamp = DateTime.current.utc.to_i
-        difference = currentTimestamp - Integer(resetKey.sub(key + "@", ""))
-	puts resetKey, currentTimestamp, difference, resetKey.sub(key + "@", "") 
-
-        if difference >= 0 && difference < Integer(APP_CONFIG['reset_password_lifespan'])
-          format.html { render action: "update" }
-          format.json { render json: @forgot_password, status: :created, location: @forgot_password }
-        else 
-          @forgot_password.errors.add(:base, "Password reset request expired. Please make a new request.")
-          format.html { render action: "show" }
-          format.json { render json: @forgot_password.errors, status: :unprocessable_entity }
-        end
-      else
-        @forgot_password.errors.add(:base, "Unable to verify user. Please contact the SLC")
-        format.html { render action: "show" }
-        format.json { render json: @forgot_password.errors, status: :unprocessable_entity }
-      end
+      format.html { render action: "update" }
+      format.json { render json: @forgot_password, status: :created, location: @forgot_password }
     end
   end
-  
-  # PUT /forgot_passwords/1
-  # PUT /forgot_passwords/1.json
+
+  def new_account
+    @forgot_password = NewAccountPassword.new
+    @forgot_password.token = params[:key]
+    render action: => 'update'
+  end
+
+  def token_still_valid
+    key = params[:key]
+    resetKey = @user[:resetKey]
+    currentTimestamp = DateTime.current.utc.to_i
+    difference = currentTimestamp - Integer(resetKey.sub(key + "@", ""))
+    puts resetKey, currentTimestamp, difference, resetKey.sub(key + "@", "") 
+    if difference > Integer(APP_CONFIG['reset_password_lifespan'])
+      flash[:error] = "Password reset request expired. Please make a new request."
+      redirect_to forgot_password_notify_path
+    end
+  end
+
   def reset
     @forgot_password = ForgotPassword.new
     user_id = params[:user_id]
