@@ -26,8 +26,8 @@ require 'date'
 class ForgotPasswordsController < ApplicationController
   
   skip_filter :handle_oauth
-  before_filter :get_user, :only => [:new, :update]
-  before_filter :token_still_valid, :only => [:new, :update]
+  before_filter :get_user, :only => [:new_account, :update]
+  before_filter :token_still_valid, :only => [:new_account, :update]
   
   def get_user
     @user = APP_LDAP_CLIENT.read_user_resetkey(params[:key])
@@ -101,6 +101,9 @@ class ForgotPasswordsController < ApplicationController
       format.html { render action: "update" }
       format.json { render json: @forgot_password, status: :created, location: @forgot_password }
     end
+  end
+
+  def new_account
   end
 
   def token_still_valid
