@@ -1,5 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <merges xmlns:ns2="http://wadl.dev.java.net/2009/02">
+
+  <!-- Add verbs to /entity -->
+  <merge type="node" action="add" xpath="//ns2:resources/ns2:resource">
+    <ns2:method id="create" name="POST">
+      <ns2:doc>Creates a new resource using the given resource data.</ns2:doc>
+    </ns2:method>
+    <ns2:method id="readAll" name="GET">
+      <ns2:doc>Returns the requested collection of resource representations.</ns2:doc>
+    </ns2:method>
+  </merge>
+
+  <!-- Add read -->
+  <merge type="node" action="add" xpath="//ns2:resource/ns2:resource">
+    <ns2:method id="read" name="GET">
+      <ns2:doc>Returns the specified resource representation(s).</ns2:doc>
+    </ns2:method>
+  </merge>
+
+  <!-- Add verbs to /entity/{id} -->
+  <merge type="node" action="add" xpath="//ns2:resource/ns2:resource[@path='{id}']">
+    <ns2:method id="delete" name="DELETE">
+      <ns2:doc>Deletes the specified resource.</ns2:doc>
+    </ns2:method>
+    <ns2:method id="update" name="PUT">
+      <ns2:doc>Updates the specified resource using the given resource data.</ns2:doc>
+    </ns2:method>
+  </merge>
+
   <!-- add media types to POST/PUT -->
   <merge type="node" action="add" xpath="//ns2:method[@name='POST' or @name='PUT']">
     <ns2:request>
@@ -30,4 +59,5 @@
       <ns2:representation mediaType="application/vnd.slc+xml; charset=utf-8"/>
     </ns2:response>
   </merge>
+
 </merges>
