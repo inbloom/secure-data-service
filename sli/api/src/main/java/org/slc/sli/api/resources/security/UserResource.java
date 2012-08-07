@@ -63,7 +63,7 @@ public class UserResource {
     private boolean enableSamt;
 
     @Value("${sli.sandbox.enabled")
-    private boolean sandboxEnabled;
+    private String sandboxEnabled;
 
     @Autowired
     private SuperAdminService adminService;
@@ -79,7 +79,7 @@ public class UserResource {
             return result;
         }
         newUser.setGroups((List<String>) (RoleToGroupMapper.getInstance().mapRoleToGroups(newUser.getGroups())));
-        if (!sandboxEnabled) {
+        if (!Boolean.parseBoolean(sandboxEnabled)) {
             // only sandbox mode needs to go to submitted state before EULA acceptance
             // production can go to approved
             newUser.setStatus(User.Status.APPROVED);
