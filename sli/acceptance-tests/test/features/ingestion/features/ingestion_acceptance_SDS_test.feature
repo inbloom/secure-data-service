@@ -379,6 +379,10 @@ And I check to find if record is in collection:
      | parent                      | 1                   | body.parentUniqueStateId      | 6473283635      |string               |
      | parent                      | 1                   | body.parentUniqueStateId      | 0798132465      |string               |
      | parent                      | 1                   | body.parentUniqueStateId      | 3597672174      |string               |
+   And I check to find if record is in collection:
+  | collectionName                        | expectedRecordCount | searchParameter               | searchValue     |searchType           |
+  | staffEducationOrganizationAssociation |          9          | body.beginDate                | 1967-08-13      | string              |
+  | staffEducationOrganizationAssociation |          1          | body.beginDate                | 2000-01-01      | string              |
 
 
 @integration @IL-Sunset

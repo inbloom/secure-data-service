@@ -33,8 +33,6 @@
   <!-- collections that should be persisted using the old pipeline -->
   <util:set id="oldPipelineEntities" set-class="java.util.HashSet" value-type="java.lang.String">
     <value>competencyLevelDescriptor</value>
-    <value>staff</value>
-    <value>staffEducationOrganizationAssociation</value>
   </util:set>
 
   <!-- collections that should be persisted using the new pipeline but no transformation has been performed -->
@@ -58,7 +56,9 @@
     <value>school</value>
     <value>section</value>
     <value>session</value>
+    <value>staff</value>
     <value>staffCohortAssociation</value>
+    <value>staffEducationOrganizationAssociation</value>
     <value>staffProgramAssociation</value>
     <value>stateEducationAgency</value>
     <value>student</value>

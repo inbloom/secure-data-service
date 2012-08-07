@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+    xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+    xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+  <json:reader rootName="json" />
+
+  <jb:bean beanId="staffEducationOrganizationAssociations" class="java.util.ArrayList" createOnElement="#document">
+      <jb:wiring beanIdRef="staffEducationOrganizationAssociation" />
+  </jb:bean>
+
+  <jb:bean beanId="staffEducationOrganizationAssociation" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+    <jb:expression property="type">'staffEducationOrganizationAssociation'</jb:expression>
+    <jb:wiring property="body" beanIdRef="staffEducationOrganizationAssocoiationBody" />
+  </jb:bean>
+
+  <jb:bean beanId="staffEducationOrganizationAssocoiationBody" class="java.util.HashMap" createOnElement="attributes">
+
+    <jb:value property="staffId" data="attributes staffId" />
+
+    <jb:value property="schoolId" data="attributes schoolId" />
+
+    <jb:value property="beginDate" data="attributes beginDate" />
+
+    <jb:value property="endDate" data="attributes endDate" />
+
+    <jb:value property="staffClassification" data="attributes staffClassification"/>
+
+    <jb:value property="positionTitle" data="attributes positionTitle"/>
+
+
+  </jb:bean>
+
+</smooks-resource-list>

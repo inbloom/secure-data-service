@@ -416,7 +416,7 @@ end
 
 
 desc "Run all sandbox tests"
-task :sandboxTests => [:simpleIdpSandboxTests, :apiSandboxTests, :adminSandboxTests] do
+task :sandboxTests => [:realmInit, :simpleIdpSandboxTests, :apiSandboxTests, :adminSandboxTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
