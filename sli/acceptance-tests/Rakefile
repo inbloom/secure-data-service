@@ -492,7 +492,7 @@ task :resetAndChangePasswordTests => [:realmInit] do
 end
 
 desc "Run Admin-Tools Selenium Tests"
-task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests,:onboardingIntegrationTests,:provisionIntegrationTests,:tenantMetricsTests, :resetAndChangePasswordTests,:sandboxUserAdminTests, :adminWebTests] do
+task :adminToolsTests => [:realmInit,:accountApprovalInterfaceTests, :accountApprovalTests,:onboardingIntegrationTests,:provisionIntegrationTests,:tenantMetricsTests, :resetAndChangePasswordTests,:sandboxUserAdminTests, :samtEmailNotificationTests,:adminWebTests] do
   Rake::Task["importSandboxData"].execute
   displayFailureReport()
   if $SUCCESS
@@ -689,6 +689,11 @@ end
 
 task :sandboxSamtEmailNotificationTests do
 @tags ||= ["~@wip", "@sandbox"]
+runTests("test/features/sandbox/UserAdmin/samt_email_notification.feature")
+end
+
+task :samtEmailNotificationTests do
+@tags ||= ["~@wip", "~@sandbox"]
 runTests("test/features/sandbox/UserAdmin/samt_email_notification.feature")
 end
 
