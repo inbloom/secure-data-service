@@ -199,12 +199,18 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
 
                     // a new list to store results
                 List<EntityBody> results = new ArrayList<EntityBody>();
-                
+                List<EntityBody> entityBodyList = null;
+                try {
+                    entityBodyList = logicalEntity.createEntities(apiQuery.getSelector(), new Constraint(key, valueList), entityDef.getResourceName());
+                }
+                catch (UnsupportedSelectorException e) {
+                    entityBodyList = (List<EntityBody>)entityDef.getService().list(apiQuery);
+                }
                 
                 
 
                 // list all entities matching query parameters and iterate over results
-                for (EntityBody entityBody : logicalEntity.createEntities(apiQuery.getSelector(), new Constraint(key, valueList), entityDef.getResourceName())) {
+                for (EntityBody entityBody : entityBodyList) {
                     entityBody.put(ResourceConstants.LINKS,
                             ResourceUtil.getLinks(entityDefs, entityDef, entityBody, uriInfo));
 
@@ -397,7 +403,7 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                     finalResults = logicalEntity.createEntities(apiQuery.getSelector(), new Constraint("_id", idList), resourceName);
                 }
                 catch (UnsupportedSelectorException e) {
-                    finalResults = (List<EntityBody>)endpointEntity.getService().list(apiQuery);
+                    finalResults = (List<EntityBody>)entityDef.getService().list(apiQuery);
                 }
 
                 for (EntityBody result : finalResults) {
@@ -642,7 +648,13 @@ public class DefaultCrudEndpoint implements CrudEndpoint {
                         }
                     });
                 } else {
-                    entityBodies = logicalEntity.createEntities(apiQuery.getSelector(), new Constraint(), resourceName);
+                    try {
+                        System.out.print("LOGICAL Entity " + logicalEntity);
+                        entityBodies = logicalEntity.createEntities(apiQuery.getSelector(), new Constraint(), resourceName);
+                    }
+                    catch (UnsupportedSelectorException e) {
+                        entityBodies = entityDef.getService().list(apiQuery);
+                    }
                 }
                 for (EntityBody entityBody : entityBodies) {
 

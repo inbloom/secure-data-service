@@ -75,8 +75,7 @@ public class DefaultLogicalEntity implements LogicalEntity {
         // This is ugly - we have to capitalize here because our model
         // and API are not in sync
         final ClassType entityType = provider.getClassType(StringUtils.capitalize(typeDef.getType()));
-
-        if(typeDef.getType().isEmpty() && !UNSUPPORTED_RESOURCE_LIST.contains(resourceName))
+        if(UNSUPPORTED_RESOURCE_LIST.contains(resourceName))
             throw new UnsupportedSelectorException("Selector is not supported yet for this resource");
 
         final SemanticSelector semanticSelector = selectorSemanticModel.parse(selector, entityType);
