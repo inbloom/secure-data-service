@@ -19,16 +19,61 @@ package org.slc.sli.sif.domain.converter;
 import java.util.HashMap;
 import java.util.Map;
 
-import openadk.library.common.ExitTypeCode;
 import openadk.library.common.ExitType;
+import openadk.library.common.ExitTypeCode;
 
 import org.springframework.stereotype.Component;
 
 /**
  * A customized converter to convert SIF ExitType to SLI ExitType enumeration.
  *
+ * SLI values:
+ *     Student is in a different public school in the same local education agency
+ *     Transferred to a public school in a different local education agency in the same state
+ *     Transferred to a public school in a different state
+ *     Transferred to a private, non-religiously-affiliated school in the same local education agency
+ *     Transferred to a private, non-religiously-affiliated school in a different local education agency in the same state
+ *     Transferred to a private, non-religiously-affiliated school in a different state
+ *     Transferred to a private, religiously-affiliated school in the same local education agency
+ *     Transferred to a private, religiously-affiliated school in a different local education agency in the same state
+ *     Transferred to a private, religiously-affiliated school in a different state
+ *     Transferred to a school outside of the country
+ *     Transferred to an institution
+ *     Transferred to home schooling
+ *     Transferred to a charter school
+ *     Graduated with regular, advanced, International Baccalaureate, or other type of diploma
+ *     Completed school with other credentials
+ *     Died or is permanently incapacitated
+ *     Withdrawn due to illness
+ *     Expelled or involuntarily withdrawn
+ *     Reached maximum age for services
+ *     Discontinued schooling
+ *     Completed grade 12, but did not meet all graduation requirements
+ *     Enrolled in a postsecondary early admission program, eligible to return
+ *     Not enrolled, unknown status
+ *     Student is in the same local education agency and receiving education services, but is not assigned to a particular school
+ *     Enrolled in an adult education or training program
+ *     Completed a state-recognized vocational education program
+ *     Not enrolled, eligible to return
+ *     Enrolled in a foreign exchange program, eligible to return
+ *     Withdrawn from school, under the age for compulsory attendance; eligible to return
+ *     Exited
+ *     Student is in a charter school managed by the same local education agency
+ *     Completed with a state-recognized equivalency certificate
+ *     Removed by Child Protective Services
+ *     Transferred to a private school in the state
+ *     Graduated outside of state prior to enrollment
+ *     Completed equivalency certificate outside of state
+ *     Enrolled in University High School Diploma Program
+ *     Court ordered to a GED program, has not earned a GED
+ *     Incarcerated in a state jail or federal penitentiary as an adult
+ *     Graduated from another state under Interstate Compact on Educational Opportunity for Military Children
+ *     Dropout
+ *     End of school year
+ *     Invalid enrollment
+ *     No show
+ *     Other
  */
-
 @Component
 public class ExitTypeConverter {
 
@@ -68,7 +113,7 @@ public class ExitTypeConverter {
         EXIT_TYPE_CODE_MAP.put(ExitTypeCode._3509_COMPLETED_WITH_A_STATE, "Completed with a state-recognized equivalency certificate");
         EXIT_TYPE_CODE_MAP.put(ExitTypeCode._9999_OTHER, "Other");
     }
-    
+
     public String convert(ExitType exitType) {
         if (exitType == null) {
             return null;
@@ -81,4 +126,3 @@ public class ExitTypeConverter {
         return mapping == null ? "Other" : mapping;
     }
 }
-

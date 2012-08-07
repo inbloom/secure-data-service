@@ -27,6 +27,12 @@ import org.slf4j.LoggerFactory;
 
 import org.slc.sli.sif.domain.slientity.SliEntity;
 
+/**
+ * Manages the translation tasks that are run on each SIF data object.
+ *
+ * @author jtully
+ *
+ */
 @SuppressWarnings("rawtypes")
 public class SifTranslationManager {
 
@@ -42,15 +48,14 @@ public class SifTranslationManager {
     public List<SliEntity> translate(SIFDataObject sifData) {
         List<SliEntity> entities = new ArrayList<SliEntity>();
 
-        System.out.println(sifData.getObjectType().toString());
-        //get the list to translation tasks
+        // get the list to translation tasks
         List<TranslationTask> translationTasks = translationMap.get(sifData.getObjectType().toString());
         if (translationTasks == null) {
             LOG.error("No TranslationTask found for sif type: " + sifData.getObjectType());
             return entities;
         }
 
-        for (TranslationTask translationTask : translationTasks ) {
+        for (TranslationTask translationTask : translationTasks) {
 
             try {
                 entities.addAll(translationTask.translate(sifData));

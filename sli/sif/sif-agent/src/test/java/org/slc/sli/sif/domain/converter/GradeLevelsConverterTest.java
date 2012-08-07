@@ -29,19 +29,22 @@ import org.junit.Test;
 
 import org.slc.sli.sif.ADKTest;
 
+/**
+ * GradeLevelsConverter unit tests
+ */
 public class GradeLevelsConverterTest extends ADKTest {
 
     private final GradeLevelsConverter converter = new GradeLevelsConverter();
     private Map<GradeLevelCode, String> map = new HashMap<GradeLevelCode, String>();
 
     @Test
-    public void testNullObject(){
-        List<String> result = converter.convert((GradeLevels)null);
+    public void testNullObject() {
+        List<String> result = converter.convert((GradeLevels) null);
         Assert.assertNull("Grade levels list should be null", result);
     }
 
     @Test
-    public void testEmptyList(){
+    public void testEmptyList() {
         GradeLevels list = new GradeLevels();
         list.setGradeLevels(new GradeLevel[0]);
         List<String> result = converter.convert(list);
@@ -49,7 +52,7 @@ public class GradeLevelsConverterTest extends ADKTest {
     }
 
     @Test
-    public void testEmptyGradeLevel(){
+    public void testEmptyGradeLevel() {
         GradeLevels list = new GradeLevels();
         GradeLevel original = new GradeLevel();
         list.add(original);
@@ -62,7 +65,7 @@ public class GradeLevelsConverterTest extends ADKTest {
     }
 
     @Test
-    public void testMappings(){
+    public void testMappings() {
         map.clear();
         map.put(GradeLevelCode._01, "First grade");
         map.put(GradeLevelCode._02, "Second grade");
@@ -114,13 +117,13 @@ public class GradeLevelsConverterTest extends ADKTest {
         return level;
     }
 
-    private void testMapping(String original, String mapped){
-         String expectedType = "Not Available";
+    private void testMapping(String original, String mapped) {
+        String expectedType = "Not Available";
 
-         GradeLevelCode originalCode = GradeLevelCode.wrap(original);
-         if (map.containsKey(originalCode)) {
-             expectedType = map.get(originalCode);
-         }
-         Assert.assertEquals(expectedType, mapped);
+        GradeLevelCode originalCode = GradeLevelCode.wrap(original);
+        if (map.containsKey(originalCode)) {
+            expectedType = map.get(originalCode);
+        }
+        Assert.assertEquals(expectedType, mapped);
     }
 }

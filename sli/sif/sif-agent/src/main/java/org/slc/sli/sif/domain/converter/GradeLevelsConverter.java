@@ -31,29 +31,29 @@ import org.springframework.stereotype.Component;
  * A customized converter to convert SIF GradeLevels to SLI gradesOffered.
  *
  * SLI values:
- *	Adult Education
- *	Early Education
- *	Eighth grade
- *	Eleventh grade
- *	Fifth grade
- *	First grade
- *	Fourth grade
- *	Grade 13
- *	Infant/toddler
- *	Kindergarten
- *	Ninth grade
- *	Other
- *	Postsecondary
- *	Preschool/Prekindergarten
- *	Second grade
- *	Seventh grade
- *	Sixth grade
- *	Tenth grade
- *	Third grade
- *	Transitional Kindergarten
- *	Twelfth grade
- *	Ungraded
- *	Not Available
+ * Adult Education
+ * Early Education
+ * Eighth grade
+ * Eleventh grade
+ * Fifth grade
+ * First grade
+ * Fourth grade
+ * Grade 13
+ * Infant/toddler
+ * Kindergarten
+ * Ninth grade
+ * Other
+ * Postsecondary
+ * Preschool/Prekindergarten
+ * Second grade
+ * Seventh grade
+ * Sixth grade
+ * Tenth grade
+ * Third grade
+ * Transitional Kindergarten
+ * Twelfth grade
+ * Ungraded
+ * Not Available
  *
  * @author slee
  *
@@ -112,4 +112,3 @@ public class GradeLevelsConverter {
         return mapping == null ? "Not Available" : mapping;
     }
 }
-

@@ -36,6 +36,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import org.slc.sli.sif.ADKTest;
 import org.slc.sli.sif.subscriber.SifSubscriber;
 
 /**
@@ -63,6 +64,8 @@ public class AgentManagerTest {
     @Before
     public void setup() {
         agentManager = new AgentManager();
+        agentManager.setLogPath(ADKTest.ADK_LOG_DIR);
+        agentManager.setAdkLogFile(ADKTest.ADK_LOG_FILE);
 
         MockitoAnnotations.initMocks(this);
 

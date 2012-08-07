@@ -20,9 +20,9 @@ When I navigate to the Dashboard home page
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 And I click on the go button
-And I see the following tab order "Subjects and Courses;School Tab"
+And I see the following tab order "Subjects and Courses;Teachers;School Tab"
 And I view the School Profile
-And there are "2" Tabs
+And there are "3" Tabs
 And Tab has a title named "School Tab"
 And I click on "School Tab" Tab
 And I click on subject "English Language and Literature"
@@ -40,7 +40,7 @@ When I select school "Sunset Central High School"
 When I select course "Choose One"
 And I click on the go button
 And I view the School Profile
-And there are "1" Tabs
+And there are "2" Tabs
 And I logout
 When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
@@ -49,7 +49,7 @@ When I select "Illinois Daybreak School District 4529" and click go
  Then I should be redirected to the Dashboard landing page
 When I navigate to the Dashboard Builder page
 And I click on "School" Profile Builder
-And I see the following page order "Subjects and Courses;School Tab" in the builder
+And I see the following page order "Subjects and Courses;Teachers;School Tab" in the builder
 #drag and drop not working on jenkins
 #And I move Page "School Tab" to become Page Number "0"
 #When I navigate to the Dashboard home page
@@ -61,4 +61,4 @@ And I see the following page order "Subjects and Courses;School Tab" in the buil
 #And I click on "School" Profile Builder
 #And I see the following page order "School Tab;Subjects and Courses" in the builder
 And I delete Page "School Tab"
-And I see the following page order "Subjects and Courses" in the builder
+And I see the following page order "Subjects and Courses;Teachers" in the builder

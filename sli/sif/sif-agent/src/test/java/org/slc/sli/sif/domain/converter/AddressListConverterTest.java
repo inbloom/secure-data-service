@@ -32,6 +32,9 @@ import org.junit.Test;
 import org.slc.sli.sif.ADKTest;
 import org.slc.sli.sif.domain.slientity.Address;
 
+/**
+ * AddressListConverter unit tests
+ */
 public class AddressListConverterTest extends ADKTest {
 
     private final AddressListConverter converter = new AddressListConverter();
@@ -39,20 +42,20 @@ public class AddressListConverterTest extends ADKTest {
     private List<AddressType> addressTypes = new ArrayList<AddressType>();
 
     @Test
-    public void testNullObject(){
+    public void testNullObject() {
         List<Address> result = converter.convert(null);
         Assert.assertNull("Address list should be null", result);
     }
 
     @Test
-    public void testEmptyList(){
+    public void testEmptyList() {
         AddressList list = new AddressList();
         List<Address> result = converter.convert(list);
         Assert.assertEquals(0, result.size());
     }
 
     @Test
-    public void testEmptyAddress(){
+    public void testEmptyAddress() {
         AddressList list = new AddressList();
         openadk.library.common.Address original = new openadk.library.common.Address();
         list.add(original);
@@ -70,7 +73,7 @@ public class AddressListConverterTest extends ADKTest {
     }
 
     @Test
-    public void testConversion(){
+    public void testConversion() {
         map.clear();
         map.put(AddressType._0369_CAMPUS, "Other");
         map.put(AddressType._0369_EMPLOYER, "Other");
@@ -143,26 +146,25 @@ public class AddressListConverterTest extends ADKTest {
         return address;
     }
 
-
-    private void testMapping(openadk.library.common.Address original, Address converted){
-         String expectedStreetNumberName = original.getStreet().getStreetNumber() + " "
+    private void testMapping(openadk.library.common.Address original, Address converted) {
+        String expectedStreetNumberName = original.getStreet().getStreetNumber() + " "
                 + original.getStreet().getStreetName();
-         Assert.assertEquals(expectedStreetNumberName, converted.getStreetNumberName());
+        Assert.assertEquals(expectedStreetNumberName, converted.getStreetNumberName());
 
-         String expectedCity = original.getCity();
-         Assert.assertEquals(expectedCity, converted.getCity());
+        String expectedCity = original.getCity();
+        Assert.assertEquals(expectedCity, converted.getCity());
 
-         String expectedCountryCode = original.getCountry();
-         Assert.assertEquals(expectedCountryCode, converted.getCountryCode());
+        String expectedCountryCode = original.getCountry();
+        Assert.assertEquals(expectedCountryCode, converted.getCountryCode());
 
-         String expectedPostalCode = original.getPostalCode();
-         Assert.assertEquals(expectedPostalCode, converted.getPostalCode());
+        String expectedPostalCode = original.getPostalCode();
+        Assert.assertEquals(expectedPostalCode, converted.getPostalCode());
 
-         String expectedStateAbbreviation = original.getStateProvince();
-         Assert.assertEquals(expectedStateAbbreviation, converted.getStateAbbreviation());
+        String expectedStateAbbreviation = original.getStateProvince();
+        Assert.assertEquals(expectedStateAbbreviation, converted.getStateAbbreviation());
 
-         String expectedAddressType = map.get(AddressType.wrap(original.getType()));
-         expectedAddressType = expectedAddressType == null ? "Other" : expectedAddressType;
-         Assert.assertEquals(expectedAddressType, converted.getAddressType());
+        String expectedAddressType = map.get(AddressType.wrap(original.getType()));
+        expectedAddressType = expectedAddressType == null ? "Other" : expectedAddressType;
+        Assert.assertEquals(expectedAddressType, converted.getAddressType());
     }
 }

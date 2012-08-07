@@ -23,7 +23,15 @@ class CustomRolesController < ApplicationController
   # GET /realms
   # GET /realms.json
   def index
-    redirect_to  :action => "show", :id => CustomRole.find(:first).id
+    custom_role = CustomRole.find(:first)
+    if custom_role != nil
+      redirect_to  :action => "show", :id => custom_role.id
+    else
+      flash[:notice] = "No custom roles exist.  First create a realm in the Realm Management tool."
+      respond_to do |format|
+        format.html # index.html.erb
+      end
+    end
   end
 
 

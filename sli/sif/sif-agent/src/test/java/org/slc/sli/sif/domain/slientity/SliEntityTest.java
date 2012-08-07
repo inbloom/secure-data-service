@@ -23,18 +23,37 @@ import org.junit.Test;
 
 import org.slc.sli.api.client.impl.GenericEntity;
 
+/**
+ * SliEntity unit tests.
+ *
+ * @author jtully
+ *
+ */
 public class SliEntityTest {
 
-    //test classes
+    /**
+     * Test sub object
+     */
     class TestSubObject {
-        public String subFieldA = "A";
-        public String subFieldB = "B";
+        private String subFieldA = "A";
+        private String subFieldB = "B";
+
+        public String getSubFieldA() {
+            return subFieldA;
+        }
+
+        public String getSubFieldB() {
+            return subFieldB;
+        }
     }
 
+    /**
+     * Test SLI Entity
+     */
     class TestSliEntity extends SliEntity {
 
-        public String fieldOne = "1";
-        public TestSubObject testSubObject;
+        private String fieldOne = "1";
+        private TestSubObject testSubObject;
 
         TestSliEntity() {
             testSubObject = new TestSubObject();
@@ -43,6 +62,14 @@ public class SliEntityTest {
         @Override
         public String entityType() {
             return "TestEntity";
+        }
+
+        public String getFieldOne() {
+            return fieldOne;
+        }
+
+        public TestSubObject getTestSubObject() {
+            return testSubObject;
         }
     };
 

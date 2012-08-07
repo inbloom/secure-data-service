@@ -19,23 +19,24 @@ package org.slc.sli.sif.domain.converter;
 import org.springframework.stereotype.Component;
 
 /**
- * Converter for SchoolYear 
+ * Converter for SchoolYear
  */
 @Component
 public class SchoolYearConverter {
 
     /**
      * Converts the first school focus into a school type
+     *
      * @param schoolFocusList
      * @return
      */
-    public String convert(Integer schoolYear){
+    public String convert(Integer schoolYear) {
 
-        if( schoolYear == null){
+        if (schoolYear == null) {
             return null;
         }
         Integer nextSchoolYear = schoolYear + 1;
-        return schoolYear.toString() + "-" + nextSchoolYear.toString();  
+        return schoolYear.toString() + "-" + nextSchoolYear.toString();
     }
 
 }

@@ -35,8 +35,12 @@ import org.slc.sli.sif.domain.converter.SchoolYearConverter;
 import org.slc.sli.sif.domain.slientity.StudentSchoolAssociationEntity;
 import org.slc.sli.sif.slcinterface.SifIdResolver;
 
+/**
+ * Translation task for translating StudentSchoolEnrollment SIF data objects
+ * to StudentSchoolAssociation SLI entities.
+ */
 public class StudentSchoolEnrollmentTranslationTask extends
-        AbstractTranslationTask<StudentSchoolEnrollment,StudentSchoolAssociationEntity> {
+        AbstractTranslationTask<StudentSchoolEnrollment, StudentSchoolAssociationEntity> {
 
     @Autowired
     SifIdResolver sifIdResolver;
@@ -58,8 +62,7 @@ public class StudentSchoolEnrollmentTranslationTask extends
     }
 
     @Override
-    public List<StudentSchoolAssociationEntity> doTranslate(StudentSchoolEnrollment sifData)
-    {
+    public List<StudentSchoolAssociationEntity> doTranslate(StudentSchoolEnrollment sifData) {
         StudentSchoolEnrollment sse = sifData;
         StudentSchoolAssociationEntity result = new StudentSchoolAssociationEntity();
 

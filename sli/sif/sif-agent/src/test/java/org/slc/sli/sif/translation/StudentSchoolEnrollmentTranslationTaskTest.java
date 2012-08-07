@@ -41,8 +41,12 @@ import org.slc.sli.sif.domain.converter.SchoolYearConverter;
 import org.slc.sli.sif.domain.slientity.StudentSchoolAssociationEntity;
 import org.slc.sli.sif.slcinterface.SifIdResolver;
 
-public class StudentSchoolEnrollmentTranslationTaskTest
-{
+/**
+ *
+ * StudentSchoolEnrollmentTranslationTask unit tests
+ *
+ */
+public class StudentSchoolEnrollmentTranslationTaskTest {
     @InjectMocks
     private final StudentSchoolEnrollmentTranslationTask translator = new StudentSchoolEnrollmentTranslationTask();
 
