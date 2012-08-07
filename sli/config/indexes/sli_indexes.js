@@ -417,6 +417,7 @@ db["studentCompetencyObjective"].ensureIndex({"metaData.tenantId":1,"metaData.te
 db["studentCompetencyObjective"].ensureIndex({"metaData.tenantId":1,"_id":1,"metaData.edOrgs":1});
 db["studentCompetencyObjective"].ensureIndex({"metaData.tenantId":1,"_id":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["studentCompetencyObjective"].ensureIndex({"metaData.tenantId":1,"_id":1,"metaData.teacherContext":1});
+db["studentCompetencyObjective"].ensureIndex({"metaData.tenantId":1,"body.studentCompetencyObjectiveId":1});
 db["studentDisciplineIncidentAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.edOrgs":1});
 db["studentDisciplineIncidentAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.isOrphaned":1,"metaData.createdBy":1});
 db["studentDisciplineIncidentAssociation"].ensureIndex({"metaData.tenantId":1,"metaData.teacherContext":1});
