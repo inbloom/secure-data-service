@@ -1,4 +1,3 @@
-@wip
 @RALLY_US3409
 Feature: Admin users of SAMT can only update certain fields of existing accounts via the UI
 
