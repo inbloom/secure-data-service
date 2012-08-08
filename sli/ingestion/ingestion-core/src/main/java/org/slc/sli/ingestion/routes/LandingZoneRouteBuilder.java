@@ -27,6 +27,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
+import org.slc.sli.ingestion.processors.FilePreProcessor;
 import org.slc.sli.ingestion.processors.NoExtractProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 
@@ -45,6 +46,7 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
     private ZipFileProcessor zipFileProcessor;
     private ControlFilePreProcessor controlFilePreProcessor;
     private NoExtractProcessor noExtractProcessor;
+    private FilePreProcessor filePreProcessor;
 
     private List<String> landingZonePaths;
 
@@ -58,13 +60,15 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
     /**
      * @param landingZonePaths, the landing zone directories to poll
      * @param workItemQueueUri, the URI for the main ingestion queue
+     * @param filePreProcessor, the ingestion file preProcessor
      * @param zipFileProcessor, the ingestion zip processor
      * @param controlFilePreProcessor, the ingestion controlFilePreProcessor
      */
-    public LandingZoneRouteBuilder(List<String> landingZonePaths, String workItemQueueUri,
+    public LandingZoneRouteBuilder(List<String> landingZonePaths, String workItemQueueUri, FilePreProcessor filePreProcessor,
             ZipFileProcessor zipFileProcessor, ControlFilePreProcessor controlFilePreProcessor, NoExtractProcessor noExtractProcessor) {
 
         this.landingZonePaths = landingZonePaths;
+        this.filePreProcessor = filePreProcessor;
         this.zipFileProcessor = zipFileProcessor;
         this.controlFilePreProcessor = controlFilePreProcessor;
         this.noExtractProcessor = noExtractProcessor;
@@ -83,18 +87,27 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
                 continue;
             }
 
+
             // routeId: ctlFilePoller-inboundDir
             from(
                     "file:" + inboundDir + "?include=^(.*)\\." + FileFormat.CONTROL_FILE.getExtension()
+            + "$&exclude=\\.in\\.*&preMove="
+            + inboundDir + "/.done&moveFailed=" + inboundDir
+            + "/.error"
             + "&delete=true"
             + "&readLock=changed&readLockCheckInterval=1000")
                     .routeId(CTRL_POLLER_PREFIX + inboundDir)
-                    .log(LoggingLevel.INFO, "CamelRouting", "Control file detected. Routing to ControlFilePreProcessor.")
-                    .process(controlFilePreProcessor)
+                    .log(LoggingLevel.INFO, "CamelRouting", "File detected. Routing FilePreProcessor.")
+                    .process(filePreProcessor)
                     .choice().when(header("hasErrors").isEqualTo(true))
                         .to("direct:stop")
-                    .otherwise()
-                        .to(workItemQueueUri);
+                        .otherwise()
+                        .log(LoggingLevel.INFO, "CamelRouting", "No errors in file preprocessing. Routing to ControlFilePreProcessor.")
+                        .process(controlFilePreProcessor)
+                            .choice().when(header("hasErrors").isEqualTo(true))
+                                .to("direct:stop")
+                            .otherwise()
+                                .to(workItemQueueUri);
 
             // routeId: zipFilePoller-inboundDir
             from(
@@ -104,17 +117,22 @@ public class LandingZoneRouteBuilder extends RouteBuilder {
                             + "/.error"
                             + "&readLock=changed&readLockCheckInterval=1000" + "&delete=true")
                     .routeId(ZIP_POLLER_PREFIX + inboundDir)
-                    .log(LoggingLevel.INFO, "CamelRouting", "Zip file detected. Routing to ZipFileProcessor.")
-                    .process(zipFileProcessor)
+                    .log(LoggingLevel.INFO, "CamelRouting", "File detected. Routing FilePreProcessor.")
+                    .process(filePreProcessor)
                     .choice().when(header("hasErrors").isEqualTo(true))
                         .to("direct:stop")
-                    .otherwise()
-                        .log(LoggingLevel.INFO, "CamelRouting", "No errors in zip file. Routing to ControlFilePreProcessor.")
-                        .process(controlFilePreProcessor)
-                            .choice().when(header("hasErrors").isEqualTo(true))
-                                .to("direct:stop")
+                        .otherwise()
+                        .log(LoggingLevel.INFO, "CamelRouting", "Zip file detected. Routing to ZipFileProcessor.")
+                        .process(zipFileProcessor)
+                        .choice().when(header("hasErrors").isEqualTo(true))
+                            .to("direct:stop")
                             .otherwise()
-                                .to(workItemQueueUri);
+                                .log(LoggingLevel.INFO, "CamelRouting", "No errors in zip file. Routing to ControlFilePreProcessor.")
+                                .process(controlFilePreProcessor)
+                                .choice().when(header("hasErrors").isEqualTo(true))
+                                    .to("direct:stop")
+                                .otherwise()
+                                    .to(workItemQueueUri);
 
             from(
                     "file:" + inboundDir + "?include=^(.*)\\.noextract$" + "&move=" + inboundDir

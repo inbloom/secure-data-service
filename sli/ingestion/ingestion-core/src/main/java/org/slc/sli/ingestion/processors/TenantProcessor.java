@@ -63,6 +63,10 @@ public class TenantProcessor implements Processor {
     private ControlFilePreProcessor controlFilePreProcessor;
 
     @Autowired
+    private FilePreProcessor filePreProcessor;
+
+
+    @Autowired
     private NoExtractProcessor noExtractProcessor;
     public static final String TENANT_POLL_HEADER = "TENANT_POLL_STATUS";
     public static final String TENANT_POLL_SUCCESS = "SUCCESS";
@@ -163,7 +167,7 @@ public class TenantProcessor implements Processor {
      */
     private void addRoutes(List<String> routesToAdd) throws Exception {
         RouteBuilder landingZoneRouteBuilder = new LandingZoneRouteBuilder(routesToAdd,
-                workItemQueueUri, zipFileProcessor, controlFilePreProcessor, noExtractProcessor);
+                workItemQueueUri, filePreProcessor, zipFileProcessor, controlFilePreProcessor, noExtractProcessor);
         camelContext.addRoutes(landingZoneRouteBuilder);
     }
 
