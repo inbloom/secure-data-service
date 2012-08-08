@@ -16,8 +16,12 @@ limitations under the License.
 
 =end
 
-class NewAccountPassword
-  include ForgotPassword
+class NewAccountPassword < ForgotPassword 
 
-  validates :eula, :presence => true
+  validates_presence_of :token, :new_pass, :confirmation
+  validates :new_pass, :confirmation => true #password_confirmation attr
+  validate :confirm_new 
+  
+  # attributes passed to the template to render 
+  attr_accessor :inviter, :edorg
 end
