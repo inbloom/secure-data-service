@@ -1,0 +1,14 @@
+{
+    "type": "studentSchoolAssociation",
+    "body": {
+        "educationalPlans": [],
+        "studentId": "2012vy-6dc32885-dcc5-11e1-95f6-0021701f543f",
+        "schoolId": "2012av-6dcc2939-dcc5-11e1-95f6-0021701f543f",
+        "entryDate": "2012-09-16",
+        "entryGradeLevel": "Eleventh grade",
+        "schoolYear": "2013",
+        "entryType": "Transfer from a public school in the same local education agency",
+        "exitWithdrawDate": "2012-10-17",
+        "exitWithdrawType": "Not enrolled, eligible to return"
+    }
+}
