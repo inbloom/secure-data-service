@@ -17,14 +17,9 @@
 
 package org.slc.sli.api.resources.v1.entity;
 
-import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
@@ -39,8 +34,6 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.constants.ResourceNames;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 
 /**
  * Represents the definition of a discipline incident.  A discipline incident

@@ -17,11 +17,8 @@
 
 package org.slc.sli.api.resources.v1.association;
 
-import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
@@ -38,8 +35,7 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.constants.ResourceNames;
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
+import org.slc.sli.api.resources.v1.DefaultCrudResource;
 
 /**
  * Represents the association between a $$Student$$ and a $$Program$$.
@@ -51,66 +47,11 @@ import org.slc.sli.api.resources.v1.DefaultCrudEndpoint;
 @Path(PathConstants.V1 + "/" + PathConstants.STUDENT_PROGRAM_ASSOCIATIONS)
 @Component
 @Scope("request")
-public class StudentProgramAssociationResource extends DefaultCrudEndpoint {
+public class StudentProgramAssociationResource extends DefaultCrudResource {
 
     @Autowired
     public StudentProgramAssociationResource(EntityDefinitionStore entityDefs) {
         super(entityDefs, ResourceNames.STUDENT_PROGRAM_ASSOCIATIONS);
-    }
-
-    /**
-     * Returns the requested collection of resource representations.
-     */
-    @Override
-    @GET
-    public Response readAll(@QueryParam(ParameterConstants.OFFSET) @DefaultValue(ParameterConstants.DEFAULT_OFFSET) final int offset,
-            @QueryParam(ParameterConstants.LIMIT) @DefaultValue(ParameterConstants.DEFAULT_LIMIT) final int limit,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.readAll(offset, limit, headers, uriInfo);
-    }
-
-    /**
-     * Creates a new resource using the given resource data.
-     */
-    @Override
-    @POST
-    public Response create(final EntityBody newEntityBody,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.create(newEntityBody, headers, uriInfo);
-    }
-
-    /**
-     * Returns the specified resource representation(s).
-     */
-    @Override
-    @GET
-    @Path("{" + ParameterConstants.STUDENT_PROGRAM_ASSOCIATION_ID + "}")
-    public Response read(@PathParam(ParameterConstants.STUDENT_PROGRAM_ASSOCIATION_ID) final String studentProgramAssociationId,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.read(studentProgramAssociationId, headers, uriInfo);
-    }
-
-    /**
-     * Deletes the specified resource.
-     */
-    @Override
-    @DELETE
-    @Path("{" + ParameterConstants.PROGRAM_ID + "}")
-    public Response delete(@PathParam(ParameterConstants.PROGRAM_ID) final String studentProgramAssociationId,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.delete(studentProgramAssociationId, headers, uriInfo);
-    }
-
-    /**
-     * Updates the specified resource using the given resource data.
-     */
-    @Override
-    @PUT
-    @Path("{" + ParameterConstants.STUDENT_PROGRAM_ASSOCIATION_ID + "}")
-    public Response update(@PathParam(ParameterConstants.STUDENT_PROGRAM_ASSOCIATION_ID) final String studentProgramAssociationId,
-            final EntityBody newEntityBody,
-            @Context HttpHeaders headers, @Context final UriInfo uriInfo) {
-        return super.update(studentProgramAssociationId, newEntityBody, headers, uriInfo);
     }
 
     /**
