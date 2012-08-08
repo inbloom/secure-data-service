@@ -79,6 +79,7 @@ SLIAdmin::Application.routes.draw do
   match "/resetPassword" => "forgot_passwords#update", :via => :get
   match "/resetPassword/new" => "forgot_passwords#new", :via => :get
   match "/resetPassword/newAccount/:key" => "forgot_passwords#new_account", :via => :get, :as => "new_account_passwords"
+  match "/resetPassword/newAccount/:key" => "forgot_passwords#new_account_set", :via => :post
 
   root :to => 'home#index'
 
