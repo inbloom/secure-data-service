@@ -16,7 +16,6 @@
 
 package org.slc.sli.sif.reporting;
 
-import java.io.File;
 import java.util.Properties;
 
 import openadk.library.ADK;
@@ -32,7 +31,7 @@ import openadk.library.SIFDataObject;
 import openadk.library.SIFVersion;
 import openadk.library.Zone;
 import openadk.library.common.CommonDTD;
-import openadk.library.common.GradeLevelCode;
+import openadk.library.common.ExitTypeCode;
 import openadk.library.common.StudentLEARelationship;
 import openadk.library.student.LEAInfo;
 import openadk.library.student.SchoolInfo;
@@ -93,12 +92,11 @@ public class EventReporter implements Publisher {
                 reporter.setEventGenerator(new CustomEventGenerator());
                 reporter.reportEvent(messageFile);
             } else {
-                SifAgent agent = createReporterAgent("test.publisher.agent", "http://local.slidev.org:8087/mock-zis/zis");
+                SifAgent agent = createReporterAgent("test.publisher.agent", "http://10.163.6.73:50002/TestZone");
                 agent.startAgent();
                 Zone zone = agent.getZoneFactory().getZone("TestZone");
                 EventReporter reporter = new EventReporter(zone);
-                //reporter.reportEvent();
-                reporter.reportSchoolLeaInfoEvents();
+                reporter.reportEvent();
             }
         } catch (Exception e) {
             logger.error("Exception trying to report event", e);
@@ -169,11 +167,6 @@ public class EventReporter implements Publisher {
                 Thread.sleep(5000);
                 zone.reportEvent(studentSchoolEnrollment, EventAction.ADD);
                 Thread.sleep(5000);
-                studentSchoolEnrollment.setChanged();
-                studentSchoolEnrollment.setGradeLevel(GradeLevelCode._11);
-                studentSchoolEnrollment.setSchoolYear(2013);
-                zone.reportEvent(studentSchoolEnrollment, EventAction.CHANGE);
-                Thread.sleep(5000);
                 zone.reportEvent(studentLEARelationship, EventAction.ADD);
                 Thread.sleep(5000);
                 schoolInfo.setChanged();
@@ -181,6 +174,10 @@ public class EventReporter implements Publisher {
                 zone.reportEvent(schoolInfo, EventAction.CHANGE);
                 Thread.sleep(5000);
                 zone.reportEvent(studentLEARelationship, EventAction.DELETE);
+                Thread.sleep(5000);
+                studentSchoolEnrollment.setChanged();
+                studentSchoolEnrollment.setExitType(ExitTypeCode._1923_DIED_OR_INCAPACITATED);
+                zone.reportEvent(studentSchoolEnrollment, EventAction.CHANGE);
                 Thread.sleep(5000);
                 zone.reportEvent(studentSchoolEnrollment, EventAction.DELETE);
                 Thread.sleep(5000);
